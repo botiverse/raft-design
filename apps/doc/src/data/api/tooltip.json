@@ -1,0 +1,343 @@
+[
+  {
+    "name": "Tooltip",
+    "entry": "raft-ui",
+    "native": false,
+    "props": [
+      {
+        "name": "actionsRef",
+        "type": "RefObject<TooltipRootActions | null>",
+        "required": false,
+        "description": "A ref to imperative actions. - `unmount`: Unmounts the tooltip popup. - `close`: Closes the tooltip imperatively when called.",
+        "from": "base-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode | PayloadChildRenderFunction<unknown>",
+        "required": false,
+        "description": "The content of the tooltip. This can be a regular React node or a render function that receives the `payload` of the active trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the tooltip is initially open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultTriggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the tooltip is associated with. This is useful in conjunction with the `defaultOpen` prop to create an initially open tooltip.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the tooltip is disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disableHoverablePopup",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the tooltip contents can be hovered without closing the tooltip.",
+        "from": "base-ui"
+      },
+      {
+        "name": "handle",
+        "type": "BaseTooltip.Handle<unknown>",
+        "required": false,
+        "description": "A handle to associate the tooltip with a trigger. If specified, allows external triggers to control the tooltip's open state. Can be created with the Tooltip.createHandle() method.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean, eventDetails: BaseTooltip.Root.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the tooltip is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Event handler called after any animations complete when the tooltip is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the tooltip is currently open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "trackCursorAxis",
+        "type": "\"none\" | \"both\" | \"x\" | \"y\"",
+        "required": false,
+        "default": "'none'",
+        "description": "Determines which axis the tooltip should track the cursor on.",
+        "from": "base-ui"
+      },
+      {
+        "name": "triggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the tooltip is associated with. This is useful in conjunction with the `open` prop to create a controlled tooltip. There's no need to specify this prop when the tooltip is uncontrolled (that is, when the `open` prop is not set).",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "TooltipContent",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "container",
+        "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "portalProps",
+        "type": "TooltipPortalProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "align",
+        "type": "Align",
+        "required": false,
+        "default": "\"center\"",
+        "description": "How to align the popup relative to the specified side.",
+        "from": "base-ui"
+      },
+      {
+        "name": "alignOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Additional offset along the alignment axis in pixels. Also accepts a function that returns the offset to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "anchor",
+        "type": "Element | VirtualElement | RefObject<Element | null> | (() => Element | VirtualElement | null)",
+        "required": false,
+        "description": "An element to position the popup against. By default, the popup will be positioned against the trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "arrowPadding",
+        "type": "number",
+        "required": false,
+        "default": "5",
+        "description": "Minimum distance to maintain between the arrow and the edges of the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionAvoidance",
+        "type": "CollisionAvoidance",
+        "required": false,
+        "default": "CONTENT_COLLISION_AVOIDANCE",
+        "description": "Determines how to handle collisions when positioning the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionBoundary",
+        "type": "Boundary",
+        "required": false,
+        "default": "'clipping-ancestors'",
+        "description": "An element or a rectangle that delimits the area that the popup is confined to.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionPadding",
+        "type": "Padding",
+        "required": false,
+        "default": "5",
+        "description": "Additional space to maintain from the edge of the collision boundary.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disableAnchorTracking",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
+        "from": "base-ui"
+      },
+      {
+        "name": "positionMethod",
+        "type": "\"fixed\" | \"absolute\"",
+        "required": false,
+        "default": "\"fixed\"",
+        "description": "Determines which CSS `position` property to use.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "side",
+        "type": "Side",
+        "required": false,
+        "default": "\"top\"",
+        "description": "Which side of the anchor element to align the popup against. May automatically change to avoid collisions.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sideOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Distance between the anchor and the popup in pixels. Also accepts a function that returns the distance to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sticky",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to maintain the popup in the viewport after the anchor element was scrolled out of view.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "TooltipPortal",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "container",
+        "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
+        "required": false,
+        "description": "A parent element to render the portal element into.",
+        "from": "base-ui"
+      },
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to keep the portal mounted in the DOM while the popup is hidden.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "TooltipProvider",
+    "entry": "raft-ui",
+    "native": false,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "closeDelay",
+        "type": "number",
+        "required": false,
+        "description": "How long to wait before closing a tooltip. Specified in milliseconds.",
+        "from": "base-ui"
+      },
+      {
+        "name": "delay",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "How long to wait before opening the tooltip on hover. Specified in milliseconds.",
+        "from": "base-ui"
+      },
+      {
+        "name": "timeout",
+        "type": "number",
+        "required": false,
+        "default": "400",
+        "description": "Another tooltip will open instantly if the previous tooltip is closed within this timeout. Specified in milliseconds.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "TooltipTrigger",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "closeDelay",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "How long to wait before closing the tooltip. Specified in milliseconds.",
+        "from": "base-ui"
+      },
+      {
+        "name": "closeOnClick",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the tooltip should close when this trigger is clicked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "delay",
+        "type": "number",
+        "required": false,
+        "default": "600",
+        "description": "How long to wait before opening the tooltip on hover. Specified in milliseconds.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "If `true`, the tooltip will not open when interacting with this trigger. Note that this doesn't apply the `disabled` attribute to the trigger element. If you want to disable the trigger element itself, you can pass the `disabled` prop to the trigger element via the `render` prop.",
+        "from": "base-ui"
+      },
+      {
+        "name": "handle",
+        "type": "BaseTooltip.Handle<unknown>",
+        "required": false,
+        "description": "A handle to associate the trigger with a tooltip.",
+        "from": "base-ui"
+      },
+      {
+        "name": "payload",
+        "type": "{}",
+        "required": false,
+        "description": "A payload to pass to the tooltip when it is opened.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

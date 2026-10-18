@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Separator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "orientation",
+        "type": "Orientation",
+        "required": false,
+        "default": "\"horizontal\"",
+        "description": "The orientation of the separator.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

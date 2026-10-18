@@ -4,18 +4,18 @@ import { Link } from "@tanstack/react-router";
 import { MarkdownHeading } from "raft-ui";
 
 import { REPOSITORY_URL } from "#/lib/content/links.ts";
-import { categoryTitle, shortTitle } from "#/lib/content/nav.ts";
+import { componentGroup, shortTitle } from "#/lib/content/nav.ts";
 import { pagesIn, SECTIONS } from "#/lib/content/pages.ts";
 import type { DocPage, SectionId } from "#/lib/content/pages.ts";
 import { sectionTitle } from "#/lib/content/search.ts";
 import { renderMarkdownTwin } from "#/lib/content/twin.ts";
 
 import { DocLayout } from "./doc-layout.tsx";
+import type { TocEntry } from "./doc-layout.tsx";
 import { DocMarkdown } from "./doc-markdown.tsx";
 
 function eyebrowOf(page: DocPage) {
-  if (page.section === "components")
-    return `Components · ${categoryTitle(page.frontMatter.category)}`;
+  if (page.section === "components") return `Components · ${componentGroup(page)}`;
   if (page.section === "products" && page.slug !== page.product) {
     return `Products · ${page.frontMatter.title.split(" — ")[0]}`;
   }
@@ -37,6 +37,7 @@ export function DocPageView({
   notice,
   children,
   appendix,
+  toc,
 }: {
   page: DocPage;
   meta?: ReactNode;
@@ -44,6 +45,8 @@ export function DocPageView({
   children?: ReactNode;
   /** Markdown appended to the twin: what `children` shows, for agents. */
   appendix?: string;
+  /** Replaces the page's own headings in "On this page". */
+  toc?: readonly TocEntry[];
 }) {
   const getMarkdown = useCallback(() => renderMarkdownTwin(page, appendix), [page, appendix]);
   return (
@@ -57,9 +60,9 @@ export function DocPageView({
       markdownPath={`${page.url}.md`}
       sourceHref={`${REPOSITORY_URL}/blob/main/${page.repoPath}`}
       getMarkdown={getMarkdown}
-      toc={page.headings}
+      toc={toc ?? page.headings}
     >
-      <DocMarkdown sourcePath={page.repoPath}>{page.body}</DocMarkdown>
+      {page.body ? <DocMarkdown sourcePath={page.repoPath}>{page.body}</DocMarkdown> : null}
       {children}
     </DocLayout>
   );

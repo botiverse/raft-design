@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import type { ComponentType } from "react";
+import { Component, useCallback, useEffect, useState } from "react";
+import type { ComponentType, ReactNode } from "react";
 import { Code, Smartphone } from "lucide-react";
 import {
   Button,
@@ -22,6 +22,27 @@ import { ShikiHighlightedCode } from "#/lib/code-block/shiki-highlighted-code.ts
 import { hasExample, loadExample, loadExampleSource } from "#/lib/examples.ts";
 
 type Theme = "page" | "light" | "dark" | "both";
+
+/** A composition that throws (one that needs props, say) shows a note instead of breaking the page. */
+class ExampleBoundary extends Component<
+  { path: string; children: ReactNode },
+  { error: Error | null }
+> {
+  override state: { error: Error | null } = { error: null };
+
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+
+  override render() {
+    if (!this.state.error) return this.props.children;
+    return (
+      <p className="font-mono text-mono-meta text-foreground-hint">
+        {this.props.path} could not be rendered on its own: {this.state.error.message}
+      </p>
+    );
+  }
+}
 
 /**
  * An `example` block: the composition rendered live, then its source. The
@@ -126,7 +147,9 @@ export function ExampleBlock({ path }: { path: string }) {
                 className="h-[560px] w-[375px] max-w-full rounded-container border border-line-seam bg-layer-canvas"
               />
             ) : Example ? (
-              <Example />
+              <ExampleBoundary path={path}>
+                <Example />
+              </ExampleBoundary>
             ) : (
               <Skeleton className="h-10 w-40" />
             )}

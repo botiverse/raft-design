@@ -122,3 +122,13 @@ describe("Markdown twin", () => {
     ).toBe("https://raft-design.botiverse.build/foundations");
   });
 });
+
+describe("front matter lists", () => {
+  it("reads a list the formatter wrapped, and a list of `- item` lines", () => {
+    const wrapped = parseFrontMatter(
+      "---\ntitle: A\nrelated:\n  [\n    b,\n    c,\n  ]\naliases:\n  - D\n  - E\n---\n",
+    );
+    expect(wrapped.data.related).toEqual(["b", "c"]);
+    expect(wrapped.data.aliases).toEqual(["D", "E"]);
+  });
+});

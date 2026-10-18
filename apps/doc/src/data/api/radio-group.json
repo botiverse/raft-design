@@ -1,0 +1,168 @@
+[
+  {
+    "name": "RadioGroup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "defaultValue",
+        "type": "T",
+        "required": false,
+        "description": "The uncontrolled value of the radio button that should be initially selected.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "form",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the form that owns the radio inputs. Useful when the radio group is rendered outside the form.",
+        "from": "base-ui"
+      },
+      {
+        "name": "inputRef",
+        "type": "((instance: HTMLInputElement | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<HTMLInputElement | null>",
+        "required": false,
+        "description": "A ref to access the hidden input element.",
+        "from": "base-ui"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the field when a form is submitted.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: T, eventDetails: BaseRadioGroup.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Callback fired when the value changes.",
+        "from": "base-ui"
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the user should be unable to select a different radio button in the group.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the user must choose a value before submitting a form.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "T",
+        "required": false,
+        "description": "The controlled value of the radio item that should be currently selected.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "RadioGroupIndicator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to keep the HTML element in the DOM when the radio button is inactive.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "RadioGroupItem",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "appearance",
+        "type": "\"none\" | \"default\"",
+        "required": false,
+        "default": "\"default\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "inputRef",
+        "type": "((instance: HTMLInputElement | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<HTMLInputElement | null>",
+        "required": false,
+        "description": "A ref to access the hidden input element.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `true` if the rendered element is a native button.",
+        "from": "base-ui"
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the user should be unable to select the radio button.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the user must choose a value before submitting a form.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "T",
+        "required": true,
+        "description": "The unique identifying value of the radio in a group.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "ResizableGroup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "ResizableHandle",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "ResizablePanel",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  }
+]

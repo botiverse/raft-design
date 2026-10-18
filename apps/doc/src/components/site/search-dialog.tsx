@@ -24,7 +24,7 @@ import {
   SearchResultsList,
 } from "raft-ui";
 
-import { categoryTitle, shortTitle } from "#/lib/content/nav.ts";
+import { componentGroup, shortTitle } from "#/lib/content/nav.ts";
 import type { SectionId } from "#/lib/content/pages.ts";
 import { searchDocs, sectionTitle } from "#/lib/content/search.ts";
 import type { SearchHit } from "#/lib/content/search.ts";
@@ -53,7 +53,7 @@ function SearchHitRow({
   const Icon = SECTION_ICON[hit.page.section];
   const where =
     hit.page.section === "components"
-      ? `Components · ${categoryTitle(hit.page.frontMatter.category)}`
+      ? `Components · ${componentGroup(hit.page)}`
       : sectionTitle(hit.page);
   const handleMouseEnter = useCallback(() => onHighlight(index), [index, onHighlight]);
   const handleClick = useCallback(() => onSelect(index), [index, onSelect]);

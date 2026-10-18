@@ -1,0 +1,31 @@
+[
+  {
+    "name": "IconTile",
+    "entry": "raft-ui",
+    "description": "A neutral square holding an icon, sized like an avatar: 19, 27, 35 or 51. It is decorative beside its words, so it is hidden from assistive tech; a tile that means something on its own takes `role=\"img\"` and an `aria-label`, and is announced.",
+    "native": true,
+    "props": [
+      {
+        "name": "size",
+        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"warning\" | \"default\" | \"information\"",
+        "required": false,
+        "default": "\"default\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

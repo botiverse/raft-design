@@ -1,0 +1,26 @@
+[
+  {
+    "name": "ChatIcon",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "DirectMessageIcon",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MessageIcon",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "ThreadIcon",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  }
+]

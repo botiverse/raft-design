@@ -1,0 +1,128 @@
+[
+  {
+    "name": "Avatar",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "size",
+        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xs\" | \"3xs\"",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "type",
+        "type": "\"agent\" | \"human\"",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "AvatarBadge",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "offset",
+        "type": "AvatarBadgeOffset",
+        "required": false,
+        "description": "Where the badge's centre sits, measured from the avatar's top-left: `[x, y]`. Numbers are px; strings are any CSS length, and percentages are of the avatar's size, so `[\"100%\", 0]` is the top-right corner at every size. Omit it to keep the default bottom-right spot.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "presence",
+        "type": "\"online\" | \"busy\" | \"error\" | \"offline\" | \"external\"",
+        "required": false,
+        "default": "\"online\"",
+        "description": "The default dot's status light: online (the default), busy, error, offline or external. Ignored when `render` draws its own indicator.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "AvatarFallback",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "delay",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "How long to wait before showing the fallback. Specified in milliseconds.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "AvatarGroup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "AvatarGroupCount",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "size",
+        "type": "AvatarSize",
+        "required": true,
+        "description": "Matches the frame scale of the sibling avatars.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "AvatarImage",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the image element stays mounted and loads in place instead of being preloaded. Supports `loading=\"lazy\"` and optimized image components such as `next/image`.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onLoadingStatusChange",
+        "type": "(status: ImageLoadingStatus) => void",
+        "required": false,
+        "description": "Callback fired when the loading status changes.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

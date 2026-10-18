@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Status",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "presence",
+        "type": "\"online\" | \"busy\" | \"error\" | \"offline\" | \"external\"",
+        "required": false,
+        "description": "A status light (online, busy, error, offline, external): a fixed meaning that needs its word nearby, or an aria-label. It takes the place of `variant`'s colour.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"muted\" | \"success\"",
+        "required": false,
+        "default": "\"default\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

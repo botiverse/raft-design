@@ -1,6 +1,7 @@
 // Front matter as design/authoring/README.md defines it: flat `key: value`
-// lines, where a value is a string, a quoted string or an inline list
-// (`[a, b]`). Numbers stay strings, so `number: 0013` keeps its zeros.
+// pairs, where a value is a string, a quoted string or a list, written inline
+// (`[a, b]`, which the formatter may wrap over several indented lines) or as
+// `- item` lines. Numbers stay strings, so `number: 0013` keeps its zeros.
 
 export type FrontMatter = {
   title: string;
@@ -36,10 +37,23 @@ export function parseFrontMatter(source: string): { data: FrontMatter; content: 
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
   if (!match) return { data: { title: "", summary: "" }, content: source };
   const data: Record<string, string | string[]> = {};
-  for (const line of match[1]!.split(/\r?\n/)) {
+  const lines = match[1]!.split(/\r?\n/);
+  for (let index = 0; index < lines.length; index++) {
+    const line = lines[index]!;
     const separator = line.indexOf(":");
-    if (separator <= 0 || line.startsWith(" ") || line.startsWith("#")) continue;
-    data[line.slice(0, separator).trim()] = parseValue(line.slice(separator + 1));
+    if (separator <= 0 || /^\s/.test(line) || line.startsWith("#")) continue;
+    let value = line.slice(separator + 1);
+    // A value continued on the indented lines below it.
+    const continuation: string[] = [];
+    while (index + 1 < lines.length && /^\s+\S/.test(lines[index + 1]!)) {
+      continuation.push(lines[++index]!.trim());
+    }
+    if (continuation.length > 0) {
+      value = continuation.every((item) => item.startsWith("- "))
+        ? `[${continuation.map((item) => item.slice(2)).join(", ")}]`
+        : `${value} ${continuation.join(" ")}`;
+    }
+    data[line.slice(0, separator).trim()] = parseValue(value);
   }
   return {
     data: { title: "", summary: "", ...data } as FrontMatter,

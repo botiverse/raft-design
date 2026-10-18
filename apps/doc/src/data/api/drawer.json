@@ -1,0 +1,379 @@
+[
+  {
+    "name": "Drawer",
+    "entry": "raft-ui",
+    "native": false,
+    "props": [
+      {
+        "name": "actionsRef",
+        "type": "RefObject<DrawerRootActions | null>",
+        "required": false,
+        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the drawer. Call this after any externally controlled closing animation finishes. - `close`: Closes the drawer imperatively when called.",
+        "from": "base-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode | PayloadChildRenderFunction<unknown>",
+        "required": false,
+        "description": "The content of the drawer.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the drawer is initially open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultSnapPoint",
+        "type": "DrawerSnapPoint",
+        "required": false,
+        "description": "The initial snap point value when uncontrolled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultTriggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the drawer is associated with. This is useful in conjunction with the `defaultOpen` prop to create an initially open drawer.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disablePointerDismissal",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to prevent the drawer from closing on outside presses. For non-modal drawers, this also prevents the drawer from closing when focus moves outside of it.",
+        "from": "base-ui"
+      },
+      {
+        "name": "handle",
+        "type": "DrawerPrimitive.Handle<unknown>",
+        "required": false,
+        "description": "A handle to associate the drawer with a trigger. If specified, allows detached triggers to control the drawer's open state. Can be created with the Drawer.createHandle() method.",
+        "from": "base-ui"
+      },
+      {
+        "name": "modal",
+        "type": "boolean | \"trap-focus\"",
+        "required": false,
+        "default": "true",
+        "description": "Determines if the drawer enters a modal state when open. - `true`: user interaction is limited to just the drawer: focus is trapped, document page scroll is locked, and pointer interactions on outside elements are disabled. - `false`: user interaction with the rest of the document is allowed. - `'trap-focus'`: focus is trapped inside the drawer, but document page scroll is not locked and pointer interactions outside of it remain enabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean, eventDetails: DrawerPrimitive.Root.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the drawer is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Event handler called after any animations complete when the drawer is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onSnapPointChange",
+        "type": "(snapPoint: DrawerSnapPoint | null, eventDetails: DrawerPrimitive.Root.SnapPointChangeEventDetails) => void",
+        "required": false,
+        "description": "Callback fired when the snap point changes.",
+        "from": "base-ui"
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the drawer is currently open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "snapPoint",
+        "type": "DrawerSnapPoint",
+        "required": false,
+        "description": "The currently active snap point. Use with `onSnapPointChange` to control the snap point.",
+        "from": "base-ui"
+      },
+      {
+        "name": "snapPoints",
+        "type": "DrawerSnapPoint[]",
+        "required": false,
+        "description": "Snap points used to position the drawer. Use numbers between 0 and 1 to represent fractions of the viewport height, numbers greater than 1 as pixel values, or strings in `px`/`rem` units (for example, `'148px'` or `'30rem'`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "snapToSequentialPoints",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Disables velocity-based snap skipping so drag distance determines the next snap point.",
+        "from": "base-ui"
+      },
+      {
+        "name": "swipeDirection",
+        "type": "SwipeDirection",
+        "required": false,
+        "default": "\"down\"",
+        "description": "The swipe direction used to dismiss the drawer.",
+        "from": "base-ui"
+      },
+      {
+        "name": "triggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the drawer is associated with. This is useful in conjunction with the `open` prop to create a controlled drawer. There's no need to specify this prop when the drawer is uncontrolled (that is, when the `open` prop is not set).",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DrawerActions",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DrawerBody",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DrawerClose",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "size",
+        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"inline\" | \"icon-xs\" | \"icon-sm\" | \"icon-md\" | \"icon-lg\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"link\" | \"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"outline\" | \"information\" | \"muted\" | \"success\" | \"danger-secondary\" | \"danger-outline\" | \"ghost\" | \"on-frame\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DrawerContent",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "portalProps",
+        "type": "DrawerPortalProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "finalFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((closeType: InteractionType) => boolean | HTMLElement | null | void)",
+        "required": false,
+        "description": "Determines the element to focus when the drawer is closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "initialFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((openType: InteractionType) => boolean | HTMLElement | null | void)",
+        "required": false,
+        "description": "Determines the element to focus when the drawer is opened.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DrawerDescription",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DrawerFooter",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DrawerHeader",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DrawerOverlay",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "forceRender",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the backdrop is forced to render even when nested.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DrawerPortal",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "container",
+        "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
+        "required": false,
+        "description": "A parent element to render the portal element into.",
+        "from": "base-ui"
+      },
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to keep the portal mounted in the DOM while the popup is hidden.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DrawerTitle",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DrawerTrigger",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "handle",
+        "type": "DrawerPrimitive.Handle<unknown>",
+        "required": false,
+        "description": "A handle to associate the trigger with a drawer. Can be created with the Drawer.createHandle() method.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger. In addition to being forwarded to the rendered element, it is also used to specify the active trigger for drawers in controlled mode (with the Drawer.Root `triggerId` prop).",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "payload",
+        "type": "{}",
+        "required": false,
+        "description": "A payload to pass to the drawer when it is opened.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

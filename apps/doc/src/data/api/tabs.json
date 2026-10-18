@@ -1,0 +1,250 @@
+[
+  {
+    "name": "SortableTabsList",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "onReorder",
+        "type": "(value: T[]) => void",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "value",
+        "type": "readonly T[]",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "TabsListVariant",
+        "required": false,
+        "default": "\"default\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "activateOnFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to automatically change the active tab on arrow key focus. Otherwise, tabs will be activated using <kbd>Enter</kbd> or <kbd>Space</kbd> key press.",
+        "from": "base-ui"
+      },
+      {
+        "name": "loopFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether to loop keyboard focus back to the first item when the end of the list is reached while using the arrow keys.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SortableTabsTab",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "value",
+        "type": "any",
+        "required": true,
+        "description": "The value of the Tab.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the Tab is disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "Tabs",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "defaultValue",
+        "type": "T",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: T, eventDetails: BaseTabs.Root.ChangeEventDetails) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "placement",
+        "type": "TabsPlacement",
+        "required": false,
+        "default": "\"top\"",
+        "description": "Side of the panels the tab list sits on. `left` and `right` also make the tabs vertical (arrow up / down) unless `orientation` is set.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "value",
+        "type": "T",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"underline\"",
+        "required": false,
+        "default": "\"default\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "orientation",
+        "type": "Orientation",
+        "required": false,
+        "default": "'horizontal'",
+        "description": "The component orientation (layout flow direction).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "TabsLabel",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "TabsList",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "variant",
+        "type": "TabsListVariant",
+        "required": false,
+        "default": "\"default\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "activateOnFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to automatically change the active tab on arrow key focus. Otherwise, tabs will be activated using <kbd>Enter</kbd> or <kbd>Space</kbd> key press.",
+        "from": "base-ui"
+      },
+      {
+        "name": "loopFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether to loop keyboard focus back to the first item when the end of the list is reached while using the arrow keys.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "TabsPanel",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to keep the HTML element in the DOM while the panel is hidden.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "any",
+        "required": true,
+        "description": "The value of the TabPanel. It will be shown when the Tab with the corresponding value is active.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "TabsTab",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "value",
+        "type": "any",
+        "required": true,
+        "description": "The value of the Tab.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the Tab is disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

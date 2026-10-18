@@ -1,0 +1,895 @@
+[
+  {
+    "name": "DropdownMenu",
+    "entry": "raft-ui",
+    "native": false,
+    "props": [
+      {
+        "name": "actionsRef",
+        "type": "RefObject<MenuRootActions | null>",
+        "required": false,
+        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the menu. Call this after any externally controlled closing animation finishes. - `close`: When specified, the menu can be closed imperatively.",
+        "from": "base-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode | PayloadChildRenderFunction<unknown>",
+        "required": false,
+        "description": "The content of the menu. This can be a regular React node or a render function that receives the `payload` of the active trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "closeParentOnEsc",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "When in a submenu, determines whether pressing the Escape key closes the entire menu, or only the current child menu.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the menu is initially open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultTriggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the menu is associated with. This is useful in conjunction with the `defaultOpen` prop to create an initially open menu.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "handle",
+        "type": "BaseMenu.Handle<unknown>",
+        "required": false,
+        "description": "A handle to associate the menu with a trigger. If specified, allows external triggers to control the menu's open state.",
+        "from": "base-ui"
+      },
+      {
+        "name": "highlightItemOnHover",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether moving the pointer over items should highlight them. Disabling this prop allows CSS `:hover` to be differentiated from the `:focus` (`data-highlighted`) state.",
+        "from": "base-ui"
+      },
+      {
+        "name": "loopFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether to loop keyboard focus back to the first item when the end of the list is reached while using the arrow keys.",
+        "from": "base-ui"
+      },
+      {
+        "name": "modal",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Determines if the menu enters a modal state when open. - `true`: user interaction is limited to the menu: document page scroll is locked and pointer interactions on outside elements are disabled. - `false`: user interaction with the rest of the document is allowed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean, eventDetails: BaseMenu.Root.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the menu is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Event handler called after any animations complete when the menu is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the menu is currently open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "orientation",
+        "type": "MenuRootOrientation",
+        "required": false,
+        "default": "'vertical'",
+        "description": "The visual orientation of the menu. Controls whether roving focus uses up/down or left/right arrow keys.",
+        "from": "base-ui"
+      },
+      {
+        "name": "triggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the menu is associated with. This is useful in conjunction with the `open` prop to create a controlled menu. There's no need to specify this prop when the menu is uncontrolled (that is, when the `open` prop is not set).",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuCheckboxItem",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the checkbox item is currently ticked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "closeOnClick",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to close the menu when the item is clicked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultChecked",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the checkbox item is initially ticked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Overrides the text label to use when the item is matched during keyboard text navigation.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `true` if the rendered element is a native button.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onCheckedChange",
+        "type": "(checked: boolean, eventDetails: BaseMenu.CheckboxItem.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the checkbox item is ticked or unticked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onClick",
+        "type": "(event: BaseUIEvent<MouseEvent<HTMLDivElement, MouseEvent>>) => void",
+        "required": false,
+        "description": "The click handler for the menu item.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuCheckboxItemIndicator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to keep the HTML element in the DOM when the checkbox item is not checked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuContent",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "portalProps",
+        "type": "ContextMenuPortalProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "align",
+        "type": "Align",
+        "required": false,
+        "default": "\"start\"",
+        "description": "How to align the popup relative to the specified side.",
+        "from": "base-ui"
+      },
+      {
+        "name": "alignOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Additional offset along the alignment axis in pixels. Also accepts a function that returns the offset to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "anchor",
+        "type": "Element | VirtualElement | RefObject<Element | null> | (() => Element | VirtualElement | null)",
+        "required": false,
+        "description": "An element to position the popup against. By default, the popup will be positioned against the trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "arrowPadding",
+        "type": "number",
+        "required": false,
+        "default": "5",
+        "description": "Minimum distance to maintain between the arrow and the edges of the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionAvoidance",
+        "type": "CollisionAvoidance",
+        "required": false,
+        "description": "Determines how to handle collisions when positioning the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionBoundary",
+        "type": "Boundary",
+        "required": false,
+        "default": "'clipping-ancestors'",
+        "description": "An element or a rectangle that delimits the area that the popup is confined to.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionPadding",
+        "type": "Padding",
+        "required": false,
+        "default": "5",
+        "description": "Additional space to maintain from the edge of the collision boundary.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disableAnchorTracking",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
+        "from": "base-ui"
+      },
+      {
+        "name": "finalFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((closeType: InteractionType) => boolean | HTMLElement | null | void)",
+        "required": false,
+        "description": "Determines the element to focus when the menu is closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "positionMethod",
+        "type": "\"fixed\" | \"absolute\"",
+        "required": false,
+        "default": "\"fixed\"",
+        "description": "Determines which CSS `position` property to use.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "side",
+        "type": "Side",
+        "required": false,
+        "default": "\"bottom\"",
+        "description": "Which side of the anchor element to align the popup against. May automatically change to avoid collisions.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sideOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Distance between the anchor and the popup in pixels. Also accepts a function that returns the distance to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sticky",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to maintain the popup in the viewport after the anchor element was scrolled out of view.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuFooter",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "DropdownMenuItem",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "closeOnClick",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether to close the menu when the item is clicked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Overrides the text label to use when the item is matched during keyboard text navigation.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `true` if the rendered element is a native button.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onClick",
+        "type": "(event: BaseUIEvent<MouseEvent<HTMLDivElement, MouseEvent>>) => void",
+        "required": false,
+        "description": "The click handler for the menu item.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuItemCount",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "appearance",
+        "type": "\"outline\" | \"solid\" | \"soft\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"muted\" | \"success\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuItemLabel",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "DropdownMenuLabel",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "DropdownMenuPopup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "DropdownMenuPortal",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "container",
+        "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
+        "required": false,
+        "description": "A parent element to render the portal element into.",
+        "from": "base-ui"
+      },
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to keep the portal mounted in the DOM while the popup is hidden.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuRadioGroup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "description": "The content of the component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultValue",
+        "type": "any",
+        "required": false,
+        "description": "The uncontrolled value of the radio item that should be initially selected.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: any, eventDetails: BaseMenu.RadioGroup.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Function called when the selected value changes.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "any",
+        "required": false,
+        "description": "The controlled value of the radio item that should be currently selected.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuRadioItem",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "closeOnClick",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to close the menu when the item is clicked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Overrides the text label to use when the item is matched during keyboard text navigation.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `true` if the rendered element is a native button.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onClick",
+        "type": "(event: BaseUIEvent<MouseEvent<HTMLDivElement, MouseEvent>>) => void",
+        "required": false,
+        "description": "The click handler for the menu item.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "any",
+        "required": true,
+        "description": "Value of the radio item. This is the value that will be set in the MenuRadioGroup when the item is selected.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuRadioItemIndicator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to keep the HTML element in the DOM when the radio item is inactive.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuSeparator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "orientation",
+        "type": "Orientation",
+        "required": false,
+        "default": "'horizontal'",
+        "description": "The orientation of the separator.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuShortcut",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "DropdownMenuSubmenu",
+    "entry": "raft-ui",
+    "native": false,
+    "props": [
+      {
+        "name": "actionsRef",
+        "type": "RefObject<MenuRootActions | null>",
+        "required": false,
+        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the menu. Call this after any externally controlled closing animation finishes. - `close`: When specified, the menu can be closed imperatively.",
+        "from": "base-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "description": "The content of the submenu.",
+        "from": "base-ui"
+      },
+      {
+        "name": "closeParentOnEsc",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "When in a submenu, determines whether pressing the Escape key closes the entire menu, or only the current child menu.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the menu is initially open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "highlightItemOnHover",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether moving the pointer over items should highlight them. Disabling this prop allows CSS `:hover` to be differentiated from the `:focus` (`data-highlighted`) state.",
+        "from": "base-ui"
+      },
+      {
+        "name": "loopFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether to loop keyboard focus back to the first item when the end of the list is reached while using the arrow keys.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean, eventDetails: BaseMenu.SubmenuRoot.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the menu is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Event handler called after any animations complete when the menu is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the menu is currently open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "orientation",
+        "type": "MenuRootOrientation",
+        "required": false,
+        "default": "'vertical'",
+        "description": "The visual orientation of the menu. Controls whether roving focus uses up/down or left/right arrow keys.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuSubmenuTrigger",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "closeDelay",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "How long to wait before closing the menu that was opened on hover. Specified in milliseconds.",
+        "from": "base-ui"
+      },
+      {
+        "name": "delay",
+        "type": "number",
+        "required": false,
+        "default": "100",
+        "description": "How long to wait before the menu may be opened on hover. Specified in milliseconds.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Overrides the text label to use when the item is matched during keyboard text navigation.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `true` if the rendered element is a native button.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onClick",
+        "type": "(event: BaseUIEvent<MouseEvent<HTMLDivElement, MouseEvent>>) => void",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "openOnHover",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the menu should also open when the trigger is hovered.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropdownMenuTrigger",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "closeDelay",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "How long to wait before closing the menu that was opened on hover. Specified in milliseconds.",
+        "from": "base-ui"
+      },
+      {
+        "name": "delay",
+        "type": "number",
+        "required": false,
+        "default": "100",
+        "description": "How long to wait before the menu may be opened on hover. Specified in milliseconds.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "handle",
+        "type": "BaseMenu.Handle<unknown>",
+        "required": false,
+        "description": "A handle to associate the trigger with a menu.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "openOnHover",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the menu should also open when the trigger is hovered.",
+        "from": "base-ui"
+      },
+      {
+        "name": "payload",
+        "type": "{}",
+        "required": false,
+        "description": "A payload to pass to the menu when it is opened.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "default": "<Button variant=\"outline\" size=\"md\" />",
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]
