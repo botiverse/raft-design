@@ -34,7 +34,7 @@ layer
 | `fill-muted` | Sunken fills: tracks, inline code, skeletons, neutral tiles, reactions, thread previews |
 | `layer-code` | Code blocks and command lines |
 | `layer-hud` | Toasts and tooltips; text on it is `foreground-on-hud` and `foreground-on-hud-muted` |
-| `layer-backdrop` | The scrim behind dialogs and the lightbox; drawers and bottom sheets have none |
+| `layer-backdrop` | The scrim behind centered overlays, modal drawers, bottom sheets and the lightbox |
 
 Fills are laid into or over a surface: the sunken fill and the pressed overlays ([Pressed overlays](#pressed-overlays)).
 

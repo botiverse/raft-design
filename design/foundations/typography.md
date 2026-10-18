@@ -45,6 +45,7 @@ Each style sets a size and a line height; the bold styles also set their weight.
 | --- | --- | --- |
 | Anything clickable: buttons, menu items, tabs, tab bar items, status names | Title Case | Create Task, Mark All Read |
 | Titles, group headings, descriptions, empty states | Sentence case | No tasks match these filters |
+| A dialog or sheet title that repeats its button's label | Title Case | Create Channel |
 
 - Never set text in all caps, in CSS or in the string. The one exception is the step label on the onboarding screen; see [Brand](./brand.md).
 - The rules for writing Title Case are in [Writing](./writing.md#casing).

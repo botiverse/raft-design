@@ -17,7 +17,7 @@ These rules are for the words inside the product: labels, titles, messages, empt
 
 - Use Title Case for anything clickable: Create Task, Mark All Read, Convert to Task.
 - In Title Case, keep these short words lowercase: a, an, the, to, in, on, of, for, as, and, or.
-- Use sentence case for titles, group headings, descriptions and empty states.
+- Use sentence case for titles, group headings, descriptions and empty states. A dialog or sheet title that repeats the label of the button that opened it keeps that label's Title Case: Create Channel; see [Actions and their dialogs](#actions-and-their-dialogs).
 - Never use all caps. Typeface and casing rules are in [Typography](./typography.md#casing).
 
 ## Voice
