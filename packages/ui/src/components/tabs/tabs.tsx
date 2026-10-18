@@ -1,4 +1,13 @@
-import { createContext, use, useCallback, useId, useMemo, useState } from "react";
+import {
+  createContext,
+  use,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import type { ComponentPropsWithRef, CSSProperties } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 import {
@@ -60,6 +69,11 @@ const tabs = tv({
           "relative isolate flex w-max max-w-full",
           "overscroll-contain whitespace-nowrap",
           "scrollbar-none [&::-webkit-scrollbar]:hidden",
+          // More tabs than fit: the row scrolls (a mouse wheel too) and fades
+          // at the side where tabs are hidden.
+          "data-[overflow=end]:mask-[linear-gradient(to_right,black_calc(100%-32px),transparent)]",
+          "data-[overflow=start]:mask-[linear-gradient(to_right,transparent,black_32px)]",
+          "data-[overflow=both]:mask-[linear-gradient(to_right,transparent,black_32px,black_calc(100%-32px),transparent)]",
         ],
         background: "hidden",
         tab: [
@@ -117,7 +131,7 @@ const tabs = tv({
           "h-8 justify-center gap-1.5 rounded-control border-[1.5px] border-transparent px-3",
           "after:inset-x-0 after:-inset-y-1.5",
           "hover:bg-fill-pressed active:bg-fill-pressed",
-          "data-active:border-sticker-ink data-active:bg-primary data-active:font-bold data-active:text-sticker-ink",
+          "data-active:border-sticker-ink data-active:bg-primary data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
           "data-active:active:press-overlay-sticker",
           "data-disabled:bg-transparent",
         ],
@@ -448,16 +462,98 @@ export type TabsListProps = StyledProps<BaseTabs.List.Props> & {
   variant?: TabsListVariant;
 };
 
-export function TabsList({ className, children, variant = "default", ...props }: TabsListProps) {
+/**
+ * A horizontal tab row that has more tabs than room: it scrolls by itself
+ * (its scrollbar hidden), a vertical mouse wheel scrolls it sideways, it marks
+ * which side holds hidden tabs (`data-overflow="start" | "end" | "both"`, for
+ * the edge fade), and it keeps the selected tab in view.
+ */
+function useTabsRowOverflow(enabled: boolean) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const row = ref.current;
+    if (!enabled || !row) return;
+    const update = () => {
+      const max = row.scrollWidth - row.clientWidth;
+      const start = row.scrollLeft > 1;
+      const end = max > 1 && row.scrollLeft < max - 1;
+      const next = start && end ? "both" : start ? "start" : end ? "end" : null;
+      if (next) row.setAttribute("data-overflow", next);
+      else row.removeAttribute("data-overflow");
+    };
+    const revealActive = () => {
+      const active = row.querySelector<HTMLElement>("[data-slot=tabs-tab][data-active]");
+      if (!active || row.scrollWidth <= row.clientWidth) return;
+      const inset = parseFloat(getComputedStyle(row).paddingLeft) || 0;
+      const left = active.offsetLeft - inset;
+      const right = active.offsetLeft + active.offsetWidth + inset - row.clientWidth;
+      if (left < row.scrollLeft) row.scrollLeft = left;
+      else if (right > row.scrollLeft) row.scrollLeft = right;
+    };
+    const onWheel = (event: WheelEvent) => {
+      if (row.scrollWidth <= row.clientWidth) return;
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      const before = row.scrollLeft;
+      row.scrollLeft += event.deltaY;
+      if (row.scrollLeft !== before) event.preventDefault();
+    };
+    revealActive();
+    update();
+    row.addEventListener("scroll", update, { passive: true });
+    row.addEventListener("wheel", onWheel, { passive: false });
+    const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
+    resize?.observe(row);
+    const mutations =
+      typeof MutationObserver === "undefined"
+        ? null
+        : new MutationObserver(() => {
+            revealActive();
+            update();
+          });
+    mutations?.observe(row, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["data-active"],
+    });
+    return () => {
+      row.removeEventListener("scroll", update);
+      row.removeEventListener("wheel", onWheel);
+      resize?.disconnect();
+      mutations?.disconnect();
+    };
+  }, [enabled]);
+  return ref;
+}
+
+export function TabsList({
+  className,
+  children,
+  variant = "default",
+  ref,
+  ...props
+}: TabsListProps) {
   const theme = useThemeFamily();
   const placement = use(TabsPlacementContext);
   const reorder = use(TabsReorderContext);
   const resolvedVariant = theme === "brutal" ? "underline" : variant;
   const { list } = tabs({ theme, variant: resolvedVariant, placement });
+  const overflowRef = useTabsRowOverflow(
+    theme === "raft" && (placement === "top" || placement === "bottom"),
+  );
+  const listRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      overflowRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) (ref as { current: HTMLDivElement | null }).current = node;
+    },
+    [overflowRef, ref],
+  );
 
   return (
     <TabsListVariantContext.Provider value={resolvedVariant}>
       <BaseTabs.List
+        ref={listRef}
         data-slot="tabs-list"
         data-variant={resolvedVariant}
         data-placement={placement}

@@ -26,7 +26,9 @@ export const conversationPanel = tv({
         content: "bg-layer-panel",
         tabs: [
           "border-b border-line-seam bg-layer-panel",
-          "*:data-[slot=tabs-list]:max-w-none *:data-[slot=tabs-list]:px-5 max-md:*:data-[slot=tabs-list]:px-4",
+          // The tab row is the scroller (it spans the panel and scrolls its
+          // own tabs, starting on the 20px edge the head and body keep).
+          "*:data-[slot=tabs-list]:w-full *:data-[slot=tabs-list]:px-5 max-md:*:data-[slot=tabs-list]:px-4",
           "*:data-[slot=tabs-list]:data-[variant=default]:py-2",
         ],
         footer: "bg-layer-panel",
