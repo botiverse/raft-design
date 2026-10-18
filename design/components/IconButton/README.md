@@ -17,7 +17,8 @@
 | `--sm` | 32×32、图标 18：composer 工具、卡片和命令行里的复制；点击区补到 44。桌面悬停工具条里的按钮也是 32，只给鼠标用 |
 
 ## 规则
-- `aria-label` 必须有，用 Title Case（Add Reaction）；有鼠标时配一个 Tooltip，写同一个名字和快捷键。不能点时加 `disabled`：图标变成 `ink-disabled`。
+- `aria-label` 必须有，用 Title Case（Add Reaction）；有鼠标时配一个 Tooltip，写同一个名字和快捷键。不能点时加 `disabled`：图标变成 `ink-disabled`。无框的图标按钮禁用时只有图标变灰，不出现底和框；`--outline` 和 `--primary` 禁用时是 `surface-sunken` 底。
+- 外框里的无框按钮（Rail、网页版顶栏、桌面标题栏）用外框的墨 `on-frame`，悬停、按下和它的弹出层打开时叠 `frame-pressed`。桌面的顶栏和标题栏里是 36 的外框项、图标 20；手机顶栏仍是 44、图标 22。
 - 几个按钮放在一起时，装进 `rf-nav__actions`，它负责靠右和间距。
 - 发送键算这一屏的粉色按钮。
 - 挨着一个 44 高输入框的图标按钮（复制链接、删掉这一行）和输入框一样高：44。

@@ -27,6 +27,7 @@ const VARIANTS = [
   "primary",
   "outline",
   "ghost",
+  "on-frame",
   "danger-secondary",
   "danger",
   "danger-outline",

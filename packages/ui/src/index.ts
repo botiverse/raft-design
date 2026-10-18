@@ -276,6 +276,7 @@ export type {
   SidebarItemMetaIconProps,
   SidebarItemStatusProps,
   SidebarItemProps,
+  SidebarItemTone,
   SidebarItemSubtitleProps,
   SidebarItemThreadCountProps,
   SidebarItemTitleProps,
@@ -716,6 +717,7 @@ export {
 } from "./components/avatar/index";
 export type {
   AvatarBadgeOffset,
+  AvatarBadgePresence,
   AvatarBadgeProps,
   AvatarFallbackProps,
   AvatarGroupCountProps,

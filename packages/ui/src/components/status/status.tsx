@@ -39,6 +39,23 @@ const status = tv({
       danger: {
         root: "[--status-color:var(--color-danger)]",
       },
+      // Presence: the five status lights. Each colour is a fixed meaning, and
+      // each needs its word nearby (or an aria-label where there is none).
+      online: {
+        root: "[--status-color:var(--presence-online)]",
+      },
+      busy: {
+        root: "[--status-color:var(--presence-busy)]",
+      },
+      error: {
+        root: "[--status-color:var(--presence-error)]",
+      },
+      offline: {
+        root: "[--status-color:var(--presence-offline)]",
+      },
+      external: {
+        root: "[--status-color:var(--presence-external)]",
+      },
     },
     size: {
       xs: { root: "size-1.5 rounded-[1px] border" },

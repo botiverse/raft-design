@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus, Trash2 } from "lucide-react";
+import { Copy, Plus, Trash2 } from "lucide-react";
 import { Button, InlineCode } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
@@ -11,6 +11,8 @@ import { PropsTable } from "#/components/props-table.tsx";
 import type { PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { ICON_SIZES, VARIANTS } from "#/modules/button/button.constants.ts";
+import { ButtonOnFrameComposition } from "#/modules/button/compositions/on-frame.composition.tsx";
+import buttonOnFrameCompositionSource from "#/modules/button/compositions/on-frame.composition.tsx?raw";
 import { ButtonPlaygroundPreview, ButtonPreview } from "#/modules/button/button.preview.tsx";
 import buttonPreviewCompositionSource from "#/modules/button/compositions/preview.composition.tsx?raw";
 
@@ -75,7 +77,11 @@ const SNIPPETS = {
 </Button>
 <Button variant="danger" disabled>
   Danger
+</Button>
+<Button variant="ghost" size="icon-md" aria-label="Copy" disabled>
+  <Copy />
 </Button>`,
+  onFrame: buttonOnFrameCompositionSource,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -261,8 +267,28 @@ function ButtonDoc() {
                 <Button variant="danger" disabled>
                   Danger
                 </Button>
+                <Button variant="ghost" size="icon-md" aria-label="Copy" disabled>
+                  <Copy />
+                </Button>
               </Preview.Canvas>
               <Preview.Code html={code.disabled} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="on-frame" title="On the frame">
+            <DocNote>
+              <InlineCode>variant="on-frame"</InlineCode> is the frameless button on the yellow
+              frame: the rail, the web top bar and the desktop title bar. It takes the frame&apos;s
+              ink and lays frame-pressed on hover, on press and while its popup is open. There the
+              32px sizes become the 36px frame item with a 20px icon. A disabled frameless icon
+              button, here or on paper, only greys its icon; disabled text buttons keep the sunken
+              box.
+            </DocNote>
+            <Preview>
+              <Preview.Canvas>
+                <ButtonOnFrameComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.onFrame} collapsedHtml={code.onFrameBody} />
             </Preview>
           </DocSubsection>
         </div>

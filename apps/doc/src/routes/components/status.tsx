@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useState } from "react";
-import { Status } from "raft-ui";
+import { InlineCode, Status } from "raft-ui";
 import type { StatusProps } from "raft-ui";
 
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -17,7 +18,7 @@ const TOC = [
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
 ] as const;
-const VARIANTS = [
+const SEMANTIC_VARIANTS = [
   "default",
   "primary",
   "information",
@@ -27,6 +28,8 @@ const VARIANTS = [
   "warning",
   "danger",
 ] as const;
+
+const VARIANTS = [...SEMANTIC_VARIANTS, "online", "busy", "error", "offline", "external"] as const;
 
 const SIZES = ["xs", "sm", "md", "lg"] as const;
 
@@ -43,6 +46,11 @@ const SNIPPETS = {
 <Status variant="success" />
 <Status variant="warning" />
 <Status variant="danger" />`,
+  presence: `<Status variant="online" aria-label="Online" />
+<Status variant="busy" aria-label="Working" />
+<Status variant="error" aria-label="Error" />
+<Status variant="offline" aria-label="Offline" />
+<Status variant="external" aria-label="External agent" />`,
   sizes: `<Status size="xs" variant="success" />
 <Status size="sm" variant="success" />
 <Status size="md" variant="success" />
@@ -57,7 +65,8 @@ const PROPS: readonly PropRow[] = [
     name: "variant",
     type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
     default: '"default"',
-    description: "Semantic status color.",
+    description:
+      "Semantic status color, or a presence light: online, busy (working), error, offline or external.",
   },
   {
     name: "size",
@@ -150,11 +159,29 @@ function StatusDoc() {
           <DocSubsection parentId="usage" id="variants" title="Variants">
             <Preview>
               <Preview.Canvas>
-                {VARIANTS.map((variant) => (
+                {SEMANTIC_VARIANTS.map((variant) => (
                   <Status key={variant} variant={variant} />
                 ))}
               </Preview.Canvas>
               <Preview.Code html={code.variants} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="presence" title="Presence">
+            <DocNote>
+              The five status lights of the design system. Each colour is a fixed meaning and needs
+              its word nearby; where there is none, give the light an{" "}
+              <InlineCode>aria-label</InlineCode>.
+            </DocNote>
+            <Preview>
+              <Preview.Canvas>
+                <Status variant="online" aria-label="Online" />
+                <Status variant="busy" aria-label="Working" />
+                <Status variant="error" aria-label="Error" />
+                <Status variant="offline" aria-label="Offline" />
+                <Status variant="external" aria-label="External agent" />
+              </Preview.Canvas>
+              <Preview.Code html={code.presence} />
             </Preview>
           </DocSubsection>
 

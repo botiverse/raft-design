@@ -108,6 +108,15 @@ const avatar = tv({
       "2xs": { root: ["size-[19px]"] },
       "3xs": { root: "size-3.5" },
     },
+    // The default dot's status light. The base dot is online, so that tone
+    // adds nothing and existing dots keep their classes.
+    presence: {
+      online: { dot: "" },
+      busy: { dot: "bg-presence-busy" },
+      error: { dot: "bg-presence-error" },
+      offline: { dot: "bg-presence-offline" },
+      external: { dot: "bg-presence-external" },
+    },
   },
 });
 
@@ -273,7 +282,12 @@ export function AvatarFallback({ className, children, ...props }: AvatarFallback
 
 export type AvatarBadgeOffset = [x: string | number, y: string | number];
 
+export type AvatarBadgePresence = NonNullable<VariantProps<typeof avatar>["presence"]>;
+
 export type AvatarBadgeProps = useRender.ComponentProps<"span"> & {
+  /** The default dot's status light: online (the default), busy, error,
+   *  offline or external. Ignored when `render` draws its own indicator. */
+  variant?: AvatarBadgePresence;
   /** Where the badge's centre sits, measured from the avatar's top-left:
    *  `[x, y]`. Numbers are px; strings are any CSS length, and percentages
    *  are of the avatar's size, so `["100%", 0]` is the top-right corner at
@@ -286,8 +300,14 @@ const toCssLength = (value: string | number) => (typeof value === "number" ? `${
 // Corner presence shell. The parent avatar owns placement and size; the default
 // dot or a custom render only supplies the visual state. `offset` replaces the
 // recipe's corner placement with an explicit centre point.
-export function AvatarBadge({ className, render, offset, ...props }: AvatarBadgeProps) {
-  const { badge, dot } = avatar();
+export function AvatarBadge({
+  className,
+  render,
+  offset,
+  variant = "online",
+  ...props
+}: AvatarBadgeProps) {
+  const { badge, dot } = avatar({ presence: variant });
   const offsetStyle = offset
     ? {
         top: toCssLength(offset[1]),

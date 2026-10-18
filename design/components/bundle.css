@@ -425,6 +425,8 @@ button.rf-section__title { appearance: none; -webkit-appearance: none; margin: 0
 .rf-frame .rf-chan--here { background: var(--frame-active); border-color: var(--frame-active-edge); color: var(--on-frame-active); }   /* "you are here" on yellow is the white sticker, as on the rail */
 .rf-frame .rf-btn--ghost { color: var(--on-frame); }
 .rf-frame .rf-btn--ghost:active, .rf-frame .rf-btn--ghost.is-pressed { background-image: linear-gradient(var(--frame-pressed), var(--frame-pressed)); }
+.rf-frame .rf-btn--ghost[disabled], .rf-frame .rf-btn--ghost.is-disabled { background: none; border-color: transparent; }   /* disabled on the frame: only the words grey */
+@media (hover: hover) { .rf-frame .rf-btn--ghost:not([disabled]):not(.is-disabled):hover { background-image: linear-gradient(var(--frame-pressed), var(--frame-pressed)); } }
 .rf-frame .rf-phone__status { color: var(--ink); }
 
 /* a pushed screen (a channel, a DM, a profile) is content, not navigation: its header is white like the desktop panel header,
@@ -1201,6 +1203,7 @@ html { overflow-x: auto; }   /* last resort inside a preview frame: scroll, neve
 .rf-srow__sub { flex: 1 1000 auto; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
   font-size: 13px; line-height: 18px; font-weight: 400; color: var(--ink-2); }
 .rf-srow.is-on .rf-srow__sub { color: var(--sticker-ink); }
+div.rf-srow:not(.is-on):hover, div.rf-srow:active { background: none; }   /* a display-only row (this computer) is no target; its button is */
 .rf-srow--two { height: auto; min-height: 36px; align-items: flex-start; padding-top: 6.5px; padding-bottom: 6.5px; }
 .rf-srow--two .rf-srow__lines { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .rf-srow--two .rf-srow__facts { font-family: var(--font-mono); font-size: 12px; line-height: 16px; color: var(--ink-3); }

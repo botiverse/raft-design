@@ -2,15 +2,17 @@ import { tv } from "../../lib/tv";
 
 export const sidebarItemRecipe = tv({
   slots: {
+    // The tone sets the name's ink, which the title inherits: muted is ink-2,
+    // away (offline, not joined) ink-3. The yellow sticker keeps its own ink.
     sidebarItem: [
       "group/sidebar-item flex w-full items-center px-2 text-left",
       "transition-colors",
       "my-px h-9 gap-2 rounded-control border-[1.5px] border-transparent py-0 pr-2.5 pl-2",
       "md:py-0 [@media(max-height:600px)]:py-0",
       "font-sans text-subhead font-medium text-foreground",
-      "hover:bg-fill-pressed active:bg-fill-pressed not-data-active:data-popup-open:bg-fill-pressed",
       "data-active:border-sticker-ink data-active:bg-primary data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
-      "focus-visible:shadow-raft-focus outline-none",
+      "not-data-active:data-[tone=muted]:text-foreground-muted not-data-active:data-[tone=away]:text-foreground-hint",
+      "outline-none",
     ],
     sidebarItemIcon: [
       "flex shrink-0 items-center justify-center",
@@ -28,7 +30,10 @@ export const sidebarItemRecipe = tv({
     // The name comes first: a description after it gives up its room before
     // the name does (it shrinks a thousand times faster), so the name only
     // ellipsizes once the description has gone.
-    sidebarItemTitle: "block min-w-0 shrink truncate",
+    sidebarItemTitle: [
+      "block min-w-0 shrink truncate",
+      "group-data-[tone=unread]/sidebar-item:font-bold",
+    ],
     sidebarItemSubtitle: [
       "block min-w-0 flex-1 truncate",
       "shrink-1000 text-footnote font-normal text-foreground-muted",
@@ -69,6 +74,17 @@ export const sidebarItemRecipe = tv({
     ],
   },
   variants: {
+    // A display-only row (this computer, whose action is a button inside it)
+    // is no target: no hover, press or focus ring.
+    interactive: {
+      true: {
+        sidebarItem: [
+          "hover:bg-fill-pressed active:bg-fill-pressed not-data-active:data-popup-open:bg-fill-pressed",
+          "focus-visible:shadow-raft-focus",
+        ],
+      },
+      false: { sidebarItem: "cursor-default" },
+    },
     // A row whose name may run onto more lines (a pinned row keeps the whole
     // name): it grows instead of truncating, its content hangs from the top so
     // the identity glyph stays beside the first line, and a one-line wrapping
@@ -94,6 +110,7 @@ export const sidebarItemRecipe = tv({
     },
   },
   defaultVariants: {
+    interactive: true,
     wrap: false,
     stacked: false,
   },

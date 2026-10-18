@@ -11,6 +11,7 @@ export const VARIANTS = [
   "danger-secondary",
   "danger-outline",
   "ghost",
+  "on-frame",
   "link",
 ] as const;
 

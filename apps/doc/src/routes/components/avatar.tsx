@@ -25,6 +25,8 @@ import { SIZES, SIZE_OPTIONS } from "#/modules/avatar/avatar.constants.ts";
 import { AvatarPlaygroundPreview } from "#/modules/avatar/avatar.preview.tsx";
 import avatarPreviewCompositionSource from "#/modules/avatar/compositions/preview.composition.tsx?raw";
 import { AvatarBadgeOffsetContent } from "#/modules/avatar/compositions/badge-offset.composition.tsx";
+import { AvatarBadgePresenceContent } from "#/modules/avatar/compositions/badge-presence.composition.tsx";
+import avatarBadgePresenceCompositionSource from "#/modules/avatar/compositions/badge-presence.composition.tsx?raw";
 import avatarBadgeOffsetCompositionSource from "#/modules/avatar/compositions/badge-offset.composition.tsx?raw";
 
 const TOC = [
@@ -301,6 +303,12 @@ const AVATAR_FALLBACK_PROPS: readonly PropRow[] = [
 
 const AVATAR_BADGE_PROPS: readonly PropRow[] = [
   {
+    name: "variant",
+    type: '"online" | "busy" | "error" | "offline" | "external"',
+    default: '"online"',
+    description: "The default dot's status light. Ignored when render draws its own indicator.",
+  },
+  {
     name: "offset",
     type: "[string | number, string | number]",
     description:
@@ -339,6 +347,7 @@ const AVATAR_GROUP_COUNT_PROPS: readonly PropRow[] = [
 const AVATAR_COMPOSITION_RAW_SOURCES = {
   Preview: avatarPreviewCompositionSource,
   BadgeOffset: avatarBadgeOffsetCompositionSource,
+  BadgePresence: avatarBadgePresenceCompositionSource,
 } as const;
 
 const AVATAR_COMPOSITION_SOURCES = createCompositionSourceMap(AVATAR_COMPOSITION_RAW_SOURCES);
@@ -346,6 +355,7 @@ const AVATAR_COMPOSITION_SOURCES = createCompositionSourceMap(AVATAR_COMPOSITION
 const AVATAR_COMPOSITION_SNIPPET_IDS = {
   Preview: "avatarPreviewComposition",
   BadgeOffset: "avatarBadgeOffsetComposition",
+  BadgePresence: "avatarBadgePresenceComposition",
 } as const;
 
 export const Route = createFileRoute("/components/avatar")({
@@ -463,6 +473,20 @@ function AvatarDoc() {
                 </div>
               </Preview.Canvas>
               <Preview.Code html={code.badge} collapsedHtml={code.badgeBody} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="badge-presence" title="Badge presence">
+            <DocNote>
+              <InlineCode>variant</InlineCode> sets the default dot&apos;s status light: online (the
+              default), busy for an agent at work, error, offline, or external. The light never
+              animates; label it when no word sits beside it.
+            </DocNote>
+            <Preview previewClassName="!min-h-40">
+              <Preview.Canvas>
+                <AvatarBadgePresenceContent />
+              </Preview.Canvas>
+              <Preview.Code html={code.avatarBadgePresenceComposition} />
             </Preview>
           </DocSubsection>
 
