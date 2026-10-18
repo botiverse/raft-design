@@ -1,10 +1,10 @@
 /**
  * @vitest-environment jsdom
  *
- * Pins the MessageItemSavedIndicator prop contract: `elevation` controls the
- * shadow (default "none" = the passive state-marker form: a flat muted chip
- * with no shadow), and `iconOnly` explicitly selects the square icon-button
- * treatment that used to be driven by the `data-icon-only` attribute.
+ * Pins the MessageItemSavedIndicator prop contract: by default it is the
+ * passive state marker (a flat muted chip with no shadow; controls cast none),
+ * and `iconOnly` explicitly selects the square icon-button treatment that used
+ * to be driven by the `data-icon-only` attribute.
  */
 import { afterEach, describe, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
@@ -27,7 +27,7 @@ if (typeof window.matchMedia !== "function") {
 
 afterEach(cleanup);
 
-function renderIndicator(props: { elevation?: "none" | "xs" | "sm"; iconOnly?: boolean } = {}) {
+function renderIndicator(props: { iconOnly?: boolean } = {}) {
   const { container } = render(
     <ThemeProvider>
       <MessageItemSavedIndicator {...props}>
@@ -39,27 +39,15 @@ function renderIndicator(props: { elevation?: "none" | "xs" | "sm"; iconOnly?: b
   return container.firstElementChild as HTMLElement;
 }
 
-describe("MessageItemSavedIndicator elevation prop", () => {
-  test('default elevation "none" renders the flat state-marker chip', () => {
+describe("MessageItemSavedIndicator default", () => {
+  test("renders the flat state-marker chip with no shadow", () => {
     const node = renderIndicator();
     const classes = node.className.split(/\s+/);
     expect(classes).toContain("h-[22px]");
     expect(classes).toContain("rounded-chip");
     expect(classes).toContain("bg-fill-muted");
-    expect(node.className).not.toContain("shadow-raft-xs");
-    expect(node.className).not.toContain("shadow-raft-sm");
-    expect(node.className).not.toContain("shadow-raft-md");
+    expect(classes.filter((name) => name.startsWith("shadow-"))).toEqual([]);
     expect(node.hasAttribute("data-icon-only")).toBe(false);
-  });
-
-  test('elevation="xs" adds shadow-raft-xs', () => {
-    expect(renderIndicator({ elevation: "xs" }).className).toContain("shadow-raft-xs");
-  });
-
-  test('elevation="sm" adds shadow-raft-sm', () => {
-    const cls = renderIndicator({ elevation: "sm" }).className;
-    expect(cls).toContain("shadow-raft-sm");
-    expect(cls).not.toContain("shadow-raft-xs");
   });
 });
 

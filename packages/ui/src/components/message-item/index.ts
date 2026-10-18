@@ -95,7 +95,6 @@ export type {
   MessageItemBadgeSeparatorProps,
   MessageItemBadgeStatus,
   MessageItemReadReceiptProps,
-  MessageItemSavedIndicatorElevation,
   MessageItemSavedIndicatorProps,
 } from "./message-footer";
 export type {

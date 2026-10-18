@@ -866,7 +866,6 @@ export type {
   MessageItemMetaProps,
   MessageItemProps,
   MessageItemReadReceiptProps,
-  MessageItemSavedIndicatorElevation,
   MessageItemSavedIndicatorProps,
   MessageItemSearchMatchProps,
   MessageItemSenderBadgesProps,

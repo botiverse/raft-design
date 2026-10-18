@@ -29,11 +29,6 @@ export const messageFooter = tv({
   },
   variants: {
     badgeStatus: { read: {}, unread: { badge: ["text-foreground"] } },
-    elevation: {
-      none: {},
-      xs: { savedIndicator: "shadow-raft-xs" },
-      sm: { savedIndicator: "shadow-raft-sm" },
-    },
     iconOnly: {
       true: {
         savedIndicator: [
@@ -46,7 +41,6 @@ export const messageFooter = tv({
     },
   },
   defaultVariants: {
-    elevation: "none",
     iconOnly: false,
   },
 });

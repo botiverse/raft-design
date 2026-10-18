@@ -55,6 +55,7 @@ function LiveAgentActivityBarRoot({
 
 // No enter/exit motion: the DS keeps agent lights still and swaps the text in
 // place.
+/** @deprecated The Raft Design System shows agents at work where they appear instead of in a live bar (see the agents pattern). Removed in raft-ui 1.0. */
 export function LiveAgentActivityBar({
   children,
   className,
@@ -70,6 +71,7 @@ export function LiveAgentActivityBar({
 
 export type LiveAgentActivityBarRowProps = useRender.ComponentProps<"div">;
 
+/** @deprecated The Raft Design System shows agents at work where they appear instead of in a live bar (see the agents pattern). Removed in raft-ui 1.0. */
 export function LiveAgentActivityBarRow({
   className,
   render,
@@ -90,6 +92,7 @@ export function LiveAgentActivityBarRow({
 
 export type LiveAgentActivityBarAvatarProps = Omit<AvatarProps, "size" | "type">;
 
+/** @deprecated The Raft Design System shows agents at work where they appear instead of in a live bar (see the agents pattern). Removed in raft-ui 1.0. */
 export function LiveAgentActivityBarAvatar({
   children,
   className,
@@ -114,6 +117,7 @@ export function LiveAgentActivityBarAvatar({
 
 export type LiveAgentActivityBarContentProps = useRender.ComponentProps<"div">;
 
+/** @deprecated The Raft Design System shows agents at work where they appear instead of in a live bar (see the agents pattern). Removed in raft-ui 1.0. */
 export function LiveAgentActivityBarContent({
   className,
   render,
@@ -137,6 +141,7 @@ export type LiveAgentActivityBarStatusProps = Omit<
   "attention" | "pulse" | "size" | "variant"
 >;
 
+/** @deprecated The Raft Design System shows agents at work where they appear instead of in a live bar (see the agents pattern). Removed in raft-ui 1.0. */
 export function LiveAgentActivityBarStatus({
   className,
   ...props
@@ -150,6 +155,7 @@ export function LiveAgentActivityBarStatus({
 
 export type LiveAgentActivityBarTextProps = useRender.ComponentProps<"span">;
 
+/** @deprecated The Raft Design System shows agents at work where they appear instead of in a live bar (see the agents pattern). Removed in raft-ui 1.0. */
 export function LiveAgentActivityBarText({
   className,
   render,
