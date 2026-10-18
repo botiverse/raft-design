@@ -1,5 +1,5 @@
 // Proposal mock (B3). The implementation reads these groups from
-// tokens/tokens.json (design/authoring/migration.md, step 2). Names are the
+// packages/ui/src/tokens.json (exported as raft-ui/tokens.json). Names are the
 // English docs' names from the migration map; `cssVar` is the variable that
 // holds the value today, so the swatches render live in both modes.
 

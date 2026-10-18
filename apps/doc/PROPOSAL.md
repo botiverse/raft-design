@@ -189,7 +189,7 @@ Not in B4: an MCP server, and per-component `llms.txt` files. See decisions 5 an
 | Content                                                  | Source                                  | Status today                     | In B4                                                                                                                                 |
 | -------------------------------------------------------- | --------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | Rules and reasoning                                      | Markdown (`design/**`, component `.md`) | Chinese, in `design/`            | Rendered as pages; English text arrives from the parallel rewrite                                                                     |
-| Token tables                                             | `tokens/tokens.json`                    | Hand-built `/tokens/*` routes    | `tokens` block                                                                                                                        |
+| Token tables                                             | `packages/ui/src/tokens.json`           | Hand-built `/tokens/*` routes    | `tokens` block                                                                                                                        |
 | Props                                                    | TypeScript                              | Hand-typed `PropRow[]` per route | Generated at build time with the TypeScript compiler API (Polaris's approach) or `react-docgen-typescript`, into a JSON per component |
 | Examples                                                 | Compositions                            | Imported by hand per route       | `example` block                                                                                                                       |
 | Component list, nav, search, `components.json`, llms.txt | Front matter                            | Hand-maintained in `sidebar.tsx` | Generated                                                                                                                             |
@@ -221,7 +221,7 @@ Not in B4: an MCP server, and per-component `llms.txt` files. See decisions 5 an
 Each step is one PR and leaves the site working.
 
 1. **Content pipeline.** Load `design/**/*.md` and `packages/ui/src/components/*/*.md`: front matter, `example` and `tokens` blocks, relative-link rewriting. Add the `/$section/$slug` route and the new shell behind `/next`. Fail the build on a missing example. Add tests.
-2. **Generated parts.** Props JSON from TypeScript; `tokens` tables from `tokens/tokens.json` (after the token rename lands); nav, search index and `components.json` from front matter.
+2. **Generated parts.** Props JSON from TypeScript; `tokens` tables from `packages/ui/src/tokens.json` (exported as `raft-ui/tokens.json`); nav, search index and `components.json` from front matter.
 3. **Agent surfaces.** Rework `build-llms.mjs` to emit twins from Markdown, the new llms.txt sections, `components.json` and the `rel="alternate"` links.
 4. **Switch.** Move `/next` to `/`, add redirects, delete the 85 component routes, the old sidebar, the home gallery, `/tokens/*`, `/dashboard` and `/lab`, after their content has moved.
 5. **Follow the content rewrite.** As each English area lands, its pages fill in; no site change needed.
