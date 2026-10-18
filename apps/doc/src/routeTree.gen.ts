@@ -15,6 +15,7 @@ import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as LabRouteImport } from './routes/lab'
 import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
+import { Route as ProposalRouteRouteImport } from './routes/proposal/route'
 import { Route as ComponentsActivityRouteImport } from './routes/components/activity'
 import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
 import { Route as ComponentsAppRailRouteImport } from './routes/components/app-rail'
@@ -103,11 +104,13 @@ import { Route as ComponentsTooltipRouteImport } from './routes/components/toolt
 import { Route as GuidesGuideRouteImport } from './routes/guides/$guide'
 import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
 import { Route as IframeDialogScrollLayerRouteImport } from './routes/iframe/dialog-scroll-layer'
+import { Route as IframeProposalExampleRouteImport } from './routes/iframe/proposal-example'
 import { Route as IframeSidebarMobilePartsRouteImport } from './routes/iframe/sidebar-mobile-parts'
 import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as PlaygroundBrowseRouteRouteImport } from './routes/playground/_browse/route'
 import { Route as PlaygroundPlainRouteRouteImport } from './routes/playground/_plain/route'
 import { Route as PlaygroundSRouteRouteImport } from './routes/playground/s/route'
+import { Route as ProposalIndexRouteImport } from './routes/proposal/index'
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensTypographyRouteImport } from './routes/tokens/typography'
@@ -118,6 +121,7 @@ import { Route as PlaygroundPlainSearchRouteImport } from './routes/playground/_
 import { Route as PlaygroundPlainSettingsRouteImport } from './routes/playground/_plain/settings'
 import { Route as PlaygroundPlainTasksRouteImport } from './routes/playground/_plain/tasks'
 import { Route as PlaygroundSServerSlugRouteRouteImport } from './routes/playground/s/$serverSlug/route'
+import { Route as ProposalSectionSlugRouteImport } from './routes/proposal/$section/$slug'
 import { Route as PlaygroundSServerSlugIndexRouteImport } from './routes/playground/s/$serverSlug/index'
 import { Route as PlaygroundSServerSlugChannelRouteRouteImport } from './routes/playground/s/$serverSlug/channel/route'
 import { Route as PlaygroundSServerSlugDmRouteRouteImport } from './routes/playground/s/$serverSlug/dm/route'
@@ -153,6 +157,11 @@ const LabRoute = LabRouteImport.update({
 const PlaygroundRouteRoute = PlaygroundRouteRouteImport.update({
   id: '/playground',
   path: '/playground',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProposalRouteRoute = ProposalRouteRouteImport.update({
+  id: '/proposal',
+  path: '/proposal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComponentsActivityRoute = ComponentsActivityRouteImport.update({
@@ -610,6 +619,11 @@ const IframeDialogScrollLayerRoute = IframeDialogScrollLayerRouteImport.update({
   path: '/iframe/dialog-scroll-layer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IframeProposalExampleRoute = IframeProposalExampleRouteImport.update({
+  id: '/iframe/proposal-example',
+  path: '/iframe/proposal-example',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IframeSidebarMobilePartsRoute =
   IframeSidebarMobilePartsRouteImport.update({
     id: '/iframe/sidebar-mobile-parts',
@@ -633,6 +647,11 @@ const PlaygroundSRouteRoute = PlaygroundSRouteRouteImport.update({
   id: '/s',
   path: '/s',
   getParentRoute: () => PlaygroundRouteRoute,
+} as any)
+const ProposalIndexRoute = ProposalIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProposalRouteRoute,
 } as any)
 const TokensColorsRoute = TokensColorsRouteImport.update({
   id: '/tokens/colors',
@@ -686,6 +705,11 @@ const PlaygroundSServerSlugRouteRoute =
     path: '/$serverSlug',
     getParentRoute: () => PlaygroundSRouteRoute,
   } as any)
+const ProposalSectionSlugRoute = ProposalSectionSlugRouteImport.update({
+  id: '/$section/$slug',
+  path: '/$section/$slug',
+  getParentRoute: () => ProposalRouteRoute,
+} as any)
 const PlaygroundSServerSlugIndexRoute =
   PlaygroundSServerSlugIndexRouteImport.update({
     id: '/',
@@ -726,6 +750,7 @@ const PlaygroundSServerSlugDmDmIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/playground': typeof PlaygroundRouteRouteWithChildren
+  '/proposal': typeof ProposalRouteRouteWithChildren
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/dashboard': typeof DashboardRoute
@@ -819,11 +844,13 @@ export interface FileRoutesByFullPath {
   '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
+  '/iframe/proposal-example': typeof IframeProposalExampleRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRoute
   '/tokens/typography': typeof TokensTypographyRoute
   '/playground/': typeof PlaygroundIndexRoute
+  '/proposal/': typeof ProposalIndexRoute
   '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
   '/playground/computers': typeof PlaygroundBrowseComputersRoute
   '/playground/members': typeof PlaygroundBrowseMembersRoute
@@ -831,6 +858,7 @@ export interface FileRoutesByFullPath {
   '/playground/search': typeof PlaygroundPlainSearchRoute
   '/playground/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/tasks': typeof PlaygroundPlainTasksRoute
+  '/proposal/$section/$slug': typeof ProposalSectionSlugRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
   '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
@@ -934,16 +962,19 @@ export interface FileRoutesByTo {
   '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
+  '/iframe/proposal-example': typeof IframeProposalExampleRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRoute
   '/tokens/typography': typeof TokensTypographyRoute
+  '/proposal': typeof ProposalIndexRoute
   '/playground/computers': typeof PlaygroundBrowseComputersRoute
   '/playground/members': typeof PlaygroundBrowseMembersRoute
   '/playground/activity': typeof PlaygroundPlainActivityRoute
   '/playground/search': typeof PlaygroundPlainSearchRoute
   '/playground/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/tasks': typeof PlaygroundPlainTasksRoute
+  '/proposal/$section/$slug': typeof ProposalSectionSlugRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
   '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
@@ -955,6 +986,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/playground': typeof PlaygroundRouteRouteWithChildren
+  '/proposal': typeof ProposalRouteRouteWithChildren
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/dashboard': typeof DashboardRoute
@@ -1050,11 +1082,13 @@ export interface FileRoutesById {
   '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
+  '/iframe/proposal-example': typeof IframeProposalExampleRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRoute
   '/tokens/typography': typeof TokensTypographyRoute
   '/playground/': typeof PlaygroundIndexRoute
+  '/proposal/': typeof ProposalIndexRoute
   '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
   '/playground/_browse/computers': typeof PlaygroundBrowseComputersRoute
   '/playground/_browse/members': typeof PlaygroundBrowseMembersRoute
@@ -1062,6 +1096,7 @@ export interface FileRoutesById {
   '/playground/_plain/search': typeof PlaygroundPlainSearchRoute
   '/playground/_plain/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/_plain/tasks': typeof PlaygroundPlainTasksRoute
+  '/proposal/$section/$slug': typeof ProposalSectionSlugRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
   '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
@@ -1074,6 +1109,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/playground'
+    | '/proposal'
     | '/changelog'
     | '/components'
     | '/dashboard'
@@ -1167,11 +1203,13 @@ export interface FileRouteTypes {
     | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
+    | '/iframe/proposal-example'
     | '/iframe/sidebar-mobile-parts'
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
     | '/playground/'
+    | '/proposal/'
     | '/playground/s/$serverSlug'
     | '/playground/computers'
     | '/playground/members'
@@ -1179,6 +1217,7 @@ export interface FileRouteTypes {
     | '/playground/search'
     | '/playground/settings'
     | '/playground/tasks'
+    | '/proposal/$section/$slug'
     | '/playground/s/$serverSlug/channel'
     | '/playground/s/$serverSlug/dm'
     | '/playground/s/$serverSlug/saved'
@@ -1282,16 +1321,19 @@ export interface FileRouteTypes {
     | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
+    | '/iframe/proposal-example'
     | '/iframe/sidebar-mobile-parts'
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
+    | '/proposal'
     | '/playground/computers'
     | '/playground/members'
     | '/playground/activity'
     | '/playground/search'
     | '/playground/settings'
     | '/playground/tasks'
+    | '/proposal/$section/$slug'
     | '/playground/s/$serverSlug/channel'
     | '/playground/s/$serverSlug/dm'
     | '/playground/s/$serverSlug/saved'
@@ -1302,6 +1344,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/playground'
+    | '/proposal'
     | '/changelog'
     | '/components'
     | '/dashboard'
@@ -1397,11 +1440,13 @@ export interface FileRouteTypes {
     | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
+    | '/iframe/proposal-example'
     | '/iframe/sidebar-mobile-parts'
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
     | '/playground/'
+    | '/proposal/'
     | '/playground/s/$serverSlug'
     | '/playground/_browse/computers'
     | '/playground/_browse/members'
@@ -1409,6 +1454,7 @@ export interface FileRouteTypes {
     | '/playground/_plain/search'
     | '/playground/_plain/settings'
     | '/playground/_plain/tasks'
+    | '/proposal/$section/$slug'
     | '/playground/s/$serverSlug/channel'
     | '/playground/s/$serverSlug/dm'
     | '/playground/s/$serverSlug/saved'
@@ -1420,6 +1466,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PlaygroundRouteRoute: typeof PlaygroundRouteRouteWithChildren
+  ProposalRouteRoute: typeof ProposalRouteRouteWithChildren
   ChangelogRoute: typeof ChangelogRoute
   ComponentsRoute: typeof ComponentsRouteWithChildren
   DashboardRoute: typeof DashboardRoute
@@ -1427,6 +1474,7 @@ export interface RootRouteChildren {
   GuidesGuideRoute: typeof GuidesGuideRoute
   IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
   IframeDialogScrollLayerRoute: typeof IframeDialogScrollLayerRoute
+  IframeProposalExampleRoute: typeof IframeProposalExampleRoute
   IframeSidebarMobilePartsRoute: typeof IframeSidebarMobilePartsRoute
   TokensColorsRoute: typeof TokensColorsRoute
   TokensShadowsRoute: typeof TokensShadowsRoute
@@ -1475,6 +1523,13 @@ declare module '@tanstack/react-router' {
       path: '/playground'
       fullPath: '/playground'
       preLoaderRoute: typeof PlaygroundRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/proposal': {
+      id: '/proposal'
+      path: '/proposal'
+      fullPath: '/proposal'
+      preLoaderRoute: typeof ProposalRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components/activity': {
@@ -2093,6 +2148,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IframeDialogScrollLayerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/iframe/proposal-example': {
+      id: '/iframe/proposal-example'
+      path: '/iframe/proposal-example'
+      fullPath: '/iframe/proposal-example'
+      preLoaderRoute: typeof IframeProposalExampleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/iframe/sidebar-mobile-parts': {
       id: '/iframe/sidebar-mobile-parts'
       path: '/iframe/sidebar-mobile-parts'
@@ -2127,6 +2189,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/playground/s'
       preLoaderRoute: typeof PlaygroundSRouteRouteImport
       parentRoute: typeof PlaygroundRouteRoute
+    }
+    '/proposal/': {
+      id: '/proposal/'
+      path: '/'
+      fullPath: '/proposal/'
+      preLoaderRoute: typeof ProposalIndexRouteImport
+      parentRoute: typeof ProposalRouteRoute
     }
     '/tokens/colors': {
       id: '/tokens/colors'
@@ -2197,6 +2266,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/playground/s/$serverSlug'
       preLoaderRoute: typeof PlaygroundSServerSlugRouteRouteImport
       parentRoute: typeof PlaygroundSRouteRoute
+    }
+    '/proposal/$section/$slug': {
+      id: '/proposal/$section/$slug'
+      path: '/$section/$slug'
+      fullPath: '/proposal/$section/$slug'
+      preLoaderRoute: typeof ProposalSectionSlugRouteImport
+      parentRoute: typeof ProposalRouteRoute
     }
     '/playground/s/$serverSlug/': {
       id: '/playground/s/$serverSlug/'
@@ -2353,6 +2429,20 @@ const PlaygroundRouteRouteChildren: PlaygroundRouteRouteChildren = {
 
 const PlaygroundRouteRouteWithChildren = PlaygroundRouteRoute._addFileChildren(
   PlaygroundRouteRouteChildren,
+)
+
+interface ProposalRouteRouteChildren {
+  ProposalIndexRoute: typeof ProposalIndexRoute
+  ProposalSectionSlugRoute: typeof ProposalSectionSlugRoute
+}
+
+const ProposalRouteRouteChildren: ProposalRouteRouteChildren = {
+  ProposalIndexRoute: ProposalIndexRoute,
+  ProposalSectionSlugRoute: ProposalSectionSlugRoute,
+}
+
+const ProposalRouteRouteWithChildren = ProposalRouteRoute._addFileChildren(
+  ProposalRouteRouteChildren,
 )
 
 interface ComponentsRouteChildren {
@@ -2538,6 +2628,7 @@ const ComponentsRouteWithChildren = ComponentsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PlaygroundRouteRoute: PlaygroundRouteRouteWithChildren,
+  ProposalRouteRoute: ProposalRouteRouteWithChildren,
   ChangelogRoute: ChangelogRoute,
   ComponentsRoute: ComponentsRouteWithChildren,
   DashboardRoute: DashboardRoute,
@@ -2545,6 +2636,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuidesGuideRoute: GuidesGuideRoute,
   IframeAppShellMobileRoute: IframeAppShellMobileRoute,
   IframeDialogScrollLayerRoute: IframeDialogScrollLayerRoute,
+  IframeProposalExampleRoute: IframeProposalExampleRoute,
   IframeSidebarMobilePartsRoute: IframeSidebarMobilePartsRoute,
   TokensColorsRoute: TokensColorsRoute,
   TokensShadowsRoute: TokensShadowsRoute,
