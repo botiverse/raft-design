@@ -66,9 +66,14 @@ export const panel = tv({
       },
     },
     {
+      // One seam on the side it is attached by (DS `.rf-aside`), none on a
+      // phone where the panel is the whole page. Unprefixed so a host whose
+      // neighbour already draws that seam (the conversation beside the
+      // sidebar) can drop it with a plain `border-l-0`; a `md:` seam here
+      // outranked that override and doubled the line.
       theme: "raft",
       edge: "attached",
-      class: { root: "border-line-seam md:border-l" },
+      class: { root: "border-l border-line-seam max-md:border-l-0" },
     },
     {
       theme: "elegant",
