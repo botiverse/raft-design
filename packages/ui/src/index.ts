@@ -1198,6 +1198,9 @@ export type {
 export { Kbd, KbdGroup } from "./components/kbd/index";
 export type { KbdGroupProps, KbdProps } from "./components/kbd/index";
 
+export { IconTile } from "./components/icon-tile/index";
+export type { IconTileProps } from "./components/icon-tile/index";
+
 export { Text, TextHeading, TextMono, TextSans } from "./components/text/index";
 export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./components/text/index";
 

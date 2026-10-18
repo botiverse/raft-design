@@ -22,7 +22,7 @@
 | | Tabs | 一页里的几个分区（Chat / Tasks / Files）；贴纸和下划线两版 | Tabs、ConversationPanelTabs |
 | | Steps | 短流程走到哪一步 | Steps |
 | Identity | Avatar | 人和 agent 的方头像、工作区、状态灯、叠放 | Avatar、AvatarGroup、PixelAvatar、StatusDot |
-| | ChannelIcon | 频道的中性方块和黄色位置块 | 频道图标 |
+| | ChannelIcon | 频道的中性方块和黄色位置块；没有身份的东西用的中性图标块 `rf-tile` | 频道图标、IconTile |
 | Status | Badge | 未读数、@ 标记 | Badge、侧栏计数、AttentionDot |
 | | StatusChip | 任务状态、任务标记、状态灯写成字、`agent` 标签、运行时签 | TaskStatusBadge、TaskChip、Status |
 | Content | Message | 消息、正文里的标记、事件行、任务标记、表情回应、线程回复、悬停工具条 | MessageItem 一族、SystemMessage、reactions |
@@ -32,7 +32,7 @@
 | | Code | 行内代码、可复制的命令、代码块 | InlineCode、CopyableCode、CodeBlock |
 | | PropertyList | 一件东西的属性，能就地改 | DescriptionList、TaskProperties |
 | | Timeline | 任务历史、agent 的活动日志 | Timeline、AgentActivityLog |
-| | Search | 搜索框、分组结果、命中 | SearchShell 和结果 |
+| | Search | 搜索框、分组结果、命中；网页顶栏的搜索框 | SearchShell 和结果、SearchTrigger |
 | | Inbox | 动态和通知中心的一行 | ActivityInbox、NotificationCenter、InboxItem |
 | Agents | AgentActivity | 正在干活：一叠头像的摘要、行里的第二行、Working now 列表、状态行 | LiveAgentActivityBar |
 | | ActionCard | agent 填好、人来确认的一件事 | MessageActionCard |

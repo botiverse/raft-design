@@ -17,6 +17,8 @@ import { SearchNoResultsComposition } from "#/modules/search/compositions/search
 import searchNoResultsCompositionSource from "#/modules/search/compositions/search-no-results.composition.tsx?raw";
 import { SearchPreviewComposition } from "#/modules/search/compositions/search-preview.composition.tsx";
 import searchPreviewCompositionSource from "#/modules/search/compositions/search-preview.composition.tsx?raw";
+import { SearchTriggerComposition } from "#/modules/search/compositions/search-trigger.composition.tsx";
+import searchTriggerCompositionSource from "#/modules/search/compositions/search-trigger.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import type { HighlightedSnippet, HighlightedSnippets } from "#/lib/highlight.tsx";
 
@@ -104,6 +106,7 @@ const SNIPPETS = {
   loading: searchLoadingCompositionSource,
   mutedEntity: searchMutedEntityCompositionSource,
   noResults: searchNoResultsCompositionSource,
+  trigger: searchTriggerCompositionSource,
 } as const;
 
 const SEARCH_RESULTS_SUMMARY_PROPS: readonly PropRow[] = [
@@ -250,6 +253,25 @@ const SEARCH_THREAD_RESULT_MESSAGES_PROPS: readonly PropRow[] = [
   },
 ];
 
+const SEARCH_TRIGGER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"button">',
+    description:
+      "A button drawn as the top bar's search field (36 tall, 1.5px ink line, ink-3 placeholder). Pass a ref to anchor the search dialog on it. Disabled, it is a disabled field and ignores hover and press.",
+  },
+];
+
+const SEARCH_TRIGGER_API_SUBSECTIONS = [
+  { id: "api-trigger", title: "SearchTrigger", rows: SEARCH_TRIGGER_PROPS },
+  { id: "api-trigger-label", title: "SearchTriggerLabel", rows: SEARCH_SLOT_PROPS },
+  {
+    id: "api-trigger-shortcut",
+    title: "SearchTriggerShortcut",
+    rows: searchShellProps("KbdProps", "The shortcut at the right end."),
+  },
+];
+
 const SEARCH_SHELL_API_SUBSECTIONS = [
   {
     id: "api-shell-root",
@@ -368,7 +390,7 @@ function SearchDoc() {
   return (
     <DocPage
       title="Search"
-      description="Business-agnostic search shell and result parts for composing entity, message, and thread search experiences."
+      description="Business-agnostic search trigger, shell and result parts for composing entity, message, and thread search experiences."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -388,6 +410,14 @@ function SearchDoc() {
 
       <DocSection id="usage" title="Usage">
         <div className="grid gap-10">
+          <SearchUsage
+            title="Trigger"
+            id="trigger"
+            preview={<SearchTriggerComposition />}
+            previewInset="default"
+            html={code.trigger}
+            collapsedHtml={code.triggerBody}
+          />
           <SearchUsage
             title="Muted entity"
             id="muted-entity"
@@ -422,6 +452,20 @@ function SearchDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-trigger-group" title="Trigger">
+            <div className="space-y-6">
+              {SEARCH_TRIGGER_API_SUBSECTIONS.map((subsection) => (
+                <DocSubsection
+                  key={subsection.id}
+                  parentId="api-trigger-group"
+                  id={subsection.id}
+                  title={subsection.title}
+                >
+                  <PropsTable rows={subsection.rows} />
+                </DocSubsection>
+              ))}
+            </div>
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-shell" title="Shell">
             <div className="space-y-6">
               {SEARCH_SHELL_API_SUBSECTIONS.map((subsection) => (
