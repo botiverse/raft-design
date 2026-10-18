@@ -34,6 +34,10 @@ Put `class="light"` or `class="dark"` on the root to pick a mode; omit it to fol
 
 `styles.css` remains the Tailwind integration entry and imports this foundation automatically.
 
+## Tokens
+
+`raft-ui/tokens.json` holds every token in the [Design Tokens Community Group format](https://www.designtokens.org/), with light and dark values, for design tools and code generators. `foundation.css` is generated from it.
+
 ## Agent Skills
 
 raft-ui ships two version-matched Agent Skills in the npm package:
