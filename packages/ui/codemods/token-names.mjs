@@ -63,6 +63,9 @@ const COLOR_UTILITY =
 const END = "(?![\\w-])";
 // A custom property, not a BEM modifier: `var(--primary-soft)` but not `.r-button--primary`.
 const VAR = "(?<![\\w-])--";
+// A reference, not a declaration: `var(--line)` is renamed, `--line: …` is left alone,
+// so the deprecated aliases (`--line: var(--line-seam)`) survive a rerun.
+const REF_END = "(?![\\w-])(?!\\s*:)";
 const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 function rules() {
@@ -74,24 +77,27 @@ function rules() {
   const tokens = Object.entries(TOKEN_RENAMES).sort(([a], [b]) => b.length - a.length);
   for (const [from, to] of tokens) {
     list.push([new RegExp(`(?<![\\w-])(${COLOR_UTILITY})-${escape(from)}${END}`, "g"), `$1-${to}`]);
-    list.push([new RegExp(`${VAR}${escape(from)}${END}`, "g"), `--${to}`]);
+    list.push([new RegExp(`${VAR}${escape(from)}${REF_END}`, "g"), `--${to}`]);
   }
   for (const [from, to] of Object.entries(FAMILY_RENAMES)) {
     list.push([
       new RegExp(`(?<![\\w-])(${COLOR_UTILITY})-${from}((?:-[a-z0-9]+)*)${END}`, "g"),
       `$1-${to}$2`,
     ]);
-    list.push([new RegExp(`${VAR}${from}((?:-[a-z0-9]+)*)${END}`, "g"), `--${to}$1`]);
+    list.push([new RegExp(`${VAR}${from}((?:-[a-z0-9]+)*)${REF_END}`, "g"), `--${to}$1`]);
   }
   for (const [from, to] of Object.entries(PALETTE_COLORS)) {
-    list.push([new RegExp(`${VAR}color-brutal-${from}-(\\d+)${END}`, "g"), `--palette-${to}-$1`]);
-    list.push([new RegExp(`${VAR}color-brutal-${from}${END}`, "g"), `--color-palette-${to}`]);
+    list.push([
+      new RegExp(`${VAR}color-brutal-${from}-(\\d+)${REF_END}`, "g"),
+      `--palette-${to}-$1`,
+    ]);
+    list.push([new RegExp(`${VAR}color-brutal-${from}${REF_END}`, "g"), `--color-palette-${to}`]);
     list.push([
       new RegExp(`(?<![\\w-])(${COLOR_UTILITY})-brutal-${from}${END}`, "g"),
       `$1-palette-${to}`,
     ]);
   }
-  list.push([new RegExp(`${VAR}color-soft-signal${END}`, "g"), "--color-palette-yellow"]);
+  list.push([new RegExp(`${VAR}color-soft-signal${REF_END}`, "g"), "--color-palette-yellow"]);
   return list;
 }
 
