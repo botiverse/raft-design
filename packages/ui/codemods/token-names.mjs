@@ -7,6 +7,10 @@
 // and CSS custom properties (`var(--primary-soft)`) in .ts, .tsx, .js, .jsx,
 // .mjs, .css and .html files. The old names keep working as deprecated aliases
 // until raft-ui 1.0, so the rewrite can land at any time after upgrading.
+//
+// Review by hand afterwards: a guard that forbids a former name (a lint rule,
+// a test's doesNotMatch, an allowlist) now forbids the current one, and a
+// pattern built from parts (/bg-brutal-[a-z]+/) keeps the former name.
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 

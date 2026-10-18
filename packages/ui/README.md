@@ -95,3 +95,10 @@ pnpm remove raft-ui
 ```
 
 The first command rewrites imports, CSS `@import` and `@source` paths and the dependency, and lists any bare `"raft-ui"` strings (bundler aliases, path mappings) to change by hand. The second moves to the current token names; the former names keep working until 1.0.
+
+Review two kinds of code by hand after `token-names.mjs`:
+
+- **Guards that forbid a name.** A lint rule, a test or an allowlist that bans a former name (for example a `doesNotMatch(/text-foreground-strong/)`) has that name rewritten too, so it now bans the current one. Put the former name back there.
+- **Patterns built from parts.** A regex such as `/bg-brutal-[a-z]+/` is not a literal token, so it keeps the former name and stops matching the rewritten source. Widen it to the current name (`palette-`, `brand-`, `attention-`).
+
+If a package you depend on declares `raft-ui` as a peer dependency, also install `"raft-ui": "npm:@botiverse/raft-ui@<version>"` so it resolves to the same copy instead of bundling a second one.
