@@ -146,6 +146,9 @@
   --foreground-disabled: oklch(0.1813 0.005 17.62 / 0.302);
   --foreground-inverse: oklch(1 0 0);
   --foreground-on-hud: oklch(0.9647 0.0027 286.35);
+  /* Secondary text on the HUD: the shortcut in a tooltip, the detail line of a
+     toast. */
+  --foreground-on-hud-muted: oklch(0.9647 0.0027 286.35 / 0.7);
   --foreground-on-frame: var(--sticker-ink);
   --foreground-on-frame-muted: oklch(0.4082 0.0679 93.96);
   --foreground-on-frame-active: var(--sticker-ink);
@@ -289,6 +292,7 @@
   --foreground-disabled: oklch(0.4987 0.0047 106.57);
   --foreground-inverse: oklch(0.2213 0.0038 106.71);
   --foreground-on-hud: oklch(0.9211 0.004 106.48);
+  --foreground-on-hud-muted: var(--foreground-muted);
   --foreground-on-frame: oklch(0.9211 0.004 106.48);
   --foreground-on-frame-muted: oklch(0.6984 0.0043 106.51);
   --foreground-link: oklch(0.8071 0.1007 250.45);
@@ -368,6 +372,7 @@
     --foreground-disabled: oklch(0.4987 0.0047 106.57);
     --foreground-inverse: oklch(0.2213 0.0038 106.71);
     --foreground-on-hud: oklch(0.9211 0.004 106.48);
+    --foreground-on-hud-muted: var(--foreground-muted);
     --foreground-on-frame: oklch(0.9211 0.004 106.48);
     --foreground-on-frame-muted: oklch(0.6984 0.0043 106.51);
     --foreground-link: oklch(0.8071 0.1007 250.45);

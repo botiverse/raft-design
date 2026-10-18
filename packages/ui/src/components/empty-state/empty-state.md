@@ -45,7 +45,7 @@ empty-state/compositions/activity-inbox
 
 ## Accessibility
 
-- Hide the icon with `aria-hidden`; it repeats the title.
+- `EmptyStateIcon` is hidden from assistive technology (`aria-hidden`): the title says what is empty.
 - When the empty state is the only content of a page or panel, render the title as a heading (`render`) at the level the page needs.
 
 ## Rules

@@ -119,6 +119,7 @@
   --color-layer-card: var(--layer-card);
   --color-layer-hud: var(--layer-hud);
   --color-foreground-on-hud: var(--foreground-on-hud);
+  --color-foreground-on-hud-muted: var(--foreground-on-hud-muted);
 
   --color-fill-muted: var(--fill-muted);
   --color-fill-strong: var(--fill-strong);

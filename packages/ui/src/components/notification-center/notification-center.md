@@ -67,7 +67,7 @@ Errors by scope are in [Feedback](../../../../../design/patterns/feedback.md#err
 - `NotificationCenter` wraps the Base UI `Popover`, non-modal by default; the popup doesn't take focus when it opens.
 - The popup is named "Notification center" and the list "Notifications" unless you pass another `aria-label`.
 - Give the trigger an accessible name, and include the unread state: `aria-label="Notifications, 2 unread"`. The bell and the dot are hidden from assistive technology.
-- `NotificationCenterItemIcon` carries the status as its `aria-label` (Error, Warning, Info) on a plain `div`. Add `role="img"` so that screen readers announce it.
+- `NotificationCenterItemIcon` is an image (`role="img"`) named by its status (Error, Warning, Info).
 
 ## Rules
 
