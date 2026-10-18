@@ -52,6 +52,9 @@ const config = defineConfig({
       prerender: {
         enabled: true,
         crawlLinks: true,
+        // llms.txt, the `.md` twins and components.json are written after the
+        // build (scripts/build-llms.mjs); pages link to them, the crawler skips them.
+        filter: (page) => !/\.(txt|md|json)$/.test(page.path),
       },
     }),
     rsc(),

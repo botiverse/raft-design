@@ -1,6 +1,9 @@
 import { RouterProvider, createMemoryHistory } from "@tanstack/react-router";
 import { renderToMarkdownString } from "react-render-to-markdown";
 
+import { shortTitle } from "#/lib/content/nav.ts";
+import { PAGES } from "#/lib/content/pages.ts";
+import { renderMarkdownTwin } from "#/lib/content/twin.ts";
 import { beginMarkdownPage, setMarkdownMode } from "#/lib/markdown-mode.ts";
 import { markdownPathFor } from "#/lib/markdown-pages.ts";
 import { guides } from "#/modules/guides/guides.ts";
@@ -11,6 +14,8 @@ export type MarkdownPage = {
   path: string;
   title: string;
   markdown: string;
+  /** One sentence for llms.txt; pages without it use their first paragraph. */
+  summary?: string;
 };
 
 function listDocPaths() {
@@ -57,6 +62,20 @@ export async function renderMarkdownPages(): Promise<MarkdownPage[]> {
     }
   } finally {
     setMarkdownMode(false);
+  }
+
+  // Pages written in Markdown (design/ and the component docs) are served from
+  // their source, with examples and tokens inlined. A component that still has
+  // a hand-written route keeps that route's twin until the route is removed.
+  const rendered = new Set(pages.map((page) => page.path));
+  for (const page of PAGES) {
+    if (rendered.has(page.url)) continue;
+    pages.push({
+      path: page.url,
+      title: shortTitle(page),
+      markdown: (await renderMarkdownTwin(page)).trim(),
+      summary: page.frontMatter.summary,
+    });
   }
 
   // Guides are authored in Markdown already; serve the source, not a round trip.
