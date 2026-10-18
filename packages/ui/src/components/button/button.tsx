@@ -155,6 +155,12 @@ export const buttonVariants = tv({
           "**:data-icon:size-[1em]",
         ],
       },
+      // A full-width call to action. Brutal and Elegant draw it like `lg`.
+      // Its content is centred in the full width, so it needs no tighter
+      // padding on an icon's side.
+      xl: {
+        root: ["gap-1.5 px-3.5 py-0 text-base", "**:data-icon:size-[1em]"],
+      },
       // An inline action lives inside a line of text, so it takes that text's
       // font-size and line-height rather than a box from this scale, and sits
       // on the baseline so it cannot change the line's height. Every other
@@ -181,31 +187,62 @@ export const buttonVariants = tv({
     size: "md",
   },
   compoundVariants: [
+    // Raft Design System › Button / IconButton: three text sizes and two icon
+    // sizes, nothing in between, so a button reads the same wherever it sits.
+    //   sm 32 (13/18, icon 16; rows, cards, toolbars, heads): xs, sm, md
+    //   default 44 (15/20, icon 18; dialog and sheet footers, forms): lg
+    //   lg 52 (16/24, icon 18; full-width calls to action): xl
+    //   IconButton sm 32 (icon 18): icon-xs, icon-sm, icon-md
+    //   IconButton 44 (icon 22): icon-lg
+    // The 32px sizes keep a 44px hit area through an overhanging ::after.
     {
       theme: "raft",
-      size: ["xs", "icon-xs"],
-      class: { root: "rounded-chip text-xs leading-4" },
-    },
-    {
-      theme: "raft",
-      size: ["sm", "md", "icon-sm", "icon-md"],
-      class: { root: "rounded-control text-footnote font-bold" },
+      size: ["xs", "sm", "md"],
+      class: {
+        root: [
+          "h-8 gap-2 rounded-control px-3 text-footnote font-bold",
+          "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
+          "[&_svg:not([class*='size-'])]:size-4",
+          "after:absolute after:inset-x-0 after:-inset-y-1.5",
+        ],
+      },
     },
     {
       theme: "raft",
       size: "lg",
       class: {
         root: [
-          "h-11 rounded-control px-4 text-subhead font-bold",
+          "h-11 gap-2 rounded-control px-4 text-subhead font-bold",
           "has-data-[icon=inline-start]:pl-3.5 has-data-[icon=inline-end]:pr-3.5",
-          "[&_svg:not([class*='size-'])]:size-4.5",
+          "[&_svg:not([class*='size-'])]:size-[18px]",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      size: "xl",
+      class: {
+        root: [
+          "h-13 gap-2 rounded-control px-5 text-body font-bold",
+          "[&_svg:not([class*='size-'])]:size-[18px]",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      size: ["icon-xs", "icon-sm", "icon-md"],
+      class: {
+        root: [
+          "size-8 rounded-control",
+          "[&_svg:not([class*='size-'])]:size-[18px]",
+          "after:absolute after:-inset-1.5",
         ],
       },
     },
     {
       theme: "raft",
       size: "icon-lg",
-      class: { root: "size-11 rounded-control [&_svg:not([class*='size-'])]:size-5" },
+      class: { root: "size-11 rounded-control [&_svg:not([class*='size-'])]:size-[22px]" },
     },
     {
       theme: "raft",
@@ -311,7 +348,7 @@ export const buttonVariants = tv({
     },
     {
       theme: "elegant",
-      size: "lg",
+      size: ["lg", "xl"],
       class: { root: "h-9 rounded-md" },
     },
     {
@@ -422,7 +459,7 @@ export const buttonVariants = tv({
     },
     {
       theme: "brutal",
-      size: "lg",
+      size: ["lg", "xl"],
       class: {
         root: [
           "h-10 px-4 text-sm",
