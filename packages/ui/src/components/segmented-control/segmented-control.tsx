@@ -55,7 +55,11 @@ const segmentedControl = tv({
         ],
       },
       raft: {
-        root: ["flex-nowrap gap-0.5 rounded-[11px] bg-fill-muted p-[3px]"],
+        // The grey track hugs its segments (w-fit also stops a flex-column
+        // parent from stretching it), so it never shows an empty run of track
+        // beside them. A caller that wants it full width passes `w-full` and
+        // lets the segments share it (`*:flex-1`).
+        root: ["w-fit flex-nowrap gap-0.5 rounded-[11px] bg-fill-muted p-[3px]"],
         item: [
           "h-8 justify-center rounded-control border-[1.5px] border-transparent bg-transparent px-3",
           "font-sans text-callout font-semibold text-foreground-muted",

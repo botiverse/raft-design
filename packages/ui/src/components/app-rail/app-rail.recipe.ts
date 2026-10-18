@@ -52,7 +52,12 @@ export const appRail = tv({
           "h-(--shell-header-height,56px) border-b border-line-seam",
           "[@media(max-height:600px)]:h-12",
         ],
-        nav: ["gap-1.5 pt-1 pb-2"],
+        // Under the rail head the head's seam already gives the first item
+        // room, so 4px will do. With no head (a top bar above the rail takes
+        // the workspace switcher), the first item would sit 4px under that
+        // bar's seam; it gets the rail's side inset instead (8px: a 40px item
+        // in the 56px rail), so it sits in an even margin.
+        nav: ["gap-1.5 pt-1 pb-2 first:pt-2"],
         footer: ["h-auto gap-1.5 pb-3 [@media(max-height:600px)]:pb-1.5"],
         item: [
           "size-10 rounded-control border-[1.5px] border-transparent",
