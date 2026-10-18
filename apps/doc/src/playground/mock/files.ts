@@ -492,7 +492,7 @@ const RAFT_UI_MIGRATION_FILE_SEEDS = [
     size: "180 B",
     createdAt: "Sat, 2:59 PM",
     type: "file",
-    previewUrl: textPreview("* @cuvii\npackages/ui/ @raft-ui\napps/doc/ @raft-ui"),
+    previewUrl: textPreview("* @robin\npackages/ui/ @raft-ui\napps/doc/ @raft-ui"),
     sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.apiDocs,
   },
   {

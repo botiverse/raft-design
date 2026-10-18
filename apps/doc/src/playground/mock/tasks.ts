@@ -81,7 +81,7 @@ const ALL_CHANNEL_BULK_TASKS = (
       description: "Keep useVirtualizer outside TaskBoard and show mounted vs total in docs.",
       status: "todo",
       creatorActorId: "specWriter",
-      assigneeActorId: "cuvii",
+      assigneeActorId: "robin",
     },
     {
       number: 34,
@@ -129,8 +129,8 @@ const ALL_CHANNEL_BULK_TASKS = (
       number: 40,
       title: "Implement shared ScrollArea viewport for board and list",
       status: "in-progress",
-      creatorActorId: "cuvii",
-      assigneeActorId: "cuvii",
+      creatorActorId: "robin",
+      assigneeActorId: "robin",
     },
     {
       number: 41,
@@ -229,7 +229,7 @@ const ALL_CHANNEL_BULK_TASKS = (
       title: "Review virtualization usage copy for consumer clarity",
       status: "in-review",
       creatorActorId: "specWriter",
-      assigneeActorId: "cuvii",
+      assigneeActorId: "robin",
     },
     {
       number: 55,
@@ -256,8 +256,8 @@ const ALL_CHANNEL_BULK_TASKS = (
       number: 58,
       title: "Ship TaskCard dual-trigger status control",
       status: "done",
-      creatorActorId: "cuvii",
-      assigneeActorId: "cuvii",
+      creatorActorId: "robin",
+      assigneeActorId: "robin",
     },
     {
       number: 59,
@@ -320,7 +320,7 @@ const ALL_CHANNEL_BULK_TASKS = (
       title: "Close duplicate ScrollArea ownership tickets",
       status: "closed",
       creatorActorId: "developer",
-      assigneeActorId: "cuvii",
+      assigneeActorId: "robin",
     },
     {
       number: 68,
@@ -380,7 +380,7 @@ export const PLAYGROUND_TASKS = [
     title: "Verify migrated attachment previews against source behavior",
     status: "in-progress",
     creatorActorId: "developer",
-    assigneeActorId: "cuvii",
+    assigneeActorId: "robin",
   }),
   defineTask({
     channelId: "all",
@@ -426,7 +426,7 @@ export const PLAYGROUND_TASKS = [
     title: "Complete the archived-channel migration check",
     status: "done",
     creatorActorId: "specWriter",
-    assigneeActorId: "cuvii",
+    assigneeActorId: "robin",
   }),
   defineTask({
     channelId: "all",
@@ -465,7 +465,7 @@ export const PLAYGROUND_TASKS = [
       "Subscribe only to the visible conversation and isolate presence updates before the migration ships.",
     status: "in-progress",
     creatorActorId: "developer",
-    assigneeActorId: "cuvii",
+    assigneeActorId: "robin",
     sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.selectorPerformance,
   }),
   defineTask({
@@ -541,7 +541,7 @@ export const PLAYGROUND_TASKS = [
     description: "Close the two unowned decisions before tomorrow's planning checkpoint.",
     status: "in-progress",
     creatorActorId: "avery",
-    assigneeActorId: "cuvii",
+    assigneeActorId: "robin",
     sourceMessageId: "general:reply",
   }),
   defineTask({

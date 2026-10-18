@@ -77,7 +77,7 @@ const PLAYGROUND_SEARCH_SENDERS: readonly SearchSenderFixture[] = PLAYGROUND_ACT
     kind: actor.type,
     label: actor.name,
     handle: actor.id,
-    isCurrentUser: actor.id === "cuvii" || undefined,
+    isCurrentUser: actor.id === "robin" || undefined,
   }),
 );
 
@@ -113,7 +113,7 @@ const actorEntities: readonly SearchEntityFixture[] = PLAYGROUND_ACTORS.map((act
   type: actor.type === "agent" ? "agentDm" : "humanDm",
   title: actor.name,
   subtitle:
-    actor.id === "cuvii"
+    actor.id === "robin"
       ? { kind: "selfDm" }
       : actor.type === "agent"
         ? { kind: "text", text: `@${actor.id}` }
@@ -162,7 +162,7 @@ function toSearchMessage(
     createdAt:
       message.createdAtDateTime ??
       new Date(SEARCH_DATE_BASE - sequence * 11 * 60 * 1000).toISOString(),
-    mentions: normalizedBody.includes("cuvii") ? ["cuvii"] : [],
+    mentions: normalizedBody.includes("robin") ? ["robin"] : [],
     threadId: thread?.id ?? null,
     parentMessageId: thread?.parentMessageId ?? null,
     parentMessageContent: thread?.parentMessageContent ?? null,

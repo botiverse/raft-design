@@ -67,7 +67,7 @@ export const RAFT_UI_MIGRATION_THREADS = [
       definePlaygroundMessage(
         "all:invite-security-reply-4",
         "all",
-        "cuvii",
+        "robin",
         "08:31 AM",
         "Add a short cooldown after the budget is exhausted so retries do not immediately restart the window.",
       ),
@@ -102,7 +102,7 @@ export const RAFT_UI_MIGRATION_THREADS = [
       definePlaygroundMessage(
         "all:invite-security-reply-9",
         "all",
-        "cuvii",
+        "robin",
         "08:49 AM",
         "We should also cover the expired-invite path; it must not consume the same budget as malformed codes.",
       ),
@@ -148,7 +148,7 @@ export const RAFT_UI_MIGRATION_THREADS = [
       definePlaygroundMessage(
         "all:selector-performance-reply-2",
         "all",
-        "cuvii",
+        "robin",
         "08:33 AM",
         "I can reproduce it by toggling agent chips while the list is scrolled mid-way — every row remounts.",
       ),
@@ -181,7 +181,7 @@ export const RAFT_UI_MIGRATION_THREADS = [
       definePlaygroundMessage(
         "all:api-docs-reply-1",
         "all",
-        "cuvii",
+        "robin",
         "08:35 AM",
         "Keep the route schema canonical and generate the reference from that boundary.",
       ),

@@ -68,7 +68,7 @@ describe("playground message domain", () => {
     expect(
       receiptMessages.every(
         ({ channel, message }) =>
-          channel.kind === "dm" && message.kind === "chat" && message.senderId === "cuvii",
+          channel.kind === "dm" && message.kind === "chat" && message.senderId === "robin",
       ),
     ).toBe(true);
   });

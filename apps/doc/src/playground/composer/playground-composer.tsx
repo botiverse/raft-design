@@ -746,7 +746,7 @@ export function PlaygroundThreadComposer({
         definePlaygroundMessage(
           `${threadId}:local-${localThreadReplySequence}` as PlaygroundMessageId,
           channel.id,
-          "cuvii",
+          "robin",
           createdAt,
           content ||
             `Shared ${attachments.length} ${attachments.length === 1 ? "attachment" : "attachments"}`,

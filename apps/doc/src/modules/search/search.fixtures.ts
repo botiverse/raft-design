@@ -68,7 +68,7 @@ export const SEARCH_SENDER_FIXTURES: readonly SearchSenderFixture[] = [
     id: "human-me",
     kind: "human",
     label: "Me",
-    handle: "cuvii",
+    handle: "robin",
     isCurrentUser: true,
   },
   {

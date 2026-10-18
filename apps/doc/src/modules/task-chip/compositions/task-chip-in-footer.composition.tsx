@@ -39,10 +39,10 @@ export function TaskChipInFooterComposition() {
           Split the ownership boundary work so the migration notes stay reviewable.
         </MessageItemBody>
         <MessageItemFooter>
-          <TaskChip status="todo" title="task #16 @Cuvii · Todo">
+          <TaskChip status="todo" title="task #16 @Robin · Todo">
             <TaskTodoIcon />
             <span className="shrink-0">#16</span>
-            <span className="min-w-0 truncate">@Cuvii</span>
+            <span className="min-w-0 truncate">@Robin</span>
           </TaskChip>
           <TaskChip status="in-progress" title="task #205 @Noah · In Progress">
             <TaskInProgressIcon />

@@ -8,7 +8,7 @@ export function TaskChipSizesComposition() {
         {/* @docs-source-strip-end */}
         <TaskChip status="in-progress">
           <TaskInProgressIcon />
-          #746 @Josh
+          #746 @Martin
         </TaskChip>
         {/* @docs-source-strip-start */}
         <span className="text-[12px] leading-[1.4] text-foreground-muted">Default</span>
@@ -17,7 +17,7 @@ export function TaskChipSizesComposition() {
       <div className="flex items-center gap-1.5">
         <TaskChip status="in-progress" size="sm">
           <TaskInProgressIcon />
-          #746 @Josh
+          #746 @Martin
         </TaskChip>
         <Badge appearance="outline" variant="muted">
           12 replies

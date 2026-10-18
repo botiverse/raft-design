@@ -83,10 +83,7 @@ export function AppRailComposition() {
             }
             onClick={handleToggleOtherServersUnread}
           >
-            <img
-              alt=""
-              src="https://cdn.slock.ai/avatars/server-46a34a4b-a324-4723-ad1d-4921b58ffe48/3f42727015df244421d70c681ff65093.webp"
-            />
+            <img alt="" src="/avatars/workspace.svg" />
             {otherServersUnread ? <AppRailItemIndicator size="sm" aria-hidden /> : null}
           </AppRailServerButton>
         </AppRailHeader>

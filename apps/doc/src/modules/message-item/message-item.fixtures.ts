@@ -1,4 +1,4 @@
-export const MESSAGE_FIXTURE_AVATAR_SRC = "/avatars/message-sender.jpg";
+export const MESSAGE_FIXTURE_AVATAR_SRC = "/avatars/message-sender.svg";
 
 /** Same-origin JPEG so preview and download actions resolve to the same real asset. */
 export const MESSAGE_FIXTURE_IMAGE_SRC = MESSAGE_FIXTURE_AVATAR_SRC;

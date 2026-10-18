@@ -1,6 +1,6 @@
 import type { PlaygroundActorId, PlaygroundMessageReaction } from "../mock/index.ts";
 
-const PLAYGROUND_VIEWER_ACTOR_ID: PlaygroundActorId = "cuvii";
+const PLAYGROUND_VIEWER_ACTOR_ID: PlaygroundActorId = "robin";
 
 export function isPlaygroundReactionFromViewer(reaction: PlaygroundMessageReaction) {
   return reaction.reactorIds.includes(PLAYGROUND_VIEWER_ACTOR_ID);

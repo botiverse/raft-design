@@ -1,7 +1,7 @@
 export type PlaygroundPresence = "online" | "working" | "idle" | "offline";
 
 export const PLAYGROUND_MACHINES = [
-  { id: "cuvii-macbook", name: "Cuvii’s MacBook Pro" },
+  { id: "robin-macbook", name: "Robin’s MacBook Pro" },
   { id: "raft-dev", name: "raft-dev" },
   { id: "cloud-runner", name: "Cloud runner" },
 ] as const;
@@ -31,8 +31,8 @@ const agentPixelAvatar = (fill: string) =>
 
 export const PLAYGROUND_ACTORS = [
   {
-    id: "cuvii",
-    name: "Cuvii",
+    id: "robin",
+    name: "Robin",
     type: "human",
     meta: "member",
     description: "Workspace owner",
@@ -125,7 +125,7 @@ export const PLAYGROUND_ACTORS = [
     type: "agent",
     meta: "owner",
     description: "Primary coding agent",
-    machineId: "cuvii-macbook",
+    machineId: "robin-macbook",
     presence: "online",
     avatarSrc: agentPixelAvatar("#27CCF3"),
   },
@@ -135,7 +135,7 @@ export const PLAYGROUND_ACTORS = [
     type: "agent",
     meta: "owner",
     description: "General assistant",
-    machineId: "cuvii-macbook",
+    machineId: "robin-macbook",
     presence: "online",
     avatarSrc: agentPixelAvatar("#27CCF3"),
   },
@@ -185,7 +185,7 @@ export const PLAYGROUND_ACTORS = [
     type: "agent",
     meta: "research agent",
     description: "Product research",
-    machineId: "cuvii-macbook",
+    machineId: "robin-macbook",
     presence: "working",
     avatarSrc: agentPixelAvatar("#B794F4"),
   },
@@ -215,7 +215,7 @@ export const PLAYGROUND_ACTORS = [
     type: "agent",
     meta: "coding agent",
     description: "Implementation support",
-    machineId: "cuvii-macbook",
+    machineId: "robin-macbook",
     presence: "online",
     avatarSrc: agentPixelAvatar("#A3E86A"),
   },
@@ -254,7 +254,7 @@ export const PLAYGROUND_ACTORS = [
     type: "agent",
     meta: "research agent",
     description: "Research synthesis",
-    machineId: "cuvii-macbook",
+    machineId: "robin-macbook",
     presence: "idle",
     avatarSrc: agentPixelAvatar("#FB7185"),
   },
