@@ -80,10 +80,12 @@ describe("on-frame", () => {
     expect(names).toContain("after:-inset-1");
   });
 
-  test("a text button is 36 tall", () => {
+  test("a text button is the top bar's 36px item: 15/20 700, 10px each side", () => {
     const names = renderButton({ variant: "on-frame", size: "md" });
-    expect(names).toContain("h-9");
+    expect(names).toEqual(expect.arrayContaining(["h-9", "px-2.5", "text-subhead", "font-bold"]));
     expect(names).not.toContain("h-8");
+    expect(names).not.toContain("px-3");
+    expect(names).not.toContain("text-footnote");
   });
 
   test("disabled, text or icon, it only greys", () => {

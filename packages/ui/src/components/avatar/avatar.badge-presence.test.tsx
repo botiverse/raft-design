@@ -17,23 +17,24 @@ function renderBadge(props: Parameters<typeof AvatarBadge>[0]) {
   return screen.getByTestId("badge").className.split(/\s+/);
 }
 
-test("the default dot is online", () => {
+test("the dot is drawn in the status colour, online by default", () => {
   const names = renderBadge({});
-  expect(names).toContain("bg-presence-online");
+  expect(names).toContain("bg-(--status-color)");
+  expect(names).toContain("[--status-color:var(--presence-online)]");
 });
 
 test.each(["busy", "error", "offline", "external"] as const)(
   "a %s dot swaps the light, not the dot",
-  (variant) => {
-    const names = renderBadge({ variant });
-    expect(names).toContain(`bg-presence-${variant}`);
-    expect(names).not.toContain("bg-presence-online");
+  (presence) => {
+    const names = renderBadge({ presence });
+    expect(names).toContain(`[--status-color:var(--presence-${presence})]`);
+    expect(names).not.toContain("[--status-color:var(--presence-online)]");
     expect(names).toContain("border-sticker-ink");
   },
 );
 
 test("a custom indicator keeps only the corner placement", () => {
-  const names = renderBadge({ variant: "busy", render: <span /> });
-  expect(names).not.toContain("bg-presence-busy");
+  const names = renderBadge({ presence: "busy", render: <span /> });
+  expect(names.some((name) => name.startsWith("[--status-color:"))).toBe(false);
   expect(names).toContain("absolute");
 });

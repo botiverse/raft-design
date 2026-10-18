@@ -303,10 +303,11 @@ const AVATAR_FALLBACK_PROPS: readonly PropRow[] = [
 
 const AVATAR_BADGE_PROPS: readonly PropRow[] = [
   {
-    name: "variant",
+    name: "presence",
     type: '"online" | "busy" | "error" | "offline" | "external"',
     default: '"online"',
-    description: "The default dot's status light. Ignored when render draws its own indicator.",
+    description:
+      "The default dot's status light, from the same map as Status. Ignored when render draws its own indicator.",
   },
   {
     name: "offset",
@@ -478,8 +479,8 @@ function AvatarDoc() {
 
           <DocSubsection parentId="usage" id="badge-presence" title="Badge presence">
             <DocNote>
-              <InlineCode>variant</InlineCode> sets the default dot&apos;s status light: online (the
-              default), busy for an agent at work, error, offline, or external. The light never
+              <InlineCode>presence</InlineCode> sets the default dot&apos;s status light: online
+              (the default), busy for an agent at work, error, offline, or external. The light never
               animates; label it when no word sits beside it.
             </DocNote>
             <Preview previewClassName="!min-h-40">

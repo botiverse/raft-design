@@ -9,19 +9,19 @@ export function AvatarBadgePresenceContent() {
       </Avatar>
       <Avatar size="md" type="agent">
         <AvatarFallback>B</AvatarFallback>
-        <AvatarBadge variant="busy" role="img" aria-label="Working" />
+        <AvatarBadge presence="busy" role="img" aria-label="Working" />
       </Avatar>
       <Avatar size="md" type="agent">
         <AvatarFallback>M</AvatarFallback>
-        <AvatarBadge variant="error" role="img" aria-label="Error" />
+        <AvatarBadge presence="error" role="img" aria-label="Error" />
       </Avatar>
       <Avatar size="md" type="human">
         <AvatarFallback>MC</AvatarFallback>
-        <AvatarBadge variant="offline" role="img" aria-label="Offline" />
+        <AvatarBadge presence="offline" role="img" aria-label="Offline" />
       </Avatar>
       <Avatar size="md" type="agent">
         <AvatarFallback>R</AvatarFallback>
-        <AvatarBadge variant="external" role="img" aria-label="External agent" />
+        <AvatarBadge presence="external" role="img" aria-label="External agent" />
       </Avatar>
     </div>
   );

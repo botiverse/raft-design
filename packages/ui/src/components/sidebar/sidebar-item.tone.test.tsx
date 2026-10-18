@@ -80,7 +80,6 @@ describe("interactive", () => {
     const row = screen.getByTestId("row");
     expect(row.tagName).toBe("DIV");
     expect(row.hasAttribute("type")).toBe(false);
-    expect(row.getAttribute("data-interactive")).toBe("false");
     expect(row.className).not.toContain("bg-fill-pressed");
     expect(row.className).not.toContain("focus-visible:shadow-raft-focus");
     expect(classes(row)).toContain("cursor-default");

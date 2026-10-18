@@ -423,10 +423,10 @@ button.rf-section__title { appearance: none; -webkit-appearance: none; margin: 0
 .rf-ws--pill:active { background-image: linear-gradient(color-mix(in srgb, var(--sticker-paper) 15%, transparent), color-mix(in srgb, var(--sticker-paper) 15%, transparent)); }   /* pressed on an ink tile: a light veil */
 .rf-frame .rf-nav__name { color: var(--on-frame); }
 .rf-frame .rf-chan--here { background: var(--frame-active); border-color: var(--frame-active-edge); color: var(--on-frame-active); }   /* "you are here" on yellow is the white sticker, as on the rail */
-.rf-frame .rf-btn--ghost { color: var(--on-frame); }
-.rf-frame .rf-btn--ghost:active, .rf-frame .rf-btn--ghost.is-pressed { background-image: linear-gradient(var(--frame-pressed), var(--frame-pressed)); }
-.rf-frame .rf-btn--ghost[disabled], .rf-frame .rf-btn--ghost.is-disabled { background: none; border-color: transparent; }   /* disabled on the frame: only the words grey */
-@media (hover: hover) { .rf-frame .rf-btn--ghost:not([disabled]):not(.is-disabled):hover { background-image: linear-gradient(var(--frame-pressed), var(--frame-pressed)); } }
+.rf-frame .rf-btn--ghost, .rf-topbar .rf-btn--ghost { color: var(--on-frame); }
+.rf-frame .rf-btn--ghost:active, .rf-frame .rf-btn--ghost.is-pressed, .rf-topbar .rf-btn--ghost:active, .rf-topbar .rf-btn--ghost.is-pressed { background-image: linear-gradient(var(--frame-pressed), var(--frame-pressed)); }
+.rf-frame .rf-btn--ghost[disabled], .rf-frame .rf-btn--ghost.is-disabled, .rf-topbar .rf-btn--ghost[disabled], .rf-topbar .rf-btn--ghost.is-disabled { background: none; border-color: transparent; }   /* disabled on the frame: only the words grey */
+@media (hover: hover) { .rf-frame .rf-btn--ghost:not([disabled]):not(.is-disabled):hover, .rf-topbar .rf-btn--ghost:not([disabled]):not(.is-disabled):hover { background-image: linear-gradient(var(--frame-pressed), var(--frame-pressed)); } }
 .rf-frame .rf-phone__status { color: var(--ink); }
 
 /* a pushed screen (a channel, a DM, a profile) is content, not navigation: its header is white like the desktop panel header,
@@ -473,7 +473,7 @@ button.rf-section__title { appearance: none; -webkit-appearance: none; margin: 0
 .rf-srow { display: flex; align-items: center; gap: var(--space-2); height: 36px; margin: 1px var(--space-2); padding: 0 10px 0 8px;
   border-radius: var(--radius-md); border: var(--border-control) solid transparent; color: var(--ink); text-decoration: none;
   font-size: 15px; line-height: 20px; font-weight: 500; }
-.rf-srow:active, .rf-srow.is-pressed { background: var(--surface-pressed); }
+:where(a, button).rf-srow:active, .rf-srow.is-pressed { background: var(--surface-pressed); }   /* a display-only row (this computer) is no target; its button is */
 .rf-srow__name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rf-srow__icon { flex: none; display: inline-flex; align-items: center; justify-content: center; width: var(--size-avatar-xs); color: var(--ink-3); }
 .rf-srow__icon .rf-i { width: 16px; height: 16px; }
@@ -510,7 +510,7 @@ button.rf-section__title { appearance: none; -webkit-appearance: none; margin: 0
   .rf-btn--primary:hover, .rf-btn--danger:hover, .rf-btn--warn:hover, .rf-iconbtn--primary:hover { background-image: linear-gradient(var(--sticker-pressed), var(--sticker-pressed)); }
   .rf-btn[disabled]:hover, .rf-btn.is-disabled:hover { background-image: none; }
   .rf-iconbtn:not(.rf-iconbtn--outline):not(.rf-iconbtn--primary):hover { background: var(--surface-pressed); }
-  :where(a, button).rf-row:not(.is-selected):not(:disabled):not([aria-disabled="true"]):hover, .rf-srow:not(.is-on):hover, .rf-mchip:hover, .rf-seg__item:not(.is-on):hover, .rf-filter:not(.is-applied):hover { background: var(--surface-pressed); }
+  :where(a, button).rf-row:not(.is-selected):not(:disabled):not([aria-disabled="true"]):hover, :where(a, button).rf-srow:not(.is-on):hover, .rf-mchip:hover, .rf-seg__item:not(.is-on):hover, .rf-filter:not(.is-applied):hover { background: var(--surface-pressed); }
   .rf-frame .rf-iconbtn:not(.rf-iconbtn--primary):hover, .rf-frame .rf-ws:not(.rf-ws--pill):hover, .rf-rail__item:not(.is-on):hover { background: var(--frame-pressed); }
   .rf-working:hover { background: var(--surface-pressed); }
   .rf-frame .rf-working:hover { background: var(--frame-pressed); }
@@ -1184,6 +1184,9 @@ html { overflow-x: auto; }   /* last resort inside a preview frame: scroll, neve
 .rf-topbar__search .rf-kbd { margin-left: auto; }
 .rf-topbar .rf-iconbtn { width: 36px; height: 36px; color: var(--on-frame); }
 .rf-topbar .rf-iconbtn .rf-i { width: 20px; height: 20px; }
+.rf-topbar__ws:active, .rf-topbar__ws.is-pressed, .rf-topbar .rf-iconbtn:not(.rf-iconbtn--primary):active, .rf-topbar .rf-iconbtn.is-pressed:not(.rf-iconbtn--primary) { background: var(--frame-pressed); }   /* frame items: the frame's wash, not paper's */
+@media (hover: hover) { .rf-topbar__ws:hover, .rf-topbar .rf-iconbtn:not(.rf-iconbtn--primary):not([disabled]):not(.is-disabled):hover { background: var(--frame-pressed); } }
+.rf-topbar__ws:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .rf-window--topbar { flex-direction: column; }
 .rf-window__body { flex: 1; min-height: 0; display: flex; }
 .rf-rail--bare { padding-top: var(--space-2); }   /* under the top bar: no head, the first item 8 below the seam */
@@ -1203,7 +1206,6 @@ html { overflow-x: auto; }   /* last resort inside a preview frame: scroll, neve
 .rf-srow__sub { flex: 1 1000 auto; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
   font-size: 13px; line-height: 18px; font-weight: 400; color: var(--ink-2); }
 .rf-srow.is-on .rf-srow__sub { color: var(--sticker-ink); }
-div.rf-srow:not(.is-on):hover, div.rf-srow:active { background: none; }   /* a display-only row (this computer) is no target; its button is */
 .rf-srow--two { height: auto; min-height: 36px; align-items: flex-start; padding-top: 6.5px; padding-bottom: 6.5px; }
 .rf-srow--two .rf-srow__lines { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .rf-srow--two .rf-srow__facts { font-family: var(--font-mono); font-size: 12px; line-height: 16px; color: var(--ink-3); }

@@ -276,7 +276,6 @@ export type {
   SidebarItemMetaIconProps,
   SidebarItemStatusProps,
   SidebarItemProps,
-  SidebarItemTone,
   SidebarItemSubtitleProps,
   SidebarItemThreadCountProps,
   SidebarItemTitleProps,
@@ -717,7 +716,6 @@ export {
 } from "./components/avatar/index";
 export type {
   AvatarBadgeOffset,
-  AvatarBadgePresence,
   AvatarBadgeProps,
   AvatarFallbackProps,
   AvatarGroupCountProps,
@@ -1205,6 +1203,7 @@ export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./component
 
 export { Status } from "./components/status/index";
 export type { StatusProps } from "./components/status/index";
+export type { Presence } from "./lib/presence";
 
 export {
   ScrollArea,

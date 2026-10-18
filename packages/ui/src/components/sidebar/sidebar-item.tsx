@@ -4,10 +4,9 @@ import { useRender } from "@base-ui/react/use-render";
 import { Badge } from "../badge";
 import type { BadgeProps } from "../badge";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import type { RowTone } from "../../lib/row-tone";
 import { sidebarItemRecipe } from "./sidebar-item.recipe";
 import { ThreadIcon } from "../icons";
-
-export type SidebarItemTone = "default" | "unread" | "muted" | "away";
 
 export type SidebarItemRootProps = useRender.ComponentProps<"button"> & {
   active?: boolean;
@@ -26,7 +25,6 @@ export function SidebarItemRoot({
   const defaultProps: SlotElementProps<"button"> = {
     "data-slot": "sidebar-item",
     "data-active": active ? "true" : undefined,
-    "data-interactive": interactive ? undefined : "false",
     className,
     ...(interactive ? { type: "button" } : {}),
   };
@@ -43,7 +41,7 @@ export type SidebarItemProps = SidebarItemRootProps & {
   wrap?: boolean;
   /** Something waits for you (a 700 name), the place is muted (an ink-2
    *  name), or it is away: offline or not joined (an ink-3 name). */
-  tone?: SidebarItemTone;
+  tone?: RowTone;
 };
 
 export function SidebarItem({

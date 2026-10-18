@@ -40,6 +40,7 @@ export function ButtonOnFrameComposition() {
         size="icon-md"
         aria-label="Back"
         disabled={page === 0}
+        focusableWhenDisabled
         onClick={handleBack}
       >
         <ArrowLeft />
@@ -49,6 +50,7 @@ export function ButtonOnFrameComposition() {
         size="icon-md"
         aria-label="Forward"
         disabled={page === LAST_PAGE}
+        focusableWhenDisabled
         onClick={handleForward}
       >
         <ArrowRight />

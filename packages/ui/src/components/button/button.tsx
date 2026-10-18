@@ -160,11 +160,12 @@ export const buttonVariants = tv({
       },
     },
     // On the frame the 32px controls are the 36px frame item of the top bar
-    // and title bar, with a 20px icon; the hit area still reaches 44.
+    // and title bar (DS `rf-topbar__ws`: 15/20 700, 10px each side), with a
+    // 20px icon; the hit area still reaches 44.
     {
       variant: "on-frame",
       size: ["xs", "sm", "md"],
-      class: { root: "h-9 after:-inset-y-1" },
+      class: { root: "h-9 px-2.5 text-subhead after:-inset-y-1" },
     },
     {
       variant: "on-frame",

@@ -1,5 +1,8 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { cn } from "../../lib/cn";
+import { PRESENCE_COLOR } from "../../lib/presence";
+import type { Presence } from "../../lib/presence";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 
@@ -39,23 +42,6 @@ const status = tv({
       danger: {
         root: "[--status-color:var(--color-danger)]",
       },
-      // Presence: the five status lights. Each colour is a fixed meaning, and
-      // each needs its word nearby (or an aria-label where there is none).
-      online: {
-        root: "[--status-color:var(--presence-online)]",
-      },
-      busy: {
-        root: "[--status-color:var(--presence-busy)]",
-      },
-      error: {
-        root: "[--status-color:var(--presence-error)]",
-      },
-      offline: {
-        root: "[--status-color:var(--presence-offline)]",
-      },
-      external: {
-        root: "[--status-color:var(--presence-external)]",
-      },
     },
     size: {
       xs: { root: "size-1.5 rounded-[1px] border" },
@@ -71,12 +57,17 @@ const status = tv({
 });
 
 export type StatusProps = Omit<useRender.ComponentProps<"span">, "children"> &
-  VariantProps<typeof status>;
+  VariantProps<typeof status> & {
+    /** A status light (online, busy, error, offline, external): a fixed
+     *  meaning that needs its word nearby, or an aria-label. It takes the
+     *  place of `variant`'s colour. */
+    presence?: Presence;
+  };
 
-function StatusRoot({ size, variant, className, render, ...props }: StatusProps) {
+function StatusRoot({ size, variant, presence, className, render, ...props }: StatusProps) {
   const { root } = status({ size, variant });
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: root({ className }),
+    className: root({ className: cn(presence && PRESENCE_COLOR[presence], className) }),
   };
 
   return useRender({
@@ -86,6 +77,7 @@ function StatusRoot({ size, variant, className, render, ...props }: StatusProps)
     state: {
       slot: "status",
       variant,
+      presence,
       size,
     },
   });

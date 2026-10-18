@@ -18,7 +18,7 @@ const TOC = [
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
 ] as const;
-const SEMANTIC_VARIANTS = [
+const VARIANTS = [
   "default",
   "primary",
   "information",
@@ -28,8 +28,6 @@ const SEMANTIC_VARIANTS = [
   "warning",
   "danger",
 ] as const;
-
-const VARIANTS = [...SEMANTIC_VARIANTS, "online", "busy", "error", "offline", "external"] as const;
 
 const SIZES = ["xs", "sm", "md", "lg"] as const;
 
@@ -46,11 +44,11 @@ const SNIPPETS = {
 <Status variant="success" />
 <Status variant="warning" />
 <Status variant="danger" />`,
-  presence: `<Status variant="online" aria-label="Online" />
-<Status variant="busy" aria-label="Working" />
-<Status variant="error" aria-label="Error" />
-<Status variant="offline" aria-label="Offline" />
-<Status variant="external" aria-label="External agent" />`,
+  presence: `<Status presence="online" role="img" aria-label="Online" />
+<Status presence="busy" role="img" aria-label="Working" />
+<Status presence="error" role="img" aria-label="Error" />
+<Status presence="offline" role="img" aria-label="Offline" />
+<Status presence="external" role="img" aria-label="External agent" />`,
   sizes: `<Status size="xs" variant="success" />
 <Status size="sm" variant="success" />
 <Status size="md" variant="success" />
@@ -65,8 +63,13 @@ const PROPS: readonly PropRow[] = [
     name: "variant",
     type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
     default: '"default"',
+    description: "Semantic status color.",
+  },
+  {
+    name: "presence",
+    type: '"online" | "busy" | "error" | "offline" | "external"',
     description:
-      "Semantic status color, or a presence light: online, busy (working), error, offline or external.",
+      "A status light, in place of the variant's colour: online, busy (an agent at work), error, offline or external.",
   },
   {
     name: "size",
@@ -159,7 +162,7 @@ function StatusDoc() {
           <DocSubsection parentId="usage" id="variants" title="Variants">
             <Preview>
               <Preview.Canvas>
-                {SEMANTIC_VARIANTS.map((variant) => (
+                {VARIANTS.map((variant) => (
                   <Status key={variant} variant={variant} />
                 ))}
               </Preview.Canvas>
@@ -169,17 +172,18 @@ function StatusDoc() {
 
           <DocSubsection parentId="usage" id="presence" title="Presence">
             <DocNote>
-              The five status lights of the design system. Each colour is a fixed meaning and needs
-              its word nearby; where there is none, give the light an{" "}
-              <InlineCode>aria-label</InlineCode>.
+              <InlineCode>presence</InlineCode> draws one of the five status lights of the design
+              system, in place of the variant&apos;s colour. Each is a fixed meaning and needs its
+              word nearby; where there is none, make the light an image with a label (
+              <InlineCode>role="img"</InlineCode> and <InlineCode>aria-label</InlineCode>).
             </DocNote>
             <Preview>
               <Preview.Canvas>
-                <Status variant="online" aria-label="Online" />
-                <Status variant="busy" aria-label="Working" />
-                <Status variant="error" aria-label="Error" />
-                <Status variant="offline" aria-label="Offline" />
-                <Status variant="external" aria-label="External agent" />
+                <Status presence="online" role="img" aria-label="Online" />
+                <Status presence="busy" role="img" aria-label="Working" />
+                <Status presence="error" role="img" aria-label="Error" />
+                <Status presence="offline" role="img" aria-label="Offline" />
+                <Status presence="external" role="img" aria-label="External agent" />
               </Preview.Canvas>
               <Preview.Code html={code.presence} />
             </Preview>

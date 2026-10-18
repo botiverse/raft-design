@@ -2,6 +2,9 @@ import type { ComponentPropsWithRef } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { Avatar as AvatarPrimitive } from "@base-ui/react";
+import { cn } from "../../lib/cn";
+import { PRESENCE_COLOR } from "../../lib/presence";
+import type { Presence } from "../../lib/presence";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -81,7 +84,7 @@ const avatar = tv({
       "group-data-[size=md]/avatar:[&>svg]:size-1.5 group-data-[size=md]/avatar:[&>svg]:block",
       "group-data-[size=xs]/avatar:outline group-data-[size=2xs]/avatar:outline group-data-[size=3xs]/avatar:outline",
       "rounded-[2px] border-[1.5px] border-sticker-ink",
-      "bg-presence-online text-sticker-ink outline-layer-panel",
+      "bg-(--status-color) text-sticker-ink outline-layer-panel",
       "group-data-[size=xl]/avatar:border-2",
       "group-data-[size=3xs]/avatar:border",
     ],
@@ -107,15 +110,6 @@ const avatar = tv({
       xs: { root: ["size-[19px]"] },
       "2xs": { root: ["size-[19px]"] },
       "3xs": { root: "size-3.5" },
-    },
-    // The default dot's status light. The base dot is online, so that tone
-    // adds nothing and existing dots keep their classes.
-    presence: {
-      online: { dot: "" },
-      busy: { dot: "bg-presence-busy" },
-      error: { dot: "bg-presence-error" },
-      offline: { dot: "bg-presence-offline" },
-      external: { dot: "bg-presence-external" },
     },
   },
 });
@@ -282,12 +276,10 @@ export function AvatarFallback({ className, children, ...props }: AvatarFallback
 
 export type AvatarBadgeOffset = [x: string | number, y: string | number];
 
-export type AvatarBadgePresence = NonNullable<VariantProps<typeof avatar>["presence"]>;
-
 export type AvatarBadgeProps = useRender.ComponentProps<"span"> & {
   /** The default dot's status light: online (the default), busy, error,
    *  offline or external. Ignored when `render` draws its own indicator. */
-  variant?: AvatarBadgePresence;
+  presence?: Presence;
   /** Where the badge's centre sits, measured from the avatar's top-left:
    *  `[x, y]`. Numbers are px; strings are any CSS length, and percentages
    *  are of the avatar's size, so `["100%", 0]` is the top-right corner at
@@ -304,10 +296,10 @@ export function AvatarBadge({
   className,
   render,
   offset,
-  variant = "online",
+  presence = "online",
   ...props
 }: AvatarBadgeProps) {
-  const { badge, dot } = avatar({ presence: variant });
+  const { badge, dot } = avatar();
   const offsetStyle = offset
     ? {
         top: toCssLength(offset[1]),
@@ -319,7 +311,7 @@ export function AvatarBadge({
     : undefined;
   const defaultProps: useRender.ElementProps<"span"> = {
     className: badge({
-      className: render ? className : dot({ className }),
+      className: render ? className : dot({ className: cn(PRESENCE_COLOR[presence], className) }),
     }),
     style: offsetStyle,
   };

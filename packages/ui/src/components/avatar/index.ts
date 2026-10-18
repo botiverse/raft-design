@@ -12,7 +12,6 @@ export type {
   AvatarImageProps,
   AvatarFallbackProps,
   AvatarBadgeOffset,
-  AvatarBadgePresence,
   AvatarBadgeProps,
   AvatarGroupProps,
   AvatarGroupCountProps,
