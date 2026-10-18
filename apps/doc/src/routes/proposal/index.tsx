@@ -98,13 +98,13 @@ function FrameDiagram() {
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="h-8 shrink-0 border-b border-line-seam bg-layer-frame" />
         <div className="flex min-h-0 flex-1">
-          <div className="w-20 shrink-0 border-r border-line-seam bg-layer-canvas-muted p-2">
-            <div className="h-5 rounded-control border-[1.5px] border-line-strong bg-primary" />
+          <div className="w-20 shrink-0 border-r border-line-seam bg-layer-sidebar p-2">
+            <div className="h-5 rounded-control border-[1.5px] border-line-strong bg-brand" />
           </div>
           <div className="flex min-w-0 flex-1 flex-col gap-2 bg-layer-canvas p-3">
             <div className="h-2 w-3/4 rounded-sticker bg-fill-muted" />
             <div className="h-2 w-1/2 rounded-sticker bg-fill-muted" />
-            <div className="mt-auto h-6 w-16 self-end rounded-control border-[1.5px] border-line-strong bg-accent" />
+            <div className="mt-auto h-6 w-16 self-end rounded-control border-[1.5px] border-line-strong bg-attention" />
           </div>
         </div>
       </div>

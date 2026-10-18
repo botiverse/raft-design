@@ -16,7 +16,7 @@ export const TOKEN_GROUPS: Record<string, readonly TokenRow[]> = {
       cssVar: "--color-layer-frame",
       usage: "The frame: phone top bars, the desktop rail and web top bar.",
     },
-    { name: "layer-sidebar", cssVar: "--color-layer-canvas-muted", usage: "The desktop sidebar." },
+    { name: "layer-sidebar", cssVar: "--color-layer-sidebar", usage: "The desktop sidebar." },
     {
       name: "layer-canvas",
       cssVar: "--color-layer-canvas",
@@ -82,12 +82,12 @@ export const TOKEN_GROUPS: Record<string, readonly TokenRow[]> = {
   signal: [
     {
       name: "brand",
-      cssVar: "--color-primary",
+      cssVar: "--color-brand",
       usage: "You: the frame, selection in navigation, mentions.",
     },
     {
       name: "attention",
-      cssVar: "--color-accent",
+      cssVar: "--color-attention",
       usage: "To do: the primary action, unread counts.",
     },
     { name: "info", cssVar: "--color-info", usage: "This item, information, in progress." },
