@@ -1,3 +1,19 @@
+## [0.6.1](https://github.com/botiverse/rui/compare/v0.6.0...v0.6.1) (2026-10-18)
+
+### Added
+
+- `ListRow`, the Design System list row (`rf-row`): `ListRowGroup` (the inset card), `ListRowIcon`, `ListRowBody` / `ListRowTop` / `ListRowBottom`, `ListRowTitle`, `ListRowDescription`, `ListRowMeta`, `ListRowValue`, `ListRowChevron`. Variants `default` (64, hairline from the text), `plain` (setting row, 48) and `entry` (48, no hairlines); `tone` (`unread` / `muted` / `away`), `selected` (cyan-soft), `disabled`, and `interactive={false}` for a display-only row. ([#469](https://github.com/botiverse/rui/pull/469))
+- `IconTile`, the neutral tile (`rf-tile`) for things with no face, on the avatar size ladder (19 / 27 / 35 / 51), with `warning` and `information` notice washes; `aria-hidden` unless given a role. ([#470](https://github.com/botiverse/rui/pull/470))
+- `SearchTrigger` (`SearchTriggerLabel`, `SearchTriggerShortcut`): the web top bar's search box, a button drawn as a field. ([#470](https://github.com/botiverse/rui/pull/470))
+- `Status` and `AvatarBadge` take `presence` (`online` / `busy` / `error` / `offline` / `external`), from one shared colour map (type `Presence`). ([#471](https://github.com/botiverse/rui/pull/471))
+- `SidebarItem` takes `tone` (`RowTone`, shared with ListRow) and `interactive={false}` for a display-only row whose own buttons are the targets. ([#471](https://github.com/botiverse/rui/pull/471))
+- `Button` `variant="on-frame"`: a frameless button on the yellow frame (rail, web top bar, desktop title bar); on the frame `md` and `icon-md` are the DS 36px frame item. ([#471](https://github.com/botiverse/rui/pull/471))
+
+### Changed
+
+- A disabled frameless (`ghost`) icon button only greys its icon; it no longer draws the sunken box. Disabled ghost text buttons and outline icon buttons keep it. ([#471](https://github.com/botiverse/rui/pull/471))
+- The repository and its docs are now Raft Design; the npm package is still `raft-ui`. ([#472](https://github.com/botiverse/rui/pull/472), [#473](https://github.com/botiverse/rui/pull/473))
+
 ## [0.6.0](https://github.com/botiverse/rui/compare/v0.5.64...v0.6.0) (2026-10-18)
 
 ### Breaking Changes
