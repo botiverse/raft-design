@@ -37,8 +37,10 @@ export {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogNav,
   DialogOverlay,
   DialogPortal,
+  DialogSurface,
   DialogTitle,
   DialogTrigger,
 } from "./components/dialog/index";
@@ -49,9 +51,11 @@ export type {
   DialogDescriptionProps,
   DialogFooterProps,
   DialogHeaderProps,
+  DialogNavProps,
   DialogOverlayProps,
   DialogPortalProps,
   DialogProps,
+  DialogSurfaceProps,
   DialogTitleProps,
   DialogTriggerProps,
 } from "./components/dialog/index";
@@ -84,6 +88,9 @@ export type {
   DrawerTitleProps,
   DrawerTriggerProps,
 } from "./components/drawer/index";
+
+export { FormSection } from "./components/form-section/index";
+export type { FormSectionProps } from "./components/form-section/index";
 
 export { Button, buttonVariants } from "./components/button/index";
 export type { ButtonProps } from "./components/button/index";

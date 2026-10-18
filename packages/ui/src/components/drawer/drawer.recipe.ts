@@ -141,7 +141,9 @@ export const drawer = tv({
         description: ["font-sans text-sm leading-5 text-foreground-muted"],
       },
       raft: {
-        overlay: ["bg-transparent"],
+        // A modal sheet dims the page behind it like a dialog does, so it is
+        // clear the rest of the window is out of reach until it closes.
+        overlay: ["bg-layer-backdrop"],
         popup: ["bg-layer-popover text-foreground", "shadow-raft-float ring-1 ring-line-seam"],
         swipeHandle: ["before:rounded-[1px] before:bg-line-seam"],
         closeIcon: ["size-5.5"],

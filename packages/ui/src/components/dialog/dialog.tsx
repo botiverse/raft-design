@@ -1,5 +1,7 @@
 import { cn } from "../../lib/cn";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { X } from "lucide-react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { tv } from "../../lib/tv";
@@ -34,6 +36,20 @@ const dialog = tv({
       sm: { content: ["max-w-sm"] },
       md: { content: ["max-w-md"] },
       lg: { content: ["max-w-lg"] },
+      // A bigger form edited in one go: a fixed-height frame whose head and
+      // commit row stay put while its body scrolls (use the `bar` parts).
+      wide: { content: ["max-w-4xl h-[min(760px,calc(100dvh-2rem))]"] },
+    },
+    // Pinned bars for a scrolling dialog: the head a 56px row with a seam
+    // under it, the footer a commit row with a seam over it, the body flush
+    // so the content lays out its own columns and scrolls inside.
+    bar: {
+      false: {},
+      true: {
+        header: ["flex h-14 shrink-0 items-center gap-3 border-b px-5 py-0"],
+        body: ["flex min-h-0 flex-1 overflow-hidden p-0"],
+        footer: ["shrink-0 border-t px-5 py-3"],
+      },
     },
     layer: {
       0: { overlay: [], content: [] },
@@ -57,10 +73,16 @@ const dialog = tv({
         description: ["font-sans text-sm leading-5 text-foreground-hint"],
       },
       raft: {
-        overlay: ["bg-layer-backdrop"],
+        // A centred modal appears and goes without motion (Raft DS: only
+        // sheets slide; a dialog is simply there).
+        overlay: [
+          "bg-layer-backdrop",
+          "transition-none data-starting-style:opacity-100 data-ending-style:opacity-100",
+        ],
         content: [
           "overflow-clip rounded-dialog bg-layer-popover text-foreground",
           "shadow-raft-float ring-1 ring-line-seam",
+          "transition-none data-starting-style:scale-100 data-starting-style:opacity-100 data-ending-style:opacity-100",
         ],
         header: ["gap-2 px-5 pt-5"],
         body: ["px-5 pt-1.5 pb-5 first:pt-5", "font-sans text-subhead text-foreground-muted"],
@@ -72,7 +94,19 @@ const dialog = tv({
   },
   defaultVariants: {
     size: "md",
+    bar: false,
   },
+  compoundVariants: [
+    {
+      theme: "raft",
+      bar: true,
+      class: {
+        header: ["border-line-seam pt-0 [&>[data-slot=dialog-close]]:my-0"],
+        body: ["px-0 pt-0 pb-0 first:pt-0 text-foreground"],
+        footer: ["border-line-seam pt-3 pb-3 first:pt-3 [[data-slot=dialog-header]+&]:pt-3"],
+      },
+    },
+  ],
 });
 
 export type DialogProps = BaseDialog.Root.Props;
@@ -108,7 +142,7 @@ export function DialogOverlay({ className, layer, ...props }: DialogOverlayProps
 export type DialogContentProps = StyledProps<BaseDialog.Popup.Props> & {
   portalProps?: DialogPortalProps;
   overlay?: false | DialogOverlayProps;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "wide";
   layer?: 0 | 1;
 };
 
@@ -190,27 +224,36 @@ export function DialogClose({
   );
 }
 
-export type DialogHeaderProps = ComponentPropsWithRef<"div">;
+export type DialogHeaderProps = ComponentPropsWithRef<"div"> & {
+  /** A pinned bar of a scrolling (`size="wide"`) dialog. */
+  bar?: boolean;
+};
 
-export function DialogHeader({ className, ...props }: DialogHeaderProps) {
+export function DialogHeader({ className, bar = false, ...props }: DialogHeaderProps) {
   const theme = useThemeFamily();
-  const { header } = dialog({ theme });
+  const { header } = dialog({ theme, bar });
   return <div data-slot="dialog-header" className={header({ className })} {...props} />;
 }
 
-export type DialogBodyProps = ComponentPropsWithRef<"div">;
+export type DialogBodyProps = ComponentPropsWithRef<"div"> & {
+  /** A pinned bar of a scrolling (`size="wide"`) dialog. */
+  bar?: boolean;
+};
 
-export function DialogBody({ className, ...props }: DialogBodyProps) {
+export function DialogBody({ className, bar = false, ...props }: DialogBodyProps) {
   const theme = useThemeFamily();
-  const { body } = dialog({ theme });
+  const { body } = dialog({ theme, bar });
   return <div data-slot="dialog-body" className={body({ className })} {...props} />;
 }
 
-export type DialogFooterProps = ComponentPropsWithRef<"div">;
+export type DialogFooterProps = ComponentPropsWithRef<"div"> & {
+  /** A pinned bar of a scrolling (`size="wide"`) dialog. */
+  bar?: boolean;
+};
 
-export function DialogFooter({ className, ...props }: DialogFooterProps) {
+export function DialogFooter({ className, bar = false, ...props }: DialogFooterProps) {
   const theme = useThemeFamily();
-  const { footer } = dialog({ theme });
+  const { footer } = dialog({ theme, bar });
   return <div data-slot="dialog-footer" className={footer({ className })} {...props} />;
 }
 
@@ -234,4 +277,71 @@ export function DialogDescription({ className, ...props }: DialogDescriptionProp
       {...props}
     />
   );
+}
+
+const dialogSurface = tv({
+  slots: { root: ["flex min-w-0 flex-col outline-none"] },
+  variants: {
+    theme: {
+      brutal: { root: ["border-2 border-line-strong bg-layer-panel shadow-raft-xl"] },
+      elegant: { root: ["overflow-clip rounded-lg bg-layer-popover shadow-raft-xl"] },
+      raft: {
+        root: [
+          "overflow-clip rounded-dialog bg-layer-popover text-foreground",
+          "shadow-raft-float ring-1 ring-line-seam",
+        ],
+      },
+    },
+  },
+});
+
+export type DialogSurfaceProps = useRender.ComponentProps<"div">;
+
+/**
+ * The dialog's frame — the popover layer, the dialog radius, the seam ring
+ * and the float shadow — for a centred modal whose lifecycle the app owns
+ * (its own backdrop, Escape and focus handling). It neither positions nor
+ * animates itself: the host centres it, and a centred modal has no motion.
+ * DialogContent draws the same frame for a Base UI dialog.
+ */
+export function DialogSurface({ className, render, ...props }: DialogSurfaceProps) {
+  const theme = useThemeFamily();
+  const { root } = dialogSurface({ theme });
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(
+      { "data-slot": "dialog-surface", className: root({ className }) } as never,
+      props,
+    ),
+  });
+}
+
+const dialogNav = tv({
+  slots: { root: ["flex shrink-0 flex-col overflow-y-auto"] },
+  variants: {
+    theme: {
+      brutal: { root: ["w-52 gap-1 border-r-2 border-black p-2"] },
+      elegant: { root: ["w-52 gap-0.5 border-r border-line-muted p-2"] },
+      // A wide dialog's section list: a 208px column of sidebar rows beside
+      // the scrolling body, a seam between them; a phone has no room for it.
+      raft: { root: ["w-52 gap-0.5 border-r border-line-seam p-2 max-md:hidden"] },
+    },
+  },
+});
+
+export type DialogNavProps = useRender.ComponentProps<"nav">;
+
+/** The section list of a wide (`size="wide"`) dialog, inside a `bar` body. */
+export function DialogNav({ className, render, ...props }: DialogNavProps) {
+  const theme = useThemeFamily();
+  const { root } = dialogNav({ theme });
+  return useRender({
+    defaultTagName: "nav",
+    render,
+    props: mergeProps<"nav">(
+      { "data-slot": "dialog-nav", className: root({ className }) } as never,
+      props,
+    ),
+  });
 }

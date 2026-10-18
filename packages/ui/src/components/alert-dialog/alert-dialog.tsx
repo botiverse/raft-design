@@ -53,10 +53,16 @@ const alertDialog = tv({
         description: ["font-sans text-sm leading-5 text-foreground-hint"],
       },
       raft: {
-        overlay: ["bg-layer-backdrop"],
+        // A centred modal appears and goes without motion (Raft DS: only
+        // sheets slide; a dialog is simply there).
+        overlay: [
+          "bg-layer-backdrop",
+          "transition-none data-starting-style:opacity-100 data-ending-style:opacity-100",
+        ],
         content: [
           "max-w-[400px] overflow-clip rounded-dialog bg-layer-popover text-foreground",
           "shadow-raft-float ring-1 ring-line-seam",
+          "transition-none data-starting-style:scale-100 data-starting-style:opacity-100 data-ending-style:opacity-100",
         ],
         header: ["gap-2 px-5 pt-5"],
         body: ["px-5 pt-1.5 pb-5 first:pt-5", "font-sans text-subhead text-foreground-muted"],
