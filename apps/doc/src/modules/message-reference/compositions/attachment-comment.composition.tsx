@@ -5,7 +5,7 @@ import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fix
 
 export function MessageReferenceAttachmentCommentComposition() {
   return (
-    <div className="w-full max-w-xl text-sm text-foreground-strong">
+    <div className="w-full max-w-xl text-sm text-foreground">
       <div className="mb-0.5">
         <MessageReferenceChip
           variant="muted"

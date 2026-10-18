@@ -114,7 +114,7 @@ Every adjacent pair of `ResizablePanel`s needs a `ResizableHandle` between them.
 
 When the body scrolls, use `PanelScrollViewport` + `PanelScrollContent` instead of putting `overflow-auto` on `PanelBody` — the scroll parts keep the header and footer pinned correctly. `PanelSection` divides the body into sections; `PanelSectionHeader` labels one.
 
-Reach for `Panel` before writing `rounded-lg border border-line bg-layer-panel`.
+Reach for `Panel` before writing `rounded-lg border border-line-seam bg-layer-canvas`.
 
 Use `ProfilePanel` for a profile detail pane built on these parts.
 

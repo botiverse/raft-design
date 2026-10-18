@@ -217,7 +217,7 @@ import { SmilePlus } from "lucide-react";
   {/* Tooltip defaults to collisionAvoidance={{ side: "flip", align: "shift" }}.
       When an edge prevents rendering on the requested side, it automatically
       flips to the opposite side and shifts along the alignment axis to stay visible. */}
-  <div className="relative flex h-80 w-full flex-col justify-between rounded-lg border border-dashed border-line p-4">
+  <div className="relative flex h-80 w-full flex-col justify-between rounded-lg border border-dashed border-line-seam p-4">
     {/* Top edge: requested side="top" flips to bottom */}
     <div className="flex items-start justify-between">
       <Tooltip>
@@ -711,7 +711,7 @@ function EdgeCollisionExample() {
             </Tooltip>
 
             <div className="pointer-events-none select-none text-center">
-              <span className="rounded-sm bg-surface-elevated px-2 py-1 text-xs font-mono text-foreground-muted border border-line">
+              <span className="rounded-sm bg-surface-elevated px-2 py-1 text-xs font-mono text-foreground-muted border border-line-seam">
                 collisionAvoidance: flip + shift
               </span>
             </div>

@@ -64,9 +64,9 @@ const PIXEL_PALETTE = {
   _: "transparent",
   K: "oklch(0.1812926 0.0049716 17.6198)",
   W: "oklch(1 0 0)",
-  C: "var(--color-brutal-cyan)",
-  Y: "var(--color-brutal-yellow)",
-  V: "var(--color-brutal-lavender)",
+  C: "var(--color-palette-cyan)",
+  Y: "var(--color-palette-yellow)",
+  V: "var(--color-palette-lavender)",
 } as const;
 
 const PIXEL_AVATARS: Record<

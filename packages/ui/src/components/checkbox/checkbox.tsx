@@ -10,7 +10,7 @@ const checkbox = tv({
   slots: {
     root: [
       "relative inline-flex size-5 shrink-0 touch-manipulation items-center justify-center outline-none",
-      "rounded-sticker focus-visible:shadow-raft-focus",
+      "rounded-sticker focus-visible:shadow-focus",
       "data-disabled:cursor-not-allowed",
       "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-['']",
     ],

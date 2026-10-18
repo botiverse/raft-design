@@ -9,7 +9,7 @@ const composerSuggestionList = tv({
     root: [
       "absolute inset-x-0 bottom-full w-auto overflow-y-auto",
       "mb-2 max-h-60 overflow-x-hidden rounded-container p-1.5",
-      "bg-layer-popover text-foreground ring-1 ring-line-seam shadow-raft-float",
+      "bg-layer-popover text-foreground ring-1 ring-line-seam shadow-float",
     ],
     group: ["flex flex-col"],
     groupLabel: [
@@ -20,7 +20,7 @@ const composerSuggestionList = tv({
       "flex w-full items-center text-left",
       "min-h-9 cursor-pointer gap-2.5 rounded-control px-2.5 py-1",
       "font-sans text-callout font-medium text-foreground",
-      "hover:bg-primary-soft data-[highlighted=true]:bg-primary-soft",
+      "hover:bg-brand-soft data-[highlighted=true]:bg-brand-soft",
       "data-[disabled=true]:cursor-default data-[disabled=true]:text-foreground-disabled",
       "data-[disabled=true]:hover:bg-transparent",
     ],
@@ -38,7 +38,7 @@ const composerSuggestionList = tv({
   },
   variants: {
     separated: {
-      true: { group: ["-mx-1.5 mt-1.5 border-t border-line-muted px-1.5 pt-1.5"] },
+      true: { group: ["-mx-1.5 mt-1.5 border-t border-line-hairline px-1.5 pt-1.5"] },
       false: {},
     },
     iconVariant: {

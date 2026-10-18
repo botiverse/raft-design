@@ -208,7 +208,7 @@ function TasksDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="creator-filter" title="Creator filter">
-            <p className="mb-4 text-sm text-foreground-strong/70">
+            <p className="mb-4 text-sm text-foreground/70">
               The current-user shortcut uses the current user&apos;s identity value and replaces
               their duplicate avatar row.
             </p>
@@ -223,7 +223,7 @@ function TasksDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="assignee-filter" title="Assignee filter">
-            <p className="mb-4 text-sm text-foreground-strong/70">
+            <p className="mb-4 text-sm text-foreground/70">
               Assignee uses the same external identity data and adds explicit Assigned to me and
               Unassigned options.
             </p>
@@ -247,7 +247,7 @@ function TasksDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="panel-empty" title="Panel empty states">
-            <p className="mb-4 text-sm text-foreground-strong/70">
+            <p className="mb-4 text-sm text-foreground/70">
               <InlineCode>TasksPanelEmpty</InlineCode> hosts consumer{" "}
               <InlineCode>EmptyState</InlineCode> for unfiltered and filtered-empty. Column/section
               empties live on{" "}
@@ -278,7 +278,7 @@ function TasksDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="legacy-task-panel" title="Legacy task panel">
-            <p className="mb-4 text-sm text-foreground-strong/70">
+            <p className="mb-4 text-sm text-foreground/70">
               Legacy tasks do not map to a message thread. Open them in the same right-hand slot as{" "}
               <Link to="/components/thread-panel">
                 <InlineCode>ThreadPanel</InlineCode>
@@ -290,7 +290,7 @@ function TasksDoc() {
               composer. Mutually exclusive with a real thread: if{" "}
               <InlineCode>task.isLegacy</InlineCode>, close the thread and show this panel instead.
             </p>
-            <Preview previewClassName="h-[36rem] items-stretch justify-center bg-brutal-cream p-6">
+            <Preview previewClassName="h-[36rem] items-stretch justify-center bg-palette-cream p-6">
               <Preview.Canvas>
                 <TasksLegacyTaskPanelComposition
                   framed

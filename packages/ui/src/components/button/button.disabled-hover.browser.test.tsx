@@ -230,11 +230,11 @@ it("enabled button keeps consumer hover overrides (review round-2 regression)", 
   // original stacks are restored, so the consumer's hover must win again.
   // (The override class must exist in the parsed sheet: an arbitrary-value
   // class only present in this test file lands in a stylesheet chunk the
-  // browser had not parsed yet in this env — measured. hover:bg-accent-500 is
+  // browser had not parsed yet in this env — measured. hover:bg-attention-500 is
   // used by the accent variant itself, so it is always parsed.)
   render(
     <ThemeProvider>
-      <Button variant="primary" className="hover:bg-accent-500">
+      <Button variant="primary" className="hover:bg-attention-500">
         Save
       </Button>
     </ThemeProvider>,
@@ -245,7 +245,7 @@ it("enabled button keeps consumer hover overrides (review round-2 regression)", 
   const resting = snap(el);
   await button.hover();
   const settled = await settledBg(el);
-  // accent-500 = brutal-pink-400 = oklch(0.749 0.162 0.71)
+  // attention-500 = palette-pink-400 = oklch(0.749 0.162 0.71)
   expect(settled).toContain("0.749");
   expect(settled).not.toBe(resting.bg);
 });

@@ -36,18 +36,18 @@ caption / footnote / callout / subhead / body / headline; mono pairs with `mono-
 - **600** — list-row names, card titles, field labels, tabs, badges
 - **700** — titles, sender names, buttons, section labels, solid badges and unread counts, the selected tab/row/menu item; a textarea counter lifts to 700 when invalid or over the limit
 
-## C. Colour ladder (five tiers)
+## C. Colour ladder (three tiers)
 
-| tier        | token                    | typical use                                                                                                                |
-| ----------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
-| strong      | `foreground-strong`      | same ink as base; `Text` body/large/code, ghost buttons                                                                    |
-| base        | `foreground`             | titles (panel, sidebar, thread, dialog), sender + message body, values, list-row names, menu items, selected underline tab |
-| muted       | `foreground-muted`       | descriptions (dialog, card, popover), field labels, unselected tabs, quoted-message text, sidebar subtitles                |
-| hint        | `foreground-hint`        | notes: time, model, inline status, description-list terms, sidebar and menu section labels, counts, list metadata          |
-| placeholder | `foreground-placeholder` | same ink as hint; input placeholders, empty values (No description)                                                        |
+| tier  | token              | typical use                                                                                                                               |
+| ----- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| base  | `foreground`       | titles (panel, sidebar, thread, dialog), sender + message body, values, list-row names, menu items, selected underline tab, ghost buttons |
+| muted | `foreground-muted` | descriptions (dialog, card, popover), field labels, unselected tabs, quoted-message text, sidebar subtitles, icons                        |
+| hint  | `foreground-hint`  | notes: time, model, inline status, description-list terms, section labels, counts, list metadata, input placeholders, empty values        |
 
-- Light is one ink at alpha: base/strong opaque, muted 0.678, hint/placeholder 0.62. Dark
-  lightness: base/strong 0.92 / muted 0.82 / hint/placeholder 0.70 — the rest live in `foundation.css`.
+- Light is one ink at alpha: base opaque, muted 0.678, hint 0.62. Dark lightness: base 0.92 /
+  muted 0.82 / hint 0.70 — the rest live in `foundation.css`.
+- `foreground-strong`, `foreground-icon` and `foreground-placeholder` are deprecated aliases of
+  `foreground`, `foreground-muted` and `foreground-hint`.
 - Name rules: titles, the sidebar anchor, senders and list-row names all read at base; weight carries the split (titles and senders 700, list rows 600).
 - Message two-layer rule: content (sender + body at base, weight carries the split) ｜ notes
   (time/model/inline status = hint).

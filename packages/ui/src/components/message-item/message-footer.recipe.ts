@@ -9,7 +9,7 @@ export const messageFooter = tv({
       "h-[22px] rounded-chip px-1.5",
       "text-caption font-semibold text-foreground-muted",
       "bg-fill-muted hover:press-overlay active:press-overlay",
-      "outline-none focus-visible:shadow-raft-focus",
+      "outline-none focus-visible:shadow-focus",
       "[&_svg]:size-3.5 [&_svg]:text-foreground",
     ],
     readReceipt: [
@@ -25,7 +25,7 @@ export const messageFooter = tv({
       "bg-fill-muted hover:press-overlay active:press-overlay",
       "[&_svg]:size-3.5",
     ],
-    badgeSeparator: ["text-foreground-strong/45"],
+    badgeSeparator: ["text-foreground/45"],
   },
   variants: {
     badgeStatus: { read: {}, unread: { badge: ["text-foreground"] } },
@@ -39,7 +39,7 @@ export const messageFooter = tv({
         savedIndicator: [
           "justify-center p-0",
           "size-8 rounded-control bg-transparent",
-          "[&_svg]:size-[18px] [&_svg]:text-foreground-icon",
+          "[&_svg]:size-[18px] [&_svg]:text-foreground-muted",
         ],
       },
       false: {},

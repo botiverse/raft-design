@@ -10,7 +10,7 @@ const banner = tv({
       "[&>svg]:col-start-1 [&>svg]:shrink-0",
       "*:data-[slot=status]:col-start-1 *:data-[slot=status]:row-start-1",
       "w-full grid-cols-[minmax(0,1fr)] items-start gap-x-2.5 rounded-container border-0",
-      "font-sans text-callout text-foreground ring-1 ring-line-muted ring-inset",
+      "font-sans text-callout text-foreground ring-1 ring-line-hairline ring-inset",
       "has-[>svg]:grid-cols-[20px_minmax(0,1fr)]",
       "has-[>[data-slot=status]]:grid-cols-[20px_minmax(0,1fr)]",
       "[&>svg]:row-start-1 [&>svg]:size-5 [&>svg]:text-foreground",

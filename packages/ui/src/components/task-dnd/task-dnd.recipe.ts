@@ -8,12 +8,12 @@ export const taskDnd = tv({
       "data-[dragging=true]:z-20 data-[dragging=true]:will-change-transform",
       "data-[disabled=true]:cursor-default data-[disabled=true]:touch-auto",
       "rounded-container",
-      "focus-visible:shadow-raft-focus",
+      "focus-visible:shadow-focus",
     ],
     overlay: [
       "group/task-drag-overlay pointer-events-none",
       "z-20",
-      "**:data-[slot=task-card]:shadow-raft-float",
+      "**:data-[slot=task-card]:shadow-float",
     ],
     placeholder: [
       "hidden w-full shrink-0",

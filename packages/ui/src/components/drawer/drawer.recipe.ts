@@ -102,7 +102,7 @@ export const drawer = tv({
       "[--drawer-inset:12px] [--drawer-content-height:var(--drawer-height,auto)]",
       "data-nested-drawer-open:overflow-hidden",
       "bg-layer-popover text-foreground",
-      "shadow-raft-float ring-1 ring-line-seam",
+      "shadow-float ring-1 ring-line-seam",
     ],
     content: [
       "flex min-h-0 flex-1 flex-col rounded-[inherit] select-text",

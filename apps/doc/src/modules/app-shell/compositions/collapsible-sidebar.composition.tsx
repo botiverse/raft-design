@@ -39,7 +39,7 @@ export function AppShellCollapsibleSidebarComposition() {
     <div className="w-full overflow-x-auto">
       <AppShellRoot sidebarCollapsible className="h-[420px] min-w-[860px]">
         <AppShellRailSlot className="flex md:flex">
-          <ShellRegion className="w-16 bg-primary-300 text-primary-950">Rail</ShellRegion>
+          <ShellRegion className="w-16 bg-brand-300 text-brand-950">Rail</ShellRegion>
         </AppShellRailSlot>
 
         <ResizableGroup orientation="horizontal" className="h-full min-w-0 flex-1">
@@ -52,7 +52,7 @@ export function AppShellCollapsibleSidebarComposition() {
             className="relative min-w-0"
           >
             <AppShellSidebarSlot className="relative flex h-full w-auto min-w-0 flex-1">
-              <ShellRegion className="bg-accent-200 text-accent-950">Sidebar</ShellRegion>
+              <ShellRegion className="bg-attention-200 text-attention-950">Sidebar</ShellRegion>
             </AppShellSidebarSlot>
           </ResizablePanel>
 
@@ -64,7 +64,7 @@ export function AppShellCollapsibleSidebarComposition() {
             className="relative overflow-visible!"
           >
             <AppShellMainSlot className="flex h-full min-w-0 flex-1">
-              <div className="flex size-full  flex-col bg-primary-100 text-primary-950">
+              <div className="flex size-full  flex-col bg-brand-100 text-brand-950">
                 <header className="flex h-12 shrink-0 items-center gap-3 border-b border-line-strong px-3">
                   <SidebarTrigger />
                   <span className="font-mono text-xs font-semibold uppercase tracking-wide">

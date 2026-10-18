@@ -14,7 +14,7 @@ const copyableCode = tv({
     root: ["group/copyable-code flex w-full min-w-0 items-center gap-2"],
     code: [
       "min-w-0 flex-1 font-mono",
-      "rounded-control border border-line-muted bg-layer-code",
+      "rounded-control border border-line-hairline bg-layer-code",
       "text-mono-code text-foreground",
     ],
     codeInner: ["block w-full min-w-0 max-w-full break-all"],

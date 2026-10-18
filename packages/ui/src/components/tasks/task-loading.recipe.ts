@@ -5,7 +5,7 @@ export const taskLoading = tv({
     list: ["flex flex-col gap-2"],
     row: [
       "flex min-w-0 flex-col p-3",
-      "gap-2 rounded-container border border-line-muted bg-layer-card shadow-none",
+      "gap-2 rounded-container border border-line-hairline bg-layer-card shadow-none",
     ],
   },
 });

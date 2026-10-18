@@ -4,7 +4,7 @@ import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fix
 
 export function MessageReferenceTaskReferencesComposition() {
   return (
-    <p className="text-sm text-foreground-strong">
+    <p className="text-sm text-foreground">
       Review task{" "}
       <TaskChip
         variant="inline"

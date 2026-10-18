@@ -33,13 +33,13 @@ test("header className wins the merge against the recipe surface (container tint
   // silently disappears — pin it here.
   const cls = tokens(
     panelHeader().header({
-      className: "bg-layer-canvas-muted border-b border-line-muted",
+      className: "bg-layer-sidebar border-b border-line-hairline",
     }),
   );
-  expect(cls.has("bg-layer-canvas-muted")).toBe(true);
-  expect(cls.has("bg-layer-panel")).toBe(false);
+  expect(cls.has("bg-layer-sidebar")).toBe(true);
+  expect(cls.has("bg-layer-canvas")).toBe(false);
   expect(cls.has("border-b")).toBe(true);
-  expect(cls.has("border-line-muted")).toBe(true);
+  expect(cls.has("border-line-hairline")).toBe(true);
   expect(cls.has("border-line-seam")).toBe(false);
 });
 

@@ -42,7 +42,7 @@
   --r-steps-easing: ease-out;
 
   --r-steps-indicator-color-wait: var(--layer-card);
-  --r-steps-indicator-color-process: var(--primary-400);
+  --r-steps-indicator-color-process: var(--brand-400);
   --r-steps-indicator-color-finish: var(--foreground);
   --r-steps-indicator-color-error: var(--warning);
   --r-steps-indicator-border-color-wait: var(--line-seam);

@@ -73,7 +73,7 @@ export function RemoteHumanComposition() {
               <DescriptionList>
                 <DescriptionItem>
                   <DescriptionTerm>Description</DescriptionTerm>
-                  <DescriptionDetails className="italic text-foreground-placeholder">
+                  <DescriptionDetails className="italic text-foreground-hint">
                     No description
                   </DescriptionDetails>
                 </DescriptionItem>

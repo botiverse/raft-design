@@ -26,7 +26,7 @@ function OnboardingDialogParts() {
           Meet RAFT
         </Text.Mono>
         <div className="flex items-center gap-3">
-          <div className="flex size-8 shrink-0 items-center justify-center border border-line-strong bg-primary-400 text-foreground">
+          <div className="flex size-8 shrink-0 items-center justify-center border border-line-strong bg-brand-400 text-foreground">
             <Monitor className="size-4" />
           </div>
           <DialogTitle className="text-foreground">Add a computer</DialogTitle>

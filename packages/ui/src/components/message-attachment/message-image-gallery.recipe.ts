@@ -6,7 +6,7 @@ export const messageImageGallery = tv({
     row: ["grid", "gap-1"],
     item: [
       "group/img relative overflow-hidden text-left",
-      "rounded-control border border-line-muted bg-fill-muted",
+      "rounded-control border border-line-hairline bg-fill-muted",
       "has-data-[slot=message-image-gallery-overlay]:opacity-70",
     ],
     media: "block size-full ",
@@ -21,7 +21,7 @@ export const messageImageGallery = tv({
       "group-hover/img:flex",
       "right-1.5 bottom-1.5 size-8 rounded-control border-[1.5px] border-line-strong",
       "bg-layer-card text-foreground hover:press-overlay active:press-overlay",
-      "outline-none focus-visible:shadow-raft-focus",
+      "outline-none focus-visible:shadow-focus",
       "[&_svg]:size-4",
     ],
   },

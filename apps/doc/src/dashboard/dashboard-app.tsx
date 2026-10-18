@@ -169,8 +169,8 @@ export function DashboardApp() {
               density are all hand-rolled here. */}
           <div className="max-h-[520px] overflow-auto">
             <table className="w-full border-collapse text-left">
-              <thead className="sticky top-0 z-10 bg-layer-panel">
-                <tr className="border-b border-line-muted">
+              <thead className="sticky top-0 z-10 bg-layer-canvas">
+                <tr className="border-b border-line-hairline">
                   {["Agent", "Runtime", "Runs", "p95", "Errors", "Spend", "Status"].map((h, i) => (
                     <th
                       key={h}
@@ -257,7 +257,7 @@ function DashboardRow({
     <tr
       onClick={() => onSelect(row.id)}
       aria-selected={selected}
-      className={`cursor-pointer border-b border-line-muted last:border-b-0 hover:bg-fill-muted ${selected ? "bg-fill-muted" : ""}`}
+      className={`cursor-pointer border-b border-line-hairline last:border-b-0 hover:bg-fill-muted ${selected ? "bg-fill-muted" : ""}`}
     >
       <th scope="row" className="px-3 py-2 text-left font-sans text-sm font-normal">
         {row.agent}

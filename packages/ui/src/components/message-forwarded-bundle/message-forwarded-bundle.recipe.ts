@@ -14,7 +14,7 @@ export const messageForwardedBundle = tv({
       "min-w-0 truncate",
       "inline-flex items-center gap-1 rounded-[2px] text-caption font-semibold text-foreground-hint",
       "decoration-[1.5px] underline-offset-[3px] hover:text-foreground hover:underline",
-      "outline-none focus-visible:shadow-raft-focus",
+      "outline-none focus-visible:shadow-focus",
       "[&_svg]:size-3.5",
     ],
     sourceLabel: [
@@ -24,8 +24,8 @@ export const messageForwardedBundle = tv({
     items: ["relative", ""],
     footerAction: [
       "inline-flex items-center gap-1 rounded-[2px] text-footnote font-semibold text-foreground",
-      "underline decoration-[1.5px] underline-offset-[3px] hover:decoration-accent-500",
-      "outline-none focus-visible:shadow-raft-focus",
+      "underline decoration-[1.5px] underline-offset-[3px] hover:decoration-attention-500",
+      "outline-none focus-visible:shadow-focus",
     ],
   },
   variants: {
@@ -86,7 +86,7 @@ export const messageForwardedBundleItem = tv({
         attachment: [
           "cursor-pointer transition-colors hover:border-line-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",
           "hover:press-overlay active:press-overlay",
-          "focus-visible:outline-none focus-visible:shadow-raft-focus",
+          "focus-visible:outline-none focus-visible:shadow-focus",
         ],
       },
     },

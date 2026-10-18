@@ -186,7 +186,7 @@ export function MemberDetailPanel({
                           type="button"
                           variant="ghost"
                           size="icon-xs"
-                          className="text-foreground-icon"
+                          className="text-foreground-muted"
                           aria-label="Explain member roles"
                           aria-pressed={roleHelpVisible}
                           onClick={toggleRoleHelp}
@@ -278,7 +278,7 @@ export function MemberDetailPanel({
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm italic text-foreground-placeholder">No created agents</p>
+                  <p className="text-sm italic text-foreground-hint">No created agents</p>
                 )}
               </MemberDetailSection>
             ) : null}
@@ -338,7 +338,7 @@ function MemberDetailSection({
           <h2>
             {title}
             {count === undefined ? null : (
-              <span className="font-mono text-foreground-placeholder">{count}</span>
+              <span className="font-mono text-foreground-hint">{count}</span>
             )}
           </h2>
         }

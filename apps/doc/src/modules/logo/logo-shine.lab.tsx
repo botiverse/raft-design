@@ -27,7 +27,7 @@ function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-export function LogoShineLab({ primaryColor = "var(--primary-400)" }: LogoShineLabProps = {}) {
+export function LogoShineLab({ primaryColor = "var(--brand-400)" }: LogoShineLabProps = {}) {
   const logoRef = useRef<HTMLDivElement>(null);
   const sweepRef = useRef<HTMLDivElement>(null);
   const playIdRef = useRef(0);

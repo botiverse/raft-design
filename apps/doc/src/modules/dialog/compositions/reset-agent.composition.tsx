@@ -66,11 +66,11 @@ function ResetModeOption({ value, children }: { value: ResetModeTone; children: 
     <label
       className={cn(
         "cursor-pointer transition-colors",
-        "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-strong has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-layer-canvas-muted",
-        "group/reset-option flex w-full items-start gap-2.5 rounded-md bg-layer-panel p-3.5 text-left",
-        "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.035),0_0_0_1px_var(--line-muted)]",
-        "hover:bg-foreground-strong/4",
-        "has-data-checked:bg-foreground-strong/4",
+        "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-strong has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-layer-sidebar",
+        "group/reset-option flex w-full items-start gap-2.5 rounded-md bg-layer-canvas p-3.5 text-left",
+        "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.035),0_0_0_1px_var(--line-hairline)]",
+        "hover:bg-foreground/4",
+        "has-data-checked:bg-foreground/4",
         "has-data-checked:shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.05),0_0_0_1px_var(--line-field-hover)]",
       )}
     >

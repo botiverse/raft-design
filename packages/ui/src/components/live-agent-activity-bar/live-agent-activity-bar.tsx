@@ -10,7 +10,7 @@ const liveAgentActivityBar = tv({
   slots: {
     root: [
       "shrink-0",
-      "rounded-container border border-line-muted bg-layer-card px-3 py-2 shadow-none",
+      "rounded-container border border-line-hairline bg-layer-card px-3 py-2 shadow-none",
     ],
     row: [
       "flex min-h-8 items-center",

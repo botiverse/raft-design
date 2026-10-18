@@ -111,8 +111,8 @@ export function ToastPreviewScene() {
       className="pointer-events-none absolute inset-0 bg-[oklch(0.955_0.003_286)] dark:bg-[oklch(0.115_0.004_286)]"
     >
       <div className="absolute inset-x-8 top-7 h-10 rounded-lg bg-white/68 shadow-[0_1px_0_oklch(1_0_0/0.75)_inset,0_0_0_1px_oklch(0_0_0/0.025)] dark:bg-white/[0.07] dark:shadow-[0_1px_0_oklch(1_0_0/0.06)_inset,0_0_0_1px_oklch(0_0_0/0.5)]" />
-      <div className="absolute left-10 top-10 h-2 w-28 rounded-full bg-foreground-strong/11 dark:bg-white/18" />
-      <div className="absolute right-10 top-10 h-2 w-16 rounded-full bg-foreground-strong/8 dark:bg-white/12" />
+      <div className="absolute left-10 top-10 h-2 w-28 rounded-full bg-foreground/11 dark:bg-white/18" />
+      <div className="absolute right-10 top-10 h-2 w-16 rounded-full bg-foreground/8 dark:bg-white/12" />
       <div className="absolute inset-x-8 top-24 grid grid-cols-3 gap-3">
         <div className="h-12 rounded-md bg-white/58 shadow-[0_0_0_1px_oklch(0_0_0/0.02)] dark:bg-white/5.5" />
         <div className="h-12 rounded-md bg-white/45 shadow-[0_0_0_1px_oklch(0_0_0/0.018)] dark:bg-white/4.5" />

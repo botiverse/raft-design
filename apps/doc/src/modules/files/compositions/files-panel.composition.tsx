@@ -120,7 +120,7 @@ export function FilesPanelComposition({
             {loadingMore || hasMore ? (
               <div className="flex justify-center p-4">
                 {loadingMore ? (
-                  <span className="font-mono text-xs text-foreground-placeholder">
+                  <span className="font-mono text-xs text-foreground-hint">
                     Loading more files…
                   </span>
                 ) : (

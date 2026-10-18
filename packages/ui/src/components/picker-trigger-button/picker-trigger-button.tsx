@@ -19,7 +19,7 @@ const pickerTriggerButton = tv({
     "data-has-value:bg-info-soft data-has-value:text-foreground data-has-value:inset-ring-0",
     "data-has-value:hover:bg-info-soft data-has-value:hover:press-overlay data-has-value:active:press-overlay",
     "data-invalid:inset-ring data-invalid:inset-ring-danger-strong",
-    "focus-visible:shadow-raft-focus",
+    "focus-visible:shadow-focus",
     "disabled:bg-fill-muted disabled:text-foreground-disabled disabled:opacity-100 disabled:inset-ring-0",
     "[&_svg:not([class*='size-'])]:size-3.5 [&_svg:not([class*='stroke-'])]:stroke-2",
     "**:data-picker-trigger-indicator:text-foreground-hint **:data-picker-trigger-indicator:opacity-100",

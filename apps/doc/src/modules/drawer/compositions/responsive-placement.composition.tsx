@@ -84,7 +84,7 @@ export function DrawerResponsivePlacementComposition() {
                 defaultValue="Open Raft as a fullscreen app — faster, more focused. Prefer short updates and clear handoffs."
               />
             </Field>
-            <div className="space-y-3 text-sm leading-6 text-foreground-strong/70">
+            <div className="space-y-3 text-sm leading-6 text-foreground/70">
               {PLACEHOLDER_NOTES.map((paragraph) => (
                 <p key={paragraph.slice(0, 24)}>{paragraph}</p>
               ))}

@@ -72,7 +72,7 @@ export function CompositionModalPreview({
     <CompositionPreview className={cn("px-0 py-0", className)}>
       <div
         className={cn(
-          "relative grid w-full min-w-0 overflow-visible bg-layer-panel",
+          "relative grid w-full min-w-0 overflow-visible bg-layer-canvas",
           minHeightClassName,
         )}
       >

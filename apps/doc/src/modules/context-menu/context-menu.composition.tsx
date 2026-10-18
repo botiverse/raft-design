@@ -61,7 +61,7 @@ function ContextMenuPreviewTrigger({ children }: { children: ReactNode }) {
     <div
       className={cn(
         "flex min-h-14 w-56 items-center justify-center px-4 py-3 text-center",
-        "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
+        "border border-dashed border-line-strong bg-layer-canvas text-sm font-medium text-foreground-muted",
       )}
     >
       {children}
@@ -71,7 +71,7 @@ function ContextMenuPreviewTrigger({ children }: { children: ReactNode }) {
 
 function ReactionRow() {
   return (
-    <div className={cn("flex h-9 items-center gap-1 px-2", "-mx-1 rounded-sm bg-layer-panel/70")}>
+    <div className={cn("flex h-9 items-center gap-1 px-2", "-mx-1 rounded-sm bg-layer-canvas/70")}>
       {["👍", "❤️", "😂", "🎉", "👀"].map((emoji) => (
         <Button key={emoji} variant="ghost" size="icon-sm" aria-label={`React with ${emoji}`}>
           {emoji}

@@ -129,7 +129,7 @@ export function DrawerSideFullWidthUsage() {
             On small screens the panel spans the floating inset. From md up it keeps the default
             narrow side width. Scroll the body to verify long content.
           </DrawerDescription>
-          <div className="mt-6 w-full space-y-4 text-left text-sm leading-6 text-foreground-strong/70">
+          <div className="mt-6 w-full space-y-4 text-left text-sm leading-6 text-foreground/70">
             {SIDE_FULL_WIDTH_LOREM.map((paragraph) => (
               <p key={paragraph.slice(0, 24)}>{paragraph}</p>
             ))}

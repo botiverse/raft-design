@@ -105,7 +105,7 @@ export function MessageAvatarStatusComposition() {
               render={
                 <Status
                   aria-hidden
-                  className="[--status-color:var(--color-brutal-orange)]"
+                  className="[--status-color:var(--color-palette-orange)]"
                   variant="warning"
                 />
               }

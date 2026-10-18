@@ -18,10 +18,10 @@ const previewCard = tv({
       "data-ending-style:scale-[0.99] data-ending-style:opacity-0 data-ending-style:duration-150",
       "data-instant:transition-none motion-reduce:transition-none",
       "w-[300px] rounded-container bg-layer-popover text-foreground",
-      "shadow-raft-float ring-1 ring-line-seam",
+      "shadow-float ring-1 ring-line-seam",
     ],
     header: ["flex items-start gap-3", "px-4 pt-4 pb-3 last:pb-4"],
-    separator: ["border-t", "border-line-muted"],
+    separator: ["border-t", "border-line-hairline"],
     title: ["m-0 truncate", "font-sans text-headline font-bold text-foreground"],
     description: [
       "m-0 truncate",

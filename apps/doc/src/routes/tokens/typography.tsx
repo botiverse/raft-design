@@ -149,7 +149,7 @@ const SANS_TYPOGRAPHY = [
     weightValue: "400",
     tracking: "0em",
     leading: "1.75",
-    className: "font-sans text-lg font-normal leading-7 text-[var(--foreground-strong)]",
+    className: "font-sans text-lg font-normal leading-7 text-[var(--foreground)]",
   },
   {
     title: "Body",
@@ -161,7 +161,7 @@ const SANS_TYPOGRAPHY = [
     weightValue: "400",
     tracking: "0em",
     leading: "1.5",
-    className: "font-sans text-base font-normal leading-6 text-[var(--foreground-strong)]",
+    className: "font-sans text-base font-normal leading-6 text-[var(--foreground)]",
   },
   {
     title: "Small",
@@ -200,7 +200,7 @@ const MONO_TYPOGRAPHY = [
     weightValue: "400",
     tracking: "0em",
     leading: "1.43",
-    className: "font-mono text-sm font-normal leading-5 text-[var(--foreground-strong)]",
+    className: "font-mono text-sm font-normal leading-5 text-[var(--foreground)]",
   },
   {
     title: "Meta",
@@ -225,7 +225,7 @@ const MONO_TYPOGRAPHY = [
     tracking: "0.05em",
     leading: "1",
     className:
-      "font-mono text-[10px] font-medium uppercase tracking-wide leading-none text-[var(--foreground-placeholder)]",
+      "font-mono text-[10px] font-medium uppercase tracking-wide leading-none text-[var(--foreground-hint)]",
   },
   {
     title: "Tabular",
@@ -237,8 +237,7 @@ const MONO_TYPOGRAPHY = [
     weightValue: "400",
     tracking: "0em",
     leading: "1.43",
-    className:
-      "font-mono text-sm font-normal tabular-nums leading-5 text-[var(--foreground-strong)]",
+    className: "font-mono text-sm font-normal tabular-nums leading-5 text-[var(--foreground)]",
   },
 ] as const;
 
@@ -342,9 +341,9 @@ function createHeadingPreview(level: (typeof HEADING_LEVELS)[number]) {
 function TypographyPageScope({ children }: { children: ReactNode }) {
   return (
     <div
-      className="min-h-screen bg-layer-panel font-sans [&_article_header_h1]:font-heading [&_article_header_h1]:!font-medium [&_article_header_p]:font-sans [&_article_header_p]:!text-base [&_section]:border-t-0 [&_section>h2]:font-heading"
+      className="min-h-screen bg-layer-canvas font-sans [&_article_header_h1]:font-heading [&_article_header_h1]:!font-medium [&_article_header_p]:font-sans [&_article_header_p]:!text-base [&_section]:border-t-0 [&_section>h2]:font-heading"
       style={{
-        color: "var(--foreground-strong)",
+        color: "var(--foreground)",
         fontFamily: "var(--sans-font)",
       }}
     >
@@ -358,7 +357,7 @@ function TypographyScope({ children }: { children: ReactNode }) {
     <div
       className="grid gap-0 [&>*+*]:border-t [&>*+*]:border-[color-mix(in_oklch,var(--foreground)_5%,transparent)]"
       style={{
-        color: "var(--foreground-strong)",
+        color: "var(--foreground)",
         fontFamily: "var(--sans-font)",
       }}
     >
@@ -430,7 +429,7 @@ function TypographySpecMeta({ items }: { items: { label: string; value: string }
     <div className="flex flex-wrap items-center justify-end font-mono text-xs uppercase tracking-wide">
       {items.map((item, index) => (
         <span key={item.label} className={index === 0 ? "pr-4" : `border-l px-4 ${SPEC_DIVIDER}`}>
-          <span className="text-foreground-placeholder">{item.label}:</span>{" "}
+          <span className="text-foreground-hint">{item.label}:</span>{" "}
           <span className="text-foreground">{item.value}</span>
         </span>
       ))}

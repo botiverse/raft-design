@@ -23,10 +23,10 @@ function ConfirmActionAlertDialogParts() {
         <AlertDialogClose />
       </AlertDialogHeader>
       <AlertDialogBody>
-        <p className="m-0 text-sm leading-5 text-foreground-strong/60">
-          Delete task <strong className="font-bold text-foreground-strong">#42</strong>{" "}
-          <strong className="font-bold text-foreground-strong">"Review dialog migration"</strong>?
-          This cannot be undone.
+        <p className="m-0 text-sm leading-5 text-foreground/60">
+          Delete task <strong className="font-bold text-foreground">#42</strong>{" "}
+          <strong className="font-bold text-foreground">"Review dialog migration"</strong>? This
+          cannot be undone.
         </p>
       </AlertDialogBody>
       <AlertDialogFooter>

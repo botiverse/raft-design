@@ -6,7 +6,7 @@ import { tv } from "../../lib/tv";
 // overlay. Between two rows a hairline runs from where the text starts.
 const hairline = [
   "before:pointer-events-none before:absolute before:top-0 before:right-0 before:hidden",
-  "before:left-(--list-row-rule-start) before:border-t before:border-line-muted",
+  "before:left-(--list-row-rule-start) before:border-t before:border-line-hairline",
   "[[data-slot=list-row]+&]:before:block [li+li>&]:before:block",
 ];
 
@@ -14,7 +14,7 @@ export const listRow = tv({
   slots: {
     group: [
       "flex min-w-0 flex-col overflow-hidden",
-      "rounded-container border border-line-muted bg-layer-card text-foreground",
+      "rounded-container border border-line-hairline bg-layer-card text-foreground",
     ],
     // The row owns its three inks and the parts read them, so the tone and the
     // disabled state are decided once, on the row: a tone never applies to a

@@ -115,13 +115,13 @@ test("the Tailwind entry includes the shared foundation and still generates sema
       throw new Error(`Unexpected stylesheet id: ${id}`);
     },
   });
-  const css = compiler.build(["bg-layer-panel", "text-foreground", "shadow-raft-md"]);
-  expect(css).toContain("background-color: var(--layer-panel)");
+  const css = compiler.build(["bg-layer-canvas", "text-foreground", "shadow-raft-md"]);
+  expect(css).toContain("background-color: var(--layer-canvas)");
   expect(css).toContain("color: var(--foreground)");
   expect(css).toContain("var(--theme-shadow-md)");
   expect(css).toMatch(/^\.dark \{$/m);
   expect(css).not.toContain("data-theme");
-  expect(css).toContain("--color-brutal-yellow-400:");
+  expect(css).toContain("--palette-yellow-400:");
   expect(css).not.toContain('@import "./foundation.css"');
   expect(css).not.toContain('@import "./components/float-button/float-button.css"');
 });

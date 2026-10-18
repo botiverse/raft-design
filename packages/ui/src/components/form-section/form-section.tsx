@@ -12,7 +12,7 @@ const formSection = tv({
     // first starts flush with the body.
     root: [
       "flex flex-col gap-3 py-4 first:pt-0",
-      "[[data-slot=form-section]+&]:border-t [[data-slot=form-section]+&]:border-line-muted",
+      "[[data-slot=form-section]+&]:border-t [[data-slot=form-section]+&]:border-line-hairline",
     ],
     head: ["flex min-w-0 flex-col", "gap-0.5"],
     titleRow: ["flex min-w-0 items-center gap-2"],

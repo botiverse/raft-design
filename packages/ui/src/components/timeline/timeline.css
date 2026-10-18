@@ -25,7 +25,7 @@
   --r-timeline-item-gap: 12px;
   --r-timeline-horizontal-item-gap: 40px;
   --r-timeline-line-width: 1px;
-  --r-timeline-line-color: var(--line-muted);
+  --r-timeline-line-color: var(--line-hairline);
   --r-timeline-marker-border-width: 1.5px;
   --r-timeline-marker-radius: 2px;
   /* How much of the variant's fill the marker takes, and its outline. */
@@ -177,7 +177,7 @@
 }
 
 .r-timeline-title {
-  color: var(--foreground-strong);
+  color: var(--foreground);
   font-family: var(--r-timeline-title-font-family);
   font-size: var(--r-timeline-title-font-size);
   font-weight: var(--r-timeline-title-font-weight);

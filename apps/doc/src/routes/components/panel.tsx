@@ -284,7 +284,7 @@ function PanelDoc() {
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Preview>
           <Preview.Canvas>
-            <div className="h-[24rem] w-full max-w-[32rem] overflow-hidden border border-line bg-layer-panel">
+            <div className="h-[24rem] w-full max-w-[32rem] overflow-hidden border border-line-seam bg-layer-canvas">
               <PanelComposition edge={edge} />
             </div>
           </Preview.Canvas>
@@ -327,9 +327,9 @@ function PanelDoc() {
         <div className="space-y-4" data-demo="long-header">
           {LONG_HEADER_CASES.map((c) => (
             <div key={c.label}>
-              <div className="mb-1 text-xs text-foreground-placeholder">{c.label}</div>
+              <div className="mb-1 text-xs text-foreground-hint">{c.label}</div>
               <div
-                className="overflow-hidden border border-line bg-layer-panel"
+                className="overflow-hidden border border-line-seam bg-layer-canvas"
                 style={{ width: c.width }}
               >
                 <PanelHeader>

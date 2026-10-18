@@ -88,7 +88,7 @@ describe("disabled pointer semantics", () => {
     for (const name of [
       "opacity-100",
       "transform-none",
-      "border-line-muted",
+      "border-line-hairline",
       "bg-fill-muted",
       "text-foreground-disabled",
     ]) {

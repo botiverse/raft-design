@@ -37,7 +37,7 @@ test("a button drawn as the top bar's search field", () => {
       "text-foreground-hint",
       "hover:press-overlay",
       "active:press-overlay",
-      "focus-visible:shadow-raft-focus",
+      "focus-visible:shadow-focus",
       "[&>svg:not([class*='size-'])]:size-[18px]",
     ]),
   );
@@ -72,7 +72,7 @@ test("disabled, it is a disabled field and the press overlay is reset", () => {
     expect.arrayContaining([
       "disabled:bg-none",
       "disabled:bg-fill-muted",
-      "disabled:border-line-muted",
+      "disabled:border-line-hairline",
       "disabled:text-foreground-disabled",
       "aria-disabled:bg-none",
       "aria-disabled:text-foreground-disabled",

@@ -2,11 +2,11 @@ import { tv } from "../../lib/tv";
 
 export const tasksPanel = tv({
   slots: {
-    root: ["flex min-h-0 min-w-0 flex-1 flex-col", "bg-layer-panel text-foreground"],
+    root: ["flex min-h-0 min-w-0 flex-1 flex-col", "bg-layer-canvas text-foreground"],
     toolbar: [
       "grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2",
       "md:flex md:flex-wrap md:items-center md:justify-between",
-      "min-h-14 border-b border-line-seam bg-layer-panel px-5 py-3",
+      "min-h-14 border-b border-line-seam bg-layer-canvas px-5 py-3",
       "max-md:px-4",
     ],
     toolbarGroup: ["flex flex-wrap items-center gap-2"],
@@ -31,7 +31,7 @@ export const tasksPanel = tv({
     viewport: [
       "min-h-0 flex-1 overflow-auto overscroll-contain p-4",
       "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
-      "bg-layer-panel px-5",
+      "bg-layer-canvas px-5",
       "max-md:px-4",
     ],
     empty: ["flex h-full flex-col items-center justify-center"],

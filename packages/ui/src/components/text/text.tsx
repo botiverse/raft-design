@@ -5,11 +5,11 @@ import type { VariantProps } from "../../lib/tv";
 
 const textColorVariants = {
   default: ["text-foreground"],
-  primary: ["text-primary-700"],
+  primary: ["text-brand-700"],
   information: ["text-info-strong"],
   muted: ["text-foreground-muted"],
-  placeholder: ["text-foreground-placeholder"],
-  accent: ["text-accent-700"],
+  placeholder: ["text-foreground-hint"],
+  accent: ["text-attention-700"],
   success: ["text-success"],
   warning: ["text-warning"],
   danger: ["text-danger"],
@@ -37,8 +37,8 @@ const sans = tv({
   base: ["m-0 font-sans font-normal"],
   variants: {
     size: {
-      large: ["text-lg leading-7 text-foreground-strong"],
-      body: ["text-base leading-6 text-foreground-strong"],
+      large: ["text-lg leading-7 text-foreground"],
+      body: ["text-base leading-6 text-foreground"],
       small: ["text-sm leading-5 text-foreground-muted"],
       caption: ["text-xs leading-4 text-foreground-muted"],
     },
@@ -53,13 +53,13 @@ const mono = tv({
   base: ["m-0 font-mono font-normal"],
   variants: {
     size: {
-      code: ["text-sm leading-5 text-foreground-strong"],
+      code: ["text-sm leading-5 text-foreground"],
       meta: ["text-xs leading-4 text-foreground-muted"],
       eyebrow: [
         "text-[10px] font-medium uppercase tracking-wide leading-none",
-        "text-foreground-placeholder",
+        "text-foreground-hint",
       ],
-      tabular: ["text-sm tabular-nums leading-5 text-foreground-strong"],
+      tabular: ["text-sm tabular-nums leading-5 text-foreground"],
     },
     variant: textColorVariants,
   },

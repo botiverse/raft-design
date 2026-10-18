@@ -106,7 +106,7 @@ export function MembersSidebar({
                     className={[
                       "mt-1.5 mb-0.5 flex w-full items-center gap-1.5 py-0",
                       "border-2 border-transparent px-2",
-                      "text-[10px] font-mono font-normal tracking-normal lowercase text-foreground-icon select-none",
+                      "text-[10px] font-mono font-normal tracking-normal lowercase text-foreground-muted select-none",
                     ].join(" ")}
                   >
                     <SidebarItemIcon aria-hidden>
@@ -180,7 +180,7 @@ function MemberSidebarItem({
         <SidebarItemTitle>
           {actor.name}
           {actor.isSelf ? (
-            <span className="ml-1 font-normal text-foreground-icon">(you)</span>
+            <span className="ml-1 font-normal text-foreground-muted">(you)</span>
           ) : null}
         </SidebarItemTitle>
         <SidebarItemSubtitle>{actor.description ?? actor.meta}</SidebarItemSubtitle>

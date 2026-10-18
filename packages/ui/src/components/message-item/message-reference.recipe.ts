@@ -16,7 +16,7 @@ const chip = (fill: string) => [
   "h-[22px] items-center gap-0.5 rounded-sticker px-1.5 has-[>svg]:pl-[3px] align-[1px]",
   // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
   "[font-size:0.875em] leading-5 font-semibold",
-  "[&_svg]:size-3.5 [&_svg]:text-foreground-icon",
+  "[&_svg]:size-3.5 [&_svg]:text-foreground-muted",
   fill,
 ];
 const linkChip = (fill: string) => [
@@ -32,7 +32,7 @@ export const messageReference = tv({
       // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
       "[font-size:inherit] leading-[1.2em]",
       "max-w-full truncate select-text no-underline",
-      "outline-none focus-visible:shadow-raft-focus",
+      "outline-none focus-visible:shadow-focus",
       "[&_svg]:size-[0.857em] [&_svg]:shrink-0 [&_svg]:self-center",
       "has-[>[data-slot=message-reference-indicator]]:relative has-[>[data-slot=message-reference-indicator]]:mr-2",
       "has-[>[data-slot=message-reference-indicator]]:inline-block",
@@ -51,7 +51,7 @@ export const messageReference = tv({
         root: [
           "inline-flex cursor-pointer rounded-sticker px-[3px]",
           "font-semibold text-sticker-ink no-underline",
-          "bg-primary inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
+          "bg-brand inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
           "hover:press-overlay-sticker",
         ],
       },
@@ -64,7 +64,7 @@ export const messageReference = tv({
         ],
       },
       // A place is pink, a thing in it cyan; one that cannot be opened is grey.
-      accent: { root: linkChip("bg-accent-soft") },
+      accent: { root: linkChip("bg-attention-soft") },
       muted: { root: linkChip("bg-inactive-soft") },
       info: { root: linkChip("bg-info-soft") },
       link: { root: linkChip("bg-info-soft") },

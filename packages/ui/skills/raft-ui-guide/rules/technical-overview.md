@@ -34,7 +34,7 @@ Link or inline `dist/foundation.css`; no build is required. Optional `fonts.css`
     color: var(--foreground);
   }
   article {
-    border: 2px solid var(--line);
+    border: 2px solid var(--line-seam);
   }
 </style>
 ```

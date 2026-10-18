@@ -2,15 +2,15 @@ import { tv } from "../../lib/tv";
 
 export const files = tv({
   slots: {
-    panel: ["flex min-h-0 flex-1 flex-col", "bg-layer-panel text-foreground"],
+    panel: ["flex min-h-0 flex-1 flex-col", "bg-layer-canvas text-foreground"],
     viewport: ["min-h-0 flex-1 overflow-y-auto"],
     list: ["flex flex-col gap-2 px-5 py-3", "max-md:px-4"],
     row: [
       "group/file-row flex w-full min-w-0 gap-3 px-3",
       "transition-colors",
-      "items-center rounded-container border border-line-muted bg-layer-card py-2.5 pr-1.5 pl-2.5 shadow-none",
+      "items-center rounded-container border border-line-hairline bg-layer-card py-2.5 pr-1.5 pl-2.5 shadow-none",
       "has-[[data-slot=file-row-open]:hover]:press-overlay has-[[data-slot=file-row-open]:active]:press-overlay",
-      "has-[[data-slot=file-row-open]:focus-visible]:shadow-raft-focus",
+      "has-[[data-slot=file-row-open]:focus-visible]:shadow-focus",
     ],
     rowOpen: [
       "flex min-w-0 flex-1 gap-3 text-left",

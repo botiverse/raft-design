@@ -24,10 +24,9 @@ function TypedDeleteAlertDialogParts() {
         <AlertDialogClose />
       </AlertDialogHeader>
       <AlertDialogBody className="grid gap-5">
-        <p className="m-0 text-sm leading-5 text-foreground-strong/60">
-          This will permanently delete{" "}
-          <strong className="font-bold text-foreground-strong">Raft</strong> and all its data
-          (agents, channels, messages). This cannot be undone.
+        <p className="m-0 text-sm leading-5 text-foreground/60">
+          This will permanently delete <strong className="font-bold text-foreground">Raft</strong>{" "}
+          and all its data (agents, channels, messages). This cannot be undone.
         </p>
         <Field>
           <FieldLabel htmlFor="alert-dialog-delete-server">

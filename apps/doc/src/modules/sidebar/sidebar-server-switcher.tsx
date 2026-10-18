@@ -10,18 +10,18 @@ const sidebarServerRecipe = tv({
     sidebarServer: [
       "relative inline-flex shrink-0 items-center",
       "-rotate-2 gap-1.5 rounded-control bg-sticker-ink py-1 pr-2.5 pl-3",
-      "min-h-9 font-sans text-headline text-primary",
+      "min-h-9 font-sans text-headline text-brand",
       "shadow-[0_0_0_1.5px_var(--sticker-edge)]",
       "transition-colors",
       "hover:bg-[color-mix(in_srgb,var(--sticker-paper)_15%,var(--sticker-ink))]",
       "active:bg-[color-mix(in_srgb,var(--sticker-paper)_15%,var(--sticker-ink))]",
-      "outline-none focus-visible:shadow-raft-focus",
+      "outline-none focus-visible:shadow-focus",
     ],
     sidebarServerLabel: ["min-w-0 truncate", "max-w-[200px]"],
     sidebarServerChevron: [
       "flex shrink-0 items-center justify-center",
       "[&_svg]:size-4 [&_svg]:shrink-0",
-      "text-primary",
+      "text-brand",
     ],
   },
 });

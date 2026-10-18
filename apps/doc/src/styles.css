@@ -38,6 +38,6 @@ body {
 }
 
 ::selection {
-  background: var(--primary-400);
-  color: var(--primary-950);
+  background: var(--brand-400);
+  color: var(--brand-950);
 }

@@ -16,7 +16,7 @@ export const sidebarSectionRecipe = tv({
       "[&[data-panel-open]_[data-slot=sidebar-section-chevron]]:rotate-90",
       "h-auto gap-1.5 rounded-sticker border-0",
       "font-sans text-footnote font-bold normal-case tracking-normal text-foreground-hint",
-      "outline-none focus-visible:shadow-raft-focus",
+      "outline-none focus-visible:shadow-focus",
       "**:data-[slot=sidebar-section-chevron]:size-3.5 **:data-[slot=sidebar-section-chevron]:stroke-2",
     ],
     sidebarSectionTitle: ["min-w-0 truncate"],

@@ -32,7 +32,7 @@ export function SidebarPreview({ codeBlock }: SidebarPreviewProps) {
   return (
     <Preview previewClassName="!h-[560px] !min-h-0 !items-stretch !justify-center !p-2">
       <Preview.Canvas>
-        <div className="flex h-full w-[308px] items-stretch bg-layer-canvas-muted">
+        <div className="flex h-full w-[308px] items-stretch bg-layer-sidebar">
           <SidebarComposition
             contentState={getContentState(content)}
             liveActivityState={getLiveActivityState(liveActivity)}

@@ -8,7 +8,7 @@ import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { Preview } from "#/components/preview.tsx";
 import { SIZES, VARIANTS } from "./button.constants.ts";
 
-const RAFT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME = "shadow-raft-focus";
+const RAFT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME = "shadow-focus";
 
 type ButtonPreviewProps = ButtonProps & {
   focusVisible?: boolean;

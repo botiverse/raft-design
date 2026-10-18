@@ -20,14 +20,14 @@ export function PreviewCardMentionComposition({
 }: PreviewCardMentionCompositionProps = {}) {
   return (
     <div className="flex size-full min-h-72  items-start justify-center pt-8">
-      <p className="m-0 max-w-full text-sm leading-6 text-foreground-strong">
+      <p className="m-0 max-w-full text-sm leading-6 text-foreground">
         <span>Follow up with </span>
         <PreviewCard defaultOpen={defaultOpen}>
           <PreviewCardTrigger
             render={
               <a
                 href="/components/avatar"
-                className="cursor-default select-text font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600"
+                className="cursor-default select-text font-bold text-foreground underline decoration-foreground/30 decoration-2 underline-offset-2 hover:text-attention-600 hover:decoration-attention-600"
               />
             }
           >

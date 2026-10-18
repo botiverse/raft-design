@@ -137,7 +137,7 @@ export function ActivitySwitcherRow({
       {icon}
       <span className="min-w-0 flex-1 truncate text-left">{label}</span>
       {count === undefined ? null : (
-        <span className="shrink-0 tabular-nums text-foreground-placeholder">{count}</span>
+        <span className="shrink-0 tabular-nums text-foreground-hint">{count}</span>
       )}
     </Button>
   );

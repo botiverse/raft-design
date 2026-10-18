@@ -303,7 +303,7 @@ function ContextMenuTriggerSurface({ id, children }: { id: string; children: Rea
       id={id}
       className={cn(
         "flex min-h-24 w-72 items-center justify-center px-5 py-6 text-center",
-        "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
+        "border border-dashed border-line-strong bg-layer-canvas text-sm font-medium text-foreground-muted",
       )}
     >
       {children}

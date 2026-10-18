@@ -67,7 +67,7 @@ const avatar = tv({
     badge: [
       "absolute z-10 select-none",
       "size-[11px] -right-1 -bottom-1 rounded-[2px]",
-      "outline-2 outline-solid outline-layer-panel",
+      "outline-2 outline-solid outline-layer-canvas",
       "group-data-[size=xl]/avatar:size-5 group-data-[size=xl]/avatar:-right-2 group-data-[size=xl]/avatar:-bottom-2",
       "group-data-[size=lg]/avatar:size-3.5 group-data-[size=lg]/avatar:right-[-5px] group-data-[size=lg]/avatar:bottom-[-5px]",
       "group-data-[size=md]/avatar:size-[11px]",
@@ -84,25 +84,25 @@ const avatar = tv({
       "group-data-[size=md]/avatar:[&>svg]:size-1.5 group-data-[size=md]/avatar:[&>svg]:block",
       "group-data-[size=xs]/avatar:outline group-data-[size=2xs]/avatar:outline group-data-[size=3xs]/avatar:outline",
       "rounded-[2px] border-[1.5px] border-sticker-ink",
-      "bg-(--status-color) text-sticker-ink outline-layer-panel",
+      "bg-(--status-color) text-sticker-ink outline-layer-canvas",
       "group-data-[size=xl]/avatar:border-2",
       "group-data-[size=3xs]/avatar:border",
     ],
     group: [
       "group/avatar-group flex items-center",
       "space-x-[-5px]",
-      "*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-panel)]",
-      "*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-panel)]",
+      "*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-canvas)]",
+      "*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-canvas)]",
     ],
   },
   variants: {
     type: {
       agent: { root: ["bg-inactive"] },
-      human: { root: ["bg-brutal-lavender"] },
+      human: { root: ["bg-palette-lavender"] },
     },
     size: {
       xl: {
-        root: ["size-[99px] shadow-[0_0_0_1.5px_var(--sticker-edge),var(--theme-shadow-sticker)]"],
+        root: ["size-[99px] shadow-[0_0_0_1.5px_var(--sticker-edge),var(--elevation-sticker)]"],
       },
       lg: { root: ["size-[51px]"] },
       md: { root: ["size-[35px]"] },
@@ -328,7 +328,7 @@ export type AvatarGroupProps = ComponentPropsWithRef<"div">;
 
 // Overlapping stack of avatars (and an optional trailing AvatarGroupCount). The
 // standalone frame is a transparent border, so in the stack each avatar's frame is painted
-// with the ring surface (layer-canvas-muted) to stay opaque and never show the avatar
+// with the ring surface (layer-sidebar) to stay opaque and never show the avatar
 // neighbor beneath the overlap.
 export function AvatarGroup({ className, ...props }: AvatarGroupProps) {
   const { group } = avatar();

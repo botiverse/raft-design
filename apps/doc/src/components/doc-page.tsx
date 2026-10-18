@@ -115,7 +115,7 @@ export function DocPage({
                 ) : null}
               </div>
               {overview ? (
-                <div className="mt-4 border-l-2 border-line-muted pl-4 text-sm leading-relaxed text-foreground-muted">
+                <div className="mt-4 border-l-2 border-line-hairline pl-4 text-sm leading-relaxed text-foreground-muted">
                   {overview}
                 </div>
               ) : null}

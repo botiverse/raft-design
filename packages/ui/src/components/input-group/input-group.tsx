@@ -18,9 +18,9 @@ const inputGroup = tv({
       // (a whole-page recalc trap, #133).
       "has-data-[input-group-trim=inline-end]:[--ig-control-pr:0]",
       "h-11 overflow-hidden rounded-control border-[1.5px] border-line-strong bg-layer-card text-foreground",
-      "shadow-none transition-shadow duration-90 ease-out focus-within:shadow-raft-focus",
+      "shadow-none transition-shadow duration-90 ease-out focus-within:shadow-focus",
       "has-[[data-slot=input-group-control][data-invalid]]:border-danger-strong",
-      "has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed has-[[data-slot=input-group-control]:disabled]:border-line-muted has-[[data-slot=input-group-control]:disabled]:bg-fill-muted",
+      "has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed has-[[data-slot=input-group-control]:disabled]:border-line-hairline has-[[data-slot=input-group-control]:disabled]:bg-fill-muted",
       "has-[[data-slot=input-group-control]:disabled]:[--ig-addon-fg:var(--foreground-disabled)]",
       "has-[[data-slot=input-group-control]:disabled]:[--ig-text-fg:var(--foreground-disabled)]",
     ],
@@ -41,7 +41,7 @@ const inputGroup = tv({
       "min-w-0 flex-1 bg-transparent pl-3 outline-none",
       "pr-(--ig-control-pr,0.75rem)",
       "h-full py-0 font-heading text-field font-field",
-      "text-foreground placeholder:text-foreground-placeholder",
+      "text-foreground placeholder:text-foreground-hint",
       "disabled:cursor-not-allowed disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
     ],
   },
@@ -57,13 +57,13 @@ const inputGroup = tv({
           "self-stretch",
           // A default for the color variable, not a color class: two unprefixed
           // color classes would merge and drop the variable read (review).
-          "[--ig-addon-fg-default:var(--foreground-placeholder)]",
-          "border-line-muted bg-fill-muted",
+          "[--ig-addon-fg-default:var(--foreground-hint)]",
+          "border-line-hairline bg-fill-muted",
         ],
         text: [
           "self-stretch",
-          "[--ig-text-fg-default:var(--foreground-placeholder)]",
-          "border-line-muted bg-fill-muted",
+          "[--ig-text-fg-default:var(--foreground-hint)]",
+          "border-line-hairline bg-fill-muted",
         ],
       },
     },

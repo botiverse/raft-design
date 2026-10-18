@@ -9,10 +9,10 @@ export const taskCard = tv({
       "data-[disabled=true]:pointer-events-none data-[disabled=true]:transform-none",
       "group-data-[dragging=true]/task-draggable:transform-none",
       "motion-reduce:transform-none motion-reduce:transition-none",
-      "rounded-container border border-line-muted bg-layer-card p-3 text-foreground shadow-none",
+      "rounded-container border border-line-hairline bg-layer-card p-3 text-foreground shadow-none",
       "data-[interactive=true]:hover:press-overlay data-[interactive=true]:active:press-overlay",
       "data-[disabled=true]:bg-fill-muted data-[disabled=true]:opacity-100",
-      "group-data-[dragging=true]/task-draggable:shadow-raft-float",
+      "group-data-[dragging=true]/task-draggable:shadow-float",
     ],
     row: ["flex min-w-0 items-start gap-2"],
     body: ["min-w-0 flex-1"],
@@ -22,7 +22,7 @@ export const taskCard = tv({
     legacy: [
       "shrink-0",
       "inline-flex h-[22px] items-center rounded-chip px-1.5 py-0",
-      "inset-ring inset-ring-line-muted",
+      "inset-ring inset-ring-line-hairline",
       "font-mono text-mono-meta font-normal text-foreground-muted",
     ],
     title: [

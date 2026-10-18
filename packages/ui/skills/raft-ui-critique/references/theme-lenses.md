@@ -32,7 +32,7 @@ Judge whether the surface speaks Raft's material language:
 
 - Every color block is a sticker: an ink edge and ink type on the color. Flag colored fills without the edge, light type on a sticker, and edges that double up with an adjacent border.
 - Lines carry roles: ink lines say "control", seams split regions, hairlines sit inside content. Flag a hairline used as a control edge or an ink line used as a region divider.
-- Controls cast no shadow; only overlays float, and `--theme-shadow-sticker` is a hard offset under a sticker. Flag soft shadows on controls, cards, or rows, and floating surfaces without the overlay shadow.
+- Controls cast no shadow; only overlays float, and `--elevation-sticker` is a hard offset under a sticker. Flag soft shadows on controls, cards, or rows, and floating surfaces without the overlay shadow.
 - Corners follow the shape scale in `styles.css`: sticker, chip, control, container, dialog; fully round only for switches and radios. Flag corners off the scale or mixed within one group.
 - Space Grotesk is what people say; Space Mono is what machines write (ids, times, counts, events, code). Flag machine output set in sans and prose set in mono.
 - Yellow and pink must carry semantic roles. Flag decorative yellow/pink fields that compete with primary actions or status.

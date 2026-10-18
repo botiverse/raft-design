@@ -221,7 +221,7 @@ describe("ListRow", () => {
         "overflow-hidden",
         "rounded-container",
         "border",
-        "border-line-muted",
+        "border-line-hairline",
         "bg-layer-card",
       ]),
     );

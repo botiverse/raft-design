@@ -36,7 +36,7 @@ export const messageQuotedPreview = tv({
       "block w-full text-left",
       "border-l-2 border-line-seam pl-2.5",
       "text-callout text-foreground-hint",
-      "outline-none focus-visible:shadow-raft-focus",
+      "outline-none focus-visible:shadow-focus",
     ],
   },
 });

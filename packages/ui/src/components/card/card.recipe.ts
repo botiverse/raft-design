@@ -46,10 +46,10 @@ export const card = tv({
   variants: {
     variant: {
       default: {
-        root: ["rounded-container border border-line-muted bg-layer-card", "shadow-none"],
+        root: ["rounded-container border border-line-hairline bg-layer-card", "shadow-none"],
         header: ["p-4 has-[+[data-slot=card-content]]:pb-0"],
         content: ["p-4"],
-        footer: ["border-t border-line-muted px-4 py-3"],
+        footer: ["border-t border-line-hairline px-4 py-3"],
       },
       /** A selectable option INSIDE a form, not a panel on top of one: it sits
        *  in the control plane, and its title drops from the card-title scale
@@ -62,10 +62,10 @@ export const card = tv({
         description: ["font-sans text-footnote text-foreground-muted"],
       },
       inset: {
-        root: ["rounded-container border border-line-muted bg-layer-card", "shadow-none"],
+        root: ["rounded-container border border-line-hairline bg-layer-card", "shadow-none"],
         header: ["px-4 py-3"],
-        content: ["border-t border-line-muted p-4 first:border-t-0"],
-        footer: ["border-t border-line-muted px-4 py-3"],
+        content: ["border-t border-line-hairline p-4 first:border-t-0"],
+        footer: ["border-t border-line-hairline px-4 py-3"],
       },
     },
   },

@@ -2,7 +2,7 @@ import { MessageReferencePending, Spinner } from "raft-ui";
 
 export function MessageReferenceResolutionStatesComposition() {
   return (
-    <p className="text-sm text-foreground-strong">
+    <p className="text-sm text-foreground">
       Opening{" "}
       <MessageReferencePending>
         <Spinner size="xs" />

@@ -7,7 +7,7 @@ export const sidebarMenuRecipe = tv({
       "h-auto gap-1.5 rounded-sticker",
       "font-sans text-footnote font-bold normal-case tracking-normal text-foreground-hint",
       "hover:text-foreground aria-[current=page]:text-foreground",
-      "outline-none focus-visible:shadow-raft-focus",
+      "outline-none focus-visible:shadow-focus",
     ],
     sidebarMenuIcon: [
       "flex shrink-0 items-center justify-center",

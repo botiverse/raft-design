@@ -76,7 +76,7 @@ function lightnessFor(selector: string, token: string): number {
 }
 
 test("dark: the popover sits above the panel", () => {
-  const panel = lightnessFor(DARK, "layer-panel");
+  const panel = lightnessFor(DARK, "layer-canvas");
   const popover = lightnessFor(DARK, "layer-popover");
   expect(
     popover,
@@ -88,7 +88,7 @@ test("dark: the auto-dark block tracks the explicit dark block", () => {
   // Two selectors carry the dark palette. A value changed in one and missed in
   // the other splits the look by how the reader's OS is set rather than by
   // design, and nothing else in the suite would notice.
-  for (const token of ["layer-canvas", "layer-panel", "layer-popover"]) {
+  for (const token of ["layer-canvas", "layer-popover"]) {
     expect(lightnessFor(AUTO_DARK, token), token).toBe(lightnessFor(DARK, token));
   }
   expect(backdropAlphaFor(AUTO_DARK)).toBe(backdropAlphaFor(DARK));

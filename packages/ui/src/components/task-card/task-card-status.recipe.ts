@@ -12,6 +12,6 @@ export const taskCardStatus = tv({
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:size-3 [&_svg:not([data-slot=task-status-icon])]:-mx-0.5 [&_svg[data-slot=task-status-icon]]:size-[9px]",
     "[button&]:cursor-pointer [button&]:enabled:hover:press-overlay [button&]:enabled:active:press-overlay",
     "disabled:cursor-default disabled:opacity-100",
-    "focus-visible:shadow-raft-focus",
+    "focus-visible:shadow-focus",
   ],
 });

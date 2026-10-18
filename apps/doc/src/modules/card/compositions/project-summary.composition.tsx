@@ -46,7 +46,7 @@ export function CardProjectSummaryComposition({
           </Text.Mono>
         </div>
 
-        <Separator className="data-[orientation=horizontal]:border-line-muted" />
+        <Separator className="data-[orientation=horizontal]:border-line-hairline" />
 
         <div className="flex min-w-0 items-start gap-3">
           <Status aria-hidden className="mt-1" size="sm" variant="success" />
@@ -59,7 +59,7 @@ export function CardProjectSummaryComposition({
           </Text.Mono>
         </div>
 
-        <Separator className="data-[orientation=horizontal]:border-line-muted" />
+        <Separator className="data-[orientation=horizontal]:border-line-hairline" />
 
         <div className="flex min-w-0 items-start gap-3">
           <Status aria-hidden className="mt-1" size="sm" variant="warning" />

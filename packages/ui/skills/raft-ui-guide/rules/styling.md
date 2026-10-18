@@ -34,7 +34,7 @@ Raft-ui's token contract is authored in oklch and exposed through semantic token
 **Correct:**
 
 ```tsx
-<div className="border border-line-muted bg-fill-muted text-foreground-muted" />
+<div className="border border-line-hairline bg-fill-muted text-foreground-muted" />
 ```
 
 Never write `hex`, `rgb()`, or `hsl()` either.
@@ -59,7 +59,7 @@ The `ink` ramp step is the alpha percentage — `ink-8` is 8% ink. Use it for ha
 
 Within the state families, `primary` and `accent` split roles rather than rank:
 
-- **`primary-*` (Source Yellow) — hints and interactive expression.** New-message indicators, attention badges, the active tab. The tabs active state draws from the primary family. Focus rings do not: they are ink, a 2px paper gap plus a 2px ink ring (`shadow-raft-focus`, `--theme-focus-ring`).
+- **`primary-*` (Source Yellow) — hints and interactive expression.** New-message indicators, attention badges, the active tab. The tabs active state draws from the primary family. Focus rings do not: they are ink, a 2px paper gap plus a 2px ink ring (`shadow-focus`, `--focus-ring`).
 - **`accent-*` — core and important actions.** A dialog's confirm, the composer's send. `ComposerSubmit` locks `variant="accent"` at the type level.
 
 Do not use yellow for an action button just because it is the brand color, and do not use accent for a passive indicator.
@@ -73,7 +73,7 @@ Opaque tokens and alpha washes composite differently on non-white backdrops. Nev
 Hover and active states on solid fills are derived tokens, not opacity hacks.
 
 ```tsx
-<button className="bg-primary hover:bg-primary-hover active:bg-primary-active" />
+<button className="bg-brand hover:bg-brand-hover active:bg-brand-active" />
 ```
 
 Not every state family ships the full set — check `foundation.css` before assuming `success-hover` exists. Adding a family to the interaction contract means defining its complete hover/active pair in the token layer, not patching one callsite.
@@ -94,9 +94,10 @@ Tokenize on the rule of three: once the same value appears in a third component,
 
 ## Controls cast no shadow
 
-`--theme-shadow-xs`, `-sm`, and `-md` are empty: controls never cast a shadow.
-`-lg`, `-xl`, and `-float` are the overlay shadow; `--theme-shadow-sticker` is a
-hard offset under a sticker, such as the `xl` avatar.
+Controls never cast a shadow. `shadow-float` (`--elevation-float`) is the
+overlay shadow: menus, popovers, dialogs, sheets, toasts, tooltips.
+`shadow-sticker` (`--elevation-sticker`) is a hard offset under brand
+illustration, such as the `xl` avatar.
 
 ---
 
@@ -105,10 +106,10 @@ hard offset under a sticker, such as the `xl` avatar.
 ```tsx
 // Incorrect — tailwind-merge misreads this as a shadow-color and conflict
 // resolution silently breaks.
-<div className="shadow-[var(--theme-shadow-sm),0_1px_2px_oklch(0_0_0_/_0.18)]" />
+<div className="shadow-[var(--elevation-float),0_1px_2px_oklch(0_0_0_/_0.18)]" />
 ```
 
-Use a registered named shadow utility such as `shadow-raft-sm`, or keep the shadow fully literal:
+Use a registered named shadow utility such as `shadow-float`, or keep the shadow fully literal:
 
 ```tsx
 <div className="shadow-[0_1px_2px_oklch(0_0_0_/_0.18)]" />

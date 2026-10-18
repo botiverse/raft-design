@@ -5,7 +5,7 @@ export const searchThread = tv({
     thread: [
       "overflow-hidden transition-colors",
       "relative rounded-none border-0 bg-transparent text-foreground shadow-none",
-      "not-first:before:absolute not-first:before:top-0 not-first:before:right-0 not-first:before:left-4 not-first:before:border-t not-first:before:border-line-muted",
+      "not-first:before:absolute not-first:before:top-0 not-first:before:right-0 not-first:before:left-4 not-first:before:border-t not-first:before:border-line-hairline",
     ],
     threadHeader: ["py-2", "px-4 pt-3 pb-1"],
     threadMeta: [

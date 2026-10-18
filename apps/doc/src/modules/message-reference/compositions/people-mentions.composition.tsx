@@ -2,7 +2,7 @@ import { MessageReferenceText, PreviewCard, PreviewCardContent, PreviewCardTrigg
 
 export function MessageReferencePeopleMentionsComposition() {
   return (
-    <div className="text-sm text-foreground-strong">
+    <div className="text-sm text-foreground">
       Ask{" "}
       <PreviewCard>
         <PreviewCardTrigger

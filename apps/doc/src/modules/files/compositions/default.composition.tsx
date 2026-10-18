@@ -60,7 +60,7 @@ export function FilesPanelDefaultComposition() {
   }, []);
 
   return (
-    <div className="flex h-[32rem] w-full max-w-2xl flex-col overflow-hidden border border-line-muted">
+    <div className="flex h-[32rem] w-full max-w-2xl flex-col overflow-hidden border border-line-hairline">
       <FilesPanelComposition
         files={files}
         hasMore={hasMore}
@@ -71,7 +71,7 @@ export function FilesPanelDefaultComposition() {
       />
       <p
         aria-live="polite"
-        className="border-t border-line-muted bg-fill-muted px-4 py-2 text-xs text-foreground-muted"
+        className="border-t border-line-hairline bg-fill-muted px-4 py-2 text-xs text-foreground-muted"
       >
         {announcement}
       </p>

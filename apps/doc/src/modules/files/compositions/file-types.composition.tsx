@@ -23,7 +23,7 @@ import { Clock3, Download, ExternalLink } from "lucide-react";
 
 export function FilesPanelFileTypesComposition() {
   return (
-    <div className="flex h-[32rem] w-full max-w-2xl overflow-hidden border border-line-muted">
+    <div className="flex h-[32rem] w-full max-w-2xl overflow-hidden border border-line-hairline">
       <FilesPanel aria-label="Files panel">
         <FilesViewport>
           <FilesList>

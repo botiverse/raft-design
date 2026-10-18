@@ -19,7 +19,7 @@ const dialog = tv({
       "fixed top-1/2 left-1/2 z-50 flex w-[calc(100%-2rem)] -translate-1/2 flex-col",
       "max-h-[calc(100dvh-2rem)] outline-none",
       "overflow-clip rounded-dialog bg-layer-popover text-foreground",
-      "shadow-raft-float ring-1 ring-line-seam",
+      "shadow-float ring-1 ring-line-seam",
     ],
     header: [
       "grid shrink-0 grid-cols-[minmax(0,1fr)_max-content] items-center min-w-0",
@@ -232,7 +232,7 @@ const dialogSurface = tv({
     root: [
       "flex min-w-0 flex-col outline-none",
       "overflow-clip rounded-dialog bg-layer-popover text-foreground",
-      "shadow-raft-float ring-1 ring-line-seam",
+      "shadow-float ring-1 ring-line-seam",
     ],
   },
 });

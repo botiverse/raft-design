@@ -6,7 +6,7 @@ export const composer = tv({
       "flex w-full flex-col gap-2 p-2",
       "rounded-container border-[1.5px] px-3 pt-3 pb-2",
       "border-line-strong bg-layer-card text-foreground shadow-none",
-      "focus-within:shadow-raft-focus",
+      "focus-within:shadow-focus",
     ],
     input: [
       "max-h-32 w-full resize-none bg-transparent outline-none",
@@ -16,13 +16,13 @@ export const composer = tv({
       // states its weight rather than inheriting one (a thread footer's
       // 12/16 500 caption type made its text and placeholder medium).
       "font-sans text-body font-normal text-foreground md:text-body",
-      "placeholder:text-foreground-placeholder",
+      "placeholder:text-foreground-hint",
     ],
     toolbar: ["flex items-center justify-between", "gap-2"],
     actions: ["flex items-center gap-2"],
     meta: ["flex items-center", "gap-2"],
     iconButton: [
-      "size-8 rounded-control text-foreground-icon",
+      "size-8 rounded-control text-foreground-muted",
       "disabled:border-transparent disabled:bg-transparent",
       "aria-disabled:border-transparent aria-disabled:bg-transparent",
       "[[data-slot=composer-actions]:first-child>&:first-child]:ml-[-5px]",

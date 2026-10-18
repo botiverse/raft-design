@@ -48,7 +48,7 @@ function DialogScrollLayerPreview() {
   }, []);
 
   return (
-    <PreviewThemeScope mode={mode} className="min-h-screen bg-layer-base text-foreground-strong">
+    <PreviewThemeScope mode={mode} className="min-h-screen bg-layer-base text-foreground">
       <div className="mx-auto flex max-w-3xl flex-col gap-6 p-6">
         <div className="flex flex-col gap-1">
           <Text.Sans size="large" className="font-semibold">
@@ -159,7 +159,7 @@ function Card({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-2 rounded-md border border-line-muted bg-layer-panel p-4">
+    <div className="flex flex-col gap-2 rounded-md border border-line-hairline bg-layer-canvas p-4">
       <div className="flex flex-col gap-0.5">
         <Text.Sans size="caption" className="font-medium text-foreground">
           {label}
@@ -239,7 +239,7 @@ function AdjustableHeightDialog() {
           max={30}
           value={fieldCount}
           onChange={(e) => setFieldCount(Number(e.target.value))}
-          className="h-1.5 w-full cursor-pointer accent-primary"
+          className="h-1.5 w-full cursor-pointer accent-brand"
         />
         <Text.Sans size="caption" className="shrink-0 font-mono text-foreground-muted">
           30
@@ -319,7 +319,7 @@ function CustomLayoutDialog() {
             Custom layout
           </Text.Mono>
           <div className="flex items-center gap-3">
-            <div className="flex size-8 shrink-0 items-center justify-center border border-line-strong bg-primary-400 text-foreground">
+            <div className="flex size-8 shrink-0 items-center justify-center border border-line-strong bg-brand-400 text-foreground">
               <Monitor className="size-4" />
             </div>
             <DialogTitle className="text-foreground">Full-bleed content</DialogTitle>
@@ -440,7 +440,7 @@ function WorstCaseCombo() {
                   Onboarding
                 </Text.Mono>
                 <div className="flex items-center gap-3">
-                  <div className="flex size-8 shrink-0 items-center justify-center border border-line-strong bg-primary-400 text-foreground">
+                  <div className="flex size-8 shrink-0 items-center justify-center border border-line-strong bg-brand-400 text-foreground">
                     <Monitor className="size-4" />
                   </div>
                   <DialogTitle className="text-foreground">Complete setup</DialogTitle>
