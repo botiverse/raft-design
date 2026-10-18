@@ -1422,11 +1422,11 @@ function Home() {
       <header className="border-b border-line-muted px-6 py-12 sm:px-10 sm:py-16">
         <div className="flex max-w-3xl flex-col gap-5">
           <Text.Heading level={3} render={<h1 />}>
-            Build something bold with raft-ui.
+            Raft Design System
           </Text.Heading>
           <Text.Sans size="large">
-            A UI system with expressive visuals and playful interactions, shaped by Raft and made
-            for whatever you build next.
+            The design system used to build Raft: guidelines, design tokens and raft-ui, the React
+            components that implement them.
           </Text.Sans>
         </div>
       </header>
