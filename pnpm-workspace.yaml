@@ -53,13 +53,8 @@ catalog:
   torph: ^0.1.3
   "@typescript/native-preview": 7.0.0-dev.20260707.2
   eslint-plugin-better-tailwindcss: ^4.7.0
-  react-render-to-markdown: ^19.1.0
-  react-reconciler: ^0.34.0
   "@vitest/browser-playwright": 5.0.1
 overrides:
-  # react-render-to-markdown pins the reconciler for React 19.2; the reconciler
-  # must match the installed React minor or effects leak into the Markdown pass.
-  react-render-to-markdown>react-reconciler: "catalog:"
   vite@*: "catalog:"
   vitest@*: "catalog:"
 peerDependencyRules:
@@ -100,5 +95,3 @@ minimumReleaseAgeExclude:
   - framer-motion@13.4.3
   - motion-dom@13.4.2
   - lucide-react@1.48.0
-patchedDependencies:
-  react-render-to-markdown@19.1.0: patches/react-render-to-markdown@19.1.0.patch

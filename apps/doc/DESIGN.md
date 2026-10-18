@@ -104,11 +104,10 @@ All pages share one header: an eyebrow (section, plus category for components), 
 
 ### Home
 
-1. Title, a two-sentence description of what the system and raft-ui are, `pnpm add raft-ui`, one pink primary action (Browse Components) and one outline action (Read the Foundations). Next to it, a diagram of the frame, sidebar and paper drawn with the tokens themselves.
-2. The sections as cards, with counts and one-line descriptions, plus Playground.
-3. The seven rules, one line each, from `design/README.md`.
-4. For agents: `llms.txt`, `llms-full.txt`, the `.md` convention and `components.json`, each with what it contains.
-5. Latest release: the version and its first entries, linking to the changelog.
+1. The title and summary of `design/README.md`, `pnpm add raft-ui`, one pink primary action (Browse Components) and one outline action (Read the Foundations). Next to it, a diagram of the frame, sidebar and paper drawn with the tokens themselves.
+2. `design/README.md` itself: what the system is, the sections, the materials and the principles. The home page writes none of this; it renders the README, so the README stays the one source.
+3. For agents: `llms.txt`, `llms-full.txt`, the `.md` convention and `components.json`, each with what it contains.
+4. Latest release: the version and its first entries, linking to the changelog.
 
 The current home page (a gallery of every component) is dropped. The components index and Playground do that job with context.
 
@@ -220,7 +219,7 @@ Not built: an MCP server and per-component `llms.txt` files ([§11](#11-decision
 
 Each step is one PR and leaves the site working; §12 tracks them. The new pages go live at their final URLs rather than behind `/next`: none of the Foundations, Patterns, Products or Decisions URLs existed, and the component route only serves components whose hand-written route is gone, since a static route takes precedence over `/components/$slug`. Content fills in as each English area lands, with no site change.
 
-Regression guards: unit tests for the pipeline (front matter, link resolution, twin output, token values, search ranking with aliases), and a content test that fails CI when a page names an `example`, a `tokens` group, a page or a heading that does not exist. Visual checks of the shell in light, dark and at 375px are left to the reviewer on the Workers preview.
+Regression guards: unit tests for the pipeline (front matter, link resolution, twin output, token values, search ranking with aliases, API freshness), a content test that fails when the site cannot resolve a page's link or anchor, and `scripts/check-docs.mjs` in CI for front matter, `example` and `tokens` blocks. Visual checks of the shell in light, dark and at 375px are left to the reviewer on the Workers preview.
 
 ## 11. Decisions
 
@@ -238,19 +237,24 @@ Decided after review of #481 (2026-10-18):
 
 ## 12. Implementation status
 
-| Step | What                                                                                                                                                                                                                                                                                | PR                                                        |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| 1    | Content pipeline (front matter, links, `example` and `tokens` blocks, tokens from `packages/ui/src/tokens.json`), the site shell, search, and the Foundations, Patterns, Products, Decisions and component pages rendered from Markdown; `.md` twins and llms.txt sections for them | [#505](https://github.com/botiverse/raft-design/pull/505) |
-| 2    | Component pages: generated API tables, Related and Changes; a page for every exported component folder; the 85 hand-written component routes removed                                                                                                                                | [#509](https://github.com/botiverse/raft-design/pull/509) |
-| 3    | Home, redirects (`/tokens/*`, `/guides/*`), removal of `/dashboard`, `/lab` and the old sidebar; `components.json`; the skill's rules as pointers                                                                                                                                   | Next                                                      |
+| Step | What                                                                                                                                                                                                                                                                                                                | PR                                                        |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| 1    | Content pipeline (front matter, links, `example` and `tokens` blocks, tokens from `packages/ui/src/tokens.json`), the site shell, search, and the Foundations, Patterns, Products, Decisions and component pages rendered from Markdown; `.md` twins and llms.txt sections for them                                 | [#505](https://github.com/botiverse/raft-design/pull/505) |
+| 2    | Component pages: generated API tables, Related and Changes; a page for every exported component folder; the 85 hand-written component routes removed                                                                                                                                                                | [#509](https://github.com/botiverse/raft-design/pull/509) |
+| 3    | Home (from `design/README.md`) and the changelog in the site shell; redirects for `/tokens/*`, `/guides/*`, `/dashboard`, `/lab`; the old home, sidebar, dashboard, lab, token and guide pages and their components removed; the pixel loader on the Spinner page; llms built only from Markdown; `components.json` | This PR                                                   |
+| 4    | The raft-ui-guide skill keeps its code-specific rules (adoption, API lookup, technical overview); the guideline rules become pointers to the site pages and their `.md` twins                                                                                                                                       | Next                                                      |
 
 Where the code is:
 
-| Part                                                   | Path                                                                                                                            |
-| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| Page registry, front matter, links, twins, search, nav | `src/lib/content/`                                                                                                              |
-| Token groups from tokens.json                          | `src/lib/tokens/tokens.ts`                                                                                                      |
-| `example` registry                                     | `src/lib/examples.ts`                                                                                                           |
-| Shell, page layout, blocks                             | `src/components/site/`                                                                                                          |
-| Routes                                                 | `src/routes/_site/` (pathless layout), `src/routes/iframe/example.tsx` (phone view)                                             |
-| Content checks                                         | `src/lib/content/content.test.ts`: every page has a title and summary, and every `example`, `tokens` and relative link resolves |
+| Part                                                   | Path                                                                                                                                                                               |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Page registry, front matter, links, twins, search, nav | `src/lib/content/`                                                                                                                                                                 |
+| Token groups from tokens.json                          | `src/lib/tokens/tokens.ts`                                                                                                                                                         |
+| `example` registry                                     | `src/lib/examples.ts`                                                                                                                                                              |
+| Shell, page layout, blocks                             | `src/components/site/`                                                                                                                                                             |
+| Routes                                                 | `src/routes/_site/` (pathless layout), `src/routes/iframe/example.tsx` (phone view)                                                                                                |
+| Content checks                                         | `scripts/check-docs.mjs` (repository, CI): front matter, `example` and `tokens` blocks, links; `src/lib/content/content.test.ts`: the site resolves every relative link and anchor |
+| Generated API                                          | `scripts/build-api.mjs` → `src/data/api/` (`--check`, and `src/lib/content/api.test.ts`)                                                                                           |
+| Agent surfaces                                         | `src/llms/render.tsx` and `scripts/build-llms.mjs`: the `.md` twins, `llms.txt`, `llms-full.txt`, `components.json`                                                                |
+
+Not carried over: the per-component interactive previews with controls (`*.preview.tsx`), which only the removed routes used. Where a page needs one, it is written as a composition with local state and embedded with an `example` block.

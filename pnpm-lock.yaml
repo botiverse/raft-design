@@ -99,12 +99,6 @@ catalogs:
     react-markdown:
       specifier: ^10.1.0
       version: 10.1.0
-    react-reconciler:
-      specifier: ^0.34.0
-      version: 0.34.0
-    react-render-to-markdown:
-      specifier: ^19.1.0
-      version: 19.1.0
     react-resizable-panels:
       specifier: ^4.13.2
       version: 4.13.2
@@ -152,12 +146,8 @@ catalogs:
       version: 4.136.3
 
 overrides:
-  react-render-to-markdown>react-reconciler: ^0.34.0
   vite@*: npm:@voidzero-dev/vite-plus-core@1.0.0
   vitest@*: 5.0.1
-
-patchedDependencies:
-  react-render-to-markdown@19.1.0: c71249b1257fbea9376d9204d92baa15cd8b47e28c53d2c99cfc95bf72600d33
 
 importers:
 
@@ -287,12 +277,6 @@ importers:
       jsdom:
         specifier: 'catalog:'
         version: 30.1.1
-      react-reconciler:
-        specifier: 'catalog:'
-        version: 0.34.0(react@19.3.0)
-      react-render-to-markdown:
-        specifier: 'catalog:'
-        version: 19.1.0(patch_hash=c71249b1257fbea9376d9204d92baa15cd8b47e28c53d2c99cfc95bf72600d33)(react@19.3.0)
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
@@ -3177,17 +3161,6 @@ packages:
     peerDependencies:
       '@types/react': '>=18'
       react: '>=18'
-
-  react-reconciler@0.34.0:
-    resolution: {integrity: sha512-eVibvB1fc9j5Qf1KRkiM3GzRPBdjg2P6G6QV2f3P6Eb3OGMxRBhdg2rrUwjbV5JrQaJj8nOa8uajmmJA5tJWjQ==}
-    engines: {node: '>=0.10.0'}
-    peerDependencies:
-      react: ^19.3.0
-
-  react-render-to-markdown@19.1.0:
-    resolution: {integrity: sha512-dF9b3tO41ezqdmHP8X92kbHbMexJ6iC7iHw4ykC8fwiO7DgpFc9PhMoKlI+BcPzRxGcWgQSdrixVB9RykhjJpQ==}
-    peerDependencies:
-      react: '>=19'
 
   react-resizable-panels@4.13.2:
     resolution: {integrity: sha512-iBcbYj/ki6Jdz5ZUH/6npl2nBd2s45c/Dd1VNghNDGDtIXjrFIDpZbCU8AlAKawtnyajiy02/xvUWWZZdVqauQ==}
@@ -6302,16 +6275,6 @@ snapshots:
       vfile: 6.0.3
     transitivePeerDependencies:
       - supports-color
-
-  react-reconciler@0.34.0(react@19.3.0):
-    dependencies:
-      react: 19.3.0
-      scheduler: 0.28.0
-
-  react-render-to-markdown@19.1.0(patch_hash=c71249b1257fbea9376d9204d92baa15cd8b47e28c53d2c99cfc95bf72600d33)(react@19.3.0):
-    dependencies:
-      react: 19.3.0
-      react-reconciler: 0.34.0(react@19.3.0)
 
   react-resizable-panels@4.13.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
     dependencies:

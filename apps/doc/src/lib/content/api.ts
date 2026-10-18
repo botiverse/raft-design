@@ -113,6 +113,11 @@ function parseChangelog(markdown: string): ChangeEntry[] {
 
 const CHANGES = parseChangelog(raftUiChangelogMarkdown);
 
+/** The newest changelog entries, for the home page. */
+export function latestChanges(limit: number): ChangeEntry[] {
+  return CHANGES.slice(0, limit);
+}
+
 /** Changelog entries that name one of the folder's exports as code (`Button`, `Button` `variant`). */
 export function changesFor(folder: string, limit = 8): ChangeEntry[] {
   const names = API_INDEX[folder]?.names ?? [];

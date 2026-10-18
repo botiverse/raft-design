@@ -63,6 +63,3 @@ export async function loadExampleSource(key: string): Promise<string | null> {
   if (!load) return null;
   return stripSourceCodeBlocks(await load()).trim();
 }
-
-/** Every composition an `example` block can name. */
-export const EXAMPLE_KEYS: readonly string[] = [...moduleByKey.keys()].sort();

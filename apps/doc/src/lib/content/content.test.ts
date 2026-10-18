@@ -1,15 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { EXAMPLE_KEYS } from "#/lib/examples.ts";
-import { tokenGroup } from "#/lib/tokens/tokens.ts";
-
 import { parseFrontMatter } from "./front-matter.ts";
 import { resolveDocLink, resolveDocLinkForMarkdown } from "./links.ts";
 import { locate, PAGES, pageAt } from "./pages.ts";
 import { headingSlug } from "./slug.ts";
 import { renderMarkdownTwin } from "./twin.ts";
 
-const BLOCK = /```(example|tokens)[ \t]*\r?\n([^\n]+)\r?\n```/g;
 const LINK = /\]\(([^)\s]+)\)/g;
 
 function outsideFences(markdown: string) {
@@ -65,23 +61,11 @@ describe("page addresses", () => {
   });
 });
 
-// The docs are content: these checks fail the build when a page names an
-// example, a token group or a page that does not exist.
+// What scripts/check-docs.mjs checks in CI (front matter, `example` and
+// `tokens` blocks, links on GitHub) is not repeated here. This checks the
+// site's side: that every relative link resolves to a page, and every anchor to
+// a heading, the way the site renders them.
 describe.each(PAGES.map((page) => [page.repoPath, page] as const))("%s", (_, page) => {
-  it("has a title and a one-sentence summary", () => {
-    expect(page.frontMatter.title).not.toBe("");
-    expect(page.frontMatter.summary).not.toBe("");
-    expect(page.frontMatter.summary).not.toContain("\n");
-  });
-
-  it("names only examples and token groups that exist", () => {
-    for (const [, kind, argument] of page.body.matchAll(BLOCK)) {
-      const name = argument!.trim();
-      if (kind === "example") expect(EXAMPLE_KEYS, `example ${name}`).toContain(name);
-      else expect(tokenGroup(name), `tokens ${name}`).not.toBeNull();
-    }
-  });
-
   it("links only to pages and headings that exist", () => {
     for (const [, href] of outsideFences(page.body).matchAll(LINK)) {
       const resolved = resolveDocLink(page.repoPath, href!);

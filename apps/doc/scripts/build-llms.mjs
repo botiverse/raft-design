@@ -1,9 +1,9 @@
-// Emits the Markdown twin of the docs site into the built client assets:
-//   /<page>.md     one file per documentation page
-//   /llms.txt      index of those pages (https://llmstxt.org)
-//   /llms-full.txt every page concatenated
-// Runs after `vp build`; the pages are rendered from the same React routes as
-// the HTML, with `markdown-mode` switching off the interactive chrome.
+// Emits the agent surfaces of the docs site into the built client assets:
+//   /<page>.md        one file per documentation page, from its Markdown source
+//   /llms.txt         index of those pages (https://llmstxt.org), by section
+//   /llms-full.txt    every page concatenated, in the same order
+//   /components.json  every component with its status, names and URLs
+// Runs after `vp build` (src/llms/render.tsx, apps/doc/DESIGN.md §7).
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -15,8 +15,7 @@ const sections = [
   ["Patterns", "/patterns/"],
   ["Products", "/products/"],
   ["Decisions", "/decisions/"],
-  ["Guides", "/guides/"],
-  ["Tokens", "/tokens/"],
+  ["Changelog", "/changelog"],
 ];
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -31,11 +30,14 @@ const server = await createServer({
   server: { middlewareMode: true, hmr: false, ws: false },
 });
 let pages;
+let components;
 try {
-  const { renderMarkdownPages } = await server.ssrLoadModule("/src/llms/render.tsx");
+  const { renderMarkdownPages, renderComponentIndex } =
+    await server.ssrLoadModule("/src/llms/render.tsx");
   // Section order, so llms-full.txt reads in the same order as llms.txt.
   const rank = (page) => sections.findIndex(([, prefix]) => page.path.startsWith(prefix));
   pages = (await renderMarkdownPages()).sort((a, b) => rank(a) - rank(b));
+  components = renderComponentIndex();
 } finally {
   await server.close();
 }
@@ -46,29 +48,26 @@ for (const page of pages) {
   await writeFile(file, `${page.markdown}\n`);
 }
 
-/** First prose paragraph after the title, used as the link description. */
-function summaryOf(markdown) {
-  const paragraph = markdown
-    .split(/\n{2,}/)
-    .slice(1)
-    .find((block) => /^[A-Za-z`*_]/.test(block.trim()));
-  return paragraph?.replace(/\s+/g, " ").trim();
-}
-
 const index = [
   "# Raft Design System",
   "",
-  "> raft-ui: the React implementation of the Raft Design System, built on Base UI and styled with tailwind-variants. " +
-    "Every page below is also served as HTML at the same path without `.md`.",
+  "> The design language of every Raft product, and raft-ui, its React implementation (Base UI and tailwind-variants). " +
+    "Every page below is also served as HTML at the same path without `.md`; " +
+    `${origin}/components.json lists every component with its status, other names and URLs.`,
   "",
 ];
 for (const [heading, prefix] of sections) {
   const entries = pages.filter((page) => page.path.startsWith(prefix));
   if (entries.length === 0) continue;
   index.push(`## ${heading}`, "");
+  let group;
   for (const page of entries) {
-    const summary = page.summary ?? summaryOf(page.markdown);
-    index.push(`- [${page.title}](${origin}${page.path}.md)${summary ? `: ${summary}` : ""}`);
+    if (page.group && page.group !== group) {
+      if (group) index.push("");
+      index.push(`### ${page.group}`, "");
+      group = page.group;
+    }
+    index.push(`- [${page.title}](${origin}${page.path}.md): ${page.summary}`);
   }
   index.push("");
 }
@@ -79,4 +78,8 @@ await writeFile(
   `${pages.map((page) => `<!-- ${origin}${page.path} -->\n\n${page.markdown}`).join("\n\n---\n\n")}\n`,
 );
 
-console.log(`llms: wrote ${pages.length} Markdown pages, llms.txt and llms-full.txt`);
+await writeFile(join(outDir, "components.json"), `${JSON.stringify(components, null, 2)}\n`);
+
+console.log(
+  `llms: wrote ${pages.length} Markdown pages, llms.txt, llms-full.txt and components.json (${components.length} components)`,
+);
