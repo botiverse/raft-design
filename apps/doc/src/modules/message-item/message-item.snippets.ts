@@ -235,12 +235,6 @@ export const MESSAGE_ITEM_TOOLBAR_BUTTON_PROPS: readonly PropRow[] = [
 
 export const MESSAGE_ITEM_SAVED_INDICATOR_PROPS: readonly PropRow[] = [
   {
-    name: "elevation",
-    type: '"none" | "xs" | "sm"',
-    description:
-      'Shadow elevation. Default "none" renders the passive state-marker form (white surface + border, no shadow); "xs"/"sm" opt into shadow-raft-xs/shadow-raft-sm.',
-  },
-  {
     name: "iconOnly",
     type: "boolean",
     description:

@@ -49,6 +49,7 @@ export interface FloatButtonProps extends StyledProps<BaseButton.Props> {
   offset?: FloatButtonOffset;
 }
 
+/** @deprecated Not part of the Raft Design System; place actions in the page's header or toolbar. Removed in raft-ui 1.0. */
 export function FloatButton({
   icon,
   description,
@@ -151,6 +152,7 @@ export type FloatButtonGroupProps = useRender.ComponentProps<"div"> & {
   gap?: number | string;
 };
 
+/** @deprecated Not part of the Raft Design System; place actions in the page's header or toolbar. Removed in raft-ui 1.0. */
 export function FloatButtonGroup({
   direction = "vertical",
   attached = false,

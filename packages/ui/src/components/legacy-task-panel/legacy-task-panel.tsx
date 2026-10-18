@@ -18,6 +18,7 @@ export type LegacyTaskPanelRootProps = useRender.ComponentProps<"div"> & {
   framed?: boolean;
 };
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelRoot({
   className,
   framed = false,
@@ -68,6 +69,7 @@ function LegacyTaskPanelFrame({
 
 export type LegacyTaskPanelHeaderProps = useRender.ComponentProps<"div">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelHeader({ className, ...props }: LegacyTaskPanelHeaderProps) {
   return (
     <ThreadPanelHeader data-slot="legacy-task-panel-header" className={className} {...props} />
@@ -76,6 +78,7 @@ export function LegacyTaskPanelHeader({ className, ...props }: LegacyTaskPanelHe
 
 export type LegacyTaskPanelIconProps = useRender.ComponentProps<"div">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelIcon({
   className,
   render,
@@ -98,6 +101,7 @@ export function LegacyTaskPanelIcon({
 
 export type LegacyTaskPanelTitleProps = useRender.ComponentProps<"h2">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelTitle({ className, ...props }: LegacyTaskPanelTitleProps) {
   const { title } = legacyTaskPanel();
   return (
@@ -111,6 +115,7 @@ export function LegacyTaskPanelTitle({ className, ...props }: LegacyTaskPanelTit
 
 export type LegacyTaskPanelTitleMetaProps = useRender.ComponentProps<"span">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelTitleMeta({ className, ...props }: LegacyTaskPanelTitleMetaProps) {
   return (
     <ThreadPanelTitleMeta
@@ -123,6 +128,7 @@ export function LegacyTaskPanelTitleMeta({ className, ...props }: LegacyTaskPane
 
 export type LegacyTaskPanelActionsProps = useRender.ComponentProps<"div">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelActions({ className, ...props }: LegacyTaskPanelActionsProps) {
   return (
     <ThreadPanelActions data-slot="legacy-task-panel-actions" className={className} {...props} />
@@ -131,6 +137,7 @@ export function LegacyTaskPanelActions({ className, ...props }: LegacyTaskPanelA
 
 export type LegacyTaskPanelBodyProps = useRender.ComponentProps<"div">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelBody({ className, children, ...props }: LegacyTaskPanelBodyProps) {
   const { body } = legacyTaskPanel();
 
@@ -145,6 +152,7 @@ export function LegacyTaskPanelBody({ className, children, ...props }: LegacyTas
 
 export type LegacyTaskPanelStatusProps = useRender.ComponentProps<"div">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelStatus({ className, render, ...props }: LegacyTaskPanelStatusProps) {
   const { status } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"div"> = {
@@ -161,6 +169,7 @@ export function LegacyTaskPanelStatus({ className, render, ...props }: LegacyTas
 
 export type LegacyTaskPanelSectionProps = useRender.ComponentProps<"section">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelSection({
   className,
   render,
@@ -181,6 +190,7 @@ export function LegacyTaskPanelSection({
 
 export type LegacyTaskPanelFieldProps = useRender.ComponentProps<"div">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelField({ className, render, ...props }: LegacyTaskPanelFieldProps) {
   const { field } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"div"> = {
@@ -197,6 +207,7 @@ export function LegacyTaskPanelField({ className, render, ...props }: LegacyTask
 
 export type LegacyTaskPanelFieldLabelProps = useRender.ComponentProps<"p">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelFieldLabel({
   className,
   render,
@@ -217,6 +228,7 @@ export function LegacyTaskPanelFieldLabel({
 
 export type LegacyTaskPanelFieldTitleProps = useRender.ComponentProps<"h3">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelFieldTitle({
   className,
   render,
@@ -237,6 +249,7 @@ export function LegacyTaskPanelFieldTitle({
 
 export type LegacyTaskPanelFieldTextProps = useRender.ComponentProps<"p">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelFieldText({
   className,
   render,
@@ -257,6 +270,7 @@ export function LegacyTaskPanelFieldText({
 
 export type LegacyTaskPanelMetaProps = useRender.ComponentProps<"section">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelMeta({ className, render, ...props }: LegacyTaskPanelMetaProps) {
   const { meta } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"section"> = {
@@ -273,6 +287,7 @@ export function LegacyTaskPanelMeta({ className, render, ...props }: LegacyTaskP
 
 export type LegacyTaskPanelMetaRowProps = useRender.ComponentProps<"div">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelMetaRow({
   className,
   render,
@@ -293,6 +308,7 @@ export function LegacyTaskPanelMetaRow({
 
 export type LegacyTaskPanelMetaLabelProps = useRender.ComponentProps<"span">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelMetaLabel({
   className,
   render,
@@ -313,6 +329,7 @@ export function LegacyTaskPanelMetaLabel({
 
 export type LegacyTaskPanelMetaValueProps = useRender.ComponentProps<"span">;
 
+/** @deprecated No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0. */
 export function LegacyTaskPanelMetaValue({
   className,
   render,

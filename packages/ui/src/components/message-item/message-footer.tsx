@@ -45,15 +45,7 @@ export function MessageItemBadgeSeparator({
   });
 }
 
-export type MessageItemSavedIndicatorElevation = "none" | "xs" | "sm";
-
 export type MessageItemSavedIndicatorProps = useRender.ComponentProps<"span"> & {
-  /**
-   * Shadow elevation. The default `"none"` renders the passive state-marker
-   * form (white surface + border, no shadow); `"xs"`/`"sm"` opt into
-   * `shadow-raft-xs`/`shadow-raft-sm` for callers that need a raised badge.
-   */
-  elevation?: MessageItemSavedIndicatorElevation;
   /**
    * Square icon-only affordance. Replaces the old `data-icon-only`
    * attribute contract with an explicit prop.
@@ -63,12 +55,11 @@ export type MessageItemSavedIndicatorProps = useRender.ComponentProps<"span"> & 
 
 export function MessageItemSavedIndicator({
   className,
-  elevation = "none",
   iconOnly = false,
   render,
   ...props
 }: MessageItemSavedIndicatorProps) {
-  const { savedIndicator } = messageFooter({ elevation, iconOnly });
+  const { savedIndicator } = messageFooter({ iconOnly });
   const defaultProps: useRender.ElementProps<"span"> = {
     // Keep the DOM marker so existing attribute selectors keep matching.
     ...(iconOnly ? { "data-icon-only": "" } : {}),
