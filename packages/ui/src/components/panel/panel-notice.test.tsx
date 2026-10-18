@@ -21,7 +21,7 @@ afterEach(cleanup);
 
 function renderNotice(status?: "warning" | "destructive") {
   render(
-    <ThemeProvider theme="raft">
+    <ThemeProvider>
       <PanelNotice data-testid="notice" status={status}>
         <PanelNoticeContent>Failed to authenticate</PanelNoticeContent>
         <PanelNoticeActions data-testid="actions">

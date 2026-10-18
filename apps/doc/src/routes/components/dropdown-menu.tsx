@@ -457,7 +457,7 @@ const DROPDOWN_MENU_CONTENT_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "Base UI Popup + Positioner props",
     description:
-      "Portaled card shell. Defaults to side=bottom, align=start, sideOffset=6 elegant / 4 brutal, disableAnchorTracking=false, and positionMethod=fixed.",
+      "Portaled card shell. Defaults to side=bottom, align=start, sideOffset=6, disableAnchorTracking=false, and positionMethod=fixed.",
   },
 ];
 

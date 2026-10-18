@@ -12,8 +12,7 @@ import type { TaskStatusId } from "raft-ui";
  * The task-status contract, laid out as one table: five states (rows) × four
  * parts (columns) — the bare icon, the badge, the chip, and the Timeline dot —
  * so a reviewer can see that every part of one status resolves to the same
- * colour family, and that the family holds across all three themes (switch the
- * preview theme to compare).
+ * colour family.
  *
  * This is the surface the before/after comparison is captured from.
  */

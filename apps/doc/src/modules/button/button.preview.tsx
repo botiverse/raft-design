@@ -1,15 +1,12 @@
 import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import { Plus } from "lucide-react";
-import { Button, useTheme } from "raft-ui";
+import { Button } from "raft-ui";
 import type { ButtonProps } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";
 import { SIZES, VARIANTS } from "./button.constants.ts";
-
-const ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME =
-  "outline-transparent ring-2 ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] ring-offset-1 ring-offset-layer-canvas-muted";
 
 const RAFT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME = "shadow-raft-focus";
 
@@ -18,14 +15,7 @@ type ButtonPreviewProps = ButtonProps & {
 };
 
 export function ButtonPreview({ focusVisible = false, className, ...props }: ButtonPreviewProps) {
-  const { theme } = useTheme();
-  const focusClassName = !focusVisible
-    ? null
-    : theme === "elegant"
-      ? ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME
-      : theme === "raft"
-        ? RAFT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME
-        : null;
+  const focusClassName = focusVisible ? RAFT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME : null;
   const mergedClassName = [focusClassName, className].filter(Boolean).join(" ") || undefined;
 
   return <Button {...props} className={mergedClassName} />;
@@ -39,7 +29,7 @@ type ButtonPlaygroundPreviewProps = {
 
 export function ButtonPlaygroundPreview({ code }: ButtonPlaygroundPreviewProps) {
   const [variant, setVariant] = useState<NonNullable<ButtonProps["variant"]>>("default");
-  const [size, setSize] = useState<NonNullable<ButtonProps["size"]>>("sm");
+  const [size, setSize] = useState<NonNullable<ButtonProps["size"]>>("md");
   const [label, setLabel] = useState("Button");
   const [focusVisible, setFocusVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);

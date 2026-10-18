@@ -155,7 +155,7 @@ const EMPTY_STATE_ICON_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "HTMLAttributes<HTMLDivElement>",
     description:
-      "Muted icon slot. The slot owns default SVG sizing per theme; override with className for custom media.",
+      "Muted icon slot. The slot owns default SVG sizing; override with className for custom media.",
   },
 ];
 

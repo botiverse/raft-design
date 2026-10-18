@@ -50,7 +50,7 @@ export function SidebarItemDirectMessageComposition() {
             <AtSign aria-hidden />
           </SidebarItemIndicator>
           <SidebarItemStatus>
-            <Status aria-label="Working" variant="primary" pulse />
+            <Status aria-label="Working" variant="primary" />
           </SidebarItemStatus>
           <SidebarItemCount>1</SidebarItemCount>
           <SidebarItemMetaIcon role="img" aria-label="Draft">

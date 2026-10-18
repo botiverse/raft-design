@@ -26,12 +26,11 @@ Link `dist/foundation.css` directly, or copy it beside your HTML. It exposes the
   }
   article {
     background: var(--layer-panel);
-    box-shadow: var(--theme-shadow-md);
   }
 </style>
 ```
 
-Brutal is the default. Use `data-theme="elegant"` and `class="light"` or `class="dark"` on the root for Elegant; omit the class to follow system mode. Optional `fonts.css` loads web fonts and defines `--heading-font`, `--sans-font`, and `--mono-font`.
+Put `class="light"` or `class="dark"` on the root to pick a mode; omit it to follow the system mode. Optional `fonts.css` loads web fonts and defines `--heading-font`, `--sans-font`, and `--mono-font`.
 
 `styles.css` remains the Tailwind integration entry and imports this foundation automatically.
 
@@ -40,7 +39,7 @@ Brutal is the default. Use `data-theme="elegant"` and `class="light"` or `class=
 raft-ui ships two version-matched Agent Skills in the npm package:
 
 - `raft-ui-guide` for installation, component selection, composition, and styling.
-- `raft-ui-critique` for visual, interaction, accessibility, and theme review.
+- `raft-ui-critique` for visual, interaction, accessibility, and light/dark review.
 
 ### TanStack Intent
 

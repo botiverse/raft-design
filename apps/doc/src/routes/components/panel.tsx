@@ -104,13 +104,6 @@ const PANEL_PROPS: readonly PropRow[] = [
     description:
       "Panel root. The caller chooses sizing, placement, surface treatment, and header composition.",
   },
-  {
-    name: "--panel-footer-clearance",
-    type: "<length>",
-    default: "10rem",
-    description:
-      "Elegant desktop space reserved below scroll content for an overlaid PanelFooter. Set to 0rem when the panel has no footer.",
-  },
 ];
 
 const PANEL_EDGES = ["inset", "attached"] as const;
@@ -146,7 +139,7 @@ const PANEL_HEADER_ICON_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Optional identity region alongside PanelHeaderContent. It uses the theme-native contained icon treatment; the consumer owns the content's size, such as Avatar size or icon size classes.",
+      "Optional identity region alongside PanelHeaderContent. It uses the contained sticker-chip icon treatment; the consumer owns the content's size, such as Avatar size or icon size classes.",
   },
 ];
 
@@ -252,8 +245,7 @@ const PANEL_SCROLL_CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
-    description:
-      "Minimum-full-height content wrapper. Elegant panels reserve footer clearance when needed.",
+    description: "Minimum-full-height content wrapper.",
   },
 ];
 
@@ -261,8 +253,7 @@ const PANEL_FOOTER_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
-    description:
-      "Bottom action boundary with safe-area padding. Elegant desktop panels float it over the scroll body.",
+    description: "Bottom action boundary with safe-area padding.",
   },
 ];
 

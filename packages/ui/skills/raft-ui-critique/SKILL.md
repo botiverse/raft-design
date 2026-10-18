@@ -1,31 +1,30 @@
 ---
 name: raft-ui-critique
-description: "Critique raft-ui components and product surfaces from screenshots, live renders, or code evidence across Brutal, Elegant, and Elegant Dark. Use when reviewing, auditing, polishing, comparing, or validating visual hierarchy, theme fidelity, interaction feedback, accessibility, consistency, and user experience in packages/ui, docs compositions, or Playground."
+description: "Critique raft-ui components and product surfaces from screenshots, live renders, or code evidence in Light and Dark modes. Use when reviewing, auditing, polishing, comparing, or validating visual hierarchy, Raft fidelity, interaction feedback, accessibility, consistency, and user experience in packages/ui, docs compositions, or Playground."
 ---
 
 # Raft UI Critique
 
-Review the rendered experience, not only implementation compliance. Produce specific, evidence-based findings for each presentation preset and for the relationships between them.
+Review the rendered experience, not only implementation compliance. Produce specific, evidence-based findings for each color mode and for the relationships between them.
 
-Use [theme-lenses.md](./references/theme-lenses.md) for every three-theme review. Read active repository instructions when they are available, but keep this skill usable from the published `raft-ui` package without requiring sibling skills or repository-only files.
+Use [theme-lenses.md](./references/theme-lenses.md) for every review. Read active repository instructions when they are available, but keep this skill usable from the published `raft-ui` package without requiring sibling skills or repository-only files.
 
 ## Theme model
 
-Treat these as three independent critique presets:
+Raft is the only visual language. Treat its two color modes as independent critique presets:
 
-| Critique preset | Runtime configuration          |
-| --------------- | ------------------------------ |
-| Brutal          | `theme="brutal"` (light only)  |
-| Elegant         | `theme="elegant" mode="light"` |
-| Elegant Dark    | `theme="elegant" mode="dark"`  |
+| Critique preset | Runtime configuration |
+| --------------- | --------------------- |
+| Light           | `mode="light"`        |
+| Dark            | `mode="dark"`         |
 
-Do not invent an `elegant-dark` theme family or public prop. The runtime has two families; Elegant Dark is a mode of the Elegant family. It still requires its own evidence and verdict because dark surfaces, contrast, elevation, and interaction states fail independently.
+Do not invent a theme family or a `theme` prop; `mode="system"` resolves to one of these two. Dark still requires its own evidence and verdict because dark surfaces, contrast, elevation, and interaction states fail independently.
 
 ## Evidence boundary
 
 Use the strongest evidence available for the claim being made:
 
-1. For visual hierarchy and preset comparison, prefer matched screenshots or renders of all three presets.
+1. For visual hierarchy and preset comparison, prefer matched screenshots or renders of both presets.
 2. For interaction, focus, responsive behavior, overlays, or motion, prefer a live page when the user and host environment authorize interaction.
 3. Use partial screenshots or renders for local observed findings only.
 4. Use component code and recipes to trace likely causes, never to claim a rendered result.
@@ -36,7 +35,7 @@ When evidence is incomplete:
 
 - Critique what is visible without blocking useful work.
 - Name every missing preset, state, or viewport in `Coverage gaps`.
-- Do not issue a cross-theme pass verdict without matched evidence for all three presets.
+- Do not issue a cross-mode pass verdict without matched evidence for both presets.
 - Label code-only conclusions as inferred. Do not claim pixel accuracy, visual parity, contrast compliance, or interaction quality from static code alone.
 
 ## Package evidence lookup
@@ -47,7 +46,7 @@ Use the first available evidence source; do not require a source checkout:
 2. In an installed application, inspect `node_modules/raft-ui/dist/foundation.css`, `node_modules/raft-ui/dist/fonts.css`, `node_modules/raft-ui/dist/index.d.mts`, and the application's component usage.
 3. If neither code surface is available, rely on supplied screenshots or renders and state that implementation ownership is unverified.
 
-Treat declarations as API evidence and compiled CSS as token/theme evidence.
+Treat declarations as API evidence and compiled CSS as token evidence.
 
 ## Review workflow
 
@@ -68,7 +67,7 @@ Compare like for like:
 
 Record an evidence manifest with the route or artifact, preset, exact viewport, browser/platform when known, zoom, font-loading status, UI state, and reduced-motion setting when motion is relevant. For a full product-surface review, include a representative wide and narrow viewport when the layout is responsive; a single isolated primitive may need only its relevant size.
 
-If mismatched evidence prevents a fair comparison, report that before critiquing the themes.
+If mismatched evidence prevents a fair comparison, report that before critiquing the modes.
 
 ### 3. Exercise interaction when live evidence is available
 
@@ -78,7 +77,7 @@ Use both pointer and keyboard for applicable controls:
 2. Exercise hover, pressed, and keyboard focus-visible independently.
 3. Open, select, check, expand, drag, validate, load, or disable the control when those states belong to the surface.
 4. Inspect overlay placement, clipping, focus return, and preset inheritance.
-5. Repeat the material states in all three presets; do not assume behavior verified in one preset survives another.
+5. Repeat the material states in both presets; do not assume behavior verified in one preset survives the other.
 
 Capture or record the exact state that supports each interaction finding. If a state cannot be reached safely, mark it `Not exercised`; do not issue a pass or failure verdict for that state.
 
@@ -100,19 +99,18 @@ Count and name what is visible. Prefer "four surfaces compete with equal weight"
 
 ### 6. Review each preset independently
 
-Apply every theme lens in [theme-lenses.md](./references/theme-lenses.md):
+Apply the lenses in [theme-lenses.md](./references/theme-lenses.md):
 
-1. Brutal
-2. Elegant
-3. Elegant Dark
+1. Raft, in Light and in Dark
+2. Dark mode, in Dark
 
-Do not grade one preset by another preset's aesthetic. Brutal is not failed Elegant; Elegant is not softened Brutal; Elegant Dark is not an inverted Elegant screenshot. Judge whether each preset expresses the same semantic hierarchy through its own visual language.
+Dark is not an inverted Light screenshot. Judge whether each preset expresses the same semantic hierarchy through the Raft visual language.
 
 ### 7. Compare across presets
 
-Check the cross-theme invariants in [theme-lenses.md](./references/theme-lenses.md).
+Check the cross-mode invariants in [theme-lenses.md](./references/theme-lenses.md).
 
-A shared defect belongs under `Cross-theme`. A defect visible in only one preset belongs under that preset even when the root cause is shared code.
+A shared defect belongs under `Cross-mode`. A defect visible in only one preset belongs under that preset even when the root cause is shared code.
 
 ### 8. Trace likely ownership
 
@@ -121,7 +119,7 @@ When code is available, connect each visual issue to the most likely owner witho
 - Reusable appearance or interaction styling: `packages/ui` component recipe or semantic tokens.
 - Canonical example structure: docs module composition.
 - Product state or workflow coordination: Playground or application consumer.
-- Global theme material: `foundation.css` / `fonts.css` (see Package evidence lookup).
+- Global token and font material: `foundation.css` / `fonts.css` (see Package evidence lookup).
 
 State whether the cause is observed, code-verified, or inferred. Do not prescribe a new token for a one-off correction, and do not patch a consumer to compensate for a broken reusable component contract.
 
@@ -130,7 +128,7 @@ State whether the cause is observed, code-verified, or inferred. Do not prescrib
 Use these severities:
 
 - `P1` — Blocks understanding or task completion; hides focus/state; creates a serious accessibility problem; or breaks structure in a preset.
-- `P2` — Material hierarchy, readability, interaction, consistency, or cross-theme defect that should be fixed.
+- `P2` — Material hierarchy, readability, interaction, consistency, or cross-mode defect that should be fixed.
 - `P3` — Local polish issue with limited user impact.
 
 Order structural and behavioral problems before visual polish. Do not invent a finding for every preset.
@@ -139,7 +137,7 @@ Order structural and behavioral problems before visual polish. Do not invent a f
 
 Write every finding as:
 
-`[P2][Elegant Dark][Surface separation] — factual observation. User impact. Direction for improvement. Evidence: screenshot, state, or file.`
+`[P2][Dark][Surface separation] — factual observation. User impact. Direction for improvement. Evidence: screenshot, state, or file.`
 
 Keep observation, impact, and direction distinct. If the cause is inferred, say so explicitly.
 
@@ -159,11 +157,11 @@ Always include:
 ## Coverage gaps
 ```
 
-Under `Findings`, add `Cross-theme`, `Brutal`, `Elegant`, `Elegant Dark`, or `Interaction and user context` subsections only when evidence supports them. Do not create empty preset sections for a partial review. Under `Top opportunities`, rank one to five supported changes and name which presets they affect; there is no minimum finding count.
+Under `Findings`, add `Cross-mode`, `Light`, `Dark`, or `Interaction and user context` subsections only when evidence supports them. Do not create empty preset sections for a partial review. Under `Top opportunities`, rank one to five supported changes and name which presets they affect; there is no minimum finding count.
 
 ## Hard boundaries
 
 - Keep review-only requests read-only.
 - Do not conflate critique with functional validation, static checks, or test results.
-- Do not recommend making the three presets visually identical; require equivalent usability and semantic hierarchy.
-- Do not let theme-specific polish change component meaning, public API, or business structure.
+- Do not recommend making Light and Dark visually identical; require equivalent usability and semantic hierarchy.
+- Do not let mode-specific polish change component meaning, public API, or business structure.

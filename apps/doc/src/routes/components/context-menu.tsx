@@ -304,7 +304,6 @@ function ContextMenuTriggerSurface({ id, children }: { id: string; children: Rea
       className={cn(
         "flex min-h-24 w-72 items-center justify-center px-5 py-6 text-center",
         "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
-        "in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-black in-data-[theme=brutal]:bg-brutal-cream in-data-[theme=brutal]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold in-data-[theme=brutal]:text-black",
       )}
     >
       {children}
@@ -473,8 +472,8 @@ function ContextMenuDoc() {
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
-          Preview defaults the menu open so the row styling, density, and theme differences are
-          visible immediately; dismiss it and right-click the trigger to reopen it.
+          Preview defaults the menu open so the row styling and density are visible immediately;
+          dismiss it and right-click the trigger to reopen it.
         </p>
         <ContextMenuPreview code={code.preview} />
       </DocSection>

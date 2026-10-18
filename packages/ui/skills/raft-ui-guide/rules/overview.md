@@ -7,7 +7,7 @@ description: "What rUI is and where to start."
 
 ## Build something bold with rUI
 
-rUI is a UI system with expressive visuals and playful interactions, shaped by Raft and made for whatever you build next. The `raft-ui` package includes CSS foundations, composable React components, and Brutal and Elegant themes.
+rUI is a UI system with expressive visuals and playful interactions, shaped by Raft and made for whatever you build next. The `raft-ui` package includes CSS foundations, composable React components, and light and dark modes.
 
 ## Start with your agent
 

@@ -18,9 +18,9 @@ if (typeof window.matchMedia !== "function") {
 }
 afterEach(cleanup);
 
-function renderCard(theme: "brutal" | "elegant", variant?: "default" | "option") {
+function renderCard(variant?: "default" | "option") {
   return render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Card data-testid="card" {...(variant ? { variant } : {})}>
         <CardHeader>
           <CardTitle data-testid="title">Fast mode</CardTitle>
@@ -31,75 +31,75 @@ function renderCard(theme: "brutal" | "elegant", variant?: "default" | "option")
   );
 }
 
-test("brutal option sits at CONTROL elevation, not panel elevation", () => {
-  renderCard("brutal", "option");
+test("option sits in the control plane, not on the panel's", () => {
+  renderCard("option");
   const cls = screen.getByTestId("card").className;
-  expect(cls, "must use the 2px control shadow").toMatch(/\bshadow-raft-sm\b/);
+  expect(cls, "must take the control radius and the field border").toMatch(/\brounded-control\b/);
+  expect(cls).toMatch(/\bborder-line-field\b/);
   expect(
     cls,
-    "must not keep the 4px panel shadow — that is what made it read as floating above the form",
-  ).not.toMatch(/\bshadow-raft-md\b/);
+    "must not keep the panel radius — that is what made it read as floating above the form",
+  ).not.toMatch(/\brounded-container\b/);
+  expect(cls).not.toMatch(/\bshadow-raft-/);
 });
 
-test("brutal default keeps panel elevation", () => {
-  renderCard("brutal");
-  expect(screen.getByTestId("card").className).toMatch(/\bshadow-raft-md\b/);
+test("default keeps the panel frame", () => {
+  renderCard();
+  const cls = screen.getByTestId("card").className;
+  expect(cls).toMatch(/\brounded-container\b/);
+  expect(cls).toMatch(/\bborder-line-muted\b/);
 });
 
 /**
  * The one that could silently fail: `text-card-title` is a custom utility, so
- * tailwind-merge does not necessarily know it conflicts with `text-sm`. If both
- * survive, the cascade decides and the title may still render at 18px while the
- * class string looks correct.
+ * tailwind-merge does not necessarily know it conflicts with the field scale.
+ * If both survive, the cascade decides and the title may still render at the
+ * card-title size while the class string looks correct.
  */
 test("option title drops the card-title scale entirely", () => {
-  for (const theme of ["brutal", "elegant"] as const) {
-    cleanup();
-    renderCard(theme, "option");
-    const cls = screen.getByTestId("title").className;
-    expect(cls, `${theme}: option title must take the field scale`).toMatch(/\btext-sm\b/);
-    expect(
-      cls,
-      `${theme}: text-card-title must be REPLACED, not merely accompanied — both surviving leaves the cascade to decide and the title can still render at 18px`,
-    ).not.toMatch(/text-card-title/);
-  }
+  renderCard("option");
+  const cls = screen.getByTestId("title").className;
+  expect(cls, "option title must take the field scale").toMatch(/\btext-callout\b/);
+  expect(
+    cls,
+    "text-card-title must be REPLACED, not merely accompanied — both surviving leaves the cascade to decide and the title can still render at the card-title size",
+  ).not.toMatch(/text-card-title/);
+  expect(cls).not.toMatch(/font-card-title/);
 });
 
 test("default title keeps the card-title scale", () => {
-  renderCard("brutal");
+  renderCard();
   expect(screen.getByTestId("title").className).toMatch(/text-card-title/);
 });
 
 /**
  * The leading control's gap to the title must match the card's own inset, so an
  * option reads as one row rather than a control parked away from its label.
- * `gap-x-4` (16px) is panel scale; the option uses `gap-x-3.5` (14px), which is
- * brutal's 2px border + 12px padding (@cindyz, 2026-09-03).
+ * `gap-x-4` (16px) is panel scale; the option uses `gap-x-3` (12px), the same
+ * as its 12px padding (@cindyz, 2026-09-03).
  */
 test("option header tightens the leading gap to the card's inset", () => {
-  for (const theme of ["brutal", "elegant"] as const) {
-    cleanup();
-    render(
-      <ThemeProvider theme={theme}>
-        <Card variant="option">
-          <CardHeader data-testid="hdr">
-            <CardTitle>Fast mode</CardTitle>
-          </CardHeader>
-        </Card>
-      </ThemeProvider>,
-    );
-    const cls = screen.getByTestId("hdr").className;
-    expect(cls, `${theme}: option header must use the 14px leading gap`).toMatch(/\bgap-x-3\.5\b/);
-    expect(
-      cls,
-      `${theme}: the 16px panel gap must be REPLACED — both surviving leaves the cascade to pick, and the control drifts from its label`,
-    ).not.toMatch(/\bgap-x-4\b/);
-  }
+  render(
+    <ThemeProvider>
+      <Card variant="option">
+        <CardHeader data-testid="hdr">
+          <CardTitle>Fast mode</CardTitle>
+        </CardHeader>
+      </Card>
+    </ThemeProvider>,
+  );
+  const cls = screen.getByTestId("hdr").className;
+  expect(cls, "option header must use the 12px leading gap").toMatch(/\bgap-x-3\b/);
+  expect(cls, "…the same as its inset").toMatch(/\bp-3\b/);
+  expect(
+    cls,
+    "the 16px panel gap must be REPLACED — both surviving leaves the cascade to pick, and the control drifts from its label",
+  ).not.toMatch(/\bgap-x-4\b/);
 });
 
 test("default header keeps the panel gap", () => {
   render(
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <Card>
         <CardHeader data-testid="hdr">
           <CardTitle>Panel</CardTitle>

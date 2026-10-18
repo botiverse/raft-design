@@ -9,7 +9,9 @@ import { MessageReplies, MessageRepliesSummary } from "./message-replies";
 /**
  * Rendered-position contract for the replies surface (2026-10-09): its right
  * edge stays on the message text line — the content edge of the row, 20 from
- * the panel edge — the same line the hover block's inner content keeps.
+ * the panel edge — the same line the hover block's inner content keeps. In a
+ * wide row the surface stops at its 480px cap instead, and still never runs
+ * past the text line.
  *
  * Class-level assertions could not catch the original defect (w-full + a
  * negative right margin is dropped as over-constrained and measured the text
@@ -23,10 +25,10 @@ import { MessageReplies, MessageRepliesSummary } from "./message-replies";
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
 
-function Row({ theme }: { theme: "brutal" | "elegant" }) {
+function Row({ width }: { width: number }) {
   return (
-    <ThemeProvider theme={theme}>
-      <div style={{ width: "560px" }}>
+    <ThemeProvider>
+      <div style={{ width: `${width}px` }}>
         <MessageItem data-testid="row">
           <MessageItemContent>
             <div data-testid="body" style={{ fontSize: "14px", lineHeight: "20px" }}>
@@ -46,11 +48,20 @@ function Row({ theme }: { theme: "brutal" | "elegant" }) {
   );
 }
 
-for (const theme of ["brutal", "elegant"] as const) {
-  it(`the replies surface right edge stays on the text line — ${theme}`, () => {
-    render(<Row theme={theme} />);
-    const body = screen.getByTestId("body").getBoundingClientRect();
-    const replies = screen.getByTestId("replies").getBoundingClientRect();
-    expect(Math.abs(replies.right - body.right)).toBeLessThanOrEqual(1);
-  });
-}
+it("the replies surface right edge stays on the text line", () => {
+  // 400px row: the content is narrower than the cap.
+  render(<Row width={400} />);
+  const body = screen.getByTestId("body").getBoundingClientRect();
+  const replies = screen.getByTestId("replies").getBoundingClientRect();
+  expect(body.width).toBeLessThan(480);
+  expect(Math.abs(replies.right - body.right)).toBeLessThanOrEqual(1);
+});
+
+it("in a wide row the replies surface stops at its cap, never past the text line", () => {
+  render(<Row width={720} />);
+  const body = screen.getByTestId("body").getBoundingClientRect();
+  const replies = screen.getByTestId("replies").getBoundingClientRect();
+  expect(Math.round(replies.width)).toBe(480);
+  expect(Math.abs(replies.left - body.left)).toBeLessThanOrEqual(1);
+  expect(replies.right).toBeLessThanOrEqual(body.right + 1);
+});

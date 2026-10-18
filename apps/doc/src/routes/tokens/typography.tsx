@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import type { ReactNode } from "react";
 import { Text } from "raft-ui";
@@ -10,88 +10,31 @@ import { isMarkdownMode } from "#/lib/markdown-mode.ts";
 const SPEC_DIVIDER = "border-[color-mix(in_oklch,var(--foreground)_5%,transparent)]";
 
 const TOC = [
-  { id: "specimens", title: "Theme specimens" },
+  { id: "specimens", title: "Specimens" },
   { id: "headings", title: "Headings" },
   { id: "sans", title: "Sans" },
   { id: "mono", title: "Mono" },
   { id: "color-variants", title: "Color variants" },
 ] as const;
 
-export type TypographyTheme = "brutal" | "elegant";
-
-const THEME_LABELS = {
-  brutal: "Brutal",
-  elegant: "Elegant",
-} as const satisfies Record<TypographyTheme, string>;
-
-const FAMILIES = [
+const SPECIMENS = [
   {
-    theme: "Brutal",
-    themeId: "brutal",
-    status: undefined,
-    heading: "Hanken Grotesk",
-    sans: "Hanken Grotesk",
-    mono: "Geist Mono",
-    samples: [
-      {
-        title: "Heading",
-        family: "Hanken Grotesk",
-        utility: "font-heading",
-        px: "24px",
-        className: "font-heading text-2xl font-medium leading-[1.24] text-[var(--foreground)]",
-        specimenClassName: "font-heading text-[5.5rem] font-semibold leading-none",
-      },
-      {
-        title: "Sans",
-        family: "Hanken Grotesk",
-        utility: "font-sans",
-        px: "14px",
-        className: "font-sans text-sm leading-5 text-[var(--foreground-muted)]",
-        specimenClassName: "font-sans text-[4.75rem] leading-none",
-      },
-      {
-        title: "Mono",
-        family: "Geist Mono",
-        utility: "font-mono",
-        px: "14px",
-        className: "font-mono text-sm leading-5 text-[var(--foreground-muted)]",
-        specimenClassName: "font-mono text-[4.25rem] leading-none",
-      },
-    ],
+    title: "Heading",
+    family: "Space Grotesk",
+    className: "font-heading text-2xl font-medium leading-[1.24] text-[var(--foreground)]",
+    specimenClassName: "font-heading text-[5.5rem] font-medium leading-none",
   },
   {
-    theme: "Elegant",
-    themeId: "elegant",
-    status: "in-progress",
-    heading: "Inter",
-    sans: "Geist",
-    mono: "Geist Mono",
-    samples: [
-      {
-        title: "Heading",
-        family: "Inter",
-        utility: "font-heading",
-        px: "24px",
-        className: "font-heading text-2xl font-medium leading-[1.24] text-[var(--foreground)]",
-        specimenClassName: "font-heading text-[5.5rem] font-medium leading-none",
-      },
-      {
-        title: "Sans",
-        family: "Geist",
-        utility: "font-sans",
-        px: "14px",
-        className: "font-sans text-sm leading-5 text-[var(--foreground-muted)]",
-        specimenClassName: "font-sans text-[4.75rem] leading-none",
-      },
-      {
-        title: "Mono",
-        family: "Geist Mono",
-        utility: "font-mono",
-        px: "14px",
-        className: "font-mono text-sm leading-5 text-[var(--foreground-muted)]",
-        specimenClassName: "font-mono text-[4.25rem] leading-none",
-      },
-    ],
+    title: "Sans",
+    family: "Space Grotesk",
+    className: "font-sans text-sm leading-5 text-[var(--foreground-muted)]",
+    specimenClassName: "font-sans text-[4.75rem] leading-none",
+  },
+  {
+    title: "Mono",
+    family: "Space Mono",
+    className: "font-mono text-sm leading-5 text-[var(--foreground-muted)]",
+    specimenClassName: "font-mono text-[4.25rem] leading-none",
   },
 ] as const;
 
@@ -195,347 +138,196 @@ const TEXT_COLOR_VARIANTS = [
   "danger",
 ] as const;
 
-const THEME_TYPOGRAPHY = {
-  brutal: {
-    headings: HEADING_SCALE,
-    body: [
-      {
-        title: "Large",
-        family: "Hanken Grotesk",
-        utility: "font-sans text-lg",
-        size: "1.125rem",
-        px: "18px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.75",
-        className: "font-sans text-lg font-normal leading-7 text-[var(--foreground-strong)]",
-      },
-      {
-        title: "Body",
-        family: "Hanken Grotesk",
-        utility: "font-sans text-base",
-        size: "1rem",
-        px: "16px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.5",
-        className: "font-sans text-base font-normal leading-6 text-[var(--foreground-strong)]",
-      },
-      {
-        title: "Small",
-        family: "Hanken Grotesk",
-        utility: "font-sans text-sm",
-        size: "0.875rem",
-        px: "14px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.43",
-        className: "font-sans text-sm font-normal leading-5 text-[var(--foreground-muted)]",
-      },
-      {
-        title: "Caption",
-        family: "Hanken Grotesk",
-        utility: "font-sans text-xs",
-        size: "0.75rem",
-        px: "12px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.33",
-        className: "font-sans text-xs font-normal leading-4 text-[var(--foreground-muted)]",
-      },
-    ],
-    mono: [
-      {
-        title: "Code",
-        family: "Geist Mono",
-        utility: "font-mono text-sm",
-        size: "0.875rem",
-        px: "14px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.43",
-        className: "font-mono text-sm font-normal leading-5 text-[var(--foreground-strong)]",
-      },
-      {
-        title: "Meta",
-        family: "Geist Mono",
-        utility: "font-mono text-xs",
-        size: "0.75rem",
-        px: "12px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.33",
-        className: "font-mono text-xs font-normal leading-4 text-[var(--foreground-muted)]",
-      },
-      {
-        title: "Eyebrow",
-        family: "Geist Mono",
-        utility: "font-mono text-[10px] uppercase tracking-wide",
-        size: "0.625rem",
-        px: "10px",
-        weight: "medium",
-        weightValue: "500",
-        tracking: "0.05em",
-        leading: "1",
-        className:
-          "font-mono text-[10px] font-medium uppercase tracking-wide leading-none text-[var(--foreground-placeholder)]",
-      },
-      {
-        title: "Tabular",
-        family: "Geist Mono",
-        utility: "font-mono text-sm tabular-nums",
-        size: "0.875rem",
-        px: "14px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.43",
-        className:
-          "font-mono text-sm font-normal tabular-nums leading-5 text-[var(--foreground-strong)]",
-      },
-    ],
+const SANS_TYPOGRAPHY = [
+  {
+    title: "Large",
+    family: "Space Grotesk",
+    utility: "font-sans text-lg",
+    size: "1.125rem",
+    px: "18px",
+    weight: "regular",
+    weightValue: "400",
+    tracking: "0em",
+    leading: "1.75",
+    className: "font-sans text-lg font-normal leading-7 text-[var(--foreground-strong)]",
   },
-  elegant: {
-    headings: HEADING_SCALE,
-    body: [
-      {
-        title: "Large",
-        family: "Geist",
-        utility: "font-sans text-lg",
-        size: "1.125rem",
-        px: "18px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.75",
-        className: "font-sans text-lg font-normal leading-7 text-[var(--foreground-strong)]",
-      },
-      {
-        title: "Body",
-        family: "Geist",
-        utility: "font-sans text-base",
-        size: "1rem",
-        px: "16px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.5",
-        className: "font-sans text-base font-normal leading-6 text-[var(--foreground-strong)]",
-      },
-      {
-        title: "Small",
-        family: "Geist",
-        utility: "font-sans text-sm",
-        size: "0.875rem",
-        px: "14px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.43",
-        className: "font-sans text-sm font-normal leading-5 text-[var(--foreground-muted)]",
-      },
-      {
-        title: "Caption",
-        family: "Geist",
-        utility: "font-sans text-xs",
-        size: "0.75rem",
-        px: "12px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.33",
-        className: "font-sans text-xs font-normal leading-4 text-[var(--foreground-muted)]",
-      },
-    ],
-    mono: [
-      {
-        title: "Code",
-        family: "Geist Mono",
-        utility: "font-mono text-sm",
-        size: "0.875rem",
-        px: "14px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.43",
-        className: "font-mono text-sm font-normal leading-5 text-[var(--foreground-strong)]",
-      },
-      {
-        title: "Meta",
-        family: "Geist Mono",
-        utility: "font-mono text-xs",
-        size: "0.75rem",
-        px: "12px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.33",
-        className: "font-mono text-xs font-normal leading-4 text-[var(--foreground-muted)]",
-      },
-      {
-        title: "Eyebrow",
-        family: "Geist Mono",
-        utility: "font-mono text-[10px] uppercase tracking-wide",
-        size: "0.625rem",
-        px: "10px",
-        weight: "medium",
-        weightValue: "500",
-        tracking: "0.05em",
-        leading: "1",
-        className:
-          "font-mono text-[10px] font-medium uppercase tracking-wide leading-none text-[var(--foreground-placeholder)]",
-      },
-      {
-        title: "Tabular",
-        family: "Geist Mono",
-        utility: "font-mono text-sm tabular-nums",
-        size: "0.875rem",
-        px: "14px",
-        weight: "regular",
-        weightValue: "400",
-        tracking: "0em",
-        leading: "1.43",
-        className:
-          "font-mono text-sm font-normal tabular-nums leading-5 text-[var(--foreground-strong)]",
-      },
-    ],
+  {
+    title: "Body",
+    family: "Space Grotesk",
+    utility: "font-sans text-base",
+    size: "1rem",
+    px: "16px",
+    weight: "regular",
+    weightValue: "400",
+    tracking: "0em",
+    leading: "1.5",
+    className: "font-sans text-base font-normal leading-6 text-[var(--foreground-strong)]",
   },
-} as const;
+  {
+    title: "Small",
+    family: "Space Grotesk",
+    utility: "font-sans text-sm",
+    size: "0.875rem",
+    px: "14px",
+    weight: "regular",
+    weightValue: "400",
+    tracking: "0em",
+    leading: "1.43",
+    className: "font-sans text-sm font-normal leading-5 text-[var(--foreground-muted)]",
+  },
+  {
+    title: "Caption",
+    family: "Space Grotesk",
+    utility: "font-sans text-xs",
+    size: "0.75rem",
+    px: "12px",
+    weight: "regular",
+    weightValue: "400",
+    tracking: "0em",
+    leading: "1.33",
+    className: "font-sans text-xs font-normal leading-4 text-[var(--foreground-muted)]",
+  },
+] as const;
+
+const MONO_TYPOGRAPHY = [
+  {
+    title: "Code",
+    family: "Space Mono",
+    utility: "font-mono text-sm",
+    size: "0.875rem",
+    px: "14px",
+    weight: "regular",
+    weightValue: "400",
+    tracking: "0em",
+    leading: "1.43",
+    className: "font-mono text-sm font-normal leading-5 text-[var(--foreground-strong)]",
+  },
+  {
+    title: "Meta",
+    family: "Space Mono",
+    utility: "font-mono text-xs",
+    size: "0.75rem",
+    px: "12px",
+    weight: "regular",
+    weightValue: "400",
+    tracking: "0em",
+    leading: "1.33",
+    className: "font-mono text-xs font-normal leading-4 text-[var(--foreground-muted)]",
+  },
+  {
+    title: "Eyebrow",
+    family: "Space Mono",
+    utility: "font-mono text-[10px] uppercase tracking-wide",
+    size: "0.625rem",
+    px: "10px",
+    weight: "medium",
+    weightValue: "500",
+    tracking: "0.05em",
+    leading: "1",
+    className:
+      "font-mono text-[10px] font-medium uppercase tracking-wide leading-none text-[var(--foreground-placeholder)]",
+  },
+  {
+    title: "Tabular",
+    family: "Space Mono",
+    utility: "font-mono text-sm tabular-nums",
+    size: "0.875rem",
+    px: "14px",
+    weight: "regular",
+    weightValue: "400",
+    tracking: "0em",
+    leading: "1.43",
+    className:
+      "font-mono text-sm font-normal tabular-nums leading-5 text-[var(--foreground-strong)]",
+  },
+] as const;
 
 const SAMPLE_TEXT = "Where humans and AI agents build together.";
 
 export const Route = createFileRoute("/tokens/typography")({
-  beforeLoad: ({ location }) => {
-    if (location.pathname === "/tokens/typography") {
-      throw redirect({ to: "/tokens/typography/brutal" });
-    }
-  },
-  component: TokenOutlet,
+  component: TypographyDoc,
 });
 
-function TokenOutlet() {
-  return <Outlet />;
-}
-
-export function TypographyDoc({ theme }: { theme: TypographyTheme }) {
-  const families = FAMILIES.filter((family) => family.themeId === theme);
-  const title = `${THEME_LABELS[theme]} typography`;
-
-  const { headingSpecs, bodySpecs, monoSpecs } = TYPOGRAPHY_SPECS[theme];
-
+function TypographyDoc() {
   return (
-    <TokenThemeScope theme={theme}>
+    <TypographyPageScope>
       <DocPage
-        title={title}
+        title="Typography"
         description="The font contract."
         articleClassName="mx-auto max-w-5xl 2xl:max-w-6xl"
         toc={TOC}
       >
-        <DocSection id="specimens" title="Theme specimens">
-          <ThemeTypographyScope theme={theme}>
-            {families.map((family) => (
-              <SpecimenCard key={family.theme} family={family} />
-            ))}
-          </ThemeTypographyScope>
+        <DocSection id="specimens" title="Specimens">
+          <TypographyScope>
+            <SpecimenCard />
+          </TypographyScope>
         </DocSection>
 
         <DocSection id="headings" title="Headings">
-          <ThemeTypographyScope theme={theme}>
-            <TypographySpecList specs={headingSpecs} />
-          </ThemeTypographyScope>
+          <TypographyScope>
+            <TypographySpecList specs={HEADING_SPECS} />
+          </TypographyScope>
         </DocSection>
 
         <DocSection id="sans" title="Sans">
-          <ThemeTypographyScope theme={theme}>
-            <TypographySpecList specs={bodySpecs} />
-          </ThemeTypographyScope>
+          <TypographyScope>
+            <TypographySpecList specs={SANS_SPECS} />
+          </TypographyScope>
         </DocSection>
 
         <DocSection id="mono" title="Mono">
-          <ThemeTypographyScope theme={theme}>
-            <TypographySpecList specs={monoSpecs} />
-          </ThemeTypographyScope>
+          <TypographyScope>
+            <TypographySpecList specs={MONO_SPECS} />
+          </TypographyScope>
         </DocSection>
 
         <DocSection id="color-variants" title="Color variants">
-          <ThemeTypographyScope theme={theme}>
+          <TypographyScope>
             <TextColorVariantList />
-          </ThemeTypographyScope>
+          </TypographyScope>
         </DocSection>
       </DocPage>
-    </TokenThemeScope>
+    </TypographyPageScope>
   );
 }
 
-function getHeadingSpecs(theme: TypographyTheme): TypographySpec[] {
-  const headingFamily = FAMILIES.find((family) => family.themeId === theme)?.heading;
+const HEADING_SPECS: TypographySpec[] = HEADING_SCALE.map((heading) => ({
+  category: "",
+  name: heading.level,
+  family: SPECIMENS[0].family,
+  utility: "font-heading",
+  size: heading.size,
+  px: heading.px,
+  weight: heading.weight,
+  weightValue: heading.weightValue,
+  tracking: heading.tracking,
+  leading: "",
+  leadingPx: heading.leadingPx,
+  className: "",
+  preview: createHeadingPreview(heading.level),
+}));
 
-  return THEME_TYPOGRAPHY[theme].headings.map((heading) => ({
-    category: "",
-    name: heading.level,
-    family: headingFamily ?? "font-heading",
-    utility: "font-heading",
-    size: heading.size,
-    px: heading.px,
-    weight: heading.weight,
-    weightValue: heading.weightValue,
-    tracking: heading.tracking,
-    leading: "",
-    leadingPx: heading.leadingPx,
-    className: "",
-    preview: createHeadingPreview(heading.level),
-  }));
-}
+const SANS_SPECS: TypographySpec[] = SANS_TYPOGRAPHY.map(({ title, ...rest }) => ({
+  category: "Sans",
+  name: title,
+  ...rest,
+  preview: (
+    <Text.Sans size={SANS_SIZE_BY_TITLE[title]} className="whitespace-nowrap">
+      {SAMPLE_TEXT}
+    </Text.Sans>
+  ),
+}));
 
-function getBodySpecs(theme: TypographyTheme): TypographySpec[] {
-  return THEME_TYPOGRAPHY[theme].body.map((item) => {
-    const { title, ...rest } = item;
-    const size = SANS_SIZE_BY_TITLE[title as keyof typeof SANS_SIZE_BY_TITLE];
-
-    return {
-      category: "Sans",
-      name: title,
-      ...rest,
-      preview: (
-        <Text.Sans size={size} className="whitespace-nowrap">
-          {SAMPLE_TEXT}
-        </Text.Sans>
-      ),
-    };
-  });
-}
-
-function getMonoSpecs(theme: TypographyTheme): TypographySpec[] {
-  return THEME_TYPOGRAPHY[theme].mono.map((item) => {
-    const { title, ...rest } = item;
-    const size = MONO_SIZE_BY_TITLE[title as keyof typeof MONO_SIZE_BY_TITLE];
-
-    return {
-      category: "Mono",
-      name: title,
-      ...rest,
-      preview: (
-        <Text.Mono size={size} className="whitespace-nowrap">
-          {SAMPLE_TEXT}
-        </Text.Mono>
-      ),
-    };
-  });
-}
-
-function getTypographySpecs(theme: TypographyTheme) {
-  return {
-    headingSpecs: getHeadingSpecs(theme),
-    bodySpecs: getBodySpecs(theme),
-    monoSpecs: getMonoSpecs(theme),
-  };
-}
+const MONO_SPECS: TypographySpec[] = MONO_TYPOGRAPHY.map(({ title, ...rest }) => ({
+  category: "Mono",
+  name: title,
+  ...rest,
+  preview: (
+    <Text.Mono size={MONO_SIZE_BY_TITLE[title]} className="whitespace-nowrap">
+      {SAMPLE_TEXT}
+    </Text.Mono>
+  ),
+}));
 
 function createHeadingPreview(level: (typeof HEADING_LEVELS)[number]) {
   const levelNumber = Number(level.slice(1)) as 1 | 2 | 3 | 4 | 5 | 6;
@@ -547,12 +339,10 @@ function createHeadingPreview(level: (typeof HEADING_LEVELS)[number]) {
   );
 }
 
-function TokenThemeScope({ theme, children }: { theme: TypographyTheme; children: ReactNode }) {
+function TypographyPageScope({ children }: { children: ReactNode }) {
   return (
     <div
-      data-token-theme-scope={theme}
-      data-theme={theme}
-      className="light min-h-screen bg-layer-panel font-sans [&_article_header_h1]:font-heading [&_article_header_h1]:!font-medium [&_article_header_p]:font-sans [&_article_header_p]:!text-base [&_section]:border-t-0 [&_section>h2]:font-heading"
+      className="min-h-screen bg-layer-panel font-sans [&_article_header_h1]:font-heading [&_article_header_h1]:!font-medium [&_article_header_p]:font-sans [&_article_header_p]:!text-base [&_section]:border-t-0 [&_section>h2]:font-heading"
       style={{
         color: "var(--foreground-strong)",
         fontFamily: "var(--sans-font)",
@@ -563,16 +353,9 @@ function TokenThemeScope({ theme, children }: { theme: TypographyTheme; children
   );
 }
 
-function ThemeTypographyScope({
-  theme,
-  children,
-}: {
-  theme: TypographyTheme;
-  children: ReactNode;
-}) {
+function TypographyScope({ children }: { children: ReactNode }) {
   return (
     <div
-      data-theme={theme}
       className="grid gap-0 [&>*+*]:border-t [&>*+*]:border-[color-mix(in_oklch,var(--foreground)_5%,transparent)]"
       style={{
         color: "var(--foreground-strong)",
@@ -596,11 +379,6 @@ function TypographySpecList({ specs }: { specs: TypographySpec[] }) {
     </>
   );
 }
-
-const TYPOGRAPHY_SPECS: Record<TypographyTheme, ReturnType<typeof getTypographySpecs>> = {
-  brutal: getTypographySpecs("brutal"),
-  elegant: getTypographySpecs("elegant"),
-};
 
 const TEXT_COLOR_VARIANT_SPECS: TypographySpec[] = TEXT_COLOR_VARIANTS.map((variant) => ({
   category: "Variant",
@@ -711,10 +489,10 @@ function TypographySpecRow({ spec }: { spec: TypographySpec }) {
   );
 }
 
-function SpecimenCard({ family }: { family: (typeof FAMILIES)[number] }) {
+function SpecimenCard() {
   return (
     <>
-      {family.samples.map((sample) => (
+      {SPECIMENS.map((sample) => (
         <div
           key={sample.title}
           className="grid min-w-0 items-end gap-x-10 gap-y-6 pt-7 pb-3.5 md:grid-cols-[9rem_minmax(0,1fr)_9rem]"

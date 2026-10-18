@@ -10,9 +10,9 @@ import { MessageItemHeader, MessageItemSender } from "./message-item-header";
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
 
-function Row({ theme }: { theme: "brutal" | "elegant" }) {
+function Row() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <div style={{ width: "560px" }}>
         <MessageItem data-testid="row">
           <MessageItemGutter>
@@ -51,53 +51,10 @@ function measure(tag: string) {
   return out;
 }
 
-for (const theme of ["brutal", "elegant"] as const) {
-  it(`message row avatar vs sender alignment — ${theme}`, () => {
-    render(<Row theme={theme} />);
-    const m = measure(theme);
-    // Artea #proj-frontend:d5776c23: the avatar's top edge sits on the sender
-    // name's top edge (not merely near it) — the row reads as one block.
-    expect(Math.abs(m.avatarMinusSender)).toBeLessThanOrEqual(1);
-  });
-}
-
-function TierRow({ theme }: { theme: "brutal" | "elegant" }) {
-  return (
-    <ThemeProvider theme={theme}>
-      <MessageItem data-testid="tier-row">
-        <MessageItemAvatarSlot data-testid="tier-slot">
-          <div
-            data-slot="avatar"
-            data-size="md"
-            data-testid="tier-avatar"
-            style={{ background: "#eee" }}
-          />
-        </MessageItemAvatarSlot>
-        <MessageItemContent>
-          <MessageItemHeader>
-            <MessageItemSender>Tier</MessageItemSender>
-          </MessageItemHeader>
-        </MessageItemContent>
-      </MessageItem>
-    </ThemeProvider>
-  );
-}
-
-it("both themes shrink the message avatar slot on narrow viewports", async () => {
-  const { page } = await import("vite-plus/test/browser/context");
-  await page.viewport(414, 900);
-  try {
-    for (const theme of ["brutal", "elegant"] as const) {
-      render(<TierRow theme={theme} />);
-      const slot = screen.getByTestId("tier-slot").getBoundingClientRect();
-      const avatar = screen.getByTestId("tier-avatar").getBoundingClientRect();
-      // max-md tier: 32 slot / 24 avatar in BOTH themes (brutal used to stay
-      // at 36 because only the elegant block defined the tier).
-      expect(Math.round(slot.width)).toBe(32);
-      expect(Math.round(avatar.width)).toBe(24);
-      cleanup();
-    }
-  } finally {
-    await page.viewport(1280, 900);
-  }
+it("message row avatar vs sender alignment", () => {
+  render(<Row />);
+  const m = measure("row");
+  // Artea #proj-frontend:d5776c23: the avatar's top edge sits on the sender
+  // name's top edge (not merely near it) — the row reads as one block.
+  expect(Math.abs(m.avatarMinusSender)).toBeLessThanOrEqual(1);
 });

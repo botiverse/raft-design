@@ -7,7 +7,7 @@ import { extendTailwindMerge } from "tailwind-merge";
 // `text-field` / `font-field` are the field metric axis utilities. Without
 // registering them tailwind-merge cannot classify them: `text-field` falls into
 // text *color* and `font-field` into font *family*, so neither conflicts with a
-// theme's `text-sm` / `text-[13px]` / `font-bold`. Both classes then survive the
+// recipe's `text-sm` / `text-[13px]` / `font-bold`. Both classes then survive the
 // merge and the winner is decided by stylesheet emission order — which is why
 // the axis appeared to apply to font-weight but not font-size. Same failure
 // shape as `shadow-raft-*` above.

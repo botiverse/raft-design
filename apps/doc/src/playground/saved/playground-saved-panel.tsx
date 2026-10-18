@@ -65,11 +65,8 @@ export function PlaygroundSavedPanel() {
         >
           <ChevronLeft aria-hidden />
         </Button>
-        <PanelHeaderIcon className="max-md:hidden in-data-[theme=elegant]:dark:bg-layer-card">
-          <Bookmark
-            aria-hidden
-            className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
-          />
+        <PanelHeaderIcon className="max-md:hidden">
+          <Bookmark aria-hidden className="size-4.5" />
         </PanelHeaderIcon>
         <PanelHeaderContent className="max-md:col-start-2 max-md:col-span-2">
           <PanelHeading>
@@ -82,7 +79,7 @@ export function PlaygroundSavedPanel() {
       <ConversationPanelContent>
         <div className="flex-1 overflow-y-auto p-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
           {savedMessages.length ? (
-            <div className="flex flex-col gap-2 in-data-[theme=elegant]:gap-2.5 in-data-[theme=elegant]:rounded-[10px] in-data-[theme=elegant]:bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))] in-data-[theme=elegant]:p-3 in-data-[theme=elegant]:shadow-raft-xs in-data-[theme=elegant]:dark:bg-layer-card">
+            <div className="flex flex-col gap-2">
               {savedMessages.map((savedMessage) => (
                 <PlaygroundSavedItem key={savedMessage.message.id} savedMessage={savedMessage} />
               ))}
@@ -148,7 +145,7 @@ function PlaygroundSavedItem({ savedMessage }: { savedMessage: PlaygroundSavedMe
                 {actor.type === "human" ? (
                   <User aria-hidden />
                 ) : (
-                  <span className="text-[8px] font-bold in-data-[theme=elegant]:text-[10px] in-data-[theme=elegant]:font-medium">
+                  <span className="text-[8px] font-bold">
                     {actor.fallback ?? actor.name.slice(0, 2)}
                   </span>
                 )}

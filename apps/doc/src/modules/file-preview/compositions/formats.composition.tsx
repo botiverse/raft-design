@@ -5,15 +5,15 @@ export function FilePreviewFormatsContent() {
     <>
       <FilePreview>
         <FilePreviewDocument />
-        <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
+        <FilePreviewBadge>PDF</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewDocument />
-        <FilePreviewBadge type="docx">DOCX</FilePreviewBadge>
+        <FilePreviewBadge>DOCX</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewDocument />
-        <FilePreviewBadge type="txt">TXT</FilePreviewBadge>
+        <FilePreviewBadge>TXT</FilePreviewBadge>
       </FilePreview>
     </>
   );

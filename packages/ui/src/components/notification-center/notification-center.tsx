@@ -11,118 +11,55 @@ import type { ButtonProps } from "../button/button";
 import { Status } from "../status/status";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const notificationCenter = tv({
   slots: {
-    trigger: [],
-    triggerIcon: [],
-    triggerBell: [],
-    triggerBellGlow: [],
-    triggerDot: [],
-    popup: ["flex flex-col overflow-hidden bg-layer-panel"],
-    header: ["flex items-center gap-2 px-4 py-2"],
-    title: ["text-xs"],
-    count: ["ml-auto text-xs"],
+    trigger: [
+      "relative inline-flex size-10 items-center justify-center overflow-visible p-0",
+      "rounded-control border-[1.5px] border-transparent bg-transparent text-foreground-on-frame",
+      "select-none outline-none",
+      "hover:bg-fill-frame-pressed active:bg-fill-frame-pressed data-popup-open:bg-fill-frame-pressed",
+      "focus-visible:shadow-raft-focus",
+      "[&_svg]:size-5 [&_svg]:shrink-0",
+    ],
+    triggerIcon: ["relative inline-flex size-5 items-center justify-center"],
+    triggerBell: ["size-5 shrink-0 text-current"],
+    triggerDot: ["pointer-events-none absolute top-1.5 right-1.5"],
+    popup: [
+      "flex flex-col overflow-hidden",
+      "rounded-container bg-layer-popover text-foreground",
+      "shadow-raft-float ring-1 ring-line-seam",
+    ],
+    header: ["flex items-center px-4", "min-h-13 gap-2 border-b border-line-seam py-0 pr-2 pl-4"],
+    title: ["font-sans text-headline text-foreground"],
+    count: ["ml-auto", "font-mono text-mono-meta text-foreground-hint"],
     scroller: ["min-h-0 flex-1 overflow-y-auto overscroll-contain"],
-    list: ["divide-y"],
-    item: ["px-4 py-4"],
-    itemRow: ["flex items-start"],
-    itemIcon: ["mt-0.5 flex size-6 shrink-0 items-center justify-center", "[&_svg]:size-4"],
+    list: ["divide-y-0"],
+    item: [
+      "group/notification-center-item relative px-4 py-3",
+      "before:pointer-events-none before:absolute before:top-0 before:right-0 before:left-4 before:hidden before:border-t before:border-line-muted",
+      "not-first:before:block has-data-[slot=notification-center-item-icon]:before:left-[63px]",
+    ],
+    itemRow: ["flex items-start", "gap-3"],
+    itemIcon: [
+      "flex shrink-0 items-center justify-center",
+      "mt-0 size-[35px] rounded-sticker bg-fill-muted text-foreground-muted",
+      "[&_svg]:size-[18px]",
+    ],
     itemContent: ["min-w-0 flex-1"],
-    itemTitle: ["wrap-break-word text-sm text-foreground"],
-    itemBody: ["mt-0.5 wrap-break-word text-sm"],
-    itemActions: ["mt-3 ml-auto flex items-center justify-end gap-2"],
+    itemTitle: [
+      "wrap-break-word",
+      "font-sans text-subhead font-bold text-foreground",
+      "group-data-read/notification-center-item:font-semibold group-data-read/notification-center-item:text-foreground-muted",
+    ],
+    itemBody: [
+      "mt-0.5 wrap-break-word",
+      "line-clamp-2 font-sans text-callout text-foreground-muted",
+    ],
+    itemActions: ["flex items-center", "mt-2 ml-0 flex-wrap justify-start gap-2"],
     actionButton: [],
   },
   variants: {
-    theme: {
-      brutal: {
-        trigger: [
-          "relative inline-flex size-9 items-center justify-center overflow-visible rounded-none border-2 border-line-strong bg-brutal-orange p-0 text-foreground",
-          "select-none shadow-raft-sm transition-all duration-100 hover:bg-brutal-orange hover:shadow-raft-md",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-line-strong",
-          "[&>svg]:size-4.5 [&>svg]:shrink-0",
-        ],
-        popup: ["border-2 border-line-strong bg-layer-panel shadow-raft-lg"],
-        header: ["border-b-2 border-line-strong bg-brutal-cream"],
-        title: ["font-bold uppercase tracking-widest text-foreground-strong/60"],
-        count: ["font-mono text-foreground-strong/40"],
-        list: ["divide-y-2 divide-line-strong"],
-        itemRow: ["gap-2"],
-        itemIcon: ["border-2 border-line-strong [&_svg]:text-foreground"],
-        itemTitle: ["font-bold"],
-        actionButton: [],
-      },
-      elegant: {
-        trigger: [
-          "relative inline-flex size-auto min-w-9 items-center justify-center overflow-visible rounded-md border border-transparent p-3",
-          "text-[13px] text-foreground-icon [&_svg]:size-4 [&_svg]:shrink-0",
-          "select-none transition-colors",
-          "hover:bg-fill-strong/80 hover:text-foreground-strong",
-          "active:bg-fill-strong/80 active:text-foreground-strong",
-          "focus-visible:outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
-        ],
-        triggerIcon: ["relative inline-flex size-4 items-center justify-center"],
-        triggerBell: ["size-4 shrink-0 text-current"],
-        triggerBellGlow: [
-          "pointer-events-none absolute inset-0 size-4 shrink-0",
-          "text-[oklch(73.4%_0.149_89.2)]",
-          "drop-shadow-[0_0_1px_oklch(0.87_0.16_92/0.82)]",
-          "mask-[radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
-        ],
-        triggerDot: ["pointer-events-none absolute top-2.5 right-2.5"],
-        popup: ["rounded-md bg-layer-popover", "shadow-raft-lg"],
-        header: ["border-b border-line-hairline bg-layer-panel pt-2.5", "dark:bg-transparent"],
-        scroller: ["bg-layer-panel", "dark:bg-transparent"],
-        title: ["text-sm font-medium normal-case tracking-normal text-foreground"],
-        count: ["font-sans text-[11px] font-medium text-foreground-placeholder"],
-        list: ["divide-line-hairline"],
-        itemRow: ["gap-2.5"],
-        itemIcon: ["rounded-sm border border-transparent"],
-        itemTitle: ["font-medium"],
-        itemBody: ["text-foreground-muted"],
-        actionButton: ["py-0.5"],
-      },
-      raft: {
-        trigger: [
-          "relative inline-flex size-10 items-center justify-center overflow-visible p-0",
-          "rounded-control border-[1.5px] border-transparent bg-transparent text-foreground-on-frame",
-          "select-none outline-none",
-          "hover:bg-fill-frame-pressed active:bg-fill-frame-pressed data-popup-open:bg-fill-frame-pressed",
-          "focus-visible:shadow-raft-focus",
-          "[&_svg]:size-5 [&_svg]:shrink-0",
-        ],
-        triggerIcon: ["relative inline-flex size-5 items-center justify-center"],
-        triggerBell: ["size-5 shrink-0 text-current"],
-        triggerBellGlow: ["hidden"],
-        triggerDot: ["pointer-events-none absolute top-1.5 right-1.5"],
-        popup: [
-          "rounded-container bg-layer-popover text-foreground",
-          "shadow-raft-float ring-1 ring-line-seam",
-        ],
-        header: ["min-h-13 gap-2 border-b border-line-seam py-0 pr-2 pl-4"],
-        title: ["font-sans text-headline text-foreground"],
-        count: ["font-mono text-mono-meta text-foreground-hint"],
-        list: ["divide-y-0"],
-        item: [
-          "group/notification-center-item relative px-4 py-3",
-          "before:pointer-events-none before:absolute before:top-0 before:right-0 before:left-4 before:hidden before:border-t before:border-line-muted",
-          "not-first:before:block has-data-[slot=notification-center-item-icon]:before:left-[63px]",
-        ],
-        itemRow: ["gap-3"],
-        itemIcon: [
-          "mt-0 size-[35px] rounded-sticker bg-fill-muted text-foreground-muted",
-          "[&_svg]:size-[18px]",
-        ],
-        itemTitle: [
-          "font-sans text-subhead font-bold text-foreground",
-          "group-data-read/notification-center-item:font-semibold group-data-read/notification-center-item:text-foreground-muted",
-        ],
-        itemBody: ["line-clamp-2 font-sans text-callout text-foreground-muted"],
-        itemActions: ["mt-2 ml-0 flex-wrap justify-start gap-2"],
-      },
-    },
     viewport: {
       desktop: {
         popup: "w-[380px]",
@@ -144,33 +81,9 @@ const notificationCenter = tv({
     },
     read: {
       true: {
-        item: "opacity-70",
+        item: ["opacity-100"],
       },
       false: {
-        item: "",
-      },
-    },
-    status: {
-      error: {},
-      warning: {},
-      info: {},
-      success: {},
-    },
-    actionVariant: {
-      primary: {},
-      secondary: {},
-    },
-  },
-  compoundVariants: [
-    {
-      theme: "raft",
-      read: true,
-      class: { item: "opacity-100" },
-    },
-    {
-      theme: "raft",
-      read: false,
-      class: {
         item: [
           "pr-[37px]",
           "after:pointer-events-none after:absolute after:top-[17.5px] after:right-4 after:size-[9px]",
@@ -178,48 +91,18 @@ const notificationCenter = tv({
         ],
       },
     },
-    {
-      theme: "raft",
-      status: ["error", "warning"],
-      class: { itemIcon: "bg-warning-soft text-foreground" },
+    status: {
+      error: { itemIcon: ["bg-warning-soft text-foreground"] },
+      warning: { itemIcon: ["bg-warning-soft text-foreground"] },
+      info: { itemIcon: ["bg-info-soft text-foreground"] },
+      success: {},
     },
-    { theme: "raft", status: "info", class: { itemIcon: "bg-info-soft text-foreground" } },
-    {
-      theme: "brutal",
-      actionVariant: "primary",
-      class: { actionButton: "bg-brutal-pink hover:bg-brutal-pink" },
-    },
-    { theme: "brutal", status: "error", class: { itemIcon: "bg-brutal-orange" } },
-    { theme: "brutal", status: "warning", class: { itemIcon: "bg-brutal-orange" } },
-    { theme: "brutal", status: "info", class: { itemIcon: "bg-brutal-yellow" } },
-    { theme: "brutal", status: "success", class: { itemIcon: "bg-brutal-lime" } },
-    {
-      theme: "elegant",
-      status: "error",
-      class: { itemIcon: "bg-danger/80 text-danger-strong dark:bg-danger-muted" },
-    },
-    {
-      theme: "elegant",
-      status: "warning",
-      class: { itemIcon: "bg-warning/80 text-warning-strong dark:bg-warning-muted" },
-    },
-    {
-      theme: "elegant",
-      status: "info",
-      class: { itemIcon: "bg-info/80 text-info-strong dark:bg-info-muted" },
-    },
-    {
-      theme: "elegant",
-      status: "success",
-      class: { itemIcon: "bg-success/80 text-success-strong dark:bg-success-muted" },
-    },
-  ],
+  },
   defaultVariants: {
     viewport: "desktop",
     size: "md",
     read: false,
     status: "info",
-    actionVariant: "secondary",
   },
 });
 
@@ -232,41 +115,14 @@ export function NotificationCenter({ modal = false, ...props }: NotificationCent
 export type NotificationCenterTriggerProps = StyledProps<BasePopover.Trigger.Props>;
 
 function NotificationCenterTriggerContent() {
-  const theme = useThemeFamily();
-  const { triggerIcon, triggerBell, triggerBellGlow, triggerDot } = notificationCenter({ theme });
-
-  if (theme === "raft") {
-    return (
-      <>
-        <span aria-hidden className={triggerIcon()}>
-          <Bell className={triggerBell()} strokeWidth={2} />
-        </span>
-        <Status aria-hidden variant="accent" size="md" className={triggerDot()} />
-      </>
-    );
-  }
-
-  if (theme === "brutal") {
-    return (
-      <>
-        <AlertTriangle aria-hidden className="size-4.5" />
-        <Status
-          aria-hidden
-          variant="warning"
-          size="md"
-          className="pointer-events-none absolute -top-1 -right-1 [--status-color:var(--color-brutal-orange)]"
-        />
-      </>
-    );
-  }
+  const { triggerIcon, triggerBell, triggerDot } = notificationCenter();
 
   return (
     <>
       <span aria-hidden className={triggerIcon()}>
         <Bell className={triggerBell()} strokeWidth={2} />
-        <Bell className={triggerBellGlow()} strokeWidth={2} />
       </span>
-      <Status aria-hidden variant="primary" size="sm" attention className={triggerDot()} />
+      <Status aria-hidden variant="accent" size="md" className={triggerDot()} />
     </>
   );
 }
@@ -276,8 +132,7 @@ export function NotificationCenterTrigger({
   children,
   ...props
 }: NotificationCenterTriggerProps) {
-  const theme = useThemeFamily();
-  const { trigger } = notificationCenter({ theme });
+  const { trigger } = notificationCenter();
 
   return (
     <BasePopover.Trigger
@@ -336,8 +191,7 @@ export function NotificationCenterPopup({
   portalProps,
   ...props
 }: NotificationCenterPopupProps) {
-  const theme = useThemeFamily();
-  const { popup } = notificationCenter({ theme, viewport, size });
+  const { popup } = notificationCenter({ viewport, size });
 
   return (
     <NotificationCenterPortal {...portalProps}>
@@ -377,8 +231,7 @@ export function NotificationCenterHeader({
   className,
   ...props
 }: NotificationCenterHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = notificationCenter({ theme });
+  const { header } = notificationCenter();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: header({ className }),
   };
@@ -400,8 +253,7 @@ export function NotificationCenterTitle({
   className,
   ...props
 }: NotificationCenterTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = notificationCenter({ theme });
+  const { title } = notificationCenter();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: title({ className }),
   };
@@ -423,8 +275,7 @@ export function NotificationCenterCount({
   className,
   ...props
 }: NotificationCenterCountProps) {
-  const theme = useThemeFamily();
-  const { count } = notificationCenter({ theme });
+  const { count } = notificationCenter();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: count({ className }),
   };
@@ -468,8 +319,7 @@ export function NotificationCenterList({
   className,
   ...props
 }: NotificationCenterListProps) {
-  const theme = useThemeFamily();
-  const { list } = notificationCenter({ theme });
+  const { list } = notificationCenter();
   const defaultProps: useRender.ElementProps<"ul"> = {
     "aria-label": "Notifications",
     className: list({ className }),
@@ -494,8 +344,7 @@ export function NotificationCenterItem({
   className,
   ...props
 }: NotificationCenterItemProps) {
-  const theme = useThemeFamily();
-  const { item } = notificationCenter({ theme, read });
+  const { item } = notificationCenter({ read });
   const defaultProps: useRender.ElementProps<"li"> = {
     className: item({ className }),
   };
@@ -518,8 +367,7 @@ export function NotificationCenterItemRow({
   className,
   ...props
 }: NotificationCenterItemRowProps) {
-  const theme = useThemeFamily();
-  const { itemRow } = notificationCenter({ theme });
+  const { itemRow } = notificationCenter();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: itemRow({ className }),
   };
@@ -561,8 +409,7 @@ export function NotificationCenterItemIcon({
   children,
   ...props
 }: NotificationCenterItemIconProps) {
-  const theme = useThemeFamily();
-  const { itemIcon } = notificationCenter({ theme, status });
+  const { itemIcon } = notificationCenter({ status });
   const defaultProps: useRender.ElementProps<"div"> = {
     "aria-label": STATUS_LABEL[status],
     className: itemIcon({ className }),
@@ -609,8 +456,7 @@ export function NotificationCenterItemTitle({
   className,
   ...props
 }: NotificationCenterItemTitleProps) {
-  const theme = useThemeFamily();
-  const { itemTitle } = notificationCenter({ theme });
+  const { itemTitle } = notificationCenter();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: itemTitle({ className }),
   };
@@ -632,8 +478,7 @@ export function NotificationCenterItemBody({
   className,
   ...props
 }: NotificationCenterItemBodyProps) {
-  const theme = useThemeFamily();
-  const { itemBody } = notificationCenter({ theme });
+  const { itemBody } = notificationCenter();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: itemBody({ className }),
   };
@@ -655,8 +500,7 @@ export function NotificationCenterItemActions({
   className,
   ...props
 }: NotificationCenterItemActionsProps) {
-  const theme = useThemeFamily();
-  const { itemActions } = notificationCenter({ theme });
+  const { itemActions } = notificationCenter();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: itemActions({ className }),
   };
@@ -676,25 +520,21 @@ export type NotificationCenterActionButtonProps = Omit<
   "className" | "size" | "variant"
 > & {
   className?: string;
-  variant?: VariantProps<typeof notificationCenter>["actionVariant"];
 };
 
 export function NotificationCenterActionButton({
-  variant = "secondary",
   className,
   ...props
 }: NotificationCenterActionButtonProps) {
-  const theme = useThemeFamily();
-  const { actionButton } = notificationCenter({ theme, actionVariant: variant });
-  // Raft: in-row actions are outline small (32px) buttons and never pink — a
-  // list can hold several rows waiting on you at once.
-  const buttonVariant = theme !== "raft" && variant === "primary" ? "primary" : "outline";
+  const { actionButton } = notificationCenter();
+  // In-row actions are outline small (32px) buttons and never pink: a list can
+  // hold several rows waiting on you at once.
 
   return (
     <Button
       type="button"
-      size={theme === "raft" ? "md" : "xs"}
-      variant={buttonVariant}
+      size="md"
+      variant="outline"
       className={actionButton({ className })}
       {...props}
     />

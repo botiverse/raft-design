@@ -70,11 +70,11 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           senderId: "cindy",
           createdAt: "09:34 AM",
           content:
-            "Brutal status labels still feel heavy next to the icon. I will try `text-[10px]` + `size-2.5` on the badge path and post a screenshot.",
+            "Status labels still feel heavy next to the icon. I will try `text-[10px]` + `size-2.5` on the badge path and post a screenshot.",
           translation: {
             display: "bilingual",
             translatedContent:
-              "Brutal 状态标签放在图标旁边仍然显得偏重。我会在徽标路径上尝试 `text-[10px]` 与 `size-2.5`，然后发一张截图。",
+              "状态标签放在图标旁边仍然显得偏重。我会在徽标路径上尝试 `text-[10px]` 与 `size-2.5`，然后发一张截图。",
           },
         },
         {
@@ -147,7 +147,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           senderId: "mira",
           createdAt: "09:49 AM",
           content:
-            "Elegant TaskCard hover was washing through the column color. Opaque `color-mix` against `layer-panel` reads cleaner — please try both themes.",
+            "TaskCard hover was washing through the column color. Opaque `color-mix` against `layer-panel` reads cleaner — please try light and dark.",
         },
         {
           senderId: "atlas",
@@ -170,14 +170,14 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           senderId: "developer",
           createdAt: "10:04 AM",
           content:
-            "Dual trigger is in: elegant keeps the icon control; brutal shows the label badge. Ghost more-menu stays composition-owned.",
+            "Dual trigger is in: the board keeps the icon control; the list shows the label badge. Ghost more-menu stays composition-owned.",
           reactions: [{ emoji: "🔥", count: 2, reactorIds: ["cindy", "ada"] }],
         },
         {
           senderId: "cindy",
           createdAt: "10:07 AM",
           content:
-            "Checking label + icon sizing on brutal now. Will close #46 if it matches source.",
+            "Checking label + icon sizing in the list now. Will close #46 if it matches source.",
         },
         {
           senderId: "samira",
@@ -236,13 +236,13 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           senderId: "cindy",
           createdAt: "10:44 AM",
           content:
-            "Brutal badge pass looks good on Todo / In Progress. In Review still needs the warmer icon color — @Developer can you cherry-pick?",
+            "Badge pass looks good on Todo / In Progress. In Review still needs the warmer icon color — @Developer can you cherry-pick?",
         },
         {
           senderId: "developer",
           createdAt: "10:46 AM",
           content:
-            "Already on `oklch(0.72 0.16 58)` for elegant in-review. Brutal inherits the icon now.",
+            "Already on `oklch(0.72 0.16 58)` for the in-review icon. The label badge inherits it now.",
           reactions: [{ emoji: "🙌", count: 1, reactorIds: ["cindy"] }],
         },
         {
@@ -389,7 +389,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           {
             senderId: "cindy",
             content:
-              "Also flag @Mira if the unread count still competes with the muted badge in `brutal`.",
+              "Also flag @Mira if the unread count still competes with the muted badge in dark mode.",
           },
           {
             senderId: "mira",

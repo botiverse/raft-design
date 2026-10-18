@@ -1,11 +1,9 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge } from "../badge";
 import type { BadgeProps } from "../badge";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import type { VariantProps } from "../../lib/tv";
 import { sidebarItemRecipe } from "./sidebar-item.recipe";
 import { ThreadIcon } from "../icons";
 
@@ -32,26 +30,16 @@ export function SidebarItemRoot({
   });
 }
 
-export type SidebarItemVariant = NonNullable<VariantProps<typeof sidebarItemRecipe>["variant"]>;
+export type SidebarItemProps = SidebarItemRootProps & {
+  /** Let the name run onto more lines: the row grows from its fixed height
+   * and its content aligns to the first line. */
+  wrap?: boolean;
+};
 
-export type SidebarItemProps = SidebarItemRootProps &
-  Pick<VariantProps<typeof sidebarItemRecipe>, "variant"> & {
-    /** Let the name run onto more lines: the row grows from its fixed height
-     * and its content aligns to the first line. */
-    wrap?: boolean;
-  };
-
-export function SidebarItem({
-  className,
-  variant = "default",
-  wrap = false,
-  ...props
-}: SidebarItemProps) {
-  const theme = useThemeFamily();
-  const { sidebarItem } = sidebarItemRecipe({ theme, variant, wrap });
+export function SidebarItem({ className, wrap = false, ...props }: SidebarItemProps) {
+  const { sidebarItem } = sidebarItemRecipe({ wrap });
   return (
     <SidebarItemRoot
-      data-variant={variant}
       data-wrap={wrap ? "true" : undefined}
       className={sidebarItem({ className })}
       {...props}
@@ -62,8 +50,7 @@ export function SidebarItem({
 export type SidebarItemIconProps = useRender.ComponentProps<"span">;
 
 export function SidebarItemIcon({ className, render, ...props }: SidebarItemIconProps) {
-  const theme = useThemeFamily();
-  const { sidebarItemIcon } = sidebarItemRecipe({ theme });
+  const { sidebarItemIcon } = sidebarItemRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "sidebar-item-icon",
     className: sidebarItemIcon({ className }),
@@ -83,8 +70,7 @@ export function SidebarItemChannelIcon({
   render,
   ...props
 }: SidebarItemChannelIconProps) {
-  const theme = useThemeFamily();
-  const { sidebarItemChannelIcon } = sidebarItemRecipe({ theme });
+  const { sidebarItemChannelIcon } = sidebarItemRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "sidebar-item-channel-icon",
     className: sidebarItemChannelIcon({ className }),
@@ -123,8 +109,7 @@ export function SidebarItemContent({
 export type SidebarItemTitleProps = useRender.ComponentProps<"span">;
 
 export function SidebarItemTitle({ className, render, ...props }: SidebarItemTitleProps) {
-  const theme = useThemeFamily();
-  const { sidebarItemTitle } = sidebarItemRecipe({ theme });
+  const { sidebarItemTitle } = sidebarItemRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "sidebar-item-title",
     className: sidebarItemTitle({ className }),
@@ -140,8 +125,7 @@ export function SidebarItemTitle({ className, render, ...props }: SidebarItemTit
 export type SidebarItemSubtitleProps = useRender.ComponentProps<"span">;
 
 export function SidebarItemSubtitle({ className, render, ...props }: SidebarItemSubtitleProps) {
-  const theme = useThemeFamily();
-  const { sidebarItemSubtitle } = sidebarItemRecipe({ theme });
+  const { sidebarItemSubtitle } = sidebarItemRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "sidebar-item-subtitle",
     className: sidebarItemSubtitle({ className }),
@@ -157,8 +141,7 @@ export function SidebarItemSubtitle({ className, render, ...props }: SidebarItem
 export type SidebarItemMetaProps = useRender.ComponentProps<"span">;
 
 export function SidebarItemMeta({ className, render, ...props }: SidebarItemMetaProps) {
-  const theme = useThemeFamily();
-  const { sidebarItemMeta } = sidebarItemRecipe({ theme });
+  const { sidebarItemMeta } = sidebarItemRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "sidebar-item-meta",
     className: sidebarItemMeta({ className }),
@@ -174,8 +157,7 @@ export function SidebarItemMeta({ className, render, ...props }: SidebarItemMeta
 export type SidebarItemStatusProps = useRender.ComponentProps<"span">;
 
 export function SidebarItemStatus({ className, render, ...props }: SidebarItemStatusProps) {
-  const theme = useThemeFamily();
-  const { sidebarItemStatus } = sidebarItemRecipe({ theme });
+  const { sidebarItemStatus } = sidebarItemRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "sidebar-item-status",
     className: sidebarItemStatus({ className }),
@@ -188,23 +170,14 @@ export function SidebarItemStatus({ className, render, ...props }: SidebarItemSt
   });
 }
 
-export type SidebarItemIndicatorProps = BadgeProps;
+/** The yellow @ sticker: someone mentioned you here. */
+export type SidebarItemIndicatorProps = Omit<BadgeProps, "appearance" | "variant">;
 
-export function SidebarItemIndicator({
-  appearance = "solid",
-  className,
-  uppercase = false,
-  variant = "primary",
-  ...props
-}: SidebarItemIndicatorProps) {
-  const theme = useThemeFamily();
-  const { sidebarItemIndicator } = sidebarItemRecipe({ theme });
+export function SidebarItemIndicator({ className, ...props }: SidebarItemIndicatorProps) {
+  const { sidebarItemIndicator } = sidebarItemRecipe();
   return (
     <Badge
       data-slot="sidebar-item-indicator"
-      appearance={appearance}
-      uppercase={uppercase}
-      variant={variant}
       className={sidebarItemIndicator({ className })}
       {...props}
     />
@@ -214,8 +187,7 @@ export function SidebarItemIndicator({
 export type SidebarItemMetaIconProps = useRender.ComponentProps<"span">;
 
 export function SidebarItemMetaIcon({ className, render, ...props }: SidebarItemMetaIconProps) {
-  const theme = useThemeFamily();
-  const { sidebarItemMetaIcon } = sidebarItemRecipe({ theme });
+  const { sidebarItemMetaIcon } = sidebarItemRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "sidebar-item-meta-icon",
     className: sidebarItemMetaIcon({ className }),
@@ -244,26 +216,13 @@ export function SidebarItemAside({ className, render, ...props }: SidebarItemAsi
   });
 }
 
-export type SidebarItemCountProps = BadgeProps;
+/** The pink unread count: messages waiting for you. */
+export type SidebarItemCountProps = Omit<BadgeProps, "appearance" | "variant">;
 
-export function SidebarItemCount({
-  appearance = "solid",
-  className,
-  uppercase = false,
-  variant = "primary",
-  ...props
-}: SidebarItemCountProps) {
-  const theme = useThemeFamily();
-  const { sidebarItemCount } = sidebarItemRecipe({ theme });
+export function SidebarItemCount({ className, ...props }: SidebarItemCountProps) {
+  const { sidebarItemCount } = sidebarItemRecipe();
   return (
-    <Badge
-      data-slot="sidebar-item-count"
-      appearance={appearance}
-      uppercase={uppercase}
-      variant={variant}
-      className={sidebarItemCount({ className })}
-      {...props}
-    />
+    <Badge data-slot="sidebar-item-count" className={sidebarItemCount({ className })} {...props} />
   );
 }
 

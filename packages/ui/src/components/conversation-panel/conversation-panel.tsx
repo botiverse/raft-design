@@ -1,6 +1,5 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Panel, PanelBody, PanelFooter } from "../panel/panel";
 import { conversationPanel } from "./conversation-panel.recipe";
 import type { SlotElementProps } from "../../lib/data-attributes";
@@ -16,8 +15,7 @@ export function ConversationPanelRoot({
   render,
   ...props
 }: ConversationPanelRootProps) {
-  const theme = useThemeFamily();
-  const { root } = conversationPanel({ theme });
+  const { root } = conversationPanel();
 
   return (
     <Panel
@@ -33,17 +31,15 @@ export function ConversationPanelRoot({
 export type ConversationPanelContentProps = useRender.ComponentProps<"div">;
 
 /**
- * Content region below the conversation header. A single container hosting tabs,
- * body, and footer; elegant mobile sits flush to the bottom with top radius
- * and top gap only; desktop keeps the left inset / rounded-tl treatment.
+ * Content region below the conversation header: one container hosting tabs,
+ * body, and footer.
  */
 export function ConversationPanelContent({
   className,
   render,
   ...props
 }: ConversationPanelContentProps) {
-  const theme = useThemeFamily();
-  const { content } = conversationPanel({ theme });
+  const { content } = conversationPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "conversation-panel-content",
     className: content({ className }),
@@ -72,8 +68,7 @@ export function ConversationPanelBody({ className, render, ...props }: Conversat
 export type ConversationPanelTabsProps = useRender.ComponentProps<"div">;
 
 export function ConversationPanelTabs({ className, render, ...props }: ConversationPanelTabsProps) {
-  const theme = useThemeFamily();
-  const { tabs } = conversationPanel({ theme });
+  const { tabs } = conversationPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "conversation-panel-tabs",
     className: tabs({ className }),
@@ -93,8 +88,7 @@ export function ConversationPanelFooter({
   render,
   ...props
 }: ConversationPanelFooterProps) {
-  const theme = useThemeFamily();
-  const { footer } = conversationPanel({ theme });
+  const { footer } = conversationPanel();
 
   return (
     <PanelFooter

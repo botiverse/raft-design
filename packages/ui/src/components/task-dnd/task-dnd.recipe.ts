@@ -7,46 +7,19 @@ export const taskDnd = tv({
       "outline-none",
       "data-[dragging=true]:z-20 data-[dragging=true]:will-change-transform",
       "data-[disabled=true]:cursor-default data-[disabled=true]:touch-auto",
+      "rounded-container",
+      "focus-visible:shadow-raft-focus",
     ],
-    overlay: "group/task-drag-overlay pointer-events-none",
-    placeholder: "hidden w-full shrink-0",
-  },
-  variants: {
-    theme: {
-      brutal: {
-        draggable: [
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
-          "data-[dragging=true]:opacity-90",
-        ],
-        overlay: ["z-20 opacity-90", "**:data-[slot=task-card]:shadow-raft-md"],
-        placeholder: [
-          "h-(--task-dnd-placeholder-height,72px) border-2 border-dashed border-line-strong",
-          "bg-primary/20",
-          "data-[drop-state=allowed]:block",
-        ],
-      },
-      elegant: {
-        draggable: [
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-transparent",
-          "focus-visible:ring-2 focus-visible:ring-primary-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-canvas-muted",
-          "dark:focus-visible:ring-offset-layer-card",
-          "forced-colors:focus-visible:outline-[CanvasText]",
-        ],
-        placeholder: [
-          "h-(--task-dnd-placeholder-height,72px) rounded-lg border border-dashed border-line-muted",
-          "bg-[color-mix(in_oklch,var(--ink)_4%,var(--layer-panel))]",
-          "data-[drop-state=allowed]:block",
-        ],
-      },
-      raft: {
-        draggable: ["rounded-container", "focus-visible:shadow-raft-focus"],
-        overlay: ["z-20", "**:data-[slot=task-card]:shadow-raft-float"],
-        placeholder: [
-          "h-(--task-dnd-placeholder-height,72px) rounded-container",
-          "border-[1.5px] border-dashed border-line-strong bg-transparent",
-          "data-[drop-state=allowed]:block",
-        ],
-      },
-    },
+    overlay: [
+      "group/task-drag-overlay pointer-events-none",
+      "z-20",
+      "**:data-[slot=task-card]:shadow-raft-float",
+    ],
+    placeholder: [
+      "hidden w-full shrink-0",
+      "h-(--task-dnd-placeholder-height,72px) rounded-container",
+      "border-[1.5px] border-dashed border-line-strong bg-transparent",
+      "data-[drop-state=allowed]:block",
+    ],
   },
 });

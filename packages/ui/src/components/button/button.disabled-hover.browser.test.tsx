@@ -2,7 +2,7 @@ import "./button.test.css";
 /**
  * Browser-mode verification for task #77 (reviewer-requested): on the
  * aria-disabled path a hovered/pressed button must NOT react — background,
- * border, scale and translate stay at their resting values, per theme.
+ * border, scale and translate stay at their resting values, in each mode.
  *
  * Run: `vp test --browser.enabled=true src/components/button/button.disabled-hover.browser.test.tsx`
  * (chromium via playwright; real CDP hover so :hover actually applies).
@@ -20,15 +20,7 @@ const it = test.skipIf(typeof window === "undefined");
 
 afterEach(cleanup);
 
-const THEMES: ReadonlyArray<{
-  family: "brutal" | "elegant";
-  mode?: "dark";
-  label: string;
-}> = [
-  { family: "brutal", label: "brutal" },
-  { family: "elegant", label: "elegant" },
-  { family: "elegant", mode: "dark", label: "elegant-dark" },
-];
+const MODES = ["light", "dark"] as const;
 
 const VARIANTS = [
   "default",
@@ -50,6 +42,8 @@ function snap(el: Element) {
   const cs = getComputedStyle(el);
   return {
     bg: transparent(cs.backgroundColor),
+    // Filled variants hover through a pressed overlay (a background image).
+    bgImage: cs.backgroundImage,
     borderColor: transparent(cs.borderColor),
     scale: cs.scale,
     translate: cs.translate,
@@ -95,10 +89,11 @@ async function settledBg(el: Element): Promise<string> {
   return next;
 }
 
-for (const { family, mode, label } of THEMES) {
+for (const mode of MODES) {
+  const label = mode;
   it(`${label}: hovered/pressed aria-disabled buttons do not react (bg/border/scale/translate/shadow/underline unchanged)`, async () => {
     render(
-      <ThemeProvider theme={family} {...(mode ? { mode } : {})}>
+      <ThemeProvider mode={mode}>
         <div
           data-testid="stage"
           className="bg-layer-page text-foreground"
@@ -122,7 +117,8 @@ for (const { family, mode, label } of THEMES) {
     const { page } = await import("vite-plus/test/browser/context");
 
     // Positive control first: hover the ENABLED button and require a real
-    // change. Brutal color hovers are same-color, so watch motion too.
+    // change (watch the pressed overlay, motion and shadow too, not only the
+    // colour: the primary hover keeps its colour and adds an overlay).
     let canTestActive = false;
     {
       const control = page.getByTestId("control");
@@ -135,6 +131,7 @@ for (const { family, mode, label } of THEMES) {
           const now = snap(el);
           if (
             now.bg !== resting.bg ||
+            now.bgImage !== resting.bgImage ||
             now.translate !== resting.translate ||
             now.boxShadow !== resting.boxShadow
           ) {
@@ -171,7 +168,7 @@ for (const { family, mode, label } of THEMES) {
       if (!canTestActive) {
         // Measured in this environment: after mousePressed (raw CDP) plus 10
         // rAF polls, and after click({delay: 1500}) earlier, :active was never
-        // observed in any theme. Press assertions then stay covered by the
+        // observed in any mode. Press assertions then stay covered by the
         // class-string assertions and the (0,3,0) > (0,2,0) cascade argument
         // (3 active: utilities, each with a matching aria-disabled:active
         // reset, scope verified in review). Any environment where the probe
@@ -205,12 +202,6 @@ for (const { family, mode, label } of THEMES) {
         await cdp().send("Input.dispatchMouseEvent", { type: "mouseReleased", ...point });
       }
     }
-
-    // One screenshot per theme with the danger button hovered (reviewer ask).
-    await page.getByRole("button", { name: "danger", exact: true }).hover();
-    await page
-      .getByTestId("stage")
-      .screenshot({ path: `task-77-aria-disabled-hover-${label}.png` });
   });
 }
 
@@ -220,11 +211,11 @@ it("enabled button keeps consumer hover overrides (review round-2 regression)", 
   // original stacks are restored, so the consumer's hover must win again.
   // (The override class must exist in the parsed sheet: an arbitrary-value
   // class only present in this test file lands in a stylesheet chunk the
-  // browser had not parsed yet in this env — measured. bg-brutal-pink is
-  // used by the recipe itself, so it is always parsed.)
+  // browser had not parsed yet in this env — measured. hover:bg-accent-500 is
+  // used by the accent variant itself, so it is always parsed.)
   render(
-    <ThemeProvider theme="elegant">
-      <Button variant="primary" className="hover:bg-brutal-pink">
+    <ThemeProvider>
+      <Button variant="primary" className="hover:bg-accent-500">
         Save
       </Button>
     </ThemeProvider>,
@@ -235,7 +226,7 @@ it("enabled button keeps consumer hover overrides (review round-2 regression)", 
   const resting = snap(el);
   await button.hover();
   const settled = await settledBg(el);
-  // brutal-pink-400 = oklch(0.749 0.162 0.71)
+  // accent-500 = brutal-pink-400 = oklch(0.749 0.162 0.71)
   expect(settled).toContain("0.749");
   expect(settled).not.toBe(resting.bg);
 });

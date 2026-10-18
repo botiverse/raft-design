@@ -3,7 +3,6 @@ import { useRender } from "@base-ui/react/use-render";
 import { createContext, useContext } from "react";
 
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { inboxItem } from "./inbox-item.recipe";
 
 const InboxItemDisabledContext = createContext(false);
@@ -19,8 +18,7 @@ export function InboxItem({
   render,
   ...props
 }: InboxItemProps) {
-  const theme = useThemeFamily();
-  const { item } = inboxItem({ theme });
+  const { item } = inboxItem();
   const defaultProps: SlotElementProps<"div"> = {
     "aria-disabled": disabled || undefined,
     "data-active": active ? "true" : undefined,
@@ -44,8 +42,7 @@ export type InboxItemTriggerProps = Omit<useRender.ComponentProps<"button">, "ty
 
 export function InboxItemTrigger({ className, onClick, render, ...props }: InboxItemTriggerProps) {
   const disabled = useContext(InboxItemDisabledContext);
-  const theme = useThemeFamily();
-  const { itemTrigger } = inboxItem({ theme });
+  const { itemTrigger } = inboxItem();
   const defaultProps: SlotElementProps<"button"> = {
     type: render ? undefined : "button",
     "aria-disabled": disabled || undefined,
@@ -72,8 +69,7 @@ export function InboxItemTrigger({ className, onClick, render, ...props }: Inbox
 
 export type InboxItemSelectionProps = useRender.ComponentProps<"div">;
 export function InboxItemSelection({ className, render, ...props }: InboxItemSelectionProps) {
-  const theme = useThemeFamily();
-  const { itemSelection } = inboxItem({ theme });
+  const { itemSelection } = inboxItem();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "inbox-item-selection",
     className: itemSelection({ className }),
@@ -87,8 +83,7 @@ export function InboxItemSelection({ className, render, ...props }: InboxItemSel
 
 export type InboxItemContentProps = useRender.ComponentProps<"div">;
 export function InboxItemContent({ className, render, ...props }: InboxItemContentProps) {
-  const theme = useThemeFamily();
-  const { itemContent } = inboxItem({ theme });
+  const { itemContent } = inboxItem();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "inbox-item-content",
     className: itemContent({ className }),
@@ -102,8 +97,7 @@ export function InboxItemContent({ className, render, ...props }: InboxItemConte
 
 export type InboxItemContextProps = useRender.ComponentProps<"div">;
 export function InboxItemContext({ className, render, ...props }: InboxItemContextProps) {
-  const theme = useThemeFamily();
-  const { itemContext } = inboxItem({ theme });
+  const { itemContext } = inboxItem();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "inbox-item-context",
     className: itemContext({ className }),
@@ -117,8 +111,7 @@ export function InboxItemContext({ className, render, ...props }: InboxItemConte
 
 export type InboxItemSubtitleProps = useRender.ComponentProps<"div">;
 export function InboxItemSubtitle({ className, render, ...props }: InboxItemSubtitleProps) {
-  const theme = useThemeFamily();
-  const { itemSubtitle } = inboxItem({ theme });
+  const { itemSubtitle } = inboxItem();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "inbox-item-subtitle",
     className: itemSubtitle({ className }),
@@ -132,8 +125,7 @@ export function InboxItemSubtitle({ className, render, ...props }: InboxItemSubt
 
 export type InboxItemHeadingProps = useRender.ComponentProps<"div">;
 export function InboxItemHeading({ className, render, ...props }: InboxItemHeadingProps) {
-  const theme = useThemeFamily();
-  const { itemHeading } = inboxItem({ theme });
+  const { itemHeading } = inboxItem();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "inbox-item-heading",
     className: itemHeading({ className }),
@@ -147,8 +139,7 @@ export function InboxItemHeading({ className, render, ...props }: InboxItemHeadi
 
 export type InboxItemTitleProps = useRender.ComponentProps<"div">;
 export function InboxItemTitle({ className, render, ...props }: InboxItemTitleProps) {
-  const theme = useThemeFamily();
-  const { itemTitle } = inboxItem({ theme });
+  const { itemTitle } = inboxItem();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "inbox-item-title",
     className: itemTitle({ className }),
@@ -162,8 +153,7 @@ export function InboxItemTitle({ className, render, ...props }: InboxItemTitlePr
 
 export type InboxItemTrailingProps = useRender.ComponentProps<"div">;
 export function InboxItemTrailing({ className, render, ...props }: InboxItemTrailingProps) {
-  const theme = useThemeFamily();
-  const { itemTrailing } = inboxItem({ theme });
+  const { itemTrailing } = inboxItem();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "inbox-item-trailing",
     className: itemTrailing({ className }),
@@ -177,8 +167,7 @@ export function InboxItemTrailing({ className, render, ...props }: InboxItemTrai
 
 export type InboxItemTimestampProps = useRender.ComponentProps<"span">;
 export function InboxItemTimestamp({ className, render, ...props }: InboxItemTimestampProps) {
-  const theme = useThemeFamily();
-  const { itemTimestamp } = inboxItem({ theme });
+  const { itemTimestamp } = inboxItem();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "inbox-item-timestamp",
     className: itemTimestamp({ className }),
@@ -192,8 +181,7 @@ export function InboxItemTimestamp({ className, render, ...props }: InboxItemTim
 
 export type InboxItemBodyProps = useRender.ComponentProps<"p">;
 export function InboxItemBody({ className, render, ...props }: InboxItemBodyProps) {
-  const theme = useThemeFamily();
-  const { itemBody } = inboxItem({ theme });
+  const { itemBody } = inboxItem();
   const defaultProps: SlotElementProps<"p"> = {
     "data-slot": "inbox-item-body",
     className: itemBody({ className }),
@@ -207,8 +195,7 @@ export function InboxItemBody({ className, render, ...props }: InboxItemBodyProp
 
 export type InboxItemMessageProps = useRender.ComponentProps<"p">;
 export function InboxItemMessage({ className, render, ...props }: InboxItemMessageProps) {
-  const theme = useThemeFamily();
-  const { itemMessage } = inboxItem({ theme });
+  const { itemMessage } = inboxItem();
   const defaultProps: SlotElementProps<"p"> = {
     "data-slot": "inbox-item-message",
     className: itemMessage({ className }),
@@ -222,8 +209,7 @@ export function InboxItemMessage({ className, render, ...props }: InboxItemMessa
 
 export type InboxItemSenderProps = useRender.ComponentProps<"span">;
 export function InboxItemSender({ className, render, ...props }: InboxItemSenderProps) {
-  const theme = useThemeFamily();
-  const { itemSender } = inboxItem({ theme });
+  const { itemSender } = inboxItem();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "inbox-item-sender",
     className: itemSender({ className }),
@@ -237,8 +223,7 @@ export function InboxItemSender({ className, render, ...props }: InboxItemSender
 
 export type InboxItemMetadataProps = useRender.ComponentProps<"div">;
 export function InboxItemMetadata({ className, render, ...props }: InboxItemMetadataProps) {
-  const theme = useThemeFamily();
-  const { itemMetadata } = inboxItem({ theme });
+  const { itemMetadata } = inboxItem();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "inbox-item-metadata",
     className: itemMetadata({ className }),
@@ -252,8 +237,7 @@ export function InboxItemMetadata({ className, render, ...props }: InboxItemMeta
 
 export type InboxItemActionsProps = useRender.ComponentProps<"div">;
 export function InboxItemActions({ className, render, ...props }: InboxItemActionsProps) {
-  const theme = useThemeFamily();
-  const { itemActions } = inboxItem({ theme });
+  const { itemActions } = inboxItem();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "inbox-item-actions",
     className: itemActions({ className }),

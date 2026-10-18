@@ -52,7 +52,7 @@ export function ReorderAttachmentTile({
         <ComposerAttachmentFile>
           <FilePreview className="h-[46px]">
             <FilePreviewDocument className="h-[46px]" />
-            <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
+            <FilePreviewBadge>PDF</FilePreviewBadge>
           </FilePreview>
           <ComposerAttachmentBody>
             <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>

@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useRef } from "react";
-import type { Theme, ThemeMode } from "raft-ui";
+import type { ThemeMode } from "raft-ui";
 
 const THEME_MESSAGE = "playground-preview-theme";
 const PREVIEW_READY_MESSAGE = "playground-preview-ready";
 
 type PlaygroundThemeMessage = {
   type: typeof THEME_MESSAGE;
-  theme: Theme;
   mode: ThemeMode;
 };
 
@@ -16,17 +15,16 @@ type PlaygroundPreviewReadyMessage = {
 
 type PlaygroundMobilePreviewProps = {
   src: string;
-  theme: Theme;
   mode: ThemeMode;
 };
 
-export function PlaygroundMobilePreview({ src, theme, mode }: PlaygroundMobilePreviewProps) {
+export function PlaygroundMobilePreview({ src, mode }: PlaygroundMobilePreviewProps) {
   const frameRef = useRef<HTMLIFrameElement>(null);
 
   const syncTheme = useCallback(() => {
-    const message: PlaygroundThemeMessage = { type: THEME_MESSAGE, theme, mode };
+    const message: PlaygroundThemeMessage = { type: THEME_MESSAGE, mode };
     frameRef.current?.contentWindow?.postMessage(message, window.location.origin);
-  }, [mode, theme]);
+  }, [mode]);
 
   useEffect(() => {
     syncTheme();

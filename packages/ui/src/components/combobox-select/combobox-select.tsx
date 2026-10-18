@@ -188,7 +188,7 @@ export function ComboboxSelect<
 }: ComboboxSelectProps<Option, Multiple>) {
   const generatedId = useId();
   const id = idProp ?? generatedId;
-  const { theme, resolvedMode } = useTheme();
+  const { resolvedMode } = useTheme();
   const scopedPortalProps = useThemeScopeProps(portalProps ?? {});
   const strings = { ...defaultMessages, ...messages };
   const [uncontrolledValue, setUncontrolledValue] = useState<
@@ -275,7 +275,7 @@ export function ComboboxSelect<
     };
     return [...normalized.groups, { key: "create", items: [candidate] }];
   }, [canCreate, normalized.groups, search]);
-  const css = `r-combobox-select r-combobox-select--${theme} r-combobox-select--${size}${resolvedMode === "dark" ? " r-combobox-select--dark" : ""}`;
+  const css = `r-combobox-select r-combobox-select--${size}${resolvedMode === "dark" ? " r-combobox-select--dark" : ""}`;
   const tagLimit = maxTagCount === undefined ? Infinity : Math.max(0, Math.floor(maxTagCount));
   const inputClassName = [
     "r-combobox-select__input",

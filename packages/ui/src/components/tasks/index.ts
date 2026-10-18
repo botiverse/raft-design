@@ -33,8 +33,6 @@ export {
   TaskTodoIcon,
 } from "./task-status-icon";
 export {
-  taskStatus,
-  taskStatusBorder,
   taskStatusSoft,
   taskStatusStrong,
   TASK_STATUS_IDS,

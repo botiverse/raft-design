@@ -109,7 +109,7 @@ const auxiliaryViewDetails: Record<Exclude<AuxiliaryRailView, "members">, readon
     {
       id: "appearance",
       label: "Appearance",
-      description: "Choose a theme from the Settings menu in the navigation.",
+      description: "Choose an appearance from the Settings menu in the navigation.",
       group: "Personal",
       icon: Palette,
     },
@@ -304,7 +304,7 @@ function AuxiliaryRailViewPanel({ view }: { view: AuxiliaryRailView }) {
           </Button>
         ) : null}
         <PanelHeaderIcon className="max-md:hidden">
-          <ViewIcon className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]" />
+          <ViewIcon className="size-4.5" />
         </PanelHeaderIcon>
         <PanelHeaderContent
           className={mobileBack ? "max-md:col-start-2 max-md:col-span-2" : "max-md:col-span-3"}

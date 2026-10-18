@@ -34,7 +34,7 @@ export function FilesPanelFileTypesComposition() {
                     <FilePreviewMedia>
                       <FileImage src="/raft-logo.svg" alt="" fit="contain" loading="lazy" />
                     </FilePreviewMedia>
-                    <FilePreviewBadge type="svg">SVG</FilePreviewBadge>
+                    <FilePreviewBadge>SVG</FilePreviewBadge>
                   </FilePreview>
                 </FileThumbnail>
                 <FileContent>
@@ -67,7 +67,7 @@ export function FilesPanelFileTypesComposition() {
                 <FileThumbnail>
                   <FilePreview>
                     <FilePreviewCode />
-                    <FilePreviewBadge color="neutral">TSX</FilePreviewBadge>
+                    <FilePreviewBadge>TSX</FilePreviewBadge>
                   </FilePreview>
                 </FileThumbnail>
                 <FileContent>
@@ -100,7 +100,7 @@ export function FilesPanelFileTypesComposition() {
                 <FileThumbnail>
                   <FilePreview>
                     <FilePreviewDocument />
-                    <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
+                    <FilePreviewBadge>PDF</FilePreviewBadge>
                   </FilePreview>
                 </FileThumbnail>
                 <FileContent>
@@ -133,7 +133,7 @@ export function FilesPanelFileTypesComposition() {
                 <FileThumbnail>
                   <FilePreview>
                     <FilePreviewFile />
-                    <FilePreviewBadge type="zip">ZIP</FilePreviewBadge>
+                    <FilePreviewBadge>ZIP</FilePreviewBadge>
                   </FilePreview>
                 </FileThumbnail>
                 <FileContent>
@@ -166,7 +166,7 @@ export function FilesPanelFileTypesComposition() {
                 <FileThumbnail>
                   <FilePreview>
                     <FilePreviewMedia />
-                    <FilePreviewBadge type="mp4">MP4</FilePreviewBadge>
+                    <FilePreviewBadge>MP4</FilePreviewBadge>
                   </FilePreview>
                 </FileThumbnail>
                 <FileContent>

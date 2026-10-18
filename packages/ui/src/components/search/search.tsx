@@ -3,7 +3,6 @@ import { useRender } from "@base-ui/react/use-render";
 import type { ComponentPropsWithRef } from "react";
 
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Panel } from "../panel/panel";
 import { search } from "./search.recipe";
 
@@ -16,8 +15,7 @@ export function SearchShellRoot({
   render,
   ...props
 }: SearchShellRootProps) {
-  const theme = useThemeFamily();
-  const { frame } = search({ theme });
+  const { frame } = search();
   return (
     <Panel {...props} render={render ?? <div />} edge={edge} className={frame({ className })} />
   );
@@ -26,23 +24,20 @@ export function SearchShellRoot({
 export type SearchShellFiltersProps = ComponentPropsWithRef<"div">;
 
 export function SearchShellFilters({ className, ...props }: SearchShellFiltersProps) {
-  const theme = useThemeFamily();
-  const { filtersRow } = search({ theme });
+  const { filtersRow } = search();
   return <div data-slot="search-shell-filters" className={filtersRow({ className })} {...props} />;
 }
 
 export type SearchShellViewportProps = ComponentPropsWithRef<"div">;
 
 export function SearchShellViewport({ className, ...props }: SearchShellViewportProps) {
-  const theme = useThemeFamily();
-  const { viewport } = search({ theme });
+  const { viewport } = search();
   return <div data-slot="search-shell-viewport" className={viewport({ className })} {...props} />;
 }
 
 export type SearchResultsSummaryProps = useRender.ComponentProps<"span">;
 export function SearchResultsSummary({ className, render, ...props }: SearchResultsSummaryProps) {
-  const theme = useThemeFamily();
-  const { summary } = search({ theme });
+  const { summary } = search();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "search-results-summary",
     className: summary({ className }),
@@ -56,8 +51,7 @@ export function SearchResultsSummary({ className, render, ...props }: SearchResu
 
 export type SearchResultsSectionProps = useRender.ComponentProps<"div">;
 export function SearchResultsSection({ className, render, ...props }: SearchResultsSectionProps) {
-  const theme = useThemeFamily();
-  const { section } = search({ theme });
+  const { section } = search();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-results-section",
     className: section({ className }),
@@ -75,8 +69,7 @@ export function SearchResultsSectionHeading({
   render,
   ...props
 }: SearchResultsSectionHeadingProps) {
-  const theme = useThemeFamily();
-  const { sectionHeading } = search({ theme });
+  const { sectionHeading } = search();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-results-section-heading",
     className: sectionHeading({ className }),
@@ -90,8 +83,7 @@ export function SearchResultsSectionHeading({
 
 export type SearchResultsListProps = useRender.ComponentProps<"div">;
 export function SearchResultsList({ className, render, ...props }: SearchResultsListProps) {
-  const theme = useThemeFamily();
-  const { list } = search({ theme });
+  const { list } = search();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-results-list",
     className: list({ className }),

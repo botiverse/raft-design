@@ -18,9 +18,9 @@ if (typeof window.matchMedia !== "function") {
   })) as unknown as typeof window.matchMedia;
 }
 
-function badge(theme: "brutal" | "elegant", offset?: AvatarBadgeOffset) {
+function badge(offset?: AvatarBadgeOffset) {
   const { container } = render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Avatar size="md" type="agent">
         <AvatarBadge offset={offset} />
       </Avatar>
@@ -32,30 +32,29 @@ function badge(theme: "brutal" | "elegant", offset?: AvatarBadgeOffset) {
 afterEach(cleanup);
 
 test("without offset the badge keeps the recipe's corner and no inline placement", () => {
-  const el = badge("brutal");
-  expect(el.className.split(/\s+/)).toContain("bottom-0");
+  const el = badge();
+  const classes = el.className.split(/\s+/);
+  expect(classes).toContain("-right-1");
+  expect(classes).toContain("-bottom-1");
   expect(el.getAttribute("style")).toBeNull();
 });
 
 test("offset centres the badge on [x, y] from the avatar's top-left", () => {
-  for (const theme of ["brutal", "elegant"] as const) {
-    const el = badge(theme, ["100%", 0]);
-    expect(el.style.left).toBe("100%");
-    expect(el.style.top).toBe("0px");
-    // The recipe's own corner is switched off so only the offset places it.
-    expect(el.style.right).toBe("auto");
-    expect(el.style.bottom).toBe("auto");
-    expect(el.style.translate).toBe("-50% -50%");
-    cleanup();
-  }
+  const el = badge(["100%", 0]);
+  expect(el.style.left).toBe("100%");
+  expect(el.style.top).toBe("0px");
+  // The recipe's own corner is switched off so only the offset places it.
+  expect(el.style.right).toBe("auto");
+  expect(el.style.bottom).toBe("auto");
+  expect(el.style.translate).toBe("-50% -50%");
 });
 
 test("numbers are px and strings pass through as CSS lengths", () => {
-  const el = badge("elegant", [6, "0.25rem"]);
+  const el = badge([6, "0.25rem"]);
   expect(el.style.left).toBe("6px");
   expect(el.style.top).toBe("0.25rem");
 });
 
 test("an offset badge still sits above the avatar image", () => {
-  expect(badge("brutal", [0, 0]).className.split(/\s+/)).toContain("z-10");
+  expect(badge([0, 0]).className.split(/\s+/)).toContain("z-10");
 });

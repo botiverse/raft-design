@@ -2,17 +2,25 @@ import { tv } from "../../lib/tv";
 
 export const sidebarSectionRecipe = tv({
   slots: {
-    sidebarSection: ["group/section"],
+    sidebarSection: ["group/section", "px-0"],
     sidebarList: [],
-    sidebarSectionEmpty: [],
-    sidebarSectionHeader: ["flex items-center justify-between", "group/section-header"],
+    sidebarSectionEmpty: ["px-2 py-1.5", "font-sans text-footnote", "text-foreground-hint"],
+    sidebarSectionHeader: [
+      "flex items-center justify-between",
+      "group/section-header",
+      "mt-0 mb-0 h-auto gap-2 px-2 pt-4 pb-1.5",
+    ],
     sidebarSectionDisclosure: [
       "flex min-w-0 flex-1 items-center",
       "**:data-[slot=sidebar-section-chevron]:transition-transform",
       "[&[data-panel-open]_[data-slot=sidebar-section-chevron]]:rotate-90",
+      "h-auto gap-1.5 rounded-sticker border-0",
+      "font-sans text-footnote font-bold normal-case tracking-normal text-foreground-hint",
+      "outline-none focus-visible:shadow-raft-focus",
+      "**:data-[slot=sidebar-section-chevron]:size-3.5 **:data-[slot=sidebar-section-chevron]:stroke-2",
     ],
     sidebarSectionTitle: ["min-w-0 truncate"],
-    sidebarSectionCount: [],
+    sidebarSectionCount: ["font-mono text-mono-meta font-normal tabular-nums text-foreground-hint"],
     sidebarSectionAttention: [
       "inline-flex min-w-4.5 shrink-0 items-center justify-center",
       // Two of these used to style descendants off an ancestor's `:has()`.
@@ -35,73 +43,11 @@ export const sidebarSectionRecipe = tv({
       "md:focus-within:pointer-events-auto md:focus-within:opacity-100",
       "md:has-[[data-popup-open]]:pointer-events-auto md:has-[[data-popup-open]]:opacity-100",
     ],
+    // 28px tall in a 16px header line: it overhangs the line instead of
+    // making the header taller.
     sidebarSectionControl: [
-      "flex size-6 items-center justify-center p-0",
-      "[&>svg]:shrink-0 [&>svg:not([class*='size-'])]:size-3.5",
+      "flex h-7 w-auto min-w-7 shrink-0 items-center justify-center p-0 -my-1.5",
+      "[&>svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
     ],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        sidebarSection: "px-0",
-        sidebarSectionHeader: "mt-3 mb-1 h-6 px-2",
-        sidebarSectionEmpty: ["px-2", "font-sans text-xs leading-snug", "text-black/50"],
-        sidebarSectionDisclosure: [
-          "h-6 gap-1.5 border-2 border-transparent text-xs font-bold tracking-widest uppercase",
-          "text-black transition-colors hover:text-black/70",
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-[black]",
-        ],
-        sidebarSectionCount: [
-          "font-mono text-xs font-medium normal-case tracking-normal text-black/70",
-        ],
-        sidebarSectionControl: [
-          "font-sans font-bold text-black/70",
-          "transition-colors duration-100",
-          "hover:bg-black/5 hover:text-black active:bg-black/10",
-          "focus:outline-none focus-visible:bg-black/5 focus-visible:text-black focus-visible:outline-none",
-        ],
-      },
-      elegant: {
-        sidebarSection: "px-0",
-        sidebarSectionEmpty: [
-          "px-(--sidebar-row-inset-x,6px)",
-          "text-xs leading-snug",
-          "text-foreground-icon",
-        ],
-        sidebarSectionHeader: [
-          "relative -mx-(--sidebar-row-inset-x,6px) mt-4 mb-0 h-8 w-[calc(100%+12px)] rounded-md px-0",
-          "hover:bg-fill-strong/80",
-          "dark:hover:bg-ink-6",
-        ],
-        sidebarSectionDisclosure: [
-          "h-8 w-full justify-start gap-1.5 rounded-md border border-transparent px-(--sidebar-row-inset-x,6px) text-xs font-medium leading-none normal-case tracking-normal",
-          "text-foreground-icon",
-          "hover:text-foreground-strong",
-          "**:data-[slot=sidebar-section-chevron]:opacity-55",
-        ],
-        sidebarSectionCount:
-          "shrink-0 font-sans text-xs font-medium leading-none normal-nums text-foreground-icon",
-        sidebarSectionTrailing: "pr-(--sidebar-row-inset-x,6px)",
-        sidebarSectionControls: "right-(--sidebar-row-inset-x,6px)",
-        sidebarSectionControl: ["shrink-0", "text-foreground-icon hover:text-foreground-strong"],
-      },
-      raft: {
-        sidebarSection: "px-0",
-        sidebarSectionHeader: "mt-0 mb-0 h-auto gap-2 px-2 pt-4 pb-1.5",
-        sidebarSectionEmpty: ["px-2 py-1.5", "font-sans text-footnote", "text-foreground-hint"],
-        sidebarSectionDisclosure: [
-          "h-auto gap-1.5 rounded-sticker border-0",
-          "font-sans text-footnote font-bold normal-case tracking-normal text-foreground-hint",
-          "outline-none focus-visible:shadow-raft-focus",
-          "**:data-[slot=sidebar-section-chevron]:size-3.5 **:data-[slot=sidebar-section-chevron]:stroke-2",
-        ],
-        sidebarSectionCount:
-          "font-mono text-mono-meta font-normal tabular-nums text-foreground-hint",
-        sidebarSectionControl: [
-          "h-7 w-auto min-w-7 shrink-0",
-          "[&>svg:not([class*='size-'])]:size-4",
-        ],
-      },
-    },
   },
 });

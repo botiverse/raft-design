@@ -32,7 +32,7 @@ const ANATOMY_SNIPPET = `import {
   SidebarItemTitle,
 } from "raft-ui";
 
-<SidebarItem active variant="default">
+<SidebarItem active>
   <SidebarItemChannelIcon />
   <SidebarItemContent>
     <SidebarItemTitle />
@@ -63,13 +63,6 @@ const SIDEBAR_ITEM_PROPS: readonly PropRow[] = [
     default: "false",
     description:
       "Marks the row as active. Sets data-active for visual state; route consumers provide aria-current for the current destination.",
-  },
-  {
-    name: "variant",
-    type: '"default" | "primary" | "accent"',
-    default: '"default"',
-    description:
-      "Selects the active treatment. Brutal maps default, primary, and accent to white, yellow, and pink; Elegant keeps its theme-owned active surface.",
   },
   {
     name: "...props",
@@ -146,24 +139,24 @@ const SIDEBAR_ITEM_STATUS_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description:
-      "Availability-status slot. A direct Status child uses the Sidebar theme size (sm in Brutal, xs in Elegant); consumers provide its label, state variant, and pulse behavior.",
+      "Availability-status slot. Consumers provide the Status child's size, label, and state variant.",
   },
 ];
 
 const SIDEBAR_ITEM_INDICATOR_PROPS: readonly PropRow[] = [
   {
     name: "...props",
-    type: "Badge props",
-    description: "Mention or attention indicator. Supply an accessible label.",
+    type: 'Omit<BadgeProps, "appearance" | "variant">',
+    description: "Mention indicator, always the yellow @ sticker. Supply an accessible label.",
   },
 ];
 
 const SIDEBAR_ITEM_COUNT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
-    type: "Badge props",
+    type: 'Omit<BadgeProps, "appearance" | "variant">',
     description:
-      "Unread-count badge in the trailing area. Compose the channel's own count and a SidebarItemThreadCount with a SidebarItemCountSeparator between them.",
+      "Unread-count badge in the trailing area, always the pink sticker. Compose the channel's own count and a SidebarItemThreadCount with a SidebarItemCountSeparator between them.",
   },
 ];
 
@@ -240,11 +233,7 @@ function SidebarItemDoc() {
 
       <DocSection id="compositions" title="Compositions">
         <div className="space-y-8">
-          <DocSubsection
-            parentId="compositions"
-            id="composition-navigation"
-            title="Navigation and active variants"
-          >
+          <DocSubsection parentId="compositions" id="composition-navigation" title="Navigation">
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>
                 <div className="w-full max-w-72">

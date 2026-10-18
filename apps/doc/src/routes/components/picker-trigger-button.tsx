@@ -56,7 +56,7 @@ function PickerTriggerButtonDoc() {
   return (
     <DocPage
       title="PickerTriggerButton"
-      description="A compact, theme-aware button surface for Select and Combobox filter triggers."
+      description="A compact button surface for Select and Combobox filter triggers."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

@@ -51,20 +51,8 @@ const FOUNDATIONS = {
   title: "Foundations",
   items: [
     { label: "Colors", to: "/tokens/colors" },
-    {
-      label: "Typography",
-      items: [
-        { label: "Brutal", to: "/tokens/typography/brutal" },
-        { label: "Elegant", to: "/tokens/typography/elegant" },
-      ],
-    },
-    {
-      label: "Shadows",
-      items: [
-        { label: "Brutal", to: "/tokens/shadows/brutal" },
-        { label: "Elegant", to: "/tokens/shadows/elegant" },
-      ],
-    },
+    { label: "Typography", to: "/tokens/typography" },
+    { label: "Shadows", to: "/tokens/shadows" },
     { label: "Icons", to: "/components/icons", status: "wip" },
   ],
 } as const;
@@ -630,7 +618,6 @@ export function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
   if (item.to) {
     return (
       <SidebarItem
-        variant="accent"
         className={className}
         render={
           <Link
@@ -653,7 +640,6 @@ export function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
   if (item.docsHref) {
     return (
       <SidebarItem
-        variant="accent"
         className={className}
         render={
           <a
@@ -690,7 +676,6 @@ function StatusBadge({ status }: { status?: NavStatus }) {
       variant={meta.variant}
       title={meta.label}
       aria-label={meta.label}
-      uppercase
       className="h-4 min-w-9 shrink-0 justify-center px-1 text-[9px]"
     >
       {meta.short}
@@ -889,7 +874,6 @@ function MobileNavItem({
   if (item.to) {
     return (
       <SidebarItem
-        variant="accent"
         className={className}
         render={
           <Link
@@ -913,7 +897,6 @@ function MobileNavItem({
   if (item.docsHref) {
     return (
       <SidebarItem
-        variant="accent"
         className={className}
         render={
           <a

@@ -10,7 +10,7 @@ import {
   ComposerSubmit,
   ComposerToolbarLabel,
 } from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
+import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
 
 export function ComposerDefaultComposition() {
   const [draft, setDraft] = useState("");
@@ -54,7 +54,7 @@ export function ComposerDefaultComposition() {
           </ComposerActions>
           <ComposerMeta>
             <ComposerToolbarLabel>
-              <Checkbox size="sm" aria-label="Send as task" />
+              <Checkbox aria-label="Send as task" />
               As Task
             </ComposerToolbarLabel>
             <ComposerSubmit aria-label="Send" disabled={!draft.trim() && !hasAttachment}>

@@ -6,7 +6,6 @@ import type { CSSProperties, ReactNode } from "react";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { defaultNativeButton } from "../../lib/default-native-button";
 import type { StyledProps } from "../../lib/styled-props";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
 import type {
   FloatButtonOffset,
@@ -72,8 +71,6 @@ export function FloatButton({
   const shape = shapeProp ?? groupContext?.shape ?? "circle";
   const size = sizeProp ?? groupContext?.size ?? "md";
 
-  const theme = useThemeFamily();
-
   const positionStyles = resolvePositionStyles({
     position,
     side,
@@ -90,8 +87,6 @@ export function FloatButton({
     `r-float-button--${variant}`,
     hasText && "r-float-button--with-text",
     description && "r-float-button--with-desc",
-    theme === "elegant" && "r-float-button--elegant",
-    theme === "raft" && "r-float-button--raft",
     className,
   ]
     .filter(Boolean)
@@ -171,8 +166,6 @@ export function FloatButtonGroup({
   children,
   ...props
 }: FloatButtonGroupProps) {
-  const theme = useThemeFamily();
-
   const positionStyles = resolvePositionStyles({
     position,
     side,
@@ -196,8 +189,6 @@ export function FloatButtonGroup({
     `r-float-button-group--${direction}`,
     attached && "r-float-button-group--attached",
     `r-float-button-group--${shape}`,
-    theme === "elegant" && "r-float-button-group--elegant",
-    theme === "raft" && "r-float-button-group--raft",
     className,
   ]
     .filter(Boolean)

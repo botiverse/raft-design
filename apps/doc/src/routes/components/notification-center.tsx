@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useId } from "react";
 import type { ReactNode } from "react";
-import { AlertTriangle, CheckCircle2, CircleGauge } from "lucide-react";
+import { CheckCircle2, CircleGauge } from "lucide-react";
 import {
-  Button,
   EmptyStateContent,
   EmptyStateDescription,
   EmptyStateIcon,
@@ -26,8 +25,6 @@ import {
   NotificationCenterScroller,
   NotificationCenterTitle,
   NotificationCenterTrigger,
-  Status,
-  useThemeFamily,
 } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -52,7 +49,6 @@ type DemoAction = {
   id?: string;
   label: string;
   disabled?: boolean;
-  variant?: "primary" | "secondary";
 };
 
 type DemoEntry = {
@@ -72,7 +68,7 @@ const ENTRIES: DemoEntry[] = [
     icon: <CircleGauge />,
     title: "Runtime stalled",
     body: "Atlas has not reported activity for 15 minutes.",
-    actions: [{ label: "View", variant: "primary" }, { label: "Dismiss" }],
+    actions: [{ label: "View" }, { label: "Dismiss" }],
   },
   {
     id: "storage-full",
@@ -178,7 +174,7 @@ const SNIPPETS = {
                 Atlas has not reported activity for 15 minutes.
               </NotificationCenterItemBody>
               <NotificationCenterItemActions>
-                <NotificationCenterActionButton variant="primary">View</NotificationCenterActionButton>
+                <NotificationCenterActionButton>View</NotificationCenterActionButton>
                 <NotificationCenterActionButton>Dismiss</NotificationCenterActionButton>
               </NotificationCenterItemActions>
             </NotificationCenterItemContent>
@@ -462,15 +458,10 @@ const ITEM_ACTIONS_PROPS: readonly PropRow[] = [
 
 const ACTION_BUTTON_PROPS: readonly PropRow[] = [
   {
-    name: "variant",
-    type: '"primary" | "secondary"',
-    default: '"secondary"',
-    description: "Maps notification actions to the shared Button primary/outline variants.",
-  },
-  {
     name: "...props",
     type: "ButtonProps",
-    description: "Button attributes. Size is fixed to xs; className merges with the action recipe.",
+    description:
+      "Button attributes. Always an outline md (32px) button, never pink: a list can hold several rows waiting on you at once. Size and variant are fixed; className merges with the action recipe.",
   },
 ];
 
@@ -503,10 +494,6 @@ function NotificationCenterDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
-          The snippets show the default trigger. Brutal previews swap in a custom trigger through{" "}
-          <InlineCode>render</InlineCode> to demonstrate the source bell affordance.
-        </p>
         <Preview previewClassName="!min-h-[38rem] items-start pt-16">
           <Preview.Canvas>
             <NotificationCenterBasicExample />
@@ -678,7 +665,6 @@ function NotificationCenterExample({
                               <NotificationCenterActionButton
                                 key={action.id ?? `${entry.id}-${action.label}`}
                                 disabled={action.disabled}
-                                variant={action.variant}
                               >
                                 {action.label}
                               </NotificationCenterActionButton>
@@ -703,33 +689,6 @@ function NotificationCenterBasicExample() {
 }
 
 function NotificationCenterDemoTrigger({ triggerId }: { triggerId: string }) {
-  const theme = useThemeFamily();
-
-  if (theme === "brutal") {
-    return (
-      <div className="relative size-9">
-        <NotificationCenterTrigger
-          id={triggerId}
-          render={
-            <Button
-              variant="outline"
-              size="icon-md"
-              className="size-9 overflow-visible bg-brutal-orange p-0 text-black hover:bg-brutal-orange"
-            />
-          }
-        >
-          <AlertTriangle aria-hidden size={18} />
-        </NotificationCenterTrigger>
-        <Status
-          aria-hidden
-          variant="primary"
-          size="md"
-          className="pointer-events-none absolute -top-1 -right-1"
-        />
-      </div>
-    );
-  }
-
   return (
     <NotificationCenterTrigger id={triggerId} type="button" aria-label="Notification center" />
   );

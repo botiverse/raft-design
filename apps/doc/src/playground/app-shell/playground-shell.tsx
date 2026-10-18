@@ -18,9 +18,9 @@ const playgroundPlainPaths = new Set([
 ]);
 
 export function PlaygroundShell() {
-  const { setTheme } = usePreviewTheme();
+  const { setMode } = usePreviewTheme();
   const location = useLocation();
-  usePlaygroundEmbeddedPreview(setTheme);
+  usePlaygroundEmbeddedPreview(setMode);
   const route = usePlaygroundRouteState();
   const { selectRailView } = route;
 

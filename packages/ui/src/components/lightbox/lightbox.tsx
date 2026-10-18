@@ -9,7 +9,6 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
 
@@ -30,6 +29,7 @@ const lightbox = tv({
       "pt-[calc(env(safe-area-inset-top,0px)+--spacing(3))]",
       "pl-[calc(env(safe-area-inset-left,0px)+--spacing(4))]",
       "pr-[calc(env(safe-area-inset-right,0px)+--spacing(4))]",
+      "bg-transparent shadow-none",
     ],
     // Attachment header: left Meta, right Actions. Close stays in-flow here.
     toolbar: [
@@ -38,35 +38,40 @@ const lightbox = tv({
       "pl-[calc(16px+env(safe-area-inset-left,0px))] pr-[calc(16px+env(safe-area-inset-right,0px))]",
       "**:data-lightbox-close:static **:data-lightbox-close:inset-auto",
       "**:data-lightbox-close:top-auto **:data-lightbox-close:right-auto",
+      "border-b border-line-seam bg-layer-panel shadow-none",
     ],
     headerMeta: ["flex min-w-0 flex-1 items-center gap-1.5"],
     headerLabel: [
-      "inline-flex shrink-0 items-center px-1.5 py-0.5",
-      "text-[10px] leading-none font-bold uppercase tracking-wide",
+      "inline-flex shrink-0 items-center px-1.5",
+      "h-[22px] rounded-chip bg-fill-muted py-0",
+      "font-sans text-caption font-semibold normal-case tracking-normal text-foreground-muted",
     ],
-    title: ["min-w-0 flex-1 truncate text-sm leading-6 pt-0.5 pb-1"],
-    actions: ["flex shrink-0 items-center gap-1.5"],
+    title: ["min-w-0 flex-1 truncate", "py-0 font-sans text-headline font-bold text-foreground"],
+    actions: ["flex shrink-0 items-center", "gap-1"],
     stage: [
       "pointer-events-none relative flex min-h-0 flex-1 items-center justify-center overflow-hidden",
     ],
     media: ["pointer-events-auto max-h-[80vh] max-w-[86vw] border-0 bg-transparent shadow-none"],
     navigationButton: [
       "pointer-events-auto absolute z-10 inline-flex items-center justify-center",
-      "border-2 border-line-strong bg-layer-panel text-foreground shadow-raft-sm",
       "transition-[background-color,color,opacity,box-shadow,transform] duration-150",
-      "outline outline-[1px] outline-offset-2 outline-transparent",
-      "focus-visible:outline-foreground",
+      "outline-[1px] outline-offset-2 outline-transparent",
       "data-[disabled=true]:cursor-default",
-      "[&_svg]:pointer-events-none [&_svg]:size-6 [&_svg]:shrink-0",
+      "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+      "size-11 rounded-control border-[1.5px] border-line-strong bg-layer-card text-foreground shadow-none",
+      "hover:bg-layer-card hover:press-overlay active:press-overlay",
+      "focus-visible:outline-transparent focus-visible:shadow-raft-focus",
+      "[&_svg]:size-5.5",
     ],
     infoDock: ["pointer-events-none absolute right-6 bottom-20 left-6 z-10 flex justify-center"],
     infoBar: [
-      "pointer-events-auto flex min-w-0 items-center",
-      "bg-layer-panel text-foreground",
-      "shadow-[0_12px_32px_-18px_oklch(0_0_0/0.55)]",
+      "pointer-events-auto flex items-center",
+      "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
+      "gap-2 rounded-container py-0.5 pr-0.5 pl-2.5",
+      "bg-layer-popover text-foreground shadow-raft-float ring-1 ring-line-seam",
     ],
-    infoTitle: ["min-w-0 flex-1 truncate font-heading text-sm font-bold"],
-    infoActions: ["flex shrink-0 items-center gap-1.5"],
+    infoTitle: ["min-w-0 flex-1 truncate", "font-sans text-footnote font-semibold text-foreground"],
+    infoActions: ["flex shrink-0 items-center", "gap-1"],
     thumbnailStrip: [
       "pointer-events-none absolute right-0 bottom-4 left-0 z-10",
       "flex items-center justify-center gap-1.5",
@@ -75,121 +80,16 @@ const lightbox = tv({
       "group/lightbox-thumb pointer-events-auto relative size-12 overflow-hidden",
       "transition-[border-color,opacity,box-shadow] duration-150",
       "[&_img]:pointer-events-none [&_img]:size-full [&_img]:object-cover",
+      "rounded-control border-[1.5px] opacity-100 shadow-none",
+      "border-sticker-paper/40 hover:border-sticker-paper/80",
+      "data-active:border-sticker-paper",
     ],
-    thumbnailOverlay: ["pointer-events-none absolute inset-0 block transition-colors duration-150"],
+    thumbnailOverlay: [
+      "pointer-events-none absolute inset-0 block transition-colors duration-150",
+      "bg-black/45 group-hover/lightbox-thumb:bg-black/28",
+      "group-data-active/lightbox-thumb:bg-transparent",
+    ],
     close: ["pointer-events-auto"],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        header: ["bg-transparent shadow-none"],
-        toolbar: ["border-b-2 border-black bg-white shadow-none"],
-        headerLabel: ["border-2 border-black bg-primary font-heading text-black"],
-        title: ["font-heading font-semibold text-black"],
-        navigationButton: [
-          "size-8 rounded-none",
-          "hover:bg-layer-panel data-[disabled=true]:text-foreground-strong/35",
-          "[&_svg]:size-6",
-        ],
-        infoBar: [
-          "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
-          "gap-2 rounded-none border-2 border-line-strong py-0.5 pr-0.5 pl-2.5 shadow-raft-sm",
-          "[&_[data-slot=button]_svg]:stroke-2",
-        ],
-        infoTitle: ["text-xs text-foreground-strong"],
-        thumbnail: [
-          "border-2 border-white/70 opacity-70 shadow-[2px_2px_0_0_black]",
-          "hover:border-white hover:opacity-100 hover:shadow-[3px_3px_0_0_black]",
-          "data-active:border-[3px] data-active:border-white data-active:opacity-100",
-          "data-active:shadow-[4px_4px_0_0_black]",
-        ],
-        thumbnailOverlay: ["hidden"],
-        close: ["[&_svg]:size-4"],
-      },
-      elegant: {
-        backdrop: ["bg-[oklch(0_0_0/0.72)] backdrop-blur-[2px]"],
-        // Image-shell Close chrome only (direct child of Content).
-        content: [
-          "*:data-lightbox-close:rounded-full [&>[data-lightbox-close]]:p-1.5",
-          "[&>[data-lightbox-close]]:[&_svg]:size-3.5",
-        ],
-        header: ["bg-transparent shadow-none"],
-        toolbar: ["border-b border-line-muted bg-layer-panel shadow-none"],
-        headerLabel: [
-          "rounded-full border border-line-muted bg-fill-muted font-sans text-foreground-muted",
-        ],
-        title: ["font-sans font-medium text-foreground"],
-        actions: ["gap-2"],
-        navigationButton: [
-          "size-8 rounded-full border-0",
-          "bg-white/75 backdrop-blur-md",
-          "dark:bg-[oklch(0.45_0.006_106.42/0.85)] dark:shadow-[0_0_0_1px_oklch(1_0_0/0.16)]",
-          "text-foreground-muted dark:text-[oklch(0.92_0.003_106.42)]",
-          "shadow-none",
-          "hover:bg-white/85 hover:text-foreground",
-          "dark:hover:bg-[oklch(0.52_0.006_106.42/0.9)] dark:hover:text-[oklch(0.985_0.004_106.42)]",
-          "active:scale-[0.97]",
-          "data-[disabled=true]:bg-white/35 data-[disabled=true]:text-foreground-strong/30 data-[disabled=true]:shadow-none",
-          "dark:data-[disabled=true]:bg-[oklch(0.45_0.006_106.42/0.35)] dark:data-[disabled=true]:text-[oklch(0.92_0.003_106.42/0.35)]",
-          "data-[disabled=true]:hover:bg-white/35 data-[disabled=true]:active:scale-100",
-          "dark:data-[disabled=true]:hover:bg-[oklch(0.45_0.006_106.42/0.35)]",
-          "[&_svg]:size-5",
-        ],
-        infoBar: [
-          "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
-          "gap-2 rounded-sm py-0.5 pr-0.5 pl-2.5",
-          "bg-[oklch(0.9702_0_0/0.8)] text-foreground shadow-none backdrop-blur-[10px]",
-          "dark:bg-[oklch(0.24_0.005_106.42/0.85)] dark:shadow-[0_0_0_1px_oklch(1_0_0/0.08)]",
-          "**:data-[slot=button]:text-[oklch(0.439_0_0)] **:data-[slot=button]:hover:bg-ink-10 **:data-[slot=button]:hover:text-[oklch(0.269_0_0)]",
-          "dark:**:data-[slot=button]:text-[oklch(0.76_0.005_106.42)] dark:**:data-[slot=button]:hover:text-[oklch(0.92_0.003_106.42)]",
-        ],
-        infoTitle: [
-          "font-sans text-xs font-medium text-[oklch(0.269_0_0)] dark:text-[oklch(0.92_0.003_106.42)]",
-        ],
-        infoActions: ["gap-1"],
-        thumbnail: [
-          "rounded-sm border opacity-100 shadow-none",
-          "border-white/25 hover:border-white/60",
-          "data-active:border-white/90",
-        ],
-        thumbnailOverlay: [
-          "bg-black/45 group-hover/lightbox-thumb:bg-black/28",
-          "group-data-active/lightbox-thumb:bg-transparent",
-        ],
-      },
-      raft: {
-        header: ["bg-transparent shadow-none"],
-        toolbar: ["border-b border-line-seam bg-layer-panel shadow-none"],
-        headerLabel: [
-          "h-[22px] rounded-chip bg-fill-muted py-0",
-          "font-sans text-caption font-semibold normal-case tracking-normal text-foreground-muted",
-        ],
-        title: ["py-0 font-sans text-headline font-bold text-foreground"],
-        actions: ["gap-1"],
-        navigationButton: [
-          "size-11 rounded-control border-[1.5px] border-line-strong bg-layer-card text-foreground shadow-none",
-          "hover:bg-layer-card hover:press-overlay active:press-overlay",
-          "focus-visible:outline-transparent focus-visible:shadow-raft-focus",
-          "[&_svg]:size-5.5",
-        ],
-        infoBar: [
-          "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
-          "gap-2 rounded-container py-0.5 pr-0.5 pl-2.5",
-          "bg-layer-popover text-foreground shadow-raft-float ring-1 ring-line-seam",
-        ],
-        infoTitle: ["font-sans text-footnote font-semibold text-foreground"],
-        infoActions: ["gap-1"],
-        thumbnail: [
-          "rounded-control border-[1.5px] opacity-100 shadow-none",
-          "border-sticker-paper/40 hover:border-sticker-paper/80",
-          "data-active:border-sticker-paper",
-        ],
-        thumbnailOverlay: [
-          "bg-black/45 group-hover/lightbox-thumb:bg-black/28",
-          "group-data-active/lightbox-thumb:bg-transparent",
-        ],
-      },
-    },
   },
 });
 
@@ -285,8 +185,7 @@ export function LightboxContent({
   finalFocus = false,
   ...props
 }: LightboxContentProps) {
-  const theme = useThemeFamily();
-  const { backdrop, content } = lightbox({ theme });
+  const { backdrop, content } = lightbox();
   return (
     <LightboxPortal>
       <Dialog.Backdrop data-slot="lightbox-backdrop" className={backdrop()} />
@@ -304,8 +203,7 @@ export function LightboxContent({
 export type LightboxHeaderProps = useRender.ComponentProps<"div">;
 
 export function LightboxHeader({ render, className, ...props }: LightboxHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = lightbox({ theme });
+  const { header } = lightbox();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: header({ className }),
   };
@@ -323,8 +221,7 @@ export function LightboxHeader({ render, className, ...props }: LightboxHeaderPr
 export type LightboxToolbarProps = useRender.ComponentProps<"div">;
 
 export function LightboxToolbar({ render, className, ...props }: LightboxToolbarProps) {
-  const theme = useThemeFamily();
-  const { toolbar } = lightbox({ theme });
+  const { toolbar } = lightbox();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: toolbar({ className }),
   };
@@ -360,8 +257,7 @@ export function LightboxHeaderMeta({ render, className, ...props }: LightboxHead
 export type LightboxHeaderLabelProps = useRender.ComponentProps<"span">;
 
 export function LightboxHeaderLabel({ render, className, ...props }: LightboxHeaderLabelProps) {
-  const theme = useThemeFamily();
-  const { headerLabel } = lightbox({ theme });
+  const { headerLabel } = lightbox();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: headerLabel({ className }),
   };
@@ -379,8 +275,7 @@ export function LightboxHeaderLabel({ render, className, ...props }: LightboxHea
 export type LightboxTitleProps = useRender.ComponentProps<"div">;
 
 export function LightboxTitle({ render, className, ...props }: LightboxTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = lightbox({ theme });
+  const { title } = lightbox();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: title({ className }),
   };
@@ -398,8 +293,7 @@ export function LightboxTitle({ render, className, ...props }: LightboxTitleProp
 export type LightboxActionsProps = useRender.ComponentProps<"div">;
 
 export function LightboxActions({ render, className, ...props }: LightboxActionsProps) {
-  const theme = useThemeFamily();
-  const { actions } = lightbox({ theme });
+  const { actions } = lightbox();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: actions({ className }),
   };
@@ -417,8 +311,7 @@ export function LightboxActions({ render, className, ...props }: LightboxActions
 export type LightboxStageProps = useRender.ComponentProps<"div">;
 
 export function LightboxStage({ render, className, ...props }: LightboxStageProps) {
-  const theme = useThemeFamily();
-  const { stage } = lightbox({ theme });
+  const { stage } = lightbox();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: stage({ className }),
   };
@@ -436,8 +329,7 @@ export function LightboxStage({ render, className, ...props }: LightboxStageProp
 export type LightboxMediaProps = useRender.ComponentProps<"div">;
 
 export function LightboxMedia({ render, className, ...props }: LightboxMediaProps) {
-  const theme = useThemeFamily();
-  const { media } = lightbox({ theme });
+  const { media } = lightbox();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: media({ className }),
   };
@@ -468,8 +360,7 @@ export function LightboxNavigationButton({
   type = "button",
   ...props
 }: LightboxNavigationButtonProps) {
-  const theme = useThemeFamily();
-  const { navigationButton } = lightbox({ theme });
+  const { navigationButton } = lightbox();
 
   const handleClick = useCallback<NonNullable<ButtonProps["onClick"]>>(
     (event) => {
@@ -521,8 +412,7 @@ export function LightboxInfoDock({ render, className, ...props }: LightboxInfoDo
 export type LightboxInfoBarProps = useRender.ComponentProps<"div">;
 
 export function LightboxInfoBar({ render, className, ...props }: LightboxInfoBarProps) {
-  const theme = useThemeFamily();
-  const { infoBar } = lightbox({ theme });
+  const { infoBar } = lightbox();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: infoBar({ className }),
   };
@@ -540,8 +430,7 @@ export function LightboxInfoBar({ render, className, ...props }: LightboxInfoBar
 export type LightboxInfoTitleProps = useRender.ComponentProps<"div">;
 
 export function LightboxInfoTitle({ render, className, ...props }: LightboxInfoTitleProps) {
-  const theme = useThemeFamily();
-  const { infoTitle } = lightbox({ theme });
+  const { infoTitle } = lightbox();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: infoTitle({ className }),
   };
@@ -559,8 +448,7 @@ export function LightboxInfoTitle({ render, className, ...props }: LightboxInfoT
 export type LightboxInfoActionsProps = useRender.ComponentProps<"div">;
 
 export function LightboxInfoActions({ render, className, ...props }: LightboxInfoActionsProps) {
-  const theme = useThemeFamily();
-  const { infoActions } = lightbox({ theme });
+  const { infoActions } = lightbox();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: infoActions({ className }),
   };
@@ -609,8 +497,7 @@ export function LightboxThumbnail({
   children,
   ...props
 }: LightboxThumbnailProps) {
-  const theme = useThemeFamily();
-  const { thumbnail, thumbnailOverlay } = lightbox({ theme });
+  const { thumbnail, thumbnailOverlay } = lightbox();
 
   const defaultProps: SlotElementProps<"button"> = {
     type,
@@ -639,23 +526,14 @@ export function LightboxThumbnail({
 export type LightboxCloseProps = StyledProps<Dialog.Close.Props>;
 
 export function LightboxClose({ className, render, ...props }: LightboxCloseProps) {
-  const theme = useThemeFamily();
-  const { close } = lightbox({ theme });
+  const { close } = lightbox();
 
   return (
     <Dialog.Close
       data-lightbox-close=""
       data-slot="lightbox-close"
       className={close({ className })}
-      render={
-        render ?? (
-          <Button
-            type="button"
-            variant="outline"
-            size={theme === "elegant" ? "icon-sm" : theme === "raft" ? "icon-lg" : "icon-md"}
-          />
-        )
-      }
+      render={render ?? <Button type="button" variant="outline" size="icon-lg" />}
       {...props}
     />
   );

@@ -3,7 +3,7 @@ import { PreviewCard as BasePreviewCard } from "@base-ui/react/preview-card";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { resolveThemeScopeProps, useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { useTheme, useThemeFamily } from "../../lib/theme/use-theme";
+import { useTheme } from "../../lib/theme/use-theme";
 
 const previewCard = tv({
   slots: {
@@ -17,44 +17,17 @@ const previewCard = tv({
       "data-starting-style:scale-[0.97] data-starting-style:opacity-0",
       "data-ending-style:scale-[0.99] data-ending-style:opacity-0 data-ending-style:duration-150",
       "data-instant:transition-none motion-reduce:transition-none",
+      "w-[300px] rounded-container bg-layer-popover text-foreground",
+      "shadow-raft-float ring-1 ring-line-seam",
     ],
-    header: ["flex items-start gap-3 px-3 pt-3 pb-2"],
-    separator: ["border-t"],
-    title: ["m-0 truncate text-sm leading-none"],
-    description: ["m-0 truncate px-3 py-2 text-xs leading-5"],
-    arrow: ["size-2 rotate-45"],
-  },
-  variants: {
-    theme: {
-      // Matches slock's hand-rolled `.card-brutal` (border-2 border-line-strong
-      // bg-white shadow-raft-lg) so the migrated MentionHoverCard keeps its exact
-      // silhouette. Source never rendered an arrow, so brutal hides it too.
-      brutal: {
-        popup: ["border-2 border-line-strong bg-layer-popover shadow-raft-lg"],
-        separator: ["border-line-strong"],
-        title: ["font-sans font-bold text-foreground-strong"],
-        description: ["font-sans text-foreground-strong/70"],
-        arrow: ["hidden"],
-      },
-      elegant: {
-        popup: ["rounded-md bg-layer-popover shadow-raft-xl"],
-        separator: ["border-line-muted dark:border-ink-6"],
-        title: ["font-sans font-medium text-foreground"],
-        description: ["bg-ink-2 font-sans dark:bg-transparent", "text-foreground-hint"],
-        arrow: ["border-l border-t border-line-hairline bg-layer-popover"],
-      },
-      raft: {
-        popup: [
-          "w-[300px] rounded-container bg-layer-popover text-foreground",
-          "shadow-raft-float ring-1 ring-line-seam",
-        ],
-        header: ["px-4 pt-4 pb-3 last:pb-4"],
-        separator: ["border-line-muted"],
-        title: ["font-sans text-headline font-bold text-foreground"],
-        description: ["px-4 py-3 last:pb-4 font-sans text-callout text-foreground-muted"],
-        arrow: ["border-l border-t border-line-seam bg-layer-popover"],
-      },
-    },
+    header: ["flex items-start gap-3", "px-4 pt-4 pb-3 last:pb-4"],
+    separator: ["border-t", "border-line-muted"],
+    title: ["m-0 truncate", "font-sans text-headline font-bold text-foreground"],
+    description: [
+      "m-0 truncate",
+      "px-4 py-3 last:pb-4 font-sans text-callout text-foreground-muted",
+    ],
+    arrow: ["size-2 rotate-45", "border-l border-t border-line-seam bg-layer-popover"],
   },
 });
 
@@ -75,8 +48,7 @@ export function PreviewCardTrigger({
   className,
   ...props
 }: PreviewCardTriggerProps) {
-  const theme = useThemeFamily();
-  const { trigger } = previewCard({ theme });
+  const { trigger } = previewCard();
   return (
     <BasePreviewCard.Trigger
       data-slot="preview-card-trigger"
@@ -98,7 +70,7 @@ export type PreviewCardPopupProps = ComponentPropsWithRef<"div">;
 
 export function PreviewCardPopup({ className, ...props }: PreviewCardPopupProps) {
   const themeState = useTheme();
-  const { popup } = previewCard({ theme: themeState.theme });
+  const { popup } = previewCard();
   const scopeProps = resolveThemeScopeProps(
     { ...props, className: popup({ className }) },
     themeState,
@@ -142,8 +114,7 @@ export function PreviewCardContent({
   className,
   ...props
 }: PreviewCardContentProps) {
-  const theme = useThemeFamily();
-  const { positioner, popup } = previewCard({ theme });
+  const { positioner, popup } = previewCard();
   return (
     <PreviewCardPortal {...portalProps}>
       <BasePreviewCard.Positioner
@@ -174,16 +145,14 @@ export function PreviewCardContent({
 export type PreviewCardHeaderProps = ComponentPropsWithRef<"div">;
 
 export function PreviewCardHeader({ className, ...props }: PreviewCardHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = previewCard({ theme });
+  const { header } = previewCard();
   return <div data-slot="preview-card-header" className={header({ className })} {...props} />;
 }
 
 export type PreviewCardSeparatorProps = StyledProps<ComponentPropsWithRef<"div">>;
 
 export function PreviewCardSeparator({ className, ...props }: PreviewCardSeparatorProps) {
-  const theme = useThemeFamily();
-  const { separator } = previewCard({ theme });
+  const { separator } = previewCard();
   return (
     <div
       role="separator"
@@ -198,16 +167,14 @@ export function PreviewCardSeparator({ className, ...props }: PreviewCardSeparat
 export type PreviewCardTitleProps = ComponentPropsWithRef<"p">;
 
 export function PreviewCardTitle({ className, ...props }: PreviewCardTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = previewCard({ theme });
+  const { title } = previewCard();
   return <p data-slot="preview-card-title" className={title({ className })} {...props} />;
 }
 
 export type PreviewCardDescriptionProps = ComponentPropsWithRef<"p">;
 
 export function PreviewCardDescription({ className, ...props }: PreviewCardDescriptionProps) {
-  const theme = useThemeFamily();
-  const { description } = previewCard({ theme });
+  const { description } = previewCard();
   return (
     <p data-slot="preview-card-description" className={description({ className })} {...props} />
   );
@@ -216,8 +183,7 @@ export function PreviewCardDescription({ className, ...props }: PreviewCardDescr
 export type PreviewCardArrowProps = StyledProps<BasePreviewCard.Arrow.Props>;
 
 export function PreviewCardArrow({ className, ...props }: PreviewCardArrowProps) {
-  const theme = useThemeFamily();
-  const { arrow } = previewCard({ theme });
+  const { arrow } = previewCard();
   return (
     <BasePreviewCard.Arrow
       data-slot="preview-card-arrow"

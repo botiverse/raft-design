@@ -2,57 +2,19 @@ import { tv } from "../../lib/tv";
 
 export const conversationPanel = tv({
   slots: {
-    root: ["flex h-full min-h-0 min-w-0 flex-1 flex-col"],
-    content: ["flex min-h-0 min-w-0 flex-1 flex-col"],
-    tabs: ["shrink-0"],
-    footer: [],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        root: "bg-white font-sans text-black",
-        content: "bg-white",
-        tabs: [
-          "border-b-2 border-black bg-white",
-          "*:data-[slot=tabs-list]:max-w-none *:data-[slot=tabs-list]:border-y-0 *:data-[slot=tabs-list]:border-l-0 *:data-[slot=tabs-list]:border-r-2 *:data-[slot=tabs-list]:border-black *:data-[slot=tabs-list]:bg-white",
-          "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:bg-white [&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:text-black",
-          "[&>[data-slot=tabs-list]>[data-slot=tabs-tab][data-active]]:bg-primary [&>[data-slot=tabs-list]>[data-slot=tabs-tab][data-active]:hover]:bg-primary",
-          "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]+[data-slot=tabs-tab]]:before:bg-black",
-        ],
-        footer: "border-t-2 border-black bg-white",
-      },
-      raft: {
-        root: "bg-layer-panel font-sans text-foreground",
-        content: "bg-layer-panel",
-        tabs: [
-          "border-b border-line-seam bg-layer-panel",
-          // The tab row is the scroller (it spans the panel and scrolls its
-          // own tabs, starting on the 20px edge the head and body keep).
-          "*:data-[slot=tabs-list]:w-full *:data-[slot=tabs-list]:px-5 max-md:*:data-[slot=tabs-list]:px-4",
-          "*:data-[slot=tabs-list]:data-[variant=default]:py-2",
-        ],
-        footer: "bg-layer-panel",
-      },
-      elegant: {
-        root: "relative bg-layer-canvas-muted font-sans text-foreground-strong",
-        content: [
-          "relative overflow-clip",
-          "bg-layer-panel",
-          "dark:bg-layer-card",
-          "group-data-[edge=inset]/panel-frame:md:ml-2 group-data-[edge=inset]/panel-frame:md:rounded-tl-[10px]",
-          "group-data-[edge=inset]/panel-frame:md:shadow-raft-xl",
-          "dark:group-data-[edge=inset]/panel-frame:md:shadow-[0_0_0_1px_var(--line-muted),0_16px_32px_-8px_oklch(0_0_0_/_0.45)]",
-        ],
-        tabs: [
-          "border-b-0 bg-layer-panel max-md:bg-layer-canvas-muted",
-          "dark:bg-transparent dark:max-md:bg-layer-canvas-muted",
-          "max-md:border-b max-md:border-line-muted",
-          "[&>[data-slot=tabs-list]]:max-md:h-10",
-          "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:max-md:h-10",
-          "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:max-md:py-2",
-          "max-md:[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:h-px",
-        ],
-      },
-    },
+    root: [
+      "flex h-full min-h-0 min-w-0 flex-1 flex-col",
+      "bg-layer-panel font-sans text-foreground",
+    ],
+    content: ["flex min-h-0 min-w-0 flex-1 flex-col", "bg-layer-panel"],
+    tabs: [
+      "shrink-0",
+      "border-b border-line-seam bg-layer-panel",
+      // The tab row is the scroller (it spans the panel and scrolls its
+      // own tabs, starting on the 20px edge the head and body keep).
+      "*:data-[slot=tabs-list]:w-full *:data-[slot=tabs-list]:px-5 max-md:*:data-[slot=tabs-list]:px-4",
+      "*:data-[slot=tabs-list]:data-[variant=default]:py-2",
+    ],
+    footer: ["bg-layer-panel"],
   },
 });

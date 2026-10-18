@@ -1,13 +1,11 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { tasksPanel } from "./tasks-panel.recipe";
 
 export type TasksPanelRootProps = useRender.ComponentProps<"section">;
 export function TasksPanelRoot({ className, render, ...props }: TasksPanelRootProps) {
-  const theme = useThemeFamily();
-  const { root } = tasksPanel({ theme });
+  const { root } = tasksPanel();
   const defaultProps: SlotElementProps<"section"> = {
     "data-slot": "tasks-panel-root",
     className: root({ className }),
@@ -21,8 +19,7 @@ export function TasksPanelRoot({ className, render, ...props }: TasksPanelRootPr
 
 export type TasksPanelToolbarProps = useRender.ComponentProps<"div">;
 export function TasksPanelToolbar({ className, render, ...props }: TasksPanelToolbarProps) {
-  const theme = useThemeFamily();
-  const { toolbar } = tasksPanel({ theme });
+  const { toolbar } = tasksPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "tasks-panel-toolbar",
     className: toolbar({ className }),
@@ -41,8 +38,7 @@ export function TasksPanelToolbarGroup({
   render,
   ...props
 }: TasksPanelToolbarGroupProps) {
-  const theme = useThemeFamily();
-  const { toolbarGroup } = tasksPanel({ theme });
+  const { toolbarGroup } = tasksPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "tasks-panel-toolbar-group",
     className: toolbarGroup({ className }),
@@ -60,8 +56,7 @@ export function TasksPanelToolbarNewTask({
   render,
   ...props
 }: TasksPanelToolbarNewTaskProps) {
-  const theme = useThemeFamily();
-  const { toolbarNewTask } = tasksPanel({ theme });
+  const { toolbarNewTask } = tasksPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "tasks-panel-toolbar-new-task",
     className: toolbarNewTask({ className }),
@@ -79,8 +74,7 @@ export function TasksPanelToolbarFilters({
   render,
   ...props
 }: TasksPanelToolbarFiltersProps) {
-  const theme = useThemeFamily();
-  const { toolbarFilters } = tasksPanel({ theme });
+  const { toolbarFilters } = tasksPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "tasks-panel-toolbar-filters",
     className: toolbarFilters({ className }),
@@ -94,8 +88,7 @@ export function TasksPanelToolbarFilters({
 
 export type TasksPanelToolbarViewProps = useRender.ComponentProps<"div">;
 export function TasksPanelToolbarView({ className, render, ...props }: TasksPanelToolbarViewProps) {
-  const theme = useThemeFamily();
-  const { toolbarView } = tasksPanel({ theme });
+  const { toolbarView } = tasksPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "tasks-panel-toolbar-view",
     className: toolbarView({ className }),
@@ -113,8 +106,7 @@ export function TasksPanelToolbarLabel({
   render,
   ...props
 }: TasksPanelToolbarLabelProps) {
-  const theme = useThemeFamily();
-  const { toolbarLabel } = tasksPanel({ theme });
+  const { toolbarLabel } = tasksPanel();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "tasks-panel-toolbar-label",
     className: toolbarLabel({ className }),
@@ -128,8 +120,7 @@ export function TasksPanelToolbarLabel({
 
 export type TasksPanelViewportProps = useRender.ComponentProps<"div">;
 export function TasksPanelViewport({ className, render, ...props }: TasksPanelViewportProps) {
-  const theme = useThemeFamily();
-  const { viewport } = tasksPanel({ theme });
+  const { viewport } = tasksPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "tasks-panel-viewport",
     className: viewport({ className }),
@@ -143,8 +134,7 @@ export function TasksPanelViewport({ className, render, ...props }: TasksPanelVi
 
 export type TasksPanelEmptyProps = useRender.ComponentProps<"div">;
 export function TasksPanelEmpty({ className, render, ...props }: TasksPanelEmptyProps) {
-  const theme = useThemeFamily();
-  const { empty } = tasksPanel({ theme });
+  const { empty } = tasksPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "tasks-panel-empty",
     className: empty({ className }),

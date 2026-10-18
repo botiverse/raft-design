@@ -24,7 +24,6 @@ import {
   SegmentedControlItem,
   SegmentedControlLabel,
   Textarea,
-  useThemeFamily,
 } from "raft-ui";
 import { Hash, Lock, Search } from "lucide-react";
 
@@ -53,9 +52,6 @@ function getMemberLabel(member: DialogMember) {
 }
 
 function CreateChannelDialogParts() {
-  const theme = useThemeFamily();
-  const archiveActionSize = theme === "brutal" ? "sm" : "xs";
-
   return (
     <>
       <DialogHeader>
@@ -71,10 +67,10 @@ function CreateChannelDialogParts() {
             </span>
             <span>Unarchive it to keep its history, or choose a different name.</span>
             <span className="flex flex-wrap justify-end gap-2">
-              <Button type="button" variant="accent" size={archiveActionSize}>
+              <Button type="button" variant="accent" size="xs">
                 Unarchive
               </Button>
-              <Button type="button" variant="outline" size={archiveActionSize}>
+              <Button type="button" variant="outline" size="xs">
                 Change name
               </Button>
             </span>
@@ -118,7 +114,7 @@ function CreateChannelDialogParts() {
             itemToStringLabel={getMemberLabel}
           >
             <ComboboxControl className="w-full">
-              <Search className="text-foreground-muted in-data-[theme=brutal]:stroke-2! [[data-theme=brutal]_&_*]:stroke-2!" />
+              <Search className="text-foreground-muted" />
               <ComboboxInput
                 aria-label="Search members"
                 placeholder="Search members by name"

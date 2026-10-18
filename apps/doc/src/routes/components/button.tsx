@@ -10,7 +10,7 @@ import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
 import type { PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { ICON_SIZES, SIZES, VARIANTS } from "#/modules/button/button.constants.ts";
+import { ICON_SIZES, VARIANTS } from "#/modules/button/button.constants.ts";
 import { ButtonPlaygroundPreview, ButtonPreview } from "#/modules/button/button.preview.tsx";
 import buttonPreviewCompositionSource from "#/modules/button/compositions/preview.composition.tsx?raw";
 
@@ -41,18 +41,10 @@ const SNIPPETS = {
   states: `<Button>Default</Button>
 <Button>Focus visible</Button>
 <Button disabled>Disabled</Button>`,
-  sizes: `<Button size="xs">Extra small</Button>
-<Button size="sm">Small</Button>
-<Button size="md">Medium</Button>
+  sizes: `<Button size="md">Medium</Button>
 <Button size="lg">Large</Button>`,
   icons: `import { Plus, Trash2 } from "lucide-react";
 
-<Button size="icon-xs" aria-label="icon-xs">
-  <Plus />
-</Button>
-<Button size="icon-sm" aria-label="icon-sm">
-  <Plus />
-</Button>
 <Button size="icon-md" aria-label="icon-md">
   <Plus />
 </Button>
@@ -70,7 +62,7 @@ const SNIPPETS = {
   <Plus data-icon="inline-end" />
 </Button>
 
-<Button variant="danger" size="icon-sm" aria-label="Delete">
+<Button variant="danger" size="icon-md" aria-label="Delete">
   <Trash2 />
 </Button>`,
   loading: `<Button loading>Saving</Button>
@@ -95,10 +87,10 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "size",
-    type: SIZES.map((size) => `"${size}"`).join(" | "),
+    type: ["md", "lg", "xl", "inline", ...ICON_SIZES].map((size) => `"${size}"`).join(" | "),
     default: '"md"',
     description:
-      "Text sizes scale height and padding; icon-* sizes render a square icon-only button.",
+      "md is 32px and lg 44px (dialog and sheet footers, forms); xl is a full-width call to action; inline sits in a line of text. icon-md and icon-lg render a square icon-only button. xs and sm are old names of md, and icon-xs and icon-sm of icon-md: same render.",
   },
   {
     name: "loading",
@@ -210,8 +202,6 @@ function ButtonDoc() {
           <DocSubsection parentId="usage" id="sizes" title="Sizes">
             <Preview>
               <Preview.Canvas>
-                <Button size="xs">Extra small</Button>
-                <Button size="sm">Small</Button>
                 <Button size="md">Medium</Button>
                 <Button size="lg">Large</Button>
               </Preview.Canvas>
@@ -241,7 +231,7 @@ function ButtonDoc() {
                   Next
                   <Plus data-icon="inline-end" />
                 </Button>
-                <Button variant="danger" size="icon-sm" aria-label="Delete">
+                <Button variant="danger" size="icon-md" aria-label="Delete">
                   <Trash2 />
                 </Button>
               </Preview.Canvas>

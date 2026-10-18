@@ -31,9 +31,10 @@ import { expect, test } from "vite-plus/test";
  * - the compiled CSS may not gain sub-element-styling `:has()` rules,
  * - `src/**` `.css` files stay free of raw `:has()`.
  *
- * The raft (Raft Design System) branches added self-subject tokens only — a
+ * The raft (Raft Design System) recipes use self-subject tokens only — a
  * root styled from its own children (`has-[>svg]:grid-cols-…`, a row reading
- * its checkbox's state); the compiled sub-element shape count did not grow.
+ * its checkbox's state); dropping the brutal and elegant branches took the
+ * compiled sub-element shape count to zero.
  *
  * Baseline caveat, deliberately recorded: the remaining entries below are NOT
  * individually cleared. The #133 sweep found the 29 rules above; everything
@@ -101,33 +102,27 @@ const BANNED_REGRESSIONS = [
  * intentional addition; the message says so when a file drops below baseline.
  */
 const BASELINE_TOKENS: Record<string, number> = {
-  "components/badge/badge.tsx": 1,
-  "components/banner/banner.tsx": 52,
-  "components/button/button.tsx": 10,
+  "components/banner/banner.tsx": 7,
+  "components/button/button.tsx": 4,
   "components/card/card.recipe.ts": 7,
-  "components/composer/composer-attachment.recipe.ts": 12,
-  "components/composer/composer-root.tsx": 10,
-  "components/files/files.recipe.ts": 8,
-  "components/inbox-item/inbox-item.recipe.ts": 9,
-  "components/input-group/input-group.tsx": 33,
-  "components/message-attachment/message-image-gallery.recipe.ts": 2,
-  "components/message-item/message-item.recipe.ts": 15,
-  "components/message-item/message-reaction.recipe.ts": 5,
-  "components/message-item/message-reference.recipe.ts": 38,
-  "components/panel/panel-header.recipe.ts": 24,
-  "components/picker-trigger-button/picker-trigger-button.tsx": 2,
-  "components/segmented-control/segmented-control.tsx": 4,
-  "components/sidebar/sidebar-item.recipe.ts": 4,
-  "components/sidebar/sidebar-section.recipe.ts": 3,
-  "components/sidebar/sidebar.recipe.ts": 14,
-  "components/tabs/tabs.tsx": 1,
-  "components/task-board/task-board-column.recipe.ts": 5,
-  "components/task-card/task-card-status.recipe.ts": 2,
-  "components/textarea/textarea.tsx": 2,
-  "components/toast/toast.tsx": 28,
-  "components/tooltip/tooltip.tsx": 4,
+  "components/composer/composer-attachment.recipe.ts": 7,
+  "components/files/files.recipe.ts": 7,
+  "components/inbox-item/inbox-item.recipe.ts": 4,
+  "components/input-group/input-group.tsx": 7,
+  "components/message-attachment/message-image-gallery.recipe.ts": 1,
+  "components/message-item/message-item.recipe.ts": 4,
+  "components/message-item/message-reaction.recipe.ts": 1,
+  "components/message-item/message-reference.recipe.ts": 5,
   "components/message-replies/message-replies.recipe.ts": 1,
   "components/notification-center/notification-center.tsx": 1,
+  "components/panel/panel-header.recipe.ts": 0,
+  "components/picker-trigger-button/picker-trigger-button.tsx": 2,
+  "components/sidebar/sidebar-item.recipe.ts": 2,
+  "components/sidebar/sidebar-section.recipe.ts": 3,
+  "components/sidebar/sidebar.recipe.ts": 2,
+  "components/task-card/task-card-status.recipe.ts": 1,
+  "components/toast/toast.tsx": 2,
+  "components/tooltip/tooltip.tsx": 2,
 };
 
 /**
@@ -136,13 +131,11 @@ const BASELINE_TOKENS: Record<string, number> = {
  * the condition. `grouped` = Tailwind group variants (`:is(:where(…:has(…) *)`);
  * `subElement` = the class' condition styling a child/sibling, detected with a
  * light heuristic (pseudo arguments masked, then compounds after a combinator
- * checked). Both are counts, not bans: the remaining `subElement` group is the
- * banner action-button family (`button:has(svg)` sits on the styled button
- * itself — a self-:has on the subject) plus two banner svg passthroughs and two
- * `[&>svg]` placement rules that were below the #133 threshold and are frozen
- * until measured. `grouped` is zero since the #133 batch and must stay there.
+ * checked). Both are counts, not bans, and both are zero: `grouped` since the
+ * #133 batch, `subElement` since the brutal and elegant branches (the banner
+ * action-button family and its svg passthroughs) were removed. Keep them there.
  */
-const BASELINE_COMPILED_SHAPES = { grouped: 0, subElement: 14 } as const;
+const BASELINE_COMPILED_SHAPES = { grouped: 0, subElement: 0 } as const;
 
 function maskPseudoArguments(selector: string): string {
   return selector.replace(/:\w[\w-]*\((?:[^()]|\([^()]*\))*\)/g, ":p").replace(/\\./g, "_");

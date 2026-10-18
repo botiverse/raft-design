@@ -13,7 +13,6 @@ import {
   TaskCardStatus,
   TaskCardTitle,
   TaskStatusIcon,
-  useThemeFamily,
 } from "raft-ui";
 
 import { getTaskStatusLabel } from "../task-card.fixtures";
@@ -25,7 +24,6 @@ export function TaskCardStateMatrixComposition({
 }: {
   portalRef?: RefObject<HTMLElement | null>;
 }) {
-  const theme = useThemeFamily();
   const [defaultStatus, setDefaultStatus] = useState<TaskStatus>("todo");
   const [longStatus, setLongStatus] = useState<TaskStatus>("todo");
   const [legacyStatus, setLegacyStatus] = useState<TaskStatus>("in-progress");
@@ -64,7 +62,7 @@ export function TaskCardStateMatrixComposition({
                   size="icon-xs"
                   disabled={false}
                   aria-label="Edit status for task #142"
-                  className="ml-auto in-data-[theme=brutal]:hidden"
+                  className="ml-auto"
                 >
                   <EllipsisVertical />
                 </Button>
@@ -127,7 +125,7 @@ export function TaskCardStateMatrixComposition({
                   size="icon-xs"
                   disabled={false}
                   aria-label="Edit status for task #139"
-                  className="ml-auto in-data-[theme=brutal]:hidden"
+                  className="ml-auto"
                 >
                   <EllipsisVertical />
                 </Button>
@@ -195,7 +193,7 @@ export function TaskCardStateMatrixComposition({
                   size="icon-xs"
                   disabled={false}
                   aria-label="Edit status for task #126"
-                  className="ml-auto in-data-[theme=brutal]:hidden"
+                  className="ml-auto"
                 >
                   <EllipsisVertical />
                 </Button>
@@ -245,7 +243,7 @@ export function TaskCardStateMatrixComposition({
                   size="icon-xs"
                   disabled
                   aria-label="Edit status for task #142"
-                  className="ml-auto in-data-[theme=brutal]:hidden"
+                  className="ml-auto"
                 >
                   <EllipsisVertical />
                 </Button>
@@ -293,7 +291,7 @@ export function TaskCardStateMatrixComposition({
                   size="icon-xs"
                   disabled
                   aria-label="Edit status for task #137"
-                  className="ml-auto in-data-[theme=brutal]:hidden"
+                  className="ml-auto"
                 >
                   <EllipsisVertical />
                 </Button>
@@ -326,7 +324,7 @@ export function TaskCardStateMatrixComposition({
                 value={menuStatus}
                 onValueChange={setMenuStatus}
                 portalRef={portalRef}
-                defaultOpen={theme === "brutal" ? undefined : true}
+                defaultOpen
                 title="Change task status"
               >
                 <TaskCardStatus
@@ -350,7 +348,7 @@ export function TaskCardStateMatrixComposition({
                   size="icon-xs"
                   disabled={false}
                   aria-label="Edit status for task #121"
-                  className="ml-auto in-data-[theme=brutal]:hidden"
+                  className="ml-auto"
                 >
                   <EllipsisVertical />
                 </Button>

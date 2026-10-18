@@ -1,14 +1,12 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem } from "./message-item.recipe";
 
 export type MessageItemToolbarProps = useRender.ComponentProps<"div">;
 
 export function MessageItemToolbar({ className, render, ...props }: MessageItemToolbarProps) {
-  const theme = useThemeFamily();
-  const { toolbar } = messageItem({ theme });
+  const { toolbar } = messageItem();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: toolbar({ className }),
   };
@@ -33,8 +31,7 @@ export function MessageItemToolbarButton({
   render,
   ...props
 }: MessageItemToolbarButtonProps) {
-  const theme = useThemeFamily();
-  const { toolbarButton } = messageItem({ theme });
+  const { toolbarButton } = messageItem();
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-active": active ? "true" : undefined,

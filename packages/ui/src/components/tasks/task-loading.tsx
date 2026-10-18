@@ -1,13 +1,11 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { taskLoading } from "./task-loading.recipe";
 
 export type TaskLoadingListProps = useRender.ComponentProps<"div">;
 export function TaskLoadingList({ className, render, ...props }: TaskLoadingListProps) {
-  const theme = useThemeFamily();
-  const { list } = taskLoading({ theme });
+  const { list } = taskLoading();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-loading-list",
     "aria-busy": true,
@@ -22,8 +20,7 @@ export function TaskLoadingList({ className, render, ...props }: TaskLoadingList
 
 export type TaskLoadingRowProps = useRender.ComponentProps<"div">;
 export function TaskLoadingRow({ className, render, ...props }: TaskLoadingRowProps) {
-  const theme = useThemeFamily();
-  const { row } = taskLoading({ theme });
+  const { row } = taskLoading();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-loading-row",
     "aria-hidden": true,

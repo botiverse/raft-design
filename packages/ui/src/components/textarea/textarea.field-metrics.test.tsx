@@ -20,30 +20,27 @@ if (typeof window.matchMedia !== "function") {
 
 afterEach(cleanup);
 
-function renderFields(theme: "brutal" | "elegant") {
+function renderFields() {
   render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Input data-testid="input" />
       <Textarea data-testid="textarea" />
     </ThemeProvider>,
   );
 }
 
-test.each(["brutal", "elegant"] as const)(
-  "%s Textarea shares Input's declared field metric axis",
-  (theme) => {
-    renderFields(theme);
+test("Textarea shares Input's declared field metric axis", () => {
+  renderFields();
 
-    for (const testid of ["input", "textarea"]) {
-      const className = screen.getByTestId(testid).className;
-      expect(className).toContain("text-field");
-      expect(className).toContain("font-field");
-    }
-  },
-);
+  for (const testid of ["input", "textarea"]) {
+    const className = screen.getByTestId(testid).className;
+    expect(className).toContain("text-field");
+    expect(className).toContain("font-field");
+  }
+});
 
-test("elegant Textarea drops its old hard-coded size declaration", () => {
-  renderFields("elegant");
+test("Textarea drops its old hard-coded size declaration", () => {
+  renderFields();
 
   const className = screen.getByTestId("textarea").className;
   expect(className).not.toContain("text-sm");

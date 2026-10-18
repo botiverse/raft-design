@@ -276,9 +276,8 @@ function CardDoc() {
 
           <DocSubsection parentId="usage" id="settings-section" title="Account settings">
             <p>
-              Keep the icon-led section label outside a full-width settings surface, then compose
-              identity, profile fields, connected accounts, and related actions through the card
-              parts.
+              Compose identity, profile fields, and related actions through the card parts on a
+              full-width settings surface.
             </p>
             <Preview>
               <Preview.Canvas>

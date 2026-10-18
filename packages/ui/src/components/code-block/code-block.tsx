@@ -1,6 +1,5 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { codeBlock } from "./code-block.recipe";
 
 const CORNERS = [
@@ -14,8 +13,7 @@ export type CodeBlockProps = useRender.ComponentProps<"div">;
 
 /** Framed code surface. Compose a header and a body inside it. */
 export function CodeBlock({ className, render, ...props }: CodeBlockProps) {
-  const theme = useThemeFamily();
-  const { root } = codeBlock({ theme });
+  const { root } = codeBlock();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),
   };
@@ -33,8 +31,7 @@ export function CodeBlock({ className, render, ...props }: CodeBlockProps) {
 export type CodeBlockHeaderProps = useRender.ComponentProps<"div">;
 
 export function CodeBlockHeader({ className, render, ...props }: CodeBlockHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = codeBlock({ theme });
+  const { header } = codeBlock();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: header({ className }),
   };
@@ -52,8 +49,7 @@ export function CodeBlockHeader({ className, render, ...props }: CodeBlockHeader
 export type CodeBlockTitleProps = useRender.ComponentProps<"span">;
 
 export function CodeBlockTitle({ className, render, ...props }: CodeBlockTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = codeBlock({ theme });
+  const { title } = codeBlock();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: title({ className }),
   };
@@ -72,8 +68,7 @@ export type CodeBlockActionsProps = useRender.ComponentProps<"div">;
 
 /** Trailing action region. Placed inside the body it floats over the code panel. */
 export function CodeBlockActions({ className, render, ...props }: CodeBlockActionsProps) {
-  const theme = useThemeFamily();
-  const { actions } = codeBlock({ theme });
+  const { actions } = codeBlock();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: actions({ className }),
   };
@@ -92,8 +87,7 @@ export type CodeBlockActionProps = useRender.ComponentProps<"button">;
 
 /** Styled action shell. The consumer owns the icon and the behavior. */
 export function CodeBlockAction({ className, render, ...props }: CodeBlockActionProps) {
-  const theme = useThemeFamily();
-  const { action } = codeBlock({ theme });
+  const { action } = codeBlock();
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
     className: action({ className }),
@@ -113,8 +107,7 @@ export type CodeBlockBodyProps = useRender.ComponentProps<"div">;
 
 /** Inner code panel. Render the complete pre and code as children. */
 export function CodeBlockBody({ children, className, render, ...props }: CodeBlockBodyProps) {
-  const theme = useThemeFamily();
-  const { body, corner } = codeBlock({ theme });
+  const { body, corner } = codeBlock();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: body({ className }),
     children: (

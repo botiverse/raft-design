@@ -43,7 +43,6 @@ export function TodoList({ items }: TodoListProps) {
             <Badge
               appearance="soft"
               variant={STATUS_VARIANT[normalized.status]}
-              uppercase
               className="mt-0.5 shrink-0"
             >
               {STATUS_LABEL[normalized.status]}

@@ -11,7 +11,6 @@ import {
 import type { MouseEvent, ReactNode } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { MessageImageGallery, MessageImageGalleryItem } from "../message-attachment";
 import {
   MessageEmbed,
@@ -77,8 +76,7 @@ export function MessageForwardedBundle({
   render,
   ...props
 }: MessageForwardedBundleProps) {
-  const theme = useThemeFamily();
-  const { root } = messageForwardedBundle({ theme, fullWidth });
+  const { root } = messageForwardedBundle({ fullWidth });
   const [collapsed, setCollapsed] = useState(false);
   const [foldable, setFoldable] = useState(false);
   const [auto, setAuto] = useState(false);
@@ -123,8 +121,7 @@ export function MessageForwardedBundleHeader({
   render,
   ...props
 }: MessageForwardedBundleHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = messageForwardedBundle({ theme });
+  const { header } = messageForwardedBundle();
 
   return <MessageEmbedHeader className={header({ className })} render={render} {...props} />;
 }
@@ -136,8 +133,7 @@ export function MessageForwardedBundleHeaderContent({
   render,
   ...props
 }: MessageForwardedBundleHeaderContentProps) {
-  const theme = useThemeFamily();
-  const { headerContent } = messageForwardedBundle({ theme });
+  const { headerContent } = messageForwardedBundle();
 
   return useRender({
     defaultTagName: "div",
@@ -154,8 +150,7 @@ export function MessageForwardedBundleHeaderLabel({
   render,
   ...props
 }: MessageForwardedBundleHeaderLabelProps) {
-  const theme = useThemeFamily();
-  const { headerLabel } = messageForwardedBundle({ theme });
+  const { headerLabel } = messageForwardedBundle();
 
   return useRender({
     defaultTagName: "span",
@@ -172,8 +167,7 @@ export function MessageForwardedBundleHeaderCount({
   render,
   ...props
 }: MessageForwardedBundleHeaderCountProps) {
-  const theme = useThemeFamily();
-  const { headerCount } = messageForwardedBundle({ theme });
+  const { headerCount } = messageForwardedBundle();
 
   return useRender({
     defaultTagName: "span",
@@ -207,11 +201,10 @@ export function MessageForwardedBundleItems({
   style,
   ...props
 }: MessageForwardedBundleItemsProps) {
-  const theme = useThemeFamily();
   const fold = useContext(MessageForwardedBundleFoldContext);
   const controlled = collapsed !== undefined;
   const isCollapsed = controlled ? collapsed : (fold?.collapsed ?? false);
-  const { items } = messageForwardedBundle({ theme, collapsed: isCollapsed });
+  const { items } = messageForwardedBundle({ collapsed: isCollapsed });
   const containerRef = useRef<HTMLDivElement | null>(null);
   // The folded height folds with the rule: foldLineLimit x line height. Null
   // until the component can measure; the recipe's fallback height applies then.
@@ -281,8 +274,7 @@ export function MessageForwardedBundleItem({
   render,
   ...props
 }: MessageForwardedBundleItemProps) {
-  const theme = useThemeFamily();
-  const { root } = messageForwardedBundleItem({ theme });
+  const { root } = messageForwardedBundleItem();
   return useRender({
     defaultTagName: "article",
     render,
@@ -298,8 +290,7 @@ export function MessageForwardedBundleItemMeta({
   render,
   ...props
 }: MessageForwardedBundleItemMetaProps) {
-  const theme = useThemeFamily();
-  const { meta } = messageForwardedBundleItem({ theme });
+  const { meta } = messageForwardedBundleItem();
 
   return useRender({
     defaultTagName: "div",
@@ -316,8 +307,7 @@ export function MessageForwardedBundleItemAuthor({
   render,
   ...props
 }: MessageForwardedBundleItemAuthorProps) {
-  const theme = useThemeFamily();
-  const { author } = messageForwardedBundleItem({ theme });
+  const { author } = messageForwardedBundleItem();
 
   return useRender({
     defaultTagName: "span",
@@ -355,8 +345,7 @@ export function MessageForwardedBundleAttachments({
   render,
   ...props
 }: MessageForwardedBundleAttachmentsProps) {
-  const theme = useThemeFamily();
-  const { attachments } = messageForwardedBundleItem({ theme });
+  const { attachments } = messageForwardedBundleItem();
 
   return useRender({
     defaultTagName: "div",
@@ -380,9 +369,7 @@ export function MessageForwardedBundleAttachment({
   render,
   ...props
 }: MessageForwardedBundleAttachmentProps) {
-  const theme = useThemeFamily();
   const { attachment } = messageForwardedBundleItem({
-    theme,
     action: interactive ? "interactive" : "static",
   });
 
@@ -401,8 +388,7 @@ export function MessageForwardedBundleAttachmentName({
   render,
   ...props
 }: MessageForwardedBundleAttachmentNameProps) {
-  const theme = useThemeFamily();
-  const { attachmentName } = messageForwardedBundleItem({ theme });
+  const { attachmentName } = messageForwardedBundleItem();
 
   return useRender({
     defaultTagName: "span",
@@ -419,8 +405,7 @@ export function MessageForwardedBundleAttachmentMeta({
   render,
   ...props
 }: MessageForwardedBundleAttachmentMetaProps) {
-  const theme = useThemeFamily();
-  const { attachmentMeta } = messageForwardedBundleItem({ theme });
+  const { attachmentMeta } = messageForwardedBundleItem();
 
   return useRender({
     defaultTagName: "span",
@@ -451,8 +436,7 @@ export function MessageForwardedBundleSource({
   render,
   ...props
 }: MessageForwardedBundleSourceProps) {
-  const theme = useThemeFamily();
-  const { source } = messageForwardedBundle({ theme });
+  const { source } = messageForwardedBundle();
   return useRender({
     defaultTagName: "button",
     render,
@@ -468,8 +452,7 @@ export function MessageForwardedBundleSourceLabel({
   render,
   ...props
 }: MessageForwardedBundleSourceLabelProps) {
-  const theme = useThemeFamily();
-  const { sourceLabel } = messageForwardedBundle({ theme });
+  const { sourceLabel } = messageForwardedBundle();
 
   return useRender({
     defaultTagName: "span",
@@ -496,9 +479,8 @@ export function MessageForwardedBundleFooterAction({
   expandedContent,
   ...props
 }: MessageForwardedBundleFooterActionProps) {
-  const theme = useThemeFamily();
   const fold = useContext(MessageForwardedBundleFoldContext);
-  const { footerAction } = messageForwardedBundle({ theme });
+  const { footerAction } = messageForwardedBundle();
   const handleClick = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
       onClick?.(event);
@@ -571,7 +553,7 @@ export type MessageForwardedBundleGalleryTileProps = DivProps;
 
 /**
  * A media cell in the forwarded gallery rows: the shared message gallery item
- * (its themed surface and rounding come from MessageImageGalleryItem).
+ * (its surface and rounding come from MessageImageGalleryItem).
  */
 export function MessageForwardedBundleGalleryTile({
   className,

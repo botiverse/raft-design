@@ -1,13 +1,11 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem } from "./message-item.recipe";
 
 export type MessageItemContentProps = useRender.ComponentProps<"div">;
 
 export function MessageItemContent({ className, render, ...props }: MessageItemContentProps) {
-  const theme = useThemeFamily();
-  const { content } = messageItem({ theme });
+  const { content } = messageItem();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: content({ className }),
   };
@@ -25,8 +23,7 @@ export function MessageItemContent({ className, render, ...props }: MessageItemC
 export type MessageItemBodyProps = useRender.ComponentProps<"div">;
 
 export function MessageItemBody({ className, render, ...props }: MessageItemBodyProps) {
-  const theme = useThemeFamily();
-  const { body } = messageItem({ theme });
+  const { body } = messageItem();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: body({ className }),
   };
@@ -48,8 +45,7 @@ export function MessageItemSearchMatch({
   render,
   ...props
 }: MessageItemSearchMatchProps) {
-  const theme = useThemeFamily();
-  const { searchMatch } = messageItem({ theme });
+  const { searchMatch } = messageItem();
   const defaultProps: useRender.ElementProps<"mark"> = {
     className: searchMatch({ className }),
   };
@@ -67,8 +63,7 @@ export function MessageItemSearchMatch({
 export type MessageItemEmbeddedProps = useRender.ComponentProps<"div">;
 
 export function MessageItemEmbedded({ className, render, ...props }: MessageItemEmbeddedProps) {
-  const theme = useThemeFamily();
-  const { embedded } = messageItem({ theme });
+  const { embedded } = messageItem();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: embedded({ className }),
   };
@@ -90,8 +85,7 @@ export function MessageItemAttachments({
   render,
   ...props
 }: MessageItemAttachmentsProps) {
-  const theme = useThemeFamily();
-  const { attachments } = messageItem({ theme });
+  const { attachments } = messageItem();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: attachments({ className }),
   };
@@ -109,8 +103,7 @@ export function MessageItemAttachments({
 export type MessageItemFooterProps = useRender.ComponentProps<"div">;
 
 export function MessageItemFooter({ className, render, ...props }: MessageItemFooterProps) {
-  const theme = useThemeFamily();
-  const { footer } = messageItem({ theme });
+  const { footer } = messageItem();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: footer({ className }),
   };

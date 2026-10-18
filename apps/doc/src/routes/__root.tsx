@@ -14,7 +14,7 @@ import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-them
 import { Sidebar } from "#/components/sidebar.tsx";
 import { isMarkdownMode } from "#/lib/markdown-mode.ts";
 import {
-  documentThemeAttributes,
+  documentThemeMode,
   getStoredPreviewTheme,
   PREVIEW_THEME_INLINE_SCRIPT,
   readPreviewThemeCookieFromDocument,
@@ -100,13 +100,10 @@ function RootDocument({ children }: { children: ReactNode }) {
   const isPlaygroundChatPage = isPlaygroundPage && location.pathname.startsWith("/playground/s/");
   const usesPlaygroundDocumentScroll = isPlaygroundPage && !isPlaygroundChatPage;
   const documentTitle = getDocumentTitle(location.pathname);
-  // The document theme follows the stored selection, defaulting to brutal like
-  // `ThemeProvider` does. It used to be hardcoded `data-theme="elegant"`, so the
-  // chrome could never leave elegant no matter what was picked — which is what
-  // made a switch look like it "reverted" after a refresh (@xxchan).
-  // One mapping shared by the SSR markup, the pre-paint script in <head>, and
-  // `DocumentThemeProvider`'s effect.
-  const documentTheme = documentThemeAttributes(storedPreviewTheme);
+  // The document mode follows the stored selection. One mapping shared by the
+  // SSR markup, the pre-paint script in <head>, and `DocumentThemeProvider`'s
+  // effect.
+  const documentMode = documentThemeMode(storedPreviewTheme);
   const documentShellClassName = isStandalonePage
     ? cn(
         "isolate h-full [--sidebar-w:0rem] [--toc-w:0rem]",
@@ -121,19 +118,18 @@ function RootDocument({ children }: { children: ReactNode }) {
     <html
       lang="en"
       data-standalone={isStandalonePage || undefined}
-      data-theme={documentTheme.theme}
-      style={{ colorScheme: documentTheme.colorScheme }}
+      style={{ colorScheme: documentMode }}
       className={cn(
-        documentTheme.dark ? "dark" : "light",
+        documentMode,
         usesPlaygroundDocumentScroll &&
           "max-md:!h-auto max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-canvas-muted",
       )}
     >
       <head>
-        {/* Pre-paint: apply a stored non-brutal choice before the first frame.
-            Prerendered + cache-served markup always ships the brutal default,
-            and waiting for hydration flashes it for ~125ms (measured). This
-            mirrors `documentThemeAttributes`, the SSR attributes above, and
+        {/* Pre-paint: apply the stored mode before the first frame.
+            Prerendered + cache-served markup always ships light, and waiting
+            for hydration flashes it for ~125ms (measured). This mirrors
+            `documentThemeMode`, the SSR attributes above, and
             `DocumentThemeProvider`'s effect. */}
         <script dangerouslySetInnerHTML={{ __html: PREVIEW_THEME_INLINE_SCRIPT }} />
         {isMarkdownMode() ? null : <title>{documentTitle}</title>}
@@ -182,17 +178,13 @@ function RootDocument({ children }: { children: ReactNode }) {
 function DocumentThemeProvider({ children }: { children: ReactNode }) {
   const previewTheme = usePreviewTheme();
   return (
-    // The whole site follows the picked theme, chrome included (@xxchan,
-    // 2026-09-09). Non-standalone pages used to be pinned to "elegant" here
-    // while `data-theme` followed the selection, so switching restyled the
-    // background but left the nav and sidebar elegant.
+    // The whole site follows the picked mode, chrome included (@xxchan,
+    // 2026-09-09).
     //
-    // syncDom is left ON: this provider owns `data-theme` on <html>. Nothing
-    // else may write it, or the two writers fight over one attribute — which is
-    // exactly what produced the half-themed chrome.
-    <ThemeProvider theme={previewTheme.theme} mode={previewTheme.mode}>
-      {children}
-    </ThemeProvider>
+    // syncDom is left ON: this provider owns the mode class on <html>. Nothing
+    // else may write it, or the two writers fight over it — which is exactly
+    // what produced the half-themed chrome.
+    <ThemeProvider mode={previewTheme.mode}>{children}</ThemeProvider>
   );
 }
 

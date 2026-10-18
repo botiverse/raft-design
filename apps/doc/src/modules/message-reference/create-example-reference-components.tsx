@@ -2,7 +2,6 @@ import type { Components } from "react-markdown";
 import { GitBranch, Hash } from "lucide-react";
 import {
   MarkdownLink,
-  MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceIndicator,
   MessageReferenceLabel,
@@ -99,7 +98,6 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
             variant="accent"
             render={<a href={channel.href} aria-label={`Open joint channel #${channel.name}`} />}
           >
-            <MessageReferenceBadge>joint</MessageReferenceBadge>
             <GitBranch />
             <MessageReferenceLabel>{channel.name}</MessageReferenceLabel>
           </MessageReferenceChip>
@@ -112,7 +110,6 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
             variant="info"
             render={<a href={channel.threadHref} aria-label={`Open thread in #${channel.name}`} />}
           >
-            <MessageReferenceBadge>thread</MessageReferenceBadge>
             <Hash />
             <MessageReferenceLabel>{channel.name}</MessageReferenceLabel>
           </MessageReferenceChip>
@@ -124,7 +121,6 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
           variant="accent"
           render={<a href={channel.href} aria-label={`Open #${channel.name}`} />}
         >
-          <MessageReferenceBadge>channel</MessageReferenceBadge>
           <Hash />
           <MessageReferenceLabel>{channel.name}</MessageReferenceLabel>
         </MessageReferenceChip>

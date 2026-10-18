@@ -66,7 +66,7 @@ const SNIPPETS = {
     <SearchEntityResultContent>
       <SearchEntityResultHeader>
         <SearchEntityResultTitle>Project Orbit</SearchEntityResultTitle>
-        <Badge appearance="solid" variant="default" uppercase>
+        <Badge appearance="solid" variant="default">
           Channel
         </Badge>
       </SearchEntityResultHeader>

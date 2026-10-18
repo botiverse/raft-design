@@ -224,8 +224,7 @@ const THREAD_PANEL_REPLY_SUMMARY_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "div props",
-    description:
-      "Aligns the reply notice and count with the thread panel content gutter for the active theme.",
+    description: "Aligns the reply notice and count with the thread panel content gutter.",
   },
 ];
 
@@ -267,7 +266,7 @@ const THREAD_PANEL_FOOTER_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "div props",
     description:
-      "Composer/footer boundary. Compose it with ComposerRoot like ConversationPanelFooter. Override --panel-footer-clearance on the root for a custom composer height.",
+      "Composer/footer boundary. Compose it with ComposerRoot like ConversationPanelFooter.",
   },
 ];
 

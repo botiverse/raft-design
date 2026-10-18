@@ -27,7 +27,7 @@ const SNIPPETS = {
   appRailComposition: appRailCompositionSource,
   appRailServerButton: appRailServerButtonSource,
   anatomy: `import { Link } from "@tanstack/react-router";
-import { Activity, MessageSquare, Settings } from "lucide-react";
+import { MessageSquare, Settings } from "lucide-react";
 import {
   AppRailFooter,
   AppRailHeader,
@@ -66,9 +66,7 @@ import {
           >
             <AppRailItemIcon>
               <MessageSquare />
-              <AppRailItemAttention title="Unread activity">
-                <Activity />
-              </AppRailItemAttention>
+              <AppRailItemAttention title="Unread activity" />
             </AppRailItemIcon>
             <AppRailItemLabel>Chat</AppRailItemLabel>
             <AppRailItemBadge>3</AppRailItemBadge>
@@ -161,7 +159,7 @@ const ITEM_ICON_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"span">',
-    description: "Square icon slot. Place the glyph and optional attention overlay here.",
+    description: "Square icon slot. Place the glyph and an optional AppRailItemAttention here.",
   },
 ];
 
@@ -183,22 +181,10 @@ const ITEM_BADGE_PROPS: readonly PropRow[] = [
 
 const ITEM_ATTENTION_PROPS: readonly PropRow[] = [
   {
-    name: "children",
-    type: "ReactNode",
-    description: "Attention glyph rendered inside the mask.",
-  },
-  {
     name: "title",
     type: "string",
-    description: "Optional label exposed to assistive tech. The indicator itself stays decorative.",
-  },
-];
-
-const ITEM_ATTENTION_MASK_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: 'useRender.ComponentProps<"span">',
-    description: "Mask wrapper used by AppRailItemAttention around the attention glyph.",
+    description:
+      "Optional label read to assistive tech. Renders the pink AppRailItemIndicator pixel, which stays decorative; takes no children.",
   },
 ];
 
@@ -207,7 +193,7 @@ const ITEM_INDICATOR_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "Status props",
     description:
-      "Decorative attention status dot. Defaults to attention and a theme-aware variant; usually rendered by AppRailItemAttention.",
+      "Decorative status pixel at the icon's top-right corner. Defaults to the accent (pink) variant at sm; usually rendered by AppRailItemAttention. It never animates.",
   },
 ];
 
@@ -274,13 +260,6 @@ function AppRailDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-item-attention" title="AppRailItemAttention">
             <PropsTable rows={ITEM_ATTENTION_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-item-attention-mask"
-            title="AppRailItemAttentionMask"
-          >
-            <PropsTable rows={ITEM_ATTENTION_MASK_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-item-indicator" title="AppRailItemIndicator">
             <PropsTable rows={ITEM_INDICATOR_PROPS} />

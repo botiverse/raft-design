@@ -2,10 +2,8 @@ import "./task-status.test.css";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
-import type { Theme, ThemeMode } from "../../lib/theme/theme-context";
+import type { ThemeMode } from "../../lib/theme/theme-context";
 import { Timeline, TimelineItem, TimelineTitle } from "../timeline/timeline";
-import { TaskCardStatus } from "../task-card/task-card";
-import { TaskSectionBadge } from "../task-list/task-list";
 import { TaskChip } from "./task-chip";
 import { TaskStatusBadge } from "./task-status-badge";
 import { TaskStatusIcon } from "./task-status-icon";
@@ -15,14 +13,10 @@ import type { TaskStatusId } from "./task-status.recipe";
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
 
-const THEMES: readonly { key: string; theme: Theme; mode?: ThemeMode }[] = [
-  { key: "brutal", theme: "brutal" },
-  { key: "elegant light", theme: "elegant", mode: "light" },
-  { key: "elegant dark", theme: "elegant", mode: "dark" },
-];
+const MODES = ["light", "dark"] as const satisfies readonly ThemeMode[];
 
 /**
- * The hue family each status must keep in EVERY theme: orange / blue / purple /
+ * The hue family each status must keep in EVERY mode: orange / blue / purple /
  * green, plus `closed` which is intentionally NEUTRAL (so it is checked by
  * chroma, not hue — comparing the hue of a grey would pass or fail at random).
  */
@@ -35,8 +29,8 @@ const HUE_ANCHORS: Record<TaskStatusId, { hue?: number; maxChroma?: number }> = 
 };
 
 /** Max hue separation still counted as one family — sized to admit the real
- *  brutal↔elegant pairs (the widest is green: lime 130 vs success 153) while
- *  rejecting the mismatches this change replaced (60°+). */
+ *  light↔dark pairs (the widest is green: lime 130 in light vs 153 in dark)
+ *  while rejecting a swapped status (60°+). */
 const HUE_TOLERANCE = 30;
 
 // ── colour math ─────────────────────────────────────────────────────────────
@@ -130,9 +124,9 @@ function scopeBackground(scope: HTMLElement): Rgb {
   return [1, 1, 1];
 }
 
-/** The marker paints a filled dot in Brutal and a hollow ring in Elegant, so
- *  the status colour lands on the background OR the border — take whichever is
- *  actually opaque, composited over the scope. */
+/** The marker may paint its status colour as a fill or as a ring, so take
+ *  whichever of the background and the border is actually opaque, composited
+ *  over the scope. */
 function markerFill(dot: HTMLElement, scopeBg: Rgb): Rgb {
   const style = getComputedStyle(dot);
   const bg = parseColor(style.backgroundColor);
@@ -167,34 +161,32 @@ function Harness() {
   );
 }
 
-it("each status renders its own lucide glyph — a swap cannot pass", () => {
+it("each status renders its own pixel — a swap cannot pass", () => {
   render(
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <Harness />
     </ThemeProvider>,
   );
-  // The task-status icons are the app's lucide set; lucide stamps a
-  // `lucide-<name>` class on each svg, so pin the specific glyph per status so
-  // an accidental swap (e.g. in-review pointed at the todo icon) fails here.
-  const EXPECTED: Record<TaskStatusId, string> = {
-    todo: "lucide-circle",
-    "in-progress": "lucide-play",
-    "in-review": "lucide-eye",
-    done: "lucide-circle-check-big",
-    closed: "lucide-ban",
-  };
+  // Every task-status icon is the status pixel: a square filled with its own
+  // status token. Pin the token per status so an accidental swap (e.g.
+  // in-review pointed at the todo colour) fails here.
   for (const status of TASK_STATUS_IDS) {
     const icon = screen.getByTestId(`icon-${status}`);
-    expect(icon.getAttribute("class"), `${status} is not ${EXPECTED[status]}`).toContain(
-      EXPECTED[status],
+    expect(icon.getAttribute("data-slot")).toBe("task-status-icon");
+    expect(icon.getAttribute("data-status")).toBe(status);
+    const pixel = icon.querySelector("rect");
+    expect(pixel, `${status} has no pixel`).not.toBeNull();
+    expect(pixel!.style.fill, `${status} pixel is not its own token`).toBe(
+      `var(--task-status-${status})`,
     );
   }
 });
 
-for (const { key, theme, mode } of THEMES) {
+for (const mode of MODES) {
+  const key = mode;
   it(`TaskStatusBadge is the task chip showing a status name — ${key}`, () => {
     render(
-      <ThemeProvider theme={theme} mode={mode}>
+      <ThemeProvider mode={mode}>
         <div data-testid="badge-scope">
           {TASK_STATUS_IDS.map((status) => (
             <p key={status}>
@@ -212,9 +204,8 @@ for (const { key, theme, mode } of THEMES) {
     );
     // Artea (#proj-rui:c841b051, 2026-10-10): a status badge in the task panel
     // and the task chip in a message are ONE component that differs only in
-    // what it shows. Before, the badge drew its own shape: in Brutal it was
-    // bold 12px and 20px tall next to a medium 13px chip; in Elegant a 12px
-    // pill with a 1px border next to a 13px chip with a hairline.
+    // what it shows. Before, the badge drew its own shape (a 12px pill with a
+    // 1px border next to a 13px chip with a hairline).
     const PROPERTIES = [
       "fontSize",
       "fontWeight",
@@ -241,47 +232,16 @@ for (const { key, theme, mode } of THEMES) {
         `${key}/${status}: same height as the chip`,
       ).toBe(chip.getBoundingClientRect().height);
     }
-    // Still theme-shaped, through the chip: square in Brutal, a pill in Elegant.
+    // Shaped through the chip: the rounded chip corner, not a square.
     const radius = parseFloat(
       getComputedStyle(screen.getByTestId("shape-badge-in-progress")).borderTopLeftRadius,
     );
-    if (theme === "brutal") expect(radius, "brutal status badge must be square").toBe(0);
-    else expect(radius, "elegant status badge stays a pill").toBeGreaterThan(0);
-  });
-
-  it(`board/list status shows the icon without a solid fill in Elegant — ${key}`, () => {
-    render(
-      <ThemeProvider theme={theme} mode={mode}>
-        <div className="bg-layer-panel" data-testid="board-scope">
-          <TaskCardStatus status="in-progress" data-testid="card-status">
-            In Progress
-          </TaskCardStatus>
-          <TaskSectionBadge status="in-review" data-testid="section-badge">
-            In Review
-          </TaskSectionBadge>
-        </div>
-      </ThemeProvider>,
-    );
-    // Regression guard (Josh, rui#372): the board card / task list status was a
-    // coloured ICON in Elegant. An earlier revision spread the Brutal solid fill
-    // across both themes, turning it into a solid block that hid the icon.
-    // Elegant must keep a transparent surface; only Brutal fills it.
-    for (const id of ["card-status", "section-badge"]) {
-      const el = screen.getByTestId(id);
-      const bg = parseColor(getComputedStyle(el).backgroundColor);
-      if (theme === "brutal") {
-        expect(bg.alpha, `${key}/${id}: Brutal should fill`).toBeGreaterThan(0.5);
-      } else {
-        expect(bg.alpha, `${key}/${id}: Elegant must NOT paint a solid fill`).toBeLessThanOrEqual(
-          0.05,
-        );
-      }
-    }
+    expect(radius, "status badge keeps the chip's rounded corner").toBeGreaterThan(0);
   });
 
   it(`every status keeps its hue family — ${key}`, () => {
     render(
-      <ThemeProvider theme={theme} mode={mode}>
+      <ThemeProvider mode={mode}>
         <Harness />
       </ThemeProvider>,
     );
@@ -290,7 +250,7 @@ for (const { key, theme, mode } of THEMES) {
     for (const status of TASK_STATUS_IDS) {
       const anchor = HUE_ANCHORS[status];
       // Read the ACTUAL rendered badge fill (composited over the scope), not the
-      // raw token string — soft fills are translucent in Elegant dark.
+      // raw token string — soft fills are translucent in dark.
       const badge = screen.getByTestId(`badge-${status}`);
       const fill = composite(parseColor(getComputedStyle(badge).backgroundColor), scopeBg);
       const { hue, chroma } = oklabOf(fill);
@@ -311,7 +271,7 @@ for (const { key, theme, mode } of THEMES) {
 
   it(`icon, badge and Timeline dot all resolve the SAME status token — ${key}`, () => {
     render(
-      <ThemeProvider theme={theme} mode={mode}>
+      <ThemeProvider mode={mode}>
         <Harness />
       </ThemeProvider>,
     );
@@ -334,8 +294,8 @@ for (const { key, theme, mode } of THEMES) {
         `${key}/${status}: badge fill hue != token hue`,
       ).toBeLessThanOrEqual(HUE_TOLERANCE);
 
-      // Timeline dot must carry the token color (as fill in Brutal, as ring in
-      // Elegant) — whichever channel is actually painted.
+      // Timeline dot must carry the token color — whichever channel (fill or
+      // ring) is actually painted.
       const dot = screen
         .getByTestId(`timeline-${status}`)
         .querySelector<HTMLElement>(".r-timeline-item__marker");
@@ -345,36 +305,27 @@ for (const { key, theme, mode } of THEMES) {
         `${key}/${status}: Timeline dot hue drifted from the token`,
       ).toBeLessThanOrEqual(HUE_TOLERANCE);
 
-      // The ICON must also be in the same family. Only Elegant colours the icon
-      // by status (its own ink per state, the `-strong` slot); Brutal inherits
-      // the badge's currentColor (ink), so a hue assertion there is meaningless.
-      // Scoping to Elegant is what makes a wrong-status icon assignment fail.
-      if (theme === "elegant") {
-        const strongToken = parseColor(
-          getComputedStyle(scope).getPropertyValue(`--task-status-${status}-strong`).trim(),
-        );
-        const strongHue = oklabOf(composite(strongToken, scopeBg)).hue;
-        const icon = screen.getByTestId(`icon-${status}`);
-        const iconColor = parseColor(getComputedStyle(icon).color).rgb;
-        expect(
-          hueDistance(oklabOf(iconColor).hue, strongHue),
-          `${key}/${status}: icon hue drifted from the status strong token`,
-        ).toBeLessThanOrEqual(HUE_TOLERANCE);
-      }
+      // The ICON's pixel must also be in the same family: it is filled with the
+      // status token itself, so a wrong-status icon assignment fails here.
+      const pixel = screen.getByTestId(`icon-${status}`).querySelector("rect");
+      expect(pixel).not.toBeNull();
+      const pixelFill = composite(parseColor(getComputedStyle(pixel!).fill), scopeBg);
+      expect(
+        hueDistance(oklabOf(pixelFill).hue, tokenHue),
+        `${key}/${status}: icon pixel hue drifted from the token`,
+      ).toBeLessThanOrEqual(HUE_TOLERANCE);
     }
   });
 
   it(`badge text meets 4.5:1 on its REAL background — ${key}`, () => {
     render(
-      <ThemeProvider theme={theme} mode={mode}>
+      <ThemeProvider mode={mode}>
         <Harness />
       </ThemeProvider>,
     );
     const scopeBg = scopeBackground(screen.getByTestId("status-scope"));
     for (const status of TASK_STATUS_IDS) {
-      // Closed is DISABLED-styled on purpose (Artea/Josh): disabled text is not
-      // expected to clear body contrast, so it is asserted separately below.
-      if (status === "closed") continue;
+      // Every status, Closed included, sets ink text on its own wash.
       const badge = screen.getByTestId(`badge-${status}`);
       const style = getComputedStyle(badge);
       const fg = parseColor(style.color);
@@ -386,84 +337,4 @@ for (const { key, theme, mode } of THEMES) {
       ).toBeGreaterThanOrEqual(4.5);
     }
   });
-
-  it(`Closed reads as the disabled token — ${key}`, () => {
-    render(
-      <ThemeProvider theme={theme} mode={mode}>
-        <Harness />
-      </ThemeProvider>,
-    );
-    // Closed is deliberately styled like a disabled control and is EXEMPT from
-    // the 4.5:1 body rule (disabled styles do not promise body contrast).
-    // Assert identity with the disabled token, not a ratio.
-    const scope = screen.getByTestId("status-scope");
-    const scopeBg = scopeBackground(scope);
-    const closed = screen.getByTestId("badge-closed");
-    const closedInk = parseColor(getComputedStyle(closed).color).rgb;
-
-    if (theme !== "brutal") {
-      const disabled = parseColor(
-        getComputedStyle(scope).getPropertyValue("--foreground-disabled").trim(),
-      );
-      const expected = composite(disabled, scopeBg);
-      for (let i = 0; i < 3; i += 1) {
-        expect(
-          Math.abs(closedInk[i] - expected[i]),
-          `${key}: closed ink should be the disabled token`,
-        ).toBeLessThanOrEqual(0.02);
-      }
-    }
-
-    // And, in Elegant, it must be the LEAST prominent of the five (lowest text
-    // contrast). Brutal is intentionally left as-is (stone), so it is exempt.
-    if (theme !== "brutal") {
-      const closedRatio = contrastRatio(
-        composite(parseColor(getComputedStyle(closed).color), scopeBg),
-        composite(parseColor(getComputedStyle(closed).backgroundColor), scopeBg),
-      );
-      for (const status of TASK_STATUS_IDS) {
-        if (status === "closed") continue;
-        const badge = screen.getByTestId(`badge-${status}`);
-        const ratio = contrastRatio(
-          composite(parseColor(getComputedStyle(badge).color), scopeBg),
-          composite(parseColor(getComputedStyle(badge).backgroundColor), scopeBg),
-        );
-        expect(
-          closedRatio,
-          `${key}: closed (${closedRatio.toFixed(2)}) must be fainter than ${status} (${ratio.toFixed(2)})`,
-        ).toBeLessThanOrEqual(ratio);
-      }
-    }
-  });
 }
-
-it("Brutal's five fills are the same values as before this change", () => {
-  render(
-    <ThemeProvider theme="brutal">
-      <Harness />
-    </ThemeProvider>,
-  );
-  // The pre-change Brutal values (brutal-parity pastels), pinned so a refactor
-  // cannot silently drift the one theme that was already correct.
-  const EXPECTED: Record<TaskStatusId, Rgb> = {
-    todo: [248, 161, 111], // brutal-orange
-    "in-progress": [39, 204, 243], // brutal-cyan
-    "in-review": [187, 175, 230], // brutal-lavender
-    done: [169, 216, 119], // brutal-lime
-    closed: [192, 185, 177], // brutal-stone
-  };
-  for (const status of TASK_STATUS_IDS) {
-    const fill = parseColor(
-      getComputedStyle(screen.getByTestId(`badge-${status}`)).backgroundColor,
-    );
-    const actual = fill.rgb.map((c) => Math.round(c * 255));
-    const expected = EXPECTED[status];
-    // ±1 per channel absorbs the oklch→sRGB rounding boundary.
-    for (let i = 0; i < 3; i += 1) {
-      expect(
-        Math.abs(actual[i] - expected[i]),
-        `brutal/${status} drifted from its pre-change value (${actual.join(",")} vs ${expected.join(",")})`,
-      ).toBeLessThanOrEqual(1);
-    }
-  }
-});

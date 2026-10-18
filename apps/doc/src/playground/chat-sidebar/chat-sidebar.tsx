@@ -125,7 +125,6 @@ function PlaygroundSidebarContent({
               <SidebarItem
                 className="md:hidden"
                 active={railView === "search"}
-                variant="accent"
                 onClick={handleSelectSearch}
               >
                 <SidebarItemIcon aria-hidden>
@@ -137,7 +136,6 @@ function PlaygroundSidebarContent({
               <SidebarItem
                 className="md:hidden"
                 active={railView === "activity"}
-                variant="accent"
                 onClick={handleSelectActivity}
               >
                 <SidebarItemIcon aria-hidden>
@@ -148,7 +146,6 @@ function PlaygroundSidebarContent({
 
               <SidebarItem
                 active={savedActive}
-                variant="accent"
                 aria-current={savedActive ? "page" : undefined}
                 render={<Link to="/playground/s/$serverSlug/saved" params={SERVER_PARAMS} />}
               >

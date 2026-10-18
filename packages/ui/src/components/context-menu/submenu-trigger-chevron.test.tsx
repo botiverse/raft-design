@@ -30,10 +30,10 @@ if (typeof window.matchMedia !== "function") {
 
 afterEach(cleanup);
 
-describe.each(["elegant", "brutal"] as const)("ContextMenuSubmenuTrigger (%s)", (theme) => {
+describe("ContextMenuSubmenuTrigger", () => {
   test("renders exactly one aria-hidden chevron indicator inside the trigger", () => {
     render(
-      <ThemeProvider defaultTheme={theme} defaultMode="light">
+      <ThemeProvider defaultMode="light">
         <ContextMenu defaultOpen>
           <ContextMenuContent>
             <ContextMenuSubmenu>

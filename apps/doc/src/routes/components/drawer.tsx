@@ -361,7 +361,7 @@ function DrawerDoc() {
   return (
     <DocPage
       title="Drawer"
-      description="A swipeable Base UI drawer that can enter from any edge while preserving the active theme frame."
+      description="A swipeable Base UI drawer that can enter from any edge."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

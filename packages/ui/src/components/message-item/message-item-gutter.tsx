@@ -1,13 +1,11 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem } from "./message-item.recipe";
 
 export type MessageItemGutterProps = useRender.ComponentProps<"div">;
 
 export function MessageItemGutter({ className, render, ...props }: MessageItemGutterProps) {
-  const theme = useThemeFamily();
-  const { gutter } = messageItem({ theme });
+  const { gutter } = messageItem();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: gutter({ className }),
   };
@@ -25,8 +23,7 @@ export function MessageItemGutter({ className, render, ...props }: MessageItemGu
 export type MessageItemAvatarSlotProps = useRender.ComponentProps<"div">;
 
 export function MessageItemAvatarSlot({ className, render, ...props }: MessageItemAvatarSlotProps) {
-  const theme = useThemeFamily();
-  const { avatarSlot } = messageItem({ theme });
+  const { avatarSlot } = messageItem();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: avatarSlot({ className }),
   };
@@ -49,8 +46,7 @@ export function MessageItemContinuationTime({
   render,
   ...props
 }: MessageItemContinuationTimeProps) {
-  const theme = useThemeFamily();
-  const { continuationTime } = messageItem({ theme });
+  const { continuationTime } = messageItem();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: continuationTime({ className }),
   };

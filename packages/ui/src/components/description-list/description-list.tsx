@@ -2,21 +2,29 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const descriptionList = tv({
   slots: {
     root: ["m-0"],
-    item: [""],
-    term: ["mb-1 flex items-center gap-2 text-xs", "*:data-[slot=button]:ml-[-5px]"],
-    details: ["m-0 text-sm"],
+    item: ["", "[&+&]:pt-2"],
+    term: [
+      "flex items-center",
+      "*:data-[slot=button]:ml-[-5px]",
+      "mb-0 gap-1.5",
+      "font-sans text-footnote font-medium text-foreground-hint",
+    ],
+    details: [
+      "m-0",
+      "flex min-h-7 min-w-0 flex-wrap items-center gap-1.5",
+      "font-sans text-callout text-foreground",
+    ],
   },
   variants: {
     direction: {
       vertical: {},
       horizontal: {
         root: [
-          "grid grid-cols-[max-content_minmax(0,1fr)] items-baseline",
+          "grid items-baseline",
           "max-sm:grid-cols-1 max-sm:gap-y-0.5",
           "*:data-[slot=description-item]:contents",
           "[&>[data-slot=description-item]>[data-slot=description-term]]:mb-0",
@@ -25,57 +33,12 @@ const descriptionList = tv({
           "[&>[data-slot=description-item]>[data-slot=description-term]]:wrap-break-word",
           "[&>[data-slot=description-item]>[data-slot=description-details]]:min-w-0",
           "[&>[data-slot=description-item]>[data-slot=description-details]]:wrap-break-word",
-        ],
-      },
-    },
-    theme: {
-      brutal: {
-        term: "text-foreground-strong/50",
-        details: "text-foreground",
-      },
-      elegant: {
-        term: [
-          "mb-1.5 gap-1.5",
-          "font-sans text-[11px] font-medium leading-none text-foreground-placeholder",
-        ],
-        details: "font-sans leading-5 text-foreground-muted",
-      },
-      raft: {
-        item: "[&+&]:pt-2",
-        term: ["mb-0 gap-1.5", "font-sans text-footnote font-medium text-foreground-hint"],
-        details: [
-          "flex min-h-7 min-w-0 flex-wrap items-center gap-1.5",
-          "font-sans text-callout text-foreground",
-        ],
-      },
-    },
-  },
-  compoundVariants: [
-    {
-      direction: "horizontal",
-      theme: "brutal",
-      class: {
-        root: "gap-x-3 gap-y-1",
-      },
-    },
-    {
-      direction: "horizontal",
-      theme: "elegant",
-      class: {
-        root: "gap-x-6 gap-y-2",
-      },
-    },
-    {
-      direction: "horizontal",
-      theme: "raft",
-      class: {
-        root: [
           "grid-cols-[minmax(88px,max-content)_minmax(0,1fr)] gap-x-4 gap-y-0.5",
           "[&>[data-slot=description-item]>[data-slot=description-details]]:min-h-8",
         ],
       },
     },
-  ],
+  },
   defaultVariants: {
     direction: "vertical",
   },
@@ -94,8 +57,7 @@ export function DescriptionList({
   render,
   ...props
 }: DescriptionListProps) {
-  const theme = useThemeFamily();
-  const { root } = descriptionList({ direction, theme });
+  const { root } = descriptionList({ direction });
   const defaultProps: useRender.ElementProps<"dl"> = {
     className: root({ className }),
   };
@@ -113,8 +75,7 @@ export function DescriptionList({
 export type DescriptionItemProps = useRender.ComponentProps<"div">;
 
 export function DescriptionItem({ className, render, ...props }: DescriptionItemProps) {
-  const theme = useThemeFamily();
-  const { item } = descriptionList({ theme });
+  const { item } = descriptionList();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: item({ className }),
   };
@@ -132,8 +93,7 @@ export function DescriptionItem({ className, render, ...props }: DescriptionItem
 export type DescriptionTermProps = useRender.ComponentProps<"dt">;
 
 export function DescriptionTerm({ className, render, ...props }: DescriptionTermProps) {
-  const theme = useThemeFamily();
-  const { term } = descriptionList({ theme });
+  const { term } = descriptionList();
   const defaultProps: useRender.ElementProps<"dt"> = {
     className: term({ className }),
   };
@@ -151,8 +111,7 @@ export function DescriptionTerm({ className, render, ...props }: DescriptionTerm
 export type DescriptionDetailsProps = useRender.ComponentProps<"dd">;
 
 export function DescriptionDetails({ className, render, ...props }: DescriptionDetailsProps) {
-  const theme = useThemeFamily();
-  const { details } = descriptionList({ theme });
+  const { details } = descriptionList();
   const defaultProps: useRender.ElementProps<"dd"> = {
     className: details({ className }),
   };

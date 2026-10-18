@@ -140,7 +140,7 @@ All four render a row of choices. They differ in what the choice does.
 
 `Tabs` implies panels. If there are no panels — you are only filtering a list that stays in place — use `SegmentedControl`.
 
-`Tabs placement` (`top` `bottom` `left` `right`) puts the list on any side of the panels; `left` / `right` make it vertical. `TabsList` takes `variant` `default` or `underline`; it applies in Elegant only, Brutal always renders `underline`. Use `TabsIndicator` and `TabsBackground` for the moving marker rather than animating a border yourself. For reorderable tabs use `SortableTabsList` / `SortableTabsTab` with the `useOrderedTabs` hook.
+`Tabs placement` (`top` `bottom` `left` `right`) puts the list on any side of the panels; `left` / `right` make it vertical. `TabsList` takes `variant` `default` or `underline`. The active tab draws its own marker; do not animate a border yourself. For reorderable tabs use `SortableTabsList` / `SortableTabsTab` with the `useOrderedTabs` hook.
 
 ---
 

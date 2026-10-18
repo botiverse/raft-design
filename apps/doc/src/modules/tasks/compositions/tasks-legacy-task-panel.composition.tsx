@@ -4,8 +4,6 @@ import {
   Banner,
   BannerDescription,
   BannerTitle,
-  BrutalOnly,
-  ElegantOnly,
   LegacyTaskPanelActions,
   LegacyTaskPanelBody,
   LegacyTaskPanelField,
@@ -20,21 +18,14 @@ import {
   LegacyTaskPanelMetaValue,
   LegacyTaskPanelRoot,
   LegacyTaskPanelSection,
-  LegacyTaskPanelStatus,
   LegacyTaskPanelTitle,
   LegacyTaskPanelTitleMeta,
   PanelAction,
-  TaskCardStatus,
-  TaskStatusIcon,
 } from "raft-ui";
-
-import { getTaskStatusLabel } from "#/modules/task-card/task-card.fixtures.ts";
-import type { TaskStatus } from "#/modules/task-card/task-card.fixtures.ts";
 
 export type TasksLegacyTaskPanelCompositionProps = {
   channelName: string;
   taskNumber: number;
-  status: TaskStatus;
   title: string;
   description?: string;
   createdBy: string;
@@ -48,13 +39,12 @@ export type TasksLegacyTaskPanelCompositionProps = {
 };
 
 /**
- * Legacy task panel = LegacyTaskPanel shell + consumer metadata / status / notice.
+ * Legacy task panel = LegacyTaskPanel shell + consumer metadata / notice.
  * No OriginalMessage / replies / search / composer.
  */
 export function TasksLegacyTaskPanelComposition({
   channelName,
   taskNumber,
-  status,
   title,
   description,
   createdBy,
@@ -65,7 +55,6 @@ export function TasksLegacyTaskPanelComposition({
   mobileBack,
   closeAction,
 }: TasksLegacyTaskPanelCompositionProps) {
-  const statusLabel = getTaskStatusLabel(status);
   const channelLabel = channelName.startsWith("#") ? channelName : `#${channelName}`;
 
   return (
@@ -89,32 +78,6 @@ export function TasksLegacyTaskPanelComposition({
       </LegacyTaskPanelHeader>
 
       <LegacyTaskPanelBody>
-        <LegacyTaskPanelStatus>
-          <ElegantOnly>
-            <TaskCardStatus
-              status={status}
-              render={<span />}
-              aria-label={statusLabel}
-              className="ml-0"
-            >
-              <TaskStatusIcon status={status} />
-            </TaskCardStatus>
-          </ElegantOnly>
-          <BrutalOnly>
-            <TaskCardStatus
-              status={status}
-              render={<span />}
-              aria-label={statusLabel}
-              className="ml-0"
-            >
-              <span data-slot="task-card-status-label">
-                <TaskStatusIcon status={status} />
-                {statusLabel}
-              </span>
-            </TaskCardStatus>
-          </BrutalOnly>
-        </LegacyTaskPanelStatus>
-
         <LegacyTaskPanelSection>
           <LegacyTaskPanelField>
             <LegacyTaskPanelFieldLabel>Title</LegacyTaskPanelFieldLabel>

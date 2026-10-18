@@ -107,10 +107,6 @@ export function MembersSidebar({
                       "mt-1.5 mb-0.5 flex w-full items-center gap-1.5 py-0",
                       "border-2 border-transparent px-2",
                       "text-[10px] font-mono font-normal tracking-normal lowercase text-foreground-icon select-none",
-                      "[[data-theme=elegant]_&]:-mx-[var(--sidebar-row-inset-x,6px)]",
-                      "[[data-theme=elegant]_&]:w-[calc(100%+12px)]",
-                      "[[data-theme=elegant]_&]:border",
-                      "[[data-theme=elegant]_&]:px-[var(--sidebar-row-inset-x,6px)]",
                     ].join(" ")}
                   >
                     <SidebarItemIcon aria-hidden>
@@ -192,7 +188,7 @@ function MemberSidebarItem({
       {actor.type === "agent" && presence ? (
         <SidebarItemAside>
           <SidebarItemStatus>
-            <Status aria-label={presence.label} variant={presence.variant} pulse={presence.pulse} />
+            <Status aria-label={presence.label} variant={presence.variant} />
           </SidebarItemStatus>
         </SidebarItemAside>
       ) : null}

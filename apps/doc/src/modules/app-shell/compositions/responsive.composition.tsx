@@ -11,14 +11,14 @@ import {
 export function AppShellResponsiveComposition() {
   return (
     <AppShellRoot className="min-h-dvh">
-      <AppShellRailSlot className="in-data-[theme=brutal]:border-r-2 in-data-[theme=brutal]:border-black">
-        <nav className="w-16 [[data-theme=elegant]_&]:w-14" aria-label="Workspace navigation">
+      <AppShellRailSlot>
+        <nav className="w-16" aria-label="Workspace navigation">
           Rail
         </nav>
       </AppShellRailSlot>
 
-      <AppShellSidebarSlot className="in-data-[theme=brutal]:border-r-2 in-data-[theme=brutal]:border-black">
-        <div className="w-60 in-data-[theme=elegant]:w-[252px]">Conversation list</div>
+      <AppShellSidebarSlot>
+        <div className="w-60">Conversation list</div>
       </AppShellSidebarSlot>
 
       <AppShellMainSlot>

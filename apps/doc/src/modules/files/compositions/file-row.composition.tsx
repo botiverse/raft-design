@@ -42,7 +42,7 @@ export function FilesPanelFileRowComposition() {
               <FileThumbnail>
                 <FilePreview>
                   <FilePreviewDocument />
-                  <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
+                  <FilePreviewBadge>PDF</FilePreviewBadge>
                 </FilePreview>
               </FileThumbnail>
               <FileContent>

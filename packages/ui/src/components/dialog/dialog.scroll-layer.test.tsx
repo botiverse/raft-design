@@ -19,7 +19,7 @@ afterEach(cleanup);
 
 it("tall content stays within viewport bounds", async () => {
   render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <Dialog open modal={false}>
         <DialogContent data-testid="content">
           <DialogHeader data-testid="header">
@@ -48,7 +48,7 @@ it("tall content stays within viewport bounds", async () => {
 
 it("body is scrollable when content overflows", async () => {
   render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <Dialog open modal={false}>
         <DialogContent>
           <DialogHeader>
@@ -75,7 +75,7 @@ it("body is scrollable when content overflows", async () => {
 // the structural invariant, not shrink-0 (which is defensive/unobservable)
 it("header is outside the scroll container and unaffected by body scroll", async () => {
   render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <Dialog open modal={false}>
         <DialogContent>
           <DialogHeader data-testid="header">
@@ -108,7 +108,7 @@ it("header is outside the scroll container and unaffected by body scroll", async
 
 it("layer=1 has higher z-index than layer=0", async () => {
   render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <Dialog open modal={false}>
         <DialogContent layer={0} data-testid="outer">
           <DialogBody>Outer</DialogBody>
@@ -135,7 +135,7 @@ it("layer=1 has higher z-index than layer=0", async () => {
 
 it("default size has a finite max-width", async () => {
   render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <Dialog open modal={false}>
         <DialogContent data-testid="default">
           <DialogBody>Default</DialogBody>
@@ -155,7 +155,7 @@ it("default size has a finite max-width", async () => {
 
 it("size variant controls max-width", async () => {
   render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <Dialog open modal={false}>
         <DialogContent size="sm" data-testid="sm">
           <DialogBody>Small</DialogBody>

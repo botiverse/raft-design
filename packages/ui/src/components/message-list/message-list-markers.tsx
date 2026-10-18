@@ -1,7 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageList } from "./message-list.recipe";
 
 export type MessageListDateDividerProps = useRender.ComponentProps<"div">;
@@ -12,10 +11,7 @@ export function MessageListDateDivider({
   render,
   ...props
 }: MessageListDateDividerProps) {
-  const theme = useThemeFamily();
-  const { dateDividerRoot, dateDividerRule, dateDividerChip } = messageList({
-    theme,
-  });
+  const { dateDividerRoot, dateDividerRule, dateDividerChip } = messageList();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "message-list-date-divider",
     className: dateDividerRoot({ className }),
@@ -45,8 +41,7 @@ export function MessageListNotice({
   tone = "faint",
   ...props
 }: MessageListNoticeProps) {
-  const theme = useThemeFamily();
-  const { notice } = messageList({ theme, tone });
+  const { notice } = messageList({ tone });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "message-list-notice",
     className: notice({ className }),
@@ -66,8 +61,7 @@ export function MessageListHistoryLimited({
   render,
   ...props
 }: MessageListHistoryLimitedProps) {
-  const theme = useThemeFamily();
-  const { historyLimited } = messageList({ theme });
+  const { historyLimited } = messageList();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "message-list-history-limited",
     className: historyLimited({ className }),

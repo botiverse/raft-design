@@ -101,7 +101,6 @@ import { Route as ComponentsTooltipRouteImport } from './routes/components/toolt
 import { Route as GuidesGuideRouteImport } from './routes/guides/$guide'
 import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
 import { Route as IframeDialogScrollLayerRouteImport } from './routes/iframe/dialog-scroll-layer'
-import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
 import { Route as IframeSidebarMobilePartsRouteImport } from './routes/iframe/sidebar-mobile-parts'
 import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as PlaygroundBrowseRouteRouteImport } from './routes/playground/_browse/route'
@@ -117,10 +116,6 @@ import { Route as PlaygroundPlainSearchRouteImport } from './routes/playground/_
 import { Route as PlaygroundPlainSettingsRouteImport } from './routes/playground/_plain/settings'
 import { Route as PlaygroundPlainTasksRouteImport } from './routes/playground/_plain/tasks'
 import { Route as PlaygroundSServerSlugRouteRouteImport } from './routes/playground/s/$serverSlug/route'
-import { Route as TokensShadowsBrutalRouteImport } from './routes/tokens/shadows/brutal'
-import { Route as TokensShadowsElegantRouteImport } from './routes/tokens/shadows/elegant'
-import { Route as TokensTypographyBrutalRouteImport } from './routes/tokens/typography/brutal'
-import { Route as TokensTypographyElegantRouteImport } from './routes/tokens/typography/elegant'
 import { Route as PlaygroundSServerSlugIndexRouteImport } from './routes/playground/s/$serverSlug/index'
 import { Route as PlaygroundSServerSlugChannelRouteRouteImport } from './routes/playground/s/$serverSlug/channel/route'
 import { Route as PlaygroundSServerSlugDmRouteRouteImport } from './routes/playground/s/$serverSlug/dm/route'
@@ -603,11 +598,6 @@ const IframeDialogScrollLayerRoute = IframeDialogScrollLayerRouteImport.update({
   path: '/iframe/dialog-scroll-layer',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IframeDrawerRoute = IframeDrawerRouteImport.update({
-  id: '/iframe/drawer',
-  path: '/iframe/drawer',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IframeSidebarMobilePartsRoute =
   IframeSidebarMobilePartsRouteImport.update({
     id: '/iframe/sidebar-mobile-parts',
@@ -684,26 +674,6 @@ const PlaygroundSServerSlugRouteRoute =
     path: '/$serverSlug',
     getParentRoute: () => PlaygroundSRouteRoute,
   } as any)
-const TokensShadowsBrutalRoute = TokensShadowsBrutalRouteImport.update({
-  id: '/brutal',
-  path: '/brutal',
-  getParentRoute: () => TokensShadowsRoute,
-} as any)
-const TokensShadowsElegantRoute = TokensShadowsElegantRouteImport.update({
-  id: '/elegant',
-  path: '/elegant',
-  getParentRoute: () => TokensShadowsRoute,
-} as any)
-const TokensTypographyBrutalRoute = TokensTypographyBrutalRouteImport.update({
-  id: '/brutal',
-  path: '/brutal',
-  getParentRoute: () => TokensTypographyRoute,
-} as any)
-const TokensTypographyElegantRoute = TokensTypographyElegantRouteImport.update({
-  id: '/elegant',
-  path: '/elegant',
-  getParentRoute: () => TokensTypographyRoute,
-} as any)
 const PlaygroundSServerSlugIndexRoute =
   PlaygroundSServerSlugIndexRouteImport.update({
     id: '/',
@@ -835,11 +805,10 @@ export interface FileRoutesByFullPath {
   '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
-  '/iframe/drawer': typeof IframeDrawerRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/tokens/colors': typeof TokensColorsRoute
-  '/tokens/shadows': typeof TokensShadowsRouteWithChildren
-  '/tokens/typography': typeof TokensTypographyRouteWithChildren
+  '/tokens/shadows': typeof TokensShadowsRoute
+  '/tokens/typography': typeof TokensTypographyRoute
   '/playground/': typeof PlaygroundIndexRoute
   '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
   '/playground/computers': typeof PlaygroundBrowseComputersRoute
@@ -848,10 +817,6 @@ export interface FileRoutesByFullPath {
   '/playground/search': typeof PlaygroundPlainSearchRoute
   '/playground/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/tasks': typeof PlaygroundPlainTasksRoute
-  '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
-  '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
-  '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
-  '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
   '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
@@ -953,21 +918,16 @@ export interface FileRoutesByTo {
   '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
-  '/iframe/drawer': typeof IframeDrawerRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/tokens/colors': typeof TokensColorsRoute
-  '/tokens/shadows': typeof TokensShadowsRouteWithChildren
-  '/tokens/typography': typeof TokensTypographyRouteWithChildren
+  '/tokens/shadows': typeof TokensShadowsRoute
+  '/tokens/typography': typeof TokensTypographyRoute
   '/playground/computers': typeof PlaygroundBrowseComputersRoute
   '/playground/members': typeof PlaygroundBrowseMembersRoute
   '/playground/activity': typeof PlaygroundPlainActivityRoute
   '/playground/search': typeof PlaygroundPlainSearchRoute
   '/playground/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/tasks': typeof PlaygroundPlainTasksRoute
-  '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
-  '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
-  '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
-  '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
   '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
@@ -1072,11 +1032,10 @@ export interface FileRoutesById {
   '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
-  '/iframe/drawer': typeof IframeDrawerRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/tokens/colors': typeof TokensColorsRoute
-  '/tokens/shadows': typeof TokensShadowsRouteWithChildren
-  '/tokens/typography': typeof TokensTypographyRouteWithChildren
+  '/tokens/shadows': typeof TokensShadowsRoute
+  '/tokens/typography': typeof TokensTypographyRoute
   '/playground/': typeof PlaygroundIndexRoute
   '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
   '/playground/_browse/computers': typeof PlaygroundBrowseComputersRoute
@@ -1085,10 +1044,6 @@ export interface FileRoutesById {
   '/playground/_plain/search': typeof PlaygroundPlainSearchRoute
   '/playground/_plain/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/_plain/tasks': typeof PlaygroundPlainTasksRoute
-  '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
-  '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
-  '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
-  '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
   '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
@@ -1192,7 +1147,6 @@ export interface FileRouteTypes {
     | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
-    | '/iframe/drawer'
     | '/iframe/sidebar-mobile-parts'
     | '/tokens/colors'
     | '/tokens/shadows'
@@ -1205,10 +1159,6 @@ export interface FileRouteTypes {
     | '/playground/search'
     | '/playground/settings'
     | '/playground/tasks'
-    | '/tokens/shadows/brutal'
-    | '/tokens/shadows/elegant'
-    | '/tokens/typography/brutal'
-    | '/tokens/typography/elegant'
     | '/playground/s/$serverSlug/channel'
     | '/playground/s/$serverSlug/dm'
     | '/playground/s/$serverSlug/saved'
@@ -1310,7 +1260,6 @@ export interface FileRouteTypes {
     | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
-    | '/iframe/drawer'
     | '/iframe/sidebar-mobile-parts'
     | '/tokens/colors'
     | '/tokens/shadows'
@@ -1321,10 +1270,6 @@ export interface FileRouteTypes {
     | '/playground/search'
     | '/playground/settings'
     | '/playground/tasks'
-    | '/tokens/shadows/brutal'
-    | '/tokens/shadows/elegant'
-    | '/tokens/typography/brutal'
-    | '/tokens/typography/elegant'
     | '/playground/s/$serverSlug/channel'
     | '/playground/s/$serverSlug/dm'
     | '/playground/s/$serverSlug/saved'
@@ -1428,7 +1373,6 @@ export interface FileRouteTypes {
     | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
-    | '/iframe/drawer'
     | '/iframe/sidebar-mobile-parts'
     | '/tokens/colors'
     | '/tokens/shadows'
@@ -1441,10 +1385,6 @@ export interface FileRouteTypes {
     | '/playground/_plain/search'
     | '/playground/_plain/settings'
     | '/playground/_plain/tasks'
-    | '/tokens/shadows/brutal'
-    | '/tokens/shadows/elegant'
-    | '/tokens/typography/brutal'
-    | '/tokens/typography/elegant'
     | '/playground/s/$serverSlug/channel'
     | '/playground/s/$serverSlug/dm'
     | '/playground/s/$serverSlug/saved'
@@ -1463,11 +1403,10 @@ export interface RootRouteChildren {
   GuidesGuideRoute: typeof GuidesGuideRoute
   IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
   IframeDialogScrollLayerRoute: typeof IframeDialogScrollLayerRoute
-  IframeDrawerRoute: typeof IframeDrawerRoute
   IframeSidebarMobilePartsRoute: typeof IframeSidebarMobilePartsRoute
   TokensColorsRoute: typeof TokensColorsRoute
-  TokensShadowsRoute: typeof TokensShadowsRouteWithChildren
-  TokensTypographyRoute: typeof TokensTypographyRouteWithChildren
+  TokensShadowsRoute: typeof TokensShadowsRoute
+  TokensTypographyRoute: typeof TokensTypographyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -2116,13 +2055,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IframeDialogScrollLayerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/iframe/drawer': {
-      id: '/iframe/drawer'
-      path: '/iframe/drawer'
-      fullPath: '/iframe/drawer'
-      preLoaderRoute: typeof IframeDrawerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/iframe/sidebar-mobile-parts': {
       id: '/iframe/sidebar-mobile-parts'
       path: '/iframe/sidebar-mobile-parts'
@@ -2227,34 +2159,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/playground/s/$serverSlug'
       preLoaderRoute: typeof PlaygroundSServerSlugRouteRouteImport
       parentRoute: typeof PlaygroundSRouteRoute
-    }
-    '/tokens/shadows/brutal': {
-      id: '/tokens/shadows/brutal'
-      path: '/brutal'
-      fullPath: '/tokens/shadows/brutal'
-      preLoaderRoute: typeof TokensShadowsBrutalRouteImport
-      parentRoute: typeof TokensShadowsRoute
-    }
-    '/tokens/shadows/elegant': {
-      id: '/tokens/shadows/elegant'
-      path: '/elegant'
-      fullPath: '/tokens/shadows/elegant'
-      preLoaderRoute: typeof TokensShadowsElegantRouteImport
-      parentRoute: typeof TokensShadowsRoute
-    }
-    '/tokens/typography/brutal': {
-      id: '/tokens/typography/brutal'
-      path: '/brutal'
-      fullPath: '/tokens/typography/brutal'
-      preLoaderRoute: typeof TokensTypographyBrutalRouteImport
-      parentRoute: typeof TokensTypographyRoute
-    }
-    '/tokens/typography/elegant': {
-      id: '/tokens/typography/elegant'
-      path: '/elegant'
-      fullPath: '/tokens/typography/elegant'
-      preLoaderRoute: typeof TokensTypographyElegantRouteImport
-      parentRoute: typeof TokensTypographyRoute
     }
     '/playground/s/$serverSlug/': {
       id: '/playground/s/$serverSlug/'
@@ -2589,33 +2493,6 @@ const ComponentsRouteWithChildren = ComponentsRoute._addFileChildren(
   ComponentsRouteChildren,
 )
 
-interface TokensShadowsRouteChildren {
-  TokensShadowsBrutalRoute: typeof TokensShadowsBrutalRoute
-  TokensShadowsElegantRoute: typeof TokensShadowsElegantRoute
-}
-
-const TokensShadowsRouteChildren: TokensShadowsRouteChildren = {
-  TokensShadowsBrutalRoute: TokensShadowsBrutalRoute,
-  TokensShadowsElegantRoute: TokensShadowsElegantRoute,
-}
-
-const TokensShadowsRouteWithChildren = TokensShadowsRoute._addFileChildren(
-  TokensShadowsRouteChildren,
-)
-
-interface TokensTypographyRouteChildren {
-  TokensTypographyBrutalRoute: typeof TokensTypographyBrutalRoute
-  TokensTypographyElegantRoute: typeof TokensTypographyElegantRoute
-}
-
-const TokensTypographyRouteChildren: TokensTypographyRouteChildren = {
-  TokensTypographyBrutalRoute: TokensTypographyBrutalRoute,
-  TokensTypographyElegantRoute: TokensTypographyElegantRoute,
-}
-
-const TokensTypographyRouteWithChildren =
-  TokensTypographyRoute._addFileChildren(TokensTypographyRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PlaygroundRouteRoute: PlaygroundRouteRouteWithChildren,
@@ -2626,11 +2503,10 @@ const rootRouteChildren: RootRouteChildren = {
   GuidesGuideRoute: GuidesGuideRoute,
   IframeAppShellMobileRoute: IframeAppShellMobileRoute,
   IframeDialogScrollLayerRoute: IframeDialogScrollLayerRoute,
-  IframeDrawerRoute: IframeDrawerRoute,
   IframeSidebarMobilePartsRoute: IframeSidebarMobilePartsRoute,
   TokensColorsRoute: TokensColorsRoute,
-  TokensShadowsRoute: TokensShadowsRouteWithChildren,
-  TokensTypographyRoute: TokensTypographyRouteWithChildren,
+  TokensShadowsRoute: TokensShadowsRoute,
+  TokensTypographyRoute: TokensTypographyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

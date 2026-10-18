@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
   Tabs,
-  TabsBackground,
   TabsLabel,
   TabsList,
   TabsTab,
@@ -132,7 +131,6 @@ export function TasksPanelComposition({
             <TasksPanelToolbarView>
               <Tabs value={view} onValueChange={setView} aria-label="Task view">
                 <TabsList>
-                  <TabsBackground />
                   <TabsTab value="board" aria-label="Board" className="max-md:px-2.5">
                     <SquareKanban aria-hidden />
                     <TabsLabel className="max-md:hidden">Board</TabsLabel>

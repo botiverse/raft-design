@@ -8,7 +8,6 @@ import {
   MessageReferenceChip,
   MessageReferenceLabel,
   Skeleton,
-  useThemeFamily,
 } from "raft-ui";
 import {
   MessageItem,
@@ -27,28 +26,6 @@ import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fix
 import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";
 
 function QuotedPreviewLoadingSkeleton() {
-  const theme = useThemeFamily();
-
-  if (theme === "brutal") {
-    return (
-      <>
-        <MessageQuotedPreviewHeader>
-          <Skeleton
-            variant="block"
-            className="size-4 shrink-0 border border-black/15 bg-black/5 animate-none"
-          />
-          <Skeleton variant="line" className="h-2.5 w-16 animate-none" />
-          <Skeleton variant="line" className="h-2.5 w-24 animate-none" />
-          <Skeleton variant="line" className="ml-auto h-2.5 w-20 animate-none" />
-        </MessageQuotedPreviewHeader>
-        <MessageQuotedPreviewContent className="space-y-2">
-          <Skeleton variant="line" className="h-2.5 w-full animate-none" />
-          <Skeleton variant="line" className="h-2.5 w-3/4 animate-none" />
-        </MessageQuotedPreviewContent>
-      </>
-    );
-  }
-
   return (
     <>
       <MessageQuotedPreviewHeader>

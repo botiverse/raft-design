@@ -8,173 +8,64 @@ import { Kbd } from "../kbd/index";
 import type { KbdProps } from "../kbd/index";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const dropdownMenu = tv({
   slots: {
     trigger: ["select-none"],
     positioner: ["isolate z-50 outline-none"],
-    content: ["max-h-(--available-height) min-w-48 overflow-hidden bg-layer-panel", "outline-none"],
+    content: [
+      "max-h-(--available-height) overflow-hidden",
+      "outline-none",
+      "flex min-w-60 flex-col gap-0 rounded-container bg-layer-popover p-1.5 text-foreground",
+      "shadow-raft-float ring-1 ring-line-seam",
+    ],
     item: [
-      "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1",
-      "text-left text-sm outline-none transition-colors",
+      "flex w-full cursor-default select-none items-center [@media(max-height:600px)]:py-1",
+      "text-left outline-none transition-colors",
+      "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+      "font-sans text-callout font-medium text-foreground",
+      "hover:bg-primary-soft data-highlighted:bg-primary-soft",
+      "data-checked:font-bold data-[selected]:font-bold data-[emphasis=strong]:font-bold",
+      "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+      "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
+      "[&>svg]:text-foreground-icon data-disabled:[&>svg]:text-foreground-disabled",
     ],
     radioItem: [
-      "flex w-full cursor-default select-none items-center gap-2 px-3",
+      "flex w-full cursor-default select-none items-center",
       "text-left outline-none transition-colors",
+      "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+      "font-sans text-callout font-medium text-foreground",
+      "hover:bg-primary-soft data-highlighted:bg-primary-soft",
+      "data-checked:font-bold",
+      "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+      "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
+      "[&>svg]:text-foreground-icon data-disabled:[&>svg]:text-foreground-disabled",
     ],
     submenuTrigger: [
-      "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1",
-      "text-left text-sm outline-none transition-colors",
+      "flex w-full cursor-default select-none items-center [@media(max-height:600px)]:py-1",
+      "text-left outline-none transition-colors",
+      "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+      "font-sans text-callout font-medium text-foreground",
+      "hover:bg-primary-soft data-highlighted:bg-primary-soft data-popup-open:bg-primary-soft",
+      "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+      "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
+      "[&>svg]:text-foreground-icon data-disabled:[&>svg]:text-foreground-disabled",
     ],
     itemLabel: ["min-w-0 flex-1 truncate text-left"],
     footer: ["px-3 py-2 text-xs text-foreground-muted tabular-nums"],
-    label: [],
-    shortcut: ["ml-auto"],
+    label: ["px-2.5 pt-2 pb-1", "font-sans text-caption font-bold text-foreground-hint"],
+    shortcut: [
+      "ml-auto",
+      "h-auto min-w-0 rounded-none bg-transparent p-0 shadow-none ring-0",
+      "font-mono text-mono-meta font-normal text-foreground-hint",
+    ],
     itemCount: ["ml-auto inline-flex min-w-5 justify-center gap-0 px-1 tabular-nums"],
-    separator: ["border-t-2"],
-    indicator: ["pointer-events-none ml-auto flex size-3 shrink-0 items-center justify-center"],
-    radioLabel: [],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        trigger: [
-          "data-popup-open:-translate-y-px data-popup-open:shadow-raft-md",
-          "active:translate-x-0 active:-translate-y-px active:shadow-raft-md",
-        ],
-        content: ["border-2 border-black bg-layer-popover shadow-raft-md"],
-        item: [
-          "py-2 font-sans text-sm font-medium text-foreground-strong hover:bg-primary/30 data-highlighted:bg-primary/30",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-strong/30",
-          "data-[selected]:font-bold data-[emphasis=strong]:font-bold",
-          "data-[interaction=signal]:hover:bg-primary data-[interaction=signal]:data-highlighted:bg-primary",
-          "data-[interaction=accent]:hover:bg-brutal-pink data-[interaction=accent]:data-highlighted:bg-brutal-pink",
-          "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2 [&>svg:not([class*='size-'])]:size-3.5",
-        ],
-        radioItem: [
-          "overflow-hidden py-2 font-sans text-sm font-medium leading-5 text-foreground-strong",
-          "border-b border-ink-10 last:border-b-0",
-          "hover:bg-primary/30 data-highlighted:bg-primary/30",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-strong/30",
-          "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2 [&>svg:not([class*='size-'])]:size-3.5",
-        ],
-        radioLabel: ["min-w-0 flex-1 truncate"],
-        submenuTrigger: [
-          "py-2 font-sans text-sm font-medium text-foreground-strong hover:bg-primary/30 data-highlighted:bg-primary/30 data-popup-open:bg-primary/30",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-strong/30",
-          "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2 [&>svg:not([class*='size-'])]:size-3.5",
-        ],
-        label: [
-          "border-b border-line-strong px-3 py-2",
-          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-foreground-strong/60",
-        ],
-        shortcut: ["font-sans text-sm font-medium"],
-        itemCount: [
-          "rounded-sm border border-line-strong bg-brutal-pink px-1 py-0.5",
-          "font-sans text-[10px] leading-none font-bold text-white",
-        ],
-        separator: ["border-black"],
-        indicator: [],
-      },
-      elegant: {
-        trigger: ["active:scale-100"],
-        content: [
-          "gap-0 rounded-md bg-layer-popover p-1",
-          "shadow-raft-lg outline-none",
-          "flex flex-col",
-        ],
-        item: [
-          "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
-          "text-foreground-muted",
-          "transition-[background-color,color] duration-150",
-          "hover:bg-ink-4 hover:text-foreground",
-          "data-highlighted:bg-ink-4 data-highlighted:text-foreground",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&>svg]:size-4",
-          "[&>svg]:text-foreground-muted",
-          "hover:[&>svg]:text-foreground",
-          "data-highlighted:[&>svg]:text-foreground",
-        ],
-        radioItem: [
-          "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
-          "text-foreground-muted",
-          "transition-[background-color,color] duration-150",
-          "hover:bg-ink-4 hover:text-foreground",
-          "data-highlighted:bg-ink-4 data-highlighted:text-foreground",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&>svg]:size-4",
-          "[&>svg]:text-foreground-muted",
-          "hover:[&>svg]:text-foreground",
-          "data-highlighted:[&>svg]:text-foreground",
-        ],
-        radioLabel: ["min-w-0 flex-1 truncate"],
-        submenuTrigger: [
-          "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
-          "text-foreground-muted",
-          "transition-[background-color,color] duration-150",
-          "hover:bg-ink-4 hover:text-foreground",
-          "data-highlighted:bg-ink-4 data-highlighted:text-foreground",
-          "data-popup-open:bg-ink-4 data-popup-open:text-foreground",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&>svg]:size-4",
-          "[&>svg~svg:last-child]:size-3",
-          "[&>svg]:text-foreground-muted",
-          "hover:[&>svg]:text-foreground",
-          "data-highlighted:[&>svg]:text-foreground",
-          "data-popup-open:[&>svg]:text-foreground",
-        ],
-        label: [
-          "-mx-1 mb-1 border-b border-line-hairline px-3 py-2 dark:border-ink-6",
-          "text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground-strong/45",
-        ],
-        shortcut: ["text-foreground-muted"],
-        itemCount: [],
-        separator: ["my-1 -mx-1 h-px border-0 bg-line-hairline dark:bg-ink-6"],
-        indicator: [],
-      },
-      raft: {
-        content: [
-          "flex min-w-60 flex-col gap-0 rounded-container bg-layer-popover p-1.5 text-foreground",
-          "shadow-raft-float ring-1 ring-line-seam",
-        ],
-        item: [
-          "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
-          "font-sans text-callout font-medium text-foreground",
-          "hover:bg-primary-soft data-highlighted:bg-primary-soft",
-          "data-checked:font-bold data-[selected]:font-bold data-[emphasis=strong]:font-bold",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
-          "[&>svg]:text-foreground-icon data-disabled:[&>svg]:text-foreground-disabled",
-        ],
-        radioItem: [
-          "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
-          "font-sans text-callout font-medium text-foreground",
-          "hover:bg-primary-soft data-highlighted:bg-primary-soft",
-          "data-checked:font-bold",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
-          "[&>svg]:text-foreground-icon data-disabled:[&>svg]:text-foreground-disabled",
-        ],
-        radioLabel: ["min-w-0 flex-1 truncate"],
-        submenuTrigger: [
-          "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
-          "font-sans text-callout font-medium text-foreground",
-          "hover:bg-primary-soft data-highlighted:bg-primary-soft data-popup-open:bg-primary-soft",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
-          "[&>svg]:text-foreground-icon data-disabled:[&>svg]:text-foreground-disabled",
-        ],
-        label: ["px-2.5 pt-2 pb-1", "font-sans text-caption font-bold text-foreground-hint"],
-        shortcut: [
-          "h-auto min-w-0 rounded-none bg-transparent p-0 shadow-none ring-0",
-          "font-mono text-mono-meta font-normal text-foreground-hint",
-        ],
-        itemCount: [],
-        separator: ["-mx-1.5 my-1.5 h-px border-0 bg-line-muted"],
-        indicator: ["size-4 text-foreground [&_svg]:size-4"],
-      },
-    },
+    separator: ["-mx-1.5 my-1.5 h-px border-0 bg-line-muted"],
+    indicator: [
+      "pointer-events-none ml-auto flex shrink-0 items-center justify-center",
+      "size-4 text-foreground [&_svg]:size-4",
+    ],
+    radioLabel: ["min-w-0 flex-1 truncate"],
   },
 });
 
@@ -197,8 +88,7 @@ export function DropdownMenuTrigger({
   render = <Button variant="outline" size="md" />,
   ...props
 }: DropdownMenuTriggerProps) {
-  const theme = useThemeFamily();
-  const { trigger } = dropdownMenu({ theme });
+  const { trigger } = dropdownMenu();
   return (
     <BaseMenu.Trigger
       data-slot="dropdown-menu-trigger"
@@ -218,8 +108,7 @@ export function DropdownMenuPortal(props: DropdownMenuPortalProps) {
 export type DropdownMenuPopupProps = ComponentPropsWithRef<"div">;
 
 export function DropdownMenuPopup({ className, ...props }: DropdownMenuPopupProps) {
-  const theme = useThemeFamily();
-  const { content } = dropdownMenu({ theme });
+  const { content } = dropdownMenu();
   return <div data-slot="dropdown-menu-content" className={content({ className })} {...props} />;
 }
 
@@ -259,9 +148,8 @@ export function DropdownMenuContent({
   className,
   ...props
 }: DropdownMenuContentProps) {
-  const theme = useThemeFamily();
-  const resolvedSideOffset = sideOffset ?? (theme === "brutal" ? 4 : 6);
-  const { positioner, content } = dropdownMenu({ theme });
+  const resolvedSideOffset = sideOffset ?? 6;
+  const { positioner, content } = dropdownMenu();
   return (
     <DropdownMenuPortal {...portalProps}>
       <BaseMenu.Positioner
@@ -292,8 +180,7 @@ export function DropdownMenuContent({
 export type DropdownMenuItemProps = StyledProps<BaseMenu.Item.Props>;
 
 export function DropdownMenuItem({ className, ...props }: DropdownMenuItemProps) {
-  const theme = useThemeFamily();
-  const { item } = dropdownMenu({ theme });
+  const { item } = dropdownMenu();
   return (
     <BaseMenu.Item data-slot="dropdown-menu-item" className={item({ className })} {...props} />
   );
@@ -322,8 +209,7 @@ export function DropdownMenuSubmenuTrigger({
   className,
   ...props
 }: DropdownMenuSubmenuTriggerProps) {
-  const theme = useThemeFamily();
-  const { submenuTrigger, indicator } = dropdownMenu({ theme });
+  const { submenuTrigger, indicator } = dropdownMenu();
   return (
     <BaseMenu.SubmenuTrigger
       data-slot="dropdown-menu-submenu-trigger"
@@ -345,24 +231,21 @@ export function DropdownMenuSubmenuTrigger({
 export type DropdownMenuLabelProps = StyledProps<ComponentPropsWithRef<"div">>;
 
 export function DropdownMenuLabel({ className, ...props }: DropdownMenuLabelProps) {
-  const theme = useThemeFamily();
-  const { label } = dropdownMenu({ theme });
+  const { label } = dropdownMenu();
   return <div data-slot="dropdown-menu-label" className={label({ className })} {...props} />;
 }
 
 export type DropdownMenuShortcutProps = KbdProps;
 
 export function DropdownMenuShortcut({ className, ...props }: DropdownMenuShortcutProps) {
-  const theme = useThemeFamily();
-  const { shortcut } = dropdownMenu({ theme });
+  const { shortcut } = dropdownMenu();
   return <Kbd data-slot="dropdown-menu-shortcut" className={shortcut({ className })} {...props} />;
 }
 
 export type DropdownMenuItemCountProps = BadgeProps;
 
 export function DropdownMenuItemCount({ className, ...props }: DropdownMenuItemCountProps) {
-  const theme = useThemeFamily();
-  const { itemCount } = dropdownMenu({ theme });
+  const { itemCount } = dropdownMenu();
   return (
     <Badge data-slot="dropdown-menu-item-count" className={itemCount({ className })} {...props} />
   );
@@ -371,8 +254,7 @@ export function DropdownMenuItemCount({ className, ...props }: DropdownMenuItemC
 export type DropdownMenuSeparatorProps = StyledProps<BaseMenu.Separator.Props>;
 
 export function DropdownMenuSeparator({ className, ...props }: DropdownMenuSeparatorProps) {
-  const theme = useThemeFamily();
-  const { separator } = dropdownMenu({ theme });
+  const { separator } = dropdownMenu();
   return (
     <BaseMenu.Separator
       data-slot="dropdown-menu-separator"
@@ -427,8 +309,7 @@ export function DropdownMenuRadioItem({
   children,
   ...props
 }: DropdownMenuRadioItemProps) {
-  const theme = useThemeFamily();
-  const { radioItem, radioLabel, indicator } = dropdownMenu({ theme });
+  const { radioItem, radioLabel, indicator } = dropdownMenu();
   return (
     <BaseMenu.RadioItem
       data-slot="dropdown-menu-radio-item"
@@ -487,8 +368,7 @@ export function DropdownMenuCheckboxItem({
   children,
   ...props
 }: DropdownMenuCheckboxItemProps) {
-  const theme = useThemeFamily();
-  const { item, indicator } = dropdownMenu({ theme });
+  const { item, indicator } = dropdownMenu();
   return (
     <BaseMenu.CheckboxItem
       data-slot="dropdown-menu-checkbox-item"

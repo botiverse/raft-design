@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import type { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import { PanelScrollViewport } from "../panel/panel";
 import {
@@ -30,9 +29,8 @@ export function MessageList({
   style,
   ...props
 }: MessageListProps) {
-  const theme = useThemeFamily();
   const isMobile = useMobileViewport();
-  const { content, root, viewport } = messageList({ theme });
+  const { content, root, viewport } = messageList();
   const viewportStyle = useMemo(() => ({ ...style, overflowX: "hidden" as const }), [style]);
 
   if (isMobile) {

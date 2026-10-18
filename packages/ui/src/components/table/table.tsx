@@ -1,6 +1,5 @@
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { StyledProps } from "../../lib/styled-props";
 import { table } from "./table.recipe";
 
@@ -22,8 +21,7 @@ type TableCaptionProps = StyledProps<useRender.ComponentProps<"caption">>;
  * `sr-only`; omitting the header would drop the semantics.
  */
 export function Table({ className, render, ...props }: TableProps) {
-  const theme = useThemeFamily();
-  const { root } = table({ theme });
+  const { root } = table();
   return useRender({
     defaultTagName: "table",
     render,
@@ -33,8 +31,7 @@ export function Table({ className, render, ...props }: TableProps) {
 }
 
 export function TableHeader({ className, render, ...props }: TableHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = table({ theme });
+  const { header } = table();
   return useRender({
     defaultTagName: "thead",
     render,
@@ -44,8 +41,7 @@ export function TableHeader({ className, render, ...props }: TableHeaderProps) {
 }
 
 export function TableBody({ className, render, ...props }: TableBodyProps) {
-  const theme = useThemeFamily();
-  const { body } = table({ theme });
+  const { body } = table();
   return useRender({
     defaultTagName: "tbody",
     render,
@@ -55,8 +51,7 @@ export function TableBody({ className, render, ...props }: TableBodyProps) {
 }
 
 export function TableRow({ className, render, ...props }: TableRowProps) {
-  const theme = useThemeFamily();
-  const { row } = table({ theme });
+  const { row } = table();
   return useRender({
     defaultTagName: "tr",
     render,
@@ -66,8 +61,7 @@ export function TableRow({ className, render, ...props }: TableRowProps) {
 }
 
 export function TableHead({ className, render, scope = "col", ...props }: TableHeadProps) {
-  const theme = useThemeFamily();
-  const { head } = table({ theme });
+  const { head } = table();
   return useRender({
     defaultTagName: "th",
     render,
@@ -77,8 +71,7 @@ export function TableHead({ className, render, scope = "col", ...props }: TableH
 }
 
 export function TableCell({ className, render, ...props }: TableCellProps) {
-  const theme = useThemeFamily();
-  const { cell } = table({ theme });
+  const { cell } = table();
   return useRender({
     defaultTagName: "td",
     render,
@@ -92,8 +85,7 @@ export function TableCell({ className, render, ...props }: TableCellProps) {
  * a table without a caption should carry `aria-label` instead.
  */
 export function TableCaption({ className, render, ...props }: TableCaptionProps) {
-  const theme = useThemeFamily();
-  const { caption } = table({ theme });
+  const { caption } = table();
   return useRender({
     defaultTagName: "caption",
     render,
@@ -104,8 +96,7 @@ export function TableCaption({ className, render, ...props }: TableCaptionProps)
 
 /** Column-width declarations: pair with `<Table className="table-fixed">`. */
 export function TableColgroup({ className, render, ...props }: TableColgroupProps) {
-  const theme = useThemeFamily();
-  const { colgroup } = table({ theme });
+  const { colgroup } = table();
   return useRender({
     defaultTagName: "colgroup",
     render,
@@ -115,8 +106,7 @@ export function TableColgroup({ className, render, ...props }: TableColgroupProp
 }
 
 export function TableColumn({ className, render, ...props }: TableColumnProps) {
-  const theme = useThemeFamily();
-  const { column } = table({ theme });
+  const { column } = table();
   return useRender({
     defaultTagName: "col",
     render,

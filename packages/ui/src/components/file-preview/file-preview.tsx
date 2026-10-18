@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import type { VariantProps } from "../../lib/tv";
 import { filePreview } from "./file-preview.recipe";
 
 export type FilePreviewProps = useRender.ComponentProps<"span">;
@@ -28,8 +28,7 @@ export function FilePreviewDocument({
   render,
   ...props
 }: FilePreviewDocumentProps) {
-  const theme = useThemeFamily();
-  const { document } = filePreview({ theme });
+  const { document } = filePreview();
   const defaultProps: SlotElementProps<"span"> = {
     "aria-hidden": true,
     "data-slot": "file-preview-document",
@@ -64,7 +63,6 @@ export function FilePreviewDocument({
 export type FilePreviewFileProps = useRender.ComponentProps<"span">;
 
 export function FilePreviewFile({ children, className, render, ...props }: FilePreviewFileProps) {
-  const theme = useThemeFamily();
   const {
     file,
     fileZip,
@@ -74,7 +72,7 @@ export function FilePreviewFile({ children, className, render, ...props }: FileP
     fileZipRow,
     fileZipStack,
     fileZipTeeth,
-  } = filePreview({ theme });
+  } = filePreview();
   const defaultProps: SlotElementProps<"span"> = {
     "aria-hidden": true,
     "data-slot": "file-preview-file",
@@ -123,7 +121,6 @@ export function FilePreviewFile({ children, className, render, ...props }: FileP
 export type FilePreviewCodeProps = useRender.ComponentProps<"span">;
 
 export function FilePreviewCode({ children, className, render, ...props }: FilePreviewCodeProps) {
-  const theme = useThemeFamily();
   const {
     code,
     codeAttributeLine,
@@ -135,7 +132,7 @@ export function FilePreviewCode({ children, className, render, ...props }: FileP
     codeTagLine,
     codeTextLine,
     codeTextRow,
-  } = filePreview({ theme });
+  } = filePreview();
   const defaultProps: SlotElementProps<"span"> = {
     "aria-hidden": true,
     "data-slot": "file-preview-code",
@@ -184,65 +181,16 @@ export function FilePreviewCode({ children, className, render, ...props }: FileP
   });
 }
 
-export type FilePreviewBadgeColor = "rose" | "blue" | "amber" | "emerald" | "violet" | "neutral";
-
-/** Semantic file kinds mapped onto `FilePreviewBadgeColor` (not a `tv` variant). */
-export type FilePreviewBadgeType =
-  | "pdf"
-  | "doc"
-  | "docx"
-  | "txt"
-  | "md"
-  | "csv"
-  | "json"
-  | "zip"
-  | "html"
-  | "code"
-  | "img"
-  | "png"
-  | "jpg"
-  | "jpeg"
-  | "gif"
-  | "webp"
-  | "svg"
-  | "mp4"
-  | "mov";
-
-const FILE_PREVIEW_BADGE_TYPE_COLOR = {
-  pdf: "rose",
-  doc: "blue",
-  docx: "blue",
-  txt: "neutral",
-  md: "neutral",
-  csv: "neutral",
-  json: "neutral",
-  zip: "amber",
-  html: "violet",
-  code: "violet",
-  img: "emerald",
-  png: "emerald",
-  jpg: "emerald",
-  jpeg: "emerald",
-  gif: "emerald",
-  webp: "emerald",
-  svg: "emerald",
-  mp4: "blue",
-  mov: "blue",
-} as const satisfies Record<FilePreviewBadgeType, FilePreviewBadgeColor>;
-
 export type FilePreviewBadgeProps = useRender.ComponentProps<"span"> &
-  ({ type: FilePreviewBadgeType; color?: never } | { type?: never; color?: FilePreviewBadgeColor });
+  Pick<VariantProps<typeof filePreview>, "placement">;
 
 export function FilePreviewBadge({
+  placement,
   className,
   render,
-  color,
-  type,
   ...props
 }: FilePreviewBadgeProps) {
-  const theme = useThemeFamily();
-  const badgeColor = type ? FILE_PREVIEW_BADGE_TYPE_COLOR[type] : (color ?? "rose");
-  const { badge } = filePreview({ theme, badgeColor });
+  const { badge } = filePreview({ placement });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "file-preview-badge",
     className: badge({ className }),
@@ -258,8 +206,7 @@ export function FilePreviewBadge({
 export type FilePreviewMediaProps = useRender.ComponentProps<"span">;
 
 export function FilePreviewMedia({ children, className, render, ...props }: FilePreviewMediaProps) {
-  const theme = useThemeFamily();
-  const { media } = filePreview({ theme });
+  const { media } = filePreview();
   const defaultProps: SlotElementProps<"span"> = {
     "aria-hidden": true,
     "data-slot": "file-preview-media",

@@ -10,7 +10,7 @@ const foundationPath = join(sourceDirectory, "foundation.css");
 const foundation = readFileSync(foundationPath, "utf8");
 const styles = readFileSync(join(sourceDirectory, "styles.css"), "utf8");
 
-test("the standalone foundation parses as native CSS with self-contained theme values", () => {
+test("the standalone foundation parses as native CSS with self-contained mode values", () => {
   const style = document.createElement("style");
   style.textContent = foundation;
   document.head.append(style);
@@ -30,10 +30,13 @@ test("the standalone foundation parses as native CSS with self-contained theme v
       }
     }
     inspect(style.sheet!.cssRules);
-    expect(selectors).toContain('[data-theme="elegant"]');
-    expect(selectors).toContain('[data-theme="elegant"].dark');
-    expect(selectors).toContain('[data-theme="elegant"]:not(.light):not(.dark)');
-    expect(selectors.some((selector) => selector.includes('[data-theme="brutal"]'))).toBe(true);
+    // Light on the root (and `.light` islands), `.dark`, and the pre-hydration
+    // system fallback; no theme-family attribute is left anywhere.
+    const normalized = selectors.map((selector) => selector.replace(/\s+/g, " "));
+    expect(normalized).toContain(":where(:root), .light");
+    expect(normalized).toContain(".dark");
+    expect(normalized).toContain(":root:not(.light):not(.dark)");
+    expect(selectors.some((selector) => selector.includes("data-theme"))).toBe(false);
 
     const names = new Set(declarations.flatMap((declaration) => Array.from(declaration)));
     for (const declaration of declarations) {
@@ -109,14 +112,6 @@ test("the Tailwind entry includes the shared foundation and still generates sema
           base: sourceDirectory,
         };
       }
-      if (id === "./components/steps/island-indicator.css") {
-        const islandIndicatorPath = join(sourceDirectory, "components/steps/island-indicator.css");
-        return {
-          content: readFileSync(islandIndicatorPath, "utf8"),
-          path: islandIndicatorPath,
-          base: sourceDirectory,
-        };
-      }
       throw new Error(`Unexpected stylesheet id: ${id}`);
     },
   });
@@ -124,7 +119,8 @@ test("the Tailwind entry includes the shared foundation and still generates sema
   expect(css).toContain("background-color: var(--layer-panel)");
   expect(css).toContain("color: var(--foreground)");
   expect(css).toContain("var(--theme-shadow-md)");
-  expect(css).toContain('[data-theme="elegant"].dark');
+  expect(css).toMatch(/^\.dark \{$/m);
+  expect(css).not.toContain("data-theme");
   expect(css).toContain("--color-brutal-yellow-400:");
   expect(css).not.toContain('@import "./foundation.css"');
   expect(css).not.toContain('@import "./components/float-button/float-button.css"');

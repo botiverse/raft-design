@@ -23,7 +23,7 @@ test("the app shell clips instead of hiding, so focus can never scroll the app s
   // overflow: hidden is still a scroll container: focusing anything that pokes
   // past it scrolls the whole shell. overflow: clip cannot scroll at all.
   render(
-    <ThemeProvider theme="raft">
+    <ThemeProvider>
       <AppShellRoot data-testid="shell" />
     </ThemeProvider>,
   );

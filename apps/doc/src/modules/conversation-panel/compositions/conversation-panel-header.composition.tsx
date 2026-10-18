@@ -11,7 +11,6 @@ import {
 import {
   Avatar,
   AvatarFallback,
-  BrutalOnly,
   PanelAction,
   PanelActions,
   PanelHeader,
@@ -47,7 +46,7 @@ export function ConversationPanelHeaderComposition({
           <PanelHeading>
             <PanelTitle>Atlas</PanelTitle>
             <PanelActivity title="Working…">
-              <Status aria-hidden size="sm" variant="success" pulse />
+              <Status aria-hidden size="sm" variant="success" />
               Working…
             </PanelActivity>
           </PanelHeading>
@@ -59,7 +58,7 @@ export function ConversationPanelHeaderComposition({
   return (
     <PanelHeader>
       <PanelHeaderIcon className="max-md:col-start-1">
-        <Hash className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]" />
+        <Hash className="size-4.5" />
       </PanelHeaderIcon>
       <PanelHeaderContent className="max-md:col-start-2 max-md:col-span-2">
         <PanelHeading>
@@ -67,7 +66,6 @@ export function ConversationPanelHeaderComposition({
           {muted ? (
             <PanelStatus title="Activity muted. Direct mentions can still notify you.">
               <BellOff />
-              <BrutalOnly>Muted</BrutalOnly>
             </PanelStatus>
           ) : null}
         </PanelHeading>

@@ -52,9 +52,9 @@ const SOURCE_SIZE_ROWS = [
     context: "profile-tile",
     sourceFrame: "64px frame, 2px border",
     sourceInner: "agent 60 / human 60 / icon 32",
-    current: "xl / 64px",
+    current: "xl / 99px",
     reason: "This is a stable profile/detail scale, not a one-off layout adjustment.",
-    implementation: 'Use <Avatar size="xl">; image/fallback fills the 64px frame.',
+    implementation: 'Use <Avatar size="xl">; image/fallback fills the 99px frame.',
   },
   {
     context: "account-tile",
@@ -70,7 +70,7 @@ const SOURCE_SIZE_ROWS = [
     context: "mention-card",
     sourceFrame: "48px frame, 2px border",
     sourceInner: "agent 44 / human 44 / icon 24",
-    current: "lg / 48px",
+    current: "lg / 51px",
     reason: "Mention cards and identity popovers share this visual weight.",
     implementation: 'Use <Avatar size="lg"> inside hover-card or identity header compositions.',
   },
@@ -78,7 +78,7 @@ const SOURCE_SIZE_ROWS = [
     context: "panel-header",
     sourceFrame: "36px frame, 2px border",
     sourceInner: "agent 32 / human 32 / icon 18",
-    current: "md / 36px",
+    current: "md / 35px",
     reason: "Panel headers need a distinct step between list rows and mention cards.",
     implementation: 'Use <Avatar size="md"> in PanelHeader visual/icon slots.',
   },
@@ -86,7 +86,7 @@ const SOURCE_SIZE_ROWS = [
     context: "surface-list",
     sourceFrame: "32px frame, 2px border",
     sourceInner: "agent 28 / human 28 / icon 16",
-    current: "sm / 32px",
+    current: "sm / 27px",
     reason: "This is the common list-row avatar size across source callsites.",
     implementation: 'Use <Avatar size="sm"> for list item leading media.',
   },
@@ -113,16 +113,16 @@ const SOURCE_SIZE_ROWS = [
     context: "sidebar-list",
     sourceFrame: "18px frame, 1px border",
     sourceInner: "agent 16 / human 16 / icon 10",
-    current: "2xs / 18px",
+    current: "2xs / 19px",
     reason:
-      "Sidebar and DM rows need exact source density, so this stays a public compact step on the t-shirt scale.",
+      "Sidebar and DM rows keep their own public step on the t-shirt scale; it renders at the same 19px as xs.",
     implementation: 'Use <Avatar size="2xs"> inside SidebarItemIcon.',
   },
   {
     context: "compact-list",
     sourceFrame: "20px frame, 1px border",
     sourceInner: "agent 18 / human 18 / icon 12",
-    current: "xs / 20px",
+    current: "xs / 19px",
     reason: "This is the reusable compact size for dense rows and metadata.",
     implementation: 'Use <Avatar size="xs"> for compact rows and dense metadata.',
   },
@@ -155,13 +155,12 @@ const SOURCE_DIFFERENCE_ROWS = [
   {
     area: "Inner sizing",
     source: "Each context carries separate agent pixel, gravatar, and placeholder icon numbers.",
-    current: "Fallback, icon, badge, and border scale from the parent size.",
+    current: "Fallback, icon, and badge scale from the parent size; the ink edge stays 1.5px.",
   },
   {
-    area: "Theme surface",
-    source: "Brutal square frame with role background and black border.",
-    current:
-      "Theme-aware frame: brutal keeps square border; elegant uses the avatar family surface.",
+    area: "Frame surface",
+    source: "Square frame with role background and black border.",
+    current: "Sticker frame with an ink edge; agents sit on stone, people on lavender.",
   },
   {
     area: "Extra parts",
@@ -219,7 +218,7 @@ import { Check } from "lucide-react";
   <Avatar size="xl" type="agent">
     <AvatarImage src={avatarPhotoUrls[0]} alt="Nova" />
     <AvatarFallback />
-    <AvatarBadge render={<Status aria-hidden variant="success" pulse />} />
+    <AvatarBadge render={<Status aria-hidden variant="success" />} />
   </Avatar>
 </div>
 
@@ -249,8 +248,8 @@ import { Check } from "lucide-react";
       <AvatarImage src={avatarPhotoUrls[index % avatarPhotoUrls.length]} alt="" />
       <AvatarFallback />
     </Avatar>
-    <span className="font-mono text-black/70 text-xs">{size}</span>
-    <span className="text-[10px] text-black/40">
+    <span className="font-mono text-xs text-foreground-muted">{size}</span>
+    <span className="text-[10px] text-foreground-placeholder">
       {context} · {px}px
     </span>
   </div>
@@ -261,13 +260,14 @@ const AVATAR_PROPS: readonly PropRow[] = [
   {
     name: "size",
     type: SIZE_OPTIONS.map((s) => `"${s}"`).join(" | "),
-    description: "Fixes the frame size and border width (xl 64px down to 3xs 14px).",
+    description:
+      "Fixes the frame size on the DS 8n + 3 steps: xl 99, lg 51, md 35, sm 27, xs and 2xs 19, 3xs 14px. The ink edge stays 1.5px at every size.",
   },
   {
     name: "type",
     type: '"agent" | "human"',
     description:
-      "Role-keyed bg: agent → cyan, human → lavender (+ text-black for the placeholder).",
+      "Role-keyed background: agent → stone until its sprite covers it, human → lavender.",
   },
   {
     name: "children",
@@ -304,7 +304,7 @@ const AVATAR_BADGE_PROPS: readonly PropRow[] = [
     name: "offset",
     type: "[string | number, string | number]",
     description:
-      "Where the badge's centre sits, measured from the avatar's top-left: [x, y]. Numbers are px; strings are any CSS length, and percentages are of the avatar, so [\"100%\", 0] is the top-right corner at every size. Omit it to keep the theme's default bottom-right spot.",
+      "Where the badge's centre sits, measured from the avatar's top-left: [x, y]. Numbers are px; strings are any CSS length, and percentages are of the avatar, so [\"100%\", 0] is the top-right corner at every size. Omit it to keep the default bottom-right spot.",
   },
   {
     name: "render",
@@ -364,7 +364,7 @@ function AvatarDoc() {
   return (
     <DocPage
       title="Avatar"
-      description="A black-bordered avatar frame with a role-keyed background, managed image, and placeholder."
+      description="A square sticker frame with an ink edge, a role-keyed background, managed image, and placeholder."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -425,9 +425,8 @@ function AvatarDoc() {
             <DocNote>
               The default dot and custom indicator both auto-scale with the avatar&apos;s{" "}
               <InlineCode>size</InlineCode>. Pass <InlineCode>{`render={<Status />}`}</InlineCode>{" "}
-              when the indicator needs
-              <InlineCode>Status</InlineCode> variants or pulse — <InlineCode>Status</InlineCode>{" "}
-              only owns its color and behavior.
+              when the indicator needs <InlineCode>Status</InlineCode> variants —{" "}
+              <InlineCode>Status</InlineCode> only owns its color.
             </DocNote>
             <Preview previewClassName="!min-h-56 flex-col gap-8">
               <Preview.Canvas>
@@ -449,7 +448,7 @@ function AvatarDoc() {
                     <AvatarFallback />
                     <AvatarBadge
                       title="Working"
-                      render={<Status aria-hidden variant="success" pulse />}
+                      render={<Status aria-hidden variant="success" />}
                     />
                   </Avatar>
                 </div>
@@ -475,9 +474,9 @@ function AvatarDoc() {
               CSS length, and percentages are of the avatar&apos;s size — so the four corners are{" "}
               <InlineCode>[0, 0]</InlineCode>, <InlineCode>{`["100%", 0]`}</InlineCode>,{" "}
               <InlineCode>{`[0, "100%"]`}</InlineCode> and{" "}
-              <InlineCode>{`["100%", "100%"]`}</InlineCode> at every size and in both themes.
-              Without <InlineCode>offset</InlineCode> the badge keeps the theme&apos;s default
-              bottom-right spot; size and stacking stay owned by the avatar either way.
+              <InlineCode>{`["100%", "100%"]`}</InlineCode> at every size. Without{" "}
+              <InlineCode>offset</InlineCode> the badge keeps the default bottom-right spot; size
+              and stacking stay owned by the avatar either way.
             </DocNote>
             <Preview previewClassName="!min-h-40">
               <Preview.Canvas>
@@ -514,8 +513,8 @@ function AvatarDoc() {
                         <AvatarImage src={AVATAR_PHOTOS[index % AVATAR_PHOTOS.length]} alt="" />
                         <AvatarFallback />
                       </Avatar>
-                      <span className="font-mono text-black/70 text-xs">{size}</span>
-                      <span className="text-[10px] text-black/40">
+                      <span className="font-mono text-xs text-foreground-muted">{size}</span>
+                      <span className="text-[10px] text-foreground-placeholder">
                         {context} · {px}px
                       </span>
                     </div>
@@ -555,10 +554,10 @@ function AvatarDoc() {
         <div className="space-y-8">
           <DocNote>
             Source <InlineCode>AvatarSlot</InlineCode> was a product-specific identity slot. Current{" "}
-            <InlineCode>Avatar</InlineCode> is the reusable UI primitive: it keeps the frame, theme,
-            image, fallback, badge, and group behavior, while app-domain lookup stays outside.
-            Dropped exact sizes are handled by parent compositions, not by leaking every source
-            callsite density into the public avatar API.
+            <InlineCode>Avatar</InlineCode> is the reusable UI primitive: it keeps the frame, image,
+            fallback, badge, and group behavior, while app-domain lookup stays outside. Dropped
+            exact sizes are handled by parent compositions, not by leaking every source callsite
+            density into the public avatar API.
           </DocNote>
           <SourceDifferenceTable />
           <SourceSizeTable />
@@ -572,7 +571,7 @@ function IdentityAvatarExample({ label, children }: { label: string; children: R
   return (
     <div className="flex flex-col items-center gap-1.5">
       {children}
-      <span className="font-mono text-[10px] text-black/50">{label}</span>
+      <span className="font-mono text-[10px] text-foreground-muted">{label}</span>
     </div>
   );
 }

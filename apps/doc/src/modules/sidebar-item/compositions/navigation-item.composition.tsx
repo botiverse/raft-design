@@ -1,10 +1,17 @@
+import { useCallback, useState } from "react";
+import type { MouseEvent } from "react";
 import { Bookmark, Inbox, Star } from "lucide-react";
 import { SidebarItem, SidebarItemIcon, SidebarItemMeta, SidebarItemTitle } from "raft-ui";
 
 export function SidebarItemNavigationComposition() {
+  const [active, setActive] = useState("saved");
+  const handleSelect = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    setActive(event.currentTarget.value);
+  }, []);
+
   return (
     <div>
-      <SidebarItem active variant="default">
+      <SidebarItem value="saved" active={active === "saved"} onClick={handleSelect}>
         <SidebarItemIcon aria-hidden>
           <Bookmark />
         </SidebarItemIcon>
@@ -12,7 +19,7 @@ export function SidebarItemNavigationComposition() {
         <SidebarItemMeta>7</SidebarItemMeta>
       </SidebarItem>
 
-      <SidebarItem active variant="primary">
+      <SidebarItem value="priority" active={active === "priority"} onClick={handleSelect}>
         <SidebarItemIcon aria-hidden>
           <Star />
         </SidebarItemIcon>
@@ -20,7 +27,7 @@ export function SidebarItemNavigationComposition() {
         <SidebarItemMeta>2</SidebarItemMeta>
       </SidebarItem>
 
-      <SidebarItem active variant="accent">
+      <SidebarItem value="activity" active={active === "activity"} onClick={handleSelect}>
         <SidebarItemIcon aria-hidden>
           <Inbox />
         </SidebarItemIcon>

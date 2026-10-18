@@ -1,6 +1,6 @@
 ---
 name: composition
-description: "Compound-part composition: render vs asChild, theme resolution, action hierarchy, popup and business-action ownership, state sinking, and transparent wrappers."
+description: "Compound-part composition: render vs asChild, ThemeProvider, action hierarchy, popup and business-action ownership, state sinking, and transparent wrappers."
 ---
 
 # Composition
@@ -9,7 +9,7 @@ description: "Compound-part composition: render vs asChild, theme resolution, ac
 
 - Compound parts, never flat props
 - Use the `render` prop, not `asChild`
-- `theme` is never passed by hand
+- Wrap the app once in `ThemeProvider`
 - One group, one primary
 - Keep popup content focused and triggers external
 - Do not re-create a library contract with ad hoc markup
@@ -52,17 +52,15 @@ Children stay on the outer part; `render` receives a bare element.
 
 ---
 
-## `theme` is never passed by hand
+## Wrap the app once in `ThemeProvider`
 
-`brutal` and `elegant` are theme families resolved from context; no component accepts a `theme` prop. Wrap the app once and let components adapt:
+Raft is the only visual language; no component accepts a `theme` prop. Wrap the app once for the color mode and let components adapt:
 
 ```tsx
 <ThemeProvider>
   <Button variant="primary">Save</Button>
 </ThemeProvider>
 ```
-
-Most application composition should not need to read the active family. Use `useThemeFamily()` only when a verified implementation detail cannot be expressed through tokens or recipes. Limit `<BrutalOnly>` / `<ElegantOnly>` to non-semantic decoration or equivalent implementations that preserve content, reading order, actions, and state.
 
 ---
 
@@ -147,7 +145,7 @@ Dropdown and Context menu actions may share a behavior hook or mutation contract
 
 | When you need this raft-ui treatment          | Use                                                                            |
 | --------------------------------------------- | ------------------------------------------------------------------------------ |
-| a themed divider                              | `Separator`                                                                    |
+| a design-system divider                       | `Separator`                                                                    |
 | a styled `<span>` for a count or tag          | `Badge`                                                                        |
 | a colored dot div                             | `Status`                                                                       |
 | raft-ui typography                            | `Text.Sans`, `Text.Mono`, `Text.Heading`, or the named exports                 |

@@ -2,7 +2,10 @@
    - Local CSS variables (--r-timeline-*) declared on the list; items inherit them
    - Modifier classes rebind local variables
    - Component styles strictly consume local variables
-   - Dual theme support (Brutal / Elegant) via CSS variable overrides
+   - Every marker is a status pixel: a 9px square in the item's colour with a
+     1.5px sticker-ink edge, strung on a hairline. Titles are 14/20 ink,
+     details and times Space Mono 12 in ink-3, the time on the right of the
+     row. One scale for every size; `lg` only opens the title to 16/24.
 */
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -10,129 +13,44 @@
    ───────────────────────────────────────────────────────────────────────── */
 
 .r-timeline {
-  /* Default local variables (Brutal theme defaults) */
-  --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 14px);
+  --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 9px);
   --r-timeline-title-font-size: 14px;
-  --r-timeline-content-font-size: 14px;
+  --r-timeline-content-font-size: 12px;
   --r-timeline-time-font-size: 12px;
-  --r-timeline-line-height: 1.5;
-  --r-timeline-item-inner-gap: 4px;
-  --r-timeline-title-font-family: var(--font-heading);
-  --r-timeline-title-font-weight: 700;
+  --r-timeline-line-height: 20px;
+  --r-timeline-item-inner-gap: 2px;
+  --r-timeline-title-font-family: var(--font-sans);
+  --r-timeline-title-font-weight: 400;
   --r-timeline-gap: 12px;
-  --r-timeline-item-gap: 20px;
+  --r-timeline-item-gap: 12px;
   --r-timeline-horizontal-item-gap: 40px;
-  --r-timeline-line-width: 2px;
-  --r-timeline-line-color: var(--line-strong);
-  --r-timeline-marker-border-width: 2px;
-  --r-timeline-marker-radius: 9999px;
-  /* How much of the variant's fill the marker takes, and its outline:
-     Brutal draws a filled dot with an ink outline. */
+  --r-timeline-line-width: 1px;
+  --r-timeline-line-color: var(--line-muted);
+  --r-timeline-marker-border-width: 1.5px;
+  --r-timeline-marker-radius: 2px;
+  /* How much of the variant's fill the marker takes, and its outline. */
   --r-timeline-marker-fill: 100%;
-  --r-timeline-marker-border-color: var(--line-strong);
+  --r-timeline-marker-border-color: var(--sticker-ink);
   /* How far each marker sits below the item's top, to center on the title's first line. */
-  --r-timeline-axis-offset: calc(
-    (var(--r-timeline-title-font-size) * var(--r-timeline-line-height) - var(--r-timeline-icon-size)) /
-      2
-  );
+  --r-timeline-axis-offset: calc((20px - var(--r-timeline-icon-size)) / 2);
 
   &.r-timeline--lg {
-    --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 16px);
     --r-timeline-title-font-size: 16px;
-    --r-timeline-content-font-size: 15px;
-  }
-
-  /* Panel density: the compact task-history/feed scale (16px row gap, 12px
-     title/meta, 12px marker). */
-  &.r-timeline--sm {
-    --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 12px);
-    --r-timeline-title-font-size: 12px;
-    --r-timeline-content-font-size: 12px;
-    --r-timeline-item-gap: 16px;
-    /* Absolute line-height, so the axis offset below replaces the
-       font-size × ratio formula (a length × length calc is invalid). */
-    --r-timeline-line-height: 16px;
-    --r-timeline-item-inner-gap: 2px;
-    --r-timeline-axis-offset: calc((16px - var(--r-timeline-icon-size)) / 2);
+    --r-timeline-line-height: 24px;
+    --r-timeline-axis-offset: calc((24px - var(--r-timeline-icon-size)) / 2);
   }
 
   &.r-timeline--horizontal {
     --r-timeline-axis-offset: 0px;
   }
-
-  /* Theme: Elegant overrides — a ring in the variant's text color, a muted line. */
-  &.r-timeline--elegant,
-  :where([data-theme="elegant"]) & {
-    --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 12px);
-    --r-timeline-title-font-family: var(--font-sans);
-    --r-timeline-title-font-weight: 500;
-    --r-timeline-line-color: var(--line-muted);
-    --r-timeline-marker-fill: 0%;
-    /* `initial` falls back to the variant's color. */
-    --r-timeline-marker-border-color: initial;
-  }
-  &.r-timeline--elegant.r-timeline--lg,
-  :where([data-theme="elegant"]) &.r-timeline--lg {
-    --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 14px);
-  }
-
-  /* Theme: Raft overrides — every marker is a status pixel: a 9px square in
-     the item's colour with a 1.5px sticker-ink edge, strung on a hairline.
-     Titles are 14/20 ink, details and times Space Mono 12 in ink-3, the time
-     on the right of the row. One scale for every size; `lg` only opens the
-     title to 16/24. */
-  &.r-timeline--raft,
-  :where([data-theme="raft"]) & {
-    --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 9px);
-    --r-timeline-title-font-size: 14px;
-    --r-timeline-content-font-size: 12px;
-    --r-timeline-time-font-size: 12px;
-    --r-timeline-line-height: 20px;
-    --r-timeline-item-inner-gap: 2px;
-    --r-timeline-item-gap: 12px;
-    --r-timeline-axis-offset: calc((20px - var(--r-timeline-icon-size)) / 2);
-    --r-timeline-gap: 12px;
-    --r-timeline-title-font-family: var(--font-sans);
-    --r-timeline-title-font-weight: 400;
-    --r-timeline-line-width: 1px;
-    --r-timeline-line-color: var(--line-muted);
-    --r-timeline-marker-border-width: 1.5px;
-    --r-timeline-marker-radius: 2px;
-    --r-timeline-marker-fill: 100%;
-    --r-timeline-marker-border-color: var(--sticker-ink);
-  }
-  &.r-timeline--raft.r-timeline--sm,
-  :where([data-theme="raft"]) &.r-timeline--sm {
-    --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 9px);
-    --r-timeline-title-font-size: 14px;
-    --r-timeline-content-font-size: 12px;
-    --r-timeline-time-font-size: 12px;
-    --r-timeline-line-height: 20px;
-    --r-timeline-item-inner-gap: 2px;
-    --r-timeline-item-gap: 12px;
-    --r-timeline-axis-offset: calc((20px - var(--r-timeline-icon-size)) / 2);
-  }
-  &.r-timeline--raft.r-timeline--lg,
-  :where([data-theme="raft"]) &.r-timeline--lg {
-    --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 9px);
-    --r-timeline-title-font-size: 16px;
-    --r-timeline-content-font-size: 12px;
-    --r-timeline-time-font-size: 12px;
-    --r-timeline-line-height: 24px;
-    --r-timeline-item-inner-gap: 2px;
-    --r-timeline-item-gap: 12px;
-    --r-timeline-axis-offset: calc((24px - var(--r-timeline-icon-size)) / 2);
-  }
-  &.r-timeline--raft.r-timeline--horizontal,
-  :where([data-theme="raft"]) &.r-timeline--horizontal {
-    --r-timeline-axis-offset: 0px;
-  }
 }
 
+/* Markers take the presence colours (default = offline stone, accent = the
+   In Review lavender, since pink only means "do it"); task-status items keep
+   their status colour. */
 .r-timeline-item {
-  /* Variants (Brutal fills, Elegant rings) */
   --r-timeline-item-color: var(--foreground-hint);
-  --r-timeline-item-fill: var(--layer-panel);
+  --r-timeline-item-fill: var(--presence-offline);
 
   &.r-timeline-item--information {
     --r-timeline-item-color: var(--info-strong);
@@ -150,15 +68,22 @@
     --r-timeline-item-color: var(--danger-strong);
     --r-timeline-item-fill: var(--danger);
   }
-  /* Accent (the emphasis tone for review-type states, e.g. "in review"):
-     same token family as Badge/Button accent. */
+  /* Accent: the emphasis tone for review-type states, e.g. "in review". */
   &.r-timeline-item--accent {
-    --r-timeline-item-color: var(--accent-strong);
-    --r-timeline-item-fill: var(--accent-400);
+    --r-timeline-item-color: var(--task-status-in-review-strong);
+    --r-timeline-item-fill: var(--task-status-in-review);
   }
   &.r-timeline-item--color {
     --r-timeline-item-color: var(--r-timeline-custom-color);
     --r-timeline-item-fill: var(--r-timeline-custom-color);
+  }
+
+  /* An icon in place of the pixel gets a 14px box. */
+  &[data-icon] {
+    --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 14px);
+    --r-timeline-axis-offset: calc(
+      (var(--r-timeline-line-height) - var(--r-timeline-icon-size)) / 2
+    );
   }
 }
 
@@ -226,8 +151,11 @@
 .r-timeline-item__line {
   border-inline-start: var(--r-timeline-line-width) solid var(--r-timeline-line-color);
   flex: 1;
-  /* Runs on through the next item's offset, so it meets the next marker. */
-  margin-bottom: calc(var(--r-timeline-axis-offset) * -1);
+  /* Runs on through the next item's offset, stopping 2px short of each
+     marker: a gap of the row's own background cuts the hairline around
+     each pixel. */
+  margin-bottom: calc(2px - var(--r-timeline-axis-offset));
+  margin-top: 2px;
 }
 
 .r-timeline-item--dashed > .r-timeline-item__axis > .r-timeline-item__line {
@@ -254,17 +182,40 @@
   font-size: var(--r-timeline-title-font-size);
   font-weight: var(--r-timeline-title-font-weight);
   margin-bottom: var(--r-timeline-item-inner-gap);
+  overflow-wrap: anywhere;
 }
 
 .r-timeline-content {
-  color: var(--foreground-muted);
+  color: var(--foreground-hint);
+  font-family: var(--font-mono);
   font-size: var(--r-timeline-content-font-size);
+  line-height: 16px;
+  overflow-wrap: anywhere;
 }
 
 .r-timeline-time {
   color: var(--foreground-hint);
+  font-family: var(--font-mono);
   font-size: var(--r-timeline-time-font-size);
   margin-top: var(--r-timeline-item-inner-gap);
+  white-space: nowrap;
+}
+
+/* Markers on the left: the row is [pixel | text | time], the time at the end
+   of the first line. */
+.r-timeline--left > .r-timeline-item > .r-timeline-item__body {
+  column-gap: var(--r-timeline-gap);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+
+  & > * {
+    grid-column: 1;
+  }
+  & > .r-timeline-time {
+    grid-column: 2;
+    grid-row: 1;
+    margin-top: 0;
+  }
 }
 
 /* Markers on the right: the axis moves to the end and the text aligns to it. */
@@ -292,6 +243,7 @@
     border-inline-start: 0;
     border-top: var(--r-timeline-line-width) solid var(--r-timeline-line-color);
     margin-bottom: 0;
+    margin-top: 0;
   }
   &.r-timeline-item--dashed > .r-timeline-item__axis > .r-timeline-item__line {
     border-top-style: dashed;
@@ -299,73 +251,5 @@
   & > .r-timeline-item__body {
     padding-bottom: 0;
     padding-inline-end: var(--r-timeline-horizontal-item-gap);
-  }
-}
-
-/* ─────────────────────────────────────────────────────────────────────────
-   3. Raft
-   Markers take the presence colours (default = offline stone, accent = the
-   In Review lavender, since pink only means "do it"); task-status items keep
-   their status colour. A gap of the row's own background cuts the hairline
-   around each pixel. In a vertical timeline with markers on the left the row
-   is [pixel | text | time]: the time moves to the end of the first line.
-   ───────────────────────────────────────────────────────────────────────── */
-
-.r-timeline--raft > .r-timeline-item--default:not(.r-timeline-item--color),
-:where([data-theme="raft"]) .r-timeline > .r-timeline-item--default:not(.r-timeline-item--color) {
-  --r-timeline-item-fill: var(--presence-offline);
-}
-
-.r-timeline--raft > .r-timeline-item--accent:not(.r-timeline-item--color),
-:where([data-theme="raft"]) .r-timeline > .r-timeline-item--accent:not(.r-timeline-item--color) {
-  --r-timeline-item-color: var(--task-status-in-review-strong);
-  --r-timeline-item-fill: var(--task-status-in-review);
-}
-
-/* An icon in place of the pixel gets a 14px box. */
-.r-timeline--raft > .r-timeline-item[data-icon],
-:where([data-theme="raft"]) .r-timeline > .r-timeline-item[data-icon] {
-  --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 14px);
-  --r-timeline-axis-offset: calc((var(--r-timeline-line-height) - var(--r-timeline-icon-size)) / 2);
-}
-
-.r-timeline--raft:not(.r-timeline--horizontal) .r-timeline-item__line,
-:where([data-theme="raft"]) .r-timeline:not(.r-timeline--horizontal) .r-timeline-item__line {
-  margin-bottom: calc(2px - var(--r-timeline-axis-offset));
-  margin-top: 2px;
-}
-
-.r-timeline--raft .r-timeline-title,
-:where([data-theme="raft"]) .r-timeline .r-timeline-title {
-  overflow-wrap: anywhere;
-}
-
-.r-timeline--raft .r-timeline-content,
-:where([data-theme="raft"]) .r-timeline .r-timeline-content {
-  color: var(--foreground-hint);
-  font-family: var(--font-mono);
-  line-height: 16px;
-  overflow-wrap: anywhere;
-}
-
-.r-timeline--raft .r-timeline-time,
-:where([data-theme="raft"]) .r-timeline .r-timeline-time {
-  font-family: var(--font-mono);
-  white-space: nowrap;
-}
-
-.r-timeline--raft.r-timeline--left > .r-timeline-item > .r-timeline-item__body,
-:where([data-theme="raft"]) .r-timeline--left > .r-timeline-item > .r-timeline-item__body {
-  column-gap: var(--r-timeline-gap);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-
-  & > * {
-    grid-column: 1;
-  }
-  & > .r-timeline-time {
-    grid-column: 2;
-    grid-row: 1;
-    margin-top: 0;
   }
 }

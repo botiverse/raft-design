@@ -30,7 +30,6 @@ import {
   MobileNavLabel,
   MobileNavRoot,
   SelectTrigger,
-  Status,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -53,9 +52,7 @@ import { AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
 import {
   SidebarServer,
-  SidebarServerAvatar,
   SidebarServerChevron,
-  SidebarServerIndicator,
   SidebarServerLabel,
 } from "#/modules/sidebar/sidebar-server-switcher.tsx";
 import { PlaygroundSidebarTrigger } from "../app-shell/playground-sidebar-trigger.tsx";
@@ -136,21 +133,10 @@ export function PlaygroundServerSwitcher({ className }: { className?: string }) 
 export function PlaygroundSidebarServerSwitcher({ name }: { name: string }) {
   return (
     <SidebarServer title={name}>
-      <SidebarServerAvatar>
-        <img alt="" src={currentServerAvatarSrc} />
-      </SidebarServerAvatar>
       <SidebarServerLabel>{name}</SidebarServerLabel>
       <SidebarServerChevron aria-hidden>
         <ChevronDown />
       </SidebarServerChevron>
-      <SidebarServerIndicator>
-        <Status
-          aria-label="Other servers have unread messages"
-          attention
-          size="sm"
-          variant="primary"
-        />
-      </SidebarServerIndicator>
     </SidebarServer>
   );
 }
@@ -193,9 +179,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                   icon={<MessageSquare />}
                   attention={
                     railView !== "chat" ? (
-                      <AppRailItemAttention title="Unread messages">
-                        <MessageSquare />
-                      </AppRailItemAttention>
+                      <AppRailItemAttention title="Unread messages" />
                     ) : undefined
                   }
                 />
@@ -206,9 +190,9 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                   icon={<Activity />}
                   attention={
                     railView !== "activity" && activityUnreadCount > 0 ? (
-                      <AppRailItemAttention title={`${activityUnreadCount} unread activity items`}>
-                        <Activity />
-                      </AppRailItemAttention>
+                      <AppRailItemAttention
+                        title={`${activityUnreadCount} unread activity items`}
+                      />
                     ) : undefined
                   }
                 />
@@ -231,9 +215,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                   icon={<Monitor />}
                   attention={
                     railView !== "computers" ? (
-                      <AppRailItemAttention title="A managed computer has an upgrade available">
-                        <Monitor />
-                      </AppRailItemAttention>
+                      <AppRailItemAttention title="A managed computer has an upgrade available" />
                     ) : undefined
                   }
                 />
@@ -250,7 +232,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                         render={
                           <AppRailItem className="**:data-[slot=select-trigger-content]:contents" />
                         }
-                        aria-label="Select Playground theme"
+                        aria-label="Select Playground color mode"
                       />
                     }
                   >
@@ -305,7 +287,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
               render={
                 <MobileNavItem
                   className="**:data-[slot=select-trigger-content]:contents"
-                  aria-label="Select Playground theme"
+                  aria-label="Select Playground color mode"
                 />
               }
             >

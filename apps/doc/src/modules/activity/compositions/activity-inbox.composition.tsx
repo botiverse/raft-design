@@ -17,6 +17,7 @@ import {
   ActivityInboxSidebar,
   ActivityInboxViewport,
   Button,
+  Checkbox,
   ConversationPanelContent,
   Dialog,
   DialogBody,
@@ -49,7 +50,6 @@ import {
   SidebarGroupLabel,
   SidebarSectionTrailing,
   Tabs,
-  TabsBackground,
   TabsLabel,
   TabsList,
   TabsTab,
@@ -66,7 +66,6 @@ import {
   ActivityGroupIcon,
   ActivityItem,
   ActivityNavigationItem,
-  ActivitySelectionCheckbox,
   ActivitySwitcherRow,
 } from "../activity-inbox.helpers.tsx";
 import type { ActivityView } from "../activity-inbox.helpers.tsx";
@@ -360,10 +359,7 @@ export function ActivityInboxComposition({
           </Button>
         ) : null}
         <PanelHeaderIcon className="max-md:hidden">
-          <Activity
-            aria-hidden
-            className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
-          />
+          <Activity aria-hidden className="size-4.5" />
         </PanelHeaderIcon>
         <PanelHeaderContent
           className={onBack ? "max-md:col-start-2 max-md:col-span-2" : "max-md:col-span-3"}
@@ -522,7 +518,6 @@ export function ActivityInboxComposition({
                 onValueChange={setReadFilter}
               >
                 <TabsList aria-label="Filter activity">
-                  <TabsBackground />
                   <TabsTab value="all">
                     <TabsLabel>All</TabsLabel>
                   </TabsTab>
@@ -538,7 +533,6 @@ export function ActivityInboxComposition({
                 <Search aria-hidden size={15} />
               </InputGroupAddon>
               <InputGroupInput
-                className="in-data-[theme=brutal]:py-1"
                 value={query}
                 onChange={handleQueryChange}
                 placeholder="Search activity"
@@ -561,7 +555,7 @@ export function ActivityInboxComposition({
           </ActivityInboxControls>
 
           <ActivityInboxSelectionToolbar>
-            <ActivitySelectionCheckbox
+            <Checkbox
               checked={allVisibleSelected}
               indeterminate={someVisibleSelected}
               disabled={visibleItems.length === 0}
@@ -681,7 +675,7 @@ export function ActivityInboxComposition({
                 </EmptyStateContent>
               </EmptyState>
             ) : (
-              <div className="flex flex-col gap-2 in-data-[theme=elegant]:gap-2.5 in-data-[theme=elegant]:rounded-[10px] in-data-[theme=elegant]:bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))] in-data-[theme=elegant]:p-3 in-data-[theme=elegant]:shadow-raft-xs in-data-[theme=elegant]:dark:bg-layer-card">
+              <div className="flex flex-col gap-2">
                 {visibleItems.map((item) => (
                   <ActivityItem
                     key={item.id}

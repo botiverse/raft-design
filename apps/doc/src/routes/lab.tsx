@@ -15,7 +15,7 @@ import { PixelLoaderLab } from "#/modules/pixel-loader/pixel-loader.lab.tsx";
  * the sidebar and left it unreachable from the nav — you had to know the URL.
  * Same call as `/dashboard`: Playground simulates a whole product and wants the
  * viewport, but these are reference examples, and the docs chrome is what
- * carries the nav and the theme switcher.
+ * carries the nav and the light/dark switcher.
  */
 export const Route = createFileRoute("/lab")({
   component: LabPage,
@@ -54,9 +54,9 @@ function LabPage() {
       {SECTIONS.map(({ id, title, description, render }, index) => (
         // `showThemeSwitcher` on the first section only — it is a DocSection
         // affordance, and one switcher per page is how the other doc pages read.
-        // These are motion pieces whose contrast differs sharply between brutal
-        // and elegant, so being able to flip is the point of not being
-        // standalone (the /dashboard review made the same call).
+        // These are motion pieces whose contrast differs sharply between light
+        // and dark, so being able to flip is the point of not being standalone
+        // (the /dashboard review made the same call).
         <DocSection key={id} id={id} title={title} showThemeSwitcher={index === 0}>
           <LabIntro>{description}</LabIntro>
           {render()}

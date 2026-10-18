@@ -13,8 +13,8 @@ import { DashboardApp } from "#/dashboard/dashboard-app.tsx";
  *
  * Rendered INSIDE the docs shell, not as a standalone page like Playground.
  * Playground simulates a whole product and wants the viewport; this is a
- * reference example, and the docs chrome is what carries the theme switcher and
- * the nav. Standalone, you could not switch brutal/elegant while looking at it —
+ * reference example, and the docs chrome is what carries the light/dark switcher
+ * and the nav. Standalone, you could not switch modes while looking at it —
  * which is most of the reason to have a data-dense example at all (@xxchan).
  */
 export const Route = createFileRoute("/dashboard")({
@@ -27,13 +27,13 @@ function DashboardRoute() {
   return (
     <DocPage
       title="Dashboard"
-      description="A data-dense example app: KPI summary, filters, a table with numeric columns and status, and row drill-down. Switch themes from the header to compare brutal and elegant at density."
+      description="A data-dense example app: KPI summary, filters, a table with numeric columns and status, and row drill-down. Switch between light and dark from the header to compare them at density."
       toc={TOC}
     >
-      {/* DocSection, not a bare DocPage child: the theme switcher is a
+      {/* DocSection, not a bare DocPage child: the light/dark switcher is a
           DocSection affordance (`showThemeSwitcher`), and being able to compare
-          brutal against elegant on a data-dense surface is the whole reason
-          this example exists. Wrapping in DocPage alone gave the nav back but
+          light against dark on a data-dense surface is the whole reason this
+          example exists. Wrapping in DocPage alone gave the nav back but
           silently left the switcher out (@xxchan asked for both). */}
       <DocSection id="dashboard" title="Agent usage" showThemeSwitcher>
         <DashboardApp />

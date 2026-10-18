@@ -28,7 +28,7 @@ afterEach(cleanup);
 
 function renderSection(defaultOpen = true) {
   const { container } = render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <SidebarSection defaultOpen={defaultOpen}>
         <SidebarSectionHeader>
           <SidebarSectionDisclosure type="button">

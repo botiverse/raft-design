@@ -15,7 +15,6 @@ import {
   SortableTabsList,
   SortableTabsTab,
   Tabs,
-  TabsIndicator,
   TabsLabel,
   MessageMultiSelect,
 } from "raft-ui";
@@ -81,7 +80,6 @@ export function PlaygroundConversationPanel({
                 <TabsLabel>{TAB_META[id].label}</TabsLabel>
               </SortableTabsTab>
             ))}
-            <TabsIndicator />
           </SortableTabsList>
         </ConversationPanelTabs>
         {panelTab === "chat" ? (

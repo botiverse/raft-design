@@ -8,30 +8,15 @@ import {
   SelectItemText,
   SelectList,
 } from "raft-ui";
-import type { Theme, ThemeMode } from "raft-ui";
 
-import { usePreviewTheme, useResolvedPreviewMode } from "#/components/preview-theme.tsx";
+import { usePreviewTheme } from "#/components/preview-theme.tsx";
 
-const THEME_PRESETS = [
-  { value: "brutal", label: "Brutal", theme: "brutal", mode: "light" },
-  { value: "elegant-light", label: "Elegant", theme: "elegant", mode: "light" },
-  { value: "elegant-dark", label: "Elegant dark", theme: "elegant", mode: "dark" },
-  { value: "raft-light", label: "Raft", theme: "raft", mode: "light" },
-  { value: "raft-dark", label: "Raft dark", theme: "raft", mode: "dark" },
-] as const satisfies readonly {
-  value: string;
-  label: string;
-  theme: Theme;
-  mode: ThemeMode;
-}[];
+const MODE_OPTIONS = [
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+] as const;
 
-type PlaygroundThemeValue = (typeof THEME_PRESETS)[number]["value"];
-
-export function getThemeValue(theme: Theme, mode: "light" | "dark"): PlaygroundThemeValue {
-  if (theme === "brutal") return "brutal";
-  if (theme === "raft") return mode === "dark" ? "raft-dark" : "raft-light";
-  return mode === "dark" ? "elegant-dark" : "elegant-light";
-}
+type PlaygroundModeValue = (typeof MODE_OPTIONS)[number]["value"];
 
 export function PlaygroundThemeSelect({
   children,
@@ -40,29 +25,26 @@ export function PlaygroundThemeSelect({
   children: ReactNode;
   side: "right" | "top";
 }) {
-  const { theme, setTheme } = usePreviewTheme();
-  const resolvedMode = useResolvedPreviewMode();
-  const value = getThemeValue(theme, resolvedMode);
+  const { resolvedMode, setMode } = usePreviewTheme();
   const handleValueChange = useCallback(
-    (nextValue: PlaygroundThemeValue | null) => {
-      const preset = THEME_PRESETS.find((candidate) => candidate.value === nextValue);
-      if (preset) setTheme(preset.theme, { mode: preset.mode });
+    (nextValue: PlaygroundModeValue | null) => {
+      if (nextValue) setMode(nextValue);
     },
-    [setTheme],
+    [setMode],
   );
 
   return (
-    <Select<PlaygroundThemeValue>
-      value={value}
-      items={THEME_PRESETS}
+    <Select<PlaygroundModeValue>
+      value={resolvedMode}
+      items={MODE_OPTIONS}
       onValueChange={handleValueChange}
     >
       {children}
       <SelectContent side={side} align="end" className="min-w-40">
         <SelectList>
-          {THEME_PRESETS.map((preset) => (
-            <SelectItem key={preset.value} value={preset.value}>
-              <SelectItemText>{preset.label}</SelectItemText>
+          {MODE_OPTIONS.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              <SelectItemText>{option.label}</SelectItemText>
               <SelectItemIndicator />
             </SelectItem>
           ))}

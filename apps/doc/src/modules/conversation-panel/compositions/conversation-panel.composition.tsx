@@ -24,7 +24,6 @@ import {
   SortableTabsList,
   SortableTabsTab,
   Tabs,
-  TabsIndicator,
   TabsLabel,
   ComposerActions,
   ComposerIconButton,
@@ -49,11 +48,7 @@ import {
 } from "raft-ui";
 import type { PanelEdge } from "raft-ui";
 import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui";
-import {
-  Composer,
-  ComposerInput,
-  ComposerToolbar,
-} from "#/modules/chat-composer/composer-responsive.tsx";
+import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
 import { ConversationPanelHeaderComposition } from "./conversation-panel-header.composition.tsx";
 
 export type ConversationPanelCompositionProps = {
@@ -125,7 +120,6 @@ export function ConversationPanelComposition({
               <Paperclip />
               <TabsLabel>Files</TabsLabel>
             </SortableTabsTab>
-            <TabsIndicator />
           </SortableTabsList>
         </ConversationPanelTabs>
         <ConversationPanelBody>
@@ -252,7 +246,7 @@ export function ConversationPanelComposition({
               type="button"
               variant="outline"
               size="sm"
-              className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 [[data-theme=elegant]_&]:md:bottom-40"
+              className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2"
               onClick={handleJump}
             >
               <ArrowDown />
@@ -279,7 +273,7 @@ export function ConversationPanelComposition({
                 </ComposerActions>
                 <ComposerMeta>
                   <ComposerToolbarLabel>
-                    <Checkbox size="sm" aria-label="Send as task" />
+                    <Checkbox aria-label="Send as task" />
                     As Task
                   </ComposerToolbarLabel>
                   <ComposerSubmit aria-label="Send" disabled>

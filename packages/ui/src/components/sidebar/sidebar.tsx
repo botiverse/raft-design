@@ -1,6 +1,5 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import {
@@ -15,8 +14,7 @@ import { sidebarRecipe } from "./sidebar.recipe";
 export type SidebarRootProps = useRender.ComponentProps<"div">;
 
 export function SidebarRoot({ className, render, ...props }: SidebarRootProps) {
-  const theme = useThemeFamily();
-  const { sidebarRoot } = sidebarRecipe({ theme });
+  const { sidebarRoot } = sidebarRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "sidebar-root",
     className: sidebarRoot({ className }),
@@ -32,8 +30,7 @@ export function SidebarRoot({ className, render, ...props }: SidebarRootProps) {
 export type SidebarHeaderProps = useRender.ComponentProps<"div">;
 
 export function SidebarHeader({ children, className, render, ...props }: SidebarHeaderProps) {
-  const theme = useThemeFamily();
-  const { sidebarHeader, sidebarHeaderMask, sidebarHeaderMaskLayer } = sidebarRecipe({ theme });
+  const { sidebarHeader, sidebarHeaderMask, sidebarHeaderMaskLayer } = sidebarRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "sidebar-header",
     className: sidebarHeader({ className }),
@@ -71,8 +68,7 @@ export function SidebarHeader({ children, className, render, ...props }: Sidebar
 export type SidebarHeaderTitleProps = useRender.ComponentProps<"div">;
 
 export function SidebarHeaderTitle({ className, render, ...props }: SidebarHeaderTitleProps) {
-  const theme = useThemeFamily();
-  const { sidebarHeaderTitle } = sidebarRecipe({ theme });
+  const { sidebarHeaderTitle } = sidebarRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "sidebar-header-title",
     className: sidebarHeaderTitle({ className }),
@@ -88,8 +84,7 @@ export function SidebarHeaderTitle({ className, render, ...props }: SidebarHeade
 export type SidebarGroupLabelProps = useRender.ComponentProps<"div">;
 
 export function SidebarGroupLabel({ className, render, ...props }: SidebarGroupLabelProps) {
-  const theme = useThemeFamily();
-  const { sidebarGroupLabel } = sidebarRecipe({ theme });
+  const { sidebarGroupLabel } = sidebarRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "sidebar-group-label",
     className: sidebarGroupLabel({ className }),
@@ -105,8 +100,7 @@ export function SidebarGroupLabel({ className, render, ...props }: SidebarGroupL
 export type SidebarBodyProps = useRender.ComponentProps<"div">;
 
 export function SidebarBody({ className, render, ...props }: SidebarBodyProps) {
-  const theme = useThemeFamily();
-  const { sidebarBody } = sidebarRecipe({ theme });
+  const { sidebarBody } = sidebarRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "sidebar-body",
     className: sidebarBody({ className }),
@@ -125,10 +119,8 @@ const SIDEBAR_CONTENT_INNER_STYLE = { minWidth: 0, width: "100%" };
 
 export function SidebarContent({ children, className, render, ...props }: SidebarContentProps) {
   const isMobile = useMobileViewport();
-  const theme = useThemeFamily();
-  const { sidebarContent, sidebarContentInner, sidebarScrollbar, sidebarViewport } = sidebarRecipe({
-    theme,
-  });
+  const { sidebarContent, sidebarContentInner, sidebarScrollbar, sidebarViewport } =
+    sidebarRecipe();
 
   const nativeViewportProps: SlotElementProps<"div"> = {
     "data-slot": "sidebar-content",
@@ -183,8 +175,7 @@ export function SidebarLiveActivity({
   render,
   ...props
 }: SidebarLiveActivityProps) {
-  const theme = useThemeFamily();
-  const { sidebarLiveActivity } = sidebarRecipe({ theme });
+  const { sidebarLiveActivity } = sidebarRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "sidebar-live-activity",
     className: sidebarLiveActivity({ className }),

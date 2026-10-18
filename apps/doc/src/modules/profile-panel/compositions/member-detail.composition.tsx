@@ -62,12 +62,8 @@ export function MemberDetailComposition() {
                 <AvatarFallback>CC</AvatarFallback>
               </Avatar>
               <div className="min-w-0 flex-1 pt-1">
-                <Text.Heading
-                  level={6}
-                  render={<h2>CaliCastle</h2>}
-                  className="truncate [[data-theme=brutal]_&]:text-lg [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:leading-tight"
-                />
-                <Text.Mono size="meta" className="truncate [[data-theme=brutal]_&]:text-sm">
+                <Text.Heading level={6} render={<h2>CaliCastle</h2>} className="truncate" />
+                <Text.Mono size="meta" className="truncate">
                   @CaliCastle
                 </Text.Mono>
               </div>
@@ -84,10 +80,7 @@ export function MemberDetailComposition() {
                 <DescriptionItem>
                   <DescriptionTerm>
                     Role
-                    <CircleHelp
-                      className="size-3 shrink-0 text-foreground-icon in-data-[theme=brutal]:text-black/35"
-                      aria-hidden
-                    />
+                    <CircleHelp className="size-3 shrink-0 text-foreground-icon" aria-hidden />
                   </DescriptionTerm>
                   <DescriptionDetails>
                     <Badge appearance="outline">
@@ -110,10 +103,7 @@ export function MemberDetailComposition() {
             </MemberDetailSection>
 
             <MemberDetailSection title="Created agents" count={1}>
-              <SidebarItem
-                disabled
-                className="in-data-[theme=brutal]:border-line-muted [[data-theme=brutal]_&]:px-3 [[data-theme=brutal]_&]:py-2"
-              >
+              <SidebarItem disabled>
                 <SidebarItemIcon className="size-8">
                   <Avatar size="sm" type="agent">
                     <AvatarFallback>DX</AvatarFallback>
@@ -166,18 +156,12 @@ function MemberDetailSection({
           <h3>
             {title}
             {count === undefined ? null : (
-              <span className="font-mono text-foreground-placeholder in-data-[theme=brutal]:text-black/40">
-                {count}
-              </span>
+              <span className="font-mono text-foreground-placeholder">{count}</span>
             )}
           </h3>
         }
         size="eyebrow"
-        className={[
-          "flex items-baseline gap-2",
-          "[[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:tracking-widest [[data-theme=brutal]_&]:text-black/60",
-          compactTitle ? "mb-1" : "mb-3",
-        ].join(" ")}
+        className={["flex items-baseline gap-2", compactTitle ? "mb-1" : "mb-3"].join(" ")}
       />
       {children}
     </ProfilePanelSection>

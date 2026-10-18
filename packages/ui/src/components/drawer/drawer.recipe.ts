@@ -1,4 +1,5 @@
 import { tv } from "../../lib/tv";
+import { panelHeadEdges } from "../panel/panel-header.recipe";
 
 const drawerMotion = tv({
   slots: {
@@ -91,15 +92,17 @@ export const drawer = tv({
   slots: {
     overlay: [
       "fixed inset-0 z-50 min-h-dvh select-none",
+      "supports-[-webkit-touch-callout:none]:absolute", // A modal sheet dims the page behind it like a dialog does, so it is
+      // clear the rest of the window is out of reach until it closes.
       "bg-layer-backdrop",
-      "supports-[-webkit-touch-callout:none]:absolute",
     ],
     viewport: ["pointer-events-none fixed inset-0 z-50 select-none"],
     popup: [
       "group/drawer-popup pointer-events-auto fixed z-50 flex h-(--drawer-content-height) flex-col outline-none",
-      "text-foreground-strong",
       "[--drawer-inset:12px] [--drawer-content-height:var(--drawer-height,auto)]",
       "data-nested-drawer-open:overflow-hidden",
+      "bg-layer-popover text-foreground",
+      "shadow-raft-float ring-1 ring-line-seam",
     ],
     content: [
       "flex min-h-0 flex-1 flex-col rounded-[inherit] select-text",
@@ -107,73 +110,39 @@ export const drawer = tv({
     ],
     swipeHandle: [
       "relative z-10 shrink-0 cursor-grab select-none active:cursor-grabbing",
-      "before:absolute before:rounded-full before:bg-ink-20 before:content-['']",
+      "before:absolute before:content-['']",
+      "before:rounded-[1px] before:bg-line-seam",
     ],
     close: ["shrink-0"],
-    closeIcon: [],
-    header: ["flex flex-col items-center px-6 pt-8 pb-2 text-center"],
-    body: ["flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center"],
-    footer: ["mt-auto px-6 py-5"],
-    actions: ["flex w-full flex-col items-stretch gap-2.5", "**:data-[slot=button]:w-full"],
-    title: ["max-w-sm text-pretty text-center text-2xl leading-8 text-foreground"],
-    description: ["max-w-sm text-pretty text-center text-sm leading-5 text-foreground-strong/60"],
+    closeIcon: ["size-5.5"],
+    header: ["flex flex-col", "items-stretch gap-1 px-4 pt-4 pb-2 text-left"],
+    body: ["flex flex-1 flex-col", "items-stretch px-4 pt-2 pb-4 text-left"],
+    footer: ["mt-auto py-5", "px-4 pt-3 pb-4"],
+    actions: ["flex w-full flex-col items-stretch", "**:data-[slot=button]:w-full", "gap-2"],
+    title: [
+      "text-pretty text-foreground",
+      "max-w-none text-left font-sans text-headline font-bold",
+    ],
+    description: [
+      "text-pretty",
+      "max-w-none text-left font-sans text-callout text-foreground-muted",
+    ],
   },
   variants: {
-    theme: {
-      brutal: {
-        title: ["font-bold"],
-        swipeHandle: ["before:rounded-none before:bg-ink-40"],
-        popup: ["border-2 border-line-strong bg-layer-panel shadow-raft-xl"],
-        close: ["bg-layer-panel"],
-        closeIcon: ["size-5"],
-      },
-      elegant: {
-        overlay: ["backdrop-blur-[2px]"],
-        popup: ["overflow-clip rounded-lg bg-layer-popover shadow-raft-xl md:rounded-xl"],
-        close: [
-          "p-0 text-foreground-placeholder hover:bg-transparent hover:text-foreground-strong",
-        ],
-        closeIcon: ["size-4"],
-        header: ["bg-layer-panel px-8 pt-9 pb-2", "dark:bg-transparent"],
-        body: ["bg-layer-panel px-8 pt-4 pb-7", "dark:bg-transparent"],
-        footer: ["mt-0 px-8 py-5"],
-        title: ["font-sans text-2xl leading-8 font-semibold"],
-        description: ["font-sans text-sm leading-5 text-foreground-muted"],
-      },
-      raft: {
-        // A modal sheet dims the page behind it like a dialog does, so it is
-        // clear the rest of the window is out of reach until it closes.
-        overlay: ["bg-layer-backdrop"],
-        popup: ["bg-layer-popover text-foreground", "shadow-raft-float ring-1 ring-line-seam"],
-        swipeHandle: ["before:rounded-[1px] before:bg-line-seam"],
-        closeIcon: ["size-5.5"],
-        header: ["items-stretch gap-1 px-4 pt-4 pb-2 text-left"],
-        body: ["items-stretch px-4 pt-2 pb-4 text-left"],
-        footer: ["px-4 pt-3 pb-4"],
-        actions: ["gap-2"],
-        title: ["max-w-none text-left font-sans text-headline font-bold"],
-        description: ["max-w-none text-left font-sans text-callout text-foreground-muted"],
-      },
-    },
-    // Raft DS › Sheet: the 420 drawer for details and settings, and the wide
-    // 640 drawer for bigger settings you only touch for a moment (an agent's
-    // setup, an app's registration).
-    width: {
-      default: {},
-      wide: {},
-    },
     side: {
       down: {
         popup: [
-          "[--drawer-inset:max(12px,env(safe-area-inset-bottom,0px))]",
           "bottom-(--drawer-inset) min-h-64 max-h-[82vh]",
+          "rounded-t-dialog [--drawer-inset:0px]",
+          "pb-[env(safe-area-inset-bottom,0px)]",
         ],
         swipeHandle: ["before:top-3"],
       },
       up: {
         popup: [
-          "[--drawer-inset:max(12px,env(safe-area-inset-top,0px))]",
           "top-(--drawer-inset) max-h-[80vh]",
+          "rounded-b-dialog [--drawer-inset:0px]",
+          "pt-[env(safe-area-inset-top,0px)]",
         ],
         swipeHandle: ["order-last", "before:bottom-3"],
       },
@@ -188,97 +157,39 @@ export const drawer = tv({
     },
     axis: {
       x: {
-        popup: ["inset-y-3", "flex-row w-3/4 max-w-sm"],
+        popup: ["flex-row", "inset-y-0 w-full max-w-[420px] [--drawer-inset:0px]"],
         swipeHandle: [
           "my-auto h-16 w-11",
-          "before:top-1/2 before:h-12 before:w-1.5 before:-translate-y-1/2",
+          "before:top-1/2 before:-translate-y-1/2",
+          "before:w-1 before:h-9",
         ],
-        header: ["flex-row justify-between gap-3 pt-6 text-left"],
-        body: ["items-stretch text-left"],
-        footer: ["py-4"],
+        header: [
+          "min-h-14 shrink-0 flex-row items-center justify-between gap-2 py-0 text-left",
+          "border-b border-line-seam",
+          panelHeadEdges,
+        ],
+        body: ["items-stretch text-left", "min-h-0 overflow-y-auto px-5 py-4"],
+        footer: ["border-t border-line-seam px-5 py-3"],
         title: ["min-w-0 max-w-none flex-1 text-left"],
         description: ["max-w-none text-left"],
+        actions: ["flex-row flex-wrap justify-end", "**:data-[slot=button]:w-auto"],
       },
       y: {
         popup: [
           "data-nested-drawer-open:h-(--drawer-frontmost-height)",
-          "inset-x-3 mx-auto md:max-w-md",
+          "mx-auto md:max-w-md",
+          "inset-x-0",
         ],
         swipeHandle: [
-          "mx-auto h-11 w-16",
-          "before:left-1/2 before:h-1.5 before:w-12 before:-translate-x-1/2",
+          "mx-auto w-16",
+          "before:left-1/2 before:-translate-x-1/2",
+          "h-4",
+          "before:top-1.5 before:h-1 before:w-9",
         ],
       },
     },
   },
   compoundVariants: [
-    {
-      theme: "brutal",
-      side: "right",
-      class: {
-        popup: ["[--drawer-inset:20px]"],
-      },
-    },
-    {
-      theme: "brutal",
-      side: "down",
-      class: {
-        popup: ["[--drawer-inset:max(20px,env(safe-area-inset-bottom,0px))]"],
-      },
-    },
-    {
-      theme: "elegant",
-      axis: "x",
-      class: {
-        popup: ["md:max-w-md"],
-      },
-    },
-    {
-      theme: "raft",
-      axis: "x",
-      class: {
-        popup: ["inset-y-0 w-full max-w-[420px] [--drawer-inset:0px]"],
-        // A side sheet's head is a panel head: on a phone (where the sheet
-        // is the whole screen) it takes the panel head's edges, a leading
-        // ghost Back 3px from the edge, mirroring the last action.
-        header: [
-          "min-h-14 shrink-0 items-center gap-2 border-b border-line-seam py-0 pr-3 pl-5",
-          "max-md:pr-1.5 max-md:pl-4 max-md:[&>[data-slot=panel-action]:first-child]:-ml-[13px]",
-        ],
-        body: ["min-h-0 overflow-y-auto px-5 py-4"],
-        footer: ["border-t border-line-seam px-5 py-3"],
-        actions: ["flex-row flex-wrap justify-end", "**:data-[slot=button]:w-auto"],
-        swipeHandle: ["before:w-1 before:h-9"],
-      },
-    },
-    {
-      theme: "raft",
-      axis: "x",
-      width: "wide",
-      class: { popup: ["max-w-[640px]"] },
-    },
-    {
-      theme: "raft",
-      axis: "y",
-      class: {
-        popup: ["inset-x-0"],
-        swipeHandle: ["h-4", "before:top-1.5 before:h-1 before:w-9"],
-      },
-    },
-    {
-      theme: "raft",
-      side: "down",
-      class: {
-        popup: ["rounded-t-dialog [--drawer-inset:0px]", "pb-[env(safe-area-inset-bottom,0px)]"],
-      },
-    },
-    {
-      theme: "raft",
-      side: "up",
-      class: {
-        popup: ["rounded-b-dialog [--drawer-inset:0px]", "pt-[env(safe-area-inset-top,0px)]"],
-      },
-    },
     {
       side: "down",
       snapPoints: true,

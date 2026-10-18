@@ -2,7 +2,6 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { searchEntity } from "./search-entity.recipe";
 
 export type SearchEntityResultProps = useRender.ComponentProps<"button"> & {
@@ -14,8 +13,7 @@ export function SearchEntityResult({
   render,
   ...props
 }: SearchEntityResultProps) {
-  const theme = useThemeFamily();
-  const { entity } = searchEntity({ theme });
+  const { entity } = searchEntity();
   const defaultProps: SlotElementProps<"button"> = {
     "data-slot": "search-entity-result",
     "data-selected": selected ? "true" : undefined,
@@ -35,8 +33,7 @@ export function SearchEntityResultContent({
   render,
   ...props
 }: SearchEntityResultContentProps) {
-  const theme = useThemeFamily();
-  const { entityContent } = searchEntity({ theme });
+  const { entityContent } = searchEntity();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-entity-result-content",
     className: entityContent({ className }),
@@ -54,8 +51,7 @@ export function SearchEntityResultHeader({
   render,
   ...props
 }: SearchEntityResultHeaderProps) {
-  const theme = useThemeFamily();
-  const { entityHeader } = searchEntity({ theme });
+  const { entityHeader } = searchEntity();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-entity-result-header",
     className: entityHeader({ className }),
@@ -73,8 +69,7 @@ export function SearchEntityResultLeading({
   render,
   ...props
 }: SearchEntityResultLeadingProps) {
-  const theme = useThemeFamily();
-  const { entityLeading } = searchEntity({ theme });
+  const { entityLeading } = searchEntity();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-entity-result-leading",
     className: entityLeading({ className }),
@@ -92,8 +87,7 @@ export function SearchEntityResultIcon({
   render,
   ...props
 }: SearchEntityResultIconProps) {
-  const theme = useThemeFamily();
-  const { entityIcon } = searchEntity({ theme });
+  const { entityIcon } = searchEntity();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-entity-result-icon",
     className: entityIcon({ className }),
@@ -111,8 +105,7 @@ export function SearchEntityResultActivity({
   render,
   ...props
 }: SearchEntityResultActivityProps) {
-  const theme = useThemeFamily();
-  const { entityActivity } = searchEntity({ theme });
+  const { entityActivity } = searchEntity();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "search-entity-result-activity",
     className: entityActivity({ className }),
@@ -133,8 +126,7 @@ export function SearchEntityResultTitle({
   render,
   ...props
 }: SearchEntityResultTitleProps) {
-  const theme = useThemeFamily();
-  const { entityTitle } = searchEntity({ theme });
+  const { entityTitle } = searchEntity();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "search-entity-result-title",
     "data-muted": muted ? "" : undefined,
@@ -154,8 +146,7 @@ export function SearchEntityResultDescription({
   render,
   ...props
 }: SearchEntityResultDescriptionProps) {
-  const theme = useThemeFamily();
-  const { entityDescription } = searchEntity({ theme });
+  const { entityDescription } = searchEntity();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "search-entity-result-description",
     "data-muted": muted ? "" : undefined,

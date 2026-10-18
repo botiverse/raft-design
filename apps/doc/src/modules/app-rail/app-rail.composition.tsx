@@ -109,11 +109,7 @@ export function AppRailComposition() {
               render={<button type="button" onClick={() => setView("activity")} />}
               label="Activity"
               icon={<Activity />}
-              attention={
-                <AppRailItemAttention>
-                  <Activity />
-                </AppRailItemAttention>
-              }
+              attention={<AppRailItemAttention title="Unread activity" />}
             />
             <AppRailNavItem
               selected={view === "tasks"}
@@ -132,11 +128,7 @@ export function AppRailComposition() {
               render={<button type="button" onClick={() => setView("computers")} />}
               label="Computers"
               icon={<Monitor />}
-              attention={
-                <AppRailItemAttention>
-                  <Monitor />
-                </AppRailItemAttention>
-              }
+              attention={<AppRailItemAttention title="A computer needs attention" />}
             />
           </AppRailNav>
           <AppRailFooter>

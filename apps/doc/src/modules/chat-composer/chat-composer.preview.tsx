@@ -13,7 +13,7 @@ import {
   ComposerToolbarLabel,
 } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { Composer, ComposerInput, ComposerToolbar } from "./composer-responsive.tsx";
+import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
 
 import { Preview } from "#/components/preview.tsx";
 import { ComposerAttachmentsComposition } from "./compositions/composer-shared.composition.tsx";
@@ -73,7 +73,7 @@ export function ChatComposerPreview({ code, collapsedCode }: ChatComposerPreview
                   </ComposerActions>
                   <ComposerMeta>
                     <ComposerToolbarLabel>
-                      <Checkbox size="sm" aria-label="Send as task" />
+                      <Checkbox aria-label="Send as task" />
                       As Task
                     </ComposerToolbarLabel>
                     <ComposerSubmit aria-label="Send" disabled>

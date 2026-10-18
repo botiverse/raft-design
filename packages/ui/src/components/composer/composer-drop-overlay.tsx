@@ -2,14 +2,12 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { FileText, Image as ImageIcon, Upload } from "lucide-react";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { composerDropOverlay as composerDropOverlayRecipe } from "./composer-drop-overlay.recipe";
 
 export type ComposerDropOverlayProps = useRender.ComponentProps<"div">;
 
 export function ComposerDropOverlay({ className, render, ...props }: ComposerDropOverlayProps) {
-  const theme = useThemeFamily();
-  const { dropOverlay } = composerDropOverlayRecipe({ theme });
+  const { dropOverlay } = composerDropOverlayRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-drop-overlay",
     className: dropOverlay({ className }),
@@ -29,8 +27,7 @@ export function ComposerDropOverlayLabel({
   render,
   ...props
 }: ComposerDropOverlayLabelProps) {
-  const theme = useThemeFamily();
-  const { dropOverlayLabel } = composerDropOverlayRecipe({ theme });
+  const { dropOverlayLabel } = composerDropOverlayRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-drop-overlay-label",
     className: dropOverlayLabel({ className }),
@@ -46,8 +43,7 @@ export function ComposerDropOverlayLabel({
 export type ComposerDropOverlayPromptProps = ComposerDropOverlayLabelProps;
 
 export function ComposerDropOverlayPrompt({ children, ...props }: ComposerDropOverlayPromptProps) {
-  const theme = useThemeFamily();
-  const { dropOverlayIcon, dropOverlayIconCluster } = composerDropOverlayRecipe({ theme });
+  const { dropOverlayIcon, dropOverlayIconCluster } = composerDropOverlayRecipe();
 
   if (children) {
     return <ComposerDropOverlayLabel {...props}>{children}</ComposerDropOverlayLabel>;

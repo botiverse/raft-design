@@ -13,7 +13,6 @@ import type { ReactNode } from "react";
 import type { CSSProperties } from "react";
 import { tv } from "../../lib/tv";
 import { cn } from "../../lib/cn";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { PanelAction } from "../panel/panel-action";
 
@@ -25,7 +24,9 @@ const appShell = tv({
       // sideways. A clipped box cannot scroll.
       "flex min-h-0 w-full overflow-visible md:overflow-clip",
       "max-md:flex-col max-md:pt-[env(safe-area-inset-top,0px)]",
-      "font-sans text-foreground-strong",
+      "font-sans",
+      "[--shell-header-height:56px] [@media(max-height:600px)]:[--shell-header-height:48px]",
+      "bg-layer-panel text-foreground",
     ],
     railSlot: ["hidden h-full shrink-0 flex-col md:flex"],
     sidebarSlot: ["hidden min-h-0 shrink-0 flex-col md:flex"],
@@ -34,20 +35,6 @@ const appShell = tv({
     overlaySlot: ["absolute inset-0 z-20 flex min-h-0 min-w-0"],
   },
   variants: {
-    theme: {
-      brutal: {
-        root: ["[--shell-header-height:62px]", "bg-brutal-cream text-black max-md:bg-white"],
-      },
-      elegant: {
-        root: ["[--shell-header-height:56px]", "bg-layer-canvas-muted"],
-      },
-      raft: {
-        root: [
-          "[--shell-header-height:56px] [@media(max-height:600px)]:[--shell-header-height:48px]",
-          "bg-layer-panel text-foreground",
-        ],
-      },
-    },
     overlay: {
       false: {},
       true: {
@@ -92,8 +79,7 @@ export function AppShellRoot({
   style,
   ...props
 }: AppShellRootProps) {
-  const theme = useThemeFamily();
-  const { root } = appShell({ theme });
+  const { root } = appShell();
   const [uncontrolledSidebarOpen, setUncontrolledSidebarOpen] = useState(defaultSidebarOpen);
   const [sidebarWidth, setSidebarWidth] = useState(0);
   const sidebarOpen = sidebarOpenProp ?? uncontrolledSidebarOpen;
@@ -153,8 +139,7 @@ export function AppShellRoot({
 export type AppShellRailSlotProps = useRender.ComponentProps<"aside">;
 
 export function AppShellRailSlot({ className, render, ...props }: AppShellRailSlotProps) {
-  const theme = useThemeFamily();
-  const { railSlot } = appShell({ theme });
+  const { railSlot } = appShell();
 
   const defaultProps: SlotElementProps<"aside"> = {
     "data-slot": "app-shell-rail-slot",
@@ -171,8 +156,7 @@ export function AppShellRailSlot({ className, render, ...props }: AppShellRailSl
 export type AppShellSidebarSlotProps = useRender.ComponentProps<"aside">;
 
 export function AppShellSidebarSlot({ className, render, ...props }: AppShellSidebarSlotProps) {
-  const theme = useThemeFamily();
-  const { sidebarSlot } = appShell({ theme });
+  const { sidebarSlot } = appShell();
   const sidebar = useOptionalAppShellSidebar();
   const elementRef = useRef<HTMLElement | null>(null);
   const isCollapsible = sidebar?.collapsible ?? false;

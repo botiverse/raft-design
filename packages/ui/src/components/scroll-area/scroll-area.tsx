@@ -1,13 +1,11 @@
 import { ScrollArea as BaseScrollArea } from "@base-ui/react/scroll-area";
 import type { StyledProps } from "../../lib/styled-props";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { scrollArea } from "./scroll-area.recipe";
 
 export type ScrollAreaProps = StyledProps<BaseScrollArea.Root.Props>;
 
 export function ScrollArea({ className, ...props }: ScrollAreaProps) {
-  const theme = useThemeFamily();
-  const { root } = scrollArea({ theme });
+  const { root } = scrollArea();
 
   return <BaseScrollArea.Root data-slot="scroll-area" className={root({ className })} {...props} />;
 }
@@ -15,8 +13,7 @@ export function ScrollArea({ className, ...props }: ScrollAreaProps) {
 export type ScrollAreaViewportProps = StyledProps<BaseScrollArea.Viewport.Props>;
 
 export function ScrollAreaViewport({ className, ...props }: ScrollAreaViewportProps) {
-  const theme = useThemeFamily();
-  const { viewport } = scrollArea({ theme });
+  const { viewport } = scrollArea();
 
   return (
     <BaseScrollArea.Viewport
@@ -30,8 +27,7 @@ export function ScrollAreaViewport({ className, ...props }: ScrollAreaViewportPr
 export type ScrollAreaContentProps = StyledProps<BaseScrollArea.Content.Props>;
 
 export function ScrollAreaContent({ className, ...props }: ScrollAreaContentProps) {
-  const theme = useThemeFamily();
-  const { content } = scrollArea({ theme });
+  const { content } = scrollArea();
 
   return (
     <BaseScrollArea.Content
@@ -49,8 +45,7 @@ export function ScrollAreaScrollbar({
   orientation = "vertical",
   ...props
 }: ScrollAreaScrollbarProps) {
-  const theme = useThemeFamily();
-  const { scrollbar } = scrollArea({ theme });
+  const { scrollbar } = scrollArea();
 
   return (
     <BaseScrollArea.Scrollbar
@@ -65,8 +60,7 @@ export function ScrollAreaScrollbar({
 export type ScrollAreaThumbProps = StyledProps<BaseScrollArea.Thumb.Props>;
 
 export function ScrollAreaThumb({ className, ...props }: ScrollAreaThumbProps) {
-  const theme = useThemeFamily();
-  const { thumb } = scrollArea({ theme });
+  const { thumb } = scrollArea();
 
   return (
     <BaseScrollArea.Thumb
@@ -80,8 +74,7 @@ export function ScrollAreaThumb({ className, ...props }: ScrollAreaThumbProps) {
 export type ScrollAreaCornerProps = StyledProps<BaseScrollArea.Corner.Props>;
 
 export function ScrollAreaCorner({ className, ...props }: ScrollAreaCornerProps) {
-  const theme = useThemeFamily();
-  const { corner } = scrollArea({ theme });
+  const { corner } = scrollArea();
 
   return (
     <BaseScrollArea.Corner

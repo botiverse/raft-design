@@ -49,13 +49,13 @@ export function AppShellPreview({ code, collapsedCode }: AppShellPreviewProps) {
 }
 
 function AppShellMobilePreviewFrame() {
-  const { mode, theme } = usePreviewTheme();
-  const params = new URLSearchParams({ mode, theme });
+  const { mode } = usePreviewTheme();
+  const params = new URLSearchParams({ mode });
 
   return (
     <iframe
-      key={`${theme}-${mode}`}
-      title={`App shell mobile preview in ${theme} ${mode}`}
+      key={mode}
+      title={`App shell mobile preview in ${mode} mode`}
       src={`/iframe/app-shell-mobile?${params.toString()}`}
       sandbox="allow-scripts"
       className="block h-[360px] w-[375px] max-w-full border-0 bg-transparent"

@@ -6,14 +6,17 @@ import { Check, Copy } from "lucide-react";
 import { useCopyToClipboard } from "../../lib/use-copy-to-clipboard";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
 
 const copyableCode = tv({
   slots: {
     root: ["group/copyable-code flex w-full min-w-0 items-center gap-2"],
-    code: ["min-w-0 flex-1 font-mono text-xs"],
+    code: [
+      "min-w-0 flex-1 font-mono",
+      "rounded-control border border-line-muted bg-layer-code",
+      "text-mono-code text-foreground",
+    ],
     codeInner: ["block w-full min-w-0 max-w-full break-all"],
     action: [
       "shrink-0",
@@ -21,7 +24,7 @@ const copyableCode = tv({
       "**:data-[slot=button]:duration-150 [&_[data-slot=button]]:ease-out",
     ],
     iconSwap: [
-      "relative inline-grid size-3",
+      "relative inline-grid",
       "**:data-[slot=copyable-code-icon]:col-start-1 **:data-[slot=copyable-code-icon]:row-start-1",
       "**:data-[slot=copyable-code-icon]:origin-center",
       "**:data-[slot=copyable-code-icon]:transition-[opacity,filter,scale]",
@@ -33,67 +36,23 @@ const copyableCode = tv({
       "data-[state=idle]:**:data-[icon=check]:scale-[0.72] data-[state=idle]:**:data-[icon=check]:opacity-0 data-[state=idle]:**:data-[icon=check]:blur-[1px]",
       "data-[state=copied]:**:data-[icon=check]:scale-100 data-[state=copied]:**:data-[icon=check]:opacity-100 data-[state=copied]:[&_[data-icon=check]]:blur-0",
       "data-[state=copied]:**:data-[icon=copy]:scale-[0.72] data-[state=copied]:**:data-[icon=copy]:opacity-0 data-[state=copied]:**:data-[icon=copy]:blur-[1px]",
+      "size-4",
+      "**:data-[slot=copyable-code-icon]:size-4 **:data-[slot=copyable-code-icon]:stroke-2",
     ],
   },
   variants: {
-    theme: {
-      brutal: {
-        code: ["border-2 border-line-strong bg-black text-[oklch(0.88_0.18_132)] shadow-raft-sm"],
-        codeInner: "break-all",
-      },
-      elegant: {
-        code: [
-          "bg-layer-inset text-[oklch(0.45_0.04_74)]",
-          "ring-[0.5px] ring-ink-20 dark:ring-ink-10",
-          "dark:text-[oklch(0.82_0.06_90)]",
-        ],
-        codeInner: [
-          "border-x border-dashed border-ink-10 dark:border-ink-16 bg-layer-panel px-1",
-          "dark:bg-[oklch(0.15_0.004_106.42)]",
-        ],
-        action: [
-          "**:data-[slot=button]:text-foreground-muted",
-          "**:data-[slot=button]:shadow-none",
-          "**:data-[slot=button]:hover:bg-transparent **:data-[slot=button]:hover:text-foreground **:data-[slot=button]:hover:before:bg-transparent",
-        ],
-      },
-      raft: {
-        code: [
-          "rounded-control border border-line-muted bg-layer-code",
-          "text-mono-code text-foreground",
-        ],
-        iconSwap: [
-          "size-4",
-          "**:data-[slot=copyable-code-icon]:size-4 **:data-[slot=copyable-code-icon]:stroke-2",
-        ],
-      },
-    },
     size: {
       sm: {
-        code: "px-3 py-1.5 leading-5",
+        code: ["px-3 leading-5", "py-[5px]"],
       },
       md: {
-        code: "px-3 py-2 leading-5",
+        code: ["px-3 leading-5", "min-h-10 py-[9px]"],
       },
     },
   },
   defaultVariants: {
     size: "md",
   },
-  compoundVariants: [
-    { theme: "raft", size: "sm", class: { code: "py-[5px]" } },
-    { theme: "raft", size: "md", class: { code: "min-h-10 py-[9px]" } },
-    {
-      theme: "elegant",
-      size: "sm",
-      class: { code: "px-2 py-0", codeInner: "py-1.5 leading-5" },
-    },
-    {
-      theme: "elegant",
-      size: "md",
-      class: { code: "px-2 py-0", codeInner: "py-2 leading-5" },
-    },
-  ],
 });
 
 type CopyableCodeSize = NonNullable<VariantProps<typeof copyableCode>["size"]>;
@@ -134,8 +93,7 @@ export function CopyableCodeRoot({
   className,
   ...props
 }: CopyableCodeRootProps) {
-  const theme = useThemeFamily();
-  const { root } = copyableCode({ theme, size });
+  const { root } = copyableCode({ size });
   const { copied: clipboardCopied, copyText } = useCopyToClipboard({ timeout: 1400 });
   const effectiveCopied = copied ?? clipboardCopied;
 
@@ -180,8 +138,7 @@ export type CopyableCodeProps = ComponentPropsWithRef<"code"> & {
 
 export function CopyableCode({ children, className, truncate, ...props }: CopyableCodeProps) {
   const { size } = useCopyableCode("CopyableCode");
-  const theme = useThemeFamily();
-  const { code, codeInner } = copyableCode({ theme, size });
+  const { code, codeInner } = copyableCode({ size });
   const scrollClassName =
     "overflow-x-auto overflow-y-hidden break-normal whitespace-nowrap text-clip [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 
@@ -218,17 +175,10 @@ export function CopyableCodeAction({
   ...props
 }: CopyableCodeActionProps) {
   const { copied, copyValue, size: codeSize } = useCopyableCode("CopyableCodeAction");
-  const theme = useThemeFamily();
-  const { action } = copyableCode({ theme });
+  const { action } = copyableCode();
   const accessibleLabel = copied ? "Copied code" : "Copy code";
-  const buttonSize =
-    size ??
-    (theme === "elegant"
-      ? "icon-xs"
-      : theme === "raft" && codeSize === "md"
-        ? "icon-md"
-        : "icon-sm");
-  const buttonVariant = variant ?? (theme === "brutal" ? "outline" : "ghost");
+  const buttonSize = size ?? (codeSize === "md" ? "icon-md" : "icon-sm");
+  const buttonVariant = variant ?? "ghost";
 
   const handleClick = useCallback<NonNullable<ButtonProps["onClick"]>>(
     async (event) => {
@@ -261,8 +211,7 @@ export function CopyableCodeAction({
 }
 
 function CopyableCodeActionIcon({ copied }: { copied: boolean }) {
-  const theme = useThemeFamily();
-  const { iconSwap } = copyableCode({ theme });
+  const { iconSwap } = copyableCode();
 
   return (
     <span

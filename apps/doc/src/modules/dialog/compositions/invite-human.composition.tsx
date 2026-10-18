@@ -12,9 +12,7 @@ import {
   InlineCode,
   Input,
   Separator,
-  useThemeFamily,
 } from "raft-ui";
-import { cn } from "raft-ui/cn";
 import { Copy, Link2, Mail, Plus } from "lucide-react";
 
 // @docs-source-strip-start
@@ -24,17 +22,8 @@ import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
 function JoinLinkCode() {
-  const theme = useThemeFamily();
-
   return (
-    <InlineCode
-      className={cn(
-        "w-0 min-w-full truncate px-3 py-2 text-foreground",
-        theme === "brutal"
-          ? "rounded-none border-2 border-line-strong bg-layer-panel shadow-raft-sm"
-          : "rounded-sm bg-fill-muted shadow-none",
-      )}
-    >
+    <InlineCode className="w-0 min-w-full truncate rounded-sm bg-fill-muted px-3 py-2 text-foreground shadow-none">
       http://localhost:5173/join/slk_invite_8k2
     </InlineCode>
   );

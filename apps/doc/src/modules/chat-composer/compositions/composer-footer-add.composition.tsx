@@ -8,7 +8,7 @@ import {
   ComposerRoot,
   ComposerSubmit,
 } from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
+import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
 
 export function ComposerFooterAddComposition() {
   const [draft, setDraft] = useState("");

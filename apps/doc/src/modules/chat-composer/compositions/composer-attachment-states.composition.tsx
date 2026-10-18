@@ -22,7 +22,7 @@ import {
   FilePreviewMedia,
   Spinner,
 } from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
+import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
 
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
 
@@ -52,7 +52,7 @@ export function ComposerAttachmentStatesComposition() {
           <ComposerAttachmentFile>
             <FilePreview className="h-[46px]">
               <FilePreviewDocument className="h-[46px]" />
-              <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
+              <FilePreviewBadge>PDF</FilePreviewBadge>
             </FilePreview>
             <ComposerAttachmentBody>
               <ComposerAttachmentTitle>release-notes.pdf</ComposerAttachmentTitle>
@@ -68,7 +68,7 @@ export function ComposerAttachmentStatesComposition() {
           <ComposerAttachmentFile>
             <FilePreview className="h-[46px]">
               <FilePreviewDocument className="h-[46px]" />
-              <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
+              <FilePreviewBadge>PDF</FilePreviewBadge>
             </FilePreview>
             <ComposerAttachmentBody>
               <ComposerAttachmentTitle>failed-upload.pdf</ComposerAttachmentTitle>

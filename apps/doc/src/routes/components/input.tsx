@@ -120,7 +120,7 @@ function InputDoc() {
   return (
     <DocPage
       title="Input"
-      description="A single-line text control with theme-aware focus, invalid, and disabled states."
+      description="A single-line text control with focus, invalid, and disabled states."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

@@ -7,29 +7,35 @@ import type { ComponentPropsWithRef, ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
 
 const dialog = tv({
   slots: {
-    overlay: [
-      "fixed inset-0 z-50",
-      "transition-opacity duration-150 ease-out",
-      "data-starting-style:opacity-0 data-ending-style:opacity-0",
-    ],
+    // A centred modal appears and goes without motion (Raft DS: only sheets
+    // slide; a dialog is simply there).
+    overlay: ["fixed inset-0 z-50 bg-layer-backdrop"],
     content: [
       "fixed top-1/2 left-1/2 z-50 flex w-[calc(100%-2rem)] -translate-1/2 flex-col",
-      "max-h-[calc(100dvh-2rem)]",
-      "origin-center transform-gpu outline-none transition-[opacity,transform] duration-150 ease-out",
-      "data-starting-style:scale-[.98] data-starting-style:opacity-0",
-      "data-ending-style:opacity-0",
+      "max-h-[calc(100dvh-2rem)] outline-none",
+      "overflow-clip rounded-dialog bg-layer-popover text-foreground",
+      "shadow-raft-float ring-1 ring-line-seam",
     ],
-    header: ["grid shrink-0 grid-cols-[minmax(0,1fr)_max-content] items-center gap-3 min-w-0"],
-    body: ["min-w-0 flex-1 overflow-y-auto"],
-    footer: ["flex shrink-0 items-center justify-end gap-3"],
-    title: ["m-0 min-w-0 text-foreground"],
-    description: ["m-0 text-foreground-muted"],
+    header: [
+      "grid shrink-0 grid-cols-[minmax(0,1fr)_max-content] items-center min-w-0",
+      "gap-2 px-5 pt-5",
+    ],
+    body: [
+      "min-w-0 flex-1 overflow-y-auto",
+      "px-5 pt-1.5 pb-5 first:pt-5",
+      "font-sans text-subhead text-foreground-muted",
+    ],
+    footer: [
+      "flex shrink-0 items-center justify-end",
+      "gap-2 px-5 pb-5 first:pt-5 [[data-slot=dialog-header]+&]:pt-5",
+    ],
+    title: ["m-0 min-w-0 text-foreground", "font-sans text-headline font-bold"],
+    description: ["m-0", "font-sans text-subhead text-foreground-muted"],
   },
   variants: {
     size: {
@@ -46,67 +52,29 @@ const dialog = tv({
     bar: {
       false: {},
       true: {
-        header: ["flex h-14 shrink-0 items-center gap-3 border-b px-5 py-0"],
-        body: ["flex min-h-0 flex-1 overflow-hidden p-0"],
-        footer: ["shrink-0 border-t px-5 py-3"],
+        header: [
+          "flex h-14 shrink-0 items-center gap-2 border-b px-5 py-0",
+          "border-line-seam pt-0 [&>[data-slot=dialog-close]]:my-0",
+        ],
+        body: [
+          "flex min-h-0 flex-1 overflow-hidden p-0",
+          "px-0 pt-0 pb-0 first:pt-0 text-foreground",
+        ],
+        footer: [
+          "shrink-0 border-t px-5 py-3",
+          "border-line-seam pt-3 pb-3 first:pt-3 [[data-slot=dialog-header]+&]:pt-3",
+        ],
       },
     },
     layer: {
       0: { overlay: [], content: [] },
       1: { overlay: ["z-60"], content: ["z-60"] },
     },
-    theme: {
-      brutal: {
-        overlay: ["bg-layer-backdrop"],
-        content: ["gap-4 border-2 border-line-strong bg-layer-panel px-6 py-4 shadow-raft-xl"],
-        body: ["py-2 font-medium"],
-        title: ["font-heading text-lg leading-none font-bold uppercase"],
-        description: ["font-sans text-sm leading-5 text-foreground-strong/60"],
-      },
-      elegant: {
-        overlay: ["bg-layer-backdrop backdrop-blur-[2px]"],
-        content: ["overflow-clip rounded-lg bg-layer-popover shadow-raft-xl"],
-        header: ["px-6 py-3"],
-        body: ["px-6 py-5 dark:pt-2.5"],
-        footer: ["px-6 py-3"],
-        title: ["font-sans text-base leading-6 font-bold uppercase tracking-[0.025em]"],
-        description: ["font-sans text-sm leading-5 text-foreground-hint"],
-      },
-      raft: {
-        // A centred modal appears and goes without motion (Raft DS: only
-        // sheets slide; a dialog is simply there).
-        overlay: [
-          "bg-layer-backdrop",
-          "transition-none data-starting-style:opacity-100 data-ending-style:opacity-100",
-        ],
-        content: [
-          "overflow-clip rounded-dialog bg-layer-popover text-foreground",
-          "shadow-raft-float ring-1 ring-line-seam",
-          "transition-none data-starting-style:scale-100 data-starting-style:opacity-100 data-ending-style:opacity-100",
-        ],
-        header: ["gap-2 px-5 pt-5"],
-        body: ["px-5 pt-1.5 pb-5 first:pt-5", "font-sans text-subhead text-foreground-muted"],
-        footer: ["gap-2 px-5 pb-5 first:pt-5 [[data-slot=dialog-header]+&]:pt-5"],
-        title: ["font-sans text-headline font-bold"],
-        description: ["font-sans text-subhead text-foreground-muted"],
-      },
-    },
   },
   defaultVariants: {
     size: "md",
     bar: false,
   },
-  compoundVariants: [
-    {
-      theme: "raft",
-      bar: true,
-      class: {
-        header: ["border-line-seam pt-0 [&>[data-slot=dialog-close]]:my-0"],
-        body: ["px-0 pt-0 pb-0 first:pt-0 text-foreground"],
-        footer: ["border-line-seam pt-3 pb-3 first:pt-3 [[data-slot=dialog-header]+&]:pt-3"],
-      },
-    },
-  ],
 });
 
 export type DialogProps = BaseDialog.Root.Props;
@@ -132,8 +100,7 @@ export type DialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props> & {
 };
 
 export function DialogOverlay({ className, layer, ...props }: DialogOverlayProps) {
-  const theme = useThemeFamily();
-  const { overlay } = dialog({ theme, layer });
+  const { overlay } = dialog({ layer });
   return (
     <BaseDialog.Backdrop data-slot="dialog-overlay" className={overlay({ className })} {...props} />
   );
@@ -155,8 +122,7 @@ export function DialogContent({
   layer,
   ...props
 }: DialogContentProps) {
-  const theme = useThemeFamily();
-  const { content } = dialog({ theme, size, layer });
+  const { content } = dialog({ size, layer });
 
   const overlayProps = typeof overlay === "object" ? overlay : {};
 
@@ -185,10 +151,6 @@ export function DialogClose({
   "aria-label": ariaLabel,
   ...props
 }: DialogCloseProps) {
-  const theme = useThemeFamily();
-  const isBrutal = theme === "brutal";
-  const isRaft = theme === "raft";
-
   if (render) {
     return (
       <BaseDialog.Close data-slot="dialog-close" render={render} aria-label={ariaLabel} {...props}>
@@ -202,24 +164,15 @@ export function DialogClose({
       data-slot="dialog-close"
       render={
         <Button
-          variant={variant ?? (isBrutal ? "outline" : "ghost")}
-          size={size ?? (isBrutal || isRaft ? "icon-md" : "icon-sm")}
+          variant={variant ?? "ghost"}
+          size={size ?? "icon-md"}
           aria-label={ariaLabel ?? "Close"}
-          className={
-            isBrutal
-              ? className
-              : isRaft
-                ? cn("-my-1.5 -mr-1.5", className)
-                : cn(
-                    "p-0 text-foreground-placeholder hover:border-transparent hover:bg-transparent hover:text-foreground-strong",
-                    className,
-                  )
-          }
+          className={cn("-my-1.5 -mr-1.5", className)}
         />
       }
       {...props}
     >
-      {children ?? <X className={isBrutal ? "size-5" : isRaft ? "size-4.5" : "size-4"} />}
+      {children ?? <X className="size-4.5" />}
     </BaseDialog.Close>
   );
 }
@@ -230,8 +183,7 @@ export type DialogHeaderProps = ComponentPropsWithRef<"div"> & {
 };
 
 export function DialogHeader({ className, bar = false, ...props }: DialogHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = dialog({ theme, bar });
+  const { header } = dialog({ bar });
   return <div data-slot="dialog-header" className={header({ className })} {...props} />;
 }
 
@@ -241,8 +193,7 @@ export type DialogBodyProps = ComponentPropsWithRef<"div"> & {
 };
 
 export function DialogBody({ className, bar = false, ...props }: DialogBodyProps) {
-  const theme = useThemeFamily();
-  const { body } = dialog({ theme, bar });
+  const { body } = dialog({ bar });
   return <div data-slot="dialog-body" className={body({ className })} {...props} />;
 }
 
@@ -252,24 +203,21 @@ export type DialogFooterProps = ComponentPropsWithRef<"div"> & {
 };
 
 export function DialogFooter({ className, bar = false, ...props }: DialogFooterProps) {
-  const theme = useThemeFamily();
-  const { footer } = dialog({ theme, bar });
+  const { footer } = dialog({ bar });
   return <div data-slot="dialog-footer" className={footer({ className })} {...props} />;
 }
 
 export type DialogTitleProps = StyledProps<BaseDialog.Title.Props>;
 
 export function DialogTitle({ className, ...props }: DialogTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = dialog({ theme });
+  const { title } = dialog();
   return <BaseDialog.Title data-slot="dialog-title" className={title({ className })} {...props} />;
 }
 
 export type DialogDescriptionProps = StyledProps<BaseDialog.Description.Props>;
 
 export function DialogDescription({ className, ...props }: DialogDescriptionProps) {
-  const theme = useThemeFamily();
-  const { description } = dialog({ theme });
+  const { description } = dialog();
   return (
     <BaseDialog.Description
       data-slot="dialog-description"
@@ -280,18 +228,12 @@ export function DialogDescription({ className, ...props }: DialogDescriptionProp
 }
 
 const dialogSurface = tv({
-  slots: { root: ["flex min-w-0 flex-col outline-none"] },
-  variants: {
-    theme: {
-      brutal: { root: ["border-2 border-line-strong bg-layer-panel shadow-raft-xl"] },
-      elegant: { root: ["overflow-clip rounded-lg bg-layer-popover shadow-raft-xl"] },
-      raft: {
-        root: [
-          "overflow-clip rounded-dialog bg-layer-popover text-foreground",
-          "shadow-raft-float ring-1 ring-line-seam",
-        ],
-      },
-    },
+  slots: {
+    root: [
+      "flex min-w-0 flex-col outline-none",
+      "overflow-clip rounded-dialog bg-layer-popover text-foreground",
+      "shadow-raft-float ring-1 ring-line-seam",
+    ],
   },
 });
 
@@ -305,8 +247,7 @@ export type DialogSurfaceProps = useRender.ComponentProps<"div">;
  * DialogContent draws the same frame for a Base UI dialog.
  */
 export function DialogSurface({ className, render, ...props }: DialogSurfaceProps) {
-  const theme = useThemeFamily();
-  const { root } = dialogSurface({ theme });
+  const { root } = dialogSurface();
   return useRender({
     defaultTagName: "div",
     render,
@@ -318,15 +259,12 @@ export function DialogSurface({ className, render, ...props }: DialogSurfaceProp
 }
 
 const dialogNav = tv({
-  slots: { root: ["flex shrink-0 flex-col overflow-y-auto"] },
-  variants: {
-    theme: {
-      brutal: { root: ["w-52 gap-1 border-r-2 border-black p-2"] },
-      elegant: { root: ["w-52 gap-0.5 border-r border-line-muted p-2"] },
-      // A wide dialog's section list: a 208px column of sidebar rows beside
+  slots: {
+    root: [
+      "flex shrink-0 flex-col overflow-y-auto", // A wide dialog's section list: a 208px column of sidebar rows beside
       // the scrolling body, a seam between them; a phone has no room for it.
-      raft: { root: ["w-52 gap-0.5 border-r border-line-seam p-2 max-md:hidden"] },
-    },
+      "w-52 gap-0.5 border-r border-line-seam p-2 max-md:hidden",
+    ],
   },
 });
 
@@ -334,8 +272,7 @@ export type DialogNavProps = useRender.ComponentProps<"nav">;
 
 /** The section list of a wide (`size="wide"`) dialog, inside a `bar` body. */
 export function DialogNav({ className, render, ...props }: DialogNavProps) {
-  const theme = useThemeFamily();
-  const { root } = dialogNav({ theme });
+  const { root } = dialogNav();
   return useRender({
     defaultTagName: "nav",
     render,

@@ -17,9 +17,9 @@ if (typeof window.matchMedia !== "function") {
   })) as unknown as typeof window.matchMedia;
 }
 
-function renderCard(theme: "brutal" | "elegant") {
+function renderCard() {
   return render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Card>
         <CardHeader>
           <CardLeading data-testid="leading">icon</CardLeading>
@@ -35,45 +35,29 @@ const cls = (testid: string) => screen.getByTestId(testid).className;
 
 afterEach(cleanup);
 
-test("brutal CardTitle uses the card-title token axis AND keeps the theme font family", () => {
-  renderCard("brutal");
-  const c = cls("title");
-  expect(c).toContain("text-card-title");
-  expect(c).toContain("font-card-title");
-  expect(c).toContain("font-heading");
-  expect(c).not.toContain("text-lg");
-  expect(c).not.toContain("leading-5");
-  expect(c).not.toContain("font-bold");
-});
-
-test("elegant CardTitle uses the card-title token axis AND keeps the theme font family", () => {
-  renderCard("elegant");
+test("CardTitle uses the card-title token axis AND keeps the sans family", () => {
+  renderCard();
   const c = cls("title");
   expect(c).toContain("text-card-title");
   expect(c).toContain("font-card-title");
   expect(c).toContain("font-sans");
-  expect(c).not.toContain("text-base");
-  expect(c).not.toContain("leading-[22px]");
-  expect(c).not.toContain("font-medium");
+  // No literal size, line height or weight competes with the token axis.
+  expect(c).not.toMatch(/\btext-(xs|sm|base|lg|\[)/);
+  expect(c).not.toMatch(/\bleading-/);
+  expect(c).not.toMatch(/\bfont-(medium|semibold|bold)\b/);
 });
 
-test("brutal CardLeading uses the tokenized line-height", () => {
-  renderCard("brutal");
+test("CardLeading uses the tokenized line-height", () => {
+  renderCard();
   const c = cls("leading");
   expect(c).toContain("min-h-(--card-title-line-height)");
   expect(c).not.toContain("min-h-5");
-});
-
-test("elegant CardLeading uses the tokenized line-height", () => {
-  renderCard("elegant");
-  const c = cls("leading");
-  expect(c).toContain("min-h-(--card-title-line-height)");
   expect(c).not.toContain("min-h-[22px]");
 });
 
 test("class-group exclusivity: consumer text-sm resolves against text-card-title", () => {
   render(
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <Card>
         <CardHeader>
           <CardTitle data-testid="title" className="text-sm">
@@ -92,7 +76,7 @@ test("class-group exclusivity: consumer text-sm resolves against text-card-title
 
 test("class-group exclusivity: consumer font-bold resolves against font-card-title", () => {
   render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <Card>
         <CardHeader>
           <CardTitle data-testid="title" className="font-bold">

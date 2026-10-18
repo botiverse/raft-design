@@ -1,16 +1,14 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageEmbed } from "../message-embed/message-embed.recipe";
 import { messageReplies } from "./message-replies.recipe";
 
 export type MessageRepliesProps = useRender.ComponentProps<"button">;
 
 export function MessageReplies({ className, render, ...props }: MessageRepliesProps) {
-  const theme = useThemeFamily();
-  const { root } = messageReplies({ theme });
-  const { root: embedRoot } = messageEmbed({ theme });
+  const { root } = messageReplies();
+  const { root: embedRoot } = messageEmbed();
   const defaultProps: SlotElementProps<"button"> = {
     className: embedRoot({ className: root({ className }) }),
   };
@@ -26,8 +24,7 @@ export function MessageReplies({ className, render, ...props }: MessageRepliesPr
 export type MessageRepliesSummaryProps = useRender.ComponentProps<"span">;
 
 export function MessageRepliesSummary({ className, render, ...props }: MessageRepliesSummaryProps) {
-  const theme = useThemeFamily();
-  const { summary } = messageReplies({ theme });
+  const { summary } = messageReplies();
   const defaultProps: SlotElementProps<"span"> = {
     className: summary({ className }),
   };
@@ -47,8 +44,7 @@ export function MessageRepliesSummaryItem({
   render,
   ...props
 }: MessageRepliesSummaryItemProps) {
-  const theme = useThemeFamily();
-  const { summaryItem } = messageReplies({ theme });
+  const { summaryItem } = messageReplies();
   const defaultProps: SlotElementProps<"span"> = {
     className: summaryItem({ className }),
   };
@@ -64,8 +60,7 @@ export function MessageRepliesSummaryItem({
 export type MessageRepliesItemProps = useRender.ComponentProps<"span">;
 
 export function MessageRepliesItem({ className, render, ...props }: MessageRepliesItemProps) {
-  const theme = useThemeFamily();
-  const { reply } = messageReplies({ theme });
+  const { reply } = messageReplies();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: reply({ className }),
   };
@@ -85,8 +80,7 @@ export function MessageRepliesItemSender({
   render,
   ...props
 }: MessageRepliesItemSenderProps) {
-  const theme = useThemeFamily();
-  const { sender } = messageReplies({ theme });
+  const { sender } = messageReplies();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: sender({ className }),
   };
@@ -106,8 +100,7 @@ export function MessageRepliesItemContent({
   render,
   ...props
 }: MessageRepliesItemContentProps) {
-  const theme = useThemeFamily();
-  const { content } = messageReplies({ theme });
+  const { content } = messageReplies();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: content({ className }),
   };
@@ -127,8 +120,7 @@ export function MessageRepliesItemTime({
   render,
   ...props
 }: MessageRepliesItemTimeProps) {
-  const theme = useThemeFamily();
-  const { time } = messageReplies({ theme });
+  const { time } = messageReplies();
   const defaultProps: useRender.ElementProps<"time"> = {
     className: time({ className }),
   };

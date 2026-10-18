@@ -7,7 +7,6 @@ import { InlineCode } from "../inline-code/inline-code";
 import { TaskChip } from "../tasks/task-chip";
 import { MessageItemContent } from "./message-item-content";
 import {
-  MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceLabel,
   MessageReferenceText,
@@ -49,7 +48,6 @@ function MixedMessage({ width }: { width: number }) {
           </TaskChip>
           ) in the joint channel{" "}
           <MessageReferenceChip variant="accent" data-kind="joint">
-            <MessageReferenceBadge>joint</MessageReferenceBadge>
             <GitBranch />
             <MessageReferenceLabel>northstar-launch-handoff</MessageReferenceLabel>
           </MessageReferenceChip>{" "}
@@ -142,17 +140,11 @@ function measure(): Measure[] {
   return out;
 }
 
-const CASES = [
-  { theme: "brutal", mode: "light" },
-  { theme: "elegant", mode: "light" },
-  { theme: "elegant", mode: "dark" },
-] as const;
-
-for (const { theme, mode } of CASES) {
+for (const mode of ["light", "dark"] as const) {
   for (const width of [720, 358]) {
-    it(`${theme}/${mode} ${width}px: every chip sits on the text baseline and looks centred`, () => {
+    it(`${mode} ${width}px: every chip sits on the text baseline and looks centred`, () => {
       render(
-        <ThemeProvider theme={theme} mode={mode}>
+        <ThemeProvider mode={mode}>
           <MixedMessage width={width} />
         </ThemeProvider>,
       );
@@ -180,9 +172,9 @@ for (const { theme, mode } of CASES) {
       }
     });
 
-    it(`${theme}/${mode} ${width}px: a long unbroken code token wraps inside the message`, () => {
+    it(`${mode} ${width}px: a long unbroken code token wraps inside the message`, () => {
       render(
-        <ThemeProvider theme={theme} mode={mode}>
+        <ThemeProvider mode={mode}>
           <MixedMessage width={width} />
         </ThemeProvider>,
       );

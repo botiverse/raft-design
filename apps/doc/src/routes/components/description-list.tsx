@@ -91,8 +91,7 @@ const DESCRIPTION_TERM_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"dt">',
-    description:
-      "Theme-styled metadata label. Compose optional controls directly alongside the label.",
+    description: "Metadata label. Compose optional controls directly alongside the label.",
   },
 ];
 

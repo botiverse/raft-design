@@ -7,7 +7,6 @@ import {
   MarkdownLink,
   MarkdownParagraph,
   MessageItemSearchMatch,
-  MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceIndicator,
   MessageReferenceLabel,
@@ -183,7 +182,6 @@ function createPlaygroundMarkdownComponents(
               />
             }
           >
-            <MessageReferenceBadge>thread</MessageReferenceBadge>
             <Hash />
             <MessageReferenceLabel>{channel.name}</MessageReferenceLabel>
           </MessageReferenceChip>
@@ -195,7 +193,6 @@ function createPlaygroundMarkdownComponents(
           variant="accent"
           render={<a href={conversationHref(channel.id)} aria-label={`Open #${channel.name}`} />}
         >
-          <MessageReferenceBadge>channel</MessageReferenceBadge>
           <Hash />
           <MessageReferenceLabel>{channel.name}</MessageReferenceLabel>
         </MessageReferenceChip>

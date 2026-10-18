@@ -1,7 +1,5 @@
 export {
   Tabs,
-  TabsBackground,
-  TabsIndicator,
   TabsLabel,
   TabsList,
   TabsPanel,
@@ -14,8 +12,6 @@ export type {
   OrderedTabItem,
   SortableTabsListProps,
   SortableTabsTabProps,
-  TabsBackgroundProps,
-  TabsIndicatorProps,
   TabsLabelProps,
   TabsListProps,
   TabsPanelProps,

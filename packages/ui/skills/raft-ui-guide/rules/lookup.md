@@ -9,7 +9,7 @@ description: "Where to find props, variant values, and tokens for the installed 
 
 1. **Editor types** — if you are editing TypeScript in a typed project, hover or autocomplete on the component. Fastest and always matches the installed version.
 2. **The bundled declarations** — `node_modules/raft-ui/dist/index.d.mts`. Authoritative for the version actually installed.
-3. **The token stylesheet** — `node_modules/raft-ui/dist/foundation.css` for colors, shadows, and theme scopes; `styles.css` for Tailwind mappings.
+3. **The token stylesheet** — `node_modules/raft-ui/dist/foundation.css` for colors, shadows, and the light and dark scopes; `styles.css` for Tailwind mappings.
 4. **The recipe source** — only available when working inside the raft-ui monorepo, see below.
 
 ## What ships in the package
@@ -70,7 +70,7 @@ When `packages/ui/src/` is present you are working on the library itself, not co
 packages/ui/src/components/<component>/<component>.recipe.ts   (or <component>.tsx when there is no recipe file)
 ```
 
-Read the `variants` block for the exact option names and the `compoundVariants` block for theme-specific behavior. The docs compositions under `apps/doc/src/modules/<component>/compositions/` show canonical usage.
+Read the `variants` block for the exact option names and the `compoundVariants` block for behavior that depends on a combination of variants. The docs compositions under `apps/doc/src/modules/<component>/compositions/` show canonical usage.
 
 ## When the answer is not there
 

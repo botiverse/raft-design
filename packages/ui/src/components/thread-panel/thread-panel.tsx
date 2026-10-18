@@ -1,6 +1,5 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Panel, PanelBody, PanelFooter, PanelHeaderRoot } from "../panel/panel";
 import { threadPanel } from "./thread-panel.recipe";
 import type { SlotElementProps } from "../../lib/data-attributes";
@@ -8,8 +7,7 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 export type ThreadPanelRootProps = useRender.ComponentProps<"section">;
 
 export function ThreadPanelRoot({ className, render, ...props }: ThreadPanelRootProps) {
-  const theme = useThemeFamily();
-  const { root } = threadPanel({ theme });
+  const { root } = threadPanel();
 
   return (
     <Panel
@@ -25,8 +23,7 @@ export function ThreadPanelRoot({ className, render, ...props }: ThreadPanelRoot
 export type ThreadPanelHeaderProps = useRender.ComponentProps<"div">;
 
 export function ThreadPanelHeader({ className, render, ...props }: ThreadPanelHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = threadPanel({ theme });
+  const { header } = threadPanel();
 
   return (
     <PanelHeaderRoot
@@ -42,8 +39,7 @@ export function ThreadPanelHeader({ className, render, ...props }: ThreadPanelHe
 export type ThreadPanelContentProps = useRender.ComponentProps<"div">;
 
 export function ThreadPanelContent({ className, render, ...props }: ThreadPanelContentProps) {
-  const theme = useThemeFamily();
-  const { content } = threadPanel({ theme });
+  const { content } = threadPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "thread-panel-content",
     className: content({ className }),
@@ -59,8 +55,7 @@ export function ThreadPanelContent({ className, render, ...props }: ThreadPanelC
 export type ThreadPanelTitleProps = useRender.ComponentProps<"h2">;
 
 export function ThreadPanelTitle({ className, render, ...props }: ThreadPanelTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = threadPanel({ theme });
+  const { title } = threadPanel();
   const defaultProps: SlotElementProps<"h2"> = {
     "data-slot": "thread-panel-title",
     className: title({ className }),
@@ -76,8 +71,7 @@ export function ThreadPanelTitle({ className, render, ...props }: ThreadPanelTit
 export type ThreadPanelTitleMetaProps = useRender.ComponentProps<"span">;
 
 export function ThreadPanelTitleMeta({ className, render, ...props }: ThreadPanelTitleMetaProps) {
-  const theme = useThemeFamily();
-  const { titleMeta } = threadPanel({ theme });
+  const { titleMeta } = threadPanel();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "thread-panel-title-meta",
     className: titleMeta({ className }),
@@ -93,8 +87,7 @@ export function ThreadPanelTitleMeta({ className, render, ...props }: ThreadPane
 export type ThreadPanelActionsProps = useRender.ComponentProps<"div">;
 
 export function ThreadPanelActions({ className, render, ...props }: ThreadPanelActionsProps) {
-  const theme = useThemeFamily();
-  const { actions } = threadPanel({ theme });
+  const { actions } = threadPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "thread-panel-actions",
     className: actions({ className }),
@@ -121,8 +114,7 @@ export function ThreadPanelOriginalMessage({
   className,
   ...props
 }: ThreadPanelOriginalMessageProps) {
-  const theme = useThemeFamily();
-  const { originalMessage } = threadPanel({ theme });
+  const { originalMessage } = threadPanel();
 
   return (
     <div
@@ -140,8 +132,7 @@ export function ThreadPanelReplySummary({
   render,
   ...props
 }: ThreadPanelReplySummaryProps) {
-  const theme = useThemeFamily();
-  const { replySummary } = threadPanel({ theme });
+  const { replySummary } = threadPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "thread-panel-reply-summary",
     className: replySummary({ className }),
@@ -157,8 +148,7 @@ export function ThreadPanelReplySummary({
 export type ThreadPanelReplyCountProps = useRender.ComponentProps<"div">;
 
 export function ThreadPanelReplyCount({ className, render, ...props }: ThreadPanelReplyCountProps) {
-  const theme = useThemeFamily();
-  const { replyCount } = threadPanel({ theme });
+  const { replyCount } = threadPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "thread-panel-reply-count",
     className: replyCount({ className }),
@@ -174,8 +164,7 @@ export function ThreadPanelReplyCount({ className, render, ...props }: ThreadPan
 export type ThreadPanelFooterProps = useRender.ComponentProps<"div">;
 
 export function ThreadPanelFooter({ className, render, ...props }: ThreadPanelFooterProps) {
-  const theme = useThemeFamily();
-  const { footer } = threadPanel({ theme });
+  const { footer } = threadPanel();
 
   return (
     <PanelFooter
@@ -190,8 +179,7 @@ export function ThreadPanelFooter({ className, render, ...props }: ThreadPanelFo
 export type ThreadPanelSearchProps = useRender.ComponentProps<"div">;
 
 export function ThreadPanelSearch({ className, render, ...props }: ThreadPanelSearchProps) {
-  const theme = useThemeFamily();
-  const { search } = threadPanel({ theme });
+  const { search } = threadPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "thread-panel-search",
     className: search({ className }),
@@ -211,8 +199,7 @@ export function ThreadPanelSearchTrailing({
   render,
   ...props
 }: ThreadPanelSearchTrailingProps) {
-  const theme = useThemeFamily();
-  const { searchTrailing } = threadPanel({ theme });
+  const { searchTrailing } = threadPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "thread-panel-search-trailing",
     className: searchTrailing({ className }),
@@ -232,8 +219,7 @@ export function ThreadPanelSearchCount({
   render,
   ...props
 }: ThreadPanelSearchCountProps) {
-  const theme = useThemeFamily();
-  const { searchCount } = threadPanel({ theme });
+  const { searchCount } = threadPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "thread-panel-search-count",
     className: searchCount({ className }),

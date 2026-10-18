@@ -622,7 +622,7 @@ function PlaygroundChatMessageRow({
             )}
             {message.senderLifecycle ? (
               <MessageItemSenderBadges>
-                <Badge appearance="soft" variant="muted" uppercase>
+                <Badge appearance="soft" variant="muted">
                   {message.senderLifecycle}
                 </Badge>
               </MessageItemSenderBadges>

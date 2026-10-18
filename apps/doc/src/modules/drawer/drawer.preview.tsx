@@ -38,16 +38,10 @@ export function DrawerPreview({ swipeDirection, triggerLabel }: DrawerPreviewPro
               <AvatarFallback>DS</AvatarFallback>
             </Avatar>
             <div className="min-w-0">
-              <Text.Sans
-                size="small"
-                className="font-medium text-foreground in-data-[theme=brutal]:text-black"
-              >
+              <Text.Sans size="small" className="font-medium text-foreground">
                 #design-system
               </Text.Sans>
-              <Text.Sans
-                size="caption"
-                className="mt-0.5 text-foreground-muted in-data-[theme=brutal]:text-black/60"
-              >
+              <Text.Sans size="caption" className="mt-0.5 text-foreground-muted">
                 Joined June 12, 2026
               </Text.Sans>
             </div>

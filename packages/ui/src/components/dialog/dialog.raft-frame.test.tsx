@@ -21,7 +21,7 @@ afterEach(cleanup);
 
 test("a raft dialog dims the page and appears without motion", () => {
   render(
-    <ThemeProvider theme="raft">
+    <ThemeProvider>
       <Dialog open>
         <DialogContent data-testid="content">
           <DialogTitle>Log out</DialogTitle>
@@ -29,18 +29,22 @@ test("a raft dialog dims the page and appears without motion", () => {
       </Dialog>
     </ThemeProvider>,
   );
+  // No motion: nothing transitions, and nothing starts or ends faded or scaled.
+  const moves = (name: string) =>
+    (name.startsWith("transition") && name !== "transition-none") ||
+    name.startsWith("animate-") ||
+    /^data-(starting|ending)-style:(opacity-0|scale-\[)/.test(name);
   const content = screen.getByTestId("content").className.split(/\s+/);
-  expect(content).toContain("transition-none");
-  expect(content).toContain("data-starting-style:opacity-100");
-  expect(content).not.toContain("data-starting-style:opacity-0");
+  expect(content.filter(moves)).toEqual([]);
   const overlay = document.querySelector('[data-slot="dialog-overlay"]');
-  expect(overlay?.className.split(/\s+/)).toContain("bg-layer-backdrop");
-  expect(overlay?.className.split(/\s+/)).toContain("transition-none");
+  const overlayClasses = overlay?.className.split(/\s+/) ?? [];
+  expect(overlayClasses).toContain("bg-layer-backdrop");
+  expect(overlayClasses.filter(moves)).toEqual([]);
 });
 
 test("DialogSurface is the raft dialog frame for an app-owned modal", () => {
   render(
-    <ThemeProvider theme="raft">
+    <ThemeProvider>
       <DialogSurface data-testid="surface">Search</DialogSurface>
     </ThemeProvider>,
   );

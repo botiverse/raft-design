@@ -26,7 +26,6 @@ export function PlaygroundLegacyTaskPanel({
     <TasksLegacyTaskPanelComposition
       channelName={channel.name}
       taskNumber={task.number}
-      status={task.status}
       title={task.title}
       description={task.description}
       createdBy={`@${creator.name}`}

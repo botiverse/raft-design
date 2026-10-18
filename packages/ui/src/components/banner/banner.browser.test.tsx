@@ -15,9 +15,9 @@ function color(el: Element): string {
 
 // --- ghost indent: description left edge is consistent with/without BannerAction ---
 
-it("brutal description left edge is the same with and without BannerAction", () => {
+it("description left edge is the same with and without BannerAction", () => {
   const { unmount } = render(
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <div style={{ width: "400px" }}>
         <Banner status="warning" data-testid="b-without">
           <BannerDescription data-testid="d-without">Text</BannerDescription>
@@ -30,7 +30,7 @@ it("brutal description left edge is the same with and without BannerAction", () 
   unmount();
 
   render(
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <div style={{ width: "400px" }}>
         <Banner status="warning" data-testid="b-with">
           <BannerDescription data-testid="d-with">Text</BannerDescription>
@@ -50,11 +50,11 @@ it("brutal description left edge is the same with and without BannerAction", () 
   expect(offsetWith).toBe(offsetWithout);
 });
 
-// --- inline button color: elegant warning description buttons inherit semantic orange ---
+// --- inline button colour: an inline link reads the description's ink ---
 
-it("elegant warning inline button inherits description color, not default foreground", () => {
+it("warning inline button reads the description's colour", () => {
   render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <Banner status="warning" data-testid="banner">
         <BannerDescription data-testid="desc">
           Text{" "}
@@ -71,55 +71,13 @@ it("elegant warning inline button inherits description color, not default foregr
   expect(btnColor).toBe(descColor);
 });
 
-it("elegant warning BannerAction button does NOT inherit description color", () => {
-  render(
-    <ThemeProvider theme="elegant">
-      <Banner status="warning" data-testid="banner">
-        <BannerDescription data-testid="desc">Text</BannerDescription>
-        <BannerAction>
-          <Button variant="ghost" size="icon-xs" data-testid="action-btn">
-            X
-          </Button>
-        </BannerAction>
-      </Banner>
-    </ThemeProvider>,
-  );
+// --- action placement: actions get their own row under the text at every width ---
 
-  const descColor = color(screen.getByTestId("desc"));
-  const actionBtnColor = color(screen.getByTestId("action-btn"));
-  expect(actionBtnColor).not.toBe(descColor);
-});
-
-it("elegant warning description is a different color from brutal warning description", () => {
-  const { unmount } = render(
-    <ThemeProvider theme="elegant">
-      <Banner status="warning" data-testid="banner">
-        <BannerDescription data-testid="desc">Text</BannerDescription>
-      </Banner>
-    </ThemeProvider>,
-  );
-  const elegantColor = color(screen.getByTestId("desc"));
-  unmount();
-
-  render(
-    <ThemeProvider theme="brutal">
-      <Banner status="warning" data-testid="banner">
-        <BannerDescription data-testid="desc">Text</BannerDescription>
-      </Banner>
-    </ThemeProvider>,
-  );
-  const brutalColor = color(screen.getByTestId("desc"));
-
-  expect(elegantColor).not.toBe(brutalColor);
-});
-
-// --- action wrapping: narrow wraps, wide stays inline (both themes) ---
-
-for (const theme of ["brutal", "elegant"] as const) {
-  it(`${theme}: two actions wrap to a new row at narrow container width`, () => {
+for (const width of [280, 600]) {
+  it(`${width}px: two actions sit on their own row under the description`, () => {
     render(
-      <ThemeProvider theme={theme}>
-        <div style={{ width: "280px" }}>
+      <ThemeProvider>
+        <div style={{ width: `${width}px` }}>
           <Banner status="warning" data-testid="banner">
             <BannerTitle>Title</BannerTitle>
             <BannerDescription data-testid="desc">Description text</BannerDescription>
@@ -138,13 +96,15 @@ for (const theme of ["brutal", "elegant"] as const) {
 
     const descRect = screen.getByTestId("desc").getBoundingClientRect();
     const actionRect = screen.getByTestId("action").getBoundingClientRect();
-    expect(actionRect.top).toBeGreaterThan(descRect.top);
+    expect(actionRect.top).toBeGreaterThanOrEqual(descRect.bottom);
+    // …starting on the description's left edge.
+    expect(Math.abs(actionRect.left - descRect.left)).toBeLessThanOrEqual(1);
   });
 
-  it(`${theme}: single action wraps to a new row at narrow container width`, () => {
+  it(`${width}px: a single action sits on its own row under the description`, () => {
     render(
-      <ThemeProvider theme={theme}>
-        <div style={{ width: "280px" }}>
+      <ThemeProvider>
+        <div style={{ width: `${width}px` }}>
           <Banner status="warning" data-testid="banner">
             <BannerTitle>Title</BannerTitle>
             <BannerDescription data-testid="desc">Description text</BannerDescription>
@@ -160,85 +120,14 @@ for (const theme of ["brutal", "elegant"] as const) {
 
     const descRect = screen.getByTestId("desc").getBoundingClientRect();
     const actionRect = screen.getByTestId("action").getBoundingClientRect();
-    expect(actionRect.top).toBeGreaterThan(descRect.top);
-  });
-
-  it(`${theme}: single action stays on the description row at wide container width`, () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <div style={{ width: "600px" }}>
-          <Banner status="warning" data-testid="banner">
-            <BannerTitle>Title</BannerTitle>
-            <BannerDescription data-testid="desc">Description text</BannerDescription>
-            <BannerAction data-testid="action">
-              <Button variant="ghost" size="icon-xs">
-                X
-              </Button>
-            </BannerAction>
-          </Banner>
-        </div>
-      </ThemeProvider>,
-    );
-
-    const descRect = screen.getByTestId("desc").getBoundingClientRect();
-    const actionRect = screen.getByTestId("action").getBoundingClientRect();
-    expect(actionRect.top).toBeLessThanOrEqual(descRect.bottom);
-  });
-
-  it(`${theme}: two actions stay on the description row at wide container width`, () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <div style={{ width: "600px" }}>
-          <Banner status="warning" data-testid="banner">
-            <BannerTitle>Title</BannerTitle>
-            <BannerDescription data-testid="desc">Description text</BannerDescription>
-            <BannerAction data-testid="action">
-              <Button variant="outline" size="xs">
-                A
-              </Button>
-              <Button variant="outline" size="xs">
-                B
-              </Button>
-            </BannerAction>
-          </Banner>
-        </div>
-      </ThemeProvider>,
-    );
-
-    const descRect = screen.getByTestId("desc").getBoundingClientRect();
-    const actionRect = screen.getByTestId("action").getBoundingClientRect();
-    expect(actionRect.top).toBeLessThanOrEqual(descRect.bottom);
-  });
-}
-
-// --- action row-span: keyed off the composed parts' sibling order, not ancestor :has() ---
-
-for (const theme of ["brutal", "elegant"] as const) {
-  it(`${theme}: action spans both text rows when title and description are present`, () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <div style={{ width: "600px" }}>
-          <Banner status="info" data-testid="banner">
-            <BannerTitle>Title</BannerTitle>
-            <BannerDescription data-testid="desc">Description text</BannerDescription>
-            <BannerAction data-testid="action">
-              <Button variant="ghost" size="icon-xs">
-                X
-              </Button>
-            </BannerAction>
-          </Banner>
-        </div>
-      </ThemeProvider>,
-    );
-
-    const actionStyle = getComputedStyle(screen.getByTestId("action"));
-    expect(actionStyle.gridRowStart).toBe("span 2");
+    expect(actionRect.top).toBeGreaterThanOrEqual(descRect.bottom);
+    expect(getComputedStyle(screen.getByTestId("action")).gridRowStart).not.toBe("span 2");
   });
 }
 
 it("action keeps its single-row placement when there is no description", () => {
   render(
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <div style={{ width: "600px" }}>
         <Banner status="info" data-testid="banner">
           <BannerTitle>Title</BannerTitle>

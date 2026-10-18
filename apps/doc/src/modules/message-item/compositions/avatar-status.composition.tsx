@@ -50,7 +50,6 @@ export function MessageAvatarStatusComposition() {
                 <Status
                   aria-hidden
                   className="[--status-color:var(--color-primary)]"
-                  pulse
                   variant="warning"
                 />
               }
@@ -78,7 +77,6 @@ export function MessageAvatarStatusComposition() {
                 <Status
                   aria-hidden
                   className="[--status-color:var(--color-primary)]"
-                  pulse
                   variant="warning"
                 />
               }

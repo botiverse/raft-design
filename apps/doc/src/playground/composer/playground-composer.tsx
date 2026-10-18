@@ -45,13 +45,7 @@ import {
   SortableComposerAttachment,
   SortableComposerAttachmentsScroll,
 } from "raft-ui";
-import type { FilePreviewBadgeType } from "raft-ui";
-import {
-  Composer,
-  ComposerInput,
-  ComposerSuggestionList,
-  ComposerToolbar,
-} from "#/modules/chat-composer/composer-responsive.tsx";
+import { Composer, ComposerInput, ComposerSuggestionList, ComposerToolbar } from "raft-ui";
 
 import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
 import { usePlaygroundSingleComposerMentionTarget } from "./use-playground-single-composer-mention-target.ts";
@@ -82,36 +76,9 @@ const ATTACHMENT_UPLOAD_DELAY_MS = 900;
 const MESSAGE_SEND_DELAY_MS = 750;
 let localThreadReplySequence = 0;
 
-const FILE_PREVIEW_BADGE_TYPES = new Set<string>([
-  "pdf",
-  "doc",
-  "docx",
-  "txt",
-  "md",
-  "csv",
-  "json",
-  "zip",
-  "html",
-  "code",
-  "img",
-  "png",
-  "jpg",
-  "jpeg",
-  "gif",
-  "webp",
-  "mp4",
-  "mov",
-]);
-
 function filePreviewLabel(name: string) {
   const extension = name.split(".").at(-1);
   return extension ? extension.slice(0, 4).toUpperCase() : "FILE";
-}
-
-function filePreviewBadgeType(name: string): FilePreviewBadgeType | undefined {
-  const extension = name.split(".").at(-1)?.toLowerCase();
-  if (!extension || !FILE_PREVIEW_BADGE_TYPES.has(extension)) return undefined;
-  return extension as FilePreviewBadgeType;
 }
 
 function AutocompleteOption({
@@ -283,7 +250,6 @@ function PlaygroundSeededComposerAttachment({
   onRetry: (name: string) => void;
 }) {
   const isImage = attachment.mediaType.startsWith("image/");
-  const badgeType = filePreviewBadgeType(attachment.name);
   const badgeClassName = attachment.state.kind === "uploading" ? "!shadow-none" : undefined;
   const badgeLabel = filePreviewLabel(attachment.name);
   const handleRetry = useCallback(() => onRetry(attachment.name), [attachment.name, onRetry]);
@@ -314,13 +280,7 @@ function PlaygroundSeededComposerAttachment({
                     : "h-[46px]"
                 }
               />
-              {badgeType ? (
-                <FilePreviewBadge type={badgeType} className={badgeClassName}>
-                  {badgeLabel}
-                </FilePreviewBadge>
-              ) : (
-                <FilePreviewBadge className={badgeClassName}>{badgeLabel}</FilePreviewBadge>
-              )}
+              <FilePreviewBadge className={badgeClassName}>{badgeLabel}</FilePreviewBadge>
             </FilePreview>
             <ComposerAttachmentBody>
               <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
@@ -704,11 +664,7 @@ function PlaygroundComposer({
               ) : null}
               {footer === "main" ? (
                 <ComposerToolbarLabel>
-                  <Checkbox
-                    size="sm"
-                    aria-label="Send as task"
-                    disabled={sendState.kind === "sending"}
-                  />
+                  <Checkbox aria-label="Send as task" disabled={sendState.kind === "sending"} />
                   As Task
                 </ComposerToolbarLabel>
               ) : null}

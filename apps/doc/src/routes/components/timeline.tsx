@@ -82,7 +82,8 @@ const TIMELINE_PROPS: readonly PropRow[] = [
   {
     name: "iconSize",
     type: "number",
-    description: "Marker size in px. Defaults to the theme's size for the current size.",
+    description:
+      "Marker size in px. Defaults to 9px for a dot and 14px for an icon, at every size.",
   },
   {
     name: "...props",

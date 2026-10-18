@@ -1,4 +1,3 @@
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { conversationPanel } from "../conversation-panel/conversation-panel.recipe";
 import { Panel, PanelBody, PanelSection } from "../panel/panel";
 import type { PanelBodyProps, PanelProps, PanelSectionProps } from "../panel/panel";
@@ -9,8 +8,7 @@ import { profilePanel } from "./profile-panel.recipe";
 export type ProfilePanelProps = PanelProps;
 
 export function ProfilePanel({ className, edge = "inset", ...props }: ProfilePanelProps) {
-  const theme = useThemeFamily();
-  const { root } = profilePanel({ theme });
+  const { root } = profilePanel();
 
   return <Panel {...props} edge={edge} data-slot="profile-panel" className={root({ className })} />;
 }
@@ -18,8 +16,7 @@ export function ProfilePanel({ className, edge = "inset", ...props }: ProfilePan
 export type ProfilePanelHeaderProps = PanelHeaderProps;
 
 export function ProfilePanelHeader({ className, ...props }: ProfilePanelHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = profilePanel({ theme });
+  const { header } = profilePanel();
 
   return <PanelHeader {...props} className={header({ className })} />;
 }
@@ -27,8 +24,7 @@ export function ProfilePanelHeader({ className, ...props }: ProfilePanelHeaderPr
 export type ProfilePanelHeaderContentProps = PanelHeaderContentProps;
 
 export function ProfilePanelHeaderContent({ className, ...props }: ProfilePanelHeaderContentProps) {
-  const theme = useThemeFamily();
-  const { headerContent } = profilePanel({ theme });
+  const { headerContent } = profilePanel();
 
   return <PanelHeaderContent {...props} className={headerContent({ className })} />;
 }
@@ -38,8 +34,7 @@ export type ProfilePanelBodyProps = PanelBodyProps;
 // Shares the conversation panel's raised content chrome so profile detail
 // surfaces read as the same material as the chat panel.
 export function ProfilePanelBody({ className, ...props }: ProfilePanelBodyProps) {
-  const theme = useThemeFamily();
-  const { content } = conversationPanel({ theme });
+  const { content } = conversationPanel();
 
   return <PanelBody {...props} data-slot="profile-panel-body" className={content({ className })} />;
 }
@@ -47,8 +42,7 @@ export function ProfilePanelBody({ className, ...props }: ProfilePanelBodyProps)
 export type ProfilePanelSectionProps = PanelSectionProps;
 
 export function ProfilePanelSection({ className, ...props }: ProfilePanelSectionProps) {
-  const theme = useThemeFamily();
-  const { section } = profilePanel({ theme });
+  const { section } = profilePanel();
 
   return <PanelSection {...props} className={section({ className })} />;
 }

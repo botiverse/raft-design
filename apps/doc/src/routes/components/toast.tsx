@@ -23,7 +23,6 @@ import {
   ToastTitle,
   ToastViewport,
   useToastManager,
-  useThemeFamily,
 } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
@@ -871,14 +870,12 @@ function ToastDoc() {
 }
 
 function InlineUsageToast() {
-  const theme = useThemeFamily();
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
   return (
     <div ref={setPortalContainer} className="relative min-h-72 w-full overflow-hidden">
       <ToastPreviewScene />
       <ToastProvider
-        key={theme}
         timeout={3600}
         limit={3}
         portalContainer={portalContainer}
@@ -944,7 +941,6 @@ function InlineUsageControls() {
 }
 
 function AnchoredUsageToast() {
-  const theme = useThemeFamily();
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
@@ -952,7 +948,6 @@ function AnchoredUsageToast() {
     <div ref={setPortalContainer} className="relative min-h-56 w-full overflow-hidden">
       <ToastPreviewScene />
       <ToastProvider
-        key={theme}
         toastManager={anchoredUsageToastManager}
         timeout={0}
         limit={1}
@@ -1036,19 +1031,12 @@ function AnchoredUsageToastList() {
 }
 
 function ToastAnatomyVariantPreview({ variant }: { variant: (typeof ANATOMY_VARIANTS)[number] }) {
-  const theme = useThemeFamily();
   const [toastManager] = useState(() => createToastManager<AnatomyVariantData>());
 
   return (
     <div className="relative flex min-h-32 w-full items-center justify-center overflow-hidden">
       <ToastPreviewScene />
-      <ToastProvider
-        key={theme}
-        toastManager={toastManager}
-        timeout={0}
-        limit={1}
-        renderViewport={false}
-      >
+      <ToastProvider toastManager={toastManager} timeout={0} limit={1} renderViewport={false}>
         <ToastAnatomyVariantSeed variant={variant} />
         <div className="relative z-10">
           <ToastAnatomyVariantItem />

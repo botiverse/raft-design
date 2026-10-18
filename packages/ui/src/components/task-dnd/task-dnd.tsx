@@ -33,7 +33,6 @@ import {
   useSyncExternalStore,
 } from "react";
 import type { ComponentPropsWithRef, CSSProperties, Ref, ReactNode } from "react";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { taskDnd } from "./task-dnd.recipe";
 
 export type TaskDropState = "idle" | "allowed" | "blocked";
@@ -232,8 +231,7 @@ export function TaskDraggable({
   style,
   ...props
 }: TaskDraggableProps) {
-  const theme = useThemeFamily();
-  const { draggable } = taskDnd({ theme });
+  const { draggable } = taskDnd();
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id,
     disabled,
@@ -314,10 +312,9 @@ export function TaskDropPlaceholder({
   style,
   ...props
 }: TaskDropPlaceholderProps) {
-  const theme = useThemeFamily();
   const context = use(TaskDndContext);
   const overStore = use(TaskDndOverContext) ?? EMPTY_OVER_STORE;
-  const { placeholder } = taskDnd({ theme });
+  const { placeholder } = taskDnd();
   const dropState = useSyncExternalStore<TaskDropState>(
     overStore.subscribe,
     () => getPlaceholderDropState(context, overStore.getSnapshot(), id, placement),
@@ -351,8 +348,7 @@ export type TaskDragOverlayProps = {
 };
 
 export function TaskDragOverlay({ children, className }: TaskDragOverlayProps) {
-  const theme = useThemeFamily();
-  const { overlay } = taskDnd({ theme });
+  const { overlay } = taskDnd();
 
   return (
     <DragOverlay dropAnimation={null}>

@@ -9,9 +9,7 @@ import {
   ResizableGroup,
   ResizableHandle,
   ResizablePanel,
-  useThemeFamily,
 } from "raft-ui";
-import type { Theme } from "raft-ui";
 import { cn } from "raft-ui/cn";
 
 import {
@@ -59,7 +57,6 @@ export function PlaygroundChatShell() {
     shouldThrow: false,
   });
   const { tasks } = usePlaygroundTaskState();
-  const theme = useThemeFamily();
   const isDesktop = usePlaygroundDesktop();
   const isLargeDesktop = usePlaygroundLargeDesktop();
   const channelId = channelMatch?.params.channelId;
@@ -94,8 +91,7 @@ export function PlaygroundChatShell() {
       sidebarCollapsible={isDesktop}
       className={cn(
         "h-full max-md:h-dvh max-md:overflow-hidden",
-        theme === "brutal" && (mobileListPanel ? "max-md:bg-primary" : "max-md:bg-white"),
-        theme === "raft" && mobileListPanel && "max-md:bg-layer-frame",
+        mobileListPanel && "max-md:bg-layer-frame",
       )}
     >
       <PlaygroundRail showBottomNavigation={mobileListPanel} />
@@ -112,7 +108,6 @@ export function PlaygroundChatShell() {
           />
         }
         main={<Outlet />}
-        theme={theme}
         thread={
           activeLegacyTask && channel ? (
             <PlaygroundLegacyTaskPanel
@@ -142,7 +137,6 @@ function PlaygroundChatLayout({
   main,
   mobileListPanel,
   sidebar,
-  theme,
   thread,
 }: {
   isDesktop: boolean;
@@ -150,11 +144,8 @@ function PlaygroundChatLayout({
   main: ReactNode;
   mobileListPanel: boolean;
   sidebar: ReactNode;
-  theme: Theme;
   thread?: ReactNode;
 }) {
-  const sidebarDefaultSize = theme === "elegant" ? 252 : 240;
-
   if (!isDesktop) {
     return (
       <AppShellMainSlot className="size-full ">
@@ -167,18 +158,18 @@ function PlaygroundChatLayout({
   return (
     <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
       <ResizablePanel
-        id={`playground-sidebar-${theme}`}
-        defaultSize={sidebarDefaultSize}
+        id="playground-sidebar"
+        defaultSize={240}
         minSize={180}
         maxSize={368}
         groupResizeBehavior="preserve-pixel-size"
         className="relative min-w-0"
       >
-        <AppShellSidebarSlot className="relative flex h-full w-auto min-w-0 flex-1 in-data-[theme=brutal]:border-r-2 in-data-[theme=brutal]:border-black">
+        <AppShellSidebarSlot className="relative flex h-full w-auto min-w-0 flex-1">
           {sidebar}
         </AppShellSidebarSlot>
       </ResizablePanel>
-      <ResizableHandle className={theme === "elegant" ? "translate-x-[14px]" : undefined} />
+      <ResizableHandle />
       <ResizablePanel id="playground-main" minSize={360} className="relative z-0 overflow-visible!">
         <AppShellMainSlot overlay className="flex h-full min-w-0 flex-1">
           {main}
@@ -187,7 +178,7 @@ function PlaygroundChatLayout({
       </ResizablePanel>
       {thread && isLargeDesktop ? (
         <>
-          <ResizableHandle className={theme === "elegant" ? "z-50 translate-x-[7px]" : "z-50"} />
+          <ResizableHandle className="z-50" />
           <ResizablePanel
             id="playground-thread"
             defaultSize={400}

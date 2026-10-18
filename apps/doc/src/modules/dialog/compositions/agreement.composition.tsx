@@ -7,9 +7,7 @@ import {
   DialogTitle,
   Button,
   Text,
-  useThemeFamily,
 } from "raft-ui";
-import { cn } from "raft-ui/cn";
 import { X } from "lucide-react";
 
 // @docs-source-strip-start
@@ -19,39 +17,22 @@ import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
 function AgreementDialogParts() {
-  const theme = useThemeFamily();
-  const isBrutal = theme === "brutal";
-  const isElegant = theme === "elegant";
-  const actionButtonSize = isBrutal ? "md" : "sm";
-
   return (
     <>
-      <DialogHeader className={cn(isBrutal && "items-start")}>
+      <DialogHeader>
         <div className="grid gap-0.5">
-          <DialogTitle className={cn(isBrutal && "font-sans normal-case leading-tight")}>
-            Community Guidelines
-          </DialogTitle>
-          <Text.Sans
-            size="caption"
-            variant="placeholder"
-            className={cn(isBrutal && "text-black/50")}
-          >
+          <DialogTitle>Community Guidelines</DialogTitle>
+          <Text.Sans size="caption" variant="placeholder">
             Version 3
           </Text.Sans>
         </div>
-        <DialogClose size="icon-sm" className={cn(isBrutal && "p-1")}>
-          <X className={cn("size-4", isBrutal && "size-[18px]")} />
+        <DialogClose size="icon-sm">
+          <X className="size-4" />
         </DialogClose>
       </DialogHeader>
-      <DialogBody className={cn("grid gap-3", isBrutal && "py-6 font-normal", isElegant && "py-7")}>
+      <DialogBody className="grid gap-3">
         <p className="m-0 text-sm">Before joining, review the workspace rules.</p>
-        <div
-          className={cn(
-            "max-h-[50vh] overflow-y-auto border border-line-muted bg-layer-panel p-4 text-sm",
-            isBrutal && "border-2 border-line-strong bg-white",
-            isElegant && "max-h-none overflow-visible border-0 bg-transparent p-0",
-          )}
-        >
+        <div className="max-h-[50vh] overflow-y-auto border border-line-muted bg-layer-panel p-4 text-sm">
           <ul className="m-0 list-disc space-y-1 pl-5 whitespace-pre-wrap wrap-break-word">
             <li>Keep sensitive customer data out of public channels.</li>
             <li>Use design-system components for shared product surfaces.</li>
@@ -60,10 +41,8 @@ function AgreementDialogParts() {
         </div>
       </DialogBody>
       <DialogFooter>
-        <DialogClose render={<Button variant="outline" size={actionButtonSize} />}>
-          Cancel
-        </DialogClose>
-        <Button variant="accent" size={actionButtonSize}>
+        <DialogClose render={<Button variant="outline" size="sm" />}>Cancel</DialogClose>
+        <Button variant="accent" size="sm">
           Agree & Continue
         </Button>
       </DialogFooter>
@@ -72,10 +51,8 @@ function AgreementDialogParts() {
 }
 
 export function AgreementDialogContent() {
-  const theme = useThemeFamily();
-
   return (
-    <DialogContent className={cn("max-w-lg", theme === "brutal" && "p-5")}>
+    <DialogContent className="max-w-lg">
       <AgreementDialogParts />
     </DialogContent>
   );
@@ -86,7 +63,7 @@ export function AgreementDialogComposition({ className }: { className?: string }
   return (
     <CompositionModalPreview
       className={className}
-      contentClassName="max-w-lg data-[theme=brutal]:p-5"
+      contentClassName="max-w-lg"
       placementPaddingClassName="px-0 py-6"
       backdrop={false}
     >

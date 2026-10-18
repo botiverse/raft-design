@@ -110,19 +110,17 @@ Both are small. They say different things.
 
 |          | `Badge`                                           | `Status`                                                 |
 | -------- | ------------------------------------------------- | -------------------------------------------------------- |
-| Shape    | a pill with text                                  | a dot                                                    |
+| Shape    | a sticker with text                               | a square pixel                                           |
 | Says     | what something _is_ — a label, count, or category | what state something is _in_ — online, healthy, failing  |
 | Has text | yes                                               | no; add an `aria-label` or pair it with text when needed |
 
-Use `Status` for presence, health, and liveness. Its `pulse` boolean enables the theme's live-activity treatment; `attention` adds extra emphasis in the elegant theme. Do not animate a dot yourself.
+Use `Status` for presence, health, and liveness. It never animates: a working agent is a steady light. Do not animate a dot yourself; the DS forbids looping status animation.
 
 Use `Badge` for counts, tags, roles, and environment labels. `appearance` is `solid` (the default) `soft` `outline`:
 
 - `soft` — ambient metadata, the common case; pass it explicitly.
 - `solid` — the badge is the primary signal in its row.
 - `outline` — the surface is already busy or already tinted.
-
-`uppercase` is a boolean; do not `.toUpperCase()` the string yourself.
 
 ---
 
@@ -144,7 +142,7 @@ Distinguish three cases and do not use the same copy for them:
 
 ## Per-component norms
 
-**`NotificationCenter`** — set `viewport="desktop" | "mobile"` and `size="sm" | "md" | "lg"` on `NotificationCenterPopup`. Pass `read` to `NotificationCenterItem`, `status="error" | "warning" | "info" | "success"` to `NotificationCenterItemIcon`, and `variant="primary" | "secondary"` to `NotificationCenterActionButton`. Compose item structure from `NotificationCenterItemRow`, `NotificationCenterItemIcon`, `NotificationCenterItemContent`, `NotificationCenterItemTitle`, `NotificationCenterItemBody`, and `NotificationCenterItemActions`. Own read state in the application.
+**`NotificationCenter`** — set `viewport="desktop" | "mobile"` and `size="sm" | "md" | "lg"` on `NotificationCenterPopup`. Pass `read` to `NotificationCenterItem`, and `status="error" | "warning" | "info" | "success"` to `NotificationCenterItemIcon`. `NotificationCenterActionButton` is always an outline button; it takes no `variant`. Compose item structure from `NotificationCenterItemRow`, `NotificationCenterItemIcon`, `NotificationCenterItemContent`, `NotificationCenterItemTitle`, `NotificationCenterItemBody`, and `NotificationCenterItemActions`. Own read state in the application.
 
 **`Status`** — variants are `default` `primary` `information` `muted` `accent` `success` `warning` `danger`; sizes `xs` `sm` `md` `lg`.
 

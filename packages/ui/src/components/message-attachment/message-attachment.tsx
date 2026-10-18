@@ -1,6 +1,5 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageAttachment } from "./message-attachment.recipe";
 
 export type MessageAttachmentGroupProps = useRender.ComponentProps<"div">;
@@ -28,8 +27,7 @@ export function MessageAttachmentGroup({
 export type MessageAttachmentCardProps = useRender.ComponentProps<"div">;
 
 export function MessageAttachmentCard({ className, render, ...props }: MessageAttachmentCardProps) {
-  const theme = useThemeFamily();
-  const { card } = messageAttachment({ theme });
+  const { card } = messageAttachment();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: card({ className }),
   };
@@ -51,8 +49,7 @@ export function MessageAttachmentTitle({
   render,
   ...props
 }: MessageAttachmentTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = messageAttachment({ theme });
+  const { title } = messageAttachment();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: title({ className }),
   };
@@ -70,8 +67,7 @@ export function MessageAttachmentTitle({
 export type MessageAttachmentMetaProps = useRender.ComponentProps<"span">;
 
 export function MessageAttachmentMeta({ className, render, ...props }: MessageAttachmentMetaProps) {
-  const theme = useThemeFamily();
-  const { meta } = messageAttachment({ theme });
+  const { meta } = messageAttachment();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: meta({ className }),
   };
@@ -137,8 +133,7 @@ export function MessageAttachmentSummary({
   render,
   ...props
 }: MessageAttachmentSummaryProps) {
-  const theme = useThemeFamily();
-  const { summary } = messageAttachment({ theme });
+  const { summary } = messageAttachment();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: summary({ className }),
   };
@@ -160,8 +155,7 @@ export function MessageAttachmentCommentSummary({
   render,
   ...props
 }: MessageAttachmentCommentSummaryProps) {
-  const theme = useThemeFamily();
-  const { commentSummary } = messageAttachment({ theme });
+  const { commentSummary } = messageAttachment();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: commentSummary({ className }),
   };
@@ -205,8 +199,7 @@ export function MessageAttachmentDiffAddition({
   render,
   ...props
 }: MessageAttachmentDiffAdditionProps) {
-  const theme = useThemeFamily();
-  const { diffAddition } = messageAttachment({ theme });
+  const { diffAddition } = messageAttachment();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: diffAddition({ className }),
   };
@@ -228,8 +221,7 @@ export function MessageAttachmentDiffDeletion({
   render,
   ...props
 }: MessageAttachmentDiffDeletionProps) {
-  const theme = useThemeFamily();
-  const { diffDeletion } = messageAttachment({ theme });
+  const { diffDeletion } = messageAttachment();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: diffDeletion({ className }),
   };
@@ -251,8 +243,7 @@ export function MessageAttachmentAction({
   render,
   ...props
 }: MessageAttachmentActionProps) {
-  const theme = useThemeFamily();
-  const { action } = messageAttachment({ theme });
+  const { action } = messageAttachment();
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
     className: action({ className }),

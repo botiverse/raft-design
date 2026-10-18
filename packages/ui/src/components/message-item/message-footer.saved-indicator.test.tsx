@@ -3,9 +3,9 @@
  *
  * Pins the MessageItemSavedIndicator prop contract (slock task #640):
  * `elevation` controls the shadow (default "none" = the passive state-marker
- * form: white surface + border-line-strong + no shadow on brutal), and
- * `iconOnly` explicitly selects the square icon-button treatment that used
- * to be driven by the `data-icon-only` attribute.
+ * form: a flat muted chip with no shadow), and `iconOnly` explicitly selects
+ * the square icon-button treatment that used to be driven by the
+ * `data-icon-only` attribute.
  */
 import { afterEach, describe, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
@@ -28,12 +28,9 @@ if (typeof window.matchMedia !== "function") {
 
 afterEach(cleanup);
 
-function renderIndicator(
-  props: { elevation?: "none" | "xs" | "sm"; iconOnly?: boolean } = {},
-  theme: "brutal" | "elegant" = "brutal",
-) {
+function renderIndicator(props: { elevation?: "none" | "xs" | "sm"; iconOnly?: boolean } = {}) {
   const { container } = render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <MessageItemSavedIndicator {...props}>
         <svg />
         <span>Saved</span>
@@ -44,10 +41,12 @@ function renderIndicator(
 }
 
 describe("MessageItemSavedIndicator elevation prop", () => {
-  test('default elevation "none" renders the flat brutal state-marker shell', () => {
+  test('default elevation "none" renders the flat state-marker chip', () => {
     const node = renderIndicator();
-    expect(node.className).toContain("bg-white");
-    expect(node.className).toContain("border-line-strong");
+    const classes = node.className.split(/\s+/);
+    expect(classes).toContain("h-[22px]");
+    expect(classes).toContain("rounded-chip");
+    expect(classes).toContain("bg-fill-muted");
     expect(node.className).not.toContain("shadow-raft-xs");
     expect(node.className).not.toContain("shadow-raft-sm");
     expect(node.className).not.toContain("shadow-raft-md");
@@ -66,37 +65,29 @@ describe("MessageItemSavedIndicator elevation prop", () => {
 });
 
 describe("MessageItemSavedIndicator iconOnly prop", () => {
-  test("brutal icon-only keeps the square hard-shadow button treatment", () => {
+  test("icon-only takes the square icon-button treatment", () => {
     const node = renderIndicator({ iconOnly: true });
     expect(node.hasAttribute("data-icon-only")).toBe(true);
-    const cls = node.className;
-    expect(cls).toContain("size-7");
-    expect(cls).toContain("justify-center");
-    expect(cls).toContain("p-0");
-    expect(cls).toContain("border-2");
-    expect(cls).toContain("shadow-raft-sm");
-    expect(cls).toContain("hover:-translate-y-px");
-    expect(cls).toContain("hover:shadow-raft-md");
-    expect(cls).toContain("active:translate-px");
-    expect(cls).toContain("active:shadow-raft-xs");
-    expect(cls).toContain("[&_svg]:size-3.5");
+    const classes = node.className.split(/\s+/);
+    for (const name of [
+      "size-8",
+      "justify-center",
+      "p-0",
+      "rounded-control",
+      "bg-transparent",
+      "[&_svg]:size-[18px]",
+    ]) {
+      expect(classes).toContain(name);
+    }
+    // The chip shell is replaced, not merely accompanied.
+    for (const name of ["h-[22px]", "rounded-chip", "bg-fill-muted", "[&_svg]:size-3.5"]) {
+      expect(classes).not.toContain(name);
+    }
   });
 
-  test("elegant icon-only keeps the rounded-md compact treatment without brutal chrome", () => {
-    const node = renderIndicator({ iconOnly: true }, "elegant");
-    expect(node.hasAttribute("data-icon-only")).toBe(true);
-    const cls = node.className;
-    expect(cls).toContain("size-7");
-    expect(cls).toContain("rounded-md");
-    expect(cls).toContain("[&_svg]:size-4");
-    expect(cls).not.toContain("border-2");
-    expect(cls).not.toContain("shadow-raft-sm");
-  });
-
-  test("CONTROL: elegant default shell is untouched by the brutal retune", () => {
-    const cls = renderIndicator({}, "elegant").className;
-    expect(cls).toContain("bg-primary-soft");
-    expect(cls).not.toContain("bg-white");
-    expect(cls).not.toContain("border-line-strong");
+  test("CONTROL: the default shell is not the icon-button one", () => {
+    const classes = renderIndicator().className.split(/\s+/);
+    expect(classes).not.toContain("size-8");
+    expect(classes).not.toContain("bg-transparent");
   });
 });

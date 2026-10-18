@@ -16,28 +16,24 @@ import {
   Input,
   Text,
   Textarea,
-  useThemeFamily,
 } from "raft-ui";
-import type { Theme, ThemeMode } from "raft-ui";
-import { cn } from "raft-ui/cn";
+import type { ThemeMode } from "raft-ui";
 import { Monitor } from "lucide-react";
 
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 
 type CloseBehavior = "esc-only" | "both" | "none";
 
-type ThemeOption = { label: string; theme: Theme; mode: ThemeMode };
+type ModeOption = { label: string; mode: ThemeMode };
 
-const THEME_OPTIONS: readonly ThemeOption[] = [
-  { label: "Elegant", theme: "elegant", mode: "light" },
-  { label: "Brutal", theme: "brutal", mode: "light" },
-  { label: "Elegant dark", theme: "elegant", mode: "dark" },
+const MODE_OPTIONS: readonly ModeOption[] = [
+  { label: "Light", mode: "light" },
+  { label: "Dark", mode: "dark" },
 ];
 
 export const Route = createFileRoute("/iframe/dialog-scroll-layer")({
   staticData: { standalone: true },
   validateSearch: (search) => ({
-    theme: getTheme(search.theme),
     mode: getMode(search.mode),
   }),
   component: DialogScrollLayerPreview,
@@ -45,20 +41,14 @@ export const Route = createFileRoute("/iframe/dialog-scroll-layer")({
 
 function DialogScrollLayerPreview() {
   const search = Route.useSearch();
-  const [theme, setTheme] = useState<Theme>(search.theme);
   const [mode, setMode] = useState<ThemeMode>(search.mode);
 
-  const handleThemeSelect = useCallback((option: ThemeOption) => {
-    setTheme(option.theme);
+  const handleModeSelect = useCallback((option: ModeOption) => {
     setMode(option.mode);
   }, []);
 
   return (
-    <PreviewThemeScope
-      family={theme}
-      mode={mode}
-      className="min-h-screen bg-layer-base text-foreground-strong"
-    >
+    <PreviewThemeScope mode={mode} className="min-h-screen bg-layer-base text-foreground-strong">
       <div className="mx-auto flex max-w-3xl flex-col gap-6 p-6">
         <div className="flex flex-col gap-1">
           <Text.Sans size="large" className="font-semibold">
@@ -70,12 +60,12 @@ function DialogScrollLayerPreview() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          {THEME_OPTIONS.map((option) => (
-            <ThemeOptionButton
+          {MODE_OPTIONS.map((option) => (
+            <ModeOptionButton
               key={option.label}
               option={option}
-              active={theme === option.theme && mode === option.mode}
-              onSelect={handleThemeSelect}
+              active={mode === option.mode}
+              onSelect={handleModeSelect}
             />
           ))}
         </div>
@@ -130,14 +120,14 @@ function DialogScrollLayerPreview() {
   );
 }
 
-function ThemeOptionButton({
+function ModeOptionButton({
   option,
   active,
   onSelect,
 }: {
-  option: ThemeOption;
+  option: ModeOption;
   active: boolean;
-  onSelect: (option: ThemeOption) => void;
+  onSelect: (option: ModeOption) => void;
 }) {
   const handleClick = useCallback(() => onSelect(option), [onSelect, option]);
 
@@ -169,12 +159,7 @@ function Card({
   children: React.ReactNode;
 }) {
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-2 rounded-md border border-line-muted bg-layer-panel p-4",
-        "in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-line-strong",
-      )}
-    >
+    <div className="flex flex-col gap-2 rounded-md border border-line-muted bg-layer-panel p-4">
       <div className="flex flex-col gap-0.5">
         <Text.Sans size="caption" className="font-medium text-foreground">
           {label}
@@ -325,40 +310,19 @@ function StandardCardDialog() {
 }
 
 function CustomLayoutDialog() {
-  const theme = useThemeFamily();
-  const isBrutal = theme === "brutal";
-  const isElegant = theme === "elegant";
-
   return (
     <Dialog>
       <DialogTrigger render={<Button variant="outline" size="sm" />}>Open</DialogTrigger>
       <DialogContent size="lg">
-        <DialogBody className={cn("grid gap-4", isBrutal && "pt-3 pb-4", isElegant && "py-7")}>
-          <Text.Mono
-            size="meta"
-            className={cn("uppercase text-foreground-muted", isBrutal && "text-black/50")}
-          >
+        <DialogBody className="grid gap-4">
+          <Text.Mono size="meta" className="uppercase text-foreground-muted">
             Custom layout
           </Text.Mono>
           <div className="flex items-center gap-3">
-            <div
-              className={cn(
-                "flex size-8 shrink-0 items-center justify-center border border-line-strong bg-primary-400 text-foreground",
-                isBrutal && "size-7 border-2 border-black bg-[oklch(0.883_0.162_91.89)] text-black",
-                isElegant && "rounded-md border-transparent bg-primary-soft text-primary-strong",
-              )}
-            >
-              <Monitor className={cn("size-4", isBrutal && "size-[17px]")} />
+            <div className="flex size-8 shrink-0 items-center justify-center border border-line-strong bg-primary-400 text-foreground">
+              <Monitor className="size-4" />
             </div>
-            <DialogTitle
-              className={cn(
-                "text-foreground",
-                isBrutal && "font-sans text-xl font-bold uppercase text-black",
-                isElegant && "text-lg font-semibold",
-              )}
-            >
-              Full-bleed content
-            </DialogTitle>
+            <DialogTitle className="text-foreground">Full-bleed content</DialogTitle>
           </div>
           <Text.Sans size="body" variant="placeholder">
             No default header/footer chrome. This is the onboarding/announcement pattern — the
@@ -438,9 +402,6 @@ function NestedDialog() {
 function WorstCaseCombo() {
   const [outerOpen, setOuterOpen] = useState(false);
   const [innerOpen, setInnerOpen] = useState(false);
-  const theme = useThemeFamily();
-  const isBrutal = theme === "brutal";
-  const isElegant = theme === "elegant";
 
   const handleInnerOpenChange = useCallback((next: boolean, details: { reason: string }) => {
     if (!next && (details.reason === "escape-key" || details.reason === "outside-press")) {
@@ -474,36 +435,15 @@ function WorstCaseCombo() {
               Open onboarding gate (layer 1)
             </DialogTrigger>
             <DialogContent layer={1} size="lg">
-              <DialogBody
-                className={cn("grid gap-4", isBrutal && "pt-3 pb-4", isElegant && "py-7")}
-              >
-                <Text.Mono
-                  size="meta"
-                  className={cn("uppercase text-foreground-muted", isBrutal && "text-black/50")}
-                >
+              <DialogBody className="grid gap-4">
+                <Text.Mono size="meta" className="uppercase text-foreground-muted">
                   Onboarding
                 </Text.Mono>
                 <div className="flex items-center gap-3">
-                  <div
-                    className={cn(
-                      "flex size-8 shrink-0 items-center justify-center border border-line-strong bg-primary-400 text-foreground",
-                      isBrutal &&
-                        "size-7 border-2 border-black bg-[oklch(0.883_0.162_91.89)] text-black",
-                      isElegant &&
-                        "rounded-md border-transparent bg-primary-soft text-primary-strong",
-                    )}
-                  >
-                    <Monitor className={cn("size-4", isBrutal && "size-[17px]")} />
+                  <div className="flex size-8 shrink-0 items-center justify-center border border-line-strong bg-primary-400 text-foreground">
+                    <Monitor className="size-4" />
                   </div>
-                  <DialogTitle
-                    className={cn(
-                      "text-foreground",
-                      isBrutal && "font-sans text-xl font-bold uppercase text-black",
-                      isElegant && "text-lg font-semibold",
-                    )}
-                  >
-                    Complete setup
-                  </DialogTitle>
+                  <DialogTitle className="text-foreground">Complete setup</DialogTitle>
                 </div>
                 <Text.Sans size="body" variant="placeholder">
                   Custom full-bleed layout at layer 1 with non-dismissible close behavior (Esc and
@@ -534,10 +474,6 @@ function WorstCaseCombo() {
       </DialogContent>
     </Dialog>
   );
-}
-
-function getTheme(value: unknown): Theme {
-  return value === "brutal" || value === "elegant" || value === "raft" ? value : "elegant";
 }
 
 function getMode(value: unknown): ThemeMode {

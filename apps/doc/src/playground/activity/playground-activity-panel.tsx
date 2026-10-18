@@ -6,7 +6,6 @@ import {
   ResizableGroup,
   ResizableHandle,
   ResizablePanel,
-  useThemeFamily,
 } from "raft-ui";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
@@ -36,7 +35,6 @@ const activityConversationPrefix = "activity-conversation:";
 const threadContextPrefix = "thread:";
 
 export function PlaygroundActivityPanel() {
-  const theme = useThemeFamily();
   const isDesktop = usePlaygroundDesktop();
   const hasContextColumn = usePlaygroundWideDesktop();
   const { items, setItems } = usePlaygroundActivityState();
@@ -215,7 +213,7 @@ export function PlaygroundActivityPanel() {
           {master}
         </AppShellSidebarSlot>
       </ResizablePanel>
-      <ResizableHandle className={theme === "elegant" ? "translate-x-[10px]" : undefined} />
+      <ResizableHandle />
       <ResizablePanel id="playground-activity-content" minSize={320} className="relative min-w-0">
         <AppShellMainSlot overlay className="flex h-full min-w-0 flex-1">
           {content}
@@ -226,7 +224,7 @@ export function PlaygroundActivityPanel() {
       </ResizablePanel>
       {context && hasContextColumn ? (
         <>
-          <ResizableHandle className={theme === "elegant" ? "z-50 translate-x-[7px]" : "z-50"} />
+          <ResizableHandle className="z-50" />
           <ResizablePanel
             id="playground-activity-context"
             defaultSize={400}

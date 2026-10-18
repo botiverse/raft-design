@@ -21,7 +21,7 @@ afterEach(cleanup);
 
 function renderRow(wrap: boolean) {
   render(
-    <ThemeProvider theme="raft">
+    <ThemeProvider>
       <SidebarItem data-testid="row" wrap={wrap}>
         name
       </SidebarItem>

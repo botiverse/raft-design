@@ -23,7 +23,7 @@ test("the raft composer input states the DS input type instead of inheriting its
   // A thread footer sets 12/16 500 caption type for its hint text; the
   // composer it hosts must still read 16/24 regular, like the channel's.
   render(
-    <ThemeProvider theme="raft">
+    <ThemeProvider>
       <div className="text-caption font-medium">
         <Composer>
           <ComposerInput aria-label="Message thread" />

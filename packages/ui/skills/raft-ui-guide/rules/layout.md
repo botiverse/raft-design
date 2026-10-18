@@ -51,7 +51,7 @@ its surface and edges.
 </div>
 ```
 
-That loses the responsive behavior, the sidebar collapse protocol, and the theme-family treatments. `AppShellSidebarTrigger` is the paired control for collapsing the sidebar — wire it rather than tracking your own boolean and toggling a width class. It renders nothing unless `AppShellRoot` sets `sidebarCollapsible` (optionally with `sidebarOpen` / `onSidebarOpenChange`).
+That loses the responsive behavior and the sidebar collapse protocol. `AppShellSidebarTrigger` is the paired control for collapsing the sidebar — wire it rather than tracking your own boolean and toggling a width class. It renders nothing unless `AppShellRoot` sets `sidebarCollapsible` (optionally with `sidebarOpen` / `onSidebarOpenChange`).
 
 ---
 
@@ -87,7 +87,7 @@ Every adjacent pair of `ResizablePanel`s needs a `ResizableHandle` between them.
 | `SidebarRoot`   | the wide list — channels, DMs, sections       |
 | `MobileNavRoot` | bottom navigation on small screens            |
 
-`AppRail` composes `AppRailRoot`, `AppRailHeader`, `AppRailNav`, `AppRailFooter`, and items built from `AppRailItem` + `AppRailItemIcon` + `AppRailItemLabel`. Unread and attention signals have dedicated parts — `AppRailItemBadge`, `AppRailItemIndicator`, `AppRailItemAttention`, `AppRailItemAttentionMask`. Do not position a dot yourself.
+`AppRail` composes `AppRailRoot`, `AppRailHeader`, `AppRailNav`, `AppRailFooter`, and items built from `AppRailItem` + `AppRailItemIcon` + `AppRailItemLabel`. Unread and attention signals have dedicated parts — `AppRailItemBadge`, `AppRailItemIndicator`, and `AppRailItemAttention` (the pink pixel plus an optional screen-reader `title`; it takes no children). Do not position a dot yourself.
 
 `MobileNavRoot` composes `MobileNavItem` + `MobileNavLabel` for small screens. Render its items separately from the rail, but drive selection and navigation from the same app-owned route or view state. Mobile may expose only a subset of destinations; keep shared destinations aligned.
 
@@ -107,9 +107,8 @@ Every adjacent pair of `ResizablePanel`s needs a `ResizableHandle` between them.
 
 **Two headers, pick by need:** `PanelHeaderRoot` is the bare frame — use it when you lay the header out yourself. `PanelHeader` is the composed identity chrome built on top of it, with `PanelHeaderContent` / `PanelHeaderIcon` / `PanelHeading` / `PanelTitle` / `PanelMeta` / `PanelActions` (`PanelAction`, `PanelToggleAction`) — use it when the surface has an identity row, as `ConversationPanel` does. Both type-check inside a `Panel`, so the wrong pick fails silently.
 
-`PanelHeaderIcon` owns the header icon container: Elegant renders it as a 36px rounded muted
-surface, while Brutal applies its own framed treatment. Size the child icon explicitly; do not wrap
-the part in another chip or expect the container to size its SVG.
+`PanelHeaderIcon` owns the header icon container: a 27px yellow sticker that sizes its SVG to
+14px. Do not wrap the part in another chip or size the icon yourself.
 
 **`PanelStatus` vs `PanelActivity`:** `PanelStatus` is a standalone attribute badge in the header; `PanelActivity` is a live status readout wrapping a `Status`. Do not use one for the other.
 

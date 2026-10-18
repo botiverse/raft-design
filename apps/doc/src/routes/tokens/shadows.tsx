@@ -1,135 +1,97 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { CodeBlock } from "#/components/code-block.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import type { HighlightedSnippets } from "#/lib/highlight.tsx";
 import { isMarkdownMode } from "#/lib/markdown-mode.ts";
 
 const TOC = [
-  { id: "scale", title: "Theme scale" },
+  { id: "scale", title: "Scale" },
   { id: "values", title: "Values" },
   { id: "usage", title: "Usage" },
 ] as const;
 
-export type ShadowTheme = "brutal" | "elegant";
-
-const THEME_LABELS = {
-  brutal: "Brutal",
-  elegant: "Elegant",
-} as const satisfies Record<ShadowTheme, string>;
+/** Controls never cast a shadow; only overlays float (foundation.css). */
+const NO_SHADOW = "0 0 #0000";
+const FLOAT_LIGHT =
+  "0 1px 0 oklch(0.1813 0.005 17.62 / 0.039), 0 12px 32px -12px oklch(0.1813 0.005 17.62 / 0.322)";
+const FLOAT_DARK =
+  "0 0 0 1px oklch(0.9843 0.004 106.47 / 0.078), 0 16px 40px -12px oklch(0 0 0 / 0.8)";
 
 const SHADOW_TOKENS = [
   {
     name: "xs",
-    role: "Pressed",
     utility: "shadow-raft-xs",
-    themeToken: "--shadow-raft-xs",
     sourceToken: "--theme-shadow-xs",
-    brutal: "1px 1px 0px var(--line-strong)",
-    elegant: "oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px",
+    light: NO_SHADOW,
+    dark: NO_SHADOW,
   },
   {
     name: "sm",
-    role: "Resting",
     utility: "shadow-raft-sm",
-    themeToken: "--shadow-raft-sm",
     sourceToken: "--theme-shadow-sm",
-    brutal: "2px 2px 0px var(--line-strong)",
-    elegant:
-      "oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 106.42 / 0.012) 0px 5px 4px -2px, oklch(0.145 0.002 106.42 / 0.02) 0px 3px 3px -1px, oklch(0.145 0.002 106.42 / 0.039) 0px 1px 2px -1px",
+    light: NO_SHADOW,
+    dark: NO_SHADOW,
   },
   {
     name: "md",
-    role: "Hover / focus",
     utility: "shadow-raft-md",
-    themeToken: "--shadow-raft-md",
     sourceToken: "--theme-shadow-md",
-    brutal: "4px 4px 0px var(--line-strong)",
-    elegant:
-      "oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 106.42 / 0.02) 0px 8px 8px -4px, oklch(0.145 0.002 106.42 / 0.027) 0px 5px 5px -2px, oklch(0.145 0.002 106.42 / 0.039) 0px 2px 3px -1px",
+    light: NO_SHADOW,
+    dark: NO_SHADOW,
   },
   {
     name: "lg",
-    role: "Floating overlay",
     utility: "shadow-raft-lg",
-    themeToken: "--shadow-raft-lg",
     sourceToken: "--theme-shadow-lg",
-    brutal: "4px 4px 0px var(--color-black)",
-    elegant:
-      "0px 1px 1px oklch(0.21 0.006 106.42 / 0.1), 0px 0px 0px 1px oklch(0.21 0.006 106.42 / 0.04), 0px 2px 12px -4px oklch(0.21 0.006 106.42 / 0.16)",
+    light: FLOAT_LIGHT,
+    dark: FLOAT_DARK,
   },
   {
     name: "xl",
-    role: "Modal",
     utility: "shadow-raft-xl",
-    themeToken: "--shadow-raft-xl",
     sourceToken: "--theme-shadow-xl",
-    brutal: "6px 6px 0px var(--line-strong)",
-    elegant:
-      "oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px, 0px 0px 0px 1px oklch(0.21 0.006 106.42 / 0.08), oklch(0.145 0.002 106.42 / 0.031) 0px 18px 24px -12px, oklch(0.145 0.002 106.42 / 0.039) 0px 12px 12px -6px, oklch(0.145 0.002 106.42 / 0.039) 0px 4px 6px -3px",
+    light: FLOAT_LIGHT,
+    dark: FLOAT_DARK,
+  },
+  {
+    name: "float",
+    utility: "shadow-raft-float",
+    sourceToken: "--theme-shadow-float",
+    light: FLOAT_LIGHT,
+    dark: FLOAT_DARK,
   },
 ] as const;
 
-const ELEGANT_DARK_SHADOWS = {
-  xs: "0 0 0 1px oklch(1 0 0 / 0.06), 0 0.5px 0 oklch(0 0 0 / 0.4)",
-  sm: "0 0 0 1px oklch(1 0 0 / 0.07), 0px 5px 4px -2px oklch(0 0 0 / 0.1), 0px 3px 3px -1px oklch(0 0 0 / 0.14), 0px 1px 2px -1px oklch(0 0 0 / 0.2)",
-  md: "0 0 0 1px oklch(1 0 0 / 0.07), 0px 8px 8px -4px oklch(0 0 0 / 0.12), 0px 5px 5px -2px oklch(0 0 0 / 0.16), 0px 2px 3px -1px oklch(0 0 0 / 0.22)",
-  lg: "0px 1px 1px oklch(0 0 0 / 0.3), 0px 0px 0px 1px oklch(1 0 0 / 0.08), 0px 2px 12px -4px oklch(0 0 0 / 0.4)",
-  xl: "0px 0px 0px 1px oklch(1 0 0 / 0.1), 0px 18px 24px -12px oklch(0 0 0 / 0.45), 0px 12px 12px -6px oklch(0 0 0 / 0.45), 0px 4px 6px -3px oklch(0 0 0 / 0.5)",
-} as const satisfies Record<(typeof SHADOW_TOKENS)[number]["name"], string>;
-
-const THEME_PREVIEWS = [
-  { theme: "brutal", mode: "light", label: null },
-  { theme: "elegant", mode: "light", label: "Light" },
-  { theme: "elegant", mode: "dark", label: "Dark" },
+const MODE_PREVIEWS = [
+  { mode: "light", label: "Light" },
+  { mode: "dark", label: "Dark" },
 ] as const;
 
 export const SHADOW_SNIPPETS = {
-  usage: `<div className="border border-line bg-layer-panel shadow-raft-sm" />
-
-<button className="border-2 border-line-strong bg-primary-400 shadow-raft-sm hover:shadow-raft-md active:shadow-raft-xs">
-  Raised
-</button>`,
+  usage: `<div className="bg-layer-popover ring-1 ring-line-seam shadow-raft-float" />`,
 } as const;
 
 export const Route = createFileRoute("/tokens/shadows")({
-  beforeLoad: ({ location }) => {
-    if (location.pathname === "/tokens/shadows") {
-      throw redirect({ to: "/tokens/shadows/brutal" });
-    }
-  },
-  component: TokenOutlet,
+  component: ShadowsDoc,
   loader: () => highlightSnippets({ data: SHADOW_SNIPPETS }),
 });
 
-function TokenOutlet() {
-  return <Outlet />;
-}
-
-export function ShadowsDoc({ theme, code }: { theme: ShadowTheme; code: HighlightedSnippets }) {
-  const previews = THEME_PREVIEWS.filter((preview) => preview.theme === theme);
-  const title = `${THEME_LABELS[theme]} shadows`;
+function ShadowsDoc() {
+  const code = Route.useLoaderData();
 
   // The scale cards are visual only; Markdown keeps the values and usage.
   if (isMarkdownMode()) {
     return (
-      <DocPage title={title} description="The theme shadow contract." toc={TOC}>
+      <DocPage title="Shadows" description="The shadow contract." toc={TOC}>
         <DocSection id="values" title="Values">
           <ul>
             {SHADOW_TOKENS.map((shadow) => (
               <li key={shadow.sourceToken}>
-                <code>{shadow.name}</code> (<code>{shadow.sourceToken}</code>):{" "}
-                {theme === "elegant" ? (
-                  <>
-                    light <code>{shadow.elegant}</code>, dark{" "}
-                    <code>{ELEGANT_DARK_SHADOWS[shadow.name]}</code>
-                  </>
-                ) : (
-                  <code>{shadow.brutal}</code>
-                )}
+                <code>{shadow.name}</code> (<code>{shadow.sourceToken}</code>): light{" "}
+                <code>{shadow.light}</code>, dark <code>{shadow.dark}</code>
               </li>
             ))}
           </ul>
@@ -142,12 +104,12 @@ export function ShadowsDoc({ theme, code }: { theme: ShadowTheme; code: Highligh
   }
 
   return (
-    <TokenThemeScope theme={theme}>
-      <DocPage title={title} description="The theme shadow contract." toc={TOC}>
-        <DocSection id="scale" title="Theme scale">
+    <ShadowsPageScope>
+      <DocPage title="Shadows" description="The shadow contract." toc={TOC}>
+        <DocSection id="scale" title="Scale">
           <div className="grid gap-4">
-            {previews.map((preview) => (
-              <ThemeScaleCard key={`${preview.theme}-${preview.mode}`} theme={preview} />
+            {MODE_PREVIEWS.map((preview) => (
+              <ScaleCard key={preview.mode} preview={preview} />
             ))}
           </div>
         </DocSection>
@@ -162,14 +124,10 @@ export function ShadowsDoc({ theme, code }: { theme: ShadowTheme; code: Highligh
                 <div>
                   <p className="font-mono text-xs font-semibold text-gray-950">{shadow.name}</p>
                 </div>
-                {theme === "elegant" ? (
-                  <div className="grid gap-2">
-                    <ShadowValue label="light" value={shadow.elegant} />
-                    <ShadowValue label="dark" value={ELEGANT_DARK_SHADOWS[shadow.name]} />
-                  </div>
-                ) : (
-                  <ShadowValue value={shadow.brutal} />
-                )}
+                <div className="grid gap-2">
+                  <ShadowValue label="light" value={shadow.light} />
+                  <ShadowValue label="dark" value={shadow.dark} />
+                </div>
               </div>
             ))}
           </div>
@@ -179,16 +137,14 @@ export function ShadowsDoc({ theme, code }: { theme: ShadowTheme; code: Highligh
           <CodeBlock html={code.usage} />
         </DocSection>
       </DocPage>
-    </TokenThemeScope>
+    </ShadowsPageScope>
   );
 }
 
-function TokenThemeScope({ theme, children }: { theme: ShadowTheme; children: ReactNode }) {
+function ShadowsPageScope({ children }: { children: ReactNode }) {
   return (
     <div
-      data-token-theme-scope={theme}
-      data-theme="elegant"
-      className="light min-h-screen bg-layer-panel"
+      className="min-h-screen bg-layer-panel"
       style={{
         color: "var(--foreground-strong)",
         fontFamily: "var(--sans-font)",
@@ -199,34 +155,27 @@ function TokenThemeScope({ theme, children }: { theme: ShadowTheme; children: Re
   );
 }
 
-function ThemeScaleCard({ theme }: { theme: (typeof THEME_PREVIEWS)[number] }) {
-  const isBrutal = theme.theme === "brutal";
-
+function ScaleCard({ preview }: { preview: (typeof MODE_PREVIEWS)[number] }) {
   return (
     <div
-      data-theme={theme.theme}
-      className={`${theme.theme === "elegant" ? theme.mode : "light"} p-4`}
+      className={`${preview.mode} p-4`}
       style={{
         background: "var(--layer-panel)",
         color: "var(--foreground-strong)",
         fontFamily: "var(--heading-font)",
-        colorScheme: theme.mode,
+        colorScheme: preview.mode,
       }}
     >
-      {theme.label ? (
-        <p className="mb-2 font-mono text-xs" style={{ color: "var(--foreground-muted)" }}>
-          {theme.label}
-        </p>
-      ) : null}
+      <p className="mb-2 font-mono text-xs" style={{ color: "var(--foreground-muted)" }}>
+        {preview.label}
+      </p>
       <div className="grid grid-cols-2 gap-4">
         {SHADOW_TOKENS.map((shadow) => (
           <div key={shadow.sourceToken} className="flex h-28 items-center justify-center">
             <div
-              className={`flex h-16 w-24 items-center justify-center text-xs font-normal ${
-                isBrutal ? "rounded-none" : "rounded-sm"
-              }`}
+              className="flex h-16 w-24 items-center justify-center rounded-sm text-xs font-normal"
               style={{
-                background: isBrutal ? "var(--layer-panel)" : "var(--fill-muted)",
+                background: "var(--fill-muted)",
                 boxShadow: `var(${shadow.sourceToken})`,
                 color: "var(--foreground)",
                 fontFamily: "var(--sans-font)",

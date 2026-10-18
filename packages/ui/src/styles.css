@@ -4,37 +4,18 @@
 @import "./components/timeline/timeline.css";
 @import "./components/steps/steps.css";
 @import "./components/steps/otter-indicator.css";
-@import "./components/steps/island-indicator.css";
 
-/* `dark:` tracks the elegant and raft themes' explicit dark context and its pre-hydration
-   system-dark fallback. Explicit .light/.dark classes always win.
-   Nearest theme scope wins: a `[data-theme]` element without `.dark` (a brutal or
-   elegant-light preview island) re-enters light context for its subtree even when
-   the document root is dark. Supports one level of scope nesting. */
+/* `dark:` follows the nearest explicit mode class, and before hydration the
+   system preference. A `.light` island inside a dark page re-enters light
+   context for its subtree (one level of nesting). */
 @custom-variant dark {
-  &:where(
-    :is(
-      :is([data-theme="elegant"], [data-theme="raft"]).dark,
-      :is([data-theme="elegant"], [data-theme="raft"]).dark *
-    ):not(
-      :where(
-        :is([data-theme="elegant"], [data-theme="raft"]).dark :is([data-theme]:not(.dark)),
-        :is([data-theme="elegant"], [data-theme="raft"]).dark :is([data-theme]:not(.dark)) *
-      )
-    )
-  ) {
+  &:where(:is(.dark, .dark *):not(:where(.dark .light, .dark .light *))) {
     @slot;
   }
   @media (prefers-color-scheme: dark) {
     &:where(
-      :is(
-        :is([data-theme="elegant"], [data-theme="raft"]):not(.light):not(.dark),
-        :is([data-theme="elegant"], [data-theme="raft"]):not(.light):not(.dark) *
-      ):not(
-        :where(
-          :is([data-theme="elegant"], [data-theme="raft"]):not(.light):not(.dark) [data-theme],
-          :is([data-theme="elegant"], [data-theme="raft"]):not(.light):not(.dark) [data-theme] *
-        )
+      :is(:root:not(.light):not(.dark), :root:not(.light):not(.dark) *):not(
+        :where(:root:not(.light):not(.dark) .light, :root:not(.light):not(.dark) .light *)
       )
     ) {
       @slot;
@@ -46,7 +27,7 @@
   --color-black: oklch(0 0 0);
   --color-white: oklch(1 0 0);
 
-  /* Bare brutal palette utilities. The numbered ramps are plain variables
+  /* Bare brand palette utilities. The numbered ramps are plain variables
      further down — deliberately not registered as utilities; reach for
      semantic tokens or these bare aliases instead. */
   --color-brutal-yellow: var(--color-brutal-yellow-400);
@@ -293,10 +274,9 @@
      The first non-colour token axis in this file. It exists because a form
      field had no declared metrics at all: `Input` got its height from `py-2`
      plus inherited line-height, `SelectTrigger` borrowed the Button size scale
-     because it is built on Button, and a Select popup declared its own per-theme
-     typography (brutal 12/700/24, elegant 13/400/20) with no relation to the
-     field it belongs to. Three components, three different sizes for the same
-     value.
+     because it is built on Button, and a Select popup declared its own
+     typography with no relation to the field it belongs to. Three components,
+     three different sizes for the same value.
 
      Consumers: `Input`, `Textarea`, the field variant of `SelectTrigger`, and
      Select popup options. Textarea shares the Input typography contract while

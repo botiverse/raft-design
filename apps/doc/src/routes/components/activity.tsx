@@ -51,7 +51,7 @@ const SNIPPETS = {
 <InboxItem>
   <InboxItemTrigger />
   <InboxItemSelection>
-    <Checkbox variant="primary" />
+    <Checkbox />
   </InboxItemSelection>
   <InboxItemContent>
     <InboxItemHeading>

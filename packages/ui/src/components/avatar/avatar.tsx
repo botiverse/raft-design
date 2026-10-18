@@ -4,304 +4,111 @@ import { useRender } from "@base-ui/react/use-render";
 import { Avatar as AvatarPrimitive } from "@base-ui/react";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { StyledProps } from "../../lib/styled-props";
 
 // Avatar family built on Base UI's Avatar primitive. Compose `<AvatarImage>`,
 // `<AvatarFallback>`, and `<AvatarBadge>` as children; with no children a
 // default `<AvatarFallback>` renders the placeholder. All parts share one
-// `tv()` slots config so theme / type / size styling lives in a single place.
+// `tv()` slots config so type and size styling live in a single place.
 //
 // The original's avatar fetching (`AgentAvatar` / `GravatarAvatar`, app domain)
 // is dropped: pass a URL via `<AvatarImage src>` and a custom fallback node via
 // `<AvatarFallback>`.
 //
-// `type` owns identity-keyed placeholder fills under brutal (`agent` → cyan,
-// `human` → lavender), matching source AvatarSlot. Elegant keeps a neutral
-// muted frame for both types. Raft makes every identity a square sticker (ink
-// edge, die-cut ring in dark): people without a photo sit on lavender, agents
-// on stone until their sprite (which carries its own colour) covers it.
+// Every identity is a square sticker (ink edge, die-cut ring in dark): people
+// without a photo sit on lavender, agents on stone until their sprite (which
+// carries its own colour) covers it.
 //
-// Raft snaps the scale to the design system's 8n + 3 sizes, one DS size per
-// role: xl 99 (profile page, hard sticker shadow), lg 51, md 35, sm 27,
-// xs / 2xs 19. 3xs keeps 14 — the system has no miniature identity.
+// Sizes are the design system's 8n + 3 steps, one per role: xl 99 (profile
+// page, hard sticker shadow), lg 51, md 35, sm 27, xs / 2xs 19. 3xs keeps 14
+// — the system has no miniature identity.
 //
 // `size` is a compact t-shirt scale distilled from the original call-site
 // contexts: xl profile/detail (64), lg mention/large identity (48), md panel
 // header (36), sm list rows (32), xs compact rows (20), 2xs sidebar/DM rows
 // (18), and 3xs inline preview chips (14). One-off source contexts such as
 // account-tile, members-row, and creator-link no longer get public size names.
-// Brutal border weight follows size: >=32px frames use `border-2`, smaller ones
 // `AvatarFallback` / `AvatarBadge` auto-scale to the parent via its `data-size` +
 // `group/avatar` hook when using the default dot; keep their per-step selectors
 // in sync with the `size` scale. `AvatarBadge` is a useRender shell — pass
 // `render={<Status />}` for activity chrome without the default dot styles.
 const avatar = tv({
   slots: {
-    root: ["group/avatar relative flex shrink-0 items-center justify-center select-none"],
-    image: ["size-full object-cover"],
+    root: [
+      "group/avatar relative flex shrink-0 items-center justify-center select-none",
+      "rounded-sticker border-[1.5px] border-sticker-ink",
+      "text-sticker-ink shadow-[0_0_0_1.5px_var(--sticker-edge)]",
+    ],
+    image: ["size-full object-cover", "rounded-[2px]"],
     fallback: [
       "flex size-full items-center justify-center",
       "[&>svg]:size-4",
-      "group-data-[size=xl]/avatar:[&>svg]:size-6",
       "group-data-[size=lg]/avatar:[&>svg]:size-6",
       "group-data-[size=md]/avatar:[&>svg]:size-4.5",
-      "group-data-[size=sm]/avatar:[&>svg]:size-4",
       "group-data-[size=xs]/avatar:[&>svg]:size-3",
-      "group-data-[size=2xs]/avatar:[&>svg]:size-2.5",
-      "group-data-[size=3xs]/avatar:[&>svg]:size-2.5",
+      "overflow-hidden rounded-[2px]",
+      "font-sans text-[15px] leading-none font-bold tracking-[-0.01em] text-sticker-ink",
+      "group-data-[size=xl]/avatar:text-[40px]",
+      "group-data-[size=lg]/avatar:text-[22px]",
+      "group-data-[size=sm]/avatar:text-[13px]",
+      "group-data-[size=xs]/avatar:text-[11px]",
+      "group-data-[size=2xs]/avatar:text-[11px]",
+      "group-data-[size=3xs]/avatar:text-[8px]",
+      "group-data-[size=xl]/avatar:[&>svg]:size-12",
+      "group-data-[size=sm]/avatar:[&>svg]:size-3.5",
+      "group-data-[size=2xs]/avatar:[&>svg]:size-3",
+      "group-data-[size=3xs]/avatar:[&>svg]:size-2",
     ],
     // The corner shell owns placement and scale. The default dot only adds
     // its visual chrome; custom indicators inherit this same size mapping.
     badge: [
-      "absolute z-10 size-2 select-none",
-      "group-data-[size=xl]/avatar:size-3.5",
-      "group-data-[size=lg]/avatar:size-3",
-      "group-data-[size=md]/avatar:size-2.5",
-      "group-data-[size=sm]/avatar:size-2",
-      "group-data-[size=xs]/avatar:size-1.5",
-      "group-data-[size=2xs]/avatar:size-1.5",
-      "group-data-[size=3xs]/avatar:size-1.5",
+      "absolute z-10 select-none",
+      "size-[11px] -right-1 -bottom-1 rounded-[2px]",
+      "outline-2 outline-solid outline-layer-panel",
+      "group-data-[size=xl]/avatar:size-5 group-data-[size=xl]/avatar:-right-2 group-data-[size=xl]/avatar:-bottom-2",
+      "group-data-[size=lg]/avatar:size-3.5 group-data-[size=lg]/avatar:right-[-5px] group-data-[size=lg]/avatar:bottom-[-5px]",
+      "group-data-[size=md]/avatar:size-[11px]",
+      "group-data-[size=sm]/avatar:size-[9px] group-data-[size=sm]/avatar:right-[-3px] group-data-[size=sm]/avatar:bottom-[-3px]",
+      "group-data-[size=xs]/avatar:size-[9px] group-data-[size=xs]/avatar:right-[-3px] group-data-[size=xs]/avatar:bottom-[-3px]",
+      "group-data-[size=2xs]/avatar:size-[9px] group-data-[size=2xs]/avatar:right-[-3px] group-data-[size=2xs]/avatar:bottom-[-3px]",
+      "group-data-[size=3xs]/avatar:size-1.5 group-data-[size=3xs]/avatar:-right-0.5 group-data-[size=3xs]/avatar:-bottom-0.5",
     ],
     dot: [
-      "inline-flex items-center justify-center rounded-full outline-2 outline-white",
+      "inline-flex items-center justify-center outline-2",
       "[&>svg]:hidden",
       "group-data-[size=xl]/avatar:[&>svg]:size-2 group-data-[size=xl]/avatar:[&>svg]:block",
       "group-data-[size=lg]/avatar:[&>svg]:size-2 group-data-[size=lg]/avatar:[&>svg]:block",
       "group-data-[size=md]/avatar:[&>svg]:size-1.5 group-data-[size=md]/avatar:[&>svg]:block",
       "group-data-[size=xs]/avatar:outline group-data-[size=2xs]/avatar:outline group-data-[size=3xs]/avatar:outline",
+      "rounded-[2px] border-[1.5px] border-sticker-ink",
+      "bg-presence-online text-sticker-ink outline-layer-panel",
+      "group-data-[size=xl]/avatar:border-2",
+      "group-data-[size=3xs]/avatar:border",
     ],
-    group: ["group/avatar-group flex items-center"],
+    group: [
+      "group/avatar-group flex items-center",
+      "space-x-[-5px]",
+      "*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-panel)]",
+      "*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-panel)]",
+    ],
   },
   variants: {
-    theme: {
-      brutal: {
-        root: "border-black text-black",
-        fallback: "text-black",
-        badge: [
-          "right-0 bottom-0 translate-1/4 ",
-          "group-data-[size=xl]/avatar:translate-[5px] ",
-          "group-data-[size=lg]/avatar:translate-[calc(25%+2px)] ",
-          "group-data-[size=md]/avatar:translate-[4.75px] ",
-          "group-data-[size=sm]/avatar:translate-x-1 group-data-[size=sm]/avatar:translate-y-1",
-          "group-data-[size=xs]/avatar:translate-[2.75px] ",
-          "group-data-[size=2xs]/avatar:translate-[2.875px] ",
-          "group-data-[size=3xs]/avatar:translate-[3.125px] ",
-        ],
-        dot: ["bg-success text-foreground"],
-        group: [
-          "-space-x-1.5",
-          "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-primary-50",
-          "*:data-[slot=avatar-group-count]:outline *:data-[slot=avatar-group-count]:outline-2 *:data-[slot=avatar-group-count]:outline-primary-50",
-        ],
-      },
-      elegant: {
-        root: ["bg-fill-muted"],
-        image: ["rounded-full"],
-        fallback: [
-          "overflow-hidden bg-fill-muted text-foreground-placeholder/70 text-sm",
-          "rounded-full",
-          "group-data-[size=xs]/avatar:text-xs",
-          "group-data-[size=2xs]/avatar:text-[10px]",
-          "group-data-[size=3xs]/avatar:text-[10px]",
-        ],
-        badge: [
-          "outline-2 outline-layer-panel",
-          "group-data-[size=xl]/avatar:right-[3.667px] group-data-[size=xl]/avatar:bottom-[3.667px]",
-          "group-data-[size=lg]/avatar:right-0.5 group-data-[size=lg]/avatar:bottom-0.5",
-          "group-data-[size=md]/avatar:right-px group-data-[size=md]/avatar:bottom-px",
-          "group-data-[size=sm]/avatar:right-[1.333px] group-data-[size=sm]/avatar:bottom-[1.333px]",
-          "group-data-[size=xs]/avatar:right-[0.333px] group-data-[size=xs]/avatar:bottom-[0.333px]",
-          "group-data-[size=2xs]/avatar:right-0 group-data-[size=2xs]/avatar:bottom-0",
-          "group-data-[size=3xs]/avatar:right-[-0.667px] group-data-[size=3xs]/avatar:bottom-[-0.667px]",
-        ],
-        dot: ["bg-success text-success-foreground outline-layer-panel"],
-        group: [
-          "-space-x-2",
-          "*:data-[slot=avatar]:border-layer-canvas-muted",
-          "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-layer-canvas-muted",
-          "*:data-[slot=avatar-group-count]:border-layer-canvas-muted",
-          "*:data-[slot=avatar-group-count]:outline *:data-[slot=avatar-group-count]:outline-2 *:data-[slot=avatar-group-count]:outline-layer-canvas-muted",
-        ],
-      },
-      raft: {
-        root: [
-          "rounded-sticker border-[1.5px] border-sticker-ink",
-          "text-sticker-ink shadow-[0_0_0_1.5px_var(--sticker-edge)]",
-        ],
-        image: ["rounded-[2px]"],
-        fallback: [
-          "overflow-hidden rounded-[2px]",
-          "font-sans text-[15px] leading-none font-bold tracking-[-0.01em] text-sticker-ink",
-          "group-data-[size=xl]/avatar:text-[40px]",
-          "group-data-[size=lg]/avatar:text-[22px]",
-          "group-data-[size=sm]/avatar:text-[13px]",
-          "group-data-[size=xs]/avatar:text-[11px]",
-          "group-data-[size=2xs]/avatar:text-[11px]",
-          "group-data-[size=3xs]/avatar:text-[8px]",
-          "group-data-[size=xl]/avatar:[&>svg]:size-12",
-          "group-data-[size=sm]/avatar:[&>svg]:size-3.5",
-          "group-data-[size=2xs]/avatar:[&>svg]:size-3",
-          "group-data-[size=3xs]/avatar:[&>svg]:size-2",
-        ],
-        badge: [
-          "size-[11px] -right-1 -bottom-1 rounded-[2px]",
-          "outline-2 outline-solid outline-layer-panel",
-          "group-data-[size=xl]/avatar:size-5 group-data-[size=xl]/avatar:-right-2 group-data-[size=xl]/avatar:-bottom-2",
-          "group-data-[size=lg]/avatar:size-3.5 group-data-[size=lg]/avatar:right-[-5px] group-data-[size=lg]/avatar:bottom-[-5px]",
-          "group-data-[size=md]/avatar:size-[11px]",
-          "group-data-[size=sm]/avatar:size-[9px] group-data-[size=sm]/avatar:right-[-3px] group-data-[size=sm]/avatar:bottom-[-3px]",
-          "group-data-[size=xs]/avatar:size-[9px] group-data-[size=xs]/avatar:right-[-3px] group-data-[size=xs]/avatar:bottom-[-3px]",
-          "group-data-[size=2xs]/avatar:size-[9px] group-data-[size=2xs]/avatar:right-[-3px] group-data-[size=2xs]/avatar:bottom-[-3px]",
-          "group-data-[size=3xs]/avatar:size-1.5 group-data-[size=3xs]/avatar:-right-0.5 group-data-[size=3xs]/avatar:-bottom-0.5",
-        ],
-        dot: [
-          "rounded-[2px] border-[1.5px] border-sticker-ink",
-          "bg-presence-online text-sticker-ink outline-layer-panel",
-          "group-data-[size=xl]/avatar:border-2",
-          "group-data-[size=3xs]/avatar:border",
-        ],
-        group: [
-          "space-x-[-5px]",
-          "*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-panel)]",
-          "*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-panel)]",
-        ],
-      },
-    },
     type: {
-      agent: {},
-      human: {},
+      agent: { root: ["bg-inactive"] },
+      human: { root: ["bg-brutal-lavender"] },
     },
     size: {
-      xl: { root: "size-16" },
-      lg: { root: "size-12" },
-      md: { root: "size-9" },
-      sm: { root: "size-8" },
-      xs: { root: "size-5" },
-      "2xs": { root: "size-4.5" },
+      xl: {
+        root: ["size-[99px] shadow-[0_0_0_1.5px_var(--sticker-edge),var(--theme-shadow-sticker)]"],
+      },
+      lg: { root: ["size-[51px]"] },
+      md: { root: ["size-[35px]"] },
+      sm: { root: ["size-[27px]"] },
+      xs: { root: ["size-[19px]"] },
+      "2xs": { root: ["size-[19px]"] },
       "3xs": { root: "size-3.5" },
     },
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      size: ["xl", "lg", "md", "sm"],
-      class: { root: "border-2" },
-    },
-    {
-      theme: "brutal",
-      size: ["xs", "2xs", "3xs"],
-      class: { root: "border" },
-    },
-    // Elegant mirrors brutal's border scale with a transparent frame so both
-    // themes render the same visual image diameter per size step; clip the
-    // root fill to the padding box so no ring shows through the frame.
-    {
-      theme: "elegant",
-      size: ["xl", "lg", "md", "sm"],
-      class: { root: "border-2 border-transparent bg-clip-padding" },
-    },
-    {
-      theme: "elegant",
-      size: ["xs", "2xs", "3xs"],
-      class: { root: "border border-transparent bg-clip-padding" },
-    },
-    // Identity-keyed placeholder fills (source AvatarSlot parity): cyan agent /
-    // lavender human. Only visible when fallback content shows; real images
-    // cover the frame edge-to-edge.
-    {
-      theme: "brutal",
-      type: "agent",
-      class: { root: "bg-brutal-cyan" },
-    },
-    {
-      theme: "brutal",
-      type: "human",
-      class: { root: "bg-brutal-lavender text-black" },
-    },
-    {
-      theme: "elegant",
-      size: "xl",
-      class: {
-        root: "rounded-full",
-      },
-    },
-    {
-      theme: "elegant",
-      size: "lg",
-      class: {
-        root: "rounded-full",
-      },
-    },
-    {
-      theme: "elegant",
-      size: ["md", "sm"],
-      class: {
-        root: "rounded-full",
-      },
-    },
-    {
-      theme: "elegant",
-      size: "xs",
-      class: {
-        root: "rounded-full",
-      },
-    },
-    {
-      theme: "elegant",
-      size: ["2xs", "3xs"],
-      class: {
-        root: "rounded-full",
-      },
-    },
-    {
-      theme: "elegant",
-      type: "agent",
-      class: { root: "text-foreground-muted" },
-    },
-    {
-      theme: "elegant",
-      type: "human",
-      class: { root: "text-foreground-muted" },
-    },
-    {
-      theme: "raft",
-      size: "xl",
-      class: {
-        root: "size-[99px] shadow-[0_0_0_1.5px_var(--sticker-edge),var(--theme-shadow-sticker)]",
-      },
-    },
-    {
-      theme: "raft",
-      size: "lg",
-      class: { root: "size-[51px]" },
-    },
-    {
-      theme: "raft",
-      size: "md",
-      class: { root: "size-[35px]" },
-    },
-    {
-      theme: "raft",
-      size: "sm",
-      class: { root: "size-[27px]" },
-    },
-    {
-      theme: "raft",
-      size: ["xs", "2xs"],
-      class: { root: "size-[19px]" },
-    },
-    {
-      theme: "raft",
-      type: "agent",
-      class: { root: "bg-inactive" },
-    },
-    {
-      theme: "raft",
-      type: "human",
-      class: { root: "bg-brutal-lavender" },
-    },
-  ],
 });
 
 export type AvatarSize = NonNullable<VariantProps<typeof avatar>["size"]>;
@@ -310,8 +117,7 @@ export type AvatarProps = StyledProps<AvatarPrimitive.Root.Props> &
   Required<Pick<VariantProps<typeof avatar>, "size" | "type">>;
 
 export function Avatar({ size, type, className, children, ...props }: AvatarProps) {
-  const theme = useThemeFamily();
-  const { root } = avatar({ theme, type, size });
+  const { root } = avatar({ type, size });
   return (
     <AvatarPrimitive.Root
       data-slot="avatar"
@@ -329,8 +135,7 @@ export type AvatarImageProps = StyledProps<AvatarPrimitive.Image.Props>;
 // Managed avatar image. Base UI tracks its load state and hides it (revealing the
 // fallback) while loading or on error. Fills the frame edge-to-edge.
 export function AvatarImage({ className, ...props }: AvatarImageProps) {
-  const theme = useThemeFamily();
-  const { image } = avatar({ theme });
+  const { image } = avatar();
   return (
     <AvatarPrimitive.Image data-slot="avatar-image" className={image({ className })} {...props} />
   );
@@ -454,8 +259,7 @@ function AvatarFallbackIcon() {
 // Shown when no AvatarImage has loaded. With no children it renders the
 // placeholder user icon, auto-scaled via the parent's `data-size` hook.
 export function AvatarFallback({ className, children, ...props }: AvatarFallbackProps) {
-  const theme = useThemeFamily();
-  const { fallback } = avatar({ theme });
+  const { fallback } = avatar();
   return (
     <AvatarPrimitive.Fallback
       data-slot="avatar-fallback"
@@ -473,7 +277,7 @@ export type AvatarBadgeProps = useRender.ComponentProps<"span"> & {
   /** Where the badge's centre sits, measured from the avatar's top-left:
    *  `[x, y]`. Numbers are px; strings are any CSS length, and percentages
    *  are of the avatar's size, so `["100%", 0]` is the top-right corner at
-   *  every size. Omit it to keep the theme's default bottom-right spot. */
+   *  every size. Omit it to keep the default bottom-right spot. */
   offset?: AvatarBadgeOffset;
 };
 
@@ -483,8 +287,7 @@ const toCssLength = (value: string | number) => (typeof value === "number" ? `${
 // dot or a custom render only supplies the visual state. `offset` replaces the
 // recipe's corner placement with an explicit centre point.
 export function AvatarBadge({ className, render, offset, ...props }: AvatarBadgeProps) {
-  const theme = useThemeFamily();
-  const { badge, dot } = avatar({ theme });
+  const { badge, dot } = avatar();
   const offsetStyle = offset
     ? {
         top: toCssLength(offset[1]),
@@ -512,13 +315,11 @@ export function AvatarBadge({ className, render, offset, ...props }: AvatarBadge
 export type AvatarGroupProps = ComponentPropsWithRef<"div">;
 
 // Overlapping stack of avatars (and an optional trailing AvatarGroupCount). The
-// ring color follows the active theme's surface assumptions. The standalone
-// frame is a transparent border, so in the stack each avatar's frame is painted
+// standalone frame is a transparent border, so in the stack each avatar's frame is painted
 // with the ring surface (layer-canvas-muted) to stay opaque and never show the avatar
 // neighbor beneath the overlap.
 export function AvatarGroup({ className, ...props }: AvatarGroupProps) {
-  const theme = useThemeFamily();
-  const { group } = avatar({ theme });
+  const { group } = avatar();
   return <div data-slot="avatar-group" className={group({ className })} {...props} />;
 }
 
@@ -530,14 +331,9 @@ export type AvatarGroupCountProps = ComponentPropsWithRef<"span"> & {
 // Trailing "+N" overflow chip for an AvatarGroup. Reuses the Avatar frame but
 // omits `type`, swapping the role fill for a neutral count chip.
 export function AvatarGroupCount({ size, className, ...props }: AvatarGroupCountProps) {
-  const theme = useThemeFamily();
-  const { root } = avatar({ theme, size });
+  const { root } = avatar({ size });
   const countClassName =
-    theme === "raft"
-      ? "border-transparent bg-fill-muted font-mono text-mono-meta font-bold tabular-nums text-foreground-muted shadow-none"
-      : theme === "elegant"
-        ? "bg-fill-muted font-medium text-xs leading-none tabular-nums text-foreground-muted"
-        : "bg-secondary-400 font-bold text-xs leading-none tabular-nums text-foreground";
+    "border-transparent bg-fill-muted font-mono text-mono-meta font-bold tabular-nums text-foreground-muted shadow-none";
   return (
     <span
       data-slot="avatar-group-count"

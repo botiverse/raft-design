@@ -1,7 +1,6 @@
 import { ChevronDown, Hash } from "lucide-react";
 import { useCallback, useState } from "react";
 import {
-  Status,
   SidebarBody,
   SidebarContent,
   SidebarGroupLabel,
@@ -12,12 +11,11 @@ import {
   SidebarItemTitle,
   SidebarList,
   SidebarRoot,
+  SidebarSection,
 } from "raft-ui";
 import {
   SidebarServer,
-  SidebarServerAvatar,
   SidebarServerChevron,
-  SidebarServerIndicator,
   SidebarServerLabel,
 } from "../sidebar-server-switcher";
 
@@ -42,16 +40,10 @@ export function SidebarMobilePartsComposition() {
           render={<button type="button" />}
           onClick={handleServerClick}
         >
-          <SidebarServerAvatar>
-            <img alt="" src="/android-chrome-192x192.png" />
-          </SidebarServerAvatar>
           <SidebarServerLabel>Raft Playground</SidebarServerLabel>
           <SidebarServerChevron aria-hidden>
             <ChevronDown />
           </SidebarServerChevron>
-          <SidebarServerIndicator>
-            <Status aria-label="Other servers have unread messages" attention size="sm" />
-          </SidebarServerIndicator>
         </SidebarServer>
         <span className="sr-only" aria-live="polite">
           <span key={announcement.sequence}>{announcement.message}</span>
@@ -59,25 +51,30 @@ export function SidebarMobilePartsComposition() {
       </SidebarHeader>
       <SidebarBody>
         <SidebarContent>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
-          <SidebarList>
-            <SidebarItem active={selected === "raft-ui-migration"} onClick={handleMigrationClick}>
-              <SidebarItemChannelIcon aria-hidden>
-                <Hash />
-              </SidebarItemChannelIcon>
-              <SidebarItemContent>
-                <SidebarItemTitle>raft-ui-migration</SidebarItemTitle>
-              </SidebarItemContent>
-            </SidebarItem>
-            <SidebarItem active={selected === "weekly-priorities"} onClick={handlePrioritiesClick}>
-              <SidebarItemChannelIcon aria-hidden>
-                <Hash />
-              </SidebarItemChannelIcon>
-              <SidebarItemContent>
-                <SidebarItemTitle>weekly-priorities</SidebarItemTitle>
-              </SidebarItemContent>
-            </SidebarItem>
-          </SidebarList>
+          <SidebarSection>
+            <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+            <SidebarList>
+              <SidebarItem active={selected === "raft-ui-migration"} onClick={handleMigrationClick}>
+                <SidebarItemChannelIcon aria-hidden>
+                  <Hash />
+                </SidebarItemChannelIcon>
+                <SidebarItemContent>
+                  <SidebarItemTitle>raft-ui-migration</SidebarItemTitle>
+                </SidebarItemContent>
+              </SidebarItem>
+              <SidebarItem
+                active={selected === "weekly-priorities"}
+                onClick={handlePrioritiesClick}
+              >
+                <SidebarItemChannelIcon aria-hidden>
+                  <Hash />
+                </SidebarItemChannelIcon>
+                <SidebarItemContent>
+                  <SidebarItemTitle>weekly-priorities</SidebarItemTitle>
+                </SidebarItemContent>
+              </SidebarItem>
+            </SidebarList>
+          </SidebarSection>
         </SidebarContent>
       </SidebarBody>
     </SidebarRoot>

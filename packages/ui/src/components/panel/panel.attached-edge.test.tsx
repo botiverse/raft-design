@@ -21,7 +21,7 @@ afterEach(cleanup);
 
 function classesOf(className?: string) {
   render(
-    <ThemeProvider theme="raft">
+    <ThemeProvider>
       <Panel data-testid="panel" edge="attached" className={className} />
     </ThemeProvider>,
   );

@@ -24,7 +24,7 @@ afterEach(cleanup);
 // overhang and mirror each other, 3px from their edges.
 test("a raft phone head starts on 16 and mirrors a leading Back with the last action", () => {
   render(
-    <ThemeProvider theme="raft">
+    <ThemeProvider>
       <PanelHeader data-testid="head" />
     </ThemeProvider>,
   );
@@ -36,7 +36,7 @@ test("a raft phone head starts on 16 and mirrors a leading Back with the last ac
 
 test("a filled Button straight in a raft head ends its shape on the content edge", () => {
   render(
-    <ThemeProvider theme="raft">
+    <ThemeProvider>
       <PanelHeader data-testid="head" />
     </ThemeProvider>,
   );
@@ -47,7 +47,7 @@ test("a filled Button straight in a raft head ends its shape on the content edge
 
 test("a raft side sheet's head takes the panel head's phone edges", () => {
   render(
-    <ThemeProvider theme="raft">
+    <ThemeProvider>
       <Drawer open swipeDirection="right">
         <DrawerContent>
           <DrawerHeader data-testid="sheet-head" />

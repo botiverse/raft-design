@@ -1,14 +1,11 @@
-import { Button as BaseButton } from "@base-ui/react/button";
 import { Collapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ChevronRight } from "lucide-react";
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button";
 import type { ButtonProps } from "../button";
-import { Spinner } from "../spinner";
 import { Status } from "../status";
 import type { StatusProps } from "../status";
 import type { DataAttributes, SlotElementProps } from "../../lib/data-attributes";
@@ -24,8 +21,7 @@ export function SidebarSection({
   render,
   ...props
 }: SidebarSectionProps) {
-  const theme = useThemeFamily();
-  const { sidebarSection } = sidebarSectionRecipe({ theme });
+  const { sidebarSection } = sidebarSectionRecipe();
   const defaultProps: ComponentProps<typeof Collapsible.Root> & DataAttributes = {
     "data-slot": "sidebar-section",
     defaultOpen,
@@ -57,8 +53,7 @@ export type SidebarSectionEmptyProps = Omit<
 };
 
 export function SidebarSectionEmpty({ className, render, ...props }: SidebarSectionEmptyProps) {
-  const theme = useThemeFamily();
-  const { sidebarSectionEmpty } = sidebarSectionRecipe({ theme });
+  const { sidebarSectionEmpty } = sidebarSectionRecipe();
   const defaultProps: ComponentProps<typeof Collapsible.Panel> & DataAttributes = {
     "data-slot": "sidebar-section-empty",
     className: sidebarSectionEmpty({ className }),
@@ -70,8 +65,7 @@ export function SidebarSectionEmpty({ className, render, ...props }: SidebarSect
 export type SidebarSectionHeaderProps = useRender.ComponentProps<"div">;
 
 export function SidebarSectionHeader({ className, render, ...props }: SidebarSectionHeaderProps) {
-  const theme = useThemeFamily();
-  const { sidebarSectionHeader } = sidebarSectionRecipe({ theme });
+  const { sidebarSectionHeader } = sidebarSectionRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "sidebar-section-header",
     className: sidebarSectionHeader({ className }),
@@ -91,8 +85,7 @@ export function SidebarSectionDisclosure({
   render,
   ...props
 }: SidebarSectionDisclosureProps) {
-  const theme = useThemeFamily();
-  const { sidebarSectionDisclosure } = sidebarSectionRecipe({ theme });
+  const { sidebarSectionDisclosure } = sidebarSectionRecipe();
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "sidebar-section-disclosure",
@@ -145,8 +138,7 @@ export function SidebarSectionTitle({ className, render, ...props }: SidebarSect
 export type SidebarSectionCountProps = useRender.ComponentProps<"span">;
 
 export function SidebarSectionCount({ className, render, ...props }: SidebarSectionCountProps) {
-  const theme = useThemeFamily();
-  const { sidebarSectionCount } = sidebarSectionRecipe({ theme });
+  const { sidebarSectionCount } = sidebarSectionRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "sidebar-section-count",
     className: sidebarSectionCount({ className }),
@@ -167,9 +159,8 @@ export function SidebarSectionAttention({
   variant,
   ...props
 }: SidebarSectionAttentionProps) {
-  const theme = useThemeFamily();
   const { sidebarSectionAttention } = sidebarSectionRecipe();
-  const resolvedVariant = variant ?? (theme === "elegant" ? "primary" : "accent");
+  const resolvedVariant = variant ?? "accent";
   return (
     <span aria-hidden data-slot="sidebar-section-attention" className={sidebarSectionAttention()}>
       <Status size={size} variant={resolvedVariant} className={className} {...props} />
@@ -185,8 +176,7 @@ export function SidebarSectionTrailing({
   render,
   ...props
 }: SidebarSectionTrailingProps) {
-  const theme = useThemeFamily();
-  const { sidebarSectionTrailing } = sidebarSectionRecipe({ theme });
+  const { sidebarSectionTrailing } = sidebarSectionRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "sidebar-section-trailing",
     className: sidebarSectionTrailing({ className }),
@@ -204,8 +194,7 @@ export function SidebarSectionControls({
   render,
   ...props
 }: SidebarSectionControlsProps) {
-  const theme = useThemeFamily();
-  const { sidebarSectionControls } = sidebarSectionRecipe({ theme });
+  const { sidebarSectionControls } = sidebarSectionRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "sidebar-section-controls",
     className: sidebarSectionControls({ className }),
@@ -232,41 +221,23 @@ export function SidebarSectionControl({
   disabled,
   ...props
 }: SidebarSectionControlProps) {
-  const theme = useThemeFamily();
-  const { sidebarSectionControl } = sidebarSectionRecipe({ theme });
-  const defaultProps: SlotElementProps<"button"> = {
-    type: "button",
-    "data-slot": "sidebar-section-control",
-    "data-loading": loading ? "true" : undefined,
-    disabled: disabled || loading,
-    "aria-disabled": loading || undefined,
-    className: sidebarSectionControl({ className }),
-    children: loading ? <Spinner aria-label={loadingLabel} /> : children,
-  };
-  const brutalControl = useRender({
-    render: render ?? <BaseButton />,
-    props: mergeProps<"button">(defaultProps, props),
-  });
+  const { sidebarSectionControl } = sidebarSectionRecipe();
 
-  if (theme !== "brutal") {
-    return (
-      <Button
-        data-slot="sidebar-section-control"
-        size={size}
-        variant={variant}
-        loading={loading}
-        loadingLabel={loadingLabel}
-        disabled={disabled}
-        className={sidebarSectionControl({ className })}
-        render={render}
-        {...props}
-      >
-        {children}
-      </Button>
-    );
-  }
-
-  return brutalControl;
+  return (
+    <Button
+      data-slot="sidebar-section-control"
+      size={size}
+      variant={variant}
+      loading={loading}
+      loadingLabel={loadingLabel}
+      disabled={disabled}
+      className={sidebarSectionControl({ className })}
+      render={render}
+      {...props}
+    >
+      {children}
+    </Button>
+  );
 }
 
 export type SidebarControlProps = SidebarSectionControlProps;

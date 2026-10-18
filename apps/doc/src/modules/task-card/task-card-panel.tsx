@@ -1,38 +1,22 @@
 import type { ComponentProps } from "react";
-import { useThemeFamily } from "raft-ui";
 import { tv } from "tailwind-variants/lite";
 
 const taskCardPanel = tv({
   slots: {
-    root: ["w-full max-w-[448px] bg-layer-panel p-[16px] text-foreground-strong"],
-    header: ["mb-[16px] pb-[8px]"],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        root: ["border-2 border-line-strong"],
-        header: ["border-b-2 border-line-strong font-bold text-foreground-strong"],
-      },
-      elegant: {
-        root: ["rounded-container border border-line-muted shadow-raft-sm"],
-        header: ["border-b border-line-muted font-medium text-foreground"],
-      },
-      raft: {
-        root: ["rounded-container border border-line-muted"],
-        header: ["border-b border-line-muted text-headline text-foreground"],
-      },
-    },
+    root: [
+      "w-full max-w-[448px] bg-layer-panel p-[16px] text-foreground-strong",
+      "rounded-container border border-line-muted",
+    ],
+    header: ["mb-[16px] pb-[8px]", "border-b border-line-muted text-headline text-foreground"],
   },
 });
 
 export function TaskCardPanel({ className, ...props }: ComponentProps<"section">) {
-  const theme = useThemeFamily();
-  const { root } = taskCardPanel({ theme });
+  const { root } = taskCardPanel();
   return <section data-slot="task-card-panel" className={root({ className })} {...props} />;
 }
 
 export function TaskCardPanelHeader({ className, ...props }: ComponentProps<"header">) {
-  const theme = useThemeFamily();
-  const { header } = taskCardPanel({ theme });
+  const { header } = taskCardPanel();
   return <header data-slot="task-card-panel-header" className={header({ className })} {...props} />;
 }

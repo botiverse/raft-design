@@ -20,7 +20,6 @@ export function AvatarPlaygroundPreview({ code }: AvatarPlaygroundPreviewProps) 
   const [size, setSize] = useState<NonNullable<AvatarProps["size"]>>("lg");
   const [type, setType] = useState<NonNullable<AvatarProps["type"]>>("agent");
   const [badge, setBadge] = useState<BadgeOption>("status");
-  const [pulse, setPulse] = useState(false);
 
   const handleSizeChange = useCallback((value: string) => {
     setSize(value as NonNullable<AvatarProps["size"]>);
@@ -38,7 +37,7 @@ export function AvatarPlaygroundPreview({ code }: AvatarPlaygroundPreviewProps) 
         <Avatar size={size} type={type}>
           {badge === "dot" ? <AvatarBadge /> : null}
           {badge === "status" ? (
-            <AvatarBadge render={<Status aria-hidden variant="success" pulse={pulse} />} />
+            <AvatarBadge render={<Status aria-hidden variant="success" />} />
           ) : null}
         </Avatar>
       </Preview.Canvas>
@@ -68,14 +67,6 @@ export function AvatarPlaygroundPreview({ code }: AvatarPlaygroundPreviewProps) 
             options={BADGE_OPTIONS}
             value={badge}
             onValueChange={handleBadgeChange}
-          />
-        </Preview.Control>
-        <Preview.Control label="Pulse" htmlFor="avatar-preview-pulse">
-          <Preview.Checkbox
-            id="avatar-preview-pulse"
-            label="Pulse"
-            checked={pulse}
-            onCheckedChange={setPulse}
           />
         </Preview.Control>
       </Preview.Controls>

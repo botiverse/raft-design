@@ -2,7 +2,6 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { searchMessage } from "./search-message.recipe";
 
 type SearchMessageResultBaseProps = useRender.ComponentProps<"button"> & {
@@ -17,8 +16,7 @@ function SearchMessageResultBase({
   render,
   ...props
 }: SearchMessageResultBaseProps) {
-  const theme = useThemeFamily();
-  const { message } = searchMessage({ nested, selected, theme });
+  const { message } = searchMessage();
   const defaultProps: SlotElementProps<"button"> = {
     "data-slot": "search-message-result",
     "data-nested": nested ? "true" : undefined,
@@ -49,8 +47,7 @@ export function SearchMessageResultHeader({
   render,
   ...props
 }: SearchMessageResultHeaderProps) {
-  const theme = useThemeFamily();
-  const { messageHeader } = searchMessage({ theme });
+  const { messageHeader } = searchMessage();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-message-result-header",
     className: messageHeader({ className }),
@@ -68,8 +65,7 @@ export function SearchMessageResultBody({
   render,
   ...props
 }: SearchMessageResultBodyProps) {
-  const theme = useThemeFamily();
-  const { messageBody } = searchMessage({ theme });
+  const { messageBody } = searchMessage();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-message-result-body",
     className: messageBody({ className }),
@@ -87,8 +83,7 @@ export function SearchMessageResultMeta({
   render,
   ...props
 }: SearchMessageResultMetaProps) {
-  const theme = useThemeFamily();
-  const { messageMeta } = searchMessage({ theme });
+  const { messageMeta } = searchMessage();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "search-message-result-meta",
     className: messageMeta({ className }),
@@ -106,8 +101,7 @@ export function SearchMessageResultThreadMeta({
   render,
   ...props
 }: SearchMessageResultThreadMetaProps) {
-  const theme = useThemeFamily();
-  const { messageThreadMeta } = searchMessage({ theme });
+  const { messageThreadMeta } = searchMessage();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "search-message-result-thread-meta",
     className: messageThreadMeta({ className }),
@@ -125,8 +119,7 @@ export function SearchMessageResultSender({
   render,
   ...props
 }: SearchMessageResultSenderProps) {
-  const theme = useThemeFamily();
-  const { messageSender } = searchMessage({ theme });
+  const { messageSender } = searchMessage();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "search-message-result-sender",
     className: messageSender({ className }),
@@ -144,8 +137,7 @@ export function SearchMessageResultTimestamp({
   render,
   ...props
 }: SearchMessageResultTimestampProps) {
-  const theme = useThemeFamily();
-  const { messageTimestamp } = searchMessage({ theme });
+  const { messageTimestamp } = searchMessage();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "search-message-result-timestamp",
     className: messageTimestamp({ className }),
@@ -163,8 +155,7 @@ export function SearchMessageResultMatch({
   render,
   ...props
 }: SearchMessageResultMatchProps) {
-  const theme = useThemeFamily();
-  const { messageMatch } = searchMessage({ theme });
+  const { messageMatch } = searchMessage();
   const defaultProps: SlotElementProps<"mark"> = {
     "data-slot": "search-message-result-match",
     className: messageMatch({ className }),

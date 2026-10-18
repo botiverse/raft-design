@@ -20,7 +20,6 @@ import {
   SelectValue,
   Textarea,
 } from "raft-ui";
-import { cn } from "raft-ui/cn";
 
 // @docs-source-strip-start
 import { Dialog } from "raft-ui";
@@ -74,29 +73,20 @@ function CreateAgentDialogParts() {
           />
           <div className="text-right font-mono text-xs text-foreground-muted">0/240</div>
         </Field>
-        <div
-          className={cn(
-            "grid gap-2 rounded-md border border-line-muted bg-layer-panel p-3 shadow-none",
-            "in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-line-strong in-data-[theme=brutal]:bg-layer-panel in-data-[theme=brutal]:shadow-raft-sm",
-          )}
-        >
+        <div className="grid gap-2 rounded-md border border-line-muted bg-layer-panel p-3 shadow-none">
           <div className="flex items-center justify-between gap-3">
-            <span className="text-sm font-medium text-foreground [[data-theme=brutal]_&]:font-bold">
-              Runtime
-            </span>
+            <span className="text-sm font-medium text-foreground">Runtime</span>
             <span className="font-mono text-xs text-foreground-muted">codex</span>
           </div>
-          <div className="flex items-center justify-between gap-3 border-t border-line-muted pt-2 in-data-[theme=brutal]:border-black/15">
-            <span className="text-sm font-medium text-foreground [[data-theme=brutal]_&]:font-bold">
-              Model
-            </span>
+          <div className="flex items-center justify-between gap-3 border-t border-line-muted pt-2">
+            <span className="text-sm font-medium text-foreground">Model</span>
             <span className="font-mono text-xs text-foreground-muted">auto</span>
           </div>
           <Button
             type="button"
             variant="link"
             size="sm"
-            className="mt-1 justify-self-start px-0 text-xs underline underline-offset-2 [[data-theme=brutal]_&]:font-bold in-data-[theme=brutal]:text-foreground"
+            className="mt-1 justify-self-start px-0 text-xs underline underline-offset-2"
           >
             Advanced environment
           </Button>

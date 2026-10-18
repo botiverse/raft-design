@@ -107,8 +107,7 @@ const PROFILE_PANEL_HEADER_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "PanelHeaderProps",
-    description:
-      "Profile identity header with the profile-specific Elegant separator and inline padding.",
+    description: "Profile identity header.",
   },
 ];
 
@@ -117,7 +116,7 @@ const PROFILE_PANEL_HEADER_CONTENT_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "PanelHeaderContentProps",
     description:
-      "Profile identity stack that keeps the name and secondary description vertically arranged across themes.",
+      "Profile identity stack that keeps the name and secondary description vertically arranged.",
   },
 ];
 
@@ -133,8 +132,7 @@ const PROFILE_PANEL_SECTION_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "PanelSectionProps",
-    description:
-      "Profile content section with profile-specific Elegant spacing and separator color.",
+    description: "Profile content section with profile-specific spacing and separator color.",
   },
 ];
 

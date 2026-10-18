@@ -2,64 +2,15 @@ import { tv } from "../../lib/tv";
 
 export const input = tv({
   slots: {
-    // `text-field` / `font-field` carry the declared field metric axis
-    // (size + line-height + weight, per theme). Before this the metrics were
-    // emergent: brutal inherited its size/weight and got its height from
-    // `py-2`, while elegant declared only `text-sm`. Height stays derived from
-    // padding + line-height on purpose; the axis declares typography, not a box.
-    root: ["w-full px-3 py-2 font-heading text-field font-field outline-none"],
+    // `text-field` / `font-field` carry the field type (size, line-height and
+    // weight); the 44px height is the control's, not the type's.
+    root: [
+      "h-11 w-full px-3 py-0 font-heading text-field font-field outline-none",
+      "rounded-control border-[1.5px] border-line-strong bg-layer-card",
+      "text-foreground placeholder:text-foreground-placeholder",
+      "shadow-none transition-shadow duration-90 ease-out focus:shadow-raft-focus",
+      "data-invalid:border-danger-strong",
+      "disabled:cursor-not-allowed disabled:border-line-muted disabled:bg-fill-muted disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
+    ],
   },
-  variants: {
-    theme: {
-      brutal: {},
-      elegant: {},
-      raft: {},
-    },
-  },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      class: {
-        root: [
-          "border-2 border-line-strong bg-layer-panel",
-          "shadow-raft-sm focus:shadow-raft-md",
-          "data-invalid:border-brutal-red data-invalid:bg-brutal-red/5 data-invalid:shadow-none data-invalid:ring-2 data-invalid:ring-brutal-red/60",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      class: {
-        root: [
-          "rounded-md border border-line-field bg-layer-panel",
-          "dark:bg-layer-card dark:not-data-invalid:border-transparent",
-          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0/0.3),inset_0_0_0_1px_oklch(0_0_0/0.35),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
-          "dark:hover:not-data-invalid:border-ink-8",
-          "px-3 py-2 text-foreground transition duration-200 ease-out dark:text-foreground-strong",
-          "placeholder:text-foreground-placeholder/70",
-          "shadow-none hover:not-data-invalid:border-line-field-hover",
-          "focus:bg-layer-panel dark:focus:bg-layer-card",
-          "focus-visible:ring-1 focus-visible:ring-primary-400",
-          "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
-          "data-invalid:border-danger/45 data-invalid:hover:border-danger/75 data-invalid:focus-visible:border-danger/75 data-invalid:focus-visible:ring-3 data-invalid:focus-visible:ring-danger/12",
-          "disabled:cursor-not-allowed disabled:border-line-muted/60 disabled:bg-fill-muted/50 disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
-          "disabled:hover:border-line-muted/60",
-          "data-invalid:disabled:border-line-muted/60 data-invalid:disabled:ring-0",
-        ],
-      },
-    },
-    {
-      theme: "raft",
-      class: {
-        root: [
-          "h-11 py-0",
-          "rounded-control border-[1.5px] border-line-strong bg-layer-card",
-          "text-foreground placeholder:text-foreground-placeholder",
-          "shadow-none transition-shadow duration-90 ease-out focus:shadow-raft-focus",
-          "data-invalid:border-danger-strong",
-          "disabled:cursor-not-allowed disabled:border-line-muted disabled:bg-fill-muted disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
-        ],
-      },
-    },
-  ],
 });

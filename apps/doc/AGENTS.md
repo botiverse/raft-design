@@ -15,7 +15,7 @@ Compositions may contain:
 - Explicit combinations of UI compound parts.
 - Deterministic local state and mock callbacks needed to demonstrate interaction.
 - Ready, loading, pending, failed, unavailable, disabled, selected, and other consumer-chosen structures.
-- Local portal containers needed to isolate theme preview panes.
+- Local portal containers needed to isolate preview panes.
 - Thin reusable example helpers when they represent a meaningful composition rather than a renamed primitive.
 
 Compositions must not contain:
@@ -97,7 +97,6 @@ iframe-only preview routes live under `routes/iframe` and delegate to the module
 
 ## Theme and Overlay Isolation
 
-- Brutal, Elegant, and Elegant dark should consume the same business structure. Themes change recipes and tokens, not product DOM.
 - The app-level theme provider is the only owner that synchronizes the document root.
 - Nested preview scopes use `syncDom={false}`.
 - Tooltips, menus, context menus, popovers, and selection overlays inside isolated previews receive a local container through the underlying Base UI portal props.

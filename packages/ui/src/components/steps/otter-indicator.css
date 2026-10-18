@@ -1,7 +1,6 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   OtterIndicator — an otter for a step marker (`Steps` `renderIndicator`),
-   posed by the step's status. The picture is fixed art; only the badges and
-   the "z" take theme colors.
+   OtterIndicator — an otter posed by a status (an agent's turn, a step). The
+   picture is fixed art; only the badges and the "z" take token colours.
    ───────────────────────────────────────────────────────────────────────── */
 
 .r-otter-indicator {
@@ -65,75 +64,6 @@
   }
   .r-otter-indicator--error .r-otter-indicator__parcel--adrift {
     animation: r-otter-indicator-drift 2s ease-in-out infinite alternate;
-  }
-}
-.r-otter-traveler__stroke {
-  transform-origin: 29px 23px;
-}
-.r-otter-traveler__kick {
-  transform-origin: 13px 27px;
-}
-.r-otter-traveler__spray {
-  opacity: 0;
-  transform-origin: 36px 14px;
-}
-@media (prefers-reduced-motion: no-preference) {
-  /* The traveler in progress never stops paddling: a full backstroke with a
-     flick of spray, the hind foot kicking twice as fast, and a small surge
-     forward with each stroke. */
-  .r-otter-traveler.r-otter-indicator--process .r-otter-indicator__body {
-    animation: r-otter-traveler-surge 0.9s ease-in-out infinite;
-  }
-  .r-otter-traveler__stroke {
-    animation: r-otter-traveler-stroke 0.9s ease-in-out infinite;
-  }
-  .r-otter-traveler__kick {
-    animation: r-otter-traveler-kick 0.45s ease-in-out infinite alternate;
-  }
-  .r-otter-traveler__spray {
-    animation: r-otter-traveler-spray 0.9s ease-out infinite;
-  }
-}
-@keyframes r-otter-traveler-stroke {
-  from {
-    transform: rotate(-75deg);
-  }
-  55% {
-    transform: rotate(40deg);
-  }
-  to {
-    transform: rotate(-75deg);
-  }
-}
-@keyframes r-otter-traveler-kick {
-  from {
-    transform: rotate(-25deg);
-  }
-  to {
-    transform: rotate(20deg);
-  }
-}
-@keyframes r-otter-traveler-spray {
-  0%,
-  45% {
-    opacity: 0;
-    transform: translate(-1px, 1px) scale(0.6);
-  }
-  60% {
-    opacity: 0.95;
-  }
-  to {
-    opacity: 0;
-    transform: translate(2px, -2.5px) scale(1);
-  }
-}
-@keyframes r-otter-traveler-surge {
-  0%,
-  100% {
-    transform: translateX(0) rotate(-1deg);
-  }
-  55% {
-    transform: translateX(1.2px) rotate(1.5deg);
   }
 }
 @media (prefers-reduced-motion: reduce) {

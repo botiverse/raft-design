@@ -1,13 +1,10 @@
 import { cn } from "../cn";
-import type { Theme, ThemeState } from "./theme-context";
+import type { ThemeState } from "./theme-context";
 import { useTheme } from "./use-theme";
 
 type ThemeScopeProps = {
   className?: unknown;
-  "data-theme"?: string;
 };
-
-type ThemeScopeState = Pick<ThemeState, "theme" | "resolvedMode">;
 
 type ClassNameCallback<ClassName> = Extract<
   NonNullable<ClassName>,
@@ -18,25 +15,24 @@ type ClassNameState<Props extends ThemeScopeProps> = Parameters<
   ClassNameCallback<Props["className"]>
 >[0];
 
+/**
+ * Carry the provider's resolved mode (`light` / `dark`) onto content that
+ * renders outside its subtree (a portal), so a dark island's popup stays dark.
+ */
 export function resolveThemeScopeProps<Props extends ThemeScopeProps>(
-  { className, "data-theme": _dataTheme, ...props }: Props,
-  { theme, resolvedMode }: ThemeScopeState,
-): Omit<Props, "className" | "data-theme"> & {
-  className?: Props["className"];
-  "data-theme": Theme;
-} {
-  const modeClassName = theme === "brutal" ? undefined : resolvedMode;
+  { className, ...props }: Props,
+  { resolvedMode }: Pick<ThemeState, "resolvedMode">,
+): Omit<Props, "className"> & { className?: Props["className"] } {
   const resolvedClassName =
-    typeof className === "function" && modeClassName
+    typeof className === "function"
       ? (state: ClassNameState<Props>) =>
-          cn((className as ClassNameCallback<Props["className"]>)(state), modeClassName)
-      : typeof className === "string" && modeClassName
-        ? cn(className, modeClassName)
-        : (className ?? modeClassName);
+          cn((className as ClassNameCallback<Props["className"]>)(state), resolvedMode)
+      : typeof className === "string"
+        ? cn(className, resolvedMode)
+        : (className ?? resolvedMode);
 
   return {
     ...props,
-    "data-theme": theme,
     className: resolvedClassName as Props["className"],
   };
 }

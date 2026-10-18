@@ -128,7 +128,7 @@ export function TasksChannelFilterComposition({
               <ComboboxItem key={channel.id} value={channel.id}>
                 <span className="flex min-w-0 items-center gap-1.5">
                   <span className="flex size-4 shrink-0 items-center justify-center">
-                    <Hash className="text-foreground-muted in-data-[theme=brutal]:text-black/50" />
+                    <Hash className="text-foreground-muted" />
                   </span>
                   <span className="truncate">{channel.label}</span>
                 </span>

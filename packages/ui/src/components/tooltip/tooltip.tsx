@@ -2,10 +2,8 @@ import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
 import { Children, Fragment, isValidElement } from "react";
 import type { ComponentProps, ReactNode } from "react";
 import { tv } from "../../lib/tv";
-import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const tooltip = tv({
   slots: {
@@ -19,13 +17,16 @@ const tooltip = tv({
       "data-ending-style:scale-[0.99] data-ending-style:opacity-0",
       "data-instant:transition-none",
       "motion-reduce:transition-none",
-      "has-[[data-slot=kbd]]:py-1.5 has-[[data-slot=kbd]]:pr-1.5",
+      "rounded-chip bg-layer-hud text-layer-hud-foreground",
+      "font-sans font-medium",
+      "shadow-raft-float",
+      "has-[[data-slot=kbd]]:py-1 has-[[data-slot=kbd]]:pr-2.5",
     ],
     body: [
       "block min-w-0 text-[13px] leading-4.5 whitespace-normal wrap-break-word",
       "**:data-[slot=kbd]:relative **:data-[slot=kbd]:z-10 [&_[data-slot=kbd]]:ml-1.5",
       "[&_[data-slot=kbd]]:h-4 [&_[data-slot=kbd]]:min-w-4 [&_[data-slot=kbd]]:px-1 [&_[data-slot=kbd]]:py-0",
-      "**:data-[slot=kbd]:text-[10px] [&_[data-slot=kbd]]:font-semibold **:data-[slot=kbd]:leading-none",
+      "**:data-[slot=kbd]:text-[12px] **:data-[slot=kbd]:leading-4 [&_[data-slot=kbd]]:font-normal",
     ],
     bodyIcon: ["shrink-0 [&>svg]:block [&>svg]:size-3.5 [&>svg]:shrink-0"],
     bodyText: ["min-w-0 flex-1"],
@@ -46,47 +47,8 @@ const tooltip = tv({
       },
       false: {},
     },
-    theme: {
-      brutal: {
-        content: [
-          "border-2 border-line-strong bg-primary",
-          "font-sans font-bold text-foreground-strong",
-          "shadow-raft-sm",
-          "**:data-[slot=kbd]:border-line-strong/70 **:data-[slot=kbd]:bg-layer-panel **:data-[slot=kbd]:text-foreground-strong/70 **:data-[slot=kbd]:ring-0",
-        ],
-        arrow: ["hidden"],
-      },
-      elegant: {
-        content: [
-          "rounded-md bg-layer-hud text-layer-hud-foreground dark:bg-layer-popover dark:text-foreground",
-          "font-sans text-[13px] font-medium tracking-[-0.005em]",
-          "shadow-raft-lg",
-          "**:data-[slot=kbd]:bg-white/8 **:data-[slot=kbd]:text-white/72 **:data-[slot=kbd]:ring-0 dark:**:data-[slot=kbd]:bg-ink-4 dark:**:data-[slot=kbd]:text-foreground-muted",
-        ],
-        // Dark shadow-raft-lg draws a 1px black/0.55 ring around the popup; the
-        // apex-directed silhouette shadow repaints that ring under the arrow's
-        // base corners and continues it along the slanted edges, so the arrow
-        // reads as one surface with the popup. Filters apply before the side
-        // rotation transforms, so the offset stays apex-directed on every side.
-        arrow: ["dark:drop-shadow-[0_1px_0_oklch(0_0_0/0.55)]"],
-      },
-      raft: {
-        content: [
-          "rounded-chip bg-layer-hud text-layer-hud-foreground",
-          "font-sans font-medium",
-          "shadow-raft-float",
-          "has-[[data-slot=kbd]]:py-1 has-[[data-slot=kbd]]:pr-2.5",
-        ],
-        body: [
-          "**:data-[slot=kbd]:text-[12px] **:data-[slot=kbd]:leading-4 [&_[data-slot=kbd]]:font-normal",
-        ],
-        arrow: [],
-      },
-    },
   },
 });
-
-type TooltipStyleProps = VariantProps<typeof tooltip>;
 
 export type TooltipProviderProps = BaseTooltip.Provider.Props;
 
@@ -103,8 +65,7 @@ export function Tooltip(props: TooltipProps) {
 export type TooltipTriggerProps = StyledProps<BaseTooltip.Trigger.Props>;
 
 export function TooltipTrigger({ className, ...props }: TooltipTriggerProps) {
-  const theme = useThemeFamily();
-  const { trigger } = tooltip({ theme });
+  const { trigger } = tooltip();
   const childSlot = isValidElement<{ "data-slot"?: string }>(props.render)
     ? props.render.props["data-slot"]
     : undefined;
@@ -122,29 +83,18 @@ export function TooltipPortal(props: TooltipPortalProps) {
 type TooltipArrowProps = StyledProps<BaseTooltip.Arrow.Props>;
 
 function TooltipArrow({ className, ...props }: TooltipArrowProps) {
-  const theme = useThemeFamily();
-  const { arrow } = tooltip({ theme });
+  const { arrow } = tooltip();
   return (
     <BaseTooltip.Arrow data-slot="tooltip-arrow" className={arrow({ className })} {...props}>
-      <TooltipArrowSvg theme={theme} />
+      <TooltipArrowSvg />
     </BaseTooltip.Arrow>
   );
 }
 
-function TooltipArrowSvg({
-  theme,
-  ...props
-}: ComponentProps<"svg"> & Pick<TooltipStyleProps, "theme">) {
-  const fill =
-    theme === "elegant"
-      ? "fill-layer-hud dark:fill-layer-popover"
-      : theme === "raft"
-        ? "fill-layer-hud"
-        : "fill-layer-popover";
-
+function TooltipArrowSvg(props: ComponentProps<"svg">) {
   return (
     <svg width="12" height="6" viewBox="0 0 12 6" fill="none" {...props}>
-      <path d="M1 0H11L6 5.25Z" className={fill} />
+      <path d="M1 0H11L6 5.25Z" className="fill-layer-hud" />
     </svg>
   );
 }
@@ -194,12 +144,9 @@ function partitionTooltipBodyChildren(children: ReactNode) {
   return { icons, rest };
 }
 
-function TooltipBodyContent({
-  children,
-  theme,
-}: { children: ReactNode } & Pick<TooltipStyleProps, "theme">) {
+function TooltipBodyContent({ children }: { children: ReactNode }) {
   const { icons, rest } = partitionTooltipBodyChildren(children);
-  const { body, bodyIcon, bodyText } = tooltip({ theme, hasLeadingIcon: icons.length > 0 });
+  const { body, bodyIcon, bodyText } = tooltip({ hasLeadingIcon: icons.length > 0 });
 
   if (icons.length === 0) {
     return (
@@ -266,9 +213,7 @@ export function TooltipContent({
   children,
   ...props
 }: TooltipContentProps) {
-  const theme = useThemeFamily();
-  const { positioner, content } = tooltip({ theme });
-  const resolvedSideOffset = sideOffset ?? (theme === "brutal" ? 6 : 8);
+  const { positioner, content } = tooltip();
   const portalContainer = container !== undefined ? container : portalProps?.container;
 
   return (
@@ -284,7 +229,7 @@ export function TooltipContent({
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
-        sideOffset={resolvedSideOffset}
+        sideOffset={sideOffset ?? 8}
         sticky={sticky}
         className={positioner()}
       >
@@ -293,7 +238,7 @@ export function TooltipContent({
           className={content({ className })}
           {...props}
         >
-          <TooltipBodyContent theme={theme}>{children}</TooltipBodyContent>
+          <TooltipBodyContent>{children}</TooltipBodyContent>
           <TooltipArrow />
         </BaseTooltip.Popup>
       </BaseTooltip.Positioner>
