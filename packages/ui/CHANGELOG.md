@@ -1,3 +1,37 @@
+## [0.7.0](https://github.com/botiverse/raft-design/compare/v0.6.1...v0.7.0) (2026-10-18)
+
+### Breaking Changes
+
+- `MessageItemSavedIndicator` no longer takes `elevation`, and the `MessageItemSavedIndicatorElevation` type is removed. Its `"xs"` and `"sm"` values pointed at empty shadows, so the prop never drew one: delete it at call sites. ([#488](https://github.com/botiverse/raft-design/pull/488))
+
+### Added
+
+- `raft-ui/tokens.json`: every color, elevation and metric token in the Design Tokens Community Group format, with light and dark values, for design tools and code generators. `foundation.css` is generated from it. ([#482](https://github.com/botiverse/raft-design/pull/482))
+- `codemods/token-names.mjs` ships in the package. `node node_modules/raft-ui/codemods/token-names.mjs <src>` rewrites Tailwind utilities and `var(--…)` references from the former token names to the current ones (see Changed). ([#476](https://github.com/botiverse/raft-design/pull/476))
+- `foreground-on-hud-muted` (`text-foreground-on-hud-muted`): secondary text on a tooltip or toast. ([#496](https://github.com/botiverse/raft-design/pull/496))
+- Shadow utilities `shadow-float`, `shadow-sticker` and `shadow-focus`, registered with tailwind-merge in `raft-ui/cn`. ([#476](https://github.com/botiverse/raft-design/pull/476))
+
+### Changed
+
+- **Token names follow the Raft Design System.** Every former name keeps working as a deprecated alias (CSS variable and utility) until 1.0, and the values are unchanged; run the codemod to move:
+  - `line` → `line-seam`, `line-muted` → `line-hairline`
+  - `primary-*` → `brand-*` (yellow), `accent-*` → `attention-*` (pink)
+  - `layer-panel` → `layer-canvas`, `layer-inset` → `fill-muted`, `layer-canvas-muted` → `layer-sidebar`
+  - `foreground-strong` → `foreground`, `foreground-icon` → `foreground-muted`, `foreground-placeholder` → `foreground-hint`, `layer-hud-foreground` → `foreground-on-hud`
+  - `--color-brutal-<color>-<step>` → `--palette-<color>-<step>` (purple is lavender), `bg-brutal-<color>` / `bg-soft-signal` → `bg-palette-<color>`
+  - `--theme-shadow-float` / `-lg` / `-xl` → `--elevation-float`, `--theme-shadow-sticker` → `--elevation-sticker`, `--theme-focus-ring` → `--focus-ring`; utilities `shadow-raft-*` → `shadow-float` / `shadow-sticker` / `shadow-focus`
+
+  Components render the current utility names, so tests that assert class names may need the new names. ([#476](https://github.com/botiverse/raft-design/pull/476), [#479](https://github.com/botiverse/raft-design/pull/479))
+
+- `Banner` renders `role="status"`, and `role="alert"` only for `status="destructive"`, so a notice that isn't urgent no longer interrupts a screen reader. Pass `role` to override. ([#496](https://github.com/botiverse/raft-design/pull/496))
+- Deprecated, to be removed in 1.0: `FloatButton` / `FloatButtonGroup` (not part of the design system), `LegacyTaskPanel*` (unused), and `LiveAgentActivityBar*` (the design system shows working agents where they appear). ([#488](https://github.com/botiverse/raft-design/pull/488))
+- The package includes its MIT `LICENSE`, and its metadata points to [raft-design.botiverse.build](https://raft-design.botiverse.build). ([#487](https://github.com/botiverse/raft-design/pull/487))
+
+### Fixed
+
+- `Skeleton` stops pulsing under `prefers-reduced-motion`. ([#496](https://github.com/botiverse/raft-design/pull/496))
+- `EmptyStateIcon` is hidden from assistive technology, and `NotificationCenterItemIcon` is announced as an image named by its status. ([#496](https://github.com/botiverse/raft-design/pull/496))
+
 ## [0.6.1](https://github.com/botiverse/rui/compare/v0.6.0...v0.6.1) (2026-10-18)
 
 ### Added
