@@ -152,10 +152,10 @@ export type {
   ListRowMetaProps,
   ListRowProps,
   ListRowTitleProps,
-  ListRowTone,
   ListRowTopProps,
   ListRowValueProps,
 } from "./components/list-row/index";
+export type { RowTone } from "./lib/row-tone";
 
 export {
   AppRailFooter,

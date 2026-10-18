@@ -2,6 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ChevronRight } from "lucide-react";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import type { RowTone } from "../../lib/row-tone";
 import type { VariantProps } from "../../lib/tv";
 import { listRow } from "./list-row.recipe";
 
@@ -22,13 +23,12 @@ export function ListRowGroup({ className, render, ...props }: ListRowGroupProps)
   });
 }
 
-export type ListRowTone = "default" | "unread" | "muted" | "away";
-
 export type ListRowProps = useRender.ComponentProps<"button"> &
   Pick<VariantProps<typeof listRow>, "variant"> & {
     /** Something waits for you here (bold title, ink preview), the place is
-     *  muted (ink-2 title), or you are not in it yet (ink-3 title and preview). */
-    tone?: ListRowTone;
+     *  muted (ink-2 title), or you are not in it yet (ink-3 title and preview).
+     *  A disabled row ignores it: everything is ink-disabled. */
+    tone?: RowTone;
     /** The item open beside the list: the row takes the cyan wash and stops
      *  reacting to hover. Say why it is selected with `aria-current` or
      *  `aria-selected` yourself. */

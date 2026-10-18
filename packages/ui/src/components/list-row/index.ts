@@ -21,7 +21,6 @@ export type {
   ListRowMetaProps,
   ListRowProps,
   ListRowTitleProps,
-  ListRowTone,
   ListRowTopProps,
   ListRowValueProps,
 } from "./list-row";

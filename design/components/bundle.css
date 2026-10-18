@@ -176,7 +176,9 @@ button.rf-section__title { appearance: none; -webkit-appearance: none; margin: 0
   padding: var(--space-3) var(--space-4); color: var(--ink); text-decoration: none; }
 .rf-row + .rf-row::before { content: ""; position: absolute; top: 0; right: 0;
   left: calc(var(--space-4) + var(--size-avatar-md) + var(--space-3)); border-top: var(--border-hairline) solid var(--line); }
-:where(a, button).rf-row:active, .rf-row.is-pressed { background: var(--surface-pressed); }   /* only a row that is a target reacts; a settings row with a switch does not */
+:where(a, button).rf-row:not(:disabled):not([aria-disabled="true"]):active, .rf-row.is-pressed { background: var(--surface-pressed); }   /* only a row that is a target reacts; a settings row with a switch does not */
+.rf-row:disabled, .rf-row[aria-disabled="true"] { cursor: not-allowed; }
+.rf-row:disabled, .rf-row[aria-disabled="true"], :is(.rf-row:disabled, .rf-row[aria-disabled="true"]) :is(.rf-row__title, .rf-row__sub, .rf-row__time, .rf-row__value, .rf-row__icon, .rf-row__chev, .rf-count) { color: var(--ink-disabled); }
 .rf-row.is-selected { background: var(--cyan-soft); }   /* the item that is open next to the list (product SurfaceListItem) */
 .rf-row--muted .rf-row__title { color: var(--ink-2); font-weight: 600; }
 .rf-row--away .rf-row__title, .rf-row--away .rf-row__sub { color: var(--ink-3); }
@@ -506,7 +508,7 @@ button.rf-section__title { appearance: none; -webkit-appearance: none; margin: 0
   .rf-btn--primary:hover, .rf-btn--danger:hover, .rf-btn--warn:hover, .rf-iconbtn--primary:hover { background-image: linear-gradient(var(--sticker-pressed), var(--sticker-pressed)); }
   .rf-btn[disabled]:hover, .rf-btn.is-disabled:hover { background-image: none; }
   .rf-iconbtn:not(.rf-iconbtn--outline):not(.rf-iconbtn--primary):hover { background: var(--surface-pressed); }
-  :where(a, button).rf-row:not(.is-selected):hover, .rf-srow:not(.is-on):hover, .rf-mchip:hover, .rf-seg__item:not(.is-on):hover, .rf-filter:not(.is-applied):hover { background: var(--surface-pressed); }
+  :where(a, button).rf-row:not(.is-selected):not(:disabled):not([aria-disabled="true"]):hover, .rf-srow:not(.is-on):hover, .rf-mchip:hover, .rf-seg__item:not(.is-on):hover, .rf-filter:not(.is-applied):hover { background: var(--surface-pressed); }
   .rf-frame .rf-iconbtn:not(.rf-iconbtn--primary):hover, .rf-frame .rf-ws:not(.rf-ws--pill):hover, .rf-rail__item:not(.is-on):hover { background: var(--frame-pressed); }
   .rf-working:hover { background: var(--surface-pressed); }
   .rf-frame .rf-working:hover { background: var(--frame-pressed); }

@@ -81,7 +81,7 @@ const LIST_ROW_PROPS: readonly PropRow[] = [
     type: '"default" | "plain" | "entry"',
     default: '"default"',
     description:
-      "default: at least 64 tall, a hairline from the text start (63px). plain: a setting, at least 44, the hairline from the edge. entry: a shortcut (Search, Activity), 44, no hairlines.",
+      "default: at least 64 tall, a hairline from the text start (63px). plain: a setting, 48 tall with one line, the hairline from the edge. entry: a shortcut (Search, Activity), 48 tall, no hairlines.",
   },
   {
     name: "tone",
@@ -112,7 +112,8 @@ const LIST_ROW_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"button">',
-    description: "Native button attributes: onClick, disabled, value, aria-*.",
+    description:
+      "Native button attributes: onClick, value, aria-*. disabled (or aria-disabled) greys every part, drops the tone and stops hover and press.",
   },
 ];
 
@@ -210,8 +211,8 @@ function ListRowDoc() {
             <DocNote>
               <InlineCode>variant="entry"</InlineCode> is a shortcut into another page at the top of
               a list (Search, Activity, Saved): a 20px <InlineCode>ListRowIcon</InlineCode> and a
-              name, with a badge or a gray count on the right. They are a set of buttons, so no
-              lines run between them.
+              name, with a badge or a gray count on the right, 48 tall. They are a set of buttons,
+              so no lines run between them.
             </DocNote>
             <Preview>
               <Preview.Canvas>
