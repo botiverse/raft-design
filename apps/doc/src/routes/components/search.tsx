@@ -258,7 +258,7 @@ const SEARCH_TRIGGER_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"button">',
     description:
-      "A button drawn as the top bar's search field (36 tall, 1.5px ink line, ink-3 placeholder). Pass a ref to anchor the search dialog on it.",
+      "A button drawn as the top bar's search field (36 tall, 1.5px ink line, ink-3 placeholder). Pass a ref to anchor the search dialog on it. Disabled, it is a disabled field and ignores hover and press.",
   },
 ];
 

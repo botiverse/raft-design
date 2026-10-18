@@ -65,3 +65,14 @@ test("a labelled tile keeps the caller's role and label", () => {
   render(<IconTile role="img" aria-label="Private channel" />);
   expect(screen.getByRole("img", { name: "Private channel" })).toBeTruthy();
 });
+
+test("decorative by default: hidden from assistive tech until it has a role", () => {
+  render(
+    <>
+      <IconTile data-testid="decorative" />
+      <IconTile data-testid="labelled" role="img" aria-label="Archived channel" />
+    </>,
+  );
+  expect(screen.getByTestId("decorative").getAttribute("aria-hidden")).toBe("true");
+  expect(screen.getByTestId("labelled").hasAttribute("aria-hidden")).toBe(false);
+});

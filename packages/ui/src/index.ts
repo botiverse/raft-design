@@ -1201,21 +1201,6 @@ export type { KbdGroupProps, KbdProps } from "./components/kbd/index";
 export { IconTile } from "./components/icon-tile/index";
 export type { IconTileProps } from "./components/icon-tile/index";
 
-export {
-  MenuRow,
-  MenuRowCheck,
-  MenuRowLabel,
-  MenuRowList,
-  MenuRowShortcut,
-} from "./components/menu-row/index";
-export type {
-  MenuRowCheckProps,
-  MenuRowLabelProps,
-  MenuRowListProps,
-  MenuRowProps,
-  MenuRowShortcutProps,
-} from "./components/menu-row/index";
-
 export { Text, TextHeading, TextMono, TextSans } from "./components/text/index";
 export type { TextHeadingProps, TextMonoProps, TextSansProps } from "./components/text/index";
 

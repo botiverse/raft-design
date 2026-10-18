@@ -34,12 +34,18 @@ const iconTile = tv({
 
 export type IconTileProps = useRender.ComponentProps<"span"> & VariantProps<typeof iconTile>;
 
-/** A neutral square holding an icon, sized like an avatar: 19, 27, 35 or 51. */
+/**
+ * A neutral square holding an icon, sized like an avatar: 19, 27, 35 or 51.
+ * It is decorative beside its words, so it is hidden from assistive tech; a
+ * tile that means something on its own takes `role="img"` and an
+ * `aria-label`, and is announced.
+ */
 export function IconTile({ variant, size, className, render, ...props }: IconTileProps) {
   const { root } = iconTile({ variant, size });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "icon-tile",
     "data-size": size ?? "md",
+    "aria-hidden": props.role ? undefined : true,
     className: root({ className }),
   };
 

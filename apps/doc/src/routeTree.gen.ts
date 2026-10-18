@@ -54,7 +54,6 @@ import { Route as ComponentsListRowRouteImport } from './routes/components/list-
 import { Route as ComponentsLiveAgentActivityBarRouteImport } from './routes/components/live-agent-activity-bar'
 import { Route as ComponentsLogoRouteImport } from './routes/components/logo'
 import { Route as ComponentsMarkdownRouteImport } from './routes/components/markdown'
-import { Route as ComponentsMenuRowRouteImport } from './routes/components/menu-row'
 import { Route as ComponentsMessageActionCardRouteImport } from './routes/components/message-action-card'
 import { Route as ComponentsMessageAttachmentRouteImport } from './routes/components/message-attachment'
 import { Route as ComponentsMessageForwardedBundleRouteImport } from './routes/components/message-forwarded-bundle'
@@ -354,11 +353,6 @@ const ComponentsLogoRoute = ComponentsLogoRouteImport.update({
 const ComponentsMarkdownRoute = ComponentsMarkdownRouteImport.update({
   id: '/markdown',
   path: '/markdown',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsMenuRowRoute = ComponentsMenuRowRouteImport.update({
-  id: '/menu-row',
-  path: '/menu-row',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsMessageActionCardRoute =
@@ -776,7 +770,6 @@ export interface FileRoutesByFullPath {
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/logo': typeof ComponentsLogoRoute
   '/components/markdown': typeof ComponentsMarkdownRoute
-  '/components/menu-row': typeof ComponentsMenuRowRoute
   '/components/message-action-card': typeof ComponentsMessageActionCardRoute
   '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
   '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
@@ -892,7 +885,6 @@ export interface FileRoutesByTo {
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/logo': typeof ComponentsLogoRoute
   '/components/markdown': typeof ComponentsMarkdownRoute
-  '/components/menu-row': typeof ComponentsMenuRowRoute
   '/components/message-action-card': typeof ComponentsMessageActionCardRoute
   '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
   '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
@@ -1009,7 +1001,6 @@ export interface FileRoutesById {
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/logo': typeof ComponentsLogoRoute
   '/components/markdown': typeof ComponentsMarkdownRoute
-  '/components/menu-row': typeof ComponentsMenuRowRoute
   '/components/message-action-card': typeof ComponentsMessageActionCardRoute
   '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
   '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
@@ -1127,7 +1118,6 @@ export interface FileRouteTypes {
     | '/components/live-agent-activity-bar'
     | '/components/logo'
     | '/components/markdown'
-    | '/components/menu-row'
     | '/components/message-action-card'
     | '/components/message-attachment'
     | '/components/message-forwarded-bundle'
@@ -1243,7 +1233,6 @@ export interface FileRouteTypes {
     | '/components/live-agent-activity-bar'
     | '/components/logo'
     | '/components/markdown'
-    | '/components/menu-row'
     | '/components/message-action-card'
     | '/components/message-attachment'
     | '/components/message-forwarded-bundle'
@@ -1359,7 +1348,6 @@ export interface FileRouteTypes {
     | '/components/live-agent-activity-bar'
     | '/components/logo'
     | '/components/markdown'
-    | '/components/menu-row'
     | '/components/message-action-card'
     | '/components/message-attachment'
     | '/components/message-forwarded-bundle'
@@ -1760,13 +1748,6 @@ declare module '@tanstack/react-router' {
       path: '/markdown'
       fullPath: '/components/markdown'
       preLoaderRoute: typeof ComponentsMarkdownRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/menu-row': {
-      id: '/components/menu-row'
-      path: '/menu-row'
-      fullPath: '/components/menu-row'
-      preLoaderRoute: typeof ComponentsMenuRowRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/message-action-card': {
@@ -2414,7 +2395,6 @@ interface ComponentsRouteChildren {
   ComponentsLiveAgentActivityBarRoute: typeof ComponentsLiveAgentActivityBarRoute
   ComponentsLogoRoute: typeof ComponentsLogoRoute
   ComponentsMarkdownRoute: typeof ComponentsMarkdownRoute
-  ComponentsMenuRowRoute: typeof ComponentsMenuRowRoute
   ComponentsMessageActionCardRoute: typeof ComponentsMessageActionCardRoute
   ComponentsMessageAttachmentRoute: typeof ComponentsMessageAttachmentRoute
   ComponentsMessageForwardedBundleRoute: typeof ComponentsMessageForwardedBundleRoute
@@ -2503,7 +2483,6 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsLiveAgentActivityBarRoute: ComponentsLiveAgentActivityBarRoute,
   ComponentsLogoRoute: ComponentsLogoRoute,
   ComponentsMarkdownRoute: ComponentsMarkdownRoute,
-  ComponentsMenuRowRoute: ComponentsMenuRowRoute,
   ComponentsMessageActionCardRoute: ComponentsMessageActionCardRoute,
   ComponentsMessageAttachmentRoute: ComponentsMessageAttachmentRoute,
   ComponentsMessageForwardedBundleRoute: ComponentsMessageForwardedBundleRoute,

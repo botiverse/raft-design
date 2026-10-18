@@ -66,7 +66,7 @@ const PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description:
-      "Native span attributes. Label a tile that means something with role and aria-label.",
+      'Native span attributes. The tile is aria-hidden: it is decorative beside its words. One that means something on its own takes role="img" and an aria-label, and is announced.',
   },
 ];
 

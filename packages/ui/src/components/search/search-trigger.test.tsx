@@ -59,3 +59,23 @@ test("the label truncates and the shortcut keeps to the right end", () => {
   expect(shortcut.tagName).toBe("KBD");
   expect(classes(shortcut)).toEqual(expect.arrayContaining(["ml-auto", "shrink-0"]));
 });
+
+test("disabled, it is a disabled field and the press overlay is reset", () => {
+  render(
+    <SearchTrigger disabled>
+      <SearchTriggerLabel>Search Raft</SearchTriggerLabel>
+    </SearchTrigger>,
+  );
+  const trigger = screen.getByRole("button", { name: "Search Raft" });
+  expect(trigger).toHaveProperty("disabled", true);
+  expect(classes(trigger)).toEqual(
+    expect.arrayContaining([
+      "disabled:bg-none",
+      "disabled:bg-fill-muted",
+      "disabled:border-line-muted",
+      "disabled:text-foreground-disabled",
+      "aria-disabled:bg-none",
+      "aria-disabled:text-foreground-disabled",
+    ]),
+  );
+});

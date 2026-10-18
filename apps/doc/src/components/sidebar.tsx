@@ -121,7 +121,6 @@ const COMPONENT_NAV = [
       { label: "ContextMenu", to: "/components/context-menu", status: "done" },
       { label: "Dialog", to: "/components/dialog", status: "done" },
       { label: "DropdownMenu", to: "/components/dropdown-menu", status: "done" },
-      { label: "MenuRow", to: "/components/menu-row", status: "done" },
       { label: "Lightbox", to: "/components/lightbox", status: "done" },
       { label: "Popover", to: "/components/popover", status: "done" },
       { label: "PreviewCard", to: "/components/preview-card", status: "done" },
@@ -153,9 +152,9 @@ const COMPONENT_NAV = [
     items: [
       { label: "Card", to: "/components/card", status: "done" },
       { label: "Avatar", to: "/components/avatar", status: "done" },
-      { label: "IconTile", to: "/components/icon-tile", status: "done" },
       { label: "DescriptionList", to: "/components/description-list", status: "done" },
       { label: "FilePreview", to: "/components/file-preview", status: "done" },
+      { label: "IconTile", to: "/components/icon-tile", status: "done" },
       { label: "ListRow", to: "/components/list-row", status: "done" },
       { label: "Table", to: "/components/table", status: "done" },
     ],

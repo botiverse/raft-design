@@ -36,7 +36,7 @@
 | | Inbox | 动态和通知中心的一行 | ActivityInbox、NotificationCenter、InboxItem |
 | Agents | AgentActivity | 正在干活：一叠头像的摘要、行里的第二行、Working now 列表、状态行 | LiveAgentActivityBar |
 | | ActionCard | agent 填好、人来确认的一件事 | MessageActionCard |
-| Overlays | Menu | 一列动作；手机长按和桌面右键是同一个；弹出框里还不是菜单的一列选择 | DropdownMenu、ContextMenu、MenuRow（产品里现在是 MenuItem） |
+| Overlays | Menu | 一列动作；手机长按和桌面右键是同一个 | DropdownMenu、ContextMenu、MenuItem |
 | | Dialog | 确认、两三项的小表单；宽版放一次填完的大表单（左边分段列表、右边分段、底栏提交） | Dialog（`size="wide"`）、AlertDialog、ConfirmDialog、DialogSurface、FormSection |
 | | Sheet | 右侧抽屉（420；滑入，下面铺遮罩；手机上是一整页）、手机底部的列表和一小段说明 | Drawer、OverflowSheet、BottomSheet |
 | | Popover | 悬停资料卡、点开的小浮层 | Popover、PreviewCard |
