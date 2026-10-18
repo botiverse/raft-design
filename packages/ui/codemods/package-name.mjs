@@ -144,7 +144,9 @@ function main(argv) {
         if (!dry) writeFileSync(file, after);
       }
       after.split("\n").forEach((line, index) => {
-        if (/(?<![\w@/-])["']raft-ui["']/.test(line) && base !== "package.json") {
+        // A bare "raft-ui" or "raft-ui/<subpath>" string left over: an alias key, a dedupe list,
+        // require.resolve, a path mapping.
+        if (/(?<![\w@/-])["']raft-ui(?:\/[^"']*)?["']/.test(line) && base !== "package.json") {
           review.push(`${file}:${index + 1}: ${line.trim()}`);
         }
       });
