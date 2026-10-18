@@ -11,7 +11,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
       "atlas",
       "ada",
       "cindy",
-      "cuvii",
+      "robin",
       "samira",
       "mira",
       "olivia",
@@ -33,7 +33,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           "Morning checkpoint for #raft-ui-migration — keep message/thread ownership coherent for @Atlas, and park follow-ups on task #21.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         createdAt: "09:24 AM",
         content:
           "Reviewing the mock conversation flow with @Atlas now so Chat, Tasks, and Files all read the same seed — including markdown refs and consecutive compact rows.",
@@ -53,7 +53,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
         {
           senderId: "ada",
           createdAt: "09:28 AM",
-          content: "Keeping assignees mixed across @Cuvii @Samira @Atlas so filters are not empty.",
+          content: "Keeping assignees mixed across @Robin @Samira @Atlas so filters are not empty.",
         },
         {
           senderId: "atlas",
@@ -99,12 +99,12 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
             resolution: {
               kind: "completed",
               label: "Applied",
-              detail: "Merged by Cuvii into the migration branch",
+              detail: "Merged by Robin into the migration branch",
             },
           },
         },
         {
-          senderId: "cuvii",
+          senderId: "robin",
           createdAt: "09:44 AM",
           content:
             "Virtualization stays consumer-owned. Docs should show `ScrollAreaViewport` + `useVirtualizer`, not a TaskBoard API.",
@@ -129,7 +129,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           },
         },
         {
-          senderId: "cuvii",
+          senderId: "robin",
           createdAt: "09:45 AM",
           content:
             "```ts\nconst virtualizer = useVirtualizer({\n  count: items.length,\n  getScrollElement: () => viewportRef.current,\n  overscan: 6,\n  scrollMargin,\n})\n```",
@@ -252,7 +252,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
             "Synced agent activity chips with in-progress tasks in the playground shell. Progress strings stay mock-owned.",
         },
         {
-          senderId: "cuvii",
+          senderId: "robin",
           createdAt: "10:55 AM",
           content:
             "Reminder: `packages/ui` stays business-agnostic. Product icons (ellipsis ghost button) stay in compositions / playground.",
@@ -293,10 +293,10 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           createdAt: "11:21 AM",
           unread: true,
           content:
-            "@Cuvii once this is up, can you spot-check compact consecutive rows from me earlier this morning?",
+            "@Robin once this is up, can you spot-check compact consecutive rows from me earlier this morning?",
         },
         {
-          senderId: "cuvii",
+          senderId: "robin",
           createdAt: "11:22 AM",
           unread: true,
           content: "On it — will reply here after the Chat tab scroll + Tasks board parity check.",
@@ -310,7 +310,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
     name: "weekly-priorities",
     subtitle: "Team-wide product and engineering discussion",
     memberCount: 31,
-    memberIds: ["avery", "cuvii"],
+    memberIds: ["avery", "robin"],
     story: {
       opening: {
         senderId: "avery",
@@ -318,7 +318,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           "I posted the weekly priorities and called out the decisions that need owners by tomorrow.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         savedAt: "Today, 10:34 AM",
         savedAtDateTime: "2026-07-27T10:34:00Z",
         content:
@@ -336,7 +336,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
               "The data pass blocks sidebar sign-off, so I moved it ahead of the notification polish.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content: "That ordering is reflected in the weekly plan and tomorrow's owner check-in.",
           },
         ],
@@ -376,7 +376,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           createdAt: "09:31 AM",
           unread: true,
           content:
-            "Final note for @Cuvii:\n\n```\n<MessageItem compact>\n  <MessageItemGutter />\n</MessageItem>\n```",
+            "Final note for @Robin:\n\n```\n<MessageItem compact>\n  <MessageItemGutter />\n</MessageItem>\n```",
         },
       ],
       thread: {
@@ -517,7 +517,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
       "relay",
       "elliot",
       "codePilot",
-      "cuvii",
+      "robin",
       "olivia",
       "samira",
     ],
@@ -528,7 +528,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           "The release candidate is signed. Please keep rollout decisions and media evidence in this thread until the 10% canary is stable.",
         savedAt: "Today, 09:18 AM",
         savedAtDateTime: "2026-07-27T09:18:00Z",
-        reactions: [{ emoji: "👍", count: 2, reactorIds: ["developer", "cuvii"] }],
+        reactions: [{ emoji: "👍", count: 2, reactorIds: ["developer", "robin"] }],
       },
       reply: {
         senderId: "codePilot",
@@ -567,7 +567,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
               actionLabel: "Create rollback room",
               completion: {
                 label: "Created",
-                detail: "Created by Cuvii · #web-canary-rollback",
+                detail: "Created by Robin · #web-canary-rollback",
               },
             },
           },
@@ -669,7 +669,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           },
         },
         {
-          senderId: "cuvii",
+          senderId: "robin",
           createdAt: "09:41 AM",
           content: "This is the release criterion I am using for the next promotion.",
           presentation: {
@@ -931,7 +931,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
     kind: "private",
     subtitle: "Private recruiting coordination",
     memberCount: 5,
-    memberIds: ["avery", "cuvii"],
+    memberIds: ["avery", "robin"],
     story: {
       opening: {
         senderId: "avery",
@@ -939,7 +939,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           "The final interview loop is scheduled. Please add scorecards before tomorrow's debrief.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "I added my notes and separated evidence from the hiring recommendation.",
       },
       thread: {
@@ -950,7 +950,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
               "The systems exercise showed strong tradeoff reasoning; the collaboration signal needs more evidence.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "I linked the relevant interview notes so the debrief can discuss each signal separately.",
           },
@@ -1034,7 +1034,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
     navigation: { muted: true },
     subtitle: "Release coordination and changelog drafting",
     memberCount: 12,
-    memberIds: ["ada", "atlas", "developer", "cuvii", "releaseScribe"],
+    memberIds: ["ada", "atlas", "developer", "robin", "releaseScribe"],
     story: {
       opening: {
         senderId: "releaseScribe",
@@ -1057,7 +1057,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
       thread: {
         replies: [
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "Please keep the changelog examples concrete and avoid exposing internal component state names.",
           },
@@ -1138,7 +1138,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
     navigation: { draft: true },
     subtitle: "A newly created channel for async updates",
     memberCount: 7,
-    memberIds: ["cuvii", "atlas"],
+    memberIds: ["robin", "atlas"],
   }),
   defineStandardRoom({
     id: "archive-ops",

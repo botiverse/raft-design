@@ -448,7 +448,7 @@ export function defineStandardDm<const TId extends string>(
       otherActorId: input.otherActorId,
       subtitle: input.subtitle,
       memberCount: 2,
-      memberIds: [input.otherActorId, "cuvii"],
+      memberIds: [input.otherActorId, "robin"],
       archived: false,
       navigation: deriveNavigation(input.navigation, story.messages),
     },

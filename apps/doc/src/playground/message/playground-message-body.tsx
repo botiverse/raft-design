@@ -32,7 +32,7 @@ import {
 } from "../mock/index.ts";
 import type { PlaygroundActorId, PlaygroundMentionReadState } from "../mock/index.ts";
 
-const VIEWER_ACTOR_ID = "cuvii";
+const VIEWER_ACTOR_ID = "robin";
 
 const ACTORS_BY_NAME = new Map(
   PLAYGROUND_ACTORS.map((actor) => [actor.name.toLocaleLowerCase(), actor]),

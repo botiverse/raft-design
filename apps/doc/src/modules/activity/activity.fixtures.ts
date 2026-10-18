@@ -66,7 +66,7 @@ export const ACTIVITY_COMPOSITION_ITEMS = [
     channelId: "general",
     channelLabel: "#general",
     sender: "Avery",
-    preview: "@Cuvii can you confirm the release checklist before we merge?",
+    preview: "@Robin can you confirm the release checklist before we merge?",
     timestamp: "31 minutes ago",
     sortAt: "2026-07-31T10:13:00+08:00",
     unreadCount: 1,

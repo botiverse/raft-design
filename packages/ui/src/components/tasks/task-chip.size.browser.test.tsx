@@ -19,7 +19,7 @@ it("an sm task chip is the compact chip, and an sm status badge has the same box
     <ThemeProvider mode="light">
       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
         <TaskChip status="in-progress" size="sm" data-testid="chip-sm">
-          #746 @Josh
+          #746 @Martin
         </TaskChip>
         <TaskStatusBadge status="done" size="sm" data-testid="status-sm">
           #743

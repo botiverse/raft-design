@@ -159,7 +159,7 @@ for (const conversation of PLAYGROUND_CONVERSATIONS) {
     if (message.senderLifecycle && channel.memberIds.includes(message.senderId)) {
       throw new Error(`Inactive sender remains a playground channel member: ${message.id}`);
     }
-    if (message.readReceipt && (channel.kind !== "dm" || message.senderId !== "cuvii")) {
+    if (message.readReceipt && (channel.kind !== "dm" || message.senderId !== "robin")) {
       throw new Error(`Read receipts require a viewer-authored DM: ${message.id}`);
     }
     if (Boolean(message.savedAt) !== Boolean(message.savedAtDateTime)) {

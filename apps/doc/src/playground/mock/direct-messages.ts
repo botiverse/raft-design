@@ -12,7 +12,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
           "The shorter setup flow improved activation by six points in the small-team cohort.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content:
           "That matches the interviews. Keep detailed configuration available after first success.",
       },
@@ -104,7 +104,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "The lift is strongest when teams invite a second member before seeing advanced setup.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "I will keep that invitation in the guided path and move configuration behind the success moment.",
           },
@@ -123,7 +123,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
           "The role matrix is sound. Revoked guest access should remain visible in the audit log.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Agreed. I will add the expected audit event to the acceptance criteria.",
       },
       thread: {
@@ -134,7 +134,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "The event should include the actor, workspace, previous role, and revocation source.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content: "I added those fields without exposing the guest's private profile data.",
           },
         ],
@@ -152,7 +152,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
           "Fresh setup is down to four minutes. The first docs install is the remaining delay.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Nice. I will document the cached path separately so the baseline stays honest.",
       },
       updates: [
@@ -164,7 +164,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
             "I added a cold-start trace so the generated-assets step is visible in the setup report.",
         },
         {
-          senderId: "cuvii",
+          senderId: "robin",
           createdAt: "09:32 AM",
           content: "I added the cold-start trace to the bootstrap guide and sent it for review.",
           readReceipt: { kind: "read", readAt: "09:34 AM" },
@@ -180,7 +180,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "The cold install spends most of its time generating docs assets on the first run.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "I split cold and cached timings in the bootstrap guide and noted the generated-assets step.",
           },
@@ -200,7 +200,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
           "The fixture audit is complete. Two component states drifted from source behavior.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Send me the exact files and I will re-sync them before the release cut.",
       },
       updates: [
@@ -220,7 +220,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "The drift is limited to the loading attachment indicator and the unread thread badge.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "I have the two source callsites; I will preserve their DOM while updating the current fixtures.",
           },
@@ -239,7 +239,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
           "Mobile is clean except for the thread close target at the smallest supported width.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content:
           "I will check the composed button size and keep the fix local to responsive chrome.",
       },
@@ -260,7 +260,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "At 320 pixels the visible icon is fine, but the pointer target contracts below the minimum.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content: "I will preserve the icon size and expand only the responsive hit area.",
           },
         ],
@@ -278,7 +278,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
           "Staging is refreshed with today's schema. The worker is finishing its replay now.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Perfect. I will wait for the checkpoint before starting product verification.",
       },
       updates: [
@@ -297,7 +297,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
             content: "Replay is at ninety-two percent with no dead-letter growth or schema errors.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "I will start verification after the final checkpoint and keep production untouched.",
           },
@@ -315,7 +315,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
         content: "I indexed the source component callsites and grouped them by product capability.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Keep the result handy. We will use it for the next migration batch.",
       },
       thread: {
@@ -326,7 +326,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "Message attachments and thread controls have the widest callsite coverage in the next batch.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "Save those groups with their source paths so we can inventory them before choosing an API.",
           },
@@ -344,7 +344,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
         content: "The changelog draft separates user-visible improvements from maintenance.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Tighten the first item around workflow improvement, not implementation detail.",
       },
       updates: [
@@ -364,7 +364,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "I rewrote it around faster thread triage and moved the selector refactor to maintenance.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "That framing is clearer; keep the measurable workflow result in the opening sentence.",
           },
@@ -382,7 +382,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
         content: "Session validation no longer leaks into presentation components.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Verify redirect behavior for expired and revoked sessions separately.",
       },
       updates: [
@@ -413,7 +413,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "Expired sessions return to sign-in with continuation, while revoked sessions clear local state first.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content: "I will cover both flows and keep the redirect policy at the route boundary.",
           },
         ],
@@ -431,7 +431,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
           "The incident is resolved. Queue depth returned to baseline after the retry change.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Add the detection gap and follow-up alert owner to the final summary.",
       },
       thread: {
@@ -442,7 +442,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "The existing alert fired on failures but missed sustained retry latency before the queue spiked.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "I assigned the latency alert to Infrastructure and added its threshold to the postmortem.",
           },
@@ -460,7 +460,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
         content: "I prepared the app-shell plan across route, theme, resize, and thread states.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Prioritize route ownership and data consistency; visual coverage can follow.",
       },
       updates: [
@@ -507,7 +507,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "The first pass will verify stale thread cleanup and channel-owned header, task, and file data.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "Good. Keep theme and viewport checks separate so failures point to one ownership boundary.",
           },
@@ -527,7 +527,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
           "Staging in us-east is missing the message-retention variable. Production is aligned.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Patch staging only and post the environment diff before restarting the worker.",
       },
       updates: [
@@ -547,7 +547,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "The diff confirms one missing variable; image and worker versions match the other region.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "Apply that single-value patch and capture a healthy worker checkpoint after restart.",
           },
@@ -566,7 +566,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
         content: "The research summary separates findings by team size and collaboration model.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Keep source links attached so we can validate the strongest claims quickly.",
       },
       thread: {
@@ -577,7 +577,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "The clearest pattern is that external collaboration needs explicit ownership more than extra hierarchy.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "I attached the three interviews and two product references supporting that conclusion.",
           },
@@ -596,7 +596,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
         content: "Every sidebar entity now resolves to one canonical conversation record.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Thread content and DM presence should resolve from those same records.",
       },
       thread: {
@@ -607,7 +607,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "I specified stable IDs for routes and actor-backed DM metadata for presence and display names.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "Add invariant checks for duplicate channels and cross-channel thread lookup to finish the contract.",
           },
@@ -626,7 +626,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
           "Weekly metrics are reconciled. Activation improved while support contacts stayed flat.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Break out the new-workspace cohort to see whether setup changes drove the lift.",
       },
       thread: {
@@ -637,7 +637,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "New workspaces account for most of the activation gain; established teams are unchanged.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "Annotate the cohort boundary so the weekly summary does not imply a broad retention shift.",
           },
@@ -655,7 +655,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
         content: "The launch playbook covers access, migration, and notification questions.",
       },
       reply: {
-        senderId: "cuvii",
+        senderId: "robin",
         content: "Add diagnostics for customers whose shared channels do not appear after joining.",
       },
       updates: [
@@ -682,7 +682,7 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
               "Support should first confirm workspace membership, partner approval, and sidebar visibility filters.",
           },
           {
-            senderId: "cuvii",
+            senderId: "robin",
             content:
               "I added that sequence plus the escalation bundle for cases that still fail discovery.",
           },

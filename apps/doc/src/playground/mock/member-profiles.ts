@@ -12,11 +12,11 @@ export type PlaygroundHumanProfile = {
 };
 
 const humanProfiles = {
-  cuvii: {
-    actorId: "cuvii",
+  robin: {
+    actorId: "robin",
     createdAgentIds: ["atlas"],
-    email: "cuvii@zolplay.com",
-    handle: "cuvii",
+    email: "robin@zolplay.com",
+    handle: "robin",
     joinedAt: "May 27, 2026",
     role: "owner",
   },

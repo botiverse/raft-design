@@ -63,7 +63,7 @@ const NAMES = [
   "digest-mailer",
 ];
 
-const OWNERS = ["cindyz", "xxchan", "Huarong", "Jianwei", "Bugen", "Dozy"];
+const OWNERS = ["ada", "kai", "Mai", "Leo", "Bugen", "Atlas"];
 const RUNTIMES: AgentRow["runtime"][] = ["claude", "codex", "builtin"];
 
 /** Spread deterministically so the table exercises real density and sorting. */

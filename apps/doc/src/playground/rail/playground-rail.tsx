@@ -63,8 +63,7 @@ import { isPlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 
 const currentServerName = "Raft 中文社区";
-const currentServerAvatarSrc =
-  "https://cdn.slock.ai/avatars/server-46a34a4b-a324-4723-ad1d-4921b58ffe48/3f42727015df244421d70c681ff65093.webp";
+const currentServerAvatarSrc = "/avatars/workspace.svg";
 const serverParams = { serverSlug: PLAYGROUND_SERVER_SLUG };
 const emptySearch = {};
 

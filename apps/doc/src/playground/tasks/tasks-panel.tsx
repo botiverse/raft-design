@@ -36,7 +36,7 @@ type Tasks = NonNullable<TasksPanelCompositionProps["tasks"]>;
 type TaskView = NonNullable<TasksPanelCompositionProps["view"]>;
 
 const TASK_VIEW_MODE_STORAGE_KEY = "raft.tasks.viewMode";
-const CURRENT_ACTOR_ID = "cuvii";
+const CURRENT_ACTOR_ID = "robin";
 const TASK_FILTER_IDENTITIES: readonly TasksIdentity[] = PLAYGROUND_ACTORS.map(
   (actor: PlaygroundActor) => ({
     id: actor.id,
@@ -140,7 +140,7 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
           title: task.title,
           description: task.description,
           status: task.status,
-          creatorActorId: "cuvii",
+          creatorActorId: "robin",
           legacy: task.isLegacy,
           movable: !task.dragDisabled,
         } satisfies PlaygroundTask;
