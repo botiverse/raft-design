@@ -5,16 +5,16 @@ description: "What raft-ui is and where to start."
 
 # Overview
 
-## Build something bold with raft-ui
+## What raft-ui is
 
-raft-ui is the React implementation of the Raft Design System: expressive visuals and playful interactions, shaped by Raft and made for whatever you build next. The `raft-ui` package includes CSS foundations, composable React components, and light and dark modes.
+raft-ui is the React implementation of the Raft Design System, the design system used to build Raft. The `raft-ui` package includes CSS foundations, composable React components, and light and dark modes.
 
 ## Start with your agent
 
 Copy this prompt and add your task:
 
 ```text
-Use raft-ui for this project: expressive visuals and playful interactions, shaped by Raft and made for whatever we build next. Use its shared tokens and components where they fit the project. Plain HTML can use foundation.css without React or Tailwind.
+Use raft-ui, the React implementation of the Raft Design System, for this project. Use its shared tokens and components where they fit the project. Plain HTML can use foundation.css without React or Tailwind.
 
 Read https://raft-design.botiverse.build/guides/overview and follow the guides relevant to the task. Match the existing project setup. For version-specific APIs, use node_modules/raft-ui/dist/index.d.mts; matching guides are in node_modules/raft-ui/skills/raft-ui-guide/rules/.
 
