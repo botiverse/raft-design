@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Kbd",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "KbdGroup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  }
+]

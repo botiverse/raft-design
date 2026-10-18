@@ -1,0 +1,522 @@
+[
+  {
+    "name": "NotificationCenter",
+    "entry": "raft-ui",
+    "native": false,
+    "props": [
+      {
+        "name": "actionsRef",
+        "type": "RefObject<PopoverRootActions | null>",
+        "required": false,
+        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the popover. Call this after any externally controlled closing animation finishes. - `close`: Closes the popover imperatively when called.",
+        "from": "base-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode | PayloadChildRenderFunction<unknown>",
+        "required": false,
+        "description": "The content of the popover. This can be a regular React node or a render function that receives the `payload` of the active trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the popover is initially open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultTriggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the popover is associated with. This is useful in conjunction with the `defaultOpen` prop to create an initially open popover.",
+        "from": "base-ui"
+      },
+      {
+        "name": "handle",
+        "type": "BasePopover.Handle<unknown>",
+        "required": false,
+        "description": "A handle to associate the popover with a trigger. If specified, allows external triggers to control the popover's open state.",
+        "from": "base-ui"
+      },
+      {
+        "name": "modal",
+        "type": "boolean | \"trap-focus\"",
+        "required": false,
+        "default": "false",
+        "description": "Determines if the popover enters a modal state when open. - `true`: user interaction is limited to the popover: document page scroll is locked, and pointer interactions on outside elements are disabled. - `false`: user interaction with the rest of the document is allowed. - `'trap-focus'`: focus is trapped inside the popover, but document page scroll is not locked and pointer interactions outside of it remain enabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean, eventDetails: BasePopover.Root.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the popover is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Event handler called after any animations complete when the popover is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the popover is currently open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "triggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the popover is associated with. This is useful in conjunction with the `open` prop to create a controlled popover. There's no need to specify this prop when the popover is uncontrolled (that is, when the `open` prop is not set).",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterActionButton",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterCount",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterEmptyState",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterHeader",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterItem",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "read",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterItemActions",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterItemBody",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterItemContent",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterItemIcon",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "status",
+        "type": "\"warning\" | \"success\" | \"error\" | \"info\"",
+        "required": false,
+        "default": "\"info\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterItemRow",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterItemTitle",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterList",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterPopup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "portalProps",
+        "type": "PopoverPortalProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "viewport",
+        "type": "\"desktop\" | \"mobile\"",
+        "required": false,
+        "default": "\"desktop\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "align",
+        "type": "Align",
+        "required": false,
+        "default": "\"center\"",
+        "description": "How to align the popup relative to the specified side.",
+        "from": "base-ui"
+      },
+      {
+        "name": "alignOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Additional offset along the alignment axis in pixels. Also accepts a function that returns the offset to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "anchor",
+        "type": "Element | VirtualElement | RefObject<Element | null> | (() => Element | VirtualElement | null)",
+        "required": false,
+        "description": "An element to position the popup against. By default, the popup will be positioned against the trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "arrowPadding",
+        "type": "number",
+        "required": false,
+        "default": "5",
+        "description": "Minimum distance to maintain between the arrow and the edges of the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionAvoidance",
+        "type": "CollisionAvoidance",
+        "required": false,
+        "description": "Determines how to handle collisions when positioning the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionBoundary",
+        "type": "Boundary",
+        "required": false,
+        "default": "'clipping-ancestors'",
+        "description": "An element or a rectangle that delimits the area that the popup is confined to.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionPadding",
+        "type": "Padding",
+        "required": false,
+        "default": "5",
+        "description": "Additional space to maintain from the edge of the collision boundary.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disableAnchorTracking",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
+        "from": "base-ui"
+      },
+      {
+        "name": "finalFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((closeType: InteractionType) => void | boolean | HTMLElement | null)",
+        "required": false,
+        "description": "Determines the element to focus when the popover is closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "initialFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((openType: InteractionType) => void | boolean | HTMLElement | null)",
+        "required": false,
+        "default": "false",
+        "description": "Determines the element to focus when the popover is opened. By default, focus moves to the first tabbable element inside the popup, except when the popover is opened by touch — then the popup itself is focused to avoid opening the virtual keyboard.",
+        "from": "base-ui"
+      },
+      {
+        "name": "positionMethod",
+        "type": "\"fixed\" | \"absolute\"",
+        "required": false,
+        "default": "\"fixed\"",
+        "description": "Determines which CSS `position` property to use.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "side",
+        "type": "Side",
+        "required": false,
+        "default": "\"bottom\"",
+        "description": "Which side of the anchor element to align the popup against. May automatically change to avoid collisions.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sideOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "4",
+        "description": "Distance between the anchor and the popup in pixels. Also accepts a function that returns the distance to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sticky",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to maintain the popup in the viewport after the anchor element was scrolled out of view.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterScroller",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterTitle",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "NotificationCenterTrigger",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "closeDelay",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "How long to wait before closing the popover that was opened on hover. Specified in milliseconds.",
+        "from": "base-ui"
+      },
+      {
+        "name": "delay",
+        "type": "number",
+        "required": false,
+        "default": "300",
+        "description": "How long to wait before the popover may be opened on hover. Specified in milliseconds.",
+        "from": "base-ui"
+      },
+      {
+        "name": "handle",
+        "type": "BasePopover.Handle<unknown>",
+        "required": false,
+        "description": "A handle to associate the trigger with a popover.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`). Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (e.g. `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "openOnHover",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the popover should also open when the trigger is hovered.",
+        "from": "base-ui"
+      },
+      {
+        "name": "payload",
+        "type": "{}",
+        "required": false,
+        "description": "A payload to pass to the popover when it is opened.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

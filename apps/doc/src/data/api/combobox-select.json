@@ -1,0 +1,350 @@
+[
+  {
+    "name": "ComboboxSelect",
+    "entry": "raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "clearFilterAfterSelect",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "from": "raft-ui"
+      },
+      {
+        "name": "creatable",
+        "type": "boolean",
+        "required": false,
+        "description": "Alias for create, useful when matching Select libraries that call this mode creatable.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "create",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "defaultValue",
+        "type": "NonNullable<ComboboxSelectSelection<Multiple>>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabledField",
+        "type": "keyof Option",
+        "required": false,
+        "default": "\"disabled\" as keyof Option",
+        "from": "raft-ui"
+      },
+      {
+        "name": "emptyContent",
+        "type": "ReactNode",
+        "required": false,
+        "default": "\"No options found\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "fallbackOption",
+        "type": "(value: ComboboxSelectValue) => Option",
+        "required": false,
+        "description": "Supplies labels for values that have not been loaded yet.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "filter",
+        "type": "false | ((query: string, option: Option) => boolean)",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "filterable",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "from": "raft-ui"
+      },
+      {
+        "name": "inputProps",
+        "type": "Omit<AutocompleteInputProps, \"defaultValue\" | \"value\" | \"children\" | \"size\">",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "labelField",
+        "type": "keyof Option",
+        "required": false,
+        "default": "\"label\" as keyof Option",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingContent",
+        "type": "ReactNode",
+        "required": false,
+        "default": "\"Loading…\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "maxTagCount",
+        "type": "number",
+        "required": false,
+        "description": "Collapse chips when the control is unfocused; all remain reachable when focused.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "messages",
+        "type": "Partial<ComboboxSelectMessages>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "multiple",
+        "type": "NonNullable<Multiple>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onClear",
+        "type": "() => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onCreate",
+        "type": "(query: string) => Option | null",
+        "required": false,
+        "description": "Called only when the creation row is selected. Return null to reject creation.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onSearch",
+        "type": "(query: string) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: ComboboxSelectSelection<Multiple>, options: Multiple extends true ? (Option | undefined)[] : Option | null | undefined, details: BaseCombobox.Root.ChangeEventDetails) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "options",
+        "type": "readonly (Option | ComboboxSelectGroup<Option>)[]",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "default": "\"Select an option\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "popupProps",
+        "type": "Omit<AutocompletePopupProps, \"children\">",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "portalProps",
+        "type": "AutocompletePortalProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "positionerProps",
+        "type": "Omit<AutocompletePositionerProps, \"children\">",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "remote",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Display the provided results without local filtering. Requests belong to the caller.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "renderCreateLabel",
+        "type": "(query: string) => ReactNode",
+        "required": false,
+        "default": "defaultRenderCreateLabel",
+        "from": "raft-ui"
+      },
+      {
+        "name": "renderLabel",
+        "type": "(option: Option) => ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "renderOption",
+        "type": "(option: Option, info: { selected: boolean; }) => ReactNode",
+        "required": false,
+        "description": "Customizes option content while preserving the Base UI option element.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "renderTag",
+        "type": "(option: Option) => ReactNode",
+        "required": false,
+        "description": "Customizes chip content while preserving keyboard navigation and removal.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "showArrow",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "status",
+        "type": "\"warning\" | \"error\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "value",
+        "type": "NonNullable<ComboboxSelectSelection<Multiple>>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "valueField",
+        "type": "keyof Option",
+        "required": false,
+        "default": "\"value\" as keyof Option",
+        "from": "raft-ui"
+      },
+      {
+        "name": "autoComplete",
+        "type": "string",
+        "required": false,
+        "description": "Provides a hint to the browser for autofill.",
+        "from": "base-ui"
+      },
+      {
+        "name": "autoHighlight",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the first matching item is highlighted automatically while filtering.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultInputValue",
+        "type": "string | number | readonly string[]",
+        "required": false,
+        "description": "The uncontrolled input value when initially rendered.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the popup is initially open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "form",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the form that owns the internal input. Useful when the combobox is rendered outside the form.",
+        "from": "base-ui"
+      },
+      {
+        "name": "inputValue",
+        "type": "string | number | readonly string[]",
+        "required": false,
+        "description": "The input value of the combobox. Use when controlled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the field when a form is submitted.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onInputValueChange",
+        "type": "(inputValue: string, eventDetails: BaseCombobox.Root.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the input value changes.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean, eventDetails: BaseCombobox.Root.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the popup is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Event handler called after any animations complete when the popup is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the popup is currently open. Use when controlled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the user should be unable to choose a different option from the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the user must choose a value before submitting a form.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

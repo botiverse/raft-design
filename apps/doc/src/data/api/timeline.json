@@ -1,0 +1,104 @@
+[
+  {
+    "name": "Timeline",
+    "entry": "raft-ui",
+    "description": "An ordered list of events; each `TimelineItem` has a marker and a line to the next.",
+    "native": true,
+    "props": [
+      {
+        "name": "horizontal",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Lays the items out in a row instead of a column.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "iconSize",
+        "type": "number",
+        "required": false,
+        "description": "Marker size in px. Defaults to 9px for the marker and 14px for an `icon`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "itemPlacement",
+        "type": "TimelineItemPlacement",
+        "required": false,
+        "default": "\"left\"",
+        "description": "Which side the markers sit on in a vertical timeline. Ignored when `horizontal`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "TimelineSize",
+        "required": false,
+        "default": "\"md\"",
+        "description": "Title size: `lg` opens the title to 16/24; `sm` and `md` share the 14/20 scale.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "TimelineContent",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "TimelineItem",
+    "entry": "raft-ui",
+    "description": "One event: a marker on the axis, then its title, content and time as children.",
+    "native": true,
+    "props": [
+      {
+        "name": "color",
+        "type": "string",
+        "required": false,
+        "description": "A custom marker color; overrides `variant`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Replaces the dot marker; takes the variant's color.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "lineType",
+        "type": "TimelineLineType",
+        "required": false,
+        "default": "\"solid\"",
+        "description": "The line from this item to the next.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "taskStatus",
+        "type": "TaskStatusId",
+        "required": false,
+        "description": "Render the marker from a task status's colour token instead of a generic `variant`. Takes precedence over `variant`; `color` still wins when both are set. Omit it and the item behaves exactly as before.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "TimelineItemVariant",
+        "required": false,
+        "default": "\"default\"",
+        "description": "Marker color role.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "TimelineTime",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "TimelineTitle",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  }
+]

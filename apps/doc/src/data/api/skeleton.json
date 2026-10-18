@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Skeleton",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"circle\" | \"line\" | \"block\"",
+        "required": false,
+        "default": "\"block\"",
+        "from": "raft-ui"
+      }
+    ]
+  }
+]

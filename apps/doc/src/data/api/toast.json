@@ -1,0 +1,419 @@
+[
+  {
+    "name": "ToastAction",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "default": "\"Loading\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToastActions",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "ToastArrow",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToastBody",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "ToastClose",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToastContent",
+    "entry": "raft-ui",
+    "description": "The content layout (self-start, title-only sizing, body centering) needs to know which parts actually rendered. That used to be an ancestor `:has()` styling descendants — a whole-page recalculation trap in Chromium (#386). It measures the rendered DOM after layout instead, so wrapped parts and parts that render nothing behave exactly like the old selectors did.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToastDescription",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToastIcon",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "ToastPortal",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "container",
+        "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
+        "required": false,
+        "description": "A parent element to render the portal element into.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToastPositioner",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "align",
+        "type": "Align",
+        "required": false,
+        "default": "'center'",
+        "description": "How to align the popup relative to the specified side.",
+        "from": "base-ui"
+      },
+      {
+        "name": "alignOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Additional offset along the alignment axis in pixels. Also accepts a function that returns the offset to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "anchor",
+        "type": "Element",
+        "required": false,
+        "description": "An element to position the toast against.",
+        "from": "base-ui"
+      },
+      {
+        "name": "arrowPadding",
+        "type": "number",
+        "required": false,
+        "default": "5",
+        "description": "Minimum distance to maintain between the arrow and the edges of the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionAvoidance",
+        "type": "CollisionAvoidance",
+        "required": false,
+        "description": "Determines how to handle collisions when positioning the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionBoundary",
+        "type": "Boundary",
+        "required": false,
+        "default": "'clipping-ancestors'",
+        "description": "An element or a rectangle that delimits the area that the popup is confined to.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionPadding",
+        "type": "Padding",
+        "required": false,
+        "default": "5",
+        "description": "Additional space to maintain from the edge of the collision boundary.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disableAnchorTracking",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
+        "from": "base-ui"
+      },
+      {
+        "name": "positionMethod",
+        "type": "\"fixed\" | \"absolute\"",
+        "required": false,
+        "default": "'absolute'",
+        "description": "Determines which CSS `position` property to use.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "side",
+        "type": "Side",
+        "required": false,
+        "default": "'top'",
+        "description": "Which side of the anchor element to align the toast against. May automatically change to avoid collisions.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sideOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Distance between the anchor and the popup in pixels. Also accepts a function that returns the distance to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sticky",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to maintain the popup in the viewport after the anchor element was scrolled out of view.",
+        "from": "base-ui"
+      },
+      {
+        "name": "toast",
+        "type": "ToastObject<any>",
+        "required": true,
+        "description": "The toast object associated with the positioner.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToastProgress",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "duration",
+        "type": "number",
+        "required": false,
+        "default": "DEFAULT_TOAST_TIMEOUT_MS",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToastProvider",
+    "entry": "raft-ui",
+    "native": false,
+    "props": [
+      {
+        "name": "portalContainer",
+        "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "renderViewport",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "from": "raft-ui"
+      },
+      {
+        "name": "viewportClassName",
+        "type": "string",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "viewportPlacement",
+        "type": "\"none\" | \"bottom-right\" | \"top-right\" | \"bottom-center\" | \"top-center\"",
+        "required": false,
+        "default": "\"bottom-center\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "viewportStrategy",
+        "type": "\"fixed\" | \"absolute\"",
+        "required": false,
+        "default": "\"fixed\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "limit",
+        "type": "number",
+        "required": false,
+        "default": "3",
+        "description": "The maximum number of toasts that can be displayed at once. When the limit is exceeded, the oldest toasts are marked as `limited` (via the `data-limited` attribute) rather than removed, so they can be hidden or animated out.",
+        "from": "base-ui"
+      },
+      {
+        "name": "timeout",
+        "type": "number",
+        "required": false,
+        "default": "DEFAULT_TOAST_TIMEOUT_MS",
+        "description": "The default amount of time (in ms) before a toast is auto dismissed. A value of `0` will prevent the toast from being dismissed automatically.",
+        "from": "base-ui"
+      },
+      {
+        "name": "toastManager",
+        "type": "ToastManager<any>",
+        "required": false,
+        "default": "defaultToastManager",
+        "description": "A global manager for toasts to use outside of a React component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToastRoot",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "layout",
+        "type": "\"inline\" | \"stacked\"",
+        "required": false,
+        "default": "\"stacked\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "swipeDirection",
+        "type": "\"up\" | \"down\" | \"left\" | \"right\" | (\"up\" | \"down\" | \"left\" | \"right\")[]",
+        "required": false,
+        "default": "['down', 'right']",
+        "description": "Direction(s) in which the toast can be swiped to dismiss.",
+        "from": "base-ui"
+      },
+      {
+        "name": "toast",
+        "type": "ToastRootToastObject<any>",
+        "required": true,
+        "description": "The toast to render.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToastTitle",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToastViewport",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "placement",
+        "type": "\"none\" | \"bottom-right\" | \"top-right\" | \"bottom-center\" | \"top-center\"",
+        "required": false,
+        "default": "\"bottom-center\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "strategy",
+        "type": "\"fixed\" | \"absolute\"",
+        "required": false,
+        "default": "\"fixed\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

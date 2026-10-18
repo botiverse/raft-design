@@ -22,6 +22,23 @@ export function categoryTitle(id: string | undefined) {
   return CATEGORIES.find((category) => category.id === id)?.title ?? "Other";
 }
 
+/** The group a component is listed under: its category, or "Not documented yet". */
+export function componentGroup(page: DocPage) {
+  return page.generated ? "Not documented yet" : categoryTitle(page.frontMatter.category);
+}
+
+/** Components by category, in the authoring guide's order; undocumented ones last. */
+export function componentPages(): DocPage[] {
+  const rank = (page: DocPage) => {
+    if (page.generated) return CATEGORIES.length + 1;
+    const index = CATEGORIES.findIndex((category) => category.id === page.frontMatter.category);
+    return index === -1 ? CATEGORIES.length : index;
+  };
+  return [...pagesIn("components")].sort(
+    (a, b) => rank(a) - rank(b) || a.frontMatter.title.localeCompare(b.frontMatter.title),
+  );
+}
+
 /** "Raft Chat — Home" → "Home": the product is already the group label. */
 export function shortTitle(page: DocPage) {
   if (page.section !== "products" || page.slug === page.product) return page.frontMatter.title;
@@ -29,19 +46,12 @@ export function shortTitle(page: DocPage) {
 }
 
 function componentItems(): NavItem[] {
-  const pages = pagesIn("components");
-  const rank = (page: DocPage) => {
-    const index = CATEGORIES.findIndex((category) => category.id === page.frontMatter.category);
-    return index === -1 ? CATEGORIES.length : index;
-  };
-  return [...pages]
-    .sort((a, b) => rank(a) - rank(b) || a.frontMatter.title.localeCompare(b.frontMatter.title))
-    .map((page) => ({
-      title: page.frontMatter.title,
-      url: page.url,
-      group: categoryTitle(page.frontMatter.category),
-      status: page.frontMatter.status,
-    }));
+  return componentPages().map((page) => ({
+    title: page.frontMatter.title,
+    url: page.url,
+    group: componentGroup(page),
+    status: page.frontMatter.status,
+  }));
 }
 
 function productItems(): NavItem[] {

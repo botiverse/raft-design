@@ -1,0 +1,249 @@
+[
+  {
+    "name": "MarkdownBlockquote",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownCell",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownCheckbox",
+    "entry": "raft-ui",
+    "description": "Task-list checkbox. Markdown task items are display-only, so it defaults to read-only.",
+    "native": true,
+    "props": [
+      {
+        "name": "shape",
+        "type": "\"circle\" | \"square\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": false,
+        "default": "undefined",
+        "description": "Whether the checkbox is currently ticked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultChecked",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the checkbox is initially ticked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "form",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the form that owns the hidden input. Useful when the checkbox is rendered outside the form.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "The id of the input element.",
+        "from": "base-ui"
+      },
+      {
+        "name": "indeterminate",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the checkbox is in a mixed state: neither ticked, nor unticked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "inputRef",
+        "type": "((instance: HTMLInputElement | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<HTMLInputElement | null>",
+        "required": false,
+        "description": "A ref to access the hidden `<input>` element.",
+        "from": "base-ui"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "default": "undefined",
+        "description": "Identifies the field when a form is submitted.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `true` if the rendered element is a native button.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onCheckedChange",
+        "type": "(checked: boolean, eventDetails: CheckboxRootChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the checkbox is ticked or unticked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "parent",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the checkbox controls a group of child checkboxes.",
+        "from": "base-ui"
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the user should be unable to tick or untick the checkbox.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the user must tick the checkbox before submitting a form.",
+        "from": "base-ui"
+      },
+      {
+        "name": "uncheckedValue",
+        "type": "string",
+        "required": false,
+        "description": "The value submitted with the form when the checkbox is unchecked. By default, unchecked checkboxes do not submit any value, matching native checkbox behavior.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "The checkbox's value. Identifies it within a [Checkbox Group](https://base-ui.com/react/components/checkbox-group), falling back to `name` when omitted. When submitting a form, a checked box submits `value`; with no `value`, it submits the native \"on\".",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MarkdownHeaderCell",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownHeading",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "level",
+        "type": "1 | 2 | 3 | 4 | 5 | 6",
+        "required": true,
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "MarkdownImage",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownInlineCode",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "appearance",
+        "type": "\"default\" | \"message\"",
+        "required": false,
+        "description": "`message` renders the borderless, baseline-aligned in-message treatment.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "MarkdownLink",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownList",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownListItem",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownMark",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownOrderedList",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownParagraph",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownRule",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownTable",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownTableRow",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MarkdownTableScroll",
+    "entry": "raft-ui",
+    "description": "Horizontal scroll container for wide tables.",
+    "native": true,
+    "props": []
+  }
+]

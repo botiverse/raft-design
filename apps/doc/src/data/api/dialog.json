@@ -1,0 +1,557 @@
+[
+  {
+    "name": "Dialog",
+    "entry": "raft-ui",
+    "native": false,
+    "props": [
+      {
+        "name": "actionsRef",
+        "type": "RefObject<DialogRootActions | null>",
+        "required": false,
+        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the dialog. Call this after any externally controlled closing animation finishes. - `close`: Closes the dialog imperatively when called.",
+        "from": "base-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode | PayloadChildRenderFunction<unknown>",
+        "required": false,
+        "description": "The content of the dialog. This can be a regular React node or a render function that receives the `payload` of the active trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the dialog is initially open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultTriggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the dialog is associated with. This is useful in conjunction with the `defaultOpen` prop to create an initially open dialog.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disablePointerDismissal",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to prevent the dialog from closing on outside presses. For non-modal dialogs, this also prevents the dialog from closing when focus moves outside of it.",
+        "from": "base-ui"
+      },
+      {
+        "name": "handle",
+        "type": "BaseDialog.Handle<unknown>",
+        "required": false,
+        "description": "A handle to associate the dialog with a trigger. If specified, allows external triggers to control the dialog's open state. Can be created with the Dialog.createHandle() method.",
+        "from": "base-ui"
+      },
+      {
+        "name": "modal",
+        "type": "boolean | \"trap-focus\"",
+        "required": false,
+        "default": "true",
+        "description": "Determines if the dialog enters a modal state when open. - `true`: user interaction is limited to just the dialog: focus is trapped, document page scroll is locked, and pointer interactions on outside elements are disabled. - `false`: user interaction with the rest of the document is allowed. - `'trap-focus'`: focus is trapped inside the dialog, but document page scroll is not locked and pointer interactions outside of it remain enabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean, eventDetails: BaseDialog.Root.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the dialog is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Event handler called after any animations complete when the dialog is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the dialog is currently open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "triggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the dialog is associated with. This is useful in conjunction with the `open` prop to create a controlled dialog. There's no need to specify this prop when the dialog is uncontrolled (that is, when the `open` prop is not set).",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogBody",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "bar",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "A pinned bar of a scrolling (`size=\"wide\"`) dialog.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogClose",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"inline\" | \"icon-xs\" | \"icon-sm\" | \"icon-md\" | \"icon-lg\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"link\" | \"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"outline\" | \"information\" | \"muted\" | \"success\" | \"danger-secondary\" | \"danger-outline\" | \"ghost\" | \"on-frame\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogContent",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "layer",
+        "type": "0 | 1",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "overlay",
+        "type": "false | DialogOverlayProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "portalProps",
+        "type": "AlertDialogPortalProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\" | \"wide\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "finalFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((closeType: InteractionType) => boolean | HTMLElement | null | void)",
+        "required": false,
+        "description": "Determines the element to focus when the dialog is closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "initialFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((openType: InteractionType) => boolean | HTMLElement | null | void)",
+        "required": false,
+        "description": "Determines the element to focus when the dialog is opened. By default, focus moves to the first tabbable element inside the popup, except when the dialog is opened by touch — then the popup itself is focused to avoid opening the virtual keyboard.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogDescription",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogFooter",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "bar",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "A pinned bar of a scrolling (`size=\"wide\"`) dialog.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogHeader",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "bar",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "A pinned bar of a scrolling (`size=\"wide\"`) dialog.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogNav",
+    "entry": "raft-ui",
+    "description": "The section list of a wide (`size=\"wide\"`) dialog, inside a `bar` body.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogOverlay",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "layer",
+        "type": "0 | 1",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "forceRender",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the backdrop is forced to render even when nested.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogPortal",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "container",
+        "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
+        "required": false,
+        "description": "A parent element to render the portal element into.",
+        "from": "base-ui"
+      },
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to keep the portal mounted in the DOM while the popup is hidden.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogSurface",
+    "entry": "raft-ui",
+    "description": "The dialog's frame — the popover layer, the dialog radius, the seam ring and the float shadow — for a centred modal whose lifecycle the app owns (its own backdrop, Escape and focus handling). It neither positions nor animates itself: the host centres it, and a centred modal has no motion. DialogContent draws the same frame for a Base UI dialog.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogTitle",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DialogTrigger",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "handle",
+        "type": "BaseDialog.Handle<unknown>",
+        "required": false,
+        "description": "A handle to associate the trigger with a dialog. Can be created with the Dialog.createHandle() method.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger. In addition to being forwarded to the rendered element, it is also used to specify the active trigger for the dialog in controlled mode (with the DialogRoot `triggerId` prop).",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "payload",
+        "type": "{}",
+        "required": false,
+        "description": "A payload to pass to the dialog when it is opened.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "AnnouncementDialog",
+    "entry": "raft-ui/wip",
+    "native": false,
+    "props": [
+      {
+        "name": "actionsRef",
+        "type": "RefObject<DialogRootActions | null>",
+        "required": false,
+        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the dialog. Call this after any externally controlled closing animation finishes. - `close`: Closes the dialog imperatively when called.",
+        "from": "base-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode | PayloadChildRenderFunction<unknown>",
+        "required": false,
+        "description": "The content of the dialog. This can be a regular React node or a render function that receives the `payload` of the active trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the dialog is initially open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultTriggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the dialog is associated with. This is useful in conjunction with the `defaultOpen` prop to create an initially open dialog.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disablePointerDismissal",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to prevent the dialog from closing on outside presses. For non-modal dialogs, this also prevents the dialog from closing when focus moves outside of it.",
+        "from": "base-ui"
+      },
+      {
+        "name": "handle",
+        "type": "BaseDialog.Handle<unknown>",
+        "required": false,
+        "description": "A handle to associate the dialog with a trigger. If specified, allows external triggers to control the dialog's open state. Can be created with the Dialog.createHandle() method.",
+        "from": "base-ui"
+      },
+      {
+        "name": "modal",
+        "type": "boolean | \"trap-focus\"",
+        "required": false,
+        "default": "true",
+        "description": "Determines if the dialog enters a modal state when open. - `true`: user interaction is limited to just the dialog: focus is trapped, document page scroll is locked, and pointer interactions on outside elements are disabled. - `false`: user interaction with the rest of the document is allowed. - `'trap-focus'`: focus is trapped inside the dialog, but document page scroll is not locked and pointer interactions outside of it remain enabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean, eventDetails: BaseDialog.Root.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the dialog is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Event handler called after any animations complete when the dialog is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the dialog is currently open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "triggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the dialog is associated with. This is useful in conjunction with the `open` prop to create a controlled dialog. There's no need to specify this prop when the dialog is uncontrolled (that is, when the `open` prop is not set).",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "AnnouncementDialogTrigger",
+    "entry": "raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "handle",
+        "type": "BaseDialog.Handle<unknown>",
+        "required": false,
+        "description": "A handle to associate the trigger with a dialog. Can be created with the Dialog.createHandle() method.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger. In addition to being forwarded to the rendered element, it is also used to specify the active trigger for the dialog in controlled mode (with the DialogRoot `triggerId` prop).",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "payload",
+        "type": "{}",
+        "required": false,
+        "description": "A payload to pass to the dialog when it is opened.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "AnnouncementDialogClose",
+    "entry": "raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"inline\" | \"icon-xs\" | \"icon-sm\" | \"icon-md\" | \"icon-lg\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"link\" | \"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"outline\" | \"information\" | \"muted\" | \"success\" | \"danger-secondary\" | \"danger-outline\" | \"ghost\" | \"on-frame\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

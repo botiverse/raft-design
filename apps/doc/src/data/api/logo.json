@@ -1,0 +1,20 @@
+[
+  {
+    "name": "RaftLogo",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "RaftLogoLockup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "RaftWordmark",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  }
+]

@@ -8,7 +8,8 @@ The site's design record is [DESIGN.md](./DESIGN.md). Documentation pages are Ma
 
 - An `example` block names a composition by its path under `src/modules` without the extension; the page renders the module's `*Content` export and shows that file's source.
 - A `tokens` block names a group of `packages/ui/src/tokens.json`.
-- `src/lib/content/content.test.ts` fails when a page names an example, a token group, a page or a heading that does not exist.
+- A component page adds what is generated from code: the API (`src/data/api/<folder>.json`, written by `scripts/build-api.mjs` from raft-ui's TypeScript; `--check` fails when it is stale), the related components (front matter `related`) and the changes (`packages/ui/CHANGELOG.md` entries naming its exports). A component folder without a doc still gets a page with these.
+- `src/lib/content/content.test.ts` fails when a page names an example, a token group, a page or a heading that does not exist, or when `src/data/api` is stale.
 
 ## Canonical Compositions
 
@@ -43,6 +44,8 @@ Use `className` only for example layout and constraints such as preview width, g
 - Do not maintain route-local Current fixtures or hand-written JSX snippet strings that duplicate executable compositions.
 
 ## Displayed Code
+
+Component and guideline pages show an `example` block's source in full, collapsed behind the Code toggle by default ([DESIGN.md](./DESIGN.md) §6); the import-collapse rules below apply to code blocks assembled by hand.
 
 A code block is documentation a reader copies. What renders and what the reader is _shown_
 are two different things, and the gap between them is where this layer regresses.

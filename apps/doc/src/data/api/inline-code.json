@@ -1,0 +1,17 @@
+[
+  {
+    "name": "InlineCode",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "appearance",
+        "type": "\"default\" | \"message\"",
+        "required": false,
+        "default": "\"default\"",
+        "description": "`message` renders the borderless, baseline-aligned in-message treatment.",
+        "from": "raft-ui"
+      }
+    ]
+  }
+]

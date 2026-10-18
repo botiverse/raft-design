@@ -12,95 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SiteRouteImport } from './routes/_site'
 import { Route as ChangelogRouteImport } from './routes/changelog'
-import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as LabRouteImport } from './routes/lab'
 import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
-import { Route as ComponentsActivityRouteImport } from './routes/components/activity'
-import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
-import { Route as ComponentsAppRailRouteImport } from './routes/components/app-rail'
-import { Route as ComponentsAppShellRouteImport } from './routes/components/app-shell'
-import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar'
-import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
-import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
-import { Route as ComponentsButtonRouteImport } from './routes/components/button'
-import { Route as ComponentsCardRouteImport } from './routes/components/card'
-import { Route as ComponentsChatComposerRouteImport } from './routes/components/chat-composer'
-import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
-import { Route as ComponentsCodeBlockRouteImport } from './routes/components/code-block'
-import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
-import { Route as ComponentsComboboxSelectRouteImport } from './routes/components/combobox-select'
-import { Route as ComponentsComposerSuggestionsRouteImport } from './routes/components/composer-suggestions'
-import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
-import { Route as ComponentsConversationPanelRouteImport } from './routes/components/conversation-panel'
-import { Route as ComponentsCopyableCodeRouteImport } from './routes/components/copyable-code'
-import { Route as ComponentsDescriptionListRouteImport } from './routes/components/description-list'
-import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
-import { Route as ComponentsDrawerRouteImport } from './routes/components/drawer'
-import { Route as ComponentsDropdownMenuRouteImport } from './routes/components/dropdown-menu'
-import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
-import { Route as ComponentsFieldRouteImport } from './routes/components/field'
-import { Route as ComponentsFilePreviewRouteImport } from './routes/components/file-preview'
-import { Route as ComponentsFilesRouteImport } from './routes/components/files'
-import { Route as ComponentsFloatButtonRouteImport } from './routes/components/float-button'
-import { Route as ComponentsIconTileRouteImport } from './routes/components/icon-tile'
-import { Route as ComponentsIconsRouteImport } from './routes/components/icons'
-import { Route as ComponentsInlineCodeRouteImport } from './routes/components/inline-code'
-import { Route as ComponentsInputRouteImport } from './routes/components/input'
-import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
-import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
-import { Route as ComponentsLabelRouteImport } from './routes/components/label'
-import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
-import { Route as ComponentsListRowRouteImport } from './routes/components/list-row'
-import { Route as ComponentsLiveAgentActivityBarRouteImport } from './routes/components/live-agent-activity-bar'
-import { Route as ComponentsLogoRouteImport } from './routes/components/logo'
-import { Route as ComponentsMarkdownRouteImport } from './routes/components/markdown'
-import { Route as ComponentsMessageActionCardRouteImport } from './routes/components/message-action-card'
-import { Route as ComponentsMessageAttachmentRouteImport } from './routes/components/message-attachment'
-import { Route as ComponentsMessageForwardedBundleRouteImport } from './routes/components/message-forwarded-bundle'
-import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
-import { Route as ComponentsMessageQuotedPreviewRouteImport } from './routes/components/message-quoted-preview'
-import { Route as ComponentsMessageReferenceRouteImport } from './routes/components/message-reference'
-import { Route as ComponentsMessageRepliesRouteImport } from './routes/components/message-replies'
-import { Route as ComponentsMessageTranslationRouteImport } from './routes/components/message-translation'
-import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
-import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
-import { Route as ComponentsPanelRouteImport } from './routes/components/panel'
-import { Route as ComponentsPickerTriggerButtonRouteImport } from './routes/components/picker-trigger-button'
-import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
-import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
-import { Route as ComponentsProfilePanelRouteImport } from './routes/components/profile-panel'
-import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
-import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
-import { Route as ComponentsScrollAreaRouteImport } from './routes/components/scroll-area'
-import { Route as ComponentsSearchRouteImport } from './routes/components/search'
-import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
-import { Route as ComponentsSelectRouteImport } from './routes/components/select'
-import { Route as ComponentsSeparatorRouteImport } from './routes/components/separator'
-import { Route as ComponentsSidebarRouteImport } from './routes/components/sidebar'
-import { Route as ComponentsSidebarItemRouteImport } from './routes/components/sidebar-item'
-import { Route as ComponentsSkeletonRouteImport } from './routes/components/skeleton'
-import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
-import { Route as ComponentsStatusRouteImport } from './routes/components/status'
-import { Route as ComponentsStepsRouteImport } from './routes/components/steps'
-import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
-import { Route as ComponentsSystemMessageRouteImport } from './routes/components/system-message'
-import { Route as ComponentsTableRouteImport } from './routes/components/table'
-import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
-import { Route as ComponentsTaskBoardRouteImport } from './routes/components/task-board'
-import { Route as ComponentsTaskCardRouteImport } from './routes/components/task-card'
-import { Route as ComponentsTaskChipRouteImport } from './routes/components/task-chip'
-import { Route as ComponentsTaskDndRouteImport } from './routes/components/task-dnd'
-import { Route as ComponentsTaskListRouteImport } from './routes/components/task-list'
-import { Route as ComponentsTaskStatusRouteImport } from './routes/components/task-status'
-import { Route as ComponentsTasksRouteImport } from './routes/components/tasks'
-import { Route as ComponentsTextRouteImport } from './routes/components/text'
-import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
-import { Route as ComponentsThreadPanelRouteImport } from './routes/components/thread-panel'
-import { Route as ComponentsTimelineRouteImport } from './routes/components/timeline'
-import { Route as ComponentsToastRouteImport } from './routes/components/toast'
-import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
-import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as GuidesGuideRouteImport } from './routes/guides/$guide'
 import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
 import { Route as IframeDialogScrollLayerRouteImport } from './routes/iframe/dialog-scroll-layer'
@@ -113,6 +27,7 @@ import { Route as PlaygroundSRouteRouteImport } from './routes/playground/s/rout
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensTypographyRouteImport } from './routes/tokens/typography'
+import { Route as SiteComponentsIndexRouteImport } from './routes/_site/components/index'
 import { Route as SiteComponentsSlugRouteImport } from './routes/_site/components/$slug'
 import { Route as SiteDecisionsIndexRouteImport } from './routes/_site/decisions/index'
 import { Route as SiteDecisionsSlugRouteImport } from './routes/_site/decisions/$slug'
@@ -151,11 +66,6 @@ const ChangelogRoute = ChangelogRouteImport.update({
   path: '/changelog',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ComponentsRoute = ComponentsRouteImport.update({
-  id: '/components',
-  path: '/components',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -170,446 +80,6 @@ const PlaygroundRouteRoute = PlaygroundRouteRouteImport.update({
   id: '/playground',
   path: '/playground',
   getParentRoute: () => rootRouteImport,
-} as any)
-const ComponentsActivityRoute = ComponentsActivityRouteImport.update({
-  id: '/activity',
-  path: '/activity',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsAlertDialogRoute = ComponentsAlertDialogRouteImport.update({
-  id: '/alert-dialog',
-  path: '/alert-dialog',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsAppRailRoute = ComponentsAppRailRouteImport.update({
-  id: '/app-rail',
-  path: '/app-rail',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsAppShellRoute = ComponentsAppShellRouteImport.update({
-  id: '/app-shell',
-  path: '/app-shell',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsAvatarRoute = ComponentsAvatarRouteImport.update({
-  id: '/avatar',
-  path: '/avatar',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
-  id: '/badge',
-  path: '/badge',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsBannerRoute = ComponentsBannerRouteImport.update({
-  id: '/banner',
-  path: '/banner',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
-  id: '/button',
-  path: '/button',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsCardRoute = ComponentsCardRouteImport.update({
-  id: '/card',
-  path: '/card',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsChatComposerRoute = ComponentsChatComposerRouteImport.update({
-  id: '/chat-composer',
-  path: '/chat-composer',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
-  id: '/checkbox',
-  path: '/checkbox',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsCodeBlockRoute = ComponentsCodeBlockRouteImport.update({
-  id: '/code-block',
-  path: '/code-block',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsComboboxRoute = ComponentsComboboxRouteImport.update({
-  id: '/combobox',
-  path: '/combobox',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsComboboxSelectRoute =
-  ComponentsComboboxSelectRouteImport.update({
-    id: '/combobox-select',
-    path: '/combobox-select',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsComposerSuggestionsRoute =
-  ComponentsComposerSuggestionsRouteImport.update({
-    id: '/composer-suggestions',
-    path: '/composer-suggestions',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsContextMenuRoute = ComponentsContextMenuRouteImport.update({
-  id: '/context-menu',
-  path: '/context-menu',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsConversationPanelRoute =
-  ComponentsConversationPanelRouteImport.update({
-    id: '/conversation-panel',
-    path: '/conversation-panel',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsCopyableCodeRoute = ComponentsCopyableCodeRouteImport.update({
-  id: '/copyable-code',
-  path: '/copyable-code',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsDescriptionListRoute =
-  ComponentsDescriptionListRouteImport.update({
-    id: '/description-list',
-    path: '/description-list',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsDialogRoute = ComponentsDialogRouteImport.update({
-  id: '/dialog',
-  path: '/dialog',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsDrawerRoute = ComponentsDrawerRouteImport.update({
-  id: '/drawer',
-  path: '/drawer',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsDropdownMenuRoute = ComponentsDropdownMenuRouteImport.update({
-  id: '/dropdown-menu',
-  path: '/dropdown-menu',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsEmptyStateRoute = ComponentsEmptyStateRouteImport.update({
-  id: '/empty-state',
-  path: '/empty-state',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsFieldRoute = ComponentsFieldRouteImport.update({
-  id: '/field',
-  path: '/field',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsFilePreviewRoute = ComponentsFilePreviewRouteImport.update({
-  id: '/file-preview',
-  path: '/file-preview',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsFilesRoute = ComponentsFilesRouteImport.update({
-  id: '/files',
-  path: '/files',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsFloatButtonRoute = ComponentsFloatButtonRouteImport.update({
-  id: '/float-button',
-  path: '/float-button',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsIconTileRoute = ComponentsIconTileRouteImport.update({
-  id: '/icon-tile',
-  path: '/icon-tile',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsIconsRoute = ComponentsIconsRouteImport.update({
-  id: '/icons',
-  path: '/icons',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsInlineCodeRoute = ComponentsInlineCodeRouteImport.update({
-  id: '/inline-code',
-  path: '/inline-code',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsInputRoute = ComponentsInputRouteImport.update({
-  id: '/input',
-  path: '/input',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsInputGroupRoute = ComponentsInputGroupRouteImport.update({
-  id: '/input-group',
-  path: '/input-group',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsKbdRoute = ComponentsKbdRouteImport.update({
-  id: '/kbd',
-  path: '/kbd',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsLabelRoute = ComponentsLabelRouteImport.update({
-  id: '/label',
-  path: '/label',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsLightboxRoute = ComponentsLightboxRouteImport.update({
-  id: '/lightbox',
-  path: '/lightbox',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsListRowRoute = ComponentsListRowRouteImport.update({
-  id: '/list-row',
-  path: '/list-row',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsLiveAgentActivityBarRoute =
-  ComponentsLiveAgentActivityBarRouteImport.update({
-    id: '/live-agent-activity-bar',
-    path: '/live-agent-activity-bar',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsLogoRoute = ComponentsLogoRouteImport.update({
-  id: '/logo',
-  path: '/logo',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsMarkdownRoute = ComponentsMarkdownRouteImport.update({
-  id: '/markdown',
-  path: '/markdown',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsMessageActionCardRoute =
-  ComponentsMessageActionCardRouteImport.update({
-    id: '/message-action-card',
-    path: '/message-action-card',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageAttachmentRoute =
-  ComponentsMessageAttachmentRouteImport.update({
-    id: '/message-attachment',
-    path: '/message-attachment',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageForwardedBundleRoute =
-  ComponentsMessageForwardedBundleRouteImport.update({
-    id: '/message-forwarded-bundle',
-    path: '/message-forwarded-bundle',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageItemRoute = ComponentsMessageItemRouteImport.update({
-  id: '/message-item',
-  path: '/message-item',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsMessageQuotedPreviewRoute =
-  ComponentsMessageQuotedPreviewRouteImport.update({
-    id: '/message-quoted-preview',
-    path: '/message-quoted-preview',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageReferenceRoute =
-  ComponentsMessageReferenceRouteImport.update({
-    id: '/message-reference',
-    path: '/message-reference',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageRepliesRoute =
-  ComponentsMessageRepliesRouteImport.update({
-    id: '/message-replies',
-    path: '/message-replies',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageTranslationRoute =
-  ComponentsMessageTranslationRouteImport.update({
-    id: '/message-translation',
-    path: '/message-translation',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMobileNavRoute = ComponentsMobileNavRouteImport.update({
-  id: '/mobile-nav',
-  path: '/mobile-nav',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsNotificationCenterRoute =
-  ComponentsNotificationCenterRouteImport.update({
-    id: '/notification-center',
-    path: '/notification-center',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsPanelRoute = ComponentsPanelRouteImport.update({
-  id: '/panel',
-  path: '/panel',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsPickerTriggerButtonRoute =
-  ComponentsPickerTriggerButtonRouteImport.update({
-    id: '/picker-trigger-button',
-    path: '/picker-trigger-button',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsPopoverRoute = ComponentsPopoverRouteImport.update({
-  id: '/popover',
-  path: '/popover',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsPreviewCardRoute = ComponentsPreviewCardRouteImport.update({
-  id: '/preview-card',
-  path: '/preview-card',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsProfilePanelRoute = ComponentsProfilePanelRouteImport.update({
-  id: '/profile-panel',
-  path: '/profile-panel',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsProgressRoute = ComponentsProgressRouteImport.update({
-  id: '/progress',
-  path: '/progress',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsRadioGroupRoute = ComponentsRadioGroupRouteImport.update({
-  id: '/radio-group',
-  path: '/radio-group',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsScrollAreaRoute = ComponentsScrollAreaRouteImport.update({
-  id: '/scroll-area',
-  path: '/scroll-area',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSearchRoute = ComponentsSearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSegmentedControlRoute =
-  ComponentsSegmentedControlRouteImport.update({
-    id: '/segmented-control',
-    path: '/segmented-control',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsSelectRoute = ComponentsSelectRouteImport.update({
-  id: '/select',
-  path: '/select',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSeparatorRoute = ComponentsSeparatorRouteImport.update({
-  id: '/separator',
-  path: '/separator',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSidebarRoute = ComponentsSidebarRouteImport.update({
-  id: '/sidebar',
-  path: '/sidebar',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSidebarItemRoute = ComponentsSidebarItemRouteImport.update({
-  id: '/sidebar-item',
-  path: '/sidebar-item',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSkeletonRoute = ComponentsSkeletonRouteImport.update({
-  id: '/skeleton',
-  path: '/skeleton',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
-  id: '/spinner',
-  path: '/spinner',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsStatusRoute = ComponentsStatusRouteImport.update({
-  id: '/status',
-  path: '/status',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsStepsRoute = ComponentsStepsRouteImport.update({
-  id: '/steps',
-  path: '/steps',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSwitchRoute = ComponentsSwitchRouteImport.update({
-  id: '/switch',
-  path: '/switch',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSystemMessageRoute = ComponentsSystemMessageRouteImport.update({
-  id: '/system-message',
-  path: '/system-message',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTableRoute = ComponentsTableRouteImport.update({
-  id: '/table',
-  path: '/table',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
-  id: '/tabs',
-  path: '/tabs',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTaskBoardRoute = ComponentsTaskBoardRouteImport.update({
-  id: '/task-board',
-  path: '/task-board',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTaskCardRoute = ComponentsTaskCardRouteImport.update({
-  id: '/task-card',
-  path: '/task-card',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTaskChipRoute = ComponentsTaskChipRouteImport.update({
-  id: '/task-chip',
-  path: '/task-chip',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTaskDndRoute = ComponentsTaskDndRouteImport.update({
-  id: '/task-dnd',
-  path: '/task-dnd',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTaskListRoute = ComponentsTaskListRouteImport.update({
-  id: '/task-list',
-  path: '/task-list',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTaskStatusRoute = ComponentsTaskStatusRouteImport.update({
-  id: '/task-status',
-  path: '/task-status',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTasksRoute = ComponentsTasksRouteImport.update({
-  id: '/tasks',
-  path: '/tasks',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTextRoute = ComponentsTextRouteImport.update({
-  id: '/text',
-  path: '/text',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
-  id: '/textarea',
-  path: '/textarea',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsThreadPanelRoute = ComponentsThreadPanelRouteImport.update({
-  id: '/thread-panel',
-  path: '/thread-panel',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTimelineRoute = ComponentsTimelineRouteImport.update({
-  id: '/timeline',
-  path: '/timeline',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsToastRoute = ComponentsToastRouteImport.update({
-  id: '/toast',
-  path: '/toast',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsToggleGroupRoute = ComponentsToggleGroupRouteImport.update({
-  id: '/toggle-group',
-  path: '/toggle-group',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
-  id: '/tooltip',
-  path: '/tooltip',
-  getParentRoute: () => ComponentsRoute,
 } as any)
 const GuidesGuideRoute = GuidesGuideRouteImport.update({
   id: '/guides/$guide',
@@ -669,6 +139,11 @@ const TokensTypographyRoute = TokensTypographyRouteImport.update({
   id: '/tokens/typography',
   path: '/tokens/typography',
   getParentRoute: () => rootRouteImport,
+} as any)
+const SiteComponentsIndexRoute = SiteComponentsIndexRouteImport.update({
+  id: '/components/',
+  path: '/components/',
+  getParentRoute: () => SiteRoute,
 } as any)
 const SiteComponentsSlugRoute = SiteComponentsSlugRouteImport.update({
   id: '/components/$slug',
@@ -799,95 +274,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/playground': typeof PlaygroundRouteRouteWithChildren
   '/changelog': typeof ChangelogRoute
-  '/components': typeof ComponentsRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/lab': typeof LabRoute
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
-  '/components/activity': typeof ComponentsActivityRoute
-  '/components/alert-dialog': typeof ComponentsAlertDialogRoute
-  '/components/app-rail': typeof ComponentsAppRailRoute
-  '/components/app-shell': typeof ComponentsAppShellRoute
-  '/components/avatar': typeof ComponentsAvatarRoute
-  '/components/badge': typeof ComponentsBadgeRoute
-  '/components/banner': typeof ComponentsBannerRoute
-  '/components/button': typeof ComponentsButtonRoute
-  '/components/card': typeof ComponentsCardRoute
-  '/components/chat-composer': typeof ComponentsChatComposerRoute
-  '/components/checkbox': typeof ComponentsCheckboxRoute
-  '/components/code-block': typeof ComponentsCodeBlockRoute
-  '/components/combobox': typeof ComponentsComboboxRoute
-  '/components/combobox-select': typeof ComponentsComboboxSelectRoute
-  '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
-  '/components/context-menu': typeof ComponentsContextMenuRoute
-  '/components/conversation-panel': typeof ComponentsConversationPanelRoute
-  '/components/copyable-code': typeof ComponentsCopyableCodeRoute
-  '/components/description-list': typeof ComponentsDescriptionListRoute
-  '/components/dialog': typeof ComponentsDialogRoute
-  '/components/drawer': typeof ComponentsDrawerRoute
-  '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
-  '/components/empty-state': typeof ComponentsEmptyStateRoute
-  '/components/field': typeof ComponentsFieldRoute
-  '/components/file-preview': typeof ComponentsFilePreviewRoute
-  '/components/files': typeof ComponentsFilesRoute
-  '/components/float-button': typeof ComponentsFloatButtonRoute
-  '/components/icon-tile': typeof ComponentsIconTileRoute
-  '/components/icons': typeof ComponentsIconsRoute
-  '/components/inline-code': typeof ComponentsInlineCodeRoute
-  '/components/input': typeof ComponentsInputRoute
-  '/components/input-group': typeof ComponentsInputGroupRoute
-  '/components/kbd': typeof ComponentsKbdRoute
-  '/components/label': typeof ComponentsLabelRoute
-  '/components/lightbox': typeof ComponentsLightboxRoute
-  '/components/list-row': typeof ComponentsListRowRoute
-  '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
-  '/components/logo': typeof ComponentsLogoRoute
-  '/components/markdown': typeof ComponentsMarkdownRoute
-  '/components/message-action-card': typeof ComponentsMessageActionCardRoute
-  '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
-  '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
-  '/components/message-item': typeof ComponentsMessageItemRoute
-  '/components/message-quoted-preview': typeof ComponentsMessageQuotedPreviewRoute
-  '/components/message-reference': typeof ComponentsMessageReferenceRoute
-  '/components/message-replies': typeof ComponentsMessageRepliesRoute
-  '/components/message-translation': typeof ComponentsMessageTranslationRoute
-  '/components/mobile-nav': typeof ComponentsMobileNavRoute
-  '/components/notification-center': typeof ComponentsNotificationCenterRoute
-  '/components/panel': typeof ComponentsPanelRoute
-  '/components/picker-trigger-button': typeof ComponentsPickerTriggerButtonRoute
-  '/components/popover': typeof ComponentsPopoverRoute
-  '/components/preview-card': typeof ComponentsPreviewCardRoute
-  '/components/profile-panel': typeof ComponentsProfilePanelRoute
-  '/components/progress': typeof ComponentsProgressRoute
-  '/components/radio-group': typeof ComponentsRadioGroupRoute
-  '/components/scroll-area': typeof ComponentsScrollAreaRoute
-  '/components/search': typeof ComponentsSearchRoute
-  '/components/segmented-control': typeof ComponentsSegmentedControlRoute
-  '/components/select': typeof ComponentsSelectRoute
-  '/components/separator': typeof ComponentsSeparatorRoute
-  '/components/sidebar': typeof ComponentsSidebarRoute
-  '/components/sidebar-item': typeof ComponentsSidebarItemRoute
-  '/components/skeleton': typeof ComponentsSkeletonRoute
-  '/components/spinner': typeof ComponentsSpinnerRoute
-  '/components/status': typeof ComponentsStatusRoute
-  '/components/steps': typeof ComponentsStepsRoute
-  '/components/switch': typeof ComponentsSwitchRoute
-  '/components/system-message': typeof ComponentsSystemMessageRoute
-  '/components/table': typeof ComponentsTableRoute
-  '/components/tabs': typeof ComponentsTabsRoute
-  '/components/task-board': typeof ComponentsTaskBoardRoute
-  '/components/task-card': typeof ComponentsTaskCardRoute
-  '/components/task-chip': typeof ComponentsTaskChipRoute
-  '/components/task-dnd': typeof ComponentsTaskDndRoute
-  '/components/task-list': typeof ComponentsTaskListRoute
-  '/components/task-status': typeof ComponentsTaskStatusRoute
-  '/components/tasks': typeof ComponentsTasksRoute
-  '/components/text': typeof ComponentsTextRoute
-  '/components/textarea': typeof ComponentsTextareaRoute
-  '/components/thread-panel': typeof ComponentsThreadPanelRoute
-  '/components/timeline': typeof ComponentsTimelineRoute
-  '/components/toast': typeof ComponentsToastRoute
-  '/components/toggle-group': typeof ComponentsToggleGroupRoute
-  '/components/tooltip': typeof ComponentsTooltipRoute
   '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
@@ -908,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/playground/search': typeof PlaygroundPlainSearchRoute
   '/playground/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/tasks': typeof PlaygroundPlainTasksRoute
+  '/components/': typeof SiteComponentsIndexRoute
   '/decisions/': typeof SiteDecisionsIndexRoute
   '/foundations/': typeof SiteFoundationsIndexRoute
   '/patterns/': typeof SitePatternsIndexRoute
@@ -924,96 +314,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/changelog': typeof ChangelogRoute
-  '/components': typeof ComponentsRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/lab': typeof LabRoute
   '/playground': typeof PlaygroundIndexRoute
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
-  '/components/activity': typeof ComponentsActivityRoute
-  '/components/alert-dialog': typeof ComponentsAlertDialogRoute
-  '/components/app-rail': typeof ComponentsAppRailRoute
-  '/components/app-shell': typeof ComponentsAppShellRoute
-  '/components/avatar': typeof ComponentsAvatarRoute
-  '/components/badge': typeof ComponentsBadgeRoute
-  '/components/banner': typeof ComponentsBannerRoute
-  '/components/button': typeof ComponentsButtonRoute
-  '/components/card': typeof ComponentsCardRoute
-  '/components/chat-composer': typeof ComponentsChatComposerRoute
-  '/components/checkbox': typeof ComponentsCheckboxRoute
-  '/components/code-block': typeof ComponentsCodeBlockRoute
-  '/components/combobox': typeof ComponentsComboboxRoute
-  '/components/combobox-select': typeof ComponentsComboboxSelectRoute
-  '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
-  '/components/context-menu': typeof ComponentsContextMenuRoute
-  '/components/conversation-panel': typeof ComponentsConversationPanelRoute
-  '/components/copyable-code': typeof ComponentsCopyableCodeRoute
-  '/components/description-list': typeof ComponentsDescriptionListRoute
-  '/components/dialog': typeof ComponentsDialogRoute
-  '/components/drawer': typeof ComponentsDrawerRoute
-  '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
-  '/components/empty-state': typeof ComponentsEmptyStateRoute
-  '/components/field': typeof ComponentsFieldRoute
-  '/components/file-preview': typeof ComponentsFilePreviewRoute
-  '/components/files': typeof ComponentsFilesRoute
-  '/components/float-button': typeof ComponentsFloatButtonRoute
-  '/components/icon-tile': typeof ComponentsIconTileRoute
-  '/components/icons': typeof ComponentsIconsRoute
-  '/components/inline-code': typeof ComponentsInlineCodeRoute
-  '/components/input': typeof ComponentsInputRoute
-  '/components/input-group': typeof ComponentsInputGroupRoute
-  '/components/kbd': typeof ComponentsKbdRoute
-  '/components/label': typeof ComponentsLabelRoute
-  '/components/lightbox': typeof ComponentsLightboxRoute
-  '/components/list-row': typeof ComponentsListRowRoute
-  '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
-  '/components/logo': typeof ComponentsLogoRoute
-  '/components/markdown': typeof ComponentsMarkdownRoute
-  '/components/message-action-card': typeof ComponentsMessageActionCardRoute
-  '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
-  '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
-  '/components/message-item': typeof ComponentsMessageItemRoute
-  '/components/message-quoted-preview': typeof ComponentsMessageQuotedPreviewRoute
-  '/components/message-reference': typeof ComponentsMessageReferenceRoute
-  '/components/message-replies': typeof ComponentsMessageRepliesRoute
-  '/components/message-translation': typeof ComponentsMessageTranslationRoute
-  '/components/mobile-nav': typeof ComponentsMobileNavRoute
-  '/components/notification-center': typeof ComponentsNotificationCenterRoute
-  '/components/panel': typeof ComponentsPanelRoute
-  '/components/picker-trigger-button': typeof ComponentsPickerTriggerButtonRoute
-  '/components/popover': typeof ComponentsPopoverRoute
-  '/components/preview-card': typeof ComponentsPreviewCardRoute
-  '/components/profile-panel': typeof ComponentsProfilePanelRoute
-  '/components/progress': typeof ComponentsProgressRoute
-  '/components/radio-group': typeof ComponentsRadioGroupRoute
-  '/components/scroll-area': typeof ComponentsScrollAreaRoute
-  '/components/search': typeof ComponentsSearchRoute
-  '/components/segmented-control': typeof ComponentsSegmentedControlRoute
-  '/components/select': typeof ComponentsSelectRoute
-  '/components/separator': typeof ComponentsSeparatorRoute
-  '/components/sidebar': typeof ComponentsSidebarRoute
-  '/components/sidebar-item': typeof ComponentsSidebarItemRoute
-  '/components/skeleton': typeof ComponentsSkeletonRoute
-  '/components/spinner': typeof ComponentsSpinnerRoute
-  '/components/status': typeof ComponentsStatusRoute
-  '/components/steps': typeof ComponentsStepsRoute
-  '/components/switch': typeof ComponentsSwitchRoute
-  '/components/system-message': typeof ComponentsSystemMessageRoute
-  '/components/table': typeof ComponentsTableRoute
-  '/components/tabs': typeof ComponentsTabsRoute
-  '/components/task-board': typeof ComponentsTaskBoardRoute
-  '/components/task-card': typeof ComponentsTaskCardRoute
-  '/components/task-chip': typeof ComponentsTaskChipRoute
-  '/components/task-dnd': typeof ComponentsTaskDndRoute
-  '/components/task-list': typeof ComponentsTaskListRoute
-  '/components/task-status': typeof ComponentsTaskStatusRoute
-  '/components/tasks': typeof ComponentsTasksRoute
-  '/components/text': typeof ComponentsTextRoute
-  '/components/textarea': typeof ComponentsTextareaRoute
-  '/components/thread-panel': typeof ComponentsThreadPanelRoute
-  '/components/timeline': typeof ComponentsTimelineRoute
-  '/components/toast': typeof ComponentsToastRoute
-  '/components/toggle-group': typeof ComponentsToggleGroupRoute
-  '/components/tooltip': typeof ComponentsTooltipRoute
   '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
@@ -1032,6 +336,7 @@ export interface FileRoutesByTo {
   '/playground/search': typeof PlaygroundPlainSearchRoute
   '/playground/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/tasks': typeof PlaygroundPlainTasksRoute
+  '/components': typeof SiteComponentsIndexRoute
   '/decisions': typeof SiteDecisionsIndexRoute
   '/foundations': typeof SiteFoundationsIndexRoute
   '/patterns': typeof SitePatternsIndexRoute
@@ -1051,97 +356,11 @@ export interface FileRoutesById {
   '/playground': typeof PlaygroundRouteRouteWithChildren
   '/_site': typeof SiteRouteWithChildren
   '/changelog': typeof ChangelogRoute
-  '/components': typeof ComponentsRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/lab': typeof LabRoute
   '/playground/_browse': typeof PlaygroundBrowseRouteRouteWithChildren
   '/playground/_plain': typeof PlaygroundPlainRouteRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
-  '/components/activity': typeof ComponentsActivityRoute
-  '/components/alert-dialog': typeof ComponentsAlertDialogRoute
-  '/components/app-rail': typeof ComponentsAppRailRoute
-  '/components/app-shell': typeof ComponentsAppShellRoute
-  '/components/avatar': typeof ComponentsAvatarRoute
-  '/components/badge': typeof ComponentsBadgeRoute
-  '/components/banner': typeof ComponentsBannerRoute
-  '/components/button': typeof ComponentsButtonRoute
-  '/components/card': typeof ComponentsCardRoute
-  '/components/chat-composer': typeof ComponentsChatComposerRoute
-  '/components/checkbox': typeof ComponentsCheckboxRoute
-  '/components/code-block': typeof ComponentsCodeBlockRoute
-  '/components/combobox': typeof ComponentsComboboxRoute
-  '/components/combobox-select': typeof ComponentsComboboxSelectRoute
-  '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
-  '/components/context-menu': typeof ComponentsContextMenuRoute
-  '/components/conversation-panel': typeof ComponentsConversationPanelRoute
-  '/components/copyable-code': typeof ComponentsCopyableCodeRoute
-  '/components/description-list': typeof ComponentsDescriptionListRoute
-  '/components/dialog': typeof ComponentsDialogRoute
-  '/components/drawer': typeof ComponentsDrawerRoute
-  '/components/dropdown-menu': typeof ComponentsDropdownMenuRoute
-  '/components/empty-state': typeof ComponentsEmptyStateRoute
-  '/components/field': typeof ComponentsFieldRoute
-  '/components/file-preview': typeof ComponentsFilePreviewRoute
-  '/components/files': typeof ComponentsFilesRoute
-  '/components/float-button': typeof ComponentsFloatButtonRoute
-  '/components/icon-tile': typeof ComponentsIconTileRoute
-  '/components/icons': typeof ComponentsIconsRoute
-  '/components/inline-code': typeof ComponentsInlineCodeRoute
-  '/components/input': typeof ComponentsInputRoute
-  '/components/input-group': typeof ComponentsInputGroupRoute
-  '/components/kbd': typeof ComponentsKbdRoute
-  '/components/label': typeof ComponentsLabelRoute
-  '/components/lightbox': typeof ComponentsLightboxRoute
-  '/components/list-row': typeof ComponentsListRowRoute
-  '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
-  '/components/logo': typeof ComponentsLogoRoute
-  '/components/markdown': typeof ComponentsMarkdownRoute
-  '/components/message-action-card': typeof ComponentsMessageActionCardRoute
-  '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
-  '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
-  '/components/message-item': typeof ComponentsMessageItemRoute
-  '/components/message-quoted-preview': typeof ComponentsMessageQuotedPreviewRoute
-  '/components/message-reference': typeof ComponentsMessageReferenceRoute
-  '/components/message-replies': typeof ComponentsMessageRepliesRoute
-  '/components/message-translation': typeof ComponentsMessageTranslationRoute
-  '/components/mobile-nav': typeof ComponentsMobileNavRoute
-  '/components/notification-center': typeof ComponentsNotificationCenterRoute
-  '/components/panel': typeof ComponentsPanelRoute
-  '/components/picker-trigger-button': typeof ComponentsPickerTriggerButtonRoute
-  '/components/popover': typeof ComponentsPopoverRoute
-  '/components/preview-card': typeof ComponentsPreviewCardRoute
-  '/components/profile-panel': typeof ComponentsProfilePanelRoute
-  '/components/progress': typeof ComponentsProgressRoute
-  '/components/radio-group': typeof ComponentsRadioGroupRoute
-  '/components/scroll-area': typeof ComponentsScrollAreaRoute
-  '/components/search': typeof ComponentsSearchRoute
-  '/components/segmented-control': typeof ComponentsSegmentedControlRoute
-  '/components/select': typeof ComponentsSelectRoute
-  '/components/separator': typeof ComponentsSeparatorRoute
-  '/components/sidebar': typeof ComponentsSidebarRoute
-  '/components/sidebar-item': typeof ComponentsSidebarItemRoute
-  '/components/skeleton': typeof ComponentsSkeletonRoute
-  '/components/spinner': typeof ComponentsSpinnerRoute
-  '/components/status': typeof ComponentsStatusRoute
-  '/components/steps': typeof ComponentsStepsRoute
-  '/components/switch': typeof ComponentsSwitchRoute
-  '/components/system-message': typeof ComponentsSystemMessageRoute
-  '/components/table': typeof ComponentsTableRoute
-  '/components/tabs': typeof ComponentsTabsRoute
-  '/components/task-board': typeof ComponentsTaskBoardRoute
-  '/components/task-card': typeof ComponentsTaskCardRoute
-  '/components/task-chip': typeof ComponentsTaskChipRoute
-  '/components/task-dnd': typeof ComponentsTaskDndRoute
-  '/components/task-list': typeof ComponentsTaskListRoute
-  '/components/task-status': typeof ComponentsTaskStatusRoute
-  '/components/tasks': typeof ComponentsTasksRoute
-  '/components/text': typeof ComponentsTextRoute
-  '/components/textarea': typeof ComponentsTextareaRoute
-  '/components/thread-panel': typeof ComponentsThreadPanelRoute
-  '/components/timeline': typeof ComponentsTimelineRoute
-  '/components/toast': typeof ComponentsToastRoute
-  '/components/toggle-group': typeof ComponentsToggleGroupRoute
-  '/components/tooltip': typeof ComponentsTooltipRoute
   '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
@@ -1162,6 +381,7 @@ export interface FileRoutesById {
   '/playground/_plain/search': typeof PlaygroundPlainSearchRoute
   '/playground/_plain/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/_plain/tasks': typeof PlaygroundPlainTasksRoute
+  '/_site/components/': typeof SiteComponentsIndexRoute
   '/_site/decisions/': typeof SiteDecisionsIndexRoute
   '/_site/foundations/': typeof SiteFoundationsIndexRoute
   '/_site/patterns/': typeof SitePatternsIndexRoute
@@ -1181,95 +401,9 @@ export interface FileRouteTypes {
     | '/'
     | '/playground'
     | '/changelog'
-    | '/components'
     | '/dashboard'
     | '/lab'
     | '/playground/s'
-    | '/components/activity'
-    | '/components/alert-dialog'
-    | '/components/app-rail'
-    | '/components/app-shell'
-    | '/components/avatar'
-    | '/components/badge'
-    | '/components/banner'
-    | '/components/button'
-    | '/components/card'
-    | '/components/chat-composer'
-    | '/components/checkbox'
-    | '/components/code-block'
-    | '/components/combobox'
-    | '/components/combobox-select'
-    | '/components/composer-suggestions'
-    | '/components/context-menu'
-    | '/components/conversation-panel'
-    | '/components/copyable-code'
-    | '/components/description-list'
-    | '/components/dialog'
-    | '/components/drawer'
-    | '/components/dropdown-menu'
-    | '/components/empty-state'
-    | '/components/field'
-    | '/components/file-preview'
-    | '/components/files'
-    | '/components/float-button'
-    | '/components/icon-tile'
-    | '/components/icons'
-    | '/components/inline-code'
-    | '/components/input'
-    | '/components/input-group'
-    | '/components/kbd'
-    | '/components/label'
-    | '/components/lightbox'
-    | '/components/list-row'
-    | '/components/live-agent-activity-bar'
-    | '/components/logo'
-    | '/components/markdown'
-    | '/components/message-action-card'
-    | '/components/message-attachment'
-    | '/components/message-forwarded-bundle'
-    | '/components/message-item'
-    | '/components/message-quoted-preview'
-    | '/components/message-reference'
-    | '/components/message-replies'
-    | '/components/message-translation'
-    | '/components/mobile-nav'
-    | '/components/notification-center'
-    | '/components/panel'
-    | '/components/picker-trigger-button'
-    | '/components/popover'
-    | '/components/preview-card'
-    | '/components/profile-panel'
-    | '/components/progress'
-    | '/components/radio-group'
-    | '/components/scroll-area'
-    | '/components/search'
-    | '/components/segmented-control'
-    | '/components/select'
-    | '/components/separator'
-    | '/components/sidebar'
-    | '/components/sidebar-item'
-    | '/components/skeleton'
-    | '/components/spinner'
-    | '/components/status'
-    | '/components/steps'
-    | '/components/switch'
-    | '/components/system-message'
-    | '/components/table'
-    | '/components/tabs'
-    | '/components/task-board'
-    | '/components/task-card'
-    | '/components/task-chip'
-    | '/components/task-dnd'
-    | '/components/task-list'
-    | '/components/task-status'
-    | '/components/tasks'
-    | '/components/text'
-    | '/components/textarea'
-    | '/components/thread-panel'
-    | '/components/timeline'
-    | '/components/toast'
-    | '/components/toggle-group'
-    | '/components/tooltip'
     | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
@@ -1290,6 +424,7 @@ export interface FileRouteTypes {
     | '/playground/search'
     | '/playground/settings'
     | '/playground/tasks'
+    | '/components/'
     | '/decisions/'
     | '/foundations/'
     | '/patterns/'
@@ -1306,96 +441,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/changelog'
-    | '/components'
     | '/dashboard'
     | '/lab'
     | '/playground'
     | '/playground/s'
-    | '/components/activity'
-    | '/components/alert-dialog'
-    | '/components/app-rail'
-    | '/components/app-shell'
-    | '/components/avatar'
-    | '/components/badge'
-    | '/components/banner'
-    | '/components/button'
-    | '/components/card'
-    | '/components/chat-composer'
-    | '/components/checkbox'
-    | '/components/code-block'
-    | '/components/combobox'
-    | '/components/combobox-select'
-    | '/components/composer-suggestions'
-    | '/components/context-menu'
-    | '/components/conversation-panel'
-    | '/components/copyable-code'
-    | '/components/description-list'
-    | '/components/dialog'
-    | '/components/drawer'
-    | '/components/dropdown-menu'
-    | '/components/empty-state'
-    | '/components/field'
-    | '/components/file-preview'
-    | '/components/files'
-    | '/components/float-button'
-    | '/components/icon-tile'
-    | '/components/icons'
-    | '/components/inline-code'
-    | '/components/input'
-    | '/components/input-group'
-    | '/components/kbd'
-    | '/components/label'
-    | '/components/lightbox'
-    | '/components/list-row'
-    | '/components/live-agent-activity-bar'
-    | '/components/logo'
-    | '/components/markdown'
-    | '/components/message-action-card'
-    | '/components/message-attachment'
-    | '/components/message-forwarded-bundle'
-    | '/components/message-item'
-    | '/components/message-quoted-preview'
-    | '/components/message-reference'
-    | '/components/message-replies'
-    | '/components/message-translation'
-    | '/components/mobile-nav'
-    | '/components/notification-center'
-    | '/components/panel'
-    | '/components/picker-trigger-button'
-    | '/components/popover'
-    | '/components/preview-card'
-    | '/components/profile-panel'
-    | '/components/progress'
-    | '/components/radio-group'
-    | '/components/scroll-area'
-    | '/components/search'
-    | '/components/segmented-control'
-    | '/components/select'
-    | '/components/separator'
-    | '/components/sidebar'
-    | '/components/sidebar-item'
-    | '/components/skeleton'
-    | '/components/spinner'
-    | '/components/status'
-    | '/components/steps'
-    | '/components/switch'
-    | '/components/system-message'
-    | '/components/table'
-    | '/components/tabs'
-    | '/components/task-board'
-    | '/components/task-card'
-    | '/components/task-chip'
-    | '/components/task-dnd'
-    | '/components/task-list'
-    | '/components/task-status'
-    | '/components/tasks'
-    | '/components/text'
-    | '/components/textarea'
-    | '/components/thread-panel'
-    | '/components/timeline'
-    | '/components/toast'
-    | '/components/toggle-group'
-    | '/components/tooltip'
     | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
@@ -1414,6 +463,7 @@ export interface FileRouteTypes {
     | '/playground/search'
     | '/playground/settings'
     | '/playground/tasks'
+    | '/components'
     | '/decisions'
     | '/foundations'
     | '/patterns'
@@ -1432,97 +482,11 @@ export interface FileRouteTypes {
     | '/playground'
     | '/_site'
     | '/changelog'
-    | '/components'
     | '/dashboard'
     | '/lab'
     | '/playground/_browse'
     | '/playground/_plain'
     | '/playground/s'
-    | '/components/activity'
-    | '/components/alert-dialog'
-    | '/components/app-rail'
-    | '/components/app-shell'
-    | '/components/avatar'
-    | '/components/badge'
-    | '/components/banner'
-    | '/components/button'
-    | '/components/card'
-    | '/components/chat-composer'
-    | '/components/checkbox'
-    | '/components/code-block'
-    | '/components/combobox'
-    | '/components/combobox-select'
-    | '/components/composer-suggestions'
-    | '/components/context-menu'
-    | '/components/conversation-panel'
-    | '/components/copyable-code'
-    | '/components/description-list'
-    | '/components/dialog'
-    | '/components/drawer'
-    | '/components/dropdown-menu'
-    | '/components/empty-state'
-    | '/components/field'
-    | '/components/file-preview'
-    | '/components/files'
-    | '/components/float-button'
-    | '/components/icon-tile'
-    | '/components/icons'
-    | '/components/inline-code'
-    | '/components/input'
-    | '/components/input-group'
-    | '/components/kbd'
-    | '/components/label'
-    | '/components/lightbox'
-    | '/components/list-row'
-    | '/components/live-agent-activity-bar'
-    | '/components/logo'
-    | '/components/markdown'
-    | '/components/message-action-card'
-    | '/components/message-attachment'
-    | '/components/message-forwarded-bundle'
-    | '/components/message-item'
-    | '/components/message-quoted-preview'
-    | '/components/message-reference'
-    | '/components/message-replies'
-    | '/components/message-translation'
-    | '/components/mobile-nav'
-    | '/components/notification-center'
-    | '/components/panel'
-    | '/components/picker-trigger-button'
-    | '/components/popover'
-    | '/components/preview-card'
-    | '/components/profile-panel'
-    | '/components/progress'
-    | '/components/radio-group'
-    | '/components/scroll-area'
-    | '/components/search'
-    | '/components/segmented-control'
-    | '/components/select'
-    | '/components/separator'
-    | '/components/sidebar'
-    | '/components/sidebar-item'
-    | '/components/skeleton'
-    | '/components/spinner'
-    | '/components/status'
-    | '/components/steps'
-    | '/components/switch'
-    | '/components/system-message'
-    | '/components/table'
-    | '/components/tabs'
-    | '/components/task-board'
-    | '/components/task-card'
-    | '/components/task-chip'
-    | '/components/task-dnd'
-    | '/components/task-list'
-    | '/components/task-status'
-    | '/components/tasks'
-    | '/components/text'
-    | '/components/textarea'
-    | '/components/thread-panel'
-    | '/components/timeline'
-    | '/components/toast'
-    | '/components/toggle-group'
-    | '/components/tooltip'
     | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
@@ -1543,6 +507,7 @@ export interface FileRouteTypes {
     | '/playground/_plain/search'
     | '/playground/_plain/settings'
     | '/playground/_plain/tasks'
+    | '/_site/components/'
     | '/_site/decisions/'
     | '/_site/foundations/'
     | '/_site/patterns/'
@@ -1562,7 +527,6 @@ export interface RootRouteChildren {
   PlaygroundRouteRoute: typeof PlaygroundRouteRouteWithChildren
   SiteRoute: typeof SiteRouteWithChildren
   ChangelogRoute: typeof ChangelogRoute
-  ComponentsRoute: typeof ComponentsRouteWithChildren
   DashboardRoute: typeof DashboardRoute
   LabRoute: typeof LabRoute
   GuidesGuideRoute: typeof GuidesGuideRoute
@@ -1598,13 +562,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChangelogRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/components': {
-      id: '/components'
-      path: '/components'
-      fullPath: '/components'
-      preLoaderRoute: typeof ComponentsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -1625,601 +582,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/playground'
       preLoaderRoute: typeof PlaygroundRouteRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/components/activity': {
-      id: '/components/activity'
-      path: '/activity'
-      fullPath: '/components/activity'
-      preLoaderRoute: typeof ComponentsActivityRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/alert-dialog': {
-      id: '/components/alert-dialog'
-      path: '/alert-dialog'
-      fullPath: '/components/alert-dialog'
-      preLoaderRoute: typeof ComponentsAlertDialogRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/app-rail': {
-      id: '/components/app-rail'
-      path: '/app-rail'
-      fullPath: '/components/app-rail'
-      preLoaderRoute: typeof ComponentsAppRailRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/app-shell': {
-      id: '/components/app-shell'
-      path: '/app-shell'
-      fullPath: '/components/app-shell'
-      preLoaderRoute: typeof ComponentsAppShellRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/avatar': {
-      id: '/components/avatar'
-      path: '/avatar'
-      fullPath: '/components/avatar'
-      preLoaderRoute: typeof ComponentsAvatarRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/badge': {
-      id: '/components/badge'
-      path: '/badge'
-      fullPath: '/components/badge'
-      preLoaderRoute: typeof ComponentsBadgeRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/banner': {
-      id: '/components/banner'
-      path: '/banner'
-      fullPath: '/components/banner'
-      preLoaderRoute: typeof ComponentsBannerRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/button': {
-      id: '/components/button'
-      path: '/button'
-      fullPath: '/components/button'
-      preLoaderRoute: typeof ComponentsButtonRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/card': {
-      id: '/components/card'
-      path: '/card'
-      fullPath: '/components/card'
-      preLoaderRoute: typeof ComponentsCardRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/chat-composer': {
-      id: '/components/chat-composer'
-      path: '/chat-composer'
-      fullPath: '/components/chat-composer'
-      preLoaderRoute: typeof ComponentsChatComposerRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/checkbox': {
-      id: '/components/checkbox'
-      path: '/checkbox'
-      fullPath: '/components/checkbox'
-      preLoaderRoute: typeof ComponentsCheckboxRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/code-block': {
-      id: '/components/code-block'
-      path: '/code-block'
-      fullPath: '/components/code-block'
-      preLoaderRoute: typeof ComponentsCodeBlockRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/combobox': {
-      id: '/components/combobox'
-      path: '/combobox'
-      fullPath: '/components/combobox'
-      preLoaderRoute: typeof ComponentsComboboxRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/combobox-select': {
-      id: '/components/combobox-select'
-      path: '/combobox-select'
-      fullPath: '/components/combobox-select'
-      preLoaderRoute: typeof ComponentsComboboxSelectRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/composer-suggestions': {
-      id: '/components/composer-suggestions'
-      path: '/composer-suggestions'
-      fullPath: '/components/composer-suggestions'
-      preLoaderRoute: typeof ComponentsComposerSuggestionsRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/context-menu': {
-      id: '/components/context-menu'
-      path: '/context-menu'
-      fullPath: '/components/context-menu'
-      preLoaderRoute: typeof ComponentsContextMenuRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/conversation-panel': {
-      id: '/components/conversation-panel'
-      path: '/conversation-panel'
-      fullPath: '/components/conversation-panel'
-      preLoaderRoute: typeof ComponentsConversationPanelRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/copyable-code': {
-      id: '/components/copyable-code'
-      path: '/copyable-code'
-      fullPath: '/components/copyable-code'
-      preLoaderRoute: typeof ComponentsCopyableCodeRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/description-list': {
-      id: '/components/description-list'
-      path: '/description-list'
-      fullPath: '/components/description-list'
-      preLoaderRoute: typeof ComponentsDescriptionListRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/dialog': {
-      id: '/components/dialog'
-      path: '/dialog'
-      fullPath: '/components/dialog'
-      preLoaderRoute: typeof ComponentsDialogRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/drawer': {
-      id: '/components/drawer'
-      path: '/drawer'
-      fullPath: '/components/drawer'
-      preLoaderRoute: typeof ComponentsDrawerRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/dropdown-menu': {
-      id: '/components/dropdown-menu'
-      path: '/dropdown-menu'
-      fullPath: '/components/dropdown-menu'
-      preLoaderRoute: typeof ComponentsDropdownMenuRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/empty-state': {
-      id: '/components/empty-state'
-      path: '/empty-state'
-      fullPath: '/components/empty-state'
-      preLoaderRoute: typeof ComponentsEmptyStateRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/field': {
-      id: '/components/field'
-      path: '/field'
-      fullPath: '/components/field'
-      preLoaderRoute: typeof ComponentsFieldRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/file-preview': {
-      id: '/components/file-preview'
-      path: '/file-preview'
-      fullPath: '/components/file-preview'
-      preLoaderRoute: typeof ComponentsFilePreviewRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/files': {
-      id: '/components/files'
-      path: '/files'
-      fullPath: '/components/files'
-      preLoaderRoute: typeof ComponentsFilesRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/float-button': {
-      id: '/components/float-button'
-      path: '/float-button'
-      fullPath: '/components/float-button'
-      preLoaderRoute: typeof ComponentsFloatButtonRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/icon-tile': {
-      id: '/components/icon-tile'
-      path: '/icon-tile'
-      fullPath: '/components/icon-tile'
-      preLoaderRoute: typeof ComponentsIconTileRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/icons': {
-      id: '/components/icons'
-      path: '/icons'
-      fullPath: '/components/icons'
-      preLoaderRoute: typeof ComponentsIconsRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/inline-code': {
-      id: '/components/inline-code'
-      path: '/inline-code'
-      fullPath: '/components/inline-code'
-      preLoaderRoute: typeof ComponentsInlineCodeRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/input': {
-      id: '/components/input'
-      path: '/input'
-      fullPath: '/components/input'
-      preLoaderRoute: typeof ComponentsInputRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/input-group': {
-      id: '/components/input-group'
-      path: '/input-group'
-      fullPath: '/components/input-group'
-      preLoaderRoute: typeof ComponentsInputGroupRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/kbd': {
-      id: '/components/kbd'
-      path: '/kbd'
-      fullPath: '/components/kbd'
-      preLoaderRoute: typeof ComponentsKbdRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/label': {
-      id: '/components/label'
-      path: '/label'
-      fullPath: '/components/label'
-      preLoaderRoute: typeof ComponentsLabelRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/lightbox': {
-      id: '/components/lightbox'
-      path: '/lightbox'
-      fullPath: '/components/lightbox'
-      preLoaderRoute: typeof ComponentsLightboxRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/list-row': {
-      id: '/components/list-row'
-      path: '/list-row'
-      fullPath: '/components/list-row'
-      preLoaderRoute: typeof ComponentsListRowRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/live-agent-activity-bar': {
-      id: '/components/live-agent-activity-bar'
-      path: '/live-agent-activity-bar'
-      fullPath: '/components/live-agent-activity-bar'
-      preLoaderRoute: typeof ComponentsLiveAgentActivityBarRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/logo': {
-      id: '/components/logo'
-      path: '/logo'
-      fullPath: '/components/logo'
-      preLoaderRoute: typeof ComponentsLogoRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/markdown': {
-      id: '/components/markdown'
-      path: '/markdown'
-      fullPath: '/components/markdown'
-      preLoaderRoute: typeof ComponentsMarkdownRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-action-card': {
-      id: '/components/message-action-card'
-      path: '/message-action-card'
-      fullPath: '/components/message-action-card'
-      preLoaderRoute: typeof ComponentsMessageActionCardRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-attachment': {
-      id: '/components/message-attachment'
-      path: '/message-attachment'
-      fullPath: '/components/message-attachment'
-      preLoaderRoute: typeof ComponentsMessageAttachmentRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-forwarded-bundle': {
-      id: '/components/message-forwarded-bundle'
-      path: '/message-forwarded-bundle'
-      fullPath: '/components/message-forwarded-bundle'
-      preLoaderRoute: typeof ComponentsMessageForwardedBundleRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-item': {
-      id: '/components/message-item'
-      path: '/message-item'
-      fullPath: '/components/message-item'
-      preLoaderRoute: typeof ComponentsMessageItemRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-quoted-preview': {
-      id: '/components/message-quoted-preview'
-      path: '/message-quoted-preview'
-      fullPath: '/components/message-quoted-preview'
-      preLoaderRoute: typeof ComponentsMessageQuotedPreviewRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-reference': {
-      id: '/components/message-reference'
-      path: '/message-reference'
-      fullPath: '/components/message-reference'
-      preLoaderRoute: typeof ComponentsMessageReferenceRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-replies': {
-      id: '/components/message-replies'
-      path: '/message-replies'
-      fullPath: '/components/message-replies'
-      preLoaderRoute: typeof ComponentsMessageRepliesRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-translation': {
-      id: '/components/message-translation'
-      path: '/message-translation'
-      fullPath: '/components/message-translation'
-      preLoaderRoute: typeof ComponentsMessageTranslationRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/mobile-nav': {
-      id: '/components/mobile-nav'
-      path: '/mobile-nav'
-      fullPath: '/components/mobile-nav'
-      preLoaderRoute: typeof ComponentsMobileNavRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/notification-center': {
-      id: '/components/notification-center'
-      path: '/notification-center'
-      fullPath: '/components/notification-center'
-      preLoaderRoute: typeof ComponentsNotificationCenterRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/panel': {
-      id: '/components/panel'
-      path: '/panel'
-      fullPath: '/components/panel'
-      preLoaderRoute: typeof ComponentsPanelRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/picker-trigger-button': {
-      id: '/components/picker-trigger-button'
-      path: '/picker-trigger-button'
-      fullPath: '/components/picker-trigger-button'
-      preLoaderRoute: typeof ComponentsPickerTriggerButtonRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/popover': {
-      id: '/components/popover'
-      path: '/popover'
-      fullPath: '/components/popover'
-      preLoaderRoute: typeof ComponentsPopoverRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/preview-card': {
-      id: '/components/preview-card'
-      path: '/preview-card'
-      fullPath: '/components/preview-card'
-      preLoaderRoute: typeof ComponentsPreviewCardRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/profile-panel': {
-      id: '/components/profile-panel'
-      path: '/profile-panel'
-      fullPath: '/components/profile-panel'
-      preLoaderRoute: typeof ComponentsProfilePanelRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/progress': {
-      id: '/components/progress'
-      path: '/progress'
-      fullPath: '/components/progress'
-      preLoaderRoute: typeof ComponentsProgressRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/radio-group': {
-      id: '/components/radio-group'
-      path: '/radio-group'
-      fullPath: '/components/radio-group'
-      preLoaderRoute: typeof ComponentsRadioGroupRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/scroll-area': {
-      id: '/components/scroll-area'
-      path: '/scroll-area'
-      fullPath: '/components/scroll-area'
-      preLoaderRoute: typeof ComponentsScrollAreaRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/search': {
-      id: '/components/search'
-      path: '/search'
-      fullPath: '/components/search'
-      preLoaderRoute: typeof ComponentsSearchRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/segmented-control': {
-      id: '/components/segmented-control'
-      path: '/segmented-control'
-      fullPath: '/components/segmented-control'
-      preLoaderRoute: typeof ComponentsSegmentedControlRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/select': {
-      id: '/components/select'
-      path: '/select'
-      fullPath: '/components/select'
-      preLoaderRoute: typeof ComponentsSelectRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/separator': {
-      id: '/components/separator'
-      path: '/separator'
-      fullPath: '/components/separator'
-      preLoaderRoute: typeof ComponentsSeparatorRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/sidebar': {
-      id: '/components/sidebar'
-      path: '/sidebar'
-      fullPath: '/components/sidebar'
-      preLoaderRoute: typeof ComponentsSidebarRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/sidebar-item': {
-      id: '/components/sidebar-item'
-      path: '/sidebar-item'
-      fullPath: '/components/sidebar-item'
-      preLoaderRoute: typeof ComponentsSidebarItemRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/skeleton': {
-      id: '/components/skeleton'
-      path: '/skeleton'
-      fullPath: '/components/skeleton'
-      preLoaderRoute: typeof ComponentsSkeletonRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/spinner': {
-      id: '/components/spinner'
-      path: '/spinner'
-      fullPath: '/components/spinner'
-      preLoaderRoute: typeof ComponentsSpinnerRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/status': {
-      id: '/components/status'
-      path: '/status'
-      fullPath: '/components/status'
-      preLoaderRoute: typeof ComponentsStatusRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/steps': {
-      id: '/components/steps'
-      path: '/steps'
-      fullPath: '/components/steps'
-      preLoaderRoute: typeof ComponentsStepsRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/switch': {
-      id: '/components/switch'
-      path: '/switch'
-      fullPath: '/components/switch'
-      preLoaderRoute: typeof ComponentsSwitchRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/system-message': {
-      id: '/components/system-message'
-      path: '/system-message'
-      fullPath: '/components/system-message'
-      preLoaderRoute: typeof ComponentsSystemMessageRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/table': {
-      id: '/components/table'
-      path: '/table'
-      fullPath: '/components/table'
-      preLoaderRoute: typeof ComponentsTableRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/tabs': {
-      id: '/components/tabs'
-      path: '/tabs'
-      fullPath: '/components/tabs'
-      preLoaderRoute: typeof ComponentsTabsRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/task-board': {
-      id: '/components/task-board'
-      path: '/task-board'
-      fullPath: '/components/task-board'
-      preLoaderRoute: typeof ComponentsTaskBoardRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/task-card': {
-      id: '/components/task-card'
-      path: '/task-card'
-      fullPath: '/components/task-card'
-      preLoaderRoute: typeof ComponentsTaskCardRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/task-chip': {
-      id: '/components/task-chip'
-      path: '/task-chip'
-      fullPath: '/components/task-chip'
-      preLoaderRoute: typeof ComponentsTaskChipRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/task-dnd': {
-      id: '/components/task-dnd'
-      path: '/task-dnd'
-      fullPath: '/components/task-dnd'
-      preLoaderRoute: typeof ComponentsTaskDndRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/task-list': {
-      id: '/components/task-list'
-      path: '/task-list'
-      fullPath: '/components/task-list'
-      preLoaderRoute: typeof ComponentsTaskListRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/task-status': {
-      id: '/components/task-status'
-      path: '/task-status'
-      fullPath: '/components/task-status'
-      preLoaderRoute: typeof ComponentsTaskStatusRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/tasks': {
-      id: '/components/tasks'
-      path: '/tasks'
-      fullPath: '/components/tasks'
-      preLoaderRoute: typeof ComponentsTasksRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/text': {
-      id: '/components/text'
-      path: '/text'
-      fullPath: '/components/text'
-      preLoaderRoute: typeof ComponentsTextRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/textarea': {
-      id: '/components/textarea'
-      path: '/textarea'
-      fullPath: '/components/textarea'
-      preLoaderRoute: typeof ComponentsTextareaRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/thread-panel': {
-      id: '/components/thread-panel'
-      path: '/thread-panel'
-      fullPath: '/components/thread-panel'
-      preLoaderRoute: typeof ComponentsThreadPanelRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/timeline': {
-      id: '/components/timeline'
-      path: '/timeline'
-      fullPath: '/components/timeline'
-      preLoaderRoute: typeof ComponentsTimelineRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/toast': {
-      id: '/components/toast'
-      path: '/toast'
-      fullPath: '/components/toast'
-      preLoaderRoute: typeof ComponentsToastRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/toggle-group': {
-      id: '/components/toggle-group'
-      path: '/toggle-group'
-      fullPath: '/components/toggle-group'
-      preLoaderRoute: typeof ComponentsToggleGroupRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/tooltip': {
-      id: '/components/tooltip'
-      path: '/tooltip'
-      fullPath: '/components/tooltip'
-      preLoaderRoute: typeof ComponentsTooltipRouteImport
-      parentRoute: typeof ComponentsRoute
     }
     '/guides/$guide': {
       id: '/guides/$guide'
@@ -2304,6 +666,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/tokens/typography'
       preLoaderRoute: typeof TokensTypographyRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_site/components/': {
+      id: '/_site/components/'
+      path: '/components'
+      fullPath: '/components/'
+      preLoaderRoute: typeof SiteComponentsIndexRouteImport
+      parentRoute: typeof SiteRoute
     }
     '/_site/components/$slug': {
       id: '/_site/components/$slug'
@@ -2586,6 +955,7 @@ interface SiteRouteChildren {
   SiteDecisionsSlugRoute: typeof SiteDecisionsSlugRoute
   SiteFoundationsSlugRoute: typeof SiteFoundationsSlugRoute
   SitePatternsSlugRoute: typeof SitePatternsSlugRoute
+  SiteComponentsIndexRoute: typeof SiteComponentsIndexRoute
   SiteDecisionsIndexRoute: typeof SiteDecisionsIndexRoute
   SiteFoundationsIndexRoute: typeof SiteFoundationsIndexRoute
   SitePatternsIndexRoute: typeof SitePatternsIndexRoute
@@ -2599,6 +969,7 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteDecisionsSlugRoute: SiteDecisionsSlugRoute,
   SiteFoundationsSlugRoute: SiteFoundationsSlugRoute,
   SitePatternsSlugRoute: SitePatternsSlugRoute,
+  SiteComponentsIndexRoute: SiteComponentsIndexRoute,
   SiteDecisionsIndexRoute: SiteDecisionsIndexRoute,
   SiteFoundationsIndexRoute: SiteFoundationsIndexRoute,
   SitePatternsIndexRoute: SitePatternsIndexRoute,
@@ -2609,192 +980,11 @@ const SiteRouteChildren: SiteRouteChildren = {
 
 const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
 
-interface ComponentsRouteChildren {
-  ComponentsActivityRoute: typeof ComponentsActivityRoute
-  ComponentsAlertDialogRoute: typeof ComponentsAlertDialogRoute
-  ComponentsAppRailRoute: typeof ComponentsAppRailRoute
-  ComponentsAppShellRoute: typeof ComponentsAppShellRoute
-  ComponentsAvatarRoute: typeof ComponentsAvatarRoute
-  ComponentsBadgeRoute: typeof ComponentsBadgeRoute
-  ComponentsBannerRoute: typeof ComponentsBannerRoute
-  ComponentsButtonRoute: typeof ComponentsButtonRoute
-  ComponentsCardRoute: typeof ComponentsCardRoute
-  ComponentsChatComposerRoute: typeof ComponentsChatComposerRoute
-  ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
-  ComponentsCodeBlockRoute: typeof ComponentsCodeBlockRoute
-  ComponentsComboboxRoute: typeof ComponentsComboboxRoute
-  ComponentsComboboxSelectRoute: typeof ComponentsComboboxSelectRoute
-  ComponentsComposerSuggestionsRoute: typeof ComponentsComposerSuggestionsRoute
-  ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
-  ComponentsConversationPanelRoute: typeof ComponentsConversationPanelRoute
-  ComponentsCopyableCodeRoute: typeof ComponentsCopyableCodeRoute
-  ComponentsDescriptionListRoute: typeof ComponentsDescriptionListRoute
-  ComponentsDialogRoute: typeof ComponentsDialogRoute
-  ComponentsDrawerRoute: typeof ComponentsDrawerRoute
-  ComponentsDropdownMenuRoute: typeof ComponentsDropdownMenuRoute
-  ComponentsEmptyStateRoute: typeof ComponentsEmptyStateRoute
-  ComponentsFieldRoute: typeof ComponentsFieldRoute
-  ComponentsFilePreviewRoute: typeof ComponentsFilePreviewRoute
-  ComponentsFilesRoute: typeof ComponentsFilesRoute
-  ComponentsFloatButtonRoute: typeof ComponentsFloatButtonRoute
-  ComponentsIconTileRoute: typeof ComponentsIconTileRoute
-  ComponentsIconsRoute: typeof ComponentsIconsRoute
-  ComponentsInlineCodeRoute: typeof ComponentsInlineCodeRoute
-  ComponentsInputRoute: typeof ComponentsInputRoute
-  ComponentsInputGroupRoute: typeof ComponentsInputGroupRoute
-  ComponentsKbdRoute: typeof ComponentsKbdRoute
-  ComponentsLabelRoute: typeof ComponentsLabelRoute
-  ComponentsLightboxRoute: typeof ComponentsLightboxRoute
-  ComponentsListRowRoute: typeof ComponentsListRowRoute
-  ComponentsLiveAgentActivityBarRoute: typeof ComponentsLiveAgentActivityBarRoute
-  ComponentsLogoRoute: typeof ComponentsLogoRoute
-  ComponentsMarkdownRoute: typeof ComponentsMarkdownRoute
-  ComponentsMessageActionCardRoute: typeof ComponentsMessageActionCardRoute
-  ComponentsMessageAttachmentRoute: typeof ComponentsMessageAttachmentRoute
-  ComponentsMessageForwardedBundleRoute: typeof ComponentsMessageForwardedBundleRoute
-  ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
-  ComponentsMessageQuotedPreviewRoute: typeof ComponentsMessageQuotedPreviewRoute
-  ComponentsMessageReferenceRoute: typeof ComponentsMessageReferenceRoute
-  ComponentsMessageRepliesRoute: typeof ComponentsMessageRepliesRoute
-  ComponentsMessageTranslationRoute: typeof ComponentsMessageTranslationRoute
-  ComponentsMobileNavRoute: typeof ComponentsMobileNavRoute
-  ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
-  ComponentsPanelRoute: typeof ComponentsPanelRoute
-  ComponentsPickerTriggerButtonRoute: typeof ComponentsPickerTriggerButtonRoute
-  ComponentsPopoverRoute: typeof ComponentsPopoverRoute
-  ComponentsPreviewCardRoute: typeof ComponentsPreviewCardRoute
-  ComponentsProfilePanelRoute: typeof ComponentsProfilePanelRoute
-  ComponentsProgressRoute: typeof ComponentsProgressRoute
-  ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
-  ComponentsScrollAreaRoute: typeof ComponentsScrollAreaRoute
-  ComponentsSearchRoute: typeof ComponentsSearchRoute
-  ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
-  ComponentsSelectRoute: typeof ComponentsSelectRoute
-  ComponentsSeparatorRoute: typeof ComponentsSeparatorRoute
-  ComponentsSidebarRoute: typeof ComponentsSidebarRoute
-  ComponentsSidebarItemRoute: typeof ComponentsSidebarItemRoute
-  ComponentsSkeletonRoute: typeof ComponentsSkeletonRoute
-  ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
-  ComponentsStatusRoute: typeof ComponentsStatusRoute
-  ComponentsStepsRoute: typeof ComponentsStepsRoute
-  ComponentsSwitchRoute: typeof ComponentsSwitchRoute
-  ComponentsSystemMessageRoute: typeof ComponentsSystemMessageRoute
-  ComponentsTableRoute: typeof ComponentsTableRoute
-  ComponentsTabsRoute: typeof ComponentsTabsRoute
-  ComponentsTaskBoardRoute: typeof ComponentsTaskBoardRoute
-  ComponentsTaskCardRoute: typeof ComponentsTaskCardRoute
-  ComponentsTaskChipRoute: typeof ComponentsTaskChipRoute
-  ComponentsTaskDndRoute: typeof ComponentsTaskDndRoute
-  ComponentsTaskListRoute: typeof ComponentsTaskListRoute
-  ComponentsTaskStatusRoute: typeof ComponentsTaskStatusRoute
-  ComponentsTasksRoute: typeof ComponentsTasksRoute
-  ComponentsTextRoute: typeof ComponentsTextRoute
-  ComponentsTextareaRoute: typeof ComponentsTextareaRoute
-  ComponentsThreadPanelRoute: typeof ComponentsThreadPanelRoute
-  ComponentsTimelineRoute: typeof ComponentsTimelineRoute
-  ComponentsToastRoute: typeof ComponentsToastRoute
-  ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
-  ComponentsTooltipRoute: typeof ComponentsTooltipRoute
-}
-
-const ComponentsRouteChildren: ComponentsRouteChildren = {
-  ComponentsActivityRoute: ComponentsActivityRoute,
-  ComponentsAlertDialogRoute: ComponentsAlertDialogRoute,
-  ComponentsAppRailRoute: ComponentsAppRailRoute,
-  ComponentsAppShellRoute: ComponentsAppShellRoute,
-  ComponentsAvatarRoute: ComponentsAvatarRoute,
-  ComponentsBadgeRoute: ComponentsBadgeRoute,
-  ComponentsBannerRoute: ComponentsBannerRoute,
-  ComponentsButtonRoute: ComponentsButtonRoute,
-  ComponentsCardRoute: ComponentsCardRoute,
-  ComponentsChatComposerRoute: ComponentsChatComposerRoute,
-  ComponentsCheckboxRoute: ComponentsCheckboxRoute,
-  ComponentsCodeBlockRoute: ComponentsCodeBlockRoute,
-  ComponentsComboboxRoute: ComponentsComboboxRoute,
-  ComponentsComboboxSelectRoute: ComponentsComboboxSelectRoute,
-  ComponentsComposerSuggestionsRoute: ComponentsComposerSuggestionsRoute,
-  ComponentsContextMenuRoute: ComponentsContextMenuRoute,
-  ComponentsConversationPanelRoute: ComponentsConversationPanelRoute,
-  ComponentsCopyableCodeRoute: ComponentsCopyableCodeRoute,
-  ComponentsDescriptionListRoute: ComponentsDescriptionListRoute,
-  ComponentsDialogRoute: ComponentsDialogRoute,
-  ComponentsDrawerRoute: ComponentsDrawerRoute,
-  ComponentsDropdownMenuRoute: ComponentsDropdownMenuRoute,
-  ComponentsEmptyStateRoute: ComponentsEmptyStateRoute,
-  ComponentsFieldRoute: ComponentsFieldRoute,
-  ComponentsFilePreviewRoute: ComponentsFilePreviewRoute,
-  ComponentsFilesRoute: ComponentsFilesRoute,
-  ComponentsFloatButtonRoute: ComponentsFloatButtonRoute,
-  ComponentsIconTileRoute: ComponentsIconTileRoute,
-  ComponentsIconsRoute: ComponentsIconsRoute,
-  ComponentsInlineCodeRoute: ComponentsInlineCodeRoute,
-  ComponentsInputRoute: ComponentsInputRoute,
-  ComponentsInputGroupRoute: ComponentsInputGroupRoute,
-  ComponentsKbdRoute: ComponentsKbdRoute,
-  ComponentsLabelRoute: ComponentsLabelRoute,
-  ComponentsLightboxRoute: ComponentsLightboxRoute,
-  ComponentsListRowRoute: ComponentsListRowRoute,
-  ComponentsLiveAgentActivityBarRoute: ComponentsLiveAgentActivityBarRoute,
-  ComponentsLogoRoute: ComponentsLogoRoute,
-  ComponentsMarkdownRoute: ComponentsMarkdownRoute,
-  ComponentsMessageActionCardRoute: ComponentsMessageActionCardRoute,
-  ComponentsMessageAttachmentRoute: ComponentsMessageAttachmentRoute,
-  ComponentsMessageForwardedBundleRoute: ComponentsMessageForwardedBundleRoute,
-  ComponentsMessageItemRoute: ComponentsMessageItemRoute,
-  ComponentsMessageQuotedPreviewRoute: ComponentsMessageQuotedPreviewRoute,
-  ComponentsMessageReferenceRoute: ComponentsMessageReferenceRoute,
-  ComponentsMessageRepliesRoute: ComponentsMessageRepliesRoute,
-  ComponentsMessageTranslationRoute: ComponentsMessageTranslationRoute,
-  ComponentsMobileNavRoute: ComponentsMobileNavRoute,
-  ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
-  ComponentsPanelRoute: ComponentsPanelRoute,
-  ComponentsPickerTriggerButtonRoute: ComponentsPickerTriggerButtonRoute,
-  ComponentsPopoverRoute: ComponentsPopoverRoute,
-  ComponentsPreviewCardRoute: ComponentsPreviewCardRoute,
-  ComponentsProfilePanelRoute: ComponentsProfilePanelRoute,
-  ComponentsProgressRoute: ComponentsProgressRoute,
-  ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
-  ComponentsScrollAreaRoute: ComponentsScrollAreaRoute,
-  ComponentsSearchRoute: ComponentsSearchRoute,
-  ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
-  ComponentsSelectRoute: ComponentsSelectRoute,
-  ComponentsSeparatorRoute: ComponentsSeparatorRoute,
-  ComponentsSidebarRoute: ComponentsSidebarRoute,
-  ComponentsSidebarItemRoute: ComponentsSidebarItemRoute,
-  ComponentsSkeletonRoute: ComponentsSkeletonRoute,
-  ComponentsSpinnerRoute: ComponentsSpinnerRoute,
-  ComponentsStatusRoute: ComponentsStatusRoute,
-  ComponentsStepsRoute: ComponentsStepsRoute,
-  ComponentsSwitchRoute: ComponentsSwitchRoute,
-  ComponentsSystemMessageRoute: ComponentsSystemMessageRoute,
-  ComponentsTableRoute: ComponentsTableRoute,
-  ComponentsTabsRoute: ComponentsTabsRoute,
-  ComponentsTaskBoardRoute: ComponentsTaskBoardRoute,
-  ComponentsTaskCardRoute: ComponentsTaskCardRoute,
-  ComponentsTaskChipRoute: ComponentsTaskChipRoute,
-  ComponentsTaskDndRoute: ComponentsTaskDndRoute,
-  ComponentsTaskListRoute: ComponentsTaskListRoute,
-  ComponentsTaskStatusRoute: ComponentsTaskStatusRoute,
-  ComponentsTasksRoute: ComponentsTasksRoute,
-  ComponentsTextRoute: ComponentsTextRoute,
-  ComponentsTextareaRoute: ComponentsTextareaRoute,
-  ComponentsThreadPanelRoute: ComponentsThreadPanelRoute,
-  ComponentsTimelineRoute: ComponentsTimelineRoute,
-  ComponentsToastRoute: ComponentsToastRoute,
-  ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,
-  ComponentsTooltipRoute: ComponentsTooltipRoute,
-}
-
-const ComponentsRouteWithChildren = ComponentsRoute._addFileChildren(
-  ComponentsRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PlaygroundRouteRoute: PlaygroundRouteRouteWithChildren,
   SiteRoute: SiteRouteWithChildren,
   ChangelogRoute: ChangelogRoute,
-  ComponentsRoute: ComponentsRouteWithChildren,
   DashboardRoute: DashboardRoute,
   LabRoute: LabRoute,
   GuidesGuideRoute: GuidesGuideRoute,

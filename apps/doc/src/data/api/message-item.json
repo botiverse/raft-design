@@ -1,0 +1,1190 @@
+[
+  {
+    "name": "MessageReferenceChip",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "variant",
+        "type": "MessageReferenceChipVariant",
+        "required": false,
+        "default": "\"muted\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReferenceIndicator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReferenceLabel",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReferencePending",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReferenceText",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "variant",
+        "type": "MessageReferenceTextVariant",
+        "required": false,
+        "default": "\"secondary\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReferenceUnavailable",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItem",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "compact",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemAttachments",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemAvatarSlot",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemBadge",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "status",
+        "type": "MessageItemBadgeStatus",
+        "required": false,
+        "default": "\"read\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemBadgeSeparator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemBody",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemContent",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemContinuationTime",
+    "entry": "raft-ui",
+    "description": "Left-gutter hover clock for continuation rows. Pass 24h `HH:MM` (no AM/PM).",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemEmbedded",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemFooter",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemGutter",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemHeader",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemInlineStatus",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemMeta",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemReadReceipt",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemSavedIndicator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "iconOnly",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Square icon-only affordance. Replaces the old `data-icon-only` attribute contract with an explicit prop.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemSearchMatch",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemSender",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemSenderBadges",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemSenderButton",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemTime",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemToolbar",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemToolbarButton",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "active",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageMultiSelect",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageMultiSelectCheckbox",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "shape",
+        "type": "\"circle\" | \"square\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": false,
+        "default": "undefined",
+        "description": "Whether the checkbox is currently ticked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultChecked",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the checkbox is initially ticked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "form",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the form that owns the hidden input. Useful when the checkbox is rendered outside the form.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "The id of the input element.",
+        "from": "base-ui"
+      },
+      {
+        "name": "indeterminate",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the checkbox is in a mixed state: neither ticked, nor unticked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "inputRef",
+        "type": "((instance: HTMLInputElement | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<HTMLInputElement | null>",
+        "required": false,
+        "description": "A ref to access the hidden `<input>` element.",
+        "from": "base-ui"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "default": "undefined",
+        "description": "Identifies the field when a form is submitted.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `true` if the rendered element is a native button.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onCheckedChange",
+        "type": "(checked: boolean, eventDetails: CheckboxRootChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the checkbox is ticked or unticked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "parent",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the checkbox controls a group of child checkboxes.",
+        "from": "base-ui"
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the user should be unable to tick or untick the checkbox.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the user must tick the checkbox before submitting a form.",
+        "from": "base-ui"
+      },
+      {
+        "name": "uncheckedValue",
+        "type": "string",
+        "required": false,
+        "description": "The value submitted with the form when the checkbox is unchecked. By default, unchecked checkboxes do not submit any value, matching native checkbox behavior.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "The checkbox's value. Identifies it within a [Checkbox Group](https://base-ui.com/react/components/checkbox-group), falling back to `name` when omitted. When submitting a form, a checked box submits `value`; with no `value`, it submits the native \"on\".",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageMultiSelectToolbar",
+    "entry": "raft-ui",
+    "description": "Shared select-mode toolbar shell. Consumers compose the count and actions as children.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionAddButton",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionChip",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "defaultPressed",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the toggle button is currently pressed. This is the uncontrolled counterpart of `pressed`.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "onPressedChange",
+        "type": "(pressed: boolean, eventDetails: BaseToggle.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Callback fired when the pressed state is changed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "pressed",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the toggle button is currently pressed. This is the controlled counterpart of `defaultPressed`.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "A unique string that identifies the toggle when used inside a toggle group.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionCount",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionErrorIndicator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionGlyph",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionPickerContent",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "portalProps",
+        "type": "ContextMenuPortalProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "align",
+        "type": "Align",
+        "required": false,
+        "default": "'center'",
+        "description": "How to align the popup relative to the specified side.",
+        "from": "base-ui"
+      },
+      {
+        "name": "alignOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Additional offset along the alignment axis in pixels. Also accepts a function that returns the offset to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "anchor",
+        "type": "Element | VirtualElement | RefObject<Element | null> | (() => Element | VirtualElement | null)",
+        "required": false,
+        "description": "An element to position the popup against. By default, the popup will be positioned against the trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "arrowPadding",
+        "type": "number",
+        "required": false,
+        "default": "5",
+        "description": "Minimum distance to maintain between the arrow and the edges of the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionAvoidance",
+        "type": "CollisionAvoidance",
+        "required": false,
+        "description": "Determines how to handle collisions when positioning the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionBoundary",
+        "type": "Boundary",
+        "required": false,
+        "default": "'clipping-ancestors'",
+        "description": "An element or a rectangle that delimits the area that the popup is confined to.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionPadding",
+        "type": "Padding",
+        "required": false,
+        "default": "5",
+        "description": "Additional space to maintain from the edge of the collision boundary.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disableAnchorTracking",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
+        "from": "base-ui"
+      },
+      {
+        "name": "finalFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((closeType: InteractionType) => boolean | HTMLElement | null | void)",
+        "required": false,
+        "description": "Determines the element to focus when the menu is closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "positionMethod",
+        "type": "\"fixed\" | \"absolute\"",
+        "required": false,
+        "default": "'absolute'",
+        "description": "Determines which CSS `position` property to use.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "side",
+        "type": "Side",
+        "required": false,
+        "default": "'bottom'",
+        "description": "Which side of the anchor element to align the popup against. May automatically change to avoid collisions.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sideOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Distance between the anchor and the popup in pixels. Also accepts a function that returns the distance to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sticky",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to maintain the popup in the viewport after the anchor element was scrolled out of view.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionPickerStatic",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionQuickButton",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionQuickRow",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionTooltipContent",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "container",
+        "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "portalProps",
+        "type": "TooltipPortalProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "align",
+        "type": "Align",
+        "required": false,
+        "default": "'center'",
+        "description": "How to align the popup relative to the specified side.",
+        "from": "base-ui"
+      },
+      {
+        "name": "alignOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Additional offset along the alignment axis in pixels. Also accepts a function that returns the offset to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "anchor",
+        "type": "Element | VirtualElement | RefObject<Element | null> | (() => Element | VirtualElement | null)",
+        "required": false,
+        "description": "An element to position the popup against. By default, the popup will be positioned against the trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "arrowPadding",
+        "type": "number",
+        "required": false,
+        "default": "5",
+        "description": "Minimum distance to maintain between the arrow and the edges of the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionAvoidance",
+        "type": "CollisionAvoidance",
+        "required": false,
+        "description": "Determines how to handle collisions when positioning the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionBoundary",
+        "type": "Boundary",
+        "required": false,
+        "default": "'clipping-ancestors'",
+        "description": "An element or a rectangle that delimits the area that the popup is confined to.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionPadding",
+        "type": "Padding",
+        "required": false,
+        "default": "5",
+        "description": "Additional space to maintain from the edge of the collision boundary.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disableAnchorTracking",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
+        "from": "base-ui"
+      },
+      {
+        "name": "positionMethod",
+        "type": "\"fixed\" | \"absolute\"",
+        "required": false,
+        "default": "'absolute'",
+        "description": "Determines which CSS `position` property to use.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "side",
+        "type": "Side",
+        "required": false,
+        "default": "'top'",
+        "description": "Which side of the anchor element to align the popup against. May automatically change to avoid collisions.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sideOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Distance between the anchor and the popup in pixels. Also accepts a function that returns the distance to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sticky",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to maintain the popup in the viewport after the anchor element was scrolled out of view.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionTooltipMeta",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionTooltipName",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionTooltipNames",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionTooltipNameText",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReactionTooltipSeparator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageTextSelectionToolbar",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "loopFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "If `true`, using keyboard navigation will wrap focus to the other end of the toolbar once the end is reached.",
+        "from": "base-ui"
+      },
+      {
+        "name": "orientation",
+        "type": "BaseToolbar.Orientation",
+        "required": false,
+        "default": "'horizontal'",
+        "description": "The orientation of the toolbar.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageTextSelectionToolbarButton",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "When `true` the item is disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "When `true` the item remains focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageTextSelectionToolbarSeparator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "orientation",
+        "type": "BaseToolbar.Orientation",
+        "required": false,
+        "default": "'horizontal'",
+        "description": "The orientation of the separator. Defaults to the opposite of the toolbar's orientation, so a horizontal toolbar renders vertical separators.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

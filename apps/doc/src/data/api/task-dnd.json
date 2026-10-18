@@ -1,0 +1,164 @@
+[
+  {
+    "name": "TaskDndProvider",
+    "entry": "raft-ui",
+    "native": false,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "isDropAllowed",
+        "type": "(activeId: UniqueIdentifier, overId: UniqueIdentifier, overData: TaskDropData | undefined) => boolean",
+        "required": false,
+        "default": "allowTaskDrop",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onDragCancel",
+        "type": "(event: DragCancelEvent) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onDragEnd",
+        "type": "(event: DragEndEvent) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onDragMove",
+        "type": "(event: DragMoveEvent) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onDragOver",
+        "type": "(event: DragOverEvent) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onDragStart",
+        "type": "(event: DragStartEvent) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onMove",
+        "type": "(details: TaskMoveDetails) => void | Promise<void>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onMoveError",
+        "type": "(error: unknown, details: TaskMoveDetails) => void",
+        "required": false,
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "TaskDragOverlay",
+    "entry": "raft-ui",
+    "native": false,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "TaskDraggable",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "dropData",
+        "type": "TaskDropData",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "dropDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "dropId",
+        "type": "UniqueIdentifier",
+        "required": false,
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "TaskDropPlaceholder",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "placement",
+        "type": "TaskDropPlacement",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "TaskDropZone",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "data",
+        "type": "TaskDropData",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

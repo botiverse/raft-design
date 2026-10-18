@@ -1,0 +1,648 @@
+[
+  {
+    "name": "Select",
+    "entry": "raft-ui",
+    "native": false,
+    "props": [
+      {
+        "name": "chrome",
+        "type": "SelectChrome",
+        "required": false,
+        "default": "\"default\"",
+        "description": "`field` opts this Select into the field metric axis, so it reads as a form field rather than a button. Defaults to `default`, leaving every existing Select untouched.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "actionsRef",
+        "type": "RefObject<SelectRootActions | null>",
+        "required": false,
+        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the select. Call this after any externally controlled closing animation finishes.",
+        "from": "base-ui"
+      },
+      {
+        "name": "autoComplete",
+        "type": "string",
+        "required": false,
+        "description": "Provides a hint to the browser for autofill.",
+        "from": "base-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the select popup is initially open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultValue",
+        "type": "NonNullable<Multiple extends true ? Value[] : Value>",
+        "required": false,
+        "description": "The uncontrolled value of the select when it's initially rendered.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "form",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the form that owns the hidden input. Useful when the select is rendered outside the form.",
+        "from": "base-ui"
+      },
+      {
+        "name": "highlightItemOnHover",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether moving the pointer over items should highlight them. Disabling this prop allows CSS `:hover` to be differentiated from the `:focus` (`data-highlighted`) state.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "The id of the Select.",
+        "from": "base-ui"
+      },
+      {
+        "name": "inputRef",
+        "type": "((instance: HTMLInputElement | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<HTMLInputElement | null>",
+        "required": false,
+        "description": "A ref to access the hidden input element.",
+        "from": "base-ui"
+      },
+      {
+        "name": "isItemEqualToValue",
+        "type": "(itemValue: Value, value: Value) => boolean",
+        "required": false,
+        "description": "Custom comparison logic used to determine if a select item value matches the current selected value. Useful when item values are objects without matching referentially. Defaults to `Object.is` comparison.",
+        "from": "base-ui"
+      },
+      {
+        "name": "items",
+        "type": "readonly Group<any>[] | Record<string, ReactNode> | readonly { label: React.ReactNode; value: any; }[]",
+        "required": false,
+        "description": "Data structure of the items rendered in the select popup. When specified, `<Select.Value>` renders the label of the selected item instead of the raw value.",
+        "from": "base-ui"
+      },
+      {
+        "name": "itemToStringLabel",
+        "type": "(itemValue: Value) => string",
+        "required": false,
+        "description": "When the item values are objects (`<Select.Item value={object}>`), this function converts the object value to a string representation for display in the trigger. If the shape of the object is `{ value, label }`, the label will be used automatically without needing to specify this prop.",
+        "from": "base-ui"
+      },
+      {
+        "name": "itemToStringValue",
+        "type": "(itemValue: Value) => string",
+        "required": false,
+        "description": "When the item values are objects (`<Select.Item value={object}>`), this function converts the object value to a string representation for form submission. If the shape of the object is `{ value, label }`, the value will be used automatically without needing to specify this prop.",
+        "from": "base-ui"
+      },
+      {
+        "name": "modal",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Determines if the select enters a modal state when open. - `true`: user interaction is limited to the select: document page scroll is locked and pointer interactions on outside elements are disabled. - `false`: user interaction with the rest of the document is allowed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "multiple",
+        "type": "NonNullable<Multiple>",
+        "required": false,
+        "default": "false",
+        "description": "Whether multiple items can be selected.",
+        "from": "base-ui"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the field when a form is submitted.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean, eventDetails: SelectRootChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the select popup is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Event handler called after any animations complete when the select popup is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: (Multiple extends true ? Value[] : Value) | (Multiple extends true ? never : null), eventDetails: SelectRootChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the value of the select changes.",
+        "from": "base-ui"
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the select popup is currently open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the user should be unable to choose a different option from the select popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the user must choose a value before submitting a form.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "NonNullable<Multiple extends true ? Value[] : Value>",
+        "required": false,
+        "description": "The value of the select. Use when controlled.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectArrow",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectContent",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "portalProps",
+        "type": "SelectPortalProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "align",
+        "type": "Align",
+        "required": false,
+        "default": "\"start\"",
+        "description": "How to align the popup relative to the specified side.",
+        "from": "base-ui"
+      },
+      {
+        "name": "alignItemWithTrigger",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the positioner overlaps the trigger so the selected item's text is aligned with the trigger's value text. This only applies to mouse input and is automatically disabled if there is not enough space.",
+        "from": "base-ui"
+      },
+      {
+        "name": "alignOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Additional offset along the alignment axis in pixels. Also accepts a function that returns the offset to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "anchor",
+        "type": "Element | VirtualElement | RefObject<Element | null> | (() => Element | VirtualElement | null)",
+        "required": false,
+        "description": "An element to position the popup against. By default, the popup will be positioned against the trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "arrowPadding",
+        "type": "number",
+        "required": false,
+        "default": "5",
+        "description": "Minimum distance to maintain between the arrow and the edges of the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionAvoidance",
+        "type": "CollisionAvoidance",
+        "required": false,
+        "description": "Determines how to handle collisions when positioning the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionBoundary",
+        "type": "Boundary",
+        "required": false,
+        "default": "'clipping-ancestors'",
+        "description": "An element or a rectangle that delimits the area that the popup is confined to.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionPadding",
+        "type": "Padding",
+        "required": false,
+        "default": "5",
+        "description": "Additional space to maintain from the edge of the collision boundary.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disableAnchorTracking",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
+        "from": "base-ui"
+      },
+      {
+        "name": "finalFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((closeType: InteractionType) => boolean | HTMLElement | null | void)",
+        "required": false,
+        "description": "Determines the element to focus when the select popup is closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "positionMethod",
+        "type": "\"fixed\" | \"absolute\"",
+        "required": false,
+        "default": "\"fixed\"",
+        "description": "Determines which CSS `position` property to use.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "side",
+        "type": "Side",
+        "required": false,
+        "default": "\"bottom\"",
+        "description": "Which side of the anchor element to align the popup against. May automatically change to avoid collisions.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sideOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Distance between the anchor and the popup in pixels. Also accepts a function that returns the distance to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sticky",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to maintain the popup in the viewport after the anchor element was scrolled out of view.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectGroup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectGroupLabel",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectIcon",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectItem",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Specifies the text label to use when the item is matched during keyboard text navigation.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `true` if the rendered element is a native button.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "any",
+        "required": false,
+        "default": "null",
+        "description": "A unique value that identifies this select item.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectItemIndicator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether to keep the HTML element in the DOM when the item is not selected.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectItemLeading",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "SelectItemText",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectLabel",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectList",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectPopup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "SelectPortal",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "container",
+        "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
+        "required": false,
+        "description": "A parent element to render the portal element into.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectScrollDownArrow",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to keep the HTML element in the DOM while the select popup is not scrollable.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectScrollUpArrow",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "keepMounted",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to keep the HTML element in the DOM while the select popup is not scrollable.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectSeparator",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "SelectTrigger",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SelectValue",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode | ((value: any) => React.ReactNode)",
+        "required": false,
+        "description": "Accepts a function that returns a `ReactNode` to format the selected value. Treat the value as read-only: in `multiple` mode it may be a shared frozen array when nothing is selected.",
+        "from": "base-ui"
+      },
+      {
+        "name": "placeholder",
+        "type": "ReactNode",
+        "required": false,
+        "description": "The placeholder value to display when no value is selected. This is overridden by `children` if specified, or by a null item's label in `items`.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

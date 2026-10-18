@@ -1,0 +1,206 @@
+[
+  {
+    "name": "ListRow",
+    "entry": "raft-ui",
+    "description": "One row of a list. It renders a `button` by default; pass `render={<a />}` (or a router link) for a row that goes somewhere. Children are the leading block (an avatar, a channel or icon tile, `ListRowIcon`), `ListRowBody`, and anything trailing (a value, a badge, a switch, `ListRowChevron`).",
+    "native": true,
+    "props": [
+      {
+        "name": "interactive",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "`false` renders a display-only row: a `div` with no hover or press, for a row whose controls (a switch, a button) are its only targets.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "selected",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The item open beside the list: the row takes the cyan wash and stops reacting to hover. Say why it is selected with `aria-current` or `aria-selected` yourself.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "tone",
+        "type": "RowTone",
+        "required": false,
+        "default": "\"default\"",
+        "description": "Something waits for you here (bold title, ink preview), the place is muted (ink-2 title), or you are not in it yet (ink-3 title and preview). A disabled row ignores it: everything is ink-disabled.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"plain\" | \"entry\"",
+        "required": false,
+        "default": "\"default\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ListRowBody",
+    "entry": "raft-ui",
+    "description": "The text column: the title and the preview, or a `ListRowTop` and a `ListRowBottom`.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ListRowBottom",
+    "entry": "raft-ui",
+    "description": "The second line: the preview, then at most one badge.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ListRowChevron",
+    "entry": "raft-ui",
+    "description": "The ink-3 arrow of a row that opens another page.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ListRowDescription",
+    "entry": "raft-ui",
+    "description": "The preview (who spoke first: \"Wug: …\") or a setting's consequence, 14/20 ink-2.",
+    "native": true,
+    "props": [
+      {
+        "name": "wrap",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Let the text run onto more lines instead of truncating: a setting's consequence.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ListRowGroup",
+    "entry": "raft-ui",
+    "description": "An inset group: rows wrapped in a card (surface, hairline, radius-lg).",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ListRowIcon",
+    "entry": "raft-ui",
+    "description": "A 20px leading icon in ink-3: entry rows and settings.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ListRowMeta",
+    "entry": "raft-ui",
+    "description": "Machine-written facts in Space Mono 12, ink-3: the time, a gray count.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ListRowTitle",
+    "entry": "raft-ui",
+    "description": "16/24 600 on one line; the row's tone sets its weight and ink.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ListRowTop",
+    "entry": "raft-ui",
+    "description": "The first line: the title, then the time.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ListRowValue",
+    "entry": "raft-ui",
+    "description": "A setting's current value on the right, 15/20 ink-3, at most 45% of the row.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

@@ -1,0 +1,134 @@
+[
+  {
+    "name": "OtterIndicator",
+    "entry": "raft-ui",
+    "description": "An otter on its back, one pose per status: - `wait`: asleep on the dry bank, the parcel still on its belly. - `process`: afloat, paddling with one arm, the parcel on its belly. - `finish`: drifting at ease, hugging the delivered parcel. - `error`: shivering in the water; the parcel has slipped away.",
+    "native": true,
+    "props": [
+      {
+        "name": "status",
+        "type": "StepStatus",
+        "required": true,
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "Step",
+    "entry": "raft-ui",
+    "description": "One step in `Steps`: a numbered marker, a title and a description.",
+    "native": true,
+    "props": [
+      {
+        "name": "description",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Shown under the title. `children` override it.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Keeps the step from being clicked when the steps are clickable.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "icon",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Replaces the number of a step that is waiting or in progress.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "status",
+        "type": "StepStatus",
+        "required": false,
+        "description": "Overrides the status the step gets from `current`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "title",
+        "type": "ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "Steps",
+    "entry": "raft-ui",
+    "description": "Numbered steps through a process, as an ordered list of `Step`s. Each child is numbered by its position; the step at `current` gets `aria-current=\"step\"`.",
+    "native": true,
+    "props": [
+      {
+        "name": "current",
+        "type": "number",
+        "required": false,
+        "description": "The current step, counted from 1. Steps before it are `finish`, after it `wait`, and the current one takes `status`. Leave it unset with `defaultCurrent` to let clicks move it.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "defaultCurrent",
+        "type": "number",
+        "required": false,
+        "description": "Initial current step when uncontrolled.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "errorIcon",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Replaces the cross of failed steps.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "errorLabel",
+        "type": "string",
+        "required": false,
+        "default": "\"Failed\"",
+        "description": "Screen-reader text read after a failed step's title.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "finishIcon",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Replaces the check mark of finished steps.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "finishLabel",
+        "type": "string",
+        "required": false,
+        "default": "\"Completed\"",
+        "description": "Screen-reader text read after a finished step's title.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onUpdateCurrent",
+        "type": "(current: number) => void",
+        "required": false,
+        "description": "Called with the clicked step's number. Setting it turns every step that isn't `disabled` into a button.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "status",
+        "type": "StepStatus",
+        "required": false,
+        "default": "\"process\"",
+        "description": "Status of the current step.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "vertical",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Lays the steps out in a column instead of a row.",
+        "from": "raft-ui"
+      }
+    ]
+  }
+]

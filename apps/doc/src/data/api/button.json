@@ -1,0 +1,60 @@
+[
+  {
+    "name": "Button",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "default": "\"Loading\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"inline\" | \"icon-xs\" | \"icon-sm\" | \"icon-md\" | \"icon-lg\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"link\" | \"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"outline\" | \"information\" | \"muted\" | \"success\" | \"danger-secondary\" | \"danger-outline\" | \"ghost\" | \"on-frame\"",
+        "required": false,
+        "default": "\"default\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

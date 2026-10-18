@@ -1,0 +1,126 @@
+[
+  {
+    "name": "Switch",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the switch is currently active.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultChecked",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the switch is initially active.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "form",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the form that owns the hidden input. Useful when the switch is rendered outside the form.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "The id of the hidden input element.",
+        "from": "base-ui"
+      },
+      {
+        "name": "inputRef",
+        "type": "((instance: HTMLInputElement | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<HTMLInputElement | null>",
+        "required": false,
+        "description": "A ref to access the hidden `<input>` element.",
+        "from": "base-ui"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the field when a form is submitted.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `true` if the rendered element is a native button.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onCheckedChange",
+        "type": "(checked: boolean, eventDetails: BaseSwitch.Root.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the switch is activated or deactivated.",
+        "from": "base-ui"
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the user should be unable to activate or deactivate the switch.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the user must activate the switch before submitting a form.",
+        "from": "base-ui"
+      },
+      {
+        "name": "uncheckedValue",
+        "type": "string",
+        "required": false,
+        "description": "The value submitted with the form when the switch is off. By default, unchecked switches do not submit any value, matching native checkbox behavior.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "The value submitted with the form when the switch is on. By default, switch submits the \"on\" value, matching native checkbox behavior.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "SwitchThumb",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

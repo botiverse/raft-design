@@ -181,48 +181,16 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-type ComponentRoute =
-  | "/components/button"
-  | "/components/checkbox"
-  | "/components/combobox"
-  | "/components/combobox-select"
-  | "/components/context-menu"
-  | "/components/copyable-code"
-  | "/components/dropdown-menu"
-  | "/components/field"
-  | "/components/label"
-  | "/components/input"
-  | "/components/input-group"
-  | "/components/radio-group"
-  | "/components/select"
-  | "/components/segmented-control"
-  | "/components/switch"
-  | "/components/textarea"
-  | "/components/avatar"
-  | "/components/badge"
-  | "/components/inline-code"
-  | "/components/kbd"
-  | "/components/tooltip"
-  | "/components/status"
-  | "/components/skeleton"
-  | "/components/spinner"
-  | "/components/separator"
-  | "/components/tabs"
-  | "/components/text"
-  | "/components/banner"
-  | "/components/empty-state"
-  | "/components/notification-center"
-  | "/components/toast"
-  | "/components/popover"
-  | "/components/preview-card"
-  | "/components/dialog"
-  | "/components/alert-dialog";
+/** A component page, `/components/<folder>`, served by `/components/$slug`. */
+type ComponentRoute = string;
 
 type ComponentGridItem = {
   label: string;
   to: ComponentRoute;
   preview: ReactNode;
 };
+
+const AVATAR_PAGE: ComponentRoute = "/components/avatar";
 
 const avatarSvg = (svg: string) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 
@@ -807,7 +775,7 @@ const COMPONENT_GRID = [
       </div>
     ),
   },
-] as const satisfies readonly ComponentGridItem[];
+] satisfies readonly ComponentGridItem[];
 
 const SELECT_PREVIEW_OPTIONS = [
   { value: "relevance", label: "Relevance", icon: Search },
@@ -1118,7 +1086,7 @@ function PreviewCardPreview() {
             id={triggerId}
             render={
               <Link
-                to="/components/avatar"
+                to={AVATAR_PAGE}
                 className="cursor-default select-text font-bold text-foreground underline decoration-foreground/30 decoration-2 underline-offset-2 hover:text-attention-600 hover:decoration-attention-600"
               />
             }

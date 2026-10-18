@@ -1,0 +1,45 @@
+[
+  {
+    "name": "Textarea",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "TextareaCounter",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "count",
+        "type": "number",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "getLength",
+        "type": "(value: string) => number",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "limit",
+        "type": "number",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "TextareaGroup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  }
+]

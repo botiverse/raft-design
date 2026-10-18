@@ -1,0 +1,83 @@
+[
+  {
+    "name": "TextHeading",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "level",
+        "type": "1 | 2 | 3 | 4 | 5 | 6",
+        "required": false,
+        "default": "1",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"muted\" | \"success\" | \"placeholder\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "TextMono",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "size",
+        "type": "\"code\" | \"meta\" | \"eyebrow\" | \"tabular\"",
+        "required": false,
+        "default": "\"code\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"muted\" | \"success\" | \"placeholder\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "TextSans",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "size",
+        "type": "\"body\" | \"caption\" | \"small\" | \"large\"",
+        "required": false,
+        "default": "\"body\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"muted\" | \"success\" | \"placeholder\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

@@ -1,3 +1,4 @@
+import { API_INDEX } from "./api.ts";
 import { parseFrontMatter } from "./front-matter.ts";
 import type { FrontMatter } from "./front-matter.ts";
 import { headingSlug } from "./slug.ts";
@@ -106,6 +107,8 @@ export type DocPage = {
   anchors: string[];
   /** For product pages: the product's folder name. */
   product?: string;
+  /** A component with no doc yet: the page is only what is generated from code. */
+  generated?: boolean;
 };
 
 const REPO_PREFIX = /^(\.\.\/)+/;
@@ -195,10 +198,48 @@ function comparePages(a: DocPage, b: DocPage) {
   );
 }
 
-export const PAGES: readonly DocPage[] = Object.entries({ ...designFiles, ...componentFiles })
+const WRITTEN_PAGES = Object.entries({ ...designFiles, ...componentFiles })
   .map(([key, source]) => toPage(key, source))
-  .filter((page): page is DocPage => page !== null)
-  .sort(comparePages);
+  .filter((page): page is DocPage => page !== null);
+
+/**
+ * A component raft-ui exports whose doc is not written yet still gets a page:
+ * its API and changes, generated from the code.
+ */
+function generatedComponentPage(folder: string): DocPage {
+  const info = API_INDEX[folder]!;
+  const title = info.names[0] ?? folder;
+  const repoPath = `packages/ui/src/components/${folder}/${folder}.md`;
+  return {
+    section: "components",
+    slug: folder,
+    url: `/components/${folder}`,
+    repoPath,
+    frontMatter: {
+      title,
+      summary:
+        info.description ??
+        `${title}: the API generated from raft-ui; the guidelines are not written yet.`,
+      status: info.status,
+    },
+    body: "",
+    source: "",
+    headings: [],
+    anchors: [],
+    generated: true,
+  };
+}
+
+const documentedFolders = new Set(
+  WRITTEN_PAGES.filter((page) => page.section === "components").map((page) => page.slug),
+);
+
+export const PAGES: readonly DocPage[] = [
+  ...WRITTEN_PAGES,
+  ...Object.keys(API_INDEX)
+    .filter((folder) => !documentedFolders.has(folder))
+    .map(generatedComponentPage),
+].sort(comparePages);
 
 const pageByUrl = new Map(PAGES.map((page) => [page.url, page]));
 const pageByRepoPath = new Map(PAGES.map((page) => [page.repoPath, page]));

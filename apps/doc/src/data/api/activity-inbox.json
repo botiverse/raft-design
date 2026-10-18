@@ -1,0 +1,66 @@
+[
+  {
+    "name": "ActivityInboxPanel",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "edge",
+        "type": "PanelEdge",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ActivityInboxViewport",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "ActivityInboxLoadingMore",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "ActivityInboxSidebar",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ActivityInboxControls",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "ActivityInboxSelectionToolbar",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "ActivityInboxSelectionCount",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  }
+]

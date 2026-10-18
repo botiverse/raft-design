@@ -1,0 +1,118 @@
+[
+  {
+    "name": "ToggleGroup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "defaultValue",
+        "type": "readonly T[]",
+        "required": false,
+        "description": "The pressed state of the toggle group represented by an array of the values of all pressed toggle buttons. This is the uncontrolled counterpart of `value`.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the toggle group should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "loopFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether to loop keyboard focus back to the first item when the end of the list is reached while using the arrow keys.",
+        "from": "base-ui"
+      },
+      {
+        "name": "multiple",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "When `false` only one item in the group can be pressed. If any item in the group becomes pressed, the others will become unpressed. When `true` multiple items can be pressed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onValueChange",
+        "type": "(groupValue: T[], eventDetails: BaseToggleGroup.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Callback fired when the pressed states of the toggle group changes.",
+        "from": "base-ui"
+      },
+      {
+        "name": "orientation",
+        "type": "Orientation",
+        "required": false,
+        "default": "'horizontal'",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "readonly T[]",
+        "required": false,
+        "description": "The pressed state of the toggle group represented by an array of the values of all pressed toggle buttons. This is the controlled counterpart of `defaultValue`.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToggleGroupItem",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "value",
+        "type": "T",
+        "required": true,
+        "description": "A unique string that identifies the toggle when used inside a toggle group.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "onPressedChange",
+        "type": "(pressed: boolean, eventDetails: BaseToggle.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Callback fired when the pressed state is changed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ToggleGroupLabel",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  }
+]

@@ -1,0 +1,1295 @@
+{
+  "activity-inbox": {
+    "names": [
+      "ActivityInboxPanel",
+      "ActivityInboxViewport",
+      "ActivityInboxLoadingMore",
+      "ActivityInboxSidebar",
+      "ActivityInboxControls",
+      "ActivityInboxSelectionToolbar",
+      "ActivityInboxSelectionCount"
+    ],
+    "status": "stable"
+  },
+  "alert-dialog": {
+    "names": [
+      "AlertDialog",
+      "AlertDialogAction",
+      "AlertDialogBody",
+      "AlertDialogCancel",
+      "AlertDialogClose",
+      "AlertDialogContent",
+      "AlertDialogDescription",
+      "AlertDialogFooter",
+      "AlertDialogHeader",
+      "AlertDialogOverlay",
+      "AlertDialogPortal",
+      "AlertDialogTitle",
+      "AlertDialogTrigger"
+    ],
+    "status": "stable"
+  },
+  "announcement-dialog": {
+    "names": [
+      "AnnouncementDialogContent",
+      "AnnouncementDialogBody",
+      "AnnouncementDialogHeader",
+      "AnnouncementDialogLabel",
+      "AnnouncementDialogTitle",
+      "AnnouncementDialogPicture",
+      "AnnouncementDialogText",
+      "AnnouncementDialogFooter",
+      "AnnouncementDialogAction",
+      "AnnouncementDialogSecondaryAction"
+    ],
+    "status": "experimental"
+  },
+  "app-rail": {
+    "names": [
+      "AppRailFooter",
+      "AppRailHeader",
+      "AppRailItem",
+      "AppRailItemAttention",
+      "AppRailItemBadge",
+      "AppRailItemIcon",
+      "AppRailItemIndicator",
+      "AppRailItemLabel",
+      "AppRailNav",
+      "AppRailRoot"
+    ],
+    "status": "stable"
+  },
+  "app-shell": {
+    "names": [
+      "AppShellMainSlot",
+      "AppShellOverlaySlot",
+      "AppShellPanelSlot",
+      "AppShellRailSlot",
+      "AppShellRoot",
+      "AppShellSidebarSlot",
+      "AppShellSidebarTrigger"
+    ],
+    "status": "stable"
+  },
+  "avatar": {
+    "names": [
+      "Avatar",
+      "AvatarBadge",
+      "AvatarFallback",
+      "AvatarGroup",
+      "AvatarGroupCount",
+      "AvatarImage"
+    ],
+    "status": "stable"
+  },
+  "badge": {
+    "names": [
+      "Badge"
+    ],
+    "status": "stable"
+  },
+  "banner": {
+    "names": [
+      "Banner",
+      "BannerAction",
+      "BannerDescription",
+      "BannerTitle"
+    ],
+    "status": "stable"
+  },
+  "button": {
+    "names": [
+      "Button"
+    ],
+    "status": "stable"
+  },
+  "card": {
+    "names": [
+      "Card",
+      "CardContent",
+      "CardDescription",
+      "CardFooter",
+      "CardHeader",
+      "CardLeading",
+      "CardTitle",
+      "CardTrailing"
+    ],
+    "status": "stable"
+  },
+  "checkbox": {
+    "names": [
+      "Checkbox",
+      "CheckboxIndicator"
+    ],
+    "status": "stable"
+  },
+  "code-block": {
+    "names": [
+      "CodeBlock",
+      "CodeBlockAction",
+      "CodeBlockActions",
+      "CodeBlockBody",
+      "CodeBlockHeader",
+      "CodeBlockTitle"
+    ],
+    "status": "stable",
+    "description": "Framed code surface. Compose a header and a body inside it."
+  },
+  "combobox": {
+    "names": [
+      "Combobox",
+      "ComboboxChip",
+      "ComboboxChipRemove",
+      "ComboboxChips",
+      "ComboboxClear",
+      "ComboboxCollection",
+      "ComboboxControl",
+      "ComboboxContent",
+      "ComboboxEmpty",
+      "ComboboxGroup",
+      "ComboboxGroupLabel",
+      "ComboboxHeader",
+      "ComboboxInput",
+      "ComboboxInputGroup",
+      "ComboboxItem",
+      "ComboboxItemIndicator",
+      "ComboboxLabel",
+      "ComboboxList",
+      "ComboboxPopup",
+      "ComboboxPortal",
+      "ComboboxRow",
+      "ComboboxSeparator",
+      "ComboboxTrigger",
+      "ComboboxTriggerCount",
+      "ComboboxTriggerIndicator",
+      "ComboboxValue"
+    ],
+    "status": "stable"
+  },
+  "combobox-select": {
+    "names": [
+      "ComboboxSelect"
+    ],
+    "status": "experimental"
+  },
+  "composer": {
+    "names": [
+      "Composer",
+      "ComposerActions",
+      "ComposerAttachment",
+      "ComposerAttachmentBody",
+      "ComposerAttachmentFailedOverlay",
+      "ComposerAttachmentFile",
+      "ComposerAttachmentImage",
+      "ComposerAttachmentMeta",
+      "ComposerAttachmentRemove",
+      "ComposerAttachments",
+      "ComposerAttachmentsScrollArea",
+      "ComposerAttachmentTitle",
+      "ComposerAttachmentUploadingOverlay",
+      "ComposerAttachmentUploadProgressBar",
+      "ComposerDropOverlay",
+      "ComposerDropOverlayLabel",
+      "ComposerDropOverlayPrompt",
+      "ComposerIconButton",
+      "ComposerInput",
+      "ComposerMeta",
+      "ComposerRoot",
+      "ComposerSubmit",
+      "ComposerSuggestionAside",
+      "ComposerSuggestionContent",
+      "ComposerSuggestionGroup",
+      "ComposerSuggestionGroupLabel",
+      "ComposerSuggestionIcon",
+      "ComposerSuggestionList",
+      "ComposerSuggestionMeta",
+      "ComposerSuggestionOption",
+      "ComposerSuggestionTitle",
+      "ComposerToolbar",
+      "ComposerToolbarLabel",
+      "SortableComposerAttachment",
+      "SortableComposerAttachments",
+      "SortableComposerAttachmentsScroll"
+    ],
+    "status": "stable",
+    "description": "Sized placeholder stays in the flex flow (opacity 0). DragOverlay is the pointer ghost — the root reads these `children` for it. Live draft reorder moves this slot to the drop index; wrap skips strategy transforms so siblings FLIP via layout instead of wrong gaps."
+  },
+  "context-menu": {
+    "names": [
+      "ContextMenu",
+      "ContextMenuCheckboxItem",
+      "ContextMenuCheckboxItemIndicator",
+      "ContextMenuContent",
+      "ContextMenuFooter",
+      "ContextMenuItem",
+      "ContextMenuItemLabel",
+      "ContextMenuLabel",
+      "ContextMenuPopup",
+      "ContextMenuPortal",
+      "ContextMenuRadioGroup",
+      "ContextMenuRadioItem",
+      "ContextMenuRadioItemIndicator",
+      "ContextMenuSeparator",
+      "ContextMenuShortcut",
+      "ContextMenuSubmenu",
+      "ContextMenuSubmenuTrigger",
+      "ContextMenuTrigger"
+    ],
+    "status": "stable"
+  },
+  "conversation-panel": {
+    "names": [
+      "ConversationPanelBody",
+      "ConversationPanelContent",
+      "ConversationPanelEmptyState",
+      "ConversationPanelEmptyStateBrand",
+      "ConversationPanelEmptyStateBrandMark",
+      "ConversationPanelFooter",
+      "ConversationPanelRoot",
+      "ConversationPanelTabs"
+    ],
+    "status": "stable",
+    "description": "Content region below the conversation header: one container hosting tabs, body, and footer."
+  },
+  "copyable-code": {
+    "names": [
+      "CopyableCode",
+      "CopyableCodeAction",
+      "CopyableCodeRoot"
+    ],
+    "status": "stable"
+  },
+  "description-list": {
+    "names": [
+      "DescriptionDetails",
+      "DescriptionItem",
+      "DescriptionList",
+      "DescriptionTerm"
+    ],
+    "status": "stable"
+  },
+  "dialog": {
+    "names": [
+      "Dialog",
+      "DialogBody",
+      "DialogClose",
+      "DialogContent",
+      "DialogDescription",
+      "DialogFooter",
+      "DialogHeader",
+      "DialogNav",
+      "DialogOverlay",
+      "DialogPortal",
+      "DialogSurface",
+      "DialogTitle",
+      "DialogTrigger",
+      "AnnouncementDialog",
+      "AnnouncementDialogTrigger",
+      "AnnouncementDialogClose"
+    ],
+    "status": "stable",
+    "description": "The section list of a wide (`size=\"wide\"`) dialog, inside a `bar` body."
+  },
+  "drawer": {
+    "names": [
+      "Drawer",
+      "DrawerActions",
+      "DrawerBody",
+      "DrawerClose",
+      "DrawerContent",
+      "DrawerDescription",
+      "DrawerFooter",
+      "DrawerHeader",
+      "DrawerOverlay",
+      "DrawerPortal",
+      "DrawerTitle",
+      "DrawerTrigger"
+    ],
+    "status": "stable"
+  },
+  "dropdown-menu": {
+    "names": [
+      "DropdownMenu",
+      "DropdownMenuCheckboxItem",
+      "DropdownMenuCheckboxItemIndicator",
+      "DropdownMenuContent",
+      "DropdownMenuFooter",
+      "DropdownMenuItem",
+      "DropdownMenuItemCount",
+      "DropdownMenuItemLabel",
+      "DropdownMenuLabel",
+      "DropdownMenuPopup",
+      "DropdownMenuPortal",
+      "DropdownMenuRadioGroup",
+      "DropdownMenuRadioItem",
+      "DropdownMenuRadioItemIndicator",
+      "DropdownMenuSeparator",
+      "DropdownMenuShortcut",
+      "DropdownMenuSubmenu",
+      "DropdownMenuSubmenuTrigger",
+      "DropdownMenuTrigger"
+    ],
+    "status": "stable"
+  },
+  "empty-state": {
+    "names": [
+      "EmptyState",
+      "EmptyStateActions",
+      "EmptyStateContent",
+      "EmptyStateDescription",
+      "EmptyStateIcon",
+      "EmptyStateTitle"
+    ],
+    "status": "stable"
+  },
+  "field": {
+    "names": [
+      "Field",
+      "FieldControl",
+      "FieldDescription",
+      "FieldError",
+      "FieldItem",
+      "FieldLabel",
+      "FieldValidity"
+    ],
+    "status": "stable"
+  },
+  "file-preview": {
+    "names": [
+      "FilePreview",
+      "FilePreviewBadge",
+      "FilePreviewCode",
+      "FilePreviewDocument",
+      "FilePreviewFile",
+      "FilePreviewMedia"
+    ],
+    "status": "stable"
+  },
+  "files": {
+    "names": [
+      "FilesPanel",
+      "FilesViewport",
+      "FilesList",
+      "FileRow",
+      "FileRowOpen",
+      "FileThumbnail",
+      "FileImage",
+      "FileContent",
+      "FileName",
+      "FileMeta",
+      "FileMetaItem",
+      "FileActions",
+      "FileAction"
+    ],
+    "status": "stable"
+  },
+  "float-button": {
+    "names": [
+      "FloatButton",
+      "FloatButtonGroup"
+    ],
+    "status": "deprecated"
+  },
+  "form-section": {
+    "names": [
+      "FormSection"
+    ],
+    "status": "stable",
+    "description": "One part of a bigger form (a wide dialog or sheet): a small heading with its status and a line on what it is for, then its fields. Consecutive sections are separated by a hairline."
+  },
+  "icon-tile": {
+    "names": [
+      "IconTile"
+    ],
+    "status": "stable",
+    "description": "A neutral square holding an icon, sized like an avatar: 19, 27, 35 or 51. It is decorative beside its words, so it is hidden from assistive tech; a tile that means something on its own takes `role=\"img\"` and an `aria-label`, and is announced."
+  },
+  "icons": {
+    "names": [
+      "ChatIcon",
+      "DirectMessageIcon",
+      "MessageIcon",
+      "ThreadIcon"
+    ],
+    "status": "stable"
+  },
+  "inbox-item": {
+    "names": [
+      "InboxItem",
+      "InboxItemActions",
+      "InboxItemBody",
+      "InboxItemContent",
+      "InboxItemContext",
+      "InboxItemHeading",
+      "InboxItemMessage",
+      "InboxItemMetadata",
+      "InboxItemSelection",
+      "InboxItemSender",
+      "InboxItemSubtitle",
+      "InboxItemTimestamp",
+      "InboxItemTitle",
+      "InboxItemTrailing",
+      "InboxItemTrigger"
+    ],
+    "status": "stable"
+  },
+  "inline-code": {
+    "names": [
+      "InlineCode"
+    ],
+    "status": "stable"
+  },
+  "input": {
+    "names": [
+      "Input"
+    ],
+    "status": "stable"
+  },
+  "input-group": {
+    "names": [
+      "InputGroup",
+      "InputGroupAddon",
+      "InputGroupInput"
+    ],
+    "status": "stable"
+  },
+  "kbd": {
+    "names": [
+      "Kbd",
+      "KbdGroup"
+    ],
+    "status": "stable"
+  },
+  "label": {
+    "names": [
+      "Label",
+      "LabelAsterisk",
+      "LabelOptional",
+      "LabelSub"
+    ],
+    "status": "stable"
+  },
+  "legacy-task-panel": {
+    "names": [
+      "LegacyTaskPanelActions",
+      "LegacyTaskPanelBody",
+      "LegacyTaskPanelField",
+      "LegacyTaskPanelFieldLabel",
+      "LegacyTaskPanelFieldText",
+      "LegacyTaskPanelFieldTitle",
+      "LegacyTaskPanelHeader",
+      "LegacyTaskPanelIcon",
+      "LegacyTaskPanelMeta",
+      "LegacyTaskPanelMetaLabel",
+      "LegacyTaskPanelMetaRow",
+      "LegacyTaskPanelMetaValue",
+      "LegacyTaskPanelRoot",
+      "LegacyTaskPanelStatus",
+      "LegacyTaskPanelSection",
+      "LegacyTaskPanelTitle",
+      "LegacyTaskPanelTitleMeta"
+    ],
+    "status": "deprecated"
+  },
+  "lightbox": {
+    "names": [
+      "Lightbox",
+      "LightboxActions",
+      "LightboxClose",
+      "LightboxContent",
+      "LightboxHeader",
+      "LightboxHeaderLabel",
+      "LightboxHeaderMeta",
+      "LightboxInfoActions",
+      "LightboxInfoBar",
+      "LightboxInfoDock",
+      "LightboxInfoTitle",
+      "LightboxMedia",
+      "LightboxNavigationButton",
+      "LightboxPortal",
+      "LightboxStage",
+      "LightboxThumbnail",
+      "LightboxThumbnailStrip",
+      "LightboxTitle",
+      "LightboxToolbar",
+      "LightboxTrigger"
+    ],
+    "status": "stable"
+  },
+  "list-row": {
+    "names": [
+      "ListRow",
+      "ListRowBody",
+      "ListRowBottom",
+      "ListRowChevron",
+      "ListRowDescription",
+      "ListRowGroup",
+      "ListRowIcon",
+      "ListRowMeta",
+      "ListRowTitle",
+      "ListRowTop",
+      "ListRowValue"
+    ],
+    "status": "stable",
+    "description": "One row of a list. It renders a `button` by default; pass `render={<a />}` (or a router link) for a row that goes somewhere. Children are the leading block (an avatar, a channel or icon tile, `ListRowIcon`), `ListRowBody`, and anything trailing (a value, a badge, a switch, `ListRowChevron`)."
+  },
+  "live-agent-activity-bar": {
+    "names": [
+      "LiveAgentActivityBar",
+      "LiveAgentActivityBarAvatar",
+      "LiveAgentActivityBarContent",
+      "LiveAgentActivityBarRow",
+      "LiveAgentActivityBarStatus",
+      "LiveAgentActivityBarText"
+    ],
+    "status": "deprecated"
+  },
+  "logo": {
+    "names": [
+      "RaftLogo",
+      "RaftLogoLockup",
+      "RaftWordmark"
+    ],
+    "status": "stable"
+  },
+  "markdown": {
+    "names": [
+      "MarkdownBlockquote",
+      "MarkdownCell",
+      "MarkdownCheckbox",
+      "MarkdownHeaderCell",
+      "MarkdownHeading",
+      "MarkdownImage",
+      "MarkdownInlineCode",
+      "MarkdownLink",
+      "MarkdownList",
+      "MarkdownListItem",
+      "MarkdownMark",
+      "MarkdownOrderedList",
+      "MarkdownParagraph",
+      "MarkdownRule",
+      "MarkdownTable",
+      "MarkdownTableRow",
+      "MarkdownTableScroll"
+    ],
+    "status": "stable",
+    "description": "Task-list checkbox. Markdown task items are display-only, so it defaults to read-only."
+  },
+  "message-action-card": {
+    "names": [
+      "MessageActionCard",
+      "MessageActionCardActions",
+      "MessageActionCardActionsNote",
+      "MessageActionCardCollapseTrigger",
+      "MessageActionCardCompletion",
+      "MessageActionCardContent",
+      "MessageActionCardProperty",
+      "MessageActionCardPropertyLabel",
+      "MessageActionCardProperties",
+      "MessageActionCardPropertyValue",
+      "MessageActionCardHeader",
+      "MessageActionCardHeaderDescription",
+      "MessageActionCardHeaderIcon",
+      "MessageActionCardHeaderStatus",
+      "MessageActionCardHeaderTitle",
+      "MessageActionCardHint",
+      "MessageActionCardHintLabel",
+      "MessageActionCardNotice",
+      "MessageActionCardScope",
+      "MessageActionCardScopeDescription",
+      "MessageActionCardScopeList",
+      "MessageActionCardScopeListLabel",
+      "MessageActionCardScopeListViewport",
+      "MessageActionCardScopeName",
+      "MessageActionCardStatus"
+    ],
+    "status": "stable",
+    "description": "The card is a disclosure: open by default, and a consumer can fold a resolved or view-only card to its header with `defaultOpen={false}` (or control it with `open` / `onOpenChange`). The fold is offered by placing a MessageActionCardCollapseTrigger in the header; without one the card simply stays open."
+  },
+  "message-attachment": {
+    "names": [
+      "MessageAttachmentAction",
+      "MessageAttachmentCard",
+      "MessageAttachmentCommentSummary",
+      "MessageAttachmentDiffAddition",
+      "MessageAttachmentDiffDeletion",
+      "MessageAttachmentDiffSummary",
+      "MessageAttachmentGroup",
+      "MessageAttachmentMeta",
+      "MessageAttachmentMetaEnd",
+      "MessageAttachmentMetaStart",
+      "MessageAttachmentSummary",
+      "MessageAttachmentTitle",
+      "MessageImageGallery",
+      "MessageImageGalleryAction",
+      "MessageImageGalleryItem",
+      "MessageImageGalleryMedia",
+      "MessageImageGalleryOverlay",
+      "MessageImageGalleryPreview",
+      "MessageImageGalleryRow",
+      "MessageVideoPreview",
+      "MessageVideoPreviewAction",
+      "MessageVideoPreviewFallback",
+      "MessageVideoPreviewFailureAction",
+      "MessageVideoPreviewFailureContent",
+      "MessageVideoPreviewFailureIcon",
+      "MessageVideoPreviewFailureTitle",
+      "MessageVideoPreviewMedia"
+    ],
+    "status": "stable",
+    "description": "One row of a gallery: the grid and its height come from the row data, so consumers place the items (`MessageImageGalleryItem` with the row's item layouts) without touching layout classes."
+  },
+  "message-embed": {
+    "names": [
+      "MessageEmbed",
+      "MessageEmbedContent",
+      "MessageEmbedFooter",
+      "MessageEmbedHeader"
+    ],
+    "status": "stable"
+  },
+  "message-forwarded-bundle": {
+    "names": [
+      "MessageForwardedBundle",
+      "MessageForwardedBundleAttachment",
+      "MessageForwardedBundleAttachmentMeta",
+      "MessageForwardedBundleAttachmentName",
+      "MessageForwardedBundleAttachments",
+      "MessageForwardedBundleFooter",
+      "MessageForwardedBundleGallery",
+      "MessageForwardedBundleGalleryTile",
+      "MessageForwardedBundleHeader",
+      "MessageForwardedBundleHeaderContent",
+      "MessageForwardedBundleHeaderCount",
+      "MessageForwardedBundleHeaderLabel",
+      "MessageForwardedBundleItem",
+      "MessageForwardedBundleItemAuthor",
+      "MessageForwardedBundleItemContent",
+      "MessageForwardedBundleItemMeta",
+      "MessageForwardedBundleItems",
+      "MessageForwardedBundleSource",
+      "MessageForwardedBundleSourceLabel",
+      "MessageForwardedBundleFooterAction"
+    ],
+    "status": "stable",
+    "description": "Image rows for forwarded attachments. The gallery owns the layout — rows of three (a lone row of exactly four splits two-and-two) at the message gallery row heights — and composes the shared MessageImageGallery surfaces, so forwarded images are the same component family as images in a message. Consumers only place the media (`MessageForwardedBundleGalleryTile`)."
+  },
+  "message-item": {
+    "names": [
+      "MessageReferenceChip",
+      "MessageReferenceIndicator",
+      "MessageReferenceLabel",
+      "MessageReferencePending",
+      "MessageReferenceText",
+      "MessageReferenceUnavailable",
+      "MessageItem",
+      "MessageItemAttachments",
+      "MessageItemAvatarSlot",
+      "MessageItemBadge",
+      "MessageItemBadgeSeparator",
+      "MessageItemBody",
+      "MessageItemContent",
+      "MessageItemContinuationTime",
+      "MessageItemEmbedded",
+      "MessageItemFooter",
+      "MessageItemGutter",
+      "MessageItemHeader",
+      "MessageItemInlineStatus",
+      "MessageItemMeta",
+      "MessageItemReadReceipt",
+      "MessageItemSavedIndicator",
+      "MessageItemSearchMatch",
+      "MessageItemSender",
+      "MessageItemSenderBadges",
+      "MessageItemSenderButton",
+      "MessageItemTime",
+      "MessageItemToolbar",
+      "MessageItemToolbarButton",
+      "MessageMultiSelect",
+      "MessageMultiSelectCheckbox",
+      "MessageMultiSelectToolbar",
+      "MessageReactionAddButton",
+      "MessageReactionChip",
+      "MessageReactionCount",
+      "MessageReactionErrorIndicator",
+      "MessageReactionGlyph",
+      "MessageReactionPickerContent",
+      "MessageReactionPickerStatic",
+      "MessageReactionQuickButton",
+      "MessageReactionQuickRow",
+      "MessageReactionTooltipContent",
+      "MessageReactionTooltipMeta",
+      "MessageReactionTooltipName",
+      "MessageReactionTooltipNames",
+      "MessageReactionTooltipNameText",
+      "MessageReactionTooltipSeparator",
+      "MessageTextSelectionToolbar",
+      "MessageTextSelectionToolbarButton",
+      "MessageTextSelectionToolbarSeparator"
+    ],
+    "status": "stable",
+    "description": "Left-gutter hover clock for continuation rows. Pass 24h `HH:MM` (no AM/PM)."
+  },
+  "message-list": {
+    "names": [
+      "MessageList",
+      "MessageListDateDivider",
+      "MessageListHistoryLimited",
+      "MessageListNotice"
+    ],
+    "status": "stable"
+  },
+  "message-quoted-preview": {
+    "names": [
+      "MessageQuotedPreview",
+      "MessageQuotedPreviewAttachments",
+      "MessageQuotedPreviewAttachment",
+      "MessageQuotedPreviewAuthor",
+      "MessageQuotedPreviewAuthorMeta",
+      "MessageQuotedPreviewAuthorName",
+      "MessageQuotedPreviewChannel",
+      "MessageQuotedPreviewContent",
+      "MessageQuotedPreviewHeader",
+      "MessageQuotedPreviewLoading",
+      "MessageQuotedPreviewText",
+      "MessageQuotedPreviewThread",
+      "MessageQuotedPreviewTimestamp",
+      "MessageQuotedPreviewUnavailable"
+    ],
+    "status": "stable"
+  },
+  "message-replies": {
+    "names": [
+      "MessageReplies",
+      "MessageRepliesItem",
+      "MessageRepliesItemContent",
+      "MessageRepliesItemSender",
+      "MessageRepliesItemTime",
+      "MessageRepliesSummary",
+      "MessageRepliesSummaryItem"
+    ],
+    "status": "stable"
+  },
+  "message-translation": {
+    "names": [
+      "MessageItemTranslationAction",
+      "MessageItemTranslationFailedStatus",
+      "MessageItemTranslationOriginal",
+      "MessageItemTranslationOriginalLabel",
+      "MessageItemTranslationProgressTrack",
+      "MessageItemTranslationRetryAction",
+      "MessageItemTranslationStatus"
+    ],
+    "status": "stable"
+  },
+  "mobile-nav": {
+    "names": [
+      "MobileNavItem",
+      "MobileNavLabel",
+      "MobileNavRoot"
+    ],
+    "status": "stable"
+  },
+  "notification-center": {
+    "names": [
+      "NotificationCenter",
+      "NotificationCenterActionButton",
+      "NotificationCenterCount",
+      "NotificationCenterEmptyState",
+      "NotificationCenterHeader",
+      "NotificationCenterItem",
+      "NotificationCenterItemActions",
+      "NotificationCenterItemBody",
+      "NotificationCenterItemContent",
+      "NotificationCenterItemIcon",
+      "NotificationCenterItemRow",
+      "NotificationCenterItemTitle",
+      "NotificationCenterList",
+      "NotificationCenterPopup",
+      "NotificationCenterScroller",
+      "NotificationCenterTitle",
+      "NotificationCenterTrigger"
+    ],
+    "status": "stable"
+  },
+  "panel": {
+    "names": [
+      "Panel",
+      "PanelAction",
+      "PanelActions",
+      "PanelActivity",
+      "PanelBody",
+      "PanelFooter",
+      "PanelHeader",
+      "PanelHeaderContent",
+      "PanelHeaderIcon",
+      "PanelHeaderRoot",
+      "PanelHeading",
+      "PanelMeta",
+      "PanelNotice",
+      "PanelNoticeActions",
+      "PanelNoticeContent",
+      "PanelScrollContent",
+      "PanelScrollViewport",
+      "PanelSection",
+      "PanelSectionHeader",
+      "PanelStatus",
+      "PanelTitle",
+      "PanelToggleAction"
+    ],
+    "status": "stable",
+    "description": "Live status readout in a panel header, such as agent activity or presence. Wraps a `Status` and supplies header-appropriate spacing and typography; use `PanelStatus` for a standalone attribute badge."
+  },
+  "picker-trigger-button": {
+    "names": [
+      "PickerTriggerButton"
+    ],
+    "status": "stable"
+  },
+  "popover": {
+    "names": [
+      "Popover",
+      "PopoverArrow",
+      "PopoverBackdrop",
+      "PopoverClose",
+      "PopoverContent",
+      "PopoverDescription",
+      "PopoverHeader",
+      "PopoverPopup",
+      "PopoverPortal",
+      "PopoverSeparator",
+      "PopoverTitle",
+      "PopoverTrigger",
+      "PopoverViewport"
+    ],
+    "status": "stable"
+  },
+  "preview-card": {
+    "names": [
+      "PreviewCard",
+      "PreviewCardArrow",
+      "PreviewCardContent",
+      "PreviewCardDescription",
+      "PreviewCardHeader",
+      "PreviewCardPopup",
+      "PreviewCardPortal",
+      "PreviewCardSeparator",
+      "PreviewCardTitle",
+      "PreviewCardTrigger"
+    ],
+    "status": "stable"
+  },
+  "profile-panel": {
+    "names": [
+      "ProfilePanel",
+      "ProfilePanelBody",
+      "ProfilePanelHeader",
+      "ProfilePanelHeaderContent",
+      "ProfilePanelSection"
+    ],
+    "status": "stable"
+  },
+  "progress": {
+    "names": [
+      "Progress",
+      "ProgressHeader",
+      "ProgressIndicator",
+      "ProgressLabel",
+      "ProgressTrack",
+      "ProgressValue"
+    ],
+    "status": "stable"
+  },
+  "radio-group": {
+    "names": [
+      "RadioGroup",
+      "RadioGroupIndicator",
+      "RadioGroupItem"
+    ],
+    "status": "stable"
+  },
+  "resizable": {
+    "names": [
+      "ResizableGroup",
+      "ResizableHandle",
+      "ResizablePanel"
+    ],
+    "status": "stable"
+  },
+  "scroll-area": {
+    "names": [
+      "ScrollArea",
+      "ScrollAreaContent",
+      "ScrollAreaCorner",
+      "ScrollAreaScrollbar",
+      "ScrollAreaThumb",
+      "ScrollAreaViewport"
+    ],
+    "status": "stable"
+  },
+  "search": {
+    "names": [
+      "SearchShellRoot",
+      "SearchShellFilters",
+      "SearchShellViewport",
+      "SearchResultsSummary",
+      "SearchResultsSection",
+      "SearchResultsSectionHeading",
+      "SearchResultsList",
+      "SearchEntityResult",
+      "SearchEntityResultContent",
+      "SearchEntityResultHeader",
+      "SearchEntityResultLeading",
+      "SearchEntityResultIcon",
+      "SearchEntityResultActivity",
+      "SearchEntityResultTitle",
+      "SearchEntityResultDescription",
+      "SearchMessageResult",
+      "SearchThreadMessageResult",
+      "SearchMessageResultHeader",
+      "SearchMessageResultBody",
+      "SearchMessageResultMeta",
+      "SearchMessageResultThreadMeta",
+      "SearchMessageResultSender",
+      "SearchMessageResultTimestamp",
+      "SearchMessageResultMatch",
+      "SearchThreadResult",
+      "SearchThreadResultHeader",
+      "SearchThreadResultMeta",
+      "SearchThreadResultTimestamp",
+      "SearchThreadResultTitle",
+      "SearchThreadResultMessages",
+      "SearchTrigger",
+      "SearchTriggerLabel",
+      "SearchTriggerShortcut"
+    ],
+    "status": "stable",
+    "description": "The top bar's search box. Children: a search icon, a `SearchTriggerLabel` and an optional `SearchTriggerShortcut`."
+  },
+  "segmented-control": {
+    "names": [
+      "SegmentedControl",
+      "SegmentedControlCount",
+      "SegmentedControlItem",
+      "SegmentedControlLabel"
+    ],
+    "status": "stable"
+  },
+  "select": {
+    "names": [
+      "Select",
+      "SelectArrow",
+      "SelectContent",
+      "SelectGroup",
+      "SelectGroupLabel",
+      "SelectIcon",
+      "SelectItem",
+      "SelectItemIndicator",
+      "SelectItemLeading",
+      "SelectItemText",
+      "SelectLabel",
+      "SelectList",
+      "SelectPopup",
+      "SelectPortal",
+      "SelectScrollDownArrow",
+      "SelectScrollUpArrow",
+      "SelectSeparator",
+      "SelectTrigger",
+      "SelectValue"
+    ],
+    "status": "stable"
+  },
+  "separator": {
+    "names": [
+      "Separator"
+    ],
+    "status": "stable"
+  },
+  "sidebar": {
+    "names": [
+      "SidebarBody",
+      "SidebarLiveActivity",
+      "SidebarContent",
+      "SidebarGroupLabel",
+      "SidebarHeader",
+      "SidebarHeaderTitle",
+      "SidebarItemAside",
+      "SidebarItemCount",
+      "SidebarItemCountSeparator",
+      "SidebarItemChannelIcon",
+      "SidebarItem",
+      "SidebarItemIcon",
+      "SidebarItemIndicator",
+      "SidebarItemContent",
+      "SidebarItemMeta",
+      "SidebarItemMetaIcon",
+      "SidebarItemStatus",
+      "SidebarItemSubtitle",
+      "SidebarItemThreadCount",
+      "SidebarItemTitle",
+      "SidebarList",
+      "SidebarMenu",
+      "SidebarMenuAside",
+      "SidebarMenuCount",
+      "SidebarMenuIcon",
+      "SidebarMenuTitle",
+      "SidebarRoot",
+      "SidebarControl",
+      "SidebarSection",
+      "SidebarSectionEmpty",
+      "SidebarSectionControl",
+      "SidebarSectionControls",
+      "SidebarSectionDisclosure",
+      "SidebarSectionChevron",
+      "SidebarSectionCount",
+      "SidebarSectionHeader",
+      "SidebarSectionAttention",
+      "SidebarSectionTitle",
+      "SidebarSectionTrailing"
+    ],
+    "status": "stable",
+    "description": "The dot between the channel's own unread count and its thread count."
+  },
+  "skeleton": {
+    "names": [
+      "Skeleton"
+    ],
+    "status": "stable"
+  },
+  "spinner": {
+    "names": [
+      "Spinner"
+    ],
+    "status": "stable"
+  },
+  "status": {
+    "names": [
+      "Status"
+    ],
+    "status": "stable"
+  },
+  "steps": {
+    "names": [
+      "OtterIndicator",
+      "Step",
+      "Steps"
+    ],
+    "status": "stable",
+    "description": "An otter on its back, one pose per status: - `wait`: asleep on the dry bank, the parcel still on its belly. - `process`: afloat, paddling with one arm, the parcel on its belly. - `finish`: drifting at ease, hugging the delivered parcel. - `error`: shivering in the water; the parcel has slipped away."
+  },
+  "switch": {
+    "names": [
+      "Switch",
+      "SwitchThumb"
+    ],
+    "status": "stable"
+  },
+  "system-message": {
+    "names": [
+      "SystemMessage",
+      "SystemMessageContent",
+      "SystemMessageGroup",
+      "SystemMessageGroupChevron",
+      "SystemMessageGroupDisclosure",
+      "SystemMessageGroupHeader",
+      "SystemMessageGroupPanel",
+      "SystemMessageGroupSummary",
+      "SystemMessageTime"
+    ],
+    "status": "stable"
+  },
+  "table": {
+    "names": [
+      "Table",
+      "TableBody",
+      "TableCaption",
+      "TableCell",
+      "TableColgroup",
+      "TableColumn",
+      "TableHead",
+      "TableHeader",
+      "TableRow"
+    ],
+    "status": "stable",
+    "description": "Native `<table>` semantics with the kit's chrome: render real table/thead/tbody/tr/th/td elements (useRender passthrough), so `scope`, screen-reader navigation and keyboard behaviour stay intact. A caller that wants a visually header-less table keeps its `<TableHead>` and hides it with `sr-only`; omitting the header would drop the semantics."
+  },
+  "tabs": {
+    "names": [
+      "SortableTabsList",
+      "SortableTabsTab",
+      "Tabs",
+      "TabsLabel",
+      "TabsList",
+      "TabsPanel",
+      "TabsTab"
+    ],
+    "status": "stable"
+  },
+  "task-board": {
+    "names": [
+      "TaskBoardColumn",
+      "TaskBoardColumnBadge",
+      "TaskBoardColumnChevron",
+      "TaskBoardColumnCount",
+      "TaskBoardColumnEmpty",
+      "TaskBoardColumnEmptyAllowed",
+      "TaskBoardColumnEmptyBlocked",
+      "TaskBoardColumnEmptyIdle",
+      "TaskBoardColumnHeading",
+      "TaskBoardColumnItems",
+      "TaskBoardColumnPanel",
+      "TaskBoardColumnTrigger",
+      "TaskBoardRoot"
+    ],
+    "status": "stable"
+  },
+  "task-card": {
+    "names": [
+      "TaskCard",
+      "TaskCardBody",
+      "TaskCardChannel",
+      "TaskCardDescription",
+      "TaskCardLegacy",
+      "TaskCardMeta",
+      "TaskCardNumber",
+      "TaskCardRow",
+      "TaskCardStatus",
+      "TaskCardTitle"
+    ],
+    "status": "stable"
+  },
+  "task-dnd": {
+    "names": [
+      "TaskDndProvider",
+      "TaskDragOverlay",
+      "TaskDraggable",
+      "TaskDropPlaceholder",
+      "TaskDropZone"
+    ],
+    "status": "stable"
+  },
+  "task-list": {
+    "names": [
+      "TaskListRoot",
+      "TaskSection",
+      "TaskSectionBadge",
+      "TaskSectionChevron",
+      "TaskSectionCount",
+      "TaskSectionEmpty",
+      "TaskSectionHeading",
+      "TaskSectionItems",
+      "TaskSectionPanel",
+      "TaskSectionTrigger"
+    ],
+    "status": "stable"
+  },
+  "tasks": {
+    "names": [
+      "TasksPanelEmpty",
+      "TasksPanelRoot",
+      "TasksPanelToolbar",
+      "TasksPanelToolbarFilters",
+      "TasksPanelToolbarGroup",
+      "TasksPanelToolbarLabel",
+      "TasksPanelToolbarNewTask",
+      "TasksPanelToolbarView",
+      "TasksPanelViewport",
+      "TaskLoadingList",
+      "TaskLoadingRow",
+      "TaskChip",
+      "TaskClosedIcon",
+      "TaskDoneIcon",
+      "TaskInProgressIcon",
+      "TaskInReviewIcon",
+      "TaskStatusIcon",
+      "TaskTodoIcon",
+      "TaskStatusBadge"
+    ],
+    "status": "stable"
+  },
+  "text": {
+    "names": [
+      "TextHeading",
+      "TextMono",
+      "TextSans"
+    ],
+    "status": "stable"
+  },
+  "textarea": {
+    "names": [
+      "Textarea",
+      "TextareaCounter",
+      "TextareaGroup"
+    ],
+    "status": "stable"
+  },
+  "thread-panel": {
+    "names": [
+      "ThreadPanelActions",
+      "ThreadPanelBody",
+      "ThreadPanelContent",
+      "ThreadPanelFooter",
+      "ThreadPanelHeader",
+      "ThreadPanelOriginalMessage",
+      "ThreadPanelReplyCount",
+      "ThreadPanelReplySummary",
+      "ThreadPanelRoot",
+      "ThreadPanelSearch",
+      "ThreadPanelSearchCount",
+      "ThreadPanelSearchTrailing",
+      "ThreadPanelTitle",
+      "ThreadPanelTitleMeta"
+    ],
+    "status": "stable"
+  },
+  "timeline": {
+    "names": [
+      "Timeline",
+      "TimelineContent",
+      "TimelineItem",
+      "TimelineTime",
+      "TimelineTitle"
+    ],
+    "status": "stable",
+    "description": "An ordered list of events; each `TimelineItem` has a marker and a line to the next."
+  },
+  "toast": {
+    "names": [
+      "ToastAction",
+      "ToastActions",
+      "ToastArrow",
+      "ToastBody",
+      "ToastClose",
+      "ToastContent",
+      "ToastDescription",
+      "ToastIcon",
+      "ToastPortal",
+      "ToastPositioner",
+      "ToastProgress",
+      "ToastProvider",
+      "ToastRoot",
+      "ToastTitle",
+      "ToastViewport"
+    ],
+    "status": "stable",
+    "description": "The content layout (self-start, title-only sizing, body centering) needs to know which parts actually rendered. That used to be an ancestor `:has()` styling descendants — a whole-page recalculation trap in Chromium (#386). It measures the rendered DOM after layout instead, so wrapped parts and parts that render nothing behave exactly like the old selectors did."
+  },
+  "toggle-group": {
+    "names": [
+      "ToggleGroup",
+      "ToggleGroupItem",
+      "ToggleGroupLabel"
+    ],
+    "status": "stable"
+  },
+  "tooltip": {
+    "names": [
+      "Tooltip",
+      "TooltipContent",
+      "TooltipPortal",
+      "TooltipProvider",
+      "TooltipTrigger"
+    ],
+    "status": "stable"
+  }
+}

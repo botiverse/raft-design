@@ -1,0 +1,221 @@
+[
+  {
+    "name": "Field",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "actionsRef",
+        "type": "RefObject<FieldRootActions | null>",
+        "required": false,
+        "description": "A ref to imperative actions. - `validate`: Validates the field when called.",
+        "from": "base-ui"
+      },
+      {
+        "name": "dirty",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the field's value has been changed from its initial value. Useful when the field state is controlled by an external library.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction. Takes precedence over the `disabled` prop on the `<Field.Control>` component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "invalid",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the field is invalid. Useful when the field state is controlled by an external library.",
+        "from": "base-ui"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the field when a form is submitted. Takes precedence over the `name` prop on the `<Field.Control>` component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "touched",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the field has been touched. Useful when the field state is controlled by an external library.",
+        "from": "base-ui"
+      },
+      {
+        "name": "validate",
+        "type": "(value: unknown, formValues: Form.Values) => string | string[] | null | void | Promise<string | string[] | null | void>",
+        "required": false,
+        "description": "A function for custom validation. Return a string or an array of strings with the error message(s) if the value is invalid. Returning nothing, `null`, an empty string, or an empty array means the value is valid. Asynchronous functions are supported, but they do not prevent form submission when using `validationMode=\"onSubmit\"`.",
+        "from": "base-ui"
+      },
+      {
+        "name": "validationDebounceTime",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "How long to wait between `validate` callbacks if `validationMode=\"onChange\"` is used. Specified in milliseconds.",
+        "from": "base-ui"
+      },
+      {
+        "name": "validationMode",
+        "type": "FormValidationMode",
+        "required": false,
+        "default": "'onSubmit'",
+        "description": "Determines when the field should be validated. This takes precedence over the `validationMode` prop on `<Form>`.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "FieldControl",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "defaultValue",
+        "type": "string | number | readonly string[]",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string, eventDetails: BaseField.Control.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Callback fired when the `value` changes. Use when controlled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "FieldDescription",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "FieldError",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "match",
+        "type": "boolean | keyof ValidityState",
+        "required": false,
+        "description": "Determines whether to show the error message according to the field's [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState). Specifying `true` will always show the error message, and lets external libraries control the visibility.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "FieldItem",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the wrapped control should ignore user interaction. The `disabled` prop on `<Field.Root>` takes precedence over this.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "FieldLabel",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "optional",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "nativeLabel",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<label>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a label (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "FieldValidity",
+    "entry": "raft-ui",
+    "native": false,
+    "props": [
+      {
+        "name": "children",
+        "type": "(state: FieldValidityState) => React.ReactNode",
+        "required": true,
+        "description": "A function that accepts the field validity state as an argument.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

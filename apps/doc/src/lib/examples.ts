@@ -23,17 +23,37 @@ export function hasExample(key: string) {
   return moduleByKey.has(key);
 }
 
+/** `grouped-generic` → `GroupedGeneric`. */
+function pascal(name: string) {
+  return name.replace(/(^|-)(\w)/g, (_, __, letter: string) => letter.toUpperCase());
+}
+
 /**
- * The component an example renders. By the modules' convention the
- * `*Content` export is the real usage and `*Composition` is a display shell
- * around it, so the docs render the usage itself inside their own canvas.
+ * The component an example renders. By the modules' convention `*Content` is
+ * the real usage and `*Composition` is a display shell around it (for an
+ * overlay, the root and a portal kept inside the canvas), so the page renders
+ * the shell and shows the file's source with the shell stripped. A file that
+ * exports several is named after the one it is about.
  */
 export async function loadExample(key: string): Promise<ComponentType | null> {
   const load = moduleByKey.get(key);
   if (!load) return null;
   const exports = await load();
-  const functions = Object.entries(exports).filter(([, value]) => typeof value === "function");
-  const picked = functions.find(([name]) => name.endsWith("Content")) ?? functions[0];
+  // Function components, and memo() / forwardRef() objects.
+  const components = Object.entries(exports).filter(
+    ([name, value]) =>
+      /^[A-Z]/.test(name) &&
+      (typeof value === "function" ||
+        (typeof value === "object" && value !== null && "$$typeof" in value)),
+  );
+  const file = pascal(key.split("/").at(-1)!);
+  const picked =
+    components.find(([name]) => name.endsWith(`${file}Composition`)) ??
+    components.find(([name]) => name.endsWith(`${file}Content`)) ??
+    components.find(([name]) => name.endsWith(file)) ??
+    components.find(([name]) => name.endsWith("Composition")) ??
+    components.find(([name]) => name.endsWith("Content")) ??
+    components[0];
   return (picked?.[1] as ComponentType | undefined) ?? null;
 }
 

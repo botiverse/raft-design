@@ -1,0 +1,36 @@
+[
+  {
+    "name": "FormSection",
+    "entry": "raft-ui",
+    "description": "One part of a bigger form (a wide dialog or sheet): a small heading with its status and a line on what it is for, then its fields. Consecutive sections are separated by a hairline.",
+    "native": true,
+    "props": [
+      {
+        "name": "description",
+        "type": "ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "status",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Where this part stands (Complete, Optional, Off …): a quiet tag.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "title",
+        "type": "ReactNode",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

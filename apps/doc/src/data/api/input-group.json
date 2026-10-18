@@ -1,0 +1,71 @@
+[
+  {
+    "name": "InputGroup",
+    "entry": "raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "InputGroupAddon",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "align",
+        "type": "\"inline-end\" | \"inline-start\"",
+        "required": false,
+        "default": "\"inline-start\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"container\"",
+        "required": false,
+        "default": "\"default\"",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "InputGroupInput",
+    "entry": "raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "suppressPasswordManager",
+        "type": "boolean",
+        "required": false,
+        "description": "Add common password-manager ignore hints for non-credential fields where extension overlays would obscure custom UI.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "defaultValue",
+        "type": "string | number | readonly string[]",
+        "required": false,
+        "description": "The default value of the input. Use when uncontrolled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string, eventDetails: BaseInput.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Callback fired when the `value` changes. Use when controlled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "string | number | readonly string[]",
+        "required": false,
+        "description": "The value of the input. Use when controlled.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

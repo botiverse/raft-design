@@ -1,6 +1,7 @@
 import { RouterProvider, createMemoryHistory } from "@tanstack/react-router";
 import { renderToMarkdownString } from "react-render-to-markdown";
 
+import { apiMarkdown, changesFor, changesMarkdown, loadComponentApi } from "#/lib/content/api.ts";
 import { shortTitle } from "#/lib/content/nav.ts";
 import { PAGES } from "#/lib/content/pages.ts";
 import { renderMarkdownTwin } from "#/lib/content/twin.ts";
@@ -70,10 +71,17 @@ export async function renderMarkdownPages(): Promise<MarkdownPage[]> {
   const rendered = new Set(pages.map((page) => page.path));
   for (const page of PAGES) {
     if (rendered.has(page.url)) continue;
+    // A component's twin ends with what its page generates from code.
+    const appendix =
+      page.section === "components"
+        ? [apiMarkdown(await loadComponentApi(page.slug)), changesMarkdown(changesFor(page.slug))]
+            .filter(Boolean)
+            .join("\n\n")
+        : "";
     pages.push({
       path: page.url,
       title: shortTitle(page),
-      markdown: (await renderMarkdownTwin(page)).trim(),
+      markdown: (await renderMarkdownTwin(page, appendix)).trim(),
       summary: page.frontMatter.summary,
     });
   }

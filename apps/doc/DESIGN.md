@@ -238,11 +238,11 @@ Decided after review of #481 (2026-10-18):
 
 ## 12. Implementation status
 
-| Step | What                                                                                                                                                                                                                                                                                | PR      |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| 1    | Content pipeline (front matter, links, `example` and `tokens` blocks, tokens from `packages/ui/src/tokens.json`), the site shell, search, and the Foundations, Patterns, Products, Decisions and component pages rendered from Markdown; `.md` twins and llms.txt sections for them | This PR |
-| 2    | Component pages: generated API tables and Changes; the 85 hand-written component routes removed                                                                                                                                                                                     | Next    |
-| 3    | Home, redirects (`/tokens/*`, `/guides/*`), removal of `/dashboard`, `/lab` and the old sidebar; `components.json`; the skill's rules as pointers                                                                                                                                   | Next    |
+| Step | What                                                                                                                                                                                                                                                                                | PR                                                        |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| 1    | Content pipeline (front matter, links, `example` and `tokens` blocks, tokens from `packages/ui/src/tokens.json`), the site shell, search, and the Foundations, Patterns, Products, Decisions and component pages rendered from Markdown; `.md` twins and llms.txt sections for them | [#505](https://github.com/botiverse/raft-design/pull/505) |
+| 2    | Component pages: generated API tables, Related and Changes; a page for every exported component folder; the 85 hand-written component routes removed                                                                                                                                | [#509](https://github.com/botiverse/raft-design/pull/509) |
+| 3    | Home, redirects (`/tokens/*`, `/guides/*`), removal of `/dashboard`, `/lab` and the old sidebar; `components.json`; the skill's rules as pointers                                                                                                                                   | Next                                                      |
 
 Where the code is:
 
