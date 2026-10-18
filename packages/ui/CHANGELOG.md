@@ -1,3 +1,31 @@
+## [0.6.0](https://github.com/botiverse/rui/compare/v0.5.64...v0.6.0) (2026-10-18)
+
+### Breaking Changes
+
+- **Raft is the only look.** The brutal and elegant theme families are removed. `ThemeProvider` takes only the mode (`mode`, `defaultMode`, `onModeChange`, `storageKey`, `syncDom`) and sets a `.light` / `.dark` class and `color-scheme`; `data-theme`, `useThemeFamily`, `Theme`, `SetTheme`, `SetThemeOptions`, `BrutalOnly` and `ElegantOnly` are gone. Tokens live on `:where(:root)`, `.light` and `.dark`. ([#467](https://github.com/botiverse/rui/pull/467))
+- **Props that no longer change anything are removed:** `Badge` `uppercase`; `Checkbox` `size`, `variant`, `color`; `Status` `pulse`, `attention` (status never animates); `Switch` / `SwitchThumb` `size`; `SidebarItem` `variant`; `SidebarItemCount` / `SidebarItemIndicator` `variant` and `appearance` (the count is always the pink sticker, the indicator the yellow @); `NotificationCenterActionButton` `variant`; `DrawerContent` `width` (one-go forms use the wide `Dialog`); `AppRailItemIndicator` `attention`; `AppRailItemAttention` `children`; `Steps` `size`, `track`, `renderIndicator`, `renderTraveler`; `FilePreviewBadge` `type`, `color`. Remove them at call sites. ([#467](https://github.com/botiverse/rui/pull/467))
+- **Parts and exports removed:** `TabsBackground`, `TabsIndicator`, `MessageReferenceBadge`, `AppRailItemAttentionMask`, `IslandIndicator`, `OtterTraveler`, `tabsRecipe`, `taskStatus`, `taskStatusBorder`, `SidebarItemVariant`, `FilePreviewBadgeColor`, `FilePreviewBadgeType`, `StepIndicatorState`, `StepsSize`, `StepsTrack`, `StepTravelerState`. `OtterIndicator` stays as a standalone illustration. ([#467](https://github.com/botiverse/rui/pull/467))
+
+### Added
+
+- `CheckboxIndicator`: the 20px checkbox box as a visual part for picker rows. ([#467](https://github.com/botiverse/rui/pull/467))
+- `FilePreviewBadge` `placement="inline"`: the file-type chip before a name (`"corner"` stays the default). ([#467](https://github.com/botiverse/rui/pull/467))
+- The Raft Design System lives in the repository's `design/` folder: pages, component guides with reference previews, tokens, fonts and assets. ([#467](https://github.com/botiverse/rui/pull/467))
+
+### Fixed
+
+- A focused mention, filter trigger or active sidebar row keeps its ink edge: inset sticker edges are `inset-ring`, so the focus ring no longer replaces them. ([#467](https://github.com/botiverse/rui/pull/467))
+- A `.dark` scope under a light root no longer inherits the light `foreground-active` / `foreground-hover` / `line-field` / `line-field-hover` aliases. ([#467](https://github.com/botiverse/rui/pull/467))
+- Disabled outline, ghost and danger-outline buttons no longer change on hover. ([#467](https://github.com/botiverse/rui/pull/467))
+- The thread panel head's actions end on the 20px edge like every other head; panel, section, drawer and thread heads share one edge rule. ([#467](https://github.com/botiverse/rui/pull/467))
+- Horizontal `Steps` draw their connector (the column was 0px wide). ([#467](https://github.com/botiverse/rui/pull/467))
+- `dark:` classes that restated a token no longer override a caller's class in dark mode. ([#467](https://github.com/botiverse/rui/pull/467))
+
+### Changed
+
+- `Button` transitions are colour-only (no `transition-all`); `xs` / `sm` render as `md`, `icon-xs` / `icon-sm` as `icon-md`. ([#467](https://github.com/botiverse/rui/pull/467))
+- `FormSection`'s first section starts flush with its container. ([#467](https://github.com/botiverse/rui/pull/467))
+
 ## [0.5.64](https://github.com/botiverse/rui/compare/v0.5.63...v0.5.64) (2026-10-15)
 
 ### Changed
