@@ -84,7 +84,7 @@ function SidebarDestinationItem({
 
 export function SidebarComposition({
   contentState = "populated",
-  liveActivityState = "active",
+  liveActivityState = "none",
 }: SidebarCompositionProps) {
   const [selectedItem, setSelectedItem] = useState("proj-uiux");
   const [announcement, setAnnouncement] = useState({ message: "Opened proj-uiux", sequence: 0 });

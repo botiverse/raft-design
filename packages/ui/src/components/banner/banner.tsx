@@ -68,7 +68,8 @@ export function Banner({ status, size = "md", className, render, ...props }: Ban
   const { root } = banner({ status, size });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),
-    role: "alert",
+    // Only a destructive banner interrupts; the rest are announced politely.
+    role: status === "destructive" ? "alert" : "status",
   };
 
   return useRender({

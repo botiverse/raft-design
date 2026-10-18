@@ -411,6 +411,7 @@ export function NotificationCenterItemIcon({
 }: NotificationCenterItemIconProps) {
   const { itemIcon } = notificationCenter({ status });
   const defaultProps: useRender.ElementProps<"div"> = {
+    role: "img",
     "aria-label": STATUS_LABEL[status],
     className: itemIcon({ className }),
     children: children ?? DEFAULT_STATUS_ICON[status],

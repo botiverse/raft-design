@@ -87,6 +87,8 @@ export function EmptyStateIcon({ render, className, ...props }: EmptyStateIconPr
   const { icon } = emptyState();
   const defaultProps: EmptyStateSlotProps = {
     "data-slot": "empty-state-icon",
+    // Decorative: the title says what is empty.
+    "aria-hidden": true,
     className: icon({ className }),
   };
 

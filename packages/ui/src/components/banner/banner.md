@@ -66,7 +66,7 @@ banner/compositions/action-variants
 
 ## Accessibility
 
-- `Banner` renders a `div` with `role="alert"`. Keep that for `status="destructive"`; pass `role="status"` for the other intents, so a notice that isn't urgent doesn't interrupt a screen reader.
+- `Banner` renders a `div` with `role="alert"` for `status="destructive"` and `role="status"` for the other intents, so a notice that isn't urgent doesn't interrupt a screen reader.
 - The icon repeats the intent and is decorative. The title and description must say the intent in words.
 - Give an icon-only button in `BannerAction` an `aria-label`.
 

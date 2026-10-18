@@ -5,7 +5,7 @@ import type { VariantProps } from "../../lib/tv";
 const skeleton = tv({
   slots: {
     root: [
-      "animate-pulse",
+      "animate-pulse motion-reduce:animate-none",
       "pointer-events-none",
       "data-[variant=line]:rounded-sticker data-[variant=line]:bg-fill-muted",
       "data-[variant=block]:rounded-sticker data-[variant=block]:bg-fill-muted",
