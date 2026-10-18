@@ -82,3 +82,16 @@ vp install
 ```bash
 vp pack
 ```
+
+## Upgrading from `raft-ui`
+
+The package was published as `raft-ui` up to 0.6.0. To move a project:
+
+```bash
+pnpm add @botiverse/raft-ui
+node node_modules/@botiverse/raft-ui/codemods/package-name.mjs src
+node node_modules/@botiverse/raft-ui/codemods/token-names.mjs src
+pnpm remove raft-ui
+```
+
+The first command rewrites imports, CSS `@import` and `@source` paths and the dependency, and lists any bare `"raft-ui"` strings (bundler aliases, path mappings) to change by hand. The second moves to the current token names; the former names keep working until 1.0.
