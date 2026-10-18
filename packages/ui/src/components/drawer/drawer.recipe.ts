@@ -238,7 +238,13 @@ export const drawer = tv({
       axis: "x",
       class: {
         popup: ["inset-y-0 w-full max-w-[420px] [--drawer-inset:0px]"],
-        header: ["min-h-14 shrink-0 items-center gap-2 border-b border-line-seam py-0 pr-3 pl-5"],
+        // A side sheet's head is a panel head: on a phone (where the sheet
+        // is the whole screen) it takes the panel head's edges, a leading
+        // ghost Back 3px from the edge, mirroring the last action.
+        header: [
+          "min-h-14 shrink-0 items-center gap-2 border-b border-line-seam py-0 pr-3 pl-5",
+          "max-md:pr-1.5 max-md:pl-4 max-md:[&>[data-slot=panel-action]:first-child]:-ml-[13px]",
+        ],
         body: ["min-h-0 overflow-y-auto px-5 py-4"],
         footer: ["border-t border-line-seam px-5 py-3"],
         actions: ["flex-row flex-wrap justify-end", "**:data-[slot=button]:w-auto"],

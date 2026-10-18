@@ -133,8 +133,8 @@ export const panelHeader = tv({
         ],
         activity: ["gap-1.5 font-sans text-caption text-foreground-hint", "[&_svg]:size-3.5"],
         // The last glyph ends on the head's edge: 20px on desktop (12px of
-        // padding, 1px here, the 32px button's 7px glyph inset), 16px on a
-        // phone (44px buttons, 11px inset).
+        // padding, 1px here, the 32px button's 7px glyph inset); on a phone
+        // 14px in (44px buttons, 11px inset), mirroring a leading Back.
         actions: "mr-[-3px] gap-0.5 md:mr-px md:gap-1",
       },
     },
@@ -192,7 +192,19 @@ export const panelHeader = tv({
       slots: ["header", "sectionHeader"],
       theme: "raft",
       class: [
+        // Phone: a filled thing (a sticker, a pill) puts its shape on 16. A
+        // ghost button has no shape, so its empty 44px box overhangs, and
+        // the two edge buttons mirror each other: the last action (6px
+        // padding, the actions' -3px) and a leading Back (16px padding,
+        // -13px) both sit 3px from their edge. Their 22px icon frames are
+        // then 14px in and every glyph's centre 25px in, whatever the glyph
+        // (an arrow, a gear, a narrow ⋮) — aligning ink instead would move
+        // each button by its glyph's own side bearing.
         "h-(--shell-header-height,56px) gap-3 pr-3 pl-5 max-md:gap-2 max-md:pr-1.5 max-md:pl-4",
+        "max-md:[&>[data-slot=panel-action]:first-child]:-ml-[13px]",
+        // A Button straight in the head (ghost ones are PanelActions) is a
+        // filled control, so its shape ends on the content edge: 20 / 16.
+        "[&>[data-slot=button]:last-child]:mr-2 max-md:[&>[data-slot=button]:last-child]:mr-2.5",
         "border-b border-line-seam bg-layer-panel text-foreground",
       ],
     },
