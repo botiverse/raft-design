@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { ReactNode } from "react";
 import {
   HeadContent,
@@ -11,10 +10,8 @@ import { ThemeProvider } from "raft-ui";
 import { cn } from "raft-ui/cn";
 
 import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-theme.tsx";
-import { Sidebar } from "#/components/sidebar.tsx";
 import { shortTitle } from "#/lib/content/nav.ts";
-import { pageAt } from "#/lib/content/pages.ts";
-import { isMarkdownMode } from "#/lib/markdown-mode.ts";
+import { pageAt, SECTIONS } from "#/lib/content/pages.ts";
 import {
   documentThemeMode,
   getStoredPreviewTheme,
@@ -94,7 +91,6 @@ export const Route = createRootRoute({
 function RootDocument({ children }: { children: ReactNode }) {
   const location = useLocation();
   const { storedPreviewTheme } = Route.useLoaderData();
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isStandalonePage = useMatches({
     select: (matches) => matches.some((match) => match.staticData?.standalone === true),
   });
@@ -106,15 +102,10 @@ function RootDocument({ children }: { children: ReactNode }) {
   // SSR markup, the pre-paint script in <head>, and `DocumentThemeProvider`'s
   // effect.
   const documentMode = documentThemeMode(storedPreviewTheme);
-  const documentShellClassName = isStandalonePage
-    ? cn(
-        "isolate h-full [--sidebar-w:0rem] [--toc-w:0rem]",
-        usesPlaygroundDocumentScroll && "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible",
-      )
-    : cn(
-        "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem] lg:[--sidebar-w:16rem] xl:[--toc-w:11rem]",
-        sidebarCollapsed && "lg:[--sidebar-w:3.5rem]",
-      );
+  const documentShellClassName = cn(
+    "isolate h-full",
+    usesPlaygroundDocumentScroll && "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible",
+  );
 
   return (
     <html
@@ -134,8 +125,8 @@ function RootDocument({ children }: { children: ReactNode }) {
             `documentThemeMode`, the SSR attributes above, and
             `DocumentThemeProvider`'s effect. */}
         <script dangerouslySetInnerHTML={{ __html: PREVIEW_THEME_INLINE_SCRIPT }} />
-        {isMarkdownMode() ? null : <title>{documentTitle}</title>}
-        {isMarkdownMode() ? null : <HeadContent />}
+        <title>{documentTitle}</title>
+        <HeadContent />
       </head>
       <body
         data-standalone={isStandalonePage || undefined}
@@ -151,24 +142,9 @@ function RootDocument({ children }: { children: ReactNode }) {
       >
         <PreviewThemeProvider initial={storedPreviewTheme}>
           <DocumentThemeProvider>
-            <div className={documentShellClassName}>
-              {isStandalonePage || isMarkdownMode() ? null : (
-                <Sidebar collapsed={sidebarCollapsed} onCollapsedChange={setSidebarCollapsed} />
-              )}
-              <main
-                className={
-                  isStandalonePage
-                    ? cn(
-                        "h-full pl-(--sidebar-w)",
-                        usesPlaygroundDocumentScroll &&
-                          "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible",
-                      )
-                    : "min-h-screen pl-(--sidebar-w)"
-                }
-              >
-                {children}
-              </main>
-            </div>
+            {/* Every page brings its own chrome: the docs shell (routes/_site),
+                Playground, or a bare iframe fixture. */}
+            <div className={documentShellClassName}>{children}</div>
           </DocumentThemeProvider>
         </PreviewThemeProvider>
         <Scripts />
@@ -190,22 +166,13 @@ function DocumentThemeProvider({ children }: { children: ReactNode }) {
   );
 }
 
+const SECTION_TITLES: Record<string, string> = {
+  "/changelog": "Changelog",
+  ...Object.fromEntries(SECTIONS.map((section) => [`/${section.id}`, section.title])),
+};
+
 function getDocumentTitle(pathname: string) {
-  const page = pageAt(pathname);
-  if (page) return `${shortTitle(page)} · Raft Design System`;
-  return getComponentTitle(pathname) ?? "Raft Design System";
-}
-
-function getComponentTitle(pathname: string) {
-  const componentSlug = pathname.match(/^\/components\/([^/]+)/)?.[1]?.replace(/_$/, "");
-
-  if (!componentSlug) {
-    return null;
-  }
-
-  return componentSlug
-    .split("-")
-    .filter(Boolean)
-    .map((part) => part[0]!.toUpperCase() + part.slice(1))
-    .join("");
+  const path = pathname.replace(/\/+$/, "") || "/";
+  const title = pageAt(path) ? shortTitle(pageAt(path)!) : SECTION_TITLES[path];
+  return title ? `${title} · Raft Design System` : "Raft Design System";
 }

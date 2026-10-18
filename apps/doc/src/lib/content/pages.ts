@@ -17,6 +17,11 @@ const designFiles = import.meta.glob<string>(
   ],
   { query: "?raw", import: "default", eager: true },
 );
+const readmeSource = import.meta.glob<string>("../../../../../design/README.md", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
 const componentFiles = import.meta.glob<string>(
   "../../../../../packages/ui/src/components/*/*.md",
   {
@@ -240,6 +245,27 @@ export const PAGES: readonly DocPage[] = [
     .filter((folder) => !documentedFolders.has(folder))
     .map(generatedComponentPage),
 ].sort(comparePages);
+
+/**
+ * design/README.md: what the system is, its materials and principles. The
+ * home page renders it; it is not in a section, so it is not in PAGES.
+ */
+export const README: DocPage | null = (() => {
+  const source = Object.values(readmeSource)[0];
+  if (!source) return null;
+  const { data, content } = parseFrontMatter(source);
+  const body = content.replace(/^\s*# .+\r?\n+/, "").trim();
+  return {
+    section: "foundations",
+    slug: "",
+    url: "/",
+    repoPath: "design/README.md",
+    frontMatter: { ...data, title: data.title || "Raft Design System" },
+    body,
+    source,
+    ...headingsOf(body),
+  };
+})();
 
 const pageByUrl = new Map(PAGES.map((page) => [page.url, page]));
 const pageByRepoPath = new Map(PAGES.map((page) => [page.repoPath, page]));

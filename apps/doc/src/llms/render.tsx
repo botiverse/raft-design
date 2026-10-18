@@ -1,77 +1,38 @@
-import { RouterProvider, createMemoryHistory } from "@tanstack/react-router";
-import { renderToMarkdownString } from "react-render-to-markdown";
-
-import { apiMarkdown, changesFor, changesMarkdown, loadComponentApi } from "#/lib/content/api.ts";
-import { shortTitle } from "#/lib/content/nav.ts";
+import { raftUiChangelogMarkdown } from "#/data/raft-ui-release.ts";
+import {
+  API_INDEX,
+  apiMarkdown,
+  changesFor,
+  changesMarkdown,
+  loadComponentApi,
+} from "#/lib/content/api.ts";
+import { REPOSITORY_URL, SITE_ORIGIN } from "#/lib/content/links.ts";
+import { componentGroup, componentPages, shortTitle } from "#/lib/content/nav.ts";
 import { PAGES } from "#/lib/content/pages.ts";
 import { renderMarkdownTwin } from "#/lib/content/twin.ts";
-import { beginMarkdownPage, setMarkdownMode } from "#/lib/markdown-mode.ts";
-import { markdownPathFor } from "#/lib/markdown-pages.ts";
-import { guides } from "#/modules/guides/guides.ts";
-import { getRouter } from "#/router.tsx";
 
 export type MarkdownPage = {
   /** URL path of the HTML page, e.g. `/components/button`. */
   path: string;
   title: string;
   markdown: string;
-  /** One sentence for llms.txt; pages without it use their first paragraph. */
-  summary?: string;
+  /** One sentence for llms.txt. */
+  summary: string;
+  /** For components, the category llms.txt lists them under. */
+  group?: string;
 };
 
-function listDocPaths() {
-  const router = getRouter();
-  return (
-    Object.keys(router.routesByPath)
-      // Playground, lab and iframe fixtures are app demos, not documentation.
-      // `/guides/$guide` is dynamic; guides are emitted from source below.
-      .filter((path) => !path.includes("$") && markdownPathFor(path) !== null)
-      .sort()
-  );
-}
-
-async function renderRoute(path: string) {
-  const router = getRouter();
-  router.update({
-    ...router.options,
-    history: createMemoryHistory({ initialEntries: [path] }),
-  });
-  // The root loader reads the color-mode cookie through a server function, which
-  // has no request context outside the Start server. Markdown has no mode.
-  (router.routeTree as { options: { loader?: unknown } }).options.loader = () => ({
-    storedPreviewTheme: undefined,
-  });
-  await router.load();
-  return renderToMarkdownString(<RouterProvider router={router} />);
-}
-
-function titleOf(markdown: string, fallback: string) {
-  return markdown.match(/^# (.+)$/m)?.[1]?.trim() ?? fallback;
-}
-
+/**
+ * Every page's Markdown twin, from its source: the guidelines and component
+ * docs (with examples, tokens and, for components, the generated API and
+ * changes inlined) and the changelog.
+ */
 export async function renderMarkdownPages(): Promise<MarkdownPage[]> {
   const pages: MarkdownPage[] = [];
-
-  setMarkdownMode(true);
-  try {
-    for (const path of listDocPaths()) {
-      beginMarkdownPage();
-      const markdown = (await renderRoute(path)).trim();
-      // Layout routes that only redirect to a child render nothing.
-      if (!markdown) continue;
-      pages.push({ path, title: titleOf(markdown, path), markdown });
-    }
-  } finally {
-    setMarkdownMode(false);
-  }
-
-  // Pages written in Markdown (design/ and the component docs) are served from
-  // their source, with examples and tokens inlined. A component that still has
-  // a hand-written route keeps that route's twin until the route is removed.
-  const rendered = new Set(pages.map((page) => page.path));
-  for (const page of PAGES) {
-    if (rendered.has(page.url)) continue;
-    // A component's twin ends with what its page generates from code.
+  // Components in the nav's order (by category); build-llms.mjs then orders
+  // the sections with a stable sort.
+  const ordered = [...PAGES.filter((page) => page.section !== "components"), ...componentPages()];
+  for (const page of ordered) {
     const appendix =
       page.section === "components"
         ? [apiMarkdown(await loadComponentApi(page.slug)), changesMarkdown(changesFor(page.slug))]
@@ -83,17 +44,37 @@ export async function renderMarkdownPages(): Promise<MarkdownPage[]> {
       title: shortTitle(page),
       markdown: (await renderMarkdownTwin(page, appendix)).trim(),
       summary: page.frontMatter.summary,
+      ...(page.section === "components" ? { group: componentGroup(page) } : {}),
     });
   }
-
-  // Guides are authored in Markdown already; serve the source, not a round trip.
-  for (const guide of Object.values(guides)) {
-    pages.push({
-      path: `/guides/${guide.slug}`,
-      title: guide.title,
-      markdown: `# ${guide.title}\n\n${guide.body}`.trim(),
-    });
-  }
-
+  pages.push({
+    path: "/changelog",
+    title: "Changelog",
+    markdown: raftUiChangelogMarkdown.trim(),
+    summary: "What changed in each release of raft-ui, newest first.",
+  });
   return pages;
+}
+
+/**
+ * /components.json: every component, for agents and tools that pick one by
+ * name or alias. The same front matter drives the site's nav and search.
+ */
+export function renderComponentIndex() {
+  return componentPages().map((page) => ({
+    name: page.frontMatter.title,
+    slug: page.slug,
+    category: page.frontMatter.category ?? null,
+    status: page.frontMatter.status ?? "stable",
+    aliases: page.frontMatter.aliases ?? [],
+    summary: page.frontMatter.summary,
+    documented: !page.generated,
+    exports: API_INDEX[page.slug]?.names ?? [],
+    import: `raft-ui${page.frontMatter.status === "experimental" ? "/wip" : ""}`,
+    docs: `${SITE_ORIGIN}${page.url}`,
+    markdown: `${SITE_ORIGIN}${page.url}.md`,
+    source: `${REPOSITORY_URL}/tree/main/packages/ui/src/components/${page.slug}`,
+    related: page.frontMatter.related ?? [],
+    ...(page.frontMatter.replacedBy ? { replacedBy: page.frontMatter.replacedBy } : {}),
+  }));
 }

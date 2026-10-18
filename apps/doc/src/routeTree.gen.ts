@@ -9,24 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
 import { Route as SiteRouteImport } from './routes/_site'
-import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as LabRouteImport } from './routes/lab'
 import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
-import { Route as GuidesGuideRouteImport } from './routes/guides/$guide'
-import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
-import { Route as IframeDialogScrollLayerRouteImport } from './routes/iframe/dialog-scroll-layer'
+import { Route as SiteIndexRouteImport } from './routes/_site/index'
+import { Route as SiteChangelogRouteImport } from './routes/_site/changelog'
+import { Route as GuidesNameRouteImport } from './routes/guides/$name'
 import { Route as IframeExampleRouteImport } from './routes/iframe/example'
-import { Route as IframeSidebarMobilePartsRouteImport } from './routes/iframe/sidebar-mobile-parts'
 import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as PlaygroundBrowseRouteRouteImport } from './routes/playground/_browse/route'
 import { Route as PlaygroundPlainRouteRouteImport } from './routes/playground/_plain/route'
 import { Route as PlaygroundSRouteRouteImport } from './routes/playground/s/route'
-import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
-import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
-import { Route as TokensTypographyRouteImport } from './routes/tokens/typography'
+import { Route as TokensIndexRouteImport } from './routes/tokens/index'
+import { Route as TokensNameRouteImport } from './routes/tokens/$name'
 import { Route as SiteComponentsIndexRouteImport } from './routes/_site/components/index'
 import { Route as SiteComponentsSlugRouteImport } from './routes/_site/components/$slug'
 import { Route as SiteDecisionsIndexRouteImport } from './routes/_site/decisions/index'
@@ -52,18 +48,8 @@ import { Route as PlaygroundSServerSlugSavedRouteImport } from './routes/playgro
 import { Route as PlaygroundSServerSlugChannelChannelIdRouteImport } from './routes/playground/s/$serverSlug/channel/$channelId'
 import { Route as PlaygroundSServerSlugDmDmIdRouteImport } from './routes/playground/s/$serverSlug/dm/$dmId'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SiteRoute = SiteRouteImport.update({
   id: '/_site',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChangelogRoute = ChangelogRouteImport.update({
-  id: '/changelog',
-  path: '/changelog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -81,19 +67,19 @@ const PlaygroundRouteRoute = PlaygroundRouteRouteImport.update({
   path: '/playground',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GuidesGuideRoute = GuidesGuideRouteImport.update({
-  id: '/guides/$guide',
-  path: '/guides/$guide',
-  getParentRoute: () => rootRouteImport,
+const SiteIndexRoute = SiteIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SiteRoute,
 } as any)
-const IframeAppShellMobileRoute = IframeAppShellMobileRouteImport.update({
-  id: '/iframe/app-shell-mobile',
-  path: '/iframe/app-shell-mobile',
-  getParentRoute: () => rootRouteImport,
+const SiteChangelogRoute = SiteChangelogRouteImport.update({
+  id: '/changelog',
+  path: '/changelog',
+  getParentRoute: () => SiteRoute,
 } as any)
-const IframeDialogScrollLayerRoute = IframeDialogScrollLayerRouteImport.update({
-  id: '/iframe/dialog-scroll-layer',
-  path: '/iframe/dialog-scroll-layer',
+const GuidesNameRoute = GuidesNameRouteImport.update({
+  id: '/guides/$name',
+  path: '/guides/$name',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IframeExampleRoute = IframeExampleRouteImport.update({
@@ -101,12 +87,6 @@ const IframeExampleRoute = IframeExampleRouteImport.update({
   path: '/iframe/example',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IframeSidebarMobilePartsRoute =
-  IframeSidebarMobilePartsRouteImport.update({
-    id: '/iframe/sidebar-mobile-parts',
-    path: '/iframe/sidebar-mobile-parts',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const PlaygroundIndexRoute = PlaygroundIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -125,19 +105,14 @@ const PlaygroundSRouteRoute = PlaygroundSRouteRouteImport.update({
   path: '/s',
   getParentRoute: () => PlaygroundRouteRoute,
 } as any)
-const TokensColorsRoute = TokensColorsRouteImport.update({
-  id: '/tokens/colors',
-  path: '/tokens/colors',
+const TokensIndexRoute = TokensIndexRouteImport.update({
+  id: '/tokens/',
+  path: '/tokens/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TokensShadowsRoute = TokensShadowsRouteImport.update({
-  id: '/tokens/shadows',
-  path: '/tokens/shadows',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TokensTypographyRoute = TokensTypographyRouteImport.update({
-  id: '/tokens/typography',
-  path: '/tokens/typography',
+const TokensNameRoute = TokensNameRouteImport.update({
+  id: '/tokens/$name',
+  path: '/tokens/$name',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SiteComponentsIndexRoute = SiteComponentsIndexRouteImport.update({
@@ -271,21 +246,17 @@ const PlaygroundSServerSlugDmDmIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/playground': typeof PlaygroundRouteRouteWithChildren
-  '/changelog': typeof ChangelogRoute
+  '/': typeof SiteIndexRoute
   '/dashboard': typeof DashboardRoute
   '/lab': typeof LabRoute
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
-  '/guides/$guide': typeof GuidesGuideRoute
-  '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
-  '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
+  '/changelog': typeof SiteChangelogRoute
+  '/guides/$name': typeof GuidesNameRoute
   '/iframe/example': typeof IframeExampleRoute
-  '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
-  '/tokens/colors': typeof TokensColorsRoute
-  '/tokens/shadows': typeof TokensShadowsRoute
-  '/tokens/typography': typeof TokensTypographyRoute
+  '/tokens/$name': typeof TokensNameRoute
   '/playground/': typeof PlaygroundIndexRoute
+  '/tokens/': typeof TokensIndexRoute
   '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
   '/components/$slug': typeof SiteComponentsSlugRoute
   '/decisions/$slug': typeof SiteDecisionsSlugRoute
@@ -312,20 +283,16 @@ export interface FileRoutesByFullPath {
   '/playground/s/$serverSlug/dm/$dmId': typeof PlaygroundSServerSlugDmDmIdRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/changelog': typeof ChangelogRoute
   '/dashboard': typeof DashboardRoute
   '/lab': typeof LabRoute
   '/playground': typeof PlaygroundIndexRoute
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
-  '/guides/$guide': typeof GuidesGuideRoute
-  '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
-  '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
+  '/changelog': typeof SiteChangelogRoute
+  '/guides/$name': typeof GuidesNameRoute
   '/iframe/example': typeof IframeExampleRoute
-  '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
-  '/tokens/colors': typeof TokensColorsRoute
-  '/tokens/shadows': typeof TokensShadowsRoute
-  '/tokens/typography': typeof TokensTypographyRoute
+  '/tokens/$name': typeof TokensNameRoute
+  '/': typeof SiteIndexRoute
+  '/tokens': typeof TokensIndexRoute
   '/components/$slug': typeof SiteComponentsSlugRoute
   '/decisions/$slug': typeof SiteDecisionsSlugRoute
   '/foundations/$slug': typeof SiteFoundationsSlugRoute
@@ -352,24 +319,20 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/playground': typeof PlaygroundRouteRouteWithChildren
   '/_site': typeof SiteRouteWithChildren
-  '/changelog': typeof ChangelogRoute
   '/dashboard': typeof DashboardRoute
   '/lab': typeof LabRoute
   '/playground/_browse': typeof PlaygroundBrowseRouteRouteWithChildren
   '/playground/_plain': typeof PlaygroundPlainRouteRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
-  '/guides/$guide': typeof GuidesGuideRoute
-  '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
-  '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
+  '/_site/changelog': typeof SiteChangelogRoute
+  '/guides/$name': typeof GuidesNameRoute
   '/iframe/example': typeof IframeExampleRoute
-  '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
-  '/tokens/colors': typeof TokensColorsRoute
-  '/tokens/shadows': typeof TokensShadowsRoute
-  '/tokens/typography': typeof TokensTypographyRoute
+  '/tokens/$name': typeof TokensNameRoute
+  '/_site/': typeof SiteIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
+  '/tokens/': typeof TokensIndexRoute
   '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
   '/_site/components/$slug': typeof SiteComponentsSlugRoute
   '/_site/decisions/$slug': typeof SiteDecisionsSlugRoute
@@ -398,21 +361,17 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/playground'
-    | '/changelog'
+    | '/'
     | '/dashboard'
     | '/lab'
     | '/playground/s'
-    | '/guides/$guide'
-    | '/iframe/app-shell-mobile'
-    | '/iframe/dialog-scroll-layer'
+    | '/changelog'
+    | '/guides/$name'
     | '/iframe/example'
-    | '/iframe/sidebar-mobile-parts'
-    | '/tokens/colors'
-    | '/tokens/shadows'
-    | '/tokens/typography'
+    | '/tokens/$name'
     | '/playground/'
+    | '/tokens/'
     | '/playground/s/$serverSlug'
     | '/components/$slug'
     | '/decisions/$slug'
@@ -439,20 +398,16 @@ export interface FileRouteTypes {
     | '/playground/s/$serverSlug/dm/$dmId'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/changelog'
     | '/dashboard'
     | '/lab'
     | '/playground'
     | '/playground/s'
-    | '/guides/$guide'
-    | '/iframe/app-shell-mobile'
-    | '/iframe/dialog-scroll-layer'
+    | '/changelog'
+    | '/guides/$name'
     | '/iframe/example'
-    | '/iframe/sidebar-mobile-parts'
-    | '/tokens/colors'
-    | '/tokens/shadows'
-    | '/tokens/typography'
+    | '/tokens/$name'
+    | '/'
+    | '/tokens'
     | '/components/$slug'
     | '/decisions/$slug'
     | '/foundations/$slug'
@@ -478,24 +433,20 @@ export interface FileRouteTypes {
     | '/playground/s/$serverSlug/dm/$dmId'
   id:
     | '__root__'
-    | '/'
     | '/playground'
     | '/_site'
-    | '/changelog'
     | '/dashboard'
     | '/lab'
     | '/playground/_browse'
     | '/playground/_plain'
     | '/playground/s'
-    | '/guides/$guide'
-    | '/iframe/app-shell-mobile'
-    | '/iframe/dialog-scroll-layer'
+    | '/_site/changelog'
+    | '/guides/$name'
     | '/iframe/example'
-    | '/iframe/sidebar-mobile-parts'
-    | '/tokens/colors'
-    | '/tokens/shadows'
-    | '/tokens/typography'
+    | '/tokens/$name'
+    | '/_site/'
     | '/playground/'
+    | '/tokens/'
     | '/playground/s/$serverSlug'
     | '/_site/components/$slug'
     | '/_site/decisions/$slug'
@@ -523,43 +474,23 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   PlaygroundRouteRoute: typeof PlaygroundRouteRouteWithChildren
   SiteRoute: typeof SiteRouteWithChildren
-  ChangelogRoute: typeof ChangelogRoute
   DashboardRoute: typeof DashboardRoute
   LabRoute: typeof LabRoute
-  GuidesGuideRoute: typeof GuidesGuideRoute
-  IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
-  IframeDialogScrollLayerRoute: typeof IframeDialogScrollLayerRoute
+  GuidesNameRoute: typeof GuidesNameRoute
   IframeExampleRoute: typeof IframeExampleRoute
-  IframeSidebarMobilePartsRoute: typeof IframeSidebarMobilePartsRoute
-  TokensColorsRoute: typeof TokensColorsRoute
-  TokensShadowsRoute: typeof TokensShadowsRoute
-  TokensTypographyRoute: typeof TokensTypographyRoute
+  TokensNameRoute: typeof TokensNameRoute
+  TokensIndexRoute: typeof TokensIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_site': {
       id: '/_site'
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof SiteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/changelog': {
-      id: '/changelog'
-      path: '/changelog'
-      fullPath: '/changelog'
-      preLoaderRoute: typeof ChangelogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -583,25 +514,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaygroundRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/guides/$guide': {
-      id: '/guides/$guide'
-      path: '/guides/$guide'
-      fullPath: '/guides/$guide'
-      preLoaderRoute: typeof GuidesGuideRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_site/': {
+      id: '/_site/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRoute
     }
-    '/iframe/app-shell-mobile': {
-      id: '/iframe/app-shell-mobile'
-      path: '/iframe/app-shell-mobile'
-      fullPath: '/iframe/app-shell-mobile'
-      preLoaderRoute: typeof IframeAppShellMobileRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_site/changelog': {
+      id: '/_site/changelog'
+      path: '/changelog'
+      fullPath: '/changelog'
+      preLoaderRoute: typeof SiteChangelogRouteImport
+      parentRoute: typeof SiteRoute
     }
-    '/iframe/dialog-scroll-layer': {
-      id: '/iframe/dialog-scroll-layer'
-      path: '/iframe/dialog-scroll-layer'
-      fullPath: '/iframe/dialog-scroll-layer'
-      preLoaderRoute: typeof IframeDialogScrollLayerRouteImport
+    '/guides/$name': {
+      id: '/guides/$name'
+      path: '/guides/$name'
+      fullPath: '/guides/$name'
+      preLoaderRoute: typeof GuidesNameRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/iframe/example': {
@@ -609,13 +540,6 @@ declare module '@tanstack/react-router' {
       path: '/iframe/example'
       fullPath: '/iframe/example'
       preLoaderRoute: typeof IframeExampleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/iframe/sidebar-mobile-parts': {
-      id: '/iframe/sidebar-mobile-parts'
-      path: '/iframe/sidebar-mobile-parts'
-      fullPath: '/iframe/sidebar-mobile-parts'
-      preLoaderRoute: typeof IframeSidebarMobilePartsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/playground/': {
@@ -646,25 +570,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaygroundSRouteRouteImport
       parentRoute: typeof PlaygroundRouteRoute
     }
-    '/tokens/colors': {
-      id: '/tokens/colors'
-      path: '/tokens/colors'
-      fullPath: '/tokens/colors'
-      preLoaderRoute: typeof TokensColorsRouteImport
+    '/tokens/': {
+      id: '/tokens/'
+      path: '/tokens'
+      fullPath: '/tokens/'
+      preLoaderRoute: typeof TokensIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tokens/shadows': {
-      id: '/tokens/shadows'
-      path: '/tokens/shadows'
-      fullPath: '/tokens/shadows'
-      preLoaderRoute: typeof TokensShadowsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tokens/typography': {
-      id: '/tokens/typography'
-      path: '/tokens/typography'
-      fullPath: '/tokens/typography'
-      preLoaderRoute: typeof TokensTypographyRouteImport
+    '/tokens/$name': {
+      id: '/tokens/$name'
+      path: '/tokens/$name'
+      fullPath: '/tokens/$name'
+      preLoaderRoute: typeof TokensNameRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_site/components/': {
@@ -951,6 +868,8 @@ const PlaygroundRouteRouteWithChildren = PlaygroundRouteRoute._addFileChildren(
 )
 
 interface SiteRouteChildren {
+  SiteChangelogRoute: typeof SiteChangelogRoute
+  SiteIndexRoute: typeof SiteIndexRoute
   SiteComponentsSlugRoute: typeof SiteComponentsSlugRoute
   SiteDecisionsSlugRoute: typeof SiteDecisionsSlugRoute
   SiteFoundationsSlugRoute: typeof SiteFoundationsSlugRoute
@@ -965,6 +884,8 @@ interface SiteRouteChildren {
 }
 
 const SiteRouteChildren: SiteRouteChildren = {
+  SiteChangelogRoute: SiteChangelogRoute,
+  SiteIndexRoute: SiteIndexRoute,
   SiteComponentsSlugRoute: SiteComponentsSlugRoute,
   SiteDecisionsSlugRoute: SiteDecisionsSlugRoute,
   SiteFoundationsSlugRoute: SiteFoundationsSlugRoute,
@@ -981,20 +902,14 @@ const SiteRouteChildren: SiteRouteChildren = {
 const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   PlaygroundRouteRoute: PlaygroundRouteRouteWithChildren,
   SiteRoute: SiteRouteWithChildren,
-  ChangelogRoute: ChangelogRoute,
   DashboardRoute: DashboardRoute,
   LabRoute: LabRoute,
-  GuidesGuideRoute: GuidesGuideRoute,
-  IframeAppShellMobileRoute: IframeAppShellMobileRoute,
-  IframeDialogScrollLayerRoute: IframeDialogScrollLayerRoute,
+  GuidesNameRoute: GuidesNameRoute,
   IframeExampleRoute: IframeExampleRoute,
-  IframeSidebarMobilePartsRoute: IframeSidebarMobilePartsRoute,
-  TokensColorsRoute: TokensColorsRoute,
-  TokensShadowsRoute: TokensShadowsRoute,
-  TokensTypographyRoute: TokensTypographyRoute,
+  TokensNameRoute: TokensNameRoute,
+  TokensIndexRoute: TokensIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

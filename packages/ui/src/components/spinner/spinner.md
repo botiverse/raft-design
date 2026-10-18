@@ -29,6 +29,14 @@ spinner/compositions/default
 - `size` scales the pixels from `xs` to `lg`. Match it to the text or icons next to it.
 - The spinner takes the color of the text around it. `variant="inverse"` sets it in the inverse foreground, for a surface of the opposite lightness.
 
+## Loading screen
+
+When the app is starting and nothing is on screen yet, a loading screen shows the pixel loader in place of the spinner: the agents' pixel sprites light up in turn next to the Raft mark. A loading screen is a brand page, so it may show the logo ([Brand](../../../../../design/foundations/brand.md#logo)). The pixel loader is a composition in the docs, not a raft-ui export.
+
+```example
+spinner/compositions/pixel-loader
+```
+
 ## Behavior
 
 - Show the spinner only after the wait passes 1 second, so a fast load doesn't flash it. raft-ui doesn't delay it for you.

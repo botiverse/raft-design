@@ -127,7 +127,7 @@ function wait(ms: number) {
   });
 }
 
-export function PixelLoaderLab() {
+export function PixelLoaderComposition() {
   const trackRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
 
