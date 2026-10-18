@@ -1,6 +1,6 @@
 # raft-ui
 
-rUI design foundations for plain HTML, plus React components built with Base UI and Tailwind CSS v4.
+Raft Design System foundations for plain HTML, plus React components built with Base UI and Tailwind CSS v4.
 
 ## React
 

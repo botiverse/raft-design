@@ -9,7 +9,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/botiverse/rui.git",
+    "url": "git+https://github.com/botiverse/raft-design.git",
     "directory": "packages/ui"
   },
   "files": [

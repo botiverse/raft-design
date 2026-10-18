@@ -150,7 +150,7 @@ export function MessageReferenceShowcaseComposition() {
                 variant="link"
                 render={
                   <a
-                    href="https://github.com/botiverse/rui/pull/125"
+                    href="https://github.com/botiverse/raft-design/pull/125"
                     rel="noreferrer"
                     target="_blank"
                   />

@@ -1,6 +1,6 @@
 ---
 name: technical-overview
-description: "rUI's technical foundations, package contents, and integration contracts."
+description: "raft-ui's technical foundations, package contents, and integration contracts."
 ---
 
 # Technical overview

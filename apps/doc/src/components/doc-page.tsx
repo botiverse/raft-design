@@ -9,9 +9,9 @@ import type { TocItem } from "./toc.tsx";
 
 export { GithubMark } from "./github-mark.tsx";
 
-const DOCS_SOURCE_URL = "https://github.com/botiverse/rui/blob/main";
+const DOCS_SOURCE_URL = "https://github.com/botiverse/raft-design/blob/main";
 const COMPONENT_SOURCE_URL =
-  "https://github.com/botiverse/rui/tree/main/packages/ui/src/components";
+  "https://github.com/botiverse/raft-design/tree/main/packages/ui/src/components";
 
 /**
  * Docs slugs whose package directory name differs from the route slug, or null

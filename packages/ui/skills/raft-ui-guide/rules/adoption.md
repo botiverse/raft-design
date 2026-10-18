@@ -1,9 +1,9 @@
 ---
 name: adoption
-description: "Adopting rUI in an existing project: inventory before changing, the order that prevents locally-correct/globally-wrong results, and what acceptance means beyond 'it renders'."
+description: "Adopting raft-ui in an existing project: inventory before changing, the order that prevents locally-correct/globally-wrong results, and what acceptance means beyond 'it renders'."
 ---
 
-# Adopting rUI in an existing project
+# Adopting raft-ui in an existing project
 
 ## Inventory before you change anything
 
@@ -11,12 +11,12 @@ Classify every hand-rolled control first. Do not read-and-replace file by file: 
 will convert the easy ones, leave the hard ones, and end with a surface that is
 half one system and half another.
 
-| Bucket | Meaning                                                | Action                  |
-| ------ | ------------------------------------------------------ | ----------------------- |
-| A      | rUI has an equivalent                                  | Replace                 |
-| B1     | rUI has no such primitive                              | Out of scope; report it |
-| B2     | rUI has it only bound to a domain, no generic layer    | Out of scope; report it |
-| C      | Must stay hand-rolled (example code, product-specific) | Leave, and say why      |
+| Bucket | Meaning                                                 | Action                  |
+| ------ | ------------------------------------------------------- | ----------------------- |
+| A      | raft-ui has an equivalent                               | Replace                 |
+| B1     | raft-ui has no such primitive                           | Out of scope; report it |
+| B2     | raft-ui has it only bound to a domain, no generic layer | Out of scope; report it |
+| C      | Must stay hand-rolled (example code, product-specific)  | Leave, and say why      |
 
 Report B1 (new primitive) and B2 (extract a generic layer from existing code, far
 cheaper) separately.
