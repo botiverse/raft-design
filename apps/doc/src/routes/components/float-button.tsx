@@ -160,7 +160,7 @@ const FLOAT_BUTTON_PROPS: readonly PropRow[] = [
   {
     name: "tooltip",
     type: "ReactNode",
-    description: "Built-in Tooltip content rendered via rUI Tooltip.",
+    description: "Built-in Tooltip content rendered via raft-ui Tooltip.",
   },
   {
     name: "position",

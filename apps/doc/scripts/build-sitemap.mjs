@@ -9,7 +9,7 @@ import { readdir, writeFile } from "node:fs/promises";
 import { join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const origin = "https://rui.botiverse.build";
+const origin = "https://raft-design.botiverse.build";
 const outDir = fileURLToPath(new URL("../dist/client", import.meta.url));
 
 /** Test fixtures for embedded demos, not pages anyone should land on. */

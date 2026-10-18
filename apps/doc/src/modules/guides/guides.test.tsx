@@ -18,7 +18,7 @@ test("published guides share the packaged source and resolve their links and sec
   );
   for (const page of Object.values(pages)) {
     for (const link of page.querySelectorAll<HTMLAnchorElement>('a[href^="/guides/"]')) {
-      const url = new URL(link.getAttribute("href")!, "https://rui.botiverse.build");
+      const url = new URL(link.getAttribute("href")!, "https://raft-design.botiverse.build");
       const target = pages[url.pathname.split("/").at(-1)!];
       expect(target, url.pathname).toBeDefined();
       if (url.hash) expect(target.getElementById(url.hash.slice(1)), url.href).not.toBeNull();

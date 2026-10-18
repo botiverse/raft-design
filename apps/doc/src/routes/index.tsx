@@ -1422,7 +1422,7 @@ function Home() {
       <header className="border-b border-line-muted px-6 py-12 sm:px-10 sm:py-16">
         <div className="flex max-w-3xl flex-col gap-5">
           <Text.Heading level={3} render={<h1 />}>
-            Build something bold with rUI.
+            Build something bold with raft-ui.
           </Text.Heading>
           <Text.Sans size="large">
             A UI system with expressive visuals and playful interactions, shaped by Raft and made

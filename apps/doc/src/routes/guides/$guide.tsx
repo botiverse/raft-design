@@ -20,7 +20,7 @@ function GuidePage() {
     <DocPage
       title={guide.title}
       toc={TOC}
-      sourceHref={`https://github.com/botiverse/rui/blob/main/packages/ui/skills/raft-ui-guide/rules/${guide.slug}.md`}
+      sourceHref={`https://github.com/botiverse/raft-design/blob/main/packages/ui/skills/raft-ui-guide/rules/${guide.slug}.md`}
     >
       <GuideContent>{guide.body}</GuideContent>
     </DocPage>

@@ -1242,7 +1242,11 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
                   title="GitHub repository"
                   className="size-8 p-0"
                   render={
-                    <a href="https://github.com/botiverse/rui" target="_blank" rel="noreferrer" />
+                    <a
+                      href="https://github.com/botiverse/raft-design"
+                      target="_blank"
+                      rel="noreferrer"
+                    />
                   }
                 >
                   <GithubMark size={16} />

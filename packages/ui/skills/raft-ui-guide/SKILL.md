@@ -1,13 +1,13 @@
 ---
 name: raft-ui-guide
-description: "Build with rUI: native CSS foundations for plain HTML and React components using Base UI and Tailwind CSS v4. Use for design tokens, styling, component selection, composition, and API lookup."
+description: "Build with raft-ui: native CSS foundations for plain HTML and React components using Base UI and Tailwind CSS v4. Use for design tokens, styling, component selection, composition, and API lookup."
 ---
 
 # raft-ui
 
 The package is `raft-ui`. Plain HTML can use `foundation.css` directly; the component guidance below applies to React. The React components are built on **Base UI** (`@base-ui/react`), **Tailwind CSS v4**, and **tailwind-variants**. Chat/workspace product domain: rails, sidebars, conversation panels, composers, task boards, activity inboxes, and search.
 
-The rule files are also published at https://rui.botiverse.build/guides/overview. Do not register or install skills in a consumer project unless requested.
+The rule files are also published at https://raft-design.botiverse.build/guides/overview. Do not register or install skills in a consumer project unless requested.
 
 ## Working sequence
 

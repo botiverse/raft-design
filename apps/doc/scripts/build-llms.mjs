@@ -17,7 +17,7 @@ const sections = [
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const outDir = join(root, "dist/client");
-const origin = "https://rui.botiverse.build";
+const origin = "https://raft-design.botiverse.build";
 
 const server = await createServer({
   root,
@@ -52,9 +52,9 @@ function summaryOf(markdown) {
 }
 
 const index = [
-  "# rUI",
+  "# Raft Design System",
   "",
-  "> Raft UI: a React component library built on Base UI and styled with tailwind-variants. " +
+  "> raft-ui: the React implementation of the Raft Design System, built on Base UI and styled with tailwind-variants. " +
     "Every page below is also served as HTML at the same path without `.md`.",
   "",
 ];
