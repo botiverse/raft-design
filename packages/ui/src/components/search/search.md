@@ -1,0 +1,92 @@
+---
+title: Search
+summary: The search trigger in the web top bar, and the parts of search results — rows for places and people, message and thread hits, grouped by kind with the matched words marked.
+status: stable
+aliases: [SearchTrigger]
+category: content
+related: [list-row, empty-state, select, combobox, dialog, input-group, thread-panel]
+---
+
+# Search
+
+Search is a field, a few filters and results grouped by kind. Places and people are rows; messages are hits that say who, where and when, with the matched words as small yellow stickers. On the web, search opens from the search field in the top bar (`SearchTrigger`).
+
+```example
+search/compositions/search-panel
+```
+
+## When to use
+
+| Situation                                       | Use                                                                                                                     |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Finding a place, a person or a message to go to | Search                                                                                                                  |
+| Finding a value to fill in, inside a popup      | A select with search ([ComboboxSelect](../combobox-select/combobox-select.md)) or a [Combobox](../combobox/combobox.md) |
+| Narrowing a list that is already on screen      | A filter ([Choosing a component](../../../../../design/patterns/choosing-components.md#picking-something))              |
+
+## Anatomy
+
+### Trigger
+
+- `SearchTrigger`: the top bar's search field. It looks like a field and is a button that opens the search dialog.
+  - A search icon, then `SearchTriggerLabel` (the placeholder, Search Raft), then `SearchTriggerShortcut` (⌘K) at the right end. The label truncates first.
+
+```example
+search/compositions/search-trigger
+```
+
+### Results
+
+- `SearchShellRoot`: the search surface, with `SearchShellFilters` (the row of filters) and `SearchShellViewport` (the scrolling results).
+- `SearchResultsSummary`: one line about the results: "Searching for “launch”…".
+- `SearchResultsSection`: one kind of result, with `SearchResultsSectionHeading` (Messages 13) and `SearchResultsList`.
+- `SearchEntityResult`: a channel, a person or an agent. It follows the layout of a [ListRow](../list-row/list-row.md): `SearchEntityResultLeading` (a `SearchEntityResultIcon` or an avatar, with an optional `SearchEntityResultActivity` light), and `SearchEntityResultContent` with `SearchEntityResultHeader`, `SearchEntityResultTitle` and `SearchEntityResultDescription`.
+- `SearchMessageResult`: a message. `SearchMessageResultHeader` holds `SearchMessageResultSender` (who), `SearchMessageResultMeta` (where), `SearchMessageResultThreadMeta` (in a thread) and `SearchMessageResultTimestamp` (when); `SearchMessageResultBody` holds the excerpt, with each match in `SearchMessageResultMatch`.
+- `SearchThreadResult`: a thread with several hits: `SearchThreadResultHeader` (`SearchThreadResultMeta`, `SearchThreadResultTimestamp`, `SearchThreadResultTitle`) and `SearchThreadResultMessages`, a list of `SearchThreadMessageResult`.
+
+```example
+search/compositions/search-preview
+```
+
+## States
+
+| State                                        | Use for                                                                                                                                    |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `selected` on a result                       | The keyboard highlight: `brand-soft`, as in menus ([States](../../../../../design/foundations/states.md#usage))                            |
+| `muted` on an entity's title and description | A place the person can't post in any more, such as an archived channel                                                                     |
+| Loading                                      | A summary line and skeletons in the shape of the results ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)) |
+| No results                                   | An [EmptyState](../empty-state/empty-state.md) that says how to widen the search                                                           |
+
+```example
+search/compositions/search-muted-entity
+```
+
+```example
+search/compositions/search-loading
+```
+
+```example
+search/compositions/search-no-results
+```
+
+## Behavior
+
+- On the web, open search from the top bar's field as a centered dialog, 720px wide, whose top edge covers the top bar's field, so the field seems to grow into it. It has the scrim and no animation, like every centered overlay ([Choosing a component](../../../../../design/patterns/choosing-components.md#overlays)).
+- Group results by kind ([Conversation](../../../../../design/patterns/conversation.md#search)): places and people first, then messages.
+- Show the scope, the sender, the place and the time range as filters in the filter row, each a select or combobox.
+- Open a selected result in the side panel ([Conversation](../../../../../design/patterns/conversation.md#search)). A hit in a thread opens that thread directly.
+- Move the keyboard highlight from the field into the results with the Down arrow, and open the highlighted result with Enter.
+
+## Content
+
+- Make the excerpt of a message at most 2 lines, with the matched words in `SearchMessageResultMatch`.
+- Write the no-results state as what wasn't found and how to widen it: "No results for “launch”", "Try another word or remove a filter."
+- Write the trigger's placeholder as what it searches: Search Raft.
+
+## Accessibility
+
+- The parts render native elements through Base UI's `useRender`; no Base UI primitive is involved. Results are `button`s by default; pass a link with `render` for a result that navigates.
+- `SearchTrigger` is a `button` named by its label. It opens a [Dialog](../dialog/dialog.md); give the dialog a title and the field inside it an accessible name (`aria-label="Search"`).
+- Put the field and its filters in an element with `role="search"`, and give the clear button `aria-label="Clear search"`.
+- `selected` is visual only. When you move a keyboard highlight through the results, keep focus on the field and point to the highlighted result with `aria-activedescendant`, or move focus to it.
+- Give an entity's activity light a name: `role="img"` and `aria-label="Active"`.
+- `SearchMessageResultMatch` is a `mark`, so matches are announced where the reader supports it.
