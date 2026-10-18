@@ -75,67 +75,67 @@ Don't restate what the underlying Base UI primitive already guarantees. Name it,
 
 ## Terms
 
-Use one term per concept, everywhere. These are the system's terms. Some of the Chinese source names come from the current guidelines and stop being used once they are migrated.
+Use one term per concept, everywhere. These are the system's terms.
 
 ### Surfaces and lines
 
-| Term | Meaning | Chinese source |
-| --- | --- | --- |
-| frame | The outer, brand-colored chrome: the desktop rail, the web top bar, the top bar of a phone's top-level pages. Yellow in light mode, neutral in dark mode. | 外框 |
-| sidebar | The desktop column next to the rail that lists what the selected destination contains. | 侧栏 |
-| paper | The background content sits on. | 纸 |
-| ink | The color of text and control borders. | 墨 |
-| sticker | A block of brand color with an ink edge and ink type: avatars, selection, the primary button, badges. | 贴纸 |
-| die-cut edge | The outline added around stickers in dark mode. | 模切边 |
-| soft tint | A pale, borderless highlight color (`*-soft` tokens). | 浅底 |
-| hairline | The thin line inside content: list dividers, card outlines. | 发丝线 |
-| seam | The line between regions: rail and sidebar, a header and its content, the edge of a menu. | 分区线 |
-| ink border | The 1.5px border that marks something as a control. | 墨线 |
-| pressed overlay | The translucent layer laid over a control on hover and press. | 叠一层 |
+| Term | Meaning |
+| --- | --- |
+| frame | The outer, brand-colored chrome: the desktop rail, the web top bar, the top bar of a phone's top-level pages. Yellow in light mode, neutral in dark mode. |
+| sidebar | The desktop column next to the rail that lists what the selected destination contains. |
+| paper | The background content sits on. |
+| ink | The color of text and control borders. |
+| sticker | A block of brand color with an ink edge and ink type: avatars, selection, the primary button, badges. |
+| die-cut edge | The outline added around stickers in dark mode. |
+| soft tint | A pale, borderless highlight color (`*-soft` tokens). |
+| hairline | The thin line inside content: list dividers, card outlines. |
+| seam | The line between regions: rail and sidebar, a header and its content, the edge of a menu. |
+| ink border | The 1.5px border that marks something as a control. |
+| pressed overlay | The translucent layer laid over a control on hover and press. |
 
 ### Structure
 
-| Term | Meaning | Chinese source |
-| --- | --- | --- |
-| destination | A top-level place in a product (Home, Tasks, Members, Settings). | 一级入口 |
-| top-level page | The page a destination opens on a phone; it shows the tab bar. | 一级页 |
-| pushed page | A page opened from another page; it covers the tab bar and has a Back button. | 二级页、push 进去的页面 |
-| rail | The leftmost desktop column of destinations. | Rail |
-| tab bar | The phone's bottom row of destinations. | Tab 栏 |
-| top bar | The bar at the top of a phone page. | 顶栏 |
-| panel | A column of the desktop main area, with a panel header. | 面板 |
-| side panel | A panel opened beside the conversation (thread, task, files, profile). | 右边一栏 |
-| inset group | A rounded card holding a group of rows. | 分组卡片 |
-| bottom sheet | A sheet that rises from the bottom of a phone screen. | 底部弹层、底部列表 |
+| Term | Meaning |
+| --- | --- |
+| destination | A top-level place in a product (Home, Tasks, Members, Settings). |
+| top-level page | The page a destination opens on a phone; it shows the tab bar. |
+| pushed page | A page opened from another page; it covers the tab bar and has a Back button. |
+| rail | The leftmost desktop column of destinations. |
+| tab bar | The phone's bottom row of destinations. |
+| top bar | The bar at the top of a phone page. |
+| panel | A column of the desktop main area, with a panel header. |
+| side panel | A panel opened beside the conversation (thread, task, files, profile). |
+| inset group | A rounded card holding a group of rows. |
+| bottom sheet | A sheet that rises from the bottom of a phone screen. |
 
 ### Signals and status
 
-| Term | Meaning | Chinese source |
-| --- | --- | --- |
-| attention dot | The single pink pixel that marks something waiting for the person. | 提醒点 |
-| unread count | The pink number badge. | 未读数 |
-| mention marker | The yellow @ marker that replaces the count when someone mentions the person. | @ 标记 |
-| presence light | The square light on an avatar: online, busy, error, offline, external. | 状态灯 |
-| status chip | A soft-tinted chip with a pixel and a word: a task status or an agent state. | 状态签 |
-| runtime chip | The chip that names where an agent runs (Claude Code, Codex). | 运行时签 |
-| event line | A line in a conversation that records an action ("Bugen claimed #25"). | 事件行 |
-| evidence strip | The strip on an agent's message that links its proof (CI, commit, snapshot). | 证据条 |
-| reference chip | An inline chip that links to a place or an item. | 引用 chip |
-| location tile | The yellow block beside the title of the place the person is in. | 位置块 |
-| workspace pill | The phone's workspace switcher at the top of Home. | 工作区胶囊 |
-| pixel avatar | An agent's 8×8 pixel face. | 像素形象 |
-| pixel spinner | The loading indicator made of pixels. | 像素转圈 |
-| working | An agent that is currently doing a task. "Working now" lists them. | 正在干活 |
-| avatar stack | The overlapping avatars that summarize who is working. | 一叠头像 |
+| Term | Meaning |
+| --- | --- |
+| attention dot | The single pink pixel that marks something waiting for the person. |
+| unread count | The pink number badge. |
+| mention marker | The yellow @ marker that replaces the count when someone mentions the person. |
+| presence light | The square light on an avatar: online, busy, error, offline, external. |
+| status chip | A soft-tinted chip with a pixel and a word: a task status or an agent state. |
+| runtime chip | The chip that names where an agent runs (Claude Code, Codex). |
+| event line | A line in a conversation that records an action ("Bugen claimed #25"). |
+| evidence strip | The strip on an agent's message that links its proof (CI, commit, snapshot). |
+| reference chip | An inline chip that links to a place or an item. |
+| location tile | The yellow block beside the title of the place the person is in. |
+| workspace pill | The phone's workspace switcher at the top of Home. |
+| pixel avatar | An agent's 8×8 pixel face. |
+| pixel spinner | The loading indicator made of pixels. |
+| working | An agent that is currently doing a task. "Working now" lists them. |
+| avatar stack | The overlapping avatars that summarize who is working. |
 
 ### Meanings of color
 
-| Term | Color | Meaning | Chinese source |
-| --- | --- | --- | --- |
-| you | yellow | Where you are, what you selected, what calls you, what you searched for | 你 |
-| to do | pink | The one primary action, and what waits for you | 去做 |
-| this item | cyan | The item singled out in content, information | 这一项 |
-| interrupts | orange | Actions that stop or reset but can be undone, warnings, errors | 会打断 |
-| irreversible | red | Actions that cannot be undone | 收不回 |
+| Term | Color | Meaning |
+| --- | --- | --- |
+| you | yellow | Where you are, what you selected, what calls you, what you searched for |
+| to do | pink | The one primary action, and what waits for you |
+| this item | cyan | The item singled out in content, information |
+| interrupts | orange | Actions that stop or reset but can be undone, warnings, errors |
+| irreversible | red | Actions that cannot be undone |
 
 Component names follow the code (`Drawer`, not "Sheet"). A design name that people still search for goes into the component's `aliases`.

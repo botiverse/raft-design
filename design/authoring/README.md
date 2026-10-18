@@ -9,7 +9,6 @@ This folder describes how the design system's documentation is organized and wri
 
 - [Writing guide](./writing.md): voice, rules, terms and Markdown conventions.
 - [Templates](./templates/): one per page type.
-- [Migration map](./migration.md): how the current Chinese pages become the structure below. It is deleted once the migration is done.
 
 ## Readers
 
