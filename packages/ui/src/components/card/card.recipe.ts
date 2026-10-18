@@ -10,7 +10,7 @@ export const card = tv({
       "has-[>[data-slot=card-leading]]:has-[>[data-slot=card-trailing]]:grid-cols-[auto_minmax(0,1fr)_auto]",
       // Column placement of the text/trailing parts depends on the leading part;
       // the header mirrors that into variables instead of styling descendants
-      // from an ancestor `:has()` (a whole-page recalc trap, #133).
+      // from an ancestor `:has()` (a whole-page recalc trap, #386).
       "has-[>[data-slot=card-leading]]:[--card-text-col:2]",
       "has-[>[data-slot=card-leading]]:[--card-trailing-col:3]",
     ],

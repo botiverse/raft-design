@@ -12,8 +12,9 @@ test("empty input has no rows", () => {
   expect(buildMessageImageGalleryRows([])).toEqual([]);
 });
 
-test("aspect thresholds match the slock message gallery", () => {
-  // The two numbers are a contract carried over from slock; do not re-estimate.
+test("aspect thresholds match the Raft web app's message gallery", () => {
+  // The two numbers are a contract carried over from the Raft web app; do not
+  // re-estimate.
   expect(classifyMessageImageAspect(image(220, 100))).toBe("wide");
   expect(classifyMessageImageAspect(image(219, 100))).toBe("normal");
   expect(classifyMessageImageAspect(image(56, 100))).toBe("normal");
@@ -259,9 +260,9 @@ test("images without dimensions crop like normal ones", () => {
   ]);
 });
 
-test("matches the slock message gallery layout for the same inputs", () => {
+test("matches the Raft web app's message gallery layout for the same inputs", () => {
   // Comparison run carried over with the migration: the same mixed input must
-  // produce the same rows the slock builder produced before the port.
+  // produce the same rows the Raft web app's builder produced before the port.
   const input = [
     image(800, 600), // normal
     image(300, 600), // tall

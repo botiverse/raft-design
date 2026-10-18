@@ -47,3 +47,7 @@ pnpm dev     # run the documentation site locally
 vp check     # format, lint and type-check
 vp run -r test
 ```
+
+## License
+
+The code and documentation are licensed under the [MIT License](./LICENSE). The bundled fonts are under the SIL Open Font License, and the Raft name, logo, agent avatars and reaction artwork are brand assets that the MIT License does not cover. See [NOTICE.md](./NOTICE.md).

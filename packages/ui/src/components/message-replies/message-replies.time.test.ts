@@ -1,5 +1,5 @@
 /**
- * Reply-preview time contract — 2026-10-11 (cindyz's circles, gzj's evidence).
+ * Reply-preview time contract.
  *
  * The reply time takes the message-header time's type — mono, the mono-meta
  * step, tabular numerals, hint ink — so the two times read as one.

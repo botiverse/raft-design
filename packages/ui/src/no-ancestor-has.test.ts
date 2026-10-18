@@ -14,7 +14,7 @@ import { expect, test } from "vite-plus/test";
  * unrelated mutation — e.g. replacing the composer's text node — recalculates
  * the styles of the entire page. Measured on the desktop build (300-message
  * channel, ~13.8k elements) a single such rule costs >5ms per change; all 29
- * rules at or above that threshold are replaced (#133, rui#382). `:has()` that
+ * rules at or above that threshold are replaced (#386). `:has()` that
  * styles the element it sits on (e.g. `has-data-popup-open:bg-…`) does not
  * trigger the trap and is fine.
  *
@@ -25,7 +25,7 @@ import { expect, test } from "vite-plus/test";
  * - use a sibling selector from the composed parts (`title ~ description ~ &`).
  *
  * This guard is a ratchet:
- * - the exact patterns fixed for #133 are banned outright,
+ * - the exact patterns fixed for #386 are banned outright,
  * - the number of `has-…`-family tokens is frozen per file (any new shape,
  *   renamed or not, trips it — regenerate the map for an intentional add),
  * - the compiled CSS may not gain sub-element-styling `:has()` rules,
@@ -37,7 +37,7 @@ import { expect, test } from "vite-plus/test";
  * compiled sub-element shape count to zero.
  *
  * Baseline caveat, deliberately recorded: the remaining entries below are NOT
- * individually cleared. The #133 sweep found the 29 rules above; everything
+ * individually cleared. The #386 sweep found the 29 rules above; everything
  * else sits under its 5ms single-rule threshold (their combined residual was
  * ~4.4ms). Treat these as “frozen pending further measurement”, not “safe”.
  */
@@ -73,7 +73,7 @@ function collectHasTokens(source: string): Set<string> {
   return tokens;
 }
 
-/** Exact class-string patterns removed in #133/rui#382; any of them coming back is the bug. */
+/** Exact class-string patterns removed in #386; any of them coming back is the bug. */
 const BANNED_REGRESSIONS = [
   "group-has-data-panel-open/section-header",
   "group-has-data-popup-open/section-header",
@@ -132,7 +132,7 @@ const BASELINE_TOKENS: Record<string, number> = {
  * `subElement` = the class' condition styling a child/sibling, detected with a
  * light heuristic (pseudo arguments masked, then compounds after a combinator
  * checked). Both are counts, not bans, and both are zero: `grouped` since the
- * #133 batch, `subElement` since the brutal and elegant branches (the banner
+ * #386 batch, `subElement` since the brutal and elegant branches (the banner
  * action-button family and its svg passthroughs) were removed. Keep them there.
  */
 const BASELINE_COMPILED_SHAPES = { grouped: 0, subElement: 0 } as const;
@@ -213,7 +213,7 @@ test("compiled CSS gains no sub-element-styling :has() rules", async () => {
 
   expect(
     grouped.length,
-    `group-has-* shapes are banned (#133); found:\n${grouped.slice(0, 5).join("\n")}`,
+    `group-has-* shapes are banned (#386); found:\n${grouped.slice(0, 5).join("\n")}`,
   ).toBeLessThanOrEqual(BASELINE_COMPILED_SHAPES.grouped);
   expect(
     subElement.length,

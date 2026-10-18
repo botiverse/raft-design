@@ -8,7 +8,7 @@ import { expect, test } from "vite-plus/test";
  * An elegant-era value of `oklch(0 0 0 / 0.15)` over a pure white canvas
  * composited to roughly greyscale 217 against a 255 dialog surface: a 38-level
  * separation, which is not enough for a surface whose whole job is to say "you
- * cannot touch what is behind me" (@cindyz, 2026-09-01).
+ * cannot touch what is behind me".
  *
  * Do NOT read the dark value as the reference for light. Alphas are not
  * comparable across modes, because what matters is the gap left between the

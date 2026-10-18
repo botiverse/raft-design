@@ -1,11 +1,10 @@
 /**
  * @vitest-environment jsdom
  *
- * Pins the MessageItemSavedIndicator prop contract (slock task #640):
- * `elevation` controls the shadow (default "none" = the passive state-marker
- * form: a flat muted chip with no shadow), and `iconOnly` explicitly selects
- * the square icon-button treatment that used to be driven by the
- * `data-icon-only` attribute.
+ * Pins the MessageItemSavedIndicator prop contract: `elevation` controls the
+ * shadow (default "none" = the passive state-marker form: a flat muted chip
+ * with no shadow), and `iconOnly` explicitly selects the square icon-button
+ * treatment that used to be driven by the `data-icon-only` attribute.
  */
 import { afterEach, describe, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";

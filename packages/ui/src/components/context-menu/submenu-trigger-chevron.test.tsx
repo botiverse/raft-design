@@ -2,8 +2,7 @@
  * @vitest-environment jsdom
  *
  * Context-menu submenu triggers carry the same default right chevron as the
- * dropdown menu (artin, #proj-hands:a223c242; see the dropdown-menu sibling
- * test for the full rationale).
+ * dropdown menu (see the dropdown-menu sibling test for the full rationale).
  */
 import { afterEach, describe, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";

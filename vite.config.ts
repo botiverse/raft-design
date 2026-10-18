@@ -43,8 +43,8 @@ export default defineConfig({
       },
     },
     rules: {
-      // Type-only imports must be their own `import type { ... }` statement
-      // (Artea): `consistent-type-imports` catches unmarked type-only usage,
+      // Type-only imports must be their own `import type { ... }` statement:
+      // `consistent-type-imports` catches unmarked type-only usage,
       // `consistent-type-specifier-style` (default: prefer-top-level) moves
       // inline `{ type X }` specifiers out. Both are auto-fixable.
       "typescript/consistent-type-imports": "error",
@@ -55,8 +55,8 @@ export default defineConfig({
       // No React Compiler here, so a function / object / array created during
       // render is a new reference every time: it defeats memo() children and
       // re-runs effects that depend on it. Hoist constants out of the
-      // component, or wrap with useCallback / useMemo (Artea). Native
-      // elements are exempt — a new reference there costs nothing.
+      // component, or wrap with useCallback / useMemo. Native elements are
+      // exempt — a new reference there costs nothing.
       "react-perf/jsx-no-new-function-as-prop": ["error", { nativeAllowList: "all" }],
       "react-perf/jsx-no-new-object-as-prop": ["error", { nativeAllowList: "all" }],
       "react-perf/jsx-no-new-array-as-prop": ["error", { nativeAllowList: "all" }],

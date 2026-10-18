@@ -12,11 +12,10 @@ import {
   MessageReferenceText,
 } from "./message-reference";
 
-// Artea (#proj-frontend:1a32281f, 2026-09-28): mentions, reference chips and
-// inline code are mixed inside one long message. Every chip must sit on the
-// body text's baseline, and the letters must look centred in the chip's
-// coloured box — measured on the glyphs (cap height), not on the line box.
-// Real browser only: jsdom has no layout.
+// Mentions, reference chips and inline code are mixed inside one long message.
+// Every chip must sit on the body text's baseline, and the letters must look
+// centred in the chip's coloured box — measured on the glyphs (cap height), not
+// on the line box. Real browser only: jsdom has no layout.
 
 const it = test.skipIf(typeof window === "undefined");
 

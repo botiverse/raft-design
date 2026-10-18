@@ -1,10 +1,9 @@
 import "./checkbox.test.css";
 /**
- * Browser-mode contrast guard for task #724 (2026-10-08). An earlier dark
- * treatment drew the unchecked checkbox boundary as a hardcoded
- * `oklch(0 0 0 / 0.4)` — black 40% over a dark card, measured ≈1.1:1, so the
- * box read as invisible (user report: "the ToS checkbox is nearly invisible in
- * dark theme").
+ * Browser-mode contrast guard. An earlier dark treatment drew the unchecked
+ * checkbox boundary as a hardcoded `oklch(0 0 0 / 0.4)` — black 40% over a dark
+ * card, measured ≈1.1:1, so the box read as invisible (user report: "the ToS
+ * checkbox is nearly invisible in dark theme").
  *
  * The boundary must stay a visible control line in both modes — the same
  * `--line-field` token the Input and Textarea boundaries use — so the box is

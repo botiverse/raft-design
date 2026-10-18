@@ -41,7 +41,7 @@ const CHANNELS_MENU_CLASS = "flex w-[190px] min-w-[190px] flex-col";
  * the header element as `data-popup-open`. The attention badge hides off that
  * attribute (`group-data-popup-open/section-header`), because the previous
  * ancestor `:has()` version made Chromium recalculate the whole page on
- * unrelated mutations (#133). The provider lives in SidebarSectionHeaderMenu.
+ * unrelated mutations (#386). The provider lives in SidebarSectionHeaderMenu.
  */
 const SectionPopupOpenContext = createContext<((open: boolean) => void) | null>(null);
 

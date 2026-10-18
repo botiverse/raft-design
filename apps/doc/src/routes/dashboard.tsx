@@ -15,7 +15,7 @@ import { DashboardApp } from "#/dashboard/dashboard-app.tsx";
  * Playground simulates a whole product and wants the viewport; this is a
  * reference example, and the docs chrome is what carries the light/dark switcher
  * and the nav. Standalone, you could not switch modes while looking at it —
- * which is most of the reason to have a data-dense example at all (@xxchan).
+ * which is most of the reason to have a data-dense example at all.
  */
 export const Route = createFileRoute("/dashboard")({
   component: DashboardRoute,
@@ -34,7 +34,7 @@ function DashboardRoute() {
           DocSection affordance (`showThemeSwitcher`), and being able to compare
           light against dark on a data-dense surface is the whole reason this
           example exists. Wrapping in DocPage alone gave the nav back but
-          silently left the switcher out (@xxchan asked for both). */}
+          silently left the switcher out; the page needs both. */}
       <DocSection id="dashboard" title="Agent usage" showThemeSwitcher>
         <DashboardApp />
       </DocSection>

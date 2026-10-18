@@ -2,9 +2,10 @@
  * Row-building rules shared by the message image gallery and the forwarded
  * bundle gallery.
  *
- * Ported verbatim from slock's message gallery (`buildImageGalleryRows` /
- * `classifyImageAspect`), including the two aspect thresholds and the
- * split rules, so both surfaces lay the same attachments out identically:
+ * Ported verbatim from the Raft web app's message gallery
+ * (`buildImageGalleryRows` / `classifyImageAspect`), including the two aspect
+ * thresholds and the split rules, so both surfaces lay the same attachments out
+ * identically:
  *
  * - a wide image (ratio >= 2.2) always takes a row of its own;
  * - the others fill rows of three, except a lone buffer of exactly four,

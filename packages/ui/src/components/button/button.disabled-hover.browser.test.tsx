@@ -1,8 +1,8 @@
 import "./button.test.css";
 /**
- * Browser-mode verification for task #77 (reviewer-requested): on the
- * aria-disabled path a hovered/pressed button must NOT react — background,
- * border, scale and translate stay at their resting values, in each mode.
+ * Browser-mode verification: on the aria-disabled path a hovered/pressed button
+ * must NOT react — background, border, scale and translate stay at their
+ * resting values, in each mode.
  *
  * Run: `vp test --browser.enabled=true src/components/button/button.disabled-hover.browser.test.tsx`
  * (chromium via playwright; real CDP hover so :hover actually applies).

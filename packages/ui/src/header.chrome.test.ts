@@ -1,9 +1,9 @@
 /**
- * Panel header chrome contract — 2026-10-10 (#737, cindyz's rules; gzj 口径).
+ * Panel header chrome contract.
  *
- * One source per dimension: the header surface, its divider, the icon chip
- * and the avatar exception are recipe tokens. App-side code may add layout
- * containers, but must not paint a second background — the slock side carries
+ * One source per dimension: the header surface, its divider, the icon chip and
+ * the avatar exception are recipe tokens. App-side code may add layout
+ * containers, but must not paint a second background — the Raft web app carries
  * the same token, not a new colour value.
  *
  * These are recipe-level assertions on purpose (same style as
@@ -44,13 +44,13 @@ test("header className wins the merge against the recipe surface (container tint
 });
 
 test("thread panel: the dark drop-shadow class is gone", () => {
-  // cindyz 2026-10-10: the leftward gradient at the chat divider (and its
-  // paired vertical ambient shadow) is removed whole.
+  // The leftward gradient at the chat divider (and its paired vertical ambient
+  // shadow) is removed whole.
   expect(threadPanel().root()).not.toContain("shadow-[-4px");
 });
 
 test("title scale: panel titles sit on the 17px headline step", () => {
-  // cindyz 2026-10-10: one title size (17); hierarchy via weight + colour.
+  // One title size (17); hierarchy comes from weight and colour.
   const title = tokens(panelHeader().title());
   expect(title.has("text-headline")).toBe(true);
   expect(title.has("font-bold")).toBe(true);

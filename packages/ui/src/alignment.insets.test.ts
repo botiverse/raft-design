@@ -1,5 +1,5 @@
 /**
- * Panel alignment contract — 2026-10-09 (cindyz's rules, gzj's table).
+ * Panel alignment contract.
  *
  * The target system: the head's box line sits 20 from the panel edge with a
  * 12 gap after the icon, unified across the chat / thread panels; the right
@@ -54,11 +54,11 @@ test("thread panel uses the chat panel's numbers (no extra indent of its own)", 
 
 test("replies surface right edge stays on the message text line", () => {
   const root = tokens(messageReplies().root());
-  // cindyz 2026-10-09 (#4): the replies is a face aligned with the text (20
-  // from the panel edge), not with the hover block. The dead -mr-2 is gone —
-  // a negative right margin on a 100%-wide block is dropped as
-  // over-constrained (measured on the real page); the rendered position is
-  // pinned by the browser spec (message-replies.right-edge.browser.test.tsx).
+  // The replies surface is aligned with the text (20 from the panel edge), not
+  // with the hover block. The dead -mr-2 is gone — a negative right margin on a
+  // 100%-wide block is dropped as over-constrained (measured on the real page);
+  // the rendered position is pinned by the browser spec
+  // (message-replies.right-edge.browser.test.tsx).
   expect(root.has("w-full")).toBe(true);
   expect(root.has("-mr-2")).toBe(false);
   expect(root.has("w-[calc(100%+8px)]")).toBe(false);
@@ -66,10 +66,9 @@ test("replies surface right edge stays on the message text line", () => {
 
 test("conversation tabs: the tab row starts on the 20 line; the 22px special is gone", () => {
   // The tab row starts on the 20px edge the head and body keep (16 on a
-  // phone). The first-tab 22px special is gone entirely (cindyz 2026-10-09
-  // #2): the chat strip measured 22 against 16 in the agent-details strip,
-  // and the chat tab read off-centre because the rule was asymmetric (22
-  // left, 12 right).
+  // phone). The first-tab 22px special is gone entirely: the chat strip
+  // measured 22 against 16 in the agent-details strip, and the chat tab read
+  // off-centre because the rule was asymmetric (22 left, 12 right).
   const panel = tokens(conversationPanel().tabs());
   expect(panel.has("*:data-[slot=tabs-list]:px-5")).toBe(true);
   expect(panel.has("max-md:*:data-[slot=tabs-list]:px-4")).toBe(true);

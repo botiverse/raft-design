@@ -106,8 +106,7 @@ test("D2: the axis reaches BOTH descendants that carry trigger text", () => {
   // Both are asserted because the implementation overrides both: pinning only
   // one lets the other silently regress. Verified by mutation — deleting just
   // the button-content override left this suite green when it only checked
-  // select-value (@Dozy, review of 89f72133), which is the same shape of gap
-  // these tests exist to catch.
+  // select-value, which is the same shape of gap these tests exist to catch.
   const trigger = classes("trigger");
   expect(trigger).toContain("**:data-[slot='select-value']:font-field");
   expect(trigger).not.toContain("**:data-[slot='select-value']:font-medium");

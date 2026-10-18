@@ -76,7 +76,7 @@ test("default title keeps the card-title scale", () => {
  * The leading control's gap to the title must match the card's own inset, so an
  * option reads as one row rather than a control parked away from its label.
  * `gap-x-4` (16px) is panel scale; the option uses `gap-x-3` (12px), the same
- * as its 12px padding (@cindyz, 2026-09-03).
+ * as its 12px padding.
  */
 test("option header tightens the leading gap to the card's inset", () => {
   render(

@@ -1,6 +1,5 @@
 /**
- * Colour ladder contract — 2026-10-10 (#737 follow-up; cindyz's circles,
- * gzj's table).
+ * Colour ladder contract.
  *
  * Panel titles read at the base ink; message notes (meta, time) ride the hint
  * tier, below the content they annotate.

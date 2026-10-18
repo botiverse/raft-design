@@ -52,7 +52,7 @@ function renderSection(defaultOpen = true) {
  * The attention badge hides while the section panel is open, or while a popup
  * hosted inside the header is open. Both conditions used to style descendants
  * off an ancestor's `:has()`: that makes Chromium recalculate the whole page on unrelated mutations (measured at ~55ms per
- * text-node change on a 300-message channel, #133). They key off data
+ * text-node change on a 300-message channel, #386). They key off data
  * attributes instead — `data-open` on the section root (Base UI Collapsible
  * already writes it) and `data-popup-open` mirrored onto the header by the
  * composition that hosts the popup. Pinned as an exact class set so a

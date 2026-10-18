@@ -178,8 +178,8 @@ function RootDocument({ children }: { children: ReactNode }) {
 function DocumentThemeProvider({ children }: { children: ReactNode }) {
   const previewTheme = usePreviewTheme();
   return (
-    // The whole site follows the picked mode, chrome included (@xxchan,
-    // 2026-09-09).
+    // The whole site follows the picked mode, chrome included, so the docs
+    // never show a page that is half light and half dark.
     //
     // syncDom is left ON: this provider owns the mode class on <html>. Nothing
     // else may write it, or the two writers fight over it — which is exactly

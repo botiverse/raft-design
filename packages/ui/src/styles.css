@@ -281,7 +281,7 @@
      be hard-coded per theme and drifts when the title recipe changes.
 
      Consumers: `CardTitle`, plus any composition that lays a control beside a
-     card title (radio-card, checkbox-card patterns in Slock — 6 callsites). */
+     card title (radio-card and checkbox-card patterns in the Raft web app). */
   --text-card-title: var(--card-title-font-size);
   --text-card-title--line-height: var(--card-title-line-height);
   --font-weight-card-title: var(--card-title-font-weight);

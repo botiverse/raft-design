@@ -336,8 +336,8 @@ function MessageReferenceDoc() {
 
           <DocSubsection parentId="usage" id="external-references" title="Message permalinks">
             <p className="mb-3 text-sm text-foreground-muted">
-              A recognized Slock message URL becomes a permalink chip labelled with its channel or
-              DM destination. Same-server links open in product; cross-server links open externally.
+              A recognized Raft message URL becomes a permalink chip labelled with its channel or DM
+              destination. Same-server links open in product; cross-server links open externally.
               The full URL belongs in the link title. Ordinary web URLs are not message references;
               render them with <InlineCode>MarkdownLink</InlineCode> instead of this chip surface.
             </p>

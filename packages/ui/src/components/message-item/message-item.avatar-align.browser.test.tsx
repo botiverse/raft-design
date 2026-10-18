@@ -54,7 +54,7 @@ function measure(tag: string) {
 it("message row avatar vs sender alignment", () => {
   render(<Row />);
   const m = measure("row");
-  // Artea #proj-frontend:d5776c23: the avatar's top edge sits on the sender
-  // name's top edge (not merely near it) — the row reads as one block.
+  // The avatar's top edge sits on the sender name's top edge (not merely near
+  // it) — the row reads as one block.
   expect(Math.abs(m.avatarMinusSender)).toBeLessThanOrEqual(1);
 });

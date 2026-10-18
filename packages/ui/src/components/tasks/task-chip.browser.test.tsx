@@ -5,10 +5,10 @@ import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { TaskChip } from "./task-chip";
 import type { TaskStatusId } from "./task-status.recipe";
 
-// Artea (#proj-frontend:1a32281f, 2026-09-29): a task chip inside a message
-// shows `#N` in the same colours as the task chip under the message, in light
-// and dark. Before, the inline chip was grey in light and yellow (in progress)
-// in dark. Real browser only: jsdom does not resolve colours.
+// A task chip inside a message shows `#N` in the same colours as the task chip
+// under the message, in light and dark. Before, the inline chip was grey in
+// light and yellow (in progress) in dark. Real browser only: jsdom does not
+// resolve colours.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -40,9 +40,9 @@ for (const mode of ["light", "dark"] as const) {
     }
   });
 
-  // Artea (#proj-frontend task #739, 2026-10-10): the inline chip's fill and
-  // border are the task chip's too. Before, the inline chip sat on one neutral
-  // grey fill with no visible border, whatever the status.
+  // The inline chip's fill and border are the task chip's too. Before, the
+  // inline chip sat on one neutral grey fill with no visible border, whatever
+  // the status.
   it(`${mode}: the inline chip's fill and border are the task chip's`, () => {
     render(
       <ThemeProvider mode={mode}>

@@ -48,7 +48,7 @@ async function renderToast(title: string, options?: Parameters<typeof toast.succ
  * The default toast's content layout used to read the composed parts with
  * ancestor `:has()` (`:has([data-slot=toast-description]) > [data-slot=toast-body]`).
  * That shape makes Chromium recalculate the whole page on unrelated mutations
- * (measured at ~55ms per text-node change on a 300-message channel, #133).
+ * (measured at ~55ms per text-node change on a 300-message channel, #386).
  * `ToastContent` now measures the rendered DOM after layout and reflects
  * `data-has-icon` / `data-has-description` / `data-has-actions` onto itself.
  */
