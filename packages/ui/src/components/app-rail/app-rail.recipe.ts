@@ -52,13 +52,17 @@ export const appRail = tv({
           "h-(--shell-header-height,56px) border-b border-line-seam",
           "[@media(max-height:600px)]:h-12",
         ],
-        // Under the rail head the head's seam already gives the first item
-        // room, so 4px will do. With no head (a top bar above the rail takes
-        // the workspace switcher), the first item would sit 4px under that
-        // bar's seam; it gets the rail's side inset instead (8px: a 40px item
-        // in the 56px rail), so it sits in an even margin.
-        nav: ["gap-1.5 pt-1 pb-2 first:pt-2"],
-        footer: ["h-auto gap-1.5 pb-3 [@media(max-height:600px)]:pb-1.5"],
+        // Raft DS › Rail: 40px items 6px apart, everywhere on the rail. Under
+        // the rail head the first item starts 10px below its seam (the head's
+        // 4px margin plus the 6px gap). With no head (a top bar above the
+        // rail takes the workspace switcher) the rail's side inset frames it
+        // instead: 8px (a 40px item in the 56px rail), as at the bottom. In
+        // short windows the items shrink to 36 and the inset to 6.
+        nav: [
+          "gap-1.5 pt-2.5 pb-2 first:pt-2",
+          "[@media(max-height:600px)]:pt-1.5 [@media(max-height:600px)]:first:pt-1.5",
+        ],
+        footer: ["h-auto gap-1.5 pb-2 [@media(max-height:600px)]:pb-1.5"],
         item: [
           "size-10 rounded-control border-[1.5px] border-transparent",
           "text-foreground-on-frame [&_svg]:size-5",
