@@ -396,7 +396,7 @@ const COMPONENT_GRID = [
         </Label>
         <Label htmlFor="home-label-project-url">
           Project URL
-          <Info aria-hidden className="size-3.5 text-foreground-strong/40" />
+          <Info aria-hidden className="size-3.5 text-foreground/40" />
         </Label>
       </div>
     ),
@@ -1030,7 +1030,7 @@ function ContextMenuPreview() {
       <div
         className={[
           "flex min-h-14 w-56 items-center justify-center px-4 text-center",
-          "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
+          "border border-dashed border-line-strong bg-layer-canvas text-sm font-medium text-foreground-muted",
         ].join(" ")}
       >
         Right click thread
@@ -1091,7 +1091,7 @@ function PopoverPreview() {
             <PopoverDescription>
               Mix channels, people, and quoted phrases to narrow message history.
             </PopoverDescription>
-            <div className="grid gap-1 rounded-sm bg-foreground-strong/4 px-2 py-2 font-mono text-xs text-foreground-strong/60">
+            <div className="grid gap-1 rounded-sm bg-foreground/4 px-2 py-2 font-mono text-xs text-foreground/60">
               <span className="truncate">#design "token audit"</span>
               <span className="truncate">@atlas migration notes</span>
             </div>
@@ -1112,14 +1112,14 @@ function PreviewCardPreview() {
       className="relative flex h-64 w-full max-w-[22rem] min-w-0 items-start justify-center px-1 pt-14"
     >
       <PreviewCard open triggerId={triggerId}>
-        <p className="m-0 max-w-full text-center text-sm leading-6 text-foreground-strong">
+        <p className="m-0 max-w-full text-center text-sm leading-6 text-foreground">
           Follow up with{" "}
           <PreviewCardTrigger
             id={triggerId}
             render={
               <Link
                 to="/components/avatar"
-                className="cursor-default select-text font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600"
+                className="cursor-default select-text font-bold text-foreground underline decoration-foreground/30 decoration-2 underline-offset-2 hover:text-attention-600 hover:decoration-attention-600"
               />
             }
           >
@@ -1178,12 +1178,9 @@ function AlertDialogPreview() {
           </AlertDialogHeader>
           <AlertDialogBody className="grid gap-2">
             <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
-            <p className="m-0 text-sm leading-5 wrap-break-word text-foreground-strong/60">
-              Delete task <strong className="font-bold text-foreground-strong">#42</strong>{" "}
-              <strong className="font-bold text-foreground-strong">
-                "Review dialog migration"
-              </strong>
-              ?
+            <p className="m-0 text-sm leading-5 wrap-break-word text-foreground/60">
+              Delete task <strong className="font-bold text-foreground">#42</strong>{" "}
+              <strong className="font-bold text-foreground">"Review dialog migration"</strong>?
             </p>
           </AlertDialogBody>
           <AlertDialogFooter className="grid grid-cols-2 gap-2">
@@ -1368,12 +1365,12 @@ function HomeToastList() {
   const { toasts } = useToastManager<{ hasIcon?: boolean; hasClose?: boolean }>();
 
   return (
-    <div className="relative flex h-64 w-72 items-center justify-center overflow-hidden bg-layer-panel p-4">
-      <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-layer-canvas-muted/80" />
+    <div className="relative flex h-64 w-72 items-center justify-center overflow-hidden bg-layer-canvas p-4">
+      <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-layer-sidebar/80" />
       <div className="absolute inset-x-5 top-24 grid grid-cols-3 gap-2">
-        <div className="h-10 rounded-md bg-layer-canvas-muted/65" />
-        <div className="h-10 rounded-md bg-layer-canvas-muted/65" />
-        <div className="h-10 rounded-md bg-layer-canvas-muted/65" />
+        <div className="h-10 rounded-md bg-layer-sidebar/65" />
+        <div className="h-10 rounded-md bg-layer-sidebar/65" />
+        <div className="h-10 rounded-md bg-layer-sidebar/65" />
       </div>
       <div className="relative z-10">
         {toasts.map((toastObject) => (
@@ -1418,8 +1415,8 @@ function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-layer-panel pb-28 text-foreground-strong">
-      <header className="border-b border-line-muted px-6 py-12 sm:px-10 sm:py-16">
+    <div className="min-h-screen bg-layer-canvas pb-28 text-foreground">
+      <header className="border-b border-line-hairline px-6 py-12 sm:px-10 sm:py-16">
         <div className="flex max-w-3xl flex-col gap-5">
           <Text.Heading level={3} render={<h1 />}>
             Raft Design System
@@ -1430,13 +1427,13 @@ function Home() {
           </Text.Sans>
         </div>
       </header>
-      <div className="grid grid-cols-1 border-l border-line-muted bg-layer-panel md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 border-l border-line-hairline bg-layer-canvas md:grid-cols-2 xl:grid-cols-3">
         {COMPONENT_GRID.map((item) => (
           <article
             key={item.label}
             className={[
               "relative isolate h-[clamp(420px,36vh,520px)] overflow-hidden",
-              "border-b border-r border-line-muted bg-layer-panel",
+              "border-b border-r border-line-hairline bg-layer-canvas",
             ].join(" ")}
           >
             <Link
@@ -1449,7 +1446,7 @@ function Home() {
                 {item.preview}
               </div>
             </div>
-            <h2 className="pointer-events-none absolute bottom-4 left-1/2 z-10 -translate-x-1/2 text-xs font-medium text-foreground-placeholder">
+            <h2 className="pointer-events-none absolute bottom-4 left-1/2 z-10 -translate-x-1/2 text-xs font-medium text-foreground-hint">
               {item.label}
             </h2>
           </article>

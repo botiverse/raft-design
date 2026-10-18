@@ -39,7 +39,7 @@ export const appRail = tv({
       // The yellow "you are here" is a sticker: the die-cut edge in dark mode.
       "data-[selected=true]:ring-[1.5px] data-[selected=true]:ring-sticker-edge",
       "data-[selected=true]:text-foreground-on-frame-active",
-      "focus-visible:shadow-raft-focus",
+      "focus-visible:shadow-focus",
       "[@media(max-height:600px)]:size-9",
     ],
     itemIcon: ["relative inline-flex items-center justify-center"],
@@ -47,7 +47,7 @@ export const appRail = tv({
     itemBadge: [
       "absolute -right-1 -top-1 inline-flex items-center justify-center",
       "h-4 min-w-4 rounded-sticker px-1",
-      "bg-accent-400 text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
+      "bg-attention-400 text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
       "font-mono text-[10px] font-bold leading-4 tabular-nums",
     ],
     itemIndicator: ["pointer-events-none absolute", "-top-1 -right-1"],

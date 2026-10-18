@@ -83,12 +83,12 @@ export function TaskBoardVirtualizationComposition() {
 
   return (
     <div className="flex size-full min-h-0  flex-col">
-      <div className="flex shrink-0 items-center justify-between gap-3 border-b border-line-muted px-4 py-2">
+      <div className="flex shrink-0 items-center justify-between gap-3 border-b border-line-hairline px-4 py-2">
         <p className="text-xs text-foreground-muted">
           Mount a virtual stack when a column can grow past the shared viewport. Only visible rows
           plus overscan stay in the DOM.
         </p>
-        <p className="shrink-0 font-mono text-xs tabular-nums text-foreground-strong">
+        <p className="shrink-0 font-mono text-xs tabular-nums text-foreground">
           Mounted {virtualItems.length} / {tasks.length}
         </p>
       </div>

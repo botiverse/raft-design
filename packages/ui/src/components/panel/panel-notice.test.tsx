@@ -42,7 +42,7 @@ test("a raft panel notice is closed by the region seam, never the in-region divi
   const { notice } = renderNotice();
   expect(notice).toContain("border-b");
   expect(notice).toContain("border-line-seam");
-  expect(notice).not.toContain("border-line-muted");
+  expect(notice).not.toContain("border-line-hairline");
 });
 
 test("a raft panel notice takes the panel's edges and a warning tint by default", () => {

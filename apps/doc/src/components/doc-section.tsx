@@ -53,7 +53,7 @@ export function DocSection({
         <h2 className="group flex items-center gap-2 text-lg font-medium tracking-tight text-foreground">
           <a href={`#${id}`} className="no-underline">
             {title}
-            <span className="ml-2 text-foreground-placeholder opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="ml-2 text-foreground-hint opacity-0 transition-opacity group-hover:opacity-100">
               #
             </span>
           </a>
@@ -99,7 +99,7 @@ export function DocSubsection({
         <h3 className="group flex items-center gap-2 text-sm font-medium text-foreground">
           <a href={`#${id}`} className="no-underline">
             {title}
-            <span className="ml-2 text-foreground-placeholder opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="ml-2 text-foreground-hint opacity-0 transition-opacity group-hover:opacity-100">
               #
             </span>
           </a>

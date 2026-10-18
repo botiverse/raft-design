@@ -57,17 +57,17 @@ export function ComposerDropOverlayPrompt({ children, ...props }: ComposerDropOv
             className: "absolute -translate-x-6 translate-y-1 -rotate-12",
           })}
         >
-          <FileText className="text-foreground-icon" />
+          <FileText className="text-foreground-muted" />
         </span>
         <span className={dropOverlayIcon({ className: "absolute z-10" })}>
-          <Upload className="text-foreground-icon" />
+          <Upload className="text-foreground-muted" />
         </span>
         <span
           className={dropOverlayIcon({
             className: "absolute z-20 translate-x-7 translate-y-1 rotate-12",
           })}
         >
-          <ImageIcon className="text-foreground-icon" />
+          <ImageIcon className="text-foreground-muted" />
         </span>
       </span>
       <span>Drop files to attach</span>

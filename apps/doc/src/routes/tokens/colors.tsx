@@ -47,21 +47,22 @@ function rampTokens(prefix: string): TokenGroup["tokens"] {
 
 const FOREGROUND_GROUPS: readonly TokenGroup[] = [
   {
-    label: "Intensity",
+    label: "Ladder",
     tokens: [
-      ["strong", "--foreground-strong"],
       ["default", "--foreground"],
       ["muted", "--foreground-muted"],
+      ["hint", "--foreground-hint"],
+      ["disabled", "--foreground-disabled"],
     ],
   },
   {
     label: "Purpose",
     tokens: [
-      ["hint", "--foreground-hint"],
-      ["icon", "--foreground-icon"],
-      ["placeholder", "--foreground-placeholder"],
-      ["disabled", "--foreground-disabled"],
       ["inverse", "--foreground-inverse"],
+      ["link", "--foreground-link"],
+      ["on frame", "--foreground-on-frame"],
+      ["on frame muted", "--foreground-on-frame-muted"],
+      ["on hud", "--foreground-on-hud"],
       ["active", "--foreground-active"],
       ["hover", "--foreground-hover"],
     ],
@@ -72,14 +73,13 @@ const LAYER_GROUPS: readonly TokenGroup[] = [
   {
     label: "Surface",
     tokens: [
+      ["frame", "--layer-frame"],
+      ["sidebar", "--layer-sidebar"],
       ["canvas", "--layer-canvas"],
-      ["canvas-muted", "--layer-canvas-muted"],
-      ["panel", "--layer-panel"],
-      ["popover", "--layer-popover"],
-      ["inset", "--layer-inset"],
       ["card", "--layer-card"],
+      ["popover", "--layer-popover"],
+      ["code", "--layer-code"],
       ["hud", "--layer-hud"],
-      ["hud foreground", "--layer-hud-foreground"],
     ],
   },
   {
@@ -90,10 +90,11 @@ const LAYER_GROUPS: readonly TokenGroup[] = [
 
 const FILL_GROUPS: readonly TokenGroup[] = [
   {
-    label: "Interaction fills",
+    label: "Fills",
     tokens: [
       ["muted", "--fill-muted"],
       ["strong", "--fill-strong"],
+      ["pressed", "--fill-pressed"],
     ],
   },
 ];
@@ -102,15 +103,14 @@ const LINE_GROUPS: readonly TokenGroup[] = [
   {
     label: "Ladder",
     tokens: [
+      ["hairline", "--line-hairline"],
+      ["seam", "--line-seam"],
       ["strong", "--line-strong"],
-      ["default", "--line"],
-      ["muted", "--line-muted"],
     ],
   },
   {
     label: "Purpose",
     tokens: [
-      ["hairline", "--line-hairline"],
       ["field", "--line-field"],
       ["field hover", "--line-field-hover"],
     ],
@@ -137,37 +137,33 @@ const INK_GROUPS: readonly TokenGroup[] = [
 
 const BRAND_GROUPS: readonly TokenGroup[] = [
   {
-    label: "Primary slots",
+    label: "Brand (yellow)",
     tokens: [
-      ["primary", "--color-primary"],
-      ["strong", "--primary-strong"],
-      ["soft", "--primary-soft"],
-      ["edge", "--primary-edge"],
-      ["hover", "--primary-hover"],
-      ["active", "--primary-active"],
+      ["brand", "--color-brand"],
+      ["strong", "--brand-strong"],
+      ["soft", "--brand-soft"],
+      ["edge", "--brand-edge"],
+      ["hover", "--brand-hover"],
+      ["active", "--brand-active"],
     ],
   },
   {
-    label: "Accent slots",
+    label: "Attention (pink)",
     tokens: [
-      ["accent", "--color-accent"],
-      ["strong", "--accent-strong"],
-      ["soft", "--accent-soft"],
-      ["hover", "--accent-hover"],
-      ["active", "--accent-active"],
+      ["attention", "--color-attention"],
+      ["strong", "--attention-strong"],
+      ["soft", "--attention-soft"],
+      ["hover", "--attention-hover"],
+      ["active", "--attention-active"],
     ],
   },
   {
-    label: "Primary ramp",
-    tokens: rampTokens("--primary"),
+    label: "Brand ramp",
+    tokens: rampTokens("--brand"),
   },
   {
-    label: "Accent ramp",
-    tokens: rampTokens("--accent"),
-  },
-  {
-    label: "Secondary ramp",
-    tokens: [["secondary", "--color-secondary"], ...rampTokens("--secondary")],
+    label: "Attention ramp",
+    tokens: rampTokens("--attention"),
   },
 ];
 
@@ -304,7 +300,7 @@ function GrammarCode({ children }: { children: ReactNode }) {
 function TokenPageScope({ children }: { children: ReactNode }) {
   return (
     <div
-      className="min-h-screen bg-layer-panel"
+      className="min-h-screen bg-layer-canvas"
       style={{
         color: "var(--foreground)",
         fontFamily: "var(--sans-font)",
@@ -427,7 +423,7 @@ function ModeContextScales({
   return (
     <section
       ref={modeContextRef}
-      className={`${context.mode === "dark" ? "dark -mx-3 bg-layer-canvas-muted px-3" : "light"} min-w-0 py-6 text-foreground-strong`}
+      className={`${context.mode === "dark" ? "dark -mx-3 bg-layer-sidebar px-3" : "light"} min-w-0 py-6 text-foreground`}
     >
       <div className="mb-8">
         <h3 className="text-xl font-semibold tracking-tight text-foreground">{context.label}</h3>

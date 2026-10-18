@@ -12,7 +12,7 @@ export const messageMultiSelect = tv({
     toolbar: [
       "flex items-center",
       "gap-2 rounded-container px-2.5 py-2",
-      "bg-layer-popover ring-1 ring-line-seam shadow-raft-float",
+      "bg-layer-popover ring-1 ring-line-seam shadow-float",
     ],
   },
 });

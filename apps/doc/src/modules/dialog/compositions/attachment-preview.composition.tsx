@@ -13,7 +13,7 @@ function AttachmentPreviewDialogParts() {
       <DialogHeader className="min-w-0">
         <div className="flex min-w-0 flex-1 items-center gap-2">
           <DialogTitle className="min-w-0 flex-1 truncate">diagram-export.html</DialogTitle>
-          <span className="shrink-0 rounded-full border border-line-muted bg-fill-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-foreground-muted">
+          <span className="shrink-0 rounded-full border border-line-hairline bg-fill-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-foreground-muted">
             HTML preview
           </span>
         </div>
@@ -22,9 +22,9 @@ function AttachmentPreviewDialogParts() {
         </Button>
         <DialogClose size="icon-xs" />
       </DialogHeader>
-      <DialogBody className="min-h-0 bg-layer-panel p-0">
+      <DialogBody className="min-h-0 bg-layer-canvas p-0">
         <div className="grid min-h-72 place-items-center bg-fill-muted">
-          <div className="grid size-full min-h-56 place-items-center border border-line-muted bg-layer-panel text-sm text-foreground-muted">
+          <div className="grid size-full min-h-56 place-items-center border border-line-hairline bg-layer-canvas text-sm text-foreground-muted">
             Sandboxed HTML preview
           </div>
         </div>

@@ -10,7 +10,7 @@ export const sidebarItemRecipe = tv({
       "my-px h-9 gap-2 rounded-control border-[1.5px] border-transparent py-0 pr-2.5 pl-2",
       "md:py-0 [@media(max-height:600px)]:py-0",
       "font-sans text-subhead font-medium text-foreground",
-      "data-active:border-sticker-ink data-active:bg-primary data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
+      "data-active:border-sticker-ink data-active:bg-brand data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
       "not-data-active:data-[tone=muted]:text-foreground-muted not-data-active:data-[tone=away]:text-foreground-hint",
       "outline-none",
     ],
@@ -50,7 +50,7 @@ export const sidebarItemRecipe = tv({
       "[&:has(svg)]:px-0",
       "[&_svg]:shrink-0 [&_svg]:translate-y-0",
       "size-5 min-w-5 rounded-sticker border-0 p-0",
-      "bg-primary text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
+      "bg-brand text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
       "[&_svg]:size-[13px] [&_svg]:stroke-2",
     ],
     sidebarItemMetaIcon: [
@@ -64,7 +64,7 @@ export const sidebarItemRecipe = tv({
       "shrink-0",
       "h-5 min-w-5 items-center justify-center gap-0 rounded-sticker border-0 px-1.5 py-0",
       "data-[slot=sidebar-item-count]:px-1.5",
-      "bg-accent text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
+      "bg-attention text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
       "font-mono text-mono-meta font-bold tabular-nums tracking-normal",
     ],
     sidebarItemCountSeparator: ["mx-0.5 opacity-60"],
@@ -80,7 +80,7 @@ export const sidebarItemRecipe = tv({
       true: {
         sidebarItem: [
           "hover:bg-fill-pressed active:bg-fill-pressed not-data-active:data-popup-open:bg-fill-pressed",
-          "focus-visible:shadow-raft-focus",
+          "focus-visible:shadow-focus",
         ],
       },
       false: { sidebarItem: "cursor-default" },

@@ -28,13 +28,13 @@ export const table = tv({
     ],
     head: [
       "text-left whitespace-nowrap",
-      "border-b border-line-muted px-3 py-2",
+      "border-b border-line-hairline px-3 py-2",
       "text-footnote font-bold normal-case tracking-normal text-foreground-hint",
     ],
     // `wrap-anywhere` (not `wrap-break-word`): break-word does not reduce the
     // min-content width of an auto-layout column, so token-like names with no
     // spaces would push the table past its container (verified at 390px).
-    cell: ["align-top wrap-anywhere", "border-b border-line-muted px-3 py-2"],
+    cell: ["align-top wrap-anywhere", "border-b border-line-hairline px-3 py-2"],
     colgroup: [],
     column: [],
     caption: ["pt-2 text-caption text-foreground-hint"],

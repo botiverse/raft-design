@@ -53,7 +53,7 @@ const SNIPPETS = {
 <Status size="sm" variant="success" />
 <Status size="md" variant="success" />
 <Status size="lg" variant="success" />`,
-  customize: `<Status className="[--status-color:var(--color-brutal-purple-300)]" />
+  customize: `<Status className="[--status-color:var(--palette-lavender-300)]" />
 <Status className="[--status-color:oklch(0.72_0.14_200)]" />
 <Status size="lg" className="[--status-color:oklch(0.78_0.12_145)]" />`,
 } as const;
@@ -204,7 +204,7 @@ function StatusDoc() {
           <DocSubsection parentId="usage" id="customize" title="Customize">
             <Preview>
               <Preview.Canvas>
-                <Status className="[--status-color:var(--color-brutal-purple-300)]" />
+                <Status className="[--status-color:var(--palette-lavender-300)]" />
                 <Status className="[--status-color:oklch(0.72_0.14_200)]" />
                 <Status size="lg" className="[--status-color:oklch(0.78_0.12_145)]" />
               </Preview.Canvas>

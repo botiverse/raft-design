@@ -49,7 +49,7 @@ export function MemberDetailsDrawer({
             alex@acme.design
           </span>
         </span>
-        <ChevronRight aria-hidden className="size-4 shrink-0 text-foreground-placeholder" />
+        <ChevronRight aria-hidden className="size-4 shrink-0 text-foreground-hint" />
       </DrawerTrigger>
 
       <DrawerContent>
@@ -71,7 +71,7 @@ export function MemberDetailsDrawer({
             </div>
           </div>
 
-          <dl className="mt-6 grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 border-y border-line-muted py-4 text-left text-sm">
+          <dl className="mt-6 grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 border-y border-line-hairline py-4 text-left text-sm">
             <dt className="text-foreground-muted">Role</dt>
             <dd className="truncate text-right font-medium text-foreground">Editor</dd>
             <dt className="text-foreground-muted">Joined</dt>

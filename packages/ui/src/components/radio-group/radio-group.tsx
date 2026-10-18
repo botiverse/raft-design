@@ -17,7 +17,7 @@ const radioGroup = tv({
       "data-disabled:cursor-not-allowed",
       "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-['']",
       "size-5 border-[1.5px] border-line-strong bg-layer-card text-foreground",
-      "focus-visible:shadow-raft-focus",
+      "focus-visible:shadow-focus",
       "data-disabled:border-foreground-disabled data-disabled:bg-fill-muted data-disabled:text-foreground-disabled",
     ],
     indicator: ["pointer-events-none flex size-full items-center justify-center"],

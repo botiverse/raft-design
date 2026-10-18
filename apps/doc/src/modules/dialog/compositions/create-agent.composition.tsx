@@ -73,12 +73,12 @@ function CreateAgentDialogParts() {
           />
           <div className="text-right font-mono text-xs text-foreground-muted">0/240</div>
         </Field>
-        <div className="grid gap-2 rounded-md border border-line-muted bg-layer-panel p-3 shadow-none">
+        <div className="grid gap-2 rounded-md border border-line-hairline bg-layer-canvas p-3 shadow-none">
           <div className="flex items-center justify-between gap-3">
             <span className="text-sm font-medium text-foreground">Runtime</span>
             <span className="font-mono text-xs text-foreground-muted">codex</span>
           </div>
-          <div className="flex items-center justify-between gap-3 border-t border-line-muted pt-2">
+          <div className="flex items-center justify-between gap-3 border-t border-line-hairline pt-2">
             <span className="text-sm font-medium text-foreground">Model</span>
             <span className="font-mono text-xs text-foreground-muted">auto</span>
           </div>

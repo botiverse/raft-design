@@ -16,7 +16,7 @@ const alertDialog = tv({
     content: [
       "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] max-w-[400px] -translate-1/2 outline-none",
       "overflow-clip rounded-dialog bg-layer-popover text-foreground",
-      "shadow-raft-float ring-1 ring-line-seam",
+      "shadow-float ring-1 ring-line-seam",
     ],
     header: ["grid grid-cols-[minmax(0,1fr)_max-content] items-center min-w-0", "gap-2 px-5 pt-5"],
     body: [

@@ -17,9 +17,9 @@ const tooltip = tv({
       "data-ending-style:scale-[0.99] data-ending-style:opacity-0",
       "data-instant:transition-none",
       "motion-reduce:transition-none",
-      "rounded-chip bg-layer-hud text-layer-hud-foreground",
+      "rounded-chip bg-layer-hud text-foreground-on-hud",
       "font-sans font-medium",
-      "shadow-raft-float",
+      "shadow-float",
       "has-[[data-slot=kbd]]:py-1 has-[[data-slot=kbd]]:pr-2.5",
     ],
     body: [

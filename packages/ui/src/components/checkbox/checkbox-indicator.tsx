@@ -36,7 +36,7 @@ const checkboxIndicator = tv({
     {
       checked: false,
       previewOnHover: true,
-      class: { root: "group-hover:text-foreground-strong/20" },
+      class: { root: "group-hover:text-foreground/20" },
     },
     { checked: true, disabled: true, class: { root: "bg-foreground-disabled text-layer-card" } },
   ],

@@ -214,8 +214,8 @@ function AppRailDoc() {
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Preview previewInset="flush">
           <Preview.Canvas>
-            <div className="h-[586px] overflow-hidden border border-line bg-layer-panel p-2">
-              <PreviewThemeScope className="flex h-full items-stretch justify-start bg-layer-canvas-muted">
+            <div className="h-[586px] overflow-hidden border border-line-seam bg-layer-canvas p-2">
+              <PreviewThemeScope className="flex h-full items-stretch justify-start bg-layer-sidebar">
                 <AppRailComposition />
               </PreviewThemeScope>
             </div>

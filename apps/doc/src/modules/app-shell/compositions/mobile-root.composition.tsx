@@ -25,7 +25,7 @@ export function AppShellMobileRootComposition() {
   return (
     <AppShellRoot className="h-dvh w-full">
       <AppShellMainSlot>
-        <div className="flex size-full min-h-0  items-center justify-center bg-accent-200 px-4 text-center font-mono text-xs font-semibold uppercase tracking-wide text-accent-950">
+        <div className="flex size-full min-h-0  items-center justify-center bg-attention-200 px-4 text-center font-mono text-xs font-semibold uppercase tracking-wide text-attention-950">
           Sidebar · root view
         </div>
       </AppShellMainSlot>

@@ -337,7 +337,7 @@ function ChatSidebarDragPreview({
     <SidebarItem
       active={active}
       aria-hidden
-      className="pointer-events-none w-full bg-layer-panel shadow-raft-lg"
+      className="pointer-events-none w-full bg-layer-canvas shadow-float"
       render={<div />}
       style={style}
     >

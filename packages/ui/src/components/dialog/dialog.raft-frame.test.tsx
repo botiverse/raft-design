@@ -51,12 +51,7 @@ test("DialogSurface is the raft dialog frame for an app-owned modal", () => {
   const surface = screen.getByTestId("surface");
   expect(surface.getAttribute("data-slot")).toBe("dialog-surface");
   const classes = surface.className.split(/\s+/);
-  for (const name of [
-    "rounded-dialog",
-    "bg-layer-popover",
-    "shadow-raft-float",
-    "ring-line-seam",
-  ]) {
+  for (const name of ["rounded-dialog", "bg-layer-popover", "shadow-float", "ring-line-seam"]) {
     expect(classes).toContain(name);
   }
   expect(classes.some((name) => name.startsWith("transition-") && name !== "transition-none")).toBe(

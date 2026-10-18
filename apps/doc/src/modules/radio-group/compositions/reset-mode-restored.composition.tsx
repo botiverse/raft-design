@@ -30,13 +30,13 @@ const resetModeOption = tv({
   slots: {
     card: [
       "flex w-full cursor-pointer items-start text-left",
-      "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-strong has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-layer-canvas-muted",
+      "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-strong has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-layer-sidebar",
       "has-[[data-slot=radio-group-item][data-disabled]]:cursor-not-allowed",
-      "gap-3 rounded-container border border-line-muted bg-layer-card p-4",
+      "gap-3 rounded-container border border-line-hairline bg-layer-card p-4",
       "hover:press-overlay",
       "has-[[data-slot=radio-group-item][data-checked]]:border-line-seam has-[[data-slot=radio-group-item][data-checked]]:bg-info-soft",
-      "has-[[data-slot=radio-group-item][data-disabled]]:border-line-muted has-[[data-slot=radio-group-item][data-disabled]]:bg-fill-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-none",
-      "has-[[data-slot=radio-group-item][data-checked][data-disabled]]:border-line-muted has-[[data-slot=radio-group-item][data-checked][data-disabled]]:bg-fill-muted",
+      "has-[[data-slot=radio-group-item][data-disabled]]:border-line-hairline has-[[data-slot=radio-group-item][data-disabled]]:bg-fill-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-none",
+      "has-[[data-slot=radio-group-item][data-checked][data-disabled]]:border-line-hairline has-[[data-slot=radio-group-item][data-checked][data-disabled]]:bg-fill-muted",
     ],
     label: ["text-foreground", "text-subhead font-semibold"],
   },

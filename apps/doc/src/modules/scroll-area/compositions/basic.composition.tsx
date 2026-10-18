@@ -9,7 +9,7 @@ import {
 
 export function ScrollAreaBasicComposition() {
   return (
-    <ScrollArea className="h-56 w-72 border border-line-muted bg-layer-panel">
+    <ScrollArea className="h-56 w-72 border border-line-hairline bg-layer-canvas">
       <ScrollAreaViewport>
         <ScrollAreaContent className="p-4">
           <Text.Sans size="small">

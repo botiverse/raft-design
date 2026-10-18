@@ -13,7 +13,7 @@ const panelActionBase = tv({
     "md:h-8 md:min-w-8 md:px-[5px] md:after:absolute md:after:-inset-1.5",
     "text-foreground",
     "hover:bg-fill-pressed active:bg-fill-pressed",
-    "focus-visible:shadow-raft-focus",
+    "focus-visible:shadow-focus",
     "[&>svg]:size-[22px] md:[&>svg]:size-[18px]",
   ],
 });
@@ -25,7 +25,7 @@ export const panelAction = tv({
     "disabled:pointer-events-none disabled:transform-none",
     "gap-1.5 text-footnote font-bold",
     "disabled:bg-transparent disabled:text-foreground-disabled disabled:opacity-100",
-    "aria-pressed:border-sticker-ink aria-pressed:bg-primary aria-pressed:text-sticker-ink aria-pressed:ring-[1.5px] aria-pressed:ring-sticker-edge",
+    "aria-pressed:border-sticker-ink aria-pressed:bg-brand aria-pressed:text-sticker-ink aria-pressed:ring-[1.5px] aria-pressed:ring-sticker-edge",
     "aria-pressed:active:press-overlay-sticker",
   ],
 });
@@ -36,7 +36,7 @@ export const panelToggleAction = tv({
     "data-disabled:pointer-events-none data-disabled:transform-none",
     "gap-1.5 text-footnote font-bold",
     "data-disabled:bg-transparent data-disabled:text-foreground-disabled data-disabled:opacity-100",
-    "data-pressed:border-sticker-ink data-pressed:bg-primary data-pressed:text-sticker-ink data-pressed:ring-[1.5px] data-pressed:ring-sticker-edge",
+    "data-pressed:border-sticker-ink data-pressed:bg-brand data-pressed:text-sticker-ink data-pressed:ring-[1.5px] data-pressed:ring-sticker-edge",
     "data-pressed:active:press-overlay-sticker",
   ],
 });

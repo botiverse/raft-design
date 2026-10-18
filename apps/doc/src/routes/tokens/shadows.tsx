@@ -13,8 +13,8 @@ const TOC = [
   { id: "usage", title: "Usage" },
 ] as const;
 
-/** Controls never cast a shadow; only overlays float (foundation.css). */
-const NO_SHADOW = "0 0 #0000";
+/** Controls never cast a shadow; only overlays float, and only brand
+    illustration carries the hard sticker shadow (foundation.css). */
 const FLOAT_LIGHT =
   "0 1px 0 oklch(0.1813 0.005 17.62 / 0.039), 0 12px 32px -12px oklch(0.1813 0.005 17.62 / 0.322)";
 const FLOAT_DARK =
@@ -22,46 +22,18 @@ const FLOAT_DARK =
 
 const SHADOW_TOKENS = [
   {
-    name: "xs",
-    utility: "shadow-raft-xs",
-    sourceToken: "--theme-shadow-xs",
-    light: NO_SHADOW,
-    dark: NO_SHADOW,
-  },
-  {
-    name: "sm",
-    utility: "shadow-raft-sm",
-    sourceToken: "--theme-shadow-sm",
-    light: NO_SHADOW,
-    dark: NO_SHADOW,
-  },
-  {
-    name: "md",
-    utility: "shadow-raft-md",
-    sourceToken: "--theme-shadow-md",
-    light: NO_SHADOW,
-    dark: NO_SHADOW,
-  },
-  {
-    name: "lg",
-    utility: "shadow-raft-lg",
-    sourceToken: "--theme-shadow-lg",
-    light: FLOAT_LIGHT,
-    dark: FLOAT_DARK,
-  },
-  {
-    name: "xl",
-    utility: "shadow-raft-xl",
-    sourceToken: "--theme-shadow-xl",
-    light: FLOAT_LIGHT,
-    dark: FLOAT_DARK,
-  },
-  {
     name: "float",
-    utility: "shadow-raft-float",
-    sourceToken: "--theme-shadow-float",
+    utility: "shadow-float",
+    sourceToken: "--elevation-float",
     light: FLOAT_LIGHT,
     dark: FLOAT_DARK,
+  },
+  {
+    name: "sticker",
+    utility: "shadow-sticker",
+    sourceToken: "--elevation-sticker",
+    light: "4px 4px 0 oklch(0.1813 0.005 17.62)",
+    dark: "4px 4px 0 oklch(0 0 0)",
   },
 ] as const;
 
@@ -71,7 +43,7 @@ const MODE_PREVIEWS = [
 ] as const;
 
 export const SHADOW_SNIPPETS = {
-  usage: `<div className="bg-layer-popover ring-1 ring-line-seam shadow-raft-float" />`,
+  usage: `<div className="bg-layer-popover ring-1 ring-line-seam shadow-float" />`,
 } as const;
 
 export const Route = createFileRoute("/tokens/shadows")({
@@ -115,7 +87,7 @@ function ShadowsDoc() {
         </DocSection>
 
         <DocSection id="values" title="Values">
-          <div className="grid gap-0 [&>*+*]:border-t [&>*+*]:border-line-muted">
+          <div className="grid gap-0 [&>*+*]:border-t [&>*+*]:border-line-hairline">
             {SHADOW_TOKENS.map((shadow) => (
               <div
                 key={shadow.sourceToken}
@@ -144,9 +116,9 @@ function ShadowsDoc() {
 function ShadowsPageScope({ children }: { children: ReactNode }) {
   return (
     <div
-      className="min-h-screen bg-layer-panel"
+      className="min-h-screen bg-layer-canvas"
       style={{
-        color: "var(--foreground-strong)",
+        color: "var(--foreground)",
         fontFamily: "var(--sans-font)",
       }}
     >
@@ -160,8 +132,8 @@ function ScaleCard({ preview }: { preview: (typeof MODE_PREVIEWS)[number] }) {
     <div
       className={`${preview.mode} p-4`}
       style={{
-        background: "var(--layer-panel)",
-        color: "var(--foreground-strong)",
+        background: "var(--layer-canvas)",
+        color: "var(--foreground)",
         fontFamily: "var(--heading-font)",
         colorScheme: preview.mode,
       }}
@@ -193,9 +165,7 @@ function ScaleCard({ preview }: { preview: (typeof MODE_PREVIEWS)[number] }) {
 function ShadowValue({ value, label }: { value: string; label?: string }) {
   return (
     <div>
-      {label ? (
-        <p className="mb-0.5 font-mono text-[11px] text-foreground-placeholder">{label}</p>
-      ) : null}
+      {label ? <p className="mb-0.5 font-mono text-[11px] text-foreground-hint">{label}</p> : null}
       <p className="wrap-break-word font-mono text-xs leading-relaxed text-gray-600">{value}</p>
     </div>
   );

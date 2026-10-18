@@ -58,7 +58,7 @@ export function PwaInstallDrawerPanel({ variant }: PwaInstallDrawerPanelProps) {
             : "Open this page in Safari first, then add it to your Home Screen."}
         </DrawerDescription>
         {isSafari ? (
-          <div className="mt-6 rounded-md bg-layer-panel p-2">
+          <div className="mt-6 rounded-md bg-layer-canvas p-2">
             <img
               src="/pwa/ios-add-to-home-screen-3step.svg"
               alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."

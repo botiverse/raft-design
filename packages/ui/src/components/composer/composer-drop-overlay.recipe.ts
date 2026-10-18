@@ -16,7 +16,7 @@ export const composerDropOverlay = tv({
     dropOverlayIconCluster: ["relative flex items-center justify-center", "h-10 w-22"],
     dropOverlayIcon: [
       "rounded-control p-2",
-      "bg-layer-card shadow-none ring-1 ring-line-muted",
+      "bg-layer-card shadow-none ring-1 ring-line-hairline",
       "[&_svg]:size-4",
     ],
   },

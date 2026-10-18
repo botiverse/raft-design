@@ -85,8 +85,8 @@
   &.r-float-button--primary,
   &.r-float-button--accent {
     --r-float-button-border-color: var(--sticker-ink);
-    --r-float-button-bg: var(--accent-400);
-    --r-float-button-bg-hover: var(--accent-400);
+    --r-float-button-bg: var(--attention-400);
+    --r-float-button-bg-hover: var(--attention-400);
     --r-float-button-press: var(--sticker-pressed);
     --r-float-button-text-color: var(--sticker-ink);
     --r-float-button-text-hover-color: var(--sticker-ink);
@@ -187,7 +187,7 @@
     pointer-events: none;
     opacity: var(--r-float-button-opacity-disabled);
     cursor: not-allowed;
-    border-color: var(--line-muted);
+    border-color: var(--line-hairline);
     background-color: var(--fill-muted);
     background-image: none;
     color: var(--r-float-button-text-disabled-color);

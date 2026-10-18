@@ -44,7 +44,7 @@ export const buttonVariants = tv({
       "rounded-none border-[1.5px] font-sans font-bold shadow-none",
       "transition-colors duration-100",
       "outline-[1px] outline-offset-2 outline-transparent focus-visible:outline-transparent",
-      "focus-visible:shadow-raft-focus",
+      "focus-visible:shadow-focus",
       "data-[loading=true]:cursor-wait data-[loading=true]:opacity-100",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
       // Native-disabled buttons swallow pointer events. The
@@ -57,8 +57,8 @@ export const buttonVariants = tv({
       "aria-disabled:hover:translate-none",
       "aria-disabled:active:translate-none aria-disabled:active:scale-none",
       "disabled:opacity-100 aria-disabled:opacity-100",
-      "disabled:border-line-muted disabled:bg-fill-muted disabled:bg-none disabled:text-foreground-disabled disabled:ring-0",
-      "aria-disabled:border-line-muted aria-disabled:bg-fill-muted aria-disabled:bg-none aria-disabled:text-foreground-disabled aria-disabled:ring-0",
+      "disabled:border-line-hairline disabled:bg-fill-muted disabled:bg-none disabled:text-foreground-disabled disabled:ring-0",
+      "aria-disabled:border-line-hairline aria-disabled:bg-fill-muted aria-disabled:bg-none aria-disabled:text-foreground-disabled aria-disabled:ring-0",
     ],
     content:
       "relative z-10 inline-flex items-center justify-center gap-[inherit] data-[loading=true]:invisible",
@@ -66,8 +66,8 @@ export const buttonVariants = tv({
   },
   variants: {
     variant: {
-      primary: { root: sticker("bg-accent-400") },
-      accent: { root: sticker("bg-accent-400") },
+      primary: { root: sticker("bg-attention-400") },
+      accent: { root: sticker("bg-attention-400") },
       warning: { root: sticker("bg-warning") },
       danger: { root: sticker("bg-danger") },
       default: { root: outline("text-foreground") },
@@ -99,7 +99,7 @@ export const buttonVariants = tv({
         root: [
           "border-transparent bg-transparent text-foreground",
           "underline decoration-[1.5px] underline-offset-[3px]",
-          "hover:decoration-accent-500 aria-disabled:hover:no-underline",
+          "hover:decoration-attention-500 aria-disabled:hover:no-underline",
         ],
       },
     },

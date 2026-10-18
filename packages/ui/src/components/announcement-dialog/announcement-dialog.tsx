@@ -24,10 +24,13 @@ const announcement = tv({
       "flex min-w-0 items-center gap-2 wrap-break-word",
       "text-caption text-foreground-muted",
     ],
-    dot: ["shrink-0", "size-[9px] rounded-[2px] border-[1.5px] border-sticker-ink bg-accent-400"],
+    dot: [
+      "shrink-0",
+      "size-[9px] rounded-[2px] border-[1.5px] border-sticker-ink bg-attention-400",
+    ],
     title: ["mt-3 wrap-break-word normal-case", "text-headline font-bold tracking-normal"],
     picture: [
-      "mt-5 h-44 w-full overflow-hidden border border-line-muted [&_img]:size-full  [&_img]:object-contain",
+      "mt-5 h-44 w-full overflow-hidden border border-line-hairline [&_img]:size-full  [&_img]:object-contain",
       "rounded-container bg-fill-muted",
     ],
     text: [
@@ -36,7 +39,7 @@ const announcement = tv({
       "text-subhead text-foreground-muted",
     ],
     footer: [
-      "flex shrink-0 flex-wrap items-center justify-between gap-3 border-line-muted py-4 @max-[28rem]/announcement:flex-col",
+      "flex shrink-0 flex-wrap items-center justify-between gap-3 border-line-hairline py-4 @max-[28rem]/announcement:flex-col",
       "border-t-0 px-5 pt-0 pb-5",
     ],
     action: [

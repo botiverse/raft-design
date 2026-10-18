@@ -227,12 +227,15 @@ function MessageReferenceDoc() {
         </p>
         <div className="flex flex-wrap items-start gap-6" data-demo="mixed-long-message">
           <div
-            className="w-full max-w-[720px] border border-line bg-layer-panel p-3"
+            className="w-full max-w-[720px] border border-line-seam bg-layer-canvas p-3"
             data-demo-width="desktop"
           >
             <MessageReferenceMixedLongMessageComposition />
           </div>
-          <div className="w-[358px] border border-line bg-layer-panel p-3" data-demo-width="phone">
+          <div
+            className="w-[358px] border border-line-seam bg-layer-canvas p-3"
+            data-demo-width="phone"
+          >
             <MessageReferenceMixedLongMessageComposition />
           </div>
         </div>

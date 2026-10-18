@@ -5,15 +5,15 @@ export const filePreview = tv({
     root: ["relative flex h-10 w-10 shrink-0 items-center justify-center"],
     document: [
       "relative h-10 w-8 space-y-1.5 rounded-md rounded-tr-[15%] p-1.5 ring-1",
-      "bg-layer-card shadow-none ring-line-muted",
+      "bg-layer-card shadow-none ring-line-hairline",
     ],
     file: [
       "relative flex h-10 w-8 items-center justify-center rounded-md rounded-tr-[15%] ring-1",
-      "bg-layer-card shadow-none ring-line-muted",
+      "bg-layer-card shadow-none ring-line-hairline",
     ],
     code: [
       "relative flex h-10 w-8 items-center justify-center rounded-md rounded-tr-[15%] ring-1",
-      "bg-layer-card shadow-none ring-line-muted",
+      "bg-layer-card shadow-none ring-line-hairline",
     ],
     fileZip: ["flex h-7 items-center justify-center"],
     fileZipStack: ["relative -translate-y-0.5 flex flex-col items-center"],
@@ -26,20 +26,20 @@ export const filePreview = tv({
     codeRow: ["flex items-center gap-0.5 leading-none"],
     codeRowIndent: ["flex items-center gap-0.5 pl-1.5 leading-none"],
     codeTextRow: ["block pl-3"],
-    codeGlyph: ["font-mono text-[4px] leading-none text-foreground-strong/30"],
+    codeGlyph: ["font-mono text-[4px] leading-none text-foreground/30"],
     codeTagLine: ["h-0.5 w-3 rounded-full", "bg-foreground/40"],
     codeAttributeLine: ["h-0.5 w-2.5 rounded-full", "bg-foreground/25"],
-    codeTextLine: ["h-0.5 w-6 rounded-full bg-foreground-strong/10"],
+    codeTextLine: ["h-0.5 w-6 rounded-full bg-foreground/10"],
     codeSelfClosingLine: ["h-0.5 w-2 rounded-full", "bg-foreground/40"],
     // A file type is a quiet neutral chip; the name beside it says the rest.
     badge: [
       "w-fit whitespace-nowrap",
-      "rounded-sticker bg-fill-muted px-1 py-0.5 ring-1 ring-line-muted",
+      "rounded-sticker bg-fill-muted px-1 py-0.5 ring-1 ring-line-hairline",
       "font-mono text-[10px] leading-none font-bold text-foreground-muted",
     ],
     media: [
       "relative h-10 w-8 overflow-hidden rounded-md ring-1",
-      "bg-fill-muted shadow-none ring-line-muted",
+      "bg-fill-muted shadow-none ring-line-hairline",
     ],
   },
   variants: {

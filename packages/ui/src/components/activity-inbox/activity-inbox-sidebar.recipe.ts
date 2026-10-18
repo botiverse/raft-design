@@ -6,9 +6,9 @@ export const activityInboxSidebar = tv({
       "shrink-0",
       "max-md:hidden",
       "md:flex",
-      "w-56 border-r border-line-seam bg-layer-panel",
+      "w-56 border-r border-line-seam bg-layer-canvas",
     ],
-    sidebarBody: ["bg-layer-panel"],
+    sidebarBody: ["bg-layer-canvas"],
     sidebarContent: [
       "p-3",
       "[&_[data-slot=sidebar-group-label]]:mt-5 [&_[data-slot=sidebar-group-label]]:mb-1",

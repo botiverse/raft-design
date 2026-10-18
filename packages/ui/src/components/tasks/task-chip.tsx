@@ -21,7 +21,7 @@ const taskChip = tv({
       "[&>svg:not([data-slot=task-status-icon])]:-mx-0.5 [&>svg[data-slot=task-status-icon]]:size-[9px]",
       "hover:brightness-100",
       "[a,button]:cursor-pointer [a,button]:hover:press-overlay [a,button]:active:press-overlay",
-      "focus-visible:outline-none focus-visible:shadow-raft-focus",
+      "focus-visible:outline-none focus-visible:shadow-focus",
     ],
   },
   variants: {

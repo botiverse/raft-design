@@ -2,7 +2,8 @@ import { clsx } from "cnfast";
 import type { ClassValue } from "cnfast";
 import { extendTailwindMerge } from "tailwind-merge";
 
-// `shadow-raft-*` are custom shadow *geometry* utilities; without this they
+// `shadow-float` / `shadow-sticker` / `shadow-focus` (and the deprecated
+// `shadow-raft-*`) are custom shadow *geometry* utilities; without this they
 // would be classified as shadow colors and stop conflicting with `shadow-[...]`.
 // `text-field` / `font-field` are the field metric axis utilities. Without
 // registering them tailwind-merge cannot classify them: `text-field` falls into
@@ -14,7 +15,10 @@ import { extendTailwindMerge } from "tailwind-merge";
 const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
-      shadow: [{ shadow: [{ raft: ["xs", "sm", "md", "lg", "xl", "float", "sticker", "focus"] }] }],
+      shadow: [
+        { shadow: ["float", "sticker", "focus"] },
+        { shadow: [{ raft: ["xs", "sm", "md", "lg", "xl", "float", "sticker", "focus"] }] },
+      ],
       rounded: [{ rounded: ["sticker", "chip", "control", "container", "dialog"] }],
       "font-size": [
         {

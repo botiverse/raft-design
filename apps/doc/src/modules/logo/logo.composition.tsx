@@ -16,13 +16,13 @@ export function LogoLockupContent() {
 export function LogoComposition() {
   return (
     <div className="grid w-full gap-8 md:grid-cols-3">
-      <div className="flex min-h-36 items-center justify-center bg-layer-panel p-6">
+      <div className="flex min-h-36 items-center justify-center bg-layer-canvas p-6">
         <LogoMarkContent />
       </div>
-      <div className="flex min-h-36 items-center justify-center bg-layer-panel p-6">
+      <div className="flex min-h-36 items-center justify-center bg-layer-canvas p-6">
         <LogoWordmarkContent />
       </div>
-      <div className="flex min-h-36 items-center justify-center bg-layer-panel p-6">
+      <div className="flex min-h-36 items-center justify-center bg-layer-canvas p-6">
         <LogoLockupContent />
       </div>
       <div className="flex items-center justify-center gap-3 md:col-span-3">

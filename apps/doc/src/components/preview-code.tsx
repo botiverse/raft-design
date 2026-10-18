@@ -28,7 +28,7 @@ export function PreviewCode({ html, collapsedHtml, codeBlock }: PreviewCodeProps
           render={<Collapsible.Trigger />}
           variant="ghost"
           size="xs"
-          className="text-foreground-placeholder hover:text-foreground-muted [&[data-panel-open]_svg]:rotate-180"
+          className="text-foreground-hint hover:text-foreground-muted [&[data-panel-open]_svg]:rotate-180"
         >
           <span className="order-1">Code</span>
           <ChevronDown

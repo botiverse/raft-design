@@ -241,7 +241,7 @@ function TaskListDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="status-sections" title="Status sections">
-            <p className="mb-4 text-sm text-foreground-strong/70">
+            <p className="mb-4 text-sm text-foreground/70">
               Group cards by status with collapsible sections. Collapse and counts are driven by the
               composition.
             </p>
@@ -254,7 +254,7 @@ function TaskListDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="scroll-area" title="Scroll area">
-            <p className="mb-4 text-sm text-foreground-strong/70">
+            <p className="mb-4 text-sm text-foreground/70">
               Use one <InlineCode>ScrollAreaViewport</InlineCode> around all status sections. The
               list remains a single vertical scroll surface, while{" "}
               <InlineCode>TaskListRoot</InlineCode> and sections only own their layout and collapse
@@ -269,7 +269,7 @@ function TaskListDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="section-empty" title="Section empty states">
-            <p className="mb-4 text-sm text-foreground-strong/70">
+            <p className="mb-4 text-sm text-foreground/70">
               Sparse tasks leave In Review / Done / Closed empty so{" "}
               <InlineCode>TaskSectionEmpty</InlineCode> shows. List has a single empty host (no DnD
               idle/allowed/blocked triad).
@@ -285,7 +285,7 @@ function TaskListDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="virtualization" title="Virtualization">
-            <p className="mb-4 text-sm text-foreground-strong/70">
+            <p className="mb-4 text-sm text-foreground/70">
               Keep one shared <InlineCode>ScrollAreaViewport</InlineCode>, and mount a{" "}
               <InlineCode>useVirtualizer</InlineCode> stack inside each tall section. Virtualization
               stays consumer-owned; <InlineCode>TaskList</InlineCode> does not provide it.

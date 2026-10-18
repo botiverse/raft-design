@@ -4,7 +4,7 @@ import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fix
 
 export function MessageReferenceExternalReferencesComposition() {
   return (
-    <div className="flex w-full flex-wrap items-start justify-center gap-4 text-sm text-foreground-strong">
+    <div className="flex w-full flex-wrap items-start justify-center gap-4 text-sm text-foreground">
       {/* @docs-source-strip-start */}
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}

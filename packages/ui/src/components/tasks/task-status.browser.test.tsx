@@ -141,7 +141,7 @@ function Harness() {
     // A real themed surface: soft/translucent fills composite over it exactly
     // as they do in the app (a bare test node has a transparent background,
     // which would composite washes over nothing).
-    <div data-testid="status-scope" className="bg-layer-panel">
+    <div data-testid="status-scope" className="bg-layer-canvas">
       {TASK_STATUS_IDS.map((status) => (
         <div key={status}>
           <TaskStatusIcon status={status} data-testid={`icon-${status}`} />

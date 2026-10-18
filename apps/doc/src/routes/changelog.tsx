@@ -154,7 +154,7 @@ function ChangelogDoc() {
             <section
               key={release.version}
               id={releaseId(release.version)}
-              className="scroll-mt-8 border-t border-line-muted pt-10 first:border-t-0 first:pt-0"
+              className="scroll-mt-8 border-t border-line-hairline pt-10 first:border-t-0 first:pt-0"
             >
               <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
                 <div className="flex items-center gap-3">
@@ -191,7 +191,7 @@ function ChangelogDoc() {
                         <li key={entry} className="grid grid-cols-[0.375rem_1fr] gap-3">
                           <span
                             aria-hidden
-                            className="mt-[0.625rem] size-1.5 rounded-full bg-foreground-placeholder"
+                            className="mt-[0.625rem] size-1.5 rounded-full bg-foreground-hint"
                           />
                           <span>{renderInlineMarkdown(entry)}</span>
                         </li>

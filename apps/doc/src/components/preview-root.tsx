@@ -16,7 +16,7 @@ const PREVIEW_CONTROLS_MAX_SIZE = 480;
 const PREVIEW_CANVAS_MIN_SIZE = 280;
 
 const frameClass =
-  "min-w-0 overflow-clip rounded-lg bg-white shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)] dark:bg-layer-panel dark:shadow-[0_0_0_1px_oklch(1_0_0_/_0.08),0_12px_28px_-10px_oklch(0_0_0_/_0.5),0_2px_6px_-2px_oklch(0_0_0_/_0.3)]";
+  "min-w-0 overflow-clip rounded-lg bg-white shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)] dark:bg-layer-canvas dark:shadow-[0_0_0_1px_oklch(1_0_0_/_0.08),0_12px_28px_-10px_oklch(0_0_0_/_0.5),0_2px_6px_-2px_oklch(0_0_0_/_0.3)]";
 
 /** Compound docs preview: canvas, optional controls, and code via composition parts. */
 export function PreviewRoot(props: PreviewProps) {
@@ -44,7 +44,7 @@ function InteractivePreviewRoot({
   const canvasNode = (
     <PreviewThemeScope
       mode={previewMode}
-      className="h-full bg-layer-panel text-foreground-strong dark:bg-transparent"
+      className="h-full bg-layer-canvas text-foreground dark:bg-transparent"
     >
       <div
         className={`flex min-h-84 w-full flex-wrap justify-center ${previewInsetClass} ${previewClassName}`}

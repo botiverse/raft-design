@@ -25,7 +25,7 @@ Link `dist/foundation.css` directly, or copy it beside your HTML. It exposes the
     color: var(--foreground);
   }
   article {
-    background: var(--layer-panel);
+    background: var(--layer-canvas);
   }
 </style>
 ```

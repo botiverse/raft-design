@@ -31,7 +31,7 @@ function PropTable({
         <col />
       </colgroup>
       <thead>
-        <tr className="border-b border-line-muted text-foreground-muted">
+        <tr className="border-b border-line-hairline text-foreground-muted">
           <th className="py-2 pr-6 font-medium whitespace-nowrap align-top">{nameColumnLabel}</th>
           <th className="py-2 pr-6 font-medium whitespace-nowrap align-top">Type</th>
           <th className="py-2 pr-6 font-medium whitespace-nowrap align-top">Default</th>
@@ -40,7 +40,7 @@ function PropTable({
       </thead>
       <tbody>
         {rows.map((row) => (
-          <tr key={row.name} className="border-b border-line-muted align-top">
+          <tr key={row.name} className="border-b border-line-hairline align-top">
             <td className="py-3 pr-6 align-top">
               <InlineCode className="wrap-anywhere">{row.name}</InlineCode>
             </td>
@@ -68,7 +68,7 @@ function StackedProps({ rows }: { rows: readonly PropRow[] }) {
   return (
     <div className="@min-[768px]:hidden">
       {rows.map((row) => (
-        <div key={row.name} className="space-y-1 border-b border-line-muted py-3">
+        <div key={row.name} className="space-y-1 border-b border-line-hairline py-3">
           <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
             <InlineCode className="wrap-anywhere">{row.name}</InlineCode>
             {hasDefaultValue(row.default) ? (

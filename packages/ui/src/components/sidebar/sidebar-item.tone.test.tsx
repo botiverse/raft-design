@@ -64,7 +64,7 @@ describe("interactive", () => {
         "hover:bg-fill-pressed",
         "active:bg-fill-pressed",
         "not-data-active:data-popup-open:bg-fill-pressed",
-        "focus-visible:shadow-raft-focus",
+        "focus-visible:shadow-focus",
       ]),
     );
   });
@@ -81,7 +81,7 @@ describe("interactive", () => {
     expect(row.tagName).toBe("DIV");
     expect(row.hasAttribute("type")).toBe(false);
     expect(row.className).not.toContain("bg-fill-pressed");
-    expect(row.className).not.toContain("focus-visible:shadow-raft-focus");
+    expect(row.className).not.toContain("focus-visible:shadow-focus");
     expect(classes(row)).toContain("cursor-default");
     // The two-line layout still applies.
     expect(classes(row)).toContain("h-auto");

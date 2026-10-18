@@ -6,8 +6,8 @@ export const messageAttachment = tv({
     card: [
       "group/attachment relative inline-flex h-20 w-44 min-w-44 max-w-44 shrink-0 flex-col overflow-hidden",
       "text-left",
-      "rounded-container border border-line-muted bg-layer-card py-2 pr-1.5 pl-2.5 text-foreground",
-      "outline-none hover:press-overlay active:press-overlay focus-visible:shadow-raft-focus",
+      "rounded-container border border-line-hairline bg-layer-card py-2 pr-1.5 pl-2.5 text-foreground",
+      "outline-none hover:press-overlay active:press-overlay focus-visible:shadow-focus",
       "[&_[data-slot=message-attachment-action]_svg]:size-4",
     ],
     title: [
@@ -38,7 +38,7 @@ export const messageAttachment = tv({
       "[&_svg]:shrink-0",
       "-my-1 size-6 rounded-control text-foreground",
       "outline-none hover:bg-fill-pressed active:bg-fill-pressed",
-      "focus-visible:shadow-raft-focus",
+      "focus-visible:shadow-focus",
       "[&_svg]:size-4",
     ],
   },

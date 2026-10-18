@@ -42,7 +42,7 @@ function renderAddon(variant: "default" | "container", kind: "root" | "text") {
 /**
  * The focus/disabled colors of the addon/text flow through the `--ig-addon-fg` /
  * `--ig-text-fg` variables. The container variant used to add a second,
- * unprefixed color class (`text-foreground-placeholder`) next to the variable
+ * unprefixed color class (`text-foreground-hint`) next to the variable
  * read; the class merge kept the placeholder and dropped the read, so focus and
  * disabled stopped re-coloring (found in review). The container variant now
  * only supplies a default for the variable — exactly one color class remains.
@@ -52,7 +52,7 @@ test("container addon keeps exactly one, state-driven color class", () => {
   const colorReads = tokens.filter((token) => token.startsWith("text-(--ig-"));
   expect(colorReads.length).toBe(1);
   expect(colorReads[0].startsWith("text-(--ig-addon-fg")).toBe(true);
-  expect(tokens).not.toContain("text-foreground-placeholder");
+  expect(tokens).not.toContain("text-foreground-hint");
 });
 
 test("container text keeps its state-driven color class", () => {
@@ -60,11 +60,11 @@ test("container text keeps its state-driven color class", () => {
   const colorReads = tokens.filter((token) => token.startsWith("text-(--ig-"));
   expect(colorReads.length).toBe(1);
   expect(colorReads[0].startsWith("text-(--ig-text-fg")).toBe(true);
-  expect(tokens).not.toContain("text-foreground-placeholder");
+  expect(tokens).not.toContain("text-foreground-hint");
 });
 
 test("default addon reads the variable with its fallback default", () => {
   const tokens = renderAddon("default", "root");
   expect(tokens.some((token) => token.startsWith("text-(--ig-addon-fg"))).toBe(true);
-  expect(tokens).not.toContain("text-foreground-placeholder");
+  expect(tokens).not.toContain("text-foreground-hint");
 });

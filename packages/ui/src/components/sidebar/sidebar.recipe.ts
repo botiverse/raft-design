@@ -5,14 +5,14 @@ export const sidebarRecipe = tv({
     sidebarRoot: [
       "relative flex size-full min-h-0  select-none flex-col",
       "has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:overflow-clip",
-      "bg-layer-canvas-muted text-foreground max-md:bg-layer-panel",
+      "bg-layer-sidebar text-foreground max-md:bg-layer-canvas",
       "border-line-seam md:border-r",
       "md:has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--sidebar-content-bottom:52px]",
     ],
     sidebarHeader: [
       "flex items-center",
       "h-(--shell-header-height,56px) shrink-0 gap-2 border-b border-line-seam px-5",
-      "bg-layer-canvas-muted text-foreground",
+      "bg-layer-sidebar text-foreground",
       "max-md:bg-layer-frame max-md:px-4 max-md:text-foreground-on-frame",
       "[@media(max-height:600px)]:h-12",
     ],
@@ -28,7 +28,7 @@ export const sidebarRecipe = tv({
     ],
     sidebarBody: [
       "relative flex min-h-0 flex-1 overflow-hidden",
-      "bg-layer-canvas-muted max-md:bg-layer-panel",
+      "bg-layer-sidebar max-md:bg-layer-canvas",
     ],
     sidebarContent: ["relative flex min-h-0 min-w-0 flex-1"],
     sidebarViewport: ["size-full min-h-0  flex-1 overflow-x-hidden overflow-y-auto"],

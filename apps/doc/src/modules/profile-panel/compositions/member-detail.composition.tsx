@@ -80,7 +80,7 @@ export function MemberDetailComposition() {
                 <DescriptionItem>
                   <DescriptionTerm>
                     Role
-                    <CircleHelp className="size-3 shrink-0 text-foreground-icon" aria-hidden />
+                    <CircleHelp className="size-3 shrink-0 text-foreground-muted" aria-hidden />
                   </DescriptionTerm>
                   <DescriptionDetails>
                     <Badge appearance="outline">
@@ -156,7 +156,7 @@ function MemberDetailSection({
           <h3>
             {title}
             {count === undefined ? null : (
-              <span className="font-mono text-foreground-placeholder">{count}</span>
+              <span className="font-mono text-foreground-hint">{count}</span>
             )}
           </h3>
         }

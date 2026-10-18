@@ -4,7 +4,7 @@ export const legacyTaskPanel = tv({
   slots: {
     frame: [
       "size-full min-h-[512px]  max-w-md overflow-hidden",
-      "rounded-container border border-line-seam bg-layer-panel shadow-none",
+      "rounded-container border border-line-seam bg-layer-canvas shadow-none",
     ],
     icon: [
       "flex shrink-0 items-center justify-center",
@@ -16,7 +16,7 @@ export const legacyTaskPanel = tv({
     status: ["flex flex-wrap items-center gap-2"],
     section: [
       "p-4",
-      "space-y-3 rounded-container border border-line-muted bg-layer-card shadow-none",
+      "space-y-3 rounded-container border border-line-hairline bg-layer-card shadow-none",
     ],
     field: [],
     fieldLabel: ["mb-0.5 font-sans text-footnote font-medium text-foreground-hint"],
@@ -24,7 +24,7 @@ export const legacyTaskPanel = tv({
     fieldText: ["m-0 whitespace-pre-wrap wrap-break-word", "text-subhead text-foreground-muted"],
     meta: [
       "p-4 text-sm",
-      "space-y-0 rounded-container border border-line-muted bg-layer-card px-4 py-2 shadow-none",
+      "space-y-0 rounded-container border border-line-hairline bg-layer-card px-4 py-2 shadow-none",
     ],
     metaRow: ["flex justify-between gap-3", "min-h-8 items-center"],
     metaLabel: ["font-sans text-footnote font-medium text-foreground-hint"],

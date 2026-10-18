@@ -115,7 +115,7 @@ test("close: the override reaches DrawerClose too", () => {
 /**
  * Header and footer sit on the body's surface.
  *
- * An earlier treatment gave them `border-b`/`border-t` plus `bg-layer-inset`, a
+ * An earlier treatment gave them `border-b`/`border-t` plus `bg-fill-muted`, a
  * slightly different tone from the content surface, so the dialog read as
  * three banded strips rather than one card (@cindyz, 2026-09-01).
  */
@@ -124,7 +124,7 @@ test("header and footer draw no divider and add no surface of their own", () => 
   for (const slot of ["header", "footer"] as const) {
     const cls = screen.getByTestId(slot).className;
     expect(cls, `${slot} must not draw a divider`).not.toMatch(/\bborder-[bt]\b/);
-    expect(cls, `${slot} must not tint its own surface`).not.toMatch(/bg-layer-inset/);
+    expect(cls, `${slot} must not tint its own surface`).not.toMatch(/bg-fill-muted/);
   }
 });
 

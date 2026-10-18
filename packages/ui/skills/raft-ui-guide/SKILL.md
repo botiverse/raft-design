@@ -40,7 +40,7 @@ raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 - Prefer semantic tokens over raw color. Use inline `oklch()` only for a one-off precision value, then tokenize repeated values.
 - Base UI owns headless behavior (open state, focus, keyboard, collections). Product state (upload lifecycle, permissions, workflow) belongs in your app, not in a component prop.
 - Raft is the only visual language, in light and dark modes; `ThemeProvider` switches the mode globally. Components adapt themselves.
-- Yellow and pink split roles: `primary` (Source Yellow) is for hints and interactive expression (indicators, the active tab); `accent` is for core actions (a dialog's confirm, the composer's send). Never use yellow as decoration or background wash — see [rules/styling.md](./rules/styling.md). Focus rings are ink, not yellow: a 2px paper gap and a 2px ink ring (`shadow-raft-focus`).
+- Yellow and pink split roles: `primary` (Source Yellow) is for hints and interactive expression (indicators, the active tab); `accent` is for core actions (a dialog's confirm, the composer's send). Never use yellow as decoration or background wash — see [rules/styling.md](./rules/styling.md). Focus rings are ink, not yellow: a 2px paper gap and a 2px ink ring (`shadow-focus`).
 
 ## Common mistakes
 

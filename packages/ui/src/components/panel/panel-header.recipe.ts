@@ -36,7 +36,7 @@ export const panelHeader = tv({
     sectionHeader: [],
     headerIcon: [
       "flex size-[27px] shrink-0 items-center justify-center",
-      "rounded-sticker border-[1.5px] border-sticker-ink bg-primary text-sticker-ink ring-[1.5px] ring-sticker-edge",
+      "rounded-sticker border-[1.5px] border-sticker-ink bg-brand text-sticker-ink ring-[1.5px] ring-sticker-edge",
       "not-data-[icon-kind=avatar]:[&_svg]:size-3.5 not-data-[icon-kind=avatar]:[&_svg]:stroke-2",
       "data-[icon-kind=avatar]:size-auto data-[icon-kind=avatar]:border-transparent data-[icon-kind=avatar]:bg-transparent",
     ],
@@ -68,7 +68,7 @@ export const panelHeader = tv({
       class: [
         "flex h-(--shell-header-height,56px) shrink-0 items-center gap-3 max-md:gap-2",
         panelHeadEdges,
-        "border-b border-line-seam bg-layer-panel text-foreground",
+        "border-b border-line-seam bg-layer-canvas text-foreground",
         "max-md:sticky max-md:top-0 max-md:z-30",
       ],
     },

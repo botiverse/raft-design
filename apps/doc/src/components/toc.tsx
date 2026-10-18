@@ -53,7 +53,7 @@ function TocEntries({ items, depth = 0 }: { items: readonly TocItem[]; depth?: n
   return (
     <ul
       className={
-        depth === 0 ? "space-y-3 text-xs" : "mt-2 space-y-2 border-l border-line-muted pl-3"
+        depth === 0 ? "space-y-3 text-xs" : "mt-2 space-y-2 border-l border-line-hairline pl-3"
       }
     >
       {items.map((item) => (
@@ -61,7 +61,7 @@ function TocEntries({ items, depth = 0 }: { items: readonly TocItem[]; depth?: n
           <a
             href={`#${item.id}`}
             className={`block transition-colors hover:text-foreground ${
-              depth === 0 ? "text-foreground-muted" : "text-foreground-placeholder"
+              depth === 0 ? "text-foreground-muted" : "text-foreground-hint"
             }`}
           >
             {item.title}

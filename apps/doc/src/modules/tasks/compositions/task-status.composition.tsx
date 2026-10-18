@@ -39,14 +39,14 @@ function Part({ children }: { children: React.ReactNode }) {
 
 export function TaskStatusComposition() {
   return (
-    <div className="overflow-x-auto border-t border-l border-line-muted">
+    <div className="overflow-x-auto border-t border-l border-line-hairline">
       <table className="w-full border-collapse text-sm">
         <thead>
-          <tr className="bg-layer-panel">
+          <tr className="bg-layer-canvas">
             {["Status", "Icon", "Badge", "Chip", "Timeline dot"].map((heading) => (
               <th
                 key={heading}
-                className="border-r border-b border-line-muted px-4 py-2 text-left font-heading font-bold"
+                className="border-r border-b border-line-hairline px-4 py-2 text-left font-heading font-bold"
               >
                 {heading}
               </th>
@@ -56,20 +56,20 @@ export function TaskStatusComposition() {
         <tbody>
           {TASK_STATUS_IDS.map((status) => (
             <tr key={status}>
-              <td className="border-r border-b border-line-muted px-4 py-3 font-mono text-xs">
+              <td className="border-r border-b border-line-hairline px-4 py-3 font-mono text-xs">
                 {status}
               </td>
-              <td className="border-r border-b border-line-muted px-4">
+              <td className="border-r border-b border-line-hairline px-4">
                 <Part>
                   <TaskStatusIcon status={status} className="size-[18px]" />
                 </Part>
               </td>
-              <td className="border-r border-b border-line-muted px-4">
+              <td className="border-r border-b border-line-hairline px-4">
                 <Part>
                   <TaskStatusBadge status={status}>{STATUS_LABEL[status]}</TaskStatusBadge>
                 </Part>
               </td>
-              <td className="border-r border-b border-line-muted px-4">
+              <td className="border-r border-b border-line-hairline px-4">
                 <Part>
                   <TaskChip status={status}>
                     <TaskStatusIcon status={status} />
@@ -77,7 +77,7 @@ export function TaskStatusComposition() {
                   </TaskChip>
                 </Part>
               </td>
-              <td className="border-r border-b border-line-muted px-4">
+              <td className="border-r border-b border-line-hairline px-4">
                 <Part>
                   <Timeline>
                     <TimelineItem taskStatus={status} lineType="dashed">

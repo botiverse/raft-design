@@ -34,7 +34,7 @@ export function WorkspaceSettingsDrawer({
             Manage the workspace profile, access, and members for Acme Design.
           </DrawerDescription>
 
-          <div className="mt-6 rounded-lg border border-line-muted bg-layer-panel px-4 py-3 text-left">
+          <div className="mt-6 rounded-lg border border-line-hairline bg-layer-canvas px-4 py-3 text-left">
             <p className="truncate text-sm font-medium text-foreground">Acme Design</p>
             <p className="mt-1 text-xs text-foreground-muted">Pro plan · 12 members</p>
           </div>

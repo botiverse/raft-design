@@ -7,7 +7,7 @@ export const inboxItem = tv({
       "has-data-[slot=inbox-item-selection]:grid-cols-[auto_minmax(0,1fr)_auto]",
       "transition-colors",
       "gap-x-3 gap-y-0 rounded-none border-0 bg-transparent px-4 py-3 shadow-none",
-      "before:pointer-events-none before:absolute before:top-0 before:right-0 before:left-4 before:hidden before:border-t before:border-line-muted",
+      "before:pointer-events-none before:absolute before:top-0 before:right-0 before:left-4 before:hidden before:border-t before:border-line-hairline",
       "[[data-slot=inbox-item]+&]:before:block has-data-[slot=inbox-item-selection]:before:left-11",
       "hover:bg-fill-pressed",
       "data-[active=true]:bg-info-soft data-[active=true]:hover:bg-info-soft",
@@ -36,7 +36,7 @@ export const inboxItem = tv({
       "flex shrink-0",
       "mt-0 flex-col items-end gap-2 pt-px",
       "max-md:flex-col max-md:items-end max-md:gap-2",
-      "after:hidden after:size-[9px] after:shrink-0 after:rounded-[2px] after:border-[1.5px] after:border-sticker-ink after:bg-accent-400",
+      "after:hidden after:size-[9px] after:shrink-0 after:rounded-[2px] after:border-[1.5px] after:border-sticker-ink after:bg-attention-400",
       "group-data-[unread=true]/inbox-item:after:block",
     ],
     itemTimestamp: [

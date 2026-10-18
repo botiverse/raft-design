@@ -8,7 +8,7 @@ export const taskListSection = tv({
       "disabled:cursor-default",
       "min-h-8 justify-start gap-2 rounded-control",
       "font-sans text-footnote font-bold text-foreground-hint",
-      "focus-visible:shadow-raft-focus",
+      "focus-visible:shadow-focus",
     ],
     heading: ["flex min-w-0 items-center", "gap-2"],
     badge: [

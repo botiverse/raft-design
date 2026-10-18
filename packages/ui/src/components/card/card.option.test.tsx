@@ -40,14 +40,14 @@ test("option sits in the control plane, not on the panel's", () => {
     cls,
     "must not keep the panel radius — that is what made it read as floating above the form",
   ).not.toMatch(/\brounded-container\b/);
-  expect(cls).not.toMatch(/\bshadow-raft-/);
+  expect(cls).not.toMatch(/\bshadow-(raft-|float|sticker)/);
 });
 
 test("default keeps the panel frame", () => {
   renderCard();
   const cls = screen.getByTestId("card").className;
   expect(cls).toMatch(/\brounded-container\b/);
-  expect(cls).toMatch(/\bborder-line-muted\b/);
+  expect(cls).toMatch(/\bborder-line-hairline\b/);
 });
 
 /**

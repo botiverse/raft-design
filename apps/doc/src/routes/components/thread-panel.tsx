@@ -288,7 +288,7 @@ function ThreadPanelPreview({
     <Preview>
       <Preview.Canvas>
         <div className="flex h-[660px] w-full justify-start overflow-x-auto">
-          <div className="size-full  overflow-hidden bg-layer-panel">
+          <div className="size-full  overflow-hidden bg-layer-canvas">
             <ThreadPanelComposition search={search} />
           </div>
         </div>

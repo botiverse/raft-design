@@ -405,7 +405,7 @@ const statusMeta = {
 
 const sectionTitleClassName = "mb-2.5 pl-[8px] text-[13px] font-medium text-foreground";
 const sidebarItemFocusClassName =
-  "outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500";
+  "outline-none focus-visible:ring-[0.5px] focus-visible:ring-brand-500";
 const sidebarSectionActiveClassName = "bg-fill-muted text-foreground";
 const sidebarSectionActiveProps = { className: sidebarSectionActiveClassName };
 const sidebarSectionInactiveProps = { className: "text-foreground" };
@@ -1015,8 +1015,8 @@ function MobileSidebar({ onSearch }: { onSearch: () => void }) {
     <div
       className={`fixed inset-x-0 top-0 z-40 lg:hidden ${
         open
-          ? "h-dvh bg-layer-panel/70 backdrop-blur-2xl"
-          : "h-[calc(5rem+env(safe-area-inset-top))] bg-[linear-gradient(to_bottom,var(--layer-panel)_0%,color-mix(in_oklch,var(--layer-panel)_70%,transparent)_55%,transparent_100%)]"
+          ? "h-dvh bg-layer-canvas/70 backdrop-blur-2xl"
+          : "h-[calc(5rem+env(safe-area-inset-top))] bg-[linear-gradient(to_bottom,var(--layer-canvas)_0%,color-mix(in_oklch,var(--layer-canvas)_70%,transparent)_55%,transparent_100%)]"
       }`}
     >
       <header className="flex h-[calc(4rem+env(safe-area-inset-top))] items-center justify-between px-4 pt-[env(safe-area-inset-top)]">

@@ -504,7 +504,7 @@ function TabsDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="placement" title="Placement">
-            <p className="mb-4 text-sm text-foreground-strong/70">
+            <p className="mb-4 text-sm text-foreground/70">
               <InlineCode>placement</InlineCode> puts the tab list on any side of the panels.{" "}
               <InlineCode>left</InlineCode> and <InlineCode>right</InlineCode> stack the tabs
               vertically and switch keyboard navigation to the up and down arrows; the underline

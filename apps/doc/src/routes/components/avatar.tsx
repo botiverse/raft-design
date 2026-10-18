@@ -251,7 +251,7 @@ import { Check } from "lucide-react";
       <AvatarFallback />
     </Avatar>
     <span className="font-mono text-xs text-foreground-muted">{size}</span>
-    <span className="text-[10px] text-foreground-placeholder">
+    <span className="text-[10px] text-foreground-hint">
       {context} · {px}px
     </span>
   </div>
@@ -539,7 +539,7 @@ function AvatarDoc() {
                         <AvatarFallback />
                       </Avatar>
                       <span className="font-mono text-xs text-foreground-muted">{size}</span>
-                      <span className="text-[10px] text-foreground-placeholder">
+                      <span className="text-[10px] text-foreground-hint">
                         {context} · {px}px
                       </span>
                     </div>
@@ -606,7 +606,7 @@ function SourceDifferenceTable() {
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-left text-sm">
         <thead>
-          <tr className="border-b border-line-muted text-foreground-muted">
+          <tr className="border-b border-line-hairline text-foreground-muted">
             <th className="py-2 pr-6 font-medium">Area</th>
             <th className="py-2 pr-6 font-medium">Source</th>
             <th className="py-2 font-medium">Current</th>
@@ -614,7 +614,7 @@ function SourceDifferenceTable() {
         </thead>
         <tbody>
           {SOURCE_DIFFERENCE_ROWS.map((row) => (
-            <tr key={row.area} className="border-b border-line-muted align-top">
+            <tr key={row.area} className="border-b border-line-hairline align-top">
               <td className="py-3 pr-6 font-medium text-foreground">{row.area}</td>
               <td className="py-3 pr-6 text-foreground-muted">{row.source}</td>
               <td className="py-3 text-foreground-muted">{row.current}</td>
@@ -631,7 +631,7 @@ function SourceSizeTable() {
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-left text-sm">
         <thead>
-          <tr className="border-b border-line-muted text-foreground-muted">
+          <tr className="border-b border-line-hairline text-foreground-muted">
             <th className="py-2 pr-6 font-medium">Source context</th>
             <th className="py-2 pr-6 font-medium">Source frame</th>
             <th className="py-2 pr-6 font-medium">Source inner</th>
@@ -642,7 +642,7 @@ function SourceSizeTable() {
         </thead>
         <tbody>
           {SOURCE_SIZE_ROWS.map((row) => (
-            <tr key={row.context} className="border-b border-line-muted align-top">
+            <tr key={row.context} className="border-b border-line-hairline align-top">
               <td className="py-3 pr-6 font-mono text-xs text-info-strong">{row.context}</td>
               <td className="py-3 pr-6 text-foreground-muted">{row.sourceFrame}</td>
               <td className="py-3 pr-6 text-foreground-muted">{row.sourceInner}</td>

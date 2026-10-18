@@ -35,7 +35,7 @@ describe("a disabled frameless icon button", () => {
         ]),
       );
       expect(names).not.toContain("disabled:bg-fill-muted");
-      expect(names).not.toContain("disabled:border-line-muted");
+      expect(names).not.toContain("disabled:border-line-hairline");
       expect(names).not.toContain("aria-disabled:bg-fill-muted");
     },
   );
@@ -43,7 +43,7 @@ describe("a disabled frameless icon button", () => {
   test("a disabled ghost text button keeps the sunken box", () => {
     const names = renderButton({ variant: "ghost", size: "md", disabled: true });
     expect(names).toContain("disabled:bg-fill-muted");
-    expect(names).toContain("disabled:border-line-muted");
+    expect(names).toContain("disabled:border-line-hairline");
   });
 
   test("an outline icon button keeps its disabled box", () => {

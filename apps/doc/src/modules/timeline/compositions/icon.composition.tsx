@@ -20,7 +20,7 @@ export function TimelineIconContent() {
         <TimelineTitle>In transit</TimelineTitle>
         <TimelineContent>It takes the variant's color</TimelineContent>
       </TimelineItem>
-      <TimelineItem color="var(--color-brutal-purple-400)">
+      <TimelineItem color="var(--palette-lavender-400)">
         <TimelineTitle>Custom color</TimelineTitle>
         <TimelineContent>Or a custom color</TimelineContent>
       </TimelineItem>

@@ -27,12 +27,12 @@ const SNIPPETS = {
 <Spinner />`,
   sizes: `<Spinner size="sm" />
 <Spinner size="lg" />`,
-  currentColor: `<Spinner className="text-accent-600 dark:text-accent-400" />
+  currentColor: `<Spinner className="text-attention-600 dark:text-attention-400" />
 <div className="rounded bg-info-soft p-3">
   <Spinner className="text-info-strong" />
 </div>
 <div className="rounded bg-layer-hud p-3">
-  <Spinner className="text-accent-300" variant="inverse" />
+  <Spinner className="text-attention-300" variant="inverse" />
 </div>`,
   inline: `<Button>
   <Spinner data-icon="inline-start" />
@@ -171,12 +171,12 @@ function SpinnerDoc() {
             <Preview>
               <Preview.Canvas>
                 <div className="flex items-center gap-3">
-                  <Spinner className="text-accent-600 dark:text-accent-400" />
+                  <Spinner className="text-attention-600 dark:text-attention-400" />
                   <div className="rounded-sm bg-info-soft p-3">
                     <Spinner className="text-info-strong" />
                   </div>
                   <div className="rounded-sm bg-layer-hud p-3">
-                    <Spinner className="text-accent-300" variant="inverse" />
+                    <Spinner className="text-attention-300" variant="inverse" />
                   </div>
                 </div>
               </Preview.Canvas>

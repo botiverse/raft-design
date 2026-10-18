@@ -153,7 +153,7 @@ function ProfilePanelDoc() {
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Preview>
           <Preview.Canvas>
-            <div className="h-[42rem] w-full max-w-[32rem] overflow-hidden border border-line bg-layer-panel">
+            <div className="h-[42rem] w-full max-w-[32rem] overflow-hidden border border-line-seam bg-layer-canvas">
               <MemberDetailComposition />
             </div>
           </Preview.Canvas>
@@ -177,7 +177,7 @@ function ProfilePanelDoc() {
           <DocSubsection parentId="usage" id="loading" title="Loading">
             <Preview>
               <Preview.Canvas>
-                <div className="h-[28rem] w-full max-w-[32rem] overflow-hidden border border-line bg-layer-panel">
+                <div className="h-[28rem] w-full max-w-[32rem] overflow-hidden border border-line-seam bg-layer-canvas">
                   <ProfilePanelLoadingComposition />
                 </div>
               </Preview.Canvas>
@@ -191,7 +191,7 @@ function ProfilePanelDoc() {
           <DocSubsection parentId="usage" id="skeleton" title="Skeleton">
             <Preview>
               <Preview.Canvas>
-                <div className="h-[32rem] w-full max-w-[32rem] overflow-hidden border border-line bg-layer-panel">
+                <div className="h-[32rem] w-full max-w-[32rem] overflow-hidden border border-line-seam bg-layer-canvas">
                   <ProfilePanelSkeletonComposition />
                 </div>
               </Preview.Canvas>
@@ -205,7 +205,7 @@ function ProfilePanelDoc() {
           <DocSubsection parentId="usage" id="remote-human" title="Remote human">
             <Preview>
               <Preview.Canvas>
-                <div className="h-[28rem] w-full max-w-[32rem] overflow-hidden border border-line bg-layer-panel">
+                <div className="h-[28rem] w-full max-w-[32rem] overflow-hidden border border-line-seam bg-layer-canvas">
                   <RemoteHumanComposition />
                 </div>
               </Preview.Canvas>
@@ -219,7 +219,7 @@ function ProfilePanelDoc() {
           <DocSubsection parentId="usage" id="remote-agent-profile" title="Remote agent profile">
             <Preview>
               <Preview.Canvas>
-                <div className="h-[36rem] w-full max-w-[32rem] overflow-hidden border border-line bg-layer-panel">
+                <div className="h-[36rem] w-full max-w-[32rem] overflow-hidden border border-line-seam bg-layer-canvas">
                   <AgentProfileComposition />
                 </div>
               </Preview.Canvas>
