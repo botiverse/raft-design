@@ -13,6 +13,8 @@ import directMessageItemCompositionSource from "#/modules/sidebar-item/compositi
 import { SidebarItemNavigationComposition } from "#/modules/sidebar-item/compositions/navigation-item.composition.tsx";
 import navigationItemCompositionSource from "#/modules/sidebar-item/compositions/navigation-item.composition.tsx?raw";
 import { SidebarItemThreadUnreadComposition } from "#/modules/sidebar-item/compositions/thread-unread-item.composition.tsx";
+import { SidebarItemTonesComposition } from "#/modules/sidebar-item/compositions/tones-item.composition.tsx";
+import tonesItemCompositionSource from "#/modules/sidebar-item/compositions/tones-item.composition.tsx?raw";
 import threadUnreadItemCompositionSource from "#/modules/sidebar-item/compositions/thread-unread-item.composition.tsx?raw";
 import { SidebarItemStatesComposition } from "#/modules/sidebar-item/sidebar-item.composition.tsx";
 import sidebarItemCompositionSource from "#/modules/sidebar-item/sidebar-item.composition.tsx?raw";
@@ -63,6 +65,20 @@ const SIDEBAR_ITEM_PROPS: readonly PropRow[] = [
     default: "false",
     description:
       "Marks the row as active. Sets data-active for visual state; route consumers provide aria-current for the current destination.",
+  },
+  {
+    name: "tone",
+    type: '"default" | "unread" | "muted" | "away"',
+    default: '"default"',
+    description:
+      "unread: a 700 name. muted: an ink-2 name. away (offline, not joined): an ink-3 name. The active sticker keeps its ink.",
+  },
+  {
+    name: "interactive",
+    type: "boolean",
+    default: "true",
+    description:
+      "false renders a display-only div with no hover, press or focus ring, for a row whose own buttons are the targets.",
   },
   {
     name: "...props",
@@ -206,6 +222,7 @@ export const Route = createFileRoute("/components/sidebar-item")({
         anatomy: ANATOMY_SNIPPET,
         composition: sidebarItemCompositionSource,
         navigationItem: navigationItemCompositionSource,
+        tonesItem: tonesItemCompositionSource,
         channelItem: channelItemCompositionSource,
         directMessageItem: directMessageItemCompositionSource,
         threadUnreadItem: threadUnreadItemCompositionSource,
@@ -270,6 +287,17 @@ function SidebarItemDoc() {
                 html={code.threadUnreadItem}
                 collapsedHtml={code.threadUnreadItemBody}
               />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="compositions" id="composition-tones" title="Tones">
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <div className="w-full max-w-72">
+                  <SidebarItemTonesComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.tonesItem} collapsedHtml={code.tonesItemBody} />
             </Preview>
           </DocSubsection>
 

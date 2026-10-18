@@ -2,6 +2,9 @@ import type { ComponentPropsWithRef } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { Avatar as AvatarPrimitive } from "@base-ui/react";
+import { cn } from "../../lib/cn";
+import { PRESENCE_COLOR } from "../../lib/presence";
+import type { Presence } from "../../lib/presence";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -81,7 +84,7 @@ const avatar = tv({
       "group-data-[size=md]/avatar:[&>svg]:size-1.5 group-data-[size=md]/avatar:[&>svg]:block",
       "group-data-[size=xs]/avatar:outline group-data-[size=2xs]/avatar:outline group-data-[size=3xs]/avatar:outline",
       "rounded-[2px] border-[1.5px] border-sticker-ink",
-      "bg-presence-online text-sticker-ink outline-layer-panel",
+      "bg-(--status-color) text-sticker-ink outline-layer-panel",
       "group-data-[size=xl]/avatar:border-2",
       "group-data-[size=3xs]/avatar:border",
     ],
@@ -274,6 +277,9 @@ export function AvatarFallback({ className, children, ...props }: AvatarFallback
 export type AvatarBadgeOffset = [x: string | number, y: string | number];
 
 export type AvatarBadgeProps = useRender.ComponentProps<"span"> & {
+  /** The default dot's status light: online (the default), busy, error,
+   *  offline or external. Ignored when `render` draws its own indicator. */
+  presence?: Presence;
   /** Where the badge's centre sits, measured from the avatar's top-left:
    *  `[x, y]`. Numbers are px; strings are any CSS length, and percentages
    *  are of the avatar's size, so `["100%", 0]` is the top-right corner at
@@ -286,7 +292,13 @@ const toCssLength = (value: string | number) => (typeof value === "number" ? `${
 // Corner presence shell. The parent avatar owns placement and size; the default
 // dot or a custom render only supplies the visual state. `offset` replaces the
 // recipe's corner placement with an explicit centre point.
-export function AvatarBadge({ className, render, offset, ...props }: AvatarBadgeProps) {
+export function AvatarBadge({
+  className,
+  render,
+  offset,
+  presence = "online",
+  ...props
+}: AvatarBadgeProps) {
   const { badge, dot } = avatar();
   const offsetStyle = offset
     ? {
@@ -299,7 +311,7 @@ export function AvatarBadge({ className, render, offset, ...props }: AvatarBadge
     : undefined;
   const defaultProps: useRender.ElementProps<"span"> = {
     className: badge({
-      className: render ? className : dot({ className }),
+      className: render ? className : dot({ className: cn(PRESENCE_COLOR[presence], className) }),
     }),
     style: offsetStyle,
   };

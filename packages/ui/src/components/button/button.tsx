@@ -10,6 +10,8 @@ import { Spinner } from "../spinner/index";
 // ink outline for the rest, no frame for cancel and minor actions, orange for
 // what interrupts and red for what cannot be undone. Every button that is not
 // disabled shows the press overlay on hover and press instead of changing fill.
+// A frameless icon button that is disabled only greys its icon: no box appears
+// (DS IconButton), while a disabled text button keeps the sunken fill.
 const sticker = (fill: string) => [
   `border-sticker-ink ${fill} text-sticker-ink ring-[1.5px] ring-sticker-edge`,
   "hover:press-overlay-sticker active:press-overlay-sticker",
@@ -81,6 +83,18 @@ export const buttonVariants = tv({
           "hover:bg-fill-pressed active:bg-fill-pressed",
         ],
       },
+      // Frameless, on the yellow frame (rail, top bar, desktop title bar): the
+      // frame's ink, and frame-pressed on hover, press and while its popup is
+      // open. Disabled, it only greys: a box would sit on the frame.
+      "on-frame": {
+        root: [
+          "border-transparent bg-transparent text-foreground-on-frame",
+          "hover:bg-fill-frame-pressed active:bg-fill-frame-pressed",
+          "aria-expanded:bg-fill-frame-pressed data-popup-open:bg-fill-frame-pressed",
+          "disabled:border-transparent disabled:bg-transparent",
+          "aria-disabled:border-transparent aria-disabled:bg-transparent",
+        ],
+      },
       link: {
         root: [
           "border-transparent bg-transparent text-foreground",
@@ -132,8 +146,33 @@ export const buttonVariants = tv({
     variant: "default",
     size: "md",
   },
-  // After the sizes, so a link drops each size's padding.
-  compoundVariants: [{ variant: "link", class: { root: "px-0" } }],
+  compoundVariants: [
+    // After the sizes, so a link drops each size's padding.
+    { variant: "link", class: { root: "px-0" } },
+    {
+      variant: "ghost",
+      size: ["icon-xs", "icon-sm", "icon-md", "icon-lg"],
+      class: {
+        root: [
+          "disabled:border-transparent disabled:bg-transparent",
+          "aria-disabled:border-transparent aria-disabled:bg-transparent",
+        ],
+      },
+    },
+    // On the frame the 32px controls are the 36px frame item of the top bar
+    // and title bar (DS `rf-topbar__ws`: 15/20 700, 10px each side), with a
+    // 20px icon; the hit area still reaches 44.
+    {
+      variant: "on-frame",
+      size: ["xs", "sm", "md"],
+      class: { root: "h-9 px-2.5 text-subhead after:-inset-y-1" },
+    },
+    {
+      variant: "on-frame",
+      size: ["icon-xs", "icon-sm", "icon-md"],
+      class: { root: "size-9 after:-inset-1 [&_svg:not([class*='size-'])]:size-5" },
+    },
+  ],
 });
 
 export type ButtonProps = StyledProps<BaseButton.Props> &

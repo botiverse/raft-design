@@ -27,6 +27,7 @@ const VARIANTS = [
   "primary",
   "outline",
   "ghost",
+  "on-frame",
   "danger-secondary",
   "danger",
   "danger-outline",
@@ -37,6 +38,10 @@ const VARIANTS = [
   "link",
   "success",
 ] as const;
+
+// Frameless icon buttons draw no box when disabled, so hover must not bring
+// one back either.
+const ICON_VARIANTS = ["ghost", "on-frame"] as const;
 
 function snap(el: Element) {
   const cs = getComputedStyle(el);
@@ -102,6 +107,20 @@ for (const mode of MODES) {
           {VARIANTS.map((variant) => (
             <Button key={variant} variant={variant} disabled focusableWhenDisabled>
               {variant}
+            </Button>
+          ))}
+          {ICON_VARIANTS.map((variant) => (
+            <Button
+              key={`${variant}-icon`}
+              variant={variant}
+              size="icon-md"
+              aria-label={`${variant} icon`}
+              disabled
+              focusableWhenDisabled
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14" />
+              </svg>
             </Button>
           ))}
           {/* Positive control (review round 3): proves this run's hover rules
@@ -180,7 +199,7 @@ for (const mode of MODES) {
       }
     }
 
-    for (const variant of VARIANTS) {
+    for (const variant of [...VARIANTS, ...ICON_VARIANTS.map((name) => `${name} icon`)]) {
       const button = page.getByRole("button", { name: variant, exact: true });
       const el = button.query() as unknown as Element;
       const resting = snap(el);

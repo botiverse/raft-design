@@ -4,28 +4,33 @@ import { useRender } from "@base-ui/react/use-render";
 import { Badge } from "../badge";
 import type { BadgeProps } from "../badge";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import type { RowTone } from "../../lib/row-tone";
 import { sidebarItemRecipe } from "./sidebar-item.recipe";
 import { ThreadIcon } from "../icons";
 
 export type SidebarItemRootProps = useRender.ComponentProps<"button"> & {
   active?: boolean;
+  /** `false` renders a display-only `div`: no button, no type, nothing to
+   *  press. Its own controls (an action button) stay the targets. */
+  interactive?: boolean;
 };
 
 export function SidebarItemRoot({
   active = false,
+  interactive = true,
   className,
   render,
   ...props
 }: SidebarItemRootProps) {
   const defaultProps: SlotElementProps<"button"> = {
-    type: "button",
     "data-slot": "sidebar-item",
     "data-active": active ? "true" : undefined,
     className,
+    ...(interactive ? { type: "button" } : {}),
   };
 
   return useRender({
-    render: render ?? <BaseButton />,
+    render: render ?? (interactive ? <BaseButton /> : <div />),
     props: mergeProps<"button">(defaultProps, props),
   });
 }
@@ -34,13 +39,24 @@ export type SidebarItemProps = SidebarItemRootProps & {
   /** Let the name run onto more lines: the row grows from its fixed height
    * and its content aligns to the first line. */
   wrap?: boolean;
+  /** Something waits for you (a 700 name), the place is muted (an ink-2
+   *  name), or it is away: offline or not joined (an ink-3 name). */
+  tone?: RowTone;
 };
 
-export function SidebarItem({ className, wrap = false, ...props }: SidebarItemProps) {
-  const { sidebarItem } = sidebarItemRecipe({ wrap });
+export function SidebarItem({
+  className,
+  wrap = false,
+  tone = "default",
+  interactive = true,
+  ...props
+}: SidebarItemProps) {
+  const { sidebarItem } = sidebarItemRecipe({ wrap, interactive });
   return (
     <SidebarItemRoot
       data-wrap={wrap ? "true" : undefined}
+      data-tone={tone === "default" ? undefined : tone}
+      interactive={interactive}
       className={sidebarItem({ className })}
       {...props}
     />

@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useState } from "react";
-import { Status } from "raft-ui";
+import { InlineCode, Status } from "raft-ui";
 import type { StatusProps } from "raft-ui";
 
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -43,6 +44,11 @@ const SNIPPETS = {
 <Status variant="success" />
 <Status variant="warning" />
 <Status variant="danger" />`,
+  presence: `<Status presence="online" role="img" aria-label="Online" />
+<Status presence="busy" role="img" aria-label="Working" />
+<Status presence="error" role="img" aria-label="Error" />
+<Status presence="offline" role="img" aria-label="Offline" />
+<Status presence="external" role="img" aria-label="External agent" />`,
   sizes: `<Status size="xs" variant="success" />
 <Status size="sm" variant="success" />
 <Status size="md" variant="success" />
@@ -58,6 +64,12 @@ const PROPS: readonly PropRow[] = [
     type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
     default: '"default"',
     description: "Semantic status color.",
+  },
+  {
+    name: "presence",
+    type: '"online" | "busy" | "error" | "offline" | "external"',
+    description:
+      "A status light, in place of the variant's colour: online, busy (an agent at work), error, offline or external.",
   },
   {
     name: "size",
@@ -155,6 +167,25 @@ function StatusDoc() {
                 ))}
               </Preview.Canvas>
               <Preview.Code html={code.variants} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="presence" title="Presence">
+            <DocNote>
+              <InlineCode>presence</InlineCode> draws one of the five status lights of the design
+              system, in place of the variant&apos;s colour. Each is a fixed meaning and needs its
+              word nearby; where there is none, make the light an image with a label (
+              <InlineCode>role="img"</InlineCode> and <InlineCode>aria-label</InlineCode>).
+            </DocNote>
+            <Preview>
+              <Preview.Canvas>
+                <Status presence="online" role="img" aria-label="Online" />
+                <Status presence="busy" role="img" aria-label="Working" />
+                <Status presence="error" role="img" aria-label="Error" />
+                <Status presence="offline" role="img" aria-label="Offline" />
+                <Status presence="external" role="img" aria-label="External agent" />
+              </Preview.Canvas>
+              <Preview.Code html={code.presence} />
             </Preview>
           </DocSubsection>
 
