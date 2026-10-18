@@ -6,11 +6,11 @@ Documentation: https://raft-design.botiverse.build
 
 ## Contents
 
-| Path          | What it is                                                                                                                                       |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `design/`     | The guidelines: foundations, patterns, products and recorded decisions. Component docs sit next to their code in `packages/ui`.                  |
-| `packages/ui` | [`raft-ui`](https://www.npmjs.com/package/@botiverse/raft-ui) on npm: CSS foundations and React components built on Base UI and Tailwind CSS v4. |
-| `apps/doc`    | The documentation site: the design system's pages, rendered from the Markdown docs, with live examples and a playground.                         |
+| Path          | What it is                                                                                                                                                                 |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `design/`     | The guidelines: foundations, patterns, products and recorded decisions. Component docs sit next to their code in `packages/ui`.                                            |
+| `packages/ui` | raft-ui, published as [`@botiverse/raft-ui`](https://www.npmjs.com/package/@botiverse/raft-ui): CSS foundations and React components built on Base UI and Tailwind CSS v4. |
+| `apps/doc`    | The documentation site: the design system's pages, rendered from the Markdown docs, with live examples and a playground.                                                   |
 
 ## Using raft-ui
 
@@ -35,7 +35,7 @@ raft-ui is pre-1.0: a minor version can include breaking changes, which are list
 
 ## For agents
 
-The documentation site serves an [`llms.txt`](https://raft-design.botiverse.build/llms.txt) index, and every page is also available as Markdown at the same path with `.md`. The npm package includes Agent Skills (`raft-ui-guide`, `raft-ui-critique`) that match its version.
+The documentation site serves an [`llms.txt`](https://raft-design.botiverse.build/llms.txt) index, every page is also available as Markdown at the same path with `.md`, and [`components.json`](https://raft-design.botiverse.build/components.json) lists every component with its status, other names and summary. The npm package includes the tokens in DTCG format (`@botiverse/raft-ui/tokens.json`) and Agent Skills (`raft-ui-guide`, `raft-ui-critique`) that match its version.
 
 ## Development
 
