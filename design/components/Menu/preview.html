@@ -1,0 +1,51 @@
+<!-- @dsCard group="Overlays" height=440 subtitle="菜单是一列动作，手机长按和桌面右键是同一个；消息菜单先放一排快捷回应；悬停是浅黄，当前值打勾，删除不标红（由确认框把关）" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Menu</title>
+<style>
+  .mn-col { display: flex; flex-direction: column; gap: 14px; padding: 14px; border-radius: var(--radius-lg);
+    border: var(--border-hairline) solid var(--line); background: var(--paper); color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="rf rf-pv">
+  <div class="rf-pv__cols">
+    <div class="rf-pv__col">
+      <span class="rf-pv__label">Light · a message (long-press or right-click)</span>
+      <div class="mn-col" data-theme="light">
+        <div class="rf-menu" role="menu" aria-label="Message from Wug">
+          <div class="rf-menu__reacts" role="group" aria-label="Quick reactions">
+            <button class="rf-menu__react" type="button" role="menuitem" aria-label="React with thumbs up"><span class="rf-emoji rf-emoji--thumbs_up" aria-hidden="true"></span></button>
+            <button class="rf-menu__react" type="button" role="menuitem" aria-label="React with party popper"><span class="rf-emoji rf-emoji--party_popper" aria-hidden="true"></span></button>
+            <button class="rf-menu__react" type="button" role="menuitem" aria-label="React with eyes"><span class="rf-emoji rf-emoji--eyes" aria-hidden="true"></span></button>
+            <button class="rf-menu__react" type="button" role="menuitem" aria-label="React with check mark"><span class="rf-emoji rf-emoji--check_mark" aria-hidden="true"></span></button>
+            <button class="rf-menu__react" type="button" role="menuitem" aria-label="More reactions"><i class="rf-i rf-i-smile-plus"></i></button>
+          </div>
+          <div class="rf-menu__sep" role="separator"></div>
+          <button class="rf-menu__item" type="button" role="menuitem"><i class="rf-i rf-i-messages-square"></i>Reply in Thread</button>
+          <button class="rf-menu__item is-active" type="button" role="menuitem"><i class="rf-i rf-i-square-check-big"></i>Convert to Task</button>
+          <button class="rf-menu__item" type="button" role="menuitem"><i class="rf-i rf-i-bookmark"></i>Save</button>
+          <div class="rf-menu__sep" role="separator"></div>
+          <button class="rf-menu__item" type="button" role="menuitem"><i class="rf-i rf-i-link"></i>Copy Link</button>
+          <button class="rf-menu__item" type="button" role="menuitem"><i class="rf-i rf-i-copy"></i>Copy Markdown</button>
+          <button class="rf-menu__item is-disabled" type="button" role="menuitem" aria-disabled="true"><i class="rf-i rf-i-pencil"></i>Edit Message</button>
+          <button class="rf-menu__item" type="button" role="menuitem"><i class="rf-i rf-i-trash"></i>Delete Message</button>
+        </div>
+      </div>
+    </div>
+    <div class="rf-pv__col">
+      <span class="rf-pv__label">Dark · a task's status</span>
+      <div class="mn-col" data-theme="dark">
+        <div class="rf-menu" role="menu" aria-label="Status">
+          <button class="rf-menu__item" type="button" role="menuitemradio" aria-checked="false"><span class="rf-pixel rf-pixel--todo"></span>Todo</button>
+          <button class="rf-menu__item is-checked" type="button" role="menuitemradio" aria-checked="true"><span class="rf-pixel rf-pixel--progress"></span>In Progress<i class="rf-i rf-i-check rf-menu__end"></i></button>
+          <button class="rf-menu__item is-active" type="button" role="menuitemradio" aria-checked="false"><span class="rf-pixel rf-pixel--review"></span>In Review</button>
+          <button class="rf-menu__item" type="button" role="menuitemradio" aria-checked="false"><span class="rf-pixel rf-pixel--done"></span>Done</button>
+          <button class="rf-menu__item" type="button" role="menuitemradio" aria-checked="false"><span class="rf-pixel rf-pixel--closed"></span>Closed</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

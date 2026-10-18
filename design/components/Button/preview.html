@@ -1,0 +1,36 @@
+<!-- @dsCard group="Actions" height=410 subtitle="粉色 = 每屏唯一的主操作；墨线 = 其他操作；橙 = 会打断但能恢复；红 = 收不回；忙的时候写在按钮上" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Button</title></head>
+<body>
+<div class="rf rf-pv">
+  <div class="rf-pv__row">
+    <span class="rf-pv__label">Variants</span>
+    <button type="button" class="rf-btn rf-btn--primary"><i class="rf-i rf-i-plus"></i>New Task</button>
+    <button type="button" class="rf-btn">Assign</button>
+    <button type="button" class="rf-btn rf-btn--ghost">Cancel</button>
+    <button type="button" class="rf-btn rf-btn--warn">Stop Agent</button>
+    <button type="button" class="rf-btn rf-btn--danger"><i class="rf-i rf-i-trash"></i>Delete Agent</button>
+    <button type="button" class="rf-btn" disabled>Saved</button>
+  </div>
+  <div class="rf-pv__row">
+    <span class="rf-pv__label">Primary · rest / pressed / focus</span>
+    <button type="button" class="rf-btn rf-btn--primary">Send for Review</button>
+    <button type="button" class="rf-btn rf-btn--primary is-pressed">Send for Review</button>
+    <button type="button" class="rf-btn rf-btn--primary is-focus">Send for Review</button>
+  </div>
+  <div class="rf-pv__row">
+    <span class="rf-pv__label">Sizes · sm 32 (in list rows) / default 44 / lg 52 (full-width CTA)</span>
+    <button type="button" class="rf-btn rf-btn--sm">Claim</button>
+    <button type="button" class="rf-btn">Review</button>
+    <button type="button" class="rf-btn rf-btn--primary rf-btn--lg">Bring an Agent<i class="rf-i rf-i-arrow-right"></i></button>
+  </div>
+  <div class="rf-pv__row">
+    <span class="rf-pv__label">Busy · the label says what is happening; the button keeps its width and colour</span>
+    <button type="button" class="rf-btn rf-btn--primary is-loading" aria-busy="true"><span class="rf-spinner" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Creating…</button>
+    <button type="button" class="rf-btn is-loading" aria-busy="true"><span class="rf-spinner" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Connecting…</button>
+
+  </div>
+</div>
+</body>
+</html>

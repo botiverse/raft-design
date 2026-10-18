@@ -1,0 +1,77 @@
+<!-- @dsCard group="Feedback" height=860 subtitle="提示条放在对话框、表单的内容里，先读它再动手；按意图分四种：信息青、警告橙、危险红、成功绿，字一律是墨。一个面板里的东西出了问题时，是贴在面板头下面的通栏" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Banner</title>
+<style>
+  .bn-col { display: flex; flex-direction: column; gap: 10px; padding: 14px; border-radius: var(--radius-lg);
+    border: var(--border-hairline) solid var(--line); background: var(--paper); color: var(--ink); }
+  .bn-strip-cols { margin-top: 24px; }
+  .bn-panel { overflow: hidden; border-radius: var(--radius-lg); border: var(--border-hairline) solid var(--line); background: var(--paper); color: var(--ink); }
+  .bn-panel .rf-chead { border-top: 0; }
+  .bn-stub { padding: 14px 20px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .bn-stub i { display: block; height: 10px; border-radius: 2px; background: var(--surface-sunken); }
+</style>
+</head>
+<body>
+<div class="rf rf-pv">
+  <div class="rf-pv__cols">
+    <span class="rf-pv__label">Light</span>
+    <span class="rf-pv__label">Dark</span>
+    <div class="bn-col" data-theme="light">
+      <div class="rf-banner" role="status"><i class="rf-i rf-i-info"></i><div><span class="rf-banner__title">Free plan: 3 agents</span><span class="rf-banner__body">Bring a fourth and the oldest one goes idle.</span></div></div>
+      <div class="rf-banner rf-banner--warning" role="status"><i class="rf-i rf-i-triangle-alert"></i><div><span class="rf-banner__title">This channel is shared with Acme</span><span class="rf-banner__body">People and agents from Acme will see what you post here.</span></div><div class="rf-banner__actions"><button class="rf-btn rf-btn--sm" type="button">See Who</button></div></div>
+      <div class="rf-banner rf-banner--danger" role="alert"><i class="rf-i rf-i-octagon-alert"></i><div><span class="rf-banner__title">This can't be undone</span><span class="rf-banner__body">Box's memory and 128 finished tasks go with it.</span></div></div>
+      <div class="rf-banner rf-banner--success" role="status"><i class="rf-i rf-i-circle-check"></i><div><span class="rf-banner__title">Saved</span><span class="rf-banner__body">Every agent picks up the new practices on its next task.</span></div></div>
+    </div>
+    <div class="bn-col" data-theme="dark">
+      <div class="rf-banner" role="status"><i class="rf-i rf-i-info"></i><div><span class="rf-banner__title">Free plan: 3 agents</span><span class="rf-banner__body">Bring a fourth and the oldest one goes idle.</span></div></div>
+      <div class="rf-banner rf-banner--warning" role="status"><i class="rf-i rf-i-triangle-alert"></i><div><span class="rf-banner__title">This channel is shared with Acme</span><span class="rf-banner__body">People and agents from Acme will see what you post here.</span></div><div class="rf-banner__actions"><button class="rf-btn rf-btn--sm" type="button">See Who</button></div></div>
+      <div class="rf-banner rf-banner--danger" role="alert"><i class="rf-i rf-i-octagon-alert"></i><div><span class="rf-banner__title">This can't be undone</span><span class="rf-banner__body">Box's memory and 128 finished tasks go with it.</span></div></div>
+      <div class="rf-banner rf-banner--success" role="status"><i class="rf-i rf-i-circle-check"></i><div><span class="rf-banner__title">Saved</span><span class="rf-banner__body">Every agent picks up the new practices on its next task.</span></div></div>
+    </div>
+  </div>
+  <div class="rf-pv__cols bn-strip-cols">
+    <span class="rf-pv__label">Light · strip under a panel head: one panel's object is in trouble</span>
+    <span class="rf-pv__label">Dark · strip under a panel head</span>
+    <div class="bn-panel" data-theme="light">
+      <header class="rf-chead">
+        <span class="rf-avatar rf-avatar--agent rf-avatar--sm rf-sprite-crown" role="img" aria-label="Wug"></span>
+        <span class="rf-chead__text"><span class="rf-chead__name">Wug</span><span class="rf-chead__sub rf-mono">@wug</span></span>
+        <span class="rf-chead__spacer"></span>
+        <button class="rf-iconbtn" type="button" aria-label="More"><i class="rf-i rf-i-ellipsis"></i></button>
+      </header>
+      <div class="rf-banner rf-banner--warning rf-banner--strip" role="status">
+        <span class="rf-pixel rf-pixel--error"></span>
+        <span class="rf-banner__body">Failed to authenticate: the OAuth session expired and could not be refreshed.</span>
+        <div class="rf-banner__actions"><button class="rf-iconbtn rf-iconbtn--sm" type="button" aria-label="Copy Details"><i class="rf-i rf-i-copy"></i></button><button class="rf-section__action" type="button">View Logs</button></div>
+      </div>
+      <div class="rf-tabs" role="tablist" aria-label="Wug">
+        <button class="rf-tabs__item is-on" type="button" role="tab" aria-selected="true">Activity</button>
+        <button class="rf-tabs__item" type="button" role="tab" aria-selected="false">Profile</button>
+        <button class="rf-tabs__item" type="button" role="tab" aria-selected="false">Workspace</button>
+      </div>
+      <div class="bn-stub"><i style="width:70%"></i><i style="width:45%"></i></div>
+    </div>
+    <div class="bn-panel" data-theme="dark">
+      <header class="rf-chead">
+        <span class="rf-avatar rf-avatar--agent rf-avatar--sm rf-sprite-crown" role="img" aria-label="Wug"></span>
+        <span class="rf-chead__text"><span class="rf-chead__name">Wug</span><span class="rf-chead__sub rf-mono">@wug</span></span>
+        <span class="rf-chead__spacer"></span>
+        <button class="rf-iconbtn" type="button" aria-label="More"><i class="rf-i rf-i-ellipsis"></i></button>
+      </header>
+      <div class="rf-banner rf-banner--warning rf-banner--strip" role="status">
+        <span class="rf-pixel rf-pixel--error"></span>
+        <span class="rf-banner__body">Failed to authenticate: the OAuth session expired and could not be refreshed.</span>
+        <div class="rf-banner__actions"><button class="rf-iconbtn rf-iconbtn--sm" type="button" aria-label="Copy Details"><i class="rf-i rf-i-copy"></i></button><button class="rf-section__action" type="button">View Logs</button></div>
+      </div>
+      <div class="rf-tabs" role="tablist" aria-label="Wug">
+        <button class="rf-tabs__item is-on" type="button" role="tab" aria-selected="true">Activity</button>
+        <button class="rf-tabs__item" type="button" role="tab" aria-selected="false">Profile</button>
+        <button class="rf-tabs__item" type="button" role="tab" aria-selected="false">Workspace</button>
+      </div>
+      <div class="bn-stub"><i style="width:70%"></i><i style="width:45%"></i></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

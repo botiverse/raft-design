@@ -1,0 +1,96 @@
+<!-- @dsCard group="Overlays" height=1520 subtitle="对话框浮在遮罩上，没有动画：一个确认按钮，颜色表示后果——粉是去做，橙是会打断，红是收不回；宽版放一次填完的大表单：分段列表、分段、底栏提交" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Dialog</title>
+<style>
+  .dg-stage { height: 600px; border-radius: var(--radius-lg); }
+  .dg-scrim { flex-direction: column; gap: 16px; }
+  .dg-confirm { margin-top: var(--space-4); }
+  .dg-wide-stage { height: 800px; border-radius: var(--radius-lg); }
+  .dg-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px 16px; }
+  .dg-logo { display: flex; align-items: center; gap: var(--space-4); }
+  .dg-logo .rf-avatar { width: 51px; height: 51px; font-size: 18px; }
+</style>
+</head>
+<body>
+<div class="rf rf-pv">
+  <div class="rf-pv__cols">
+    <div class="rf-pv__col">
+      <span class="rf-pv__label">Light · create (pink) / delete (red)</span>
+      <div class="rf-pv__stage dg-stage" data-theme="light">
+        <div class="rf-scrim dg-scrim">
+          <div class="rf-dialog" role="dialog" aria-labelledby="dg-1">
+            <div class="rf-dialog__title" id="dg-1">Create Channel</div>
+            <div class="rf-dialog__body">Channels are where people and agents work together. Use lowercase and dashes.</div>
+            <div class="rf-dialog__actions"><button class="rf-btn rf-btn--ghost" type="button">Cancel</button><button class="rf-btn rf-btn--primary" type="button">Create Channel</button></div>
+          </div>
+          <div class="rf-dialog" role="alertdialog" aria-labelledby="dg-2">
+            <div class="rf-dialog__title" id="dg-2">Delete Box?</div>
+            <div class="rf-dialog__body">Box leaves every channel.<div class="rf-banner rf-banner--danger"><i class="rf-i rf-i-octagon-alert"></i><div><span class="rf-banner__title">This can't be undone</span><span class="rf-banner__body">Its memory and 128 finished tasks go with it.</span></div></div></div>
+            <div class="rf-field dg-confirm"><label class="rf-field__label" for="dg-name">Type <span class="rf-mono">box</span> to confirm</label><input class="rf-input" id="dg-name" value="box"></div>
+            <div class="rf-dialog__actions"><button class="rf-btn rf-btn--ghost" type="button">Keep Box</button><button class="rf-btn rf-btn--danger" type="button"><i class="rf-i rf-i-trash"></i>Delete Agent</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rf-pv__col">
+      <span class="rf-pv__label">Dark · stop (orange)</span>
+      <div class="rf-pv__stage dg-stage" data-theme="dark">
+        <div class="rf-scrim dg-scrim">
+          <div class="rf-dialog" role="alertdialog" aria-labelledby="dg-3">
+            <div class="rf-dialog__title" id="dg-3">Stop Wug?</div>
+            <div class="rf-dialog__body">Wug is halfway through <span class="rf-mono">#33</span>. It picks up from the last checkpoint when you start it again.</div>
+            <div class="rf-dialog__actions"><button class="rf-btn rf-btn--ghost" type="button">Keep Working</button><button class="rf-btn rf-btn--warn" type="button">Stop Wug</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rf-pv__col" style="margin-top: 24px">
+    <span class="rf-pv__label">Light · wide: a bigger form filled in one go (896)</span>
+    <div class="rf-pv__stage dg-wide-stage" data-theme="light">
+      <div class="rf-scrim">
+        <form class="rf-dialog rf-dialog--wide" role="dialog" aria-labelledby="dg-w" onsubmit="return false">
+          <div class="rf-dialog__head"><span class="rf-avatar rf-avatar--human rf-avatar--sm" aria-hidden="true">RB</span><span class="rf-dialog__title" id="dg-w">Edit Release Bot</span><button class="rf-iconbtn" type="button" aria-label="Close"><i class="rf-i rf-i-x"></i></button></div>
+          <div class="rf-dialog__frame">
+            <nav class="rf-dialog__nav" aria-label="Sections">
+              <a class="rf-srow is-on" href="#dg-profile" aria-current="true"><span class="rf-srow__name">Profile</span></a>
+              <a class="rf-srow" href="#dg-login"><span class="rf-srow__name">Login with Raft</span></a>
+              <a class="rf-srow" href="#dg-setup"><span class="rf-srow__name">Installation setup</span></a>
+              <a class="rf-srow" href="#dg-perm"><span class="rf-srow__name">App permissions</span></a>
+              <a class="rf-srow" href="#dg-hook"><span class="rf-srow__name">Webhook</span></a>
+              <a class="rf-srow" href="#dg-dist"><span class="rf-srow__name">Distribution</span></a>
+              <a class="rf-srow" href="#dg-danger"><span class="rf-srow__name">Danger zone</span></a>
+            </nav>
+            <div class="rf-dialog__scroll">
+              <section class="rf-fsec" id="dg-profile">
+                <div class="rf-fsec__head"><span class="rf-fsec__title">Profile</span><span class="rf-fsec__status">Complete</span></div>
+                <p class="rf-fsec__desc">Public identity and Marketplace-facing metadata.</p>
+                <div class="dg-logo"><span class="rf-avatar rf-avatar--human" aria-hidden="true">RB</span><button class="rf-btn rf-btn--sm" type="button"><i class="rf-i rf-i-upload"></i>Change</button><button class="rf-btn rf-btn--ghost rf-btn--sm" type="button">Reset</button></div>
+                <div class="rf-field"><label class="rf-field__label" for="dg-an">App name</label><input class="rf-input" id="dg-an" value="Release Bot"></div>
+                <div class="dg-2">
+                  <div class="rf-field"><label class="rf-field__label" for="dg-hp">Homepage URL</label><input class="rf-input" id="dg-hp" value="https://release.example.com"></div>
+                  <div class="rf-field"><span class="rf-field__label" id="dg-cat">Category</span><button class="rf-select" type="button" aria-haspopup="listbox" aria-labelledby="dg-cat dg-catv"><span id="dg-catv">Developer tools</span><i class="rf-i rf-i-chevron-down"></i></button></div>
+                </div>
+              </section>
+              <section class="rf-fsec" id="dg-setup">
+                <div class="rf-fsec__head"><span class="rf-fsec__title">Installation setup</span><span class="rf-fsec__status">No setup required</span></div>
+                <p class="rf-fsec__desc">Whether people configure the app after installing it.</p>
+                <label class="rf-check rf-drawer__row"><input type="checkbox" aria-describedby="dg-s1"><span class="rf-check__box"><i class="rf-i rf-i-check"></i></span><span>Requires configuration after installation<small id="dg-s1">Otherwise the app works as soon as it is installed.</small></span></label>
+              </section>
+              <section class="rf-fsec" id="dg-dist">
+                <div class="rf-fsec__head"><span class="rf-fsec__title">Distribution</span><span class="rf-fsec__status">Private</span></div>
+                <p class="rf-fsec__desc">Private sharing, Marketplace review, and publication state.</p>
+                <div class="rf-fsec__row"><span>Private share link<small>Invite another workspace without listing it in the Marketplace.</small></span><button class="rf-btn rf-btn--sm" type="button">Create Link</button></div>
+                <div class="rf-fsec__row"><span>Marketplace publish request<small>Requesting review saves these changes first.</small></span><button class="rf-btn rf-btn--sm" type="button">Request Publish</button></div>
+              </section>
+            </div>
+          </div>
+          <div class="rf-dialog__foot"><button class="rf-btn rf-btn--ghost" type="button">Cancel</button><button class="rf-btn rf-btn--primary" type="submit">Save</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

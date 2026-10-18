@@ -1,0 +1,36 @@
+<!-- @dsCard group="Feedback" height=300 subtitle="进度条是被动的指示：青色，快到上限变橙；加载中用骨架和像素转圈，不用圆" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Loading</title>
+<style>
+  .ld-col { display: flex; flex-direction: column; gap: 14px; padding: 16px; border-radius: var(--radius-lg);
+    border: var(--border-hairline) solid var(--line); background: var(--paper); color: var(--ink); }
+  .ld-meter { display: flex; flex-direction: column; gap: 6px; }
+  .ld-meter__top { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; line-height: 18px; font-weight: 600; }
+  .ld-meter__top .rf-mono { color: var(--ink-3); font-size: 12px; font-weight: 400; }
+  .ld-skel { display: flex; align-items: center; gap: 12px; }
+  .ld-skel__lines { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .ld-wait { display: flex; align-items: center; gap: 8px; color: var(--ink-3); font-size: 13px; line-height: 18px; }
+</style>
+</head>
+<body>
+<div class="rf rf-pv">
+  <div class="rf-pv__cols">
+    <span class="rf-pv__label">Light</span>
+    <span class="rf-pv__label">Dark</span>
+    <div class="ld-col" data-theme="light">
+      <div class="ld-meter"><div class="ld-meter__top">Uploading design-crop.png<span class="rf-mono">64%</span></div><span class="rf-progress" role="progressbar" aria-label="Uploading design-crop.png" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100"><span class="rf-progress__bar" style="width:64%"></span></span></div>
+      <div class="ld-meter"><div class="ld-meter__top">Claude Code usage this week<span class="rf-mono">92%</span></div><span class="rf-progress rf-progress--warn" role="progressbar" aria-label="Claude Code usage this week" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"><span class="rf-progress__bar" style="width:92%"></span></span></div>
+      <div class="ld-skel" aria-hidden="true"><span class="rf-skel" style="width:35px;height:35px"></span><div class="ld-skel__lines"><span class="rf-skel" style="width:46%;height:12px"></span><span class="rf-skel" style="width:78%;height:12px"></span></div></div>
+      <div class="ld-wait"><span class="rf-spinner" role="img" aria-label="Loading"><i></i><i></i><i></i><i></i></span>Loading channels…</div>
+    </div>
+    <div class="ld-col" data-theme="dark">
+      <div class="ld-meter"><div class="ld-meter__top">Uploading design-crop.png<span class="rf-mono">64%</span></div><span class="rf-progress" role="progressbar" aria-label="Uploading design-crop.png" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100"><span class="rf-progress__bar" style="width:64%"></span></span></div>
+      <div class="ld-meter"><div class="ld-meter__top">Claude Code usage this week<span class="rf-mono">92%</span></div><span class="rf-progress rf-progress--warn" role="progressbar" aria-label="Claude Code usage this week" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"><span class="rf-progress__bar" style="width:92%"></span></span></div>
+      <div class="ld-skel" aria-hidden="true"><span class="rf-skel" style="width:35px;height:35px"></span><div class="ld-skel__lines"><span class="rf-skel" style="width:46%;height:12px"></span><span class="rf-skel" style="width:78%;height:12px"></span></div></div>
+      <div class="ld-wait"><span class="rf-spinner" role="img" aria-label="Loading"><i></i><i></i><i></i><i></i></span>Loading channels…</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

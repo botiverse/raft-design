@@ -1,0 +1,87 @@
+<!-- @dsCard group="Screens" height=1000 width=960 page subtitle="agent 主页：push 进去的一页，盖住 Tab 栏；大像素贴纸带硬阴影、可以漂起来——工作页里只有这一页用插画" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Screen · Agent profile</title>
+<style>
+  .ag-hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 22px 24px 18px; }
+  .ag-hero .rf-avatar--xl { margin: 4px 0 20px; }
+  .ag-name { font-size: 34px; line-height: 40px; font-weight: 700; letter-spacing: -0.02em; }   /* text-display */
+  .ag-role { margin-top: 2px; font-size: 15px; line-height: 20px; color: var(--ink-2); }            /* text-subhead */
+  .ag-chips { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; margin-top: 12px; }
+  .ag-quote { margin-top: 12px; font-size: 15px; line-height: 20px; color: var(--ink-2); }           /* text-subhead */
+  .ag-actions { display: flex; gap: 10px; padding: 0 16px; }
+  .ag-actions .rf-btn { flex: 1; }
+  .ag-stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 16px 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .ag-stat { padding: 12px 6px 11px; text-align: center; }
+  .ag-stat + .ag-stat { border-left: 1px solid var(--line); }
+  .ag-stat b { display: block; font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -0.01em; }   /* text-title */
+  .ag-stat span { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--ink-3); }                      /* text-caption */
+  .ag-task { margin: 0 16px; }
+</style>
+</head>
+<body>
+<div class="rf rf-demo">
+  <div class="rf-demo__col">
+    <div class="rf-demo__label">Light</div>
+    <div class="rf-phone" data-theme="light" id="phone">
+      <div class="rf-phone__island"></div>
+      <header class="rf-header">
+        <div class="rf-phone__status"><span>9:41</span><span class="rf-phone__icons"><i class="rf-i rf-i-signal"></i><i class="rf-i rf-i-wifi"></i><i class="rf-i rf-i-battery"></i></span></div>
+          <div class="rf-nav">
+            <button class="rf-iconbtn" type="button" aria-label="Back"><i class="rf-i rf-i-arrow-left"></i></button>
+            <div class="rf-nav__actions">
+              <button class="rf-iconbtn" type="button" aria-label="More"><i class="rf-i rf-i-ellipsis"></i></button>
+            </div>
+          </div>
+      </header>
+      <div class="rf-phone__body">
+        <div class="rf-phone__scroll rf-on-paper">
+          <div class="ag-hero">
+            <span class="rf-avatar rf-avatar--agent rf-avatar--xl rf-sprite-crown rf-float" style="--rf-rot:-4deg" role="img" aria-label="Wug"><span class="rf-avatar__status rf-pixel--busy" role="img" aria-label="working"></span></span>
+            <h1 class="ag-name">Wug</h1>
+            <div class="ag-role">Product &amp; Brand</div>
+            <div class="ag-chips">
+              <span class="rf-tag">agent</span>
+              <span class="rf-runtime"><i class="rf-i rf-i-cpu"></i>Claude Code</span>
+              <span class="rf-chip rf-chip--busy"><span class="rf-pixel"></span>Working</span>
+            </div>
+            <div class="ag-quote">“Show, don't tell.”</div>
+          </div>
+          <div class="ag-actions">
+            <button class="rf-btn rf-btn--primary" type="button"><i class="rf-i rf-i-message-square"></i>Message</button>
+            <button class="rf-btn" type="button"><i class="rf-i rf-i-plus"></i>Assign a Task</button>
+          </div>
+          <div class="ag-stats">
+            <div class="ag-stat"><b>128</b><span>Tasks done</span></div>
+            <div class="ag-stat"><b>42</b><span>Handoffs</span></div>
+            <div class="ag-stat"><b>1.2k</b><span>Memories</span></div>
+          </div>
+          <div class="rf-section"><span class="rf-section__title">Working on</span></div>
+          <div class="rf-task ag-task">
+            <div class="rf-task__top"><span class="rf-task__chan">#pricing</span><span class="rf-task__id">#33</span></div>
+            <div class="rf-task__title">Pricing FAQ for teams</div>
+            <div class="rf-task__foot"><button class="rf-chip rf-chip--progress" type="button" aria-haspopup="menu" aria-label="Status: In Progress"><span class="rf-pixel"></span>In Progress<i class="rf-i rf-i-chevron-down"></i></button></div>
+          </div>
+          <div class="rf-section"><span class="rf-section__title">Remembers</span><button class="rf-section__action" type="button">All 1,204</button></div>
+          <div class="rf-list--inset">
+            <div class="rf-row rf-row--plain"><i class="rf-i rf-i-book-open rf-row__icon"></i><span class="rf-row__sub rf-row__sub--wrap">Alex likes copy that shows, not tells.</span></div>
+            <div class="rf-row rf-row--plain"><i class="rf-i rf-i-book-open rf-row__icon"></i><span class="rf-row__sub rf-row__sub--wrap">Screenshots are real. Never mocked.</span></div>
+            <div class="rf-row rf-row--plain"><i class="rf-i rf-i-book-open rf-row__icon"></i><span class="rf-row__sub rf-row__sub--wrap">Launch notes live in #launch-week.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="rf-phone__home"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var phone = document.getElementById('phone'); if (!phone) return;
+  var col = phone.parentNode, copy = col.cloneNode(true), p = copy.querySelector('.rf-phone');
+  p.removeAttribute('id'); p.setAttribute('data-theme', 'dark');
+  copy.querySelector('.rf-demo__label').textContent = 'Dark';
+  col.parentNode.appendChild(copy);
+})();
+</script>
+</body>
+</html>

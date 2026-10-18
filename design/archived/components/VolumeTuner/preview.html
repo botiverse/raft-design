@@ -1,0 +1,255 @@
+<!-- @dsCard group="Decisions" height=1150 width=1240 page subtitle="音量调节器：拖一拖，用真组件看圆角、描边、硬阴影、顶栏和粉色怎么改变整屏" -->
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../../tokens.css"><link rel="stylesheet" href="../../../components/bundle.css"><title>Volume tuner</title>
+<style>
+  .tn { display: grid; grid-template-columns: 460px 1fr; gap: 48px; align-items: start; padding: 32px 40px 40px; }
+  .tn-panel { display: flex; flex-direction: column; gap: 20px; padding: 22px 22px 24px; border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--line); }
+  .tn-kicker { font-family: var(--font-mono); font-size: 11px; line-height: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+  .tn-title { margin-top: 4px; font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -0.01em; }
+  .tn-presets { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tn-row { display: flex; flex-direction: column; gap: 8px; }
+  .tn-row__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .tn-row__name { font-size: 15px; line-height: 20px; font-weight: 700; }
+  .tn-row__val { font-family: var(--font-mono); font-size: 12px; line-height: 16px; color: var(--ink-2); }
+  .tn-row .rf-seg__item { padding: 0 6px; font-size: 13px; }
+  .tn-ticks { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
+  .tn-range { -webkit-appearance: none; appearance: none; width: 100%; height: 22px; margin: 0; background: transparent; cursor: pointer; }
+  .tn-range::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: var(--line); }
+  .tn-range::-moz-range-track { height: 4px; border-radius: 2px; background: var(--line); }
+  .tn-range::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; margin-top: -8px; border-radius: 4px; background: var(--yellow); border: 1.5px solid var(--sticker-ink); }
+  .tn-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 4px; background: var(--yellow); border: 1.5px solid var(--sticker-ink); }
+  .tn-range:focus-visible { outline: none; }
+  .tn-range:focus-visible::-webkit-slider-thumb { box-shadow: var(--focus-ring); }
+  .tn-meter { display: flex; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .tn-meter__px { display: inline-flex; gap: 3px; }
+  .tn-meter__px i { width: 11px; height: 11px; border-radius: 2px; border: 1.5px solid var(--ink-3); }
+  .tn-meter__px i.on { background: var(--ink); border-color: var(--ink); }
+  .tn-meter__txt { font-size: 15px; line-height: 20px; font-weight: 700; }
+  .tn-meter__hint { font-size: 13px; line-height: 18px; color: var(--ink-2); }
+  .tn-code { margin: 0; padding: 14px 16px; border-radius: var(--radius-lg); background: #141111; color: #f5efe4; font-family: var(--font-mono); font-size: 12px; line-height: 19px; white-space: pre; overflow-x: auto; }
+  .tn-code-head { display: flex; align-items: center; justify-content: space-between; }
+  .tn-copied { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
+  .tn-stage { display: flex; flex-direction: column; align-items: center; gap: 18px; padding-top: 12px; }
+  .ch-seg { flex: none; padding: 10px 16px; border-bottom: 1px solid var(--line); }
+  .ch-feed { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 2px; }
+  .ch-compose { flex: none; padding: 6px 12px 30px; }
+  /* tuner overrides on the live phone */
+  .tn-phone { --rf-hard: var(--sticker-ink); }
+  .tn-phone[data-theme="dark"] { --rf-hard: #000000; }
+  .tn-noframe .rf-frame { background: var(--paper); color: var(--ink); border-bottom: 1px solid var(--line); }
+  .tn-noframe .rf-frame .rf-iconbtn:not(.rf-iconbtn--primary) { color: var(--ink); }
+  .tn-noframe .rf-frame .rf-nav__sub { color: var(--ink-3); }
+  .tn-b0 .rf-btn--primary, .tn-b0 .rf-iconbtn--primary, .tn-b0 .rf-seg__item.is-on, .tn-b0 .rf-chan, .tn-b0 .rf-check.is-on .rf-check__box { border-color: transparent; }
+  .tn-white .rf-btn--primary, .tn-white .rf-iconbtn--primary { color: #ffffff; }
+  .tn-s1 .rf-btn--primary, .tn-s1 .rf-iconbtn--primary { box-shadow: 2px 2px 0 var(--rf-hard); }
+  .tn-s2 .rf-seg__item.is-on, .tn-s2 .rf-composer, .tn-s2 .rf-check.is-on .rf-check__box, .tn-s2 .rf-chan { box-shadow: 2px 2px 0 var(--rf-hard); }
+  .tn-s3 .rf-btn--primary, .tn-s3 .rf-iconbtn--primary, .tn-s3 .rf-seg__item.is-on, .tn-s3 .rf-composer, .tn-s3 .rf-task, .tn-s3 .rf-chan, .tn-s3 .rf-msg .rf-avatar--agent, .tn-s3 .rf-msg .rf-avatar--human { box-shadow: 4px 4px 0 var(--rf-hard); }
+  .tn-s3 .rf-task { border: 2px solid var(--sticker-ink); }
+</style>
+</head>
+<body>
+<div class="rf tn">
+  <div class="tn-panel">
+    <div>
+      <div class="tn-kicker">Live token tuner</div>
+      <div class="tn-title">音量调节器</div>
+    </div>
+    <div class="tn-presets">
+      <button class="rf-btn rf-btn--sm" data-preset="pick">推荐（音量 5）</button>
+      <button class="rf-btn rf-btn--sm" data-preset="site">官网原味</button>
+      <button class="rf-btn rf-btn--sm" data-preset="plain">太素</button>
+    </div>
+    <div class="tn-row">
+      <div class="tn-row__head"><span class="tn-row__name">外框（顶栏 / Rail）</span><span class="tn-row__val" id="v-frame"></span></div>
+      <div class="rf-seg" data-ctl="frame"><button class="rf-seg__item" data-v="yellow">官网黄</button><button class="rf-seg__item" data-v="paper">纸色</button></div>
+    </div>
+    <div class="tn-row">
+      <div class="tn-row__head"><span class="tn-row__name">圆角</span><span class="tn-row__val" id="v-radius"></span></div>
+      <input class="tn-range" id="radius" type="range" min="0" max="16" step="1" aria-label="圆角">
+      <div class="tn-ticks"><span>0 锋利原版</span><span>6–8 利落</span><span>16 圆润</span></div>
+    </div>
+    <div class="tn-row">
+      <div class="tn-row__head"><span class="tn-row__name">控件描边</span><span class="tn-row__val" id="v-border"></span></div>
+      <div class="rf-seg" data-ctl="border"><button class="rf-seg__item" data-v="hair">发丝 22%</button><button class="rf-seg__item" data-v="ink">1.5px 墨</button><button class="rf-seg__item" data-v="thick">2px 墨</button></div>
+    </div>
+    <div class="tn-row">
+      <div class="tn-row__head"><span class="tn-row__name">硬阴影</span><span class="tn-row__val" id="v-shadow"></span></div>
+      <div class="rf-seg" data-ctl="shadow"><button class="rf-seg__item" data-v="0">无</button><button class="rf-seg__item" data-v="1">主按钮</button><button class="rf-seg__item" data-v="2">+选中</button><button class="rf-seg__item" data-v="3">全局 4px</button></div>
+    </div>
+    <div class="tn-row">
+      <div class="tn-row__head"><span class="tn-row__name">粉色 · 字色</span><span class="tn-row__val" id="v-pink"></span></div>
+      <div class="rf-seg" data-ctl="pink"><button class="rf-seg__item" data-v="#ff99c3">推荐</button><button class="rf-seg__item" data-v="#fe7da8">官网</button><button class="rf-seg__item" data-v="#ff5388">变种</button></div>
+      <div class="rf-seg" data-ctl="text"><button class="rf-seg__item" data-v="ink">黑字</button><button class="rf-seg__item" data-v="white">白字</button></div>
+    </div>
+    <div class="tn-row">
+      <div class="tn-row__head"><span class="tn-row__name">主题</span></div>
+      <div class="rf-seg" data-ctl="theme"><button class="rf-seg__item" data-v="light">亮</button><button class="rf-seg__item" data-v="dark">暗</button></div>
+    </div>
+    <div class="tn-meter">
+      <span class="tn-meter__px" id="meter"></span>
+      <div><div class="tn-meter__txt" id="vol"></div><div class="tn-meter__hint" id="volhint"></div></div>
+    </div>
+    <div class="tn-row">
+      <div class="tn-code-head"><span class="tn-row__name">给前端的 CSS 变量</span><span><span class="tn-copied" id="copied"></span> <button class="rf-btn rf-btn--sm" id="copy">复制</button></span></div>
+      <pre class="tn-code" id="code"></pre>
+    </div>
+  </div>
+  <div class="tn-stage">
+    <div class="rf-demo__label">实时预览 · 频道页</div>
+<div class="rf-phone tn-phone" data-theme="light" id="tp">
+      <div class="rf-phone__island"></div>
+      <header class="rf-frame">
+        <div class="rf-phone__status"><span>9:41</span><span class="rf-phone__icons"><i class="rf-i rf-i-signal"></i><i class="rf-i rf-i-wifi"></i><i class="rf-i rf-i-battery"></i></span></div>
+          <div class="rf-nav">
+            <button class="rf-iconbtn" aria-label="Back"><i class="rf-i rf-i-chevron-left"></i></button>
+            <div class="rf-nav__title">
+              <span class="rf-chan rf-chan--sm rf-tile--pink"><i class="rf-i rf-i-hash"></i></span>
+              <div class="rf-nav__text"><div class="rf-nav__name">wg-landing-features</div><div class="rf-nav__sub"><span class="rf-pixel rf-pixel--progress rf-pixel--live"></span>2 agents working · 12 members</div></div>
+            </div>
+            <button class="rf-iconbtn" aria-label="Search"><i class="rf-i rf-i-search"></i></button>
+          </div>
+      </header>
+      <div class="rf-phone__body">
+        <div class="ch-seg">
+          <div class="rf-seg">
+            <button class="rf-seg__item is-on"><i class="rf-i rf-i-message-square"></i>Chat</button>
+            <button class="rf-seg__item"><i class="rf-i rf-i-list-todo"></i>Tasks<span class="rf-seg__count">5</span></button>
+            <button class="rf-seg__item"><i class="rf-i rf-i-file-text"></i>Files</button>
+          </div>
+        </div>
+        <div class="ch-feed rf-on-paper">
+          <div class="rf-event">Today</div>
+          <div class="rf-msg">
+            <span class="rf-avatar rf-avatar--human rf-tint--pink rf-msg__avatar">A</span>
+            <div class="rf-msg__head"><span class="rf-msg__name">Alex</span><span class="rf-msg__role">Founder</span><span class="rf-msg__time">10:24</span></div>
+            <p class="rf-msg__text">I'm a bit out of the loop. Can you catch me up?</p>
+          </div>
+          <div class="rf-msg">
+            <span class="rf-avatar rf-avatar--agent rf-tile--yellow rf-sprite-crown rf-msg__avatar"></span>
+            <div class="rf-msg__head"><span class="rf-msg__name">Wug</span><span class="rf-tag">Agent</span><span class="rf-msg__role">Product &amp; Brand</span><span class="rf-msg__time">10:25</span></div>
+            <div>
+              <p class="rf-msg__text">Sure. We locked the direction: product-first, real screenshots, one story per feature.</p>
+              <div class="rf-msg__more rf-task">
+                <div class="rf-task__top"><span class="rf-task__id">#25</span><span class="rf-chip rf-chip--progress"><span class="rf-pixel rf-pixel--live"></span>In progress</span></div>
+                <div class="rf-task__title">Polish onboarding flow</div>
+                <div class="rf-task__foot"><span class="rf-task__who"><span class="rf-avatar rf-avatar--agent rf-avatar--xs rf-tile--lime rf-sprite-mushroom"></span>Bugen</span><span class="rf-task__meta">claimed 12m ago</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="rf-event"><span class="rf-pixel rf-pixel--progress"></span>Bugen claimed #25</div>
+          <div class="rf-msg">
+            <span class="rf-avatar rf-avatar--human rf-tint--pink rf-msg__avatar">A</span>
+            <div class="rf-msg__head"><span class="rf-msg__name">Alex</span><span class="rf-msg__role">Founder</span><span class="rf-msg__time">10:31</span></div>
+            <p class="rf-msg__text">Great. Keep going. <span class="rf-mention">@Wug</span> make sure Martin reviews before we ship.</p>
+          </div>
+          <div class="rf-msg">
+            <span class="rf-avatar rf-avatar--agent rf-tile--yellow rf-sprite-crown rf-msg__avatar"></span>
+            <div class="rf-msg__head"><span class="rf-msg__name">Wug</span><span class="rf-tag">Agent</span><span class="rf-msg__time">10:32</span></div>
+            <p class="rf-msg__text">On it. Handing the review to Martin.</p>
+          </div>
+          <div class="rf-event"><span>Wug</span><i class="rf-i rf-i-arrow-right"></i><span>Martin · review #25</span></div>
+          <div class="rf-msg">
+            <span class="rf-avatar rf-avatar--agent rf-tile--lavender rf-sprite-ghost rf-msg__avatar"><span class="rf-avatar__status rf-pixel--progress rf-pixel--live"></span></span>
+            <div class="rf-msg__head"><span class="rf-msg__name">Martin</span><span class="rf-tag">Agent</span><span class="rf-msg__role">QA</span></div>
+            <span class="rf-typing" aria-label="Martin is working"><i></i><i></i><i></i></span>
+          </div>
+        </div>
+        <div class="ch-compose">
+          <div class="rf-composer">
+            <textarea class="rf-composer__input" rows="1" placeholder="Message #wg-landing-features"></textarea>
+            <div class="rf-composer__bar">
+              <button class="rf-iconbtn rf-iconbtn--sm" aria-label="Add image"><i class="rf-i rf-i-image-plus"></i></button>
+              <button class="rf-iconbtn rf-iconbtn--sm" aria-label="Attach"><i class="rf-i rf-i-paperclip"></i></button>
+              <button class="rf-iconbtn rf-iconbtn--sm" aria-label="Mention"><i class="rf-i rf-i-at-sign"></i></button>
+              <span class="rf-composer__spacer"></span>
+              <label class="rf-check"><span class="rf-check__box"><i class="rf-i rf-i-check"></i></span>As task</label>
+              <button class="rf-iconbtn rf-iconbtn--primary rf-iconbtn--sm" aria-label="Send"><i class="rf-i rf-i-send"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="rf-phone__home"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var phone = document.getElementById('tp'); if (!phone) return;
+  var PRESETS = {
+    pick:  { frame: 'yellow', radius: 8,  border: 'ink',   shadow: '0', pink: '#ff99c3', text: 'ink' },
+    site:  { frame: 'yellow', radius: 0,  border: 'thick', shadow: '3', pink: '#fe7da8', text: 'ink' },
+    plain: { frame: 'paper',  radius: 14, border: 'hair',  shadow: '0', pink: '#ff5388', text: 'white' }
+  };
+  var state = { frame: 'yellow', radius: 8, border: 'ink', shadow: '0', pink: '#ff99c3', text: 'ink', theme: 'light' };
+  var range = document.getElementById('radius');
+  function lum(hex) {
+    var n = parseInt(hex.slice(1), 16), c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(function (v) {
+      v = v / 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  }
+  function ratio(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+  function grade(r) { return r >= 7 ? 'AAA' : r >= 4.5 ? 'AA' : r >= 3 ? '仅大字' : '不过线'; }
+  function render() {
+    var s = state, r = s.radius;
+    phone.setAttribute('data-theme', s.theme);
+    phone.style.setProperty('--radius-md', r + 'px');
+    phone.style.setProperty('--radius-lg', (r === 0 ? 0 : r + 2) + 'px');
+    phone.style.setProperty('--radius-sm', Math.min(6, r) + 'px');
+    phone.style.setProperty('--radius-xs', Math.min(4, r) + 'px');
+    phone.style.setProperty('--pink', s.pink);
+    if (s.border === 'hair') { phone.style.setProperty('--border-control', '1px'); phone.style.setProperty('--line-strong', s.theme === 'dark' ? '#fffaef38' : '#14111138'); }
+    else { phone.style.setProperty('--border-control', s.border === 'thick' ? '2px' : '1.5px'); phone.style.removeProperty('--line-strong'); }
+    phone.classList.toggle('tn-noframe', s.frame === 'paper');
+    phone.classList.toggle('tn-b0', s.border === 'hair');
+    phone.classList.toggle('tn-white', s.text === 'white');
+    ['1', '2', '3'].forEach(function (k) { phone.classList.toggle('tn-s' + k, Number(s.shadow) >= Number(k)); });
+    document.querySelectorAll('[data-ctl]').forEach(function (g) {
+      var key = g.getAttribute('data-ctl');
+      g.querySelectorAll('[data-v]').forEach(function (b) { b.classList.toggle('is-on', String(state[key]) === b.getAttribute('data-v')); });
+    });
+    range.value = r;
+    var txt = s.text === 'white' ? '#ffffff' : '#141111', cr = ratio(s.pink, txt);
+    document.getElementById('v-frame').textContent = s.frame === 'yellow' ? 'frame: var(--yellow)' : 'frame: var(--paper)';
+    document.getElementById('v-radius').textContent = 'md ' + r + 'px · lg ' + (r === 0 ? 0 : r + 2) + 'px';
+    document.getElementById('v-border').textContent = s.border === 'hair' ? '1px · 22% 墨' : (s.border === 'thick' ? '2px 墨' : '1.5px 墨');
+    document.getElementById('v-shadow').textContent = ['不用', '只给主按钮', '主按钮 + 选中', '全部 4px'][Number(s.shadow)];
+    document.getElementById('v-pink').textContent = s.pink + ' · ' + (s.text === 'white' ? '白字 ' : '黑字 ') + cr.toFixed(1) + ':1 ' + grade(cr);
+    var vol = 1 + (s.frame === 'yellow' ? 2 : 0) + (r <= 4 ? 2 : r <= 8 ? 1 : 0) + ({ hair: 0, ink: 1, thick: 2 })[s.border] + Number(s.shadow);
+    var m = document.getElementById('meter'); m.innerHTML = '';
+    for (var i = 0; i < 10; i++) { var px = document.createElement('i'); if (i < vol) px.className = 'on'; m.appendChild(px); }
+    document.getElementById('vol').textContent = '音量 ' + vol + ' / 10';
+    document.getElementById('volhint').textContent = vol >= 8 ? '营销页、引导页的音量；日常工作页会累。' : vol >= 4 ? '日常工作页的推荐区间：外框响，内容静。' : '谁都能接受，但不像 Raft 了。';
+    var shadowCss = Number(s.shadow) === 0 ? '/* 硬阴影：不用；按下 = 压暗 */' :
+      '/* 硬阴影：' + ['', '只给主按钮', '主按钮 + 选中态 + composer', '全部控件和卡片'][Number(s.shadow)] + ' */\n' +
+      ['', '.rf-btn--primary, .rf-iconbtn--primary { box-shadow: 2px 2px 0 var(--sticker-ink); }',
+       '.rf-btn--primary, .rf-iconbtn--primary, .rf-seg__item.is-on, .rf-composer { box-shadow: 2px 2px 0 var(--sticker-ink); }',
+       '.rf-btn, .rf-iconbtn--primary, .rf-seg__item.is-on, .rf-composer, .rf-task, .rf-chan { box-shadow: 4px 4px 0 var(--sticker-ink); }'][Number(s.shadow)];
+    document.getElementById('code').textContent =
+      '/* Raft App · 音量 ' + vol + '/10 */\n:root {\n' +
+      '  --pink: ' + s.pink + ';      /* ' + (s.text === 'white' ? '白字 ' : '黑字 ') + cr.toFixed(1) + ':1 ' + grade(cr) + ' */\n' +
+      '  --radius-md: ' + r + 'px;\n  --radius-lg: ' + (r === 0 ? 0 : r + 2) + 'px;\n' +
+      '  --border-control: ' + (s.border === 'hair' ? '1px' : s.border === 'thick' ? '2px' : '1.5px') + ';\n' +
+      (s.border === 'hair' ? '  --line-strong: #14111138;     /* 控件只用 22% 墨 */\n' : '') +
+      '  --frame: ' + (s.frame === 'yellow' ? 'var(--yellow)' : 'var(--paper)') + ';  /* 顶栏 / Rail */\n}\n' + shadowCss;
+  }
+  document.querySelectorAll('[data-ctl]').forEach(function (g) {
+    g.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-v]'); if (!b) return;
+      state[g.getAttribute('data-ctl')] = b.getAttribute('data-v'); render();
+    });
+  });
+  range.addEventListener('input', function () { state.radius = Number(range.value); render(); });
+  document.querySelectorAll('[data-preset]').forEach(function (b) {
+    b.addEventListener('click', function () { var p = PRESETS[b.getAttribute('data-preset')]; for (var k in p) state[k] = p[k]; render(); });
+  });
+  document.getElementById('copy').addEventListener('click', function () {
+    var code = document.getElementById('code'), note = document.getElementById('copied');
+    function selectIt() { var rg = document.createRange(); rg.selectNodeContents(code); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(rg); note.textContent = '已选中，按 ⌘C / Ctrl+C'; }
+    try { navigator.clipboard.writeText(code.textContent).then(function () { note.textContent = '已复制'; }, selectIt); } catch (err) { selectIt(); }
+  });
+  render();
+})();
+</script>
+</body>
+</html>

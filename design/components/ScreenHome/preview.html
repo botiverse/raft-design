@@ -1,0 +1,78 @@
+<!-- @dsCard group="Screens" height=1000 width=960 page subtitle="Raft Chat 的首页：外框里是工作区胶囊和铃铛，下面是大标题 Home 和正在干活的 agent；列表头三行是 Search、Activity、Saved 三个入口，agent 那几行写着它们正在做的事" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Screen · Home</title>
+</head>
+<body>
+<div class="rf rf-demo">
+  <div class="rf-demo__col">
+    <div class="rf-demo__label">Light</div>
+    <div class="rf-phone" data-theme="light" id="phone">
+      <div class="rf-phone__island"></div>
+      <header class="rf-frame">
+        <div class="rf-phone__status"><span>9:41</span><span class="rf-phone__icons"><i class="rf-i rf-i-signal"></i><i class="rf-i rf-i-wifi"></i><i class="rf-i rf-i-battery"></i></span></div>
+        <div class="rf-nav">
+          <button class="rf-ws rf-ws--pill" type="button" aria-haspopup="dialog"><span class="rf-ws__name">Raft HQ</span><i class="rf-i rf-i-chevron-down"></i></button>
+          <div class="rf-nav__actions"><button class="rf-iconbtn" type="button" aria-label="Notifications, 1 new"><i class="rf-i rf-i-bell"></i><span class="rf-pixel rf-pixel--attention" aria-hidden="true"></span></button></div>
+        </div>
+        <div class="rf-largetitle"><h1 class="rf-largetitle__name">Home</h1><button class="rf-working" type="button" aria-haspopup="dialog"><span class="rf-stack" aria-hidden="true"><span class="rf-avatar rf-avatar--agent rf-sprite-mushroom"></span><span class="rf-avatar rf-avatar--agent rf-sprite-crown"></span></span>2 agents working<i class="rf-i rf-i-chevron-right"></i></button></div>
+      </header>
+      <div class="rf-phone__body">
+        <div class="rf-phone__scroll rf-on-paper">
+          <a class="rf-row rf-row--entry" href="#"><i class="rf-i rf-i-search rf-row__icon"></i><span class="rf-row__body"><span class="rf-row__title">Search</span></span></a>
+          <a class="rf-row rf-row--entry" href="#"><i class="rf-i rf-i-activity rf-row__icon"></i><span class="rf-row__body"><span class="rf-row__title">Activity</span></span><span class="rf-badge" role="img" aria-label="3 new">3</span></a>
+          <a class="rf-row rf-row--entry" href="#"><i class="rf-i rf-i-bookmark rf-row__icon"></i><span class="rf-row__body"><span class="rf-row__title">Saved</span></span><span class="rf-count">4</span></a>
+          <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="true">Channels</button><button class="rf-section__action" type="button">New</button></div>
+          <a class="rf-row rf-row--unread" href="#">
+            <span class="rf-chan"><i class="rf-i rf-i-hash"></i></span>
+            <span class="rf-row__body">
+              <span class="rf-row__top"><span class="rf-row__title">launch-week</span><span class="rf-row__time">10:42</span></span>
+              <span class="rf-row__bottom"><span class="rf-row__sub">Wug: Release notes are drafted. Want a look?</span><span class="rf-badge rf-badge--mention" role="img" aria-label="mentions you"><i class="rf-i rf-i-at-sign"></i></span></span>
+            </span>
+          </a>
+          <a class="rf-row rf-row--unread" href="#">
+            <span class="rf-chan"><i class="rf-i rf-i-hash"></i></span>
+            <span class="rf-row__body">
+              <span class="rf-row__top"><span class="rf-row__title">wg-landing-features</span><span class="rf-row__time">10:32</span></span>
+              <span class="rf-row__bottom"><span class="rf-row__sub">Wug: On it. Handing the review to Martin.</span><span class="rf-badge" role="img" aria-label="3 unread">3</span></span>
+            </span>
+          </a>
+          <a class="rf-row" href="#">
+            <span class="rf-chan"><i class="rf-i rf-i-hash"></i></span>
+            <span class="rf-row__body">
+              <span class="rf-row__top"><span class="rf-row__title">release-review</span><span class="rf-row__time">09:58</span></span>
+              <span class="rf-row__bottom"><span class="rf-row__sub">Martin: All 14 checks passed.</span></span>
+            </span>
+          </a>
+          <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="true">Agents</button><button class="rf-section__action" type="button">New</button></div>
+          <a class="rf-row" href="#"><span class="rf-avatar rf-avatar--agent rf-sprite-mushroom" role="img" aria-label="Bugen"><span class="rf-avatar__status rf-pixel--busy" role="img" aria-label="working"></span></span><span class="rf-row__body"><span class="rf-row__top"><span class="rf-row__title">Bugen</span><span class="rf-row__time">12m</span></span><span class="rf-row__bottom"><span class="rf-row__live">Editing <span class="rf-mono">Flow.tsx</span> · <span class="rf-mono">#25</span></span></span></span></a><a class="rf-row rf-row--unread" href="#"><span class="rf-avatar rf-avatar--agent rf-sprite-crown" role="img" aria-label="Wug"><span class="rf-avatar__status rf-pixel--busy" role="img" aria-label="working"></span></span><span class="rf-row__body"><span class="rf-row__top"><span class="rf-row__title">Wug</span><span class="rf-row__time">3m</span></span><span class="rf-row__bottom"><span class="rf-row__live">Drafting launch notes · <span class="rf-mono">#24</span></span><span class="rf-badge" role="img" aria-label="1 unread">1</span></span></span></a>
+          <a class="rf-row" href="#">
+            <span class="rf-avatar rf-avatar--agent rf-sprite-ghost" role="img" aria-label="Martin"><span class="rf-avatar__status rf-pixel--online" role="img" aria-label="online"></span></span>
+            <span class="rf-row__body">
+              <span class="rf-row__top"><span class="rf-row__title">Martin</span><span class="rf-row__time">09:58</span></span>
+              <span class="rf-row__bottom"><span class="rf-row__sub">Queued #26 for review.</span></span>
+            </span>
+          </a>
+        </div>
+        <nav class="rf-tabbar" aria-label="Primary">
+          <a class="rf-tab is-on" href="#" aria-current="page"><span class="rf-tab__icon"><i class="rf-i rf-i-house"></i></span>Home</a>
+          <a class="rf-tab" href="#"><span class="rf-tab__icon"><i class="rf-i rf-i-square-check-big"></i></span>Tasks</a>
+          <a class="rf-tab" href="#"><span class="rf-tab__icon"><i class="rf-i rf-i-users"></i></span>Members</a>
+          <a class="rf-tab" href="#"><span class="rf-tab__icon"><i class="rf-i rf-i-settings"></i></span>Settings</a>
+        </nav>
+      </div>
+      <div class="rf-phone__home"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var phone = document.getElementById('phone'); if (!phone) return;
+  var col = phone.parentNode, copy = col.cloneNode(true), p = copy.querySelector('.rf-phone');
+  p.removeAttribute('id'); p.setAttribute('data-theme', 'dark');
+  copy.querySelector('.rf-demo__label').textContent = 'Dark';
+  col.parentNode.appendChild(copy);
+})();
+</script>
+</body>
+</html>

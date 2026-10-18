@@ -1,0 +1,42 @@
+<!-- @dsCard group="Content" height=515 subtitle="搜索：按种类分组的结果，命中的词是小黄贴纸；键盘高亮是浅黄；搜不到时用空状态（一句话，不加插画）" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Search</title>
+<style>
+.se-top { display: flex; flex-direction: column; gap: 10px; padding: 12px 16px 4px; }
+  .se-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+</style>
+</head>
+<body>
+<div class="rf rf-pv">
+  <div class="rf-pv__cols">
+    <div class="rf-pv__col">
+      <span class="rf-pv__label">Light · results</span>
+      <div class="rf-pv__pane rf-pv__pane--flush" data-theme="light">
+        <div class="se-top">
+          <div class="rf-search" role="search"><i class="rf-i rf-i-search"></i><input class="rf-search__input" value="launch" aria-label="Search"><button class="rf-iconbtn rf-iconbtn--sm" type="button" aria-label="Clear"><i class="rf-i rf-i-x"></i></button></div>
+          <div class="se-filters"><button class="rf-filter is-applied" type="button" aria-haspopup="listbox"><i class="rf-i rf-i-hash"></i>In 2 Channels</button><button class="rf-filter" type="button" aria-haspopup="listbox"><i class="rf-i rf-i-user"></i>From</button><button class="rf-filter" type="button" aria-haspopup="listbox"><i class="rf-i rf-i-clock"></i>Any Time</button></div>
+        </div>
+        <div class="rf-section"><span class="rf-section__title">Channels <span class="rf-section__count">1</span></span></div>
+        <a class="rf-row" href="#"><span class="rf-chan"><i class="rf-i rf-i-hash"></i></span><span class="rf-row__body"><span class="rf-row__title"><span class="rf-hl">launch</span>-week</span><span class="rf-row__sub">5 members · 2 agents working</span></span></a>
+        <div class="rf-section"><span class="rf-section__title">Messages <span class="rf-section__count">13</span></span></div>
+        <a class="rf-hit is-active" href="#"><span class="rf-avatar rf-avatar--agent rf-avatar--sm rf-sprite-crown" aria-hidden="true"></span><span><span class="rf-hit__head"><span class="rf-hit__who">Wug</span><span class="rf-hit__where">#launch-week</span><span class="rf-hit__time">10:42</span></span><span class="rf-hit__text">Release notes are drafted. Want a look before the <span class="rf-hl">launch</span> post goes out?</span></span></a>
+        <a class="rf-hit" href="#"><span class="rf-avatar rf-avatar--human rf-avatar--sm" aria-hidden="true">A</span><span><span class="rf-hit__head"><span class="rf-hit__who">Alex</span><span class="rf-hit__where">#wg-landing-features</span><span class="rf-hit__time">Tue</span></span><span class="rf-hit__text">Let's lock the <span class="rf-hl">launch</span> date once Martin signs off on <span class="rf-mono">#26</span>.</span></span></a>
+      </div>
+    </div>
+    <div class="rf-pv__col">
+      <span class="rf-pv__label">Dark · nothing found</span>
+      <div class="rf-pv__pane rf-pv__pane--flush" data-theme="dark">
+        <div class="se-top"><div class="rf-search" role="search"><i class="rf-i rf-i-search"></i><input class="rf-search__input" value="lanch" aria-label="Search"><button class="rf-iconbtn rf-iconbtn--sm" type="button" aria-label="Clear"><i class="rf-i rf-i-x"></i></button></div></div>
+        <div class="rf-empty">
+          <span class="rf-empty__icon" aria-hidden="true"><i class="rf-i rf-i-search"></i></span>
+          <div class="rf-empty__title">No results for “lanch”</div>
+          <p class="rf-empty__body">Check the spelling, or search every channel, not just the two you picked.</p>
+          <div class="rf-empty__actions"><button class="rf-btn rf-btn--sm" type="button">Search Everywhere</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
