@@ -20,7 +20,10 @@ import { PanelAction } from "../panel/panel-action";
 const appShell = tv({
   slots: {
     root: [
-      "flex min-h-0 w-full overflow-visible md:overflow-hidden",
+      // Clip, not hidden: a hidden box is still a scroll container, and
+      // focusing anything that pokes past it would scroll the whole app
+      // sideways. A clipped box cannot scroll.
+      "flex min-h-0 w-full overflow-visible md:overflow-clip",
       "max-md:flex-col max-md:pt-[env(safe-area-inset-top,0px)]",
       "font-sans text-foreground-strong",
     ],
