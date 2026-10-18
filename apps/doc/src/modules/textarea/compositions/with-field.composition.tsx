@@ -1,4 +1,4 @@
-import { Field, FieldDescription, FieldError, FieldLabel, Textarea } from "raft-ui";
+import { Field, FieldDescription, FieldError, FieldLabel, Textarea } from "@botiverse/raft-ui";
 
 export function TextareaWithFieldContent() {
   return (

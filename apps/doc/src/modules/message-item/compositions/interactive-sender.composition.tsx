@@ -11,7 +11,7 @@ import {
   MessageItemHeader,
   MessageItemSenderButton,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function MessageInteractiveSenderComposition() {
   const [action, setAction] = useState<"mention" | "profile" | null>(null);

@@ -13,7 +13,7 @@ import {
   MessageReactionTooltipNames,
   MessageReactionTooltipNameText,
   MessageReactionTooltipSeparator,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { MessageReactionGlyphComposition } from "./reaction-glyph.composition.tsx";
 import { MESSAGE_QUICK_REACTIONS } from "#/modules/message-item/message-item.fixtures.ts";

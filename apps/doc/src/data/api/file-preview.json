@@ -1,7 +1,7 @@
 [
   {
     "name": "FilePreview",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -15,7 +15,7 @@
   },
   {
     "name": "FilePreviewBadge",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -36,7 +36,7 @@
   },
   {
     "name": "FilePreviewCode",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -50,7 +50,7 @@
   },
   {
     "name": "FilePreviewDocument",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -64,7 +64,7 @@
   },
   {
     "name": "FilePreviewFile",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -78,7 +78,7 @@
   },
   {
     "name": "FilePreviewMedia",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

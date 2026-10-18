@@ -1,5 +1,5 @@
-import { Avatar, AvatarBadge, AvatarFallback } from "raft-ui";
-import type { AvatarBadgeOffset } from "raft-ui";
+import { Avatar, AvatarBadge, AvatarFallback } from "@botiverse/raft-ui";
+import type { AvatarBadgeOffset } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";

@@ -16,7 +16,7 @@ import {
   TaskSectionItems,
   TaskSectionPanel,
   TaskSectionTrigger,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { ChevronDown } from "lucide-react";
 
 import {

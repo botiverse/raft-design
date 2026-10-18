@@ -16,7 +16,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { ChevronDown, ChevronUp, FileText, Forward } from "lucide-react";
 
@@ -40,7 +40,7 @@ import {
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
   MessageForwardedBundleFooterAction,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export type ForwardedBundleCompositionItem = {
   id: string;

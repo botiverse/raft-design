@@ -170,7 +170,7 @@ ${block(dark, "    ")}
 ${block(current, "  ")}
 
   /* Deprecated names, kept until raft-ui 1.0. Run
-     \`node node_modules/raft-ui/codemods/token-names.mjs <src>\` to move to the
+     \`node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <src>\` to move to the
      current names. */
 ${block(deprecated, "  ")}
 }
@@ -187,7 +187,7 @@ ${block(
 }
 
 const HEADER = `/* Generated from tokens.json by scripts/build-tokens.mjs. Do not edit this
-   file: change tokens.json, then run \`vp run raft-ui#build:tokens\`.
+   file: change tokens.json, then run \`vp run @botiverse/raft-ui#build:tokens\`.
 
    ─── Token grammar ──────────────────────────────────────────────────────────
    Neutrals:  {role}(-{purpose})(-{intensity})
@@ -222,7 +222,7 @@ function main(argv) {
   if (argv.includes("--check")) {
     if (readFileSync(foundationPath, "utf8") !== css) {
       console.error(
-        "src/foundation.css is out of date with src/tokens.json. Run `vp run raft-ui#build:tokens`.",
+        "src/foundation.css is out of date with src/tokens.json. Run `vp run @botiverse/raft-ui#build:tokens`.",
       );
       process.exit(1);
     }

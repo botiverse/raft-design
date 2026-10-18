@@ -1,7 +1,7 @@
 [
   {
     "name": "TasksPanelEmpty",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -15,7 +15,7 @@
   },
   {
     "name": "TasksPanelRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -29,7 +29,7 @@
   },
   {
     "name": "TasksPanelToolbar",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -43,7 +43,7 @@
   },
   {
     "name": "TasksPanelToolbarFilters",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -57,7 +57,7 @@
   },
   {
     "name": "TasksPanelToolbarGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -71,7 +71,7 @@
   },
   {
     "name": "TasksPanelToolbarLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -85,7 +85,7 @@
   },
   {
     "name": "TasksPanelToolbarNewTask",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -99,7 +99,7 @@
   },
   {
     "name": "TasksPanelToolbarView",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -113,7 +113,7 @@
   },
   {
     "name": "TasksPanelViewport",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -127,7 +127,7 @@
   },
   {
     "name": "TaskLoadingList",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -141,7 +141,7 @@
   },
   {
     "name": "TaskLoadingRow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -155,7 +155,7 @@
   },
   {
     "name": "TaskChip",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -197,31 +197,31 @@
   },
   {
     "name": "TaskClosedIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "TaskDoneIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "TaskInProgressIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "TaskInReviewIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "TaskStatusIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -234,13 +234,13 @@
   },
   {
     "name": "TaskTodoIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "TaskStatusBadge",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

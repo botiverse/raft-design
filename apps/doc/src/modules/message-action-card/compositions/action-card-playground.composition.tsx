@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "raft-ui";
+import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "@botiverse/raft-ui";
 
 import { ActionCardDemo } from "../action-card-demo.tsx";
 import { ActionCardMessage } from "../action-card-message.tsx";

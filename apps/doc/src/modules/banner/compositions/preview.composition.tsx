@@ -1,4 +1,4 @@
-import { Banner, BannerDescription } from "raft-ui";
+import { Banner, BannerDescription } from "@botiverse/raft-ui";
 import { CircleAlert } from "lucide-react";
 
 export function BannerPreviewContent() {

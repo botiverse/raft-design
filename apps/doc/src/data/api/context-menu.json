@@ -1,7 +1,7 @@
 [
   {
     "name": "ContextMenu",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -89,7 +89,7 @@
   },
   {
     "name": "ContextMenuCheckboxItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -169,7 +169,7 @@
   },
   {
     "name": "ContextMenuCheckboxItemIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -191,7 +191,7 @@
   },
   {
     "name": "ContextMenuContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -324,13 +324,13 @@
   },
   {
     "name": "ContextMenuFooter",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ContextMenuItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -388,25 +388,25 @@
   },
   {
     "name": "ContextMenuItemLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ContextMenuLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ContextMenuPopup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ContextMenuPortal",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -435,7 +435,7 @@
   },
   {
     "name": "ContextMenuRadioGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -485,7 +485,7 @@
   },
   {
     "name": "ContextMenuRadioItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -550,7 +550,7 @@
   },
   {
     "name": "ContextMenuRadioItemIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -572,7 +572,7 @@
   },
   {
     "name": "ContextMenuSeparator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -594,13 +594,13 @@
   },
   {
     "name": "ContextMenuShortcut",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ContextMenuSubmenu",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -690,7 +690,7 @@
   },
   {
     "name": "ContextMenuSubmenuTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -763,7 +763,7 @@
   },
   {
     "name": "ContextMenuTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

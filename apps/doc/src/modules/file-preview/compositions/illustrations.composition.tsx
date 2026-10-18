@@ -4,7 +4,7 @@ import {
   FilePreviewCode,
   FilePreviewFile,
   FilePreviewMedia,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function FilePreviewIllustrationsContent() {
   return (

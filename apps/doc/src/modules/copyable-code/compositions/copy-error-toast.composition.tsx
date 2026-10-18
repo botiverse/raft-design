@@ -6,7 +6,7 @@ import {
   CopyableCodeRoot,
   createToastManager,
   ToastProvider,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";

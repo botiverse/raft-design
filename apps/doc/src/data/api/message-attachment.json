@@ -1,7 +1,7 @@
 [
   {
     "name": "MessageAttachmentAction",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -15,7 +15,7 @@
   },
   {
     "name": "MessageAttachmentCard",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -29,7 +29,7 @@
   },
   {
     "name": "MessageAttachmentCommentSummary",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -43,7 +43,7 @@
   },
   {
     "name": "MessageAttachmentDiffAddition",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -57,7 +57,7 @@
   },
   {
     "name": "MessageAttachmentDiffDeletion",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -71,7 +71,7 @@
   },
   {
     "name": "MessageAttachmentDiffSummary",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -85,7 +85,7 @@
   },
   {
     "name": "MessageAttachmentGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -99,7 +99,7 @@
   },
   {
     "name": "MessageAttachmentMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -113,7 +113,7 @@
   },
   {
     "name": "MessageAttachmentMetaEnd",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -127,7 +127,7 @@
   },
   {
     "name": "MessageAttachmentMetaStart",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -141,7 +141,7 @@
   },
   {
     "name": "MessageAttachmentSummary",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -155,7 +155,7 @@
   },
   {
     "name": "MessageAttachmentTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -169,7 +169,7 @@
   },
   {
     "name": "MessageImageGallery",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -183,7 +183,7 @@
   },
   {
     "name": "MessageImageGalleryAction",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -197,7 +197,7 @@
   },
   {
     "name": "MessageImageGalleryItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -218,7 +218,7 @@
   },
   {
     "name": "MessageImageGalleryMedia",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -232,7 +232,7 @@
   },
   {
     "name": "MessageImageGalleryOverlay",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -246,7 +246,7 @@
   },
   {
     "name": "MessageImageGalleryPreview",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -260,7 +260,7 @@
   },
   {
     "name": "MessageImageGalleryRow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "One row of a gallery: the grid and its height come from the row data, so consumers place the items (`MessageImageGalleryItem` with the row's item layouts) without touching layout classes.",
     "native": true,
     "props": [
@@ -282,7 +282,7 @@
   },
   {
     "name": "MessageVideoPreview",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -296,7 +296,7 @@
   },
   {
     "name": "MessageVideoPreviewAction",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -310,7 +310,7 @@
   },
   {
     "name": "MessageVideoPreviewFallback",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -324,7 +324,7 @@
   },
   {
     "name": "MessageVideoPreviewFailureAction",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -338,7 +338,7 @@
   },
   {
     "name": "MessageVideoPreviewFailureContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -352,7 +352,7 @@
   },
   {
     "name": "MessageVideoPreviewFailureIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -366,7 +366,7 @@
   },
   {
     "name": "MessageVideoPreviewFailureTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -380,7 +380,7 @@
   },
   {
     "name": "MessageVideoPreviewMedia",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

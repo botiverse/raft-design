@@ -1,31 +1,31 @@
 [
   {
     "name": "MessageItemTranslationAction",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MessageItemTranslationFailedStatus",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MessageItemTranslationOriginal",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MessageItemTranslationOriginalLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MessageItemTranslationProgressTrack",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -39,13 +39,13 @@
   },
   {
     "name": "MessageItemTranslationRetryAction",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MessageItemTranslationStatus",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   }

@@ -13,7 +13,7 @@ import {
   ListRowMeta,
   ListRowTitle,
   ListRowTop,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function ListRowConversationsComposition() {
   const [open, setOpen] = useState("wug");

@@ -1,5 +1,5 @@
-import { ComboboxSelect } from "raft-ui/wip";
-import type { ComboboxSelectOption, ComboboxSelectProps } from "raft-ui/wip";
+import { ComboboxSelect } from "@botiverse/raft-ui/wip";
+import type { ComboboxSelectOption, ComboboxSelectProps } from "@botiverse/raft-ui/wip";
 
 const models = [
   { value: "raft-fast", label: "Raft Fast" },

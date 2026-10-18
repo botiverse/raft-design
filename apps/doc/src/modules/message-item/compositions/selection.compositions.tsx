@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   MessageMultiSelectToolbar,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export type MessageMultiSelectToolbarCompositionProps = {
   children: ReactNode;

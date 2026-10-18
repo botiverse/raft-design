@@ -1,7 +1,7 @@
 [
   {
     "name": "PreviewCard",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -72,7 +72,7 @@
   },
   {
     "name": "PreviewCardArrow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -86,7 +86,7 @@
   },
   {
     "name": "PreviewCardContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -200,25 +200,25 @@
   },
   {
     "name": "PreviewCardDescription",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "PreviewCardHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "PreviewCardPopup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "PreviewCardPortal",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -247,19 +247,19 @@
   },
   {
     "name": "PreviewCardSeparator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "PreviewCardTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "PreviewCardTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

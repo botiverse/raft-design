@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { ReactElement } from "react";
 import { useMediaQuery } from "foxact/use-media-query";
 import { Bookmark, MessageSquare, SmilePlus } from "lucide-react";
-import { MessageItemToolbar, MessageItemToolbarButton } from "raft-ui";
+import { MessageItemToolbar, MessageItemToolbarButton } from "@botiverse/raft-ui";
 import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
 
 export type MessageRowToolbarProps = {

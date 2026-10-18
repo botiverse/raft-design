@@ -1,7 +1,7 @@
 [
   {
     "name": "Popover",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -80,7 +80,7 @@
   },
   {
     "name": "PopoverArrow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -94,7 +94,7 @@
   },
   {
     "name": "PopoverBackdrop",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -108,7 +108,7 @@
   },
   {
     "name": "PopoverClose",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -130,7 +130,7 @@
   },
   {
     "name": "PopoverContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -264,7 +264,7 @@
   },
   {
     "name": "PopoverDescription",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -278,19 +278,19 @@
   },
   {
     "name": "PopoverHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "PopoverPopup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "PopoverPortal",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -319,13 +319,13 @@
   },
   {
     "name": "PopoverSeparator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "PopoverTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -339,7 +339,7 @@
   },
   {
     "name": "PopoverTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -399,7 +399,7 @@
   },
   {
     "name": "PopoverViewport",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

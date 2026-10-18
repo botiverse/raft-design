@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ComboboxSelect } from "raft-ui/wip";
-import type { ComboboxSelectGroup, ComboboxSelectOption, ComboboxSelectValue } from "raft-ui/wip";
+import { ComboboxSelect } from "@botiverse/raft-ui/wip";
+import type {
+  ComboboxSelectGroup,
+  ComboboxSelectOption,
+  ComboboxSelectValue,
+} from "@botiverse/raft-ui/wip";
 
 const frameworks = [
   { value: "react", label: "React" },

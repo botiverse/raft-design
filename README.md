@@ -6,30 +6,30 @@ Documentation: https://raft-design.botiverse.build
 
 ## Contents
 
-| Path          | What it is                                                                                                                            |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `design/`     | The guidelines: foundations, patterns, products and recorded decisions. Component docs sit next to their code in `packages/ui`.       |
-| `packages/ui` | [`raft-ui`](https://www.npmjs.com/package/raft-ui) on npm: CSS foundations and React components built on Base UI and Tailwind CSS v4. |
-| `apps/doc`    | The documentation site: component pages with live examples, tokens, guides and a playground.                                          |
+| Path          | What it is                                                                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `design/`     | The guidelines: foundations, patterns, products and recorded decisions. Component docs sit next to their code in `packages/ui`.                  |
+| `packages/ui` | [`raft-ui`](https://www.npmjs.com/package/@botiverse/raft-ui) on npm: CSS foundations and React components built on Base UI and Tailwind CSS v4. |
+| `apps/doc`    | The documentation site: component pages with live examples, tokens, guides and a playground.                                                     |
 
 ## Using raft-ui
 
 raft-ui needs React 19 and, for the components, Tailwind CSS v4.
 
 ```bash
-npm install raft-ui
+npm install @botiverse/raft-ui
 ```
 
 ```css
 @import "tailwindcss";
-@import "raft-ui/styles.css";
+@import "@botiverse/raft-ui/styles.css";
 ```
 
 ```tsx
-import { Button } from "raft-ui";
+import { Button } from "@botiverse/raft-ui";
 ```
 
-Pages without React or Tailwind can use `raft-ui/foundation.css` for the tokens alone. See the [package README](./packages/ui/README.md) for details.
+Pages without React or Tailwind can use `@botiverse/raft-ui/foundation.css` for the tokens alone. See the [package README](./packages/ui/README.md) for details.
 
 raft-ui is pre-1.0: a minor version can include breaking changes, which are listed in the [changelog](./packages/ui/CHANGELOG.md).
 

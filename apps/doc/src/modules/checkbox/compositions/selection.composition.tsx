@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardLeading, CardTitle, Checkbox } from "raft-ui";
+import { Card, CardHeader, CardLeading, CardTitle, Checkbox } from "@botiverse/raft-ui";
 
 export function CheckboxSelectionContent() {
   return (

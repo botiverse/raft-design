@@ -9,7 +9,7 @@ import {
   SidebarItemIndicator,
   SidebarItemMetaIcon,
   SidebarItemTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function SidebarItemChannelComposition() {
   return (

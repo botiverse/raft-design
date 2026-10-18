@@ -21,8 +21,8 @@ import {
   FilePreview,
   FilePreviewBadge,
   FilePreviewDocument,
-} from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
+} from "@botiverse/raft-ui";
+import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
 
 const MAX_ATTACHMENTS = 10;
 

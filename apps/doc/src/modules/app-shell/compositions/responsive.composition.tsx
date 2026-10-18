@@ -6,7 +6,7 @@ import {
   MobileNavItem,
   MobileNavLabel,
   MobileNavRoot,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function AppShellResponsiveComposition() {
   return (

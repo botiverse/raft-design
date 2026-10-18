@@ -1,4 +1,4 @@
-import { CopyableCode, CopyableCodeAction, CopyableCodeRoot } from "raft-ui";
+import { CopyableCode, CopyableCodeAction, CopyableCodeRoot } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";

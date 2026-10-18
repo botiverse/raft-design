@@ -23,7 +23,7 @@ import {
   PanelTitle,
   PanelToggleAction,
   Status,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export type ConversationPanelHeaderCompositionProps = {
   conversation: "channel" | "dm";

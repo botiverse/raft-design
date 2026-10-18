@@ -1,4 +1,4 @@
-import { Banner, BannerDescription, BannerTitle } from "raft-ui";
+import { Banner, BannerDescription, BannerTitle } from "@botiverse/raft-ui";
 import { Info } from "lucide-react";
 
 // @docs-source-strip-start

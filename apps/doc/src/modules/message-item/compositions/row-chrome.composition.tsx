@@ -11,7 +11,7 @@ import {
   MessageItemSearchMatch,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function MessageRowChromeComposition() {
   return (

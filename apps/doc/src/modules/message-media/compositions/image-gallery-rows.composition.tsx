@@ -4,7 +4,7 @@ import {
   MessageImageGalleryMedia,
   MessageImageGalleryRow,
   buildMessageImageGalleryRows,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
 // Attachments carry width/height; the builder only needs those to decide the

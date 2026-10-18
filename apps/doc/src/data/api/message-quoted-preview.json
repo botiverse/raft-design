@@ -1,7 +1,7 @@
 [
   {
     "name": "MessageQuotedPreview",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -15,7 +15,7 @@
   },
   {
     "name": "MessageQuotedPreviewAttachments",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -29,7 +29,7 @@
   },
   {
     "name": "MessageQuotedPreviewAttachment",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -43,7 +43,7 @@
   },
   {
     "name": "MessageQuotedPreviewAuthor",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -57,7 +57,7 @@
   },
   {
     "name": "MessageQuotedPreviewAuthorMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -71,7 +71,7 @@
   },
   {
     "name": "MessageQuotedPreviewAuthorName",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -85,7 +85,7 @@
   },
   {
     "name": "MessageQuotedPreviewChannel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -99,7 +99,7 @@
   },
   {
     "name": "MessageQuotedPreviewContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -113,7 +113,7 @@
   },
   {
     "name": "MessageQuotedPreviewHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -127,7 +127,7 @@
   },
   {
     "name": "MessageQuotedPreviewLoading",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -141,7 +141,7 @@
   },
   {
     "name": "MessageQuotedPreviewText",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -155,7 +155,7 @@
   },
   {
     "name": "MessageQuotedPreviewThread",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -169,7 +169,7 @@
   },
   {
     "name": "MessageQuotedPreviewTimestamp",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -183,7 +183,7 @@
   },
   {
     "name": "MessageQuotedPreviewUnavailable",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

@@ -9,7 +9,7 @@ import {
   EmptyStateTitle,
   SearchShellRoot,
   SearchShellViewport,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { useCallback, useState } from "react";
 
 export function SearchErrorComposition() {

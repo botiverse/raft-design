@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Button } from "raft-ui";
+import { Button } from "@botiverse/raft-ui";
 
 import { TasksChannelFilterComposition } from "./tasks-channel-filter.composition.tsx";
 import type { TasksChannelFilterOption } from "./tasks-channel-filter.composition.tsx";

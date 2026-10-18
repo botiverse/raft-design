@@ -21,8 +21,8 @@ import {
   FilePreviewDocument,
   FilePreviewMedia,
   Spinner,
-} from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
+} from "@botiverse/raft-ui";
+import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
 
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
 

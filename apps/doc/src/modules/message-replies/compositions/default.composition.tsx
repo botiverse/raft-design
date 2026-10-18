@@ -16,7 +16,7 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { MESSAGE_REPLIES_AVATAR_SRC } from "#/modules/message-replies/message-replies.fixtures.ts";
 

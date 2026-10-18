@@ -30,7 +30,7 @@ import {
   PanelMeta,
   PanelToggleAction,
   PanelTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import {
   getPlaygroundActor,

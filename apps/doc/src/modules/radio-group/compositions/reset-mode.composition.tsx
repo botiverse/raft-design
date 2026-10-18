@@ -1,4 +1,4 @@
-import { RadioGroup, RadioGroupItem } from "raft-ui";
+import { RadioGroup, RadioGroupItem } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { useCallback, useState } from "react";

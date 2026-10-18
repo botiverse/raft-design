@@ -1,7 +1,7 @@
 [
   {
     "name": "Card",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -22,7 +22,7 @@
   },
   {
     "name": "CardContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -36,7 +36,7 @@
   },
   {
     "name": "CardDescription",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -50,7 +50,7 @@
   },
   {
     "name": "CardFooter",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -64,7 +64,7 @@
   },
   {
     "name": "CardHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -78,7 +78,7 @@
   },
   {
     "name": "CardLeading",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -92,7 +92,7 @@
   },
   {
     "name": "CardTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -106,7 +106,7 @@
   },
   {
     "name": "CardTrailing",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

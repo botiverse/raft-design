@@ -17,7 +17,7 @@ import {
   MessageQuotedPreviewTimestamp,
   MessageReferenceChip,
   MessageReferenceLabel,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -28,7 +28,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";

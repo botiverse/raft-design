@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@botiverse/raft-ui";
 import {
   MessageForwardedBundle,
   MessageForwardedBundleHeader,
@@ -11,7 +11,7 @@ import {
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import {
@@ -29,7 +29,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function ForwardedBundleThreadComposition() {
   return (

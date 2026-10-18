@@ -1,4 +1,9 @@
-import { MessageReferenceText, PreviewCard, PreviewCardContent, PreviewCardTrigger } from "raft-ui";
+import {
+  MessageReferenceText,
+  PreviewCard,
+  PreviewCardContent,
+  PreviewCardTrigger,
+} from "@botiverse/raft-ui";
 
 export function MessageReferencePeopleMentionsComposition() {
   return (

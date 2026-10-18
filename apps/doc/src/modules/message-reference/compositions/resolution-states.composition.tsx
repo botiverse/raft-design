@@ -1,4 +1,4 @@
-import { MessageReferencePending, Spinner } from "raft-ui";
+import { MessageReferencePending, Spinner } from "@botiverse/raft-ui";
 
 export function MessageReferenceResolutionStatesComposition() {
   return (

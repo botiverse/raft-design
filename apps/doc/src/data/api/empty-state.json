@@ -1,7 +1,7 @@
 [
   {
     "name": "EmptyState",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -15,7 +15,7 @@
   },
   {
     "name": "EmptyStateActions",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -29,7 +29,7 @@
   },
   {
     "name": "EmptyStateContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -43,7 +43,7 @@
   },
   {
     "name": "EmptyStateDescription",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -57,7 +57,7 @@
   },
   {
     "name": "EmptyStateIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -71,7 +71,7 @@
   },
   {
     "name": "EmptyStateTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

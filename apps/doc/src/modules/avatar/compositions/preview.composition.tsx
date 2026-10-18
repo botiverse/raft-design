@@ -1,4 +1,4 @@
-import { Avatar, AvatarBadge, Status } from "raft-ui";
+import { Avatar, AvatarBadge, Status } from "@botiverse/raft-ui";
 
 export function AvatarPreviewContent() {
   return (

@@ -22,7 +22,7 @@ import {
   SearchEntityResultLeading,
   SearchEntityResultTitle,
   SearchResultsList,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { componentGroup, shortTitle } from "#/lib/content/nav.ts";
 import type { SectionId } from "#/lib/content/pages.ts";

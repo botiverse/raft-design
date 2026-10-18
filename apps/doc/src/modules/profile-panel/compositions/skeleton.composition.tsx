@@ -7,7 +7,7 @@ import {
   ProfilePanelHeaderContent,
   ProfilePanelSection,
   Skeleton,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function ProfilePanelSkeletonComposition() {
   return (

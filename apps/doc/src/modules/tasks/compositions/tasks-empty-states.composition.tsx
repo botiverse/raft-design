@@ -10,7 +10,7 @@ import {
   TasksPanelToolbarFilters,
   TasksPanelToolbarLabel,
   TasksPanelViewport,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { CheckSquare, ChevronDown, User } from "lucide-react";
 
 export function TasksPanelEmptyContent() {

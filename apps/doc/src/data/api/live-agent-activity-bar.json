@@ -1,7 +1,7 @@
 [
   {
     "name": "LiveAgentActivityBar",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "The Raft Design System shows agents at work where they appear instead of in a live bar (see the agents pattern). Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -16,7 +16,7 @@
   },
   {
     "name": "LiveAgentActivityBarAvatar",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "The Raft Design System shows agents at work where they appear instead of in a live bar (see the agents pattern). Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -31,7 +31,7 @@
   },
   {
     "name": "LiveAgentActivityBarContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "The Raft Design System shows agents at work where they appear instead of in a live bar (see the agents pattern). Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -46,7 +46,7 @@
   },
   {
     "name": "LiveAgentActivityBarRow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "The Raft Design System shows agents at work where they appear instead of in a live bar (see the agents pattern). Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -61,7 +61,7 @@
   },
   {
     "name": "LiveAgentActivityBarStatus",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "The Raft Design System shows agents at work where they appear instead of in a live bar (see the agents pattern). Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -83,7 +83,7 @@
   },
   {
     "name": "LiveAgentActivityBarText",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "The Raft Design System shows agents at work where they appear instead of in a live bar (see the agents pattern). Removed in raft-ui 1.0.",
     "native": true,
     "props": [

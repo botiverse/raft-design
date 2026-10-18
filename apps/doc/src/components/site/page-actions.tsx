@@ -19,7 +19,7 @@ import {
   DropdownMenuItemLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { GithubMark } from "#/components/github-mark.tsx";
 import { CodeCopyAction } from "#/lib/code-block/code-copy-action.tsx";

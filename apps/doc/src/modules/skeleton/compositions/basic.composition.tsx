@@ -1,4 +1,4 @@
-import { Skeleton } from "raft-ui";
+import { Skeleton } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";

@@ -17,7 +17,7 @@ import {
   MarkdownTable,
   MarkdownTableRow,
   MarkdownTableScroll,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 /**
  * Default node mapping. Every entry renders a Markdown part, so consumer overrides never

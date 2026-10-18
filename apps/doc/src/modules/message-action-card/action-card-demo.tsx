@@ -25,8 +25,8 @@ import {
   MessageActionCardScopeListViewport,
   MessageActionCardScopeName,
   MessageActionCardStatus,
-} from "raft-ui";
-import type { BadgeProps } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { BadgeProps } from "@botiverse/raft-ui";
 
 import { foldsByDefault } from "./action-card.fixtures.ts";
 import type { ActionCardFixture, ActionCardKind, ActionCardState } from "./action-card.fixtures.ts";

@@ -1,5 +1,5 @@
-import { Tabs, TabsList, TabsPanel, TabsTab } from "raft-ui";
-import type { TabsPlacement } from "raft-ui";
+import { Tabs, TabsList, TabsPanel, TabsTab } from "@botiverse/raft-ui";
+import type { TabsPlacement } from "@botiverse/raft-ui";
 
 function ChannelSettingsTabs({ placement }: { placement: TabsPlacement }) {
   return (

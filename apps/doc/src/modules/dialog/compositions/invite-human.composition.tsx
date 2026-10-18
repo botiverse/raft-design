@@ -12,11 +12,11 @@ import {
   InlineCode,
   Input,
   Separator,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { Copy, Link2, Mail, Plus } from "lucide-react";
 
 // @docs-source-strip-start
-import { Dialog } from "raft-ui";
+import { Dialog } from "@botiverse/raft-ui";
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end

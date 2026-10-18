@@ -1,7 +1,7 @@
 [
   {
     "name": "FormSection",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "One part of a bigger form (a wide dialog or sheet): a small heading with its status and a line on what it is for, then its fields. Consecutive sections are separated by a hairline.",
     "native": true,
     "props": [

@@ -12,13 +12,13 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   MessageItemTranslationAction,
   MessageItemTranslationOriginal,
   MessageItemTranslationOriginalLabel,
   MessageItemTranslationStatus,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";

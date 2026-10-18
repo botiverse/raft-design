@@ -1,7 +1,7 @@
 [
   {
     "name": "TextHeading",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -28,7 +28,7 @@
   },
   {
     "name": "TextMono",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -55,7 +55,7 @@
   },
   {
     "name": "TextSans",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

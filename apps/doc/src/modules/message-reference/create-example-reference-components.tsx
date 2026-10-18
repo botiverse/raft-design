@@ -8,7 +8,7 @@ import {
   Status,
   TaskChip,
   TaskStatusIcon,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { parseMarkdownReference } from "#/lib/markdown/parse-markdown-reference.ts";
 import { MessageMentionReferenceComposition } from "./compositions/reference-adapters.composition.tsx";
 import {

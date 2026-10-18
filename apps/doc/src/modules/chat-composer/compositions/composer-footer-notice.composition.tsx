@@ -1,7 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import type { FormEvent } from "react";
-import { ComposerActions, ComposerRoot } from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
+import { ComposerActions, ComposerRoot } from "@botiverse/raft-ui";
+import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
 
 function preventSubmit(event: FormEvent<HTMLFormElement>) {
   event.preventDefault();

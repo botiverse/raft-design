@@ -7,7 +7,7 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 const LAST_PAGE = 2;
 

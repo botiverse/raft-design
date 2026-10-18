@@ -1,7 +1,7 @@
 [
   {
     "name": "OtterIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "An otter on its back, one pose per status: - `wait`: asleep on the dry bank, the parcel still on its belly. - `process`: afloat, paddling with one arm, the parcel on its belly. - `finish`: drifting at ease, hugging the delivered parcel. - `error`: shivering in the water; the parcel has slipped away.",
     "native": true,
     "props": [
@@ -15,7 +15,7 @@
   },
   {
     "name": "Step",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "One step in `Steps`: a numbered marker, a title and a description.",
     "native": true,
     "props": [
@@ -58,7 +58,7 @@
   },
   {
     "name": "Steps",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Numbered steps through a process, as an ordered list of `Step`s. Each child is numbered by its position; the step at `current` gets `aria-current=\"step\"`.",
     "native": true,
     "props": [

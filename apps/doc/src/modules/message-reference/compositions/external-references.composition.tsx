@@ -1,5 +1,5 @@
 import { Link as LinkIcon } from "lucide-react";
-import { MessageReferenceChip, MessageReferenceLabel } from "raft-ui";
+import { MessageReferenceChip, MessageReferenceLabel } from "@botiverse/raft-ui";
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageReferenceExternalReferencesComposition() {

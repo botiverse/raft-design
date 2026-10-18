@@ -45,10 +45,10 @@ import {
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
-} from "raft-ui";
-import type { PanelEdge } from "raft-ui";
-import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { PanelEdge } from "@botiverse/raft-ui";
+import { MessageList, MessageListDateDivider, MessageListNotice } from "@botiverse/raft-ui";
+import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
 import { ConversationPanelHeaderComposition } from "./conversation-panel-header.composition.tsx";
 
 export type ConversationPanelCompositionProps = {

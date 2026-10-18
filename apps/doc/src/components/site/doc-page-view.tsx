@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { MarkdownHeading } from "raft-ui";
+import { MarkdownHeading } from "@botiverse/raft-ui";
 
 import { REPOSITORY_URL } from "#/lib/content/links.ts";
 import { componentGroup, shortTitle } from "#/lib/content/nav.ts";

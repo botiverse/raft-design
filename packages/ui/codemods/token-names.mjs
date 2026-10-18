@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Renames raft-ui tokens to the names the Raft Design System docs use.
 //
-//   node node_modules/raft-ui/codemods/token-names.mjs <dir-or-file>... [--dry]
+//   node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <dir-or-file>... [--dry]
 //
 // Rewrites Tailwind utilities (`bg-layer-panel`, `hover:border-line-muted/50`)
 // and CSS custom properties (`var(--primary-soft)`) in .ts, .tsx, .js, .jsx,

@@ -15,7 +15,7 @@ import {
   TaskBoardColumnPanel,
   TaskBoardColumnTrigger,
   TaskBoardRoot,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.composition.tsx";
 import type { TaskFixture } from "#/modules/task-card/task-card.fixtures.ts";

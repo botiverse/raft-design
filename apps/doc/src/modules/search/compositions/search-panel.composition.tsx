@@ -1,6 +1,6 @@
 import type { KeyboardEvent } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ConversationPanelContent, SearchShellRoot } from "raft-ui";
+import { ConversationPanelContent, SearchShellRoot } from "@botiverse/raft-ui";
 import {
   SEARCH_CHANNEL_FIXTURES,
   SEARCH_ENTITY_FIXTURES,

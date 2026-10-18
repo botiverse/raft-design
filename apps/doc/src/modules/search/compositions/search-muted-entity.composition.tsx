@@ -9,7 +9,7 @@ import {
   SearchEntityResultLeading,
   SearchEntityResultTitle,
   SearchResultsList,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function SearchMutedEntityComposition() {
   return (

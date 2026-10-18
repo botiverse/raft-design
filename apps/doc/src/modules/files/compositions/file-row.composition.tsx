@@ -15,7 +15,7 @@ import {
   FilesPanel,
   FilesViewport,
   FileThumbnail,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { Clock3, Download, ExternalLink } from "lucide-react";
 
 export function FilesPanelFileRowComposition() {

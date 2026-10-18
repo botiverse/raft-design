@@ -1,7 +1,7 @@
 [
   {
     "name": "DropdownMenu",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -120,7 +120,7 @@
   },
   {
     "name": "DropdownMenuCheckboxItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -200,7 +200,7 @@
   },
   {
     "name": "DropdownMenuCheckboxItemIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -222,7 +222,7 @@
   },
   {
     "name": "DropdownMenuContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -355,13 +355,13 @@
   },
   {
     "name": "DropdownMenuFooter",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "DropdownMenuItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -419,7 +419,7 @@
   },
   {
     "name": "DropdownMenuItemCount",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -445,25 +445,25 @@
   },
   {
     "name": "DropdownMenuItemLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "DropdownMenuLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "DropdownMenuPopup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "DropdownMenuPortal",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -492,7 +492,7 @@
   },
   {
     "name": "DropdownMenuRadioGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -542,7 +542,7 @@
   },
   {
     "name": "DropdownMenuRadioItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -607,7 +607,7 @@
   },
   {
     "name": "DropdownMenuRadioItemIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -629,7 +629,7 @@
   },
   {
     "name": "DropdownMenuSeparator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -651,13 +651,13 @@
   },
   {
     "name": "DropdownMenuShortcut",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "DropdownMenuSubmenu",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -747,7 +747,7 @@
   },
   {
     "name": "DropdownMenuSubmenuTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -820,7 +820,7 @@
   },
   {
     "name": "DropdownMenuTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

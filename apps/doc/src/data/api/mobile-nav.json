@@ -1,7 +1,7 @@
 [
   {
     "name": "MobileNavItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -28,7 +28,7 @@
   },
   {
     "name": "MobileNavLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -42,7 +42,7 @@
   },
   {
     "name": "MobileNavRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

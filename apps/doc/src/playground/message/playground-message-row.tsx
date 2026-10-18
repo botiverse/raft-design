@@ -47,7 +47,7 @@ import {
   MessageItemTime,
   MessageMultiSelectCheckbox,
   MessageReactionCount,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   MessageAttachmentGroup,
   MessageItemTranslationAction,
@@ -57,7 +57,7 @@ import {
   MessageItemTranslationProgressTrack,
   MessageItemTranslationRetryAction,
   MessageItemTranslationStatus,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { MessageContextMenuComposition } from "#/modules/message-item/compositions/context-menu.composition.tsx";
 import {

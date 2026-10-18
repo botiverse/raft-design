@@ -12,7 +12,7 @@ import {
   Separator,
   Switch,
   Text,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function CardSupportingNoteComposition() {
   const [enabled, setEnabled] = useState(true);

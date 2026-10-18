@@ -1,4 +1,4 @@
-import { Avatar, AvatarBadge, AvatarFallback } from "raft-ui";
+import { Avatar, AvatarBadge, AvatarFallback } from "@botiverse/raft-ui";
 
 export function AvatarBadgePresenceContent() {
   return (

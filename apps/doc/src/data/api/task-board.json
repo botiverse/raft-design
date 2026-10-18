@@ -1,7 +1,7 @@
 [
   {
     "name": "TaskBoardColumn",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -45,7 +45,7 @@
   },
   {
     "name": "TaskBoardColumnBadge",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -65,7 +65,7 @@
   },
   {
     "name": "TaskBoardColumnChevron",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -79,7 +79,7 @@
   },
   {
     "name": "TaskBoardColumnCount",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -93,7 +93,7 @@
   },
   {
     "name": "TaskBoardColumnEmpty",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -107,7 +107,7 @@
   },
   {
     "name": "TaskBoardColumnEmptyAllowed",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -121,7 +121,7 @@
   },
   {
     "name": "TaskBoardColumnEmptyBlocked",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -135,7 +135,7 @@
   },
   {
     "name": "TaskBoardColumnEmptyIdle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -149,7 +149,7 @@
   },
   {
     "name": "TaskBoardColumnHeading",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -163,7 +163,7 @@
   },
   {
     "name": "TaskBoardColumnItems",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -177,7 +177,7 @@
   },
   {
     "name": "TaskBoardColumnPanel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -207,7 +207,7 @@
   },
   {
     "name": "TaskBoardColumnTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -229,7 +229,7 @@
   },
   {
     "name": "TaskBoardRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

@@ -171,6 +171,9 @@ importers:
       '@base-ui/utils':
         specifier: 'catalog:'
         version: 0.4.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      '@botiverse/raft-ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@dnd-kit/core':
         specifier: 'catalog:'
         version: 6.3.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -207,9 +210,6 @@ importers:
       motion:
         specifier: 'catalog:'
         version: 13.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      raft-ui:
-        specifier: workspace:*
-        version: link:../../packages/ui
       react:
         specifier: 'catalog:'
         version: 19.3.0

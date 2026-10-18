@@ -1,7 +1,7 @@
 [
   {
     "name": "SearchShellRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -22,19 +22,19 @@
   },
   {
     "name": "SearchShellFilters",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "SearchShellViewport",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "SearchResultsSummary",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -48,7 +48,7 @@
   },
   {
     "name": "SearchResultsSection",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -62,7 +62,7 @@
   },
   {
     "name": "SearchResultsSectionHeading",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -76,7 +76,7 @@
   },
   {
     "name": "SearchResultsList",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -90,7 +90,7 @@
   },
   {
     "name": "SearchEntityResult",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -111,7 +111,7 @@
   },
   {
     "name": "SearchEntityResultContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -125,7 +125,7 @@
   },
   {
     "name": "SearchEntityResultHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -139,7 +139,7 @@
   },
   {
     "name": "SearchEntityResultLeading",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -153,7 +153,7 @@
   },
   {
     "name": "SearchEntityResultIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -167,7 +167,7 @@
   },
   {
     "name": "SearchEntityResultActivity",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -181,7 +181,7 @@
   },
   {
     "name": "SearchEntityResultTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -202,7 +202,7 @@
   },
   {
     "name": "SearchEntityResultDescription",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -223,7 +223,7 @@
   },
   {
     "name": "SearchMessageResult",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -243,7 +243,7 @@
   },
   {
     "name": "SearchThreadMessageResult",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -263,7 +263,7 @@
   },
   {
     "name": "SearchMessageResultHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -277,7 +277,7 @@
   },
   {
     "name": "SearchMessageResultBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -291,7 +291,7 @@
   },
   {
     "name": "SearchMessageResultMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -305,7 +305,7 @@
   },
   {
     "name": "SearchMessageResultThreadMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -319,7 +319,7 @@
   },
   {
     "name": "SearchMessageResultSender",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -333,7 +333,7 @@
   },
   {
     "name": "SearchMessageResultTimestamp",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -347,7 +347,7 @@
   },
   {
     "name": "SearchMessageResultMatch",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -361,7 +361,7 @@
   },
   {
     "name": "SearchThreadResult",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -382,7 +382,7 @@
   },
   {
     "name": "SearchThreadResultHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -396,7 +396,7 @@
   },
   {
     "name": "SearchThreadResultMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -410,7 +410,7 @@
   },
   {
     "name": "SearchThreadResultTimestamp",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -424,7 +424,7 @@
   },
   {
     "name": "SearchThreadResultTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -438,7 +438,7 @@
   },
   {
     "name": "SearchThreadResultMessages",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -452,7 +452,7 @@
   },
   {
     "name": "SearchTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The top bar's search box. Children: a search icon, a `SearchTriggerLabel` and an optional `SearchTriggerShortcut`.",
     "native": true,
     "props": [
@@ -467,7 +467,7 @@
   },
   {
     "name": "SearchTriggerLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The placeholder (\"Search Raft\"), truncated before the shortcut gives way.",
     "native": true,
     "props": [
@@ -482,7 +482,7 @@
   },
   {
     "name": "SearchTriggerShortcut",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The shortcut that opens search, at the right end.",
     "native": true,
     "props": []

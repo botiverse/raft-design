@@ -13,7 +13,7 @@ import {
   SearchTrigger,
   SearchTriggerLabel,
   SearchTriggerShortcut,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function SearchTriggerComposition() {
   return (

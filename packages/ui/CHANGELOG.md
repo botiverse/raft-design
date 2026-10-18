@@ -2,14 +2,15 @@
 
 ### Breaking Changes
 
+- **The package is now `@botiverse/raft-ui`.** Install it under that name and change imports from `raft-ui` (and `raft-ui/styles.css`, `raft-ui/cn`, …) to `@botiverse/raft-ui`. The unscoped `raft-ui` gets no further releases; this release also carries the changes of 0.6.1, which never reached npm.
 - `MessageItemSavedIndicator` no longer takes `elevation`, and the `MessageItemSavedIndicatorElevation` type is removed. Its `"xs"` and `"sm"` values pointed at empty shadows, so the prop never drew one: delete it at call sites. ([#488](https://github.com/botiverse/raft-design/pull/488))
 
 ### Added
 
-- `raft-ui/tokens.json`: every color, elevation and metric token in the Design Tokens Community Group format, with light and dark values, for design tools and code generators. `foundation.css` is generated from it. ([#482](https://github.com/botiverse/raft-design/pull/482))
-- `codemods/token-names.mjs` ships in the package. `node node_modules/raft-ui/codemods/token-names.mjs <src>` rewrites Tailwind utilities and `var(--…)` references from the former token names to the current ones (see Changed). ([#476](https://github.com/botiverse/raft-design/pull/476))
+- `@botiverse/raft-ui/tokens.json`: every color, elevation and metric token in the Design Tokens Community Group format, with light and dark values, for design tools and code generators. `foundation.css` is generated from it. ([#482](https://github.com/botiverse/raft-design/pull/482))
+- `codemods/token-names.mjs` ships in the package. `node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <src>` rewrites Tailwind utilities and `var(--…)` references from the former token names to the current ones (see Changed). ([#476](https://github.com/botiverse/raft-design/pull/476))
 - `foreground-on-hud-muted` (`text-foreground-on-hud-muted`): secondary text on a tooltip or toast. ([#496](https://github.com/botiverse/raft-design/pull/496))
-- Shadow utilities `shadow-float`, `shadow-sticker` and `shadow-focus`, registered with tailwind-merge in `raft-ui/cn`. ([#476](https://github.com/botiverse/raft-design/pull/476))
+- Shadow utilities `shadow-float`, `shadow-sticker` and `shadow-focus`, registered with tailwind-merge in `@botiverse/raft-ui/cn`. ([#476](https://github.com/botiverse/raft-design/pull/476))
 
 ### Changed
 

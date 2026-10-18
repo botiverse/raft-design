@@ -232,7 +232,7 @@ for (const absolute of componentDocs) {
   if (data.status === "stable" && !stable)
     fail(file, "status is stable, but raft-ui does not export it");
   if (data.status === "experimental" && !experimental)
-    fail(file, "status is experimental, but raft-ui/wip does not export it");
+    fail(file, "status is experimental, but @botiverse/raft-ui/wip does not export it");
   if (data.status === "deprecated" && !deprecatedIn(dir))
     fail(file, "status is deprecated, but the code has no @deprecated");
   if (data.status !== "deprecated" && deprecatedIn(dir) && stable)

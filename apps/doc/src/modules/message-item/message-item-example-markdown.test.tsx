@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vite-plus/test";
-import { ThemeProvider } from "raft-ui";
+import { ThemeProvider } from "@botiverse/raft-ui";
 
 import { MessageItemExampleMarkdown } from "./message-item-example-markdown.tsx";
 

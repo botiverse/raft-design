@@ -1,7 +1,7 @@
 [
   {
     "name": "Table",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Native `<table>` semantics with the kit's chrome: render real table/thead/tbody/tr/th/td elements (useRender passthrough), so `scope`, screen-reader navigation and keyboard behaviour stay intact. A caller that wants a visually header-less table keeps its `<TableHead>` and hides it with `sr-only`; omitting the header would drop the semantics.",
     "native": true,
     "props": [
@@ -16,7 +16,7 @@
   },
   {
     "name": "TableBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -30,7 +30,7 @@
   },
   {
     "name": "TableCaption",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The table's accessible name. Render it visually or hide it with `sr-only`; a table without a caption should carry `aria-label` instead.",
     "native": true,
     "props": [
@@ -45,7 +45,7 @@
   },
   {
     "name": "TableCell",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -59,7 +59,7 @@
   },
   {
     "name": "TableColgroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Column-width declarations: pair with `<Table className=\"table-fixed\">`.",
     "native": true,
     "props": [
@@ -74,7 +74,7 @@
   },
   {
     "name": "TableColumn",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -88,7 +88,7 @@
   },
   {
     "name": "TableHead",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -102,7 +102,7 @@
   },
   {
     "name": "TableHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -116,7 +116,7 @@
   },
   {
     "name": "TableRow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

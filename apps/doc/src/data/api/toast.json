@@ -1,7 +1,7 @@
 [
   {
     "name": "ToastAction",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -37,13 +37,13 @@
   },
   {
     "name": "ToastActions",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ToastArrow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -57,13 +57,13 @@
   },
   {
     "name": "ToastBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ToastClose",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -85,7 +85,7 @@
   },
   {
     "name": "ToastContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The content layout (self-start, title-only sizing, body centering) needs to know which parts actually rendered. That used to be an ancestor `:has()` styling descendants — a whole-page recalculation trap in Chromium (#386). It measures the rendered DOM after layout instead, so wrapped parts and parts that render nothing behave exactly like the old selectors did.",
     "native": true,
     "props": [
@@ -100,7 +100,7 @@
   },
   {
     "name": "ToastDescription",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -114,13 +114,13 @@
   },
   {
     "name": "ToastIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ToastPortal",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -141,7 +141,7 @@
   },
   {
     "name": "ToastPositioner",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -256,7 +256,7 @@
   },
   {
     "name": "ToastProgress",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -270,7 +270,7 @@
   },
   {
     "name": "ToastProvider",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -340,7 +340,7 @@
   },
   {
     "name": "ToastRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -376,7 +376,7 @@
   },
   {
     "name": "ToastTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -390,7 +390,7 @@
   },
   {
     "name": "ToastViewport",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

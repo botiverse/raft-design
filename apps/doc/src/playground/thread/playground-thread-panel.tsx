@@ -22,8 +22,8 @@ import {
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
   MessageMultiSelect,
-} from "raft-ui";
-import { MessageList, MessageListNotice } from "raft-ui";
+} from "@botiverse/raft-ui";
+import { MessageList, MessageListNotice } from "@botiverse/raft-ui";
 import { MessageMultiSelectToolbarComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
 import { PlaygroundThreadComposer } from "../composer/playground-composer.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";

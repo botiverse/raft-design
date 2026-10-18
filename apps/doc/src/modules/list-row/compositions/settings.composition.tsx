@@ -10,7 +10,7 @@ import {
   ListRowTitle,
   ListRowValue,
   Switch,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 const APPEARANCES = ["System", "Light", "Dark"] as const;
 

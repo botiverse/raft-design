@@ -1,8 +1,15 @@
-import { DialogBody, DialogClose, DialogContent, DialogHeader, DialogTitle, Button } from "raft-ui";
+import {
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  Button,
+} from "@botiverse/raft-ui";
 import { Download } from "lucide-react";
 
 // @docs-source-strip-start
-import { Dialog } from "raft-ui";
+import { Dialog } from "@botiverse/raft-ui";
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end

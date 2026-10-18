@@ -8,7 +8,7 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
   SidebarItem as SidebarItemRoot,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { DEFAULT_CHANNEL_ID } from "../mock/index.ts";
 import type { PlaygroundChannelId, PlaygroundRoomChannelRecord } from "../mock/index.ts";

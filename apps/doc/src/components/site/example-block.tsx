@@ -12,8 +12,8 @@ import {
   SegmentedControlItem,
   SegmentedControlLabel,
   Skeleton,
-} from "raft-ui";
-import { cn } from "raft-ui/cn";
+} from "@botiverse/raft-ui";
+import { cn } from "@botiverse/raft-ui/cn";
 
 import { PreviewThemeScope, useResolvedPreviewMode } from "#/components/preview-theme.tsx";
 import { CodeCopyAction } from "#/lib/code-block/code-copy-action.tsx";

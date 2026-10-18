@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Link } from "@tanstack/react-router";
-import { MarkdownHeading } from "raft-ui";
+import { MarkdownHeading } from "@botiverse/raft-ui";
 
 import { componentGroup, componentPages } from "#/lib/content/nav.ts";
 import { SECTIONS } from "#/lib/content/pages.ts";

@@ -12,7 +12,7 @@ import {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 const DEMO_IMAGE_SRC =
   "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1440&q=80";

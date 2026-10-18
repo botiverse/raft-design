@@ -10,8 +10,8 @@ import {
   ComposerSubmit,
   ComposerToolbarLabel,
   useComposerSuggestions,
-} from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
+} from "@botiverse/raft-ui";
+import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
 
 import {
   detectSuggestion,

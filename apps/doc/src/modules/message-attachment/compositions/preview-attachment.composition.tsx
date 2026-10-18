@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { Eye } from "lucide-react";
-import { Spinner } from "raft-ui";
+import { Spinner } from "@botiverse/raft-ui";
 import {
   MessageAttachmentAction,
   MessageAttachmentCard,
@@ -9,7 +9,7 @@ import {
   MessageAttachmentMetaEnd,
   MessageAttachmentMetaStart,
   MessageAttachmentTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function MessageAttachmentPreviewUsageComposition() {
   const [opening, setOpening] = useState(false);

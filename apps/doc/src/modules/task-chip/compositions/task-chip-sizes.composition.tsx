@@ -1,4 +1,4 @@
-import { Badge, TaskChip, TaskInProgressIcon } from "raft-ui";
+import { Badge, TaskChip, TaskInProgressIcon } from "@botiverse/raft-ui";
 
 export function TaskChipSizesComposition() {
   return (

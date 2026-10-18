@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "@tanstack/react-router";
-import { AppShellMainSlot, AppShellRoot } from "raft-ui";
+import { AppShellMainSlot, AppShellRoot } from "@botiverse/raft-ui";
 
 import { PlaygroundRail } from "../rail/playground-rail.tsx";
 

@@ -9,7 +9,7 @@ import {
   CardTrailing,
   Switch,
   Text,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function CardNotificationPermissionsComposition() {
   const [enabled, setEnabled] = useState(true);

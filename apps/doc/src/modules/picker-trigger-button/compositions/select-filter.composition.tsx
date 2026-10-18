@@ -10,7 +10,7 @@ import {
   SelectList,
   SelectTrigger,
   SelectValue,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 const SORT_OPTIONS = [
   { value: "relevance", label: "Relevance" },

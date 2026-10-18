@@ -11,11 +11,11 @@ import {
   Input,
   Separator,
   Textarea,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { Archive, Lock, Trash2 } from "lucide-react";
 
 // @docs-source-strip-start
-import { Dialog } from "raft-ui";
+import { Dialog } from "@botiverse/raft-ui";
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end

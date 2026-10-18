@@ -47,7 +47,7 @@ import {
   SidebarItemIcon,
   SidebarItemMeta,
   SidebarItemTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import type {
   ActivityCompositionChannelKind,
   ActivityCompositionItem,

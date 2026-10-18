@@ -14,7 +14,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   MessageItemExampleMarkdownClosing,
   MessageItemExampleMarkdownFollowUp,

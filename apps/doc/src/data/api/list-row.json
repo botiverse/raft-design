@@ -1,7 +1,7 @@
 [
   {
     "name": "ListRow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "One row of a list. It renders a `button` by default; pass `render={<a />}` (or a router link) for a row that goes somewhere. Children are the leading block (an avatar, a channel or icon tile, `ListRowIcon`), `ListRowBody`, and anything trailing (a value, a badge, a switch, `ListRowChevron`).",
     "native": true,
     "props": [
@@ -47,7 +47,7 @@
   },
   {
     "name": "ListRowBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The text column: the title and the preview, or a `ListRowTop` and a `ListRowBottom`.",
     "native": true,
     "props": [
@@ -62,7 +62,7 @@
   },
   {
     "name": "ListRowBottom",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The second line: the preview, then at most one badge.",
     "native": true,
     "props": [
@@ -77,7 +77,7 @@
   },
   {
     "name": "ListRowChevron",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The ink-3 arrow of a row that opens another page.",
     "native": true,
     "props": [
@@ -92,7 +92,7 @@
   },
   {
     "name": "ListRowDescription",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The preview (who spoke first: \"Wug: …\") or a setting's consequence, 14/20 ink-2.",
     "native": true,
     "props": [
@@ -115,7 +115,7 @@
   },
   {
     "name": "ListRowGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "An inset group: rows wrapped in a card (surface, hairline, radius-lg).",
     "native": true,
     "props": [
@@ -130,7 +130,7 @@
   },
   {
     "name": "ListRowIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "A 20px leading icon in ink-3: entry rows and settings.",
     "native": true,
     "props": [
@@ -145,7 +145,7 @@
   },
   {
     "name": "ListRowMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Machine-written facts in Space Mono 12, ink-3: the time, a gray count.",
     "native": true,
     "props": [
@@ -160,7 +160,7 @@
   },
   {
     "name": "ListRowTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "16/24 600 on one line; the row's tone sets its weight and ink.",
     "native": true,
     "props": [
@@ -175,7 +175,7 @@
   },
   {
     "name": "ListRowTop",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The first line: the title, then the time.",
     "native": true,
     "props": [
@@ -190,7 +190,7 @@
   },
   {
     "name": "ListRowValue",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "A setting's current value on the right, 15/20 ink-3, at most 45% of the row.",
     "native": true,
     "props": [

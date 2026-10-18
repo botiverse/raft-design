@@ -14,7 +14,7 @@ import {
   Tabs,
   TabsList,
   TabsTab,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { TasksPanelComposition } from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
 import type { TasksPanelCompositionProps } from "#/modules/tasks/compositions/tasks-panel.composition.tsx";

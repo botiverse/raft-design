@@ -11,10 +11,10 @@ import {
   AnnouncementDialogSecondaryAction,
   AnnouncementDialogText,
   AnnouncementDialogTitle,
-} from "raft-ui/wip";
+} from "@botiverse/raft-ui/wip";
 import { useCallback, useState } from "react";
-import { cn } from "raft-ui/cn";
-import { Button } from "raft-ui";
+import { cn } from "@botiverse/raft-ui/cn";
+import { Button } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";

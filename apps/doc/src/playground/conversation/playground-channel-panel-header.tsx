@@ -26,7 +26,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import type { PlaygroundRoomChannel } from "../mock/index.ts";
 import { PlaygroundConversationBackButton } from "../navigation/conversation-back-button.tsx";

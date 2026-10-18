@@ -1,7 +1,7 @@
 [
   {
     "name": "ConversationPanelBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -15,7 +15,7 @@
   },
   {
     "name": "ConversationPanelContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Content region below the conversation header: one container hosting tabs, body, and footer.",
     "native": true,
     "props": [
@@ -30,7 +30,7 @@
   },
   {
     "name": "ConversationPanelEmptyState",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -44,7 +44,7 @@
   },
   {
     "name": "ConversationPanelEmptyStateBrand",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -58,7 +58,7 @@
   },
   {
     "name": "ConversationPanelEmptyStateBrandMark",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -72,7 +72,7 @@
   },
   {
     "name": "ConversationPanelFooter",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -86,7 +86,7 @@
   },
   {
     "name": "ConversationPanelRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -107,7 +107,7 @@
   },
   {
     "name": "ConversationPanelTabs",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

@@ -1,10 +1,10 @@
-import { Spinner } from "raft-ui";
+import { Spinner } from "@botiverse/raft-ui";
 import {
   MessageImageGallery,
   MessageImageGalleryItem,
   MessageImageGalleryMedia,
   MessageImageGalleryOverlay,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
 const PENDING_ITEM_STYLE = { width: "min(288px, 100%)", aspectRatio: "4 / 3" };

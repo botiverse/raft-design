@@ -9,7 +9,7 @@ import {
   PreviewCardTitle,
   PreviewCardTrigger,
   Status,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 type PreviewCardMentionCompositionProps = {
   defaultOpen?: boolean;

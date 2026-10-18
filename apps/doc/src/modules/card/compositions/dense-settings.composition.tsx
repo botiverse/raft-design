@@ -8,7 +8,7 @@ import {
   Separator,
   Switch,
   Text,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function CardDenseSettingsComposition() {
   const [externalLinks, setExternalLinks] = useState(true);

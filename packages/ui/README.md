@@ -5,12 +5,12 @@ Raft Design System foundations for plain HTML, plus React components built with 
 ## React
 
 ```tsx
-import { Button } from "raft-ui";
+import { Button } from "@botiverse/raft-ui";
 ```
 
 ```css
 @import "tailwindcss";
-@import "raft-ui/styles.css";
+@import "@botiverse/raft-ui/styles.css";
 ```
 
 ## Plain HTML
@@ -36,7 +36,7 @@ Put `class="light"` or `class="dark"` on the root to pick a mode; omit it to fol
 
 ## Tokens
 
-`raft-ui/tokens.json` holds every token in the [Design Tokens Community Group format](https://www.designtokens.org/), with light and dark values, for design tools and code generators. `foundation.css` is generated from it.
+`@botiverse/raft-ui/tokens.json` holds every token in the [Design Tokens Community Group format](https://www.designtokens.org/), with light and dark values, for design tools and code generators. `foundation.css` is generated from it.
 
 ## Agent Skills
 
@@ -52,7 +52,7 @@ Allow raft-ui skills in the consuming project's `package.json`:
 ```json
 {
   "intent": {
-    "skills": ["raft-ui"]
+    "skills": ["@botiverse/raft-ui"]
   }
 }
 ```
@@ -61,8 +61,8 @@ Install the project guidance, then inspect or load either skill:
 
 ```bash
 pnpm dlx @tanstack/intent@latest install --map
-pnpm dlx @tanstack/intent@latest load raft-ui#raft-ui-guide
-pnpm dlx @tanstack/intent@latest load raft-ui#raft-ui-critique
+pnpm dlx @tanstack/intent@latest load @botiverse/raft-ui#raft-ui-guide
+pnpm dlx @tanstack/intent@latest load @botiverse/raft-ui#raft-ui-critique
 ```
 
 ### Other installers

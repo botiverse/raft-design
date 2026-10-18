@@ -7,11 +7,11 @@
     "paths": {
       "#/*": ["./src/*"],
       "@/*": ["./src/*"],
-      "raft-ui": ["../../packages/ui/src/index.ts"],
-      "raft-ui/cn": ["../../packages/ui/src/lib/cn.ts"],
-      "raft-ui/fonts.css": ["../../packages/ui/src/fonts.css"],
-      "raft-ui/styles.css": ["../../packages/ui/src/styles.css"],
-      "raft-ui/wip": ["../../packages/ui/src/wip.ts"]
+      "@botiverse/raft-ui": ["../../packages/ui/src/index.ts"],
+      "@botiverse/raft-ui/cn": ["../../packages/ui/src/lib/cn.ts"],
+      "@botiverse/raft-ui/fonts.css": ["../../packages/ui/src/fonts.css"],
+      "@botiverse/raft-ui/styles.css": ["../../packages/ui/src/styles.css"],
+      "@botiverse/raft-ui/wip": ["../../packages/ui/src/wip.ts"]
     },
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vite-plus/client"],

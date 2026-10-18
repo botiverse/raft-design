@@ -18,8 +18,8 @@ const appDir = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const uiDir = path.resolve(appDir, "../../packages/ui");
 const outDir = path.join(appDir, "src/data/api");
 const ENTRIES = [
-  ["raft-ui", path.join(uiDir, "src/index.ts")],
-  ["raft-ui/wip", path.join(uiDir, "src/wip.ts")],
+  ["@botiverse/raft-ui", path.join(uiDir, "src/index.ts")],
+  ["@botiverse/raft-ui/wip", path.join(uiDir, "src/wip.ts")],
 ];
 /** Props every component has, documented once in the foundations, not per component. */
 const SKIPPED_PROPS = new Set(["className", "style", "ref", "key"]);
@@ -222,7 +222,7 @@ export function buildApi() {
       const components = byFolder[folder];
       const status = components.every((component) => component.deprecated)
         ? "deprecated"
-        : components.every((component) => component.entry === "raft-ui/wip")
+        : components.every((component) => component.entry === "@botiverse/raft-ui/wip")
           ? "experimental"
           : "stable";
       const description = components.find((component) => component.description)?.description;

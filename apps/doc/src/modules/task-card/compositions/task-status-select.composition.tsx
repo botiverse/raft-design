@@ -11,7 +11,7 @@ import {
   SelectList,
   SelectTrigger,
   TaskStatusIcon,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { TASK_STATUSES } from "../task-card.fixtures";
 import type { TaskStatus } from "../task-card.fixtures";

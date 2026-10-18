@@ -11,7 +11,7 @@ import {
   LightboxTitle,
   LightboxToolbar,
   LightboxTrigger,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 function AttachmentPreviewTypeLabel() {
   return <Badge variant="primary">HTML preview</Badge>;

@@ -7,7 +7,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function PlaygroundSidebarTrigger() {
   return (

@@ -29,7 +29,7 @@ import {
   SidebarItemTitle,
   Status,
   Text,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function MemberDetailComposition() {
   return (

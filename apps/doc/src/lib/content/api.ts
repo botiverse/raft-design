@@ -18,7 +18,7 @@ export type ApiProp = {
 
 export type ApiComponent = {
   name: string;
-  entry: "raft-ui" | "raft-ui/wip";
+  entry: "@botiverse/raft-ui" | "@botiverse/raft-ui/wip";
   description?: string;
   deprecated?: string | true;
   /** Also takes its element's own attributes. */

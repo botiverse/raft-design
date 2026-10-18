@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import type { ThemeMode } from "raft-ui";
+import type { ThemeMode } from "@botiverse/raft-ui";
 
 export const PREVIEW_THEME_COOKIE = "raft-docs-preview-theme";
 

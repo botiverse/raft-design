@@ -18,8 +18,8 @@ import {
   ToastTitle,
   ToastViewport,
   useToastManager,
-} from "raft-ui";
-import type { ToastObject, ToastRootProps } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { ToastObject, ToastRootProps } from "@botiverse/raft-ui";
 
 const TOP_SWIPE_DIRECTION: ToastRootProps["swipeDirection"] = ["up", "right"];
 

@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import { ArrowDownToLine, Eye, MessageSquare } from "lucide-react";
-import { Spinner } from "raft-ui";
+import { Spinner } from "@botiverse/raft-ui";
 import {
   MessageAttachmentAction,
   MessageAttachmentCommentSummary,
@@ -15,7 +15,7 @@ import {
   MessageAttachmentMetaStart,
   MessageAttachmentSummary,
   MessageAttachmentTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   MESSAGE_FIXTURE_AUDIO_SRC,
   downloadMessageFixture,

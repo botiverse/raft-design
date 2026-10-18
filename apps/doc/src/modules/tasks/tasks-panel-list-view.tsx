@@ -11,7 +11,7 @@ import {
   TaskSectionItems,
   TaskSectionPanel,
   TaskSectionTrigger,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { ChevronDown } from "lucide-react";
 
 import { TASK_STATUSES } from "#/modules/task-card/task-card.fixtures.ts";

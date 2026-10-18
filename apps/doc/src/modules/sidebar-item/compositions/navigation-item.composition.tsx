@@ -1,7 +1,12 @@
 import { useCallback, useState } from "react";
 import type { MouseEvent } from "react";
 import { Bookmark, Inbox, Star } from "lucide-react";
-import { SidebarItem, SidebarItemIcon, SidebarItemMeta, SidebarItemTitle } from "raft-ui";
+import {
+  SidebarItem,
+  SidebarItemIcon,
+  SidebarItemMeta,
+  SidebarItemTitle,
+} from "@botiverse/raft-ui";
 
 export function SidebarItemNavigationComposition() {
   const [active, setActive] = useState("saved");

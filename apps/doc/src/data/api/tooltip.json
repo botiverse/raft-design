@@ -1,7 +1,7 @@
 [
   {
     "name": "Tooltip",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -96,7 +96,7 @@
   },
   {
     "name": "TooltipContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -217,7 +217,7 @@
   },
   {
     "name": "TooltipPortal",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -246,7 +246,7 @@
   },
   {
     "name": "TooltipProvider",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -282,7 +282,7 @@
   },
   {
     "name": "TooltipTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

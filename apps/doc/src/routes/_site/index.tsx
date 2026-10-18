@@ -8,7 +8,7 @@ import {
   CopyableCodeRoot,
   InlineCode,
   MarkdownHeading,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { DocMarkdown } from "#/components/site/doc-markdown.tsx";
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
@@ -96,7 +96,7 @@ function Home() {
             <p className="max-w-xl text-body text-foreground-muted">{README.frontMatter.summary}</p>
           ) : null}
           <CopyableCodeRoot size="sm" className="self-start">
-            <CopyableCode>pnpm add raft-ui</CopyableCode>
+            <CopyableCode>pnpm add @botiverse/raft-ui</CopyableCode>
             <CopyableCodeAction aria-label="Copy install command" />
           </CopyableCodeRoot>
           <div className="flex flex-wrap gap-2">

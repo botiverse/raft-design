@@ -10,8 +10,8 @@ import {
   PanelSection,
   PanelTitle,
   Text,
-} from "raft-ui";
-import type { PanelEdge } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { PanelEdge } from "@botiverse/raft-ui";
 
 export type PanelCompositionProps = {
   edge?: PanelEdge;

@@ -1,7 +1,7 @@
 [
   {
     "name": "Combobox",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -287,7 +287,7 @@
   },
   {
     "name": "ComboboxChip",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -301,7 +301,7 @@
   },
   {
     "name": "ComboboxChipRemove",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -323,7 +323,7 @@
   },
   {
     "name": "ComboboxChips",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -337,7 +337,7 @@
   },
   {
     "name": "ComboboxClear",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -375,7 +375,7 @@
   },
   {
     "name": "ComboboxCollection",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -388,7 +388,7 @@
   },
   {
     "name": "ComboboxControl",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -402,7 +402,7 @@
   },
   {
     "name": "ComboboxContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -532,7 +532,7 @@
   },
   {
     "name": "ComboboxEmpty",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -546,7 +546,7 @@
   },
   {
     "name": "ComboboxGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -567,7 +567,7 @@
   },
   {
     "name": "ComboboxGroupLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -581,13 +581,13 @@
   },
   {
     "name": "ComboboxHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ComboboxInput",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -615,7 +615,7 @@
   },
   {
     "name": "ComboboxInputGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -629,7 +629,7 @@
   },
   {
     "name": "ComboboxItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -687,7 +687,7 @@
   },
   {
     "name": "ComboboxItemIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -715,7 +715,7 @@
   },
   {
     "name": "ComboboxLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -729,7 +729,7 @@
   },
   {
     "name": "ComboboxList",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -749,13 +749,13 @@
   },
   {
     "name": "ComboboxPopup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ComboboxPortal",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -784,7 +784,7 @@
   },
   {
     "name": "ComboboxRow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -798,13 +798,13 @@
   },
   {
     "name": "ComboboxSeparator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ComboboxTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -834,19 +834,19 @@
   },
   {
     "name": "ComboboxTriggerCount",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ComboboxTriggerIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ComboboxValue",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {

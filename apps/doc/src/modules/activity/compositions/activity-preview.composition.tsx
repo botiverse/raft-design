@@ -26,7 +26,7 @@ import {
   InboxItemTrailing,
   PanelAction,
   PanelToggleAction,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { useCallback, useState } from "react";
 
 import { ACTIVITY_COMPOSITION_ITEMS } from "../activity.fixtures.ts";

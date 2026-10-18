@@ -13,7 +13,7 @@ import {
   MessageItemReadReceipt,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function MessageReadReceiptComposition() {
   return (

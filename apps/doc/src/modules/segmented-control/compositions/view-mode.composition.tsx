@@ -1,4 +1,4 @@
-import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "raft-ui";
+import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "@botiverse/raft-ui";
 import { List, Columns3 } from "lucide-react";
 
 type SegmentedControlViewModeCompositionProps = {

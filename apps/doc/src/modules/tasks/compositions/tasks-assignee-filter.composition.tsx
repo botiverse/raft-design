@@ -20,7 +20,7 @@ import {
   ComboboxTriggerCount,
   ComboboxTriggerIndicator,
   PickerTriggerButton,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { TASKS_IDENTITY_FIXTURES } from "../tasks-identity-filter.fixtures.ts";
 import type { TasksIdentity } from "../tasks-identity-filter.fixtures.ts";

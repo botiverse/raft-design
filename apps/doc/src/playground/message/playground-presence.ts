@@ -1,4 +1,4 @@
-import type { StatusProps } from "raft-ui";
+import type { StatusProps } from "@botiverse/raft-ui";
 
 import type { PlaygroundPresence } from "../mock/index.ts";
 

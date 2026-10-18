@@ -19,7 +19,7 @@ import {
   SortableComposerAttachment,
   SortableComposerAttachments,
   SortableComposerAttachmentsScroll,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { useCallback, useMemo, useState } from "react";
 import type { PointerEvent } from "react";
 

@@ -1,4 +1,8 @@
-import { MessageImageGallery, MessageImageGalleryItem, MessageImageGalleryMedia } from "raft-ui";
+import {
+  MessageImageGallery,
+  MessageImageGalleryItem,
+  MessageImageGalleryMedia,
+} from "@botiverse/raft-ui";
 import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageImageGalleryTripleComposition() {

@@ -1,7 +1,7 @@
 [
   {
     "name": "CodeBlock",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Framed code surface. Compose a header and a body inside it.",
     "native": true,
     "props": [
@@ -16,7 +16,7 @@
   },
   {
     "name": "CodeBlockAction",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Styled action shell. The consumer owns the icon and the behavior.",
     "native": true,
     "props": [
@@ -31,7 +31,7 @@
   },
   {
     "name": "CodeBlockActions",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Trailing action region. Placed inside the body it floats over the code panel.",
     "native": true,
     "props": [
@@ -46,7 +46,7 @@
   },
   {
     "name": "CodeBlockBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Inner code panel. Render the complete pre and code as children.",
     "native": true,
     "props": [
@@ -61,7 +61,7 @@
   },
   {
     "name": "CodeBlockHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -75,7 +75,7 @@
   },
   {
     "name": "CodeBlockTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

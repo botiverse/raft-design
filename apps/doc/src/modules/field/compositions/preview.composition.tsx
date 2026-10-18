@@ -1,4 +1,4 @@
-import { Field, FieldDescription, FieldLabel, Input } from "raft-ui";
+import { Field, FieldDescription, FieldLabel, Input } from "@botiverse/raft-ui";
 
 export function FieldPreviewContent() {
   return (

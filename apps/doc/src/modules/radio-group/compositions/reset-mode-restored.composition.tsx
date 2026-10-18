@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { RadioGroup, RadioGroupItem } from "raft-ui";
+import { RadioGroup, RadioGroupItem } from "@botiverse/raft-ui";
 import { tv } from "tailwind-variants/lite";
 
 const RESET_MODE_OPTIONS = [

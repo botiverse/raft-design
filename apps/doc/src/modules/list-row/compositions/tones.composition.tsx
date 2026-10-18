@@ -9,7 +9,7 @@ import {
   ListRowMeta,
   ListRowTitle,
   ListRowTop,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function ListRowTonesComposition() {
   return (

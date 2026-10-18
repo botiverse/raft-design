@@ -1,4 +1,4 @@
-import { Status } from "raft-ui";
+import { Status } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";

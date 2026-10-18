@@ -6,11 +6,11 @@ export default defineConfig({
   resolve: {
     alias: [
       {
-        find: "raft-ui/wip",
+        find: "@botiverse/raft-ui/wip",
         replacement: new URL("../../packages/ui/src/wip.ts", import.meta.url).pathname,
       },
       {
-        find: "raft-ui",
+        find: "@botiverse/raft-ui",
         replacement: new URL("../../packages/ui/src/index.ts", import.meta.url).pathname,
       },
     ],

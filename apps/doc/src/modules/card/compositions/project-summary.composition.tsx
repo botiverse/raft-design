@@ -12,8 +12,8 @@ import {
   Separator,
   Status,
   Text,
-} from "raft-ui";
-import type { CardProps } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { CardProps } from "@botiverse/raft-ui";
 
 type CardProjectSummaryCompositionProps = {
   variant?: CardProps["variant"];

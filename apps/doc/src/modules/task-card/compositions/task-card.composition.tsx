@@ -14,7 +14,7 @@ import {
   TaskCardStatus,
   TaskCardTitle,
   TaskStatusIcon,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { getTaskStatusLabel } from "../task-card.fixtures";
 import type { TaskFixture, TaskStatus } from "../task-card.fixtures";

@@ -1,7 +1,7 @@
 [
   {
     "name": "ToggleGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -67,7 +67,7 @@
   },
   {
     "name": "ToggleGroupItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -111,7 +111,7 @@
   },
   {
     "name": "ToggleGroupLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   }

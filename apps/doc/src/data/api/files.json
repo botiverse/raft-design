@@ -1,7 +1,7 @@
 [
   {
     "name": "FilesPanel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -15,7 +15,7 @@
   },
   {
     "name": "FilesViewport",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -29,7 +29,7 @@
   },
   {
     "name": "FilesList",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -43,7 +43,7 @@
   },
   {
     "name": "FileRow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -57,7 +57,7 @@
   },
   {
     "name": "FileRowOpen",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -71,7 +71,7 @@
   },
   {
     "name": "FileThumbnail",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -85,7 +85,7 @@
   },
   {
     "name": "FileImage",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -106,7 +106,7 @@
   },
   {
     "name": "FileContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -120,7 +120,7 @@
   },
   {
     "name": "FileName",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -134,7 +134,7 @@
   },
   {
     "name": "FileMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -148,7 +148,7 @@
   },
   {
     "name": "FileMetaItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -162,7 +162,7 @@
   },
   {
     "name": "FileActions",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -176,7 +176,7 @@
   },
   {
     "name": "FileAction",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

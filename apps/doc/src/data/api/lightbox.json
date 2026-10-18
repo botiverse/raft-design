@@ -1,7 +1,7 @@
 [
   {
     "name": "Lightbox",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -80,7 +80,7 @@
   },
   {
     "name": "LightboxActions",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -94,7 +94,7 @@
   },
   {
     "name": "LightboxClose",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -116,7 +116,7 @@
   },
   {
     "name": "LightboxContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -146,7 +146,7 @@
   },
   {
     "name": "LightboxHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -160,7 +160,7 @@
   },
   {
     "name": "LightboxHeaderLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -174,7 +174,7 @@
   },
   {
     "name": "LightboxHeaderMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -188,7 +188,7 @@
   },
   {
     "name": "LightboxInfoActions",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -202,7 +202,7 @@
   },
   {
     "name": "LightboxInfoBar",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -216,7 +216,7 @@
   },
   {
     "name": "LightboxInfoDock",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -230,7 +230,7 @@
   },
   {
     "name": "LightboxInfoTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -244,7 +244,7 @@
   },
   {
     "name": "LightboxMedia",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -258,7 +258,7 @@
   },
   {
     "name": "LightboxNavigationButton",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -306,7 +306,7 @@
   },
   {
     "name": "LightboxPortal",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -335,7 +335,7 @@
   },
   {
     "name": "LightboxStage",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -349,7 +349,7 @@
   },
   {
     "name": "LightboxThumbnail",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -370,7 +370,7 @@
   },
   {
     "name": "LightboxThumbnailStrip",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -384,7 +384,7 @@
   },
   {
     "name": "LightboxTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -398,7 +398,7 @@
   },
   {
     "name": "LightboxToolbar",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -412,7 +412,7 @@
   },
   {
     "name": "LightboxTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

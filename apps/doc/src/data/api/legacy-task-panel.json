@@ -1,7 +1,7 @@
 [
   {
     "name": "LegacyTaskPanelActions",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -16,7 +16,7 @@
   },
   {
     "name": "LegacyTaskPanelBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -31,7 +31,7 @@
   },
   {
     "name": "LegacyTaskPanelField",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -46,7 +46,7 @@
   },
   {
     "name": "LegacyTaskPanelFieldLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -61,7 +61,7 @@
   },
   {
     "name": "LegacyTaskPanelFieldText",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -76,7 +76,7 @@
   },
   {
     "name": "LegacyTaskPanelFieldTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -91,7 +91,7 @@
   },
   {
     "name": "LegacyTaskPanelHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -106,7 +106,7 @@
   },
   {
     "name": "LegacyTaskPanelIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -121,7 +121,7 @@
   },
   {
     "name": "LegacyTaskPanelMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -136,7 +136,7 @@
   },
   {
     "name": "LegacyTaskPanelMetaLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -151,7 +151,7 @@
   },
   {
     "name": "LegacyTaskPanelMetaRow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -166,7 +166,7 @@
   },
   {
     "name": "LegacyTaskPanelMetaValue",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -181,7 +181,7 @@
   },
   {
     "name": "LegacyTaskPanelRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -204,7 +204,7 @@
   },
   {
     "name": "LegacyTaskPanelStatus",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -219,7 +219,7 @@
   },
   {
     "name": "LegacyTaskPanelSection",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -234,7 +234,7 @@
   },
   {
     "name": "LegacyTaskPanelTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -249,7 +249,7 @@
   },
   {
     "name": "LegacyTaskPanelTitleMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "No consumer uses it; compose read-only task details from Dialog and DescriptionList. Removed in raft-ui 1.0.",
     "native": true,
     "props": [

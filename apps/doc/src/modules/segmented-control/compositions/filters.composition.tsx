@@ -3,7 +3,7 @@ import {
   SegmentedControlCount,
   SegmentedControlItem,
   SegmentedControlLabel,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { AtSign, Inbox } from "lucide-react";
 
 type SegmentedControlFiltersCompositionProps = {

@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { createToastManager, ToastProvider } from "raft-ui";
+import { createToastManager, ToastProvider } from "@botiverse/raft-ui";
 
 import { MemberDetailsDrawer } from "./workspace-settings/member-details-drawer.tsx";
 import { RemoveMemberDrawer } from "./workspace-settings/remove-member-drawer.tsx";

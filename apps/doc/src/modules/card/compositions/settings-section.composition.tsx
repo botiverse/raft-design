@@ -17,7 +17,7 @@ import {
   Input,
   Separator,
   Text,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function CardSettingsSectionComposition() {
   const [displayName, setDisplayName] = useState("Example User");

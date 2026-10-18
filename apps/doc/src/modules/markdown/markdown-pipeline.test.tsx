@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vite-plus/test";
 import type { Components } from "react-markdown";
-import { ThemeProvider } from "raft-ui";
+import { ThemeProvider } from "@botiverse/raft-ui";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 
 function renderMarkdown(source: string, components?: Components) {

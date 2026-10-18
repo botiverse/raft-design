@@ -1,4 +1,4 @@
-import { Skeleton } from "raft-ui";
+import { Skeleton } from "@botiverse/raft-ui";
 
 export function SkeletonPreviewContent() {
   return (

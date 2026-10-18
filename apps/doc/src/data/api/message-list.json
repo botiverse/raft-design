@@ -1,7 +1,7 @@
 [
   {
     "name": "MessageList",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -21,7 +21,7 @@
   },
   {
     "name": "MessageListDateDivider",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -35,7 +35,7 @@
   },
   {
     "name": "MessageListHistoryLimited",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -49,7 +49,7 @@
   },
   {
     "name": "MessageListNotice",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

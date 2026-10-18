@@ -166,8 +166,8 @@ Native elements remain appropriate when their semantics and inherited styling ar
 When you build your own component on top of a raft-ui one, the wrapper must stay transparent:
 
 ```tsx
-import { Button, type ButtonProps } from "raft-ui";
-import { cn } from "raft-ui/cn";
+import { Button, type ButtonProps } from "@botiverse/raft-ui";
+import { cn } from "@botiverse/raft-ui/cn";
 
 export function DangerZoneButton({ className, ...props }: Omit<ButtonProps, "variant">) {
   return <Button {...props} variant="danger-outline" className={cn("w-full", className)} />;

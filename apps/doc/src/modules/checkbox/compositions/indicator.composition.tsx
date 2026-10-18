@@ -1,4 +1,4 @@
-import { CheckboxIndicator } from "raft-ui";
+import { CheckboxIndicator } from "@botiverse/raft-ui";
 
 export function CheckboxIndicatorContent() {
   return (

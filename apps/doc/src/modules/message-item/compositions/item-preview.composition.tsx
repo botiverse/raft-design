@@ -22,7 +22,7 @@ import {
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
   MessageReactionAddButton,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 
 import { MessageReactionComposition } from "./reaction.compositions.tsx";

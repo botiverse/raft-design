@@ -1,7 +1,7 @@
 [
   {
     "name": "MessageActionCard",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The card is a disclosure: open by default, and a consumer can fold a resolved or view-only card to its header with `defaultOpen={false}` (or control it with `open` / `onOpenChange`). The fold is offered by placing a MessageActionCardCollapseTrigger in the header; without one the card simply stays open.",
     "native": true,
     "props": [
@@ -37,7 +37,7 @@
   },
   {
     "name": "MessageActionCardActions",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -51,7 +51,7 @@
   },
   {
     "name": "MessageActionCardActionsNote",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -65,7 +65,7 @@
   },
   {
     "name": "MessageActionCardCollapseTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Folds the card to its header and back. Needs an accessible `aria-label`.",
     "native": true,
     "props": [
@@ -95,7 +95,7 @@
   },
   {
     "name": "MessageActionCardCompletion",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -109,7 +109,7 @@
   },
   {
     "name": "MessageActionCardContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -123,7 +123,7 @@
   },
   {
     "name": "MessageActionCardProperty",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -137,7 +137,7 @@
   },
   {
     "name": "MessageActionCardPropertyLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -151,7 +151,7 @@
   },
   {
     "name": "MessageActionCardProperties",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -165,7 +165,7 @@
   },
   {
     "name": "MessageActionCardPropertyValue",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -179,7 +179,7 @@
   },
   {
     "name": "MessageActionCardHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -193,7 +193,7 @@
   },
   {
     "name": "MessageActionCardHeaderDescription",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "A line under the title: what happened on a resolved card (\"Installed by Ada → Lens\"), or why you cannot act on a view-only one. Place it inside MessageActionCardHeaderTitle; it stays visible while the card is folded.",
     "native": true,
     "props": [
@@ -208,7 +208,7 @@
   },
   {
     "name": "MessageActionCardHeaderIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The card type's icon. Without children it shows a generic action icon.",
     "native": true,
     "props": [
@@ -223,7 +223,7 @@
   },
   {
     "name": "MessageActionCardHeaderStatus",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -237,7 +237,7 @@
   },
   {
     "name": "MessageActionCardHeaderTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -251,7 +251,7 @@
   },
   {
     "name": "MessageActionCardHint",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -265,7 +265,7 @@
   },
   {
     "name": "MessageActionCardHintLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -279,7 +279,7 @@
   },
   {
     "name": "MessageActionCardNotice",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Raft's standing note. Leads with an info icon unless `icon` replaces it.",
     "native": true,
     "props": [
@@ -301,7 +301,7 @@
   },
   {
     "name": "MessageActionCardScope",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -315,7 +315,7 @@
   },
   {
     "name": "MessageActionCardScopeDescription",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -329,7 +329,7 @@
   },
   {
     "name": "MessageActionCardScopeList",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -343,7 +343,7 @@
   },
   {
     "name": "MessageActionCardScopeListLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -357,7 +357,7 @@
   },
   {
     "name": "MessageActionCardScopeListViewport",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Scrolls a long permission list. It is a Tab stop only while it overflows, so keyboard users can scroll it; a short list adds no empty stop.",
     "native": true,
     "props": [
@@ -372,7 +372,7 @@
   },
   {
     "name": "MessageActionCardScopeName",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -386,7 +386,7 @@
   },
   {
     "name": "MessageActionCardStatus",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The card's state label in the header: plain text led by a square pixel in the variant's colour, so a column of \"Done\" cards does not shout.",
     "native": true,
     "props": [

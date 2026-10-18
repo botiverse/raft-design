@@ -17,7 +17,7 @@ import {
   ComboboxTriggerCount,
   ComboboxTriggerIndicator,
   PickerTriggerButton,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export type TasksChannelFilterOption = {
   id: string;

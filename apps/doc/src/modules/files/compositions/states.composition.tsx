@@ -6,7 +6,7 @@ import {
   EmptyStateTitle,
   FilesPanel,
   FilesViewport,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { Paperclip } from "lucide-react";
 
 // @docs-source-strip-start

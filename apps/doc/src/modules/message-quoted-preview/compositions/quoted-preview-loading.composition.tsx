@@ -8,7 +8,7 @@ import {
   MessageReferenceChip,
   MessageReferenceLabel,
   Skeleton,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -19,7 +19,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { Hash } from "lucide-react";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";

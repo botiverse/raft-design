@@ -7,7 +7,7 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function EmptyActivityComposition() {
   return (

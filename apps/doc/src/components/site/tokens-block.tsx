@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "raft-ui";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@botiverse/raft-ui";
 
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { tokenGroup } from "#/lib/tokens/tokens.ts";

@@ -12,7 +12,7 @@ import {
   MessageReferenceText,
   TaskChip,
   TaskInProgressIcon,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { GitBranch, Link as LinkIcon, MessagesSquare } from "lucide-react";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";

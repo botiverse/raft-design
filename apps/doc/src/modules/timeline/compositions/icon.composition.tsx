@@ -1,5 +1,5 @@
 import { Check, Clock } from "lucide-react";
-import { Timeline, TimelineContent, TimelineItem, TimelineTitle } from "raft-ui";
+import { Timeline, TimelineContent, TimelineItem, TimelineTitle } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";

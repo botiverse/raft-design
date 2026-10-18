@@ -8,7 +8,7 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
   SidebarItem as SidebarItemRoot,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import type { PlaygroundChannelId, PlaygroundDirectMessageRecord } from "../mock/index.ts";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";

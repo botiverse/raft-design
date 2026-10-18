@@ -5,7 +5,7 @@ import {
   ProgressLabel,
   ProgressTrack,
   ProgressValue,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function EmbeddedProgressComposition() {
   return (

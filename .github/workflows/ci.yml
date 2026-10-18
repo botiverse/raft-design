@@ -24,7 +24,7 @@ jobs:
         run: vp install
 
       - name: Build package
-        run: vp run raft-ui#build
+        run: vp run @botiverse/raft-ui#build
 
       - name: Check workspace
         run: vp check
@@ -36,4 +36,4 @@ jobs:
         run: vp run -r test
 
       - name: Pack package
-        run: vp pm pack --filter raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"
+        run: vp pm pack --filter @botiverse/raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"

@@ -1,4 +1,4 @@
-import { RaftLogo, RaftLogoLockup, RaftWordmark } from "raft-ui";
+import { RaftLogo, RaftLogoLockup, RaftWordmark } from "@botiverse/raft-ui";
 
 export function LogoMarkContent() {
   return <RaftLogo role="img" aria-label="Raft" className="h-20 w-auto" />;

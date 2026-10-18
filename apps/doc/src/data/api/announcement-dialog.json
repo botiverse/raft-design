@@ -1,7 +1,7 @@
 [
   {
     "name": "AnnouncementDialogContent",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": [
       {
@@ -53,25 +53,25 @@
   },
   {
     "name": "AnnouncementDialogBody",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": []
   },
   {
     "name": "AnnouncementDialogHeader",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": []
   },
   {
     "name": "AnnouncementDialogLabel",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": []
   },
   {
     "name": "AnnouncementDialogTitle",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": [
       {
@@ -85,25 +85,25 @@
   },
   {
     "name": "AnnouncementDialogPicture",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": []
   },
   {
     "name": "AnnouncementDialogText",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": []
   },
   {
     "name": "AnnouncementDialogFooter",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": []
   },
   {
     "name": "AnnouncementDialogAction",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": [
       {
@@ -151,7 +151,7 @@
   },
   {
     "name": "AnnouncementDialogSecondaryAction",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": [
       {

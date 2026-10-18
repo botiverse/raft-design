@@ -1,7 +1,7 @@
 [
   {
     "name": "Badge",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

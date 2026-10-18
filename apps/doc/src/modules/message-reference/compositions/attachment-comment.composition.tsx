@@ -1,5 +1,9 @@
 import { MessageSquare } from "lucide-react";
-import { MarkdownBlockquote, MessageReferenceChip, MessageReferenceLabel } from "raft-ui";
+import {
+  MarkdownBlockquote,
+  MessageReferenceChip,
+  MessageReferenceLabel,
+} from "@botiverse/raft-ui";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 

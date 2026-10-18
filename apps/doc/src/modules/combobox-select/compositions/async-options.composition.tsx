@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { ComboboxSelect } from "raft-ui/wip";
-import type { ComboboxSelectOption, ComboboxSelectValue } from "raft-ui/wip";
+import { ComboboxSelect } from "@botiverse/raft-ui/wip";
+import type { ComboboxSelectOption, ComboboxSelectValue } from "@botiverse/raft-ui/wip";
 import { mockQueryOptions, useMockQuery } from "#/lib/mock-query.ts";
 
 const repositories = [

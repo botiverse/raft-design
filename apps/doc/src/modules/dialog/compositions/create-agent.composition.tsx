@@ -19,10 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
   Textarea,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
-import { Dialog } from "raft-ui";
+import { Dialog } from "@botiverse/raft-ui";
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end

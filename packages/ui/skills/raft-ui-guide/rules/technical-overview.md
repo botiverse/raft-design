@@ -11,14 +11,14 @@ description: "raft-ui's technical foundations, package contents, and integration
 
 ## Package contents
 
-| Entry                    | Contents                                |
-| ------------------------ | --------------------------------------- |
-| `raft-ui`                | Stable components, providers, and hooks |
-| `raft-ui/cn`             | Class merger                            |
-| `raft-ui/wip`            | Experimental exports                    |
-| `raft-ui/foundation.css` | Native CSS theme variables              |
-| `raft-ui/styles.css`     | Tailwind integration                    |
-| `raft-ui/fonts.css`      | Optional web fonts                      |
+| Entry                               | Contents                                |
+| ----------------------------------- | --------------------------------------- |
+| `raft-ui`                           | Stable components, providers, and hooks |
+| `@botiverse/raft-ui/cn`             | Class merger                            |
+| `@botiverse/raft-ui/wip`            | Experimental exports                    |
+| `@botiverse/raft-ui/foundation.css` | Native CSS theme variables              |
+| `@botiverse/raft-ui/styles.css`     | Tailwind integration                    |
+| `@botiverse/raft-ui/fonts.css`      | Optional web fonts                      |
 
 Component declarations live in `dist/index.d.mts` (see [API lookup](./lookup.md)). Version-matched Markdown guides and optional `raft-ui-guide` / `raft-ui-critique` skills ship in `skills/`.
 
@@ -45,8 +45,8 @@ Link or inline `dist/foundation.css`; no build is required. Optional `fonts.css`
 
 ```css
 @import "tailwindcss";
-@import "raft-ui/styles.css";
-@source "../node_modules/raft-ui/dist/**/*.{js,mjs}";
+@import "@botiverse/raft-ui/styles.css";
+@source "../node_modules/@botiverse/raft-ui/dist/**/*.{js,mjs}";
 ```
 
 `@source` is relative to this CSS file and must resolve to the installed package for Tailwind to generate its utilities.
@@ -54,7 +54,7 @@ Link or inline `dist/foundation.css`; no build is required. Optional `fonts.css`
 Import optional fonts from the app entry, not inside global CSS (`fonts.css` contains a web-font `@import`):
 
 ```ts
-import "raft-ui/fonts.css";
+import "@botiverse/raft-ui/fonts.css";
 ```
 
 Custom fonts use `--heading-font`, `--sans-font`, and `--mono-font`.

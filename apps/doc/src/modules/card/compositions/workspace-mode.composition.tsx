@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Card, CardDescription, CardHeader, CardTitle, CardTrailing, Switch } from "raft-ui";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardTrailing,
+  Switch,
+} from "@botiverse/raft-ui";
 
 export function CardWorkspaceModeComposition() {
   const [enabled, setEnabled] = useState(true);

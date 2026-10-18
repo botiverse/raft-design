@@ -13,7 +13,7 @@ import {
   SidebarItemSubtitle,
   SidebarItemTitle,
   Status,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function SidebarItemDirectMessageComposition() {
   return (

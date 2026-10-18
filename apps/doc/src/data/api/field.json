@@ -1,7 +1,7 @@
 [
   {
     "name": "Field",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -81,7 +81,7 @@
   },
   {
     "name": "FieldControl",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -108,7 +108,7 @@
   },
   {
     "name": "FieldDescription",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -122,7 +122,7 @@
   },
   {
     "name": "FieldError",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -143,7 +143,7 @@
   },
   {
     "name": "FieldItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -165,7 +165,7 @@
   },
   {
     "name": "FieldLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -206,7 +206,7 @@
   },
   {
     "name": "FieldValidity",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {

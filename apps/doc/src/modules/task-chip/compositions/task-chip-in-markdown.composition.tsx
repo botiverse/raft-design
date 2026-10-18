@@ -9,7 +9,7 @@ import {
   TaskInProgressIcon,
   TaskInReviewIcon,
   TaskTodoIcon,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -18,7 +18,7 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
   MESSAGE_PLAYGROUND_URLS,

@@ -43,7 +43,7 @@ import {
   SearchThreadResultTimestamp,
   SearchThreadResultTitle,
   Skeleton,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import type {
   SearchChannelFixture,

@@ -7,7 +7,7 @@ import {
   EmptyStateTitle,
   SearchShellRoot,
   SearchShellViewport,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function SearchNoResultsComposition() {
   return (

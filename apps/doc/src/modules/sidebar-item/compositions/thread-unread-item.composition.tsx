@@ -12,7 +12,7 @@ import {
   SidebarItemMetaIcon,
   SidebarItemThreadCount,
   SidebarItemTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function SidebarItemThreadUnreadComposition() {
   return (

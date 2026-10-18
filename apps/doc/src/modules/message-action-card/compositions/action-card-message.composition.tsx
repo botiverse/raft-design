@@ -16,7 +16,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   MessageActionCard,
   MessageActionCardActions,
@@ -30,7 +30,7 @@ import {
   MessageActionCardHeaderStatus,
   MessageActionCardHeaderTitle,
   MessageActionCardHint,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 

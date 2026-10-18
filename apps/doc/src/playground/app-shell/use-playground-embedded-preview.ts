@@ -1,5 +1,5 @@
 import { useEffect, useSyncExternalStore } from "react";
-import type { ThemeMode } from "raft-ui";
+import type { ThemeMode } from "@botiverse/raft-ui";
 
 const THEME_MESSAGE = "playground-preview-theme";
 const PREVIEW_READY_MESSAGE = "playground-preview-ready";

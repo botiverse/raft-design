@@ -1,19 +1,19 @@
 [
   {
     "name": "MarkdownBlockquote",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownCell",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownCheckbox",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Task-list checkbox. Markdown task items are display-only, so it defaults to read-only.",
     "native": true,
     "props": [
@@ -148,13 +148,13 @@
   },
   {
     "name": "MarkdownHeaderCell",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownHeading",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -167,13 +167,13 @@
   },
   {
     "name": "MarkdownImage",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownInlineCode",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -187,61 +187,61 @@
   },
   {
     "name": "MarkdownLink",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownList",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownListItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownMark",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownOrderedList",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownParagraph",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownRule",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownTable",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownTableRow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "MarkdownTableScroll",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Horizontal scroll container for wide tables.",
     "native": true,
     "props": []

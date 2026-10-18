@@ -6,8 +6,8 @@ import {
   useLocation,
   useMatches,
 } from "@tanstack/react-router";
-import { ThemeProvider } from "raft-ui";
-import { cn } from "raft-ui/cn";
+import { ThemeProvider } from "@botiverse/raft-ui";
+import { cn } from "@botiverse/raft-ui/cn";
 
 import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-theme.tsx";
 import { shortTitle } from "#/lib/content/nav.ts";
@@ -18,7 +18,7 @@ import {
   PREVIEW_THEME_INLINE_SCRIPT,
   readPreviewThemeCookieFromDocument,
 } from "#/lib/preview-theme-storage.ts";
-import fontsCss from "raft-ui/fonts.css?url";
+import fontsCss from "@botiverse/raft-ui/fonts.css?url";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
