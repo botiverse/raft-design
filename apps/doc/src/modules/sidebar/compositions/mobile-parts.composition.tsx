@@ -12,7 +12,7 @@ import {
   SidebarList,
   SidebarRoot,
   SidebarSection,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   SidebarServer,
   SidebarServerChevron,

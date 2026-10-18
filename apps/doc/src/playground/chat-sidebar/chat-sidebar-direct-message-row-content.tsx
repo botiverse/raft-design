@@ -10,7 +10,7 @@ import {
   SidebarItemStatus,
   SidebarItemSubtitle,
   SidebarItemTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { getPlaygroundDmActor } from "../mock/index.ts";
 import type { PlaygroundDirectMessage, PlaygroundPresence } from "../mock/index.ts";

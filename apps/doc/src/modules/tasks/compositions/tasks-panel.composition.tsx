@@ -10,7 +10,7 @@ import {
   TasksPanelToolbarFilters,
   TasksPanelToolbarView,
   TasksPanelViewport,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { ListTodo, SquareKanban } from "lucide-react";
 
 import {

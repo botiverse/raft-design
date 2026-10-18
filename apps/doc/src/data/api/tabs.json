@@ -1,7 +1,7 @@
 [
   {
     "name": "SortableTabsList",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -50,7 +50,7 @@
   },
   {
     "name": "SortableTabsTab",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -86,7 +86,7 @@
   },
   {
     "name": "Tabs",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -141,13 +141,13 @@
   },
   {
     "name": "TabsLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "TabsList",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -184,7 +184,7 @@
   },
   {
     "name": "TabsPanel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -213,7 +213,7 @@
   },
   {
     "name": "TabsTab",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

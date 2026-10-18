@@ -4,7 +4,7 @@ import {
   AvatarImage,
   MessageQuotedPreviewUnavailable,
   MessageReferenceUnavailable,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -15,7 +15,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { CircleOff } from "lucide-react";
 
 import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";

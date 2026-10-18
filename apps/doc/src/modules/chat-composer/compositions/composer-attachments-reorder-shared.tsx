@@ -13,7 +13,7 @@ import {
   FilePreviewBadge,
   FilePreviewDocument,
   FilePreviewMedia,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
 import type { ReorderAttachment } from "./composer-attachments-reorder.types.ts";

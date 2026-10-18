@@ -7,7 +7,7 @@ import {
   MobileNavItem,
   MobileNavLabel,
   MobileNavRoot,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 // @docs-source-strip-end
 
 export function AppShellMobileRootComposition() {

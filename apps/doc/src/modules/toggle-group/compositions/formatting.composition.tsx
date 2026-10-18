@@ -1,5 +1,5 @@
 import { Bold, Italic, Underline } from "lucide-react";
-import { ToggleGroup, ToggleGroupItem, ToggleGroupLabel } from "raft-ui";
+import { ToggleGroup, ToggleGroupItem, ToggleGroupLabel } from "@botiverse/raft-ui";
 
 const DEFAULT_VALUE = ["bold"];
 

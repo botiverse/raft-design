@@ -19,7 +19,7 @@ import {
   PLAYGROUND_ROOM_CHANNELS,
 } from "../mock/index.ts";
 import type { PlaygroundChannelId, PlaygroundChannelRecord } from "../mock/index.ts";
-import { SidebarItem } from "raft-ui";
+import { SidebarItem } from "@botiverse/raft-ui";
 import { ChatSidebarChannelRowContent } from "./chat-sidebar-channel-row-content.tsx";
 import { ChatSidebarDndContext } from "./chat-sidebar-dnd-context.ts";
 import type {

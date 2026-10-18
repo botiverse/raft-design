@@ -1,7 +1,7 @@
 [
   {
     "name": "MessageReferenceChip",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -22,7 +22,7 @@
   },
   {
     "name": "MessageReferenceIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -36,7 +36,7 @@
   },
   {
     "name": "MessageReferenceLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -50,7 +50,7 @@
   },
   {
     "name": "MessageReferencePending",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -64,7 +64,7 @@
   },
   {
     "name": "MessageReferenceText",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -85,7 +85,7 @@
   },
   {
     "name": "MessageReferenceUnavailable",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -99,7 +99,7 @@
   },
   {
     "name": "MessageItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -119,7 +119,7 @@
   },
   {
     "name": "MessageItemAttachments",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -133,7 +133,7 @@
   },
   {
     "name": "MessageItemAvatarSlot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -147,7 +147,7 @@
   },
   {
     "name": "MessageItemBadge",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -168,7 +168,7 @@
   },
   {
     "name": "MessageItemBadgeSeparator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -182,7 +182,7 @@
   },
   {
     "name": "MessageItemBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -196,7 +196,7 @@
   },
   {
     "name": "MessageItemContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -210,7 +210,7 @@
   },
   {
     "name": "MessageItemContinuationTime",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Left-gutter hover clock for continuation rows. Pass 24h `HH:MM` (no AM/PM).",
     "native": true,
     "props": [
@@ -225,7 +225,7 @@
   },
   {
     "name": "MessageItemEmbedded",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -239,7 +239,7 @@
   },
   {
     "name": "MessageItemFooter",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -253,7 +253,7 @@
   },
   {
     "name": "MessageItemGutter",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -267,7 +267,7 @@
   },
   {
     "name": "MessageItemHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -281,7 +281,7 @@
   },
   {
     "name": "MessageItemInlineStatus",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -295,7 +295,7 @@
   },
   {
     "name": "MessageItemMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -309,7 +309,7 @@
   },
   {
     "name": "MessageItemReadReceipt",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -323,7 +323,7 @@
   },
   {
     "name": "MessageItemSavedIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -345,7 +345,7 @@
   },
   {
     "name": "MessageItemSearchMatch",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -359,7 +359,7 @@
   },
   {
     "name": "MessageItemSender",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -373,7 +373,7 @@
   },
   {
     "name": "MessageItemSenderBadges",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -387,7 +387,7 @@
   },
   {
     "name": "MessageItemSenderButton",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -401,7 +401,7 @@
   },
   {
     "name": "MessageItemTime",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -415,7 +415,7 @@
   },
   {
     "name": "MessageItemToolbar",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -429,7 +429,7 @@
   },
   {
     "name": "MessageItemToolbarButton",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -450,7 +450,7 @@
   },
   {
     "name": "MessageMultiSelect",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -464,7 +464,7 @@
   },
   {
     "name": "MessageMultiSelectCheckbox",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -598,7 +598,7 @@
   },
   {
     "name": "MessageMultiSelectToolbar",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Shared select-mode toolbar shell. Consumers compose the count and actions as children.",
     "native": true,
     "props": [
@@ -613,7 +613,7 @@
   },
   {
     "name": "MessageReactionAddButton",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -627,7 +627,7 @@
   },
   {
     "name": "MessageReactionChip",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -686,7 +686,7 @@
   },
   {
     "name": "MessageReactionCount",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -700,7 +700,7 @@
   },
   {
     "name": "MessageReactionErrorIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -714,7 +714,7 @@
   },
   {
     "name": "MessageReactionGlyph",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -728,7 +728,7 @@
   },
   {
     "name": "MessageReactionPickerContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -861,7 +861,7 @@
   },
   {
     "name": "MessageReactionPickerStatic",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -875,7 +875,7 @@
   },
   {
     "name": "MessageReactionQuickButton",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -889,7 +889,7 @@
   },
   {
     "name": "MessageReactionQuickRow",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -903,7 +903,7 @@
   },
   {
     "name": "MessageReactionTooltipContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -1023,7 +1023,7 @@
   },
   {
     "name": "MessageReactionTooltipMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -1037,7 +1037,7 @@
   },
   {
     "name": "MessageReactionTooltipName",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -1051,7 +1051,7 @@
   },
   {
     "name": "MessageReactionTooltipNames",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -1065,7 +1065,7 @@
   },
   {
     "name": "MessageReactionTooltipNameText",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -1079,7 +1079,7 @@
   },
   {
     "name": "MessageReactionTooltipSeparator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -1093,7 +1093,7 @@
   },
   {
     "name": "MessageTextSelectionToolbar",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -1129,7 +1129,7 @@
   },
   {
     "name": "MessageTextSelectionToolbarButton",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -1167,7 +1167,7 @@
   },
   {
     "name": "MessageTextSelectionToolbarSeparator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

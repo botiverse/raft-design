@@ -1,4 +1,4 @@
-import { Badge } from "raft-ui";
+import { Badge } from "@botiverse/raft-ui";
 
 export type ComponentStatus = "experimental" | "stable" | "deprecated";
 

@@ -19,8 +19,8 @@ import {
   TaskDraggable,
   TaskDropPlaceholder,
   TaskDropZone,
-} from "raft-ui";
-import type { TaskMoveDetails } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { TaskMoveDetails } from "@botiverse/raft-ui";
 import { ChevronDown } from "lucide-react";
 
 import { TASK_STATUSES } from "#/modules/task-card/task-card.fixtures.ts";

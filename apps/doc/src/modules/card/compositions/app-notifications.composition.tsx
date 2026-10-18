@@ -12,7 +12,7 @@ import {
   FieldLabel,
   Input,
   Switch,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function CardAppNotificationsComposition() {
   const [enabled, setEnabled] = useState(true);

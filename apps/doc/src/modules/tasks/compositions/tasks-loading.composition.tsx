@@ -14,7 +14,7 @@ import {
   TasksPanelToolbarNewTask,
   TasksPanelToolbarView,
   TasksPanelViewport,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { ChevronDown, Columns3, LayoutList, Plus, User, UserCircle2 } from "lucide-react";
 
 export function TasksLoadingComposition() {

@@ -1,7 +1,7 @@
 [
   {
     "name": "Checkbox",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -136,7 +136,7 @@
   },
   {
     "name": "CheckboxIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

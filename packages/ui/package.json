@@ -1,5 +1,5 @@
 {
-  "name": "raft-ui",
+  "name": "@botiverse/raft-ui",
   "version": "0.7.0",
   "description": "React components and CSS foundations for the Raft Design System.",
   "keywords": [

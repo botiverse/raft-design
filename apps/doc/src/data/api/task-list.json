@@ -1,7 +1,7 @@
 [
   {
     "name": "TaskListRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -15,7 +15,7 @@
   },
   {
     "name": "TaskSection",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -59,7 +59,7 @@
   },
   {
     "name": "TaskSectionBadge",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -79,7 +79,7 @@
   },
   {
     "name": "TaskSectionChevron",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -93,7 +93,7 @@
   },
   {
     "name": "TaskSectionCount",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -107,7 +107,7 @@
   },
   {
     "name": "TaskSectionEmpty",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -121,7 +121,7 @@
   },
   {
     "name": "TaskSectionHeading",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -135,7 +135,7 @@
   },
   {
     "name": "TaskSectionItems",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -149,7 +149,7 @@
   },
   {
     "name": "TaskSectionPanel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -179,7 +179,7 @@
   },
   {
     "name": "TaskSectionTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

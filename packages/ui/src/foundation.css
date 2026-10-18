@@ -1,5 +1,5 @@
 /* Generated from tokens.json by scripts/build-tokens.mjs. Do not edit this
-   file: change tokens.json, then run `vp run raft-ui#build:tokens`.
+   file: change tokens.json, then run `vp run @botiverse/raft-ui#build:tokens`.
 
    ─── Token grammar ──────────────────────────────────────────────────────────
    Neutrals:  {role}(-{purpose})(-{intensity})
@@ -454,7 +454,7 @@
   --line-field-hover: var(--line-strong);
 
   /* Deprecated names, kept until raft-ui 1.0. Run
-     `node node_modules/raft-ui/codemods/token-names.mjs <src>` to move to the
+     `node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <src>` to move to the
      current names. */
   --layer-panel: var(--layer-canvas);
   --layer-inset: var(--fill-muted);

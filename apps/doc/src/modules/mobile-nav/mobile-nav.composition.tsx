@@ -1,6 +1,6 @@
 import { CheckSquare, Home, Settings, Users } from "lucide-react";
 import { useCallback, useState } from "react";
-import { MobileNavItem, MobileNavLabel, MobileNavRoot } from "raft-ui";
+import { MobileNavItem, MobileNavLabel, MobileNavRoot } from "@botiverse/raft-ui";
 
 export function MobileNavComposition() {
   const [selected, setSelected] = useState("home");

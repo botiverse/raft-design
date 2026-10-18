@@ -1,7 +1,7 @@
 [
   {
     "name": "FloatButton",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "Not part of the Raft Design System; place actions in the page's header or toolbar. Removed in raft-ui 1.0.",
     "native": true,
     "props": [
@@ -87,7 +87,7 @@
   },
   {
     "name": "FloatButtonGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "deprecated": "Not part of the Raft Design System; place actions in the page's header or toolbar. Removed in raft-ui 1.0.",
     "native": true,
     "props": [

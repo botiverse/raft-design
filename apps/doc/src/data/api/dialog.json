@@ -1,7 +1,7 @@
 [
   {
     "name": "Dialog",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -88,7 +88,7 @@
   },
   {
     "name": "DialogBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -103,7 +103,7 @@
   },
   {
     "name": "DialogClose",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -144,7 +144,7 @@
   },
   {
     "name": "DialogContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -197,7 +197,7 @@
   },
   {
     "name": "DialogDescription",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -211,7 +211,7 @@
   },
   {
     "name": "DialogFooter",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -226,7 +226,7 @@
   },
   {
     "name": "DialogHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -241,7 +241,7 @@
   },
   {
     "name": "DialogNav",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The section list of a wide (`size=\"wide\"`) dialog, inside a `bar` body.",
     "native": true,
     "props": [
@@ -256,7 +256,7 @@
   },
   {
     "name": "DialogOverlay",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -284,7 +284,7 @@
   },
   {
     "name": "DialogPortal",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -313,7 +313,7 @@
   },
   {
     "name": "DialogSurface",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The dialog's frame — the popover layer, the dialog radius, the seam ring and the float shadow — for a centred modal whose lifecycle the app owns (its own backdrop, Escape and focus handling). It neither positions nor animates itself: the host centres it, and a centred modal has no motion. DialogContent draws the same frame for a Base UI dialog.",
     "native": true,
     "props": [
@@ -328,7 +328,7 @@
   },
   {
     "name": "DialogTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -342,7 +342,7 @@
   },
   {
     "name": "DialogTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -385,7 +385,7 @@
   },
   {
     "name": "AnnouncementDialog",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": false,
     "props": [
       {
@@ -472,7 +472,7 @@
   },
   {
     "name": "AnnouncementDialogTrigger",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": [
       {
@@ -515,7 +515,7 @@
   },
   {
     "name": "AnnouncementDialogClose",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": [
       {

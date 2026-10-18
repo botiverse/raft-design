@@ -1,4 +1,4 @@
-import { Button } from "raft-ui";
+import { Button } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { ButtonComparisonPreview } from "./comparison-preview.tsx";

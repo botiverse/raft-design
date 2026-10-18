@@ -1,7 +1,7 @@
 [
   {
     "name": "Panel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -21,7 +21,7 @@
   },
   {
     "name": "PanelAction",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -51,7 +51,7 @@
   },
   {
     "name": "PanelActions",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -65,7 +65,7 @@
   },
   {
     "name": "PanelActivity",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Live status readout in a panel header, such as agent activity or presence. Wraps a `Status` and supplies header-appropriate spacing and typography; use `PanelStatus` for a standalone attribute badge.",
     "native": true,
     "props": [
@@ -80,7 +80,7 @@
   },
   {
     "name": "PanelBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -94,7 +94,7 @@
   },
   {
     "name": "PanelFooter",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -108,7 +108,7 @@
   },
   {
     "name": "PanelHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -122,7 +122,7 @@
   },
   {
     "name": "PanelHeaderContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -136,7 +136,7 @@
   },
   {
     "name": "PanelHeaderIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -150,7 +150,7 @@
   },
   {
     "name": "PanelHeaderRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Bare header bar: fixed height and centered flex row, no border, fill, or padding. Shared base for `PanelHeader`, `PanelSectionHeader`, and panel-specific headers such as `ThreadPanelHeader` — it is not exclusive to `PanelHeader`.",
     "native": true,
     "props": [
@@ -165,7 +165,7 @@
   },
   {
     "name": "PanelHeading",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -179,7 +179,7 @@
   },
   {
     "name": "PanelMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -200,7 +200,7 @@
   },
   {
     "name": "PanelNotice",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -222,7 +222,7 @@
   },
   {
     "name": "PanelNoticeActions",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Trailing controls (copy, a link, ×), centred on the first text line.",
     "native": true,
     "props": [
@@ -237,7 +237,7 @@
   },
   {
     "name": "PanelNoticeContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The message: takes the width left and wraps or clamps as the caller says.",
     "native": true,
     "props": [
@@ -252,7 +252,7 @@
   },
   {
     "name": "PanelScrollContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -266,7 +266,7 @@
   },
   {
     "name": "PanelScrollViewport",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -280,7 +280,7 @@
   },
   {
     "name": "PanelSection",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -294,7 +294,7 @@
   },
   {
     "name": "PanelSectionHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -308,7 +308,7 @@
   },
   {
     "name": "PanelStatus",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Attribute badge in a panel header, such as a muted or archived marker. Use `PanelActivity` for a live status readout wrapping a `Status`.",
     "native": true,
     "props": [
@@ -323,7 +323,7 @@
   },
   {
     "name": "PanelTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -337,7 +337,7 @@
   },
   {
     "name": "PanelToggleAction",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

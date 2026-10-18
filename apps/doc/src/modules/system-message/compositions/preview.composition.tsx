@@ -1,4 +1,4 @@
-import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui";
+import { SystemMessage, SystemMessageContent, SystemMessageTime } from "@botiverse/raft-ui";
 
 export type SystemMessageRowCompositionProps = {
   content: string;

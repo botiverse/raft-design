@@ -43,7 +43,7 @@ Never write `hex`, `rgb()`, or `hsl()` either.
 
 ## Semantic token families
 
-Reach for these first. The token contract lives in `raft-ui/foundation.css`; `raft-ui/styles.css` maps it to Tailwind utilities.
+Reach for these first. The token contract lives in `@botiverse/raft-ui/foundation.css`; `@botiverse/raft-ui/styles.css` maps it to Tailwind utilities.
 
 | Family         | Purpose                                | Registered suffixes                                                                                        |
 | -------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
@@ -148,7 +148,7 @@ Class names are recipe internals and change between releases; `data-slot` values
 ## Merging classes
 
 ```tsx
-import { cn } from "raft-ui/cn";
+import { cn } from "@botiverse/raft-ui/cn";
 ```
 
 `cn` is exported from the package. Do not add `clsx` or `tailwind-merge` as direct dependencies to compose raft-ui classes.

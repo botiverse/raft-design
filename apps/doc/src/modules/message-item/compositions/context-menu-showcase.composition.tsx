@@ -19,7 +19,7 @@ import {
   MessageItemSavedIndicator,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { MessageContextMenuComposition } from "./context-menu.composition.tsx";
 import type { MessageTaskState } from "./context-menu.composition.tsx";

@@ -7,8 +7,8 @@ import {
   MessageTextSelectionToolbar,
   MessageTextSelectionToolbarButton,
   MessageTextSelectionToolbarSeparator,
-} from "raft-ui";
-import type { PopoverContentProps } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { PopoverContentProps } from "@botiverse/raft-ui";
 
 export type MessageTextSelectionCompositionProps = {
   children: ReactNode;

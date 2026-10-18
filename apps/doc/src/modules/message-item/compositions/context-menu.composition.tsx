@@ -16,7 +16,7 @@ import {
   ContextMenuSeparator,
   MessageReactionQuickButton,
   MessageReactionQuickRow,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { MESSAGE_QUICK_REACTIONS } from "./reaction.compositions.tsx";
 import { MessageReactionGlyphComposition } from "./reaction-glyph.composition.tsx";

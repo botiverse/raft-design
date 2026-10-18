@@ -8,8 +8,8 @@ description: "Where to find props, variant values, and tokens for the installed 
 ## Order to try
 
 1. **Editor types** — if you are editing TypeScript in a typed project, hover or autocomplete on the component. Fastest and always matches the installed version.
-2. **The bundled declarations** — `node_modules/raft-ui/dist/index.d.mts`. Authoritative for the version actually installed.
-3. **The token stylesheet** — `node_modules/raft-ui/dist/foundation.css` for colors, shadows, and the light and dark scopes; `styles.css` for Tailwind mappings.
+2. **The bundled declarations** — `node_modules/@botiverse/raft-ui/dist/index.d.mts`. Authoritative for the version actually installed.
+3. **The token stylesheet** — `node_modules/@botiverse/raft-ui/dist/foundation.css` for colors, shadows, and the light and dark scopes; `styles.css` for Tailwind mappings.
 4. **The recipe source** — only available when working inside the raft-ui monorepo, see below.
 
 ## What ships in the package
@@ -17,7 +17,7 @@ description: "Where to find props, variant values, and tokens for the installed 
 The published package contains **no `src/`**. Do not look for `.tsx` files in a consumer's `node_modules`.
 
 ```
-node_modules/raft-ui/
+node_modules/@botiverse/raft-ui/
 ├── CHANGELOG.md
 ├── package.json
 ├── README.md
@@ -37,13 +37,13 @@ node_modules/raft-ui/
 ## Finding a prop type
 
 ```bash
-rg -n -A6 "^type ButtonProps =" node_modules/raft-ui/dist/index.d.mts
+rg -n -A6 "^type ButtonProps =" node_modules/@botiverse/raft-ui/dist/index.d.mts
 ```
 
 Adapt the pattern to how the declarations actually read. The last line of `index.d.mts` is one `export { … }` statement that lists the whole stable surface:
 
 ```bash
-tail -n 1 node_modules/raft-ui/dist/index.d.mts | tr ',' '\n'
+tail -n 1 node_modules/@botiverse/raft-ui/dist/index.d.mts | tr ',' '\n'
 ```
 
 If a name is absent from `index.d.mts`, treat it as unavailable on the stable surface. Check `wip.d.mts` only when the user explicitly asks to consider unstable APIs.
@@ -57,7 +57,7 @@ Do not infer a variant value from another component — the names are not consis
 ## Finding a token
 
 ```bash
-rg -o -- "--color-[a-z0-9-]+" node_modules/raft-ui/dist/styles.css | sort -u
+rg -o -- "--color-[a-z0-9-]+" node_modules/@botiverse/raft-ui/dist/styles.css | sort -u
 ```
 
 Use this before writing any color class. If a token is not in that list, it does not exist — see [styling.md](./styling.md).

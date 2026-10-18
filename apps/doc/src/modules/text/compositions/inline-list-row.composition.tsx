@@ -1,4 +1,4 @@
-import { Text } from "raft-ui";
+import { Text } from "@botiverse/raft-ui";
 
 export function TextInlineListRowComposition() {
   return (

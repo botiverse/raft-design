@@ -16,7 +16,7 @@ Copy this prompt and add your task:
 ```text
 Use raft-ui, the React implementation of the Raft Design System, for this project. Use its shared tokens and components where they fit the project. Plain HTML can use foundation.css without React or Tailwind.
 
-Read https://raft-design.botiverse.build/guides/overview and follow the guides relevant to the task. Match the existing project setup. For version-specific APIs, use node_modules/raft-ui/dist/index.d.mts; matching guides are in node_modules/raft-ui/skills/raft-ui-guide/rules/.
+Read https://raft-design.botiverse.build/guides/overview and follow the guides relevant to the task. Match the existing project setup. For version-specific APIs, use node_modules/@botiverse/raft-ui/dist/index.d.mts; matching guides are in node_modules/@botiverse/raft-ui/skills/raft-ui-guide/rules/.
 
 Skills are optional. Only install them when requested.
 ```

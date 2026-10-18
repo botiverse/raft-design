@@ -26,7 +26,7 @@ import {
   FilesPanel,
   FilesViewport,
   FileThumbnail,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { Clock3, Download, ExternalLink, Paperclip } from "lucide-react";
 
 /** Matches source ChannelFilesPanel near-bottom auto-load threshold. */

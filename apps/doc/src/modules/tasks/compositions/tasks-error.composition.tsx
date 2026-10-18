@@ -5,7 +5,7 @@ import {
   Button,
   TasksPanelRoot,
   TasksPanelViewport,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { RotateCcw } from "lucide-react";
 
 function reloadPage() {

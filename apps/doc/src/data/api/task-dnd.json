@@ -1,7 +1,7 @@
 [
   {
     "name": "TaskDndProvider",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -70,7 +70,7 @@
   },
   {
     "name": "TaskDragOverlay",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -83,7 +83,7 @@
   },
   {
     "name": "TaskDraggable",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -116,7 +116,7 @@
   },
   {
     "name": "TaskDropPlaceholder",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -136,7 +136,7 @@
   },
   {
     "name": "TaskDropZone",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

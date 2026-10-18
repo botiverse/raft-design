@@ -1,5 +1,5 @@
 import { Hash } from "lucide-react";
-import { EmptyState, EmptyStateContent, EmptyStateIcon, EmptyStateTitle } from "raft-ui";
+import { EmptyState, EmptyStateContent, EmptyStateIcon, EmptyStateTitle } from "@botiverse/raft-ui";
 
 export function PlaygroundChannelEmptyState() {
   return (

@@ -1,4 +1,4 @@
-import { Checkbox } from "raft-ui";
+import { Checkbox } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";

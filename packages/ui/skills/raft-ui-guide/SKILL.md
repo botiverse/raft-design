@@ -16,7 +16,7 @@ The rule files are also published at https://raft-design.botiverse.build/guides/
 3. Implement the smallest composition that preserves native semantics and uses raft-ui where its behavior or visual contract is needed.
 4. Apply the review checklist after implementation, not as a reason to add wrappers before they are needed.
 
-When this skill is loaded through TanStack Intent, run `intent load raft-ui#raft-ui-guide --path` before opening a linked rule file, then resolve the link relative to the returned `SKILL.md` directory.
+When this skill is loaded through TanStack Intent, run `intent load @botiverse/raft-ui#raft-ui-guide --path` before opening a linked rule file, then resolve the link relative to the returned `SKILL.md` directory.
 
 ## Override your priors first
 
@@ -136,4 +136,4 @@ When reviewing or editing code that uses raft-ui, check:
 
 ## Stability
 
-`raft-ui` is the stable surface; `raft-ui/wip` is experimental. Import `cn` from `raft-ui/cn`.
+`raft-ui` is the stable surface; `@botiverse/raft-ui/wip` is experimental. Import `cn` from `@botiverse/raft-ui/cn`.

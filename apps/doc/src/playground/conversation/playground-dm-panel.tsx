@@ -1,7 +1,7 @@
 import { PlaygroundConversationPanel } from "./playground-conversation-panel.tsx";
 import { PlaygroundDmPanelHeader } from "./playground-dm-panel-header.tsx";
 import type { PlaygroundDirectMessageRecord } from "../mock/index.ts";
-import type { PanelEdge } from "raft-ui";
+import type { PanelEdge } from "@botiverse/raft-ui";
 
 export function PlaygroundDmPanel({
   dm,

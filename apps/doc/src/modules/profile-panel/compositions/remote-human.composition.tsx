@@ -19,7 +19,7 @@ import {
   ProfilePanelHeaderContent,
   ProfilePanelSection,
   Text,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function RemoteHumanComposition() {
   return (

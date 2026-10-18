@@ -1,4 +1,4 @@
-import { TaskChip } from "raft-ui";
+import { TaskChip } from "@botiverse/raft-ui";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 

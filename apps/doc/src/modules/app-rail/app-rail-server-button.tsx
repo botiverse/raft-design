@@ -1,7 +1,7 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { cn } from "raft-ui/cn";
+import { cn } from "@botiverse/raft-ui/cn";
 import { tv } from "tailwind-variants/lite";
 
 // App-owned server switcher chrome for the rail header slot. Lives in the docs

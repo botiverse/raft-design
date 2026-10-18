@@ -1,4 +1,4 @@
-import { Input } from "raft-ui";
+import { Input } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";

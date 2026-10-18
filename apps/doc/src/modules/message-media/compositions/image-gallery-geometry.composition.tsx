@@ -1,4 +1,8 @@
-import { MessageImageGallery, MessageImageGalleryItem, MessageImageGalleryMedia } from "raft-ui";
+import {
+  MessageImageGallery,
+  MessageImageGalleryItem,
+  MessageImageGalleryMedia,
+} from "@botiverse/raft-ui";
 
 export function MessageImageGalleryGeometryComposition() {
   return (

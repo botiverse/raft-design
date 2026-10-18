@@ -1,4 +1,4 @@
-import { FilePreviewBadge } from "raft-ui";
+import { FilePreviewBadge } from "@botiverse/raft-ui";
 
 export function FilePreviewInlineBadgeComposition() {
   return (

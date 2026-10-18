@@ -1,7 +1,7 @@
 [
   {
     "name": "Timeline",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "An ordered list of events; each `TimelineItem` has a marker and a line to the next.",
     "native": true,
     "props": [
@@ -40,13 +40,13 @@
   },
   {
     "name": "TimelineContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "TimelineItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "One event: a marker on the axis, then its title, content and time as children.",
     "native": true,
     "props": [
@@ -91,13 +91,13 @@
   },
   {
     "name": "TimelineTime",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "TimelineTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   }

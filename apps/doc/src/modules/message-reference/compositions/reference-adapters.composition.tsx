@@ -8,8 +8,8 @@ import {
   PreviewCard,
   PreviewCardContent,
   PreviewCardTrigger,
-} from "raft-ui";
-import type { MessageReferenceTextVariant } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { MessageReferenceTextVariant } from "@botiverse/raft-ui";
 
 type MessageReferenceCompositionProps = {
   children: ReactNode;

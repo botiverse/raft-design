@@ -1,5 +1,12 @@
 import { useCallback, useState } from "react";
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "raft-ui";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@botiverse/raft-ui";
 
 export function CardSessionActionComposition() {
   const [loggedOut, setLoggedOut] = useState(false);

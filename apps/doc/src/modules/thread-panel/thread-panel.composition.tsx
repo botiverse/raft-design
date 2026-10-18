@@ -50,9 +50,9 @@ import {
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
-} from "raft-ui";
-import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
+} from "@botiverse/raft-ui";
+import { MessageList, MessageListDateDivider, MessageListNotice } from "@botiverse/raft-ui";
+import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
 
 function preventSubmit(event: FormEvent<HTMLFormElement>) {
   event.preventDefault();

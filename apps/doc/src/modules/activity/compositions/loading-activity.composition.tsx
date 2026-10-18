@@ -6,7 +6,7 @@ import {
   InboxItemSelection,
   InboxItemTrailing,
   Skeleton,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function LoadingActivityComposition() {
   return (

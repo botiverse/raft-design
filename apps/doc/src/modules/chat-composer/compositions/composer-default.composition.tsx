@@ -9,8 +9,8 @@ import {
   ComposerRoot,
   ComposerSubmit,
   ComposerToolbarLabel,
-} from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
+} from "@botiverse/raft-ui";
+import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
 
 export function ComposerDefaultComposition() {
   const [draft, setDraft] = useState("");

@@ -1,7 +1,7 @@
 import { Children, createContext, isValidElement, useCallback, useContext, useMemo } from "react";
 import type { ComponentProps, ComponentType, MouseEvent, ReactNode } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { MarkdownHeading, MarkdownLink } from "raft-ui";
+import { MarkdownHeading, MarkdownLink } from "@botiverse/raft-ui";
 
 import { resolveDocLink } from "#/lib/content/links.ts";
 import { headingSlug } from "#/lib/content/slug.ts";

@@ -11,8 +11,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "raft-ui";
-import type { DrawerProps } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { DrawerProps } from "@botiverse/raft-ui";
 
 type WorkspaceSettingsDrawerProps = Pick<DrawerProps, "onOpenChangeComplete"> & {
   children: ReactNode;

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { TaskChip, TaskStatusIcon } from "raft-ui";
+import { TaskChip, TaskStatusIcon } from "@botiverse/raft-ui";
 
 import { TaskStatusSelect } from "#/modules/task-card/compositions/task-status-select.composition.tsx";
 import type { PlaygroundTaskId, PlaygroundTaskStatus } from "../mock/index.ts";

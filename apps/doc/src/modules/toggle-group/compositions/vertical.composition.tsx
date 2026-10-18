@@ -1,5 +1,5 @@
 import { List, ListOrdered, Quote } from "lucide-react";
-import { ToggleGroup, ToggleGroupItem, ToggleGroupLabel } from "raft-ui";
+import { ToggleGroup, ToggleGroupItem, ToggleGroupLabel } from "@botiverse/raft-ui";
 
 export function ToggleGroupVerticalComposition() {
   return (

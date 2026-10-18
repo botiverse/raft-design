@@ -1,4 +1,4 @@
-import { MessageReferenceIndicator, MessageReferenceText, Status } from "raft-ui";
+import { MessageReferenceIndicator, MessageReferenceText, Status } from "@botiverse/raft-ui";
 
 export function MessageReferenceReadIndicatorsComposition() {
   return (

@@ -10,7 +10,7 @@ import {
   ActivityInboxLoadingMore,
   ActivityInboxPanel,
   ActivityInboxViewport,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function LoadingMoreActivityComposition() {
   return (

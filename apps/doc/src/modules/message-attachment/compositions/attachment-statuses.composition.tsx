@@ -1,5 +1,5 @@
 import { ArrowDownToLine, MessageSquare } from "lucide-react";
-import { Spinner } from "raft-ui";
+import { Spinner } from "@botiverse/raft-ui";
 import {
   MessageAttachmentAction,
   MessageAttachmentCommentSummary,
@@ -10,7 +10,7 @@ import {
   MessageAttachmentMetaStart,
   MessageAttachmentSummary,
   MessageAttachmentTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
 
 function downloadReleaseNotes() {

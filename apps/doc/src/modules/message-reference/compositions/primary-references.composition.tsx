@@ -17,7 +17,7 @@ import {
   MessageItemSender,
   MessageItemTime,
   Status,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import {
   MessageMentionReferenceComposition,

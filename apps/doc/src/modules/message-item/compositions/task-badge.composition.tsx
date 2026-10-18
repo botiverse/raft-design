@@ -19,8 +19,8 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
-import type { TaskStatusId } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { TaskStatusId } from "@botiverse/raft-ui";
 
 const TASK_STATUS_OPTIONS = [
   { id: "todo", label: "Todo" },

@@ -1,5 +1,5 @@
 import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
-import { ToggleGroup, ToggleGroupItem } from "raft-ui";
+import { ToggleGroup, ToggleGroupItem } from "@botiverse/raft-ui";
 
 const DEFAULT_VALUE = ["left"];
 

@@ -1,7 +1,7 @@
 [
   {
     "name": "ScrollArea",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -23,7 +23,7 @@
   },
   {
     "name": "ScrollAreaContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -37,7 +37,7 @@
   },
   {
     "name": "ScrollAreaCorner",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -51,7 +51,7 @@
   },
   {
     "name": "ScrollAreaScrollbar",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -81,7 +81,7 @@
   },
   {
     "name": "ScrollAreaThumb",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -95,7 +95,7 @@
   },
   {
     "name": "ScrollAreaViewport",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

@@ -1,4 +1,4 @@
-import { MessageReactionGlyph } from "raft-ui";
+import { MessageReactionGlyph } from "@botiverse/raft-ui";
 import {
   MESSAGE_REACTION_SPRITE_ITEMS,
   MESSAGE_REACTION_SPRITE_PATH,

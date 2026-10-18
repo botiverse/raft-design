@@ -18,7 +18,7 @@ Treat the package's stable public surface as the source of truth. Use commits an
 1. Resolve the latest `v*` tag and inspect its range through `HEAD`.
 2. Inventory every changed stable surface before reading commit titles:
    - `packages/ui/src/index.ts` and every transitively exported implementation
-   - `packages/ui/src/styles.css`, `foundation.css`, and `fonts.css` (the public CSS and token contract), plus the `raft-ui/cn` entry
+   - `packages/ui/src/styles.css`, `foundation.css`, and `fonts.css` (the public CSS and token contract), plus the `@botiverse/raft-ui/cn` entry
    - stable package entry points, exports, peer dependencies, and runtime requirements
 3. Inspect public types, existing variant semantics, runtime behavior, rendered structure, styles, and accessibility behavior. An unchanged export list does not make an implementation change internal.
 4. Inventory `packages/ui/src/wip.ts` separately. WIP ships with the package but never appears in the public changelog and never determines the semantic version.
@@ -61,7 +61,7 @@ Require a clean worktree, an attached branch, and an up-to-date remote before mu
 
 1. Update `packages/ui/package.json` to the reviewed version.
 2. Prepend the reviewed entry to `packages/ui/CHANGELOG.md`. For WIP-only releases, leave the changelog unchanged.
-3. Run `vp check --fix`, `git diff --check`, `vp run raft-ui#build`, and `vp pm pack --filter raft-ui` as the archive smoke check.
+3. Run `vp check --fix`, `git diff --check`, `vp run @botiverse/raft-ui#build`, and `vp pm pack --filter @botiverse/raft-ui` as the archive smoke check.
 4. Review the final diff and verify that the package version, changelog version, and tag agree.
 5. Commit only the release files with `chore(release): v<version>`.
 6. Create the `v<version>` tag and push the commit and tag. The tag-triggered workflow performs npm publication and creates the GitHub Release from the curated changelog.

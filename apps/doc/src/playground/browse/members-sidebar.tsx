@@ -32,7 +32,7 @@ import {
   EmptyStateIcon,
   EmptyStateTitle,
   Status,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { PLAYGROUND_ACTORS, PLAYGROUND_MACHINES, getPlaygroundMachine } from "../mock/index.ts";
 import type { PlaygroundActor } from "../mock/index.ts";

@@ -1,7 +1,7 @@
 import { PlaygroundConversationPanel } from "./playground-conversation-panel.tsx";
 import { PlaygroundChannelPanelHeader } from "./playground-channel-panel-header.tsx";
 import type { PlaygroundRoomChannelRecord } from "../mock/index.ts";
-import type { PanelEdge } from "raft-ui";
+import type { PanelEdge } from "@botiverse/raft-ui";
 
 export function PlaygroundChannelPanel({
   channel,

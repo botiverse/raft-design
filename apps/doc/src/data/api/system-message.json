@@ -1,7 +1,7 @@
 [
   {
     "name": "SystemMessage",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -15,7 +15,7 @@
   },
   {
     "name": "SystemMessageContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -29,7 +29,7 @@
   },
   {
     "name": "SystemMessageGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -73,7 +73,7 @@
   },
   {
     "name": "SystemMessageGroupChevron",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -87,7 +87,7 @@
   },
   {
     "name": "SystemMessageGroupDisclosure",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -101,7 +101,7 @@
   },
   {
     "name": "SystemMessageGroupHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -115,7 +115,7 @@
   },
   {
     "name": "SystemMessageGroupPanel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -145,7 +145,7 @@
   },
   {
     "name": "SystemMessageGroupSummary",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -159,7 +159,7 @@
   },
   {
     "name": "SystemMessageTime",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

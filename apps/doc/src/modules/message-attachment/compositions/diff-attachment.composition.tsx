@@ -11,7 +11,7 @@ import {
   MessageAttachmentMetaStart,
   MessageAttachmentSummary,
   MessageAttachmentTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
 
 function downloadMigrationDiff() {

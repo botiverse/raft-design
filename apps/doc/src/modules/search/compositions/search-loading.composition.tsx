@@ -6,7 +6,7 @@ import {
   SearchShellRoot,
   SearchShellViewport,
   Skeleton,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function SearchLoadingComposition() {
   return (

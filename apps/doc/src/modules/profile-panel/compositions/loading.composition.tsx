@@ -1,4 +1,4 @@
-import { PanelBody, ProfilePanel, ProfilePanelHeader, Text } from "raft-ui";
+import { PanelBody, ProfilePanel, ProfilePanelHeader, Text } from "@botiverse/raft-ui";
 
 export function ProfilePanelLoadingComposition() {
   return (

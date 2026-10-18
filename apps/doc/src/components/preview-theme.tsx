@@ -8,8 +8,8 @@ import {
   useSyncExternalStore,
 } from "react";
 import type { HTMLAttributes, ReactNode } from "react";
-import { ThemeProvider, useTheme } from "raft-ui";
-import type { ThemeMode } from "raft-ui";
+import { ThemeProvider, useTheme } from "@botiverse/raft-ui";
+import type { ThemeMode } from "@botiverse/raft-ui";
 
 import {
   readPreviewThemeCookieFromDocument,

@@ -1,7 +1,7 @@
 [
   {
     "name": "Spinner",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

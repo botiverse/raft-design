@@ -16,7 +16,7 @@ import {
   TaskChip,
   TaskInProgressIcon,
   TaskTodoIcon,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   CircleOff,
   GitBranch,
@@ -34,7 +34,7 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { MessagePrimaryReferencesComposition } from "./primary-references.composition.tsx";
 import { MessageMentionReferenceComposition } from "./reference-adapters.composition.tsx";
 

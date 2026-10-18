@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
   MessageReactionPickerContent,
   MessageReactionQuickButton,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { MESSAGE_QUICK_REACTIONS } from "#/modules/message-item/message-item.fixtures.ts";
 import { MessageReactionGlyphComposition } from "./reaction-glyph.composition.tsx";

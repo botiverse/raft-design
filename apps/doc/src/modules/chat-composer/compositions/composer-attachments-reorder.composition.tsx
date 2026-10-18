@@ -9,8 +9,8 @@ import {
   ComposerSubmit,
   SortableComposerAttachment,
   SortableComposerAttachments,
-} from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
+} from "@botiverse/raft-ui";
+import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
 
 import {
   ReorderAttachmentTile,

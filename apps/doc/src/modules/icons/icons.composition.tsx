@@ -1,5 +1,11 @@
 import type { ReactNode } from "react";
-import { ChatIcon, DirectMessageIcon, MessageIcon, TaskStatusIcon, ThreadIcon } from "raft-ui";
+import {
+  ChatIcon,
+  DirectMessageIcon,
+  MessageIcon,
+  TaskStatusIcon,
+  ThreadIcon,
+} from "@botiverse/raft-ui";
 
 function IconGridItem({ label, children }: { label: string; children: ReactNode }) {
   return (

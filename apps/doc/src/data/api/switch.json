@@ -1,7 +1,7 @@
 [
   {
     "name": "Switch",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -111,7 +111,7 @@
   },
   {
     "name": "SwitchThumb",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

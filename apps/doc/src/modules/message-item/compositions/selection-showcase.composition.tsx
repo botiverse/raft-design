@@ -13,7 +13,7 @@ import {
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
   Button,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 import { MessageMultiSelectToolbarComposition } from "./selection.compositions.tsx";

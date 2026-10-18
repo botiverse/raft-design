@@ -11,14 +11,14 @@ import {
   RadioGroup,
   RadioGroupItem,
   Text,
-} from "raft-ui";
-import { cn } from "raft-ui/cn";
+} from "@botiverse/raft-ui";
+import { cn } from "@botiverse/raft-ui/cn";
 import { AlertTriangle, RotateCcw } from "lucide-react";
 import { useState } from "react";
 import type { ReactNode } from "react";
 
 // @docs-source-strip-start
-import { Dialog } from "raft-ui";
+import { Dialog } from "@botiverse/raft-ui";
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end

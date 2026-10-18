@@ -32,8 +32,8 @@ import {
   SidebarSectionDisclosure,
   SidebarSectionHeader,
   SidebarSectionTitle,
-} from "raft-ui";
-import type { ThemeMode } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { ThemeMode } from "@botiverse/raft-ui";
 
 import { GithubMark } from "#/components/github-mark.tsx";
 import { usePreviewTheme } from "#/components/preview-theme.tsx";

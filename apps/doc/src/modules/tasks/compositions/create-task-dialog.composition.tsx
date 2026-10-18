@@ -12,8 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
   Input,
-} from "raft-ui";
-import type { DialogContentProps } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { DialogContentProps } from "@botiverse/raft-ui";
 import { Plus, Trash2, X } from "lucide-react";
 
 const DEFAULT_INITIAL_TITLES = [""];

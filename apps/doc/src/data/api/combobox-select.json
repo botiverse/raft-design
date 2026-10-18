@@ -1,7 +1,7 @@
 [
   {
     "name": "ComboboxSelect",
-    "entry": "raft-ui/wip",
+    "entry": "@botiverse/raft-ui/wip",
     "native": true,
     "props": [
       {

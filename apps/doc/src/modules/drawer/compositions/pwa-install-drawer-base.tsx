@@ -12,8 +12,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "raft-ui";
-import type { DrawerContentProps, DrawerProps } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { DrawerContentProps, DrawerProps } from "@botiverse/raft-ui";
 import { useCallback, useState, useSyncExternalStore } from "react";
 
 const MOBILE_QUERY = "(max-width: 767px)";

@@ -1,4 +1,9 @@
-import { DescriptionDetails, DescriptionItem, DescriptionList, DescriptionTerm } from "raft-ui";
+import {
+  DescriptionDetails,
+  DescriptionItem,
+  DescriptionList,
+  DescriptionTerm,
+} from "@botiverse/raft-ui";
 
 export function HorizontalDescriptionListComposition() {
   return (

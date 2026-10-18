@@ -6,7 +6,7 @@ import {
   CopyableCode,
   CopyableCodeAction,
   CopyableCodeRoot,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { useMemo } from "react";
 
@@ -23,7 +23,8 @@ import type { ComponentStatus } from "./status-label.tsx";
 
 function importLineOf(page: DocPage, api: readonly ApiComponent[]) {
   const entry =
-    api[0]?.entry ?? (page.frontMatter.status === "experimental" ? "raft-ui/wip" : "raft-ui");
+    api[0]?.entry ??
+    (page.frontMatter.status === "experimental" ? "@botiverse/raft-ui/wip" : "@botiverse/raft-ui");
   return `import { ${page.frontMatter.title} } from "${entry}";`;
 }
 

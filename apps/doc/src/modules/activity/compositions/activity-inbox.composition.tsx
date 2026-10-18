@@ -53,7 +53,7 @@ import {
   TabsLabel,
   TabsList,
   TabsTab,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { useCallback, useMemo, useRef, useState } from "react";
 import type { ChangeEvent } from "react";
 

@@ -37,7 +37,7 @@ import {
   SelectSeparator,
   SelectTrigger,
   SearchShellFilters,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import type { SearchChannelFixture, SearchSenderFixture } from "../search.fixtures.ts";
 import { SourceIdentityAvatar } from "./search-panel.parts.tsx";

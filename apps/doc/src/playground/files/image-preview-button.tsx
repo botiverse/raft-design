@@ -10,8 +10,8 @@ import {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-} from "raft-ui";
-import { MessageImageGalleryPreview } from "raft-ui";
+} from "@botiverse/raft-ui";
+import { MessageImageGalleryPreview } from "@botiverse/raft-ui";
 
 import { openMockAttachmentPreview } from "./open-mock-attachment-preview.ts";
 

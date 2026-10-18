@@ -1,7 +1,7 @@
 [
   {
     "name": "AppShellMainSlot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -22,7 +22,7 @@
   },
   {
     "name": "AppShellOverlaySlot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -36,7 +36,7 @@
   },
   {
     "name": "AppShellPanelSlot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -50,7 +50,7 @@
   },
   {
     "name": "AppShellRailSlot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -64,7 +64,7 @@
   },
   {
     "name": "AppShellRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -104,7 +104,7 @@
   },
   {
     "name": "AppShellSidebarSlot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -118,7 +118,7 @@
   },
   {
     "name": "AppShellSidebarTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

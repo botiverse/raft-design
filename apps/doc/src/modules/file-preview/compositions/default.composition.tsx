@@ -5,7 +5,7 @@ import {
   FilePreviewDocument,
   FilePreviewFile,
   FilePreviewMedia,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
 

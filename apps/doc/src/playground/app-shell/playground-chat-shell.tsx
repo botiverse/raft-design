@@ -9,8 +9,8 @@ import {
   ResizableGroup,
   ResizableHandle,
   ResizablePanel,
-} from "raft-ui";
-import { cn } from "raft-ui/cn";
+} from "@botiverse/raft-ui";
+import { cn } from "@botiverse/raft-ui/cn";
 
 import {
   PLAYGROUND_LIVE_AGENT_ACTIVITY,

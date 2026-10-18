@@ -15,7 +15,7 @@ import {
   FieldLabel,
   Input,
   Textarea,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { useMediaQuery } from "foxact/use-media-query";
 
 const PLACEHOLDER_NOTES = [

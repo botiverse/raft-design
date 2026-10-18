@@ -8,7 +8,7 @@ import {
   SidebarSectionEmpty,
   SidebarSectionTitle,
   SidebarSectionTrailing,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import {
   SidebarSectionAddButton,

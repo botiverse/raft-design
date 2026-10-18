@@ -1,6 +1,6 @@
 import { Link, useMatch } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
-import { Button } from "raft-ui";
+import { Button } from "@botiverse/raft-ui";
 
 import { PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
 

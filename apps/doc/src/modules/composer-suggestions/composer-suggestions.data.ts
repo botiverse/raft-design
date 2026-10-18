@@ -1,4 +1,4 @@
-import type { ComposerSuggestionTriggerMatch } from "raft-ui";
+import type { ComposerSuggestionTriggerMatch } from "@botiverse/raft-ui";
 
 export type PersonSuggestion = {
   avatarFallback: string;

@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import type { ApiComponent, ChangeEntry } from "#/lib/content/api.ts";
 import type { DocPage } from "#/lib/content/pages.ts";
@@ -112,7 +112,9 @@ export function ApiSection({ components }: { components: readonly ApiComponent[]
             </MarkdownHeading>
             <div className="mb-3 flex flex-wrap items-center gap-2 text-callout text-foreground-muted">
               {component.deprecated ? <StatusLabel status="deprecated" /> : null}
-              {component.entry === "raft-ui/wip" ? <StatusLabel status="experimental" /> : null}
+              {component.entry === "@botiverse/raft-ui/wip" ? (
+                <StatusLabel status="experimental" />
+              ) : null}
               {typeof component.deprecated === "string" ? (
                 <span>{component.deprecated}</span>
               ) : null}

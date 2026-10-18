@@ -1,7 +1,7 @@
 [
   {
     "name": "SidebarBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -15,7 +15,7 @@
   },
   {
     "name": "SidebarLiveActivity",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -29,7 +29,7 @@
   },
   {
     "name": "SidebarContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -43,7 +43,7 @@
   },
   {
     "name": "SidebarGroupLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -57,7 +57,7 @@
   },
   {
     "name": "SidebarHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -71,7 +71,7 @@
   },
   {
     "name": "SidebarHeaderTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -85,7 +85,7 @@
   },
   {
     "name": "SidebarItemAside",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -99,7 +99,7 @@
   },
   {
     "name": "SidebarItemCount",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -113,7 +113,7 @@
   },
   {
     "name": "SidebarItemCountSeparator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "The dot between the channel's own unread count and its thread count.",
     "native": true,
     "props": [
@@ -128,7 +128,7 @@
   },
   {
     "name": "SidebarItemChannelIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -142,7 +142,7 @@
   },
   {
     "name": "SidebarItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -186,7 +186,7 @@
   },
   {
     "name": "SidebarItemIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -200,7 +200,7 @@
   },
   {
     "name": "SidebarItemIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -214,7 +214,7 @@
   },
   {
     "name": "SidebarItemContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -235,7 +235,7 @@
   },
   {
     "name": "SidebarItemMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -249,7 +249,7 @@
   },
   {
     "name": "SidebarItemMetaIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -263,7 +263,7 @@
   },
   {
     "name": "SidebarItemStatus",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -277,7 +277,7 @@
   },
   {
     "name": "SidebarItemSubtitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -291,7 +291,7 @@
   },
   {
     "name": "SidebarItemThreadCount",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Thread segment of an unread count: a thread icon followed by the number of threads with new replies. Works inside SidebarItemCount or as quiet text.",
     "native": true,
     "props": [
@@ -314,7 +314,7 @@
   },
   {
     "name": "SidebarItemTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -328,7 +328,7 @@
   },
   {
     "name": "SidebarList",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -358,7 +358,7 @@
   },
   {
     "name": "SidebarMenu",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -372,7 +372,7 @@
   },
   {
     "name": "SidebarMenuAside",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -386,7 +386,7 @@
   },
   {
     "name": "SidebarMenuCount",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -400,7 +400,7 @@
   },
   {
     "name": "SidebarMenuIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -414,7 +414,7 @@
   },
   {
     "name": "SidebarMenuTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -428,7 +428,7 @@
   },
   {
     "name": "SidebarRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -442,7 +442,7 @@
   },
   {
     "name": "SidebarControl",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -480,7 +480,7 @@
   },
   {
     "name": "SidebarSection",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -524,7 +524,7 @@
   },
   {
     "name": "SidebarSectionEmpty",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -554,7 +554,7 @@
   },
   {
     "name": "SidebarSectionControl",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -596,7 +596,7 @@
   },
   {
     "name": "SidebarSectionControls",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -610,7 +610,7 @@
   },
   {
     "name": "SidebarSectionDisclosure",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -624,7 +624,7 @@
   },
   {
     "name": "SidebarSectionChevron",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -638,7 +638,7 @@
   },
   {
     "name": "SidebarSectionCount",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -652,7 +652,7 @@
   },
   {
     "name": "SidebarSectionHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -666,7 +666,7 @@
   },
   {
     "name": "SidebarSectionAttention",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -700,7 +700,7 @@
   },
   {
     "name": "SidebarSectionTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -714,7 +714,7 @@
   },
   {
     "name": "SidebarSectionTrailing",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

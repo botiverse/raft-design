@@ -6,7 +6,7 @@ import {
   ScrollAreaThumb,
   ScrollAreaViewport,
   Text,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 const CELLS = Array.from({ length: 12 }, (_, row) =>
   Array.from({ length: 12 }, (_, column) => `${row + 1}:${column + 1}`),

@@ -1,7 +1,7 @@
 [
   {
     "name": "IconTile",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "A neutral square holding an icon, sized like an avatar: 19, 27, 35 or 51. It is decorative beside its words, so it is hidden from assistive tech; a tile that means something on its own takes `role=\"img\"` and an `aria-label`, and is announced.",
     "native": true,
     "props": [

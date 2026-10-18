@@ -1,4 +1,4 @@
-import { Spinner } from "raft-ui";
+import { Spinner } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";

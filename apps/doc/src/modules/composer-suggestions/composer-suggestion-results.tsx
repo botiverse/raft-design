@@ -1,5 +1,5 @@
 import { Bot, Hash, User, UserX } from "lucide-react";
-import type { useComposerSuggestions } from "raft-ui";
+import type { useComposerSuggestions } from "@botiverse/raft-ui";
 import {
   Avatar,
   AvatarBadge,
@@ -15,8 +15,8 @@ import {
   ComposerSuggestionMeta,
   ComposerSuggestionOption,
   ComposerSuggestionTitle,
-} from "raft-ui";
-import { ComposerSuggestionList } from "raft-ui";
+} from "@botiverse/raft-ui";
+import { ComposerSuggestionList } from "@botiverse/raft-ui";
 
 import { isPersonSuggestion } from "./composer-suggestions.data.ts";
 import type {

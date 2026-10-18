@@ -1,5 +1,5 @@
-import { useComposerSuggestions } from "raft-ui";
-import type { ComposerSuggestionTriggerMatch } from "raft-ui";
+import { useComposerSuggestions } from "@botiverse/raft-ui";
+import type { ComposerSuggestionTriggerMatch } from "@botiverse/raft-ui";
 
 import {
   PLAYGROUND_ACTORS,

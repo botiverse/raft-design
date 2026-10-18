@@ -8,7 +8,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";

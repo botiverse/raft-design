@@ -1,5 +1,5 @@
 import { MessageSquare } from "lucide-react";
-import { FloatButton } from "raft-ui";
+import { FloatButton } from "@botiverse/raft-ui";
 
 export function FloatButtonPreviewContent() {
   return (

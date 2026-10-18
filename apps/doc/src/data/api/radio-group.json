@@ -1,7 +1,7 @@
 [
   {
     "name": "RadioGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -81,7 +81,7 @@
   },
   {
     "name": "RadioGroupIndicator",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -103,7 +103,7 @@
   },
   {
     "name": "RadioGroupItem",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

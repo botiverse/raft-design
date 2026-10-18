@@ -5,7 +5,7 @@ import {
   ContextMenuPopup,
   ContextMenuSeparator,
   ContextMenuShortcut,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { Archive, ChevronRight, Copy, MoonStar, Pin, Trash } from "lucide-react";
 
 // @docs-source-strip-start

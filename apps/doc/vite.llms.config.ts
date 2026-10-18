@@ -13,11 +13,11 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
     alias: [
-      { find: /^raft-ui$/, replacement: ui("index.ts") },
-      { find: /^raft-ui\/cn$/, replacement: ui("lib/cn.ts") },
-      { find: /^raft-ui\/wip$/, replacement: ui("wip.ts") },
-      { find: /^raft-ui\/fonts\.css$/, replacement: ui("fonts.css") },
-      { find: /^raft-ui\/styles\.css$/, replacement: ui("styles.css") },
+      { find: /^@botiverse\/raft-ui$/, replacement: ui("index.ts") },
+      { find: /^@botiverse\/raft-ui\/cn$/, replacement: ui("lib/cn.ts") },
+      { find: /^@botiverse\/raft-ui\/wip$/, replacement: ui("wip.ts") },
+      { find: /^@botiverse\/raft-ui\/fonts\.css$/, replacement: ui("fonts.css") },
+      { find: /^@botiverse\/raft-ui\/styles\.css$/, replacement: ui("styles.css") },
     ],
   },
   ssr: { noExternal: ["foxact", "torph"] },

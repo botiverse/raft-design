@@ -28,11 +28,11 @@ const config = defineConfig({
   resolve: {
     tsconfigPaths: true,
     alias: [
-      { find: /^raft-ui$/, replacement: raftUiIndexPath },
-      { find: /^raft-ui\/cn$/, replacement: raftUiCnPath },
-      { find: /^raft-ui\/wip$/, replacement: raftUiWipPath },
-      { find: /^raft-ui\/fonts\.css$/, replacement: raftUiFontsPath },
-      { find: /^raft-ui\/styles\.css$/, replacement: raftUiStylesPath },
+      { find: /^@botiverse\/raft-ui$/, replacement: raftUiIndexPath },
+      { find: /^@botiverse\/raft-ui\/cn$/, replacement: raftUiCnPath },
+      { find: /^@botiverse\/raft-ui\/wip$/, replacement: raftUiWipPath },
+      { find: /^@botiverse\/raft-ui\/fonts\.css$/, replacement: raftUiFontsPath },
+      { find: /^@botiverse\/raft-ui\/styles\.css$/, replacement: raftUiStylesPath },
       { find: "@base-ui/utils/useRefWithInit", replacement: baseUiUseRefWithInitPath },
     ],
   },

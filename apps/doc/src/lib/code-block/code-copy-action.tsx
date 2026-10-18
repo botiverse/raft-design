@@ -4,7 +4,7 @@ import { useClipboard } from "foxact/use-clipboard";
 import { Check, Copy } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useCallback } from "react";
-import { CodeBlockAction } from "raft-ui";
+import { CodeBlockAction } from "@botiverse/raft-ui";
 
 const SWAP_DURATION = 0.14;
 const SWAP_EASE = [0.2, 0.8, 0.2, 1] as const;

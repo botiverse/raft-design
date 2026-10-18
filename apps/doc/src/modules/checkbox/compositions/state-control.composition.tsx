@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Checkbox, Label } from "raft-ui";
+import { Checkbox, Label } from "@botiverse/raft-ui";
 
 export function CheckboxStateControlContent() {
   const [checked, setChecked] = useState(false);

@@ -5,7 +5,7 @@ import {
   SystemMessageGroupHeader,
   SystemMessageGroupPanel,
   SystemMessageGroupSummary,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { SystemMessageRowComposition } from "./preview.composition.tsx";
 import type { SystemMessageRowCompositionProps } from "./preview.composition.tsx";
 

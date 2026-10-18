@@ -1,5 +1,5 @@
 import { AlertTriangle, ArrowDownToLine } from "lucide-react";
-import { Spinner } from "raft-ui";
+import { Spinner } from "@botiverse/raft-ui";
 import {
   MessageVideoPreview,
   MessageVideoPreviewAction,
@@ -9,7 +9,7 @@ import {
   MessageVideoPreviewFailureTitle,
   MessageVideoPreviewFallback,
   MessageVideoPreviewMedia,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   MESSAGE_FIXTURE_VIDEO_SRC,
   downloadMessageFixture,

@@ -8,8 +8,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "raft-ui";
-import { Field, FieldLabel, InlineCode, Input } from "raft-ui";
+} from "@botiverse/raft-ui";
+import { Field, FieldLabel, InlineCode, Input } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";

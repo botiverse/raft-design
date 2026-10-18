@@ -15,7 +15,7 @@ import {
   ComboboxTrigger,
   ComboboxTriggerCount,
   ComboboxTriggerIndicator,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 type Channel = {
   id: string;

@@ -1,5 +1,5 @@
 import { AppWindow, Info, OctagonAlert } from "lucide-react";
-import { IconTile } from "raft-ui";
+import { IconTile } from "@botiverse/raft-ui";
 
 export function IconTileVariantsComposition() {
   return (

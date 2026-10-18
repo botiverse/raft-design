@@ -40,7 +40,7 @@ packages/ui/src/components/<component>/<component>.md
                           One doc per component, next to its code
 packages/ui/src/tokens.json
                           The single source for token values (DTCG format), published as
-                          raft-ui/tokens.json; foundation.css is generated from it
+                          @botiverse/raft-ui/tokens.json; foundation.css is generated from it
 ```
 
 Component docs sit next to the code so that a change to a component and a change to its rules land in the same pull request. The rest of the guidelines stay in `design/` because they are about more than one component.
@@ -96,7 +96,7 @@ replacedBy: drawer            # Only when status is deprecated
 
 | Status | Exported from | Meaning |
 | --- | --- | --- |
-| `experimental` | `raft-ui/wip` | The API can change in any release. |
+| `experimental` | `@botiverse/raft-ui/wip` | The API can change in any release. |
 | `stable` | `raft-ui` | Breaking changes follow the package's versioning policy. |
 | `deprecated` | `raft-ui`, with `@deprecated` in its JSDoc | Still works. `replacedBy` names what to use instead. It is removed in the next major version. |
 

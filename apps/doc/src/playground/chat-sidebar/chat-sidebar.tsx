@@ -13,7 +13,7 @@ import {
   SidebarItemTitle,
   SidebarLiveActivity,
   SidebarRoot,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { SidebarCreateMenu } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import { LiveAgentActivityBarComposition } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";

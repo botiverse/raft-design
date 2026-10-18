@@ -1,6 +1,6 @@
 import type { ReactNode, RefObject } from "react";
 import { useRef } from "react";
-import { cn } from "raft-ui/cn";
+import { cn } from "@botiverse/raft-ui/cn";
 
 type CompositionPreviewProps = {
   children: ReactNode;

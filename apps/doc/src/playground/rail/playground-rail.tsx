@@ -34,7 +34,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   Activity,
   CheckSquare,

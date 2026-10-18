@@ -44,8 +44,13 @@ import {
   FilePreviewMedia,
   SortableComposerAttachment,
   SortableComposerAttachmentsScroll,
-} from "raft-ui";
-import { Composer, ComposerInput, ComposerSuggestionList, ComposerToolbar } from "raft-ui";
+} from "@botiverse/raft-ui";
+import {
+  Composer,
+  ComposerInput,
+  ComposerSuggestionList,
+  ComposerToolbar,
+} from "@botiverse/raft-ui";
 
 import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
 import { usePlaygroundSingleComposerMentionTarget } from "./use-playground-single-composer-mention-target.ts";

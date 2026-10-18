@@ -9,7 +9,7 @@ related: [select, combobox, field]
 
 # ComboboxSelect
 
-ComboboxSelect is a 44px field that people type into to find one or a few values in a long list. It takes an array of options, flat or grouped, and builds the field, the list, the chips and the empty and loading lines from it. It is exported from `raft-ui/wip`, and its API can change in any release.
+ComboboxSelect is a 44px field that people type into to find one or a few values in a long list. It takes an array of options, flat or grouped, and builds the field, the list, the chips and the empty and loading lines from it. It is exported from `@botiverse/raft-ui/wip`, and its API can change in any release.
 
 ```example
 combobox-select/compositions/preview

@@ -43,7 +43,7 @@ When evidence is incomplete:
 Use the first available evidence source; do not require a source checkout:
 
 1. In the raft-ui repository, inspect `packages/ui/src/foundation.css`, `packages/ui/src/fonts.css`, the component recipe, and its real consumers.
-2. In an installed application, inspect `node_modules/raft-ui/dist/foundation.css`, `node_modules/raft-ui/dist/fonts.css`, `node_modules/raft-ui/dist/index.d.mts`, and the application's component usage.
+2. In an installed application, inspect `node_modules/@botiverse/raft-ui/dist/foundation.css`, `node_modules/@botiverse/raft-ui/dist/fonts.css`, `node_modules/@botiverse/raft-ui/dist/index.d.mts`, and the application's component usage.
 3. If neither code surface is available, rely on supplied screenshots or renders and state that implementation ownership is unverified.
 
 Treat declarations as API evidence and compiled CSS as token evidence.

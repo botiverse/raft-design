@@ -13,8 +13,8 @@ import {
   Status,
   cn,
   MessageItemAvatarSlot,
-} from "raft-ui";
-import type { StatusProps } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { StatusProps } from "@botiverse/raft-ui";
 import { User } from "lucide-react";
 import type { ReactNode } from "react";
 

@@ -21,7 +21,7 @@ import {
   ProfilePanelSection,
   Status,
   Text,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function AgentProfileComposition() {
   return (

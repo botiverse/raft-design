@@ -5,7 +5,7 @@ import {
   ScrollAreaThumb,
   ScrollAreaViewport,
   Text,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function ScrollAreaBasicComposition() {
   return (

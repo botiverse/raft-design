@@ -10,7 +10,7 @@ import {
   AlertDialogTitle,
   Banner,
   BannerDescription,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { CircleAlert } from "lucide-react";
 
 export function ChatSidebarArchiveDialog({

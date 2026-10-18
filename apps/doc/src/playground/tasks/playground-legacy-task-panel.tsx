@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ChevronLeft, X } from "lucide-react";
-import { Button, PanelAction } from "raft-ui";
+import { Button, PanelAction } from "@botiverse/raft-ui";
 
 import { TasksLegacyTaskPanelComposition } from "#/modules/tasks/compositions/tasks-legacy-task-panel.composition.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";

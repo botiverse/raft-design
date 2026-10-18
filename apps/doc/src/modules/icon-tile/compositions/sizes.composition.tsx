@@ -1,5 +1,5 @@
 import { Monitor } from "lucide-react";
-import { IconTile } from "raft-ui";
+import { IconTile } from "@botiverse/raft-ui";
 
 export function IconTileSizesComposition() {
   return (

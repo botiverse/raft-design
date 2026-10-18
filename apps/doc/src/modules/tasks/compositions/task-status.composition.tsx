@@ -5,8 +5,8 @@ import {
   Timeline,
   TimelineItem,
   TimelineTitle,
-} from "raft-ui";
-import type { TaskStatusId } from "raft-ui";
+} from "@botiverse/raft-ui";
+import type { TaskStatusId } from "@botiverse/raft-ui";
 
 /**
  * The task-status contract, laid out as one table: five states (rows) × four

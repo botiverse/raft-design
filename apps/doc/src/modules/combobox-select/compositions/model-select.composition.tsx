@@ -1,7 +1,7 @@
 import { useId, useState } from "react";
-import { Field, FieldDescription, FieldLabel } from "raft-ui";
-import { ComboboxSelect } from "raft-ui/wip";
-import type { ComboboxSelectValue } from "raft-ui/wip";
+import { Field, FieldDescription, FieldLabel } from "@botiverse/raft-ui";
+import { ComboboxSelect } from "@botiverse/raft-ui/wip";
+import type { ComboboxSelectValue } from "@botiverse/raft-ui/wip";
 
 const modelOptions = [
   {

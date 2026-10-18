@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@botiverse/raft-ui";
 import {
   MessageForwardedBundle,
   MessageForwardedBundleAttachment,
@@ -16,7 +16,7 @@ import {
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
   MessageForwardedBundleFooterAction,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
@@ -31,7 +31,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 function LongForwardedItem() {
   return (

@@ -28,7 +28,7 @@ The authoring guide (`design/authoring/README.md`) names three readers and requi
 | Product engineer | Find the right component for a situation                 | Search that knows former and common names (Sheet → Drawer, Snackbar → Toast); a "When to use" table on every component page that names the alternative |
 |                  | Copy correct usage                                       | Examples that are the real compositions, with copyable source and the import line                                                                      |
 |                  | Check a component's states in light, dark and on a phone | Per-example Light / Dark / Both switch; a phone-width view that runs media queries                                                                     |
-|                  | Know whether it is safe to use                           | Lifecycle status from the export (`raft-ui` vs `raft-ui/wip`, `@deprecated`), shown on the page and in lists; the component's changes                  |
+|                  | Know whether it is safe to use                           | Lifecycle status from the export (`raft-ui` vs `@botiverse/raft-ui/wip`, `@deprecated`), shown on the page and in lists; the component's changes       |
 | Designer         | Understand why a rule exists                             | Rules and reasons in prose; decisions as their own pages, linked from the rules they shaped                                                            |
 |                  | Look up values                                           | Token tables generated from `tokens.json`, both modes side by side, live swatches                                                                      |
 |                  | See the system as a whole                                | Foundations and patterns as first-class sections; the seven rules on the home page                                                                     |
@@ -104,7 +104,7 @@ All pages share one header: an eyebrow (section, plus category for components), 
 
 ### Home
 
-1. The title and summary of `design/README.md`, `pnpm add raft-ui`, one pink primary action (Browse Components) and one outline action (Read the Foundations). Next to it, a diagram of the frame, sidebar and paper drawn with the tokens themselves.
+1. The title and summary of `design/README.md`, `pnpm add @botiverse/raft-ui`, one pink primary action (Browse Components) and one outline action (Read the Foundations). Next to it, a diagram of the frame, sidebar and paper drawn with the tokens themselves.
 2. `design/README.md` itself: what the system is, the sections, the materials and the principles. The home page writes none of this; it renders the README, so the README stays the one source.
 3. For agents: `llms.txt`, `llms-full.txt`, the `.md` convention and `components.json`, each with what it contains.
 4. Latest release: the version and its first entries, linking to the changelog.
@@ -113,19 +113,19 @@ The current home page (a gallery of every component) is dropped. The components 
 
 ### Component page
 
-| #   | Part                                                                                                                                              | Source                    |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| 1   | Header: eyebrow "Components · Actions", title, summary, status label, "Also called …", the import line (copyable; `raft-ui/wip` for experimental) | Front matter, export      |
-| 2   | Lead sentences, then the first example                                                                                                            | `.md`                     |
-| 3   | When to use, a table that names the alternative component for each wrong case                                                                     | `.md`                     |
-| 4   | Anatomy: the parts by exported name                                                                                                               | `.md`                     |
-| 5   | Variants, each with an example                                                                                                                    | `.md` + compositions      |
-| 6   | States, Behavior, Content                                                                                                                         | `.md`                     |
-| 7   | Accessibility: semantics, keyboard, what the caller must add                                                                                      | `.md`                     |
-| 8   | Rules: rules for this component only                                                                                                              | `.md`                     |
-| 9   | API: props of the root and of each part, with types and defaults                                                                                  | Generated from TypeScript |
-| 10  | Related components                                                                                                                                | Front matter `related`    |
-| 11  | Changes: this component's changelog entries                                                                                                       | CHANGELOG.md              |
+| #   | Part                                                                                                                                                         | Source                    |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- |
+| 1   | Header: eyebrow "Components · Actions", title, summary, status label, "Also called …", the import line (copyable; `@botiverse/raft-ui/wip` for experimental) | Front matter, export      |
+| 2   | Lead sentences, then the first example                                                                                                                       | `.md`                     |
+| 3   | When to use, a table that names the alternative component for each wrong case                                                                                | `.md`                     |
+| 4   | Anatomy: the parts by exported name                                                                                                                          | `.md`                     |
+| 5   | Variants, each with an example                                                                                                                               | `.md` + compositions      |
+| 6   | States, Behavior, Content                                                                                                                                    | `.md`                     |
+| 7   | Accessibility: semantics, keyboard, what the caller must add                                                                                                 | `.md`                     |
+| 8   | Rules: rules for this component only                                                                                                                         | `.md`                     |
+| 9   | API: props of the root and of each part, with types and defaults                                                                                             | Generated from TypeScript |
+| 10  | Related components                                                                                                                                           | Front matter `related`    |
+| 11  | Changes: this component's changelog entries                                                                                                                  | CHANGELOG.md              |
 
 A deprecated component shows a banner at the top naming `replacedBy`. A component whose `.md` does not exist yet still gets a page: header, API and changes, plus a note naming the file that will fill it, so all 87 components are on the site from the first B4 release.
 

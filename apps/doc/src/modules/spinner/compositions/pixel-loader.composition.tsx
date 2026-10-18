@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { animate, stagger, useReducedMotion } from "motion/react";
 import type { AnimationPlaybackControlsWithThen } from "motion/react";
-import { RaftLogo } from "raft-ui";
+import { RaftLogo } from "@botiverse/raft-ui";
 
 const INK = "oklch(0.181 0.005 17.62)";
 const WHITE = "oklch(1 0 89.876)";

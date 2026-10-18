@@ -6,7 +6,7 @@ import {
   LiveAgentActivityBarRow,
   LiveAgentActivityBarStatus,
   LiveAgentActivityBarText,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export type LiveAgentActivityBarItem = {
   agentAvatarSrc?: string | null;

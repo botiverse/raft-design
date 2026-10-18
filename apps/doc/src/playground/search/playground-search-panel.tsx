@@ -16,7 +16,7 @@ import {
   ResizableGroup,
   ResizableHandle,
   ResizablePanel,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { useCallback, useEffect, useState } from "react";
 
 import { SearchPanelComposition } from "#/modules/search/compositions/search-panel.composition.tsx";

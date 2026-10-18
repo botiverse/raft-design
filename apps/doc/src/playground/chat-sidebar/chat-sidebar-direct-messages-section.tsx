@@ -7,7 +7,7 @@ import {
   SidebarSectionDisclosure,
   SidebarSectionTitle,
   SidebarSectionTrailing,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import {
   SidebarSectionHeaderMenu,

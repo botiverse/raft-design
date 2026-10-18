@@ -6,7 +6,7 @@ import {
   ResizableGroup,
   ResizableHandle,
   ResizablePanel,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
 import type { ActivityCompositionItem } from "#/modules/activity/activity.fixtures.ts";

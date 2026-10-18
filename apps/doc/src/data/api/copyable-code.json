@@ -1,7 +1,7 @@
 [
   {
     "name": "CopyableCode",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -14,7 +14,7 @@
   },
   {
     "name": "CopyableCodeAction",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -81,7 +81,7 @@
   },
   {
     "name": "CopyableCodeRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

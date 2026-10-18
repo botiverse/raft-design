@@ -1,7 +1,7 @@
 [
   {
     "name": "Composer",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -15,7 +15,7 @@
   },
   {
     "name": "ComposerActions",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -29,7 +29,7 @@
   },
   {
     "name": "ComposerAttachment",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -43,7 +43,7 @@
   },
   {
     "name": "ComposerAttachmentBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -57,7 +57,7 @@
   },
   {
     "name": "ComposerAttachmentFailedOverlay",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -71,7 +71,7 @@
   },
   {
     "name": "ComposerAttachmentFile",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -85,7 +85,7 @@
   },
   {
     "name": "ComposerAttachmentImage",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -99,7 +99,7 @@
   },
   {
     "name": "ComposerAttachmentMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -113,7 +113,7 @@
   },
   {
     "name": "ComposerAttachmentRemove",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -127,7 +127,7 @@
   },
   {
     "name": "ComposerAttachments",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -141,13 +141,13 @@
   },
   {
     "name": "ComposerAttachmentsScrollArea",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "ComposerAttachmentTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -161,7 +161,7 @@
   },
   {
     "name": "ComposerAttachmentUploadingOverlay",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -175,7 +175,7 @@
   },
   {
     "name": "ComposerAttachmentUploadProgressBar",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -195,7 +195,7 @@
   },
   {
     "name": "ComposerDropOverlay",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -209,7 +209,7 @@
   },
   {
     "name": "ComposerDropOverlayLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -223,7 +223,7 @@
   },
   {
     "name": "ComposerDropOverlayPrompt",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -237,7 +237,7 @@
   },
   {
     "name": "ComposerIconButton",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -279,7 +279,7 @@
   },
   {
     "name": "ComposerInput",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -293,7 +293,7 @@
   },
   {
     "name": "ComposerMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -307,7 +307,7 @@
   },
   {
     "name": "ComposerRoot",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -321,7 +321,7 @@
   },
   {
     "name": "ComposerSubmit",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -369,7 +369,7 @@
   },
   {
     "name": "ComposerSuggestionAside",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -383,7 +383,7 @@
   },
   {
     "name": "ComposerSuggestionContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -397,7 +397,7 @@
   },
   {
     "name": "ComposerSuggestionGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -418,7 +418,7 @@
   },
   {
     "name": "ComposerSuggestionGroupLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -432,7 +432,7 @@
   },
   {
     "name": "ComposerSuggestionIcon",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -453,7 +453,7 @@
   },
   {
     "name": "ComposerSuggestionList",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -467,7 +467,7 @@
   },
   {
     "name": "ComposerSuggestionMeta",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -488,7 +488,7 @@
   },
   {
     "name": "ComposerSuggestionOption",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -502,7 +502,7 @@
   },
   {
     "name": "ComposerSuggestionTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -516,7 +516,7 @@
   },
   {
     "name": "ComposerToolbar",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -530,7 +530,7 @@
   },
   {
     "name": "ComposerToolbarLabel",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -544,7 +544,7 @@
   },
   {
     "name": "SortableComposerAttachment",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Sized placeholder stays in the flex flow (opacity 0). DragOverlay is the pointer ghost — the root reads these `children` for it. Live draft reorder moves this slot to the drop index; wrap skips strategy transforms so siblings FLIP via layout instead of wrong gaps.",
     "native": false,
     "props": [
@@ -570,7 +570,7 @@
   },
   {
     "name": "SortableComposerAttachments",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Wrap / flex-pack attachment reorder (mixed widths).",
     "native": false,
     "props": [
@@ -596,7 +596,7 @@
   },
   {
     "name": "SortableComposerAttachmentsScroll",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "description": "Horizontal scroll strip reorder — wraps `ComposerAttachmentsScrollArea`.",
     "native": false,
     "props": [

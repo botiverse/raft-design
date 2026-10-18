@@ -7,7 +7,7 @@ import {
   SelectItemIndicator,
   SelectItemText,
   SelectList,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { usePreviewTheme } from "#/components/preview-theme.tsx";
 

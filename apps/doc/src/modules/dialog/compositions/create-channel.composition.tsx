@@ -24,11 +24,11 @@ import {
   SegmentedControlItem,
   SegmentedControlLabel,
   Textarea,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { Hash, Lock, Search } from "lucide-react";
 
 // @docs-source-strip-start
-import { Dialog } from "raft-ui";
+import { Dialog } from "@botiverse/raft-ui";
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end

@@ -1,7 +1,7 @@
 [
   {
     "name": "Drawer",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {
@@ -132,7 +132,7 @@
   },
   {
     "name": "DrawerActions",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -146,7 +146,7 @@
   },
   {
     "name": "DrawerBody",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -160,7 +160,7 @@
   },
   {
     "name": "DrawerClose",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -194,7 +194,7 @@
   },
   {
     "name": "DrawerContent",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -228,7 +228,7 @@
   },
   {
     "name": "DrawerDescription",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -242,7 +242,7 @@
   },
   {
     "name": "DrawerFooter",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -256,7 +256,7 @@
   },
   {
     "name": "DrawerHeader",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -270,7 +270,7 @@
   },
   {
     "name": "DrawerOverlay",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -292,7 +292,7 @@
   },
   {
     "name": "DrawerPortal",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -321,7 +321,7 @@
   },
   {
     "name": "DrawerTitle",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -335,7 +335,7 @@
   },
   {
     "name": "DrawerTrigger",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

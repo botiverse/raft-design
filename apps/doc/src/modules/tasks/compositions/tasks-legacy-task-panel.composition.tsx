@@ -21,7 +21,7 @@ import {
   LegacyTaskPanelTitle,
   LegacyTaskPanelTitleMeta,
   PanelAction,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export type TasksLegacyTaskPanelCompositionProps = {
   channelName: string;

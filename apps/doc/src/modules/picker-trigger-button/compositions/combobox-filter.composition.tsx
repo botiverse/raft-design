@@ -15,7 +15,7 @@ import {
   ComboboxTrigger,
   ComboboxTriggerIndicator,
   PickerTriggerButton,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 const CHANNELS = [
   { id: "design", label: "#design" },

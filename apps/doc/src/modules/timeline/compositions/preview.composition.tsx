@@ -1,4 +1,10 @@
-import { Timeline, TimelineContent, TimelineItem, TimelineTime, TimelineTitle } from "raft-ui";
+import {
+  Timeline,
+  TimelineContent,
+  TimelineItem,
+  TimelineTime,
+  TimelineTitle,
+} from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";

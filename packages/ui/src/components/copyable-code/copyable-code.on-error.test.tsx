@@ -29,7 +29,7 @@ function renderCopyable(props: {
 }) {
   render(
     <CopyableCodeRoot {...props}>
-      <CopyableCode>npm i raft-ui</CopyableCode>
+      <CopyableCode>npm i @botiverse/raft-ui</CopyableCode>
       <CopyableCodeAction />
     </CopyableCodeRoot>,
   );
@@ -69,7 +69,7 @@ describe("CopyableCode copy failure reporting", () => {
 
     fireEvent.click(renderCopyable({ onCopy, onError }));
 
-    await waitFor(() => expect(onCopy).toHaveBeenCalledWith("npm i raft-ui"));
+    await waitFor(() => expect(onCopy).toHaveBeenCalledWith("npm i @botiverse/raft-ui"));
     expect(onError).not.toHaveBeenCalled();
   });
 

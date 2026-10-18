@@ -8,7 +8,7 @@ import {
   PanelActivity,
   PanelTitle,
   Status,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import { getPlaygroundDmActor } from "../mock/index.ts";
 import type { PlaygroundDirectMessage } from "../mock/index.ts";

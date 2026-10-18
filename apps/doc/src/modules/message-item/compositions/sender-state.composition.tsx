@@ -12,7 +12,7 @@ import {
   MessageItemSender,
   MessageItemSenderBadges,
   MessageItemTime,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 export function MessageSenderStateComposition() {
   return (

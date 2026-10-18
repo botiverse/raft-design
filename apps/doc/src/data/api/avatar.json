@@ -1,7 +1,7 @@
 [
   {
     "name": "Avatar",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -27,7 +27,7 @@
   },
   {
     "name": "AvatarBadge",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -56,7 +56,7 @@
   },
   {
     "name": "AvatarFallback",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -78,13 +78,13 @@
   },
   {
     "name": "AvatarGroup",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
   },
   {
     "name": "AvatarGroupCount",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {
@@ -98,7 +98,7 @@
   },
   {
     "name": "AvatarImage",
-    "entry": "raft-ui",
+    "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
       {

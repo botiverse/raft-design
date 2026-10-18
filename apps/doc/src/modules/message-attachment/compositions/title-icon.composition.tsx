@@ -8,7 +8,7 @@ import {
   MessageAttachmentMetaEnd,
   MessageAttachmentMetaStart,
   MessageAttachmentTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MaterialIconThemePdf(props: SVGProps<SVGSVGElement>) {

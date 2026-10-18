@@ -3,9 +3,9 @@ import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-
 import { CSS } from "@dnd-kit/utilities";
 import { useMemo } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
-import { SidebarList } from "raft-ui";
-import type { SidebarListProps } from "raft-ui";
-import { cn } from "raft-ui/cn";
+import { SidebarList } from "@botiverse/raft-ui";
+import type { SidebarListProps } from "@botiverse/raft-ui";
+import { cn } from "@botiverse/raft-ui/cn";
 
 import type { PlaygroundChannelId } from "../mock/index.ts";
 import type { ChatSidebarDragSection } from "./chat-sidebar-dnd-ids.ts";

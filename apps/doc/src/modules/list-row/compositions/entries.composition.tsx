@@ -1,7 +1,14 @@
 import { useCallback, useState } from "react";
 import type { MouseEvent } from "react";
 import { Activity, Bookmark, Search } from "lucide-react";
-import { Badge, ListRow, ListRowBody, ListRowIcon, ListRowMeta, ListRowTitle } from "raft-ui";
+import {
+  Badge,
+  ListRow,
+  ListRowBody,
+  ListRowIcon,
+  ListRowMeta,
+  ListRowTitle,
+} from "@botiverse/raft-ui";
 
 export function ListRowEntriesComposition() {
   const [open, setOpen] = useState("activity");

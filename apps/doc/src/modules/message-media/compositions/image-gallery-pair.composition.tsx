@@ -5,7 +5,7 @@ import {
   MessageImageGalleryItem,
   MessageImageGalleryMedia,
   MessageImageGalleryPreview,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import {
   downloadMessageFixture,
   MESSAGE_FIXTURE_IMAGE_SRC,

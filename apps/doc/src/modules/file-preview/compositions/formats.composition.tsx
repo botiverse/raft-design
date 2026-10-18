@@ -1,4 +1,4 @@
-import { FilePreview, FilePreviewBadge, FilePreviewDocument } from "raft-ui";
+import { FilePreview, FilePreviewBadge, FilePreviewDocument } from "@botiverse/raft-ui";
 
 export function FilePreviewFormatsContent() {
   return (

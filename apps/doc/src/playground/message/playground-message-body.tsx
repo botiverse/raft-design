@@ -14,7 +14,7 @@ import {
   Status,
   TaskChip,
   TaskStatusIcon,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import type { MarkdownPluginList } from "#/lib/markdown/markdown-plugins.ts";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { createRemarkReferences } from "#/lib/markdown/create-remark-references.ts";

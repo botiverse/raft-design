@@ -46,7 +46,7 @@ import {
   PanelMeta,
   ConversationPanelRoot,
   PanelTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import type { PlaygroundActor } from "../mock/index.ts";
 import type { PlaygroundRailView } from "../navigation/playground-navigation.ts";

@@ -1,4 +1,4 @@
-import { CodeBlock, CodeBlockActions, CodeBlockBody } from "raft-ui";
+import { CodeBlock, CodeBlockActions, CodeBlockBody } from "@botiverse/raft-ui";
 import { CodeCopyAction } from "#/lib/code-block/code-copy-action.tsx";
 import { ShikiHighlightedCode } from "#/lib/code-block/shiki-highlighted-code.tsx";
 

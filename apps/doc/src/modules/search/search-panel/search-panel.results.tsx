@@ -6,7 +6,7 @@ import {
   SearchResultsSectionHeading,
   SearchResultsSummary,
   SearchShellViewport,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 import type {
   SearchChannelFixture,

@@ -4,7 +4,7 @@ import {
   EmptyStateIcon,
   EmptyStateTitle,
   TasksPanelEmpty,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 import { CheckSquare } from "lucide-react";
 
 /** Panel-level empty host for the unfiltered and filtered-empty task lists. */

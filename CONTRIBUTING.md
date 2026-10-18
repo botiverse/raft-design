@@ -11,7 +11,7 @@ vp install   # install dependencies
 pnpm dev     # run the documentation site locally
 ```
 
-The documentation site reads raft-ui from source, so changes in `packages/ui` show up without a separate build. `vp run raft-ui#build` builds the package itself.
+The documentation site reads raft-ui from source, so changes in `packages/ui` show up without a separate build. `vp run @botiverse/raft-ui#build` builds the package itself.
 
 ## Checks
 
@@ -49,6 +49,8 @@ A pull request describes the change, names the guideline it updated or says why 
 ## Releases
 
 Maintainers cut raft-ui releases and write the changelog. Contributors do not need to change the version or `packages/ui/CHANGELOG.md`.
+
+raft-ui is published to npm as `@botiverse/raft-ui`. Pushing a `v<version>` tag runs `.github/workflows/publish.yml`, which publishes through npm trusted publishing and creates the GitHub Release; `scripts/publish-by-hand.sh` covers the case the workflow can't, the first release of a package name.
 
 ## License
 

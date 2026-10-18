@@ -1,5 +1,5 @@
 import { AtSign, BellOff, Pencil } from "lucide-react";
-import { SidebarItemIndicator, SidebarItemMetaIcon } from "raft-ui";
+import { SidebarItemIndicator, SidebarItemMetaIcon } from "@botiverse/raft-ui";
 
 export function PlaygroundMutedIndicator() {
   return (

@@ -10,12 +10,13 @@
     "build": "vp build && node scripts/build-llms.mjs && node scripts/build-sitemap.mjs",
     "preview": "vp preview",
     "test": "node ./node_modules/vitest/vitest.mjs run --config vitest.config.ts",
-    "deploy": "vp run raft-ui#build && vp build && node scripts/build-llms.mjs && node scripts/build-sitemap.mjs && wrangler deploy",
+    "deploy": "vp run @botiverse/raft-ui#build && vp build && node scripts/build-llms.mjs && node scripts/build-sitemap.mjs && wrangler deploy",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@base-ui/react": "catalog:",
     "@base-ui/utils": "catalog:",
+    "@botiverse/raft-ui": "workspace:*",
     "@dnd-kit/core": "catalog:",
     "@dnd-kit/sortable": "catalog:",
     "@dnd-kit/utilities": "catalog:",
@@ -28,7 +29,6 @@
     "foxact": "catalog:",
     "lucide-react": "catalog:",
     "motion": "catalog:",
-    "raft-ui": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-dropzone": "catalog:",

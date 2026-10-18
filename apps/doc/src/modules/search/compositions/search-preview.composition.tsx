@@ -27,7 +27,7 @@ import {
   SearchThreadResultMeta,
   SearchThreadResultTimestamp,
   SearchThreadResultTitle,
-} from "raft-ui";
+} from "@botiverse/raft-ui";
 
 /** Static gallery of Search result structures and visual states. */
 export function SearchPreviewComposition() {
