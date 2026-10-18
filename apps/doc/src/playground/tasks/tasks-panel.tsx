@@ -35,7 +35,7 @@ import { usePlaygroundTaskState } from "./use-playground-task-state.ts";
 type Tasks = NonNullable<TasksPanelCompositionProps["tasks"]>;
 type TaskView = NonNullable<TasksPanelCompositionProps["view"]>;
 
-const TASK_VIEW_MODE_STORAGE_KEY = "slock.tasks.viewMode";
+const TASK_VIEW_MODE_STORAGE_KEY = "raft.tasks.viewMode";
 const CURRENT_ACTOR_ID = "cuvii";
 const TASK_FILTER_IDENTITIES: readonly TasksIdentity[] = PLAYGROUND_ACTORS.map(
   (actor: PlaygroundActor) => ({

@@ -54,7 +54,7 @@ const toastStyles = tv({
       // DefaultToastItem writes at render time, instead of `:has()`: an
       // ancestor `:has()` that styles descendants makes Chromium recalculate
       // the whole page on unrelated mutations (measured: ~55ms per text-node
-      // change in a 300-message channel, #133). Manual compositions must set
+      // change in a 300-message channel, #386). Manual compositions must set
       // the same attributes to keep the layout (see ToastContent).
       "[&[data-has-description]_[data-slot=toast-body]]:self-start [&[data-has-description]_[data-slot=toast-icon]]:self-start",
       "[&:not([data-has-icon]):not([data-has-actions]):not([data-has-description])]:min-h-(--toast-title-only-min-h,2.25rem)",
@@ -430,13 +430,13 @@ export type ToastContentProps = StyledProps<BaseToast.Content.Props> & {
 /**
  * The content layout (self-start, title-only sizing, body centering) needs to
  * know which parts actually rendered. That used to be an ancestor `:has()`
- * styling descendants — a whole-page recalculation trap in Chromium (#133).
+ * styling descendants — a whole-page recalculation trap in Chromium (#386).
  * It measures the rendered DOM after layout instead, so wrapped parts and
  * parts that render nothing behave exactly like the old selectors did.
  *
  * The three attributes are not React-managed props: the layout effect toggles
  * them on this element directly (an attribute write on the component's own
- * node, not a structural change, so it stays outside the #133 invalidation
+ * node, not a structural change, so it stays outside the #386 invalidation
  * pattern). The measurement re-runs whenever this component renders; the
  * default item rebuilds the content on every toast update, and a hand-written
  * composition that flips a part without re-rendering ToastContent is not

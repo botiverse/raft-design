@@ -1,4 +1,4 @@
-// Fixtures for the MessageActionCard doc page (slock task #752). Every card a
+// Fixtures for the MessageActionCard doc page. Every card a
 // Raft agent can prepare today, grouped by the two patterns:
 //   review  — the action opens the regular dialog prefilled; the person can
 //             change anything before it is created (primary button "Review").

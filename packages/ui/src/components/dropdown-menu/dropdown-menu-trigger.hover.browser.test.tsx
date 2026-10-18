@@ -1,9 +1,8 @@
 import "./dropdown-menu.test.css";
 /**
- * Browser-mode verification for rui#301 (reviewer-requested by @Artea):
- * DropdownMenuTrigger must not repaint the hover colour of the Button the
- * caller renders — verified as REAL PIXELS in light and dark, not as class
- * names.
+ * Browser-mode verification for #301: DropdownMenuTrigger must not repaint the
+ * hover colour of the Button the caller renders — verified as REAL PIXELS in
+ * light and dark, not as class names.
  *
  * Run: `vp test --browser.enabled=true src/components/dropdown-menu/dropdown-menu-trigger.hover.browser.test.tsx`
  *

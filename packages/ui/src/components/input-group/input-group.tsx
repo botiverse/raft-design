@@ -15,7 +15,7 @@ const inputGroup = tv({
       "group/input-group relative flex w-full min-w-0 items-center",
       // Mirrors “an inline-end trim is rendered” into a variable the control
       // reads, instead of styling a descendant from an ancestor :has()
-      // (a whole-page recalc trap, #133).
+      // (a whole-page recalc trap, #386).
       "has-data-[input-group-trim=inline-end]:[--ig-control-pr:0]",
       "h-11 overflow-hidden rounded-control border-[1.5px] border-line-strong bg-layer-card text-foreground",
       "shadow-none transition-shadow duration-90 ease-out focus-within:shadow-focus",

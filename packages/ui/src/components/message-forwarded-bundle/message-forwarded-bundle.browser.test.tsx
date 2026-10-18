@@ -252,8 +252,8 @@ for (const mode of MODES) {
     expect(getComputedStyle(items).maxHeight).toBe("192px");
     // overflow-clip, never hidden: a folded card must not become a scroll
     // container (sticky content inside — the mermaid action bar — would
-    // anchor to the clipped card instead of the message list; slock kept
-    // this constraint, ref slock #5595).
+    // anchor to the clipped card instead of the message list; the Raft web
+    // app keeps the same constraint).
     expect(getComputedStyle(items).overflow).toBe("clip");
     // The footer only exists while the content folds.
     expect(screen.getByTestId("footer")).not.toBeNull();

@@ -10,11 +10,11 @@ import {
   PanelTitle,
 } from "./panel-header";
 
-// Artea (task #655, 2026-09-28): in a channel header the channel name comes
-// first. The name sits on its own line above the description; when the row is
-// narrow the description gives way (truncates) and the name stays whole. The
-// name itself only truncates when it alone is wider than the row. Measured in
-// a real browser — jsdom has no layout.
+// In a channel header the channel name comes first. The name sits on its own
+// line above the description; when the row is narrow the description gives way
+// (truncates) and the name stays whole. The name itself only truncates when it
+// alone is wider than the row. Measured in a real browser — jsdom has no
+// layout.
 
 const it = test.skipIf(typeof window === "undefined");
 

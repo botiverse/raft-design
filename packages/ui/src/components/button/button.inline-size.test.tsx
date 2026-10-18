@@ -43,11 +43,11 @@ test("inline takes no fixed height from the size scale", () => {
   expect(cls()).toMatch(/\bleading-\[inherit\]/);
   // No `h-<n>` from the scale survived the merge.
   expect(cls()).not.toMatch(/\bh-\d/);
-  // ...and no border either. @Dozy caught that removing the height class alone
-  // was not enough: with `h-auto` the box is content + border, so the Button's
-  // own border (`border-[1.5px]`, `border-2` before it) still adds to the
-  // line-height and rebuilds the button box this size exists to remove. The
-  // original test excluded only `h-<n>`, so the real bad shape stayed green.
+  // ...and no border either. Removing the height class alone was not enough:
+  // with `h-auto` the box is content + border, so the Button's own border
+  // (`border-[1.5px]`, `border-2` before it) still adds to the line-height and
+  // rebuilds the button box this size exists to remove. The original test
+  // excluded only `h-<n>`, so the real bad shape stayed green.
   expect(cls()).toContain("border-0");
   expect(cls()).not.toMatch(/\bborder-(?:[1-9]|\[[\d.]+px\])(?=\s|$)/);
 });

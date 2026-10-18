@@ -16,11 +16,11 @@ import { MessageReplies, MessageRepliesSummary } from "./message-replies";
  * Class-level assertions could not catch the original defect (w-full + a
  * negative right margin is dropped as over-constrained and measured the text
  * line, not the block edge), so this spec measures the boxes themselves. It
- * also pins the decision: cindyz kept the replies on the text line (#4), so
- * a future "bleed" attempt fails here until the decision changes.
+ * also pins the decision to keep the replies on the text line, so a future
+ * "bleed" attempt fails here until the decision changes.
  *
  * Browser-mode only (jsdom has no layout). Run with `vp test --browser.enabled`
- * — the repo's browser suite runs in the Josh/gzj flow, not in node CI.
+ * — the browser suite is run separately, not in node CI.
  */
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);

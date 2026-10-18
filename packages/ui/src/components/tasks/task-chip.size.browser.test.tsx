@@ -5,11 +5,10 @@ import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { TaskChip } from "./task-chip";
 import { TaskStatusBadge } from "./task-status-badge";
 
-// Artea (#proj-frontend task #748, 2026-10-12): in the Activity card the task
-// chip sits in one row with reply-count / mention / unread Badges and read one
-// size too big. `size="sm"` gives the chip a compact box for those rows; the
-// status badge is the same chip, so at `sm` it takes the same box. Real
-// browser only: jsdom has no layout.
+// In the Activity card the task chip sits in one row with reply-count, mention
+// and unread Badges and read one size too big. `size="sm"` gives the chip a
+// compact box for those rows; the status badge is the same chip, so at `sm` it
+// takes the same box. Real browser only: jsdom has no layout.
 
 const it = test.skipIf(typeof window === "undefined");
 

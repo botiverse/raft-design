@@ -1,13 +1,13 @@
 /**
  * @vitest-environment jsdom
  *
- * Disabled-button pointer behavior (task #77): native-disabled buttons swallow
- * pointer events, so a Tooltip explaining WHY an action is unavailable can
- * never open. Base UI's `focusableWhenDisabled` switches the button to the
- * aria-disabled path (no native `disabled` attribute), which keeps hover —
- * but our styles only mirrored opacity/transform under `:disabled`, so the
- * aria path used to lose its disabled appearance. These assertions pin both
- * the semantics and the appearance parity.
+ * Disabled-button pointer behavior: native-disabled buttons swallow pointer
+ * events, so a Tooltip explaining WHY an action is unavailable can never open.
+ * Base UI's `focusableWhenDisabled` switches the button to the aria-disabled
+ * path (no native `disabled` attribute), which keeps hover — but our styles
+ * only mirrored opacity/transform under `:disabled`, so the aria path used to
+ * lose its disabled appearance. These assertions pin both the semantics and the
+ * appearance parity.
  */
 import { afterEach, describe, expect, test, vi } from "vite-plus/test";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";

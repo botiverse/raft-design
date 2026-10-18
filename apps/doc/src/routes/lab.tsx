@@ -8,8 +8,8 @@ import { LogoSnapLab } from "#/modules/logo/logo-snap.lab.tsx";
 import { PixelLoaderLab } from "#/modules/pixel-loader/pixel-loader.lab.tsx";
 
 /**
- * Rendered INSIDE the docs shell, not as a standalone page (@xxchan: "/lab
- * 感觉不应该独立页面，需要有 sidebar").
+ * Rendered INSIDE the docs shell, not as a standalone page, so it keeps the
+ * sidebar and can be reached from the nav.
  *
  * It used to carry `staticData: { standalone: true }`, which is what stripped
  * the sidebar and left it unreachable from the nav — you had to know the URL.

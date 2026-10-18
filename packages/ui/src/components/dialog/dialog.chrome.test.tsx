@@ -68,9 +68,10 @@ function open(closeProps: Record<string, unknown> = {}) {
  * internally, and a label passed to DialogClose did NOT reach it — the render
  * element's own props win the merge, so callers had no way in. Consuming apps
  * therefore shipped an English label to screen readers in every locale, and the
- * only workaround was to abandon `render` and hand-build the button, which threw
- * away the built-in chrome as a side effect. Both Slock surfaces that hit this
- * had done exactly that (CreateAgentDialog, OverflowSheet).
+ * only workaround was to abandon `render` and hand-build the button, which
+ * threw away the built-in chrome as a side effect. Both Raft web app surfaces
+ * that hit this had done exactly that (a create-agent dialog and an overflow
+ * sheet).
  */
 test("close: a caller's aria-label wins over the built-in English default", () => {
   open({ "aria-label": "关闭" });
@@ -96,9 +97,9 @@ test("close: the override reaches AlertDialogClose too", () => {
 });
 
 // DrawerClose carries the identical defect and an identical fix. It is driven
-// here rather than assumed from the other two, because covering some of the
-// sites a rule touches and calling it the rule is the mistake I keep repeating.
-// OverflowSheet in Slock is a live consumer of exactly this path.
+// here rather than assumed from the other two: covering some of the sites a
+// rule touches does not cover the rule. The Raft web app's overflow sheet is a
+// live consumer of exactly this path.
 test("close: the override reaches DrawerClose too", () => {
   render(
     <ThemeProvider>
@@ -117,7 +118,7 @@ test("close: the override reaches DrawerClose too", () => {
  *
  * An earlier treatment gave them `border-b`/`border-t` plus `bg-fill-muted`, a
  * slightly different tone from the content surface, so the dialog read as
- * three banded strips rather than one card (@cindyz, 2026-09-01).
+ * three banded strips rather than one card.
  */
 test("header and footer draw no divider and add no surface of their own", () => {
   open();

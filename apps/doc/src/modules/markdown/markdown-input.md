@@ -15,7 +15,7 @@ Inline: **bold**, _italic_, ~~strikethrough~~, `inline code`, plus escaped \*lit
 First line
 hard-break second line.
 
-[Labeled link](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a) and an autolink https://github.com/botiverse/slock, plus email <contact@raft.build>.
+[Labeled link](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a) and an autolink https://github.com/botiverse/raft-design, plus email <contact@raft.build>.
 
 部署成功 🎉 完成 — emoji and CJK render as plain body text.
 

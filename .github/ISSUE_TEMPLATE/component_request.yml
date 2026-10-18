@@ -1,0 +1,26 @@
+name: Component or guideline request
+description: Propose a new component, a change to an existing one, or a new or changed guideline.
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type of request
+      options:
+        - New component
+        - Change to a component
+        - New or changed guideline
+    validations:
+      required: true
+  - type: textarea
+    id: need
+    attributes:
+      label: What is needed
+      description: The use case, and what the design system does today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: The component, API or rule you suggest. Links and sketches are welcome.

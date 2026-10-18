@@ -202,10 +202,10 @@ for (const mode of MODES) {
         </div>
       </ThemeProvider>,
     );
-    // Artea (#proj-rui:c841b051, 2026-10-10): a status badge in the task panel
-    // and the task chip in a message are ONE component that differs only in
-    // what it shows. Before, the badge drew its own shape (a 12px pill with a
-    // 1px border next to a 13px chip with a hairline).
+    // A status badge in the task panel and the task chip in a message are ONE
+    // component that differs only in what it shows. Before, the badge drew its
+    // own shape (a 12px pill with a 1px border next to a 13px chip with a
+    // hairline).
     const PROPERTIES = [
       "fontSize",
       "fontWeight",

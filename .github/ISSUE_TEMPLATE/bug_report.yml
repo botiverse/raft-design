@@ -1,0 +1,28 @@
+name: Bug report
+description: Something in raft-ui or the documentation site does not work as documented.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: A minimal example, a link to a documentation page, or the steps that show the problem.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: raft-ui version
+      placeholder: "0.6.1"
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and operating system
+      placeholder: "Chrome 140, macOS 26"

@@ -4,8 +4,8 @@
  * The trigger wraps whatever button the caller renders, so it must not
  * repaint that button's hover. A trigger-level hover background used to win
  * the tailwind-merge over the rendered Button's own hover: a primary trigger
- * turned near-white under the pointer, i.e. every time it was clicked (Artea,
- * slock #proj-frontend:52311f41, thread "…" menu).
+ * turned near-white under the pointer, i.e. every time it was clicked (seen
+ * on a thread's "…" menu in the Raft web app).
  */
 import { afterEach, describe, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";

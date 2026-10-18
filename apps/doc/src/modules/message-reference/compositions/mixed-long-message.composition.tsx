@@ -20,7 +20,7 @@ import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fix
 const HASH = "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08";
 
 // Every inline kind a message can hold, mixed in one long paragraph plus a
-// quote and a list (#proj-rui task #84). All chips are the body text's size,
+// quote and a list. All chips are the body text's size,
 // sit on its baseline, and keep their letters centred in the coloured box.
 export function MessageReferenceMixedLongMessageComposition() {
   const self = (

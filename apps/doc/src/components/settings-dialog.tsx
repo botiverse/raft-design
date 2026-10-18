@@ -29,8 +29,8 @@ const MODE_OPTIONS = [
 
 /**
  * Docs control: one place for appearance — the gear at the bottom of the
- * sidebar opens this dialog (structure after the reference Artea posted, model
- * after the product's `Settings -> Appearance`: a color mode).
+ * sidebar opens this dialog (modelled on the Raft web app's
+ * `Settings -> Appearance`: a color mode).
  */
 export function SettingsDialog(props: ComponentProps<typeof Dialog>) {
   const preview = usePreviewTheme();

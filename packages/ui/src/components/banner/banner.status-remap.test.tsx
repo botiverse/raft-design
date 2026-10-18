@@ -75,7 +75,7 @@ test("description column follows the lead parts through the shared variable", ()
   renderWithAction("warning");
   const desc = screen.getByTestId("desc").className.split(/\s+/);
   // The description reads the variable the root sets when an icon/status slot
-  // is present; it no longer carries an ancestor :has() shape itself (#133).
+  // is present; it no longer carries an ancestor :has() shape itself (#386).
   expect(desc).toContain("col-start-(--banner-text-col,1)");
   expect(desc.some((c) => c.includes("group-has"))).toBe(false);
   const root = cls();

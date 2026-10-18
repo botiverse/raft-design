@@ -162,8 +162,8 @@ export function ProfileCardBody({
 
 /**
  * Message-row avatar with source-parity profile PreviewCard on hover.
- * PreviewCard is composed at the call site (not inside Avatar) — same pattern as
- * slock MessageItem / MentionLink / MemberGraphSection.
+ * PreviewCard is composed at the call site (not inside Avatar) — the same pattern
+ * the Raft web app uses for message rows, mentions and member lists.
  */
 export function PlaygroundMessageAvatar({
   actorId,

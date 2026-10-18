@@ -1,11 +1,11 @@
 /**
  * @vitest-environment jsdom
  *
- * Submenu triggers carry a default right chevron (artin, #proj-hands:a223c242).
+ * Submenu triggers carry a default right chevron.
  *
  * The raft-ui submenu trigger used to be a bare Base UI passthrough, so "this row
  * opens a submenu" had no visual affordance unless the caller hand-added an
- * icon (the hands admin menu did). The indicator mirrors the checkbox/radio
+ * icon (as one admin menu did). The indicator mirrors the checkbox/radio
  * item indicators: `indicator` recipe slot, right-aligned, aria-hidden.
  */
 import { afterEach, describe, expect, test } from "vite-plus/test";

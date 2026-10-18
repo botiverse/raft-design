@@ -26,7 +26,7 @@ export const sidebarSectionRecipe = tv({
       // Two of these used to style descendants off an ancestor's `:has()`.
       // That shape makes Chromium fall back to recalculating the whole page on
       // unrelated mutations (measured on the app: ~55ms per text-node change in
-      // a 300-message channel, see #133). They now key off render-time data
+      // a 300-message channel, see #386). They now key off render-time data
       // attributes instead: the root carries `data-open` from Base UI
       // Collapsible, and a header that hosts a popup mirrors `data-popup-open`
       // onto itself while it is open.

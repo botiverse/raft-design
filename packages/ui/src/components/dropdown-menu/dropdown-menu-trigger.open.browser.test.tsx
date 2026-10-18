@@ -1,7 +1,7 @@
 import "./dropdown-menu.test.css";
 /**
- * Browser-mode evidence for rui#301, second reviewer ask (@Artea): what the
- * trigger looks like AFTER it is activated, with the popup actually open.
+ * Browser-mode evidence for #301: what the trigger looks like AFTER it is
+ * activated, with the popup actually open.
  *
  * The reported symptom was "the … button turns near-white WHEN CLICKED", and a
  * click is hover + press + popup-open. The hover file covers the hover leg; this
@@ -10,10 +10,9 @@ import "./dropdown-menu.test.css";
  *
  * Writes no files. An earlier revision screenshotted each run, which dropped
  * six untracked PNGs into this source directory on every run — not gitignored,
- * so the next `git add -A` or pre-commit hook would have committed them
- * (reviewer catch, @Bugen). The one-off images that evidence carried have
- * already served their purpose in review; the assertions below do not need
- * them.
+ * so the next `git add -A` or pre-commit hook would have committed them. The
+ * one-off images that evidence carried have already served their purpose in
+ * review; the assertions below do not need them.
  *
  * Note on the recipe: the main trigger slot carries no `data-popup-open:`
  * styling at all (the popup-open fill in dropdown-menu.tsx belongs to

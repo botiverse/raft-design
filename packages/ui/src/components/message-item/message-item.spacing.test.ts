@@ -1,5 +1,5 @@
 /**
- * Message rhythm contract — 2026-10-11 (cindyz's 16/24 call; Josh's measures).
+ * Message rhythm contract.
  *
  * A compact (continuation) row drops its top padding so it sits under the
  * row it continues; the avatar size is variable-driven (`--mi-avatar`, which

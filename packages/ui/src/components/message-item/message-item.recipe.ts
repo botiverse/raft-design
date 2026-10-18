@@ -9,7 +9,7 @@ export const messageItem = tv({
       // The toolbar/continuation-time affordances key off variables the root
       // sets on itself for hover / focus-within / an open popup; the old
       // group-has-* variants styled descendants off an ancestor :has() —
-      // a whole-page recalc trap (#133).
+      // a whole-page recalc trap (#386).
       "hover:[--mi-toolbar-opacity:1] hover:[--mi-toolbar-pe:auto] focus-within:[--mi-toolbar-opacity:1] focus-within:[--mi-toolbar-pe:auto]",
       "has-data-popup-open:[--mi-toolbar-opacity:1] has-data-popup-open:[--mi-toolbar-pe:auto]",
       "min-h-0 px-2 py-2",
