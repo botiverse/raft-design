@@ -53,7 +53,10 @@ export const composer = tv({
         ],
         input: [
           "min-h-6 px-0.5",
-          "font-sans text-body text-foreground md:text-body",
+          // The DS composer input is 16/24 regular wherever it is hosted: it
+          // states its weight rather than inheriting one (a thread footer's
+          // 12/16 500 caption type made its text and placeholder medium).
+          "font-sans text-body font-normal text-foreground md:text-body",
           "placeholder:text-foreground-placeholder",
         ],
         toolbar: "gap-2",
