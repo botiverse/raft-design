@@ -1,0 +1,22 @@
+---
+title: LiveAgentActivityBar
+summary: A live strip of working agents above the tab bar or at the bottom of the sidebar; deprecated, because working agents are shown where they already appear.
+status: deprecated
+aliases: [Live bar, Activity bar, Live activity]
+category: agents
+related: [avatar, status, sidebar, list-row, panel, message-item, drawer]
+---
+
+# LiveAgentActivityBar
+
+LiveAgentActivityBar is a strip of avatars, a status light and a line of text that says what agents are doing, placed above the phone tab bar or at the bottom of the desktop sidebar. It is deprecated and removed in raft-ui 1.0, and there is no single component that replaces it. The strip took the spot on the screen people reach most, changed all the time and was usually about something other than the page being read ([0006](../../../../../design/decisions/0006-working-agents-in-place.md)). What it showed now goes back to the places where agents already appear, listed in [Agents](../../../../../design/patterns/agents.md#where-working-agents-appear).
+
+## When to use
+
+| To show                                       | Use                                                                                                                                         |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Whether anyone is working, and who            | The summary line: an avatar stack (`AvatarGroup`, [Avatar](../avatar/avatar.md)) and a count, under the page title or in the sidebar header |
+| What one agent is doing                       | Its own row: the [Sidebar](../sidebar/sidebar.md) row on desktop, the [ListRow](../list-row/list-row.md) on a phone                         |
+| Who is working in a place                     | The `PanelMeta` line of its header ([Panel](../panel/panel.md#content))                                                                     |
+| That an agent is working, in the conversation | The still yellow light on its avatar and `MessageItemInlineStatus` ([MessageItem](../message-item/message-item.md))                         |
+| Every working agent                           | Working now: a list opened from the summary, in a bottom sheet on a phone ([Drawer](../drawer/drawer.md))                                   |

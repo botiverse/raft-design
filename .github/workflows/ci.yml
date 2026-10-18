@@ -30,7 +30,7 @@ jobs:
         run: vp check
 
       - name: Check docs
-        run: node scripts/check-docs.mjs
+        run: node scripts/check-docs.mjs --strict
 
       - name: Run tests
         run: vp run -r test
