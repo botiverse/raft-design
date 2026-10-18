@@ -42,7 +42,7 @@ Put `class="light"` or `class="dark"` on the root to pick a mode; omit it to fol
 
 raft-ui ships two version-matched Agent Skills in the npm package:
 
-- `raft-ui-guide` for installation, component selection, composition, and styling.
+- `raft-ui-guide` for adopting raft-ui, looking up its API, and where the design system's guidance is.
 - `raft-ui-critique` for visual, interaction, accessibility, and light/dark review.
 
 ### TanStack Intent
@@ -82,3 +82,16 @@ vp install
 ```bash
 vp pack
 ```
+
+## Upgrading from `raft-ui`
+
+The package was published as `raft-ui` up to 0.6.0. To move a project:
+
+```bash
+pnpm add @botiverse/raft-ui
+node node_modules/@botiverse/raft-ui/codemods/package-name.mjs src
+node node_modules/@botiverse/raft-ui/codemods/token-names.mjs src
+pnpm remove raft-ui
+```
+
+The first command rewrites imports, CSS `@import` and `@source` paths and the dependency, and lists any bare `"raft-ui"` strings (bundler aliases, path mappings) to change by hand. The second moves to the current token names; the former names keep working until 1.0.

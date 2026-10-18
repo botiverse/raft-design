@@ -2,7 +2,7 @@
 
 ### Breaking Changes
 
-- **The package is now `@botiverse/raft-ui`.** Install it under that name and change imports from `raft-ui` (and `raft-ui/styles.css`, `raft-ui/cn`, …) to `@botiverse/raft-ui`. The unscoped `raft-ui` gets no further releases; this release also carries the changes of 0.6.1, which never reached npm.
+- **The package is now `@botiverse/raft-ui`.** Install it under that name and change imports from `raft-ui` (and `raft-ui/styles.css`, `raft-ui/cn`, …) to `@botiverse/raft-ui`: `node node_modules/@botiverse/raft-ui/codemods/package-name.mjs <src>` rewrites imports, CSS `@import`/`@source` paths and the dependency, and lists the aliases to check by hand. The unscoped `raft-ui` gets no further releases; this release also carries the changes of 0.6.1, which never reached npm.
 - `MessageItemSavedIndicator` no longer takes `elevation`, and the `MessageItemSavedIndicatorElevation` type is removed. Its `"xs"` and `"sm"` values pointed at empty shadows, so the prop never drew one: delete it at call sites. ([#488](https://github.com/botiverse/raft-design/pull/488))
 
 ### Added
