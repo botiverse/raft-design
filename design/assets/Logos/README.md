@@ -1,9 +1,22 @@
+---
+title: Logos
+summary: The Raft logo and mark files, which background each is for, and how they are placed.
+---
+
 # Logos
 
-官网（raft.build）原版 SVG，几何形状逐字复制。
+The original SVGs from the Raft website, with the geometry copied exactly. Where the logo may appear is in [Brand](../../foundations/brand.md#logo).
 
-- `raft-logo.svg`：亮底用。墨黑 `#141111` 外轮廓，字母和符号内部是奶油色 `#FFFAEF`（官网的纸色，App 里是桌面侧栏的底）。
-- `raft-logo-yellow.svg`：暗底用（官网页脚配色）。黄色 `#FFD440` 外轮廓，内部是墨黑。
-- `raft-mark.svg` / `raft-mark-yellow.svg`：只有符号的版本，同样两种配色，用于引导页、登录、加载屏、App 图标草图和小尺寸位置。工作界面的外框里放的是你的工作区（手机首页的胶囊、桌面 Rail 顶上的方块），不放 mark。
+| File | Use on | Colors |
+| --- | --- | --- |
+| `raft-logo.svg` | Light backgrounds | An ink outline; the inside of the letters and the mark is cream (the website's paper color, which is the desktop sidebar's `layer-sidebar` in the product) |
+| `raft-logo-yellow.svg` | Dark backgrounds (the website's footer) | A yellow outline with an ink inside |
+| `raft-mark.svg`, `raft-mark-yellow.svg` | The same two backgrounds | The mark alone, in the same two color schemes |
 
-都是双色 SVG，不能靠 CSS `color` 改色；需要换配色时换文件。CSS 里的 `.rf-logo` 和 `.rf-mark` 会随 `data-theme` 自动选用正确的版本。mark 放在黄底上时直接裸放，不加底块。
+## Rules
+
+- Use the mark alone on onboarding, sign-in and loading screens, in app icon sketches and where space is small.
+- Don't put the mark on the frame of a working page: the frame shows your workspace (the workspace pill on a phone's Home, the tile at the top of the desktop rail).
+- Change the file to change the colors. The SVGs have two colors and can't be recolored with CSS `color`.
+- Put the mark straight on a yellow background, without a tile behind it.
+- In code, use the exports of raft-ui: `RaftLogo` (the mark), `RaftWordmark` and `RaftLogoLockup`.
