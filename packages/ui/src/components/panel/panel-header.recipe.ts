@@ -118,7 +118,7 @@ export const panelHeader = tv({
       },
       raft: {
         headerIcon: [
-          "size-[27px] rounded-sticker border-[1.5px] border-sticker-ink bg-primary text-sticker-ink",
+          "size-[27px] rounded-sticker border-[1.5px] border-sticker-ink bg-primary text-sticker-ink ring-[1.5px] ring-sticker-edge",
           "not-data-[icon-kind=avatar]:[&_svg]:size-3.5 not-data-[icon-kind=avatar]:[&_svg]:stroke-2",
           "data-[icon-kind=avatar]:size-auto data-[icon-kind=avatar]:border-transparent data-[icon-kind=avatar]:bg-transparent",
         ],
@@ -132,7 +132,10 @@ export const panelHeader = tv({
           "[&_svg]:size-3.5",
         ],
         activity: ["gap-1.5 font-sans text-caption text-foreground-hint", "[&_svg]:size-3.5"],
-        actions: "mr-[-3px] gap-0.5",
+        // The last glyph ends on the head's edge: 20px on desktop (12px of
+        // padding, 1px here, the 32px button's 7px glyph inset), 16px on a
+        // phone (44px buttons, 11px inset).
+        actions: "mr-[-3px] gap-0.5 md:mr-px md:gap-1",
       },
     },
     size: {
