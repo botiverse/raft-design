@@ -154,7 +154,8 @@ function checkBody(file, source, absolute) {
   // Four-backtick fences show Markdown source (an example of an `example` block), not blocks.
   const body = source.replace(/^---\n[\s\S]*?\n---\n/, "").replace(/^````[\s\S]*?^````/gm, "");
   if (CJK.test(body)) fail(file, "contains Chinese text; the docs are in English");
-  const marketing = body.match(MARKETING);
+  // The writing guide lists the words it bans.
+  const marketing = file === "design/authoring/writing.md" ? null : body.match(MARKETING);
   if (marketing) warn(file, `promotional wording "${marketing[0]}"; describe instead`);
 
   for (const block of body.matchAll(/^```example\n([\s\S]*?)^```/gm)) {

@@ -12,7 +12,7 @@ related: [task-board, task-list, tasks, select, description-list]
 A TaskCard shows one task: its number, its title and a status chip people can change. A board and a list use the same card. How tasks are shown, filtered and opened is in [Tasks](../../../../../design/patterns/tasks.md).
 
 ```example
-task-card/compositions/task-card
+task-card/compositions/task-card-state-matrix
 ```
 
 ## When to use

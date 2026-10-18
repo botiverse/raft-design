@@ -29,6 +29,9 @@ jobs:
       - name: Check workspace
         run: vp check
 
+      - name: Check docs
+        run: node scripts/check-docs.mjs
+
       - name: Run tests
         run: vp run -r test
 
