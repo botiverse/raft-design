@@ -128,7 +128,7 @@ const button = tv({
 
 ## Color tokens
 
-Token values and the light/dark scopes live in `packages/ui/src/foundation.css`; `styles.css` imports them and defines Tailwind mappings. The docs render the tokens at `/tokens/colors`.
+Token values and their light/dark values live in `packages/ui/src/tokens.json` (DTCG format), the single source. `packages/ui/src/foundation.css` is generated from it: edit tokens.json, then run `vp run raft-ui#build:tokens` (a test fails when the two disagree). `styles.css` imports the foundation and defines the Tailwind mappings. The docs render the tokens at `/tokens/colors`.
 
 - All colors are authored in oklch. Never use hex/rgb/hsl or Tailwind default palette classes (`gray-*`, `neutral-*`, ...).
 - Reach for semantic tokens first: `layer-*` (surfaces), `line-*` (borders), `foreground-*` (text), state families, and the ink overlay ramp (`ink-2`...`ink-40`, step = alpha %) for neutral washes, hairlines, and hover/pressed fills on transparent surfaces.

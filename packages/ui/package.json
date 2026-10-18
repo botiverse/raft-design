@@ -35,12 +35,14 @@
     "./fonts.css": "./dist/fonts.css",
     "./styles.css": "./dist/styles.css",
     "./package.json": "./package.json",
-    "./foundation.css": "./dist/foundation.css"
+    "./foundation.css": "./dist/foundation.css",
+    "./tokens.json": "./dist/tokens.json"
   },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
+    "build:tokens": "node scripts/build-tokens.mjs",
     "build": "vp pack",
     "check": "vp check",
     "dev": "vp pack --watch",

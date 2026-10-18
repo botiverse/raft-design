@@ -24,6 +24,7 @@ export default defineConfig({
     },
     copy: [
       { from: "src/foundation.css", to: "dist", rename: "foundation.css" },
+      { from: "src/tokens.json", to: "dist", rename: "tokens.json" },
       { from: "src/styles.css", to: "dist", rename: "styles.css" },
       { from: "src/fonts.css", to: "dist", rename: "fonts.css" },
       {

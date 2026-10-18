@@ -39,7 +39,9 @@ design/
 
 packages/ui/src/components/<component>/<component>.md
                           One doc per component, next to its code
-tokens/tokens.json        The single source for token values (added with the token cleanup)
+packages/ui/src/tokens.json
+                          The single source for token values (DTCG format), published as
+                          raft-ui/tokens.json; foundation.css is generated from it
 ```
 
 Component docs sit next to the code so that a change to a component and a change to its rules land in the same pull request. The rest of the guidelines stay in `design/` because they are about more than one component.
@@ -61,7 +63,7 @@ Write only what cannot be derived from code. The site builds the rest:
 | Content | Source |
 | --- | --- |
 | Rules, reasoning, when to use what | Markdown in this repository |
-| Token values and their tables | `tokens/tokens.json` |
+| Token values and their tables | `packages/ui/src/tokens.json` |
 | Props, parts and their types | The component's TypeScript |
 | Live examples and their source | Compositions in `apps/doc/src/modules/<component>/compositions` |
 | Component index, `llms.txt`, `components.json` | Front matter of the component docs |
@@ -119,7 +121,7 @@ layer
 ```
 ````
 
-The block names a token group from `tokens/tokens.json`. It renders a table of the tokens in that group, with their light and dark values and their descriptions.
+The block names a token group from `packages/ui/src/tokens.json`. It renders a table of the tokens in that group, with their light and dark values and their descriptions.
 
 ## Links
 
