@@ -411,7 +411,7 @@ export const badge = tv({
         root: [
           "h-5 min-w-5 justify-center rounded-sticker",
           "font-bold tabular-nums",
-          "text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)] ring-[1.5px] ring-sticker-edge",
           "[&_svg]:size-[13px]",
           "enabled:hover:press-overlay-sticker",
         ],

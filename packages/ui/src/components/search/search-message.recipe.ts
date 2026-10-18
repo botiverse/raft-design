@@ -87,7 +87,7 @@ export const searchMessage = tv({
         messageTimestamp: ["ml-auto shrink-0 whitespace-nowrap"],
         messageMatch: [
           "rounded-sticker bg-primary px-[3px] box-decoration-clone",
-          "font-bold text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "font-bold text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)] ring-[1.5px] ring-sticker-edge",
         ],
       },
     },

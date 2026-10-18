@@ -85,7 +85,7 @@ export const markdown = tv({
         ],
         mark: [
           "rounded-sticker px-[3px] font-bold!",
-          "bg-primary text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "bg-primary text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)] ring-[1.5px] ring-sticker-edge",
         ],
         blockquote: ["my-1 border-l-2 border-line-seam pl-2.5", "text-foreground-muted not-italic"],
         rule: ["my-3 border-0 border-t border-line-muted"],

@@ -55,7 +55,7 @@ export const messageReplies = tv({
           "gap-1.5 text-footnote font-bold text-foreground-muted has-[strong]:text-foreground",
           "[&_strong]:inline-flex [&_strong]:h-5 [&_strong]:min-w-5 [&_strong]:items-center [&_strong]:justify-center",
           "[&_strong]:rounded-sticker [&_strong]:px-1.5 [&_strong]:font-mono [&_strong]:text-mono-meta [&_strong]:font-bold",
-          "[&_strong]:bg-accent [&_strong]:text-sticker-ink [&_strong]:shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "[&_strong]:bg-accent [&_strong]:text-sticker-ink [&_strong]:shadow-[inset_0_0_0_1.5px_var(--sticker-ink)] [&_strong]:ring-[1.5px] [&_strong]:ring-sticker-edge",
         ],
         summaryItem: "[&_svg]:size-3.5",
         reply: "gap-1.5 text-footnote",

@@ -65,7 +65,7 @@ const segmentedControl = tv({
           "font-sans text-callout font-semibold text-foreground-muted",
           "[&_svg:not([class*='size-'])]:size-4",
           "hover:bg-fill-pressed",
-          "data-checked:border-sticker-ink data-checked:bg-primary data-checked:font-bold data-checked:text-sticker-ink",
+          "data-checked:border-sticker-ink data-checked:bg-primary data-checked:font-bold data-checked:text-sticker-ink data-checked:ring-[1.5px] data-checked:ring-sticker-edge",
           "data-checked:hover:bg-primary data-checked:hover:press-overlay-sticker data-checked:active:press-overlay-sticker",
           "focus-visible:shadow-raft-focus",
           "data-disabled:cursor-not-allowed data-disabled:text-foreground-disabled data-disabled:hover:bg-transparent",

@@ -57,7 +57,7 @@ const toggleGroup = tv({
           "font-sans text-callout font-semibold text-foreground-muted",
           "[&_svg:not([class*='size-'])]:size-4",
           "hover:bg-fill-pressed",
-          "data-pressed:border-sticker-ink data-pressed:bg-primary data-pressed:font-bold data-pressed:text-sticker-ink",
+          "data-pressed:border-sticker-ink data-pressed:bg-primary data-pressed:font-bold data-pressed:text-sticker-ink data-pressed:ring-[1.5px] data-pressed:ring-sticker-edge",
           "data-pressed:hover:bg-primary data-pressed:hover:press-overlay-sticker data-pressed:active:press-overlay-sticker",
           "focus-visible:shadow-raft-focus",
           "data-disabled:opacity-100 data-disabled:text-foreground-disabled data-disabled:hover:bg-transparent",

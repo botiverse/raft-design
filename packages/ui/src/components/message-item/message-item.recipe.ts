@@ -202,7 +202,7 @@ export const messageItem = tv({
         body: ["text-body text-foreground", "selection:bg-primary-soft"],
         searchMatch: [
           "rounded-sticker px-[3px] font-bold!",
-          "bg-primary text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "bg-primary text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)] ring-[1.5px] ring-sticker-edge",
           "dark:bg-primary",
         ],
         embedded: "mt-2",

@@ -82,7 +82,7 @@ export const messageReference = tv({
         root: [
           "inline-flex cursor-pointer rounded-sticker px-[3px]",
           "font-semibold text-sticker-ink no-underline",
-          "bg-primary shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "bg-primary shadow-[inset_0_0_0_1.5px_var(--sticker-ink)] ring-[1.5px] ring-sticker-edge",
           "hover:press-overlay-sticker",
         ],
       },

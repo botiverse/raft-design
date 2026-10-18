@@ -54,5 +54,5 @@ test("a wrapping raft row grows from 36 and keeps the 8px text inset at every br
   expect(classes).not.toContain("md:py-0");
   expect(classes).not.toContain("[@media(max-height:600px)]:py-0");
   // The leading glyph centres on the first line.
-  expect(classes).toContain("[&_[data-slot=sidebar-item-channel-icon]]:h-lh");
+  expect(classes).toContain("**:data-[slot=sidebar-item-channel-icon]:h-lh");
 });

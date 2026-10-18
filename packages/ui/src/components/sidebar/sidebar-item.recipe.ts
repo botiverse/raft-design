@@ -124,7 +124,7 @@ export const sidebarItemRecipe = tv({
           "md:py-0 [@media(max-height:600px)]:py-0",
           "font-sans text-subhead font-medium text-foreground",
           "hover:bg-fill-pressed active:bg-fill-pressed not-data-active:data-popup-open:bg-fill-pressed",
-          "data-active:border-sticker-ink data-active:bg-primary data-active:font-bold data-active:text-sticker-ink",
+          "data-active:border-sticker-ink data-active:bg-primary data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
           "focus-visible:shadow-raft-focus outline-none",
         ],
         sidebarItemIcon: [
@@ -135,8 +135,12 @@ export const sidebarItemRecipe = tv({
           "size-[19px] text-foreground-hint [&_svg]:size-4 [&_svg]:stroke-2",
           "group-data-active/sidebar-item:text-sticker-ink",
         ],
+        // The name comes first: a description after it gives up its room
+        // before the name does (it shrinks a thousand times faster), so the
+        // name only ellipsizes once the description has gone.
+        sidebarItemTitle: ["max-w-none shrink"],
         sidebarItemSubtitle: [
-          "text-footnote font-normal text-foreground-muted",
+          "shrink-1000 text-footnote font-normal text-foreground-muted",
           "group-data-active/sidebar-item:text-sticker-ink",
         ],
         sidebarItemMeta: [
@@ -146,7 +150,7 @@ export const sidebarItemRecipe = tv({
         sidebarItemStatus: "inline-flex items-center",
         sidebarItemIndicator: [
           "size-5 min-w-5 rounded-sticker border-0 p-0",
-          "bg-primary text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "bg-primary text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)] ring-[1.5px] ring-sticker-edge",
           "[&_svg]:size-[13px] [&_svg]:stroke-2",
         ],
         sidebarItemMetaIcon: [
@@ -156,7 +160,7 @@ export const sidebarItemRecipe = tv({
         sidebarItemCount: [
           "h-5 min-w-5 items-center justify-center gap-0 rounded-sticker border-0 px-1.5 py-0",
           "data-[slot=sidebar-item-count]:px-1.5",
-          "bg-accent text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "bg-accent text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)] ring-[1.5px] ring-sticker-edge",
           "font-mono text-mono-meta font-bold tabular-nums tracking-normal",
         ],
       },

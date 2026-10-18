@@ -48,8 +48,8 @@ export const buttonVariants = tv({
           "border-[1.5px] font-sans font-bold shadow-none",
           "focus-visible:shadow-raft-focus",
           "disabled:opacity-100 aria-disabled:opacity-100",
-          "disabled:border-line-muted disabled:bg-fill-muted disabled:bg-none disabled:text-foreground-disabled",
-          "aria-disabled:border-line-muted aria-disabled:bg-fill-muted aria-disabled:bg-none aria-disabled:text-foreground-disabled",
+          "disabled:border-line-muted disabled:bg-fill-muted disabled:bg-none disabled:text-foreground-disabled disabled:ring-0",
+          "aria-disabled:border-line-muted aria-disabled:bg-fill-muted aria-disabled:bg-none aria-disabled:text-foreground-disabled aria-disabled:ring-0",
         ],
       },
       elegant: {
@@ -249,7 +249,7 @@ export const buttonVariants = tv({
       variant: ["primary", "accent"],
       class: {
         root: [
-          "border-sticker-ink bg-accent-400 text-sticker-ink",
+          "border-sticker-ink bg-accent-400 text-sticker-ink ring-[1.5px] ring-sticker-edge",
           "hover:bg-accent-400 hover:press-overlay-sticker active:press-overlay-sticker",
         ],
       },
@@ -301,7 +301,7 @@ export const buttonVariants = tv({
       variant: "warning",
       class: {
         root: [
-          "border-sticker-ink bg-warning text-sticker-ink",
+          "border-sticker-ink bg-warning text-sticker-ink ring-[1.5px] ring-sticker-edge",
           "hover:bg-warning hover:press-overlay-sticker active:press-overlay-sticker",
         ],
       },
@@ -311,7 +311,7 @@ export const buttonVariants = tv({
       variant: "danger",
       class: {
         root: [
-          "border-sticker-ink bg-danger text-sticker-ink",
+          "border-sticker-ink bg-danger text-sticker-ink ring-[1.5px] ring-sticker-edge",
           "hover:border-sticker-ink hover:bg-danger hover:press-overlay-sticker active:press-overlay-sticker",
         ],
       },
