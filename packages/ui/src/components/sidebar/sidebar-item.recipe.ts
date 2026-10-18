@@ -166,6 +166,14 @@ export const sidebarItemRecipe = tv({
       primary: {},
       accent: {},
     },
+    // A row whose name may run onto more lines (a pinned row keeps the whole
+    // name): it grows instead of truncating, its content hangs from the top so
+    // the identity glyph stays beside the first line, and a one-line wrapping
+    // row is pixel-identical to a fixed one.
+    wrap: {
+      false: {},
+      true: { sidebarItem: ["h-auto items-start whitespace-normal"] },
+    },
     stacked: {
       false: {
         sidebarItemContent: [
@@ -179,9 +187,29 @@ export const sidebarItemRecipe = tv({
   },
   defaultVariants: {
     variant: "default",
+    wrap: false,
     stacked: false,
   },
   compoundVariants: [
+    {
+      // DS `.rf-srow` is 36 tall with its 20px line centred: 8px from the row
+      // edge to the text, i.e. 6.5px inside the 1.5px sticker edge. A wrapping
+      // row keeps that inset as padding (restated at md and in short windows,
+      // where the fixed row zeroes it) and grows from 36. The leading glyph
+      // and inline meta icons take the line's height so they centre on the
+      // first line, whatever the line height (the phone row is larger).
+      theme: "raft",
+      wrap: true,
+      class: {
+        sidebarItem: [
+          "min-h-9 py-[6.5px] md:py-[6.5px] [@media(max-height:600px)]:py-[6.5px]",
+          "**:data-[slot=sidebar-item-channel-icon]:h-lh **:data-[slot=sidebar-item-icon]:h-lh",
+          "**:data-[slot=sidebar-item-meta-icon]:h-lh",
+          // The 19px avatar (DS xs) centres on the first line the same way.
+          "*:data-[slot=avatar]:mt-[calc((1lh-19px)/2)]",
+        ],
+      },
+    },
     {
       theme: "brutal",
       variant: "default",

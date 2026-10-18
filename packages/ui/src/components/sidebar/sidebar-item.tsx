@@ -35,13 +35,27 @@ export function SidebarItemRoot({
 export type SidebarItemVariant = NonNullable<VariantProps<typeof sidebarItemRecipe>["variant"]>;
 
 export type SidebarItemProps = SidebarItemRootProps &
-  Pick<VariantProps<typeof sidebarItemRecipe>, "variant">;
+  Pick<VariantProps<typeof sidebarItemRecipe>, "variant"> & {
+    /** Let the name run onto more lines: the row grows from its fixed height
+     * and its content aligns to the first line. */
+    wrap?: boolean;
+  };
 
-export function SidebarItem({ className, variant = "default", ...props }: SidebarItemProps) {
+export function SidebarItem({
+  className,
+  variant = "default",
+  wrap = false,
+  ...props
+}: SidebarItemProps) {
   const theme = useThemeFamily();
-  const { sidebarItem } = sidebarItemRecipe({ theme, variant });
+  const { sidebarItem } = sidebarItemRecipe({ theme, variant, wrap });
   return (
-    <SidebarItemRoot data-variant={variant} className={sidebarItem({ className })} {...props} />
+    <SidebarItemRoot
+      data-variant={variant}
+      data-wrap={wrap ? "true" : undefined}
+      className={sidebarItem({ className })}
+      {...props}
+    />
   );
 }
 
