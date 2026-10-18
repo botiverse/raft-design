@@ -42,10 +42,36 @@ const RULES = [
   [/node_modules\/raft-ui(?=["'/\s)])/g, `node_modules/${NEW}`],
 ];
 
+/** Whether `index` in `line` sits inside a JavaScript regex literal (`/…from "raft-ui"…/`). */
+function insideRegexLiteral(line, index) {
+  const before = line.slice(0, index);
+  const opener = /(?:^|[(,=:[!&|?{};])\s*\/(?![/*])/g;
+  let start = -1;
+  for (const match of before.matchAll(opener)) start = match.index + match[0].length;
+  if (start < 0) return false;
+  // Closed again before the match: an unescaped `/` after the opener.
+  return !/(?<!\\)\//.test(before.slice(start));
+}
+
 export function renameSpecifiers(source) {
-  let out = source;
-  for (const [pattern, replacement] of RULES) out = out.replace(pattern, replacement);
-  return out;
+  return source
+    .split("\n")
+    .map((line) => {
+      let out = line;
+      for (const [pattern, replacement] of RULES) {
+        out = out.replace(pattern, (...args) => {
+          const offset = args.at(-2);
+          const groups = args.slice(1, -2);
+          const replaced = replacement.replace(/\$(\d)/g, (_, n) => groups[Number(n) - 1] ?? "");
+          // A slash in a regex literal ends it: write `@botiverse\/raft-ui` there.
+          return insideRegexLiteral(out, offset)
+            ? replaced.replace(NEW, NEW.replace("/", "\\/"))
+            : replaced;
+        });
+      }
+      return out;
+    })
+    .join("\n");
 }
 
 export function renameDependency(json, version) {

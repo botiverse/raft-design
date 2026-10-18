@@ -31,6 +31,16 @@ test("package-name rewrites JS and CSS specifiers once, and leaves bare strings 
   expect(renameSpecifiers(after)).toBe(after);
 });
 
+test("package-name escapes the slash inside a regex literal", () => {
+  const before =
+    'assert.match(source, /import \\{ Button \\} from "raft-ui";/);\nconst s = "a/b"; import { X } from "raft-ui";';
+  const after = renameSpecifiers(before);
+  expect(after).toBe(
+    'assert.match(source, /import \\{ Button \\} from "@botiverse\\/raft-ui";/);\nconst s = "a/b"; import { X } from "@botiverse/raft-ui";',
+  );
+  expect(renameSpecifiers(after)).toBe(after);
+});
+
 test("package-name renames the dependency and keeps workspace ranges", () => {
   const json = {
     dependencies: { react: "^19", "raft-ui": "0.6.0" },
