@@ -42,7 +42,7 @@ Put `class="light"` or `class="dark"` on the root to pick a mode; omit it to fol
 
 raft-ui ships two version-matched Agent Skills in the npm package:
 
-- `raft-ui-guide` for installation, component selection, composition, and styling.
+- `raft-ui-guide` for adopting raft-ui, looking up its API, and where the design system's guidance is.
 - `raft-ui-critique` for visual, interaction, accessibility, and light/dark review.
 
 ### TanStack Intent

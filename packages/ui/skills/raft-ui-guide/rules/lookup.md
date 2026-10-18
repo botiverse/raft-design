@@ -8,6 +8,7 @@ description: "Where to find props, variant values, and tokens for the installed 
 ## Order to try
 
 1. **Editor types** — if you are editing TypeScript in a typed project, hover or autocomplete on the component. Fastest and always matches the installed version.
+   The component's docs page, `https://raft-design.botiverse.build/components/<component>.md`, has the same props in its API section, generated from the latest release.
 2. **The bundled declarations** — `node_modules/@botiverse/raft-ui/dist/index.d.mts`. Authoritative for the version actually installed.
 3. **The token stylesheet** — `node_modules/@botiverse/raft-ui/dist/foundation.css` for colors, shadows, and the light and dark scopes; `styles.css` for Tailwind mappings.
 4. **The recipe source** — only available when working inside the raft-ui monorepo, see below.
@@ -52,7 +53,7 @@ If a name is absent from `index.d.mts`, treat it as unavailable on the stable su
 
 Variant unions come through `VariantProps<typeof <recipe>>`. Read the variant keys in the declared `TVReturnType` above the component props; the bundled declarations preserve those keys.
 
-Do not infer a variant value from another component — the names are not consistent. See the intent table in [feedback.md](./feedback.md).
+Do not infer a variant value from another component — the names are not consistent. See the note on intent names in [SKILL.md](../SKILL.md#override-your-priors-first).
 
 ## Finding a token
 
@@ -60,7 +61,7 @@ Do not infer a variant value from another component — the names are not consis
 rg -o -- "--color-[a-z0-9-]+" node_modules/@botiverse/raft-ui/dist/styles.css | sort -u
 ```
 
-Use this before writing any color class. If a token is not in that list, it does not exist — see [styling.md](./styling.md).
+Use this before writing any color class. If a token is not in that list, it does not exist. What each token is for is on https://raft-design.botiverse.build/foundations/color.md.
 
 ## Inside the raft-ui monorepo
 
