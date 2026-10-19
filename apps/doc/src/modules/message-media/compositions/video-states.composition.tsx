@@ -87,7 +87,7 @@ export function MessageVideoPreviewFailedComposition({
 
 export function MessageVideoPreviewStatesComposition() {
   return (
-    <div className="space-y-2">
+    <div className="stack-y-2">
       <MessageVideoPreviewComposition />
       <MessageVideoPendingComposition />
       <MessageVideoPreviewFailedComposition />

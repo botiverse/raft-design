@@ -12,7 +12,7 @@ export type TaskListRootProps = useRender.ComponentProps<"div">;
 export function TaskListRoot({ className, render, ...props }: TaskListRootProps) {
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-list-root",
-    className: cn("space-y-6", className),
+    className: cn("stack-y-6", className),
   };
   return useRender({
     defaultTagName: "div",

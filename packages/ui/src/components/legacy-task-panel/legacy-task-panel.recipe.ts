@@ -12,11 +12,11 @@ export const legacyTaskPanel = tv({
       "[&_svg]:size-3.5",
     ],
     title: ["flex flex-col items-start gap-0.5 overflow-visible whitespace-normal"],
-    body: ["space-y-4 overflow-y-auto px-5 py-4"],
+    body: ["stack-y-4 overflow-y-auto px-5 py-4"],
     status: ["flex flex-wrap items-center gap-2"],
     section: [
       "p-4",
-      "space-y-3 rounded-container border border-line-hairline bg-layer-card shadow-none",
+      "stack-y-3 rounded-container border border-line-hairline bg-layer-card shadow-none",
     ],
     field: [],
     fieldLabel: ["mb-0.5 font-sans text-footnote font-medium text-foreground-hint"],
@@ -24,7 +24,7 @@ export const legacyTaskPanel = tv({
     fieldText: ["m-0 whitespace-pre-wrap wrap-break-word", "text-subhead text-foreground-muted"],
     meta: [
       "p-4 text-sm",
-      "space-y-0 rounded-container border border-line-hairline bg-layer-card px-4 py-2 shadow-none",
+      "rounded-container border border-line-hairline bg-layer-card px-4 py-2 shadow-none",
     ],
     metaRow: ["flex justify-between gap-3", "min-h-8 items-center"],
     metaLabel: ["font-sans text-footnote font-medium text-foreground-hint"],

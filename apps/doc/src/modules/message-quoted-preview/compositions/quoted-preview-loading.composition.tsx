@@ -34,7 +34,7 @@ function QuotedPreviewLoadingSkeleton() {
         <Skeleton variant="line" className="h-2.5 w-24 bg-fill-strong animate-none" />
         <Skeleton variant="line" className="ml-auto h-2.5 w-20 bg-fill-strong animate-none" />
       </MessageQuotedPreviewHeader>
-      <MessageQuotedPreviewContent className="space-y-1.5">
+      <MessageQuotedPreviewContent className="stack-y-1.5">
         <Skeleton variant="line" className="h-2.5 w-full bg-fill-strong animate-none" />
         <Skeleton variant="line" className="h-2.5 w-3/4 bg-fill-strong animate-none" />
       </MessageQuotedPreviewContent>

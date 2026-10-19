@@ -125,7 +125,7 @@ function Home() {
       <section className="grid gap-10 md:grid-cols-2">
         <div>
           <Heading>For agents</Heading>
-          <ul className="flex flex-col divide-y divide-line-hairline">
+          <ul className="flex flex-col rule-y rule-line-hairline">
             {AGENT_SURFACES.map(({ icon: Icon, path, text }) => (
               <li key={path} className="flex items-start gap-3 py-3">
                 <Icon className="mt-0.5 size-5 shrink-0 text-foreground-muted" aria-hidden />
@@ -144,7 +144,7 @@ function Home() {
           <p className="mb-2 font-mono text-mono-meta text-foreground-hint">
             raft-ui {raftUiVersion}
           </p>
-          <ul className="flex flex-col divide-y divide-line-hairline">
+          <ul className="flex flex-col rule-y rule-line-hairline">
             {LATEST.map((change) => (
               <li
                 key={`${change.version}-${change.text}`}

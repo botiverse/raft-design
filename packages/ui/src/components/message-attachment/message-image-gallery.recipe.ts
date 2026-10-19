@@ -2,7 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const messageImageGallery = tv({
   slots: {
-    root: ["max-w-[min(360px,calc(100vw-112px))] space-y-1 md:max-w-[360px]"],
+    root: ["max-w-[min(360px,calc(100vw-112px))] stack-y-1 md:max-w-[360px]"],
     row: ["grid", "gap-1"],
     item: [
       "group/img relative overflow-hidden text-left",

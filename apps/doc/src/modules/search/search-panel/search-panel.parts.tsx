@@ -459,7 +459,7 @@ export function SearchSkeleton() {
             <Skeleton variant="line" className="w-20" />
             <Skeleton variant="line" className="w-16" />
           </div>
-          <div className="space-y-2">
+          <div className="stack-y-2">
             <Skeleton variant="line" className="w-full" />
             <Skeleton variant="line" className="w-4/5" />
           </div>

@@ -58,7 +58,7 @@ export const messageItem = tv({
     ],
     searchMatch: searchHit,
     embedded: ["min-w-0", "mt-2"],
-    attachments: ["space-y-2", "mt-2"],
+    attachments: ["stack-y-2", "mt-2"],
     footer: ["mt-1.5 flex flex-wrap items-center gap-1.5"],
     toolbar: [
       "absolute z-20 flex items-center",

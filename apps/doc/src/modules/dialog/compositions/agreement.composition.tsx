@@ -33,7 +33,7 @@ function AgreementDialogParts() {
       <DialogBody className="grid gap-3">
         <p className="m-0 text-sm">Before joining, review the workspace rules.</p>
         <div className="max-h-[50vh] overflow-y-auto border border-line-hairline bg-layer-canvas p-4 text-sm">
-          <ul className="m-0 list-disc space-y-1 pl-5 whitespace-pre-wrap wrap-break-word">
+          <ul className="m-0 list-disc stack-y-1 pl-5 whitespace-pre-wrap wrap-break-word">
             <li>Keep sensitive customer data out of public channels.</li>
             <li>Use design-system components for shared product surfaces.</li>
             <li>Report unsafe automation or missing audit context immediately.</li>

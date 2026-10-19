@@ -4,7 +4,7 @@ export const filePreview = tv({
   slots: {
     root: ["relative flex h-10 w-10 shrink-0 items-center justify-center"],
     document: [
-      "relative h-10 w-8 space-y-1.5 rounded-md rounded-tr-[15%] p-1.5 ring-1",
+      "relative h-10 w-8 stack-y-1.5 rounded-md rounded-tr-[15%] p-1.5 ring-1",
       "bg-layer-card shadow-none ring-line-hairline",
     ],
     file: [
@@ -17,12 +17,12 @@ export const filePreview = tv({
     ],
     fileZip: ["flex h-7 items-center justify-center"],
     fileZipStack: ["relative -translate-y-0.5 flex flex-col items-center"],
-    fileZipTeeth: ["space-y-px"],
+    fileZipTeeth: ["stack-y-px"],
     fileZipRow: ["flex overflow-hidden rounded-full"],
     fileZipDark: ["size-0.5", "bg-foreground/40"],
     fileZipLight: ["size-0.5", "bg-foreground/15"],
     fileZipPull: ["mt-0.5 h-1 w-2.5 rounded-sm border", "border-foreground/40 bg-foreground/10"],
-    codeStack: ["-translate-y-0.5 space-y-px"],
+    codeStack: ["-translate-y-0.5 stack-y-px"],
     codeRow: ["flex items-center gap-0.5 leading-none"],
     codeRowIndent: ["flex items-center gap-0.5 pl-1.5 leading-none"],
     codeTextRow: ["block pl-3"],

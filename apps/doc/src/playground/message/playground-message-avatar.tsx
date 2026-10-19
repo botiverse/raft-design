@@ -137,7 +137,7 @@ export function ProfileCardBody({
             <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-foreground-muted">
               Recent activity
             </div>
-            <div className="space-y-1.5">
+            <div className="stack-y-1.5">
               {PROFILE_ACTIVITY_ROWS.map((row) => (
                 <div
                   key={row.time}

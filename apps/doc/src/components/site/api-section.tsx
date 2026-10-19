@@ -174,7 +174,7 @@ export function ChangesSection({ changes }: { changes: readonly ChangeEntry[] })
       <MarkdownHeading level={2} id="changes" className="scroll-mt-6">
         Changes
       </MarkdownHeading>
-      <ul className="flex flex-col divide-y divide-line-hairline">
+      <ul className="flex flex-col rule-y rule-line-hairline">
         {changes.map((change) => (
           <li
             key={`${change.version}-${change.text}`}
