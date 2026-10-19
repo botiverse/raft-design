@@ -30,15 +30,15 @@ button/compositions/preview
 
 ## Variants
 
-| Variant              | Use for                                                                                                             | Examples                             |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| `variant="primary"`  | The action the screen exists for: a pink sticker                                                                    | Send, Create Channel, Bring an Agent |
-| `variant="default"`  | Every other action, including one that every row of a list repeats: an ink border                                   | Assign, Approve, Claim               |
-| `variant="ghost"`    | Cancel and minor actions inside a surface that already has an edge — a dialog, a sheet, a menu, a toolbar: no frame | Cancel in a dialog, Keep Box         |
-| `variant="warning"`  | Actions that interrupt but can be undone: an orange sticker                                                         | Stop Wug, Leave Channel, Reset       |
-| `variant="danger"`   | Actions that cannot be undone, on the confirm button of a confirmation dialog: a red sticker                        | Delete Agent                         |
-| `variant="link"`     | The quietest control on a screen, action or not: underlined ink text                                                | View All, Log out                    |
-| `variant="on-frame"` | A frameless button on the frame: the rail, the web top bar, the desktop title bar                                   | The workspace button                 |
+| Variant              | Use for                                                                                      | Examples                             |
+| -------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------ |
+| `variant="primary"`  | The action the screen exists for: a pink sticker                                             | Send, Create Channel, Bring an Agent |
+| `variant="default"`  | Every other action, including one that every row of a list repeats: an ink border            | Assign, Approve, Claim               |
+| `variant="ghost"`    | Cancel and minor actions inside a surface that draws its own edge: no frame                  | Cancel in a dialog, Keep Box         |
+| `variant="warning"`  | Actions that interrupt but can be undone: an orange sticker                                  | Stop Wug, Leave Channel, Reset       |
+| `variant="danger"`   | Actions that cannot be undone, on the confirm button of a confirmation dialog: a red sticker | Delete Agent                         |
+| `variant="link"`     | The quietest control on a screen, action or not: underlined ink text                         | View All, Forgot Password            |
+| `variant="on-frame"` | A frameless button on the frame: the rail, the web top bar, the desktop title bar            | The workspace button                 |
 
 `accent` renders the same as `primary`, and `outline`, `information`, `muted` and `success` the same as `default`. Use the names in the table.
 
@@ -62,7 +62,7 @@ Every button is flat: the ink border or the sticker marks it as a control, never
 - Use orange (`warning`) for actions that interrupt but can be undone: stop, leave, reset.
 - Use red (`danger`) only for actions that cannot be undone, and only in a confirmation dialog ([AlertDialog](../alert-dialog/alert-dialog.md)). Don't color a destructive item in a menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md)).
 - Don't use `danger-secondary` or `danger-outline`: red text on an outline button puts red outside a confirmation dialog.
-- Raft Chat has its own `TextLink` for the quietest controls on its sign-in and onboarding pages. It is the same step of this ladder, kept in the product for now; whether it becomes a component here is open.
+- Raft Chat's `TextLink` is this step of the ladder in the product, and link-style buttons there are being unified on it. It stays in the product for now; moving it here is task #94 in #proj-raft-ui.
 - Never make a button yellow: yellow means "you" ([Color](../../../../../design/foundations/color.md#meanings-of-color)).
 
 ### Sizes
