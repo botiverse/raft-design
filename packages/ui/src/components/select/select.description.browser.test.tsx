@@ -40,7 +40,9 @@ async function renderOpen() {
           <SelectContent>
             <SelectList>
               <SelectItem value="opus" data-testid="two-line">
-                <SelectItemText data-testid="label">Claude Opus 5.5</SelectItemText>
+                <SelectItemText data-testid="label" id="opus-label">
+                  Claude Opus 5.5
+                </SelectItemText>
                 <SelectItemDescription data-testid="description">
                   Best for long, careful work
                 </SelectItemDescription>
@@ -114,6 +116,8 @@ it("an option is named by its label and described by its description; one withou
   await renderOpen();
   const twoLine = screen.getByTestId("two-line");
   expect(twoLine.getAttribute("aria-describedby")).toBe(screen.getByTestId("description").id);
+  // A caller's own id on the text is the one the option is labelled by.
+  expect(twoLine.getAttribute("aria-labelledby")).toBe("opus-label");
   expect(screen.getByRole("option", { name: "Claude Opus 5.5" })).toBe(twoLine);
   const oneLine = screen.getByTestId("one-line");
   expect(oneLine.hasAttribute("aria-describedby")).toBe(false);

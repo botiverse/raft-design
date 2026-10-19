@@ -296,7 +296,7 @@ export type SelectItemProps = StyledProps<BaseSelect.Item.Props>;
 // An item with a description is named by its text alone and described by the
 // description; without one, Base UI's name from content stays as it is.
 interface SelectItemParts {
-  readonly textId: string;
+  readonly setTextId: (id: string | undefined) => void;
   readonly setDescriptionId: (id: string | undefined) => void;
 }
 
@@ -305,15 +305,15 @@ const SelectItemPartsContext = createContext<SelectItemParts | null>(null);
 export function SelectItem({ className, ...props }: SelectItemProps) {
   const chrome = useSelectChrome();
   const { item } = select({ chrome });
-  const textId = useId();
+  const [textId, setTextId] = useState<string>();
   const [descriptionId, setDescriptionId] = useState<string>();
-  const parts = useMemo(() => ({ textId, setDescriptionId }), [textId]);
+  const parts = useMemo(() => ({ setTextId, setDescriptionId }), []);
   return (
     <SelectItemPartsContext.Provider value={parts}>
       <BaseSelect.Item
         data-slot="select-item"
         className={item({ className })}
-        aria-labelledby={descriptionId ? textId : undefined}
+        aria-labelledby={descriptionId && textId ? textId : undefined}
         aria-describedby={descriptionId}
         {...props}
       />
@@ -347,12 +347,18 @@ export function SelectItemIndicator({ className, children, ...props }: SelectIte
 
 export type SelectItemTextProps = StyledProps<BaseSelect.ItemText.Props>;
 
-export function SelectItemText({ className, ...props }: SelectItemTextProps) {
+export function SelectItemText({ className, id, ...props }: SelectItemTextProps) {
   const { itemText } = select();
-  const parts = useContext(SelectItemPartsContext);
+  const generatedId = useId();
+  const textId = id ?? generatedId;
+  const setTextId = useContext(SelectItemPartsContext)?.setTextId;
+  useLayoutEffect(() => {
+    setTextId?.(textId);
+    return () => setTextId?.(undefined);
+  }, [setTextId, textId]);
   return (
     <BaseSelect.ItemText
-      id={parts?.textId}
+      id={textId}
       data-slot="select-item-text"
       className={itemText({ className })}
       {...props}
