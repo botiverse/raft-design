@@ -17,12 +17,12 @@ alert-dialog/compositions/confirm-action
 
 ## When to use
 
-| Situation                                                                                       | Use                                                                                                                                                 |
-| ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| An action that cannot be undone: delete a message, an agent, a workspace                        | AlertDialog, red                                                                                                                                    |
-| An action that interrupts but can be recovered: stop an agent, reset a session, leave a channel | AlertDialog, orange                                                                                                                                 |
-| An action that can be undone                                                                    | No dialog: do it, then show a [Toast](../toast/toast.md) with Undo ([Feedback](../../../../../design/patterns/feedback.md#undo-instead-of-confirm)) |
-| A decision that needs more than the name typed                                                  | [Dialog](../dialog/dialog.md)                                                                                                                       |
+| Situation                                                                                       | Use                                                                                                                                     |
+| ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| An action that cannot be undone: delete a message, an agent, a workspace                        | AlertDialog, red                                                                                                                        |
+| An action that interrupts but can be recovered: stop an agent, reset a session, leave a channel | AlertDialog, orange                                                                                                                     |
+| An action that can be reversed in place                                                         | No dialog: do it; when a [Toast](../toast/toast.md) offers Undo is in [Feedback](../../../../../design/patterns/feedback.md#confirming) |
+| A decision that needs more than the name typed                                                  | [Dialog](../dialog/dialog.md)                                                                                                           |
 
 ## Anatomy
 
@@ -73,4 +73,4 @@ alert-dialog/compositions/typed-delete
 ## Rules
 
 - Put Cancel on the left and the confirm button on the right, and no other buttons.
-- Don't color the menu item that opens the dialog: the confirm button carries the color ([Feedback](../../../../../design/patterns/feedback.md#undo-instead-of-confirm)).
+- Don't color the menu item that opens the dialog: the confirm button carries the color ([Feedback](../../../../../design/patterns/feedback.md#confirming)).
