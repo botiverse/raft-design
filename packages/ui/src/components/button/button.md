@@ -78,13 +78,13 @@ Size follows the purpose. The same purpose has the same size everywhere, and the
 
 ### Icon buttons
 
-| Where                                                                                              | Props                               | Size and icon                                                      |
-| -------------------------------------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------ |
-| A phone top bar                                                                                    | `variant="ghost" size="icon-lg"`    | 44px, 22px icon                                                    |
-| A desktop panel header, composer tools, copy in cards and command lines, the desktop hover toolbar | `variant="ghost" size="icon-md"`    | 32px, 18px icon, 44px hit area (the hover toolbar is pointer-only) |
-| A tool that stands alone in content                                                                | `variant="default"` at an icon size | Ink border on `layer-card`                                         |
-| Send                                                                                               | `variant="primary"` at an icon size | A pink sticker                                                     |
-| The rail, the web top bar, the desktop title bar                                                   | `variant="on-frame" size="icon-md"` | 36px, 20px icon                                                    |
+| Where                                                                   | Props                               | Size and icon                  |
+| ----------------------------------------------------------------------- | ----------------------------------- | ------------------------------ |
+| A phone top bar                                                         | `variant="ghost" size="icon-lg"`    | 44px, 22px icon                |
+| A desktop panel header, composer tools, copy in cards and command lines | `variant="ghost" size="icon-md"`    | 32px, 18px icon, 44px hit area |
+| A tool that stands alone in content                                     | `variant="default"` at an icon size | Ink border on `layer-card`     |
+| Send                                                                    | `variant="primary"` at an icon size | A pink sticker                 |
+| The rail, the web top bar, the desktop title bar                        | `variant="on-frame" size="icon-md"` | 36px, 20px icon                |
 
 - Make an icon button next to a 44px input (copy a link, remove a row) 44px too: `size="icon-lg"`.
 - Put several icon buttons in a panel header inside `PanelActions` ([Panel](../panel/panel.md)), which aligns them to the end and spaces them.
