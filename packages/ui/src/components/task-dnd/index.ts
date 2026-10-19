@@ -6,6 +6,7 @@ export {
   TaskDropZone,
 } from "./task-dnd";
 export type {
+  TaskDndAccessibility,
   TaskDndProviderProps,
   TaskDragOverlayProps,
   TaskDraggableProps,

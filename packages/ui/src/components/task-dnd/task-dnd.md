@@ -28,7 +28,7 @@ task-dnd/compositions/task-dnd
 
 ## Anatomy
 
-- `TaskDndProvider`: wraps the board and its overlay. It holds `isDropAllowed`, the caller's policy, and calls `onMove` when a card is dropped on an allowed target. Required.
+- `TaskDndProvider`: wraps the board and its overlay. It holds `isDropAllowed`, the caller's policy, calls `onMove` when a card is dropped on an allowed target, and passes `accessibility` to dnd-kit. Required.
 - `TaskDropZone`: a place a card can be dropped, usually a `TaskBoardColumn` through `render`. It reports `dropState`: `idle`, `allowed` or `blocked`.
 - `TaskDraggable`: wraps one [TaskCard](../task-card/task-card.md) and makes it draggable. With `dropId` it is also a drop target, so a card can land before or after it.
 - `TaskDropPlaceholder`: the gap where the card would land, before or after a card, or in an empty column. It shows only while the drop there is allowed.
@@ -53,8 +53,9 @@ task-dnd/compositions/task-dnd
 ## Accessibility
 
 - The parts wrap dnd-kit, not Base UI. `TaskDraggable` carries dnd-kit's attributes: it is focusable, with a role description and instructions for screen readers.
-- Keyboard: Space picks the focused card up, the arrow keys move it, Space drops it and Escape cancels.
-- dnd-kit's own announcements name cards by their ID. Announce each move in words in a polite live region, such as "Task #25 moved to In Review"; the [TaskBoard](../task-board/task-board.md#accessibility) composition shows how.
+- Keyboard: Tab to a card, then Space picks it up. ArrowDown and ArrowUp move it one slot down or up its column, before or after each card; ArrowLeft and ArrowRight move it to the nearest drop target in the next column, such as an empty column or the card level with it. Space drops it and Escape cancels. The keys step between drop targets, so a card moves the same way whether or not it leaves its column while it is dragged.
+- After a keyboard drop, focus stays where dnd-kit leaves it. Moving focus to the moved card, which has a new place in the DOM, is the caller's job: focus it in `onMove` or `onDragEnd` once the board has rendered the move.
+- dnd-kit's own announcements name cards and targets by their ID. Pass `accessibility` to `TaskDndProvider` to replace them: it goes to dnd-kit's `DndContext` as is, with `announcements` (what to say on pick-up, move, drop and cancel) and `screenReaderInstructions` (how to drag, read with each card). Write them in words, such as "Task #25 moved to In Review", or announce each move in a polite live region of your own; the [TaskBoard](../task-board/task-board.md#accessibility) composition shows how.
 - `TaskDropPlaceholder` is hidden from assistive technology.
 
 ## Rules
