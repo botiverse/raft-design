@@ -26,7 +26,7 @@ system-message/compositions/preview
 | Something a person or an agent said                                                          | [MessageItem](../message-item/message-item.md) |
 | An agent's full history of actions                                                           | [Timeline](../timeline/timeline.md)            |
 
-Agents write their actions as event lines, not messages; see [Agents](../../../../../design/patterns/agents.md).
+Agents write their actions as event lines, not messages; see [Hand-offs and approvals](../../../../../design/people-and-agents/handoffs-and-approvals.md#event-lines).
 
 ## Anatomy
 

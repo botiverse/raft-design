@@ -74,6 +74,6 @@ thread-panel/thread-panel
 
 ## Related
 
-- [Agents](./agents.md): event lines, status and action cards.
+- [Hand-offs and approvals](../people-and-agents/handoffs-and-approvals.md): event lines, status and action cards.
 - [Navigation](./navigation.md): reference chips and links.
 - [Built from existing parts](../components/overview.md#built-from-existing-parts): link cards, forwarded messages, translations and multi-select.

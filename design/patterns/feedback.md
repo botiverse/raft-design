@@ -58,4 +58,4 @@ empty-state/compositions/default
 ## Related
 
 - [States](../foundations/states.md): the error and busy states of controls.
-- [Agents](./agents.md): an agent that fails.
+- [Hand-offs and approvals](../people-and-agents/handoffs-and-approvals.md#when-something-fails): an agent that fails.
