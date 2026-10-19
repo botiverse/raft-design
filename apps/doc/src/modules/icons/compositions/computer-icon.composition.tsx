@@ -10,6 +10,7 @@ const DEVICES: readonly (ComputerDevice | null)[] = [
   "desktop",
   "server",
   "vm",
+  "container",
 ];
 const PLATFORMS: readonly (ComputerPlatform | null)[] = ["macos", "linux", "windows", null];
 
@@ -22,6 +23,7 @@ const DEVICE_LABELS: Record<string, string> = {
   desktop: "Desktop",
   server: "Server",
   vm: "VM",
+  container: "Container",
 };
 
 const PLATFORM_LABELS: Record<string, string> = {
@@ -43,7 +45,7 @@ export function ComputerIconComposition() {
                 {DEVICE_LABELS[device ?? "unknown"]}
               </th>
             ))}
-            <th className="p-2 font-medium">Hosted</th>
+            <th className="p-2 font-medium">Cloud</th>
           </tr>
         </thead>
         <tbody>
@@ -63,7 +65,7 @@ export function ComputerIconComposition() {
               ))}
               <td className="p-3 text-center">
                 <ComputerIcon
-                  hosted
+                  cloud
                   platform={platform}
                   className="inline size-6 text-foreground-strong"
                 />
@@ -72,19 +74,6 @@ export function ComputerIconComposition() {
           ))}
         </tbody>
       </table>
-    </div>
-  );
-}
-
-export function ComputerIconSizesComposition() {
-  return (
-    <div className="flex flex-wrap items-end gap-6 text-foreground-strong">
-      <ComputerIcon device="mini" platform="macos" className="size-3.5" />
-      <ComputerIcon device="mini" platform="macos" className="size-[18px]" />
-      <ComputerIcon device="server" platform="linux" className="size-[18px]" />
-      <ComputerIcon platform="windows" className="size-[18px]" />
-      <ComputerIcon device="laptop" platform="macos" className="size-6" />
-      <ComputerIcon device="laptop" platform="linux" className="size-12" />
     </div>
   );
 }

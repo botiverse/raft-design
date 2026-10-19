@@ -1,24 +1,49 @@
 /**
  * ComputerIcon — the device a Computer runs on, with its platform as a corner
  * mark (macOS / Linux / Windows). Unknown device falls back to a monitor;
- * unknown platform drops the mark. Hosted computers use a cloud.
+ * unknown platform drops the mark. A Computer in a cloud (hosted by Raft, or on
+ * a cloud provider the caller recognizes) uses a cloud, marked the same way.
  *
- * Callers map their own machine data onto `device` / `platform`; this package
- * does not parse daemon OS strings.
+ * `ComputerDevice` mirrors the Server's `DeviceClass` list (raft-shared
+ * `DEVICE_CLASSES`): keep the two in step.
+ *
+ * Callers map their own machine data onto `device` / `platform` / `cloud`; this
+ * package does not parse daemon OS strings or provider ids.
  */
 import { useId } from "react";
 import type { SVGProps } from "react";
+import { tv } from "../../lib/tv";
+import { DISTRO_MARKS } from "./computer-distro";
+import type { ComputerDistro } from "./computer-distro";
 
-export type ComputerDevice = "laptop" | "mini" | "studio" | "imac" | "desktop" | "server" | "vm";
+export type ComputerDevice =
+  | "laptop"
+  | "mini"
+  | "studio"
+  | "imac"
+  | "desktop"
+  | "server"
+  | "vm"
+  | "container";
 export type ComputerPlatform = "macos" | "linux" | "windows";
 
 export type ComputerIconProps = Omit<SVGProps<SVGSVGElement>, "children"> & {
   /** Device shape. `null`/omitted renders a generic monitor. */
   device?: ComputerDevice | null;
-  /** Platform corner mark. `null`/omitted renders no mark. */
+  /** Platform corner mark. `null`/omitted (or an unknown value) renders no mark. */
   platform?: ComputerPlatform | null;
-  /** Hosted (cloud) computer: renders a cloud, no mark. */
-  hosted?: boolean;
+  /**
+   * Linux distribution, for the `linux` mark (see `computerDistro`). Drawn in
+   * place of Tux from 18px up; below that, and for `null` or an unknown
+   * value, the mark stays Tux. Ignored on other platforms.
+   */
+  distro?: ComputerDistro | null;
+  /**
+   * The Computer runs in a cloud: hosted by Raft, or on a cloud provider the
+   * caller recognizes. Renders a cloud in place of `device`, with the same
+   * platform mark.
+   */
+  cloud?: boolean;
 };
 
 const DEVICE_PATHS: Record<ComputerDevice | "monitor" | "cloud", string> = {
@@ -33,8 +58,26 @@ const DEVICE_PATHS: Record<ComputerDevice | "monitor" | "cloud", string> = {
   server:
     "M4 2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2ZM4 14h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2ZM6 6h.01M6 18h.01",
   vm: "M4 3h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2ZM8 21h8M12 17v4M8 7l4 2-4 2M13 12h3",
+  container:
+    "M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2ZM7 9v6M12 9v6M17 9v6",
   cloud: "M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z",
 };
+
+const COMPUTER_DEVICES: readonly string[] = [
+  "laptop",
+  "mini",
+  "studio",
+  "imac",
+  "desktop",
+  "server",
+  "vm",
+  "container",
+] satisfies readonly ComputerDevice[];
+
+/* A value outside the list (a newer daemon, untyped data) falls back to the monitor. */
+function isComputerDevice(value: unknown): value is ComputerDevice {
+  return typeof value === "string" && COMPUTER_DEVICES.includes(value);
+}
 
 /* Brand marks (Simple Icons, CC0) drawn in a 24-unit box. */
 const PLATFORM_MARKS: Record<ComputerPlatform, { d: string; evenOdd?: boolean }> = {
@@ -49,15 +92,42 @@ const PLATFORM_MARKS: Record<ComputerPlatform, { d: string; evenOdd?: boolean }>
   },
 };
 
+/*
+ * The icon is its own size container, so the distro mark can give way to Tux
+ * below 18px (a 7.5-unit mark) without JS: at 16px a distro glyph is a 6.7px
+ * blur, while Tux still reads by its outline.
+ */
+const computerIcon = tv({
+  slots: {
+    root: "@container/computer-icon",
+    tux: "@min-[17.5px]/computer-icon:hidden",
+    distro: "hidden @min-[17.5px]/computer-icon:inline",
+  },
+});
+
 /* Mark sits in the bottom-right corner: a 10-unit box at (14, 14), with a cut-out ring around it. */
 const MARK_BOX = 10;
 const MARK_ORIGIN = 14;
 const CUT_RADIUS = 6.6;
 
-export function ComputerIcon({ device, platform, hosted = false, ...props }: ComputerIconProps) {
+export function ComputerIcon({
+  device,
+  platform,
+  distro,
+  cloud = false,
+  className,
+  ...props
+}: ComputerIconProps) {
   const maskId = useId();
-  const shape = hosted ? "cloud" : (device ?? "monitor");
-  const mark = hosted || !platform ? null : PLATFORM_MARKS[platform];
+  const styles = computerIcon();
+  const shape = cloud ? "cloud" : isComputerDevice(device) ? device : "monitor";
+  const mark =
+    platform && Object.hasOwn(PLATFORM_MARKS, platform) ? PLATFORM_MARKS[platform] : null;
+  const distroMark =
+    mark && platform === "linux" && distro && Object.hasOwn(DISTRO_MARKS, distro)
+      ? DISTRO_MARKS[distro]
+      : null;
+  const markTransform = `translate(${MARK_ORIGIN} ${MARK_ORIGIN}) scale(${MARK_BOX / 24})`;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +139,9 @@ export function ComputerIcon({ device, platform, hosted = false, ...props }: Com
       data-slot="computer-icon"
       data-device={shape}
       data-platform={mark ? platform : undefined}
+      data-distro={distroMark ? distro : undefined}
       {...props}
+      className={styles.root({ className })}
     >
       {mark ? (
         <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
@@ -96,7 +168,16 @@ export function ComputerIcon({ device, platform, hosted = false, ...props }: Com
           d={mark.d}
           fill="currentColor"
           fillRule={mark.evenOdd ? "evenodd" : undefined}
-          transform={`translate(${MARK_ORIGIN} ${MARK_ORIGIN}) scale(${MARK_BOX / 24})`}
+          transform={markTransform}
+          className={distroMark ? styles.tux() : undefined}
+        />
+      ) : null}
+      {distroMark ? (
+        <path
+          d={distroMark}
+          fill="currentColor"
+          transform={markTransform}
+          className={styles.distro()}
         />
       ) : null}
     </svg>
