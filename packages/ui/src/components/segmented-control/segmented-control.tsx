@@ -7,10 +7,12 @@ import type { StyledProps } from "../../lib/styled-props";
 const segmentedControl = tv({
   slots: {
     root: [
-      "inline-flex max-w-full items-center", // The grey track hugs its segments (w-fit also stops a flex-column
+      "inline-flex shrink-0 items-center", // The grey track hugs its segments (w-fit also stops a flex-column
       // parent from stretching it), so it never shows an empty run of track
-      // beside them. A caller that wants it full width passes `w-full` and
-      // lets the segments share it (`*:flex-1`).
+      // beside them, and it never shrinks below them: the segments don't
+      // shrink, so a squeezed track let them spill onto the next control. A
+      // caller that wants it full width passes `w-full` and lets the segments
+      // share it (`*:flex-1`).
       "w-fit flex-nowrap gap-0.5 rounded-[11px] bg-fill-muted p-[3px]",
     ],
     item: [
