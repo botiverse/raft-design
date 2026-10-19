@@ -1,37 +1,46 @@
 ---
 title: Raft Chat — Settings
-summary: The Settings destination — the person's own row, the Personal, Workspace and Resources groups, and pushed settings pages such as Notifications.
+summary: The Settings destination — the Personal, Workspace and Resources groups, the pages they open, Notifications, Log out and the danger zone.
 ---
 
 # Raft Chat — Settings
 
-Settings is a top-level page in the yellow frame, grouped into Personal, Workspace and Resources. Each setting opens a pushed page that covers the tab bar. The shared rules for settings (apply at once, no Save button) are in [Forms](../../patterns/forms.md#settings-that-apply-at-once).
+Settings lists the person's own settings, the workspace's settings and Raft's resources in three groups. On desktop the groups are the sidebar and a page opens beside them; on a phone they are the Settings tab's top-level page, and each row opens a pushed page that covers the tab bar. Which settings apply at once and which are saved is in [Forms](../../patterns/forms.md).
 
 ## Structure
 
-### Settings
-
-1. **The frame**: the large title Settings, with no navigation row.
-2. **The person**: their avatar, name and email; it opens Account.
-3. **Three inset groups**:
-   - Personal: Account, Language & Region, Appearance, Notifications.
-   - Workspace: Server Profile, Computers, AI Providers, Plan & Billing, and more.
-   - Resources: Documentation, Feedback, Release Notes.
-
-Each row shows its current value and a chevron. Feedback shows a count when there is a new reply, and Settings on the tab bar shows an attention dot.
+### The list
 
 ```example
-list-row/compositions/settings
+sidebar/compositions/settings-list
 ```
 
-### A pushed settings page: Notifications
+1. **The header**: Settings, on the frame on a phone, in the 56px navigation row.
+2. **Three groups**, each a group label and sidebar rows with an icon and a name:
+   - Personal: Account, Language & Region, Appearance, Notifications.
+   - Workspace: Server Profile, then what the person may see and the workspace has turned on: RaftBench, Plan & Billing, Administration, IM Bridges, Applications, Labs, MCP Servers, AI Providers. On a phone the group ends with Computers.
+   - Resources: About, Documentation (a link to the documentation site), Feedback, Release Notes.
 
-A top bar with Back and no tab bar (whether the top bar is white or yellow is [still open](../../decisions/open-questions.md)). A radio group sets the notification scope, switches control the kinds of agent notifications, a select sets the quiet hours, and a last row lists the exceptions.
+- Feedback shows a pink pixel when there is a new reply, and so does Settings on the rail and the tab bar.
+- On desktop, Account opens by default and its row is the yellow sticker. On a phone, nothing is selected until a row is opened.
 
-On desktop, the sidebar lists the same groups, and Account opens by default.
+### A settings page
+
+- Give a settings page a header with its name; on a phone it is the white top bar with Back, which returns to the list.
+- Build a page from cards. A card that changes one thing at once (the theme, the font size) has no Save; a card of fields edited together (the profile, the password, the language and region, the workspace's name) ends with its own Save.
+
+### Notifications
+
+The page has:
+
+- an Add Raft to Home Screen card, with Add;
+- a Push Notifications card that says what it delivers (direct messages, direct mentions and replies in followed threads) and its state, with Enable Push Notifications, or Disable and Send Test Push once it is on;
+- a Mute this server checkbox, with Save.
+
+In the desktop app the page is one card saying that the system manages notifications, with a test button.
 
 ## Rules
 
-- Put Sign Out in Account.
-- Put deleting the workspace and deleting the account in the danger zone at the bottom of their page: a red button, then a dialog that asks for the name to be typed ([Forms](../../patterns/forms.md#danger-zone)).
-- Make a setting's description state the result, not repeat the title: "Off: a person approves every merge".
+- Put Log out at the end of Account, in a Session card: an orange button that opens a confirmation.
+- Put the danger zone at the end of Server Profile: Leave Server (orange), and for the owner Delete Server (red), which opens a dialog that asks for the workspace's address to be typed ([Forms](../../patterns/forms.md#danger-zone)). The account can't be deleted from Settings.
+- Make a setting's description state the result, not repeat the title.

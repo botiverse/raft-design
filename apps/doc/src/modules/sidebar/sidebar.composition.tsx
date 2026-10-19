@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import {
   Avatar,
   AvatarFallback,
+  AvatarGroup,
   Status,
   SidebarLiveActivity,
   SidebarContent,
@@ -37,12 +38,12 @@ import {
   SidebarSectionHeader,
   SidebarSectionTitle,
   SidebarSectionTrailing,
+  Text,
 } from "@botiverse/raft-ui";
 
 import {
   SidebarSectionAddButton,
   SidebarSectionChannelsMenu,
-  SidebarCreateMenu,
   SidebarSectionHeaderMenu,
   SidebarSectionSortMenu,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
@@ -86,8 +87,8 @@ export function SidebarComposition({
   contentState = "populated",
   liveActivityState = "none",
 }: SidebarCompositionProps) {
-  const [selectedItem, setSelectedItem] = useState("proj-uiux");
-  const [announcement, setAnnouncement] = useState({ message: "Opened proj-uiux", sequence: 0 });
+  const [selectedItem, setSelectedItem] = useState("launch-week");
+  const [announcement, setAnnouncement] = useState({ message: "Opened launch-week", sequence: 0 });
   const isEmpty = contentState === "empty";
 
   const announce = useCallback((message: string) => {
@@ -102,8 +103,6 @@ export function SidebarComposition({
     [announce],
   );
 
-  const handleCreateChannel = useCallback(() => announce("Create Channel"), [announce]);
-  const handleCreateJoint = useCallback(() => announce("Create Joint Channel"), [announce]);
   const handleOpenSaved = useCallback(() => openDestination("Saved"), [openDestination]);
 
   return (
@@ -115,10 +114,13 @@ export function SidebarComposition({
         <span className="sr-only" aria-live="polite">
           <span key={announcement.sequence}>{announcement.message}</span>
         </span>
-        <SidebarCreateMenu
-          onCreateChannel={handleCreateChannel}
-          onCreateJoint={handleCreateJoint}
-        />
+        <span className="flex items-center gap-1.5" role="img" aria-label="2 agents working">
+          <AvatarGroup aria-hidden>
+            <Avatar size="xs" type="agent" />
+            <Avatar size="xs" type="agent" />
+          </AvatarGroup>
+          <Text.Mono size="meta">2</Text.Mono>
+        </span>
       </SidebarHeader>
       <SidebarBody>
         <SidebarContent className="min-h-0">
@@ -157,30 +159,30 @@ export function SidebarComposition({
               ) : (
                 <SidebarList>
                   <SidebarDestinationItem
-                    destination="proj-uiux"
-                    selected={selectedItem === "proj-uiux"}
+                    destination="launch-week"
+                    selected={selectedItem === "launch-week"}
                     onOpen={openDestination}
                   >
                     <SidebarItemChannelIcon aria-hidden>
                       <Hash />
                     </SidebarItemChannelIcon>
                     <SidebarItemContent>
-                      <SidebarItemTitle className="shrink-0">proj-uiux</SidebarItemTitle>
-                      <SidebarItemSubtitle>Cindy replied</SidebarItemSubtitle>
+                      <SidebarItemTitle className="shrink-0">launch-week</SidebarItemTitle>
+                      <SidebarItemSubtitle>Martin replied</SidebarItemSubtitle>
                     </SidebarItemContent>
                   </SidebarDestinationItem>
                   <SidebarDestinationItem
-                    destination="Atlas planning"
-                    selected={selectedItem === "Atlas planning"}
+                    destination="Bugen planning"
+                    selected={selectedItem === "Bugen planning"}
                     onOpen={openDestination}
                   >
                     <SidebarItemIcon>
                       <Avatar size="2xs" type="agent">
-                        <AvatarFallback className="text-[9px] font-bold">A</AvatarFallback>
+                        <AvatarFallback className="text-[9px] font-bold">B</AvatarFallback>
                       </Avatar>
                     </SidebarItemIcon>
                     <SidebarItemContent>
-                      <SidebarItemTitle>Atlas</SidebarItemTitle>
+                      <SidebarItemTitle>Bugen</SidebarItemTitle>
                       <SidebarItemSubtitle>planning</SidebarItemSubtitle>
                     </SidebarItemContent>
                     <SidebarItemAside>
@@ -190,15 +192,15 @@ export function SidebarComposition({
                     </SidebarItemAside>
                   </SidebarDestinationItem>
                   <SidebarDestinationItem
-                    destination="proj-theme"
-                    selected={selectedItem === "proj-theme"}
+                    destination="release-notes"
+                    selected={selectedItem === "release-notes"}
                     onOpen={openDestination}
                   >
                     <SidebarItemChannelIcon aria-hidden>
                       <Hash />
                     </SidebarItemChannelIcon>
                     <SidebarItemContent>
-                      <SidebarItemTitle>proj-theme</SidebarItemTitle>
+                      <SidebarItemTitle>release-notes</SidebarItemTitle>
                     </SidebarItemContent>
                     <SidebarItemAside>
                       <SidebarItemMetaIcon role="img" aria-label="Draft">
@@ -335,17 +337,17 @@ export function SidebarComposition({
               ) : (
                 <SidebarList>
                   <SidebarDestinationItem
-                    destination="Cindy"
-                    selected={selectedItem === "Cindy"}
+                    destination="Martin"
+                    selected={selectedItem === "Martin"}
                     onOpen={openDestination}
                   >
                     <SidebarItemIcon>
                       <Avatar size="2xs" type="human">
-                        <AvatarFallback className="text-[9px] font-bold">C</AvatarFallback>
+                        <AvatarFallback className="text-[9px] font-bold">M</AvatarFallback>
                       </Avatar>
                     </SidebarItemIcon>
                     <SidebarItemContent>
-                      <SidebarItemTitle>Cindy</SidebarItemTitle>
+                      <SidebarItemTitle>Martin</SidebarItemTitle>
                       <SidebarItemSubtitle>design</SidebarItemSubtitle>
                     </SidebarItemContent>
                     <SidebarItemAside>
@@ -356,15 +358,15 @@ export function SidebarComposition({
                     </SidebarItemAside>
                   </SidebarDestinationItem>
                   <SidebarDestinationItem
-                    destination="Atlas idle"
-                    selected={selectedItem === "Atlas idle"}
+                    destination="Wug idle"
+                    selected={selectedItem === "Wug idle"}
                     onOpen={openDestination}
                   >
                     <SidebarItemIcon>
                       <Avatar size="2xs" type="agent" />
                     </SidebarItemIcon>
                     <SidebarItemContent>
-                      <SidebarItemTitle>Atlas</SidebarItemTitle>
+                      <SidebarItemTitle>Wug</SidebarItemTitle>
                       <SidebarItemSubtitle>idle</SidebarItemSubtitle>
                     </SidebarItemContent>
                     <SidebarItemAside>
