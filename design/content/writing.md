@@ -43,6 +43,18 @@ These rules are for the words inside the product: labels, titles, messages, empt
 - Say what happened, then what to do next: "Runtime detection failed. Restart Raft Computer and try again."
 - Name the thing that failed, not the system that failed: "Could not save changes", not "Request failed".
 - Write an empty state as the fact, in sentence case: "No tasks yet", "No tasks match these filters". Add one line or one button for the next step when there is one.
+- Choose the title's form by why the view is empty, because each form tells the person something different:
+
+  | Why it is empty | Title |
+  | --- | --- |
+  | Nothing has been made or has happened yet | No tasks yet |
+  | Items leave once they are handled, so everything is handled | No unread conversations |
+  | A filter or a search hides everything | No tasks match these filters |
+  | A single value was never filled in | No description |
+
+- Name what is missing with the noun the view's own label uses: under a filter labeled Mentions, "No mentions"; in a section labeled Humans, "No humans yet", not "No members yet".
+- Give sibling views the same form: the filters of one list (All, Unread, Mentions) differ only in their noun, so a person switching between them reads one sentence changing, not three voices.
+- Chinese follows the same forms ([Writing in Chinese](./voice-and-tone.md#writing-in-chinese)).
 - Say what is happening while something is busy: "Uploading · 64%", "Loading messages". Never "Processing…" or a bare "Loading…".
 - Where each kind of problem is shown (inline, banner, toast or notification center) is in [Feedback](../patterns/feedback.md).
 
