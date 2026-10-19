@@ -36,13 +36,24 @@ description-list/compositions/member-info
 
 ## Variants
 
-| Variant                  | Use for                                                                                       |
-| ------------------------ | --------------------------------------------------------------------------------------------- |
-| `direction="horizontal"` | Facts in two columns, the label on the left. It stacks into one column below 640px on its own |
-| `direction="vertical"`   | Facts with the label above the value, in a narrow place such as a side panel                  |
+| Variant                  | Use for                                                                                                     |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| `direction="horizontal"` | Facts in two columns, the label on the left. It stacks into one column below 640px on its own               |
+| `direction="vertical"`   | Facts with the label above the value, in a narrow place such as a side panel                                |
+| `direction="inline"`     | A few short facts in one row, each label beside its value, wrapping onto the next line: a task's properties |
 
 ```example
 description-list/compositions/horizontal
+```
+
+### Inline
+
+`direction="inline"` lays the facts out like a line of text. Every label and value sits on one baseline, so a status chip, a button and plain text read as one line; the label is 12px from its value, the facts 24px apart, and a row that wraps leaves 8px between lines.
+
+A value drawn in a shape hangs its padding into the 12px gap, so its text starts where plain text would and its fill reaches outward ([Alignment](../../../../../design/foundations/alignment.md#a-shape-beside-plain-text)). raft-ui does this for a Badge, TaskChip, TaskStatusBadge or Button that comes first in `DescriptionDetails`; the Button takes the chip's 6px padding to fit. Any other shape, or one wrapped in another element, needs the same pull from its caller: a negative left margin equal to its left padding, and its `max-width` grown by as much.
+
+```example
+description-list/compositions/inline
 ```
 
 ## Behavior

@@ -37,6 +37,18 @@ const descriptionList = tv({
           "[&>[data-slot=description-item]>[data-slot=description-details]]:min-h-8",
         ],
       },
+      inline: {
+        root: [
+          "flex flex-wrap items-baseline gap-x-6 gap-y-2",
+          "*:data-[slot=description-item]:flex *:data-[slot=description-item]:min-w-0 *:data-[slot=description-item]:items-baseline *:data-[slot=description-item]:gap-3",
+          "[&>[data-slot=description-item]+[data-slot=description-item]]:pt-0",
+          "[&>[data-slot=description-item]>[data-slot=description-term]]:shrink-0",
+          "[&>[data-slot=description-item]>[data-slot=description-details]>:is([data-slot=badge],[data-slot=task-chip],[data-slot=task-status-badge]):first-child]:-ml-1.5",
+          "[&>[data-slot=description-item]>[data-slot=description-details]>:is([data-slot=badge],[data-slot=task-chip],[data-slot=task-status-badge]):first-child]:max-w-[calc(100%+6px)]",
+          "[&>[data-slot=description-item]>[data-slot=description-details]>[data-slot=button]:first-child]:ml-[-7.5px]",
+          "[&>[data-slot=description-item]>[data-slot=description-details]>[data-slot=button]:first-child]:px-1.5",
+        ],
+      },
     },
   },
   defaultVariants: {
