@@ -31,6 +31,8 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 
 Without the web top bar (an older desktop build, a server's public page), the rail shows the workspace tile at its top, Search before Chat, and the bell above Help.
 
+People can drag the rail's destinations (Search to Computers) into their own order. The order belongs to the person, not the server, so it is the same in every server and on every device; Help and Settings stay at the bottom. As with the workspace strip, a drag starts only after a short move, so a click still opens the destination, and the keyboard reorders too: Space picks the destination up, the arrow keys move it, Space drops it and Escape puts it back.
+
 ### Attention dots
 
 Attention dots follow [Navigation](../../patterns/navigation.md#where-you-are). In Raft Chat they mark:
