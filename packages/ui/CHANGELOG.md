@@ -1,3 +1,16 @@
+## [0.8.1](https://github.com/botiverse/raft-design/compare/v0.8.0...v0.8.1) (2026-10-19)
+
+### Added
+
+- `TaskDndProvider` takes `accessibility` (the `TaskDndAccessibility` type), passed through to dnd-kit, so you can translate the screen-reader announcements and drag instructions. ([#561](https://github.com/botiverse/raft-design/pull/561))
+
+### Fixed
+
+- Keyboard dragging in `TaskDndProvider` moves a card between drop targets. Before, Space picked the card up but the arrow keys never moved it. ([#561](https://github.com/botiverse/raft-design/pull/561))
+- The `MessageItem` hover highlight sits 4px above and below the text on every row, including a merged message, instead of touching the first line. The 8px between groups is now a transparent top border (`border-t-8 bg-clip-padding`) and a `compact` row drops it (`border-t-0` instead of `pt-0`). Spacing between messages and row heights are unchanged. ([#564](https://github.com/botiverse/raft-design/pull/564))
+- Below `md`, a `SidebarItem` row is at least 44px high in the 16px title type, so a phone sidebar row can be tapped without help from the app. ([#557](https://github.com/botiverse/raft-design/pull/557))
+- The codemods run when called through a pnpm symlink. ([#565](https://github.com/botiverse/raft-design/pull/565))
+
 ## [0.8.0](https://github.com/botiverse/raft-design/compare/v0.7.1...v0.8.0) (2026-10-19)
 
 ### Breaking Changes
