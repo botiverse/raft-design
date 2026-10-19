@@ -20,8 +20,9 @@
               | -hover / -active (derived interaction pair, opt-in per family;
                 an opted-in family always gets both)
    Washes:    ink-{alpha%} (2..40) — neutral overlays, hairlines, hover fills.
-   Opacity rule: layer tokens are opaque in every theme, except -backdrop (an
-   overlay by contract); among fills only the -pressed overlays are translucent.
+   Opacity rule: layer tokens are opaque in every theme, except the two
+   backdrops (overlays by contract); among fills only the -pressed overlays are
+   translucent.
    Interaction fills: transparent resting → ink-N directly; solid family fill →
    the family's -hover/-active pair; neutral or tinted surface → step up its ladder.
    Escape hatches: ink ramp for one-off washes; inline oklch() literals for
@@ -157,6 +158,7 @@
   --layer-sidebar: oklch(0.986 0.0154 86.42);
   --layer-popover: oklch(1 0 0);
   --layer-backdrop: oklch(0 0 0 / 0.651);
+  --layer-backdrop-nested: oklch(0 0 0 / 0.4);
   --layer-card: oklch(1 0 0);
   --layer-hud: oklch(0.2634 0.0093 294.92);
   --layer-frame: oklch(0.8829 0.1623 91.9);
@@ -300,6 +302,7 @@
   --layer-sidebar: oklch(0.1582 0.0041 106.86);
   --layer-popover: oklch(0.2802 0.0036 106.63);
   --layer-backdrop: oklch(0 0 0 / 0.6);
+  --layer-backdrop-nested: oklch(0 0 0 / 0.4);
   --layer-card: oklch(0.2596 0.0037 106.65);
   --layer-hud: oklch(0.2802 0.0036 106.63);
   --layer-frame: oklch(0.1582 0.0041 106.86);
@@ -380,6 +383,7 @@
     --layer-sidebar: oklch(0.1582 0.0041 106.86);
     --layer-popover: oklch(0.2802 0.0036 106.63);
     --layer-backdrop: oklch(0 0 0 / 0.6);
+    --layer-backdrop-nested: oklch(0 0 0 / 0.4);
     --layer-card: oklch(0.2596 0.0037 106.65);
     --layer-hud: oklch(0.2802 0.0036 106.63);
     --layer-frame: oklch(0.1582 0.0041 106.86);

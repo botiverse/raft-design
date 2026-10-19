@@ -129,6 +129,11 @@ export const drawer = tv({
     ],
   },
   variants: {
+    // Opened from a dialog: a lighter scrim of its own over the dialog.
+    nested: {
+      false: {},
+      true: { overlay: ["bg-layer-backdrop-nested"] },
+    },
     side: {
       down: {
         popup: [

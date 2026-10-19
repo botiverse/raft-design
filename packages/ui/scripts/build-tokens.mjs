@@ -208,8 +208,9 @@ const HEADER = `/* Generated from tokens.json by scripts/build-tokens.mjs. Do no
               | -hover / -active (derived interaction pair, opt-in per family;
                 an opted-in family always gets both)
    Washes:    ink-{alpha%} (2..40) — neutral overlays, hairlines, hover fills.
-   Opacity rule: layer tokens are opaque in every theme, except -backdrop (an
-   overlay by contract); among fills only the -pressed overlays are translucent.
+   Opacity rule: layer tokens are opaque in every theme, except the two
+   backdrops (overlays by contract); among fills only the -pressed overlays are
+   translucent.
    Interaction fills: transparent resting → ink-N directly; solid family fill →
    the family's -hover/-active pair; neutral or tinted surface → step up its ladder.
    Escape hatches: ink ramp for one-off washes; inline oklch() literals for
