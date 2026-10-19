@@ -123,7 +123,7 @@ message-item/compositions/reactions
 
 ## Content
 
-- Write the continuation time as 24-hour `HH:MM`, without AM or PM.
+- Write the continuation time as the hour and minute only, in the person's 12-hour or 24-hour format, without AM or PM: 6:35, 18:35 ([Writing](../../../../../design/content/writing.md#times)). The gutter is the avatar's 35px column, and a two-digit hour (10:35, 18:35, 36.7px in Space Mono) reaches about 2px past it into the row's padding: the time is right-aligned to the text, so that is where it belongs. Don't widen the gutter for it, because that moves every message's text off the avatar column.
 - Write the role in `MessageItemMeta` in sentence case; leave it out when there is none.
 - Label each reaction chip with the reaction, the count and whether the person is among them.
 
