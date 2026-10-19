@@ -6,6 +6,7 @@ export {
 } from "./segmented-control";
 export type {
   SegmentedControlCountProps,
+  SegmentedControlIconsOnlyBelow,
   SegmentedControlItemProps,
   SegmentedControlLabelProps,
   SegmentedControlProps,

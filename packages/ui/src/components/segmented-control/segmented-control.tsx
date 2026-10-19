@@ -1,8 +1,11 @@
-import type { ComponentPropsWithRef } from "react";
+import { createContext, use, useCallback, useRef, useState } from "react";
+import type { ComponentPropsWithRef, ReactElement } from "react";
+import type { TooltipProps } from "../tooltip/tooltip";
 import { Radio as BaseRadio } from "@base-ui/react/radio";
 import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
 
 const segmentedControl = tv({
   slots: {
@@ -31,23 +34,83 @@ const segmentedControl = tv({
     label: ["truncate"],
     count: ["font-mono", "text-mono-meta font-normal"],
   },
+  variants: {
+    iconsOnlyBelow: {
+      xs: {
+        root: [
+          "@max-xs:**:data-[slot=segmented-control-item]:relative @max-xs:**:data-[slot=segmented-control-item]:w-8 @max-xs:**:data-[slot=segmented-control-item]:px-0",
+          "@max-xs:**:data-[slot=segmented-control-label]:sr-only @max-xs:**:data-[slot=segmented-control-count]:sr-only",
+        ],
+      },
+      sm: {
+        root: [
+          "@max-sm:**:data-[slot=segmented-control-item]:relative @max-sm:**:data-[slot=segmented-control-item]:w-8 @max-sm:**:data-[slot=segmented-control-item]:px-0",
+          "@max-sm:**:data-[slot=segmented-control-label]:sr-only @max-sm:**:data-[slot=segmented-control-count]:sr-only",
+        ],
+      },
+      md: {
+        root: [
+          "@max-md:**:data-[slot=segmented-control-item]:relative @max-md:**:data-[slot=segmented-control-item]:w-8 @max-md:**:data-[slot=segmented-control-item]:px-0",
+          "@max-md:**:data-[slot=segmented-control-label]:sr-only @max-md:**:data-[slot=segmented-control-count]:sr-only",
+        ],
+      },
+      lg: {
+        root: [
+          "@max-lg:**:data-[slot=segmented-control-item]:relative @max-lg:**:data-[slot=segmented-control-item]:w-8 @max-lg:**:data-[slot=segmented-control-item]:px-0",
+          "@max-lg:**:data-[slot=segmented-control-label]:sr-only @max-lg:**:data-[slot=segmented-control-count]:sr-only",
+        ],
+      },
+      xl: {
+        root: [
+          "@max-xl:**:data-[slot=segmented-control-item]:relative @max-xl:**:data-[slot=segmented-control-item]:w-8 @max-xl:**:data-[slot=segmented-control-item]:px-0",
+          "@max-xl:**:data-[slot=segmented-control-label]:sr-only @max-xl:**:data-[slot=segmented-control-count]:sr-only",
+        ],
+      },
+      "2xl": {
+        root: [
+          "@max-2xl:**:data-[slot=segmented-control-item]:relative @max-2xl:**:data-[slot=segmented-control-item]:w-8 @max-2xl:**:data-[slot=segmented-control-item]:px-0",
+          "@max-2xl:**:data-[slot=segmented-control-label]:sr-only @max-2xl:**:data-[slot=segmented-control-count]:sr-only",
+        ],
+      },
+    },
+  },
 });
 
-export type SegmentedControlProps<T extends string = string> = StyledProps<BaseRadioGroup.Props<T>>;
+/**
+ * Container widths (Tailwind's `@xs` 20rem to `@2xl` 42rem) below which the
+ * segments show only their icons.
+ */
+export type SegmentedControlIconsOnlyBelow = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+
+const SegmentedControlIconsOnlyContext = createContext(false);
+
+export type SegmentedControlProps<T extends string = string> = StyledProps<
+  BaseRadioGroup.Props<T>
+> & {
+  /**
+   * When the nearest `@container` ancestor (the row the control sits in) is
+   * narrower than this width, every segment shows only its icon (give each
+   * one). Its label stays the accessible name and shows in a tooltip.
+   */
+  iconsOnlyBelow?: SegmentedControlIconsOnlyBelow;
+};
 
 export function SegmentedControl<T extends string = string>({
   disabled = false,
+  iconsOnlyBelow,
   className,
   ...props
 }: SegmentedControlProps<T>) {
-  const { root } = segmentedControl();
+  const { root } = segmentedControl({ iconsOnlyBelow });
   return (
-    <BaseRadioGroup
-      disabled={disabled}
-      data-slot="segmented-control"
-      className={root({ className })}
-      {...props}
-    />
+    <SegmentedControlIconsOnlyContext value={iconsOnlyBelow !== undefined}>
+      <BaseRadioGroup
+        disabled={disabled}
+        data-slot="segmented-control"
+        className={root({ className })}
+        {...props}
+      />
+    </SegmentedControlIconsOnlyContext>
   );
 }
 
@@ -60,7 +123,8 @@ export function SegmentedControlItem<T extends string = string>({
   ...props
 }: SegmentedControlItemProps<T>) {
   const { item } = segmentedControl();
-  return (
+  const iconsOnly = use(SegmentedControlIconsOnlyContext);
+  const radio = (
     <BaseRadio.Root
       render={<button type="button" />}
       nativeButton
@@ -70,6 +134,32 @@ export function SegmentedControlItem<T extends string = string>({
       })}
       {...props}
     />
+  );
+  return iconsOnly ? <SegmentedControlItemTooltip>{radio}</SegmentedControlItemTooltip> : radio;
+}
+
+function SegmentedControlItemTooltip({ children }: { children: ReactElement }) {
+  const [text, setText] = useState("");
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const handleOpenChange = useCallback<NonNullable<TooltipProps["onOpenChange"]>>(
+    (open, details) => {
+      if (!open) return;
+      const label = triggerRef.current?.querySelector("[data-slot=segmented-control-label]");
+      // The tooltip only names a segment whose label is collapsed: a visible
+      // label is never repeated in a tooltip.
+      if (!label || label.getBoundingClientRect().width > 1) {
+        details.cancel();
+        return;
+      }
+      setText(label.textContent ?? "");
+    },
+    [],
+  );
+  return (
+    <Tooltip onOpenChange={handleOpenChange}>
+      <TooltipTrigger ref={triggerRef} render={children} />
+      <TooltipContent>{text}</TooltipContent>
+    </Tooltip>
   );
 }
 

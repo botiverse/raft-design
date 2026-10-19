@@ -52,8 +52,14 @@ segmented-control/compositions/disabled
 
 - The track hugs its segments. Don't stretch it to fill its container: a stretched track leaves an empty run of gray beside the segments.
 - The control never shrinks below its segments. When the row is too narrow, its neighbors give way first, then the segments show only their icons ([Responsive layout](../../../../../design/patterns/responsive.md#when-a-row-runs-out-of-room)).
+- To let the segments show only their icons, mark the row with `@container` and set `iconsOnlyBelow` on the control to the row width below which the labels no longer fit: `xs` (20rem), `sm` (24rem), `md` (28rem), `lg` (32rem), `xl` (36rem) or `2xl` (42rem). Below it, every segment becomes a 32px square that shows only its icon: its label and its count stay its accessible name, and its label shows in a tooltip on hover and on keyboard focus. The control keeps its 32px height and its text size. Set `iconsOnlyBelow` only when every segment has an icon: a segment without one would be left empty.
+- Pick the width from the row, not the window: the same row sits in columns of different widths, and a container query follows the column.
 - Stretch it only when it is the only choice in a form. Then give it the full width (`w-full`) on its own line, not in a row beside other controls, and let the segments share it equally: in a row, a full-width track that can't shrink pushes past its neighbors.
-- On a phone, use at most 4 segments and show only their icons when they don't fit ([Responsive layout](../../../../../design/patterns/responsive.md#phone)).
+- On a phone, use at most 4 segments and show only their icons when they don't fit, with `iconsOnlyBelow` ([Responsive layout](../../../../../design/patterns/responsive.md#phone)).
+
+```example
+segmented-control/compositions/narrow-row
+```
 
 ## Content
 
@@ -64,4 +70,4 @@ segmented-control/compositions/disabled
 
 - `SegmentedControl` wraps the Base UI RadioGroup, and each `SegmentedControlItem` is a Base UI Radio rendered as a button: the control is one tab stop, and the arrow keys move the selection.
 - Name the control with `aria-label` after what it switches: "Task view", "Time format".
-- Give every icon-only segment an `aria-label`.
+- Give every icon-only segment an `aria-label`. A segment that shows only its icon because of `iconsOnlyBelow` needs none: its label is still in it, hidden from sight but not from assistive technology.
