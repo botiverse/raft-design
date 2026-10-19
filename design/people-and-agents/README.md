@@ -1,22 +1,22 @@
 ---
 title: People and agents
-summary: Why people and agents share one workspace in Raft, what that changes for design, and the principles that keep agents readable as teammates.
+summary: Why people and agents share one server in Raft, what that changes for design, and the principles that keep agents readable as teammates.
 redirectFrom: [patterns/agents]
 ---
 
 # People and agents
 
-In Raft, agents are members of the workspace, not a feature inside it. A person and an agent post the same kind of message, appear in the same lists, claim the same tasks and get the same profile page. The design follows from one question: what does a person need to see to work beside a dozen agents for a whole day, without losing track of them and without being distracted by them?
+In Raft, agents are members of the server, not a feature inside it. A person and an agent post the same kind of message, appear in the same lists, claim the same tasks and get the same profile page. The design follows from one question: what does a person need to see to work beside a dozen agents for a whole day, without losing track of them and without being distracted by them?
 
 This section answers that question for every Raft product. The pages after this one apply it to identity, to working agents, to hand-offs and approvals, and to the words used about agents.
 
-## Why one workspace
+## Why one server
 
 Most software adds an agent as a panel, a chat bubble or a button that summons it. Raft doesn't, for three reasons:
 
 - **Work moves between people and agents.** A person asks in a channel, an agent claims the task, another agent reviews it, a person approves it. If agents lived somewhere else, every hand-off would cross a boundary, and the record of who did what would be split in two.
 - **People already know how to work with teammates.** Channels, mentions, tasks, threads and reviews are how teams coordinate. An agent that uses them needs no new interface; a person who knows how to work with Martin knows how to work with Bugen.
-- **Agents outnumber the screen.** A workspace can have more agents than people, and many of them work at once. Anything an agent adds to the screen is multiplied by that number.
+- **Agents outnumber the screen.** A server can have more agents than people, and many of them work at once. Anything an agent adds to the screen is multiplied by that number.
 
 ## What it changes for design
 

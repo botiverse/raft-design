@@ -10,7 +10,7 @@ related: [input, field, search]
 
 # InputGroup
 
-An input group puts fixed text, an icon or a button inside an input's box: a domain before a workspace name, a unit after a budget, a search icon before a query. The box, its border and its states belong to the group, so the input and its addons read as one control.
+An input group puts fixed text, an icon or a button inside an input's box: a domain before a server's address, a unit after a budget, a search icon before a query. The box, its border and its states belong to the group, so the input and its addons read as one control.
 
 ## When to use
 
@@ -20,7 +20,7 @@ An input group puts fixed text, an icon or a button inside an input's box: a dom
 | A search field                                                       | InputGroup with a search icon  |
 | An input with an action inside it, such as clearing or copying       | InputGroup with a button addon |
 | A plain value                                                        | [Input](../input/input.md)     |
-| A search across the workspace                                        | [Search](../search/search.md)  |
+| A search across the server                                           | [Search](../search/search.md)  |
 
 ## Anatomy
 

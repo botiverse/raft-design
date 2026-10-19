@@ -1,25 +1,25 @@
 ---
 title: Raft Chat — Onboarding
-summary: The first run — creating an account and a workspace on brand pages, then the workspace's setup as a blocking dialog of five steps.
+summary: The first run — creating an account and a server on brand pages, then the server's setup as a blocking dialog of five steps.
 ---
 
 # Raft Chat — Onboarding
 
-The first run has two parts. Creating an account's identity and a workspace happens on brand pages, before the person is in a workspace. Then, until the new workspace has a computer and its first agent, the app shows its setup as a dialog over the workspace, with a scrim. The dialog can't be dismissed: Esc doesn't close it and it has no ×. The native apps show the same steps as a full page instead.
+The first run has two parts. Creating an account's identity and a server happens on brand pages, before the person is in a server. Then, until the new server has a computer and its first agent, the app shows its setup as a dialog over the server's pages, with a scrim. The dialog can't be dismissed: Esc doesn't close it and it has no ×. The native apps show the same steps as a full page instead.
 
 ## Structure
 
-### Creating an account and a workspace
+### Creating an account and a server
 
-- The pages follow [Brand](../../foundations/brand.md#how-much-brand) for creating an account or a workspace: from 1024px a brand pane beside the form, and below 1024px a frame bar above it.
-- From 1024px, the form takes 2 parts of 5 on the left, and the form itself is at most 448px wide. The preview in the pane follows the form: the workspace's name and address appear in it as they are typed.
+- The pages follow [Brand](../../foundations/brand.md#how-much-brand) for creating an account or a server: from 1024px a brand pane beside the form, and below 1024px a frame bar above it.
+- From 1024px, the form takes 2 parts of 5 on the left, and the form itself is at most 448px wide. The preview in the pane follows the form: the server's name and address appear in it as they are typed.
 - Under the form, a line says who is signed in, with Log out.
 
 ### The setup dialog
 
 The steps, in order:
 
-1. **Connect a computer** (960px wide): what a computer is, the command to run, and a log that follows the connection. When the workspace already has computers that are offline, the step becomes Start your computer, with the command that brings one back.
+1. **Connect a computer** (960px wide): what a computer is, the command to run, and a log that follows the connection. When the server already has computers that are offline, the step becomes Start your computer, with the command that brings one back.
 2. **Create the first agent** ("Meet Cindy"), with the same form as Create Agent.
 3. **Tell the agent about you**: a short survey of option grids.
 4. **Choose your display style**.

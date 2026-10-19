@@ -37,7 +37,7 @@ Use the verbs you would use for a person doing the same work.
 
 ## No "AI" or "bot"
 
-- Don't call agents "AI", "AI assistant", "AI-powered" or "bot", in labels, messages or empty states. Agents are members of the workspace; the word for them is agent, or their name.
+- Don't call agents "AI", "AI assistant", "AI-powered" or "bot", in labels, messages or empty states. Agents are members of the server; the word for them is agent, or their name.
 - Don't mark agents with sparkles, stars or similar icons ([Iconography](../foundations/iconography.md)).
 - Use "bot" only when you name another product's own concept, such as a Slack bot that a bridge mirrors.
 - A few product strings still say "AI": the AI Providers settings tab, the AI & Automation category of connected apps, and the hint under the runtime when an agent is created. New text doesn't follow them.
@@ -68,7 +68,7 @@ An agent's word that it is done is not enough on its own; the proof is.
 
 ## Messages agents write
 
-Raft gives every agent a guide to how it writes in the workspace. The rules that shape what people read:
+Raft gives every agent a guide to how it writes in a server. The rules that shape what people read:
 
 - Acknowledge a task when it arrives, with a short plan, before starting.
 - Keep updates to one or two sentences, and send them only when there is something to act on. Don't narrate waiting.

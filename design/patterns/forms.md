@@ -6,7 +6,7 @@ redirectFrom: [decisions/0029-large-form-dialog]
 
 # Forms and settings
 
-A control that applies at once has no Save button. Fields that are edited together (a profile, a workspace's name and description) have their own Save at the end of their group. A form in a dialog has Cancel and the submit button in its footer. A large form filled in one pass, such as registering an app, opens as a wide dialog with a section list.
+A control that applies at once has no Save button. Fields that are edited together (a profile, a server's name and description) have their own Save at the end of their group. A form in a dialog has Cancel and the submit button in its footer. A large form filled in one pass, such as registering an app, opens as a wide dialog with a section list.
 
 ## When it applies
 
@@ -31,9 +31,9 @@ field/compositions/preview
 
 ### Settings saved together
 
-- Put fields that are edited together in one card, with Save at its end: a profile, a password, a workspace's name and description. Save applies only that card, so a half-edited card never saves another one.
+- Put fields that are edited together in one card, with Save at its end: a profile, a password, a server's name and description. Save applies only that card, so a half-edited card never saves another one.
 - After a save, change the button to "Saved" with a check for a moment.
-- Use a checkbox, not a switch, for a yes or no that is saved with its card, such as muting a workspace: a switch looks as if it already applied.
+- Use a checkbox, not a switch, for a yes or no that is saved with its card, such as muting a server: a switch looks as if it already applied.
 
 ### Forms in a dialog
 
@@ -66,7 +66,7 @@ A large form filled in one pass, such as registering or editing an app, opens as
 
 - Put the danger zone at the end of the page, away from the settings people change often.
 - Use orange for actions that interrupt but can be undone (stop, leave, reset) and red for actions that cannot be undone (delete) ([Color](../foundations/color.md#meanings-of-color)).
-- Ask for the workspace's address to be typed before deleting a workspace, because it deletes everything in it for everyone. Confirm other deletions with a dialog that names what is deleted ([Feedback](./feedback.md#confirming)).
+- Ask for the server's address to be typed before deleting a server, because it deletes everything in it for everyone. Confirm other deletions with a dialog that names what is deleted ([Feedback](./feedback.md#confirming)).
 
 ### Prerequisites
 

@@ -38,7 +38,7 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 | Phone top bar row, panel header, sidebar header, rail header, drawer header | 56px |
 | Web top bar, desktop app title bar | 48px |
 
-- Make the rail header a 56px square. It holds the workspace, and the top-left corner stays square whatever else changes. So the rail is 56px wide plus its seam and shows icons only: a labeled rail needs 68px to fit names such as Computers, and its corner would no longer be square.
+- Make the rail header a 56px square. It holds the workspace tile, and the top-left corner stays square whatever else changes. So the rail is 56px wide plus its seam and shows icons only: a labeled rail needs 68px to fit names such as Computers, and its corner would no longer be square.
 - When the desktop window is shorter than 600px (`@media (max-height: 600px)`), shrink every 56px header to 48px together. The rail shrinks with them, its header stays square, and rail items shrink from 40px to 36px; see [Responsive layout](../patterns/responsive.md).
 
 ## Avatar sizes

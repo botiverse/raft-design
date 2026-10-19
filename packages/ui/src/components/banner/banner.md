@@ -25,7 +25,7 @@ The wider the scope of a message, the further out it goes; the full table is in 
 | One input is invalid                                                       | The input's error ([Field](../field/field.md)), not a banner                                             |
 | Something to know before acting in a dialog or a form                      | Banner, in the content                                                                                   |
 | Something in one panel failed: an agent won't start, a setting didn't save | `PanelNotice`, under the panel header ([Panel](../panel/panel.md))                                       |
-| The state of the whole workspace: a computer offline, a quota nearly full  | [NotificationCenter](../notification-center/notification-center.md), not a banner at the top of the page |
+| The state of the whole server: a computer offline, a quota nearly full     | [NotificationCenter](../notification-center/notification-center.md), not a banner at the top of the page |
 | The result of something the person just did                                | [Toast](../toast/toast.md)                                                                               |
 | The person must decide now                                                 | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)                          |
 

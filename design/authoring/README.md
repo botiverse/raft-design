@@ -27,7 +27,7 @@ design/
   README.md               The home page: what the system is for and where to start
   principles/             Why Raft looks the way it does, the principles with their reasons,
                           and how to design a new feature
-  people-and-agents/      How people and agents share a workspace: identity, presence,
+  people-and-agents/      How people and agents share a server: identity, presence,
                           working agents, handoffs and approvals, writing about agents
   foundations/            Values and the rules for using them: color, typography, spacing,
                           alignment, shape, elevation, motion, states, iconography, brand,

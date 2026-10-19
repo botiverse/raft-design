@@ -19,17 +19,17 @@ drawer/compositions/responsive-placement
 
 ## When to use
 
-| Situation                                                      | Use                                                                                                                                                                             |
-| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Details or settings people read, scroll and edit               | Drawer, from the right                                                                                                                                                          |
-| A large form filled in one pass: registering or editing an app | The wide [Dialog](../dialog/dialog.md), not a wide drawer ([Forms](../../../../../design/patterns/forms.md#the-large-form-dialog))                                              |
-| Switching workspace, on a phone                                | A bottom sheet with a list ([Navigation](../../../../../design/patterns/navigation.md#workspaces)); the product still opens a popover. Working now is a popover, on a phone too |
-| A sentence or two and one button, on a phone                   | A bottom sheet                                                                                                                                                                  |
-| Acting on one thing                                            | A menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md), [ContextMenu](../context-menu/context-menu.md)), never a bottom sheet                                                |
-| Picking a value, such as sort order or status                  | The list of a [Select](../select/select.md), or radio items in a menu                                                                                                           |
-| Confirming                                                     | [AlertDialog](../alert-dialog/alert-dialog.md)                                                                                                                                  |
-| A glance on hover                                              | [PreviewCard](../preview-card/preview-card.md)                                                                                                                                  |
-| A thread or a profile kept open beside the conversation        | A side panel ([ThreadPanel](../thread-panel/thread-panel.md), [Panel](../panel/panel.md)), which is not a drawer and has no scrim                                               |
+| Situation                                                      | Use                                                                                                                                                                          |
+| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Details or settings people read, scroll and edit               | Drawer, from the right                                                                                                                                                       |
+| A large form filled in one pass: registering or editing an app | The wide [Dialog](../dialog/dialog.md), not a wide drawer ([Forms](../../../../../design/patterns/forms.md#the-large-form-dialog))                                           |
+| Switching server, on a phone                                   | A bottom sheet with a list ([Navigation](../../../../../design/patterns/navigation.md#servers)); the product still opens a popover. Working now is a popover, on a phone too |
+| A sentence or two and one button, on a phone                   | A bottom sheet                                                                                                                                                               |
+| Acting on one thing                                            | A menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md), [ContextMenu](../context-menu/context-menu.md)), never a bottom sheet                                             |
+| Picking a value, such as sort order or status                  | The list of a [Select](../select/select.md), or radio items in a menu                                                                                                        |
+| Confirming                                                     | [AlertDialog](../alert-dialog/alert-dialog.md)                                                                                                                               |
+| A glance on hover                                              | [PreviewCard](../preview-card/preview-card.md)                                                                                                                               |
+| A thread or a profile kept open beside the conversation        | A side panel ([ThreadPanel](../thread-panel/thread-panel.md), [Panel](../panel/panel.md)), which is not a drawer and has no scrim                                            |
 
 ## Anatomy
 

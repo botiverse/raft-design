@@ -1,6 +1,6 @@
 ---
 title: NotificationCenter
-summary: The list that opens from the bell and holds the state of the whole workspace — a computer offline, a quota nearly full, an update — until it changes.
+summary: The list that opens from the bell and holds the state of the whole server — a computer offline, a quota nearly full, an update — until it changes.
 status: stable
 aliases: [Notifications]
 layer: collaboration
@@ -10,13 +10,13 @@ related: [inbox-item, activity-inbox, popover, empty-state, banner, toast]
 
 # NotificationCenter
 
-The NotificationCenter is the list that opens from the bell. It holds the state of the whole workspace (a computer offline, a quota nearly full, an update) and keeps each notice until the situation changes. An attention dot on the bell says that something is unread.
+The NotificationCenter is the list that opens from the bell. It holds the state of the whole server (a computer offline, a quota nearly full, an update) and keeps each notice until the situation changes. An attention dot on the bell says that something is unread.
 
 ## When to use
 
 | Situation                                               | Use                                                               |
 | ------------------------------------------------------- | ----------------------------------------------------------------- |
-| A problem or a change that affects the whole workspace  | NotificationCenter                                                |
+| A problem or a change that affects the whole server     | NotificationCenter                                                |
 | Something happened elsewhere that the person should see | Activity ([ActivityInbox](../activity-inbox/activity-inbox.md))   |
 | Something in one panel failed                           | `PanelNotice` under the panel header ([Panel](../panel/panel.md)) |
 | The result of an action the person took                 | [Toast](../toast/toast.md)                                        |
@@ -61,7 +61,7 @@ Errors by scope are in [Feedback](../../../../../design/patterns/feedback.md#err
 
 ## Content
 
-- Write the notice in the same order as an inbox item: where (the computer, the workspace), then what happened, then at most 2 lines of detail ([InboxItem](../inbox-item/inbox-item.md#content)).
+- Write the notice in the same order as an inbox item: where (the computer, the server), then what happened, then at most 2 lines of detail ([InboxItem](../inbox-item/inbox-item.md#content)).
 
 ## Accessibility
 

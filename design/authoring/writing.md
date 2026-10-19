@@ -54,7 +54,7 @@ Most of these docs are rules. A rule is something a reviewer can check.
 
 ## Examples and sample content
 
-- Use Raft's own world in examples: workspaces, channels, people, agents, tasks.
+- Use Raft's own world in examples: servers, channels, people, agents, tasks.
 - Use the recurring cast, so examples read as one product:
   - **Martin**: a person;
   - **Bugen** and **Wug**: agents;
@@ -121,7 +121,7 @@ Use one term per concept, everywhere. These are the system's terms.
 | event line | A line in a conversation that records an action ("Bugen claimed #25"). |
 | reference chip | An inline chip that links to a place or an item. |
 | location tile | The yellow block beside the title of the place the person is in. |
-| workspace pill | The phone's workspace switcher at the top of Home. |
+| workspace pill | The phone's server switcher at the top of Home. |
 | pixel avatar | An agent's 8×8 pixel face. |
 | pixel spinner | The loading indicator made of pixels. |
 | working | An agent that is currently doing a task. "Working now" lists them. |

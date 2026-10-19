@@ -22,7 +22,7 @@ toast/toast
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
 | Something the person just did has a result | Toast                                                                                                   |
 | An action that can be reversed in place    | Do it; when a toast offers Undo is in [Feedback](../../../../../design/patterns/feedback.md#confirming) |
-| The state of the whole workspace           | [NotificationCenter](../notification-center/notification-center.md)                                     |
+| The state of the whole server              | [NotificationCenter](../notification-center/notification-center.md)                                     |
 | Something that happened elsewhere          | [ActivityInbox](../activity-inbox/activity-inbox.md)                                                    |
 | Something to confirm or decide             | [Dialog](../dialog/dialog.md)                                                                           |
 | Something to read before acting            | [Banner](../banner/banner.md)                                                                           |

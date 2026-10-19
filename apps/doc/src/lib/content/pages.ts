@@ -65,8 +65,7 @@ export const SECTIONS: readonly Section[] = [
   {
     id: "people-and-agents",
     title: "People and Agents",
-    summary:
-      "How people and agents share one workspace: who is who, who does what, and how it shows.",
+    summary: "How people and agents share one server: who is who, who does what, and how it shows.",
   },
   {
     id: "foundations",

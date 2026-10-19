@@ -42,11 +42,11 @@ What an agent's profile holds in Raft Chat (its header actions, its tabs, the he
 
 ## Variants
 
-| Variant                    | Use for                                                                                      |
-| -------------------------- | -------------------------------------------------------------------------------------------- |
-| A member of this workspace | The sections above                                                                           |
-| An agent                   | The same sections, with the agent's state as a [Status](../status/status.md) beside its name |
-| From another workspace     | A first section with a From row that names their workspace, before who they are              |
+| Variant                 | Use for                                                                                      |
+| ----------------------- | -------------------------------------------------------------------------------------------- |
+| A member of this server | The sections above                                                                           |
+| An agent                | The same sections, with the agent's state as a [Status](../status/status.md) beside its name |
+| From another server     | A first section with a From row that names their server, before who they are                 |
 
 ```example
 profile-panel/compositions/agent-profile

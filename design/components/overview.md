@@ -6,7 +6,7 @@ redirectFrom: [patterns/choosing-components, patterns/composites]
 
 # Components
 
-raft-ui's components come in two layers. **Core** holds the parts any app needs: buttons, fields, dialogs, tabs, tables, avatars. **Collaboration** holds the parts that carry Raft's own concepts: messages, threads, tasks, agents, the inbox, search and files. This page says what each layer is for, which component to choose when several look right, and what to assemble from existing parts instead of designing anew. Each component's own doc says how to use it once chosen.
+raft-ui's components come in two layers. **Core** holds the parts any app needs: buttons, fields, dialogs, tabs, tables, avatars. **Collaboration** holds the parts that carry Raft's own concepts: messages, threads, tasks, agents, Activity and notifications, search and files. This page says what each layer is for, which component to choose when several look right, and what to assemble from existing parts instead of designing anew. Each component's own doc says how to use it once chosen.
 
 ## Two layers
 
@@ -46,11 +46,11 @@ Collaboration is grouped by concept:
 
 - **Core can be reused anywhere.** Every Raft product (Raft Chat today; Tasks, Calendar and the others next) and any internal tool can take a core part without taking Raft's data model with it. raft-ui keeps this true in code: a core component never imports a collaboration one, while collaboration components are built on core ones.
 - **Each rule lives in one place.** A rule about color, lines, shape or states belongs to a core part, and every product inherits it. A rule about a product concept (how many reply previews a thread shows, the order of the task statuses) belongs to the collaboration part that carries the concept, so changing the concept changes one component, not every screen that shows it.
-- **It tells you where to look.** When you build something about messages, tasks, agents or the inbox, start in collaboration: the part you need, or most of it, probably exists, and it already follows the product's rules. When you build something generic, stay in core, and don't borrow a collaboration part because it looks right. An InboxItem is the row for something that happened elsewhere; a list of settings uses [ListRow](../../packages/ui/src/components/list-row/list-row.md), even though both are rows with an icon and a title.
+- **It tells you where to look.** When you build something about messages, tasks, agents, Activity or notifications, start in collaboration: the part you need, or most of it, probably exists, and it already follows the product's rules. When you build something generic, stay in core, and don't borrow a collaboration part because it looks right. An InboxItem is the row for something that happened elsewhere; a list of settings uses [ListRow](../../packages/ui/src/components/list-row/list-row.md), even though both are rows with an icon and a title.
 
 ### Which layer a new component belongs to
 
-Ask one question: would the part make sense in an app with no messages, tasks, agents or inbox?
+Ask one question: would the part make sense in an app with no messages, tasks, agents, Activity or notifications?
 
 - **Yes:** it is core. Name it for what it does (`Timeline` would be core if it did not know task statuses), give it no product props, and put it in the category of what it does.
 - **No:** its name, its props or its rules mention a Raft concept, so it is collaboration. Build it from core parts and put it in the category of its concept.
@@ -84,14 +84,14 @@ SegmentedControl and Tabs look alike, and the content decides between them: a se
 
 ### Telling people something
 
-The scope of a message decides where it goes, and how long the situation lasts decides how long the message stays. The wider the scope, the further out it sits: an input's error under the input, a panel's problem under the panel header, a workspace's problem in the notification center ([Feedback](../patterns/feedback.md)).
+The scope of a message decides where it goes, and how long the situation lasts decides how long the message stays. The wider the scope, the further out it sits: an input's error under the input, a panel's problem under the panel header, a server's problem in the notification center ([Feedback](../patterns/feedback.md)).
 
 | Situation | Use | Stays |
 | --- | --- | --- |
 | Something the person just did has a result | [Toast](../../packages/ui/src/components/toast/toast.md) | A few seconds |
 | They need to know it before acting | [Banner](../../packages/ui/src/components/banner/banner.md), inside a dialog or form | Always |
 | Something in one panel failed: an agent won't start, a setting of the conversation didn't save | A full-width notice under the panel header (`PanelNotice`, [Panel](../../packages/ui/src/components/panel/panel.md)) | Until it is fixed or dismissed |
-| The state of the whole workspace: a computer offline, a quota nearly full, an update | The notification center ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)), with an attention dot on the bell | Until it changes |
+| The state of the whole server: a computer offline, a quota nearly full, an update | The notification center ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)), with an attention dot on the bell | Until it changes |
 | Something happened elsewhere that the person should see | Activity ([ActivityInbox](../../packages/ui/src/components/activity-inbox/activity-inbox.md)); its entry point shows an attention dot or a count | Until it is read |
 | An agent needs approval | An action card in the conversation ([MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md)) | Until it is handled |
 | The person must decide now | [Dialog](../../packages/ui/src/components/dialog/dialog.md) | Until they decide |
@@ -115,7 +115,7 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | Details and settings people look at for a while | [Drawer](../../packages/ui/src/components/drawer/drawer.md) |
 | A large form filled in one pass | The wide [Dialog](../../packages/ui/src/components/dialog/dialog.md); see [Forms](../patterns/forms.md#the-large-form-dialog) |
 | A short list opened from a top bar: Working now, the notifications | [Popover](../../packages/ui/src/components/popover/popover.md), on a phone too |
-| Switching workspace, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md), [Navigation](../patterns/navigation.md#workspaces)). The product doesn't follow this yet: it opens a popover |
+| Switching server, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md), [Navigation](../patterns/navigation.md#servers)). The product doesn't follow this yet: it opens a popover |
 | A short explanation, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md)) |
 | A confirmation | A small [Dialog](../../packages/ui/src/components/dialog/dialog.md), 384px, with Cancel and the confirm button; see [Feedback](../patterns/feedback.md#confirming). Raft Chat builds its confirmations on Dialog, except two that use [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md): discarding unsaved edits to an agent's profile, and opening a link that hands off to another app |
 | Task details | A centered dialog, 960px wide, full screen on a phone ([Tasks](../patterns/tasks.md)) |
@@ -227,11 +227,11 @@ toggle-group/compositions/formatting
 
 The structure of a [Dialog](../../packages/ui/src/components/dialog/dialog.md), with the requested permissions listed in a [DescriptionList](../../packages/ui/src/components/description-list/description-list.md).
 
-### Switching workspaces
+### Switching servers
 
-- On desktop, the workspace button at the left of the web top bar opens the list as a menu under it, 256px wide ([Popover](../../packages/ui/src/components/popover/popover.md)). The strip of workspace avatars beside the button switches with one click.
-- On a phone, the workspace pill opens the same list as a bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md), [Navigation](../patterns/navigation.md#workspaces)). The product doesn't follow this yet: the pill opens the list as a popover under the top bar.
-- Make each row the workspace tile, its name and its address in Space Mono (`/launch`). Mark the current workspace with a check and a bold name; show the unread count of the others as a pink count, or a gray count when the workspace is muted.
+- On desktop, the workspace button at the left of the web top bar opens the list as a menu under it, 256px wide ([Popover](../../packages/ui/src/components/popover/popover.md)). The strip of server avatars beside the button switches with one click.
+- On a phone, the workspace pill opens the same list as a bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md), [Navigation](../patterns/navigation.md#servers)). The product doesn't follow this yet: the pill opens the list as a popover under the top bar.
+- Make each row the workspace tile, its name and its address in Space Mono (`/launch`). Mark the current server with a check and a bold name; show the unread count of the others as a pink count, or a gray count when the server is muted.
 - Give each row a drag handle, so people can reorder the list. The strip follows the same order.
 - End the list, after a separator, with Join Community (until the person has joined it), Switch or Create Server and Invite Human.
 

@@ -1,6 +1,6 @@
 ---
 title: AppRail
-summary: The leftmost desktop column, on the frame — the workspace at the top, the product's destinations in the middle, and notifications, help and settings at the bottom.
+summary: The leftmost desktop column, on the frame — the workspace tile at the top, the product's destinations in the middle, and notifications, help and settings at the bottom.
 status: stable
 aliases: [Rail]
 layer: core
@@ -54,7 +54,7 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 
 - Space every item, in the nav and in the footer, the same way: 40px items, 6px apart, 8px from both ends of the rail. Don't wrap the footer tools in fixed-height cells.
 - Under the header, start the first item 10px below the header's seam.
-- With the web top bar, the rail has no header and the workspace moves to the top bar ([Page structure](../../../../../design/patterns/page-structure.md#the-web-top-bar)).
+- With the web top bar, the rail has no header and the server moves to the top bar, as the workspace button ([Page structure](../../../../../design/patterns/page-structure.md#the-web-top-bar)).
 - In a window shorter than 600px, the rail shrinks with the headers ([Responsive layout](../../../../../design/patterns/responsive.md)), and its items keep 6px from both ends.
 
 ## Content
@@ -67,8 +67,8 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 - `AppRailItem` renders the Base UI Button; `selected` sets `aria-pressed`. For an item that navigates, render a link (`render={<a href="…" />}` with `nativeButton={false}`) and set `aria-current="page"` on the selected one: raft-ui sets neither on a link.
 - `AppRailItemLabel` is visually hidden and names the item. Repeat the name in a [Tooltip](../tooltip/tooltip.md) on the right for pointer users.
 - Say the attention dot in the item's name with `AppRailItemAttention`'s `title`: "Activity, new". The pixel itself is `aria-hidden`.
-- Name the workspace tile after the workspace and what it does: "Raft HQ, switch workspace".
+- Name the workspace tile after the server and what it does: "Raft HQ, switch server".
 
 ## Rules
 
-- Make the workspace tile ink with the workspace's initial in yellow. It opens the workspace list next to the tile ([Built from existing parts](../../../../../design/components/overview.md#switching-workspaces)).
+- Make the workspace tile ink with the server's initial in yellow. It opens the server list next to the tile ([Built from existing parts](../../../../../design/components/overview.md#switching-servers)).

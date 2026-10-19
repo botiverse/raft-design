@@ -20,7 +20,7 @@ alert-dialog/compositions/confirm-action
 
 | Situation                                                                                       | Use                                                                                                                                     |
 | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| An action that cannot be undone: delete a message, an agent, a workspace                        | AlertDialog, red                                                                                                                        |
+| An action that cannot be undone: delete a message, an agent, a server                           | AlertDialog, red                                                                                                                        |
 | An action that interrupts but can be recovered: stop an agent, reset a session, leave a channel | AlertDialog, orange                                                                                                                     |
 | An action that can be reversed in place                                                         | No dialog: do it; when a [Toast](../toast/toast.md) offers Undo is in [Feedback](../../../../../design/patterns/feedback.md#confirming) |
 | A decision that needs more than the name typed                                                  | [Dialog](../dialog/dialog.md)                                                                                                           |
@@ -48,7 +48,7 @@ The confirm button's color says what happens:
 | Interrupts, but can be recovered | `variant="warning"`                                                                             | Stop Wug     |
 | Cannot be undone                 | `variant="danger"`, and a [Banner](../banner/banner.md) with `status="destructive"` in the body | Delete Agent |
 
-Deleting something large, such as an agent or a workspace, also asks for its name to be typed ([Forms](../../../../../design/patterns/forms.md#danger-zone)):
+Deleting something large, such as an agent or a server, also asks for its name to be typed ([Forms](../../../../../design/patterns/forms.md#danger-zone)):
 
 ```example
 alert-dialog/compositions/typed-delete

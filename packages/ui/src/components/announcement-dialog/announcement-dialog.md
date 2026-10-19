@@ -18,13 +18,13 @@ dialog/compositions/announcement
 
 ## When to use
 
-| Situation                                                                | Use                                                                                           |
-| ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- |
-| A new feature people should hear about once, with an action to try it    | AnnouncementDialog                                                                            |
-| The state of the whole workspace: a computer offline, a quota, an update | The notification center ([NotificationCenter](../notification-center/notification-center.md)) |
-| The result of something the person just did                              | [Toast](../toast/toast.md)                                                                    |
-| A decision people must make before they continue                         | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)               |
-| Something people must read before they act, inside a dialog or form      | [Banner](../banner/banner.md)                                                                 |
+| Situation                                                             | Use                                                                                           |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| A new feature people should hear about once, with an action to try it | AnnouncementDialog                                                                            |
+| The state of the whole server: a computer offline, a quota, an update | The notification center ([NotificationCenter](../notification-center/notification-center.md)) |
+| The result of something the person just did                           | [Toast](../toast/toast.md)                                                                    |
+| A decision people must make before they continue                      | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)               |
+| Something people must read before they act, inside a dialog or form   | [Banner](../banner/banner.md)                                                                 |
 
 The full choice of how to tell people something is in [Choosing a component](../../../../../design/components/overview.md#telling-people-something).
 
@@ -54,7 +54,7 @@ The full choice of how to tell people something is in [Choosing a component](../
 ## Content
 
 - Write the label as the kind of announcement, in sentence case: What's new.
-- Write the title as what people can now do, in sentence case: Work together across workspaces.
+- Write the title as what people can now do, in sentence case: Work together across servers.
 - Make the action say where it goes, in Title Case: Create Joint Channel ([Writing](../../../../../design/content/writing.md#casing)).
 - Make the secondary action an acknowledgment, such as Got It. Leave it out when the action and × are enough.
 

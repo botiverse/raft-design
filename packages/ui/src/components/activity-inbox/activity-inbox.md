@@ -21,7 +21,7 @@ activity/compositions/activity-inbox
 | Situation                                                        | Use                                                                 |
 | ---------------------------------------------------------------- | ------------------------------------------------------------------- |
 | Mentions, approvals, hand-offs and replies the person should see | ActivityInbox                                                       |
-| The state of the whole workspace                                 | [NotificationCenter](../notification-center/notification-center.md) |
+| The state of the whole server                                    | [NotificationCenter](../notification-center/notification-center.md) |
 | The result of an action the person took                          | [Toast](../toast/toast.md)                                          |
 
 Where a product puts the way into Activity is on the product's own page.

@@ -6,7 +6,7 @@ redirectFrom: [decisions/0037-panel-notice]
 
 # Feedback
 
-The wider the scope of a message, the further out it goes: an input's error sits under the input, a panel's problem under the panel header, a workspace's problem in the notification center. A message placed next to what it is about needs no explanation of where the problem is. Which component carries each kind of message is in [Choosing a component](../components/overview.md#telling-people-something).
+The wider the scope of a message, the further out it goes: an input's error sits under the input, a panel's problem under the panel header, a server's problem in the notification center. A message placed next to what it is about needs no explanation of where the problem is. Which component carries each kind of message is in [Choosing a component](../components/overview.md#telling-people-something).
 
 ## When it applies
 
@@ -47,9 +47,9 @@ empty-state/compositions/default
 | A dialog or a form | An orange banner inside it ([Banner](../../packages/ui/src/components/banner/banner.md)) |
 | One panel: an agent won't start, a setting of the conversation didn't save | A full-width notice under the panel header (`PanelNotice`, [Panel](../../packages/ui/src/components/panel/panel.md)), with a `line-seam` above and below: it is a region of the panel, not a banner inside its content. Give it a × when the person can dismiss it, and an action when there is a next step, such as View Logs |
 | A one-off action that failed and has no place of its own: a copy blocked by the browser, a thread that is no longer available | A toast with an orange pixel ([Toast](../../packages/ui/src/components/toast/toast.md)) |
-| The whole workspace | The notification center ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)) |
+| The whole server | The notification center ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)) |
 
-- Give every scope its own place, so an error shows where its cause is: an input, a dialog, a panel, the whole workspace.
+- Give every scope its own place, so an error shows where its cause is: an input, a dialog, a panel, the whole server.
 - Use orange when something goes wrong, not red: red means something cannot be undone ([Color](../foundations/color.md#meanings-of-color)).
 - Say what happened, why, and what to do next, in plain words ([Writing](../content/writing.md)).
 

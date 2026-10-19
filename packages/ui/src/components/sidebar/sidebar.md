@@ -88,5 +88,5 @@ sidebar-item/compositions/tones-item
 - Draw a row the same way in every group: original, pinned or custom. A group never changes a row (no wrapping, no hidden description in one group), because the same conversation would look like two different things.
 - Don't use `wrap` to let a name run onto more lines, including in a pinned group. Use it only for a row whose content is 2 lines.
 - Make every row 36px high, in `text-subhead`.
-- Don't put the workspace switcher in the sidebar header. It is in the web top bar, or at the top of the rail when there is no top bar.
+- Don't put the server switcher in the sidebar header. It is in the web top bar, or at the top of the rail when there is no top bar.
 - Don't use `SidebarLiveActivity` for a live bar at the bottom of the sidebar. Working agents appear in the header's working summary and in their own rows instead ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)).

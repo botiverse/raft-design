@@ -5,7 +5,7 @@ summary: The Tasks destination — its title and count, the Channel, Creator and
 
 # Raft Chat — Tasks
 
-Tasks is the top-level page that lists every channel task in the workspace. A channel's Tasks tab is the same panel for one channel. Statuses, the board and the list, task details, changing status and how filters behave follow [Tasks](../../patterns/tasks.md); this page holds only Raft Chat's choices.
+Tasks is the top-level page that lists every channel task in the server. A channel's Tasks tab is the same panel for one channel. Statuses, the board and the list, task details, changing status and how filters behave follow [Tasks](../../patterns/tasks.md); this page holds only Raft Chat's choices.
 
 ## Structure
 
@@ -21,7 +21,7 @@ tasks/compositions/tasks-panel
 
 ## Rules
 
-- Offer three filters: Channel, Creator and Assignee. Creator and Assignee share one list of the workspace's people and agents.
+- Offer three filters: Channel, Creator and Assignee. Creator and Assignee share one list of the server's people and agents.
 - Don't put a create action on this page. A task always belongs to a channel, so it is created there ([Channel](./channel.md#tasks-in-the-conversation)).
 - Leave tasks of direct messages and agents out of this page, and say so when it is empty.
 - Load only the active statuses first: Done and Closed load when their group is opened. Page any group that has more tasks with Load more. A channel's Tasks tab loads all its tasks at once.
