@@ -52,7 +52,7 @@ segmented-control/compositions/disabled
 
 - The track hugs its segments. Don't stretch it to fill its container: a stretched track leaves an empty run of gray beside the segments.
 - The control never shrinks below its segments. When the row is too narrow, its neighbors give way first, then the segments show only their icons ([Responsive layout](../../../../../design/patterns/responsive.md#when-a-row-runs-out-of-room)).
-- Stretch it only when it is the only choice in a form. Then give it the full width and let the segments share it equally.
+- Stretch it only when it is the only choice in a form. Then give it the full width (`w-full`) on its own line, not in a row beside other controls, and let the segments share it equally: in a row, a full-width track that can't shrink pushes past its neighbors.
 - On a phone, use at most 4 segments and show only their icons when they don't fit ([Responsive layout](../../../../../design/patterns/responsive.md#phone)).
 
 ## Content
