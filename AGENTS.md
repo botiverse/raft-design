@@ -26,13 +26,21 @@ release. Add a tool name to select part of the graph. For example, run
 
 <!--VITE PLUS END-->
 
-# Browser Validation Boundary
+# Browser Tests Run by Hand
 
-Do not use Browser, the in-app browser, screenshots, visual browser checks, or browser automation for validation unless the user explicitly asks for browser testing in the current turn.
+Open a browser, take screenshots and run browser tests whenever a check needs real layout; it needs no one's permission.
 
-Browser permission is never sticky. A previous user request to open or test with Browser does not authorize Browser use in later turns. Each Browser validation pass requires a fresh, explicit user instruction in that same turn.
+CI does **not** run browser tests. It runs `vp run -r test` in Node, and every `*.browser.test.tsx` starts with `const it = test.skipIf(typeof window === "undefined")`, so in CI each one is skipped and reports nothing. They are the only tests that see real layout (optical alignment, wrapping, grid columns, line heights), so a green CI says nothing about them. When you change a component, run the browser tests that cover it yourself, and say in the PR which ones you ran:
 
-If a visual check would be helpful but the user has not explicitly authorized Browser use, ask first or continue with code-side inspection only.
+```sh
+cd packages/ui
+pnpm exec vp test --browser.enabled --browser.headless src/components/<component>
+```
+
+- Install the browser once with the Playwright this repo pins, not a global one: `node node_modules/.pnpm/playwright-core@*/node_modules/playwright-core/cli.js install chromium`.
+- Headed mode needs a display; use `--browser.headless` on a machine without one.
+- A new browser test must start with the same `skipIf` guard, or CI fails on `document is not defined`.
+- A new browser test must fail on the code it guards against: revert the fix, see it fail, restore it. Since CI never runs it, that is the only proof it measures anything.
 
 # Raft Design System
 
@@ -88,7 +96,7 @@ Use this sequence when adding or migrating a component:
 6. Audit all three layers for business leakage, duplicated implementations, local component-style repairs, fake ARIA widgets, and enabled-but-inert controls.
 7. Run `vp check --fix`, `git diff --check`, and React Doctor for the changed React packages. For cross-layer architecture changes, repeat an independent strict review until no P1/P2 findings remain.
 
-Browser, build, prerender, and test commands remain governed by the validation boundaries in this file; the SOP does not grant extra validation permission.
+For a component with browser tests, run them by hand before the PR ([Browser Tests Run by Hand](#browser-tests-run-by-hand)).
 
 ## Migration Invariants
 
