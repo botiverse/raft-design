@@ -38,7 +38,7 @@ If a visual check would be helpful but the user has not explicitly authorized Br
 
 raft-ui implements the Raft Design System, and `design/` is the system itself: start at `design/README.md`, then read the foundation or pattern page and the component doc (`packages/ui/src/components/<component>/<component>.md`) for what you touch before changing how anything looks.
 
-- `design/` is the source. A change that alters how something looks updates the rule it follows in the same PR, and a choice that overrides an earlier decision adds a record in `design/decisions/` and marks the earlier one `superseded`.
+- `design/` is the source. A change that alters how something looks updates the rule it follows, and the reason next to it, in the same PR. Add a record in `design/decisions/` only for a major, cross-cutting choice whose alternatives need writing down, or to override one of the records kept there (mark that one `superseded`). See `design/authoring/README.md`.
 - When raft-ui and the DS disagree, one of them is wrong: fix the code or the rule, never leave them apart.
 - Writing or moving docs follows `design/authoring/README.md`: where each page lives, the templates and the writing guide. Run `pnpm check:docs` before opening a PR.
 
