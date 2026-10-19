@@ -5,6 +5,12 @@
     "native": false,
     "props": [
       {
+        "name": "accessibility",
+        "type": "{ announcements?: Announcements; container?: Element; restoreFocus?: boolean; screenReaderInstructions?: ScreenReaderInstructions; }",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
         "name": "children",
         "type": "ReactNode",
         "required": true,

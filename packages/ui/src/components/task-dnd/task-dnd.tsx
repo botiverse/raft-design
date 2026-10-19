@@ -1,8 +1,11 @@
 "use client";
 
 import {
+  closestCorners,
   DndContext,
   DragOverlay,
+  getFirstCollision,
+  KeyboardCode,
   KeyboardSensor,
   PointerSensor,
   TouchSensor,
@@ -12,14 +15,17 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import type {
+  ClientRect,
+  DndContextProps,
   DragCancelEvent,
   DragEndEvent,
   DragMoveEvent,
   DragOverEvent,
   DragStartEvent,
+  DroppableContainer,
+  KeyboardCoordinateGetter,
   UniqueIdentifier,
 } from "@dnd-kit/core";
-import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
@@ -78,8 +84,11 @@ export type TaskMoveDetails = {
   placement: TaskDropPlacement | null;
 };
 
+export type TaskDndAccessibility = NonNullable<DndContextProps["accessibility"]>;
+
 export type TaskDndProviderProps = {
   children: ReactNode;
+  accessibility?: TaskDndAccessibility;
   disabled?: boolean;
   isDropAllowed?: (
     activeId: UniqueIdentifier,
@@ -97,6 +106,7 @@ export type TaskDndProviderProps = {
 
 export function TaskDndProvider({
   children,
+  accessibility,
   disabled = false,
   isDropAllowed = allowTaskDrop,
   onMove,
@@ -114,7 +124,7 @@ export function TaskDndProvider({
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, { coordinateGetter: taskKeyboardCoordinates }),
   );
   const context = useMemo(
     () =>
@@ -198,6 +208,7 @@ export function TaskDndProvider({
   return (
     <DndContext
       id={id}
+      accessibility={accessibility}
       sensors={disabled ? NO_SENSORS : sensors}
       onDragStart={handleDragStart}
       onDragMove={handleDragMove}
@@ -359,6 +370,97 @@ export function TaskDragOverlay({ children, className }: TaskDragOverlayProps) {
       )}
     </DragOverlay>
   );
+}
+
+/**
+ * dnd-kit's `sortableKeyboardCoordinates` only moves when the dragged item is
+ * itself a registered droppable under its own id (as with `useSortable`). Task
+ * cards drop under `dropId` and may leave their column while dragged, so it
+ * never found a target. This getter steps between the enabled drop targets
+ * instead: ArrowDown/ArrowUp go through the slots of the column (before/after
+ * each target), ArrowLeft/ArrowRight jump to the nearest target in that
+ * direction.
+ */
+const taskKeyboardCoordinates: KeyboardCoordinateGetter = (event, { context }) => {
+  const direction = event.code;
+  if (
+    direction !== KeyboardCode.Down &&
+    direction !== KeyboardCode.Up &&
+    direction !== KeyboardCode.Left &&
+    direction !== KeyboardCode.Right
+  ) {
+    return undefined;
+  }
+  event.preventDefault();
+
+  const { active, activeNode, collisionRect, droppableContainers, droppableRects, over } = context;
+  if (active == null || collisionRect == null) return undefined;
+
+  const isVertical = direction === KeyboardCode.Down || direction === KeyboardCode.Up;
+  const center = getRectCenter(collisionRect);
+  const overRect = over == null ? undefined : droppableRects.get(over.id);
+  if (overRect != null && isVertical) {
+    const placement = center.y < getRectCenter(overRect).y ? "before" : "after";
+    if (direction === KeyboardCode.Down && placement === "before") {
+      return getKeyboardLanding(collisionRect, overRect, "after");
+    }
+    if (direction === KeyboardCode.Up && placement === "after") {
+      return getKeyboardLanding(collisionRect, overRect, "before");
+    }
+  }
+
+  const candidates: DroppableContainer[] = [];
+  for (const entry of droppableContainers.getEnabled()) {
+    if (entry.disabled || entry.id === over?.id) continue;
+    if (activeNode != null && entry.node.current === activeNode) continue;
+    const rect = droppableRects.get(entry.id);
+    if (rect == null) continue;
+    const target = getRectCenter(rect);
+    const isInDirection =
+      direction === KeyboardCode.Down
+        ? target.y > center.y && rect.left <= center.x && center.x <= rect.right
+        : direction === KeyboardCode.Up
+          ? target.y < center.y && rect.left <= center.x && center.x <= rect.right
+          : direction === KeyboardCode.Right
+            ? target.x > center.x + 1
+            : target.x < center.x - 1;
+    if (isInDirection) candidates.push(entry);
+  }
+
+  const targetId = getFirstCollision(
+    closestCorners({
+      active,
+      collisionRect,
+      droppableRects,
+      droppableContainers: candidates,
+      pointerCoordinates: null,
+    }),
+    "id",
+  );
+  const targetRect = targetId == null ? undefined : droppableRects.get(targetId);
+  if (targetRect == null) return undefined;
+  return getKeyboardLanding(
+    collisionRect,
+    targetRect,
+    direction === KeyboardCode.Down ? "after" : "before",
+  );
+};
+
+function getRectCenter(rect: ClientRect) {
+  return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+}
+
+/** Top-left for the dragged card so `getDropPlacement` reads `placement` over `target`. */
+function getKeyboardLanding(card: ClientRect, target: ClientRect, placement: TaskDropPlacement) {
+  const alignTop = target.top;
+  const alignBottom = target.bottom - card.height;
+  return {
+    x: target.left,
+    y:
+      placement === "before"
+        ? Math.min(alignTop, alignBottom) - 1
+        : Math.max(alignTop, alignBottom) + 1,
+  };
 }
 
 function getDropPlacement(event: DragMoveEvent | DragEndEvent): TaskDropPlacement | null {
