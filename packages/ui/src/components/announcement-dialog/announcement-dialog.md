@@ -54,7 +54,7 @@ The full choice of how to tell people something is in [Choosing a component](../
 
 - Write the label as the kind of announcement, in sentence case: What's new.
 - Write the title as what people can now do, in sentence case: Work together across workspaces.
-- Make the action say where it goes, in Title Case: Create Joint Channel ([Writing](../../../../../design/foundations/writing.md#casing)).
+- Make the action say where it goes, in Title Case: Create Joint Channel ([Writing](../../../../../design/content/writing.md#casing)).
 - Make the secondary action an acknowledgment, such as Got It. Leave it out when the action and × are enough.
 
 ## Accessibility

@@ -1,0 +1,66 @@
+---
+title: Writing
+summary: The rules for the words inside Raft products — casing, voice, names, and what a button, its dialog and its confirmation say.
+redirectFrom: [foundations/writing]
+---
+
+# Writing
+
+These rules are for the words inside the product: labels, titles, messages, empty states and errors. How Raft sounds, and why, is in [Voice and tone](./voice-and-tone.md); which word to use for each thing is in [Terminology](./terminology.md). Writing the documentation follows the [writing guide](../authoring/writing.md) instead.
+
+## Principles
+
+- **Short and direct.** Say the fact or the action, in as few words as it takes. Keep the voice of the website, with a little humor where nothing is at stake.
+- **Agents are teammates.** Name them, and use the verbs you would use for a person; see [Writing about agents](../people-and-agents/writing-about-agents.md).
+- **One action says one thing.** The button, the dialog it opens and the button that confirms it use the same words.
+
+## Casing
+
+- Use Title Case for anything clickable: Create Task, Mark All Read, Convert to Task.
+- In Title Case, keep these short words lowercase: a, an, the, to, in, on, of, for, as, and, or.
+- Use sentence case for titles, group headings, descriptions and empty states. A dialog or sheet title that repeats the label of the button that opened it keeps that label's Title Case: Create Channel; see [Actions and their dialogs](#actions-and-their-dialogs).
+- Write product nouns in lowercase inside a sentence: "Move to another computer", "Leave this server". They take capitals only as part of a clickable label or a name: Add Computer, Raft Computer.
+- Never use all caps. Typeface and casing rules are in [Typography](../foundations/typography.md#casing).
+
+## Voice
+
+- Keep humor to onboarding and success messages. Write errors and empty states plainly, so people can act on them; see [Voice and tone](./voice-and-tone.md#tone-by-moment).
+- Address the person as "you". Name an agent by its name, in the third person: "Bugen claimed #25", "Martin needs your OK".
+- Use teammate verbs for agents (claim, hand off, review, ship, remember), never bot, process, execute or AI-powered. The full rules are in [Writing about agents](../people-and-agents/writing-about-agents.md).
+- Spell task statuses Todo, In Progress, In Review, Done and Closed.
+- Use display names, not handles.
+- Write Chinese interfaces the same way: short sentences and few adjectives, with numbers, IDs and times still in Space Mono.
+
+## Actions and their dialogs
+
+- Make a button's label the title of the dialog or sheet it opens: Register App opens Register App, Create Channel opens Create Channel ([0038](../decisions/0038-button-names-its-dialog.md)).
+- Title an edit with Edit and the item's name: Edit Release Bot.
+- Make the confirm button repeat the verb and name the result: Make Public, not Public; Delete Agent.
+- Make the cancel button say what stays: Keep Box, Keep Working.
+
+## Errors and empty states
+
+- Say what happened, then what to do next: "Runtime detection failed. Restart Raft Computer and try again."
+- Name the thing that failed, not the system that failed: "Could not save changes", not "Request failed".
+- Write an empty state as the fact, in sentence case: "No tasks yet", "No tasks match these filters". Add one line or one button for the next step when there is one.
+- Say what is happening while something is busy: "Uploading · 64%", "Loading messages". Never "Processing…" or a bare "Loading…".
+- Where each kind of problem is shown (inline, banner, toast or notification center) is in [Feedback](../patterns/feedback.md).
+
+## Do and don't
+
+| Use | Not |
+| --- | --- |
+| No tasks match these filters | No data available |
+| Bugen is on it · 12m | Processing… |
+| Martin needs your OK | Pending approval |
+| Use lowercase and dashes: launch-week | Invalid input |
+| Bring an Agent | Add AI assistant |
+| Channels | CHANNELS |
+
+## Related
+
+- [Voice and tone](./voice-and-tone.md): how Raft sounds in each moment.
+- [Terminology](./terminology.md): the product's words and the ones to avoid.
+- [Typography](../foundations/typography.md): Space Grotesk and Space Mono.
+- [Forms](../patterns/forms.md): labels, help text and validation messages.
+- [Feedback](../patterns/feedback.md): how errors are worded and where they go.

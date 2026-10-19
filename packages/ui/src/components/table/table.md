@@ -45,7 +45,7 @@ The header type, the lines between rows and how numbers are set are in [Composit
 
 ## Content
 
-- Write column headings in sentence case: Resource, Access, Last run ([Writing](../../../../../design/foundations/writing.md#casing)).
+- Write column headings in sentence case: Resource, Access, Last run ([Writing](../../../../../design/content/writing.md#casing)).
 - `TableCell` doesn't set numbers in Space Mono or align them: set both on the cell and on its `TableHead`, so the heading sits over its numbers.
 - Write a caption in sentence case that names what the rows are: Recent builds.
 

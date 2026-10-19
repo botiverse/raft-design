@@ -63,7 +63,7 @@ The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFoot
 
 ## Content
 
-- Title the dialog with the words of the button that opened it, or Edit and the item's name, and make Cancel say what stays: Keep Box ([Writing](../../../../../design/foundations/writing.md#actions-and-their-dialogs)).
+- Title the dialog with the words of the button that opened it, or Edit and the item's name, and make Cancel say what stays: Keep Box ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Set body text in `foreground-muted`, below a title in `foreground`. Their type styles are in [Typography](../../../../../design/foundations/typography.md).
 
 ## Accessibility

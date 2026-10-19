@@ -72,6 +72,6 @@ A large form filled in one pass, such as registering or editing an app, opens as
 
 ## Related
 
-- [Writing](../foundations/writing.md#actions-and-their-dialogs): titles and button labels.
+- [Writing](../content/writing.md#actions-and-their-dialogs): titles and button labels.
 - [Feedback](./feedback.md): where other errors go.
 - [Input](../../packages/ui/src/components/input/input.md), [Switch](../../packages/ui/src/components/switch/switch.md), [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md), [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md), [Select](../../packages/ui/src/components/select/select.md).

@@ -51,7 +51,7 @@ task-list/compositions/task-list-empty-sections
 
 ## Content
 
-- Write an empty group as "No", the status and "tasks", with the status spelled as on its chip ([Writing](../../../../../design/foundations/writing.md#voice)): "No In Review tasks."
+- Write an empty group as "No", the status and "tasks", with the status spelled as on its chip ([Writing](../../../../../design/content/writing.md#voice)): "No In Review tasks."
 
 ## Accessibility
 

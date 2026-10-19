@@ -59,8 +59,8 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 
 ## Content
 
-- Write item labels in Title Case: Copy Link, Reply in Thread ([Writing](../../../../../design/foundations/writing.md#casing)).
-- Make the label of an item that opens a dialog the dialog's title ([Writing](../../../../../design/foundations/writing.md#actions-and-their-dialogs)).
+- Write item labels in Title Case: Copy Link, Reply in Thread ([Writing](../../../../../design/content/writing.md#casing)).
+- Make the label of an item that opens a dialog the dialog's title ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 
 ## Accessibility
 

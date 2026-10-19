@@ -55,7 +55,7 @@ raft-ui has no frameless value trigger yet; the member-info composition uses a [
 
 - Write labels as short nouns in sentence case: Status, Assignee, Created by.
 - Build values from existing parts: a status chip ([Status](../status/status.md)), an avatar and a name ([Avatar](../avatar/avatar.md)), a reference chip, a runtime chip. Set IDs and times in Space Mono ([Typography](../../../../../design/foundations/typography.md#usage)).
-- Name people and agents by their display names ([Writing](../../../../../design/foundations/writing.md#voice)).
+- Name people and agents by their display names ([Writing](../../../../../design/content/writing.md#voice)).
 
 ## Accessibility
 

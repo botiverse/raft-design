@@ -64,7 +64,7 @@ system-message/compositions/grouped-generic
 ## Content
 
 - Name who did it, the verb and the item: "Bugen claimed #25", "Wug → Martin · review #25", "Martin moved #25 to Done".
-- Use teammate verbs and display names ([Writing](../../../../../design/foundations/writing.md#voice)).
+- Use teammate verbs and display names ([Writing](../../../../../design/content/writing.md#voice)).
 - Don't start a line with an emoji: emoji are content, not icons ([Iconography](../../../../../design/foundations/iconography.md)).
 - Summarize a group by count and kind, in sentence case: "3 updates: 2 task updates, 1 system message".
 

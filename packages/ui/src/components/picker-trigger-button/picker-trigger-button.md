@@ -58,7 +58,7 @@ picker-trigger-button/compositions/combobox-filter
 ## Content
 
 - Show the current value, not the filter's name, once a value is chosen: Relevance, #launch-week. Before that, show the filter's name: Channel, Assignee.
-- The general rules for labels are in [Writing](../../../../../design/foundations/writing.md#casing).
+- The general rules for labels are in [Writing](../../../../../design/content/writing.md#casing).
 
 ## Accessibility
 

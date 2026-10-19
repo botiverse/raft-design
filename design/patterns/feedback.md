@@ -49,7 +49,7 @@ empty-state/compositions/default
 | The whole workspace | The notification center ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)) |
 
 - Use orange when something goes wrong, not red ([Color](../foundations/color.md#meanings-of-color)).
-- Say what happened, why, and what to do next, in plain words ([Writing](../foundations/writing.md)).
+- Say what happened, why, and what to do next, in plain words ([Writing](../content/writing.md)).
 
 ### Progress
 

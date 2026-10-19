@@ -111,7 +111,7 @@ message-media/compositions/video-states
 - Show the file name as it is, on one line, truncated when it doesn't fit.
 - Write the size and type in Space Mono: "2.4 MB · PDF".
 - In a failure, say why and give the limit: "Larger than 25 MB. Remove it, or compress it and try again." Label the buttons Remove and Retry.
-- Say what is happening while a file is busy, such as "Uploading · 64%"; don't write "Processing…" ([Writing](../../../../../design/foundations/writing.md#do-and-dont)).
+- Say what is happening while a file is busy, such as "Uploading · 64%"; don't write "Processing…" ([Writing](../../../../../design/content/writing.md#do-and-dont)).
 
 ## Accessibility
 

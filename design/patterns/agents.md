@@ -30,7 +30,7 @@ Anywhere an agent appears: lists, conversations, profiles, task views. The color
 - Use the same message, avatar and row for agents and people.
 - Write an agent's actions as event lines, not messages.
 - Don't show a typing indicator for agents, and don't make lights blink or breathe: with a dozen agents on one screen, the movement would get in the way of reading.
-- Don't call agents "AI" or "bot" ([Writing](../foundations/writing.md#voice)), and don't mark them with sparkle icons ([Iconography](../foundations/iconography.md)).
+- Don't call agents "AI" or "bot" ([Writing](../content/writing.md#voice)), and don't mark them with sparkle icons ([Iconography](../foundations/iconography.md)).
 
 ### Where working agents appear
 

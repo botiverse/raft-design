@@ -75,7 +75,7 @@ toggle-group/compositions/disabled
 
 ## Content
 
-- Label each item with what it turns on, in Title Case: Bold, Numbered List ([Writing](../../../../../design/foundations/writing.md#casing)).
+- Label each item with what it turns on, in Title Case: Bold, Numbered List ([Writing](../../../../../design/content/writing.md#casing)).
 
 ## Accessibility
 

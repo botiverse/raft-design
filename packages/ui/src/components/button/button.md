@@ -98,7 +98,7 @@ Hover, press, focus and disabled follow [States](../../../../../design/foundatio
 ## Content
 
 - Start with a verb and name the result: Send for Review, not OK or Submit.
-- Use Title Case ([Writing](../../../../../design/foundations/writing.md#casing)), and repeat the button's words in the dialog it opens ([Writing](../../../../../design/foundations/writing.md#actions-and-their-dialogs)).
+- Use Title Case ([Writing](../../../../../design/content/writing.md#casing)), and repeat the button's words in the dialog it opens ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Put an icon before the label (`data-icon="inline-start"`), and Return or an arrow after it (`data-icon="inline-end"`).
 - While loading, say what is happening: Creating….
 

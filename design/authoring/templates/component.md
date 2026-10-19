@@ -66,7 +66,7 @@ design/foundations/states.md: loading, error, empty, selected… -->
 ## Content
 
 <!-- Rules for the words inside this component: length, casing, what the label says.
-Link to design/foundations/writing.md for the general rules. -->
+Link to design/content/writing.md for the general rules. -->
 
 ## Accessibility
 
