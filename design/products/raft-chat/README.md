@@ -59,7 +59,7 @@ Without the web top bar (an older desktop build, a workspace's public page), the
 
 ### Where working agents appear
 
-The shared rules are in [Agents](../../patterns/agents.md#where-working-agents-appear). In Raft Chat:
+The shared rules are in [Working agents](../../people-and-agents/working-agents.md#where-working-shows). In Raft Chat:
 
 | Place | Shows |
 | --- | --- |

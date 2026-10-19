@@ -34,5 +34,5 @@ Motion in Raft confirms an action or shows where something came from. It never d
 ## Related
 
 - [States](./states.md): the pressed overlays.
-- [Agents](../patterns/agents.md): how working agents are shown without animation.
+- [Working agents](../people-and-agents/working-agents.md#motion): how working agents are shown without animation.
 - [Brand](./brand.md): where brand illustration is allowed.

@@ -82,7 +82,7 @@ The structure of a phone's top bars (the large title of a top-level page, Back a
 
 - Name the place, the person or the view in `PanelTitle`.
 - Put a location tile ([IconTile](../icon-tile/icon-tile.md)) in `PanelHeaderIcon` for a place, and the person's avatar for a person. Other pages have no icon: their `PanelMeta` says where they belong, such as the channel a thread is in.
-- Start `PanelMeta` with what is live, then the counts: "2 agents working · 5 members" ([Agents](../../../../../design/patterns/agents.md#where-working-agents-appear)). Set numbers and IDs in Space Mono ([Typography](../../../../../design/foundations/typography.md#usage)).
+- Start `PanelMeta` with what is live, then the counts: "2 agents working · 5 members" ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)). Set numbers and IDs in Space Mono ([Typography](../../../../../design/foundations/typography.md#usage)).
 - Put a tag on the name (Experimental, Archived, Deleted) in `PanelHeading` as a `PanelStatus`, never in `PanelMeta`: the description truncates, and truncation cuts off the tag's edge.
 
 ## Accessibility

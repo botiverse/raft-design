@@ -24,7 +24,7 @@ mobile-nav/mobile-nav
 | Sections of one page                | [Tabs](../tabs/tabs.md)                                       |
 | Another view of the same content    | [SegmentedControl](../segmented-control/segmented-control.md) |
 
-How the tab bar works with Back and pushed pages, and how many destinations it holds, is in [Navigation](../../../../../design/patterns/navigation.md). Nothing is attached above the tab bar; where working agents appear instead is in [Agents](../../../../../design/patterns/agents.md#where-working-agents-appear). Which destinations a product has is on its own page ([Raft Chat](../../../../../design/products/raft-chat/README.md)).
+How the tab bar works with Back and pushed pages, and how many destinations it holds, is in [Navigation](../../../../../design/patterns/navigation.md). Nothing is attached above the tab bar; where working agents appear instead is in [Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows). Which destinations a product has is on its own page ([Raft Chat](../../../../../design/products/raft-chat/README.md)).
 
 ## Anatomy
 

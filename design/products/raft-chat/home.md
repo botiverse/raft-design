@@ -13,7 +13,7 @@ From top to bottom:
 
 1. **The top bar, on the frame**: a 56px row (`PanelSectionHeader`) with the workspace pill on the left, and the working summary and the bell on the right.
    - The pill opens the workspace list ([Composites](../../patterns/composites.md#switching-workspaces)).
-   - The working summary is an avatar stack and a count; it opens Working now ([Agents](../../patterns/agents.md#where-working-agents-appear)) and is hidden when no one is working.
+   - The working summary is an avatar stack and a count; it opens Working now ([Working agents](../../people-and-agents/working-agents.md#where-working-shows)) and is hidden when no one is working.
    - The bell opens the notification center and shows a pink pixel when there is something new.
 2. **Three entry rows**: Search, Activity (with a pink count, up to 99+) and Saved (with a gray count in Space Mono), with no lines between them.
 3. **Sections**: Pinned, the person's own sections, Joint Channels, Channels and Direct Messages, in the person's order. Agents are listed among the direct messages.

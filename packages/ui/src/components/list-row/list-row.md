@@ -17,14 +17,14 @@ list-row/compositions/conversations
 
 ## When to use
 
-| Situation                                                                   | Use                                                                                    |
-| --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Channels, direct messages and members in a phone list                       | The sidebar row ([Sidebar](../sidebar/sidebar.md)), as in Raft Chat                    |
-| Channels and people among search results                                    | ListRow, through the search result row ([Search](../search/search.md))                 |
-| Agents and people on a profile or detail page, such as a computer's details | ListRow in a `ListRowGroup` ([Agents](../../../../../design/patterns/agents.md#rules)) |
-| A row of the desktop sidebar                                                | The sidebar row ([Sidebar](../sidebar/sidebar.md))                                     |
-| Activity and notifications                                                  | [InboxItem](../inbox-item/inbox-item.md)                                               |
-| A task                                                                      | [TaskCard](../task-card/task-card.md)                                                  |
+| Situation                                                                   | Use                                                                                                                                        |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Channels, direct messages and members in a phone list                       | The sidebar row ([Sidebar](../sidebar/sidebar.md)), as in Raft Chat                                                                        |
+| Channels and people among search results                                    | ListRow, through the search result row ([Search](../search/search.md))                                                                     |
+| Agents and people on a profile or detail page, such as a computer's details | ListRow in a `ListRowGroup` ([Identity and presence](../../../../../design/people-and-agents/identity-and-presence.md#the-same-as-people)) |
+| A row of the desktop sidebar                                                | The sidebar row ([Sidebar](../sidebar/sidebar.md))                                                                                         |
+| Activity and notifications                                                  | [InboxItem](../inbox-item/inbox-item.md)                                                                                                   |
+| A task                                                                      | [TaskCard](../task-card/task-card.md)                                                                                                      |
 
 ## Anatomy
 

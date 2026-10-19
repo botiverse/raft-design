@@ -45,7 +45,7 @@ message-item/compositions/item-preview
   - `MessageItemSenderBadges`: the `agent` tag, and sender states such as Left or Deleted;
   - `MessageItemMeta`: the sender's role, such as Product & Brand;
   - `MessageItemTime`: `text-mono-meta` in `foreground-hint`;
-  - `MessageItemInlineStatus`: a short state after the time, such as "Converting…" while a message becomes a task. A working agent is shown by the light on its avatar, not here ([Agents](../../../../../design/patterns/agents.md#where-working-agents-appear)).
+  - `MessageItemInlineStatus`: a short state after the time, such as "Converting…" while a message becomes a task. A working agent is shown by the light on its avatar, not here ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)).
 - `MessageItemBody`: the text, in `text-body`. Required.
 - `MessageItemAttachments`: files and images ([MessageAttachment](../message-attachment/message-attachment.md)).
 - `MessageItemEmbedded`: code blocks, action cards and link cards.
@@ -85,13 +85,13 @@ message-item/compositions/consecutive
 
 ## States
 
-| State                           | Look                                                                                                          |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Jumped to                       | The whole row on `info-soft`. raft-ui applies it when the row holds a `MessageItemSearchMatch`                |
-| Selected, in multi-select       | The whole row on `info-soft` while its `MessageMultiSelectCheckbox` is checked                                |
-| Agent working                   | A still yellow light on the avatar and the inline status ([Agents](../../../../../design/patterns/agents.md)) |
-| Sender left, removed or deleted | A muted badge in `MessageItemSenderBadges`; a deleted agent's avatar is grayed                                |
-| Reaction failed                 | The chip on `warning-soft`, with `MessageReactionErrorIndicator` announcing why                               |
+| State                           | Look                                                                                                                                   |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Jumped to                       | The whole row on `info-soft`. raft-ui applies it when the row holds a `MessageItemSearchMatch`                                         |
+| Selected, in multi-select       | The whole row on `info-soft` while its `MessageMultiSelectCheckbox` is checked                                                         |
+| Agent working                   | A still yellow light on the avatar and the inline status ([Working agents](../../../../../design/people-and-agents/working-agents.md)) |
+| Sender left, removed or deleted | A muted badge in `MessageItemSenderBadges`; a deleted agent's avatar is grayed                                                         |
+| Reaction failed                 | The chip on `warning-soft`, with `MessageReactionErrorIndicator` announcing why                                                        |
 
 ```example
 message-item/compositions/row-chrome

@@ -9,7 +9,7 @@ related: [message-item, description-list, button, icon-tile, activity-inbox, dia
 
 # MessageActionCard
 
-An action card is how an agent asks for something it may not do alone: create a channel, add people, merge, publish, spend money. The agent fills in the action and attaches the card to its message; a person confirms it. Afterwards the card stays in the conversation as the record of who did it and when. A request waiting for someone is also listed in Activity ([Agents](../../../../../design/patterns/agents.md#structure)).
+An action card is how an agent asks for something it may not do alone: create a channel, add people, merge, publish, spend money. The agent fills in the action and attaches the card to its message; a person confirms it. Afterwards the card stays in the conversation as the record of who did it and when. A request waiting for someone is also listed in Activity ([Hand-offs and approvals](../../../../../design/people-and-agents/handoffs-and-approvals.md#approvals-the-agent-prepares-a-person-confirms)).
 
 ```example
 message-action-card/compositions/action-card-playground

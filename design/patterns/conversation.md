@@ -61,6 +61,6 @@ conversation-panel/compositions/conversation-panel
 
 ## Related
 
-- [Agents](./agents.md): event lines, status and action cards.
+- [Hand-offs and approvals](../people-and-agents/handoffs-and-approvals.md): event lines, status and action cards.
 - [Navigation](./navigation.md): reference chips and links.
 - [Composites](./composites.md): link cards, forwarded messages, translations and multi-select.
