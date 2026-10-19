@@ -3,6 +3,7 @@ title: ComponentName
 summary: One sentence that says what it is and when to use it.
 status: stable
 aliases: []
+layer: core
 category: actions
 related: []
 ---
