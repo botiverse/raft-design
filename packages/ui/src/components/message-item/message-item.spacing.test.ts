@@ -1,18 +1,23 @@
 /**
  * Message rhythm contract.
  *
- * A compact (continuation) row drops its top padding so it sits under the
- * row it continues; the avatar size is variable-driven (`--mi-avatar`, which
+ * Every row's highlight sits 4px above and below its text (py-1). A new
+ * group adds an 8px transparent top border the highlight doesn't paint
+ * (bg-clip-padding); a compact (continuation) row drops it, so it sits under
+ * the row it continues and its highlight stays symmetric; the avatar size is variable-driven (`--mi-avatar`, which
  * the app raises on the large font tier) and centred in its slot.
  */
 import { expect, test } from "vite-plus/test";
 import { messageItem } from "./message-item.recipe";
 
-test("compact rows keep their own rhythm (pt-0, no min height)", () => {
-  const regular = messageItem().root();
-  expect(regular).toContain("py-2");
-  const compact = messageItem({ compact: true }).root();
-  expect(compact).toContain("pt-0");
+test("rows keep 8px between groups outside a symmetric highlight", () => {
+  const regular = messageItem().root().split(/\s+/);
+  for (const c of ["py-1", "border-t-8", "border-transparent", "bg-clip-padding"])
+    expect(regular).toContain(c);
+  const compact = messageItem({ compact: true }).root().split(/\s+/);
+  expect(compact).toContain("border-t-0");
+  expect(compact).not.toContain("border-t-8");
+  expect(compact).toContain("py-1");
   expect(compact).toContain("min-h-0");
 });
 
