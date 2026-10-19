@@ -9,7 +9,7 @@ import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
 import { drawer } from "./drawer.recipe";
-import { OverlayDepthProvider } from "../../lib/overlay-depth";
+import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
 
 type DrawerConfig = {
   hasSnapPoints: boolean;
@@ -36,6 +36,7 @@ export function Drawer({
   modal = true,
   snapPoints,
   swipeDirection = "down",
+  children,
   ...props
 }: DrawerProps) {
   const hasSnapPoints = snapPoints != null && snapPoints.length > 0;
@@ -53,7 +54,9 @@ export function Drawer({
         snapPoints={snapPoints}
         swipeDirection={swipeDirection}
         {...props}
-      />
+      >
+        {withOverlayLayer("drawer", modal === true, children)}
+      </DrawerPrimitive.Root>
     </DrawerConfigContext.Provider>
   );
 }
@@ -74,11 +77,17 @@ export type DrawerOverlayProps = StyledProps<DrawerPrimitive.Backdrop.Props>;
 
 export function DrawerOverlay({ className, ...props }: DrawerOverlayProps) {
   const { hasSnapPoints } = useDrawerConfig();
-  const { overlay } = drawer({ snapPoints: hasSnapPoints });
+  // A sheet opened from a dialog draws its own, lighter scrim over the dialog.
+  // A sheet opened from a sheet keeps Base UI's nesting instead: no scrim of
+  // its own, and the sheet below steps back (Elevation › Stacked overlays).
+  const nested = useParentOverlayKind() === "dialog";
+  const { overlay } = drawer({ snapPoints: hasSnapPoints, nested });
 
   return (
     <DrawerPrimitive.Backdrop
       data-slot="drawer-overlay"
+      data-nested={nested ? "" : undefined}
+      forceRender={nested}
       className={overlay({ className })}
       {...props}
     />
@@ -114,7 +123,7 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
         <DrawerPrimitive.Popup data-slot="drawer-popup" className={popup({ className })} {...props}>
           {hasSnapPoints ? <DrawerSwipeHandle /> : null}
           <DrawerPrimitive.Content data-slot="drawer-content" className={content()}>
-            {modal === true ? <OverlayDepthProvider>{children}</OverlayDepthProvider> : children}
+            {children}
           </DrawerPrimitive.Content>
         </DrawerPrimitive.Popup>
       </DrawerPrimitive.Viewport>

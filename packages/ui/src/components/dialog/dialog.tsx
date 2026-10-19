@@ -7,7 +7,7 @@ import type { ComponentPropsWithRef, ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { OverlayDepthProvider, useOverlayDepth } from "../../lib/overlay-depth";
+import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
 
@@ -86,8 +86,12 @@ const dialog = tv({
 
 export type DialogProps = BaseDialog.Root.Props;
 
-export function Dialog(props: DialogProps) {
-  return <BaseDialog.Root data-slot="dialog" {...props} />;
+export function Dialog({ children, ...props }: DialogProps) {
+  return (
+    <BaseDialog.Root data-slot="dialog" {...props}>
+      {withOverlayLayer("dialog", props.modal !== false, children)}
+    </BaseDialog.Root>
+  );
 }
 
 export type DialogTriggerProps = BaseDialog.Trigger.Props;
@@ -107,13 +111,15 @@ export type DialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props> & {
 };
 
 export function DialogOverlay({ className, layer, ...props }: DialogOverlayProps) {
-  const nested = useOverlayDepth() > 0;
+  // Always rendered: Base UI skips the backdrop of a nested dialog, and a
+  // top-level one renders it anyway. Nested, it takes the lighter scrim.
+  const nested = useParentOverlayKind() != null;
   const { overlay } = dialog({ layer, nested });
   return (
     <BaseDialog.Backdrop
       data-slot="dialog-overlay"
       data-nested={nested ? "" : undefined}
-      forceRender={nested}
+      forceRender
       className={overlay({ className })}
       {...props}
     />
@@ -144,7 +150,7 @@ export function DialogContent({
     <DialogPortal {...portalProps}>
       {overlay === false ? null : <DialogOverlay layer={layer} {...overlayProps} />}
       <BaseDialog.Popup data-slot="dialog-content" className={content({ className })} {...props}>
-        <OverlayDepthProvider>{children}</OverlayDepthProvider>
+        {children}
       </BaseDialog.Popup>
     </DialogPortal>
   );

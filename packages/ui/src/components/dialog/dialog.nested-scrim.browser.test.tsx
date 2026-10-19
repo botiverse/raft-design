@@ -86,3 +86,86 @@ it("a confirm opened from a dialog has the lighter scrim too", async () => {
   expect(nested).toHaveLength(1);
   expect(alphaOf(nested[0])).toBeCloseTo(0.4, 2);
 });
+
+it("a dialog under another dialog's root but outside its content still gets the lighter scrim", async () => {
+  render(
+    <ThemeProvider>
+      <Dialog open>
+        <DialogContent>
+          <DialogTitle>Edit profile</DialogTitle>
+        </DialogContent>
+        <AlertDialog open>
+          <AlertDialogContent>
+            <AlertDialogTitle>Discard changes?</AlertDialogTitle>
+          </AlertDialogContent>
+        </AlertDialog>
+      </Dialog>
+    </ThemeProvider>,
+  );
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  const nested = scrims("alert-dialog-overlay");
+  expect(nested).toHaveLength(1);
+  expect(alphaOf(nested[0])).toBeCloseTo(0.4, 2);
+});
+
+it("a dialog opened from a non-modal dialog has the full scrim: nothing below it is dimmed", async () => {
+  render(
+    <ThemeProvider>
+      <Dialog open modal={false}>
+        <DialogContent overlay={false}>
+          <DialogTitle>Find in conversation</DialogTitle>
+          <Dialog open>
+            <DialogContent>
+              <DialogTitle>Jump to date</DialogTitle>
+            </DialogContent>
+          </Dialog>
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  const overlays = scrims("dialog-overlay");
+  expect(overlays).toHaveLength(1);
+  expect(alphaOf(overlays[0])).toBeCloseTo(0.651, 2);
+});
+
+it("a sheet opened from a dialog draws the lighter scrim over the dialog", async () => {
+  render(
+    <ThemeProvider>
+      <Dialog open>
+        <DialogContent>
+          <DialogTitle>Create agent</DialogTitle>
+          <Drawer open swipeDirection="right">
+            <DrawerContent>
+              <DrawerTitle>Runtime help</DrawerTitle>
+            </DrawerContent>
+          </Drawer>
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  expect(alphaOf(scrims("dialog-overlay")[0])).toBeCloseTo(0.651, 2);
+  const sheet = scrims("drawer-overlay");
+  expect(sheet).toHaveLength(1);
+  expect(alphaOf(sheet[0])).toBeCloseTo(0.4, 2);
+});
+
+it("a sheet opened from a sheet keeps Base UI's nesting: one scrim, the sheet below steps back", async () => {
+  render(
+    <ThemeProvider>
+      <Drawer open swipeDirection="right">
+        <DrawerContent>
+          <DrawerTitle>Channel settings</DrawerTitle>
+          <Drawer open swipeDirection="right">
+            <DrawerContent>
+              <DrawerTitle>Members</DrawerTitle>
+            </DrawerContent>
+          </Drawer>
+        </DrawerContent>
+      </Drawer>
+    </ThemeProvider>,
+  );
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  expect(scrims("drawer-overlay")).toHaveLength(1);
+});
