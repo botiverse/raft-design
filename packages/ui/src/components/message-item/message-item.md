@@ -123,7 +123,7 @@ message-item/compositions/reactions
 
 ## Content
 
-- Write the continuation time as 24-hour `HH:MM`, without AM or PM.
+- Write the continuation time as the hour and minute only, in the person's 12-hour or 24-hour format, without AM or PM: 6:35, 18:35 ([Writing](../../../../../design/content/writing.md#times)).
 - Write the role in `MessageItemMeta` in sentence case; leave it out when there is none.
 - Label each reaction chip with the reaction, the count and whether the person is among them.
 

@@ -40,7 +40,7 @@ export function MessageItemAvatarSlot({ className, render, ...props }: MessageIt
 
 export type MessageItemContinuationTimeProps = useRender.ComponentProps<"span">;
 
-/** Left-gutter hover clock for continuation rows. Pass 24h `HH:MM` (no AM/PM). */
+/** Left-gutter hover clock for continuation rows. Pass the hour and minute only, in the person's 12h/24h format, with no AM/PM (`6:35`, `18:35`). */
 export function MessageItemContinuationTime({
   className,
   render,

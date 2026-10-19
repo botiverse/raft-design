@@ -26,7 +26,7 @@ export const messageItem = tv({
       "[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,35px)",
     ],
     continuationTime: [
-      "absolute right-0 select-none tabular-nums",
+      "absolute right-0 select-none whitespace-nowrap tabular-nums",
       "top-1 font-mono text-mono-meta",
       "text-(--mi-ct-color,transparent)",
     ],
