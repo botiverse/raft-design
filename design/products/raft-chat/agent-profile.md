@@ -5,7 +5,7 @@ summary: An agent's profile — where it opens, its header actions, its tabs, th
 
 # Raft Chat — Agent profile
 
-An agent's profile says who the agent is, where it runs and what it is doing, and holds what its managers can do with it. It opens from an avatar, a mention or a direct message as a side panel beside the conversation, and from Working now or the Members list as the agent's own page in the main area. It is the one working page with brand illustration: the large pixel sticker with the hard sticker shadow ([Brand](../../foundations/brand.md#how-much-brand)).
+An agent's profile says who the agent is, where it runs and what it is doing, and holds what its managers can do with it. It opens from an avatar, a mention or a direct message as a side panel beside the conversation, and from Working now or the Members list as the agent's own page in the main area. It is the one working page with brand illustration: the large pixel sticker with the hard sticker shadow, which stays still ([Brand](../../foundations/brand.md#how-much-brand)). Where a profile sits beside the conversation and where it covers it follows [Responsive layout](../../patterns/responsive.md).
 
 ## Structure
 
@@ -26,8 +26,6 @@ The Activity tab is the agent's activity log: one entry per step, with a square 
 
 ## Rules
 
-- Put the hard shadow only on the large avatar: it is an illustration, not a button. Don't tilt or animate it.
 - Let the agent's managers change the avatar from the hero: the avatar is a button with an edit overlay ([0041](../../decisions/0041-editable-avatar.md)).
-- When the agent can't start or its runtime fails, show the reason in a notice under the header, with an orange light, Copy Diagnostic Info and View logs, which opens Activity ([Feedback](../../patterns/feedback.md#errors-by-scope)).
-- Below 1024px, or when its column is narrower than 680px, the side panel covers the conversation; on a phone it has Back instead of ×.
+- When the agent can't start or its runtime fails, the notice under the header ([Agents](../../patterns/agents.md#structure)) offers Copy Diagnostic Info and View logs, which opens Activity.
 - A person's profile uses the same panel and the same 99px avatar ([0040](../../decisions/0040-profile-avatar-size.md)), without tabs: Description, Info (Role, Email, Joined), Created Agents and, for admins, Remove Member.

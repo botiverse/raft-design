@@ -5,7 +5,7 @@ summary: How to tell people something — what acts at once and what is confirme
 
 # Feedback
 
-The wider the scope of a message, the further out it goes: an input's error sits under the input, a panel's problem under the panel header, a workspace's problem in the notification center. Which component carries each kind of message is in [Choosing a component](../components/overview.md#telling-people-something).
+The wider the scope of a message, the further out it goes: an input's error sits under the input, a panel's problem under the panel header, a workspace's problem in the notification center. A message placed next to what it is about needs no explanation of where the problem is. Which component carries each kind of message is in [Choosing a component](../components/overview.md#telling-people-something).
 
 ## When it applies
 
@@ -15,10 +15,10 @@ Every result, problem, empty view and wait that people need to know about.
 
 ### Confirming
 
-- Act at once, without a dialog or a toast, when the person can reverse the action in the same place: Mark as Done (Reopen Task), Save Message (Remove from Saved).
-- Confirm with a dialog any action that stops an agent's work, takes someone out of a place, or archives or deletes something: Stop Agent, Restart or Reset, Archive Agent, Leave Channel, Remove Member, Delete Server ([Dialog](../../packages/ui/src/components/dialog/dialog.md)). The confirm button repeats the action's verb ([0038](../decisions/0038-button-names-its-dialog.md)).
-- In a dialog that confirms something that cannot be undone, put the message in a red banner and make the confirm button red. Don't color the action in the menu that opens it.
-- When an action has a natural way back in the same moment, act and show a toast with Undo instead of a dialog ([Toast](../../packages/ui/src/components/toast/toast.md)). In Raft Chat this is removing an agent from a thread's followers: the toast stays 5 seconds.
+- Act at once, without a dialog or a toast, when the person can reverse the action in the same place: Mark as Done (Reopen Task), Save Message (Remove from Saved). A question before an action that is one click to undo only slows people down.
+- Confirm with a dialog any action that stops an agent's work, takes someone out of a place, or archives or deletes something, because none of these can be put back from where it happened: Stop Agent, Restart or Reset, Archive Agent, Leave Channel, Remove Member, Delete Server ([Dialog](../../packages/ui/src/components/dialog/dialog.md)). The confirm button repeats the action's verb ([0038](../decisions/0038-button-names-its-dialog.md)).
+- In a dialog that confirms something that cannot be undone, put the message in a red banner and make the confirm button red. Don't color the action in the menu that opens it: the warning belongs where the person commits, not in a list of choices.
+- When an action has a natural way back in the same moment, act and show a toast with Undo instead of a dialog ([Toast](../../packages/ui/src/components/toast/toast.md)). For example, Raft Chat does this when someone removes an agent from a thread's followers; the toast stays 5 seconds.
 
 ### Empty, loading and failed
 
@@ -34,8 +34,8 @@ Keep these three apart:
 empty-state/compositions/default
 ```
 
-- Don't show an empty state when loading failed. An empty state is a conclusion ("there is nothing here"); a failure is not. Raft Chat's Activity and Saved don't follow this yet: when their list fails to load, they show their empty state.
-- When a filter hides everything, say so in the empty state ("No tasks match this filter") and how to get results back.
+- Don't show an empty state when loading failed. An empty state is a conclusion ("there is nothing here"); a failure is not. Raft Chat doesn't follow this everywhere yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)).
+- When a filter hides everything, say so in the empty state ("No tasks match this filter") and how to get results back, so people don't conclude the list is empty.
 - Make the skeleton the same size as the content it stands for, so nothing flashes or jumps when the content arrives. Don't show one placeholder and then swap it for another.
 
 ### Errors, by scope
@@ -48,7 +48,7 @@ empty-state/compositions/default
 | A one-off action that failed and has no place of its own: a copy blocked by the browser, a thread that is no longer available | A toast with an orange pixel ([Toast](../../packages/ui/src/components/toast/toast.md)) |
 | The whole workspace | The notification center ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)) |
 
-- Use orange when something goes wrong, not red ([Color](../foundations/color.md#meanings-of-color)).
+- Use orange when something goes wrong, not red: red means something cannot be undone ([Color](../foundations/color.md#meanings-of-color)).
 - Say what happened, why, and what to do next, in plain words ([Writing](../foundations/writing.md)).
 
 ### Progress
