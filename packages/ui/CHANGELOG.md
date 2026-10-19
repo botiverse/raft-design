@@ -1,3 +1,12 @@
+## [0.9.1](https://github.com/botiverse/raft-design/compare/v0.9.0...v0.9.1) (2026-10-19)
+
+### Added
+
+- `InboxItemActions reveal="hover"`: with a mouse, the actions stay hidden (still reachable by Tab) until the row is hovered, focused, active or has a menu open, and the timestamp, marks and dot step aside while they show. On a touch screen they show at rest and the trailing column makes room. ([#584](https://github.com/botiverse/raft-design/pull/584))
+- `InboxItemLeading`: a 36px leading visual (an avatar or channel tile); the divider starts after it. ([#584](https://github.com/botiverse/raft-design/pull/584))
+- `InboxItem density="compact"`: a one-line title and excerpt for a conversation list, with the timestamp beside the title and `InboxItemMarks` (mention, muted, unread count, draft) beside the excerpt. In a compact row `data-unread` bolds the title without the pink dot. ([#584](https://github.com/botiverse/raft-design/pull/584))
+- `InboxItemHoverTarget`: lets a badge inside the row take the pointer so its tooltip opens; a click on it still opens the row. ([#584](https://github.com/botiverse/raft-design/pull/584))
+
 ## [0.9.0](https://github.com/botiverse/raft-design/compare/v0.8.3...v0.9.0) (2026-10-19)
 
 ### Breaking Changes
