@@ -3,7 +3,8 @@ title: InlineCode
 summary: A name from code inside a sentence — a variable, a key, a file name — set in Space Mono on a sunken fill.
 status: stable
 aliases: []
-category: content
+layer: core
+category: data-display
 related: [copyable-code, code-block, message-item]
 ---
 

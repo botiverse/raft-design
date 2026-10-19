@@ -3,7 +3,8 @@ title: FilePreview
 summary: A small icon that shows a file's type — a document, an archive, code or a media thumbnail — with a chip that names the type.
 status: stable
 aliases: [File icon]
-category: content
+layer: collaboration
+category: files
 related: [message-attachment, composer]
 ---
 

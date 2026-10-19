@@ -3,6 +3,7 @@ title: MobileNav
 summary: The phone tab bar — up to 5 destinations at the bottom of a top-level page, the selected one's icon in a yellow sticker.
 status: stable
 aliases: [TabBar, Tab bar, Bottom navigation]
+layer: core
 category: navigation
 related: [app-rail, panel]
 ---

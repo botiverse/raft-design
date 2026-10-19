@@ -3,7 +3,8 @@ title: FilesPanel
 summary: The list of files shared in a place, one row per file with its type, name, size and time, which opens a preview and offers Jump to Message and Download.
 status: stable
 aliases: [Files, FileRow, Channel files]
-category: content
+layer: collaboration
+category: files
 related: [file-preview, message-attachment, panel, empty-state, lightbox]
 ---
 

@@ -3,6 +3,7 @@ title: RadioGroup
 summary: A group of round options for choosing one of 2 to 5 answers that is submitted with a form, each with room for a sentence.
 status: stable
 aliases: [Radio]
+layer: core
 category: inputs
 related: [checkbox, switch, select, segmented-control, field]
 ---

@@ -3,6 +3,7 @@ title: Textarea
 summary: A multi-line text field for forms, at least 96px high, with an optional character counter.
 status: stable
 aliases: []
+layer: core
 category: inputs
 related: [input, field, composer]
 ---

@@ -3,7 +3,8 @@ title: CopyableCode
 summary: One command people copy and run, on a code surface with a copy button that confirms with a check.
 status: stable
 aliases: [Command line]
-category: content
+layer: core
+category: data-display
 related: [inline-code, code-block, toast]
 ---
 

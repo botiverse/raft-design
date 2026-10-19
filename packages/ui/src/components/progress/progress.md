@@ -3,13 +3,14 @@ title: Progress
 summary: A bar that shows how far a measurable task has gone, such as an upload or usage against a limit, with a label and its value.
 status: stable
 aliases: [ProgressBar, Loading]
+layer: core
 category: feedback
 related: [spinner, skeleton, file-preview, message-attachment]
 ---
 
 # Progress
 
-A progress bar shows how far something with a known percentage has gone: an upload, a file being processed, usage against a quota. Next to it, a label says what it is and how far it has got. Which loading indicator fits which wait is in [Choosing a component](../../../../../design/patterns/choosing-components.md#waiting).
+A progress bar shows how far something with a known percentage has gone: an upload, a file being processed, usage against a quota. Next to it, a label says what it is and how far it has got. Which loading indicator fits which wait is in [Choosing a component](../../../../../design/components/overview.md#waiting).
 
 ```example
 progress/compositions/preview

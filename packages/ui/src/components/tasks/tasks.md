@@ -3,7 +3,8 @@ title: Tasks
 summary: The parts every task view shares — the status badge and task chip that show where a task is, the status pixels, and the shell of a task panel.
 status: stable
 aliases: [TaskChip, TaskStatusBadge, TaskStatusIcon, TasksPanel, task marker, task status]
-category: status
+layer: collaboration
+category: tasks
 related: [status, task-card, task-board, task-list, badge, message-item]
 ---
 

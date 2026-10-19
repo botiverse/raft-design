@@ -3,6 +3,7 @@ title: Separator
 summary: A 1px hairline between groups of content in one region, horizontal or vertical, with an optional word in the middle of a horizontal one.
 status: stable
 aliases: [Divider]
+layer: core
 category: layout
 related: [dropdown-menu, select, popover, panel, card]
 ---

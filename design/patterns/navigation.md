@@ -52,7 +52,7 @@ Every Raft product. Which destinations a product has and in which order is on it
 
 - On desktop, open the workspace list as a menu under the workspace button of the top bar. The strip beside the button switches with one click; it shows as many workspace avatars as fit, at least 2, and marks the current one with a bar under its avatar.
 - On a phone, open the workspace list from the pill as a bottom sheet ([0007](../decisions/0007-workspace-switcher-sheet.md)). The product doesn't follow this yet: its pill opens the same list as a popover anchored under the top bar.
-- Show an attention dot on the pill and on a workspace avatar when another workspace has unread items. How the list is built is in [Composites](./composites.md#switching-workspaces).
+- Show an attention dot on the pill and on a workspace avatar when another workspace has unread items. How the list is built is in [Built from existing parts](../components/overview.md#switching-workspaces).
 
 ### Several views of one place
 

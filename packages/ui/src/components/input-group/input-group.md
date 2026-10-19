@@ -3,6 +3,7 @@ title: InputGroup
 summary: An input with a fixed prefix, suffix, icon or button inside the same bordered box, such as a domain, a unit or a search icon.
 status: stable
 aliases: []
+layer: core
 category: inputs
 related: [input, field, search]
 ---

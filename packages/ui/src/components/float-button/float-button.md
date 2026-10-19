@@ -4,6 +4,7 @@ summary: Deprecated. A button that floats over the page content; actions belong 
 status: deprecated
 replacedBy: panel
 aliases: [FAB, Floating action button, FloatButtonGroup]
+layer: core
 category: actions
 related: [panel, button]
 ---
