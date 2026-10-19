@@ -9,9 +9,9 @@
                  (unordered axis — names say where the token is used)
      intensity = (bare default) > muted > hint for foreground;
                  hairline < seam < strong for line
-     layer = places on the elevation ladder; fill = opaque neutral interaction
-     fills (resting/hover/active/disabled surfaces) — the opaque counterpart
-     of the translucent ink washes.
+     layer = places on the elevation ladder; fill = neutral interaction fills
+     (resting/hover/active/disabled surfaces): fill-muted and fill-strong are
+     opaque, the -pressed overlays are translucent ink laid over a surface.
    Families:  {family}(-{slot})
      family = brand | attention | info | success | warning | danger | inactive
      slot   = -strong (deep shade: readable text, rings) > bare (solid fill)
@@ -20,8 +20,8 @@
               | -hover / -active (derived interaction pair, opt-in per family;
                 an opted-in family always gets both)
    Washes:    ink-{alpha%} (2..40) — neutral overlays, hairlines, hover fills.
-   Opacity rule: layer and fill tokens are opaque in every theme; -backdrop is
-   the only translucent layer token (an overlay by contract).
+   Opacity rule: layer tokens are opaque in every theme, except -backdrop (an
+   overlay by contract); among fills only the -pressed overlays are translucent.
    Interaction fills: transparent resting → ink-N directly; solid family fill →
    the family's -hover/-active pair; neutral or tinted surface → step up its ladder.
    Escape hatches: ink ramp for one-off washes; inline oklch() literals for
