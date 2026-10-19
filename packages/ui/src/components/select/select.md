@@ -33,7 +33,7 @@ The full choice between pickers is in [Choosing a component](../../../../../desi
 - `SelectIcon`: the chevron at the trigger's end.
 - `SelectContent`: the list's popup, positioned next to the trigger. Required.
 - `SelectList`: the scrolling list of items.
-- `SelectItem`: one value, with `SelectItemText` and `SelectItemIndicator` (the check mark). `SelectItemLeading` holds an icon or avatar before the text.
+- `SelectItem`: one value, with `SelectItemText` and `SelectItemIndicator` (the check mark). `SelectItemLeading` holds an icon or avatar before the text. `SelectItemDescription` is an optional second line under the text.
 - `SelectGroup` and `SelectGroupLabel`: a group of values under a small heading. `SelectSeparator` is a hairline between groups.
 - `SelectLabel`: a label for the select when it is not in a [Field](../field/field.md).
 - `SelectScrollUpArrow`, `SelectScrollDownArrow`, `SelectPortal`, `SelectPopup`: lower-level parts for custom popups.
@@ -76,6 +76,14 @@ picker-trigger-button/compositions/select-filter
 
 - Group values by kind (Agents, People) with `SelectGroupLabel`.
 - Put secondary information (a runtime, a role, presence) at the end of the item, in `foreground-hint`.
+- Put a short explanation of what a value means (what a model is good at, what a level does) on a second line, in `SelectItemDescription`. Don't repeat the label in another form, such as its id in lowercase: a line that says nothing new only makes the list taller.
+
+```example
+select/compositions/descriptions
+```
+
+An item is as tall as its content. One line keeps the 36px minimum; with a description it grows, keeping 6px above and below its text, so two-line items never touch. `SelectItemDescription` sits beside `SelectItemText`, not inside it, so the trigger shows only the label.
+
 - Put the empty choice first when there is one, as with Unassigned ([Tasks](../../../../../design/patterns/tasks.md#filters)).
 
 ## Accessibility

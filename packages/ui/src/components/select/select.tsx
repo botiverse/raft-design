@@ -43,7 +43,7 @@ const select = tv({
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
       "text-left outline-none transition-colors",
-      "min-h-9 gap-2.5 rounded-control px-2.5 py-0",
+      "min-h-9 flex-wrap gap-x-2.5 gap-y-0.5 rounded-control px-2.5 py-1.5",
       "text-callout font-medium text-foreground",
       "bg-transparent hover:bg-brand-soft data-highlighted:bg-brand-soft",
       "data-selected:font-bold data-selected:**:data-[slot='select-item-text']:font-bold",
@@ -65,6 +65,10 @@ const select = tv({
       "text-foreground [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
     ],
     itemText: ["min-w-0 flex-1 truncate"],
+    itemDescription: [
+      "order-last min-w-0 basis-full",
+      "font-sans text-caption font-normal text-foreground-hint",
+    ],
     label: ["m-0", "font-sans text-footnote font-semibold text-foreground-muted"],
     group: ["flex flex-col"],
     groupLabel: ["py-2", "px-2.5 pt-2 pb-1 text-caption font-bold text-foreground-hint"],
@@ -326,6 +330,24 @@ export function SelectItemText({ className, ...props }: SelectItemTextProps) {
     <BaseSelect.ItemText
       data-slot="select-item-text"
       className={itemText({ className })}
+      {...props}
+    />
+  );
+}
+
+export type SelectItemDescriptionProps = StyledProps<ComponentPropsWithRef<"span">>;
+
+/**
+ * A second line under an option's label: what it means, not its name again.
+ * It sits beside `SelectItemText`, not inside it, so the selected value in the
+ * trigger stays the label alone. The option grows to fit it.
+ */
+export function SelectItemDescription({ className, ...props }: SelectItemDescriptionProps) {
+  const { itemDescription } = select();
+  return (
+    <span
+      data-slot="select-item-description"
+      className={itemDescription({ className })}
       {...props}
     />
   );
