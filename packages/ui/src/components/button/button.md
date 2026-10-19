@@ -24,7 +24,7 @@ button/compositions/preview
 | An action with a label                                                                    | Button                                                    |
 | An action whose icon is understood without words: search, more, back, close, copy, attach | Button at an icon size; see [Icon buttons](#icon-buttons) |
 | An action whose icon needs words to be understood                                         | Button with a label                                       |
-| A link to look at something elsewhere                                                     | `variant="link"`: underlined ink text                     |
+| The quietest control on a screen, action or not                                           | `variant="link"`: underlined ink text                     |
 | A list of actions on one thing                                                            | [DropdownMenu](../dropdown-menu/dropdown-menu.md)         |
 | Picking a value                                                                           | [Select](../select/select.md)                             |
 
@@ -37,7 +37,7 @@ button/compositions/preview
 | `variant="ghost"`    | Cancel and minor actions inside a surface that already has an edge — a dialog, a sheet, a menu, a toolbar: no frame | Cancel in a dialog, Keep Box         |
 | `variant="warning"`  | Actions that interrupt but can be undone: an orange sticker                                                         | Stop Wug, Leave Channel, Reset       |
 | `variant="danger"`   | Actions that cannot be undone, on the confirm button of a confirmation dialog: a red sticker                        | Delete Agent                         |
-| `variant="link"`     | Going to another place, not doing something: underlined ink text                                                    | View All                             |
+| `variant="link"`     | The quietest control on a screen, action or not: underlined ink text                                                | View All, Log out                    |
 | `variant="on-frame"` | A frameless button on the frame: the rail, the web top bar, the desktop title bar                                   | The workspace button                 |
 
 `accent` renders the same as `primary`, and `outline`, `information`, `muted` and `success` the same as `default`. Use the names in the table.
@@ -57,7 +57,7 @@ Every button is flat: the ink border or the sticker marks it as a control, never
 - Give every other action an ink border (`default`).
 - Make cancel and minor actions frameless (`ghost`) **inside a surface that already has an edge**: a dialog, a sheet, a menu, a toolbar. On a page, give the same action an ink border (`default`).
 - **Emphasis is relative to the surface that holds the button, not a property of the action.** A dialog is already a bounded, focused surface, so a frameless Cancel there still reads as a control. A page has no such edge, so the same frameless Cancel reads as a line of text and stops looking clickable. The action did not change; what encloses it did.
-- Use `link` only to go somewhere, never to do something. An action styled as a link reads as navigation and loses the press affordance; give it a frame instead (`default`, or `ghost` inside a dialog).
+- Use `link` for the bottom of the ladder: where even a frameless button is too much weight, such as the escape hatch on a sign-in page or an inline See All. It may carry an action — Log out and Forgot Password are links — but it is the quietest control on the screen, never a way to fit one more button into a crowded row.
 - Use orange (`warning`) for actions that interrupt but can be undone: stop, leave, reset.
 - Use red (`danger`) only for actions that cannot be undone, and only in a confirmation dialog ([AlertDialog](../alert-dialog/alert-dialog.md)). Don't color a destructive item in a menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md)).
 - Don't use `danger-secondary` or `danger-outline`: red text on an outline button puts red outside a confirmation dialog.
