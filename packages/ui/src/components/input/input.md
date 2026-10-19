@@ -3,6 +3,7 @@ title: Input
 summary: A single-line text field, 44px high with a 1.5px ink border, for typing one value.
 status: stable
 aliases: [TextField]
+layer: core
 category: inputs
 related: [field, input-group, textarea, select]
 ---

@@ -3,6 +3,7 @@ title: Avatar
 summary: The square sticker that stands for one agent or one person — a pixel face for an agent, a photo or initials for a person — with an optional presence light.
 status: stable
 aliases: [PixelAvatar, avatar stack, presence light]
+layer: core
 category: identity
 related: [icon-tile, status, badge, list-row, message-item]
 ---

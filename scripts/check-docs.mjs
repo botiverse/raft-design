@@ -17,18 +17,22 @@ const componentsDir = path.join(root, "packages/ui/src/components");
 const modulesDir = path.join(root, "apps/doc/src/modules");
 
 const STATUSES = new Set(["experimental", "stable", "deprecated"]);
-const CATEGORIES = new Set([
-  "actions",
-  "inputs",
-  "navigation",
-  "identity",
-  "status",
-  "content",
-  "agents",
-  "overlays",
-  "feedback",
-  "layout",
-]);
+// Each layer has its own categories; a category belongs to exactly one layer.
+// What the layers are and why is in design/components/overview.md.
+const CATEGORIES = {
+  core: new Set([
+    "actions",
+    "inputs",
+    "navigation",
+    "overlays",
+    "feedback",
+    "layout",
+    "data-display",
+    "identity",
+  ]),
+  collaboration: new Set(["messages", "tasks", "agents", "inbox", "search", "files"]),
+};
+const LAYERS = new Set(Object.keys(CATEGORIES));
 const MARKETING =
   /\b(powerful|beautiful|delightful|seamless(ly)?|best-in-class|stunning|effortless(ly)?|build something bold)\b/i;
 const CJK = /[\u3000-\u303f\u3400-\u4dbf\u4e00-\u9fff\uff00-\uffef]/;
@@ -220,8 +224,13 @@ for (const absolute of componentDocs) {
   if (!data.summary) fail(file, "front matter has no summary");
   if (!STATUSES.has(data.status))
     fail(file, `status "${data.status}" is not experimental, stable or deprecated`);
-  if (!CATEGORIES.has(data.category))
-    fail(file, `category "${data.category}" is not one of ${[...CATEGORIES].join(", ")}`);
+  if (!LAYERS.has(data.layer))
+    fail(file, `layer "${data.layer}" is not one of ${[...LAYERS].join(", ")}`);
+  else if (!CATEGORIES[data.layer].has(data.category))
+    fail(
+      file,
+      `category "${data.category}" is not a ${data.layer} category: ${[...CATEGORIES[data.layer]].join(", ")}`,
+    );
   if (data.aliases !== undefined && !Array.isArray(data.aliases))
     fail(file, "aliases must be a list");
   for (const related of Array.isArray(data.related) ? data.related : []) {

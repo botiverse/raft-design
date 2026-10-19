@@ -3,13 +3,14 @@ title: Resizable
 summary: Columns or rows whose split people drag, with the drag handle sitting on the seam between them.
 status: stable
 aliases: [Split view, Splitter, Resize handle]
+layer: core
 category: layout
 related: [app-shell, sidebar, panel, thread-panel]
 ---
 
 # Resizable
 
-Resizable lets people drag the boundary between two regions to change how much room each one gets: the sidebar and the main area, or a conversation and its thread. The seam between the two columns is the only line, and the drag handle sits on it ([Composites](../../../../../design/patterns/composites.md#resizable-columns)).
+Resizable lets people drag the boundary between two regions to change how much room each one gets: the sidebar and the main area, or a conversation and its thread. The seam between the two columns is the only line, and the drag handle sits on it ([Built from existing parts](../../../../../design/components/overview.md#resizable-columns)).
 
 ```example
 app-shell/compositions/collapsible-sidebar

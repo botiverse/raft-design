@@ -3,7 +3,8 @@ title: MessageReplies
 summary: The thread under a message — a gray block with the reply count, a pink count of new replies and up to 3 previews — that opens the thread as one control.
 status: stable
 aliases: [Thread replies]
-category: content
+layer: collaboration
+category: messages
 related: [message-item, thread-panel, system-message]
 ---
 

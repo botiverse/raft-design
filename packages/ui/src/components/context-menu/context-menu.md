@@ -3,6 +3,7 @@ title: ContextMenu
 summary: The menu of actions on one thing that opens at the pointer on right-click, or on press and hold on a touch screen.
 status: stable
 aliases: [Right-click menu]
+layer: core
 category: overlays
 related: [dropdown-menu, select, popover]
 ---
@@ -24,7 +25,7 @@ context-menu/context-menu
 | Acting on something on a phone                                            | ContextMenu on press and hold, never a bottom sheet |
 | A value submitted with a form                                             | [Select](../select/select.md)                       |
 
-Which overlay fits which job is in [Choosing a component](../../../../../design/patterns/choosing-components.md#overlays).
+Which overlay fits which job is in [Choosing a component](../../../../../design/components/overview.md#overlays).
 
 ## Anatomy
 

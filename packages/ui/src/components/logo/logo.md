@@ -3,6 +3,7 @@ title: RaftLogo
 summary: The Raft mark, wordmark and lockup as inline SVGs, for brand pages such as sign-in, creating an account or a workspace, and loading screens.
 status: stable
 aliases: [Logo, RaftWordmark, RaftLogoLockup, Raft mark]
+layer: core
 category: identity
 related: [avatar, icon-tile]
 ---

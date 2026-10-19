@@ -3,7 +3,8 @@ title: NotificationCenter
 summary: The list that opens from the bell and holds the state of the whole workspace — a computer offline, a quota nearly full, an update — until it changes.
 status: stable
 aliases: [Notifications]
-category: content
+layer: collaboration
+category: inbox
 related: [inbox-item, activity-inbox, popover, empty-state, banner, toast]
 ---
 

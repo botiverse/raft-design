@@ -3,7 +3,8 @@ title: ActivityInbox
 summary: The Activity panel — a list of inbox items with its views, filters and selection toolbar, where selecting an item opens it beside the list.
 status: stable
 aliases: [Activity]
-category: content
+layer: collaboration
+category: inbox
 related: [inbox-item, notification-center, panel, sidebar, empty-state]
 ---
 

@@ -3,6 +3,7 @@ title: FormSection
 summary: One part of a large form, with a small heading, a quiet status chip, a line on what the part is for, and its fields, used in the wide dialog and in drawer forms.
 status: stable
 aliases: []
+layer: core
 category: layout
 related: [dialog, drawer, field, badge]
 ---

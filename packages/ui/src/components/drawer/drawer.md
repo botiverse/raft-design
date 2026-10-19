@@ -3,6 +3,7 @@ title: Drawer
 summary: A panel that slides in from the right for details and settings people look at for a while, and on a phone a bottom sheet for picking a place to go or reading a short explanation.
 status: stable
 aliases: [Sheet, BottomSheet]
+layer: core
 category: overlays
 related: [dialog, form-section, dropdown-menu, preview-card, thread-panel]
 ---

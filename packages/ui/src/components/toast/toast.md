@@ -3,6 +3,7 @@ title: Toast
 summary: A dark floating notice that confirms the result of something the person just did, disappears after a few seconds, and can offer View or Undo.
 status: stable
 aliases: [Snackbar]
+layer: core
 category: feedback
 related: [banner, notification-center, activity-inbox, dialog, spinner]
 ---
@@ -26,7 +27,7 @@ toast/toast
 | Something to confirm or decide             | [Dialog](../dialog/dialog.md)                                                                           |
 | Something to read before acting            | [Banner](../banner/banner.md)                                                                           |
 
-Never put anything in a toast that would confuse people if they missed it ([Choosing a component](../../../../../design/patterns/choosing-components.md#telling-people-something)).
+Never put anything in a toast that would confuse people if they missed it ([Choosing a component](../../../../../design/components/overview.md#telling-people-something)).
 
 ## Anatomy
 

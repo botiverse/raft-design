@@ -3,6 +3,7 @@ title: Tabs
 summary: A row of tabs for the sections of one page, each with its own content; the selected tab is a yellow sticker, and the row scrolls when the tabs don't fit.
 status: stable
 aliases: []
+layer: core
 category: navigation
 related: [segmented-control, conversation-panel, mobile-nav]
 ---

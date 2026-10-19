@@ -3,6 +3,7 @@ title: ScrollArea
 summary: A region with native scrolling and a thin drawn scrollbar that shows only while it scrolls, for lists and strips inside a fixed frame.
 status: stable
 aliases: [Scrollbar, Scroll view]
+layer: core
 category: layout
 related: [message-list, panel, sidebar, composer]
 ---

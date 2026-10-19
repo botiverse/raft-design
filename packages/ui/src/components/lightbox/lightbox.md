@@ -3,13 +3,14 @@ title: Lightbox
 summary: A full-screen viewer over the scrim for images and attachment previews, with previous and next, thumbnails and one button to close.
 status: stable
 aliases: [Image viewer, Media viewer, Attachment preview]
+layer: core
 category: overlays
 related: [dialog, message-attachment, file-preview, drawer]
 ---
 
 # Lightbox
 
-A lightbox shows an image or a file preview at full size over the whole window: the image on a full-screen `layer-backdrop`, previous and next, and one icon button to close ([Composites](../../../../../design/patterns/composites.md#image-viewer)). Use it when someone opens an image or an attachment from a message. It is for media and previews only.
+A lightbox shows an image or a file preview at full size over the whole window: the image on a full-screen `layer-backdrop`, previous and next, and one icon button to close ([Built from existing parts](../../../../../design/components/overview.md#image-viewer)). Use it when someone opens an image or an attachment from a message. It is for media and previews only.
 
 ```example
 lightbox/compositions/image-lightbox-shell
@@ -82,4 +83,4 @@ lightbox/compositions/attachment-preview-shell
 
 - Don't build a media viewer from a Dialog, and don't put anything other than media or a file preview in a Lightbox.
 - Give the lightbox one close button, at the top right ([Navigation](../../../../../design/patterns/navigation.md#closing)).
-- Don't add colors or lines beyond the scrim, the info bar and the toolbar ([Composites](../../../../../design/patterns/composites.md)).
+- Don't add colors or lines beyond the scrim, the info bar and the toolbar ([Built from existing parts](../../../../../design/components/overview.md#built-from-existing-parts)).

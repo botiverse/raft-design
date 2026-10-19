@@ -3,6 +3,7 @@ title: AppShell
 summary: The outermost layout of an app, with slots for the rail, the sidebar, the main area, a side panel and an overlay, that switches to a single column with the tab bar below 768px.
 status: stable
 aliases: [Shell, App frame, App layout]
+layer: core
 category: layout
 related: [app-rail, sidebar, panel, mobile-nav, resizable]
 ---

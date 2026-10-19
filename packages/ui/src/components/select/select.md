@@ -3,6 +3,7 @@ title: Select
 summary: A field that opens a list of values and shows the one chosen, for picking one of up to 10 values or a few of several.
 status: stable
 aliases: []
+layer: core
 category: inputs
 related: [combobox, combobox-select, dropdown-menu, radio-group, field, picker-trigger-button]
 ---
@@ -13,7 +14,7 @@ A select is a 44px field with an ink border, like an input. Clicking it opens a 
 
 ## When to use
 
-The full choice between pickers is in [Choosing a component](../../../../../design/patterns/choosing-components.md#picking-something).
+The full choice between pickers is in [Choosing a component](../../../../../design/components/overview.md#picking-something).
 
 | Situation                                             | Use                                                                                            |
 | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -67,7 +68,7 @@ picker-trigger-button/compositions/select-filter
 ## Behavior
 
 - Make the list as wide as the field. Align a filter's list with the filter's left edge, and with its right edge when there is no room. How every popup is positioned is in [Elevation](../../../../../design/foundations/elevation.md#popups).
-- Open the same list on a phone. Don't replace it with a bottom sheet: a bottom sheet is for going somewhere, such as switching workspace ([Choosing a component](../../../../../design/patterns/choosing-components.md#overlays)).
+- Open the same list on a phone. Don't replace it with a bottom sheet: a bottom sheet is for going somewhere, such as switching workspace ([Choosing a component](../../../../../design/components/overview.md#overlays)).
 - With `multiple`, keep the list open when a value is chosen. Clicking outside or Esc closes it.
 - With `multiple`, put a box before each item (`CheckboxIndicator` in `SelectItemLeading`), ink when chosen ([Checkbox](../checkbox/checkbox.md)). The trigger shows the chosen values, or a count (3 selected) when they don't fit.
 

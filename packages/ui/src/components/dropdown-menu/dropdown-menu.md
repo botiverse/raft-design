@@ -3,6 +3,7 @@ title: DropdownMenu
 summary: A list of actions on one thing, opened from a button, that can also hold a setting-style choice with a check mark on the current value.
 status: stable
 aliases: [Menu]
+layer: core
 category: overlays
 related: [context-menu, select, popover, alert-dialog, drawer]
 ---
@@ -26,7 +27,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 | A little input on click (snooze, rename)                   | [Popover](../popover/popover.md)                                    |
 | A place to go, on a phone                                  | A bottom sheet ([Drawer](../drawer/drawer.md))                      |
 
-Which overlay fits which job is in [Choosing a component](../../../../../design/patterns/choosing-components.md#overlays).
+Which overlay fits which job is in [Choosing a component](../../../../../design/components/overview.md#overlays).
 
 ## Anatomy
 

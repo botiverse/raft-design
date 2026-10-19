@@ -3,6 +3,7 @@ title: Button
 summary: A button for an action, with or without a label; its color says what kind of action it is, and its size follows where it sits.
 status: stable
 aliases: [IconButton]
+layer: core
 category: actions
 related: [dropdown-menu, alert-dialog, tooltip, spinner, composer]
 ---
@@ -93,7 +94,7 @@ Hover, press, focus and disabled follow [States](../../../../../design/foundatio
 
 - **Disabled, frameless:** a frameless icon button (`ghost` at an icon size) and an `on-frame` button only turn their icon and text `foreground-disabled`. No fill or border appears.
 - **Disabled, colored:** a disabled pink, orange or red button is no longer a sticker: it takes the shared disabled look.
-- **Loading:** `loading` shows the pixel spinner ([Spinner](../spinner/spinner.md)) and keeps the button's width and color. Use it for any wait a button started ([Choosing a component](../../../../../design/patterns/choosing-components.md#waiting)).
+- **Loading:** `loading` shows the pixel spinner ([Spinner](../spinner/spinner.md)) and keeps the button's width and color. Use it for any wait a button started ([Choosing a component](../../../../../design/components/overview.md#waiting)).
 
 ## Content
 
