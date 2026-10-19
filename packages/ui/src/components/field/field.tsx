@@ -10,7 +10,8 @@ const field = tv({
     // A control centers on the FIRST line of its label, with or without a
     // description and however many lines the label takes. The offset is half
     // the difference between that line and the control, derived from the
-    // item's own line height rather than hand-tuned: (1lh - 20px) / 2
+    // item's own line height rather than hand-tuned: (1lh - control) / 2,
+    // which is why a 30px switch and a 20px box each get their own term
     // (Alignment: a control and its label). Centering on the line box is
     // optical centering in Space Grotesk - cap centre and line-box centre sit
     // 0.004em apart, under 0.1px at any size we set - so there is nothing left
@@ -19,7 +20,8 @@ const field = tv({
     item: [
       "group/field-item flex items-start gap-2",
       "*:data-[slot=checkbox]:mt-[calc((1lh-1.25rem)/2)]",
-      "*:data-[slot=radio]:mt-[calc((1lh-1.25rem)/2)]",
+      "*:data-[slot=radio-group-item]:mt-[calc((1lh-1.25rem)/2)]",
+      "*:data-[slot=switch]:mt-[calc((1lh-1.875rem)/2)]",
     ],
     label: [
       "block",
