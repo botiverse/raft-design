@@ -34,7 +34,7 @@ CI does **not** run browser tests. It runs `vp run -r test` in Node, and every `
 
 ```sh
 cd packages/ui
-pnpm exec vp test --browser.enabled --browser.headless src/components/<component>
+pnpm exec vp test --run --browser.enabled --browser.headless src/components/<component>
 ```
 
 - Install the browser once with the Playwright this repo pins, not a global one: `node node_modules/.pnpm/playwright-core@*/node_modules/playwright-core/cli.js install chromium`.
