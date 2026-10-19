@@ -24,7 +24,7 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 - Make every touch target at least 44px in both directions.
 - Extend a control that looks smaller than 44px, and a text button, with a transparent pseudo-element to 44px.
 - Don't extend inline links and reference chips in running text: they follow the line of text.
-- Desktop controls used only with a pointer may be smaller: sidebar rows and menu items 36px, rail items 40px, the hover toolbar 32px.
+- Desktop controls used only with a pointer may be smaller: sidebar rows and menu items 36px, rail items 40px, the hover toolbar 32px high with 28px buttons.
 
 ## Heights
 

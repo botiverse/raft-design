@@ -110,7 +110,8 @@ message-item/compositions/avatar-status
 
 - The hover toolbar appears on hover, when focus is inside the row, and while one of its popups is open. It rides the top edge of the row, on the right.
 - The toolbar covers the time, so the time fades out while the toolbar shows. The header doesn't reserve space for it.
-- The toolbar reaches 18px above the row. Leave at least 18px above the first message of a scroll area, and 20px above the root message of a thread. A timeline that opens with a date line already has the room.
+- The toolbar is 32px high: 28px buttons with 16px icons, in a 2px frame. It rides the row's top edge and reaches 16px above it, half its height. It stays this compact because it appears on every message under the pointer: at 38px it covered the sender line and was clipped above the first message.
+- Leave at least 16px above the first message of a scroll area and above the root message of a thread, so the toolbar is never clipped. A timeline that opens with a date line already has the room.
 - The task marker opens the task. Status changes in the task, not from the marker.
 
 ```example
