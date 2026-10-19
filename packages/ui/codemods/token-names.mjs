@@ -151,5 +151,12 @@ function main(argv) {
 // Run only when invoked directly. Compare real paths: pnpm installs packages
 // through symlinks, so `process.argv[1]` (the path typed) and this module's
 // URL (the resolved file) differ, and a plain comparison silently did nothing.
-const invokedPath = process.argv[1] ? realpathSync(process.argv[1]) : "";
-if (invokedPath === realpathSync(fileURLToPath(import.meta.url))) main(process.argv.slice(2));
+// When imported (a test, `node -e`), argv[1] may be missing or not a file.
+function isInvokedDirectly() {
+  try {
+    return realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return false;
+  }
+}
+if (isInvokedDirectly()) main(process.argv.slice(2));
