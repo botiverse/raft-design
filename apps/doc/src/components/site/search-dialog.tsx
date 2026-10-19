@@ -1,7 +1,18 @@
 import { useCallback, useMemo, useState } from "react";
 import type { ChangeEvent, KeyboardEvent } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { BookOpen, Box, Layers, Palette, Scale, Search } from "lucide-react";
+import {
+  BookOpen,
+  Box,
+  Compass,
+  Info,
+  Layers,
+  Palette,
+  PenLine,
+  Scale,
+  Search,
+  Users,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -30,10 +41,14 @@ import { searchDocs, sectionTitle } from "#/lib/content/search.ts";
 import type { SearchHit } from "#/lib/content/search.ts";
 
 const SECTION_ICON: Record<SectionId, typeof Box> = {
+  principles: Compass,
+  "people-and-agents": Users,
   foundations: Palette,
+  content: PenLine,
   components: Box,
   patterns: Layers,
   products: BookOpen,
+  about: Info,
   decisions: Scale,
 };
 
@@ -52,7 +67,7 @@ function SearchHitRow({
 }) {
   const Icon = SECTION_ICON[hit.page.section];
   const where =
-    hit.page.section === "components"
+    hit.page.section === "components" && !hit.page.intro
       ? `Components · ${componentGroup(hit.page)}`
       : sectionTitle(hit.page);
   const handleMouseEnter = useCallback(() => onHighlight(index), [index, onHighlight]);

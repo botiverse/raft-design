@@ -13,7 +13,7 @@ import {
 import { DocMarkdown } from "#/components/site/doc-markdown.tsx";
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 import { latestChanges } from "#/lib/content/api.ts";
-import { README } from "#/lib/content/pages.ts";
+import { pagesIn, README } from "#/lib/content/pages.ts";
 
 export const Route = createFileRoute("/_site/")({
   head: () => ({
@@ -23,7 +23,11 @@ export const Route = createFileRoute("/_site/")({
 });
 
 const COMPONENTS: string = "/components";
-const FOUNDATIONS: string = "/foundations";
+/** Why the system is the way it is: the Principles, until they are written the Foundations. */
+const WHY =
+  pagesIn("principles").length > 0
+    ? { url: "/principles" as string, label: "Read the Principles" }
+    : { url: "/foundations" as string, label: "Read the Foundations" };
 
 const AGENT_SURFACES = [
   {
@@ -104,8 +108,8 @@ function Home() {
               Browse Components
               <ArrowRight data-icon="inline-end" />
             </Button>
-            <Button variant="default" nativeButton={false} render={<Link to={FOUNDATIONS} />}>
-              Read the Foundations
+            <Button variant="default" nativeButton={false} render={<Link to={WHY.url} />}>
+              {WHY.label}
             </Button>
           </div>
         </div>

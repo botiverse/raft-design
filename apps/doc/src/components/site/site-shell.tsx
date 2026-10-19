@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { FileText, Menu, Moon, Search, Sun, SunMoon } from "lucide-react";
+import { ExternalLink, FileText, Menu, Moon, Search, Sun, SunMoon } from "lucide-react";
 import {
   Button,
   Drawer,
@@ -119,14 +119,6 @@ function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSear
         >
           Playground
         </Button>
-        <Button
-          variant="on-frame"
-          className="max-lg:hidden"
-          nativeButton={false}
-          render={<Link to="/changelog" />}
-        >
-          Changelog
-        </Button>
         <ThemeMenu />
         <Button
           variant="on-frame"
@@ -146,7 +138,16 @@ function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSear
 
 function NavRow({ item, active }: { item: NavItem; active: boolean }) {
   return (
-    <SidebarItem active={active} render={<Link to={item.url} />}>
+    <SidebarItem
+      active={active}
+      render={
+        item.external ? (
+          <a href={item.url} target="_blank" rel="noreferrer" />
+        ) : (
+          <Link to={item.url} />
+        )
+      }
+    >
       <SidebarItemContent>
         <SidebarItemTitle>{item.title}</SidebarItemTitle>
       </SidebarItemContent>
@@ -154,12 +155,38 @@ function NavRow({ item, active }: { item: NavItem; active: boolean }) {
         <SidebarItemAside>
           <StatusLabel status={item.status as ComponentStatus} />
         </SidebarItemAside>
+      ) : item.external ? (
+        <SidebarItemAside>
+          <ExternalLink className="size-4 text-foreground-hint" aria-hidden />
+        </SidebarItemAside>
       ) : null}
     </SidebarItem>
   );
 }
 
-/** The cream sidebar: every page, by section; components by category. */
+/**
+ * A row's labels: the layer when it changes (components: Core, Collaboration),
+ * then the group when it changes. The layer reads as the heading of the
+ * groups below it.
+ */
+function NavLabels({ item, previous }: { item: NavItem; previous: NavItem | undefined }) {
+  const newLayer = item.layer !== undefined && item.layer !== previous?.layer;
+  const newGroup = item.group !== undefined && (newLayer || item.group !== previous?.group);
+  return (
+    <>
+      {newLayer ? (
+        <SidebarGroupLabel className="font-bold text-foreground">{item.layer}</SidebarGroupLabel>
+      ) : null}
+      {newGroup ? <SidebarGroupLabel>{item.group}</SidebarGroupLabel> : null}
+    </>
+  );
+}
+
+/**
+ * The cream sidebar: Overview (design/README.md) and For Agents, every page
+ * by section in reading order (components by layer and category, decision
+ * records under About), then Playground.
+ */
 export function SiteNav() {
   const { pathname } = useLocation();
   const path = pathname.replace(/\/+$/, "") || "/";
@@ -198,15 +225,20 @@ export function SiteNav() {
               <SidebarList>
                 {section.items.map((item, index) => (
                   <Fragment key={item.url}>
-                    {item.group && item.group !== section.items[index - 1]?.group ? (
-                      <SidebarGroupLabel>{item.group}</SidebarGroupLabel>
-                    ) : null}
+                    <NavLabels item={item} previous={section.items[index - 1]} />
                     <NavRow item={item} active={path === item.url} />
                   </Fragment>
                 ))}
               </SidebarList>
             </SidebarSection>
           ))}
+          <div className="flex flex-col gap-0.5 pt-2">
+            <SidebarItem render={<a href="/playground" />}>
+              <SidebarItemContent>
+                <SidebarItemTitle>Playground</SidebarItemTitle>
+              </SidebarItemContent>
+            </SidebarItem>
+          </div>
         </SidebarContent>
       </SidebarBody>
     </SidebarRoot>

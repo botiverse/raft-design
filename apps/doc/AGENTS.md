@@ -4,7 +4,7 @@ These rules apply to the docs application and extend the repository-level compon
 
 ## Pages From Markdown
 
-The site's design record is [DESIGN.md](./DESIGN.md). Documentation pages are Markdown files in the repository (`design/foundations`, `design/patterns`, `design/products`, `design/decisions`, and `packages/ui/src/components/<x>/<x>.md`), written as `design/authoring/` describes. `src/lib/content/` finds them, gives each its URL and renders its `.md` twin; `src/routes/_site/` renders them in the site shell (`src/components/site/`). Do not write page content in a route.
+The site's design record is [DESIGN.md](./DESIGN.md). Documentation pages are Markdown files in the repository (one folder per section, `design/<section>/*.md` with an optional `README.md` introduction, `design/products/<product>/*.md`, `design/components/overview.md` and `packages/ui/src/components/<x>/<x>.md`), written as `design/authoring/` describes. The sections and their order are `SECTIONS` in `src/lib/content/pages.ts`; a moved page keeps its old URL working with `redirectFrom` in its front matter (`src/lib/content/redirects.ts`). `src/lib/content/` finds them, gives each its URL and renders its `.md` twin; `src/routes/_site/` renders them in the site shell (`src/components/site/`). Do not write page content in a route.
 
 - An `example` block names a composition by its path under `src/modules` without the extension; the page renders the module's `*Content` export and shows that file's source.
 - A `tokens` block names a group of `packages/ui/src/tokens.json`.
