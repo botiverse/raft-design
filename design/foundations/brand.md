@@ -24,8 +24,9 @@ Each row adds to the row above it.
 | The profile of one agent or person, and the last step of a server's setup | Also: the 99px pixel sticker with the hard sticker shadow (`shadow-sticker`). On a profile it stays still; on the setup's last step it hops once ([Motion](./motion.md#usage)) |
 | Sign-in and sign-up | Also: the logo, in a 56px frame bar above a white page, and the Raft mark above the form's title |
 | Creating an account or a server | Also: from 1024px, a brand pane beside the form, on the frame color, with halftone dots (1.5px `line-seam` dots on a 14px grid) behind a preview of the new server, tilted −1° with the hard sticker shadow. The logo sits at the top left of the form. Below 1024px, the same frame bar as sign-in above a plain form |
+| The website, raft.build | Also: full yellow sections, 2px ink lines, one pink primary action per section, the hard shadow and a hover lift on buttons, all-caps mono labels, floating stickers and animated drawings. Only on the website, never in the product; see [Website](../products/website/README.md) |
 
-The further down the table, the closer to the website. Nothing from the last three rows appears on a working page, including its empty states. The setup of a new server, which runs as dialogs over the server's pages, is a working page apart from its last step ([Onboarding](../products/raft-chat/onboarding.md)).
+The further down the table, the closer to the website. Nothing from the last four rows appears on a working page, including its empty states. The setup of a new server, which runs as dialogs over the server's pages, is a working page apart from its last step ([Onboarding](../products/raft-chat/onboarding.md)).
 
 - Set a sign-in page's title in `text-title`, and the title of the page that creates a server in `text-title`, `text-display` from 640px. `text-hero` is used only for the name of the service on the page where a person signs in to another service with Raft (Login with Raft).
 - Don't fill the whole screen with yellow, and don't add floating stickers: the product's brand pages use the frame pane above instead.
@@ -60,4 +61,5 @@ The 7 quick reactions are Raft's own drawings: thumbs_up, heart, party_popper, e
 
 - [Color](./color.md): the meanings of the brand colors.
 - [Page structure](../patterns/page-structure.md): where the frame is.
+- [Website](../products/website/README.md): how raft.build uses the system.
 - [Raft Chat: Onboarding](../products/raft-chat/onboarding.md) and [Agent profile](../products/raft-chat/agent-profile.md).
