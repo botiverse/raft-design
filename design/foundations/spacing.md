@@ -34,7 +34,7 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 | Control, small | 32px |
 | Full-width call to action | 52px |
 | Phone list row | At least 64px |
-| Settings row, radio row | At least 44px |
+| Phone list of places (Home, Members, the Settings list), settings row, radio row | At least 44px |
 | Phone top bar row, panel header, sidebar header, rail header, drawer header | 56px |
 | Web top bar, desktop app title bar | 48px |
 

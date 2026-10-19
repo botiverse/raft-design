@@ -46,13 +46,14 @@ test("a wrapping raft row grows from 36 and keeps the 8px text inset at every br
   expect(classes).toContain("min-h-9");
   expect(classes).toContain("items-start");
   expect(classes).not.toContain("items-center");
-  // The fixed row zeroes its padding at md and in short windows; a wrapping
-  // row restates the 6.5px (8px less the 1.5px sticker edge) at each.
+  // The fixed row zeroes its padding at md and in short desktop windows; a
+  // wrapping row restates the 6.5px (8px less the 1.5px sticker edge) at each.
+  // Below md the phone row's 8.5px wins (sidebar-item.phone.browser.test).
   expect(classes).toContain("py-[6.5px]");
   expect(classes).toContain("md:py-[6.5px]");
-  expect(classes).toContain("[@media(max-height:600px)]:py-[6.5px]");
+  expect(classes).toContain("md:[@media(max-height:600px)]:py-[6.5px]");
   expect(classes).not.toContain("md:py-0");
-  expect(classes).not.toContain("[@media(max-height:600px)]:py-0");
+  expect(classes).not.toContain("md:[@media(max-height:600px)]:py-0");
   // The leading glyph centres on the first line.
   expect(classes).toContain("**:data-[slot=sidebar-item-channel-icon]:h-lh");
 });

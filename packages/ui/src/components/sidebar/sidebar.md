@@ -19,12 +19,12 @@ sidebar/sidebar
 
 ## When to use
 
-| Situation                             | Use                                                              |
-| ------------------------------------- | ---------------------------------------------------------------- |
-| The contents of a desktop destination | Sidebar                                                          |
-| The same list on a phone              | Sidebar rows, on the page itself; the product grows them to 44px |
-| The destinations themselves           | [AppRail](../app-rail/app-rail.md)                               |
-| Activity and notifications            | [InboxItem](../inbox-item/inbox-item.md)                         |
+| Situation                             | Use                                                        |
+| ------------------------------------- | ---------------------------------------------------------- |
+| The contents of a desktop destination | Sidebar                                                    |
+| The same list on a phone              | Sidebar rows, on the page itself; below `md` they are 44px |
+| The destinations themselves           | [AppRail](../app-rail/app-rail.md)                         |
+| Activity and notifications            | [InboxItem](../inbox-item/inbox-item.md)                   |
 
 Which destinations have a sidebar, and what each one lists, is the product's choice ([Raft Chat](../../../../../design/products/raft-chat/README.md)). A destination without a sidebar puts its content next to the rail ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)).
 
@@ -87,6 +87,6 @@ sidebar-item/compositions/tones-item
 
 - Draw a row the same way in every group: original, pinned or custom. A group never changes a row (no wrapping, no hidden description in one group), because the same conversation would look like two different things.
 - Don't use `wrap` to let a name run onto more lines, including in a pinned group. Use it only for a row whose content is 2 lines.
-- Make every row 36px high, in `text-subhead`.
+- Make every row 36px high, in `text-subhead`, on a desktop. Below `md` the row grows on its own to at least 44px in `text-body` at 600: there it is a phone list of places (Home, Members, the Settings list), which a finger has to hit. Don't add phone sizes at the callsite. The Settings list sat at 36px on phones because the size lived in one product class that only Home's rows were given.
 - Don't put the server switcher in the sidebar header. It is in the web top bar, or at the top of the rail when there is no top bar.
 - Don't use `SidebarLiveActivity` for a live bar at the bottom of the sidebar. Working agents appear in the header's working summary and in their own rows instead ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)).
