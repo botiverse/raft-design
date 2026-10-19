@@ -12,7 +12,11 @@ export const messageItem = tv({
       // a whole-page recalc trap (#386).
       "hover:[--mi-toolbar-opacity:1] hover:[--mi-toolbar-pe:auto] focus-within:[--mi-toolbar-opacity:1] focus-within:[--mi-toolbar-pe:auto]",
       "has-data-popup-open:[--mi-toolbar-opacity:1] has-data-popup-open:[--mi-toolbar-pe:auto]",
-      "min-h-0 px-2 py-2",
+      // The highlight sits 4px above and below the text on every row. The
+      // 8px between groups is a transparent top border the highlight doesn't
+      // paint (bg-clip-padding); a continuation row has none, so it sits
+      // under the row it continues.
+      "min-h-0 px-2 py-1 border-t-8 border-transparent bg-clip-padding",
       "hover:bg-fill-pressed data-popup-open:bg-fill-pressed has-data-popup-open:bg-fill-pressed",
       "hover:[--mi-ct-color:var(--foreground-hint)] has-data-popup-open:[--mi-ct-color:var(--foreground-hint)]",
       "has-data-[slot=message-item-search-match]:bg-info-soft has-data-[slot=message-item-search-match]:hover:bg-info-soft",
@@ -79,7 +83,7 @@ export const messageItem = tv({
   },
   variants: {
     compact: {
-      true: { root: ["pt-0"] },
+      true: { root: ["border-t-0"] },
     },
   },
 });
