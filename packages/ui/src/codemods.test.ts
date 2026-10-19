@@ -53,6 +53,17 @@ test("package-name renames the dependency and keeps workspace ranges", () => {
   });
 });
 
+test("package-name keeps an alias that points the unscoped name at the new package", () => {
+  const json = {
+    dependencies: { "@botiverse/raft-ui": "0.7.0", "raft-ui": "npm:@botiverse/raft-ui@0.7.0" },
+  };
+  expect(renameDependency(json, "0.7.0")).toBe(false);
+  expect(json.dependencies).toEqual({
+    "@botiverse/raft-ui": "0.7.0",
+    "raft-ui": "npm:@botiverse/raft-ui@0.7.0",
+  });
+});
+
 test("token-names renames utilities and references, not declarations or BEM modifiers", () => {
   const before = [
     '<div className="border-line-muted bg-layer-panel hover:bg-primary-soft/50 shadow-raft-float" />',
