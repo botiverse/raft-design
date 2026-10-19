@@ -67,6 +67,6 @@ Which filters a product offers is on its own page. Every filter follows the same
 
 ## Related
 
-- [Agents](./agents.md): claims and hand-offs.
+- [Hand-offs and approvals](../people-and-agents/handoffs-and-approvals.md#handing-off): claims and hand-offs.
 - [Color](../foundations/color.md#statuses): the status colors.
 - [Tasks components](../../packages/ui/src/components/tasks/tasks.md): `TaskChip` and `TaskStatusBadge`.

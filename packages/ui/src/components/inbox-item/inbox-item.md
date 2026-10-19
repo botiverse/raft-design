@@ -62,7 +62,7 @@ activity/compositions/loading-activity
 ## Content
 
 - Write the context line as where it happened: #launch-week · task #25.
-- Write the title as who did what, with a teammate verb: "Martin needs your OK", "Bugen handed off #25" ([Writing](../../../../../design/foundations/writing.md#voice)).
+- Write the title as who did what, with a teammate verb: "Martin needs your OK", "Bugen handed off #25" ([Writing](../../../../../design/content/writing.md#voice)).
 - Keep the excerpt to at most 2 lines.
 
 ## Accessibility

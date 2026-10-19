@@ -22,4 +22,4 @@ What people click is what opens; otherwise it looks like they clicked the wrong 
 
 ## Related
 
-- [Writing](../foundations/writing.md#actions-and-their-dialogs)
+- [Writing](../content/writing.md#actions-and-their-dialogs)

@@ -3,6 +3,7 @@ title: ComponentName
 summary: One sentence that says what it is and when to use it.
 status: stable
 aliases: []
+layer: core
 category: actions
 related: []
 ---
@@ -66,7 +67,7 @@ design/foundations/states.md: loading, error, empty, selected… -->
 ## Content
 
 <!-- Rules for the words inside this component: length, casing, what the label says.
-Link to design/foundations/writing.md for the general rules. -->
+Link to design/content/writing.md for the general rules. -->
 
 ## Accessibility
 

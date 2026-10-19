@@ -46,7 +46,7 @@ spinner/compositions/pixel-loader
 
 ## Content
 
-- Put a short line next to the spinner that says what is loading: "Loading messages", not "Loading…" ([Writing](../../../../../design/foundations/writing.md)).
+- Put a short line next to the spinner that says what is loading: "Loading messages", not "Loading…" ([Writing](../../../../../design/content/writing.md)).
 
 ## Accessibility
 

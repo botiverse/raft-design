@@ -18,13 +18,13 @@ timeline/compositions/preview
 
 ## When to use
 
-| Situation                                                                        | Use                                                                                                                                       |
-| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| A task's History, collapsed under its properties in task details                 | Timeline ([Built from existing parts](../../../../../design/components/overview.md#task-details))                                         |
-| What an agent did ([Agents](../../../../../design/patterns/agents.md#structure)) | Timeline, as an activity log                                                                                                              |
-| The steps of a flow the person goes through                                      | [Steps](../steps/steps.md)                                                                                                                |
-| Facts about an item, not events                                                  | [DescriptionList](../description-list/description-list.md)                                                                                |
-| Messages and event lines in a conversation                                       | [SystemMessage](../system-message/system-message.md) in the conversation ([Conversation](../../../../../design/patterns/conversation.md)) |
+| Situation                                                                                                                              | Use                                                                                                                                       |
+| -------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| A task's History, collapsed under its properties in task details                                                                       | Timeline ([Built from existing parts](../../../../../design/components/overview.md#task-details))                                         |
+| What an agent did ([Hand-offs and approvals](../../../../../design/people-and-agents/handoffs-and-approvals.md#the-record-afterwards)) | Timeline, as an activity log                                                                                                              |
+| The steps of a flow the person goes through                                                                                            | [Steps](../steps/steps.md)                                                                                                                |
+| Facts about an item, not events                                                                                                        | [DescriptionList](../description-list/description-list.md)                                                                                |
+| Messages and event lines in a conversation                                                                                             | [SystemMessage](../system-message/system-message.md) in the conversation ([Conversation](../../../../../design/patterns/conversation.md)) |
 
 ## Anatomy
 

@@ -11,7 +11,7 @@ A channel is a place where people and agents share one timeline, with the compos
 
 From top to bottom:
 
-1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the working line ([Agents](../../patterns/agents.md#where-working-agents-appear)), then the channel's description. On the right, two icon buttons: Search ("Search this channel") and Settings ("Channel details and settings"), which opens the channel details.
+1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the working line ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)), then the channel's description. On the right, two icon buttons: Search ("Search this channel") and Settings ("Channel details and settings"), which opens the channel details.
 2. **Chat / Tasks / Files**: the tabs, with the icons `message-square`, `list-todo` and `paperclip`.
 3. **The timeline**, newest at the bottom.
 4. **The composer**.

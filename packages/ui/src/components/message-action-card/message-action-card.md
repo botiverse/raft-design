@@ -10,7 +10,7 @@ related: [message-item, description-list, button, icon-tile, activity-inbox, dia
 
 # MessageActionCard
 
-An action card is how an agent asks for something it may not do alone: create a channel, add people, merge, publish, spend money. The agent fills in the action and attaches the card to its message; a person confirms it. Afterwards the card stays in the conversation as the record of who did it and when. A request waiting for someone is also listed in Activity ([Agents](../../../../../design/patterns/agents.md#structure)).
+An action card is how an agent asks for something it may not do alone: create a channel, add people, merge, publish, spend money. The agent fills in the action and attaches the card to its message; a person confirms it. Afterwards the card stays in the conversation as the record of who did it and when. A request waiting for someone is also listed in Activity ([Hand-offs and approvals](../../../../../design/people-and-agents/handoffs-and-approvals.md#approvals-the-agent-prepares-a-person-confirms)).
 
 ```example
 message-action-card/compositions/action-card-playground
@@ -74,7 +74,7 @@ message-action-card/compositions/resolution-states
 ## Content
 
 - Title the card with a verb and its object, in sentence case: Create channel #launch-week, Merge #26 into main.
-- Make the confirm button repeat the verb of the title, in Title Case: Create Channel ([Writing](../../../../../design/foundations/writing.md#actions-and-their-dialogs)).
+- Make the confirm button repeat the verb of the title, in Title Case: Create Channel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - List only the properties the person needs to check.
 - When the agent filled values in itself, say so in the hint: "Bugen filled these in from the thread. You can change them before it's created."
 - Record the result with the person and the time: Approved by Martin · 10:51.

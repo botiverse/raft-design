@@ -5,7 +5,7 @@ summary: How to write the Raft Design System docs — voice, rules, structure, t
 
 # Writing guide
 
-This guide covers the documentation: guidelines, component docs and decision records. The words inside the product (button labels, empty states, errors) follow [Writing](../foundations/writing.md) in the foundations instead.
+This guide covers the documentation: guidelines, component docs and decision records. The words inside the product (button labels, empty states, errors) follow [Writing](../content/writing.md) in the foundations instead.
 
 ## Voice
 
@@ -44,7 +44,7 @@ Most of these docs are rules. A rule is something a reviewer can check.
 
 ## Headings and formatting
 
-- Headings use sentence case: "When to use", "Dark mode". (Labels inside the product use Title Case; see [Writing](../foundations/writing.md).)
+- Headings use sentence case: "When to use", "Dark mode". (Labels inside the product use Title Case; see [Writing](../content/writing.md).)
 - Use plain text for component names: Drawer, Button.
 - Use code font for anything typed in code: props and values (`variant="ghost"`), parts (`DialogFooter`), tokens (`layer-canvas`), CSS and file names.
 - Give sizes in pixels with the unit (44px). Give colors as tokens; only the foundations' token tables show raw values.

@@ -17,7 +17,7 @@ The system is two things: the guidelines in this folder and in each component's 
 
 | Section | What it covers |
 | --- | --- |
-| [Foundations](./foundations/) | The values and the rules for using them: [color](./foundations/color.md), [typography](./foundations/typography.md), [spacing](./foundations/spacing.md), [alignment](./foundations/alignment.md), [shape](./foundations/shape.md), [elevation](./foundations/elevation.md), [motion](./foundations/motion.md), [states](./foundations/states.md), [iconography](./foundations/iconography.md), [brand](./foundations/brand.md), [dark mode](./foundations/dark-mode.md) and [writing](./foundations/writing.md) |
+| [Foundations](./foundations/) | The values and the rules for using them: [color](./foundations/color.md), [typography](./foundations/typography.md), [spacing](./foundations/spacing.md), [alignment](./foundations/alignment.md), [shape](./foundations/shape.md), [elevation](./foundations/elevation.md), [motion](./foundations/motion.md), [states](./foundations/states.md), [iconography](./foundations/iconography.md), [brand](./foundations/brand.md), [dark mode](./foundations/dark-mode.md) and [writing](./content/writing.md) |
 | Components | One doc per component, next to its code in `packages/ui/src/components/<component>/<component>.md` |
 | [Patterns](./patterns/) | How components combine into screens, in every Raft product: page structure, navigation, agents, tasks, conversation, forms, feedback, responsive layout, and choosing a component |
 | [Products](./products/) | Structure that belongs to one product only: its destinations, its screens and what goes where. [Raft Chat](./products/raft-chat/README.md) first |
