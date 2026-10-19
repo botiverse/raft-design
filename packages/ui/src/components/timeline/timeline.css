@@ -203,19 +203,22 @@
 
 /* Markers on the left: the row is [pixel | text | time], the time at the end
    of the first line. The time column only holds the first line, so everything
-   below it runs the full width: a title and a time share row 1, and the content
-   spans both columns. Keeping the content in column 1 would narrow it by the
-   width of a time it never sits beside, which on a phone is most of the row. */
+   below it runs the full width: a title and a time share row 1, and whatever
+   follows the title spans both columns. Keeping the content in column 1 would
+   narrow it by the width of a time it never sits beside, which on a phone is
+   most of the row. */
 .r-timeline--left > .r-timeline-item > .r-timeline-item__body {
   column-gap: var(--r-timeline-gap);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
 
   & > * {
-    grid-column: 1 / -1;
-  }
-  & > .r-timeline-title {
     grid-column: 1;
+  }
+  /* Only what follows the title runs full width. An item with no title keeps
+     its one row, where the content does sit beside the time. */
+  & > .r-timeline-title ~ :not(.r-timeline-time) {
+    grid-column: 1 / -1;
   }
   & > .r-timeline-time {
     grid-column: 2;

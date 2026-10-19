@@ -34,6 +34,10 @@ timeline/compositions/preview
   - `TimelineContent`: a detail line in Space Mono: a commit, a file count. Optional.
   - `TimelineTime`: when, in Space Mono, at the right end of the first line. Optional.
 
+Only the title and the time share the first line. A detail below them runs the full width of the item: the time reserves its column for that first line alone, so holding the detail beside it would narrow the detail by a time it never sits next to — on a phone, most of the row. An item with no title keeps its one line, where the detail does sit beside the time.
+
+A long title and a long time still compete on the first line, because a time does not wrap. Keep a time short where the column is narrow.
+
 ## Variants
 
 | Variant                                           | Use for                                                                                                                                                       |
