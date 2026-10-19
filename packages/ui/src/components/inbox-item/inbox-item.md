@@ -59,6 +59,7 @@ activity/compositions/loading-activity
 - The trigger covers the whole row. Buttons in the row sit above it, and each one can be pressed on its own.
 - Divide items with `line-hairline`, starting at the text.
 - On a touch screen, show Mark as Done at rest and put it in the press-and-hold menu too; a swipe may add a shortcut but never replace it ([Responsive layout](../../../../../design/patterns/responsive.md#touch-screens)).
+- On a touch screen (`pointer: coarse`, at any width) each action in `InboxItemActions` keeps a 44px target and the actions spread 12px apart so their targets don't overlap; with a mouse they stay 32px, 2px apart.
 
 ## Content
 
