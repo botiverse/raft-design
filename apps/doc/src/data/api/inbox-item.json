@@ -12,6 +12,12 @@
         "from": "raft-ui"
       },
       {
+        "name": "density",
+        "type": "\"compact\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
         "name": "disabled",
         "type": "boolean",
         "required": false,
@@ -32,6 +38,13 @@
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
+      {
+        "name": "reveal",
+        "type": "\"hover\"",
+        "required": false,
+        "description": "`hover`: with a mouse, the actions stay hidden until the row is hovered, holds focus, is `active` or has a menu open, and then take the place of the rest of `InboxItemTrailing` (the timestamp, the marks, the attention dot), which steps aside. On a touch screen (`pointer: coarse`) they show at rest and the rest of the trailing column moves over to make room.",
+        "from": "raft-ui"
+      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
@@ -85,6 +98,48 @@
   },
   {
     "name": "InboxItemHeading",
+    "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "InboxItemHoverTarget",
+    "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "InboxItemLeading",
+    "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "InboxItemMarks",
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [

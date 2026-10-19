@@ -5,16 +5,23 @@ export const inboxItem = tv({
     item: [
       "relative grid w-full grid-cols-[minmax(0,1fr)_auto] items-start gap-3 p-3 text-left",
       "has-data-[slot=inbox-item-selection]:grid-cols-[auto_minmax(0,1fr)_auto]",
+      "has-data-[slot=inbox-item-leading]:grid-cols-[auto_minmax(0,1fr)_auto]",
+      "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
       "transition-colors",
       "gap-x-3 gap-y-0 rounded-none border-0 bg-transparent px-4 py-3 shadow-none",
       "before:pointer-events-none before:absolute before:top-0 before:right-0 before:left-4 before:hidden before:border-t before:border-line-hairline",
       "[[data-slot=inbox-item]+&]:before:block has-data-[slot=inbox-item-selection]:before:left-11",
+      "has-data-[slot=inbox-item-leading]:before:left-16",
+      "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:before:left-23",
       "hover:bg-fill-pressed",
       "data-[active=true]:bg-info-soft data-[active=true]:hover:bg-info-soft",
       "data-disabled:pointer-events-none data-disabled:hover:bg-transparent",
       "has-[[data-slot=inbox-item-open]:focus-visible]:inset-ring-2 has-[[data-slot=inbox-item-open]:focus-visible]:inset-ring-foreground",
     ],
     itemTrigger: ["absolute inset-0 z-0 outline-none"],
+    itemLeading: [
+      "pointer-events-none relative z-10 flex size-9 shrink-0 items-center justify-center",
+    ],
     itemSelection: ["relative z-10 mt-0.5 flex size-4 shrink-0 items-center justify-center"],
     itemContent: ["pointer-events-none relative z-10 min-w-0 flex-1 text-left"],
     itemContext: [
@@ -38,7 +45,17 @@ export const inboxItem = tv({
       "max-md:flex-col max-md:items-end max-md:gap-2",
       "after:hidden after:size-[9px] after:shrink-0 after:rounded-[2px] after:border-[1.5px] after:border-sticker-ink after:bg-attention-400",
       "group-data-[unread=true]/inbox-item:after:block",
+      "*:not-data-[reveal=hover]:opacity-[calc(1-var(--inbox-item-reveal-aside,0)*var(--inbox-item-revealed,0))] after:opacity-[calc(1-var(--inbox-item-reveal-aside,0)*var(--inbox-item-revealed,0))]",
+      "*:not-data-[reveal=hover]:mr-(--inbox-item-aside-room,0px) after:mr-(--inbox-item-aside-room,0px)",
+      "*:not-data-[reveal=hover]:transition-opacity after:transition-opacity",
+      "pointer-fine:has-[>[data-reveal=hover]]:[--inbox-item-reveal-aside:1]",
+      "pointer-coarse:has-[>[data-reveal=hover]]:[--inbox-item-aside-room:--spacing(11)]",
+      "group-hover/inbox-item:[--inbox-item-revealed:1] group-focus-within/inbox-item:[--inbox-item-revealed:1]",
+      "group-data-[active=true]/inbox-item:[--inbox-item-revealed:1] group-data-popup-open/inbox-item:[--inbox-item-revealed:1]",
+      "has-[>[data-reveal=hover]_[data-popup-open]]:[--inbox-item-revealed:1]",
     ],
+    itemMarks: ["flex h-5 shrink-0 items-center justify-end gap-1.5", "text-foreground-hint"],
+    itemHoverTarget: ["pointer-events-auto"],
     itemTimestamp: [
       "shrink-0 whitespace-nowrap text-right tabular-nums",
       "font-mono text-mono-meta text-foreground-hint",
@@ -61,4 +78,41 @@ export const inboxItem = tv({
       "pointer-coarse:*:data-[slot=panel-toggle-action]:after:absolute pointer-coarse:*:data-[slot=panel-toggle-action]:after:-inset-1.5",
     ],
   },
+  variants: {
+    density: {
+      compact: {
+        item: ["items-center"],
+        itemTitle: ["line-clamp-1", "pl-0 has-[>svg]:pl-[18px]"],
+        itemTrailing: [
+          "gap-0 pt-0",
+          "max-md:gap-0",
+          "group-data-[unread=true]/inbox-item:after:hidden",
+        ],
+        itemTimestamp: ["leading-5"],
+        itemBody: ["line-clamp-1", "mt-0"],
+        itemMessage: ["line-clamp-1", "mt-0"],
+      },
+    },
+    reveal: {
+      hover: {
+        itemActions: [
+          "absolute top-0 right-0 z-10",
+          "pointer-events-none opacity-0 transition-opacity",
+          "group-hover/inbox-item:pointer-events-auto group-hover/inbox-item:opacity-100",
+          "group-focus-within/inbox-item:pointer-events-auto group-focus-within/inbox-item:opacity-100",
+          "group-data-[active=true]/inbox-item:pointer-events-auto group-data-[active=true]/inbox-item:opacity-100",
+          "group-data-popup-open/inbox-item:pointer-events-auto group-data-popup-open/inbox-item:opacity-100",
+          "has-data-popup-open:pointer-events-auto has-data-popup-open:opacity-100",
+          "pointer-coarse:pointer-events-auto pointer-coarse:opacity-100 pointer-coarse:only:static",
+        ],
+      },
+    },
+  },
+  compoundVariants: [
+    {
+      density: "compact",
+      reveal: "hover",
+      class: { itemActions: ["top-1/2 -translate-y-1/2", "pointer-coarse:only:translate-y-0"] },
+    },
+  ],
 });
