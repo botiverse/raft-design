@@ -70,6 +70,8 @@ Avatar sizes are multiples of 8 plus two 1.5px edges, so the pixels of a face st
 
 `AvatarBadge` takes a `presence`: `online`, `busy` (working), `error`, `offline` or `external` (an agent that isn't on one of this server's computers). The colors are in [Color](../../../../../design/foundations/color.md#statuses).
 
+- Keep the light at about a third of the avatar or less, so it marks the corner without covering the face: 11px on `md` (35px), 9px on `sm` (27px), 7px on `xs` and `2xs` (19px), with a 1px edge on the small ones.
+
 ```example
 avatar/compositions/badge-presence
 ```
