@@ -9,9 +9,18 @@ export type FrontMatter = {
   /** Component docs: experimental | stable | deprecated. Decisions: accepted | superseded. */
   status?: string;
   aliases?: string[];
+  /** Component docs: core | collaboration. The index groups by layer, then by category. */
+  layer?: string;
   category?: string;
   related?: string[];
   replacedBy?: string;
+  /** Position in the section's reading order, lowest first. Pages without it follow. */
+  order?: string;
+  /**
+   * Site paths this page used to have (`patterns/agents`). Each one, and its
+   * `.md` twin, answers with a 301 to the page.
+   */
+  redirectFrom?: string[];
   /** Decision records. */
   number?: string;
   date?: string;

@@ -4,8 +4,8 @@ import { Link } from "@tanstack/react-router";
 import { MarkdownHeading } from "@botiverse/raft-ui";
 
 import { REPOSITORY_URL } from "#/lib/content/links.ts";
-import { componentGroup, shortTitle } from "#/lib/content/nav.ts";
-import { pagesIn, SECTIONS } from "#/lib/content/pages.ts";
+import { componentGroup, CONTRIBUTING_URL, shortTitle } from "#/lib/content/nav.ts";
+import { pagesIn, sectionIntro, sectionOf } from "#/lib/content/pages.ts";
 import type { DocPage, SectionId } from "#/lib/content/pages.ts";
 import { sectionTitle } from "#/lib/content/search.ts";
 import { renderMarkdownTwin } from "#/lib/content/twin.ts";
@@ -130,22 +130,87 @@ function ProductGroup({ product }: { product: string }) {
   );
 }
 
-/** A section's own page: its description and every page in it. */
+/** What About links to besides its own pages: the records, the changelog, how to contribute. */
+function AboutLinks() {
+  const decisions = sectionOf("decisions");
+  const rows = [
+    { title: decisions.title, summary: decisions.summary, href: "/decisions" },
+    {
+      title: "Changelog",
+      summary: "What changed in each release of raft-ui, newest first.",
+      href: "/changelog",
+    },
+    {
+      title: "Contributing",
+      summary: "How to propose a change to the system, in code and docs together.",
+      href: CONTRIBUTING_URL,
+    },
+  ];
+  return (
+    <ul className="mt-10 flex flex-col divide-y divide-line-hairline border-y border-line-hairline">
+      {rows.map((row) => (
+        <li key={row.href}>
+          {row.href.startsWith("/") ? (
+            <Link
+              to={row.href}
+              className="flex flex-col gap-1 py-4 outline-none hover:press-overlay focus-visible:shadow-focus"
+            >
+              <span className="text-headline font-bold text-foreground">{row.title}</span>
+              <span className="text-callout text-foreground-muted">{row.summary}</span>
+            </Link>
+          ) : (
+            <a
+              href={row.href}
+              target="_blank"
+              rel="noreferrer"
+              className="flex flex-col gap-1 py-4 outline-none hover:press-overlay focus-visible:shadow-focus"
+            >
+              <span className="text-headline font-bold text-foreground">{row.title}</span>
+              <span className="text-callout text-foreground-muted">{row.summary}</span>
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/**
+ * A section's own page: its introduction (design/<section>/README.md) when
+ * the folder has one, else the section's summary, then every page in it.
+ */
 export function SectionIndex({ section }: { section: Exclude<SectionId, "components"> }) {
-  const info = SECTIONS.find((item) => item.id === section)!;
+  const info = sectionOf(section);
+  const intro = sectionIntro(section);
   const pages = pagesIn(section);
   const products = [...new Set(pages.map((page) => page.product))].filter(
     (product): product is string => product !== undefined,
   );
+  const parent = info.parent ? sectionOf(info.parent) : undefined;
+  const parentUrl: string = `/${parent?.id}`;
 
   return (
     <div className="mx-auto max-w-[760px] px-4 pt-8 pb-24 md:px-10 md:pt-10">
       <header className="mb-8 flex flex-col gap-3">
-        <h1 className="text-display font-bold">{info.title}</h1>
-        <p className="text-body text-foreground-muted">{info.summary}</p>
+        {parent ? (
+          <Link to={parentUrl} className="text-callout text-foreground-muted">
+            {parent.title}
+          </Link>
+        ) : null}
+        <h1 className="text-display font-bold">{intro?.frontMatter.title ?? info.title}</h1>
+        <p className="text-body text-foreground-muted">
+          {intro?.frontMatter.summary ?? info.summary}
+        </p>
       </header>
+      {intro?.body ? (
+        <div className="mb-10">
+          <DocMarkdown sourcePath={intro.repoPath}>{intro.body}</DocMarkdown>
+        </div>
+      ) : null}
       {pages.length === 0 ? (
-        <p className="text-body text-foreground-muted">No pages yet.</p>
+        section === "about" || intro ? null : (
+          <p className="text-body text-foreground-muted">No pages yet.</p>
+        )
       ) : section === "decisions" ? (
         <DecisionTable pages={pages} />
       ) : section === "products" ? (
@@ -153,6 +218,7 @@ export function SectionIndex({ section }: { section: Exclude<SectionId, "compone
       ) : (
         <PageList pages={pages} />
       )}
+      {section === "about" ? <AboutLinks /> : null}
     </div>
   );
 }

@@ -7,8 +7,14 @@ import {
   loadComponentApi,
 } from "#/lib/content/api.ts";
 import { REPOSITORY_URL, SITE_ORIGIN } from "#/lib/content/links.ts";
-import { componentGroup, componentPages, shortTitle } from "#/lib/content/nav.ts";
-import { PAGES } from "#/lib/content/pages.ts";
+import {
+  componentGroup,
+  componentGroupPath,
+  componentPages,
+  layerOf,
+  shortTitle,
+} from "#/lib/content/nav.ts";
+import { PAGES, SECTIONS, sectionIntro } from "#/lib/content/pages.ts";
 import { renderMarkdownTwin } from "#/lib/content/twin.ts";
 
 export type MarkdownPage = {
@@ -18,9 +24,22 @@ export type MarkdownPage = {
   markdown: string;
   /** One sentence for llms.txt. */
   summary: string;
-  /** For components, the category llms.txt lists them under. */
+  /** For components, the layer and category llms.txt lists them under: `Core · Actions`. */
   group?: string;
 };
+
+/**
+ * The `##` sections of llms.txt and the order of llms-full.txt: the site's
+ * sections in reading order (decision records follow About, which lists
+ * them), then the changelog. `path` is the section's own page; its pages are
+ * under `path/`.
+ */
+export function llmsSections(): { heading: string; path: string }[] {
+  return [
+    ...SECTIONS.map((section) => ({ heading: section.title, path: `/${section.id}` })),
+    { heading: "Changelog", path: "/changelog" },
+  ];
+}
 
 /**
  * Every page's Markdown twin, from its source: the guidelines and component
@@ -29,22 +48,27 @@ export type MarkdownPage = {
  */
 export async function renderMarkdownPages(): Promise<MarkdownPage[]> {
   const pages: MarkdownPage[] = [];
-  // Components in the nav's order (by category); build-llms.mjs then orders
-  // the sections with a stable sort.
-  const ordered = [...PAGES.filter((page) => page.section !== "components"), ...componentPages()];
+  // Components in the nav's order (by layer and category), deprecated ones
+  // included; build-llms.mjs then orders the sections with a stable sort.
+  const componentsIntro = sectionIntro("components");
+  const ordered = [
+    ...PAGES.filter((page) => page.section !== "components"),
+    ...(componentsIntro ? [componentsIntro] : []),
+    ...componentPages(),
+  ];
   for (const page of ordered) {
-    const appendix =
-      page.section === "components"
-        ? [apiMarkdown(await loadComponentApi(page.slug)), changesMarkdown(changesFor(page.slug))]
-            .filter(Boolean)
-            .join("\n\n")
-        : "";
+    const isComponent = page.section === "components" && !page.intro;
+    const appendix = isComponent
+      ? [apiMarkdown(await loadComponentApi(page.slug)), changesMarkdown(changesFor(page.slug))]
+          .filter(Boolean)
+          .join("\n\n")
+      : "";
     pages.push({
       path: page.url,
       title: shortTitle(page),
       markdown: (await renderMarkdownTwin(page, appendix)).trim(),
       summary: page.frontMatter.summary,
-      ...(page.section === "components" ? { group: componentGroup(page) } : {}),
+      ...(isComponent ? { group: componentGroupPath(page) } : {}),
     });
   }
   pages.push({
@@ -64,7 +88,9 @@ export function renderComponentIndex() {
   return componentPages().map((page) => ({
     name: page.frontMatter.title,
     slug: page.slug,
+    layer: layerOf(page) ?? null,
     category: page.frontMatter.category ?? null,
+    group: componentGroup(page),
     status: page.frontMatter.status ?? "stable",
     aliases: page.frontMatter.aliases ?? [],
     summary: page.frontMatter.summary,

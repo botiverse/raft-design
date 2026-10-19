@@ -9,15 +9,6 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
 
-const sections = [
-  ["Foundations", "/foundations/"],
-  ["Components", "/components/"],
-  ["Patterns", "/patterns/"],
-  ["Products", "/products/"],
-  ["Decisions", "/decisions/"],
-  ["Changelog", "/changelog"],
-];
-
 const root = fileURLToPath(new URL("..", import.meta.url));
 const outDir = join(root, "dist/client");
 const origin = "https://raft-design.botiverse.build";
@@ -31,11 +22,15 @@ const server = await createServer({
 });
 let pages;
 let components;
+let sections;
+const inSection = (page, path) => page.path === path || page.path.startsWith(`${path}/`);
 try {
-  const { renderMarkdownPages, renderComponentIndex } =
+  const { renderMarkdownPages, renderComponentIndex, llmsSections } =
     await server.ssrLoadModule("/src/llms/render.tsx");
-  // Section order, so llms-full.txt reads in the same order as llms.txt.
-  const rank = (page) => sections.findIndex(([, prefix]) => page.path.startsWith(prefix));
+  // The site's section order (src/lib/content/pages.ts), so llms-full.txt
+  // reads in the same order as llms.txt.
+  sections = llmsSections();
+  const rank = (page) => sections.findIndex((section) => inSection(page, section.path));
   pages = (await renderMarkdownPages()).sort((a, b) => rank(a) - rank(b));
   components = renderComponentIndex();
 } finally {
@@ -56,14 +51,14 @@ const index = [
     `${origin}/components.json lists every component with its status, other names and URLs.`,
   "",
 ];
-for (const [heading, prefix] of sections) {
-  const entries = pages.filter((page) => page.path.startsWith(prefix));
+for (const { heading, path } of sections) {
+  const entries = pages.filter((page) => inSection(page, path));
   if (entries.length === 0) continue;
   index.push(`## ${heading}`, "");
   let group;
   for (const page of entries) {
     if (page.group && page.group !== group) {
-      if (group) index.push("");
+      if (index.at(-1) !== "") index.push("");
       index.push(`### ${page.group}`, "");
       group = page.group;
     }

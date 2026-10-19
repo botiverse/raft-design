@@ -12,6 +12,30 @@ import { fileURLToPath } from "node:url";
 const origin = "https://raft-design.botiverse.build";
 const outDir = fileURLToPath(new URL("../dist/client", import.meta.url));
 
+/**
+ * The site's sections in reading order (SECTIONS in src/lib/content/pages.ts,
+ * then the changelog). The home page comes first; paths outside them, such as
+ * the playground, come last.
+ */
+const SECTION_ORDER = [
+  "principles",
+  "people-and-agents",
+  "foundations",
+  "content",
+  "patterns",
+  "components",
+  "products",
+  "about",
+  "decisions",
+  "changelog",
+];
+
+function rank(path) {
+  if (path === "/") return -1;
+  const index = SECTION_ORDER.indexOf(path.split("/")[1]);
+  return index === -1 ? SECTION_ORDER.length : index;
+}
+
 /** Test fixtures for embedded demos, not pages anyone should land on. */
 const EXCLUDED_PREFIXES = ["/iframe/"];
 
@@ -23,7 +47,7 @@ const paths = entries
     return dir ? `/${dir}/` : "/";
   })
   .filter((path) => !EXCLUDED_PREFIXES.some((prefix) => path.startsWith(prefix)))
-  .sort();
+  .sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
 
 const xml = [
   '<?xml version="1.0" encoding="UTF-8"?>',

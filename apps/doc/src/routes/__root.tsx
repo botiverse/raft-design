@@ -3,6 +3,7 @@ import {
   HeadContent,
   Scripts,
   createRootRoute,
+  redirect,
   useLocation,
   useMatches,
 } from "@tanstack/react-router";
@@ -12,6 +13,7 @@ import { cn } from "@botiverse/raft-ui/cn";
 import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-theme.tsx";
 import { shortTitle } from "#/lib/content/nav.ts";
 import { pageAt, SECTIONS } from "#/lib/content/pages.ts";
+import { redirectFor } from "#/lib/content/redirects.ts";
 import {
   documentThemeMode,
   getStoredPreviewTheme,
@@ -22,6 +24,12 @@ import fontsCss from "@botiverse/raft-ui/fonts.css?url";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
+  // Old addresses (lib/content/redirects.ts). The root route runs for every
+  // path, including ones no route matches any more and `.md` twins.
+  beforeLoad: ({ location }) => {
+    const target = redirectFor(location.pathname);
+    if (target) throw redirect({ href: target, statusCode: 301 });
+  },
   loader: async () => ({
     storedPreviewTheme:
       typeof document === "undefined"
