@@ -50,17 +50,19 @@ On the frame, a button takes the frame's ink (`foreground-on-frame`) and lays `f
 
 ### Which color
 
+**Emphasis is relative to the surface that holds the button, not a property of the action.** A frameless Cancel reads as a control inside a dialog and as a line of text on a page; the action did not change, what encloses it did. The test is whether the surface draws its own edge and takes focus while it is open — a dialog, a sheet, a menu, a popover, a toolbar, a card, a panel header all do; a page and a section of a page do not. When a surface is not on that list, apply the test rather than guessing: if the button would be the only thing marking where it sits, give it a border.
+
 Every button is flat: the ink border or the sticker marks it as a control, never a shadow ([Elevation](../../../../../design/foundations/elevation.md)). Colored buttons carry ink type ([Color](../../../../../design/foundations/color.md#stickers)).
 
 - Make the primary action pink. Use at most one pink button per screen; a screen may have none. Unread counts and attention dots don't count toward the one.
 - When a screen has a second primary action, make it `default`.
 - Give every other action an ink border (`default`).
-- Make cancel and minor actions frameless (`ghost`) **inside a surface that already has an edge**: a dialog, a sheet, a menu, a toolbar. On a page, give the same action an ink border (`default`).
-- **Emphasis is relative to the surface that holds the button, not a property of the action.** A dialog is already a bounded, focused surface, so a frameless Cancel there still reads as a control. A page has no such edge, so the same frameless Cancel reads as a line of text and stops looking clickable. The action did not change; what encloses it did.
-- Use `link` for the bottom of the ladder: where even a frameless button is too much weight, such as the escape hatch on a sign-in page or an inline See All. It may carry an action — Log out and Forgot Password are links — but it is the quietest control on the screen, never a way to fit one more button into a crowded row.
+- Make cancel and minor actions frameless (`ghost`) inside a surface that draws its own edge. On a page, give the same action an ink border (`default`).
+- Use `link` for the bottom of the ladder: where even a frameless button is too much weight, such as Forgot Password on a sign-in page or an inline See All. It may carry an action, but it is the quietest control on the screen, never a way to fit one more button into a crowded row.
 - Use orange (`warning`) for actions that interrupt but can be undone: stop, leave, reset.
 - Use red (`danger`) only for actions that cannot be undone, and only in a confirmation dialog ([AlertDialog](../alert-dialog/alert-dialog.md)). Don't color a destructive item in a menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md)).
 - Don't use `danger-secondary` or `danger-outline`: red text on an outline button puts red outside a confirmation dialog.
+- Raft Chat has its own `TextLink` for the quietest controls on its sign-in and onboarding pages. It is the same step of this ladder, kept in the product for now; whether it becomes a component here is open.
 - Never make a button yellow: yellow means "you" ([Color](../../../../../design/foundations/color.md#meanings-of-color)).
 
 ### Sizes
