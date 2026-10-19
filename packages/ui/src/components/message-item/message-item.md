@@ -112,6 +112,7 @@ message-item/compositions/avatar-status
 - The hover toolbar appears on hover, when focus is inside the row, and while one of its popups is open. It rides the top edge of the highlight, on the right.
 - The toolbar covers the time, so the time fades out while the toolbar shows. The header doesn't reserve space for it.
 - The toolbar is 32px high: 28px buttons with 16px icons, in a 2px frame, with its hairline drawn inside that height. It rides the top edge of the highlight and reaches 16px above it, half its height; on a group's first row the transparent 8px border takes half of that, so it reaches only 8px beyond the row. Its buttons are `MessageItemToolbarButton`, not [Button](../button/button.md). It stays this compact because it appears on every message under the pointer: at 38px it covered the sender line and was clipped above the first message.
+- The toolbar's corner is `radius-container` (10px) around buttons with `radius-control` (8px): the 2px frame sits between them, so the hover fill keeps an even gap around the corner ([Nested corners](../../../../../design/foundations/shape.md#nested-corners)).
 - Leave at least 16px above the first message of a scroll area and above the root message of a thread, so the toolbar is never clipped. A timeline that opens with a date line already has the room.
 - The task marker opens the task. Status changes in the task, not from the marker.
 
