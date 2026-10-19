@@ -18,8 +18,8 @@ Raft is a workspace people keep open all day, next to agents that never stop wor
 
 The token values are chosen so that text never has to be checked again surface by surface; see [Color](./color.md#contrast).
 
-- Text in `foreground`, `foreground-muted` and `foreground-hint` is at least 4.5:1 on every surface, every soft tint and every popup, in light and dark mode. Tertiary text carries times, IDs and counts people need to read, so it gets the same guarantee as body text ([0018](../decisions/0018-tertiary-text-contrast.md)).
-- Error text and the border of an invalid input use `danger-strong`, which is at least 4.5:1 on paper. The brighter `danger` is only for the delete button, where the text is ink ([0019](../decisions/0019-error-text-contrast.md)).
+- Text in `foreground`, `foreground-muted` and `foreground-hint` is at least 4.5:1 on every surface, every soft tint and every popup, in light and dark mode. Tertiary text carries times, IDs and counts people need to read, so it gets the same guarantee as body text ([Color](./color.md#contrast)).
+- Error text and the border of an invalid input use `danger-strong`, which is at least 4.5:1 on paper. The brighter `danger` is only for the delete button, where the text is ink ([Color](./color.md#contrast)).
 - Ink on a sticker (`sticker-ink`) is at least 6.8:1 in both modes. Stickers never carry white type, because white on yellow, lime or cyan fails.
 - Controls have a 1.5px ink border (`line-strong`), so the edge of every control is clear on any surface. In light mode `line-seam` is 3.0:1 on white and 2.8:1 on yellow; it separates regions and never marks a control.
 - Use the three text tiers, never an alpha variant of them (`text-foreground-muted/70`): the guarantee holds only for the tier tokens.
@@ -30,7 +30,7 @@ The token values are chosen so that text never has to be checked again surface b
 
 People who use the keyboard must always see where they are and reach everything a pointer can.
 
-- Give every element that can be reached with the keyboard the `focus-ring` (`shadow-focus`) on `:focus-visible`: a 2px gap in the surface color, then 2px of ink. It is ink, not yellow, so it shows on the yellow frame and on yellow stickers ([0015](../decisions/0015-ink-focus-ring.md), [Elevation](./elevation.md#focus-ring)).
+- Give every element that can be reached with the keyboard the `focus-ring` (`shadow-focus`) on `:focus-visible`: a 2px gap in the surface color, then 2px of ink. It is ink, not yellow, so it shows on the yellow frame and on yellow stickers ([Elevation](./elevation.md#focus-ring)).
 - Ring the whole group of a compound control (the composer, an input with an addon) and the box of a checkbox or radio ([States](./states.md#focus)).
 - Make a composite control one Tab stop and move inside it with the arrow keys: [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md), [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md), [Tabs](../../packages/ui/src/components/tabs/tabs.md), [ToggleGroup](../../packages/ui/src/components/toggle-group/toggle-group.md) and menus. Base UI provides the keys.
 - Trap focus in a modal overlay, close it with Esc, and return focus to its trigger: [Dialog](../../packages/ui/src/components/dialog/dialog.md) and [Drawer](../../packages/ui/src/components/drawer/drawer.md) do this.
@@ -57,7 +57,7 @@ Raft is watched for hours, and motion can make people dizzy or distract them fro
 - Turn every animation and transition off under `prefers-reduced-motion: reduce`. Components use Tailwind's `motion-reduce:` variant or a `@media (prefers-reduced-motion: reduce)` block; a new animation adds one in the same change.
 - With reduced motion, the [Spinner](../../packages/ui/src/components/spinner/spinner.md) stops and keeps its first pixel lit, and the [Skeleton](../../packages/ui/src/components/skeleton/skeleton.md) stops pulsing. Both still say that something is loading.
 - Never loop a status. A working agent is a still yellow light, not a pulse.
-- Show centered overlays without animation, so nothing slides in for people who didn't ask for it ([0028](../decisions/0028-centered-overlays-no-animation.md)).
+- Show centered overlays without animation, so nothing slides in for people who didn't ask for it ([Motion](./motion.md#usage)).
 
 ## Screen readers
 

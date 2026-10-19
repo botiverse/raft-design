@@ -110,7 +110,7 @@ Say what failed at the scope it affects, and say it once ([Feedback](../patterns
 
 | What failed | Where it shows |
 | --- | --- |
-| An agent's runtime stopped with an error | The orange light on its avatar everywhere. On its profile, a notice under the header (`PanelNotice`, [0037](../decisions/0037-panel-notice.md)) with an orange pixel, the reason, a button that copies the diagnostic info, and a View logs link that opens its Activity tab |
+| An agent's runtime stopped with an error | The orange light on its avatar everywhere. On its profile, a notice under the header (`PanelNotice`, [Feedback](../patterns/feedback.md#errors-by-scope)) with an orange pixel, the reason, a button that copies the diagnostic info, and a View logs link that opens its Activity tab |
 | An agent couldn't start | A notice under the header of its profile, with the reason, that the person can close |
 | A confirmed action on a card | An orange banner inside the card, with the reason. The card stays as it was, so the person can try again |
 | A computer went offline, or another problem for the whole workspace | The notification center |

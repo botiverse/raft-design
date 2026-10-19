@@ -6,6 +6,7 @@ aliases: []
 layer: core
 category: inputs
 related: [checkbox, radio-group, list-row, field]
+redirectFrom: [decisions/0025-pill-switch]
 ---
 
 # Switch
@@ -55,4 +56,5 @@ Switch wraps Base UI Switch: an element with `role="switch"` whose `aria-checked
 
 ## Rules
 
+- Keep the switch a pill, though everything else is square: people recognize a switch by its round shape, and a square switch isn't read as one ([Shape](../../../../../design/foundations/shape.md#principles)).
 - Never color a switch green or blue: green means done and online, and an on switch is yellow.

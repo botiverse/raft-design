@@ -6,6 +6,7 @@ aliases: [IconButton]
 layer: core
 category: actions
 related: [dropdown-menu, alert-dialog, tooltip, spinner, composer]
+redirectFrom: [decisions/0034-button-size-by-use]
 ---
 
 # Button

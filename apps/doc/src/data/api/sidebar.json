@@ -172,7 +172,7 @@
         "type": "boolean",
         "required": false,
         "default": "false",
-        "description": "For a row whose content is two lines (a name and a second line): the row grows from its fixed height and its content aligns to the first line. The name itself stays on one line and truncates, in every group (decision 0030); never use this to let a long name wrap.",
+        "description": "For a row whose content is two lines (a name and a second line): the row grows from its fixed height and its content aligns to the first line. The name itself stays on one line and truncates, in every group (Sidebar's rules); never use this to let a long name wrap.",
         "from": "raft-ui"
       },
       {

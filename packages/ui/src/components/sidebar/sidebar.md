@@ -6,6 +6,7 @@ aliases: [Sidebar row]
 layer: core
 category: navigation
 related: [app-rail, list-row, panel, badge, avatar]
+redirectFrom: [decisions/0030-one-sidebar-row]
 ---
 
 # Sidebar

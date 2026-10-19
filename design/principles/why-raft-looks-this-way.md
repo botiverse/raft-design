@@ -23,9 +23,9 @@ So the product keeps the website's materials and spends them only where they say
 - **Yellow moves to the frame.** The outer chrome is on every screen but nobody reads it, so it can carry the brand at almost no cost. Everything people read sits on white.
 - **Lines are lighter and fewer.** Regions are separated by one 1px seam at 45% ink: 2px black lines cut a screen into boxes. The ink border is kept for controls, where it means something ([0009](../decisions/0009-seams-and-no-control-shadows.md)).
 - **Controls have no hard shadow.** A control already says "press here" with its ink border; a shadow would be a fourth signal, doesn't show in dark mode, and a press that moves the control shakes its neighbors. The hard shadow stays for brand illustration only ([0009](../decisions/0009-seams-and-no-control-shadows.md)).
-- **Saturated color shrinks to a pixel.** A screen can hold a dozen status chips, so each one is a soft tint with one square pixel of saturated color ([0017](../decisions/0017-soft-status-chips.md)).
+- **Saturated color shrinks to a pixel.** A screen can hold a dozen status chips, so each one is a soft tint with one square pixel of saturated color ([Color](../foundations/color.md#soft-tints)).
 - **Status stands still.** A breathing presence light makes the page render at the screen's refresh rate (measured at 144fps and 80% GPU with a dialog open, against 2fps and 3% once stopped), and a dozen pulsing avatars get in the way of reading. A working agent is a still yellow light and a sentence ([0006](../decisions/0006-working-agents-in-place.md)).
-- **Overlays don't perform.** Dialogs and other centered overlays appear in place, without animation; only the drawer slides, because the slide says where it came from ([0028](../decisions/0028-centered-overlays-no-animation.md)).
+- **Overlays don't perform.** Dialogs and other centered overlays appear in place, without animation; only the drawer slides, because the slide says where it came from ([Motion](../foundations/motion.md#usage)).
 
 The brand doesn't disappear; it is placed by how close a page is to a first impression. Working pages (lists, conversations, tasks, settings, empty states) get the frame and small stickers. A profile and the last step of a workspace's setup add the large pixel sticker with its hard shadow. Sign-in and the pages that create an account or a workspace add the logo, halftone and the tilted preview. The closer to a first impression, the more of the website a page may use ([Brand](../foundations/brand.md#how-much-brand)).
 
@@ -50,7 +50,7 @@ Two consequences follow from the materials, and they decide many small cases:
 Raft is built for people and agents working together, and the look supports that directly:
 
 - Agents and people use the same messages, the same rows and the same square avatars. The face says who it is; an agent's face is its pixel avatar, so the shape doesn't need to say it again ([0023](../decisions/0023-stickers-in-dark-mode.md)).
-- Both profiles use the same 99px avatar on the same page ([0040](../decisions/0040-profile-avatar-size.md)): agents and people are equals.
+- Both profiles use the same 99px avatar on the same page ([Identity and presence](../people-and-agents/identity-and-presence.md#the-same-as-people)): agents and people are equals.
 - Space Grotesk sets what people say; Space Mono sets what machines write: IDs, times, counts, runtimes and event lines such as "Bugen claimed #25". A reader can tell at a glance which is which.
 - What an agent is doing is written where the agent already appears (its row, the place it works in, its avatar's light), not in a separate live bar that changes all the time ([0006](../decisions/0006-working-agents-in-place.md)).
 - Agents are named and described with teammate verbs (claim, hand off, review, ship), never as "AI" or "bot", and never marked with sparkles ([Writing](../content/writing.md#voice), [Iconography](../foundations/iconography.md)).
@@ -77,4 +77,4 @@ So a new product doesn't get its own accent color, its own button style, its own
 - [Designing a new feature](./designing-a-new-feature.md): how to apply them to new work.
 - [Brand](../foundations/brand.md): how much brand each kind of page may use.
 - [Page structure](../patterns/page-structure.md): where the frame, sidebar and paper are on each screen.
-- [Decisions](../decisions/): the records behind each choice.
+- [Decisions](../decisions/): the major choices, and the alternatives they were weighed against.

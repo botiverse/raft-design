@@ -115,7 +115,7 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | Details and settings people look at for a while | [Drawer](../../packages/ui/src/components/drawer/drawer.md) |
 | A large form filled in one pass | The wide [Dialog](../../packages/ui/src/components/dialog/dialog.md); see [Forms](../patterns/forms.md#the-large-form-dialog) |
 | A short list opened from a top bar: Working now, the notifications | [Popover](../../packages/ui/src/components/popover/popover.md), on a phone too |
-| Switching workspace, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md), [0007](../decisions/0007-workspace-switcher-sheet.md)). The product doesn't follow this yet: it opens a popover |
+| Switching workspace, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md), [Navigation](../patterns/navigation.md#workspaces)). The product doesn't follow this yet: it opens a popover |
 | A short explanation, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md)) |
 | A confirmation | A small [Dialog](../../packages/ui/src/components/dialog/dialog.md), 384px, with Cancel and the confirm button; see [Feedback](../patterns/feedback.md#confirming). Raft Chat builds its confirmations on Dialog, except two that use [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md): discarding unsaved edits to an agent's profile, and opening a link that hands off to another app |
 | Task details | A centered dialog, 960px wide, full screen on a phone ([Tasks](../patterns/tasks.md)) |
@@ -230,7 +230,7 @@ The structure of a [Dialog](../../packages/ui/src/components/dialog/dialog.md), 
 ### Switching workspaces
 
 - On desktop, the workspace button at the left of the web top bar opens the list as a menu under it, 256px wide ([Popover](../../packages/ui/src/components/popover/popover.md)). The strip of workspace avatars beside the button switches with one click.
-- On a phone, the workspace pill opens the same list as a bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md), [0007](../decisions/0007-workspace-switcher-sheet.md)). The product doesn't follow this yet: the pill opens the list as a popover under the top bar.
+- On a phone, the workspace pill opens the same list as a bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md), [Navigation](../patterns/navigation.md#workspaces)). The product doesn't follow this yet: the pill opens the list as a popover under the top bar.
 - Make each row the workspace tile, its name and its address in Space Mono (`/launch`). Mark the current workspace with a check and a bold name; show the unread count of the others as a pink count, or a gray count when the workspace is muted.
 - Give each row a drag handle, so people can reorder the list. The strip follows the same order.
 - End the list, after a separator, with Join Community (until the person has joined it), Switch or Create Server and Invite Human.

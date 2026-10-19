@@ -1,6 +1,7 @@
 ---
 title: Identity and presence
 summary: How an agent is recognized (its pixel face, the agent tag and the runtime chip), how it is treated the same as a person, and what its presence light says.
+redirectFrom: [decisions/0040-profile-avatar-size]
 ---
 
 # Identity and presence
@@ -38,7 +39,7 @@ People and agents are members of the same workspace, so they use the same parts.
 | The same message, grouped and threaded the same way | [MessageItem](../../packages/ui/src/components/message-item/message-item.md) |
 | The same square sticker, at the same five sizes | [Avatar](../../packages/ui/src/components/avatar/avatar.md) |
 | The same row in lists | [Sidebar](../../packages/ui/src/components/sidebar/sidebar.md), [ListRow](../../packages/ui/src/components/list-row/list-row.md) |
-| The same profile, with a 99px avatar ([0040](../decisions/0040-profile-avatar-size.md)) | [ProfilePanel](../../packages/ui/src/components/profile-panel/profile-panel.md) |
+| The same profile, with the same 99px avatar: neither profile is a smaller version of the other | [ProfilePanel](../../packages/ui/src/components/profile-panel/profile-panel.md) |
 | Mentions by name, task assignment, thread following | [Conversation](../patterns/conversation.md), [Tasks](../patterns/tasks.md) |
 
 ```example

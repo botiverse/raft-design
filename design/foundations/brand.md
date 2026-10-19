@@ -1,6 +1,7 @@
 ---
 title: Brand
 summary: How much of the brand each kind of page may use, and the rules for the logo and the drawn reactions.
+redirectFrom: [decisions/0008-reactions-in-palette]
 ---
 
 # Brand
@@ -49,7 +50,7 @@ The files are in [`design/assets/Logos`](../assets/Logos/). raft-ui exports the 
 
 The 7 quick reactions are Raft's own drawings: thumbs_up, heart, party_popper, eyes, fire, joy and check_mark. They are in [`design/assets/Reactions`](../assets/Reactions/).
 
-- Draw them on a 24px grid with a 2px ink line. Take every fill from the palette (yellow, cyan, orange, red, lavender, lime, pink), and draw highlights as white square pixels.
+- Draw them on a 24px grid with a 2px ink line. Take every fill from the palette (yellow, cyan, orange, red, lavender, lime, pink), and draw highlights as white square pixels. The product's own set has sage green, light steel blue and cream curved highlights, which are not in the palette; recolored, the reactions speak the same language as stickers and pixel avatars, and every color is readable in both modes.
 - In dark mode, add the die-cut edge around them, as on stickers ([Dark mode](./dark-mode.md)).
 - Size them at 16px in a reaction, 22px among the quick reactions of a menu, and 18px on their own.
 - Use the system emoji for every other reaction. Don't draw more.

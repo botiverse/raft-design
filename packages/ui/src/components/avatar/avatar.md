@@ -6,6 +6,7 @@ aliases: [PixelAvatar, avatar stack, presence light]
 layer: core
 category: identity
 related: [icon-tile, status, badge, list-row, message-item]
+redirectFrom: [decisions/0024-initials-for-people-without-photo, decisions/0041-editable-avatar]
 ---
 
 # Avatar
@@ -75,7 +76,7 @@ avatar/compositions/badge-presence
 
 ## States
 
-- **Editable** (your own avatar, your workspace's, an agent you manage): on hover, on keyboard focus and while uploading, cover the whole sticker with `layer-backdrop` and the icon of the action (upload or edit). raft-ui has no part for this yet; compose it around `Avatar`.
+- **Editable** (your own avatar, your workspace's, an agent you manage): on hover, on keyboard focus and while uploading, cover the whole sticker with `layer-backdrop` and the icon of the action (upload or edit). Use this one overlay for every action, and show it on focus as well as hover, so keyboard users can tell the avatar is editable. raft-ui has no part for this yet; compose it around `Avatar`.
 
 ## Behavior
 
@@ -86,6 +87,7 @@ avatar/compositions/badge-presence
 
 ## Content
 
+- Show a person without a photo by their initials on lavender, not by a person icon: an icon says only "this is a person", and initials let people be told apart without photos.
 - Write 1 or 2 initials; write only 1 at `xs`, `2xs` and `sm`, where 2 don't fit.
 - Don't set the size of the initials: `AvatarFallback` takes it from the avatar's `size` ([Typography](../../../../../design/foundations/typography.md#usage)).
 - In examples, Wug's pixel avatar is `crown` and Bugen's is `mushroom`.

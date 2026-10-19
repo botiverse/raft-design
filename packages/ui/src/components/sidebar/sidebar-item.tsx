@@ -38,8 +38,8 @@ export function SidebarItemRoot({
 export type SidebarItemProps = SidebarItemRootProps & {
   /** For a row whose content is two lines (a name and a second line): the row
    * grows from its fixed height and its content aligns to the first line. The
-   * name itself stays on one line and truncates, in every group (decision
-   * 0030); never use this to let a long name wrap. */
+   * name itself stays on one line and truncates, in every group (Sidebar's
+   * rules); never use this to let a long name wrap. */
   wrap?: boolean;
   /** Something waits for you (a 700 name), the place is muted (an ink-2
    *  name), or it is away: offline or not joined (an ink-3 name). */

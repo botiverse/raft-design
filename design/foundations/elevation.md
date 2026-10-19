@@ -1,6 +1,7 @@
 ---
 title: Elevation
 summary: Which things float and cast a shadow, how popups are positioned, and the focus ring.
+redirectFrom: [decisions/0015-ink-focus-ring, decisions/0036-popup-positioning]
 ---
 
 # Elevation
@@ -31,7 +32,7 @@ focus
 
 ## Popups
 
-Menus, select and filter lists, and profile cards open next to the element that opened them.
+Menus, select and filter lists, and profile cards open next to the element that opened them. The same rules hold in every component, so no popup runs off a narrow screen or moves the page under the person.
 
 - Float popups above the whole page. They never take space in the layout.
 - Move or flip a popup to the other side when it meets the window edge, and never make it larger than the space left.
@@ -39,7 +40,7 @@ Menus, select and filter lists, and profile cards open next to the element that 
 
 ## Focus ring
 
-`focus-ring` is a 2px gap in the surface color followed by 2px of ink.
+`focus-ring` is a 2px gap in the surface color followed by 2px of ink. It is ink, not yellow: a yellow ring would disappear on the yellow frame and on yellow stickers.
 
 - Give every element that can be reached with the keyboard a visible focus ring.
 - Use an inset 2px ink outline instead for elements that touch the edge of their container, such as the search row of a menu.

@@ -160,5 +160,5 @@ Link to a section with its heading anchor (`color.md#dark-mode`). Headings are s
 ## Changing the system
 
 - A change to how something looks or behaves updates the rule it follows in the same pull request, in code and docs together.
-- A choice that overrides an earlier decision adds a decision record and marks the earlier one `superseded`.
+- A choice that overrides a decision record adds a new record and marks the earlier one `superseded`. A choice that changes a smaller rule updates that rule and its reason in the page that owns it.
 - When raft-ui and the docs disagree, one of them is wrong. Fix the code or the rule; never leave them apart.

@@ -1,7 +1,7 @@
 ---
 title: Writing
 summary: The rules for the words inside Raft products — casing, voice, names, and what a button, its dialog and its confirmation say.
-redirectFrom: [foundations/writing]
+redirectFrom: [foundations/writing, decisions/0038-button-names-its-dialog]
 ---
 
 # Writing
@@ -33,7 +33,7 @@ These rules are for the words inside the product: labels, titles, messages, empt
 
 ## Actions and their dialogs
 
-- Make a button's label the title of the dialog or sheet it opens: Register App opens Register App, Create Channel opens Create Channel ([0038](../decisions/0038-button-names-its-dialog.md)).
+- Make a button's label the title of the dialog or sheet it opens: Register App opens Register App, Create Channel opens Create Channel. What people click is what opens: a dialog with other words looks like the wrong one opened.
 - Title an edit with Edit and the item's name: Edit Release Bot.
 - Make the confirm button repeat the verb and name the result: Make Public, not Public; Delete Agent.
 - Make the cancel button say what stays: Keep Box, Keep Working.

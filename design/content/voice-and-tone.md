@@ -47,8 +47,8 @@ Raft sounds like a capable teammate at the next desk: short, direct and plain. T
 
 - Raft is open all day, so its words have to wear well. A joke reads once; an error people see every week has to stay useful.
 - People and agents share the same channels. A plain, specific voice makes it easy to tell what the product says from what a teammate says, and keeps the product from sounding like a chatbot.
-- The visual system gives each color one meaning and keeps notices neutral ([0010](../decisions/0010-neutral-toasts-and-tooltips.md)). The voice follows the same rule: emphasis is saved for what matters, so it still works when it is used.
-- What people click is what opens ([0038](../decisions/0038-button-names-its-dialog.md)), and nothing is set in all caps ([0002](../decisions/0002-no-all-caps.md)). Both rules come from the same idea: the interface never makes people wonder whether they read it right.
+- The visual system gives each color one meaning and keeps notices neutral ([Color](../foundations/color.md#principles)). The voice follows the same rule: emphasis is saved for what matters, so it still works when it is used.
+- What people click is what opens ([Writing](./writing.md#actions-and-their-dialogs)), and nothing is set in all caps ([0002](../decisions/0002-no-all-caps.md)). Both rules come from the same idea: the interface never makes people wonder whether they read it right.
 
 ## Writing in Chinese
 

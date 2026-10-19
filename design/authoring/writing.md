@@ -14,7 +14,7 @@ Describe the system plainly. A reader comes to find out what to use and why, not
 - State facts. Prefer a value, a rule or an example to an adjective.
 - Don't sell. Leave out "powerful", "beautiful", "delightful", "bold", "seamless" and "best-in-class", and don't address the reader as a prospective adopter.
 - Don't soften or inflate. Leave out "simply", "just", "easily", "obviously", "very" and "really".
-- Write in the present tense, about how the system works now. History belongs in a decision record.
+- Write in the present tense, about how the system works now. Give a rule's reason next to the rule, briefly, including what it differs from when that explains it. The history of a major, cross-cutting choice and its alternatives belongs in a decision record.
 - Use "you" for the reader who builds with the system. In a rule about the product, the person using the product is "people" or "the person".
 
 | Write | Not |

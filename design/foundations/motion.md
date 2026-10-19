@@ -1,6 +1,7 @@
 ---
 title: Motion
 summary: The durations and easing for press, hover, slides and avatar changes, and the rule that status never animates in a loop.
+redirectFrom: [decisions/0028-centered-overlays-no-animation]
 ---
 
 # Motion
@@ -29,7 +30,7 @@ Motion in Raft confirms an action or shows where something came from. It never d
 
 - Show hover only on devices with a pointer (`@media (hover: hover)`).
 - Don't float or tilt the large avatar on a profile. It stays still.
-- Centered overlays (dialogs, confirmations, search, task details, large forms) appear and disappear without animation; of the overlays, only the drawer slides in. See [Choosing a component](../components/overview.md#overlays).
+- Centered overlays (dialogs, confirmations, search, task details, large forms) get the scrim and appear and disappear without animation: they are already in place and don't come from anywhere. Of the overlays, only the drawer slides in, because the slide shows which edge it came from. The rule is the same for every centered overlay, so don't give one of them an animation of its own. See [Choosing a component](../components/overview.md#overlays).
 
 ## Related
 

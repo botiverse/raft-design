@@ -6,6 +6,7 @@ aliases: []
 layer: core
 category: navigation
 related: [segmented-control, conversation-panel, mobile-nav]
+redirectFrom: [decisions/0013-sticker-tabs]
 ---
 
 # Tabs
@@ -42,7 +43,7 @@ A place with several kinds of content, such as a channel, shows them as one row 
 | `variant="default"`   | The sticker tab: the selected tab is a yellow sticker. The default                                                               |
 | `variant="underline"` | Many tabs, or a place that already has a lot of color: the selected tab is ink text with a 2px ink line on the row's bottom edge |
 
-The sticker tab is the default, and the one the product ships ([0013](../../../../../design/decisions/0013-sticker-tabs.md)). `placement` puts the row on the top (the default), bottom, left or right of the panels.
+The sticker tab is the default, and the one the product ships: a selected tab says "you are here", like a selected sidebar row or segment, so it takes the same yellow sticker ([Navigation](../../../../../design/patterns/navigation.md#where-you-are)). The underline stays a variant. `placement` puts the row on the top (the default), bottom, left or right of the panels.
 
 ## Behavior
 

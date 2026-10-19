@@ -1,6 +1,7 @@
 ---
 title: Page structure
 summary: The regions of a phone page and a desktop screen, how they are layered from the frame inward, and the rule of one line between regions.
+redirectFrom: [decisions/0004-title-on-every-top-level-page, decisions/0032-web-top-bar]
 ---
 
 # Page structure
@@ -17,11 +18,11 @@ Every screen of every Raft product. Which destinations a product has, and what e
 
 | Page | Top | Middle | Bottom |
 | --- | --- | --- | --- |
-| Top-level page: a destination on the tab bar | The yellow frame: the status bar, then a large title with the page's name ([0004](../decisions/0004-title-on-every-top-level-page.md)). The title may have one subtitle line, or one line saying who is working ([Working agents](../people-and-agents/working-agents.md#where-working-shows)). A page that shows the workspace pill or icon buttons has a 56px navigation row above the title | A list straight on paper, or inset groups | The tab bar ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) |
+| Top-level page: a destination on the tab bar | The yellow frame: the status bar, then a large title with the page's name. The title may have one subtitle line, or one line saying who is working ([Working agents](../people-and-agents/working-agents.md#where-working-shows)). A page that shows the workspace pill or icon buttons has a 56px navigation row above the title | A list straight on paper, or inset groups | The tab bar ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) |
 | Pushed page | A white top bar, 56px, with a seam under it (`PanelHeader`, [Panel](../../packages/ui/src/components/panel/panel.md)): Back, the title and an optional subtitle, and at most two icon buttons on the right | The content | The composer on pages that can send a message; nothing on other pages, because the page covers the tab bar |
 | Overlay | — | A menu (press and hold, to act on one thing), a select list (to pick a value), a popover (a short list, such as Working now or the notifications), a dialog (to confirm), a bottom sheet (a short explanation, such as adding Raft to the Home Screen) | — |
 
-- Give every top-level page its large title, including the first one: the workspace pill says which workspace you are in, and the title says which page, at the same height on every tab ([0004](../decisions/0004-title-on-every-top-level-page.md)). Raft Chat doesn't show the large title yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)); whether to keep it is in [Open questions](../decisions/open-questions.md).
+- Give every top-level page its large title, including the first one: the workspace pill says which workspace you are in, and the title says which page, at the same height on every tab. Raft Chat doesn't show the large title yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)); whether to keep it is in [Open questions](../decisions/open-questions.md).
 - Make the status bar and the browser's theme color follow the top: the frame on a top-level page, paper on a pushed page, so the page runs to the top edge of the screen.
 
 ```example
@@ -45,7 +46,7 @@ app-shell/compositions/responsive
 
 #### The web top bar
 
-The web app adds a frame-colored top bar above the rail from 768px ([0032](../decisions/0032-web-top-bar.md)). It is part of the frame, not content, so it is yellow like the rail. The desktop app's title bar is the same bar, at every width.
+The web app adds a frame-colored top bar above the rail from 768px, with search in its center. It is part of the frame, not content, so it is yellow like the rail, and yellow still goes only on the frame. The desktop app's title bar is the same bar, at every width.
 
 - Make it 48px high, `layer-frame`, with a `line-seam` along its bottom edge. It keeps 48px in short windows.
 - Put the workspace button and the workspace strip on the left, the search field in the center, and who is working and the bell on the right. Keep the search field centered on the window, whatever the two sides hold.
@@ -56,7 +57,7 @@ The web app adds a frame-colored top bar above the rail from 768px ([0032](../de
 #### Headers
 
 - Make every header under the top bar (the panel header, a side panel's header, a drawer's header) 56px high, so their bottom seams line up across the screen. Heights are in [Spacing](../foundations/spacing.md#heights).
-- Without the top bar (an older desktop build, the public page of a workspace), the rail header and the sidebar header are 56px too, and the rail header is a square ([0005](../decisions/0005-56px-headers-and-rail.md)).
+- Without the top bar (an older desktop build, the public page of a workspace), the rail header and the sidebar header are 56px too, and the rail header is a square ([Spacing](../foundations/spacing.md#heights)).
 
 ## Rules
 
