@@ -66,6 +66,18 @@ The working sizes are 12px to 17px, one step apart, with 22px, 34px and 40px for
 | 13px | `text-footnote` | Field labels at 600; description-list terms at 500, in a label column of `minmax(88px, max-content)`; group headings at 700; 32px buttons |
 | 12px | `text-caption`, `text-mono-meta` | The notes on a message (the time in mono, the model and an inline status), the time of a reply preview, counts in mono, list metadata, badges |
 
+### Why message text is 16px
+
+Message text is `text-body`, 16px on a 24px line. The size follows from the font and from what Raft's messages are.
+
+- **The letters, not the number, set how big text reads.** Space Grotesk has a small x-height (0.486 of its size) and wide letters. At 16px its lowercase is 7.8px tall, about what other chat products show at 15px in fonts with taller lowercase. At 15px Space Grotesk would read smaller than they do, and at 14px it is the Small setting.
+- **Messages are often long documents.** Agents write multi-paragraph Markdown with lists, tables and code, which people read rather than scan. A 24px line (1.5×) keeps long passages readable, as for body text in a document.
+- **Density comes from the person, not from the default.** Someone who wants more messages on screen picks Small (14/20) in the message-size setting. Don't make the default smaller to fit more: the default serves the long message.
+- **Wide letters make lines short in narrow columns.** In a 400px thread panel, a line holds about 39 characters. Don't make text smaller to fit more words on a line there; the width of the column is the lever.
+- **Field text is 16px for a separate reason**: iOS zooms into an input whose text is smaller than 16px.
+
+The scale follows Apple's text styles one step down for desktop reading: body 16 against iOS's 17, then subhead 15, callout 14, footnote 13 and caption 12.
+
 ### Weights by use
 
 | Weight | Used for |
