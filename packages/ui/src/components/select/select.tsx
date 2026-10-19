@@ -67,6 +67,7 @@ const select = tv({
     itemText: ["min-w-0 flex-1 truncate"],
     itemDescription: [
       "order-last min-w-0 basis-full",
+      "[[data-slot=select-item-leading]~&]:ps-[calc(--spacing(4)+--spacing(2.5))]",
       "font-sans text-caption font-normal text-foreground-hint",
     ],
     label: ["m-0", "font-sans text-footnote font-semibold text-foreground-muted"],

@@ -8,6 +8,7 @@ import {
   SelectItem,
   SelectItemDescription,
   SelectItemIndicator,
+  SelectItemLeading,
   SelectItemText,
   SelectList,
   SelectTrigger,
@@ -24,6 +25,7 @@ afterEach(cleanup);
 
 const ITEMS = [
   { value: "opus", label: "Claude Opus 5.5" },
+  { value: "led", label: "Sonnet" },
   { value: "plain", label: "Auto" },
 ];
 
@@ -41,6 +43,16 @@ async function renderOpen() {
                 <SelectItemText data-testid="label">Claude Opus 5.5</SelectItemText>
                 <SelectItemDescription data-testid="description">
                   Best for long, careful work
+                </SelectItemDescription>
+                <SelectItemIndicator />
+              </SelectItem>
+              <SelectItem value="led" data-testid="with-leading">
+                <SelectItemLeading>
+                  <svg aria-hidden viewBox="0 0 16 16" />
+                </SelectItemLeading>
+                <SelectItemText data-testid="led-label">Sonnet</SelectItemText>
+                <SelectItemDescription data-testid="led-description">
+                  Fast and capable
                 </SelectItemDescription>
                 <SelectItemIndicator />
               </SelectItem>
@@ -77,4 +89,23 @@ it("a one-line item keeps its 36px height", async () => {
 it("the trigger shows only the label, not the description", async () => {
   await renderOpen();
   expect(screen.getByTestId("trigger").textContent).toBe("Claude Opus 5.5");
+});
+
+// Where the text itself starts: a box's left edge would include its padding.
+function textLeft(element: HTMLElement) {
+  const range = document.createRange();
+  range.selectNodeContents(element);
+  return range.getBoundingClientRect().left;
+}
+
+it("a description starts under its label, past a leading icon", async () => {
+  await renderOpen();
+  expect(textLeft(screen.getByTestId("led-description"))).toBeCloseTo(
+    textLeft(screen.getByTestId("led-label")),
+    0,
+  );
+  expect(textLeft(screen.getByTestId("description"))).toBeCloseTo(
+    textLeft(screen.getByTestId("label")),
+    0,
+  );
 });
