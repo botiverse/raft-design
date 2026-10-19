@@ -39,6 +39,11 @@ The variant follows where the link sits, not how important the action is.
 ## States
 
 - **Disabled:** the text turns `foreground-disabled` and the underline goes, so it no longer reads as something to press.
+
+```example
+text-link/compositions/disabled
+```
+
 - **Focus:** the shared focus ring ([States](../../../../../design/foundations/states.md)), on a 2px radius.
 
 ## Behavior
@@ -53,7 +58,9 @@ The variant follows where the link sits, not how important the action is.
 
 ## Accessibility
 
-TextLink renders a native `button type="button"`. For a way somewhere, render a real link so it opens in a new tab and announces as a link: `render={<a href="…" />}`. Disabled uses the native `disabled` attribute, so it leaves the tab order.
+TextLink renders a native `button type="button"`. For a way somewhere, render a real link so it opens in a new tab and announces as a link: `render={<a href="…" />}`.
+
+- `disabled` is the native attribute, so it works only on the button form: the button leaves the tab order and takes the disabled look. A link has no `disabled`. When a way somewhere is unavailable, don't render the link; say why in the text instead.
 
 ## Rules
 
