@@ -13,10 +13,10 @@ LiveAgentActivityBar is a strip of avatars, a status light and a line of text th
 
 ## When to use
 
-| To show                                       | Use                                                                                                                                         |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| Whether anyone is working, and who            | The summary line: an avatar stack (`AvatarGroup`, [Avatar](../avatar/avatar.md)) and a count, under the page title or in the sidebar header |
-| What one agent is doing                       | Its own row: the [Sidebar](../sidebar/sidebar.md) row on desktop, the [ListRow](../list-row/list-row.md) on a phone                         |
-| Who is working in a place                     | The `PanelMeta` line of its header ([Panel](../panel/panel.md#content))                                                                     |
-| That an agent is working, in the conversation | The still yellow light on its avatar and `MessageItemInlineStatus` ([MessageItem](../message-item/message-item.md))                         |
-| Every working agent                           | Working now: a list opened from the summary, in a bottom sheet on a phone ([Drawer](../drawer/drawer.md))                                   |
+| To show                                       | Use                                                                                                                                                                                        |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Whether anyone is working, and who            | The summary line: an avatar stack (`AvatarGroup`, [Avatar](../avatar/avatar.md)) and a count, in the web top bar, in a phone's Home bar, or in the sidebar header when there is no top bar |
+| What one agent is doing                       | The right side of its own row: the [Sidebar](../sidebar/sidebar.md) row, on desktop and on a phone                                                                                         |
+| Who is working in a place                     | The `PanelMeta` line of its header ([Panel](../panel/panel.md#content))                                                                                                                    |
+| That an agent is working, in the conversation | The still yellow light on its avatar ([MessageItem](../message-item/message-item.md))                                                                                                      |
+| Every working agent                           | Working now: a list opened from the summary in a [Popover](../popover/popover.md), on a phone too                                                                                          |

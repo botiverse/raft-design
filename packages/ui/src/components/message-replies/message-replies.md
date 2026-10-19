@@ -17,11 +17,11 @@ message-replies/compositions/default
 
 ## When to use
 
-| Situation                              | Use                                                                                                                                                          |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| A message has replies in a thread      | MessageReplies, under the message's body                                                                                                                     |
-| A link to a thread inside running text | A reference chip ([MessageItem](../message-item/message-item.md#in-the-body))                                                                                |
-| The thread itself                      | [ThreadPanel](../thread-panel/thread-panel.md) on desktop, a pushed page on a phone ([Conversation](../../../../../design/patterns/conversation.md#threads)) |
+| Situation                              | Use                                                                                                                                                                                           |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A message has replies in a thread      | MessageReplies, under the message's body                                                                                                                                                      |
+| A link to a thread inside running text | A reference chip ([MessageItem](../message-item/message-item.md#in-the-body))                                                                                                                 |
+| The thread itself                      | [ThreadPanel](../thread-panel/thread-panel.md): beside the conversation on desktop, covering it with Back on a phone ([Conversation](../../../../../design/patterns/conversation.md#threads)) |
 
 ## Anatomy
 

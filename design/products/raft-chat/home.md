@@ -27,7 +27,7 @@ sidebar/compositions/phone-home
 
 - Show the workspace pill only on Home: ink with yellow text, tilted 2°, the workspace's name (at most 200px, then an ellipsis) and a chevron. Add the globe when the workspace's public page is on, and a pink pixel when another workspace has unread activity. In a window shorter than 600px, the pill becomes plain text and a chevron.
 - Put the list straight on paper, not in cards.
-- Draw the rows with the sidebar row ([Sidebar](../../../packages/ui/src/components/sidebar/sidebar.md)), 44px high in `text-body` on a phone. The selected row is a yellow sticker.
+- Draw the rows with the sidebar row ([Sidebar](../../../packages/ui/src/components/sidebar/sidebar.md)), 44px high in `text-body` on a phone. The selected row is a yellow sticker; the Search, Activity and Saved rows never are.
 - Don't put a pink button on Home. Create actions are the + buttons in the headers of Channels and Joint Channels (Create Channel, Create Joint Channel).
 - Give every section header a disclosure with a count and a sort menu, always visible on a phone. A collapsed section shows a pink pixel when something in it is unread.
 - Show unread as a pink count, a mention of the person as the yellow @ marker before it ([Badge](../../../packages/ui/src/components/badge/badge.md)), and unread in a muted or unjoined channel as a gray count. A pencil marks a draft.
@@ -39,4 +39,4 @@ sidebar/compositions/phone-home
 
 - Home has no large title. Every top-level page should show a large title with its name, and Home's is Home ([0004](../../decisions/0004-title-on-every-top-level-page.md)); the product doesn't do this yet, and whether it will is in [Open questions](../../decisions/open-questions.md).
 - The workspace pill opens the list as a popover anchored under the top bar, 8px from each side. The system's version is a bottom sheet ([0007](../../decisions/0007-workspace-switcher-sheet.md)); the product doesn't follow it yet.
-- The rows are sidebar rows grown to 44px by the product. raft-ui's sidebar row has no phone size yet, so the example above shows them at their desktop height.
+- The rows are sidebar rows grown to 44px by the product. raft-ui's sidebar row has no phone size yet ([#525](https://github.com/botiverse/raft-design/issues/525)), so the example above shows them at their desktop height.

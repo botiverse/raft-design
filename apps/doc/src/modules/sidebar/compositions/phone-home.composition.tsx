@@ -129,7 +129,7 @@ export function SidebarPhoneHomeComposition() {
         <SidebarBody>
           <SidebarContent>
             <SidebarList>
-              <SidebarItem value="search" active={opened === "search"} onClick={handleOpen}>
+              <SidebarItem value="search" onClick={handleOpen}>
                 <SidebarItemIcon>
                   <Search />
                 </SidebarItemIcon>
@@ -137,7 +137,7 @@ export function SidebarPhoneHomeComposition() {
                   <SidebarItemTitle>Search</SidebarItemTitle>
                 </SidebarItemContent>
               </SidebarItem>
-              <SidebarItem value="activity" active={opened === "activity"} onClick={handleOpen}>
+              <SidebarItem value="activity" onClick={handleOpen}>
                 <SidebarItemIcon>
                   <Activity />
                 </SidebarItemIcon>
@@ -148,7 +148,7 @@ export function SidebarPhoneHomeComposition() {
                   <SidebarItemCount aria-label="3 unread">3</SidebarItemCount>
                 </SidebarItemAside>
               </SidebarItem>
-              <SidebarItem value="saved" active={opened === "saved"} onClick={handleOpen}>
+              <SidebarItem value="saved" onClick={handleOpen}>
                 <SidebarItemIcon>
                   <Bookmark />
                 </SidebarItemIcon>

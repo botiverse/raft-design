@@ -25,13 +25,14 @@ Motion in Raft confirms an action or shows where something came from. It never d
 | Slides and sheets | `ease-slide` | 220ms to 380ms |
 | Someone joins or leaves an avatar stack | The faces slide apart and fade in or out, with `ease-slide` | 180ms to 220ms |
 | Text and numbers that change | Replace the text. Don't roll the digits | None |
-| Floating (brand illustration only) | `ease-in-out`, on the large avatar of an agent's profile and the onboarding screen | 4s and 6s |
+| Brand moments (setup only) | Once, never looping: on the last setup step the agent's avatar hops in and two square marks pop beside it and fade; on the page that creates a workspace, the workspace pill in the preview pops when its name changes | 580ms; 180ms |
 
 - Show hover only on devices with a pointer (`@media (hover: hover)`).
+- Don't float or tilt the large avatar on a profile. It stays still.
 - Centered overlays (dialogs, confirmations, search, task details, large forms) appear and disappear without animation; of the overlays, only the drawer slides in. See [Choosing a component](../patterns/choosing-components.md#overlays).
 
 ## Related
 
 - [States](./states.md): the pressed overlays.
 - [Agents](../patterns/agents.md): how working agents are shown without animation.
-- [Brand](./brand.md): where floating illustration is allowed.
+- [Brand](./brand.md): where brand illustration is allowed.

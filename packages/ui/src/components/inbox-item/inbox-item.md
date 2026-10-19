@@ -23,7 +23,7 @@ activity/compositions/activity-preview
 | The state of the whole workspace: a computer offline, a quota nearly full | A notification ([NotificationCenter](../notification-center/notification-center.md)) |
 | The result of an action the person took                                   | [Toast](../toast/toast.md)                                                           |
 | Something to read before acting, in a dialog or form                      | [Banner](../banner/banner.md)                                                        |
-| A conversation, a setting or a member in a list                           | [ListRow](../list-row/list-row.md)                                                   |
+| A channel, a direct message or a member in a list                         | The sidebar row ([Sidebar](../sidebar/sidebar.md))                                   |
 
 Which message goes where is in [Choosing a component](../../../../../design/patterns/choosing-components.md#telling-people-something).
 

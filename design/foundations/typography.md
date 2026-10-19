@@ -19,10 +19,10 @@ Each style sets a size and a line height; the bold styles also set their weight.
 
 | Token | Use for |
 | --- | --- |
-| `text-hero` | The onboarding headline |
-| `text-display` | The large title of a top-level page, the name on an agent's profile |
-| `text-title` | Statistics on a profile page |
-| `text-headline` | Top bar titles (a top-level page's name, a pushed page's title), panel headers, sidebar headers, dialog and sheet titles, the workspace pill |
+| `text-hero` | The name of the service on the Login with Raft page, from 640px |
+| `text-display` | The title of the page that creates a workspace, from 640px. Also the large title of a top-level page ([0004](../decisions/0004-title-on-every-top-level-page.md)), which the product doesn't show yet |
+| `text-title` | The title of a sign-in page and of a setup step |
+| `text-headline` | Top bar titles (a top-level page's name, a pushed page's title), panel headers, sidebar headers, dialog and sheet titles, the workspace pill, the name on a profile |
 | `text-body` | Message text, inputs; list and task titles at weight 600 |
 | `text-subhead` | Buttons, names, radio labels, dialog body text |
 | `text-callout` | Previews, menu items, banners, excerpts |
@@ -47,7 +47,7 @@ Each style sets a size and a line height; the bold styles also set their weight.
 | Titles, group headings, descriptions, empty states | Sentence case | No tasks match these filters |
 | A dialog or sheet title that repeats its button's label | Title Case | Create Channel |
 
-- Never set text in all caps, in CSS or in the string. The one exception is the step label on the onboarding screen; see [Brand](./brand.md).
+- Never set text in all caps, in CSS or in the string. [0002](../decisions/0002-no-all-caps.md) allows one exception, a step label on an onboarding screen; the product's setup writes its step label in sentence case, so nothing in the product is in all caps ([Brand](./brand.md)).
 - The rules for writing Title Case are in [Writing](./writing.md#casing).
 
 ## Related

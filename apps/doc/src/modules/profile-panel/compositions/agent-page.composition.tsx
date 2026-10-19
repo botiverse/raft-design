@@ -208,7 +208,7 @@ export function AgentPageComposition() {
 function AgentPageSection({ children, title }: { children: ReactNode; title: string }) {
   return (
     <ProfilePanelSection>
-      <Text.Mono render={<h3>{title}</h3>} size="eyebrow" className="mb-3" />
+      <Text.Sans render={<h3>{title}</h3>} size="small" variant="placeholder" className="mb-3" />
       {children}
     </ProfilePanelSection>
   );

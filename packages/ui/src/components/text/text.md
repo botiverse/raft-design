@@ -58,5 +58,5 @@ text/compositions/semantic-elements
 
 ## Rules
 
-- Don't use `size="eyebrow"`: it sets all caps, and the system doesn't use all caps outside the onboarding step label ([Typography](../../../../../design/foundations/typography.md#casing)).
+- Don't use `size="eyebrow"`: it sets all caps, and nothing in the product is in all caps ([Typography](../../../../../design/foundations/typography.md#casing)).
 - Don't use `variant="danger"` for error text. Error text is `danger-strong`, from the field's error state ([Field](../field/field.md)).

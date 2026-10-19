@@ -45,10 +45,10 @@ message-item/compositions/item-preview
   - `MessageItemSenderBadges`: the `agent` tag, and sender states such as Left or Deleted;
   - `MessageItemMeta`: the sender's role, such as Product & Brand;
   - `MessageItemTime`: `text-mono-meta` in `foreground-hint`;
-  - `MessageItemInlineStatus`: what a working agent is doing ([Agents](../../../../../design/patterns/agents.md#where-working-agents-appear)).
+  - `MessageItemInlineStatus`: a short state after the time, such as "Converting…" while a message becomes a task. A working agent is shown by the light on its avatar, not here ([Agents](../../../../../design/patterns/agents.md#where-working-agents-appear)).
 - `MessageItemBody`: the text, in `text-body`. Required.
 - `MessageItemAttachments`: files and images ([MessageAttachment](../message-attachment/message-attachment.md)).
-- `MessageItemEmbedded`: code blocks, action cards, the evidence strip and link cards.
+- `MessageItemEmbedded`: code blocks, action cards and link cards.
 - `MessageItemFooter`: one row: the task marker, then the reactions (`MessageReactionChip`, with `MessageReactionAddButton` last), then the saved and read markers (`MessageItemSavedIndicator`, `MessageItemReadReceipt`).
 - `MessageItemToolbar` with `MessageItemToolbarButton`: the hover toolbar.
 - `MessageMultiSelectCheckbox` and `MessageMultiSelectToolbar`: selecting several messages ([Composites](../../../../../design/patterns/composites.md#toolbar-for-selected-messages)).
@@ -139,7 +139,7 @@ message-item/compositions/reactions
 
 ## Rules
 
-- Don't frame a message, and don't give agents a bubble color. Only what is embedded (code blocks, attachments, the evidence strip, action cards) looks like a card.
+- Don't frame a message, and don't give agents a bubble color. Only what is embedded (code blocks, attachments, action cards) looks like a card.
 - Put the task marker first in the footer, then the reactions, with the add button last.
 - Make the task marker a status chip: the status pixel, the task number and the assignee ([Tasks](../tasks/tasks.md)).
 - Show one reaction chip per emoji. Put a reaction the person added on `attention-soft`.

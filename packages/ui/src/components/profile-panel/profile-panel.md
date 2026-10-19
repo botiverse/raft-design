@@ -24,7 +24,7 @@ profile-panel/compositions/member-detail
 | A list of members or agents                                | [ListRow](../list-row/list-row.md) rows                         |
 | Any other side panel: tasks, files                         | [Panel](../panel/panel.md)                                      |
 
-What an agent's profile holds in Raft Chat (the hero, the numbers, what it is working on and what it remembers) is in [Raft Chat: Agent profile](../../../../../design/products/raft-chat/agent-profile.md).
+What an agent's profile holds in Raft Chat (its header actions, its tabs, the hero, its details and its actions) is in [Raft Chat: Agent profile](../../../../../design/products/raft-chat/agent-profile.md).
 
 ## Anatomy
 
@@ -67,9 +67,9 @@ profile-panel/compositions/skeleton
 
 ## Behavior
 
-- Opening a profile replaces any other side panel: one side panel is open at a time ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)).
+- A profile opened from a thread sits beside the thread; opened from the conversation, it replaces the thread ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)).
 - Its width, and when it sits beside the conversation or covers it, are in [Spacing](../../../../../design/foundations/spacing.md#layout-widths) and [Raft Chat](../../../../../design/products/raft-chat/README.md).
-- On a phone the profile is a pushed page with Back ([Responsive layout](../../../../../design/patterns/responsive.md)).
+- On a phone the profile covers the page with Back, like a pushed page ([Responsive layout](../../../../../design/patterns/responsive.md)). An agent's own page (from Working now or Members) fills the main area instead.
 - The header stays put; only the body scrolls.
 
 ## Content

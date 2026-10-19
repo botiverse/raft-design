@@ -56,13 +56,13 @@ Two more uses of the same square have no variant in raft-ui yet:
 
 Avatar sizes are multiples of 8 plus two 1.5px edges, so the pixels of a face stay even ([Spacing](../../../../../design/foundations/spacing.md#avatar-sizes)).
 
-| `size`             | Use for                                                                                                                                                                           |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `xs`, `2xs` (19px) | The sidebar, chips, avatar stacks                                                                                                                                                 |
-| `sm` (27px)        | Search results, top bars                                                                                                                                                          |
-| `md` (35px)        | Messages and lists                                                                                                                                                                |
-| `lg` (51px)        | Your own row in settings, profile cards                                                                                                                                           |
-| `xl` (99px)        | The profile page of an agent or a person, and onboarding. It carries `shadow-sticker`, as brand illustration ([Brand](../../../../../design/foundations/brand.md#how-much-brand)) |
+| `size`             | Use for                                                                                                                                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `xs`, `2xs` (19px) | The sidebar, chips, avatar stacks                                                                                                                                                                      |
+| `sm` (27px)        | Search results, top bars                                                                                                                                                                               |
+| `md` (35px)        | Messages and lists                                                                                                                                                                                     |
+| `lg` (51px)        | Your own row in settings, profile cards                                                                                                                                                                |
+| `xl` (99px)        | The profile of an agent or a person, and the last step of a workspace's setup. It carries `shadow-sticker`, as brand illustration ([Brand](../../../../../design/foundations/brand.md#how-much-brand)) |
 
 ### Presence lights
 

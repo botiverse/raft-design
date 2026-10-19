@@ -119,7 +119,6 @@ Use one term per concept, everywhere. These are the system's terms.
 | status chip | A soft-tinted chip with a pixel and a word: a task status or an agent state. |
 | runtime chip | The chip that names where an agent runs (Claude Code, Codex). |
 | event line | A line in a conversation that records an action ("Bugen claimed #25"). |
-| evidence strip | The strip on an agent's message that links its proof (CI, commit, snapshot). |
 | reference chip | An inline chip that links to a place or an item. |
 | location tile | The yellow block beside the title of the place the person is in. |
 | workspace pill | The phone's workspace switcher at the top of Home. |

@@ -26,7 +26,7 @@ focus
 | Token (utility) | Use for |
 | --- | --- |
 | `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts |
-| `elevation-sticker` (`shadow-sticker`) | The large avatar on an agent's profile and on the onboarding screen. Nothing else |
+| `elevation-sticker` (`shadow-sticker`) | Brand illustration only: the 99px avatar on a profile and on the last setup step, and the workspace preview on the page that creates a workspace ([Brand](./brand.md#how-much-brand)). Nothing else |
 | `focus-ring` (`shadow-focus`) | Every element that can be reached with the keyboard |
 
 ## Popups
