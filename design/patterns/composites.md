@@ -9,7 +9,7 @@ Some things in the product have no design of their own: they are assembled from 
 
 ## When it applies
 
-Whenever you need one of the things below. If what you need isn't here and no component fits, follow the six questions in the [README](../README.md#before-you-build-something-new) before adding anything.
+Whenever you need one of the things below. If what you need isn't here and no component fits, follow the six questions in [Designing a new feature](../principles/designing-a-new-feature.md#the-questions-to-ask) before adding anything.
 
 ## Structure
 
