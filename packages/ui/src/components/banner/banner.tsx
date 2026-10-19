@@ -120,7 +120,7 @@ export function BannerDescription({ render, className, ...props }: BannerDescrip
   });
 }
 
-// Text actions use Button size="inline" inside BannerDescription, not here.
+// A text action is a TextLink inside BannerDescription, not here.
 export type BannerActionProps = Omit<useRender.ComponentProps<"div">, "align">;
 
 export function BannerAction({ render, className, ...props }: BannerActionProps) {

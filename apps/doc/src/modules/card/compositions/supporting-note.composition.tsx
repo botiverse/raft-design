@@ -1,7 +1,6 @@
-import { BookOpen, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import { useState } from "react";
 import {
-  Button,
   Card,
   CardContent,
   CardDescription,
@@ -12,6 +11,7 @@ import {
   Separator,
   Switch,
   Text,
+  TextLink,
 } from "@botiverse/raft-ui";
 
 export function CardSupportingNoteComposition() {
@@ -111,10 +111,9 @@ export function CardSupportingNoteComposition() {
         <span className="flex-1" aria-live="polite">
           {enabled ? "Critical alerts are sent immediately." : "Security alerts are paused."}
         </span>
-        <Button variant="link" size="xs" className="ml-auto px-0" render={<a href="#api" />}>
-          <BookOpen data-icon="inline-start" />
-          View docs
-        </Button>
+        <TextLink className="ml-auto" render={<a href="#api" />}>
+          View Docs
+        </TextLink>
       </CardFooter>
     </Card>
   );

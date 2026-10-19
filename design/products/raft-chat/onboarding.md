@@ -29,7 +29,7 @@ Steps 3 to 5 share one frame, 720px wide and about 520px high, so the dialog doe
 
 - **A header**: the step label "Set up your server" in Space Mono, the title in `text-title` and one line of explanation.
 - **A body** that scrolls inside the frame.
-- **A footer** with muted text links on the left (Switch server, and on the first two steps Server settings) and the pink button on the right (Next, Continue, Let's Go). On a narrow screen the pink button spans the width.
+- **A footer** with muted text links ([TextLink](../../../packages/ui/src/components/text-link/text-link.md)) on the left (Switch server, and on the first two steps Server settings) and the pink button on the right (Next, Continue, Let's Go). On a narrow screen the pink button spans the width.
 
 ```example
 dialog/compositions/server-setup-step

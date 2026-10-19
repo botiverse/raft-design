@@ -8,7 +8,8 @@ import { Spinner } from "../spinner/index";
 
 // Raft Design System › Button: a pink sticker for the one primary action, an
 // ink outline for the rest, no frame for cancel and minor actions, orange for
-// what interrupts and red for what cannot be undone. Every button that is not
+// what interrupts and red for what cannot be undone. Underlined text, the step
+// below a frameless button, is TextLink, not a variant here. Every button that is not
 // disabled shows the press overlay on hover and press instead of changing fill.
 // A frameless icon button that is disabled only greys its icon: no box appears
 // (DS IconButton), while a disabled text button keeps the sunken fill.
@@ -95,13 +96,6 @@ export const buttonVariants = tv({
           "aria-disabled:border-transparent aria-disabled:bg-transparent",
         ],
       },
-      link: {
-        root: [
-          "border-transparent bg-transparent text-foreground",
-          "underline decoration-[1.5px] underline-offset-[3px]",
-          "hover:decoration-attention-500 aria-disabled:hover:no-underline",
-        ],
-      },
     },
     size: {
       xs: { root: textMd },
@@ -123,17 +117,6 @@ export const buttonVariants = tv({
           "[&_svg:not([class*='size-'])]:size-[18px] **:data-icon:size-[1em]",
         ],
       },
-      // An inline action lives inside a line of text, so it takes that text's
-      // font-size and line-height rather than a box from this scale, and sits
-      // on the baseline so it cannot change the line's height.
-      inline: {
-        root: [
-          // `border-0` is not cosmetic: with `h-auto` the box is content plus
-          // border, so the 1.5px border alone would make the line taller.
-          "h-auto gap-1 border-0 p-0 align-baseline leading-[inherit] whitespace-normal",
-          "**:data-icon:size-[1em]",
-        ],
-      },
       "icon-xs": { root: iconMd },
       "icon-sm": { root: iconMd },
       "icon-md": { root: iconMd },
@@ -147,8 +130,6 @@ export const buttonVariants = tv({
     size: "md",
   },
   compoundVariants: [
-    // After the sizes, so a link drops each size's padding.
-    { variant: "link", class: { root: "px-0" } },
     {
       variant: "ghost",
       size: ["icon-xs", "icon-sm", "icon-md", "icon-lg"],

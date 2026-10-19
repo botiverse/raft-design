@@ -24,7 +24,7 @@ button/compositions/preview
 | An action with a label                                                                    | Button                                                    |
 | An action whose icon is understood without words: search, more, back, close, copy, attach | Button at an icon size; see [Icon buttons](#icon-buttons) |
 | An action whose icon needs words to be understood                                         | Button with a label                                       |
-| The quietest control on a screen, action or not                                           | `variant="link"`: underlined ink text                     |
+| The quietest control on a screen, action or not                                           | [TextLink](../text-link/text-link.md): underlined text    |
 | A list of actions on one thing                                                            | [DropdownMenu](../dropdown-menu/dropdown-menu.md)         |
 | Picking a value                                                                           | [Select](../select/select.md)                             |
 
@@ -37,7 +37,6 @@ button/compositions/preview
 | `variant="ghost"`    | Cancel and minor actions inside a surface that draws its own edge: no frame                  | Cancel in a dialog, Keep Box         |
 | `variant="warning"`  | Actions that interrupt but can be undone: an orange sticker                                  | Stop Wug, Leave Channel, Reset       |
 | `variant="danger"`   | Actions that cannot be undone, on the confirm button of a confirmation dialog: a red sticker | Delete Agent                         |
-| `variant="link"`     | The quietest control on a screen, action or not: underlined ink text                         | View All, Forgot Password            |
 | `variant="on-frame"` | A frameless button on the frame: the rail, the web top bar, the desktop title bar            | The workspace button                 |
 
 `accent` renders the same as `primary`, and `outline`, `information`, `muted` and `success` the same as `default`. Use the names in the table.
@@ -58,11 +57,10 @@ Every button is flat: the ink border or the sticker marks it as a control, never
 - When a screen has a second primary action, make it `default`.
 - Give every other action an ink border (`default`).
 - Make cancel and minor actions frameless (`ghost`) inside a surface that draws its own edge. On a page, give the same action an ink border (`default`).
-- Use `link` for the bottom of the ladder: where even a frameless button is too much weight, such as Forgot Password on a sign-in page or an inline See All. It may carry an action, but it is the quietest control on the screen, never a way to fit one more button into a crowded row.
+- Use [TextLink](../text-link/text-link.md) for the bottom of the ladder: where even a frameless button is too much weight, such as Forgot Password on a sign-in page or a See All beside a section title. It may carry an action, but it is the quietest control on the screen, never a way to fit one more button into a crowded row. It is not a Button variant: a text link is a word in a line, not a box, so it takes the size of the text around it, and a Button would bring a height, a border and padding that each have to be taken off again.
 - Use orange (`warning`) for actions that interrupt but can be undone: stop, leave, reset.
 - Use red (`danger`) only for actions that cannot be undone, and only in a confirmation dialog ([AlertDialog](../alert-dialog/alert-dialog.md)). Don't color a destructive item in a menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md)).
 - Don't use `danger-secondary` or `danger-outline`: red text on an outline button puts red outside a confirmation dialog.
-- Raft Chat's `TextLink` is this step of the ladder in the product, and link-style buttons there are being unified on it. It stays in the product for now; moving it here is task #94 in #proj-raft-ui.
 - Never make a button yellow: yellow means "you" ([Color](../../../../../design/foundations/color.md#meanings-of-color)).
 
 ### Sizes
@@ -74,7 +72,6 @@ Size follows the purpose. The same purpose has the same size everywhere, and the
 | `size="lg"`           | 44px                | Dialog and drawer footers, form submit buttons, a full-width column of actions at the bottom of a panel (Remove Member, Leave Channel, Archive Channel) |
 | `size="md"` (default) | 32px, 44px hit area | Actions in list rows, cards, banners, toolbars and panel headers                                                                                        |
 | `size="xl"`           | 52px                | Only the full-width pink button across a sign-in, sign-up or setup form                                                                                 |
-| `size="inline"`       | The line of text    | An action inside a sentence, which takes the text's size                                                                                                |
 
 ### Icon buttons
 

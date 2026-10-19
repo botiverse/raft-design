@@ -35,7 +35,6 @@ const VARIANTS = [
   "warning",
   "information",
   "muted",
-  "link",
   "success",
 ] as const;
 

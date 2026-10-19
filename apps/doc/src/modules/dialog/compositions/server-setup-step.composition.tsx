@@ -1,5 +1,6 @@
 import {
   Button,
+  TextLink,
   CopyableCode,
   CopyableCodeAction,
   CopyableCodeRoot,
@@ -40,13 +41,9 @@ function ServerSetupStepParts() {
         </CopyableCodeRoot>
       </DialogBody>
       <DialogFooter className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-4">
-          <Button variant="link" size="sm" disabled>
-            Switch server
-          </Button>
-          <Button variant="link" size="sm" disabled>
-            Server settings
-          </Button>
+        <div className="flex items-center gap-4 text-footnote">
+          <TextLink disabled>Switch Server</TextLink>
+          <TextLink disabled>Server Settings</TextLink>
         </div>
         <Button variant="accent" size="lg" disabled>
           Next
