@@ -1,3 +1,19 @@
+## [0.9.0](https://github.com/botiverse/raft-design/compare/v0.8.3...v0.9.0) (2026-10-19)
+
+### Breaking Changes
+
+- `Text.Mono` no longer has `size="eyebrow"` (10px all-caps mono). Head a section with `<Text.Sans size="group">` in sentence case instead; nothing in the product is in all caps. ([#576](https://github.com/botiverse/raft-design/pull/576))
+
+### Added
+
+- `Text.Sans size="group"`: the heading of a group of rows or a section in a panel (13px at 700, `foreground-hint`). ([#576](https://github.com/botiverse/raft-design/pull/576))
+- `SegmentedControl` takes `iconsOnlyBelow` (`"xs"` to `"2xl"`, Tailwind's container sizes; type `SegmentedControlIconsOnlyBelow`). Mark the row `@container`; below that width each segment shows only its icon as a 32px square, its label and count stay the accessible name, and a tooltip shows the label. Use it only when every segment has an icon. ([#578](https://github.com/botiverse/raft-design/pull/578))
+- `DescriptionList direction="inline"`: facts in a wrapping row on one text baseline, 12px from term to value and 24px between facts, with no stacked-list gap. A first-child Badge, TaskChip, TaskStatusBadge or Button in a value hangs its padding outward, so its text starts where plain text does. ([#579](https://github.com/botiverse/raft-design/pull/579))
+
+### Fixed
+
+- In a `SelectItem` with a `SelectItemLeading`, the `SelectItemDescription` starts under the label instead of under the icon. ([#577](https://github.com/botiverse/raft-design/pull/577))
+
 ## [0.8.3](https://github.com/botiverse/raft-design/compare/v0.8.2...v0.8.3) (2026-10-19)
 
 ### Added
