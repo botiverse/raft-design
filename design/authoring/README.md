@@ -115,6 +115,16 @@ replacedBy: drawer            # Only when status is deprecated
 | `stable` | `raft-ui` | Breaking changes follow the package's versioning policy. |
 | `deprecated` | `raft-ui`, with `@deprecated` in its JSDoc | Still works. `replacedBy` names what to use instead. It is removed in the next major version. |
 
+Any page may also carry:
+
+```yaml
+order: 2                      # Its place in the section, lowest first; pages without it follow, by title
+redirectFrom: [patterns/agents]
+                              # Former site paths of this page; each one redirects here (its .md twin too)
+```
+
+A section's introduction is its `README.md`, shown at `/<section>`; for Components it is `design/components/overview.md`.
+
 Decision records add `number`, `status` (`accepted`, `superseded`) and `date`. See the [decision template](./templates/decision.md).
 
 ## Embedding examples and tokens

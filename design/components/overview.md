@@ -153,7 +153,7 @@ A row follows what it stands for, not where it appears: a place looks the same i
 
 Some things in the product have no design of their own: they are assembled from existing components. Build them as described here, without new colors, shapes or lines. Each new container, color or line is one more thing people have to learn and one more thing the system has to keep consistent across light and dark, phone and desktop; a composite inherits its parts' states, dark mode and accessibility for free.
 
-If what you need isn't here and no component fits, follow the six questions in the [README](../README.md#before-you-build-something-new) before adding anything.
+If what you need isn't here and no component fits, follow the six questions in the [README](../principles/designing-a-new-feature.md#the-questions-to-ask) before adding anything.
 
 ### Task details
 
