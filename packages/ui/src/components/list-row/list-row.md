@@ -42,7 +42,7 @@ list-row/compositions/conversations
 | Variant             | Use for                                                                                                                                                   |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `variant="default"` | A conversation, a person or an agent: leading block, title, preview, time and badge. At least 64px tall                                                   |
-| `variant="plain"`   | A setting: an optional icon, a title (and its consequence), then the current value and a chevron, or a switch. 48px tall with one line of text            |
+| `variant="plain"`   | A setting: an optional icon, a title (and its consequence), then the current value and a chevron, or a switch. 56px tall with one line of text            |
 | `variant="entry"`   | A shortcut into another page at the top of a list (Search, Activity, Saved): a 20px icon and a name, with a badge or a gray count on the right. 48px tall |
 
 ```example

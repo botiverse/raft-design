@@ -21,7 +21,8 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 
 ## Hit targets
 
-- Make every touch target at least 44px in both directions.
+- Make every touch target at least 44px in both directions. 44px is the least a finger needs, not a row height: a row takes its height from [Heights](#heights), and no row there is under 44px.
+- Make each answer in a radio group a row at least 44px high ([RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md)).
 - Extend a control that looks smaller than 44px, and a text button, with a transparent pseudo-element to 44px.
 - Don't extend inline links and reference chips in running text: they follow the line of text.
 - Desktop controls used only with a pointer may be smaller: sidebar rows and menu items 36px, rail items 40px, the hover toolbar 32px high with 28px buttons.
@@ -34,10 +35,13 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 | Control, small | 32px |
 | Full-width call to action | 52px |
 | Phone list row | At least 64px |
-| Phone list of places (Home, Members, the Settings list), settings row, radio row | At least 44px |
+| Settings row (`ListRow variant="plain"`), one line | 56px |
+| Phone list of places (Home, Members, the Settings list) | At least 44px |
 | Phone top bar row, panel header, sidebar header, rail header, drawer header | 56px |
 | Web top bar, desktop app title bar | 48px |
 
+- A row declares its height. Don't let it fall out of its padding and line height: a settings row built as 12px + 24px + 12px is 48px only until the line height changes, and nothing notices when it does. A row whose text wraps grows past its height.
+- Make a settings row 56px. Rows were built at 44px and 48px because this table listed the 44px touch floor beside real heights, and the floor was read as the height.
 - Make the rail header a 56px square. It holds the workspace tile, and the top-left corner stays square whatever else changes. So the rail is 56px wide plus its seam and shows icons only: a labeled rail needs 68px to fit names such as Computers, and its corner would no longer be square.
 - When the desktop window is shorter than 600px (`@media (max-height: 600px)`), shrink every 56px header to 48px together. The rail shrinks with them, its header stays square, and rail items shrink from 40px to 36px; see [Responsive layout](../patterns/responsive.md).
 

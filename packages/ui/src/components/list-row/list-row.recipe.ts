@@ -61,9 +61,11 @@ export const listRow = tv({
       // a preview, the time and a badge. The line starts at the text, 16 + 35 + 12.
       default: { root: ["min-h-16 [--list-row-rule-start:63px]", hairline] },
       // A setting: a title (and its consequence), the current value and a
-      // chevron, or a switch; 48 tall with one line. The line starts at the
-      // row's edge.
-      plain: { root: ["[--list-row-rule-start:16px]", hairline] },
+      // chevron, or a switch. 56 tall with one line: the row declares its
+      // height instead of deriving 48 from 12 + 24 + 12, so a change to the
+      // padding or the body line height cannot move it. The line starts at
+      // the row's edge.
+      plain: { root: ["min-h-14 [--list-row-rule-start:16px]", hairline] },
       // A shortcut into another page (Search, Activity, Saved): a 20px icon and
       // a name, 48 tall. A group of them is a set of buttons, so no lines.
       entry: { root: "" },

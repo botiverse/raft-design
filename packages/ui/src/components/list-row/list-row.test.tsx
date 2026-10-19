@@ -63,8 +63,8 @@ describe("ListRow", () => {
 
     rerender(<ListRow data-testid="row" variant="plain" />);
     rowClasses = classes(screen.getByTestId("row"));
-    // 12 + 24 + 12: one line of text makes 48, so no minimum is set.
-    expect(rowClasses.some((name) => name.startsWith("min-h-"))).toBe(false);
+    // A settings row declares 56px instead of deriving 48 from its padding.
+    expect(rowClasses).toContain("min-h-14");
     expect(rowClasses).toContain("[--list-row-rule-start:16px]");
     expect(rowClasses).toContain("[[data-slot=list-row]+&]:before:block");
   });
