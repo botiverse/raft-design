@@ -3,7 +3,8 @@ title: MessageItemTranslation
 summary: The parts that show a message was translated — a short Space Mono status line under the body that switches between the translation and the original, the original kept below, and the translating and failed states.
 status: stable
 aliases: [MessageTranslation, Translation]
-category: content
+layer: collaboration
+category: messages
 related: [message-item, progress]
 ---
 
@@ -81,5 +82,5 @@ message-translation/compositions/translation-states
 
 ## Rules
 
-- Keep the status to one short line of Space Mono text under the message, and don't add a color for it ([Composites](../../../../../design/patterns/composites.md#translation-read-and-saved-markers)).
+- Keep the status to one short line of Space Mono text under the message, and don't add a color for it ([Built from existing parts](../../../../../design/components/overview.md#translation-read-and-saved-markers)).
 - Use orange for a failed translation, as for any failure ([Feedback](../../../../../design/patterns/feedback.md#errors-by-scope)).

@@ -3,7 +3,8 @@ title: ThreadPanel
 summary: The side panel for one thread — a header that names it, the original message, the replies and a composer, with no tabs.
 status: stable
 aliases: [Thread]
-category: layout
+layer: collaboration
+category: messages
 related: [panel, conversation-panel, message-replies, composer]
 ---
 

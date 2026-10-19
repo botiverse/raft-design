@@ -3,7 +3,8 @@ title: TaskList
 summary: The list view of tasks — one collapsible group per status, in status order, each holding task cards.
 status: stable
 aliases: []
-category: content
+layer: collaboration
+category: tasks
 related: [task-card, task-board, tasks]
 ---
 

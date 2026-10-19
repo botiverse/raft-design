@@ -3,6 +3,7 @@ title: LiveAgentActivityBar
 summary: A live strip of working agents above the tab bar or at the bottom of the sidebar; deprecated, because working agents are shown where they already appear.
 status: deprecated
 aliases: [Live bar, Activity bar, Live activity]
+layer: collaboration
 category: agents
 related: [avatar, status, sidebar, list-row, panel, message-item, drawer]
 ---

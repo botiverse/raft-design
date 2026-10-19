@@ -3,6 +3,7 @@ title: AlertDialog
 summary: A small centered dialog that asks people to confirm an action that cannot be undone or that interrupts work, with a confirm button colored by the consequence.
 status: stable
 aliases: [ConfirmDialog, Confirmation]
+layer: core
 category: overlays
 related: [dialog, button, banner, dropdown-menu, toast]
 ---

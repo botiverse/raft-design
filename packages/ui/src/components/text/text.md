@@ -3,7 +3,8 @@ title: Text
 summary: Plain typography parts — Text.Heading, Text.Sans and Text.Mono — for text that no other component holds, in the system's two typefaces.
 status: stable
 aliases: [Typography, TextHeading, TextSans, TextMono, Heading]
-category: content
+layer: core
+category: data-display
 related: [markdown, inline-code, description-list, panel]
 ---
 

@@ -3,6 +3,7 @@ title: Banner
 summary: A soft-tinted notice inside a dialog or form that people read before they act, and, as PanelNotice, a full-width strip under a panel header when something in that panel failed.
 status: stable
 aliases: [Callout]
+layer: core
 category: feedback
 related: [panel, toast, notification-center, alert-dialog, field]
 ---

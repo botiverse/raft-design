@@ -3,6 +3,7 @@ title: SegmentedControl
 summary: 2 to 4 segments in a gray track that switch how the same content is shown, in place; the selected segment is a yellow sticker.
 status: stable
 aliases: [Segmented button]
+layer: core
 category: navigation
 related: [tabs, radio-group, select]
 ---
@@ -24,7 +25,7 @@ segmented-control/compositions/view-mode
 | An answer submitted with a form                                       | [RadioGroup](../radio-group/radio-group.md) |
 | More options than fit as segments                                     | [Select](../select/select.md)               |
 
-The full table is in [Choosing a component](../../../../../design/patterns/choosing-components.md#picking-something). Where Board / List goes on a task list is in [Tasks](../../../../../design/patterns/tasks.md).
+The full table is in [Choosing a component](../../../../../design/components/overview.md#picking-something). Where Board / List goes on a task list is in [Tasks](../../../../../design/patterns/tasks.md).
 
 ## Anatomy
 

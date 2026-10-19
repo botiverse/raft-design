@@ -3,7 +3,8 @@ title: Timeline
 summary: An ordered list of what happened — a task's history in task-status colors and plain words, or an agent's activity log in presence colors and Space Mono.
 status: stable
 aliases: [History]
-category: content
+layer: collaboration
+category: tasks
 related: [description-list, steps, status, tasks]
 ---
 
@@ -19,7 +20,7 @@ timeline/compositions/preview
 
 | Situation                                                                        | Use                                                                                                                                       |
 | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| A task's History, collapsed under its properties in task details                 | Timeline ([Composites](../../../../../design/patterns/composites.md#task-details))                                                        |
+| A task's History, collapsed under its properties in task details                 | Timeline ([Built from existing parts](../../../../../design/components/overview.md#task-details))                                         |
 | What an agent did ([Agents](../../../../../design/patterns/agents.md#structure)) | Timeline, as an activity log                                                                                                              |
 | The steps of a flow the person goes through                                      | [Steps](../steps/steps.md)                                                                                                                |
 | Facts about an item, not events                                                  | [DescriptionList](../description-list/description-list.md)                                                                                |

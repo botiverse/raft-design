@@ -3,6 +3,7 @@ title: AppRail
 summary: The leftmost desktop column, on the frame — the workspace at the top, the product's destinations in the middle, and notifications, help and settings at the bottom.
 status: stable
 aliases: [Rail]
+layer: core
 category: navigation
 related: [sidebar, mobile-nav, tooltip, notification-center]
 ---
@@ -70,4 +71,4 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 
 ## Rules
 
-- Make the workspace tile ink with the workspace's initial in yellow. It opens the workspace list next to the tile ([Composites](../../../../../design/patterns/composites.md#switching-workspaces)).
+- Make the workspace tile ink with the workspace's initial in yellow. It opens the workspace list next to the tile ([Built from existing parts](../../../../../design/components/overview.md#switching-workspaces)).

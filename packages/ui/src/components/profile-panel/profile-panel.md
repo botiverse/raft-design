@@ -3,7 +3,8 @@ title: ProfilePanel
 summary: The side panel for one person or agent — a panel header with their avatar and name, then sections of who they are, what they do and what you can do with them.
 status: stable
 aliases: [Profile, Member detail, Agent profile]
-category: layout
+layer: collaboration
+category: agents
 related: [panel, avatar, description-list, list-row, skeleton, preview-card]
 ---
 

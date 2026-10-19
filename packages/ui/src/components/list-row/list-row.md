@@ -3,13 +3,14 @@ title: ListRow
 summary: The row for the people and agents on a detail page, settings and shortcuts — a leading block, a title and a preview, the time and a badge.
 status: stable
 aliases: [AvatarListRow]
-category: content
+layer: core
+category: data-display
 related: [sidebar, inbox-item, search, avatar, icon-tile, badge, switch]
 ---
 
 # ListRow
 
-A ListRow is one row of a list: a person, an agent, a setting or a shortcut into another page. The whole row is the target. Use it for the agents and people on a detail or profile page, and for settings. Raft Chat's phone lists of places (Home, Members, the Settings list) use the sidebar row instead ([Choosing a component](../../../../../design/patterns/choosing-components.md#rows)).
+A ListRow is one row of a list: a person, an agent, a setting or a shortcut into another page. The whole row is the target. Use it for the agents and people on a detail or profile page, and for settings. Raft Chat's phone lists of places (Home, Members, the Settings list) use the sidebar row instead ([Choosing a component](../../../../../design/components/overview.md#rows)).
 
 ```example
 list-row/compositions/conversations

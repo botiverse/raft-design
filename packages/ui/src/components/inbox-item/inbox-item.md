@@ -3,7 +3,8 @@ title: InboxItem
 summary: The row for something that happened elsewhere and that the person should see — a mention, an approval, a hand-off — with an attention dot while it is unread and its actions in the row.
 status: stable
 aliases: [Inbox]
-category: content
+layer: collaboration
+category: inbox
 related: [activity-inbox, notification-center, list-row, badge, checkbox]
 ---
 
@@ -25,7 +26,7 @@ activity/compositions/activity-preview
 | Something to read before acting, in a dialog or form                      | [Banner](../banner/banner.md)                                                        |
 | A channel, a direct message or a member in a list                         | The sidebar row ([Sidebar](../sidebar/sidebar.md))                                   |
 
-Which message goes where is in [Choosing a component](../../../../../design/patterns/choosing-components.md#telling-people-something).
+Which message goes where is in [Choosing a component](../../../../../design/components/overview.md#telling-people-something).
 
 ## Anatomy
 

@@ -3,6 +3,7 @@ title: Card
 summary: A white container with a hairline that groups one subject on a page — a header with a title and description, content and a footer — or makes a selectable option inside a form.
 status: stable
 aliases: []
+layer: core
 category: layout
 related: [list-row, form-section, description-list, panel, checkbox, radio-group]
 ---

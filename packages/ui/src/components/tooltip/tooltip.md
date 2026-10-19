@@ -3,6 +3,7 @@ title: Tooltip
 summary: One line that appears on hover or keyboard focus and gives something without a visible label its name, its consequence or its shortcut.
 status: stable
 aliases: [Hint]
+layer: core
 category: overlays
 related: [preview-card, popover, button, app-rail]
 ---

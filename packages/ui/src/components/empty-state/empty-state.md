@@ -3,6 +3,7 @@ title: EmptyState
 summary: What a view shows when it has no content — a gray icon, a title, one sentence on why it is empty and what to do, and at most one button.
 status: stable
 aliases: [Empty, Blank slate]
+layer: core
 category: feedback
 related: [skeleton, button, search]
 ---

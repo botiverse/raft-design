@@ -3,6 +3,7 @@ title: AnnouncementDialog
 summary: A dialog that tells people about something new in the product, with a small label, a title, an optional picture, a few lines of text and an action to try it.
 status: experimental
 aliases: [What's new]
+layer: core
 category: overlays
 related: [dialog, notification-center, toast, banner, button]
 ---
@@ -25,7 +26,7 @@ dialog/compositions/announcement
 | A decision people must make before they continue                         | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)               |
 | Something people must read before they act, inside a dialog or form      | [Banner](../banner/banner.md)                                                                 |
 
-The full choice of how to tell people something is in [Choosing a component](../../../../../design/patterns/choosing-components.md#telling-people-something).
+The full choice of how to tell people something is in [Choosing a component](../../../../../design/components/overview.md#telling-people-something).
 
 ## Anatomy
 

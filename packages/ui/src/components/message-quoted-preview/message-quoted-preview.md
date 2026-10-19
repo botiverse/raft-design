@@ -3,7 +3,8 @@ title: MessageQuotedPreview
 summary: A two-line excerpt of the message a link points to, with its author, place and time, shown under the message that links to it.
 status: stable
 aliases: [Quoted message, Message preview, Permalink preview]
-category: content
+layer: collaboration
+category: messages
 related: [message-item, message-embed, message-forwarded-bundle, skeleton, badge]
 ---
 

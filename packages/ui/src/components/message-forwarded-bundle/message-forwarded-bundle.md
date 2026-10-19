@@ -3,7 +3,8 @@ title: MessageForwardedBundle
 summary: A card under a message that holds one or more messages forwarded from another conversation, with their authors, times and attachments, folded when it runs long.
 status: stable
 aliases: [Forwarded message, Forwarded bundle]
-category: content
+layer: collaboration
+category: messages
 related: [message-embed, message-item, message-quoted-preview, message-attachment]
 ---
 

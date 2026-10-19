@@ -3,6 +3,7 @@ title: MessageActionCard
 summary: A card an agent attaches to its message with an action already filled in, for a person to confirm; afterwards it records who did it and when.
 status: stable
 aliases: [ActionCard, action card, approval card]
+layer: collaboration
 category: agents
 related: [message-item, description-list, button, icon-tile, activity-inbox, dialog]
 ---

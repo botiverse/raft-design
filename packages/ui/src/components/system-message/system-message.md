@@ -3,7 +3,8 @@ title: SystemMessage
 summary: An event line in a conversation — a date, a claim, a hand-off, a status change — set in Space Mono between hairlines, alone or collapsed into a group.
 status: stable
 aliases: [Event line]
-category: content
+layer: collaboration
+category: messages
 related: [message-item, message-replies, timeline]
 ---
 

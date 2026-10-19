@@ -3,13 +3,14 @@ title: Spinner
 summary: The pixel spinner, four square pixels lit in turn, for a wait of unknown length with no layout to hold.
 status: stable
 aliases: [Loading, Pixel spinner, Loader]
+layer: core
 category: feedback
 related: [skeleton, progress, button]
 ---
 
 # Spinner
 
-The pixel spinner is four square pixels that light up in turn. Use it while something loads for an unknown time and there is no layout to hold, such as a small area or a menu that fetches its items. Which loading indicator fits which wait is in [Choosing a component](../../../../../design/patterns/choosing-components.md#waiting).
+The pixel spinner is four square pixels that light up in turn. Use it while something loads for an unknown time and there is no layout to hold, such as a small area or a menu that fetches its items. Which loading indicator fits which wait is in [Choosing a component](../../../../../design/components/overview.md#waiting).
 
 ```example
 spinner/compositions/default

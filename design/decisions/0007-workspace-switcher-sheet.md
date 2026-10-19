@@ -22,4 +22,4 @@ The list is within reach of the thumb and has room for many workspaces. Desktop 
 
 ## Related
 
-- [Composites](../patterns/composites.md#switching-workspaces)
+- [Built from existing parts](../components/overview.md#switching-workspaces)

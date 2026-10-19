@@ -3,6 +3,7 @@ title: Panel
 summary: A column of the desktop main area with a 56px panel header and its own scrolling content; its header is also the top bar of a phone's pushed pages.
 status: stable
 aliases: [NavBar, Top bar, Panel header]
+layer: core
 category: layout
 related: [conversation-panel, thread-panel, banner, icon-tile, drawer]
 ---

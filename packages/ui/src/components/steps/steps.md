@@ -3,6 +3,7 @@ title: Steps
 summary: Where someone is in a short flow of 3 to 5 steps — finished steps in ink, the current step as a yellow sticker, the steps ahead outlined.
 status: stable
 aliases: [Stepper]
+layer: core
 category: navigation
 related: [progress, tabs]
 ---

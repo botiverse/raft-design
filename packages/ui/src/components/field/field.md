@@ -3,6 +3,7 @@ title: Field
 summary: The label, help text and error around a form control, wired to it for assistive technology.
 status: stable
 aliases: []
+layer: core
 category: inputs
 related: [input, input-group, textarea, select, checkbox, radio-group, switch]
 ---

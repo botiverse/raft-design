@@ -3,6 +3,7 @@ title: Popover
 summary: A small panel that opens next to the element people click, for a little input such as a choice, a field and a button.
 status: stable
 aliases: []
+layer: core
 category: overlays
 related: [preview-card, tooltip, dropdown-menu, drawer]
 ---
@@ -21,7 +22,7 @@ A popover is a small panel that opens next to the element people click and holds
 | A list of actions                                       | [DropdownMenu](../dropdown-menu/dropdown-menu.md)                                                      |
 | Something that stays open and scrolls                   | [Drawer](../drawer/drawer.md)                                                                          |
 
-Which overlay fits which job is in [Choosing a component](../../../../../design/patterns/choosing-components.md#overlays).
+Which overlay fits which job is in [Choosing a component](../../../../../design/components/overview.md#overlays).
 
 ## Anatomy
 

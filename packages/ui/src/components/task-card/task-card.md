@@ -3,7 +3,8 @@ title: TaskCard
 summary: The card that shows one task — its number, title and a status chip that changes the status — on a task board and in a task list.
 status: stable
 aliases: []
-category: content
+layer: collaboration
+category: tasks
 related: [task-board, task-list, tasks, select, description-list]
 ---
 
