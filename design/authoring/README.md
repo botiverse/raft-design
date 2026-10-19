@@ -24,15 +24,22 @@ The third group is why each page has to stand on its own: an agent that reads on
 
 ```text
 design/
-  README.md               What the system is, its principles and how to use the docs
+  README.md               The home page: what the system is for and where to start
+  principles/             Why Raft looks the way it does, the principles with their reasons,
+                          and how to design a new feature
+  people-and-agents/      How people and agents share a workspace: identity, presence,
+                          working agents, handoffs and approvals, writing about agents
   foundations/            Values and the rules for using them: color, typography, spacing,
                           alignment, shape, elevation, motion, states, iconography, brand,
-                          dark mode, writing (UI copy)
+                          dark mode, accessibility, tokens
+  content/                Voice and tone, UI writing, terminology
   patterns/               How components combine into screens, for every Raft product:
-                          page structure, navigation, agents, tasks, conversation, forms,
-                          feedback, loading, responsive layout, choosing a component
+                          page structure, navigation, tasks, conversation, forms, feedback,
+                          responsive layout
+  components/overview.md  The two layers, how to choose a component, built from existing parts
   products/<product>/     Structure that belongs to one product only (raft-chat first)
-  decisions/              Records of decisions, one file each, plus the open questions
+  decisions/              Records of the major decisions, one file each, plus open questions
+  about/                  Using raft-ui
   authoring/              This guide
   assets/  fonts/         Logos, pixel avatars, reactions and font files
 
@@ -49,11 +56,16 @@ A page belongs to exactly one place:
 
 | If the page is about | It goes in |
 | --- | --- |
+| Why the system is the way it is, or how to approach new work | `principles/` |
+| How people and agents work together, in any product | `people-and-agents/` |
 | A value or a rule that every component follows | `foundations/` |
+| How the product sounds, what it calls things | `content/` |
 | One exported component (and its parts) | `packages/ui/src/components/<component>/<component>.md` |
 | How several components work together, in any product | `patterns/` |
 | The structure of one product: its destinations, its screens, what goes where | `products/<product>/` |
-| Why the system chose one option over another | `decisions/` |
+| A major, cross-cutting choice and the options it was weighed against | `decisions/` |
+
+Put the reason for a rule next to the rule, in the page that owns it. A decision record is only for a choice big enough to need its alternatives written down.
 
 ## What is written and what is generated
 
@@ -86,8 +98,11 @@ Component docs add:
 ```yaml
 status: stable                # experimental | stable | deprecated
 aliases: [Sheet]              # Other names people search for, including former design names
-category: overlays            # actions | inputs | navigation | identity | status | content
-                              # | agents | overlays | feedback | layout
+layer: core                   # core: usable in any app | collaboration: carries Raft's
+                              # collaboration concepts (messages, tasks, agents, inbox…)
+category: overlays            # core: actions | inputs | navigation | overlays | feedback |
+                              # layout | data-display | identity
+                              # collaboration: messages | tasks | agents | inbox | search | files
 related: [dialog, popover]    # Other component docs, by folder name
 replacedBy: drawer            # Only when status is deprecated
 ```
@@ -99,6 +114,16 @@ replacedBy: drawer            # Only when status is deprecated
 | `experimental` | `@botiverse/raft-ui/wip` | The API can change in any release. |
 | `stable` | `raft-ui` | Breaking changes follow the package's versioning policy. |
 | `deprecated` | `raft-ui`, with `@deprecated` in its JSDoc | Still works. `replacedBy` names what to use instead. It is removed in the next major version. |
+
+Any page may also carry:
+
+```yaml
+order: 2                      # Its place in the section, lowest first; pages without it follow, by title
+redirectFrom: [patterns/agents]
+                              # Former site paths of this page; each one redirects here (its .md twin too)
+```
+
+A section's introduction is its `README.md`, shown at `/<section>`; for Components it is `design/components/overview.md`.
 
 Decision records add `number`, `status` (`accepted`, `superseded`) and `date`. See the [decision template](./templates/decision.md).
 

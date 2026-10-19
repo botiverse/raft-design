@@ -3,7 +3,8 @@ title: Search
 summary: The search trigger in the web top bar, and the parts of search results — rows for places and people, message and thread hits, grouped by kind with the matched words marked.
 status: stable
 aliases: [SearchTrigger]
-category: content
+layer: collaboration
+category: search
 related: [list-row, empty-state, select, combobox, dialog, input-group, thread-panel]
 ---
 
@@ -21,7 +22,7 @@ search/compositions/search-panel
 | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | Finding a place, a person or a message to go to | Search                                                                                                                  |
 | Finding a value to fill in, inside a popup      | A select with search ([ComboboxSelect](../combobox-select/combobox-select.md)) or a [Combobox](../combobox/combobox.md) |
-| Narrowing a list that is already on screen      | A filter ([Choosing a component](../../../../../design/patterns/choosing-components.md#picking-something))              |
+| Narrowing a list that is already on screen      | A filter ([Choosing a component](../../../../../design/components/overview.md#picking-something))                       |
 
 ## Anatomy
 
@@ -70,7 +71,7 @@ search/compositions/search-no-results
 
 ## Behavior
 
-- On the web, open search from the top bar's field as a centered dialog, 720px wide, whose top edge covers the top bar's field, so the field seems to grow into it. It has the scrim and no animation, like every centered overlay ([Choosing a component](../../../../../design/patterns/choosing-components.md#overlays)).
+- On the web, open search from the top bar's field as a centered dialog, 720px wide, whose top edge covers the top bar's field, so the field seems to grow into it. It has the scrim and no animation, like every centered overlay ([Choosing a component](../../../../../design/components/overview.md#overlays)).
 - Group results by kind ([Conversation](../../../../../design/patterns/conversation.md#search)): places and people first, then messages.
 - Show the scope, the sender, the place and the time range as filters in the filter row, each a select or combobox.
 - Open a selected result in the side panel ([Conversation](../../../../../design/patterns/conversation.md#search)). A hit in a thread opens that thread directly.

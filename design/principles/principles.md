@@ -1,6 +1,7 @@
 ---
 title: Principles
 summary: The seven rules every Raft screen follows, each with the reasoning that lets you apply it to a case the docs don't cover.
+order: 2
 ---
 
 # Principles
@@ -62,7 +63,7 @@ Five task statuses and five presence lights, each with one color, none of them b
 
 To apply it, map a new state to an existing status before inventing a color. A state that loops or blinks needs another way to show itself: words, or a change that happens once.
 
-Applied in: [Color](../foundations/color.md#statuses), [Motion](../foundations/motion.md#principles), [Agents](../patterns/agents.md#where-working-agents-appear).
+Applied in: [Color](../foundations/color.md#statuses), [Motion](../foundations/motion.md#principles), [Agents](../people-and-agents/working-agents.md#where-working-shows).
 
 ## 6. Square is Raft
 
@@ -82,7 +83,7 @@ Clickable text is Title Case, everything else is sentence case, and hierarchy co
 
 To apply it, set anything a machine produced in Space Mono, anything clickable in Title Case and everything else in sentence case, and make a heading stand out by size or weight, never by capitals.
 
-Applied in: [Typography](../foundations/typography.md#casing), [Writing](../foundations/writing.md#casing).
+Applied in: [Typography](../foundations/typography.md#casing), [Writing](../content/writing.md#casing).
 
 ## When principles pull apart
 

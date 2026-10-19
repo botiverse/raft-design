@@ -3,13 +3,14 @@ title: LiveAgentActivityBar
 summary: A live strip of working agents above the tab bar or at the bottom of the sidebar; deprecated, because working agents are shown where they already appear.
 status: deprecated
 aliases: [Live bar, Activity bar, Live activity]
+layer: collaboration
 category: agents
 related: [avatar, status, sidebar, list-row, panel, message-item, drawer]
 ---
 
 # LiveAgentActivityBar
 
-LiveAgentActivityBar is a strip of avatars, a status light and a line of text that says what agents are doing, placed above the phone tab bar or at the bottom of the desktop sidebar. It is deprecated and removed in raft-ui 1.0, and there is no single component that replaces it. The strip took the spot on the screen people reach most, changed all the time and was usually about something other than the page being read ([0006](../../../../../design/decisions/0006-working-agents-in-place.md)). What it showed now goes back to the places where agents already appear, listed in [Agents](../../../../../design/patterns/agents.md#where-working-agents-appear).
+LiveAgentActivityBar is a strip of avatars, a status light and a line of text that says what agents are doing, placed above the phone tab bar or at the bottom of the desktop sidebar. It is deprecated and removed in raft-ui 1.0, and there is no single component that replaces it. The strip took the spot on the screen people reach most, changed all the time and was usually about something other than the page being read ([0006](../../../../../design/decisions/0006-working-agents-in-place.md)). What it showed now goes back to the places where agents already appear, listed in [Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows).
 
 ## When to use
 

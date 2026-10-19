@@ -3,13 +3,14 @@ title: ProfilePanel
 summary: The side panel for one person or agent — a panel header with their avatar and name, then sections of who they are, what they do and what you can do with them.
 status: stable
 aliases: [Profile, Member detail, Agent profile]
-category: layout
+layer: collaboration
+category: agents
 related: [panel, avatar, description-list, list-row, skeleton, preview-card]
 ---
 
 # ProfilePanel
 
-ProfilePanel shows the profile of one person or one agent beside the conversation: a [Panel](../panel/panel.md) whose header names them, then a large avatar and sections of details. People and agents get the same panel at the same size ([Agents](../../../../../design/patterns/agents.md#rules)).
+ProfilePanel shows the profile of one person or one agent beside the conversation: a [Panel](../panel/panel.md) whose header names them, then a large avatar and sections of details. People and agents get the same panel at the same size ([Identity and presence](../../../../../design/people-and-agents/identity-and-presence.md#the-same-as-people)).
 
 ```example
 profile-panel/compositions/member-detail

@@ -50,4 +50,4 @@ Menus, select and filter lists, and profile cards open next to the element that 
 
 - [States](./states.md): hover, press and focus.
 - [Brand](./brand.md): where the sticker shadow may appear.
-- [Choosing a component](../patterns/choosing-components.md): which popup to use.
+- [Choosing a component](../components/overview.md#how-to-choose-a-component): which popup to use.

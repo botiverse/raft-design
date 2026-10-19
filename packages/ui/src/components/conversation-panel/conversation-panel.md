@@ -3,7 +3,8 @@ title: ConversationPanel
 summary: The main-area panel for one conversation — a panel header, an optional row of tabs, the message list and the composer.
 status: stable
 aliases: [Channel panel]
-category: layout
+layer: collaboration
+category: messages
 related: [panel, thread-panel, tabs, composer, message-item]
 ---
 

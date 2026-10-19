@@ -3,7 +3,8 @@ title: CodeBlock
 summary: Several lines of code or a log on a framed code surface, with an optional header for the file name and a copy action.
 status: stable
 aliases: []
-category: content
+layer: core
+category: data-display
 related: [inline-code, copyable-code, message-item]
 ---
 
@@ -17,12 +18,12 @@ code-block/compositions/shiki
 
 ## When to use
 
-| Situation                          | Use                                                                                                          |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Several lines of code, or a log    | CodeBlock                                                                                                    |
-| One command people copy and run    | [CopyableCode](../copyable-code/copyable-code.md)                                                            |
-| A name from code inside a sentence | [InlineCode](../inline-code/inline-code.md)                                                                  |
-| A diagram or a Markdown table      | The same container ([Composites](../../../../../design/patterns/composites.md#diagrams-and-markdown-tables)) |
+| Situation                          | Use                                                                                                                         |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Several lines of code, or a log    | CodeBlock                                                                                                                   |
+| One command people copy and run    | [CopyableCode](../copyable-code/copyable-code.md)                                                                           |
+| A name from code inside a sentence | [InlineCode](../inline-code/inline-code.md)                                                                                 |
+| A diagram or a Markdown table      | The same container ([Built from existing parts](../../../../../design/components/overview.md#diagrams-and-markdown-tables)) |
 
 ## Anatomy
 

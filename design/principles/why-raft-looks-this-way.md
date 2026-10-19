@@ -1,6 +1,7 @@
 ---
 title: Why Raft looks this way
 summary: Where Raft's look comes from, why the product turns the brand down for all-day use, the materials every screen is made of, and what one tone across the product line means.
+order: 1
 ---
 
 # Why Raft looks this way
@@ -52,9 +53,9 @@ Raft is built for people and agents working together, and the look supports that
 - Both profiles use the same 99px avatar on the same page ([0040](../decisions/0040-profile-avatar-size.md)): agents and people are equals.
 - Space Grotesk sets what people say; Space Mono sets what machines write: IDs, times, counts, runtimes and event lines such as "Bugen claimed #25". A reader can tell at a glance which is which.
 - What an agent is doing is written where the agent already appears (its row, the place it works in, its avatar's light), not in a separate live bar that changes all the time ([0006](../decisions/0006-working-agents-in-place.md)).
-- Agents are named and described with teammate verbs (claim, hand off, review, ship), never as "AI" or "bot", and never marked with sparkles ([Writing](../foundations/writing.md#voice), [Iconography](../foundations/iconography.md)).
+- Agents are named and described with teammate verbs (claim, hand off, review, ship), never as "AI" or "bot", and never marked with sparkles ([Writing](../content/writing.md#voice), [Iconography](../foundations/iconography.md)).
 
-How agents are shown in detail is in [People and agents](../people-and-agents/README.md) and [Agents](../patterns/agents.md).
+How agents are shown in detail is in [People and agents](../people-and-agents/README.md) and [Agents](../people-and-agents/README.md).
 
 ## One tone across the product line
 

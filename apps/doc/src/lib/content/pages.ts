@@ -5,15 +5,16 @@ import { headingSlug } from "./slug.ts";
 
 // Every documentation page is a Markdown file in the repository
 // (design/authoring/README.md, "Where things live"). This module finds them,
-// gives each its site URL and reads its front matter. Nothing here is
-// hand-maintained except the reading order of the guideline sections.
+// gives each its site URL and reads its front matter. A section is a folder:
+// `design/<section>/*.md` are its pages and `design/<section>/README.md` its
+// introduction, so a new page needs no change here. Only the sections
+// themselves and an optional reading order are written down.
 
 const designFiles = import.meta.glob<string>(
   [
-    "../../../../../design/foundations/*.md",
-    "../../../../../design/patterns/*.md",
+    "../../../../../design/*/*.md",
     "../../../../../design/products/*/*.md",
-    "../../../../../design/decisions/*.md",
+    "!../../../../../design/authoring/**",
   ],
   { query: "?raw", import: "default", eager: true },
 );
@@ -31,14 +32,57 @@ const componentFiles = import.meta.glob<string>(
   },
 );
 
-export type SectionId = "foundations" | "components" | "patterns" | "products" | "decisions";
+export type SectionId =
+  | "principles"
+  | "people-and-agents"
+  | "foundations"
+  | "content"
+  | "patterns"
+  | "components"
+  | "products"
+  | "about"
+  | "decisions";
 
-export const SECTIONS: readonly { id: SectionId; title: string; summary: string }[] = [
+export type Section = {
+  id: SectionId;
+  title: string;
+  summary: string;
+  /**
+   * A section listed inside another one in the navigation. Its URLs stay
+   * its own: decision records are under About, at `/decisions/<record>`.
+   */
+  parent?: SectionId;
+};
+
+/** The sections in reading order: the sidebar, llms.txt and the sitemap follow it. */
+export const SECTIONS: readonly Section[] = [
+  {
+    id: "principles",
+    title: "Principles",
+    summary:
+      "Why Raft looks and behaves the way it does, and how to decide what a new feature needs.",
+  },
+  {
+    id: "people-and-agents",
+    title: "People and Agents",
+    summary:
+      "How people and agents share one workspace: who is who, who does what, and how it shows.",
+  },
   {
     id: "foundations",
     title: "Foundations",
     summary:
       "Color, type, spacing, shape, motion and states: the values and the rules for using them.",
+  },
+  {
+    id: "content",
+    title: "Content",
+    summary: "How Raft writes: voice, words, labels and messages.",
+  },
+  {
+    id: "patterns",
+    title: "Patterns",
+    summary: "How components combine into screens in any Raft product.",
   },
   {
     id: "components",
@@ -47,23 +91,29 @@ export const SECTIONS: readonly { id: SectionId; title: string; summary: string 
       "Every raft-ui component: when to use it, live examples in light and dark, and its API.",
   },
   {
-    id: "patterns",
-    title: "Patterns",
-    summary: "How components combine into screens in any Raft product.",
-  },
-  {
     id: "products",
     title: "Products",
     summary: "Structure that belongs to one product: its destinations and what each screen shows.",
   },
   {
+    id: "about",
+    title: "About",
+    summary: "Where the system comes from, how it changes, and how to contribute.",
+  },
+  {
     id: "decisions",
     title: "Decisions",
     summary: "Why the system chose one option over another, and the questions still open.",
+    parent: "about",
   },
 ];
 
-/** Reading order. Pages not listed follow, in alphabetical order. */
+const SECTION_IDS = new Set<string>(SECTIONS.map((section) => section.id));
+
+/**
+ * Reading order of pages written before front matter had `order`. A page's
+ * `order` comes first; then these; then every other page, by title.
+ */
 const ORDER: Partial<Record<SectionId, readonly string[]>> = {
   foundations: [
     "color",
@@ -80,7 +130,6 @@ const ORDER: Partial<Record<SectionId, readonly string[]>> = {
     "writing",
   ],
   patterns: [
-    "choosing-components",
     "page-structure",
     "navigation",
     "agents",
@@ -89,7 +138,6 @@ const ORDER: Partial<Record<SectionId, readonly string[]>> = {
     "forms",
     "feedback",
     "responsive",
-    "composites",
   ],
 };
 
@@ -114,6 +162,12 @@ export type DocPage = {
   product?: string;
   /** A component with no doc yet: the page is only what is generated from code. */
   generated?: boolean;
+  /**
+   * The section's introduction (`design/<section>/README.md`,
+   * `design/components/overview.md`): rendered at the top of the section's
+   * own page, at `/<section>`.
+   */
+  intro?: boolean;
 };
 
 const REPO_PREFIX = /^(\.\.\/)+/;
@@ -123,9 +177,19 @@ function toRepoPath(globKey: string) {
 }
 
 /** `design/foundations/color.md` → its section and slug, or null if it is not a page. */
-export function locate(repoPath: string): Pick<DocPage, "section" | "slug" | "product"> | null {
-  let match = repoPath.match(/^design\/(foundations|patterns|decisions)\/([\w-]+)\.md$/);
-  if (match) return { section: match[1] as SectionId, slug: match[2]! };
+export function locate(
+  repoPath: string,
+): Pick<DocPage, "section" | "slug" | "product" | "intro"> | null {
+  if (repoPath === "design/components/overview.md") {
+    return { section: "components", slug: "", intro: true };
+  }
+  let match = repoPath.match(/^design\/([\w-]+)\/([\w-]+)\.md$/);
+  if (match && SECTION_IDS.has(match[1]!) && match[1] !== "components") {
+    const section = match[1] as SectionId;
+    return match[2] === "README"
+      ? { section, slug: "", intro: true }
+      : { section, slug: match[2]! };
+  }
   match = repoPath.match(/^design\/products\/([\w-]+)\/([\w-]+)\.md$/);
   if (match) {
     const [, product, file] = match;
@@ -141,7 +205,7 @@ export function locate(repoPath: string): Pick<DocPage, "section" | "slug" | "pr
 }
 
 export function urlOf(page: Pick<DocPage, "section" | "slug">) {
-  return `/${page.section}/${page.slug}`;
+  return page.slug ? `/${page.section}/${page.slug}` : `/${page.section}`;
 }
 
 function headingsOf(body: string) {
@@ -167,7 +231,11 @@ function toPage(globKey: string, source: string): DocPage | null {
   const location = locate(repoPath);
   if (!location) return null;
   const { data, content } = parseFrontMatter(source);
-  const title = data.title || content.match(/^# (.+)$/m)?.[1]?.trim() || location.slug;
+  const title =
+    data.title ||
+    content.match(/^# (.+)$/m)?.[1]?.trim() ||
+    location.slug ||
+    sectionOf(location.section).title;
   const body = content.replace(/^\s*# .+\r?\n+/, "").trim();
   return {
     ...location,
@@ -180,32 +248,46 @@ function toPage(globKey: string, source: string): DocPage | null {
   };
 }
 
-function rank(page: DocPage) {
+/** Where a page sits in its section: `[tier, position]`, compared in that order. */
+function rank(page: DocPage): [number, number] {
+  if (page.intro) return [0, 0];
+  if (page.section === "products" && page.slug === page.product) return [0, 0];
+  const order = Number(page.frontMatter.order);
+  if (page.frontMatter.order !== undefined && Number.isFinite(order)) return [1, order];
   if (page.section === "decisions") {
     // Numbered records in order, open questions first.
-    return page.frontMatter.number ? Number(page.frontMatter.number) : -1;
+    return [2, page.frontMatter.number ? Number(page.frontMatter.number) : -1];
   }
-  if (page.section === "products") {
-    return page.slug === page.product ? -1 : 0;
-  }
-  const order = ORDER[page.section];
-  const index = order?.indexOf(page.slug) ?? -1;
-  return index === -1 ? Number.MAX_SAFE_INTEGER : index;
+  const index = ORDER[page.section]?.indexOf(page.slug) ?? -1;
+  return index === -1 ? [3, 0] : [2, index];
 }
 
 function comparePages(a: DocPage, b: DocPage) {
   const sections = SECTIONS.map((section) => section.id);
+  const [tierA, positionA] = rank(a);
+  const [tierB, positionB] = rank(b);
   return (
     sections.indexOf(a.section) - sections.indexOf(b.section) ||
     (a.product ?? "").localeCompare(b.product ?? "") ||
-    rank(a) - rank(b) ||
+    tierA - tierB ||
+    positionA - positionB ||
     a.frontMatter.title.localeCompare(b.frontMatter.title)
   );
 }
 
-const WRITTEN_PAGES = Object.entries({ ...designFiles, ...componentFiles })
-  .map(([key, source]) => toPage(key, source))
-  .filter((page): page is DocPage => page !== null);
+/**
+ * Every written page among `files` (repository path → source), in reading
+ * order. Files that are not pages are left out, so a section whose folder is
+ * empty or missing simply has no pages.
+ */
+export function collectPages(files: Record<string, string>): DocPage[] {
+  return Object.entries(files)
+    .map(([key, source]) => toPage(key, source))
+    .filter((page): page is DocPage => page !== null)
+    .sort(comparePages);
+}
+
+const WRITTEN_PAGES = collectPages({ ...designFiles, ...componentFiles });
 
 /**
  * A component raft-ui exports whose doc is not written yet still gets a page:
@@ -236,7 +318,9 @@ function generatedComponentPage(folder: string): DocPage {
 }
 
 const documentedFolders = new Set(
-  WRITTEN_PAGES.filter((page) => page.section === "components").map((page) => page.slug),
+  WRITTEN_PAGES.filter((page) => page.section === "components" && !page.intro).map(
+    (page) => page.slug,
+  ),
 );
 
 export const PAGES: readonly DocPage[] = [
@@ -278,6 +362,16 @@ export function pageForFile(repoPath: string) {
   return pageByRepoPath.get(repoPath);
 }
 
+/** A section's pages in reading order, without its introduction. */
 export function pagesIn(section: SectionId) {
-  return PAGES.filter((page) => page.section === section);
+  return PAGES.filter((page) => page.section === section && !page.intro);
+}
+
+/** The section's introduction, when its folder has one. */
+export function sectionIntro(section: SectionId) {
+  return PAGES.find((page) => page.section === section && page.intro);
+}
+
+export function sectionOf(id: SectionId) {
+  return SECTIONS.find((section) => section.id === id)!;
 }

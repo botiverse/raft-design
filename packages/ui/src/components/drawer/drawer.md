@@ -3,6 +3,7 @@ title: Drawer
 summary: A panel that slides in from the right for details and settings people look at for a while, and on a phone a bottom sheet for picking a place to go or reading a short explanation.
 status: stable
 aliases: [Sheet, BottomSheet]
+layer: core
 category: overlays
 related: [dialog, form-section, dropdown-menu, preview-card, thread-panel]
 ---
@@ -70,7 +71,7 @@ drawer/compositions/nested-close-callback
 
 ## Content
 
-- Title it with the words of the button that opened it ([Writing](../../../../../design/foundations/writing.md#actions-and-their-dialogs)).
+- Title it with the words of the button that opened it ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - In a bottom sheet, write the explanation in one or two sentences, in `foreground-muted`, and its button as one action in Title Case: Got It.
 
 ## Accessibility

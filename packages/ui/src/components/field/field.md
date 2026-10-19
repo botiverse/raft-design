@@ -3,6 +3,7 @@ title: Field
 summary: The label, help text and error around a form control, wired to it for assistive technology.
 status: stable
 aliases: []
+layer: core
 category: inputs
 related: [input, input-group, textarea, select, checkbox, radio-group, switch]
 ---
@@ -62,7 +63,7 @@ Where the label and help text go is in [Forms](../../../../../design/patterns/fo
 - Write the label in sentence case: Agent name.
 - Mark an optional field with `optional`, which adds "(optional)". Don't mark required fields: marking the optional ones is enough.
 - Make the help text one line about what the value is for: Shown in chat and on tasks.
-- Make the error say how to fix the value, with a correct example: Use lowercase and dashes: launch-week ([Writing](../../../../../design/foundations/writing.md#do-and-dont)).
+- Make the error say how to fix the value, with a correct example: Use lowercase and dashes: launch-week ([Writing](../../../../../design/content/writing.md#do-and-dont)).
 
 ## Accessibility
 

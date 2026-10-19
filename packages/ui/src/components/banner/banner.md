@@ -3,6 +3,7 @@ title: Banner
 summary: A soft-tinted notice inside a dialog or form that people read before they act, and, as PanelNotice, a full-width strip under a panel header when something in that panel failed.
 status: stable
 aliases: [Callout]
+layer: core
 category: feedback
 related: [panel, toast, notification-center, alert-dialog, field]
 ---
@@ -60,7 +61,7 @@ banner/compositions/action-variants
 
 ## Content
 
-- Say what is happening now and what to do next ([Writing](../../../../../design/foundations/writing.md), [Feedback](../../../../../design/patterns/feedback.md#errors-by-scope)).
+- Say what is happening now and what to do next ([Writing](../../../../../design/content/writing.md), [Feedback](../../../../../design/patterns/feedback.md#errors-by-scope)).
 - Put the subject in `BannerTitle` and the consequence in `BannerDescription`: "This channel is shared with Acme" / "People and agents from Acme will see what you post here."
 - Label the button with what it does, in Title Case: See Who, Retry, View Logs.
 

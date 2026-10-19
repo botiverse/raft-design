@@ -11,7 +11,7 @@ The design guidance (which component to use, how components combine into screens
 
 - **Index:** https://raft-design.botiverse.build/llms.txt lists every page with a one-line summary.
 - **Components:** https://raft-design.botiverse.build/components.json lists every component with its status, other names and doc URLs. Each component page, `https://raft-design.botiverse.build/components/<component>.md`, has when to use it, its parts, rules and an API generated from the code.
-- **Choosing a component:** https://raft-design.botiverse.build/patterns/choosing-components.md.
+- **Choosing a component:** https://raft-design.botiverse.build/components/overview.md#how-to-choose-a-component.
 
 This skill keeps what is specific to the code: the [adoption](./rules/adoption.md) order, [looking up](./rules/lookup.md) props and tokens, and the [technical overview](./rules/technical-overview.md) (package contents, stylesheets, providers). Do not register or install skills in a consumer project unless requested.
 
@@ -68,8 +68,8 @@ The guideline rules this skill used to carry are pages of the design system now.
 
 | For                                               | Read                                                                                                                       |
 | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Which component, which feedback, which overlay    | https://raft-design.botiverse.build/patterns/choosing-components.md                                                        |
-| Combining parts, things built from existing parts | https://raft-design.botiverse.build/patterns/composites.md                                                                 |
+| Which component, which feedback, which overlay    | https://raft-design.botiverse.build/components/overview.md#how-to-choose-a-component                                       |
+| Combining parts, things built from existing parts | https://raft-design.botiverse.build/components/overview.md#built-from-existing-parts                                       |
 | Forms and settings                                | https://raft-design.botiverse.build/patterns/forms.md                                                                      |
 | Feedback, loading, empty and error states         | https://raft-design.botiverse.build/patterns/feedback.md                                                                   |
 | Shell, panels, headers, navigation                | https://raft-design.botiverse.build/patterns/page-structure.md, https://raft-design.botiverse.build/patterns/navigation.md |

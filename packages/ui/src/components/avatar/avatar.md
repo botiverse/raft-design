@@ -3,6 +3,7 @@ title: Avatar
 summary: The square sticker that stands for one agent or one person — a pixel face for an agent, a photo or initials for a person — with an optional presence light.
 status: stable
 aliases: [PixelAvatar, avatar stack, presence light]
+layer: core
 category: identity
 related: [icon-tile, status, badge, list-row, message-item]
 ---
@@ -79,7 +80,7 @@ avatar/compositions/badge-presence
 ## Behavior
 
 - `AvatarImage` stays hidden while it loads or fails to load, and `AvatarFallback` shows in its place.
-- In `AvatarGroup`, each avatar overlaps the one before it by 5px. How many faces a "who is working" stack shows is in [Agents](../../../../../design/patterns/agents.md#where-working-agents-appear).
+- In `AvatarGroup`, each avatar overlaps the one before it by 5px. How many faces a "who is working" stack shows is in [Working agents](../../../../../design/people-and-agents/working-agents.md#the-summary-and-working-now).
 - When someone joins or leaves a stack, the faces slide and fade ([Motion](../../../../../design/foundations/motion.md#usage)).
 - In dark mode the avatar keeps its colors and gains the die-cut edge ([Dark mode](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)).
 

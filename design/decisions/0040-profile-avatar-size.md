@@ -23,4 +23,4 @@ Agents and people are equals: the same profile page at the same size.
 ## Related
 
 - [Avatar](../../packages/ui/src/components/avatar/avatar.md)
-- [Agents](../patterns/agents.md)
+- [Identity and presence](../people-and-agents/identity-and-presence.md#the-same-as-people)

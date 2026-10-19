@@ -3,7 +3,8 @@ title: MessageList
 summary: The scrolling timeline of a conversation or thread, with the date lines, the notice at its start and the marker for limited history.
 status: stable
 aliases: [Message timeline, Date divider, Timeline view]
-category: layout
+layer: collaboration
+category: messages
 related: [conversation-panel, thread-panel, message-item, system-message, scroll-area]
 ---
 

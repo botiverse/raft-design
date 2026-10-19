@@ -29,10 +29,10 @@ Motion in Raft confirms an action or shows where something came from. It never d
 
 - Show hover only on devices with a pointer (`@media (hover: hover)`).
 - Don't float or tilt the large avatar on a profile. It stays still.
-- Centered overlays (dialogs, confirmations, search, task details, large forms) appear and disappear without animation; of the overlays, only the drawer slides in. See [Choosing a component](../patterns/choosing-components.md#overlays).
+- Centered overlays (dialogs, confirmations, search, task details, large forms) appear and disappear without animation; of the overlays, only the drawer slides in. See [Choosing a component](../components/overview.md#overlays).
 
 ## Related
 
 - [States](./states.md): the pressed overlays.
-- [Agents](../patterns/agents.md): how working agents are shown without animation.
+- [Working agents](../people-and-agents/working-agents.md#motion): how working agents are shown without animation.
 - [Brand](./brand.md): where brand illustration is allowed.

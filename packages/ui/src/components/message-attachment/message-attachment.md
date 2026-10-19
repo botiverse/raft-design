@@ -3,7 +3,8 @@ title: MessageAttachment
 summary: Files, images and video attached to a message — a file is a card with its name, size and an action; images and video show inline.
 status: stable
 aliases: [Attachment, File card]
-category: content
+layer: collaboration
+category: messages
 related: [message-item, file-preview, composer, progress]
 ---
 
@@ -17,14 +18,14 @@ message-attachment/compositions/message-attachments-showcase
 
 ## When to use
 
-| Situation                             | Use                                                                                                                    |
-| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| A file attached to a sent message     | `MessageAttachmentCard`, in a `MessageAttachmentGroup`                                                                 |
-| Images attached to a message          | `MessageImageGallery`                                                                                                  |
-| A video attached to a message         | `MessageVideoPreview`                                                                                                  |
-| A file waiting to be sent             | A thumbnail in the [Composer](../composer/composer.md)                                                                 |
-| A file's type, as an icon             | [FilePreview](../file-preview/file-preview.md)                                                                         |
-| A link to a page, a forwarded message | A link card ([Composites](../../../../../design/patterns/composites.md#link-cards-forwarded-messages-quoted-previews)) |
+| Situation                             | Use                                                                                                                                   |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| A file attached to a sent message     | `MessageAttachmentCard`, in a `MessageAttachmentGroup`                                                                                |
+| Images attached to a message          | `MessageImageGallery`                                                                                                                 |
+| A video attached to a message         | `MessageVideoPreview`                                                                                                                 |
+| A file waiting to be sent             | A thumbnail in the [Composer](../composer/composer.md)                                                                                |
+| A file's type, as an icon             | [FilePreview](../file-preview/file-preview.md)                                                                                        |
+| A link to a page, a forwarded message | A link card ([Built from existing parts](../../../../../design/components/overview.md#link-cards-forwarded-messages-quoted-previews)) |
 
 ## Anatomy
 
@@ -103,7 +104,7 @@ message-media/compositions/video-states
 ## Behavior
 
 - The whole card is clickable: the file name is the link, and it covers the card. The action buttons sit above it and work on their own.
-- Selecting an image opens it in the image viewer ([Composites](../../../../../design/patterns/composites.md#image-viewer)).
+- Selecting an image opens it in the image viewer ([Built from existing parts](../../../../../design/components/overview.md#image-viewer)).
 - The gallery's action button shows on hover and on keyboard focus.
 
 ## Content
@@ -111,7 +112,7 @@ message-media/compositions/video-states
 - Show the file name as it is, on one line, truncated when it doesn't fit.
 - Write the size and type in Space Mono: "2.4 MB · PDF".
 - In a failure, say why and give the limit: "Larger than 25 MB. Remove it, or compress it and try again." Label the buttons Remove and Retry.
-- Say what is happening while a file is busy, such as "Uploading · 64%"; don't write "Processing…" ([Writing](../../../../../design/foundations/writing.md#do-and-dont)).
+- Say what is happening while a file is busy, such as "Uploading · 64%"; don't write "Processing…" ([Writing](../../../../../design/content/writing.md#do-and-dont)).
 
 ## Accessibility
 

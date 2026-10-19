@@ -3,6 +3,7 @@ title: Dialog
 summary: A centered overlay on a scrim for a decision or a few fields people must finish before they continue, with a wide size for a large form filled in one pass.
 status: stable
 aliases: [Modal]
+layer: core
 category: overlays
 related: [alert-dialog, form-section, drawer, banner, toast]
 ---
@@ -26,7 +27,7 @@ dialog/compositions/create-channel
 | An action that can be reversed in place                                              | No dialog: do it; when a [Toast](../toast/toast.md) offers Undo is in [Feedback](../../../../../design/patterns/feedback.md#confirming) |
 | Details or settings people look at and edit for a while                              | [Drawer](../drawer/drawer.md)                                                                                                           |
 
-Which overlay fits which job is in [Choosing a component](../../../../../design/patterns/choosing-components.md#overlays).
+Which overlay fits which job is in [Choosing a component](../../../../../design/components/overview.md#overlays).
 
 ## Anatomy
 
@@ -63,7 +64,7 @@ The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFoot
 
 ## Content
 
-- Title the dialog with the words of the button that opened it, or Edit and the item's name, and make Cancel say what stays: Keep Box ([Writing](../../../../../design/foundations/writing.md#actions-and-their-dialogs)).
+- Title the dialog with the words of the button that opened it, or Edit and the item's name, and make Cancel say what stays: Keep Box ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Set body text in `foreground-muted`, below a title in `foreground`. Their type styles are in [Typography](../../../../../design/foundations/typography.md).
 
 ## Accessibility

@@ -3,6 +3,7 @@ title: DropdownMenu
 summary: A list of actions on one thing, opened from a button, that can also hold a setting-style choice with a check mark on the current value.
 status: stable
 aliases: [Menu]
+layer: core
 category: overlays
 related: [context-menu, select, popover, alert-dialog, drawer]
 ---
@@ -26,7 +27,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 | A little input on click (snooze, rename)                   | [Popover](../popover/popover.md)                                    |
 | A place to go, on a phone                                  | A bottom sheet ([Drawer](../drawer/drawer.md))                      |
 
-Which overlay fits which job is in [Choosing a component](../../../../../design/patterns/choosing-components.md#overlays).
+Which overlay fits which job is in [Choosing a component](../../../../../design/components/overview.md#overlays).
 
 ## Anatomy
 
@@ -59,8 +60,8 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 
 ## Content
 
-- Write item labels in Title Case: Copy Link, Reply in Thread ([Writing](../../../../../design/foundations/writing.md#casing)).
-- Make the label of an item that opens a dialog the dialog's title ([Writing](../../../../../design/foundations/writing.md#actions-and-their-dialogs)).
+- Write item labels in Title Case: Copy Link, Reply in Thread ([Writing](../../../../../design/content/writing.md#casing)).
+- Make the label of an item that opens a dialog the dialog's title ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 
 ## Accessibility
 

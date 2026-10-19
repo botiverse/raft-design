@@ -3,6 +3,7 @@ title: Label
 summary: A standalone form label in the field-label style, with optional markers for a required or optional value and a line of secondary text.
 status: stable
 aliases: [LabelAsterisk, LabelOptional, LabelSub]
+layer: core
 category: inputs
 related: [field, checkbox, radio-group, switch, input]
 ---
@@ -42,7 +43,7 @@ The markers are also `Label.Optional`, `Label.Asterisk` and `Label.Sub`. `FieldL
 
 ## Content
 
-- Write the label as a noun for what the control holds, in sentence case: Email address ([Writing](../../../../../design/foundations/writing.md#casing)).
+- Write the label as a noun for what the control holds, in sentence case: Email address ([Writing](../../../../../design/content/writing.md#casing)).
 - Mark optional fields with `LabelOptional` ([Forms](../../../../../design/patterns/forms.md#fields)).
 
 ## Accessibility

@@ -3,7 +3,8 @@ title: TaskList
 summary: The list view of tasks — one collapsible group per status, in status order, each holding task cards.
 status: stable
 aliases: []
-category: content
+layer: collaboration
+category: tasks
 related: [task-card, task-board, tasks]
 ---
 
@@ -51,7 +52,7 @@ task-list/compositions/task-list-empty-sections
 
 ## Content
 
-- Write an empty group as "No", the status and "tasks", with the status spelled as on its chip ([Writing](../../../../../design/foundations/writing.md#voice)): "No In Review tasks."
+- Write an empty group as "No", the status and "tasks", with the status spelled as on its chip ([Writing](../../../../../design/content/writing.md#voice)): "No In Review tasks."
 
 ## Accessibility
 

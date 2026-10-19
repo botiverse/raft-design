@@ -107,7 +107,7 @@ Two rules hold for everything you build with raft-ui:
 - Use real elements. Anything clickable is a `<button>` or an `<a>` with an `href`; checkboxes and radios hold a native input; a switch is a button with `role="switch"`.
 - Give every icon-only button an `aria-label`.
 
-Which component to use for which job is in the [components overview](../components/overview.md) and [Choosing a component](../patterns/choosing-components.md).
+Which component to use for which job is in the [components overview](../components/overview.md) and [Choosing a component](../components/overview.md).
 
 ## Versions and upgrading
 

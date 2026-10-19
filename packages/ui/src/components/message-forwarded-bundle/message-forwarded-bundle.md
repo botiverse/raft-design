@@ -3,7 +3,8 @@ title: MessageForwardedBundle
 summary: A card under a message that holds one or more messages forwarded from another conversation, with their authors, times and attachments, folded when it runs long.
 status: stable
 aliases: [Forwarded message, Forwarded bundle]
-category: content
+layer: collaboration
+category: messages
 related: [message-embed, message-item, message-quoted-preview, message-attachment]
 ---
 
@@ -78,7 +79,7 @@ message-forwarded-bundle/compositions/forwarded-bundle-static-source
 - Label the header Forwarded, and give the count in Space Mono: "3 messages".
 - Write the source as "from #launch-week", with "· thread" when it is a thread.
 - Show a source only when the person may see it; leave it out for a direct message, a private channel or a missing source.
-- Name each author by their display name, not a handle ([Writing](../../../../../design/foundations/writing.md#voice)).
+- Name each author by their display name, not a handle ([Writing](../../../../../design/content/writing.md#voice)).
 - Label the footer action with what it does, in Title Case: Show All 6 Messages, then Collapse.
 - Give each attachment chip its file name and type: "release-notes.md · markdown".
 

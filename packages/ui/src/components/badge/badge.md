@@ -3,7 +3,8 @@ title: Badge
 summary: A small label — above all the pink unread count and the yellow @ marker, plus soft-tinted and hairline labels.
 status: stable
 aliases: [unread count, mention marker, count]
-category: status
+layer: core
+category: data-display
 related: [status, tasks, sidebar, app-rail, list-row]
 ---
 

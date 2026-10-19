@@ -23,4 +23,4 @@ One rule for all centered overlays: they are already in place and don't need to 
 ## Related
 
 - [Motion](../foundations/motion.md#usage)
-- [Choosing a component](../patterns/choosing-components.md#overlays)
+- [Choosing a component](../components/overview.md#overlays)

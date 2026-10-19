@@ -3,22 +3,23 @@ title: Table
 summary: Rows and columns of data on native table elements, for the few places that need columns, such as usage, billing and permissions.
 status: stable
 aliases: [Data table]
-category: content
+layer: core
+category: data-display
 related: [description-list, list-row, code-block]
 ---
 
 # Table
 
-A table lays out data in rows and columns, with a header row and a hairline between rows. Use it only when the data has to be compared down columns, such as usage, billing or the permissions of an app. Everything else reads better as a [DescriptionList](../description-list/description-list.md) or as [ListRow](../list-row/list-row.md) rows ([Composites](../../../../../design/patterns/composites.md#tables)).
+A table lays out data in rows and columns, with a header row and a hairline between rows. Use it only when the data has to be compared down columns, such as usage, billing or the permissions of an app. Everything else reads better as a [DescriptionList](../description-list/description-list.md) or as [ListRow](../list-row/list-row.md) rows ([Built from existing parts](../../../../../design/components/overview.md#tables)).
 
 ## When to use
 
-| Situation                                                                    | Use                                                                                                                                                |
-| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Values compared down columns: usage per month, invoices, access per resource | Table                                                                                                                                              |
-| The properties of one item: Status, Assignee, Created by                     | [DescriptionList](../description-list/description-list.md)                                                                                         |
-| A list of people, agents, channels or settings                               | [ListRow](../list-row/list-row.md)                                                                                                                 |
-| A table in Markdown that someone wrote in a message                          | The `MarkdownTable` parts, in the code block's container ([Composites](../../../../../design/patterns/composites.md#diagrams-and-markdown-tables)) |
+| Situation                                                                    | Use                                                                                                                                                               |
+| ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Values compared down columns: usage per month, invoices, access per resource | Table                                                                                                                                                             |
+| The properties of one item: Status, Assignee, Created by                     | [DescriptionList](../description-list/description-list.md)                                                                                                        |
+| A list of people, agents, channels or settings                               | [ListRow](../list-row/list-row.md)                                                                                                                                |
+| A table in Markdown that someone wrote in a message                          | The `MarkdownTable` parts, in the code block's container ([Built from existing parts](../../../../../design/components/overview.md#diagrams-and-markdown-tables)) |
 
 ## Anatomy
 
@@ -28,7 +29,7 @@ A table lays out data in rows and columns, with a header row and a hairline betw
 - `TableHeader`, with one `TableRow` of `TableHead` cells: the column headings. Required.
 - `TableBody`, with a `TableRow` of `TableCell`s per row. Required.
 
-The header type, the lines between rows and how numbers are set are in [Composites › Tables](../../../../../design/patterns/composites.md#tables). `Table` draws the header and the lines; the last row has none under it.
+The header type, the lines between rows and how numbers are set are in [Built from existing parts › Tables](../../../../../design/components/overview.md#tables). `Table` draws the header and the lines; the last row has none under it.
 
 ## States
 
@@ -45,7 +46,7 @@ The header type, the lines between rows and how numbers are set are in [Composit
 
 ## Content
 
-- Write column headings in sentence case: Resource, Access, Last run ([Writing](../../../../../design/foundations/writing.md#casing)).
+- Write column headings in sentence case: Resource, Access, Last run ([Writing](../../../../../design/content/writing.md#casing)).
 - `TableCell` doesn't set numbers in Space Mono or align them: set both on the cell and on its `TableHead`, so the heading sits over its numbers.
 - Write a caption in sentence case that names what the rows are: Recent builds.
 
@@ -59,4 +60,4 @@ The header type, the lines between rows and how numbers are set are in [Composit
 ## Rules
 
 - Keep the header row even when the design shows none: hide it with `sr-only`. Without it, the columns lose their names.
-- Don't add vertical lines, an outer border or a header fill. A composite adds no new lines or colors ([Composites](../../../../../design/patterns/composites.md)).
+- Don't add vertical lines, an outer border or a header fill. A composite adds no new lines or colors ([Built from existing parts](../../../../../design/components/overview.md#built-from-existing-parts)).

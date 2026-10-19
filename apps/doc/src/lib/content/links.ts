@@ -1,4 +1,4 @@
-import { pageForFile, SECTIONS } from "./pages.ts";
+import { pageAt, pageForFile, SECTIONS } from "./pages.ts";
 
 export const SITE_ORIGIN = "https://raft-design.botiverse.build";
 export const REPOSITORY_URL = "https://github.com/botiverse/raft-design";
@@ -14,13 +14,15 @@ function resolvePath(from: string, target: string) {
   return parts.join("/");
 }
 
+/** Every section folder, also the ones not written yet, and what it links to. */
 const SECTION_FOLDERS = new Map<string, string>([
-  ...SECTIONS.filter((section) => section.id !== "components").map(
-    (section) => [`design/${section.id}`, `/${section.id}`] as const,
-  ),
+  ...SECTIONS.map((section) => [`design/${section.id}`, `/${section.id}`] as const),
   ["packages/ui/src/components", "/components"],
   ["design", "/"],
 ]);
+
+/** Site paths that are a section's own page or the home page, not a page in a section. */
+export const SECTION_PATHS: ReadonlySet<string> = new Set(SECTION_FOLDERS.values());
 
 /**
  * Where a link in a doc goes on the site. The docs link with relative paths to
@@ -48,6 +50,7 @@ export function resolveDocLinkForMarkdown(fromRepoPath: string, href: string): s
   if (!resolved.startsWith("/")) return resolved;
   const [path, hash] = resolved.split("#", 2) as [string, string | undefined];
   const anchor = hash ? `#${hash}` : "";
-  const isPage = path !== "/" && !SECTION_FOLDERS.has(`design${path}`) && path !== "/components";
-  return `${SITE_ORIGIN}${path}${isPage ? ".md" : ""}${anchor}`;
+  // A page, a section's introduction included, has a twin; a section without one does not.
+  const hasTwin = path !== "/" && pageAt(path) !== undefined;
+  return `${SITE_ORIGIN}${path}${hasTwin ? ".md" : ""}${anchor}`;
 }

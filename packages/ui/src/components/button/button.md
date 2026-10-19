@@ -3,6 +3,7 @@ title: Button
 summary: A button for an action, with or without a label; its color says what kind of action it is, and its size follows where it sits.
 status: stable
 aliases: [IconButton]
+layer: core
 category: actions
 related: [dropdown-menu, alert-dialog, tooltip, spinner, composer]
 ---
@@ -93,12 +94,12 @@ Hover, press, focus and disabled follow [States](../../../../../design/foundatio
 
 - **Disabled, frameless:** a frameless icon button (`ghost` at an icon size) and an `on-frame` button only turn their icon and text `foreground-disabled`. No fill or border appears.
 - **Disabled, colored:** a disabled pink, orange or red button is no longer a sticker: it takes the shared disabled look.
-- **Loading:** `loading` shows the pixel spinner ([Spinner](../spinner/spinner.md)) and keeps the button's width and color. Use it for any wait a button started ([Choosing a component](../../../../../design/patterns/choosing-components.md#waiting)).
+- **Loading:** `loading` shows the pixel spinner ([Spinner](../spinner/spinner.md)) and keeps the button's width and color. Use it for any wait a button started ([Choosing a component](../../../../../design/components/overview.md#waiting)).
 
 ## Content
 
 - Start with a verb and name the result: Send for Review, not OK or Submit.
-- Use Title Case ([Writing](../../../../../design/foundations/writing.md#casing)), and repeat the button's words in the dialog it opens ([Writing](../../../../../design/foundations/writing.md#actions-and-their-dialogs)).
+- Use Title Case ([Writing](../../../../../design/content/writing.md#casing)), and repeat the button's words in the dialog it opens ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Put an icon before the label (`data-icon="inline-start"`), and Return or an arrow after it (`data-icon="inline-end"`).
 - While loading, say what is happening: Creating….
 

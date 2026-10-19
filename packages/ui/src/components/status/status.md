@@ -4,7 +4,8 @@ summary: The square status pixel — a presence light, an attention dot or a sta
 status: stable
 aliases:
   [StatusChip, status chip, StatusDot, presence light, attention dot, runtime chip, agent tag]
-category: status
+layer: core
+category: data-display
 related: [badge, tasks, avatar, task-card]
 ---
 

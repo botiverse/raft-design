@@ -3,6 +3,7 @@ title: Card
 summary: A white container with a hairline that groups one subject on a page — a header with a title and description, content and a footer — or makes a selectable option inside a form.
 status: stable
 aliases: []
+layer: core
 category: layout
 related: [list-row, form-section, description-list, panel, checkbox, radio-group]
 ---
@@ -61,7 +62,7 @@ checkbox/compositions/selection
 
 ## Content
 
-- Write the title in sentence case: Release readiness ([Writing](../../../../../design/foundations/writing.md#casing)).
+- Write the title in sentence case: Release readiness ([Writing](../../../../../design/content/writing.md#casing)).
 - Write the description as one line on what the card is for or where it stands.
 - Use the footer for a note about the whole card, such as where to read more. Put a card-level action at the end of `CardContent` instead.
 

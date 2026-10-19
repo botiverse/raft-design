@@ -5,7 +5,7 @@ summary: The regions of a phone page and a desktop screen, how they are layered 
 
 # Page structure
 
-Every Raft screen is built from the same regions. On a phone, a page is either a top-level page with the tab bar or a pushed page that covers it. On desktop, the web top bar runs across the top, and under it the regions run from left to right: rail, sidebar, main area, and a side panel when one is open. Color steps down from the outside in, and two regions are always separated by exactly one line.
+Every Raft screen is built from the same regions, so people who know one product know where things are in the next. On a phone, a page is either a top-level page with the tab bar or a pushed page that covers it. On desktop, the web top bar runs across the top, and under it the regions run from left to right: rail, sidebar, main area, and a side panel when one is open. Color steps down from the outside in, and two regions are always separated by exactly one line.
 
 ## When it applies
 
@@ -17,12 +17,12 @@ Every screen of every Raft product. Which destinations a product has, and what e
 
 | Page | Top | Middle | Bottom |
 | --- | --- | --- | --- |
-| Top-level page: a destination on the tab bar | The yellow frame: the status bar, then a large title with the page's name ([0004](../decisions/0004-title-on-every-top-level-page.md)). The title may have one subtitle line, or one line saying who is working ([Agents](./agents.md#where-working-agents-appear)). A page that shows the workspace pill or icon buttons has a 56px navigation row above the title | A list straight on paper, or inset groups | The tab bar ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) |
+| Top-level page: a destination on the tab bar | The yellow frame: the status bar, then a large title with the page's name ([0004](../decisions/0004-title-on-every-top-level-page.md)). The title may have one subtitle line, or one line saying who is working ([Working agents](../people-and-agents/working-agents.md#where-working-shows)). A page that shows the workspace pill or icon buttons has a 56px navigation row above the title | A list straight on paper, or inset groups | The tab bar ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) |
 | Pushed page | A white top bar, 56px, with a seam under it (`PanelHeader`, [Panel](../../packages/ui/src/components/panel/panel.md)): Back, the title and an optional subtitle, and at most two icon buttons on the right | The content | The composer on pages that can send a message; nothing on other pages, because the page covers the tab bar |
 | Overlay | — | A menu (press and hold, to act on one thing), a select list (to pick a value), a popover (a short list, such as Working now or the notifications), a dialog (to confirm), a bottom sheet (a short explanation, such as adding Raft to the Home Screen) | — |
 
-- The product doesn't follow the large title yet ([0004](../decisions/0004-title-on-every-top-level-page.md)): every top-level page has one 56px navigation row on the frame (`PanelSectionHeader`). Tasks, Members and Settings put their name in it in `text-headline`, with an optional subtitle; Home puts the workspace pill there instead of a name. Whether to keep the large title is in [Open questions](../decisions/open-questions.md).
-- Make the status bar and the browser's theme color follow the top: the frame on a top-level page, paper on a pushed page.
+- Give every top-level page its large title, including the first one: the workspace pill says which workspace you are in, and the title says which page, at the same height on every tab ([0004](../decisions/0004-title-on-every-top-level-page.md)). Raft Chat doesn't show the large title yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)); whether to keep it is in [Open questions](../decisions/open-questions.md).
+- Make the status bar and the browser's theme color follow the top: the frame on a top-level page, paper on a pushed page, so the page runs to the top edge of the screen.
 
 ```example
 app-shell/compositions/mobile-root
@@ -45,24 +45,24 @@ app-shell/compositions/responsive
 
 #### The web top bar
 
-The web app adds a frame-colored top bar above the rail from 768px ([0032](../decisions/0032-web-top-bar.md)). The desktop app's title bar is the same bar, at every width.
+The web app adds a frame-colored top bar above the rail from 768px ([0032](../decisions/0032-web-top-bar.md)). It is part of the frame, not content, so it is yellow like the rail. The desktop app's title bar is the same bar, at every width.
 
 - Make it 48px high, `layer-frame`, with a `line-seam` along its bottom edge. It keeps 48px in short windows.
 - Put the workspace button and the workspace strip on the left, the search field in the center, and who is working and the bell on the right. Keep the search field centered on the window, whatever the two sides hold.
 - Make every control in it a 36px frame item, 6px from the top and bottom and 8px from the sides, as on the rail. Align the workspace button with the rail's buttons.
-- In the desktop app, put Back, Forward and History after the workspace strip, and the update chip before who is working.
+- In the desktop app, put Back, Forward and History after the workspace strip, and the update chip before who is working. Leave room for the window's own buttons (the macOS traffic lights on the left, the Windows caption buttons on the right), and keep the search field centered on the window, not on what is left between them.
 - With the top bar, the rail has no header and the sidebar has no header: the rail's first destination and the sidebar's first row are 8px below the top bar's seam.
 
 #### Headers
 
-- Make every header under the top bar (the panel header, a side panel's header, a drawer's header) 56px high, so their bottom seams line up. Heights are in [Spacing](../foundations/spacing.md#heights).
+- Make every header under the top bar (the panel header, a side panel's header, a drawer's header) 56px high, so their bottom seams line up across the screen. Heights are in [Spacing](../foundations/spacing.md#heights).
 - Without the top bar (an older desktop build, the public page of a workspace), the rail header and the sidebar header are 56px too, and the rail header is a square ([0005](../decisions/0005-56px-headers-and-rail.md)).
 
 ## Rules
 
 ### Layers, from the outside in
 
-Yellow (the frame), then cream (the sidebar), then white (content), then white cards with a hairline, then popups (`layer-popover`, a seam edge, the soft shadow). In dark mode each layer is a lighter dark instead ([Dark mode](../foundations/dark-mode.md)).
+Yellow (the frame), then cream (the sidebar), then white (content), then white cards with a hairline, then popups (`layer-popover`, a seam edge, the soft shadow). The brand color stays on the outside, so the content people work in is the calmest part of the screen. In dark mode each layer is a lighter dark instead ([Dark mode](../foundations/dark-mode.md)).
 
 ### One line between two regions
 
@@ -73,15 +73,15 @@ Yellow (the frame), then cream (the sidebar), then white (content), then white c
 ### One edge per column
 
 - Start the first element of a panel header, the first tab sticker, the message avatar column and the composer's outline on the same margin: 20px on desktop, 16px on a phone. In a message column and its composer, the phone keeps 20px.
-- End the icon box of the last icon in every row on the same edge. How each element lands on the margin is in [Alignment](../foundations/alignment.md).
+- End the icon box of the last icon in every row on the same edge, so each column has one left edge and one right edge to read down. How each element lands on the margin is in [Alignment](../foundations/alignment.md).
 
 ### Sidebar and side panel
 
-- Let the sidebar follow the rail: it lists what the selected destination contains. A destination without a sidebar puts its content directly to the right of the rail.
+- Let the sidebar follow the rail: it lists what the selected destination contains. A destination without a sidebar puts its content directly to the right of the rail. Which destinations have a sidebar is on the product's page.
 - Use the side panel for things read together with the main area: a thread, a profile.
-- Open task details as a centered dialog, not a side panel ([Tasks](./tasks.md)).
+- Task details are a centered dialog, not a side panel ([Tasks](./tasks.md)).
 - Let a thread and a profile be open together: opening a profile from the thread shows the thread and the profile, and opening it from the conversation replaces the thread.
-- Overlay the main area with a profile when the window is narrower than 1024px, or when the area it opens in is narrower than 680px. When a thread sits beside the conversation is in [Responsive layout](./responsive.md).
+- When a profile or a thread sits beside the main area and when it covers it is in [Responsive layout](./responsive.md).
 
 ## Related
 

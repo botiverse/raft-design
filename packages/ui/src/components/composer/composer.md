@@ -3,7 +3,8 @@ title: Composer
 summary: The message box at the bottom of a conversation, with the input, its tools, attachments, @ suggestions and the pink send button inside one ink border.
 status: stable
 aliases: []
-category: inputs
+layer: collaboration
+category: messages
 related: [button, checkbox, textarea, message-attachment, conversation-panel, thread-panel]
 ---
 

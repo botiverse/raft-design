@@ -1,6 +1,7 @@
 ---
 title: Designing a new feature
 summary: The questions to ask before you build something new, the process from the closest pattern to the components, a self-review checklist, and when to change the system itself.
+order: 3
 ---
 
 # Designing a new feature
@@ -27,22 +28,22 @@ Most new work is a variation of something the system already describes. Before d
 | You are building | Start from |
 | --- | --- |
 | A new screen, panel or destination | [Page structure](../patterns/page-structure.md), [Navigation](../patterns/navigation.md) and [Responsive layout](../patterns/responsive.md) |
-| Anything an agent does or shows | [Agents](../patterns/agents.md) and [People and agents](../people-and-agents/README.md) |
+| Anything an agent does or shows | [Agents](../people-and-agents/README.md) and [People and agents](../people-and-agents/README.md) |
 | Messages, threads, the composer | [Conversation](../patterns/conversation.md) |
 | Tasks and their statuses | [Tasks](../patterns/tasks.md) |
 | A form or a settings page | [Forms](../patterns/forms.md) |
 | A result, an error, a loading or empty state | [Feedback](../patterns/feedback.md) |
-| Something built from several existing parts | [Composites](../patterns/composites.md) |
+| Something built from several existing parts | [Composites](../components/overview.md) |
 
 Then read the product's own page for the area you are working in (for Raft Chat, [Raft Chat](../products/raft-chat/README.md)) to see what it already puts there.
 
 ### 2. Choose the components
 
-Compose the feature from raft-ui. The [components overview](../components/overview.md) lists what exists, and [Choosing a component](../patterns/choosing-components.md) picks one where several look right: which control for which choice, which feedback for which message, which overlay for which job.
+Compose the feature from raft-ui. The [components overview](../components/overview.md) lists what exists, and [Choosing a component](../components/overview.md) picks one where several look right: which control for which choice, which feedback for which message, which overlay for which job.
 
 - Use the raft-ui component wherever one fits, including for small pieces such as badges, chips, separators and fields. A hand-built copy drifts from the original the first time either changes.
 - Read the component's doc before using it: its "When to use" table, its rules and its accessibility section.
-- If nothing fits, check [Composites](../patterns/composites.md) for a combination of existing parts. Build markup by hand only where raft-ui has no fit, say so in the pull request, and propose the missing piece to raft-ui instead of keeping a local copy.
+- If nothing fits, check [Composites](../components/overview.md) for a combination of existing parts. Build markup by hand only where raft-ui has no fit, say so in the pull request, and propose the missing piece to raft-ui instead of keeping a local copy.
 - Use semantic tokens for every value. Don't use Tailwind's default palette or raw colors.
 
 How to install and set up raft-ui is in [Use raft-ui](../about/use-raft-ui.md).
@@ -62,7 +63,7 @@ A rule that holds only for Raft Chat ("which four destinations the phone tab bar
 
 ### 4. Write the words
 
-Labels, titles, empty states and errors follow [Writing](../foundations/writing.md): Title Case for what people click, sentence case for everything else, agents named with teammate verbs, and a button's label repeated as the title of the dialog it opens.
+Labels, titles, empty states and errors follow [Writing](../content/writing.md): Title Case for what people click, sentence case for everything else, agents named with teammate verbs, and a button's label repeated as the title of the dialog it opens.
 
 ## Self-review checklist
 
@@ -98,5 +99,5 @@ How the docs are organized and written is in [Authoring](../authoring/README.md)
 
 - [Principles](./principles.md): the rules the questions and the checklist come from.
 - [Why Raft looks this way](./why-raft-looks-this-way.md): the reasoning behind them.
-- [Choosing a component](../patterns/choosing-components.md): one component per situation.
+- [Choosing a component](../components/overview.md): one component per situation.
 - [Decisions](../decisions/): the choices already made, and why.

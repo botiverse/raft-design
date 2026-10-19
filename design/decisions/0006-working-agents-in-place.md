@@ -24,5 +24,5 @@ The live bar is split up and its parts go back where they belong: a summary line
 
 ## Related
 
-- [Agents](../patterns/agents.md#where-working-agents-appear)
+- [Working agents](../people-and-agents/working-agents.md#where-working-shows)
 - [Motion](../foundations/motion.md)

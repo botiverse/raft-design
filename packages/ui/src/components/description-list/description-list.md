@@ -3,7 +3,8 @@ title: DescriptionList
 summary: A list of facts about one item — label and value pairs such as a task's Status, Assignee and Created by — where a value that can be changed opens a picker.
 status: stable
 aliases: [PropertyList]
-category: content
+layer: core
+category: data-display
 related: [select, status, avatar, timeline, task-card]
 ---
 
@@ -17,14 +18,14 @@ description-list/compositions/member-info
 
 ## When to use
 
-| Situation                                     | Use                                                                                                                                             |
-| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| A few facts about one item, read side by side | DescriptionList                                                                                                                                 |
-| Change one property of an item in place       | The value in a DescriptionList opens a picker ([Choosing a component](../../../../../design/patterns/choosing-components.md#picking-something)) |
-| The properties row of task details            | DescriptionList; see [Composites](../../../../../design/patterns/composites.md#task-details)                                                    |
-| The permissions an authorization asks for     | DescriptionList in a dialog ([Composites](../../../../../design/patterns/composites.md#authorization-oauth))                                    |
-| Many items with the same columns              | [ListRow](../list-row/list-row.md) rows, or a table when it has to be one ([Composites](../../../../../design/patterns/composites.md#tables))   |
-| What happened to the item, in order           | [Timeline](../timeline/timeline.md)                                                                                                             |
+| Situation                                     | Use                                                                                                                                                          |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| A few facts about one item, read side by side | DescriptionList                                                                                                                                              |
+| Change one property of an item in place       | The value in a DescriptionList opens a picker ([Choosing a component](../../../../../design/components/overview.md#picking-something))                       |
+| The properties row of task details            | DescriptionList; see [Built from existing parts](../../../../../design/components/overview.md#task-details)                                                  |
+| The permissions an authorization asks for     | DescriptionList in a dialog ([Built from existing parts](../../../../../design/components/overview.md#authorization-oauth))                                  |
+| Many items with the same columns              | [ListRow](../list-row/list-row.md) rows, or a table when it has to be one ([Built from existing parts](../../../../../design/components/overview.md#tables)) |
+| What happened to the item, in order           | [Timeline](../timeline/timeline.md)                                                                                                                          |
 
 ## Anatomy
 
@@ -55,7 +56,7 @@ raft-ui has no frameless value trigger yet; the member-info composition uses a [
 
 - Write labels as short nouns in sentence case: Status, Assignee, Created by.
 - Build values from existing parts: a status chip ([Status](../status/status.md)), an avatar and a name ([Avatar](../avatar/avatar.md)), a reference chip, a runtime chip. Set IDs and times in Space Mono ([Typography](../../../../../design/foundations/typography.md#usage)).
-- Name people and agents by their display names ([Writing](../../../../../design/foundations/writing.md#voice)).
+- Name people and agents by their display names ([Writing](../../../../../design/content/writing.md#voice)).
 
 ## Accessibility
 

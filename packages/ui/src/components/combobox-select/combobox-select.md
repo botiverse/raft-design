@@ -3,6 +3,7 @@ title: ComboboxSelect
 summary: A ready-made searchable select driven by an array of options, for one or a few of many values, with groups, remote search and creation.
 status: experimental
 aliases: []
+layer: core
 category: inputs
 related: [select, combobox, field]
 ---
@@ -17,7 +18,7 @@ combobox-select/compositions/preview
 
 ## When to use
 
-The full choice between pickers is in [Choosing a component](../../../../../design/patterns/choosing-components.md#picking-something).
+The full choice between pickers is in [Choosing a component](../../../../../design/components/overview.md#picking-something).
 
 | Situation                                                         | Use                                 |
 | ----------------------------------------------------------------- | ----------------------------------- |
