@@ -1,9 +1,12 @@
 import "../timeline/timeline.test.css";
-import { afterEach, expect, it } from "vite-plus/test";
+import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { Checkbox } from "../checkbox/checkbox";
 import { Field, FieldDescription, FieldItem, FieldLabel } from "./field";
 
+// Same guard as the other browser tests: these need real layout, so they
+// stand down in the node run and measure under `vp test --browser.enabled`.
+const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
 
 // The centre of the label's FIRST line, from the text itself rather than from
