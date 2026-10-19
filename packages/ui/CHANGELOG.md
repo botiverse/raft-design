@@ -1,3 +1,18 @@
+## [0.7.1](https://github.com/botiverse/raft-design/compare/v0.7.0...v0.7.1) (2026-10-19)
+
+### Added
+
+- `stack-y-*` / `stack-x-*` (including negative and arbitrary values) and `rule-y` / `rule-x` / `rule-<colour>`: space and rules between siblings, written as the owl `> * + *` at zero specificity. Use them instead of Tailwind's `space-*` / `divide-*`. ([#534](https://github.com/botiverse/raft-design/pull/534))
+
+### Fixed
+
+- **iOS scroll and open/close jank from structural selectors.** Tailwind v4 compiles `space-*` / `divide-*` to `:where(.x > :not(:last-child))`, which WebKit tests against every element; appending or removing a last child anywhere then restyled the previous last child's whole subtree (180–430ms under a long chat timeline). The package and its docs no longer use them, and `no-unanchored-structural.test.ts` keeps any rule from ending in an unanchored structural pseudo-class. Consumers should move their own `space-*` / `divide-*` to `stack-*` / `rule-*`. ([#534](https://github.com/botiverse/raft-design/pull/534))
+- `codemods/package-name.mjs` keeps a deliberate `raft-ui` npm alias instead of rewriting it. ([#522](https://github.com/botiverse/raft-design/pull/522))
+
+### Changed
+
+- The design-system pages and component guides describe what the product ships. ([#523](https://github.com/botiverse/raft-design/pull/523), [#524](https://github.com/botiverse/raft-design/pull/524), [#526](https://github.com/botiverse/raft-design/pull/526), [#528](https://github.com/botiverse/raft-design/pull/528)–[#530](https://github.com/botiverse/raft-design/pull/530), [#532](https://github.com/botiverse/raft-design/pull/532))
+
 ## [0.7.0](https://github.com/botiverse/raft-design/compare/v0.6.1...v0.7.0) (2026-10-18)
 
 ### Breaking Changes
