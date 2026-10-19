@@ -11,7 +11,7 @@
 // that names the bare string "raft-ui" (a bundler alias, a tsconfig path), so
 // you can check those by hand. Run `token-names.mjs` afterwards to move to the
 // current token names.
-import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, realpathSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -165,4 +165,15 @@ function main(argv) {
     console.log("\nNext: install dependencies, then run token-names.mjs on the same directories.");
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main(process.argv.slice(2));
+// Run only when invoked directly. Compare real paths: pnpm installs packages
+// through symlinks, so `process.argv[1]` (the path typed) and this module's
+// URL (the resolved file) differ, and a plain comparison silently did nothing.
+// When imported (a test, `node -e`), argv[1] may be missing or not a file.
+function isInvokedDirectly() {
+  try {
+    return realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return false;
+  }
+}
+if (isInvokedDirectly()) main(process.argv.slice(2));
