@@ -34,7 +34,7 @@
     "props": [
       {
         "name": "direction",
-        "type": "\"horizontal\" | \"vertical\"",
+        "type": "\"inline\" | \"horizontal\" | \"vertical\"",
         "required": false,
         "default": "\"vertical\"",
         "from": "raft-ui"

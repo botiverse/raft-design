@@ -17,7 +17,7 @@ Align what the eye sees, not the box. Each kind of element has one point that la
 
 | Element | What lands on the line | Example |
 | --- | --- | --- |
-| Anything with a shape: tiles, avatars, cards, inputs, the composer, the workspace pill, filled buttons | The edge of the shape; vertically, the shape is centered | The workspace pill's left edge is at 16px; a pink Done button in a top bar ends 16px from the right |
+| Anything with a shape: tiles, avatars, cards, inputs, the composer, the workspace pill, filled buttons | The edge of the shape; vertically, the shape is centered. Beside plain text in a row, the text instead ([A shape beside plain text](#a-shape-beside-plain-text)) | The workspace pill's left edge is at 16px; a pink Done button in a top bar ends 16px from the right |
 | Text | The letters: horizontally, the stem of the first letter; vertically, the center of the cap height | A large title shifts left by 0.05em; in a 56px header, a 17/22 page name and the text in the pill share one center line; the first tool icon in the composer lines up with the text typed in it |
 | Frameless icon button | The icon box. The button itself is invisible, and its empty hit area extends past the line | The last icon box in a desktop panel header ends at 20px |
 
@@ -30,6 +30,12 @@ A checkbox, radio or switch centers on the first line of its label — the same 
 - **Don't center it on the label either.** A label is often one line, which makes the two look the same — until it wraps, and the control slides to the middle of the block: 27px off the first line at a narrow width, and 8px off as soon as a description follows. The first line is what the control belongs to; the block is a coincidence.
 
 In Space Grotesk the cap-height center and the line-box center are the same point: the face is centered in its em box to within 0.004em, under 0.1px at any size we set. So centering the control on the line box *is* optical centering, and no per-size correction is needed. A hand-tuned `margin-top` is a sign the control was aligned to the wrong thing: it is the right answer for one label at one size, and silently wrong for the next. Write the offset as the arithmetic, not as the number it currently comes to — `Banner` carries `mt-px` for a 16px icon and `mt-[4.5px]` for a 9px status, which are exactly `(18 - 16) / 2` and `(18 - 9) / 2` against its 18px line. They are right today and will be wrong the day that line height changes, with nothing to catch it.
+
+## A shape beside plain text
+
+When a shape with its own padding (a chip, a frameless button's hover fill) sits in a row beside plain text, such as the values in a row of task properties, count its padding as part of the gap: pull the shape left by its padding, so its text starts where plain text would and its fill hangs outward.
+
+The row is read as text, so the eye compares where the words start, not where the fills start. Aligning the shapes by their edge would push their words 6px past the plain values beside them, and the row would look ragged. This is the exception to aligning a shape by its edge: that rule holds when shapes line up with one another down a column.
 
 ## Top bar icon buttons
 

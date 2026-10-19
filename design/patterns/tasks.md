@@ -24,7 +24,7 @@ tasks/compositions/tasks-panel
 - **Task details**: a centered dialog, 960px wide (or the window less 32px) and at most 900px high (86% of the window), full screen on a phone. From top to bottom:
   1. A bar with the place on one line and the task number on the next ("Task #25"), a button that opens the task's thread in its place, and ×. On a phone the bar has Back instead of ×.
   2. The title and the description, which folds after 3 lines.
-  3. One row of properties (Status, Assignee, Created by) in a [DescriptionList](../../packages/ui/src/components/description-list/description-list.md).
+  3. One row of properties (Status, Assignee, Created by) in an inline [DescriptionList](../../packages/ui/src/components/description-list/description-list.md#inline) (`direction="inline"`).
   4. History, collapsed ([Timeline](../../packages/ui/src/components/timeline/timeline.md)).
   5. In a product with conversations, the task's thread and its composer.
 
