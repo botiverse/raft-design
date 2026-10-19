@@ -1,32 +1,29 @@
 ---
 title: Open questions
-summary: The places where the system has drawn more than one version and the choice is still open, with the current default for each.
+summary: The places where the system has drawn more than one version and the choice is still open, with the current default for each, and the questions the product has settled.
 ---
 
 # Open questions
 
 In these places the same thing is drawn in more than one version, and the choice is still open. Until it is made, use the default. Once a version is chosen, the others are removed from the components and the choice becomes a decision record.
 
-| Where | Versions | Default |
+| Where | Versions | Default | The product ships |
+| --- | --- | --- | --- |
+| The top bar of a phone's top-level pages | With the page name as a large title, or with one 56px navigation row (Home shows only the workspace pill; Tasks, Members and Settings put their name in the row in `text-headline`) | With the page name as a large title ([0004](./0004-title-on-every-top-level-page.md)) | The navigation row (`Sidebar.tsx`, `TasksPanel.tsx` in the web app) |
+
+## Settled by the product
+
+These were open, and the web app (Raft's product code) now ships one version. The other versions are no longer described in the patterns.
+
+| Where | The product ships | Where in the web app |
 | --- | --- | --- |
-| The top bar of a phone's top-level pages | With the page name as a large title, or as the product is today (Home shows only the workspace pill) | With the page name ([0004](./0004-title-on-every-top-level-page.md)) |
-| The top bar of a phone's pushed pages | White or yellow. With yellow, the frame extends to the top bar of pushed pages | None |
-| The desktop rail | Icons only (56px), or icons with labels (68px) | Icons only |
-| Tabs | A yellow sticker, or an underline (ink text and a 2px ink line, as in the product) | Sticker ([0013](./0013-sticker-tabs.md)) |
-| Chat, tasks and files in a Raft Chat channel | A: sticker tabs; B: underline tabs; C: a segmented control in the top bar; D: tasks in the side panel next to the conversation | A |
-
-## The labeled rail and the square corner
-
-The labeled rail is 68px wide, so its top-left corner is 68×56 instead of a square. The product pins the square corner with a UI test (`leftrail-square-slot`). Choosing the labeled rail means one of:
-
-- changing that test, or
-- making every header 68px high, so the corner stays square.
-
-See [0005](./0005-56px-headers-and-rail.md).
+| The top bar of a phone's pushed pages | White (paper), with a seam under it; the location tile stays a yellow sticker | `components/ui/PanelHeader.tsx` on raft-ui `PanelHeader` |
+| The desktop rail | Icons only, 56px plus the seam; names are in tooltips. The top-left corner stays square ([0005](./0005-56px-headers-and-rail.md)) | `components/layout/LeftRail.tsx` |
+| Tabs | The yellow sticker ([0013](./0013-sticker-tabs.md)). The underline stays a variant of [Tabs](../../packages/ui/src/components/tabs/tabs.md) | `components/message/ChatPanel.tsx`, `components/agent/AgentDetailPanel.tsx` |
+| Chat, tasks and files in a Raft Chat channel | One row of sticker tabs under the panel header, which people can reorder ([Channel](../products/raft-chat/channel.md)) | `components/message/ChatPanel.tsx` |
 
 ## Related
 
-- [Panel](../../packages/ui/src/components/panel/panel.md): the phone top bar versions.
-- [AppRail](../../packages/ui/src/components/app-rail/app-rail.md): the two rails.
-- [Tabs](../../packages/ui/src/components/tabs/tabs.md): the two tab styles.
-- [Raft Chat](../products/raft-chat/README.md): the channel views.
+- [Panel](../../packages/ui/src/components/panel/panel.md): the phone top bars.
+- [Page structure](../patterns/page-structure.md#phone): the top-level page and the large title.
+- [Raft Chat](../products/raft-chat/README.md): Home and the other top-level pages.

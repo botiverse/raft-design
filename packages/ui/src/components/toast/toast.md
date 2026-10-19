@@ -17,14 +17,14 @@ toast/toast
 
 ## When to use
 
-| Situation                                  | Use                                                                                                            |
-| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| Something the person just did has a result | Toast                                                                                                          |
-| An action that can be undone               | Do it, then a toast with Undo ([Feedback](../../../../../design/patterns/feedback.md#undo-instead-of-confirm)) |
-| The state of the whole workspace           | [NotificationCenter](../notification-center/notification-center.md)                                            |
-| Something that happened elsewhere          | [ActivityInbox](../activity-inbox/activity-inbox.md)                                                           |
-| Something to confirm or decide             | [Dialog](../dialog/dialog.md)                                                                                  |
-| Something to read before acting            | [Banner](../banner/banner.md)                                                                                  |
+| Situation                                  | Use                                                                                                     |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| Something the person just did has a result | Toast                                                                                                   |
+| An action that can be reversed in place    | Do it; when a toast offers Undo is in [Feedback](../../../../../design/patterns/feedback.md#confirming) |
+| The state of the whole workspace           | [NotificationCenter](../notification-center/notification-center.md)                                     |
+| Something that happened elsewhere          | [ActivityInbox](../activity-inbox/activity-inbox.md)                                                    |
+| Something to confirm or decide             | [Dialog](../dialog/dialog.md)                                                                           |
+| Something to read before acting            | [Banner](../banner/banner.md)                                                                           |
 
 Never put anything in a toast that would confuse people if they missed it ([Choosing a component](../../../../../design/patterns/choosing-components.md#telling-people-something)).
 

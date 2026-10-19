@@ -18,7 +18,7 @@ The default selected tab is a yellow sticker, the same "you are here" as sidebar
 
 ## Consequences
 
-The choice between the two is [still open](./open-questions.md).
+The product ships the sticker tab, so the choice is settled ([Open questions](./open-questions.md#settled-by-the-product)). The underline stays a variant.
 
 ## Related
 

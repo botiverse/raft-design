@@ -24,7 +24,7 @@ tabs/compositions/placement
 | The steps of a flow, in order                   | [Steps](../steps/steps.md)                                                   |
 | A product's destinations                        | [AppRail](../app-rail/app-rail.md), [MobileNav](../mobile-nav/mobile-nav.md) |
 
-A place with several kinds of content can show them as tabs, as a segmented control in the header, or with one of them in a side panel ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)).
+A place with several kinds of content, such as a channel, shows them as one row of sticker tabs under its header ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)).
 
 ## Anatomy
 
@@ -41,7 +41,7 @@ A place with several kinds of content can show them as tabs, as a segmented cont
 | `variant="default"`   | The sticker tab: the selected tab is a yellow sticker. The default                                                               |
 | `variant="underline"` | Many tabs, or a place that already has a lot of color: the selected tab is ink text with a 2px ink line on the row's bottom edge |
 
-Which of the two is the system's default is [still open](../../../../../design/decisions/open-questions.md); until it is settled, use the sticker tab. `placement` puts the row on the top (the default), bottom, left or right of the panels.
+The sticker tab is the default, and the one the product ships ([0013](../../../../../design/decisions/0013-sticker-tabs.md)). `placement` puts the row on the top (the default), bottom, left or right of the panels.
 
 ## Behavior
 

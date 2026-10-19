@@ -36,10 +36,10 @@ Whenever you put a control, a message, a popup or a row on a screen. Products do
 | --- | --- | --- |
 | Something the person just did has a result | [Toast](../../packages/ui/src/components/toast/toast.md) | A few seconds |
 | They need to know it before acting | [Banner](../../packages/ui/src/components/banner/banner.md), inside a dialog or form | Always |
-| Something in one panel failed: an agent won't start, a setting didn't save | A full-width banner under the panel header (`PanelNotice`, [Panel](../../packages/ui/src/components/panel/panel.md)) | Until it is fixed |
+| Something in one panel failed: an agent won't start, a setting of the conversation didn't save | A full-width notice under the panel header (`PanelNotice`, [Panel](../../packages/ui/src/components/panel/panel.md)) | Until it is fixed or dismissed |
 | The state of the whole workspace: a computer offline, a quota nearly full, an update | The notification center ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)), with an attention dot on the bell | Until it changes |
 | Something happened elsewhere that the person should see | Activity ([ActivityInbox](../../packages/ui/src/components/activity-inbox/activity-inbox.md)); its entry point shows an attention dot or a count | Until it is read |
-| An agent needs approval | An action card in the conversation ([MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md)), also listed in Activity | Until it is handled |
+| An agent needs approval | An action card in the conversation ([MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md)) | Until it is handled |
 | The person must decide now | [Dialog](../../packages/ui/src/components/dialog/dialog.md) | Until they decide |
 | An input is invalid | The input's error state ([Field](../../packages/ui/src/components/field/field.md)) | Until it is fixed |
 | What an icon means | [Tooltip](../../packages/ui/src/components/tooltip/tooltip.md) | While hovered |
@@ -58,10 +58,11 @@ Whenever you put a control, a message, a popup or a row on a screen. Products do
 | A little input, on click | [Popover](../../packages/ui/src/components/popover/popover.md) |
 | Details and settings people look at for a while | [Drawer](../../packages/ui/src/components/drawer/drawer.md) |
 | A large form filled in one pass | The wide [Dialog](../../packages/ui/src/components/dialog/dialog.md); see [Forms](./forms.md#the-large-form-dialog) |
-| A place to go, on a phone (switch workspace, Working now) | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md)). Picking a value is still a select list; acting on something is still a menu |
+| A short list opened from a top bar: Working now, the notifications | [Popover](../../packages/ui/src/components/popover/popover.md), on a phone too |
+| Switching workspace, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md), [0007](../decisions/0007-workspace-switcher-sheet.md)). The product doesn't follow this yet: it opens a popover |
 | A short explanation, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md)) |
-| A confirmation | [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md) |
-| Task details | A centered dialog, at most 760px wide, full screen on a phone ([Tasks](./tasks.md)) |
+| A confirmation | A small [Dialog](../../packages/ui/src/components/dialog/dialog.md), 384px, with Cancel and the confirm button; see [Feedback](./feedback.md#confirming). The product builds its confirmations on Dialog; [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md) isn't used in it |
+| Task details | A centered dialog, 960px wide, full screen on a phone ([Tasks](./tasks.md)) |
 
 - Put a scrim behind every centered overlay: dialogs, confirmations, search, task details, large forms. How overlays move is in [Motion](../foundations/motion.md#usage).
 
@@ -75,14 +76,15 @@ Whenever you put a control, a message, a popup or a row on a screen. Products do
 | A button started the wait | The button's loading state ([Button](../../packages/ui/src/components/button/button.md)) |
 
 - Don't use pink for any of these. They are passive.
+- Raft Chat doesn't follow the skeleton rule in two places yet: the conversation timeline and the profile panel show the word "Loading…" while they wait.
 
 ### Rows
 
 | Where | Use |
 | --- | --- |
-| A phone list: channels, direct messages, settings, members | [ListRow](../../packages/ui/src/components/list-row/list-row.md) |
-| Agents and people on a detail or profile page | [ListRow](../../packages/ui/src/components/list-row/list-row.md), in an inset group |
 | The desktop sidebar | The sidebar row ([Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)) |
+| A phone list of places: Home's channels and direct messages, Members, the Settings list | The same sidebar row, 44px high on a phone ([Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)) |
+| Agents, people and apps on a detail or profile page, such as a computer's agents | [ListRow](../../packages/ui/src/components/list-row/list-row.md), in an inset group. The product draws this row with its own copy (`AvatarListRow`) |
 | Activity and notifications | [InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md) |
 | A message found by search | The search result row ([Search](../../packages/ui/src/components/search/search.md)) |
 | A task | [TaskCard](../../packages/ui/src/components/task-card/task-card.md), on a board or in a list |
