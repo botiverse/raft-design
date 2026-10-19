@@ -193,8 +193,8 @@ sticker
 ## Contrast
 
 - `foreground`, `foreground-muted` and `foreground-hint` are at least 4.5:1 on every surface, every soft tint and every popup, in both modes. There are no exceptions to remember.
-- `foreground-hint` is slightly darker in light mode and lighter in dark mode than the product's tertiary text (60% ink), which fails 4.5:1 on some tints and popups. Tertiary text carries times, IDs and counts people need to read, so it gets the same guarantee as body text.
-- Error text and the border of an invalid input use `danger-strong`, a dark red at 6.1:1 on paper. The product's brighter reds are 4.2:1 and 2.8:1 on white, below the 4.5:1 text needs. The delete button keeps `danger`, because the text on it is ink.
+- `foreground-hint` is slightly darker in light mode and lighter in dark mode than 60% ink, the value the product used before it adopted these tokens, which fails 4.5:1 on some tints and popups. Tertiary text carries times, IDs and counts people need to read, so it gets the same guarantee as body text.
+- Error text and the border of an invalid input use `danger-strong`, a dark red at 6.1:1 on paper. The brighter reds the product used before were 4.2:1 and 2.8:1 on white, below the 4.5:1 text needs. The delete button keeps `danger`, because the text on it is ink.
 - Ink on a sticker is at least 6.8:1.
 - `line-seam` is 3.0:1 on white and 2.8:1 on yellow.
 

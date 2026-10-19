@@ -42,7 +42,7 @@ How the tab bar works with Back and pushed pages, and how many destinations it h
 | Selected (`selected`) | The icon in a 56×30px yellow sticker; the label in `foreground`, bold                                                           |
 | Attention             | One pink pixel at the top right of the icon ([States](../../../../../design/foundations/states.md)). Never on the selected item |
 
-The sticker wraps only the icon, not the whole item. This differs from the product code, where the whole item turns yellow: a yellow item adds another strip of frame at the bottom of the screen, and wrapping only the icon halves the color while the selection still reads at a glance ([Navigation](../../../../../design/patterns/navigation.md#where-you-are)).
+The sticker wraps only the icon, not the whole item. Turning the whole item yellow would add another strip of frame at the bottom of the screen; a yellow item adds another strip of frame at the bottom of the screen, and wrapping only the icon halves the color while the selection still reads at a glance ([Navigation](../../../../../design/patterns/navigation.md#where-you-are)).
 
 ## Content
 
