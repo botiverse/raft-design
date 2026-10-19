@@ -38,11 +38,12 @@ Drag and drop comes from the `TaskDnd` parts (`TaskDndProvider`, `TaskDropZone`,
 
 ## States
 
-| State                   | Look                                                                                                       |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
-| Empty column            | A dashed `line-seam` box with one line of text in `foreground-hint`                                        |
-| A card can be dropped   | The empty box hides and the drop placeholder shows; a collapsed column gets a dashed `line-strong` outline |
-| A card can't be dropped | The empty box says why, in `foreground-muted`                                                              |
+| State                   | Look                                                                                                               |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Empty column            | A dashed `line-seam` box with one line of text in `foreground-hint`                                                |
+| A card can be dropped   | The empty box hides and the drop placeholder shows; a collapsed column gets a dashed `line-strong` outline         |
+| A card is over a column | The column keeps its fill; only the drop placeholder marks where the card lands, so one signal says where, not two |
+| A card can't be dropped | The empty box says why, in `foreground-muted`                                                                      |
 
 ```example
 task-board/compositions/task-board-empty-columns
