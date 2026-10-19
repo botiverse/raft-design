@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { Copy, Quote, TextQuote } from "lucide-react";
 import {
   Popover,
   PopoverContent,
+  createMessageTextSelectionAnchor,
   MessageTextSelectionToolbar,
   MessageTextSelectionToolbarButton,
   MessageTextSelectionToolbarSeparator,
 } from "@botiverse/raft-ui";
-import type { PopoverContentProps } from "@botiverse/raft-ui";
+import type { MessageTextSelectionAnchor, PopoverContentProps } from "@botiverse/raft-ui";
 
 export type MessageTextSelectionCompositionProps = {
   children: ReactNode;
@@ -16,7 +17,7 @@ export type MessageTextSelectionCompositionProps = {
   onQuote?: (text: string) => void;
 };
 
-const COLLISION_AVOIDANCE = { side: "shift", align: "shift", fallbackAxisSide: "none" } as const;
+const COLLISION_AVOIDANCE = { side: "flip", align: "shift", fallbackAxisSide: "none" } as const;
 
 function selectionBelongsToRoot(range: Range, root: HTMLElement) {
   return root.contains(range.startContainer) && root.contains(range.endContainer);
@@ -35,14 +36,17 @@ export function MessageTextSelectionComposition({
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
   const toolbarRef = useRef<HTMLDivElement>(null);
   const restoreFocusRef = useRef<HTMLElement | null>(null);
-  const [range, setRange] = useState<Range | null>(null);
+  const [selected, setSelected] = useState<{
+    anchor: MessageTextSelectionAnchor;
+    text: string;
+  } | null>(null);
 
   const clear = useCallback(() => {
     const selection = root?.ownerDocument.getSelection();
     if (root && selection?.rangeCount && selectionBelongsToRoot(selection.getRangeAt(0), root)) {
       selection.removeAllRanges();
     }
-    setRange(null);
+    setSelected(null);
 
     const restoreFocus = restoreFocusRef.current;
     restoreFocusRef.current = null;
@@ -56,23 +60,24 @@ export function MessageTextSelectionComposition({
     const update = () => {
       const selection = ownerDocument.getSelection();
       if (!selection || selection.isCollapsed || selection.rangeCount === 0) {
-        setRange(null);
+        setSelected(null);
         return;
       }
 
       const nextRange = selection.getRangeAt(0);
       if (!selectionBelongsToRoot(nextRange, root)) {
-        setRange(null);
+        setSelected(null);
         return;
       }
 
       const rect = nextRange.getBoundingClientRect();
-      if (rect.width === 0 && rect.height === 0) {
-        setRange(null);
+      const anchor = createMessageTextSelectionAnchor(selection, root);
+      if (!anchor || (rect.width === 0 && rect.height === 0)) {
+        setSelected(null);
         return;
       }
 
-      setRange(nextRange.cloneRange());
+      setSelected({ anchor, text: nextRange.toString() });
     };
 
     ownerDocument.addEventListener("selectionchange", update);
@@ -80,7 +85,7 @@ export function MessageTextSelectionComposition({
   }, [root]);
 
   useEffect(() => {
-    if (!root || !range) return;
+    if (!root || !selected) return;
 
     const ownerDocument = root.ownerDocument;
     const focusToolbar = (event: KeyboardEvent) => {
@@ -110,17 +115,10 @@ export function MessageTextSelectionComposition({
 
     ownerDocument.addEventListener("keydown", focusToolbar);
     return () => ownerDocument.removeEventListener("keydown", focusToolbar);
-  }, [clear, range, root]);
+  }, [clear, root, selected]);
 
-  const anchor = useMemo<PopoverContentProps["anchor"]>(() => {
-    if (!range) return null;
-    return {
-      contextElement: root ?? undefined,
-      getBoundingClientRect: () => range.getBoundingClientRect(),
-      getClientRects: () => Array.from(range.getClientRects()),
-    };
-  }, [range, root]);
-  const text = range?.toString() ?? "";
+  const anchor = selected?.anchor ?? null;
+  const text = selected?.text ?? "";
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
@@ -177,14 +175,14 @@ export function MessageTextSelectionComposition({
           {onQuote ? (
             <>
               <MessageTextSelectionToolbarButton onClick={handleQuote}>
-                <TextQuote size={13} />
+                <TextQuote size={16} />
                 Quote
               </MessageTextSelectionToolbarButton>
               <MessageTextSelectionToolbarSeparator />
             </>
           ) : null}
           <MessageTextSelectionToolbarButton onClick={handleCopy}>
-            <Copy size={13} />
+            <Copy size={16} />
             Copy
           </MessageTextSelectionToolbarButton>
         </MessageTextSelectionToolbar>

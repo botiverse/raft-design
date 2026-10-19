@@ -53,7 +53,7 @@ message-item/compositions/item-preview
 - `MessageItemFooter`: one row: the task marker, then the reactions (`MessageReactionChip`, with `MessageReactionAddButton` last), then the saved and read markers (`MessageItemSavedIndicator`, `MessageItemReadReceipt`).
 - `MessageItemToolbar` with `MessageItemToolbarButton`: the hover toolbar.
 - `MessageMultiSelectCheckbox` and `MessageMultiSelectToolbar`: selecting several messages ([Built from existing parts](../../../../../design/components/overview.md#toolbar-for-selected-messages)).
-- `MessageTextSelectionToolbar`: actions on selected text.
+- `MessageTextSelectionToolbar` with `MessageTextSelectionToolbarButton` and `MessageTextSelectionToolbarSeparator`: actions on selected text ([Toolbar for selected text](#toolbar-for-selected-text)); `createMessageTextSelectionAnchor` places it.
 
 ### In the body
 
@@ -122,6 +122,17 @@ message-item/compositions/toolbar
 ```example
 message-item/compositions/reactions
 ```
+
+### Toolbar for selected text
+
+`MessageTextSelectionToolbar` floats over text the person selects in a message, with actions such as Quote and Copy. It looks exactly like the hover toolbar, so the two read as one kind of thing:
+
+- It is 32px high: a 2px frame with its hairline drawn inside (`ring-inset`) and the control radius, around 28px buttons.
+- Its buttons have text labels after 16px icons in `foreground-muted`. On hover they take the pressed overlay, `fill-pressed`, not the `brand-soft` of a menu row: a toolbar's actions are buttons, not menu rows ([States](../../../../../design/foundations/states.md)).
+- `MessageTextSelectionToolbarSeparator` is 20px high, with 2px on each side.
+- Write labels in Title Case. They never wrap: Chinese text can break between any two characters, so a toolbar squeezed at the edge of the window broke a two-character label onto two lines.
+- It anchors to the line where the selection's focus end is, where the person let go, not to the whole range: a whole-line or multi-paragraph selection spans the row, and the middle of that is nowhere near the pointer. Build the anchor with `createMessageTextSelectionAnchor(selection)` and pass it to `PopoverContent`'s `anchor`.
+- It stays inside the viewport: above the line by default, it flips below when there is no room and shifts along the line near a side edge.
 
 ## Content
 

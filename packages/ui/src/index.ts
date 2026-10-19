@@ -851,6 +851,8 @@ export {
   MessageTextSelectionToolbar,
   MessageTextSelectionToolbarButton,
   MessageTextSelectionToolbarSeparator,
+  createMessageTextSelectionAnchor,
+  getTextSelectionFocusRect,
 } from "./components/message-item/index";
 export type {
   MessageItemAttachmentsProps,
@@ -898,6 +900,7 @@ export type {
   MessageTextSelectionToolbarButtonProps,
   MessageTextSelectionToolbarProps,
   MessageTextSelectionToolbarSeparatorProps,
+  MessageTextSelectionAnchor,
 } from "./components/message-item/index";
 
 export {

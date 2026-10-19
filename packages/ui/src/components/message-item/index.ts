@@ -63,6 +63,11 @@ export {
   MessageTextSelectionToolbarButton,
   MessageTextSelectionToolbarSeparator,
 } from "./message-text-selection-toolbar";
+export {
+  createMessageTextSelectionAnchor,
+  getTextSelectionFocusRect,
+} from "./message-text-selection-anchor";
+export type { MessageTextSelectionAnchor } from "./message-text-selection-anchor";
 export type { MessageItemProps } from "./message-item-root";
 export type {
   MessageItemAvatarSlotProps,
