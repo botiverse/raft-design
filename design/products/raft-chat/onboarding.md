@@ -1,13 +1,21 @@
 ---
 title: Raft Chat — Onboarding
-summary: The first-run setup of a workspace — a blocking dialog of five steps, from connecting a computer to handing over to the first agent.
+summary: The first run — creating an account and a workspace on brand pages, then the workspace's setup as a blocking dialog of five steps.
 ---
 
 # Raft Chat — Onboarding
 
-Until a new workspace has a computer and its first agent, the app shows its setup as a dialog over the workspace, with a scrim. The dialog can't be dismissed: Esc doesn't close it and it has no ×. The native apps show the same steps as a full page instead.
+The first run has two parts. Creating an account's identity and a workspace happens on brand pages, before the person is in a workspace. Then, until the new workspace has a computer and its first agent, the app shows its setup as a dialog over the workspace, with a scrim. The dialog can't be dismissed: Esc doesn't close it and it has no ×. The native apps show the same steps as a full page instead.
 
 ## Structure
+
+### Creating an account and a workspace
+
+- From 1024px, the page is split: the form on paper on the left (2 parts of 5, the form at most 448px wide, the logo at its top left) and a brand pane on the right on the frame color. The pane holds a preview of the workspace being created, tilted −1° with the hard sticker shadow, over halftone dots ([Brand](../../foundations/brand.md#how-much-brand)). The preview follows the form: the workspace's name and address appear in it as they are typed.
+- Below 1024px there is no pane: a 56px frame bar with the logo, as on sign-in, above the form.
+- Under the form, a line says who is signed in, with Log out.
+
+### The setup dialog
 
 The steps, in order:
 
@@ -29,6 +37,6 @@ dialog/compositions/server-setup-step
 
 ## Rules
 
-- Use the brand only on the handoff step: the agent's 99px avatar hops once, and two square marks pop beside it and fade. The other steps are plain dialogs on paper.
+- Use the brand only on the handoff step: the agent's 99px avatar, with the hard sticker shadow, hops once, and two square marks pop beside it and fade ([Motion](../../foundations/motion.md#usage)). The other steps are plain dialogs on paper.
 - Don't add a Skip button or step dots. The way out of setup is Switch server.
-- Write the step label in sentence case, like every other label ([0002](../../decisions/0002-no-all-caps.md)).
+- Write the step label in sentence case. [0002](../../decisions/0002-no-all-caps.md) allows one all-caps step label on an onboarding screen; the product doesn't use it.

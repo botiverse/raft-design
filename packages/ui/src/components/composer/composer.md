@@ -36,7 +36,6 @@ Where the composer sits in a conversation is in [Conversation](../../../../../de
   - `ComposerMeta`: at the end, an option attached to sending (`ComposerToolbarLabel` with a [Checkbox](../checkbox/checkbox.md)) and `ComposerSubmit`, the send button.
 - `ComposerSuggestionList` and its parts, driven by `useComposerSuggestions`: the @ suggestions above the box.
 - `ComposerDropOverlay`: what the box shows while files are dragged over it.
-- @ delegation chips (desktop): a row of agents that puts an @ mention into the input when one is clicked. raft-ui has no part for it yet.
 
 ## States
 
@@ -78,7 +77,7 @@ Composer has no Base UI primitive: it renders a native `<form>` and `<textarea>`
 
 ## Rules
 
-- Count the send button as the screen's pink button ([Button](../button/button.md#which-color)). On a phone it is a pink icon button; on desktop it may carry a label (Send ↵).
-- Draw one ink border around the whole group. The tools and chips inside it have none: `ComposerIconButton` is frameless, and delegation chips sit on `fill-muted`.
+- Count the send button as the screen's pink button ([Button](../button/button.md#which-color)). It is a pink icon button (`size="icon-sm"`) with `aria-label="Send"`, on a phone and on desktop.
+- Draw one ink border around the whole group. The tools inside it have none: `ComposerIconButton` is frameless.
 - Keep the input text `text-body` at regular weight wherever the composer sits (a channel, a thread, a comment on an attachment, a forward). Don't let it inherit the surrounding type. Make tool icons `foreground-muted`.
 - Under a scrolling region, such as a comment on an attachment or a note added to a forward, use a compact composer: a `line-seam` above it, 12px of space around it, and no fill of its own.

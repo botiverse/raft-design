@@ -9,7 +9,7 @@ related: [popover, tooltip, avatar, status]
 
 # PreviewCard
 
-A preview card is the read-only profile card that appears when people hover over or focus a mention or a name, such as @Bugen in a message. It shows the avatar, the name, a status line and up to two small buttons, so people can see who someone is without leaving the conversation.
+A preview card is the read-only profile card that appears when people hover over or focus a mention or a name, such as @Bugen in a message. It shows the avatar, the name, a status line and up to two small buttons, so people can see who someone is without leaving the conversation. Raft Chat's card has no buttons ([Raft Chat](../../../../../design/products/raft-chat/README.md#overlays)).
 
 ```example
 preview-card/preview-card-mention

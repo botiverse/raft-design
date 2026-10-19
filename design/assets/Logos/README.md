@@ -15,8 +15,8 @@ The original SVGs from the Raft website, with the geometry copied exactly. Where
 
 ## Rules
 
-- Use the mark alone on onboarding, sign-in and loading screens, in app icon sketches and where space is small.
-- Don't put the mark on the frame of a working page: the frame shows your workspace (the workspace pill on a phone's Home, the tile at the top of the desktop rail).
+- Use the lockup in the frame bar of sign-in and of the pages that create an account or a workspace. Use the mark alone above a sign-in form's title, on loading screens, in app icon sketches and where space is small.
+- Don't put the mark on the frame of a working page: the frame shows your workspace (the workspace pill on a phone's Home, the workspace button and strip in the web top bar).
 - Change the file to change the colors. The SVGs have two colors and can't be recolored with CSS `color`.
 - Put the mark straight on a yellow background, without a tile behind it.
 - In code, use the exports of raft-ui: `RaftLogo` (the mark), `RaftWordmark` and `RaftLogoLockup`.

@@ -10,8 +10,8 @@ Raft keeps a few things from the brutal style of its website: the yellow, the in
 ## Principles
 
 - **The working product uses the least brand.** Lists, conversations, tasks, settings and empty states get the frame and small blocks of color, nothing more.
-- **Brand illustration stays out of working pages.** Large stickers, hard shadows, halftone and logos appear only on profile and brand pages.
-- **Your workspace is on the frame, not the logo.** The frame of a working page shows your workspace (the workspace pill on a phone's Home, the tile at the top of the desktop rail), never the Raft mark.
+- **Brand illustration stays out of working pages.** The large sticker with the hard shadow appears only on profiles and the last setup step; halftone, the tilted preview and the logo only on sign-in and on the pages that create an account or a workspace.
+- **Your workspace is on the frame, not the logo.** The frame of a working page shows your workspace (the workspace pill on a phone's Home, the workspace button and strip in the web top bar), never the Raft mark.
 
 ## How much brand
 
@@ -20,10 +20,15 @@ Each row adds to the row above it.
 | Page | May use |
 | --- | --- |
 | Working pages: lists, conversations, tasks, settings, empty states | The yellow frame, the workspace pill, at most one pink primary action, ink-bordered controls, small blocks of color such as avatars and presence lights |
-| The profile of one agent or person | Also: a large pixel sticker, the hard sticker shadow (`shadow-sticker`), slow floating ([Motion](./motion.md)) |
-| Onboarding, sign-in, marketing pages inside the product | Also: a full-screen yellow, halftone dots, the 40px headline (`text-hero`), an all-caps step label, the logo |
+| The profile of one agent or person, and the last step of a workspace's setup | Also: the 99px pixel sticker with the hard sticker shadow (`shadow-sticker`). On a profile it stays still; on the setup's last step it hops once ([Motion](./motion.md#usage)) |
+| Sign-in and sign-up | Also: the logo, in a 56px frame bar above a white page, and the Raft mark above the form's title |
+| Creating an account or a workspace | Also: from 1024px, a brand pane beside the form, on the frame color, with halftone dots (1.5px `line-seam` dots on a 14px grid) behind a preview of the new workspace, tilted −1° with the hard sticker shadow. The logo sits at the top left of the form. Below 1024px, the same frame bar as sign-in above a plain form |
 
-The further down the table, the closer to the website. Nothing from the last two rows appears on a working page, including its empty states.
+The further down the table, the closer to the website. Nothing from the last three rows appears on a working page, including its empty states. The setup of a new workspace, which runs as dialogs over the workspace, is a working page apart from its last step ([Onboarding](../products/raft-chat/onboarding.md)).
+
+- Set a sign-in page's title in `text-title`, and the title of the page that creates a workspace in `text-title`, `text-display` from 640px. `text-hero` is used only for the name of the service on the page where a person signs in to another service with Raft (Login with Raft).
+- Don't fill the whole screen with yellow, and don't add floating stickers: the product's brand pages use the frame pane above instead.
+- Write the step label of the setup in sentence case ("Set up your server"). [0002](../decisions/0002-no-all-caps.md) still allows one all-caps step label on an onboarding screen; the product doesn't use it.
 
 ## Logo
 
@@ -37,7 +42,7 @@ The files are in [`design/assets/Logos`](../assets/Logos/). raft-ui exports the 
 
 - Use the ink outline on light backgrounds and the yellow outline on dark ones. The logo is two-color artwork: change the file, not its CSS `color`.
 - Put the mark straight on a yellow background, without a tile behind it.
-- Show the logo only on brand pages: onboarding, sign-in and loading screens.
+- Show the logo only on brand pages: sign-in, sign-up, the pages that create an account or a workspace, and loading screens.
 - Don't put the mark on the frame of a working page.
 
 ## Reactions
@@ -54,4 +59,4 @@ The 7 quick reactions are Raft's own drawings: thumbs_up, heart, party_popper, e
 
 - [Color](./color.md): the meanings of the brand colors.
 - [Page structure](../patterns/page-structure.md): where the frame is.
-- [Raft Chat](../products/raft-chat/README.md): the onboarding and agent profile screens.
+- [Raft Chat: Onboarding](../products/raft-chat/onboarding.md) and [Agent profile](../products/raft-chat/agent-profile.md).

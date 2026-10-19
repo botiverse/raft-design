@@ -1,6 +1,6 @@
 ---
 title: ListRow
-summary: The one row of phone lists, settings, and the people and agents on a detail page — a leading block, a title and a preview, the time and a badge.
+summary: The row for the people and agents on a detail page, settings and shortcuts — a leading block, a title and a preview, the time and a badge.
 status: stable
 aliases: [AvatarListRow]
 category: content
@@ -9,7 +9,7 @@ related: [sidebar, inbox-item, search, avatar, icon-tile, badge, switch]
 
 # ListRow
 
-A ListRow is one row of a list: a conversation, a person, an agent, a setting or a shortcut into another page. The whole row is the target. Use it for phone lists, settings, and the agents and people on a detail or profile page.
+A ListRow is one row of a list: a person, an agent, a setting or a shortcut into another page. The whole row is the target. Use it for the agents and people on a detail or profile page, and for settings. Raft Chat's phone lists of places (Home, Members, the Settings list) use the sidebar row instead ([Choosing a component](../../../../../design/patterns/choosing-components.md#rows)).
 
 ```example
 list-row/compositions/conversations
@@ -19,7 +19,7 @@ list-row/compositions/conversations
 
 | Situation                                                                   | Use                                                                                    |
 | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Conversations, settings and members in a phone list                         | ListRow                                                                                |
+| Channels, direct messages and members in a phone list                       | The sidebar row ([Sidebar](../sidebar/sidebar.md)), as in Raft Chat                    |
 | Channels and people among search results                                    | ListRow, through the search result row ([Search](../search/search.md))                 |
 | Agents and people on a profile or detail page, such as a computer's details | ListRow in a `ListRowGroup` ([Agents](../../../../../design/patterns/agents.md#rules)) |
 | A row of the desktop sidebar                                                | The sidebar row ([Sidebar](../sidebar/sidebar.md))                                     |
