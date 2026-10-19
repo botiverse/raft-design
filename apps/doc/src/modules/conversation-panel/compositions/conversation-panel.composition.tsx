@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import type { FormEvent } from "react";
 import {
   ArrowDown,
@@ -70,18 +70,11 @@ function handleComposerSubmit(event: FormEvent<HTMLFormElement>) {
 export function ConversationPanelComposition({
   conversation = "channel",
   edge = "inset",
-  muted: mutedProp = false,
+  muted = false,
   notificationError = null,
   newMessageCount = 0,
 }: ConversationPanelCompositionProps = {}) {
   const timelineRef = useRef<HTMLDivElement>(null);
-  const [muted, setMuted] = useState(mutedProp);
-  const [lastMutedProp, setLastMutedProp] = useState(mutedProp);
-  // Sync the local mute demo state when the controlled prop (playground control) changes.
-  if (mutedProp !== lastMutedProp) {
-    setLastMutedProp(mutedProp);
-    setMuted(mutedProp);
-  }
 
   const handleJump = useCallback(() => {
     const el = timelineRef.current;
@@ -91,11 +84,7 @@ export function ConversationPanelComposition({
 
   return (
     <ConversationPanelRoot edge={edge}>
-      <ConversationPanelHeaderComposition
-        conversation={conversation}
-        muted={muted}
-        onMutedChange={setMuted}
-      />
+      <ConversationPanelHeaderComposition conversation={conversation} muted={muted} />
       {notificationError ? (
         <Banner
           status="warning"
@@ -107,7 +96,7 @@ export function ConversationPanelComposition({
       ) : null}
       <ConversationPanelContent>
         <ConversationPanelTabs render={<Tabs value="chat" />}>
-          <SortableTabsList value={tabOrder} onReorder={handleTabReorder} variant="underline">
+          <SortableTabsList value={tabOrder} onReorder={handleTabReorder}>
             <SortableTabsTab value="chat">
               <MessageSquare />
               <TabsLabel>Chat</TabsLabel>
@@ -130,7 +119,7 @@ export function ConversationPanelComposition({
             <div className="h-px" aria-hidden />
             <div className="flex-1" aria-hidden />
             <MessageListDateDivider>Today</MessageListDateDivider>
-            <div data-index="0" data-message-id="preview-cindy">
+            <div data-index="0" data-message-id="preview-martin">
               <div>
                 <MessageItem>
                   <MessageItemAvatarSlot>
@@ -138,12 +127,12 @@ export function ConversationPanelComposition({
                   </MessageItemAvatarSlot>
                   <MessageItemContent>
                     <MessageItemHeader>
-                      <MessageItemSender>Cindy</MessageItemSender>
+                      <MessageItemSender>Martin</MessageItemSender>
                       <MessageItemTime>10:42</MessageItemTime>
                     </MessageItemHeader>
                     <MessageItemBody>
-                      Rail and sidebar own navigation. The conversation panel owns the active
-                      conversation chrome.
+                      Can someone take the onboarding copy before Thursday? It still says
+                      "workspace" in two places.
                     </MessageItemBody>
                     <MessageItemFooter>
                       <MessageItemBadge status="unread">
@@ -153,20 +142,20 @@ export function ConversationPanelComposition({
                     </MessageItemFooter>
                   </MessageItemContent>
                   <MessageItemToolbar>
-                    <MessageItemToolbarButton aria-label="Reply in thread">
+                    <MessageItemToolbarButton aria-label="Reply in Thread">
                       <MessageSquare />
                     </MessageItemToolbarButton>
-                    <MessageItemToolbarButton aria-label="Add reaction">
+                    <MessageItemToolbarButton aria-label="Add Reaction">
                       <SmilePlus />
                     </MessageItemToolbarButton>
-                    <MessageItemToolbarButton aria-label="Save message">
+                    <MessageItemToolbarButton aria-label="Save Message">
                       <Bookmark />
                     </MessageItemToolbarButton>
                   </MessageItemToolbar>
                 </MessageItem>
               </div>
             </div>
-            <div data-index="1" data-message-id="preview-atlas">
+            <div data-index="1" data-message-id="preview-bugen">
               <div>
                 <MessageItem>
                   <MessageItemAvatarSlot>
@@ -174,28 +163,28 @@ export function ConversationPanelComposition({
                   </MessageItemAvatarSlot>
                   <MessageItemContent>
                     <MessageItemHeader>
-                      <MessageItemSender>Atlas</MessageItemSender>
+                      <MessageItemSender>Bugen</MessageItemSender>
                       <MessageItemTime>10:44</MessageItemTime>
                     </MessageItemHeader>
                     <MessageItemBody>
-                      Message rows, composer behavior, route sync, and realtime data stay app-owned.
+                      I'll take it. Claiming #25 and opening a branch now.
                     </MessageItemBody>
                   </MessageItemContent>
                   <MessageItemToolbar>
-                    <MessageItemToolbarButton aria-label="Reply in thread">
+                    <MessageItemToolbarButton aria-label="Reply in Thread">
                       <MessageSquare />
                     </MessageItemToolbarButton>
-                    <MessageItemToolbarButton aria-label="Add reaction">
+                    <MessageItemToolbarButton aria-label="Add Reaction">
                       <SmilePlus />
                     </MessageItemToolbarButton>
-                    <MessageItemToolbarButton aria-label="Save message">
+                    <MessageItemToolbarButton aria-label="Save Message">
                       <Bookmark />
                     </MessageItemToolbarButton>
                   </MessageItemToolbar>
                 </MessageItem>
               </div>
             </div>
-            <div data-index="2" data-message-id="preview-atlas-cont">
+            <div data-index="2" data-message-id="preview-bugen-cont">
               <div>
                 <MessageItem compact>
                   <MessageItemGutter>
@@ -203,7 +192,7 @@ export function ConversationPanelComposition({
                   </MessageItemGutter>
                   <MessageItemContent>
                     <MessageItemBody>
-                      Continuation lines stack under the sender with no repeated avatar or header.
+                      Both strings are fixed; the snapshot is in the thread.
                     </MessageItemBody>
                   </MessageItemContent>
                 </MessageItem>
@@ -223,7 +212,9 @@ export function ConversationPanelComposition({
                     </MessageItemAvatarSlot>
                     <MessageItemContent>
                       <MessageItemHeader>
-                        <MessageItemSender>{index % 2 === 0 ? "Cindy" : "Atlas"}</MessageItemSender>
+                        <MessageItemSender>
+                          {index % 2 === 0 ? "Martin" : "Bugen"}
+                        </MessageItemSender>
                         <MessageItemTime>10:{46 + index}</MessageItemTime>
                       </MessageItemHeader>
                       <MessageItemBody>
@@ -258,13 +249,13 @@ export function ConversationPanelComposition({
           <ComposerRoot onSubmit={handleComposerSubmit}>
             <Composer>
               <ComposerInput
-                aria-label="Message #proj-uiux"
-                placeholder="Message #proj-uiux"
+                aria-label="Message #launch-week"
+                placeholder="Message #launch-week"
                 readOnly
               />
               <ComposerToolbar>
                 <ComposerActions>
-                  <ComposerIconButton aria-label="Attach image" disabled>
+                  <ComposerIconButton aria-label="Attach media" disabled>
                     <ImagePlus />
                   </ComposerIconButton>
                   <ComposerIconButton aria-label="Attach file" disabled>
@@ -276,8 +267,7 @@ export function ConversationPanelComposition({
                     <Checkbox aria-label="Send as task" />
                     As Task
                   </ComposerToolbarLabel>
-                  <ComposerSubmit aria-label="Send" disabled>
-                    <span>Send</span>
+                  <ComposerSubmit size="icon-sm" aria-label="Send" disabled>
                     <Send />
                   </ComposerSubmit>
                 </ComposerMeta>

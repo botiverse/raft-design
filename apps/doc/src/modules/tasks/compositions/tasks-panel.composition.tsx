@@ -1,17 +1,16 @@
 import type { ReactNode } from "react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
-  Tabs,
-  TabsLabel,
-  TabsList,
-  TabsTab,
+  SegmentedControl,
+  SegmentedControlItem,
+  SegmentedControlLabel,
   TasksPanelRoot,
   TasksPanelToolbar,
   TasksPanelToolbarFilters,
   TasksPanelToolbarView,
   TasksPanelViewport,
 } from "@botiverse/raft-ui";
-import { ListTodo, SquareKanban } from "lucide-react";
+import { Columns3, LayoutList } from "lucide-react";
 
 import {
   getTaskStatusLabel,
@@ -129,18 +128,16 @@ export function TasksPanelComposition({
           </TasksPanelToolbarFilters>
           {showToolbarView ? (
             <TasksPanelToolbarView>
-              <Tabs value={view} onValueChange={setView} aria-label="Task view">
-                <TabsList>
-                  <TabsTab value="board" aria-label="Board" className="max-md:px-2.5">
-                    <SquareKanban aria-hidden />
-                    <TabsLabel className="max-md:hidden">Board</TabsLabel>
-                  </TabsTab>
-                  <TabsTab value="list" aria-label="List" className="max-md:px-2.5">
-                    <ListTodo aria-hidden />
-                    <TabsLabel className="max-md:hidden">List</TabsLabel>
-                  </TabsTab>
-                </TabsList>
-              </Tabs>
+              <SegmentedControl value={view} onValueChange={setView} aria-label="Task view">
+                <SegmentedControlItem value="board">
+                  <Columns3 aria-hidden />
+                  <SegmentedControlLabel className="max-sm:sr-only">Board</SegmentedControlLabel>
+                </SegmentedControlItem>
+                <SegmentedControlItem value="list">
+                  <LayoutList aria-hidden />
+                  <SegmentedControlLabel className="max-sm:sr-only">List</SegmentedControlLabel>
+                </SegmentedControlItem>
+              </SegmentedControl>
             </TasksPanelToolbarView>
           ) : null}
         </TasksPanelToolbar>

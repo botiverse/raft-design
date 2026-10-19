@@ -55,7 +55,7 @@ conversation-panel/compositions/conversation-panel-header
 | `PanelHeader`        | Every desktop panel header; the white top bar of a phone's pushed page                                                 |
 | `PanelSectionHeader` | A section-level view. On a phone it sits on `layer-frame` with `foreground-on-frame` text, and hides `PanelHeaderIcon` |
 
-Whether a phone's pushed page has a white top bar or a yellow one, like a top-level page, is [still open](../../../../../design/decisions/open-questions.md). In the yellow version, the location tile becomes a white sticker (`layer-frame-active`) in light mode, like the rail's selected item, and stays yellow in dark mode.
+A phone's pushed page has a white top bar, and its location tile stays a yellow sticker ([Open questions](../../../../../design/decisions/open-questions.md#settled-by-the-product)).
 
 ## States
 

@@ -1,16 +1,7 @@
-import {
-  Bell,
-  BellOff,
-  EllipsisVertical,
-  Hash,
-  Search,
-  Settings,
-  Square,
-  Users,
-} from "lucide-react";
+import { BellOff, Hash, Search, Settings } from "lucide-react";
 import {
   Avatar,
-  AvatarFallback,
+  AvatarGroup,
   PanelAction,
   PanelActions,
   PanelHeader,
@@ -21,80 +12,75 @@ import {
   PanelActivity,
   PanelStatus,
   PanelTitle,
-  PanelToggleAction,
   Status,
 } from "@botiverse/raft-ui";
 
 export type ConversationPanelHeaderCompositionProps = {
-  conversation: "channel" | "dm";
-  muted: boolean;
-  onMutedChange?: (muted: boolean) => void;
+  conversation?: "channel" | "dm";
+  muted?: boolean;
 };
 
 export function ConversationPanelHeaderComposition({
-  conversation,
-  muted,
-  onMutedChange,
+  conversation = "channel",
+  muted = false,
 }: ConversationPanelHeaderCompositionProps) {
   if (conversation === "dm") {
     return (
       <PanelHeader>
         <PanelHeaderContent>
-          <Avatar data-slot="panel-header-icon" size="md" type="agent">
-            <AvatarFallback>AT</AvatarFallback>
-          </Avatar>
+          <Avatar data-slot="panel-header-icon" size="md" type="agent" />
           <PanelHeading>
-            <PanelTitle>Atlas</PanelTitle>
+            <PanelTitle>Bugen</PanelTitle>
             <PanelActivity title="Working…">
-              <Status aria-hidden size="sm" variant="success" />
+              <Status aria-hidden size="sm" presence="busy" />
               Working…
             </PanelActivity>
           </PanelHeading>
         </PanelHeaderContent>
+        <PanelActions>
+          <PanelAction aria-label="Search this conversation">
+            <Search />
+          </PanelAction>
+          <PanelAction aria-label="Conversation details and settings">
+            <Settings />
+          </PanelAction>
+        </PanelActions>
       </PanelHeader>
     );
   }
 
   return (
     <PanelHeader>
-      <PanelHeaderIcon className="max-md:col-start-1">
-        <Hash className="size-4.5" />
+      <PanelHeaderIcon>
+        <Hash />
       </PanelHeaderIcon>
-      <PanelHeaderContent className="max-md:col-start-2 max-md:col-span-2">
+      <PanelHeaderContent>
         <PanelHeading>
-          <PanelTitle>proj-uiux</PanelTitle>
+          <PanelTitle>launch-week</PanelTitle>
           {muted ? (
             <PanelStatus title="Activity muted. Direct mentions can still notify you.">
               <BellOff />
             </PanelStatus>
           ) : null}
         </PanelHeading>
-        <PanelMeta>Design system migration</PanelMeta>
+        <PanelMeta>
+          <span className="flex min-w-0 items-center gap-1.5">
+            <AvatarGroup aria-hidden>
+              <Avatar size="xs" type="agent" />
+              <Avatar size="xs" type="agent" />
+            </AvatarGroup>
+            <span className="shrink-0">2 agents working</span>
+            <span aria-hidden>·</span>
+            <span className="truncate">Ship the launch week</span>
+          </span>
+        </PanelMeta>
       </PanelHeaderContent>
       <PanelActions>
-        <PanelAction aria-label="Search conversation">
+        <PanelAction aria-label="Search this channel">
           <Search />
         </PanelAction>
-        <PanelToggleAction
-          className="max-md:hidden"
-          pressed={muted}
-          onPressedChange={onMutedChange}
-          aria-label={muted ? "Unmute channel activity" : "Mute channel activity"}
-        >
-          {muted ? <BellOff /> : <Bell />}
-        </PanelToggleAction>
-        <PanelAction className="max-md:hidden" aria-label="Stop all agents in this channel">
-          <Square />
-        </PanelAction>
-        <PanelAction className="max-md:hidden" aria-label="View participants">
-          <Users />
-          13
-        </PanelAction>
-        <PanelAction className="max-md:hidden" aria-label="Channel options">
+        <PanelAction aria-label="Channel details and settings">
           <Settings />
-        </PanelAction>
-        <PanelAction className="md:hidden" aria-label="More options">
-          <EllipsisVertical />
         </PanelAction>
       </PanelActions>
     </PanelHeader>

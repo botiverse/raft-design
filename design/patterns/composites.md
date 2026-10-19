@@ -15,7 +15,7 @@ Whenever you need one of the things below. If what you need isn't here and no co
 
 ### Task details
 
-A wider [Dialog](../../packages/ui/src/components/dialog/dialog.md): the title, one row of properties (Status, Assignee, Created by) in a [DescriptionList](../../packages/ui/src/components/description-list/description-list.md), the History in a collapsed [Timeline](../../packages/ui/src/components/timeline/timeline.md), then the task's thread and a [Composer](../../packages/ui/src/components/composer/composer.md). Its size is in [Tasks](./tasks.md).
+A centered [Dialog](../../packages/ui/src/components/dialog/dialog.md), 960px wide: a bar with the place and the task number, the title and the description, one row of properties (Status, Assignee, Created by) in a [DescriptionList](../../packages/ui/src/components/description-list/description-list.md), the History in a collapsed [Timeline](../../packages/ui/src/components/timeline/timeline.md), then the task's thread and a [Composer](../../packages/ui/src/components/composer/composer.md). Its size and its bar are in [Tasks](./tasks.md#structure).
 
 ### Image viewer
 
@@ -43,7 +43,7 @@ The same container as a code block ([CodeBlock](../../packages/ui/src/components
 
 ### Translation, read and saved markers
 
-One more small chip in the row under the message, or a short line of Space Mono text ([MessageTranslation](../../packages/ui/src/components/message-translation/message-translation.md)). Don't add a color for them.
+One more small chip in the row under the message (Saved), or a short line of Space Mono text: a translation under the original, and "Read" as one status line under the last message of a direct message ([MessageTranslation](../../packages/ui/src/components/message-translation/message-translation.md)). Don't add a color for them.
 
 ```example
 message-translation/compositions/translation-showcase
@@ -51,7 +51,7 @@ message-translation/compositions/translation-showcase
 
 ### Toolbar for selected messages
 
-`MessageMultiSelectToolbar` at the bottom of the conversation ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)).
+While messages are selected, a toolbar takes the composer's place at the bottom of the conversation: Select All, Cancel, Forward, Copy link, and a More menu with Generate image and Copy MD. Select Message in the message menu starts the selection; each message gets a checkbox ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)).
 
 ```example
 message-item/compositions/selection-showcase
@@ -87,9 +87,11 @@ The structure of a [Dialog](../../packages/ui/src/components/dialog/dialog.md), 
 
 ### Switching workspaces
 
-- On a phone, the workspace pill opens a bottom sheet with the list ([Drawer](../../packages/ui/src/components/drawer/drawer.md)).
-- On desktop, the tile at the top of the rail opens the same list as a menu next to the tile ([DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)).
-- Make each row the workspace tile, its name and its unread count, with a check on the current workspace.
+- On desktop, the workspace button at the left of the web top bar opens the list as a menu under it, 256px wide ([Popover](../../packages/ui/src/components/popover/popover.md)). The strip of workspace avatars beside the button switches with one click.
+- On a phone, the workspace pill opens the same list as a bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md), [0007](../decisions/0007-workspace-switcher-sheet.md)). The product doesn't follow this yet: the pill opens the list as a popover under the top bar.
+- Make each row the workspace tile, its name and its address in Space Mono (`/launch`). Mark the current workspace with a check and a bold name; show the unread count of the others as a pink count, or a gray count when the workspace is muted.
+- Give each row a drag handle, so people can reorder the list. The strip follows the same order.
+- End the list, after a separator, with Join Community (until the person has joined it), Switch or Create Server and Invite Human.
 
 ## Related
 

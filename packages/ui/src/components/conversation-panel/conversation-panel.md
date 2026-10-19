@@ -36,7 +36,7 @@ conversation-panel/compositions/conversation-panel
 
 ## Variants
 
-A place can hold several kinds of content, such as a channel's chat, tasks and files. They can be tabs under the header, a segmented control in the header, or one of them in a side panel. A product picks one of these and uses it everywhere ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)); Raft Chat's choice is [still open](../../../../../design/decisions/open-questions.md), and its default is the row of tabs.
+A place can hold several kinds of content, such as a channel's chat, tasks and files. They are one row of sticker tabs in `ConversationPanelTabs`, under the header ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)). Leave the row out when the place has only one view, such as a thread.
 
 ## Behavior
 

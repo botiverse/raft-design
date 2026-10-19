@@ -41,7 +41,7 @@ Which destinations a product has, and in which order, is on its own page ([Raft 
 | Icons only (default) | Every product today. 56px wide plus the seam; each item is 40px square, and its name appears in a tooltip to the right                                                                                                                                 |
 | Icons with labels    | Names under the icons, in `text-label` (bold when selected). 68px wide plus the seam; each item is 60×52px, and the selected sticker wraps the icon and the label. The footer tools keep icons only, because "Notifications" doesn't fit under an icon |
 
-Whether the labeled rail is adopted is [still open](../../../../../design/decisions/open-questions.md); raft-ui implements the icons-only rail. The labeled rail can't keep a square top-left corner (it is 68×56px), and the product pins that square with a UI test (`leftrail-square-slot`). Choosing it means changing that test, or making every header 68px high; the product owner decides.
+The product ships the icons-only rail, and raft-ui implements only that one ([Open questions](../../../../../design/decisions/open-questions.md#settled-by-the-product)). A labeled rail can't keep a square top-left corner (it is 68×56px), and the product pins that square with a UI test (`leftrail-square-slot`).
 
 ## States
 

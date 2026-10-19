@@ -17,14 +17,14 @@ dialog/compositions/create-channel
 
 ## When to use
 
-| Situation                                                                            | Use                                                                                                                                                 |
-| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| A small task in 2 or 3 fields (Create Channel)                                       | Dialog                                                                                                                                              |
-| A large form filled in one pass: registering or editing an app, configuring an agent | Dialog with `size="wide"`                                                                                                                           |
-| Task details                                                                         | A wider Dialog, at most 760px wide and full screen on a phone ([Tasks](../../../../../design/patterns/tasks.md))                                    |
-| Confirming an action that cannot be undone, or that interrupts                       | [AlertDialog](../alert-dialog/alert-dialog.md)                                                                                                      |
-| An action that can be undone                                                         | No dialog: do it, then show a [Toast](../toast/toast.md) with Undo ([Feedback](../../../../../design/patterns/feedback.md#undo-instead-of-confirm)) |
-| Details or settings people look at and edit for a while                              | [Drawer](../drawer/drawer.md)                                                                                                                       |
+| Situation                                                                            | Use                                                                                                                                     |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| A small task in 2 or 3 fields (Create Channel)                                       | Dialog                                                                                                                                  |
+| A large form filled in one pass: registering or editing an app, configuring an agent | Dialog with `size="wide"`                                                                                                               |
+| Task details                                                                         | A wider Dialog, 960px wide and full screen on a phone ([Tasks](../../../../../design/patterns/tasks.md))                                |
+| Confirming an action that cannot be undone, or that interrupts                       | [AlertDialog](../alert-dialog/alert-dialog.md)                                                                                          |
+| An action that can be reversed in place                                              | No dialog: do it; when a [Toast](../toast/toast.md) offers Undo is in [Feedback](../../../../../design/patterns/feedback.md#confirming) |
+| Details or settings people look at and edit for a while                              | [Drawer](../drawer/drawer.md)                                                                                                           |
 
 Which overlay fits which job is in [Choosing a component](../../../../../design/patterns/choosing-components.md#overlays).
 

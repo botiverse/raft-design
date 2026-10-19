@@ -18,7 +18,7 @@ The rail is 56px wide plus a 1px `line-seam`, and every header (rail, sidebar, p
 
 ## Consequences
 
-Narrowing the rail means every header shrinks with it. The labeled rail needs 68px to fit names such as Computers, which makes its top-left corner 68×56 and breaks the square-corner test. Choosing it means changing that test, or making every header 68px high; see [Open questions](./open-questions.md).
+Narrowing the rail means every header shrinks with it. A labeled rail would need 68px to fit names such as Computers, which would make its top-left corner 68×56 and break the square-corner test. The product ships the icons-only rail ([Open questions](./open-questions.md#settled-by-the-product)).
 
 ## Related
 
