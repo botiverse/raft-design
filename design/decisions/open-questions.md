@@ -9,7 +9,7 @@ In these places the same thing is drawn in more than one version, and the choice
 
 | Where | Versions | Default | The product ships |
 | --- | --- | --- | --- |
-| The top bar of a phone's top-level pages | With the page name as a large title, or with one 56px navigation row (Home shows only the workspace pill; Tasks, Members and Settings put their name in the row in `text-headline`) | With the page name as a large title ([Page structure](../patterns/page-structure.md#phone)) | The navigation row (`Sidebar.tsx`, `TasksPanel.tsx` in the web app) |
+| The top bar of a phone's top-level pages | With the page name as a large title, or with one 56px navigation row (Home shows only the workspace pill; Tasks, Members and Settings put their name in the row in `text-headline`) | With the page name as a large title ([Page structure](../patterns/page-structure.md#phone)) | The large title on Home, Members and Settings (`Sidebar.tsx`, `LargeTitle.tsx` in the web app); the navigation row on Tasks (`TasksPanel.tsx`). Extending it waits on feedback from people using the three |
 
 ## Settled by the product
 

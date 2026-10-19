@@ -20,7 +20,7 @@ Each style sets a size and a line height; the bold styles also set their weight.
 | Token | Use for |
 | --- | --- |
 | `text-hero` | The name of the service on the Login with Raft page, from 640px |
-| `text-display` | The title of the page that creates a server, from 640px. Also the large title of a top-level page ([Page structure](../patterns/page-structure.md#phone)), which the product doesn't show yet |
+| `text-display` | The title of the page that creates a server, from 640px. Also the large title of a top-level page ([Page structure](../patterns/page-structure.md#phone)) |
 | `text-title` | The title of a sign-in page and of a setup step |
 | `text-headline` | Top bar titles (a top-level page's name, a pushed page's title), panel headers, sidebar headers, dialog and sheet titles, the workspace pill, the name on a profile |
 | `text-body` | Message text, inputs; list and task titles at weight 600 |
