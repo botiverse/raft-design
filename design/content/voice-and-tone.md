@@ -55,6 +55,7 @@ Raft sounds like a capable teammate at the next desk: short, direct and plain. T
 - Follow the same principles: short sentences, few adjectives, the imperative for steps.
 - Keep numbers, IDs, times and runtime names in Space Mono ([Typography](../foundations/typography.md)).
 - Translate a term the same way everywhere, following the product's catalog; see [Terminology](./terminology.md).
+- Write an empty state with *hái méiyǒu* ("not yet") or *méiyǒu* ("none"), in the same forms as the English ([Writing](./writing.md#errors-and-empty-states)). Don't write *zànwú* ("temporarily none"), which reads as an official notice, or *wéi kōng* ("is empty"), which describes the container instead of what is missing.
 
 ## Related
 
