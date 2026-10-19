@@ -68,7 +68,7 @@ export const messageItem = tv({
       "absolute z-20 flex items-center",
       "opacity-(--mi-toolbar-opacity,0)",
       "[pointer-events:var(--mi-toolbar-pe,none)]",
-      "top-[-16px] right-3 gap-0.5 overflow-visible rounded-control p-0.5",
+      "top-[-16px] right-3 gap-0.5 overflow-visible rounded-container p-0.5",
       "bg-layer-popover ring-1 ring-line-seam ring-inset shadow-float",
     ],
     toolbarButton: [

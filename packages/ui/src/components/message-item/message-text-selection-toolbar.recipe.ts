@@ -4,7 +4,7 @@ export const messageTextSelectionToolbar = tv({
   slots: {
     toolbar: [
       "flex min-w-0 items-center select-none",
-      "gap-0.5 overflow-visible rounded-control p-0.5 text-footnote font-bold",
+      "gap-0.5 overflow-visible rounded-container p-0.5 text-footnote font-bold",
       "bg-layer-popover ring-1 ring-line-seam ring-inset shadow-float",
     ],
     button: [

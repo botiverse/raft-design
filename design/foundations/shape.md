@@ -27,6 +27,13 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 
 - Use a 2px radius for presence lights and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.
 
+## Nested corners
+
+When a rounded control sits close inside a rounded frame, as the buttons of a toolbar or the items of a segmented control do, the two corners share a center.
+
+- Make the frame's radius the inner radius plus the gap between the inner edge and the frame's outer edge, a hairline drawn inside the frame included: with equal radii the gap pinches at the corner and widens along the sides, so the inner shape looks pushed into the corner.
+- Keep the inner radius from the scale and derive the frame's: the control's corner is what people see change on hover. `radius-control` (8px) with a 2px frame gives `radius-container` (10px), as on the message hover toolbar; with a 3px frame it gives 11px, as on the segmented control.
+
 ## Stroke widths
 
 | Width | Use for |
