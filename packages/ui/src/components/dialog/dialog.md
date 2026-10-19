@@ -60,7 +60,7 @@ The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFoot
 - Don't close a large form dialog on a click outside it: pass `disablePointerDismissal` on `Dialog`, so a half-filled form isn't lost to a stray click.
 - On a narrow screen the dialog keeps a 16px margin on each side and never grows taller than the window less 32px.
 - Below 768px the wide dialog hides `DialogNav` and the sections follow one another.
-- A dialog opened from another dialog takes `layer={1}`, so it and its scrim sit above the first.
+- A dialog opened from a dialog or a sheet draws its own, lighter scrim over the one below ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)). Render it inside the first one and this happens by itself. `layer={1}` is only for a dialog rendered outside the first one's tree: it lifts the dialog and its scrim above the first.
 
 ## Content
 

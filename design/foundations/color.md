@@ -36,6 +36,7 @@ layer
 | `layer-code` | Code blocks and command lines |
 | `layer-hud` | Toasts and tooltips; text on it is `foreground-on-hud` and `foreground-on-hud-muted` |
 | `layer-backdrop` | The scrim behind centered overlays, modal drawers, bottom sheets and the lightbox |
+| `layer-backdrop-nested` | The lighter scrim under a modal surface opened from another one ([Stacked overlays](./elevation.md#stacked-overlays)) |
 
 Fills are laid into or over a surface: the sunken fill and the pressed overlays ([Pressed overlays](#pressed-overlays)).
 

@@ -9,6 +9,7 @@ import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
 import { drawer } from "./drawer.recipe";
+import { OverlayDepthProvider } from "../../lib/overlay-depth";
 
 type DrawerConfig = {
   hasSnapPoints: boolean;
@@ -113,7 +114,7 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
         <DrawerPrimitive.Popup data-slot="drawer-popup" className={popup({ className })} {...props}>
           {hasSnapPoints ? <DrawerSwipeHandle /> : null}
           <DrawerPrimitive.Content data-slot="drawer-content" className={content()}>
-            {children}
+            {modal === true ? <OverlayDepthProvider>{children}</OverlayDepthProvider> : children}
           </DrawerPrimitive.Content>
         </DrawerPrimitive.Popup>
       </DrawerPrimitive.Viewport>

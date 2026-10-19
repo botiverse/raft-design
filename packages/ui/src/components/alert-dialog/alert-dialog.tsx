@@ -5,6 +5,7 @@ import type { ComponentPropsWithRef, ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { OverlayDepthProvider, useOverlayDepth } from "../../lib/overlay-depth";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
 
@@ -30,6 +31,13 @@ const alertDialog = tv({
     ],
     title: ["m-0 min-w-0 text-foreground", "font-sans text-headline font-bold"],
     description: ["m-0", "font-sans text-subhead text-foreground-muted"],
+  },
+  variants: {
+    // Opened from another modal surface: a lighter scrim of its own.
+    nested: {
+      false: {},
+      true: { overlay: ["bg-layer-backdrop-nested"] },
+    },
   },
 });
 
@@ -86,11 +94,14 @@ export function AlertDialogClose({
 export type AlertDialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props>;
 
 export function AlertDialogOverlay({ className, ...props }: AlertDialogOverlayProps) {
-  const { overlay } = alertDialog();
+  const nested = useOverlayDepth() > 0;
+  const { overlay } = alertDialog({ nested });
 
   return (
     <BaseDialog.Backdrop
       data-slot="alert-dialog-overlay"
+      data-nested={nested ? "" : undefined}
+      forceRender={nested}
       className={overlay({ className })}
       {...props}
     />
@@ -120,7 +131,7 @@ export function AlertDialogContent({
         {...props}
         role="alertdialog"
       >
-        {children}
+        <OverlayDepthProvider>{children}</OverlayDepthProvider>
       </BaseDialog.Popup>
     </AlertDialogPortal>
   );

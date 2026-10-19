@@ -92,7 +92,7 @@ The purpose says where the token is used: `frame`, `sidebar`, `canvas`, `card`, 
 | `-hover`, `-active` | The pair a solid fill takes on hover and press. A family has both or neither |
 | `-50` to `-950` | The numbered ramp. Only `brand` and `attention` have one |
 
-**Opacity.** Every `layer` token is opaque except `layer-backdrop`, the scrim. `fill-muted` and `fill-strong` are opaque. `fill-pressed`, `fill-frame-pressed` and `sticker-pressed` are translucent: they are overlays laid on top of a control ([Pressed overlays](./color.md#pressed-overlays)).
+**Opacity.** Every `layer` token is opaque except the two scrims, `layer-backdrop` and `layer-backdrop-nested`. `fill-muted` and `fill-strong` are opaque. `fill-pressed`, `fill-frame-pressed` and `sticker-pressed` are translucent: they are overlays laid on top of a control ([Pressed overlays](./color.md#pressed-overlays)).
 
 **Utilities.** A Tailwind utility is the property's prefix and the token name: `bg-layer-card`, `text-foreground-muted`, `border-line-strong`. Shadows are named apart: `shadow-float` for `elevation-float`, `shadow-sticker` for `elevation-sticker`, `shadow-focus` for `focus-ring`. The numbered palette steps are only custom properties, not utilities; the bare `bg-palette-yellow` and its siblings are the exception.
 

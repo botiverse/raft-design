@@ -116,6 +116,7 @@
   --color-layer-sidebar: var(--layer-sidebar);
   --color-layer-popover: var(--layer-popover);
   --color-layer-backdrop: var(--layer-backdrop);
+  --color-layer-backdrop-nested: var(--layer-backdrop-nested);
   --color-layer-card: var(--layer-card);
   --color-layer-hud: var(--layer-hud);
   --color-foreground-on-hud: var(--foreground-on-hud);

@@ -7,6 +7,7 @@ import type { ComponentPropsWithRef, ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { OverlayDepthProvider, useOverlayDepth } from "../../lib/overlay-depth";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
 
@@ -70,6 +71,12 @@ const dialog = tv({
       0: { overlay: [], content: [] },
       1: { overlay: ["z-60"], content: ["z-60"] },
     },
+    // Opened from another modal surface (a sheet or a dialog): a lighter scrim
+    // of its own, so what is below steps back without going black.
+    nested: {
+      false: {},
+      true: { overlay: ["bg-layer-backdrop-nested"] },
+    },
   },
   defaultVariants: {
     size: "md",
@@ -100,9 +107,16 @@ export type DialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props> & {
 };
 
 export function DialogOverlay({ className, layer, ...props }: DialogOverlayProps) {
-  const { overlay } = dialog({ layer });
+  const nested = useOverlayDepth() > 0;
+  const { overlay } = dialog({ layer, nested });
   return (
-    <BaseDialog.Backdrop data-slot="dialog-overlay" className={overlay({ className })} {...props} />
+    <BaseDialog.Backdrop
+      data-slot="dialog-overlay"
+      data-nested={nested ? "" : undefined}
+      forceRender={nested}
+      className={overlay({ className })}
+      {...props}
+    />
   );
 }
 
@@ -130,7 +144,7 @@ export function DialogContent({
     <DialogPortal {...portalProps}>
       {overlay === false ? null : <DialogOverlay layer={layer} {...overlayProps} />}
       <BaseDialog.Popup data-slot="dialog-content" className={content({ className })} {...props}>
-        {children}
+        <OverlayDepthProvider>{children}</OverlayDepthProvider>
       </BaseDialog.Popup>
     </DialogPortal>
   );

@@ -38,6 +38,17 @@ Menus, select and filter lists, and profile cards open next to the element that 
 - Move or flip a popup to the other side when it meets the window edge, and never make it larger than the space left.
 - Don't scroll or shift the page when a popup opens or when someone types in it.
 
+## Stacked overlays
+
+A modal surface (a dialog, an alert dialog, a modal sheet) dims everything under it with a scrim, so the one thing that can be used is the one on top. When one opens from another, the same must stay true: the surface below has to step back, or a white dialog sits on a white sheet with nothing to say which of the two is live.
+
+- Put a scrim directly under every modal surface, including one opened from another. The scrim is what says "this is on top"; a shadow alone doesn't.
+- The first surface gets `layer-backdrop`. One opened from it gets the lighter `layer-backdrop-nested` (40% in both themes), so the surface below dims without the page going black: one scrim leaves a white page at about 35% of its light, two full ones would leave 12%.
+- Stack at most two modal surfaces. When a third would open, replace the top one, or move the flow to a page.
+- A sheet opened from a sheet is the exception: the one below steps back by itself instead ([Drawer](../../packages/ui/src/components/drawer/drawer.md#behavior)).
+
+raft-ui does this on its own: `DialogContent`, `AlertDialogContent` and a modal `DrawerContent` tell what they render that they are open, and a dialog or alert dialog opened inside one draws the nested scrim. Base UI draws no scrim for a nested dialog by default, which is how a confirm opened from a sheet came to sit on an undimmed sheet.
+
 ## Focus ring
 
 `focus-ring` is a 2px gap in the surface color followed by 2px of ink. It is ink, not yellow: a yellow ring would disappear on the yellow frame and on yellow stickers.
