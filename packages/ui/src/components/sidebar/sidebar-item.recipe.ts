@@ -4,12 +4,18 @@ export const sidebarItemRecipe = tv({
   slots: {
     // The tone sets the name's ink, which the title inherits: muted is ink-2,
     // away (offline, not joined) ink-3. The yellow sticker keeps its own ink.
+    // Below md the row is a phone list of places (Home, Members, Settings):
+    // at least 44px for a finger, in the ListRow title type (16/24 600).
+    // 8.5px inside the 1.5px edge centres one 24px line in 44, so a wrapping
+    // row starts its first line where a one-line row's sits.
     sidebarItem: [
       "group/sidebar-item flex w-full items-center px-2 text-left",
       "transition-colors",
       "my-px h-9 gap-2 rounded-control border-[1.5px] border-transparent py-0 pr-2.5 pl-2",
       "md:py-0 [@media(max-height:600px)]:py-0",
+      "max-md:h-auto max-md:min-h-11 max-md:py-[8.5px]",
       "font-sans text-subhead font-medium text-foreground",
+      "max-md:text-body max-md:font-semibold",
       "data-active:border-sticker-ink data-active:bg-brand data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
       "not-data-active:data-[tone=muted]:text-foreground-muted not-data-active:data-[tone=away]:text-foreground-hint",
       "outline-none",

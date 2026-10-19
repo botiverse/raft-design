@@ -23,7 +23,7 @@ From top to bottom:
 sidebar/compositions/phone-home
 ```
 
-The rows are sidebar rows grown to 44px by the product. raft-ui's sidebar row has no phone size yet ([#525](https://github.com/botiverse/raft-design/issues/525)), so the example above shows them at their desktop height.
+The rows are sidebar rows, which are 44px below `md` on their own ([Sidebar](../../../packages/ui/src/components/sidebar/sidebar.md#rules)).
 
 ## Rules
 
