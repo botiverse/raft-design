@@ -45,9 +45,7 @@ const announcement = tv({
     action: [
       "ml-auto h-auto min-h-8 min-w-0 max-w-full py-1 whitespace-normal text-center font-bold @max-[28rem]/announcement:ml-0 @max-[28rem]/announcement:w-full",
     ],
-    secondary: [
-      "min-w-0 max-w-full px-0 whitespace-normal underline @max-[28rem]/announcement:w-full",
-    ],
+    secondary: ["min-w-0 max-w-full whitespace-normal @max-[28rem]/announcement:w-full"],
   },
 });
 
@@ -137,5 +135,5 @@ export function AnnouncementDialogSecondaryAction({
   ...props
 }: Omit<ButtonProps, "variant">) {
   const { secondary } = announcement();
-  return <Button variant="link" className={secondary({ className })} {...props} />;
+  return <Button variant="ghost" className={secondary({ className })} {...props} />;
 }

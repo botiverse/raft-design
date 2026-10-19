@@ -3,16 +3,16 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
   MessageItemContent,
   MessageItemHeader,
-  MessageItem,
   MessageItemSender,
   MessageItemTime,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
-  Button,
+  TextLink,
 } from "@botiverse/raft-ui";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
@@ -38,9 +38,9 @@ export function MessageSelectionShowcaseComposition() {
 
   if (!active) {
     return (
-      <Button variant="link" size="sm" onClick={handleReenter}>
-        Re-enter multi-select mode
-      </Button>
+      <TextLink className="text-footnote" onClick={handleReenter}>
+        Re-enter Multi-Select Mode
+      </TextLink>
     );
   }
 

@@ -1,4 +1,11 @@
-import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "@botiverse/raft-ui";
+import {
+  Banner,
+  BannerAction,
+  BannerDescription,
+  BannerTitle,
+  Button,
+  TextLink,
+} from "@botiverse/raft-ui";
 import { CircleAlert, X } from "lucide-react";
 
 // @docs-source-strip-start
@@ -12,9 +19,7 @@ export function BannerInlineActionContent() {
       <BannerTitle>Plan limit reached</BannerTitle>
       <BannerDescription>
         Remove an inactive machine before adding another.{" "}
-        <Button variant="link" size="inline">
-          Manage machines
-        </Button>
+        <TextLink variant="strong">Manage Machines</TextLink>
       </BannerDescription>
       <BannerAction>
         <Button variant="ghost" size="icon-xs" aria-label="Dismiss">

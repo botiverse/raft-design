@@ -4,6 +4,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Banner, BannerAction, BannerDescription, BannerTitle } from "./banner";
 import { Button } from "../button/button";
+import { TextLink } from "../text-link/text-link";
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -58,9 +59,9 @@ it("warning inline button reads the description's colour", () => {
       <Banner status="warning" data-testid="banner">
         <BannerDescription data-testid="desc">
           Text{" "}
-          <Button variant="link" size="inline" data-testid="inline-btn">
+          <TextLink variant="strong" data-testid="inline-btn">
             Link
-          </Button>
+          </TextLink>
         </BannerDescription>
       </Banner>
     </ThemeProvider>,

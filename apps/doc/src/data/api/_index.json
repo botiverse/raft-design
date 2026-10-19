@@ -1215,6 +1215,12 @@
     ],
     "status": "stable"
   },
+  "text-link": {
+    "names": [
+      "TextLink"
+    ],
+    "status": "stable"
+  },
   "textarea": {
     "names": [
       "Textarea",

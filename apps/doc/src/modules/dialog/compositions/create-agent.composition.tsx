@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   Button,
+  TextLink,
   Field,
   FieldDescription,
   FieldLabel,
@@ -82,14 +83,7 @@ function CreateAgentDialogParts() {
             <span className="text-sm font-medium text-foreground">Model</span>
             <span className="font-mono text-xs text-foreground-muted">auto</span>
           </div>
-          <Button
-            type="button"
-            variant="link"
-            size="sm"
-            className="mt-1 justify-self-start px-0 text-xs underline underline-offset-2"
-          >
-            Advanced environment
-          </Button>
+          <TextLink className="mt-1 justify-self-start text-caption">Advanced Environment</TextLink>
         </div>
       </DialogBody>
       <DialogFooter>

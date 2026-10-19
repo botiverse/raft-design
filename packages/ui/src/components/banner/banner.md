@@ -34,7 +34,7 @@ The wider the scope of a message, the further out it goes; the full table is in 
 - `Banner`: the tinted container. Required.
 - An icon: a Lucide icon as a direct child, before the text.
 - `BannerTitle`: an optional bold first line.
-- `BannerDescription`: the message. Required. An inline text action (`Button size="inline"`) goes inside it.
+- `BannerDescription`: the message. Required. An inline text action goes inside it as a `TextLink variant="strong"`, because it sits in a sentence ([TextLink](../text-link/text-link.md#variants)).
 - `BannerAction`: an optional row under the text, for a button.
 
 ## Variants

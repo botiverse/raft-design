@@ -53,6 +53,7 @@ import {
   TabsLabel,
   TabsList,
   TabsTab,
+  TextLink,
 } from "@botiverse/raft-ui";
 import { useCallback, useMemo, useRef, useState } from "react";
 import type { ChangeEvent } from "react";
@@ -482,14 +483,9 @@ export function ActivityInboxComposition({
             <span className="min-w-0 flex-1 truncate whitespace-nowrap">DM &amp; Channels</span>
             {channelFilterId ? (
               <SidebarSectionTrailing className="min-w-0 pr-0">
-                <Button
-                  variant="link"
-                  size="sm"
-                  data-activity-inbox-show-all=""
-                  onClick={handleShowAllChannels}
-                >
-                  Show all
-                </Button>
+                <TextLink data-activity-inbox-show-all="" onClick={handleShowAllChannels}>
+                  Show All
+                </TextLink>
               </SidebarSectionTrailing>
             ) : null}
           </SidebarGroupLabel>

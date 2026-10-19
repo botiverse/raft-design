@@ -41,7 +41,7 @@ The full choice of how to tell people something is in [Choosing a component](../
   - `AnnouncementDialogPicture`: a picture of the feature on `fill-muted`, with a hairline and `radius-container`. The image inside is contained, not cropped. Optional.
   - `AnnouncementDialogText`: the text, in `text-subhead` and `foreground-muted`. It takes paragraphs, lists and headings.
 - `AnnouncementDialogFooter`: the actions, with no line above it.
-  - `AnnouncementDialogSecondaryAction`: a link-style button that dismisses the announcement. Optional.
+  - `AnnouncementDialogSecondaryAction`: a frameless button that dismisses the announcement, because the dialog draws its own edge ([Button](../button/button.md#which-color)). Optional.
   - `AnnouncementDialogAction`: the pink action, at the end of the footer. Required.
 
 ## Behavior
