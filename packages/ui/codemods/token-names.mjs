@@ -11,8 +11,9 @@
 // Review by hand afterwards: a guard that forbids a former name (a lint rule,
 // a test's doesNotMatch, an allowlist) now forbids the current one, and a
 // pattern built from parts (/bg-brutal-[a-z]+/) keeps the former name.
-import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, realpathSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 /** Old token name -> new token name. Used for both utilities and `--` properties. */
 export const TOKEN_RENAMES = {
@@ -147,4 +148,8 @@ function main(argv) {
   console.log(`${changed} file${changed === 1 ? "" : "s"} ${dry ? "to update" : "updated"}`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main(process.argv.slice(2));
+// Run only when invoked directly. Compare real paths: pnpm installs packages
+// through symlinks, so `process.argv[1]` (the path typed) and this module's
+// URL (the resolved file) differ, and a plain comparison silently did nothing.
+const invokedPath = process.argv[1] ? realpathSync(process.argv[1]) : "";
+if (invokedPath === realpathSync(fileURLToPath(import.meta.url))) main(process.argv.slice(2));
