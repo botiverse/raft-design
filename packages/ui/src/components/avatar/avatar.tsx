@@ -64,6 +64,8 @@ const avatar = tv({
     ],
     // The corner shell owns placement and scale. The default dot only adds
     // its visual chrome; custom indicators inherit this same size mapping.
+    // The light stays about a third of the avatar or less: on a 19px avatar a
+    // 9px light plus its 2px cut-out covered nearly half the face.
     badge: [
       "absolute z-10 select-none",
       "size-[11px] -right-1 -bottom-1 rounded-[2px]",
@@ -72,8 +74,8 @@ const avatar = tv({
       "group-data-[size=lg]/avatar:size-3.5 group-data-[size=lg]/avatar:right-[-5px] group-data-[size=lg]/avatar:bottom-[-5px]",
       "group-data-[size=md]/avatar:size-[11px]",
       "group-data-[size=sm]/avatar:size-[9px] group-data-[size=sm]/avatar:right-[-3px] group-data-[size=sm]/avatar:bottom-[-3px]",
-      "group-data-[size=xs]/avatar:size-[9px] group-data-[size=xs]/avatar:right-[-3px] group-data-[size=xs]/avatar:bottom-[-3px]",
-      "group-data-[size=2xs]/avatar:size-[9px] group-data-[size=2xs]/avatar:right-[-3px] group-data-[size=2xs]/avatar:bottom-[-3px]",
+      "group-data-[size=xs]/avatar:size-[7px] group-data-[size=xs]/avatar:-right-0.5 group-data-[size=xs]/avatar:-bottom-0.5",
+      "group-data-[size=2xs]/avatar:size-[7px] group-data-[size=2xs]/avatar:-right-0.5 group-data-[size=2xs]/avatar:-bottom-0.5",
       "group-data-[size=3xs]/avatar:size-1.5 group-data-[size=3xs]/avatar:-right-0.5 group-data-[size=3xs]/avatar:-bottom-0.5",
     ],
     dot: [
@@ -86,7 +88,7 @@ const avatar = tv({
       "rounded-[2px] border-[1.5px] border-sticker-ink",
       "bg-(--status-color) text-sticker-ink outline-layer-canvas",
       "group-data-[size=xl]/avatar:border-2",
-      "group-data-[size=3xs]/avatar:border",
+      "group-data-[size=xs]/avatar:border group-data-[size=2xs]/avatar:border group-data-[size=3xs]/avatar:border",
     ],
     group: [
       "group/avatar-group flex items-center",
