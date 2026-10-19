@@ -6,14 +6,15 @@ export type MessageReferenceChipVariant = "accent" | "muted" | "info" | "link";
 /** Visual variants the public `MessageReferenceText` prop accepts. */
 export type MessageReferenceTextVariant = "primary" | "secondary";
 
-// A reference chip in a message: the body text's size on the body text's
-// baseline, its box the text's own line box plus symmetric padding (no fixed
-// height, no nudge), so the letters look centred and the chip scales with the
-// message font size. `items-baseline` (icons centre on their own) lets the
-// text, not a leading icon, set the baseline; `truncate` keeps a reference on
-// one line.
+// A reference chip in a message sits on the body text's baseline, and its
+// letters look centred in the fill (design/foundations/alignment.md, Marks in
+// running text). The fill is the label's 20px line box plus 1px above and below,
+// 22px in all, with no fixed height and no vertical nudge. `items-baseline`
+// (the root's `[&_svg]:self-center` centres icons on their own) lets the text,
+// not a leading icon, set the chip's baseline. With `items-center` the icon
+// would supply it, and the chip's words would float 2px above the sentence.
 const chip = (fill: string) => [
-  "h-[22px] items-center gap-0.5 rounded-sticker px-1.5 has-[>svg]:pl-[3px] align-[1px]",
+  "items-baseline gap-0.5 rounded-sticker px-1.5 py-px has-[>svg]:pl-[3px]",
   // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
   "[font-size:0.875em] leading-5 font-semibold",
   "[&_svg]:size-3.5 [&_svg]:text-foreground-muted",
