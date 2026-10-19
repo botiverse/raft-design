@@ -109,9 +109,9 @@ message-item/compositions/avatar-status
 ## Behavior
 
 - Space messages by grouping: 8px between the rows of one group (a continuation row sits under the row it continues) and 16px before a new group. Every row keeps 4px above and below its text, and the extra 8px before a group is a transparent top border the highlight doesn't paint. So the hover, selected and search highlights sit evenly around the text on every row: when a continuation row had no top padding, its highlight touched the first line and left 8px under the last.
-- The hover toolbar appears on hover, when focus is inside the row, and while one of its popups is open. It rides the top edge of the row, on the right.
+- The hover toolbar appears on hover, when focus is inside the row, and while one of its popups is open. It rides the top edge of the highlight, on the right.
 - The toolbar covers the time, so the time fades out while the toolbar shows. The header doesn't reserve space for it.
-- The toolbar is 32px high: 28px buttons with 16px icons, in a 2px frame, with its hairline drawn inside that height. It rides the row's top edge and reaches 16px above it, half its height. Its buttons are `MessageItemToolbarButton`, not [Button](../button/button.md). It stays this compact because it appears on every message under the pointer: at 38px it covered the sender line and was clipped above the first message.
+- The toolbar is 32px high: 28px buttons with 16px icons, in a 2px frame, with its hairline drawn inside that height. It rides the top edge of the highlight and reaches 16px above it, half its height; on a group's first row the transparent 8px border takes half of that, so it reaches only 8px beyond the row. Its buttons are `MessageItemToolbarButton`, not [Button](../button/button.md). It stays this compact because it appears on every message under the pointer: at 38px it covered the sender line and was clipped above the first message.
 - Leave at least 16px above the first message of a scroll area and above the root message of a thread, so the toolbar is never clipped. A timeline that opens with a date line already has the room.
 - The task marker opens the task. Status changes in the task, not from the marker.
 
