@@ -92,3 +92,4 @@ Select wraps Base UI Select: a button that opens a listbox, with typeahead and a
 
 - Name the select with a `FieldLabel` ([Field](../field/field.md)), a `SelectLabel`, or `aria-label` on the trigger.
 - In a multi-select, the box before each item is decorative; Base UI states the selection with `aria-selected`.
+- `SelectItemDescription` is the option's accessible description: the item is named by `SelectItemText` alone and points `aria-describedby` at the description, so a screen reader reads the label, then the description, each once.

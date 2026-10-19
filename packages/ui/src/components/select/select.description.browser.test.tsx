@@ -109,3 +109,13 @@ it("a description starts under its label, past a leading icon", async () => {
     0,
   );
 });
+
+it("an option is named by its label and described by its description; one without keeps its name", async () => {
+  await renderOpen();
+  const twoLine = screen.getByTestId("two-line");
+  expect(twoLine.getAttribute("aria-describedby")).toBe(screen.getByTestId("description").id);
+  expect(screen.getByRole("option", { name: "Claude Opus 5.5" })).toBe(twoLine);
+  const oneLine = screen.getByTestId("one-line");
+  expect(oneLine.hasAttribute("aria-describedby")).toBe(false);
+  expect(screen.getByRole("option", { name: "Auto" })).toBe(oneLine);
+});
