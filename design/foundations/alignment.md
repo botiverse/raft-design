@@ -12,7 +12,6 @@ Align what the eye sees, not the box. Each kind of element has one point that la
 
 - **One edge per column.** Everything in a column of content starts on the same margin: 16px on a phone, 20px on desktop ([Spacing](./spacing.md#layout-widths)).
 - **Align the visible thing.** A shape aligns by its edge, text by its letters, a frameless icon button by its icon box.
-- **A shape's padding is part of the gap.** When a shape sits next to text, the space the eye reads runs from the text to the shape's *ink*, not to its box. A chip with 6px of padding placed 6px from its label reads as 12px away. Subtract the padding, or the pair drifts apart.
 
 ## Usage
 
@@ -26,18 +25,11 @@ Align what the eye sees, not the box. Each kind of element has one point that la
 
 A checkbox, radio or switch centers on the first line of its label — the same line whether or not a description follows it.
 
-- **Center the control on the label's first line.** Put the control and the label in one row and center them; a description goes on the row below, in the label's column. The control then lands correctly at every type size with no nudge.
-- **Don't align the control to the top of the text block.** That is only right when a description happens to follow. On a label by itself the control sits visibly low — 4.55px low at a 13px field label — because a 20px box aligned to the top of a 13px line hangs below it.
-- **The first line, not the block.** With a description, centering on the whole block drops the control as the description grows. It belongs to the label.
+- **Center the control on the first line of its label.** Offset it by half the difference between that line and the control — `(1lh - 20px) / 2` for a 20px box — so it lands correctly at every type size without a hand-tuned nudge.
+- **Don't align the control to the top of the text block.** A 20px box sitting on the top of an 18px line hangs 1px below the line's centre, and on a 16px line 2px below it.
+- **Don't center it on the label either.** A label is often one line, which makes the two look the same — until it wraps, and the control slides to the middle of the block: 27px off the first line at a narrow width, and 8px off as soon as a description follows. The first line is what the control belongs to; the block is a coincidence.
 
-In Space Grotesk the cap-height center and the line-box center are the same point: the face is centered in its em box to within 0.004em, under 0.1px at any size we set. So centering the control on the line box *is* optical centering, and no per-size correction is needed. A hand-tuned `margin-top` is a sign the control was aligned to the wrong thing.
-
-## A shaped value next to a bare one
-
-A row of label-and-value pairs — a property list, a task's header — often mixes values that carry a shape (a status chip, a button, an avatar) with values that are bare text. Line up what the eye sees:
-
-- **Measure the gap to the ink.** A bare value sits at the gap from its label; a shaped value sits at the gap *minus its own padding*, so both values' first letters start the same distance from their label.
-- **Don't give both the same gap.** The shape's padding is then added on top of it, and the shaped value reads about twice as far from its label as its neighbors.
+In Space Grotesk the cap-height center and the line-box center are the same point: the face is centered in its em box to within 0.004em, under 0.1px at any size we set. So centering the control on the line box *is* optical centering, and no per-size correction is needed. A hand-tuned `margin-top` is a sign the control was aligned to the wrong thing: it is the right answer for one label at one size, and silently wrong for the next. Write the offset as the arithmetic, not as the number it currently comes to — `Banner` carries `mt-px` for a 16px icon and `mt-[4.5px]` for a 9px status, which are exactly `(18 - 16) / 2` and `(18 - 9) / 2` against its 18px line. They are right today and will be wrong the day that line height changes, with nothing to catch it.
 
 ## Top bar icon buttons
 

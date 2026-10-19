@@ -43,7 +43,7 @@ function OnboardingDialogParts() {
       </DialogBody>
       <DialogFooter className="grid grid-cols-[minmax(0,1fr)_auto] items-center">
         <Field className="min-w-0">
-          <FieldItem className="min-w-0">
+          <FieldItem size="sm" className="min-w-0">
             <Checkbox id="dialog-onboarding-reminder" />
             <FieldLabel
               htmlFor="dialog-onboarding-reminder"
