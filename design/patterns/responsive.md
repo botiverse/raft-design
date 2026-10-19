@@ -1,6 +1,6 @@
 ---
 title: Responsive layout
-summary: The breakpoints, what each width shows, how short desktop windows shrink, how a row gives way when it runs out of room, and how phone layouts hold at 320px.
+summary: The breakpoints, what each width shows, how short desktop windows shrink, how a row gives way when it runs out of room, what replaces hover on a touch screen, and how phone layouts hold at 320px.
 ---
 
 # Responsive layout
@@ -38,6 +38,15 @@ A toolbar, a header or a filter row has to fit at the narrowest width its region
 - Never let parts overlap, and never let a control shrink below its own content: wrapping a control in `min-w-0` lets its frame shrink while its content spills onto its neighbor.
 - Decide the switch with a container query on the row (`@container`, `@max-[…]:`), not the window width: the same row sits in columns of different widths.
 - Don't shrink text or a control's height to make a row fit: a label too small to read, or a target too small to hit, is worse than an icon with a tooltip.
+
+### Touch screens
+
+A touch screen has no hover, so anything that only appears on hover is out of reach there. Decide by the input, not the width: use the `pointer: coarse` media query, because a tablet held sideways is touch and a narrow desktop window still has a mouse.
+
+- Show a row's hover action at rest on a touch screen when it is the row's main action, such as Mark as Done on an Activity row: a 44px target at the end of the row, with its icon.
+- Put every hover action in the row's press-and-hold menu as well, the same menu right-click opens on desktop, so an action is in one place on every device ([Conversation](./conversation.md)).
+- A swipe may add a shortcut for the row's main action (swipe left to reveal Mark as Done, release to apply, with an Undo toast), but never be the only way to reach it ([Accessibility](../foundations/accessibility.md)).
+- Keep secondary hover actions out of the row on a touch screen; they live in the menu, so a list stays calm.
 
 ### Phone
 
