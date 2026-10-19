@@ -12,7 +12,7 @@ export const sidebarItemRecipe = tv({
       "group/sidebar-item flex w-full items-center px-2 text-left",
       "transition-colors",
       "my-px h-9 gap-2 rounded-control border-[1.5px] border-transparent py-0 pr-2.5 pl-2",
-      "md:py-0 [@media(max-height:600px)]:py-0",
+      "md:py-0 md:[@media(max-height:600px)]:py-0",
       "max-md:h-auto max-md:min-h-11 max-md:py-[8.5px]",
       "font-sans text-subhead font-medium text-foreground",
       "max-md:text-body max-md:font-semibold",
@@ -100,7 +100,7 @@ export const sidebarItemRecipe = tv({
       true: {
         sidebarItem: [
           "h-auto items-start whitespace-normal",
-          "min-h-9 py-[6.5px] md:py-[6.5px] [@media(max-height:600px)]:py-[6.5px]",
+          "min-h-9 py-[6.5px] md:py-[6.5px] md:[@media(max-height:600px)]:py-[6.5px]",
           "**:data-[slot=sidebar-item-channel-icon]:h-lh **:data-[slot=sidebar-item-icon]:h-lh",
           "**:data-[slot=sidebar-item-meta-icon]:h-lh",
           // The 19px avatar (DS xs) centres on the first line the same way.
