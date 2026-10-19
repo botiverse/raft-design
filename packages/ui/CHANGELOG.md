@@ -1,3 +1,14 @@
+## [0.8.2](https://github.com/botiverse/raft-design/compare/v0.8.1...v0.8.2) (2026-10-19)
+
+### Added
+
+- `createMessageTextSelectionAnchor` and `getTextSelectionFocusRect` (with the `MessageTextSelectionAnchor` type) give a selected-text toolbar a virtual anchor on the line that holds the selection's focus end, measured from text rects only. Pass the anchor to your popover so a full-line selection no longer anchors at the row's right edge. ([#569](https://github.com/botiverse/raft-design/pull/569))
+
+### Fixed
+
+- `MessageTextSelectionToolbar` matches the hover toolbar: 28px buttons with 16px icons in a `p-0.5` frame. Its labels no longer wrap. ([#569](https://github.com/botiverse/raft-design/pull/569))
+- On a touch screen (`pointer: coarse`, at any width), each action in `InboxItemActions` keeps a 44px target and the actions sit 12px apart, so their targets don't overlap. With a mouse they stay 32px. ([#567](https://github.com/botiverse/raft-design/pull/567))
+
 ## [0.8.1](https://github.com/botiverse/raft-design/compare/v0.8.0...v0.8.1) (2026-10-19)
 
 ### Added
