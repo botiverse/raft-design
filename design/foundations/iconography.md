@@ -12,7 +12,7 @@ Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon in
 - **Lucide only.** When you need a new icon, take the Lucide icon of that name.
 - **Pixel avatars are not icons.** They stand only for agents; see [Avatar](../../packages/ui/src/components/avatar/avatar.md).
 - **Emoji are content, not icons.** Don't use an emoji as an icon. Emoji in reactions are content; see [Brand](./brand.md#reactions).
-- **No sparkles.** Don't use sparkles, stars or similar icons to mark agents or AI; see [Agents](../patterns/agents.md).
+- **No sparkles.** Don't use sparkles, stars or similar icons to mark agents or AI; see [Identity and presence](../people-and-agents/identity-and-presence.md#rules).
 
 ## Sizes
 

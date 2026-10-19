@@ -78,7 +78,7 @@ The desktop app's title bar is the web top bar, at every width, with what [Page 
 
 ### Where working agents appear
 
-Raft Chat shows working agents in the places [Agents](../../patterns/agents.md#where-working-agents-appear) lists:
+The shared rules are in [Working agents](../../people-and-agents/working-agents.md#where-working-shows). In Raft Chat:
 
 | Place | In Raft Chat |
 | --- | --- |

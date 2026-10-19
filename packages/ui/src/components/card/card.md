@@ -62,7 +62,7 @@ checkbox/compositions/selection
 
 ## Content
 
-- Write the title in sentence case: Release readiness ([Writing](../../../../../design/foundations/writing.md#casing)).
+- Write the title in sentence case: Release readiness ([Writing](../../../../../design/content/writing.md#casing)).
 - Write the description as one line on what the card is for or where it stands.
 - Use the footer for a note about the whole card, such as where to read more. Put a card-level action at the end of `CardContent` instead.
 

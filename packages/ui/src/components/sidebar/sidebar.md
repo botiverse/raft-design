@@ -66,7 +66,7 @@ sidebar-item/compositions/tones-item
 - A name stays on one line and ends with an ellipsis. A description after it gives up its room first; the name truncates only once the description is gone.
 - A row whose content is 2 lines (a computer's name and whether it runs agents) uses `wrap` with `SidebarItemContent stacked`: it grows from 36px, its text stays 8px from the row's edges, and its icon lines up with the first line. The name still stays on one line.
 - A collapsed group shows how many rows it holds in `SidebarSectionCount`.
-- While an agent works, what it is doing replaces its runtime ([Agents](../../../../../design/patterns/agents.md#where-working-agents-appear)), in `text-footnote` and `foreground-muted`, and takes at most 58% of the row.
+- While an agent works, what it is doing replaces its runtime ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)), in `text-footnote` and `foreground-muted`, and takes at most 58% of the row.
 
 ## Content
 
@@ -88,4 +88,4 @@ sidebar-item/compositions/tones-item
 - Don't use `wrap` to let a name run onto more lines, including in a pinned group. Use it only for a row whose content is 2 lines.
 - Make every row 36px high, in `text-subhead`.
 - Don't put the workspace switcher in the sidebar header. It is in the web top bar, or at the top of the rail when there is no top bar.
-- Don't use `SidebarLiveActivity` for a live bar at the bottom of the sidebar. Working agents appear in the header's working summary and in their own rows instead ([Agents](../../../../../design/patterns/agents.md#where-working-agents-appear)).
+- Don't use `SidebarLiveActivity` for a live bar at the bottom of the sidebar. Working agents appear in the header's working summary and in their own rows instead ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)).

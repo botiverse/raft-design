@@ -4,8 +4,9 @@ These rules apply to production component-library code under `packages/ui` and e
 
 What components look like is set by the Raft Design System in [`design/`](../../design/README.md)
 (see the root `AGENTS.md`). How this package implements its type and colour — font families, the
-size ladder, the colour tiers, and the note-colour rule — lives in [`TYPOGRAPHY.md`](./TYPOGRAPHY.md).
-Read it before touching type scales, colour tiers, or family classes.
+size ladder, the colour tiers, and the note-colour rule — lives in
+[Typography](../../design/foundations/typography.md). Read it before touching type scales, colour
+tiers, or family classes.
 
 ## What Belongs Here
 

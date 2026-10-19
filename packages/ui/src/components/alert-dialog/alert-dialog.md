@@ -63,7 +63,7 @@ alert-dialog/compositions/typed-delete
 
 - Title it with the action and the thing it acts on, as a question: Delete Box?
 - Say in one or two sentences what happens, in plain words: "Box leaves every channel."
-- Make the confirm button repeat the verb and name the result (Delete Agent), and make Cancel say what stays (Keep Box) ([Writing](../../../../../design/foundations/writing.md#actions-and-their-dialogs)).
+- Make the confirm button repeat the verb and name the result (Delete Agent), and make Cancel say what stays (Keep Box) ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 
 ## Accessibility
 

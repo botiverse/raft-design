@@ -49,7 +49,7 @@ empty-state/compositions/default
 | The whole workspace | The notification center ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)) |
 
 - Use orange when something goes wrong, not red: red means something cannot be undone ([Color](../foundations/color.md#meanings-of-color)).
-- Say what happened, why, and what to do next, in plain words ([Writing](../foundations/writing.md)).
+- Say what happened, why, and what to do next, in plain words ([Writing](../content/writing.md)).
 
 ### Progress
 
@@ -58,4 +58,4 @@ empty-state/compositions/default
 ## Related
 
 - [States](../foundations/states.md): the error and busy states of controls.
-- [Agents](./agents.md): an agent that fails.
+- [Hand-offs and approvals](../people-and-agents/handoffs-and-approvals.md#when-something-fails): an agent that fails.

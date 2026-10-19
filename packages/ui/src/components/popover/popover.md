@@ -45,7 +45,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 ## Content
 
-- Write button labels in Title Case, with the confirm button repeating the verb: Snooze, Rename ([Writing](../../../../../design/foundations/writing.md#actions-and-their-dialogs)).
+- Write button labels in Title Case, with the confirm button repeating the verb: Snooze, Rename ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 
 ## Accessibility
 

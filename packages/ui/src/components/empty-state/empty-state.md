@@ -40,7 +40,7 @@ empty-state/compositions/activity-inbox
 
 ## Content
 
-- Write the title in sentence case and state the fact: "No tasks yet", "No tasks match these filters" ([Writing](../../../../../design/foundations/writing.md#voice)).
+- Write the title in sentence case and state the fact: "No tasks yet", "No tasks match these filters" ([Writing](../../../../../design/content/writing.md#voice)).
 - For a view with nothing yet, say in the description how something gets here.
 - For filters or a search with no results, name the conditions that are active, and label the button Clear All.
 

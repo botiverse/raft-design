@@ -1,6 +1,6 @@
 ---
 title: Typography
-summary: The two typefaces, the type scale and where each style is used, and the casing rules.
+summary: The two typefaces, the type scale and where each size and weight is used, the three text color tiers, the metric tokens, and the casing rules.
 ---
 
 # Typography
@@ -32,12 +32,85 @@ Each style sets a size and a line height; the bold styles also set their weight.
 | `text-mono-meta` | IDs, times, counts, runtimes, event lines, shortcuts (in Space Mono) |
 | `text-mono-code` | Code and commands (in Space Mono) |
 
+## Font families
+
+`fonts.css` defines three families. Use them through the Tailwind utilities.
+
+| Utility | Face | Sets |
+| --- | --- | --- |
+| `font-sans` | Space Grotesk | Everything people say: titles, messages, lists, settings, buttons, status words, the content of a profile |
+| `font-heading` | Space Grotesk | Field text (Input, Textarea, InputGroup) and `Text.Heading`, the names on a profile. Titles in recipes use `font-sans`, the same face |
+| `font-mono` | Space Mono | What machines write: IDs, hostnames, versions, OS strings, commands, environment variables, URLs, code and credential blocks, times and dates, counts, file metadata, `@handle` |
+
+- Decide by who wrote it: text that is copied character for character, a time, a count or an identity marker is mono; anything a person says is sans.
+- The trailing `#channel-name` of a thread's title is sans, at 17px, weight 400 and `foreground-hint`: it belongs to the title.
+- The sans families fall back to PingFang SC, Hiragino Sans GB, Microsoft YaHei and Noto Sans SC for Chinese, then the system face.
+
 ## Usage
 
 - Pick the weight by purpose from 400, 500, 600 and 700; the scale sets only size and line height for the regular styles.
 - Size the initials in an avatar at 11px, 13px, 15px, 22px or 40px, by avatar size; see [Avatar](../../packages/ui/src/components/avatar/avatar.md).
 - Set anything a machine produced in Space Mono, even inside a sentence: `#25`, `10:24`, `Claude Code`, counts, event lines.
 - Set statistics meant for people in Space Grotesk.
+
+### Sizes by use
+
+The working sizes are 12px to 17px, one step apart, with 22px, 34px and 40px for setup and sign-in pages.
+
+| Size | Style | Used for |
+| --- | --- | --- |
+| 17px | `text-headline` | Titles, all at 700: panel, thread, dialog, popover, drawer, the top of the sidebar |
+| 16px | `text-body` | Message text; field text (`field-*`); card titles at 600 (`card-title-*`); the names on task cards and in search results |
+| 15px | `text-subhead` | Senders at 700; sidebar rows at 500, the selected one at 700; titles in Activity; dialog body text and descriptions |
+| 14px | `text-callout` | Values in a description list, menu items, card descriptions, file names, the text of a quoted message |
+| 13px | `text-footnote` | Field labels at 600; description-list terms at 500, in a label column of `minmax(88px, max-content)`; group headings at 700; 32px buttons |
+| 12px | `text-caption`, `text-mono-meta` | The notes on a message (the time in mono, the model and an inline status), the time of a reply preview, counts in mono, list metadata, badges |
+
+### Weights by use
+
+| Weight | Used for |
+| --- | --- |
+| 400 | Reading text: message body, values, field text, mono notes (times, counts) |
+| 500 | Menu items, sidebar rows, description-list terms; `text-caption` sets 500 for the model and an inline status |
+| 600 | Names in list rows, card titles, field labels, tabs, badges |
+| 700 | Titles, senders, buttons, group headings, solid badges and unread counts, the selected tab, row or menu item; a textarea's counter when the text is invalid or over the limit |
+
+## Color tiers
+
+Text has three tiers. The tokens and their contrast are in [Color](./color.md#text-and-icons).
+
+| Tier | Token | Used for |
+| --- | --- | --- |
+| Base | `foreground` | Titles (panel, sidebar, thread, dialog), senders and message text, values, names in list rows, menu items, the selected underline tab, ghost buttons |
+| Muted | `foreground-muted` | Descriptions (dialog, card, popover), field labels, unselected tabs, the text of a quoted message, sidebar subtitles, icons |
+| Hint | `foreground-hint` | Notes: times, the model, an inline status, description-list terms, group headings, counts, list metadata, placeholders, empty values |
+
+- Read titles, the top of the sidebar, senders and names in list rows at the base tier. Let weight make the difference between them: titles and senders at 700, list rows at 600.
+- Give a message two layers: its content (sender and text, at the base tier) and its notes (time, model, inline status, at the hint tier).
+- Use the tier tokens for text, never an alpha variant such as `text-foreground-muted/70`: the contrast guarantee holds only for the tiers. Alpha is for decorative glyphs, such as the separator in a message footer.
+
+### Notes on deeper surfaces
+
+- How heavy a note looks depends on more than contrast. In a compact row, the closer a note is in size to the text it annotates, the further apart their colors must be.
+- When a note sits on a card or popup that is deeper than the canvas, check it once by eye. If it reads heavy, move it half a tier lighter.
+- Separate two levels of text by at most two of size, weight and color.
+- Fix one case in place, with a class. Turn it into a shared token only after two or three similar cases. APCA (Lc), which accounts for polarity and size, is a better check than the WCAG ratio in dark mode when a case is in doubt.
+
+## Metric tokens
+
+A field and a card title each have tokens for their type metrics, so that the parts laid out with them use the same values.
+
+```tokens
+field
+```
+
+- `field-*` sets the text of Input, Textarea, the field variant of SelectTrigger and the options of a Select list (utilities `text-field`, `font-field`). An option shares the field's type, so a value doesn't change size when the list opens; its height and padding stay its own, because a list row is not a control.
+
+```tokens
+card-title
+```
+
+- `card-title-*` sets CardTitle (utilities `text-card-title`, `font-card-title`). A radio or checkbox laid beside a card title uses its line height to line up with it.
 
 ## Casing
 
@@ -48,9 +121,11 @@ Each style sets a size and a line height; the bold styles also set their weight.
 | A dialog or sheet title that repeats its button's label | Title Case | Create Channel |
 
 - Never set text in all caps, in CSS or in the string. [0002](../decisions/0002-no-all-caps.md) allows one exception, a step label on an onboarding screen; the product's setup writes its step label in sentence case, so nothing in the product is in all caps ([Brand](./brand.md)).
-- The rules for writing Title Case are in [Writing](./writing.md#casing).
+- The rules for writing Title Case are in [Writing](../content/writing.md#casing).
 
 ## Related
 
-- [Writing](./writing.md): the words themselves.
+- [Writing](../content/writing.md): the words themselves.
+- [Tokens](./tokens.md): every token group and how the names are built.
+- [Accessibility](./accessibility.md#language-and-casing): why there are no all caps.
 - [Alignment](./alignment.md): how text lines up with shapes and edges.
