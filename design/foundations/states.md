@@ -17,7 +17,7 @@ Every component shows its interaction states the same way. A component doc only 
 
 | State | Look |
 | --- | --- |
-| Hover, keyboard highlight | Menus, select lists and the quick reactions in a menu fill with `brand-soft`; so does the keyboard highlight in search results. Rows and buttons lay the pressed overlay over themselves on hover |
+| Hover, keyboard highlight | Menus, select lists and the quick reactions in a menu fill with `brand-soft`; so does the keyboard highlight in search results. Rows and buttons lay the pressed overlay over themselves on hover. A toolbar's actions are buttons, not menu rows, even in a toolbar that floats like a menu (the one over selected text): they hover grey with `fill-pressed`, never `brand-soft` |
 | Press | The pressed overlay: `fill-pressed`, `sticker-pressed` or `fill-frame-pressed` ([Color](./color.md#pressed-overlays)). A text button lights up its hit area when pressed |
 | Focus | See [Focus](#focus) |
 | Selected: navigation | A yellow sticker: sidebar rows, segmented controls, tabs, the tab bar's icon. On the yellow frame in light mode, the rail's selected item is a white sticker; in dark mode it is yellow |
