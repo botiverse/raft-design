@@ -7,7 +7,15 @@ import type { StyledProps } from "../../lib/styled-props";
 const field = tv({
   slots: {
     root: ["group/field flex flex-col gap-1.5"],
-    item: ["group/field-item flex items-start gap-2", "*:data-[slot=checkbox]:mt-px"],
+    // The control and the label share the first row and center on it; a
+    // description lands on the row below, in the label's column. Centering on
+    // the line box is optical centering in Space Grotesk, so no nudge is needed
+    // (Alignment: a control and its label).
+    item: [
+      "group/field-item grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-2 gap-y-1.5",
+      "*:data-[slot=field-label]:col-start-2 *:data-[slot=field-description]:col-start-2",
+      "*:data-[slot=field-error]:col-start-2",
+    ],
     label: [
       "block leading-none",
       "group-data-disabled/field:text-foreground-disabled",
