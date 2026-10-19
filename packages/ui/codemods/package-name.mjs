@@ -83,7 +83,9 @@ export function renameDependency(json, version) {
     "optionalDependencies",
   ]) {
     const deps = json[field];
-    if (!deps || !("raft-ui" in deps)) continue;
+    // `"raft-ui": "npm:@botiverse/raft-ui@…"` is an alias kept on purpose, for a dependency
+    // that peers on the unscoped name: leave it.
+    if (!deps || !("raft-ui" in deps) || deps["raft-ui"].startsWith(`npm:${NEW}@`)) continue;
     const next = {};
     for (const [name, range] of Object.entries(deps)) {
       if (name === "raft-ui")
