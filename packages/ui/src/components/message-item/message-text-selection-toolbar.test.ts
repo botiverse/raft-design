@@ -9,13 +9,13 @@ import { messageTextSelectionToolbar } from "./message-text-selection-toolbar.re
 
 const classes = (value: string) => value.split(/\s+/);
 
-test("the frame matches the hover toolbar's: 2px padding, inset hairline, control radius", () => {
+test("the frame matches the hover toolbar's: 2px padding, inset hairline, container radius", () => {
   const toolbar = classes(messageTextSelectionToolbar().toolbar());
   const hover = classes(messageItem().toolbar());
   for (const cls of [
     "p-0.5",
     "gap-0.5",
-    "rounded-control",
+    "rounded-container",
     "ring-1",
     "ring-line-seam",
     "ring-inset",

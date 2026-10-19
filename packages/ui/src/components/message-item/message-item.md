@@ -128,7 +128,7 @@ message-item/compositions/reactions
 
 `MessageTextSelectionToolbar` floats over text the person selects in a message, with actions such as Quote and Copy. It looks exactly like the hover toolbar, so the two read as one kind of thing:
 
-- It is 32px high: a 2px frame with its hairline drawn inside (`ring-inset`) and the control radius, around 28px buttons.
+- It is 32px high: a 2px frame with its hairline drawn inside (`ring-inset`) and the container radius (10px), around 28px buttons with the control radius (8px).
 - Its buttons have text labels after 16px icons in `foreground-muted`. On hover they take the pressed overlay, `fill-pressed`, not the `brand-soft` of a menu row: a toolbar's actions are buttons, not menu rows ([States](../../../../../design/foundations/states.md)).
 - `MessageTextSelectionToolbarSeparator` is 20px high, with 2px on each side.
 - Write labels in Title Case. They never wrap: Chinese text can break between any two characters, so a toolbar squeezed at the edge of the window broke a two-character label onto two lines.
