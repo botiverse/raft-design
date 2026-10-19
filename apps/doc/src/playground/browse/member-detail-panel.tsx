@@ -333,7 +333,7 @@ function MemberDetailSection({
 }) {
   return (
     <ProfilePanelSection>
-      <Text.Mono
+      <Text.Sans
         render={
           <h2>
             {title}
@@ -342,7 +342,7 @@ function MemberDetailSection({
             )}
           </h2>
         }
-        size="eyebrow"
+        size="group"
         className={cn("flex items-baseline gap-2", compactTitle ? "mb-1" : "mb-3")}
       />
       {children}

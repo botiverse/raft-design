@@ -41,6 +41,7 @@ const sans = tv({
       body: ["text-base leading-6 text-foreground"],
       small: ["text-sm leading-5 text-foreground-muted"],
       caption: ["text-xs leading-4 text-foreground-muted"],
+      group: ["text-footnote font-bold text-foreground-hint"],
     },
     variant: textColorVariants,
   },
@@ -55,10 +56,6 @@ const mono = tv({
     size: {
       code: ["text-sm leading-5 text-foreground"],
       meta: ["text-xs leading-4 text-foreground-muted"],
-      eyebrow: [
-        "text-[10px] font-medium uppercase tracking-wide leading-none",
-        "text-foreground-hint",
-      ],
       tabular: ["text-sm tabular-nums leading-5 text-foreground"],
     },
     variant: textColorVariants,

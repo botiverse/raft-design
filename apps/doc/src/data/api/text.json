@@ -33,7 +33,7 @@
     "props": [
       {
         "name": "size",
-        "type": "\"code\" | \"meta\" | \"eyebrow\" | \"tabular\"",
+        "type": "\"code\" | \"meta\" | \"tabular\"",
         "required": false,
         "default": "\"code\"",
         "from": "raft-ui"
@@ -60,7 +60,7 @@
     "props": [
       {
         "name": "size",
-        "type": "\"body\" | \"caption\" | \"small\" | \"large\"",
+        "type": "\"body\" | \"caption\" | \"small\" | \"group\" | \"large\"",
         "required": false,
         "default": "\"body\"",
         "from": "raft-ui"
