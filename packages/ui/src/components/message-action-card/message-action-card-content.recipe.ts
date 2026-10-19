@@ -19,10 +19,10 @@ export const messageActionCardContent = tv({
       "text-footnote font-medium text-foreground-hint",
     ],
     propertyValue: ["m-0 min-w-0 wrap-break-word", "min-h-8 py-1.5 text-callout text-foreground"],
-    scopeList: ["mt-0 space-y-1.5"],
+    scopeList: ["mt-0 stack-y-1.5"],
     // A long permission list scrolls inside the card instead of stretching it;
     // the cap cuts through the third row so the cut-off says "more".
-    scopeListViewport: ["overflow-y-auto overscroll-contain", "max-h-[164px] space-y-1.5 pr-1"],
+    scopeListViewport: ["overflow-y-auto overscroll-contain", "max-h-[164px] stack-y-1.5 pr-1"],
     scopeListLabel: ["text-footnote font-medium text-foreground-hint"],
     scope: [
       "min-w-0 border p-1.5",

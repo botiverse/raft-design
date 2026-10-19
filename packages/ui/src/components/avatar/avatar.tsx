@@ -90,7 +90,7 @@ const avatar = tv({
     ],
     group: [
       "group/avatar-group flex items-center",
-      "space-x-[-5px]",
+      "stack-x-[-5px]",
       "*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-canvas)]",
       "*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-canvas)]",
     ],

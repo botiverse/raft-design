@@ -34,7 +34,7 @@ const notificationCenter = tv({
     title: ["font-sans text-headline text-foreground"],
     count: ["ml-auto", "font-mono text-mono-meta text-foreground-hint"],
     scroller: ["min-h-0 flex-1 overflow-y-auto overscroll-contain"],
-    list: ["divide-y-0"],
+    list: [],
     item: [
       "group/notification-center-item relative px-4 py-3",
       "before:pointer-events-none before:absolute before:top-0 before:right-0 before:left-4 before:hidden before:border-t before:border-line-hairline",

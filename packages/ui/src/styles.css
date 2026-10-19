@@ -389,3 +389,56 @@ body {
 @utility press-overlay-sticker {
   background-image: linear-gradient(var(--sticker-pressed), var(--sticker-pressed));
 }
+
+/* Space and rules between siblings: stack-y-* / stack-x-* and rule-y / rule-x
+   / rule-<colour>. Use these, never Tailwind's space-* and divide-*.
+
+   Tailwind v4 compiles space-* and divide-* to `:where(.x > :not(:last-child))`.
+   Its rightmost part has no class, so WebKit (every iOS browser) tests it
+   against every element and marks every parent as depending on which child is
+   last. Appending or removing a last child anywhere then restyles the previous
+   last child's whole subtree: 180-430ms when a chat's bottom controls mount
+   after its timeline. Chromium does not pay this, so it only shows on iOS.
+   The owl `> * + *` depends only on the previous sibling, so appending at the
+   end restyles nothing. Zero specificity, like Tailwind's, so a child's own
+   margin or border class still wins. */
+@utility stack-y-* {
+  :where(& > * + *) {
+    margin-block-start: calc(var(--spacing) * --value(number));
+    margin-block-start: --value([length]);
+  }
+}
+@utility stack-y-px {
+  :where(& > * + *) {
+    margin-block-start: 1px;
+  }
+}
+@utility stack-x-* {
+  :where(& > * + *) {
+    margin-inline-start: calc(var(--spacing) * --value(number));
+    margin-inline-start: --value([length]);
+  }
+}
+@utility -stack-x-* {
+  :where(& > * + *) {
+    margin-inline-start: calc(var(--spacing) * --value(number) * -1);
+    margin-inline-start: calc(--value([length]) * -1);
+  }
+}
+@utility rule-y {
+  :where(& > * + *) {
+    border-block-start-width: 1px;
+    border-block-start-style: solid;
+  }
+}
+@utility rule-x {
+  :where(& > * + *) {
+    border-inline-start-width: 1px;
+    border-inline-start-style: solid;
+  }
+}
+@utility rule-* {
+  :where(& > * + *) {
+    border-color: --value(--color-*, [color]);
+  }
+}

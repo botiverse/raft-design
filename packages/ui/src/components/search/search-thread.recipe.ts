@@ -15,6 +15,6 @@ export const searchThread = tv({
     ],
     threadTimestamp: ["normal-case", "ml-auto"],
     threadTitle: ["font-sans text-callout font-semibold text-foreground"],
-    threadMessages: ["flex flex-col [&>*:first-child]:border-t-0", "border-t-0 bg-transparent"],
+    threadMessages: ["flex flex-col", "border-t-0 bg-transparent"],
   },
 });

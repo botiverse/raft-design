@@ -70,7 +70,7 @@ export function DocPageView({
 
 function PageList({ pages }: { pages: readonly DocPage[] }) {
   return (
-    <ul className="flex flex-col divide-y divide-line-hairline border-y border-line-hairline">
+    <ul className="flex flex-col rule-y rule-line-hairline border-y border-line-hairline">
       {pages.map((page) => (
         <li key={page.url}>
           <Link
@@ -88,7 +88,7 @@ function PageList({ pages }: { pages: readonly DocPage[] }) {
 
 function DecisionTable({ pages }: { pages: readonly DocPage[] }) {
   return (
-    <ul className="flex flex-col divide-y divide-line-hairline border-y border-line-hairline">
+    <ul className="flex flex-col rule-y rule-line-hairline border-y border-line-hairline">
       {pages.map((page) => (
         <li key={page.url}>
           <Link
@@ -147,7 +147,7 @@ function AboutLinks() {
     },
   ];
   return (
-    <ul className="mt-10 flex flex-col divide-y divide-line-hairline border-y border-line-hairline">
+    <ul className="mt-10 flex flex-col rule-y rule-line-hairline border-y border-line-hairline">
       {rows.map((row) => (
         <li key={row.href}>
           {row.href.startsWith("/") ? (

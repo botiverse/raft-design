@@ -60,6 +60,15 @@ The consumer decides which state part exists. Recipes may derive styling from ex
 - Do not rely on docs or Playground classes to complete the component's intended appearance.
 - If deleting a docs/Playground `className` makes the component itself incorrect, move that styling into the appropriate UI recipe or add a semantic part.
 
+## Selector Cost (WebKit)
+
+Every iOS browser is WebKit, and WebKit pays for some selectors that Chromium does not. Rules that keep long lists (a chat timeline, a sidebar, an inbox) smooth on iOS:
+
+- **Space and rules between siblings use `stack-y-*` / `stack-x-*` and `rule-y` / `rule-x` / `rule-<colour>`** (styles.css), never Tailwind's `space-*` / `divide-*`. Tailwind v4 compiles those to `:where(.x > :not(:last-child))`.
+- **No rule may end in an unanchored structural pseudo-class:** `> :last-child`, `:not(:last-child)`, `* :first-child`, `[&>*:first-child]:…`. WebKit tests such a compound against every element and marks every parent as depending on its first or last child; appending or removing a child at the end of any container then restyles the previous last child's whole subtree (measured: 180-430ms under a 10k-element timeline). Put the variant on the element it styles instead (`last:mb-0`, `not-first:before:…`), where its own class anchors it.
+- **`:has()` styles only the element it sits on** (see `no-ancestor-has.test.ts`).
+- `no-unanchored-structural.test.ts` compiles every class the package and the docs app use and fails on either shape.
+
 ## Base UI, Overlays, and Portals
 
 - Use Base UI for dialog, menu, dropdown, tooltip, popover, combobox, selection, focus, and collection behavior when a matching primitive exists.
@@ -80,5 +89,6 @@ The consumer decides which state part exists. Recipes may derive styling from ex
 - Does the public API expose structure instead of hiding it behind `kind/state/emphasis`?
 - Are product copy, icons, policy, and workflow state outside the package?
 - Are reusable styles entirely owned by tokens and recipes?
+- Does any selector end in an unanchored structural pseudo-class, or use `space-*` / `divide-*` (see Selector Cost)?
 - Do wrappers preserve native props, refs, element substitution, data attributes, and portal control?
 - Does every ARIA role have the behavior it promises?

@@ -2,7 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const taskListSection = tv({
   slots: {
-    root: ["space-y-2"],
+    root: ["stack-y-2"],
     trigger: [
       "group flex w-full touch-manipulation items-center text-left outline-none",
       "disabled:cursor-default",
@@ -26,7 +26,7 @@ export const taskListSection = tv({
       "group-hover:text-foreground",
     ],
     panel: ["data-ending-style:hidden"],
-    items: ["space-y-2"],
+    items: ["stack-y-2"],
     empty: [
       "px-3",
       "flex min-h-16 items-center justify-center py-3",
