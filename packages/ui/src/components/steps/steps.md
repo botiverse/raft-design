@@ -10,7 +10,7 @@ related: [progress, tabs]
 
 # Steps
 
-Steps show where someone is in a short flow of 3 to 5 steps, such as setting up a workspace. Finished steps are ink, the current step is a yellow sticker, and the steps ahead are outlined.
+Steps show where someone is in a short flow of 3 to 5 steps, such as setting up a server. Finished steps are ink, the current step is a yellow sticker, and the steps ahead are outlined.
 
 ```example
 steps/compositions/preview
@@ -18,13 +18,13 @@ steps/compositions/preview
 
 ## When to use
 
-| Situation                                                    | Use                                                                                                                              |
-| ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| A flow of 3 to 5 steps taken in order                        | Steps                                                                                                                            |
-| A flow of more than 5 steps                                  | Split it into 2 flows, each with its own Steps                                                                                   |
-| How far one operation has got                                | [Progress](../progress/progress.md)                                                                                              |
-| Sections people visit in any order                           | [Tabs](../tabs/tabs.md)                                                                                                          |
-| The step label of a workspace's setup ("Set up your server") | A line of Space Mono in the dialog's header, not Steps; see [Onboarding](../../../../../design/products/raft-chat/onboarding.md) |
+| Situation                                                 | Use                                                                                                                              |
+| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| A flow of 3 to 5 steps taken in order                     | Steps                                                                                                                            |
+| A flow of more than 5 steps                               | Split it into 2 flows, each with its own Steps                                                                                   |
+| How far one operation has got                             | [Progress](../progress/progress.md)                                                                                              |
+| Sections people visit in any order                        | [Tabs](../tabs/tabs.md)                                                                                                          |
+| The step label of a server's setup ("Set up your server") | A line of Space Mono in the dialog's header, not Steps; see [Onboarding](../../../../../design/products/raft-chat/onboarding.md) |
 
 ## Anatomy
 

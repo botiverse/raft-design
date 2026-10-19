@@ -18,13 +18,13 @@ activity/compositions/activity-preview
 
 ## When to use
 
-| Situation                                                                 | Use                                                                                  |
-| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| Something happened elsewhere that the person should see                   | InboxItem, in Activity ([ActivityInbox](../activity-inbox/activity-inbox.md))        |
-| The state of the whole workspace: a computer offline, a quota nearly full | A notification ([NotificationCenter](../notification-center/notification-center.md)) |
-| The result of an action the person took                                   | [Toast](../toast/toast.md)                                                           |
-| Something to read before acting, in a dialog or form                      | [Banner](../banner/banner.md)                                                        |
-| A channel, a direct message or a member in a list                         | The sidebar row ([Sidebar](../sidebar/sidebar.md))                                   |
+| Situation                                                              | Use                                                                                  |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Something happened elsewhere that the person should see                | InboxItem, in Activity ([ActivityInbox](../activity-inbox/activity-inbox.md))        |
+| The state of the whole server: a computer offline, a quota nearly full | A notification ([NotificationCenter](../notification-center/notification-center.md)) |
+| The result of an action the person took                                | [Toast](../toast/toast.md)                                                           |
+| Something to read before acting, in a dialog or form                   | [Banner](../banner/banner.md)                                                        |
+| A channel, a direct message or a member in a list                      | The sidebar row ([Sidebar](../sidebar/sidebar.md))                                   |
 
 Which message goes where is in [Choosing a component](../../../../../design/components/overview.md#telling-people-something).
 

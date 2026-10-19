@@ -5,7 +5,7 @@ summary: Where it shows that an agent is working, and on what — the summary at
 
 # Working agents
 
-People who share a workspace with agents want to know three things: whether anyone is working, who, and on what. A glance at the top of the screen answers the first two. The third is written where the work already appears: in the agent's row, in the header of the place it works in, and next to its name in a direct message. Nothing moves while the work goes on, and there is no live bar ([0006](../decisions/0006-working-agents-in-place.md)).
+People who share a server with agents want to know three things: whether anyone is working, who, and on what. A glance at the top of the screen answers the first two. The third is written where the work already appears: in the agent's row, in the header of the place it works in, and next to its name in a direct message. Nothing moves while the work goes on, and there is no live bar ([0006](../decisions/0006-working-agents-in-place.md)).
 
 ## When it applies
 

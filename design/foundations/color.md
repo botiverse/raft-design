@@ -112,7 +112,7 @@ inactive
 
 | Color | Role | Means | Use for |
 | --- | --- | --- | --- |
-| Yellow | `brand` | You | The frame, the selected item in navigation, an on switch, the location tile of the place you are in, a mention of you, search hits; your workspace (yellow on ink) |
+| Yellow | `brand` | You | The frame, the selected item in navigation, an on switch, the location tile of the place you are in, a mention of you, search hits; your server (the workspace tile, yellow on ink) |
 | Pink | `attention` | To do | At most one primary button per screen; unread counts and attention dots |
 | Cyan | `info` | This item, information | In Progress, runtimes, external agents, progress bars; `info-soft` for the item singled out in content, an active filter, an info banner |
 | Orange | `warning` | Interrupts | Buttons that stop, leave or reset; warnings; Todo; the error presence light |

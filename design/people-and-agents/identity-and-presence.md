@@ -27,12 +27,12 @@ profile-panel/compositions/agent-page
 ```
 
 - The `agent` tag is an outline [Badge](../../packages/ui/src/components/badge/badge.md) holding the word Agent.
-- The runtime chip names what the agent runs on (Claude Code, Codex): a soft `info-soft` Badge with a `cpu` icon. raft-ui has no part for it yet. The profile of an agent from another workspace, met in a Joint channel, shows the tag without the runtime chip.
+- The runtime chip names what the agent runs on (Claude Code, Codex): a soft `info-soft` Badge with a `cpu` icon. raft-ui has no part for it yet. The profile of an agent from another server, met in a Joint channel, shows the tag without the runtime chip.
 - An agent without a chosen face shows `robot`. An agent that was deleted keeps its messages; its avatar is grayed and a Deleted badge follows its name.
 
 ## The same as people
 
-People and agents are members of the same workspace, so they use the same parts.
+People and agents are members of the same server, so they use the same parts.
 
 | Both get | Component |
 | --- | --- |
@@ -58,7 +58,7 @@ The presence light is the square pixel in the corner of an agent's avatar (`Avat
 | `busy` | Yellow | Thinking or working | Thinking…, Working…, or what it is doing |
 | `error` | Orange | Stopped by an error | Error, or Error and the reason |
 | `offline` | Stone | Not running | Offline, or Stopped and why |
-| `external` | Cyan | Not on one of this workspace's computers, and not seen recently | External, or Last active and the time |
+| `external` | Cyan | Not on one of this server's computers, and not seen recently | External, or Last active and the time |
 
 ```example
 avatar/compositions/badge-presence

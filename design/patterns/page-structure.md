@@ -22,7 +22,7 @@ Every screen of every Raft product. Which destinations a product has, and what e
 | Pushed page | A white top bar, 56px, with a seam under it (`PanelHeader`, [Panel](../../packages/ui/src/components/panel/panel.md)): Back, the title and an optional subtitle, and at most two icon buttons on the right | The content | The composer on pages that can send a message; nothing on other pages, because the page covers the tab bar |
 | Overlay | — | A menu (press and hold, to act on one thing), a select list (to pick a value), a popover (a short list, such as Working now or the notifications), a dialog (to confirm), a bottom sheet (a short explanation, such as adding Raft to the Home Screen) | — |
 
-- Give every top-level page its large title, including the first one: the workspace pill says which workspace you are in, and the title says which page, at the same height on every tab. Raft Chat doesn't show the large title yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)); whether to keep it is in [Open questions](../decisions/open-questions.md).
+- Give every top-level page its large title, including the first one: the workspace pill says which server you are in, and the title says which page, at the same height on every tab. Raft Chat doesn't show the large title yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)); whether to keep it is in [Open questions](../decisions/open-questions.md).
 - Make the status bar and the browser's theme color follow the top: the frame on a top-level page, paper on a pushed page, so the page runs to the top edge of the screen.
 
 ```example
@@ -57,7 +57,7 @@ The web app adds a frame-colored top bar above the rail from 768px, with search 
 #### Headers
 
 - Make every header under the top bar (the panel header, a side panel's header, a drawer's header) 56px high, so their bottom seams line up across the screen. Heights are in [Spacing](../foundations/spacing.md#heights).
-- Without the top bar (an older desktop build, the public page of a workspace), the rail header and the sidebar header are 56px too, and the rail header is a square ([Spacing](../foundations/spacing.md#heights)).
+- Without the top bar (an older desktop build, the public page of a server), the rail header and the sidebar header are 56px too, and the rail header is a square ([Spacing](../foundations/spacing.md#heights)).
 
 ## Rules
 

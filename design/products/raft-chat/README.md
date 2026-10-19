@@ -15,7 +15,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | [Tasks](./tasks.md) | The Tasks destination and a channel's Tasks tab |
 | [Agent profile](./agent-profile.md) | An agent's profile and its page |
 | [Settings](./settings.md) | The Settings destination and its pages |
-| [Onboarding](./onboarding.md) | The first-run setup of a workspace |
+| [Onboarding](./onboarding.md) | The first-run setup of a server |
 
 ## Structure
 
@@ -29,7 +29,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | Desktop rail | Chat, Activity, Tasks, Members, Computers; at the bottom Help (`circle-help`) and Settings. Guests don't have Members or Computers |
 | Only in [Settings](./settings.md) | Computers (on a phone), and Log out, at the end of Account |
 
-Without the web top bar (an older desktop build, a workspace's public page), the rail shows the workspace tile at its top, Search before Chat, and the bell above Help.
+Without the web top bar (an older desktop build, a server's public page), the rail shows the workspace tile at its top, Search before Chat, and the bell above Help.
 
 ### Attention dots
 
@@ -40,7 +40,7 @@ Attention dots follow [Navigation](../../patterns/navigation.md#where-you-are). 
 
 ### The bell and Activity
 
-- The bell opens the notification center: the state of the whole workspace. It lists joint-channel invites, a provider's usage limit, a plan change, computers that need attention, are offline or low on disk, installing Raft on this device, and new replies to feedback. Each entry has its actions and Dismiss.
+- The bell opens the notification center: the state of the whole server. It lists joint-channel invites, a provider's usage limit, a plan change, computers that need attention, are offline or low on disk, installing Raft on this device, and new replies to feedback. Each entry has its actions and Dismiss.
 - Activity lists the conversations that wait for the person: channels, direct messages and followed threads with unread messages or mentions. It filters by All, Unread and Mentions, has Mark all read, and each row has a Mark as Done check ([InboxItem](../../../packages/ui/src/components/inbox-item/inbox-item.md)). Approvals and tasks don't appear in it as their own rows.
 
 ### The desktop layout
@@ -73,7 +73,7 @@ The desktop app's title bar is the web top bar, at every width, with what [Page 
 - Back and Forward have ⌘[ and ⌘] (Alt+← and Alt+→ on Windows) in their tooltips.
 - The update chip shows while an update downloads, and becomes an Update button with a pink pixel when it is ready.
 - The window's buttons get 82px on the left for the macOS traffic lights, and the caption buttons' width on the right on Windows.
-- ⌘1 to ⌘9 (Ctrl+1 to Ctrl+9 on Windows) switch to the workspaces in the strip.
+- ⌘1 to ⌘9 (Ctrl+1 to Ctrl+9 on Windows) switch to the servers in the strip.
 - A "Find a conversation…" field sits above the Chat sidebar's list.
 
 ### Where working agents appear
@@ -92,7 +92,7 @@ The shared rules are in [Working agents](../../people-and-agents/working-agents.
 | Overlay | Used for |
 | --- | --- |
 | Drawer from the right, at most 420px (full width on a phone) | Channel details and settings, with its member list as a page inside it ([Channel](./channel.md#the-channel-details)) |
-| Popover | Working now, the notifications, the workspace list, Help & resources (opened on hover from the rail) |
+| Popover | Working now, the notifications, the server list, Help & resources (opened on hover from the rail) |
 | Bottom sheet with a short explanation (phone) | Add Raft to your Home Screen, opened from the notification center's Install Raft or the Add button in Settings › Notifications (button: Got it) |
 | Small form dialog ([Forms](../../patterns/forms.md#forms-in-a-dialog)) | Create Channel, Create Task, Create Agent |
 | Wide form dialog ([Forms](../../patterns/forms.md#the-large-form-dialog)) | Register App, editing an app (Edit Release Bot) |
@@ -108,7 +108,7 @@ These add to the shared breakpoints in [Responsive layout](../../patterns/respon
 
 | Situation | Layout |
 | --- | --- |
-| Below 768px | Don't open the first channel automatically: Home comes first. From 768px, the root of a workspace opens its first channel |
+| Below 768px | Don't open the first channel automatically: Home comes first. From 768px, the root of a server opens its first channel |
 | The Search and Activity results list | 560px from 1024px (resizable from 400px to 720px); 320px from 768px to 1023px and while a third column is open (resizable from 320px to 480px) |
 
 ## Differences from the shared patterns
@@ -118,7 +118,7 @@ Raft Chat departs from these patterns today. Each line is the product's side; th
 | Pattern | What Raft Chat ships |
 | --- | --- |
 | A large title on every top-level page ([Page structure](../../patterns/page-structure.md#phone)) | One 56px navigation row on the frame (`PanelSectionHeader`). Tasks, Members and Settings put their name in it in `text-headline`, with an optional subtitle; Home puts the workspace pill there instead of a name. Whether to keep the large title is in [Open questions](../../decisions/open-questions.md) |
-| The phone workspace list as a bottom sheet ([Navigation](../../patterns/navigation.md#workspaces)) | The pill opens the list as a popover anchored under the top bar, 8px from each side |
+| The phone server list as a bottom sheet ([Navigation](../../patterns/navigation.md#servers)) | The pill opens the list as a popover anchored under the top bar, 8px from each side |
 | A mention marker replaces the unread count ([States](../../foundations/states.md)) | A channel's row shows the @ marker before the pink count |
 | The selected destination shows no attention dot ([States](../../foundations/states.md)) | Settings and Help keep their dot while selected |
 | No empty state when loading failed ([Feedback](../../patterns/feedback.md#empty-loading-and-failed)) | When the list of Activity or Saved fails to load, it shows its empty state |

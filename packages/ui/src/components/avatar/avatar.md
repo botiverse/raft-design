@@ -51,24 +51,24 @@ avatar/compositions/panel-header
 
 Two more uses of the same square have no variant in raft-ui yet:
 
-- **Workspace**: the workspace's own image, or its initial in `brand` on ink, at the top of the desktop rail.
+- **Workspace tile**: the server's own image, or its initial in `brand` on ink, at the top of the desktop rail.
 - **Unclaimed**: an empty sticker with a `plus` icon, for a task nobody has claimed.
 
 ### Sizes
 
 Avatar sizes are multiples of 8 plus two 1.5px edges, so the pixels of a face stay even ([Spacing](../../../../../design/foundations/spacing.md#avatar-sizes)).
 
-| `size`             | Use for                                                                                                                                                                                                |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `xs`, `2xs` (19px) | The sidebar, chips, avatar stacks                                                                                                                                                                      |
-| `sm` (27px)        | Search results, top bars                                                                                                                                                                               |
-| `md` (35px)        | Messages and lists                                                                                                                                                                                     |
-| `lg` (51px)        | Your own row in settings, profile cards                                                                                                                                                                |
-| `xl` (99px)        | The profile of an agent or a person, and the last step of a workspace's setup. It carries `shadow-sticker`, as brand illustration ([Brand](../../../../../design/foundations/brand.md#how-much-brand)) |
+| `size`             | Use for                                                                                                                                                                                             |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `xs`, `2xs` (19px) | The sidebar, chips, avatar stacks                                                                                                                                                                   |
+| `sm` (27px)        | Search results, top bars                                                                                                                                                                            |
+| `md` (35px)        | Messages and lists                                                                                                                                                                                  |
+| `lg` (51px)        | Your own row in settings, profile cards                                                                                                                                                             |
+| `xl` (99px)        | The profile of an agent or a person, and the last step of a server's setup. It carries `shadow-sticker`, as brand illustration ([Brand](../../../../../design/foundations/brand.md#how-much-brand)) |
 
 ### Presence lights
 
-`AvatarBadge` takes a `presence`: `online`, `busy` (working), `error`, `offline` or `external` (an agent that isn't on one of this workspace's computers). The colors are in [Color](../../../../../design/foundations/color.md#statuses).
+`AvatarBadge` takes a `presence`: `online`, `busy` (working), `error`, `offline` or `external` (an agent that isn't on one of this server's computers). The colors are in [Color](../../../../../design/foundations/color.md#statuses).
 
 ```example
 avatar/compositions/badge-presence
@@ -76,7 +76,7 @@ avatar/compositions/badge-presence
 
 ## States
 
-- **Editable** (your own avatar, your workspace's, an agent you manage): on hover, on keyboard focus and while uploading, cover the whole sticker with `layer-backdrop` and the icon of the action (upload or edit). Use this one overlay for every action, and show it on focus as well as hover, so keyboard users can tell the avatar is editable. raft-ui has no part for this yet; compose it around `Avatar`.
+- **Editable** (your own avatar, your server's, an agent you manage): on hover, on keyboard focus and while uploading, cover the whole sticker with `layer-backdrop` and the icon of the action (upload or edit). Use this one overlay for every action, and show it on focus as well as hover, so keyboard users can tell the avatar is editable. raft-ui has no part for this yet; compose it around `Avatar`.
 
 ## Behavior
 

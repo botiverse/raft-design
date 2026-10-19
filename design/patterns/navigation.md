@@ -1,12 +1,12 @@
 ---
 title: Navigation
-summary: How people reach destinations, see where they are, follow links, go back, close things, switch workspaces and switch between the views of one place.
+summary: How people reach destinations, see where they are, follow links, go back, close things, switch servers and switch between the views of one place.
 redirectFrom: [decisions/0007-workspace-switcher-sheet]
 ---
 
 # Navigation
 
-A product's destinations are on the tab bar on a phone and on the rail on desktop. Where you are is always yellow. Going back follows the history; a popup closes with ×, Esc or a press outside it. People move between many places and many workspaces in a day, so every product puts these in the same spots and marks them the same way.
+A product's destinations are on the tab bar on a phone and on the rail on desktop. Where you are is always yellow. Going back follows the history; a popup closes with ×, Esc or a press outside it. People move between many places and many servers in a day, so every product puts these in the same spots and marks them the same way.
 
 ## When it applies
 
@@ -17,7 +17,7 @@ Every Raft product. Which destinations a product has and in which order is on it
 | Need | Phone | Desktop |
 | --- | --- | --- |
 | Destinations | The tab bar at the bottom, at most 5, on top-level pages only ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) | The rail, icons only, with Help and Settings at its bottom ([AppRail](../../packages/ui/src/components/app-rail/app-rail.md)) |
-| Workspace | The workspace pill in the top bar of the first top-level page | The workspace button and the strip of workspace avatars at the left of the web top bar ([Page structure](./page-structure.md#the-web-top-bar)) |
+| Server | The workspace pill in the top bar of the first top-level page | The workspace button and the strip of server avatars at the left of the web top bar ([Page structure](./page-structure.md#the-web-top-bar)) |
 | Search | A Search row at the top of the first top-level page | The search field in the center of the web top bar |
 | Notifications | The bell at the right of the first top-level page's top bar | The bell at the right of the web top bar |
 | Close a side panel | Back (it covers the page like a pushed page) | × |
@@ -53,11 +53,11 @@ In Raft Chat the first top-level page is Home ([Raft Chat — Home](../products/
 - Give a desktop side panel a × while it sits beside the main area, and Back when it covers it: what covers the page behaves like a pushed page.
 - Give a full-screen page only Back.
 
-### Workspaces
+### Servers
 
-- On desktop, open the workspace list as a menu under the workspace button of the top bar. The strip beside the button switches with one click; it shows as many workspace avatars as fit, at least 2, and marks the current one with a bar under its avatar.
-- On a phone, open the workspace list from the pill as a bottom sheet: the list is within reach of the thumb and has room for many workspaces. Raft Chat doesn't follow this yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)).
-- Show an attention dot on the pill and on a workspace avatar when another workspace has unread items. How the list is built is in [Built from existing parts](../components/overview.md#switching-workspaces).
+- On desktop, open the server list as a menu under the workspace button of the top bar. The strip beside the button switches with one click; it shows as many server avatars as fit, at least 2, and marks the current one with a bar under its avatar.
+- On a phone, open the server list from the pill as a bottom sheet: the list is within reach of the thumb and has room for many servers. Raft Chat doesn't follow this yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)).
+- Show an attention dot on the pill and on a server's avatar when another server has unread items. How the list is built is in [Built from existing parts](../components/overview.md#switching-servers).
 
 ### Several views of one place
 

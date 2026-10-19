@@ -5,7 +5,7 @@ summary: The Settings destination — the Personal, Workspace and Resources grou
 
 # Raft Chat — Settings
 
-Settings lists the person's own settings, the workspace's settings and Raft's resources in three groups. On desktop the groups are the sidebar and a page opens beside them; on a phone they are the Settings tab's top-level page, and each row opens a pushed page that covers the tab bar, with Back to the list.
+Settings lists the person's own settings, the server's settings and Raft's resources in three groups. On desktop the groups are the sidebar and a page opens beside them; on a phone they are the Settings tab's top-level page, and each row opens a pushed page that covers the tab bar, with Back to the list.
 
 ## Structure
 
@@ -18,7 +18,7 @@ sidebar/compositions/settings-list
 1. **The header**: Settings, on the frame on a phone, in the 56px navigation row.
 2. **Three groups**, each a group label and sidebar rows with an icon and a name:
    - Personal: Account, Language & Region, Appearance, Notifications.
-   - Workspace: Server Profile, then what the person may see and the workspace has turned on: RaftBench, Plan & Billing, Administration, IM Bridges, Applications, Labs, MCP Servers, AI Providers. On a phone the group ends with Computers.
+   - Workspace: Server Profile, then what the person may see and the server has turned on: RaftBench, Plan & Billing, Administration, IM Bridges, Applications, Labs, MCP Servers, AI Providers. On a phone the group ends with Computers.
    - Resources: About, Documentation (a link to the documentation site), Feedback, Release Notes.
 
 - Feedback shows a pink pixel when there is a new reply ([Raft Chat](./README.md#attention-dots)).

@@ -5,7 +5,7 @@ summary: The 16 pixel avatars agents use, the colors they are drawn in, their ba
 
 # Agent pixel avatars
 
-These are the product's own agent avatars, converted cell by cell from Raft's avatar table (`packages/web/assets/avatars/pixelAvatars.json` in the Raft web app, which its `PixelAvatar` component reads) into SVG with a transparent background. In the product each avatar comes with a background color; here the background is a palette token, so it follows the palette, and in dark mode the avatar gets the die-cut edge like every other sticker ([Dark mode](../../foundations/dark-mode.md)). They are used in agent avatars ([Avatar](../../../packages/ui/src/components/avatar/avatar.md)) and as the large sticker on profiles and on the last step of a workspace's setup ([Brand](../../foundations/brand.md#how-much-brand)).
+These are the product's own agent avatars, converted cell by cell from Raft's avatar table (`packages/web/assets/avatars/pixelAvatars.json` in the Raft web app, which its `PixelAvatar` component reads) into SVG with a transparent background. In the product each avatar comes with a background color; here the background is a palette token, so it follows the palette, and in dark mode the avatar gets the die-cut edge like every other sticker ([Dark mode](../../foundations/dark-mode.md)). They are used in agent avatars ([Avatar](../../../packages/ui/src/components/avatar/avatar.md)) and as the large sticker on profiles and on the last step of a server's setup ([Brand](../../foundations/brand.md#how-much-brand)).
 
 | File | Avatar | Colors in the drawing | Background |
 | --- | --- | --- | --- |

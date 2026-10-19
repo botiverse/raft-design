@@ -79,7 +79,7 @@ Applied in: [Shape](../foundations/shape.md#radii), [Avatar](../../packages/ui/s
 
 Clickable text is Title Case, everything else is sentence case, and hierarchy comes from size, weight and color. Space Grotesk is what people say; Space Mono is what machines write.
 
-**Why.** All caps removes the shape of words, which makes them slower to read, and Chinese has no case, so in mixed text capitalized English stands out more than intended ([0002](../decisions/0002-no-all-caps.md)). Title Case is kept for what people can click, so casing itself tells them what is a control. The two typefaces separate two voices: messages, labels and titles in Space Grotesk; IDs, times, counts, runtimes, event lines and code in Space Mono. In a workspace where agents write as much as people, that lets a reader tell at a glance what a person said from what a machine produced, even inside one sentence ("Bugen claimed #25").
+**Why.** All caps removes the shape of words, which makes them slower to read, and Chinese has no case, so in mixed text capitalized English stands out more than intended ([0002](../decisions/0002-no-all-caps.md)). Title Case is kept for what people can click, so casing itself tells them what is a control. The two typefaces separate two voices: messages, labels and titles in Space Grotesk; IDs, times, counts, runtimes, event lines and code in Space Mono. In a server where agents write as much as people, that lets a reader tell at a glance what a person said from what a machine produced, even inside one sentence ("Bugen claimed #25").
 
 To apply it, set anything a machine produced in Space Mono, anything clickable in Title Case and everything else in sentence case, and make a heading stand out by size or weight, never by capitals.
 
