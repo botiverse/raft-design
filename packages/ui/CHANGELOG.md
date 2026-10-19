@@ -4,17 +4,21 @@
 
 - **`Button` no longer has `variant="link"` or `size="inline"`.** Underlined text is now `TextLink`. A link inside a sentence (a banner's "View Billing") becomes `<TextLink variant="strong">`; a link on its own (Forgot Password, See All) becomes `<TextLink>`, which is muted. `TextLink` has no height, border or padding, so drop the classes that took them off. ([#554](https://github.com/botiverse/raft-design/pull/554))
 - `AnnouncementDialogSecondaryAction` is a ghost button instead of an underlined link. Its API is unchanged, and it now looks like the frameless minor action of a dialog. ([#554](https://github.com/botiverse/raft-design/pull/554))
+- The activity inbox sidebar no longer styles `[data-activity-inbox-show-all]` as a link (it keeps only `whitespace-nowrap`). Render Show All as a `TextLink`. ([#554](https://github.com/botiverse/raft-design/pull/554))
+- `FieldLabel` no longer carries `leading-none`. tailwind-merge already dropped it beside the type class, so most labels don't change, but a label whose class list kept it is now a full line high. ([#541](https://github.com/botiverse/raft-design/pull/541))
+- `SegmentedControl` no longer shrinks with `max-w-full`; it keeps its width (`shrink-0`). In a narrow row, give it room or let the row degrade as `responsive.md` says, or it overflows. ([#542](https://github.com/botiverse/raft-design/pull/542))
 
 ### Added
 
+- `FieldItem` takes `size` (`sm`, `md`), to match the size of its label. ([#541](https://github.com/botiverse/raft-design/pull/541))
 - `TextLink`: the bottom step of the button ladder, underlined text that takes the size of the text around it. It renders a `button`, or a real link with `render={<a href="…" />}`. `variant="muted"` (default) is for a link on its own; `variant="strong"` (ink, 600) is for a link inside a sentence. ([#554](https://github.com/botiverse/raft-design/pull/554))
 
 ### Fixed
 
-- A checkbox, radio or switch is centered on the first line of its label, whether or not the label wraps or has a description. `FieldItem` takes `size` to match its label. ([#541](https://github.com/botiverse/raft-design/pull/541))
+- A checkbox, radio or switch is centered on the first line of its label, whether or not the label wraps or has a description. ([#541](https://github.com/botiverse/raft-design/pull/541))
 - Timeline content runs the full width under its title, instead of staying in the column beside the time. ([#547](https://github.com/botiverse/raft-design/pull/547))
 - `SegmentedControl` keeps its width and no longer gets squeezed by a neighbor in the same row. ([#542](https://github.com/botiverse/raft-design/pull/542))
-- The time beside a merged message no longer wraps onto two lines. ([#544](https://github.com/botiverse/raft-design/pull/544))
+- The time beside a merged message no longer wraps onto two lines, and it takes the person's 12-hour or 24-hour time. ([#544](https://github.com/botiverse/raft-design/pull/544))
 - The presence light on a 19px avatar (`xs`, `2xs`) is 7px with a 1px edge, so it no longer covers the face. ([#549](https://github.com/botiverse/raft-design/pull/549))
 - The message hover toolbar is 32px high with 28px buttons and 16px icons. It reaches 16px above the row, so leave 16px above the first message of a scroll area and above a thread's root message. ([#553](https://github.com/botiverse/raft-design/pull/553))
 
