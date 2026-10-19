@@ -151,7 +151,7 @@ function MemberDetailSection({
 }) {
   return (
     <ProfilePanelSection>
-      <Text.Mono
+      <Text.Sans
         render={
           <h3>
             {title}
@@ -160,7 +160,7 @@ function MemberDetailSection({
             )}
           </h3>
         }
-        size="eyebrow"
+        size="group"
         className={["flex items-baseline gap-2", compactTitle ? "mb-1" : "mb-3"].join(" ")}
       />
       {children}

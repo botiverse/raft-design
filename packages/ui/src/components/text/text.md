@@ -29,10 +29,10 @@ text/compositions/inline-list-row
 ## Anatomy
 
 - `Text.Heading` (`TextHeading`): an `h1` to `h6`, from `level`.
-- `Text.Sans` (`TextSans`): a paragraph in Space Grotesk, sized by `size`: `large`, `body`, `small` or `caption`.
-- `Text.Mono` (`TextMono`): a paragraph in Space Mono, sized by `size`: `code`, `meta`, `tabular` or `eyebrow`.
+- `Text.Sans` (`TextSans`): a paragraph in Space Grotesk, sized by `size`: `large`, `body`, `small`, `caption` or `group`, the heading of a group of rows or a section in a panel (13px at 700, `foreground-hint`, as in [Typography](../../../../../design/foundations/typography.md)).
+- `Text.Mono` (`TextMono`): a paragraph in Space Mono, sized by `size`: `code`, `meta` or `tabular`.
 
-Each part takes a `variant` for its color. Without one, the size sets it: `foreground` for the larger sizes, `foreground-muted` for `small`, `caption` and `meta`.
+Each part takes a `variant` for its color. Without one, the size sets it: `foreground` for the larger sizes, `foreground-muted` for `small`, `caption` and `meta`, `foreground-hint` for `group`.
 
 ```example
 text/compositions/semantic-elements
@@ -59,5 +59,5 @@ text/compositions/semantic-elements
 
 ## Rules
 
-- Don't use `size="eyebrow"`: it sets all caps, and nothing in the product is in all caps ([Typography](../../../../../design/foundations/typography.md#casing)).
+- Head a section with `Text.Sans size="group"`, in sentence case. Don't set a small label in Space Mono or in all caps: nothing in the product is in all caps ([Typography](../../../../../design/foundations/typography.md#casing)).
 - Don't use `variant="danger"` for error text. Error text is `danger-strong`, from the field's error state ([Field](../field/field.md)).
