@@ -3,6 +3,7 @@ title: Sidebar
 summary: The desktop column next to the rail that lists what the selected destination contains, with rows that mark where you are, what is unread and what mentions you.
 status: stable
 aliases: [Sidebar row]
+layer: core
 category: navigation
 related: [app-rail, list-row, panel, badge, avatar]
 ---

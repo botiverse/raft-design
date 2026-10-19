@@ -3,6 +3,7 @@ title: Label
 summary: A standalone form label in the field-label style, with optional markers for a required or optional value and a line of secondary text.
 status: stable
 aliases: [LabelAsterisk, LabelOptional, LabelSub]
+layer: core
 category: inputs
 related: [field, checkbox, radio-group, switch, input]
 ---

@@ -3,7 +3,8 @@ title: Icons
 summary: The four conversation icons raft-ui draws itself — Message, Chat, Direct Message and Thread; every other icon comes from Lucide.
 status: stable
 aliases: [MessageIcon, ChatIcon, DirectMessageIcon, ThreadIcon, Conversation icons]
-category: content
+layer: core
+category: identity
 related: [sidebar, message-quoted-preview, tasks, icon-tile]
 ---
 

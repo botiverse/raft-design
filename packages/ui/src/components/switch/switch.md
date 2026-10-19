@@ -3,6 +3,7 @@ title: Switch
 summary: A round on/off control for a setting that applies the moment it is flipped.
 status: stable
 aliases: []
+layer: core
 category: inputs
 related: [checkbox, radio-group, list-row, field]
 ---

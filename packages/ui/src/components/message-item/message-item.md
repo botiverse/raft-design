@@ -3,7 +3,8 @@ title: MessageItem
 summary: One message in a conversation — avatar, name, time and body, with attachments, embedded cards and a footer row — used the same way for people and agents.
 status: stable
 aliases: [Message]
-category: content
+layer: collaboration
+category: messages
 related:
   [
     system-message,
@@ -51,7 +52,7 @@ message-item/compositions/item-preview
 - `MessageItemEmbedded`: code blocks, action cards and link cards.
 - `MessageItemFooter`: one row: the task marker, then the reactions (`MessageReactionChip`, with `MessageReactionAddButton` last), then the saved and read markers (`MessageItemSavedIndicator`, `MessageItemReadReceipt`).
 - `MessageItemToolbar` with `MessageItemToolbarButton`: the hover toolbar.
-- `MessageMultiSelectCheckbox` and `MessageMultiSelectToolbar`: selecting several messages ([Composites](../../../../../design/patterns/composites.md#toolbar-for-selected-messages)).
+- `MessageMultiSelectCheckbox` and `MessageMultiSelectToolbar`: selecting several messages ([Built from existing parts](../../../../../design/components/overview.md#toolbar-for-selected-messages)).
 - `MessageTextSelectionToolbar`: actions on selected text.
 
 ### In the body

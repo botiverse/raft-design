@@ -3,6 +3,7 @@ title: IconTile
 summary: A neutral square with an icon, sized like an avatar, for a place or a thing without a face — a channel, a system notice, a file, an app, a computer.
 status: stable
 aliases: [ChannelIcon, channel tile]
+layer: core
 category: identity
 related: [avatar, panel, sidebar, notification-center]
 ---

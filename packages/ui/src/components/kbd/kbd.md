@@ -3,7 +3,8 @@ title: Kbd
 summary: A keyboard key or shortcut shown as a hint, in Space Mono inside a hairline box — in menus, tooltips, the search trigger and inputs.
 status: stable
 aliases: [Keyboard shortcut, Shortcut, KbdGroup]
-category: content
+layer: core
+category: data-display
 related: [dropdown-menu, context-menu, tooltip, search]
 ---
 

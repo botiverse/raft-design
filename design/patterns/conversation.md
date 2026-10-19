@@ -45,7 +45,7 @@ conversation-panel/compositions/conversation-panel
 - Put every other action in the message menu. Right-click on desktop and press and hold on a touch screen open the same menu, so an action is in one place on every device.
 - Make the quick reactions the first row of that menu, with a separator between them and the actions.
 - Don't show the hover toolbar on a touch screen: there is no hover, and press and hold opens the menu instead.
-- To act on several messages (forward, copy), choose Select Message in the menu; the toolbar for selected messages appears at the bottom of the conversation ([Composites](./composites.md#toolbar-for-selected-messages)).
+- To act on several messages (forward, copy), choose Select Message in the menu; the toolbar for selected messages appears at the bottom of the conversation ([Built from existing parts](../components/overview.md#toolbar-for-selected-messages)).
 
 ### The composer
 
@@ -76,4 +76,4 @@ thread-panel/thread-panel
 
 - [Agents](./agents.md): event lines, status and action cards.
 - [Navigation](./navigation.md): reference chips and links.
-- [Composites](./composites.md): link cards, forwarded messages, translations and multi-select.
+- [Built from existing parts](../components/overview.md#built-from-existing-parts): link cards, forwarded messages, translations and multi-select.

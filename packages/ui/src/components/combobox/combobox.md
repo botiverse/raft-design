@@ -3,6 +3,7 @@ title: Combobox
 summary: A searchable list of values built from parts, for filters with search and for picking a few of many values as chips.
 status: stable
 aliases: []
+layer: core
 category: inputs
 related: [select, combobox-select, picker-trigger-button, field]
 ---
@@ -17,7 +18,7 @@ combobox/compositions/tasks-channel-filter
 
 ## When to use
 
-The full choice between pickers is in [Choosing a component](../../../../../design/patterns/choosing-components.md#picking-something).
+The full choice between pickers is in [Choosing a component](../../../../../design/components/overview.md#picking-something).
 
 | Situation                                                         | Use                                                     |
 | ----------------------------------------------------------------- | ------------------------------------------------------- |

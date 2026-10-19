@@ -3,7 +3,8 @@ title: TaskBoard
 summary: The board view of tasks — one column per status, in status order, with cards that can be dragged to another column to change their status.
 status: stable
 aliases: [Kanban]
-category: content
+layer: collaboration
+category: tasks
 related: [task-card, task-list, tasks, segmented-control]
 ---
 

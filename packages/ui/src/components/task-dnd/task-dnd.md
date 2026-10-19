@@ -3,7 +3,8 @@ title: TaskDnd
 summary: The drag-and-drop parts that let people move task cards between columns and around other cards, with the drop policy and the move left to the caller.
 status: stable
 aliases: [Drag and drop, DnD, TaskDraggable, TaskDropZone]
-category: content
+layer: collaboration
+category: tasks
 related: [task-board, task-card, task-list, tasks]
 ---
 

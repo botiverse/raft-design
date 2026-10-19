@@ -56,7 +56,7 @@ In Raft Chat the first top-level page is Home ([Raft Chat — Home](../products/
 
 - On desktop, open the workspace list as a menu under the workspace button of the top bar. The strip beside the button switches with one click; it shows as many workspace avatars as fit, at least 2, and marks the current one with a bar under its avatar.
 - On a phone, open the workspace list from the pill as a bottom sheet: the list is within reach of the thumb and has room for many workspaces ([0007](../decisions/0007-workspace-switcher-sheet.md)). Raft Chat doesn't follow this yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)).
-- Show an attention dot on the pill and on a workspace avatar when another workspace has unread items. How the list is built is in [Composites](./composites.md#switching-workspaces).
+- Show an attention dot on the pill and on a workspace avatar when another workspace has unread items. How the list is built is in [Built from existing parts](../components/overview.md#switching-workspaces).
 
 ### Several views of one place
 

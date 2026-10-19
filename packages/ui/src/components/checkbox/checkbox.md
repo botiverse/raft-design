@@ -3,6 +3,7 @@ title: Checkbox
 summary: A square box for a yes or no that is saved with a form, or an option attached to an action.
 status: stable
 aliases: []
+layer: core
 category: inputs
 related: [switch, radio-group, field, composer]
 ---

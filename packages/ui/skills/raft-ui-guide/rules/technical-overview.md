@@ -77,4 +77,4 @@ Custom fonts use `--heading-font`, `--sans-font`, and `--mono-font`.
 - Base UI overlays portal to `document.body`. An app root with `isolation: isolate` keeps its stacking contexts below those surfaces. Embedded previews can use `portalProps.container` (toasts: `ToastProvider portalContainer`) to keep overlays inside their scope.
 - SSR apps with persisted mode need to restore it before first paint to avoid a theme flash.
 
-What floats and how popups are positioned is in [Elevation](https://raft-design.botiverse.build/foundations/elevation.md); which overlay to use is in [Choosing a component](https://raft-design.botiverse.build/patterns/choosing-components.md#overlays).
+What floats and how popups are positioned is in [Elevation](https://raft-design.botiverse.build/foundations/elevation.md); which overlay to use is in [Choosing a component](https://raft-design.botiverse.build/components/overview.md#overlays).

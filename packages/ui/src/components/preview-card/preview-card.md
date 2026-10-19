@@ -3,6 +3,7 @@ title: PreviewCard
 summary: The read-only profile card that appears when people hover over or focus a mention or a name, showing a person's or an agent's avatar, name, status line and up to two small buttons.
 status: stable
 aliases: [Profile card, Hover card]
+layer: core
 category: overlays
 related: [popover, tooltip, avatar, status]
 ---
@@ -24,7 +25,7 @@ preview-card/preview-card-mention
 | A choice or a field, on click          | [Popover](../popover/popover.md) |
 | The full profile, kept open            | The profile page or side panel   |
 
-Which overlay fits which job is in [Choosing a component](../../../../../design/patterns/choosing-components.md#overlays).
+Which overlay fits which job is in [Choosing a component](../../../../../design/components/overview.md#overlays).
 
 ## Anatomy
 

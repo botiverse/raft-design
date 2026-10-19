@@ -3,13 +3,14 @@ title: ToggleGroup
 summary: A compact row of toggle buttons in a gray track, each one on or off on its own, or one of them or none; a pressed button is a yellow sticker.
 status: stable
 aliases: [Toggle buttons, Toolbar toggles]
+layer: core
 category: inputs
 related: [segmented-control, checkbox, switch, picker-trigger-button]
 ---
 
 # ToggleGroup
 
-A toggle group is a row of buttons in a gray track that people press on and off: Bold, Italic and Underline, or a row of filters, each selectable on its own ([Composites](../../../../../design/patterns/composites.md#a-row-of-toggle-buttons)). With `multiple`, any number can be on; without it, one or none. A pressed button is a yellow sticker.
+A toggle group is a row of buttons in a gray track that people press on and off: Bold, Italic and Underline, or a row of filters, each selectable on its own ([Built from existing parts](../../../../../design/components/overview.md#a-row-of-toggle-buttons)). With `multiple`, any number can be on; without it, one or none. A pressed button is a yellow sticker.
 
 ```example
 toggle-group/compositions/formatting
@@ -26,7 +27,7 @@ toggle-group/compositions/formatting
 | One setting, applied at once                                | [Switch](../switch/switch.md)                                                       |
 | Filtering a list by one of its values                       | A filter ([PickerTriggerButton](../picker-trigger-button/picker-trigger-button.md)) |
 
-The full table is in [Choosing a component](../../../../../design/patterns/choosing-components.md#picking-something).
+The full table is in [Choosing a component](../../../../../design/components/overview.md#picking-something).
 
 ## Anatomy
 

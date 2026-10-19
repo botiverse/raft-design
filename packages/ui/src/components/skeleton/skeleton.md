@@ -3,13 +3,14 @@ title: Skeleton
 summary: A gray placeholder in the shape of the content that is loading, for lists, cards and panels whose layout is known.
 status: stable
 aliases: [Placeholder]
+layer: core
 category: feedback
 related: [spinner, progress, empty-state]
 ---
 
 # Skeleton
 
-A skeleton holds the place of content that is still loading: square blocks where avatars and tiles will be, bars where text will be. Use it when a list, card or panel loads for the first time and its layout is known. Which loading indicator fits which wait is in [Choosing a component](../../../../../design/patterns/choosing-components.md#waiting).
+A skeleton holds the place of content that is still loading: square blocks where avatars and tiles will be, bars where text will be. Use it when a list, card or panel loads for the first time and its layout is known. Which loading indicator fits which wait is in [Choosing a component](../../../../../design/components/overview.md#waiting).
 
 ```example
 skeleton/compositions/preview

@@ -9,7 +9,7 @@ A control that applies at once has no Save button. Fields that are edited togeth
 
 ## When it applies
 
-Settings pages, forms in dialogs and drawers, and large configuration forms. Which control to use for a value is in [Choosing a component](./choosing-components.md#picking-something).
+Settings pages, forms in dialogs and drawers, and large configuration forms. Which control to use for a value is in [Choosing a component](../components/overview.md#picking-something).
 
 ## Structure
 
