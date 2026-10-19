@@ -147,6 +147,13 @@
     "native": true,
     "props": [
       {
+        "name": "size",
+        "type": "\"sm\" | \"md\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
         "name": "disabled",
         "type": "boolean",
         "required": false,
