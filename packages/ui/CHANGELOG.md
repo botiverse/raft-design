@@ -1,3 +1,9 @@
+## [0.9.2](https://github.com/botiverse/raft-design/compare/v0.9.1...v0.9.2) (2026-10-19)
+
+### Fixed
+
+- On an `InboxItem` card row, `InboxItemTrailing` (the timestamp, and on a touch screen the room for `reveal="hover"` actions) takes width only beside the first two content lines; the body, message and chips below run the full width. Before, every line was narrowed, so phone cards wrapped more and grew taller. Compact rows and rows without a trailing column are unchanged. ([#586](https://github.com/botiverse/raft-design/pull/586))
+
 ## [0.9.1](https://github.com/botiverse/raft-design/compare/v0.9.0...v0.9.1) (2026-10-19)
 
 ### Added
