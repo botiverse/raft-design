@@ -37,15 +37,18 @@ jobs:
       - name: Pack package
         run: vp pm pack --filter @botiverse/raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"
 
-      - name: Publish package
-        # Idempotent: a version that is already on npm (published by hand the
-        # first time, or a re-run) is skipped and the release notes still go out.
+      - name: Stage package on npm
+        # Staged publishing: the trusted publisher may only stage. The version goes
+        # live when a maintainer approves it with 2FA, on npmjs.com or with
+        # `npm stage approve <stage-id>`. A version already on npm (the first
+        # release was published by hand, or a re-run) is skipped.
         run: |
           version="$(node -p "require('./packages/ui/package.json').version")"
           if npm view "@botiverse/raft-ui@$version" version >/dev/null 2>&1; then
-            echo "@botiverse/raft-ui@$version is already on npm; skipping publish."
+            echo "@botiverse/raft-ui@$version is already on npm; skipping."
           else
-            npm publish "$RUNNER_TEMP"/raft-ui-pack/botiverse-raft-ui-*.tgz --access public
+            npx --yes npm@11.19.0 stage publish "$RUNNER_TEMP"/raft-ui-pack/botiverse-raft-ui-*.tgz --access public
+            echo "Staged @botiverse/raft-ui@$version. Approve it on npmjs.com or with npm stage approve."
           fi
 
       - name: Create GitHub release notes

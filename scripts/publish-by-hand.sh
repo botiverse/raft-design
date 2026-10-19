@@ -41,4 +41,5 @@ else
   node scripts/release-notes.mjs "$tag" > "$notes"
   gh release create "$tag" --title "$tag" --notes-file "$notes" --verify-tag
 fi
-echo "Done. Next: npmjs.com > $name > Settings > Trusted Publisher > GitHub Actions: botiverse / raft-design / publish.yml"
+echo "Done. Next: npmjs.com > $name > Settings > Trusted Publisher > GitHub Actions: botiverse / raft-design / publish.yml,"
+echo "leaving \"publish directly\" unchecked: tags then stage a version and a maintainer approves it."

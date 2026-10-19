@@ -50,7 +50,7 @@ A pull request describes the change, names the guideline it updated or says why 
 
 Maintainers cut raft-ui releases and write the changelog. Contributors do not need to change the version or `packages/ui/CHANGELOG.md`.
 
-raft-ui is published to npm as `@botiverse/raft-ui`. Pushing a `v<version>` tag runs `.github/workflows/publish.yml`, which publishes through npm trusted publishing and creates the GitHub Release; `scripts/publish-by-hand.sh` covers the case the workflow can't, the first release of a package name.
+raft-ui is published to npm as `@botiverse/raft-ui`. Pushing a `v<version>` tag runs `.github/workflows/publish.yml`, which stages the version on npm through trusted publishing and creates the GitHub Release. The version goes live when a maintainer approves the staged publish with 2FA, on npmjs.com or with `npm stage approve <stage-id>` (`npm stage list @botiverse/raft-ui` shows the id). `scripts/publish-by-hand.sh` covers the case the workflow can't, the first release of a package name.
 
 ## License
 
