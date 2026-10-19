@@ -32,7 +32,7 @@ app-shell/compositions/responsive
 A toolbar, a header or a filter row has to fit at the narrowest width its region can take (the Activity results list goes down to 320px), in the longest translation. When it doesn't, its parts give way in a fixed order, so the person still sees every control:
 
 1. A secondary text button shows only its icon, with its label kept as the accessible name and the tooltip. Mark all read becomes the `check-check` icon button.
-2. Only then, the main control shows only its icons: a segmented control's segments, a tab's label.
+2. Only then, the main control shows only its icons: a segmented control's segments, a tab's label. A segmented control does this itself below the row width set in `iconsOnlyBelow`: each segment becomes a 32px square with its icon, its label kept as the accessible name and the tooltip ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)).
 3. Text truncates last, and only in a name (a channel, a person), never in a control's label.
 
 - Never let parts overlap, and never let a control shrink below its own content: wrapping a control in `min-w-0` lets its frame shrink while its content spills onto its neighbor.
@@ -53,7 +53,7 @@ A touch screen has no hover, so anything that only appears on hover is out of re
 - Design for 390px wide, and make everything fit at 320px, the narrowest phone still in use.
 - Truncate long names.
 - Let buttons wrap to a new line. Don't shrink their text: a label too small to read is worse than a taller button.
-- Use at most 4 segments in a segmented control. When they don't fit, show only their icons, with the label kept as the accessible name.
+- Use at most 4 segments in a segmented control. When they don't fit, show only their icons, with the label kept as the accessible name (`iconsOnlyBelow`).
 - Scroll tabs horizontally when they don't fit ([Tabs](../../packages/ui/src/components/tabs/tabs.md)).
 - The composer and the message actions on a touch screen are in [Conversation](./conversation.md#the-composer).
 

@@ -5,6 +5,13 @@
     "native": true,
     "props": [
       {
+        "name": "iconsOnlyBelow",
+        "type": "SegmentedControlIconsOnlyBelow",
+        "required": false,
+        "description": "When the nearest `@container` ancestor (the row the control sits in) is narrower than this width, every segment shows only its icon (give each one). Its label stays the accessible name and shows in a tooltip.",
+        "from": "raft-ui"
+      },
+      {
         "name": "defaultValue",
         "type": "T",
         "required": false,

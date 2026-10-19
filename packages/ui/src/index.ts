@@ -674,6 +674,7 @@ export {
 } from "./components/segmented-control/index";
 export type {
   SegmentedControlCountProps,
+  SegmentedControlIconsOnlyBelow,
   SegmentedControlItemProps,
   SegmentedControlLabelProps,
   SegmentedControlProps,
