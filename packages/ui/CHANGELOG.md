@@ -1,3 +1,16 @@
+## [0.8.3](https://github.com/botiverse/raft-design/compare/v0.8.2...v0.8.3) (2026-10-19)
+
+### Added
+
+- `SelectItemDescription`: an optional second line under an option's label, for what the value means. The trigger still shows only the label. ([#573](https://github.com/botiverse/raft-design/pull/573))
+- The `layer-backdrop-nested` color token (`bg-layer-backdrop-nested`): the lighter scrim of a modal opened from another modal. ([#558](https://github.com/botiverse/raft-design/pull/558))
+
+### Fixed
+
+- A `SelectItem` grows with its content and keeps 6px above and below its text. A one-line item stays 36px. ([#573](https://github.com/botiverse/raft-design/pull/573))
+- A `Dialog` or `AlertDialog` opened from a sheet or another dialog draws its own, lighter scrim, so it no longer sits undimmed on the surface below. A sheet opened from a dialog does the same; a sheet over a sheet is unchanged. Nesting follows the modal roots, as in Base UI, and a `modal={false}` parent doesn't count. ([#558](https://github.com/botiverse/raft-design/pull/558))
+- The message hover toolbar and `MessageTextSelectionToolbar` have a 10px corner (`radius-container`) around their 8px buttons, so a hovered button's corner keeps an even 2px gap from the frame instead of pinching it. ([#572](https://github.com/botiverse/raft-design/pull/572))
+
 ## [0.8.2](https://github.com/botiverse/raft-design/compare/v0.8.1...v0.8.2) (2026-10-19)
 
 ### Added
