@@ -27,7 +27,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | The first three rows of phone Home | Search, Activity (with a pink count of what is unread), Saved (with a gray count); see [Home](./home.md) |
 | Web top bar (from 768px, and the desktop app's title bar) | As in [Page structure](../../patterns/page-structure.md#the-web-top-bar); the search field opens search |
 | Desktop rail | Chat, Activity, Tasks, Members, Computers; at the bottom Help (`circle-help`) and Settings. Guests don't have Members or Computers |
-| Only in [Settings](./settings.md) | Computers (on a phone), and Log out, at the end of Account |
+| Only in [Settings](./settings.md) | Computers (on a phone), and Log Out, at the end of Account |
 
 Without the web top bar (an older desktop build, a server's public page), the rail shows the workspace tile at its top, Search before Chat, and the bell above Help.
 

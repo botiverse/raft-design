@@ -128,7 +128,7 @@ card-title
 
 | Text | Case | Example |
 | --- | --- | --- |
-| Anything clickable: buttons, menu items, tabs, tab bar items, status names | Title Case | Create Task, Mark All Read |
+| Anything clickable: buttons, text links, menu items, tabs, tab bar items, status names | Title Case | Create Task, Mark All Read, Log Out |
 | Titles, group headings, descriptions, empty states | Sentence case | No tasks match these filters |
 | A dialog or sheet title that repeats its button's label | Title Case | Create Channel |
 
