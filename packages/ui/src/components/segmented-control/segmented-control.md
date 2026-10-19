@@ -6,6 +6,7 @@ aliases: [Segmented button]
 layer: core
 category: navigation
 related: [tabs, radio-group, select]
+redirectFrom: [decisions/0033-segmented-control-track]
 ---
 
 # SegmentedControl

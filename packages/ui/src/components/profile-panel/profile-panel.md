@@ -89,7 +89,7 @@ profile-panel/compositions/skeleton
 
 ## Rules
 
-- Use the `xl` avatar, 99px, for people and agents alike ([0040](../../../../../design/decisions/0040-profile-avatar-size.md)).
+- Use the `xl` avatar, 99px, for people and agents alike ([Identity and presence](../../../../../design/people-and-agents/identity-and-presence.md#the-same-as-people)).
 - Show an agent at work as a still yellow light and a word ([Status](../status/status.md)), never an animation.
 - Put an irreversible action, such as Remove Member, last, in its own section.
 - Give the panel `edge="attached"` when it sits beside a conversation, so it draws the one line between the two ([Panel](../panel/panel.md#rules)). `ProfilePanel` defaults to `edge="inset"`.

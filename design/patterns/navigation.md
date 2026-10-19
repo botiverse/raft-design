@@ -1,6 +1,7 @@
 ---
 title: Navigation
 summary: How people reach destinations, see where they are, follow links, go back, close things, switch workspaces and switch between the views of one place.
+redirectFrom: [decisions/0007-workspace-switcher-sheet]
 ---
 
 # Navigation
@@ -28,10 +29,10 @@ In Raft Chat the first top-level page is Home ([Raft Chat — Home](../products/
 ### Where you are
 
 - Mark the current place with a yellow sticker on paper: sidebar rows, segmented controls, tabs. Yellow means "you" everywhere, so where you are and what calls you share one color ([0011](../decisions/0011-yellow-navigation-selection.md)).
-- On the tab bar, the sticker wraps only the icon: a whole yellow cell at the bottom of the screen would read as a second frame ([0003](../decisions/0003-tab-bar-icon-sticker.md)).
+- On the tab bar, the sticker wraps only the icon: a whole yellow cell at the bottom of the screen would read as a second frame ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#states)).
 - On the rail, the selected item is a white sticker on the yellow frame in light mode and a yellow sticker in dark mode, where the frame is neutral ([0012](../decisions/0012-yellow-rail-selection-in-dark-mode.md)).
 - Put a yellow location tile beside the title of the place the person is in, such as a channel ([IconTile](../../packages/ui/src/components/icon-tile/icon-tile.md)).
-- Name a rail item in a tooltip to its right. The rail shows no labels, so that it stays 56px and its top-left corner stays square ([0005](../decisions/0005-56px-headers-and-rail.md)).
+- Name a rail item in a tooltip to its right. The rail shows no labels, so that it stays 56px and its top-left corner stays square ([Spacing](../foundations/spacing.md#heights)).
 - Show an attention dot on a destination when something in it waits for the person ([States](../foundations/states.md)). Which destinations carry one is on the product's page.
 
 ### Going somewhere
@@ -55,14 +56,14 @@ In Raft Chat the first top-level page is Home ([Raft Chat — Home](../products/
 ### Workspaces
 
 - On desktop, open the workspace list as a menu under the workspace button of the top bar. The strip beside the button switches with one click; it shows as many workspace avatars as fit, at least 2, and marks the current one with a bar under its avatar.
-- On a phone, open the workspace list from the pill as a bottom sheet: the list is within reach of the thumb and has room for many workspaces ([0007](../decisions/0007-workspace-switcher-sheet.md)). Raft Chat doesn't follow this yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)).
+- On a phone, open the workspace list from the pill as a bottom sheet: the list is within reach of the thumb and has room for many workspaces. Raft Chat doesn't follow this yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)).
 - Show an attention dot on the pill and on a workspace avatar when another workspace has unread items. How the list is built is in [Built from existing parts](../components/overview.md#switching-workspaces).
 
 ### Several views of one place
 
 A place can hold several kinds of content, such as a channel's chat, tasks and files.
 
-- Switch between them with one row of sticker tabs under the panel header ([Tabs](../../packages/ui/src/components/tabs/tabs.md), in `ConversationPanelTabs`, [0013](../decisions/0013-sticker-tabs.md)). Give each tab an icon and a one-word label, without a count.
+- Switch between them with one row of sticker tabs under the panel header ([Tabs](../../packages/ui/src/components/tabs/tabs.md#variants), in `ConversationPanelTabs`). Give each tab an icon and a one-word label, without a count.
 - Let people reorder the tabs by dragging, and keep their order. The first tab in their order is the one a place opens on.
 - Hide the row when a place has only one view, such as a thread.
 - Use the same row in every place of a product, so a view is in the same spot wherever people open it. Raft Chat's channel views are in [Channel](../products/raft-chat/channel.md#chat-tasks-and-files).

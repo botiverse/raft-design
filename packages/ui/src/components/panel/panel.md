@@ -6,6 +6,7 @@ aliases: [NavBar, Top bar, Panel header]
 layer: core
 category: layout
 related: [conversation-panel, thread-panel, banner, icon-tile, drawer]
+redirectFrom: [decisions/0031-panel-header-icon-buttons, decisions/0039-panel-header-chip]
 ---
 
 # Panel
@@ -74,7 +75,7 @@ A phone's pushed page has a white top bar, and its location tile stays a yellow 
 
 The structure of a phone's top bars (the large title of a top-level page, Back and up to 2 icon buttons on a pushed page) is in [Page structure](../../../../../design/patterns/page-structure.md#phone). The top bar also follows these rules:
 
-- Show one large title per screen, in `text-display`. When the list scrolls up, it collapses into the 56px top bar as the page name in `text-headline` ([0004](../../../../../design/decisions/0004-title-on-every-top-level-page.md)). The product doesn't show the large title yet: its top-level pages have only the 56px row, with the page name in `text-headline` or, on Home, the workspace pill.
+- Show one large title per screen, in `text-display`. When the list scrolls up, it collapses into the 56px top bar as the page name in `text-headline` ([Page structure](../../../../../design/patterns/page-structure.md#phone)). The product doesn't show the large title yet: its top-level pages have only the 56px row, with the page name in `text-headline` or, on Home, the workspace pill.
 - Don't put New or Search buttons in the top bar of a top-level page.
 - Make the bell the entry to the notification center, with a pink pixel when something is new. Which page shows it is the product's choice ([Raft Chat](../../../../../design/products/raft-chat/README.md)).
 - Use the `arrow-left` icon for Back, not a chevron: its ink fills the icon box like other icons, so it mirrors the button at the other end without being shifted ([Alignment](../../../../../design/foundations/alignment.md#top-bar-icon-buttons)).
@@ -98,6 +99,6 @@ The structure of a phone's top bars (the large title of a top-level page, Back a
 
 - Use this header in every panel: conversation, thread, side panel and drawer. Don't give one panel its own header or button sizes.
 - Use `PanelAction` for the header's icon buttons: 32px with an 18px icon and a 44px hit area on desktop, 4px apart, the last icon box ending on the 20px edge; 44px with a 22px icon on a phone. A 44px button next to a 17px title looks heavy on desktop; a phone keeps 44px for the thumb.
-- Center a `PanelStatus` on the title's line by its shape. Don't nudge it: the title's letters already sit on the line's center.
+- Give a `PanelStatus` its own cell on the title's line, and center it by its shape. Don't nudge it: the title's letters already sit on the line's center, so a 1px shift makes it sit high.
 - Open a side panel from the header with a `PanelToggleAction`: pressing it again closes the panel.
 - Give a side panel next to a conversation `edge="attached"`, so it draws the one line between the two ([Page structure](../../../../../design/patterns/page-structure.md#one-line-between-two-regions)).

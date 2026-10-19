@@ -8,13 +8,13 @@ order: 2
 
 Seven rules hold on every screen of every Raft product. Each one is short enough to check in review, and each comes with its reason, because a rule without a reason gets broken the first time it is inconvenient. When a case isn't covered anywhere in the docs, the reasons decide it. Where the look comes from is in [Why Raft looks this way](./why-raft-looks-this-way.md); how to use these rules on new work is in [Designing a new feature](./designing-a-new-feature.md).
 
-The numbers are stable: decision records refer to a principle by its number.
+The numbers are stable: other pages refer to a principle by its number.
 
 ## 1. Yellow goes on the frame only
 
 The frame (the desktop rail, the web top bar, the top bar of a phone's top-level pages) is yellow. Everything people read sits on paper. In dark mode the frame is a neutral dark.
 
-**Why.** The frame is on every screen, but nobody reads it, so color there carries the brand at almost no cost to attention. Content is read for hours; a saturated yellow behind text tires the eye and leaves no room for yellow to mean anything else. Keeping yellow off the content is also what lets yellow mean "you" (principle 4): a selected row can only stand out if the page around it isn't yellow. In dark mode the frame turns neutral because dark mode exists to bring brightness down, and a yellow frame would be the brightest thing on the screen ([0012](../decisions/0012-yellow-rail-selection-in-dark-mode.md)). A web top bar is part of the frame, not content, so it is yellow like the rail ([0032](../decisions/0032-web-top-bar.md)).
+**Why.** The frame is on every screen, but nobody reads it, so color there carries the brand at almost no cost to attention. Content is read for hours; a saturated yellow behind text tires the eye and leaves no room for yellow to mean anything else. Keeping yellow off the content is also what lets yellow mean "you" (principle 4): a selected row can only stand out if the page around it isn't yellow. In dark mode the frame turns neutral because dark mode exists to bring brightness down, and a yellow frame would be the brightest thing on the screen ([0012](../decisions/0012-yellow-rail-selection-in-dark-mode.md)). A web top bar is part of the frame, not content, so it is yellow like the rail ([Page structure](../patterns/page-structure.md#the-web-top-bar)).
 
 To apply it to something new, ask whether people read it or whether it holds the screen together. Chrome that is on every screen and holds no content is frame; a panel, a page or a card that people read is paper.
 
@@ -34,7 +34,7 @@ Applied in: [Color](../foundations/color.md#lines), [Shape](../foundations/shape
 
 Every block of brand color has a 1.5px ink edge and ink type, and doesn't invert in dark mode. Soft tints are highlights and have no edge. Controls have no shadow.
 
-**Why.** Sticker colors are only 1.4:1 to 2.8:1 apart from paper, so without an edge a block of color doesn't hold its shape. Ink type on a sticker reaches at least 6.8:1, where white type on pink reaches 2.4:1 ([0014](../decisions/0014-pink-unread-with-ink.md)). A sticker stays the same in both modes, so a pink button or an avatar is one thing everywhere; dark mode adds a die-cut edge instead of changing the sticker, and components never switch styles ([0023](../decisions/0023-stickers-in-dark-mode.md)). Soft tints exist for the opposite case: a screen can hold a dozen status chips, and a tint with one saturated pixel keeps that screen quiet ([0017](../decisions/0017-soft-status-chips.md)). Controls have no shadow because "press here" is already said by the ink border, the pink and the one-per-screen rule; a shadow is a fourth signal, doesn't show in dark mode, and a press that moves the control shakes what is next to it ([0009](../decisions/0009-seams-and-no-control-shadows.md)).
+**Why.** Sticker colors are only 1.4:1 to 2.8:1 apart from paper, so without an edge a block of color doesn't hold its shape. Ink type on a sticker reaches at least 6.8:1, where white type on pink reaches 2.4:1 ([0014](../decisions/0014-pink-unread-with-ink.md)). A sticker stays the same in both modes, so a pink button or an avatar is one thing everywhere; dark mode adds a die-cut edge instead of changing the sticker, and components never switch styles ([0023](../decisions/0023-stickers-in-dark-mode.md)). Soft tints exist for the opposite case: a screen can hold a dozen status chips, and a tint with one saturated pixel keeps that screen quiet ([Color](../foundations/color.md#soft-tints)). Controls have no shadow because "press here" is already said by the ink border, the pink and the one-per-screen rule; a shadow is a fourth signal, doesn't show in dark mode, and a press that moves the control shakes what is next to it ([0009](../decisions/0009-seams-and-no-control-shadows.md)).
 
 To apply it, decide whether the color is a thing (a sticker: edge, ink type, same in both modes) or a highlight behind a thing (a soft tint: no edge). Only things that float above the page cast a shadow, and all of them cast the same soft one.
 
@@ -46,9 +46,9 @@ Yellow is where you are, what you selected, what calls you and what you searched
 
 **Why.** When each color has one meaning, a color on screen always tells the person something, and they learn it once for every product. The meanings are chosen so they never compete:
 
-- Selection has three meanings, so it has three looks: where you are in navigation is yellow, the item singled out in content is cyan, and a chosen value is ink. If all three were yellow, opening a list would fill it with yellow ([0011](../decisions/0011-yellow-navigation-selection.md), [0016](../decisions/0016-ink-radio-dot.md)).
+- Selection has three meanings, so it has three looks: where you are in navigation is yellow, the item singled out in content is cyan, and a chosen value is ink. If all three were yellow, opening a list would fill it with yellow ([0011](../decisions/0011-yellow-navigation-selection.md), [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md#states)).
 - Pink marks one primary action, so a second pink button removes the primary action instead of adding one. Unread is pink, not yellow, because yellow is also the busy light of a working agent ([0014](../decisions/0014-pink-unread-with-ink.md)).
-- A notice is an aside. A yellow toast would compete with selection, so toasts and tooltips are neutral, and no button is yellow ([0010](../decisions/0010-neutral-toasts-and-tooltips.md)).
+- A notice is an aside. A yellow toast would compete with selection, so toasts and tooltips are neutral, and no button is yellow ([Color](../foundations/color.md#principles)).
 - Meaning wins over placement: in dark mode the frame is neutral, but the selected rail item is still a yellow sticker, because "you are here" is not part of the frame ([0012](../decisions/0012-yellow-rail-selection-in-dark-mode.md)).
 
 To apply it, say which meaning a new use of color has: you, to do, this item, interrupts or irreversible, or an identity or a status. If it has none of them, remove the color.
@@ -69,7 +69,7 @@ Applied in: [Color](../foundations/color.md#statuses), [Motion](../foundations/m
 
 Every identity is a square sticker, and every dot is a square pixel. Round is only for switches and radios, which follow platform convention.
 
-**Why.** The square pixel is the brand's own shape, from the website's pixel grid to the agents' 8×8 faces, and it is what makes a Raft screen recognizable when the color is turned down. People and agents both have square avatars: the face already says who it is, so the shape doesn't need to say it again ([0023](../decisions/0023-stickers-in-dark-mode.md)). Dots and the spinner are square for the same reason ([0021](../decisions/0021-square-dots-and-spinner.md)). Pixels are hard and containers are soft: cards, menus and dialogs have radii, because they hold content rather than stand for something. Switches and radios are the exception because people recognize them by their round shape; a square switch isn't read as a switch ([0025](../decisions/0025-pill-switch.md)).
+**Why.** The square pixel is the brand's own shape, from the website's pixel grid to the agents' 8×8 faces, and it is what makes a Raft screen recognizable when the color is turned down. People and agents both have square avatars: the face already says who it is, so the shape doesn't need to say it again ([0023](../decisions/0023-stickers-in-dark-mode.md)). Dots and the spinner are square for the same reason ([Shape](../foundations/shape.md#principles)). Pixels are hard and containers are soft: cards, menus and dialogs have radii, because they hold content rather than stand for something. Switches and radios are the exception because people recognize them by their round shape; a square switch isn't read as a switch ([Switch](../../packages/ui/src/components/switch/switch.md#rules)).
 
 To apply it, ask whether the new element stands for someone or something (square, from the pixel family), holds content (a soft container radius), or is a control people know only by its round shape (round, and there are two).
 
@@ -87,14 +87,14 @@ Applied in: [Typography](../foundations/typography.md#casing), [Writing](../cont
 
 ## When principles pull apart
 
-The principles rarely conflict, and when they seem to, the records resolve them the same way:
+The principles rarely conflict, and when they seem to, the system resolves them the same way:
 
 - **Meaning comes before placement.** A yellow sticker that means "you are here" stays yellow on a neutral dark frame ([0012](../decisions/0012-yellow-rail-selection-in-dark-mode.md)).
-- **Legibility comes before the exact brand value.** Pink is lighter than the product's original pink so ink on it reaches the contrast of the other stickers ([0001](../decisions/0001-softer-pink.md)); tertiary and error text are adjusted until they pass 4.5:1 on every surface ([0018](../decisions/0018-tertiary-text-contrast.md), [0019](../decisions/0019-error-text-contrast.md)).
+- **Legibility comes before the exact brand value.** Pink is lighter than the product's original pink so ink on it reaches the contrast of the other stickers ([0001](../decisions/0001-softer-pink.md)); tertiary and error text are adjusted until they pass 4.5:1 on every surface ([Color](../foundations/color.md#contrast)).
 - **Less comes before more.** When a screen tires the eye, remove color first, then lines, then motion.
 
 ## Related
 
 - [Why Raft looks this way](./why-raft-looks-this-way.md): the character these rules come from.
 - [Designing a new feature](./designing-a-new-feature.md): the questions and the checklist built on these rules.
-- [Decisions](../decisions/): the record behind each choice.
+- [Decisions](../decisions/): the major choices, and the alternatives they were weighed against.

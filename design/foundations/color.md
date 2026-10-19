@@ -1,6 +1,7 @@
 ---
 title: Color
 summary: The surface, text, line and role colors, what each color means, and the contrast they guarantee.
+redirectFrom: [decisions/0010-neutral-toasts-and-tooltips, decisions/0017-soft-status-chips, decisions/0018-tertiary-text-contrast, decisions/0019-error-text-contrast, decisions/0020-stone-offline-light]
 ---
 
 # Color
@@ -12,7 +13,7 @@ Color in Raft works in two ways. Surfaces get less color from the outside in: th
 - **Yellow goes on the frame only.** The frame is on every screen but nobody reads it, so color there costs almost nothing. Everything people read (messages, lists, cards, the content of pushed pages) sits on paper. The frame is the desktop rail, the web top bar and the top bar of a phone's top-level pages; see [Page structure](../patterns/page-structure.md).
 - **Each color has one meaning.** Yellow is you, pink is to do, cyan is this item, orange interrupts, red is irreversible. Status colors are fixed too; see [Meanings of color](#meanings-of-color).
 - **A block of brand color is a sticker.** It has a 1.5px ink edge and ink type on it, in both modes; see [Stickers](#stickers).
-- **Notices are neutral.** Toasts and tooltips are dark gray, not a brand color.
+- **Notices are neutral.** Toasts and tooltips are dark gray (`layer-hud`), not a brand color, and no button is yellow. A notice is an aside: a yellow toast would compete with selection, and yellow means only "you" (where you are, what you selected, what calls you).
 
 ## Tokens
 
@@ -146,11 +147,14 @@ presence
 
 - Put a status chip on its `task-status-*-soft` tint.
 - `presence-busy` has its own value instead of pointing at `brand`, so that a change of brand color doesn't change what busy looks like.
+- `presence-offline` is stone from the palette, not a default gray: raft-ui doesn't use Tailwind's default palette, so every presence light comes from the same palette.
 - Presence lights never blink; see [Motion](./motion.md).
 
 ### Soft tints
 
 A soft tint (`*-soft`) is a highlight, never a sticker: it has no border.
+
+- Draw status chips and runtime chips as a soft tint, with one square pixel or an icon carrying the saturated color, not as a saturated fill with an ink border. A screen can hold a dozen of them, and when the saturated color is only one pixel large, the screen stays quiet.
 
 | Tint | Use for |
 | --- | --- |
@@ -189,6 +193,8 @@ sticker
 ## Contrast
 
 - `foreground`, `foreground-muted` and `foreground-hint` are at least 4.5:1 on every surface, every soft tint and every popup, in both modes. There are no exceptions to remember.
+- `foreground-hint` is slightly darker in light mode and lighter in dark mode than 60% ink, the value the product used before it adopted these tokens, which fails 4.5:1 on some tints and popups. Tertiary text carries times, IDs and counts people need to read, so it gets the same guarantee as body text.
+- Error text and the border of an invalid input use `danger-strong`, a dark red at 6.1:1 on paper. The brighter reds the product used before were 4.2:1 and 2.8:1 on white, below the 4.5:1 text needs. The delete button keeps `danger`, because the text on it is ink.
 - Ink on a sticker is at least 6.8:1.
 - `line-seam` is 3.0:1 on white and 2.8:1 on yellow.
 

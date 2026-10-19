@@ -6,6 +6,7 @@ aliases: [Radio]
 layer: core
 category: inputs
 related: [checkbox, switch, select, segmented-control, field]
+redirectFrom: [decisions/0016-ink-radio-dot]
 ---
 
 # RadioGroup
@@ -46,7 +47,7 @@ radio-group/compositions/reset-mode-restored
 
 ## States
 
-- **Chosen:** an ink dot. A chosen value is ink, not yellow ([States](../../../../../design/foundations/states.md)).
+- **Chosen:** an ink dot, not a yellow fill. A chosen value is ink, as a checked checkbox is, so radios and checkboxes agree and yellow stays for "you are here" ([States](../../../../../design/foundations/states.md)).
 - **Disabled:** the shared disabled look, for the circle and the label.
 
 ## Behavior

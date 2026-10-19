@@ -1,6 +1,7 @@
 ---
 title: Shape
 summary: The five radii, the two stroke widths, and why nothing is attached to the edge of a rounded container.
+redirectFrom: [decisions/0021-square-dots-and-spinner, decisions/0026-upload-progress-track]
 ---
 
 # Shape
@@ -9,7 +10,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 
 ## Principles
 
-- **Identities and dots are square.** Avatars, workspace tiles, channel tiles, presence lights, attention dots and pixel spinners all use square pixels.
+- **Identities and dots are square.** Avatars, workspace tiles, channel tiles, presence lights, attention dots and pixel spinners all use square pixels. A round dot or a ring spinner would be the one round mark among square pixels; the square pixel is the brand's own shape ([Principles](../principles/principles.md#6-square-is-raft)).
 - **Round only for switches and radios.** Nothing else uses a full radius.
 - **Two stroke widths.** 1px for lines, 1.5px for controls and stickers.
 
@@ -41,7 +42,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 
 Don't attach a progress bar, a colored band or a thicker accent border to one edge of a rounded container (a card, file card, input, composer or thumbnail): where it meets the corner, it is cut into an odd shape.
 
-- Put progress inside the container, on its own 4px track: 2px radius, `fill-muted` track (`layer-card` over an image), cyan progress.
+- Put progress inside the container, on its own 4px track: 2px radius, `fill-muted` track (`layer-card` over an image), cyan progress. Progress is cyan, not pink: it is a passive indicator, and pink means to do.
   - In a file card, put it under the file name, aligned with the text.
   - In a thumbnail, inset it 6px from all four edges.
 - To emphasize a whole container, change its fill or its border. Don't add a band to one edge.

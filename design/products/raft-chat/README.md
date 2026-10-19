@@ -117,8 +117,8 @@ Raft Chat departs from these patterns today. Each line is the product's side; th
 
 | Pattern | What Raft Chat ships |
 | --- | --- |
-| A large title on every top-level page ([Page structure](../../patterns/page-structure.md#phone), [0004](../../decisions/0004-title-on-every-top-level-page.md)) | One 56px navigation row on the frame (`PanelSectionHeader`). Tasks, Members and Settings put their name in it in `text-headline`, with an optional subtitle; Home puts the workspace pill there instead of a name. Whether to keep the large title is in [Open questions](../../decisions/open-questions.md) |
-| The phone workspace list as a bottom sheet ([Navigation](../../patterns/navigation.md#workspaces), [0007](../../decisions/0007-workspace-switcher-sheet.md)) | The pill opens the list as a popover anchored under the top bar, 8px from each side |
+| A large title on every top-level page ([Page structure](../../patterns/page-structure.md#phone)) | One 56px navigation row on the frame (`PanelSectionHeader`). Tasks, Members and Settings put their name in it in `text-headline`, with an optional subtitle; Home puts the workspace pill there instead of a name. Whether to keep the large title is in [Open questions](../../decisions/open-questions.md) |
+| The phone workspace list as a bottom sheet ([Navigation](../../patterns/navigation.md#workspaces)) | The pill opens the list as a popover anchored under the top bar, 8px from each side |
 | A mention marker replaces the unread count ([States](../../foundations/states.md)) | A channel's row shows the @ marker before the pink count |
 | The selected destination shows no attention dot ([States](../../foundations/states.md)) | Settings and Help keep their dot while selected |
 | No empty state when loading failed ([Feedback](../../patterns/feedback.md#empty-loading-and-failed)) | When the list of Activity or Saved fails to load, it shows its empty state |

@@ -1,6 +1,7 @@
 ---
 title: Alignment
 summary: What lands on a margin or a center line — the shape, the letter or the icon box — and how the icon buttons at the ends of a top bar mirror each other.
+redirectFrom: [decisions/0035-mirrored-top-bar-buttons]
 ---
 
 # Alignment
@@ -22,12 +23,13 @@ Align what the eye sees, not the box. Each kind of element has one point that la
 
 ## Top bar icon buttons
 
-The icon buttons at the two ends of a phone top bar (Back on the left; the bell or the overflow menu on the right) mirror each other:
+The icon buttons at the two ends of a phone top bar (Back on the left; the bell or the overflow menu on the right) mirror each other, so their icon centers are symmetric and Back is neither crowded against the edge nor out of balance with the right side:
 
 - Place each button 3px from the screen edge, which puts its icon box 14px from the edge and the icon's center 25px from the edge.
 - Common icons have about 2px of space inside their box, so their ink lands near 16px, on the same line as the content below.
 - Treat narrow icons (the vertical ellipsis) the same way, so both ends stay symmetric.
-- Don't shift a button to match each icon's ink: every icon has a different amount of space inside its box, so the buttons would move with the icon and the two ends would stop mirroring.
+- Don't shift a button to match each icon's ink: every icon has a different amount of space inside its box (an arrow, a gear and a vertical ellipsis differ by up to 9px), so the buttons would move with the icon and the two ends would stop mirroring.
+- Use `arrow-left` for Back, not a chevron. A chevron's ink fills only the middle of its box and would need a shift of its own; an arrow fills the box like other icons.
 
 ## Related
 

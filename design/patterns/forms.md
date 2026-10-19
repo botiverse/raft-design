@@ -1,6 +1,7 @@
 ---
 title: Forms and settings
 summary: Settings that apply at once, groups of fields saved together, forms in dialogs, the large one-pass form dialog, validation and the danger zone.
+redirectFrom: [decisions/0029-large-form-dialog]
 ---
 
 # Forms and settings
@@ -36,12 +37,12 @@ field/compositions/preview
 
 ### Forms in a dialog
 
-- Put Cancel and the submit button at the bottom of a form in a dialog. Cancel is a ghost button and comes first; the submit button is the screen's pink button and repeats the words that opened the dialog (Create Channel). Both are 44px ([0038](../decisions/0038-button-names-its-dialog.md)).
+- Put Cancel and the submit button at the bottom of a form in a dialog. Cancel is a ghost button and comes first; the submit button is the screen's pink button and repeats the words that opened the dialog (Create Channel). Both are 44px ([Writing](../content/writing.md#actions-and-their-dialogs)).
 - Make a form with a few fields a small dialog, 448px wide: creating a channel, an agent or a task.
 
 ### The large form dialog
 
-A large form filled in one pass, such as registering or editing an app, opens as the wide dialog ([Dialog](../../packages/ui/src/components/dialog/dialog.md), [0029](../decisions/0029-large-form-dialog.md)): centered, 896px wide, with a fixed height of 760px or the window less 32px, whichever is smaller. It doesn't go to a settings page or a drawer: a form with many fields has to be seen as one whole, not as a strip along the edge.
+A large form filled in one pass, such as registering or editing an app, opens as the wide dialog ([Dialog](../../packages/ui/src/components/dialog/dialog.md)): centered, 896px wide, with a fixed height of 760px or the window less 32px, whichever is smaller. It doesn't go to a settings page or a drawer: a form with many fields has to be seen as one whole, not as a strip along the edge.
 
 - Make the 56px header the item's logo, the title and ×. The title is the words that opened it (Register App), or Edit and the item's name when editing. Don't put the submit button in the header.
 - Put a strip under the header for what must stay in view while the form scrolls: the form's error, or a secret shown once.

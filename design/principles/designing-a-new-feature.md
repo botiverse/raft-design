@@ -100,4 +100,4 @@ How the docs are organized and written is in [Authoring](../authoring/README.md)
 - [Principles](./principles.md): the rules the questions and the checklist come from.
 - [Why Raft looks this way](./why-raft-looks-this-way.md): the reasoning behind them.
 - [Choosing a component](../components/overview.md): one component per situation.
-- [Decisions](../decisions/): the choices already made, and why.
+- [Decisions](../decisions/): the major choices already made, and the alternatives they were weighed against.

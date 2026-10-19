@@ -6,6 +6,7 @@ aliases: [Sheet, BottomSheet]
 layer: core
 category: overlays
 related: [dialog, form-section, dropdown-menu, preview-card, thread-panel]
+redirectFrom: [decisions/0022-floating-drawers-and-sheets, decisions/0027-modal-drawer-scrim]
 ---
 
 # Drawer
@@ -18,23 +19,23 @@ drawer/compositions/responsive-placement
 
 ## When to use
 
-| Situation                                                      | Use                                                                                                                                                                                |
-| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Details or settings people read, scroll and edit               | Drawer, from the right                                                                                                                                                             |
-| A large form filled in one pass: registering or editing an app | The wide [Dialog](../dialog/dialog.md), not a wide drawer ([Forms](../../../../../design/patterns/forms.md#the-large-form-dialog))                                                 |
-| Switching workspace, on a phone                                | A bottom sheet with a list ([0007](../../../../../design/decisions/0007-workspace-switcher-sheet.md)); the product still opens a popover. Working now is a popover, on a phone too |
-| A sentence or two and one button, on a phone                   | A bottom sheet                                                                                                                                                                     |
-| Acting on one thing                                            | A menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md), [ContextMenu](../context-menu/context-menu.md)), never a bottom sheet                                                   |
-| Picking a value, such as sort order or status                  | The list of a [Select](../select/select.md), or radio items in a menu                                                                                                              |
-| Confirming                                                     | [AlertDialog](../alert-dialog/alert-dialog.md)                                                                                                                                     |
-| A glance on hover                                              | [PreviewCard](../preview-card/preview-card.md)                                                                                                                                     |
-| A thread or a profile kept open beside the conversation        | A side panel ([ThreadPanel](../thread-panel/thread-panel.md), [Panel](../panel/panel.md)), which is not a drawer and has no scrim                                                  |
+| Situation                                                      | Use                                                                                                                                                                             |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Details or settings people read, scroll and edit               | Drawer, from the right                                                                                                                                                          |
+| A large form filled in one pass: registering or editing an app | The wide [Dialog](../dialog/dialog.md), not a wide drawer ([Forms](../../../../../design/patterns/forms.md#the-large-form-dialog))                                              |
+| Switching workspace, on a phone                                | A bottom sheet with a list ([Navigation](../../../../../design/patterns/navigation.md#workspaces)); the product still opens a popover. Working now is a popover, on a phone too |
+| A sentence or two and one button, on a phone                   | A bottom sheet                                                                                                                                                                  |
+| Acting on one thing                                            | A menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md), [ContextMenu](../context-menu/context-menu.md)), never a bottom sheet                                                |
+| Picking a value, such as sort order or status                  | The list of a [Select](../select/select.md), or radio items in a menu                                                                                                           |
+| Confirming                                                     | [AlertDialog](../alert-dialog/alert-dialog.md)                                                                                                                                  |
+| A glance on hover                                              | [PreviewCard](../preview-card/preview-card.md)                                                                                                                                  |
+| A thread or a profile kept open beside the conversation        | A side panel ([ThreadPanel](../thread-panel/thread-panel.md), [Panel](../panel/panel.md)), which is not a drawer and has no scrim                                               |
 
 ## Anatomy
 
 - `Drawer`: the root. Its `swipeDirection` sets the edge it comes from. Required.
 - `DrawerTrigger`: the button that opens it.
-- `DrawerContent`: the surface, portaled, with the scrim (`DrawerOverlay`) behind it when the drawer is modal. Required.
+- `DrawerContent`: the surface, portaled, with the scrim (`DrawerOverlay`) behind it when the drawer is modal. Required. It is `layer-popover` with a `line-seam` edge and `shadow-float`, like every other popup, not an ink border and a hard shadow: every floating surface uses the same shadow ([Elevation](../../../../../design/foundations/elevation.md)).
 - `DrawerHeader`: the title row. In a drawer from the right it is 56px tall, with a `line-seam` under it and `DrawerClose` at its end.
 - `DrawerTitle`: the title. Required, unless the content has an `aria-label`.
 - `DrawerDescription`: a sentence under the title.
@@ -58,7 +59,7 @@ drawer/compositions/snap-points
 
 ## Behavior
 
-- A drawer slides in from its edge with `ease-slide`. It is the only overlay that moves ([Motion](../../../../../design/foundations/motion.md#usage)).
+- A drawer slides in from its edge with `ease-slide`. It is the only overlay that moves, because the slide shows where it came from ([Motion](../../../../../design/foundations/motion.md#usage)).
 - A modal drawer puts the same scrim as a dialog over the rest of the page: the page can't be used while the drawer is open, and the scrim says so. A click on the scrim closes it. A bottom sheet has the scrim too.
 - Swiping toward its edge dismisses a drawer.
 - A drawer opened from a drawer stacks on top of it, and the one below steps back.
