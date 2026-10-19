@@ -1,11 +1,10 @@
 import {
+  ArrowLeft,
   Bookmark,
   ChevronDown,
-  ChevronLeft,
   ChevronUp,
-  ExternalLink,
+  EllipsisVertical,
   ImagePlus,
-  MessageSquare,
   Paperclip,
   Search,
   Send,
@@ -15,8 +14,6 @@ import {
 import type { FormEvent } from "react";
 import {
   Avatar,
-  Button,
-  Checkbox,
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
@@ -40,7 +37,6 @@ import {
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-  ComposerToolbarLabel,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -65,13 +61,10 @@ interface ThreadPanelCompositionProps {
 function MessageRowToolbar() {
   return (
     <MessageItemToolbar>
-      <MessageItemToolbarButton aria-label="Reply in thread" disabled>
-        <MessageSquare />
-      </MessageItemToolbarButton>
-      <MessageItemToolbarButton aria-label="Add reaction" disabled>
+      <MessageItemToolbarButton aria-label="Add Reaction" disabled>
         <SmilePlus />
       </MessageItemToolbarButton>
-      <MessageItemToolbarButton aria-label="Save message" disabled>
+      <MessageItemToolbarButton aria-label="Save Message" disabled>
         <Bookmark />
       </MessageItemToolbarButton>
     </MessageItemToolbar>
@@ -89,7 +82,7 @@ function ThreadSearchRow() {
           aria-label="Search this thread"
           placeholder="Search this thread"
           readOnly
-          value="chrome"
+          value="onboarding"
         />
       </InputGroup>
       <ThreadPanelSearchTrailing>
@@ -112,64 +105,34 @@ function ThreadSearchRow() {
 
 const THREAD_REPLIES = [
   {
-    sender: "Cindy",
-    type: "human" as const,
-    time: "10:09",
-    body: "SideThreadColumn owns persisted width and desktop resize chrome.",
-  },
-  {
-    sender: "Atlas",
+    sender: "Bugen",
     type: "agent" as const,
-    time: "10:11",
-    body: "ThreadPanel now owns the right-panel header, body, action, and footer chrome.",
+    time: "10:09",
+    body: "Claimed #25. The two onboarding strings that still say workspace are in Flow.tsx.",
   },
   {
-    sender: "Noah",
+    sender: "Martin",
     type: "human" as const,
-    time: "10:14",
-    body: "Keep the original message pinned above the scroll body so context stays visible.",
+    time: "10:11",
+    body: "Thanks. Keep the button labels in Title Case while you are in there.",
   },
   {
-    sender: "Atlas",
+    sender: "Bugen",
     type: "agent" as const,
     time: "10:16",
-    body: "Agreed. Replies should scroll independently from the header search and composer footer.",
+    body: "Done. The snapshot of the first step is attached to the pull request.",
   },
   {
-    sender: "Mia",
-    type: "human" as const,
+    sender: "Wug",
+    type: "agent" as const,
     time: "10:19",
-    body: "Does the scrollbar still fade out once the reply stack gets long?",
+    body: "I'll add the change to the launch-week release notes.",
   },
   {
-    sender: "Cindy",
+    sender: "Martin",
     type: "human" as const,
-    time: "10:21",
-    body: "Yes, it fades as soon as scrolling settles. Short threads never show it at all.",
-  },
-  {
-    sender: "Atlas",
-    type: "agent" as const,
     time: "10:23",
-    body: "Desktop uses ScrollArea and mobile keeps the native PanelScrollViewport, so both behave the same.",
-  },
-  {
-    sender: "Noah",
-    type: "human" as const,
-    time: "10:26",
-    body: "One more thing: the last reply should never sit behind the composer.",
-  },
-  {
-    sender: "Mia",
-    type: "human" as const,
-    time: "10:28",
-    body: "Scrolling to the end should leave a comfortable gap above the footer.",
-  },
-  {
-    sender: "Atlas",
-    type: "agent" as const,
-    time: "10:30",
-    body: "That clearance comes from the message-list content recipe.",
+    body: "Looks right. Moving #25 to In Review.",
   },
 ] as const;
 
@@ -205,30 +168,21 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
   return (
     <ThreadPanelRoot>
       <ThreadPanelHeader>
-        <Button
-          className="mr-1 lg:hidden"
-          variant="outline"
-          size="icon-sm"
-          aria-label="Back to channel"
-          disabled
-        >
-          <ChevronLeft aria-hidden />
-        </Button>
+        <PanelAction className="lg:hidden" aria-label="Back" disabled>
+          <ArrowLeft />
+        </PanelAction>
         <ThreadPanelTitle>
           Thread
-          <ThreadPanelTitleMeta> — #acme-design</ThreadPanelTitleMeta>
+          <ThreadPanelTitleMeta>
+            {" "}
+            #launch-week · {THREAD_REPLIES.length} replies
+          </ThreadPanelTitleMeta>
         </ThreadPanelTitle>
         <ThreadPanelActions>
-          <PanelAction aria-label="Search in thread" disabled>
-            <Search />
+          <PanelAction aria-label="More thread actions" disabled>
+            <EllipsisVertical />
           </PanelAction>
-          <PanelAction aria-label="View in channel" disabled>
-            <ExternalLink />
-            <span className="hidden whitespace-nowrap font-medium leading-none md:inline">
-              View in channel
-            </span>
-          </PanelAction>
-          <PanelAction className="max-lg:hidden" aria-label="Close thread" disabled>
+          <PanelAction className="max-lg:hidden" aria-label="Close" disabled>
             <X />
           </PanelAction>
         </ThreadPanelActions>
@@ -242,10 +196,12 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
             </MessageItemAvatarSlot>
             <MessageItemContent>
               <MessageItemHeader>
-                <MessageItemSender>Cindy</MessageItemSender>
+                <MessageItemSender>Martin</MessageItemSender>
                 <MessageItemTime>10:08</MessageItemTime>
               </MessageItemHeader>
-              <MessageItemBody>Should ThreadPanel own the right-panel chrome?</MessageItemBody>
+              <MessageItemBody>
+                Can someone take the onboarding copy before Thursday?
+              </MessageItemBody>
             </MessageItemContent>
             <MessageRowToolbar />
           </MessageItem>
@@ -261,7 +217,7 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
               <ComposerInput aria-label="Message thread" placeholder="Message thread" readOnly />
               <ComposerToolbar>
                 <ComposerActions>
-                  <ComposerIconButton aria-label="Attach image" disabled>
+                  <ComposerIconButton aria-label="Attach media" disabled>
                     <ImagePlus />
                   </ComposerIconButton>
                   <ComposerIconButton aria-label="Attach file" disabled>
@@ -269,12 +225,7 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
                   </ComposerIconButton>
                 </ComposerActions>
                 <ComposerMeta>
-                  <ComposerToolbarLabel>
-                    <Checkbox aria-label="Send as task" disabled />
-                    As Task
-                  </ComposerToolbarLabel>
-                  <ComposerSubmit aria-label="Send" disabled>
-                    <span>Send</span>
+                  <ComposerSubmit size="icon-sm" aria-label="Send" disabled>
                     <Send />
                   </ComposerSubmit>
                 </ComposerMeta>
