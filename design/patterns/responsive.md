@@ -1,6 +1,6 @@
 ---
 title: Responsive layout
-summary: The breakpoints, what each width shows, how short desktop windows shrink, and how phone layouts hold at 320px.
+summary: The breakpoints, what each width shows, how short desktop windows shrink, how a row gives way when it runs out of room, and how phone layouts hold at 320px.
 ---
 
 # Responsive layout
@@ -26,6 +26,18 @@ app-shell/compositions/responsive
 ```
 
 ## Rules
+
+### When a row runs out of room
+
+A toolbar, a header or a filter row has to fit at the narrowest width its region can take (the Activity results list goes down to 320px), in the longest translation. When it doesn't, its parts give way in a fixed order, so the person still sees every control:
+
+1. A secondary text button shows only its icon, with its label kept as the accessible name and the tooltip. Mark all read becomes the `check-check` icon button.
+2. Only then, the main control shows only its icons: a segmented control's segments, a tab's label.
+3. Text truncates last, and only in a name (a channel, a person), never in a control's label.
+
+- Never let parts overlap, and never let a control shrink below its own content: wrapping a control in `min-w-0` lets its frame shrink while its content spills onto its neighbor.
+- Decide the switch with a container query on the row (`@container`, `@max-[…]:`), not the window width: the same row sits in columns of different widths.
+- Don't shrink text or a control's height to make a row fit: a label too small to read, or a target too small to hit, is worse than an icon with a tooltip.
 
 ### Phone
 
