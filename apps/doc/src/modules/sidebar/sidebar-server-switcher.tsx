@@ -4,7 +4,7 @@ import { tv } from "tailwind-variants/lite";
 
 // App-owned server switcher chrome for the sidebar header slot. Lives in the docs
 // module (not packages/ui) so SidebarHeader stays a layout-only region while
-// composition and Playground share one pixel-identical implementation.
+// the sidebar compositions share one pixel-identical implementation.
 const sidebarServerRecipe = tv({
   slots: {
     sidebarServer: [

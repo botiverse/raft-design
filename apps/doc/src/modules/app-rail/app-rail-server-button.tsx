@@ -6,7 +6,7 @@ import { tv } from "tailwind-variants/lite";
 
 // App-owned server switcher chrome for the rail header slot. Lives in the docs
 // module (not packages/ui) so AppRailHeader stays a layout-only region while
-// composition and Playground share one pixel-identical implementation.
+// the server button keeps one pixel-identical implementation.
 const appRailServerButton = tv({
   base: [
     "relative inline-flex size-10 items-center justify-center",

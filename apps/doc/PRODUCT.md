@@ -10,7 +10,7 @@ The raft-ui documentation app is used by Raft product engineers who are building
 
 ## Product Purpose
 
-The app documents raft-ui through canonical component examples, inspectable code paths, and an interactive product playground. Success means engineers can understand component behavior and composition without reconstructing product context from isolated primitives.
+The app documents raft-ui through canonical component examples, interactive demos, and inspectable code paths. Success means engineers can understand component behavior and composition without reconstructing product context from isolated primitives.
 
 ## Brand Personality
 
@@ -37,4 +37,4 @@ Prefer inspectable evidence. Canonical code paths and focused examples should ma
 
 ## Accessibility & Inclusion
 
-Examples and interactive playground surfaces should target WCAG AA. Controls need keyboard support, visible focus states, accessible names, disabled and loading semantics, and predictable screen-reader behavior. Motion should remain purposeful and respect reduced-motion preferences, while light and dark both preserve usable contrast across interactive and semantic states.
+Examples and interactive demos should target WCAG AA. Controls need keyboard support, visible focus states, accessible names, disabled and loading semantics, and predictable screen-reader behavior. Motion should remain purposeful and respect reduced-motion preferences, while light and dark both preserve usable contrast across interactive and semantic states.

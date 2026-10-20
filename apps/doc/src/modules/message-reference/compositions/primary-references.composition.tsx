@@ -25,7 +25,7 @@ import {
 } from "./reference-adapters.composition.tsx";
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
-  MESSAGE_PLAYGROUND_URLS,
+  MESSAGE_EXAMPLE_HREFS,
 } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessagePrimaryReferencesComposition() {
@@ -68,13 +68,13 @@ export function MessagePrimaryReferencesComposition() {
                   Ada
                 </MessageMentionReferenceComposition>{" "}
                 to review the linked message in{" "}
-                <MessagePermalinkReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
+                <MessagePermalinkReferenceComposition href={MESSAGE_EXAMPLE_HREFS.apiDocsMessage}>
                   #raft-ui-migration
                 </MessagePermalinkReferenceComposition>{" "}
                 before posting the rollout in{" "}
                 <MessageReferenceChip
                   variant="accent"
-                  render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
+                  render={<a href={MESSAGE_EXAMPLE_HREFS.releaseNotesChannel} />}
                 >
                   <Hash />
                   <MessageReferenceLabel>release-notes</MessageReferenceLabel>

@@ -1,4 +1,4 @@
-import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_EXAMPLE_HREFS } from "#/modules/message-item/message-item.fixtures.ts";
 
 type ExampleReferenceActor = {
   name: string;
@@ -15,24 +15,24 @@ export const EXAMPLE_REFERENCE_ACTORS: readonly ExampleReferenceActor[] = [
 
 export const EXAMPLE_REFERENCE_CHANNELS = [
   {
-    href: MESSAGE_PLAYGROUND_URLS.releaseNotesChannel,
+    href: MESSAGE_EXAMPLE_HREFS.releaseNotesChannel,
     name: "release-notes",
-    threadHref: MESSAGE_PLAYGROUND_URLS.releaseNotesThread,
+    threadHref: MESSAGE_EXAMPLE_HREFS.releaseNotesThread,
     treatment: "chip",
   },
   {
-    href: MESSAGE_PLAYGROUND_URLS.allChannel,
+    href: MESSAGE_EXAMPLE_HREFS.allChannel,
     name: "all",
-    threadHref: MESSAGE_PLAYGROUND_URLS.stateModelThread,
+    threadHref: MESSAGE_EXAMPLE_HREFS.stateModelThread,
     treatment: "chip",
   },
   {
-    href: MESSAGE_PLAYGROUND_URLS.northstarJointChannel,
+    href: MESSAGE_EXAMPLE_HREFS.northstarJointChannel,
     name: "northstar-launch-handoff",
     treatment: "joint",
   },
 ] as const;
 
 export const EXAMPLE_REFERENCE_TASKS = [
-  { href: MESSAGE_PLAYGROUND_URLS.stateModelTask, number: "21", status: "in-progress" },
+  { href: MESSAGE_EXAMPLE_HREFS.stateModelTask, number: "21", status: "in-progress" },
 ] as const;

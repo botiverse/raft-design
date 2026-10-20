@@ -8,7 +8,6 @@ import {
   useMatches,
 } from "@tanstack/react-router";
 import { ThemeProvider } from "@botiverse/raft-ui";
-import { cn } from "@botiverse/raft-ui/cn";
 
 import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-theme.tsx";
 import { shortTitle } from "#/lib/content/nav.ts";
@@ -102,29 +101,18 @@ function RootDocument({ children }: { children: ReactNode }) {
   const isStandalonePage = useMatches({
     select: (matches) => matches.some((match) => match.staticData?.standalone === true),
   });
-  const isPlaygroundPage = isStandalonePage && location.pathname.startsWith("/playground");
-  const isPlaygroundChatPage = isPlaygroundPage && location.pathname.startsWith("/playground/s/");
-  const usesPlaygroundDocumentScroll = isPlaygroundPage && !isPlaygroundChatPage;
   const documentTitle = getDocumentTitle(location.pathname);
   // The document mode follows the stored selection. One mapping shared by the
   // SSR markup, the pre-paint script in <head>, and `DocumentThemeProvider`'s
   // effect.
   const documentMode = documentThemeMode(storedPreviewTheme);
-  const documentShellClassName = cn(
-    "isolate h-full",
-    usesPlaygroundDocumentScroll && "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible",
-  );
 
   return (
     <html
       lang="en"
       data-standalone={isStandalonePage || undefined}
       style={{ colorScheme: documentMode }}
-      className={cn(
-        documentMode,
-        usesPlaygroundDocumentScroll &&
-          "max-md:!h-auto max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-sidebar",
-      )}
+      className={documentMode}
     >
       <head>
         {/* Pre-paint: apply the stored mode before the first frame.
@@ -140,19 +128,15 @@ function RootDocument({ children }: { children: ReactNode }) {
         data-standalone={isStandalonePage || undefined}
         className={
           isStandalonePage
-            ? cn(
-                "h-dvh overflow-hidden overscroll-none bg-layer-sidebar text-foreground antialiased",
-                usesPlaygroundDocumentScroll &&
-                  "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-sidebar",
-              )
+            ? "h-dvh overflow-hidden overscroll-none bg-layer-sidebar text-foreground antialiased"
             : "bg-layer-canvas text-foreground antialiased dark:bg-layer-sidebar"
         }
       >
         <PreviewThemeProvider initial={storedPreviewTheme}>
           <DocumentThemeProvider>
-            {/* Every page brings its own chrome: the docs shell (routes/_site),
-                Playground, or a bare iframe fixture. */}
-            <div className={documentShellClassName}>{children}</div>
+            {/* Every page brings its own chrome: the docs shell (routes/_site)
+                or a bare iframe fixture. */}
+            <div className="isolate h-full">{children}</div>
           </DocumentThemeProvider>
         </PreviewThemeProvider>
         <Scripts />

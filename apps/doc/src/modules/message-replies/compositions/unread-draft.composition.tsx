@@ -40,12 +40,7 @@ export function MessageRepliesUnreadDraftComposition() {
           at the bottom. Screenshots attached.
         </MessageItemBody>
         <MessageReplies
-          render={
-            <a
-              href="/playground/s/raft/channel/all?thread=all%3Astate-model"
-              aria-label="Open the state model thread"
-            />
-          }
+          render={<a href="#thread-state-model" aria-label="Open the state model thread" />}
         >
           <MessageRepliesSummary>
             <MessageRepliesSummaryItem>2 replies</MessageRepliesSummaryItem>

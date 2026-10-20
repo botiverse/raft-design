@@ -80,7 +80,7 @@ export const ACTIVITY_COMPOSITION_ITEMS = [
     channelId: "shared-roadmap",
     channelLabel: "#shared-roadmap",
     sender: "Spec Writer",
-    preview: "The UI package owns parts; Playground owns inbox workflow state.",
+    preview: "The UI package owns parts; the app owns inbox workflow state.",
     timestamp: "1 hour ago",
     sortAt: "2026-07-31T09:44:00+08:00",
     unreadCount: 0,

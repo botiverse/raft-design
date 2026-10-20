@@ -212,6 +212,8 @@ describe("redirectFrom", () => {
     expect(redirectFor("/guides/forms", none)).toBe("/patterns/forms");
     expect(redirectFor("/guides/gone", none)).toBe("/");
     expect(redirectFor("/components/task-chip", none)).toBe("/components/task-card");
+    expect(redirectFor("/playground", none)).toBe("/");
+    expect(redirectFor("/playground/s/raft/channel/all", none)).toBe("/");
     expect(redirectFor("/tokens/colors.md", none)).toBeUndefined();
     expect(redirectFor("/components/overview", none)).toBe("/components");
     expect(redirectFor("/components/overview.md", none)).toBe("/components.md");

@@ -28,7 +28,7 @@ import {
   MessageItemTime,
 } from "@botiverse/raft-ui";
 
-import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_EXAMPLE_HREFS } from "#/modules/message-item/message-item.fixtures.ts";
 import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";
 
 export function QuotedPreviewDirectMessageThreadComposition() {
@@ -51,7 +51,7 @@ export function QuotedPreviewDirectMessageThreadComposition() {
             variant="link"
             render={
               <a
-                href={MESSAGE_PLAYGROUND_URLS.noahDmThread}
+                href={MESSAGE_EXAMPLE_HREFS.noahDmThread}
                 aria-label="Open Atlas direct-message thread"
               />
             }
@@ -64,7 +64,7 @@ export function QuotedPreviewDirectMessageThreadComposition() {
           <MessageQuotedPreview
             render={
               <a
-                href={MESSAGE_PLAYGROUND_URLS.noahDmThread}
+                href={MESSAGE_EXAMPLE_HREFS.noahDmThread}
                 aria-label="Open quoted DM thread reply"
               />
             }

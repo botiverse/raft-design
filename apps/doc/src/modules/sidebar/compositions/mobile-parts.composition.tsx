@@ -25,7 +25,7 @@ export function SidebarMobilePartsComposition() {
 
   const handleServerClick = useCallback(() => {
     setAnnouncement((current) => ({
-      message: "Switched to Raft Playground",
+      message: "Switched to Raft Design",
       sequence: current.sequence + 1,
     }));
   }, []);
@@ -36,11 +36,11 @@ export function SidebarMobilePartsComposition() {
     <SidebarRoot className="h-dvh">
       <SidebarHeader>
         <SidebarServer
-          title="Raft Playground"
+          title="Raft Design"
           render={<button type="button" />}
           onClick={handleServerClick}
         >
-          <SidebarServerLabel>Raft Playground</SidebarServerLabel>
+          <SidebarServerLabel>Raft Design</SidebarServerLabel>
           <SidebarServerChevron aria-hidden>
             <ChevronDown />
           </SidebarServerChevron>

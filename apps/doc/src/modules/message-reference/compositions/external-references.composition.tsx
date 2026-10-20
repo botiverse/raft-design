@@ -1,6 +1,6 @@
 import { Link as LinkIcon } from "lucide-react";
 import { MessageReferenceChip, MessageReferenceLabel } from "@botiverse/raft-ui";
-import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_EXAMPLE_HREFS } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageReferenceExternalReferencesComposition() {
   return (
@@ -10,7 +10,7 @@ export function MessageReferenceExternalReferencesComposition() {
         {/* @docs-source-strip-end */}
         <MessageReferenceChip
           variant="link"
-          render={<a href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage} />}
+          render={<a href={MESSAGE_EXAMPLE_HREFS.apiDocsMessage} />}
         >
           <LinkIcon />
           <MessageReferenceLabel>#raft-ui-migration</MessageReferenceLabel>

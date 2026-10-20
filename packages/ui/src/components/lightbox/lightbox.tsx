@@ -22,7 +22,7 @@ const lightbox = tv({
       "*:data-lightbox-close:pointer-events-auto *:data-lightbox-close:absolute *:data-lightbox-close:z-20",
       "*:data-lightbox-close:top-[calc(16px+env(safe-area-inset-top,0px))] *:data-lightbox-close:right-[calc(16px+env(safe-area-inset-right,0px))]",
     ],
-    // In-flow chrome (e.g. playground): title + actions row.
+    // In-flow chrome: title + actions row.
     header: [
       "pointer-events-auto shrink-0",
       "flex items-center gap-3 pb-3",

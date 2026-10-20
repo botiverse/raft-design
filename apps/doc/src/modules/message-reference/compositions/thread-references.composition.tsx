@@ -1,7 +1,7 @@
 import { MessagesSquare } from "lucide-react";
 import { MessageReferenceChip, MessageReferenceLabel } from "@botiverse/raft-ui";
 
-import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_EXAMPLE_HREFS } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageReferenceThreadReferencesComposition() {
   return (
@@ -11,7 +11,7 @@ export function MessageReferenceThreadReferencesComposition() {
         {/* @docs-source-strip-end */}
         <MessageReferenceChip
           variant="info"
-          render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelThread} />}
+          render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelThread} />}
         >
           <MessagesSquare />
           <MessageReferenceLabel>#state-model:29a90e07</MessageReferenceLabel>
@@ -21,7 +21,7 @@ export function MessageReferenceThreadReferencesComposition() {
       </div>
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
-        <MessageReferenceChip variant="info" render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}>
+        <MessageReferenceChip variant="info" render={<a href={MESSAGE_EXAMPLE_HREFS.noahDm} />}>
           <MessagesSquare />
           <MessageReferenceLabel>dm:@noah-bennett:feedface</MessageReferenceLabel>
         </MessageReferenceChip>

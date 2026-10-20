@@ -1,6 +1,6 @@
 import { TaskChip } from "@botiverse/raft-ui";
 
-import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_EXAMPLE_HREFS } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageReferenceTaskReferencesComposition() {
   return (
@@ -9,7 +9,7 @@ export function MessageReferenceTaskReferencesComposition() {
       <TaskChip
         variant="inline"
         status="todo"
-        render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} aria-label="Open task #205" />}
+        render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} aria-label="Open task #205" />}
       >
         #205
       </TaskChip>{" "}
@@ -17,7 +17,7 @@ export function MessageReferenceTaskReferencesComposition() {
       <TaskChip
         variant="inline"
         status="in-progress"
-        render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} aria-label="Open task #206" />}
+        render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} aria-label="Open task #206" />}
       >
         #206
       </TaskChip>{" "}

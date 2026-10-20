@@ -32,7 +32,7 @@ Compositions must not contain:
 
 - A second implementation of a component recipe.
 - Classes that repair component-internal typography, color, spacing, or interaction styling.
-- Real product stores, server queries, permissions, or Playground mock registries.
+- Real product stores, server queries, or permissions.
 - Duplicate low-level helpers when another canonical composition already describes the same structure.
 - Enabled controls with no observable action.
 
@@ -40,7 +40,7 @@ Use `className` only for example layout and constraints such as preview width, g
 
 ## One Current Source of Truth
 
-- Docs pages and Playground reuse the canonical composition instead of reproducing its Current JSX.
+- Docs pages reuse the canonical composition instead of reproducing its Current JSX.
 - Do not maintain hand-written JSX snippets in docs that duplicate executable compositions.
 
 ## Displayed Code
@@ -93,7 +93,7 @@ module, re-verify them for the pages that embed it.**
 Every enabled control must do one of the following:
 
 - Update visible or announced local state.
-- Navigate to a real example route.
+- Navigate to a real page, or to an in-page fragment when the link has no real destination.
 - Run a deterministic mock callback.
 - Open the real Base UI overlay demonstrated by the example.
 
@@ -110,4 +110,3 @@ Otherwise render it disabled or use a non-interactive element. Static examples m
 - Are component visuals owned by `packages/ui` rather than docs classes?
 - Are example interactions functional or explicitly disabled?
 - Do all preview overlays remain inside their theme/container boundary?
-- Does any composition import Playground? If so, reverse the dependency.

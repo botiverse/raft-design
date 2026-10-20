@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MESSAGE_FIXTURE_AVATAR_SRC, MESSAGE_PLAYGROUND_URLS } from "../message-item.fixtures.ts";
+import { MESSAGE_FIXTURE_AVATAR_SRC, MESSAGE_EXAMPLE_HREFS } from "../message-item.fixtures.ts";
 import { Bookmark, MessageSquare } from "lucide-react";
 import {
   Avatar,
@@ -27,7 +27,7 @@ import { MessageReactionComposition } from "./reaction.compositions.tsx";
 import { MessageRowToolbarFixture } from "./row-toolbar.composition.tsx";
 
 function copyMessageLink() {
-  const permalink = new URL(MESSAGE_PLAYGROUND_URLS.apiDocsMessage, window.location.origin);
+  const permalink = new URL(MESSAGE_EXAMPLE_HREFS.apiDocsMessage, window.location.href);
   void navigator.clipboard?.writeText(permalink.href);
 }
 

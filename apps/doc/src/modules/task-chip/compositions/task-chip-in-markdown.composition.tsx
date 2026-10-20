@@ -21,7 +21,7 @@ import {
 } from "@botiverse/raft-ui";
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
-  MESSAGE_PLAYGROUND_URLS,
+  MESSAGE_EXAMPLE_HREFS,
 } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function TaskChipInMarkdownComposition() {
@@ -44,7 +44,7 @@ export function TaskChipInMarkdownComposition() {
             <TaskChip
               variant="inline"
               status="todo"
-              render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+              render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}
             >
               <TaskTodoIcon />
               #16
@@ -53,7 +53,7 @@ export function TaskChipInMarkdownComposition() {
             <TaskChip
               variant="inline"
               status="in-progress"
-              render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+              render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}
             >
               <TaskInProgressIcon />
               #205
@@ -62,7 +62,7 @@ export function TaskChipInMarkdownComposition() {
             <TaskChip
               variant="inline"
               status="done"
-              render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+              render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}
             >
               <TaskDoneIcon />
               #47
@@ -71,7 +71,7 @@ export function TaskChipInMarkdownComposition() {
             <TaskChip
               variant="inline"
               status="closed"
-              render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+              render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}
             >
               <TaskClosedIcon />
               #480

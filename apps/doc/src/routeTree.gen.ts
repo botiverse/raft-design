@@ -10,14 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SiteRouteImport } from './routes/_site'
-import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
 import { Route as SiteIndexRouteImport } from './routes/_site/index'
 import { Route as SiteChangelogRouteImport } from './routes/_site/changelog'
 import { Route as IframeExampleRouteImport } from './routes/iframe/example'
-import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
-import { Route as PlaygroundBrowseRouteRouteImport } from './routes/playground/_browse/route'
-import { Route as PlaygroundPlainRouteRouteImport } from './routes/playground/_plain/route'
-import { Route as PlaygroundSRouteRouteImport } from './routes/playground/s/route'
 import { Route as SiteAboutIndexRouteImport } from './routes/_site/about/index'
 import { Route as SiteAboutSlugRouteImport } from './routes/_site/about/$slug'
 import { Route as SiteComponentsIndexRouteImport } from './routes/_site/components/index'
@@ -35,29 +30,11 @@ import { Route as SitePeopleAndAgentsSlugRouteImport } from './routes/_site/peop
 import { Route as SitePrinciplesIndexRouteImport } from './routes/_site/principles/index'
 import { Route as SitePrinciplesSlugRouteImport } from './routes/_site/principles/$slug'
 import { Route as SiteProductsIndexRouteImport } from './routes/_site/products/index'
-import { Route as PlaygroundBrowseComputersRouteImport } from './routes/playground/_browse/computers'
-import { Route as PlaygroundBrowseMembersRouteImport } from './routes/playground/_browse/members'
-import { Route as PlaygroundPlainActivityRouteImport } from './routes/playground/_plain/activity'
-import { Route as PlaygroundPlainSearchRouteImport } from './routes/playground/_plain/search'
-import { Route as PlaygroundPlainSettingsRouteImport } from './routes/playground/_plain/settings'
-import { Route as PlaygroundPlainTasksRouteImport } from './routes/playground/_plain/tasks'
-import { Route as PlaygroundSServerSlugRouteRouteImport } from './routes/playground/s/$serverSlug/route'
 import { Route as SiteProductsProductIndexRouteImport } from './routes/_site/products/$product/index'
 import { Route as SiteProductsProductSlugRouteImport } from './routes/_site/products/$product/$slug'
-import { Route as PlaygroundSServerSlugIndexRouteImport } from './routes/playground/s/$serverSlug/index'
-import { Route as PlaygroundSServerSlugChannelRouteRouteImport } from './routes/playground/s/$serverSlug/channel/route'
-import { Route as PlaygroundSServerSlugDmRouteRouteImport } from './routes/playground/s/$serverSlug/dm/route'
-import { Route as PlaygroundSServerSlugSavedRouteImport } from './routes/playground/s/$serverSlug/saved'
-import { Route as PlaygroundSServerSlugChannelChannelIdRouteImport } from './routes/playground/s/$serverSlug/channel/$channelId'
-import { Route as PlaygroundSServerSlugDmDmIdRouteImport } from './routes/playground/s/$serverSlug/dm/$dmId'
 
 const SiteRoute = SiteRouteImport.update({
   id: '/_site',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlaygroundRouteRoute = PlaygroundRouteRouteImport.update({
-  id: '/playground',
-  path: '/playground',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SiteIndexRoute = SiteIndexRouteImport.update({
@@ -74,24 +51,6 @@ const IframeExampleRoute = IframeExampleRouteImport.update({
   id: '/iframe/example',
   path: '/iframe/example',
   getParentRoute: () => rootRouteImport,
-} as any)
-const PlaygroundIndexRoute = PlaygroundIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PlaygroundRouteRoute,
-} as any)
-const PlaygroundBrowseRouteRoute = PlaygroundBrowseRouteRouteImport.update({
-  id: '/_browse',
-  getParentRoute: () => PlaygroundRouteRoute,
-} as any)
-const PlaygroundPlainRouteRoute = PlaygroundPlainRouteRouteImport.update({
-  id: '/_plain',
-  getParentRoute: () => PlaygroundRouteRoute,
-} as any)
-const PlaygroundSRouteRoute = PlaygroundSRouteRouteImport.update({
-  id: '/s',
-  path: '/s',
-  getParentRoute: () => PlaygroundRouteRoute,
 } as any)
 const SiteAboutIndexRoute = SiteAboutIndexRouteImport.update({
   id: '/about/',
@@ -179,43 +138,6 @@ const SiteProductsIndexRoute = SiteProductsIndexRouteImport.update({
   path: '/products/',
   getParentRoute: () => SiteRoute,
 } as any)
-const PlaygroundBrowseComputersRoute =
-  PlaygroundBrowseComputersRouteImport.update({
-    id: '/computers',
-    path: '/computers',
-    getParentRoute: () => PlaygroundBrowseRouteRoute,
-  } as any)
-const PlaygroundBrowseMembersRoute = PlaygroundBrowseMembersRouteImport.update({
-  id: '/members',
-  path: '/members',
-  getParentRoute: () => PlaygroundBrowseRouteRoute,
-} as any)
-const PlaygroundPlainActivityRoute = PlaygroundPlainActivityRouteImport.update({
-  id: '/activity',
-  path: '/activity',
-  getParentRoute: () => PlaygroundPlainRouteRoute,
-} as any)
-const PlaygroundPlainSearchRoute = PlaygroundPlainSearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => PlaygroundPlainRouteRoute,
-} as any)
-const PlaygroundPlainSettingsRoute = PlaygroundPlainSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => PlaygroundPlainRouteRoute,
-} as any)
-const PlaygroundPlainTasksRoute = PlaygroundPlainTasksRouteImport.update({
-  id: '/tasks',
-  path: '/tasks',
-  getParentRoute: () => PlaygroundPlainRouteRoute,
-} as any)
-const PlaygroundSServerSlugRouteRoute =
-  PlaygroundSServerSlugRouteRouteImport.update({
-    id: '/$serverSlug',
-    path: '/$serverSlug',
-    getParentRoute: () => PlaygroundSRouteRoute,
-  } as any)
 const SiteProductsProductIndexRoute =
   SiteProductsProductIndexRouteImport.update({
     id: '/products/$product/',
@@ -227,51 +149,11 @@ const SiteProductsProductSlugRoute = SiteProductsProductSlugRouteImport.update({
   path: '/products/$product/$slug',
   getParentRoute: () => SiteRoute,
 } as any)
-const PlaygroundSServerSlugIndexRoute =
-  PlaygroundSServerSlugIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => PlaygroundSServerSlugRouteRoute,
-  } as any)
-const PlaygroundSServerSlugChannelRouteRoute =
-  PlaygroundSServerSlugChannelRouteRouteImport.update({
-    id: '/channel',
-    path: '/channel',
-    getParentRoute: () => PlaygroundSServerSlugRouteRoute,
-  } as any)
-const PlaygroundSServerSlugDmRouteRoute =
-  PlaygroundSServerSlugDmRouteRouteImport.update({
-    id: '/dm',
-    path: '/dm',
-    getParentRoute: () => PlaygroundSServerSlugRouteRoute,
-  } as any)
-const PlaygroundSServerSlugSavedRoute =
-  PlaygroundSServerSlugSavedRouteImport.update({
-    id: '/saved',
-    path: '/saved',
-    getParentRoute: () => PlaygroundSServerSlugRouteRoute,
-  } as any)
-const PlaygroundSServerSlugChannelChannelIdRoute =
-  PlaygroundSServerSlugChannelChannelIdRouteImport.update({
-    id: '/$channelId',
-    path: '/$channelId',
-    getParentRoute: () => PlaygroundSServerSlugChannelRouteRoute,
-  } as any)
-const PlaygroundSServerSlugDmDmIdRoute =
-  PlaygroundSServerSlugDmDmIdRouteImport.update({
-    id: '/$dmId',
-    path: '/$dmId',
-    getParentRoute: () => PlaygroundSServerSlugDmRouteRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
-  '/playground': typeof PlaygroundRouteRouteWithChildren
   '/': typeof SiteIndexRoute
-  '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/changelog': typeof SiteChangelogRoute
   '/iframe/example': typeof IframeExampleRoute
-  '/playground/': typeof PlaygroundIndexRoute
-  '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
   '/about/$slug': typeof SiteAboutSlugRoute
   '/components/$slug': typeof SiteComponentsSlugRoute
   '/content/$slug': typeof SiteContentSlugRoute
@@ -280,12 +162,6 @@ export interface FileRoutesByFullPath {
   '/patterns/$slug': typeof SitePatternsSlugRoute
   '/people-and-agents/$slug': typeof SitePeopleAndAgentsSlugRoute
   '/principles/$slug': typeof SitePrinciplesSlugRoute
-  '/playground/computers': typeof PlaygroundBrowseComputersRoute
-  '/playground/members': typeof PlaygroundBrowseMembersRoute
-  '/playground/activity': typeof PlaygroundPlainActivityRoute
-  '/playground/search': typeof PlaygroundPlainSearchRoute
-  '/playground/settings': typeof PlaygroundPlainSettingsRoute
-  '/playground/tasks': typeof PlaygroundPlainTasksRoute
   '/about/': typeof SiteAboutIndexRoute
   '/components/': typeof SiteComponentsIndexRoute
   '/content/': typeof SiteContentIndexRoute
@@ -295,18 +171,10 @@ export interface FileRoutesByFullPath {
   '/people-and-agents/': typeof SitePeopleAndAgentsIndexRoute
   '/principles/': typeof SitePrinciplesIndexRoute
   '/products/': typeof SiteProductsIndexRoute
-  '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
-  '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
   '/products/$product/$slug': typeof SiteProductsProductSlugRoute
-  '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
   '/products/$product/': typeof SiteProductsProductIndexRoute
-  '/playground/s/$serverSlug/': typeof PlaygroundSServerSlugIndexRoute
-  '/playground/s/$serverSlug/channel/$channelId': typeof PlaygroundSServerSlugChannelChannelIdRoute
-  '/playground/s/$serverSlug/dm/$dmId': typeof PlaygroundSServerSlugDmDmIdRoute
 }
 export interface FileRoutesByTo {
-  '/playground': typeof PlaygroundIndexRoute
-  '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/changelog': typeof SiteChangelogRoute
   '/iframe/example': typeof IframeExampleRoute
   '/': typeof SiteIndexRoute
@@ -318,12 +186,6 @@ export interface FileRoutesByTo {
   '/patterns/$slug': typeof SitePatternsSlugRoute
   '/people-and-agents/$slug': typeof SitePeopleAndAgentsSlugRoute
   '/principles/$slug': typeof SitePrinciplesSlugRoute
-  '/playground/computers': typeof PlaygroundBrowseComputersRoute
-  '/playground/members': typeof PlaygroundBrowseMembersRoute
-  '/playground/activity': typeof PlaygroundPlainActivityRoute
-  '/playground/search': typeof PlaygroundPlainSearchRoute
-  '/playground/settings': typeof PlaygroundPlainSettingsRoute
-  '/playground/tasks': typeof PlaygroundPlainTasksRoute
   '/about': typeof SiteAboutIndexRoute
   '/components': typeof SiteComponentsIndexRoute
   '/content': typeof SiteContentIndexRoute
@@ -333,27 +195,15 @@ export interface FileRoutesByTo {
   '/people-and-agents': typeof SitePeopleAndAgentsIndexRoute
   '/principles': typeof SitePrinciplesIndexRoute
   '/products': typeof SiteProductsIndexRoute
-  '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
-  '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
   '/products/$product/$slug': typeof SiteProductsProductSlugRoute
-  '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
   '/products/$product': typeof SiteProductsProductIndexRoute
-  '/playground/s/$serverSlug': typeof PlaygroundSServerSlugIndexRoute
-  '/playground/s/$serverSlug/channel/$channelId': typeof PlaygroundSServerSlugChannelChannelIdRoute
-  '/playground/s/$serverSlug/dm/$dmId': typeof PlaygroundSServerSlugDmDmIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/playground': typeof PlaygroundRouteRouteWithChildren
   '/_site': typeof SiteRouteWithChildren
-  '/playground/_browse': typeof PlaygroundBrowseRouteRouteWithChildren
-  '/playground/_plain': typeof PlaygroundPlainRouteRouteWithChildren
-  '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/_site/changelog': typeof SiteChangelogRoute
   '/iframe/example': typeof IframeExampleRoute
   '/_site/': typeof SiteIndexRoute
-  '/playground/': typeof PlaygroundIndexRoute
-  '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
   '/_site/about/$slug': typeof SiteAboutSlugRoute
   '/_site/components/$slug': typeof SiteComponentsSlugRoute
   '/_site/content/$slug': typeof SiteContentSlugRoute
@@ -362,12 +212,6 @@ export interface FileRoutesById {
   '/_site/patterns/$slug': typeof SitePatternsSlugRoute
   '/_site/people-and-agents/$slug': typeof SitePeopleAndAgentsSlugRoute
   '/_site/principles/$slug': typeof SitePrinciplesSlugRoute
-  '/playground/_browse/computers': typeof PlaygroundBrowseComputersRoute
-  '/playground/_browse/members': typeof PlaygroundBrowseMembersRoute
-  '/playground/_plain/activity': typeof PlaygroundPlainActivityRoute
-  '/playground/_plain/search': typeof PlaygroundPlainSearchRoute
-  '/playground/_plain/settings': typeof PlaygroundPlainSettingsRoute
-  '/playground/_plain/tasks': typeof PlaygroundPlainTasksRoute
   '/_site/about/': typeof SiteAboutIndexRoute
   '/_site/components/': typeof SiteComponentsIndexRoute
   '/_site/content/': typeof SiteContentIndexRoute
@@ -377,25 +221,15 @@ export interface FileRoutesById {
   '/_site/people-and-agents/': typeof SitePeopleAndAgentsIndexRoute
   '/_site/principles/': typeof SitePrinciplesIndexRoute
   '/_site/products/': typeof SiteProductsIndexRoute
-  '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
-  '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
   '/_site/products/$product/$slug': typeof SiteProductsProductSlugRoute
-  '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
   '/_site/products/$product/': typeof SiteProductsProductIndexRoute
-  '/playground/s/$serverSlug/': typeof PlaygroundSServerSlugIndexRoute
-  '/playground/s/$serverSlug/channel/$channelId': typeof PlaygroundSServerSlugChannelChannelIdRoute
-  '/playground/s/$serverSlug/dm/$dmId': typeof PlaygroundSServerSlugDmDmIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/playground'
     | '/'
-    | '/playground/s'
     | '/changelog'
     | '/iframe/example'
-    | '/playground/'
-    | '/playground/s/$serverSlug'
     | '/about/$slug'
     | '/components/$slug'
     | '/content/$slug'
@@ -404,12 +238,6 @@ export interface FileRouteTypes {
     | '/patterns/$slug'
     | '/people-and-agents/$slug'
     | '/principles/$slug'
-    | '/playground/computers'
-    | '/playground/members'
-    | '/playground/activity'
-    | '/playground/search'
-    | '/playground/settings'
-    | '/playground/tasks'
     | '/about/'
     | '/components/'
     | '/content/'
@@ -419,18 +247,10 @@ export interface FileRouteTypes {
     | '/people-and-agents/'
     | '/principles/'
     | '/products/'
-    | '/playground/s/$serverSlug/channel'
-    | '/playground/s/$serverSlug/dm'
     | '/products/$product/$slug'
-    | '/playground/s/$serverSlug/saved'
     | '/products/$product/'
-    | '/playground/s/$serverSlug/'
-    | '/playground/s/$serverSlug/channel/$channelId'
-    | '/playground/s/$serverSlug/dm/$dmId'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/playground'
-    | '/playground/s'
     | '/changelog'
     | '/iframe/example'
     | '/'
@@ -442,12 +262,6 @@ export interface FileRouteTypes {
     | '/patterns/$slug'
     | '/people-and-agents/$slug'
     | '/principles/$slug'
-    | '/playground/computers'
-    | '/playground/members'
-    | '/playground/activity'
-    | '/playground/search'
-    | '/playground/settings'
-    | '/playground/tasks'
     | '/about'
     | '/components'
     | '/content'
@@ -457,26 +271,14 @@ export interface FileRouteTypes {
     | '/people-and-agents'
     | '/principles'
     | '/products'
-    | '/playground/s/$serverSlug/channel'
-    | '/playground/s/$serverSlug/dm'
     | '/products/$product/$slug'
-    | '/playground/s/$serverSlug/saved'
     | '/products/$product'
-    | '/playground/s/$serverSlug'
-    | '/playground/s/$serverSlug/channel/$channelId'
-    | '/playground/s/$serverSlug/dm/$dmId'
   id:
     | '__root__'
-    | '/playground'
     | '/_site'
-    | '/playground/_browse'
-    | '/playground/_plain'
-    | '/playground/s'
     | '/_site/changelog'
     | '/iframe/example'
     | '/_site/'
-    | '/playground/'
-    | '/playground/s/$serverSlug'
     | '/_site/about/$slug'
     | '/_site/components/$slug'
     | '/_site/content/$slug'
@@ -485,12 +287,6 @@ export interface FileRouteTypes {
     | '/_site/patterns/$slug'
     | '/_site/people-and-agents/$slug'
     | '/_site/principles/$slug'
-    | '/playground/_browse/computers'
-    | '/playground/_browse/members'
-    | '/playground/_plain/activity'
-    | '/playground/_plain/search'
-    | '/playground/_plain/settings'
-    | '/playground/_plain/tasks'
     | '/_site/about/'
     | '/_site/components/'
     | '/_site/content/'
@@ -500,18 +296,11 @@ export interface FileRouteTypes {
     | '/_site/people-and-agents/'
     | '/_site/principles/'
     | '/_site/products/'
-    | '/playground/s/$serverSlug/channel'
-    | '/playground/s/$serverSlug/dm'
     | '/_site/products/$product/$slug'
-    | '/playground/s/$serverSlug/saved'
     | '/_site/products/$product/'
-    | '/playground/s/$serverSlug/'
-    | '/playground/s/$serverSlug/channel/$channelId'
-    | '/playground/s/$serverSlug/dm/$dmId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  PlaygroundRouteRoute: typeof PlaygroundRouteRouteWithChildren
   SiteRoute: typeof SiteRouteWithChildren
   IframeExampleRoute: typeof IframeExampleRoute
 }
@@ -523,13 +312,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof SiteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/playground': {
-      id: '/playground'
-      path: '/playground'
-      fullPath: '/playground'
-      preLoaderRoute: typeof PlaygroundRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_site/': {
@@ -552,34 +334,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/iframe/example'
       preLoaderRoute: typeof IframeExampleRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/playground/': {
-      id: '/playground/'
-      path: '/'
-      fullPath: '/playground/'
-      preLoaderRoute: typeof PlaygroundIndexRouteImport
-      parentRoute: typeof PlaygroundRouteRoute
-    }
-    '/playground/_browse': {
-      id: '/playground/_browse'
-      path: ''
-      fullPath: '/playground'
-      preLoaderRoute: typeof PlaygroundBrowseRouteRouteImport
-      parentRoute: typeof PlaygroundRouteRoute
-    }
-    '/playground/_plain': {
-      id: '/playground/_plain'
-      path: ''
-      fullPath: '/playground'
-      preLoaderRoute: typeof PlaygroundPlainRouteRouteImport
-      parentRoute: typeof PlaygroundRouteRoute
-    }
-    '/playground/s': {
-      id: '/playground/s'
-      path: '/s'
-      fullPath: '/playground/s'
-      preLoaderRoute: typeof PlaygroundSRouteRouteImport
-      parentRoute: typeof PlaygroundRouteRoute
     }
     '/_site/about/': {
       id: '/_site/about/'
@@ -700,55 +454,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteProductsIndexRouteImport
       parentRoute: typeof SiteRoute
     }
-    '/playground/_browse/computers': {
-      id: '/playground/_browse/computers'
-      path: '/computers'
-      fullPath: '/playground/computers'
-      preLoaderRoute: typeof PlaygroundBrowseComputersRouteImport
-      parentRoute: typeof PlaygroundBrowseRouteRoute
-    }
-    '/playground/_browse/members': {
-      id: '/playground/_browse/members'
-      path: '/members'
-      fullPath: '/playground/members'
-      preLoaderRoute: typeof PlaygroundBrowseMembersRouteImport
-      parentRoute: typeof PlaygroundBrowseRouteRoute
-    }
-    '/playground/_plain/activity': {
-      id: '/playground/_plain/activity'
-      path: '/activity'
-      fullPath: '/playground/activity'
-      preLoaderRoute: typeof PlaygroundPlainActivityRouteImport
-      parentRoute: typeof PlaygroundPlainRouteRoute
-    }
-    '/playground/_plain/search': {
-      id: '/playground/_plain/search'
-      path: '/search'
-      fullPath: '/playground/search'
-      preLoaderRoute: typeof PlaygroundPlainSearchRouteImport
-      parentRoute: typeof PlaygroundPlainRouteRoute
-    }
-    '/playground/_plain/settings': {
-      id: '/playground/_plain/settings'
-      path: '/settings'
-      fullPath: '/playground/settings'
-      preLoaderRoute: typeof PlaygroundPlainSettingsRouteImport
-      parentRoute: typeof PlaygroundPlainRouteRoute
-    }
-    '/playground/_plain/tasks': {
-      id: '/playground/_plain/tasks'
-      path: '/tasks'
-      fullPath: '/playground/tasks'
-      preLoaderRoute: typeof PlaygroundPlainTasksRouteImport
-      parentRoute: typeof PlaygroundPlainRouteRoute
-    }
-    '/playground/s/$serverSlug': {
-      id: '/playground/s/$serverSlug'
-      path: '/$serverSlug'
-      fullPath: '/playground/s/$serverSlug'
-      preLoaderRoute: typeof PlaygroundSServerSlugRouteRouteImport
-      parentRoute: typeof PlaygroundSRouteRoute
-    }
     '/_site/products/$product/': {
       id: '/_site/products/$product/'
       path: '/products/$product'
@@ -763,162 +468,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteProductsProductSlugRouteImport
       parentRoute: typeof SiteRoute
     }
-    '/playground/s/$serverSlug/': {
-      id: '/playground/s/$serverSlug/'
-      path: '/'
-      fullPath: '/playground/s/$serverSlug/'
-      preLoaderRoute: typeof PlaygroundSServerSlugIndexRouteImport
-      parentRoute: typeof PlaygroundSServerSlugRouteRoute
-    }
-    '/playground/s/$serverSlug/channel': {
-      id: '/playground/s/$serverSlug/channel'
-      path: '/channel'
-      fullPath: '/playground/s/$serverSlug/channel'
-      preLoaderRoute: typeof PlaygroundSServerSlugChannelRouteRouteImport
-      parentRoute: typeof PlaygroundSServerSlugRouteRoute
-    }
-    '/playground/s/$serverSlug/dm': {
-      id: '/playground/s/$serverSlug/dm'
-      path: '/dm'
-      fullPath: '/playground/s/$serverSlug/dm'
-      preLoaderRoute: typeof PlaygroundSServerSlugDmRouteRouteImport
-      parentRoute: typeof PlaygroundSServerSlugRouteRoute
-    }
-    '/playground/s/$serverSlug/saved': {
-      id: '/playground/s/$serverSlug/saved'
-      path: '/saved'
-      fullPath: '/playground/s/$serverSlug/saved'
-      preLoaderRoute: typeof PlaygroundSServerSlugSavedRouteImport
-      parentRoute: typeof PlaygroundSServerSlugRouteRoute
-    }
-    '/playground/s/$serverSlug/channel/$channelId': {
-      id: '/playground/s/$serverSlug/channel/$channelId'
-      path: '/$channelId'
-      fullPath: '/playground/s/$serverSlug/channel/$channelId'
-      preLoaderRoute: typeof PlaygroundSServerSlugChannelChannelIdRouteImport
-      parentRoute: typeof PlaygroundSServerSlugChannelRouteRoute
-    }
-    '/playground/s/$serverSlug/dm/$dmId': {
-      id: '/playground/s/$serverSlug/dm/$dmId'
-      path: '/$dmId'
-      fullPath: '/playground/s/$serverSlug/dm/$dmId'
-      preLoaderRoute: typeof PlaygroundSServerSlugDmDmIdRouteImport
-      parentRoute: typeof PlaygroundSServerSlugDmRouteRoute
-    }
   }
 }
-
-interface PlaygroundBrowseRouteRouteChildren {
-  PlaygroundBrowseComputersRoute: typeof PlaygroundBrowseComputersRoute
-  PlaygroundBrowseMembersRoute: typeof PlaygroundBrowseMembersRoute
-}
-
-const PlaygroundBrowseRouteRouteChildren: PlaygroundBrowseRouteRouteChildren = {
-  PlaygroundBrowseComputersRoute: PlaygroundBrowseComputersRoute,
-  PlaygroundBrowseMembersRoute: PlaygroundBrowseMembersRoute,
-}
-
-const PlaygroundBrowseRouteRouteWithChildren =
-  PlaygroundBrowseRouteRoute._addFileChildren(
-    PlaygroundBrowseRouteRouteChildren,
-  )
-
-interface PlaygroundPlainRouteRouteChildren {
-  PlaygroundPlainActivityRoute: typeof PlaygroundPlainActivityRoute
-  PlaygroundPlainSearchRoute: typeof PlaygroundPlainSearchRoute
-  PlaygroundPlainSettingsRoute: typeof PlaygroundPlainSettingsRoute
-  PlaygroundPlainTasksRoute: typeof PlaygroundPlainTasksRoute
-}
-
-const PlaygroundPlainRouteRouteChildren: PlaygroundPlainRouteRouteChildren = {
-  PlaygroundPlainActivityRoute: PlaygroundPlainActivityRoute,
-  PlaygroundPlainSearchRoute: PlaygroundPlainSearchRoute,
-  PlaygroundPlainSettingsRoute: PlaygroundPlainSettingsRoute,
-  PlaygroundPlainTasksRoute: PlaygroundPlainTasksRoute,
-}
-
-const PlaygroundPlainRouteRouteWithChildren =
-  PlaygroundPlainRouteRoute._addFileChildren(PlaygroundPlainRouteRouteChildren)
-
-interface PlaygroundSServerSlugChannelRouteRouteChildren {
-  PlaygroundSServerSlugChannelChannelIdRoute: typeof PlaygroundSServerSlugChannelChannelIdRoute
-}
-
-const PlaygroundSServerSlugChannelRouteRouteChildren: PlaygroundSServerSlugChannelRouteRouteChildren =
-  {
-    PlaygroundSServerSlugChannelChannelIdRoute:
-      PlaygroundSServerSlugChannelChannelIdRoute,
-  }
-
-const PlaygroundSServerSlugChannelRouteRouteWithChildren =
-  PlaygroundSServerSlugChannelRouteRoute._addFileChildren(
-    PlaygroundSServerSlugChannelRouteRouteChildren,
-  )
-
-interface PlaygroundSServerSlugDmRouteRouteChildren {
-  PlaygroundSServerSlugDmDmIdRoute: typeof PlaygroundSServerSlugDmDmIdRoute
-}
-
-const PlaygroundSServerSlugDmRouteRouteChildren: PlaygroundSServerSlugDmRouteRouteChildren =
-  {
-    PlaygroundSServerSlugDmDmIdRoute: PlaygroundSServerSlugDmDmIdRoute,
-  }
-
-const PlaygroundSServerSlugDmRouteRouteWithChildren =
-  PlaygroundSServerSlugDmRouteRoute._addFileChildren(
-    PlaygroundSServerSlugDmRouteRouteChildren,
-  )
-
-interface PlaygroundSServerSlugRouteRouteChildren {
-  PlaygroundSServerSlugChannelRouteRoute: typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
-  PlaygroundSServerSlugDmRouteRoute: typeof PlaygroundSServerSlugDmRouteRouteWithChildren
-  PlaygroundSServerSlugSavedRoute: typeof PlaygroundSServerSlugSavedRoute
-  PlaygroundSServerSlugIndexRoute: typeof PlaygroundSServerSlugIndexRoute
-}
-
-const PlaygroundSServerSlugRouteRouteChildren: PlaygroundSServerSlugRouteRouteChildren =
-  {
-    PlaygroundSServerSlugChannelRouteRoute:
-      PlaygroundSServerSlugChannelRouteRouteWithChildren,
-    PlaygroundSServerSlugDmRouteRoute:
-      PlaygroundSServerSlugDmRouteRouteWithChildren,
-    PlaygroundSServerSlugSavedRoute: PlaygroundSServerSlugSavedRoute,
-    PlaygroundSServerSlugIndexRoute: PlaygroundSServerSlugIndexRoute,
-  }
-
-const PlaygroundSServerSlugRouteRouteWithChildren =
-  PlaygroundSServerSlugRouteRoute._addFileChildren(
-    PlaygroundSServerSlugRouteRouteChildren,
-  )
-
-interface PlaygroundSRouteRouteChildren {
-  PlaygroundSServerSlugRouteRoute: typeof PlaygroundSServerSlugRouteRouteWithChildren
-}
-
-const PlaygroundSRouteRouteChildren: PlaygroundSRouteRouteChildren = {
-  PlaygroundSServerSlugRouteRoute: PlaygroundSServerSlugRouteRouteWithChildren,
-}
-
-const PlaygroundSRouteRouteWithChildren =
-  PlaygroundSRouteRoute._addFileChildren(PlaygroundSRouteRouteChildren)
-
-interface PlaygroundRouteRouteChildren {
-  PlaygroundBrowseRouteRoute: typeof PlaygroundBrowseRouteRouteWithChildren
-  PlaygroundPlainRouteRoute: typeof PlaygroundPlainRouteRouteWithChildren
-  PlaygroundSRouteRoute: typeof PlaygroundSRouteRouteWithChildren
-  PlaygroundIndexRoute: typeof PlaygroundIndexRoute
-}
-
-const PlaygroundRouteRouteChildren: PlaygroundRouteRouteChildren = {
-  PlaygroundBrowseRouteRoute: PlaygroundBrowseRouteRouteWithChildren,
-  PlaygroundPlainRouteRoute: PlaygroundPlainRouteRouteWithChildren,
-  PlaygroundSRouteRoute: PlaygroundSRouteRouteWithChildren,
-  PlaygroundIndexRoute: PlaygroundIndexRoute,
-}
-
-const PlaygroundRouteRouteWithChildren = PlaygroundRouteRoute._addFileChildren(
-  PlaygroundRouteRouteChildren,
-)
 
 interface SiteRouteChildren {
   SiteChangelogRoute: typeof SiteChangelogRoute
@@ -971,7 +522,6 @@ const SiteRouteChildren: SiteRouteChildren = {
 const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  PlaygroundRouteRoute: PlaygroundRouteRouteWithChildren,
   SiteRoute: SiteRouteWithChildren,
   IframeExampleRoute: IframeExampleRoute,
 }

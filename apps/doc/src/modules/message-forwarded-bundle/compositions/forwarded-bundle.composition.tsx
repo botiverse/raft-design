@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
-  MESSAGE_PLAYGROUND_URLS,
+  MESSAGE_EXAMPLE_HREFS,
 } from "#/modules/message-item/message-item.fixtures.ts";
 import {
   Avatar,
@@ -151,7 +151,7 @@ function ForwardedBundleItemsContent({
 export function ForwardedBundleEmbeddedComposition({
   items = DEFAULT_FORWARDED_ITEMS,
   sourceLabel = "release-notes",
-  sourceHref = MESSAGE_PLAYGROUND_URLS.releaseNotesThread,
+  sourceHref = MESSAGE_EXAMPLE_HREFS.releaseNotesThread,
   sourceAriaLabel = "Open source thread in release-notes",
   sourceTitle = "Open source message",
   collapsible = true,

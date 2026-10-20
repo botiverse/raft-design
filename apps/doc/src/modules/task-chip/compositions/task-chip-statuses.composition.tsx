@@ -6,7 +6,7 @@ import {
   TaskInReviewIcon,
   TaskTodoIcon,
 } from "@botiverse/raft-ui";
-import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_EXAMPLE_HREFS } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function TaskChipStatusesComposition() {
   return (
@@ -14,7 +14,7 @@ export function TaskChipStatusesComposition() {
       {/* @docs-source-strip-start */}
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
-        <TaskChip status="todo" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
+        <TaskChip status="todo" render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}>
           <TaskTodoIcon />
           #16
         </TaskChip>
@@ -23,7 +23,7 @@ export function TaskChipStatusesComposition() {
       </div>
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
-        <TaskChip status="in-progress" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
+        <TaskChip status="in-progress" render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}>
           <TaskInProgressIcon />
           #205
         </TaskChip>
@@ -32,7 +32,7 @@ export function TaskChipStatusesComposition() {
       </div>
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
-        <TaskChip status="in-review" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
+        <TaskChip status="in-review" render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}>
           <TaskInReviewIcon />
           #340
         </TaskChip>
@@ -41,7 +41,7 @@ export function TaskChipStatusesComposition() {
       </div>
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
-        <TaskChip status="done" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
+        <TaskChip status="done" render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}>
           <TaskDoneIcon />
           #47
         </TaskChip>
@@ -50,7 +50,7 @@ export function TaskChipStatusesComposition() {
       </div>
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
-        <TaskChip status="closed" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
+        <TaskChip status="closed" render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}>
           <TaskClosedIcon />
           #480
         </TaskChip>

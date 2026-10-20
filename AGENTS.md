@@ -52,12 +52,11 @@ raft-ui implements the Raft Design System, and `design/` is the system itself: s
 
 # Component Architecture Ownership
 
-The component system has three runtime layers with one-way dependencies:
+The component system has two runtime layers with a one-way dependency:
 
 ```text
 packages/ui
   -> apps/doc/src/modules/<component>
-    -> apps/doc/src/playground
 
 apps/doc/src/routes
   -> apps/doc/src/modules/<component>
@@ -67,13 +66,12 @@ apps/doc/src/routes
 - `apps/doc/src/modules/<component>` owns everything non-route for a component: the canonical executable compositions (`compositions/*.composition.tsx`, or a flat `<component>.composition.tsx` for a single example), constants, and fixtures. This is the canonical executable usage layer; an interactive demo is a composition with local state.
 - `apps/doc/src/routes` owns routing only. Every component page is one route, `routes/_site/components/$slug.tsx`, rendered from the component's doc (`packages/ui/src/components/<x>/<x>.md`), whose `example` blocks name the module's compositions, and from its API, generated into `apps/doc/src/data/api` by `apps/doc/scripts/build-api.mjs` (see `apps/doc/AGENTS.md`). `routes/iframe/example.tsx` renders one composition alone, for an example's phone view. Routes must not maintain another Current implementation.
 - `apps/doc/src/components` owns shared documentation chrome (DocPage, Sidebar, code blocks, preview panels, ...) reused across modules.
-- `apps/doc/src/playground` owns the coherent mock product domain, router coordination, and business-shaped demo state. It consumes UI primitives and canonical docs compositions; it is not a second component library.
-- Dependencies must not point upward. `packages/ui` never imports `apps/doc`; docs modules never import Playground.
+- Dependencies must not point upward. `packages/ui` never imports `apps/doc`.
 
 ## State Boundary
 
 - Generic interaction state belongs to the behavior owner or Base UI primitive: open state, focus, selection, keyboard navigation, collection state, and controlled/uncontrolled value.
-- Product and workflow state belongs to the consuming composition or Playground: upload lifecycle, notification policy, saved/followed state, task workflow, permissions, and entity-specific actions.
+- Product and workflow state belongs to the consuming composition (or the app): upload lifecycle, notification policy, saved/followed state, task workflow, permissions, and entity-specific actions.
 - When product state changes visible structure, `packages/ui` exposes the relevant parts and styles; the consumer chooses which parts to render.
 - Do not interpret this as a ban on all state in the component library.
 
@@ -81,20 +79,19 @@ apps/doc/src/routes
 
 - Avoid public `kind`, `state`, or `emphasis` props when they select materially different visible structures.
 - Prefer explicit semantic components and compound parts such as `MessageReferenceTask`, `MessageReferenceLoading`, or `MessageAttachmentPendingIndicator`.
-- This restriction applies to reusable UI APIs, not to discriminated unions in app or Playground domain data.
+- This restriction applies to reusable UI APIs, not to discriminated unions in app or example domain data.
 - Visible content belongs in `children` or explicit parts. Product copy, policy text, business icons, and permissions do not belong in `packages/ui`.
 
 # Component Delivery SOP
 
 Use this sequence when adding or migrating a component:
 
-1. Inventory real source callsites and classify the candidate as a UI primitive, reusable behavior component, docs composition, or Playground business wrapper. Do not infer the boundary from a demo fixture alone.
+1. Inventory real source callsites and classify the candidate as a UI primitive, reusable behavior component, or docs composition. Do not infer the boundary from a demo fixture alone.
 2. Implement the business-agnostic API in `packages/ui`: Base UI owns headless behavior, `tv()` recipes own reusable styling, and children/parts expose visible structure. Export unstable work through `wip.ts` while refining.
 3. Add canonical executable examples under `apps/doc/src/modules/<component>/compositions` (one example per file, `<name>.composition.tsx`; keep it flat as `<component>.composition.tsx` when there is a single example). Cover the normal structure, meaningful visual states, disabled/error/loading behavior, and relevant overlays.
 4. Write or update the component's doc, `packages/ui/src/components/<x>/<x>.md` (`design/authoring/`), and embed the compositions with `example` blocks; the docs site renders it with no route of its own. Regenerate the API with `node apps/doc/scripts/build-api.mjs` when exports or props change. Then check the page against the Displayed Code invariants in `apps/doc/AGENTS.md`: real API in every example, strip markers balanced with nothing dangling, code matching its canvas.
-5. Add the component to Playground only when it participates in a real shell/product scenario or needs cross-component verification. Reuse the canonical composition and add only the thin mock business wrapper or coordinated state Playground needs.
-6. Audit all three layers for business leakage, duplicated implementations, local component-style repairs, fake ARIA widgets, and enabled-but-inert controls.
-7. Run `vp check --fix`, `git diff --check`, and React Doctor for the changed React packages. For cross-layer architecture changes, repeat an independent strict review until no P1/P2 findings remain.
+5. Audit both layers for business leakage, duplicated implementations, local component-style repairs, fake ARIA widgets, and enabled-but-inert controls.
+6. Run `vp check --fix`, `git diff --check`, and React Doctor for the changed React packages. For cross-layer architecture changes, repeat an independent strict review until no P1/P2 findings remain.
 
 For a component with browser tests, run them by hand before the PR ([Browser Tests Run by Hand](#browser-tests-run-by-hand)).
 
@@ -102,10 +99,10 @@ For a component with browser tests, run them by hand before the PR ([Browser Tes
 
 Hold these whenever you move, collapse, or restyle existing component structure:
 
-- **DOM and className parity.** A structure-preserving refactor must render the same DOM and classes as before. Diff the output against the pre-change callsite (for example the existing Playground assembly) and treat any structural delta as a regression.
+- **DOM and className parity.** A structure-preserving refactor must render the same DOM and classes as before. Diff the output against the pre-change callsite (for example the existing composition) and treat any structural delta as a regression.
 - **Push generic boilerplate down as additive sugar.** When a wrapper carries no business content, move it into the `packages/ui` atom instead of leaving it in a composition. Keep the new prop or part additive: it activates only when passed, and the existing granular path stays byte-for-byte unchanged so current callsites keep working.
 - **Slots must earn their existence.** Before keeping a slot or part, confirm the rendered DOM shows a real structural or visual difference (a border, spacing, or reflow). If it collapses into a neighbor with no such difference, delete it and merge. Verify against actual output, not the intended design.
-- **Inventory every callsite before changing or removing an API.** Grep all consumers across `packages/ui`, `modules`, the component docs, and `playground` first. Backward-compatibility scope is the full callsite set, not the one component you started from.
+- **Inventory every callsite before changing or removing an API.** Grep all consumers across `packages/ui`, `modules`, and the component docs first. Backward-compatibility scope is the full callsite set, not the one component you started from.
 
 # Styling Conventions
 

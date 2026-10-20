@@ -190,7 +190,7 @@
         "type": "boolean",
         "required": false,
         "default": "false",
-        "description": "Docs preview chrome. Shell hosts (Playground) leave this off.",
+        "description": "Docs preview chrome. A host shell that draws its own frame leaves this off.",
         "from": "raft-ui"
       },
       {

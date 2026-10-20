@@ -111,14 +111,6 @@ function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSear
         >
           <Search />
         </Button>
-        <Button
-          variant="on-frame"
-          className="max-lg:hidden"
-          nativeButton={false}
-          render={<a href="/playground" />}
-        >
-          Playground
-        </Button>
         <ThemeMenu />
         <Button
           variant="on-frame"
@@ -183,9 +175,9 @@ function NavLabels({ item, previous }: { item: NavItem; previous: NavItem | unde
 }
 
 /**
- * The cream sidebar: Overview (design/README.md) and For Agents, every page
- * by section in reading order (components by layer and category, decision
- * records under About), then Playground.
+ * The cream sidebar: Overview (design/README.md) and For Agents, then every
+ * page by section in reading order (components by layer and category,
+ * decision records under About).
  */
 export function SiteNav() {
   const { pathname } = useLocation();
@@ -232,13 +224,6 @@ export function SiteNav() {
               </SidebarList>
             </SidebarSection>
           ))}
-          <div className="flex flex-col gap-0.5 pt-2">
-            <SidebarItem render={<a href="/playground" />}>
-              <SidebarItemContent>
-                <SidebarItemTitle>Playground</SidebarItemTitle>
-              </SidebarItemContent>
-            </SidebarItem>
-          </div>
         </SidebarContent>
       </SidebarBody>
     </SidebarRoot>
