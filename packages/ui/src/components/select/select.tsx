@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useId, useLayoutEffect, useMemo, useState } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
@@ -293,10 +293,32 @@ export function SelectList({ className, ...props }: SelectListProps) {
 
 export type SelectItemProps = StyledProps<BaseSelect.Item.Props>;
 
+// An item with a description is named by its text alone and described by the
+// description; without one, Base UI's name from content stays as it is.
+interface SelectItemParts {
+  readonly setTextId: (id: string | undefined) => void;
+  readonly setDescriptionId: (id: string | undefined) => void;
+}
+
+const SelectItemPartsContext = createContext<SelectItemParts | null>(null);
+
 export function SelectItem({ className, ...props }: SelectItemProps) {
   const chrome = useSelectChrome();
   const { item } = select({ chrome });
-  return <BaseSelect.Item data-slot="select-item" className={item({ className })} {...props} />;
+  const [textId, setTextId] = useState<string>();
+  const [descriptionId, setDescriptionId] = useState<string>();
+  const parts = useMemo(() => ({ setTextId, setDescriptionId }), []);
+  return (
+    <SelectItemPartsContext.Provider value={parts}>
+      <BaseSelect.Item
+        data-slot="select-item"
+        className={item({ className })}
+        aria-labelledby={descriptionId && textId ? textId : undefined}
+        aria-describedby={descriptionId}
+        {...props}
+      />
+    </SelectItemPartsContext.Provider>
+  );
 }
 
 export type SelectItemLeadingProps = StyledProps<ComponentPropsWithRef<"span">>;
@@ -325,10 +347,18 @@ export function SelectItemIndicator({ className, children, ...props }: SelectIte
 
 export type SelectItemTextProps = StyledProps<BaseSelect.ItemText.Props>;
 
-export function SelectItemText({ className, ...props }: SelectItemTextProps) {
+export function SelectItemText({ className, id, ...props }: SelectItemTextProps) {
   const { itemText } = select();
+  const generatedId = useId();
+  const textId = id ?? generatedId;
+  const setTextId = useContext(SelectItemPartsContext)?.setTextId;
+  useLayoutEffect(() => {
+    setTextId?.(textId);
+    return () => setTextId?.(undefined);
+  }, [setTextId, textId]);
   return (
     <BaseSelect.ItemText
+      id={textId}
       data-slot="select-item-text"
       className={itemText({ className })}
       {...props}
@@ -343,10 +373,18 @@ export type SelectItemDescriptionProps = StyledProps<ComponentPropsWithRef<"span
  * It sits beside `SelectItemText`, not inside it, so the selected value in the
  * trigger stays the label alone. The option grows to fit it.
  */
-export function SelectItemDescription({ className, ...props }: SelectItemDescriptionProps) {
+export function SelectItemDescription({ className, id, ...props }: SelectItemDescriptionProps) {
   const { itemDescription } = select();
+  const generatedId = useId();
+  const descriptionId = id ?? generatedId;
+  const setDescriptionId = useContext(SelectItemPartsContext)?.setDescriptionId;
+  useLayoutEffect(() => {
+    setDescriptionId?.(descriptionId);
+    return () => setDescriptionId?.(undefined);
+  }, [setDescriptionId, descriptionId]);
   return (
     <span
+      id={descriptionId}
       data-slot="select-item-description"
       className={itemDescription({ className })}
       {...props}
