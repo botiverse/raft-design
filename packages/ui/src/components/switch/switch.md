@@ -11,7 +11,7 @@ redirectFrom: [decisions/0025-pill-switch]
 
 # Switch
 
-A switch turns a setting on or off, and the change applies at once. On, it is a yellow sticker with its knob slid to the right. Switches and radios are the only round controls in the system.
+A switch turns a setting on or off, and the change applies at once. On, it is a yellow sticker with its knob slid to the right. Switches and radios are the only round controls in the system, apart from the phone's floating tab bar.
 
 ```example
 list-row/compositions/settings
