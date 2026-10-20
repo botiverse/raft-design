@@ -30,7 +30,7 @@ import {
   MessageItemTime,
 } from "@botiverse/raft-ui";
 
-import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_EXAMPLE_HREFS } from "#/modules/message-item/message-item.fixtures.ts";
 import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";
 
 export type QuotedPreviewEmbeddedCompositionProps = {
@@ -51,7 +51,7 @@ export type QuotedPreviewEmbeddedCompositionProps = {
 };
 
 const DEFAULT_QUOTED_PREVIEW_PROPS: QuotedPreviewEmbeddedCompositionProps = {
-  href: MESSAGE_PLAYGROUND_URLS.stateModelTask,
+  href: MESSAGE_EXAMPLE_HREFS.stateModelTask,
   ariaLabel: "Open quoted message in the state-model thread",
   author: {
     name: "Developer",
@@ -139,7 +139,7 @@ export function QuotedPreviewMessageComposition() {
             variant="link"
             render={
               <a
-                href={MESSAGE_PLAYGROUND_URLS.stateModelTask}
+                href={MESSAGE_EXAMPLE_HREFS.stateModelTask}
                 aria-label="Open raft-ui migration message"
               />
             }

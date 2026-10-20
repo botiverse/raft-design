@@ -15,7 +15,7 @@ import {
 } from "@botiverse/raft-ui";
 import { GitBranch, Link as LinkIcon, MessagesSquare } from "lucide-react";
 
-import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_EXAMPLE_HREFS } from "#/modules/message-item/message-item.fixtures.ts";
 
 const HASH = "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08";
 
@@ -24,15 +24,12 @@ const HASH = "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08";
 // sit on its baseline, and keep their letters centred in the coloured box.
 export function MessageReferenceMixedLongMessageComposition() {
   const self = (
-    <MessageReferenceText
-      variant="primary"
-      render={<a href={MESSAGE_PLAYGROUND_URLS.allChannel} />}
-    >
+    <MessageReferenceText variant="primary" render={<a href={MESSAGE_EXAMPLE_HREFS.allChannel} />}>
       @Developer
     </MessageReferenceText>
   );
   const other = (
-    <MessageReferenceText render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}>
+    <MessageReferenceText render={<a href={MESSAGE_EXAMPLE_HREFS.noahDm} />}>
       @Noah Bennett
     </MessageReferenceText>
   );
@@ -40,21 +37,21 @@ export function MessageReferenceMixedLongMessageComposition() {
     <TaskChip
       variant="inline"
       status="in-progress"
-      render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+      render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}
     >
       <TaskInProgressIcon />
       <span>#206</span>
     </TaskChip>
   );
   const channel = (
-    <MessageReferenceChip variant="accent" render={<a href={MESSAGE_PLAYGROUND_URLS.allChannel} />}>
+    <MessageReferenceChip variant="accent" render={<a href={MESSAGE_EXAMPLE_HREFS.allChannel} />}>
       #general
     </MessageReferenceChip>
   );
   const joint = (
     <MessageReferenceChip
       variant="accent"
-      render={<a href={MESSAGE_PLAYGROUND_URLS.northstarJointChannel} />}
+      render={<a href={MESSAGE_EXAMPLE_HREFS.northstarJointChannel} />}
     >
       <GitBranch />
       <MessageReferenceLabel>northstar-launch-handoff</MessageReferenceLabel>
@@ -63,17 +60,14 @@ export function MessageReferenceMixedLongMessageComposition() {
   const thread = (
     <MessageReferenceChip
       variant="accent"
-      render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelThread} />}
+      render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelThread} />}
     >
       <MessagesSquare />
       <MessageReferenceLabel>state-model</MessageReferenceLabel>
     </MessageReferenceChip>
   );
   const link = (
-    <MessageReferenceChip
-      variant="link"
-      render={<a href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage} />}
-    >
+    <MessageReferenceChip variant="link" render={<a href={MESSAGE_EXAMPLE_HREFS.apiDocsMessage} />}>
       <LinkIcon />
       <MessageReferenceLabel>#general</MessageReferenceLabel>
     </MessageReferenceChip>

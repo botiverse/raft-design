@@ -40,12 +40,7 @@ export function MessageRepliesSingleUnreadComposition() {
           makes daemon backward compatibility harder to reason about.
         </MessageItemBody>
         <MessageReplies
-          render={
-            <a
-              href="/playground/s/raft/channel/all?thread=all%3Aapi-docs"
-              aria-label="Open the API docs thread"
-            />
-          }
+          render={<a href="#thread-api-docs" aria-label="Open the API docs thread" />}
         >
           <MessageRepliesSummary>
             <MessageRepliesSummaryItem>1 reply</MessageRepliesSummaryItem>

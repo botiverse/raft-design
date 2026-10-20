@@ -30,9 +30,8 @@ vp run -r test  # tests in every package
 | `packages/ui`                      | raft-ui: tokens, CSS foundations and the React components.                                    |
 | `apps/doc/src/modules/<component>` | Each component's executable examples (`compositions/`), its preview, fixtures and constants.  |
 | `apps/doc/src/routes`              | Documentation pages. A component page arranges its module's examples; it holds no other code. |
-| `apps/doc/src/playground`          | A mock product used to test components together.                                              |
 
-Dependencies point one way: `packages/ui` never imports from `apps/doc`, and documentation modules never import from the playground. [`AGENTS.md`](./AGENTS.md) and [`apps/doc/AGENTS.md`](./apps/doc/AGENTS.md) describe the component architecture, the styling conventions and the rules for documentation code in more detail.
+Dependencies point one way: `packages/ui` never imports from `apps/doc`. [`AGENTS.md`](./AGENTS.md) and [`apps/doc/AGENTS.md`](./apps/doc/AGENTS.md) describe the component architecture, the styling conventions and the rules for documentation code in more detail.
 
 ## Guidelines and code change together
 

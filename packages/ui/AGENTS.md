@@ -57,8 +57,8 @@ The consumer decides which state part exists. Recipes may derive styling from ex
 
 - Reusable typography, letter spacing, spacing, sizing, colors, hover/active/disabled behavior, and light/dark differences belong in the component recipe.
 - Group recipe classes by layout, typography, surface, interaction state, and child/slot relationship.
-- Do not rely on docs or Playground classes to complete the component's intended appearance.
-- If deleting a docs/Playground `className` makes the component itself incorrect, move that styling into the appropriate UI recipe or add a semantic part.
+- Do not rely on docs classes to complete the component's intended appearance.
+- If deleting a docs `className` makes the component itself incorrect, move that styling into the appropriate UI recipe or add a semantic part.
 
 ## Selector Cost (WebKit)
 

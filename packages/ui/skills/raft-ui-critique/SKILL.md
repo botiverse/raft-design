@@ -1,6 +1,6 @@
 ---
 name: raft-ui-critique
-description: "Critique raft-ui components and product surfaces from screenshots, live renders, or code evidence in Light and Dark modes. Use when reviewing, auditing, polishing, comparing, or validating visual hierarchy, Raft fidelity, interaction feedback, accessibility, consistency, and user experience in packages/ui, docs compositions, or Playground."
+description: "Critique raft-ui components and product surfaces from screenshots, live renders, or code evidence in Light and Dark modes. Use when reviewing, auditing, polishing, comparing, or validating visual hierarchy, Raft fidelity, interaction feedback, accessibility, consistency, and user experience in packages/ui or docs compositions."
 ---
 
 # Raft UI Critique
@@ -63,7 +63,7 @@ Compare like for like:
 - Use the same component, content, state, viewport dimensions, zoom, and motion frame.
 - Keep surrounding context equivalent. A fragment without its normal shell cannot prove page hierarchy.
 - Record which interaction states are shown: default, hover, pressed, focus-visible, disabled, selected, open, checked, invalid, loading, or empty, as applicable.
-- Separate the live primitive, docs composition, and Playground wrapper. Never treat one as proof for another.
+- Separate the live primitive and the docs composition. Never treat one as proof for the other.
 
 Record an evidence manifest with the route or artifact, preset, exact viewport, browser/platform when known, zoom, font-loading status, UI state, and reduced-motion setting when motion is relevant. For a full product-surface review, include a representative wide and narrow viewport when the layout is responsive; a single isolated primitive may need only its relevant size.
 
@@ -118,7 +118,7 @@ When code is available, connect each visual issue to the most likely owner witho
 
 - Reusable appearance or interaction styling: `packages/ui` component recipe or semantic tokens.
 - Canonical example structure: docs module composition.
-- Product state or workflow coordination: Playground or application consumer.
+- Product state or workflow coordination: the docs composition or the application consumer.
 - Global token and font material: `foundation.css` / `fonts.css` (see Package evidence lookup).
 
 State whether the cause is observed, code-verified, or inferred. Do not prescribe a new token for a one-off correction, and do not patch a consumer to compensate for a broken reusable component contract.

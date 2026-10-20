@@ -22,7 +22,7 @@ Treat the package's stable public surface as the source of truth. Use commits an
    - stable package entry points, exports, peer dependencies, and runtime requirements
 3. Inspect public types, existing variant semantics, runtime behavior, rendered structure, styles, and accessibility behavior. An unchanged export list does not make an implementation change internal.
 4. Inventory `packages/ui/src/wip.ts` separately. WIP ships with the package but never appears in the public changelog and never determines the semantic version.
-5. Ignore docs, Playground, `packages/ui/skills`, tests, tooling, release commits, and other non-package work unless they alter the stable package output.
+5. Ignore docs, `packages/ui/skills`, tests, tooling, release commits, and other non-package work unless they alter the stable package output.
 6. Assign every changed stable surface exactly one outcome: `Breaking Changes`, `Added`, `Changed`, `Fixed`, or `No Changelog`, with a concrete reason. Do not finish while a stable surface remains unclassified.
 
 ## Choose the Version
@@ -43,7 +43,7 @@ Treat removed or renamed exports, removed CSS tokens, incompatible type changes,
 - Describe consumer impact and migration steps, not implementation activity.
 - Prefer a merged PR link. Add a commit link when no PR exists or when the PR does not cover the complete statement.
 - Consolidate related implementation commits into one consumer-facing entry.
-- Never mention WIP, docs-only changes, Playground work, source references, release chores, or internal refactors without stable consumer impact.
+- Never mention WIP, docs-only changes, source references, release chores, or internal refactors without stable consumer impact.
 
 ## Present a Dry Run
 

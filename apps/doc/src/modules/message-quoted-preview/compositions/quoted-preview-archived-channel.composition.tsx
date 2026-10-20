@@ -27,7 +27,7 @@ import {
   MessageItemTime,
 } from "@botiverse/raft-ui";
 
-import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_EXAMPLE_HREFS } from "#/modules/message-item/message-item.fixtures.ts";
 import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";
 
 export function QuotedPreviewArchivedChannelComposition() {
@@ -50,7 +50,7 @@ export function QuotedPreviewArchivedChannelComposition() {
             variant="link"
             render={
               <a
-                href={MESSAGE_PLAYGROUND_URLS.stateModelTask}
+                href={MESSAGE_EXAMPLE_HREFS.stateModelTask}
                 aria-label="Open legacy migration message"
               />
             }
@@ -63,7 +63,7 @@ export function QuotedPreviewArchivedChannelComposition() {
           <MessageQuotedPreview
             render={
               <a
-                href={MESSAGE_PLAYGROUND_URLS.stateModelTask}
+                href={MESSAGE_EXAMPLE_HREFS.stateModelTask}
                 aria-label="Open quoted archived channel message"
               />
             }

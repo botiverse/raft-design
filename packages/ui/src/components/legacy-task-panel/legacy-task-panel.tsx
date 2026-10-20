@@ -14,7 +14,7 @@ import {
 import { legacyTaskPanel } from "./legacy-task-panel.recipe";
 
 export type LegacyTaskPanelRootProps = useRender.ComponentProps<"div"> & {
-  /** Docs preview chrome. Shell hosts (Playground) leave this off. */
+  /** Docs preview chrome. A host shell that draws its own frame leaves this off. */
   framed?: boolean;
 };
 

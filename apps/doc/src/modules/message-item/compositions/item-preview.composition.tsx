@@ -83,9 +83,9 @@ export function MessageMobileReactionAdd({
 // @docs-source-strip-end
 
 /**
- * Configurable authored row for the docs playground. Row chrome, the saved
- * indicator, and reactions are driven by controls; the toolbar follows its
- * real row hover and focus-within behavior.
+ * Configurable authored row. Row chrome, the saved indicator, and reactions
+ * are set by props; the toolbar follows its real row hover and focus-within
+ * behavior.
  */
 export function MessageItemPreview({
   chrome = "default",
@@ -102,8 +102,8 @@ export function MessageItemPreview({
   const [reaction, setReaction] = useState<string>();
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
   // @docs-source-strip-start
-  // Docs-playground plumbing: the controls panel is the source of truth, so
-  // re-sync local state on the render pass where a control prop changes.
+  // Prop plumbing: the props are the source of truth, so re-sync local state
+  // on the render pass where one of them changes.
   const [savedControl, setSavedControl] = useState(saved);
   if (saved !== savedControl) {
     setSavedControl(saved);

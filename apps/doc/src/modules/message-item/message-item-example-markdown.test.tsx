@@ -14,7 +14,7 @@ describe("MessageItemExampleMarkdown", () => {
 
     expect(markup.match(/data-slot="message-reference-label"/g)).toHaveLength(2);
     expect(markup).toContain('aria-label="Open joint channel #northstar-launch-handoff"');
-    expect(markup).toContain('href="/playground/s/raft/channel/partner-ops"');
+    expect(markup).toContain('href="#channel-northstar"');
   });
 
   it("renders Atlas with an explicit read state", () => {

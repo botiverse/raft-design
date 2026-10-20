@@ -5,7 +5,7 @@ import {
   MessageReferenceLabel,
 } from "@botiverse/raft-ui";
 
-import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_EXAMPLE_HREFS } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageReferenceAttachmentCommentComposition() {
   return (
@@ -15,7 +15,7 @@ export function MessageReferenceAttachmentCommentComposition() {
           variant="muted"
           render={
             <a
-              href={MESSAGE_PLAYGROUND_URLS.stateOwnershipAttachment}
+              href={MESSAGE_EXAMPLE_HREFS.stateOwnershipAttachment}
               title="Jump to the message with state-ownership-migration-notes.md · § Ownership boundary"
             />
           }

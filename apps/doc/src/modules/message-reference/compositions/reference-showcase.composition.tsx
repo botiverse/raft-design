@@ -1,6 +1,6 @@
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
-  MESSAGE_PLAYGROUND_URLS,
+  MESSAGE_EXAMPLE_HREFS,
 } from "#/modules/message-item/message-item.fixtures.ts";
 import {
   Avatar,
@@ -60,7 +60,7 @@ export function MessageReferenceShowcaseComposition() {
               <TaskChip
                 variant="inline"
                 status="todo"
-                render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+                render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}
               >
                 <TaskTodoIcon />
                 <span>#21</span>
@@ -70,7 +70,7 @@ export function MessageReferenceShowcaseComposition() {
               <TaskChip
                 variant="inline"
                 status="in-progress"
-                render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+                render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}
               >
                 <TaskInProgressIcon />
                 <span>#22</span>
@@ -86,7 +86,7 @@ export function MessageReferenceShowcaseComposition() {
               before posting the migration summary in the joint channel{" "}
               <MessageReferenceChip
                 variant="accent"
-                render={<a href={MESSAGE_PLAYGROUND_URLS.northstarJointChannel} />}
+                render={<a href={MESSAGE_EXAMPLE_HREFS.northstarJointChannel} />}
               >
                 <GitBranch />
                 <MessageReferenceLabel>northstar-launch-handoff</MessageReferenceLabel>
@@ -94,7 +94,7 @@ export function MessageReferenceShowcaseComposition() {
               {" and continuing the rollout in the "}
               <MessageReferenceChip
                 variant="accent"
-                render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelThread} />}
+                render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelThread} />}
               >
                 <MessagesSquare />
                 <MessageReferenceLabel>state-model</MessageReferenceLabel>
@@ -102,7 +102,7 @@ export function MessageReferenceShowcaseComposition() {
               {" thread or sending "}
               <MessageReferenceChip
                 variant="accent"
-                render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}
+                render={<a href={MESSAGE_EXAMPLE_HREFS.noahDm} />}
               >
                 <MessageSquareMore />
                 <MessageReferenceLabel>Noah Bennett</MessageReferenceLabel>
@@ -129,7 +129,7 @@ export function MessageReferenceShowcaseComposition() {
               variant="muted"
               render={
                 <a
-                  href={MESSAGE_PLAYGROUND_URLS.stateOwnershipAttachment}
+                  href={MESSAGE_EXAMPLE_HREFS.stateOwnershipAttachment}
                   title="Jump to state-ownership-migration-notes.md · § Ownership boundary"
                 />
               }

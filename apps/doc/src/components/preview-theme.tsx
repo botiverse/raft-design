@@ -110,9 +110,9 @@ export function usePreviewTheme() {
 
 /**
  * The mode actually applied to the page: a `system` selection resolves against
- * the OS preference. Anything that matches the current state against the fixed
- * light/dark options (the doc-section switcher, the playground picker) must go
- * through this — reading the raw `system` value would highlight neither option.
+ * the OS preference. Anything that needs the concrete light or dark value (an
+ * example canvas that follows the page) must go through this — the raw
+ * `system` value matches neither.
  */
 export function useResolvedPreviewMode(): "light" | "dark" {
   return usePreviewTheme().resolvedMode;

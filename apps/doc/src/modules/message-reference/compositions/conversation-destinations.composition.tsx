@@ -1,6 +1,6 @@
 import { GitBranch, Hash, Lock, MessageSquareMore } from "lucide-react";
 import { MessageReferenceChip, MessageReferenceLabel } from "@botiverse/raft-ui";
-import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_EXAMPLE_HREFS } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageReferenceConversationDestinationsComposition() {
   return (
@@ -10,7 +10,7 @@ export function MessageReferenceConversationDestinationsComposition() {
         {/* @docs-source-strip-end */}
         <MessageReferenceChip
           variant="accent"
-          render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
+          render={<a href={MESSAGE_EXAMPLE_HREFS.releaseNotesChannel} />}
         >
           <Hash />
           <MessageReferenceLabel>release-notes</MessageReferenceLabel>
@@ -22,7 +22,7 @@ export function MessageReferenceConversationDestinationsComposition() {
         {/* @docs-source-strip-end */}
         <MessageReferenceChip
           variant="accent"
-          render={<a href={MESSAGE_PLAYGROUND_URLS.hiringPrivateChannel} />}
+          render={<a href={MESSAGE_EXAMPLE_HREFS.hiringPrivateChannel} />}
         >
           <Lock />
           <MessageReferenceLabel>interview-debrief</MessageReferenceLabel>
@@ -34,7 +34,7 @@ export function MessageReferenceConversationDestinationsComposition() {
         {/* @docs-source-strip-end */}
         <MessageReferenceChip
           variant="accent"
-          render={<a href={MESSAGE_PLAYGROUND_URLS.northstarJointChannel} />}
+          render={<a href={MESSAGE_EXAMPLE_HREFS.northstarJointChannel} />}
         >
           <GitBranch />
           <MessageReferenceLabel>northstar-launch-handoff</MessageReferenceLabel>
@@ -44,7 +44,7 @@ export function MessageReferenceConversationDestinationsComposition() {
       </div>
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
-        <MessageReferenceChip variant="accent" render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}>
+        <MessageReferenceChip variant="accent" render={<a href={MESSAGE_EXAMPLE_HREFS.noahDm} />}>
           <MessageSquareMore />
           <MessageReferenceLabel>dm:@noah-bennett</MessageReferenceLabel>
         </MessageReferenceChip>

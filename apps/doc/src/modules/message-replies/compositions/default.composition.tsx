@@ -39,12 +39,7 @@ export function MessageRepliesDefaultComposition() {
           notification logic and the agent restart fix.
         </MessageItemBody>
         <MessageReplies
-          render={
-            <a
-              href="/playground/s/raft/channel/all?thread=all%3Ainvite-security"
-              aria-label="Open the invite security thread"
-            />
-          }
+          render={<a href="#thread-invite-security" aria-label="Open the invite security thread" />}
         >
           <MessageRepliesSummary>
             <MessageRepliesSummaryItem>4 replies</MessageRepliesSummaryItem>

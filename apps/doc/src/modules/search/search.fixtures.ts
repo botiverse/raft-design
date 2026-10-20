@@ -237,8 +237,7 @@ export const SEARCH_MESSAGE_FIXTURES: readonly SearchMessageFixture[] = [
     id: "message-release",
     channelId: "channel-release",
     senderId: "agent-patch",
-    content:
-      "Search preview checks are green; the composition is ready for the docs route and Playground wrapper.",
+    content: "Search preview checks are green; the composition is ready for the docs page.",
     createdAt: "2026-05-28T16:12:00.000Z",
     mentions: [],
     threadId: null,

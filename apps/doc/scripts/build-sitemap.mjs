@@ -14,8 +14,8 @@ const outDir = fileURLToPath(new URL("../dist/client", import.meta.url));
 
 /**
  * The site's sections in reading order (SECTIONS in src/lib/content/pages.ts,
- * then the changelog). The home page comes first; paths outside them, such as
- * the playground, come last.
+ * then the changelog). The home page comes first; any path outside them comes
+ * last.
  */
 const SECTION_ORDER = [
   "principles",

@@ -13,7 +13,7 @@ const EXAMPLES: ReadonlyArray<{ value: ActionCardKind; label: string }> = [
 
 /** One card you can walk through every state; resolved states fold, with the
  *  header toggle to open them again. */
-export function ActionCardPlaygroundComposition() {
+export function ActionCardInteractiveComposition() {
   const [kind, setKind] = useState<ActionCardKind>("channel");
   const [state, setState] = useState<ActionCardState>("pending");
   const handleKindChange = useCallback((value: unknown) => setKind(value as ActionCardKind), []);

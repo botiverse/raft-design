@@ -16,7 +16,7 @@ import {
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
-  MESSAGE_PLAYGROUND_URLS,
+  MESSAGE_EXAMPLE_HREFS,
 } from "#/modules/message-item/message-item.fixtures.ts";
 import { Forward } from "lucide-react";
 import {
@@ -60,7 +60,7 @@ export function ForwardedBundleThreadComposition() {
               <MessageForwardedBundleSource
                 render={
                   <a
-                    href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread}
+                    href={MESSAGE_EXAMPLE_HREFS.releaseNotesThread}
                     aria-label="Open source thread in release-notes"
                   />
                 }

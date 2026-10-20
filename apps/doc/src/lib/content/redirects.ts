@@ -32,10 +32,11 @@ const MOVED: Record<string, string> = {
   "/guides/adoption": `${SKILL_RULES}/adoption.md`,
   "/guides/lookup": `${SKILL_RULES}/lookup.md`,
   "/guides/technical-overview": `${SKILL_RULES}/technical-overview.md`,
-  // The dashboard example was dropped (§11, 8); the lab's pixel loader is an
-  // example on the Spinner page (§11, 7).
+  // The dashboard example and the Playground were dropped (§11, 8 and 10); the
+  // lab's pixel loader is an example on the Spinner page (§11, 7).
   "/dashboard": "/",
   "/lab": "/components/spinner",
+  "/playground": "/",
   // Component pages the old hand-written routes had under names that are not
   // a component folder.
   "/components/activity": "/components/activity-inbox",
@@ -59,6 +60,7 @@ const MOVED_TWINS: Record<string, string> = {
 const RETIRED_PREFIXES: readonly [prefix: string, target: string][] = [
   ["/tokens/", "/foundations"],
   ["/guides/", "/"],
+  ["/playground/", "/"],
 ];
 
 /** `/patterns/agents/`, `patterns/agents.md` → `/patterns/agents`. */
