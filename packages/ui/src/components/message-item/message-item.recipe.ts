@@ -2,6 +2,12 @@ import { searchHit } from "../../lib/search-hit";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 
+const sender = [
+  "min-w-0 shrink-0 truncate",
+  "text-subhead font-bold text-foreground",
+  "rounded-[2px] outline-none focus-visible:shadow-focus",
+];
+
 export const messageItem = tv({
   slots: {
     root: [
@@ -39,12 +45,13 @@ export const messageItem = tv({
     // and takes the time's place (the time fades out while it shows), so the
     // header keeps its full width.
     header: "mb-px flex min-w-0 items-center gap-1.5 overflow-hidden",
-    sender: [
-      "min-w-0 shrink-0 truncate",
-      "data-[slot=message-item-sender-button]:cursor-pointer",
-      "text-subhead font-bold text-foreground",
-      "data-[slot=message-item-sender-button]:hover:underline data-[slot=message-item-sender-button]:hover:decoration-[1.5px] data-[slot=message-item-sender-button]:hover:underline-offset-[3px]",
-      "rounded-[2px] outline-none focus-visible:shadow-focus",
+    sender,
+    // Its own slot, not a data-slot selector: a Tooltip trigger or another
+    // render wrapper replaces data-slot, and the hover underline went with it.
+    senderButton: [
+      ...sender,
+      "cursor-pointer",
+      "decoration-[1.5px] underline-offset-[3px] hover:underline",
     ],
     senderBadges: ["inline-flex shrink-0 items-center gap-1"],
     meta: ["min-w-0 truncate", "text-caption text-foreground-hint"],

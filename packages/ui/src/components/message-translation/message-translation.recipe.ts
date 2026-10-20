@@ -16,16 +16,14 @@ export const messageTranslation = tv({
     translationProgressTrack: ["h-1"],
     translationAction: [
       "inline-flex items-center gap-1",
-      "underline",
       "rounded-[2px] font-sans text-caption font-semibold text-foreground",
-      "decoration-[1.5px] underline-offset-[3px] hover:decoration-attention-500",
+      "decoration-[1.5px] underline-offset-[3px] hover:underline",
       "outline-none focus-visible:shadow-focus",
     ],
     translationRetryAction: [
       "inline-flex items-center gap-1",
-      "underline",
       "rounded-[2px] font-sans text-caption font-semibold text-foreground",
-      "decoration-[1.5px] underline-offset-[3px] hover:decoration-attention-500",
+      "decoration-[1.5px] underline-offset-[3px] hover:underline",
       "outline-none focus-visible:shadow-focus",
     ],
   },

@@ -56,12 +56,11 @@ export const messageReference = tv({
           "hover:press-overlay-sticker",
         ],
       },
-      // Someone else: an ink underline.
+      // Someone else: bold ink, underlined in ink on hover.
       secondary: {
         root: [
           "inline cursor-pointer font-bold text-foreground",
-          "underline decoration-foreground-hint decoration-[1.5px] underline-offset-[3px]",
-          "hover:decoration-foreground",
+          "decoration-foreground decoration-[1.5px] underline-offset-[3px] hover:underline",
         ],
       },
       // A place is pink, a thing in it cyan; one that cannot be opened is grey.

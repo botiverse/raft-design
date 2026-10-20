@@ -66,3 +66,69 @@ it("sits on the sentence's baseline", () => {
   const link = screen.getByTestId("link-baseline").getBoundingClientRect().top;
   expect(link).toBe(text);
 });
+
+// Clickable text underlines on hover and only on hover
+// (design/foundations/states.md#clickable-text); a disabled TextLink can't be
+// clicked, so hover changes nothing on it. A real CDP hover, so :hover applies.
+async function settled(read: () => string): Promise<string> {
+  let prev = "";
+  let next = read();
+  for (let i = 0; i < 40 && next !== prev; i += 1) {
+    prev = next;
+    await new Promise((r) => setTimeout(r, 50));
+    next = read();
+  }
+  return next;
+}
+
+for (const variant of ["muted", "strong"] as const) {
+  it(`${variant}: no underline at rest, an underline on hover`, async () => {
+    render(
+      <ThemeProvider>
+        <p className="m-0 p-4 text-footnote">
+          <TextLink data-testid="link" variant={variant}>
+            Log Out
+          </TextLink>
+        </p>
+      </ThemeProvider>,
+    );
+    const { page, userEvent } = await import("vite-plus/test/browser/context");
+    // The pointer may still rest where the last test hovered.
+    await userEvent.unhover(document.body);
+    const el = screen.getByTestId("link");
+    expect(getComputedStyle(el).textDecorationLine).toBe("none");
+    await page.getByTestId("link").hover();
+    expect(await settled(() => getComputedStyle(el).textDecorationLine)).toBe("underline");
+    // In its own colour: the underline follows the text, never pink.
+    const cs = getComputedStyle(el);
+    expect(cs.textDecorationColor).toBe(cs.color);
+  });
+}
+
+for (const variant of ["muted", "strong"] as const) {
+  it(`${variant} disabled: no underline and no colour change on hover`, async () => {
+    render(
+      <ThemeProvider>
+        <p className="m-0 p-4 text-footnote">
+          <TextLink data-testid="control">Forgot Password</TextLink>{" "}
+          <TextLink data-testid="disabled" variant={variant} disabled>
+            Log Out
+          </TextLink>
+        </p>
+      </ThemeProvider>,
+    );
+    const { page, userEvent } = await import("vite-plus/test/browser/context");
+    await userEvent.unhover(document.body);
+    // Positive control: the hover rule has landed in this run.
+    const control = screen.getByTestId("control");
+    await page.getByTestId("control").hover();
+    expect(await settled(() => getComputedStyle(control).textDecorationLine)).toBe("underline");
+
+    const disabled = screen.getByTestId("disabled");
+    const restColor = getComputedStyle(disabled).color;
+    await page.getByTestId("disabled").hover();
+    await new Promise((r) => setTimeout(r, 300));
+    expect(getComputedStyle(disabled).textDecorationLine).toBe("none");
+    expect(getComputedStyle(disabled).color).toBe(restColor);
+  });
+}

@@ -45,10 +45,10 @@ export function MessageItemSenderButton({
   render,
   ...props
 }: MessageItemSenderButtonProps) {
-  const { sender } = messageItem();
+  const { senderButton } = messageItem();
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
-    className: sender({ className }),
+    className: senderButton({ className }),
   };
 
   return useRender({
