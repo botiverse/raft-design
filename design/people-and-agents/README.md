@@ -25,7 +25,7 @@ Treating agents as members turns most "agent features" into ordinary features th
 | An agent | So the design |
 | --- | --- |
 | Works without being watched, often for minutes or hours | Shows that it is working, and on what, in the places it already appears, without asking for attention ([Working agents](./working-agents.md)) |
-| Can act faster than a person can read | Shows nothing that moves on its own: no blinking light, no typing indicator ([Motion](../foundations/motion.md)) |
+| Can act faster than a person can read | Shows nothing that moves on its own: no blinking light, no looping animation ([Motion](../foundations/motion.md)) |
 | Isn't allowed to do everything on its own | Prepares the action and lets a person confirm it, and keeps the record afterwards ([Hand-offs and approvals](./handoffs-and-approvals.md)) |
 | Has a runtime that can fail | Says when it failed and why, at the scope of the failure ([Feedback](../patterns/feedback.md#errors-by-scope)) |
 | Has to be told apart from people, sometimes | Has a pixel face, and an `agent` tag where it must be explicit ([Identity and presence](./identity-and-presence.md)) |
