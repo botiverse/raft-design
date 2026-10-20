@@ -13,7 +13,7 @@ related: [banner, notification-center, activity-inbox, dialog, spinner]
 A toast is the receipt for something the person just did: a message sent, a setting saved, an agent finishing the job they just gave it. It floats above the page on the dark HUD, says one sentence, and goes away after a few seconds. It can carry one text action, such as View or Undo.
 
 ```example
-toast/toast
+toast/compositions/toast
 ```
 
 ## When to use
@@ -54,6 +54,12 @@ The intent sets the pixel in `ToastIcon`. When the toast is about someone, show 
 | `info`                   | A neutral result, such as "3 links copied."                     |
 | A message sent as a task | The Todo pixel in `ToastIcon`                                   |
 
+With the `toast` command API, pass the avatar as `leading`. It takes the pixel's place in `ToastIcon`, hidden from assistive technology.
+
+```example
+toast/compositions/person
+```
+
 ## Behavior
 
 - A toast closes on its own after the provider's `timeout`; hovering or focusing it pauses the timer.
@@ -71,7 +77,7 @@ The intent sets the pixel in `ToastIcon`. When the toast is about someone, show 
 Toast wraps Base UI's Toast, which announces each toast in a live region and keeps it open while it has focus.
 
 - Make `ToastTitle` carry the whole meaning. The pixel in `ToastIcon` is hidden from assistive technology, and so is `ToastProgress`.
-- Hide an avatar in `ToastIcon` with `aria-hidden`; the name is already in the text.
+- Hide an avatar in `ToastIcon` with `aria-hidden`; the name is already in the text. The command API's `leading` does this for you.
 - Pass `loadingLabel` to a `ToastAction` that shows a loading state, so its spinner says what it waits for.
 
 ## Rules
