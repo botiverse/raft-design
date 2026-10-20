@@ -9,6 +9,7 @@ import { Input } from "./components/input";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./components/input-group";
 import { ListRow } from "./components/list-row";
 import { Textarea } from "./components/textarea";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./components/dialog";
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -217,4 +218,33 @@ it("focus moved by code after a click shows no ring, token or inset; after Tab i
   await userEvent.keyboard("{Tab}");
   await settle();
   expect(insetRinged(row), "row tabbed to").toBe(true);
+});
+
+it("Esc in a field inside a dialog opened with the mouse returns focus to the trigger with a ring", async () => {
+  // Kirby's case: the key edits in a text field but sends focus elsewhere, so
+  // the person is on the keyboard and must see where focus landed.
+  const userEvent = await context();
+  render(
+    <ThemeProvider>
+      <Dialog>
+        <DialogTrigger render={<Button data-testid="trigger">Rename</Button>} />
+        <DialogContent>
+          <DialogTitle>Rename</DialogTitle>
+          <Input data-testid="dialog-field" aria-label="New name" />
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+  const trigger = screen.getByTestId("trigger");
+  await userEvent.click(trigger);
+  const field = await screen.findByTestId("dialog-field");
+  await userEvent.click(field);
+  await userEvent.keyboard("abc");
+  await settle();
+  expect(ringed(field), "typing after a click").toBe(false);
+  await userEvent.keyboard("{Escape}");
+  await settle();
+  await settle();
+  expect(document.activeElement).toBe(trigger);
+  expect(ringed(trigger), "focus returned by Esc").toBe(true);
 });

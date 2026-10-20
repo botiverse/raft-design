@@ -84,7 +84,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
 - `mode` or `defaultMode` is `light`, `dark` or `system`; the default is `light`. `onModeChange` reports changes, and `storageKey` keeps an uncontrolled mode in `localStorage`.
 - `useTheme()` returns `mode`, `resolvedMode` (`light` or `dark`, with `system` resolved) and `setMode`.
 - A nested scope, such as a preview, uses `syncDom={false}` and puts the matching `light` or `dark` class on its own root. It leaves the root alone, including the modality.
-- An app without `ThemeProvider` calls `installInputModality()` once on the client (it returns a function that removes it). It sets `data-input-modality` on `document.documentElement` to `pointer` or `keyboard`; without it every focus ring shows on `:focus-visible`, as browsers decide.
+- An app without `ThemeProvider` calls `installInputModality()` once on the client (it returns a function that removes it). It sets `data-input-modality` on `document.documentElement` to `pointer`, `keyboard` or `virtual` once there is evidence (no value at first), and only `pointer` hides rings; without it every focus ring shows on `:focus-visible`, as browsers decide.
 - An app rendered on the server that keeps the mode has to restore it before the first paint, or the page flashes the other mode.
 
 Two more providers are needed only with their components: `TooltipProvider` for tooltips and `ToastProvider` for the toast API ([Toast](../../packages/ui/src/components/toast/toast.md)).

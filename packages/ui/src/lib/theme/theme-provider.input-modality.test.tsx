@@ -27,7 +27,8 @@ const modality = () => document.documentElement.getAttribute("data-input-modalit
 
 test("the app-level provider tracks the modality on the root, and stops when it unmounts", () => {
   const { unmount } = render(<ThemeProvider>app</ThemeProvider>);
-  expect(modality()).toBe("pointer");
+  // Unknown until there is evidence; a Tab proves the tracker is listening.
+  expect(modality()).toBeNull();
   document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "Tab", bubbles: true }));
   expect(modality()).toBe("keyboard");
   unmount();

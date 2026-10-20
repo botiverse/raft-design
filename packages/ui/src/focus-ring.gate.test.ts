@@ -71,7 +71,9 @@ test("styles.css empties --focus-ring only under the explicit pointer modality",
     expect(selector.startsWith(`:root${GATE}`), selector).toBe(true);
   }
   const block = STYLES.slice(STYLES.indexOf(gateSelectors.at(-1)!));
-  expect(block.slice(block.indexOf("{"), block.indexOf("}"))).toMatch(/--focus-ring:\s*0 0 #0000;/);
+  expect(block.slice(block.indexOf("{"), block.indexOf("}"))).toMatch(
+    /--focus-ring:\s*0 0 transparent;/,
+  );
 });
 
 test("with no modality attribute the ring is a real ring, in light and dark", () => {
