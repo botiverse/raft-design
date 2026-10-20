@@ -107,7 +107,7 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/card/card.recipe.ts": 7,
   "components/composer/composer-attachment.recipe.ts": 7,
   "components/files/files.recipe.ts": 7,
-  "components/inbox-item/inbox-item.recipe.ts": 14,
+  "components/inbox-item/inbox-item.recipe.ts": 13,
   "components/input-group/input-group.tsx": 7,
   "components/message-attachment/message-image-gallery.recipe.ts": 1,
   "components/message-item/message-item.recipe.ts": 4,
