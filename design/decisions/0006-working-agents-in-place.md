@@ -26,3 +26,4 @@ The live bar is split up and its parts go back where they belong: a summary line
 
 - [Working agents](../people-and-agents/working-agents.md#where-working-shows)
 - [Motion](../foundations/motion.md)
+- [0042](./0042-agents-typing-line.md): an agent writing a message shows one still line above the composer; it narrows "there is no typing indicator" to no animated one.
