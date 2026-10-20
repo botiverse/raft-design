@@ -64,8 +64,8 @@
   border-radius: 6px;
   background: var(--fill-muted);
   color: var(--foreground);
-  font-size: 13px;
-  line-height: 18px;
+  font-size: var(--text-footnote);
+  line-height: var(--text-footnote--line-height);
   font-weight: 600;
 }
 .r-combobox-select__control:not(:focus-within) .r-combobox-select__chip[data-overflow] {
@@ -172,8 +172,8 @@
   cursor: default;
   user-select: none;
   color: var(--foreground);
-  font-size: 14px;
-  line-height: 20px;
+  font-size: var(--text-callout);
+  line-height: var(--text-callout--line-height);
   font-weight: 500;
   outline: 0;
   transition:
@@ -215,22 +215,22 @@
 .r-combobox-select__group-label {
   padding: 8px 10px 4px;
   color: var(--foreground-hint);
-  font-size: 12px;
-  line-height: 16px;
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
   font-weight: 700;
 }
 .r-combobox-select__message {
   padding: 14px 16px;
   color: var(--foreground-hint);
-  font-size: 14px;
-  line-height: 20px;
+  font-size: var(--text-callout);
+  line-height: var(--text-callout--line-height);
   text-align: start;
 }
 .r-combobox-select__overflow {
   color: var(--foreground-hint);
   font-family: var(--mono-font, ui-monospace, monospace);
-  font-size: 12px;
-  line-height: 16px;
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
 }
 .r-combobox-select__spinner {
   width: 0.875rem;
@@ -239,8 +239,8 @@
 }
 .r-combobox-select--sm.r-combobox-select__control {
   min-height: 1.75rem;
-  font-size: 13px;
-  line-height: 18px;
+  font-size: var(--text-control);
+  line-height: var(--text-control--line-height);
 }
 .r-combobox-select--sm .r-combobox-select__chips {
   min-height: 1.5rem;

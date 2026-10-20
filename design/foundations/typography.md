@@ -15,7 +15,7 @@ Raft uses two typefaces with separate jobs: Space Grotesk for what people say, S
 
 ## Type scale
 
-Each style sets a size and a line height; the bold styles also set their weight. The working styles have two sizes: a phone's, below 768px, and a desktop's, from 768px, where the desktop layout begins ([Responsive layout](../patterns/responsive.md)). The utility is the same on both, so a component never states a breakpoint for its type.
+Each style sets a size and a line height; the bold styles also set their weight. The working styles have two sizes: a phone's, and a desktop's, from 768px (where the desktop layout begins, [Responsive layout](../patterns/responsive.md)) when the main pointer is a mouse or a trackpad. A touch screen keeps the phone's sizes at any width ([Spacing](./spacing.md#hit-targets) says why). The utility is the same on both, so a component never states a breakpoint for its type.
 
 | Token | Phone | Desktop | Use for |
 | --- | --- | --- | --- |
@@ -39,6 +39,7 @@ Field text and card titles have their own tokens, with the same two sizes ([Metr
 
 The desktop scale is Feishu's (Lark's) for PC: 16/24 for titles, 14/22 for everything people read, 12px for notes. The phone scale is Feishu's for mobile, where message text is 16/24 as well. People compare Raft with the chat tools they use all day, and on a desktop those set message text at 14px.
 
+- **A desktop is a wide screen with a mouse or a trackpad.** The sizes switch on `(width >= 48rem) and (pointer: fine)`, the same query as the control heights, so a field's text and its height change together. A tablet used by touch keeps the phone's sizes: 16px field text stops iOS and iPadOS from zooming into a field on focus.
 - **A desktop is read from further away, with more on screen.** A conversation sits beside a sidebar and often a thread, so a line of text holds more words and a screen more messages at 14px. On a phone the screen is closer and one column fills it; 16px reads at the same apparent size.
 - **Judge a size with Chinese, not only with Latin.** Chinese falls back to the system face, whose glyphs fill the em box: at 16px a line of Chinese reads larger than the same line in Space Grotesk, whose lowercase is about half its size. Check a change with a Chinese conversation open as well as an English one.
 - **Body, subhead and callout share 14/22 on a desktop.** Feishu has no 13px or 15px step, and the scale doesn't need one: a name, a message and a preview differ there by weight and color, and a size step on top would make the three differences [Color tiers](#notes-on-deeper-surfaces) rules out. On a phone they stay a step apart.
@@ -114,7 +115,7 @@ Text has three tiers. The tokens and their contrast are in [Color](./color.md#te
 
 ## Metric tokens
 
-A field and a card title each have tokens for their type metrics, so that the parts laid out with them use the same values. Like the scale, each has a phone value and a desktop value, from 768px.
+A field and a card title each have tokens for their type metrics, so that the parts laid out with them use the same values. Like the scale, each has a phone value and a desktop value, under the same query.
 
 ```tokens
 field

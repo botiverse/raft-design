@@ -76,7 +76,8 @@
   /* Raft Design System type styles (size / line-height / weight). Grotesk is
      what people say; pair the mono styles with `font-mono` for what machines
      write (ids, times, counts, events, code). These are the phone values; the
-     desktop block below the theme sets the working sizes again from 768px. */
+     desktop block below the theme sets the working sizes again on a desktop
+     (from 768px with a mouse or trackpad). */
   --text-hero: 40px;
   --text-hero--line-height: 44px;
   --text-hero--font-weight: 700;
@@ -129,16 +130,19 @@
   --color-brutal-cream: var(--palette-cream-200);
 }
 
-/* Desktop type, from 768px (Tailwind's `md`, where the desktop layout begins):
-   Feishu's PC scale, 14/22 for reading, 12px for notes (on an 18px line, see
-   typography.md), 16/24 for titles. A phone keeps the theme's values,
-   Feishu's mobile scale. The type utilities read these variables
-   (`font-size: var(--text-body)`), so every component follows without a
-   breakpoint of its own. In the theme layer, after the theme's own `:root`,
-   so an app's later theme still wins. Hero, display, title and label stay as
-   they are: setup pages and the phone tab bar. */
+/* Desktop type: from 768px (Tailwind's `md`, where the desktop layout begins)
+   with a mouse or trackpad, the same query as the desktop metrics in
+   foundation.css. Feishu's PC scale, 14/22 for reading, 12px for notes (on an
+   18px line, see typography.md), 16/24 for titles. A phone, and a touch
+   screen at any width, keep the theme's values, Feishu's mobile scale. The
+   type utilities read these variables (`font-size: var(--text-body)`), so
+   every component follows without a breakpoint of its own. This block comes
+   after Tailwind's theme output, so it also wins over an app's own `@theme`
+   values for these names: an app that changes one sets it inside this query
+   as well. Hero, display, title and label stay as they are: setup pages and
+   the phone tab bar. */
 @layer theme {
-  @media (width >= 48rem) {
+  @media (width >= 48rem) and (pointer: fine) {
     :root,
     :host {
       --text-headline: 16px;
@@ -348,10 +352,10 @@
   --text-card-title--line-height: var(--card-title-line-height);
   --font-weight-card-title: var(--card-title-font-weight);
   /* ─── Control metric axis ───────────────────────────────────────────────────
-     The height of a default control: 44px on a phone, 32px from 768px, where
-     the desktop layout begins (Feishu's PC default). The tokens switch in
-     foundation.css, so a recipe writes `h-control` / `size-control` and never
-     a breakpoint. A button at this height keeps a 44px hit area with
+     The height of a default control: 44px on a phone and on a touch screen,
+     32px from 768px with a mouse or trackpad (Feishu's PC default). The
+     tokens switch in foundation.css, so a recipe writes `h-control` /
+     `size-control` and never a breakpoint. A button at this height keeps a 44px hit area with
      `after:-inset-y-control-hit`, which is 0 on a phone.
 
      Consumers: `Input`, `InputGroup`, `SelectTrigger`,

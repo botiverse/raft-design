@@ -48,8 +48,8 @@ function Value({ row, value, mode }: { row: TokenRow; value: TokenValue; mode: "
 
 /**
  * A `tokens` block: a group from packages/ui/src/tokens.json with its light
- * and dark values, and its desktop value when it has one (from 768px; the
- * light value is then the phone's). Prose never repeats a value; this table is where readers
+ * and dark values, and its desktop value when it has one (from 768px with a
+ * fine pointer; the light value is then the phone's). Prose never repeats a value; this table is where readers
  * see it.
  */
 export function TokensBlock({ group }: { group: string }) {

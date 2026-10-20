@@ -35,7 +35,7 @@ export type TokenRow = {
   type: string;
   light: TokenValue;
   dark: TokenValue;
-  /** The value from 768px, where the desktop layout begins; `light` is then the phone's. */
+  /** The value from 768px with a fine pointer (a desktop); `light` is then the phone's. */
   desktop?: TokenValue;
   description?: string;
 };

@@ -32,7 +32,7 @@ The full choice between pickers is in [Choosing a component](../../../../../desi
 - `Combobox`: the root. Holds the value, the typed text and the open state. Required.
 - What opens the list, one of:
   - `ComboboxTrigger`: the filter button, with an icon, a label, `ComboboxTriggerCount` and `ComboboxTriggerIndicator`;
-  - `ComboboxControl`: a field at the control height (44px on a phone, 32px from 768px) with an ink border, holding `ComboboxInput`, `ComboboxClear` and `ComboboxTriggerIndicator`;
+  - `ComboboxControl`: a field at the control height (44px on a phone, 32px on a desktop) with an ink border, holding `ComboboxInput`, `ComboboxClear` and `ComboboxTriggerIndicator`;
   - `ComboboxChips`: a field at least the control height, holding one `ComboboxChip` per chosen value, each with a `ComboboxChipRemove`, then `ComboboxInput`.
 - `ComboboxContent`: the popup. Required.
 - `ComboboxHeader`: the popup's top row, with `ComboboxLabel` and a `ComboboxClear`. `ComboboxSeparator` is the hairline under it.

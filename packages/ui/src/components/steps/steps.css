@@ -20,9 +20,10 @@
   --r-steps-indicator-size: 20px;
   --r-steps-indicator-font-size: 12px;
   --r-steps-icon-size: 14px;
-  --r-steps-title-font-size: 13px;
-  --r-steps-description-font-size: 12px;
-  --r-steps-line-height: calc(18 / 13);
+  /* The type scale's footnote and caption, so a desktop gets its sizes too. */
+  --r-steps-title-font-size: var(--text-footnote);
+  --r-steps-description-font-size: var(--text-caption);
+  --r-steps-line-height: var(--text-footnote--line-height);
   --r-steps-gap: 8px;
   --r-steps-connector-gap: 8px;
   --r-steps-connector-min-width: 16px;
@@ -180,10 +181,7 @@
 /* The title's first line is centered on the marker. */
 .r-step__content {
   min-width: 0;
-  padding-top: calc(
-    (var(--r-steps-indicator-size) - var(--r-steps-title-font-size) * var(--r-steps-line-height)) /
-      2
-  );
+  padding-top: calc((var(--r-steps-indicator-size) - var(--r-steps-line-height)) / 2);
 }
 
 .r-step__title {
@@ -199,6 +197,7 @@
 .r-step__description {
   color: var(--r-step-description-color);
   font-size: var(--r-steps-description-font-size);
+  line-height: var(--text-caption--line-height);
   margin-top: 2px;
 }
 

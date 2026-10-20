@@ -48,7 +48,7 @@ Fingers are less precise than a pointer, and a target people miss feels broken.
 - Make every touch target at least 44px in both directions ([Spacing](./spacing.md#hit-targets)).
 - Reach 44px with the hit area, not the drawing. A 32px [Button](../../packages/ui/src/components/button/button.md) and a 20px [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) extend a transparent `::after` to 44px, so the layout stays compact and the target stays large.
 - Don't extend inline links and reference chips in running text: they follow the line of text.
-- Desktop controls used only with a pointer may be smaller: sidebar rows and menu items 36px, rail items 40px, the hover toolbar 32px, and from 768px a default control, such as a field, 32px ([Spacing](./spacing.md#heights)).
+- Desktop controls used only with a pointer may be smaller: sidebar rows and menu items 36px, rail items 40px, the hover toolbar 32px, and on a desktop (from 768px with a mouse or trackpad) a default control, such as a field, 32px. A touch screen keeps 44px at any width ([Spacing](./spacing.md#heights)).
 - [ToggleGroup](../../packages/ui/src/components/toggle-group/toggle-group.md) items are 32px and don't extend their hit area. Don't use a toggle group on a touch screen until they do.
 
 ## Motion

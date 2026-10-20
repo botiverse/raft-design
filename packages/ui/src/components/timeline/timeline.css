@@ -14,10 +14,11 @@
 
 .r-timeline {
   --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 9px);
-  --r-timeline-title-font-size: 14px;
-  --r-timeline-content-font-size: 12px;
-  --r-timeline-time-font-size: 12px;
-  --r-timeline-line-height: 20px;
+  /* The type scale's callout and mono meta, so a desktop gets its sizes too. */
+  --r-timeline-title-font-size: var(--text-callout);
+  --r-timeline-content-font-size: var(--text-mono-meta);
+  --r-timeline-time-font-size: var(--text-mono-meta);
+  --r-timeline-line-height: var(--text-callout--line-height);
   --r-timeline-item-inner-gap: 2px;
   --r-timeline-title-font-family: var(--font-sans);
   --r-timeline-title-font-weight: 400;
@@ -32,7 +33,7 @@
   --r-timeline-marker-fill: 100%;
   --r-timeline-marker-border-color: var(--sticker-ink);
   /* How far each marker sits below the item's top, to center on the title's first line. */
-  --r-timeline-axis-offset: calc((20px - var(--r-timeline-icon-size)) / 2);
+  --r-timeline-axis-offset: calc((var(--r-timeline-line-height) - var(--r-timeline-icon-size)) / 2);
 
   &.r-timeline--lg {
     --r-timeline-title-font-size: 16px;
@@ -189,7 +190,7 @@
   color: var(--foreground-hint);
   font-family: var(--font-mono);
   font-size: var(--r-timeline-content-font-size);
-  line-height: 16px;
+  line-height: var(--text-mono-meta--line-height);
   overflow-wrap: anywhere;
 }
 

@@ -41,7 +41,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 | Field | Meaning |
 | --- | --- |
 | `modes.dark` | The dark-mode value. A token without it has the same value in both modes |
-| `desktop` | The value from 768px, where the desktop layout begins; the token's own value is then the phone's. Used by metric tokens such as `field-font-size` |
+| `desktop` | The value on a desktop: from 768px, where the desktop layout begins, with a mouse or trackpad ([Spacing](./spacing.md#hit-targets)); the token's own value is then the phone's and a touch screen's. Used by metric tokens such as `field-font-size` |
 | `scope: "root"` | A value that doesn't change with the mode, such as the palette: declared once on `:root` |
 | `scope: "every-mode"` | An alias of a token that changes with the mode: declared again in each mode scope, so it resolves against that mode's value |
 | `css: true` | A value kept as a CSS expression that the format has no type for: `color-mix()`, a shadow with several layers |
@@ -54,7 +54,7 @@ The generated file has, in order:
 3. dark mode, on `.dark`;
 4. dark mode again under `@media (prefers-color-scheme: dark)` for a root without `.light` or `.dark`, so the page has the right colors before the app sets a class;
 5. the aliases declared in every mode, then the deprecated names;
-6. the desktop values, under `@media (width >= 48rem)`, on the same selectors as the values they replace.
+6. the desktop values, under `@media (width >= 48rem) and (pointer: fine)` (the query of the desktop type in `styles.css` too), on the same selectors as the values they replace.
 
 A `.light` element inside a dark page is a light island, for a preview or a portal; the `dark:` variant in `styles.css` follows the nearest mode class. See [Dark mode](./dark-mode.md).
 

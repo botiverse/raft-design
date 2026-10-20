@@ -10,7 +10,7 @@ related: [input, field, composer]
 
 # Textarea
 
-A textarea takes several lines of text in a form: a description, a note, instructions for an agent. It has the same ink border and states as an [Input](../input/input.md), is at least three lines of field text high (96px on a phone, 90px from 768px), and people can drag it taller.
+A textarea takes several lines of text in a form: a description, a note, instructions for an agent. It has the same ink border and states as an [Input](../input/input.md), is at least three lines of field text high (96px on a phone, 90px on a desktop), and people can drag it taller.
 
 ```example
 textarea/compositions/with-field

@@ -7,7 +7,7 @@
 //
 // tokens.json follows the Design Tokens Community Group format (2025.10). Its
 // extension "build.botiverse.raft" carries what the format has no field for:
-// `modes.dark` (the dark value), `desktop` (the value from 768px, where the
+// `modes.dark` (the dark value), `desktop` (the value from 768px with a fine pointer, where the
 // desktop layout begins; the token's own value is the phone's), `scope`
 // ("root" for mode-independent values, "every-mode" for aliases declared again
 // in each mode scope) and `css` (a value kept as a CSS expression, such as
@@ -199,9 +199,11 @@ function renderDesktop(rootLines, lightLines) {
   const scope = (selector, lines) =>
     lines.length === 0 ? [] : [`  ${selector} {`, ...lines.map((line) => fit(line, "    ")), "  }"];
   return `
-/* Desktop, from 768px (Tailwind's \`md\`, where the desktop layout begins): the
-   metrics that follow Feishu's PC specs. A phone keeps the values above. */
-@media (width >= 48rem) {
+/* Desktop: from 768px (Tailwind's \`md\`, where the desktop layout begins)
+   with a mouse or trackpad. The metrics that follow Feishu's PC specs. A
+   phone, and a touch screen at any width, keep the values above. The same
+   query as the desktop type in styles.css. */
+@media (width >= 48rem) and (pointer: fine) {
 ${[...scope(":where(:root)", rootLines), ...scope(":where(:root),\n  .light", lightLines)].join("\n")}
 }
 `;

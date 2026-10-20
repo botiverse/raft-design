@@ -5,6 +5,8 @@ import { fileURLToPath } from "node:url";
 import { compile } from "tailwindcss";
 import { expect, test } from "vite-plus/test";
 
+const DESKTOP_MEDIA = "@media (width >= 48rem) and (pointer: fine)";
+
 // The type scale has a phone value and a desktop value (Feishu's mobile and PC
 // specs). The desktop one is set again from 768px in the token layer, so it
 // only reaches components if the utilities read the variables rather than
@@ -76,7 +78,7 @@ const without = (css: string, part: string | null) => (part ? css.replace(part, 
 
 test("the theme keeps the phone scale", async () => {
   const css = await build(Object.keys(PHONE).map((name) => `text-${name}`));
-  const desktop = block(css, "@media (width >= 48rem)", "--text-body:");
+  const desktop = block(css, DESKTOP_MEDIA, "--text-body:");
   const phone = without(css, desktop);
   for (const [name, [size, line]] of Object.entries(PHONE)) {
     expect(declared(phone, `--text-${name}`), name).toBe(size);
@@ -86,7 +88,7 @@ test("the theme keeps the phone scale", async () => {
 
 test("from 768px the scale is Feishu's PC scale", async () => {
   const css = await build(Object.keys(DESKTOP).map((name) => `text-${name}`));
-  const desktop = block(css, "@media (width >= 48rem)", "--text-body:");
+  const desktop = block(css, DESKTOP_MEDIA, "--text-body:");
   expect(desktop).not.toBeNull();
   for (const [name, [size, line]] of Object.entries(DESKTOP)) {
     expect(declared(desktop!, `--text-${name}`), name).toBe(size);
@@ -103,7 +105,7 @@ test("the type utilities read the variables, so the desktop values reach them", 
 });
 
 test("field and card-title text take the desktop size from 768px, on light islands too", () => {
-  const desktop = block(foundation, "@media (width >= 48rem)");
+  const desktop = block(foundation, DESKTOP_MEDIA);
   expect(desktop).not.toBeNull();
   expect(desktop).toMatch(/:where\(:root\),\s*\.light\s*\{/);
   expect(declared(desktop!, "--field-font-size")).toBe("14px");
@@ -115,4 +117,15 @@ test("field and card-title text take the desktop size from 768px, on light islan
   expect(declared(phone, "--field-font-size")).toBe("16px");
   expect(declared(phone, "--field-line-height")).toBe("24px");
   expect(declared(phone, "--card-title-font-size")).toBe("16px");
+});
+
+test("the desktop type and the desktop metrics switch on the same query", () => {
+  // styles.css sets the type scale and foundation.css (from tokens.json) the
+  // field, card-title and control metrics; if their queries drifted, a field's
+  // text and its height would switch at different points.
+  const queries = (css: string) =>
+    [...css.matchAll(/@media ([^{]+)\{/g)].map((match) => match[1]!.trim());
+  const desktopQueries = (css: string) => queries(css).filter((query) => query.includes("48rem"));
+  expect(desktopQueries(styles)).toEqual([DESKTOP_MEDIA.replace("@media ", "")]);
+  expect(desktopQueries(foundation)).toEqual([DESKTOP_MEDIA.replace("@media ", "")]);
 });

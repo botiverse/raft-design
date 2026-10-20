@@ -640,9 +640,11 @@
   --secondary-950: var(--palette-stone-950);
 }
 
-/* Desktop, from 768px (Tailwind's `md`, where the desktop layout begins): the
-   metrics that follow Feishu's PC specs. A phone keeps the values above. */
-@media (width >= 48rem) {
+/* Desktop: from 768px (Tailwind's `md`, where the desktop layout begins)
+   with a mouse or trackpad. The metrics that follow Feishu's PC specs. A
+   phone, and a touch screen at any width, keep the values above. The same
+   query as the desktop type in styles.css. */
+@media (width >= 48rem) and (pointer: fine) {
   :where(:root),
   .light {
     --field-font-size: 14px;

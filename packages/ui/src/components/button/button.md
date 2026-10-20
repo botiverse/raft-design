@@ -65,23 +65,23 @@ Every button is flat: the ink border or the sticker marks it as a control, never
 
 ### Sizes
 
-Size follows the purpose. The same purpose has the same size everywhere, and there are no other sizes. `lg`, `icon-lg` and `xl` take the control height ([Spacing](../../../../../design/foundations/spacing.md#heights)): a finger's size on a phone and Feishu's PC sizes from 768px. From 768px `lg` is as tall as `md`, with its wider padding and its `text-subhead` label.
+Size follows the purpose. The same purpose has the same size everywhere, and there are no other sizes. `lg`, `icon-lg` and `xl` take the control height ([Spacing](../../../../../design/foundations/spacing.md#heights)): a finger's size on a phone and a touch screen, and Feishu's PC sizes on a desktop (from 768px with a mouse or trackpad). On a desktop `lg` is as tall as `md`, with its wider padding and its `text-subhead` label. Still pick `lg` by purpose, as the table says: the same code runs on a phone, where `lg` is the finger-sized button the purpose needs, and on a desktop it costs nothing in height.
 
-| Size                  | Height                                           | Use for                                                                                                                                                 |
-| --------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `size="lg"`           | 44px on a phone; 32px, 44px hit area, from 768px | Dialog and drawer footers, form submit buttons, a full-width column of actions at the bottom of a panel (Remove Member, Leave Channel, Archive Channel) |
-| `size="md"` (default) | 32px, 44px hit area                              | Actions in list rows, cards, banners, toolbars and panel headers                                                                                        |
-| `size="xl"`           | 52px on a phone, 40px from 768px                 | Only the full-width pink button across a sign-in, sign-up or setup form                                                                                 |
+| Size                  | Height                                             | Use for                                                                                                                                                 |
+| --------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `size="lg"`           | 44px on a phone; 32px, 44px hit area, on a desktop | Dialog and drawer footers, form submit buttons, a full-width column of actions at the bottom of a panel (Remove Member, Leave Channel, Archive Channel) |
+| `size="md"` (default) | 32px, 44px hit area                                | Actions in list rows, cards, banners, toolbars and panel headers                                                                                        |
+| `size="xl"`           | 52px on a phone, 40px on a desktop                 | Only the full-width pink button across a sign-in, sign-up or setup form                                                                                 |
 
 ### Icon buttons
 
-| Where                                                                   | Props                               | Size and icon                                                         |
-| ----------------------------------------------------------------------- | ----------------------------------- | --------------------------------------------------------------------- |
-| A phone top bar, or beside a field                                      | `variant="ghost" size="icon-lg"`    | 44px, 22px icon on a phone; 32px, 18px icon, 44px hit area from 768px |
-| A desktop panel header, composer tools, copy in cards and command lines | `variant="ghost" size="icon-md"`    | 32px, 18px icon, 44px hit area                                        |
-| A tool that stands alone in content                                     | `variant="default"` at an icon size | Ink border on `layer-card`                                            |
-| Send                                                                    | `variant="primary"` at an icon size | A pink sticker                                                        |
-| The rail, the web top bar, the desktop title bar                        | `variant="on-frame" size="icon-md"` | 36px, 20px icon                                                       |
+| Where                                                                   | Props                               | Size and icon                                                           |
+| ----------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------- |
+| A phone top bar, or beside a field                                      | `variant="ghost" size="icon-lg"`    | 44px, 22px icon on a phone; 32px, 18px icon, 44px hit area on a desktop |
+| A desktop panel header, composer tools, copy in cards and command lines | `variant="ghost" size="icon-md"`    | 32px, 18px icon, 44px hit area                                          |
+| A tool that stands alone in content                                     | `variant="default"` at an icon size | Ink border on `layer-card`                                              |
+| Send                                                                    | `variant="primary"` at an icon size | A pink sticker                                                          |
+| The rail, the web top bar, the desktop title bar                        | `variant="on-frame" size="icon-md"` | 36px, 20px icon                                                         |
 
 - Make an icon button next to an input (copy a link, remove a row) the input's height: `size="icon-lg"`, which follows the field's height on a phone and on a desktop.
 - Put several icon buttons in a panel header inside `PanelActions` ([Panel](../panel/panel.md)), which aligns them to the end and spaces them.

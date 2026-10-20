@@ -21,7 +21,7 @@ Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon in
 | 36px | Empty states |
 | 22px | Top bars, the tab bar, icon buttons at `icon-lg` on a phone (44px) |
 | 20px | The rail, list rows, banners, rows in a sheet |
-| 18px | Inside buttons, 32px icon buttons (`icon-md`, and `icon-lg` from 768px), channel tiles |
+| 18px | Inside buttons, 32px icon buttons (`icon-md`, and `icon-lg` on a desktop), channel tiles |
 | 16px | Small buttons, the message hover toolbar, segmented controls, menus, tabs |
 | 14px | Chips, reference chips, filters, value chips |
 | 11px to 12px | Small channel tiles, event lines, badges, the arrow inside a status chip |

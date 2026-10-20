@@ -3,6 +3,8 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "vite-plus/test";
+
+const DESKTOP_MEDIA = "@media (width >= 48rem) and (pointer: fine)";
 import { cn } from "./lib/cn";
 
 // A default control is 44px on a phone, for a finger, and Feishu's 32px from
@@ -27,7 +29,7 @@ const DESKTOP = {
   "--control-hit-inset": "6px",
 };
 
-const desktopStart = foundation.indexOf("@media (width >= 48rem)");
+const desktopStart = foundation.indexOf(DESKTOP_MEDIA);
 const phone = foundation.slice(0, desktopStart);
 const desktop = foundation.slice(desktopStart);
 
