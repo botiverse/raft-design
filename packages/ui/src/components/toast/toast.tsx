@@ -244,6 +244,7 @@ export type ToastData = {
   hasIcon?: boolean;
   hasProgress?: boolean;
   contentClassName?: string;
+  leading?: ReactNode;
 };
 export type ToastObject<Data extends object = object> = BaseToast.Root.ToastObject<Data>;
 
@@ -257,7 +258,15 @@ type ToastCommandOptions<Data extends object = ToastData> = Omit<
   };
   contentClassName?: string;
   dismissible?: boolean;
+  /** Show the status pixel for the intent in `ToastIcon`. Defaults to `true`. */
   icon?: boolean;
+  /**
+   * Replaces the status pixel in `ToastIcon` with this node, such as an xs
+   * `Avatar` for the person or agent the toast is about. Rendered
+   * hidden from assistive technology: the title must already carry the name.
+   * Shown even when `icon` is `false`.
+   */
+  leading?: ReactNode;
   progress?: boolean;
 };
 
@@ -268,8 +277,16 @@ function addDefaultToast(
   title: string,
   options: ToastCommandOptions<ToastData> = {},
 ) {
-  const { action, contentClassName, dismissible, icon, priority, progress, ...toastOptions } =
-    options;
+  const {
+    action,
+    contentClassName,
+    dismissible,
+    icon,
+    leading,
+    priority,
+    progress,
+    ...toastOptions
+  } = options;
 
   return defaultToastManager.add({
     ...toastOptions,
@@ -288,6 +305,7 @@ function addDefaultToast(
       hasClose: dismissible,
       hasIcon: icon,
       hasProgress: progress,
+      leading,
     },
   });
 }
@@ -712,7 +730,7 @@ function DefaultToastItem({
   const showDescription = Boolean(toastObject.description);
   const showAction = Boolean(toastObject.actionProps?.children);
   const showClose = toastObject.data?.hasClose !== false;
-  const showIcon = toastObject.data?.hasIcon !== false;
+  const showIcon = hasLeading(toastObject) || toastObject.data?.hasIcon !== false;
   const progressDuration = toastObject.timeout ?? timeout;
   const showProgress =
     toastObject.data?.hasProgress === true &&
@@ -749,7 +767,16 @@ const TOAST_PIXEL = {
   error: "warning",
 } as const satisfies Record<ToastIntent, StatusProps["variant"]>;
 
+function hasLeading(toastObject: ToastObject<ToastData>) {
+  const leading = toastObject.data?.leading;
+  return leading !== undefined && leading !== null && leading !== false;
+}
+
 function DefaultToastIcon({ toast: toastObject }: { toast: ToastObject<ToastData> }) {
+  if (hasLeading(toastObject)) {
+    return <ToastIcon aria-hidden>{toastObject.data?.leading}</ToastIcon>;
+  }
+
   const intent = toastObject.data?.intent ?? getToastTone(toastObject.type);
 
   return (
