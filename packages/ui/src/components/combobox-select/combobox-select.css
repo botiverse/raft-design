@@ -336,7 +336,7 @@
 /* The phone's bottom sheet: the field's label as its title, the search input
    at its top, then the whole list, scrolling in the rest of the sheet. */
 .r-combobox-select__sheet-popup {
-  height: 82vh;
+  height: 82dvh;
 }
 .r-combobox-select__sheet {
   display: flex;
