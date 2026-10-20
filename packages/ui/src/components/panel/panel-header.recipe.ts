@@ -21,9 +21,13 @@ export const panelHeadEdges = [
 /**
  * A head's trailing actions. The last glyph ends on the head's edge: 20px on
  * desktop (12px of padding, 1px here, the 32px button's 7px glyph inset); on
- * a phone 14px in (44px buttons, 11px inset), mirroring a leading Back.
+ * a phone 14px in (44px buttons, 11px inset), mirroring a leading Back. The
+ * margin and gap follow the button's size, not the layout: a touch screen
+ * from 768px has the desktop head with 44px buttons, so -3px puts its last
+ * glyph on 20px too.
  */
-export const panelHeadActions = "flex shrink-0 items-center gap-0.5 mr-[-3px] md:mr-px md:gap-1";
+export const panelHeadActions =
+  "flex shrink-0 items-center gap-0.5 mr-[-3px] md:pointer-fine:mr-px md:pointer-fine:gap-1";
 
 /**
  * `header` and `sectionHeader` share one bar, expressed through

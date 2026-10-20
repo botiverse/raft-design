@@ -22,7 +22,8 @@ import {
 
 // On a touch screen (`pointer: coarse`) every action in the row keeps a 44px
 // target at any width, and two targets don't overlap. A phone-width viewport
-// is where it matters: there the panel action's own `md:` overhang is off.
+// is where it matters: there the panel action's own overhang, a desktop's, is
+// off.
 // Measured in a real browser with touch emulated through CDP; jsdom has no
 // media queries or layout.
 
@@ -174,7 +175,15 @@ it("leaves a mouse at phone width as it was: 32px buttons, no overhang", async (
   expect(matchMedia("(pointer: coarse)").matches).toBe(false);
   const { save, done } = renderRow();
   for (const action of [save, done]) {
-    expect(getComputedStyle(action, "::after").position).not.toBe("absolute");
+    const after = getComputedStyle(action, "::after");
+    if (after.position === "absolute") {
+      expect([after.top, after.right, after.bottom, after.left]).toEqual([
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+      ]);
+    }
     expect(action.getBoundingClientRect().height).toBe(32);
   }
   expect(done.getBoundingClientRect().left - save.getBoundingClientRect().right).toBe(2);

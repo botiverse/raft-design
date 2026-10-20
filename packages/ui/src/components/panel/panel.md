@@ -98,7 +98,7 @@ The structure of a phone's top bars (the large title of a top-level page, Back a
 ## Rules
 
 - Use this header in every panel: conversation, thread, side panel and drawer. Don't give one panel its own header or button sizes.
-- Use `PanelAction` for the header's icon buttons: 32px with an 18px icon and a 44px hit area on desktop, 4px apart, the last icon box ending on the 20px edge; 44px with a 22px icon on a phone. A 44px button next to a 17px title looks heavy on desktop; a phone keeps 44px for the thumb.
+- Use `PanelAction` for the header's icon buttons: 32px with an 18px icon and a 44px hit area on desktop (from 768px with a mouse or trackpad), 4px apart, the last icon box ending on the 20px edge; 44px with a 22px icon on a phone and on a touch screen at any width, where the last icon box still ends on the 20px edge of a desktop layout. They follow the default control height ([Spacing](../../../../../design/foundations/spacing.md#heights)). A 44px button next to a 17px title looks heavy on desktop; a finger needs 44px.
 - Give a `PanelStatus` its own cell on the title's line, and center it by its shape. Don't nudge it: the title's letters already sit on the line's center, so a 1px shift makes it sit high.
 - Open a side panel from the header with a `PanelToggleAction`: pressing it again closes the panel.
 - Give a side panel next to a conversation `edge="attached"`, so it draws the one line between the two ([Page structure](../../../../../design/patterns/page-structure.md#one-line-between-two-regions)).

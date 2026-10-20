@@ -41,7 +41,7 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 
 | Element | Height |
 | --- | --- |
-| Control, default (`control-height`): Input, InputGroup, Select, Combobox, Button at `lg` and `icon-lg` | 44px on a phone and a touch screen, 32px on a desktop |
+| Control, default (`control-height`): Input, InputGroup, Select, Combobox, Button at `lg` and `icon-lg`, a panel action | 44px on a phone and a touch screen, 32px on a desktop |
 | Control, small: Button at `md` and `icon-md`, a filter trigger, a segment of a segmented control | 32px |
 | Full-width call to action (`control-height-cta`, Button at `xl`) | 52px on a phone and a touch screen, 40px on a desktop |
 | Phone list of places (Home, Members, the Settings list): the sidebar row | 44px |
@@ -51,7 +51,7 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 | Phone top bar row, panel header, sidebar header, rail header, drawer header | 56px |
 | Web top bar, desktop app title bar | 48px |
 
-- Size a default control with the control tokens (`h-control`, `size-control`, `size-control-icon` for its icon), never with a breakpoint of its own: they switch once, in the token layer.
+- Size a default control with the control tokens (`h-control`, `size-control`, `size-control-icon` for its icon), never with a breakpoint of its own: they switch once, in the token layer. A metric that follows the control and has no token, such as its padding or the margin that puts its glyph on an edge, switches on the same query, `md:pointer-fine:`, never on `md:` alone: `md:` would give a touch screen from 768px the desktop's 32px.
 
 ```tokens
 control

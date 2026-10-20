@@ -359,8 +359,9 @@
      `after:-inset-y-control-hit`, which is 0 on a phone.
 
      Consumers: `Input`, `InputGroup`, `SelectTrigger`,
-     `ComboboxControl`, `ComboboxChips`, `ComboboxSelect`, and Button at `lg`,
-     `xl` (`h-control-cta`) and `icon-lg` (`size-control-icon` for its icon). */
+     `ComboboxControl`, `ComboboxChips`, `ComboboxSelect`, `PanelAction`, and
+     Button at `lg`, `xl` (`h-control-cta`) and `icon-lg` (`size-control-icon`
+     for its icon). */
   --spacing-control: var(--control-height);
   --spacing-control-cta: var(--control-height-cta);
   --spacing-control-icon: var(--control-icon-size);
