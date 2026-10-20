@@ -38,23 +38,23 @@ export function MessageItemAvatarSlot({ className, render, ...props }: MessageIt
   });
 }
 
-export type MessageItemContinuationTimeProps = useRender.ComponentProps<"span">;
+export type MessageItemContinuationTimeProps = useRender.ComponentProps<"time">;
 
-/** Left-gutter hover clock for continuation rows. Pass the hour and minute only, in the person's 12h/24h format, with no AM/PM (`6:35`, `18:35`). */
+/** Left-gutter hover clock for continuation rows, a `<time>`: pass the moment in `dateTime`. Show the hour and minute only, in the person's 12h/24h format, with no AM/PM (`6:35`, `18:35`). */
 export function MessageItemContinuationTime({
   className,
   render,
   ...props
 }: MessageItemContinuationTimeProps) {
   const { continuationTime } = messageItem();
-  const defaultProps: useRender.ElementProps<"span"> = {
+  const defaultProps: useRender.ElementProps<"time"> = {
     className: continuationTime({ className }),
   };
 
   return useRender({
-    defaultTagName: "span",
+    defaultTagName: "time",
     render,
-    props: mergeProps<"span">(defaultProps, props),
+    props: mergeProps<"time">(defaultProps, props),
     state: {
       slot: "message-item-continuation-time",
     },

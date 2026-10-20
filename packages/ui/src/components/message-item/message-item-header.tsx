@@ -20,6 +20,34 @@ export function MessageItemHeader({ className, render, ...props }: MessageItemHe
   });
 }
 
+export type MessageItemSenderGroupProps = useRender.ComponentProps<"span">;
+
+/**
+ * Holds the sender, its badges and its role, and decides who gives way when
+ * the header runs out of room: the role truncates first, then the name. The
+ * badges stay whole beside the name, and the time, outside the group, never
+ * truncates.
+ */
+export function MessageItemSenderGroup({
+  className,
+  render,
+  ...props
+}: MessageItemSenderGroupProps) {
+  const { senderGroup } = messageItem();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: senderGroup({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-item-sender-group",
+    },
+  });
+}
+
 export type MessageItemSenderProps = useRender.ComponentProps<"span">;
 
 export function MessageItemSender({ className, render, ...props }: MessageItemSenderProps) {
@@ -101,18 +129,22 @@ export function MessageItemMeta({ className, render, ...props }: MessageItemMeta
   });
 }
 
-export type MessageItemTimeProps = useRender.ComponentProps<"span">;
+export type MessageItemTimeProps = useRender.ComponentProps<"time">;
 
+/**
+ * The message's time, right after the sender. A `<time>`: pass the moment in
+ * `dateTime` (ISO 8601) and the full date and time as its tooltip.
+ */
 export function MessageItemTime({ className, render, ...props }: MessageItemTimeProps) {
   const { time } = messageItem();
-  const defaultProps: useRender.ElementProps<"span"> = {
+  const defaultProps: useRender.ElementProps<"time"> = {
     className: time({ className }),
   };
 
   return useRender({
-    defaultTagName: "span",
+    defaultTagName: "time",
     render,
-    props: mergeProps<"span">(defaultProps, props),
+    props: mergeProps<"time">(defaultProps, props),
     state: {
       slot: "message-item-time",
     },

@@ -62,7 +62,7 @@ These rules are for the words inside the product: labels, titles, messages, empt
 
 - Show a clock time in the person's own 12-hour or 24-hour choice wherever they read it as part of a conversation or a list: message times, the hover time beside a merged message, Activity, tooltips. Showing 18:35 under a header that says 6:30 PM makes one screen disagree with itself.
 - Use 24-hour time only in records that are compared and copied rather than read in passing: logs, event lines, audit metadata, exports. There a fixed format matters more than the person's habit.
-- Where only the hour and minute fit (the 35px time beside a merged message), leave out AM and PM: 6:35, 18:35. That time only places the message within its group; the group's header time and the tooltip carry the full time.
+- Where only the hour and minute fit (the 35px time beside a merged message), leave out AM and PM: 6:35, 18:35. That time only places the message within its group; the group's header time, the tooltip and the first line of the message menu carry the full time.
 
 ## Do and don't
 

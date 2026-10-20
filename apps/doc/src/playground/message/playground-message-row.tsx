@@ -43,6 +43,7 @@ import {
   MessageItemSavedIndicator,
   MessageItemSender,
   MessageItemSenderBadges,
+  MessageItemSenderGroup,
   MessageItemSenderButton,
   MessageItemTime,
   MessageMultiSelectCheckbox,
@@ -613,21 +614,25 @@ function PlaygroundChatMessageRow({
       <MessageItemContent>
         {!compact ? (
           <MessageItemHeader>
-            {message.senderLifecycle ? (
-              <MessageItemSender>{actor.name}</MessageItemSender>
-            ) : (
-              <PlaygroundMessageSender mentionHandle={actorId}>
-                {actor.name}
-              </PlaygroundMessageSender>
-            )}
-            {message.senderLifecycle ? (
-              <MessageItemSenderBadges>
-                <Badge appearance="soft" variant="muted">
-                  {message.senderLifecycle}
-                </Badge>
-              </MessageItemSenderBadges>
-            ) : null}
-            {actor.meta ? <MessageItemMeta title={actor.meta}>{actor.meta}</MessageItemMeta> : null}
+            <MessageItemSenderGroup>
+              {message.senderLifecycle ? (
+                <MessageItemSender>{actor.name}</MessageItemSender>
+              ) : (
+                <PlaygroundMessageSender mentionHandle={actorId}>
+                  {actor.name}
+                </PlaygroundMessageSender>
+              )}
+              {message.senderLifecycle ? (
+                <MessageItemSenderBadges>
+                  <Badge appearance="soft" variant="muted">
+                    {message.senderLifecycle}
+                  </Badge>
+                </MessageItemSenderBadges>
+              ) : null}
+              {actor.meta ? (
+                <MessageItemMeta title={actor.meta}>{actor.meta}</MessageItemMeta>
+              ) : null}
+            </MessageItemSenderGroup>
             <MessageItemTime>{time}</MessageItemTime>
             {message.inlineStatus ? (
               <MessageItemInlineStatus>Converting…</MessageItemInlineStatus>

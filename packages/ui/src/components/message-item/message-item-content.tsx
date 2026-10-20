@@ -38,6 +38,29 @@ export function MessageItemBody({ className, render, ...props }: MessageItemBody
   });
 }
 
+export type MessageItemEditedProps = useRender.ComponentProps<"span">;
+
+/**
+ * The edited marker, inline at the end of the message text on every row, full
+ * or continuation. Put it inside the last paragraph so it follows the last
+ * word; pass the copy ("(edited)") as children and the edit time as its tooltip.
+ */
+export function MessageItemEdited({ className, render, ...props }: MessageItemEditedProps) {
+  const { edited } = messageItem();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: edited({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-item-edited",
+    },
+  });
+}
+
 export type MessageItemSearchMatchProps = useRender.ComponentProps<"mark">;
 
 export function MessageItemSearchMatch({

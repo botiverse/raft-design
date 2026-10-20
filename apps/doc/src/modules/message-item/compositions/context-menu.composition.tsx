@@ -13,6 +13,7 @@ import {
 import {
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuLabel,
   ContextMenuSeparator,
   MessageReactionQuickButton,
   MessageReactionQuickRow,
@@ -38,6 +39,8 @@ export type MessageContextMenuCompositionProps = {
   onTaskChange?: (task: MessageTaskState) => void;
   portalContainer?: HTMLElement | null;
   saved?: boolean;
+  /** The message's full date and time, as a `<time>`: the menu's first line, not interactive. */
+  sentAt?: ReactNode;
   task: MessageTaskState;
 };
 
@@ -79,6 +82,7 @@ export function MessageContextMenuComposition({
   onTaskChange,
   portalContainer,
   saved,
+  sentAt,
   task,
 }: MessageContextMenuCompositionProps) {
   const taskAction =
@@ -111,6 +115,7 @@ export function MessageContextMenuComposition({
       collisionPadding={8}
       portalProps={portalProps}
     >
+      {sentAt ? <ContextMenuLabel>{sentAt}</ContextMenuLabel> : null}
       <MessageReactionQuickRow>
         {MESSAGE_QUICK_REACTIONS.map((emoji) => (
           <MessageQuickReactionItem key={emoji} emoji={emoji} onQuickReact={onQuickReact} />

@@ -42,12 +42,14 @@ message-item/compositions/item-preview
 - `MessageItemGutter` with `MessageItemContinuationTime`: replaces the avatar on a continuation row; the time appears there on hover.
 - `MessageItemContent`: everything right of the avatar. Required.
 - `MessageItemHeader`: one line holding, in order:
-  - `MessageItemSender`, or `MessageItemSenderButton` when the name opens a profile: `text-subhead`, bold. Only the button underlines on hover ([Clickable text](../../../../../design/foundations/states.md#clickable-text));
-  - `MessageItemSenderBadges`: the `agent` tag, and sender states such as Left or Deleted;
-  - `MessageItemMeta`: the sender's role, such as Product & Brand;
-  - `MessageItemTime`: `text-mono-meta` in `foreground-hint`;
+  - `MessageItemSenderGroup`: who sent it, which gives way in a fixed order when the line runs out of room ([Behavior](#behavior)). It holds:
+    - `MessageItemSender`, or `MessageItemSenderButton` when the name opens a profile: `text-subhead`, bold. Only the button underlines on hover ([Clickable text](../../../../../design/foundations/states.md#clickable-text));
+    - `MessageItemSenderBadges`: the `agent` tag, and sender states such as Left or Deleted;
+    - `MessageItemMeta`: the sender's role, such as Product & Brand;
+  - `MessageItemTime`: right after the sender, `text-mono-meta` in `foreground-hint`. A `<time>`: pass the moment in `dateTime`;
   - `MessageItemInlineStatus`: a short state after the time, such as "Converting…" while a message becomes a task. A working agent is shown by the light on its avatar, not here ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)).
 - `MessageItemBody`: the text, in `text-body`. Required.
+- `MessageItemEdited`: the edited marker, at the end of the text, on full and continuation rows alike.
 - `MessageItemAttachments`: files and images ([MessageAttachment](../message-attachment/message-attachment.md)).
 - `MessageItemEmbedded`: code blocks, action cards and link cards.
 - `MessageItemFooter`: one row: the task marker, then the reactions (`MessageReactionChip`, with `MessageReactionAddButton` last), then the saved and read markers (`MessageItemSavedIndicator`, `MessageItemReadReceipt`).
@@ -110,7 +112,10 @@ message-item/compositions/avatar-status
 
 - Space messages by grouping: 8px between the rows of one group (a continuation row sits under the row it continues) and 16px before a new group. Every row keeps 4px above and below its text, and the extra 8px before a group is a transparent top border the highlight doesn't paint. So the hover, selected and search highlights sit evenly around the text on every row: when a continuation row had no top padding, its highlight touched the first line and left 8px under the last.
 - The hover toolbar appears on hover, when focus is inside the row, and while one of its popups is open. It rides the top edge of the highlight, on the right.
-- The toolbar covers the time, so the time fades out while the toolbar shows. The header doesn't reserve space for it.
+- Hover only adds; it never takes information away. Hovering a message is the moment someone wants to know about it, so the toolbar appears in empty space instead of covering what was there.
+- The time belongs to the sender: who said it and when read as one, so the time follows the name, its badges and its role, and stays there on hover. The top right corner belongs to the toolbar alone.
+- With a mouse, the header ends where the toolbar begins, so the toolbar covers nothing on the sender line however long it is. The space is set by `--mi-toolbar-reserve`, sized for three buttons; a product whose toolbar has more sets it on the message list. On a touch screen there is no hover toolbar, and the header keeps its full width.
+- When the sender line runs out of room, `MessageItemSenderGroup` gives way in a fixed order: the role truncates first, then the name. The badges stay whole beside the name, and the time never truncates ([When a row runs out of room](../../../../../design/patterns/responsive.md#when-a-row-runs-out-of-room)). Show the full name and role in a tooltip when they can truncate.
 - The toolbar is 32px high: 28px buttons with 16px icons, in a 2px frame, with its hairline drawn inside that height. It rides the top edge of the highlight and reaches 16px above it, half its height; on a group's first row the transparent 8px border takes half of that, so it reaches only 8px beyond the row. Its buttons are `MessageItemToolbarButton`, not [Button](../button/button.md). It stays this compact because it appears on every message under the pointer: at 38px it covered the sender line and was clipped above the first message.
 - The toolbar's corner is `radius-container` (10px) around buttons with `radius-control` (8px): the 2px frame sits between them, so the hover fill keeps an even gap around the corner ([Nested corners](../../../../../design/foundations/shape.md#nested-corners)).
 - Leave at least 16px above the first message of a scroll area and above the root message of a thread, so the toolbar is never clipped. A timeline that opens with a date line already has the room.
@@ -118,6 +123,10 @@ message-item/compositions/avatar-status
 
 ```example
 message-item/compositions/toolbar
+```
+
+```example
+message-item/compositions/long-header
 ```
 
 ```example
@@ -139,6 +148,7 @@ message-item/compositions/reactions
 
 - Write the continuation time as the hour and minute only, in the person's 12-hour or 24-hour format, without AM or PM: 6:35, 18:35 ([Writing](../../../../../design/content/writing.md#times)). The gutter is the avatar's 35px column, and a two-digit hour (10:35, 18:35, 36.7px in Space Mono) reaches about 2px past it into the row's padding: the time is right-aligned to the text, so that is where it belongs. Don't widen the gutter for it, because that moves every message's text off the avatar column.
 - Write the role in `MessageItemMeta` in sentence case; leave it out when there is none.
+- Put `MessageItemEdited` inside the last paragraph of the text, so it follows the last word ("(edited)"), and give it the edit time as its tooltip. It sits in the text, not in the header, because a continuation row has no header and an edit belongs to that one message.
 - Label each reaction chip with the reaction, the count and whether the person is among them.
 
 ## Accessibility
@@ -151,6 +161,7 @@ message-item/compositions/reactions
 - Give `MessageMultiSelectCheckbox` a label that names the message, such as "Select message from Bugen".
 - Render a reference chip that opens something as a link, through `render`; the chip is a `span` by default.
 - Give the avatar image an empty `alt`: the name beside it already says who it is.
+- Give `MessageItemTime` and `MessageItemContinuationTime` the moment in `dateTime` (ISO 8601), and the full date and time in a tooltip. A screen reader reads the header in the order it shows: name, badges, role, time.
 
 ## Rules
 
