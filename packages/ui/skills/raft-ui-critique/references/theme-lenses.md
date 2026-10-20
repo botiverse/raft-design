@@ -36,7 +36,7 @@ Judge whether the surface speaks Raft's material language:
 - Corners follow the shape scale in `styles.css`: sticker, chip, control, container, dialog; fully round only for switches and radios. Flag corners off the scale or mixed within one group.
 - Space Grotesk is what people say; Space Mono is what machines write (ids, times, counts, events, code). Flag machine output set in sans and prose set in mono.
 - Yellow and pink must carry semantic roles. Flag decorative yellow/pink fields that compete with primary actions or status.
-- Hover and pressed keep a control's resting color under an ink wash; focus-visible is the ink ring. Flag a state that swaps a sticker's color or that is indistinguishable from rest.
+- Hover and pressed keep a control's resting color under an ink wash; focus-visible is the ink ring, shown only after keyboard navigation. Flag a state that swaps a sticker's color or that is indistinguishable from rest, and a ring that appears after a click or a tap.
 - Stickers, ink edges, and bold type create high baseline intensity. Require a clear entry point and quieter secondary information so the surface does not shout uniformly.
 
 Ask: does every sticker, line, and shadow carry a role, or is the surface merely loud?

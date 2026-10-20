@@ -31,7 +31,8 @@ The token values are chosen so that text never has to be checked again surface b
 People who use the keyboard must always see where they are and reach everything a pointer can.
 
 - Give every element that can be reached with the keyboard the `focus-ring` (`shadow-focus`) on `:focus-visible`: a 2px gap in the surface color, then 2px of ink. It is ink, not yellow, so it shows on the yellow frame and on yellow stickers ([Elevation](./elevation.md#focus-ring)).
-- Ring the whole group of a compound control (the composer, an input with an addon) and the box of a checkbox or radio ([States](./states.md#focus)).
+- Show the ring only after keyboard navigation, never after a click, a tap or typing ([States](./states.md#focus)). Keyboard users see it every time they move, and it shows whenever the input isn't a pointer raft-ui can see (before any input, a screen reader's browse cursor or synthesized press), so [WCAG 2.4.7](https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html) holds; people using a pointer aren't shown a ring that tells them what they just clicked.
+- Ring the whole group of a compound control (the composer, an input with an addon) when something inside it has keyboard focus, and the box of a checkbox or radio ([States](./states.md#focus)).
 - Make a composite control one Tab stop and move inside it with the arrow keys: [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md), [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md), [Tabs](../../packages/ui/src/components/tabs/tabs.md), [ToggleGroup](../../packages/ui/src/components/toggle-group/toggle-group.md) and menus. Base UI provides the keys.
 - Trap focus in a modal overlay, close it with Esc, and return focus to its trigger: [Dialog](../../packages/ui/src/components/dialog/dialog.md) and [Drawer](../../packages/ui/src/components/drawer/drawer.md) do this.
 - Show on keyboard focus whatever shows on hover: the message toolbar ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)), tooltips, preview cards ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)), the overlay of an editable avatar ([Avatar](../../packages/ui/src/components/avatar/avatar.md#accessibility)).
@@ -115,7 +116,7 @@ A touch screen has no hover, no right-click and no keyboard shortcuts, and finge
 
 Before a change ships, check it the way people will use it:
 
-- Use it with the keyboard alone: Tab reaches everything, focus is always visible, Esc closes what opened.
+- Use it with the keyboard alone: Tab reaches everything, focus is always visible while you move with the keyboard, Esc closes what opened.
 - Read the accessibility tree: every control has a role, a name that starts with its visible text, and its state.
 - Turn on reduced motion: nothing moves, and loading still reads as loading.
 - Try it on a touch screen or in touch emulation: every target is 44px, and nothing needs hover.

@@ -41,10 +41,21 @@ Text that does something or goes somewhere, with no box, chip or fill around it:
 
 ## Focus
 
-Focus uses `focus-ring` ([Elevation](./elevation.md#focus-ring)).
+Focus uses `focus-ring` ([Elevation](./elevation.md#focus-ring)), and it shows only when the person's last navigation input was the keyboard. The ring answers "where am I?" for someone moving with Tab and the arrow keys. A person who clicks or taps already knows where they are, since they just pointed there, and the caret marks a text field they clicked. A ring that shows up on every click, and stays on the always-focused composer, distracts and tells them nothing.
 
-- Ring the whole group for compound controls: the composer, an input with a prefix or suffix, a multi-select field.
+- Show the ring after keyboard navigation: Tab, Shift+Tab and F6 anywhere; the arrow keys, Home, End, Page Up, Page Down, Enter, Space and Esc outside a text field. Tabbing into a text field shows the full ring.
+- Inside a text field those keys edit, so they keep the modality as it was, unless focus leaves the field right after: Esc closing the dialog the field is in, Enter submitting it, Left Arrow moving from a combobox's text to its chips. Then the person is on the keyboard, and the element focus lands on shows the ring.
+- Show no ring after a click or a tap, and none when code moves focus after one (a dialog that focuses its first field, a popup that focuses its search row). A text field clicked with the mouse shows only its caret: no ring and no border change.
+- Typing doesn't count as navigation. Letters, and Enter, Space and the arrow keys inside a text field, keep the modality as it was, so the composer stays quiet while someone types in it after clicking, and keeps its ring when they tabbed into it.
+- Cmd and Ctrl shortcuts, and modifier keys pressed alone, don't count either. A shortcut that moves focus somewhere without a caret still gets the ring when nothing else explains the move (next rule); a shortcut that sends focus to a text field (Cmd+K) shows its caret.
+- Show every ring when the input isn't a pointer we can see: before any input (the page just loaded; a keyboard user who hasn't pressed Tab yet), when focus arrives with no key or press just before it (a screen reader's browse cursor, a timer), and when a screen reader synthesizes a press (VoiceOver, TalkBack). Only a real pointer press, or real mouse movement before anything else, hides the ring. Keyboard and screen-reader users never lose it ([WCAG 2.4.7](https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html)).
+- Ring the whole group for compound controls: the composer, an input with a prefix or suffix, a multi-select field. The group rings only when an element inside it has keyboard focus (`has-focus-visible`), not for any focus inside it (`focus-within`): clicking the clear button of a search field doesn't ring the field.
 - Ring the box of a checkbox or radio. A hidden native input drives it.
+
+raft-ui implements the rule with `installInputModality()`. [ThemeProvider](../about/use-raft-ui.md#theme-and-dark-mode) installs it, so an app that uses ThemeProvider gets it with no code of its own. It keeps `data-input-modality` on `document.documentElement`: absent until there is evidence, then `pointer`, `keyboard` or `virtual`. Only while it says `pointer` does styles.css empty `focus-ring`, in light and dark mode and in light or dark islands; every other value, and no value, shows the rings.
+
+- Draw a focus indicator with `focus-visible:shadow-focus` (`has-focus-visible:shadow-focus` on a group), never `focus:` or `focus-within:`.
+- Stack the `keyboard:` variant on any indicator not drawn with `focus-ring`, such as an outline or the inset ring: `focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-line-strong`. It matches unless the last input was a pointer.
 
 ## Related
 

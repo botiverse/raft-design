@@ -64,7 +64,7 @@ export function MemberInfoComposition({ direction = "vertical" }: MemberInfoComp
               />
             }
             variant={roleVariant[role]}
-            className="cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-line-strong focus-visible:ring-offset-1"
+            className="cursor-pointer outline-none focus-visible:keyboard:ring-2 focus-visible:keyboard:ring-line-strong focus-visible:keyboard:ring-offset-1"
           >
             {role}
             <ChevronDown aria-hidden className="size-3" />

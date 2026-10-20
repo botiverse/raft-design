@@ -233,7 +233,8 @@
   &:focus-visible {
     outline: none;
   }
-  &:focus-visible::after {
+  /* Keyboard focus only: no ring after a click or a tap (styles.css). */
+  &:focus-visible:not(:where(:root[data-input-modality="pointer"] *))::after {
     outline: var(--r-steps-focus-outline);
   }
   &:disabled {

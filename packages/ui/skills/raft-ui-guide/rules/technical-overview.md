@@ -63,7 +63,7 @@ Custom fonts use `--heading-font`, `--sans-font`, and `--mono-font`.
 
 | Provider          | Responsibility                                                                                                        |
 | ----------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `ThemeProvider`   | Color mode, persistence, and document mode synchronization                                                            |
+| `ThemeProvider`   | Color mode, persistence, document mode synchronization, and the input modality that keeps focus rings to the keyboard |
 | `TooltipProvider` | Shared tooltip behavior when using Tooltip                                                                            |
 | `ToastProvider`   | Toast manager when using the toast API; see the [Toast](https://raft-design.botiverse.build/components/toast.md) page |
 
@@ -74,6 +74,7 @@ Custom fonts use `--heading-font`, `--sans-font`, and `--mono-font`.
 ## Mode and portal boundaries
 
 - `ThemeProvider` synchronizes `document.documentElement` by default. Nested scopes need `syncDom={false}` and the matching `light`/`dark` class on their root.
+- Focus rings show only after keyboard navigation, not after a click, a tap or typing. `ThemeProvider` installs the tracker (`data-input-modality` on `document.documentElement`); an app without it calls `installInputModality()` once on the client. Draw an indicator with `focus-visible:shadow-focus` (`has-focus-visible:shadow-focus` on a group); one that is not the token takes the `keyboard:` variant (`focus-visible:keyboard:outline-2`). See [States](https://raft-design.botiverse.build/foundations/states.md#focus).
 - Base UI overlays portal to `document.body`. An app root with `isolation: isolate` keeps its stacking contexts below those surfaces. Embedded previews can use `portalProps.container` (toasts: `ToastProvider portalContainer`) to keep overlays inside their scope.
 - SSR apps with persisted mode need to restore it before first paint to avoid a theme flash.
 

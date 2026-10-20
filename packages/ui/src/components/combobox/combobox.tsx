@@ -45,7 +45,7 @@ const combobox = tv({
       "[&_[data-slot='combobox-trigger-indicator']>svg]:shrink-0",
       "min-h-11 rounded-control border-[1.5px] border-line-strong bg-layer-card px-3 py-0",
       "font-sans text-body text-foreground",
-      "transition-shadow duration-90 ease-out focus-within:shadow-focus",
+      "transition-shadow duration-90 ease-out has-focus-visible:shadow-focus",
       "[&>svg]:text-foreground-hint [&>svg:not([class*='size-'])]:size-4.5",
       "[&>svg:not([class*='stroke-'])]:stroke-2",
       "[&_[data-slot='combobox-trigger-indicator']>svg]:size-4",
@@ -55,7 +55,7 @@ const combobox = tv({
       "h-10 gap-2 border-line-hairline bg-transparent px-3 py-0",
       "text-callout text-foreground-hint",
       "[&>svg]:size-4 [&>svg]:shrink-0",
-      "first:rounded-t-container focus-within:inset-ring-2 focus-within:inset-ring-foreground",
+      "first:rounded-t-container has-focus-visible:keyboard:inset-ring-2 has-focus-visible:keyboard:inset-ring-foreground",
     ],
     input: ["w-full outline-none"],
     positioner: ["isolate z-50 outline-none"],
@@ -100,7 +100,7 @@ const combobox = tv({
     chips: [
       "flex flex-wrap items-center",
       "min-h-11 gap-1.5 rounded-control border-[1.5px] border-line-strong bg-layer-card py-1.5 pr-3 pl-1.5",
-      "transition-shadow duration-90 ease-out focus-within:shadow-focus",
+      "transition-shadow duration-90 ease-out has-focus-visible:shadow-focus",
     ],
     chip: [
       "inline-flex items-center",

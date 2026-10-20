@@ -10,7 +10,7 @@ export const messageReplies = tv({
       // over-constrained (measured on the real page 2026-10-09), so no bleed
       // is attempted; the rendered position is pinned by the browser spec.
       "group/message-replies flex min-w-0 w-full flex-col text-left",
-      "transition-colors focus-visible:outline-1 focus-visible:outline-line-strong",
+      "transition-colors focus-visible:keyboard:outline-1 focus-visible:keyboard:outline-line-strong",
       "mt-2 max-w-[480px] gap-1 rounded-container border-0 px-2.5 py-2",
       "bg-fill-muted text-foreground-muted hover:press-overlay active:press-overlay",
       "focus-visible:outline-none focus-visible:shadow-focus",

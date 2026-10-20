@@ -36,8 +36,9 @@ describe("ListRow", () => {
     expect(rowClasses).toContain(
       "not-disabled:not-aria-disabled:not-data-selected:active:press-overlay",
     );
-    // A flush row keeps its focus ring inside, so an inset card cannot clip it.
-    expect(rowClasses).toContain("focus-visible:inset-ring-2");
+    // A flush row keeps its focus ring inside, so an inset card cannot clip it;
+    // it is not the token, so it carries the keyboard-only gate.
+    expect(rowClasses).toContain("focus-visible:keyboard:inset-ring-2");
   });
 
   test("a row that goes somewhere renders the link, without a button type", () => {

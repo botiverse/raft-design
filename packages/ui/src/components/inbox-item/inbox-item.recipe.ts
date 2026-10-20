@@ -16,7 +16,7 @@ export const inboxItem = tv({
       "hover:bg-fill-pressed",
       "data-[active=true]:bg-info-soft data-[active=true]:hover:bg-info-soft",
       "data-disabled:pointer-events-none data-disabled:hover:bg-transparent",
-      "has-[[data-slot=inbox-item-open]:focus-visible]:inset-ring-2 has-[[data-slot=inbox-item-open]:focus-visible]:inset-ring-foreground",
+      "has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:inset-ring-2 has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:inset-ring-foreground",
       "not-data-[density=compact]:has-data-[slot=inbox-item-trailing]:[--inbox-item-content-display:grid] not-data-[density=compact]:has-data-[slot=inbox-item-trailing]:[--inbox-item-content-end:-1]",
     ],
     itemTrigger: ["absolute inset-0 z-0 outline-none"],

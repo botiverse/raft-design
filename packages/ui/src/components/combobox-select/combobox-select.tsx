@@ -283,7 +283,13 @@ export function ComboboxSelect<
   ]
     .filter(Boolean)
     .join(" ");
-  const controlClassName = [css, "r-combobox-select__control", className].filter(Boolean).join(" ");
+  const controlClassName = [
+    css,
+    "r-combobox-select__control has-focus-visible:shadow-focus",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
   const positionerClassName = [
     "r-combobox-select__positioner",
     typeof positionerProps?.className === "string" ? positionerProps.className : null,

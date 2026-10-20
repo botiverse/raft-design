@@ -6,7 +6,7 @@ export const composer = tv({
       "flex w-full flex-col gap-2 p-2",
       "rounded-container border-[1.5px] px-3 pt-3 pb-2",
       "border-line-strong bg-layer-card text-foreground shadow-none",
-      "focus-within:shadow-focus",
+      "has-focus-visible:shadow-focus",
     ],
     input: [
       "max-h-32 w-full resize-none bg-transparent outline-none",

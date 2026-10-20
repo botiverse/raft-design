@@ -30,7 +30,7 @@ const resetModeOption = tv({
   slots: {
     card: [
       "flex w-full cursor-pointer items-start text-left",
-      "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-strong has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-layer-sidebar",
+      "has-[[data-slot=radio-group-item]:focus-visible]:keyboard:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:keyboard:ring-line-strong has-[[data-slot=radio-group-item]:focus-visible]:keyboard:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:keyboard:ring-offset-layer-sidebar",
       "has-[[data-slot=radio-group-item][data-disabled]]:cursor-not-allowed",
       "gap-3 rounded-container border border-line-hairline bg-layer-card p-4",
       "hover:press-overlay",

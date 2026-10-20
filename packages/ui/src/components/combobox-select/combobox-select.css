@@ -16,14 +16,12 @@
   outline: 0;
   background: var(--layer-card);
   color: var(--foreground);
-  box-shadow: none;
   font-size: 16px;
   line-height: 24px;
   transition: box-shadow 90ms ease-out;
 }
-.r-combobox-select__control:focus-within {
-  box-shadow: var(--focus-ring);
-}
+/* The control's ring is a utility on it (combobox-select.tsx): it rings when
+   something inside has keyboard focus, a has-selector, and src CSS has none. */
 .r-combobox-select__input {
   box-sizing: border-box;
   min-width: 3rem;

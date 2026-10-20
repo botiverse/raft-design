@@ -15,7 +15,7 @@ const taskChip = tv({
       "[&>svg]:shrink-0 [&>svg]:size-3",
       "no-underline select-text",
       "transition-[filter,opacity] duration-100",
-      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",
+      "focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-offset-2 focus-visible:keyboard:outline-line-strong",
       "rounded-chip border-0",
       "font-sans font-semibold text-foreground",
       "[&>svg:not([data-slot=task-status-icon])]:-mx-0.5 [&>svg[data-slot=task-status-icon]]:size-[9px]",
