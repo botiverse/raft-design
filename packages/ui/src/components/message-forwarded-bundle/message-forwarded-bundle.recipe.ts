@@ -24,7 +24,7 @@ export const messageForwardedBundle = tv({
     items: ["relative", ""],
     footerAction: [
       "inline-flex items-center gap-1 rounded-[2px] text-footnote font-semibold text-foreground",
-      "underline decoration-[1.5px] underline-offset-[3px] hover:decoration-attention-500",
+      "decoration-[1.5px] underline-offset-[3px] hover:underline",
       "outline-none focus-visible:shadow-focus",
     ],
   },

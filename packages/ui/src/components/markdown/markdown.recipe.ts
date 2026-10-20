@@ -7,7 +7,9 @@ export const markdown = tv({
     paragraph: ["mb-1 last:mb-0"],
     link: [
       "select-text underline decoration-2 underline-offset-2",
-      "rounded-[2px] text-foreground-link hover:decoration-attention-500",
+      "rounded-[2px]",
+      "text-foreground-link hover:text-[color-mix(in_oklab,var(--foreground-link)_80%,var(--foreground))]",
+      "decoration-foreground-link/40 hover:decoration-current",
       "outline-none focus-visible:shadow-focus",
     ],
     mark: searchHit,

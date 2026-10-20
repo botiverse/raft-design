@@ -88,7 +88,7 @@ A group of rows can have a heading above it, such as Channels.
 
 - Write it in sentence case, in `text-footnote` at weight 700 and `foreground-hint` ([Typography](../../../../../design/foundations/typography.md#casing)).
 - Make the heading a button with `aria-expanded` when the group can collapse, and show the number of rows when it is collapsed.
-- Put the group's action on the right as an underlined ink text button: Browse.
+- Put the group's action on the right as an ink text button that underlines on hover ([TextLink](../text-link/text-link.md)): Browse.
 
 raft-ui has no exported heading part for these lists yet.
 

@@ -78,5 +78,5 @@ Toast wraps Base UI's Toast, which announces each toast in a live region and kee
 
 - Show at most one toast at a time.
 - Use `layer-hud` for every toast, with `foreground-on-hud` text. Don't tint a toast with an intent color, and never use yellow: notices are neutral ([Color](../../../../../design/foundations/color.md#principles)).
-- Make the action an underlined text action (`ToastAction`), never a button. Never put a colored button in a toast.
+- Make the action a bold text action that underlines on hover (`ToastAction`), never a button. Never put a colored button in a toast.
 - Give a toast at most one action besides closing it.

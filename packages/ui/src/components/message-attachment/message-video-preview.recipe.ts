@@ -17,7 +17,7 @@ export const messageVideoPreview = tv({
     failureTitle: [],
     failureAction: [
       "inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 text-white/75 [font:inherit]",
-      "hover:text-white",
+      "decoration-[1.5px] underline-offset-[3px] hover:text-white hover:underline",
       "outline-1 outline-offset-2 outline-transparent focus-visible:outline-white",
       "[&_svg]:size-[13px]",
     ],

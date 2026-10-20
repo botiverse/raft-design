@@ -1,6 +1,6 @@
 ---
 title: TextLink
-summary: Underlined text for the quietest control on a screen, an action or a way somewhere; the bottom step of the button ladder.
+summary: Text that underlines on hover, for the quietest control on a screen, an action or a way somewhere; the bottom step of the button ladder.
 status: stable
 aliases: [Link button, Text button]
 layer: core
@@ -10,7 +10,7 @@ related: [button]
 
 # TextLink
 
-TextLink is underlined text that does something or goes somewhere. It is the bottom step of the emphasis ladder, below a frameless button ([Button](../button/button.md#which-color)): use it where even a frameless button would be too much weight, such as Forgot Password on a sign-in page, Log Out under a server list, or a See All beside a section title.
+TextLink is text that does something or goes somewhere, with no underline until the pointer is over it. It is the bottom step of the emphasis ladder, below a frameless button ([Button](../button/button.md#which-color)): use it where even a frameless button would be too much weight, such as Forgot Password on a sign-in page, Log Out under a server list, or a See All beside a section title.
 
 ```example
 text-link/compositions/preview
@@ -29,16 +29,19 @@ text-link/compositions/preview
 
 The variant follows where the link sits, not how important the action is.
 
-| Variant                     | Use for                                                                                                                                   |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `variant="muted"` (default) | A link that stands on its own: Forgot Password, Log Out, See All. `foreground-muted`, 500, ink on hover.                                  |
-| `variant="strong"`          | A link inside a sentence: "Don't have an account? Create One", a banner's "Manage Machines". Ink, 600, the underline turns pink on hover. |
+| Variant                     | Use for                                                                                                                             |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `variant="muted"` (default) | A link that stands on its own: Forgot Password, Log Out, See All. `foreground-muted`, 500; on hover, ink and underlined.            |
+| `variant="strong"`          | A link inside a sentence: "Don't have an account? Create One", a banner's "Manage Machines". Ink, 600; on hover, underlined in ink. |
 
-**Why the position decides.** On its own, a TextLink is the quietest control on the screen, so it is muted: it must not compete with the screen's text or its buttons. Inside a sentence, the same muted grey would sit lighter than the words around it and read as disabled, so there it takes the ink of body text and stands out by weight and underline instead. Neither variant is pink: pink belongs to the one primary button, so on a TextLink it appears only as the hover underline.
+**Why the position decides.** On its own, a TextLink is the quietest control on the screen, so it is muted: it must not compete with the screen's text or its buttons. Inside a sentence, the same muted grey would sit lighter than the words around it and read as disabled, so there it takes the ink of body text and stands out by weight instead. Neither variant is pink, at rest or on hover: pink belongs to the one primary button.
+
+**Why the underline comes on hover.** The underline is the hover signal for every piece of clickable text in raft-ui, so people learn it once ([Clickable text](../../../../../design/foundations/states.md#clickable-text)). At rest, the weight and color above and where the link sits say it can be clicked; an underline on every quiet control would add a line under each of them on a screen that is read for hours.
 
 ## States
 
-- **Disabled:** the text turns `foreground-disabled` and the underline goes, so it no longer reads as something to press.
+- **Hover:** the text underlines in its own color, 1.5px thick, 3px below the baseline; a muted link also turns ink.
+- **Disabled:** the text turns `foreground-disabled` and nothing changes on hover, so it no longer reads as something to press.
 
 ```example
 text-link/compositions/disabled
@@ -65,4 +68,4 @@ TextLink renders a native `button type="button"`. For a way somewhere, render a 
 ## Rules
 
 - Don't use TextLink to fit one more action into a crowded row. It is the quietest control on a screen, not a smaller button.
-- Don't color it. Emphasis comes from weight and ink, so pink stays with the one primary button.
+- Don't color it, and don't underline it at rest. Emphasis comes from weight and ink, so pink stays with the one primary button, and the underline stays the hover signal.

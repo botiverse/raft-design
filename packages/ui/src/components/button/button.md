@@ -19,14 +19,14 @@ button/compositions/preview
 
 ## When to use
 
-| Situation                                                                                 | Use                                                       |
-| ----------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| An action with a label                                                                    | Button                                                    |
-| An action whose icon is understood without words: search, more, back, close, copy, attach | Button at an icon size; see [Icon buttons](#icon-buttons) |
-| An action whose icon needs words to be understood                                         | Button with a label                                       |
-| The quietest control on a screen, action or not                                           | [TextLink](../text-link/text-link.md): underlined text    |
-| A list of actions on one thing                                                            | [DropdownMenu](../dropdown-menu/dropdown-menu.md)         |
-| Picking a value                                                                           | [Select](../select/select.md)                             |
+| Situation                                                                                 | Use                                                                  |
+| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| An action with a label                                                                    | Button                                                               |
+| An action whose icon is understood without words: search, more, back, close, copy, attach | Button at an icon size; see [Icon buttons](#icon-buttons)            |
+| An action whose icon needs words to be understood                                         | Button with a label                                                  |
+| The quietest control on a screen, action or not                                           | [TextLink](../text-link/text-link.md): text that underlines on hover |
+| A list of actions on one thing                                                            | [DropdownMenu](../dropdown-menu/dropdown-menu.md)                    |
+| Picking a value                                                                           | [Select](../select/select.md)                                        |
 
 ## Variants
 

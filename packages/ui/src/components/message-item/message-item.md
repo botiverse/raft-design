@@ -42,7 +42,7 @@ message-item/compositions/item-preview
 - `MessageItemGutter` with `MessageItemContinuationTime`: replaces the avatar on a continuation row; the time appears there on hover.
 - `MessageItemContent`: everything right of the avatar. Required.
 - `MessageItemHeader`: one line holding, in order:
-  - `MessageItemSender`, or `MessageItemSenderButton` when the name opens a profile: `text-subhead`, bold;
+  - `MessageItemSender`, or `MessageItemSenderButton` when the name opens a profile: `text-subhead`, bold. Only the button underlines on hover ([Clickable text](../../../../../design/foundations/states.md#clickable-text));
   - `MessageItemSenderBadges`: the `agent` tag, and sender states such as Left or Deleted;
   - `MessageItemMeta`: the sender's role, such as Product & Brand;
   - `MessageItemTime`: `text-mono-meta` in `foreground-hint`;
@@ -59,11 +59,11 @@ message-item/compositions/item-preview
 
 | Element                                        | Part                                                               | Looks                                                                                                                                                                     |
 | ---------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| A mention of someone else                      | `MessageReferenceText`                                             | Ink, bold, underlined ([Conversation](../../../../../design/patterns/conversation.md#mentions))                                                                           |
+| A mention of someone else                      | `MessageReferenceText`                                             | Ink, bold, underlined in ink on hover ([Conversation](../../../../../design/patterns/conversation.md#mentions))                                                           |
 | A mention of the person reading; a search hit  | `MessageReferenceText variant="primary"`; `MessageItemSearchMatch` | A small yellow sticker                                                                                                                                                    |
 | A reference chip                               | `MessageReferenceChip`                                             | `variant="accent"` for a channel or direct message, `variant="info"` for a thread or message ([Navigation](../../../../../design/patterns/navigation.md#going-somewhere)) |
 | A reference that is loading or can't be opened | `MessageReferencePending`, `MessageReferenceUnavailable`           | A gray chip on `inactive-soft`                                                                                                                                            |
-| A web link                                     | Markdown link                                                      | `foreground-link`, with a 2px underline that turns pink on hover                                                                                                          |
+| A web link                                     | Markdown link                                                      | `foreground-link`, underlined at rest ([Markdown](../markdown/markdown.md))                                                                                               |
 | A task number                                  | `TaskChip` or Space Mono text                                      | [Tasks](../tasks/tasks.md)                                                                                                                                                |
 | Inline code                                    | [InlineCode](../inline-code/inline-code.md)                        | Space Mono on `fill-muted`                                                                                                                                                |
 | A quote                                        | Markdown blockquote                                                | A 2px bar on the left, `foreground-muted` text                                                                                                                            |

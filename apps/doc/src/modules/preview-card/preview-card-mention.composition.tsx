@@ -1,6 +1,7 @@
 import {
   Avatar,
   AvatarFallback,
+  MessageReferenceText,
   PreviewCard,
   PreviewCardContent,
   PreviewCardDescription,
@@ -24,12 +25,7 @@ export function PreviewCardMentionComposition({
         <span>Follow up with </span>
         <PreviewCard defaultOpen={defaultOpen}>
           <PreviewCardTrigger
-            render={
-              <a
-                href="/components/avatar"
-                className="cursor-default select-text font-bold text-foreground underline decoration-foreground/30 decoration-2 underline-offset-2 hover:text-attention-600 hover:decoration-attention-600"
-              />
-            }
+            render={<MessageReferenceText render={<a href="/components/avatar" />} />}
           >
             @Atlas
           </PreviewCardTrigger>

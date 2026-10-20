@@ -94,7 +94,7 @@ const toastStyles = tv({
       "relative inset-auto order-1 size-auto shrink-0 whitespace-nowrap",
       "border-0 bg-transparent p-0 shadow-none",
       "font-sans text-callout font-bold text-foreground-on-hud",
-      "underline decoration-[1.5px] underline-offset-[3px]",
+      "decoration-[1.5px] underline-offset-[3px] not-disabled:hover:underline",
       "after:absolute after:-inset-x-2 after:-inset-y-3 after:rounded-control after:content-['']",
       "active:after:bg-foreground-on-hud/15",
       "focus-visible:outline-2 focus-visible:outline-foreground-on-hud",
@@ -209,17 +209,18 @@ type ToastPlacement = NonNullable<VariantProps<typeof toastStyles>["placement"]>
 const DEFAULT_TOAST_TIMEOUT_MS = 5000;
 const ToastProviderConfigContext = createContext({ timeout: DEFAULT_TOAST_TIMEOUT_MS });
 
-// A toast's action is a text action on the HUD: bold underlined type, a
-// pressed veil on a hit area larger than the word, the HUD ink as its focus
-// outline. It carries its own content and loading slots (a button's would
-// bring a button's fill and focus ring onto the dark toast).
+// A toast's action is a text action on the HUD: bold type that underlines on
+// hover (design/foundations/states.md#clickable-text), a pressed veil on a hit
+// area larger than the word, the HUD ink as its focus outline. It carries its
+// own content and loading slots (a button's would bring a button's fill and
+// focus ring onto the dark toast).
 const toastAction = tv({
   slots: {
     root: [
       "relative order-2 inline-flex shrink-0 items-center justify-center whitespace-nowrap select-none",
       "border-0 bg-transparent p-0",
       "font-sans text-callout font-bold text-foreground-on-hud",
-      "underline decoration-[1.5px] underline-offset-[3px]",
+      "decoration-[1.5px] underline-offset-[3px] not-disabled:not-aria-disabled:hover:underline",
       "after:absolute after:-inset-x-2 after:-inset-y-3 after:rounded-control after:content-['']",
       "active:after:bg-foreground-on-hud/15",
       "outline-1 outline-offset-2 outline-transparent focus-visible:outline-2 focus-visible:outline-foreground-on-hud",
