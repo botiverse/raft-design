@@ -21,7 +21,7 @@ A token is a named value: a color, a shadow, a size. Components and products use
 | `packages/ui/src/tokens.json` | The source for colors, shadows, the focus ring and the metric tokens, in the [Design Tokens Community Group format](https://www.designtokens.org/tr/2025.10/) (2025.10). Published as `@botiverse/raft-ui/tokens.json` for tools outside CSS. |
 | `packages/ui/src/foundation.css` | Generated from `tokens.json`: every token as a CSS custom property, for light mode, dark mode and the system setting. Published as `@botiverse/raft-ui/foundation.css` for plain CSS. |
 | `packages/ui/src/styles.css` | The Tailwind entry. It imports `foundation.css`, maps tokens to utilities (`bg-layer-canvas`, `text-foreground-muted`, `shadow-float`) and defines the tokens that exist only as Tailwind theme values: radii, type styles and `ease-slide`. |
-| `packages/ui/src/fonts.css` | The font families: Space Grotesk, Space Mono and the Chinese fallbacks. |
+| `packages/ui/src/fonts.css` | The font families: Space Grotesk, Space Mono and the CJK fallbacks (Chinese by default, Japanese and Korean under their `lang`). |
 
 An app that uses Tailwind imports `@botiverse/raft-ui/styles.css`. A page without Tailwind imports `@botiverse/raft-ui/foundation.css` and reads the custom properties: `var(--layer-canvas)`.
 
