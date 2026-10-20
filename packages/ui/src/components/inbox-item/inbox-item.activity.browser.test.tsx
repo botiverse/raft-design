@@ -20,7 +20,7 @@ import {
   InboxItemTrigger,
 } from "./inbox-item";
 
-// The Activity row parts slock's Activity list needs: hover-revealed actions
+// The Activity row parts the Raft web app's Activity list needs: hover-revealed actions
 // (hidden at rest with a mouse, shown on hover / focus / active, at rest on a
 // touch screen), a leading avatar with the divider after it, the compact
 // one-line row, and badges that take the pointer for their tooltips. Measured

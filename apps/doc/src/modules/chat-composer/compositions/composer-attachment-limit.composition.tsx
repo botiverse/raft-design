@@ -93,7 +93,7 @@ export function ComposerAttachmentLimitComposition() {
           ))}
         </ComposerAttachments>
         <Composer>
-          <ComposerInput aria-label="Message #proj-uiux" placeholder="Message #proj-uiux" />
+          <ComposerInput aria-label="Message #design" placeholder="Message #design" />
           <ComposerToolbar>
             <ComposerActions>
               <ComposerIconButton aria-label="Attach file" onClick={addAttachment}>

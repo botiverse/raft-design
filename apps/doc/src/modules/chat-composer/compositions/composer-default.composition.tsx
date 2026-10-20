@@ -38,8 +38,8 @@ export function ComposerDefaultComposition() {
     <ComposerRoot onSubmit={handleSubmit}>
       <Composer>
         <ComposerInput
-          aria-label="Message #proj-uiux"
-          placeholder="Message #proj-uiux"
+          aria-label="Message #design"
+          placeholder="Message #design"
           value={draft}
           onChange={handleDraftChange}
         />

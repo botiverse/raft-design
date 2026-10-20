@@ -37,6 +37,10 @@ raft-ui is pre-1.0: a minor version can include breaking changes, which are list
 
 The documentation site serves an [`llms.txt`](https://raft-design.botiverse.build/llms.txt) index, every page is also available as Markdown at the same path with `.md`, and [`components.json`](https://raft-design.botiverse.build/components.json) lists every component with its status, other names and summary. The npm package includes the tokens in DTCG format (`@botiverse/raft-ui/tokens.json`) and Agent Skills (`raft-ui-guide`, `raft-ui-critique`) that match its version.
 
+## Questions and contributions
+
+Ask questions and propose changes in [Discussions](https://github.com/botiverse/raft-design/discussions). Issues and pull requests are open to collaborators only; [CONTRIBUTING.md](./CONTRIBUTING.md) describes how they work. Report security vulnerabilities privately, as described in [SECURITY.md](./SECURITY.md).
+
 ## Development
 
 The workspace uses [Vite+](https://viteplus.dev) (`vp`) and pnpm.
