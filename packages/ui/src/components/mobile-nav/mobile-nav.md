@@ -50,7 +50,7 @@ The full radius is a scoped exception to [Shape](../../../../../design/foundatio
 
 raft-ui doesn't draw the floating pill yet; until it does, apps build it from these rules and `MobileNavItem`. It will ship as 2 parts of their own, `MobileNavPill` and `MobileNavSearch`, inside `MobileNavRoot`, not as a `variant` prop: the two variants differ in structure, and a prop that swaps structure hides which parts are rendered.
 
-> **Placeholder: no screenshot yet.** This page has no rendered image of the floating pill until raft-ui implements it. For how it looks today, see the phone web implementation in [botiverse/slock #10502](https://github.com/botiverse/slock/pull/10502).
+> **Placeholder: no screenshot yet.** This page has no rendered image of the floating pill until raft-ui implements it. For how it looks today, see the phone web implementation in [botiverse/slock #10502](https://stamp.build/github/botiverse/slock/pull/10502).
 
 ### Tabs and Search
 
