@@ -10,8 +10,8 @@ export type InputModality = "pointer" | "keyboard";
 
 const INPUT_MODALITY_ATTRIBUTE = "data-input-modality";
 
-/** Keys that move focus or act on the focused element wherever focus is. */
-const NAVIGATION_KEYS = new Set(["Tab", "Escape", "F6"]);
+/** Keys that move focus wherever focus is. */
+const NAVIGATION_KEYS = new Set(["Tab", "F6"]);
 
 /** Keys that navigate a widget, but move the caret in a text field. */
 const CARET_KEYS = new Set([
@@ -25,8 +25,12 @@ const CARET_KEYS = new Set([
   "PageDown",
 ]);
 
-/** Keys that activate a control, but type into a text field. */
-const ACTIVATION_KEYS = new Set(["Enter", " ", "Spacebar"]);
+/**
+ * Keys that activate or dismiss a control, but belong to editing in a text
+ * field. Esc in the composer closes a suggestion list or cancels an edit; it
+ * must not turn the composer's ring on for someone using a mouse.
+ */
+const ACTIVATION_KEYS = new Set(["Enter", " ", "Spacebar", "Escape"]);
 
 /** Input types that take typed text (and whose arrow keys move a caret or step a value). */
 const TEXT_INPUT_TYPES = new Set([
@@ -75,10 +79,10 @@ const installations = new WeakMap<Document, Installation>();
 /**
  * Track the input modality on `doc.documentElement` as
  * `data-input-modality="pointer" | "keyboard"`. It starts as `pointer`; a
- * navigation key (Tab, the arrows, Home, End, Page Up, Page Down, Esc, F6, and
- * Enter or Space outside a text field) makes it `keyboard`, and a pointer
- * press makes it `pointer` again. Typing never counts: the arrows, Enter and
- * Space in a text field, and Cmd or Ctrl shortcuts leave it as it is.
+ * navigation key (Tab and F6 anywhere; the arrows, Home, End, Page Up, Page
+ * Down, Enter, Space and Esc outside a text field) makes it `keyboard`, and a
+ * pointer press makes it `pointer` again. Editing never counts: those keys in a
+ * text field, typing, and Cmd or Ctrl shortcuts leave it as it is.
  *
  * `ThemeProvider` calls this for you. Installing twice adds no second set of
  * listeners. Returns a function that undoes this installation; the listeners

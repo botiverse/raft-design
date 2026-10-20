@@ -43,7 +43,7 @@ Text that does something or goes somewhere, with no box, chip or fill around it:
 
 Focus uses `focus-ring` ([Elevation](./elevation.md#focus-ring)), and it shows only when the person's last navigation input was the keyboard. The ring answers "where am I?" for someone moving with Tab and the arrow keys. A person who clicks or taps already knows where they are, since they just pointed there, and the caret marks a text field they clicked. A ring that shows up on every click, and stays on the always-focused composer, distracts and tells them nothing.
 
-- Show the ring after keyboard navigation: Tab or Shift+Tab, the arrow keys, Home, End, Page Up, Page Down, Esc and F6 anywhere, and Enter or Space outside a text field. Tabbing into a text field shows the full ring.
+- Show the ring after keyboard navigation: Tab, Shift+Tab and F6 anywhere; the arrow keys, Home, End, Page Up, Page Down, Enter, Space and Esc outside a text field (in a text field those keys edit, or close what the field opened). Tabbing into a text field shows the full ring.
 - Show no ring after a click or a tap, and none when code moves focus after one (a dialog that focuses its first field, a popup that focuses its search row). A text field clicked with the mouse shows only its caret: no ring and no border change.
 - Typing doesn't count as navigation. Letters, and Enter, Space and the arrow keys inside a text field, keep the modality as it was, so the composer stays quiet while someone types in it after clicking, and keeps its ring when they tabbed into it.
 - Cmd and Ctrl shortcuts, and modifier keys pressed alone, don't count either.

@@ -86,8 +86,19 @@ test("Enter and Space on a button or a checkbox switch to keyboard", () => {
 });
 
 for (const id of ["textarea", "text", "search", "editable", "inside"]) {
-  test(`typing, Enter, Space and the caret keys in ${id} leave pointer modality`, () => {
-    for (const name of ["a", "Z", "1", "Enter", " ", "ArrowLeft", "ArrowUp", "Home", "End"]) {
+  test(`typing, Enter, Space, Esc and the caret keys in ${id} leave pointer modality`, () => {
+    for (const name of [
+      "a",
+      "Z",
+      "1",
+      "Enter",
+      " ",
+      "Escape",
+      "ArrowLeft",
+      "ArrowUp",
+      "Home",
+      "End",
+    ]) {
       key(byId(id), { key: name });
     }
     key(byId(id), { key: "Backspace" });
