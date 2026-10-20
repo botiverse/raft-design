@@ -119,7 +119,10 @@ test("a link in an empty state's description underlines only on hover", () => {
   );
   const t = tokens(screen.getByText(/Nothing here yet/).className);
   expect(t).not.toContain("[&>a]:underline");
-  expect(t).toContain("[&>a:hover]:underline");
+  // The hover: variant (not a bare :hover in the selector) keeps Tailwind's
+  // @media (hover: hover) guard, so a tap on a phone doesn't leave it stuck.
+  expect(t).toContain("[&>a]:hover:underline");
+  expect(t.join(" ")).not.toMatch(/:hover\]/);
   expect(t.join(" ")).not.toMatch(/attention/);
 });
 
@@ -178,4 +181,21 @@ test("no text in raft-ui turns pink on hover", () => {
     /hover:(?:decoration|text)-attention/.test(readFileSync(path, "utf8")),
   );
   expect(offenders).toEqual([]);
+});
+
+test("no link hover in raft-ui is a bare :hover selector, which a tap on a phone leaves stuck", () => {
+  // `[&>a:hover]:x` skips Tailwind v4's @media (hover: hover) guard; write
+  // `[&>a]:hover:x` instead. (Row hovers elsewhere are out of this rule's scope.)
+  const offenders = sources(join(__dirname, "components")).filter((path) =>
+    /\ba:hover\]/.test(readFileSync(path, "utf8")),
+  );
+  expect(offenders).toEqual([]);
+});
+
+test("the video failure action is clickable text: underline on hover", async () => {
+  const { messageVideoPreview } =
+    await import("./components/message-attachment/message-video-preview.recipe");
+  const t = messageVideoPreview().failureAction().split(/\s+/);
+  expect(t).toContain("hover:underline");
+  expect(t).not.toContain("underline");
 });

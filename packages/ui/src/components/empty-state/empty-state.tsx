@@ -26,7 +26,7 @@ const emptyState = tv({
     description: [
       "mx-auto w-full text-center text-pretty",
       "[&>a]:font-semibold [&>a]:decoration-[1.5px] [&>a]:underline-offset-[3px]",
-      "[&>a:hover]:text-foreground [&>a:hover]:underline",
+      "[&>a]:hover:text-foreground [&>a]:hover:underline",
       "max-w-[300px] text-callout text-foreground-hint",
     ],
     actions: ["mt-5"],

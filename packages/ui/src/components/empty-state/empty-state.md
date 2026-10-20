@@ -31,7 +31,7 @@ empty-state/compositions/default
 - `EmptyStateContent`: groups the icon, title and description. Required.
 - `EmptyStateIcon`: a Lucide icon, at 36px in `foreground-hint`. Required.
 - `EmptyStateTitle`: the title, in `foreground-muted`. Required.
-- `EmptyStateDescription`: one sentence, in `foreground-hint`.
+- `EmptyStateDescription`: one sentence, in `foreground-hint`. A link in it is 600 with no underline at rest and underlines in ink on hover ([Clickable text](../../../../../design/foundations/states.md#clickable-text)): the weight is what sets it apart from the grey sentence.
 - `EmptyStateActions`: at most one button.
 
 ```example
