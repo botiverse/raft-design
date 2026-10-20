@@ -1,3 +1,13 @@
+## [0.10.5](https://github.com/botiverse/raft-design/compare/v0.10.4...v0.10.5) (2026-10-20)
+
+### Added
+
+- `ComboboxSelect` takes `sheetThreshold` (default 10) and `sheetTitle`, and its `messages` take `search`, `done` and `close` for the phone's bottom sheet. ([#618](https://github.com/botiverse/raft-design/pull/618))
+
+### Fixed
+
+- `ComboboxSelect` on a phone (a touch screen under 48rem) no longer focuses a text input and raises the keyboard when people only pick a value. Up to `sheetThreshold` options open as an anchored list that picks its side once and doesn't flip while the keyboard or the address bar moves; more options, `create` and remote search open a bottom sheet with the search input at its top. Desktop and touch tablets are unchanged. ([#618](https://github.com/botiverse/raft-design/pull/618))
+
 ## [0.10.4](https://github.com/botiverse/raft-design/compare/v0.10.3...v0.10.4) (2026-10-20)
 
 ### Fixed
