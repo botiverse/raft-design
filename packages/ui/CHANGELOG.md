@@ -1,3 +1,9 @@
+## [0.10.4](https://github.com/botiverse/raft-design/compare/v0.10.3...v0.10.4) (2026-10-20)
+
+### Fixed
+
+- A page in Traditional Chinese (`<html lang="zh-TW">`, also `zh-HK`, `zh-MO` and `zh-Hant`) falls back to Traditional Chinese faces (PingFang TC, Microsoft JhengHei, Noto Sans TC) before the Simplified ones, so characters keep their Traditional glyph shapes. Simplified Chinese and default pages are unchanged. ([#610](https://github.com/botiverse/raft-design/pull/610))
+
 ## [0.10.3](https://github.com/botiverse/raft-design/compare/v0.10.2...v0.10.3) (2026-10-20)
 
 ### Added
