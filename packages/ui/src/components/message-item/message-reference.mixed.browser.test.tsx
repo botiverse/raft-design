@@ -16,6 +16,10 @@ import {
 // Every chip must sit on the body text's baseline, and the letters must look
 // centred in the chip's coloured box — measured on the glyphs (cap height), not
 // on the line box. Real browser only: jsdom has no layout.
+//
+// Centring depends on the font's metrics, so the test sets the design's fonts
+// (Space Grotesk, Space Mono, loaded from design/fonts by the test CSS). In a
+// machine's fallback font the numbers say nothing about what people see.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -23,6 +27,13 @@ beforeAll(async () => {
   if (typeof window === "undefined") return;
   const { page } = await import("vite-plus/test/browser/context");
   await page.viewport(1280, 900);
+  // `load` resolves to the faces it loaded: none means the test CSS lost them.
+  const loaded = await Promise.all(
+    ['400 16px "Space Grotesk"', '600 16px "Space Grotesk"', '400 14px "Space Mono"'].map((font) =>
+      document.fonts.load(font),
+    ),
+  );
+  for (const faces of loaded) expect(faces.length).toBeGreaterThan(0);
 });
 
 afterEach(cleanup);
@@ -125,8 +136,12 @@ function measure(): Measure[] {
       Math.abs(b - chipBaseline) < Math.abs(a - chipBaseline) ? b : a,
     );
     const cs = getComputedStyle(textNode.parentElement!);
-    ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
-    const capCentre = chipBaseline - ctx.measureText("H").actualBoundingBoxAscent / 2;
+    // Canvas rounds glyph bounds to whole pixels; measure the cap height at
+    // 1000px and scale it down so the rounding is under 0.001px.
+    ctx.font = `${cs.fontStyle} ${cs.fontWeight} 1000px ${cs.fontFamily}`;
+    const capHeight =
+      (ctx.measureText("H").actualBoundingBoxAscent * parseFloat(cs.fontSize)) / 1000;
+    const capCentre = chipBaseline - capHeight / 2;
     const svg = el.querySelector("svg");
     const s = svg?.getBoundingClientRect();
     out.push({

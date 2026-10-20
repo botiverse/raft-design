@@ -37,6 +37,14 @@ When a shape with its own padding (a chip, a frameless button's hover fill) sits
 
 The row is read as text, so the eye compares where the words start, not where the fills start. Aligning the shapes by their edge would push their words 6px past the plain values beside them, and the row would look ragged. This is the exception to aligning a shape by its edge: that rule holds when shapes line up with one another down a column.
 
+## Marks in running text
+
+A reference chip, a mention of the person reading and inline code sit inside a sentence, so they align as text.
+
+- **Put their letters on the sentence's baseline.** A chip's words line up with the words around it, with or without a leading icon. A chip that took its baseline from its icon floated 3px above the sentence, and a 1px nudge put a channel chip above it too.
+- **Center the letters in the fill by their cap height.** In Space Grotesk the line box already does this. Space Mono's letters sit 0.0275em below the center of their content area, so inline code moves its fill down by that much (top padding `1px - 0.0275em`, bottom `1px + 0.0275em`). Without it the letters sit about 0.6px low.
+- **Center a leading icon on the letters, not on the box.**
+
 ## Top bar icon buttons
 
 The icon buttons at the two ends of a phone top bar (Back on the left; the bell or the overflow menu on the right) mirror each other, so their icon centers are symmetric and Back is neither crowded against the edge nor out of balance with the right side:

@@ -2,10 +2,11 @@ import { tv } from "../../lib/tv";
 
 export const messageSystem = tv({
   slots: {
-    // A system note is a standalone line between messages: it keeps a net
-    // 12 above and below (2026-10-11) — the note owns its 4px lead-in, the
-    // message that follows cancels the rest of the group-break accounting
-    // via data-follows-system.
+    // A system note is a standalone line between messages: its own `py-3`
+    // keeps 12px above and below it, 6px inside an open group panel. It reads
+    // no marker from its neighbours: raft-ui reads neither slock's
+    // `data-followed-by` nor `followsSystemFor`. slock still writes
+    // `data-followed-by` for its own classes.
     systemRoot: [
       "flex min-w-0 items-center justify-center",
       "gap-2 px-4 py-3 in-data-[slot=system-message-group-panel]:py-1.5",
