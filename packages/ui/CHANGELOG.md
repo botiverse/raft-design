@@ -1,3 +1,10 @@
+## [0.9.3](https://github.com/botiverse/raft-design/compare/v0.9.2...v0.9.3) (2026-10-20)
+
+### Fixed
+
+- Message reference chips sit on the sentence's baseline. Chips with a leading icon (task, joint channel, thread, link) sat 3px high and text-only chips like `#general` 1px high, which also pushed lines apart (26px instead of 24px). Height, colors and padding are unchanged. ([#583](https://github.com/botiverse/raft-design/pull/583))
+- `InlineCode` in a message centres its letters in the fill (they sat about 0.6px low). ([#583](https://github.com/botiverse/raft-design/pull/583))
+
 ## [0.9.2](https://github.com/botiverse/raft-design/compare/v0.9.1...v0.9.2) (2026-10-19)
 
 ### Fixed
