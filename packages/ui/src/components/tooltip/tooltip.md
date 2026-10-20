@@ -49,7 +49,7 @@ The tooltip is `layer-hud` with `foreground-on-hud` text, like a toast ([Color](
 
 - Tooltip wraps the Base UI Tooltip. It provides the `tooltip` role and opens on hover and on keyboard focus.
 - A tooltip adds to a name; it doesn't replace it. Give every icon-only button its own `aria-label`.
-- Touch screens have no hover, and Tooltip doesn't open on touch: Base UI opens it for a mouse and for keyboard focus only. Write the explanation in the interface instead, or make it part of the accessible name ([Touch](../../../../../design/patterns/touch.md#press-and-hold)).
+- Touch screens have no hover, and Tooltip doesn't open on touch: Base UI opens it for a mouse and for keyboard focus only. Write the explanation in the interface instead, or make it part of the accessible name ([Touch](../../../../../design/patterns/touch.md#press-and-hold)). Where a platform's tooltip does open on press and hold, never put one on something whose press and hold opens a menu.
 
 ## Rules
 

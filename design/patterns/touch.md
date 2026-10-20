@@ -49,6 +49,7 @@ The platforms' own bars (the status bar, a system tab bar) are not covered here.
 - Make press and hold open the thing's menu, the same menu that right-click and ⋯ open ([States](../foundations/states.md#touch-screens)). Press and hold opens a menu only on something that has one.
 - A message is the one exception to a visible equivalent today: it has no ⋯, and its hover toolbar is hidden on a touch screen, so there the message menu opens only by press and hold ([Conversation](./conversation.md#actions)). Whether to give messages a visible ⋯ on a touch screen is not decided yet.
 - Don't count on press and hold for a tooltip. raft-ui's [Tooltip](../../packages/ui/src/components/tooltip/tooltip.md) opens for a mouse and for keyboard focus only (Base UI's trigger ignores touch), so on a touch screen what a tooltip says must also be in the interface or in the thing's accessible name.
+- Never give a press-and-hold tooltip to something whose press and hold opens a menu: press and hold means one thing on one target, and the menu wins. A platform tooltip that opens on press and hold (Material's, in the Android app) goes only on things without a menu.
 - Start a drag only after a 200ms press and hold, so scrolling a list doesn't move a card ([TaskDnd](../../packages/ui/src/components/task-dnd/task-dnd.md)).
 
 ### Pull to refresh
