@@ -237,10 +237,10 @@ export function ActivityItem({
               {item.replyCount} replies
             </Badge>
           )}
-          {item.kind === "thread" && item.following === false ? (
+          {item.following === false ? (
             <Badge appearance="outline" variant="muted">
               <BellOff size={10} />
-              Unfollowed
+              {item.kind === "thread" ? "Unfollowed" : "Muted"}
             </Badge>
           ) : null}
           {item.hasMention && item.unreadCount > 0 ? (
@@ -300,14 +300,18 @@ export function ActivityItem({
             </ContextMenuItem>
           </>
         ) : null}
-        {item.kind === "thread" ? (
-          <ContextMenuItem onClick={handleToggleFollowing}>
-            {item.following === false ? <Bell /> : <BellOff />}
-            <ContextMenuItemLabel>
-              {item.following === false ? "Follow thread" : "Unfollow thread"}
-            </ContextMenuItemLabel>
-          </ContextMenuItem>
-        ) : null}
+        <ContextMenuItem onClick={handleToggleFollowing}>
+          {item.following === false ? <Bell /> : <BellOff />}
+          <ContextMenuItemLabel>
+            {item.kind === "thread"
+              ? item.following === false
+                ? "Follow thread"
+                : "Unfollow thread"
+              : item.following === false
+                ? "Unmute activity"
+                : "Mute activity"}
+          </ContextMenuItemLabel>
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   );
