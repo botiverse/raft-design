@@ -32,9 +32,9 @@ const DESKTOP: Record<string, [string, string]> = {
   subhead: ["14px", "22px"],
   callout: ["14px", "22px"],
   control: ["14px", "22px"],
-  footnote: ["12px", "20px"],
-  caption: ["12px", "20px"],
-  "mono-meta": ["12px", "20px"],
+  footnote: ["12px", "18px"],
+  caption: ["12px", "18px"],
+  "mono-meta": ["12px", "18px"],
   "mono-code": ["13px", "20px"],
 };
 

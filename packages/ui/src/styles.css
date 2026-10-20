@@ -130,12 +130,13 @@
 }
 
 /* Desktop type, from 768px (Tailwind's `md`, where the desktop layout begins):
-   Feishu's PC scale, 14/22 for reading, 12/20 for notes, 16/24 for titles. A
-   phone keeps the theme's values, Feishu's mobile scale. The type utilities
-   read these variables (`font-size: var(--text-body)`), so every component
-   follows without a breakpoint of its own. In the theme layer, after the
-   theme's own `:root`, so an app's later theme still wins. Hero, display,
-   title and label stay as they are: setup pages and the phone tab bar. */
+   Feishu's PC scale, 14/22 for reading, 12px for notes (on an 18px line, see
+   typography.md), 16/24 for titles. A phone keeps the theme's values,
+   Feishu's mobile scale. The type utilities read these variables
+   (`font-size: var(--text-body)`), so every component follows without a
+   breakpoint of its own. In the theme layer, after the theme's own `:root`,
+   so an app's later theme still wins. Hero, display, title and label stay as
+   they are: setup pages and the phone tab bar. */
 @layer theme {
   @media (width >= 48rem) {
     :root,
@@ -149,11 +150,11 @@
       --text-callout: 14px;
       --text-callout--line-height: 22px;
       --text-footnote: 12px;
-      --text-footnote--line-height: 20px;
+      --text-footnote--line-height: 18px;
       --text-caption: 12px;
-      --text-caption--line-height: 20px;
+      --text-caption--line-height: 18px;
       --text-mono-meta: 12px;
-      --text-mono-meta--line-height: 20px;
+      --text-mono-meta--line-height: 18px;
       --text-mono-code: 13px;
       --text-mono-code--line-height: 20px;
       --text-control: 14px;
