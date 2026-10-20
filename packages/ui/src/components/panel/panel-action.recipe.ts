@@ -6,15 +6,17 @@ const panelActionBase = tv({
     "overflow-visible font-sans leading-none tabular-nums select-none outline-none",
     "transition-all duration-100",
     "[&>svg]:pointer-events-none [&>svg]:shrink-0",
-    "h-11 min-w-11 rounded-control border-[1.5px] border-transparent bg-transparent px-2 py-0",
-    // Desktop heads use the DS small icon button (32, an 18px glyph) and
-    // keep a 44px hit area through the overhang; a phone head keeps the
-    // 44px button, its tap target.
-    "md:h-8 md:min-w-8 md:px-[5px] md:after:absolute md:after:-inset-1.5",
+    "h-control min-w-control rounded-control border-[1.5px] border-transparent bg-transparent py-0",
+    // The control metrics: on a desktop (from 768px with a mouse or
+    // trackpad) the DS small icon button, 32 with an 18px glyph, keeping a
+    // 44px hit area through the overhang; on a phone and on a touch screen
+    // the 44px button, its tap target, with no overhang.
+    "px-2 md:pointer-fine:px-[5px]",
+    "after:absolute after:-inset-control-hit",
     "text-foreground",
     "hover:bg-fill-pressed active:bg-fill-pressed",
     "focus-visible:shadow-focus",
-    "[&>svg]:size-[22px] md:[&>svg]:size-[18px]",
+    "[&>svg]:size-control-icon",
   ],
 });
 
