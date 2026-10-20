@@ -22,7 +22,7 @@ export type ActivityCompositionItem = {
     status: ActivityTaskStatus;
   };
   draft?: boolean;
-  /** `false`: an unfollowed thread, or a channel or DM whose activity is muted. */
+  /** `false`: an unfollowed thread, or a channel whose activity is muted. */
   following?: boolean;
   saved?: boolean;
   done?: boolean;

@@ -45,7 +45,7 @@ A touch screen has no hover, so anything that only appears on hover is out of re
 
 - With a mouse, keep a row's actions hover-only, Mark as Done on an Activity row included: show them while the row is hovered, holds keyboard focus or has a menu open from it, and hide them at rest. A list where every row shows its button reads as a wall of buttons and pulls the eye from the content, and the row itself is what a mouse goes for. Hidden actions stay in the tab order.
 - Put every hover action in the row's press-and-hold menu, the same menu right-click opens on desktop, so an action is in one place on every device ([Conversation](./conversation.md)). On a touch screen that menu is where they are: the row shows none of them at rest, Mark as Done on an Activity row included, as in mail apps. A button on every row makes a phone's list a column of buttons ([InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#behavior)).
-- A swipe may add a shortcut on an Activity row (by default Mark as Done to the left, and Unfollow Thread or Mute Activity to the right, with an Undo toast), but never be the only way to reach an action: the menu has it too. The rules for swipes, and which actions people can put on them, are in [Touch](./touch.md#swipe).
+- A swipe may add a shortcut on an Activity row (by default Mark as Done to the left, and Unfollow Thread or, on a channel, Mute Activity to the right, with an Undo toast), but never be the only way to reach an action: the menu has it too. The rules for swipes, and which actions people can put on them, are in [Touch](./touch.md#swipe).
 
 ### Phone
 

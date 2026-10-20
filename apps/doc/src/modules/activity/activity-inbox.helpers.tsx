@@ -300,18 +300,20 @@ export function ActivityItem({
             </ContextMenuItem>
           </>
         ) : null}
-        <ContextMenuItem onClick={handleToggleFollowing}>
-          {item.following === false ? <Bell /> : <BellOff />}
-          <ContextMenuItemLabel>
-            {item.kind === "thread"
-              ? item.following === false
-                ? "Follow thread"
-                : "Unfollow thread"
-              : item.following === false
-                ? "Unmute activity"
-                : "Mute activity"}
-          </ContextMenuItemLabel>
-        </ContextMenuItem>
+        {item.kind === "thread" || item.kind === "channel" ? (
+          <ContextMenuItem onClick={handleToggleFollowing}>
+            {item.following === false ? <Bell /> : <BellOff />}
+            <ContextMenuItemLabel>
+              {item.kind === "thread"
+                ? item.following === false
+                  ? "Follow thread"
+                  : "Unfollow thread"
+                : item.following === false
+                  ? "Unmute activity"
+                  : "Mute activity"}
+            </ContextMenuItemLabel>
+          </ContextMenuItem>
+        ) : null}
       </ContextMenuContent>
     </ContextMenu>
   );
