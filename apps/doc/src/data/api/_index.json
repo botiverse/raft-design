@@ -172,6 +172,23 @@
     ],
     "status": "experimental"
   },
+  "comment": {
+    "names": [
+      "CommentCard",
+      "CommentCardMeta",
+      "CommentCardTrigger",
+      "CommentEntry",
+      "CommentEntryAuthor",
+      "CommentEntryBody",
+      "CommentEntryHeader",
+      "CommentEntryTime",
+      "CommentMargin",
+      "CommentMarginItem",
+      "CommentMarker"
+    ],
+    "status": "experimental",
+    "description": "The card of one discussion: its comments, a line such as \"2 replies\", and the reply box when it is open. A `div`; which parts it holds (collapsed or open) is the caller's choice. To open it with a click, add `CommentCardTrigger`."
+  },
   "composer": {
     "names": [
       "Composer",

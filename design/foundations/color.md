@@ -114,7 +114,7 @@ inactive
 
 | Color | Role | Means | Use for |
 | --- | --- | --- | --- |
-| Yellow | `brand` | You | The frame, the selected item in navigation, an on switch, the location tile of the place you are in, a mention of you, search hits; your server (the workspace tile, yellow on ink) |
+| Yellow | `brand` | You | The frame, the selected item in navigation, an on switch, the location tile of the place you are in, a mention of you, search hits, the passage of the comment you opened; your server (the workspace tile, yellow on ink) |
 | Pink | `attention` | To do | At most one primary button per screen; unread counts and attention dots |
 | Cyan | `info` | This item, information | In Progress, runtimes, external agents, progress bars; `info-soft` for the item singled out in content, an active filter, an info banner |
 | Orange | `warning` | Interrupts | Buttons that stop, leave or reset; warnings; Todo; the error presence light |
@@ -160,7 +160,7 @@ A soft tint (`*-soft`) is a highlight, never a sticker: it has no border.
 
 | Tint | Use for |
 | --- | --- |
-| `brand-soft` | Menu highlight, the busy chip, text selection |
+| `brand-soft` | Menu highlight, the busy chip, text selection, a passage with comments ([Comments](../patterns/comments.md)) |
 | `info-soft` | The selected item in content, filters, info banners, runtime chips, thread references, a message inside a notification |
 | `attention-soft` | Channel references, a reaction you added |
 | `success-soft` | Success banners, the Done chip |

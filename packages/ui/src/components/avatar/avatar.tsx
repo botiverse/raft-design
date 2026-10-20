@@ -93,8 +93,8 @@ const avatar = tv({
     group: [
       "group/avatar-group flex items-center",
       "stack-x-[-5px]",
-      "*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-canvas)]",
-      "*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-canvas)]",
+      "*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
+      "*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
     ],
   },
   variants: {
@@ -330,8 +330,9 @@ export type AvatarGroupProps = ComponentPropsWithRef<"div">;
 
 // Overlapping stack of avatars (and an optional trailing AvatarGroupCount). The
 // standalone frame is a transparent border, so in the stack each avatar's frame is painted
-// with the ring surface (layer-sidebar) to stay opaque and never show the avatar
-// neighbor beneath the overlap.
+// with the ring surface to stay opaque and never show the avatar neighbor beneath the
+// overlap. The surface is layer-canvas; a stack on another surface (a chip on a card)
+// sets `--avatar-group-surface` to it.
 export function AvatarGroup({ className, ...props }: AvatarGroupProps) {
   const { group } = avatar();
   return <div data-slot="avatar-group" className={group({ className })} {...props} />;

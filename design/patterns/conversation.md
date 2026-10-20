@@ -84,4 +84,5 @@ thread-panel/thread-panel
 
 - [Hand-offs and approvals](../people-and-agents/handoffs-and-approvals.md): event lines, status and action cards.
 - [Navigation](./navigation.md): reference chips and links.
+- [Comments](./comments.md): comments on a document, beside the passage they are about; they are not messages.
 - [Built from existing parts](../components/overview.md#built-from-existing-parts): link cards, forwarded messages, translations and multi-select.

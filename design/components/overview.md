@@ -165,6 +165,7 @@ Every file someone opens from a message, whether an image, a PDF, text, Markdown
 
 - **The toolbar is the same for every type:** the type badge, the file name, then the actions in a fixed order (Comments, Copy, Download, then Close last). An action that doesn't apply to a file is left out; the rest keep their order.
 - **On a phone** the toolbar keeps the file name, one More menu and Close. Comments, Copy and Download move into the menu; when Download is the only action, it stays as its own button. The type badge and the gallery count drop out, because the name needs the room and the thumbnails already show the position.
+- **Comments** on a document the viewer renders sit in a margin beside it, level with their passages; on a narrow viewer, markers beside the passages open them in a bottom sheet ([Comments](../patterns/comments.md)).
 - **Plain text** sits in the [CodeBlock](../../packages/ui/src/components/code-block/code-block.md) frame, but its lines wrap. A file in the viewer is read top to bottom, and find in page has to reach every line. A snippet in a message still scrolls sideways.
 - **Images** keep the stage, previous and next, and the thumbnails below the toolbar.
 

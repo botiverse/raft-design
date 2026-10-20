@@ -10,7 +10,7 @@ Controls and cards sit flat on the page. Only things that float above it (menus,
 
 ## Principles
 
-- **No shadow on controls and cards.** A control is marked by its ink border, not a shadow.
+- **No shadow on controls and cards.** A control is marked by its ink border, not a shadow. The two exceptions are cards that leave their place for a moment: a dragged card and the open comment card.
 - **One soft shadow for everything that floats.**
 - **The hard sticker shadow is for brand illustration only.**
 
@@ -26,7 +26,7 @@ focus
 
 | Token (utility) | Use for |
 | --- | --- |
-| `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, and a card while it is dragged (it is lifted off the board; the card left behind casts nothing) |
+| `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, a card while it is dragged (it is lifted off the board; the card left behind casts nothing), and the open comment card in a document's margin (it is lifted off the column of cards, which move out of its way; [Comments](../patterns/comments.md)) |
 | `elevation-sticker` (`shadow-sticker`) | Brand illustration only: the 99px avatar on a profile and on the last setup step, and the preview of the new server on the page that creates a server ([Brand](./brand.md#how-much-brand)). Nothing else |
 | `focus-ring` (`shadow-focus`) | Every element that can be reached with the keyboard, when the keyboard reaches it |
 
