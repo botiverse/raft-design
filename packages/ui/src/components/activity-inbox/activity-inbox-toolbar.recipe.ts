@@ -9,7 +9,7 @@ export const activityInboxToolbar = tv({
       "md:h-11 md:flex-nowrap md:py-0",
       "border-b border-line-hairline bg-layer-canvas px-4",
       "**:data-[activity-inbox-action=sort]:text-foreground-muted",
-      "[&_[data-activity-inbox-action=sort]:hover]:text-foreground",
+      "**:data-[activity-inbox-action=sort]:hover:text-foreground",
     ],
     selectionCount: ["mr-1", "text-footnote font-bold text-foreground"],
   },

@@ -10,7 +10,7 @@
  * jsdom applies no CSS, so these assert the declared classes.
  */
 import { readFileSync, readdirSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { join, relative } from "node:path";
 import type { ComponentProps } from "react";
 import { afterEach, expect, test } from "vite-plus/test";
 import { act, cleanup, render, screen } from "@testing-library/react";
@@ -183,11 +183,15 @@ test("no text in raft-ui turns pink on hover", () => {
   expect(offenders).toEqual([]);
 });
 
-test("no link hover in raft-ui is a bare :hover selector, which a tap on a phone leaves stuck", () => {
-  // `[&>a:hover]:x` skips Tailwind v4's @media (hover: hover) guard; write
-  // `[&>a]:hover:x` instead. (Row hovers elsewhere are out of this rule's scope.)
-  const offenders = sources(join(__dirname, "components")).filter((path) =>
-    /\ba:hover\]/.test(readFileSync(path, "utf8")),
+test("no hover in raft-ui is a bare :hover selector, which a tap on a phone leaves stuck", () => {
+  // `[&>tr:hover]:x` skips Tailwind v4's @media (hover: hover) guard; write
+  // `[&>tr]:hover:x` instead. When the hover is on a child (`has-[…:hover]`),
+  // `hover:` can't say it: prefix `[@media(hover:hover)]:` to keep the guard.
+  const offenders = sources(__dirname).flatMap((path) =>
+    readFileSync(path, "utf8")
+      .split(/[\s"'`]+/)
+      .filter((token) => token.includes(":hover]") && !token.startsWith("[@media(hover:hover)]:"))
+      .map((token) => `${relative(__dirname, path)}: ${token}`),
   );
   expect(offenders).toEqual([]);
 });
