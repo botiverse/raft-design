@@ -270,6 +270,121 @@
   background: var(--fill-muted);
   color: var(--foreground-disabled);
 }
+/* On a phone the field is a trigger, not a text input: a select-like button
+   that shows the value. Its hit area covers the whole field; the clear button
+   sits above it. */
+.r-combobox-select__trigger {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: inherit;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+.r-combobox-select__trigger::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.r-combobox-select__trigger:disabled {
+  color: inherit;
+}
+.r-combobox-select__value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.r-combobox-select__placeholder {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--foreground-hint);
+}
+.r-combobox-select__trigger .r-combobox-select__chips {
+  margin-inline-start: -6px;
+}
+.r-combobox-select__trigger .r-combobox-select__chip {
+  padding-inline-end: 8px;
+}
+.r-combobox-select__clear {
+  position: relative;
+  z-index: 1;
+}
+.r-combobox-select__arrow {
+  pointer-events: none;
+}
+.r-combobox-select__control--trigger[data-popup-open] .r-combobox-select__arrow > svg {
+  transform: rotate(180deg);
+}
+/* The phone's anchored list fits the room on its side instead of flipping. */
+.r-combobox-select__popup--anchored .r-combobox-select__list {
+  box-sizing: border-box;
+  max-height: min(calc(16rem + 12px), var(--available-height, 100vh));
+}
+/* The phone's bottom sheet: the field's label as its title, the search input
+   at its top, then the whole list, scrolling in the rest of the sheet. */
+.r-combobox-select__sheet-popup {
+  height: 82vh;
+}
+.r-combobox-select__sheet {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+.r-combobox-select__sheet-header {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-inline-end: 8px;
+}
+.r-combobox-select__sheet-title {
+  min-width: 0;
+  flex: 1;
+}
+.r-combobox-select__sheet-search {
+  flex: 0 0 auto;
+  padding: 4px 16px 8px;
+}
+.r-combobox-select__search-icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  color: var(--foreground-hint);
+}
+.r-combobox-select__sheet-body {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 8px calc(16px + env(safe-area-inset-bottom, 0px));
+}
+.r-combobox-select__sheet .r-combobox-select__list {
+  max-height: none;
+  overflow: visible;
+  padding: 0;
+}
+.r-combobox-select__sheet .r-combobox-select__option {
+  min-height: 52px;
+  padding: 0 12px;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+}
+.r-combobox-select__sheet .r-combobox-select__group-label {
+  padding: 12px 12px 4px;
+}
 @keyframes r-combobox-select-spin {
   to {
     transform: rotate(360deg);

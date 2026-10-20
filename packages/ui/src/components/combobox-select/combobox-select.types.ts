@@ -27,6 +27,12 @@ export interface ComboboxSelectMessages {
   chipDescription: string;
   inputDescription: string;
   remove: (label: string) => string;
+  /** The placeholder of the search input at the top of the phone's bottom sheet. */
+  search: string;
+  /** The button that closes the phone's bottom sheet of a multiple select. */
+  done: string;
+  /** The close button of the phone's bottom sheet. */
+  close: string;
 }
 
 type RootProps = BaseCombobox.Root.Props<unknown, boolean>;
@@ -98,9 +104,24 @@ export type ComboboxSelectProps<
     emptyContent?: ReactNode;
     loadingContent?: ReactNode;
     messages?: Partial<ComboboxSelectMessages>;
+    /**
+     * On a phone (a touch screen under 48rem), more selectable options than this open a
+     * bottom sheet instead of the anchored list.
+     * @default 10
+     */
+    sheetThreshold?: number;
+    /**
+     * The title of the phone's bottom sheet. Defaults to the field's name: `aria-label`,
+     * the text of `aria-labelledby`, or the `<label>` whose `for` is the field's `id`.
+     */
+    sheetTitle?: ReactNode;
+    /** The text input: the field on a desktop, the search input of the bottom sheet on a phone. */
     inputProps?: Omit<BaseCombobox.Input.Props, "value" | "defaultValue" | "size" | "children">;
+    /** The portal of the list, and of the phone's anchored list and bottom sheet. */
     portalProps?: BaseCombobox.Portal.Props;
+    /** The desktop list's positioner. A phone positions its list itself. */
     positionerProps?: Omit<BaseCombobox.Positioner.Props, "children">;
+    /** The desktop list's popup. */
     popupProps?: Omit<BaseCombobox.Popup.Props, "children">;
     className?: string;
     style?: CSSProperties;
