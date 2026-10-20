@@ -46,7 +46,7 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 
 The heights of controls, fields and rows are minimums, at the default text size. Where text can grow on its own, a control, a field or a row grows with its text, and its text never clips ([Larger text](./typography.md#larger-text)): two lines in a 44px row make it taller, not cut off. A size is still what a test pins and what the same kind of element shares ([The same kind, the same size](#the-same-kind-the-same-size)); at a larger text size every element of a kind grows together.
 
-Headers and bars (the last two rows) keep the height in the table, so the seams under them line up. Whether they grow when text is larger is not decided yet.
+Headers and bars (the last two rows) keep the height in the table at every text size, as the iOS navigation bar and the Material top app bar do, so the seams under them line up. Their title stays on one line and truncates, and its size stops growing at the size that still fits the bar, as bar titles do on iOS and Android ([Larger text](./typography.md#larger-text)); the content under them grows.
 
 | Element | Height |
 | --- | --- |

@@ -31,25 +31,25 @@ app-shell/compositions/mobile-root
 
 #### Overlays on a phone
 
-On a phone (the layout below 768px), an overlay anchored to a small trigger has little room around it, and the on-screen keyboard pushes it out of place. A bottom sheet rises from the bottom edge, within reach of the thumb, with the width of the screen for a field and its keyboard or for a long list. So on a phone a bottom sheet replaces a popover or a select list where the content needs that room, and nowhere else. These rules hold on the web, iOS and Android alike; how a sheet looks and moves on each platform follows the platform.
+On a phone (the layout below 768px), an overlay anchored to a small trigger has little room around it, and the on-screen keyboard pushes it out of place. A bottom sheet rises from the bottom edge, within reach of the thumb, with the width of the screen for a field and its keyboard or for a long list. So on a phone a bottom sheet replaces a popover, a select list or a small dialog with fields where the content needs that room, and nowhere else. These rules hold on the web, iOS and Android alike; how a sheet looks and moves on each platform follows the platform.
 
 | Need | On a phone |
 | --- | --- |
-| Act on one thing: a message, a row, a channel | The anchored menu, from press and hold or ⋯ ([ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md), [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)), however many items it has |
+| Act on one thing: a message, a row, a channel | The anchored menu, from press and hold or ⋯; a message's from press and hold ([ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md), [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)), however many items it has |
 | A setting-style choice that applies at once (sort, status) | The same menu, with radio items |
 | One of up to 10 values for a form | The select list, anchored to its field ([Select](../../packages/ui/src/components/select/select.md)) |
 | One or a few of many values, usually with search: a server, people, labels | A bottom sheet with the list, its search row at the top ([Navigation](./navigation.md#servers)) |
 | The little form a popover holds on desktop, with its own buttons: renaming, snoozing | A bottom sheet, with the buttons stacked full width at its bottom ([Drawer](../../packages/ui/src/components/drawer/drawer.md)) |
 | A short list opened from a top bar: Working now, the notifications | A popover, as on desktop |
 | A sentence or two and one button, such as adding Raft to the Home Screen | A bottom sheet |
-| A small task of 2 or 3 fields (Create Channel) | A dialog, with a 16px margin on each side ([Dialog](../../packages/ui/src/components/dialog/dialog.md)) |
-| A confirmation | A dialog ([Feedback](./feedback.md#confirming)) |
+| A small task of 2 or 3 fields (Create Channel) | A bottom sheet, with its fields at the top and its buttons stacked full width at the bottom. A small centered dialog would sit under the on-screen keyboard; iOS presents a create form as a sheet, and Material as a full-screen dialog ([Dialog](../../packages/ui/src/components/dialog/dialog.md)) |
+| A confirmation | A dialog on the web and Android; the system confirmation sheet in the iOS app ([Feedback](./feedback.md#confirming)) |
 
 - Never open the actions on one thing as a bottom sheet. Press and hold, right-click and ⋯ open one menu, so an action is in one place on every device ([States](../foundations/states.md#touch-screens)), and a menu opens where the finger already is.
-- Never confirm in a bottom sheet, on iOS either, where the system offers an action sheet for destructive choices. Raft confirms in a dialog on every platform, so the question and its two answers look the same everywhere, and a decision people must make before they go on sits in the center over a scrim. Whether the iOS app adopts the system's destructive action sheet is not decided yet.
+- Confirm in the platform's own way. The iOS app uses the system confirmation sheet (SwiftUI `confirmationDialog`), the way iOS asks before an action. The web and Android confirm in a dialog, centered over a scrim, and never in a Raft bottom sheet: a decision people must make before they go on sits in the center. The question and its answers are the same words on every platform ([Writing](../content/writing.md#actions-and-their-dialogs)).
 - Keep a choice that applies at once, and one of up to 10 values in a form, in its anchored menu or list: it opens next to what it changes, so people see both.
 - From 768px, keep the anchored overlays, on a touch screen too: there is room beside the trigger.
-- raft-ui's Popover, Select and ComboboxSelect don't turn into a bottom sheet themselves: build the sheet with [Drawer](../../packages/ui/src/components/drawer/drawer.md).
+- raft-ui's Popover, Select, ComboboxSelect, Combobox and Dialog don't turn into a bottom sheet themselves: build the sheet with [Drawer](../../packages/ui/src/components/drawer/drawer.md).
 
 ### Desktop
 

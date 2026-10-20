@@ -81,6 +81,7 @@ list-row/compositions/tones
 - Show at most one badge in a row.
 - Set the time and counts in Space Mono; `ListRowMeta` does this.
 - Write a setting's consequence in `ListRowDescription` with `wrap`, so it isn't cut off.
+- Where text is set larger than the scale, let the title of a `plain` or `entry` row wrap and the row grow, never truncate ([Larger text](../../../../../design/foundations/typography.md#larger-text)). ListRow truncates the title today.
 
 ### Group headings
 

@@ -117,11 +117,11 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | A short list opened from a top bar: Working now, the notifications | [Popover](../../packages/ui/src/components/popover/popover.md), on a phone too |
 | Switching server, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md), [Navigation](../patterns/navigation.md#servers)). The product doesn't follow this yet: it opens a popover |
 | A short explanation, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md)) |
-| A confirmation | A small [Dialog](../../packages/ui/src/components/dialog/dialog.md), 384px, with Cancel and the confirm button; see [Feedback](../patterns/feedback.md#confirming). Raft Chat builds its confirmations on Dialog, except two that use [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md): discarding unsaved edits to an agent's profile, and opening a link that hands off to another app |
+| A confirmation | A small [Dialog](../../packages/ui/src/components/dialog/dialog.md), 384px, with Cancel and the confirm button; see [Feedback](../patterns/feedback.md#confirming). The iOS app uses the system confirmation sheet instead. Raft Chat builds its confirmations on Dialog, except two that use [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md): discarding unsaved edits to an agent's profile, and opening a link that hands off to another app |
 | Task details | A centered dialog, 960px wide, full screen on a phone ([Tasks](../patterns/tasks.md)) |
 
 - Put a scrim behind every centered overlay: dialogs, confirmations, search, task details, large forms. How overlays move is in [Motion](../foundations/motion.md#usage).
-- On a phone, a bottom sheet replaces a popover or a select list only for a little form or a choice among many values; menus of actions and confirmations never become sheets ([Overlays on a phone](../patterns/page-structure.md#overlays-on-a-phone)).
+- On a phone, a bottom sheet replaces a popover, a select list or a small dialog only for a form or a choice among many values. Menus of actions never become sheets, and confirmations never become Raft bottom sheets; the iOS app confirms with the system's confirmation sheet ([Overlays on a phone](../patterns/page-structure.md#overlays-on-a-phone)).
 
 ### Waiting
 
