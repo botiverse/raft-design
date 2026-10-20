@@ -64,7 +64,7 @@ raft-ui doesn't draw the floating pill yet; until it does, apps build it from th
 - Float the row above the bottom safe area: 8px above the screen's bottom edge, or the safe-area inset when it is larger, and on the 16px phone content margin ([Spacing](../../../../../design/foundations/spacing.md)).
 - Leave 8px between the pill and the Search button. The pill takes the rest of the width.
 - Give the page's scrolling content bottom padding of the row's height plus its gap, so the last row can scroll clear of the pill.
-- Hide the row while the on-screen keyboard is open. Pinned above the keyboard, it would cover the field being typed in and the composer.
+- Hide the row while the on-screen keyboard is open. Pinned above the keyboard, it would cover the field being typed in and the composer. When the keyboard closes, bring the row back with the platform's default transition, not an instant jump, so people can see the navigation return rather than wonder where it went.
 - Show the row only on top-level pages, as with the edge bar. Search and pushed pages cover it.
 
 ## States
