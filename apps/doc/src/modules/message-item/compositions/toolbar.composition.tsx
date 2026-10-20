@@ -27,7 +27,7 @@ export function MessageToolbarComposition() {
         <MessageItemContent>
           <MessageItemHeader>
             <MessageItemSender>Atlas</MessageItemSender>
-            <MessageItemTime>2:19 PM</MessageItemTime>
+            <MessageItemTime dateTime="2026-10-20T14:19:00Z">2:19 PM</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>
             Hover the row to reveal reply, react, and save actions. The toolbar is forced visible

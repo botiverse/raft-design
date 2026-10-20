@@ -3,7 +3,7 @@ import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 
 const sender = [
-  "min-w-0 shrink-0 truncate",
+  "min-w-0 truncate",
   "text-subhead font-bold text-foreground",
   "rounded-[2px] outline-none focus-visible:shadow-focus",
 ];
@@ -42,10 +42,20 @@ export const messageItem = tv({
       "text-(--mi-ct-color,transparent)",
     ],
     content: ["min-w-0 flex-1", "text-body text-foreground"],
-    // No right-side reserve: the hover toolbar rides the message's top edge
-    // and takes the time's place (the time fades out while it shows), so the
-    // header keeps its full width.
-    header: "mb-px flex min-w-0 items-center gap-1.5 overflow-hidden",
+    // With a mouse, the header ends where the hover toolbar begins, so the
+    // toolbar never covers the name or the time. A product with more toolbar
+    // buttons sets --mi-toolbar-reserve to the toolbar's width plus its inset.
+    header: [
+      "mb-px flex min-w-0 items-center gap-1.5 overflow-hidden",
+      "pointer-fine:pe-(--mi-toolbar-reserve,6.5rem)",
+    ],
+    // The role grows into what is left after the name and badges (it has no
+    // basis of its own), so it gives way first; the name shrinks only once
+    // the role is gone. Badges never shrink.
+    senderGroup: [
+      "flex min-w-0 items-center gap-1.5 overflow-hidden",
+      "*:data-[slot=message-item-meta]:basis-0 *:data-[slot=message-item-meta]:grow",
+    ],
     sender,
     // Its own slot, not a data-slot selector: a Tooltip trigger or another
     // render wrapper replaces data-slot, and the hover underline went with it.
@@ -58,10 +68,10 @@ export const messageItem = tv({
     meta: ["min-w-0 truncate", "text-caption text-foreground-hint"],
     time: [
       "shrink-0 whitespace-nowrap",
-      "ml-auto font-mono text-mono-meta tabular-nums text-foreground-hint",
-      "opacity-[calc(1-var(--mi-toolbar-opacity,0))]",
+      "font-mono text-mono-meta tabular-nums text-foreground-hint",
     ],
     inlineStatus: ["shrink-0", "text-caption text-foreground-hint"],
+    edited: ["ms-1 whitespace-nowrap", "text-caption text-foreground-hint"],
     body: [
       "wrap-break-word select-text",
       "**:select-text",

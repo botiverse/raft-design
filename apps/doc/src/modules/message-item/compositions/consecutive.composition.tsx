@@ -13,6 +13,7 @@ import {
   MessageItemHeader,
   MessageItemMeta,
   MessageItemSender,
+  MessageItemSenderGroup,
   MessageItemTime,
 } from "@botiverse/raft-ui";
 import {
@@ -35,9 +36,11 @@ export function MessageConsecutiveComposition() {
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
-            <MessageItemSender>Atlas</MessageItemSender>
-            <MessageItemMeta>owner</MessageItemMeta>
-            <MessageItemTime>2:14 PM</MessageItemTime>
+            <MessageItemSenderGroup>
+              <MessageItemSender>Atlas</MessageItemSender>
+              <MessageItemMeta>owner</MessageItemMeta>
+            </MessageItemSenderGroup>
+            <MessageItemTime dateTime="2026-10-20T14:14:00Z">2:14 PM</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>
             <MessageItemExampleMarkdownLead portalContainer={portalContainer} />
@@ -46,7 +49,9 @@ export function MessageConsecutiveComposition() {
       </MessageItem>
       <MessageItem compact>
         <MessageItemGutter>
-          <MessageItemContinuationTime>2:15</MessageItemContinuationTime>
+          <MessageItemContinuationTime dateTime="2026-10-20T14:15:00Z">
+            2:15
+          </MessageItemContinuationTime>
         </MessageItemGutter>
         <MessageItemContent>
           <MessageItemBody>
@@ -56,7 +61,9 @@ export function MessageConsecutiveComposition() {
       </MessageItem>
       <MessageItem compact>
         <MessageItemGutter>
-          <MessageItemContinuationTime>2:16</MessageItemContinuationTime>
+          <MessageItemContinuationTime dateTime="2026-10-20T14:16:00Z">
+            2:16
+          </MessageItemContinuationTime>
         </MessageItemGutter>
         <MessageItemContent>
           <MessageItemBody>

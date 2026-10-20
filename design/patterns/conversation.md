@@ -29,7 +29,9 @@ conversation-panel/compositions/conversation-panel
 - Put a date line before the first message of the timeline and before the first message of each new day: Today, Yesterday, or the weekday and date.
 - Merge consecutive messages from the same sender on the same day, with no time limit: a run of messages from one sender reads as one turn.
 - Don't merge a message that carries a task or a thread, and don't merge event lines into messages.
+- Put a message's time right after its sender, never across the row from it: who said it and when read as one ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)).
 - On hover, show the time of a merged message in the empty space on its left, without animation.
+- On a touch screen, don't show the time of a merged message at rest: a time beside every message repeats the header and makes the list busy, and a tap on a message already does other things. The message menu carries it instead (see [Actions](#actions)).
 - Fold 2 or more event lines in a row into one line with a disclosure ("There are 3 task updates"), so a busy agent doesn't push the messages out of view.
 
 ### Mentions
@@ -43,9 +45,15 @@ conversation-panel/compositions/conversation-panel
 
 - On desktop, show a small toolbar on the top edge of the hovered message: Reply in Thread, Add Reaction, Save Message. Inside a thread, leave out Reply in Thread.
 - Put every other action in the message menu. Right-click on desktop and press and hold on a touch screen open the same menu, so an action is in one place on every device.
-- Make the quick reactions the first row of that menu, with a separator between them and the actions.
+- Open that menu with the message's full date and time, as a label that can't be chosen: on a touch screen it is the only place a merged message's time shows, and the full date settles which day a long group spans. Arrow keys skip it.
+- Make the quick reactions the first row under it, with a separator between them and the actions.
 - Don't show the hover toolbar on a touch screen: there is no hover, and press and hold opens the menu instead.
+- Let hover only add: the toolbar appears where nothing was, and the header gives it room, so it never covers the name or the time.
 - To act on several messages (forward, copy), choose Select Message in the menu; the toolbar for selected messages appears at the bottom of the conversation ([Built from existing parts](../components/overview.md#toolbar-for-selected-messages)).
+
+```example
+message-item/compositions/context-menu-showcase
+```
 
 ### The composer
 

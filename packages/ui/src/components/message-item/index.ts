@@ -8,6 +8,7 @@ export {
   MessageItemAttachments,
   MessageItemBody,
   MessageItemContent,
+  MessageItemEdited,
   MessageItemEmbedded,
   MessageItemFooter,
   MessageItemSearchMatch,
@@ -19,6 +20,7 @@ export {
   MessageItemSender,
   MessageItemSenderBadges,
   MessageItemSenderButton,
+  MessageItemSenderGroup,
   MessageItemTime,
 } from "./message-item-header";
 export { MessageItemToolbar, MessageItemToolbarButton } from "./message-item-toolbar";
@@ -78,6 +80,7 @@ export type {
   MessageItemAttachmentsProps,
   MessageItemBodyProps,
   MessageItemContentProps,
+  MessageItemEditedProps,
   MessageItemEmbeddedProps,
   MessageItemFooterProps,
   MessageItemSearchMatchProps,
@@ -89,6 +92,7 @@ export type {
   MessageItemSenderProps,
   MessageItemSenderBadgesProps,
   MessageItemSenderButtonProps,
+  MessageItemSenderGroupProps,
   MessageItemTimeProps,
 } from "./message-item-header";
 export type {

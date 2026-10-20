@@ -693,6 +693,7 @@
       "MessageItemBody",
       "MessageItemContent",
       "MessageItemContinuationTime",
+      "MessageItemEdited",
       "MessageItemEmbedded",
       "MessageItemFooter",
       "MessageItemGutter",
@@ -705,6 +706,7 @@
       "MessageItemSender",
       "MessageItemSenderBadges",
       "MessageItemSenderButton",
+      "MessageItemSenderGroup",
       "MessageItemTime",
       "MessageItemToolbar",
       "MessageItemToolbarButton",
@@ -731,7 +733,7 @@
       "MessageTextSelectionToolbarSeparator"
     ],
     "status": "stable",
-    "description": "Left-gutter hover clock for continuation rows. Pass the hour and minute only, in the person's 12h/24h format, with no AM/PM (`6:35`, `18:35`)."
+    "description": "Left-gutter hover clock for continuation rows, a `<time>`: pass the moment in `dateTime`. Show the hour and minute only, in the person's 12h/24h format, with no AM/PM (`6:35`, `18:35`)."
   },
   "message-list": {
     "names": [

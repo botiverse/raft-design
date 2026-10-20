@@ -211,7 +211,22 @@
   {
     "name": "MessageItemContinuationTime",
     "entry": "@botiverse/raft-ui",
-    "description": "Left-gutter hover clock for continuation rows. Pass the hour and minute only, in the person's 12h/24h format, with no AM/PM (`6:35`, `18:35`).",
+    "description": "Left-gutter hover clock for continuation rows, a `<time>`: pass the moment in `dateTime`. Show the hour and minute only, in the person's 12h/24h format, with no AM/PM (`6:35`, `18:35`).",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemEdited",
+    "entry": "@botiverse/raft-ui",
+    "description": "The edited marker, inline at the end of the message text on every row, full or continuation. Put it inside the last paragraph so it follows the last word; pass the copy (\"(edited)\") as children and the edit time as its tooltip.",
     "native": true,
     "props": [
       {
@@ -400,8 +415,24 @@
     ]
   },
   {
+    "name": "MessageItemSenderGroup",
+    "entry": "@botiverse/raft-ui",
+    "description": "Holds the sender, its badges and its role, and decides who gives way when the header runs out of room: the role truncates first, then the name. The badges stay whole beside the name, and the time, outside the group, never truncates.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
     "name": "MessageItemTime",
     "entry": "@botiverse/raft-ui",
+    "description": "The message's time, right after the sender. A `<time>`: pass the moment in `dateTime` (ISO 8601) and the full date and time as its tooltip.",
     "native": true,
     "props": [
       {

@@ -11,6 +11,7 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemSenderBadges,
+  MessageItemSenderGroup,
   MessageItemTime,
 } from "@botiverse/raft-ui";
 
@@ -26,12 +27,14 @@ export function MessageSenderStateComposition() {
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
-            <MessageItemSender>Mx. Chen</MessageItemSender>
-            <MessageItemSenderBadges>
-              <Badge appearance="soft" variant="muted">
-                Removed
-              </Badge>
-            </MessageItemSenderBadges>
+            <MessageItemSenderGroup>
+              <MessageItemSender>Mx. Chen</MessageItemSender>
+              <MessageItemSenderBadges>
+                <Badge appearance="soft" variant="muted">
+                  Removed
+                </Badge>
+              </MessageItemSenderBadges>
+            </MessageItemSenderGroup>
             <MessageItemTime>Yesterday</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>
@@ -49,12 +52,14 @@ export function MessageSenderStateComposition() {
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
-            <MessageItemSender>Noah</MessageItemSender>
-            <MessageItemSenderBadges>
-              <Badge appearance="soft" variant="muted">
-                Left
-              </Badge>
-            </MessageItemSenderBadges>
+            <MessageItemSenderGroup>
+              <MessageItemSender>Noah</MessageItemSender>
+              <MessageItemSenderBadges>
+                <Badge appearance="soft" variant="muted">
+                  Left
+                </Badge>
+              </MessageItemSenderBadges>
+            </MessageItemSenderGroup>
             <MessageItemTime>Monday</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>This history row remains visible after a member left.</MessageItemBody>
@@ -70,12 +75,14 @@ export function MessageSenderStateComposition() {
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
-            <MessageItemSender>Atlas</MessageItemSender>
-            <MessageItemSenderBadges>
-              <Badge appearance="soft" variant="muted">
-                Deleted
-              </Badge>
-            </MessageItemSenderBadges>
+            <MessageItemSenderGroup>
+              <MessageItemSender>Atlas</MessageItemSender>
+              <MessageItemSenderBadges>
+                <Badge appearance="soft" variant="muted">
+                  Deleted
+                </Badge>
+              </MessageItemSenderBadges>
+            </MessageItemSenderGroup>
             <MessageItemTime>Last week</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>
