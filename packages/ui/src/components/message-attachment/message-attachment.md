@@ -104,7 +104,7 @@ message-media/compositions/video-states
 ## Behavior
 
 - The whole card is clickable: the file name is the link, and it covers the card. The action buttons sit above it and work on their own.
-- Selecting an image opens it in the image viewer ([Built from existing parts](../../../../../design/components/overview.md#image-viewer)).
+- Selecting an image or a file opens it in the file viewer ([Built from existing parts](../../../../../design/components/overview.md#file-viewer)).
 - The gallery's action button shows on hover and on keyboard focus.
 
 ## Content
