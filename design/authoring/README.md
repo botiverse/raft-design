@@ -35,7 +35,7 @@ design/
   content/                Voice and tone, UI writing, terminology
   patterns/               How components combine into screens, for every Raft product:
                           page structure, navigation, tasks, conversation, forms, feedback,
-                          responsive layout
+                          responsive layout, touch
   components/overview.md  The two layers, how to choose a component, built from existing parts
   products/<product>/     Structure that belongs to one product only (raft-chat first)
   decisions/              Records of the major decisions, one file each, plus open questions

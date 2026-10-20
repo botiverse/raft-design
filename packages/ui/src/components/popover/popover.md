@@ -14,13 +14,14 @@ A popover is a small panel that opens next to the element people click and holds
 
 ## When to use
 
-| Situation                                               | Use                                                                                                    |
-| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| One sentence about something, on hover                  | [Tooltip](../tooltip/tooltip.md)                                                                       |
-| A summary of a person or an agent, on hover, with links | [PreviewCard](../preview-card/preview-card.md)                                                         |
-| A little choice or input, on click (snooze, rename)     | Popover, with a [RadioGroup](../radio-group/radio-group.md), an [Input](../input/input.md) and buttons |
-| A list of actions                                       | [DropdownMenu](../dropdown-menu/dropdown-menu.md)                                                      |
-| Something that stays open and scrolls                   | [Drawer](../drawer/drawer.md)                                                                          |
+| Situation                                               | Use                                                                                                                                         |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| One sentence about something, on hover                  | [Tooltip](../tooltip/tooltip.md)                                                                                                            |
+| A summary of a person or an agent, on hover, with links | [PreviewCard](../preview-card/preview-card.md)                                                                                              |
+| A little choice or input, on click (snooze, rename)     | Popover, with a [RadioGroup](../radio-group/radio-group.md), an [Input](../input/input.md) and buttons                                      |
+| The same little input, on a phone                       | A bottom sheet ([Drawer](../drawer/drawer.md), [Overlays on a phone](../../../../../design/patterns/page-structure.md#overlays-on-a-phone)) |
+| A list of actions                                       | [DropdownMenu](../dropdown-menu/dropdown-menu.md)                                                                                           |
+| Something that stays open and scrolls                   | [Drawer](../drawer/drawer.md)                                                                                                               |
 
 Which overlay fits which job is in [Choosing a component](../../../../../design/components/overview.md#overlays).
 

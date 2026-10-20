@@ -20,7 +20,7 @@ Every screen of every Raft product. Which destinations a product has, and what e
 | --- | --- | --- | --- |
 | Top-level page: a destination on the tab bar | The yellow frame: the status bar, then a large title with the page's name. The title may have one subtitle line, or one line saying who is working ([Working agents](../people-and-agents/working-agents.md#where-working-shows)). A page that shows the workspace pill or icon buttons has a 56px navigation row above the title | A list straight on paper, or inset groups | The tab bar ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) |
 | Pushed page | A white top bar, 56px, with a seam under it (`PanelHeader`, [Panel](../../packages/ui/src/components/panel/panel.md)): Back, the title and an optional subtitle, and at most two icon buttons on the right | The content | The composer on pages that can send a message; nothing on other pages, because the page covers the tab bar |
-| Overlay | — | A menu (press and hold, to act on one thing), a select list (to pick a value), a popover (a short list, such as Working now or the notifications), a dialog (to confirm), a bottom sheet (a short explanation, such as adding Raft to the Home Screen) | — |
+| Overlay | — | A menu (press and hold or ⋯, to act on one thing), a select list (to pick one of up to 10 values), a popover (a short list, such as Working now or the notifications), a dialog (to confirm, or a small task), a bottom sheet (a little form, a choice among many values, a short explanation). Which one is in [Overlays on a phone](#overlays-on-a-phone) | — |
 
 - Give every top-level page its large title, including the first one: the workspace pill says which server you are in, and the title says which page, at the same height on every tab. Raft Chat doesn't show the large title yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)); whether to keep it is in [Open questions](../decisions/open-questions.md).
 - Make the status bar and the browser's theme color follow the top: the frame on a top-level page, paper on a pushed page, so the page runs to the top edge of the screen.
@@ -28,6 +28,28 @@ Every screen of every Raft product. Which destinations a product has, and what e
 ```example
 app-shell/compositions/mobile-root
 ```
+
+#### Overlays on a phone
+
+On a phone (the layout below 768px), an overlay anchored to a small trigger has little room around it, and the on-screen keyboard pushes it out of place. A bottom sheet rises from the bottom edge, within reach of the thumb, with the width of the screen for a field and its keyboard or for a long list. So on a phone a bottom sheet replaces a popover or a select list where the content needs that room, and nowhere else. These rules hold on the web, iOS and Android alike; how a sheet looks and moves on each platform follows the platform.
+
+| Need | On a phone |
+| --- | --- |
+| Act on one thing: a message, a row, a channel | The anchored menu, from press and hold or ⋯ ([ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md), [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)), however many items it has |
+| A setting-style choice that applies at once (sort, status) | The same menu, with radio items |
+| One of up to 10 values for a form | The select list, anchored to its field ([Select](../../packages/ui/src/components/select/select.md)) |
+| One or a few of many values, usually with search: a server, people, labels | A bottom sheet with the list, its search row at the top ([Navigation](./navigation.md#servers)) |
+| The little form a popover holds on desktop, with its own buttons: renaming, snoozing | A bottom sheet, with the buttons stacked full width at its bottom ([Drawer](../../packages/ui/src/components/drawer/drawer.md)) |
+| A short list opened from a top bar: Working now, the notifications | A popover, as on desktop |
+| A sentence or two and one button, such as adding Raft to the Home Screen | A bottom sheet |
+| A small task of 2 or 3 fields (Create Channel) | A dialog, with a 16px margin on each side ([Dialog](../../packages/ui/src/components/dialog/dialog.md)) |
+| A confirmation | A dialog ([Feedback](./feedback.md#confirming)) |
+
+- Never open the actions on one thing as a bottom sheet. Press and hold, right-click and ⋯ open one menu, so an action is in one place on every device ([States](../foundations/states.md#touch-screens)), and a menu opens where the finger already is.
+- Never confirm in a bottom sheet. A confirmation is a decision people must make before they go on, so it sits in the center over a scrim, as on desktop.
+- Keep a choice that applies at once, and one of up to 10 values in a form, in its anchored menu or list: it opens next to what it changes, so people see both.
+- From 768px, keep the anchored overlays, on a touch screen too: there is room beside the trigger.
+- raft-ui's Popover, Select and ComboboxSelect don't turn into a bottom sheet themselves: build the sheet with [Drawer](../../packages/ui/src/components/drawer/drawer.md).
 
 ### Desktop
 

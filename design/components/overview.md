@@ -109,9 +109,9 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | One sentence on hover | [Tooltip](../../packages/ui/src/components/tooltip/tooltip.md) |
 | A person or agent, on hover | A profile card ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)) |
 | A list of actions, on click or press and hold | [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) |
-| One value, on click | [Select](../../packages/ui/src/components/select/select.md), with search when there are many values |
-| Several values, on click | A multi-select, with search when there are many values. Choosing a value doesn't close the list |
-| A little input, on click | [Popover](../../packages/ui/src/components/popover/popover.md) |
+| One value, on click | [Select](../../packages/ui/src/components/select/select.md), with search when there are many values. On a phone, many values open in a bottom sheet |
+| Several values, on click | A multi-select, with search when there are many values. Choosing a value doesn't close the list. On a phone, many values open in a bottom sheet |
+| A little input, on click | [Popover](../../packages/ui/src/components/popover/popover.md); on a phone, a bottom sheet |
 | Details and settings people look at for a while | [Drawer](../../packages/ui/src/components/drawer/drawer.md) |
 | A large form filled in one pass | The wide [Dialog](../../packages/ui/src/components/dialog/dialog.md); see [Forms](../patterns/forms.md#the-large-form-dialog) |
 | A short list opened from a top bar: Working now, the notifications | [Popover](../../packages/ui/src/components/popover/popover.md), on a phone too |
@@ -121,6 +121,7 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | Task details | A centered dialog, 960px wide, full screen on a phone ([Tasks](../patterns/tasks.md)) |
 
 - Put a scrim behind every centered overlay: dialogs, confirmations, search, task details, large forms. How overlays move is in [Motion](../foundations/motion.md#usage).
+- On a phone, a bottom sheet replaces a popover or a select list only for a little form or a choice among many values; menus of actions and confirmations never become sheets ([Overlays on a phone](../patterns/page-structure.md#overlays-on-a-phone)).
 
 ### Waiting
 
