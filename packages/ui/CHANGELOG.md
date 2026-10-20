@@ -1,3 +1,14 @@
+## [0.9.6](https://github.com/botiverse/raft-design/compare/v0.9.5...v0.9.6) (2026-10-20)
+
+### Added
+
+- `installInputModality()` and the `InputModality` type: raft-ui records whether the person last used the keyboard, a pointer, or a screen reader's virtual cursor, on `<html data-input-modality>`. `ThemeProvider` installs it for you (with the default `syncDom`); an app without `ThemeProvider` calls it once on the client. ([#598](https://github.com/botiverse/raft-design/pull/598))
+- `toast.add/info/success/warning/error(title, { leading })` puts a node, such as a person's avatar, in `ToastIcon` in place of the status pixel. It is `aria-hidden` and still shows with `icon: false`. Calls without `leading` render exactly as before. ([#599](https://github.com/botiverse/raft-design/pull/599))
+
+### Changed
+
+- Focus rings show only after keyboard navigation. A click, a tap, typing, or focus moved by a click no longer draws the ring, including on text fields (the caret marks them). Tab, F6, arrow keys outside a text field, and keys that move focus out of a text field (Esc closing a dialog, Enter submitting) still do, and so does focus a screen reader moves or that arrives with no input before it. Without the tracker installed every ring shows as before. Rings drawn with `shadow-focus` follow this automatically; other indicators take the new `keyboard:` variant, and groups ring on `has-focus-visible` instead of `focus-within`. ([#598](https://github.com/botiverse/raft-design/pull/598))
+
 ## [0.9.5](https://github.com/botiverse/raft-design/compare/v0.9.4...v0.9.5) (2026-10-20)
 
 ### Fixed
