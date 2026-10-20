@@ -12,11 +12,7 @@ export function ComposerFooterNoticeComposition() {
     <div className="flex justify-center">
       <ComposerRoot className="max-w-sm" onSubmit={preventSubmit}>
         <Composer>
-          <ComposerInput
-            aria-label="Message #proj-uiux"
-            placeholder="Message #proj-uiux"
-            disabled
-          />
+          <ComposerInput aria-label="Message #design" placeholder="Message #design" disabled />
           <ComposerToolbar>
             <ComposerActions>
               <p className="inline-flex items-center gap-1 text-xs text-foreground-muted">

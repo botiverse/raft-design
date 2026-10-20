@@ -15,11 +15,7 @@ export function ComposerDropOverlayComposition() {
     <div className="relative w-full">
       <ComposerRoot>
         <Composer>
-          <ComposerInput
-            aria-label="Message #proj-uiux"
-            placeholder="Message #proj-uiux"
-            readOnly
-          />
+          <ComposerInput aria-label="Message #design" placeholder="Message #design" readOnly />
           <ComposerToolbar>
             <ComposerActions>
               <ComposerIconButton aria-label="Attach image" disabled>

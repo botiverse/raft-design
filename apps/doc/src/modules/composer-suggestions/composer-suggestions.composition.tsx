@@ -70,7 +70,7 @@ export function ComposerSuggestionComposition({
         <Composer>
           <ComposerInput
             {...autocomplete.getInputProps({
-              "aria-label": "Message #proj-uiux",
+              "aria-label": "Message #design",
               placeholder: "Type @ for people or # for channels",
             })}
           />

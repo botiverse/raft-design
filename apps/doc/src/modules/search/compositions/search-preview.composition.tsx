@@ -80,7 +80,7 @@ export function SearchPreviewComposition() {
         <SearchResultsList>
           <SearchMessageResult disabled selected>
             <SearchMessageResultHeader>
-              <SearchMessageResultMeta>#proj-uiux</SearchMessageResultMeta>
+              <SearchMessageResultMeta>#design</SearchMessageResultMeta>
               <SearchMessageResultThreadMeta>
                 <MessageSquare aria-hidden size={12} /> thread
               </SearchMessageResultThreadMeta>
@@ -106,7 +106,7 @@ export function SearchPreviewComposition() {
                 <Badge appearance="soft" variant="muted">
                   <MessageSquare aria-hidden size={12} /> Thread
                 </Badge>
-                <span>#proj-uiux</span>
+                <span>#design</span>
                 <span>3 hits</span>
                 <SearchThreadResultTimestamp>73 days ago</SearchThreadResultTimestamp>
               </SearchThreadResultMeta>
@@ -115,7 +115,7 @@ export function SearchPreviewComposition() {
             <SearchThreadResultMessages>
               <SearchThreadMessageResult disabled>
                 <SearchMessageResultHeader>
-                  <SearchMessageResultMeta>#proj-uiux</SearchMessageResultMeta>
+                  <SearchMessageResultMeta>#design</SearchMessageResultMeta>
                   <SearchMessageResultSender>Maya Chen</SearchMessageResultSender>
                   <SearchMessageResultTimestamp>73 days ago</SearchMessageResultTimestamp>
                 </SearchMessageResultHeader>

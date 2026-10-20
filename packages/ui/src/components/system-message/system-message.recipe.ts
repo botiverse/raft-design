@@ -4,8 +4,8 @@ export const messageSystem = tv({
   slots: {
     // A system note is a standalone line between messages: its own `py-3`
     // keeps 12px above and below it, 6px inside an open group panel. It reads
-    // no marker from its neighbours: raft-ui reads neither slock's
-    // `data-followed-by` nor `followsSystemFor`. slock still writes
+    // no marker from its neighbours: raft-ui reads neither the Raft web app's
+    // `data-followed-by` nor `followsSystemFor`. The web app still writes
     // `data-followed-by` for its own classes.
     systemRoot: [
       "flex min-w-0 items-center justify-center",

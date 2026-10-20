@@ -2,6 +2,8 @@
 
 This repository holds the Raft Design System guidelines, raft-ui and its documentation site. This page covers how to set up the workspace and what a pull request needs.
 
+Issues and pull requests are open to the repository's collaborators. If you are not one, start a thread in [Discussions](https://github.com/botiverse/raft-design/discussions) for a question, a bug or a proposal; a maintainer turns it into an issue when there is work to do.
+
 ## Setup
 
 The workspace uses [Vite+](https://viteplus.dev) (`vp`) and pnpm. The required Node.js versions are listed under `engines` in the root `package.json`.
