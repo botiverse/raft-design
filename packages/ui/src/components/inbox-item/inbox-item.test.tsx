@@ -60,7 +60,8 @@ test("rows that don't opt in keep their parts' classes; compact and reveal only 
   );
   expect(screen.getByTestId("reveal-actions").getAttribute("data-reveal")).toBe("hover");
   expect(classes("reveal-actions")).toEqual(
-    expect.arrayContaining(["pointer-events-none", "opacity-0", "pointer-coarse:opacity-100"]),
+    expect.arrayContaining(["pointer-events-none", "opacity-0"]),
   );
   expect(classes("reveal-actions")).not.toContain("pointer-events-auto");
+  expect(classes("reveal-actions")).not.toContain("pointer-coarse:opacity-100");
 });

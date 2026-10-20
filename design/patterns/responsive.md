@@ -44,10 +44,8 @@ A toolbar, a header or a filter row has to fit at the narrowest width its region
 A touch screen has no hover, so anything that only appears on hover is out of reach there. Decide by the input, not the width: use the `pointer: coarse` media query, because a tablet held sideways is touch and a narrow desktop window still has a mouse.
 
 - With a mouse, keep a row's actions hover-only, Mark as Done on an Activity row included: show them while the row is hovered, holds keyboard focus or has a menu open from it, and hide them at rest. A list where every row shows its button reads as a wall of buttons and pulls the eye from the content, and the row itself is what a mouse goes for. Hidden actions stay in the tab order.
-- Show a row's hover action at rest on a touch screen when it is the row's main action, such as Mark as Done on an Activity row: a 44px target at the end of the row, with its icon. The rest of the row makes room for it instead of sitting under it ([InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#behavior)).
-- Put every hover action in the row's press-and-hold menu as well, the same menu right-click opens on desktop, so an action is in one place on every device ([Conversation](./conversation.md)).
-- A swipe may add a shortcut for the row's main action (swipe left to reveal Mark as Done, release to apply, with an Undo toast), but never be the only way to reach it. The rules for swipes and the other gestures are in [Touch](./touch.md#swipe).
-- Keep secondary hover actions out of the row on a touch screen; they live in the menu, so a list stays calm.
+- Put every hover action in the row's press-and-hold menu, the same menu right-click opens on desktop, so an action is in one place on every device ([Conversation](./conversation.md)). On a touch screen that menu is where they are: the row shows none of them at rest, Mark as Done on an Activity row included, as in mail apps. A button on every row makes a phone's list a column of buttons ([InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#behavior)).
+- A swipe may add a shortcut for the row's main action (swipe left to reveal Mark as Done, release to apply, with an Undo toast), but never be the only way to reach it: the menu has it too. The rules for swipes and the other gestures are in [Touch](./touch.md#swipe).
 
 ### Phone
 

@@ -335,8 +335,9 @@ export type InboxItemActionsProps = useRender.ComponentProps<"div"> & {
    * `hover`: with a mouse, the actions stay hidden until the row is hovered,
    * holds focus, is `active` or has a menu open, and then take the place of
    * the rest of `InboxItemTrailing` (the timestamp, the marks, the attention
-   * dot), which steps aside. On a touch screen (`pointer: coarse`) they show
-   * at rest and the rest of the trailing column moves over to make room.
+   * dot), which steps aside. A touch screen has no hover, so there they stay
+   * hidden at rest too: put the same actions in the row's press-and-hold menu
+   * (and its swipe), as mail apps do.
    */
   reveal?: "hover";
 };

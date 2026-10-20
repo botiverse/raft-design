@@ -57,10 +57,8 @@ export const inboxItem = tv({
       "after:hidden after:size-[9px] after:shrink-0 after:rounded-[2px] after:border-[1.5px] after:border-sticker-ink after:bg-attention-400",
       "group-data-[unread=true]/inbox-item:after:block",
       "*:not-data-[reveal=hover]:opacity-[calc(1-var(--inbox-item-reveal-aside,0)*var(--inbox-item-revealed,0))] after:opacity-[calc(1-var(--inbox-item-reveal-aside,0)*var(--inbox-item-revealed,0))]",
-      "*:not-data-[reveal=hover]:mr-(--inbox-item-aside-room,0px) after:mr-(--inbox-item-aside-room,0px)",
       "*:not-data-[reveal=hover]:transition-opacity after:transition-opacity",
-      "pointer-fine:has-[>[data-reveal=hover]]:[--inbox-item-reveal-aside:1]",
-      "pointer-coarse:has-[>[data-reveal=hover]]:[--inbox-item-aside-room:--spacing(11)]",
+      "has-[>[data-reveal=hover]]:[--inbox-item-reveal-aside:1]",
       "group-hover/inbox-item:[--inbox-item-revealed:1] group-focus-within/inbox-item:[--inbox-item-revealed:1]",
       "group-data-[active=true]/inbox-item:[--inbox-item-revealed:1] group-data-popup-open/inbox-item:[--inbox-item-revealed:1]",
       "has-[>[data-reveal=hover]_[data-popup-open]]:[--inbox-item-revealed:1]",
@@ -126,7 +124,6 @@ export const inboxItem = tv({
           "group-data-[active=true]/inbox-item:pointer-events-auto group-data-[active=true]/inbox-item:opacity-100",
           "group-data-popup-open/inbox-item:pointer-events-auto group-data-popup-open/inbox-item:opacity-100",
           "has-data-popup-open:pointer-events-auto has-data-popup-open:opacity-100",
-          "pointer-coarse:pointer-events-auto pointer-coarse:opacity-100 pointer-coarse:only:static",
         ],
       },
     },
@@ -135,7 +132,7 @@ export const inboxItem = tv({
     {
       density: "compact",
       reveal: "hover",
-      class: { itemActions: ["top-1/2 -translate-y-1/2", "pointer-coarse:only:translate-y-0"] },
+      class: { itemActions: ["top-1/2 -translate-y-1/2"] },
     },
   ],
 });

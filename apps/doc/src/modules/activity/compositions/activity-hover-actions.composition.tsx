@@ -2,6 +2,11 @@ import { AtSign, Check, Hash, MessageSquare, Pencil } from "lucide-react";
 import {
   Badge,
   Button,
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuItemLabel,
+  ContextMenuTrigger,
   InboxItem,
   InboxItemActions,
   InboxItemBody,
@@ -26,7 +31,7 @@ import type { ActivityCompositionItem } from "../activity.fixtures.ts";
 
 const ITEMS: readonly ActivityCompositionItem[] = ACTIVITY_COMPOSITION_ITEMS.slice(0, 4);
 
-/** Mark as Done shows on hover with a mouse, at rest on a touch screen. */
+/** Mark as Done shows on hover with a mouse; on a touch screen it is in the row's press-and-hold menu. */
 export function ActivityHoverActionsComposition() {
   const [activeId, setActiveId] = useState<string>();
   const [doneIds, setDoneIds] = useState<ReadonlySet<string>>(new Set());
@@ -71,7 +76,7 @@ function ActivityHoverRow({
   const Icon = item.kind === "thread" ? MessageSquare : item.channelKind === "dm" ? AtSign : Hash;
   const handleOpen = useCallback(() => onOpen(item.id), [item.id, onOpen]);
   const handleDone = useCallback(() => onDone(item.id), [item.id, onDone]);
-  return (
+  const row = (
     <InboxItem active={active} data-unread={item.unreadCount > 0 || undefined}>
       <InboxItemTrigger
         aria-current={active || undefined}
@@ -130,5 +135,16 @@ function ActivityHoverRow({
         </InboxItemActions>
       </InboxItemTrailing>
     </InboxItem>
+  );
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger render={row} />
+      <ContextMenuContent>
+        <ContextMenuItem onClick={handleDone}>
+          <Check />
+          <ContextMenuItemLabel>Mark as done</ContextMenuItemLabel>
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   );
 }
