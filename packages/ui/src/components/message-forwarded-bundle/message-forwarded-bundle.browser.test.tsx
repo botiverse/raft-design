@@ -119,8 +119,8 @@ it("the forwarded label keeps its authored casing (no text-transform)", () => {
 
 it("the forwarded body reads at message scale with an emphasised author", () => {
   renderBundle();
-  // Message scale is the 16px body.
-  expect(getComputedStyle(screen.getByTestId("item-0")).fontSize).toBe("16px");
+  // Message scale is the body, 14px at this desktop viewport (16px on a phone).
+  expect(getComputedStyle(screen.getByTestId("item-0")).fontSize).toBe("14px");
   expect(
     Number(getComputedStyle(screen.getByTestId("author-0")).fontWeight),
   ).toBeGreaterThanOrEqual(600);
@@ -247,9 +247,9 @@ for (const mode of MODES) {
     renderFoldableBundle(9, { mode });
     const items = screen.getByTestId("items");
     // The component measured the content and folded on its own, down to its
-    // eight default lines (8 x the 24px body line).
+    // eight default lines (8 x the 22px desktop body line).
     expect(items.getAttribute("data-collapsed")).toBe("true");
-    expect(getComputedStyle(items).maxHeight).toBe("192px");
+    expect(getComputedStyle(items).maxHeight).toBe("176px");
     // overflow-clip, never hidden: a folded card must not become a scroll
     // container (sticky content inside — the mermaid action bar — would
     // anchor to the clipped card instead of the message list; the Raft web
@@ -305,8 +305,8 @@ it("the fold line limit is configurable per instance", () => {
   // Five lines against a limit of four: over → folds.
   renderFoldableBundle(5, { mode: "light", foldLineLimit: 4 });
   expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBe("true");
-  // The folded height folds with the same number: four 24px lines.
-  expect(getComputedStyle(screen.getByTestId("items")).maxHeight).toBe("96px");
+  // The folded height folds with the same number: four 22px lines.
+  expect(getComputedStyle(screen.getByTestId("items")).maxHeight).toBe("88px");
   cleanup();
   // Exactly the limit → stays open.
   renderFoldableBundle(4, { mode: "light", foldLineLimit: 4 });
@@ -320,7 +320,7 @@ it("a consumer style merges with the computed fold height", () => {
   expect(items.getAttribute("data-collapsed")).toBe("true");
   const computed = getComputedStyle(items);
   // The consumer style must not wipe the fold height…
-  expect(computed.maxHeight).toBe("192px");
+  expect(computed.maxHeight).toBe("176px");
   // …while still applying.
   expect(computed.color).toBe("rgb(1, 2, 3)");
 });

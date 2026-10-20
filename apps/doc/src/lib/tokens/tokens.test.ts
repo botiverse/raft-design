@@ -20,6 +20,14 @@ describe("tokens", () => {
     expect(brand.light.display).toMatch(/^#[0-9a-f]{6}$/);
   });
 
+  it("shows a desktop value next to the phone's when a token has one", () => {
+    const size = tokenGroup("field")!.find((row) => row.name === "field-font-size")!;
+    expect(size.light.display).toBe("16px");
+    expect(size.desktop?.display).toBe("14px");
+    const weight = tokenGroup("field")!.find((row) => row.name === "field-font-weight")!;
+    expect(weight.desktop).toBeUndefined();
+  });
+
   it("names a group's own token after the group", () => {
     expect(tokenGroup("foreground")!.some((row) => row.name === "foreground")).toBe(true);
     expect(TOKEN_GROUPS).toContain("line");

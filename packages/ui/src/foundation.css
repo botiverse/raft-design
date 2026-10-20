@@ -628,3 +628,15 @@
   --secondary-900: var(--palette-stone-900);
   --secondary-950: var(--palette-stone-950);
 }
+
+/* Desktop, from 768px (Tailwind's `md`, where the desktop layout begins): the
+   metrics that follow Feishu's PC specs. A phone keeps the values above. */
+@media (width >= 48rem) {
+  :where(:root),
+  .light {
+    --field-font-size: 14px;
+    --field-line-height: 22px;
+    --card-title-font-size: 14px;
+    --card-title-line-height: 22px;
+  }
+}

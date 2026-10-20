@@ -18,7 +18,7 @@ Align what the eye sees, not the box. Each kind of element has one point that la
 | Element | What lands on the line | Example |
 | --- | --- | --- |
 | Anything with a shape: tiles, avatars, cards, inputs, the composer, the workspace pill, filled buttons | The edge of the shape; vertically, the shape is centered. Beside plain text in a row, the text instead ([A shape beside plain text](#a-shape-beside-plain-text)) | The workspace pill's left edge is at 16px; a pink Done button in a top bar ends 16px from the right |
-| Text | The letters: horizontally, the stem of the first letter; vertically, the center of the cap height | A large title shifts left by 0.05em; in a 56px header, a 17/22 page name and the text in the pill share one center line; the first tool icon in the composer lines up with the text typed in it |
+| Text | The letters: horizontally, the stem of the first letter; vertically, the center of the cap height | A large title shifts left by 0.05em; in a 56px header, a `text-headline` page name and the text in the pill share one center line; the first tool icon in the composer lines up with the text typed in it |
 | Frameless icon button | The icon box. The button itself is invisible, and its empty hit area extends past the line | The last icon box in a desktop panel header ends at 20px |
 
 ## A control and its label
@@ -29,7 +29,7 @@ A checkbox, radio or switch centers on the first line of its label — the same 
 - **Don't align the control to the top of the text block.** A 20px box sitting on the top of an 18px line hangs 1px below the line's centre, and on a 16px line 2px below it.
 - **Don't center it on the label either.** A label is often one line, which makes the two look the same — until it wraps, and the control slides to the middle of the block: 27px off the first line at a narrow width, and 8px off as soon as a description follows. The first line is what the control belongs to; the block is a coincidence.
 
-In Space Grotesk the cap-height center and the line-box center are the same point: the face is centered in its em box to within 0.004em, under 0.1px at any size we set. So centering the control on the line box *is* optical centering, and no per-size correction is needed. A hand-tuned `margin-top` is a sign the control was aligned to the wrong thing: it is the right answer for one label at one size, and silently wrong for the next. Write the offset as the arithmetic, not as the number it currently comes to — `Banner` carries `mt-px` for a 16px icon and `mt-[4.5px]` for a 9px status, which are exactly `(18 - 16) / 2` and `(18 - 9) / 2` against its 18px line. They are right today and will be wrong the day that line height changes, with nothing to catch it.
+In Space Grotesk the cap-height center and the line-box center are the same point: the face is centered in its em box to within 0.004em, under 0.1px at any size we set. So centering the control on the line box *is* optical centering, and no per-size correction is needed. A hand-tuned `margin-top` is a sign the control was aligned to the wrong thing: it is the right answer for one label at one size, and silently wrong for the next. Write the offset as the arithmetic, not as the number it currently comes to: `Banner` once carried `mt-px` for a 16px icon and `mt-[4.5px]` for a 9px status, `(18 - 16) / 2` and `(18 - 9) / 2` against an 18px line, and both went wrong when the desktop line grew to 20px. It now writes `(1lh - 16px) / 2`, which holds on both.
 
 ## A shape beside plain text
 

@@ -37,6 +37,7 @@ const twMerge = extendTailwindMerge({
             "label",
             "mono-meta",
             "mono-code",
+            "control",
           ],
         },
       ],

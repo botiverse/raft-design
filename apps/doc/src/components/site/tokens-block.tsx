@@ -48,7 +48,8 @@ function Value({ row, value, mode }: { row: TokenRow; value: TokenValue; mode: "
 
 /**
  * A `tokens` block: a group from packages/ui/src/tokens.json with its light
- * and dark values. Prose never repeats a value; this table is where readers
+ * and dark values, and its desktop value when it has one (from 768px; the
+ * light value is then the phone's). Prose never repeats a value; this table is where readers
  * see it.
  */
 export function TokensBlock({ group }: { group: string }) {
@@ -61,6 +62,8 @@ export function TokensBlock({ group }: { group: string }) {
     );
   }
 
+  const hasDesktop = rows.some((row) => row.desktop);
+
   return (
     <div className="my-6 overflow-x-auto rounded-container border border-line-hairline">
       <Table>
@@ -69,6 +72,7 @@ export function TokensBlock({ group }: { group: string }) {
             <TableHead>Token</TableHead>
             <TableHead>Light</TableHead>
             <TableHead>Dark</TableHead>
+            {hasDesktop ? <TableHead>Desktop</TableHead> : null}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -88,6 +92,11 @@ export function TokensBlock({ group }: { group: string }) {
               <TableCell className="align-top">
                 <Value row={row} value={row.dark} mode="dark" />
               </TableCell>
+              {hasDesktop ? (
+                <TableCell className="align-top">
+                  {row.desktop ? <Value row={row} value={row.desktop} mode="light" /> : null}
+                </TableCell>
+              ) : null}
             </TableRow>
           ))}
         </TableBody>

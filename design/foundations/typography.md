@@ -15,22 +15,38 @@ Raft uses two typefaces with separate jobs: Space Grotesk for what people say, S
 
 ## Type scale
 
-Each style sets a size and a line height; the bold styles also set their weight.
+Each style sets a size and a line height; the bold styles also set their weight. The working styles have two sizes: a phone's, below 768px, and a desktop's, from 768px, where the desktop layout begins ([Responsive layout](../patterns/responsive.md)). The utility is the same on both, so a component never states a breakpoint for its type.
 
-| Token | Use for |
-| --- | --- |
-| `text-hero` | The name of the service on the Login with Raft page, from 640px |
-| `text-display` | The title of the page that creates a server, from 640px. Also the large title of a top-level page ([Page structure](../patterns/page-structure.md#phone)), which the product doesn't show yet |
-| `text-title` | The title of a sign-in page and of a setup step |
-| `text-headline` | Top bar titles (a top-level page's name, a pushed page's title), panel headers, sidebar headers, dialog and sheet titles, the workspace pill, the name on a profile |
-| `text-body` | Message text, inputs; list and task titles at weight 600 |
-| `text-subhead` | Buttons, names, radio labels, dialog body text |
-| `text-callout` | Previews, menu items, banners, excerpts |
-| `text-footnote` | Group headings, field labels, tooltips |
-| `text-caption` | Subtitles, status chips, help text |
-| `text-label` | Tab bar labels and the labels of the labeled rail |
-| `text-mono-meta` | IDs, times, counts, runtimes, event lines, shortcuts (in Space Mono) |
-| `text-mono-code` | Code and commands (in Space Mono) |
+| Token | Phone | Desktop | Use for |
+| --- | --- | --- | --- |
+| `text-hero` | 40/44 | 40/44 | The name of the service on the Login with Raft page, from 640px |
+| `text-display` | 34/40 | 34/40 | The title of the page that creates a server, from 640px. Also the large title of a top-level page ([Page structure](../patterns/page-structure.md#phone)), which the product doesn't show yet |
+| `text-title` | 22/28 | 22/28 | The title of a sign-in page and of a setup step |
+| `text-headline` | 17/22 | 16/24 | Top bar titles (a top-level page's name, a pushed page's title), panel headers, sidebar headers, dialog and sheet titles, the workspace pill, the name on a profile |
+| `text-body` | 16/24 | 14/22 | Message text; list and task titles at weight 600 |
+| `text-subhead` | 15/20 | 14/22 | Buttons at `lg`, names, radio labels, dialog body text |
+| `text-callout` | 14/20 | 14/22 | Previews, menu items, banners, excerpts |
+| `text-control` | 13/18 | 14/22 | The label of a 32px or 28px control: a Button at `md`, a panel action, a filter trigger, the text selection toolbar |
+| `text-footnote` | 13/18 | 12/20 | Group headings, field labels, tooltips |
+| `text-caption` | 12/16 | 12/20 | Subtitles, status chips, help text |
+| `text-label` | 11/13 | 11/13 | Tab bar labels and the labels of the labeled rail |
+| `text-mono-meta` | 12/16 | 12/20 | IDs, times, counts, runtimes, event lines, shortcuts (in Space Mono) |
+| `text-mono-code` | 13/20 | 13/20 | Code and commands (in Space Mono) |
+
+Field text and card titles have their own tokens, with the same two sizes ([Metric tokens](#metric-tokens)).
+
+### Desktop and phone
+
+The desktop scale is Feishu's (Lark's) for PC: 16/24 for titles, 14/22 for everything people read, 12/20 for notes. The phone scale is Feishu's for mobile, where message text is 16/24 as well. People compare Raft with the chat tools they use all day, and on a desktop those set message text at 14px.
+
+- **A desktop is read from further away, with more on screen.** A conversation sits beside a sidebar and often a thread, so a line of text holds more words and a screen more messages at 14px. On a phone the screen is closer and one column fills it; 16px reads at the same apparent size.
+- **Judge a size with Chinese, not only with Latin.** Chinese falls back to the system face, whose glyphs fill the em box: at 16px a line of Chinese reads larger than the same line in Space Grotesk, whose lowercase is about half its size. Check a change with a Chinese conversation open as well as an English one.
+- **Body, subhead and callout share 14/22 on a desktop.** Feishu has no 13px or 15px step, and the scale doesn't need one: a name, a message and a preview differ there by weight and color, and a size step on top would make the three differences [Color tiers](#notes-on-deeper-surfaces) rules out. On a phone they stay a step apart.
+- **Notes take a 20px line on a desktop.** Footnote, caption and mono meta share 12/20, so a time in Space Mono and a status in Space Grotesk on one line have the same box.
+- **Mono code stays 13/20.** Space Mono is wider than Space Grotesk, so 13px code already sits level with 14px text, and its 20px line fits inside a 22px line of text.
+- **A control's label is 14px on a desktop, 13px on a phone.** Feishu sets button text at 14px; footnote goes down to 12px there, so a 32px control's label has its own style, `text-control`.
+- **Hero, display, title and label don't change.** They set sign-in and setup pages, which are the same on both, and the phone's tab bar.
+- **Density is the person's choice, not the default's.** Someone who wants more on screen picks Small in the message-size setting. Don't make the default smaller to fit more.
 
 ## Font families
 
@@ -43,7 +59,7 @@ Each style sets a size and a line height; the bold styles also set their weight.
 | `font-mono` | Space Mono | What machines write: IDs, hostnames, versions, OS strings, commands, environment variables, URLs, code and credential blocks, times and dates, counts, file metadata, `@handle` |
 
 - Decide by who wrote it: text that is copied character for character, a time, a count or an identity marker is mono; anything a person says is sans.
-- The trailing `#channel-name` of a thread's title is sans, at 17px, weight 400 and `foreground-hint`: it belongs to the title.
+- The trailing `#channel-name` of a thread's title is sans, in `text-headline` at weight 400 and `foreground-hint`: it belongs to the title.
 - The sans families fall back to PingFang SC, Hiragino Sans GB, Microsoft YaHei and Noto Sans SC for Chinese, then the system face.
 
 ## Usage
@@ -55,28 +71,16 @@ Each style sets a size and a line height; the bold styles also set their weight.
 
 ### Sizes by use
 
-The working sizes are 12px to 17px, one step apart, with 22px, 34px and 40px for setup and sign-in pages.
-
-| Size | Style | Used for |
-| --- | --- | --- |
-| 17px | `text-headline` | Titles, all at 700: panel, thread, dialog, popover, drawer, the top of the sidebar |
-| 16px | `text-body` | Message text; field text (`field-*`); card titles at 600 (`card-title-*`); the names on task cards and in search results |
-| 15px | `text-subhead` | Senders at 700; sidebar rows at 500, the selected one at 700; titles in Activity; dialog body text and descriptions |
-| 14px | `text-callout` | Values in a description list, menu items, card descriptions, file names, the text of a quoted message |
-| 13px | `text-footnote` | Field labels at 600; description-list terms at 500, in a label column of `minmax(88px, max-content)`; group headings at 700; 32px buttons |
-| 12px | `text-caption`, `text-mono-meta` | The notes on a message (the time in mono, the model and an inline status), the time of a reply preview, counts in mono, list metadata, badges |
-
-### Why message text is 16px
-
-Message text is `text-body`, 16px on a 24px line. The size follows from the font and from what Raft's messages are.
-
-- **The letters, not the number, set how big text reads.** Space Grotesk has a small x-height (0.486 of its size) and wide letters. At 16px its lowercase is 7.8px tall, about what other chat products show at 15px in fonts with taller lowercase. At 15px Space Grotesk would read smaller than they do, and at 14px it is the Small setting.
-- **Messages are often long documents.** Agents write multi-paragraph Markdown with lists, tables and code, which people read rather than scan. A 24px line (1.5×) keeps long passages readable, as for body text in a document.
-- **Density comes from the person, not from the default.** Someone who wants more messages on screen picks Small (14/20) in the message-size setting. Don't make the default smaller to fit more: the default serves the long message.
-- **Wide letters make lines short in narrow columns.** In a 400px thread panel, a line holds about 39 characters. Don't make text smaller to fit more words on a line there; the width of the column is the lever.
-- **Field text is 16px for a separate reason**: iOS zooms into an input whose text is smaller than 16px.
-
-The scale follows Apple's text styles one step down for desktop reading: body 16 against iOS's 17, then subhead 15, callout 14, footnote 13 and caption 12.
+| Style | Used for |
+| --- | --- |
+| `text-headline` | Titles, all at 700: panel, thread, dialog, popover, drawer, the top of the sidebar |
+| `text-body` | Message text; card titles at 600 (`card-title-*`); the names on task cards and in search results |
+| `field-*` | The text in a field: Input, Textarea, InputGroup, a Select at `chrome="field"` |
+| `text-subhead` | Senders at 700; sidebar rows at 500, the selected one at 700; titles in Activity; dialog body text and descriptions; Buttons at `lg` |
+| `text-callout` | Values in a description list, menu items, card descriptions, file names, the text of a quoted message |
+| `text-control` | The labels of 32px controls: Button at `md`, panel actions, filter triggers |
+| `text-footnote` | Field labels at 600; description-list terms at 500, in a label column of `minmax(88px, max-content)`; group headings at 700 |
+| `text-caption`, `text-mono-meta` | The notes on a message (the time in mono, the model and an inline status), the time of a reply preview, counts in mono, list metadata, badges |
 
 ### Weights by use
 
@@ -110,13 +114,14 @@ Text has three tiers. The tokens and their contrast are in [Color](./color.md#te
 
 ## Metric tokens
 
-A field and a card title each have tokens for their type metrics, so that the parts laid out with them use the same values.
+A field and a card title each have tokens for their type metrics, so that the parts laid out with them use the same values. Like the scale, each has a phone value and a desktop value, from 768px.
 
 ```tokens
 field
 ```
 
 - `field-*` sets the text of Input, Textarea, the field variant of SelectTrigger and the options of a Select list (utilities `text-field`, `font-field`). An option shares the field's type, so a value doesn't change size when the list opens; its height and padding stay its own, because a list row is not a control.
+- Never set field text below 16px on a phone: iOS zooms the page into a field whose text is smaller. A desktop has no such zoom, so field text follows the desktop body size there.
 
 ```tokens
 card-title

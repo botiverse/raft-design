@@ -37,7 +37,8 @@ export const messageItem = tv({
     ],
     continuationTime: [
       "absolute right-0 select-none whitespace-nowrap tabular-nums",
-      "top-1 font-mono text-mono-meta",
+      "top-[calc((var(--text-body--line-height)-var(--text-mono-meta--line-height))/2)]",
+      "font-mono text-mono-meta",
       "text-(--mi-ct-color,transparent)",
     ],
     content: ["min-w-0 flex-1", "text-body text-foreground"],

@@ -75,7 +75,8 @@
 
   /* Raft Design System type styles (size / line-height / weight). Grotesk is
      what people say; pair the mono styles with `font-mono` for what machines
-     write (ids, times, counts, events, code). */
+     write (ids, times, counts, events, code). These are the phone values; the
+     desktop block below the theme sets the working sizes again from 768px. */
   --text-hero: 40px;
   --text-hero--line-height: 44px;
   --text-hero--font-weight: 700;
@@ -109,6 +110,11 @@
   --text-mono-meta--line-height: 16px;
   --text-mono-code: 13px;
   --text-mono-code--line-height: 20px;
+  /* The label of a 32px control: a Button at `md`, a panel action, a filter
+     trigger. Its own style, because on a phone it is footnote's 13px and on a
+     desktop it is 14px, where footnote drops to 12. */
+  --text-control: 13px;
+  --text-control--line-height: 18px;
 
   /* Deprecated utility names, kept until raft-ui 1.0 (see codemods/token-names.mjs). */
   --color-brutal-yellow: var(--palette-yellow-400);
@@ -121,6 +127,39 @@
   --color-brutal-red: var(--palette-red-400);
   --color-brutal-stone: var(--palette-stone-400);
   --color-brutal-cream: var(--palette-cream-200);
+}
+
+/* Desktop type, from 768px (Tailwind's `md`, where the desktop layout begins):
+   Feishu's PC scale, 14/22 for reading, 12/20 for notes, 16/24 for titles. A
+   phone keeps the theme's values, Feishu's mobile scale. The type utilities
+   read these variables (`font-size: var(--text-body)`), so every component
+   follows without a breakpoint of its own. In the theme layer, after the
+   theme's own `:root`, so an app's later theme still wins. Hero, display,
+   title and label stay as they are: setup pages and the phone tab bar. */
+@layer theme {
+  @media (width >= 48rem) {
+    :root,
+    :host {
+      --text-headline: 16px;
+      --text-headline--line-height: 24px;
+      --text-body: 14px;
+      --text-body--line-height: 22px;
+      --text-subhead: 14px;
+      --text-subhead--line-height: 22px;
+      --text-callout: 14px;
+      --text-callout--line-height: 22px;
+      --text-footnote: 12px;
+      --text-footnote--line-height: 20px;
+      --text-caption: 12px;
+      --text-caption--line-height: 20px;
+      --text-mono-meta: 12px;
+      --text-mono-meta--line-height: 20px;
+      --text-mono-code: 13px;
+      --text-mono-code--line-height: 20px;
+      --text-control: 14px;
+      --text-control--line-height: 22px;
+    }
+  }
 }
 
 @theme inline {

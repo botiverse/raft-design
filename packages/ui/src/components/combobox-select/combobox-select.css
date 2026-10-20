@@ -16,8 +16,8 @@
   outline: 0;
   background: var(--layer-card);
   color: var(--foreground);
-  font-size: 16px;
-  line-height: 24px;
+  font-size: var(--field-font-size);
+  line-height: var(--field-line-height);
   transition: box-shadow 90ms ease-out;
 }
 /* The control's ring is a utility on it (combobox-select.tsx): it rings when

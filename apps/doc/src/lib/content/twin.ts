@@ -11,6 +11,16 @@ function tokensTable(group: string) {
   if (!rows) return `<!-- Unknown token group: ${group} -->`;
   const cell = (value: { display: string; reference?: string }) =>
     `\`${value.display}\`${value.reference ? ` (\`${value.reference}\`)` : ""}`;
+  if (rows.some((row) => row.desktop)) {
+    return [
+      "| Token | Light | Dark | Desktop |",
+      "| --- | --- | --- | --- |",
+      ...rows.map(
+        (row) =>
+          `| \`${row.name}\` | ${cell(row.light)} | ${cell(row.dark)} | ${row.desktop ? cell(row.desktop) : ""} |`,
+      ),
+    ].join("\n");
+  }
   return [
     "| Token | Light | Dark |",
     "| --- | --- | --- |",

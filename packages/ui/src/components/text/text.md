@@ -29,7 +29,7 @@ text/compositions/inline-list-row
 ## Anatomy
 
 - `Text.Heading` (`TextHeading`): an `h1` to `h6`, from `level`.
-- `Text.Sans` (`TextSans`): a paragraph in Space Grotesk, sized by `size`: `large`, `body`, `small`, `caption` or `group`, the heading of a group of rows or a section in a panel (13px at 700, `foreground-hint`, as in [Typography](../../../../../design/foundations/typography.md)).
+- `Text.Sans` (`TextSans`): a paragraph in Space Grotesk, sized by `size`: `large`, `body`, `small`, `caption` or `group`, the heading of a group of rows or a section in a panel (`text-footnote` at 700, `foreground-hint`, as in [Typography](../../../../../design/foundations/typography.md)).
 - `Text.Mono` (`TextMono`): a paragraph in Space Mono, sized by `size`: `code`, `meta` or `tabular`.
 
 Each part takes a `variant` for its color. Without one, the size sets it: `foreground` for the larger sizes, `foreground-muted` for `small`, `caption` and `meta`, `foreground-hint` for `group`.

@@ -41,6 +41,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 | Field | Meaning |
 | --- | --- |
 | `modes.dark` | The dark-mode value. A token without it has the same value in both modes |
+| `desktop` | The value from 768px, where the desktop layout begins; the token's own value is then the phone's. Used by metric tokens such as `field-font-size` |
 | `scope: "root"` | A value that doesn't change with the mode, such as the palette: declared once on `:root` |
 | `scope: "every-mode"` | An alias of a token that changes with the mode: declared again in each mode scope, so it resolves against that mode's value |
 | `css: true` | A value kept as a CSS expression that the format has no type for: `color-mix()`, a shadow with several layers |
@@ -52,7 +53,8 @@ The generated file has, in order:
 2. light mode, on `:where(:root)` and `.light`;
 3. dark mode, on `.dark`;
 4. dark mode again under `@media (prefers-color-scheme: dark)` for a root without `.light` or `.dark`, so the page has the right colors before the app sets a class;
-5. the aliases declared in every mode, then the deprecated names.
+5. the aliases declared in every mode, then the deprecated names;
+6. the desktop values, under `@media (width >= 48rem)`, on the same selectors as the values they replace.
 
 A `.light` element inside a dark page is a light island, for a preview or a portal; the `dark:` variant in `styles.css` follows the nearest mode class. See [Dark mode](./dark-mode.md).
 
@@ -231,7 +233,7 @@ These are Tailwind theme values in `styles.css`, not entries in `tokens.json`, s
 | Tokens | Owner |
 | --- | --- |
 | `radius-sticker`, `radius-chip`, `radius-control`, `radius-container`, `radius-dialog` | [Shape](./shape.md#radii) |
-| `text-hero` to `text-label`, `text-mono-meta`, `text-mono-code` | [Typography](./typography.md#type-scale) |
+| `text-hero` to `text-label`, `text-mono-meta`, `text-mono-code`, `text-control`, each with a phone and a desktop value | [Typography](./typography.md#type-scale) |
 | `ease-slide` | [Motion](./motion.md#easing) |
 | `font-sans`, `font-heading`, `font-mono` | [Typography](./typography.md#font-families) |
 

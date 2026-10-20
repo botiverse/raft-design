@@ -27,7 +27,7 @@ const outline = (ink: string) => [
 // overhanging ::after. `xs` and `sm` are the old names of `md`, `icon-xs` and
 // `icon-sm` of `icon-md`.
 const textMd = [
-  "h-8 gap-2 rounded-control px-3 py-0 text-footnote",
+  "h-8 gap-2 rounded-control px-3 py-0 text-control",
   "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
   "[&_svg:not([class*='size-'])]:size-4 **:data-icon:size-[1em]",
   "after:absolute after:inset-x-0 after:-inset-y-1.5",

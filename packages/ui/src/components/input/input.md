@@ -48,5 +48,5 @@ Input wraps Base UI Input and renders a native `<input>`.
 ## Rules
 
 - Always draw the ink border. Don't make an input a filled gray box without one: the ink border is what marks it as a control ([Color](../../../../../design/foundations/color.md#lines)).
-- Never set input text smaller than 16px: iOS zooms the page into a field with smaller text. Inputs use `text-body` ([Typography](../../../../../design/foundations/typography.md)).
+- Set input text with the field tokens (`text-field`, `font-field`), never a size of your own: they keep it at 16px on a phone, where iOS zooms the page into a field with smaller text, and at the desktop body size from 768px ([Typography](../../../../../design/foundations/typography.md#metric-tokens)).
 - Check the value when focus leaves the input or the form is submitted ([Forms](../../../../../design/patterns/forms.md#validation)).

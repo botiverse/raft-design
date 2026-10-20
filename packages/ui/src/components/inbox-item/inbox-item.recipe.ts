@@ -44,7 +44,7 @@ export const inboxItem = tv({
     itemHeading: ["col-span-full nth-[-n+2]:col-[1/2]", "flex min-w-0 items-start gap-2", "mb-0"],
     itemTitle: [
       "relative line-clamp-2 min-w-0 flex-1 pl-[18px]",
-      "[&>svg]:absolute [&>svg]:top-[3px] [&>svg]:left-0 [&>svg]:size-3.5",
+      "[&>svg]:absolute [&>svg]:top-[calc((1lh-14px)/2)] [&>svg]:left-0 [&>svg]:size-3.5",
       "font-sans text-subhead font-semibold text-foreground-muted",
       "group-data-[unread=true]/inbox-item:font-bold group-data-[unread=true]/inbox-item:text-foreground",
       "[&>svg]:text-foreground-hint",
