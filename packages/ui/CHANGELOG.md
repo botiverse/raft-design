@@ -1,3 +1,19 @@
+## [0.10.3](https://github.com/botiverse/raft-design/compare/v0.10.2...v0.10.3) (2026-10-20)
+
+### Added
+
+- `MessageItemSenderGroup` wraps the name, badges and role and sets the order they give way in when the header is too narrow: the role truncates first, then the name; badges keep their width and the time never truncates. Existing headers without it keep working. ([#607](https://github.com/botiverse/raft-design/pull/607))
+- `MessageItemEdited`: an inline "(edited)" marker at the end of the message text, on every row. ([#607](https://github.com/botiverse/raft-design/pull/607))
+
+### Changed
+
+- `MessageItemTime` sits right after the sender (name, badges, role) instead of at the far right, and no longer fades out under the hover toolbar: hover only adds, it never hides who said it or when. With a mouse the header keeps the toolbar's width free (`--mi-toolbar-reserve`, default 6.5rem for three buttons; set it on the list when the toolbar has more). This is visible wherever `MessageItemTime` is used, also without `MessageItemSenderGroup`; wrap the name, badges and role in it to get the give-way order. ([#607](https://github.com/botiverse/raft-design/pull/607))
+- `MessageItemTime` and `MessageItemContinuationTime` render a `<time>` element and take `dateTime`. ([#607](https://github.com/botiverse/raft-design/pull/607))
+
+### Fixed
+
+- A long name no longer pushes the time out of the header (it was cut to "14:3"): `MessageItemSender` / `MessageItemSenderButton` can shrink now. ([#607](https://github.com/botiverse/raft-design/pull/607))
+
 ## [0.10.2](https://github.com/botiverse/raft-design/compare/v0.10.1...v0.10.2) (2026-10-20)
 
 ### Fixed
