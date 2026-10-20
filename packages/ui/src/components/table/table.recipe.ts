@@ -20,7 +20,7 @@ export const table = tv({
     // are not styled in v1 (`TableHead` is the column header).
     body: [
       "[&>tr:last-child>td]:border-b-0 [&>tr:last-child>th]:border-b-0",
-      "[&>tr:hover]:bg-fill-pressed",
+      "[&>tr]:hover:bg-fill-pressed",
     ],
     row: [
       "aria-selected:bg-info-soft aria-selected:hover:bg-info-soft",

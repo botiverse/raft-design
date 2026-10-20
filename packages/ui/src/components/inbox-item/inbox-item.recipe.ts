@@ -95,7 +95,7 @@ export const inboxItem = tv({
       "[&>[data-slot=panel-toggle-action][data-pressed]]:border-transparent",
       "[&>[data-slot=panel-toggle-action][data-pressed]]:bg-transparent",
       "[&>[data-slot=panel-toggle-action][data-pressed]]:text-foreground",
-      "[&>[data-slot=panel-toggle-action][data-pressed]:hover]:bg-fill-pressed",
+      "[&>[data-slot=panel-toggle-action][data-pressed]]:hover:bg-fill-pressed",
       "pointer-coarse:gap-3",
       "pointer-coarse:*:data-[slot=panel-action]:after:absolute pointer-coarse:*:data-[slot=panel-action]:after:-inset-1.5",
       "pointer-coarse:*:data-[slot=panel-toggle-action]:after:absolute pointer-coarse:*:data-[slot=panel-toggle-action]:after:-inset-1.5",

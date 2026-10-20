@@ -9,7 +9,9 @@ export const files = tv({
       "group/file-row flex w-full min-w-0 gap-3 px-3",
       "transition-colors",
       "items-center rounded-container border border-line-hairline bg-layer-card py-2.5 pr-1.5 pl-2.5 shadow-none",
-      "has-[[data-slot=file-row-open]:hover]:press-overlay has-[[data-slot=file-row-open]:active]:press-overlay",
+      // The hover is on a child (the open button), so `hover:` cannot express it;
+      // the explicit media query keeps it off touch screens, like `hover:` does.
+      "[@media(hover:hover)]:has-[[data-slot=file-row-open]:hover]:press-overlay has-[[data-slot=file-row-open]:active]:press-overlay",
       "has-[[data-slot=file-row-open]:focus-visible]:shadow-focus",
     ],
     rowOpen: [
