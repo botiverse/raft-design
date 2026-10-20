@@ -43,10 +43,14 @@ How the tab bar works with Back and pushed pages, and how many destinations it h
 
 The floating pill is a row of 2 parts that float above the bottom of the page, from left to right:
 
-- **The pill**: the tabs, at most 4, in one capsule with a full radius, on `layer-card` with a `line-seam` outline and `shadow-float` ([Elevation](../../../../../design/foundations/elevation.md)). Each tab is a `MobileNavItem` with its icon and label, as in the edge bar.
-- **The Search button**: a round button, as high as the pill and on the same surface, outline and shadow, holding the `search` icon at 22px. It has no label.
+- **The pill**: the tabs, at most 4, in one 56px capsule with a full radius, on `layer-card` with a `line-seam` outline and `shadow-float` ([Elevation](../../../../../design/foundations/elevation.md)). Each tab is a `MobileNavItem` with its icon and label, as in the edge bar, with a hit area at least 44px wide and 44px high.
+- **The Search button**: a round 56px button, as high as the pill and on the same surface, outline and shadow, holding the `search` icon at 22px. It has no label.
 
-The full radius is a scoped exception to [Shape](../../../../../design/foundations/shape.md#radii): only this pill and its Search button are round. raft-ui doesn't draw the floating pill yet; until it does, apps build it from these rules and `MobileNavItem`.
+The full radius is a scoped exception to [Shape](../../../../../design/foundations/shape.md#radii): only this pill and its Search button are round.
+
+raft-ui doesn't draw the floating pill yet; until it does, apps build it from these rules and `MobileNavItem`. It will ship as 2 parts of their own, `MobileNavPill` and `MobileNavSearch`, inside `MobileNavRoot`, not as a `variant` prop: the two variants differ in structure, and a prop that swaps structure hides which parts are rendered.
+
+> **Placeholder: no screenshot yet.** This page has no rendered image of the floating pill until raft-ui implements it. For how it looks today, see the phone web implementation in [botiverse/slock #10502](https://github.com/botiverse/slock/pull/10502).
 
 ### Tabs and Search
 
@@ -58,6 +62,7 @@ The full radius is a scoped exception to [Shape](../../../../../design/foundatio
 ### Placement
 
 - Float the row above the bottom safe area: 8px above the screen's bottom edge, or the safe-area inset when it is larger, and on the 16px phone content margin ([Spacing](../../../../../design/foundations/spacing.md)).
+- Leave 8px between the pill and the Search button. The pill takes the rest of the width.
 - Give the page's scrolling content bottom padding of the row's height plus its gap, so the last row can scroll clear of the pill.
 - Hide the row while the on-screen keyboard is open. Pinned above the keyboard, it would cover the field being typed in and the composer.
 - Show the row only on top-level pages, as with the edge bar. Search and pushed pages cover it.
@@ -77,10 +82,11 @@ The sticker wraps only the icon, not the whole item: a yellow item adds another 
 - Label every item, in Title Case ([Typography](../../../../../design/foundations/typography.md#casing)).
 - Which items can show an attention dot is the product's choice. Say other news inside the page instead.
 - Show a dot, never a count, on the tab bar: the count belongs inside the page, next to what it counts.
+- Under More, show the same dot on the row that caused More's dot, so people can find what is new.
 
 ## Accessibility
 
 - `MobileNavRoot` renders a `nav`. Name it with `aria-label="Primary"`.
 - `MobileNavItem` renders the Base UI Button; `selected` sets `aria-pressed`. For an item that navigates, render a link (`render={<a href="…" />}` with `nativeButton={false}`) and set `aria-current="page"` on the selected one: raft-ui sets neither on a link.
 - In the floating pill, put the pill and the Search button inside the same `nav`. Name the Search button with `aria-label="Search"`, and don't give it `aria-pressed` or `aria-current`: it is an action, not a destination.
-- The visible label names the item. When an item shows an attention dot, give it an `aria-label` that says both: "Settings, new replies to your feedback". The dot itself is `aria-hidden`.
+- The visible label names the item. When an item shows an attention dot, give it an `aria-label` that says both: "More, new reply to your feedback". The dot itself is `aria-hidden`.

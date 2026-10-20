@@ -1,6 +1,6 @@
 ---
 title: Raft Chat — Home
-summary: The phone's Home screen — the workspace pill, who is working and the bell on the frame, the Search, Activity and Saved rows, and the channel and direct message sections.
+summary: The phone's Home screen — the workspace pill, who is working and the bell on the frame, the Saved row, and the channel and direct message sections.
 ---
 
 # Raft Chat — Home
@@ -15,7 +15,7 @@ From top to bottom:
    - The pill opens the server list ([Built from existing parts](../../components/overview.md#switching-servers)).
    - The working summary is an avatar stack and a count; it opens Working now ([Working agents](../../people-and-agents/working-agents.md#where-working-shows)) and is hidden when no one is working.
    - The bell opens the notification center ([Raft Chat](./README.md#the-bell-and-activity)) and shows a pink pixel when there is something new.
-2. **Three entry rows**: Search, Activity (with a pink count, up to 99+) and Saved (with a gray count in Space Mono), with no lines between them.
+2. **The Saved row**, with a gray count in Space Mono: Saved's only entry point on a phone. Search is the round button beside the tab bar and Activity is a tab, so Home has no rows for them.
 3. **Sections**: the sections of the Chat sidebar, without Saved, in the person's order.
 4. **The tab bar**, with Home selected. Nothing is attached above the tab bar.
 
@@ -29,6 +29,6 @@ The rows are sidebar rows, which are 44px below `md` on their own ([Sidebar](../
 
 - Show the workspace pill only on Home: ink with yellow text, tilted 2°, the server's name (at most 200px, then an ellipsis) and a chevron. Add the globe when the server's public page is on. In a window shorter than 600px, the pill becomes plain text and a chevron.
 - Put the list straight on paper, not in cards.
-- Draw the rows with the sidebar row ([Sidebar](../../../packages/ui/src/components/sidebar/sidebar.md)), 44px high in `text-body`. The Search, Activity and Saved rows are never selected.
+- Draw the rows with the sidebar row ([Sidebar](../../../packages/ui/src/components/sidebar/sidebar.md)), 44px high in `text-body`. The Saved row is never selected.
 - Don't put a pink button on Home. Creating is the + buttons in the section headers ([Raft Chat](./README.md#the-desktop-sidebar)).
 - Open every row as a pushed page.
