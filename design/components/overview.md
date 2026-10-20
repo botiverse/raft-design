@@ -159,12 +159,17 @@ If what you need isn't here and no component fits, follow the six questions in t
 
 A centered [Dialog](../../packages/ui/src/components/dialog/dialog.md), 960px wide: a bar with the place and the task number, the title and the description, one row of properties (Status, Assignee, Created by) in a [DescriptionList](../../packages/ui/src/components/description-list/description-list.md), the History in a collapsed [Timeline](../../packages/ui/src/components/timeline/timeline.md), then the task's thread and a [Composer](../../packages/ui/src/components/composer/composer.md). Its size and its bar are in [Tasks](../patterns/tasks.md#structure).
 
-### Image viewer
+### File viewer
 
-A full-screen `layer-backdrop` holding the image, previous and next, and one icon button to close ([Lightbox](../../packages/ui/src/components/lightbox/lightbox.md)).
+Every file someone opens from a message, whether an image, a PDF, text, Markdown, a table, a web page, a video or audio, opens in the same viewer: a [Lightbox](../../packages/ui/src/components/lightbox/lightbox.md) with a `LightboxToolbar` on top and the file's own body below. Only the body changes with the type. People learn where a file's actions are once, and it holds for every file.
+
+- **The toolbar is the same for every type:** the type badge, the file name, then the actions in a fixed order (Comments, Copy, Download, then Close last). An action that doesn't apply to a file is left out; the rest keep their order.
+- **On a phone** the toolbar keeps the file name, one More menu and Close. Comments, Copy and Download move into the menu; when Download is the only action, it stays as its own button. The type badge and the gallery count drop out, because the name needs the room and the thumbnails already show the position.
+- **Plain text** sits in the [CodeBlock](../../packages/ui/src/components/code-block/code-block.md) frame, but its lines wrap. A file in the viewer is read top to bottom, and find in page has to reach every line. A snippet in a message still scrolls sideways.
+- **Images** keep the stage, previous and next, and the thumbnails below the toolbar.
 
 ```example
-lightbox/compositions/image-lightbox-shell
+lightbox/compositions/attachment-preview-shell
 ```
 
 ### Link cards, forwarded messages, quoted previews
