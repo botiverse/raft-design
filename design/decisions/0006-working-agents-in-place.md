@@ -20,8 +20,7 @@ The live bar is split up and its parts go back where they belong: a summary line
 
 ## Consequences
 
-The record first also said "there is no typing indicator". That was removed on 2026-10-20: whether the product shows that an agent is typing is a product decision, not a design rule (stdrc, #proj-chat). What stays is the visual rule: nothing that shows an agent working blinks or loops.
-
+The record first also said "there is no typing indicator". That was removed on 2026-10-20: whether the product shows that an agent is typing is a product decision, not a design rule. What stays is the visual rule: nothing that shows an agent working blinks or loops.
 
 `LiveAgentActivityBar` is deprecated in raft-ui and is removed in raft-ui 1.0.
 
