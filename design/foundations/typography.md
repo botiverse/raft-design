@@ -10,7 +10,7 @@ Raft uses two typefaces with separate jobs: Space Grotesk for what people say, S
 ## Principles
 
 - **Space Grotesk is people; Space Mono is machines.** Space Grotesk (variable, weights 300 to 700) sets messages, labels and titles. Space Mono (400 and 700) sets IDs, times, counts, runtimes, event lines, shortcuts and code.
-- **Chinese falls back to the system face**: PingFang SC, then Source Han Sans. Mixed Chinese and English text keeps the numbers, IDs and times in Space Mono.
+- **CJK falls back to the system face**: PingFang SC, then Source Han Sans, for Chinese. A page in Japanese or Korean (`<html lang="ja">` / `"ko"`) falls back to its own faces first, because the Chinese faces draw kanji with Chinese glyph shapes and have no Hangul. Mixed CJK and English text keeps the numbers, IDs and times in Space Mono.
 - **No all caps.** Use Title Case for anything people can click and sentence case for everything else; see [Casing](#casing).
 
 ## Type scale
@@ -61,7 +61,7 @@ The desktop scale is Feishu's (Lark's) for PC: 16/24 for titles, 14/22 for every
 
 - Decide by who wrote it: text that is copied character for character, a time, a count or an identity marker is mono; anything a person says is sans.
 - The trailing `#channel-name` of a thread's title is sans, in `text-headline` at weight 400 and `foreground-hint`: it belongs to the title.
-- The sans families fall back to PingFang SC, Hiragino Sans GB, Microsoft YaHei and Noto Sans SC for Chinese, then the system face.
+- The sans families fall back to PingFang SC, Hiragino Sans GB, Microsoft YaHei and Noto Sans SC for Chinese, then the system face. Under `lang="ja"` they fall back to Hiragino Sans, Yu Gothic UI, Meiryo and Noto Sans JP; under `lang="ko"` to Apple SD Gothic Neo, Malgun Gothic and Noto Sans KR.
 
 ## Usage
 

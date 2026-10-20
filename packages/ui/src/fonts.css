@@ -1,7 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Space+Mono:wght@400;700&display=swap");
 
 /* Raft Design System: Space Grotesk is what people say, Space Mono is what
-   machines write. CJK falls back to PingFang / Source Han Sans. */
+   machines write. CJK falls back to PingFang / Source Han Sans; a Japanese or
+   Korean page (<html lang="ja|ko">) falls back to its own faces first, so kanji
+   keep Japanese glyph shapes and Hangul a Korean face. */
 :where(:root) {
   --heading-font:
     "Space Grotesk", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
@@ -10,4 +12,22 @@
     "Space Grotesk", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
     system-ui, sans-serif;
   --mono-font: "Space Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+:where(:root:lang(ja)) {
+  --heading-font:
+    "Space Grotesk", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo,
+    "Noto Sans JP", "Noto Sans CJK JP", system-ui, sans-serif;
+  --sans-font:
+    "Space Grotesk", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo,
+    "Noto Sans JP", "Noto Sans CJK JP", system-ui, sans-serif;
+}
+
+:where(:root:lang(ko)) {
+  --heading-font:
+    "Space Grotesk", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Noto Sans CJK KR",
+    system-ui, sans-serif;
+  --sans-font:
+    "Space Grotesk", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Noto Sans CJK KR",
+    system-ui, sans-serif;
 }
