@@ -16,9 +16,12 @@ The product had already removed breathing lights: a looping animation makes the 
 
 ## Decision
 
-The live bar is split up and its parts go back where they belong: a summary line at the top of the page (a few faces and a count), the agent's own row says what it is doing, the channel's top bar says who is working there, and Working now lists everyone. A working agent is a still yellow light and a sentence about what it is doing; nothing blinks and there is no typing indicator.
+The live bar is split up and its parts go back where they belong: a summary line at the top of the page (a few faces and a count), the agent's own row says what it is doing, the channel's top bar says who is working there, and Working now lists everyone. A working agent is a still yellow light and a sentence about what it is doing; nothing blinks.
 
 ## Consequences
+
+The record first also said "there is no typing indicator". That was removed on 2026-10-20: whether the product shows that an agent is typing is a product decision, not a design rule (stdrc, #proj-chat). What stays is the visual rule: nothing that shows an agent working blinks or loops.
+
 
 `LiveAgentActivityBar` is deprecated in raft-ui and is removed in raft-ui 1.0.
 
@@ -26,4 +29,3 @@ The live bar is split up and its parts go back where they belong: a summary line
 
 - [Working agents](../people-and-agents/working-agents.md#where-working-shows)
 - [Motion](../foundations/motion.md)
-- [0042](./0042-agents-typing-line.md): an agent writing a message shows one still line above the composer; it narrows "there is no typing indicator" to no animated one.

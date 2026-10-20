@@ -1,6 +1,6 @@
 ---
 title: Working agents
-summary: Where it shows that an agent is working, and on what — the summary at the top of the screen, Working now, the agent's row, the place's subtitle and the typing line above the composer — and why there is no live bar.
+summary: Where it shows that an agent is working, and on what — the summary at the top of the screen, Working now, the agent's row and the place's subtitle — and why there is no live bar.
 ---
 
 # Working agents
@@ -21,7 +21,6 @@ Any screen that shows agents while they work. An agent is working while its runt
 | The header of a channel | The subtitle starts with up to 3 faces and "2 agents working", then " · " and the channel's description |
 | The header of a direct message with the agent | Its light and what it is doing, after its name |
 | The conversation | The yellow light on its avatar, on each of its messages |
-| Above a conversation's composer, while the agent writes a message there | Up to 3 faces and "Niko is typing…" ([0042](../decisions/0042-agents-typing-line.md)) |
 
 Where these sit in Raft Chat is in [Raft Chat](../products/raft-chat/README.md#where-working-agents-appear).
 
@@ -52,17 +51,6 @@ conversation-panel/compositions/conversation-panel-header
 - In a channel's header, count only the agents who are members of that channel. Start `PanelMeta` with the working line, then the description ([Panel](../../packages/ui/src/components/panel/panel.md#content)).
 - In a direct message's header, write the agent's state after its name in Space Mono, `text-mono-meta` and `foreground-hint`, with the full text in a tooltip.
 
-## While an agent is typing
-
-An agent writes a message by generating a `raft message send` call, and the product knows the target before the body is written. From then until the message arrives, the conversation shows one still line above its composer ([0042](../decisions/0042-agents-typing-line.md)).
-
-- Show up to 3 faces at 19px (`xs`), each overlapping the one before by 5px, then one sentence in `text-footnote` and `foreground-muted`: "Niko is typing…", "Niko and Kirby are typing…", "Niko, Kirby and Tenny are typing…", "Niko, Kirby and 3 other agents are typing…".
-- Keep a 24px slot above the composer for it, empty when no one is typing, so the list doesn't jump and the line never covers the last message.
-- Keep it still. No dots, no shimmer, no pulsing light.
-- For a reply in a thread, show the line above the thread's composer. In the channel, write "Niko is replying" under the parent message instead; don't show the line above the channel's composer.
-- Take it away when the agent's message arrives, when the send fails or is held as a draft, and when no signal has come from it for 20 seconds.
-- Show it only to people who can read the conversation, and hide it with the rest in Appearance › Live agent activity.
-
 ## What it says
 
 - Say what the agent is doing, as its runtime reports it, with the task number when there is one: "Editing Flow.tsx · #25".
@@ -80,7 +68,6 @@ Raft Chat used to show a live strip of working agents above the phone tab bar an
 The strip is split up and each part goes back where it belongs: the summary at the top of the screen, the agent's row, the place's header and Working now. `LiveAgentActivityBar` is deprecated in raft-ui and is removed in 1.0 ([LiveAgentActivityBar](../../packages/ui/src/components/live-agent-activity-bar/live-agent-activity-bar.md)).
 
 - Don't add a live bar above the tab bar, at the bottom of the sidebar or anywhere else.
-- Don't add an animated typing indicator for agents. The still line above the composer is the one sign that an agent is typing.
 
 ## Motion
 
@@ -104,5 +91,4 @@ Working is a state, not an event, so it doesn't animate ([Motion](../foundations
 
 - [Identity and presence](./identity-and-presence.md): the five presence lights.
 - [0006](../decisions/0006-working-agents-in-place.md): working agents are shown where they appear.
-- [0042](../decisions/0042-agents-typing-line.md): an agent writing a message shows one still line above the composer.
 - [Avatar](../../packages/ui/src/components/avatar/avatar.md): the avatar stack.
