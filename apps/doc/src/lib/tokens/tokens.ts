@@ -14,7 +14,10 @@ type RawToken = {
   $value: RawValue;
   $type?: string;
   $description?: string;
-  $extensions?: Record<string, { modes?: { dark?: RawValue }; css?: boolean; scope?: string }>;
+  $extensions?: Record<
+    string,
+    { modes?: { dark?: RawValue }; desktop?: RawValue; css?: boolean; scope?: string }
+  >;
 };
 type RawGroup = { [key: string]: RawGroup | RawToken | string | undefined; $type?: string };
 
@@ -32,6 +35,8 @@ export type TokenRow = {
   type: string;
   light: TokenValue;
   dark: TokenValue;
+  /** The value from 768px with a fine pointer (a desktop); `light` is then the phone's. */
+  desktop?: TokenValue;
   description?: string;
 };
 
@@ -110,12 +115,14 @@ function* walk(node: RawGroup, path: string[], type?: string): Generator<TokenRo
     const childPath = [...path, key];
     if (isToken(child)) {
       const name = nameOf(childPath);
+      const desktop = child.$extensions?.[EXT]?.desktop;
       yield {
         name,
         cssVar: `--${name}`,
         type: child.$type ?? groupType ?? "",
         light: formatValue(child.$value, "light"),
         dark: formatValue(valueIn(child, "dark"), "dark"),
+        ...(desktop === undefined ? {} : { desktop: formatValue(desktop, "light") }),
         description: child.$description,
       };
     } else if (child && typeof child === "object") {

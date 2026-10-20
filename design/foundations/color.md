@@ -72,6 +72,7 @@ line
 | `line-hairline` | Inside content | List dividers, card outlines |
 | `line-seam` | Between regions | Rail and sidebar, a header and its content, the edge of a menu, drawer or dialog |
 | `line-strong` | This is a control | The 1.5px ink border of controls and the edge of stickers |
+| `line-field` | This is a field | The 1px ink frame of a field and the composer, the same ink as `line-strong` |
 
 Lines, secondary text and overlays are made from translucent steps of ink. Use the role tokens above; the steps are listed for reference.
 

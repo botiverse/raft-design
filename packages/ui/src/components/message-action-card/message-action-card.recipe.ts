@@ -17,13 +17,13 @@ export const messageActionCard = tv({
       "size-[27px] rounded-sticker bg-fill-muted text-foreground-muted",
       "[&>svg]:size-3.5",
     ],
-    headerTitle: ["min-w-0 flex-1", "pt-[3.5px]"],
+    headerTitle: ["min-w-0 flex-1", "pt-[calc((27px-1lh)/2)]"],
     // What happened (Done, Declined) or why you cannot act (View only), shown
     // under the title so it stays visible while the card is folded.
     headerDescription: ["block", "mt-0.5 text-footnote font-normal text-foreground-muted"],
     headerStatus: [
       "ml-auto shrink-0",
-      "mt-[5.5px] text-caption font-semibold text-foreground-muted",
+      "mt-[calc((27px-1lh)/2)] text-caption font-semibold text-foreground-muted",
     ],
     status: [
       "inline-flex h-auto items-center gap-1.5 rounded-none border-0 bg-transparent p-0 shadow-none",

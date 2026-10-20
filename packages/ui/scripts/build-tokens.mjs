@@ -7,9 +7,11 @@
 //
 // tokens.json follows the Design Tokens Community Group format (2025.10). Its
 // extension "build.botiverse.raft" carries what the format has no field for:
-// `modes.dark` (the dark value), `scope` ("root" for mode-independent values,
-// "every-mode" for aliases declared again in each mode scope) and `css` (a
-// value kept as a CSS expression, such as color-mix() or a layered shadow).
+// `modes.dark` (the dark value), `desktop` (the value from 768px with a fine pointer, where the
+// desktop layout begins; the token's own value is the phone's), `scope`
+// ("root" for mode-independent values, "every-mode" for aliases declared again
+// in each mode scope) and `css` (a value kept as a CSS expression, such as
+// color-mix() or a layered shadow).
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -91,6 +93,8 @@ export function renderFoundation(tokens) {
   const dark = [];
   const everyMode = [];
   const staticDeprecated = [];
+  const desktopRoot = [];
+  const desktopLight = [];
 
   for (const [tokenPath, token] of tokensOf(tokens)) {
     const name = propertyName(tokenPath);
@@ -108,6 +112,7 @@ export function renderFoundation(tokens) {
     }
     if (ext.scope === "root") {
       root.push(declaration(token.$value));
+      if (ext.desktop !== undefined) desktopRoot.push(declaration(ext.desktop));
       continue;
     }
     if (ext.scope === "every-mode") {
@@ -117,6 +122,7 @@ export function renderFoundation(tokens) {
     described(light, "  ");
     light.push(fit(declaration(token.$value), "  "));
     if (ext.modes?.dark !== undefined) dark.push(declaration(ext.modes.dark));
+    if (ext.desktop !== undefined) desktopLight.push(declaration(ext.desktop));
   }
 
   const block = (lines, indent) => lines.map((line) => fit(line, indent)).join("\n");
@@ -182,6 +188,23 @@ ${block(
   staticDeprecated.map((entry) => entry.line),
   "  ",
 )}
+}
+${renderDesktop(desktopRoot, desktopLight)}`;
+}
+
+/* Desktop values, declared again in the scope the phone value lives in (a
+   `.light` island declares its own), inside the one breakpoint. */
+function renderDesktop(rootLines, lightLines) {
+  if (rootLines.length === 0 && lightLines.length === 0) return "";
+  const scope = (selector, lines) =>
+    lines.length === 0 ? [] : [`  ${selector} {`, ...lines.map((line) => fit(line, "    ")), "  }"];
+  return `
+/* Desktop: from 768px (Tailwind's \`md\`, where the desktop layout begins)
+   with a mouse or trackpad. The metrics that follow Feishu's PC specs. A
+   phone, and a touch screen at any width, keep the values above. The same
+   query as the desktop type in styles.css. */
+@media (width >= 48rem) and (pointer: fine) {
+${[...scope(":where(:root)", rootLines), ...scope(":where(:root),\n  .light", lightLines)].join("\n")}
 }
 `;
 }

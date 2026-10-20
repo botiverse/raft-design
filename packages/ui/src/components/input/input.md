@@ -1,6 +1,6 @@
 ---
 title: Input
-summary: A single-line text field, 44px high with a 1.5px ink border, for typing one value.
+summary: A single-line text field at the control height, with a 1px ink border, for typing one value.
 status: stable
 aliases: [TextField]
 layer: core
@@ -10,7 +10,7 @@ related: [field, input-group, textarea, select]
 
 # Input
 
-An input takes one line of text. It is 44px high, with a 1.5px ink border on `layer-card`, and it always sits in a [Field](../field/field.md) that gives it a label above and help text below. Inputs with a prefix or suffix, multi-line fields and search fields use the same box.
+An input takes one line of text. It is as high as a default control, 44px on a phone and 32px on a desktop ([Spacing](../../../../../design/foundations/spacing.md#heights)), with a 1px ink border (`line-field`) on `layer-card`, and it always sits in a [Field](../field/field.md) that gives it a label above and help text below. Inputs with a prefix or suffix, multi-line fields and search fields use the same box.
 
 ```example
 input/compositions/preview
@@ -48,5 +48,5 @@ Input wraps Base UI Input and renders a native `<input>`.
 ## Rules
 
 - Always draw the ink border. Don't make an input a filled gray box without one: the ink border is what marks it as a control ([Color](../../../../../design/foundations/color.md#lines)).
-- Never set input text smaller than 16px: iOS zooms the page into a field with smaller text. Inputs use `text-body` ([Typography](../../../../../design/foundations/typography.md)).
+- Set input text with the field tokens (`text-field`, `font-field`), never a size of your own: they keep it at 16px on a phone and a touch screen, where iOS zooms the page into a field with smaller text, and at the body size, 14px, on a desktop (from 768px with a mouse or trackpad; [Typography](../../../../../design/foundations/typography.md#metric-tokens)).
 - Check the value when focus leaves the input or the form is submitted ([Forms](../../../../../design/patterns/forms.md#validation)).

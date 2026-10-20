@@ -23,7 +23,7 @@ const tooltip = tv({
       "has-[[data-slot=kbd]]:py-1 has-[[data-slot=kbd]]:pr-2.5",
     ],
     body: [
-      "block min-w-0 text-[13px] leading-4.5 whitespace-normal wrap-break-word",
+      "block min-w-0 text-footnote whitespace-normal wrap-break-word",
       "**:data-[slot=kbd]:relative **:data-[slot=kbd]:z-10 [&_[data-slot=kbd]]:ml-1.5",
       "[&_[data-slot=kbd]]:h-4 [&_[data-slot=kbd]]:min-w-4 [&_[data-slot=kbd]]:px-1 [&_[data-slot=kbd]]:py-0",
       "**:data-[slot=kbd]:text-[12px] **:data-[slot=kbd]:leading-4 [&_[data-slot=kbd]]:font-normal",

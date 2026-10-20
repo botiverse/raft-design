@@ -24,10 +24,12 @@ const outline = (ink: string) => [
 
 // Three text sizes and two icon sizes, nothing in between, so a button reads
 // the same wherever it sits; the 32px ones keep a 44px hit area through an
-// overhanging ::after. `xs` and `sm` are the old names of `md`, `icon-xs` and
-// `icon-sm` of `icon-md`.
+// overhanging ::after. `lg`, `icon-lg` and `xl` take the control height, 44px
+// (52px) on a phone and 32px (40px) on a desktop, from the token layer; there
+// `lg` and `icon-lg` overhang by `control-hit` to keep 44px. `xs` and `sm` are
+// the old names of `md`, `icon-xs` and `icon-sm` of `icon-md`.
 const textMd = [
-  "h-8 gap-2 rounded-control px-3 py-0 text-footnote",
+  "h-8 gap-2 rounded-control px-3 py-0 text-control",
   "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
   "[&_svg:not([class*='size-'])]:size-4 **:data-icon:size-[1em]",
   "after:absolute after:inset-x-0 after:-inset-y-1.5",
@@ -104,16 +106,17 @@ export const buttonVariants = tv({
       // Dialog and sheet footers, forms.
       lg: {
         root: [
-          "h-11 gap-2 rounded-control px-4 py-0 text-subhead",
+          "h-control gap-2 rounded-control px-4 py-0 text-subhead",
           "has-data-[icon=inline-start]:pl-3.5 has-data-[icon=inline-end]:pr-3.5",
           "[&_svg:not([class*='size-'])]:size-[18px] **:data-icon:size-[1em]",
+          "after:absolute after:inset-x-0 after:-inset-y-control-hit",
         ],
       },
       // A full-width call to action. Its content is centred in the full
       // width, so it needs no tighter padding on an icon's side.
       xl: {
         root: [
-          "h-13 gap-2 rounded-control px-5 py-0 text-body",
+          "h-control-cta gap-2 rounded-control px-5 py-0 text-body",
           "[&_svg:not([class*='size-'])]:size-[18px] **:data-icon:size-[1em]",
         ],
       },
@@ -121,7 +124,10 @@ export const buttonVariants = tv({
       "icon-sm": { root: iconMd },
       "icon-md": { root: iconMd },
       "icon-lg": {
-        root: "size-11 rounded-control p-0 [&_svg:not([class*='size-'])]:size-[22px]",
+        root: [
+          "size-control rounded-control p-0 [&_svg:not([class*='size-'])]:size-control-icon",
+          "after:absolute after:-inset-control-hit",
+        ],
       },
     },
   },

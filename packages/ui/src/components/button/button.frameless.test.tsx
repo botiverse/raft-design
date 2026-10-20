@@ -67,8 +67,8 @@ describe("on-frame", () => {
       ]),
     );
     expect(names).not.toContain("hover:bg-fill-pressed");
-    // The phone frame keeps the 44 icon button.
-    expect(names).toContain("size-11");
+    // The phone frame keeps the control-height icon button (44 on a phone).
+    expect(names).toContain("size-control");
   });
 
   test("a 32px icon button is the 36px frame item with a 20px icon", () => {

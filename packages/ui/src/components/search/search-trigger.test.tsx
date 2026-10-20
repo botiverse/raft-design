@@ -29,8 +29,8 @@ test("a button drawn as the top bar's search field", () => {
     expect.arrayContaining([
       "h-9",
       "w-[clamp(360px,32vw,520px)]",
-      "border-[1.5px]",
-      "border-line-strong",
+      "border",
+      "border-line-field",
       "bg-layer-card",
       "text-body",
       "font-normal",

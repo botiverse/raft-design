@@ -13,7 +13,7 @@ const pickerTriggerButton = tv({
     "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 **:data-icon:size-[1em]",
     "gap-1.5 rounded-control border-0 bg-transparent px-2.5 py-0",
-    "font-sans text-footnote font-semibold text-foreground-muted",
+    "font-sans text-control font-semibold text-foreground-muted",
     "inset-ring inset-ring-line-seam",
     "hover:bg-fill-pressed active:bg-fill-pressed",
     "data-has-value:bg-info-soft data-has-value:text-foreground data-has-value:inset-ring-0",

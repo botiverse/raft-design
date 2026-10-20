@@ -12,8 +12,14 @@ import { extendTailwindMerge } from "tailwind-merge";
 // merge and the winner is decided by stylesheet emission order — which is why
 // the axis appeared to apply to font-weight but not font-size. Same failure
 // shape as `shadow-raft-*` above.
+// `h-control`, `size-control-icon` and the other control metric utilities
+// read the control axis from the theme's spacing; without registering them
+// tailwind-merge does not see `h-control` and `h-8` as the same property.
 const twMerge = extendTailwindMerge({
   extend: {
+    theme: {
+      spacing: ["control", "control-cta", "control-icon", "control-hit"],
+    },
     classGroups: {
       shadow: [
         { shadow: ["float", "sticker", "focus"] },
@@ -37,6 +43,7 @@ const twMerge = extendTailwindMerge({
             "label",
             "mono-meta",
             "mono-code",
+            "control",
           ],
         },
       ],

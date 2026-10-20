@@ -275,6 +275,17 @@
   --card-title-font-size: 16px;
   --card-title-font-weight: 600;
   --card-title-line-height: 24px;
+  /* A default control: a field, a Button at lg, an icon button at icon-lg. A
+     finger's 44px on a phone, Feishu's 32px on a desktop. */
+  --control-height: 44px;
+  /* The full-width call to action across a sign-in, sign-up or setup form
+     (Button xl). */
+  --control-height-cta: 52px;
+  /* The icon in a control-height icon button. */
+  --control-icon-size: 22px;
+  /* How far a control-height button's hit area reaches past its top and bottom,
+     to keep 44px. */
+  --control-hit-inset: 0px;
   --sticker-ink: oklch(0.1813 0.005 17.62);
   --sticker-paper: oklch(1 0 0);
   --sticker-edge: oklch(0.1813 0.005 17.62 / 0);
@@ -627,4 +638,22 @@
   --secondary-800: var(--palette-stone-800);
   --secondary-900: var(--palette-stone-900);
   --secondary-950: var(--palette-stone-950);
+}
+
+/* Desktop: from 768px (Tailwind's `md`, where the desktop layout begins)
+   with a mouse or trackpad. The metrics that follow Feishu's PC specs. A
+   phone, and a touch screen at any width, keep the values above. The same
+   query as the desktop type in styles.css. */
+@media (width >= 48rem) and (pointer: fine) {
+  :where(:root),
+  .light {
+    --field-font-size: 14px;
+    --field-line-height: 22px;
+    --card-title-font-size: 14px;
+    --card-title-line-height: 22px;
+    --control-height: 32px;
+    --control-height-cta: 40px;
+    --control-icon-size: 18px;
+    --control-hit-inset: 6px;
+  }
 }

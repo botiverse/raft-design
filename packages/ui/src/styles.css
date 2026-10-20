@@ -75,7 +75,9 @@
 
   /* Raft Design System type styles (size / line-height / weight). Grotesk is
      what people say; pair the mono styles with `font-mono` for what machines
-     write (ids, times, counts, events, code). */
+     write (ids, times, counts, events, code). These are the phone values; the
+     desktop block below the theme sets the working sizes again on a desktop
+     (from 768px with a mouse or trackpad). */
   --text-hero: 40px;
   --text-hero--line-height: 44px;
   --text-hero--font-weight: 700;
@@ -109,6 +111,11 @@
   --text-mono-meta--line-height: 16px;
   --text-mono-code: 13px;
   --text-mono-code--line-height: 20px;
+  /* The label of a 32px control: a Button at `md`, a panel action, a filter
+     trigger. Its own style, because on a phone it is footnote's 13px and on a
+     desktop it is 14px, where footnote drops to 12. */
+  --text-control: 13px;
+  --text-control--line-height: 18px;
 
   /* Deprecated utility names, kept until raft-ui 1.0 (see codemods/token-names.mjs). */
   --color-brutal-yellow: var(--palette-yellow-400);
@@ -121,6 +128,43 @@
   --color-brutal-red: var(--palette-red-400);
   --color-brutal-stone: var(--palette-stone-400);
   --color-brutal-cream: var(--palette-cream-200);
+}
+
+/* Desktop type: from 768px (Tailwind's `md`, where the desktop layout begins)
+   with a mouse or trackpad, the same query as the desktop metrics in
+   foundation.css. Feishu's PC scale, 14/22 for reading, 12px for notes (on an
+   18px line, see typography.md), 16/24 for titles. A phone, and a touch
+   screen at any width, keep the theme's values, Feishu's mobile scale. The
+   type utilities read these variables (`font-size: var(--text-body)`), so
+   every component follows without a breakpoint of its own. This block comes
+   after Tailwind's theme output, so it also wins over an app's own `@theme`
+   values for these names: an app that changes one sets it inside this query
+   as well. Hero, display, title and label stay as they are: setup pages and
+   the phone tab bar. */
+@layer theme {
+  @media (width >= 48rem) and (pointer: fine) {
+    :root,
+    :host {
+      --text-headline: 16px;
+      --text-headline--line-height: 24px;
+      --text-body: 14px;
+      --text-body--line-height: 22px;
+      --text-subhead: 14px;
+      --text-subhead--line-height: 22px;
+      --text-callout: 14px;
+      --text-callout--line-height: 22px;
+      --text-footnote: 12px;
+      --text-footnote--line-height: 18px;
+      --text-caption: 12px;
+      --text-caption--line-height: 18px;
+      --text-mono-meta: 12px;
+      --text-mono-meta--line-height: 18px;
+      --text-mono-code: 13px;
+      --text-mono-code--line-height: 20px;
+      --text-control: 14px;
+      --text-control--line-height: 22px;
+    }
+  }
 }
 
 @theme inline {
@@ -307,6 +351,20 @@
   --text-card-title: var(--card-title-font-size);
   --text-card-title--line-height: var(--card-title-line-height);
   --font-weight-card-title: var(--card-title-font-weight);
+  /* ─── Control metric axis ───────────────────────────────────────────────────
+     The height of a default control: 44px on a phone and on a touch screen,
+     32px from 768px with a mouse or trackpad (Feishu's PC default). The
+     tokens switch in foundation.css, so a recipe writes `h-control` /
+     `size-control` and never a breakpoint. A button at this height keeps a 44px hit area with
+     `after:-inset-y-control-hit`, which is 0 on a phone.
+
+     Consumers: `Input`, `InputGroup`, `SelectTrigger`,
+     `ComboboxControl`, `ComboboxChips`, `ComboboxSelect`, and Button at `lg`,
+     `xl` (`h-control-cta`) and `icon-lg` (`size-control-icon` for its icon). */
+  --spacing-control: var(--control-height);
+  --spacing-control-cta: var(--control-height-cta);
+  --spacing-control-icon: var(--control-icon-size);
+  --spacing-control-hit: var(--control-hit-inset);
 
   /* Deprecated utility names, kept until raft-ui 1.0 (see codemods/token-names.mjs). */
   --color-foreground-strong: var(--foreground);

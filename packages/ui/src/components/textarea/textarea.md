@@ -1,6 +1,6 @@
 ---
 title: Textarea
-summary: A multi-line text field for forms, at least 96px high, with an optional character counter.
+summary: A multi-line text field for forms, at least three lines high, with an optional character counter.
 status: stable
 aliases: []
 layer: core
@@ -10,7 +10,7 @@ related: [input, field, composer]
 
 # Textarea
 
-A textarea takes several lines of text in a form: a description, a note, instructions for an agent. It has the same ink border and states as an [Input](../input/input.md), is at least 96px high, and people can drag it taller.
+A textarea takes several lines of text in a form: a description, a note, instructions for an agent. It has the same ink border and states as an [Input](../input/input.md), is at least three lines of field text high (96px on a phone, 90px on a desktop), and people can drag it taller.
 
 ```example
 textarea/compositions/with-field
@@ -38,7 +38,7 @@ textarea/compositions/with-field
 
 ## Behavior
 
-- Let people drag the textarea taller. It never gets shorter than 96px.
+- Let people drag the textarea taller. It never gets shorter than three lines of field text.
 - To make it grow with its content, use `field-sizing-content` together with a maximum height, so a long draft scrolls inside the field instead of pushing the page down.
 - Add a counter when the value has a limit. Pass the current value and the limit to `TextareaCounter`.
 - Leave out the native `maxLength` when the counter shows the limit: `maxLength` stops typing at the limit, so the counter could never show that the text is over it.

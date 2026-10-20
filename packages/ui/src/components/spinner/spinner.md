@@ -27,8 +27,20 @@ spinner/compositions/default
 
 ## Variants
 
-- `size` scales the pixels from `xs` to `lg`. Match it to the text or icons next to it.
+- `size` scales the pixels: `xs` is 9.5px across, `sm` (the default) 12px, `md` 14px and `lg` 19px. Pick it by [Size](#size).
 - The spinner takes the color of the text around it. `variant="inverse"` sets it in the inverse foreground, for a surface of the opposite lightness.
+
+### Size
+
+A loading indicator matches what it stands in for: it holds the place of what will appear, so it takes that thing's size, and the line beside it takes that thing's type.
+
+| What it stands in for                                                                | Size                                                                                                                                                                                                          | The line beside it                                                                                                                                 |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| An icon in a line of text: a reference's, an attachment row's                        | The icon's size: `xs` for a 14px icon, `sm` for 16px, `md` for 18px, `lg` for 22px, so the pixels cover what the icon's strokes did. It sits in the text's line box, so the line keeps the text's line height | None, or the text's own style                                                                                                                      |
+| The content of a panel or a list: a conversation, a profile, the next page of a list | `md` or `lg`, centered in the space the content will fill                                                                                                                                                     | `text-callout` or `text-body` in `foreground-muted`, never `text-caption` or `foreground-hint`: until the content arrives, the line is the content |
+| Media: an image or a video that is loading                                           | `md`, `variant="inverse"` on the media's scrim                                                                                                                                                                | None                                                                                                                                               |
+
+- Don't make a placeholder small to make the wait look minor: a 9.5px spinner and a hint-colored caption in the middle of an empty panel read as an empty panel, and the person waits without knowing anything is happening.
 
 ## Loading screen
 

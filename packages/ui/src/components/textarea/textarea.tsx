@@ -6,11 +6,11 @@ import type { WithoutChildren } from "../../lib/without-children";
 const textarea = tv({
   slots: {
     root: [
-      "block w-full min-h-24 resize-y pl-3 pr-(--ta-pr,0.75rem)",
+      "block w-full min-h-[calc(var(--field-line-height)*3+--spacing(6))] resize-y pl-3 pr-(--ta-pr,0.75rem)",
       "scroll-pb-(--ta-scroll-pb,0)",
       "font-heading text-field font-field outline-none",
       "py-2.5",
-      "rounded-control border-[1.5px] border-line-strong bg-layer-card",
+      "rounded-control border border-line-field bg-layer-card",
       "text-foreground placeholder:text-foreground-hint",
       "shadow-none transition-shadow duration-90 ease-out focus-visible:shadow-focus",
       "data-invalid:border-danger-strong",
