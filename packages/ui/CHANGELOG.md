@@ -1,3 +1,23 @@
+## [0.10.0](https://github.com/botiverse/raft-design/compare/v0.9.6...v0.10.0) (2026-10-20)
+
+### Breaking Changes
+
+- On a desktop (`(width >= 48rem) and (pointer: fine)`: a wide screen used with a mouse or trackpad) type and controls follow Feishu PC's density. Touch devices keep the phone sizes at any width. Existing names keep working, but their sizes change there, so check any layout that matched them by hand ([#601](https://github.com/botiverse/raft-design/pull/601)):
+  - `text-headline` 16/24; `text-body`, `text-subhead` and `text-callout` 14/22; `text-footnote`, `text-caption` and `text-mono-meta` 12/18; `text-mono-code` 13/20. Hero, display, title and label are unchanged.
+  - Fields (`Input`, `Select`, `Combobox`, `ComboboxSelect`, `InputGroup`) go from 44px to 32px, with 14/22 field text; card titles are 14/22.
+  - `Button` `lg` and `icon-lg` go from 44px to 32px (icon 22 → 18) and keep a 44px hit area; `xl` goes from 52px to 40px. The default `md` stays 32px; its label goes from 13px to 14px.
+  - Anything hardcoded to `h-11` / `size-11` to line up with a field no longer matches on desktop: use `h-control` / `size-control` instead.
+  - The desktop type values sit after Tailwind's theme output, so they win over an app's own `@theme` values for these names; an app that changes one sets it inside the same query.
+- Field frames (`Input`, `Textarea`, `InputGroup`, `Select`, `Combobox`, `ComboboxSelect`, `Composer`, option `Card`, `SearchTrigger`) are drawn at 1px in `line-field` instead of 1.5px, on the phone too. ([#601](https://github.com/botiverse/raft-design/pull/601))
+
+### Added
+
+- Control tokens that switch with the desktop query: `--control-height`, `--control-height-cta`, `--control-icon-size`, `--control-hit-inset`, and the `h-control`, `size-control`, `size-control-icon` and `text-control` utilities (registered with tailwind-merge). ([#601](https://github.com/botiverse/raft-design/pull/601))
+
+### Changed
+
+- `Tooltip`, `ComboboxSelect` options, `Steps` and `Timeline` use the type scale instead of fixed sizes, so they follow the desktop values. ([#601](https://github.com/botiverse/raft-design/pull/601))
+
 ## [0.9.6](https://github.com/botiverse/raft-design/compare/v0.9.5...v0.9.6) (2026-10-20)
 
 ### Added
