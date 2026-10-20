@@ -34,7 +34,7 @@ conversation-panel/compositions/conversation-panel
 
 ### Mentions
 
-- Underline a mention of someone else in ink.
+- Set a mention of someone else in bold ink, underlined in ink only on hover, like all clickable text ([Clickable text](../foundations/states.md#clickable-text)).
 - Show a mention of the person reading as a small yellow sticker: yellow is "you" ([Color](../foundations/color.md#meanings-of-color)).
 - Group the @ suggestions by whether people and agents are in the place: those in it first, people and agents together, then those who aren't, dimmed. In a thread, rank the people who replied first.
 - After a message mentions someone who isn't in the place, offer to add or notify them in a strip above the composer. Otherwise the mention reaches no one, and nothing says so.

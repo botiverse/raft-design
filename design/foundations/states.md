@@ -9,7 +9,7 @@ Every component shows its interaction states the same way. A component doc only 
 
 ## Principles
 
-- **Hover and press add an overlay.** They never change the fill; see [Motion](./motion.md).
+- **Hover and press add an overlay.** They never change the fill; see [Motion](./motion.md). Text that can be clicked has no box to lay an overlay on, so it underlines on hover instead ([Clickable text](#clickable-text)).
 - **Selection has three meanings, and three looks.** Where you are in navigation is yellow, the item singled out in content is cyan, and a chosen value is ink.
 - **Disabled looks the same everywhere** and doesn't react to hover or press.
 
@@ -28,6 +28,16 @@ Every component shows its interaction states the same way. A component doc only 
 | Display only | A row whose only interactive parts are its controls (a switch row in settings, this computer in the sidebar) is not a button: render it as a `<div>`, with no hover or press on the row, and focus only on its controls |
 | Error | An input gets a `danger-strong` border and a line that says how to fix it. In a dialog, a banner. A problem with the whole server goes to the notification center; see [Feedback](../patterns/feedback.md) |
 | Busy | A pixel spinner in the button, and a label that says what is happening |
+
+## Clickable text
+
+Text that does something or goes somewhere, with no box, chip or fill around it: a [TextLink](../../packages/ui/src/components/text-link/text-link.md), a mention of someone else, a sender's name, the text actions under a message, a toast's action.
+
+- Show no underline at rest, and underline the text on hover in its own color: the underline is the one hover signal for clickable text everywhere, so people learn it once. At rest, its color, its weight and where it sits say it can be clicked.
+- Never turn clickable text pink on hover. Pink is the one primary action on the screen ([Color](./color.md#meanings-of-color)); a color change on hover is only the step from a muted color to the ink of body text.
+- Give text that cannot be clicked no hover change at all, and take the hover underline away from clickable text when it is disabled, so a change on hover always means "this can be clicked".
+- Exception: a link inside rendered message or document text ([Markdown](../../packages/ui/src/components/markdown/markdown.md)) keeps an underline at rest, because the link blue alone is too close to the body text around it: 2.75:1 against `foreground` in light mode and 1.44:1 in dark mode, below the 3:1 that [WCAG 1.4.1](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html) asks of a link told apart by color alone. At rest the underline is quieter, the link blue at 40%; on hover it takes the full color, and the text moves 20% toward the body ink, darker in light mode and lighter in dark mode, so its contrast with the paper goes up in both.
+- Chips, cards, badges, buttons and tabs are not clickable text: they keep the pressed overlay or their own hover.
 
 ## Focus
 
