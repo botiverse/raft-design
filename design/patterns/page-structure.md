@@ -49,7 +49,7 @@ On a phone (the layout below 768px), an overlay anchored to a small trigger has 
 - Confirm in the platform's own way. The iOS app uses the system confirmation sheet (SwiftUI `confirmationDialog`), the way iOS asks before an action. The web and Android confirm in a dialog, centered over a scrim, and never in a Raft bottom sheet: a decision people must make before they go on sits in the center. The question and its answers are the same words on every platform ([Writing](../content/writing.md#actions-and-their-dialogs)).
 - Keep a choice that applies at once, and one of up to 10 values in a form, in its anchored menu or list: it opens next to what it changes, so people see both.
 - From 768px, keep the anchored overlays, on a touch screen too: there is room beside the trigger.
-- raft-ui's Popover, Select, ComboboxSelect, Combobox and Dialog don't turn into a bottom sheet themselves: build the sheet with [Drawer](../../packages/ui/src/components/drawer/drawer.md).
+- raft-ui's [ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md#on-a-phone) opens its bottom sheet itself. Popover, Select, Combobox and Dialog don't turn into a bottom sheet themselves: build the sheet with [Drawer](../../packages/ui/src/components/drawer/drawer.md).
 
 ### Desktop
 
