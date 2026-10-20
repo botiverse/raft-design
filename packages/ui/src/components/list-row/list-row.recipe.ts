@@ -23,7 +23,7 @@ export const listRow = tv({
       "group/list-row relative flex w-full min-w-0 items-center gap-3 px-4 py-3 text-left",
       "font-sans no-underline",
       "transition-colors duration-100",
-      "outline-none focus-visible:inset-ring-2 focus-visible:inset-ring-foreground",
+      "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
       "data-selected:bg-info-soft",
       "[--list-row-ink:var(--foreground)] [--list-row-ink-2:var(--foreground-muted)] [--list-row-ink-3:var(--foreground-hint)]",
       "text-(--list-row-ink)",

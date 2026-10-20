@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import type { ReactNode } from "react";
+import { installInputModality } from "../input-modality";
 import { ThemeStateContext } from "./theme-context";
 import type { ResolvedThemeMode, ThemeMode, ThemeState } from "./theme-context";
 
@@ -14,8 +15,11 @@ export interface ThemeProviderProps {
   storageKey?: string;
   /**
    * Put the resolved mode on `document.documentElement` (`.light` / `.dark`
-   * and `color-scheme`). Defaults to true for the app-level provider; set it to
-   * false for nested previews and islands that must not touch the page root.
+   * and `color-scheme`), and track the input modality there
+   * (`data-input-modality`, see `installInputModality`), which keeps focus
+   * rings to keyboard navigation. Defaults to true for the app-level provider;
+   * set it to false for nested previews and islands that must not touch the
+   * page root.
    */
   syncDom?: boolean;
   children: ReactNode;
@@ -84,6 +88,8 @@ export function ThemeProvider({
     () => ({ mode: activeMode, resolvedMode, setMode }),
     [activeMode, resolvedMode, setMode],
   );
+
+  useEffect(() => (syncDom ? installInputModality() : undefined), [syncDom]);
 
   useEffect(() => {
     if (!syncDom) {

@@ -46,7 +46,7 @@ const toastStyles = tv({
       "motion-reduce:transition-none",
       "rounded-container bg-layer-hud text-foreground-on-hud",
       "shadow-float",
-      "focus-visible:outline-2 focus-visible:outline-foreground",
+      "focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-foreground",
     ],
     content: [
       "relative grid grid-cols-[minmax(0,1fr)] items-center overflow-hidden",
@@ -97,7 +97,7 @@ const toastStyles = tv({
       "decoration-[1.5px] underline-offset-[3px] not-disabled:hover:underline",
       "after:absolute after:-inset-x-2 after:-inset-y-3 after:rounded-control after:content-['']",
       "active:after:bg-foreground-on-hud/15",
-      "focus-visible:outline-2 focus-visible:outline-foreground-on-hud",
+      "focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-foreground-on-hud",
       "[&_svg]:size-4",
     ],
     arrow: [
@@ -223,7 +223,7 @@ const toastAction = tv({
       "decoration-[1.5px] underline-offset-[3px] not-disabled:not-aria-disabled:hover:underline",
       "after:absolute after:-inset-x-2 after:-inset-y-3 after:rounded-control after:content-['']",
       "active:after:bg-foreground-on-hud/15",
-      "outline-1 outline-offset-2 outline-transparent focus-visible:outline-2 focus-visible:outline-foreground-on-hud",
+      "outline-1 outline-offset-2 outline-transparent focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-foreground-on-hud",
       "disabled:pointer-events-none disabled:opacity-40 aria-disabled:cursor-not-allowed aria-disabled:opacity-40",
       "data-[loading=true]:cursor-wait data-[loading=true]:opacity-100",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 **:data-icon:size-[1em] [&_svg:not([class*='size-'])]:size-3",

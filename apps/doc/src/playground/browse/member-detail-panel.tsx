@@ -214,7 +214,7 @@ export function MemberDetailPanel({
                           variant={removed ? "muted" : "default"}
                           className={cn(
                             canChangeRole &&
-                              "cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-line-strong focus-visible:ring-offset-1",
+                              "cursor-pointer outline-none focus-visible:keyboard:ring-2 focus-visible:keyboard:ring-line-strong focus-visible:keyboard:ring-offset-1",
                           )}
                         >
                           {removed ? "Removed" : role[0]?.toUpperCase() + role.slice(1)}

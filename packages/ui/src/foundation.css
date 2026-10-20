@@ -265,6 +265,9 @@
   --elevation-float:
     0 1px 0 oklch(0.1813 0.005 17.62 / 0.039), 0 12px 32px -12px oklch(0.1813 0.005 17.62 / 0.322);
   --elevation-sticker: 4px 4px 0 oklch(0.1813 0.005 17.62);
+  /* The focus indicator. It shows only after keyboard navigation: styles.css
+     empties it while the root carries data-input-modality="pointer", which
+     installInputModality sets after a click or a tap. */
   --focus-ring: 0 0 0 2px oklch(1 0 0), 0 0 0 4px oklch(0.1813 0.005 17.62);
   --field-font-size: 16px;
   --field-font-weight: 400;

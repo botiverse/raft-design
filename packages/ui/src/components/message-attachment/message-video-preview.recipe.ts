@@ -18,13 +18,13 @@ export const messageVideoPreview = tv({
     failureAction: [
       "inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 text-white/75 [font:inherit]",
       "decoration-[1.5px] underline-offset-[3px] hover:text-white hover:underline",
-      "outline-1 outline-offset-2 outline-transparent focus-visible:outline-white",
+      "outline-1 outline-offset-2 outline-transparent focus-visible:keyboard:outline-white",
       "[&_svg]:size-[13px]",
     ],
     action: [
       "absolute flex items-center justify-center",
       "transition-colors duration-150",
-      "outline-[1px] outline-offset-2 outline-transparent focus-visible:outline-foreground",
+      "outline-[1px] outline-offset-2 outline-transparent focus-visible:keyboard:outline-foreground",
       "disabled:cursor-default [&_svg]:shrink-0",
       "top-2 right-2 size-8 rounded-control border-[1.5px] border-line-strong",
       "bg-layer-card text-foreground hover:bg-layer-card hover:text-foreground hover:press-overlay active:press-overlay",

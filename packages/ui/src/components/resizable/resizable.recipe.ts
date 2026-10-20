@@ -15,10 +15,10 @@ export const resizable = tv({
       "before:bg-transparent",
       "hover:before:bg-foreground-muted",
       "data-[separator=active]:before:bg-foreground-muted",
-      "focus-visible:before:w-0.5 focus-visible:before:bg-foreground focus-visible:before:outline-none",
+      "focus-visible:keyboard:before:w-0.5 focus-visible:keyboard:before:bg-foreground focus-visible:before:outline-none",
       "data-[orientation=horizontal]:before:top-[5px] data-[orientation=horizontal]:before:left-0",
       "data-[orientation=horizontal]:before:h-px data-[orientation=horizontal]:before:w-full",
-      "data-[orientation=horizontal]:focus-visible:before:h-0.5",
+      "data-[orientation=horizontal]:focus-visible:keyboard:before:h-0.5",
     ],
   },
 });

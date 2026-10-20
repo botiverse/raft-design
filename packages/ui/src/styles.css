@@ -23,6 +23,26 @@
   }
 }
 
+/* Focus indicators show only after keyboard navigation
+   (design/foundations/states.md#focus). installInputModality, which
+   ThemeProvider runs, keeps `data-input-modality` on the root: "pointer" after
+   a click or a tap, "keyboard" after a navigation key. While it says "pointer"
+   the focus ring is empty; with no attribute at all (no script, or the tracker
+   not installed) every ring shows. Each selector outranks a scope that declares
+   --focus-ring in foundation.css: a mode class on the root, the system-dark
+   fallback (:root:not(.light):not(.dark)), and a light or dark island. */
+:root[data-input-modality="pointer"],
+:root[data-input-modality="pointer"]:not(.light):not(.dark),
+:root[data-input-modality="pointer"] :is(.light, .dark) {
+  --focus-ring: 0 0 #0000;
+}
+
+/* The same gate for a focus indicator not drawn with --focus-ring (an outline,
+   an inset ring): it matches unless the last input was a pointer. Stack it on
+   the state, `focus-visible:keyboard:outline-2`. Anchored on the element's own
+   class, so it costs WebKit no ancestor dependency on unrelated elements. */
+@custom-variant keyboard (&:not(:where(:root[data-input-modality="pointer"] *)));
+
 @theme {
   --color-black: oklch(0 0 0);
   --color-white: oklch(1 0 0);

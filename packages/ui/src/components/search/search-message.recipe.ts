@@ -10,7 +10,7 @@ export const searchMessage = tv({
       "hover:bg-fill-pressed active:bg-fill-pressed",
       "disabled:cursor-default disabled:hover:bg-transparent disabled:active:bg-transparent",
       "data-[selected=true]:bg-brand-soft data-[selected=true]:hover:bg-brand-soft",
-      "outline-none focus-visible:inset-ring-2 focus-visible:inset-ring-foreground",
+      "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
     ],
     messageHeader: [
       "flex items-center",

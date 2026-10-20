@@ -13,7 +13,7 @@ export const messageImageGallery = tv({
     overlay: "absolute inset-0 flex items-center justify-center",
     preview: [
       "absolute inset-0",
-      "outline-none focus-visible:inset-ring-2 focus-visible:inset-ring-foreground",
+      "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
     ],
     action: [
       "absolute z-10 hidden items-center justify-center",

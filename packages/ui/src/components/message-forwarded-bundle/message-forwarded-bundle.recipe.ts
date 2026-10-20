@@ -84,7 +84,7 @@ export const messageForwardedBundleItem = tv({
       static: {},
       interactive: {
         attachment: [
-          "cursor-pointer transition-colors hover:border-line-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",
+          "cursor-pointer transition-colors hover:border-line-strong focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-offset-2 focus-visible:keyboard:outline-line-strong",
           "hover:press-overlay active:press-overlay",
           "focus-visible:outline-none focus-visible:shadow-focus",
         ],

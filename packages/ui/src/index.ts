@@ -1697,4 +1697,6 @@ export { cn } from "./lib/cn";
 export { ThemeProvider } from "./lib/theme/theme-provider";
 export type { ThemeProviderProps } from "./lib/theme/theme-provider";
 export { useTheme } from "./lib/theme/use-theme";
+export { installInputModality } from "./lib/input-modality";
+export type { InputModality } from "./lib/input-modality";
 export type { ResolvedThemeMode, ThemeMode, ThemeState } from "./lib/theme/theme-context";

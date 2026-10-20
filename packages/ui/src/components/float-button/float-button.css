@@ -171,7 +171,8 @@
     transform: var(--r-float-button-transform-active);
   }
 
-  &:focus-visible {
+  /* Keyboard focus only: no ring after a click or a tap (styles.css). */
+  &:focus-visible:not(:where(:root[data-input-modality="pointer"] *)) {
     outline: var(--r-float-button-outline);
     outline-offset: var(--r-float-button-outline-offset);
   }
