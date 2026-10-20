@@ -17,7 +17,7 @@ const inputGroup = tv({
       // reads, instead of styling a descendant from an ancestor :has()
       // (a whole-page recalc trap, #386).
       "has-data-[input-group-trim=inline-end]:[--ig-control-pr:0]",
-      "h-11 overflow-hidden rounded-control border-[1.5px] border-line-strong bg-layer-card text-foreground",
+      "h-control overflow-hidden rounded-control border-[1.5px] border-line-strong bg-layer-card text-foreground",
       "shadow-none transition-shadow duration-90 ease-out has-focus-visible:shadow-focus",
       "has-[[data-slot=input-group-control][data-invalid]]:border-danger-strong",
       "has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed has-[[data-slot=input-group-control]:disabled]:border-line-hairline has-[[data-slot=input-group-control]:disabled]:bg-fill-muted",

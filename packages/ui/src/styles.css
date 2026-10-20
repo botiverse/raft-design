@@ -346,6 +346,20 @@
   --text-card-title: var(--card-title-font-size);
   --text-card-title--line-height: var(--card-title-line-height);
   --font-weight-card-title: var(--card-title-font-weight);
+  /* ─── Control metric axis ───────────────────────────────────────────────────
+     The height of a default control: 44px on a phone, 32px from 768px, where
+     the desktop layout begins (Feishu's PC default). The tokens switch in
+     foundation.css, so a recipe writes `h-control` / `size-control` and never
+     a breakpoint. A button at this height keeps a 44px hit area with
+     `after:-inset-y-control-hit`, which is 0 on a phone.
+
+     Consumers: `Input`, `InputGroup`, `SelectTrigger`,
+     `ComboboxControl`, `ComboboxChips`, `ComboboxSelect`, and Button at `lg`,
+     `xl` (`h-control-cta`) and `icon-lg` (`size-control-icon` for its icon). */
+  --spacing-control: var(--control-height);
+  --spacing-control-cta: var(--control-height-cta);
+  --spacing-control-icon: var(--control-icon-size);
+  --spacing-control-hit: var(--control-hit-inset);
 
   /* Deprecated utility names, kept until raft-ui 1.0 (see codemods/token-names.mjs). */
   --color-foreground-strong: var(--foreground);

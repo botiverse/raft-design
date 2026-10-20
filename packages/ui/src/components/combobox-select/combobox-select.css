@@ -6,7 +6,7 @@
 .r-combobox-select__control {
   box-sizing: border-box;
   min-width: 0;
-  min-height: 44px;
+  min-height: var(--control-height);
   display: flex;
   align-items: center;
   gap: 0.5rem;

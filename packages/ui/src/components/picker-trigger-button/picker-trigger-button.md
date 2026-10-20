@@ -21,7 +21,7 @@ picker-trigger-button/compositions/select-filter
 | Situation                                     | Use                                                                     |
 | --------------------------------------------- | ----------------------------------------------------------------------- |
 | Filtering a list by one value or a few values | PickerTriggerButton, rendered as a `SelectTrigger` or `ComboboxTrigger` |
-| Picking a value in a form                     | The select's own 44px field ([Select](../select/select.md))             |
+| Picking a value in a form                     | The select's own field ([Select](../select/select.md))                  |
 | A list of actions                             | A menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md))              |
 | A row of options, each on or off on its own   | [ToggleGroup](../toggle-group/toggle-group.md)                          |
 
@@ -70,6 +70,6 @@ picker-trigger-button/compositions/combobox-filter
 
 ## Rules
 
-- Use PickerTriggerButton only for filters. A picker in a form uses the select's own 44px field with an ink border, like the inputs around it.
+- Use PickerTriggerButton only for filters. A picker in a form uses the select's own field with an ink border, as high as the inputs around it.
 - Don't open a menu of actions from it: it always opens a list of values.
 - Don't style an applied filter yourself. Set `data-has-value` and let the component fill it.

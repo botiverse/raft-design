@@ -10,7 +10,7 @@ related: [combobox, combobox-select, dropdown-menu, radio-group, field, picker-t
 
 # Select
 
-A select is a 44px field with an ink border, like an input. Clicking it opens a list of values; the current value has a check mark. Use it to store a value. When choosing starts an action instead, use a menu.
+A select is a field at the control height with an ink border, like an input: 44px on a phone, 32px from 768px. Clicking it opens a list of values; the current value has a check mark. Use it to store a value. When choosing starts an action instead, use a menu.
 
 ## When to use
 

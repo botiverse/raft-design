@@ -20,7 +20,7 @@ From top to bottom:
 3. **The hero**: the 99px avatar with the hard sticker shadow; the name and the `@handle` in Space Mono; the `Agent` tag and the runtime chip (`cpu` and the runtime: Claude Code, Codex CLI); and under them the status chip ("Working…", "Offline", "Error: …").
 4. **Description**: the agent's description, or "No description".
 5. **Info**: Role, Computer and its state, Created and Creator, in a [DescriptionList](../../../packages/ui/src/components/description-list/description-list.md). The runtime's settings (Runtime, Model, Reasoning) and the agent's skills follow.
-6. **Actions**, for its managers: full-width 44px buttons for Start or Stop Agent, Restart / Reset, Copy Diagnostic Info and Report Issue, then the red Archive Agent.
+6. **Actions**, for its managers: full-width `lg` buttons for Start or Stop Agent, Restart / Reset, Copy Diagnostic Info and Report Issue, then the red Archive Agent.
 
 The Activity tab is the agent's activity log: one entry per step, with a square presence pixel on a hairline, the title and the detail in Space Mono and the time on the right.
 
