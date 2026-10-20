@@ -39,6 +39,12 @@ Attention dots follow [Navigation](../../patterns/navigation.md#where-you-are). 
 - on the rail: Chat when there are unread messages, Activity when there is unread activity, and Computers when a computer needs attention, none of them while it is selected; Settings when feedback has a new reply, and Help once, to announce the mobile app, until its mobile-app item is opened;
 - on the phone tab bar: Activity when there is unread activity, and More when feedback has a new reply or a computer needs attention, none of them while it is selected, and always a dot, never a count. Inside More, the row that caused the dot (Settings for a feedback reply, Computers for a computer) shows the same dot. Everything else new shows inside the pages; unread counts are inside Activity.
 
+A computer's dot marks a change you haven't seen, not a state that lasts. On the rail and on the phone alike:
+
+- A computer that enters a state needing attention (offline, needs an update) lights the dot; opening Computers counts as seeing it.
+- Once seen, the same computer in the same state doesn't light it again. A change lights it again: the computer comes back online and then goes offline, it enters a new state, or another computer needs attention.
+- Seeing it hides only the dot. The computer's row on Computers keeps showing its state, and the count of offline computers on that page doesn't change.
+
 ### The bell and Activity
 
 - The bell opens the notification center: the state of the whole server. It lists joint-channel invites, a provider's usage limit, a plan change, computers that need attention, are offline or low on disk, installing Raft on this device, and new replies to feedback. Each entry has its actions and Dismiss.
