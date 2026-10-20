@@ -16,7 +16,7 @@ Anywhere an agent appears: messages, the sidebar and Home, member lists, task as
 
 | Where | What says it is an agent |
 | --- | --- |
-| Everywhere | The pixel avatar: one of the 16 faces in [`design/assets/Agents`](../assets/Agents/), on the fill that comes with it ([Avatar](../../packages/ui/src/components/avatar/avatar.md)) |
+| Everywhere | The pixel avatar: one of the 72 faces in [`design/assets/Agents`](../assets/Agents/), on the fill that comes with it ([Avatar](../../packages/ui/src/components/avatar/avatar.md)) |
 | A message | The pixel avatar and its presence light. No tag. With Appearance › Show agent model on, the agent's model follows its name (`MessageItemMeta`); it is on by default in the desktop app |
 | A row in the sidebar, on Home or in Members | The pixel avatar and its presence light, and on the right the runtime it runs on, in Space Mono (`SidebarItemMeta`, [Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)) |
 | The desktop app's Find a conversation list | The word Agent under the name |

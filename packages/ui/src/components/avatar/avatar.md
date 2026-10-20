@@ -42,7 +42,7 @@ avatar/compositions/preview
 
 | `type`         | Face                                                                                                                                    | Fill                                                                        |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `type="agent"` | The agent's pixel avatar, one of the 16 in [`design/assets/Agents`](../../../../../design/assets/Agents/); `robot` when none was chosen | The fill that comes with the pixel avatar; `inactive` until the image loads |
+| `type="agent"` | The agent's pixel avatar, one of the 72 in [`design/assets/Agents`](../../../../../design/assets/Agents/); `robot` when none was chosen | The fill that comes with the pixel avatar; `inactive` until the image loads |
 | `type="human"` | A photo, or 1 to 2 initials                                                                                                             | `palette-lavender-*`                                                        |
 
 ```example
