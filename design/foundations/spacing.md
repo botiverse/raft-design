@@ -13,6 +13,7 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 - **Space on the 4px grid.** Use Tailwind's spacing scale: 4px, 8px, 12px, 16px, 20px, 24px, 32px, 40px.
 - **Touch targets are at least 44px.** A control that looks smaller is padded up to 44px by its hit area, not by its drawing.
 - **Headers line up.** Every header on a screen has the same height, so the seam under each one runs as one line.
+- **The same kind of thing is the same size across an app's tabs.** Size an element by what it is to the person using the app, not by the component that draws it ([The same kind, the same size](#the-same-kind-the-same-size)).
 
 ## Spacing
 
@@ -25,6 +26,15 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 - Extend a control that looks smaller than 44px, and a text button, with a transparent pseudo-element to 44px.
 - Don't extend inline links and reference chips in running text: they follow the line of text.
 - Desktop controls used only with a pointer may be smaller: sidebar rows and menu items 36px, rail items 40px, the hover toolbar 32px high with 28px buttons.
+
+## The same kind, the same size
+
+Someone moving between an app's tabs compares what they see. Two lists that look like the same kind of thing but are sized differently read as a mistake, whatever each one's reason was. So within one app, elements that look alike on the screens someone reaches from the tab bar or the rail are the same size: the same height, type size and icon size.
+
+- In Raft Chat on a phone, a conversation on Home and a page in the Settings list are the same kind of row: an icon, a name, tap to go in. Both are 44px, with a 16px semibold name and a 16px icon. Change one and you change the other.
+- The rule holds within one app, not across them. Another app with different interaction may size the same component differently: an app built around its settings can give a settings row more room than Raft Chat does. A size belongs to the app's context, not to the component.
+- So the heights below are what Raft Chat uses today, not sizes a component must have everywhere. Before changing one, find every screen in the app that shows the same kind of element and change them together.
+- Pin a shared size with a test that compares the screens, not with a fixed number: Raft Chat's fails when Home's rows and the Settings rows drift apart.
 
 ## Heights
 
