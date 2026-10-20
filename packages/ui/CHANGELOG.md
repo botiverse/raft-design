@@ -1,3 +1,9 @@
+## [0.9.5](https://github.com/botiverse/raft-design/compare/v0.9.4...v0.9.5) (2026-10-20)
+
+### Fixed
+
+- On a touch screen, a tap no longer leaves a hover highlight on: `TableBody` rows, an `InboxItem`'s pressed toggle action, the Activity inbox sort button and a `FileRow` (when its `FileRowOpen` is hovered) now only show their hover on devices that can hover. With a mouse they look and behave as before. ([#596](https://github.com/botiverse/raft-design/pull/596))
+
 ## [0.9.4](https://github.com/botiverse/raft-design/compare/v0.9.3...v0.9.4) (2026-10-20)
 
 ### Changed
