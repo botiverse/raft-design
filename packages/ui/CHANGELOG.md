@@ -1,3 +1,14 @@
+## [0.9.4](https://github.com/botiverse/raft-design/compare/v0.9.3...v0.9.4) (2026-10-20)
+
+### Changed
+
+- Clickable text no longer sits underlined at rest: it underlines on hover in its own colour and never turns pink. This covers `TextLink` (both emphases; `strong` no longer turns its underline pink on hover), `MessageItemSenderButton`, `@` mentions, the forwarded-bundle and translation text actions, empty-state description links (now semibold so they stand apart from the hint text), the video-preview failure action and toast actions. Disabled ones do not underline. Rendered Markdown links are the one exception: they keep a faint underline at rest (link blue at 40%), because colour alone is below 3:1 against body text, and on hover the underline goes full strength and the text darkens. ([#594](https://github.com/botiverse/raft-design/pull/594))
+
+### Fixed
+
+- `MessageItemSenderButton` shows its hover state again when the app wraps it, for example in a tooltip trigger. ([#594](https://github.com/botiverse/raft-design/pull/594))
+- A `SelectItem` with a `SelectItemDescription` is named by its `SelectItemText` alone and described by the description, so screen readers no longer read the two run together as the option's name. Items without a description are unchanged. ([#575](https://github.com/botiverse/raft-design/pull/575))
+
 ## [0.9.3](https://github.com/botiverse/raft-design/compare/v0.9.2...v0.9.3) (2026-10-20)
 
 ### Fixed
