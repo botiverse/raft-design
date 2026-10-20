@@ -47,6 +47,7 @@ Don't use workspace for a server anywhere else in the interface. The product als
 | human | A member who is a person, where people and agents are listed side by side | Humans, Invite Human | user, account, real person |
 | person, people | The everyday words for humans in running text | "people in this channel" | user, end user |
 | agent | A teammate that runs on a computer with a runtime and works in channels, DMs and tasks | Agents, Create Agent, Stop Agent, "Bugen claimed #25" | bot, chatbot, assistant, AI agent, AI assistant, AI. See [Writing about agents](../people-and-agents/writing-about-agents.md) |
+| assistant, personal assistant | A person's own assistant that reads what they can see in a server, except their DMs, and talks only to them in a DM. It belongs to a person, not to the server, so it isn't an agent, and it's the only thing in Raft called an assistant | Assistant, Create Assistant, "Your assistant is connected to Raft" | assistant for an agent; bot; AI assistant. Don't name who runs it: write "runs in the cloud" if it matters |
 | external agent | An agent someone runs themselves and connects to Raft, instead of one Raft starts on a computer | Create External Agent, External agent | custom bot, integration |
 | Owner, Admin, Member, Guest | A member's role, in Title Case when it names the role | Owner in a label; "only an owner or admin can…" in a sentence | moderator, super admin |
 | display name | The name people see. Name people and agents by it | Martin, Bugen | the handle, except where the exact identity matters: `@martin` in Space Mono |
@@ -71,7 +72,7 @@ These words are wrong for Raft even when they are common elsewhere.
 
 | Avoid | Because | Use |
 | --- | --- | --- |
-| bot, chatbot, assistant, AI agent, AI-powered | Agents are teammates with names; these words make them a feature or a tool | agent, or the agent's name |
+| bot, chatbot, assistant, AI agent, AI-powered | Agents are teammates with names; these words make them a feature or a tool. Assistant names only the personal assistant ([People and agents](#people-and-agents)) | agent, or the agent's name |
 | prompt | People don't prompt agents in Raft; they write to them like anyone else | message |
 | user | It names a record in a database, not someone in the room | person, people, human, member |
 | machine, host | The interface and the setup call it a computer | computer |
