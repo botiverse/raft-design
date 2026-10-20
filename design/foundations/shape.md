@@ -12,7 +12,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 
 - **Identities and dots are square.** Avatars, workspace tiles, channel tiles, presence lights, attention dots and pixel spinners all use square pixels. A round dot or a ring spinner would be the one round mark among square pixels; the square pixel is the brand's own shape ([Principles](../principles/principles.md#6-square-is-raft)).
 - **Round only for switches and radios.** Nothing else uses a full radius.
-- **Two stroke widths.** 1px for lines, 1.5px for controls and stickers.
+- **Two stroke widths.** 1px for lines and for the frame of a field, 1.5px for the controls and stickers that have to stand out.
 
 ## Radii
 
@@ -38,8 +38,10 @@ When a rounded control sits close inside a rounded frame, as the buttons of a to
 
 | Width | Use for |
 | --- | --- |
-| 1px | `line-hairline` and `line-seam` |
-| 1.5px | `line-strong`: the ink border of controls and the edge of stickers |
+| 1px | `line-hairline` and `line-seam`; `line-field`, the ink frame of a field: Input, Textarea, InputGroup, Select, Combobox, ComboboxSelect, the composer and an option card |
+| 1.5px | `line-strong`: the ink border of buttons and other controls, the edge of stickers, chips with an ink edge and the selected row |
+
+- Draw a field's frame at 1px. A form holds several fields, the composer sits under every conversation, and they are wide: at 1.5px their frames outweighed the text in them. A field is still ink, so it still reads as a control; focus, an error and selection mark it more strongly.
 
 - Draw the presence light on a 99px avatar with a 2px edge, scaled up with the avatar.
 - The 2px bar before a quote is a mark, not a line.

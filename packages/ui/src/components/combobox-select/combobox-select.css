@@ -11,7 +11,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0 6px 0 12px;
-  border: 1.5px solid var(--line-strong);
+  border: 1px solid var(--line-field);
   border-radius: 8px;
   outline: 0;
   background: var(--layer-card);

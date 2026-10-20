@@ -55,7 +55,7 @@ export const card = tv({
        *  in the control plane, and its title drops from the card-title scale
        *  to the field scale so it cannot outrank the field label above it. */
       option: {
-        root: ["rounded-control border-[1.5px] border-line-field bg-layer-card", "shadow-none"],
+        root: ["rounded-control border border-line-field bg-layer-card", "shadow-none"],
         header: ["gap-x-3 p-3"],
         content: ["px-3 pb-3"],
         title: ["font-sans text-callout font-semibold"],

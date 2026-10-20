@@ -4,8 +4,8 @@ export const composer = tv({
   slots: {
     root: [
       "flex w-full flex-col gap-2 p-2",
-      "rounded-container border-[1.5px] px-3 pt-3 pb-2",
-      "border-line-strong bg-layer-card text-foreground shadow-none",
+      "rounded-container border px-3 pt-3 pb-2",
+      "border-line-field bg-layer-card text-foreground shadow-none",
       "has-focus-visible:shadow-focus",
     ],
     input: [
