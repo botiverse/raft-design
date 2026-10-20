@@ -1,3 +1,9 @@
+## [0.10.1](https://github.com/botiverse/raft-design/compare/v0.10.0...v0.10.1) (2026-10-20)
+
+### Fixed
+
+- A page in Japanese or Korean (`<html lang="ja">` / `"ko"`, including regional tags like `ja-JP`) falls back to its own system faces (Hiragino Sans, Yu Gothic UI, Meiryo, Noto Sans JP; Apple SD Gothic Neo, Malgun Gothic, Noto Sans KR) before the Chinese ones, so kanji keep Japanese glyph shapes and Hangul gets a Korean face. Chinese and default pages are unchanged. ([#603](https://github.com/botiverse/raft-design/pull/603))
+
 ## [0.10.0](https://github.com/botiverse/raft-design/compare/v0.9.6...v0.10.0) (2026-10-20)
 
 ### Breaking Changes
