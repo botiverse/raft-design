@@ -4,15 +4,15 @@ export const comment = tv({
   slots: {
     margin: ["relative min-w-0"],
     marginItem: [
-      "absolute inset-x-0",
-      "data-animate:transition-[top] data-animate:duration-150 data-animate:ease-out",
+      "absolute inset-x-0 top-0",
+      "data-animate:transition-transform data-animate:duration-150 data-animate:ease-out",
       "motion-reduce:transition-none",
       "data-active:z-10",
     ],
     card: [
       "relative flex min-w-0 flex-col gap-2",
       "rounded-container border border-line-hairline p-3",
-      "bg-layer-card text-foreground shadow-none",
+      "bg-layer-card text-foreground shadow-none outline-none",
       "data-active:border-[1.5px] data-active:border-line-strong data-active:p-[11.5px] data-active:shadow-float",
     ],
     cardTrigger: [
@@ -21,6 +21,7 @@ export const comment = tv({
       "hover:bg-fill-pressed active:bg-fill-pressed",
       "outline-none focus-visible:shadow-focus",
     ],
+    cardQuote: ["sr-only"],
     cardMeta: [
       "flex min-w-0 items-center gap-1",
       "font-sans text-caption text-foreground-hint",
@@ -40,12 +41,12 @@ export const comment = tv({
     ],
     marker: [
       "relative inline-flex h-6 shrink-0 items-center gap-1 align-top whitespace-nowrap",
-      "rounded-chip border border-line-hairline py-0 pr-1.5 pl-[3px]",
+      "rounded-chip border border-line-hairline py-0 ps-[3px] pe-1.5",
       "font-mono text-mono-meta font-bold tabular-nums text-foreground",
       "bg-layer-card [--avatar-group-surface:var(--layer-card)]",
       "cursor-pointer hover:press-overlay active:press-overlay",
-      "data-active:border-[1.5px] data-active:border-line-strong data-active:bg-brand-soft data-active:pr-[5.5px] data-active:pl-[2.5px]",
-      "data-popup-open:border-[1.5px] data-popup-open:border-line-strong data-popup-open:bg-brand-soft data-popup-open:pr-[5.5px] data-popup-open:pl-[2.5px]",
+      "data-active:border-[1.5px] data-active:border-line-strong data-active:bg-brand-soft data-active:ps-[2.5px] data-active:pe-[5.5px]",
+      "data-popup-open:border-[1.5px] data-popup-open:border-line-strong data-popup-open:bg-brand-soft data-popup-open:ps-[2.5px] data-popup-open:pe-[5.5px]",
       "data-active:[--avatar-group-surface:var(--brand-soft)] data-popup-open:[--avatar-group-surface:var(--brand-soft)]",
       "outline-none focus-visible:shadow-focus",
       "after:absolute after:-inset-x-1 after:-inset-y-2.5",

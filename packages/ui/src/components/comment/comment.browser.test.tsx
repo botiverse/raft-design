@@ -1,6 +1,7 @@
 import "./comment.test.css";
-import { afterEach, expect, test } from "vite-plus/test";
+import { afterAll, afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
+import { useState } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Avatar, AvatarGroup } from "../avatar";
 import { CommentCard } from "./comment-card";
@@ -13,6 +14,7 @@ import {
 } from "./comment-entry";
 import { CommentMargin, CommentMarginItem } from "./comment-margin";
 import { CommentMarker } from "./comment-marker";
+import { useCommentMarginFits } from "./use-comment-margin-fits";
 
 // The margin measures its cards in a real browser and resolves collisions:
 // a card sits level with its anchor when there is room, stacks under the card
@@ -22,7 +24,27 @@ import { CommentMarker } from "./comment-marker";
 
 const it = test.skipIf(typeof window === "undefined");
 
-afterEach(() => cleanup());
+let coarse = false;
+
+afterEach(async () => {
+  cleanup();
+  if (typeof window === "undefined" || !coarse) return;
+  const { cdp } = await import("vite-plus/test/browser/context");
+  await cdp().send("Emulation.setEmulatedMedia", { features: [{ name: "pointer", value: "" }] });
+  await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: false, maxTouchPoints: 1 });
+  coarse = false;
+});
+
+afterAll(async () => {
+  if (typeof window === "undefined") return;
+  const { page } = await import("vite-plus/test/browser/context");
+  await page.viewport(414, 896);
+});
+
+async function viewport(width: number) {
+  const { page } = await import("vite-plus/test/browser/context");
+  await page.viewport(width, 800);
+}
 
 const HEIGHT = 80;
 
@@ -179,4 +201,50 @@ it("a marker is a button named by the caller", async () => {
   expect(marker.getAttribute("type")).toBe("button");
   expect(marker.hasAttribute("data-active")).toBe(true);
   expect(marker.getBoundingClientRect().height).toBeCloseTo(24, 0);
+});
+
+function Viewer({ width }: { width: number }) {
+  const [element, setElement] = useState<HTMLDivElement | null>(null);
+  const fits = useCommentMarginFits(element);
+  return (
+    <div ref={setElement} data-testid="viewer" data-fits={fits} style={{ width }}>
+      {fits ? "margin" : "markers"}
+    </div>
+  );
+}
+
+const fits = () => screen.getByTestId("viewer").dataset.fits;
+
+it("the margin fits a desktop viewer from 784px wide, and not one narrower", async () => {
+  await viewport(1280);
+  const { rerender } = render(<Viewer width={900} />);
+  await settled();
+  expect(fits()).toBe("true");
+  rerender(<Viewer width={783} />);
+  await settled();
+  expect(fits()).toBe("false");
+  rerender(<Viewer width={784} />);
+  await settled();
+  expect(fits()).toBe("true");
+});
+
+it("the margin doesn't fit below the desktop width, however wide the viewer", async () => {
+  await viewport(700);
+  render(<Viewer width={900} />);
+  await settled();
+  expect(fits()).toBe("false");
+});
+
+it("the margin doesn't fit on a touch screen, however wide the viewer", async () => {
+  await viewport(1280);
+  const { cdp } = await import("vite-plus/test/browser/context");
+  coarse = true;
+  await cdp().send("Emulation.setEmulatedMedia", {
+    features: [{ name: "pointer", value: "coarse" }],
+  });
+  await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 1 });
+  expect(window.matchMedia("(pointer: coarse)").matches).toBe(true);
+  render(<Viewer width={900} />);
+  await settled();
+  expect(fits()).toBe("false");
 });

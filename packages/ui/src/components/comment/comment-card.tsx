@@ -72,3 +72,26 @@ export function CommentCardMeta({ className, render, ...props }: CommentCardMeta
     props: mergeProps<"div">(defaultProps, props),
   });
 }
+
+export type CommentCardQuoteProps = useRender.ComponentProps<"span">;
+
+/**
+ * The passage the discussion is about, in the caller's words (usually the
+ * quoted text). Hidden on screen, where the card's place beside the
+ * highlighted passage says it; give it an `id` and point the
+ * `aria-describedby` of `CommentCardTrigger` or `CommentMarker` at it, so a
+ * screen reader says which passage a card is about.
+ */
+export function CommentCardQuote({ className, render, ...props }: CommentCardQuoteProps) {
+  const { cardQuote } = comment();
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "comment-card-quote",
+    className: cardQuote({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}

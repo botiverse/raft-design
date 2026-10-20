@@ -1,7 +1,8 @@
-export { CommentCard, CommentCardMeta, CommentCardTrigger } from "./comment-card";
+export { CommentCard, CommentCardMeta, CommentCardQuote, CommentCardTrigger } from "./comment-card";
 export type {
   CommentCardMetaProps,
   CommentCardProps,
+  CommentCardQuoteProps,
   CommentCardTriggerProps,
 } from "./comment-card";
 export {
@@ -33,3 +34,5 @@ export type {
 } from "./comment-margin-layout";
 export { CommentMarker } from "./comment-marker";
 export type { CommentMarkerProps } from "./comment-marker";
+export { useCommentMarginFits } from "./use-comment-margin-fits";
+export type { UseCommentMarginFitsOptions } from "./use-comment-margin-fits";

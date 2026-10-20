@@ -8,11 +8,16 @@ export type Comment = {
   text: string;
 };
 
-export type DiscussionId = "document" | "guard" | "rollout";
+export type DiscussionId = "document" | "guard" | "rollout" | "lost";
+
+/** The discussions on a passage, in the order of the document. */
+export const ANCHORED = ["guard", "rollout", "lost"] as const;
 
 export const QUOTES = {
   guard: "Re-run the guard suites on staging",
   rollout: "Ship to staging and watch the error rate for an hour.",
+  // The document no longer has this sentence: the comment's position is lost.
+  lost: "Run the load test against the new cache.",
 } satisfies Partial<Record<DiscussionId, string>>;
 
 export const DISCUSSIONS: Record<DiscussionId, Comment[]> = {
@@ -62,6 +67,15 @@ export const DISCUSSIONS: Record<DiscussionId, Comment[]> = {
       time: "11:05",
       dateTime: "2026-10-20T11:05:00+08:00",
       text: "Agreed, overnight with the dashboard pinned in #launch-week.",
+    },
+  ],
+  lost: [
+    {
+      author: "Bugen",
+      type: "agent",
+      time: "Yesterday 17:20",
+      dateTime: "2026-10-19T17:20:00+08:00",
+      text: "The load test needs the new fixtures before this step can run.",
     },
   ],
 };

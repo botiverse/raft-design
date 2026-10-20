@@ -38,6 +38,21 @@
     ]
   },
   {
+    "name": "CommentCardQuote",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The passage the discussion is about, in the caller's words (usually the quoted text). Hidden on screen, where the card's place beside the highlighted passage says it; give it an `id` and point the `aria-describedby` of `CommentCardTrigger` or `CommentMarker` at it, so a screen reader says which passage a card is about.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
     "name": "CommentCardTrigger",
     "entry": "@botiverse/raft-ui/wip",
     "description": "A button laid over the whole card, for a collapsed card that opens when it is clicked or chosen with the keyboard. It has no text of its own: give it an `aria-label` (\"Comment from Martin\").",
@@ -138,7 +153,7 @@
   {
     "name": "CommentMargin",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The column beside a document that holds its comment cards, each level with the passage it is about. It measures its `CommentMarginItem`s and resolves their collisions with `resolveCommentMarginLayout`, and takes the height the lowest card needs. Place it beside the document so that its top is the top the items' `top` is measured from.",
+    "description": "The column beside a document that holds its comment cards, each level with the passage it is about. It measures its `CommentMarginItem`s with one `ResizeObserver`, resolves their collisions with `resolveCommentMarginLayout`, and takes the height the lowest card needs. Place it beside the document so that its top is the top the items' `top` is measured from.",
     "native": true,
     "props": [
       {
@@ -161,7 +176,7 @@
   {
     "name": "CommentMarginItem",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "One card's place in a `CommentMargin`. It sits at `top`, or lower when the card above it is in the way; the active one stays at `top` and the others make room. The resolved top is its `style.top` and `data-top`.",
+    "description": "One card's place in a `CommentMargin`. It sits at `top`, or lower when the card above it is in the way; the active one stays at `top` and the others make room. Items with the same `top` keep the order they were first rendered in. The resolved top is `data-top`, applied as a `translateY`.",
     "native": true,
     "props": [
       {

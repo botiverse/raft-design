@@ -447,7 +447,8 @@ body {
    ranges; design/patterns/comments.md). Every commented passage gets the soft
    yellow of a highlight and a 2px yellow underline; the passage of the open
    discussion gets the full yellow with ink type, like a search hit, in both
-   modes. */
+   modes. `--brand-400` is the `brand` role (what `bg-brand` paints):
+   `--color-brand` is an inline theme value and emits no variable. */
 ::highlight(raft-comment) {
   background-color: var(--brand-soft);
   text-decoration-line: underline;

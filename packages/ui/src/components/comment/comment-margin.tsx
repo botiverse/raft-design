@@ -8,6 +8,7 @@ import {
   useId,
   useLayoutEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import type { SlotElementProps } from "../../lib/data-attributes";
@@ -19,7 +20,8 @@ type MarginEntry = { top: number; height: number; active: boolean };
 type CommentMarginContextValue = {
   tops: Record<string, number>;
   animate: boolean;
-  update: (id: string, entry: MarginEntry | null) => void;
+  place: (id: string, place: { top: number; active: boolean } | null) => void;
+  observe: (id: string, element: Element) => () => void;
 };
 
 const CommentMarginContext = createContext<CommentMarginContextValue | null>(null);
@@ -30,8 +32,7 @@ function useCommentMargin() {
   return context;
 }
 
-const sameEntry = (a: MarginEntry | undefined, b: MarginEntry) =>
-  a !== undefined && a.top === b.top && a.height === b.height && a.active === b.active;
+const heightOf = (element: Element) => element.getBoundingClientRect().height;
 
 export type CommentMarginProps = useRender.ComponentProps<"div"> & {
   /** Space between two cards that would otherwise touch, in px. Default 8. */
@@ -40,30 +41,70 @@ export type CommentMarginProps = useRender.ComponentProps<"div"> & {
 
 /**
  * The column beside a document that holds its comment cards, each level with
- * the passage it is about. It measures its `CommentMarginItem`s and resolves
- * their collisions with `resolveCommentMarginLayout`, and takes the height
- * the lowest card needs. Place it beside the document so that its top is the
- * top the items' `top` is measured from.
+ * the passage it is about. It measures its `CommentMarginItem`s with one
+ * `ResizeObserver`, resolves their collisions with
+ * `resolveCommentMarginLayout`, and takes the height the lowest card needs.
+ * Place it beside the document so that its top is the top the items' `top`
+ * is measured from.
  */
 export function CommentMargin({ className, render, style, gap = 8, ...props }: CommentMarginProps) {
   const { margin } = comment();
   const [entries, setEntries] = useState<ReadonlyMap<string, MarginEntry>>(() => new Map());
   const [animate, setAnimate] = useState(false);
+  const observer = useRef<ResizeObserver | null>(null);
+  const observed = useRef(new Map<Element, string>());
 
-  const update = useCallback((id: string, entry: MarginEntry | null) => {
+  const patch = useCallback((id: string, next: Partial<MarginEntry> | null) => {
     setEntries((current) => {
-      if (entry === null) {
-        if (!current.has(id)) return current;
-        const next = new Map(current);
-        next.delete(id);
-        return next;
+      const previous = current.get(id);
+      if (next === null) {
+        if (!previous) return current;
+        const without = new Map(current);
+        without.delete(id);
+        return without;
       }
-      if (sameEntry(current.get(id), entry)) return current;
-      const next = new Map(current);
-      next.set(id, entry);
-      return next;
+      // A height measured after the item left, or before it was placed.
+      if (!previous && next.top === undefined) return current;
+      const merged = { top: 0, height: 0, active: false, ...previous, ...next };
+      if (
+        previous &&
+        previous.top === merged.top &&
+        previous.height === merged.height &&
+        previous.active === merged.active
+      ) {
+        return current;
+      }
+      const updated = new Map(current);
+      updated.set(id, merged);
+      return updated;
     });
   }, []);
+
+  const place = useCallback<CommentMarginContextValue["place"]>(
+    (id, placement) => patch(id, placement),
+    [patch],
+  );
+
+  const observe = useCallback<CommentMarginContextValue["observe"]>(
+    (id, element) => {
+      observer.current ??= new ResizeObserver((records) => {
+        for (const record of records) {
+          const target = observed.current.get(record.target);
+          if (target) patch(target, { height: heightOf(record.target) });
+        }
+      });
+      observed.current.set(element, id);
+      patch(id, { height: heightOf(element) });
+      observer.current.observe(element);
+      return () => {
+        observer.current?.unobserve(element);
+        observed.current.delete(element);
+      };
+    },
+    [patch],
+  );
+
+  useEffect(() => () => observer.current?.disconnect(), []);
 
   const layout = useMemo(() => {
     const items = [...entries].map(([id, { top, height }]) => ({ id, top, height }));
@@ -81,8 +122,8 @@ export function CommentMargin({ className, render, style, gap = 8, ...props }: C
   }, [measured]);
 
   const context = useMemo(
-    () => ({ tops: layout.tops, animate, update }),
-    [layout.tops, animate, update],
+    () => ({ tops: layout.tops, animate, place, observe }),
+    [layout.tops, animate, place, observe],
   );
 
   const defaultProps: SlotElementProps<"div"> = {
@@ -110,7 +151,8 @@ export type CommentMarginItemProps = useRender.ComponentProps<"div"> & {
 /**
  * One card's place in a `CommentMargin`. It sits at `top`, or lower when the
  * card above it is in the way; the active one stays at `top` and the others
- * make room. The resolved top is its `style.top` and `data-top`.
+ * make room. Items with the same `top` keep the order they were first
+ * rendered in. The resolved top is `data-top`, applied as a `translateY`.
  */
 export function CommentMarginItem({
   className,
@@ -121,25 +163,17 @@ export function CommentMarginItem({
   ...props
 }: CommentMarginItemProps) {
   const { marginItem } = comment();
-  const { tops, animate, update } = useCommentMargin();
+  const { tops, animate, place, observe } = useCommentMargin();
   const id = useId();
   const [element, setElement] = useState<Element | null>(null);
-  const [height, setHeight] = useState(0);
 
   useLayoutEffect(() => {
-    if (!element) return;
-    const measure = () => setHeight(element.getBoundingClientRect().height);
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [element]);
+    place(id, { top, active });
+  }, [place, id, top, active]);
 
-  useLayoutEffect(() => {
-    update(id, { top, height, active });
-  }, [update, id, top, height, active]);
+  useLayoutEffect(() => (element ? observe(id, element) : undefined), [observe, id, element]);
 
-  useLayoutEffect(() => () => update(id, null), [update, id]);
+  useLayoutEffect(() => () => place(id, null), [place, id]);
 
   const resolved = tops[id] ?? Math.max(top, 0);
   const defaultProps: SlotElementProps<"div"> = {
@@ -148,7 +182,7 @@ export function CommentMarginItem({
     "data-active": active ? "" : undefined,
     "data-animate": animate ? "" : undefined,
     className: marginItem({ className }),
-    style: { ...style, top: resolved },
+    style: { ...style, transform: `translateY(${resolved}px)` },
   };
 
   return useRender({

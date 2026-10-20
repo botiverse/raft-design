@@ -39,7 +39,8 @@ export function findQuote(root: Node, quote: string): Range | null {
 /**
  * Finds each quote in the document and measures how far below the margin's
  * top its first line is, again whenever either one changes size (the window
- * narrows, the text rewraps). A quote that isn't found has no top.
+ * narrows, the text rewraps). A quote that isn't found has no range and no
+ * top: its comment's position is lost, and it goes to the top of the margin.
  */
 export function useCommentAnchors<Id extends string>(
   documentElement: HTMLElement | null,
@@ -49,7 +50,9 @@ export function useCommentAnchors<Id extends string>(
   const [anchors, setAnchors] = useState<{
     ranges: Partial<Record<Id, Range>>;
     tops: Partial<Record<Id, number>>;
-  }>({ ranges: {}, tops: {} });
+    /** The quotes have been looked for: a missing range now means a lost position. */
+    ready: boolean;
+  }>({ ranges: {}, tops: {}, ready: false });
 
   useEffect(() => {
     if (!documentElement || !marginElement) return;
@@ -65,7 +68,7 @@ export function useCommentAnchors<Id extends string>(
         const line = ranges[id]!.getClientRects()[0];
         if (line) tops[id] = Math.round(line.top - origin);
       }
-      setAnchors({ ranges, tops });
+      setAnchors({ ranges, tops, ready: true });
     };
     measure();
     const observer = new ResizeObserver(measure);

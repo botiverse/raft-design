@@ -1,6 +1,6 @@
 import { ArrowUp, MessageSquare } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import type { ChangeEvent, FormEvent, KeyboardEvent, MouseEvent, ReactNode } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
+import type { ChangeEvent, FormEvent, KeyboardEvent, MouseEvent } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -16,6 +16,7 @@ import {
 import {
   CommentCard,
   CommentCardMeta,
+  CommentCardQuote,
   CommentCardTrigger,
   CommentEntry,
   CommentEntryAuthor,
@@ -28,7 +29,7 @@ import {
 
 import { useCommentAnchors, useCommentHighlights } from "../comment-anchors.ts";
 import { ReleaseChecklist } from "../release-checklist.tsx";
-import { DISCUSSIONS, QUOTES } from "../release-checklist-comments.ts";
+import { ANCHORED, DISCUSSIONS, QUOTES } from "../release-checklist-comments.ts";
 import type { Comment, DiscussionId } from "../release-checklist-comments.ts";
 
 export function DiscussionEntry({ comment, clamp }: { comment: Comment; clamp?: boolean }) {
@@ -49,36 +50,47 @@ export function DiscussionEntry({ comment, clamp }: { comment: Comment; clamp?: 
 /**
  * One discussion. Collapsed, it shows its first comment cut to 2 lines and
  * the number of replies, and the whole card opens it. Open, it shows every
- * comment and the reply box; Esc closes it again.
+ * comment and the reply box, and takes focus: the reply box when it was
+ * opened from the keyboard, the card itself after a click. Esc closes it and
+ * puts focus back on the collapsed card.
  */
-function Discussion({
+export function Discussion({
   id,
-  meta,
+  note,
+  quote,
   active,
   onActiveChange,
 }: {
   id: DiscussionId;
-  meta?: ReactNode;
+  /** A line about where it belongs: the whole document, or a lost position. */
+  note?: string;
+  /** The passage it is about, for screen readers. */
+  quote?: string;
   active: boolean;
   onActiveChange: (id: DiscussionId | null) => void;
 }) {
   const [comments, setComments] = useState(DISCUSSIONS[id]);
   const [draft, setDraft] = useState("");
+  const card = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const input = useRef<HTMLTextAreaElement>(null);
-  const focusNext = useRef<"input" | "trigger" | null>(null);
+  const focusNext = useRef<"input" | "card" | "trigger" | null>(null);
+  const noteId = useId();
+  const quoteId = useId();
   const [first, ...replies] = comments;
 
   useEffect(() => {
-    if (focusNext.current === "input") input.current?.focus();
-    if (focusNext.current === "trigger") trigger.current?.focus();
+    const next = focusNext.current;
     focusNext.current = null;
+    if (next === "input") input.current?.focus({ preventScroll: true });
+    if (next === "card") card.current?.focus({ preventScroll: true });
+    if (next === "trigger") trigger.current?.focus({ preventScroll: true });
   }, [active]);
 
   const open = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
-      // A click from Enter or Space has no pointer detail: move into the reply box.
-      if (event.detail === 0) focusNext.current = "input";
+      // A click from Enter or Space has no pointer detail: go to the reply box.
+      focusNext.current = event.detail === 0 ? "input" : "card";
       onActiveChange(id);
     },
     [id, onActiveChange],
@@ -117,10 +129,17 @@ function Discussion({
     [draft],
   );
 
+  const where = (
+    <>
+      {note ? <CommentCardMeta id={noteId}>{note}</CommentCardMeta> : null}
+      {quote ? <CommentCardQuote id={quoteId}>{`On “${quote}”`}</CommentCardQuote> : null}
+    </>
+  );
+
   if (!active || !first) {
     return (
       <CommentCard>
-        {meta}
+        {where}
         {first ? <DiscussionEntry comment={first} clamp /> : null}
         {replies.length > 0 ? (
           <CommentCardMeta>
@@ -131,6 +150,9 @@ function Discussion({
         <CommentCardTrigger
           ref={trigger}
           aria-label={`Comment from ${first?.author}`}
+          aria-describedby={
+            [note ? noteId : "", quote ? quoteId : ""].join(" ").trim() || undefined
+          }
           onClick={open}
         />
       </CommentCard>
@@ -138,8 +160,8 @@ function Discussion({
   }
 
   return (
-    <CommentCard active onKeyDown={close}>
-      {meta}
+    <CommentCard active ref={card} tabIndex={-1} onKeyDown={close}>
+      {where}
       {comments.map((comment) => (
         <DiscussionEntry key={comment.dateTime} comment={comment} />
       ))}
@@ -165,14 +187,15 @@ function Discussion({
   );
 }
 
-const WHOLE_DOCUMENT = <CommentCardMeta>On the whole document</CommentCardMeta>;
-
 export function CommentMarginContent() {
   const [documentElement, setDocumentElement] = useState<HTMLElement | null>(null);
   const [marginElement, setMarginElement] = useState<HTMLElement | null>(null);
   const [activeId, setActiveId] = useState<DiscussionId | null>("rollout");
-  const { ranges, tops } = useCommentAnchors(documentElement, marginElement, QUOTES);
+  const { ranges, tops, ready } = useCommentAnchors(documentElement, marginElement, QUOTES);
   useCommentHighlights(ranges, activeId);
+  // A discussion whose passage isn't in the document any more goes to the
+  // top, after the comments on the whole document; the rest follow the text.
+  const anchored = ready ? [...ANCHORED].sort((a, b) => (tops[a] ?? 0) - (tops[b] ?? 0)) : [];
 
   return (
     <div className="flex w-full max-w-[920px] items-start gap-6">
@@ -189,21 +212,22 @@ export function CommentMarginContent() {
         <CommentMarginItem top={0} active={activeId === "document"}>
           <Discussion
             id="document"
-            meta={WHOLE_DOCUMENT}
+            note="On the whole document"
             active={activeId === "document"}
             onActiveChange={setActiveId}
           />
         </CommentMarginItem>
-        {tops.guard !== undefined ? (
-          <CommentMarginItem top={tops.guard} active={activeId === "guard"}>
-            <Discussion id="guard" active={activeId === "guard"} onActiveChange={setActiveId} />
+        {anchored.map((id) => (
+          <CommentMarginItem key={id} top={tops[id] ?? 0} active={activeId === id}>
+            <Discussion
+              id={id}
+              note={ranges[id] ? undefined : "Position not found"}
+              quote={QUOTES[id]}
+              active={activeId === id}
+              onActiveChange={setActiveId}
+            />
           </CommentMarginItem>
-        ) : null}
-        {tops.rollout !== undefined ? (
-          <CommentMarginItem top={tops.rollout} active={activeId === "rollout"}>
-            <Discussion id="rollout" active={activeId === "rollout"} onActiveChange={setActiveId} />
-          </CommentMarginItem>
-        ) : null}
+        ))}
       </CommentMargin>
     </div>
   );

@@ -176,6 +176,7 @@
     "names": [
       "CommentCard",
       "CommentCardMeta",
+      "CommentCardQuote",
       "CommentCardTrigger",
       "CommentEntry",
       "CommentEntryAuthor",
