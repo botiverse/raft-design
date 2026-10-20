@@ -28,7 +28,7 @@ focus
 | --- | --- |
 | `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, and a card while it is dragged (it is lifted off the board; the card left behind casts nothing) |
 | `elevation-sticker` (`shadow-sticker`) | Brand illustration only: the 99px avatar on a profile and on the last setup step, and the preview of the new server on the page that creates a server ([Brand](./brand.md#how-much-brand)). Nothing else |
-| `focus-ring` (`shadow-focus`) | Every element that can be reached with the keyboard |
+| `focus-ring` (`shadow-focus`) | Every element that can be reached with the keyboard, when the keyboard reaches it |
 
 ## Popups
 
@@ -54,7 +54,8 @@ raft-ui does this on its own. A modal `Dialog`, `AlertDialog` or `Drawer` tells 
 `focus-ring` is a 2px gap in the surface color followed by 2px of ink. It is ink, not yellow: a yellow ring would disappear on the yellow frame and on yellow stickers.
 
 - Give every element that can be reached with the keyboard a visible focus ring.
-- Use an inset 2px ink outline instead for elements that touch the edge of their container, such as the search row of a menu.
+- Show it only after keyboard navigation, not after a click or a tap ([States](./states.md#focus)). The token itself is emptied while the root says `data-input-modality="pointer"`, so `shadow-focus` follows the rule on its own.
+- Use an inset 2px ink outline instead for elements that touch the edge of their container, such as the search row of a menu. It is not the token, so it takes the `keyboard:` variant (`focus-visible:keyboard:inset-ring-2`) to follow the same rule.
 - Keep a sticker's own ink edge when it takes focus (a mention marker, a selected sidebar row, a filter), and draw the focus ring outside it. Don't replace the edge with the ring.
 - Which part of a compound control shows the ring is in [States](./states.md#focus).
 

@@ -67,7 +67,7 @@ Link `foundation.css`, or copy it beside your HTML. It defines the same theme va
 
 Raft has one visual language, in light and dark mode; components adapt to the mode themselves. Pick the mode with a class on the root: `class="light"` or `class="dark"`. Without either, the page follows the system setting.
 
-In a React app, wrap the app in `ThemeProvider`. It sets the mode class and `color-scheme` on `document.documentElement`.
+In a React app, wrap the app in `ThemeProvider`. It sets the mode class and `color-scheme` on `document.documentElement`, and tracks whether the person last navigated with the keyboard or a pointer, so focus rings show only after keyboard navigation ([States](../foundations/states.md#focus)).
 
 ```tsx
 import { ThemeProvider } from "@botiverse/raft-ui";
@@ -83,7 +83,8 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
 
 - `mode` or `defaultMode` is `light`, `dark` or `system`; the default is `light`. `onModeChange` reports changes, and `storageKey` keeps an uncontrolled mode in `localStorage`.
 - `useTheme()` returns `mode`, `resolvedMode` (`light` or `dark`, with `system` resolved) and `setMode`.
-- A nested scope, such as a preview, uses `syncDom={false}` and puts the matching `light` or `dark` class on its own root.
+- A nested scope, such as a preview, uses `syncDom={false}` and puts the matching `light` or `dark` class on its own root. It leaves the root alone, including the modality.
+- An app without `ThemeProvider` calls `installInputModality()` once on the client (it returns a function that removes it). It sets `data-input-modality` on `document.documentElement` to `pointer` or `keyboard`; without it every focus ring shows on `:focus-visible`, as browsers decide.
 - An app rendered on the server that keeps the mode has to restore it before the first paint, or the page flashes the other mode.
 
 Two more providers are needed only with their components: `TooltipProvider` for tooltips and `ToastProvider` for the toast API ([Toast](../../packages/ui/src/components/toast/toast.md)).
