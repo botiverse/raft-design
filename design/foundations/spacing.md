@@ -29,12 +29,12 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 
 ## The same kind, the same size
 
-Someone moving between an app's tabs compares what they see. Two lists that look like the same kind of thing but are sized differently read as a mistake, whatever each one's reason was. So within one app, elements that look alike on the screens someone reaches from the tab bar or the rail are the same size: the same height, type size and icon size.
+Someone moving between an app's tabs compares what they see. Two lists that look like the same kind of thing but are sized differently read as a mistake, whatever each one's reason was. So within one app, elements of the same kind on the screens someone reaches from the tab bar or the rail are the same size: the same height, type size and icon size. Which kind an element is follows what it stands for, not where it appears or which component draws it ([Rows](../components/overview.md#rows)).
 
-- In Raft Chat on a phone, a conversation on Home and a page in the Settings list are the same kind of row: an icon, a name, tap to go in. Both are 44px, with a 16px semibold name and a 16px icon. Change one and you change the other.
-- The rule holds within one app, not across them. Another app with different interaction may size the same component differently: an app built around its settings can give a settings row more room than Raft Chat does. A size belongs to the app's context, not to the component.
-- So the heights below are what Raft Chat uses today, not sizes a component must have everywhere. Before changing one, find every screen in the app that shows the same kind of element and change them together.
-- Pin a shared size with a test that compares the screens, not with a fixed number: Raft Chat's fails when Home's rows and the Settings rows drift apart.
+- In Raft Chat on a phone, Home's channels and direct messages, Members and the Settings list are all a list of places, drawn with the same sidebar row: 44px, a 16px name at 600 and a 16px icon. Change one and you change them all.
+- The rule holds within one app, not across them. Another app with different interaction may size the same component differently: an app built around its settings can give a settings row more room than Raft Chat does. A size belongs to the app's context; a component's doc gives the size it has where the app uses it.
+- So the heights below are what Raft Chat uses today. Before changing one, find every screen in the app that shows the same kind of element and change them together.
+- Pin a shared size with a test that compares the screens, not with a fixed number: Raft Chat's fails when Home's rows and the Settings list drift apart.
 
 ## Heights
 
@@ -43,8 +43,10 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 | Control, default | 44px |
 | Control, small | 32px |
 | Full-width call to action | 52px |
-| Phone list row | At least 64px |
-| Phone list of places (Home, Members, the Settings list), settings row, radio row | At least 44px |
+| Phone list of places (Home, Members, the Settings list): the sidebar row | 44px |
+| Row with an avatar and a preview: a conversation, a person, an agent ([ListRow](../../packages/ui/src/components/list-row/list-row.md)) | At least 64px |
+| Settings row inside a settings page ([ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`) | 48px with one line |
+| Radio row | At least 44px |
 | Phone top bar row, panel header, sidebar header, rail header, drawer header | 56px |
 | Web top bar, desktop app title bar | 48px |
 
