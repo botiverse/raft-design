@@ -1,3 +1,9 @@
+## [0.10.2](https://github.com/botiverse/raft-design/compare/v0.10.1...v0.10.2) (2026-10-20)
+
+### Fixed
+
+- `PanelAction` and `PanelToggleAction` follow the same desktop condition as every other control (`(width >= 48rem) and (pointer: fine)`). On a touch tablet they were 32px while the rest stayed 44px; they now keep 44px with 22px icons there. Phone and desktop sizes are unchanged. ([#605](https://github.com/botiverse/raft-design/pull/605))
+
 ## [0.10.1](https://github.com/botiverse/raft-design/compare/v0.10.0...v0.10.1) (2026-10-20)
 
 ### Fixed
