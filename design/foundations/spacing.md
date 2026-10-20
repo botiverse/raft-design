@@ -13,7 +13,7 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 - **Space on the 4px grid.** Use Tailwind's spacing scale: 4px, 8px, 12px, 16px, 20px, 24px, 32px, 40px.
 - **Touch targets are at least 44px.** A control that looks smaller is padded up to 44px by its hit area, not by its drawing.
 - **Headers line up.** Every header on a screen has the same height, so the seam under each one runs as one line.
-- **Heights are minimums.** Where text grows, the box grows with it; text never clips ([Heights](#heights)).
+- **Control and row heights are minimums.** Where text grows, the box grows with it; text never clips ([Heights](#heights)).
 - **The same kind of thing is the same size across an app's tabs.** Size an element by what it is to the person using the app, not by the component that draws it ([The same kind, the same size](#the-same-kind-the-same-size)).
 
 ## Spacing
@@ -26,9 +26,9 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 - Make every touch target at least 44px in both directions.
 - Extend a control that looks smaller than 44px, and a text button, with a transparent pseudo-element to 44px.
 - Don't extend inline links and reference chips in running text: they follow the line of text.
-- On a touch screen, space two targets drawn smaller than 44px so their hit areas don't overlap: two 32px buttons side by side need 12px between them, as [InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#behavior)'s actions keep on a touch screen. A tap where two hit areas overlap goes to one of them by the order they are drawn in, not by the one the person aimed at.
+- On a touch screen, space two targets drawn smaller than 44px so their hit areas don't overlap: two 32px icon buttons side by side need 12px between them, as [InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#behavior)'s actions keep on a touch screen. A tap where two hit areas overlap goes to one of them by the order they are drawn in, not by the one the person aimed at. raft-ui's [Composer](../../packages/ui/src/components/composer/composer.md) doesn't follow this yet: its 32px toolbar buttons sit 8px apart, so on a touch screen their hit areas overlap by 4px.
 - When there is no room for that space, group the targets into one control, such as one picker in place of a row of small toggles, or move them into a menu, as the file viewer's toolbar does on a phone ([File viewer](../components/overview.md#file-viewer)).
-- Space them on platforms that enlarge small targets themselves too, such as Android, where Compose extends a clickable to 48dp: the enlarged areas overlap in the same way, and the platform then picks one of the two.
+- Space them even where the platform enlarges small targets itself: a tap on one must not be able to land on the other.
 - With a mouse or a trackpad, hit areas may overlap: a pointer lands where it is aimed. InboxItem's actions sit 2px apart there.
 - Desktop controls used only with a pointer may be smaller: sidebar rows and menu items 36px, rail items 40px, the hover toolbar 32px high with 28px buttons.
 - On a desktop, a default control is 32px, Feishu's PC default, read with a pointer from further away. A desktop here is a screen from 768px (where the desktop layout begins) whose main pointer is a mouse or a trackpad, `(width >= 48rem) and (pointer: fine)`: density follows the input, not the width. A tablet used by touch keeps the phone's 44px controls and 16px field text, which also keeps iOS and iPadOS from zooming into a field on focus; an iPad with a trackpad reports a fine pointer and gets the desktop sizes. A button at 32px still overhangs to a 44px hit area (`after:-inset-y-control-hit`), because a laptop can have a touch screen too; a field doesn't, since it is wide and its height is the target.
@@ -44,17 +44,19 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 
 ## Heights
 
-Every height here is a minimum, at the default text size. Where text can grow on its own, a control, a field or a row grows with its text, and its text never clips ([Larger text](./typography.md#larger-text)): two lines in a 44px row make it taller, not cut off. A size is still what a test pins and what the same kind of element shares ([The same kind, the same size](#the-same-kind-the-same-size)); at a larger text size every element of a kind grows together.
+The heights of controls, fields and rows are minimums, at the default text size. Where text can grow on its own, a control, a field or a row grows with its text, and its text never clips ([Larger text](./typography.md#larger-text)): two lines in a 44px row make it taller, not cut off. A size is still what a test pins and what the same kind of element shares ([The same kind, the same size](#the-same-kind-the-same-size)); at a larger text size every element of a kind grows together.
 
-| Element | Minimum height |
+Headers and bars (the last two rows) keep the height in the table, so the seams under them line up. Whether they grow when text is larger is not decided yet.
+
+| Element | Height |
 | --- | --- |
 | Control, default (`control-height`): Input, InputGroup, Select, Combobox, Button at `lg` and `icon-lg`, a panel action | 44px on a phone and a touch screen, 32px on a desktop |
 | Control, small: Button at `md` and `icon-md`, a filter trigger, a segment of a segmented control | 32px |
 | Full-width call to action (`control-height-cta`, Button at `xl`) | 52px on a phone and a touch screen, 40px on a desktop |
 | Phone list of places (Home, Members, the Settings list): the sidebar row | 44px |
-| Row with an avatar and a preview: a conversation, a person, an agent ([ListRow](../../packages/ui/src/components/list-row/list-row.md)) | 64px |
-| Settings row inside a settings page ([ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`) | 48px, with one line |
-| Radio row | 44px |
+| Row with an avatar and a preview: a conversation, a person, an agent ([ListRow](../../packages/ui/src/components/list-row/list-row.md)) | At least 64px |
+| Settings row inside a settings page ([ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`) | 48px with one line |
+| Radio row | At least 44px |
 | Phone top bar row, panel header, sidebar header, rail header, drawer header | 56px |
 | Web top bar, desktop app title bar | 48px |
 

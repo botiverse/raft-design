@@ -46,7 +46,7 @@ On a phone (the layout below 768px), an overlay anchored to a small trigger has 
 | A confirmation | A dialog ([Feedback](./feedback.md#confirming)) |
 
 - Never open the actions on one thing as a bottom sheet. Press and hold, right-click and ⋯ open one menu, so an action is in one place on every device ([States](../foundations/states.md#touch-screens)), and a menu opens where the finger already is.
-- Never confirm in a bottom sheet. A confirmation is a decision people must make before they go on, so it sits in the center over a scrim, as on desktop.
+- Never confirm in a bottom sheet, on iOS either, where the system offers an action sheet for destructive choices. Raft confirms in a dialog on every platform, so the question and its two answers look the same everywhere, and a decision people must make before they go on sits in the center over a scrim. Whether the iOS app adopts the system's destructive action sheet is not decided yet.
 - Keep a choice that applies at once, and one of up to 10 values in a form, in its anchored menu or list: it opens next to what it changes, so people see both.
 - From 768px, keep the anchored overlays, on a touch screen too: there is room beside the trigger.
 - raft-ui's Popover, Select and ComboboxSelect don't turn into a bottom sheet themselves: build the sheet with [Drawer](../../packages/ui/src/components/drawer/drawer.md).

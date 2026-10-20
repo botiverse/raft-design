@@ -109,8 +109,8 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | One sentence on hover | [Tooltip](../../packages/ui/src/components/tooltip/tooltip.md) |
 | A person or agent, on hover | A profile card ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)) |
 | A list of actions, on click or press and hold | [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) |
-| One value, on click | [Select](../../packages/ui/src/components/select/select.md), with search when there are many values. On a phone, many values open in a bottom sheet |
-| Several values, on click | A multi-select, with search when there are many values. Choosing a value doesn't close the list. On a phone, many values open in a bottom sheet |
+| One value, on click | [Select](../../packages/ui/src/components/select/select.md) for up to 10 values, the same list on a phone. For more, a select with search ([ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md), [Combobox](../../packages/ui/src/components/combobox/combobox.md)), which opens in a bottom sheet on a phone |
+| Several values, on click | A multi-select, with search when there are many values. Choosing a value doesn't close the list. On a phone, the one with search opens in a bottom sheet |
 | A little input, on click | [Popover](../../packages/ui/src/components/popover/popover.md); on a phone, a bottom sheet |
 | Details and settings people look at for a while | [Drawer](../../packages/ui/src/components/drawer/drawer.md) |
 | A large form filled in one pass | The wide [Dialog](../../packages/ui/src/components/dialog/dialog.md); see [Forms](../patterns/forms.md#the-large-form-dialog) |

@@ -44,10 +44,10 @@ conversation-panel/compositions/conversation-panel
 ### Actions
 
 - On desktop, show a small toolbar on the top edge of the hovered message: Reply in Thread, Add Reaction, Save Message. Inside a thread, leave out Reply in Thread.
-- Put every other action in the message menu. Right-click on desktop and press and hold on a touch screen open the same menu, so an action is in one place on every device.
+- Put the toolbar's actions in the message menu as well (Reply in Thread as Open Thread, Add Reaction as the quick reactions, Save Message), and every other action only there. Right-click on desktop and press and hold on a touch screen open the same menu, so an action is in one place on every device, and a touch screen, which has no toolbar, still reaches all of them.
 - Open that menu with the message's full date and time, as a label that can't be chosen: on a touch screen it is the only place a merged message's time shows, and the full date settles which day a long group spans. Arrow keys skip it.
-- Make the quick reactions the first row under it, with a separator between them and the actions.
-- Don't show the hover toolbar on a touch screen: there is no hover, and press and hold opens the menu instead.
+- Make the quick reactions the first row under it, ending with the button that opens every emoji, with a separator between them and the actions ([DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md#the-message-menu)). The reference menu doesn't have that button yet, so on a touch screen only its 7 quick reactions can be reached.
+- Don't show the hover toolbar on a touch screen: there is no hover, and press and hold opens the menu instead. A message has no ⋯ button, so on a touch screen its menu opens only by press and hold ([Touch](./touch.md#press-and-hold)).
 - Let hover only add: the toolbar appears where nothing was, and the header gives it room, so it never covers the name or the time.
 - To act on several messages (forward, copy), choose Select Message in the menu; the toolbar for selected messages appears at the bottom of the conversation ([Built from existing parts](../components/overview.md#toolbar-for-selected-messages)).
 

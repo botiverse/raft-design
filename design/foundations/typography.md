@@ -53,14 +53,14 @@ The desktop scale is Feishu's (Lark's) for PC: 16/24 for titles, 14/22 for every
 
 People can set text larger than the scale. The scale's sizes are the sizes at the default text size; this section says what happens when text grows and the layout around it doesn't.
 
-- **The native apps follow the system text size**: Dynamic Type on iOS, the font scale on Android. Text grows with it and the layout's widths don't, so text can grow without the layout growing.
+- **The native apps follow the system text size**: Dynamic Type on iOS, the font scale on Android. Text grows with that setting while the layout's widths stay as they are.
 - **The web scales text and layout together.** raft-ui sets type in px, and browser zoom scales everything at once, so nothing changes shape. A browser's text-only zoom grows text alone, and then these rules apply on the web too. They hold wherever text can grow on its own.
-- **Never clip text.** Heights are minimums: a control, a field or a row grows with its text ([Spacing](./spacing.md#heights)).
+- **Never clip text.** Control, field and row heights are minimums: a control, a field or a row grows with its text ([Spacing](./spacing.md#heights)).
 - **Never shrink text to make it fit.** Shrinking undoes the person's setting; give way as the table says instead.
 
 | Text | When it doesn't fit |
 | --- | --- |
-| One-line labels: names (a person, an agent, a channel, a server), titles (a top bar, a panel header), chips, and tab bar labels, whose cells can't grow ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) | Stays on one line and ends with an ellipsis. The full text is one step away: on the page or item it opens, or in its tooltip or press-and-hold menu, and always in its accessible name |
+| One-line labels: names (a person, an agent, a channel, a server), titles (a top bar, a panel header), chips, and tab bar labels, whose cells can't grow ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) | Stays on one line and ends with an ellipsis. The full text is one step away: on the page or item it opens, or in its press-and-hold menu, and always in its accessible name. A tooltip carries it for a mouse and the keyboard only: raft-ui's Tooltip doesn't open on touch |
 | Previews and excerpts: the latest message under a conversation, an Activity item's excerpt, a search result | Wraps up to the lines its row gives it ([InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#content): at most 2), then ends with an ellipsis. It is a glimpse of a message; the message itself is one tap away |
 | Text people read in full: message text, errors, help text, a setting's consequence, dialog and sheet text, button labels | Wraps, and never truncates: people need every word of it. A button label cut short can hide what the button does |
 

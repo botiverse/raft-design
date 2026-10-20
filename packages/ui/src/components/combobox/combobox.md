@@ -66,6 +66,7 @@ picker-trigger-button/compositions/combobox-filter
 - With `multiple`, keep the list open when a value is chosen. Clicking outside or Esc closes it.
 - Make a chosen value a 28px chip on `fill-muted`, with a remove button at its end. Typing continues after the last chip.
 - For results that come from a server, pass `filter={null}` so the list shows them as they are, and keep the typed text controlled.
+- On a phone, open the list in a bottom sheet with its search row at the top ([Overlays on a phone](../../../../../design/patterns/page-structure.md#overlays-on-a-phone)). Combobox doesn't do this itself yet: its list opens anchored to its trigger at every width.
 
 ## Accessibility
 
