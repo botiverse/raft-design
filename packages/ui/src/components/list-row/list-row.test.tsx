@@ -22,7 +22,7 @@ afterEach(cleanup);
 const classes = (element: Element) => element.className.split(/\s+/);
 
 describe("ListRow", () => {
-  test("is a button that lays the pressed overlay on hover and press", () => {
+  test("is a button that lays the row-hover overlay on hover and the pressed one on press", () => {
     render(<ListRow>launch-week</ListRow>);
     const row = screen.getByRole("button", { name: "launch-week" });
     expect(row.getAttribute("type")).toBe("button");
@@ -31,7 +31,7 @@ describe("ListRow", () => {
     const rowClasses = classes(row);
     expect(rowClasses).toContain("min-h-16");
     expect(rowClasses).toContain(
-      "not-disabled:not-aria-disabled:not-data-selected:hover:press-overlay",
+      "not-disabled:not-aria-disabled:not-data-selected:hover:row-hover-overlay",
     );
     expect(rowClasses).toContain(
       "not-disabled:not-aria-disabled:not-data-selected:active:press-overlay",

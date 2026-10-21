@@ -11,7 +11,9 @@
                  hairline < seam < strong for line
      layer = places on the elevation ladder; fill = neutral interaction fills
      (resting/hover/active/disabled surfaces): fill-muted and fill-strong are
-     opaque, the -pressed overlays are translucent ink laid over a surface.
+     opaque, the -pressed and -hover overlays are translucent ink laid over a
+     surface (a row hovers with fill-row-hover or fill-message-hover, lighter
+     than any selection tint; press keeps fill-pressed).
    Families:  {family}(-{slot})
      family = brand | attention | info | success | warning | danger | inactive
      slot   = -strong (deep shade: readable text, rings) > bare (solid fill)
@@ -21,8 +23,8 @@
                 an opted-in family always gets both)
    Washes:    ink-{alpha%} (2..40) — neutral overlays, hairlines, hover fills.
    Opacity rule: layer tokens are opaque in every theme, except the two
-   backdrops (overlays by contract); among fills only the -pressed overlays are
-   translucent.
+   backdrops (overlays by contract); among fills only the -pressed and -hover
+   overlays are translucent.
    Interaction fills: transparent resting → ink-N directly; solid family fill →
    the family's -hover/-active pair; neutral or tinted surface → step up its ladder.
    Escape hatches: ink ramp for one-off washes; inline oklch() literals for
@@ -168,6 +170,14 @@
   --fill-strong: oklch(0.936 0.0006 17.62);
   --fill-frame-pressed: oklch(0.1813 0.005 17.62 / 0.122);
   --fill-pressed: oklch(0.1813 0.005 17.62 / 0.078);
+  /* Hover on a whole row (sidebar, list, inbox, search result, table, file row):
+     one perceptible step (OKLab dE about 2.8 in both modes), below every
+     selection tint, so text keeps its contrast. */
+  --fill-row-hover: oklch(0.1813 0.005 17.62 / 0.04);
+  /* Hover on a message: the lightest perceptible step (OKLab dE about 2.1 in
+     both modes), because a message is a large block someone reads with the
+     pointer resting on it. */
+  --fill-message-hover: oklch(0.1813 0.005 17.62 / 0.03);
   --line-strong: oklch(0.1813 0.005 17.62);
   --line-seam: oklch(0.1813 0.005 17.62 / 0.451);
   --line-hairline: oklch(0.1813 0.005 17.62 / 0.149);
@@ -326,6 +336,8 @@
   --fill-strong: oklch(0.3474 0.0051 106.66);
   --fill-frame-pressed: oklch(0.9843 0.004 106.47 / 0.078);
   --fill-pressed: oklch(0.9843 0.004 106.47 / 0.078);
+  --fill-row-hover: oklch(0.9843 0.004 106.47 / 0.03);
+  --fill-message-hover: oklch(0.9843 0.004 106.47 / 0.022);
   --line-strong: oklch(0.9211 0.004 106.48);
   --line-seam: oklch(0.9843 0.004 106.47 / 0.259);
   --line-hairline: oklch(0.9843 0.004 106.47 / 0.102);
@@ -407,6 +419,8 @@
     --fill-strong: oklch(0.3474 0.0051 106.66);
     --fill-frame-pressed: oklch(0.9843 0.004 106.47 / 0.078);
     --fill-pressed: oklch(0.9843 0.004 106.47 / 0.078);
+    --fill-row-hover: oklch(0.9843 0.004 106.47 / 0.03);
+    --fill-message-hover: oklch(0.9843 0.004 106.47 / 0.022);
     --line-strong: oklch(0.9211 0.004 106.48);
     --line-seam: oklch(0.9843 0.004 106.47 / 0.259);
     --line-hairline: oklch(0.9843 0.004 106.47 / 0.102);

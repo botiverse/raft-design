@@ -138,6 +138,7 @@ message-item/compositions/delegated-preview
 ## Behavior
 
 - Space messages by grouping: 8px between the rows of one group (a continuation row sits under the row it continues) and 16px before a new group. Every row keeps 4px above and below its text, and the extra 8px before a group is a transparent top border the highlight doesn't paint. So the hover, selected and search highlights sit evenly around the text on every row: when a continuation row had no top padding, its highlight touched the first line and left 8px under the last.
+- On hover, and while one of its popups is open, the row lays `fill-message-hover` over itself: the lightest step of any row, because a message can be many lines tall and is read with the pointer resting on it ([Row hover](../../../../../design/foundations/states.md#row-hover)). A jumped-to, search-hit or selected message keeps `info-soft` on hover.
 - The hover toolbar appears on hover, when focus is inside the row, and while one of its popups is open. It rides the top edge of the highlight, on the right.
 - Hover only adds; it never takes information away. Hovering a message is the moment someone wants to know about it, so the toolbar appears in empty space instead of covering what was there.
 - The time belongs to the sender: who said it and when read as one, so the time follows the name, its badges and its role, and stays there on hover. The top right corner belongs to the toolbar alone.

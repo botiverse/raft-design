@@ -13,7 +13,7 @@ export const inboxItem = tv({
       "[[data-slot=inbox-item]+&]:before:block has-data-[slot=inbox-item-selection]:before:left-11",
       "has-data-[slot=inbox-item-leading]:before:left-16",
       "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:before:left-23",
-      "hover:bg-fill-pressed",
+      "hover:bg-fill-row-hover",
       "data-[active=true]:bg-info-soft data-[active=true]:hover:bg-info-soft",
       "data-disabled:pointer-events-none data-disabled:hover:bg-transparent",
       "has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:inset-ring-2 has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:inset-ring-foreground",

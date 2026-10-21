@@ -33,10 +33,10 @@ The header type, the lines between rows and how numbers are set are in [Built fr
 
 ## States
 
-| State                                                              | Look                                                                                                       |
-| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| Hover                                                              | The row lays the pressed overlay over itself ([States](../../../../../design/foundations/states.md#usage)) |
-| Selected (`aria-selected` or `data-selected="true"` on `TableRow`) | `info-soft`: a selected row is selected content                                                            |
+| State                                                              | Look                                                                                                           |
+| ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| Hover                                                              | The row lays `fill-row-hover` over itself ([Row hover](../../../../../design/foundations/states.md#row-hover)) |
+| Selected (`aria-selected` or `data-selected="true"` on `TableRow`) | `info-soft`: a selected row is selected content                                                                |
 
 ## Behavior
 

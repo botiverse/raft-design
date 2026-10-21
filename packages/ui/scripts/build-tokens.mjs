@@ -222,7 +222,9 @@ const HEADER = `/* Generated from tokens.json by scripts/build-tokens.mjs. Do no
                  hairline < seam < strong for line
      layer = places on the elevation ladder; fill = neutral interaction fills
      (resting/hover/active/disabled surfaces): fill-muted and fill-strong are
-     opaque, the -pressed overlays are translucent ink laid over a surface.
+     opaque, the -pressed and -hover overlays are translucent ink laid over a
+     surface (a row hovers with fill-row-hover or fill-message-hover, lighter
+     than any selection tint; press keeps fill-pressed).
    Families:  {family}(-{slot})
      family = brand | attention | info | success | warning | danger | inactive
      slot   = -strong (deep shade: readable text, rings) > bare (solid fill)
@@ -232,8 +234,8 @@ const HEADER = `/* Generated from tokens.json by scripts/build-tokens.mjs. Do no
                 an opted-in family always gets both)
    Washes:    ink-{alpha%} (2..40) — neutral overlays, hairlines, hover fills.
    Opacity rule: layer tokens are opaque in every theme, except the two
-   backdrops (overlays by contract); among fills only the -pressed overlays are
-   translucent.
+   backdrops (overlays by contract); among fills only the -pressed and -hover
+   overlays are translucent.
    Interaction fills: transparent resting → ink-N directly; solid family fill →
    the family's -hover/-active pair; neutral or tinted surface → step up its ladder.
    Escape hatches: ink ramp for one-off washes; inline oklch() literals for
