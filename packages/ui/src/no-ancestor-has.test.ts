@@ -110,9 +110,13 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/inbox-item/inbox-item.recipe.ts": 14,
   "components/input-group/input-group.tsx": 7,
   "components/message-attachment/message-image-gallery.recipe.ts": 1,
-  "components/message-item/message-item.recipe.ts": 4,
+  // +4: the row mirrors its jumped-to / selected fill into --mi-row-fill on
+  // itself (self-subject), for the delegated face's ring.
+  "components/message-item/message-item.recipe.ts": 8,
   "components/message-item/message-reaction.recipe.ts": 1,
   "components/message-item/message-reference.recipe.ts": 5,
+  // The header wraps when it holds "(sent by …)" (self-subject).
+  "components/message-quoted-preview/message-quoted-preview.recipe.ts": 1,
   "components/message-replies/message-replies.recipe.ts": 1,
   "components/notification-center/notification-center.tsx": 1,
   "components/panel/panel-header.recipe.ts": 0,

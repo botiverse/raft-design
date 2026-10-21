@@ -711,6 +711,10 @@
       "MessageItemBody",
       "MessageItemContent",
       "MessageItemContinuationTime",
+      "MessageItemDelegatedAvatar",
+      "MessageItemDelegatedBy",
+      "MessageItemDelegatedByButton",
+      "MessageItemDelegatedByName",
       "MessageItemEdited",
       "MessageItemEmbedded",
       "MessageItemFooter",
@@ -768,6 +772,7 @@
       "MessageQuotedPreviewAttachments",
       "MessageQuotedPreviewAttachment",
       "MessageQuotedPreviewAuthor",
+      "MessageQuotedPreviewAuthorDelegatedBy",
       "MessageQuotedPreviewAuthorMeta",
       "MessageQuotedPreviewAuthorName",
       "MessageQuotedPreviewChannel",
@@ -779,7 +784,8 @@
       "MessageQuotedPreviewTimestamp",
       "MessageQuotedPreviewUnavailable"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "\"(sent by Friday)\" after `MessageQuotedPreviewAuthorName`, when an assistant sent the quoted message for its author. It never truncates; the author's name gives way instead."
   },
   "message-replies": {
     "names": [

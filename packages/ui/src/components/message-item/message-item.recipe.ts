@@ -28,6 +28,13 @@ export const messageItem = tv({
       "has-data-[slot=message-item-search-match]:bg-info-soft has-data-[slot=message-item-search-match]:hover:bg-info-soft",
       "has-[[data-slot=message-multi-select-checkbox][data-checked]]:bg-info-soft",
       "has-[[data-slot=message-multi-select-checkbox][data-checked]]:hover:bg-info-soft",
+      // The same states mirrored into --mi-row-fill, for parts that paint the
+      // row's surface around themselves (the delegated face's ring). Read off
+      // the root, not through group-has-*: see no-ancestor-has.test.ts.
+      "hover:[--mi-row-fill:var(--fill-pressed)] data-popup-open:[--mi-row-fill:var(--fill-pressed)] has-data-popup-open:[--mi-row-fill:var(--fill-pressed)]",
+      "has-data-[slot=message-item-search-match]:[--mi-row-fill:var(--info-soft)] has-data-[slot=message-item-search-match]:hover:[--mi-row-fill:var(--info-soft)]",
+      "has-[[data-slot=message-multi-select-checkbox][data-checked]]:[--mi-row-fill:var(--info-soft)]",
+      "has-[[data-slot=message-multi-select-checkbox][data-checked]]:hover:[--mi-row-fill:var(--info-soft)]",
     ],
     gutter: ["relative shrink-0 self-stretch", "w-[35px]"],
     avatarSlot: [
@@ -71,6 +78,30 @@ export const messageItem = tv({
       "font-mono text-mono-meta tabular-nums text-foreground-hint",
     ],
     inlineStatus: ["shrink-0", "text-caption text-foreground-hint"],
+    // "sent by Friday": one step stronger than the role, so it is seen at a
+    // glance. It never takes more than 45% of the line; past that only the
+    // assistant's name truncates, and the words around it never do (each run
+    // of text is a flex item that can't shrink below its width). `pre` keeps
+    // the product's own spaces around the name, which a flex item would drop.
+    delegatedBy: [
+      "inline-flex min-w-0 max-w-[45%] shrink-0 items-baseline whitespace-pre",
+      "text-caption text-foreground-muted",
+    ],
+    delegatedByName: ["min-w-0 truncate"],
+    delegatedByButton: [
+      "min-w-0 truncate",
+      "cursor-pointer decoration-1 underline-offset-[3px] hover:underline",
+      "rounded-[2px] outline-none focus-visible:shadow-focus",
+    ],
+    // The assistant's face on the owner's avatar: the presence light's corner
+    // and overhang (AvatarBadge on md), at 2xs. The ring is the row's surface
+    // (--mi-row-fill over the canvas), outside the die-cut edge in dark mode.
+    delegatedAvatar: [
+      "size-[19px] group-data-[size=md]/avatar:size-[19px]",
+      "rounded-sticker outline-none",
+      "shadow-[0_0_0_1.5px_var(--mi-row-fill,transparent),0_0_0_1.5px_var(--layer-canvas)]",
+      "dark:shadow-[0_0_0_3px_var(--mi-row-fill,transparent),0_0_0_3px_var(--layer-canvas)]",
+    ],
     edited: ["ms-1 whitespace-nowrap", "text-caption text-foreground-hint"],
     body: [
       "wrap-break-word select-text",

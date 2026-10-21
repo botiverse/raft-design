@@ -17,7 +17,12 @@ import { act, cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "./lib/theme/theme-provider";
 import { EmptyStateDescription } from "./components/empty-state/empty-state";
 import { markdown } from "./components/markdown/markdown.recipe";
-import { MessageItemSender, MessageItemSenderButton } from "./components/message-item";
+import {
+  MessageItemDelegatedByButton,
+  MessageItemDelegatedByName,
+  MessageItemSender,
+  MessageItemSenderButton,
+} from "./components/message-item";
 import { MessageReferenceText } from "./components/message-item/message-reference";
 import { MessageForwardedBundleFooterAction } from "./components/message-forwarded-bundle/message-forwarded-bundle";
 import {
@@ -166,6 +171,18 @@ test("the sender button underlines on hover even when a wrapper replaces its dat
   const plain = screen.getByText("Bugen").className;
   expect(plain).not.toMatch(/underline/);
   expect(tokens(plain)).not.toContain("cursor-pointer");
+});
+
+test("the assistant's name in a delegated label underlines on hover only when it opens something", () => {
+  render(
+    <>
+      <MessageItemDelegatedByButton>Friday</MessageItemDelegatedByButton>
+      <MessageItemDelegatedByName>a deleted assistant</MessageItemDelegatedByName>
+    </>,
+  );
+  expectHoverUnderline(screen.getByRole("button").className);
+  expect(tokens(screen.getByRole("button").className)).toContain("cursor-pointer");
+  expect(screen.getByText("a deleted assistant").className).not.toMatch(/underline/);
 });
 
 function sources(dir: string): string[] {
