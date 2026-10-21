@@ -84,12 +84,17 @@ import { cn } from "../../lib/cn";
 
 import "./styles/virtual-list.css";
 
+/*
+ * A jump holds its row by key, not index: rows inserted above it while it settles (an older page loaded)
+ * move its index, and a replay at the old index would land on another row. `index` is used only when the
+ * jump was to an index past the items (no key).
+ */
 type PendingScrollTask =
   | { type: "top" | "bottom" }
-  | { type: "index"; index: number; debounce: boolean }
+  | { type: "index"; key: string | undefined; index: number; debounce: boolean }
   | {
       type: "align";
-      index: number;
+      key: string;
       align: ScrollAlign;
       scrollMarginTop: number;
       scrollMarginBottom: number;
@@ -798,7 +803,13 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       if (!isReplay) {
         clearPendingScrollTask();
         if (behavior === "instant") {
-          pendingScrollTaskRef.current = { type: "index", index, debounce: ensureVisibleOnly };
+          const item = items[index];
+          pendingScrollTaskRef.current = {
+            type: "index",
+            key: item === undefined ? undefined : getKey(item),
+            index,
+            debounce: ensureVisibleOnly,
+          };
           schedulePendingScrollTaskExpiry();
         }
       }
@@ -941,19 +952,21 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
    * `scrollTop` for the item from the DOM, set it, and update the range. If the range changes, the rows it
    * brings into view are rendered (in a microtask, still before the browser paints) and the next step runs
    * from the render callback (a layout effect) to measure them; the jump is done when a step finds the item
-   * mounted, no size changed and `scrollTop` already right. Bounded by `MAX_ALIGN_STEPS`.
+   * mounted, no size changed and `scrollTop` already right. Bounded by `MAX_ALIGN_STEPS`. The item is
+   * found by its key at every step: rows inserted above it in between move its index.
    */
   const alignStep = useEventCallback(
     (
       run: number,
-      index: number,
+      key: string,
       align: ScrollAlign,
       scrollMarginTop: number,
       scrollMarginBottom: number,
       remaining: number,
     ) => {
       const listEl = listElRef.current;
-      if (listEl == null || run !== alignRunRef.current || index >= items.length) {
+      const index = keyToIndexRef.current.get(key);
+      if (listEl == null || run !== alignRunRef.current || index === undefined) {
         return;
       }
       const sizesChanged = measureMountedItems();
@@ -979,7 +992,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         return;
       }
       updateRange("listScroll", true, () => {
-        alignStep(run, index, align, scrollMarginTop, scrollMarginBottom, remaining - 1);
+        alignStep(run, key, align, scrollMarginTop, scrollMarginBottom, remaining - 1);
       });
     },
   );
@@ -1021,13 +1034,18 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         listEl.scrollTo({ left: 0, top: Math.round(top), behavior });
         return;
       }
+      const item = items[index];
+      if (item === undefined) {
+        return;
+      }
+      const key = getKey(item);
       const smooth = behavior === "smooth";
       if (!isReplay) {
         clearPendingScrollTask();
         if (!smooth) {
           pendingScrollTaskRef.current = {
             type: "align",
-            index,
+            key,
             align,
             scrollMarginTop,
             scrollMarginBottom,
@@ -1051,7 +1069,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         updateRange("listScroll", true, null);
         return;
       }
-      alignStep(run, index, align, scrollMarginTop, scrollMarginBottom, MAX_ALIGN_STEPS);
+      alignStep(run, key, align, scrollMarginTop, scrollMarginBottom, MAX_ALIGN_STEPS);
     },
   );
   const scrollTo = useEventCallback(
@@ -1113,10 +1131,17 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       } else if (task.type === "bottom") {
         scrollToPosition(0, listElRef.current?.scrollHeight || 2_000_000_000, "instant");
       } else if (task.type === "index") {
-        scrollToIndex(task.index, "instant", task.debounce, true);
+        const index = task.key === undefined ? task.index : keyToIndexRef.current.get(task.key);
+        if (index !== undefined) {
+          scrollToIndex(index, "instant", task.debounce, true);
+        }
       } else if (task.type === "align") {
+        const index = keyToIndexRef.current.get(task.key);
+        if (index === undefined) {
+          return;
+        }
         scrollToAligned(
-          task.index,
+          index,
           task.align,
           "instant",
           true,
@@ -1147,15 +1172,22 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   /*
    * keepAnchorOnItemsChange, step 2 (layout effect, before paint): commit the anchored range, then, with
    * the new tree, scroll so that the anchor row's top is `delta` above the view's top again. The spacer
-   * is resized first, so the new scroll position is not clamped. A pending scroll task (a jump, the
-   * bottom) wins: it is replayed by the range update that follows, so the anchor is not applied.
+   * is resized first, so the new scroll position is not clamped. A jump still settling (a pending index
+   * or align task) is anchored too, so the rows inserted above do not move its row while it settles; the
+   * range update that follows replays it, at its row's new index. Any other pending task (the top, the
+   * bottom, a custom task) wins: it is replayed by that range update, so the anchor is not applied.
    */
   const restoreItemsAnchor = useEventCallback((anchor: ItemsAnchor) => {
     appliedItemsAnchorRef.current = anchor;
     rangeRef.current = renderedRange;
     const listEl = listElRef.current;
     const index = keyToIndexRef.current.get(anchor.key);
-    if (listEl == null || index === undefined || pendingScrollTaskRef.current?.type !== undefined) {
+    const pendingType = pendingScrollTaskRef.current?.type;
+    if (
+      listEl == null ||
+      index === undefined ||
+      (pendingType !== undefined && pendingType !== "index" && pendingType !== "align")
+    ) {
       return;
     }
     applyLayoutStyles(startIndex);

@@ -372,7 +372,7 @@ describe("keepAnchorOnItemsChange", () => {
     expect(keys.at(-1)).toBe(rows[index - 1]!.key);
   });
 
-  it("lets an instant jump made just before the change win", async () => {
+  it("lets an instant jump made just before the change win, on the row it was made to", async () => {
     const rows = makeRows(0, 300);
     const list = setup(rows);
     await list.flush();
@@ -380,10 +380,23 @@ describe("keepAnchorOnItemsChange", () => {
     act(() => {
       list.api.current!.scrollTo({ index: 150, debounce: false });
     });
-    // The pending jump is replayed with the new items (it holds an index): the anchor is not applied.
+    // The pending jump holds its row by key: replayed with the new items, it goes to the row it was made
+    // to (now at index 160), not to whatever row is at index 150.
     const items = [...makeRows(-10, 10, "new"), ...rows];
     await list.setItems(items);
-    expect(list.listEl.scrollTop).toBe(list.api.current!.getOffsetTopOfKey(items[150]!.key));
+    expect(list.listEl.scrollTop).toBe(list.api.current!.getOffsetTopOfKey(rows[150]!.key));
+  });
+
+  it("lets an aligned jump made just before the change land on the row it was made to", async () => {
+    const rows = makeRows(0, 300);
+    const list = setup(rows);
+    await list.flush();
+    await list.scrollTo(5000);
+    act(() => {
+      list.api.current!.scrollTo({ key: "row-150", align: "start" });
+    });
+    await list.setItems([...makeRows(-10, 10, "new"), ...rows]);
+    expect(list.offsetOf("row-150")).toBe(0);
   });
 
   it("does not anchor across a new session: the list starts at the top", async () => {

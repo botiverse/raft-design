@@ -64,6 +64,7 @@ virtual-list/compositions/load-older
 
 - `scrollTo({ key, align })` (or `index`) puts the row's top at the view's top (`"start"`), its middle in the middle (`"center"`) or its bottom at the bottom (`"end"`), inside `scrollMarginTop` and `scrollMarginBottom`. The row lands exactly, and no other position is painted first, even when the row and its neighbors were never measured.
 - A newer jump stops an older one. At the ends the position is clamped. With `behavior: "smooth"` the list scrolls once, to the position known when the jump starts.
+- A jump holds its row by key. Rows loaded above it while it is still settling don't make it land on another row; with `keepAnchorOnItemsChange` they don't move its row either.
 - Without `align`, the list scrolls only as far as needed to show the row (`debounce`, the default), from its estimated offset.
 - `scrollTo({ position: "top" | "bottom" })` goes to either end.
 
