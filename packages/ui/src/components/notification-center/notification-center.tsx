@@ -143,6 +143,7 @@ export function NotificationCenterTrigger({
     <BasePopover.Trigger
       data-slot="notification-center-trigger"
       className={trigger({ className })}
+      aria-label={children === undefined ? "Notifications" : undefined}
       {...props}
     >
       {children ?? <NotificationCenterTriggerContent />}
