@@ -1,3 +1,10 @@
+## [0.10.7](https://github.com/botiverse/raft-design/compare/v0.10.6...v0.10.7) (2026-10-21)
+
+### Fixed
+
+- A passage with comments now shows in dark mode: `raft-comment` paints `brand` over the page, 35% in light mode (as before) and 22% in dark, instead of `brand-soft`, which in dark mode barely differed from the page. The text on it stays at body-text contrast (APCA Lc 75 or more). ([#626](https://github.com/botiverse/raft-design/pull/626), [#629](https://github.com/botiverse/raft-design/pull/629))
+- In `MessageActionCardProperties`, a label lines up with the first line of its value instead of the middle of a value that wraps. ([#631](https://github.com/botiverse/raft-design/pull/631))
+
 ## [0.10.6](https://github.com/botiverse/raft-design/compare/v0.10.5...v0.10.6) (2026-10-21)
 
 ### Added
