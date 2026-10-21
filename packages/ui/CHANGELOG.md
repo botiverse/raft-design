@@ -32,7 +32,7 @@
 ### Fixed
 
 - **Field, FieldItem, InputGroup, SelectValue, ComboboxSelect, chips and options**: long values stay inside form fields on narrow screens. Labels, descriptions and errors wrap. A FieldItem label next to a checkbox, radio or switch shrinks. An InputGroup text prefix takes at most half the field and truncates. Values and chips truncate, with the full value as `title`. Options wrap to 2 lines, then clamp. Select and Combobox popups are never wider than the screen less 8px on each side. ([#642](https://github.com/botiverse/raft-design/pull/642))
-  - Why: long names and values pushed fields and popups past the screen edge on phones.
+  - Why: long names and values could push fields and popups past the screen edge on phones, so every form field, picker and option list was checked and fixed together.
   - Affects: InputGroup prefix `max-w-1/2`; options clamp at 2 lines; popup max width `100vw − 16px`.
   - Docs: https://raft-design.botiverse.build/patterns/forms/#long-values-in-fields
 

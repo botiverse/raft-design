@@ -43,7 +43,7 @@ Treat removed or renamed exports, removed CSS tokens, incompatible type changes,
 - `Design System` lists rule changes in `design/` that apply beyond one component (a new or changed token family, a spacing, sizing or interaction rule). Each entry names the rule, links its `design/` page, and names the components it changed in this release.
 - Describe consumer impact and migration steps, not implementation activity.
 - Readers sync from these notes without reading diffs: people following the design system, and the mobile design system, which pulls each GitHub Release by API. So every entry follows one shape. It leads with the bold component, token or rule name and what changed, then has these labelled lines, in this order, each on its own indented bullet:
-  - `Why:` one sentence with the reason. Always present.
+  - `Why:` one sentence: the problem that motivated the change, then what was done about it. For a sweep, say what was swept ("long values could push fields and popups off a phone screen; every form field was checked"). Always present.
   - `Affects:` the tokens, sizes and values involved, old → new where something changed (`fill-pressed` 7.8% → `fill-row-hover` 4%). Omit only when nothing measurable changed.
   - `Migrate:` what a caller must change. Present exactly when the entry is under `Breaking Changes`.
   - `Docs:` a link to the raft-design page for the component or rule. Always present.
@@ -55,6 +55,7 @@ Treat removed or renamed exports, removed CSS tokens, incompatible type changes,
     - Migrate: remove the `messages.search` and `messages.close` props; a pick-only field uses `Select`.
     - Docs: https://raft-design.botiverse.build/components/combobox-select/
   ```
+- This repository is public, and so are its releases. State the problem itself, never who raised it: no names of people, agents or customers, and no "someone complained". Do not link or cite Raft channels, threads, messages or task numbers, and do not name internal servers, machines or deployments.
 - Prefer a merged PR link. Add a commit link when no PR exists or when the PR does not cover the complete statement.
 - Consolidate related implementation commits into one consumer-facing entry.
 - Never mention WIP, docs-only changes, source references, release chores, or internal refactors without stable consumer impact.
