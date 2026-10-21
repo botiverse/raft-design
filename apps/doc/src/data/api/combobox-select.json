@@ -76,7 +76,6 @@
         "name": "inputProps",
         "type": "Omit<AutocompleteInputProps, \"defaultValue\" | \"value\" | \"children\" | \"size\">",
         "required": false,
-        "description": "The text input: the field on a desktop, the search input of the bottom sheet on a phone.",
         "from": "raft-ui"
       },
       {
@@ -84,6 +83,14 @@
         "type": "keyof Option",
         "required": false,
         "default": "\"label\" as keyof Option",
+        "from": "raft-ui"
+      },
+      {
+        "name": "listMaxHeight",
+        "type": "string | number",
+        "required": false,
+        "default": "\"16rem\"",
+        "description": "The tallest the list gets before it scrolls: a CSS length, or a number of pixels. Not counting the list's 6px padding above and below. On a phone the list also gets shorter to fit the room on its side.",
         "from": "raft-ui"
       },
       {
@@ -161,21 +168,18 @@
         "name": "popupProps",
         "type": "Omit<AutocompletePopupProps, \"children\">",
         "required": false,
-        "description": "The desktop list's popup.",
         "from": "raft-ui"
       },
       {
         "name": "portalProps",
         "type": "AutocompletePortalProps",
         "required": false,
-        "description": "The portal of the list, and of the phone's anchored list and bottom sheet.",
         "from": "raft-ui"
       },
       {
         "name": "positionerProps",
         "type": "Omit<AutocompletePositionerProps, \"children\">",
         "required": false,
-        "description": "The desktop list's positioner. A phone positions its list itself.",
         "from": "raft-ui"
       },
       {
@@ -211,21 +215,6 @@
         "type": "(option: Option) => ReactNode",
         "required": false,
         "description": "Customizes chip content while preserving keyboard navigation and removal.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "sheetThreshold",
-        "type": "number",
-        "required": false,
-        "default": "COMBOBOX_SELECT_SHEET_THRESHOLD",
-        "description": "On a phone (a touch screen under 48rem), more selectable options than this open a bottom sheet instead of the anchored list.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "sheetTitle",
-        "type": "ReactNode",
-        "required": false,
-        "description": "The title of the phone's bottom sheet. Defaults to the field's name: `aria-label`, the text of `aria-labelledby`, or the `<label>` whose `for` is the field's `id`.",
         "from": "raft-ui"
       },
       {

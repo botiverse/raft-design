@@ -1,30 +1,11 @@
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
-import { Select as BaseSelect } from "@base-ui/react/select";
-import { Check, ChevronDown, LoaderCircle, Plus, Search, X } from "lucide-react";
-import { useCallback, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
-import type { MouseEvent as ReactMouseEvent, ReactNode, Ref } from "react";
+import { Check, ChevronDown, LoaderCircle, Plus, X } from "lucide-react";
+import { useCallback, useId, useMemo, useRef, useState } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { usePhoneMedia } from "../../lib/phone-media";
 import { useTheme } from "../../lib/theme/use-theme";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { Button } from "../button/index";
-import {
-  Drawer,
-  DrawerActions,
-  DrawerBody,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "../drawer/index";
-import type { DrawerPortalProps } from "../drawer/index";
-import {
-  COMBOBOX_SELECT_SHEET_THRESHOLD,
-  countSelectableOptions,
-  preferredListSide,
-  resolveComboboxSelectMode,
-} from "./combobox-select.mode";
+import { preferredListSide } from "./combobox-select.list-side";
 import { isOptionGroup, normalizeOption, optionKey } from "./combobox-select.options";
 import type { OptionRecord } from "./combobox-select.options";
 import type {
@@ -43,9 +24,6 @@ const defaultMessages: ComboboxSelectMessages = {
   chipDescription: "Press Backspace or Delete to remove",
   inputDescription: "From the start of the input, press Left Arrow to focus selected options",
   remove: (label) => `Remove ${label}`,
-  search: "Search",
-  done: "Done",
-  close: "Close",
 };
 
 const defaultRenderCreateLabel = (query: string) => `Create “${query}”`;
@@ -141,87 +119,13 @@ function renderSelectedChip<Option>({
   );
 }
 
-/** An option of the phone's anchored list: the same content as the field's list. */
-function renderSelectOption<Option>({
-  record,
-  selected,
-  loading,
-  renderLabel,
-  renderOption,
-}: {
-  record: OptionRecord<Option>;
-  selected: boolean;
-  loading: boolean;
-  renderLabel?: (option: Option) => ReactNode;
-  renderOption?: (option: Option, info: { selected: boolean }) => ReactNode;
-}) {
-  const content =
-    record.option === undefined
-      ? record.label
-      : (renderOption?.(record.option, { selected }) ?? recordLabel(record, renderLabel));
-
-  return (
-    <BaseSelect.Item
-      key={optionKey(record.value)}
-      value={record}
-      label={record.label}
-      disabled={record.disabled || loading}
-      className="r-combobox-select__option"
-    >
-      <BaseSelect.ItemText className="r-combobox-select__text">{content}</BaseSelect.ItemText>
-      <BaseSelect.ItemIndicator className="r-combobox-select__indicator">
-        <Check aria-hidden />
-      </BaseSelect.ItemIndicator>
-    </BaseSelect.Item>
-  );
-}
-
-/** Change details for the phone's own changes: the clear button outside any Base UI root, the sheet's search emptied as it closes. */
-function syntheticDetails(reason: "clear-press" | "input-clear", event: Event) {
-  let canceled = false;
-  return {
-    reason,
-    event,
-    trigger: undefined,
-    cancel() {
-      canceled = true;
-    },
-    allowPropagation() {},
-    get isCanceled() {
-      return canceled;
-    },
-    get isPropagationAllowed() {
-      return false;
-    },
-  } as unknown as BaseCombobox.Root.ChangeEventDetails;
-}
-
-function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {
-  if (typeof ref === "function") ref(value);
-  else if (ref) ref.current = value;
-}
-
-/** The text that names a field: its `aria-labelledby` elements, else its `<label>`. */
-function readFieldLabel(element: HTMLButtonElement | null, labelledBy: string | undefined) {
-  if (!element) return "";
-  const doc = element.ownerDocument;
-  const fromIds = (labelledBy ?? "")
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((labelId) => doc.getElementById(labelId)?.textContent?.trim() ?? "")
-    .filter(Boolean)
-    .join(" ");
-  if (fromIds) return fromIds;
-  return [...(element.labels ?? [])]
-    .map((label) => label.textContent?.trim() ?? "")
-    .filter(Boolean)
-    .join(" ");
-}
-
-/** The phone's anchored list keeps the side it opened on: it never flips while open. */
+/**
+ * On a phone the list keeps the side it opened on: it never flips while it is
+ * open, as the keyboard or the address bar change the visual viewport under it.
+ */
 const PHONE_LIST_COLLISION = { side: "none", align: "shift", fallbackAxisSide: "none" } as const;
 
-/** The side the phone's anchored list opens on, from the room around the field. */
+/** The side the phone's list opens on, from the room around the field. */
 function measureListSide(
   anchor: HTMLElement | null,
   groups: readonly { label?: ReactNode; items: readonly unknown[] }[],
@@ -291,8 +195,7 @@ export function ComboboxSelect<
   emptyContent = "No options found",
   loadingContent = "Loading…",
   messages,
-  sheetThreshold = COMBOBOX_SELECT_SHEET_THRESHOLD,
-  sheetTitle,
+  listMaxHeight,
   inputProps,
   portalProps,
   positionerProps,
@@ -311,6 +214,7 @@ export function ComboboxSelect<
   disabled,
   readOnly,
   autoHighlight = true,
+  onOpenChange,
   ...rootProps
 }: ComboboxSelectProps<Option, Multiple>) {
   const generatedId = useId();
@@ -410,9 +314,13 @@ export function ComboboxSelect<
   ]
     .filter(Boolean)
     .join(" ");
+  // On a phone the list opens on the side picked as it opens and keeps it, and
+  // gets shorter instead of flipping as the keyboard comes up.
+  const phone = usePhoneMedia();
   const controlClassName = [
     css,
     "r-combobox-select__control has-focus-visible:shadow-focus",
+    phone ? "r-combobox-select__control--phone" : null,
     className,
   ]
     .filter(Boolean)
@@ -426,6 +334,7 @@ export function ComboboxSelect<
   const popupClassName = [
     css,
     "r-combobox-select__popup",
+    phone ? "r-combobox-select__popup--anchored" : null,
     typeof popupProps?.className === "string" ? popupProps.className : null,
   ]
     .filter(Boolean)
@@ -630,336 +539,34 @@ export function ComboboxSelect<
   );
   const valueChange = handleValueChange as never;
 
-  // On a phone the field opens without focusing a text input: the anchored list
-  // for a few options, a bottom sheet for many or when typing drives the list.
-  const phone = usePhoneMedia();
-  const mode = resolveComboboxSelectMode({
-    phone,
-    optionCount: countSelectableOptions(normalized.groups),
-    sheetThreshold,
-    create: Boolean(create || creatable),
-    remote,
-  });
   const fieldRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const searchInputRef = useRef<HTMLInputElement | null>(null);
-  const [uncontrolledPhoneOpen, setUncontrolledPhoneOpen] = useState(
-    Boolean(rootProps.defaultOpen),
-  );
-  const phoneOpen = rootProps.open ?? uncontrolledPhoneOpen;
   const [listSide, setListSide] = useState<"bottom" | "top">("bottom");
-  const [fieldLabel, setFieldLabel] = useState("");
-  const sheetNamed = sheetTitle != null || Boolean(inputLabel);
-
-  useLayoutEffect(() => {
-    if (mode !== "sheet" || !phoneOpen || sheetNamed) return;
-    setFieldLabel(readFieldLabel(triggerRef.current, inputLabelledBy));
-  }, [mode, phoneOpen, sheetNamed, inputLabelledBy]);
-
-  const setSearchInput = useCallback(
-    (element: HTMLInputElement | null) => {
-      searchInputRef.current = element;
-      assignRef(inputRef, element);
-    },
-    [inputRef],
-  );
-
-  const onOpenChangeProp = rootProps.onOpenChange;
-  const openProp = rootProps.open;
   const groups = normalized.groups;
-  const handlePhoneOpenChange = useCallback(
-    (next: boolean, details: { isCanceled: boolean; event: Event }) => {
-      onOpenChangeProp?.(next, details as never);
-      if (details.isCanceled) return;
+  const handleOpenChange = useCallback(
+    (next: boolean, details: BaseCombobox.Root.ChangeEventDetails) => {
+      onOpenChange?.(next, details);
       // Chosen once, as the list opens: it doesn't flip while the viewport changes.
-      if (next && mode === "list") setListSide(measureListSide(fieldRef.current, groups));
-      // The sheet's search starts empty each time it opens, as the field's does.
-      if (!next && mode === "sheet") {
-        handleInputValueChange("", syntheticDetails("input-clear", details.event));
+      if (next && phone && !details.isCanceled) {
+        setListSide(measureListSide(fieldRef.current, groups));
       }
-      if (openProp === undefined) setUncontrolledPhoneOpen(next);
     },
-    [onOpenChangeProp, openProp, mode, groups, handleInputValueChange],
+    [onOpenChange, phone, groups],
   );
-
-  const handleSheetValueChange = useCallback(
-    (
-      next: OptionRecord<Option> | OptionRecord<Option>[] | null,
-      details: BaseCombobox.Root.ChangeEventDetails,
-    ) => {
-      handleValueChange(next, details);
-      if (!multiple && !details.isCanceled) handlePhoneOpenChange(false, details);
-    },
-    [handleValueChange, multiple, handlePhoneOpenChange],
-  );
-
-  const handlePhoneClear = useCallback(
-    (event: ReactMouseEvent<HTMLButtonElement>) => {
-      handleValueChange(multiple ? [] : null, syntheticDetails("clear-press", event.nativeEvent));
-    },
-    [handleValueChange, multiple],
-  );
-
-  const focusSearchInput = useCallback(() => searchInputRef.current, []);
-
-  if (mode !== "field") {
-    const placeholderText = <span className="r-combobox-select__placeholder">{placeholder}</span>;
-    const phoneValue = multiple ? (
-      selected.length ? (
-        <span className="r-combobox-select__chips">
-          {selected.slice(0, tagLimit).map((record) => (
-            <span key={optionKey(record.value)} className="r-combobox-select__chip">
-              <span className="r-combobox-select__text">
-                {record.option === undefined
-                  ? record.label
-                  : (renderTag?.(record.option) ?? recordLabel(record, renderLabel))}
-              </span>
-            </span>
-          ))}
-          {overflow}
-        </span>
-      ) : (
-        placeholderText
-      )
-    ) : selected[0] ? (
-      <span className="r-combobox-select__value">{selected[0].label}</span>
-    ) : (
-      placeholderText
-    );
-    const phoneClear =
-      clearable && selected.length > 0 && !disabled && !readOnly ? (
-        <button
-          type="button"
-          className="r-combobox-select__action r-combobox-select__clear"
-          aria-label={strings.clear}
-          onClick={handlePhoneClear}
-        >
-          <X aria-hidden />
-        </button>
-      ) : null;
-    const phoneArrow = showArrow ? (
-      <span className="r-combobox-select__action r-combobox-select__arrow" aria-hidden>
-        <ChevronDown />
-      </span>
-    ) : null;
-    const phoneActions = (
-      <span className="r-combobox-select__actions">
-        {loadingIndicator}
-        {phoneClear}
-        {phoneArrow}
-      </span>
-    );
-    const phoneControlClassName = [
-      css,
-      "r-combobox-select__control r-combobox-select__control--trigger has-focus-visible:shadow-focus",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
-    const triggerProps = {
-      ref: triggerRef,
-      id,
-      "data-slot": "combobox-select-trigger",
-      className: "r-combobox-select__trigger",
-      "aria-label": inputLabel,
-      "aria-labelledby": inputLabelledBy,
-      "aria-describedby": inputDescribedBy,
-      "aria-invalid": inputInvalid,
-    };
-    const field = (trigger: ReactNode) => (
-      <div
-        ref={fieldRef}
-        data-slot="combobox-select"
-        data-status={status}
-        data-disabled={disabled || undefined}
-        data-readonly={readOnly || undefined}
-        data-popup-open={phoneOpen || undefined}
-        className={phoneControlClassName}
-        style={style}
-      >
-        {trigger}
-        {phoneActions}
-      </div>
-    );
-
-    if (mode === "list") {
-      const anchoredPopupClassName = `${popupClassName} r-combobox-select__popup--anchored`;
-      const hasOptions = normalized.groups.some((group) => group.items.length > 0);
-      return (
-        <BaseSelect.Root<OptionRecord<Option>, Multiple>
-          multiple={multiple}
-          value={controlValue as never}
-          onValueChange={valueChange}
-          open={phoneOpen}
-          onOpenChange={handlePhoneOpenChange}
-          onOpenChangeComplete={rootProps.onOpenChangeComplete}
-          modal={false}
-          name={rootProps.name}
-          form={rootProps.form}
-          required={rootProps.required}
-          autoComplete={rootProps.autoComplete}
-          disabled={disabled}
-          readOnly={readOnly}
-          itemToStringLabel={itemToStringLabel}
-          itemToStringValue={itemToStringValue}
-          isItemEqualToValue={isItemEqualToValue}
-        >
-          {field(<BaseSelect.Trigger {...triggerProps}>{phoneValue}</BaseSelect.Trigger>)}
-          <BaseSelect.Portal {...(scopedPortalProps as BaseSelect.Portal.Props)}>
-            <BaseSelect.Positioner
-              anchor={fieldRef}
-              side={listSide}
-              align="start"
-              sideOffset={4}
-              alignItemWithTrigger={false}
-              collisionAvoidance={PHONE_LIST_COLLISION}
-              className={positionerClassName}
-            >
-              <BaseSelect.Popup
-                data-slot="combobox-select-popup"
-                className={anchoredPopupClassName}
-              >
-                {loading ? (
-                  <div role="status" className="r-combobox-select__message">
-                    {loadingContent}
-                  </div>
-                ) : null}
-                <BaseSelect.List className="r-combobox-select__list" aria-busy={loading}>
-                  {normalized.groups.map((group) => (
-                    <BaseSelect.Group key={group.key}>
-                      {group.label == null ? null : (
-                        <BaseSelect.GroupLabel className="r-combobox-select__group-label">
-                          {group.label}
-                        </BaseSelect.GroupLabel>
-                      )}
-                      {group.items.map((record) =>
-                        renderSelectOption({
-                          record,
-                          selected: selected.some((item) => item.value === record.value),
-                          loading,
-                          renderLabel,
-                          renderOption,
-                        }),
-                      )}
-                    </BaseSelect.Group>
-                  ))}
-                </BaseSelect.List>
-                {!hasOptions ? emptyMessage : null}
-              </BaseSelect.Popup>
-            </BaseSelect.Positioner>
-          </BaseSelect.Portal>
-        </BaseSelect.Root>
-      );
-    }
-
-    const titleId = `${id}-sheet-title`;
-    const sheetCss = `r-combobox-select r-combobox-select--md${resolvedMode === "dark" ? " r-combobox-select--dark" : ""} r-combobox-select__sheet`;
-    const hiddenInputs = rootProps.name
-      ? selectedKeys.map((key) => (
-          <input
-            key={optionKey(key)}
-            type="hidden"
-            name={rootProps.name}
-            form={rootProps.form}
-            value={String(key)}
-            disabled={disabled}
-          />
-        ))
-      : null;
-
-    return (
-      <Drawer
-        open={phoneOpen}
-        onOpenChange={handlePhoneOpenChange}
-        onOpenChangeComplete={rootProps.onOpenChangeComplete}
-      >
-        {field(
-          <DrawerTrigger
-            {...triggerProps}
-            disabled={disabled}
-            role="combobox"
-            aria-haspopup="dialog"
-            aria-expanded={phoneOpen}
-            aria-readonly={readOnly || undefined}
-            aria-required={rootProps.required || undefined}
-          >
-            {phoneValue}
-          </DrawerTrigger>,
-        )}
-        {hiddenInputs}
-        <DrawerContent
-          portalProps={portalProps as DrawerPortalProps}
-          data-slot="combobox-select-sheet"
-          className="r-combobox-select__sheet-popup"
-          // Picking needs no keyboard, so the sheet itself takes focus; creating a
-          // value is typing, so the input does.
-          initialFocus={create || creatable ? focusSearchInput : undefined}
-        >
-          <div className={sheetCss}>
-            <DrawerHeader className="r-combobox-select__sheet-header">
-              <DrawerTitle id={titleId} className="r-combobox-select__sheet-title">
-                {sheetTitle ?? inputLabel ?? (fieldLabel || placeholder)}
-              </DrawerTitle>
-              <DrawerClose aria-label={strings.close} />
-            </DrawerHeader>
-            <BaseCombobox.Root<OptionRecord<Option>, Multiple>
-              inline
-              multiple={multiple}
-              disabled={disabled}
-              readOnly={readOnly}
-              items={items as never}
-              value={controlValue as never}
-              onValueChange={handleSheetValueChange as never}
-              inputValue={inputValue}
-              defaultInputValue={defaultInputValue}
-              onInputValueChange={handleInputValueChange}
-              filter={filterOptions}
-              itemToStringLabel={itemToStringLabel}
-              itemToStringValue={itemToStringValue}
-              isItemEqualToValue={isItemEqualToValue}
-              autoHighlight={autoHighlight}
-            >
-              <div className="r-combobox-select__sheet-search">
-                <BaseCombobox.InputGroup className="r-combobox-select__control has-focus-visible:shadow-focus">
-                  <Search className="r-combobox-select__search-icon" aria-hidden />
-                  <BaseCombobox.Input
-                    {...inputProps}
-                    ref={setSearchInput}
-                    id={`${id}-search`}
-                    data-slot="combobox-select-input"
-                    className={inputClassName}
-                    aria-labelledby={titleId}
-                    placeholder={strings.search}
-                    readOnly={inputReadOnly}
-                    enterKeyHint="search"
-                  />
-                  {loadingIndicator}
-                </BaseCombobox.InputGroup>
-              </div>
-              <DrawerBody className="r-combobox-select__sheet-body">
-                <BaseCombobox.Status>{loadingMessage}</BaseCombobox.Status>
-                <BaseCombobox.List className="r-combobox-select__list" aria-busy={loading}>
-                  {renderGroup}
-                </BaseCombobox.List>
-                <BaseCombobox.Empty>{emptyMessage}</BaseCombobox.Empty>
-              </DrawerBody>
-            </BaseCombobox.Root>
-            {multiple ? (
-              <DrawerFooter>
-                <DrawerActions>
-                  <DrawerClose render={<Button size="lg" />}>{strings.done}</DrawerClose>
-                </DrawerActions>
-              </DrawerFooter>
-            ) : null}
-          </div>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
+  const listHeight = typeof listMaxHeight === "number" ? `${listMaxHeight}px` : listMaxHeight;
+  const popupPropsStyle = popupProps?.style;
+  const popupStyle = useMemo((): BaseCombobox.Popup.Props["style"] => {
+    if (listHeight === undefined) return popupPropsStyle;
+    return (state) =>
+      ({
+        ...(typeof popupPropsStyle === "function" ? popupPropsStyle(state) : popupPropsStyle),
+        "--combobox-select-list-max-height": listHeight,
+      }) as CSSProperties;
+  }, [listHeight, popupPropsStyle]);
 
   return (
     <BaseCombobox.Root<OptionRecord<Option>, Multiple>
       {...rootProps}
+      onOpenChange={handleOpenChange}
       id={id}
       multiple={multiple}
       disabled={disabled}
@@ -977,6 +584,7 @@ export function ComboboxSelect<
       autoHighlight={autoHighlight}
     >
       <BaseCombobox.InputGroup
+        ref={fieldRef}
         data-slot="combobox-select"
         data-status={status}
         className={controlClassName}
@@ -989,6 +597,7 @@ export function ComboboxSelect<
         <BaseCombobox.Positioner
           sideOffset={4}
           align="start"
+          {...(phone ? { side: listSide, collisionAvoidance: PHONE_LIST_COLLISION } : null)}
           {...positionerProps}
           className={positionerClassName}
         >
@@ -996,6 +605,7 @@ export function ComboboxSelect<
             initialFocus={false}
             finalFocus={false}
             {...popupProps}
+            style={popupStyle}
             data-slot="combobox-select-popup"
             className={popupClassName}
           >

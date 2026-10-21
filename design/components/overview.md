@@ -74,7 +74,7 @@ Two questions decide a picker: when the choice takes effect, and how many values
 | Another view of the same content | [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md) |
 | Sections of one page, each with its own content | [Tabs](../../packages/ui/src/components/tabs/tabs.md) |
 | One of up to 10 values | [Select](../../packages/ui/src/components/select/select.md) |
-| One of many values | A select with a search row at the top of its list ([ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md)) |
+| One of many values | A field people type into to filter the list, on a phone too ([ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md)). When people only pick and never type, a [Select](../../packages/ui/src/components/select/select.md): ComboboxSelect always brings up a phone's keyboard |
 | A few of several values | A multi-select: a box before each item, and the field shows the chosen values ([ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md) with `multiple`) |
 | A few of many values (people, agents, labels) | A multi-select with search: chosen values become chips in the field, and typing continues after them ([ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md) with `multiple`, or [Combobox](../../packages/ui/src/components/combobox/combobox.md) with its chips) |
 | To filter a list | A filter: a select or combobox opened from a [PickerTriggerButton](../../packages/ui/src/components/picker-trigger-button/picker-trigger-button.md) |

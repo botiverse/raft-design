@@ -10,7 +10,7 @@ related: [select, combobox, field]
 
 # ComboboxSelect
 
-ComboboxSelect is a field at the control height (44px on a phone, 32px on a desktop) that people type into to find one or a few values in a long list. On a phone it opens without the keyboard: the anchored list for up to 10 values, a bottom sheet with search for more. It takes an array of options, flat or grouped, and builds the field, the list, the chips and the empty and loading lines from it. It is exported from `@botiverse/raft-ui/wip`, and its API can change in any release.
+ComboboxSelect is a field at the control height (44px on a phone, 32px on a desktop) that people type into to find one or a few values in a long list, on a phone as on a desktop. It is for filtering, searching a server and creating values; a field people only pick from is a [Select](../select/select.md). It takes an array of options, flat or grouped, and builds the field, the list, the chips and the empty and loading lines from it. It is exported from `@botiverse/raft-ui/wip`, and its API can change in any release.
 
 ```example
 combobox-select/compositions/preview
@@ -25,7 +25,7 @@ The full choice between pickers is in [Choosing a component](../../../../../desi
 | One of many values, with search                                   | ComboboxSelect                      |
 | A few of many values (people, agents, labels)                     | ComboboxSelect with `multiple`      |
 | Values that come from a server as people type                     | ComboboxSelect with `remote`        |
-| One of up to 10 values                                            | [Select](../select/select.md)       |
+| One of up to 10 values, or any value picked without typing        | [Select](../select/select.md)       |
 | A filter over a list, or a layout the options array can't express | [Combobox](../combobox/combobox.md) |
 
 ## Variants
@@ -62,20 +62,25 @@ combobox-select/compositions/async-search
 - Filter the options as people type, unless `remote` is set.
 - With `multiple`, keep the list open when a value is chosen; clicking outside or Esc closes it. Typing continues after the last chip.
 - With `maxTagCount`, chips beyond the count collapse into a count while the field is not focused. All of them come back on focus.
+- The list grows to 16rem of rows, about 7 at 36px, then scrolls; the part row at its bottom shows there are more. `listMaxHeight` (a CSS length, or pixels) moves that cap. Raise it where the field has a tall space of its own below it, such as a tall bottom [Drawer](../drawer/drawer.md); lower it when the list would cover something people need to see while they choose.
 
 ### On a phone
 
-A phone here is a touch screen narrower than the desktop layout, `(width < 48rem) and (pointer: coarse)`. A desktop, and any screen with a mouse or a trackpad, keeps the text field above. On a phone, picking a value needs no typing, so the field is not a text input: it shows the chosen value like a [Select](../select/select.md) trigger, and a tap opens the list without bringing up the keyboard.
+A phone here is a touch screen narrower than the desktop layout, `(width < 48rem) and (pointer: coarse)`. ComboboxSelect is the same text field there as on a desktop, because typing is what it is for: a tap focuses it and brings up the keyboard, typing filters the list, and `create` and `remote` work in the field. There is no bottom sheet. When people only pick a value and never need to type, use a [Select](../select/select.md) instead: it opens without the keyboard.
 
-- **Up to 10 values** (`sheetThreshold`, counting every option that can be chosen, flat or in groups) open the anchored list, as a Select does. It opens below the field, or above when it fits there and not below, and keeps that side while it is open: it gets shorter rather than flipping when the window changes size. Picking a value closes it.
-- **More than 10 values** open a bottom sheet ([Drawer](../drawer/drawer.md)) titled with the field's label. The search input sits at its top and isn't focused, so the keyboard comes up only when someone taps it; the whole list scrolls below it, with the same options, groups and empty and loading lines as on a desktop. Picking a value closes the sheet. With `multiple`, the sheet stays open and Done in its footer closes it.
-- **Creating values** (`create`) and **remote results** (`remote`) need typing, so they always open the sheet, whatever the number of values. With `create`, the sheet's input takes focus as it opens.
+- The list opens below the field, or above when it fits there and not below, and keeps that side while it is open. As the keyboard comes up, the address bar moves or the filtered list shrinks and grows, it gets shorter or longer on its side rather than flipping, so it never jumps.
+- The input stays at 16px or more at every `size`, so iOS doesn't zoom into it.
+- Inside a bottom [Drawer](../drawer/drawer.md), give the drawer room for the field and its list above the keyboard, and raise `listMaxHeight` when the drawer is tall.
+
+```example
+combobox-select/compositions/in-drawer
+```
 
 ```example
 combobox-select/compositions/many-options
 ```
 
-This is only for picking from a list. [Combobox](../combobox/combobox.md), the free-text field for mentions and tags, will get its own phone pattern: the input pinned at the top of a sheet or a full screen, with the suggestions between it and the keyboard.
+This is for finding a value in a list. [Combobox](../combobox/combobox.md), the free-text field for mentions and tags, will get its own phone pattern: the input pinned at the top of a sheet or a full screen, with the suggestions between it and the keyboard.
 
 ## Content
 
@@ -88,5 +93,5 @@ ComboboxSelect wraps Base UI Combobox: a text input with `role="combobox"` that 
 
 - Name the field with a `FieldLabel` ([Field](../field/field.md)) whose `htmlFor` matches its `id`, or with `aria-label`.
 - Left Arrow at the start of the input moves focus to the chips, and Backspace or Delete removes the focused chip. Each remove button is named after its value (Remove Bugen).
-- On a phone the field is a button with `role="combobox"`, named the same way. With up to 10 values it opens a listbox and moves focus into it; arrow keys and Enter pick a value. With more, it opens a dialog titled with the field's label (`sheetTitle`, else `aria-label`, `aria-labelledby` or the `FieldLabel`), and focus moves into the sheet; the search input is named by the title, and arrow keys and Enter pick a value from it. Esc or the close button returns focus to the field.
-- Translate these announcements and the sheet's Search, Done and Close with `messages` when the interface is not in English.
+- On a phone the field is the same text input, named the same way.
+- Translate these announcements with `messages` when the interface is not in English.
