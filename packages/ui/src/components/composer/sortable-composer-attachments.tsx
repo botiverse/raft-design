@@ -1,10 +1,9 @@
+import { useHoldThenMoveTouchSensor, useMouseOnlyPointerSensor } from "../../lib/touch-drag";
 import {
   closestCenter,
   DndContext,
   DragOverlay,
   KeyboardSensor,
-  PointerSensor,
-  TouchSensor,
   pointerWithin,
   useSensor,
   useSensors,
@@ -136,8 +135,8 @@ function SortableComposerAttachmentsRoot({
   const lastReorderPointerRef = useRef<{ x: number; y: number } | null>(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 350, tolerance: 8 } }),
+    useMouseOnlyPointerSensor(6),
+    useHoldThenMoveTouchSensor(),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
@@ -303,7 +302,7 @@ export function SortableComposerAttachment({
     <div
       ref={setNodeRef}
       aria-label={`Reorder ${label}`}
-      className="w-max max-w-full shrink-0 cursor-grab touch-none active:cursor-grabbing"
+      className="w-max max-w-full shrink-0 cursor-grab touch-manipulation select-none [-webkit-touch-callout:none] active:cursor-grabbing"
       data-dragging={isDragging ? "true" : undefined}
       data-slot="sortable-composer-attachment"
       style={style}

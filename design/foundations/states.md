@@ -87,6 +87,18 @@ raft-ui implements the rule with `installInputModality()`. [ThemeProvider](../ab
 - Draw a focus indicator with `focus-visible:shadow-focus` (`has-focus-visible:shadow-focus` on a group), never `focus:` or `focus-within:`.
 - Stack the `keyboard:` variant on any indicator not drawn with `focus-ring`, such as an outline or the inset ring: `focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-line-strong`. It matches unless the last input was a pointer.
 
+## Dragging on a touch screen
+
+On a touch screen one long press can mean two things on an item that can be moved: its menu, or picking it up. Holding still is the menu; holding and then moving is the drag. This is how iOS separates them, and it means the menu and the drag never fight over the same moment.
+
+- Arm an item after the finger holds still for 500ms, the moment raft-ui's long-press menu opens (`ContextMenuTrigger`) and iOS's long press fires, so a menu and the armed item arrive together. Android's own long press comes at 400ms: its menu shows first and stays until the drag starts.
+- Start the drag on the first move of 10px after that.
+- Let go of the item if the finger moves more than 10px before the 500ms are up (that was a scroll), or if a second finger comes down (a pinch).
+- Lifting the finger after the hold without moving leaves the menu open and moves nothing.
+- Close the item's menu when its drag starts. The component that owns the menu closes it: an app that puts its own menu on a draggable item closes it in the drag's `onDragStart` (`SortableTabsList` passes one through).
+- Use the same hold, distance and tolerance for everything that can be dragged by touch (sidebar rows, tabs, task cards, attachments in the composer): raft-ui's `useHoldThenMoveTouchSensor` carries them, next to a pointer sensor that leaves fingers to it. A mouse or a pen still starts a drag after 5–6px of movement, with no hold.
+- Don't let the held item select its text or open the platform's own callout (`select-none`, `-webkit-touch-callout: none`), and keep it scrollable (`touch-manipulation`, not `touch-none`).
+
 ## Related
 
 - [Color](./color.md): the tokens named here.

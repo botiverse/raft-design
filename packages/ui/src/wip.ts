@@ -44,3 +44,10 @@ export type {
   MessageListJumpPillGroupProps,
   MessageListJumpPillProps,
 } from "./components/message-list/index";
+
+// The touch drag rule (states.md, "Dragging on a touch screen"): hold still
+// for a menu, hold and move to drag. It subclasses dnd-kit's TouchSensor
+// through fields dnd-kit types as private, so it stays here until that is
+// settled.
+export { useHoldThenMoveTouchSensor } from "./lib/touch-drag";
+export type { HoldThenMoveOptions } from "./lib/touch-drag";
