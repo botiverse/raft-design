@@ -18,7 +18,7 @@ Every Raft product. Which destinations a product has and in which order is on it
 | --- | --- | --- |
 | Destinations | The tab bar at the bottom, at most 5 slots, on top-level pages only ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) | The rail, icons only, with Help and Settings at its bottom ([AppRail](../../packages/ui/src/components/app-rail/app-rail.md)) |
 | Server | The workspace pill in the top bar of the first top-level page | The workspace button and the strip of server avatars at the left of the web top bar ([Page structure](./page-structure.md#the-web-top-bar)) |
-| Search | A Search slot on the tab bar, which opens search over the current tab, or a Search row at the top of the first top-level page ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-more)) | The search field in the center of the web top bar |
+| Search | A Search slot on the tab bar, which opens search as a page entered from the current tab (with Back, covering the tab bar), or a Search row at the top of the first top-level page ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-more)) | The search field in the center of the web top bar |
 | Notifications | The bell at the right of the first top-level page's top bar | The bell at the right of the web top bar |
 | Close a side panel | Back (it covers the page like a pushed page) | × |
 
@@ -49,6 +49,7 @@ The same thing should feel native wherever it is. What people carry between plat
 
 ### Going back
 
+- Show either Back or the tab bar, never both. A page with Back at its top was entered from somewhere, so it covers the tab bar; a page without Back is a tab's top-level page, so it shows the tab bar. The tab bar says which part of the product you are in, Back says where you came from; shown together, they give two ways out that lead to different places (stdrc, 2026-10-21). The mobile app and the phone web follow this one test on every page, Search included.
 - Put Back (`arrow-left`) at the top left of every pushed page. Back follows the browser history.
 - A link opened directly goes back one level at a time, up to the top-level page, so a shared link never leaves the person without a way out.
 - Make every tab of the tab bar open its top-level page. Tabs don't remember sub-pages, because a sub-page hides the tab bar and would leave no way back.

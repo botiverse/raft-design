@@ -38,7 +38,7 @@ How the tab bar works with Back and pushed pages, and how many destinations it h
 
 A product can give one of the tab bar's slots to Search and make its last tab More. Raft Chat does both, in its mobile app and on the phone web.
 
-- Treat Search as an action, not a destination: it takes a slot and looks like the other items, but it opens search over the current tab. The selected tab stays selected, Search is never selected and never shows an attention dot, and Back closes search and returns to where the person was.
+- Treat Search as an action, not a destination: it takes a slot and looks like the other items, but it opens search as a page entered from the current tab: it covers the bar like any pushed page, with Back at its top ([Navigation](../../../../../design/patterns/navigation.md#going-back)). Search is never selected and never shows an attention dot, and Back closes search and returns to the tab it was opened from.
 - Make the last tab More when a product has more destinations than fit. More's top-level page is a page of its own that lists the remaining destinations at its top; each row opens a pushed page under More, with Back. A link to one of those pages opens it under More, with More selected.
 
 raft-ui draws both with `MobileNavItem`: Search is an item that is never `selected`. Separate parts for a floating pill and a Search button (`MobileNavPill`, `MobileNavSearch`) are no longer planned.
@@ -46,7 +46,7 @@ raft-ui draws both with `MobileNavItem`: Search is an item that is never `select
 ## Behavior
 
 - Hide the bar while the on-screen keyboard is open. Pinned above the keyboard, it would cover the field being typed in and the composer. When the keyboard closes, bring the bar back with the platform's default transition, not an instant jump, so people can see the navigation return rather than wonder where it went.
-- Show the bar only on top-level pages. Search and pushed pages cover it.
+- Show the bar only on top-level pages: a page with Back never shows it ([Navigation](../../../../../design/patterns/navigation.md#going-back)). Search and pushed pages cover it.
 
 ## States
 
