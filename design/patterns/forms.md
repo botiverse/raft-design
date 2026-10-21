@@ -89,7 +89,7 @@ An option's height follows its content, and its padding is constant. This holds 
 select/compositions/option-height
 ```
 
-The components hold this themselves (`py-option-inset`, the space a 36px row leaves around one line, with `min-h-option` as the floor for an option with no line of text), so a product never pads an option of its own.
+The components hold this themselves (`py-option-inset`, the space a 36px row leaves around one line, with `min-h-option` as the floor for an option with no line of text), so a product never pads an option of its own. The menus no longer tighten to `py-1` on a short window (600px tall or less): a one-line item kept its 36px floor there anyway, so the change only squeezed items of two lines, and a short screen, such as a phone held sideways, may now scroll a menu a little more.
 
 ### Danger zone
 
