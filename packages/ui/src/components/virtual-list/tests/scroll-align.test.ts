@@ -1,12 +1,12 @@
 /** @vitest-environment jsdom */
 // The scroll position of `scrollTo({ align })` and the space a row takes. What only
 // a browser can show (the jump lands exactly before the first paint; rows' margins collapse as in a plain
-// list and every row sits at its offset) is in virtual-list.browser.test.tsx.
+// list and every row sits at its offset) is in VirtualList.browser.test.tsx.
 import { describe, expect, it } from "vite-plus/test";
 
-import { getAlignedScrollTop } from "./utils/align";
-import { NON_VIRTUAL_VISIBLE_ITEMS_STYLE, VIRTUAL_VISIBLE_ITEMS_STYLE } from "./utils/constants";
-import { measureRowSpans } from "./utils/measure";
+import { getAlignedScrollTop } from "../utils/align";
+import { NON_VIRTUAL_VISIBLE_ITEMS_STYLE, VIRTUAL_VISIBLE_ITEMS_STYLE } from "../utils/constants";
+import { measureRowSpans } from "../utils/measure";
 
 describe("getAlignedScrollTop", () => {
   const base = {

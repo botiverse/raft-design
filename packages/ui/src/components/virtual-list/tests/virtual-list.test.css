@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "../../styles.css";
+@import "../../../styles.css";
 
 body {
   margin: 0;

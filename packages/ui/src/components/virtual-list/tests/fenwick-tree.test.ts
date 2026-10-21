@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { FenwickTree } from "./fenwick-tree";
+import { FenwickTree } from "../utils/fenwick-tree";
 
 describe("FenwickTree", () => {
   it("sums estimated sizes plus the added deltas", () => {

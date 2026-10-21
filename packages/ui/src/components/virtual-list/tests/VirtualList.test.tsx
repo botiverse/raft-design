@@ -3,8 +3,8 @@ import { createRef, StrictMode, useLayoutEffect, useRef } from "react";
 import { cleanup, render, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
-import { VirtualList } from "./index";
-import type { VirtualListApi, VirtualListItemRenderProps } from "./index";
+import { VirtualList } from "../index";
+import type { VirtualListApi, VirtualListItemRenderProps } from "../index";
 
 // jsdom has no matchMedia; the list reads "(pointer:coarse)" once (a fine pointer here).
 beforeEach(() => {

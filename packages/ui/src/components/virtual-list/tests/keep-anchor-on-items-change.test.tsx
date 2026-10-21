@@ -7,8 +7,8 @@ import { createRef, useEffect } from "react";
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
-import { VirtualList } from "./index";
-import type { VirtualListApi, VirtualListItemRenderProps } from "./index";
+import { VirtualList } from "../index";
+import type { VirtualListApi, VirtualListItemRenderProps } from "../index";
 
 // jsdom has no ResizeObserver, so nothing is observed: rows are measured when they mount, which is all
 // these tests need.

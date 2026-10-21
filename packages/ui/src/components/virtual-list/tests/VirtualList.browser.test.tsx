@@ -19,8 +19,8 @@ import type { CSSProperties } from "react";
 import { cleanup, render } from "@testing-library/react";
 import { afterAll, afterEach, beforeAll, describe, expect, test } from "vite-plus/test";
 
-import { VirtualList } from "./index";
-import type { VirtualListApi, VirtualListItemRenderProps, VirtualListScrollAlign } from "./index";
+import { VirtualList } from "../index";
+import type { VirtualListApi, VirtualListItemRenderProps, VirtualListScrollAlign } from "../index";
 
 const it = test.skipIf(typeof window === "undefined");
 

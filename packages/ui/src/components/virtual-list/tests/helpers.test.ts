@@ -1,15 +1,15 @@
 /** @vitest-environment jsdom */
 import { describe, expect, it } from "vite-plus/test";
 
-import { FenwickTree } from "./utils/fenwick-tree";
-import { findItemsAnchor, getAnchoredRange } from "./utils/items-anchor";
-import { px } from "./utils/range";
+import { FenwickTree } from "../utils/fenwick-tree";
+import { findItemsAnchor, getAnchoredRange } from "../utils/items-anchor";
+import { px } from "../utils/range";
 import {
   getHorizontalRange,
   getVerticalRange,
   haveSameKeys,
   isHiddenByDisplayNone,
-} from "./utils/range";
+} from "../utils/range";
 
 const rows = (count: number, size: number) => new FenwickTree(count, size);
 

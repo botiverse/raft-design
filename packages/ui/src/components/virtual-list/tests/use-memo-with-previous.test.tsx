@@ -3,7 +3,7 @@ import { StrictMode } from "react";
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vite-plus/test";
 
-import { useMemoWithPrevious } from "./use-memo-with-previous";
+import { useMemoWithPrevious } from "../hooks/use-memo-with-previous";
 
 afterEach(cleanup);
 
