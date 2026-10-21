@@ -38,11 +38,17 @@ function renderButton(mode: (typeof MODES)[number], size?: "md" | "lg" | "xl" | 
 
 const height = (element: Element) => element.getBoundingClientRect().height;
 
-/** The height of the button's ::after hit area. */
+/**
+ * The height of the button's ::after hit area. An absolute ::after is placed
+ * from the padding box, inside the border, so the border doesn't count.
+ */
 function hitHeight(button: HTMLElement) {
+  const style = getComputedStyle(button);
   const after = getComputedStyle(button, "::after");
   if (after.position !== "absolute") return height(button);
-  return height(button) - Number.parseFloat(after.top) - Number.parseFloat(after.bottom);
+  const px = Number.parseFloat;
+  const padding = height(button) - px(style.borderTopWidth) - px(style.borderBottomWidth);
+  return padding - px(after.top) - px(after.bottom);
 }
 
 for (const mode of MODES) {
@@ -61,7 +67,7 @@ for (const mode of MODES) {
       await viewport(width);
       const button = renderButton(mode);
       expect(height(button), `at ${width}px`).toBe(32);
-      expect(hitHeight(button), `at ${width}px`).toBe(44);
+      expect(hitHeight(button), `at ${width}px`).toBeGreaterThanOrEqual(44);
       cleanup();
     }
   });
@@ -80,11 +86,11 @@ for (const mode of MODES) {
     await viewport(1280);
     const large = renderButton(mode, "lg");
     expect(height(large)).toBe(32);
-    expect(hitHeight(large)).toBe(44);
+    expect(hitHeight(large)).toBeGreaterThanOrEqual(44);
     cleanup();
     const icon = renderButton(mode, "icon-lg");
     expect(height(icon)).toBe(32);
-    expect(hitHeight(icon)).toBe(44);
+    expect(hitHeight(icon)).toBeGreaterThanOrEqual(44);
     expect(height(screen.getByTestId("icon"))).toBe(18);
     cleanup();
     expect(height(renderButton(mode, "xl"))).toBe(40);

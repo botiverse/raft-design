@@ -77,7 +77,8 @@ describe("on-frame", () => {
     expect(names).not.toContain("size-8");
     expect(names).toContain("[&_svg:not([class*='size-'])]:size-5");
     expect(names).not.toContain("[&_svg:not([class*='size-'])]:size-[18px]");
-    expect(names).toContain("after:-inset-1");
+    expect(names).toContain("after:-inset-[calc(--spacing(1)+1.5px)]");
+    expect(names).not.toContain("after:-inset-[calc(--spacing(1.5)+1.5px)]");
   });
 
   test("a text button is the top bar's 36px item: 15/20 700, 10px each side", () => {
