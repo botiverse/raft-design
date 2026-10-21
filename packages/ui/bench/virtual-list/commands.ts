@@ -46,10 +46,25 @@ const isTask = (event: TraceEvent) =>
 /** Per-thread totals of the main-thread work in a trace, and how much of the layout was forced by script. */
 function summarizeTrace(events: TraceEvent[]) {
   const mainThreads = new Set<string>();
+  const threadNames = new Map<string, string>();
   for (const event of events) {
-    if (event.ph === "M" && event.name === "thread_name" && event.args?.name === "CrRendererMain") {
-      mainThreads.add(`${event.pid}:${event.tid}`);
+    if (event.ph === "M" && event.name === "thread_name") {
+      threadNames.set(`${event.pid}:${event.tid}`, event.args?.name ?? "?");
+      if (event.args?.name === "CrRendererMain") {
+        mainThreads.add(`${event.pid}:${event.tid}`);
+      }
     }
+  }
+  // Other threads (raster, compositor, GPU): the time of their heaviest events, by thread name.
+  const otherThreads: Record<string, Record<string, number>> = {};
+  for (const event of events) {
+    const thread = `${event.pid}:${event.tid}`;
+    if (event.ph !== "X" || mainThreads.has(thread)) {
+      continue;
+    }
+    const name = (threadNames.get(thread) ?? "?").replace(/\d+$/, "");
+    const byName = (otherThreads[name] ??= {});
+    byName[event.name] = (byName[event.name] ?? 0) + (event.dur ?? 0) / 1000;
   }
   const main = events.filter(
     (event: TraceEvent) => mainThreads.has(`${event.pid}:${event.tid}`) && event.ph === "X",
@@ -176,7 +191,18 @@ function summarizeTrace(events: TraceEvent[]) {
           .map(([k, v]) => `${k} ${round(v)}`)
           .join(", ")}`,
     );
+  const threads = Object.fromEntries(
+    Object.entries(otherThreads).map(([name, byName]) => [
+      name,
+      Object.entries(byName)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 4)
+        .map(([event, ms]) => `${event} ${round(ms)}ms`)
+        .join(", "),
+    ]),
+  );
   return {
+    threads,
     busyPerFrame: {
       p50: round(busy[Math.floor(busy.length / 2)] ?? 0),
       p95: round(busy[Math.floor(busy.length * 0.95)] ?? 0),
@@ -307,11 +333,13 @@ export const benchCdp: BrowserCommand<[action: string, arg?: unknown]> = async (
       });
       await cdp.send("Tracing.start", {
         traceConfig: {
+          // Light categories: "v8" or the disabled-by-default timeline ones slow every call down.
+          // BENCH_TRACE_CATS adds some (say "cc,disabled-by-default-devtools.timeline" for raster).
           includedCategories: [
-            // Light categories: "v8" or the disabled-by-default timeline ones slow every call down.
             "devtools.timeline",
             "toplevel",
             "__metadata",
+            ...(typeof arg === "string" && arg !== "" ? arg.split(",") : []),
           ],
         },
         transferMode: "ReportEvents",

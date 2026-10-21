@@ -32,6 +32,7 @@ declare const __BENCH__: {
   lists: ("native" | "virtual")[];
   dirs: ("down" | "up")[];
   trace: boolean;
+  traceCategories: string;
   profile: boolean;
   label: string;
 };
@@ -221,7 +222,7 @@ async function runOnce(
   await sleep(300);
   await nextFrame();
   if (trace) {
-    await commands.benchCdp("traceStart");
+    await commands.benchCdp("traceStart", __BENCH__.traceCategories);
   }
 
   const step = dir === "down" ? STEP_PX : -STEP_PX;

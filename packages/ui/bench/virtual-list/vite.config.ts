@@ -29,6 +29,7 @@ export default defineConfig({
       lists: (env.BENCH_LISTS ?? "native,virtual").split(","),
       dirs: (env.BENCH_DIRS ?? "down,up").split(","),
       trace: env.BENCH_TRACE === "1",
+      traceCategories: env.BENCH_TRACE_CATS ?? "",
       profile: env.BENCH_PROFILE === "1",
       label: env.BENCH_LABEL ?? `cpu${env.BENCH_CPU ?? 1}`,
     }),

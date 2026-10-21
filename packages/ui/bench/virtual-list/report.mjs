@@ -30,6 +30,8 @@ for (const file of files) {
         (key) => `${key} ${median(traces.map((t) => t.forced[key]))}`,
       );
       const t0 = traces[0];
+      for (const [thread, top] of Object.entries(t0.threads ?? {}))
+        console.log(`  thread ${thread}: ${top}`);
       console.log(
         `  busy/frame ${name}: ${JSON.stringify(t0.busyPerFrame)}\n    ${t0.busiest.join("\n    ")}`,
       );
