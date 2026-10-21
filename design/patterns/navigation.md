@@ -8,6 +8,14 @@ redirectFrom: [decisions/0007-workspace-switcher-sheet]
 
 A product's destinations are on the tab bar on a phone and on the rail on desktop. Where you are is always yellow. Going back follows the history; a popup closes with ×, Esc or a press outside it. People move between many places and many servers in a day, so every product puts these in the same spots and marks them the same way.
 
+## Principles
+
+Every navigation rule on this page and on the pages that link to it follows from these three. Decided on 2026-10-21 by stdrc; Lagoon owns the navigation spec they come from.
+
+1. **One structure, each platform's own look.** Phone web, iOS and Android have the same destinations, in the same order, at the same levels, with the same attention-dot rules; only three things look native: the tab bar, the system Back gesture and the page transitions ([What each platform draws](#what-each-platform-draws)). People carry where things are from one device to another, not how a bar is drawn, and each platform's own tab bar and gestures are what its people already know.
+2. **One "where am I" per page.** A tab's top-level page says where you are with the tab bar; a pushed page says it with Back. A page never shows both, because the tab bar says which part of the product you are in and Back says where you came from: shown together, they give two ways out that lead to different places.
+3. **Pages of the same kind look the same.** Every top-level page has one kind of top, and every pushed page has one kind of top ([Page structure](./page-structure.md#phone)). A change to one of them changes the whole kind, so people never have to relearn a page of a kind they already know.
+
 ## When it applies
 
 Every Raft product. Which destinations a product has and in which order is on its own page ([Raft Chat](../products/raft-chat/README.md#destinations)).
@@ -16,22 +24,25 @@ Every Raft product. Which destinations a product has and in which order is on it
 
 | Need | Phone | Desktop |
 | --- | --- | --- |
-| Destinations | The tab bar at the bottom, at most 5 slots, on top-level pages only ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) | The rail, icons only, with Help and Settings at its bottom ([AppRail](../../packages/ui/src/components/app-rail/app-rail.md)) |
-| Server | The workspace pill in the top bar of the first top-level page | The workspace button and the strip of server avatars at the left of the web top bar ([Page structure](./page-structure.md#the-web-top-bar)) |
-| Search | A Search tab on the tab bar, a top-level page like the others (no Back, the bar stays), or a Search row at the top of the first top-level page ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-more)) | The search field in the center of the web top bar |
-| Notifications | The bell at the right of the first top-level page's top bar | The bell at the right of the web top bar |
-| Close a side panel | Back (it covers the page like a pushed page) | × |
+| Destinations | The tab bar at the bottom, at most 5 slots, on top-level pages only ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) | The rail, icons only, with Help and Settings at its bottom, and the bell above them when there is no web top bar ([AppRail](../../packages/ui/src/components/app-rail/app-rail.md)) |
+| Server | The server switcher in the top bar of the first top-level page; its list opens as a popover ([Servers](#servers)) | The workspace button and the strip of server avatars at the left of the web top bar ([Page structure](./page-structure.md#the-web-top-bar)) |
+| Search | The Search tab on the tab bar, a top-level page like the others (no Back, the bar stays). It is the only way in to searching everything ([Search on a phone](#search-on-a-phone)) | The search field in the center of the web top bar |
+| Notifications | The bell at the right of the first top-level page's top bar, and on no other top-level page | The bell at the right of the web top bar; without the top bar, at the bottom of the rail, above Help |
+| Close a side panel (a thread, a profile) | Back: on a phone a thread is a pushed page, and a profile covers the page like one | × beside the main area, Back when it covers it ([Closing](#closing)) |
 
 In Raft Chat the first top-level page is Home ([Raft Chat — Home](../products/raft-chat/home.md)).
 
 ## Rules
 
-### One structure, each platform's own look
+### What each platform draws
 
-- Keep the destinations, their order and the attention-dot rules the same on phone web and in the iOS and Android apps.
-- Draw the tab bar in each platform's own way: phone web uses raft-ui's [MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md) edge bar, iOS the system tab bar, Android its bottom navigation bar. Don't imitate one platform's look on another, such as a floating glass bar on web.
+Principle 1 keeps three things native: the tab bar, system Back and the page transitions, with the platform's pull to refresh. Everything else is drawn by Raft and is the same on phone web, iOS and Android.
 
-The same thing should feel native wherever it is. What people carry between platforms is where things are, not how the bar is drawn.
+- Keep the destinations, their order, their levels and the attention-dot rules the same on phone web and in the iOS and Android apps.
+- Draw the tab bar in each platform's own way: phone web uses raft-ui's [MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md) edge bar, iOS the system tab bar, Android its bottom navigation bar. Don't imitate one platform's look on another, such as a floating glass bar on web or a floating pill anywhere.
+- Use the platform's own system Back: the edge swipe on iOS, the system Back button on Android, the browser's Back on the web. What each one does is in [Going back](#going-back).
+- Use the platform's default transition when a page is pushed or popped ([Motion](../foundations/motion.md#usage)), and the platform's own pull to refresh.
+- Draw the top bars, Back, the titles and the filter rows with Raft's own parts ([Page structure](./page-structure.md#phone)), never with a platform's navigation bar. Their rules, such as no large title, are Raft's own and don't change with a platform's default.
 
 ### Where you are
 
@@ -41,6 +52,8 @@ The same thing should feel native wherever it is. What people carry between plat
 - Put a yellow location tile beside the title of the place the person is in, such as a channel ([IconTile](../../packages/ui/src/components/icon-tile/icon-tile.md)).
 - Name a rail item in a tooltip to its right. The rail shows no labels, so that it stays 56px and its top-left corner stays square ([Spacing](../foundations/spacing.md#heights)).
 - Show an attention dot on a destination when something in it waits for the person ([States](../foundations/states.md)). Which destinations carry one is on the product's page.
+- Never show the dot on the selected destination, with no exception for any destination or product: the person is already there, and fewer rules are easier to keep.
+- Put only the dot on a destination's icon, never a number ([Badge](../../packages/ui/src/components/badge/badge.md#rules)): the count belongs inside the page, next to what it counts.
 
 ### Going somewhere
 
@@ -49,12 +62,26 @@ The same thing should feel native wherever it is. What people carry between plat
 
 ### Going back
 
-- Show either Back or the tab bar, never both. A page with Back at its top was entered from somewhere, so it covers the tab bar; a page without Back is a tab's top-level page, so it shows the tab bar. The tab bar says which part of the product you are in, Back says where you came from; shown together, they give two ways out that lead to different places (stdrc, 2026-10-21). The mobile app and the phone web follow this one test on every page.
-- Put Back (`arrow-left`) at the top left of every pushed page. Back follows the browser history.
+- Show either Back or the tab bar, never both (principle 2). A page with Back at its top was entered from somewhere, so it covers the tab bar; a page without Back is a tab's top-level page, so it shows the tab bar. The mobile app and the phone web follow this one test on every page.
+- Make every page a top-level page or a pushed page; there is no third kind. Which pages are which is in [Page structure](./page-structure.md#phone).
+- Give every pushed page Back, including a gate page in front of a feature, a page while it loads and a page that failed to load: without it a page covered by nothing but itself is a dead end.
+- Put Back (`arrow-left`) at the top left of every pushed page.
+- Treat the iOS edge swipe and the Android system Back button as a press on Back. On Android, system Back on a pushed page returns to the page before it; on a top-level page other than the first, it opens the first top-level page; on the first, it leaves the app.
+- On the web, the browser's Back follows the browser's history, on top-level pages too; it doesn't go to the first top-level page the way Android's does. The browser's Back is the web's system Back, which belongs to each platform (principle 1).
 - A link opened directly goes back one level at a time, up to the top-level page, so a shared link never leaves the person without a way out.
-- Make every tab of the tab bar open its top-level page. Tabs don't remember sub-pages, because a sub-page hides the tab bar and would leave no way back.
+- Keep each top-level page's own state when people switch to another tab and back: its scroll position and its filters (what Search keeps is in [Search on a phone](#search-on-a-phone)). Don't keep pushed pages: a tab always reopens on its top-level page, because a pushed page hides the tab bar and would leave no way back.
+- Tapping the selected tab scrolls its top-level page to the top. At the top it does nothing else and resets nothing. On Search it also focuses the search field. The gesture means the same on every tab, so don't give one tab another meaning, such as jumping to the first unread item; a filter does that instead.
 - Push the pages listed on a More tab under More, with Back to it, and open a link to one of them there too: the selected tab always says which part of the product the person is in.
-- Make Search a tab where it is on the tab bar: its page has no Back, the bar stays with Search selected, and switching to another tab and back keeps the query, the filters and the results. Opening a result is entering a page: it has Back, covers the bar, and Back returns to the results (stdrc, 2026-10-21; as in Slack).
+
+### Search on a phone
+
+- Reach search over everything only from the Search tab. Don't add a Search button or a Search row on another top-level page: one way in is easier to find and to remember.
+- Make Search a tab like the others: its page has no Back, and the bar stays with Search selected (stdrc, 2026-10-21; as in Slack). Its top is in [Page structure](./page-structure.md#phone).
+- Don't open the keyboard when people switch to Search: the tab bar and the selected tab stay in view. The keyboard opens when they tap the field, or when they tap Search again on the tab bar, which focuses the field.
+- Show the recent searches while the field is empty.
+- Keep the query, the filters, the results and their scroll position when people switch to another tab and back.
+- Opening a result is entering a page: it has Back and covers the bar, whatever the result opens. Back returns to the results at the same scroll position and highlights the result just opened, as for a jump ([Going somewhere](#going-somewhere)), so people see where they came from.
+- A search started inside a place, such as a channel's Search button, searches only that place. It opens as a pushed page that says its scope ("In #launch-week") and offers to search everything. Searching everything switches to the Search tab with the same query; the scoped page doesn't turn into the Search tab. A search keeps the scope of the place it starts from, and searching everything has its own tab.
 
 ### Closing
 
@@ -66,7 +93,7 @@ The same thing should feel native wherever it is. What people carry between plat
 ### Servers
 
 - On desktop, open the server list as a menu under the workspace button of the top bar. The strip beside the button switches with one click; it shows as many server avatars as fit, at least 2, and marks the current one with a bar under its avatar.
-- On a phone, open the server list from the pill as a bottom sheet: the list is within reach of the thumb and has room for many servers. Raft Chat doesn't follow this yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)).
+- On a phone, open the server list from the server switcher as a popover anchored under the top bar, 8px from each side. This is what the product ships, and the system follows it (stdrc, 2026-10-21); a bottom sheet for it is not planned.
 - Show an attention dot on the pill and on a server's avatar when another server has unread items. How the list is built is in [Built from existing parts](../components/overview.md#switching-servers).
 
 ### Several views of one place
@@ -83,3 +110,4 @@ A place can hold several kinds of content, such as a channel's chat, tasks and f
 - [Page structure](./page-structure.md): the regions.
 - [States](../foundations/states.md): selected and unread.
 - [Responsive layout](./responsive.md): what becomes a pushed page on a phone.
+- [MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md): the phone web's tab bar.
