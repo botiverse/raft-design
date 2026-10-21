@@ -18,11 +18,13 @@ Every screen of every Raft product. Which destinations a product has, and what e
 
 | Page | Top | Middle | Bottom |
 | --- | --- | --- | --- |
-| Top-level page: a destination on the tab bar | The yellow frame: the status bar, then a large title with the page's name. The title may have one subtitle line, or one line saying who is working ([Working agents](../people-and-agents/working-agents.md#where-working-shows)). A page that shows the workspace pill or icon buttons has a 56px navigation row above the title | A list straight on paper, or inset groups | The tab bar ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) |
+| Top-level page: a destination on the tab bar | The yellow frame: the status bar, then one 56px navigation row (`PanelSectionHeader`) with the page's name in `text-headline` at the start and up to one subtitle line under it (a count in Space Mono, or who is working, [Working agents](../people-and-agents/working-agents.md#where-working-shows)); icon buttons at the end. On the first page the workspace pill takes the name's place. A page with filters puts them in one row under it, on paper with a seam below, pinned under the bar while the list scrolls | A list straight on paper, or inset groups | The tab bar ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) |
 | Pushed page | A white top bar, 56px, with a seam under it (`PanelHeader`, [Panel](../../packages/ui/src/components/panel/panel.md)): Back, the title and an optional subtitle, and at most two icon buttons on the right | The content | The composer on pages that can send a message; nothing on other pages, because the page covers the tab bar |
 | Overlay | — | A menu (press and hold, to act on one thing), a select list (to pick a value), a popover (a short list, such as Working now or the notifications), a dialog (to confirm), a bottom sheet (a short explanation, such as adding Raft to the Home Screen) | — |
 
-- Give every top-level page its large title, including the first one: the workspace pill says which server you are in, and the title says which page, at the same height on every tab. Raft Chat doesn't show the large title yet ([Raft Chat](../products/raft-chat/README.md#differences-from-the-shared-patterns)); whether to keep it is in [Open questions](../decisions/open-questions.md).
+- Give every top-level page the same top: the 56px navigation row, nothing above or below it but the filter row. No large title, and no icon tile before the name: the tab bar already shows the page's icon, selected, and on a phone the 53px a large title takes belongs to the content. Decided on 2026-10-21 (stdrc, artin); the mobile app and the phone web are the same.
+- Show the name and the subtitle as soon as the page opens; never hide them until the list scrolls.
+- Make the page's name its one level-1 heading. On the first page, where the pill takes its place, give the page a visually hidden level-1 heading with its name.
 - Make the status bar and the browser's theme color follow the top: the frame on a top-level page, paper on a pushed page, so the page runs to the top edge of the screen.
 
 ```example

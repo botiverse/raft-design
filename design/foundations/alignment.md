@@ -18,7 +18,7 @@ Align what the eye sees, not the box. Each kind of element has one point that la
 | Element | What lands on the line | Example |
 | --- | --- | --- |
 | Anything with a shape: tiles, avatars, cards, inputs, the composer, the workspace pill, filled buttons | The edge of the shape; vertically, the shape is centered. Beside plain text in a row, the text instead ([A shape beside plain text](#a-shape-beside-plain-text)) | The workspace pill's left edge is at 16px; a pink Done button in a top bar ends 16px from the right |
-| Text | The letters: horizontally, the stem of the first letter; vertically, the center of the cap height | A large title shifts left by 0.05em; in a 56px header, a `text-headline` page name and the text in the pill share one center line; the first tool icon in the composer lines up with the text typed in it |
+| Text | The letters: horizontally, the stem of the first letter; vertically, the center of the cap height | In a 56px header, a `text-headline` page name and the text in the pill share one center line; the first tool icon in the composer lines up with the text typed in it |
 | Frameless icon button | The icon box. The button itself is invisible, and its empty hit area extends past the line | The last icon box in a desktop panel header ends at 20px |
 
 ## A control and its label

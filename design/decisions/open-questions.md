@@ -9,7 +9,6 @@ In these places the same thing is drawn in more than one version, and the choice
 
 | Where | Versions | Default | The product ships |
 | --- | --- | --- | --- |
-| The top bar of a phone's top-level pages | With the page name as a large title, or with one 56px navigation row (Home shows only the workspace pill; Tasks, Members and Settings put their name in the row in `text-headline`) | With the page name as a large title ([Page structure](../patterns/page-structure.md#phone)) | The navigation row (`Sidebar.tsx`, `TasksPanel.tsx` in the web app) |
 
 ## Settled by the product
 
@@ -17,6 +16,7 @@ These were open, and the web app (Raft's product code) now ships one version. Th
 
 | Where | The product ships | Where in the web app |
 | --- | --- | --- |
+| The top bar of a phone's top-level pages | One 56px navigation row, the name (or on Home the workspace pill) in it, no large title, no icon tile ([Page structure](../patterns/page-structure.md#phone)) | `components/layout/Sidebar.tsx`, `components/task/TasksPanel.tsx`, `components/thread/ThreadsInbox.tsx` |
 | The top bar of a phone's pushed pages | White (paper), with a seam under it; the location tile stays a yellow sticker | `components/ui/PanelHeader.tsx` on raft-ui `PanelHeader` |
 | The desktop rail | Icons only, 56px plus the seam; names are in tooltips. The top-left corner stays square ([Spacing](../foundations/spacing.md#heights)) | `components/layout/LeftRail.tsx` |
 | Tabs | The yellow sticker. The underline stays a variant of [Tabs](../../packages/ui/src/components/tabs/tabs.md#variants) | `components/message/ChatPanel.tsx`, `components/agent/AgentDetailPanel.tsx` |
@@ -25,5 +25,5 @@ These were open, and the web app (Raft's product code) now ships one version. Th
 ## Related
 
 - [Panel](../../packages/ui/src/components/panel/panel.md): the phone top bars.
-- [Page structure](../patterns/page-structure.md#phone): the top-level page and the large title.
+- [Page structure](../patterns/page-structure.md#phone): the top-level page.
 - [Raft Chat](../products/raft-chat/README.md): Home and the other top-level pages.
