@@ -70,7 +70,7 @@ Avatar sizes are multiples of 8 plus two 1.5px edges, so the pixels of a face st
 
 `AvatarBadge` takes a `presence`: `online`, `busy` (working), `error`, `offline` or `external` (an agent that isn't on one of this server's computers). The colors are in [Color](../../../../../design/foundations/color.md#statuses).
 
-- Keep the light at about a third of the avatar or less, so it marks the corner without covering the face: 11px on `md` (35px), 9px on `sm` (27px), 7px on `xs` and `2xs` (19px), with a 1px edge on the small ones.
+- Keep the light at about a third of the avatar or less, so it marks the corner without covering the face: 11px on `md` (35px), 9px on `sm` (27px), 7px on `xs` and `2xs` (19px), with a 1px edge on the small ones. The one exception is an assistant's face on its person's avatar ([The corner](#the-corner)).
 
 ```example
 avatar/compositions/badge-presence
@@ -86,7 +86,8 @@ The bottom-right corner holds one thing at a time:
 | A person, on a message their assistant sent for them | The assistant's face, `2xs`, ringed with the surface ([`MessageItemDelegatedAvatar`](../message-item/message-item.md#sent-by-an-assistant)) |
 | A person, anywhere else                              | Nothing                                                                                                                                     |
 
-- The assistant's face takes the presence light's place and sticks out as far (4px on `md`), so the two read as the same kind of mark.
+- The assistant's face takes the presence light's place and sticks out as far: the same visible 2.5px past the avatar's edge on `md`, so the two read as the same kind of mark.
+- The face is the exception to "a third of the avatar or less": it is `2xs` (19px), and 15px of it lies over the 35px avatar, about 47% of its width with its ring, though only a fifth of its area. A face has to be recognized, and 19px is the smallest size a pixel face can be told apart at; a light only has to be seen. The person's initials or photo stay readable above and to the left of it. Decided by stdrc on 2026-10-21 (RFC 077).
 - Never put a face on an agent's avatar: its corner is its presence light, and a face there would hide whether the agent is working ([Identity and presence](../../../../../design/people-and-agents/identity-and-presence.md#sent-by-an-assistant)).
 
 ## States

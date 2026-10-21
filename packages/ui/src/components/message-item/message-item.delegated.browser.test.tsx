@@ -176,15 +176,15 @@ it("a short label takes only its own width and truncates nothing", () => {
   expect(truncated(screen.getByTestId("owner"))).toBe(false);
 });
 
-function Faces({ popupOpen = false }: { popupOpen?: boolean }) {
+function Faces({ popupOpen = false, deleted = false }: { popupOpen?: boolean; deleted?: boolean }) {
   return (
     <ThemeProvider>
       <div style={{ width: 560 }}>
-        <MessageItem data-popup-open={popupOpen ? "" : undefined}>
+        <MessageItem data-testid="row" data-popup-open={popupOpen ? "" : undefined}>
           <MessageItemAvatarSlot>
             <Avatar size="md" type="human" data-testid="owner-avatar">
               <AvatarFallback>A</AvatarFallback>
-              <MessageItemDelegatedAvatar data-testid="face">
+              <MessageItemDelegatedAvatar data-testid="face" deleted={deleted}>
                 <Avatar size="2xs" type="agent" data-testid="face-avatar" />
               </MessageItemDelegatedAvatar>
             </Avatar>
@@ -218,9 +218,15 @@ it("the face is 19px and sticks out of the owner's avatar as far as an md presen
   expect(faceAvatar.left).toBe(face.left);
   expect(faceAvatar.top).toBe(face.top);
 
-  // The same overhang past the avatar's edge as the presence light.
-  expect(face.right - owner.right).toBeCloseTo(light.right - agent.right, 1);
+  // The same visible overhang past the avatar's outer edge as the presence
+  // light: both rings (the light's outline, the face's shadow) are the
+  // surface, so what shows is the face's own edge, 2.5px out (the browser
+  // snaps the 1.5px ink edge, so 2.5 to 3).
+  const overhang = face.right - owner.right;
+  expect(overhang).toBeCloseTo(light.right - agent.right, 1);
   expect(face.bottom - owner.bottom).toBeCloseTo(light.bottom - agent.bottom, 1);
+  expect(overhang).toBeGreaterThanOrEqual(2.5);
+  expect(overhang).toBeLessThanOrEqual(3);
   const style = getComputedStyle(screen.getByTestId("face"));
   expect(style.right).toBe("-4px");
   expect(style.bottom).toBe("-4px");
@@ -250,5 +256,29 @@ it("the ring takes the row's fill while the row is highlighted", () => {
   const canvas = getComputedStyle(screen.getByTestId("canvas")).color;
   const shadow = getComputedStyle(screen.getByTestId("face")).boxShadow;
   expect(shadow).toContain(`${pressed} 0px 0px 0px 1.5px`);
+  // One value: the row paints the same fill the ring reads.
+  expect(getComputedStyle(screen.getByTestId("row")).backgroundColor).toBe(pressed);
   expect(shadow).toContain(`${canvas} 0px 0px 0px 1.5px`);
+});
+
+it("a deleted assistant's face is grayed over an opaque backing, never the owner's avatar", () => {
+  render(<Faces deleted />);
+  const face = getComputedStyle(screen.getByTestId("face"));
+  const canvas = getComputedStyle(screen.getByTestId("canvas")).color;
+  expect(face.backgroundColor).toBe(canvas);
+  const inner = getComputedStyle(screen.getByTestId("face-avatar"));
+  expect(inner.filter).toContain("grayscale(1)");
+  expect(Number(inner.opacity)).toBeLessThan(1);
+});
+
+it("the face's placeholder icon is sized for 2xs, not for the owner's md avatar", () => {
+  render(<Faces />);
+  const icon = screen.getByTestId("face-avatar").querySelector("svg")!;
+  const ownerIcon = screen.getByTestId("owner-avatar").querySelector(":scope > span > svg");
+  expect(icon.getBoundingClientRect().width).toBe(12);
+  expect(icon.getBoundingClientRect().width).toBeLessThan(
+    ownerIcon ? ownerIcon.getBoundingClientRect().width : 18,
+  );
+  const box = screen.getByTestId("face-avatar").getBoundingClientRect();
+  expect(icon.getBoundingClientRect().right).toBeLessThanOrEqual(box.right);
 });

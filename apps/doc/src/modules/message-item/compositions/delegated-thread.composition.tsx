@@ -8,11 +8,9 @@ import {
   MessageItemAvatarSlot,
   MessageItemBody,
   MessageItemContent,
-  MessageItemDelegatedAvatar,
-  MessageItemDelegatedBy,
-  MessageItemDelegatedByName,
   MessageItemHeader,
   MessageItemSender,
+  MessageItemSenderGroup,
   MessageItemTime,
   MessageList,
   MessageReferenceText,
@@ -21,6 +19,11 @@ import {
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
 } from "@botiverse/raft-ui";
+import {
+  MessageItemDelegatedAvatar,
+  MessageItemDelegatedBy,
+  MessageItemDelegatedByName,
+} from "@botiverse/raft-ui/wip";
 
 export function MessageItemDelegatedThreadContent() {
   return (
@@ -75,7 +78,9 @@ export function MessageItemDelegatedThreadContent() {
           </MessageItemAvatarSlot>
           <MessageItemContent>
             <MessageItemHeader>
-              <MessageItemSender>Alice</MessageItemSender>
+              <MessageItemSenderGroup>
+                <MessageItemSender>Alice</MessageItemSender>
+              </MessageItemSenderGroup>
               <MessageItemDelegatedBy>
                 sent by <MessageItemDelegatedByName>Friday</MessageItemDelegatedByName>
               </MessageItemDelegatedBy>

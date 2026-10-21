@@ -85,7 +85,11 @@ export function MessageItemDelegatedByButton({
   });
 }
 
-export type MessageItemDelegatedAvatarProps = Omit<AvatarBadgeProps, "presence" | "offset">;
+export type MessageItemDelegatedAvatarProps = Omit<AvatarBadgeProps, "presence" | "offset"> & {
+  /** The assistant was deleted: its face is grayed and faded, over the
+   *  row's surface, never the owner's avatar. */
+  deleted?: boolean;
+};
 
 /**
  * The assistant's face on its owner's avatar, in the corner a presence light
@@ -96,6 +100,7 @@ export type MessageItemDelegatedAvatarProps = Omit<AvatarBadgeProps, "presence" 
  */
 export function MessageItemDelegatedAvatar({
   className,
+  deleted,
   ...props
 }: MessageItemDelegatedAvatarProps) {
   const { delegatedAvatar } = messageItem();
@@ -103,6 +108,7 @@ export function MessageItemDelegatedAvatar({
   return (
     <AvatarBadge
       aria-hidden
+      data-deleted={deleted ? "" : undefined}
       className={delegatedAvatar({ className })}
       render={<span />}
       {...props}

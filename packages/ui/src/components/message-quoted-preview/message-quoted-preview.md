@@ -30,7 +30,7 @@ message-quoted-preview/compositions/quoted-preview
 
 - `MessageQuotedPreview`: the preview: a 2px `line-seam` bar on the left, no fill, `foreground-muted` text. Required.
 - `MessageQuotedPreviewHeader`: one line. Required.
-  - `MessageQuotedPreviewAuthor`: an `xs` [Avatar](../avatar/avatar.md), `MessageQuotedPreviewAuthorName` and an optional `MessageQuotedPreviewAuthorMeta` (a role). `MessageQuotedPreviewAuthorDelegatedBy` follows the name when an assistant sent the quoted message for its author: "(sent by Friday)".
+  - `MessageQuotedPreviewAuthor`: an `xs` [Avatar](../avatar/avatar.md), `MessageQuotedPreviewAuthorName` and an optional `MessageQuotedPreviewAuthorMeta` (a role). `MessageQuotedPreviewAuthorDelegatedBy` follows the name when an assistant sent the quoted message for its author: "(sent by Friday)". It is experimental, exported from `@botiverse/raft-ui/wip`.
   - `MessageQuotedPreviewChannel`: where it was posted.
   - `MessageQuotedPreviewThread`: a thread marker. Optional.
   - `MessageQuotedPreviewTimestamp`: at the end of the line, in Space Mono.

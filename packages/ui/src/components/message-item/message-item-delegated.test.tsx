@@ -55,15 +55,24 @@ test("the label is a span with its slot, and its words are the product's", () =>
   expect(screen.getByTestId("header").textContent).toBe("Alicesent by Friday");
 });
 
-test("the label is one step stronger than the role, never truncates as a whole and caps at 45%", () => {
+test("the label is one step stronger than the role and never truncates as a whole", () => {
   render(<MessageItemDelegatedBy data-testid="label">sent by</MessageItemDelegatedBy>);
   const t = tokens(screen.getByTestId("label"));
   expect(t).toContain("text-foreground-muted");
   expect(t).toContain("text-caption");
-  expect(t).toContain("shrink-0");
-  expect(t).toContain("max-w-[45%]");
-  expect(t).toContain("whitespace-pre");
+  // At least as wide as its words; plain words wrap rather than truncate.
+  expect(t).toContain("min-w-min");
+  expect(t).toContain("whitespace-pre-wrap");
   expect(t).not.toContain("truncate");
+});
+
+test("with a name, the label caps at 45% and its words never wrap", () => {
+  render(<MessageItemDelegatedBy data-testid="label">sent by</MessageItemDelegatedBy>);
+  const t = tokens(screen.getByTestId("label"));
+  for (const slot of ["message-item-delegated-by-name", "message-item-delegated-by-button"]) {
+    expect(t).toContain(`has-data-[slot=${slot}]:max-w-[45%]`);
+    expect(t).toContain(`has-data-[slot=${slot}]:whitespace-pre`);
+  }
 });
 
 test("only the assistant's name truncates", () => {
@@ -93,7 +102,7 @@ test("the name can be a link the product chooses", () => {
   expect(link.getAttribute("href")).toBe("#friday");
 });
 
-function Face(props: { className?: string; "aria-hidden"?: boolean }) {
+function Face(props: { className?: string; deleted?: boolean }) {
   return (
     <ThemeProvider>
       <Avatar size="md" type="human">
@@ -153,4 +162,16 @@ test("the quoted author's label is its own part that never truncates", () => {
   expect(tokens(screen.getByTestId("header"))).toContain(
     "has-data-[slot=message-quoted-preview-author-delegated-by]:flex-wrap",
   );
+});
+
+test("the face is backed by the row's surface, and a deleted assistant's is grayed by the part", () => {
+  render(<Face deleted />);
+  const face = screen.getByTestId("face");
+  expect(face.getAttribute("data-deleted")).toBe("");
+  const t = tokens(face);
+  expect(t).toContain("bg-layer-canvas");
+  expect(t).toContain("data-deleted:*:data-[slot=avatar]:grayscale");
+  cleanup();
+  render(<Face />);
+  expect(screen.getByTestId("face").hasAttribute("data-deleted")).toBe(false);
 });

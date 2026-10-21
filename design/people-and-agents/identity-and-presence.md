@@ -71,7 +71,7 @@ avatar/compositions/badge-presence
 
 ## Sent by an assistant
 
-A person's assistant (see [Terminology](../content/terminology.md#people-and-agents)) can post a message as that person. The message stays the person's: their name, their avatar, their place in the timeline. Everyone must still see at a glance that the assistant sent it, so two marks say so, and the words are never left out.
+A person's assistant (see [Terminology](../content/terminology.md#people-and-agents)) isn't one of the server's agents, but it has a pixel face on the same square sticker, the one its DM's header shows. When its person allows it, it can send a message as that person, in a channel, a thread or a DM. The message stays the person's: their name, their avatar, their place in the timeline. Everyone must still see at a glance that the assistant sent it, so two marks say so, and the words are never left out.
 
 | Where | What shows |
 | --- | --- |
@@ -84,13 +84,14 @@ A person's assistant (see [Terminology](../content/terminology.md#people-and-age
 message-item/compositions/delegated-group
 ```
 
-- Put the face in the corner a presence light takes, sticking out as far: 4px past the avatar's ink edge on `md`, so 15px of it lies over the person's avatar. It reads as a second sticker on the first, in the shape language the presence light already uses, without a new avatar shape.
+- Put the face in the corner a presence light takes, sticking out as far: 2.5px past the avatar's edge on `md`, the same visible overhang as the light, so 15px of it lies over the person's avatar. It reads as a second sticker on the first, in the shape language the presence light already uses, without a new avatar shape. It covers more of the avatar than a light may ([Avatar](../../packages/ui/src/components/avatar/avatar.md#the-corner)).
 - Separate the face from the avatar with a 1.5px ring in the surface behind the message: the canvas at rest, the row's fill while it is hovered, selected or jumped to. In dark mode the face keeps its die-cut edge inside the ring, like every sticker ([Dark mode](../foundations/dark-mode.md#the-die-cut-edge)).
 - Put the face only on a person's avatar. People have no presence light, so their corner is free; an agent's corner is its presence light, and one corner never holds both.
 - Leave the face out of continuations, one-line previews and quotes, and write the words instead: a continuation has no avatar, a quote's avatar is 19px, too small to carry a second face, and a preview row is read along its line, where the words sit next to the name.
 - Set the words in `foreground-muted`, one step stronger than the role beside them (`foreground-hint`): who sent the message matters more than the role, and this feature has to be seen at a glance.
 - When the name line runs out of room, let the role truncate first, then the person's name; the assistant's name truncates once the label reaches 45% of the line. Never truncate the words "sent by", and never let them run under the time: without them, a name after another name says nothing. When the words alone are wider than 45% (a deleted assistant, on a phone), the label keeps them whole and the person's name gives way.
-- When the assistant has been deleted, keep both marks: the default `robot` face, grayed like a deleted agent's avatar, and "sent by a deleted assistant", all of it words that never truncate, since there is no name left to cut. Nothing in it opens a profile. Dropping the label would make the message look as if the person wrote it.
+- Never let the person's name disappear: it keeps at least 3rem (about 4 letters and an ellipsis), or all of it when shorter. When the line can't hold that, the words and the time (a thread panel at 360px, with room kept for the hover toolbar), the label gives way: a name in it truncates, and plain words like "sent by a deleted assistant" wrap onto a second line. The time stays on the first line, clear of the toolbar.
+- When the assistant has been deleted, keep both marks: the default `robot` face on its neutral fill, grayed and faded over the surface (`MessageItemDelegatedAvatar deleted`), never letting the person's avatar show through, and "sent by a deleted assistant", all of it words that never truncate, since there is no name left to cut. Nothing in it opens a profile. Dropping the label would make the message look as if the person wrote it.
 - Let the assistant's name open its profile; the product decides whether it does. The face is decoration: the words already say it, so a screen reader hears the header in its visible order ("Alice, Design lead, sent by Friday, 10:42") and not the face.
 - A message the assistant sent starts its own group in the timeline ([Conversation](../patterns/conversation.md#dates-and-grouping)).
 

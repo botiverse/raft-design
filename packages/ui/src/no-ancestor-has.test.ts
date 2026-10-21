@@ -110,9 +110,11 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/inbox-item/inbox-item.recipe.ts": 14,
   "components/input-group/input-group.tsx": 7,
   "components/message-attachment/message-image-gallery.recipe.ts": 1,
-  // +4: the row mirrors its jumped-to / selected fill into --mi-row-fill on
-  // itself (self-subject), for the delegated face's ring.
-  "components/message-item/message-item.recipe.ts": 8,
+  // The row sets its jumped-to / selected fill as --mi-row-fill on itself
+  // (self-subject, 4), and with a "sent by" label the header aligns on the
+  // baseline and floors the owner (3), and the label caps at 45% only when
+  // it holds a name (4).
+  "components/message-item/message-item.recipe.ts": 11,
   "components/message-item/message-reaction.recipe.ts": 1,
   "components/message-item/message-reference.recipe.ts": 5,
   // The header wraps when it holds "(sent by …)" (self-subject).

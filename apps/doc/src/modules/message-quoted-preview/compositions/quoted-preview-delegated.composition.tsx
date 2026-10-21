@@ -12,7 +12,6 @@ import {
   MessageItemTime,
   MessageQuotedPreview,
   MessageQuotedPreviewAuthor,
-  MessageQuotedPreviewAuthorDelegatedBy,
   MessageQuotedPreviewAuthorName,
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
@@ -20,6 +19,7 @@ import {
   MessageQuotedPreviewText,
   MessageQuotedPreviewTimestamp,
 } from "@botiverse/raft-ui";
+import { MessageQuotedPreviewAuthorDelegatedBy } from "@botiverse/raft-ui/wip";
 
 export function QuotedPreviewDelegatedContent() {
   return (

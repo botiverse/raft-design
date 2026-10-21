@@ -113,7 +113,7 @@ message-item/compositions/avatar-status
 
 ### Sent by an assistant
 
-A person's assistant can send a message as that person: the message is theirs, and two marks say the assistant sent it ([Identity and presence](../../../../../design/people-and-agents/identity-and-presence.md#sent-by-an-assistant)). Put `MessageItemDelegatedAvatar` in the sender's `md` Avatar and `MessageItemDelegatedBy` after `MessageItemSenderGroup`. On a continuation row, put `MessageItemDelegatedBy` at the end of the text, as with `MessageItemEdited`, without the face. Such a message starts its own group ([Conversation](../../../../../design/patterns/conversation.md#dates-and-grouping)).
+A person's assistant can send a message as that person: the message is theirs, and two marks say the assistant sent it ([Identity and presence](../../../../../design/people-and-agents/identity-and-presence.md#sent-by-an-assistant)). The parts are experimental, exported from `@botiverse/raft-ui/wip` until the design is approved: `MessageItemDelegatedAvatar`, `MessageItemDelegatedBy`, `MessageItemDelegatedByName` and `MessageItemDelegatedByButton`. Put `MessageItemDelegatedAvatar` in the sender's `md` Avatar, with the assistant's `2xs` Avatar in it, and `MessageItemDelegatedBy` after `MessageItemSenderGroup`; keep the sender in the group, which holds its 3rem. On a continuation row, put `MessageItemDelegatedBy` at the end of the text, as with `MessageItemEdited`, without the face. Such a message starts its own group ([Conversation](../../../../../design/patterns/conversation.md#dates-and-grouping)).
 
 ```example
 message-item/compositions/delegated-group
@@ -123,7 +123,7 @@ message-item/compositions/delegated-group
 message-item/compositions/delegated-thread
 ```
 
-When the assistant has been deleted, keep both marks: the default face, grayed, and "sent by a deleted assistant" as plain words in `MessageItemDelegatedBy`, without a name part, so none of it truncates or opens anything:
+When the assistant has been deleted, keep both marks: the default face in `MessageItemDelegatedAvatar deleted`, which grays and fades it over the row's surface, and "sent by a deleted assistant" as plain words in `MessageItemDelegatedBy`, without a name part, so none of it truncates or opens anything:
 
 ```example
 message-item/compositions/delegated-deleted
@@ -143,7 +143,7 @@ message-item/compositions/delegated-preview
 - The time belongs to the sender: who said it and when read as one, so the time follows the name, its badges and its role, and stays there on hover. The top right corner belongs to the toolbar alone.
 - With a mouse, the header ends where the toolbar begins, so the toolbar covers nothing on the sender line however long it is. The space is set by `--mi-toolbar-reserve`, sized for three buttons; a product whose toolbar has more sets it on the message list. On a touch screen there is no hover toolbar, and the header keeps its full width.
 - When the sender line runs out of room, `MessageItemSenderGroup` gives way in a fixed order: the role truncates first, then the name. The badges stay whole beside the name, and the time never truncates ([When a row runs out of room](../../../../../design/patterns/responsive.md#when-a-row-runs-out-of-room)). Show the full name and role in a tooltip when they can truncate.
-- `MessageItemDelegatedBy` takes its own width up to 45% of the line; past that, only the assistant's name truncates. When its words alone are wider than that ("sent by a deleted assistant" on a phone), it is as wide as its words and the sender's name gives way instead: the words never truncate and never run under the time. The words around the name never truncate: the product's spaces around the name are kept as written, and a translation with words on both sides of the name (Chinese) keeps both whole.
+- `MessageItemDelegatedBy` takes its own width up to 45% of the line; past that, only the assistant's name truncates. When its words alone are wider than that ("sent by a deleted assistant" on a phone), it is as wide as its words and the sender's name gives way instead: the words never truncate and never run under the time. The sender's name keeps at least 3rem, or all of it when shorter; when even that doesn't fit (a 360px thread panel, with room for the toolbar), plain words wrap onto a second line, the header aligns on its first line's baseline, and the time stays on the first line, clear of the toolbar. The words around the name never truncate: the product's spaces around the name are kept as written, and a translation with words on both sides of the name (Chinese) keeps both whole.
 
 ```example
 message-item/compositions/delegated-long-names

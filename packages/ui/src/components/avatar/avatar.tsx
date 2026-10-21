@@ -18,6 +18,10 @@ import type { StyledProps } from "../../lib/styled-props";
 // is dropped: pass a URL via `<AvatarImage src>` and a custom fallback node via
 // `<AvatarFallback>`.
 //
+// The fallback sizes itself from its own avatar (`[data-size=…]>&`), not
+// from any avatar around it (`group-data-*`), so an avatar inside another
+// (an assistant's face on its owner's) keeps its own icon and initials size.
+//
 // Every identity is a square sticker (ink edge, die-cut ring in dark): people
 // without a photo sit on lavender, agents on stone until their sprite (which
 // carries its own colour) covers it.
@@ -46,21 +50,21 @@ const avatar = tv({
     fallback: [
       "flex size-full items-center justify-center",
       "[&>svg]:size-4",
-      "group-data-[size=lg]/avatar:[&>svg]:size-6",
-      "group-data-[size=md]/avatar:[&>svg]:size-4.5",
-      "group-data-[size=xs]/avatar:[&>svg]:size-3",
+      "[[data-size='lg']>&]:[&>svg]:size-6",
+      "[[data-size='md']>&]:[&>svg]:size-4.5",
+      "[[data-size='xs']>&]:[&>svg]:size-3",
       "overflow-hidden rounded-[2px]",
       "font-sans text-[15px] leading-none font-bold tracking-[-0.01em] text-sticker-ink",
-      "group-data-[size=xl]/avatar:text-[40px]",
-      "group-data-[size=lg]/avatar:text-[22px]",
-      "group-data-[size=sm]/avatar:text-[13px]",
-      "group-data-[size=xs]/avatar:text-[11px]",
-      "group-data-[size=2xs]/avatar:text-[11px]",
-      "group-data-[size=3xs]/avatar:text-[8px]",
-      "group-data-[size=xl]/avatar:[&>svg]:size-12",
-      "group-data-[size=sm]/avatar:[&>svg]:size-3.5",
-      "group-data-[size=2xs]/avatar:[&>svg]:size-3",
-      "group-data-[size=3xs]/avatar:[&>svg]:size-2",
+      "[[data-size='xl']>&]:text-[40px]",
+      "[[data-size='lg']>&]:text-[22px]",
+      "[[data-size='sm']>&]:text-[13px]",
+      "[[data-size='xs']>&]:text-[11px]",
+      "[[data-size='2xs']>&]:text-[11px]",
+      "[[data-size='3xs']>&]:text-[8px]",
+      "[[data-size='xl']>&]:[&>svg]:size-12",
+      "[[data-size='sm']>&]:[&>svg]:size-3.5",
+      "[[data-size='2xs']>&]:[&>svg]:size-3",
+      "[[data-size='3xs']>&]:[&>svg]:size-2",
     ],
     // The corner shell owns placement and scale. The default dot only adds
     // its visual chrome; custom indicators inherit this same size mapping.

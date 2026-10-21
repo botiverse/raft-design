@@ -9,10 +9,6 @@ import {
   MessageItemBody,
   MessageItemContent,
   MessageItemContinuationTime,
-  MessageItemDelegatedAvatar,
-  MessageItemDelegatedBy,
-  MessageItemDelegatedByButton,
-  MessageItemDelegatedByName,
   MessageItemGutter,
   MessageItemHeader,
   MessageItemMeta,
@@ -20,6 +16,12 @@ import {
   MessageItemSenderGroup,
   MessageItemTime,
 } from "@botiverse/raft-ui";
+import {
+  MessageItemDelegatedAvatar,
+  MessageItemDelegatedBy,
+  MessageItemDelegatedByButton,
+  MessageItemDelegatedByName,
+} from "@botiverse/raft-ui/wip";
 
 export function MessageItemDelegatedGroupContent() {
   const [opened, setOpened] = useState(false);

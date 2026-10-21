@@ -7,15 +7,17 @@ import {
   MessageItemAvatarSlot,
   MessageItemBody,
   MessageItemContent,
-  MessageItemDelegatedAvatar,
-  MessageItemDelegatedBy,
-  MessageItemDelegatedByName,
   MessageItemHeader,
   MessageItemMeta,
   MessageItemSender,
   MessageItemSenderGroup,
   MessageItemTime,
 } from "@botiverse/raft-ui";
+import {
+  MessageItemDelegatedAvatar,
+  MessageItemDelegatedBy,
+  MessageItemDelegatedByName,
+} from "@botiverse/raft-ui/wip";
 
 export function MessageItemDelegatedLongNamesContent() {
   return (

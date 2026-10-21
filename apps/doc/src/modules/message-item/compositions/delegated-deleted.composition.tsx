@@ -7,21 +7,24 @@ import {
   MessageItemAvatarSlot,
   MessageItemBody,
   MessageItemContent,
-  MessageItemDelegatedAvatar,
-  MessageItemDelegatedBy,
   MessageItemEmbedded,
   MessageItemHeader,
   MessageItemSender,
+  MessageItemSenderGroup,
   MessageItemTime,
   MessageQuotedPreview,
   MessageQuotedPreviewAuthor,
-  MessageQuotedPreviewAuthorDelegatedBy,
   MessageQuotedPreviewAuthorName,
   MessageQuotedPreviewContent,
   MessageQuotedPreviewHeader,
   MessageQuotedPreviewText,
   MessageQuotedPreviewTimestamp,
 } from "@botiverse/raft-ui";
+import {
+  MessageItemDelegatedAvatar,
+  MessageItemDelegatedBy,
+  MessageQuotedPreviewAuthorDelegatedBy,
+} from "@botiverse/raft-ui/wip";
 
 export function MessageItemDelegatedDeletedContent() {
   return (
@@ -30,8 +33,8 @@ export function MessageItemDelegatedDeletedContent() {
         <MessageItemAvatarSlot>
           <Avatar size="md" type="human">
             <AvatarFallback>A</AvatarFallback>
-            <MessageItemDelegatedAvatar>
-              <Avatar size="2xs" type="agent" className="bg-info grayscale opacity-60">
+            <MessageItemDelegatedAvatar deleted>
+              <Avatar size="2xs" type="agent">
                 <AvatarImage src={DELEGATED_PLACEHOLDER_FACE_SRC} alt="" />
               </Avatar>
             </MessageItemDelegatedAvatar>
@@ -39,11 +42,35 @@ export function MessageItemDelegatedDeletedContent() {
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
-            <MessageItemSender>Alice</MessageItemSender>
+            <MessageItemSenderGroup>
+              <MessageItemSender>Alice</MessageItemSender>
+            </MessageItemSenderGroup>
             <MessageItemDelegatedBy>sent by a deleted assistant</MessageItemDelegatedBy>
             <MessageItemTime dateTime="2026-10-19T16:05:00">Mon</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>Moved the design review to Thursday at 4.</MessageItemBody>
+        </MessageItemContent>
+      </MessageItem>
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="human">
+            <AvatarFallback>A</AvatarFallback>
+            <MessageItemDelegatedAvatar deleted>
+              <Avatar size="2xs" type="agent">
+                <AvatarImage src={DELEGATED_PLACEHOLDER_FACE_SRC} alt="" />
+              </Avatar>
+            </MessageItemDelegatedAvatar>
+          </Avatar>
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSenderGroup>
+              <MessageItemSender>Alice</MessageItemSender>
+            </MessageItemSenderGroup>
+            <MessageItemDelegatedBy>由已删除的助理代发</MessageItemDelegatedBy>
+            <MessageItemTime dateTime="2026-10-19T16:06:00">Mon</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>设计评审改到周四下午四点。</MessageItemBody>
         </MessageItemContent>
       </MessageItem>
       <MessageItem>

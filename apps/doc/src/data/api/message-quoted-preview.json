@@ -56,21 +56,6 @@
     ]
   },
   {
-    "name": "MessageQuotedPreviewAuthorDelegatedBy",
-    "entry": "@botiverse/raft-ui",
-    "description": "\"(sent by Friday)\" after `MessageQuotedPreviewAuthorName`, when an assistant sent the quoted message for its author. It never truncates; the author's name gives way instead.",
-    "native": true,
-    "props": [
-      {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
-        "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      }
-    ]
-  },
-  {
     "name": "MessageQuotedPreviewAuthorMeta",
     "entry": "@botiverse/raft-ui",
     "native": true,
@@ -199,6 +184,21 @@
   {
     "name": "MessageQuotedPreviewUnavailable",
     "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageQuotedPreviewAuthorDelegatedBy",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "\"(sent by Friday)\" after `MessageQuotedPreviewAuthorName`, when an assistant sent the quoted message for its author. It never truncates; the author's name gives way instead.",
     "native": true,
     "props": [
       {
