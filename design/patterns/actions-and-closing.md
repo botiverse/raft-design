@@ -107,7 +107,7 @@ A banner says what is true now and stays until that changes, or until the person
 
 #### Layout
 
-- Put the button, and Dismiss before it, at the end of the banner's first line when the sentence fits beside them. When the sentence wraps, or the banner is narrower than 480px (every phone), put them on a line of their own under the text, aligned to the end. Keep the × at the end of the first line in both cases, on the line's center, as a frameless icon button whose icon box ends on the banner's padding ([Alignment](../foundations/alignment.md#the-ends-of-a-header)). Never put the × in the button row, where it reads as one of the actions. raft-ui has no part for the × or for the end-of-line placement yet (`BannerClose`, and a `BannerAction` that can sit at the end); until it does, this is the rule those parts follow.
+- Put the button, and Dismiss before it, at the bottom right: at the end of the banner's last line, centered on it, when the text fits beside them. A one-line banner's last line is its first; a banner with a title and a sentence puts them beside the sentence, not the title, so the button comes after what it acts on and ends where the eye ends, as a dialog's commit button does. When the sentence wraps, or the banner is narrower than 480px (every phone), put them on a line of their own under the text, aligned to the end. Keep the × at the end of the first line in both cases, on the line's center, as a frameless icon button whose icon box ends on the banner's padding ([Alignment](../foundations/alignment.md#the-ends-of-a-header)). Never put the × in the button row, where it reads as one of the actions. raft-ui has no part for the × or for the end-of-line placement yet (`BannerClose`, and a `BannerAction` that can sit at the end); until it does, this is the rule those parts follow.
 - Let a banner's text wrap; never truncate or clamp it, because the end of a sentence is often what to do. Write a banner at the top of the app frame as one sentence that fits on 2 lines at 390px (about 90 characters); write a page banner as a title and at most 2 sentences. Anything longer goes behind a link to where it is explained.
 - Run a banner at the top of the app frame across the whole width of the window, above the sidebar and the header, with no radius and a `line-seam` under it, as a `PanelNotice` runs across a panel. It pushes the app down instead of covering it; on a phone it sits under the status bar and above the page header.
 - Put a page banner under the page header, inside the page's margins, outside the scrolling content, so it doesn't scroll away while the condition lasts.
@@ -147,7 +147,7 @@ A toast is the receipt for what the person just did. It closes itself, so it may
 #### Timing, closing and arriving
 
 - Pause the timer while the pointer is over the toast, while it or its action has focus, while a finger is on it, and while the window is in the background; resume with the time that was left. The time a toast stays is not a time limit on anything (WCAG 2.2.1): everything it offers can be reached another way, and it can be paused.
-- Let people swipe a toast away on a phone, down or to the right (what `ToastRoot` allows at the bottom). Never make the swipe the only way: it also times out.
+- Let people swipe a toast away on a phone, up, the way it came (`ToastRoot` swipes down or right while its viewport is at the bottom). Never make the swipe the only way: it also times out.
 - Let F6 move focus to the newest toast and back to where it was; Tab reaches its action, and Esc closes it and returns focus. Esc with the focus elsewhere goes to what has focus: it closes a dialog, not a toast.
 - Show one toast at a time. A new toast replaces the one on screen at once; toasts don't queue, because a toast answers the latest thing the person did, and one that arrives later answers something they've moved on from. A replaced Undo loses only its shortcut, never the way back. `ToastProvider` shows up to 3 today (`limit`); pass `limit={1}` until its default changes.
 - Don't show Dismiss on a toast: every toast closes by itself, swipes away and closes with Esc, and a second text action beside Undo reads as a second choice. The `toast` command API shows it unless `dismissible: false` is passed; its default is to change with this rule.
@@ -196,8 +196,8 @@ An icon says the intent of a message; a pixel says the state of a thing; an avat
 
 | Width | Dialog footer | Banner | Toast |
 | --- | --- | --- | --- |
-| Below 768px | Stacked full width: the note, then commit, then Cancel, then a link; a sheet moves the commit into its head | Button and Dismiss on their own line under the text, at the end; the × stays on the first line. At most 2 on screen: the app frame's and the page's | Bottom center, above the tab bar or composer and the keyboard; swipe down or right to close; a touch pauses it |
-| 768px and up | One row at the end, Cancel then commit; a link or a note at the start | Button and Dismiss at the end of the first line when the sentence fits beside them | Bottom center; hover and focus pause it |
+| Below 768px | Stacked full width: the note, then commit, then Cancel, then a link; a sheet moves the commit into its head | Button and Dismiss on their own line under the text, at the end; the × stays on the first line. At most 2 on screen: the app frame's and the page's | Top center, under the app's top bar; swipe up to close; a touch pauses it |
+| 768px and up | One row at the end, Cancel then commit; a link or a note at the start | Button and Dismiss at the bottom right, at the end of the last line when the text fits beside them; the × on the first line | Top center, under the page header; hover and focus pause it |
 
 ## Related
 
