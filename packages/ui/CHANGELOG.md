@@ -1,3 +1,23 @@
+## [0.12.0](https://github.com/botiverse/raft-design/compare/v0.11.0...v0.12.0) (2026-10-21)
+
+### Breaking
+
+- `ComboboxSelect` always takes typing on a phone, as on a desktop: tapping the field focuses it and typing filters; `create` and remote search work in the field. The phone-only pick-only mode and bottom sheet from 0.10.5 are gone, with their props `sheetThreshold`, `sheetTitle` and `messages.search` / `done` / `close`. A pick-only field uses `Select`. The list still picks its side once and doesn't flip while the keyboard opens. ([#635](https://github.com/botiverse/raft-design/pull/635))
+
+### Added
+
+- `ComboboxSelect` takes `listMaxHeight` (a CSS length or pixels, default `16rem`, the whole list's height); the side the list opens on follows it. ([#635](https://github.com/botiverse/raft-design/pull/635))
+- Jump controls that float over a conversation, from `@botiverse/raft-ui/wip`: `MessageListJumpControls`, `MessageListJumpPill` (a Button `outline md`), `MessageListJumpPillGroup` and `MessageListJumpPillDismiss`. ([#637](https://github.com/botiverse/raft-design/pull/637))
+- A message an assistant sent for its owner, from `@botiverse/raft-ui/wip`: `MessageItemDelegatedBy`, `MessageItemDelegatedByName`, `MessageItemDelegatedByButton`, `MessageItemDelegatedAvatar` (with `deleted`) and `MessageQuotedPreviewAuthorDelegatedBy`. ([#633](https://github.com/botiverse/raft-design/pull/633))
+
+### Fixed
+
+- The 32px and 36px buttons' hit area reaches 44px; the overhang now counts the 1.5px border. ([#637](https://github.com/botiverse/raft-design/pull/637))
+- Toast title and description use `text-callout` (desktop line height 20 to 22px). ([#637](https://github.com/botiverse/raft-design/pull/637))
+- In a message header the name, notes (model, role, badge text) and time stand on one baseline. ([#639](https://github.com/botiverse/raft-design/pull/639))
+- `MessageItemSenderGroup`: the gap before a role squeezed to nothing collapses with it. ([#633](https://github.com/botiverse/raft-design/pull/633))
+- `VirtualList`: a jump holds its target row by key, so rows prepended while it settles don't move it; the focused row stays mounted across a window switch. ([#636](https://github.com/botiverse/raft-design/pull/636))
+
 ## [0.11.0](https://github.com/botiverse/raft-design/compare/v0.10.7...v0.11.0) (2026-10-21)
 
 ### Added
