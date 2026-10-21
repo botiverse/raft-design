@@ -145,8 +145,16 @@ function summarizeTrace(events: TraceEvent[]) {
   const ticks = main
     .filter((event: TraceEvent) => event.name === "FireAnimationFrame")
     .map((event: TraceEvent) => event.ts)
-    .sort((a, b) => a - b);
-  const tasks = main.filter(isTask);
+    .sort((a, b) => a - b)
+    // One tick per frame: the rAF callbacks of a frame (the page's, the list's) fire together.
+    .filter((ts: number, i: number, all: number[]) => i === 0 || ts - all[i - 1]! > 4000);
+  // Top-level tasks only: newer Chrome nests a RunTask in each ThreadControllerImpl::RunTask.
+  const hasThreadControllerTasks = main.some(
+    (event: TraceEvent) => event.name === "ThreadControllerImpl::RunTask",
+  );
+  const tasks = main.filter((event: TraceEvent) =>
+    hasThreadControllerTasks ? event.name === "ThreadControllerImpl::RunTask" : isTask(event),
+  );
   const frameOf = (ts: number) => {
     let lo = 0;
     let hi = ticks.length - 1;
