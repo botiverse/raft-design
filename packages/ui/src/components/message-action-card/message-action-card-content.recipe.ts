@@ -11,7 +11,7 @@ export const messageActionCardContent = tv({
     properties: [
       "m-0 grid",
       "max-sm:grid-cols-1 max-sm:gap-y-0.5",
-      "grid-cols-[minmax(88px,max-content)_minmax(0,1fr)] items-center gap-x-4 gap-y-0.5",
+      "grid-cols-[minmax(88px,max-content)_minmax(0,1fr)] items-baseline gap-x-4 gap-y-0.5",
     ],
     property: ["contents"],
     propertyLabel: [
