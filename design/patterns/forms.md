@@ -1,6 +1,6 @@
 ---
 title: Forms and settings
-summary: Settings that apply at once, groups of fields saved together, forms in dialogs, the large one-pass form dialog, validation and the danger zone.
+summary: Settings that apply at once, groups of fields saved together, forms in dialogs, the large one-pass form dialog, validation, long values in fields and the danger zone.
 redirectFrom: [decisions/0029-large-form-dialog]
 ---
 
@@ -61,6 +61,20 @@ A large form filled in one pass, such as registering or editing an app, opens as
 - Show an invalid field with a `danger-strong` border, and put the error in its reserved line, saying how to fix it.
 - Put a problem with the whole form, such as a failed request, in an orange banner inside the form ([Banner](../../packages/ui/src/components/banner/banner.md)). Don't repeat the field errors in it.
 - Don't show a toast for a validation error: it disappears, and the error has a place of its own under the field.
+
+### Long values in fields
+
+A value can be any length: a pasted link with no spaces, a long Chinese name, a label translated into long words. Nothing in a form grows wider than its field, and no field grows wider than its dialog, its drawer or the screen, down to 320px ([Responsive layout](./responsive.md#phone)). What gives way depends on whether the part is one line by design.
+
+- **A label, help text or error wraps**, breaking inside a word when the word alone is wider than the line. It's what explains the field, so cutting it off would hide the part people need. This holds for the label beside a checkbox, a radio or a switch too.
+- **A value in a one-line control truncates** with an ellipsis: the selected value of a Select, a chip, a text prefix. The control keeps its height, so the form doesn't move as values change ([Spacing](../foundations/spacing.md#heights)). The whole value is the part's `title` while it is cut off, and stays its accessible name.
+- **A value people type scrolls inside its field.** An Input keeps its text on one line and scrolls it; a Textarea wraps it.
+- **An option in a list wraps to two lines, then truncates**, with its whole text as the `title`. Two lines let people tell apart two long values that begin the same way, which one line can't do, while every option stays short enough to scan. The selected value in the trigger is still one line.
+- **A chip truncates** at the width of its field, and its remove button stays visible at its end.
+- **A text prefix in an InputGroup takes at most half the field**, and truncates past that, so there is always room to type.
+- **A list is never wider than the screen less 8px on each side.** It is at least as wide as its field and at least 220px. A Select's or a Combobox's list grows to fit a longer option up to 24rem (or the field's width, when that is wider); a ComboboxSelect's list stays the field's width. Past that, the option wraps.
+
+Every control holds these rules itself, so a form never adds its own `min-w-0` or `truncate`. A layout that puts a field in a flex row still gives the field's column `min-w-0`, since a flex item won't shrink below its content without it.
 
 ### Danger zone
 

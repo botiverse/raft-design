@@ -67,7 +67,9 @@ picker-trigger-button/compositions/select-filter
 
 ## Behavior
 
-- Make the list as wide as the field. Align a filter's list with the filter's left edge, and with its right edge when there is no room. How every popup is positioned is in [Elevation](../../../../../design/foundations/elevation.md#popups).
+- Make the list as wide as the field, at least 220px. A longer option widens it up to 24rem, never past the screen less 8px on each side, and then wraps to two lines and truncates ([Forms](../../../../../design/patterns/forms.md#long-values-in-fields)).
+- The selected value in the trigger stays on one line and truncates; its whole text is the `title` while it is cut off.
+- Align a filter's list with the filter's left edge, and with its right edge when there is no room. How every popup is positioned is in [Elevation](../../../../../design/foundations/elevation.md#popups).
 - Open the same list on a phone. Don't replace it with a bottom sheet: a bottom sheet is for going somewhere ([Choosing a component](../../../../../design/components/overview.md#overlays)).
 - With `multiple`, keep the list open when a value is chosen. Clicking outside or Esc closes it.
 - With `multiple`, put a box before each item (`CheckboxIndicator` in `SelectItemLeading`), ink when chosen ([Checkbox](../checkbox/checkbox.md)). The trigger shows the chosen values, or a count (3 selected) when they don't fit.

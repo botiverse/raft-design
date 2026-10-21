@@ -5,6 +5,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { usePhoneMedia } from "../../lib/phone-media";
 import { useTheme } from "../../lib/theme/use-theme";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { useOverflowTitle } from "../../lib/use-overflow-title";
 import { LIST_MAX_HEIGHT, preferredListSide } from "./combobox-select.list-side";
 import { isOptionGroup, normalizeOption, optionKey } from "./combobox-select.options";
 import type { OptionRecord } from "./combobox-select.options";
@@ -34,6 +35,15 @@ type ComboboxSelectGroupRecord<Option> = {
   items: OptionRecord<Option>[];
 };
 
+/** An option's or a chip's text, with its whole value as the title when it is cut off. */
+function OverflowText({ children }: { children: ReactNode }) {
+  return (
+    <span ref={useOverflowTitle<HTMLSpanElement>()} className="r-combobox-select__text">
+      {children}
+    </span>
+  );
+}
+
 function recordLabel<Option>(
   record: OptionRecord<Option>,
   renderLabel?: (option: Option) => ReactNode,
@@ -60,7 +70,7 @@ function renderOptionContent<Option>({
     return (
       <>
         <Plus aria-hidden />
-        <span className="r-combobox-select__text">{renderCreateLabel(record.label)}</span>
+        <OverflowText>{renderCreateLabel(record.label)}</OverflowText>
       </>
     );
   }
@@ -72,7 +82,7 @@ function renderOptionContent<Option>({
 
   return (
     <>
-      <span className="r-combobox-select__text">{content}</span>
+      <OverflowText>{content}</OverflowText>
       <BaseCombobox.ItemIndicator className="r-combobox-select__indicator">
         <Check aria-hidden />
       </BaseCombobox.ItemIndicator>
@@ -108,7 +118,7 @@ function renderSelectedChip<Option>({
       aria-label={record.label}
       aria-description={strings.chipDescription}
     >
-      <span className="r-combobox-select__text">{content}</span>
+      <OverflowText>{content}</OverflowText>
       <BaseCombobox.ChipRemove
         className="r-combobox-select__remove"
         aria-label={strings.remove(record.label)}
@@ -610,6 +620,7 @@ export function ComboboxSelect<
         <BaseCombobox.Positioner
           sideOffset={4}
           align="start"
+          collisionPadding={8}
           {...(phone ? { side: listSide, collisionAvoidance: PHONE_LIST_COLLISION } : null)}
           {...positionerProps}
           className={positionerClassName}

@@ -54,7 +54,7 @@ A touch screen has no hover, so anything that only appears on hover is out of re
 ### Phone
 
 - Design for 390px wide, and make everything fit at 320px, the narrowest phone still in use.
-- Truncate long names.
+- Truncate long names. What a long value does in a form field, and what wraps instead, is in [Forms](./forms.md#long-values-in-fields).
 - Let buttons wrap to a new line. Don't shrink their text: a label too small to read is worse than a taller button.
 - Use at most 4 segments in a segmented control. When they don't fit, show only their icons, with the label kept as the accessible name (`iconsOnlyBelow`).
 - Scroll tabs horizontally when they don't fit ([Tabs](../../packages/ui/src/components/tabs/tabs.md)).
