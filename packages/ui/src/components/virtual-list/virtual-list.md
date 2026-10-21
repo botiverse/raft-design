@@ -90,7 +90,7 @@ virtual-list/compositions/chat
 ## Accessibility
 
 - VirtualList renders plain elements and adds no role. Give the list the semantics of what it holds, such as a named region around it. Only the rows in or near the view are in the DOM, so a screen reader can't count the others: say how many there are in the region's name or nearby when it matters.
-- The scroller is in the tab order (`focusable`, on by default). Page Up, Page Down and Space (Shift+Space up) scroll by the view's height less 32px and `keyboardPageBottomOcclusion`; Home, End, Cmd+Up and Cmd+Down go to either end. Keys typed into a field inside a row are left alone.
+- The scroller is in the tab order (`focusable`, on by default). Page Up, Page Down and Space (Shift+Space up) scroll by the view's height less 32px and `keyboardPageBottomOcclusion`; Home, End, Cmd+Up and Cmd+Down go to either end. Only keys pressed on the scroller itself scroll it: keys pressed on a control inside a row, such as Space on a button or End in a segmented control, are left to that control.
 - Find in page only finds rows in the DOM. Give a long history its own search.
 
 ## Rules

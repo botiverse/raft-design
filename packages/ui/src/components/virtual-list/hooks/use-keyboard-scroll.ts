@@ -9,7 +9,9 @@ import type { VirtualListScrollToOptions, ScrollPosition } from "../public-types
 /**
  * PageUp / PageDown / Space (Shift+Space up) scroll by the list's height minus `pageBottomOcclusion`
  * (what covers the bottom of the list, e.g. an input box) minus 32 px; Home / End and Cmd+Up / Cmd+Down
- * call `scrollTo({ position: "top" | "bottom" })`. Keys typed into a text field are left alone.
+ * call `scrollTo({ position: "top" | "bottom" })`. Only keys pressed on the list itself (the scroll
+ * container has focus) scroll it: a key pressed in a row (a button, a checkbox, a text field, a segmented
+ * control) is left to that control, and so is a key a handler has already taken (`defaultPrevented`).
  */
 export function useKeyboardScroll(
   scrollTo: (options: VirtualListScrollToOptions) => void,
@@ -21,21 +23,15 @@ export function useKeyboardScroll(
   return {
     onKeyDown: useCallback(
       (event: KeyboardEvent<HTMLDivElement>) => {
-        const target = event.target;
-        const isTyping =
-          target instanceof HTMLTextAreaElement ||
-          target instanceof HTMLInputElement ||
-          target instanceof HTMLSelectElement ||
-          (target instanceof HTMLElement && target.isContentEditable);
+        if (event.defaultPrevented || event.target !== event.currentTarget) {
+          return;
+        }
         if (
           event.key === "PageDown" ||
           event.key === "PageUp" ||
           event.key === " " ||
           event.key === "Spacebar"
         ) {
-          if (isTyping) {
-            return;
-          }
           const page = Math.max(event.currentTarget.clientHeight - occlusionRef.current - 32, 0);
           if (page <= 0) {
             return;
@@ -68,9 +64,6 @@ export function useKeyboardScroll(
             break;
         }
         if (position) {
-          if (isTyping) {
-            return;
-          }
           event.preventDefault();
           scrollTo({ position });
         }
