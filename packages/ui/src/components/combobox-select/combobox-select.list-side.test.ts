@@ -6,12 +6,12 @@ const viewport = { top: 0, height: 844 };
 
 test("room for three rows below the field is enough", () => {
   expect(roomBelowIsShort({ bottom: 100 }, viewport)).toBe(false);
-  // 844 - 712 - 4 = 128 = 3 × 36 + 12
-  expect(roomBelowIsShort({ bottom: 712 }, viewport)).toBe(false);
+  // 844 - 720 - 4 = 120 = 3 × 36 + 12: exactly three rows.
+  expect(roomBelowIsShort({ bottom: 720 }, viewport)).toBe(false);
 });
 
 test("less than three rows below the field is short", () => {
-  expect(roomBelowIsShort({ bottom: 713 }, viewport)).toBe(true);
+  expect(roomBelowIsShort({ bottom: 721 }, viewport)).toBe(true);
   // The keyboard is up: the visual viewport is the top 420px.
   expect(roomBelowIsShort({ bottom: 380 }, { top: 0, height: 420 })).toBe(true);
 });
