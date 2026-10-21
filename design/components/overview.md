@@ -116,6 +116,7 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | A large form filled in one pass | The wide [Dialog](../../packages/ui/src/components/dialog/dialog.md); see [Forms](../patterns/forms.md#the-large-form-dialog) |
 | A short list opened from a top bar: Working now, the notifications, the server list | [Popover](../../packages/ui/src/components/popover/popover.md), on a phone too. On a phone the server list is anchored under the top bar ([Navigation](../patterns/navigation.md#servers)) |
 | A short explanation, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md)) |
+| A dialog with fields (a form, a picker, steps), on a phone | A sheet 90% of the screen tall; content that is only read opens as a full-screen page ([Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)) |
 | A confirmation | A small [Dialog](../../packages/ui/src/components/dialog/dialog.md), 384px, with Cancel and the confirm button; see [Feedback](../patterns/feedback.md#confirming). Raft Chat builds its confirmations on Dialog, except two that use [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md): discarding unsaved edits to an agent's profile, and opening a link that hands off to another app |
 | Task details | A centered dialog, 960px wide, full screen on a phone ([Tasks](../patterns/tasks.md)) |
 

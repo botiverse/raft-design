@@ -55,12 +55,33 @@ The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFoot
 
 ## Behavior
 
-- A dialog appears and disappears without animation, always over the scrim ([Motion](../../../../../design/foundations/motion.md#usage)).
+- A centered dialog appears and disappears without animation, always over the scrim ([Motion](../../../../../design/foundations/motion.md#usage)). On a phone a dialog with fields is a sheet that slides up instead ([On a phone](#on-a-phone)).
 - Esc, × and Cancel close a dialog. A click on the scrim closes a small dialog.
 - Don't close a large form dialog on a click outside it: pass `disablePointerDismissal` on `Dialog`, so a half-filled form isn't lost to a stray click.
-- On a narrow screen the dialog keeps a 16px margin on each side and never grows taller than the window less 32px.
+- A centered dialog on a narrow screen keeps a 16px margin on each side and never grows taller than the window less 32px.
 - Below 768px the wide dialog hides `DialogNav` and the sections follow one another.
 - A dialog opened from a dialog or a sheet draws its own, lighter scrim over the one below ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)). Render it inside the first one and this happens by itself. `layer={1}` is only for a dialog rendered outside the first one's tree: it lifts the dialog and its scrim above the first.
+
+## On a phone
+
+Below 768px a dialog takes one of three forms, chosen by what it asks of people (stdrc, 2026-10-21). On a desktop and a tablet every dialog stays centered.
+
+| What the dialog holds                                                                                                          | On a phone                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| A decision: a statement and buttons, at most a few fixed choices, nothing typed (every confirmation; archive, stop, reset)     | The centered dialog, as on a desktop                                                |
+| A confirmation with one short typed field (type the server's name to delete it)                                                | The centered dialog in the upper part of the screen, so the keyboard opens below it |
+| Anything typed, picked from a long or searchable list, or walked through in steps: forms, pickers, wizards, a reason to reject | A sheet 90% of the screen tall                                                      |
+| Content that is only read: role help, release notes, an app's details                                                          | A full-screen page with ← at the start of its head                                  |
+
+The sheet:
+
+- Rises from the bottom over the scrim, with `radius-dialog` on its top corners. The strip of page left above it shows that it is a layer over the page, not a new page.
+- Its head is a pushed page's head ([Navigation](../../../../../design/patterns/navigation.md)): × at the start, the title, and the dialog's one commit button at the end, at size `sm` with the same color and words as on a desktop. It has no footer: × is Cancel. In a flow of steps the button at the end is the step's (Next, then the last step's action), and × still closes.
+- The body scrolls under the head and keeps the phone's 16px margin and the home indicator's inset at the bottom.
+- ×, a tap on the scrim and dragging the sheet down all close it. When something has been typed, ask first, as Esc does on a desktop.
+- It slides up as it opens, like every bottom sheet ([Motion](../../../../../design/foundations/motion.md#usage)).
+
+Raft Chat builds these forms in the app for now (`NarrowDialog` in slock); they move into raft-ui as a phone presentation of Dialog.
 
 ## Content
 
@@ -81,4 +102,4 @@ The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFoot
 - Make the confirm button pink (`variant="primary"`) when it does something. Color it by its consequence when it interrupts or can't be undone ([AlertDialog](../alert-dialog/alert-dialog.md#variants)).
 - Put anything people must read before they act in a [Banner](../banner/banner.md) inside the body ([Feedback](../../../../../design/patterns/feedback.md#errors-by-scope)).
 - Keep the small dialog at most 400px wide, with 20px padding.
-- Don't pass `overlay={false}` in product code: every centered dialog has the scrim, without exception.
+- Don't pass `overlay={false}` in product code: every centered dialog has the scrim, without exception. Only the full-screen page on a phone has none, since nothing shows behind it.
