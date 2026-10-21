@@ -385,6 +385,16 @@
      calc in its CSS). */
   --spacing-option: 2.25rem;
   --spacing-option-inset: calc((2.25rem - 1lh) / 2);
+  /* ─── Icon inset ────────────────────────────────────────────────────────────
+     How far a frameless icon button's icon box sits inside its edge:
+     (button - icon) / 2. 7px for a 32px button with an 18px icon, 11px for a
+     44px one with a 22px icon. The button declares it (`--icon-inset`, see
+     lib/head-edges.ts) and a head pulls its first and last child outward by
+     it (`-ml-icon-inset`, `-mr-icon-inset`), so the icon box, not the button,
+     lands on the head's content margin at every button size
+     (design/foundations/alignment.md#the-ends-of-a-header). A shape or text
+     declares nothing and stays on the margin. */
+  --spacing-icon-inset: var(--icon-inset);
 
   /* Deprecated utility names, kept until raft-ui 1.0 (see codemods/token-names.mjs). */
   --color-foreground-strong: var(--foreground);
@@ -448,6 +458,14 @@
   --shadow-raft-float: var(--elevation-float);
   --shadow-raft-sticker: var(--elevation-sticker);
   --shadow-raft-focus: var(--focus-ring);
+}
+
+/* Not inherited, so a wrapper never takes its button's inset: only the element
+   that declares it moves. */
+@property --icon-inset {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
 }
 
 *,

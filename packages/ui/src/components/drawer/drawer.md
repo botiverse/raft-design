@@ -85,7 +85,7 @@ drawer/compositions/nested-close-callback
 ## Rules
 
 - Keep a drawer to 420px at most. A form that needs more room is the wide [Dialog](../dialog/dialog.md).
-- Make the × the same small icon button as in a panel header ([Panel](../panel/panel.md)).
+- Make the × the same icon button as in a panel header, with the same icon size, and put it last in `DrawerHeader`: its icon box ends on the margin, and a Back that replaces it on a phone starts on it ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)).
 - Put the buttons in the footer, never in the header. They are `size="lg"` (44px on a phone, 32px on a desktop): Cancel first, Save last ([Forms](../../../../../design/patterns/forms.md#forms-in-a-dialog)).
 - Split a long form in a drawer into [FormSection](../form-section/form-section.md) parts, the same sections as in the wide dialog, and save them all together with the footer's Save.
 - Under each yes-or-no checkbox in a drawer form, add a line that says what happens when it is unchecked. It is a checkbox, not a switch, because the form is saved ([Forms](../../../../../design/patterns/forms.md#forms-in-a-dialog)).

@@ -1,3 +1,4 @@
+import { headEdgePull } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 
 export const sidebarRecipe = tv({
@@ -14,6 +15,7 @@ export const sidebarRecipe = tv({
       "h-(--shell-header-height,56px) shrink-0 gap-2 border-b border-line-seam px-5",
       "bg-layer-sidebar text-foreground",
       "max-md:bg-layer-frame max-md:px-4 max-md:text-foreground-on-frame",
+      headEdgePull,
       "[@media(max-height:600px)]:h-12",
     ],
     sidebarHeaderMask: ["pointer-events-none absolute inset-x-0 top-0 -z-10 hidden"],

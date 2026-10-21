@@ -1,3 +1,4 @@
+import { controlIconInset } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 
 const panelActionBase = tv({
@@ -17,6 +18,7 @@ const panelActionBase = tv({
     "hover:bg-fill-pressed active:bg-fill-pressed",
     "focus-visible:shadow-focus",
     "[&>svg]:size-control-icon",
+    controlIconInset,
   ],
 });
 

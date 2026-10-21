@@ -19,7 +19,15 @@ import { extendTailwindMerge } from "tailwind-merge";
 const twMerge = extendTailwindMerge({
   extend: {
     theme: {
-      spacing: ["control", "control-cta", "control-icon", "control-hit", "option", "option-inset"],
+      spacing: [
+        "control",
+        "control-cta",
+        "control-icon",
+        "control-hit",
+        "option",
+        "option-inset",
+        "icon-inset",
+      ],
     },
     classGroups: {
       shadow: [

@@ -1,10 +1,11 @@
 /**
  * Panel alignment contract.
  *
- * The target system: the head's box line sits 20 from the panel edge with a
- * 12 gap after the icon, unified across the chat / thread panels; the right
- * side keeps the app shell's 12px inset ("keep 12"), and the replies surface
- * reaches the row's border-box edge.
+ * The target system: the head's box line sits 20 from the panel edge on both
+ * sides (16 on a phone) with a 12 gap after the icon, unified across the chat /
+ * thread panels; an edge icon button is pulled out by its icon inset so its
+ * icon box, not the button, lands on that line (lib/head-edges.ts), and the
+ * replies surface reaches the row's border-box edge.
  *
  * These are recipe-level assertions on purpose: they are the exact tokens
  * that carry the numbers, so a silent revert (or the old app-side overrides
@@ -23,12 +24,19 @@ function tokens(cls: string): Set<string> {
   return new Set(cls.split(/\s+/).filter(Boolean));
 }
 
-/** The head's inset and gap tokens: desktop 20 / 12, phone 16 / 8. */
-const HEAD_INSETS = ["pl-5", "pr-3", "gap-3", "max-md:pl-4", "max-md:pr-1.5", "max-md:gap-2"];
+/** The head's inset and gap tokens: desktop 20 / 12, phone 16 / 8, and the edge pull. */
+const HEAD_INSETS = [
+  "px-5",
+  "gap-3",
+  "max-md:px-4",
+  "max-md:gap-2",
+  "[&>[data-icon-inset]:first-child]:-ml-icon-inset",
+  "[&>[data-icon-inset]:last-child]:-mr-icon-inset",
+];
 
 test("panel header: box line 20, gap 12 (md+)", () => {
   const header = tokens(panelHeader().header());
-  expect(header.has("pl-5")).toBe(true);
+  expect(header.has("px-5")).toBe(true);
   expect(header.has("gap-3")).toBe(true);
   expect(header.has("md:pl-9")).toBe(false);
 });

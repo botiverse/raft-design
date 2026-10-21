@@ -1,33 +1,27 @@
+import { controlIconInset, headEdges } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 
 /**
  * Where a head's edge controls sit, shared by every head (panel, section,
- * drawer, thread). Phone: a filled thing (a sticker, a pill) puts its shape
- * on 16. A ghost button has no shape, so its empty 44px box overhangs, and
- * the two edge buttons mirror each other: the last action (6px padding,
- * `panelHeadActions`' -3px) and a leading Back (16px padding, -13px) both sit
- * 3px from their edge. Their 22px icon frames are then 14px in and every
- * glyph's centre 25px in, whatever the glyph (an arrow, a gear, a narrow ⋮);
- * aligning ink instead would move each button by its glyph's own side
- * bearing. A Button straight in the head (ghost ones are PanelActions) is a
- * filled control, so its shape ends on the content edge: 20 / 16.
+ * drawer, thread): see lib/head-edges.ts. Both sides pad by the content
+ * margin, 20px on a desktop and 16px on a phone, so a filled thing (a sticker,
+ * a pill, a filled Button) puts its shape on it, and the first and last
+ * frameless icon button are pulled out by their icon inset so their icon box
+ * lands on it: 20px on a desktop and on a touch screen with the desktop
+ * layout, 16px on a phone, mirrored at the two ends.
  */
-export const panelHeadEdges = [
-  "pr-3 pl-5 max-md:pr-1.5 max-md:pl-4",
-  "max-md:[&>[data-slot=panel-action]:first-child]:-ml-[13px]",
-  "[&>[data-slot=button]:last-child]:mr-2 max-md:[&>[data-slot=button]:last-child]:mr-2.5",
-];
+export const panelHeadEdges = headEdges;
 
 /**
- * A head's trailing actions. The last glyph ends on the head's edge: 20px on
- * desktop (12px of padding, 1px here, the 32px button's 7px glyph inset); on
- * a phone 14px in (44px buttons, 11px inset), mirroring a leading Back. The
- * margin and gap follow the button's size, not the layout: a touch screen
- * from 768px has the desktop head with 44px buttons, so -3px puts its last
- * glyph on 20px too.
+ * A head's trailing actions, 2px apart (4px on a desktop). The group declares
+ * its PanelActions' icon inset, so the head pulls the group, not its last
+ * button: an action hidden at some width (a thread's Close below 1024px) then
+ * leaves the next one on the edge.
  */
-export const panelHeadActions =
-  "flex shrink-0 items-center gap-0.5 mr-[-3px] md:pointer-fine:mr-px md:pointer-fine:gap-1";
+export const panelHeadActions = [
+  "flex shrink-0 items-center gap-0.5 md:pointer-fine:gap-1",
+  controlIconInset,
+];
 
 /**
  * `header` and `sectionHeader` share one bar, expressed through

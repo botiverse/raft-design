@@ -34,7 +34,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `Dialog`: the root. Owns the open state. Required.
 - `DialogTrigger`: the button that opens it.
 - `DialogContent`: the centered surface, portaled, with the scrim (`DialogOverlay`) behind it. Required.
-- `DialogHeader`: the title row, with an optional `DialogClose` at its end.
+- `DialogHeader`: the title row, with an optional `DialogClose` at its end. The × is pulled out so its icon box, not the button, ends on the dialog's 20px margin ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)).
 - `DialogTitle`: the title. Required.
 - `DialogDescription`: a sentence under the title or in the body.
 - `DialogBody`: the content. It scrolls when the dialog reaches the window height.

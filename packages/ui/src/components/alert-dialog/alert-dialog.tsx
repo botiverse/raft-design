@@ -2,6 +2,7 @@ import { cn } from "../../lib/cn";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { X } from "lucide-react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
+import { headEdgePull } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -19,7 +20,11 @@ const alertDialog = tv({
       "overflow-clip rounded-dialog bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",
     ],
-    header: ["grid grid-cols-[minmax(0,1fr)_max-content] items-center min-w-0", "gap-2 px-5 pt-5"],
+    header: [
+      "grid grid-cols-[minmax(0,1fr)_max-content] items-center min-w-0",
+      "gap-2 px-5 pt-5",
+      headEdgePull,
+    ],
     body: [
       "min-w-0",
       "px-5 pt-1.5 pb-5 first:pt-5",
@@ -85,7 +90,7 @@ export function AlertDialogClose({
           variant={variant ?? "ghost"}
           size={size ?? "icon-md"}
           aria-label={ariaLabel ?? "Close"}
-          className={cn("-my-1.5 -mr-1.5", className)}
+          className={cn("-my-1.5", className)}
         />
       }
       {...props}

@@ -11,6 +11,7 @@ export function PanelToggleAction({ className, ...props }: PanelToggleActionProp
       {...props}
       type="button"
       data-slot="panel-toggle-action"
+      data-icon-inset=""
       className={panelToggleAction({ className })}
     />
   );

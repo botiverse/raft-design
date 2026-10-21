@@ -6,6 +6,7 @@ import { useCallback, useRef, useState } from "react";
 import type { ReactNode, RefObject } from "react";
 import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import { headEdgePull } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -30,6 +31,7 @@ const lightbox = tv({
       "pl-[calc(env(safe-area-inset-left,0px)+--spacing(4))]",
       "pr-[calc(env(safe-area-inset-right,0px)+--spacing(4))]",
       "bg-transparent shadow-none",
+      headEdgePull,
     ],
     // Attachment header: left Meta, right Actions. Close stays in-flow here.
     toolbar: [
@@ -39,6 +41,7 @@ const lightbox = tv({
       "**:data-lightbox-close:static **:data-lightbox-close:inset-auto",
       "**:data-lightbox-close:top-auto **:data-lightbox-close:right-auto",
       "border-b border-line-seam bg-layer-canvas shadow-none",
+      headEdgePull,
     ],
     headerMeta: ["flex min-w-0 flex-1 items-center gap-1.5"],
     headerLabel: [
@@ -47,7 +50,11 @@ const lightbox = tv({
       "font-sans text-caption font-semibold normal-case tracking-normal text-foreground-muted",
     ],
     title: ["min-w-0 flex-1 truncate", "py-0 font-sans text-headline font-bold text-foreground"],
-    actions: ["flex shrink-0 items-center", "gap-1"],
+    actions: [
+      "flex shrink-0 items-center",
+      "gap-1",
+      "[&>[data-icon-inset]:last-child]:-mr-icon-inset",
+    ],
     stage: [
       "pointer-events-none relative flex min-h-0 flex-1 items-center justify-center overflow-hidden",
     ],
