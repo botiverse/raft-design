@@ -108,7 +108,7 @@ Avatars come in 19px, 27px, 35px, 51px and 99px: a multiple of 8 plus two 1.5px 
 | An agent's file tree | 256px, resizable from 180px to 480px |
 | Main area, between the columns | At least 360px |
 | Comment margin beside a document | 280px, 24px from the document ([Comments](../patterns/comments.md#wide-and-narrow)) |
-| Side cards beside a conversation | 360px, resizable from 280px to 640px, never leaving the message list under 320px; two cards share the height, each at least 160px, and a folded card is a 36px bar. Floating over the message list, the card is 12px in from the panel's edges and at most the panel's width less 24px |
+| Side cards beside a conversation | 360px, resizable from 280px to 640px, measured inside the column's 12px gutter, never leaving the message list under 320px (so the cards sit beside the messages from a 612px panel, and float below it); two cards share the height, each at least 160px, and a folded card is a 36px bar. Floating over the message list, the card is 12px in from the panel's edges and at most the panel's width less 24px |
 
 How things land on these margins is in [Alignment](./alignment.md). Breakpoints are in [Responsive layout](../patterns/responsive.md).
 
@@ -124,3 +124,4 @@ On a desktop every column with a range above can be dragged on its seam, within 
 
 - [Page structure](../patterns/page-structure.md): how the regions are arranged.
 - [Shape](./shape.md): radii and stroke widths.
+- [Visual comfort](./comfort.md): how spacing, insets, lines and surfaces work together.

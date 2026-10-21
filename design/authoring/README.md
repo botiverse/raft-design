@@ -30,7 +30,7 @@ design/
   people-and-agents/      How people and agents share a server: identity, presence,
                           working agents, handoffs and approvals, writing about agents
   foundations/            Values and the rules for using them: color, typography, spacing,
-                          alignment, shape, elevation, motion, states, iconography, brand,
+                          alignment, comfort, shape, elevation, motion, states, iconography, brand,
                           dark mode, accessibility, tokens
   content/                Voice and tone, UI writing, terminology
   patterns/               How components combine into screens, for every Raft product:

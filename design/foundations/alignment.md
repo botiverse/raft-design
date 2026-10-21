@@ -135,6 +135,7 @@ In raft-ui the header owns the margin and each frameless icon button declares ho
 ## Related
 
 - [Spacing](./spacing.md): the margins and header heights.
+- [Visual comfort](./comfort.md): insets, separators and the rhythm around what lands on these lines.
 - [Typography](./typography.md): the type scale each line height comes from.
 - [Forms](../patterns/forms.md): how a control, its label and its description go together.
 - [Iconography](./iconography.md#sizes): the icon sizes.
