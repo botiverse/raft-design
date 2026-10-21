@@ -2,7 +2,8 @@
 // other position; a newer jump stops an older one; a row above the view that grows does not move the
 // rows in view; rows whose margins collapse (through a row, between rows) sit at the offsets the list
 // measured, exactly where a plain block list has them, while scrolling down and up, after a prepend
-// (with nothing in view moving) and after aligned jumps.
+// (with nothing in view moving) and after aligned jumps; a jump still settling when rows are prepended
+// lands on its row.
 //
 // Scenes, each one VirtualList in a 480 x 400 frame:
 // - "align": 5,000 rows of 30-168px (the estimate is 50px), every 7th one growing by 20px in its own
@@ -537,7 +538,9 @@ describe("VirtualList rows in block flow", () => {
     expect(diffs.length).toBeGreaterThan(0);
     expect(Math.max(...diffs)).toBeLessThan(0.5);
     expect(windowErrors).toEqual([]);
-  });
+    // A jump 150,000px down a 5,000-row list, then six scrolls with settles: on a busy machine longer
+    // than the 15 s default.
+  }, 90_000);
 
   // Every mounted row's border box, relative to where the rows start, must be where the plain block
   // list has it: margins between rows collapse, a child's margins collapse through its row, the first
@@ -622,6 +625,91 @@ describe("VirtualList rows in block flow", () => {
     );
     expect(failures).toEqual([]);
     expect(compareWithReference(handle).relDiff).toBeLessThanOrEqual(0.5);
+  });
+
+  // keepAnchorOnItemsChange while an aligned jump is still settling (its rows being measured): an older
+  // page loaded above it (rows of varying heights and margins) moves the target's index, but not the
+  // target. The jump holds its row by key and lands it where it was asked to; rows painted after the
+  // prepend do not move. Prepended at once (in the same task as the jump) and on the next frame (the
+  // jump armed, rows measured by the ResizeObserver). A plain prepend after it still keeps the rows in
+  // view in place.
+  it("a jump settling when rows are prepended lands its row, by key, where it was asked", async () => {
+    const handle = await mount("collapse");
+    const { api, list } = handle;
+    const { flushSync } = await import("react-dom");
+    const offsetOf = (key: string) => {
+      const el = list.querySelector(`[data-row="${key}"]`);
+      if (el === null) return null;
+      return el.getBoundingClientRect().top - (list.getBoundingClientRect().top + list.clientTop);
+    };
+    const failures: string[] = [];
+    const jumps: (JumpOptions & { when: "sync" | "nextFrame" })[] = [
+      { key: "row-200", align: "center", when: "sync" },
+      { key: "row-120", align: "start", when: "nextFrame" },
+      { key: "row-260", align: "end", when: "sync", scrollMarginTop: 16, scrollMarginBottom: 32 },
+      { key: "row-40", align: "center", when: "nextFrame" },
+    ];
+    for (const options of jumps) {
+      const { key, align, when, scrollMarginTop = 0, scrollMarginBottom = 0 } = options;
+      const name = `${align} ${key} (${when})`;
+      const painted: (number | null)[] = [];
+      await new Promise<void>((resolve) => {
+        api.scrollTo({ key, align, scrollMarginTop, scrollMarginBottom });
+        const prepend = () => flushSync(() => handle.prepend(12));
+        if (when === "sync") prepend();
+        let frames = 0;
+        const tick = () => {
+          if (frames === 0 && when === "nextFrame") prepend();
+          else painted.push(offsetOf(key));
+          if (++frames < 20) requestAnimationFrame(tick);
+          else setTimeout(resolve, 50);
+        };
+        requestAnimationFrame(tick);
+      });
+      const el = list.querySelector(`[data-row="${key}"]`);
+      const final = offsetOf(key);
+      if (el === null || final === null) {
+        failures.push(`${name}: not mounted`);
+        continue;
+      }
+      const height = el.getBoundingClientRect().height;
+      const error = final - expectedOffset(options, list.clientHeight, height);
+      if (Math.abs(error) > 2) failures.push(`${name}: off by ${error}`);
+      const others = painted.filter((offset) => offset === null || Math.abs(offset - final) > 2);
+      if (others.length !== 0) failures.push(`${name}: also painted ${others.join(", ")}`);
+    }
+    expect(failures).toEqual([]);
+
+    // A jump without `align` up the list puts its row at the view's top, only as far as needed. Rows
+    // prepended on the next frame are anchored too: replayed, the jump finds its row still in view, at the
+    // top, and leaves it there (not scrolled only as far as needed again, from below, to the bottom).
+    list.scrollTop = list.scrollHeight;
+    await settle(3);
+    const upTo = "row-60";
+    const paintedUp: (number | null)[] = [];
+    await new Promise<void>((resolve) => {
+      api.scrollTo({ key: upTo });
+      let frames = 0;
+      const tick = () => {
+        if (frames === 0) flushSync(() => handle.prepend(12));
+        else paintedUp.push(offsetOf(upTo));
+        if (++frames < 20) requestAnimationFrame(tick);
+        else setTimeout(resolve, 50);
+      };
+      requestAnimationFrame(tick);
+    });
+    expect(Math.abs(offsetOf(upTo) ?? Infinity)).toBeLessThanOrEqual(2);
+    expect(paintedUp.filter((offset) => offset === null || Math.abs(offset) > 2)).toEqual([]);
+
+    // No jump pending: a plain prepend keeps the rows in view where they are.
+    await settle(3);
+    const before = rowsInView(list);
+    handle.prepend(15);
+    await settle(3);
+    const after = moved(before, rowsInView(list), 0);
+    expect(after.count).toBeGreaterThan(0);
+    expect(after.max).toBeLessThanOrEqual(0.5);
+    expect(windowErrors).toEqual([]);
   });
 
   it("with virtualization off, every row is where a plain block list has it", async () => {

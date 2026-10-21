@@ -64,6 +64,7 @@ virtual-list/compositions/load-older
 
 - `scrollTo({ key, align })` (or `index`) puts the row's top at the view's top (`"start"`), its middle in the middle (`"center"`) or its bottom at the bottom (`"end"`), inside `scrollMarginTop` and `scrollMarginBottom`. The row lands exactly, and no other position is painted first, even when the row and its neighbors were never measured.
 - A newer jump stops an older one. At the ends the position is clamped. With `behavior: "smooth"` the list scrolls once, to the position known when the jump starts.
+- A jump holds its row by key. Rows loaded above it while it is still settling don't make it land on another row; with `keepAnchorOnItemsChange` they don't move its row either.
 - Without `align`, the list scrolls only as far as needed to show the row (`debounce`, the default), from its estimated offset.
 - `scrollTo({ position: "top" | "bottom" })` goes to either end.
 
@@ -82,7 +83,7 @@ virtual-list/compositions/chat
 ### Other behavior
 
 - While text is selected, rows that scroll out of view stay mounted, so the selection and copying survive scrolling.
-- The row that holds focus stays mounted, at its place, when it scrolls out of view: by End or Page Down, which the browser handles by scrolling the list, by the wheel or by the scrollbar. Unmounting it would drop focus to the page, and the next Tab would start from the top. Once focus leaves the row, it unmounts when it is out of view. This needs `itemResizable`, which marks each row with its key.
+- The row that holds focus stays mounted, at its place, when it scrolls out of view: by End or Page Down, which the browser handles by scrolling the list, by the wheel or by the scrollbar. Unmounting it would drop focus to the page, and the next Tab would start from the top. Once focus leaves the row, it unmounts when it is out of view. Switching to another window or tab doesn't count: the row keeps focus, and is still there when the person comes back. This needs `itemResizable`, which marks each row with its key.
 - `virtual={false}` renders every row in flow. With `itemResizable`, the row at the top of the view keeps its place when virtualization is switched off; switching it back on keeps the measurements, not the position.
 - `columns` with `renderCol` or `renderItemWithCols` scrolls sideways too and renders only the columns in view.
 - On iOS, size changes above the view during a fling are applied as a transform and written to the scroll position after it, because writing it stops the fling.

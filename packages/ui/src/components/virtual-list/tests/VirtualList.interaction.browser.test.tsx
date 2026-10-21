@@ -276,6 +276,32 @@ describe("VirtualList: the row holding focus stays mounted", () => {
     expect(document.activeElement).toBe(button);
   });
 
+  // Switching to another window or tab fires focusout with no relatedTarget (and blurs the window) while
+  // the button keeps focus: the row must still be mounted when the person comes back.
+  it("a focusout to nowhere (another window) keeps the row mounted while it still has focus", async () => {
+    const { list, mounted } = await mountRaft();
+    const button = list.querySelector<HTMLElement>('[data-button="row-2"]')!;
+    button.focus();
+    button.dispatchEvent(new FocusEvent("blur", { relatedTarget: null }));
+    button.dispatchEvent(new FocusEvent("focusout", { bubbles: true, relatedTarget: null }));
+    window.dispatchEvent(new FocusEvent("blur"));
+    list.scrollTop = 30_000;
+    await settle();
+    list.scrollTop = 45_000;
+    await settle();
+    expect(document.activeElement).toBe(button);
+    expect(mounted()).toContain("row-2");
+    expect(button.isConnected).toBe(true);
+    window.dispatchEvent(new FocusEvent("focus"));
+
+    // Focus really lost to the page (blur, relatedTarget null): the next range update releases the row.
+    button.blur();
+    expect(document.activeElement).toBe(document.body);
+    list.scrollTop = 30_000;
+    await settle();
+    expect(mounted()).not.toContain("row-2");
+  });
+
   it("once focus leaves the list, the row unmounts when it is out of view", async () => {
     const { list, mounted } = await mountRaft();
     const button = list.querySelector<HTMLElement>('[data-button="row-0"]')!;
