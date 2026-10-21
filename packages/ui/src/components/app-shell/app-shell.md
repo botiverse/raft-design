@@ -68,14 +68,14 @@ app-shell/compositions/mobile-root
 - The root clips what overflows it instead of scrolling, so moving focus never shifts the whole app sideways.
 - On a phone the root pads its top for the status bar's safe area.
 - Collapsing the sidebar slides the main area over it with `ease-slide` while the sidebar fades out; expanding reverses it. With reduced motion, both happen at once ([Motion](../../../../../design/foundations/motion.md#usage)).
-- The main area rises over the sidebar (z-index 45, with `data-sliding` on the main slot) only while it slides. At rest it has no z-index, so it never covers the app's own fixed layers, such as a bar at z-40. The expanded sidebar stacks just above the main area, so a resize handle that pokes past its edge stays grabbable.
+- The main area rises over the sidebar (z-index 2, one above the expanded sidebar, with `data-sliding` on the main slot) only while it slides. At rest it has no z-index, so it never covers the app's own fixed layers, such as a bar at z-40. The expanded sidebar stacks just above the main area, so a resize handle that pokes past its edge stays grabbable.
 - The open state is the app's to keep: pass `sidebarOpen` and `onSidebarOpenChange`, and remember the value per device, so the sidebar comes back the way it was left.
 - The shell measures the sidebar's width, so a collapsible sidebar can also be resizable.
 
 ## Accessibility
 
 - The slots render landmarks: `main` for the main area and `aside` for the others. Name the navigation inside them: `aria-label` on the rail's `nav` and on `MobileNavRoot`.
-- `AppShellSidebarTrigger` is a disclosure button: `aria-expanded` says whether the sidebar is shown, and `aria-controls` names the sidebar slot (the slot's own `id`, or one the shell gives it). It shows and hides a region, so it is not a toggle button with `aria-pressed`. The shell labels it "Collapse sidebar" or "Expand sidebar", with the same text as a native `title`; when you wrap it in a [Tooltip](../tooltip/tooltip.md), pass `title={undefined}` and repeat the label in the tooltip. Pass only the icon, hidden from assistive technology. It renders nothing when the root isn't `sidebarCollapsible`, and it is hidden below 768px.
+- `AppShellSidebarTrigger` is a disclosure button: `aria-expanded` says whether the sidebar is shown, and `aria-controls` names the sidebar slot (the slot's own `id`, or one the shell gives it). It shows and hides a region, so it is not a toggle button with `aria-pressed`. The shell labels it "Collapse Sidebar" or "Expand Sidebar", with the same text as a native `title`; when you wrap it in a [Tooltip](../tooltip/tooltip.md), pass `title={undefined}` and repeat the label in the tooltip. The built-in label is English: to translate it, pass your own `aria-label` (it overrides the shell's) and use the same words in the tooltip. Pass only the icon, hidden from assistive technology. It renders nothing when the root isn't `sidebarCollapsible`, and it is hidden below 768px.
 - A collapsed sidebar is `inert`: its controls leave the tab order and the accessibility tree, and it ignores the pointer. A shortcut that collapses the sidebar while focus is inside it moves focus to the trigger first, so focus is never lost.
 
 ## Rules

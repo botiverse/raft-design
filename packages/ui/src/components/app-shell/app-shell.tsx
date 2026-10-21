@@ -289,7 +289,7 @@ export function AppShellMainSlot({
         className,
         collapsible && [
           "absolute inset-y-0 right-0 left-0",
-          "data-sliding:z-45",
+          "data-sliding:z-2",
           "transition-[left] duration-220 ease-slide",
           "motion-reduce:transition-none",
           "group-data-[state=collapsed]/app-shell:-left-(--app-shell-sidebar-width)",
@@ -365,7 +365,7 @@ function AppShellSidebarTriggerButton({
   render,
   ...props
 }: AppShellSidebarTriggerProps & { sidebar: AppShellSidebarContextValue }) {
-  const label = sidebar.open ? "Collapse sidebar" : "Expand sidebar";
+  const label = sidebar.open ? "Collapse Sidebar" : "Expand Sidebar";
 
   // Default to PanelAction for in-panel chrome; consumers can pass AppRailItem (or
   // another render) so rail placements keep the flatter item styles.

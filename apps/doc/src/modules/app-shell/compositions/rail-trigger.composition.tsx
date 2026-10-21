@@ -62,10 +62,10 @@ function RailItem({
 }
 
 // The toggle is the first item of the rail's footer. The shell names it
-// ("Collapse sidebar" / "Expand sidebar"); the tooltip repeats that name and
+// ("Collapse Sidebar" / "Expand Sidebar"); the tooltip repeats that name and
 // shows the shortcut, so the native title is turned off.
 function SidebarToggle({ open }: { open: boolean }) {
-  const label = open ? "Collapse sidebar" : "Expand sidebar";
+  const label = open ? "Collapse Sidebar" : "Expand Sidebar";
   return (
     <Tooltip>
       <AppShellSidebarTrigger

@@ -61,7 +61,7 @@ On desktop, people can hide the sidebar to give the main area the whole width, a
 
 - Put the toggle in the rail, as the first item of its footer, above Help and Settings. It belongs to the frame rather than to a page, so it stays in one spot whatever the main area shows ([AppShell](../../packages/ui/src/components/app-shell/app-shell.md#variants)).
 - Show `panel-left-close` while the sidebar is shown and `panel-left-open` while it is hidden: the icon shows what pressing it does.
-- Name it in a tooltip to its right, like every rail item: Collapse sidebar or Expand sidebar, then the shortcut in a [Kbd](../../packages/ui/src/components/kbd/kbd.md): ⌘\ on macOS, Ctrl+\ elsewhere. The shortcut works anywhere in the app, also while focus is in a text field.
+- Name it in a tooltip to its right, like every rail item: Collapse Sidebar or Expand Sidebar, then the shortcut in a [Kbd](../../packages/ui/src/components/kbd/kbd.md): ⌘\ on macOS, Ctrl+\ elsewhere. The shortcut works anywhere in the app, also while focus is in a text field.
 - Remember the state on the device, like the sidebar's width: the sidebar comes back the way it was left, after a reload too.
 - Show the toggle, and accept the shortcut, only where the sidebar is the navigation column beside the main area. A phone has no sidebar beside the main area, and on a page without a sidebar there is nothing to hide; the remembered state waits for the next page that has one.
 

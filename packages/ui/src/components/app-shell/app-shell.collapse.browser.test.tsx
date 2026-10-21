@@ -56,7 +56,7 @@ it("at rest the main area has no z-index, so app-level bars at z-40 stay on top"
   expect(getComputedStyle(main).zIndex).toBe("auto");
   expect(hitAt("app-bar")).toBe(screen.getByTestId("app-bar"));
 
-  fireEvent.click(screen.getByRole("button", { name: "Collapse sidebar" }));
+  fireEvent.click(screen.getByRole("button", { name: "Collapse Sidebar" }));
   await waitFor(() => expect(main.hasAttribute("data-sliding")).toBe(false), { timeout: 2000 });
   expect(getComputedStyle(main).zIndex).toBe("auto");
   expect(hitAt("app-bar")).toBe(screen.getByTestId("app-bar"));
@@ -64,13 +64,13 @@ it("at rest the main area has no z-index, so app-level bars at z-40 stay on top"
 
 it("the main area rises over the sidebar only while it slides", async () => {
   const { main } = renderShell();
-  fireEvent.click(screen.getByRole("button", { name: "Collapse sidebar" }));
+  fireEvent.click(screen.getByRole("button", { name: "Collapse Sidebar" }));
   expect(main.hasAttribute("data-sliding")).toBe(true);
-  expect(getComputedStyle(main).zIndex).toBe("45");
+  expect(getComputedStyle(main).zIndex).toBe("2");
   await waitFor(() => expect(getComputedStyle(main).zIndex).toBe("auto"), { timeout: 2000 });
 
-  fireEvent.click(screen.getByRole("button", { name: "Expand sidebar" }));
-  expect(getComputedStyle(main).zIndex).toBe("45");
+  fireEvent.click(screen.getByRole("button", { name: "Expand Sidebar" }));
+  expect(getComputedStyle(main).zIndex).toBe("2");
   await waitFor(() => expect(getComputedStyle(main).zIndex).toBe("auto"), { timeout: 2000 });
 });
 
@@ -85,7 +85,7 @@ it("the expanded sidebar stacks above the main area, so what pokes past its edge
 it("a collapsed sidebar cannot take focus", async () => {
   const { sidebar } = renderShell();
   const inside = screen.getByTestId("sidebar-button");
-  fireEvent.click(screen.getByRole("button", { name: "Collapse sidebar" }));
+  fireEvent.click(screen.getByRole("button", { name: "Collapse Sidebar" }));
   await waitFor(() => expect(sidebar.getAttribute("aria-hidden")).toBe("true"));
   inside.focus();
   expect(document.activeElement).not.toBe(inside);

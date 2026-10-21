@@ -36,7 +36,7 @@ test("the trigger says whether the sidebar is expanded, and names it, instead of
   // It shows and hides a region, so it is a disclosure (aria-expanded +
   // aria-controls), not a pressed/unpressed toggle (aria-pressed).
   render(<Shell />);
-  const trigger = screen.getByRole("button", { name: "Collapse sidebar" });
+  const trigger = screen.getByRole("button", { name: "Collapse Sidebar" });
   const sidebar = screen.getByTestId("sidebar");
   expect(trigger.hasAttribute("aria-pressed")).toBe(false);
   expect(trigger.getAttribute("aria-expanded")).toBe("true");
@@ -44,7 +44,7 @@ test("the trigger says whether the sidebar is expanded, and names it, instead of
   expect(trigger.getAttribute("aria-controls")).toBe(sidebar.id);
 
   fireEvent.click(trigger);
-  const collapsed = screen.getByRole("button", { name: "Expand sidebar" });
+  const collapsed = screen.getByRole("button", { name: "Expand Sidebar" });
   expect(collapsed.getAttribute("aria-expanded")).toBe("false");
   expect(collapsed.getAttribute("aria-controls")).toBe(sidebar.id);
 });
@@ -52,7 +52,7 @@ test("the trigger says whether the sidebar is expanded, and names it, instead of
 test("aria-controls follows an id the app gives the sidebar", () => {
   render(<Shell sidebarId="app-sidebar" />);
   expect(
-    screen.getByRole("button", { name: "Collapse sidebar" }).getAttribute("aria-controls"),
+    screen.getByRole("button", { name: "Collapse Sidebar" }).getAttribute("aria-controls"),
   ).toBe("app-sidebar");
 });
 
@@ -61,9 +61,9 @@ test("a collapsed sidebar is inert, so its controls leave the tab order and the 
   const sidebar = screen.getByTestId("sidebar");
   expect(sidebar.hasAttribute("inert")).toBe(false);
 
-  fireEvent.click(screen.getByRole("button", { name: "Collapse sidebar" }));
+  fireEvent.click(screen.getByRole("button", { name: "Collapse Sidebar" }));
   expect(sidebar.hasAttribute("inert")).toBe(true);
 
-  fireEvent.click(screen.getByRole("button", { name: "Expand sidebar" }));
+  fireEvent.click(screen.getByRole("button", { name: "Expand Sidebar" }));
   expect(sidebar.hasAttribute("inert")).toBe(false);
 });
