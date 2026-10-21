@@ -110,12 +110,13 @@ On desktop, people can hide the sidebar to give the main area the whole width, a
 
 ### Several views of one place
 
-A place can hold several kinds of content, such as a channel's chat, tasks and files.
+A place can hold several kinds of content, such as an agent's profile and its activity, or a channel's chat, tasks and files.
 
-- Switch between them with one row of sticker tabs under the panel header ([Tabs](../../packages/ui/src/components/tabs/tabs.md#variants), in `ConversationPanelTabs`). Give each tab an icon and a one-word label, without a count.
+- Show content that people check while they talk, such as a channel's tasks and files, as side cards beside the conversation rather than as tabs, so the conversation stays in view ([Page structure](./page-structure.md#sidebar-and-side-panel)).
+- Switch between the other views with one row of sticker tabs under the panel header ([Tabs](../../packages/ui/src/components/tabs/tabs.md#variants), in `ConversationPanelTabs`). Give each tab an icon and a one-word label, without a count.
 - Let people reorder the tabs by dragging, and keep their order. The first tab in their order is the one a place opens on.
 - Hide the row when a place has only one view, such as a thread.
-- Use the same row in every place of a product, so a view is in the same spot wherever people open it. Raft Chat's channel views are in [Channel](../products/raft-chat/channel.md#chat-tasks-and-files).
+- Use the same row in every place of a product, so a view is in the same spot wherever people open it. Raft Chat's channel views are in [Channel](../products/raft-chat/channel.md#tasks-and-files).
 
 ## Related
 
