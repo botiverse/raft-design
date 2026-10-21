@@ -52,7 +52,7 @@ Treat removed or renamed exports, removed CSS tokens, incompatible type changes,
   - **ComboboxSelect**: the field is always typeable; the phone-only pick mode and its sheet are removed. ([#635](https://github.com/botiverse/raft-design/pull/635))
     - Why: on a phone the field could not be filtered, and a sheet over a drawer stacked two overlays.
     - Affects: list height `listMaxHeight`, default `16rem` (256px) including padding.
-    - Migrate: remove the `messages.search` and `messages.close` props; a pick-only field uses `Select`.
+    - Migrate: remove the `sheetThreshold`, `sheetTitle` and `messages.search` / `done` / `close` props; a pick-only field uses `Select`.
     - Docs: https://raft-design.botiverse.build/components/combobox-select/
   ```
 - This repository is public, and so are its releases. State the problem itself, never who raised it: no names of people, agents or customers, and no "someone complained". Do not link or cite Raft channels, threads, messages or task numbers, and do not name internal servers, machines or deployments.
