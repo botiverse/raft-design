@@ -1,3 +1,23 @@
+## [0.15.0](https://github.com/botiverse/raft-design/compare/v0.14.0...v0.15.0) (2026-10-21)
+
+### Design System
+
+- **Server switcher**: on every surface (the web top bar, the phone web's Home and the mobile app) the server switcher is one button: the server's avatar, its name and a chevron, whatever sits beside it. The tilted ink pill on the phone web's Home is retired; build the switcher from `WorkspaceButton`, `Avatar type="server" size="sm"` and `WorkspaceButtonName`. ([#655](https://github.com/botiverse/raft-design/pull/655))
+  - Why: the switcher had three different shapes across the web top bar, the phone web and the mobile app, and the desktop button changed shape with the window width.
+  - Affects: avatar `sm` 27px, gaps 8px / 4px, name max 200px then an ellipsis, chevron 16px, on an on-frame `md` button (36px).
+  - Docs: https://raft-design.botiverse.build/patterns/navigation/#servers
+
+### Added
+
+- **WorkspaceButton** and **WorkspaceButtonName**: the server switcher's button. ([#655](https://github.com/botiverse/raft-design/pull/655))
+  - Why: one component keeps the switcher the same on every surface.
+  - Affects: on-frame `md` button, 36px; name max 200px.
+  - Docs: https://raft-design.botiverse.build/components/workspace-button/
+- **Avatar** `type="server"`: a server's avatar, an ink fill with its initial in brand yellow. ([#655](https://github.com/botiverse/raft-design/pull/655))
+  - Why: each app drew a server's avatar as a person's avatar recoloured to ink.
+  - Affects: fill `sticker-ink`, initial `brand`.
+  - Docs: https://raft-design.botiverse.build/components/avatar/
+
 ## [0.14.0](https://github.com/botiverse/raft-design/compare/v0.13.0...v0.14.0) (2026-10-21)
 
 ### Design System
