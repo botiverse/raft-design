@@ -42,11 +42,11 @@ card/compositions/project-summary
 
 ## Variants
 
-| Variant             | Use for                                                                                                                                                           |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `variant="default"` | A card on its own, or one with little inside it                                                                                                                   |
-| `variant="inset"`   | A card that holds many controls or nested components: a hairline separates the header and each `CardContent`                                                      |
-| `variant="option"`  | An option inside a form: `radius-control`, the 1px field border (`line-field`) and a title at the size of a field label, so it doesn't outrank the label above it |
+| Variant             | Use for                                                                                                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant="default"` | A card on its own, or one with little inside it                                                                                                                     |
+| `variant="inset"`   | A card that holds many controls or nested components: a hairline separates the header and each `CardContent`                                                        |
+| `variant="option"`  | An option inside a form: `radius-control`, the field border (1.5px `line-field`) and a title at the size of a field label, so it doesn't outrank the label above it |
 
 ```example
 card/compositions/workspace-mode

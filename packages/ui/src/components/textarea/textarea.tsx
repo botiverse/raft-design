@@ -10,7 +10,7 @@ const textarea = tv({
       "scroll-pb-(--ta-scroll-pb,0)",
       "font-heading text-field font-field outline-none",
       "py-2.5",
-      "rounded-control border border-line-field bg-layer-card",
+      "rounded-control border-[1.5px] border-line-field bg-layer-card",
       "text-foreground placeholder:text-foreground-hint",
       "shadow-none transition-shadow duration-90 ease-out focus-visible:shadow-focus",
       "data-invalid:border-danger-strong",

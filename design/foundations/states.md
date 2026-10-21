@@ -99,6 +99,13 @@ On a touch screen one long press can mean two things on an item that can be move
 - Use the same hold, distance and tolerance for everything that can be dragged by touch (sidebar rows, tabs, task cards, attachments in the composer): raft-ui's `useHoldThenMoveTouchSensor` carries them, next to a pointer sensor that leaves fingers to it. A mouse or a pen still starts a drag after 5–6px of movement, with no hold.
 - Don't let the held item select its text or open the platform's own callout (`select-none`, `-webkit-touch-callout: none`), and keep it scrollable (`touch-manipulation`, not `touch-none`).
 
+## Autofill
+
+A field the browser filled in (a saved email or password) looks like any other field: `layer-card` with ink text.
+
+- Never show the browser's autofill fill: Chrome's pale blue and Safari's yellow made the filled field the one field on the page that matched nothing else in the system, and the colour says nothing a person needs.
+- raft-ui's styles.css does this for every `input`, `textarea` and `select` on the page, so an app needs no code of its own.
+
 ## Related
 
 - [Color](./color.md): the tokens named here.

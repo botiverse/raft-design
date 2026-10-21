@@ -1,6 +1,6 @@
 ---
 title: Input
-summary: A single-line text field at the control height, with a 1px ink border, for typing one value.
+summary: A single-line text field at the control height, with a 1.5px ink border, for typing one value.
 status: stable
 aliases: [TextField]
 layer: core
@@ -10,7 +10,7 @@ related: [field, input-group, textarea, select]
 
 # Input
 
-An input takes one line of text. It is as high as a default control, 44px on a phone and 32px on a desktop ([Spacing](../../../../../design/foundations/spacing.md#heights)), with a 1px ink border (`line-field`) on `layer-card`, and it always sits in a [Field](../field/field.md) that gives it a label above and help text below. Inputs with a prefix or suffix, multi-line fields and search fields use the same box.
+An input takes one line of text. It is as high as a default control, 44px on a phone and 32px on a desktop ([Spacing](../../../../../design/foundations/spacing.md#heights)), with a 1.5px ink border (`line-field`, as wide as a button's) on `layer-card`, and it always sits in a [Field](../field/field.md) that gives it a label above and help text below. Inputs with a prefix or suffix, multi-line fields and search fields use the same box.
 
 ```example
 input/compositions/preview

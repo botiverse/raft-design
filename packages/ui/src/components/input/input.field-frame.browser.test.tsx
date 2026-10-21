@@ -10,11 +10,11 @@ import { Select, SelectTrigger, SelectValue } from "../select/select";
 import { Textarea } from "../textarea/textarea";
 import { Input } from "./input";
 
-// A field's frame rests on a 1px `line-field` border (the ink of
-// `line-strong`), on a phone and on a desktop, in light and dark. 1.5px ink
-// stays for what has to stand out: buttons, stickers, selected rows. Measured
-// in a real browser, zoomed 2x: at one device pixel per CSS pixel Chromium
-// snaps a 1.5px border to 1px, so the two would read the same.
+// A field's frame is a 1.5px `line-field` border, the ink and width of a
+// button's `line-strong`, on a phone and on a desktop, in light and dark: no
+// control is drawn thinner than the others (task #137). Measured in a real
+// browser, zoomed 2x: at one device pixel per CSS pixel Chromium snaps a 1.5px
+// border to 1px, so a 1px field would read the same as a button.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -62,13 +62,13 @@ async function viewport(width: number) {
 
 for (const mode of MODES) {
   for (const width of [390, 1280]) {
-    it(`${mode}, ${width}px: a field rests on a 1px ink border; a button keeps 1.5px`, async () => {
+    it(`${mode}, ${width}px: a field has the 1.5px ink border of a button`, async () => {
       await viewport(width);
       render(<Fields mode={mode} />);
       const ink = getComputedStyle(screen.getByTestId("ink")).borderTopColor;
       for (const field of FIELDS) {
         const style = getComputedStyle(screen.getByTestId(field));
-        expect(style.borderTopWidth, field).toBe("1px");
+        expect(style.borderTopWidth, field).toBe("1.5px");
         expect(style.borderTopColor, field).toBe(ink);
       }
       expect(getComputedStyle(screen.getByTestId("button")).borderTopWidth).toBe("1.5px");

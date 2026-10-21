@@ -14,7 +14,7 @@ const searchTrigger = tv({
   slots: {
     root: [
       "relative inline-flex h-9 w-[clamp(360px,32vw,520px)] max-w-full min-w-0 shrink-0 items-center gap-2 px-3",
-      "rounded-control border border-line-field bg-layer-card",
+      "rounded-control border-[1.5px] border-line-field bg-layer-card",
       "text-left font-sans text-body font-normal text-foreground-hint",
       "select-none outline-none transition-colors duration-100",
       "hover:press-overlay active:press-overlay focus-visible:shadow-focus",
