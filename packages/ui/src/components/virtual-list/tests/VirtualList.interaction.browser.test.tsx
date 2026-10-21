@@ -160,3 +160,35 @@ describe("VirtualList: keys on row controls", () => {
     expect(list.scrollTop).toBe(list.scrollHeight - list.clientHeight);
   });
 });
+
+describe("VirtualList: text selection", () => {
+  it("a selection outside the list does not stop virtualization", async () => {
+    const { mounted, scrollBy } = await mount();
+    const before = mounted().length;
+    const range = document.createRange();
+    range.selectNodeContents(document.getElementById("outside")!);
+    window.getSelection()!.addRange(range);
+    for (let i = 0; i < 20; i++) await scrollBy(1000);
+    expect(mounted().length).toBeLessThanOrEqual(before + 2);
+    expect(mounted()).not.toContain("row-0");
+  });
+
+  it("a selection inside the list keeps only the rows it reaches into", async () => {
+    const { list, mounted, scrollBy } = await mount();
+    const before = mounted().length;
+    const range = document.createRange();
+    range.setStart(list.querySelector('[data-text="row-2"]')!.firstChild!, 1);
+    range.setEnd(list.querySelector('[data-text="row-3"]')!.firstChild!, 3);
+    window.getSelection()!.addRange(range);
+    for (let i = 0; i < 20; i++) await scrollBy(1000);
+    const rows = mounted();
+    expect(rows).toContain("row-2");
+    expect(rows).toContain("row-3");
+    expect(rows).not.toContain("row-0");
+    expect(rows).not.toContain("row-4");
+    expect(rows.length).toBeLessThanOrEqual(before + 2);
+    // The selection's ends are still in the document, so it is still there to copy.
+    expect(range.startContainer.isConnected && range.endContainer.isConnected).toBe(true);
+    expect(window.getSelection()!.toString()).toMatch(/^ow-2[\s\S]*row$/);
+  });
+});
