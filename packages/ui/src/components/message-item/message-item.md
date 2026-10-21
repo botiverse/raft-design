@@ -151,9 +151,9 @@ message-item/compositions/delegated-preview
 message-item/compositions/delegated-long-names
 ```
 
-- The toolbar is 32px high: 28px buttons with 16px icons, in a 2px frame, with its hairline drawn inside that height. It rides the top edge of the highlight and reaches 16px above it, half its height; on a group's first row the transparent 8px border takes half of that, so it reaches only 8px beyond the row. Its buttons are `MessageItemToolbarButton`, not [Button](../button/button.md). It stays this compact because it appears on every message under the pointer: at 38px it covered the sender line and was clipped above the first message.
-- The toolbar's corner is `radius-container` (10px) around buttons with `radius-control` (8px): the 2px frame sits between them, so the hover fill keeps an even gap around the corner ([Nested corners](../../../../../design/foundations/shape.md#nested-corners)).
-- Leave at least 16px above the first message of a scroll area and above the root message of a thread, so the toolbar is never clipped. A timeline that opens with a date line already has the room.
+- The toolbar is 36px high: 28px buttons with 16px icons, 4px from the frame and 4px apart, with its hairline drawn inside that height. It rides the top edge of the highlight and reaches 18px above it, half its height; on a group's first row the transparent 8px border takes part of that, so it reaches only 10px beyond the row. Its buttons are `MessageItemToolbarButton`, not [Button](../button/button.md). It stays this compact because it appears on every message under the pointer: at 38px it covered the sender line and was clipped above the first message.
+- The toolbar's corner is `radius-container` (10px); its buttons are controls embedded in its frame and wear `radius-chip` (6px), like the buttons in a field, the composer and a card corner. At 4px from the frame their corners keep an even gap around the toolbar's ([Inside a frame](../../../../../design/foundations/shape.md#inside-a-frame)).
+- Leave at least 18px above the first message of a scroll area and above the root message of a thread, so the toolbar is never clipped. A timeline that opens with a date line already has the room.
 - The task marker opens the task. Status changes in the task, not from the marker.
 
 ```example
@@ -172,9 +172,9 @@ message-item/compositions/reactions
 
 `MessageTextSelectionToolbar` floats over text the person selects in a message, with actions such as Quote and Copy. It looks exactly like the hover toolbar, so the two read as one kind of thing:
 
-- It is 32px high: a 2px frame with its hairline drawn inside (`ring-inset`) and the container radius (10px), around 28px buttons with the control radius (8px).
+- It is 36px high: the container radius (10px) with its hairline drawn inside (`ring-inset`), around 28px buttons with `radius-chip` (6px), 4px from the frame and 4px apart.
 - Its buttons have text labels after 16px icons in `foreground-muted`. On hover they take the pressed overlay, `fill-pressed`, not the `brand-soft` of a menu row: a toolbar's actions are buttons, not menu rows ([States](../../../../../design/foundations/states.md)).
-- `MessageTextSelectionToolbarSeparator` is 20px high, with 2px on each side.
+- `MessageTextSelectionToolbarSeparator` is 20px high, with the toolbar's 4px on each side.
 - Write labels in Title Case. They never wrap: Chinese text can break between any two characters, so a toolbar squeezed at the edge of the window broke a two-character label onto two lines.
 - It anchors to the line where the selection's focus end is, where the person let go, not to the whole range: a whole-line or multi-paragraph selection spans the row, and the middle of that is nowhere near the pointer. Build the anchor with `createMessageTextSelectionAnchor(selection)` and pass it to `PopoverContent`'s `anchor`.
 - It stays inside the viewport: above the line by default, it flips below when there is no room and shifts along the line near a side edge.

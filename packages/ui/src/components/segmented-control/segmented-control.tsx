@@ -16,7 +16,7 @@ const segmentedControl = tv({
       // shrink, so a squeezed track let them spill onto the next control. A
       // caller that wants it full width passes `w-full` and lets the segments
       // share it (`*:flex-1`).
-      "w-fit flex-nowrap gap-0.5 rounded-[11px] bg-fill-muted p-[3px]",
+      "w-fit flex-nowrap gap-[3px] rounded-[11px] bg-fill-muted p-[3px]",
     ],
     item: [
       "inline-flex min-w-0 shrink-0 items-center gap-1.5",

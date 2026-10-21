@@ -32,7 +32,7 @@ code-block/compositions/shiki
   - `CodeBlockTitle`: the file name, in Space Mono.
   - `CodeBlockActions`: the actions at its right end.
 - `CodeBlockBody`: the code panel. Render the complete `pre` and `code` inside it. Required.
-- `CodeBlockAction`: a 32px icon button. You provide its icon and what it does.
+- `CodeBlockAction`: a 32px icon button with `radius-chip`, like every control embedded in a frame. You provide its icon and what it does.
 
 ## Variants
 
@@ -75,3 +75,4 @@ code-block/compositions/animated-copy
 
 - Set code in Space Mono, `text-mono-code`.
 - Put the block on `layer-code`, with a `line-hairline` border and `radius-container`.
+- Put the actions 6px from the block's corner. Without a header they sit on the code, so the code keeps their column free on every line: a copy button never covers the first line ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).

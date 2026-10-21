@@ -199,7 +199,7 @@ message-translation/compositions/translation-showcase
 
 ### Toolbar for selected messages
 
-While messages are selected, a toolbar takes the composer's place at the bottom of the conversation: Select All, Cancel, Forward, Copy link, and a More menu with Generate image and Copy MD. Select Message in the message menu starts the selection; each message gets a checkbox ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)).
+While messages are selected, a toolbar takes the composer's place at the bottom of the conversation: Select All, Cancel, Forward, Copy link, and a More menu with Generate image and Copy MD. Select Message in the message menu starts the selection; each message gets a checkbox ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)). It is a floating toolbar like the hover toolbar: its buttons sit 4px inside it and 4px apart, and wear `radius-chip` ([Shape](../foundations/shape.md#inside-a-frame)).
 
 ```example
 message-item/compositions/selection-showcase

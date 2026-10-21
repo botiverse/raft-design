@@ -261,7 +261,7 @@ it("with a mouse the header reserves the toolbar's width, and a product can chan
   for (const width of [600, 1280]) {
     await viewport(width);
     render(<ReserveRow />);
-    expect(paddingEnd(), `at ${width}px`).toBe("104px");
+    expect(paddingEnd(), `at ${width}px`).toBe("112px");
     cleanup();
   }
   render(<ReserveRow reserve="8.25rem" />);

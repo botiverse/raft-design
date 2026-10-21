@@ -11,7 +11,7 @@ export const messageMultiSelect = tv({
     ],
     toolbar: [
       "flex items-center",
-      "gap-2 rounded-container px-2.5 py-2",
+      "gap-2 rounded-container py-1 pr-1 pl-2.5 **:data-[slot=button]:rounded-chip",
       "bg-layer-popover ring-1 ring-line-seam shadow-float",
     ],
   },

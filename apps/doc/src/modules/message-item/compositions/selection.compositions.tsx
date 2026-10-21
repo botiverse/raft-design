@@ -85,7 +85,7 @@ export function MessageMultiSelectToolbarComposition({
       </span>
       <div
         ref={actionsRef}
-        className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-1.5"
+        className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-1"
       >
         <Button
           size={compactCancel ? "icon-xs" : "xs"}

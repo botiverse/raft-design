@@ -6,7 +6,7 @@ export const messageAttachment = tv({
     card: [
       "group/attachment relative inline-flex h-20 w-44 min-w-44 max-w-44 shrink-0 flex-col overflow-hidden",
       "text-left",
-      "rounded-container border border-line-hairline bg-layer-card py-2 pr-1.5 pl-2.5 text-foreground",
+      "rounded-container border border-line-hairline bg-layer-card py-2 pr-[5px] pl-2.5 text-foreground",
       "outline-none hover:press-overlay active:press-overlay focus-visible:shadow-focus",
       "[&_[data-slot=message-attachment-action]_svg]:size-4",
     ],
@@ -36,7 +36,7 @@ export const messageAttachment = tv({
       "relative flex items-center justify-center",
       "before:absolute before:-inset-1 before:content-['']",
       "[&_svg]:shrink-0",
-      "-my-1 size-6 rounded-control text-foreground",
+      "-my-1 size-6 rounded-chip text-foreground",
       "outline-none hover:bg-fill-pressed active:bg-fill-pressed",
       "focus-visible:shadow-focus",
       "[&_svg]:size-4",

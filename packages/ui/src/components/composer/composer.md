@@ -58,6 +58,7 @@ composer-suggestions/composer-suggestions
 - Let people drag files into the composer, but not folders.
 - Grow the input with its content up to a maximum height, then scroll inside it.
 - On a phone, keep the composer on top of the keyboard when the keyboard opens. Return inserts a new line on a phone held upright ([Responsive layout](../../../../../design/patterns/responsive.md#phone)), so sending uses the send button.
+- Its buttons, the send button included, are controls embedded in its frame: they wear `radius-chip` and sit 6px from the composer's outer edge at the bottom and at each side ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
 - Put the composer's border on the content margin ([Page structure](../../../../../design/patterns/page-structure.md#one-edge-per-column)), with 16px plus the safe area below it.
 
 ```example

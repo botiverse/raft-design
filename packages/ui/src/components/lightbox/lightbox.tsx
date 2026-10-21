@@ -74,11 +74,11 @@ const lightbox = tv({
     infoBar: [
       "pointer-events-auto flex items-center",
       "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
-      "gap-2 rounded-container py-0.5 pr-0.5 pl-2.5",
+      "gap-2 rounded-container py-1 pr-1 pl-2.5",
       "bg-layer-popover text-foreground shadow-float ring-1 ring-line-seam",
     ],
     infoTitle: ["min-w-0 flex-1 truncate", "font-sans text-footnote font-semibold text-foreground"],
-    infoActions: ["flex shrink-0 items-center", "gap-1"],
+    infoActions: ["flex shrink-0 items-center", "gap-1", "*:data-[slot=button]:rounded-chip"],
     thumbnailStrip: [
       "pointer-events-none absolute right-0 bottom-4 left-0 z-10",
       "flex items-center justify-center gap-1.5",

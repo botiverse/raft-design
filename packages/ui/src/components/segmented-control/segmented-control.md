@@ -50,6 +50,7 @@ segmented-control/compositions/disabled
 
 ## Behavior
 
+- The segments sit 3px inside the track and 3px apart, so the gap between two of them is the gap to the track ([Spacing](../../../../../design/foundations/spacing.md#spacing)).
 - The track hugs its segments. Don't stretch it to fill its container: a stretched track leaves an empty run of gray beside the segments.
 - The control never shrinks below its segments. When the row is too narrow, its neighbors give way first, then the segments show only their icons ([Responsive layout](../../../../../design/patterns/responsive.md#when-a-row-runs-out-of-room)).
 - To let the segments show only their icons, mark the row with `@container` and set `iconsOnlyBelow` on the control to the row width below which the labels no longer fit: `xs` (20rem), `sm` (24rem), `md` (28rem), `lg` (32rem), `xl` (36rem) or `2xl` (42rem). Below it, every segment becomes a 32px square that shows only its icon: its label and its count stay its accessible name, and its label shows in a tooltip on hover and on keyboard focus. The control keeps its 32px height and its text size. Set `iconsOnlyBelow` only when every segment has an icon: a segment without one would be left empty.

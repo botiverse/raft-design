@@ -10,14 +10,14 @@ export const codeBlock = tv({
     ],
     header: [
       "flex h-(--code-block-header-height) items-center",
-      "gap-2 border-b border-line-hairline pr-1 pl-3",
+      "gap-2 border-b border-line-hairline pr-[5px] pl-3",
       "font-mono text-mono-meta text-foreground-hint",
     ],
     title: ["min-w-0 flex-1 truncate font-mono", "text-mono-meta"],
     actions: [
-      "ml-auto flex items-center gap-2",
-      "[[data-slot=code-block-body]>&]:absolute [[data-slot=code-block-body]>&]:top-2",
-      "[[data-slot=code-block-body]>&]:right-2 [[data-slot=code-block-body]>&]:z-10",
+      "ml-auto flex items-center gap-1",
+      "[[data-slot=code-block-body]>&]:absolute [[data-slot=code-block-body]>&]:top-[5px]",
+      "[[data-slot=code-block-body]>&]:right-[5px] [[data-slot=code-block-body]>&]:z-10",
     ],
     corner: [
       "pointer-events-none absolute z-20 size-1",
@@ -26,8 +26,9 @@ export const codeBlock = tv({
       "hidden",
     ],
     body: [
-      "relative min-w-0 overflow-x-auto p-4 font-mono",
+      "relative min-w-0 p-4 font-mono [&_pre]:overflow-x-auto",
       "px-3 py-2 text-mono-code text-foreground",
+      "has-[>[data-slot=code-block-actions]]:pr-12",
       "[&_pre_span]:text-(--shiki-light,currentColor)",
       "dark:[&_pre_span]:text-(--shiki-dark,currentColor)",
     ],
@@ -35,7 +36,7 @@ export const codeBlock = tv({
       "inline-flex shrink-0 items-center justify-center",
       "transition-[color,background-color,opacity]",
       "focus-visible:outline-none",
-      "size-8 rounded-control text-foreground",
+      "size-8 rounded-chip text-foreground",
       "hover:bg-fill-pressed active:bg-fill-pressed",
       "focus-visible:ring-0 focus-visible:shadow-focus",
       "[&_svg:not([class*='size-'])]:size-4.5",

@@ -67,7 +67,7 @@ export const messageItem = tv({
     // baseline the time's digits stand as tall as the role's capitals.
     header: [
       "mb-px flex min-w-0 items-baseline gap-1.5 overflow-hidden",
-      "pointer-fine:pe-(--mi-toolbar-reserve,6.5rem)",
+      "pointer-fine:pe-(--mi-toolbar-reserve,7rem)",
       "has-data-[slot=message-item-delegated-by]:[--mi-owner-basis:3rem] has-data-[slot=message-item-delegated-by]:[--mi-owner-flex:1_0]",
     ],
     // The role grows into what is left after the name and badges (it has no
@@ -147,13 +147,13 @@ export const messageItem = tv({
       "absolute z-20 flex items-center",
       "opacity-(--mi-toolbar-opacity,0)",
       "[pointer-events:var(--mi-toolbar-pe,none)]",
-      "top-[-16px] right-3 gap-0.5 overflow-visible rounded-container p-0.5",
+      "top-[-18px] right-3 gap-1 overflow-visible rounded-container p-1",
       "bg-layer-popover ring-1 ring-line-seam ring-inset shadow-float",
     ],
     toolbarButton: [
       "inline-flex shrink-0 items-center justify-center",
       "[&_svg]:shrink-0",
-      "size-7 rounded-control border-0 bg-transparent p-0",
+      "size-7 rounded-chip border-0 bg-transparent p-0",
       "text-foreground-muted hover:bg-fill-pressed active:bg-fill-pressed",
       "data-popup-open:bg-fill-pressed data-active:text-foreground",
       "outline-none focus-visible:shadow-focus",
