@@ -52,6 +52,7 @@ import type { ColumnsContextValue } from "./ItemColumns";
 import { isIOS } from "./utils/platform";
 import { getAlignedScrollTop } from "./utils/align";
 import { measureRowSpans, measureRowStart } from "./utils/measure";
+import { createTypicalSizeCache, getTypicalSize, recordMeasuredSize } from "./utils/size-cache";
 import type {
   Column,
   ScrollAlign,
@@ -223,10 +224,11 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   const keptKeysRef = useRef<string[]>([]);
   /** The key of the row that holds focus (`document.activeElement` is in it), tracked by focusin / focusout. */
   const focusedKeyRef = useRef<string | null>(null);
+  /** The measured rows' sizes, by key (see `utils/size-cache.ts`). */
   const keyToHeightOffsetRef = useRef(new Map<string, number>());
   /** Bumped whenever `keyToHeightOffsetRef` changes (see `getTypicalSize`). */
   const measuredVersionRef = useRef(0);
-  const typicalSizeRef = useRef({ version: -1, size: 0 });
+  const typicalSizeRef = useRef(createTypicalSizeCache());
   /*
    * Unlike the reference implementation (DeepSeek web): rows are laid out in block flow and measured
    * from layout (`measureFlowRun`). A row's size is the space from where it starts (the top of its border box) to where the next row
@@ -562,23 +564,16 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       }
     }
   }, [virtual]);
-  /**
-   * The size rows typically are: the mean of the measured rows (the key -> offset cache holds the rows
-   * not at the estimate), or the estimate before any is measured. Recomputed when measurements change.
-   */
-  const getTypicalSize = useEventCallback(() => {
-    const cached = typicalSizeRef.current;
-    if (cached.version !== measuredVersionRef.current) {
-      const offsets = keyToHeightOffsetRef.current;
-      let total = 0;
-      for (const offset of offsets.values()) {
-        total += offset;
-      }
-      cached.size = itemEstimatedSize + (offsets.size === 0 ? 0 : total / offsets.size);
-      cached.version = measuredVersionRef.current;
-    }
-    return Math.max(cached.size, itemMinSize, 1);
-  });
+  /** The size rows typically are: the mean of the measured rows (`getTypicalSize`). */
+  const getTypicalRowSize = useEventCallback(() =>
+    getTypicalSize(
+      typicalSizeRef.current,
+      keyToHeightOffsetRef.current,
+      measuredVersionRef.current,
+      itemEstimatedSize,
+      itemMinSize,
+    ),
+  );
   /**
    * The viewport sync. The range starts at the item at `scrollTop + compensation - paddingTop` and
    * holds as many items as fit at `itemMinSize`, plus one, and is overscanned in batches
@@ -659,7 +654,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
               const item = items[index];
               return item !== undefined && keyToHeightOffsetRef.current.has(getKey(item))
                 ? fenwickTree.get(index)
-                : getTypicalSize();
+                : getTypicalRowSize();
             },
             listHeight: viewport.listHeight,
             itemCount: items.length,
@@ -959,15 +954,14 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       rows.forEach(({ key, index }: FlowRow, i: number) => {
         const size = spans[i]!;
         const previousSize = fenwickTree.get(index);
+        // Recorded even when the size is the one counted for it (the estimate, for a row not measured
+        // yet): the row is measured from now on.
+        if (recordMeasuredSize(keyToHeightOffsetRef.current, key, size, itemEstimatedSize)) {
+          measuredVersionRef.current += 1;
+        }
         if (size === previousSize) {
           return;
         }
-        if (size - itemEstimatedSize === 0) {
-          keyToHeightOffsetRef.current.delete(key);
-        } else {
-          keyToHeightOffsetRef.current.set(key, size - itemEstimatedSize);
-        }
-        measuredVersionRef.current += 1;
         fenwickTree.add(index, size - previousSize);
         resizes.push({ index, key, delta: size - previousSize });
       });
@@ -1864,13 +1858,11 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
             leadingMarginRef.current = firstStart;
           }
           rows.forEach(({ key }, i: number) => {
-            const offset = spans[i]! - itemEstimatedSize;
-            if (offset === 0) {
-              keyToHeightOffsetRef.current.delete(key);
-            } else {
-              keyToHeightOffsetRef.current.set(key, offset);
+            if (
+              recordMeasuredSize(keyToHeightOffsetRef.current, key, spans[i]!, itemEstimatedSize)
+            ) {
+              measuredVersionRef.current += 1;
             }
-            measuredVersionRef.current += 1;
           });
         }
       }
