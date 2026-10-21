@@ -72,5 +72,6 @@ raft-ui does this on its own. A modal `Dialog`, `AlertDialog` or `Drawer` tells 
 ## Related
 
 - [States](./states.md): hover, press and focus.
+- [Visual comfort](./comfort.md#surfaces): when content gets a card or a border at all.
 - [Brand](./brand.md): where the sticker shadow may appear.
 - [Choosing a component](../components/overview.md#how-to-choose-a-component): which popup to use.
