@@ -1,6 +1,6 @@
 ---
 title: Drawer
-summary: A panel that slides in from the right for details and settings people look at for a while, and on a phone a bottom sheet for picking a place to go or reading a short explanation.
+summary: A panel that slides in from the right for details and settings people look at for a while, and on a phone a bottom sheet for picking a place to go or one of many values, a little form, or a short explanation.
 status: stable
 aliases: [Sheet, BottomSheet]
 layer: core
@@ -11,7 +11,7 @@ redirectFrom: [decisions/0022-floating-drawers-and-sheets, decisions/0027-modal-
 
 # Drawer
 
-A drawer slides in from the right with details and settings that people look at for a while, scroll and edit, such as the details and members of #launch-week. The page stays in place behind it, under a scrim. On a phone the same component rises from the bottom as a bottom sheet: to pick a place to go, or to read a short explanation with one button.
+A drawer slides in from the right with details and settings that people look at for a while, scroll and edit, such as the details and members of #launch-week. The page stays in place behind it, under a scrim. On a phone the same component rises from the bottom as a bottom sheet: to pick a place to go or one of many values, to fill in a small form that a popover or a dialog holds on desktop, or to read a short explanation with one button ([Overlays on a phone](../../../../../design/patterns/page-structure.md#overlays-on-a-phone)).
 
 ```example
 drawer/compositions/responsive-placement
@@ -19,17 +19,18 @@ drawer/compositions/responsive-placement
 
 ## When to use
 
-| Situation                                                      | Use                                                                                                                                                                          |
-| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Details or settings people read, scroll and edit               | Drawer, from the right                                                                                                                                                       |
-| A large form filled in one pass: registering or editing an app | The wide [Dialog](../dialog/dialog.md), not a wide drawer ([Forms](../../../../../design/patterns/forms.md#the-large-form-dialog))                                           |
-| Switching server, on a phone                                   | A bottom sheet with a list ([Navigation](../../../../../design/patterns/navigation.md#servers)); the product still opens a popover. Working now is a popover, on a phone too |
-| A sentence or two and one button, on a phone                   | A bottom sheet                                                                                                                                                               |
-| Acting on one thing                                            | A menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md), [ContextMenu](../context-menu/context-menu.md)), never a bottom sheet                                             |
-| Picking a value, such as sort order or status                  | The list of a [Select](../select/select.md), or radio items in a menu                                                                                                        |
-| Confirming                                                     | [AlertDialog](../alert-dialog/alert-dialog.md)                                                                                                                               |
-| A glance on hover                                              | [PreviewCard](../preview-card/preview-card.md)                                                                                                                               |
-| A thread or a profile kept open beside the conversation        | A side panel ([ThreadPanel](../thread-panel/thread-panel.md), [Panel](../panel/panel.md)), which is not a drawer and has no scrim                                            |
+| Situation                                                                                                                                               | Use                                                                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Details or settings people read, scroll and edit                                                                                                        | Drawer, from the right                                                                                                                                                                                             |
+| A large form filled in one pass: registering or editing an app                                                                                          | The wide [Dialog](../dialog/dialog.md), not a wide drawer ([Forms](../../../../../design/patterns/forms.md#the-large-form-dialog))                                                                                 |
+| Switching server, on a phone                                                                                                                            | A bottom sheet with a list ([Navigation](../../../../../design/patterns/navigation.md#servers)); the product still opens a popover. Working now is a popover, on a phone too                                       |
+| A sentence or two and one button, on a phone                                                                                                            | A bottom sheet                                                                                                                                                                                                     |
+| One or a few of many values, the little form a popover holds on desktop (rename, snooze), or a small task in 2 or 3 fields (Create Channel), on a phone | A bottom sheet ([Overlays on a phone](../../../../../design/patterns/page-structure.md#overlays-on-a-phone))                                                                                                       |
+| Acting on one thing                                                                                                                                     | A menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md), [ContextMenu](../context-menu/context-menu.md)), never a bottom sheet                                                                                   |
+| Picking a value, such as sort order or status                                                                                                           | The list of a [Select](../select/select.md), or radio items in a menu, on a phone too                                                                                                                              |
+| Confirming                                                                                                                                              | [AlertDialog](../alert-dialog/alert-dialog.md), never a bottom sheet; the iOS app uses the system confirmation sheet ([Overlays on a phone](../../../../../design/patterns/page-structure.md#overlays-on-a-phone)) |
+| A glance on hover                                                                                                                                       | [PreviewCard](../preview-card/preview-card.md)                                                                                                                                                                     |
+| A thread or a profile kept open beside the conversation                                                                                                 | A side panel ([ThreadPanel](../thread-panel/thread-panel.md), [Panel](../panel/panel.md)), which is not a drawer and has no scrim                                                                                  |
 
 ## Anatomy
 

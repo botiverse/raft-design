@@ -10,7 +10,7 @@ related: [alert-dialog, form-section, drawer, banner, toast]
 
 # Dialog
 
-A dialog is a centered overlay on a scrim for something people must finish before they continue: a small task of 2 or 3 fields, such as creating a channel. It has a title, a body and at most two buttons. Its wide size holds a large form filled in one pass. To confirm an action, use [AlertDialog](../alert-dialog/alert-dialog.md).
+A dialog is a centered overlay on a scrim for something people must finish before they continue: a small task of 2 or 3 fields, such as creating a channel. It has a title, a body and at most two buttons. Its wide size holds a large form filled in one pass. On a phone, a small task with fields opens as a bottom sheet instead ([Behavior](#behavior)). To confirm an action, use [AlertDialog](../alert-dialog/alert-dialog.md).
 
 ```example
 dialog/compositions/create-channel
@@ -20,7 +20,7 @@ dialog/compositions/create-channel
 
 | Situation                                                                            | Use                                                                                                                                     |
 | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| A small task in 2 or 3 fields (Create Channel)                                       | Dialog                                                                                                                                  |
+| A small task in 2 or 3 fields (Create Channel)                                       | Dialog; on a phone, a bottom sheet ([Overlays on a phone](../../../../../design/patterns/page-structure.md#overlays-on-a-phone))        |
 | A large form filled in one pass: registering or editing an app, configuring an agent | Dialog with `size="wide"`                                                                                                               |
 | Task details                                                                         | A wider Dialog, 960px wide and full screen on a phone ([Tasks](../../../../../design/patterns/tasks.md))                                |
 | Confirming an action that cannot be undone, or that interrupts                       | [AlertDialog](../alert-dialog/alert-dialog.md)                                                                                          |
@@ -58,7 +58,7 @@ The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFoot
 - A dialog appears and disappears without animation, always over the scrim ([Motion](../../../../../design/foundations/motion.md#usage)).
 - Esc, × and Cancel close a dialog. A click on the scrim closes a small dialog.
 - Don't close a large form dialog on a click outside it: pass `disablePointerDismissal` on `Dialog`, so a half-filled form isn't lost to a stray click.
-- On a narrow screen the dialog keeps a 16px margin on each side and never grows taller than the window less 32px.
+- On a phone, a small dialog with fields opens as a bottom sheet instead ([Drawer](../drawer/drawer.md)): the on-screen keyboard covers a small centered dialog, and phones present a short create form as a sheet (iOS) or a full-screen dialog (Material). Dialog doesn't do this itself yet. A dialog that only asks a question stays a dialog, with a 16px margin on each side, and never grows taller than the window less 32px.
 - Below 768px the wide dialog hides `DialogNav` and the sections follow one another.
 - A dialog opened from a dialog or a sheet draws its own, lighter scrim over the one below ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)). Render it inside the first one and this happens by itself. `layer={1}` is only for a dialog rendered outside the first one's tree: it lifts the dialog and its scrim above the first.
 

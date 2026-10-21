@@ -62,6 +62,7 @@ combobox-select/compositions/async-search
 - Filter the options as people type, unless `remote` is set.
 - With `multiple`, keep the list open when a value is chosen; clicking outside or Esc closes it. Typing continues after the last chip.
 - With `maxTagCount`, chips beyond the count collapse into a count while the field is not focused. All of them come back on focus.
+- On a phone, open up to 10 values in the anchored list and more in a bottom sheet with its search row at the top ([Overlays on a phone](../../../../../design/patterns/page-structure.md#overlays-on-a-phone)). ComboboxSelect does this itself ([On a phone](#on-a-phone)).
 
 ### On a phone
 

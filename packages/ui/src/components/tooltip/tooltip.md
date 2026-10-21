@@ -49,7 +49,8 @@ The tooltip is `layer-hud` with `foreground-on-hud` text, like a toast ([Color](
 
 - Tooltip wraps the Base UI Tooltip. It provides the `tooltip` role and opens on hover and on keyboard focus.
 - A tooltip adds to a name; it doesn't replace it. Give every icon-only button its own `aria-label`.
-- Touch screens have no hover. Show the tooltip on press and hold, or write the explanation in the interface instead.
+- Touch screens have no hover, and Tooltip doesn't open on touch: Base UI opens it for a mouse and for keyboard focus only, and raft-ui adds no press-and-hold tooltip on the web. So never make a tooltip the only explanation: write it in the interface, or make it the trigger's accessible name ([Touch](../../../../../design/patterns/touch.md#press-and-hold)).
+- In the native apps the platform's tooltip may open on press and hold, as Material's does on an Android icon button. Never put one on something whose press and hold opens a menu: the menu wins.
 
 ## Rules
 

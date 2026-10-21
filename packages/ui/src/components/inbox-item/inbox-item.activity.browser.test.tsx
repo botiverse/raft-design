@@ -21,9 +21,8 @@ import {
 } from "./inbox-item";
 
 // The Activity row parts the Raft web app's Activity list needs: hover-revealed actions
-// (hidden at rest with a mouse, shown on hover / focus / active, at rest on a
-// touch screen), a leading avatar with the divider after it, the compact
-// one-line row, and badges that take the pointer for their tooltips. Measured
+// (hidden at rest with a mouse and on a touch screen, shown on hover / focus /
+// active), a leading avatar with the divider after it, the compact one-line row, and badges that take the pointer for their tooltips. Measured
 // in a real browser; jsdom has no media queries, hover or layout.
 
 const it = test.skipIf(typeof window === "undefined");
@@ -142,6 +141,13 @@ it("shows hover-revealed actions on row focus and on the active row", async () =
   expect(opacity(screen.getByTestId("actions"))).toBe("1");
 });
 
+it("shows hover-revealed actions while the row's menu is open", async () => {
+  render(<RevealRow />);
+  screen.getByTestId("row").setAttribute("data-popup-open", "");
+  expect(opacity(screen.getByTestId("actions"))).toBe("1");
+  expect(opacity(screen.getByTestId("time"))).toBe("0");
+});
+
 it("leaves actions without reveal visible at rest", async () => {
   render(
     <InboxItem>
@@ -250,23 +256,27 @@ it("lets a badge in the content take the pointer for its tooltip, and a click on
   expect(opened).toBe(1);
 });
 
-it("shows hover-revealed actions at rest on a touch screen, with room made for them", async () => {
+it("hides hover-revealed actions at rest on a touch screen too, and shows them while the row holds focus", async () => {
   await setCoarsePointer(true);
   expect(matchMedia("(pointer: coarse)").matches).toBe(true);
-  const { unmount } = render(<RevealRow />);
+  render(<RevealRow />);
+  const actions = screen.getByTestId("actions");
+  // At rest the row keeps its timestamp and attention dot: Mark as Done is
+  // in the press-and-hold menu and on the swipe, not on every row.
+  expect(opacity(actions)).toBe("0");
+  expect(pointerEvents(actions)).toBe("none");
+  expect(opacity(screen.getByTestId("time"))).toBe("1");
   const dot = getComputedStyle(screen.getByTestId("trailing"), "::after");
   expect(dot.display).toBe("block");
-  expect(dot.marginRight).toBe("44px");
-  unmount();
-  render(<RevealRow density="compact" />);
-  const actions = screen.getByTestId("actions");
+  expect(dot.opacity).toBe("1");
+  expect(dot.marginRight).toBe("0px");
+  // A tap at the end of the row opens it, rather than hitting a hidden button.
+  const box = actions.getBoundingClientRect();
+  const hit = document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2);
+  expect(hit?.getAttribute("data-slot")).toBe("inbox-item-open");
+  // A screen reader or a keyboard still reaches it, and then it shows.
+  screen.getByRole("button", { name: "Mark as done" }).focus();
   expect(opacity(actions)).toBe("1");
   expect(pointerEvents(actions)).toBe("auto");
-  for (const id of ["time", "marks"]) {
-    const el = screen.getByTestId(id);
-    expect(opacity(el)).toBe("1");
-    expect(el.getBoundingClientRect().right).toBeLessThanOrEqual(
-      actions.getBoundingClientRect().left,
-    );
-  }
+  expect(opacity(screen.getByTestId("time"))).toBe("0");
 });

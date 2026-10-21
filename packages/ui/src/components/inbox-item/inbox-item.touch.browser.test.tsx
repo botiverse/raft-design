@@ -1,5 +1,5 @@
 import "./inbox-item.test.css";
-import { afterAll, afterEach, beforeAll, expect, test } from "vite-plus/test";
+import { afterAll, afterEach, beforeAll, expect, onTestFinished, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { Badge } from "../badge/badge";
 import { Button } from "../button/button";
@@ -187,4 +187,56 @@ it("leaves a mouse at phone width as it was: 32px buttons, no overhang", async (
     expect(action.getBoundingClientRect().height).toBe(32);
   }
   expect(done.getBoundingClientRect().left - save.getBoundingClientRect().right).toBe(2);
+});
+
+function RevealRow() {
+  return (
+    <InboxItem data-testid="reveal-row">
+      <InboxItemTrigger aria-label="Open Martin needs your OK" />
+      <InboxItemContent>
+        <InboxItemTitle>Martin needs your OK</InboxItemTitle>
+      </InboxItemContent>
+      <InboxItemTrailing>
+        <InboxItemTimestamp data-testid="reveal-time">2m</InboxItemTimestamp>
+        <InboxItemActions reveal="hover" data-testid="reveal-actions">
+          <Button variant="outline" size="icon-md" aria-label="Mark as done">
+            D
+          </Button>
+        </InboxItemActions>
+      </InboxItemTrailing>
+    </InboxItem>
+  );
+}
+
+async function tap(el: Element) {
+  const { cdp } = await import("vite-plus/test/browser/context");
+  const box = el.getBoundingClientRect();
+  const point = { x: box.left + box.width / 3, y: box.top + box.height / 2 };
+  await cdp().send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [point] });
+  await cdp().send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+}
+
+it("on a touch screen, a tap or an open row menu doesn't show the hidden actions; keyboard focus does", async () => {
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  await setCoarsePointer(true);
+  // Read end states, not the opacity transition's first frame.
+  const noTransitions = document.head.appendChild(document.createElement("style"));
+  noTransitions.textContent = "* { transition: none !important; }";
+  onTestFinished(() => noTransitions.remove());
+  render(<RevealRow />);
+  const actions = screen.getByTestId("reveal-actions");
+  const trigger = screen.getByRole("button", { name: "Open Martin needs your OK" });
+  await tap(trigger);
+  expect(document.activeElement).toBe(trigger);
+  expect(getComputedStyle(actions).opacity).toBe("0");
+  expect(getComputedStyle(screen.getByTestId("reveal-time")).opacity).toBe("1");
+  // A press and hold opens the row's menu, which marks the row popup-open.
+  const row = screen.getByTestId("reveal-row");
+  row.setAttribute("data-popup-open", "");
+  expect(getComputedStyle(actions).opacity).toBe("0");
+  row.removeAttribute("data-popup-open");
+  await userEvent.keyboard("{Tab}");
+  expect(document.activeElement).toBe(screen.getByRole("button", { name: "Mark as done" }));
+  expect(getComputedStyle(actions).opacity).toBe("1");
+  expect(getComputedStyle(screen.getByTestId("reveal-time")).opacity).toBe("0");
 });

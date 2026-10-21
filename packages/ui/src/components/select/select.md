@@ -68,7 +68,7 @@ picker-trigger-button/compositions/select-filter
 ## Behavior
 
 - Make the list as wide as the field. Align a filter's list with the filter's left edge, and with its right edge when there is no room. How every popup is positioned is in [Elevation](../../../../../design/foundations/elevation.md#popups).
-- Open the same list on a phone. Don't replace it with a bottom sheet: a bottom sheet is for going somewhere, such as switching server ([Choosing a component](../../../../../design/components/overview.md#overlays)).
+- Open the same list on a phone. Don't replace it with a bottom sheet: a select holds at most 10 values, which fit next to the field, so people see the list and what it changes together. A choice among many values opens as a bottom sheet on a phone instead ([Overlays on a phone](../../../../../design/patterns/page-structure.md#overlays-on-a-phone)).
 - With `multiple`, keep the list open when a value is chosen. Clicking outside or Esc closes it.
 - With `multiple`, put a box before each item (`CheckboxIndicator` in `SelectItemLeading`), ink when chosen ([Checkbox](../checkbox/checkbox.md)). The trigger shows the chosen values, or a count (3 selected) when they don't fit.
 

@@ -49,6 +49,25 @@ The desktop scale is Feishu's (Lark's) for PC: 16/24 for titles, 14/22 for every
 - **Hero, display, title and label don't change.** They set sign-in and setup pages, which are the same on both, and the phone's tab bar.
 - **Density is the person's choice, not the default's.** Someone who wants more on screen picks Small in the message-size setting. Don't make the default smaller to fit more.
 
+## Larger text
+
+People can set text larger than the scale. The scale's sizes are the sizes at the default text size; this section says what happens when text grows and the layout around it doesn't.
+
+- **The native apps follow the system text size**: Dynamic Type on iOS, the font scale on Android. Text grows with that setting while the layout's widths stay as they are.
+- **The web scales text and layout together.** raft-ui sets type in px, and browser zoom scales everything at once, so nothing changes shape. A browser's text-only zoom grows text alone, and then these rules apply on the web too. They hold wherever text can grow on its own.
+- **Never clip text.** Control, field and row heights are minimums: a control, a field or a row grows with its text ([Spacing](./spacing.md#heights)). Headers and bars are the exception: they keep their height, and their title truncates.
+- **Never shrink text to make it fit.** Shrinking undoes the person's setting; give way as the table says instead.
+
+| Text | When it doesn't fit |
+| --- | --- |
+| One-line labels: names (a person, an agent, a channel, a server); the title of a header or a bar (a top bar, a panel header), which keeps its height, as the iOS navigation bar and the Material top app bar do; chips; and tab bar labels, whose cells can't grow ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) | Stays on one line and ends with an ellipsis. The full text is one step away: on the page or item it opens, or in its press-and-hold menu, and always in its accessible name. A tooltip carries it for a mouse and the keyboard only: raft-ui's Tooltip doesn't open on touch |
+| Previews and excerpts: the latest message under a conversation, an Activity item's excerpt, a search result | Wraps up to the lines its row gives it ([InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#content): at most 2), then ends with an ellipsis. It is a glimpse of a message; the message itself is one tap away |
+| Text people read in full: message text, errors, help text, the title of a settings row or an entry row (ListRow `plain` and `entry`) and its consequence, dialog and sheet text, button labels. iOS Dynamic Type and Android's font scale keep these labels whole too | Wraps, and never truncates: people need every word of it. A button label cut short can hide what the button does |
+
+- Never clip a row's text. Raft sets no text size at which a row of icon, label and trailing value restacks: each row gives way in the order its component sets, and what the row exists to show goes last. In a settings row (ListRow `plain`) the title wraps onto as many lines as it needs and the row grows; the current value keeps up to 45% of the row and truncates at its end, and is never dropped, since it is what the row reports ([ListRow](../../packages/ui/src/components/list-row/list-row.md)). raft-ui's ListRow truncates the title today. In a sidebar row the description gives up its room before the name truncates, since the name is what the row is ([Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)).
+- Exception: keep a toolbar's button labels on one line. When the toolbar runs out of room, its buttons give way to their icons, with the label kept as the accessible name and the tooltip ([Responsive layout](../patterns/responsive.md#when-a-row-runs-out-of-room)).
+- raft-ui's Button keeps its label on one line at a fixed height today. That holds on the web while zoom scales text and box together; where text grows on its own, a button's label wraps and the button grows.
+
 ## Font families
 
 `fonts.css` defines three families. Use them through the Tailwind utilities.

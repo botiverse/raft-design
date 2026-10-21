@@ -138,6 +138,7 @@ const ORDER: Partial<Record<SectionId, readonly string[]>> = {
     "forms",
     "feedback",
     "responsive",
+    "touch",
   ],
 };
 

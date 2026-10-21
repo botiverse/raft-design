@@ -33,7 +33,7 @@ A toolbar, a header or a filter row has to fit at the narrowest width its region
 
 1. A secondary text button shows only its icon, with its label kept as the accessible name and the tooltip. Mark all read becomes the `check-check` icon button.
 2. Only then, the main control shows only its icons: a segmented control's segments, a tab's label. A segmented control does this itself below the row width set in `iconsOnlyBelow`: each segment becomes a 32px square with its icon, its label kept as the accessible name and the tooltip ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)).
-3. Text truncates last, and only in a name (a channel, a person), never in a control's label.
+3. Text truncates last, and only in a name (a channel, a person), never in a control's label. The one exception is a tab bar label, whose cell can't grow; which text may truncate when it is set larger is in [Larger text](../foundations/typography.md#larger-text).
 
 - Never let parts overlap, and never let a control shrink below its own content: wrapping a control in `min-w-0` lets its frame shrink while its content spills onto its neighbor.
 - Decide the switch with a container query on the row (`@container`, `@max-[…]:`), not the window width: the same row sits in columns of different widths.
@@ -44,16 +44,14 @@ A toolbar, a header or a filter row has to fit at the narrowest width its region
 A touch screen has no hover, so anything that only appears on hover is out of reach there. Decide by the input, not the width: use the `pointer: coarse` media query, because a tablet held sideways is touch and a narrow desktop window still has a mouse.
 
 - With a mouse, keep a row's actions hover-only, Mark as Done on an Activity row included: show them while the row is hovered, holds keyboard focus or has a menu open from it, and hide them at rest. A list where every row shows its button reads as a wall of buttons and pulls the eye from the content, and the row itself is what a mouse goes for. Hidden actions stay in the tab order.
-- Show a row's hover action at rest on a touch screen when it is the row's main action, such as Mark as Done on an Activity row: a 44px target at the end of the row, with its icon. The rest of the row makes room for it instead of sitting under it ([InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#behavior)).
-- Put every hover action in the row's press-and-hold menu as well, the same menu right-click opens on desktop, so an action is in one place on every device ([Conversation](./conversation.md)).
-- A swipe may add a shortcut for the row's main action (swipe left to reveal Mark as Done, release to apply, with an Undo toast), but never be the only way to reach it ([Accessibility](../foundations/accessibility.md)).
-- Keep secondary hover actions out of the row on a touch screen; they live in the menu, so a list stays calm.
+- Put every hover action in the row's press-and-hold menu, the same menu right-click opens on desktop, so an action is in one place on every device ([Conversation](./conversation.md)). On a touch screen that menu is where they are: the row shows none of them at rest, Mark as Done on an Activity row included, as in mail apps. A button on every row makes a phone's list a column of buttons ([InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#behavior)).
+- A swipe may add a shortcut on an Activity row (by default Mark as Done to the left, and Unfollow Thread or, on a channel, Mute Activity to the right, with an Undo toast), but never be the only way to reach an action: the menu has it too. The rules for swipes, and which actions people can put on them, are in [Touch](./touch.md#swipe).
 
 ### Phone
 
 - Design for 390px wide, and make everything fit at 320px, the narrowest phone still in use.
 - Truncate long names.
-- Let buttons wrap to a new line. Don't shrink their text: a label too small to read is worse than a taller button.
+- Let a button's label wrap to a new line, and the button grow taller with it. Don't shrink their text: a label too small to read is worse than a taller button ([Larger text](../foundations/typography.md#larger-text)).
 - Use at most 4 segments in a segmented control. When they don't fit, show only their icons, with the label kept as the accessible name (`iconsOnlyBelow`).
 - Scroll tabs horizontally when they don't fit ([Tabs](../../packages/ui/src/components/tabs/tabs.md)).
 - The composer and the message actions on a touch screen are in [Conversation](./conversation.md#the-composer).

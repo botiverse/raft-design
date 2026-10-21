@@ -54,7 +54,7 @@ The item labels follow [DropdownMenu](../dropdown-menu/dropdown-menu.md#content)
 
 - ContextMenu wraps the Base UI ContextMenu. It provides the `menu` role, the item roles, arrow keys, typeahead and Esc.
 - Name the menu after the thing it acts on with `aria-label` on `ContextMenuContent` ("Message from Wug").
-- Right-click and press and hold are not available from the keyboard. Offer every action of a context menu from a visible control as well, usually the ⋯ [DropdownMenu](../dropdown-menu/dropdown-menu.md).
+- Right-click and press and hold are not available from the keyboard. Offer every action of a context menu from a visible control as well, usually the ⋯ [DropdownMenu](../dropdown-menu/dropdown-menu.md). A message is the exception: it has no ⋯, and press and hold is how a touch screen reaches its menu ([Touch](../../../../../design/patterns/touch.md#press-and-hold)); its keyboard path is in [Accessibility](../../../../../design/foundations/accessibility.md#focus-and-keyboard).
 
 ## Rules
 
