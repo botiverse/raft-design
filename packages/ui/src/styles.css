@@ -484,7 +484,9 @@ body {
    other field (design/foundations/states.md#autofill). The browser sets that
    fill !important, so it can't be overridden; delaying the transition into it
    keeps the field on its own surface, and the text keeps the field's ink.
-   box-shadow keeps the fields' own transition (the focus ring). */
+   box-shadow keeps the fields' own transition (the focus ring). The delay
+   also holds the field's own background while it stays autofilled: switching
+   light and dark mode then keeps the old surface until the field is edited. */
 input:-webkit-autofill,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
@@ -493,7 +495,12 @@ select:-webkit-autofill {
   transition:
     background-color 0s 600000s,
     color 0s 600000s,
-    box-shadow 90ms ease-out;
+    box-shadow 90ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+input:-webkit-autofill:disabled,
+textarea:-webkit-autofill:disabled {
+  -webkit-text-fill-color: var(--foreground-disabled);
 }
 
 /* The passages comments are on, painted with the CSS Custom Highlight API so

@@ -1,6 +1,6 @@
 ---
 title: States
-summary: How hover, press, focus, selection, unread, disabled, error and busy look, shared by every component.
+summary: How hover, press, focus, selection, unread, disabled, error, busy and autofill look, shared by every component.
 ---
 
 # States
@@ -104,7 +104,7 @@ On a touch screen one long press can mean two things on an item that can be move
 A field the browser filled in (a saved email or password) looks like any other field: `layer-card` with ink text.
 
 - Never show the browser's autofill fill: Chrome's pale blue and Safari's yellow made the filled field the one field on the page that matched nothing else in the system, and the colour says nothing a person needs.
-- raft-ui's styles.css does this for every `input`, `textarea` and `select` on the page, so an app needs no code of its own.
+- raft-ui's styles.css does this in Chrome and Safari for every `input`, `textarea` and `select` on the page, so an app needs no code of its own. A disabled autofilled field keeps the disabled ink.
 
 ## Related
 

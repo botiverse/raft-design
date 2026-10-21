@@ -6,7 +6,7 @@ import { Kbd } from "../kbd/index";
 import type { KbdProps } from "../kbd/index";
 
 // Raft Design System › Search, the web top bar: the search box that opens the
-// search dialog. It reads as a field (36 tall, the 1px field line, surface,
+// search dialog. It reads as a field (36 tall, the 1.5px field line, surface,
 // the placeholder in ink-3) but it is a button: pressing it opens the dialog
 // whose own field grows out of it. Disabled, it is a disabled field (sunken,
 // a hairline, ink-disabled) and the press overlay is reset, not drawn.

@@ -27,6 +27,6 @@ test("every autofilled field holds off the browser's fill and keeps its ink", ()
     expect(body).toMatch(/background-color 0s \d{6,}s/);
     // The fields animate their focus ring on box-shadow; the rule replaces
     // their transition, so it has to keep that one.
-    expect(body).toMatch(/box-shadow 90ms ease-out/);
+    expect(body).toMatch(/box-shadow 90ms /);
   }
 });
