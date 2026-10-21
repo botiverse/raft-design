@@ -3,7 +3,6 @@
 ### Added
 
 - Tokens `fill-row-hover` (4% ink light, 3% dark), `fill-message-hover` (3% / 2.2%) and `fill-row-open` (5% / 4%), with utilities `row-hover-overlay` and `row-open-overlay`. ([#641](https://github.com/botiverse/raft-design/pull/641), [#643](https://github.com/botiverse/raft-design/pull/643))
-- `useOverflowTitle`: sets `title` to the full text only while the element is actually truncated. ([#642](https://github.com/botiverse/raft-design/pull/642))
 
 ### Changed
 
