@@ -138,7 +138,7 @@ test("a toast's action and close are bold text that underlines only on hover", a
     </ThemeProvider>,
   );
   act(() => {
-    toast.success("Message sent", { action: { label: "View" } });
+    toast.success("Message sent", { action: { label: "View" }, dismissible: true });
   });
   await screen.findByText("Message sent");
   const action = document.querySelector('[data-slot="toast-action"]');

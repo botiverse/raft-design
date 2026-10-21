@@ -101,7 +101,7 @@ A touch screen has no hover, no right-click and no keyboard shortcuts, and finge
 - Don't show the hover toolbar of a message on a touch screen; press and hold opens the message menu ([Responsive layout](../patterns/responsive.md), [ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md)).
 - Don't rely on a tooltip on touch. Write the explanation in the interface, or show it on press and hold ([Tooltip](../../packages/ui/src/components/tooltip/tooltip.md#accessibility)). A preview card doesn't open on touch, so make its trigger a real link ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)).
 - Start a drag only after a 200ms press and hold, so scrolling a list doesn't move a card ([TaskDnd](../../packages/ui/src/components/task-dnd/task-dnd.md)).
-- Never make a swipe the only way to close something: drawers and sheets keep ×, Back or a button, and toasts keep `ToastClose` ([Drawer](../../packages/ui/src/components/drawer/drawer.md#accessibility)).
+- Never make a swipe the only way to close something: drawers and sheets keep ×, Back or a button, and toasts close by themselves and with Esc ([Drawer](../../packages/ui/src/components/drawer/drawer.md#accessibility), [Toast](../../packages/ui/src/components/toast/toast.md#behavior)).
 - Keep the composer above the on-screen keyboard, and make Return insert a new line on a phone held upright ([Composer](../../packages/ui/src/components/composer/composer.md)).
 
 ## Language and casing

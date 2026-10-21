@@ -274,6 +274,13 @@
     "native": false,
     "props": [
       {
+        "name": "actionTimeout",
+        "type": "number",
+        "required": false,
+        "description": "How long a toast from the `toast` command API stays when it has an action or is an `error`, in ms. Defaults to 8000, or to `timeout` when that is longer, and to 0 when `timeout` is 0.",
+        "from": "raft-ui"
+      },
+      {
         "name": "portalContainer",
         "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
         "required": false,
@@ -296,7 +303,7 @@
         "name": "viewportPlacement",
         "type": "\"none\" | \"bottom-right\" | \"top-right\" | \"bottom-center\" | \"top-center\"",
         "required": false,
-        "default": "\"bottom-center\"",
+        "default": "\"top-center\"",
         "from": "raft-ui"
       },
       {
@@ -316,7 +323,7 @@
         "name": "limit",
         "type": "number",
         "required": false,
-        "default": "3",
+        "default": "1",
         "description": "The maximum number of toasts that can be displayed at once. When the limit is exceeded, the oldest toasts are marked as `limited` (via the `data-limited` attribute) rather than removed, so they can be hidden or animated out.",
         "from": "base-ui"
       },
@@ -341,6 +348,7 @@
   {
     "name": "ToastRoot",
     "entry": "@botiverse/raft-ui",
+    "description": "A toast pushed past the provider's `limit` by a newer one is closed, not held back: toasts replace each other and never queue, so an older toast can't come back when the newer one goes. Its swipe direction follows the viewport's edge unless `swipeDirection` is passed.",
     "native": true,
     "props": [
       {
@@ -397,7 +405,7 @@
         "name": "placement",
         "type": "\"none\" | \"bottom-right\" | \"top-right\" | \"bottom-center\" | \"top-center\"",
         "required": false,
-        "default": "\"bottom-center\"",
+        "default": "\"top-center\"",
         "from": "raft-ui"
       },
       {

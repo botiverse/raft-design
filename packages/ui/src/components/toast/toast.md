@@ -37,7 +37,7 @@ Never put anything in a toast that would confuse people if they missed it ([Choo
 - `ToastRoot` and `ToastContent`: one toast and its layout.
 - `ToastIcon`: optional. Who did it (an avatar), or the intent's icon when there is no "who". Never a status light for the toast's intent: a status light never says what kind of notice this is (success, info, warning, error). A status light keeps its own meanings, whether an agent, a person or a computer is working or online, a task's status, and the square attention dot that marks something waiting or unread; a notice about one of those things may still show that thing's light inside it ([Status](../status/status.md#sizes)).
 - `ToastBody`, holding `ToastTitle` (required) and an optional `ToastDescription`, both in `text-callout` ([Typography](../../../../../design/foundations/typography.md#type-scale)): 14/20 on a phone, 14/22 on a desktop, like a banner. `ToastIcon` is one line of that text tall, so the icon stays on the title's line: a 16px icon, centered in a 20px column 12px before the title, as is an avatar ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
-- `ToastActions`: optional, holding one `ToastAction` and `ToastClose`.
+- `ToastActions`: optional, holding one `ToastAction`. `ToastClose` (Dismiss) is there for a toast that doesn't close by itself, which Raft doesn't use; the command API shows it only with `dismissible: true`.
 - `ToastProgress`: an optional line that shows the time left before it closes.
 
 Leave out a part you don't need instead of rendering it empty.
@@ -61,9 +61,28 @@ toast/compositions/person
 
 ## Behavior
 
-- A toast closes on its own after the provider's `timeout`; hovering or focusing it pauses the timer.
-- People can swipe a toast away, or close it with `ToastClose`.
-- Stacked toasts appear at the bottom center by default. An anchored toast opens next to the control that caused it.
+- A toast closes on its own: after the provider's `timeout`, 5 seconds by default, and after its `actionTimeout`, 8 seconds, when it has an action or is an `error`, so there is time to read and then act. The `toast` command API applies `actionTimeout`; with a manager of your own, pass `timeout: 8000` to such a toast. Hovering, focusing or touching it pauses the timer.
+- People can swipe a toast away or press Esc while it has focus (F6 moves focus to the toasts). There is no Dismiss: every toast closes by itself, and a second text action beside Undo would read as a second choice.
+- One toast shows at a time (`limit`, 1 by default). A new toast replaces the one on screen at once, and the replaced one is closed, not queued: it doesn't come back when the new one goes.
+- An anchored toast opens next to the control that caused it (`ToastPositioner`).
+
+### Where it appears
+
+Toasts appear at the top center (`viewportPlacement="top-center"`), under the page's header, on every screen. Only the app knows where its header ends, so it sets `--toast-viewport-top` to that distance from the top of the window, on `:root` or with `viewportClassName`. The toast sits 16px under it, and never higher than 16px under the system's status bar (`env(safe-area-inset-top)`), so on a phone it stays clear of the notification area even when the variable is unset. When a banner sits at the top of the page or the app frame, include it, so the toast opens under it.
+
+```css
+:root {
+  --toast-viewport-top: 56px; /* the bottom edge of the page header */
+}
+```
+
+```example
+toast/compositions/under-header
+```
+
+A toast swipes away the way it came: up from the top, down or right from the bottom. `ToastRoot` takes the direction from its `ToastViewport`; pass `swipeDirection` to change it.
+
+While a modal dialog or sheet is open, show only the toasts it causes and that leave it open, at the bottom above the scrim, without an action. Toasts already draw above dialogs; switch the viewport to the bottom for as long as the dialog is open (`viewportPlacement={dialogOpen ? "bottom-center" : "top-center"}`) and leave the action out.
 
 ## Content
 
@@ -81,7 +100,7 @@ Toast wraps Base UI's Toast, which announces each toast in a live region and kee
 
 ## Rules
 
-- Show at most one toast at a time.
+- Show at most one toast at a time; a new one replaces it.
 - Use `layer-hud` for every toast, with `foreground-on-hud` text. Don't tint a toast with an intent color, and never use yellow: notices are neutral ([Color](../../../../../design/foundations/color.md#principles)).
 - Make the action a bold text action that underlines on hover (`ToastAction`), never a button. Never put a colored button in a toast.
 - Give a toast at most one action besides closing it.

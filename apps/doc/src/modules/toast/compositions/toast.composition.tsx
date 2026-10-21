@@ -19,9 +19,7 @@ import {
   ToastViewport,
   useToastManager,
 } from "@botiverse/raft-ui";
-import type { ToastObject, ToastRootProps } from "@botiverse/raft-ui";
-
-const TOP_SWIPE_DIRECTION: ToastRootProps["swipeDirection"] = ["up", "right"];
+import type { ToastObject } from "@botiverse/raft-ui";
 
 type ToastDemoData = {
   icon?: "check" | "info" | "send" | "alert" | "copy";
@@ -43,13 +41,13 @@ export type ToastDemoOptions = {
 
 const DEFAULT_TOAST_DEMO_OPTIONS: ToastDemoOptions = {
   mode: "stacked",
-  placement: "bottom-center",
+  placement: "top-center",
   side: "bottom",
   align: "center",
   icon: true,
   description: true,
   action: true,
-  dismissible: true,
+  dismissible: false,
 };
 
 const ICONS = {
@@ -82,8 +80,7 @@ export function ToastComposition({
       <ToastPreviewScene />
       <ToastProvider
         toastManager={toastManager}
-        timeout={controls ? 3600 : 0}
-        limit={3}
+        timeout={controls ? 5000 : 0}
         renderViewport={false}
       >
         {controls ? <ToastDemoControls options={demoOptions} /> : <SeedToast seed={seed} />}
@@ -91,11 +88,10 @@ export function ToastComposition({
           <ToastPortal container={controls ? undefined : portalContainer}>
             <ToastViewport
               strategy={controls ? "fixed" : "absolute"}
+              className={controls ? undefined : "[--toast-viewport-top:4.25rem]"}
               placement={demoOptions.mode === "anchored" ? "none" : demoOptions.placement}
             >
-              <ToastList
-                placement={demoOptions.mode === "anchored" ? "none" : demoOptions.placement}
-              />
+              <ToastList />
             </ToastViewport>
           </ToastPortal>
         ) : null}
@@ -135,7 +131,7 @@ function SeedToast({ seed }: { seed: "copy" | "forward" | "clipboard-error" }) {
         id: "copy-links",
         type: "info",
         title: "3 links copied.",
-        data: { hasIcon: false, hasClose: false },
+        data: { hasIcon: false },
       });
       return;
     }
@@ -293,16 +289,16 @@ function ToastDemoControls({ options }: { options: ToastDemoOptions }) {
   );
 }
 
-function ToastList({ placement }: { placement: ToastDemoOptions["placement"] | "none" }) {
+function ToastList() {
   const { toasts } = useToastManager<ToastDemoData>();
 
   return toasts.map((toast) =>
     toast.positionerProps ? (
       <ToastPositioner key={toast.id} toast={toast}>
-        <DemoToast toast={toast} layout="inline" placement={placement} showArrow />
+        <DemoToast toast={toast} layout="inline" showArrow />
       </ToastPositioner>
     ) : (
-      <DemoToast key={toast.id} toast={toast} placement={placement} />
+      <DemoToast key={toast.id} toast={toast} />
     ),
   );
 }
@@ -310,25 +306,19 @@ function ToastList({ placement }: { placement: ToastDemoOptions["placement"] | "
 function DemoToast({
   toast,
   layout,
-  placement,
   showArrow = false,
 }: {
   toast: ToastObject<ToastDemoData>;
   layout?: "stacked" | "inline";
-  placement: ToastDemoOptions["placement"] | "none";
   showArrow?: boolean;
 }) {
   const showDescription = Boolean(toast.description);
   const showAction = Boolean(toast.actionProps?.children);
   const showIcon = toast.data?.hasIcon !== false;
-  const showClose = toast.data?.hasClose !== false;
+  const showClose = toast.data?.hasClose === true;
 
   return (
-    <ToastRoot
-      toast={toast}
-      layout={layout}
-      swipeDirection={placement.startsWith("top-") ? TOP_SWIPE_DIRECTION : undefined}
-    >
+    <ToastRoot toast={toast} layout={layout}>
       {showArrow ? <ToastArrow /> : null}
       <ToastContent>
         {showIcon ? (

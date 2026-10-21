@@ -37,7 +37,12 @@ export function PersonContent({ portalContainer }: { portalContainer: HTMLElemen
   }, [showReviewDone]);
 
   return (
-    <ToastProvider timeout={0} portalContainer={portalContainer} viewportStrategy="absolute">
+    <ToastProvider
+      timeout={0}
+      portalContainer={portalContainer}
+      viewportStrategy="absolute"
+      viewportClassName="[--toast-viewport-top:4.25rem]"
+    >
       <Button type="button" size="md" variant="outline" onClick={showReviewDone}>
         Request review
       </Button>
@@ -50,9 +55,9 @@ export function PersonComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
   return (
-    <div ref={setPortalContainer} className="relative h-44 w-full overflow-hidden">
+    <div ref={setPortalContainer} className="relative h-52 w-full overflow-hidden">
       <ToastPreviewScene />
-      <div className="absolute inset-x-0 top-6 z-10 flex justify-center">
+      <div className="absolute inset-x-0 bottom-4 z-10 flex justify-center">
         {portalContainer ? <PersonContent portalContainer={portalContainer} /> : null}
       </div>
     </div>
