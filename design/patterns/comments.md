@@ -25,7 +25,7 @@ comment/compositions/margin
 
 - Show nothing where there are no comments: no empty margin, no placeholder, no marker. The document is what people came to read.
 - Put each card level with the first line of its passage, so the eye goes straight across from the text to what was said about it. When two cards would overlap, the lower one moves down; cards never cover each other.
-- Highlight every commented passage in the soft yellow of a highlight (`brand-soft`), and the passage of the open discussion in full yellow with ink type: the open discussion is the one the person selected, and yellow is what you selected ([Color](../foundations/color.md#meanings-of-color)).
+- Highlight every commented passage in a soft yellow (`brand` at 35% over the page, with a `brand` underline), and the passage of the open discussion in full yellow with ink type: the open discussion is the one the person selected, and yellow is what you selected ([Color](../foundations/color.md#meanings-of-color)).
 - Open one discussion at a time. Its card gets an ink border and lifts off the margin (`shadow-float`), stays level with its passage, and the other cards move out of its way. The open card is the one people read and type in; the others are a list of where else there is something to read.
 - Show a collapsed card as its first comment, cut to 2 lines, and the number of replies. Opening it shows every comment and the reply box. A margin of full discussions would push every card far from its passage.
 - Put the comments on the whole document once, at the top of the margin, with a line that says so. Don't repeat the file's name on each card: the viewer already shows it.

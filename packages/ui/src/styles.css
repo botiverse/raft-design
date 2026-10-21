@@ -450,7 +450,7 @@ body {
    modes. `--brand-400` is the `brand` role (what `bg-brand` paints):
    `--color-brand` is an inline theme value and emits no variable. */
 ::highlight(raft-comment) {
-  background-color: var(--brand-soft);
+  background-color: color-mix(in oklch, var(--brand-400) 35%, transparent);
   text-decoration-line: underline;
   text-decoration-color: var(--brand-400);
   text-decoration-thickness: 2px;
