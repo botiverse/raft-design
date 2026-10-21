@@ -4,11 +4,10 @@ import {
   Bookmark,
   CheckSquare,
   ChevronDown,
+  Ellipsis,
   Hash,
   Home,
   Search,
-  Settings,
-  Users,
 } from "lucide-react";
 import { useCallback, useState } from "react";
 import type { MouseEvent } from "react";
@@ -129,25 +128,6 @@ export function SidebarPhoneHomeComposition() {
         <SidebarBody>
           <SidebarContent>
             <SidebarList>
-              <SidebarItem value="search" onClick={handleOpen}>
-                <SidebarItemIcon>
-                  <Search />
-                </SidebarItemIcon>
-                <SidebarItemContent>
-                  <SidebarItemTitle>Search</SidebarItemTitle>
-                </SidebarItemContent>
-              </SidebarItem>
-              <SidebarItem value="activity" onClick={handleOpen}>
-                <SidebarItemIcon>
-                  <Activity />
-                </SidebarItemIcon>
-                <SidebarItemContent>
-                  <SidebarItemTitle>Activity</SidebarItemTitle>
-                </SidebarItemContent>
-                <SidebarItemAside>
-                  <SidebarItemCount aria-label="3 unread">3</SidebarItemCount>
-                </SidebarItemAside>
-              </SidebarItem>
               <SidebarItem value="saved" onClick={handleOpen}>
                 <SidebarItemIcon>
                   <Bookmark />
@@ -262,17 +242,21 @@ export function SidebarPhoneHomeComposition() {
           <Home />
           <MobileNavLabel>Home</MobileNavLabel>
         </MobileNavItem>
+        <MobileNavItem value="activity" onClick={handleOpen} aria-label="Activity">
+          <Activity />
+          <MobileNavLabel>Activity</MobileNavLabel>
+        </MobileNavItem>
         <MobileNavItem value="tasks" onClick={handleOpen} aria-label="Tasks">
           <CheckSquare />
           <MobileNavLabel>Tasks</MobileNavLabel>
         </MobileNavItem>
-        <MobileNavItem value="members" onClick={handleOpen} aria-label="Members">
-          <Users />
-          <MobileNavLabel>Members</MobileNavLabel>
+        <MobileNavItem value="search" onClick={handleOpen} aria-label="Search">
+          <Search />
+          <MobileNavLabel>Search</MobileNavLabel>
         </MobileNavItem>
-        <MobileNavItem value="settings" onClick={handleOpen} aria-label="Settings">
-          <Settings />
-          <MobileNavLabel>Settings</MobileNavLabel>
+        <MobileNavItem value="more" onClick={handleOpen} aria-label="More">
+          <Ellipsis />
+          <MobileNavLabel>More</MobileNavLabel>
         </MobileNavItem>
       </MobileNavRoot>
       {/* @docs-source-strip-start */}

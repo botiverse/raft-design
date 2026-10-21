@@ -23,11 +23,12 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 
 | Where | Destinations |
 | --- | --- |
-| Phone tab bar | Home (`house`), Tasks (`square-check-big`), Members (`users`), Settings (`settings`). Guests don't have Members |
-| The first three rows of phone Home | Search, Activity (with a pink count of what is unread), Saved (with a gray count); see [Home](./home.md) |
+| Phone tab bar | Home (`house`), Activity (`activity`, as on the desktop rail), Tasks (`square-check-big`), Search (`search`), More (`ellipsis`), on the edge bar ([MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-more)). Search is an action: it opens search over the current tab and is never selected. The same in the mobile app and on the phone web |
+| Phone More | One page titled More, like every tab root: a first group of Members and Computers, then the groups of [Settings](./settings.md) with their own headers. Each row opens a pushed page under More, with Back; links to them open there. Guests don't have Members or Computers |
+| The first row of phone Home | Saved (with a gray count), its only entry point; see [Home](./home.md) |
 | Web top bar (from 768px, and the desktop app's title bar) | As in [Page structure](../../patterns/page-structure.md#the-web-top-bar); the search field opens search |
 | Desktop rail | Chat, Activity, Tasks, Members, Computers; at the bottom Help (`circle-help`) and Settings. Guests don't have Members or Computers |
-| Only in [Settings](./settings.md) | Computers (on a phone), and Log Out, at the end of Account |
+| Only in [Settings](./settings.md) | Members and Computers (on a phone), and Log Out, at the end of Account |
 
 Without the web top bar (an older desktop build, a server's public page), the rail shows the workspace tile at its top, Search before Chat, and the bell above Help.
 
@@ -36,7 +37,13 @@ Without the web top bar (an older desktop build, a server's public page), the ra
 Attention dots follow [Navigation](../../patterns/navigation.md#where-you-are). In Raft Chat they mark:
 
 - on the rail: Chat when there are unread messages, Activity when there is unread activity, and Computers when a computer needs attention, none of them while it is selected; Settings when feedback has a new reply, and Help once, to announce the mobile app, until its mobile-app item is opened;
-- on the phone tab bar: only Settings, for a new feedback reply. Everything else new shows inside the pages; Home's Activity row carries a count.
+- on the phone tab bar: Activity when there is unread activity, and More when feedback has a new reply or a computer needs attention, none of them while it is selected, and always a dot, never a count. More's dot is only for what shows nowhere else, and the row that caused it shows the same dot: Feedback for a feedback reply, Computers for a computer. Everything else new shows inside the pages; unread counts are inside Activity.
+
+A computer's dot marks a change you haven't seen, not a state that lasts. On the rail and on the phone alike:
+
+- A computer that enters a state needing attention (offline, needs an update) lights the dot; opening Computers counts as seeing it.
+- Once seen, the same computer in the same state doesn't light it again. A change lights it again: the computer comes back online and then goes offline, it enters a new state, or another computer needs attention.
+- Seeing it hides only the dot. The computer's row on Computers keeps showing its state, and the count of offline computers on that page doesn't change.
 
 ### The bell and Activity
 
