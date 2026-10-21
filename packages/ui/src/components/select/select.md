@@ -84,7 +84,7 @@ picker-trigger-button/compositions/select-filter
 select/compositions/descriptions
 ```
 
-An item is as tall as its content. One line keeps the 36px minimum; with a description it grows, keeping 6px above and below its text, so two-line items never touch. `SelectItemDescription` sits beside `SelectItemText`, not inside it, so the trigger shows only the label. With a `SelectItemLeading`, the description starts under the label, past the icon.
+An item is as tall as its content, and its padding is constant ([Forms](../../../../../design/patterns/forms.md#option-height)): one line is 36px, and a wrapped label or a description adds only its own height, with the one-line item's space above and below the text. `SelectItemDescription` sits beside `SelectItemText`, not inside it, so the trigger shows only the label. With a `SelectItemLeading`, the description starts under the label, past the icon.
 
 - Put the empty choice first when there is one, as with Unassigned ([Tasks](../../../../../design/patterns/tasks.md#filters)).
 

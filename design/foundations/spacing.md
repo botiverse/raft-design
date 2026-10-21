@@ -48,6 +48,7 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 | Row with an avatar and a preview: a conversation, a person, an agent ([ListRow](../../packages/ui/src/components/list-row/list-row.md)) | At least 64px |
 | Settings row inside a settings page ([ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`) | 48px with one line |
 | Radio row | At least 44px |
+| Option in a popup list, menu item | 36px with one line; taller with more, at the same padding ([Forms](../patterns/forms.md#option-height)) |
 | Phone top bar row, panel header, sidebar header, rail header, drawer header | 56px |
 | Web top bar, desktop app title bar | 48px |
 

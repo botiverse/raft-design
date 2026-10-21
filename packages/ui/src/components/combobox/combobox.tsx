@@ -73,7 +73,7 @@ const combobox = tv({
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
       "text-left outline-none transition-colors",
-      "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+      "min-h-option gap-2.5 rounded-control px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground wrap-anywhere",
       "bg-transparent hover:bg-brand-soft data-highlighted:bg-brand-soft",
       "data-selected:font-bold",

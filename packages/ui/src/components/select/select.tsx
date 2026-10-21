@@ -46,7 +46,7 @@ const select = tv({
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
       "text-left outline-none transition-colors",
-      "min-h-9 flex-wrap gap-x-2.5 gap-y-0.5 rounded-control px-2.5 py-1.5",
+      "min-h-option flex-wrap gap-x-2.5 gap-y-0.5 rounded-control px-2.5 py-option-inset",
       "text-callout font-medium text-foreground",
       "bg-transparent hover:bg-brand-soft data-highlighted:bg-brand-soft",
       "data-selected:font-bold data-selected:**:data-[slot='select-item-text']:font-bold",
