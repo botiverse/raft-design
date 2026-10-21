@@ -54,6 +54,7 @@ conversation-panel/compositions/conversation-panel-header
 
 ## Who is about to post
 
+- The line is for agents only. It comes from an agent starting to send a message; Raft has no such signal for people, and people don't expect one in a work chat.
 - Show the agents about to post in a conversation inside its composer, in the toolbar row: after the tools, before the option and the send button. Use the same 19px faces as the summary, then the sentence in `text-footnote` and `foreground-muted`, with no background of its own.
 - Take no space when no one is about to post. The toolbar row is there anyway, so nothing above or around the composer moves when the line comes and goes, and it never covers a message.
 - Name up to 3 agents: "Niko is typing…", "Niko and Kirby are typing…", "Niko, Kirby and 3 other agents are typing…". When the sentence doesn't fit, end it with "…". Where the row is too narrow to read a name (a phone, beside the option and the send button), show only the faces and "…": half a name reads as a different agent.
