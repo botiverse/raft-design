@@ -75,6 +75,14 @@ thread-panel/thread-panel
 - When the person isn't in the place the thread belongs to, replace the composer with a pink Join button ("Join channel to reply" in Raft Chat), so the reason they can't reply is also the way to fix it.
 - Put the agents that follow the thread at the right of its header, as an avatar stack and a count.
 
+### Floating controls
+
+Three kinds of control float over a conversation: the jump pills over the list (Back to Bottom, "3 New Messages", "Next Unread Thread (3)", [MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)), the hover toolbar on a message, and the toolbar over selected text ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)). They are one family and share one set of metrics: a label in `text-control` at 700 (13/18 on a phone, 14/22 on a desktop), 16px icons, and 32px from edge to edge, the size of an ordinary button such as Save in a settings row ([Button](../../packages/ui/src/components/button/button.md#sizes)).
+
+- Make a single action a Button at `outline` and `md`: the jump pills. It stands alone, so its own ink edge marks it as a control, and it is built from the Button recipe, so it can't drift from the buttons around Raft.
+- Make a group of actions on one message or one selection a toolbar: 28px buttons in a 2px frame, so the toolbar is still 32px tall, on `layer-popover` with a seam ring and the soft shadow. It is a popup over the content it acts on, appearing on hover or on selection ([Elevation](../foundations/elevation.md#tokens)); the frame is the edge, so its buttons have none of their own, and at 28px three fit on the sender line without covering it.
+- Don't give a pill the toolbar's frame or shadow, and don't make a toolbar's buttons Buttons: a pill is a control that stays in place while the list scrolls; a toolbar comes and goes with the content under it.
+
 ### Search
 
 - Group results by kind: places and people first, then messages. Group hits in one thread under that thread.

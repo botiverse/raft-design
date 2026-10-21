@@ -1,16 +1,16 @@
 ---
 title: Elevation
-summary: Which things float and cast a shadow, how popups are positioned, and the focus ring.
+summary: Which things float and cast a shadow, the controls that float over a conversation without one, how popups are positioned, and the focus ring.
 redirectFrom: [decisions/0015-ink-focus-ring, decisions/0036-popup-positioning]
 ---
 
 # Elevation
 
-Controls and cards sit flat on the page. Only things that float above it (menus, popups, dialogs, toasts) cast a shadow, and they all cast the same soft one.
+Controls and cards sit flat on the page. Only things that float above it for a moment (menus, popups, dialogs, toasts) cast a shadow, and they all cast the same soft one. The controls that float over a conversation to take the person somewhere in it stay flat ([Floating controls](#floating-controls)).
 
 ## Principles
 
-- **No shadow on controls and cards.** A control is marked by its ink border, not a shadow. The two exceptions are cards that leave their place for a moment: a dragged card and the open comment card.
+- **No shadow on controls and cards.** A control is marked by its ink border, not a shadow, even where it floats over content. The two exceptions are cards that leave their place for a moment: a dragged card and the open comment card.
 - **One soft shadow for everything that floats.**
 - **The hard sticker shadow is for brand illustration only.**
 
@@ -26,7 +26,7 @@ focus
 
 | Token (utility) | Use for |
 | --- | --- |
-| `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, a card while it is dragged (it is lifted off the board; the card left behind casts nothing), and the open comment card in a document's margin (it is lifted off the column of cards, which move out of its way; [Comments](../patterns/comments.md)) |
+| `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, the hover toolbar of a message and the toolbar for selected text (popups over the message they act on), a card while it is dragged (it is lifted off the board; the card left behind casts nothing), and the open comment card in a document's margin (it is lifted off the column of cards, which move out of its way; [Comments](../patterns/comments.md)) |
 | `elevation-sticker` (`shadow-sticker`) | Brand illustration only: the 99px avatar on a profile and on the last setup step, and the preview of the new server on the page that creates a server ([Brand](./brand.md#how-much-brand)). Nothing else |
 | `focus-ring` (`shadow-focus`) | Every element that can be reached with the keyboard, when the keyboard reaches it |
 
@@ -37,6 +37,14 @@ Menus, select and filter lists, and profile cards open next to the element that 
 - Float popups above the whole page. They never take space in the layout.
 - Move or flip a popup to the other side when it meets the window edge, and never make it larger than the space left.
 - Don't scroll or shift the page when a popup opens or when someone types in it.
+
+## Floating controls
+
+The jump pills of a conversation, Back to Bottom, "3 New Messages" and "Next Unread Thread (3)", float over the bottom or the top of the message list ([MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)). They are the only controls that float over content, and they cast no shadow.
+
+- Draw a floating control as the control it is: a Button at `outline`, with its ink edge on the opaque `layer-card`. The opaque card keeps it readable over the messages that pass under it, and the ink edge marks it as a control, as everywhere else.
+- Don't give it the soft shadow. The shadow says "this is above the page for a moment and goes away when you are done with it": a menu, a popup, a toolbar over the message it acts on. A jump pill belongs to the conversation, stays in one place while the list scrolls under it, and goes away by itself when there is nowhere to jump; a shadow would make the conversation look as if a popup were open.
+- Don't use a floating control for an action on the page. It is only for moving through the list it floats over; an action belongs in the header or a toolbar ([FloatButton](../../packages/ui/src/components/float-button/float-button.md)).
 
 ## Stacked overlays
 

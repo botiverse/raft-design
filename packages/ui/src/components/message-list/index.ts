@@ -10,3 +10,15 @@ export type {
   MessageListHistoryLimitedProps,
   MessageListNoticeProps,
 } from "./message-list-markers";
+export {
+  MessageListJumpControls,
+  MessageListJumpPill,
+  MessageListJumpPillDismiss,
+  MessageListJumpPillGroup,
+} from "./message-list-jump";
+export type {
+  MessageListJumpControlsProps,
+  MessageListJumpPillDismissProps,
+  MessageListJumpPillGroupProps,
+  MessageListJumpPillProps,
+} from "./message-list-jump";

@@ -14,7 +14,6 @@ import {
   Avatar,
   Banner,
   BannerDescription,
-  Button,
   Checkbox,
   ConversationPanelBody,
   ConversationPanelContent,
@@ -49,6 +48,7 @@ import {
 import type { PanelEdge } from "@botiverse/raft-ui";
 import { MessageList, MessageListDateDivider, MessageListNotice } from "@botiverse/raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
+import { MessageListJumpControls, MessageListJumpPill } from "@botiverse/raft-ui/wip";
 import { ConversationPanelHeaderComposition } from "./conversation-panel-header.composition.tsx";
 
 export type ConversationPanelCompositionProps = {
@@ -233,16 +233,12 @@ export function ConversationPanelComposition({
             </div>
           </MessageList>
           {newMessageCount > 0 ? (
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2"
-              onClick={handleJump}
-            >
-              <ArrowDown />
-              {newMessageCount} new messages
-            </Button>
+            <MessageListJumpControls>
+              <MessageListJumpPill onClick={handleJump}>
+                <ArrowDown />
+                {newMessageCount} New Messages
+              </MessageListJumpPill>
+            </MessageListJumpControls>
           ) : null}
         </ConversationPanelBody>
         <ConversationPanelFooter>
