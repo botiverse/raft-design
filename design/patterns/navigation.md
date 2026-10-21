@@ -26,6 +26,13 @@ In Raft Chat the first top-level page is Home ([Raft Chat — Home](../products/
 
 ## Rules
 
+### One structure, each platform's own look
+
+- Keep the destinations, their order and the attention-dot rules the same on phone web and in the iOS and Android apps.
+- Draw the tab bar in each platform's own way: phone web uses raft-ui's [MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md) edge bar, iOS the system tab bar, Android its bottom navigation bar. Don't imitate one platform's look on another, such as a floating glass bar on web.
+
+The same thing should feel native wherever it is. What people carry between platforms is where things are, not how the bar is drawn.
+
 ### Where you are
 
 - Mark the current place with a yellow sticker on paper: sidebar rows, segmented controls, tabs. Yellow means "you" everywhere, so where you are and what calls you share one color ([0011](../decisions/0011-yellow-navigation-selection.md)).
