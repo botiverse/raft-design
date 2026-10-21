@@ -30,9 +30,13 @@ const renderRow = ({ domRef, item, style }: VirtualListItemRenderProps<Row>) => 
 describe("VirtualList", () => {
   it("renders its DOM: scroller, spacer, visible items with their keys", async () => {
     const api = createRef<VirtualListApi>();
+    const listRef = createRef<HTMLDivElement>();
     const { container } = render(
       <VirtualList
         componentRef={api}
+        domRef={listRef}
+        id="history"
+        aria-label="History"
         items={items}
         getKey={getKey}
         itemResizable
@@ -67,6 +71,9 @@ describe("VirtualList", () => {
     expect(keys()).toEqual([]);
     await waitFor(() => expect(keys()).toEqual(["row-0", "row-1"]));
     expect(api.current?.listElRef.current).toBe(list);
+    expect(listRef.current).toBe(list);
+    expect(list.id).toBe("history");
+    expect(list.getAttribute("aria-label")).toBe("History");
     expect(api.current?.itemsElRef.current).toBe(itemsEl);
   });
 

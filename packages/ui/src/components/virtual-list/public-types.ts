@@ -153,7 +153,7 @@ export type FooterRender = (props: { domRef: MeasuredRef }) => ReactNode;
  */
 type VirtualListNativeProps = Omit<
   HTMLAttributes<HTMLDivElement>,
-  "children" | "className" | "style" | "onScroll" | "onWheel" | "onResize" | "tabIndex"
+  "children" | "className" | "style" | "onScroll" | "onWheel" | "onResize" | "tabIndex" | "ref"
 >;
 
 /**
@@ -286,8 +286,13 @@ export interface VirtualListProps<T> extends VirtualListNativeProps {
    * a change in its height moves the rows in view.
    */
   header?: ReactNode;
-  /** The scroller's element. */
-  ref?: Ref<HTMLDivElement> | undefined;
+  /** A ref to the scroller's element. */
+  domRef?: Ref<HTMLDivElement> | undefined;
+  /**
+   * Not a prop: the scroller's element goes to `domRef`. Declared so that a `ref` is a type error,
+   * not passed through to the scroller with the native attributes.
+   */
+  ref?: never;
   /**
    * Called when the content's height changes: a row resizes or mounts measured, the spacer's
    * height changes, or the `footer` / `empty` element resizes (to follow the end of a chat).

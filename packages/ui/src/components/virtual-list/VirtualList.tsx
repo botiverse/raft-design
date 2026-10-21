@@ -160,7 +160,9 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     footer,
     footerAfterBottomPadding,
     header,
-    ref,
+    domRef,
+    // Kept out of `nativeProps` (see `VirtualListProps.ref`): the scroller's ref is `domRef`.
+    ref: _ref,
     onContentResize,
     onTransformChange,
     componentRef,
@@ -175,7 +177,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     ...nativeProps
   } = props;
   const listElRef = useRef<HTMLDivElement | null>(null);
-  const [mergedListRefSetter] = useMergedRef(ref, listElRef);
+  const [mergedListRefSetter] = useMergedRef(domRef, listElRef);
   const itemsElRef = useRef<HTMLDivElement | null>(null);
   const getVisibleItemsEl = useCallback(() => itemsElRef.current?.children[0] || null, []);
   const [[renderReason, renderCallback, renderVersion], setRenderState] = useState<RenderState>([
