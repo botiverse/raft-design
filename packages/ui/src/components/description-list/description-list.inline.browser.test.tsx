@@ -182,3 +182,77 @@ it("inline: a value led by an avatar keeps its text on the row's baseline", () =
     0.5,
   );
 });
+
+// Every fact follows one flow: a long value is capped (24rem) and cut with an
+// ellipsis, sharing its line with the next fact instead of taking a line of
+// its own; facts on a line are 24px apart and lines 8px apart.
+it("an inline fact with a long value is capped and shares the line", () => {
+  render(
+    <ThemeProvider>
+      <div style={{ width: "900px" }}>
+        <DescriptionList direction="inline" data-testid="list">
+          <DescriptionItem data-testid="fact-status">
+            <DescriptionTerm>Status</DescriptionTerm>
+            <DescriptionDetails>In Review</DescriptionDetails>
+          </DescriptionItem>
+          <DescriptionItem data-testid="fact-source">
+            <DescriptionTerm>Source</DescriptionTerm>
+            <DescriptionDetails>
+              <span
+                data-testid="source-text"
+                style={{
+                  minWidth: 0,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {"A message long enough to fill the whole row on its own, and then some more words after that. ".repeat(
+                  3,
+                )}
+              </span>
+            </DescriptionDetails>
+          </DescriptionItem>
+          <DescriptionItem data-testid="fact-created-by">
+            <DescriptionTerm>Created by</DescriptionTerm>
+            <DescriptionDetails>Cody</DescriptionDetails>
+          </DescriptionItem>
+          <DescriptionItem data-testid="fact-created-at">
+            <DescriptionTerm>Created at</DescriptionTerm>
+            <DescriptionDetails>Oct 21, 2026, 23:24</DescriptionDetails>
+          </DescriptionItem>
+          <DescriptionItem data-testid="fact-more">
+            <DescriptionTerm>Earlier discussion</DescriptionTerm>
+            <DescriptionDetails>4 replies</DescriptionDetails>
+          </DescriptionItem>
+        </DescriptionList>
+      </div>
+    </ThemeProvider>,
+  );
+  const box = (id: string) => screen.getByTestId(id).getBoundingClientRect();
+  const status = box("fact-status");
+  const source = box("fact-source");
+  const createdBy = box("fact-created-by");
+  expect(source.width).toBeLessThanOrEqual(24 * 16 + 0.5);
+  // Source stays on Status's line, 24px after it, and the next fact follows.
+  expect(Math.abs(source.top - status.top)).toBeLessThan(8);
+  expect(source.left - status.right).toBeCloseTo(24, 0);
+  expect(Math.abs(createdBy.top - status.top)).toBeLessThan(8);
+  expect(createdBy.left - source.right).toBeCloseTo(24, 0);
+  const text = screen.getByTestId("source-text");
+  expect(text.scrollWidth).toBeGreaterThan(text.clientWidth);
+  // A fact that wraps starts the next line 8px under the last one.
+  const items = [
+    "fact-status",
+    "fact-source",
+    "fact-created-by",
+    "fact-created-at",
+    "fact-more",
+  ].map(box);
+  const firstLine = items.filter((r) => r.top < status.top + 8);
+  const nextLines = items.filter((r) => r.top >= status.top + 8);
+  expect(nextLines.length).toBeGreaterThan(0);
+  const firstLineBottom = Math.max(...firstLine.map((r) => r.bottom));
+  const secondLineTop = Math.min(...nextLines.map((r) => r.top));
+  expect(secondLineTop - firstLineBottom).toBeCloseTo(8, 0);
+});

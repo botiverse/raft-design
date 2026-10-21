@@ -50,6 +50,8 @@ description-list/compositions/horizontal
 
 `direction="inline"` lays the facts out like a line of text. Every label and value sits on one baseline, so a status chip, a button and plain text read as one line; the label is 12px from its value, the facts 24px apart, and a row that wraps leaves 8px between lines.
 
+Every fact follows the same flow, whatever its value: it wraps to the next line only when it doesn't fit on this one, with the same 24px and 8px gaps as the others. A fact is at most 24rem wide, or the row's width if that is narrower. A long value, such as the message a task came from, ends in an ellipsis at that width; don't give it a line of its own, a full width or other gaps. This is the layout for dense metadata such as a task's properties: a two-column grid (`direction="horizontal"`) gives each fact a line, so a handful of short facts takes a screen's height, and stacks into one column on a phone anyway.
+
 A value that leads with an avatar or an icon (an assignee, the message a task came from) still puts its text on that baseline: raft-ui lays the parts of `DescriptionDetails` on the baseline and centers an avatar or an icon among them on the text's line, which in Space Grotesk is the cap-height center ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)). A box with no text, such as an avatar, otherwise gives its bottom edge as the baseline, and a value that starts with one stands several pixels above its label.
 
 A value wrapped in its own trigger (a button around an avatar, a name, an excerpt and a time) does the same inside the trigger: lay its parts out with `items-baseline`, center the avatar and the icons with `self-center`, and size the trigger by its padding, not a fixed height, so its line box is the text's. A trigger that centers its parts (`items-center`) takes its baseline from the avatar and lifts the whole value off the row.
@@ -82,3 +84,4 @@ raft-ui has no frameless value trigger yet; the member-info composition uses a [
 ## Rules
 
 - Don't make a fact that can't be changed look clickable: no chevron, no hover, no button.
+- In `direction="inline"`, give every fact the same layout: no fact on a line of its own, no width or gap of its own. Cut a long value with an ellipsis at the fact's 24rem cap, and make the whole value available elsewhere (its tooltip, or the place it links to).
