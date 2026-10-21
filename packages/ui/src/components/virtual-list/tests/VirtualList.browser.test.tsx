@@ -538,7 +538,9 @@ describe("VirtualList rows in block flow", () => {
     expect(diffs.length).toBeGreaterThan(0);
     expect(Math.max(...diffs)).toBeLessThan(0.5);
     expect(windowErrors).toEqual([]);
-  });
+    // A jump 150,000px down a 5,000-row list, then six scrolls with settles: on a busy machine longer
+    // than the 15 s default.
+  }, 90_000);
 
   // Every mounted row's border box, relative to where the rows start, must be where the plain block
   // list has it: margins between rows collapse, a child's margins collapse through its row, the first
