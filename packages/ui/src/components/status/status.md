@@ -33,7 +33,7 @@ status/compositions/default
 
 ## Anatomy
 
-- `Status`: the pixel, with an ink edge. `presence` draws one of the five presence lights; `variant` draws a color role.
+- `Status`: the pixel, with an ink edge. `presence` draws one of the five presence lights; `variant` draws a color role. `size` sets the pixel: `xs` to `lg` (6px to 11px) for a pixel on its own, `lead` for one that leads a line of text, at the text's x-height and centered on its first line ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)). Banner, PanelNotice, ToastIcon, Badge and PanelActivity give a pixel in them the `lead` size whatever size it was given.
 
 ## Variants
 

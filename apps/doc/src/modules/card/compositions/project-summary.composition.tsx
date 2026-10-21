@@ -35,8 +35,8 @@ export function CardProjectSummaryComposition({
         <CardDescription>Public beta · Thursday at 10:00</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-3.5">
-        <div className="flex min-w-0 items-start gap-3">
-          <Status aria-hidden className="mt-1" size="sm" variant="success" />
+        <div className="flex min-w-0 items-start gap-3 text-sm leading-5">
+          <Status aria-hidden size="lead" variant="success" />
           <div className="min-w-0 flex-1">
             <Text.Sans size="small">Component freeze</Text.Sans>
             <Text.Sans size="caption">48 components approved for release.</Text.Sans>
@@ -48,8 +48,8 @@ export function CardProjectSummaryComposition({
 
         <Separator className="data-[orientation=horizontal]:border-line-hairline" />
 
-        <div className="flex min-w-0 items-start gap-3">
-          <Status aria-hidden className="mt-1" size="sm" variant="success" />
+        <div className="flex min-w-0 items-start gap-3 text-sm leading-5">
+          <Status aria-hidden size="lead" variant="success" />
           <div className="min-w-0 flex-1">
             <Text.Sans size="small">Accessibility audit</Text.Sans>
             <Text.Sans size="caption">Keyboard and contrast checks passed.</Text.Sans>
@@ -61,8 +61,8 @@ export function CardProjectSummaryComposition({
 
         <Separator className="data-[orientation=horizontal]:border-line-hairline" />
 
-        <div className="flex min-w-0 items-start gap-3">
-          <Status aria-hidden className="mt-1" size="sm" variant="warning" />
+        <div className="flex min-w-0 items-start gap-3 text-sm leading-5">
+          <Status aria-hidden size="lead" variant="warning" />
           <div className="min-w-0 flex-1">
             <Text.Sans size="small">Migration guide</Text.Sans>
             <Text.Sans size="caption">Waiting for platform review.</Text.Sans>

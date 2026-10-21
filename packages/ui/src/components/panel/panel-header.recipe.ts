@@ -51,6 +51,7 @@ export const panelHeader = tv({
       "inline-flex shrink-0 items-center gap-1.5",
       "font-sans text-caption text-foreground-hint",
       "[&_svg]:size-3.5 [&_svg]:shrink-0",
+      "*:data-[slot=status]:lead-dot",
     ],
     actions: panelHeadActions,
   },

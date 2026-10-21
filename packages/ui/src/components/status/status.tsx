@@ -13,7 +13,7 @@ const status = tv({
     root: [
       "relative inline-block shrink-0",
       "bg-(--status-color)",
-      "rounded-[2px] border-[1.5px] border-sticker-ink",
+      "rounded-[2px] border-sticker-ink",
     ],
   },
   variants: {
@@ -45,9 +45,12 @@ const status = tv({
     },
     size: {
       xs: { root: "size-1.5 rounded-[1px] border" },
-      sm: { root: "size-2" },
-      md: { root: "size-[9px]" },
-      lg: { root: "size-[11px]" },
+      sm: { root: "size-2 border-[1.5px]" },
+      md: { root: "size-[9px] border-[1.5px]" },
+      lg: { root: "size-[11px] border-[1.5px]" },
+      // The pixel that leads a line of text: the text's x-height, centred
+      // on its first line (styles.css `lead-dot`).
+      lead: { root: "lead-dot" },
     },
   },
   defaultVariants: {
