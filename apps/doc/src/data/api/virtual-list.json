@@ -2,20 +2,8 @@
   {
     "name": "VirtualList",
     "entry": "@botiverse/raft-ui",
-    "native": false,
+    "native": true,
     "props": [
-      {
-        "name": "applySessionIdToItemKey",
-        "type": "boolean",
-        "required": false,
-        "from": "raft-ui"
-      },
-      {
-        "name": "avoidSyncViewportOnListRefUpdated",
-        "type": "boolean",
-        "required": false,
-        "from": "raft-ui"
-      },
       {
         "name": "canAnchorItem",
         "type": "(item: T) => boolean",
@@ -27,132 +15,152 @@
         "name": "catchWheel",
         "type": "boolean",
         "required": false,
+        "default": "false",
+        "description": "Scroll by the wheel in the list's own handler (where the pointer is not coarse), so rows are rendered in the same frame as the scroll; it lets the wheel through at either end.",
         "from": "raft-ui"
       },
       {
         "name": "children",
         "type": "(props: ItemRenderProps<T> & { key: string | undefined; }) => ReactNode",
         "required": false,
+        "description": "Renders a row: called for each item in or near the view with the item, its index, the `domRef` to put on the row's root element and the `style` to spread on it. Give the element the `key` it gets.",
         "from": "raft-ui"
       },
       {
         "name": "columns",
         "type": "readonly Column[]",
         "required": false,
+        "description": "Columns for a list that also scrolls sideways: only the columns in view are rendered, through `renderCol` or `renderItemWithCols`. Each column's `width` is read.",
         "from": "raft-ui"
       },
       {
         "name": "componentRef",
         "type": "((instance: VirtualListApi | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<VirtualListApi | null>",
         "required": false,
+        "description": "The imperative API: `scrollTo`, `getOffsetTopOfKey`, the scroller's and spacer's elements.",
         "from": "raft-ui"
       },
       {
         "name": "defaultScrollIndex",
         "type": "number",
         "required": false,
+        "description": "The index of the row to scroll to when the list mounts or `sessionId` changes.",
         "from": "raft-ui"
       },
       {
         "name": "defaultScrollKey",
         "type": "string",
         "required": false,
-        "from": "raft-ui"
-      },
-      {
-        "name": "domRef",
-        "type": "((instance: HTMLDivElement | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<HTMLDivElement | null>",
-        "required": false,
+        "description": "The key of the row to scroll to when the list mounts or `sessionId` changes (as far as needed to show it). `defaultScrollIndex` wins when both are set.",
         "from": "raft-ui"
       },
       {
         "name": "empty",
         "type": "ReactNode | VirtualListFooterRender",
         "required": false,
+        "description": "Rendered in place of the rows when there are no items. A function gets a `domRef`: when its element resizes, `onContentResize` is called.",
         "from": "raft-ui"
       },
       {
         "name": "emptyAlign",
         "type": "\"center\" | \"start\"",
         "required": false,
+        "default": "\"start\"",
+        "description": "Where `empty` sits: at the top (`\"start\"`) or in the middle of the list (`\"center\"`).",
         "from": "raft-ui"
       },
       {
         "name": "focusable",
         "type": "boolean",
         "required": false,
+        "default": "true",
+        "description": "Put the scroller in the tab order (`tabIndex` 0), so the keyboard can scroll it; off, it is `tabIndex` -1.",
         "from": "raft-ui"
       },
       {
         "name": "footer",
         "type": "ReactNode | VirtualListFooterRender",
         "required": false,
+        "description": "Rendered below the rows, inside the scroller. A function gets a `domRef`: when its element resizes, `onContentResize` is called.",
         "from": "raft-ui"
       },
       {
         "name": "footerAfterBottomPadding",
         "type": "ReactNode",
         "required": false,
+        "description": "Rendered last in the scroller, after `paddingBottom`.",
         "from": "raft-ui"
       },
       {
         "name": "getKey",
         "type": "(item: T) => string",
         "required": true,
+        "description": "A key for each item, stable across renders: measurements are kept by key, so they survive reordering and new items, and a new key is a new row, measured again from the estimate.",
         "from": "raft-ui"
       },
       {
         "name": "header",
         "type": "ReactNode",
         "required": false,
+        "description": "Rendered above the rows, inside the scroller. Keep its height the same while rows load above: a change in its height moves the rows in view.",
         "from": "raft-ui"
       },
       {
         "name": "ignoreItemResize",
         "type": "boolean",
         "required": false,
+        "default": "false",
+        "description": "Stop applying row measurements: sizes measured while it is on are dropped, and the rows keep the sizes they had (for a moment when rows resize but the layout should not follow, such as an animation).",
         "from": "raft-ui"
       },
       {
         "name": "ItemComponent",
         "type": "ComponentType<ItemRenderProps<T>>",
         "required": false,
+        "description": "A component that renders a row, in place of `children`; it gets the same props.",
         "from": "raft-ui"
       },
       {
         "name": "itemEstimatedSize",
         "type": "number",
         "required": true,
+        "description": "The size, in px, counted for a row not measured yet (its offset and the spacer's height).",
         "from": "raft-ui"
       },
       {
         "name": "itemMinSize",
         "type": "number",
         "required": true,
+        "description": "The shortest a row can be, in px, or less: the list mounts as many rows as fit in the view at this size, plus one, so a larger value leaves the end of the view empty.",
         "from": "raft-ui"
       },
       {
         "name": "itemResizable",
         "type": "boolean",
         "required": false,
+        "default": "false",
+        "description": "Rows have heights of their own: each row is measured from layout when it mounts and whenever it resizes (put the row's `domRef` on its root element). Off, every row is `itemEstimatedSize` high.",
         "from": "raft-ui"
       },
       {
         "name": "items",
         "type": "readonly T[]",
         "required": false,
+        "description": "The items, one row each, in order.",
         "from": "raft-ui"
       },
       {
         "name": "itemsClassName",
         "type": "string",
         "required": false,
+        "description": "Classes of the spacer (`data-slot=\"virtual-list-items\"`).",
         "from": "raft-ui"
       },
       {
         "name": "itemsStyle",
         "type": "CSSProperties",
         "required": false,
+        "description": "Styles of the spacer (`data-slot=\"virtual-list-items\"`), merged over its own.",
         "from": "raft-ui"
       },
       {
@@ -166,78 +174,95 @@
         "name": "keyboardPageBottomOcclusion",
         "type": "number",
         "required": false,
+        "default": "0",
+        "description": "What covers the bottom of the list, in px (such as a composer over it): Page Up, Page Down and Space scroll by the view's height less this and 32px.",
         "from": "raft-ui"
       },
       {
         "name": "onContentResize",
         "type": "() => void",
         "required": false,
+        "description": "Called when the content's height changes: a row resizes or mounts measured, the spacer's height changes, or the `footer` / `empty` element resizes (to follow the end of a chat).",
         "from": "raft-ui"
       },
       {
         "name": "onRenderAnomaly",
         "type": "(anomaly: RenderAnomaly) => void",
         "required": false,
+        "description": "Called when the list renders too often: 120 forced renders within a second report a `\"renderThrashing\"` anomaly, for logging.",
         "from": "raft-ui"
       },
       {
         "name": "onResize",
         "type": "(entry: ObservedResizeEntry) => void",
         "required": false,
+        "description": "Called when the scroller itself resizes, with its ResizeObserver entry.",
         "from": "raft-ui"
       },
       {
         "name": "onScroll",
         "type": "(event: Event) => void",
         "required": false,
+        "description": "Called when the list scrolls, with the native event, after the rows in view are updated.",
         "from": "raft-ui"
       },
       {
         "name": "onTransformChange",
         "type": "() => void",
         "required": false,
+        "description": "Called when the rows' offset (`--virtual-list-transform-y`) changes, for content positioned against it.",
         "from": "raft-ui"
       },
       {
         "name": "onWheel",
         "type": "(event: WheelEvent) => void",
         "required": false,
+        "description": "With `catchWheel`: called with the native wheel event, except one let through at either end.",
         "from": "raft-ui"
       },
       {
         "name": "paddingBottom",
         "type": "number",
         "required": false,
+        "default": "0",
+        "description": "Space below the footer, in px (before `footerAfterBottomPadding`).",
         "from": "raft-ui"
       },
       {
         "name": "paddingTop",
         "type": "number",
         "required": false,
+        "default": "0",
+        "description": "Space above the first row, in px, inside the spacer.",
         "from": "raft-ui"
       },
       {
         "name": "printable",
         "type": "boolean",
         "required": false,
+        "default": "false",
+        "description": "When printing, let the list grow to its content (no height limit, no scrolling).",
         "from": "raft-ui"
       },
       {
         "name": "renderCol",
         "type": "(info: VirtualListRenderColInfo) => ReactNode",
         "required": false,
+        "description": "With `columns`: renders one column of a row; its result is the row's `renderedCols`.",
         "from": "raft-ui"
       },
       {
         "name": "renderItemWithCols",
         "type": "(info: VirtualListRenderItemWithColsInfo) => ReactNode",
         "required": false,
+        "description": "With `columns`: renders the columns in view of a row at once (in place of `renderCol`); its result is the row's `renderedItemWithCols`.",
         "from": "raft-ui"
       },
       {
         "name": "sessionId",
         "type": "string",
         "required": false,
+        "description": "Identifies what the list shows (a channel, a thread). A new value resets the list: scroll position, measurements and rows (every row remounts), then `defaultScrollKey` / `defaultScrollIndex` apply again.",
         "from": "raft-ui"
       },
       {
@@ -245,24 +270,30 @@
         "type": "boolean",
         "required": false,
         "default": "false",
+        "description": "Show the scroller's native scrollbar (hidden by default).",
         "from": "raft-ui"
       },
       {
         "name": "virtual",
         "type": "boolean",
         "required": false,
+        "default": "true",
+        "description": "Render only the rows in or near the view. Off, every row is rendered in flow (with `itemResizable`, the row at the top of the view keeps its place when it is switched off).",
         "from": "raft-ui"
       },
       {
         "name": "visibleItemsProps",
         "type": "object",
         "required": false,
+        "description": "Props of the element that holds the rows (`visibleItemsTag`), such as `role` or `aria-label`.",
         "from": "raft-ui"
       },
       {
         "name": "visibleItemsTag",
         "type": "ElementType",
         "required": false,
+        "default": "\"div\"",
+        "description": "The element that holds the rows (`data-slot=\"virtual-list-visible-items\"`), such as `\"ul\"` for rows that are `li`.",
         "from": "raft-ui"
       }
     ]

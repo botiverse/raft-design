@@ -2,6 +2,7 @@ import type {
   ComponentType,
   CSSProperties,
   ElementType,
+  HTMLAttributes,
   ReactElement,
   ReactNode,
   Ref,
@@ -104,51 +105,187 @@ export interface RenderAnomaly {
 
 export type FooterRender = (props: { domRef: MeasuredRef }) => ReactNode;
 
-/** The props VirtualList reads; optional where it has a default or checks for undefined / null. */
-export interface VirtualListProps<T> {
+/**
+ * The scroll container's own attributes passed through to it (`id`, `role`, `aria-*`, `data-*`,
+ * handlers such as `onKeyDown`); `onScroll`, `onWheel`, `onResize` and `children` are VirtualList's own
+ * (below), and `focusable` sets `tabIndex`.
+ */
+type VirtualListNativeProps = Omit<
+  HTMLAttributes<HTMLDivElement>,
+  "children" | "className" | "style" | "onScroll" | "onWheel" | "onResize" | "tabIndex"
+>;
+
+/**
+ * The props VirtualList reads; optional where it has a default or checks for undefined / null. Every
+ * other attribute of the scroll container (`id`, `role`, `aria-label`, `data-*`, handlers) is passed
+ * through to it.
+ */
+export interface VirtualListProps<T> extends VirtualListNativeProps {
+  /**
+   * Render only the rows in or near the view. Off, every row is rendered in flow (with
+   * `itemResizable`, the row at the top of the view keeps its place when it is switched off).
+   * @default true
+   */
   virtual?: boolean | undefined;
+  /**
+   * Identifies what the list shows (a channel, a thread). A new value resets the list: scroll
+   * position, measurements and rows (every row remounts), then `defaultScrollKey` / `defaultScrollIndex`
+   * apply again.
+   */
   sessionId?: string | undefined;
-  /** @default false */
+  /**
+   * Show the scroller's native scrollbar (hidden by default).
+   * @default false
+   */
   showScrollbar?: boolean | undefined;
+  /**
+   * Columns for a list that also scrolls sideways: only the columns in view are rendered, through
+   * `renderCol` or `renderItemWithCols`. Each column's `width` is read.
+   */
   columns?: readonly Column[] | undefined;
+  /** With `columns`: renders one column of a row; its result is the row's `renderedCols`. */
   renderCol?: ((info: RenderColInfo) => ReactNode) | undefined;
+  /**
+   * With `columns`: renders the columns in view of a row at once (in place of `renderCol`); its
+   * result is the row's `renderedItemWithCols`.
+   */
   renderItemWithCols?: ((info: RenderItemWithColsInfo) => ReactNode) | undefined;
+  /** The items, one row each, in order. */
   items?: readonly T[] | undefined;
+  /**
+   * The shortest a row can be, in px, or less: the list mounts as many rows as fit in the view at this
+   * size, plus one, so a larger value leaves the end of the view empty.
+   */
   itemMinSize: number;
+  /** The size, in px, counted for a row not measured yet (its offset and the spacer's height). */
   itemEstimatedSize: number;
+  /**
+   * Rows have heights of their own: each row is measured from layout when it mounts and whenever it
+   * resizes (put the row's `domRef` on its root element). Off, every row is `itemEstimatedSize` high.
+   * @default false
+   */
   itemResizable?: boolean | undefined;
+  /** Styles of the spacer (`data-slot="virtual-list-items"`), merged over its own. */
   itemsStyle?: CSSProperties | undefined;
+  /**
+   * The element that holds the rows (`data-slot="virtual-list-visible-items"`), such as `"ul"` for
+   * rows that are `li`.
+   * @default "div"
+   */
   visibleItemsTag?: ElementType | undefined;
+  /** Props of the element that holds the rows (`visibleItemsTag`), such as `role` or `aria-label`. */
   visibleItemsProps?: object | undefined;
+  /**
+   * Stop applying row measurements: sizes measured while it is on are dropped, and the rows keep the
+   * sizes they had (for a moment when rows resize but the layout should not follow, such as an
+   * animation).
+   * @default false
+   */
   ignoreItemResize?: boolean | undefined;
+  /** Called when the list scrolls, with the native event, after the rows in view are updated. */
   onScroll?: ((event: Event) => void) | undefined;
+  /** With `catchWheel`: called with the native wheel event, except one let through at either end. */
   onWheel?: ((event: WheelEvent) => void) | undefined;
+  /** Called when the scroller itself resizes, with its ResizeObserver entry. */
   onResize?: ((entry: ObservedResizeEntry) => void) | undefined;
+  /**
+   * The key of the row to scroll to when the list mounts or `sessionId` changes (as far as needed to
+   * show it). `defaultScrollIndex` wins when both are set.
+   */
   defaultScrollKey?: string | undefined;
+  /** The index of the row to scroll to when the list mounts or `sessionId` changes. */
   defaultScrollIndex?: number | undefined;
+  /**
+   * A key for each item, stable across renders: measurements are kept by key, so they survive
+   * reordering and new items, and a new key is a new row, measured again from the estimate.
+   */
   getKey: (item: T) => string;
+  /**
+   * Space above the first row, in px, inside the spacer.
+   * @default 0
+   */
   paddingTop?: number | undefined;
+  /**
+   * Space below the footer, in px (before `footerAfterBottomPadding`).
+   * @default 0
+   */
   paddingBottom?: number | undefined;
+  /**
+   * Renders a row: called for each item in or near the view with the item, its index, the `domRef` to
+   * put on the row's root element and the `style` to spread on it. Give the element the `key` it gets.
+   */
   children?: ((props: ItemRenderProps<T> & { key: string | undefined }) => ReactNode) | undefined;
+  /** A component that renders a row, in place of `children`; it gets the same props. */
   ItemComponent?: ComponentType<ItemRenderProps<T>> | undefined;
+  /**
+   * Rendered in place of the rows when there are no items. A function gets a `domRef`: when its
+   * element resizes, `onContentResize` is called.
+   */
   empty?: ReactNode | FooterRender;
+  /**
+   * Where `empty` sits: at the top (`"start"`) or in the middle of the list (`"center"`).
+   * @default "start"
+   */
   emptyAlign?: "start" | "center" | undefined;
+  /** Classes of the scroller, after its own (a utility here overrides them: `h-*`, `max-h-*`). */
   className?: string | undefined;
+  /** Styles of the scroller. */
   style?: CSSProperties | undefined;
+  /** Classes of the spacer (`data-slot="virtual-list-items"`). */
   itemsClassName?: string | undefined;
+  /**
+   * Rendered below the rows, inside the scroller. A function gets a `domRef`: when its element
+   * resizes, `onContentResize` is called.
+   */
   footer?: ReactNode | FooterRender;
+  /** Rendered last in the scroller, after `paddingBottom`. */
   footerAfterBottomPadding?: ReactNode;
+  /**
+   * Rendered above the rows, inside the scroller. Keep its height the same while rows load above:
+   * a change in its height moves the rows in view.
+   */
   header?: ReactNode;
-  domRef?: Ref<HTMLDivElement> | undefined;
+  /** The scroller's element. */
+  ref?: Ref<HTMLDivElement> | undefined;
+  /**
+   * Called when the content's height changes: a row resizes or mounts measured, the spacer's
+   * height changes, or the `footer` / `empty` element resizes (to follow the end of a chat).
+   */
   onContentResize?: (() => void) | undefined;
+  /**
+   * Called when the rows' offset (`--virtual-list-transform-y`) changes, for content positioned
+   * against it.
+   */
   onTransformChange?: (() => void) | undefined;
+  /** The imperative API: `scrollTo`, `getOffsetTopOfKey`, the scroller's and spacer's elements. */
   componentRef?: Ref<VirtualListApi> | undefined;
-  applySessionIdToItemKey?: boolean | undefined;
+  /**
+   * When printing, let the list grow to its content (no height limit, no scrolling).
+   * @default false
+   */
   printable?: boolean | undefined;
+  /**
+   * Scroll by the wheel in the list's own handler (where the pointer is not coarse), so rows are
+   * rendered in the same frame as the scroll; it lets the wheel through at either end.
+   * @default false
+   */
   catchWheel?: boolean | undefined;
+  /**
+   * Called when the list renders too often: 120 forced renders within a second report a
+   * `"renderThrashing"` anomaly, for logging.
+   */
   onRenderAnomaly?: ((anomaly: RenderAnomaly) => void) | undefined;
+  /**
+   * What covers the bottom of the list, in px (such as a composer over it): Page Up, Page Down and
+   * Space scroll by the view's height less this and 32px.
+   * @default 0
+   */
   keyboardPageBottomOcclusion?: number | undefined;
-  avoidSyncViewportOnListRefUpdated?: boolean | undefined;
+  /**
+   * Put the scroller in the tab order (`tabIndex` 0), so the keyboard can scroll it; off, it is
+   * `tabIndex` -1.
+   * @default true
+   */
   focusable?: boolean | undefined;
   /**
    * When `items` change, keep the row at the top of the view where it is: the

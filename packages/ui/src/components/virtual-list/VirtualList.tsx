@@ -27,7 +27,7 @@ import {
   useRef,
   useState,
 } from "react";
-import type { CSSProperties, ReactElement, ReactNode, UIEvent } from "react";
+import type { CSSProperties, KeyboardEvent, ReactElement, ReactNode, UIEvent } from "react";
 import { flushSync } from "react-dom";
 
 import {
@@ -160,22 +160,22 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     footer,
     footerAfterBottomPadding,
     header,
-    domRef,
+    ref,
     onContentResize,
     onTransformChange,
     componentRef,
-    applySessionIdToItemKey = true,
     printable,
     catchWheel = false,
     onRenderAnomaly,
     keyboardPageBottomOcclusion = 0,
-    avoidSyncViewportOnListRefUpdated = false,
     focusable = true,
     keepAnchorOnItemsChange = false,
     canAnchorItem,
+    onKeyDown: onNativeKeyDown,
+    ...nativeProps
   } = props;
   const listElRef = useRef<HTMLDivElement | null>(null);
-  const [mergedListRefSetter] = useMergedRef(domRef, listElRef);
+  const [mergedListRefSetter] = useMergedRef(ref, listElRef);
   const itemsElRef = useRef<HTMLDivElement | null>(null);
   const getVisibleItemsEl = useCallback(() => itemsElRef.current?.children[0] || null, []);
   const [[renderReason, renderCallback, renderVersion], setRenderState] = useState<RenderState>([
@@ -1379,7 +1379,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     },
   );
   const onListRefUpdated = useEventCallback((el: HTMLElement | null) => {
-    if (!avoidSyncViewportOnListRefUpdated && el) {
+    if (el) {
       handleListResize(el, true);
     }
   });
@@ -1435,8 +1435,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     (item: T, absolute: boolean): ReactNode => {
       const key = getKey(item);
       const index = keyToIndexRef.current.get(key);
-      const reactKey =
-        applySessionIdToItemKey && sessionId !== undefined ? `${sessionId}:${key}` : key;
+      const reactKey = sessionId !== undefined ? `${sessionId}:${key}` : key;
       const absoluteStyle: CSSProperties | undefined = absolute
         ? {
             position: "absolute",
@@ -1545,7 +1544,6 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       handleItemBatchResize,
       ItemComponent,
       renderItemChild,
-      applySessionIdToItemKey,
     ],
   );
   /* oxlint-enable react-perf/jsx-no-new-function-as-prop, react-perf/jsx-no-new-object-as-prop */
@@ -1664,9 +1662,17 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     },
     [virtual, sessionId],
   );
-  const { onKeyDown } = useKeyboardScroll(scrollTo, {
+  const { onKeyDown: onKeyboardScroll } = useKeyboardScroll(scrollTo, {
     pageBottomOcclusion: keyboardPageBottomOcclusion,
   });
+  /** The consumer's `onKeyDown` first: a key it takes (`preventDefault`) does not scroll the list. */
+  const onKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      onNativeKeyDown?.(event);
+      onKeyboardScroll(event);
+    },
+    [onNativeKeyDown, onKeyboardScroll],
+  );
   const emptyCentered = items.length === 0 && emptyAlign === "center";
   const rootClassName = cn(
     "r-virtual-list",
@@ -1685,6 +1691,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     >
       {({ ref }: { ref: MeasuredRef }) => (
         <div
+          {...nativeProps}
           data-slot="virtual-list"
           className={rootClassName}
           style={style}
