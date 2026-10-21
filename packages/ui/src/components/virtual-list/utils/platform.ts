@@ -20,8 +20,6 @@ export const isIOS =
 
 let coarsePointerCache: boolean | undefined;
 let devicePixelRatioCache: number | undefined;
-let nextFrameCallback: (() => void) | undefined;
-let nextFrameHandle: number | undefined;
 
 /** Whether the primary pointer is coarse (a touch screen); read once. */
 export function isCoarsePointer(): boolean {
@@ -46,15 +44,20 @@ export function getWheelDeltaScale(): number {
 }
 
 /**
- * Runs `callback` in the next animation frame. One frame is requested at a time: a callback given
- * before it fires replaces the previous one.
+ * Makes a runner that runs a callback in the next animation frame. Each runner requests one frame at
+ * a time: a callback given before it fires replaces the previous one. One per list, so lists never
+ * replace each other's callbacks.
  */
-export function runLatestInNextFrame(callback: () => void): void {
-  nextFrameCallback = callback;
-  if (nextFrameHandle === undefined) {
-    nextFrameHandle = requestAnimationFrame(() => {
-      nextFrameCallback?.();
-      nextFrameHandle = undefined;
-    });
-  }
+export function createLatestInNextFrame(): (callback: () => void) => void {
+  let nextFrameCallback: (() => void) | undefined;
+  let nextFrameHandle: number | undefined;
+  return (callback: () => void) => {
+    nextFrameCallback = callback;
+    if (nextFrameHandle === undefined) {
+      nextFrameHandle = requestAnimationFrame(() => {
+        nextFrameHandle = undefined;
+        nextFrameCallback?.();
+      });
+    }
+  };
 }

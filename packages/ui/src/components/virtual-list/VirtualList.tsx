@@ -78,7 +78,7 @@ import { useKeyboardScroll } from "./hooks/use-keyboard-scroll";
 import { useNonVirtualContentResize } from "./hooks/use-non-virtual-content-resize";
 import { useScrollAnchor } from "./hooks/use-scroll-anchor";
 import { VirtualListContext } from "./VirtualListContext";
-import { getWheelDeltaScale, isCoarsePointer, runLatestInNextFrame } from "./utils/platform";
+import { createLatestInNextFrame, getWheelDeltaScale, isCoarsePointer } from "./utils/platform";
 
 import { cn } from "../../lib/cn";
 
@@ -234,6 +234,8 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   const pendingScrollTaskTimeoutRef = useRef<number | null>(null);
   const pendingScrollTaskRafRef = useRef<number | null>(null);
   const wheelScrollingRef = useRef(false);
+  /** Clears `wheelScrollingRef` in the next frame; this list's own, so other lists cannot replace it. */
+  const [runLatestInNextFrame] = useState(createLatestInNextFrame);
   /** The wheel is only taken over (catchWheel) where the pointer is not coarse. */
   const mayUseWheelRef = useRef(typeof document === "undefined" || !isCoarsePointer());
   const reportRenderAnomaly = useEventCallback((anomaly: RenderAnomaly) => {
@@ -1335,6 +1337,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   useNonPassiveWheel(
     useCallback(() => listElRef.current, []),
     handleWheel,
+    catchWheel,
   );
   const iosCompensationEnabled = isIOS && virtual;
   const { addCompensation, isScrollSuppressedWithForceRestore } = useIosMomentumCompensation({

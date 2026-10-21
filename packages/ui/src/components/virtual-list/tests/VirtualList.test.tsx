@@ -4,6 +4,7 @@ import { cleanup, render, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
 import { VirtualList } from "../index";
+import { createLatestInNextFrame } from "../utils/platform";
 import type { VirtualListApi, VirtualListItemRenderProps } from "../index";
 
 // jsdom has no matchMedia; the list reads "(pointer:coarse)" once (a fine pointer here).
@@ -200,5 +201,49 @@ describe("VirtualList", () => {
     errors.mockRestore();
     delete (HTMLElement.prototype as Partial<HTMLElement>).scrollTo;
     expect(flushSyncWarnings).toEqual([]);
+  });
+
+  it("adds a wheel listener only with catchWheel", () => {
+    const added = vi.spyOn(HTMLElement.prototype, "addEventListener");
+    // The list's own non-passive one (React adds its own wheel listeners to the root).
+    const wheelListeners = () =>
+      added.mock.calls.filter(
+        ([type, , options]) =>
+          type === "wheel" && typeof options === "object" && options.passive === false,
+      ).length;
+    const list = (catchWheel: boolean) => (
+      <VirtualList
+        items={items}
+        getKey={getKey}
+        itemEstimatedSize={40}
+        itemMinSize={20}
+        catchWheel={catchWheel}
+      >
+        {renderRow}
+      </VirtualList>
+    );
+    const { rerender } = render(list(false));
+    expect(wheelListeners()).toBe(0);
+    rerender(list(true));
+    expect(wheelListeners()).toBe(1);
+    added.mockRestore();
+  });
+});
+
+describe("createLatestInNextFrame", () => {
+  it("gives each runner its own frame: one runner never replaces another's callback", () => {
+    const frames: FrameRequestCallback[] = [];
+    vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) =>
+      frames.push(callback),
+    );
+    const ran: string[] = [];
+    const first = createLatestInNextFrame();
+    const second = createLatestInNextFrame();
+    first(() => ran.push("first, replaced"));
+    first(() => ran.push("first"));
+    second(() => ran.push("second"));
+    expect(frames).toHaveLength(2);
+    for (const frame of frames) frame(0);
+    expect(ran).toEqual(["first", "second"]);
   });
 });
