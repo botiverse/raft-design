@@ -56,17 +56,22 @@ export const messageItem = tv({
     // into what is free and never shrinks. When even that doesn't fit (a
     // narrow thread), the label gives way instead: plain words wrap onto as
     // many lines as they need, aligned on the first line's baseline.
+    //
+    // The name, the notes and the time stand on the name's baseline, not on
+    // the centre of their boxes: they are three sizes in two faces, and
+    // centring the boxes lifts the smaller notes off the line by up to 1px.
+    // Space Mono and Space Grotesk share a cap height (0.7em), so on one
+    // baseline the time's digits stand as tall as the role's capitals.
     header: [
-      "mb-px flex min-w-0 items-center gap-1.5 overflow-hidden",
+      "mb-px flex min-w-0 items-baseline gap-1.5 overflow-hidden",
       "pointer-fine:pe-(--mi-toolbar-reserve,6.5rem)",
-      "has-data-[slot=message-item-delegated-by]:items-baseline",
       "has-data-[slot=message-item-delegated-by]:[--mi-owner-basis:3rem] has-data-[slot=message-item-delegated-by]:[--mi-owner-flex:1_0]",
     ],
     // The role grows into what is left after the name and badges (it has no
     // basis of its own), so it gives way first; the name shrinks only once
     // the role is gone. Badges never shrink.
     senderGroup: [
-      "flex min-w-0 items-center gap-1.5 overflow-hidden",
+      "flex min-w-0 items-baseline gap-1.5 overflow-hidden",
       "flex-[var(--mi-owner-flex,0_1)_var(--mi-owner-basis,auto)] max-w-max",
       "*:data-[slot=message-item-meta]:basis-0 *:data-[slot=message-item-meta]:grow",
       // The gap before the role lives inside it (a 6px spacer that is cut off

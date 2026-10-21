@@ -37,6 +37,15 @@ When a shape with its own padding (a chip, a frameless button's hover fill) sits
 
 The row is read as text, so the eye compares where the words start, not where the fills start. Aligning the shapes by their edge would push their words 6px past the plain values beside them, and the row would look ragged. This is the exception to aligning a shape by its edge: that rule holds when shapes line up with one another down a column.
 
+## Text of different sizes on one line
+
+A line that mixes sizes or faces, such as a message's sender line (the name in bold `text-subhead`, the role, the model and a badge's words in `text-caption`, the time in Space Mono), puts every letter on one baseline: lay it out with `items-baseline`, not `items-center`.
+
+- **Align the baselines, not the boxes.** Each size has its own line box, and centring the boxes centres each face's ascent and descent, not its letters. The smaller notes then stand up to 1px above the name's baseline at every size, the role and the time by different amounts, and the line looks broken at a glance.
+- **A shared baseline is optical alignment for the two faces.** Space Grotesk and Space Mono have the same cap height (0.700em) and the same figure height (0.714em with overshoot), and their x-heights differ by 0.01em. So a time in Space Mono and a role in Space Grotesk of the same size stand exactly as tall on one baseline (rendered at 3x, the digits of `04:11` and the capitals of the role have the same ink box to the device pixel), and no per-face offset is needed. Space Mono's taller ascent and descent only make its box sit differently, which is why centring boxes moves it.
+- **A shape with words in it aligns by its words too.** A badge in the sender line puts its letters on the baseline, as a chip in a sentence does ([Marks in running text](#marks-in-running-text)). Its 22px box then hangs a pixel lower than it would centred, so on a desktop a line with a badge is a pixel taller than the name's 22px line (on a phone the badge already makes the 20px line 22px). A line without a badge stays the height of the name's line.
+- **When the line wraps, align the first line.** A label that wraps onto more lines sets its first line on the name's baseline, and the time stays on that line.
+
 ## Marks in running text
 
 A reference chip, a mention of the person reading and inline code sit inside a sentence, so they align as text.
