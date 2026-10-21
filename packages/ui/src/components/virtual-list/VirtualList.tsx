@@ -67,6 +67,7 @@ import type {
 import { px } from "./utils/range";
 import {
   getHorizontalRange,
+  getOverscannedRange,
   getVerticalRange,
   haveSameKeys,
   isHiddenByDisplayNone,
@@ -247,6 +248,8 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   const pendingScrollTaskTimeoutRef = useRef<number | null>(null);
   const pendingScrollTaskRafRef = useRef<number | null>(null);
   const wheelScrollingRef = useRef(false);
+  /** Whether the view last moved up (see `updateRange`). */
+  const scrollingUpRef = useRef(false);
   /** Clears `wheelScrollingRef` in the next frame; this list's own, so other lists cannot replace it. */
   const [runLatestInNextFrame] = useState(createLatestInNextFrame);
   /** The wheel is only taken over (catchWheel) where the pointer is not coarse. */
@@ -556,7 +559,8 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   }, [virtual]);
   /**
    * The viewport sync. The range starts at the item at `scrollTop + compensation - paddingTop` and
-   * holds as many items as fit at `itemMinSize`, plus one. Items holding the text selection, and the item
+   * holds as many items as fit at `itemMinSize`, plus one, and is overscanned in batches
+   * (`getOverscannedRange`). Items holding the text selection, and the item
    * holding focus, stay
    * mounted ("kept"). When the new range is inside the old one, only the layout styles are written;
    * otherwise the items entering above the old start are recorded (`prependIndexes`) and the range is
@@ -587,7 +591,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         startIndex: range.verticalStartIndex,
         endIndex: range.verticalEndIndex,
       };
-      const nextRange = getVerticalRange({
+      const viewRange = getVerticalRange({
         fenwickTree,
         scrollTop: effectiveScrollTop,
         listHeight: viewport.listHeight,
@@ -595,10 +599,36 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         itemCount: items.length,
         paddingTop: getRowsTop(),
       });
+      /*
+       * Unlike the reference implementation (DeepSeek web): the range is overscanned, in batches
+       * (`getOverscannedRange`), so most scroll frames neither mount nor unmount a row. Moving the first
+       * mounted row moves every mounted row in the flow and changes the rows' offset, a CSS variable all
+       * of them inherit, so it is the costliest change a frame can make; the reference made it whenever
+       * a row crossed the view's top. Without a height (not laid out) there is no overscan, and a range
+       * in view inside the rendered one keeps it, as in the reference.
+       */
+      const overscanned = viewport.listHeight > 0;
+      // The direction the view last moved in (scrollTop corrections the list makes keep it).
+      if (scrollTop !== viewport.scrollTop) {
+        scrollingUpRef.current = scrollTop < viewport.scrollTop;
+      }
+      const nextRange = overscanned
+        ? getOverscannedRange({
+            fenwickTree,
+            view: viewRange,
+            prev: prevRange,
+            viewTop: effectiveScrollTop - getRowsTop(),
+            movingUp: scrollingUpRef.current,
+            listHeight: viewport.listHeight,
+            itemCount: items.length,
+          })
+        : viewRange;
       const rangeChanged =
         prevRange.startIndex !== nextRange.startIndex || prevRange.endIndex !== nextRange.endIndex;
       const nextInsidePrev =
-        nextRange.startIndex >= prevRange.startIndex && prevRange.endIndex >= nextRange.endIndex;
+        !overscanned &&
+        nextRange.startIndex >= prevRange.startIndex &&
+        prevRange.endIndex >= nextRange.endIndex;
       const prevColRange = {
         startIndex: range.horizontalStartIndex,
         endIndex: range.horizontalEndIndex,

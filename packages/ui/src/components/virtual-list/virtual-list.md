@@ -45,6 +45,7 @@ Its styles are plain CSS, `styles/virtual-list.css`, which `styles.css` includes
 
 - Set `itemResizable` for rows whose height isn't fixed. Rows not yet mounted count as `itemEstimatedSize`; a row is measured before the browser paints it, and again whenever it resizes.
 - Set `itemMinSize` to the shortest row's height or less: the list mounts as many rows as fit at that size, so a larger value leaves the end of the view empty.
+- Beyond those, rows are mounted ahead of the view in batches, a viewport's worth at a time, and the rows the view has passed stay mounted for a while, so most scroll frames mount and unmount nothing. After a jump only the rows in view are mounted, until the person scrolls.
 - Rows are laid out in normal block flow, so their margins collapse as the CSS says: between neighboring rows, and a child's margin through a row with no border or padding of its own. The list measures the space each row takes, so rows need no `display: flow-root` or `gap`.
 
 ```example
