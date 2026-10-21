@@ -75,7 +75,7 @@ activity/compositions/loading-activity
 - The trigger covers the whole row. Buttons in the row sit above it, and each one can be pressed on its own.
 - Divide items with `line-hairline`, starting at the text, or after `InboxItemLeading` when there is one.
 - With a mouse, show Mark as Done only while the row is hovered, holds focus, is `active` or has a menu open: give `InboxItemActions` `reveal="hover"`. A list where every row shows its button reads as a wall of buttons, and the row itself is the main target. While the actions show they take the place of the rest of `InboxItemTrailing`: the timestamp, the marks and the attention dot step aside.
-- On a touch screen, keep Mark as Done hidden at rest too and put it in the row's press-and-hold menu; a swipe each way may add a shortcut ([Touch](../../../../../design/patterns/touch.md#swipe)). A button on every row makes a phone's list a column of buttons; mail apps show none. `reveal="hover"` does this: a touch screen has no hover, so the actions show only while focus is in the row.
+- On a touch screen, keep Mark as Done hidden at rest too and put it in the row's press-and-hold menu; a swipe each way may add a shortcut ([Touch](../../../../../design/patterns/touch.md#swipe)). A button on every row makes a phone's list a column of buttons; mail apps show none. `reveal="hover"` does this: a touch screen has no hover, and neither a tap nor a press and hold shows the actions (a tap moves focus into the row, and the press-and-hold menu already holds Mark as Done); they show only when keyboard focus reaches them.
 
 - In the default density `InboxItemTrailing` takes room only beside the first two lines of `InboxItemContent` (the context line and the title, or the title and the excerpt); the lines after them run the full width, under it. The column is about two lines tall (the timestamp and the dot, or the 32px Mark as Done), so taking room beside every line would only make a phone's narrow rows wrap more and grow taller. In `density="compact"` it stays beside both lines.
 
@@ -98,7 +98,7 @@ activity/compositions/activity-hover-actions
 - The parts render native elements through Base UI's `useRender`. `InboxItemTrigger` is a native `button`; with `disabled` it gets `aria-disabled` and ignores clicks.
 - Give the trigger an accessible name that names the item: `aria-label="Open Martin needs your OK"`. Set `aria-current` on the trigger of the open item.
 - Name the selection checkbox and every icon-only action: `aria-label="Select activity item"`, `aria-label="Mark as done"`.
-- Actions with `reveal="hover"` stay in the tab order while hidden, and show as soon as focus reaches the row or them. That is how a screen reader on a touch screen reaches Mark as Done without the menu.
+- Actions with `reveal="hover"` stay in the tab order and the accessibility tree while hidden. With a mouse they show as soon as focus reaches the row or them; on a touch screen, as soon as keyboard focus reaches them. That is how a screen reader on a touch screen reaches Mark as Done without the menu.
 - The attention dot is drawn in CSS and isn't announced. Say "unread" in the trigger's name, or add a visually hidden word.
 
 ## Rules

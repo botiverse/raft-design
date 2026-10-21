@@ -141,6 +141,13 @@ it("shows hover-revealed actions on row focus and on the active row", async () =
   expect(opacity(screen.getByTestId("actions"))).toBe("1");
 });
 
+it("shows hover-revealed actions while the row's menu is open", async () => {
+  render(<RevealRow />);
+  screen.getByTestId("row").setAttribute("data-popup-open", "");
+  expect(opacity(screen.getByTestId("actions"))).toBe("1");
+  expect(opacity(screen.getByTestId("time"))).toBe("0");
+});
+
 it("leaves actions without reveal visible at rest", async () => {
   render(
     <InboxItem>
