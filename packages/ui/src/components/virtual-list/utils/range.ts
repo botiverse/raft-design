@@ -10,7 +10,8 @@ interface IndexRange {
 
 /**
  * The items to render: from the item at `scrollTop - paddingTop` through as many items as fit in
- * `listHeight` at their minimum size, plus one (the overscan is `getOverscannedRange`'s). Empty (`0..-1`) before the list has been
+ * `listHeight` at their minimum size, plus one (the overscan is `getOverscannedRange`'s). Empty
+ * (`0..-1`) before the list has been
  * measured or when there are no items.
  */
 export function getVerticalRange({
@@ -106,7 +107,8 @@ export function getNeededEnd({
  * The items to render with overscan (see above), from the range in view (`view`, as `getVerticalRange`
  * gives it), the last row needed to fill the view (`neededEnd`) and the rendered range (`prev`).
  * `viewTop` is the view's top in item offsets, `moved` how far it moved since the last range update,
- * `movingUp` whether it last moved up, `settling` whether a jump is settling. With a `listHeight` of 0
+ * `movingUp` whether it last moved up, `settling` whether a jump is settling, `plannedSize` the size a
+ * row is counted at when planning how many rows to mount above the view. With a `listHeight` of 0
  * (not laid out) there is no overscan: `view` is returned.
  */
 export function getOverscannedRange({
@@ -118,6 +120,7 @@ export function getOverscannedRange({
   moved,
   movingUp,
   settling,
+  plannedSize,
   listHeight,
   itemCount,
 }: {
@@ -129,6 +132,7 @@ export function getOverscannedRange({
   moved: number;
   movingUp: boolean;
   settling: boolean;
+  plannedSize: (index: number) => number;
   listHeight: number;
   itemCount: number;
 }): IndexRange {
@@ -147,7 +151,13 @@ export function getOverscannedRange({
   ) {
     return view;
   }
-  const ahead = Math.min(view.startIndex, Math.max(fenwickTree.getBound(viewTop - target), 0));
+  // The row `target` above the view's top, the rows not measured yet at the size rows typically are
+  // (`plannedSize`), not the estimate: an estimate well below that would mount many more rows at once.
+  let ahead = view.startIndex;
+  for (let above = viewTop - fenwickTree.sum(ahead); ahead > 0 && above < target;) {
+    ahead -= 1;
+    above += plannedSize(ahead);
+  }
   let startIndex = prev.startIndex;
   if (prev.startIndex > view.startIndex) {
     startIndex = movingUp && !settling ? ahead : view.startIndex;

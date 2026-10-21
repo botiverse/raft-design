@@ -224,6 +224,9 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   /** The key of the row that holds focus (`document.activeElement` is in it), tracked by focusin / focusout. */
   const focusedKeyRef = useRef<string | null>(null);
   const keyToHeightOffsetRef = useRef(new Map<string, number>());
+  /** Bumped whenever `keyToHeightOffsetRef` changes (see `getTypicalSize`). */
+  const measuredVersionRef = useRef(0);
+  const typicalSizeRef = useRef({ version: -1, size: 0 });
   /*
    * Unlike the reference implementation (DeepSeek web): rows are laid out in block flow and measured
    * from layout (`measureFlowRun`). A row's size is the space from where it starts (the top of its border box) to where the next row
@@ -358,6 +361,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     keptKeysRef.current = [];
     focusedKeyRef.current = null;
     keyToHeightOffsetRef.current.clear();
+    measuredVersionRef.current += 1;
     leadingMarginRef.current = 0;
     keyToIndexRef.current = new Map();
     rangeRef.current = {
@@ -559,6 +563,23 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     }
   }, [virtual]);
   /**
+   * The size rows typically are: the mean of the measured rows (the key -> offset cache holds the rows
+   * not at the estimate), or the estimate before any is measured. Recomputed when measurements change.
+   */
+  const getTypicalSize = useEventCallback(() => {
+    const cached = typicalSizeRef.current;
+    if (cached.version !== measuredVersionRef.current) {
+      const offsets = keyToHeightOffsetRef.current;
+      let total = 0;
+      for (const offset of offsets.values()) {
+        total += offset;
+      }
+      cached.size = itemEstimatedSize + (offsets.size === 0 ? 0 : total / offsets.size);
+      cached.version = measuredVersionRef.current;
+    }
+    return Math.max(cached.size, itemMinSize, 1);
+  });
+  /**
    * The viewport sync. The range starts at the item at `scrollTop + compensation - paddingTop` and
    * holds as many items as fit at `itemMinSize`, plus one, and is overscanned in batches
    * (`getOverscannedRange`). Items holding the text selection, and the item
@@ -634,6 +655,12 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
             moved: Math.abs(scrollTop - viewport.scrollTop),
             movingUp: scrollingUpRef.current,
             settling: pendingScrollTaskRef.current !== null,
+            plannedSize: (index: number) => {
+              const item = items[index];
+              return item !== undefined && keyToHeightOffsetRef.current.has(getKey(item))
+                ? fenwickTree.get(index)
+                : getTypicalSize();
+            },
             listHeight: viewport.listHeight,
             itemCount: items.length,
           })
@@ -940,6 +967,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         } else {
           keyToHeightOffsetRef.current.set(key, size - itemEstimatedSize);
         }
+        measuredVersionRef.current += 1;
         fenwickTree.add(index, size - previousSize);
         resizes.push({ index, key, delta: size - previousSize });
       });
@@ -1842,6 +1870,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
             } else {
               keyToHeightOffsetRef.current.set(key, offset);
             }
+            measuredVersionRef.current += 1;
           });
         }
       }
