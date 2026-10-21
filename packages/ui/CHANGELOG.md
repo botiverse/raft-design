@@ -1,3 +1,24 @@
+## [0.17.0](https://github.com/botiverse/raft-design/compare/v0.16.0...v0.17.0) (2026-10-21)
+
+### Design System
+
+- **Dragging on a touch screen**: on an item that can be moved, holding still opens its menu and holding then moving drags it. The item arms after 500ms, the same moment raft-ui's long-press menu opens, and the drag starts on the first 10px of movement; moving earlier is a scroll, and a second finger cancels. The component that owns the item's menu closes it when the drag starts. ([#662](https://github.com/botiverse/raft-design/pull/662))
+  - Why: on a phone, a long press on a draggable item opened its context menu first, and a scroll that started on a tab, task card or attachment picked the item up instead.
+  - Affects: touch drag hold 0ms (tabs, cards and attachments picked up at once) → 500ms, then 10px; held items get `select-none`, `-webkit-touch-callout: none` and `touch-manipulation`. Mouse and pen still start a drag after 5–6px, with no hold.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#dragging-on-a-touch-screen
+
+### Added
+
+- **SortableTabsList** `onDragStart`: called when a tab drag starts, so an app that puts its own menu on a tab can close it. ([#662](https://github.com/botiverse/raft-design/pull/662))
+  - Why: the component that owns an item's menu closes it when the item's drag starts.
+  - Docs: https://raft-design.botiverse.build/components/tabs/
+
+### Fixed
+
+- **SortableTabsList, task drag-and-drop and SortableComposerAttachments**: on a touch screen a finger no longer starts a drag at once; it has to hold still for 500ms and then move. Scrolling that starts on a card or an attachment scrolls again. ([#662](https://github.com/botiverse/raft-design/pull/662))
+  - Why: the pointer sensor took every touch before the touch sensor could, and `touch-none` stopped the page from scrolling.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#dragging-on-a-touch-screen
+
 ## [0.16.0](https://github.com/botiverse/raft-design/compare/v0.15.0...v0.16.0) (2026-10-21)
 
 ### Breaking Changes
