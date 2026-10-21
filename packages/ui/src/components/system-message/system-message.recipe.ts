@@ -28,7 +28,7 @@ export const messageSystem = tv({
       "[&[data-panel-open]_[data-slot=system-message-group-chevron]]:-rotate-90",
       "h-7 gap-1 rounded-control px-2 py-0",
       "font-mono text-mono-meta text-foreground-hint",
-      "hover:bg-fill-medium hover:text-foreground",
+      "hover:bg-fill-medium hover:text-foreground active:bg-fill-medium",
       "outline-none focus-visible:shadow-focus",
     ],
     systemGroupSummary: ["truncate"],

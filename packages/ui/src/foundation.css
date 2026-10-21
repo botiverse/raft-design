@@ -506,6 +506,9 @@
   --fill-pressed: var(--fill-medium);
   --fill-frame-pressed: var(--fill-frame-medium);
   --fill-row-hover: var(--fill-subtle);
+  --fill-row-open: var(--fill-subtle);
+  --fill-message-hover: var(--fill-subtle);
+  --sticker-pressed: var(--sticker-medium);
   --layer-panel: var(--layer-canvas);
   --layer-inset: var(--fill-muted);
   --layer-canvas-muted: var(--layer-sidebar);

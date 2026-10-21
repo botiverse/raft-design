@@ -86,6 +86,7 @@ test("token-names moves the old hover names onto the two hover tiers", () => {
     '<a className="hover:press-overlay active:press-overlay-sticker hover:row-hover-overlay data-popup-open:row-open-overlay" />',
     '<b className="hover:bg-fill-pressed hover:bg-fill-frame-pressed hover:bg-fill-row-hover data-popup-open:bg-fill-row-open" />',
     ".x { --fill: var(--fill-message-hover); background: var(--sticker-pressed); }",
+    ".y { color: var(--color-fill-pressed); border-color: var(--color-primary-soft); }",
   ].join("\n");
   const after = renameTokens(before);
   expect(after).toBe(
@@ -93,6 +94,7 @@ test("token-names moves the old hover names onto the two hover tiers", () => {
       '<a className="hover:overlay-medium active:overlay-sticker-medium hover:overlay-subtle data-popup-open:overlay-subtle" />',
       '<b className="hover:bg-fill-medium hover:bg-fill-frame-medium hover:bg-fill-subtle data-popup-open:bg-fill-subtle" />',
       ".x { --fill: var(--fill-subtle); background: var(--sticker-medium); }",
+      ".y { color: var(--color-fill-medium); border-color: var(--color-brand-soft); }",
     ].join("\n"),
   );
   expect(renameTokens(after)).toBe(after);

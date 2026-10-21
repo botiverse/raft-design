@@ -93,6 +93,8 @@ function rules() {
   for (const [from, to] of tokens) {
     list.push([new RegExp(`(?<![\\w-])(${COLOR_UTILITY})-${escape(from)}${END}`, "g"), `$1-${to}`]);
     list.push([new RegExp(`${VAR}${escape(from)}${REF_END}`, "g"), `--${to}`]);
+    // The Tailwind theme variable of the same token: `var(--color-fill-pressed)`.
+    list.push([new RegExp(`${VAR}color-${escape(from)}${REF_END}`, "g"), `--color-${to}`]);
   }
   for (const [from, to] of Object.entries(FAMILY_RENAMES)) {
     list.push([
@@ -100,6 +102,10 @@ function rules() {
       `$1-${to}$2`,
     ]);
     list.push([new RegExp(`${VAR}${from}((?:-[a-z0-9]+)*)${REF_END}`, "g"), `--${to}$1`]);
+    list.push([
+      new RegExp(`${VAR}color-${from}((?:-[a-z0-9]+)*)${REF_END}`, "g"),
+      `--color-${to}$1`,
+    ]);
   }
   for (const [from, to] of Object.entries(PALETTE_COLORS)) {
     list.push([

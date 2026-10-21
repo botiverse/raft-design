@@ -22,17 +22,19 @@ export const badge = tv({
           "font-bold tabular-nums",
           "text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
           "[&_svg]:size-[13px]",
-          "enabled:hover:overlay-sticker-medium",
+          "enabled:hover:overlay-sticker-medium enabled:active:overlay-sticker-medium",
         ],
       },
       // A soft fill: a highlight, with no edge.
-      soft: { root: ["text-foreground", "enabled:hover:overlay-medium"] },
+      soft: {
+        root: ["text-foreground", "enabled:hover:overlay-medium enabled:active:overlay-medium"],
+      },
       // A hairline label in machine type.
       outline: {
         root: [
           "font-mono text-mono-meta font-normal",
           "bg-transparent text-foreground-muted inset-ring inset-ring-line-hairline",
-          "enabled:hover:bg-fill-medium",
+          "enabled:hover:bg-fill-medium enabled:active:bg-fill-medium",
         ],
       },
     },

@@ -86,6 +86,7 @@ export const sidebarItemRecipe = tv({
       true: {
         sidebarItem: [
           "hover:bg-fill-subtle active:bg-fill-medium not-data-active:data-popup-open:bg-fill-subtle",
+          "data-active:active:overlay-sticker-medium",
           "focus-visible:shadow-focus",
         ],
       },

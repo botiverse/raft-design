@@ -68,6 +68,7 @@ const twMerge = extendTailwindMerge({
         "press-overlay",
         "press-overlay-sticker",
         "row-hover-overlay",
+        "row-open-overlay",
       ],
     },
   },

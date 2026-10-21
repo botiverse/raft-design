@@ -53,7 +53,7 @@ export const messageReference = tv({
           "inline-flex cursor-pointer rounded-sticker px-[3px]",
           "font-semibold text-sticker-ink no-underline",
           "bg-brand inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
-          "hover:overlay-sticker-medium",
+          "hover:overlay-sticker-medium active:overlay-sticker-medium",
         ],
       },
       // Someone else: bold ink, underlined in ink on hover.

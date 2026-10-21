@@ -412,6 +412,9 @@
   --color-fill-pressed: var(--fill-medium);
   --color-fill-frame-pressed: var(--fill-frame-medium);
   --color-fill-row-hover: var(--fill-subtle);
+  --color-fill-row-open: var(--fill-subtle);
+  --color-fill-message-hover: var(--fill-subtle);
+  --color-sticker-pressed: var(--sticker-medium);
   --color-foreground-strong: var(--foreground);
   --color-foreground-icon: var(--foreground-muted);
   --color-foreground-placeholder: var(--foreground-hint);
@@ -593,6 +596,10 @@ textarea:-webkit-autofill:disabled {
 }
 
 @utility row-hover-overlay {
+  background-image: linear-gradient(var(--fill-subtle), var(--fill-subtle));
+}
+
+@utility row-open-overlay {
   background-image: linear-gradient(var(--fill-subtle), var(--fill-subtle));
 }
 
