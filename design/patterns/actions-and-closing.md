@@ -72,6 +72,7 @@ These exceptions apply only to a dialog that offers a paid plan after a limit wa
 ### Banners
 
 - Give a banner at most 1 button, `variant="default"`: it is a way out of what the banner says (Retry, Reconnect, Enable), not the screen's action. Never make it pink, orange or red: a banner is not where people commit.
+- Put a banner's button at its end, never under the start of the text: at the end of the first line when the sentence fits beside it, before the × if there is one, and on a line of its own under the text, aligned to the end, when the sentence wraps or the banner is narrower than 480px (every phone). People read the sentence first and the button is its answer, so it comes after the sentence in reading order; aligned to the end, it lines up with the buttons of dialogs and cards and keeps the start of every line for text ([Alignment](../foundations/alignment.md)). A link stays inside the sentence.
 - Put a second way out in the sentence as a `TextLink variant="strong"` (View Billing), never as a second button.
 - Ask for consent (cookies) with 2 equal `default` buttons, Reject first and Accept last. It is the only banner with 2 buttons: a choice between two answers needs both, at the same weight.
 - Don't let a banner that reports a problem or a limit be dismissed: it goes when the cause does. A banner inside a dialog or a form is part of the content and has no × either.
