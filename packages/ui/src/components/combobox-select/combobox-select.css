@@ -140,10 +140,7 @@
   width: var(--anchor-width, max-content);
   min-width: 13.75rem;
   max-width: var(--available-width);
-  max-height: min(
-    var(--available-height),
-    max(24rem, calc(var(--combobox-select-list-max-height, 0px) + 12px))
-  );
+  max-height: min(var(--available-height), max(24rem, var(--combobox-select-list-max-height, 0px)));
   overflow: hidden;
   border: 0;
   border-radius: 10px;
@@ -155,7 +152,8 @@
   outline: 0;
 }
 .r-combobox-select__list {
-  max-height: calc(var(--combobox-select-list-max-height, calc(16rem - 12px)) + 12px);
+  box-sizing: border-box;
+  max-height: var(--combobox-select-list-max-height, 16rem);
   overflow-y: auto;
   overscroll-behavior: contain;
   scroll-padding-block: 6px;
@@ -277,11 +275,7 @@
    instead of flipping (combobox-select.tsx), and the input stays at 16px or
    more at every size: iOS zooms into a smaller one as it takes focus. */
 .r-combobox-select__popup--anchored .r-combobox-select__list {
-  box-sizing: border-box;
-  max-height: min(
-    calc(var(--combobox-select-list-max-height, 16rem) + 12px),
-    var(--available-height, 100vh)
-  );
+  max-height: min(var(--combobox-select-list-max-height, 16rem), var(--available-height, 100vh));
 }
 .r-combobox-select__control--phone .r-combobox-select__input {
   font-size: max(1em, 16px);

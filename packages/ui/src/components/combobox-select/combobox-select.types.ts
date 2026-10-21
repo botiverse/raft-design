@@ -99,9 +99,10 @@ export type ComboboxSelectProps<
     loadingContent?: ReactNode;
     messages?: Partial<ComboboxSelectMessages>;
     /**
-     * The tallest the list gets before it scrolls: a CSS length, or a number of pixels.
-     * Not counting the list's 6px padding above and below. On a phone the list also
-     * gets shorter to fit the room on its side.
+     * The tallest the list gets before it scrolls, its 6px padding above and below
+     * included: a CSS length, or a number of pixels. On a phone the list also gets
+     * shorter to fit the room on its side, and opens above when that side has more
+     * room and below is short of this height.
      * @default "16rem"
      */
     listMaxHeight?: number | string;

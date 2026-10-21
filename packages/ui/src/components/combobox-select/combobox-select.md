@@ -62,7 +62,7 @@ combobox-select/compositions/async-search
 - Filter the options as people type, unless `remote` is set.
 - With `multiple`, keep the list open when a value is chosen; clicking outside or Esc closes it. Typing continues after the last chip.
 - With `maxTagCount`, chips beyond the count collapse into a count while the field is not focused. All of them come back on focus.
-- The list grows to 16rem of rows, about 7 at 36px, then scrolls; the part row at its bottom shows there are more. `listMaxHeight` (a CSS length, or pixels) moves that cap. Raise it where the field has a tall space of its own below it, such as a tall bottom [Drawer](../drawer/drawer.md); lower it when the list would cover something people need to see while they choose.
+- The list grows to 16rem (256px), its 6px padding above and below included: six 36px rows and part of a seventh, which shows there are more. Then it scrolls. `listMaxHeight` (a CSS length, or pixels, measured the same way) moves that cap, and `listMaxHeight="16rem"` is the same as leaving it out. Raise it where the field has a tall space of its own below it, such as a tall bottom [Drawer](../drawer/drawer.md); lower it when the list would cover something people need to see while they choose.
 
 ### On a phone
 

@@ -280,32 +280,69 @@ it("on a phone the list opens below the field and stays there as the viewport sh
   expect(listbox.scrollHeight).toBeGreaterThan(listbox.clientHeight);
 });
 
-it("on a phone the list is capped at 16rem and scrolls, with a part row showing more", async () => {
-  render(<Picker />);
+/** Opens the field's list with a tap and returns its height once it has settled. */
+async function openListHeight() {
   await tap(input());
   const listbox = await screen.findByRole("listbox");
   await settled();
+  return listbox.getBoundingClientRect().height;
+}
+
+it("on a phone the list is capped at 16rem and scrolls, with a part row showing more", async () => {
+  render(<Picker />);
+  const height = await openListHeight();
+  const listbox = screen.getByRole("listbox");
   const row = screen.getAllByRole("option")[0].getBoundingClientRect().height;
-  // 16rem of rows and the list's 6px padding above and below.
-  expect(listbox.getBoundingClientRect().height).toBeCloseTo(256 + 12, 0);
+  // 16rem, the list's 6px padding above and below included.
+  expect(height).toBeCloseTo(256, 0);
   expect(listbox.scrollHeight).toBeGreaterThan(listbox.clientHeight);
-  expect(((listbox.clientHeight - 6) / row) % 1).toBeGreaterThan(0.1);
+  expect(((listbox.clientHeight - 12) / row) % 1).toBeGreaterThan(0.1);
 });
 
-it("listMaxHeight sets the cap: rows, or any CSS length", async () => {
+it("listMaxHeight sets the cap, padding included: pixels, or any CSS length", async () => {
   render(<Picker listMaxHeight={180} />);
-  await tap(input());
-  let listbox = await screen.findByRole("listbox");
-  await settled();
-  expect(listbox.getBoundingClientRect().height).toBeCloseTo(180 + 12, 0);
+  expect(await openListHeight()).toBeCloseTo(180, 0);
   cleanup();
 
   render(<Picker listMaxHeight="24rem" />);
+  expect(await openListHeight()).toBeCloseTo(384, 0);
+  expect(popup()!.getBoundingClientRect().height).toBeGreaterThanOrEqual(384);
+  cleanup();
+
+  // The default, passed or left out, is the same height.
+  render(<Picker listMaxHeight="16rem" />);
+  expect(await openListHeight()).toBeCloseTo(256, 0);
+});
+
+it("on a phone the side follows listMaxHeight: a taller cap opens above when below is short of it", async () => {
+  // 844px tall, the field under its label at about 520-564: 280px below, 520px above.
+  render(<Picker top={500} />);
   await tap(input());
-  listbox = await screen.findByRole("listbox");
+  await screen.findByRole("listbox");
+  await waitFor(() => expect(popup()?.getAttribute("data-side")).toBe("bottom"));
+  cleanup();
+
+  render(<Picker top={500} listMaxHeight="24rem" />);
+  await tap(input());
+  await screen.findByRole("listbox");
+  await waitFor(() => expect(popup()?.getAttribute("data-side")).toBe("top"));
   await settled();
-  expect(listbox.getBoundingClientRect().height).toBeCloseTo(384 + 12, 0);
-  expect(popup()!.getBoundingClientRect().height).toBeGreaterThanOrEqual(384 + 12);
+  expect(screen.getByRole("listbox").getBoundingClientRect().height).toBeCloseTo(384, 0);
+  cleanup();
+
+  // Low on the screen, under 100px below: the default cap opens above, a list
+  // capped at 64px fits below.
+  render(<Picker top={680} />);
+  await tap(input());
+  await screen.findByRole("listbox");
+  expect(window.innerHeight - field().getBoundingClientRect().bottom).toBeLessThan(100);
+  await waitFor(() => expect(popup()?.getAttribute("data-side")).toBe("top"));
+  cleanup();
+
+  render(<Picker top={680} listMaxHeight={64} />);
+  await tap(input());
+  await screen.findByRole("listbox");
+  await waitFor(() => expect(popup()?.getAttribute("data-side")).toBe("bottom"));
 });
 
 it("on a phone creating a value is typed into the field, with no sheet", async () => {

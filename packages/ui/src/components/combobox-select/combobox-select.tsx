@@ -5,7 +5,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { usePhoneMedia } from "../../lib/phone-media";
 import { useTheme } from "../../lib/theme/use-theme";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { preferredListSide } from "./combobox-select.list-side";
+import { LIST_MAX_HEIGHT, preferredListSide } from "./combobox-select.list-side";
 import { isOptionGroup, normalizeOption, optionKey } from "./combobox-select.options";
 import type { OptionRecord } from "./combobox-select.options";
 import type {
@@ -125,10 +125,22 @@ function renderSelectedChip<Option>({
  */
 const PHONE_LIST_COLLISION = { side: "none", align: "shift", fallbackAxisSide: "none" } as const;
 
-/** The side the phone's list opens on, from the room around the field. */
+/** A CSS length in pixels, as the document resolves it (rem, vh, calc()). */
+function resolveLength(doc: Document, length: string) {
+  const probe = doc.createElement("div");
+  probe.style.cssText = "position:absolute;visibility:hidden;pointer-events:none;width:0";
+  probe.style.height = length;
+  doc.body.append(probe);
+  const height = probe.getBoundingClientRect().height;
+  probe.remove();
+  return height;
+}
+
+/** The side the phone's list opens on, from the room around the field and the list's cap. */
 function measureListSide(
   anchor: HTMLElement | null,
   groups: readonly { label?: ReactNode; items: readonly unknown[] }[],
+  maxHeight: string,
 ) {
   const view = anchor?.ownerDocument.defaultView;
   if (!anchor || !view) return "bottom";
@@ -143,6 +155,7 @@ function measureListSide(
       ? { top: visual.offsetTop, height: visual.height }
       : { top: 0, height: view.innerHeight },
     rows * 36 + 12,
+    resolveLength(anchor.ownerDocument, maxHeight),
   );
 }
 
@@ -539,6 +552,7 @@ export function ComboboxSelect<
   );
   const valueChange = handleValueChange as never;
 
+  const listHeight = typeof listMaxHeight === "number" ? `${listMaxHeight}px` : listMaxHeight;
   const fieldRef = useRef<HTMLDivElement>(null);
   const [listSide, setListSide] = useState<"bottom" | "top">("bottom");
   const groups = normalized.groups;
@@ -547,12 +561,11 @@ export function ComboboxSelect<
       onOpenChange?.(next, details);
       // Chosen once, as the list opens: it doesn't flip while the viewport changes.
       if (next && phone && !details.isCanceled) {
-        setListSide(measureListSide(fieldRef.current, groups));
+        setListSide(measureListSide(fieldRef.current, groups, listHeight ?? LIST_MAX_HEIGHT));
       }
     },
-    [onOpenChange, phone, groups],
+    [onOpenChange, phone, groups, listHeight],
   );
-  const listHeight = typeof listMaxHeight === "number" ? `${listMaxHeight}px` : listMaxHeight;
   const popupPropsStyle = popupProps?.style;
   const popupStyle = useMemo((): BaseCombobox.Popup.Props["style"] => {
     if (listHeight === undefined) return popupPropsStyle;
