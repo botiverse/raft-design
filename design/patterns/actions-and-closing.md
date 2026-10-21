@@ -66,7 +66,7 @@ These exceptions apply only to a dialog that offers a paid plan after a limit wa
 
 ### On a phone
 
-- In a centered dialog below 768px, stack the buttons full width, the commit button on top and Cancel under it, so Cancel is the button nearest the bottom edge, as in iOS alerts and Material's stacked buttons. A footer link or note goes last, centered, under the buttons. `DialogFooter` doesn't stack yet; until it does, this is the rule its change follows.
+- In a centered dialog below 768px, stack the buttons full width, the commit button on top and Cancel under it, so Cancel is the button nearest the bottom edge, as in iOS alerts and Material's stacked buttons. With two buttons and a note, the footer stacks in reading order: the note first, left-aligned above the buttons, because it says what the commit will do and must be read before it; then the commit button; then Cancel. A footer link goes last, centered, under Cancel. On a phone a note may wrap to two lines; anything longer belongs in the body, so the footer stays about 150px tall and the dialog's content keeps the screen. `DialogFooter` doesn't stack yet; until it does, this is the rule its change follows.
 - In a dialog sheet, the commit button moves into the head at `size="sm"` and × is Cancel ([Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)).
 
 ### Banners
