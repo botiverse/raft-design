@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
+  DialogSheetBack,
   DialogTitle,
 } from "./dialog";
 import { DialogCommit, DialogSheetContent } from "./dialog-sheet";
@@ -44,7 +45,9 @@ function CreateChannel({
   onSubmit,
   rows = 3,
   onOpenChange,
+  formId,
 }: {
+  formId?: string;
   onSubmit?: () => void;
   rows?: number;
   onOpenChange?: (open: boolean) => void;
@@ -60,6 +63,7 @@ function CreateChannel({
           {/* The head is outside the form: in the sheet the commit button is
               tied back to it with the `form` attribute. */}
           <form
+            id={formId}
             className="contents"
             onSubmit={(event) => {
               event.preventDefault();
@@ -116,6 +120,8 @@ it("has a pushed page's head: × at the start, the title, the commit button at t
   expect(headBox.height).toBe(56);
   expect(headBox.top).toBe(popup().getBoundingClientRect().top);
   expect(head.contains(commit)).toBe(true);
+  // × is first in the DOM, so every browser reads and tabs it first.
+  expect(head.firstElementChild).toBe(close);
   const closeBox = close.getBoundingClientRect();
   const titleBox = title.getBoundingClientRect();
   const commitBox = commit.getBoundingClientRect();
@@ -141,10 +147,79 @@ it("has no footer: × is Cancel", async () => {
 it("submits its form from the head", async () => {
   await setWidth(390);
   const onSubmit = vi.fn();
+  render(<CreateChannel formId="create-channel" onSubmit={onSubmit} />);
+  await settle();
+  const commit = screen.getByRole("button", { name: "Create Channel" }) as HTMLButtonElement;
+  // Tied to its form by the form's id: it is still the form's default button.
+  expect(commit.form?.id).toBe("create-channel");
+  commit.click();
+  expect(onSubmit).toHaveBeenCalledTimes(1);
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  await userEvent.click(screen.getByRole("textbox", { name: "Field 1" }));
+  await userEvent.keyboard("{Enter}");
+  expect(onSubmit).toHaveBeenCalledTimes(2);
+});
+
+it("submits a form without an id on a click, without touching the form", async () => {
+  await setWidth(390);
+  const onSubmit = vi.fn();
   render(<CreateChannel onSubmit={onSubmit} />);
   await settle();
   screen.getByRole("button", { name: "Create Channel" }).click();
   expect(onSubmit).toHaveBeenCalledTimes(1);
+  expect(document.querySelector("form")?.id).toBe("");
+});
+
+it("keeps a dialog opened from the sheet its own: a normal head and its footer", async () => {
+  await setWidth(390);
+  render(
+    <ThemeProvider>
+      <Dialog open>
+        <DialogSheetContent>
+          <DialogHeader>
+            <DialogTitle>Edit Section</DialogTitle>
+            <DialogClose />
+          </DialogHeader>
+          <DialogBody>
+            <Dialog open>
+              <DialogContent size="sm">
+                <DialogHeader data-testid="inner-head">
+                  <DialogTitle>Rename Section</DialogTitle>
+                  <DialogClose aria-label="Close rename" />
+                </DialogHeader>
+                <DialogFooter data-testid="inner-footer">
+                  <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
+                  <DialogCommit variant="primary">Rename</DialogCommit>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </DialogBody>
+          <DialogFooter>
+            <DialogCommit variant="primary">Save</DialogCommit>
+          </DialogFooter>
+        </DialogSheetContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+  await settle();
+  const innerFooter = screen.getByTestId("inner-footer");
+  expect(getComputedStyle(innerFooter).display).not.toBe("none");
+  expect(innerFooter.contains(screen.getByRole("button", { name: "Rename" }))).toBe(true);
+  expect(innerFooter.contains(screen.getByRole("button", { name: "Cancel" }))).toBe(true);
+  const innerHead = screen.getByTestId("inner-head");
+  expect(innerHead.hasAttribute("data-sheet")).toBe(false);
+  expect(innerHead.getBoundingClientRect().height).not.toBe(56);
+  // Its × stays at the end of its head.
+  const innerClose = screen.getByRole("button", { name: "Close rename" });
+  const innerTitle = screen.getByRole("heading", { name: "Rename Section" });
+  expect(innerClose.getBoundingClientRect().left).toBeGreaterThan(
+    innerTitle.getBoundingClientRect().right,
+  );
+  // The sheet's head keeps only its own commit.
+  const sheetHead = document.querySelector("[data-slot=dialog-header][data-sheet]") as HTMLElement;
+  // (The sheet below is inert while the dialog over it is open.)
+  expect(sheetHead.contains(screen.getByRole("button", { name: "Save", hidden: true }))).toBe(true);
+  expect(sheetHead.textContent).not.toContain("Rename");
 });
 
 it("scrolls its body under the head, on the 16px margin above the home indicator", async () => {
@@ -221,11 +296,13 @@ it("moves Next, then the last step's action, into the head of a flow of steps", 
   function Steps() {
     const [step, setStep] = useState(1);
     const next = useCallback(() => setStep(2), []);
+    const back = useCallback(() => setStep(1), []);
     return (
       <ThemeProvider>
         <Dialog open>
           <DialogSheetContent>
             <DialogHeader>
+              {step === 2 ? <DialogSheetBack onClick={back} /> : null}
               <DialogTitle>Add Computer</DialogTitle>
               <DialogClose />
             </DialogHeader>
@@ -254,6 +331,33 @@ it("moves Next, then the last step's action, into the head of a flow of steps", 
   await settle();
   expect(head.contains(screen.getByRole("button", { name: "Connect" }))).toBe(true);
   expect(screen.queryByRole("button", { name: "Next" })).toBeNull();
+  // A later step starts the head with Back, where × was.
+  const backButton = screen.getByRole("button", { name: "Back" });
+  expect(head.firstElementChild).toBe(backButton);
+  expect(screen.queryByRole("button", { name: "Close" })).toBeNull();
+  backButton.click();
+  await settle();
+  expect(head.contains(screen.getByRole("button", { name: "Next" }))).toBe(true);
+  expect(head.firstElementChild).toBe(screen.getByRole("button", { name: "Close" }));
+});
+
+it("draws no Back outside a sheet", async () => {
+  await setWidth(1280, 800);
+  render(
+    <ThemeProvider>
+      <Dialog open>
+        <DialogSheetContent>
+          <DialogHeader>
+            <DialogSheetBack />
+            <DialogTitle>Add Computer</DialogTitle>
+            <DialogClose />
+          </DialogHeader>
+        </DialogSheetContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+  await settle();
+  expect(screen.queryByRole("button", { name: "Back" })).toBeNull();
 });
 
 it("a dialog opened from the sheet draws its own, lighter scrim", async () => {

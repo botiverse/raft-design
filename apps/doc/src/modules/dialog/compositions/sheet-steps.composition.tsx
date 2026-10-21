@@ -13,7 +13,7 @@ import {
   FieldLabel,
   Input,
 } from "@botiverse/raft-ui";
-import { DialogCommit, DialogSheetContent } from "@botiverse/raft-ui/wip";
+import { DialogCommit, DialogSheetBack, DialogSheetContent } from "@botiverse/raft-ui/wip";
 import { useCallback, useState } from "react";
 
 // @docs-source-strip-start
@@ -31,6 +31,8 @@ function ConnectComputerDialogParts() {
   return (
     <>
       <DialogHeader>
+        {/* On a phone a later step starts the head with Back instead of ×. */}
+        {step === 2 ? <DialogSheetBack onClick={back} /> : null}
         <DialogTitle>Connect Computer</DialogTitle>
         <DialogClose />
       </DialogHeader>

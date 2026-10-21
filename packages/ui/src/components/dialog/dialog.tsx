@@ -2,7 +2,8 @@ import { cn } from "../../lib/cn";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { X } from "lucide-react";
+import { ChevronLeft, X } from "lucide-react";
+import { Children, isValidElement } from "react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { decisionWidth } from "../../lib/decision-width";
 import { headEdgePull } from "../../lib/head-edges";
@@ -13,8 +14,10 @@ import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth"
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
 import { PanelAction } from "../panel/panel-action";
+import type { PanelActionProps } from "../panel/panel-action";
 import {
   DialogSheetHeadContext,
+  DialogSheetReset,
   dialogSheet,
   useDialogSheet,
   useInDialogSheetHead,
@@ -162,7 +165,7 @@ export function DialogContent({
     <DialogPortal {...portalProps}>
       {overlay === false ? null : <DialogOverlay layer={layer} {...overlayProps} />}
       <BaseDialog.Popup data-slot="dialog-content" className={content({ className })} {...props}>
-        {children}
+        <DialogSheetReset>{children}</DialogSheetReset>
       </BaseDialog.Popup>
     </DialogPortal>
   );
@@ -197,12 +200,7 @@ export function DialogClose({
     return (
       <BaseDialog.Close
         data-slot="dialog-close"
-        render={
-          <PanelAction
-            aria-label={ariaLabel ?? "Close"}
-            className={dialogSheet().close({ className })}
-          />
-        }
+        render={<PanelAction aria-label={ariaLabel ?? "Close"} className={className} />}
         {...props}
       >
         {children ?? <X />}
@@ -228,6 +226,34 @@ export function DialogClose({
   );
 }
 
+export type DialogSheetBackProps = PanelActionProps;
+
+/**
+ * Back, in a later step of a flow drawn as a phone sheet: it takes the head's
+ * start, where × is on the first step. Put it in `DialogHeader` beside the
+ * `DialogClose`; it draws nothing outside a sheet, where Back stays in the
+ * footer.
+ */
+export function DialogSheetBack({
+  className,
+  children,
+  "aria-label": ariaLabel,
+  ...props
+}: DialogSheetBackProps) {
+  const inSheetHead = useInDialogSheetHead();
+  if (!inSheetHead) return null;
+  return (
+    <PanelAction
+      data-slot="dialog-sheet-back"
+      aria-label={ariaLabel ?? "Back"}
+      className={className}
+      {...props}
+    >
+      {children ?? <ChevronLeft />}
+    </PanelAction>
+  );
+}
+
 export type DialogHeaderProps = ComponentPropsWithRef<"div"> & {
   /** A pinned bar of a scrolling (`size="wide"`) dialog. */
   bar?: boolean;
@@ -237,7 +263,14 @@ export function DialogHeader({ className, bar = false, children, ...props }: Dia
   const { sheet, setCommitSlot } = useDialogSheet();
   if (sheet) {
     // A phone sheet: × at the start, the title, then the slot DialogCommit
-    // moves the commit button into.
+    // moves the commit button into. The leading action goes first in the
+    // DOM, so every browser reads and tabs the head in the order it is seen:
+    // a DialogSheetBack when the step has one (it stands in for ×), or the
+    // DialogClose.
+    const items = Children.toArray(children);
+    const backs = items.filter((item) => isValidElement(item) && item.type === DialogSheetBack);
+    const closes = items.filter((item) => isValidElement(item) && item.type === DialogClose);
+    const rest = items.filter((item) => !backs.includes(item) && !closes.includes(item));
     const head = dialogSheet();
     return (
       <div
@@ -246,7 +279,10 @@ export function DialogHeader({ className, bar = false, children, ...props }: Dia
         className={dialog({ bar: false }).header({ className: cn(head.header(), className) })}
         {...props}
       >
-        <DialogSheetHeadContext.Provider value>{children}</DialogSheetHeadContext.Provider>
+        <DialogSheetHeadContext.Provider value>
+          {backs.length > 0 ? backs : closes}
+          {rest}
+        </DialogSheetHeadContext.Provider>
         <div ref={setCommitSlot} data-slot="dialog-commit-slot" className={head.commitSlot()} />
       </div>
     );
@@ -267,7 +303,9 @@ export type DialogBodyProps = ComponentPropsWithRef<"div"> & {
 export function DialogBody({ className, bar = false, ...props }: DialogBodyProps) {
   const { sheet } = useDialogSheet();
   const { body } = dialog({ bar });
-  const sheetBody = sheet && !bar ? dialogSheet().body() : undefined;
+  // In a sheet a wide dialog's body scrolls as one, on the same margin: its
+  // DialogNav is hidden below 768px and its sections follow one another.
+  const sheetBody = sheet ? cn(bar && dialogSheet().barBody(), dialogSheet().body()) : undefined;
   return (
     <div
       data-slot="dialog-body"
@@ -343,7 +381,7 @@ export type DialogSurfaceProps = useRender.ComponentProps<"div">;
  * animates itself: the host centres it, and a centred modal has no motion.
  * DialogContent draws the same frame for a Base UI dialog.
  */
-export function DialogSurface({ className, render, ...props }: DialogSurfaceProps) {
+export function DialogSurface({ className, render, children, ...props }: DialogSurfaceProps) {
   const { root } = dialogSurface();
   return useRender({
     defaultTagName: "div",
@@ -351,6 +389,7 @@ export function DialogSurface({ className, render, ...props }: DialogSurfaceProp
     props: mergeProps<"div">(
       { "data-slot": "dialog-surface", className: root({ className }) } as never,
       props,
+      { children: <DialogSheetReset>{children}</DialogSheetReset> },
     ),
   });
 }

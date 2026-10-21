@@ -1719,8 +1719,6 @@ export * from "./components/inbox-item/index";
 export * from "./components/search/index";
 
 export { cn } from "./lib/cn";
-export { OverlayLayerProvider, useParentOverlayKind } from "./lib/overlay-depth";
-export type { OverlayLayerKind, OverlayLayerProviderProps } from "./lib/overlay-depth";
 export { ThemeProvider } from "./lib/theme/theme-provider";
 export type { ThemeProviderProps } from "./lib/theme/theme-provider";
 export { useTheme } from "./lib/theme/use-theme";

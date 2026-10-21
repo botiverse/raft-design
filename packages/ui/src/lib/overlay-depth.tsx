@@ -14,7 +14,11 @@ export type OverlayLayerKind = "dialog" | "drawer";
 const OverlayStackContext = createContext<readonly OverlayLayerKind[]>([]);
 
 export type OverlayLayerProviderProps = {
-  /** What the surface is: a centred dialog or a sheet. */
+  /**
+   * What the surface is. Use `"dialog"` for an app's own modal, whatever it
+   * looks like: `"drawer"` is for a Base UI Drawer, which nests under another
+   * drawer by itself and only draws its own scrim over a `"dialog"`.
+   */
   kind: OverlayLayerKind;
   /** Whether it dims what is under it. A non-modal surface adds nothing. */
   modal: boolean;
@@ -27,7 +31,9 @@ export type OverlayLayerProviderProps = {
  * scrim (design/foundations/elevation.md#stacked-overlays). raft-ui's own
  * roots add one by themselves; an app's own modal (its own backdrop, Esc and
  * focus) wraps its scrim and its content in one to join the stack, and reads
- * `useParentOverlayKind` inside it to pick its own scrim.
+ * `useParentOverlayKind` inside it to pick its own scrim. Modal overlays only:
+ * a non-modal one passes `modal={false}`, adds nothing, and must not call
+ * `useParentOverlayKind` (it would read the layer below as its own).
  */
 export function OverlayLayerProvider({ kind, modal, children }: OverlayLayerProviderProps) {
   const stack = useContext(OverlayStackContext);
@@ -41,7 +47,8 @@ export function OverlayLayerProvider({ kind, modal, children }: OverlayLayerProv
  * (for raft-ui's overlays, inside their root): the last entry is the surface
  * itself and the one before it is its parent. Not null means the surface is
  * stacked over another and draws `layer-backdrop-nested` instead of
- * `layer-backdrop`. It reads React context, so it sees the surfaces whose
+ * `layer-backdrop`. Modal overlays only: under `modal={false}` nothing is
+ * added, so the last entry is the parent and this returns the wrong layer. It reads React context, so it sees the surfaces whose
  * tree this one is rendered in, portals included; one opened from outside
  * that tree is not stacked on it here.
  */

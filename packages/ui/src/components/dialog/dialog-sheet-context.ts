@@ -1,4 +1,5 @@
-import { createContext, useContext } from "react";
+import { createContext, createElement, useContext } from "react";
+import type { ReactNode } from "react";
 import { tv } from "../../lib/tv";
 
 /**
@@ -13,7 +14,7 @@ export type DialogSheetState = {
   setCommitSlot: (element: HTMLElement | null) => void;
 };
 
-const NO_SHEET: DialogSheetState = {
+export const NO_SHEET: DialogSheetState = {
   sheet: false,
   commitSlot: null,
   setCommitSlot: () => undefined,
@@ -30,6 +31,19 @@ export const DialogSheetHeadContext = createContext(false);
 
 export function useInDialogSheetHead() {
   return useContext(DialogSheetHeadContext);
+}
+
+/**
+ * Every overlay surface starts outside any sheet: a confirm, a dialog or a
+ * drawer opened from inside a sheet keeps its own head, footer and commit
+ * button instead of taking the sheet's.
+ */
+export function DialogSheetReset({ children }: { children?: ReactNode }) {
+  return createElement(
+    DialogSheetContext.Provider,
+    { value: NO_SHEET },
+    createElement(DialogSheetHeadContext.Provider, { value: false }, children),
+  );
 }
 
 /**
@@ -55,17 +69,13 @@ export const dialogSheet = tv({
       "data-starting-style:opacity-0 data-ending-style:opacity-0",
       "motion-reduce:transition-none",
     ],
-    header: [
-      "flex h-14 shrink-0 items-center gap-2 px-4 pt-0",
-      "border-b border-line-seam",
-      "[reading-flow:flex-visual]",
-    ],
+    header: ["flex h-14 shrink-0 items-center gap-2 px-4 pt-0", "border-b border-line-seam"],
     title: ["min-w-0 flex-1 truncate"],
-    close: ["order-first -ml-icon-inset"],
     commitSlot: ["flex shrink-0 items-center empty:hidden"],
     body: [
       "min-h-0 content-start",
       "px-4 pt-4 first:pt-4 pb-[max(16px,env(safe-area-inset-bottom,0px))]",
     ],
+    barBody: ["block overflow-y-auto"],
   },
 });

@@ -8,29 +8,38 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  Dialog,
   DialogBody,
   DialogClose,
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
   Button,
   Field,
   FieldLabel,
   Input,
   Textarea,
 } from "@botiverse/raft-ui";
+import type { DialogProps } from "@botiverse/raft-ui";
 import { DialogCommit, DialogSheetContent } from "@botiverse/raft-ui/wip";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 
 // @docs-source-strip-start
 import { useMemo, useRef } from "react";
 import type { RefObject } from "react";
-import { Dialog } from "@botiverse/raft-ui";
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end
 
-function EditProfileDialogParts({ children }: { children?: ReactNode }) {
+function EditProfileDialogParts({
+  onEdit,
+  children,
+}: {
+  onEdit?: () => void;
+  children?: ReactNode;
+}) {
   return (
     <>
       <DialogHeader>
@@ -42,7 +51,7 @@ function EditProfileDialogParts({ children }: { children?: ReactNode }) {
           <FieldLabel htmlFor="dialog-sheet-profile-name" required>
             Display name
           </FieldLabel>
-          <Input id="dialog-sheet-profile-name" defaultValue="Atlas Research" />
+          <Input id="dialog-sheet-profile-name" defaultValue="Atlas Research" onChange={onEdit} />
         </Field>
         <Field>
           <FieldLabel htmlFor="dialog-sheet-profile-about" optional>
@@ -52,6 +61,7 @@ function EditProfileDialogParts({ children }: { children?: ReactNode }) {
             id="dialog-sheet-profile-about"
             defaultValue="Reads papers so the team doesn't have to."
             className="min-h-20"
+            onChange={onEdit}
           />
         </Field>
         {children}
@@ -64,7 +74,7 @@ function EditProfileDialogParts({ children }: { children?: ReactNode }) {
   );
 }
 
-function DiscardChangesParts() {
+function DiscardChangesParts({ onDiscard }: { onDiscard?: () => void }) {
   return (
     <>
       <AlertDialogHeader>
@@ -75,28 +85,59 @@ function DiscardChangesParts() {
       </AlertDialogBody>
       <AlertDialogFooter>
         <AlertDialogCancel>Keep Editing</AlertDialogCancel>
-        <AlertDialogAction variant="danger">Discard</AlertDialogAction>
+        <AlertDialogAction variant="danger" onClick={onDiscard}>
+          Discard
+        </AlertDialogAction>
       </AlertDialogFooter>
     </>
   );
 }
 
+// × and Esc ask before closing once something has been typed: the close is
+// cancelled and the confirm opens from inside the sheet, on its own lighter
+// scrim.
 export function SheetStackedDialogContent() {
+  const [open, setOpen] = useState(false);
+  const [dirty, setDirty] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
+  const handleOpenChange = useCallback<NonNullable<DialogProps["onOpenChange"]>>(
+    (next, details) => {
+      if (!next && dirty) {
+        details.cancel();
+        setConfirmOpen(true);
+        return;
+      }
+      setOpen(next);
+      if (!next) setDirty(false);
+    },
+    [dirty],
+  );
+  const markDirty = useCallback(() => setDirty(true), []);
+  const discard = useCallback(() => {
+    setConfirmOpen(false);
+    setDirty(false);
+    setOpen(false);
+  }, []);
+
   return (
-    <DialogSheetContent>
-      <EditProfileDialogParts>
-        {/* Opened from inside the sheet: it draws its own, lighter scrim. */}
-        <AlertDialog open>
-          <AlertDialogContent>
-            <DiscardChangesParts />
-          </AlertDialogContent>
-        </AlertDialog>
-      </EditProfileDialogParts>
-    </DialogSheetContent>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogTrigger render={<Button variant="outline" />}>Edit Profile</DialogTrigger>
+      <DialogSheetContent>
+        <EditProfileDialogParts onEdit={markDirty}>
+          <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+            <AlertDialogContent>
+              <DiscardChangesParts onDiscard={discard} />
+            </AlertDialogContent>
+          </AlertDialog>
+        </EditProfileDialogParts>
+      </DialogSheetContent>
+    </Dialog>
   );
 }
 
 // @docs-source-strip-start
+// The canvas shows the moment after × with edits: the confirm over the sheet.
 // The phone view draws the scrim; on the page the preview draws its own.
 const previewOverlay = { className: "md:hidden" };
 const previewContentClassName = "relative top-auto left-auto z-0 w-full translate-none";

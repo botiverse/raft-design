@@ -45,6 +45,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `DialogPortal` and `DialogOverlay`: lower-level parts.
 - `DialogSheetContent` (`@botiverse/raft-ui/wip`): `DialogContent` for a dialog that becomes a sheet on a phone ([On a phone](#on-a-phone)). On a desktop and a tablet it is `DialogContent`, the same markup.
 - `DialogCommit` (`@botiverse/raft-ui/wip`): the dialog's one commit button, a `Button` written at the end of `DialogFooter`. In a sheet on a phone it is drawn at the end of the head instead.
+- `DialogSheetBack` (`@botiverse/raft-ui/wip`): Back at the start of a sheet's head, in a later step of a flow. It draws nothing outside a sheet.
 
 ## Variants
 
@@ -78,25 +79,25 @@ The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFoot
 - A centered dialog on a narrow screen keeps a 16px margin on each side and never grows taller than the window less 32px.
 - Below 768px the wide dialog hides `DialogNav` and the sections follow one another.
 - A dialog opened from a dialog or a sheet draws its own, lighter scrim over the one below ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)). Render it inside the first one and this happens by itself. `layer={1}` is only for a dialog rendered outside the first one's tree: it lifts the dialog and its scrim above the first.
-- An app's own modal (its own backdrop, Esc and focus, on `DialogSurface`) joins the same stack with `OverlayLayerProvider` and `useParentOverlayKind` ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)).
+- An app's own modal (its own backdrop, Esc and focus, on `DialogSurface`) joins the same stack with `OverlayLayerProvider` and `useParentOverlayKind` from `@botiverse/raft-ui/wip` ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)).
 
 ## On a phone
 
 Below 768px a dialog stays centered unless it has several fields, a long list or steps, in which case it becomes a sheet (stdrc and Artea, 2026-10-21). On a desktop and a tablet every dialog stays centered.
 
-| What the dialog holds                                                                                                                                               | On a phone                                                                                                     |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| A decision: a statement and buttons, at most a few fixed choices, nothing typed (every confirmation; archive, stop, reset)                                          | The centered dialog, as on a desktop                                                                           |
-| One input or one text box and its buttons: a confirmation that asks for a typed name, naming a section, editing a display name or a description, a reason to reject | The centered dialog, as on a desktop. While the keyboard is open it moves up, so the keyboard doesn't cover it |
-| Several fields, a long or searchable list to pick from, or steps: forms, pickers, wizards                                                                           | A sheet 90% of the screen tall                                                                                 |
-| Content that is only read: role help, release notes, an app's details. It is short information, so it stays a dialog                                                | The centered dialog, as on a desktop                                                                           |
+| What the dialog holds                                                                                                                                               | On a phone                                                                                                                                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A decision: a statement and buttons, at most a few fixed choices, nothing typed (every confirmation; archive, stop, reset)                                          | The centered dialog, as on a desktop                                                                                                                                                                            |
+| One input or one text box and its buttons: a confirmation that asks for a typed name, naming a section, editing a display name or a description, a reason to reject | The centered dialog, as on a desktop. While the keyboard is open it should move up, so the keyboard doesn't cover it: Raft Chat does this in the app today (`narrow="top"` in slock); it is planned for raft-ui |
+| Several fields, a long or searchable list to pick from, or steps: forms, pickers, wizards                                                                           | A sheet 90% of the screen tall                                                                                                                                                                                  |
+| Content that is only read: role help, release notes, an app's details. It is short information, so it stays a dialog                                                | The centered dialog, as on a desktop                                                                                                                                                                            |
 
 The sheet:
 
 - Rises from the bottom over the scrim, with `radius-dialog` on its top corners. The strip of page left above it shows that it is a layer over the page, not a new page.
 - Its head is a pushed page's head ([Navigation](../../../../../design/patterns/navigation.md)): × at the start, the title, and the dialog's one commit button at the end, at size `md` with the same color and words as on a desktop. It has no footer: × is Cancel. In a flow of steps the button at the end is the step's (Next, then the last step's action), and × still closes.
 - The body scrolls under the head and keeps the phone's 16px margin and the home indicator's inset at the bottom.
-- × and Esc close it. A tap on the scrim doesn't, so a half-filled form isn't lost to a stray tap, as with a large form dialog on a desktop. When something has been typed, ask before closing.
+- × and Esc close it. A tap on the scrim doesn't, so a half-filled form isn't lost to a stray tap, as with a large form dialog on a desktop. When something has been typed, ask before closing ([Asking before closing](#asking-before-closing)).
 - Dragging the sheet down to close it is planned, for when the sheet moves onto Drawer's drag.
 - It slides up as it opens, like every bottom sheet, and its scrim fades in with it ([Motion](../../../../../design/foundations/motion.md#usage)). With reduced motion it is simply there.
 - With the on-screen keyboard up, the sheet shrinks to the space above it, so the head and its commit button stay in view.
@@ -106,22 +107,43 @@ The sheet:
 
 Write the dialog as it is on a desktop and swap `DialogContent` for `DialogSheetContent`, and the commit `Button` for `DialogCommit`. Nothing else changes, and on a desktop nothing changes at all. Below 768px:
 
-- `DialogHeader` becomes the pushed page's head: its `DialogClose` moves to the start as the head's × and its `DialogTitle` follows. Give the header a `DialogClose`: it is the only way out of the sheet.
-- `DialogCommit` moves to the end of the head at `size="sm"`, with the same variant, words, disabled and loading state. A `type="submit"` button stays its form's default button: written inside a `form` that doesn't hold the head, it is tied back to it with the `form` attribute, so a click and Enter in a field still submit, and neither does while it is disabled.
+- `DialogHeader` becomes the pushed page's head: its `DialogClose` goes first, as the head's ×, and its `DialogTitle` follows. Give the header a `DialogClose` as a direct child: it is the only way out of the sheet.
+- The head has room for one line, the title. A `DialogDescription` goes at the top of `DialogBody` in a sheet dialog, not in `DialogHeader`.
+- `DialogCommit` moves to the end of the head at `size="sm"`, with the same variant, words, disabled and loading state. A `type="submit"` button stays its form's default button: it is tied to the form it was written in by the form's `id`, so a click and Enter in a field still submit, and neither does while it is disabled. Give that `form` an `id` (or pass `form` to `DialogCommit`); without one a click still submits but Enter in a field doesn't.
 - `DialogFooter` is hidden, and with it Cancel and any other button in it, such as a step's Back.
-- `DialogBody` scrolls under the head on the phone's 16px margin, with the home indicator's inset at the bottom.
+- `DialogBody` scrolls under the head on the phone's 16px margin, with the home indicator's inset at the bottom. A wide dialog's `bar` body does the same: its `DialogNav` is hidden and its sections follow one another.
 
 ```example
 dialog/compositions/sheet-form
 ```
 
-In a flow of steps, write each step's button as a `DialogCommit`: Next, then the last step's action. × still closes.
+In a flow of steps, write each step's button as a `DialogCommit`: Next, then the last step's action. From the second step on, put a `DialogSheetBack` in `DialogHeader`: on a phone it takes the head's start in place of ×, as on a pushed page, and Esc still closes; on a desktop it draws nothing and Back stays in the footer. (Back in place of × is proposed here for stdrc's review; the rule above says only that × closes.)
 
 ```example
 dialog/compositions/sheet-steps
 ```
 
-A dialog or an alert dialog opened from the sheet is centered over it, on its own lighter scrim ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)).
+A dialog or an alert dialog opened from the sheet is centered over it, on its own lighter scrim ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)). It keeps its own head, footer and commit button: only the sheet's own parts change.
+
+#### Asking before closing
+
+When something has been typed, × and Esc ask first. Cancel the close in `onOpenChange` on `Dialog` and open the confirm from inside the sheet:
+
+```tsx
+<Dialog
+  open={open}
+  onOpenChange={(next, details) => {
+    if (!next && dirty) {
+      details.cancel();
+      setConfirmOpen(true);
+      return;
+    }
+    setOpen(next);
+  }}
+>
+```
+
+The example below is wired that way; its canvas shows the confirm after × with edits.
 
 ```example
 dialog/compositions/sheet-stacked
@@ -140,7 +162,7 @@ A dialog that stays centered on a phone keeps `DialogContent` and `Button`.
 - Give every dialog a `DialogTitle`. It becomes the dialog's accessible name, and it is what a screen reader announces on open.
 - `DialogDescription` becomes the dialog's description.
 - The × of `DialogClose` is labeled "Close". Pass `aria-label` to change it.
-- In a sheet the head sets `reading-flow: flex-visual`, so Tab and a screen reader meet × first, as it is seen, then the commit button. The title stays the dialog's accessible name.
+- In a sheet the head puts × (or Back) first in the DOM, so Tab and a screen reader meet the head in the order it is seen: ×, the title, the commit button. The title stays the dialog's accessible name.
 - `DialogSurface` has no behavior of its own. The app that uses it must add the `dialog` role, `aria-modal`, a name, the focus trap, Esc and the scrim.
 
 ## Rules

@@ -305,6 +305,7 @@
       "DialogTitle",
       "DialogTrigger",
       "DialogCommit",
+      "DialogSheetBack",
       "DialogSheetContent",
       "AnnouncementDialog",
       "AnnouncementDialogTrigger",

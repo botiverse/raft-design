@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, Ref } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "../../lib/cn";
@@ -26,6 +26,7 @@ export function DialogSheetContent({
   overlay,
   style,
   ref,
+  children,
   ...props
 }: DialogSheetContentProps) {
   const phone = useMobileViewport();
@@ -69,17 +70,19 @@ export function DialogSheetContent({
     [style, keyboardBox],
   );
 
+  // Provided inside the popup: DialogContent starts every surface outside a
+  // sheet, so a dialog opened from this one doesn't inherit it.
   return (
-    <DialogSheetContext.Provider value={state}>
-      <DialogContent
-        {...props}
-        ref={setRef}
-        overlay={phone ? sheetOverlay : overlay}
-        className={phone ? cn(className, sheet.content()) : className}
-        style={phone ? sheetStyle : style}
-        data-sheet={phone ? "" : undefined}
-      />
-    </DialogSheetContext.Provider>
+    <DialogContent
+      {...props}
+      ref={setRef}
+      overlay={phone ? sheetOverlay : overlay}
+      className={phone ? cn(className, sheet.content()) : className}
+      style={phone ? sheetStyle : style}
+      data-sheet={phone ? "" : undefined}
+    >
+      <DialogSheetContext.Provider value={state}>{children}</DialogSheetContext.Provider>
+    </DialogContent>
   );
 }
 
@@ -94,36 +97,45 @@ export type DialogCommitProps = ButtonProps;
  * The dialog's one commit button: a `Button`, written where it goes on a
  * desktop (the end of `DialogFooter`). In a `DialogSheetContent` below 768px
  * it is drawn at the end of the sheet's head instead, the same button (color,
- * words, disabled and loading state) at `size="sm"`. A submit button stays
- * its form's default button there: it is tied back to the form it was written
- * in with the `form` attribute, so a click and Enter in a field still submit,
- * and neither does while it is disabled. In a flow of steps, wrap each step's
- * button (Next, then the last step's action).
+ * words, disabled and loading state) at `size="sm"`. In a flow of steps, write
+ * each step's button as one (Next, then the last step's action).
+ *
+ * A submit button stays its form's default button in the head: it is tied to
+ * the form it was written in by the form's `id` (the `form` attribute), so a
+ * click and Enter in a field submit, and neither does while it is disabled.
+ * Give that form an `id`, or pass `form`. Without one a click still submits
+ * the form, but Enter in a field doesn't.
  */
-export function DialogCommit({ size, ...props }: DialogCommitProps) {
+export function DialogCommit({ size, form, onClick, ...props }: DialogCommitProps) {
   const { commitSlot } = useDialogSheet();
   const anchorRef = useRef<HTMLSpanElement | null>(null);
-  const movedRef = useRef<HTMLSpanElement | null>(null);
-  const formId = useId();
+  const [writtenIn, setWrittenIn] = useState<HTMLFormElement | null>(null);
 
-  // Every render: what the button is (and which form it is in) can change.
+  // The form the button was written in, once it is drawn in the head.
   useLayoutEffect(() => {
-    if (props.form) return;
-    const form = anchorRef.current?.closest("form");
-    const button = movedRef.current?.querySelector("button");
-    if (!form || !button || button.form === form) return;
-    if (!form.id) form.id = formId;
-    button.setAttribute("form", form.id);
-  });
+    if (!commitSlot || form) return;
+    setWrittenIn(anchorRef.current?.closest("form") ?? null);
+  }, [commitSlot, form]);
 
-  if (!commitSlot) return <Button size={size} {...props} />;
+  const handleClick = useCallback<NonNullable<ButtonProps["onClick"]>>(
+    (event) => {
+      onClick?.(event);
+      // A form with no id: submit it on a click, as the button would have.
+      if (!event.defaultPrevented && props.type === "submit" && writtenIn && !writtenIn.id) {
+        event.preventDefault();
+        writtenIn.requestSubmit();
+      }
+    },
+    [onClick, props.type, writtenIn],
+  );
+
+  if (!commitSlot) return <Button size={size} form={form} onClick={onClick} {...props} />;
+  const linkedForm = form ?? (writtenIn?.id || undefined);
   return (
     <>
       <span ref={anchorRef} hidden />
       {createPortal(
-        <span ref={movedRef} className="contents">
-          <Button size="sm" {...props} />
-        </span>,
+        <Button size="sm" form={linkedForm} onClick={handleClick} {...props} />,
         commitSlot,
       )}
     </>
@@ -131,9 +143,11 @@ export function DialogCommit({ size, ...props }: DialogCommitProps) {
 }
 
 /**
- * The sheet's box while the on-screen keyboard is up: the visual viewport,
- * less the strip of page the sheet leaves above it, so the head stays in view
- * and the body scrolls above the keyboard. `undefined` otherwise (the CSS box).
+ * The sheet's box while the on-screen keyboard is up: docked to the top of the
+ * keyboard, as tall as the visual viewport allows up to its usual 90% of the
+ * window. With the keyboard up the visual viewport is shorter than that, so
+ * the sheet fills it: the head stays in view and the body scrolls above the
+ * keyboard. `undefined` otherwise (the CSS box).
  */
 function useSheetKeyboardBox(active: boolean): CSSProperties | undefined {
   const [box, setBox] = useState<CSSProperties | undefined>(undefined);
