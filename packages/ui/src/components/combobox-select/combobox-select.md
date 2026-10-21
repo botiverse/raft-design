@@ -71,9 +71,9 @@ combobox-select/compositions/async-search
 
 A phone here is a touch screen narrower than the desktop layout, `(width < 48rem) and (pointer: coarse)`. ComboboxSelect is the same text field there as on a desktop, because typing is what it is for: a tap focuses it and brings up the keyboard, typing filters the list, and `create` and `remote` work in the field. There is no bottom sheet. When people only pick a value and never need to type, use a [Select](../select/select.md) instead: it opens without the keyboard.
 
-- The list opens below the field, or above when it fits there and not below, and keeps that side while it is open. As the keyboard comes up, the address bar moves or the filtered list shrinks and grows, it gets shorter or longer on its side rather than flipping, so it never jumps.
+- The list always opens below the field, between the field and the keyboard, as a native autocomplete does, and never flips. Which side has more room depends on whether the keyboard happens to be up, so a list that chose the roomier side opened downward one time and upward the next on the same field. When fewer than three rows fit below, the field scrolls up to the top of what is visible instead. As the keyboard comes up or goes, the address bar moves, or the filtered list shrinks and grows, only the list's height changes: the field stays where it is.
 - The input stays at 16px or more at every `size`, so iOS doesn't zoom into it.
-- Inside a bottom [Drawer](../drawer/drawer.md), give the drawer room for the field and its list above the keyboard, and raise `listMaxHeight` when the drawer is tall.
+- Inside a bottom [Drawer](../drawer/drawer.md), give the drawer a height that doesn't follow the keyboard (`lvh`, not `dvh`) and room below the field for the list, and raise `listMaxHeight` when the drawer is tall.
 
 ```example
 combobox-select/compositions/in-drawer

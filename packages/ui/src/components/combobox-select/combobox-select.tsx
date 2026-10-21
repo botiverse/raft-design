@@ -1,12 +1,12 @@
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, ChevronDown, LoaderCircle, Plus, X } from "lucide-react";
-import { useCallback, useId, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { usePhoneMedia } from "../../lib/phone-media";
 import { useTheme } from "../../lib/theme/use-theme";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
-import { LIST_MAX_HEIGHT, preferredListSide } from "./combobox-select.list-side";
+import { roomBelowIsShort } from "./combobox-select.list-side";
 import { isOptionGroup, normalizeOption, optionKey } from "./combobox-select.options";
 import type { OptionRecord } from "./combobox-select.options";
 import type {
@@ -130,43 +130,31 @@ function renderSelectedChip<Option>({
 }
 
 /**
- * On a phone the list keeps the side it opened on: it never flips while it is
- * open, as the keyboard or the address bar change the visual viewport under it.
+ * On a phone the list always opens below the field, between the field and the
+ * keyboard, as a native autocomplete does, and never flips: which side has more
+ * room depends on whether the keyboard happens to be up, so choosing a side made
+ * the same field open up one time and down the next.
  */
 const PHONE_LIST_COLLISION = { side: "none", align: "shift", fallbackAxisSide: "none" } as const;
 
-/** A CSS length in pixels, as the document resolves it (rem, vh, calc()). */
-function resolveLength(doc: Document, length: string) {
-  const probe = doc.createElement("div");
-  probe.style.cssText = "position:absolute;visibility:hidden;pointer-events:none;width:0";
-  probe.style.height = length;
-  doc.body.append(probe);
-  const height = probe.getBoundingClientRect().height;
-  probe.remove();
-  return height;
-}
-
-/** The side the phone's list opens on, from the room around the field and the list's cap. */
-function measureListSide(
-  anchor: HTMLElement | null,
-  groups: readonly { label?: ReactNode; items: readonly unknown[] }[],
-  maxHeight: string,
-) {
-  const view = anchor?.ownerDocument.defaultView;
-  if (!anchor || !view) return "bottom";
+/**
+ * Keeps room for the list below the field on a phone: when fewer than three
+ * rows fit between the field and the bottom of the visual viewport (the
+ * keyboard's top edge while it is up), scrolls the field up to the top of
+ * what is visible instead of flipping the list above it.
+ */
+function keepRoomBelow(field: HTMLElement | null) {
+  const view = field?.ownerDocument.defaultView;
+  if (!field || !view) return;
   const visual = view.visualViewport;
-  const rows = groups.reduce(
-    (count, group) => count + group.items.length + (group.label == null ? 0 : 1),
-    0,
-  );
-  return preferredListSide(
-    anchor.getBoundingClientRect(),
-    visual
-      ? { top: visual.offsetTop, height: visual.height }
-      : { top: 0, height: view.innerHeight },
-    rows * 36 + 12,
-    resolveLength(anchor.ownerDocument, maxHeight),
-  );
+  const viewport = visual
+    ? { top: visual.offsetTop, height: visual.height }
+    : { top: 0, height: view.innerHeight };
+  if (roomBelowIsShort(field.getBoundingClientRect(), viewport)) {
+    // Keep the label above the field in view: room for one line of it.
+    if (!field.style.scrollMarginTop) field.style.scrollMarginTop = "2.5rem";
+    field.scrollIntoView({ block: "start", inline: "nearest", behavior: "instant" });
+  }
 }
 
 /**
@@ -622,18 +610,33 @@ export function ComboboxSelect<
 
   const listHeight = typeof listMaxHeight === "number" ? `${listMaxHeight}px` : listMaxHeight;
   const fieldRef = useRef<HTMLDivElement>(null);
-  const [listSide, setListSide] = useState<"bottom" | "top">("bottom");
-  const groups = normalized.groups;
+  const [phoneOpen, setPhoneOpen] = useState(false);
   const handleOpenChange = useCallback(
     (next: boolean, details: BaseCombobox.Root.ChangeEventDetails) => {
       onOpenChange?.(next, details);
-      // Chosen once, as the list opens: it doesn't flip while the viewport changes.
-      if (next && phone && !details.isCanceled) {
-        setListSide(measureListSide(fieldRef.current, groups, listHeight ?? LIST_MAX_HEIGHT));
-      }
+      if (phone && !details.isCanceled) setPhoneOpen(next);
     },
-    [onOpenChange, phone, groups, listHeight],
+    [onOpenChange, phone],
   );
+  // While the list is open on a phone, the keyboard and the address bar change
+  // the visual viewport: only the list's height follows (it is capped to the
+  // room below), and the field moves only if that room drops under three rows.
+  useEffect(() => {
+    if (!phone || !phoneOpen) return;
+    const field = fieldRef.current;
+    const visual = field?.ownerDocument.defaultView?.visualViewport;
+    let frame = 0;
+    const check = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => keepRoomBelow(field));
+    };
+    check();
+    visual?.addEventListener("resize", check);
+    return () => {
+      cancelAnimationFrame(frame);
+      visual?.removeEventListener("resize", check);
+    };
+  }, [phone, phoneOpen]);
   const popupPropsStyle = popupProps?.style;
   const popupStyle = useMemo((): BaseCombobox.Popup.Props["style"] => {
     if (listHeight === undefined) return popupPropsStyle;
@@ -679,7 +682,7 @@ export function ComboboxSelect<
           sideOffset={4}
           align="start"
           collisionPadding={8}
-          {...(phone ? { side: listSide, collisionAvoidance: PHONE_LIST_COLLISION } : null)}
+          {...(phone ? { side: "bottom", collisionAvoidance: PHONE_LIST_COLLISION } : null)}
           {...positionerProps}
           className={positionerClassName}
         >
