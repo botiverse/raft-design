@@ -169,60 +169,6 @@ function measureListSide(
   );
 }
 
-/**
- * Focusing a single field that shows its value's label selects the label, so
- * typing replaces it rather than being appended to it, and the list, which Base
- * UI leaves unfiltered while the input matches the selected label, filters from
- * what people type. WebKit (Safari, every iOS browser) collapses the selection
- * on the mouseup of the press that focused the field, a tap's synthetic one
- * included, which undoes a select() in the focus handler: that one mouseup's
- * default is prevented. The selection is made again in the next frame for a
- * focus that comes without a mousedown before it. A press on a field that is
- * already focused places the caret as usual.
- */
-type InputHandlers = Pick<BaseCombobox.Input.Props, "onMouseDown" | "onFocus" | "onMouseUp">;
-type InputEvent<Name extends keyof InputHandlers> = Parameters<NonNullable<InputHandlers[Name]>>[0];
-
-function useSelectLabelOnFocus(label: string | undefined, handlers: InputHandlers = {}) {
-  const focusingPress = useRef(false);
-  const { onMouseDown: ownMouseDown, onFocus: ownFocus, onMouseUp: ownMouseUp } = handlers;
-  const shows = useCallback(
-    (element: HTMLInputElement) =>
-      label !== undefined && label !== "" && element.value === label && !element.readOnly,
-    [label],
-  );
-  const onMouseDown = useCallback(
-    (event: InputEvent<"onMouseDown">) => {
-      ownMouseDown?.(event);
-      const element = event.currentTarget;
-      focusingPress.current = element.ownerDocument.activeElement !== element && shows(element);
-    },
-    [ownMouseDown, shows],
-  );
-  const onFocus = useCallback(
-    (event: InputEvent<"onFocus">) => {
-      ownFocus?.(event);
-      const element = event.currentTarget;
-      if (!shows(element)) return;
-      element.select();
-      element.ownerDocument.defaultView?.requestAnimationFrame(() => {
-        if (element.ownerDocument.activeElement === element && shows(element)) element.select();
-      });
-    },
-    [ownFocus, shows],
-  );
-  const onMouseUp = useCallback(
-    (event: InputEvent<"onMouseUp">) => {
-      ownMouseUp?.(event);
-      if (!focusingPress.current) return;
-      focusingPress.current = false;
-      event.preventDefault();
-    },
-    [ownMouseUp],
-  );
-  return { onMouseDown, onFocus, onMouseUp };
-}
-
 /** Options-driven composition. The stable compound Combobox API stays unchanged. */
 function isItemEqualToValue<Option>(a: OptionRecord<Option>, b: OptionRecord<Option>) {
   return a.createQuery === b.createQuery && a.value === b.value;
@@ -426,7 +372,6 @@ export function ComboboxSelect<
   const inputPlaceholder = multiple && selected.length ? "" : placeholder;
   const inputReadOnly = readOnly || !filterable;
   const controlValue = multiple ? selected : (selected[0] ?? null);
-  const selectLabel = useSelectLabelOnFocus(multiple ? undefined : selected[0]?.label, inputProps);
 
   const handleValueChange = useCallback(
     (
@@ -578,9 +523,6 @@ export function ComboboxSelect<
       aria-description={inputDescription}
       placeholder={inputPlaceholder}
       readOnly={inputReadOnly}
-      onMouseDown={selectLabel.onMouseDown}
-      onFocus={selectLabel.onFocus}
-      onMouseUp={selectLabel.onMouseUp}
     />
   );
   const controlContent = multiple ? (

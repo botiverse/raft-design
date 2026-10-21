@@ -60,7 +60,6 @@ combobox-select/compositions/async-search
 ## Behavior
 
 - Filter the options as people type, unless `remote` is set.
-- With a value chosen, the field shows its label. Focusing the field, by a click, a tap or Tab, selects that label, and the list shows every option until people type. Typing then replaces the label and filters from what was typed. With the caret after the label, typing would be added to it ("studio-mac" and "node" make "studio-macnode"), match nothing, and people would have to delete the label first. A click or tap on a field that is already focused places the caret, so the label can still be edited. With `multiple` the input holds only what people type, after the chips, so nothing is selected.
 - With `multiple`, keep the list open when a value is chosen; clicking outside or Esc closes it. Typing continues after the last chip.
 - An option is as tall as its content: one line is 36px, and a second line adds only its own height, with the same space above and below the text ([Forms](../../../../../design/patterns/forms.md#option-height)).
 - A long option wraps to two lines, then truncates; a long chip truncates at the width of the field. Each has its whole text as its `title` while it is cut off ([Forms](../../../../../design/patterns/forms.md#long-values-in-fields)).
