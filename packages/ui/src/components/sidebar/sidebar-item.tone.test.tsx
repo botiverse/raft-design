@@ -61,9 +61,9 @@ describe("interactive", () => {
     expect(row.getAttribute("type")).toBe("button");
     expect(classes(row)).toEqual(
       expect.arrayContaining([
-        "hover:bg-fill-pressed",
+        "hover:bg-fill-row-hover",
         "active:bg-fill-pressed",
-        "not-data-active:data-popup-open:bg-fill-pressed",
+        "not-data-active:data-popup-open:bg-fill-row-hover",
         "focus-visible:shadow-focus",
       ]),
     );

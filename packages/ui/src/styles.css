@@ -283,6 +283,8 @@
   --color-foreground-on-frame-active: var(--foreground-on-frame-active);
   --color-fill-frame-pressed: var(--fill-frame-pressed);
   --color-fill-pressed: var(--fill-pressed);
+  --color-fill-row-hover: var(--fill-row-hover);
+  --color-fill-message-hover: var(--fill-message-hover);
   --color-layer-code: var(--layer-code);
   --color-foreground-link: var(--foreground-link);
   --color-sticker-ink: var(--sticker-ink);
@@ -488,6 +490,13 @@ body {
    sticker-pressed (12% ink in both modes). */
 @utility press-overlay {
   background-image: linear-gradient(var(--fill-pressed), var(--fill-pressed));
+}
+
+/* A row laid over a solid surface (a list row on a card, a file row) hovers
+   with the lighter row step, as an overlay too, so press (press-overlay)
+   replaces it instead of stacking on it. */
+@utility row-hover-overlay {
+  background-image: linear-gradient(var(--fill-row-hover), var(--fill-row-hover));
 }
 
 @utility press-overlay-sticker {

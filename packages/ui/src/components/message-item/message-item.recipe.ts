@@ -29,7 +29,7 @@ export const messageItem = tv({
       // themselves (the delegated face's ring) read the same value. Read off
       // the root, not through group-has-*: see no-ancestor-has.test.ts.
       "bg-(--mi-row-fill) [--mi-row-fill:initial]",
-      "hover:[--mi-row-fill:var(--fill-pressed)] data-popup-open:[--mi-row-fill:var(--fill-pressed)] has-data-popup-open:[--mi-row-fill:var(--fill-pressed)]",
+      "hover:[--mi-row-fill:var(--fill-message-hover)] data-popup-open:[--mi-row-fill:var(--fill-message-hover)] has-data-popup-open:[--mi-row-fill:var(--fill-message-hover)]",
       "has-data-[slot=message-item-search-match]:[--mi-row-fill:var(--info-soft)] has-data-[slot=message-item-search-match]:hover:[--mi-row-fill:var(--info-soft)]",
       "has-[[data-slot=message-multi-select-checkbox][data-checked]]:[--mi-row-fill:var(--info-soft)]",
       "has-[[data-slot=message-multi-select-checkbox][data-checked]]:hover:[--mi-row-fill:var(--info-soft)]",

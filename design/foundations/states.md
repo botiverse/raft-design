@@ -9,7 +9,7 @@ Every component shows its interaction states the same way. A component doc only 
 
 ## Principles
 
-- **Hover and press add an overlay.** They never change the fill; see [Motion](./motion.md). Text that can be clicked has no box to lay an overlay on, so it underlines on hover instead ([Clickable text](#clickable-text)).
+- **Hover and press add an overlay.** They never change the fill; see [Motion](./motion.md). A row's hover is the lightest step people can see, lighter than its press and than any selection ([Row hover](#row-hover)). Text that can be clicked has no box to lay an overlay on, so it underlines on hover instead ([Clickable text](#clickable-text)).
 - **Selection has three meanings, and three looks.** Where you are in navigation is yellow, the item singled out in content is cyan, and a chosen value is ink.
 - **Disabled looks the same everywhere** and doesn't react to hover or press.
 
@@ -17,8 +17,8 @@ Every component shows its interaction states the same way. A component doc only 
 
 | State | Look |
 | --- | --- |
-| Hover, keyboard highlight | Menus, select lists and the quick reactions in a menu fill with `brand-soft`; so does the keyboard highlight in search results. Rows and buttons lay the pressed overlay over themselves on hover. A toolbar's actions are buttons, not menu rows, even in a toolbar that floats like a menu (the one over selected text): they hover grey with `fill-pressed`, never `brand-soft` |
-| Press | The pressed overlay: `fill-pressed`, `sticker-pressed` or `fill-frame-pressed` ([Color](./color.md#pressed-overlays)). A text button lights up its hit area when pressed |
+| Hover, keyboard highlight | Menus, select lists and the quick reactions in a menu fill with `brand-soft`; so does the keyboard highlight in search results. Buttons lay the pressed overlay over themselves on hover. Rows lay a lighter one: `fill-row-hover`, and `fill-message-hover` on a message ([Row hover](#row-hover)). A toolbar's actions are buttons, not menu rows, even in a toolbar that floats like a menu (the one over selected text): they hover grey with `fill-pressed`, never `brand-soft` |
+| Press | The pressed overlay: `fill-pressed`, `sticker-pressed` or `fill-frame-pressed` ([Color](./color.md#pressed-overlays)), on rows too. A text button lights up its hit area when pressed |
 | Focus | See [Focus](#focus) |
 | Selected: navigation | A yellow sticker: sidebar rows, segmented controls, tabs, the tab bar's icon. On the yellow frame in light mode, the rail's selected item is a white sticker; in dark mode it is yellow |
 | Selected: content | `info-soft`: the open item, the message someone jumped to, an active filter |
@@ -28,6 +28,25 @@ Every component shows its interaction states the same way. A component doc only 
 | Display only | A row whose only interactive parts are its controls (a switch row in settings, this computer in the sidebar) is not a button: render it as a `<div>`, with no hover or press on the row, and focus only on its controls |
 | Error | An input gets a `danger-strong` border and a line that says how to fix it. In a dialog, a banner. A problem with the whole server goes to the notification center; see [Feedback](../patterns/feedback.md) |
 | Busy | A pixel spinner in the button, and a label that says what is happening. Anywhere else the spinner matches what it stands in for: in a line of text it keeps the line's height; in place of a panel's or a list's content it is `md` or `lg`, with a line in `text-callout` or `text-body` and `foreground-muted` ([Spinner](../../packages/ui/src/components/spinner/spinner.md#size)) |
+
+## Row hover
+
+A row is anything whose whole width is one target: a message, a sidebar item, a list row, an inbox item, a search result, a table row, a file row. Its hover says "the pointer is here, and this is what a click or the toolbar acts on". That is all it has to say, and people read the row while the pointer rests on it, so the hover takes the smallest step they can see and leaves the text as it was.
+
+| Row | Hover | Light | Dark |
+| --- | --- | --- | --- |
+| Message ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)) | `fill-message-hover` | 3% ink | 2.2% ink |
+| Every other row | `fill-row-hover` | 4% ink | 3% ink |
+| Press, on every row | `fill-pressed` | 7.8% ink | 7.8% ink |
+
+- **Visible.** The hover is at least one just-noticeable step from its surface: 2 or more in OKLab distance (ΔE × 100). `fill-row-hover` is 2.8 on paper in both modes, `fill-message-hover` 2.1. The light and dark alphas differ so the step looks the same in both modes: the same ink alpha shows more on a dark surface.
+- **Under selection.** A hover is always lighter than the selected, jumped-to and search-hit tints on the same surface, so it never reads as one of them: on paper `info-soft` is 6.4 (light) and 4.6 (dark), `brand-soft` 8.1 and 6.1. Hover stays neutral ink; selection keeps its color ([Selected: content](#usage)). A selected row doesn't change on hover.
+- **Text keeps its contrast.** On the hover, body text loses at most 5 APCA Lc on a message and 6 on a row, and `foreground-hint` stays at 4.5:1 or more on every surface ([Contrast](./color.md#contrast)).
+- **A message is lighter than a row.** A message can be twenty lines tall, and the pointer rests on it while someone reads: a large area shows a smaller step just as well as a 36px row shows a larger one, so the message takes the lightest step that is still visible.
+- **Press stays `fill-pressed`.** A press lasts a moment and confirms a click, so it may be strong. A button keeps `fill-pressed` for hover too: it is small, and nobody reads through it.
+- An open menu on a row (`data-popup-open`) keeps the row at its hover, not its press: the row stays marked while the menu is up.
+
+Why: rows used to hover with `fill-pressed`, 7.8% ink. On paper that is 5.5 (light) and 7.3 (dark) from the surface, more than `info-soft` and as much as `brand-soft`, so the hover outranked the selected item. On a long message it greyed a block of text: body text fell from Lc 105 to 94 in light mode, and on a dark popup `foreground-hint` fell to 4.3:1, under its 4.5:1 guarantee.
 
 ## Clickable text
 
