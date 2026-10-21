@@ -57,6 +57,15 @@ const descriptionList = tv({
           // 28px floor moves to the item, so the value's line box is the
           // text's and centring on it is optical centring (alignment.md).
           "*:data-[slot=description-item]:min-h-7",
+          // One line box for every fact, so wrapped lines are evenly spaced:
+          // each fact starts with an empty 19px strut on the baseline, where
+          // callout text centred in the 28px line has its baseline. Every
+          // value fits inside that line (a 22px chip, an avatar trigger, a
+          // padded button), so none makes its line taller, and consecutive
+          // baselines are 28 + 8 = 36px apart. The strut is 0px wide and
+          // cancels the 12px gap after it.
+          "*:data-[slot=description-item]:before:h-[19px] *:data-[slot=description-item]:before:w-0",
+          "*:data-[slot=description-item]:before:-me-3 *:data-[slot=description-item]:before:content-['']",
           "[&>[data-slot=description-item]>[data-slot=description-details]]:min-h-0",
           "[&>[data-slot=description-item]>[data-slot=description-details]]:items-baseline",
           "[&>[data-slot=description-item]>[data-slot=description-details]>:is([data-slot=avatar],svg)]:self-center",

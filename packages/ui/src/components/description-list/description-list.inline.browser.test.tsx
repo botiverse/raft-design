@@ -256,3 +256,56 @@ it("an inline fact with a long value is capped and shares the line", () => {
   const secondLineTop = Math.min(...nextLines.map((r) => r.top));
   expect(secondLineTop - firstLineBottom).toBeCloseTo(8, 0);
 });
+
+// Every fact has the same line box: a line with a 22px chip and an avatar
+// value is as tall as a line of plain text, so wrapped lines' baselines are
+// evenly spaced (28px line + 8px gap).
+it("wrapped inline lines are evenly spaced, whatever their values", () => {
+  render(
+    <ThemeProvider>
+      <div style={{ width: "260px" }}>
+        <DescriptionList direction="inline">
+          <DescriptionItem>
+            <DescriptionTerm>
+              <Text id="rhythm-1">Status</Text>
+            </DescriptionTerm>
+            <DescriptionDetails>
+              <Badge>In Review</Badge>
+            </DescriptionDetails>
+          </DescriptionItem>
+          <DescriptionItem>
+            <DescriptionTerm>
+              <Text id="rhythm-2">Assignee</Text>
+            </DescriptionTerm>
+            <DescriptionDetails>
+              <Avatar size="xs" type="human" />
+              Mia
+            </DescriptionDetails>
+          </DescriptionItem>
+          <DescriptionItem>
+            <DescriptionTerm>
+              <Text id="rhythm-3">Created by</Text>
+            </DescriptionTerm>
+            <DescriptionDetails>Cody</DescriptionDetails>
+          </DescriptionItem>
+          <DescriptionItem>
+            <DescriptionTerm>
+              <Text id="rhythm-4">Created at</Text>
+            </DescriptionTerm>
+            <DescriptionDetails>Oct 21, 2026, 23:24</DescriptionDetails>
+          </DescriptionItem>
+        </DescriptionList>
+      </div>
+    </ThemeProvider>,
+  );
+  const baseline = (id: string) =>
+    screen.getByTestId(id).querySelector("[data-baseline]")!.getBoundingClientRect().top;
+  const lines = [
+    ...new Set(
+      ["rhythm-1", "rhythm-2", "rhythm-3", "rhythm-4"].map((id) => Math.round(baseline(id))),
+    ),
+  ].sort((a, b) => a - b);
+  expect(lines.length).toBeGreaterThanOrEqual(3);
+  const pitches = lines.slice(1).map((top, i) => top - lines[i]!);
+  for (const pitch of pitches) expect(pitch).toBeCloseTo(36, 0);
+});
