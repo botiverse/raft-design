@@ -76,8 +76,8 @@ A phone's pushed page has a white top bar, and its location tile stays a yellow 
 The structure of a phone's top bars (the navigation row of a top-level page, Back and up to 2 icon buttons on a pushed page) is in [Page structure](../../../../../design/patterns/page-structure.md#phone). The top bar also follows these rules:
 
 - On a top-level page, put the page name in the 56px row in `text-headline`, with no large title and no icon tile before it ([Page structure](../../../../../design/patterns/page-structure.md#phone)).
-- Don't put New or Search buttons in the top bar of a top-level page.
-- Make the bell the entry to the notification center, with a pink pixel when something is new. Which page shows it is the product's choice ([Raft Chat](../../../../../design/products/raft-chat/README.md)).
+- Don't put New or Search buttons in the top bar of a top-level page: search is the Search tab ([Navigation](../../../../../design/patterns/navigation.md#search-on-a-phone)).
+- Make the bell the entry to the notification center, with a pink pixel when something is new. On a phone it is only in the top bar of the first top-level page ([Page structure](../../../../../design/patterns/page-structure.md#phone)).
 - Use the `arrow-left` icon for Back, not a chevron: its ink fills the icon box like other icons, so it mirrors the button at the other end without being shifted ([Alignment](../../../../../design/foundations/alignment.md#top-bar-icon-buttons)).
 
 ## Content
@@ -98,7 +98,7 @@ The structure of a phone's top bars (the navigation row of a top-level page, Bac
 ## Rules
 
 - Use this header in every panel: conversation, thread, side panel and drawer. Don't give one panel its own header or button sizes.
-- Use `PanelAction` for the header's icon buttons: 32px with an 18px icon and a 44px hit area on desktop (from 768px with a mouse or trackpad), 4px apart, the last icon box ending on the 20px edge; 44px with a 22px icon on a phone and on a touch screen at any width, where the last icon box still ends on the 20px edge of a desktop layout. They follow the default control height ([Spacing](../../../../../design/foundations/spacing.md#heights)). A 44px button next to a 17px title looks heavy on desktop; a finger needs 44px.
+- Use `PanelAction` for the header's icon buttons: 32px with an 18px icon and a 44px hit area on desktop (from 768px with a mouse or trackpad), 4px apart, the last icon box ending on the 20px edge; 44px with a 22px icon on a phone and on a touch screen at any width. On a phone the buttons at the two ends of the top bar sit against the screen edge, so the icon's ink lands 16px from it, on the content margin ([Alignment](../../../../../design/foundations/alignment.md#top-bar-icon-buttons)); on a touch screen with a desktop layout, the last icon box still ends on the 20px edge. They follow the default control height ([Spacing](../../../../../design/foundations/spacing.md#heights)). A 44px button next to a 17px title looks heavy on desktop; a finger needs 44px.
 - Give a `PanelStatus` its own cell on the title's line, and center it by its shape. Don't nudge it: the title's letters already sit on the line's center, so a 1px shift makes it sit high.
 - Open a side panel from the header with a `PanelToggleAction`: pressing it again closes the panel.
 - Give a side panel next to a conversation `edge="attached"`, so it draws the one line between the two ([Page structure](../../../../../design/patterns/page-structure.md#one-line-between-two-regions)).

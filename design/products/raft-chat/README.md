@@ -23,7 +23,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 
 | Where | Destinations |
 | --- | --- |
-| Phone tab bar | Home (`house`), Activity (`activity`, as on the desktop rail), Tasks (`square-check-big`), Search (`search`), More (`ellipsis`), on the edge bar ([MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-more)). Search is a tab: no Back on its page, the bar stays with Search selected, and its query and results survive switching tabs. The same in the mobile app and on the phone web |
+| Phone tab bar | Home (`house`), Activity (`activity`, as on the desktop rail), Tasks (`square-check-big`), Search (`search`), More (`ellipsis`), on the edge bar ([MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-more)). The order is fixed. Search is a tab, the only way in to searching everything: no Back on its page, the bar stays with Search selected, and it keeps its query, filters, results and scroll position across tabs ([Navigation](../../patterns/navigation.md#search-on-a-phone)). The same in the mobile app and on the phone web |
 | Phone More | One page titled More, like every tab root: a first group of Members and Computers, then the groups of [Settings](./settings.md) with their own headers. Each row opens a pushed page under More, with Back; links to them open there. Guests don't have Members or Computers |
 | The first row of phone Home | Saved (with a gray count), its only entry point; see [Home](./home.md) |
 | Web top bar (from 768px, and the desktop app's title bar) | As in [Page structure](../../patterns/page-structure.md#the-web-top-bar); the search field opens search |
@@ -36,8 +36,10 @@ Without the web top bar (an older desktop build, a server's public page), the ra
 
 Attention dots follow [Navigation](../../patterns/navigation.md#where-you-are). In Raft Chat they mark:
 
-- on the rail: Chat when there are unread messages, Activity when there is unread activity, and Computers when a computer needs attention, none of them while it is selected; Settings when feedback has a new reply, and Help once, to announce the mobile app, until its mobile-app item is opened;
-- on the phone tab bar: Activity when there is unread activity, and More when feedback has a new reply or a computer needs attention, none of them while it is selected, and always a dot, never a count. More's dot is only for what shows nowhere else, and the row that caused it shows the same dot: Feedback for a feedback reply, Computers for a computer. Everything else new shows inside the pages; unread counts are inside Activity.
+- on the rail: Chat when there are unread messages, Activity when there is unread activity, Computers when a computer needs attention, Settings when feedback has a new reply, and Help once, to announce the mobile app, until its mobile-app item is opened;
+- on the phone tab bar: Activity when there is unread activity, and More when feedback has a new reply or a computer needs attention. Search never has one.
+
+None of them shows while its destination is selected, Settings and Help included, and each is always a dot, never a count ([Navigation](../../patterns/navigation.md#where-you-are)). More's dot is only for what shows nowhere else, and the row that caused it shows the same dot: Feedback for a feedback reply, Computers for a computer. Everything else new shows inside the pages; unread counts are inside Activity.
 
 A computer's dot marks a change you haven't seen, not a state that lasts. On the rail and on the phone alike:
 
@@ -48,7 +50,19 @@ A computer's dot marks a change you haven't seen, not a state that lasts. On the
 ### The bell and Activity
 
 - The bell opens the notification center: the state of the whole server. It lists joint-channel invites, a provider's usage limit, a plan change, computers that need attention, are offline or low on disk, installing Raft on this device, and new replies to feedback. Each entry has its actions and Dismiss.
-- Activity lists the conversations that wait for the person: channels, direct messages and followed threads with unread messages or mentions. It filters by All, Unread and Mentions, has Mark all read, and each row has a Mark as Done check ([InboxItem](../../../packages/ui/src/components/inbox-item/inbox-item.md)). Approvals and tasks don't appear in it as their own rows.
+- Activity lists the conversations that wait for the person: channels, direct messages and followed threads with unread messages or mentions. It filters by All, Unread and Mentions, has Mark all read and no search field, and each row has a Mark as Done check ([InboxItem](../../../packages/ui/src/components/inbox-item/inbox-item.md)). Approvals and tasks don't appear in it as their own rows. Tapping Activity again on the tab bar scrolls it to the top, as on every tab; the first unread conversation is reached with the Unread filter ([Navigation](../../patterns/navigation.md#going-back)).
+
+### The tops of the phone's top-level pages
+
+Each follows [Page structure](../../patterns/page-structure.md#phone). What their navigation rows hold:
+
+| Page | In the row | Subtitle |
+| --- | --- | --- |
+| Home | The server switcher, then the working summary and the bell at the end ([Home](./home.md)) | None |
+| Activity | Activity; the filters in the filter row under it | "3 in progress · 5 unread", in Space Mono |
+| Tasks | Tasks; the filter bar under it ([Tasks](./tasks.md)) | "12 channel tasks", in Space Mono |
+| Search | The search field; the filters in the filter row under it | None |
+| More | More | None |
 
 ### The desktop layout
 
@@ -125,7 +139,6 @@ Raft Chat departs from these patterns today. Each line is the product's side; th
 
 | Pattern | What Raft Chat ships |
 | --- | --- |
-| The phone server list as a bottom sheet ([Navigation](../../patterns/navigation.md#servers)) | The pill opens the list as a popover anchored under the top bar, 8px from each side |
 | A mention marker replaces the unread count ([States](../../foundations/states.md)) | A channel's row shows the @ marker before the pink count |
-| The selected destination shows no attention dot ([States](../../foundations/states.md)) | Settings and Help keep their dot while selected |
+| Every pushed page has Back ([Navigation](../../patterns/navigation.md#going-back)) | On the phone web, the RaftBench gate page and the Assistant page while it loads have neither Back nor the tab bar |
 | No empty state when loading failed ([Feedback](../../patterns/feedback.md#empty-loading-and-failed)) | When the list of Activity or Saved fails to load, it shows its empty state |

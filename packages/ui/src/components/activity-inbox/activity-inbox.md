@@ -10,7 +10,7 @@ related: [inbox-item, notification-center, panel, sidebar, empty-state]
 
 # ActivityInbox
 
-ActivityInbox lays out Activity: the panel that lists what happened elsewhere and waits for the person, as [InboxItem](../inbox-item/inbox-item.md) rows. Selecting an item opens it beside the list. The panel has views (Active, Saved, Done), filters, a search field and a toolbar for acting on several items at once.
+ActivityInbox lays out Activity: the panel that lists what happened elsewhere and waits for the person, as [InboxItem](../inbox-item/inbox-item.md) rows. Selecting an item opens it beside the list. The panel has views (Active, Saved, Done), filters and a toolbar for acting on several items at once.
 
 ```example
 activity/compositions/activity-inbox
@@ -30,7 +30,7 @@ Where a product puts the way into Activity is on the product's own page.
 
 - `ActivityInboxPanel`: the panel. It holds a [Panel](../panel/panel.md) header with the title Activity. Required.
 - `ActivityInboxSidebar`: the column of views and filters on the left, as sidebar rows ([Sidebar](../sidebar/sidebar.md)). Hidden on a phone.
-- `ActivityInboxControls`: the row above the list: All / Unread and a search field.
+- `ActivityInboxControls`: the row above the list: the filters (All, Unread and Mentions) and Mark all read. It has no search field: searching is the job of [Search](../search/search.md), and a field here would be a second way in.
 - `ActivityInboxSelectionToolbar`: a select-all checkbox, then either the sort menu or `ActivityInboxSelectionCount` and the actions for the selected items.
 - `ActivityInboxViewport`: the scrolling list of [InboxItem](../inbox-item/inbox-item.md) rows.
 - `ActivityInboxLoadingMore`: one line at the end of the list while more items load.
@@ -67,5 +67,5 @@ activity/compositions/empty-activity
 - The parts are plain layout elements; raft-ui adds no Base UI primitive. The views and filters are sidebar rows, the read filter is [Tabs](../tabs/tabs.md), and the sort is a [DropdownMenu](../dropdown-menu/dropdown-menu.md).
 - Give the panel title a heading level (`render={<h2 />}`).
 - Mark the current view with `aria-current="page"` and a pressed filter with `aria-pressed`.
-- Name the select-all checkbox (`aria-label="Select all visible activity"`) and the search field (`aria-label="Search activity"`).
+- Name the select-all checkbox (`aria-label="Select all visible activity"`).
 - Set `aria-busy` on `ActivityInboxPanel` while it loads.
