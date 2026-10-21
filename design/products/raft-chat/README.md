@@ -93,6 +93,7 @@ The shared rules are in [Working agents](../../people-and-agents/working-agents.
 | The agent's row | Its row in the sidebar and on Home is one line: its avatar with its light, its name, and on the right what it is doing, or its runtime in Space Mono when it isn't working. An unread count takes the place of either |
 | The place it works in | The channel header's subtitle |
 | A direct message with the agent | The header of that direct message |
+| About to post | Floating just above the composer of that channel, direct message or thread, over a fade |
 
 ### Overlays
 

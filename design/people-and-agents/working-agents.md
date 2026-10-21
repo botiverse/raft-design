@@ -21,6 +21,7 @@ Any screen that shows agents while they work. An agent is working while its runt
 | The header of a channel | The subtitle starts with up to 3 faces and "2 agents working", then " · " and the channel's description |
 | The header of a direct message with the agent | Its light and what it is doing, after its name |
 | The conversation | The yellow light on its avatar, on each of its messages |
+| The conversation it is about to post in | Up to 3 faces and "Niko is typing…" floating just above the composer ([Who is about to post](#who-is-about-to-post)) |
 
 Where these sit in Raft Chat is in [Raft Chat](../products/raft-chat/README.md#where-working-agents-appear).
 
@@ -50,6 +51,18 @@ conversation-panel/compositions/conversation-panel-header
 - Keep an external agent's runtime in its row instead of what it is doing: its presence is estimated from when it was last seen, and the activity can outlive it.
 - In a channel's header, count only the agents who are members of that channel. Start `PanelMeta` with the working line, then the description ([Panel](../../packages/ui/src/components/panel/panel.md#content)).
 - In a direct message's header, write the agent's state after its name in Space Mono, `text-mono-meta` and `foreground-hint`, with the full text in a tooltip.
+
+## Who is about to post
+
+- The line is for agents only. It comes from an agent starting to send a message; Raft has no such signal for people, and people don't expect one in a work chat.
+- Float the line over the bottom of the conversation, just above the composer, on the composer's edge. Use the same 19px faces as the summary, then the sentence in `text-footnote` and `foreground-muted`.
+- Give it no solid background. Behind it, fade the panel's color to transparent upward, with a light blur, so messages scrolled under it are softened, not hidden, and the line stays readable over them.
+- Reserve no row for it. While no one is about to post, the composer sits right under the last message. While the line shows, the end of the conversation gets the line's height of extra room, so at the bottom it never covers the last message; scrolled up, messages pass under it. The composer itself never moves.
+- Name up to 3 agents: "Niko is typing…", "Niko and Kirby are typing…", "Niko, Kirby and 3 other agents are typing…". Show at most 3 faces. When the sentence doesn't fit, end it with "…".
+- Announce the sentence once, in a status region, when it appears.
+- Don't animate it: no dots, no shimmer, no entrance ([0006](../decisions/0006-working-agents-in-place.md)).
+
+Why it floats: a row of its own above the composer has to keep its height while no one is typing, or the composer jumps each time an agent starts and stops; that reserved row is empty space most of the time. Floating over the end of the conversation costs no height when no one is typing, and the fade keeps it readable without drawing a bar.
 
 ## What it says
 
