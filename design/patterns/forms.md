@@ -74,7 +74,7 @@ A value can be any length: a pasted link with no spaces, a long Chinese name, a 
 - **A text prefix in an InputGroup takes at most half the field**, and truncates past that, so there is always room to type.
 - **A list is never wider than the screen less 8px on each side.** It is at least as wide as its field and at least 220px. A Select's or a Combobox's list grows to fit a longer option up to 24rem (or the field's width, when that is wider); a ComboboxSelect's list stays the field's width. Past that, the option wraps.
 
-Every control holds these rules itself, so a form never adds its own `min-w-0` or `truncate`. A layout that puts a field in a flex row still gives the field's column `min-w-0`, since a flex item won't shrink below its content without it.
+Every control holds these rules itself, so a form never adds its own `min-w-0` or `truncate`. A control that truncates a value gets its `title` from `useOverflowTitle` ([`use-overflow-title.ts`](../../packages/ui/src/lib/use-overflow-title.ts)), which sets it only while the value is cut off. Give the hook a stable ref, a ref object or a memoized callback: an inline callback ref rebuilds its observers on every render. A layout that puts a field in a flex row still gives the field's column `min-w-0`, since a flex item won't shrink below its content without it.
 
 ### Danger zone
 

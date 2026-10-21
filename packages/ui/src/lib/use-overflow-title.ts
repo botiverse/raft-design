@@ -19,6 +19,13 @@ function assign<T>(ref: Ref<T> | undefined, node: T | null) {
  * It watches the element and its children, so a part whose text sits in a
  * child that truncates (a chip's label) is covered too. A `title` the caller
  * passes wins, and is never touched.
+ *
+ * Pass a stable `ref`: a ref object, or a callback ref made with `useCallback`
+ * (or defined outside the component). The returned callback ref changes
+ * whenever `ref` does, and React then detaches and re-attaches it, so an inline
+ * `ref={(node) => ...}` disconnects and rebuilds both observers on every render.
+ * The title stays right, but each render pays for new observers and a fresh
+ * measurement.
  */
 export function useOverflowTitle<T extends HTMLElement>(
   ref?: Ref<T>,

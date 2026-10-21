@@ -419,3 +419,39 @@ it("names a cut-off value with its whole text, and a value that fits with nothin
   await waitFor(() => expect(value("long").getAttribute("title")).toBe(TOKEN));
   expect(value("short").hasAttribute("title")).toBe(false);
 });
+
+it("centers a text addon's line in the field, long or short, and names it only while cut off", async () => {
+  await viewport(320, true);
+  render(
+    <ThemeProvider mode="light">
+      <main className="p-4">
+        {[TOKEN, "https://"].map((prefix) => (
+          <InputGroup key={prefix} data-testid={`group-${prefix.length}`}>
+            <InputGroupAddon.Text data-testid={`text-${prefix.length}`}>
+              {prefix}
+            </InputGroupAddon.Text>
+            <InputGroupInput aria-label="Address" />
+          </InputGroup>
+        ))}
+      </main>
+    </ThemeProvider>,
+  );
+  await settled();
+  for (const prefix of [TOKEN, "https://"]) {
+    const group = screen.getByTestId(`group-${prefix.length}`).getBoundingClientRect();
+    const addon = screen.getByTestId(`text-${prefix.length}`);
+    // Chromium also centers a block with `align-content`, which Safari before
+    // 17.4 ignores, so the centering itself has to come from flex.
+    expect(getComputedStyle(addon).display).toBe("flex");
+    expect(getComputedStyle(addon).alignItems).toBe("center");
+    // The line box of the text itself, not the addon, which stretches to the group.
+    const range = document.createRange();
+    range.selectNodeContents(addon);
+    const line = range.getBoundingClientRect();
+    expect(Math.abs(line.top + line.height / 2 - (group.top + group.height / 2))).toBeLessThan(1);
+    expect(addon.getBoundingClientRect().width).toBeLessThanOrEqual(group.width / 2 + 0.5);
+  }
+  const long = screen.getByTestId(`text-${TOKEN.length}`);
+  await waitFor(() => expect(long.getAttribute("title")).toBe(TOKEN));
+  expect(screen.getByTestId("text-8").hasAttribute("title")).toBe(false);
+});

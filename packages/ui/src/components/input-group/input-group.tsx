@@ -31,12 +31,16 @@ const inputGroup = tv({
       "text-(--ig-addon-fg,var(--ig-addon-fg-default,var(--foreground-hint)))",
       "[&>svg:not([class*='size-'])]:size-4.5",
     ],
+    // Centered with flex, not `align-content` on a block: that needs Safari
+    // 17.4, and older iOS would set the text at the top. The text truncates in
+    // its own span (textInner), since a flex container can't show an ellipsis.
     text: [
-      "block min-w-0 max-w-1/2 shrink-0 content-center truncate px-3",
+      "flex min-w-0 max-w-1/2 shrink-0 items-center px-3",
       "select-none",
       "font-mono text-mono-code",
       "text-(--ig-text-fg,var(--ig-text-fg-default,var(--foreground-hint)))",
     ],
+    textInner: ["min-w-0 truncate"],
     // The bare control fills the row; the group owns the border/shadow/invalid.
     control: [
       "min-w-0 flex-1 bg-transparent pl-3 outline-none",
@@ -145,9 +149,10 @@ function TextAddon({
   className,
   ref,
   title,
+  children,
   ...props
 }: InputGroupAddonTextProps) {
-  const { text } = inputGroup({ align, variant });
+  const { text, textInner } = inputGroup({ align, variant });
   const overflowRef = useOverflowTitle(ref, title);
   return (
     <span
@@ -159,7 +164,11 @@ function TextAddon({
       data-input-group-trim={variant === "default" && align === "inline-end" ? align : undefined}
       className={text({ className })}
       {...props}
-    />
+    >
+      <span data-slot="input-group-text-value" className={textInner()}>
+        {children}
+      </span>
+    </span>
   );
 }
 
