@@ -52,7 +52,7 @@ function AgreementDialogParts() {
 
 export function AgreementDialogContent() {
   return (
-    <DialogContent className="max-w-lg">
+    <DialogContent size="lg">
       <AgreementDialogParts />
     </DialogContent>
   );
@@ -63,7 +63,6 @@ export function AgreementDialogComposition({ className }: { className?: string }
   return (
     <CompositionModalPreview
       className={className}
-      contentClassName="max-w-lg"
       placementPaddingClassName="px-0 py-6"
       backdrop={false}
     >
@@ -75,6 +74,7 @@ export function AgreementDialogComposition({ className }: { className?: string }
             finalFocus={false}
             portalProps={portalProps}
             className={contentClassName}
+            size="lg"
           >
             <AgreementDialogParts />
           </DialogContent>

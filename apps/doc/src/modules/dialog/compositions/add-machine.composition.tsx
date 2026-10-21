@@ -57,7 +57,7 @@ function AddMachineDialogParts() {
 
 export function AddMachineDialogContent() {
   return (
-    <DialogContent className="max-w-lg">
+    <DialogContent size="lg">
       <AddMachineDialogParts />
     </DialogContent>
   );
@@ -66,7 +66,7 @@ export function AddMachineDialogContent() {
 // @docs-source-strip-start
 export function AddMachineDialogComposition({ className }: { className?: string }) {
   return (
-    <CompositionModalPreview className={className} contentClassName="max-w-lg">
+    <CompositionModalPreview className={className}>
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent
@@ -75,6 +75,7 @@ export function AddMachineDialogComposition({ className }: { className?: string 
             finalFocus={false}
             portalProps={portalProps}
             className={contentClassName}
+            size="lg"
           >
             <AddMachineDialogParts />
           </DialogContent>

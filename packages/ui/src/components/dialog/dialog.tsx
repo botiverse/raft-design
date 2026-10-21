@@ -4,6 +4,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { X } from "lucide-react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
+import { decisionWidth } from "../../lib/decision-width";
 import { headEdgePull } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -42,9 +43,11 @@ const dialog = tv({
   },
   variants: {
     size: {
-      sm: { content: ["max-w-sm"] },
+      // Chosen by content (dialog.md#variants): sm a decision, at the width of
+      // AlertDialog; md a small task; lg content that needs width.
+      sm: { content: [decisionWidth] },
       md: { content: ["max-w-md"] },
-      lg: { content: ["max-w-lg"] },
+      lg: { content: ["max-w-160"] },
       // A bigger form edited in one go: a fixed-height frame whose head and
       // commit row stay put while its body scrolls (use the `bar` parts).
       wide: { content: ["max-w-4xl h-[min(760px,calc(100dvh-2rem))]"] },

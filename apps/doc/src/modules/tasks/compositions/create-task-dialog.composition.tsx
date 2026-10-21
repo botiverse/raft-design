@@ -132,7 +132,7 @@ export function CreateTaskDialogComposition({
         overlay={preview ? false : undefined}
         initialFocus={preview ? false : undefined}
         finalFocus={preview ? false : undefined}
-        className={contentClassName ?? "max-w-md"}
+        className={contentClassName}
         portalProps={resolvedPortalProps}
       >
         <DialogHeader>

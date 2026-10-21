@@ -161,7 +161,7 @@ function ResetAgentDialogParts() {
 
 export function ResetAgentDialogContent() {
   return (
-    <DialogContent>
+    <DialogContent size="sm">
       <ResetAgentDialogParts />
     </DialogContent>
   );
@@ -170,11 +170,7 @@ export function ResetAgentDialogContent() {
 // @docs-source-strip-start
 export function ResetAgentDialogComposition({ className }: { className?: string }) {
   return (
-    <CompositionModalPreview
-      className={className}
-      contentClassName="max-w-md"
-      portalClassName="px-0"
-    >
+    <CompositionModalPreview className={className} portalClassName="px-0">
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent
@@ -183,6 +179,7 @@ export function ResetAgentDialogComposition({ className }: { className?: string 
             finalFocus={false}
             portalProps={portalProps}
             className={contentClassName}
+            size="sm"
           >
             <ResetAgentDialogParts />
           </DialogContent>
