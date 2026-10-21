@@ -19,19 +19,31 @@ export interface Column {
   width: number;
 }
 
+/** What `renderCol` receives for one column of a row. */
 export interface RenderColInfo {
+  /** The column (undefined past the last one). */
   column: Column | undefined;
+  /** The column's left edge, in px: the sum of the widths before it. */
   left: number;
+  /** The row's item. */
   item: unknown;
+  /** The column's index, to use as the React key of what is rendered. */
   key: number;
 }
 
+/** What `renderItemWithCols` receives for a row. */
 export interface RenderItemWithColsInfo {
+  /** The row's index in `items`. */
   itemIndex: number | undefined;
+  /** The first column in view. */
   startColIndex: number;
+  /** The last column in view (inclusive). */
   endColIndex: number;
+  /** Every column, `columns` as given. */
   allColumns: readonly Column[];
+  /** The row's item. */
   item: unknown;
+  /** The left edge of column `index`, in px. */
   getLeft: (index: number) => number;
 }
 
@@ -39,9 +51,13 @@ export interface RenderItemWithColsInfo {
 export interface ItemRenderProps<T> {
   /** The ref to put on the item's root element (null when `itemResizable` is off). */
   domRef: MeasuredRef | null;
+  /** The item this row renders. */
   item: T;
+  /** The item's index in `items`. */
   index: number | undefined;
+  /** With `columns` and `renderCol`: the row's columns in view, to render inside the row. */
   renderedCols: ReactElement | undefined;
+  /** With `columns` and `renderItemWithCols`: what it rendered for the row, to render inside the row. */
   renderedItemWithCols: ReactElement | undefined;
   /** Set only for an item kept mounted outside the range (absolutely positioned). */
   style: CSSProperties | undefined;
@@ -52,16 +68,28 @@ export type ScrollPosition = "top" | "bottom";
 /** Where `scrollTo` with `index` / `key` and `align` puts the item in the view. */
 export type ScrollAlign = "start" | "center" | "end";
 
+/**
+ * What `scrollTo` scrolls to: a position (`left` / `top`), a row (`index` or `key`, with `align`) or
+ * either end (`position`), checked in that order.
+ */
 export interface VirtualListScrollToOptions {
+  /** Scroll to this horizontal offset, in px. */
   left?: number | undefined;
+  /** Scroll to this vertical offset, in px. */
   top?: number | undefined;
+  /** Scroll to the row at this index. */
   index?: number | undefined;
+  /** Scroll to the row with this key (`getKey`). */
   key?: string | undefined;
+  /** Scroll to the top or the bottom of the list. */
   position?: ScrollPosition | undefined;
+  /** `"instant"` (the default), `"smooth"` or `"auto"`, as for `Element.scrollTo`. */
   behavior?: ScrollBehavior | undefined;
   /** With `index` / `key`: scroll only as far as needed to show the item (default true). Ignored with `align`. */
   debounce?: boolean | undefined;
+  /** With `index` / `key`: space, in px, to keep between the row and the view's top. */
   scrollMarginTop?: number | undefined;
+  /** With `index` / `key`: space, in px, to keep between the row and the view's bottom. */
   scrollMarginBottom?: number | undefined;
   /**
    * With `index` / `key`: put the item's top at the view's top (`"start"`), its middle
@@ -76,12 +104,25 @@ export interface VirtualListScrollToOptions {
 
 /** The imperative API (`componentRef`, `VirtualListContext`). */
 export interface VirtualListApi {
+  /** The scroller's element (`data-slot="virtual-list"`). */
   listElRef: RefObject<HTMLDivElement | null>;
+  /** The spacer's element (`data-slot="virtual-list-items"`); null while there are no items. */
   itemsElRef: RefObject<HTMLDivElement | null>;
+  /**
+   * Scrolls the list (see `VirtualListScrollToOptions`); `scrollTo(left, top)` scrolls to a position.
+   * An instant jump to a row or an end is replayed as rows are measured right after it, so it lands.
+   */
   scrollTo: (options: VirtualListScrollToOptions | number, topIfNumber?: number) => void;
+  /** Reads the scroll position now and renders the rows in view, after scrolling the element directly. */
   syncViewport: () => void;
+  /** Where the row with this key starts, in px from the top of the spacer (an estimate if not measured). */
   getOffsetTopOfKey: (key: string) => number | undefined;
+  /**
+   * Runs `task` now and again after each batch of row measurements, for one frame plus one task: for a
+   * scroll position of your own that must hold while the rows it depends on are measured.
+   */
   submitScrollAdjustingTask: (task: () => void) => void;
+  /** Writes the scroller's width to `--virtual-list-width` again. */
   refreshListWidth: () => void;
 }
 
