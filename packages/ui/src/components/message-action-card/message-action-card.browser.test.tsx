@@ -13,6 +13,10 @@ import {
   MessageActionCardHint,
   MessageActionCardHintLabel,
   MessageActionCardNotice,
+  MessageActionCardProperties,
+  MessageActionCardProperty,
+  MessageActionCardPropertyLabel,
+  MessageActionCardPropertyValue,
   MessageActionCardScope,
   MessageActionCardScopeDescription,
   MessageActionCardScopeList,
@@ -225,4 +229,40 @@ it("the header icon falls back to a default icon when the caller passes none", (
 it("the status label is a soft badge unless the caller picks an appearance", () => {
   renderCard();
   expect(screen.getByTestId("status").getAttribute("data-appearance")).toBe("soft");
+});
+
+it("a property label lines up with the first line of a value that wraps", async () => {
+  // Two columns from 640px; below that the label stacks above the value.
+  const { page } = await import("vite-plus/test/browser/context");
+  await page.viewport(1024, 800);
+  render(
+    <ThemeProvider>
+      <div style={{ width: 480 }}>
+        <MessageActionCard defaultOpen>
+          <MessageActionCardContent>
+            <MessageActionCardProperties>
+              <MessageActionCardProperty>
+                <MessageActionCardPropertyLabel data-testid="label">
+                  Description
+                </MessageActionCardPropertyLabel>
+                <MessageActionCardPropertyValue data-testid="value">
+                  {"Owns how written docs are shaped and kept current. ".repeat(6)}
+                </MessageActionCardPropertyValue>
+              </MessageActionCardProperty>
+            </MessageActionCardProperties>
+          </MessageActionCardContent>
+        </MessageActionCard>
+      </div>
+    </ThemeProvider>,
+  );
+  const label = screen.getByTestId("label").getBoundingClientRect();
+  const value = screen.getByTestId("value");
+  const valueBox = value.getBoundingClientRect();
+  const lineHeight = Number.parseFloat(getComputedStyle(value).lineHeight);
+  expect(valueBox.height).toBeGreaterThan(lineHeight * 3);
+  // The label sits on the value's first line, not halfway down the block.
+  expect(label.top).toBeGreaterThanOrEqual(valueBox.top);
+  expect(label.bottom).toBeLessThanOrEqual(
+    valueBox.top + Number.parseFloat(getComputedStyle(value).paddingTop) + lineHeight + 1,
+  );
 });
