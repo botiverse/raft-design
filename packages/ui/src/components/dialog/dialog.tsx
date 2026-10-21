@@ -3,7 +3,7 @@ import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ChevronLeft, X } from "lucide-react";
-import { Children, isValidElement } from "react";
+import { Children, isValidElement, useEffect } from "react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { decisionWidth } from "../../lib/decision-width";
 import { headEdgePull } from "../../lib/head-edges";
@@ -261,15 +261,22 @@ export type DialogHeaderProps = ComponentPropsWithRef<"div"> & {
 
 export function DialogHeader({ className, bar = false, children, ...props }: DialogHeaderProps) {
   const { sheet, setCommitSlot } = useDialogSheet();
+  // A phone sheet: × at the start, the title, then the slot DialogCommit
+  // moves the commit button into. The leading action goes first in the DOM,
+  // so every browser reads and tabs the head in the order it is seen: a
+  // DialogSheetBack when the step has one (it stands in for ×), or the
+  // DialogClose. Only direct children are found.
+  const items = sheet ? Children.toArray(children) : [];
+  const backs = items.filter((item) => isValidElement(item) && item.type === DialogSheetBack);
+  const closes = items.filter((item) => isValidElement(item) && item.type === DialogClose);
+  const missingLeading = sheet && backs.length === 0 && closes.length === 0;
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production" || !missingLeading) return;
+    console.warn(
+      "raft-ui: a DialogHeader drawn as a phone sheet has no DialogClose (or DialogSheetBack) as a direct child, so the sheet has no × at the start of its head. Put DialogClose directly in DialogHeader, not inside a Tooltip, a Fragment or a component of your own.",
+    );
+  }, [missingLeading]);
   if (sheet) {
-    // A phone sheet: × at the start, the title, then the slot DialogCommit
-    // moves the commit button into. The leading action goes first in the
-    // DOM, so every browser reads and tabs the head in the order it is seen:
-    // a DialogSheetBack when the step has one (it stands in for ×), or the
-    // DialogClose.
-    const items = Children.toArray(children);
-    const backs = items.filter((item) => isValidElement(item) && item.type === DialogSheetBack);
-    const closes = items.filter((item) => isValidElement(item) && item.type === DialogClose);
     const rest = items.filter((item) => !backs.includes(item) && !closes.includes(item));
     const head = dialogSheet();
     return (

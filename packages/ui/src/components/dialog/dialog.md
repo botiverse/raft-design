@@ -107,7 +107,7 @@ The sheet:
 
 Write the dialog as it is on a desktop and swap `DialogContent` for `DialogSheetContent`, and the commit `Button` for `DialogCommit`. Nothing else changes, and on a desktop nothing changes at all. Below 768px:
 
-- `DialogHeader` becomes the pushed page's head: its `DialogClose` goes first, as the head's ×, and its `DialogTitle` follows. Give the header a `DialogClose` as a direct child: it is the only way out of the sheet.
+- `DialogHeader` becomes the pushed page's head: its `DialogClose` goes first, as the head's ×, and its `DialogTitle` follows. Give the header a `DialogClose` as a direct child: it is the only way out of the sheet. One wrapped in a Tooltip, a Fragment or a component of your own isn't found and stays after the title; in development the head warns about it in the console.
 - The head has room for one line, the title. A `DialogDescription` goes at the top of `DialogBody` in a sheet dialog, not in `DialogHeader`.
 - `DialogCommit` moves to the end of the head at `size="sm"`, with the same variant, words, disabled and loading state. A `type="submit"` button stays its form's default button: it is tied to the form it was written in by the form's `id`, so a click and Enter in a field still submit, and neither does while it is disabled. Give that `form` an `id` (or pass `form` to `DialogCommit`); without one a click still submits but Enter in a field doesn't.
 - `DialogFooter` is hidden, and with it Cancel and any other button in it, such as a step's Back.
