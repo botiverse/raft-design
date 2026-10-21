@@ -2,6 +2,7 @@ import "./description-list.test.css";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
+import { Avatar } from "../avatar/avatar";
 import { Badge } from "../badge/badge";
 import { Button } from "../button/button";
 import {
@@ -141,4 +142,43 @@ it("inline: a value that wraps keeps its first line on the row's baseline", () =
   expect(lines.length).toBeGreaterThan(1);
   const valueLine = textRect("value-short");
   expect(Math.abs(lines[0]!.bottom - valueLine.bottom)).toBeLessThanOrEqual(3);
+});
+
+// A value that leads with an avatar takes its baseline from its text: a box
+// with no text would give its bottom edge, and the whole value would stand
+// above its label. The avatar centres on the text's line.
+it("inline: a value led by an avatar keeps its text on the row's baseline", () => {
+  render(
+    <ThemeProvider>
+      <div style={{ width: "720px" }}>
+        <DescriptionList direction="inline">
+          <DescriptionItem>
+            <DescriptionTerm>
+              <Text id="term-plain">Created by</Text>
+            </DescriptionTerm>
+            <DescriptionDetails>
+              <Text id="value-plain">Atlas</Text>
+            </DescriptionDetails>
+          </DescriptionItem>
+          <DescriptionItem>
+            <DescriptionTerm>
+              <Text id="term-avatar">Source</Text>
+            </DescriptionTerm>
+            <DescriptionDetails>
+              <Avatar size="xs" type="human" data-testid="value-avatar-face" />
+              <Text id="value-avatar">Wang Lei</Text>
+            </DescriptionDetails>
+          </DescriptionItem>
+        </DescriptionList>
+      </div>
+    </ThemeProvider>,
+  );
+  const first = baseline("term-plain");
+  expect(Math.abs(baseline("term-avatar") - first)).toBeLessThanOrEqual(0.5);
+  expect(Math.abs(baseline("value-avatar") - first)).toBeLessThanOrEqual(0.5);
+  const face = screen.getByTestId("value-avatar-face").getBoundingClientRect();
+  const line = screen.getByTestId("value-avatar").getBoundingClientRect();
+  expect(Math.abs(face.top + face.height / 2 - (line.top + line.height / 2))).toBeLessThanOrEqual(
+    0.5,
+  );
 });

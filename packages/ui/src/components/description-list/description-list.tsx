@@ -43,6 +43,17 @@ const descriptionList = tv({
           "*:data-[slot=description-item]:flex *:data-[slot=description-item]:min-w-0 *:data-[slot=description-item]:items-baseline *:data-[slot=description-item]:gap-3",
           "[&>[data-slot=description-item]+[data-slot=description-item]]:pt-0",
           "[&>[data-slot=description-item]>[data-slot=description-term]]:shrink-0",
+          // A value lays its own parts on the label's baseline too, so a value
+          // that leads with an avatar or an icon (the assignee, a task's
+          // source) takes its baseline from its text, not from the bottom
+          // edge of the avatar, which is the baseline a box with no text
+          // gets. The avatar and the icon centre on the text's line. The
+          // 28px floor moves to the item, so the value's line box is the
+          // text's and centring on it is optical centring (alignment.md).
+          "*:data-[slot=description-item]:min-h-7",
+          "[&>[data-slot=description-item]>[data-slot=description-details]]:min-h-0",
+          "[&>[data-slot=description-item]>[data-slot=description-details]]:items-baseline",
+          "[&>[data-slot=description-item]>[data-slot=description-details]>:is([data-slot=avatar],svg)]:self-center",
           "[&>[data-slot=description-item]>[data-slot=description-details]>:is([data-slot=badge],[data-slot=task-chip],[data-slot=task-status-badge]):first-child]:-ml-1.5",
           "[&>[data-slot=description-item]>[data-slot=description-details]>:is([data-slot=badge],[data-slot=task-chip],[data-slot=task-status-badge]):first-child]:max-w-[calc(100%+6px)]",
           "[&>[data-slot=description-item]>[data-slot=description-details]>[data-slot=button]:first-child]:ml-[-7.5px]",

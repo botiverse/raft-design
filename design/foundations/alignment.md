@@ -37,6 +37,8 @@ When a shape with its own padding (a chip, a frameless button's hover fill) sits
 
 The row is read as text, so the eye compares where the words start, not where the fills start. Aligning the shapes by their edge would push their words 6px past the plain values beside them, and the row would look ragged. This is the exception to aligning a shape by its edge: that rule holds when shapes line up with one another down a column.
 
+An avatar or an icon in such a row (the assignee's face, the sender of a task's source message) never sets the row's baseline: the words beside it do, and it centers on their line. A box with no text gives its bottom edge as its baseline, so a value laid out with `items-center` that starts with an avatar stands its words several pixels above the rest of the row. Lay the value out with `items-baseline` and give the avatar `self-center` ([DescriptionList](../../packages/ui/src/components/description-list/description-list.md#inline)).
+
 ## Text of different sizes on one line
 
 A line that mixes sizes or faces, such as a message's sender line (the name in bold `text-subhead`, the role, the model and a badge's words in `text-caption`, the time in Space Mono), puts every letter on one baseline: lay it out with `items-baseline`, not `items-center`.

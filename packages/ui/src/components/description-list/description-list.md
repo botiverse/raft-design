@@ -50,6 +50,10 @@ description-list/compositions/horizontal
 
 `direction="inline"` lays the facts out like a line of text. Every label and value sits on one baseline, so a status chip, a button and plain text read as one line; the label is 12px from its value, the facts 24px apart, and a row that wraps leaves 8px between lines.
 
+A value that leads with an avatar or an icon (an assignee, the message a task came from) still puts its text on that baseline: raft-ui lays the parts of `DescriptionDetails` on the baseline and centers an avatar or an icon among them on the text's line, which in Space Grotesk is the cap-height center ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)). A box with no text, such as an avatar, otherwise gives its bottom edge as the baseline, and a value that starts with one stands several pixels above its label.
+
+A value wrapped in its own trigger (a button around an avatar, a name, an excerpt and a time) does the same inside the trigger: lay its parts out with `items-baseline`, center the avatar and the icons with `self-center`, and size the trigger by its padding, not a fixed height, so its line box is the text's. A trigger that centers its parts (`items-center`) takes its baseline from the avatar and lifts the whole value off the row.
+
 A value drawn in a shape hangs its padding into the 12px gap, so its text starts where plain text would and its fill reaches outward ([Alignment](../../../../../design/foundations/alignment.md#a-shape-beside-plain-text)). raft-ui does this for a Badge, TaskChip, TaskStatusBadge or Button that comes first in `DescriptionDetails`; the Button takes the chip's 6px padding to fit. Any other shape, or one wrapped in another element, needs the same pull from its caller: a negative left margin equal to its left padding, and its `max-width` grown by as much.
 
 ```example

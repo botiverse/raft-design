@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import {
+  Avatar,
   Button,
   DescriptionDetails,
   DescriptionItem,
@@ -37,6 +38,15 @@ export function InlineDescriptionListComposition() {
           >
             {assignee}
           </Button>
+        </DescriptionDetails>
+      </DescriptionItem>
+      <DescriptionItem>
+        <DescriptionTerm>Source</DescriptionTerm>
+        <DescriptionDetails>
+          <Avatar size="xs" type="human" />
+          <span className="font-semibold">Wang Lei</span>
+          <span className="text-foreground-muted">Launch checklist: OG image</span>
+          <time className="font-mono text-mono-meta text-foreground-hint">08:53 PM</time>
         </DescriptionDetails>
       </DescriptionItem>
       <DescriptionItem>
