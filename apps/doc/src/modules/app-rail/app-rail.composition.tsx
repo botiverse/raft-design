@@ -1,18 +1,14 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import type { ComponentProps, ReactNode } from "react";
 import {
   AppShellRailSlot,
   AppRailFooter,
-  AppRailHeader,
   AppRailItem,
   AppRailItemAttention,
   AppRailItemIcon,
-  AppRailItemIndicator,
   AppRailItemLabel,
   AppRailNav,
   AppRailRoot,
-  NotificationCenter,
-  NotificationCenterTrigger,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -23,12 +19,10 @@ import {
   CheckSquare,
   MessageSquare,
   Monitor,
-  Search,
   Settings,
   Users,
+  CircleHelp,
 } from "lucide-react";
-
-import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
 
 // Tooltip-wrapped desktop rail item. Callers own the rendered navigation or action target.
 export function AppRailNavItem({
@@ -64,37 +58,12 @@ export function AppRailNavItem({
 
 export function AppRailComposition() {
   const [view, setView] = useState("chat");
-  const [otherServersUnread, setOtherServersUnread] = useState(true);
-
-  const handleToggleOtherServersUnread = useCallback(() => {
-    setOtherServersUnread((current) => !current);
-  }, []);
 
   return (
     <AppShellRailSlot>
       <AppRailRoot>
-        <AppRailHeader>
-          <AppRailServerButton
-            title="Raft 中文社区"
-            aria-label={
-              otherServersUnread
-                ? "Raft 中文社区. Mark other servers read"
-                : "Raft 中文社区. Mark other servers unread"
-            }
-            onClick={handleToggleOtherServersUnread}
-          >
-            <img alt="" src="/avatars/workspace.svg" />
-            {otherServersUnread ? <AppRailItemIndicator size="sm" aria-hidden /> : null}
-          </AppRailServerButton>
-        </AppRailHeader>
         <TooltipProvider delay={650}>
           <AppRailNav>
-            <AppRailNavItem
-              selected={view === "search"}
-              render={<button type="button" onClick={() => setView("search")} />}
-              label="Search"
-              icon={<Search />}
-            />
             <AppRailNavItem
               selected={view === "chat"}
               render={<button type="button" onClick={() => setView("chat")} />}
@@ -129,9 +98,7 @@ export function AppRailComposition() {
             />
           </AppRailNav>
           <AppRailFooter>
-            <NotificationCenter modal={false}>
-              <NotificationCenterTrigger type="button" aria-label="Notification center" />
-            </NotificationCenter>
+            <AppRailNavItem render={<button type="button" />} label="Help" icon={<CircleHelp />} />
             <AppRailNavItem
               selected={view === "settings"}
               render={<button type="button" onClick={() => setView("settings")} />}

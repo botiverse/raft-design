@@ -58,6 +58,10 @@ app-shell/compositions/responsive
 
 The web app adds a frame-colored top bar above the rail from 768px, with search in its center. It is part of the frame, not content, so it is yellow like the rail, and yellow still goes only on the frame. The desktop app's title bar is the same bar, at every width.
 
+```example
+app-shell/compositions/web-top-bar
+```
+
 - Make it 48px high, `layer-frame`, with a `line-seam` along its bottom edge. It keeps 48px in short windows.
 - Put the workspace button and the workspace strip on the left, the search field in the center, and who is working and the bell on the right. Keep the search field centered on the window, whatever the two sides hold.
 - Make every control in it a 36px frame item, 6px from the top and bottom. Align the workspace button with the rail's buttons, 8px from the left edge as on the rail. End the icon box of the last icon on the right, the bell's, 20px from the right edge, on the same line as the last icon of the header under it; its button hangs 8px past that line ([Alignment](../foundations/alignment.md#the-ends-of-a-header)).
