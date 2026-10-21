@@ -39,8 +39,22 @@ Treat removed or renamed exports, removed CSS tokens, incompatible type changes,
 ## Write the Changelog
 
 - Write all headings and entries in English.
-- Use only these sections, omitting empty ones: `Breaking Changes`, `Added`, `Changed`, `Fixed`.
+- Use only these sections, omitting empty ones: `Design System`, `Breaking Changes`, `Added`, `Changed`, `Fixed`.
+- `Design System` lists rule changes in `design/` that apply beyond one component (a new or changed token family, a spacing, sizing or interaction rule). Each entry names the rule, links its `design/` page, and names the components it changed in this release.
 - Describe consumer impact and migration steps, not implementation activity.
+- Readers sync from these notes without reading diffs: people following the design system, and the mobile design system, which pulls each GitHub Release by API. So every entry follows one shape. It leads with the bold component, token or rule name and what changed, then has these labelled lines, in this order, each on its own indented bullet:
+  - `Why:` one sentence with the reason. Always present.
+  - `Affects:` the tokens, sizes and values involved, old → new where something changed (`fill-pressed` 7.8% → `fill-row-hover` 4%). Omit only when nothing measurable changed.
+  - `Migrate:` what a caller must change. Present exactly when the entry is under `Breaking Changes`.
+  - `Docs:` a link to the raft-design page for the component or rule. Always present.
+
+  ```md
+  - **ComboboxSelect**: the field is always typeable; the phone-only pick mode and its sheet are removed. ([#635](https://github.com/botiverse/raft-design/pull/635))
+    - Why: on a phone the field could not be filtered, and a sheet over a drawer stacked two overlays.
+    - Affects: list height `listMaxHeight`, default `16rem` (256px) including padding.
+    - Migrate: remove the `messages.search` and `messages.close` props; a pick-only field uses `Select`.
+    - Docs: https://raft-design.botiverse.build/components/combobox-select/
+  ```
 - Prefer a merged PR link. Add a commit link when no PR exists or when the PR does not cover the complete statement.
 - Consolidate related implementation commits into one consumer-facing entry.
 - Never mention WIP, docs-only changes, source references, release chores, or internal refactors without stable consumer impact.

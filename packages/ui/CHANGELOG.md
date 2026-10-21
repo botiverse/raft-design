@@ -1,22 +1,44 @@
 ## [0.13.0](https://github.com/botiverse/raft-design/compare/v0.12.0...v0.13.0) (2026-10-21)
 
+### Design System
+
+- **Row hover**: rows hover with their own lightest visible step, not the press overlay; a row whose menu is open is marked with one slightly stronger step. ([#641](https://github.com/botiverse/raft-design/pull/641), [#643](https://github.com/botiverse/raft-design/pull/643))
+  - Why: the press fill made hovered messages and list rows read as grey and heavy, and on a phone a long-press menu left no mark of which row it belonged to.
+  - Affects: hover `fill-pressed` 7.8% → `fill-row-hover` 4% (dark 3%), messages `fill-message-hover` 3% (dark 2.2%), menu-open `fill-row-open` 5% (dark 4%). Press and selection are unchanged; hover stays lighter than selection.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#row-hover
+
 ### Added
 
-- Tokens `fill-row-hover` (4% ink light, 3% dark), `fill-message-hover` (3% / 2.2%) and `fill-row-open` (5% / 4%), with utilities `row-hover-overlay` and `row-open-overlay`. ([#641](https://github.com/botiverse/raft-design/pull/641), [#643](https://github.com/botiverse/raft-design/pull/643))
+- **Tokens** `fill-row-hover`, `fill-message-hover` and `fill-row-open`, with utilities `row-hover-overlay` and `row-open-overlay` for rows on a card or a tinted surface. ([#641](https://github.com/botiverse/raft-design/pull/641), [#643](https://github.com/botiverse/raft-design/pull/643))
+  - Why: rows need a hover step lighter than press, and rows on a non-transparent surface need it as an overlay so the surface shows through.
+  - Affects: `fill-row-hover` 4% / 3%, `fill-message-hover` 3% / 2.2%, `fill-row-open` 5% / 4% (ink, light / dark).
+  - Docs: https://raft-design.botiverse.build/foundations/tokens/
 
 ### Changed
 
-- Rows hover with their own light step instead of the press overlay (`fill-pressed`, 7.8%): messages with `fill-message-hover`; sidebar items, list, inbox, search, table and file rows with `fill-row-hover`. Hover stays lighter than selection; press is unchanged. ([#641](https://github.com/botiverse/raft-design/pull/641))
-- A row with its menu open (right-click, ⋯ menu, phone long-press) takes `fill-row-open`, the one marker of which row the menu belongs to; selection still wins. Comment cards hover with `fill-row-hover`. ([#643](https://github.com/botiverse/raft-design/pull/643))
-- Select and Combobox default `collisionPadding` to 8px. ([#642](https://github.com/botiverse/raft-design/pull/642))
+- **Message, SidebarItem, List, Inbox, Search, Table and File rows**: hover with `fill-row-hover` (messages with `fill-message-hover`) instead of `fill-pressed`. ([#641](https://github.com/botiverse/raft-design/pull/641))
+  - Why: see Row hover above.
+  - Affects: hover background 7.8% → 4% (messages 3%).
+  - Docs: https://raft-design.botiverse.build/foundations/states/#row-hover
+- **Rows with a menu open** (right-click, ⋯ menu, phone long-press): take `fill-row-open` while the menu is open; selection still wins. **Comment cards** hover with `fill-row-hover`. ([#643](https://github.com/botiverse/raft-design/pull/643))
+  - Why: the open menu needs one marker of which row it belongs to, including on a phone where there is no hover.
+  - Affects: menu-open background `fill-row-open` 5% / 4%.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#row-hover
+- **Select, Combobox**: `collisionPadding` defaults to 8px. ([#642](https://github.com/botiverse/raft-design/pull/642))
+  - Why: popups touched the screen edge on phones.
+  - Affects: popup inset from the screen edge, 8px.
+  - Docs: https://raft-design.botiverse.build/patterns/forms/#long-values-in-fields
 
 ### Fixed
 
-- Long values stay inside form fields on narrow screens: Field labels, descriptions and errors wrap; a FieldItem label next to a checkbox, radio or switch shrinks; an InputGroup text prefix takes at most half the field and truncates; SelectValue, ComboboxSelect values and chips truncate with the full value as `title`; options wrap to 2 lines then clamp; Select and Combobox popups never get wider than the screen less 8px each side. ([#642](https://github.com/botiverse/raft-design/pull/642))
+- **Field, FieldItem, InputGroup, SelectValue, ComboboxSelect, chips and options**: long values stay inside form fields on narrow screens. Labels, descriptions and errors wrap. A FieldItem label next to a checkbox, radio or switch shrinks. An InputGroup text prefix takes at most half the field and truncates. Values and chips truncate, with the full value as `title`. Options wrap to 2 lines, then clamp. Select and Combobox popups are never wider than the screen less 8px on each side. ([#642](https://github.com/botiverse/raft-design/pull/642))
+  - Why: long names and values pushed fields and popups past the screen edge on phones.
+  - Affects: InputGroup prefix `max-w-1/2`; options clamp at 2 lines; popup max width `100vw − 16px`.
+  - Docs: https://raft-design.botiverse.build/patterns/forms/#long-values-in-fields
 
 ## [0.12.0](https://github.com/botiverse/raft-design/compare/v0.11.0...v0.12.0) (2026-10-21)
 
-### Breaking
+### Breaking Changes
 
 - `ComboboxSelect` always takes typing on a phone, as on a desktop: tapping the field focuses it and typing filters; `create` and remote search work in the field. The phone-only pick-only mode and bottom sheet from 0.10.5 are gone, with their props `sheetThreshold`, `sheetTitle` and `messages.search` / `done` / `close`. A pick-only field uses `Select`. The list still picks its side once and doesn't flip while the keyboard opens. ([#635](https://github.com/botiverse/raft-design/pull/635))
 
