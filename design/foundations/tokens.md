@@ -226,7 +226,7 @@ field
 card-title
 ```
 
-The space between toasts on screen together. Usage: [Toast](../../packages/ui/src/components/toast/toast.md#behavior).
+The space between toasts on screen together, and the one width they share. Usage: [Toast](../../packages/ui/src/components/toast/toast.md#behavior).
 
 ```tokens
 toast

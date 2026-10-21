@@ -305,6 +305,9 @@
   /* The space between two toasts on screen at once, in a viewport of inline
      toasts and in an expanded stack. Toasts never touch. */
   --toast-stack-gap: 8px;
+  /* The one width every toast in a stack shares, capped by the screen. Its
+     text wraps inside it; a toast never sizes to its text. */
+  --toast-width: 26rem;
   --sticker-ink: oklch(0.1813 0.005 17.62);
   --sticker-paper: oklch(1 0 0);
   --sticker-edge: oklch(0.1813 0.005 17.62 / 0);

@@ -30,9 +30,11 @@ const toastStyles = tv({
   slots: {
     // Toasts on screen together keep the stack gap between them: inline
     // toasts flow in the viewport's column, and an expanded stack offsets each
-    // toast by it. They never touch (toast.md, Behavior).
+    // toast by it. They never touch (toast.md, Behavior). They also share one
+    // width, toast-width capped by the screen, which every toast in the
+    // viewport fills.
     viewport: [
-      "pointer-events-none isolate z-70 w-[min(24rem,calc(100vw-2rem))]",
+      "pointer-events-none isolate z-70 w-[min(var(--toast-width),calc(100vw-2rem))]",
       "flex flex-col gap-(--toast-gap) [--toast-gap:var(--toast-stack-gap)]",
       "outline-none",
     ],
@@ -167,12 +169,19 @@ const toastStyles = tv({
           "in-data-[toast-placement^=top]:[--toast-peek-dir:1]",
           "[[data-toast-placement^=top]_&[data-starting-style]]:transform-[translateY(-120%)_scale(0.98)]",
           "[[data-toast-placement^=top]_&[data-ending-style]:not([data-swipe-direction])]:transform-[translateY(-120%)_scale(0.98)]",
-          "w-max max-w-full",
+          // Every toast in the stack is the viewport's width (toast-width):
+          // one that wraps and one that doesn't still line up.
+          "w-full",
         ],
       },
       inline: {
         root: [
-          "relative mx-auto w-max max-w-[min(24rem,var(--available-width,calc(100vw-2rem)))] overflow-visible",
+          // Listed in a viewport, every toast is toast-width (min = max), so
+          // the toasts on screen together share one width. Anchored next to a
+          // control (in a positioner) a toast stands alone and fits its text,
+          // up to the same width.
+          "relative mx-auto w-[min(var(--toast-width),var(--available-width,calc(100vw-2rem)))] overflow-visible",
+          "in-data-[slot=toast-positioner]:w-max in-data-[slot=toast-positioner]:max-w-[min(var(--toast-width),var(--available-width,calc(100vw-2rem)))]",
           "origin-(--transform-origin)",
           "data-starting-style:transform-[scale(0.97)]",
           "data-ending-style:transform-[scale(0.99)]",

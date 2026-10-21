@@ -66,6 +66,7 @@ toast/compositions/person
 - People can swipe a toast away, or close it with `ToastClose`.
 - Stacked toasts appear at the bottom center by default. An anchored toast opens next to the control that caused it.
 - Toasts on screen together are `toast-stack-gap` (8px) apart and never touch: an expanded stack offsets each toast by it, and inline toasts listed in a `ToastViewport` (`layout="inline"`) flow in its column with that gap. The viewport sets `--toast-gap` from the token; set it there, not on each toast.
+- Toasts on screen together share one width, `toast-width` (26rem), capped by the screen (`100vw - 2rem`): the viewport is that wide, and every toast in it fills it, stacked or listed inline (its minimum and maximum width are the same). A longer sentence wraps inside that width; a toast never grows or shrinks to its text, so one that wraps and one that doesn't still line up. An anchored toast stands alone, so it fits its text, up to the same width.
 
 ## Content
 
@@ -83,6 +84,7 @@ Toast wraps Base UI's Toast, which announces each toast in a live region and kee
 
 ## Rules
 
+- Never size a toast in a stack to its text, and never set a width on one toast: toasts on screen together share `toast-width`. Override the token on the viewport, if anywhere.
 - Show one toast for each thing the person did. When a second arrives while the first is up, such as Undo's result while its notice leaves, keep the stack gap between them: never let two toasts touch or overlap.
 - Use `layer-hud` for every toast, with `foreground-on-hud` text. Don't tint a toast with an intent color, and never use yellow: notices are neutral ([Color](../../../../../design/foundations/color.md#principles)).
 - Make the action a bold text action that underlines on hover (`ToastAction`), never a button. Never put a colored button in a toast.
