@@ -5,6 +5,13 @@
     "native": true,
     "props": [
       {
+        "name": "onDragStart",
+        "type": "((event: BaseUIEvent<DragEvent<HTMLDivElement>>) => void) & ((value: T) => void)",
+        "required": false,
+        "description": "A tab was picked up. On a touch screen the long press that armed it may have opened a menu the caller owns: close it here (DS › States › Dragging on a touch screen).",
+        "from": "raft-ui"
+      },
+      {
         "name": "onReorder",
         "type": "(value: T[]) => void",
         "required": true,

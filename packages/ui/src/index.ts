@@ -1710,12 +1710,3 @@ export { useTheme } from "./lib/theme/use-theme";
 export { installInputModality } from "./lib/input-modality";
 export type { InputModality } from "./lib/input-modality";
 export type { ResolvedThemeMode, ThemeMode, ThemeState } from "./lib/theme/theme-context";
-
-export {
-  HoldThenMoveTouchSensor,
-  TOUCH_DRAG_DISTANCE_PX,
-  TOUCH_DRAG_HOLD_MS,
-  TOUCH_DRAG_TOLERANCE_PX,
-  useHoldThenMoveTouchSensor,
-} from "./lib/touch-drag";
-export type { HoldThenMoveTouchSensorOptions } from "./lib/touch-drag";

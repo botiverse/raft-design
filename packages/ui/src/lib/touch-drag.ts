@@ -1,28 +1,34 @@
 import { useMemo } from "react";
-import { TouchSensor, useSensor } from "@dnd-kit/core";
-import type { TouchSensorOptions } from "@dnd-kit/core";
+import type { PointerEvent as ReactPointerEvent } from "react";
+import { PointerSensor, TouchSensor, useSensor } from "@dnd-kit/core";
+import type { PointerSensorOptions, TouchSensorOptions } from "@dnd-kit/core";
 
 /**
  * How a finger picks up something that can be dragged
  * (design/foundations/states.md#dragging-on-a-touch-screen):
  *
- * - hold still for `TOUCH_DRAG_HOLD_MS`: the item is armed, and if it has a
- *   menu the platform's long press opens it;
- * - then move by `TOUCH_DRAG_DISTANCE_PX`: the drag starts, and the app closes
- *   that menu in its `onDragStart`;
- * - move by more than `TOUCH_DRAG_TOLERANCE_PX` before the hold is up: it was a
- *   scroll, and the item lets go.
+ * - hold still for `TOUCH_DRAG_HOLD_MS`: the item is armed, the same moment a
+ *   long press opens a menu (raft-ui's ContextMenuTrigger, iOS: 500ms);
+ * - then move by `TOUCH_DRAG_DISTANCE_PX`: the drag starts, and whoever owns a
+ *   menu that opened closes it in `onDragStart`;
+ * - move by more than `TOUCH_DRAG_TOLERANCE_PX` before the hold is up, or put a
+ *   second finger down: it was a scroll or a pinch, and the item lets go.
  *
  * dnd-kit's delay constraint starts the drag the moment the hold is up, at the
  * same time as the long press opens the menu, so the two fight. Starting on the
  * first move after the hold lets holding still mean "menu" and holding then
  * moving mean "drag", as on iOS.
+ *
+ * Pair it with `MouseOnlyPointerSensor`, not dnd-kit's PointerSensor: a phone
+ * sends `pointerdown` (pointerType "touch") before `touchstart`, and the sensor
+ * that takes the press first keeps it, so a PointerSensor would pick up every
+ * touch on its distance and this sensor would never run.
  */
-export const TOUCH_DRAG_HOLD_MS = 400;
-export const TOUCH_DRAG_DISTANCE_PX = 8;
-export const TOUCH_DRAG_TOLERANCE_PX = 8;
+export const TOUCH_DRAG_HOLD_MS = 500;
+export const TOUCH_DRAG_DISTANCE_PX = 10;
+export const TOUCH_DRAG_TOLERANCE_PX = 10;
 
-export type HoldThenMoveTouchSensorOptions = Omit<TouchSensorOptions, "activationConstraint"> & {
+export type HoldThenMoveOptions = {
   /** How long the finger stays still before a move can start the drag. */
   holdMs?: number;
   /** How far the finger moves after the hold to start the drag. */
@@ -38,7 +44,7 @@ type Point = { x: number; y: number };
 type SensorInternals = {
   activated: boolean;
   initialCoordinates: Point | null;
-  props: { options: HoldThenMoveTouchSensorOptions };
+  props: { options: HoldThenMoveOptions };
   handleStart(): void;
   handleCancel(): void;
 };
@@ -58,19 +64,14 @@ function farther(from: Point, to: Point, limit: number) {
   return Math.hypot(to.x - from.x, to.y - from.y) > limit;
 }
 
-type SensorClass = new (...args: never[]) => object;
-const Base = TouchSensor as unknown as SensorClass & {
-  prototype: { attach(): void; detach(): void; handleMove(event: Event): void };
-};
+type SensorMethods = { attach(): void; detach(): void; handleMove(event: Event): void };
 
-class HoldThenMoveTouchSensorImpl extends (Base as unknown as new (...args: never[]) => {
-  attach(): void;
-  detach(): void;
-  handleMove(event: Event): void;
-}) {
+class HoldThenMoveTouchSensorImpl extends (TouchSensor as unknown as new (
+  ...args: never[]
+) => SensorMethods) {
   static activators = TouchSensor.activators;
   // Called through, not copied: an app may replace TouchSensor.setup at
-  // runtime (slock scopes its touchmove listener that way).
+  // runtime (to scope its touchmove listener, for one).
   static setup() {
     return TouchSensor.setup();
   }
@@ -94,6 +95,11 @@ class HoldThenMoveTouchSensorImpl extends (Base as unknown as new (...args: neve
     const state = holds.get(this);
     if (self.activated || !state) {
       super.handleMove(event);
+      return;
+    }
+    // A second finger is a pinch or a scroll, not a pick-up.
+    if (((event as TouchEvent).touches?.length ?? 1) > 1) {
+      self.handleCancel();
       return;
     }
     const point = touchPoint(event);
@@ -123,15 +129,31 @@ class HoldThenMoveTouchSensorImpl extends (Base as unknown as new (...args: neve
 export const HoldThenMoveTouchSensor = HoldThenMoveTouchSensorImpl as unknown as typeof TouchSensor;
 
 /**
- * `useSensor(HoldThenMoveTouchSensor, …)` with the activation the sensor
- * relies on: no constraint dnd-kit would act on by itself, so only a move after
- * the hold starts the drag.
+ * dnd-kit's PointerSensor for a mouse and a pen only: a finger's pointerdown is
+ * left to `HoldThenMoveTouchSensor`.
+ */
+export class MouseOnlyPointerSensor extends PointerSensor {
+  static activators = [
+    {
+      eventName: "onPointerDown" as const,
+      handler: (event: ReactPointerEvent, options: PointerSensorOptions) =>
+        event.nativeEvent.pointerType === "touch"
+          ? false
+          : PointerSensor.activators[0].handler(event, options),
+    },
+  ];
+}
+
+/**
+ * `useSensor(HoldThenMoveTouchSensor, …)` with the activation the sensor relies
+ * on: no constraint dnd-kit would act on by itself, so only a move after the
+ * hold starts the drag.
  */
 export function useHoldThenMoveTouchSensor({
   holdMs = TOUCH_DRAG_HOLD_MS,
   distance = TOUCH_DRAG_DISTANCE_PX,
   tolerance = TOUCH_DRAG_TOLERANCE_PX,
-}: Pick<HoldThenMoveTouchSensorOptions, "holdMs" | "distance" | "tolerance"> = {}) {
+}: HoldThenMoveOptions = {}) {
   const options = useMemo(
     () =>
       ({
@@ -143,4 +165,10 @@ export function useHoldThenMoveTouchSensor({
     [holdMs, distance, tolerance],
   );
   return useSensor(HoldThenMoveTouchSensor, options);
+}
+
+/** The mouse / pen sensor that goes with it: picks up after `distance` px. */
+export function useMouseOnlyPointerSensor(distance: number) {
+  const options = useMemo(() => ({ activationConstraint: { distance } }), [distance]);
+  return useSensor(MouseOnlyPointerSensor, options);
 }

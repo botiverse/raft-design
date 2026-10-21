@@ -10,7 +10,7 @@ import {
 } from "react";
 import type { ComponentPropsWithRef, CSSProperties } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
-import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { closestCenter, DndContext, useSensors } from "@dnd-kit/core";
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -19,7 +19,7 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useHoldThenMoveTouchSensor } from "../../lib/touch-drag";
+import { useHoldThenMoveTouchSensor, useMouseOnlyPointerSensor } from "../../lib/touch-drag";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -39,7 +39,7 @@ const tabs = tv({
     ],
     background: ["", "hidden"],
     tab: [
-      "relative z-10 flex shrink-0 cursor-pointer touch-manipulation items-center gap-1.5 whitespace-nowrap outline-none",
+      "relative z-10 flex shrink-0 cursor-pointer touch-manipulation select-none [-webkit-touch-callout:none] items-center gap-1.5 whitespace-nowrap outline-none",
       "data-[reorderable=true]:cursor-pointer data-[dragging-source=true]:cursor-grabbing",
       "font-sans text-callout font-semibold text-foreground-muted",
       "transition-[background-color,box-shadow,color] duration-100 ease-out",
@@ -326,11 +326,16 @@ export function TabsList({
 export type SortableTabsListProps<T extends string = string> = TabsListProps & {
   value: readonly T[];
   onReorder: (value: T[]) => void;
+  /** A tab was picked up. On a touch screen the long press that armed it may
+   *  have opened a menu the caller owns: close it here (DS › States ›
+   *  Dragging on a touch screen). */
+  onDragStart?: (value: T) => void;
 };
 
 export function SortableTabsList<T extends string = string>({
   value,
   onReorder,
+  onDragStart,
   children,
   variant = "default",
   ...props
@@ -340,18 +345,19 @@ export function SortableTabsList<T extends string = string>({
   // Stable id keeps dnd-kit's aria-describedby deterministic across SSR/client
   // (its internal counter-based id otherwise mismatches and breaks hydration).
   const dndContextId = useId();
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useHoldThenMoveTouchSensor(),
-  );
+  const sensors = useSensors(useMouseOnlyPointerSensor(6), useHoldThenMoveTouchSensor());
   const tabIds = useMemo(() => value.map(String), [value]);
   const reorderContext = useMemo(
     () => ({ enabled: true, activeId }) as const satisfies TabsReorderContextValue,
     [activeId],
   );
-  const handleDragStart = useCallback(({ active }: DragStartEvent) => {
-    setActiveId(String(active.id));
-  }, []);
+  const handleDragStart = useCallback(
+    ({ active }: DragStartEvent) => {
+      setActiveId(String(active.id));
+      onDragStart?.(String(active.id) as T);
+    },
+    [onDragStart],
+  );
   const handleDragCancel = useCallback(() => {
     setActiveId(undefined);
   }, []);

@@ -46,7 +46,7 @@ task-dnd/compositions/task-dnd
 ## Behavior
 
 - With a mouse, a drag starts once the pointer has moved 5px, so a click on the card isn't a drag.
-- On a touch screen, a drag starts after a press and hold of 200ms.
+- On a touch screen, hold the card still for 500ms, then move it: the drag starts on that move. Moving before the hold is up scrolls the board instead ([Dragging on a touch screen](../../../../../design/foundations/states.md#dragging-on-a-touch-screen)).
 - Where the card lands follows the middle of the dragged card: above the middle of the card under it is `before`, below is `after`.
 - The card doesn't animate back or into place on drop. The move is the caller's: `onMove` may return a promise, and `onMoveError` receives its rejection, so the caller can undo the change and say what went wrong.
 
