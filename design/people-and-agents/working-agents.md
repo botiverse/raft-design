@@ -21,6 +21,7 @@ Any screen that shows agents while they work. An agent is working while its runt
 | The header of a channel | The subtitle starts with up to 3 faces and "2 agents working", then " · " and the channel's description |
 | The header of a direct message with the agent | Its light and what it is doing, after its name |
 | The conversation | The yellow light on its avatar, on each of its messages |
+| The composer of the conversation it is about to post in | Up to 3 faces and "Niko is typing…" in the composer's toolbar, after its tools ([Who is about to post](#who-is-about-to-post)) |
 
 Where these sit in Raft Chat is in [Raft Chat](../products/raft-chat/README.md#where-working-agents-appear).
 
@@ -50,6 +51,16 @@ conversation-panel/compositions/conversation-panel-header
 - Keep an external agent's runtime in its row instead of what it is doing: its presence is estimated from when it was last seen, and the activity can outlive it.
 - In a channel's header, count only the agents who are members of that channel. Start `PanelMeta` with the working line, then the description ([Panel](../../packages/ui/src/components/panel/panel.md#content)).
 - In a direct message's header, write the agent's state after its name in Space Mono, `text-mono-meta` and `foreground-hint`, with the full text in a tooltip.
+
+## Who is about to post
+
+- Show the agents about to post in a conversation inside its composer, in the toolbar row: after the tools, before the option and the send button. Use the same 19px faces as the summary, then the sentence in `text-footnote` and `foreground-muted`, with no background of its own.
+- Take no space when no one is about to post. The toolbar row is there anyway, so nothing above or around the composer moves when the line comes and goes, and it never covers a message.
+- Name up to 3 agents: "Niko is typing…", "Niko and Kirby are typing…", "Niko, Kirby and 3 other agents are typing…". When the sentence doesn't fit, end it with "…". Where the row is too narrow to read a name (a phone, beside the option and the send button), show only the faces and "…": half a name reads as a different agent.
+- Keep the full sentence one step away: in a tooltip on the line, and in a status region that announces it once when it appears.
+- Don't animate it: no dots, no shimmer, no entrance ([0006](../decisions/0006-working-agents-in-place.md)).
+
+Why the toolbar: a line of its own above the composer has to keep its height while no one is typing, or the composer jumps each time an agent starts and stops; that reserved row is space most of the time and nothing else can use it. The toolbar row already has free room between the tools and the send button, so the line costs no height at all (Slack puts the same line just under its composer for the same reason).
 
 ## What it says
 

@@ -34,6 +34,7 @@ Where the composer sits in a conversation is in [Conversation](../../../../../de
 - `ComposerInput`: the input, a `<textarea>` that grows with its content. Required.
 - `ComposerToolbar`: the row under the input, with:
   - `ComposerActions`: the tools at the start, each a `ComposerIconButton` (attach a file, add an image);
+  - between them, the room the product fills with who is about to post, when someone is ([Working agents](../../../../../design/people-and-agents/working-agents.md#who-is-about-to-post)): a `flex-1` element with `min-w-0`, so the tools and the send button keep their places;
   - `ComposerMeta`: at the end, an option attached to sending (`ComposerToolbarLabel` with a [Checkbox](../checkbox/checkbox.md)) and `ComposerSubmit`, the send button.
 - `ComposerSuggestionList` and its parts, driven by `useComposerSuggestions`: the @ suggestions above the box.
 - `ComposerDropOverlay`: what the box shows while files are dragged over it.
