@@ -5,7 +5,7 @@ summary: The Settings destination — the Personal, Workspace and Resources grou
 
 # Raft Chat — Settings
 
-Settings lists the person's own settings, the server's settings and Raft's resources in three groups. On desktop the groups are the sidebar and a page opens beside them; on a phone they are the top-level page of the More tab, after a first group of Members and Computers, and each row opens a pushed page that covers the tab bar, with Back to the list.
+Settings lists the person's own settings, the server's settings and Raft's resources in three groups. On desktop the groups are the sidebar and a page opens beside them; on a phone they are the top-level page of the More tab, titled More like every tab root, after a first group of Members and Computers, and each row opens a pushed page that covers the tab bar, with Back to the list.
 
 ## Structure
 
