@@ -31,7 +31,7 @@ import {
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
 
 // Tooltip-wrapped desktop rail item. Callers own the rendered navigation or action target.
-export function AppRailNavItem({
+function AppRailNavItem({
   nativeButton,
   selected,
   label,
@@ -62,7 +62,7 @@ export function AppRailNavItem({
   );
 }
 
-export function AppRailComposition() {
+export function AppRailWithoutTopBarComposition() {
   const [view, setView] = useState("chat");
   const [otherServersUnread, setOtherServersUnread] = useState(true);
 
