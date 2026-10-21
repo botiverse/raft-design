@@ -45,9 +45,9 @@ export function AppShellCollapsibleSidebarComposition() {
         <ResizableGroup orientation="horizontal" className="h-full min-w-0 flex-1">
           <ResizablePanel
             id="app-shell-collapsible-sidebar"
-            defaultSize={252}
-            minSize={180}
-            maxSize={368}
+            defaultSize={240}
+            minSize={200}
+            maxSize={400}
             groupResizeBehavior="preserve-pixel-size"
             className="relative min-w-0"
           >

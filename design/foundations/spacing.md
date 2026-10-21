@@ -72,12 +72,23 @@ Avatars come in 19px, 27px, 35px, 51px and 99px: a multiple of 8 plus two 1.5px 
 | Phone content margin | 16px on each side |
 | Desktop main area, panel header, sidebar header, drawer margin | 20px on each side |
 | Rail | 56px, plus a 1px seam; the labeled rail is 68px, plus a 1px seam |
-| Sidebar | 240px, resizable from 180px to 320px |
-| Side panel | 380px |
-| Thread panel | 400px, resizable from 360px to 60% of the window |
+| Sidebar (every page that has one: Chat, Members, Computers, Settings, a server's public page) | 240px, resizable from 200px to 400px |
+| The Activity and Search results list, beside the item picked from it | 380px, resizable from 320px to 640px |
+| Thread panel | 400px, resizable from 360px to 720px |
+| Profile and task side panel | 400px, resizable from 320px to 640px |
+| An agent's file tree | 256px, resizable from 180px to 480px |
+| Main area, between the columns | At least 360px |
 | Comment margin beside a document | 280px, 24px from the document ([Comments](../patterns/comments.md#wide-and-narrow)) |
 
 How things land on these margins is in [Alignment](./alignment.md). Breakpoints are in [Responsive layout](../patterns/responsive.md).
+
+### Resizing columns
+
+On a desktop every column with a range above can be dragged on its seam, within that range; the comment margin keeps its 280px, because the cards are laid out against it ([Resizable](../../packages/ui/src/components/resizable/resizable.md)). The ranges come from what each column holds: the sidebar's names, counts and marks start to crowd under 200px and gain nothing past 400px; a results row keeps two or three words of a thread's title at 320px and only shows more of a one-line preview past 640px.
+
+- Remember each width in each browser, not per server or account. The sidebar is one width on every page that has one, so it doesn't jump when people move between Chat, Members, Computers and Settings. The profile panel and the task side panel share one width too.
+- When the window is too narrow for the remembered widths, draw the columns narrower, starting with the rightmost, down to their minimums, and keep the main area at least 360px; a side panel that still doesn't fit covers the main area ([Responsive layout](../patterns/responsive.md)). The remembered widths don't change, so a wider window brings them back. A column left of the main area narrows for a side panel only while that still puts the panel beside the main area; when it can't, the column keeps its width and the panel covers the main area.
+- Draw a remembered width outside a column's range at the nearest end of the range; don't reset it, so a change to a range doesn't throw away a person's choice.
 
 ## Related
 

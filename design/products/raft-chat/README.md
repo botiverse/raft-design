@@ -131,7 +131,7 @@ These add to the shared breakpoints in [Responsive layout](../../patterns/respon
 | Situation | Layout |
 | --- | --- |
 | Below 768px | Don't open the first channel automatically: Home comes first. From 768px, the root of a server opens its first channel |
-| The Search and Activity results list | 560px from 1024px (resizable from 400px to 720px); 320px from 768px to 1023px and while a third column is open (resizable from 320px to 480px) |
+| The Search and Activity results list | 380px, resizable from 320px to 640px, one width at every desktop width ([Spacing](../../foundations/spacing.md#resizing-columns)) |
 
 ## Differences from the shared patterns
 
