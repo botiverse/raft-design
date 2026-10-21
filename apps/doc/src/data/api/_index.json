@@ -1339,5 +1339,12 @@
       "VirtualList"
     ],
     "status": "stable"
+  },
+  "workspace-button": {
+    "names": [
+      "WorkspaceButton",
+      "WorkspaceButtonName"
+    ],
+    "status": "stable"
   }
 }

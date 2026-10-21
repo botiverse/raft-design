@@ -22,7 +22,7 @@ Each style sets a size and a line height; the bold styles also set their weight.
 | `text-hero` | 40/44 | 40/44 | The name of the service on the Login with Raft page, from 640px |
 | `text-display` | 34/40 | 34/40 | The title of the page that creates a server, from 640px |
 | `text-title` | 22/28 | 22/28 | The title of a sign-in page and of a setup step |
-| `text-headline` | 17/22 | 16/24 | Top bar titles (a top-level page's name, a pushed page's title), panel headers, sidebar headers, dialog and sheet titles, the workspace pill, the name on a profile |
+| `text-headline` | 17/22 | 16/24 | Top bar titles (a top-level page's name, a pushed page's title), panel headers, sidebar headers, dialog and sheet titles, the name on a profile |
 | `text-body` | 16/24 | 14/22 | Message text; list and task titles at weight 600 |
 | `text-subhead` | 15/20 | 14/22 | Buttons at `lg`, names, radio labels, dialog body text |
 | `text-callout` | 14/20 | 14/22 | Previews, menu items, banners, excerpts |

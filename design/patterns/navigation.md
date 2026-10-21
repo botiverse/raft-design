@@ -92,9 +92,10 @@ Principle 1 keeps three things native: the tab bar, system Back and the page tra
 
 ### Servers
 
+- On every surface the server switcher is the workspace button: the server's avatar, its name and a chevron ([WorkspaceButton](../../packages/ui/src/components/workspace-button/workspace-button.md)). It keeps that shape whatever sits beside it.
 - On desktop, open the server list as a menu under the workspace button of the top bar. The strip beside the button switches with one click; it shows as many server avatars as fit, at least 2, and marks the current one with a bar under its avatar.
 - On a phone, open the server list from the server switcher as a popover anchored under the top bar, 8px from each side. This is what the product ships, and the system follows it (stdrc, 2026-10-21); a bottom sheet for it is not planned.
-- Show an attention dot on the pill and on a server's avatar when another server has unread items. How the list is built is in [Built from existing parts](../components/overview.md#switching-servers).
+- Show an attention dot on the workspace button's avatar and on a server's avatar in the strip when another server has unread items. How the list is built is in [Built from existing parts](../components/overview.md#switching-servers).
 
 ### Several views of one place
 

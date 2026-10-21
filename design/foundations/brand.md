@@ -12,7 +12,7 @@ Raft keeps a few things from the brutal style of its website: the yellow, the in
 
 - **The working product uses the least brand.** Lists, conversations, tasks, settings and empty states get the frame and small blocks of color, nothing more.
 - **Brand illustration stays out of working pages.** The large sticker with the hard shadow appears only on profiles and the last setup step; halftone, the tilted preview and the logo only on sign-in and on the pages that create an account or a server.
-- **Your server is on the frame, not the logo.** The frame of a working page shows your server (the workspace pill on a phone's Home, the workspace button and strip in the web top bar), never the Raft mark.
+- **Your server is on the frame, not the logo.** The frame of a working page shows your server (the workspace button on a phone's Home, the workspace button and strip in the web top bar), never the Raft mark.
 
 ## How much brand
 
@@ -20,7 +20,7 @@ Each row adds to the row above it.
 
 | Page | May use |
 | --- | --- |
-| Working pages: lists, conversations, tasks, settings, empty states | The yellow frame, the workspace pill, at most one pink primary action, ink-bordered controls, small blocks of color such as avatars and presence lights |
+| Working pages: lists, conversations, tasks, settings, empty states | The yellow frame, the workspace button, at most one pink primary action, ink-bordered controls, small blocks of color such as avatars and presence lights |
 | The profile of one agent or person, and the last step of a server's setup | Also: the 99px pixel sticker with the hard sticker shadow (`shadow-sticker`). On a profile it stays still; on the setup's last step it hops once ([Motion](./motion.md#usage)) |
 | Sign-in and sign-up | Also: the logo, in a 56px frame bar above a white page, and the Raft mark above the form's title |
 | Creating an account or a server | Also: from 1024px, a brand pane beside the form, on the frame color, with halftone dots (1.5px `line-seam` dots on a 14px grid) behind a preview of the new server, tilted −1° with the hard sticker shadow. The logo sits at the top left of the form. Below 1024px, the same frame bar as sign-in above a plain form |

@@ -20,7 +20,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 | --- | --- |
 | `radius-sticker` | The pixel family: avatars, workspace tiles, channel tiles, checkboxes, badges, steps, skeletons; inline marks in running text (inline code, a mention of you, search hits, reference chips) |
 | `radius-chip` | 22px chips, task markers, value chips, reactions, tooltips |
-| `radius-control` | Controls and selection stickers: buttons, inputs, selects, filters, segmented controls, tabs, sidebar rows, rail items, the tab bar's icon sticker, menu items, the workspace pill |
+| `radius-control` | Controls and selection stickers: buttons, inputs, selects, filters, segmented controls, tabs, sidebar rows, rail items, the tab bar's icon sticker, menu items, the workspace button |
 | `radius-container` | Containers: cards, inset groups, the composer, banners, menus, toasts, profile cards, file cards |
 | `radius-dialog` | Dialogs, and the top corners of bottom sheets |
 | `rounded-full` | Switches and radios only |

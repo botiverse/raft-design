@@ -12,7 +12,7 @@
       },
       {
         "name": "type",
-        "type": "\"agent\" | \"human\"",
+        "type": "\"agent\" | \"human\" | \"server\"",
         "required": true,
         "from": "raft-ui"
       },

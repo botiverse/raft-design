@@ -24,7 +24,8 @@ import type { StyledProps } from "../../lib/styled-props";
 //
 // Every identity is a square sticker (ink edge, die-cut ring in dark): people
 // without a photo sit on lavender, agents on stone until their sprite (which
-// carries its own colour) covers it.
+// carries its own colour) covers it, and servers on ink with a yellow initial
+// until their logo covers it.
 //
 // Sizes are the design system's 8n + 3 steps, one per role: xl 99 (profile
 // page, hard sticker shadow), lg 51, md 35, sm 27, xs / 2xs 19. 3xs keeps 14
@@ -55,6 +56,7 @@ const avatar = tv({
       "[[data-size='xs']>&]:[&>svg]:size-3",
       "overflow-hidden rounded-[2px]",
       "font-sans text-[15px] leading-none font-bold tracking-[-0.01em] text-sticker-ink",
+      "[[data-type='server']>&]:text-brand",
       "[[data-size='xl']>&]:text-[40px]",
       "[[data-size='lg']>&]:text-[22px]",
       "[[data-size='sm']>&]:text-[13px]",
@@ -105,6 +107,9 @@ const avatar = tv({
     type: {
       agent: { root: ["bg-inactive"] },
       human: { root: ["bg-palette-lavender"] },
+      // A server's avatar, the workspace tile: ink, with the server's
+      // initial in yellow until its logo covers it.
+      server: { root: ["bg-sticker-ink"] },
     },
     size: {
       xl: {
@@ -131,6 +136,7 @@ export function Avatar({ size, type, className, children, ...props }: AvatarProp
     <AvatarPrimitive.Root
       data-slot="avatar"
       data-size={size}
+      data-type={type}
       className={root({ className })}
       {...props}
     >

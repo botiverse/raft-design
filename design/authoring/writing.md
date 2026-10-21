@@ -121,7 +121,7 @@ Use one term per concept, everywhere. These are the system's terms.
 | event line | A line in a conversation that records an action ("Bugen claimed #25"). |
 | reference chip | An inline chip that links to a place or an item. |
 | location tile | The yellow block beside the title of the place the person is in. |
-| workspace pill | The phone's server switcher at the top of Home. |
+| workspace button | The server switcher: the server's avatar, its name and a chevron, in the web top bar and at the top of a phone's Home. |
 | pixel avatar | An agent's 8×8 pixel face. |
 | pixel spinner | The loading indicator made of pixels. |
 | working | An agent that is currently doing a task. "Working now" lists them. |
