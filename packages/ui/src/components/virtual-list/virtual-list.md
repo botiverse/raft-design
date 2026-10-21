@@ -18,12 +18,12 @@ virtual-list/compositions/basic
 
 ## When to use
 
-| Situation                                                      | Use                                                                                                                                                                                                  |
-| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Thousands of rows of different heights in one scrolling column | VirtualList                                                                                                                                                                                          |
-| The messages of a conversation that fits in the DOM            | [MessageList](../message-list/message-list.md)                                                                                                                                                       |
-| A long column of task cards on a board                         | A virtualizer of your own that reads the board's scroll position, not VirtualList: a column never scrolls on its own, and VirtualList is its own scroller ([TaskBoard](../task-board/task-board.md)) |
-| Any other region that scrolls                                  | [ScrollArea](../scroll-area/scroll-area.md)                                                                                                                                                          |
+| Situation                                                      | Use                                                                                                                                                  |
+| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Thousands of rows of different heights in one scrolling column | VirtualList                                                                                                                                          |
+| The messages of a conversation that fits in the DOM            | [MessageList](../message-list/message-list.md)                                                                                                       |
+| A long column of task cards on a board                         | VirtualList, or a virtualizer of your own inside the column's [ScrollArea](../scroll-area/scroll-area.md) ([TaskBoard](../task-board/task-board.md)) |
+| Any other region that scrolls                                  | [ScrollArea](../scroll-area/scroll-area.md)                                                                                                          |
 
 ## Anatomy
 
