@@ -21,7 +21,7 @@ Any screen that shows agents while they work. An agent is working while its runt
 | The header of a channel | The subtitle starts with up to 3 faces and "2 agents working", then " · " and the channel's description |
 | The header of a direct message with the agent | Its light and what it is doing, after its name |
 | The conversation | The yellow light on its avatar, on each of its messages |
-| The composer of the conversation it is about to post in | Up to 3 faces and "Niko is typing…" in the composer's toolbar, after its tools ([Who is about to post](#who-is-about-to-post)) |
+| The conversation it is about to post in | Up to 3 faces and "Niko is typing…" floating just above the composer ([Who is about to post](#who-is-about-to-post)) |
 
 Where these sit in Raft Chat is in [Raft Chat](../products/raft-chat/README.md#where-working-agents-appear).
 
@@ -55,13 +55,14 @@ conversation-panel/compositions/conversation-panel-header
 ## Who is about to post
 
 - The line is for agents only. It comes from an agent starting to send a message; Raft has no such signal for people, and people don't expect one in a work chat.
-- Show the agents about to post in a conversation inside its composer, in the toolbar row: after the tools, before the option and the send button. Use the same 19px faces as the summary, then the sentence in `text-footnote` and `foreground-muted`, with no background of its own.
-- Take no space when no one is about to post. The toolbar row is there anyway, so nothing above or around the composer moves when the line comes and goes, and it never covers a message.
-- Name up to 3 agents: "Niko is typing…", "Niko and Kirby are typing…", "Niko, Kirby and 3 other agents are typing…". When the sentence doesn't fit, end it with "…". Where the row is too narrow to read a name (a phone, beside the option and the send button), show only the faces and "…": half a name reads as a different agent.
-- Keep the full sentence one step away: in a tooltip on the line, and in a status region that announces it once when it appears.
+- Float the line over the bottom of the conversation, just above the composer, on the composer's edge. Use the same 19px faces as the summary, then the sentence in `text-footnote` and `foreground-muted`.
+- Give it no solid background. Behind it, fade the panel's color to transparent upward, with a light blur, so messages scrolled under it are softened, not hidden, and the line stays readable over them.
+- Reserve no row for it. While no one is about to post, the composer sits right under the last message. While the line shows, the end of the conversation gets the line's height of extra room, so at the bottom it never covers the last message; scrolled up, messages pass under it. The composer itself never moves.
+- Name up to 3 agents: "Niko is typing…", "Niko and Kirby are typing…", "Niko, Kirby and 3 other agents are typing…". Show at most 3 faces. When the sentence doesn't fit, end it with "…".
+- Announce the sentence once, in a status region, when it appears.
 - Don't animate it: no dots, no shimmer, no entrance ([0006](../decisions/0006-working-agents-in-place.md)).
 
-Why the toolbar: a line of its own above the composer has to keep its height while no one is typing, or the composer jumps each time an agent starts and stops; that reserved row is space most of the time and nothing else can use it. The toolbar row already has free room between the tools and the send button, so the line costs no height at all (Slack puts the same line just under its composer for the same reason).
+Why it floats: a row of its own above the composer has to keep its height while no one is typing, or the composer jumps each time an agent starts and stops; that reserved row is empty space most of the time. Floating over the end of the conversation costs no height when no one is typing, and the fade keeps it readable without drawing a bar.
 
 ## What it says
 
