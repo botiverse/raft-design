@@ -23,6 +23,8 @@ export const table = tv({
       "[&>tr]:hover:bg-fill-row-hover",
     ],
     row: [
+      "not-aria-selected:not-data-[selected=true]:data-popup-open:bg-fill-row-open",
+      "not-aria-selected:not-data-[selected=true]:has-data-popup-open:bg-fill-row-open",
       "aria-selected:bg-info-soft aria-selected:hover:bg-info-soft",
       "data-[selected=true]:bg-info-soft data-[selected=true]:hover:bg-info-soft",
     ],

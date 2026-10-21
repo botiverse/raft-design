@@ -8,6 +8,7 @@ export const searchMessage = tv({
       "relative block rounded-none border-0 bg-transparent px-4 py-3 text-foreground shadow-none",
       "not-first:before:absolute not-first:before:top-0 not-first:before:right-0 not-first:before:left-4 not-first:before:border-t not-first:before:border-line-hairline",
       "hover:bg-fill-row-hover active:bg-fill-pressed",
+      "not-data-[selected=true]:data-popup-open:bg-fill-row-open",
       "disabled:cursor-default disabled:hover:bg-transparent disabled:active:bg-transparent",
       "data-[selected=true]:bg-brand-soft data-[selected=true]:hover:bg-brand-soft",
       "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",

@@ -12,6 +12,7 @@ export const files = tv({
       // The hover is on a child (the open button), so `hover:` cannot express it;
       // the explicit media query keeps it off touch screens, like `hover:` does.
       "[@media(hover:hover)]:has-[[data-slot=file-row-open]:hover]:row-hover-overlay has-[[data-slot=file-row-open]:active]:press-overlay",
+      "has-data-popup-open:row-open-overlay",
       "has-[[data-slot=file-row-open]:focus-visible]:shadow-focus",
     ],
     rowOpen: [

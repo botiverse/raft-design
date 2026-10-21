@@ -72,7 +72,7 @@ list-row/compositions/tones
 ## Behavior
 
 - Divide rows with `line-hairline`. In the default variant the line starts where the text starts; in a settings list it starts at the row's edge (16px); entry rows have no lines between them, because they are a set of buttons, not a list of content.
-- The whole row is the target: hover lays `fill-row-hover` over all of it and press the pressed overlay ([Row hover](../../../../../design/foundations/states.md#row-hover)).
+- The whole row is the target: hover lays `fill-row-hover` over all of it and press the pressed overlay ([Row hover](../../../../../design/foundations/states.md#row-hover)). While a menu it opened is up (`data-popup-open`: a context menu, or press and hold on a phone), it lays `fill-row-open`, a step past the hover, hovered or not; a selected row keeps its selection.
 - A row whose only targets are its own controls (a setting with a switch) takes `interactive={false}`: it renders a plain element with no hover or press. See [States](../../../../../design/foundations/states.md).
 
 ## Content

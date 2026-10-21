@@ -4,7 +4,11 @@ import { cleanup, render } from "@testing-library/react";
 import { ThemeProvider } from "./theme/theme-provider";
 import { CommentCard, CommentCardTrigger } from "../components/comment/comment-card";
 import { CommentEntry, CommentEntryBody } from "../components/comment/comment-entry";
+import { FileAction, FileActions, FileContent, FileName, FileRow } from "../components/files";
+import { InboxItem, InboxItemContent, InboxItemTitle } from "../components/inbox-item";
 import { ListRow } from "../components/list-row/list-row";
+import { SearchEntityResult, SearchMessageResult } from "../components/search";
+import { Table, TableBody, TableCell, TableRow } from "../components/table";
 import { MessageItem, MessageItemBody, MessageItemContent } from "../components/message-item";
 import { SidebarItem, SidebarItemTitle } from "../components/sidebar/sidebar-item";
 import {
@@ -132,6 +136,106 @@ it("with a mouse, a hovered message with its menu open keeps fill-row-open", asy
     token(scope, "fill-row-open"),
   );
 });
+
+// Every row with its menu open (states.md#row-hover) takes fill-row-open,
+// hovered or not: one look for "the row this menu belongs to". On each row's
+// surface it is a clear step (3 or more), under info-soft and brand-soft, and
+// hint text keeps 4.5:1.
+const openRows = [
+  { id: "open-sidebar", surface: "layer-sidebar", read: "color" },
+  { id: "open-list-row", surface: "layer-card", read: "image" },
+  { id: "open-inbox", surface: "layer-canvas", read: "color" },
+  { id: "open-entity", surface: "layer-popover", read: "color" },
+  { id: "open-search-message", surface: "layer-popover", read: "color" },
+  { id: "open-table-row", surface: "layer-canvas", read: "color" },
+  { id: "open-file", surface: "layer-card", read: "image" },
+] as const;
+
+for (const mode of ["light", "dark"] as const) {
+  it(`${mode}: every row with its menu open takes fill-row-open, hovered or not`, async () => {
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <div className={mode} data-testid="scope">
+          <div className="bg-layer-sidebar p-2">
+            <SidebarItem data-testid="open-sidebar" data-popup-open="">
+              <SidebarItemTitle>launch-week</SidebarItemTitle>
+            </SidebarItem>
+          </div>
+          <div className="bg-layer-card p-2">
+            <ListRow data-testid="open-list-row" data-popup-open="">
+              Wug
+            </ListRow>
+          </div>
+          <div className="bg-layer-canvas">
+            <InboxItem data-testid="open-inbox" data-popup-open="">
+              <InboxItemContent>
+                <InboxItemTitle>Kirby mentioned you</InboxItemTitle>
+              </InboxItemContent>
+            </InboxItem>
+          </div>
+          <div className="bg-layer-popover">
+            <SearchEntityResult data-testid="open-entity" data-popup-open="">
+              launch-week
+            </SearchEntityResult>
+            <SearchMessageResult data-testid="open-search-message" data-popup-open="">
+              A message that matched
+            </SearchMessageResult>
+          </div>
+          <div className="bg-layer-canvas">
+            <Table>
+              <TableBody>
+                <TableRow data-testid="open-table-row" data-popup-open="">
+                  <TableCell>raft-design</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
+          <div className="bg-layer-canvas p-2">
+            <FileRow data-testid="open-file">
+              <FileContent>
+                <FileName>notes.md</FileName>
+              </FileContent>
+              <FileActions>
+                <FileAction aria-label="More" data-popup-open="">
+                  ⋯
+                </FileAction>
+              </FileActions>
+            </FileRow>
+          </div>
+        </div>
+      </ThemeProvider>,
+    );
+    const { page, userEvent } = await import("vite-plus/test/browser/context");
+    const scope = getByTestId("scope");
+    for (const row of openRows) {
+      const el = getByTestId(row.id);
+      const read = () =>
+        row.read === "color"
+          ? getComputedStyle(el).backgroundColor
+          : firstOklch(getComputedStyle(el).backgroundImage);
+      await userEvent.unhover(document.body);
+      expect
+        .soft(await settled(read), `${mode} ${row.id} at rest`)
+        .toBe(token(scope, "fill-row-open"));
+      await page.getByTestId(row.id).hover();
+      const fill = await settled(read);
+      expect.soft(fill, `${mode} ${row.id} hovered`).toBe(token(scope, "fill-row-open"));
+
+      const surface = parseOklch(token(scope, row.surface));
+      const open = over(parseOklch(fill), surface);
+      const step = deltaE(open, surface);
+      expect
+        .soft(step, `${mode} ${row.id}: ${step.toFixed(2)} off ${row.surface}`)
+        .toBeGreaterThanOrEqual(3);
+      for (const selection of ["info-soft", "brand-soft"]) {
+        const selected = deltaE(over(parseOklch(token(scope, selection)), surface), surface);
+        expect.soft(step, `${mode} ${row.id}: under ${selection}`).toBeLessThan(selected);
+      }
+      const hint = over(parseOklch(token(scope, "foreground-hint")), open);
+      expect.soft(wcag(hint, open), `${mode} ${row.id}: hint text`).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+}
 
 // A comment card is read like a row and hovers like one: fill-row-hover, not
 // the press overlay. fill-message-hover would be 1.9 off a dark card, under

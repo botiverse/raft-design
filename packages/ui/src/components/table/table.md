@@ -33,10 +33,11 @@ The header type, the lines between rows and how numbers are set are in [Built fr
 
 ## States
 
-| State                                                              | Look                                                                                                           |
-| ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| Hover                                                              | The row lays `fill-row-hover` over itself ([Row hover](../../../../../design/foundations/states.md#row-hover)) |
-| Selected (`aria-selected` or `data-selected="true"` on `TableRow`) | `info-soft`: a selected row is selected content                                                                |
+| State                                                              | Look                                                                                                                                                                                    |
+| ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hover                                                              | The row lays `fill-row-hover` over itself ([Row hover](../../../../../design/foundations/states.md#row-hover))                                                                          |
+| Menu open (`data-popup-open` on `TableRow`, or on a button in it)  | `fill-row-open`, a step past the hover, so the row the menu acts on stays marked; a selected row keeps `info-soft` ([Row hover](../../../../../design/foundations/states.md#row-hover)) |
+| Selected (`aria-selected` or `data-selected="true"` on `TableRow`) | `info-soft`: a selected row is selected content                                                                                                                                         |
 
 ## Behavior
 

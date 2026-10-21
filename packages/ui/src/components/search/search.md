@@ -50,12 +50,13 @@ search/compositions/search-preview
 
 ## States
 
-| State                                        | Use for                                                                                                                                    |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `selected` on a result                       | The keyboard highlight: `brand-soft`, as in menus ([States](../../../../../design/foundations/states.md#usage))                            |
-| `muted` on an entity's title and description | A place the person can't post in any more, such as an archived channel                                                                     |
-| Loading                                      | A summary line and skeletons in the shape of the results ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)) |
-| No results                                   | An [EmptyState](../empty-state/empty-state.md) that says how to widen the search                                                           |
+| State                                        | Use for                                                                                                                                                                                          |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `selected` on a result                       | The keyboard highlight: `brand-soft`, as in menus ([States](../../../../../design/foundations/states.md#usage))                                                                                  |
+| Menu open (`data-popup-open` on a result)    | `fill-row-open`, a step past the hover, so the result the menu acts on stays marked; a `selected` result keeps `brand-soft` ([Row hover](../../../../../design/foundations/states.md#row-hover)) |
+| `muted` on an entity's title and description | A place the person can't post in any more, such as an archived channel                                                                                                                           |
+| Loading                                      | A summary line and skeletons in the shape of the results ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed))                                                       |
+| No results                                   | An [EmptyState](../empty-state/empty-state.md) that says how to widen the search                                                                                                                 |
 
 ```example
 search/compositions/search-muted-entity

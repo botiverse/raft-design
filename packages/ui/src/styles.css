@@ -500,6 +500,11 @@ body {
   background-image: linear-gradient(var(--fill-row-hover), var(--fill-row-hover));
 }
 
+/* The same row with its menu open: fill-row-open, as an overlay. */
+@utility row-open-overlay {
+  background-image: linear-gradient(var(--fill-row-open), var(--fill-row-open));
+}
+
 @utility press-overlay-sticker {
   background-image: linear-gradient(var(--sticker-pressed), var(--sticker-pressed));
 }

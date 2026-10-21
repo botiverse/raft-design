@@ -178,7 +178,7 @@ Hover and press lay a translucent overlay over a control instead of changing its
 | `fill-pressed` | Paper-colored controls and content: press everywhere, and hover on buttons |
 | `fill-row-hover` | Hover on a row: a sidebar item, a list row, an inbox item, a search result, a table row, a file row, a comment card |
 | `fill-message-hover` | Hover on a message |
-| `fill-row-open` | A message with its menu open |
+| `fill-row-open` | Any row with its menu open: a message, a sidebar item, a list row, an inbox item, a search result, a table row, a file row |
 | `sticker-pressed` | Stickers |
 | `fill-frame-pressed` | Anything on the frame |
 

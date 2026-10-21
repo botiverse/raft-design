@@ -73,7 +73,7 @@ export const listRow = tv({
         root: [
           "not-disabled:not-aria-disabled:not-data-selected:hover:row-hover-overlay",
           "not-disabled:not-aria-disabled:not-data-selected:active:press-overlay",
-          "not-data-selected:data-popup-open:row-hover-overlay",
+          "not-data-selected:data-popup-open:row-open-overlay not-disabled:not-aria-disabled:not-data-selected:data-popup-open:hover:row-open-overlay",
         ],
       },
       false: {},

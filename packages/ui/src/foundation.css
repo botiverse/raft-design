@@ -13,7 +13,7 @@
      (resting/hover/active/disabled surfaces): fill-muted and fill-strong are
      opaque, the -pressed and -hover overlays are translucent ink laid over a
      surface (a row hovers with fill-row-hover or fill-message-hover, and a
-     message with its menu open takes fill-row-open, all lighter than any
+     row with its menu open takes fill-row-open, all lighter than any
      selection tint; press keeps fill-pressed).
    Families:  {family}(-{slot})
      family = brand | attention | info | success | warning | danger | inactive
@@ -179,10 +179,10 @@
      both modes), because a message is a large block someone reads with the
      pointer resting on it. */
   --fill-message-hover: oklch(0.1813 0.005 17.62 / 0.03);
-  /* A message whose menu is open (right-click, the toolbar's menu, press and
-     hold): one step over its hover (OKLab dE 3.5 light, 3.8 dark on the canvas),
-     because on a phone, which has no hover, it is the only sign of which message
-     the menu acts on. Still under info-soft on every surface. */
+  /* Any row with its menu open (right-click, its menu button, press and hold):
+     one step over a hover (OKLab dE 3.4 to 4.3 on every row surface), because on
+     a phone, which has no hover, it is the only sign of which row the menu acts
+     on. Still under info-soft and brand-soft on every surface. */
   --fill-row-open: oklch(0.1813 0.005 17.62 / 0.05);
   --line-strong: oklch(0.1813 0.005 17.62);
   --line-seam: oklch(0.1813 0.005 17.62 / 0.451);

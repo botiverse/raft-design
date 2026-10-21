@@ -58,6 +58,7 @@ How empty, loading and failed differ is in [Feedback](../../../../../design/patt
 - **Loading:** a skeleton of rows, the same size as the rows that replace it.
 - **Failed:** the error at the panel's scope, with Retry, not an empty state.
 - **More to load:** the next page loads as people near the end of the list. A Load More button below the last row covers the case where scrolling can't trigger it.
+- **Menu open:** while a menu opened from one of its `FileAction`s is up, the row lays `fill-row-open` over itself, a step past its hover, so the file the menu acts on stays marked ([Row hover](../../../../../design/foundations/states.md#row-hover)).
 - **Not available:** disable a `FileAction` or `FileRowOpen` whose action isn't available.
 
 ## Content

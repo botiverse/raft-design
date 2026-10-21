@@ -63,7 +63,7 @@ describe("interactive", () => {
       expect.arrayContaining([
         "hover:bg-fill-row-hover",
         "active:bg-fill-pressed",
-        "not-data-active:data-popup-open:bg-fill-row-hover",
+        "not-data-active:data-popup-open:bg-fill-row-open",
         "focus-visible:shadow-focus",
       ]),
     );
