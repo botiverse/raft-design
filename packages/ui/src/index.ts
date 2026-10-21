@@ -741,6 +741,7 @@ export {
   CodeBlockActions,
   CodeBlockBody,
   CodeBlockHeader,
+  CodeBlockPre,
   CodeBlockTitle,
 } from "./components/code-block/index";
 export type {
@@ -748,6 +749,7 @@ export type {
   CodeBlockActionsProps,
   CodeBlockBodyProps,
   CodeBlockHeaderProps,
+  CodeBlockPreProps,
   CodeBlockProps,
   CodeBlockTitleProps,
 } from "./components/code-block/index";

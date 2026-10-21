@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, useEffect, useState } from "react";
+import { CodeBlockPre } from "@botiverse/raft-ui";
 import type { CSSProperties } from "react";
 import { supportsCodeLanguage } from "./code-language.ts";
 import type * as ShikiHighlighter from "./shiki-highlighter.ts";
@@ -83,9 +84,9 @@ function ShikiHighlightedCodeImpl({ code, language }: ShikiHighlightedCodeProps)
       : code;
 
   return (
-    <pre className="shiki">
+    <CodeBlockPre className="shiki" aria-label={language ? `${language} code` : "Code"}>
       <code>{content}</code>
-    </pre>
+    </CodeBlockPre>
   );
 }
 

@@ -58,7 +58,7 @@ export const MarkdownCodeFence: Components["pre"] = ({ children }) => {
           <CodeCopyAction code={code} />
         </CodeBlockActions>
       </CodeBlockHeader>
-      <CodeBlockBody codeLabel={language ? `${language} code` : "Code"}>
+      <CodeBlockBody>
         <ShikiHighlightedCode code={code} language={language} />
       </CodeBlockBody>
     </CodeBlock>

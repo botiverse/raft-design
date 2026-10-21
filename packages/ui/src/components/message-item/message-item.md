@@ -56,7 +56,7 @@ message-item/compositions/item-preview
 - `MessageItemEmbedded`: code blocks, action cards and link cards.
 - `MessageItemFooter`: one row: the task marker, then the reactions (`MessageReactionChip`, with `MessageReactionAddButton` last), then the saved and read markers (`MessageItemSavedIndicator`, `MessageItemReadReceipt`).
 - `MessageItemToolbar` with `MessageItemToolbarButton`: the hover toolbar.
-- `MessageMultiSelectCheckbox` and `MessageMultiSelectToolbar`, with its actions in `MessageMultiSelectToolbarActions` (28px buttons 4px apart, with a 44px hit area on a touch screen): selecting several messages ([Built from existing parts](../../../../../design/components/overview.md#toolbar-for-selected-messages)).
+- `MessageMultiSelectCheckbox` and `MessageMultiSelectToolbar`, with its actions in `MessageMultiSelectToolbarActions` (28px buttons 4px apart; on a touch screen each takes a 44px tap, and reaches only half the gap toward its neighbour, so a tap between two lands on the nearer): selecting several messages ([Built from existing parts](../../../../../design/components/overview.md#toolbar-for-selected-messages)).
 - `MessageTextSelectionToolbar` with `MessageTextSelectionToolbarButton` and `MessageTextSelectionToolbarSeparator`: actions on selected text ([Toolbar for selected text](#toolbar-for-selected-text)); `createMessageTextSelectionAnchor` places it.
 
 ### In the body

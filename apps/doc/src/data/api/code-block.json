@@ -47,17 +47,9 @@
   {
     "name": "CodeBlockBody",
     "entry": "@botiverse/raft-ui",
-    "description": "Inner code panel. Render the complete pre and code as children. A long line scrolls inside the `pre`, so the body makes it a named region the keyboard can reach: Safari doesn't focus a scroller on its own.",
+    "description": "Inner code panel. Render the code in a `CodeBlockPre` (or a complete pre and code) as children.",
     "native": true,
     "props": [
-      {
-        "name": "codeLabel",
-        "type": "string",
-        "required": false,
-        "default": "\"Code\"",
-        "description": "The accessible name of the scrolling code region, such as \"ts code\".",
-        "from": "raft-ui"
-      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
@@ -70,6 +62,21 @@
   {
     "name": "CodeBlockHeader",
     "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CodeBlockPre",
+    "entry": "@botiverse/raft-ui",
+    "description": "The code's `pre`. A long line scrolls inside it; while it does, it is a named region the keyboard can reach (`tabindex=\"0\"`, `role=\"region\"`, its `aria-label`, \"Code\" by default), since Safari doesn't focus a scroller on its own. Code that fits adds no Tab stop.",
     "native": true,
     "props": [
       {

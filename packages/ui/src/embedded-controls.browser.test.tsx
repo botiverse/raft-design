@@ -9,6 +9,7 @@ import {
   CodeBlockAction,
   CodeBlockActions,
   CodeBlockBody,
+  CodeBlockPre,
 } from "./components/code-block";
 import {
   Combobox,
@@ -601,6 +602,14 @@ function moreCases(s: Screen) {
           ?.closest("[data-testid]"),
       ).toBe(screen.getByTestId("more"));
     }
+    // A tap in the 4px between two buttons lands on the nearer one: each hit
+    // area reaches half the gap toward its neighbour, never over it.
+    const more = screen.getByTestId("more").getBoundingClientRect();
+    const y = cancel.top + cancel.height / 2;
+    const at = (x: number) => document.elementFromPoint(x, y)?.closest("[data-testid]");
+    expect(at(cancel.right + 1), "1px right of Cancel").toBe(screen.getByTestId("cancel"));
+    expect(at(more.left - 1), "1px left of More").toBe(screen.getByTestId("more"));
+    expect(at(cancel.right - 1), "inside Cancel's edge").toBe(screen.getByTestId("cancel"));
   });
 
   it(`${s.name}: corner actions on a video, an image and a file card sit 6px from the corner`, async () => {
@@ -659,9 +668,9 @@ function moreCases(s: Screen) {
                 {ICON}
               </CodeBlockAction>
             </CodeBlockActions>
-            <pre>
+            <CodeBlockPre data-testid="short-code">
               <code>ok</code>
-            </pre>
+            </CodeBlockPre>
           </CodeBlockBody>
         </CodeBlock>
         <CodeBlock data-testid="long">
@@ -674,9 +683,9 @@ function moreCases(s: Screen) {
                 {ICON}
               </CodeBlockAction>
             </CodeBlockActions>
-            <pre data-testid="long-code">
+            <CodeBlockPre data-testid="long-code">
               <code>{LONG_CODE}</code>
-            </pre>
+            </CodeBlockPre>
           </CodeBlockBody>
         </CodeBlock>
       </>,
@@ -687,10 +696,14 @@ function moreCases(s: Screen) {
     near(short.right, 6);
     const code = screen.getByTestId("long-code");
     expect(code.scrollWidth).toBeGreaterThan(code.clientWidth);
-    // The body makes the scrolling code a named region the keyboard reaches.
+    // Code that scrolls is a named region the keyboard reaches; code that
+    // fits adds no Tab stop.
     await waitFor(() => expect(code.getAttribute("role")).toBe("region"));
-    expect(code.tabIndex).toBe(0);
+    expect(code.getAttribute("tabindex")).toBe("0");
     expect(code.getAttribute("aria-label")).toBe("Code");
+    const fits = screen.getByTestId("short-code");
+    expect(fits.hasAttribute("tabindex")).toBe(false);
+    expect(fits.hasAttribute("role")).toBe(false);
     expect(code.getBoundingClientRect().right).toBeLessThanOrEqual(
       screen.getByTestId("wrap").getBoundingClientRect().left,
     );

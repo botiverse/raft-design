@@ -132,6 +132,7 @@
       "CodeBlockActions",
       "CodeBlockBody",
       "CodeBlockHeader",
+      "CodeBlockPre",
       "CodeBlockTitle"
     ],
     "status": "stable",

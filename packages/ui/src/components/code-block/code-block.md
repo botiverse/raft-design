@@ -31,7 +31,8 @@ code-block/compositions/shiki
 - `CodeBlockHeader`: the optional top bar, with a hairline under it.
   - `CodeBlockTitle`: the file name, in Space Mono.
   - `CodeBlockActions`: the actions at its right end.
-- `CodeBlockBody`: the code panel. Render the complete `pre` and `code` inside it. Required.
+- `CodeBlockBody`: the code panel. Render the code in a `CodeBlockPre` with its `code` inside it. Required.
+- `CodeBlockPre`: the code's `pre`, keyboard-reachable while it scrolls ([Accessibility](#accessibility)).
 - `CodeBlockAction`: a 32px icon button with `radius-chip`, like every control embedded in a frame. You provide its icon and what it does.
 
 ## Variants
@@ -70,7 +71,7 @@ code-block/compositions/animated-copy
 - Give every `CodeBlockAction` an `aria-label`, such as "Copy code": it is icon-only.
 - Announce a completed copy, for example with `aria-live` on the button, so the change of icon isn't the only signal.
 - Keep the code in `pre` and `code`, so it is read as code and keeps its whitespace.
-- A long line scrolls inside the `pre`. `CodeBlockBody` makes that `pre` a region the keyboard can reach (`tabindex="0"`, `role="region"`), named by `codeLabel` ("Code" by default; name it after the language, "ts code"): Safari doesn't let the keyboard reach a scroller that can't take focus, and a `pre` with no role can't carry a name. It shows the inset ink ring on keyboard focus.
+- Render the code in `CodeBlockPre`. A long line scrolls inside it, and while it does it is a region the keyboard can reach (`tabindex="0"`, `role="region"`), named by its `aria-label` ("Code" by default; name it after the language, "ts code"): Safari doesn't let the keyboard reach a scroller that can't take focus, and a `pre` with no role can't carry a name. Code that fits adds no Tab stop. It shows the inset ink ring on keyboard focus.
 
 ## Rules
 
