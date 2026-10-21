@@ -36,7 +36,7 @@ Never put anything in a toast that would confuse people if they missed it ([Choo
 - `ToastViewport`: where toasts appear on screen. `ToastPositioner` and `ToastArrow` anchor a toast to an element instead.
 - `ToastRoot` and `ToastContent`: one toast and its layout.
 - `ToastIcon`: optional. Who did it (an avatar), or a status pixel when there is no "who".
-- `ToastBody`, holding `ToastTitle` (required) and an optional `ToastDescription`, both in `text-callout` ([Typography](../../../../../design/foundations/typography.md#type-scale)): 14/20 on a phone, 14/22 on a desktop, like a banner. `ToastIcon` is one line of that text tall, so the icon stays on the title's line.
+- `ToastBody`, holding `ToastTitle` (required) and an optional `ToastDescription`, both in `text-callout` ([Typography](../../../../../design/foundations/typography.md#type-scale)): 14/20 on a phone, 14/22 on a desktop, like a banner. `ToastIcon` is one line of that text tall, so the icon stays on the title's line. It is as wide as what it holds, so the pixel's or the avatar's left edge lands on the toast's 16px inset, the same distance as the last word or icon from the right edge ([Alignment](../../../../../design/foundations/alignment.md#usage)).
 - `ToastActions`: optional, holding one `ToastAction` and `ToastClose`.
 - `ToastProgress`: an optional line that shows the time left before it closes.
 

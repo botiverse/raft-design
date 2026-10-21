@@ -80,7 +80,10 @@ const toastStyles = tv({
       "[&[data-has-icon][data-has-actions]]:grid-cols-[auto_minmax(0,1fr)_auto]",
     ],
     icon: [
-      "flex h-lh w-5 shrink-0 items-center justify-center",
+      // As wide as its mark, so the mark's edge lands on the 16px inset, as
+      // the last word or icon does at the other end (design/foundations/
+      // comfort.md, Edges). A 20px slot left a 9px pixel 5.5px further in.
+      "flex h-lh w-auto shrink-0 items-center justify-start",
       "[&_svg]:shrink-0",
       "[&_svg]:size-4",
     ],
