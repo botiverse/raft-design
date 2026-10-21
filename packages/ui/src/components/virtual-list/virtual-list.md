@@ -100,6 +100,7 @@ virtual-list/compositions/chat
 
 - Put `domRef` on the row's root element, the element the render function returns: the list finds rows among its own children, so a row with `domRef` on a nested element is never measured and the scroll position jumps as it is read.
 - Keep `getKey` stable for an item across renders: a new key is a new row, measured again from the estimate.
+- Treat items as immutable and replace an item's object to change its row: the list skips rendering a mounted row again unless its item (compared by reference) or its index changes, or one of `children`, `ItemComponent`, `getKey`, `renderCol`, `renderItemWithCols`, `itemResizable`, `ignoreItemResize`, `sessionId` and `virtual` does, so an item changed in place, or a render function that reads other mutable state, shows stale content.
 - Keep the `header` the same height while rows load above: a change in its height moves the rows in view.
 
 ## Provenance

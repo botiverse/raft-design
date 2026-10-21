@@ -23,7 +23,7 @@
         "name": "children",
         "type": "(props: ItemRenderProps<T> & { key: string | undefined; }) => ReactNode",
         "required": false,
-        "description": "Renders a row: called for each item in or near the view with the item, its index, the `domRef` to put on the row's root element and the `style` to spread on it. Give the element the `key` it gets.",
+        "description": "Renders a row: called for each item in or near the view with the item, its index, the `domRef` to put on the row's root element and the `style` to spread on it. Give the element the `key` it gets. A mounted row is rendered again only when its item, its index or a render prop changes (see `items`): read no other mutable state here.",
         "from": "raft-ui"
       },
       {
@@ -153,7 +153,7 @@
         "name": "items",
         "type": "readonly T[]",
         "required": false,
-        "description": "The items, one row each, in order.",
+        "description": "The items, one row each, in order. Treat them as immutable: a mounted row is rendered again only when its item (by reference) or its index changes, or a render prop does (`children`, `ItemComponent`, `getKey`, `renderCol`, `renderItemWithCols`, `itemResizable`, `ignoreItemResize`, `sessionId`, `virtual`), so replace an item's object to change its row.",
         "from": "raft-ui"
       },
       {

@@ -191,7 +191,12 @@ export interface VirtualListProps<T> extends VirtualListNativeProps {
    * result is the row's `renderedItemWithCols`.
    */
   renderItemWithCols?: ((info: RenderItemWithColsInfo) => ReactNode) | undefined;
-  /** The items, one row each, in order. */
+  /**
+   * The items, one row each, in order. Treat them as immutable: a mounted row is rendered again only
+   * when its item (by reference) or its index changes, or a render prop does (`children`,
+   * `ItemComponent`, `getKey`, `renderCol`, `renderItemWithCols`, `itemResizable`, `ignoreItemResize`,
+   * `sessionId`, `virtual`), so replace an item's object to change its row.
+   */
   items?: readonly T[] | undefined;
   /**
    * The shortest a row can be, in px, or less: to fill the view, rows not measured yet count at this
@@ -255,6 +260,8 @@ export interface VirtualListProps<T> extends VirtualListNativeProps {
   /**
    * Renders a row: called for each item in or near the view with the item, its index, the `domRef` to
    * put on the row's root element and the `style` to spread on it. Give the element the `key` it gets.
+   * A mounted row is rendered again only when its item, its index or a render prop changes (see
+   * `items`): read no other mutable state here.
    */
   children?: ((props: ItemRenderProps<T> & { key: string | undefined }) => ReactNode) | undefined;
   /** A component that renders a row, in place of `children`; it gets the same props. */
