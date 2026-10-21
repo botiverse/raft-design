@@ -44,7 +44,7 @@ export function InDrawerComposition() {
     <div className="flex flex-col items-start gap-3">
       <Drawer>
         <DrawerTrigger render={<Button variant="outline" />}>Move agent</DrawerTrigger>
-        <DrawerContent className="min-h-[70dvh]">
+        <DrawerContent className="min-h-[70lvh]">
           <DrawerHeader>
             <DrawerTitle>Move Bugen</DrawerTitle>
             <DrawerDescription>Bugen keeps its memory and its channels.</DrawerDescription>
