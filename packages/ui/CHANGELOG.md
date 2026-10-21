@@ -1,3 +1,45 @@
+## [0.14.0](https://github.com/botiverse/raft-design/compare/v0.13.0...v0.14.0) (2026-10-21)
+
+### Design System
+
+- **Option height**: an option in any popup list is as tall as its content, and the space above and below its text is constant. ([#647](https://github.com/botiverse/raft-design/pull/647))
+  - Why: options had a fixed 6px above and below whatever their content, which is less than a one-line 36px row leaves around its text, so a two-line option (a wrapped label, or a name with an id under it) looked more cramped than its one-line neighbors.
+  - Affects: space above and below an option 6px → 7px with a mouse (22px line), 8px on a touch screen (20px line); one line stays 36px; a second line adds only its own height. On short windows (600px tall or less) the menus' extra `py-1` is removed.
+  - Docs: https://raft-design.botiverse.build/patterns/forms/#option-height
+- **The ends of a header**: the icon buttons at both ends of every header (panels, threads, phone top bars, drawers, sheets, a dialog's ×, the sidebar) put their icon box on the content margin, and their empty hit area hangs outward. ([#650](https://github.com/botiverse/raft-design/pull/650))
+  - Why: a 44px button on a touch screen was placed by its own edge, so Back sat 11px inside the content line while the ⋮ at the other end stayed on it, and the two ends stopped mirroring.
+  - Affects: icon box on the margin, 16px on a phone and 20px on a desktop and in a dialog, at every button size (32px or 44px); a phone's top bar moves its icon boxes from 14px to 16px from the edge.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#the-ends-of-a-header
+
+- **A tab's own controls**: when a tab's content has controls (a view switch, filters, search, a sort), they go in one pinned toolbar row under the tabs, the same row the Tasks tab draws: filters and search on the left, a view switch on the right; a tab with no controls has no row. ([#652](https://github.com/botiverse/raft-design/pull/652))
+  - Why: a view switch sat directly on the divider under the tabs, and each tab placed its controls differently, so a switch under the selected tab read as a second row of tabs.
+  - Affects: the row has the content margin at its sides (20px desktop, 16px phone) and a `line-seam` below it.
+  - Docs: https://raft-design.botiverse.build/components/tabs/#a-tabs-own-controls
+
+### Added
+
+- **Utilities** `py-option-inset` and `min-h-option`, the constant option padding and the floor for an option with no line of text. ([#647](https://github.com/botiverse/raft-design/pull/647))
+  - Why: a product that builds its own option row keeps the same padding as raft-ui's.
+  - Affects: `py-option-inset` = (36px − one line) / 2; `min-h-option` 36px.
+  - Docs: https://raft-design.botiverse.build/patterns/forms/#option-height
+
+### Changed
+
+- **Select, Combobox, ComboboxSelect, DropdownMenu and ContextMenu options**: their padding is `py-option-inset` instead of a fixed 6px. ([#647](https://github.com/botiverse/raft-design/pull/647))
+  - Why: see Option height above.
+  - Affects: padding 6px → 7px (mouse) / 8px (touch); two-line options 2px taller with a mouse, 4px on a touch screen; one-line options unchanged at 36px.
+  - Docs: https://raft-design.botiverse.build/patterns/forms/#option-height
+- **PanelHeader, ThreadPanel, Drawer, Dialog, AlertDialog, Lightbox, NotificationCenter and Sidebar headers**: frameless icon buttons at the ends align by their icon box on the content margin. ([#650](https://github.com/botiverse/raft-design/pull/650))
+  - Why: see The ends of a header above.
+  - Affects: edge icon boxes at 16px (phone) / 20px (desktop, dialog) from the edge at every button size.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#the-ends-of-a-header
+
+### Fixed
+
+- **InputGroup**: a text addon is centered with flex, so older iOS Safari no longer sets its text at the top; long text still truncates. ([#646](https://github.com/botiverse/raft-design/pull/646))
+  - Why: the previous centering needed Safari 17.4.
+  - Docs: https://raft-design.botiverse.build/components/input-group/
+
 ## [0.13.0](https://github.com/botiverse/raft-design/compare/v0.12.0...v0.13.0) (2026-10-21)
 
 ### Design System
