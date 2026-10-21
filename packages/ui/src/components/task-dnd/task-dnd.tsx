@@ -1,5 +1,7 @@
 "use client";
 
+import { useHoldThenMoveTouchSensor } from "../../lib/touch-drag";
+
 import {
   closestCorners,
   DndContext,
@@ -8,7 +10,6 @@ import {
   KeyboardCode,
   KeyboardSensor,
   PointerSensor,
-  TouchSensor,
   useDraggable,
   useDroppable,
   useSensor,
@@ -123,7 +124,7 @@ export function TaskDndProvider({
   const [overStore] = useState(createTaskDndOverStore);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+    useHoldThenMoveTouchSensor(),
     useSensor(KeyboardSensor, { coordinateGetter: taskKeyboardCoordinates }),
   );
   const context = useMemo(

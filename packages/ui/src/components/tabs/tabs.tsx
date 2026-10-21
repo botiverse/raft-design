@@ -10,14 +10,7 @@ import {
 } from "react";
 import type { ComponentPropsWithRef, CSSProperties } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
-import {
-  closestCenter,
-  DndContext,
-  PointerSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
+import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -26,6 +19,7 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { useHoldThenMoveTouchSensor } from "../../lib/touch-drag";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -348,7 +342,7 @@ export function SortableTabsList<T extends string = string>({
   const dndContextId = useId();
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 350, tolerance: 8 } }),
+    useHoldThenMoveTouchSensor(),
   );
   const tabIds = useMemo(() => value.map(String), [value]);
   const reorderContext = useMemo(

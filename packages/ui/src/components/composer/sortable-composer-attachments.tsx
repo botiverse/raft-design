@@ -1,10 +1,10 @@
+import { useHoldThenMoveTouchSensor } from "../../lib/touch-drag";
 import {
   closestCenter,
   DndContext,
   DragOverlay,
   KeyboardSensor,
   PointerSensor,
-  TouchSensor,
   pointerWithin,
   useSensor,
   useSensors,
@@ -137,7 +137,7 @@ function SortableComposerAttachmentsRoot({
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 350, tolerance: 8 } }),
+    useHoldThenMoveTouchSensor(),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 

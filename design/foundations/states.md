@@ -87,6 +87,16 @@ raft-ui implements the rule with `installInputModality()`. [ThemeProvider](../ab
 - Draw a focus indicator with `focus-visible:shadow-focus` (`has-focus-visible:shadow-focus` on a group), never `focus:` or `focus-within:`.
 - Stack the `keyboard:` variant on any indicator not drawn with `focus-ring`, such as an outline or the inset ring: `focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-line-strong`. It matches unless the last input was a pointer.
 
+## Dragging on a touch screen
+
+On a touch screen one long press can mean two things on an item that can be moved: its menu, or picking it up. Holding still is the menu; holding and then moving is the drag. This is how iOS separates them, and it means the menu and the drag never fight over the same moment.
+
+- Arm an item after the finger holds still for 400ms, the moment Android's long press fires (`ViewConfiguration`'s long-press timeout), so the platform's menu and the armed item arrive together.
+- Start the drag on the first move of 8px after that, and close the item's menu as the drag starts.
+- Let go of the item if the finger moves more than 8px before the 400ms are up: that was a scroll. 8px is Android's touch slop.
+- Lifting the finger after the hold without moving leaves the menu open and moves nothing.
+- Use the same hold, distance and tolerance for everything that can be dragged by touch (sidebar rows, tabs, task cards, attachments in the composer): raft-ui's `useHoldThenMoveTouchSensor` carries them. A mouse still starts a drag after 5–6px of movement, with no hold.
+
 ## Related
 
 - [Color](./color.md): the tokens named here.
