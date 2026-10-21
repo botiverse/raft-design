@@ -1,3 +1,46 @@
+## [0.19.0](https://github.com/botiverse/raft-design/compare/v0.18.0...v0.19.0) (2026-10-21)
+
+### Design System
+
+- **Collapsing the sidebar**: on desktop the sidebar toggle is the first item of the rail's footer, above Help and Settings. Its icon shows what pressing it does (`panel-left-close` while the sidebar is shown, `panel-left-open` while it is hidden), its tooltip says Collapse Sidebar or Expand Sidebar with the shortcut (⌘\ on macOS, Ctrl+\ elsewhere), and the state is remembered on the device. It applies to AppShellSidebarTrigger. ([#674](https://github.com/botiverse/raft-design/pull/674))
+  - Why: the toggle belongs to the frame rather than to a page, so it needs one fixed place and one behavior whatever the main area shows.
+  - Docs: https://raft-design.botiverse.build/patterns/navigation/#collapsing-the-sidebar
+
+### Breaking Changes
+
+- **BannerAction**: the buttons sit at the bottom right, at the end of the last line of text and centered on it, while the text fits beside them on one line. When the text would wrap beside them, or the banner is narrower than 480px, they take a line of their own under the text, aligned to the end. `BannerAction` places itself; it sets `data-wrap` when it takes its own line. ([#672](https://github.com/botiverse/raft-design/pull/672))
+  - Why: the button sat in a start-aligned row under the text, away from where the eye ends; it now comes after what it acts on and ends where reading ends, as a dialog's commit button does.
+  - Affects: action placement from a row under the text (start-aligned, `mt-2`) → the end of the last line from 452px of banner content (a 480px banner at `md`), otherwise its own line under the text, end-aligned; `size="sm"` banners with an action get vertical padding that centers a 32px button on the line.
+  - Migrate: remove layout overrides on `BannerAction`, such as `col-span-full`, `col-start-*`, `row-start-*` or `mt-*`, which now fight its placement. Give `Banner` a width (or let it fill its parent); never `w-fit`. Use `variant="default" size="sm"` for the button, and put a ghost Dismiss (`variant="ghost" size="sm"`) before it when the banner can be dismissed; move a × out of `BannerAction` into `BannerClose`, on a banner with no button.
+  - Docs: https://raft-design.botiverse.build/components/banner/
+- **AppShellSidebarTrigger**: the trigger is a disclosure button. It has `aria-expanded` and `aria-controls` naming the sidebar slot, instead of `aria-pressed`, and its labels are Title Case: "Collapse Sidebar" and "Expand Sidebar". ([#674](https://github.com/botiverse/raft-design/pull/674))
+  - Why: the trigger shows and hides a region, which assistive technology announces as expanded or collapsed, not as a pressed toggle.
+  - Affects: `aria-pressed` → `aria-expanded`; new `aria-controls`; `AppShellSidebarSlot` gets a generated `id` when the root is `sidebarCollapsible` and none is passed; label and `title` "Collapse sidebar" / "Expand sidebar" → "Collapse Sidebar" / "Expand Sidebar".
+  - Migrate: update tests and selectors that read `aria-pressed` or the old labels to `aria-expanded` and the Title Case labels. When you wrap the trigger in a Tooltip, pass `title={undefined}` and repeat the label in the tooltip; to translate it, pass your own `aria-label`.
+  - Docs: https://raft-design.botiverse.build/components/app-shell/
+- **AppShellMainSlot** and **AppShellSidebarSlot**: in a collapsible shell, the main area has a z-index only while it slides over the sidebar, and the collapsed sidebar is `inert`. ([#674](https://github.com/botiverse/raft-design/pull/674))
+  - Why: the main area sat at z-index 45 at rest and covered the app's own fixed layers, such as a bar at z-40, and a collapsed sidebar's controls stayed in the tab order while hidden.
+  - Affects: main slot `z-45` always → `z-2` with `data-sliding` only during the slide, none at rest; the expanded sidebar slot is `relative z-1`, so a resize handle past its edge stays grabbable; the collapsed sidebar slot adds `inert` to `aria-hidden`.
+  - Migrate: remove workarounds that lowered the app's own layers below z-45 or raised them over the main slot, and any code or test that reads an inline or computed z-index on the main slot at rest. Don't make the collapsed sidebar focusable yourself; a shortcut that collapses it while focus is inside should move focus to the trigger first.
+  - Docs: https://raft-design.botiverse.build/components/app-shell/
+
+### Added
+
+- **BannerClose**: the × of a banner that has no button, a frameless icon button at the end of the first line whose icon box ends on the banner's padding. Its label defaults to "Dismiss". ([#672](https://github.com/botiverse/raft-design/pull/672))
+  - Why: a × put in `BannerAction` read as one of the actions and sat on the wrong line; the close control now has a place of its own.
+  - Affects: `variant="ghost"`, `size="icon-sm"` (32px), centered on the first line. With `BannerAction` in the same banner, raft-ui warns in development and moves the actions to a line of their own.
+  - Docs: https://raft-design.botiverse.build/components/banner/
+
+### Fixed
+
+- **BannerTitle** and **BannerDescription**: a long word or URL breaks onto the next line instead of pushing the banner wider. ([#672](https://github.com/botiverse/raft-design/pull/672))
+  - Why: an unbroken string, such as a URL, ran out of the text column and under the actions; the text now wraps inside its column.
+  - Docs: https://raft-design.botiverse.build/components/banner/
+- **ResizableHandle**: under a coarse pointer, such as a finger on a tablet, the handle is easier to grab. ([#667](https://github.com/botiverse/raft-design/pull/667))
+  - Why: a 12px handle was too narrow to hit with a finger.
+  - Affects: handle hit area 12px → 24px under `pointer: coarse`, still centered on the boundary; mouse and pen keep 12px.
+  - Docs: https://raft-design.botiverse.build/components/resizable/
+
 ## [0.18.0](https://github.com/botiverse/raft-design/compare/v0.17.0...v0.18.0) (2026-10-21)
 
 ### Design System
