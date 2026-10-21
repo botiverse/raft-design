@@ -1,3 +1,21 @@
+## [0.18.0](https://github.com/botiverse/raft-design/compare/v0.17.0...v0.18.0) (2026-10-21)
+
+### Design System
+
+- **Field frames**: a field's ink frame is 1.5px, the same weight as a button's. It applies to Input, Textarea, InputGroup, Select, Combobox, ComboboxSelect, SearchTrigger, the composer and an option card. Read-only fields keep their light, thin edge. ([#661](https://github.com/botiverse/raft-design/pull/661))
+  - Why: a field sits next to its send button, its submit button and the selected row, all 1.5px ink; at 1px it was the one thin control among them and read as a lighter style rather than the same system.
+  - Affects: `line-field` width 1px → 1.5px.
+  - Docs: https://raft-design.botiverse.build/foundations/shape/
+- **Autofill**: a field the browser filled in looks like any other field, `layer-card` with ink text. ([#661](https://github.com/botiverse/raft-design/pull/661))
+  - Why: Chrome's pale blue and Safari's yellow made the filled field the one field on the page that matched nothing else, and the colour tells a person nothing.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#autofill
+
+### Fixed
+
+- **Input, Textarea, Select and every other field**: browser autofill no longer paints a field pale blue or yellow. raft-ui's `styles.css` handles every `input`, `textarea` and `select` on the page; a disabled autofilled field keeps the disabled ink. ([#661](https://github.com/botiverse/raft-design/pull/661))
+  - Why: see Autofill above.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#autofill
+
 ## [0.17.0](https://github.com/botiverse/raft-design/compare/v0.16.0...v0.17.0) (2026-10-21)
 
 ### Design System
