@@ -23,7 +23,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 
 | Where | Destinations |
 | --- | --- |
-| Phone tab bar | Home (`house`), Activity (`activity`, as on the desktop rail), Search (`search`), Tasks (`square-check-big`), More (`ellipsis`), on the edge bar ([MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-more)). Search is an action: it opens search over the current tab and is never selected. The same in the mobile app and on the phone web |
+| Phone tab bar | Home (`house`), Activity (`activity`, as on the desktop rail), Tasks (`square-check-big`), Search (`search`), More (`ellipsis`), on the edge bar ([MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-more)). Search is an action: it opens search over the current tab and is never selected. The same in the mobile app and on the phone web |
 | Phone More | One page titled More, like every tab root: a first group of Members and Computers, then the groups of [Settings](./settings.md) with their own headers. Each row opens a pushed page under More, with Back; links to them open there. Guests don't have Members or Computers |
 | The first row of phone Home | Saved (with a gray count), its only entry point; see [Home](./home.md) |
 | Web top bar (from 768px, and the desktop app's title bar) | As in [Page structure](../../patterns/page-structure.md#the-web-top-bar); the search field opens search |

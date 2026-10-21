@@ -246,13 +246,13 @@ export function SidebarPhoneHomeComposition() {
           <Activity />
           <MobileNavLabel>Activity</MobileNavLabel>
         </MobileNavItem>
-        <MobileNavItem value="search" onClick={handleOpen} aria-label="Search">
-          <Search />
-          <MobileNavLabel>Search</MobileNavLabel>
-        </MobileNavItem>
         <MobileNavItem value="tasks" onClick={handleOpen} aria-label="Tasks">
           <CheckSquare />
           <MobileNavLabel>Tasks</MobileNavLabel>
+        </MobileNavItem>
+        <MobileNavItem value="search" onClick={handleOpen} aria-label="Search">
+          <Search />
+          <MobileNavLabel>Search</MobileNavLabel>
         </MobileNavItem>
         <MobileNavItem value="more" onClick={handleOpen} aria-label="More">
           <Ellipsis />
