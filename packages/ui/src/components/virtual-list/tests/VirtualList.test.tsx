@@ -19,6 +19,7 @@ type Row = { key: string };
 const items: Row[] = Array.from({ length: 50 }, (_, index) => ({ key: `row-${index}` }));
 const noItems: Row[] = [];
 const getKey = (row: Row) => row.key;
+const ZERO_HEIGHT = { height: 0 };
 const renderRow = ({ domRef, item, style }: VirtualListItemRenderProps<Row>) => (
   <div className="row" ref={domRef} style={style}>
     {item.key}
@@ -39,6 +40,7 @@ describe("VirtualList", () => {
         paddingTop={8}
         paddingBottom={12}
         showScrollbar
+        style={ZERO_HEIGHT}
       >
         {renderRow}
       </VirtualList>,
@@ -57,8 +59,8 @@ describe("VirtualList", () => {
     expect(visible.style.position).toBe("relative");
     // The paddingBottom spacer follows the items element.
     expect((list.children[1] as HTMLElement).style.paddingBottom).toBe("12px");
-    // The first range is rendered in a microtask after the list's ref is set. jsdom lays nothing
-    // out (the list is 0 px high): the range is the first item plus one.
+    // The first range is rendered in a microtask after the list's ref is set. The list is 0 px high
+    // (jsdom lays nothing out; in a browser its height is 0): the range is the first item plus one.
     const keys = () =>
       [...visible.children].map((el) => el.getAttribute("data-virtual-list-item-key"));
     expect(keys()).toEqual([]);
