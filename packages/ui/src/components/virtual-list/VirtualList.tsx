@@ -1642,10 +1642,61 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     ],
   );
   /* oxlint-enable react-perf/jsx-no-new-function-as-prop, react-perf/jsx-no-new-object-as-prop */
-  const renderedVisibleItems = useMemo(
-    () => visibleItems.map((item: T) => renderItem(item, false)),
-    [renderItem, visibleItems],
+  /*
+   * The elements of the rows in the range, by key, kept from one render to the next while what they are
+   * made of is the same (the item, its index and the render inputs, not the range): a row that stays in
+   * the range gets the same element, which React skips without rendering it again, so a range update
+   * renders only the rows that mount. `renderItem` changes with every range (`startIndex`, the tree), but
+   * an in-flow row reads neither (only a kept row's absolute position does), so it is not part of what a
+   * row's element is made of; `renderInputs` is.
+   */
+  const renderInputs = useMemo(
+    () => ({}),
+    // oxlint-disable-next-line react/exhaustive-deps -- the inputs of an in-flow row's element (see above)
+    [
+      virtual,
+      getKey,
+      renderCol,
+      renderItemWithCols,
+      itemResizable,
+      sessionId,
+      ignoreItemResize,
+      ItemComponent,
+      renderItemChild,
+    ],
   );
+  const [flowElements] = useState(
+    () =>
+      new Map<string, { item: T; index: number | undefined; inputs: object; node: ReactNode }>(),
+  );
+  const renderedVisibleItems = useMemo(() => {
+    const nodes = visibleItems.map((item: T) => {
+      const key = getKey(item);
+      const index = keyToIndexRef.current.get(key);
+      const cached = flowElements.get(key);
+      if (
+        cached !== undefined &&
+        cached.item === item &&
+        cached.index === index &&
+        cached.inputs === renderInputs
+      ) {
+        return cached.node;
+      }
+      const node = renderItem(item, false);
+      flowElements.set(key, { item, index, inputs: renderInputs, node });
+      return node;
+    });
+    // Only the rows in the range are kept: a row that leaves it is rendered anew when it comes back.
+    if (flowElements.size > visibleItems.length) {
+      const inRange = new Set(visibleItems.map(getKey));
+      for (const key of flowElements.keys()) {
+        if (!inRange.has(key)) {
+          flowElements.delete(key);
+        }
+      }
+    }
+    return nodes;
+  }, [renderItem, visibleItems, getKey, flowElements, renderInputs]);
   const renderedKeptBefore = useMemo(
     () => keptItemsBefore.map((item: T) => renderItem(item, true)),
     [renderItem, keptItemsBefore],
