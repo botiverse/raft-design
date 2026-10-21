@@ -22,7 +22,7 @@ Motion in Raft confirms an action or shows where something came from. It never d
 
 | Motion | How | Duration |
 | --- | --- | --- |
-| Press and hover | Lay the pressed overlay over the control. Don't change the fill, move or scale it | 90ms to 120ms |
+| Press and hover | Lay the hover tier's overlay over the control ([Hover and press](./states.md#hover-and-press)). Don't change the fill, move or scale it | 90ms to 120ms |
 | Slides and sheets | `ease-slide` | 220ms to 380ms |
 | A page pushed or popped on a phone | The platform's default transition, on phone web, iOS and Android alike ([Navigation](../patterns/navigation.md#what-each-platform-draws)) | The platform's |
 | The tab bar coming back when the keyboard closes | The platform's default transition, never an instant jump ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#behavior)). The tab bar doesn't move while a page scrolls | The platform's |
@@ -37,6 +37,6 @@ Motion in Raft confirms an action or shows where something came from. It never d
 
 ## Related
 
-- [States](./states.md): the pressed overlays.
+- [States](./states.md): the hover tiers.
 - [Working agents](../people-and-agents/working-agents.md#motion): how working agents are shown without animation.
 - [Brand](./brand.md): where brand illustration is allowed.

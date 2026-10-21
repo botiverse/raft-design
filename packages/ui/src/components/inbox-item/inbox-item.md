@@ -59,13 +59,13 @@ activity/compositions/activity-conversation-list
 
 ## States
 
-| State                                 | Look                                                                                                                                                                                                                  |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Unread (`data-unread` on `InboxItem`) | The title in `foreground` at weight 700, and a pink attention dot on the right                                                                                                                                        |
-| Read                                  | The title in `foreground-muted` at weight 600; no dot                                                                                                                                                                 |
-| `active`                              | The item open beside the list: an `info-soft` wash                                                                                                                                                                    |
-| Menu open                             | `data-popup-open` on `InboxItem`, or a menu open from a button in it: `fill-row-open`, a step past the hover; an `active` item keeps `info-soft` ([Row hover](../../../../../design/foundations/states.md#row-hover)) |
-| `disabled`                            | No hover, no press; the trigger can't be pressed                                                                                                                                                                      |
+| State                                 | Look                                                                                                                                                                                                                                        |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Unread (`data-unread` on `InboxItem`) | The title in `foreground` at weight 700, and a pink attention dot on the right                                                                                                                                                              |
+| Read                                  | The title in `foreground-muted` at weight 600; no dot                                                                                                                                                                                       |
+| `active`                              | The item open beside the list: an `info-soft` wash                                                                                                                                                                                          |
+| Menu open                             | `data-popup-open` on `InboxItem`, or a menu open from a button in it: `fill-subtle`, the same subtle tier as the hover; an `active` item keeps `info-soft` ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)) |
+| `disabled`                            | No hover, no press; the trigger can't be pressed                                                                                                                                                                                            |
 
 ```example
 activity/compositions/loading-activity

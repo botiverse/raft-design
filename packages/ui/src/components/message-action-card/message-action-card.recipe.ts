@@ -36,7 +36,7 @@ export const messageActionCard = tv({
       "data-panel-open:[&>svg]:rotate-180",
       "focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-offset-1",
       "my-0 -mr-1 size-[27px] rounded-chip text-foreground-muted",
-      "hover:bg-fill-pressed hover:text-foreground active:bg-fill-pressed",
+      "hover:bg-fill-medium hover:text-foreground active:bg-fill-medium",
       "focus-visible:outline-none focus-visible:shadow-focus",
       "[&>svg]:size-4",
     ],

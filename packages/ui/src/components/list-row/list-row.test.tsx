@@ -31,10 +31,10 @@ describe("ListRow", () => {
     const rowClasses = classes(row);
     expect(rowClasses).toContain("min-h-16");
     expect(rowClasses).toContain(
-      "not-disabled:not-aria-disabled:not-data-selected:hover:row-hover-overlay",
+      "not-disabled:not-aria-disabled:not-data-selected:hover:overlay-subtle",
     );
     expect(rowClasses).toContain(
-      "not-disabled:not-aria-disabled:not-data-selected:active:press-overlay",
+      "not-disabled:not-aria-disabled:not-data-selected:active:overlay-medium",
     );
     // A flush row keeps its focus ring inside, so an inset card cannot clip it;
     // it is not the token, so it carries the keyboard-only gate.
@@ -103,7 +103,7 @@ describe("ListRow", () => {
     expect(classes(row)).toContain("data-selected:bg-info-soft");
     expect(
       classes(row).filter(
-        (name) => name.includes("press-overlay") && !name.includes("not-data-selected"),
+        (name) => name.includes("overlay-medium") && !name.includes("not-data-selected"),
       ),
     ).toEqual([]);
   });
@@ -119,7 +119,7 @@ describe("ListRow", () => {
     const row = screen.getByTestId("row");
     expect(row.tagName).toBe("DIV");
     expect(row.hasAttribute("type")).toBe(false);
-    expect(row.className).not.toContain("press-overlay");
+    expect(row.className).not.toContain("overlay-medium");
   });
 
   test("the row owns its inks: the tone sets them, and never on a disabled row", () => {

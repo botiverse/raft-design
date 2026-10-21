@@ -32,6 +32,12 @@ export const TOKEN_RENAMES = {
   "theme-shadow-sticker": "elevation-sticker",
   "theme-focus-ring": "focus-ring",
   "soft-signal": "palette-yellow",
+  "fill-pressed": "fill-medium",
+  "fill-frame-pressed": "fill-frame-medium",
+  "fill-row-hover": "fill-subtle",
+  "fill-row-open": "fill-subtle",
+  "fill-message-hover": "fill-subtle",
+  "sticker-pressed": "sticker-medium",
 };
 
 /** Families renamed with every step: `primary-soft` -> `brand-soft`. */
@@ -61,6 +67,10 @@ export const UTILITY_RENAMES = {
   "shadow-raft-xl": "shadow-float",
   "shadow-raft-sticker": "shadow-sticker",
   "shadow-raft-focus": "shadow-focus",
+  "press-overlay": "overlay-medium",
+  "press-overlay-sticker": "overlay-sticker-medium",
+  "row-hover-overlay": "overlay-subtle",
+  "row-open-overlay": "overlay-subtle",
 };
 
 const COLOR_UTILITY =

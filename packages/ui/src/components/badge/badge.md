@@ -40,7 +40,7 @@ Badge is a small label. Its main job is the unread count: a pink sticker that sa
 
 ## States
 
-- A Badge rendered as a button (`render={<button />}`) shows the pressed overlay on hover and press, and the shared disabled look ([States](../../../../../design/foundations/states.md)).
+- A Badge rendered as a button (`render={<button />}`) shows the medium tier on hover and press (`sticker-medium` on a colour badge), and the shared disabled look ([States](../../../../../design/foundations/states.md)).
 - The selected row never shows a count or an @ marker ([States](../../../../../design/foundations/states.md#usage)).
 
 ## Content

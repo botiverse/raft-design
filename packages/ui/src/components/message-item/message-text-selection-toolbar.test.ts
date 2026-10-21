@@ -33,7 +33,7 @@ test("buttons are 28px, hover grey, 16px muted icons, and never wrap", () => {
   expect(button).toContain("h-7");
   expect(button).toContain("whitespace-nowrap");
   expect(button).toContain("shrink-0");
-  expect(button).toContain("hover:bg-fill-pressed");
+  expect(button).toContain("hover:bg-fill-medium");
   expect(button).toContain("rounded-chip");
   expect(button).toContain("[&_svg]:size-4");
   expect(button).toContain("[&_svg]:text-foreground-muted");

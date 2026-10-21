@@ -78,7 +78,7 @@ export const panelHeader = tv({
         "max-md:**:data-[slot=panel-title]:text-foreground-on-frame",
         "max-md:**:data-[slot=panel-meta]:text-foreground-on-frame-muted",
         "max-md:**:data-[slot=panel-action]:text-foreground-on-frame",
-        "max-md:**:data-[slot=panel-action]:hover:bg-fill-frame-pressed max-md:**:data-[slot=panel-action]:active:bg-fill-frame-pressed",
+        "max-md:**:data-[slot=panel-action]:hover:bg-fill-frame-medium max-md:**:data-[slot=panel-action]:active:bg-fill-frame-medium",
       ],
     },
   ],

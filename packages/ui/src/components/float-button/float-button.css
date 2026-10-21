@@ -20,7 +20,7 @@
   --r-float-button-border-color: var(--line-strong);
   --r-float-button-bg: var(--layer-card);
   --r-float-button-bg-hover: var(--layer-card);
-  --r-float-button-press: var(--fill-pressed);
+  --r-float-button-press: var(--fill-medium);
   --r-float-button-text-color: var(--foreground);
   --r-float-button-text-hover-color: var(--foreground);
   --r-float-button-text-disabled-color: var(--foreground-disabled);
@@ -87,7 +87,7 @@
     --r-float-button-border-color: var(--sticker-ink);
     --r-float-button-bg: var(--attention-400);
     --r-float-button-bg-hover: var(--attention-400);
-    --r-float-button-press: var(--sticker-pressed);
+    --r-float-button-press: var(--sticker-medium);
     --r-float-button-text-color: var(--sticker-ink);
     --r-float-button-text-hover-color: var(--sticker-ink);
   }
@@ -95,7 +95,7 @@
     --r-float-button-border-color: var(--sticker-ink);
     --r-float-button-bg: var(--warning);
     --r-float-button-bg-hover: var(--warning);
-    --r-float-button-press: var(--sticker-pressed);
+    --r-float-button-press: var(--sticker-medium);
     --r-float-button-text-color: var(--sticker-ink);
     --r-float-button-text-hover-color: var(--sticker-ink);
   }
@@ -103,15 +103,15 @@
     --r-float-button-border-color: var(--sticker-ink);
     --r-float-button-bg: var(--danger);
     --r-float-button-bg-hover: var(--danger);
-    --r-float-button-press: var(--sticker-pressed);
+    --r-float-button-press: var(--sticker-medium);
     --r-float-button-text-color: var(--sticker-ink);
     --r-float-button-text-hover-color: var(--sticker-ink);
   }
   &.r-float-button--ghost {
     --r-float-button-border-color: transparent;
     --r-float-button-bg: transparent;
-    --r-float-button-bg-hover: var(--fill-pressed);
-    --r-float-button-press: transparent;
+    --r-float-button-bg-hover: transparent;
+    --r-float-button-press: var(--fill-medium);
   }
 }
 
@@ -159,11 +159,15 @@
     padding-right: var(--r-float-button-padding-x);
   }
 
-  &:hover:not(:disabled) {
-    background-color: var(--r-float-button-bg-hover);
-    color: var(--r-float-button-text-hover-color);
-    box-shadow: var(--r-float-button-shadow-hover);
-    transform: var(--r-float-button-transform-hover);
+  /* Hover only where there is a pointer that hovers: on a touch screen a
+     :hover would stay on the button after the tap. */
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background-color: var(--r-float-button-bg-hover);
+      color: var(--r-float-button-text-hover-color);
+      box-shadow: var(--r-float-button-shadow-hover);
+      transform: var(--r-float-button-transform-hover);
+    }
   }
 
   &:active:not(:disabled) {
@@ -179,7 +183,12 @@
 
   /* Press feedback lays one overlay over the resting fill instead of
      swapping it. */
-  &:is(:hover, :active):not(:disabled) {
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background-image: linear-gradient(var(--r-float-button-press), var(--r-float-button-press));
+    }
+  }
+  &:active:not(:disabled) {
     background-image: linear-gradient(var(--r-float-button-press), var(--r-float-button-press));
   }
 

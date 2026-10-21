@@ -55,7 +55,7 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 
 - Selected: a sticker on the frame, white in light mode and yellow in dark mode ([States](../../../../../design/foundations/states.md)).
 - Attention: one pink pixel at the top right of the icon, never a count. The selected item never shows it, with no exception.
-- Hover and press lay `fill-frame-pressed` over the item ([Color](../../../../../design/foundations/color.md#pressed-overlays)).
+- Hover and press lay `fill-frame-medium` over the item, the medium tier on the frame ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). The selected item doesn't change on hover.
 
 ## Behavior
 

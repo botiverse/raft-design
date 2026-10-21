@@ -11,16 +11,16 @@ import { Spinner } from "../spinner/index";
 // ink outline for the rest, no frame for cancel and minor actions, orange for
 // what interrupts and red for what cannot be undone. Underlined text, the step
 // below a frameless button, is TextLink, not a variant here. Every button that is not
-// disabled shows the press overlay on hover and press instead of changing fill.
+// disabled lays the medium hover tier on hover and press instead of changing fill.
 // A frameless icon button that is disabled only greys its icon: no box appears
 // (DS IconButton), while a disabled text button keeps the sunken fill.
 const sticker = (fill: string) => [
   `border-sticker-ink ${fill} text-sticker-ink ring-[1.5px] ring-sticker-edge`,
-  "hover:press-overlay-sticker active:press-overlay-sticker",
+  "hover:overlay-sticker-medium active:overlay-sticker-medium",
 ];
 const outline = (ink: string) => [
   `border-line-strong bg-layer-card ${ink}`,
-  "hover:press-overlay active:press-overlay",
+  "hover:overlay-medium active:overlay-medium",
 ];
 
 // Three text sizes and two icon sizes, nothing in between, so a button reads
@@ -85,7 +85,7 @@ export const buttonVariants = tv({
       ghost: {
         root: [
           "border-transparent bg-transparent text-foreground",
-          "hover:bg-fill-pressed active:bg-fill-pressed",
+          "hover:bg-fill-medium active:bg-fill-medium",
         ],
       },
       // Frameless, on the yellow frame (rail, top bar, desktop title bar): the
@@ -94,8 +94,8 @@ export const buttonVariants = tv({
       "on-frame": {
         root: [
           "border-transparent bg-transparent text-foreground-on-frame",
-          "hover:bg-fill-frame-pressed active:bg-fill-frame-pressed",
-          "aria-expanded:bg-fill-frame-pressed data-popup-open:bg-fill-frame-pressed",
+          "hover:bg-fill-frame-medium active:bg-fill-frame-medium",
+          "aria-expanded:bg-fill-frame-medium data-popup-open:bg-fill-frame-medium",
           "disabled:border-transparent disabled:bg-transparent",
           "aria-disabled:border-transparent aria-disabled:bg-transparent",
         ],

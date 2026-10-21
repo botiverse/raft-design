@@ -29,10 +29,11 @@ export const messageItem = tv({
       // themselves (the delegated face's ring) read the same value. Read off
       // the root, not through group-has-*: see no-ancestor-has.test.ts.
       "bg-(--mi-row-fill) [--mi-row-fill:initial]",
-      "hover:[--mi-row-fill:var(--fill-message-hover)]",
-      // An open menu marks its message a step past hover: on a phone it is the
-      // only sign of which message the menu acts on (states.md#row-hover).
-      "data-popup-open:[--mi-row-fill:var(--fill-row-open)] has-data-popup-open:[--mi-row-fill:var(--fill-row-open)]",
+      "hover:[--mi-row-fill:var(--fill-subtle)]",
+      // An open menu marks its message with the same subtle tier as a hover:
+      // on a phone it is the only sign of which message the menu acts on
+      // (states.md#hover-and-press).
+      "data-popup-open:[--mi-row-fill:var(--fill-subtle)] has-data-popup-open:[--mi-row-fill:var(--fill-subtle)]",
       "has-data-[slot=message-item-search-match]:[--mi-row-fill:var(--info-soft)] has-data-[slot=message-item-search-match]:hover:[--mi-row-fill:var(--info-soft)]",
       "has-[[data-slot=message-multi-select-checkbox][data-checked]]:[--mi-row-fill:var(--info-soft)]",
       "has-[[data-slot=message-multi-select-checkbox][data-checked]]:hover:[--mi-row-fill:var(--info-soft)]",
@@ -154,8 +155,8 @@ export const messageItem = tv({
       "inline-flex shrink-0 items-center justify-center",
       "[&_svg]:shrink-0",
       "size-7 rounded-chip border-0 bg-transparent p-0",
-      "text-foreground-muted hover:bg-fill-pressed active:bg-fill-pressed",
-      "data-popup-open:bg-fill-pressed data-active:text-foreground",
+      "text-foreground-muted hover:bg-fill-medium active:bg-fill-medium",
+      "data-popup-open:bg-fill-medium data-active:text-foreground",
       "outline-none focus-visible:shadow-focus",
       "[&_svg]:size-4",
     ],

@@ -22,7 +22,7 @@ const chip = (fill: string) => [
 ];
 const linkChip = (fill: string) => [
   ...chip(fill),
-  "text-foreground cursor-pointer hover:press-overlay active:press-overlay",
+  "text-foreground cursor-pointer hover:overlay-medium active:overlay-medium",
 ];
 
 export const messageReference = tv({
@@ -53,7 +53,7 @@ export const messageReference = tv({
           "inline-flex cursor-pointer rounded-sticker px-[3px]",
           "font-semibold text-sticker-ink no-underline",
           "bg-brand inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
-          "hover:press-overlay-sticker",
+          "hover:overlay-sticker-medium",
         ],
       },
       // Someone else: bold ink, underlined in ink on hover.

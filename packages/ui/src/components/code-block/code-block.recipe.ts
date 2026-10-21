@@ -39,7 +39,7 @@ export const codeBlock = tv({
       "transition-[color,background-color,opacity]",
       "focus-visible:outline-none",
       "size-8 rounded-chip text-foreground",
-      "hover:bg-fill-pressed active:bg-fill-pressed",
+      "hover:bg-fill-medium active:bg-fill-medium",
       "focus-visible:ring-0 focus-visible:shadow-focus",
       "[&_svg:not([class*='size-'])]:size-4.5",
     ],

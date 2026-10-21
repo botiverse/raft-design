@@ -60,13 +60,13 @@ describe("on-frame", () => {
         "bg-transparent",
         "border-transparent",
         "text-foreground-on-frame",
-        "hover:bg-fill-frame-pressed",
-        "active:bg-fill-frame-pressed",
-        "aria-expanded:bg-fill-frame-pressed",
-        "data-popup-open:bg-fill-frame-pressed",
+        "hover:bg-fill-frame-medium",
+        "active:bg-fill-frame-medium",
+        "aria-expanded:bg-fill-frame-medium",
+        "data-popup-open:bg-fill-frame-medium",
       ]),
     );
-    expect(names).not.toContain("hover:bg-fill-pressed");
+    expect(names).not.toContain("hover:bg-fill-medium");
     // The phone frame keeps the control-height icon button (44 on a phone).
     expect(names).toContain("size-control");
   });

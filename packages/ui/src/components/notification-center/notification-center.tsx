@@ -19,7 +19,7 @@ const notificationCenter = tv({
       "relative inline-flex size-10 items-center justify-center overflow-visible p-0",
       "rounded-control border-[1.5px] border-transparent bg-transparent text-foreground-on-frame",
       "select-none outline-none",
-      "hover:bg-fill-frame-pressed active:bg-fill-frame-pressed data-popup-open:bg-fill-frame-pressed",
+      "hover:bg-fill-frame-medium active:bg-fill-frame-medium data-popup-open:bg-fill-frame-medium",
       "focus-visible:shadow-focus",
       "[&_svg]:size-5 [&_svg]:shrink-0",
     ],

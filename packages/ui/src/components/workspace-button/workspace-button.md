@@ -26,7 +26,7 @@ workspace-button/workspace-button
 
 ## Anatomy
 
-- `WorkspaceButton`: the on-frame `md` [Button](../button/button.md): 36px high, 10px each side, `text-subhead` bold in `foreground-on-frame`, with `fill-frame-pressed` on hover, on press and while the list is open. It ends with a 16px chevron, 4px after the name. The chevron is part of the button and always shows.
+- `WorkspaceButton`: the on-frame `md` [Button](../button/button.md): 36px high, 10px each side, `text-subhead` bold in `foreground-on-frame`, with `fill-frame-medium` on hover, on press and while the list is open. It ends with a 16px chevron, 4px after the name. The chevron is part of the button and always shows.
 - The server's [Avatar](../avatar/avatar.md), `type="server" size="sm"` (27px): the server's logo, or its initial in yellow on ink. 8px before the name.
 - `WorkspaceButtonName`: the server's name, at most 200px, then an ellipsis.
 - Optional, between the name and the chevron: the globe, when the server's public page is on.
@@ -41,7 +41,7 @@ workspace-button/workspace-button
 ## States
 
 - **Unread elsewhere:** when another server has unread items, an attention dot sits on the avatar's top-right corner (`AvatarBadge` with `offset={["100%", 0]}`).
-- **Pressed and open:** `fill-frame-pressed` under the whole button.
+- **Pressed and open:** `fill-frame-medium` under the whole button.
 
 ## Accessibility
 

@@ -58,7 +58,7 @@ description-list/compositions/inline
 
 ## Behavior
 
-- Make a value that can be changed a trigger with no frame: it shows the pressed overlay on hover and press, and opens the popup of a [Select](../select/select.md) or a combobox.
+- Make a value that can be changed a trigger with no frame: it shows the medium tier on hover and press, and opens the popup of a [Select](../select/select.md) or a combobox.
 - Write an empty value that can be set as the action that sets it: Add to a Channel.
 
 raft-ui has no frameless value trigger yet; the member-info composition uses a [Badge](../badge/badge.md) rendered as a button.

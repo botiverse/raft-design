@@ -53,7 +53,7 @@ export function ComponentIndex() {
             ) : null}
             <Link
               to={item.url}
-              className="flex flex-col gap-1 border-b border-line-hairline py-3 outline-none hover:press-overlay focus-visible:shadow-focus"
+              className="flex flex-col gap-1 border-b border-line-hairline py-3 outline-none hover:overlay-subtle focus-visible:shadow-focus"
             >
               <span className="flex items-center gap-2">
                 <span className="text-subhead font-semibold text-foreground">{item.title}</span>

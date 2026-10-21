@@ -20,7 +20,7 @@ export const messageImageGallery = tv({
       "focus:flex",
       "group-hover/img:flex",
       "right-[calc(var(--control-embedded-inset)-1px)] bottom-[calc(var(--control-embedded-inset)-1px)] size-8 rounded-chip border-[1.5px] border-line-strong",
-      "bg-layer-card text-foreground hover:press-overlay active:press-overlay",
+      "bg-layer-card text-foreground hover:overlay-medium active:overlay-medium",
       "outline-none focus-visible:shadow-focus",
       "[&_svg]:size-4",
     ],
