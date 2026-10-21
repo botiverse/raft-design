@@ -108,7 +108,7 @@ const inputGroup = tv({
           // (design/foundations/shape.md#inside-a-frame).
           "*:data-[slot=button]:size-control-embedded *:data-[slot=button]:rounded-chip",
           "[&>[data-slot=button]_svg:not([class*='size-'])]:size-4",
-          "[&>[data-slot=button]:last-child]:me-[-7px]",
+          "[&>[data-slot=button]:last-child]:me-[calc(var(--control-embedded-inset)-0.75rem-1px)]",
         ],
         text: "pl-0.5",
       },

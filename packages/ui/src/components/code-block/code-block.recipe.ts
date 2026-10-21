@@ -10,14 +10,15 @@ export const codeBlock = tv({
     ],
     header: [
       "flex h-(--code-block-header-height) items-center",
-      "gap-2 border-b border-line-hairline pr-[5px] pl-3",
+      "gap-2 border-b border-line-hairline pr-[calc(var(--control-embedded-inset)-1px)] pl-3",
       "font-mono text-mono-meta text-foreground-hint",
     ],
     title: ["min-w-0 flex-1 truncate font-mono", "text-mono-meta"],
     actions: [
       "ml-auto flex items-center gap-1",
-      "[[data-slot=code-block-body]>&]:absolute [[data-slot=code-block-body]>&]:top-[5px]",
-      "[[data-slot=code-block-body]>&]:right-[5px] [[data-slot=code-block-body]>&]:z-10",
+      "[[data-slot=code-block-body]>&]:col-start-2 [[data-slot=code-block-body]>&]:row-start-1",
+      "[[data-slot=code-block-body]>&]:z-10 [[data-slot=code-block-body]>&]:ml-3",
+      "[[data-slot=code-block-body]>&]:my-[calc(var(--control-embedded-inset)-0.5rem-1px)] [[data-slot=code-block-body]>&]:mr-[calc(var(--control-embedded-inset)-0.75rem-1px)]",
     ],
     corner: [
       "pointer-events-none absolute z-20 size-1",
@@ -26,9 +27,10 @@ export const codeBlock = tv({
       "hidden",
     ],
     body: [
-      "relative min-w-0 p-4 font-mono [&_pre]:overflow-x-auto",
+      "relative grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start *:col-start-1",
+      "p-4 font-mono [&_pre]:overflow-x-auto",
+      "[&_pre]:outline-none [&_pre]:focus-visible:keyboard:inset-ring-2 [&_pre]:focus-visible:keyboard:inset-ring-foreground",
       "px-3 py-2 text-mono-code text-foreground",
-      "has-[>[data-slot=code-block-actions]]:pr-12",
       "[&_pre_span]:text-(--shiki-light,currentColor)",
       "dark:[&_pre_span]:text-(--shiki-dark,currentColor)",
     ],

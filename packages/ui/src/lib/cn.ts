@@ -24,6 +24,8 @@ const twMerge = extendTailwindMerge({
         "control-cta",
         "control-icon",
         "control-hit",
+        "control-embedded",
+        "embedded-inset",
         "option",
         "option-inset",
         "icon-inset",

@@ -70,9 +70,10 @@ code-block/compositions/animated-copy
 - Give every `CodeBlockAction` an `aria-label`, such as "Copy code": it is icon-only.
 - Announce a completed copy, for example with `aria-live` on the button, so the change of icon isn't the only signal.
 - Keep the code in `pre` and `code`, so it is read as code and keeps its whitespace.
+- A long line scrolls inside the `pre`, so give it `tabIndex={0}` and an `aria-label` ("ts code"): Safari doesn't let the keyboard reach a scroller that can't take focus. It shows the inset ink ring on keyboard focus.
 
 ## Rules
 
 - Set code in Space Mono, `text-mono-code`.
 - Put the block on `layer-code`, with a `line-hairline` border and `radius-container`.
-- Put the actions 6px from the block's corner. Without a header they sit on the code, so the code keeps their column free on every line: a copy button never covers the first line ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
+- Put the actions 6px from the block's corner, 4px apart. Without a header they sit in a column of their own beside the code, as wide as the actions, so no line runs under them however many there are, and the block is at least tall enough to keep 6px under them. In a header they are centred in its 40px and 6px from its end ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).

@@ -375,11 +375,15 @@
   --spacing-control-cta: var(--control-height-cta);
   --spacing-control-icon: var(--control-icon-size);
   --spacing-control-hit: var(--control-hit-inset);
-  /* A chip or a button embedded in a field sits 6px inside the field's outer
-     edge on every side: 20px on a desktop, 32px on a phone, so the field
-     keeps the control height (design/foundations/shape.md#inside-a-frame).
-     Consumers: `ComboboxChips`, `ComboboxControl`, InputGroup's end addon. */
-  --spacing-control-embedded: calc(var(--control-height) - 12px);
+  /* A chip or a button embedded in a frame sits `embedded-inset` (6px) inside
+     the frame's outer edge on every side and from its sibling; in a field it
+     is `control-embedded` tall, 20px on a desktop and 32px on a phone, so the
+     field keeps the control height (design/foundations/shape.md#inside-a-frame).
+     Consumers: `ComboboxChips`, `ComboboxControl`, `ComboboxSelect`,
+     InputGroup's end addon, the composer, CodeBlock and the corner actions of
+     MessageAttachment. */
+  --spacing-control-embedded: var(--control-embedded-size);
+  --spacing-embedded-inset: var(--control-embedded-inset);
   /* ─── Option metric axis ────────────────────────────────────────────────────
      An option in a popup list (a Select, Combobox or ComboboxSelect option, a
      menu item) is as tall as its content, with the same space above and below

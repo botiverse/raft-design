@@ -78,7 +78,12 @@ const lightbox = tv({
       "bg-layer-popover text-foreground shadow-float ring-1 ring-line-seam",
     ],
     infoTitle: ["min-w-0 flex-1 truncate", "font-sans text-footnote font-semibold text-foreground"],
-    infoActions: ["flex shrink-0 items-center", "gap-1", "*:data-[slot=button]:rounded-chip"],
+    infoActions: [
+      "flex shrink-0 items-center",
+      "gap-1",
+      "*:data-[slot=button]:h-7 *:data-[slot=button]:w-auto *:data-[slot=button]:min-w-7",
+      "*:data-[slot=button]:rounded-chip",
+    ],
     thumbnailStrip: [
       "pointer-events-none absolute right-0 bottom-4 left-0 z-10",
       "flex items-center justify-center gap-1.5",

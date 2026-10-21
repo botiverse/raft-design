@@ -152,7 +152,7 @@ message-item/compositions/delegated-long-names
 ```
 
 - The toolbar is 36px high: 28px buttons with 16px icons, 4px from the frame and 4px apart, with its hairline drawn inside that height. It rides the top edge of the highlight and reaches 18px above it, half its height; on a group's first row the transparent 8px border takes part of that, so it reaches only 10px beyond the row. Its buttons are `MessageItemToolbarButton`, not [Button](../button/button.md). It stays this compact because it appears on every message under the pointer: at 38px it covered the sender line and was clipped above the first message.
-- The toolbar's corner is `radius-container` (10px); its buttons are controls embedded in its frame and wear `radius-chip` (6px), like the buttons in a field, the composer and a card corner. At 4px from the frame their corners keep an even gap around the toolbar's ([Inside a frame](../../../../../design/foundations/shape.md#inside-a-frame)).
+- The toolbar keeps `radius-container`, like every popup. Its buttons are controls embedded in its frame, so they wear `radius-chip`, like the buttons in a field, the composer and a card corner ([Inside a frame](../../../../../design/foundations/shape.md#inside-a-frame)).
 - Leave at least 18px above the first message of a scroll area and above the root message of a thread, so the toolbar is never clipped. A timeline that opens with a date line already has the room.
 - The task marker opens the task. Status changes in the task, not from the marker.
 
@@ -172,7 +172,7 @@ message-item/compositions/reactions
 
 `MessageTextSelectionToolbar` floats over text the person selects in a message, with actions such as Quote and Copy. It looks exactly like the hover toolbar, so the two read as one kind of thing:
 
-- It is 36px high: the container radius (10px) with its hairline drawn inside (`ring-inset`), around 28px buttons with `radius-chip` (6px), 4px from the frame and 4px apart.
+- It is 36px high: `radius-container` with its hairline drawn inside (`ring-inset`), around 28px buttons with `radius-chip`, 4px from the frame and 4px apart.
 - Its buttons have text labels after 16px icons in `foreground-muted`. On hover they take the pressed overlay, `fill-pressed`, not the `brand-soft` of a menu row: a toolbar's actions are buttons, not menu rows ([States](../../../../../design/foundations/states.md)).
 - `MessageTextSelectionToolbarSeparator` is 20px high, with the toolbar's 4px on each side.
 - Write labels in Title Case. They never wrap: Chinese text can break between any two characters, so a toolbar squeezed at the edge of the window broke a two-character label onto two lines.

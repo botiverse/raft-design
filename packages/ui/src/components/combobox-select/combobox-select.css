@@ -4,7 +4,7 @@
   position: relative;
 }
 /* The chips, the clear button and the toggle are embedded in the field: they
-   sit --r-combobox-select-inset inside its outer edge and as far apart, and
+   sit --control-embedded-inset inside its outer edge and as far apart, and
    are as tall as the field less that inset on both sides, so the field keeps
    its height with chips in it. They wear the chip radius
    (design/foundations/shape.md#inside-a-frame). Across the field the inset is
@@ -12,18 +12,13 @@
    1.5px: half a pixel more); down it the chips are centred in the field's
    height, which holds on both. */
 .r-combobox-select__control {
-  --r-combobox-select-height: var(--control-height);
-  --r-combobox-select-inset: 6px;
-  --r-combobox-select-embedded: calc(
-    var(--r-combobox-select-height) - 2 * var(--r-combobox-select-inset)
-  );
   box-sizing: border-box;
   min-width: 0;
-  min-height: var(--r-combobox-select-height);
+  min-height: var(--control-height);
   display: flex;
   align-items: center;
-  gap: var(--r-combobox-select-inset);
-  padding: 0 calc(var(--r-combobox-select-inset) - 1px) 0 12px;
+  gap: var(--control-embedded-inset);
+  padding: 0 calc(var(--control-embedded-inset) - 1px) 0 12px;
   border: 1.5px solid var(--line-field);
   border-radius: var(--radius-control);
   outline: 0;
@@ -51,24 +46,24 @@
   color: var(--foreground-hint);
 }
 .r-combobox-select__chips {
-  min-height: var(--r-combobox-select-embedded);
+  min-height: var(--control-embedded-size);
   min-width: 0;
-  margin-inline-start: calc(var(--r-combobox-select-inset) - 13px);
-  padding: calc(var(--r-combobox-select-inset) - 1.5px) 0;
+  margin-inline-start: calc(var(--control-embedded-inset) - 13px);
+  padding: calc(var(--control-embedded-inset) - 1.5px) 0;
   display: flex;
   flex: 1;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--r-combobox-select-inset);
+  gap: var(--control-embedded-inset);
   border: 0;
 }
 .r-combobox-select__chips .r-combobox-select__input {
-  height: var(--r-combobox-select-embedded);
+  height: var(--control-embedded-size);
   padding: 0 4px;
 }
 .r-combobox-select__chip {
   max-width: 100%;
-  height: var(--r-combobox-select-embedded);
+  height: var(--control-embedded-size);
   padding: 0 2px 0 8px;
   display: inline-flex;
   align-items: center;
@@ -102,7 +97,7 @@
 .r-combobox-select__actions {
   display: inline-flex;
   align-items: center;
-  gap: var(--r-combobox-select-inset);
+  gap: var(--control-embedded-inset);
   flex: 0 0 auto;
 }
 .r-combobox-select__action,
@@ -120,14 +115,14 @@
     background-color 150ms ease;
 }
 .r-combobox-select__remove {
-  width: calc(var(--r-combobox-select-embedded) - 4px);
-  height: calc(var(--r-combobox-select-embedded) - 4px);
+  width: calc(var(--control-embedded-size) - 4px);
+  height: calc(var(--control-embedded-size) - 4px);
   border-radius: var(--radius-sticker);
   color: var(--foreground-hint);
 }
 .r-combobox-select__action {
-  width: var(--r-combobox-select-embedded);
-  height: var(--r-combobox-select-embedded);
+  width: var(--control-embedded-size);
+  height: var(--control-embedded-size);
   border-radius: var(--radius-chip);
   color: var(--foreground-hint);
 }
@@ -267,13 +262,15 @@
   animation: r-combobox-select-spin 700ms linear infinite;
 }
 .r-combobox-select--sm.r-combobox-select__control {
-  --r-combobox-select-height: 1.75rem;
-  --r-combobox-select-inset: 3px;
+  --control-height: 1.75rem;
+  --control-embedded-inset: 3px;
+  --control-embedded-size: 22px;
   font-size: var(--text-control);
   line-height: var(--text-control--line-height);
 }
 .r-combobox-select--lg.r-combobox-select__control {
-  --r-combobox-select-height: 52px;
+  --control-height: 52px;
+  --control-embedded-size: 40px;
 }
 .r-combobox-select__control[data-status="error"] {
   border-color: var(--danger-strong);

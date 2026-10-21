@@ -4,7 +4,7 @@ export const composer = tv({
   slots: {
     root: [
       "flex w-full flex-col gap-2 p-2",
-      "rounded-container border-[1.5px] px-3 pt-3 pb-[5px]",
+      "rounded-container border-[1.5px] px-3 pt-3 pb-[calc(var(--control-embedded-inset)-1px)]",
       "border-line-field bg-layer-card text-foreground shadow-none",
       "has-focus-visible:shadow-focus",
     ],
@@ -18,7 +18,10 @@ export const composer = tv({
       "font-sans text-body font-normal text-foreground",
       "placeholder:text-foreground-hint",
     ],
-    toolbar: ["flex items-center justify-between", "mx-[-7px] gap-2"],
+    toolbar: [
+      "flex items-center justify-between",
+      "mx-[calc(var(--control-embedded-inset)-0.75rem-1px)] gap-2",
+    ],
     actions: ["flex items-center gap-2"],
     meta: ["flex items-center", "gap-2"],
     iconButton: [

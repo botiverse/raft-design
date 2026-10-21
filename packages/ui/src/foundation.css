@@ -302,6 +302,12 @@
   /* How far a control-height button's hit area reaches past its top and bottom,
      to keep 44px. */
   --control-hit-inset: 0px;
+  /* How far a chip or a button embedded in a field, the composer or a corner
+     sits inside its frame's outer edge, and from its sibling. */
+  --control-embedded-inset: 6px;
+  /* A chip or a button embedded in a field: the control height less the embedded
+     inset above and below, so the field keeps its height. */
+  --control-embedded-size: 32px;
   --sticker-ink: oklch(0.1813 0.005 17.62);
   --sticker-paper: oklch(1 0 0);
   --sticker-edge: oklch(0.1813 0.005 17.62 / 0);
@@ -677,5 +683,6 @@
     --control-height-cta: 40px;
     --control-icon-size: 18px;
     --control-hit-inset: 6px;
+    --control-embedded-size: 20px;
   }
 }

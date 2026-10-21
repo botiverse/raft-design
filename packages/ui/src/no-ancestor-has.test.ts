@@ -105,7 +105,6 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/banner/banner.tsx": 11,
   "components/button/button.tsx": 4,
   "components/card/card.recipe.ts": 7,
-  "components/code-block/code-block.recipe.ts": 1,
   "components/composer/composer-attachment.recipe.ts": 7,
   "components/files/files.recipe.ts": 7,
   "components/inbox-item/inbox-item.recipe.ts": 14,

@@ -1,6 +1,6 @@
 import "./head-edges.test.css";
 import { afterAll, afterEach, expect, test } from "vite-plus/test";
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import type { CSSProperties, ReactNode } from "react";
 import { ThemeProvider } from "./lib/theme/theme-provider";
 import { Button } from "./components/button/button";
@@ -15,7 +15,12 @@ import {
   ComboboxChip,
   ComboboxChipRemove,
   ComboboxChips,
+  ComboboxClear,
+  ComboboxContent,
+  ComboboxControl,
   ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
 } from "./components/combobox";
 import { ComboboxSelect } from "./components/combobox-select";
 import {
@@ -25,8 +30,44 @@ import {
   ComposerInput,
   ComposerMeta,
   ComposerSubmit,
+  ComposerSuggestionList,
+  ComposerSuggestionOption,
   ComposerToolbar,
 } from "./components/composer";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "./components/context-menu/context-menu";
+import {
+  LightboxInfoActions,
+  LightboxInfoBar,
+  LightboxInfoTitle,
+} from "./components/lightbox/lightbox";
+import {
+  MessageAttachmentAction,
+  MessageAttachmentCard,
+  MessageAttachmentMeta,
+  MessageAttachmentMetaEnd,
+  MessageAttachmentMetaStart,
+  MessageAttachmentTitle,
+  MessageImageGallery,
+  MessageImageGalleryAction,
+  MessageImageGalleryItem,
+  MessageVideoPreview,
+  MessageVideoPreviewAction,
+} from "./components/message-attachment";
+import { MessageMultiSelectToolbar } from "./components/message-item/message-multi-select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectItemText,
+  SelectList,
+  SelectTrigger,
+  SelectValue,
+} from "./components/select";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -118,6 +159,16 @@ const CITY_VALUES = ["sh", "ld"];
 const PEOPLE = ["Bugen", "Rin"];
 const SHOWN_TOOLBAR: CSSProperties = { opacity: 1, pointerEvents: "auto" };
 const LEFT = ["left"];
+const MANY_CITIES = [
+  { value: "a", label: "Amsterdam" },
+  { value: "b", label: "Barcelona" },
+  { value: "c", label: "Copenhagen" },
+  { value: "d", label: "Dubrovnik" },
+];
+const MANY_VALUES = ["a", "b", "c", "d"];
+const ONE_PERSON = ["Bugen"];
+const IMAGE_BOX: CSSProperties = { width: 144, height: 144 };
+const LONG_CODE = `const message = "${"a line far too long for the block ".repeat(4)}";`;
 
 for (const s of SCREENS) {
   const embedded = s.control - 12;
@@ -315,5 +366,307 @@ for (const s of SCREENS) {
     near(item.left, 4);
     near(item.top, 4);
     expect(item.radius).toBe("6px");
+  });
+  moreCases(s);
+}
+
+/** The highlight of a popup's first item: 4px inside the popup, radius-chip. */
+async function expectHighlight(frame: Element, item: Element) {
+  const box = inset(frame, item);
+  near(box.left, 4);
+  near(box.top, 4);
+  near(box.right, 4);
+  expect(box.radius).toBe("6px");
+}
+
+function moreCases(s: Screen) {
+  const embedded = s.control - 12;
+
+  it(`${s.name}: chips that wrap keep 6px between lines and to the field`, async () => {
+    await setScreen(s);
+    show(
+      <div style={{ width: 240 }}>
+        <ComboboxSelect multiple options={MANY_CITIES} defaultValue={MANY_VALUES} />
+      </div>,
+    );
+    const chips = await waitFor(() => {
+      const found = [...document.querySelectorAll(".r-combobox-select__chip")];
+      expect(found.length).toBe(4);
+      return found;
+    });
+    const field = document.querySelector(".r-combobox-select__control")!;
+    const first = inset(field, chips[0]!);
+    const last = inset(field, chips[3]!);
+    expect(last.top).toBeGreaterThan(first.top);
+    // Down a field the inset is counted on the 1.5px border, so the one-line
+    // field keeps its height in every engine; Chromium draws that border at
+    // 1px, so wrapped chips sit 5.5px from it there.
+    expect(Math.abs(first.top - 6)).toBeLessThanOrEqual(0.5);
+    expect(Math.abs(last.bottom - 6)).toBeLessThanOrEqual(0.5);
+    const lines = [...new Set(chips.map((chip) => chip.getBoundingClientRect().top))].sort(
+      (a, b) => a - b,
+    );
+    near(lines[1]! - lines[0]! - embedded, 6);
+  });
+
+  for (const [size, height, chip, gap] of [
+    ["sm", 28, 22, 3],
+    ["lg", 52, 40, 6],
+  ] as const) {
+    it(`${s.name}: ComboboxSelect ${size} keeps its ${height}px field with chips in it`, async () => {
+      await setScreen(s);
+      show(<ComboboxSelect multiple size={size} options={CITIES} defaultValue={CITY_VALUES} />);
+      const chips = await waitFor(() => {
+        const found = document.querySelectorAll(".r-combobox-select__chip");
+        expect(found.length).toBe(2);
+        return found;
+      });
+      const field = document.querySelector(".r-combobox-select__control")!;
+      expect(field.getBoundingClientRect().height).toBe(height);
+      const box = inset(field, chips[0]!);
+      near(box.height, chip);
+      near(box.top, gap);
+      near(box.left, gap);
+    });
+  }
+
+  it(`${s.name}: Combobox's clear sits 6px inside the field, a chip's × 2px inside the chip`, async () => {
+    await setScreen(s);
+    show(
+      <>
+        <Combobox<string> items={PEOPLE} defaultValue="Bugen">
+          <ComboboxControl data-testid="control">
+            <ComboboxInput aria-label="Person" />
+            <ComboboxClear aria-label="Clear" data-testid="clear" />
+          </ComboboxControl>
+        </Combobox>
+        <Combobox<string, true> multiple items={PEOPLE} defaultValue={ONE_PERSON}>
+          <ComboboxChips>
+            <ComboboxChip data-testid="chip">
+              <span>Bugen</span>
+              <ComboboxChipRemove data-testid="remove" />
+            </ComboboxChip>
+            <ComboboxInput aria-label="Add" />
+          </ComboboxChips>
+        </Combobox>
+      </>,
+    );
+    const clear = inset(screen.getByTestId("control"), screen.getByTestId("clear"));
+    near(clear.right, 6);
+    near(clear.top, 6);
+    near(clear.width, embedded);
+    expect(clear.radius).toBe("6px");
+    const remove = inset(screen.getByTestId("chip"), screen.getByTestId("remove"));
+    near(remove.right, 2);
+    near(remove.top, 2);
+    expect(remove.radius).toBe("4px");
+  });
+
+  it(`${s.name}: every popup's highlight sits 4px inside it`, async () => {
+    await setScreen(s);
+    show(
+      <>
+        <Select defaultValue="one" defaultOpen>
+          <SelectTrigger className="w-56">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="w-56" data-testid="select">
+            <SelectList>
+              <SelectItem value="one" data-testid="select-item">
+                <SelectItemText>Sonnet</SelectItemText>
+              </SelectItem>
+            </SelectList>
+          </SelectContent>
+        </Select>
+      </>,
+    );
+    await expectHighlight(await screen.findByTestId("select"), screen.getByTestId("select-item"));
+    cleanup();
+
+    show(
+      <Combobox<string> items={PEOPLE} defaultOpen>
+        <ComboboxControl className="w-56">
+          <ComboboxInput aria-label="Person" />
+        </ComboboxControl>
+        <ComboboxContent className="w-56" data-testid="combobox">
+          <ComboboxList>
+            <ComboboxItem value="Bugen" data-testid="combobox-item">
+              Bugen
+            </ComboboxItem>
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>,
+    );
+    await expectHighlight(
+      await screen.findByTestId("combobox"),
+      screen.getByTestId("combobox-item"),
+    );
+    cleanup();
+
+    show(<ComboboxSelect defaultOpen options={CITIES} />);
+    const option = await waitFor(() => {
+      const found = document.querySelector(".r-combobox-select__option");
+      expect(found).not.toBeNull();
+      return found!;
+    });
+    await expectHighlight(document.querySelector(".r-combobox-select__popup")!, option);
+    cleanup();
+
+    show(
+      <ContextMenu>
+        <ContextMenuTrigger data-testid="area" className="block h-20 w-40">
+          Area
+        </ContextMenuTrigger>
+        <ContextMenuContent className="w-56" data-testid="context">
+          <ContextMenuItem data-testid="context-item">Copy</ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>,
+    );
+    fireEvent.contextMenu(screen.getByTestId("area"), { clientX: 20, clientY: 20 });
+    await expectHighlight(
+      await screen.findByTestId("context"),
+      await screen.findByTestId("context-item"),
+    );
+    cleanup();
+
+    show(
+      <div style={{ position: "relative", marginTop: 200 }}>
+        <ComposerSuggestionList data-testid="suggestions">
+          <ComposerSuggestionOption data-testid="suggestion">Bugen</ComposerSuggestionOption>
+        </ComposerSuggestionList>
+      </div>,
+    );
+    await expectHighlight(screen.getByTestId("suggestions"), screen.getByTestId("suggestion"));
+  });
+
+  it(`${s.name}: the lightbox bar and the multi-select bar are 36px floating toolbars`, async () => {
+    await setScreen(s);
+    show(
+      <>
+        <LightboxInfoBar data-testid="lightbox">
+          <LightboxInfoTitle>photo.png</LightboxInfoTitle>
+          <LightboxInfoActions>
+            <Button variant="ghost" size="icon-sm" aria-label="Download" data-testid="download">
+              {ICON}
+            </Button>
+          </LightboxInfoActions>
+        </LightboxInfoBar>
+        <MessageMultiSelectToolbar data-testid="multi">
+          <span>1 selected</span>
+          <div className="flex flex-1 justify-end gap-1">
+            <Button size="xs" data-testid="cancel">
+              Cancel
+            </Button>
+            <Button size="icon-xs" aria-label="More" data-testid="more">
+              {ICON}
+            </Button>
+          </div>
+        </MessageMultiSelectToolbar>
+      </>,
+    );
+    for (const [bar, last] of [
+      ["lightbox", "download"],
+      ["multi", "more"],
+    ] as const) {
+      const frame = screen.getByTestId(bar);
+      expect(frame.getBoundingClientRect().height).toBe(36);
+      const button = inset(frame, screen.getByTestId(last));
+      near(button.right, 4);
+      near(button.top, 4);
+      near(button.width, 28);
+      expect(button.radius).toBe("6px");
+    }
+    const cancel = screen.getByTestId("cancel").getBoundingClientRect();
+    near(screen.getByTestId("more").getBoundingClientRect().left - cancel.right, 4);
+  });
+
+  it(`${s.name}: corner actions on a video, an image and a file card sit 6px from the corner`, async () => {
+    await setScreen(s);
+    show(
+      <>
+        <MessageVideoPreview data-testid="video">
+          <MessageVideoPreviewAction aria-label="Download" data-testid="video-action">
+            {ICON}
+          </MessageVideoPreviewAction>
+        </MessageVideoPreview>
+        <MessageImageGallery>
+          <MessageImageGalleryItem data-testid="image" style={IMAGE_BOX}>
+            <MessageImageGalleryAction aria-label="Download" data-testid="image-action">
+              {ICON}
+            </MessageImageGalleryAction>
+          </MessageImageGalleryItem>
+        </MessageImageGallery>
+        <MessageAttachmentCard data-testid="card">
+          <MessageAttachmentTitle>migration.diff</MessageAttachmentTitle>
+          <MessageAttachmentMeta>
+            <MessageAttachmentMetaStart>18 KB</MessageAttachmentMetaStart>
+            <MessageAttachmentMetaEnd>
+              <MessageAttachmentAction aria-label="Download" data-testid="card-action">
+                {ICON}
+              </MessageAttachmentAction>
+            </MessageAttachmentMetaEnd>
+          </MessageAttachmentMeta>
+        </MessageAttachmentCard>
+      </>,
+    );
+    // It shows on hover and keyboard focus; only its place is measured here.
+    screen.getByTestId("image-action").style.display = "flex";
+    const video = inset(screen.getByTestId("video"), screen.getByTestId("video-action"));
+    near(video.top, 6);
+    near(video.right, 6);
+    expect(video.radius).toBe("6px");
+    const image = inset(screen.getByTestId("image"), screen.getByTestId("image-action"));
+    near(image.bottom, 6);
+    near(image.right, 6);
+    expect(image.radius).toBe("6px");
+    const card = inset(screen.getByTestId("card"), screen.getByTestId("card-action"));
+    near(card.bottom, 6);
+    near(card.right, 6);
+    expect(card.radius).toBe("6px");
+  });
+
+  it(`${s.name}: a one-line code block keeps 6px under its button, and long code scrolls beside two`, async () => {
+    await setScreen(s);
+    show(
+      <>
+        <CodeBlock data-testid="short">
+          <CodeBlockBody>
+            <CodeBlockActions>
+              <CodeBlockAction aria-label="Copy code" data-testid="short-copy">
+                {ICON}
+              </CodeBlockAction>
+            </CodeBlockActions>
+            <pre>
+              <code>ok</code>
+            </pre>
+          </CodeBlockBody>
+        </CodeBlock>
+        <CodeBlock data-testid="long">
+          <CodeBlockBody>
+            <CodeBlockActions>
+              <CodeBlockAction aria-label="Wrap lines" data-testid="wrap">
+                {ICON}
+              </CodeBlockAction>
+              <CodeBlockAction aria-label="Copy code" data-testid="long-copy">
+                {ICON}
+              </CodeBlockAction>
+            </CodeBlockActions>
+            <pre tabIndex={0} aria-label="Code" data-testid="long-code">
+              <code>{LONG_CODE}</code>
+            </pre>
+          </CodeBlockBody>
+        </CodeBlock>
+      </>,
+    );
+    const short = inset(screen.getByTestId("short"), screen.getByTestId("short-copy"));
+    near(short.top, 6);
+    near(short.bottom, 6);
+    near(short.right, 6);
+    const code = screen.getByTestId("long-code");
+    expect(code.scrollWidth).toBeGreaterThan(code.clientWidth);
+    expect(code.getBoundingClientRect().right).toBeLessThanOrEqual(
+      screen.getByTestId("wrap").getBoundingClientRect().left,
+    );
+    near(inset(screen.getByTestId("long"), screen.getByTestId("long-copy")).right, 6);
   });
 }

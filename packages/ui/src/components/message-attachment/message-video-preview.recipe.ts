@@ -26,7 +26,7 @@ export const messageVideoPreview = tv({
       "transition-colors duration-150",
       "outline-[1px] outline-offset-2 outline-transparent focus-visible:keyboard:outline-foreground",
       "disabled:cursor-default [&_svg]:shrink-0",
-      "top-[5px] right-[5px] size-8 rounded-chip border-[1.5px] border-line-strong",
+      "top-[calc(var(--control-embedded-inset)-1px)] right-[calc(var(--control-embedded-inset)-1px)] size-8 rounded-chip border-[1.5px] border-line-strong",
       "bg-layer-card text-foreground hover:bg-layer-card hover:text-foreground hover:press-overlay active:press-overlay",
       "outline-none focus-visible:shadow-focus",
       "disabled:border-line-hairline disabled:bg-fill-muted disabled:bg-none disabled:text-foreground-disabled",

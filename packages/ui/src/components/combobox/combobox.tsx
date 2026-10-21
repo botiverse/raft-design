@@ -42,7 +42,7 @@ const combobox = tv({
       "outline-none",
       "[&>svg]:pointer-events-none [&>svg]:shrink-0",
       "**:data-[slot='combobox-clear']:size-control-embedded [&_[data-slot='combobox-clear']]:px-0 **:data-[slot='combobox-clear']:shrink-0",
-      "[&>[data-slot=combobox-clear]:last-child]:me-[-7px]",
+      "[&>[data-slot=combobox-clear]:last-child]:me-[calc(var(--control-embedded-inset)-0.75rem-1px)]",
       "[&_[data-slot='combobox-trigger-indicator']]:size-4",
       "[&_[data-slot='combobox-trigger-indicator']>svg]:shrink-0",
       "min-h-control rounded-control border-[1.5px] border-line-field bg-layer-card px-3 py-0",
@@ -102,7 +102,7 @@ const combobox = tv({
     groupLabel: ["py-2", "px-2.5 pt-2 pb-1 text-caption font-bold text-foreground-hint"],
     chips: [
       "flex flex-wrap items-center",
-      "min-h-control gap-1.5 rounded-control border-[1.5px] border-line-field bg-layer-card py-[4.5px] pr-3 pl-[5px]",
+      "min-h-control gap-1.5 rounded-control border-[1.5px] border-line-field bg-layer-card py-[calc(var(--control-embedded-inset)-1.5px)] pr-3 pl-[calc(var(--control-embedded-inset)-1px)]",
       "*:data-[slot=combobox-input]:h-control-embedded",
       "transition-shadow duration-90 ease-out has-focus-visible:shadow-focus",
     ],
@@ -114,7 +114,7 @@ const combobox = tv({
     ],
     chipRemove: [
       "inline-flex shrink-0 items-center justify-center outline-none transition-colors",
-      "size-[calc(var(--control-height)-16px)] rounded-sticker text-foreground-hint",
+      "size-[calc(var(--control-embedded-size)-4px)] rounded-sticker text-foreground-hint",
       "hover:bg-fill-pressed active:bg-fill-pressed",
       "focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
       "[&>svg]:size-3.5",
