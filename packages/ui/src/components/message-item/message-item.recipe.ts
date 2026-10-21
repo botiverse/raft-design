@@ -62,6 +62,10 @@ export const messageItem = tv({
     senderGroup: [
       "flex min-w-0 items-center gap-1.5 overflow-hidden",
       "*:data-[slot=message-item-meta]:basis-0 *:data-[slot=message-item-meta]:grow",
+      // The gap before the role lives inside it (a 6px spacer that is cut off
+      // with it), so a role squeezed to nothing leaves no dead gap after the
+      // name, and the name gets that space.
+      "*:data-[slot=message-item-meta]:-ms-1.5 *:data-[slot=message-item-meta]:before:inline-block *:data-[slot=message-item-meta]:before:w-1.5 *:data-[slot=message-item-meta]:before:content-['']",
     ],
     sender,
     // Its own slot, not a data-slot selector: a Tooltip trigger or another
@@ -79,12 +83,15 @@ export const messageItem = tv({
     ],
     inlineStatus: ["shrink-0", "text-caption text-foreground-hint"],
     // "sent by Friday": one step stronger than the role, so it is seen at a
-    // glance. It never takes more than 45% of the line; past that only the
-    // assistant's name truncates, and the words around it never do (each run
-    // of text is a flex item that can't shrink below its width). `pre` keeps
-    // the product's own spaces around the name, which a flex item would drop.
+    // glance. Each run of words is a grid track as wide as its words, and the
+    // name's track can shrink to nothing (the name is min-w-0), so the
+    // label's min-content is its words alone: min-w-min keeps the box at
+    // least that wide, past the 45% cap when the words alone are longer (a
+    // deleted assistant), and only the name ever truncates. `pre` keeps the
+    // product's own spaces around the name, which a grid item would drop.
     delegatedBy: [
-      "inline-flex min-w-0 max-w-[45%] shrink-0 items-baseline whitespace-pre",
+      "inline-grid grid-flow-col items-baseline",
+      "max-w-[45%] min-w-min shrink-0 whitespace-pre",
       "text-caption text-foreground-muted",
     ],
     delegatedByName: ["min-w-0 truncate"],
