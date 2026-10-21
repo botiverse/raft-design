@@ -13,7 +13,7 @@ related: [sidebar, mobile-nav, tooltip, notification-center]
 AppRail is the desktop's leftmost column of destinations, on the yellow frame, under the web top bar. The product's destinations are at the top, and help and settings sit at the bottom; the server and the bell are in the top bar ([Page structure](../../../../../design/patterns/page-structure.md#the-web-top-bar)). Selecting a destination fills the [Sidebar](../sidebar/sidebar.md) next to it.
 
 ```example
-app-rail/app-rail
+app-rail/compositions/with-top-bar
 ```
 
 ## When to use
@@ -36,7 +36,7 @@ Which destinations a product has, and in which order, is on its own page ([Raft 
 - `AppRailItemBadge`: a count in the same corner. Not recommended, and to be removed: a rail icon shows only the dot, never a number ([Badge](../badge/badge.md#rules)).
 - `AppRailFooter`: notifications, help and settings. Notifications sit here only when there is no web top bar; with it, the bell is in the top bar ([Navigation](../../../../../design/patterns/navigation.md#structure)).
 
-Without the web top bar (an older desktop build, a server's public page), the rail has its header with the workspace tile, search is a destination and the bell sits in the footer:
+Without the web top bar (an older desktop build, the app embedded in another host, a server's public page), the rail has its header with the workspace tile, search is a destination and the bell sits in the footer:
 
 ```example
 app-rail/compositions/without-top-bar

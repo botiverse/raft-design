@@ -56,7 +56,7 @@ export function AppRailNavItem({
   );
 }
 
-export function AppRailComposition() {
+export function AppRailWithTopBarComposition() {
   const [view, setView] = useState("chat");
 
   return (
