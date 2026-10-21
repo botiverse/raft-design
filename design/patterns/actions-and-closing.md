@@ -18,7 +18,7 @@ Every [Dialog](../../packages/ui/src/components/dialog/dialog.md), [AlertDialog]
 | Confirmation (AlertDialog, or a Dialog that confirms) | Cancel and 1 commit button | Cancel and Esc; no × | Nothing; a red [Banner](../../packages/ui/src/components/banner/banner.md) in the body when it cannot be undone |
 | Dialog with a task: a form, a picker, steps | Cancel and 1 commit button | × in the header, Cancel and Esc | Nothing |
 | Dialog that offers something or is only read: an upgrade, What's New, release notes | 1 commit button or none, and at most 1 text link | × in the header and Esc | Nothing |
-| Banner | At most 1 button, and at most 1 text link in the sentence | × at the end of the first line, only for a banner that informs | The intent's icon |
+| Banner | At most 1 button, and at most 1 text link in the sentence | Only a banner that informs: a Dismiss text button before its button, or × when it has no button | The intent's icon |
 | `PanelNotice` | At most 1 icon button and 1 text action | × in the actions, when the person can dismiss it | A status pixel |
 | Toast | At most 1 text action | Closes by itself; swipe; Esc when focused | A status pixel, or the avatar of who did it |
 
@@ -77,6 +77,7 @@ These exceptions apply only to a dialog that offers a paid plan after a limit wa
 - Ask for consent (cookies) with 2 equal `default` buttons, Reject first and Accept last. It is the only banner with 2 buttons: a choice between two answers needs both, at the same weight.
 - Don't let a banner that reports a problem or a limit be dismissed: it goes when the cause does. A banner inside a dialog or a form is part of the content and has no × either.
 - Give a banner that only informs or suggests (a new version, turning on notifications, a tip) a ×.
+- When a banner that informs has a button, close it with a Dismiss text button (`variant="ghost"`) placed just before that button, not with ×: the two are the banner's two answers, side by side in the same order as a dialog's Cancel and commit, as in Material's banners. Use × only on a banner that informs and has no button. A banner that reports a problem or a limit still has no way to close it, so it never shows Dismiss.
 - Put the × at the end of the banner's first line (raft-ui has no part for it yet), on the line's center, as a frameless icon button whose icon box ends on the banner's padding: the header's edge rule, at the banner's scale ([Alignment](../foundations/alignment.md#the-ends-of-a-header)). Never put it in the button row under the text, where it reads as one of the actions.
 - Remember a dismissal until the situation changes (a new version, a new limit), at least per person and server on the device: a banner that comes back after a reload teaches people that × doesn't work. Don't keep it only in memory or for the session ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md#behavior) follows the same rule).
 
