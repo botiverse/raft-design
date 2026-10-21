@@ -7,7 +7,7 @@ import { CompositionPreview } from "#/components/composition-preview.tsx";
 
 export function BannerContent() {
   return (
-    <Banner status="info" className="w-fit max-w-full">
+    <Banner status="info" className="w-[28rem] max-w-full">
       <Info />
       <BannerTitle>Trial ends soon</BannerTitle>
       <BannerDescription>Upgrade to keep projects available.</BannerDescription>

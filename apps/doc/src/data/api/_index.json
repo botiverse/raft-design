@@ -92,10 +92,12 @@
     "names": [
       "Banner",
       "BannerAction",
+      "BannerClose",
       "BannerDescription",
       "BannerTitle"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The banner's buttons: at the end of the last line of text, centered on it, while the text fits beside them on one line; on a line of their own under the text, aligned to the end, when it doesn't or the banner is narrower than 480px."
   },
   "button": {
     "names": [

@@ -7,7 +7,7 @@ import { CompositionPreview } from "#/components/composition-preview.tsx";
 
 export function BannerContent() {
   return (
-    <Banner status="default" className="w-fit max-w-full">
+    <Banner status="default" className="w-[28rem] max-w-full">
       <Info />
       <BannerTitle>Settings synced</BannerTitle>
       <BannerDescription>Rules now apply to every project.</BannerDescription>

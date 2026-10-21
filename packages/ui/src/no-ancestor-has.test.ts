@@ -102,7 +102,7 @@ const BANNED_REGRESSIONS = [
  * intentional addition; the message says so when a file drops below baseline.
  */
 const BASELINE_TOKENS: Record<string, number> = {
-  "components/banner/banner.tsx": 7,
+  "components/banner/banner.tsx": 9,
   "components/button/button.tsx": 4,
   "components/card/card.recipe.ts": 7,
   "components/composer/composer-attachment.recipe.ts": 7,
