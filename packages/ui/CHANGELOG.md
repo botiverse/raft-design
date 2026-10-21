@@ -1,3 +1,10 @@
+## [0.10.6](https://github.com/botiverse/raft-design/compare/v0.10.5...v0.10.6) (2026-10-21)
+
+### Added
+
+- Comments beside a document, as in Google Docs, through `@botiverse/raft-ui/wip`: `CommentMargin`, `CommentCard` (with `CommentCardTrigger`, `CommentCardMeta`, `CommentCardQuote`), `CommentEntry` and `CommentMarker`. Cards sit level with their passages and keep the document's order; on a narrow viewer a `CommentMarker` beside each passage opens the discussion in a bottom sheet instead. `useCommentMarginFits(viewer, { minWidth })` picks between the two, `setCommentHighlights` with `COMMENT_HIGHLIGHT` / `COMMENT_HIGHLIGHT_ACTIVE` highlights the passages, and `resolveCommentMarginLayout` is the layout for callers that place cards themselves. New pattern: Comments. ([#614](https://github.com/botiverse/raft-design/pull/614))
+- `AvatarGroup` reads `--avatar-group-surface` (default `layer-canvas`) for the ring between overlapping avatars, so a stack on another surface can match it. ([#614](https://github.com/botiverse/raft-design/pull/614))
+
 ## [0.10.5](https://github.com/botiverse/raft-design/compare/v0.10.4...v0.10.5) (2026-10-20)
 
 ### Added
