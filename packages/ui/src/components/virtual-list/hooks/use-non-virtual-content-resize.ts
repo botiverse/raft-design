@@ -5,7 +5,7 @@ import { useLayoutEffect } from "react";
 import type { RefObject } from "react";
 
 import { useEventCallback } from "./use-event-callback";
-import { getResizeObserverDelegate } from "./resize-observer-delegate";
+import { getResizeObserverDelegate } from "../resize-observer/resize-observer-delegate";
 
 /**
  * While `nonVirtual`, observes the items element and calls `onContentResize` when it resizes (with

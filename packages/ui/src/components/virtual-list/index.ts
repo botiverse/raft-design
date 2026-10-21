@@ -1,4 +1,4 @@
-export { VirtualList } from "./virtual-list";
+export { VirtualList } from "./VirtualList";
 export type {
   Column as VirtualListColumn,
   FooterRender as VirtualListFooterRender,
@@ -14,4 +14,4 @@ export type {
   VirtualListApi,
   VirtualListProps,
   VirtualListScrollToOptions,
-} from "./virtual-list-types";
+} from "./public-types";

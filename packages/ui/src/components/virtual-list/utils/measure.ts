@@ -8,7 +8,7 @@
  *
  * `starts[i]` is the top of the border box of `rows[i]` (in document order), relative to the container's
  * padding edge; `end` is the container's inner height. The container is a block formatting context
- * (`display: flow-root`, see `virtual-list-constants.ts`) and `position: relative`, so it is the rows' offsetParent, the
+ * (`display: flow-root`, see `constants.ts`) and `position: relative`, so it is the rows' offsetParent, the
  * first row's top margin and the last row's bottom margin stay inside it, and between two rows sits their
  * collapsed margin, whatever the consumer's CSS (a child's margins collapsing through a row included).
  *

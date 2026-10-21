@@ -1,0 +1,64 @@
+/*
+ * VirtualList. The list is its own native scroll container (vertical overflow scrolls; `overflow-anchor: none`,
+ * because the list compensates size changes above the view itself); its native scrollbar is hidden unless
+ * `showScrollbar`. Plain CSS: every selector is written out.
+ *
+ * Classes: `.r-virtual-list` (the scroll container, `data-slot="virtual-list"`) with the modifiers
+ * `--x-scrollable` (with `columns`), `--show-scrollbar`, `--printable`, `--empty-centered` and
+ * `--ios-compensation-enabled`; `.r-virtual-list__empty` (`data-slot="virtual-list-empty"`, with `--center`).
+ * The spacer (`data-slot="virtual-list-items"`) and the rows' element (`data-slot="virtual-list-visible-items"`)
+ * take their few styles inline, from VirtualList.tsx.
+ *
+ * In the `components` layer, so a utility in the consumer's `className` (`h-*`, `max-h-*`, `overflow-*`)
+ * overrides these rules.
+ *
+ * CSS variables the list writes as inline styles, for sticky children to read:
+ *   --virtual-list-transform-y          on the rows' element: its translateY (the offset of the first
+ *                                       mounted row, less its top margin), "0px" with virtualization off
+ *   --virtual-list-ios-compensation-y   on the rows' element: the iOS momentum-scroll compensation
+ *                                       applied to the spacer as translateY(-value)
+ *   --virtual-list-width                on `.r-virtual-list`: the list's offsetWidth
+ */
+@layer components {
+  .r-virtual-list {
+    max-height: inherit;
+    overflow-anchor: none;
+    outline: none;
+    min-width: 1px;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .r-virtual-list.r-virtual-list--ios-compensation-enabled {
+    overscroll-behavior: none;
+  }
+  .r-virtual-list.r-virtual-list--x-scrollable {
+    overflow-x: auto;
+  }
+  .r-virtual-list:not(.r-virtual-list--show-scrollbar) {
+    scrollbar-width: none;
+  }
+  .r-virtual-list:not(.r-virtual-list--show-scrollbar)::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  .r-virtual-list.r-virtual-list--empty-centered {
+    flex-direction: column;
+    display: flex;
+  }
+  .r-virtual-list__empty.r-virtual-list__empty--center {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    min-height: 0;
+    display: flex;
+  }
+  @media print {
+    .r-virtual-list.r-virtual-list--printable {
+      max-height: none !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+  }
+}

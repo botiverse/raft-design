@@ -4,6 +4,7 @@
 @import "./components/timeline/timeline.css";
 @import "./components/steps/steps.css";
 @import "./components/steps/otter-indicator.css";
+@import "./components/virtual-list/styles/virtual-list.css";
 
 /* `dark:` follows the nearest explicit mode class, and before hydration the
    system preference. A `.light` island inside a dark page re-enters light

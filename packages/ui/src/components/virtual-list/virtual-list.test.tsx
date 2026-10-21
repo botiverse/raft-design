@@ -45,7 +45,8 @@ describe("VirtualList", () => {
     );
     const list = container.firstElementChild as HTMLElement;
     expect(list.dataset.slot).toBe("virtual-list");
-    expect(list.className).not.toContain("scrollbar-none");
+    expect(list.classList).toContain("r-virtual-list");
+    expect(list.classList).toContain("r-virtual-list--show-scrollbar");
     expect(list.tabIndex).toBe(0);
     const itemsEl = list.children[0] as HTMLElement;
     expect(itemsEl.dataset.slot).toBe("virtual-list-items");
@@ -80,12 +81,12 @@ describe("VirtualList", () => {
     );
     const list = container.firstElementChild as HTMLElement;
     expect(list.dataset.slot).toBe("virtual-list");
-    expect(list.className).toContain("scrollbar-none");
-    expect(list.className).toContain("flex-col");
+    expect(list.classList).not.toContain("r-virtual-list--show-scrollbar");
+    expect(list.classList).toContain("r-virtual-list--empty-centered");
     expect(list.tabIndex).toBe(-1);
     const empty = list.children[0] as HTMLElement;
     expect(empty.dataset.slot).toBe("virtual-list-empty");
-    expect(empty.className).toContain("justify-center");
+    expect(empty.classList).toContain("r-virtual-list__empty--center");
     expect(list.textContent).toBe("Nothing");
   });
 

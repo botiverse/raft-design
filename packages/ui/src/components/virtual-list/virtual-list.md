@@ -37,6 +37,8 @@ virtual-list/compositions/basic
 
 `getKey` gives each item a stable key; every measurement is kept by key, so it survives reordering and new items. Each measured row gets `data-virtual-list-item-key`. The list writes `--virtual-list-transform-y` (the rows' offset) on the rows' element and `--virtual-list-width` on the scroller, for sticky content inside a row to read.
 
+Its styles are plain CSS, `styles/virtual-list.css`, which `styles.css` includes: the scroller is `.r-virtual-list` and the empty node `.r-virtual-list__empty`. They sit in the `components` layer, so a utility in `className` overrides them.
+
 ## Behavior
 
 ### Heights

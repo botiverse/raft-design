@@ -37,21 +37,21 @@ import {
   RENDER_THRASHING_COUNT,
   RENDER_THRASHING_WINDOW_MS,
   VIRTUAL_VISIBLE_ITEMS_STYLE,
-} from "./virtual-list-constants";
-import { FenwickTree } from "./fenwick-tree";
-import { findItemsAnchor, getAnchoredRange } from "./items-anchor";
-import type { ItemsAnchor } from "./items-anchor";
-import { useEventCallback } from "./use-event-callback";
-import { useLatestRef } from "./use-latest-ref";
-import { useLayoutEffectWithPrevious } from "./use-layout-effect-with-previous";
-import { useMemoWithPrevious } from "./use-memo-with-previous";
-import { useMergedRef } from "./use-merged-ref";
-import { useNonPassiveWheel } from "./use-non-passive-wheel";
-import { ColumnsContext, ItemColumns } from "./virtual-list-columns";
-import type { ColumnsContextValue } from "./virtual-list-columns";
-import { isIOS } from "./platform";
-import { getAlignedScrollTop } from "./aligned-scroll-top";
-import { measureRowSpans, measureRowStart } from "./measure-rows";
+} from "./utils/constants";
+import { FenwickTree } from "./utils/fenwick-tree";
+import { findItemsAnchor, getAnchoredRange } from "./utils/items-anchor";
+import type { ItemsAnchor } from "./utils/items-anchor";
+import { useEventCallback } from "./hooks/use-event-callback";
+import { useLatestRef } from "./hooks/use-latest-ref";
+import { useLayoutEffectWithPrevious } from "./hooks/use-layout-effect-with-previous";
+import { useMemoWithPrevious } from "./hooks/use-memo-with-previous";
+import { useMergedRef } from "./hooks/use-merged-ref";
+import { useNonPassiveWheel } from "./hooks/use-non-passive-wheel";
+import { ColumnsContext, ItemColumns } from "./ItemColumns";
+import type { ColumnsContextValue } from "./ItemColumns";
+import { isIOS } from "./utils/platform";
+import { getAlignedScrollTop } from "./utils/align";
+import { measureRowSpans, measureRowStart } from "./utils/measure";
 import type {
   Column,
   ScrollAlign,
@@ -63,24 +63,26 @@ import type {
   ObservedResizeEntry,
   RenderAnomaly,
   RenderReason,
-} from "./virtual-list-types";
-import { px } from "./virtual-list-range";
+} from "./public-types";
+import { px } from "./utils/range";
 import {
   getHorizontalRange,
   getVerticalRange,
   haveSameKeys,
   isHiddenByDisplayNone,
-} from "./virtual-list-range";
-import { ResizeObserverWrapper } from "./resize-observer-wrapper";
-import { getResizeObserverDelegate } from "./resize-observer-delegate";
-import { useIosMomentumCompensation } from "./use-ios-momentum-compensation";
-import { useKeyboardScroll } from "./use-keyboard-scroll";
-import { useNonVirtualContentResize } from "./use-non-virtual-content-resize";
-import { useScrollAnchor } from "./use-scroll-anchor";
-import { VirtualListContext } from "./virtual-list-context";
-import { getWheelDeltaScale, isCoarsePointer, runLatestInNextFrame } from "./platform";
+} from "./utils/range";
+import { ResizeObserverWrapper } from "./resize-observer/ResizeObserverWrapper";
+import { getResizeObserverDelegate } from "./resize-observer/resize-observer-delegate";
+import { useIosMomentumCompensation } from "./hooks/use-ios-momentum-compensation";
+import { useKeyboardScroll } from "./hooks/use-keyboard-scroll";
+import { useNonVirtualContentResize } from "./hooks/use-non-virtual-content-resize";
+import { useScrollAnchor } from "./hooks/use-scroll-anchor";
+import { VirtualListContext } from "./VirtualListContext";
+import { getWheelDeltaScale, isCoarsePointer, runLatestInNextFrame } from "./utils/platform";
 
-import { virtualList } from "./virtual-list.recipe";
+import { cn } from "../../lib/cn";
+
+import "./styles/virtual-list.css";
 
 type PendingScrollTask =
   | { type: "top" | "bottom" }
@@ -1660,13 +1662,15 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     pageBottomOcclusion: keyboardPageBottomOcclusion,
   });
   const emptyCentered = items.length === 0 && emptyAlign === "center";
-  const styles = virtualList({
-    xScrollable: columns.length !== 0,
-    showScrollbar,
-    printable: printable === true,
-    emptyCentered,
-    iosCompensation: iosCompensationEnabled,
-  });
+  const rootClassName = cn(
+    "r-virtual-list",
+    columns.length !== 0 && "r-virtual-list--x-scrollable",
+    showScrollbar && "r-virtual-list--show-scrollbar",
+    printable === true && "r-virtual-list--printable",
+    emptyCentered && "r-virtual-list--empty-centered",
+    iosCompensationEnabled && "r-virtual-list--ios-compensation-enabled",
+    className,
+  );
   return (
     <ResizeObserverWrapper
       forwardedRef={mergedListRefSetter}
@@ -1676,7 +1680,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       {({ ref }: { ref: MeasuredRef }) => (
         <div
           data-slot="virtual-list"
-          className={styles.root({ className })}
+          className={rootClassName}
           style={style}
           onScroll={handleListScroll}
           ref={ref}
@@ -1715,7 +1719,14 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
               </VirtualListContext.Provider>
             </div>
           ) : (
-            <div key="empty" data-slot="virtual-list-empty" className={styles.empty()}>
+            <div
+              key="empty"
+              data-slot="virtual-list-empty"
+              className={cn(
+                "r-virtual-list__empty",
+                emptyCentered && "r-virtual-list__empty--center",
+              )}
+            >
               {emptyNode}
             </div>
           )}

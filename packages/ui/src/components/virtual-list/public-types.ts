@@ -8,8 +8,8 @@ import type {
   RefObject,
 } from "react";
 
-import type { ObservedResizeEntry } from "./resize-observer-delegate";
-import type { MeasuredRef } from "./resize-observer-wrapper";
+import type { ObservedResizeEntry } from "./resize-observer/resize-observer-delegate";
+import type { MeasuredRef } from "./resize-observer/ResizeObserverWrapper";
 
 export type { MeasuredRef, ObservedResizeEntry };
 
@@ -108,6 +108,7 @@ export type FooterRender = (props: { domRef: MeasuredRef }) => ReactNode;
 export interface VirtualListProps<T> {
   virtual?: boolean | undefined;
   sessionId?: string | undefined;
+  /** @default false */
   showScrollbar?: boolean | undefined;
   columns?: readonly Column[] | undefined;
   renderCol?: ((info: RenderColInfo) => ReactNode) | undefined;

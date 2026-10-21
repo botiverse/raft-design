@@ -4,7 +4,7 @@
 import { createContext, useContext } from "react";
 import type { ReactNode } from "react";
 
-import type { Column, RenderColInfo, RenderItemWithColsInfo } from "./virtual-list-types";
+import type { Column, RenderColInfo, RenderItemWithColsInfo } from "./public-types";
 
 export interface ColumnsContextValue {
   startIndex: number;

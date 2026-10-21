@@ -1,7 +1,7 @@
 /*
  * The scroll position for `scrollTo({ index | key, align })`.
  */
-import type { ScrollAlign } from "./virtual-list-types";
+import type { ScrollAlign } from "../public-types";
 
 /**
  * The `scrollTop` that puts an item (its top `itemTop` in the list's content, its height `itemSize`) at

@@ -4,7 +4,7 @@
 import { useCallback, useRef } from "react";
 import type { KeyboardEvent } from "react";
 
-import type { VirtualListScrollToOptions, ScrollPosition } from "./virtual-list-types";
+import type { VirtualListScrollToOptions, ScrollPosition } from "../public-types";
 
 /**
  * PageUp / PageDown / Space (Shift+Space up) scroll by the list's height minus `pageBottomOcclusion`
