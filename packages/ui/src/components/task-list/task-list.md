@@ -48,7 +48,7 @@ task-list/compositions/task-list-empty-sections
 ## Behavior
 
 - Scroll every group in one viewport. Groups don't scroll on their own.
-- Mount only the visible cards of a tall group with a virtualizer of your own; raft-ui doesn't virtualize.
+- Mount only the visible cards of a tall group: make [VirtualList](../virtual-list/virtual-list.md) the viewport, with the group headers and cards as its rows, or use a virtualizer of your own.
 
 ## Content
 

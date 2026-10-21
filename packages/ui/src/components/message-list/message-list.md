@@ -39,7 +39,7 @@ conversation-panel/compositions/conversation-panel
 - On desktop the list is a [ScrollArea](../scroll-area/scroll-area.md): its thin scrollbar shows only while the list scrolls.
 - Below 768px it uses the panel's native scrolling, without the drawn scrollbar ([Responsive layout](../../../../../design/patterns/responsive.md)).
 - Scrolling reaches the end of the list and stops; it doesn't scroll the page behind it.
-- raft-ui doesn't load older messages or virtualize a long history. Do both in the product, through the `ref`.
+- MessageList renders every message it is given and doesn't load older ones. For a history too long to keep in the DOM, use [VirtualList](../virtual-list/virtual-list.md), which renders the rows in view and keeps them still while older rows load above; loading them stays in the product.
 
 ## Content
 

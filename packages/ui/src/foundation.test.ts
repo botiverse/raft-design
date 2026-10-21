@@ -112,6 +112,17 @@ test("the Tailwind entry includes the shared foundation and still generates sema
           base: sourceDirectory,
         };
       }
+      if (id === "./components/virtual-list/styles/virtual-list.css") {
+        const virtualListPath = join(
+          sourceDirectory,
+          "components/virtual-list/styles/virtual-list.css",
+        );
+        return {
+          content: readFileSync(virtualListPath, "utf8"),
+          path: virtualListPath,
+          base: sourceDirectory,
+        };
+      }
       throw new Error(`Unexpected stylesheet id: ${id}`);
     },
   });

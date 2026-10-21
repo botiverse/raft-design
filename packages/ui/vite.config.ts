@@ -52,6 +52,11 @@ export default defineConfig({
         to: "dist/components/combobox-select",
         rename: "combobox-select.css",
       },
+      {
+        from: "src/components/virtual-list/styles/virtual-list.css",
+        to: "dist/components/virtual-list/styles",
+        rename: "virtual-list.css",
+      },
     ],
     dts: {
       generator: "tsgo",
