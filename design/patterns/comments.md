@@ -41,6 +41,7 @@ Start a comment where the reading is, and keep the screen free of comment contro
 - On the whole document: while a document has no comments, the viewer's Comments button starts one, at the top of the margin. Once there are comments, the button shows and hides them, and the top of the margin offers Comment on File until there is a discussion on the whole document; from then on, reply in that discussion. Name the button for what it does: a toggle only while it toggles.
 - A selection the anchor can't name yet becomes a comment on the whole document, and its card says so, rather than showing no button: people should always be able to say something about what they are reading.
 - In the narrow layout, the same Comment button on a selection opens the bottom sheet, and the top of the marker column offers Comment on File.
+- From the keyboard, ⌘⌥M (Ctrl+Alt+M), Google Docs' shortcut, comments on the selection, so people who select with Shift and the arrow keys never have to leave the text. The Comment button also stays in the Tab order, after the document, and its tooltip shows the shortcut.
 
 ## Wide and narrow
 
