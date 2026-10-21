@@ -1,21 +1,19 @@
-/** The tallest the list gets by default, its padding included (`.r-combobox-select__list`, 16rem). */
-export const LIST_MAX_HEIGHT = "16rem";
+/** One option row (36px) and the list's 6px padding above and below. */
+const ROW = 36;
+const LIST_PADDING = 12;
+/** The gap between the field and the list (the positioner's sideOffset). */
+const SIDE_OFFSET = 4;
 
 /**
- * The side a phone's list opens on, chosen once when it opens so it never flips
- * while it is open (a phone's visual viewport keeps changing under it, as the
- * keyboard and the address bar come and go). Below, unless the room below is
- * short of the list and there is more above. `listHeight` is the list's full
- * height and `maxHeight` its cap (`listMaxHeight`), both in pixels.
+ * Whether fewer than three rows of a phone's list fit between the field and the
+ * bottom of the visual viewport. The list always opens below the field on a
+ * phone and never flips; when this is true the field is scrolled up instead.
  */
-export function preferredListSide(
-  anchor: { top: number; bottom: number },
+export function roomBelowIsShort(
+  field: { bottom: number },
   viewport: { top: number; height: number },
-  listHeight: number,
-  maxHeight: number,
-): "bottom" | "top" {
-  const below = viewport.top + viewport.height - anchor.bottom;
-  const above = anchor.top - viewport.top;
-  const needed = Math.min(listHeight, maxHeight);
-  return below >= needed || below >= above ? "bottom" : "top";
+  rows = 3,
+): boolean {
+  const below = viewport.top + viewport.height - field.bottom - SIDE_OFFSET;
+  return below < rows * ROW + LIST_PADDING;
 }

@@ -8,9 +8,10 @@ import type { ComboboxSelectValue } from "./combobox-select.types";
 
 // On a phone (a touch screen under 48rem) ComboboxSelect is the same text field
 // as on a desktop: a tap focuses it and brings up the keyboard, and typing
-// filters. Its list picks a side as it opens and keeps it while the keyboard
-// shrinks the viewport and the filtered list shrinks and grows, so it never
-// jumps. Measured in a real browser with touch emulated through CDP; jsdom has
+// filters. Its list always opens below the field, between the field and the
+// keyboard, and never flips: when fewer than three rows fit below, the field
+// scrolls up instead. As the keyboard comes and goes only the list's height
+// changes. Measured in a real browser with touch emulated through CDP; jsdom has
 // no media queries, layout or focus management to speak of. A headless browser
 // has no keyboard: shrinking the viewport stands in for it.
 
@@ -71,15 +72,19 @@ function Picker({
   size,
   create = false,
   listMaxHeight,
+  scrollRoom = false,
 }: {
   top?: number;
   size?: "sm" | "md" | "lg";
   create?: boolean;
   listMaxHeight?: number | string;
+  /** Makes the page taller than the window, so the field can be scrolled up. */
+  scrollRoom?: boolean;
 }) {
   const [value, setValue] = useState<ComboboxSelectValue | null>(null);
   return (
     <ThemeProvider>
+      {scrollRoom && <div aria-hidden style={{ height: top + 1200 }} />}
       <div style={{ position: "absolute", top, left: 16, width: 358 }}>
         <span id="target-label">Target computer</span>
         <ComboboxSelect
@@ -230,26 +235,42 @@ it("on a phone, with the keyboard up, typing filters and the list below never ju
   expect(screen.getAllByRole("option")).toHaveLength(14);
 });
 
-it("on a phone a list that opened above stays above as the keyboard comes up and typing filters", async () => {
-  render(<Picker top={640} />);
+/** The room below the field in the visual viewport, less the list's 4px offset. */
+function roomBelowField() {
+  const visual = window.visualViewport!;
+  return visual.offsetTop + visual.height - field().getBoundingClientRect().bottom - 4;
+}
+
+it("on a phone, opened again with the keyboard already up, the list still opens below", async () => {
+  // With the keyboard up the field sits low in what is visible, with more room
+  // above it than below: a list that picked the roomier side opened above.
+  render(<Picker top={300} scrollRoom />);
+  await raiseKeyboard(480);
   await tap(input());
   await screen.findByRole("listbox");
-  await waitFor(() => expect(popup()?.getAttribute("data-side")).toBe("top"));
   await settled();
-  // The keyboard shrinks the window: the list keeps its side, it doesn't flip below.
-  const { page } = await context();
-  await page.viewport(390, 760);
-  window.visualViewport?.dispatchEvent(new Event("resize"));
-  await new Promise((resolve) => setTimeout(resolve, 100));
-  await settled();
-  expect(popup()!.getAttribute("data-side")).toBe("top");
-  expect(popup()!.getBoundingClientRect().bottom).toBeLessThanOrEqual(
-    field().getBoundingClientRect().top,
+  expect(popup()!.getAttribute("data-side")).toBe("bottom");
+  expect(popup()!.getBoundingClientRect().top).toBeGreaterThanOrEqual(
+    field().getBoundingClientRect().bottom,
   );
+  expect(roomBelowField()).toBeGreaterThanOrEqual(3 * 36 + 12);
   await typeWithoutJumping("hetzq");
   expect(screen.getByText("No computers match")).toBeTruthy();
   await eraseWithoutJumping(5);
   expect(screen.getAllByRole("option")).toHaveLength(14);
+});
+
+it("on a phone a field low on the screen scrolls up so its list opens below, rather than flipping above", async () => {
+  render(<Picker top={720} scrollRoom />);
+  await tap(input());
+  await screen.findByRole("listbox");
+  await settled();
+  expect(popup()!.getAttribute("data-side")).toBe("bottom");
+  expect(popup()!.getBoundingClientRect().top).toBeGreaterThanOrEqual(
+    field().getBoundingClientRect().bottom,
+  );
+  // At least three rows now fit below it.
+  expect(roomBelowField()).toBeGreaterThanOrEqual(3 * 36 + 12);
 });
 
 it("on a phone the list opens below the field and stays there as the viewport shrinks", async () => {
@@ -314,35 +335,15 @@ it("listMaxHeight sets the cap, padding included: pixels, or any CSS length", as
   expect(await openListHeight()).toBeCloseTo(256, 0);
 });
 
-it("on a phone the side follows listMaxHeight: a taller cap opens above when below is short of it", async () => {
-  // 844px tall, the field under its label at about 520-564: 280px below, 520px above.
-  render(<Picker top={500} />);
-  await tap(input());
-  await screen.findByRole("listbox");
-  await waitFor(() => expect(popup()?.getAttribute("data-side")).toBe("bottom"));
-  cleanup();
-
+it("on a phone a taller listMaxHeight still opens below, capped to the room there", async () => {
+  // 844px tall, the field at about 520-564: 280px below, less than 24rem.
   render(<Picker top={500} listMaxHeight="24rem" />);
   await tap(input());
   await screen.findByRole("listbox");
-  await waitFor(() => expect(popup()?.getAttribute("data-side")).toBe("top"));
   await settled();
-  expect(screen.getByRole("listbox").getBoundingClientRect().height).toBeCloseTo(384, 0);
-  cleanup();
-
-  // Low on the screen, under 100px below: the default cap opens above, a list
-  // capped at 64px fits below.
-  render(<Picker top={680} />);
-  await tap(input());
-  await screen.findByRole("listbox");
-  expect(window.innerHeight - field().getBoundingClientRect().bottom).toBeLessThan(100);
-  await waitFor(() => expect(popup()?.getAttribute("data-side")).toBe("top"));
-  cleanup();
-
-  render(<Picker top={680} listMaxHeight={64} />);
-  await tap(input());
-  await screen.findByRole("listbox");
-  await waitFor(() => expect(popup()?.getAttribute("data-side")).toBe("bottom"));
+  expect(popup()!.getAttribute("data-side")).toBe("bottom");
+  expect(popup()!.getBoundingClientRect().bottom).toBeLessThanOrEqual(window.innerHeight + 0.5);
+  expect(screen.getByRole("listbox").getBoundingClientRect().height).toBeLessThan(384);
 });
 
 it("on a phone creating a value is typed into the field, with no sheet", async () => {
