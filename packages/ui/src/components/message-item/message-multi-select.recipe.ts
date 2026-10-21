@@ -14,7 +14,9 @@ export const messageMultiSelect = tv({
       "gap-2 rounded-container py-1 pr-1 pl-2.5",
       "**:data-[slot=button]:h-7 **:data-[slot=button]:w-auto **:data-[slot=button]:min-w-7",
       "**:data-[slot=button]:rounded-chip",
+      "pointer-coarse:**:data-[slot=button]:after:inset-[-9.5px]",
       "bg-layer-popover ring-1 ring-line-seam shadow-float",
     ],
+    toolbarActions: ["flex min-w-0 flex-1 flex-wrap items-center justify-end", "gap-1"],
   },
 });

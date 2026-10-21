@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   MessageMultiSelectToolbar,
+  MessageMultiSelectToolbarActions,
 } from "@botiverse/raft-ui";
 
 export type MessageMultiSelectToolbarCompositionProps = {
@@ -83,10 +84,7 @@ export function MessageMultiSelectToolbarComposition({
       >
         {children}
       </span>
-      <div
-        ref={actionsRef}
-        className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-1"
-      >
+      <MessageMultiSelectToolbarActions ref={actionsRef}>
         <Button
           size={compactCancel ? "icon-xs" : "xs"}
           onClick={onCancel}
@@ -147,7 +145,7 @@ export function MessageMultiSelectToolbarComposition({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
+      </MessageMultiSelectToolbarActions>
     </MessageMultiSelectToolbar>
   );
 }

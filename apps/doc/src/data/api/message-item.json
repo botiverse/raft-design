@@ -643,6 +643,21 @@
     ]
   },
   {
+    "name": "MessageMultiSelectToolbarActions",
+    "entry": "@botiverse/raft-ui",
+    "description": "The toolbar's actions, at its end, 4px apart like every floating toolbar's buttons.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
     "name": "MessageReactionAddButton",
     "entry": "@botiverse/raft-ui",
     "native": true,

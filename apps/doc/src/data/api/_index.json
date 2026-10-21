@@ -733,6 +733,7 @@
       "MessageMultiSelect",
       "MessageMultiSelectCheckbox",
       "MessageMultiSelectToolbar",
+      "MessageMultiSelectToolbarActions",
       "MessageReactionAddButton",
       "MessageReactionChip",
       "MessageReactionCount",

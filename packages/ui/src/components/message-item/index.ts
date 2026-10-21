@@ -65,6 +65,7 @@ export {
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
   MessageMultiSelectToolbar,
+  MessageMultiSelectToolbarActions,
 } from "./message-multi-select";
 export {
   MessageTextSelectionToolbar,
@@ -148,6 +149,7 @@ export type {
 export type {
   MessageMultiSelectCheckboxProps,
   MessageMultiSelectProps,
+  MessageMultiSelectToolbarActionsProps,
   MessageMultiSelectToolbarProps,
 } from "./message-multi-select";
 export type {

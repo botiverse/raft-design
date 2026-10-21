@@ -83,9 +83,7 @@ function ShikiHighlightedCodeImpl({ code, language }: ShikiHighlightedCodeProps)
       : code;
 
   return (
-    // A long line scrolls inside the pre: focusable, so Safari can scroll it
-    // from the keyboard too (Chromium makes a scroller focusable on its own).
-    <pre className="shiki" tabIndex={0} aria-label={language ? `${language} code` : "Code"}>
+    <pre className="shiki">
       <code>{content}</code>
     </pre>
   );

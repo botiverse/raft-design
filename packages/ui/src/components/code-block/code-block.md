@@ -36,12 +36,12 @@ code-block/compositions/shiki
 
 ## Variants
 
-| Variant          | Use for                                                                                                   |
-| ---------------- | --------------------------------------------------------------------------------------------------------- |
-| With a header    | Code from a file: the header names it                                                                     |
-| Without a header | A snippet or a log without a file name; `CodeBlockActions` placed inside the body floats at its top right |
-| Highlighted      | Code in a known language, highlighted with Shiki                                                          |
-| Plain            | Logs and text without a language                                                                          |
+| Variant          | Use for                                                                                                                 |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| With a header    | Code from a file: the header names it                                                                                   |
+| Without a header | A snippet or a log without a file name; `CodeBlockActions` placed inside the body takes its own column at its top right |
+| Highlighted      | Code in a known language, highlighted with Shiki                                                                        |
+| Plain            | Logs and text without a language                                                                                        |
 
 ```example
 code-block/compositions/plain
@@ -70,7 +70,7 @@ code-block/compositions/animated-copy
 - Give every `CodeBlockAction` an `aria-label`, such as "Copy code": it is icon-only.
 - Announce a completed copy, for example with `aria-live` on the button, so the change of icon isn't the only signal.
 - Keep the code in `pre` and `code`, so it is read as code and keeps its whitespace.
-- A long line scrolls inside the `pre`, so give it `tabIndex={0}` and an `aria-label` ("ts code"): Safari doesn't let the keyboard reach a scroller that can't take focus. It shows the inset ink ring on keyboard focus.
+- A long line scrolls inside the `pre`. `CodeBlockBody` makes that `pre` a region the keyboard can reach (`tabindex="0"`, `role="region"`), named by `codeLabel` ("Code" by default; name it after the language, "ts code"): Safari doesn't let the keyboard reach a scroller that can't take focus, and a `pre` with no role can't carry a name. It shows the inset ink ring on keyboard focus.
 
 ## Rules
 

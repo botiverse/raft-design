@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { useEffect, useRef } from "react";
 import { codeBlock } from "./code-block.recipe";
 
 const CORNERS = [
@@ -66,7 +67,7 @@ export function CodeBlockTitle({ className, render, ...props }: CodeBlockTitlePr
 
 export type CodeBlockActionsProps = useRender.ComponentProps<"div">;
 
-/** Trailing action region. Placed inside the body it floats over the code panel. */
+/** Trailing action region. In the header it ends the header; in the body it takes a column of its own beside the code. */
 export function CodeBlockActions({ className, render, ...props }: CodeBlockActionsProps) {
   const { actions } = codeBlock();
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -103,11 +104,36 @@ export function CodeBlockAction({ className, render, ...props }: CodeBlockAction
   });
 }
 
-export type CodeBlockBodyProps = useRender.ComponentProps<"div">;
+export type CodeBlockBodyProps = useRender.ComponentProps<"div"> & {
+  /**
+   * The accessible name of the scrolling code region, such as "ts code".
+   * @default "Code"
+   */
+  codeLabel?: string;
+};
 
-/** Inner code panel. Render the complete pre and code as children. */
-export function CodeBlockBody({ children, className, render, ...props }: CodeBlockBodyProps) {
+/**
+ * Inner code panel. Render the complete pre and code as children. A long line
+ * scrolls inside the `pre`, so the body makes it a named region the keyboard
+ * can reach: Safari doesn't focus a scroller on its own.
+ */
+export function CodeBlockBody({
+  children,
+  className,
+  render,
+  ref,
+  codeLabel = "Code",
+  ...props
+}: CodeBlockBodyProps) {
   const { body, corner } = codeBlock();
+  const bodyRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const pre = bodyRef.current?.querySelector("pre");
+    if (!pre) return;
+    if (!pre.hasAttribute("tabindex")) pre.tabIndex = 0;
+    if (!pre.hasAttribute("role")) pre.setAttribute("role", "region");
+    if (!pre.hasAttribute("aria-label")) pre.setAttribute("aria-label", codeLabel);
+  }, [children, codeLabel]);
   const defaultProps: useRender.ElementProps<"div"> = {
     className: body({ className }),
     children: (
@@ -130,6 +156,7 @@ export function CodeBlockBody({ children, className, render, ...props }: CodeBlo
   return useRender({
     defaultTagName: "div",
     render,
+    ref: ref ? [bodyRef, ref] : bodyRef,
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "code-block-body",

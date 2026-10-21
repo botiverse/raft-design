@@ -83,6 +83,7 @@ const lightbox = tv({
       "gap-1",
       "*:data-[slot=button]:h-7 *:data-[slot=button]:w-auto *:data-[slot=button]:min-w-7",
       "*:data-[slot=button]:rounded-chip",
+      "pointer-coarse:*:data-[slot=button]:after:inset-[-9.5px]",
     ],
     thumbnailStrip: [
       "pointer-events-none absolute right-0 bottom-4 left-0 z-10",

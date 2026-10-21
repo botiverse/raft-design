@@ -32,7 +32,7 @@
   {
     "name": "CodeBlockActions",
     "entry": "@botiverse/raft-ui",
-    "description": "Trailing action region. Placed inside the body it floats over the code panel.",
+    "description": "Trailing action region. In the header it ends the header; in the body it takes a column of its own beside the code.",
     "native": true,
     "props": [
       {
@@ -47,9 +47,17 @@
   {
     "name": "CodeBlockBody",
     "entry": "@botiverse/raft-ui",
-    "description": "Inner code panel. Render the complete pre and code as children.",
+    "description": "Inner code panel. Render the complete pre and code as children. A long line scrolls inside the `pre`, so the body makes it a named region the keyboard can reach: Safari doesn't focus a scroller on its own.",
     "native": true,
     "props": [
+      {
+        "name": "codeLabel",
+        "type": "string",
+        "required": false,
+        "default": "\"Code\"",
+        "description": "The accessible name of the scrolling code region, such as \"ts code\".",
+        "from": "raft-ui"
+      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",

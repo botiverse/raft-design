@@ -22,7 +22,7 @@ export function PlainCodeBlockComposition() {
         </CodeBlockActions>
       </CodeBlockHeader>
       <CodeBlockBody>
-        <pre tabIndex={0} aria-label="Code">
+        <pre>
           <code>{CODE}</code>
         </pre>
       </CodeBlockBody>

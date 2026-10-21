@@ -58,7 +58,10 @@ import {
   MessageVideoPreview,
   MessageVideoPreviewAction,
 } from "./components/message-attachment";
-import { MessageMultiSelectToolbar } from "./components/message-item/message-multi-select";
+import {
+  MessageMultiSelectToolbar,
+  MessageMultiSelectToolbarActions,
+} from "./components/message-item/message-multi-select";
 import {
   Select,
   SelectContent,
@@ -553,14 +556,14 @@ function moreCases(s: Screen) {
         </LightboxInfoBar>
         <MessageMultiSelectToolbar data-testid="multi">
           <span>1 selected</span>
-          <div className="flex flex-1 justify-end gap-1">
+          <MessageMultiSelectToolbarActions>
             <Button size="xs" data-testid="cancel">
               Cancel
             </Button>
             <Button size="icon-xs" aria-label="More" data-testid="more">
               {ICON}
             </Button>
-          </div>
+          </MessageMultiSelectToolbarActions>
         </MessageMultiSelectToolbar>
       </>,
     );
@@ -578,6 +581,26 @@ function moreCases(s: Screen) {
     }
     const cancel = screen.getByTestId("cancel").getBoundingClientRect();
     near(screen.getByTestId("more").getBoundingClientRect().left - cancel.right, 4);
+    // On a touch screen each 28px button still takes a 44px tap: its hit
+    // area reaches 8px past its top and bottom (and past an icon's sides).
+    if (s.touch) {
+      for (const id of ["download", "cancel", "more"]) {
+        const button = screen.getByTestId(id);
+        const box = button.getBoundingClientRect();
+        const x = box.left + box.width / 2;
+        for (const y of [box.top - 7.5, box.bottom + 7.5]) {
+          expect(document.elementFromPoint(x, y)?.closest("[data-testid]"), `${id} at ${y}`).toBe(
+            button,
+          );
+        }
+      }
+      const more = screen.getByTestId("more").getBoundingClientRect();
+      expect(
+        document
+          .elementFromPoint(more.right + 7.5, more.top + more.height / 2)
+          ?.closest("[data-testid]"),
+      ).toBe(screen.getByTestId("more"));
+    }
   });
 
   it(`${s.name}: corner actions on a video, an image and a file card sit 6px from the corner`, async () => {
@@ -651,7 +674,7 @@ function moreCases(s: Screen) {
                 {ICON}
               </CodeBlockAction>
             </CodeBlockActions>
-            <pre tabIndex={0} aria-label="Code" data-testid="long-code">
+            <pre data-testid="long-code">
               <code>{LONG_CODE}</code>
             </pre>
           </CodeBlockBody>
@@ -664,6 +687,10 @@ function moreCases(s: Screen) {
     near(short.right, 6);
     const code = screen.getByTestId("long-code");
     expect(code.scrollWidth).toBeGreaterThan(code.clientWidth);
+    // The body makes the scrolling code a named region the keyboard reaches.
+    await waitFor(() => expect(code.getAttribute("role")).toBe("region"));
+    expect(code.tabIndex).toBe(0);
+    expect(code.getAttribute("aria-label")).toBe("Code");
     expect(code.getBoundingClientRect().right).toBeLessThanOrEqual(
       screen.getByTestId("wrap").getBoundingClientRect().left,
     );
