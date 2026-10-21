@@ -44,7 +44,8 @@ Its styles are plain CSS, `styles/virtual-list.css`, which `styles.css` includes
 ### Heights
 
 - Set `itemResizable` for rows whose height isn't fixed. Rows not yet mounted count as `itemEstimatedSize`; a row is measured before the browser paints it, and again whenever it resizes.
-- Set `itemMinSize` to the shortest row's height or less: the list mounts as many rows as fit at that size, so a larger value leaves the end of the view empty.
+- Set `itemMinSize` to the shortest row's height or less: to fill the view, the list counts rows not measured yet at that size, so a larger value leaves the end of the view empty.
+- While the person scrolls, rows are mounted ahead of the view (a viewport's worth above it at a time when scrolling up, a row or two below it), and the rows the view has passed stay mounted for a while, so most scroll frames mount and unmount nothing. After a jump only the rows in view are mounted, until the person scrolls.
 - Rows are laid out in normal block flow, so their margins collapse as the CSS says: between neighboring rows, and a child's margin through a row with no border or padding of its own. The list measures the space each row takes, so rows need no `display: flow-root` or `gap`.
 
 ```example
@@ -99,6 +100,7 @@ virtual-list/compositions/chat
 
 - Put `domRef` on the row's root element, the element the render function returns: the list finds rows among its own children, so a row with `domRef` on a nested element is never measured and the scroll position jumps as it is read.
 - Keep `getKey` stable for an item across renders: a new key is a new row, measured again from the estimate.
+- Treat items as immutable and replace an item's object to change its row: the list skips rendering a mounted row again unless its item (compared by reference) or its index changes, or one of `children`, `ItemComponent`, `getKey`, `renderCol`, `renderItemWithCols`, `itemResizable`, `ignoreItemResize`, `sessionId` and `virtual` does, so an item changed in place, or a render function that reads other mutable state, shows stale content.
 - Keep the `header` the same height while rows load above: a change in its height moves the rows in view.
 
 ## Provenance

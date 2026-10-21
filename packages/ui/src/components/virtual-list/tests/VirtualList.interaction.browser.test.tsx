@@ -315,3 +315,72 @@ describe("VirtualList: the row holding focus stays mounted", () => {
     expect(mounted().length).toBeLessThan(20);
   });
 });
+
+/** Scrolls `list` by `step` a frame, `count` times (the scroll events fire as in a real scroll). */
+async function scrollInSteps(list: HTMLElement, step: number, count: number) {
+  for (let i = 0; i < count; i++) {
+    list.scrollBy(0, step);
+    await frame();
+  }
+  await settle();
+}
+
+/** The row under the middle of the view (its key), from layout: what the person sees there. */
+function rowAtMiddle(list: HTMLElement) {
+  const rect = list.getBoundingClientRect();
+  const el = document.elementFromPoint(rect.left + 20, rect.top + rect.height / 2);
+  return el?.closest("[data-row]")?.getAttribute("data-row") ?? null;
+}
+
+// Rows are mounted ahead of the view in batches and the rows it has passed stay mounted a while (see
+// `getOverscannedRange`): what is kept for focus and the selection must not depend on that, nor what
+// paging shows.
+describe("VirtualList: overscan while scrolling in steps", () => {
+  it("a selection in rows scrolled far away, a row at a time, stays and comes back with them", async () => {
+    const { list, mounted } = await mount();
+    const from = list.querySelector('[data-text="row-2"]')!.firstChild!;
+    const to = list.querySelector('[data-text="row-4"]')!.firstChild!;
+    const range = document.createRange();
+    range.setStart(from, 0);
+    range.setEnd(to, 3);
+    window.getSelection()!.addRange(range);
+    const selected = window.getSelection()!.toString();
+    await scrollInSteps(list, 120, 60);
+    expect(list.scrollTop).toBe(7200);
+    expect(mounted()).toEqual(expect.arrayContaining(["row-2", "row-3", "row-4"]));
+    expect(window.getSelection()!.toString()).toBe(selected);
+    await scrollInSteps(list, -120, 60);
+    expect(list.scrollTop).toBe(0);
+    expect(window.getSelection()!.toString()).toBe(selected);
+    expect(rowAtMiddle(list)).toBe("row-6");
+  });
+
+  it("a focused row scrolled far away, a row at a time, stays mounted with focus; it unmounts once focus leaves", async () => {
+    const { list, mounted } = await mount();
+    const button = list.querySelector<HTMLElement>('[data-button="row-1"]')!;
+    button.focus();
+    await scrollInSteps(list, 120, 60);
+    expect(mounted()).toContain("row-1");
+    expect(document.activeElement).toBe(button);
+    document.getElementById("before")!.focus();
+    await settle();
+    expect(mounted()).not.toContain("row-1");
+  });
+
+  it("Page Down and Page Up page through the rows, each page showing the rows it lands on", async () => {
+    const { list, userEvent } = await mount();
+    list.focus();
+    for (let page = 1; page <= 8; page++) {
+      await userEvent.keyboard("{PageDown}");
+      await settle();
+      expect(list.scrollTop).toBe(page * (400 - 32));
+      expect(rowAtMiddle(list)).toBe(`row-${Math.floor((page * (400 - 32) + 200) / 30)}`);
+    }
+    for (let page = 7; page >= 0; page--) {
+      await userEvent.keyboard("{PageUp}");
+      await settle();
+      expect(list.scrollTop).toBe(page * (400 - 32));
+      expect(rowAtMiddle(list)).toBe(`row-${Math.floor((page * (400 - 32) + 200) / 30)}`);
+    }
+  });
+});

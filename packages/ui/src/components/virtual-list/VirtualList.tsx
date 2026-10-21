@@ -52,6 +52,7 @@ import type { ColumnsContextValue } from "./ItemColumns";
 import { isIOS } from "./utils/platform";
 import { getAlignedScrollTop } from "./utils/align";
 import { measureRowSpans, measureRowStart } from "./utils/measure";
+import { createTypicalSizeCache, getTypicalSize, recordMeasuredSize } from "./utils/size-cache";
 import type {
   Column,
   ScrollAlign,
@@ -67,6 +68,8 @@ import type {
 import { px } from "./utils/range";
 import {
   getHorizontalRange,
+  getNeededEnd,
+  getOverscannedRange,
   getVerticalRange,
   haveSameKeys,
   isHiddenByDisplayNone,
@@ -221,7 +224,11 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   const keptKeysRef = useRef<string[]>([]);
   /** The key of the row that holds focus (`document.activeElement` is in it), tracked by focusin / focusout. */
   const focusedKeyRef = useRef<string | null>(null);
+  /** The measured rows' sizes, by key (see `utils/size-cache.ts`). */
   const keyToHeightOffsetRef = useRef(new Map<string, number>());
+  /** Bumped whenever `keyToHeightOffsetRef` changes (see `getTypicalSize`). */
+  const measuredVersionRef = useRef(0);
+  const typicalSizeRef = useRef(createTypicalSizeCache());
   /*
    * Unlike the reference implementation (DeepSeek web): rows are laid out in block flow and measured
    * from layout (`measureFlowRun`). A row's size is the space from where it starts (the top of its border box) to where the next row
@@ -247,6 +254,8 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   const pendingScrollTaskTimeoutRef = useRef<number | null>(null);
   const pendingScrollTaskRafRef = useRef<number | null>(null);
   const wheelScrollingRef = useRef(false);
+  /** Whether the view last moved up (see `updateRange`). */
+  const scrollingUpRef = useRef(false);
   /** Clears `wheelScrollingRef` in the next frame; this list's own, so other lists cannot replace it. */
   const [runLatestInNextFrame] = useState(createLatestInNextFrame);
   /** The wheel is only taken over (catchWheel) where the pointer is not coarse. */
@@ -354,6 +363,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     keptKeysRef.current = [];
     focusedKeyRef.current = null;
     keyToHeightOffsetRef.current.clear();
+    measuredVersionRef.current += 1;
     leadingMarginRef.current = 0;
     keyToIndexRef.current = new Map();
     rangeRef.current = {
@@ -554,9 +564,20 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       }
     }
   }, [virtual]);
+  /** The size rows typically are: the mean of the measured rows (`getTypicalSize`). */
+  const getTypicalRowSize = useEventCallback(() =>
+    getTypicalSize(
+      typicalSizeRef.current,
+      keyToHeightOffsetRef.current,
+      measuredVersionRef.current,
+      itemEstimatedSize,
+      itemMinSize,
+    ),
+  );
   /**
    * The viewport sync. The range starts at the item at `scrollTop + compensation - paddingTop` and
-   * holds as many items as fit at `itemMinSize`, plus one. Items holding the text selection, and the item
+   * holds as many items as fit at `itemMinSize`, plus one, and is overscanned in batches
+   * (`getOverscannedRange`). Items holding the text selection, and the item
    * holding focus, stay
    * mounted ("kept"). When the new range is inside the old one, only the layout styles are written;
    * otherwise the items entering above the old start are recorded (`prependIndexes`) and the range is
@@ -587,7 +608,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         startIndex: range.verticalStartIndex,
         endIndex: range.verticalEndIndex,
       };
-      const nextRange = getVerticalRange({
+      const viewRange = getVerticalRange({
         fenwickTree,
         scrollTop: effectiveScrollTop,
         listHeight: viewport.listHeight,
@@ -595,10 +616,56 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         itemCount: items.length,
         paddingTop: getRowsTop(),
       });
+      /*
+       * Unlike the reference implementation (DeepSeek web): the range is overscanned, in batches
+       * (`getOverscannedRange`), so most scroll frames neither mount nor unmount a row. Moving the first
+       * mounted row moves every mounted row in the flow and changes the rows' offset, a CSS variable all
+       * of them inherit, so it is the costliest change a frame can make; the reference made it whenever
+       * a row crossed the view's top. Without a height (not laid out) there is no overscan, and a range
+       * in view inside the rendered one keeps it, as in the reference.
+       */
+      const overscanned = viewport.listHeight > 0;
+      // The direction the view last moved in (scrollTop corrections the list makes keep it).
+      if (scrollTop !== viewport.scrollTop) {
+        scrollingUpRef.current = scrollTop < viewport.scrollTop;
+      }
+      const nextRange = overscanned
+        ? getOverscannedRange({
+            fenwickTree,
+            view: viewRange,
+            prev: prevRange,
+            neededEnd: getNeededEnd({
+              fenwickTree,
+              startIndex: viewRange.startIndex,
+              viewTop: effectiveScrollTop - getRowsTop(),
+              listHeight: viewport.listHeight,
+              itemMinSize,
+              itemCount: items.length,
+              isMeasured: (index: number) => {
+                const item = items[index];
+                return item !== undefined && keyToHeightOffsetRef.current.has(getKey(item));
+              },
+            }),
+            viewTop: effectiveScrollTop - getRowsTop(),
+            moved: Math.abs(scrollTop - viewport.scrollTop),
+            movingUp: scrollingUpRef.current,
+            settling: pendingScrollTaskRef.current !== null,
+            plannedSize: (index: number) => {
+              const item = items[index];
+              return item !== undefined && keyToHeightOffsetRef.current.has(getKey(item))
+                ? fenwickTree.get(index)
+                : getTypicalRowSize();
+            },
+            listHeight: viewport.listHeight,
+            itemCount: items.length,
+          })
+        : viewRange;
       const rangeChanged =
         prevRange.startIndex !== nextRange.startIndex || prevRange.endIndex !== nextRange.endIndex;
       const nextInsidePrev =
-        nextRange.startIndex >= prevRange.startIndex && prevRange.endIndex >= nextRange.endIndex;
+        !overscanned &&
+        nextRange.startIndex >= prevRange.startIndex &&
+        prevRange.endIndex >= nextRange.endIndex;
       const prevColRange = {
         startIndex: range.horizontalStartIndex,
         endIndex: range.horizontalEndIndex,
@@ -887,13 +954,13 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       rows.forEach(({ key, index }: FlowRow, i: number) => {
         const size = spans[i]!;
         const previousSize = fenwickTree.get(index);
+        // Recorded even when the size is the one counted for it (the estimate, for a row not measured
+        // yet): the row is measured from now on.
+        if (recordMeasuredSize(keyToHeightOffsetRef.current, key, size, itemEstimatedSize)) {
+          measuredVersionRef.current += 1;
+        }
         if (size === previousSize) {
           return;
-        }
-        if (size - itemEstimatedSize === 0) {
-          keyToHeightOffsetRef.current.delete(key);
-        } else {
-          keyToHeightOffsetRef.current.set(key, size - itemEstimatedSize);
         }
         fenwickTree.add(index, size - previousSize);
         resizes.push({ index, key, delta: size - previousSize });
@@ -1290,6 +1357,15 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       }
     }
     const { resizes, leadingMarginDelta } = measureFlowRun();
+    /*
+     * Nothing changed size (the ResizeObserver's first notification for a row that was just mounted and
+     * measured, say): the layout and the range are what the last update made them, so there is nothing
+     * to write. Writing anyway would cost a forced layout per row mounted.
+     */
+    if (resizes.length === 0 && leadingMarginDelta === 0 && pendingScrollTaskRef.current === null) {
+      clearItemResizeQueue();
+      return;
+    }
     applyLayoutStyles(startIndex);
     onContentResize?.();
     const listEl = listElRef.current;
@@ -1642,10 +1718,61 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     ],
   );
   /* oxlint-enable react-perf/jsx-no-new-function-as-prop, react-perf/jsx-no-new-object-as-prop */
-  const renderedVisibleItems = useMemo(
-    () => visibleItems.map((item: T) => renderItem(item, false)),
-    [renderItem, visibleItems],
+  /*
+   * The elements of the rows in the range, by key, kept from one render to the next while what they are
+   * made of is the same (the item, its index and the render inputs, not the range): a row that stays in
+   * the range gets the same element, which React skips without rendering it again, so a range update
+   * renders only the rows that mount. `renderItem` changes with every range (`startIndex`, the tree), but
+   * an in-flow row reads neither (only a kept row's absolute position does), so it is not part of what a
+   * row's element is made of; `renderInputs` is.
+   */
+  const renderInputs = useMemo(
+    () => ({}),
+    // oxlint-disable-next-line react/exhaustive-deps -- the inputs of an in-flow row's element (see above)
+    [
+      virtual,
+      getKey,
+      renderCol,
+      renderItemWithCols,
+      itemResizable,
+      sessionId,
+      ignoreItemResize,
+      ItemComponent,
+      renderItemChild,
+    ],
   );
+  const [flowElements] = useState(
+    () =>
+      new Map<string, { item: T; index: number | undefined; inputs: object; node: ReactNode }>(),
+  );
+  const renderedVisibleItems = useMemo(() => {
+    const nodes = visibleItems.map((item: T) => {
+      const key = getKey(item);
+      const index = keyToIndexRef.current.get(key);
+      const cached = flowElements.get(key);
+      if (
+        cached !== undefined &&
+        cached.item === item &&
+        cached.index === index &&
+        cached.inputs === renderInputs
+      ) {
+        return cached.node;
+      }
+      const node = renderItem(item, false);
+      flowElements.set(key, { item, index, inputs: renderInputs, node });
+      return node;
+    });
+    // Only the rows in the range are kept: a row that leaves it is rendered anew when it comes back.
+    if (flowElements.size > visibleItems.length) {
+      const inRange = new Set(visibleItems.map(getKey));
+      for (const key of flowElements.keys()) {
+        if (!inRange.has(key)) {
+          flowElements.delete(key);
+        }
+      }
+    }
+    return nodes;
+  }, [renderItem, visibleItems, getKey, flowElements, renderInputs]);
   const renderedKeptBefore = useMemo(
     () => keptItemsBefore.map((item: T) => renderItem(item, true)),
     [renderItem, keptItemsBefore],
@@ -1731,11 +1858,10 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
             leadingMarginRef.current = firstStart;
           }
           rows.forEach(({ key }, i: number) => {
-            const offset = spans[i]! - itemEstimatedSize;
-            if (offset === 0) {
-              keyToHeightOffsetRef.current.delete(key);
-            } else {
-              keyToHeightOffsetRef.current.set(key, offset);
+            if (
+              recordMeasuredSize(keyToHeightOffsetRef.current, key, spans[i]!, itemEstimatedSize)
+            ) {
+              measuredVersionRef.current += 1;
             }
           });
         }
