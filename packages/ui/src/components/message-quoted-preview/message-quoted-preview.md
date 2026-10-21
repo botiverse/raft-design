@@ -30,7 +30,7 @@ message-quoted-preview/compositions/quoted-preview
 
 - `MessageQuotedPreview`: the preview: a 2px `line-seam` bar on the left, no fill, `foreground-muted` text. Required.
 - `MessageQuotedPreviewHeader`: one line. Required.
-  - `MessageQuotedPreviewAuthor`: an `xs` [Avatar](../avatar/avatar.md), `MessageQuotedPreviewAuthorName` and an optional `MessageQuotedPreviewAuthorMeta` (a role).
+  - `MessageQuotedPreviewAuthor`: an `xs` [Avatar](../avatar/avatar.md), `MessageQuotedPreviewAuthorName` and an optional `MessageQuotedPreviewAuthorMeta` (a role). `MessageQuotedPreviewAuthorDelegatedBy` follows the name when an assistant sent the quoted message for its author: "(sent by Friday)". It is experimental, exported from `@botiverse/raft-ui/wip`.
   - `MessageQuotedPreviewChannel`: where it was posted.
   - `MessageQuotedPreviewThread`: a thread marker. Optional.
   - `MessageQuotedPreviewTimestamp`: at the end of the line, in Space Mono.
@@ -89,6 +89,12 @@ message-quoted-preview/compositions/quoted-preview-unavailable
 
 - The preview fills the width of the message column.
 - Text past 2 lines is cut with an ellipsis; the attachment chips stay below it.
+- "(sent by Friday)" never truncates; the author's name truncates instead. When the author and the label fill the line, as on a phone, the place and the time move to a second line: the words are what says the author didn't write it, so they can't be cut, and the face that says it in the timeline is too small to show on a 19px avatar ([Identity and presence](../../../../../design/people-and-agents/identity-and-presence.md#sent-by-an-assistant)).
+
+```example
+message-quoted-preview/compositions/quoted-preview-delegated
+```
+
 - Selecting the preview opens the quoted message.
 
 ## Content

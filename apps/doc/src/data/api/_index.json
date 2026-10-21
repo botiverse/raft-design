@@ -748,7 +748,11 @@
       "MessageReactionTooltipSeparator",
       "MessageTextSelectionToolbar",
       "MessageTextSelectionToolbarButton",
-      "MessageTextSelectionToolbarSeparator"
+      "MessageTextSelectionToolbarSeparator",
+      "MessageItemDelegatedAvatar",
+      "MessageItemDelegatedBy",
+      "MessageItemDelegatedByButton",
+      "MessageItemDelegatedByName"
     ],
     "status": "stable",
     "description": "Left-gutter hover clock for continuation rows, a `<time>`: pass the moment in `dateTime`. Show the hour and minute only, in the person's 12h/24h format, with no AM/PM (`6:35`, `18:35`)."
@@ -777,9 +781,11 @@
       "MessageQuotedPreviewText",
       "MessageQuotedPreviewThread",
       "MessageQuotedPreviewTimestamp",
-      "MessageQuotedPreviewUnavailable"
+      "MessageQuotedPreviewUnavailable",
+      "MessageQuotedPreviewAuthorDelegatedBy"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "\"(sent by Friday)\" after `MessageQuotedPreviewAuthorName`, when an assistant sent the quoted message for its author. It never truncates; the author's name gives way instead."
   },
   "message-replies": {
     "names": [

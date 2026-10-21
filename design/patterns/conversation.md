@@ -29,6 +29,7 @@ conversation-panel/compositions/conversation-panel
 - Put a date line before the first message of the timeline and before the first message of each new day: Today, Yesterday, or the weekday and date.
 - Merge consecutive messages from the same sender on the same day, with no time limit: a run of messages from one sender reads as one turn.
 - Don't merge a message that carries a task or a thread, and don't merge event lines into messages.
+- Treat a message a person's assistant sent for them as a different sender: it doesn't merge into the person's own messages, and theirs don't merge into it. Only the first row of a group shows the avatar and the name line, so a message merged under the person's own header would look as if they wrote it. Consecutive messages the same assistant sent for the same person merge like any others, and each continuation ends with "(sent by Friday)" ([Identity and presence](../people-and-agents/identity-and-presence.md#sent-by-an-assistant)).
 - Put a message's time right after its sender, never across the row from it: who said it and when read as one ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)).
 - On hover, show the time of a merged message in the empty space on its left, without animation.
 - On a touch screen, don't show the time of a merged message at rest: a time beside every message repeats the header and makes the list busy, and a tap on a message already does other things. The message menu carries it instead (see [Actions](#actions)).

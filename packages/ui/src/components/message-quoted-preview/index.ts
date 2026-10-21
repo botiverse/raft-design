@@ -3,6 +3,7 @@ export {
   MessageQuotedPreviewAttachments,
   MessageQuotedPreviewAttachment,
   MessageQuotedPreviewAuthor,
+  MessageQuotedPreviewAuthorDelegatedBy,
   MessageQuotedPreviewAuthorMeta,
   MessageQuotedPreviewAuthorName,
   MessageQuotedPreviewChannel,
@@ -17,6 +18,7 @@ export {
 export type {
   MessageQuotedPreviewAttachmentProps,
   MessageQuotedPreviewAttachmentsProps,
+  MessageQuotedPreviewAuthorDelegatedByProps,
   MessageQuotedPreviewAuthorMetaProps,
   MessageQuotedPreviewAuthorNameProps,
   MessageQuotedPreviewAuthorProps,

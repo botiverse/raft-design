@@ -123,6 +123,28 @@ export function MessageQuotedPreviewAuthorMeta({
   });
 }
 
+export type MessageQuotedPreviewAuthorDelegatedByProps = SpanProps;
+
+/**
+ * "(sent by Friday)" after `MessageQuotedPreviewAuthorName`, when an assistant
+ * sent the quoted message for its author. It never truncates; the author's
+ * name gives way instead.
+ */
+export function MessageQuotedPreviewAuthorDelegatedBy({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewAuthorDelegatedByProps) {
+  const { authorDelegatedBy } = messageQuotedPreview();
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">({ className: authorDelegatedBy({ className }) }, props),
+    state: { slot: "message-quoted-preview-author-delegated-by" },
+  });
+}
+
 export type MessageQuotedPreviewTimestampProps = SpanProps;
 
 export function MessageQuotedPreviewTimestamp({

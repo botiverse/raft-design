@@ -23,6 +23,12 @@ export {
   MessageItemSenderGroup,
   MessageItemTime,
 } from "./message-item-header";
+export {
+  MessageItemDelegatedAvatar,
+  MessageItemDelegatedBy,
+  MessageItemDelegatedByButton,
+  MessageItemDelegatedByName,
+} from "./message-item-delegated";
 export { MessageItemToolbar, MessageItemToolbarButton } from "./message-item-toolbar";
 export {
   MessageItemBadge,
@@ -95,6 +101,12 @@ export type {
   MessageItemSenderGroupProps,
   MessageItemTimeProps,
 } from "./message-item-header";
+export type {
+  MessageItemDelegatedAvatarProps,
+  MessageItemDelegatedByButtonProps,
+  MessageItemDelegatedByNameProps,
+  MessageItemDelegatedByProps,
+} from "./message-item-delegated";
 export type {
   MessageItemToolbarButtonProps,
   MessageItemToolbarProps,

@@ -39,6 +39,7 @@ message-item/compositions/item-preview
 
 - `MessageItem`: the row.
 - `MessageItemAvatarSlot`: the 35px [Avatar](../avatar/avatar.md), with its presence light. Required on a full row.
+  - `MessageItemDelegatedAvatar`: inside a person's avatar, the face of the assistant that sent the message for them, a `2xs` Avatar in the corner a presence light takes.
 - `MessageItemGutter` with `MessageItemContinuationTime`: replaces the avatar on a continuation row; the time appears there on hover.
 - `MessageItemContent`: everything right of the avatar. Required.
 - `MessageItemHeader`: one line holding, in order:
@@ -46,6 +47,7 @@ message-item/compositions/item-preview
     - `MessageItemSender`, or `MessageItemSenderButton` when the name opens a profile: `text-subhead`, bold. Only the button underlines on hover ([Clickable text](../../../../../design/foundations/states.md#clickable-text));
     - `MessageItemSenderBadges`: the `agent` tag, and sender states such as Left or Deleted;
     - `MessageItemMeta`: the sender's role, such as Product & Brand;
+  - `MessageItemDelegatedBy`: "sent by Friday" when an assistant sent the message for the sender, with the assistant's name in `MessageItemDelegatedByName`, or `MessageItemDelegatedByButton` when it opens the assistant's profile;
   - `MessageItemTime`: right after the sender, `text-mono-meta` in `foreground-hint`. A `<time>`: pass the moment in `dateTime`;
   - `MessageItemInlineStatus`: a short state after the time, such as "Converting…" while a message becomes a task. A working agent is shown by the light on its avatar, not here ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)).
 - `MessageItemBody`: the text, in `text-body`. Required.
@@ -94,6 +96,7 @@ message-item/compositions/consecutive
 | Selected, in multi-select       | The whole row on `info-soft` while its `MessageMultiSelectCheckbox` is checked                                                         |
 | Agent working                   | A still yellow light on the avatar and the inline status ([Working agents](../../../../../design/people-and-agents/working-agents.md)) |
 | Sender left, removed or deleted | A muted badge in `MessageItemSenderBadges`; a deleted agent's avatar is grayed                                                         |
+| Sent by an assistant            | The assistant's face on the sender's avatar and "sent by Friday" after the name; the words only on a continuation row                  |
 | Reaction failed                 | The chip on `warning-soft`, with `MessageReactionErrorIndicator` announcing why                                                        |
 
 ```example
@@ -108,6 +111,30 @@ message-item/compositions/sender-state
 message-item/compositions/avatar-status
 ```
 
+### Sent by an assistant
+
+A person's assistant can send a message as that person: the message is theirs, and two marks say the assistant sent it ([Identity and presence](../../../../../design/people-and-agents/identity-and-presence.md#sent-by-an-assistant)). The parts are experimental, exported from `@botiverse/raft-ui/wip` until the design is approved: `MessageItemDelegatedAvatar`, `MessageItemDelegatedBy`, `MessageItemDelegatedByName` and `MessageItemDelegatedByButton`. Put `MessageItemDelegatedAvatar` in the sender's `md` Avatar, with the assistant's `2xs` Avatar in it, and `MessageItemDelegatedBy` after `MessageItemSenderGroup`; keep the sender in the group, which holds its 3rem. On a continuation row, put `MessageItemDelegatedBy` at the end of the text, as with `MessageItemEdited`, without the face. Such a message starts its own group ([Conversation](../../../../../design/patterns/conversation.md#dates-and-grouping)).
+
+```example
+message-item/compositions/delegated-group
+```
+
+```example
+message-item/compositions/delegated-thread
+```
+
+When the assistant has been deleted, keep both marks: the default face in `MessageItemDelegatedAvatar deleted`, which grays and fades it over the row's surface, and "sent by a deleted assistant" as plain words in `MessageItemDelegatedBy`, without a name part, so none of it truncates or opens anything:
+
+```example
+message-item/compositions/delegated-deleted
+```
+
+In an Activity row or a search result there is no face; write the words into the sender: "Alice (sent by Friday)".
+
+```example
+message-item/compositions/delegated-preview
+```
+
 ## Behavior
 
 - Space messages by grouping: 8px between the rows of one group (a continuation row sits under the row it continues) and 16px before a new group. Every row keeps 4px above and below its text, and the extra 8px before a group is a transparent top border the highlight doesn't paint. So the hover, selected and search highlights sit evenly around the text on every row: when a continuation row had no top padding, its highlight touched the first line and left 8px under the last.
@@ -116,6 +143,12 @@ message-item/compositions/avatar-status
 - The time belongs to the sender: who said it and when read as one, so the time follows the name, its badges and its role, and stays there on hover. The top right corner belongs to the toolbar alone.
 - With a mouse, the header ends where the toolbar begins, so the toolbar covers nothing on the sender line however long it is. The space is set by `--mi-toolbar-reserve`, sized for three buttons; a product whose toolbar has more sets it on the message list. On a touch screen there is no hover toolbar, and the header keeps its full width.
 - When the sender line runs out of room, `MessageItemSenderGroup` gives way in a fixed order: the role truncates first, then the name. The badges stay whole beside the name, and the time never truncates ([When a row runs out of room](../../../../../design/patterns/responsive.md#when-a-row-runs-out-of-room)). Show the full name and role in a tooltip when they can truncate.
+- `MessageItemDelegatedBy` takes its own width up to 45% of the line; past that, only the assistant's name truncates. When its words alone are wider than that ("sent by a deleted assistant" on a phone), it is as wide as its words and the sender's name gives way instead: the words never truncate and never run under the time. The sender's name keeps at least 3rem, or all of it when shorter; when even that doesn't fit (a 360px thread panel, with room for the toolbar), plain words wrap onto as many lines as they need, the header aligns on its first line's baseline, and the time stays on the first line, clear of the toolbar. The words around the name never truncate: the product's spaces around the name are kept as written, and a translation with words on both sides of the name (Chinese) keeps both whole.
+
+```example
+message-item/compositions/delegated-long-names
+```
+
 - The toolbar is 32px high: 28px buttons with 16px icons, in a 2px frame, with its hairline drawn inside that height. It rides the top edge of the highlight and reaches 16px above it, half its height; on a group's first row the transparent 8px border takes half of that, so it reaches only 8px beyond the row. Its buttons are `MessageItemToolbarButton`, not [Button](../button/button.md). It stays this compact because it appears on every message under the pointer: at 38px it covered the sender line and was clipped above the first message.
 - The toolbar's corner is `radius-container` (10px) around buttons with `radius-control` (8px): the 2px frame sits between them, so the hover fill keeps an even gap around the corner ([Nested corners](../../../../../design/foundations/shape.md#nested-corners)).
 - Leave at least 16px above the first message of a scroll area and above the root message of a thread, so the toolbar is never clipped. A timeline that opens with a date line already has the room.
@@ -161,10 +194,12 @@ message-item/compositions/reactions
 - Give `MessageMultiSelectCheckbox` a label that names the message, such as "Select message from Bugen".
 - Render a reference chip that opens something as a link, through `render`; the chip is a `span` by default.
 - Give the avatar image an empty `alt`: the name beside it already says who it is.
+- `MessageItemDelegatedAvatar` is `aria-hidden`: "sent by Friday" is plain text in the header, read in its order (name, role, "sent by Friday", time). When a product names the whole row (`aria-label`), it uses the same words. `MessageItemDelegatedByButton` is a `<button>`; render it as a link through `render` when it goes to a profile page.
 - Give `MessageItemTime` and `MessageItemContinuationTime` the moment in `dateTime` (ISO 8601), and the full date and time in a tooltip. A screen reader reads the header in the order it shows: name, badges, role, time.
 
 ## Rules
 
+- Put `MessageItemDelegatedAvatar` only on a person's avatar, never with a presence light ([Avatar](../avatar/avatar.md#rules)).
 - Don't frame a message, and don't give agents a bubble color. Only what is embedded (code blocks, attachments, action cards) looks like a card.
 - Put the task marker first in the footer, then the reactions, with the add button last.
 - Make the task marker a status chip: the status pixel, the task number and the assignee ([Tasks](../tasks/tasks.md)).

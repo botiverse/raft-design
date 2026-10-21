@@ -23,11 +23,16 @@ export const messageItem = tv({
       // paint (bg-clip-padding); a continuation row has none, so it sits
       // under the row it continues.
       "min-h-0 px-2 py-1 border-t-8 border-transparent bg-clip-padding",
-      "hover:bg-fill-pressed data-popup-open:bg-fill-pressed has-data-popup-open:bg-fill-pressed",
       "hover:[--mi-ct-color:var(--foreground-hint)] has-data-popup-open:[--mi-ct-color:var(--foreground-hint)]",
-      "has-data-[slot=message-item-search-match]:bg-info-soft has-data-[slot=message-item-search-match]:hover:bg-info-soft",
-      "has-[[data-slot=message-multi-select-checkbox][data-checked]]:bg-info-soft",
-      "has-[[data-slot=message-multi-select-checkbox][data-checked]]:hover:bg-info-soft",
+      // The highlight is --mi-row-fill, set here once per state and painted
+      // as the background, so parts that paint the row's surface around
+      // themselves (the delegated face's ring) read the same value. Read off
+      // the root, not through group-has-*: see no-ancestor-has.test.ts.
+      "bg-(--mi-row-fill) [--mi-row-fill:initial]",
+      "hover:[--mi-row-fill:var(--fill-pressed)] data-popup-open:[--mi-row-fill:var(--fill-pressed)] has-data-popup-open:[--mi-row-fill:var(--fill-pressed)]",
+      "has-data-[slot=message-item-search-match]:[--mi-row-fill:var(--info-soft)] has-data-[slot=message-item-search-match]:hover:[--mi-row-fill:var(--info-soft)]",
+      "has-[[data-slot=message-multi-select-checkbox][data-checked]]:[--mi-row-fill:var(--info-soft)]",
+      "has-[[data-slot=message-multi-select-checkbox][data-checked]]:hover:[--mi-row-fill:var(--info-soft)]",
     ],
     gutter: ["relative shrink-0 self-stretch", "w-[35px]"],
     avatarSlot: [
@@ -45,16 +50,29 @@ export const messageItem = tv({
     // With a mouse, the header ends where the hover toolbar begins, so the
     // toolbar never covers the name or the time. A product with more toolbar
     // buttons sets --mi-toolbar-reserve to the toolbar's width plus its inset.
+    //
+    // With a "sent by" label the owner keeps at least 3rem (or its whole
+    // name, if shorter): its basis is 3rem, capped at its own width, it grows
+    // into what is free and never shrinks. When even that doesn't fit (a
+    // narrow thread), the label gives way instead: plain words wrap onto as
+    // many lines as they need, aligned on the first line's baseline.
     header: [
       "mb-px flex min-w-0 items-center gap-1.5 overflow-hidden",
       "pointer-fine:pe-(--mi-toolbar-reserve,6.5rem)",
+      "has-data-[slot=message-item-delegated-by]:items-baseline",
+      "has-data-[slot=message-item-delegated-by]:[--mi-owner-basis:3rem] has-data-[slot=message-item-delegated-by]:[--mi-owner-flex:1_0]",
     ],
     // The role grows into what is left after the name and badges (it has no
     // basis of its own), so it gives way first; the name shrinks only once
     // the role is gone. Badges never shrink.
     senderGroup: [
       "flex min-w-0 items-center gap-1.5 overflow-hidden",
+      "flex-[var(--mi-owner-flex,0_1)_var(--mi-owner-basis,auto)] max-w-max",
       "*:data-[slot=message-item-meta]:basis-0 *:data-[slot=message-item-meta]:grow",
+      // The gap before the role lives inside it (a 6px spacer that is cut off
+      // with it), so a role squeezed to nothing leaves no dead gap after the
+      // name, and the name gets that space.
+      "*:data-[slot=message-item-meta]:-ms-1.5 *:data-[slot=message-item-meta]:before:inline-block *:data-[slot=message-item-meta]:before:w-1.5 *:data-[slot=message-item-meta]:before:content-['']",
     ],
     sender,
     // Its own slot, not a data-slot selector: a Tooltip trigger or another
@@ -71,6 +89,41 @@ export const messageItem = tv({
       "font-mono text-mono-meta tabular-nums text-foreground-hint",
     ],
     inlineStatus: ["shrink-0", "text-caption text-foreground-hint"],
+    // "sent by Friday": one step stronger than the role, so it is seen at a
+    // glance. Each run of words is a grid track as wide as its words, and the
+    // name's track can shrink to nothing (the name is min-w-0), so the
+    // label's min-content is its words alone: min-w-min keeps the box at
+    // least that wide, and it never truncates. With a name, the label caps
+    // at 45% of the line and only the name truncates (`pre`: the words never
+    // wrap). Plain words ("sent by a deleted assistant") have no cap and wrap
+    // (`pre-wrap`) once the owner is down to its 3rem. Both keep the
+    // product's own spaces around the name, which a grid item would drop.
+    delegatedBy: [
+      "inline-grid grid-flow-col items-baseline",
+      "min-w-min shrink whitespace-pre-wrap",
+      "has-data-[slot=message-item-delegated-by-name]:max-w-[45%] has-data-[slot=message-item-delegated-by-name]:whitespace-pre",
+      "has-data-[slot=message-item-delegated-by-button]:max-w-[45%] has-data-[slot=message-item-delegated-by-button]:whitespace-pre",
+      "text-caption text-foreground-muted",
+    ],
+    delegatedByName: ["min-w-0 truncate"],
+    delegatedByButton: [
+      "min-w-0 truncate",
+      "cursor-pointer decoration-1 underline-offset-[3px] hover:underline",
+      "rounded-[2px] outline-none focus-visible:shadow-focus",
+    ],
+    // The assistant's face on the owner's avatar: the presence light's corner
+    // and overhang (AvatarBadge on md), at 2xs. The ring is the row's surface
+    // (--mi-row-fill over the canvas), outside the die-cut edge in dark mode.
+    // The same surface backs the face, so a face that isn't opaque (a
+    // deleted assistant's, faded) never shows the owner's avatar through it.
+    delegatedAvatar: [
+      "size-[19px] group-data-[size=md]/avatar:size-[19px]",
+      "rounded-sticker outline-none",
+      "bg-layer-canvas bg-[linear-gradient(var(--mi-row-fill,transparent),var(--mi-row-fill,transparent))]",
+      "data-deleted:*:data-[slot=avatar]:grayscale data-deleted:*:data-[slot=avatar]:opacity-60",
+      "shadow-[0_0_0_1.5px_var(--mi-row-fill,transparent),0_0_0_1.5px_var(--layer-canvas)]",
+      "dark:shadow-[0_0_0_3px_var(--mi-row-fill,transparent),0_0_0_3px_var(--layer-canvas)]",
+    ],
     edited: ["ms-1 whitespace-nowrap", "text-caption text-foreground-hint"],
     body: [
       "wrap-break-word select-text",

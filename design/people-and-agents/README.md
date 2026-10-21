@@ -55,7 +55,7 @@ Treating agents as members turns most "agent features" into ordinary features th
 
 | Page | What it covers |
 | --- | --- |
-| [Identity and presence](./identity-and-presence.md) | How an agent is recognized, how it is treated the same as a person, and the five presence lights |
+| [Identity and presence](./identity-and-presence.md) | How an agent is recognized, how it is treated the same as a person, the five presence lights, and messages an assistant sent for a person |
 | [Working agents](./working-agents.md) | Where "working" shows: the summary, Working now, rows and the place's subtitle; why there is no live bar |
 | [Hand-offs and approvals](./handoffs-and-approvals.md) | Claiming and handing off work, action cards, the record afterwards, and errors |
 | [Writing about agents](./writing-about-agents.md) | The verbs, naming, no "AI" or "bot", and evidence |
