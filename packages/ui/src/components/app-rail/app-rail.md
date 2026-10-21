@@ -32,8 +32,9 @@ Which destinations a product has, and in which order, is on its own page ([Raft 
 - `AppRailHeader`: the 56px square at the top, holding the workspace tile. Its seam lines up with the sidebar's and the panel's ([Page structure](../../../../../design/patterns/page-structure.md#headers)). It is left out when the web top bar is shown.
 - `AppRailNav`: the destinations.
 - `AppRailItem`: one destination: an `AppRailItemIcon` with a 20px icon, and an `AppRailItemLabel` with its name.
-- `AppRailItemAttention`: the pink pixel on an item, with text for assistive technology. It is built on `AppRailItemIndicator`; `AppRailItemBadge` is a count in the same corner.
-- `AppRailFooter`: notifications, help and settings.
+- `AppRailItemAttention`: the pink pixel on an item, with text for assistive technology. It is built on `AppRailItemIndicator`.
+- `AppRailItemBadge`: a count in the same corner. Not recommended, and to be removed: a rail icon shows only the dot, never a number ([Badge](../badge/badge.md#rules)).
+- `AppRailFooter`: notifications, help and settings. Notifications sit here only when there is no web top bar; with it, the bell is in the top bar ([Navigation](../../../../../design/patterns/navigation.md#structure)).
 
 ## Variants
 
@@ -47,13 +48,13 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 ## States
 
 - Selected: a sticker on the frame, white in light mode and yellow in dark mode ([States](../../../../../design/foundations/states.md)).
-- Attention: one pink pixel at the top right of the icon. The selected item never shows it.
+- Attention: one pink pixel at the top right of the icon, never a count. The selected item never shows it, with no exception.
 - Hover and press lay `fill-frame-pressed` over the item ([Color](../../../../../design/foundations/color.md#pressed-overlays)).
 
 ## Behavior
 
 - Space every item, in the nav and in the footer, the same way: 40px items, 6px apart, 8px from both ends of the rail. Don't wrap the footer tools in fixed-height cells.
-- Under the header, start the first item 10px below the header's seam.
+- Under the header, start the first item 8px below the header's seam, the same 8px as under the web top bar and at the bottom of the rail, so the rail has one inset.
 - With the web top bar, the rail has no header and the server moves to the top bar, as the workspace button ([Page structure](../../../../../design/patterns/page-structure.md#the-web-top-bar)).
 - In a window shorter than 600px, the rail shrinks with the headers ([Responsive layout](../../../../../design/patterns/responsive.md)), and its items keep 6px from both ends.
 

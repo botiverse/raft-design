@@ -41,7 +41,7 @@ thread-panel/thread-panel
 
 - A thread and a profile can be open together: a profile opened from the thread sits beside it, and a profile opened from the conversation replaces it ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)).
 - Its width is in [Spacing](../../../../../design/foundations/spacing.md#layout-widths). When it sits beside the conversation and when it covers it is the product's rule ([Raft Chat](../../../../../design/products/raft-chat/README.md)).
-- On a phone the thread covers the conversation, with Back instead of the ×. It is the same panel, not a pushed page, and the tab bar is already hidden by the conversation ([Responsive layout](../../../../../design/patterns/responsive.md)). On desktop it covers the conversation the same way when there isn't room beside it.
+- On a phone the thread is a pushed page: the same panel covers the conversation, with Back instead of the ×, and the tab bar stays hidden, as under the conversation ([Responsive layout](../../../../../design/patterns/responsive.md)). On desktop it covers the conversation the same way when there isn't room beside it.
 
 ## Content
 

@@ -10,7 +10,7 @@ related: [list-row, empty-state, select, combobox, dialog, input-group, thread-p
 
 # Search
 
-Search is a field, a few filters and results grouped by kind. Places and people are rows; messages are hits that say who, where and when, with the matched words as small yellow stickers. On the web, search opens from the search field in the top bar (`SearchTrigger`).
+Search is a field, a few filters and results grouped by kind. Places and people are rows; messages are hits that say who, where and when, with the matched words as small yellow stickers. On the web, search opens from the search field in the top bar (`SearchTrigger`); on a phone it is the Search tab, with the field in the tab's top bar.
 
 ```example
 search/compositions/search-panel
@@ -71,6 +71,8 @@ search/compositions/search-no-results
 
 ## Behavior
 
+- On a phone, search is the Search tab, and the field is in its navigation row ([Page structure](../../../../../design/patterns/page-structure.md#phone)). Its keyboard, its kept state, opening a result and searching inside one place are in [Navigation](../../../../../design/patterns/navigation.md#search-on-a-phone).
+- Give the field the same margin on both sides, the content edge of what is under it (16px on a phone). Don't leave a narrower edge on one side for an icon.
 - On the web, open search from the top bar's field as a centered dialog, 720px wide, whose top edge covers the top bar's field, so the field seems to grow into it. It has the scrim and no animation, like every centered overlay ([Choosing a component](../../../../../design/components/overview.md#overlays)).
 - Group results by kind ([Conversation](../../../../../design/patterns/conversation.md#search)): places and people first, then messages.
 - Show the scope, the sender, the place and the time range as filters in the filter row, each a select or combobox.
