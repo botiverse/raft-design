@@ -26,9 +26,14 @@ const banner = tv({
       "has-[>[data-slot=banner-description]]:[--banner-last-row:var(--banner-desc-row,1)]",
       "has-[>[data-banner-close]]:[--banner-action-end:span_2]",
     ],
-    title: ["min-w-0 text-foreground", "row-start-1 font-bold", "col-start-(--banner-text-col,1)"],
+    title: [
+      "min-w-0 wrap-break-word text-foreground",
+      "row-start-1 font-bold",
+      "col-start-(--banner-text-col,1)",
+      "@min-[452px]:has-[~[data-slot=banner-description]~[data-slot=banner-action]:not([data-wrap])]:col-end-[span_2]",
+    ],
     description: [
-      "min-w-0 font-normal",
+      "min-w-0 wrap-break-word font-normal",
       "text-foreground",
       "col-start-(--banner-text-col,1)",
       "row-start-(--banner-desc-row,1)",
@@ -69,6 +74,14 @@ const banner = tv({
   defaultVariants: {
     size: "md",
   },
+  compoundVariants: [
+    {
+      size: "sm",
+      class: {
+        root: "has-[>[data-slot=banner-action]]:py-[calc((--spacing(8)-1lh)/2+--spacing(1))]",
+      },
+    },
+  ],
 });
 
 export type BannerStatus = NonNullable<VariantProps<typeof banner>["status"]>;
@@ -78,6 +91,12 @@ export type BannerProps = useRender.ComponentProps<"div"> &
     status: BannerStatus;
   };
 
+/**
+ * A short notice people read before they act, on a soft tint that says its
+ * intent. Compose it from a leading icon, `BannerTitle`, `BannerDescription`,
+ * and either `BannerAction` (its button) or `BannerClose` (a × when there is no
+ * button).
+ */
 export function Banner({ status, size = "md", className, render, ...props }: BannerProps) {
   const { root } = banner({ status, size });
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -149,22 +168,15 @@ function contentWidth(element: Element) {
   return range.getBoundingClientRect().width;
 }
 
-function marginBoxWidth(element: Element) {
-  const style = getComputedStyle(element);
-  return (
-    element.getBoundingClientRect().width +
-    Number.parseFloat(style.marginInlineStart) +
-    Number.parseFloat(style.marginInlineEnd)
-  );
-}
-
 /*
  * The actions sit at the end of the last line of text only while that text
  * still fits on one line beside them. CSS places them there from 452px of
  * content (a 480px banner at `md`); this watches the text and, when it would
  * wrap, sets `data-wrap` so the actions take a line of their own. Leaving that
  * line is decided from the one-line width of the text, so the two placements
- * never flip back and forth.
+ * never flip back and forth. A banner with a BannerClose shouldn't have
+ * actions; if it does, they always take a line of their own, so they never
+ * share the end column with the ×.
  */
 function useWrapsBesideText(action: Element | null) {
   const [wraps, setWraps] = useState(false);
@@ -181,6 +193,10 @@ function useWrapsBesideText(action: Element | null) {
         setWraps(false);
         return;
       }
+      if (root.querySelector(":scope > [data-banner-close]")) {
+        setWraps(true);
+        return;
+      }
       const lines = lineCount(text);
       if (!action.hasAttribute("data-wrap")) {
         if (lines > 1) setWraps(true);
@@ -188,10 +204,10 @@ function useWrapsBesideText(action: Element | null) {
       }
       if (lines > 1) return;
       const gap = Number.parseFloat(getComputedStyle(root).columnGap) || 0;
-      const close = root.querySelector(":scope > [data-banner-close]");
-      const actions = contentWidth(action);
-      const needed = close ? Math.max(0, actions - marginBoxWidth(close)) : actions + gap;
-      if (contentWidth(text) + needed + 1 <= text.getBoundingClientRect().width) {
+      if (
+        contentWidth(text) + contentWidth(action) + gap + 1 <=
+        text.getBoundingClientRect().width
+      ) {
         setWraps(false);
       }
     };
@@ -207,11 +223,29 @@ function useWrapsBesideText(action: Element | null) {
     for (const child of root.children) resize.observe(child);
     const mutation = new MutationObserver(schedule);
     mutation.observe(root, { childList: true, characterData: true, subtree: true });
+    // A web font that arrives after the first measure changes the text's width.
+    const fonts = typeof document.fonts === "undefined" ? undefined : document.fonts;
+    let live = true;
+    void fonts?.ready.then(() => {
+      if (live) schedule();
+    });
+    fonts?.addEventListener("loadingdone", schedule);
     return () => {
+      live = false;
       cancelAnimationFrame(frame);
       resize.disconnect();
       mutation.disconnect();
+      fonts?.removeEventListener("loadingdone", schedule);
     };
+  }, [action]);
+
+  useLayoutEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+    if (action?.parentElement?.querySelector(":scope > [data-banner-close]")) {
+      console.warn(
+        "raft-ui: a Banner has both BannerAction and BannerClose. Use BannerClose only on a banner with no button; close one that has a button with a ghost Dismiss button in BannerAction.",
+      );
+    }
   }, [action]);
 
   return wraps;

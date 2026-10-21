@@ -35,8 +35,8 @@ The wider the scope of a message, the further out it goes; the full table is in 
 - An icon: a Lucide icon as a direct child, before the text.
 - `BannerTitle`: an optional bold first line.
 - `BannerDescription`: the message. Required. An inline text action goes inside it as a `TextLink variant="strong"`, because it sits in a sentence ([TextLink](../text-link/text-link.md#variants)).
-- `BannerAction`: the banner's button, and Dismiss before it when the banner has one. It sits at the bottom right: at the end of the last line of text, centered on that line, while the text fits beside it on one line. With a title and a description, that line is the description's. When the text would wrap beside it, or the banner is narrower than 480px, it takes a line of its own under the text, aligned to the end. `BannerAction` decides this itself; don't place it.
-- `BannerClose`: the × of a banner that has no button. A frameless icon button at the end of the first line, centered on it, whose icon box ends on the banner's padding, like a frameless icon button at the end of a header ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)). It stays there when the actions take a line of their own. Its label defaults to "Dismiss".
+- `BannerAction`: the banner's button, and Dismiss before it when the banner has one. It sits at the bottom right: at the end of the last line of text, centered on that line, while the text fits beside it on one line. With a title and a description, that line is the description's. When the text would wrap beside it, or the banner is narrower than 480px, it takes a line of its own under the text, aligned to the end. `BannerAction` decides this itself; don't place it. The width is a container query on the banner's content: 452px, which is a 480px banner at `md` (476px at `sm`, 484px at `lg`).
+- `BannerClose`: the × of a banner that has no button. A frameless icon button at the end of the first line, centered on it, whose icon box ends on the banner's padding, like a frameless icon button at the end of a header ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)). Its label defaults to "Dismiss". Don't use it with `BannerAction`: a banner with a button closes with Dismiss. If both are there, raft-ui warns in development and puts the actions on a line of their own, so they never share the ×'s place.
 
 ## Variants
 
@@ -83,12 +83,13 @@ banner/compositions/close
 - `Banner` renders a `div` with `role="alert"` for `status="destructive"` and `role="status"` for the other intents, so a notice that isn't urgent doesn't interrupt a screen reader.
 - The icon repeats the intent and is decorative. The title and description must say the intent in words.
 - `BannerClose` is labelled "Dismiss"; pass an `aria-label` that names the notice when a page has more than one thing to dismiss.
-- Keep the parts in reading order: the icon, the title, the description with its link, `BannerAction` (Dismiss, then the button), then `BannerClose`. Tab reaches them in that order.
+- `BannerClose` doesn't move focus. When the banner goes, the app moves focus to the next element after where the banner was, or to the page's heading when there is none; never leave it on the document.
+- Keep the parts in reading order: the icon, the title, the description with its link, then `BannerAction` (Dismiss, then the button) or `BannerClose`. Tab reaches them in that order.
 
 ## Rules
 
 - Show at most one banner in one place.
-- Give at most one button, and only when there is a way out: a 32px ink-bordered button (`variant="default" size="sm"`). Never a pink button: a banner is not the screen's primary action.
+- Give at most one button, plus Dismiss before it when the banner can be dismissed, and only when there is a way out: a 32px ink-bordered button (`variant="default" size="sm"`). Never a pink button: a banner is not the screen's primary action.
 - Put the button in `BannerAction`, at the bottom right, so it comes after what it acts on and ends where the eye ends, as a dialog's commit button does. A banner that can be dismissed and has a button puts Dismiss (`variant="ghost" size="sm"`) just before the button, in the same `BannerAction`.
 - Use `BannerClose` only on a banner with no button, and never put a × in `BannerAction`, where it reads as one of the actions.
 - Don't add an ink border. A banner is a soft tint, not a sticker ([Color](../../../../../design/foundations/color.md#soft-tints)); its edge is the container radius and a hairline.

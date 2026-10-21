@@ -1,5 +1,5 @@
 import "./banner.test.css";
-import { afterEach, expect, test } from "vite-plus/test";
+import { afterEach, expect, test, vi } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Banner, BannerAction, BannerClose, BannerDescription, BannerTitle } from "./banner";
@@ -98,9 +98,6 @@ function centerY(el: Element): number {
   const r = el.getBoundingClientRect();
   return (r.top + r.bottom) / 2;
 }
-
-const nextFrame = () =>
-  new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
 
 function ActionBanner({
   width,
@@ -202,18 +199,18 @@ it("the actions come back beside the text when the banner grows wide enough", as
     desc.getBoundingClientRect().bottom,
   );
   screen.getByTestId("frame").style.width = "1400px";
-  await nextFrame();
-  await nextFrame();
-  expect(desc.getBoundingClientRect().height).toBe(lineHeight(desc));
-  expect(Math.abs(centerY(screen.getByTestId("main")) - lastLineCenter(desc))).toBeLessThanOrEqual(
-    0.5,
-  );
+  await vi.waitFor(() => {
+    expect(desc.getBoundingClientRect().height).toBe(lineHeight(desc));
+    expect(
+      Math.abs(centerY(screen.getByTestId("main")) - lastLineCenter(desc)),
+    ).toBeLessThanOrEqual(0.5);
+  });
   screen.getByTestId("frame").style.width = "700px";
-  await nextFrame();
-  await nextFrame();
-  expect(action.getBoundingClientRect().top).toBeGreaterThanOrEqual(
-    desc.getBoundingClientRect().bottom,
-  );
+  await vi.waitFor(() => {
+    expect(action.getBoundingClientRect().top).toBeGreaterThanOrEqual(
+      desc.getBoundingClientRect().bottom,
+    );
+  });
 });
 
 it("a title with no description: the actions center on the title's line", () => {
@@ -276,12 +273,14 @@ for (const [width, size] of [
   });
 }
 
-it("the × stays on the first line when the actions take a line of their own", () => {
+it("600px: a × beside a button never shares its column; the button takes a line of its own", () => {
+  const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
   render(
     <ThemeProvider>
-      <div style={{ width: "360px" }}>
+      <div style={{ width: "600px" }}>
         <Banner status="info" data-testid="banner">
-          <BannerDescription data-testid="desc">{LONG}</BannerDescription>
+          <svg />
+          <BannerDescription data-testid="desc">Pin the threads you follow.</BannerDescription>
           <BannerAction data-testid="action">
             <Button variant="default" size="sm" data-testid="main">
               Show Me
@@ -294,11 +293,92 @@ it("the × stays on the first line when the actions take a line of their own", (
   );
   const banner = screen.getByTestId("banner");
   const desc = screen.getByTestId("desc");
+  const close = screen.getByTestId("close").getBoundingClientRect();
+  const main = screen.getByTestId("main").getBoundingClientRect();
   expect(
     Math.abs(centerY(screen.getByTestId("close")) - firstLineCenter(desc)),
   ).toBeLessThanOrEqual(0.5);
+  expect(screen.getByTestId("action").getBoundingClientRect().top).toBeGreaterThanOrEqual(
+    desc.getBoundingClientRect().bottom,
+  );
+  expect(main.top).toBeGreaterThanOrEqual(close.bottom);
+  expect(Math.abs(main.right - contentEnd(banner))).toBeLessThanOrEqual(0.5);
   expect(screen.getByTestId("action").contains(screen.getByTestId("close"))).toBe(false);
-  expect(
-    Math.abs(screen.getByTestId("main").getBoundingClientRect().right - contentEnd(banner)),
-  ).toBeLessThanOrEqual(0.5);
+  expect(warn).toHaveBeenCalledWith(expect.stringContaining("BannerClose"));
+  warn.mockRestore();
+});
+
+it("600px: an unbroken URL wraps inside the text column instead of running under the actions", () => {
+  render(
+    <ActionBanner
+      width={600}
+      text="https://raft.example.com/servers/acme/channels/design/threads/0123456789abcdefghijklmnopqrstuvwxyz"
+    />,
+  );
+  const desc = screen.getByTestId("desc");
+  const banner = screen.getByTestId("banner");
+  expect(desc.scrollWidth).toBeLessThanOrEqual(desc.clientWidth);
+  expect(desc.getBoundingClientRect().right).toBeLessThanOrEqual(contentEnd(banner) + 0.5);
+  expect(screen.getByTestId("action").getBoundingClientRect().top).toBeGreaterThanOrEqual(
+    desc.getBoundingClientRect().bottom,
+  );
+});
+
+it("600px: a title runs on over the actions' column, so it doesn't wrap early", () => {
+  render(
+    <ThemeProvider>
+      <div style={{ width: "600px" }}>
+        <Banner status="info" data-testid="banner">
+          <svg />
+          <BannerTitle data-testid="title">
+            Threads you follow now show in the sidebar, pinned
+          </BannerTitle>
+          <BannerDescription data-testid="desc">Pin the threads you follow.</BannerDescription>
+          <BannerAction data-testid="action">
+            <Button variant="ghost" size="sm">
+              Dismiss
+            </Button>
+            <Button variant="default" size="sm" data-testid="main">
+              Show Me
+            </Button>
+          </BannerAction>
+        </Banner>
+      </div>
+    </ThemeProvider>,
+  );
+  const title = screen.getByTestId("title");
+  const desc = screen.getByTestId("desc");
+  expect(title.getBoundingClientRect().height).toBe(lineHeight(title));
+  expect(title.getBoundingClientRect().right).toBeGreaterThan(
+    screen.getByTestId("action").getBoundingClientRect().left,
+  );
+  expect(Math.abs(centerY(screen.getByTestId("main")) - lastLineCenter(desc))).toBeLessThanOrEqual(
+    0.5,
+  );
+});
+
+it("600px sm: a 32px button beside the line keeps clear of the banner's edges", () => {
+  render(
+    <ThemeProvider>
+      <div style={{ width: "600px" }}>
+        <Banner status="warning" size="sm" data-testid="banner">
+          <svg />
+          <BannerDescription data-testid="desc">Couldn&rsquo;t load tasks.</BannerDescription>
+          <BannerAction>
+            <Button variant="default" size="sm" data-testid="main">
+              Retry
+            </Button>
+          </BannerAction>
+        </Banner>
+      </div>
+    </ThemeProvider>,
+  );
+  const banner = screen.getByTestId("banner").getBoundingClientRect();
+  const main = screen.getByTestId("main").getBoundingClientRect();
+  const desc = screen.getByTestId("desc");
+  expect(Math.abs(centerY(screen.getByTestId("main")) - lastLineCenter(desc))).toBeLessThanOrEqual(
+    0.5,
+  );
+  expect(main.top - banner.top).toBeGreaterThanOrEqual(4);
+  expect(banner.bottom - main.bottom).toBeGreaterThanOrEqual(4);
 });
