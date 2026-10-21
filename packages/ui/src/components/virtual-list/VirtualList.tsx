@@ -1320,6 +1320,15 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       }
     }
     const { resizes, leadingMarginDelta } = measureFlowRun();
+    /*
+     * Nothing changed size (the ResizeObserver's first notification for a row that was just mounted and
+     * measured, say): the layout and the range are what the last update made them, so there is nothing
+     * to write. Writing anyway would cost a forced layout per row mounted.
+     */
+    if (resizes.length === 0 && leadingMarginDelta === 0 && pendingScrollTaskRef.current === null) {
+      clearItemResizeQueue();
+      return;
+    }
     applyLayoutStyles(startIndex);
     onContentResize?.();
     const listEl = listElRef.current;
