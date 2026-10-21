@@ -101,4 +101,4 @@ virtual-list/compositions/chat
 
 ## Provenance
 
-The implementation references DeepSeek web's virtual list implementation. Comments in the source that start "Unlike the reference implementation (DeepSeek web)" mark where it behaves differently: rows in block flow with collapsing margins, measured from layout, and the first row's top margin kept apart.
+The implementation borrows from DeepSeek web's virtual list implementation. Comments in the source that start "Unlike the reference implementation (DeepSeek web)" mark where it behaves differently: rows in block flow with collapsing margins, measured from layout, and the first row's top margin kept apart.

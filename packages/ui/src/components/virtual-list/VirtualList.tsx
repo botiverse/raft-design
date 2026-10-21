@@ -15,7 +15,7 @@
  * Rendering is driven from the scroll and resize handlers: they compute the range and commit it with
  * `flushSync`, so the new items are rendered in the same frame as the scroll.
  *
- * The implementation references DeepSeek web's virtual list. Comments that start "Unlike the reference
+ * The implementation borrows from DeepSeek web's virtual list. Comments that start "Unlike the reference
  * implementation (DeepSeek web)" mark where its behavior differs from that reference.
  */
 import {
