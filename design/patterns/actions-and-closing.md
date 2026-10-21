@@ -34,7 +34,7 @@ Every [Dialog](../../packages/ui/src/components/dialog/dialog.md), [AlertDialog]
 - Make a button that only closes the dialog (OK, Got It, Done after a result) ink (`variant="default"`), never pink: nothing is left to do, and pink means something waits for the person.
 - When a dialog has a second action that doesn't close it, such as View beside Done, make it `default` and put it before the closing button.
 - Label Cancel "Cancel". Name what stays instead (Keep Subscription, Keep Migrating) only when the action is itself a cancel or a stop, where "Cancel" would read as the action ([Writing](../content/writing.md#actions-and-their-dialogs)). Never label it Continue or OK: those read as the commit.
-- Put a text link that leads elsewhere (Learn About Pricing, What Changed) at the start of the footer, as a muted [TextLink](../../packages/ui/src/components/text-link/text-link.md). Give a footer at most one, and never make it an action that changes anything: a link sits where people don't look first, so it must be safe to miss.
+- The start of the footer holds at most one quiet item, never both: a text link that leads elsewhere (Learn About Pricing, What Changed) as a muted [TextLink](../../packages/ui/src/components/text-link/text-link.md), or one short note about what the commit will do ("You'll be billed $8 per member each month", "Its owner is notified"), in muted footnote text, which may itself contain that link. Keep the note to one line on a desktop and never put in it something people need to decide; that belongs in the body. Never make either an action that changes anything: the start of the footer is where people don't look first, so whatever sits there must be safe to miss.
 - Build the footer from `DialogFooter`, `AlertDialogFooter` or `DrawerFooter`, never from a row of your own: the part holds the spacing, the order and the phone layout.
 
 ### Cancel and the close button
@@ -66,7 +66,7 @@ These exceptions apply only to a dialog that offers a paid plan after a limit wa
 
 ### On a phone
 
-- In a centered dialog below 768px, stack the buttons full width, the commit button on top and Cancel under it, so Cancel is the button nearest the bottom edge, as in iOS alerts and Material's stacked buttons. A footer link goes last, centered. `DialogFooter` doesn't stack yet; until it does, this is the rule its change follows.
+- In a centered dialog below 768px, stack the buttons full width, the commit button on top and Cancel under it, so Cancel is the button nearest the bottom edge, as in iOS alerts and Material's stacked buttons. A footer link or note goes last, centered, under the buttons. `DialogFooter` doesn't stack yet; until it does, this is the rule its change follows.
 - In a dialog sheet, the commit button moves into the head at `size="sm"` and × is Cancel ([Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)).
 
 ### Banners
