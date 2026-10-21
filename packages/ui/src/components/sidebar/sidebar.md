@@ -64,7 +64,7 @@ sidebar-item/compositions/tones-item
 
 ## Behavior
 
-- The sidebar is 240px wide and can be dragged between 180px and 320px ([Spacing](../../../../../design/foundations/spacing.md#layout-widths)).
+- The sidebar is 240px wide and can be dragged between 200px and 400px; it keeps one width on every page that has it ([Spacing](../../../../../design/foundations/spacing.md#layout-widths)).
 - A name stays on one line and ends with an ellipsis. A description after it gives up its room first; the name truncates only once the description is gone.
 - A row whose content is 2 lines (a computer's name and whether it runs agents) uses `wrap` with `SidebarItemContent stacked`: it grows from 36px, its text stays 8px from the row's edges, and its icon lines up with the first line. The name still stays on one line.
 - A collapsed group shows how many rows it holds in `SidebarSectionCount`.

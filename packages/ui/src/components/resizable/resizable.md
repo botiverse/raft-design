@@ -43,8 +43,9 @@ The panels draw no surface, edge or padding. The region inside each panel draws 
 
 ## Behavior
 
-- The handle is 12px wide and centered on the boundary, overlapping each panel by 6px, so it takes no room from either.
-- Use the widths in [Spacing](../../../../../design/foundations/spacing.md#layout-widths) for the default, minimum and maximum: the sidebar and the thread panel each have their own range.
+- The handle is 12px wide and centered on the boundary, overlapping each panel by 6px, so it takes no room from either. Under a coarse pointer (a finger on a tablet) it is 24px wide.
+- A double click on the handle puts the column back to its default width.
+- Use the widths in [Spacing](../../../../../design/foundations/spacing.md#layout-widths) for the default, minimum and maximum: every column has its own range, and the sidebar keeps one width on every page ([Resizing columns](../../../../../design/foundations/spacing.md#resizing-columns)).
 - Pass `groupResizeBehavior="preserve-pixel-size"` on the sidebar's panel, so the sidebar keeps its width when the window changes and the main area takes up the difference.
 - Below 768px there are no side-by-side columns to resize ([Responsive layout](../../../../../design/patterns/responsive.md)).
 
