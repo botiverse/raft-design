@@ -226,6 +226,12 @@ field
 card-title
 ```
 
+The space between toasts on screen together. Usage: [Toast](../../packages/ui/src/components/toast/toast.md#behavior).
+
+```tokens
+toast
+```
+
 ### Tokens defined in styles.css
 
 These are Tailwind theme values in `styles.css`, not entries in `tokens.json`, so they have no generated table.

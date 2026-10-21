@@ -65,6 +65,7 @@ toast/compositions/person
 - A toast closes on its own after the provider's `timeout`; hovering or focusing it pauses the timer.
 - People can swipe a toast away, or close it with `ToastClose`.
 - Stacked toasts appear at the bottom center by default. An anchored toast opens next to the control that caused it.
+- Toasts on screen together are `toast-stack-gap` (8px) apart and never touch: an expanded stack offsets each toast by it, and inline toasts listed in a `ToastViewport` (`layout="inline"`) flow in its column with that gap. The viewport sets `--toast-gap` from the token; set it there, not on each toast.
 
 ## Content
 
@@ -82,7 +83,7 @@ Toast wraps Base UI's Toast, which announces each toast in a live region and kee
 
 ## Rules
 
-- Show at most one toast at a time.
+- Show one toast for each thing the person did. When a second arrives while the first is up, such as Undo's result while its notice leaves, keep the stack gap between them: never let two toasts touch or overlap.
 - Use `layer-hud` for every toast, with `foreground-on-hud` text. Don't tint a toast with an intent color, and never use yellow: notices are neutral ([Color](../../../../../design/foundations/color.md#principles)).
 - Make the action a bold text action that underlines on hover (`ToastAction`), never a button. Never put a colored button in a toast.
 - Give a toast at most one action besides closing it.

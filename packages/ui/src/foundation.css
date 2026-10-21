@@ -302,6 +302,9 @@
   /* How far a control-height button's hit area reaches past its top and bottom,
      to keep 44px. */
   --control-hit-inset: 0px;
+  /* The space between two toasts on screen at once, in a viewport of inline
+     toasts and in an expanded stack. Toasts never touch. */
+  --toast-stack-gap: 8px;
   --sticker-ink: oklch(0.1813 0.005 17.62);
   --sticker-paper: oklch(1 0 0);
   --sticker-edge: oklch(0.1813 0.005 17.62 / 0);

@@ -28,7 +28,14 @@ import { cn } from "../../lib/cn";
 
 const toastStyles = tv({
   slots: {
-    viewport: ["pointer-events-none isolate z-70 w-[min(24rem,calc(100vw-2rem))]", "outline-none"],
+    // Toasts on screen together keep the stack gap between them: inline
+    // toasts flow in the viewport's column, and an expanded stack offsets each
+    // toast by it. They never touch (toast.md, Behavior).
+    viewport: [
+      "pointer-events-none isolate z-70 w-[min(24rem,calc(100vw-2rem))]",
+      "flex flex-col gap-(--toast-gap) [--toast-gap:var(--toast-stack-gap)]",
+      "outline-none",
+    ],
     positioner: ["isolate z-[calc(70-var(--toast-index))] outline-none"],
     root: [
       "group/toast pointer-events-auto",
@@ -36,7 +43,7 @@ const toastStyles = tv({
       "outline-1 outline-offset-2 outline-transparent",
       "[--toast-scale:calc(max(0.84,1-(var(--toast-index)*0.04)))]",
       "[--toast-peek:0.5rem]",
-      "[--toast-gap:0.5rem]",
+      "[--toast-gap:var(--toast-stack-gap)]",
       "[--toast-stack-height:var(--toast-frontmost-height,var(--toast-height))]",
       "[--toast-y:calc((var(--toast-offset-y)*-1)-(var(--toast-index)*var(--toast-gap))+var(--toast-swipe-movement-y))]",
       "transition-[transform,opacity,height] duration-220 ease-[cubic-bezier(0.22,1,0.36,1)]",
