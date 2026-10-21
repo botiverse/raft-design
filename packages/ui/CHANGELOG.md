@@ -1,3 +1,20 @@
+## [0.13.0](https://github.com/botiverse/raft-design/compare/v0.12.0...v0.13.0) (2026-10-21)
+
+### Added
+
+- Tokens `fill-row-hover` (4% ink light, 3% dark), `fill-message-hover` (3% / 2.2%) and `fill-row-open` (5% / 4%), with utilities `row-hover-overlay` and `row-open-overlay`. ([#641](https://github.com/botiverse/raft-design/pull/641), [#643](https://github.com/botiverse/raft-design/pull/643))
+- `useOverflowTitle`: sets `title` to the full text only while the element is actually truncated. ([#642](https://github.com/botiverse/raft-design/pull/642))
+
+### Changed
+
+- Rows hover with their own light step instead of the press overlay (`fill-pressed`, 7.8%): messages with `fill-message-hover`; sidebar items, list, inbox, search, table and file rows with `fill-row-hover`. Hover stays lighter than selection; press is unchanged. ([#641](https://github.com/botiverse/raft-design/pull/641))
+- A row with its menu open (right-click, ⋯ menu, phone long-press) takes `fill-row-open`, the one marker of which row the menu belongs to; selection still wins. Comment cards hover with `fill-row-hover`. ([#643](https://github.com/botiverse/raft-design/pull/643))
+- Select and Combobox default `collisionPadding` to 8px. ([#642](https://github.com/botiverse/raft-design/pull/642))
+
+### Fixed
+
+- Long values stay inside form fields on narrow screens: Field labels, descriptions and errors wrap; a FieldItem label next to a checkbox, radio or switch shrinks; an InputGroup text prefix takes at most half the field and truncates; SelectValue, ComboboxSelect values and chips truncate with the full value as `title`; options wrap to 2 lines then clamp; Select and Combobox popups never get wider than the screen less 8px each side. ([#642](https://github.com/botiverse/raft-design/pull/642))
+
 ## [0.12.0](https://github.com/botiverse/raft-design/compare/v0.11.0...v0.12.0) (2026-10-21)
 
 ### Breaking
