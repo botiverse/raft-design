@@ -157,17 +157,17 @@ message-item/compositions/consecutive
 
 ## States
 
-| State                           | Look                                                                                                                                                                                                                                                                           |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Located                         | The row on `info-soft` at once, fading out by 2s, with the `located` prop, driven by `useLocated` ([Located](../../../../../design/foundations/states.md#located)). A search match, a checked row or an open menu keeps its own fill                                           |
-| Focused                         | After a jump started from the keyboard focuses the row (`tabIndex={-1}`, set by the caller), the 2px inset ring in `foreground`, square, and the toolbar; after a click, nothing. Never the browser's outline ([Located](../../../../../design/foundations/states.md#located)) |
-| Search match                    | The whole row on `info-soft` while it holds a `MessageItemSearchMatch`                                                                                                                                                                                                         |
-| Selected, in multi-select       | The whole row on `info-soft` while its `MessageMultiSelectCheckbox` is checked                                                                                                                                                                                                 |
-| Agent working                   | A still yellow light on the avatar and the inline status ([Working agents](../../../../../design/people-and-agents/working-agents.md))                                                                                                                                         |
-| Sender left, removed or deleted | A muted badge in `MessageItemSenderBadges`; a deleted agent's avatar is grayed                                                                                                                                                                                                 |
-| Sent by an assistant            | The assistant's face on the sender's avatar and "sent by Friday" after the name; the words only on a continuation row                                                                                                                                                          |
-| Retracted                       | The row stays in place with both marks; the body is one line in `foreground-hint` that says it was retracted, never the old text                                                                                                                                               |
-| Reaction failed                 | The chip on `warning-soft`, with `MessageReactionErrorIndicator` announcing why                                                                                                                                                                                                |
+| State                            | Look                                                                                                                                                                                                                                                                           |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Located                          | The row on `info-soft` at once, fading out by 2s, with the `located` prop, driven by `useLocated` ([Located](../../../../../design/foundations/states.md#located)). A search match, a checked row or an open menu keeps its own fill                                           |
+| Focused                          | After a jump started from the keyboard focuses the row (`tabIndex={-1}`, set by the caller), the 2px inset ring in `foreground`, square, and the toolbar; after a click, nothing. Never the browser's outline ([Located](../../../../../design/foundations/states.md#located)) |
+| Search match                     | The whole row on `info-soft` while it holds a `MessageItemSearchMatch`                                                                                                                                                                                                         |
+| Selected, in multi-select        | The whole row on `info-soft` while its `MessageMultiSelectCheckbox` is checked                                                                                                                                                                                                 |
+| Agent working                    | A still yellow light on the avatar and the inline status ([Working agents](../../../../../design/people-and-agents/working-agents.md))                                                                                                                                         |
+| Sender left, removed or deleted  | A muted badge in `MessageItemSenderBadges`; a deleted agent's avatar is grayed                                                                                                                                                                                                 |
+| Sent by an assistant             | The assistant's face on the sender's avatar and "sent by Friday" after the name; the words only on a continuation row                                                                                                                                                          |
+| Retracted (sent by an assistant) | Only a message an assistant sent can be retracted. A single record that can't be acted on: sender, time, both marks and its thread replies stay; the body is one line in `foreground-hint`                                                                                     |
+| Reaction failed                  | The chip on `warning-soft`, with `MessageReactionErrorIndicator` announcing why                                                                                                                                                                                                |
 
 ```example
 message-item/compositions/row-chrome
@@ -199,7 +199,16 @@ When the assistant has been deleted, keep both marks: the default face in `Messa
 message-item/compositions/delegated-deleted
 ```
 
-When the person retracts a message their assistant sent, keep the row, its sender, time and both marks, and replace the body with one line in `foreground-hint`: "This message was retracted by its sender." It isn't the person's words, so it isn't rendered as Markdown, and its muted color tells it apart from text, as with an unavailable quote ([MessageQuotedPreview](../message-quoted-preview/message-quoted-preview.md)).
+Only a message an assistant sent for its owner can be retracted, by the owner. A retracted message stays in the timeline as a single record that can't be acted on:
+
+- It keeps its sender, time, both marks (the face and "sent by Friday") and its thread replies, which people wrote and which stay readable.
+- Its body is one line in `foreground-hint`, "This message was retracted.", in place of the text. It isn't the person's words: it isn't Markdown, can't be selected to quote and isn't translated.
+- Its attachments, link previews, quoted messages and reactions are gone, and so are the hover toolbar (react, reply in thread, save, forward, more), the context menu and the long-press menu.
+- Wherever it is quoted, the quote shows the same line, styled like an unavailable quote ([MessageQuotedPreview](../message-quoted-preview/message-quoted-preview.md)); an Activity row or a search result shows the same line as its excerpt, never the old text.
+
+```example
+message-item/compositions/delegated-retracted
+```
 
 In an Activity row or a search result there is no face; write the words into the sender: "Alice (sent by Friday)".
 
