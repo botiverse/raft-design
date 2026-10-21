@@ -33,6 +33,15 @@ comment/compositions/margin
 - Reply in the [Composer](../../packages/ui/src/components/composer/composer.md) inside the open card, with the pink send button: only the open card has one, so it is the screen's one pink button.
 - Close the open card with Esc, or by opening another one.
 
+## Starting a comment
+
+Start a comment where the reading is, and keep the screen free of comment controls until someone wants one ("show nothing where there are no comments").
+
+- On a passage: selecting text shows a Comment button in the margin, level with the selection, as in Google Docs. It opens a new card in its place, with the reply box focused; the selection takes the open highlight, the other cards move out of its way, and Esc or Cancel throws the card away. Until the first comment there is no margin, so the button floats at the document's right edge, and the document makes room only when the card opens: selecting never moves the text under the pointer.
+- On the whole document: while a document has no comments, the viewer's Comments button starts one, at the top of the margin. Once there are comments, the button shows and hides them, and the top of the margin offers Comment on File until there is a discussion on the whole document; from then on, reply in that discussion. Name the button for what it does: a toggle only while it toggles.
+- A selection the anchor can't name yet becomes a comment on the whole document, and its card says so, rather than showing no button: people should always be able to say something about what they are reading.
+- In the narrow layout, the same Comment button on a selection opens the bottom sheet, and the top of the marker column offers Comment on File.
+
 ## Wide and narrow
 
 The margin needs 304px beside the document: a 280px column of cards and 24px between it and the document. Show it only while the document keeps at least 480px, about 60 characters of text per line, so from a viewer 784px wide, and only on a desktop: from 768px with a mouse or a trackpad, the condition of every desktop metric ([Spacing](../foundations/spacing.md#hit-targets)). A tablet used by touch gets the markers at any width, like a phone.
