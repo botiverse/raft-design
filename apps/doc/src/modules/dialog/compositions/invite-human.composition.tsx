@@ -83,7 +83,7 @@ function InviteHumanDialogParts() {
 
 export function InviteHumanDialogContent() {
   return (
-    <DialogContent className="max-w-md">
+    <DialogContent>
       <InviteHumanDialogParts />
     </DialogContent>
   );

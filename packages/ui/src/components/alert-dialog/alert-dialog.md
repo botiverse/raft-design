@@ -29,7 +29,7 @@ alert-dialog/compositions/confirm-action
 
 - `AlertDialog`: the root. Required.
 - `AlertDialogTrigger`: the button that opens it. Usually the dialog is opened from a menu item instead.
-- `AlertDialogContent`: the centered surface, at most 400px wide, with the scrim (`AlertDialogOverlay`) behind it. Required.
+- `AlertDialogContent`: the centered surface, at most 400px wide, the width of a `size="sm"` [Dialog](../dialog/dialog.md#variants), so every confirmation is one width, with the scrim (`AlertDialogOverlay`) behind it. Required.
 - `AlertDialogHeader`: the title row, with an optional `AlertDialogClose` (×).
 - `AlertDialogTitle`: the title. Required.
 - `AlertDialogBody` and `AlertDialogDescription`: what will happen.

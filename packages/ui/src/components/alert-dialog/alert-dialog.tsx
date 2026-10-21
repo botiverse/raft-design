@@ -2,6 +2,7 @@ import { cn } from "../../lib/cn";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { X } from "lucide-react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
+import { decisionWidth } from "../../lib/decision-width";
 import { headEdgePull } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -16,7 +17,8 @@ const alertDialog = tv({
     // slide; a dialog is simply there).
     overlay: ["fixed inset-0 z-50 bg-layer-backdrop"],
     content: [
-      "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] max-w-[400px] -translate-1/2 outline-none",
+      "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] -translate-1/2 outline-none",
+      decisionWidth,
       "overflow-clip rounded-dialog bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",
     ],

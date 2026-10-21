@@ -46,10 +46,18 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 ## Variants
 
-| Variant                                         | Use for                                                                                                              |
-| ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `size="sm"`, `size="md"` (default), `size="lg"` | The small dialog: a decision or 2 or 3 fields. Use the narrowest one the content fits                                |
-| `size="wide"`                                   | The large form dialog, 896px wide, with a fixed height of 760px or the window height less 32px, whichever is smaller |
+Pick the size by what the dialog holds, not by what looks right. The four sizes are far enough apart that each holds one kind of content (cindyz, 2026-10-21):
+
+| Variant               | Width | Use for                                                                                                                                                                                                                                                         |
+| --------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `size="sm"`           | 400px | A decision: every confirmation and acknowledgement, including one with a few options to choose from or a short list of what it affects (Reset Agent, Change Visibility, the restart options). It is the width of [AlertDialog](../alert-dialog/alert-dialog.md) |
+| `size="md"` (default) | 448px | A small task: 1 to 5 fields, a list to pick from, a short help text that is only read (Create Channel, Add Members, role help)                                                                                                                                  |
+| `size="lg"`           | 640px | Content that needs width: a list with several columns, a command or code, key-value rows, a long text to read, a flow of steps (Connect Computer, release notes)                                                                                                |
+| `size="wide"`         | 896px | The large form dialog, in sections, with a fixed height of 760px or the window height less 32px, whichever is smaller                                                                                                                                           |
+
+- Every confirmation is one width, 400px, whether it is built on Dialog or AlertDialog. A confirmation whose content no longer fits 400px isn't a confirmation any more: it is a small task, at `md`.
+- Set the width with `size` only. Product code never passes its own `max-w-*` to `DialogContent`. Content that fits none of the four sizes isn't a dialog: make it a page, a [Drawer](../drawer/drawer.md), or a workspace overlay with its own rule, such as task details ([Tasks](../../../../../design/patterns/tasks.md)).
+- On a narrow screen every size is the same: the dialog is as wide as its size or the window less 32px, whichever is smaller, so it keeps a 16px margin on each side; at 390px each size is 358px wide. It is never taller than the window less 32px, and its body scrolls. Below 768px the wide dialog hides `DialogNav`, and the sections follow one another.
 
 The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFooter`: the header and footer stay in place and the body scrolls between them. The body holds `DialogNav` on the left, a `line-seam` after it, and one [FormSection](../form-section/form-section.md) per section on the right. Its structure and rules are in [Forms](../../../../../design/patterns/forms.md#the-large-form-dialog).
 
@@ -102,5 +110,5 @@ Raft Chat builds these forms in the app for now (`NarrowDialog` in slock); they 
 - Put at most two buttons in the footer: Cancel on the left (`variant="ghost"`), the confirm button on the right.
 - Make the confirm button pink (`variant="primary"`) when it does something. Color it by its consequence when it interrupts or can't be undone ([AlertDialog](../alert-dialog/alert-dialog.md#variants)).
 - Put anything people must read before they act in a [Banner](../banner/banner.md) inside the body ([Feedback](../../../../../design/patterns/feedback.md#errors-by-scope)).
-- Keep the small dialog at most 400px wide, with 20px padding.
+- Pad every size by 20px. Its width comes from `size` ([Variants](#variants)), never from a class of your own.
 - Don't pass `overlay={false}` in product code: every centered dialog has the scrim, without exception.
