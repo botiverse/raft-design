@@ -49,6 +49,7 @@
     "access": "public"
   },
   "scripts": {
+    "bench:virtual-list": "node bench/virtual-list/run.mjs",
     "build:tokens": "node scripts/build-tokens.mjs",
     "build": "vp pack",
     "check": "vp check",
