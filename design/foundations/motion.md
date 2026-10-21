@@ -32,7 +32,8 @@ Motion in Raft confirms an action or shows where something came from. It never d
 
 - Show hover only on devices with a pointer (`@media (hover: hover)`).
 - Don't float or tilt the large avatar on a profile. It stays still.
-- Centered overlays (dialogs, confirmations, search, task details, large forms) get the scrim and appear and disappear without animation: they are already in place and don't come from anywhere. Of the overlays, only the drawer and the bottom sheet slide in, because the slide shows which edge they came from; on a phone that includes a dialog with fields, which is a sheet there ([Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)). The rule is the same for every centered overlay, so don't give one of them an animation of its own. See [Choosing a component](../components/overview.md#overlays).
+- Centered overlays (dialogs, confirmations, search, task details, large forms) get the scrim and appear and disappear without animation: they are already in place and don't come from anywhere. Of the overlays, only the drawer and the bottom sheet slide in, because the slide shows which edge they came from; on a phone that includes a dialog with fields, which is a sheet there ([Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)). The rule is the same for every centered overlay, so don't give one of them an animation of its own.
+- A scrim moves with its surface: under a centered overlay it appears at once; under a drawer or a bottom sheet it fades in over the same time and with the same easing as the slide, and out as the surface leaves, so the page doesn't go dark in one step while the panel is still on its way. With reduced motion it appears at once. See [Choosing a component](../components/overview.md#overlays).
 
 ## Related
 
