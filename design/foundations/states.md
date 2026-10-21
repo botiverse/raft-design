@@ -1,6 +1,6 @@
 ---
 title: States
-summary: How hover, press, focus, selection, unread, disabled, error and busy look, shared by every component.
+summary: How hover, press, focus, selection, unread, disabled, error, busy and autofill look, shared by every component.
 ---
 
 # States
@@ -98,6 +98,13 @@ On a touch screen one long press can mean two things on an item that can be move
 - Close the item's menu when its drag starts. The component that owns the menu closes it: an app that puts its own menu on a draggable item closes it in the drag's `onDragStart` (`SortableTabsList` passes one through).
 - Use the same hold, distance and tolerance for everything that can be dragged by touch (sidebar rows, tabs, task cards, attachments in the composer): raft-ui's `useHoldThenMoveTouchSensor` carries them, next to a pointer sensor that leaves fingers to it. A mouse or a pen still starts a drag after 5–6px of movement, with no hold.
 - Don't let the held item select its text or open the platform's own callout (`select-none`, `-webkit-touch-callout: none`), and keep it scrollable (`touch-manipulation`, not `touch-none`).
+
+## Autofill
+
+A field the browser filled in (a saved email or password) looks like any other field: `layer-card` with ink text.
+
+- Never show the browser's autofill fill: Chrome's pale blue and Safari's yellow made the filled field the one field on the page that matched nothing else in the system, and the colour says nothing a person needs.
+- raft-ui's styles.css does this in Chrome and Safari for every `input`, `textarea` and `select` on the page, so an app needs no code of its own. A disabled autofilled field keeps the disabled ink.
 
 ## Related
 

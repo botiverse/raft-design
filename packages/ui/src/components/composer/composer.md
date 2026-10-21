@@ -79,6 +79,6 @@ Composer has no Base UI primitive: it renders a native `<form>` and `<textarea>`
 ## Rules
 
 - Count the send button as the screen's pink button ([Button](../button/button.md#which-color)). It is a pink icon button (`size="icon-sm"`) with `aria-label="Send"`, on a phone and on desktop.
-- Draw one ink border around the whole group: 1px `line-field`, like a field ([Shape](../../../../../design/foundations/shape.md#stroke-widths)). The tools inside it have none: `ComposerIconButton` is frameless.
+- Draw one ink border around the whole group: 1.5px `line-field`, like a field ([Shape](../../../../../design/foundations/shape.md#stroke-widths)). The tools inside it have none: `ComposerIconButton` is frameless.
 - Keep the input text `text-body` at regular weight wherever the composer sits (a channel, a thread, a comment on an attachment, a forward). Don't let it inherit the surrounding type. Make tool icons `foreground-muted`.
 - Under a scrolling region, such as a comment on an attachment or a note added to a forward, use a compact composer: a `line-seam` above it, 12px of space around it, and no fill of its own.

@@ -71,7 +71,7 @@ function ResetModeOption({ value, children }: { value: ResetModeTone; children: 
         "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.035),0_0_0_1px_var(--line-hairline)]",
         "hover:bg-foreground/4",
         "has-data-checked:bg-foreground/4",
-        "has-data-checked:shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.05),0_0_0_1px_var(--line-field-hover)]",
+        "has-data-checked:shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.05),0_0_0_1.5px_var(--line-field-hover)]",
       )}
     >
       <RadioGroupItem value={value} appearance="none" />

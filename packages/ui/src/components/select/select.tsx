@@ -19,7 +19,7 @@ const select = tv({
       "[&>span[data-slot='select-trigger-content']]:min-w-0 [&>span[data-slot='select-trigger-content']]:flex-1",
       "[&_[data-slot='select-trigger-content']_svg]:shrink-0",
       "h-control w-full gap-2 pr-3 pl-3.5",
-      "border border-line-field",
+      "border-[1.5px] border-line-field",
       "text-subhead font-semibold text-foreground",
       "data-placeholder:font-medium data-placeholder:text-foreground-hint",
       "data-invalid:border-danger-strong data-invalid:hover:border-danger-strong",

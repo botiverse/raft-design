@@ -90,7 +90,7 @@ Use one term per concept, everywhere. These are the system's terms.
 | soft tint | A pale, borderless highlight color (`*-soft` tokens). |
 | hairline | The thin line inside content: list dividers, card outlines. |
 | seam | The line between regions: rail and sidebar, a header and its content, the edge of a menu. |
-| ink border | The ink border that marks something as a control: 1.5px on buttons and stickers, 1px around a field. |
+| ink border | The 1.5px ink border that marks something as a control: on buttons, fields and stickers. |
 | pressed overlay | The translucent layer laid over a control on hover and press. |
 
 ### Structure
