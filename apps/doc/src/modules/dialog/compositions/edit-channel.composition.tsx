@@ -75,7 +75,7 @@ export function EditChannelDialogComposition({ className }: { className?: string
   return (
     <CompositionModalPreview
       className={className}
-      contentClassName="max-w-md"
+
       portalClassName="px-0"
     >
       {({ portalProps, contentClassName }) => (

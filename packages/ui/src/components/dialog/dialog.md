@@ -10,7 +10,7 @@ related: [alert-dialog, form-section, drawer, banner, toast]
 
 # Dialog
 
-A dialog is a centered overlay on a scrim for something people must finish before they continue: a small task of 2 or 3 fields, such as creating a channel. It has a title, a body and at most two buttons. Its wide size holds a large form filled in one pass. To confirm an action, use [AlertDialog](../alert-dialog/alert-dialog.md).
+A dialog is a centered overlay on a scrim for something people must finish before they continue: a decision, or a small task of a few fields, such as creating a channel. It has a title, a body and at most two buttons. Its wide size holds a large form filled in one pass. To confirm an action, use [AlertDialog](../alert-dialog/alert-dialog.md).
 
 ```example
 dialog/compositions/create-channel
@@ -18,14 +18,14 @@ dialog/compositions/create-channel
 
 ## When to use
 
-| Situation                                                                            | Use                                                                                                                                     |
-| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| A small task in 2 or 3 fields (Create Channel)                                       | Dialog                                                                                                                                  |
-| A large form filled in one pass: registering or editing an app, configuring an agent | Dialog with `size="wide"`                                                                                                               |
-| Task details                                                                         | A wider Dialog, 960px wide and full screen on a phone ([Tasks](../../../../../design/patterns/tasks.md))                                |
-| Confirming an action that cannot be undone, or that interrupts                       | [AlertDialog](../alert-dialog/alert-dialog.md)                                                                                          |
-| An action that can be reversed in place                                              | No dialog: do it; when a [Toast](../toast/toast.md) offers Undo is in [Feedback](../../../../../design/patterns/feedback.md#confirming) |
-| Details or settings people look at and edit for a while                              | [Drawer](../drawer/drawer.md)                                                                                                           |
+| Situation                                                                            | Use                                                                                                                                             |
+| ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| A small task in 1 to 5 fields (Create Channel)                                       | Dialog                                                                                                                                          |
+| A large form filled in one pass: registering or editing an app, configuring an agent | Dialog with `size="wide"`                                                                                                                       |
+| Task details                                                                         | A workspace overlay on Dialog, 960px wide and full screen on a phone, outside the four sizes ([Tasks](../../../../../design/patterns/tasks.md)) |
+| Confirming an action that cannot be undone, or that interrupts                       | [AlertDialog](../alert-dialog/alert-dialog.md)                                                                                                  |
+| An action that can be reversed in place                                              | No dialog: do it; when a [Toast](../toast/toast.md) offers Undo is in [Feedback](../../../../../design/patterns/feedback.md#confirming)         |
+| Details or settings people look at and edit for a while                              | [Drawer](../drawer/drawer.md)                                                                                                                   |
 
 Which overlay fits which job is in [Choosing a component](../../../../../design/components/overview.md#overlays).
 
@@ -52,12 +52,19 @@ Pick the size by what the dialog holds, not by what looks right. The four sizes 
 | --------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `size="sm"`           | 400px | A decision: every confirmation and acknowledgement, including one with a few options to choose from or a short list of what it affects (Reset Agent, Change Visibility, the restart options). It is the width of [AlertDialog](../alert-dialog/alert-dialog.md) |
 | `size="md"` (default) | 448px | A small task: 1 to 5 fields, a list to pick from, a short help text that is only read (Create Channel, Add Members, role help)                                                                                                                                  |
-| `size="lg"`           | 640px | Content that needs width: a list with several columns, a command or code, key-value rows, a long text to read, a flow of steps (Connect Computer, release notes)                                                                                                |
+| `size="lg"`           | 640px | Content that needs width: a list with several columns, a command or code, key-value rows, a long text to read, a flow of steps (Connect Computer, a computer's release notes)                                                                                   |
 | `size="wide"`         | 896px | The large form dialog, in sections, with a fixed height of 760px or the window height less 32px, whichever is smaller                                                                                                                                           |
 
 - Every confirmation is one width, 400px, whether it is built on Dialog or AlertDialog. A confirmation whose content no longer fits 400px isn't a confirmation any more: it is a small task, at `md`.
-- Set the width with `size` only. Product code never passes its own `max-w-*` to `DialogContent`. Content that fits none of the four sizes isn't a dialog: make it a page, a [Drawer](../drawer/drawer.md), or a workspace overlay with its own rule, such as task details ([Tasks](../../../../../design/patterns/tasks.md)).
-- On a narrow screen every size is the same: the dialog is as wide as its size or the window less 32px, whichever is smaller, so it keeps a 16px margin on each side; at 390px each size is 358px wide. It is never taller than the window less 32px, and its body scrolls. Below 768px the wide dialog hides `DialogNav`, and the sections follow one another.
+- `sm`, `md` and `lg` are the small dialog: its height follows its content, up to the window less 32px, and a click on the scrim closes it. `wide` is the large form dialog.
+- Set the width with `size` only. Product code never passes its own `max-w-*` to `DialogContent`. Content that fits none of the four sizes isn't a dialog: make it a page or a [Drawer](../drawer/drawer.md).
+- Only these overlays have a width outside the four sizes, each set by its own rule. Nothing else may add one:
+  - Task details, 960px: a workspace overlay ([Tasks](../../../../../design/patterns/tasks.md)).
+  - Search, 720px, on `DialogSurface`, its top edge over the top bar's field ([Search](../search/search.md)).
+  - The showcase frame, 720px wide and about 520px high, shared by steps 3 to 5 of onboarding and the Upgrade to Pro dialog, and used by nothing else ([Onboarding](../../../../../design/products/raft-chat/onboarding.md)).
+  - [AnnouncementDialog](../announcement-dialog/announcement-dialog.md), 576px: its picture and one-paragraph text read best there; at 640px the text runs past 80 characters a line.
+  - An attachment preview, as wide as the file needs, up to 768px.
+- On a narrow screen every size is as wide as itself or the window less 32px, whichever is smaller, so at 390px each one is 358px wide. Its height and the wide dialog's sections are in [Behavior](#behavior).
 
 The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFooter`: the header and footer stay in place and the body scrolls between them. The body holds `DialogNav` on the left, a `line-seam` after it, and one [FormSection](../form-section/form-section.md) per section on the right. Its structure and rules are in [Forms](../../../../../design/patterns/forms.md#the-large-form-dialog).
 
