@@ -4,6 +4,8 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
+  useId,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -51,6 +53,8 @@ type AppShellSidebarContextValue = {
   collapsible: boolean;
   open: boolean;
   setOpen: (open: boolean) => void;
+  sidebarId: string | undefined;
+  setSidebarId: (id: string | undefined) => void;
   sidebarWidth: number;
   setSidebarWidth: (width: number) => void;
   toggle: () => void;
@@ -82,6 +86,7 @@ export function AppShellRoot({
   const { root } = appShell();
   const [uncontrolledSidebarOpen, setUncontrolledSidebarOpen] = useState(defaultSidebarOpen);
   const [sidebarWidth, setSidebarWidth] = useState(0);
+  const [sidebarId, setSidebarId] = useState<string | undefined>(undefined);
   const sidebarOpen = sidebarOpenProp ?? uncontrolledSidebarOpen;
 
   const setSidebarOpen = useCallback(
@@ -103,6 +108,8 @@ export function AppShellRoot({
       collapsible: sidebarCollapsible,
       open: sidebarOpen,
       setOpen: setSidebarOpen,
+      sidebarId,
+      setSidebarId,
       sidebarWidth,
       setSidebarWidth: setMeasuredSidebarWidth,
       toggle: toggleSidebar,
@@ -111,6 +118,7 @@ export function AppShellRoot({
       setMeasuredSidebarWidth,
       setSidebarOpen,
       sidebarCollapsible,
+      sidebarId,
       sidebarOpen,
       sidebarWidth,
       toggleSidebar,
@@ -155,12 +163,21 @@ export function AppShellRailSlot({ className, render, ...props }: AppShellRailSl
 
 export type AppShellSidebarSlotProps = useRender.ComponentProps<"aside">;
 
-export function AppShellSidebarSlot({ className, render, ...props }: AppShellSidebarSlotProps) {
+export function AppShellSidebarSlot({
+  className,
+  id: idProp,
+  render,
+  ...props
+}: AppShellSidebarSlotProps) {
   const { sidebarSlot } = appShell();
   const sidebar = useOptionalAppShellSidebar();
   const elementRef = useRef<HTMLElement | null>(null);
   const isCollapsible = sidebar?.collapsible ?? false;
+  const collapsed = isCollapsible && !sidebar?.open;
   const setSidebarWidth = sidebar?.setSidebarWidth;
+  const setSidebarId = sidebar?.setSidebarId;
+  const generatedId = useId();
+  const id = idProp ?? (isCollapsible ? generatedId : undefined);
   const setElementRef = useCallback((element: HTMLElement | null) => {
     elementRef.current = element;
   }, []);
@@ -178,9 +195,18 @@ export function AppShellSidebarSlot({ className, render, ...props }: AppShellSid
     return () => observer.disconnect();
   }, [isCollapsible, setSidebarWidth]);
 
+  // The trigger's aria-controls names this element, whichever id it ends up with.
+  useLayoutEffect(() => {
+    if (!isCollapsible || !setSidebarId) return;
+    setSidebarId(id);
+    return () => setSidebarId(undefined);
+  }, [id, isCollapsible, setSidebarId]);
+
   const defaultProps: SlotElementProps<"aside"> = {
-    "aria-hidden": sidebar?.collapsible && !sidebar.open ? true : undefined,
+    "aria-hidden": collapsed ? true : undefined,
     "data-slot": "app-shell-sidebar-slot",
+    id,
+    inert: collapsed ? true : undefined,
     className: sidebarSlot({
       className: cn(
         className,
@@ -188,18 +214,19 @@ export function AppShellSidebarSlot({ className, render, ...props }: AppShellSid
           "will-change-[opacity]",
           "transition-opacity duration-160 ease-slide",
           "motion-reduce:transition-none",
+          "group-data-[state=expanded]/app-shell:relative group-data-[state=expanded]/app-shell:z-1",
           "group-data-[state=collapsed]/app-shell:pointer-events-none",
           "group-data-[state=collapsed]/app-shell:opacity-0",
           "group-data-[state=collapsed]/app-shell:duration-120",
         ],
       ),
     }),
-    ref: setElementRef,
   };
 
   return useRender({
     defaultTagName: "aside",
     render,
+    ref: setElementRef,
     props: mergeProps<"aside">(defaultProps, props),
   });
 }
@@ -250,14 +277,19 @@ export function AppShellMainSlot({
 }: AppShellMainSlotProps) {
   const { mainSlot } = appShell({ overlay });
   const sidebar = useOptionalAppShellSidebar();
+  const collapsible = sidebar?.collapsible ?? false;
+  const open = sidebar?.open ?? true;
+  const sliding = useSidebarSlide(collapsible, open);
 
   const defaultProps: SlotElementProps<"main"> = {
     "data-slot": "app-shell-main-slot",
+    "data-sliding": sliding.active ? "" : undefined,
     className: mainSlot({
       className: cn(
         className,
-        sidebar?.collapsible && [
-          "absolute inset-y-0 right-0 left-0 z-45",
+        collapsible && [
+          "absolute inset-y-0 right-0 left-0",
+          "data-sliding:z-2",
           "transition-[left] duration-220 ease-slide",
           "motion-reduce:transition-none",
           "group-data-[state=collapsed]/app-shell:-left-(--app-shell-sidebar-width)",
@@ -269,8 +301,49 @@ export function AppShellMainSlot({
   return useRender({
     defaultTagName: "main",
     render,
+    ref: sliding.ref,
     props: mergeProps<"main">(defaultProps, props),
   });
+}
+
+// The main area rises over the sidebar only while it slides: at rest it has no
+// z-index, so it never covers the app's own fixed layers.
+function useSidebarSlide(collapsible: boolean, open: boolean) {
+  const elementRef = useRef<HTMLElement | null>(null);
+  const [slide, setSlide] = useState({ active: false, open });
+  if (slide.open !== open) setSlide({ active: collapsible, open });
+  const active = slide.active;
+  const ref = useCallback((element: HTMLElement | null) => {
+    elementRef.current = element;
+  }, []);
+
+  useEffect(() => {
+    if (!active) return;
+    const element = elementRef.current;
+    const transitions =
+      element
+        ?.getAnimations?.()
+        .filter(
+          (animation) =>
+            "transitionProperty" in animation &&
+            animation.transitionProperty === "left" &&
+            animation.effect?.getComputedTiming().activeDuration !== 0,
+        ) ?? [];
+    let current = true;
+    const settle = () => {
+      if (current) setSlide((state) => (state.open === open ? { active: false, open } : state));
+    };
+    if (transitions.length === 0) {
+      settle();
+      return;
+    }
+    void Promise.allSettled(transitions.map((transition) => transition.finished)).then(settle);
+    return () => {
+      current = false;
+    };
+  }, [active, open]);
+
+  return { active, ref };
 }
 
 export type AppShellSidebarTriggerProps = useRender.ComponentProps<"button"> & {
@@ -292,14 +365,15 @@ function AppShellSidebarTriggerButton({
   render,
   ...props
 }: AppShellSidebarTriggerProps & { sidebar: AppShellSidebarContextValue }) {
-  const label = sidebar.open ? "Collapse sidebar" : "Expand sidebar";
+  const label = sidebar.open ? "Collapse Sidebar" : "Expand Sidebar";
 
   // Default to PanelAction for in-panel chrome; consumers can pass AppRailItem (or
   // another render) so rail placements keep the flatter item styles.
   const defaultProps: SlotElementProps<"button"> = {
     className: cn("group/app-shell-sidebar-trigger max-md:hidden", className),
     "aria-label": label,
-    "aria-pressed": sidebar.open,
+    "aria-controls": sidebar.sidebarId,
+    "aria-expanded": sidebar.open,
     "data-state": sidebar.open ? "expanded" : "collapsed",
     title: label,
     children,
