@@ -762,9 +762,14 @@
       "MessageList",
       "MessageListDateDivider",
       "MessageListHistoryLimited",
-      "MessageListNotice"
+      "MessageListNotice",
+      "MessageListJumpControls",
+      "MessageListJumpPill",
+      "MessageListJumpPillDismiss",
+      "MessageListJumpPillGroup"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "A pill and its dismiss button, joined on one shared edge."
   },
   "message-quoted-preview": {
     "names": [

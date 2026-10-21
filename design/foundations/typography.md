@@ -26,7 +26,7 @@ Each style sets a size and a line height; the bold styles also set their weight.
 | `text-body` | 16/24 | 14/22 | Message text; list and task titles at weight 600 |
 | `text-subhead` | 15/20 | 14/22 | Buttons at `lg`, names, radio labels, dialog body text |
 | `text-callout` | 14/20 | 14/22 | Previews, menu items, banners, excerpts |
-| `text-control` | 13/18 | 14/22 | The label of a 32px or 28px control: a Button at `md`, a panel action, a filter trigger, the text selection toolbar |
+| `text-control` | 13/18 | 14/22 | The label of a 32px or 28px control: a Button at `md`, a jump pill over a conversation, a panel action, a filter trigger, the text selection toolbar |
 | `text-footnote` | 13/18 | 12/18 | Group headings, field labels, tooltips |
 | `text-caption` | 12/16 | 12/18 | Subtitles, status chips, help text |
 | `text-label` | 11/13 | 11/13 | Tab bar labels and the labels of the labeled rail |

@@ -24,7 +24,8 @@ const outline = (ink: string) => [
 
 // Three text sizes and two icon sizes, nothing in between, so a button reads
 // the same wherever it sits; the 32px ones keep a 44px hit area through an
-// overhanging ::after. `lg`, `icon-lg` and `xl` take the control height, 44px
+// overhanging ::after. An absolute ::after is placed from the padding box, so
+// each overhang adds the 1.5px border back: 32 - 3 + 2 x (6 + 1.5) = 44. `lg`, `icon-lg` and `xl` take the control height, 44px
 // (52px) on a phone and 32px (40px) on a desktop, from the token layer; there
 // `lg` and `icon-lg` overhang by `control-hit` to keep 44px. `xs` and `sm` are
 // the old names of `md`, `icon-xs` and `icon-sm` of `icon-md`.
@@ -32,11 +33,11 @@ const textMd = [
   "h-8 gap-2 rounded-control px-3 py-0 text-control",
   "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
   "[&_svg:not([class*='size-'])]:size-4 **:data-icon:size-[1em]",
-  "after:absolute after:inset-x-0 after:-inset-y-1.5",
+  "after:absolute after:inset-x-0 after:-inset-y-[calc(--spacing(1.5)+1.5px)]",
 ];
 const iconMd = [
   "size-8 rounded-control p-0 [&_svg:not([class*='size-'])]:size-[18px]",
-  "after:absolute after:-inset-1.5",
+  "after:absolute after:-inset-[calc(--spacing(1.5)+1.5px)]",
 ];
 
 export const buttonVariants = tv({
@@ -109,7 +110,7 @@ export const buttonVariants = tv({
           "h-control gap-2 rounded-control px-4 py-0 text-subhead",
           "has-data-[icon=inline-start]:pl-3.5 has-data-[icon=inline-end]:pr-3.5",
           "[&_svg:not([class*='size-'])]:size-[18px] **:data-icon:size-[1em]",
-          "after:absolute after:inset-x-0 after:-inset-y-control-hit",
+          "after:absolute after:inset-x-0 after:-inset-y-[calc(var(--spacing-control-hit)+1.5px)]",
         ],
       },
       // A full-width call to action. Its content is centred in the full
@@ -126,7 +127,7 @@ export const buttonVariants = tv({
       "icon-lg": {
         root: [
           "size-control rounded-control p-0 [&_svg:not([class*='size-'])]:size-control-icon",
-          "after:absolute after:-inset-control-hit",
+          "after:absolute after:-inset-[calc(var(--spacing-control-hit)+1.5px)]",
         ],
       },
     },
@@ -152,12 +153,14 @@ export const buttonVariants = tv({
     {
       variant: "on-frame",
       size: ["xs", "sm", "md"],
-      class: { root: "h-9 px-2.5 text-subhead after:-inset-y-1" },
+      class: { root: "h-9 px-2.5 text-subhead after:-inset-y-[calc(--spacing(1)+1.5px)]" },
     },
     {
       variant: "on-frame",
       size: ["icon-xs", "icon-sm", "icon-md"],
-      class: { root: "size-9 after:-inset-1 [&_svg:not([class*='size-'])]:size-5" },
+      class: {
+        root: "size-9 after:-inset-[calc(--spacing(1)+1.5px)] [&_svg:not([class*='size-'])]:size-5",
+      },
     },
   ],
 });

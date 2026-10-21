@@ -71,13 +71,13 @@ const toastStyles = tv({
       "[&[data-has-icon][data-has-actions]]:grid-cols-[auto_minmax(0,1fr)_auto]",
     ],
     icon: [
-      "flex size-5 shrink-0 items-center justify-center",
+      "flex h-lh w-5 shrink-0 items-center justify-center",
       "[&_svg]:shrink-0",
       "[&_svg]:size-4",
     ],
     body: ["min-w-0"],
-    title: ["m-0 truncate text-sm/5", "font-normal text-foreground-on-hud"],
-    description: ["m-0 text-sm/5", "text-foreground-on-hud/70"],
+    title: ["m-0 truncate text-callout", "font-normal text-foreground-on-hud"],
+    description: ["m-0 text-callout", "text-foreground-on-hud/70"],
     actions: ["flex items-center justify-end", "gap-4"],
     progress: [
       "pointer-events-none absolute h-[3px] origin-left",
