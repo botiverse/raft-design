@@ -64,3 +64,20 @@ test("rows that don't opt in keep their parts' classes; compact and reveal only 
   );
   expect(classes("reveal-actions")).not.toContain("pointer-events-auto");
 });
+
+test("the line between items starts at the text and ends where the content ends", () => {
+  render(
+    <>
+      <InboxItem data-testid="first">
+        <InboxItemTitle>A</InboxItemTitle>
+      </InboxItem>
+      <InboxItem data-testid="second">
+        <InboxItemTitle>B</InboxItemTitle>
+      </InboxItem>
+    </>,
+  );
+  const classes = screen.getByTestId("second").className.split(/\s+/);
+  expect(classes).toContain("before:left-4");
+  expect(classes).toContain("before:right-4");
+  expect(classes).not.toContain("before:right-0");
+});

@@ -9,7 +9,9 @@ export const inboxItem = tv({
       "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
       "transition-colors",
       "gap-x-3 gap-y-0 rounded-none border-0 bg-transparent px-4 py-3 shadow-none",
-      "before:pointer-events-none before:absolute before:top-0 before:right-0 before:left-4 before:hidden before:border-t before:border-line-hairline",
+      // The line starts at the text and ends where the row's content ends,
+      // 16px in: a list of items has no edge of its own for it to meet.
+      "before:pointer-events-none before:absolute before:top-0 before:right-4 before:left-4 before:hidden before:border-t before:border-line-hairline",
       "[[data-slot=inbox-item]+&]:before:block has-data-[slot=inbox-item-selection]:before:left-11",
       "has-data-[slot=inbox-item-leading]:before:left-16",
       "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:before:left-23",
