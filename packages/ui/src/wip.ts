@@ -71,3 +71,8 @@ export * from "./components/meter/index";
 // used in a product.
 export { DropdownMenuLinkItem } from "./components/dropdown-menu/dropdown-menu";
 export type { DropdownMenuLinkItemProps } from "./components/dropdown-menu/dropdown-menu";
+
+// Dialog's phone presentation (dialog.md, "On a phone"): a sheet below 768px
+// with a pushed page's head, until stdrc approves the parts.
+export { DialogCommit, DialogSheetContent } from "./components/dialog/index";
+export type { DialogCommitProps, DialogSheetContentProps } from "./components/dialog/index";

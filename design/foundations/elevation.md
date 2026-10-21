@@ -59,6 +59,13 @@ A modal surface (a dialog, an alert dialog, a modal sheet) dims everything under
 
 raft-ui does this on its own. A modal `Dialog`, `AlertDialog` or `Drawer` tells everything under its root that it is open, the same way Base UI decides a dialog is nested, so a dialog, an alert dialog or a sheet opened under it draws the nested scrim. A non-modal one doesn't count: nothing below it is dimmed. Base UI draws no scrim for a nested dialog by default, which is how a confirm opened from a sheet came to sit on an undimmed sheet.
 
+An app's own modal surface, one with its own backdrop, Esc and focus, joins the same stack with two public pieces of raft-ui:
+
+- `OverlayLayerProvider` (`kind="dialog"` or `"drawer"`, `modal`): wrap the surface's scrim and content in it. A raft-ui overlay opened from inside then draws the nested scrim over it.
+- `useParentOverlayKind()`: called inside that provider, it returns the kind of surface this one was opened from, or `null` when it is the first. Not `null` means: draw `layer-backdrop-nested`.
+
+Both read React context, portals included, so they see the surfaces whose tree the overlay is rendered in. Don't look for open scrims in the document instead: render the overlay inside the surface it was opened from.
+
 ## Focus ring
 
 `focus-ring` is a 2px gap in the surface color followed by 2px of ink. It is ink, not yellow: a yellow ring would disappear on the yellow frame and on yellow stickers.

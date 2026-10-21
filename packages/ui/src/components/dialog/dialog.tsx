@@ -12,6 +12,13 @@ import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
+import { PanelAction } from "../panel/panel-action";
+import {
+  DialogSheetHeadContext,
+  dialogSheet,
+  useDialogSheet,
+  useInDialogSheetHead,
+} from "./dialog-sheet-context";
 
 const dialog = tv({
   slots: {
@@ -176,10 +183,29 @@ export function DialogClose({
   "aria-label": ariaLabel,
   ...props
 }: DialogCloseProps) {
+  const inSheetHead = useInDialogSheetHead();
   if (render) {
     return (
       <BaseDialog.Close data-slot="dialog-close" render={render} aria-label={ariaLabel} {...props}>
         {children}
+      </BaseDialog.Close>
+    );
+  }
+
+  if (inSheetHead) {
+    // A phone sheet's head is a pushed page's head: × is its leading action.
+    return (
+      <BaseDialog.Close
+        data-slot="dialog-close"
+        render={
+          <PanelAction
+            aria-label={ariaLabel ?? "Close"}
+            className={dialogSheet().close({ className })}
+          />
+        }
+        {...props}
+      >
+        {children ?? <X />}
       </BaseDialog.Close>
     );
   }
@@ -207,9 +233,30 @@ export type DialogHeaderProps = ComponentPropsWithRef<"div"> & {
   bar?: boolean;
 };
 
-export function DialogHeader({ className, bar = false, ...props }: DialogHeaderProps) {
+export function DialogHeader({ className, bar = false, children, ...props }: DialogHeaderProps) {
+  const { sheet, setCommitSlot } = useDialogSheet();
+  if (sheet) {
+    // A phone sheet: × at the start, the title, then the slot DialogCommit
+    // moves the commit button into.
+    const head = dialogSheet();
+    return (
+      <div
+        data-slot="dialog-header"
+        data-sheet=""
+        className={dialog({ bar: false }).header({ className: cn(head.header(), className) })}
+        {...props}
+      >
+        <DialogSheetHeadContext.Provider value>{children}</DialogSheetHeadContext.Provider>
+        <div ref={setCommitSlot} data-slot="dialog-commit-slot" className={head.commitSlot()} />
+      </div>
+    );
+  }
   const { header } = dialog({ bar });
-  return <div data-slot="dialog-header" className={header({ className })} {...props} />;
+  return (
+    <div data-slot="dialog-header" className={header({ className })} {...props}>
+      {children}
+    </div>
+  );
 }
 
 export type DialogBodyProps = ComponentPropsWithRef<"div"> & {
@@ -218,8 +265,16 @@ export type DialogBodyProps = ComponentPropsWithRef<"div"> & {
 };
 
 export function DialogBody({ className, bar = false, ...props }: DialogBodyProps) {
+  const { sheet } = useDialogSheet();
   const { body } = dialog({ bar });
-  return <div data-slot="dialog-body" className={body({ className })} {...props} />;
+  const sheetBody = sheet && !bar ? dialogSheet().body() : undefined;
+  return (
+    <div
+      data-slot="dialog-body"
+      className={body({ className: sheetBody ? cn(sheetBody, className) : className })}
+      {...props}
+    />
+  );
 }
 
 export type DialogFooterProps = ComponentPropsWithRef<"div"> & {
@@ -227,16 +282,33 @@ export type DialogFooterProps = ComponentPropsWithRef<"div"> & {
   bar?: boolean;
 };
 
-export function DialogFooter({ className, bar = false, ...props }: DialogFooterProps) {
+export function DialogFooter({ className, bar = false, hidden, ...props }: DialogFooterProps) {
+  // A phone sheet has no footer: × is Cancel and the commit sits in the head.
+  const { sheet } = useDialogSheet();
   const { footer } = dialog({ bar });
-  return <div data-slot="dialog-footer" className={footer({ className })} {...props} />;
+  return (
+    <div
+      data-slot="dialog-footer"
+      className={footer({ className })}
+      hidden={sheet || hidden}
+      {...props}
+    />
+  );
 }
 
 export type DialogTitleProps = StyledProps<BaseDialog.Title.Props>;
 
 export function DialogTitle({ className, ...props }: DialogTitleProps) {
+  const inSheetHead = useInDialogSheetHead();
   const { title } = dialog();
-  return <BaseDialog.Title data-slot="dialog-title" className={title({ className })} {...props} />;
+  const classes = inSheetHead ? cn(dialogSheet().title(), className) : className;
+  return (
+    <BaseDialog.Title
+      data-slot="dialog-title"
+      className={title({ className: classes })}
+      {...props}
+    />
+  );
 }
 
 export type DialogDescriptionProps = StyledProps<BaseDialog.Description.Props>;

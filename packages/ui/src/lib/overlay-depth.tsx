@@ -1,6 +1,10 @@
 import { createContext, useContext, useMemo } from "react";
 import type { ReactNode } from "react";
 
+/**
+ * A modal surface: a centred dialog (Dialog, AlertDialog, or an app's own
+ * modal) or a sheet (Drawer).
+ */
 export type OverlayLayerKind = "dialog" | "drawer";
 
 // The modal surfaces open around a component, outermost first. Each modal
@@ -9,15 +13,23 @@ export type OverlayLayerKind = "dialog" | "drawer";
 // nested (and draws no backdrop for it). A portal keeps the context.
 const OverlayStackContext = createContext<readonly OverlayLayerKind[]>([]);
 
-export function OverlayLayerProvider({
-  kind,
-  modal,
-  children,
-}: {
+export type OverlayLayerProviderProps = {
+  /** What the surface is: a centred dialog or a sheet. */
   kind: OverlayLayerKind;
+  /** Whether it dims what is under it. A non-modal surface adds nothing. */
   modal: boolean;
   children?: ReactNode;
-}) {
+};
+
+/**
+ * Tells everything under it that a modal surface is open, so a raft-ui
+ * Dialog, AlertDialog or Drawer opened from inside draws the lighter nested
+ * scrim (design/foundations/elevation.md#stacked-overlays). raft-ui's own
+ * roots add one by themselves; an app's own modal (its own backdrop, Esc and
+ * focus) wraps its scrim and its content in one to join the stack, and reads
+ * `useParentOverlayKind` inside it to pick its own scrim.
+ */
+export function OverlayLayerProvider({ kind, modal, children }: OverlayLayerProviderProps) {
   const stack = useContext(OverlayStackContext);
   const value = useMemo(() => (modal ? [...stack, kind] : stack), [stack, kind, modal]);
   return <OverlayStackContext.Provider value={value}>{children}</OverlayStackContext.Provider>;
@@ -25,8 +37,13 @@ export function OverlayLayerProvider({
 
 /**
  * The modal surface this overlay's own surface was opened from, or null when
- * it is the first. Called inside a surface, so the last entry is the surface
- * itself and the one before it is its parent.
+ * it is the first. Call it inside the surface's own `OverlayLayerProvider`
+ * (for raft-ui's overlays, inside their root): the last entry is the surface
+ * itself and the one before it is its parent. Not null means the surface is
+ * stacked over another and draws `layer-backdrop-nested` instead of
+ * `layer-backdrop`. It reads React context, so it sees the surfaces whose
+ * tree this one is rendered in, portals included; one opened from outside
+ * that tree is not stacked on it here.
  */
 export function useParentOverlayKind(): OverlayLayerKind | null {
   const stack = useContext(OverlayStackContext);

@@ -43,6 +43,8 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `DialogNav`: the section list of a wide dialog.
 - `DialogSurface`: the dialog's frame without Base UI behind it, for a centered modal whose app owns the backdrop, Esc and focus, such as search.
 - `DialogPortal` and `DialogOverlay`: lower-level parts.
+- `DialogSheetContent` (`@botiverse/raft-ui/wip`): `DialogContent` for a dialog that becomes a sheet on a phone ([On a phone](#on-a-phone)). On a desktop and a tablet it is `DialogContent`, the same markup.
+- `DialogCommit` (`@botiverse/raft-ui/wip`): the dialog's one commit button, a `Button` written at the end of `DialogFooter`. In a sheet on a phone it is drawn at the end of the head instead.
 
 ## Variants
 
@@ -76,6 +78,7 @@ The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFoot
 - A centered dialog on a narrow screen keeps a 16px margin on each side and never grows taller than the window less 32px.
 - Below 768px the wide dialog hides `DialogNav` and the sections follow one another.
 - A dialog opened from a dialog or a sheet draws its own, lighter scrim over the one below ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)). Render it inside the first one and this happens by itself. `layer={1}` is only for a dialog rendered outside the first one's tree: it lifts the dialog and its scrim above the first.
+- An app's own modal (its own backdrop, Esc and focus, on `DialogSurface`) joins the same stack with `OverlayLayerProvider` and `useParentOverlayKind` ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)).
 
 ## On a phone
 
@@ -94,10 +97,37 @@ The sheet:
 - Its head is a pushed page's head ([Navigation](../../../../../design/patterns/navigation.md)): × at the start, the title, and the dialog's one commit button at the end, at size `md` with the same color and words as on a desktop. It has no footer: × is Cancel. In a flow of steps the button at the end is the step's (Next, then the last step's action), and × still closes.
 - The body scrolls under the head and keeps the phone's 16px margin and the home indicator's inset at the bottom.
 - × and Esc close it. A tap on the scrim doesn't, so a half-filled form isn't lost to a stray tap, as with a large form dialog on a desktop. When something has been typed, ask before closing.
-- Dragging the sheet down to close it is planned, for when the sheet moves into raft-ui on top of Drawer's drag.
-- It slides up as it opens, like every bottom sheet ([Motion](../../../../../design/foundations/motion.md#usage)).
+- Dragging the sheet down to close it is planned, for when the sheet moves onto Drawer's drag.
+- It slides up as it opens, like every bottom sheet, and its scrim fades in with it ([Motion](../../../../../design/foundations/motion.md#usage)). With reduced motion it is simply there.
+- With the on-screen keyboard up, the sheet shrinks to the space above it, so the head and its commit button stay in view.
+- An alert or a warning or destructive Banner that appears in the body after it opens, such as the error a failed commit adds, is scrolled into view: the button that caused it is at the top.
 
-Raft Chat builds these forms in the app for now (`NarrowDialog` in slock); they move into raft-ui as a phone presentation of Dialog.
+### Making a dialog a sheet
+
+Write the dialog as it is on a desktop and swap `DialogContent` for `DialogSheetContent`, and the commit `Button` for `DialogCommit`. Nothing else changes, and on a desktop nothing changes at all. Below 768px:
+
+- `DialogHeader` becomes the pushed page's head: its `DialogClose` moves to the start as the head's × and its `DialogTitle` follows. Give the header a `DialogClose`: it is the only way out of the sheet.
+- `DialogCommit` moves to the end of the head at `size="sm"`, with the same variant, words, disabled and loading state. A `type="submit"` button stays its form's default button: written inside a `form` that doesn't hold the head, it is tied back to it with the `form` attribute, so a click and Enter in a field still submit, and neither does while it is disabled.
+- `DialogFooter` is hidden, and with it Cancel and any other button in it, such as a step's Back.
+- `DialogBody` scrolls under the head on the phone's 16px margin, with the home indicator's inset at the bottom.
+
+```example
+dialog/compositions/sheet-form
+```
+
+In a flow of steps, write each step's button as a `DialogCommit`: Next, then the last step's action. × still closes.
+
+```example
+dialog/compositions/sheet-steps
+```
+
+A dialog or an alert dialog opened from the sheet is centered over it, on its own lighter scrim ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)).
+
+```example
+dialog/compositions/sheet-stacked
+```
+
+A dialog that stays centered on a phone keeps `DialogContent` and `Button`.
 
 ## Content
 
@@ -110,6 +140,7 @@ Raft Chat builds these forms in the app for now (`NarrowDialog` in slock); they 
 - Give every dialog a `DialogTitle`. It becomes the dialog's accessible name, and it is what a screen reader announces on open.
 - `DialogDescription` becomes the dialog's description.
 - The × of `DialogClose` is labeled "Close". Pass `aria-label` to change it.
+- In a sheet the head sets `reading-flow: flex-visual`, so Tab and a screen reader meet × first, as it is seen, then the commit button. The title stays the dialog's accessible name.
 - `DialogSurface` has no behavior of its own. The app that uses it must add the `dialog` role, `aria-modal`, a name, the focus trap, Esc and the scrim.
 
 ## Rules
