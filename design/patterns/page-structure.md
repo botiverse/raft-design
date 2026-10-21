@@ -95,6 +95,10 @@ Yellow (the frame), then cream (the sidebar), then white (content), then white c
 - Let the sidebar follow the rail: it lists what the selected destination contains. A destination without a sidebar puts its content directly to the right of the rail. Which destinations have a sidebar is on the product's page.
 - Use the side panel for things read together with the main area: a thread, a profile.
 - Task details are a centered dialog, not a side panel ([Tasks](./tasks.md)).
+- Show what a conversation's place holds and people check while they talk (a channel's tasks, its files) as side cards, inside the conversation's panel under its header, in one column at the right of the message list and composer. Open and close each card with a toggle in the panel header; both can be open, stacked in the column. A thread opens in its own column to the right of the whole panel and doesn't move the cards.
+- Put side cards in the layout, not over it, while there is room: the message list gets narrower and nothing is covered. So a card has a `line-seam` edge and `radius-container`, and no shadow, because only what floats casts one ([Elevation](../foundations/elevation.md)). The column holds the cards 12px from its top, right and bottom edges. When the panel is too narrow for the message list and the column, the cards float over the message list instead, and then take the `float` shadow.
+- Let people resize the column against the message list, and two open cards against each other, and keep the sizes. The widths are in [Spacing](../foundations/spacing.md#layout-widths).
+- When the side cards float over the message list, show one at a time, or cover the conversation is in [Responsive layout](./responsive.md).
 - Let a thread and a profile be open together: opening a profile from the thread shows the thread and the profile, and opening it from the conversation replaces the thread.
 - When a profile or a thread sits beside the main area and when it covers it is in [Responsive layout](./responsive.md).
 

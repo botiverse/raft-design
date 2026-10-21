@@ -1,15 +1,15 @@
 ---
 title: Tasks
-summary: The five task statuses, task lists and boards, task details, tasks inside a conversation, how status changes and how tasks are filtered.
+summary: The five task statuses, task lists and boards, task details, tasks created from messages and listed beside a conversation, how status changes and how tasks are filtered.
 ---
 
 # Tasks
 
-A task has one of five statuses, each with a fixed color: Todo, In Progress, In Review, Done and Closed. Tasks are shown the same way wherever they appear: as a board or a list under one filter bar, with details in a centered dialog. People and agents work from the same task, so it has to look and behave the same on every screen that shows it.
+A task has one of five statuses, each with a fixed color: Todo, In Progress, In Review, Done and Closed. Tasks are shown the same way wherever they appear: as a board or a list under one filter bar, or as compact rows beside a conversation, with details in a centered dialog. People and agents work from the same task, so it has to look and behave the same on every screen that shows it.
 
 ## When it applies
 
-A product's task page and the task view of a place. In Raft Chat these are the Tasks destination and a channel's Tasks tab ([Raft Chat — Tasks](../products/raft-chat/tasks.md)); which filters and which create actions a product offers is on its own page.
+A product's task page and the task view of a place. In Raft Chat these are the Tasks destination and a channel's Tasks card ([Raft Chat — Tasks](../products/raft-chat/tasks.md)); which filters and which create actions a product offers is on its own page.
 
 ## Structure
 
@@ -22,11 +22,11 @@ tasks/compositions/tasks-panel
   - A list groups tasks by status ([TaskList](../../packages/ui/src/components/task-list/task-list.md)).
   - Both use the same card ([TaskCard](../../packages/ui/src/components/task-card/task-card.md)), and both show the five statuses in the order above, each with a collapsible heading and a count.
 - **Task details**: a centered dialog, 960px wide (or the window less 32px) and at most 900px high (86% of the window), full screen on a phone. From top to bottom:
-  1. A bar with the place on one line and the task number on the next ("Task #25"), a button that opens the task's thread in its place, and ×. On a phone the bar has Back instead of ×.
+  1. A bar with the task's reference (`#design:#25`: the place, then the number; see [Referring to a task](#referring-to-a-task)), in a product with conversations the agents that follow the task and the More menu (Follow Task or Unfollow Task), as in a thread's header ([Threads](./conversation.md#threads)), and ×. On a phone the bar has Back instead of ×. The bar has no button to open the task in a window of its own, as a thread has none: a task window opens from its URL, the same way a thread window does.
   2. The title and the description, which folds after 3 lines.
-  3. One row of properties (Status, Assignee, Created by) in an inline [DescriptionList](../../packages/ui/src/components/description-list/description-list.md#inline) (`direction="inline"`).
+  3. The properties in an inline [DescriptionList](../../packages/ui/src/components/description-list/description-list.md#inline) (`direction="inline"`): Status, Assignee, Source, Created by and Created at. The assignee reads as on a task row, avatar and name, with the name on the same baseline as the other values. Source is there only for a task created from a message: the sender's avatar and name, the first line of the message and its time. A task created before tasks had their own discussion also gets Earlier discussion, with the number of replies its message has.
   4. History, collapsed ([Timeline](../../packages/ui/src/components/timeline/timeline.md)).
-  5. In a product with conversations, the task's thread and its composer.
+  5. In a product with conversations, the task's discussion and its composer ("Message this task").
 
 ## Rules
 
@@ -36,24 +36,50 @@ tasks/compositions/tasks-panel
 - Make the status chip the only thing on a card that changes in place. Selecting the rest of the card opens the task details.
 - Let people change status from the status chip on the card, from the property in the details, or by dragging the card to another column of the board. A person who can't change tasks sees the chip without a menu and can't drag.
 - Offer only the moves that are allowed from the current status in the chip's menu, so people never pick a move that then fails.
-- Open task details as a centered dialog, never in the side panel: a task holds its own thread, so it isn't read beside the conversation ([Page structure](./page-structure.md#sidebar-and-side-panel)). Close it with ×, Esc or a press outside the dialog.
+- Open task details as a centered dialog, never in the side panel or a side card: a task holds its own discussion, so it isn't read beside the conversation ([Page structure](./page-structure.md#sidebar-and-side-panel)). Close it with ×, Esc or a press outside the dialog.
 - Name the task's place on a card only where tasks from several places are listed. In the view of one place, the place is already the page.
 - While a list loads, show skeleton cards in its place ([Feedback](./feedback.md#empty-loading-and-failed)).
 
 ### Where tasks are created
 
 - Put the create action in the place a task belongs to, not on a page that collects tasks from several places: a task created there would have no place.
-- Make a place's task view the same panel as the task page, without the filter for that place and with a create button in its filter bar.
+- In a place with a conversation, put a create button in the header of its Tasks card ([Tasks beside a conversation](#tasks-beside-a-conversation)), and Create Task from Message in the message menu.
 
 ### Tasks in a conversation
 
-In a product where tasks come from conversations, the message is the task.
+In a product where tasks come from conversations, a task is created from a message; the message is not the task. The task has its own title, description and discussion, and links back to the message it came from. A message can be the source of several tasks, and a task can belong to the place without any message.
 
-- Mark the message that became a task with a task marker in the row under it: the status pixel, the number (`#25`) and who claimed it ([TaskChip](../../packages/ui/src/components/tasks/tasks.md)).
-- Open the task details from the marker. Don't change status from the marker: it is a link to the task, and status changes in the details or on the task's card.
-- Let people turn a message into a task as they send it, with an As Task checkbox in the composer, and from the message menu afterwards.
-- Write what agents do with a task (claim, release, move, done) as event lines, not messages ([Conversation](./conversation.md#dates-and-grouping)).
-- Show the task's thread inside the task details, so the discussion and the status are read together.
+- Show the tasks created from a message as a list under its content and above its replies: one row per task with the number (`#25`), the title followed by the number of messages in its discussion, then the assignee (avatar and name; the person reads "You") and the status chip together at the right. A list holds any number of tasks; the replies stay the discussion of the message itself.
+- Size the list by its content, at least 320px (or the whole column, if that is narrower) and at most the width of the message column. Keep a title to one line and end it with an ellipsis when the row runs out of room: a task created before tasks had their own discussion has the whole message as its title, and its details show all of it.
+- Put the number of messages right after the title, inline: right after its last word, or right after the ellipsis when the title is cut, with the same small space either way. Never leave a gap between a cut title and the number: the title gives up only the room the row lacks. It counts the discussion the title names, so it belongs to the title, not to the assignee.
+- Keep the assignee and the status chip as one group at the right of each row, the assignee right next to the chip. Don't line them up in columns across rows. Where a row is too narrow for a readable title and the group, the group wraps, as a whole, to a second line, still at the right, instead of squeezing the title.
+- Show the same list under the message at the top of its thread.
+- Open the task details from a row. Don't change status from the row: it is a link to the task, and status changes in the details.
+- Let people create tasks from a message with Create Task from Message in the message menu. It opens Create Task with the message quoted and its text as the first title, which they can change.
+- Don't offer As Task in the composer: people send messages, and tasks are created from them afterwards, by a person or an agent.
+- Write what happens to a task (created, claimed, assigned, moved) as event lines in the task's discussion, not in the conversation and not in the thread of the message it came from ([Hand-offs and approvals](../people-and-agents/handoffs-and-approvals.md#claiming-work)).
+- Show the task's discussion inside the task details, so the discussion and the status are read together. Follow a task as you follow a thread ([Hand-offs and approvals](../people-and-agents/handoffs-and-approvals.md#following-a-task)).
+- In the details of a task created from a message, select Source to close the dialog and go to the message in its place. Select Earlier discussion to open the replies of the message the task used to be.
+- Show the number of messages in a task's discussion, in Space Mono, once it has any. Add the attention dot before it only for people who follow the task.
+- A task created before tasks had their own discussion, when the message was the task, gets one only when something is first written to it. Show an empty state in its place ("No discussion in this task yet", saying the earlier discussion is in the replies of its message) with the composer ready, not the message's replies; the first message starts the task's discussion.
+
+### Tasks beside a conversation
+
+A place's tasks open as a Tasks card beside its conversation ([Page structure](./page-structure.md#sidebar-and-side-panel)), so people see the work moving while they talk. People don't need to read every task there: the card answers what is moving and what waits for them.
+
+- Put the title Tasks in the card's header, then the count in Space Mono ("5 active · 1 for you"), then the create button and ×. On a phone the card covers the conversation under the place's header, and the header's Back closes it: the card draws no Back or × of its own, so there is one Back on screen.
+- Under the header, put All / For Me ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md)), each with the number of its active tasks. For Me lists the tasks assigned to the person.
+- Group the tasks by status in the order In Progress, In Review, Todo, Done, Closed: in a narrow card the work that is moving comes first. Each group has a collapsible heading in gray with the status pixel and a count, and Done and Closed start collapsed.
+- Give each task one compact row: the number, the title on one line (ending in an ellipsis when cut) with the number of messages in its discussion right after it, then the assignee (avatar and name; an agent's avatar carries its presence light, and the person reads "You") and a chevron at the right. Leave the status chip out of the row: the group already names the status. Where the card is too narrow, the assignee wraps to a second line at the right, as in the list under a message.
+- Open the task details from a row.
+
+### Referring to a task
+
+A task number is unique only in its place, so a reference names the place first: `#design:#25`, and `dm:@ada:#25` in a direct conversation. It reads as "#25 of #design" and opens the task from anywhere.
+
+- Write a task reference as the place, `:`, then the number with its `#`. Agents write and read the same reference.
+- Render a reference as a link that opens the task details, in any place, for people who can see that place. For anyone else it stays plain text.
+- `#25` on its own still refers to task 25 of the place being read.
 
 ### Filters
 

@@ -10,7 +10,7 @@ related: [button, checkbox, textarea, message-attachment, conversation-panel, th
 
 # Composer
 
-The composer is where people write a message: at the bottom of a channel, a direct message, a thread or a task's thread. One ink border holds the input, the tools, any attachments and the pink send button. Typing @ opens a list of people and agents above it.
+The composer is where people write a message: at the bottom of a channel, a direct message, a thread or a task's discussion. One ink border holds the input, the tools, any attachments and the pink send button. Typing @ opens a list of people and agents above it.
 
 ```example
 chat-composer/compositions/composer-default

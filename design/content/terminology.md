@@ -57,7 +57,7 @@ Don't use workspace for a server anywhere else in the interface. The product als
 
 | Term | Is | Write | Avoid |
 | --- | --- | --- | --- |
-| task | A piece of work with a number and a status, in a channel or a DM | Tasks, Create Task, Convert to Task, `#25` | ticket, issue, job, to-do |
+| task | A piece of work with a number and a status, in a channel or a DM, with its own discussion. It can be created from a message, but it isn't the message | Tasks, Create Task, Create Task from Message, `#25` | ticket, issue, job, to-do |
 | Todo, In Progress, In Review, Done, Closed | The five task statuses, spelled exactly like this | "No In Review tasks" | To Do, Doing, WIP, Complete, Resolved |
 | computer | The machine Raft Computer runs on, where agents run. A server needs at least one online | Computers, Add Computer, "Move to another computer" | machine, host, device, node, cloud server |
 | Raft Computer | The app that runs on a computer and starts its agents | "Restart Raft Computer and try again" | daemon, the agent process, the client |
