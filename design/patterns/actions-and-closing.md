@@ -52,6 +52,18 @@ Every [Dialog](../../packages/ui/src/components/dialog/dialog.md), [AlertDialog]
 - Put a field that asks for the name to be typed under the banner, not inside it: the banner says what happens, the field is the person's answer ([Forms](./forms.md#danger-zone)).
 - Use the same color for the same verb everywhere: Disconnect is orange when it can be reconnected, everywhere; Discard is orange, because the draft was never saved.
 
+### The upgrade dialog
+
+When a person on a Free plan reaches a limit (history, uploads, hosting, a feature that needs Pro), every Upgrade entry point opens one upgrade dialog in place, instead of sending them to billing. It departs from the general dialog rules in 3 ways, and only it may:
+
+- **It uses the onboarding Pro step's frame and offer.** It is the same offer people saw while setting up the server, so it looks the same, rather than a second design of the same plan. Raft Chat builds it from the onboarding step frame (`SetupStepFrame` in slock) inside a raft-ui `Dialog`.
+- **Its title names what the person was trying to do, not the button's words:** "See your whole chat history", not Upgrade to Pro. It opens from many different Upgrade buttons and links, so the button's words say nothing about why it opened; the limit does. Its first highlighted benefit follows the same limit.
+- **Its footer is a muted `TextLink` at the start (Learn About Pricing) and one pink button at the end, with no Cancel.** Leaving loses nothing, and the × in the header closes it ([Cancel and the close button](#cancel-and-the-close-button)). People who can pay see Upgrade to Pro; people who can't see the message to an owner and Send to the owner's name. Both are `variant="primary"`.
+
+Everything else follows the general rules: a `DialogClose` ×, Esc closes it, a click on the scrim doesn't (`disablePointerDismissal`), because it holds a plan, seats or a message being written, and on a phone it is a sheet ([Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)).
+
+These exceptions apply only to a dialog that offers a paid plan after a limit was reached, opened from more than one entry point. A dialog opened from one button keeps that button's words as its title; a dialog that changes or deletes something keeps Cancel; and no other dialog reuses an onboarding frame.
+
 ### On a phone
 
 - In a centered dialog below 768px, stack the buttons full width, the commit button on top and Cancel under it, so Cancel is the button nearest the bottom edge, as in iOS alerts and Material's stacked buttons. A footer link goes last, centered. `DialogFooter` doesn't stack yet; until it does, this is the rule its change follows.

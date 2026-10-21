@@ -33,7 +33,7 @@ These rules are for the words inside the product: labels, titles, messages, empt
 
 ## Actions and their dialogs
 
-- Make a button's label the title of the dialog or sheet it opens: Register App opens Register App, Create Channel opens Create Channel. What people click is what opens: a dialog with other words looks like the wrong one opened.
+- Make a button's label the title of the dialog or sheet it opens: Register App opens Register App, Create Channel opens Create Channel. What people click is what opens: a dialog with other words looks like the wrong one opened. The one exception is the upgrade dialog a Free limit opens from many entry points, titled by the limit ([Actions and closing](../patterns/actions-and-closing.md#the-upgrade-dialog)).
 - Title an edit with Edit and the item's name: Edit Release Bot.
 - Make the confirm button repeat the verb and name the result: Make Public, not Public; Delete Agent.
 - Label the cancel button Cancel. When the action is itself a cancel or a stop, make it say what stays instead, so it isn't read as the action: Keep Subscription for Cancel Subscription, Keep Migrating for Stop Migration. Never label it Continue or OK.
