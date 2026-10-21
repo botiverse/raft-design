@@ -23,7 +23,7 @@ export const composerAttachment = tv({
     ],
     attachmentsNav: [
       "absolute top-1/2 z-30 -translate-y-1/2",
-      "size-8 shadow-none",
+      "size-8 rounded-chip shadow-none",
       "[&_svg:not([class*='size-'])]:size-4.5",
     ],
     attachment: ["group/composer-attachment relative", "[--ca-overlay-border:1px]"],

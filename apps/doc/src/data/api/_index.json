@@ -132,6 +132,7 @@
       "CodeBlockActions",
       "CodeBlockBody",
       "CodeBlockHeader",
+      "CodeBlockPre",
       "CodeBlockTitle"
     ],
     "status": "stable",
@@ -733,6 +734,7 @@
       "MessageMultiSelect",
       "MessageMultiSelectCheckbox",
       "MessageMultiSelectToolbar",
+      "MessageMultiSelectToolbarActions",
       "MessageReactionAddButton",
       "MessageReactionChip",
       "MessageReactionCount",

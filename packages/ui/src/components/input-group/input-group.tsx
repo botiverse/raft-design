@@ -100,7 +100,18 @@ const inputGroup = tv({
     {
       variant: "default",
       align: "inline-end",
-      class: { addon: "pl-2", text: "pl-0.5" },
+      class: {
+        addon: [
+          "pl-2",
+          // A Button here is embedded in the field: 6px inside its outer edge
+          // on every side when it ends the field, with the embedded corner
+          // (design/foundations/shape.md#inside-a-frame).
+          "*:data-[slot=button]:size-control-embedded *:data-[slot=button]:rounded-chip",
+          "[&>[data-slot=button]_svg:not([class*='size-'])]:size-4",
+          "[&>[data-slot=button]:last-child]:me-[calc(var(--control-embedded-inset)-0.75rem-1px)]",
+        ],
+        text: "pl-0.5",
+      },
     },
   ],
   defaultVariants: {

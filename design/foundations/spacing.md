@@ -19,13 +19,15 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 
 - Use the 4px steps for all spacing between and inside components.
 - Inside small pieces (chips, the gap between a pixel and its word, tags) a half step of 2px is allowed: 6px and 10px.
+- Inside a track that hugs its items, a segmented control or a toggle group, the items sit 3px from the track and 3px apart: the track's own inset, which the 4px grid doesn't divide.
+- Inside a frame, siblings that can each show a fill (the buttons of a toolbar, the segments of a segmented control, the chips and buttons in a field) sit as far apart as they sit from the frame: 4px in a floating toolbar, 3px in a segmented control, 6px in a field. A different gap between them would be one more distance for the eye to compare ([Shape](./shape.md#inside-a-frame)).
 
 ## Hit targets
 
 - Make every touch target at least 44px in both directions.
 - Extend a control that looks smaller than 44px, and a text button, with a transparent pseudo-element to 44px.
 - Don't extend inline links and reference chips in running text: they follow the line of text.
-- Desktop controls used only with a pointer may be smaller: sidebar rows and menu items 36px, rail items 40px, the hover toolbar 32px high with 28px buttons.
+- Desktop controls used only with a pointer may be smaller: sidebar rows and menu items 36px, rail items 40px, the hover toolbar 36px high with 28px buttons.
 - On a desktop, a default control is 32px, Feishu's PC default, read with a pointer from further away. A desktop here is a screen from 768px (where the desktop layout begins) whose main pointer is a mouse or a trackpad, `(width >= 48rem) and (pointer: fine)`: density follows the input, not the width. A tablet used by touch keeps the phone's 44px controls and 16px field text, which also keeps iOS and iPadOS from zooming into a field on focus; an iPad with a trackpad reports a fine pointer and gets the desktop sizes. A button at 32px still overhangs to a 44px hit area (`after:-inset-y-control-hit`, plus its 1.5px border, because an overhanging `::after` is measured from inside the border), because a laptop can have a touch screen too; a field doesn't, since it is wide and its height is the target.
 
 ## The same kind, the same size

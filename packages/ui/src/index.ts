@@ -741,6 +741,7 @@ export {
   CodeBlockActions,
   CodeBlockBody,
   CodeBlockHeader,
+  CodeBlockPre,
   CodeBlockTitle,
 } from "./components/code-block/index";
 export type {
@@ -748,6 +749,7 @@ export type {
   CodeBlockActionsProps,
   CodeBlockBodyProps,
   CodeBlockHeaderProps,
+  CodeBlockPreProps,
   CodeBlockProps,
   CodeBlockTitleProps,
 } from "./components/code-block/index";
@@ -843,6 +845,7 @@ export {
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
   MessageMultiSelectToolbar,
+  MessageMultiSelectToolbarActions,
   MessageReactionAddButton,
   MessageReactionChip,
   MessageReactionCount,
@@ -893,6 +896,7 @@ export type {
   MessageItemToolbarProps,
   MessageMultiSelectCheckboxProps,
   MessageMultiSelectProps,
+  MessageMultiSelectToolbarActionsProps,
   MessageMultiSelectToolbarProps,
   MessageReactionAddButtonProps,
   MessageReactionChipProps,

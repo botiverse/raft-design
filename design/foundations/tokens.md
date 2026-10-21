@@ -226,6 +226,12 @@ field
 card-title
 ```
 
+The control metrics: a default control's height, its icon and hit area, and what a control embedded in a frame keeps: `control-embedded-inset`, its distance from the frame's outer edge and from its sibling, and `control-embedded-size`, a chip's or a button's height in a field ([Spacing](./spacing.md#heights), [Shape](./shape.md#inside-a-frame)).
+
+```tokens
+control
+```
+
 ### Tokens defined in styles.css
 
 These are Tailwind theme values in `styles.css`, not entries in `tokens.json`, so they have no generated table.

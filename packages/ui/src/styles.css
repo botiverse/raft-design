@@ -65,9 +65,14 @@
 
   /* Raft Design System shape scale: pixels are hard, containers are soft.
      sticker = avatars, channel tiles, checkboxes, counts, inline marks;
-     chip = 22px tags and status chips; control = buttons, fields, rows, menu
-     items; container = cards, menus, composer, banners; dialog = dialogs and
-     sheet tops. Round (rounded-full) is only for switches and radios. */
+     chip = chips, a popup's highlighted item, and every control embedded in
+     another component's frame (a field's buttons, the composer's, a floating
+     toolbar's, a card's corner action); control = buttons, fields and rows
+     that stand on their own; container = cards, menus, composer, banners;
+     dialog = dialogs and sheet tops. Round (rounded-full) is only for
+     switches and radios. A frame keeps its radius whatever it holds: the
+     element keeps its own, and the space around it adapts
+     (design/foundations/shape.md#inside-a-frame). */
   --radius-sticker: 4px;
   --radius-chip: 6px;
   --radius-control: 8px;
@@ -370,6 +375,15 @@
   --spacing-control-cta: var(--control-height-cta);
   --spacing-control-icon: var(--control-icon-size);
   --spacing-control-hit: var(--control-hit-inset);
+  /* A chip or a button embedded in a frame sits `embedded-inset` (6px) inside
+     the frame's outer edge on every side and from its sibling; in a field it
+     is `control-embedded` tall, 20px on a desktop and 32px on a phone, so the
+     field keeps the control height (design/foundations/shape.md#inside-a-frame).
+     Consumers: `ComboboxChips`, `ComboboxControl`, `ComboboxSelect`,
+     InputGroup's end addon, the composer, CodeBlock and the corner actions of
+     MessageAttachment. */
+  --spacing-control-embedded: var(--control-embedded-size);
+  --spacing-embedded-inset: var(--control-embedded-inset);
   /* ─── Option metric axis ────────────────────────────────────────────────────
      An option in a popup list (a Select, Combobox or ComboboxSelect option, a
      menu item) is as tall as its content, with the same space above and below

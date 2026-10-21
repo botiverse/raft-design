@@ -84,6 +84,7 @@ An option's height follows its content, and its padding is constant. This holds 
 - **A second line adds its own height and nothing else**, whether the label wraps ([Long values in fields](#long-values-in-fields)) or a description sits under it. The space above and below stays the one-line option's, so a two-line option looks as loose as its neighbors instead of cramped, and two of them never touch.
 - **A list never sets its options' height.** Options in one list may differ in height; they never differ in padding. Don't give an option a fixed height, a fixed line box or `leading-none`, and don't give a list a fixed row size: one line would fit and the second would be cut off or squeezed. A list that only shows some of its options at a time measures each one.
 - **A part beside the text fits the line**: a 16px icon, a check mark, a count. It doesn't make a one-line option taller.
+- **The highlight sits 4px inside the popup**, with `radius-chip`: that close to the popup's edge it follows the popup's corner, so the space around it is even at the corner as along the sides. A separator leaves the same 4px above and below it ([Shape](../foundations/shape.md#inside-a-frame)).
 
 ```example
 select/compositions/option-height

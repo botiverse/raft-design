@@ -39,13 +39,13 @@ export const messageReaction = tv({
     ],
     quickRow: [
       "flex shrink-0 items-center",
-      "justify-between gap-0.5 bg-layer-popover px-0.5 py-0.5",
+      "justify-between gap-0.5 bg-layer-popover p-0",
       "[&>[role=menuitem]]:size-9 [&>[role=menuitem]]:p-0 *:[[role=menuitem]]:justify-center",
     ],
     quickButton: [
       "flex items-center justify-center",
       "bg-transparent transition-colors",
-      "size-9 rounded-control p-0 text-xl leading-none text-foreground-muted",
+      "size-9 rounded-chip p-0 text-xl leading-none text-foreground-muted",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft active:bg-brand-soft",
       "outline-none focus-visible:shadow-focus",
     ],

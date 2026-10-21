@@ -179,6 +179,7 @@ export function SearchHeader({
           aria-label="Search channels, DMs, people, agents, and messages"
         />
         <InputGroupAddon align="inline-end">
+          <Kbd className="max-md:hidden">Esc</Kbd>
           {query ? (
             <Button
               type="button"
@@ -187,10 +188,9 @@ export function SearchHeader({
               onClick={onClear}
               aria-label="Clear search"
             >
-              <X aria-hidden size={12} />
+              <X aria-hidden />
             </Button>
           ) : null}
-          <Kbd className="max-md:hidden">Esc</Kbd>
         </InputGroupAddon>
       </InputGroup>
     </PanelHeader>

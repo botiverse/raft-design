@@ -11,7 +11,7 @@ const toggleGroup = tv({
       "inline-flex max-w-full items-center",
       "data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap",
       "data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch",
-      "gap-0.5 rounded-[11px] bg-fill-muted p-[3px]",
+      "gap-[3px] rounded-[11px] bg-fill-muted p-[3px]",
     ],
     item: [
       "inline-flex h-8 min-w-0 shrink-0 items-center justify-center gap-1.5",

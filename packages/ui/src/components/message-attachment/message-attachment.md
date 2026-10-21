@@ -106,6 +106,7 @@ message-media/compositions/video-states
 - The whole card is clickable: the file name is the link, and it covers the card. The action buttons sit above it and work on their own.
 - Selecting an image or a file opens it in the file viewer ([Built from existing parts](../../../../../design/components/overview.md#file-viewer)).
 - The gallery's action button shows on hover and on keyboard focus.
+- An action in a card's or a medium's corner (a file card's Download, a video's or an image's action) is a control embedded in its frame: it sits 6px from the corner and wears `radius-chip` ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
 
 ## Content
 
