@@ -1,6 +1,6 @@
 ---
 title: Forms and settings
-summary: Settings that apply at once, groups of fields saved together, forms in dialogs, the large one-pass form dialog, validation, long values in fields and the danger zone.
+summary: Settings that apply at once, groups of fields saved together, forms in dialogs, the large one-pass form dialog, validation, long values in fields, option height and the danger zone.
 redirectFrom: [decisions/0029-large-form-dialog]
 ---
 
@@ -75,6 +75,21 @@ A value can be any length: a pasted link with no spaces, a long Chinese name, a 
 - **A list is never wider than the screen less 8px on each side.** It is at least as wide as its field and at least 220px. A Select's or a Combobox's list grows to fit a longer option up to 24rem (or the field's width, when that is wider); a ComboboxSelect's list stays the field's width. Past that, the option wraps.
 
 Every control holds these rules itself, so a form never adds its own `min-w-0` or `truncate`. A layout that puts a field in a flex row still gives the field's column `min-w-0`, since a flex item won't shrink below its content without it.
+
+### Option height
+
+An option's height follows its content, and its padding is constant. This holds for every row in a popup list: an option of a Select, a Combobox or a ComboboxSelect, and an item of a DropdownMenu or a ContextMenu, with a check mark, a radio mark or neither.
+
+- **One line is 36px**, with a mouse and on a touch screen. The space above and below the text is what that row leaves around one line of the option's type: 7px around a desktop's 22px line, 8px around a touch screen's 20px line.
+- **A second line adds its own height and nothing else**, whether the label wraps ([Long values in fields](#long-values-in-fields)) or a description sits under it. The space above and below stays the one-line option's, so a two-line option looks as loose as its neighbors instead of cramped, and two of them never touch.
+- **A list never sets its options' height.** Options in one list may differ in height; they never differ in padding. Don't give an option a fixed height, a fixed line box or `leading-none`, and don't give a list a fixed row size: one line would fit and the second would be cut off or squeezed. A list that only shows some of its options at a time measures each one.
+- **A part beside the text fits the line**: a 16px icon, a check mark, a count. It doesn't make a one-line option taller.
+
+```example
+select/compositions/option-height
+```
+
+The components hold this themselves (`py-option-inset`, the space a 36px row leaves around one line, with `min-h-option` as the floor for an option with no line of text), so a product never pads an option of its own.
 
 ### Danger zone
 

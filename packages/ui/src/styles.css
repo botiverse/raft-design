@@ -369,6 +369,21 @@
   --spacing-control-cta: var(--control-height-cta);
   --spacing-control-icon: var(--control-icon-size);
   --spacing-control-hit: var(--control-hit-inset);
+  /* ─── Option metric axis ────────────────────────────────────────────────────
+     An option in a popup list (a Select, Combobox or ComboboxSelect option, a
+     menu item) is as tall as its content, with the same space above and below
+     its text whatever that content is (design/patterns/forms.md#option-height).
+     `py-option-inset` is that space: what a 36px row leaves around one line of the
+     option's own type (`1lh`, so 7px around a 22px line, 8px around 20px, 6px
+     around 24px). One line is exactly 36px; a second line, wrapped or a
+     description, adds its own height and nothing else. `min-h-option` is the
+     floor for an option with no text line, such as an empty one.
+
+     Consumers: `SelectItem`, `ComboboxItem`, the menu items of `DropdownMenu`
+     and `ContextMenu`, and `.r-combobox-select__option` (which writes the same
+     calc in its CSS). */
+  --spacing-option: 2.25rem;
+  --spacing-option-inset: calc((2.25rem - 1lh) / 2);
 
   /* Deprecated utility names, kept until raft-ui 1.0 (see codemods/token-names.mjs). */
   --color-foreground-strong: var(--foreground);

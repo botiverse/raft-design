@@ -45,6 +45,7 @@ The highlight, the current value and disabled items are the same as in [Dropdown
 - When it would cross the window edge, it shifts to stay at least 8px inside the window instead of flipping.
 - It stays where it opened while the page behind it scrolls.
 - Choosing an action closes the menu; Esc and a click outside close it too.
+- An item is as tall as its content, with constant padding, as in a [DropdownMenu](../dropdown-menu/dropdown-menu.md#behavior) ([Forms](../../../../../design/patterns/forms.md#option-height)).
 
 ## Content
 

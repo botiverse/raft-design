@@ -171,8 +171,10 @@
 .r-combobox-select__option {
   box-sizing: border-box;
   width: 100%;
+  /* The option inset (styles.css, --spacing-option-inset): one line is 36px,
+     and a second line adds only its own height (forms.md#option-height). */
   min-height: 36px;
-  padding: 6px 10px;
+  padding: calc((36px - 1lh) / 2) 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;

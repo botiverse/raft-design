@@ -15,10 +15,11 @@ import { extendTailwindMerge } from "tailwind-merge";
 // `h-control`, `size-control-icon` and the other control metric utilities
 // read the control axis from the theme's spacing; without registering them
 // tailwind-merge does not see `h-control` and `h-8` as the same property.
+// `min-h-option` and `py-option-inset` are the option metric axis, likewise.
 const twMerge = extendTailwindMerge({
   extend: {
     theme: {
-      spacing: ["control", "control-cta", "control-icon", "control-hit"],
+      spacing: ["control", "control-cta", "control-icon", "control-hit", "option", "option-inset"],
     },
     classGroups: {
       shadow: [

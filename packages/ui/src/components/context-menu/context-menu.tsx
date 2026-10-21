@@ -17,9 +17,9 @@ const contextMenu = tv({
       "shadow-float ring-1 ring-line-seam",
     ],
     item: [
-      "flex w-full cursor-default select-none items-center [@media(max-height:600px)]:py-1",
+      "flex w-full cursor-default select-none items-center",
       "text-left outline-none transition-colors",
-      "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+      "min-h-option gap-2.5 rounded-control px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft",
       "data-checked:font-bold",
@@ -30,7 +30,7 @@ const contextMenu = tv({
     radioItem: [
       "flex w-full cursor-default select-none items-center",
       "text-left outline-none transition-colors",
-      "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+      "min-h-option gap-2.5 rounded-control px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft",
       "data-checked:font-bold",
@@ -39,9 +39,9 @@ const contextMenu = tv({
       "[&>svg]:text-foreground-muted data-disabled:[&>svg]:text-foreground-disabled",
     ],
     submenuTrigger: [
-      "flex w-full cursor-default select-none items-center [@media(max-height:600px)]:py-1",
+      "flex w-full cursor-default select-none items-center",
       "text-left outline-none transition-colors",
-      "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+      "min-h-option gap-2.5 rounded-control px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft data-popup-open:bg-brand-soft",
       "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",

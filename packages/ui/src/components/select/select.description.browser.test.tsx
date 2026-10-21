@@ -15,9 +15,10 @@ import {
   SelectValue,
 } from "./select";
 
-// An item is as tall as its content: one line keeps the 36px minimum, and an
-// item with a description grows with 6px above and below its text, so two
-// two-line items never touch. Measured in a real browser; jsdom has no layout.
+// An item is as tall as its content: one line is 36px, and an item with a
+// description grows by the description's line alone, keeping the one-line
+// item's space above and below its text (design/patterns/forms.md#option-height).
+// Measured in a real browser; jsdom has no layout.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -59,7 +60,7 @@ async function renderOpen() {
                 <SelectItemIndicator />
               </SelectItem>
               <SelectItem value="plain" data-testid="one-line">
-                <SelectItemText>Auto</SelectItemText>
+                <SelectItemText data-testid="one-line-label">Auto</SelectItemText>
                 <SelectItemIndicator />
               </SelectItem>
             </SelectList>
@@ -72,13 +73,18 @@ async function renderOpen() {
   await new Promise((resolve) => requestAnimationFrame(resolve));
 }
 
-it("an item with a description grows and keeps 6px around its text", async () => {
+it("an item with a description grows and keeps the one-line item's space around its text", async () => {
   await renderOpen();
   const item = screen.getByTestId("two-line").getBoundingClientRect();
   const label = screen.getByTestId("label").getBoundingClientRect();
   const description = screen.getByTestId("description").getBoundingClientRect();
-  expect(label.top - item.top).toBeCloseTo(6, 0);
-  expect(item.bottom - description.bottom).toBeCloseTo(6, 0);
+  const oneLine = screen.getByTestId("one-line").getBoundingClientRect();
+  const oneLineText = screen.getByTestId("one-line-label").getBoundingClientRect();
+  const inset = oneLineText.top - oneLine.top;
+  expect(inset).toBeGreaterThanOrEqual(6);
+  expect(oneLine.bottom - oneLineText.bottom).toBeCloseTo(inset, 1);
+  expect(label.top - item.top).toBeCloseTo(inset, 1);
+  expect(item.bottom - description.bottom).toBeCloseTo(inset, 1);
   expect(description.top).toBeGreaterThanOrEqual(label.bottom);
   expect(item.height).toBeGreaterThan(36);
 });
