@@ -1,15 +1,23 @@
 // What a person does with a list, under real layout and real key presses: keys pressed on a control in
-// a row stay with that control, a text selection keeps only the rows it reaches into, and the scroller
-// shows the focus ring on keyboard focus.
+// a row stay with that control, and the row holding focus stays mounted when it scrolls out of view.
 //
-// Scene: 2,000 rows of 30px in a 480 x 400 frame, each row with a button and a "segmented control" that
-// takes Home and End (moves its own selection, `preventDefault`), and a paragraph outside the list.
+// Scenes, 2,000 rows of 30px in a 480 x 400 frame:
+// - stand-in controls: each row has a button and a "segmented control" that takes Home and End (moves
+//   its own selection, `preventDefault`), with a paragraph and a button outside the list.
+// - raft-ui controls: each row has a raft-ui Button and SegmentedControl (which leaves End to the
+//   browser, so End scrolls the list natively).
 import "./virtual-list.test.css";
 import { useState } from "react";
-import type { CSSProperties, KeyboardEvent } from "react";
+import type { CSSProperties, KeyboardEvent, MouseEvent } from "react";
 import { cleanup, render } from "@testing-library/react";
 import { afterAll, afterEach, beforeAll, describe, expect, test } from "vite-plus/test";
 
+import { Button } from "../../button";
+import {
+  SegmentedControl,
+  SegmentedControlItem,
+  SegmentedControlLabel,
+} from "../../segmented-control";
 import { VirtualList } from "../index";
 import type { VirtualListApi, VirtualListItemRenderProps } from "../index";
 
@@ -158,5 +166,126 @@ describe("VirtualList: keys on row controls", () => {
     await userEvent.keyboard("{End}");
     await settle();
     expect(list.scrollTop).toBe(list.scrollHeight - list.clientHeight);
+  });
+});
+
+const pressRow = (event: MouseEvent<HTMLButtonElement>) => {
+  pressed.push(event.currentTarget.dataset.button ?? "");
+};
+
+function RaftRow({ item, domRef, style }: VirtualListItemRenderProps<Row>) {
+  const [view, setView] = useState("list");
+  return (
+    <div
+      ref={domRef}
+      data-row={item.key}
+      style={style === undefined ? ROW_STYLE : { ...ROW_STYLE, ...style }}
+    >
+      <Button size="sm" data-button={item.key} onClick={pressRow}>
+        Open
+      </Button>
+      <SegmentedControl aria-label={item.key} value={view} onValueChange={setView}>
+        <SegmentedControlItem value="list">
+          <SegmentedControlLabel>List</SegmentedControlLabel>
+        </SegmentedControlItem>
+        <SegmentedControlItem value="board">
+          <SegmentedControlLabel>Board</SegmentedControlLabel>
+        </SegmentedControlItem>
+      </SegmentedControl>
+    </div>
+  );
+}
+
+function RaftHarness() {
+  return (
+    <>
+      <button type="button" id="outside-button">
+        Outside
+      </button>
+      <div style={FRAME_STYLE}>
+        <VirtualList
+          componentRef={setApi}
+          items={ROWS}
+          getKey={getKey}
+          itemResizable
+          itemEstimatedSize={30}
+          itemMinSize={30}
+        >
+          {(props: VirtualListItemRenderProps<Row>) => <RaftRow key={props.item.key} {...props} />}
+        </VirtualList>
+      </div>
+    </>
+  );
+}
+
+/** Waits until a native (animated) keyboard scroll has stopped: `scrollTop` unchanged for 5 frames. */
+async function scrollSettled(list: HTMLElement) {
+  let last = -1;
+  let still = 0;
+  for (let i = 0; i < 300 && still < 5; i++) {
+    await frame();
+    still = list.scrollTop === last ? still + 1 : 0;
+    last = list.scrollTop;
+  }
+}
+
+async function mountRaft() {
+  const { page, userEvent } = await import("vite-plus/test/browser/context");
+  await page.viewport(800, 600);
+  render(<RaftHarness />);
+  for (let i = 0; i < 60 && !document.querySelector("[data-row]"); i++) {
+    await frame();
+  }
+  await settle();
+  const list = api!.listElRef.current!;
+  const mounted = () =>
+    [...list.querySelectorAll("[data-row]")].map((el) => el.getAttribute("data-row"));
+  return { list, mounted, userEvent };
+}
+
+describe("VirtualList: the row holding focus stays mounted", () => {
+  it("End in a raft-ui SegmentedControl in row 0 scrolls the list to the bottom; focus stays on it", async () => {
+    const { list, mounted, userEvent } = await mountRaft();
+    const segment = list.querySelector<HTMLElement>('[aria-label="row-0"] button')!;
+    segment.focus();
+    await userEvent.keyboard("{End}");
+    await scrollSettled(list);
+    // At the end (rows measured on landing may add a few px below it).
+    expect(list.scrollHeight - list.scrollTop - list.clientHeight).toBeLessThan(100);
+    expect(list.scrollTop).toBeGreaterThan(50_000);
+    expect(mounted()).toContain("row-0");
+    expect(mounted()).toContain("row-1999");
+    expect(segment.isConnected).toBe(true);
+    expect(document.activeElement).toBe(segment);
+  });
+
+  it("a focused raft-ui Button keeps focus when the list is scrolled far away, by code or the wheel", async () => {
+    const { list, mounted, userEvent } = await mountRaft();
+    const button = list.querySelector<HTMLElement>('[data-button="row-1"]')!;
+    button.focus();
+    list.scrollTop = 30_000;
+    await settle();
+    expect(mounted()).toContain("row-1");
+    expect(document.activeElement).toBe(button);
+    for (let i = 0; i < 5; i++) {
+      await userEvent.wheel(list, { delta: { y: 2000 } });
+    }
+    await settle();
+    expect(list.scrollTop).toBeGreaterThan(30_000);
+    expect(mounted()).toContain("row-1");
+    expect(document.activeElement).toBe(button);
+  });
+
+  it("once focus leaves the list, the row unmounts when it is out of view", async () => {
+    const { list, mounted } = await mountRaft();
+    const button = list.querySelector<HTMLElement>('[data-button="row-0"]')!;
+    button.focus();
+    list.scrollTop = 30_000;
+    await settle();
+    expect(mounted()).toContain("row-0");
+    document.getElementById("outside-button")!.focus();
+    await settle();
+    expect(mounted()).not.toContain("row-0");
+    expect(mounted().length).toBeLessThan(20);
   });
 });

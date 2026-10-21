@@ -207,7 +207,13 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     horizontalStartIndex: 0,
     horizontalEndIndex: -1,
   });
-  const keptSelectedKeysRef = useRef<string[]>([]);
+  /**
+   * The rows kept mounted outside the range (absolutely positioned at their offsets): the rows holding
+   * the text selection and the row holding focus (`focusedKeyRef`).
+   */
+  const keptKeysRef = useRef<string[]>([]);
+  /** The key of the row that holds focus (`document.activeElement` is in it), tracked by focusin / focusout. */
+  const focusedKeyRef = useRef<string | null>(null);
   const keyToHeightOffsetRef = useRef(new Map<string, number>());
   /*
    * Unlike the reference implementation (DeepSeek web): rows are laid out in block flow and measured
@@ -338,7 +344,8 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     sessionChangedRef.current = true;
     clearPendingScrollTask();
     wheelScrollingRef.current = false;
-    keptSelectedKeysRef.current = [];
+    keptKeysRef.current = [];
+    focusedKeyRef.current = null;
     keyToHeightOffsetRef.current.clear();
     leadingMarginRef.current = 0;
     keyToIndexRef.current = new Map();
@@ -369,12 +376,12 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     });
     keyToIndexRef.current = keyToIndex;
     const keptKeys: string[] = [];
-    keptSelectedKeysRef.current.forEach((key: string) => {
+    keptKeysRef.current.forEach((key: string) => {
       if (keyToIndexRef.current.has(key)) {
         keptKeys.push(key);
       }
     });
-    keptSelectedKeysRef.current = keptKeys;
+    keptKeysRef.current = keptKeys;
     // oxlint-disable-next-line react/exhaustive-deps -- sessionId is a deliberate extra dep
   }, [sessionId, items, getKey]);
   const totalColumnsWidth = useMemo(() => {
@@ -542,7 +549,8 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   }, [virtual]);
   /**
    * The viewport sync. The range starts at the item at `scrollTop + compensation - paddingTop` and
-   * holds as many items as fit at `itemMinSize`, plus one. Items holding the text selection stay
+   * holds as many items as fit at `itemMinSize`, plus one. Items holding the text selection, and the item
+   * holding focus, stay
    * mounted ("kept"). When the new range is inside the old one, only the layout styles are written;
    * otherwise the items entering above the old start are recorded (`prependIndexes`) and the range is
    * rendered with flushSync, now or in a microtask (`deferRenderToMicrotask`). At 120 forced renders
@@ -599,10 +607,34 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         prevColRange.endIndex !== nextColRange.endIndex;
       viewport.scrollTop = scrollTop;
       viewport.scrollLeft = scrollLeft;
-      let keptSelectionChanged = false;
+      let keptKeysChanged = false;
       if (typeof window !== "undefined" && reason !== "sessionChanged") {
         const { startIndex: nextStart, endIndex: nextEnd } = nextRange;
         const keptKeys: string[] = [];
+        const keep = (key: string) => {
+          const index = keyToIndexRef.current.get(key);
+          if (
+            index !== undefined &&
+            (!(index >= nextStart) || !(index <= nextEnd)) &&
+            !keptKeys.includes(key)
+          ) {
+            keptKeys.push(key);
+          }
+        };
+        /*
+         * The row holding focus stays mounted: unmounting it would drop focus to the body (a key such as
+         * End, which the browser handles by scrolling the list, or the wheel moving it out of view). The
+         * key is checked against the DOM, in case focus left without a focusout (the element was removed).
+         */
+        const focusedKey = focusedKeyRef.current;
+        if (focusedKey !== null) {
+          const active = document.activeElement;
+          if (active !== null && listEl.contains(active)) {
+            keep(focusedKey);
+          } else {
+            focusedKeyRef.current = null;
+          }
+        }
         const selection = window.getSelection();
         if (selection != null && !selection.isCollapsed && selection.rangeCount > 0) {
           listEl.querySelectorAll(`[${ITEM_KEY_ATTR}]`).forEach((itemEl: Element) => {
@@ -615,27 +647,19 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
               return;
             }
             const key = itemEl.getAttribute(ITEM_KEY_ATTR);
-            if (key === null) {
-              return;
-            }
-            const index = keyToIndexRef.current.get(key);
-            if (
-              index !== undefined &&
-              (!(index >= nextStart) || !(index <= nextEnd)) &&
-              !keptKeys.includes(key)
-            ) {
-              keptKeys.push(key);
+            if (key !== null) {
+              keep(key);
             }
           });
         }
-        if (!haveSameKeys(keptKeys, keptSelectedKeysRef.current)) {
-          keptSelectedKeysRef.current = keptKeys;
-          keptSelectionChanged = true;
+        if (!haveSameKeys(keptKeys, keptKeysRef.current)) {
+          keptKeysRef.current = keptKeys;
+          keptKeysChanged = true;
         }
       }
       if (
         reason !== "sessionChanged" &&
-        !keptSelectionChanged &&
+        !keptKeysChanged &&
         (!rangeChanged || nextInsidePrev) &&
         !colRangeChanged
       ) {
@@ -1380,6 +1404,42 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       handleListResize(el, true);
     }
   });
+  /**
+   * Tracks the row holding focus: focusin finds the row the target is in (the visible-items element's
+   * child it is inside); focusout to outside the list releases it, and the range is updated so the row
+   * unmounts if it is out of the range.
+   */
+  const handleFocusIn = useEventCallback((event: FocusEvent) => {
+    const visibleItemsEl = getVisibleItemsEl();
+    let el = event.target instanceof Element ? event.target : null;
+    while (el !== null && el.parentElement !== visibleItemsEl) {
+      el = el.parentElement;
+    }
+    focusedKeyRef.current = el?.getAttribute(ITEM_KEY_ATTR) ?? null;
+  });
+  const handleFocusOut = useEventCallback((event: FocusEvent) => {
+    const listEl = listElRef.current;
+    const next = event.relatedTarget;
+    if (listEl === null || (next instanceof Node && listEl.contains(next))) {
+      return;
+    }
+    if (focusedKeyRef.current !== null) {
+      focusedKeyRef.current = null;
+      updateRange("listScroll", true, null);
+    }
+  });
+  useLayoutEffect(() => {
+    const listEl = listElRef.current;
+    if (listEl === null) {
+      return;
+    }
+    listEl.addEventListener("focusin", handleFocusIn);
+    listEl.addEventListener("focusout", handleFocusOut);
+    return () => {
+      listEl.removeEventListener("focusin", handleFocusIn);
+      listEl.removeEventListener("focusout", handleFocusOut);
+    };
+  }, [handleFocusIn, handleFocusOut]);
   useLayoutEffect(() => {
     if (defaultScrollIndex != null) {
       scrollTo({ index: defaultScrollIndex });
@@ -1403,7 +1463,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     }
     const before: T[] = [];
     const after: T[] = [];
-    keptSelectedKeysRef.current.forEach((key: string) => {
+    keptKeysRef.current.forEach((key: string) => {
       const index = keyToIndexRef.current.get(key);
       if (index === undefined) {
         return;
@@ -1418,8 +1478,8 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       }
     });
     return [before, after];
-    // oxlint-disable-next-line react/exhaustive-deps -- keptSelectedKeysRef.current is a dep
-  }, [virtual, keptSelectedKeysRef.current, items, startIndex, endIndex]);
+    // oxlint-disable-next-line react/exhaustive-deps -- keptKeysRef.current is a dep
+  }, [virtual, keptKeysRef.current, items, startIndex, endIndex]);
   /**
    * Renders one item. With `itemResizable` it is wrapped in a ResizeObserverWrapper: when the ref is
    * set the item gets `data-virtual-list-item-key` and is measured in the next microtask batch
