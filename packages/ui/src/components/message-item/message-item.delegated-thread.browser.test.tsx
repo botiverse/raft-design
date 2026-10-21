@@ -19,7 +19,7 @@ import { MessageItemDelegatedBy, MessageItemDelegatedByName } from "./message-it
 // In a thread panel (360px at its narrowest, 400px by default) with a mouse,
 // the name line also leaves room for the hover toolbar (--mi-toolbar-reserve).
 // There the owner's name keeps at least 3rem, or all of it when shorter; when
-// the label's plain words don't fit beside it they wrap onto a second line;
+// the label's plain words don't fit beside it they wrap onto more lines;
 // the time stays whole, on the first line, clear of the toolbar's room.
 // Measured in a real browser (pointer: fine, the default).
 

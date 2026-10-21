@@ -54,8 +54,8 @@ export const messageItem = tv({
     // With a "sent by" label the owner keeps at least 3rem (or its whole
     // name, if shorter): its basis is 3rem, capped at its own width, it grows
     // into what is free and never shrinks. When even that doesn't fit (a
-    // narrow thread), the label gives way instead: plain words wrap onto a
-    // second line under the first, aligned on the first line's baseline.
+    // narrow thread), the label gives way instead: plain words wrap onto as
+    // many lines as they need, aligned on the first line's baseline.
     header: [
       "mb-px flex min-w-0 items-center gap-1.5 overflow-hidden",
       "pointer-fine:pe-(--mi-toolbar-reserve,6.5rem)",
