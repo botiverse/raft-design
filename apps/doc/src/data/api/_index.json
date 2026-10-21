@@ -1327,6 +1327,6 @@
     "names": [
       "VirtualList"
     ],
-    "status": "experimental"
+    "status": "stable"
   }
 }

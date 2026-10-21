@@ -1,5 +1,5 @@
-import { VirtualList } from "@botiverse/raft-ui/wip";
-import type { VirtualListItemRenderProps } from "@botiverse/raft-ui/wip";
+import { VirtualList } from "@botiverse/raft-ui";
+import type { VirtualListItemRenderProps } from "@botiverse/raft-ui";
 
 import { createReleaseNotes } from "../virtual-list.fixtures.ts";
 import type { ReleaseNote } from "../virtual-list.fixtures.ts";

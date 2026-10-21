@@ -10,7 +10,7 @@ import {
   MessageItemSender,
   MessageItemTime,
 } from "@botiverse/raft-ui";
-import type { VirtualListMeasuredRef } from "@botiverse/raft-ui/wip";
+import type { VirtualListMeasuredRef } from "@botiverse/raft-ui";
 
 import type { ChannelMessage } from "./virtual-list.fixtures.ts";
 

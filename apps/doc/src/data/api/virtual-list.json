@@ -1,7 +1,7 @@
 [
   {
     "name": "VirtualList",
-    "entry": "@botiverse/raft-ui/wip",
+    "entry": "@botiverse/raft-ui",
     "native": false,
     "props": [
       {

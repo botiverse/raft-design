@@ -1,7 +1,7 @@
 ---
 title: VirtualList
 summary: A scroll container for long lists whose rows have different heights, known only once they mount; it renders the rows in view and keeps what the person is reading still while sizes and rows change.
-status: experimental
+status: stable
 aliases: [Virtualized list, Windowed list, Infinite scroll]
 layer: core
 category: data-display

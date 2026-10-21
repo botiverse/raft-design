@@ -7,12 +7,12 @@ import {
   SegmentedControlItem,
   SegmentedControlLabel,
 } from "@botiverse/raft-ui";
-import { VirtualList } from "@botiverse/raft-ui/wip";
+import { VirtualList } from "@botiverse/raft-ui";
 import type {
   VirtualListApi,
   VirtualListItemRenderProps,
   VirtualListScrollAlign,
-} from "@botiverse/raft-ui/wip";
+} from "@botiverse/raft-ui";
 
 import { ChannelMessageRow } from "../channel-message-row.tsx";
 import { createChannelMessages } from "../virtual-list.fixtures.ts";

@@ -1,5 +1,5 @@
-import { VirtualList } from "@botiverse/raft-ui/wip";
-import type { VirtualListItemRenderProps } from "@botiverse/raft-ui/wip";
+import { VirtualList } from "@botiverse/raft-ui";
+import type { VirtualListItemRenderProps } from "@botiverse/raft-ui";
 
 import { ChannelMessageRow } from "../channel-message-row.tsx";
 import { createChannelMessages } from "../virtual-list.fixtures.ts";
