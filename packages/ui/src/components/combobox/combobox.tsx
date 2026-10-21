@@ -3,6 +3,7 @@ import type { ComponentPropsWithRef } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
 import { tv } from "../../lib/tv";
+import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
@@ -61,6 +62,7 @@ const combobox = tv({
     positioner: ["isolate z-50 outline-none"],
     content: [
       "h-auto max-h-(--available-height) min-w-[220px] overflow-hidden",
+      "max-w-[min(var(--available-width),max(var(--anchor-width),24rem))]",
       "outline-none",
       "rounded-container bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",
@@ -71,8 +73,8 @@ const combobox = tv({
     item: [
       "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
       "text-left outline-none transition-colors",
-      "min-h-9 gap-2.5 rounded-control px-2.5 py-0",
-      "font-sans text-callout font-medium text-foreground",
+      "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+      "font-sans text-callout font-medium text-foreground wrap-anywhere",
       "bg-transparent hover:bg-brand-soft data-highlighted:bg-brand-soft",
       "data-selected:font-bold",
       "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
@@ -103,12 +105,13 @@ const combobox = tv({
       "transition-shadow duration-90 ease-out has-focus-visible:shadow-focus",
     ],
     chip: [
-      "inline-flex items-center",
+      "inline-flex min-w-0 max-w-full items-center overflow-hidden",
+      "[&>:not([data-slot=combobox-chip-remove])]:min-w-0 [&>:not([data-slot=combobox-chip-remove])]:truncate",
       "h-7 gap-1.5 rounded-chip bg-fill-muted pr-0.5 pl-2",
       "text-footnote font-semibold text-foreground",
     ],
     chipRemove: [
-      "inline-flex items-center justify-center outline-none transition-colors",
+      "inline-flex shrink-0 items-center justify-center outline-none transition-colors",
       "size-[22px] rounded-sticker text-foreground-hint",
       "hover:bg-fill-pressed active:bg-fill-pressed focus-visible:shadow-focus",
       "[&>svg]:size-3.5",
@@ -411,7 +414,7 @@ export function ComboboxContent({
   arrowPadding,
   collisionAvoidance,
   collisionBoundary,
-  collisionPadding,
+  collisionPadding = 8,
   disableAnchorTracking = true,
   positionMethod = "fixed",
   side = "bottom",
@@ -567,9 +570,18 @@ export function ComboboxChips({ className, ...props }: ComboboxChipsProps) {
 
 export type ComboboxChipProps = StyledProps<BaseCombobox.Chip.Props>;
 
-export function ComboboxChip({ className, ...props }: ComboboxChipProps) {
+export function ComboboxChip({ className, ref, title, ...props }: ComboboxChipProps) {
   const { chip } = combobox();
-  return <BaseCombobox.Chip data-slot="combobox-chip" className={chip({ className })} {...props} />;
+  const overflowRef = useOverflowTitle(ref, title);
+  return (
+    <BaseCombobox.Chip
+      ref={overflowRef}
+      title={title}
+      data-slot="combobox-chip"
+      className={chip({ className })}
+      {...props}
+    />
+  );
 }
 
 export type ComboboxChipRemoveProps = StyledProps<BaseCombobox.ChipRemove.Props>;

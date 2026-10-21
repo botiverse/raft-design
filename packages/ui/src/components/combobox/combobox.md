@@ -65,6 +65,8 @@ picker-trigger-button/compositions/combobox-filter
 - Show `ComboboxEmpty` when nothing matches. Never leave an empty popup open.
 - With `multiple`, keep the list open when a value is chosen. Clicking outside or Esc closes it.
 - Make a chosen value a 28px chip on `fill-muted`, with a remove button at its end. Typing continues after the last chip.
+- Put a chip's text in an element of its own (a `<span>`): a long value truncates there, at the width of the field, with its whole text as the chip's `title`, and the remove button stays visible ([Forms](../../../../../design/patterns/forms.md#long-values-in-fields)).
+- A long item wraps onto as many lines as it needs. The list grows to fit it up to 24rem (or the field's width, when that is wider), never past the screen less 8px on each side.
 - For results that come from a server, pass `filter={null}` so the list shows them as they are, and keep the typed text controlled.
 
 ## Accessibility

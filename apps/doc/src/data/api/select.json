@@ -277,7 +277,7 @@
         "name": "collisionPadding",
         "type": "Padding",
         "required": false,
-        "default": "5",
+        "default": "8",
         "description": "Additional space to maintain from the edge of the collision boundary.",
         "from": "base-ui"
       },

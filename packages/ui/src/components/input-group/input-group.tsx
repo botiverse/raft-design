@@ -2,6 +2,7 @@ import type { ComponentPropsWithRef } from "react";
 import { Input as BaseInput } from "@base-ui/react/input";
 import type { DataAttributes } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
+import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import type { WithoutChildren } from "../../lib/without-children";
@@ -31,8 +32,8 @@ const inputGroup = tv({
       "[&>svg:not([class*='size-'])]:size-4.5",
     ],
     text: [
-      "flex shrink-0 items-center px-3",
-      "select-none whitespace-nowrap",
+      "block min-w-0 max-w-1/2 shrink-0 content-center truncate px-3",
+      "select-none",
       "font-mono text-mono-code",
       "text-(--ig-text-fg,var(--ig-text-fg-default,var(--foreground-hint)))",
     ],
@@ -142,11 +143,16 @@ function TextAddon({
   align = "inline-start",
   variant = "default",
   className,
+  ref,
+  title,
   ...props
 }: InputGroupAddonTextProps) {
   const { text } = inputGroup({ align, variant });
+  const overflowRef = useOverflowTitle(ref, title);
   return (
     <span
+      ref={overflowRef}
+      title={title}
       data-slot="input-group-text"
       data-align={align}
       data-variant={variant}

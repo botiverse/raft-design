@@ -77,6 +77,15 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* An option wraps onto a second line before it is cut off, so two long values
+   that share a beginning can still be told apart (forms.md#long-values-in-fields). */
+.r-combobox-select__option .r-combobox-select__text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
 .r-combobox-select__actions {
   display: inline-flex;
   align-items: center;
@@ -163,7 +172,7 @@
   box-sizing: border-box;
   width: 100%;
   min-height: 36px;
-  padding: 0 10px;
+  padding: 6px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;

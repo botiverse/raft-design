@@ -44,6 +44,7 @@ An input group puts fixed text, an icon or a button inside an input's box: a dom
 ## Behavior
 
 - In a search field, put an 18px search icon at the start, and a clear button at the end once there is text.
+- A text addon takes at most half the group and truncates past that, with its whole text as its `title`, so there is always room to type ([Forms](../../../../../design/patterns/forms.md#long-values-in-fields)).
 
 ## Accessibility
 

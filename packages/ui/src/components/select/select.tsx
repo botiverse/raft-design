@@ -4,6 +4,7 @@ import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
 import type { DataAttributes } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
+import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
@@ -36,6 +37,7 @@ const select = tv({
     positioner: ["isolate z-50 outline-none"],
     content: [
       "relative max-h-(--available-height) min-w-[max(var(--anchor-width),220px)] overflow-hidden",
+      "max-w-[min(var(--available-width),max(var(--anchor-width),24rem))]",
       "outline-none",
       "rounded-container bg-layer-popover p-1.5 text-foreground",
       "shadow-float ring-1 ring-line-seam",
@@ -65,9 +67,9 @@ const select = tv({
       "pointer-events-none ml-auto flex shrink-0 items-center justify-center",
       "text-foreground [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
     ],
-    itemText: ["min-w-0 flex-1 truncate"],
+    itemText: ["min-w-0 flex-1 line-clamp-2 wrap-anywhere"],
     itemDescription: [
-      "order-last min-w-0 basis-full",
+      "order-last min-w-0 basis-full wrap-anywhere",
       "[[data-slot=select-item-leading]~&]:ps-[calc(--spacing(4)+--spacing(2.5))]",
       "font-sans text-caption font-normal text-foreground-hint",
     ],
@@ -188,9 +190,18 @@ export function SelectTrigger({
 
 export type SelectValueProps = StyledProps<BaseSelect.Value.Props>;
 
-export function SelectValue({ className, ...props }: SelectValueProps) {
+export function SelectValue({ className, ref, title, ...props }: SelectValueProps) {
   const { value } = select();
-  return <BaseSelect.Value data-slot="select-value" className={value({ className })} {...props} />;
+  const overflowRef = useOverflowTitle(ref, title);
+  return (
+    <BaseSelect.Value
+      ref={overflowRef}
+      title={title}
+      data-slot="select-value"
+      className={value({ className })}
+      {...props}
+    />
+  );
 }
 
 export type SelectIconProps = StyledProps<BaseSelect.Icon.Props>;
@@ -250,7 +261,7 @@ export function SelectContent({
   arrowPadding,
   collisionAvoidance,
   collisionBoundary,
-  collisionPadding,
+  collisionPadding = 8,
   disableAnchorTracking = true,
   positionMethod = "fixed",
   side = "bottom",
@@ -348,8 +359,9 @@ export function SelectItemIndicator({ className, children, ...props }: SelectIte
 
 export type SelectItemTextProps = StyledProps<BaseSelect.ItemText.Props>;
 
-export function SelectItemText({ className, id, ...props }: SelectItemTextProps) {
+export function SelectItemText({ className, id, ref, title, ...props }: SelectItemTextProps) {
   const { itemText } = select();
+  const overflowRef = useOverflowTitle(ref, title);
   const generatedId = useId();
   const textId = id ?? generatedId;
   const setTextId = useContext(SelectItemPartsContext)?.setTextId;
@@ -359,6 +371,8 @@ export function SelectItemText({ className, id, ...props }: SelectItemTextProps)
   }, [setTextId, textId]);
   return (
     <BaseSelect.ItemText
+      ref={overflowRef}
+      title={title}
       id={textId}
       data-slot="select-item-text"
       className={itemText({ className })}

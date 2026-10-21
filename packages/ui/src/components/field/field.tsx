@@ -19,20 +19,23 @@ const field = tv({
     // wrong thing.
     item: [
       "group/field-item flex items-start gap-2",
+      "*:min-w-0",
       "*:data-[slot=checkbox]:mt-[calc((1lh-1.25rem)/2)]",
       "*:data-[slot=radio-group-item]:mt-[calc((1lh-1.25rem)/2)]",
       "*:data-[slot=switch]:mt-[calc((1lh-1.875rem)/2)]",
     ],
     label: [
-      "block",
+      "block wrap-anywhere",
       "group-data-disabled/field:text-foreground-disabled",
       "font-sans font-semibold text-foreground-muted",
     ],
     description: [
+      "wrap-anywhere",
       "group-data-disabled/field:text-foreground-disabled",
       "text-caption text-foreground-hint",
     ],
     error: [
+      "wrap-anywhere",
       "group-data-disabled/field:text-foreground-disabled",
       "text-caption font-semibold text-danger-strong",
     ],

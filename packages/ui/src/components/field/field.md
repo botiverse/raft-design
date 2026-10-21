@@ -64,6 +64,7 @@ Where the label and help text go is in [Forms](../../../../../design/patterns/fo
 - Mark an optional field with `optional`, which adds "(optional)". Don't mark required fields: marking the optional ones is enough.
 - Make the help text one line about what the value is for: Shown in chat and on tasks.
 - Make the error say how to fix the value, with a correct example: Use lowercase and dashes: launch-week ([Writing](../../../../../design/content/writing.md#do-and-dont)).
+- A label, help text or error of any length wraps, and breaks inside a word that is wider than the line, so it never pushes the field, a dialog or the screen wider. `FieldItem` lets its label column shrink for the same reason ([Forms](../../../../../design/patterns/forms.md#long-values-in-fields)).
 
 ## Accessibility
 
