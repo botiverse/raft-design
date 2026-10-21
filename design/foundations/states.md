@@ -36,7 +36,8 @@ A row is anything whose whole width is one target: a message, a sidebar item, a 
 | Row | Hover | Light | Dark |
 | --- | --- | --- | --- |
 | Message ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)) | `fill-message-hover` | 3% ink | 2.2% ink |
-| Every other row | `fill-row-hover` | 4% ink | 3% ink |
+| Every other row, and a [comment card](../../packages/ui/src/components/comment/comment.md) | `fill-row-hover` | 4% ink | 3% ink |
+| Any row with its menu open | `fill-row-open` | 5% ink | 4% ink |
 | Press, on every row | `fill-pressed` | 7.8% ink | 7.8% ink |
 
 - **Visible.** The hover is at least one just-noticeable step from its surface: 2 or more in OKLab distance (ΔE × 100). `fill-row-hover` is 2.8 on paper in both modes, `fill-message-hover` 2.1. The light and dark alphas differ so the step looks the same in both modes: the same ink alpha shows more on a dark surface.
@@ -44,9 +45,19 @@ A row is anything whose whole width is one target: a message, a sidebar item, a 
 - **Text keeps its contrast.** On the hover, body text loses at most 5 APCA Lc on a message and 6 on a row, and `foreground-hint` stays at 4.5:1 or more on every surface ([Contrast](./color.md#contrast)).
 - **A message is lighter than a row.** A message can be twenty lines tall, and the pointer rests on it while someone reads: a large area shows a smaller step just as well as a 36px row shows a larger one, so the message takes the lightest step that is still visible.
 - **Press stays `fill-pressed`.** A press lasts a moment and confirms a click, so it may be strong. A button keeps `fill-pressed` for hover too: it is small, and nobody reads through it.
-- An open menu on a row (`data-popup-open`) keeps the row at its hover, not its press: the row stays marked while the menu is up.
+- **A row with its menu open is a step past its hover.** Every row, a message or any other, takes `fill-row-open` while a menu or popup it opened is up (`data-popup-open` on the row, or on a button inside it), hovered or not, and a selected row keeps its selection. The menu opens on right-click, from the row's ⋯ button, or on a phone when someone presses and holds the row. A phone has no hover, so the row's fill is the only sign of which row the menu acts on, and a hover (2.1 to 2.8) is too faint to find at a glance. With a mouse it looks the same, so "the row this menu belongs to" reads the same everywhere. On every surface a row sits on, it is a clear step and still under both selection tints:
 
-Why: rows used to hover with `fill-pressed`, 7.8% ink. On paper that is 5.5 (light) and 7.3 (dark) from the surface, more than `info-soft` and as much as `brand-soft`, so the hover outranked the selected item. On a long message it greyed a block of text: body text fell from Lc 105 to 94 in light mode, and on a dark popup `foreground-hint` fell to 4.3:1, under its 4.5:1 guarantee.
+  | Surface | `fill-row-open`, light / dark | `info-soft` | `brand-soft` | `foreground-hint` on it |
+  | --- | --- | --- | --- | --- |
+  | `layer-canvas` (messages, inbox, tables) | 3.5 / 3.8 | 6.4 / 4.6 | 8.1 / 6.1 | 5.1:1 / 5.8:1 |
+  | `layer-sidebar` (sidebar items) | 3.5 / 4.3 | 6.1 / 6.0 | 6.1 / 7.5 | 5.0:1 / 6.7:1 |
+  | `layer-card` (list rows, file rows) | 3.5 / 3.5 | 6.4 / 3.9 | 8.1 / 5.4 | 5.1:1 / 5.2:1 |
+  | `layer-popover` (search results) | 3.5 / 3.4 | 6.4 / 3.6 | 8.1 / 5.0 | 5.1:1 / 4.8:1 |
+
+  Dark mode stops at 4% because of the popover and the card: 5% would be 4.2 on a dark popover, above `info-soft`. Body text loses up to 7 Lc on it, more than on a hover, which is fine for the moment a menu is open: people are choosing an action, not reading.
+- **A comment card hovers like a row.** A collapsed card is two lines of a comment on `layer-card`, read like a row; `fill-message-hover` would be 1.9 on a dark card, under the visible step.
+
+Why: rows used to hover with `fill-pressed`, 7.8% ink. On paper that is 5.5 (light) and 7.3 (dark) from the surface, more than `info-soft` and as much as `brand-soft`, so the hover outranked the selected item. A comment card hovered with it too. On a long message it greyed a block of text: body text fell from Lc 105 to 94 in light mode, and on a dark popup `foreground-hint` fell to 4.3:1, under its 4.5:1 guarantee.
 
 ## Clickable text
 

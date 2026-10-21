@@ -2,9 +2,25 @@ import "./row-hover.test.css";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
 import { ThemeProvider } from "./theme/theme-provider";
+import { CommentCard, CommentCardTrigger } from "../components/comment/comment-card";
+import { CommentEntry, CommentEntryBody } from "../components/comment/comment-entry";
+import { FileAction, FileActions, FileContent, FileName, FileRow } from "../components/files";
+import { InboxItem, InboxItemContent, InboxItemTitle } from "../components/inbox-item";
 import { ListRow } from "../components/list-row/list-row";
+import { SearchEntityResult, SearchMessageResult } from "../components/search";
+import { Table, TableBody, TableCell, TableRow } from "../components/table";
 import { MessageItem, MessageItemBody, MessageItemContent } from "../components/message-item";
 import { SidebarItem, SidebarItemTitle } from "../components/sidebar/sidebar-item";
+import {
+  apca,
+  deltaE,
+  firstOklch,
+  over,
+  parseOklch,
+  settled,
+  token,
+  wcag,
+} from "./row-hover.test-colors";
 
 // Row hover (design/foundations/states.md#row-hover): a row hovers with the
 // lightest step people can see, lighter than its press and than selection,
@@ -13,83 +29,8 @@ import { SidebarItem, SidebarItemTitle } from "../components/sidebar/sidebar-ite
 // light mode. Measured in a real browser: :hover needs a real pointer.
 
 const it = test.skipIf(typeof window === "undefined");
+
 afterEach(cleanup);
-
-async function settled(read: () => string): Promise<string> {
-  let prev = "";
-  let next = read();
-  for (let i = 0; i < 40 && next !== prev; i += 1) {
-    prev = next;
-    await new Promise((r) => setTimeout(r, 50));
-    next = read();
-  }
-  return next;
-}
-
-type Rgba = [number, number, number, number];
-
-// oklch() -> sRGB (0..1) with alpha; Chrome serializes these tokens as oklch.
-function parseOklch(value: string): Rgba {
-  const m = /oklch\(([\d.]+) ([\d.]+) ([\d.]+)(?: \/ ([\d.]+))?\)/.exec(value);
-  if (!m) throw new Error(`not an oklch color: ${value}`);
-  const [L, C, h] = [Number(m[1]), Number(m[2]), (Number(m[3]) * Math.PI) / 180];
-  const a = C * Math.cos(h);
-  const b = C * Math.sin(h);
-  const l = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3;
-  const mm = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3;
-  const s = (L - 0.0894841775 * a - 1.291485548 * b) ** 3;
-  const lin = [
-    4.0767416621 * l - 3.3077115913 * mm + 0.2309699292 * s,
-    -1.2684380046 * l + 2.6097574011 * mm - 0.3413193965 * s,
-    -0.0041960863 * l - 0.7034186147 * mm + 1.707614701 * s,
-  ];
-  const enc = lin.map((x) => {
-    const v = Math.min(1, Math.max(0, x));
-    return v <= 0.0031308 ? 12.92 * v : 1.055 * v ** (1 / 2.4) - 0.055;
-  });
-  return [enc[0]!, enc[1]!, enc[2]!, m[4] === undefined ? 1 : Number(m[4])];
-}
-
-function over(top: Rgba, base: Rgba): Rgba {
-  const t = top[3];
-  return [0, 1, 2].map((i) => top[i]! * t + base[i]! * (1 - t)).concat(1) as Rgba;
-}
-
-function wcagY(c: Rgba) {
-  const [r, g, b] = c
-    .slice(0, 3)
-    .map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
-  return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
-}
-
-function wcag(a: Rgba, b: Rgba) {
-  const [hi, lo] = [wcagY(a), wcagY(b)].sort((x, y) => y - x);
-  return (hi! + 0.05) / (lo! + 0.05);
-}
-
-// APCA-W3 0.1.9, |Lc|.
-function apca(text: Rgba, bg: Rgba) {
-  const ys = (c: Rgba) =>
-    0.2126729 * c[0] ** 2.4 + 0.7151522 * c[1] ** 2.4 + 0.072175 * c[2] ** 2.4;
-  const clamp = (y: number) => (y > 0.022 ? y : y + (0.022 - y) ** 1.414);
-  const yt = clamp(ys(text));
-  const yb = clamp(ys(bg));
-  const s = yb > yt ? (yb ** 0.56 - yt ** 0.57) * 1.14 : (yb ** 0.65 - yt ** 0.62) * 1.14;
-  if (Math.abs(s) < 0.1) return 0;
-  return Math.abs(s > 0 ? s - 0.027 : s + 0.027) * 100;
-}
-
-// The value a token resolves to in this mode, as Chrome serializes it.
-function token(scope: HTMLElement, name: string) {
-  const probe = document.createElement("div");
-  probe.style.backgroundColor = `var(--${name})`;
-  scope.append(probe);
-  const value = getComputedStyle(probe).backgroundColor;
-  probe.remove();
-  return value;
-}
-
-const firstOklch = (value: string) => /oklch\([^)]*\)/.exec(value)?.[0] ?? value;
 
 const rows = [
   // A message: the lightest step, its body text loses at most 5 Lc.
@@ -125,6 +66,11 @@ for (const mode of ["light", "dark"] as const) {
       </ThemeProvider>,
     );
     const { page, userEvent } = await import("vite-plus/test/browser/context");
+    console.log(
+      "DBG-first",
+      matchMedia("(hover: hover)").matches,
+      matchMedia("(pointer: fine)").matches,
+    );
     await userEvent.unhover(document.body);
     const scope = getByTestId("scope");
     const ink = parseOklch(token(scope, "foreground"));
@@ -151,5 +97,183 @@ for (const mode of ["light", "dark"] as const) {
         4.5,
       );
     }
+  });
+}
+
+// With a mouse the open message is hovered too (the menu opened under the
+// pointer, or from the toolbar's button on the row): the open state wins.
+it("with a mouse, a hovered message with its menu open keeps fill-row-open", async () => {
+  const { getByTestId } = render(
+    <ThemeProvider>
+      <div data-testid="scope" className="bg-layer-canvas p-2">
+        <MessageItem data-testid="closed">
+          <MessageItemContent>
+            <MessageItemBody>No menu.</MessageItemBody>
+          </MessageItemContent>
+        </MessageItem>
+        <MessageItem data-testid="open" data-popup-open="">
+          <MessageItemContent>
+            <MessageItemBody>Its menu is open.</MessageItemBody>
+          </MessageItemContent>
+        </MessageItem>
+      </div>
+    </ThemeProvider>,
+  );
+  const { page, userEvent } = await import("vite-plus/test/browser/context");
+  await userEvent.unhover(document.body);
+  const scope = getByTestId("scope");
+  const open = getByTestId("open");
+  expect(await settled(() => getComputedStyle(open).backgroundColor)).toBe(
+    token(scope, "fill-row-open"),
+  );
+  await page.getByTestId("closed").hover();
+  expect(await settled(() => getComputedStyle(getByTestId("closed")).backgroundColor)).toBe(
+    token(scope, "fill-message-hover"),
+  );
+  await page.getByTestId("open").hover();
+  expect(open.matches(":hover")).toBe(true);
+  expect(await settled(() => getComputedStyle(open).backgroundColor)).toBe(
+    token(scope, "fill-row-open"),
+  );
+});
+
+// Every row with its menu open (states.md#row-hover) takes fill-row-open,
+// hovered or not: one look for "the row this menu belongs to". On each row's
+// surface it is a clear step (3 or more), under info-soft and brand-soft, and
+// hint text keeps 4.5:1.
+const openRows = [
+  { id: "open-sidebar", surface: "layer-sidebar", read: "color" },
+  { id: "open-list-row", surface: "layer-card", read: "image" },
+  { id: "open-inbox", surface: "layer-canvas", read: "color" },
+  { id: "open-entity", surface: "layer-popover", read: "color" },
+  { id: "open-search-message", surface: "layer-popover", read: "color" },
+  { id: "open-table-row", surface: "layer-canvas", read: "color" },
+  { id: "open-file", surface: "layer-card", read: "image" },
+] as const;
+
+for (const mode of ["light", "dark"] as const) {
+  it(`${mode}: every row with its menu open takes fill-row-open, hovered or not`, async () => {
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <div className={mode} data-testid="scope">
+          <div className="bg-layer-sidebar p-2">
+            <SidebarItem data-testid="open-sidebar" data-popup-open="">
+              <SidebarItemTitle>launch-week</SidebarItemTitle>
+            </SidebarItem>
+          </div>
+          <div className="bg-layer-card p-2">
+            <ListRow data-testid="open-list-row" data-popup-open="">
+              Wug
+            </ListRow>
+          </div>
+          <div className="bg-layer-canvas">
+            <InboxItem data-testid="open-inbox" data-popup-open="">
+              <InboxItemContent>
+                <InboxItemTitle>Kirby mentioned you</InboxItemTitle>
+              </InboxItemContent>
+            </InboxItem>
+          </div>
+          <div className="bg-layer-popover">
+            <SearchEntityResult data-testid="open-entity" data-popup-open="">
+              launch-week
+            </SearchEntityResult>
+            <SearchMessageResult data-testid="open-search-message" data-popup-open="">
+              A message that matched
+            </SearchMessageResult>
+          </div>
+          <div className="bg-layer-canvas">
+            <Table>
+              <TableBody>
+                <TableRow data-testid="open-table-row" data-popup-open="">
+                  <TableCell>raft-design</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
+          <div className="bg-layer-canvas p-2">
+            <FileRow data-testid="open-file">
+              <FileContent>
+                <FileName>notes.md</FileName>
+              </FileContent>
+              <FileActions>
+                <FileAction aria-label="More" data-popup-open="">
+                  ⋯
+                </FileAction>
+              </FileActions>
+            </FileRow>
+          </div>
+        </div>
+      </ThemeProvider>,
+    );
+    const { page, userEvent } = await import("vite-plus/test/browser/context");
+    const scope = getByTestId("scope");
+    for (const row of openRows) {
+      const el = getByTestId(row.id);
+      const read = () =>
+        row.read === "color"
+          ? getComputedStyle(el).backgroundColor
+          : firstOklch(getComputedStyle(el).backgroundImage);
+      await userEvent.unhover(document.body);
+      expect
+        .soft(await settled(read), `${mode} ${row.id} at rest`)
+        .toBe(token(scope, "fill-row-open"));
+      await page.getByTestId(row.id).hover();
+      const fill = await settled(read);
+      expect.soft(fill, `${mode} ${row.id} hovered`).toBe(token(scope, "fill-row-open"));
+
+      const surface = parseOklch(token(scope, row.surface));
+      const open = over(parseOklch(fill), surface);
+      const step = deltaE(open, surface);
+      expect
+        .soft(step, `${mode} ${row.id}: ${step.toFixed(2)} off ${row.surface}`)
+        .toBeGreaterThanOrEqual(3);
+      for (const selection of ["info-soft", "brand-soft"]) {
+        const selected = deltaE(over(parseOklch(token(scope, selection)), surface), surface);
+        expect.soft(step, `${mode} ${row.id}: under ${selection}`).toBeLessThan(selected);
+      }
+      const hint = over(parseOklch(token(scope, "foreground-hint")), open);
+      expect.soft(wcag(hint, open), `${mode} ${row.id}: hint text`).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+}
+
+// A comment card is read like a row and hovers like one: fill-row-hover, not
+// the press overlay. fill-message-hover would be 1.9 off a dark card, under
+// the visible step of 2.
+for (const mode of ["light", "dark"] as const) {
+  it(`${mode}: a collapsed comment card hovers with fill-row-hover`, async () => {
+    const { getByTestId } = render(
+      <ThemeProvider>
+        <div className={mode} data-testid="scope">
+          <div className="w-72 p-2">
+            <CommentCard>
+              <CommentEntry>
+                <CommentEntryBody clamp>
+                  A comment someone reads beside the passage.
+                </CommentEntryBody>
+              </CommentEntry>
+              <CommentCardTrigger aria-label="Comment from Wug" data-testid="trigger" />
+            </CommentCard>
+          </div>
+        </div>
+      </ThemeProvider>,
+    );
+    const { page, userEvent } = await import("vite-plus/test/browser/context");
+    await userEvent.unhover(document.body);
+    const scope = getByTestId("scope");
+    const el = getByTestId("trigger");
+    await page.getByTestId("trigger").hover();
+    const fill = await settled(() => getComputedStyle(el).backgroundColor);
+    expect(fill, `${mode}: the card's hover`).toBe(token(scope, "fill-row-hover"));
+
+    const surface = parseOklch(token(scope, "layer-card"));
+    const hovered = over(parseOklch(fill), surface);
+    const step = deltaE(hovered, surface);
+    expect(step, `${mode}: ${step.toFixed(2)} off the card`).toBeGreaterThanOrEqual(2);
+    const selected = deltaE(over(parseOklch(token(scope, "info-soft")), surface), surface);
+    expect(step).toBeLessThan(selected);
+    const ink = parseOklch(token(scope, "foreground"));
+    const drop = apca(ink, surface) - apca(ink, hovered);
+    expect(drop, `${mode}: body text loses ${drop.toFixed(1)} Lc`).toBeLessThanOrEqual(6);
   });
 }

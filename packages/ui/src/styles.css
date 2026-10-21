@@ -285,6 +285,7 @@
   --color-fill-pressed: var(--fill-pressed);
   --color-fill-row-hover: var(--fill-row-hover);
   --color-fill-message-hover: var(--fill-message-hover);
+  --color-fill-row-open: var(--fill-row-open);
   --color-layer-code: var(--layer-code);
   --color-foreground-link: var(--foreground-link);
   --color-sticker-ink: var(--sticker-ink);
@@ -497,6 +498,11 @@ body {
    replaces it instead of stacking on it. */
 @utility row-hover-overlay {
   background-image: linear-gradient(var(--fill-row-hover), var(--fill-row-hover));
+}
+
+/* The same row with its menu open: fill-row-open, as an overlay. */
+@utility row-open-overlay {
+  background-image: linear-gradient(var(--fill-row-open), var(--fill-row-open));
 }
 
 @utility press-overlay-sticker {

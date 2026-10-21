@@ -176,12 +176,13 @@ Hover and press lay a translucent overlay over a control instead of changing its
 | Token | Over |
 | --- | --- |
 | `fill-pressed` | Paper-colored controls and content: press everywhere, and hover on buttons |
-| `fill-row-hover` | Hover on a row: a sidebar item, a list row, an inbox item, a search result, a table row, a file row |
+| `fill-row-hover` | Hover on a row: a sidebar item, a list row, an inbox item, a search result, a table row, a file row, a comment card |
 | `fill-message-hover` | Hover on a message |
+| `fill-row-open` | Any row with its menu open: a message, a sidebar item, a list row, an inbox item, a search result, a table row, a file row |
 | `sticker-pressed` | Stickers |
 | `fill-frame-pressed` | Anything on the frame |
 
-The two row hovers are lighter than `fill-pressed` and than every selection tint, so a hovered row never looks selected and its text keeps its contrast. The values and the reasons are in [Row hover](./states.md#row-hover).
+The two row hovers, and `fill-row-open`, are lighter than `fill-pressed` and than every selection tint, so a hovered row never looks selected and its text keeps its contrast. The values and the reasons are in [Row hover](./states.md#row-hover).
 
 ## Stickers
 

@@ -198,7 +198,7 @@ function Faces({ popupOpen = false, deleted = false }: { popupOpen?: boolean; de
           </MessageItemContent>
         </MessageItem>
         <span data-testid="canvas" style={{ color: "var(--layer-canvas)" }} />
-        <span data-testid="hover" style={{ color: "var(--fill-message-hover)" }} />
+        <span data-testid="open" style={{ color: "var(--fill-row-open)" }} />
       </div>
     </ThemeProvider>
   );
@@ -252,12 +252,12 @@ it("a 1.5px ring in the row's surface separates the face from the avatar", () =>
 
 it("the ring takes the row's fill while the row is highlighted", () => {
   render(<Faces popupOpen />);
-  const hover = getComputedStyle(screen.getByTestId("hover")).color;
+  const open = getComputedStyle(screen.getByTestId("open")).color;
   const canvas = getComputedStyle(screen.getByTestId("canvas")).color;
   const shadow = getComputedStyle(screen.getByTestId("face")).boxShadow;
-  expect(shadow).toContain(`${hover} 0px 0px 0px 1.5px`);
+  expect(shadow).toContain(`${open} 0px 0px 0px 1.5px`);
   // One value: the row paints the same fill the ring reads.
-  expect(getComputedStyle(screen.getByTestId("row")).backgroundColor).toBe(hover);
+  expect(getComputedStyle(screen.getByTestId("row")).backgroundColor).toBe(open);
   expect(shadow).toContain(`${canvas} 0px 0px 0px 1.5px`);
 });
 

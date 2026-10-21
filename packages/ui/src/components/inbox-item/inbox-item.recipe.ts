@@ -14,6 +14,7 @@ export const inboxItem = tv({
       "has-data-[slot=inbox-item-leading]:before:left-16",
       "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:before:left-23",
       "hover:bg-fill-row-hover",
+      "not-data-[active=true]:data-popup-open:bg-fill-row-open not-data-[active=true]:has-data-popup-open:bg-fill-row-open",
       "data-[active=true]:bg-info-soft data-[active=true]:hover:bg-info-soft",
       "data-disabled:pointer-events-none data-disabled:hover:bg-transparent",
       "has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:inset-ring-2 has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:inset-ring-foreground",
