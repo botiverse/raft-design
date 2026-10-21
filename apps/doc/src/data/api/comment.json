@@ -1,0 +1,245 @@
+[
+  {
+    "name": "CommentCard",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The card of one discussion: its comments, a line such as \"2 replies\", and the reply box when it is open. A `div`; which parts it holds (collapsed or open) is the caller's choice. To open it with a click, add `CommentCardTrigger`.",
+    "native": true,
+    "props": [
+      {
+        "name": "active",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The discussion people are reading or replying to: an ink border, lifted.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CommentCardMeta",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A short line about the discussion, in the caller's words: how many replies it has, that it is about the whole document, or that the passage it was on can no longer be found.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CommentCardQuote",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The passage the discussion is about, in the caller's words (usually the quoted text). Hidden on screen, where the card's place beside the highlighted passage says it; give it an `id` and point the `aria-describedby` of `CommentCardTrigger` or `CommentMarker` at it, so a screen reader says which passage a card is about.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CommentCardTrigger",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A button laid over the whole card, for a collapsed card that opens when it is clicked or chosen with the keyboard. It has no text of its own: give it an `aria-label` (\"Comment from Martin\").",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CommentEntry",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One comment in a discussion: its header, then its text.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CommentEntryAuthor",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Who wrote the comment, in bold. It truncates; the time after it doesn't.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CommentEntryBody",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "What the comment says.",
+    "native": true,
+    "props": [
+      {
+        "name": "clamp",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Cuts the text to 2 lines, for a collapsed card.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CommentEntryHeader",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One line: the author's `Avatar` (`size=\"xs\"`), `CommentEntryAuthor`, then `CommentEntryTime`.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CommentEntryTime",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "When the comment was written, right after the author. A `<time>`: pass the moment in `dateTime` (ISO 8601).",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CommentMargin",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The column beside a document that holds its comment cards, each level with the passage it is about. It measures its `CommentMarginItem`s with one `ResizeObserver`, resolves their collisions with `resolveCommentMarginLayout`, and takes the height the lowest card needs. Place it beside the document so that its top is the top the items' `top` is measured from.",
+    "native": true,
+    "props": [
+      {
+        "name": "gap",
+        "type": "number",
+        "required": false,
+        "default": "8",
+        "description": "Space between two cards that would otherwise touch, in px. Default 8.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CommentMarginItem",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One card's place in a `CommentMargin`. It sits at `top`, or lower when the card above it is in the way; the active one stays at `top` and the others make room. Items with the same `top` keep the order they were first rendered in. The resolved top is `data-top`, applied as a `translateY`.",
+    "native": true,
+    "props": [
+      {
+        "name": "active",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Pins this card to its anchor and moves the others around it.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "top",
+        "type": "number",
+        "required": true,
+        "description": "Where the card's anchor is: its y, in px, from the top of the margin.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CommentMarker",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Where there is no room for a margin: a small button beside a passage that has comments, with the authors' avatars (an `AvatarGroup` of up to 3 `size=\"2xs\"` avatars) and the count. It opens the discussion, in a bottom sheet. Give it an `aria-label` that starts with the count (\"2 comments\").",
+    "native": true,
+    "props": [
+      {
+        "name": "active",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The marker of the discussion that is open.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

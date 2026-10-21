@@ -74,6 +74,7 @@ Avatars come in 19px, 27px, 35px, 51px and 99px: a multiple of 8 plus two 1.5px 
 | Sidebar | 240px, resizable from 180px to 320px |
 | Side panel | 380px |
 | Thread panel | 400px, resizable from 360px to 60% of the window |
+| Comment margin beside a document | 280px, 24px from the document ([Comments](../patterns/comments.md#wide-and-narrow)) |
 
 How things land on these margins is in [Alignment](./alignment.md). Breakpoints are in [Responsive layout](../patterns/responsive.md).
 

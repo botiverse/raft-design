@@ -9,3 +9,5 @@ export type {
 } from "./components/combobox-select/index";
 
 export * from "./components/announcement-dialog/index";
+
+export * from "./components/comment/index";

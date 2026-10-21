@@ -442,6 +442,26 @@ body {
   position: relative;
 }
 
+/* The passages comments are on, painted with the CSS Custom Highlight API so
+   the document's DOM is never changed (setCommentHighlights registers the
+   ranges; design/patterns/comments.md). Every commented passage gets the soft
+   yellow of a highlight and a 2px yellow underline; the passage of the open
+   discussion gets the full yellow with ink type, like a search hit, in both
+   modes. `--brand-400` is the `brand` role (what `bg-brand` paints):
+   `--color-brand` is an inline theme value and emits no variable. */
+::highlight(raft-comment) {
+  background-color: var(--brand-soft);
+  text-decoration-line: underline;
+  text-decoration-color: var(--brand-400);
+  text-decoration-thickness: 2px;
+}
+
+::highlight(raft-comment-active) {
+  background-color: var(--brand-400);
+  color: var(--sticker-ink);
+  text-decoration-line: none;
+}
+
 @utility image-transparency-bg {
   --checker-cell: light-dark(oklch(0.1813 0.00497 17.62 / 0.12), oklch(1 0 0 / 0.1));
   background-color: light-dark(oklch(1 0 0), oklch(0.23 0 0));

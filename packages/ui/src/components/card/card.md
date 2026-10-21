@@ -76,7 +76,7 @@ Card renders a `div` and adds no semantics.
 
 ## Rules
 
-- Keep cards flat. Only things that float cast a shadow ([Elevation](../../../../../design/foundations/elevation.md)).
+- Keep cards flat. Only things that float cast a shadow ([Elevation](../../../../../design/foundations/elevation.md)); the open comment card is lifted ([Comment](../comment/comment.md)).
 - Don't put a card inside a card. An action inside a section is an ordinary row, with the description on the left and the button on the right ([Forms](../../../../../design/patterns/forms.md#the-large-form-dialog)).
 - Use `line-hairline` for every line inside a card; it is content, not a region ([Color](../../../../../design/foundations/color.md#lines)).
 - Don't attach a progress bar or a colored band to a card's edge ([Shape](../../../../../design/foundations/shape.md#nothing-on-the-edge-of-a-rounded-container)).

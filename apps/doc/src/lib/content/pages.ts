@@ -134,6 +134,7 @@ const ORDER: Partial<Record<SectionId, readonly string[]>> = {
     "agents",
     "tasks",
     "conversation",
+    "comments",
     "forms",
     "feedback",
     "responsive",
