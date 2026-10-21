@@ -11,3 +11,5 @@ export type {
 export * from "./components/announcement-dialog/index";
 
 export * from "./components/comment/index";
+
+export * from "./components/virtual-list/index";
