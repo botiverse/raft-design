@@ -65,7 +65,7 @@ toast/compositions/person
 - A toast closes on its own after the provider's `timeout`, 5 seconds by default. Give a toast with an action 8 seconds, so there is time to read and then act. Hovering or focusing it pauses the timer.
 - People can swipe a toast away, press Esc while it has focus (F6 moves focus to the toasts), or close it with `ToastClose`. Raft shows no `ToastClose`: every toast closes by itself, and progress belongs on the thing it is about ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#toasts)).
 - Show one toast at a time: pass `limit={1}` to `ToastProvider` (it shows 3 by default). A new toast replaces the one on screen.
-- Stacked toasts appear at the bottom center by default. An anchored toast opens next to the control that caused it.
+- Toasts appear at the top center, under the page header ([Actions and closing](../../../../../design/patterns/actions-and-closing.md)). raft-ui's viewport still defaults to the bottom; until it changes, place `ToastViewport` at the top. An anchored toast opens next to the control that caused it.
 
 ## Content
 
