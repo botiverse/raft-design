@@ -194,9 +194,9 @@ export interface VirtualListProps<T> extends VirtualListNativeProps {
   /** The items, one row each, in order. */
   items?: readonly T[] | undefined;
   /**
-   * The shortest a row can be, in px, or less: the list mounts as many rows as fit in the view at this
-   * size, plus one, so a larger value leaves the end of the view empty. While the list scrolls, rows
-   * ahead of the view are mounted on top of these, in batches.
+   * The shortest a row can be, in px, or less: to fill the view, rows not measured yet count at this
+   * size (after a jump, as many rows as fit at it, plus one), so a larger value leaves the end of the
+   * view empty. While the list scrolls, rows ahead of the view are mounted on top of these.
    */
   itemMinSize: number;
   /** The size, in px, counted for a row not measured yet (its offset and the spacer's height). */

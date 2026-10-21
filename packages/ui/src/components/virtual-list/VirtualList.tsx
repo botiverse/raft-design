@@ -67,6 +67,7 @@ import type {
 import { px } from "./utils/range";
 import {
   getHorizontalRange,
+  getNeededEnd,
   getOverscannedRange,
   getVerticalRange,
   haveSameKeys,
@@ -617,8 +618,22 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
             fenwickTree,
             view: viewRange,
             prev: prevRange,
+            neededEnd: getNeededEnd({
+              fenwickTree,
+              startIndex: viewRange.startIndex,
+              viewTop: effectiveScrollTop - getRowsTop(),
+              listHeight: viewport.listHeight,
+              itemMinSize,
+              itemCount: items.length,
+              isMeasured: (index: number) => {
+                const item = items[index];
+                return item !== undefined && keyToHeightOffsetRef.current.has(getKey(item));
+              },
+            }),
             viewTop: effectiveScrollTop - getRowsTop(),
+            moved: Math.abs(scrollTop - viewport.scrollTop),
             movingUp: scrollingUpRef.current,
+            settling: pendingScrollTaskRef.current !== null,
             listHeight: viewport.listHeight,
             itemCount: items.length,
           })
