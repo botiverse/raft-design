@@ -35,7 +35,8 @@ The wider the scope of a message, the further out it goes; the full table is in 
 - An icon: a Lucide icon as a direct child, before the text.
 - `BannerTitle`: an optional bold first line.
 - `BannerDescription`: the message. Required. An inline text action goes inside it as a `TextLink variant="strong"`, because it sits in a sentence ([TextLink](../text-link/text-link.md#variants)).
-- `BannerAction`: an optional row under the text, for a button.
+- `BannerAction`: an optional row under the text, for one button. Never put the × here, where it reads as one of the actions.
+- A ×, only on a banner that informs: a frameless icon button at the end of the first line. raft-ui has no part for it yet ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#banners)).
 
 ## Variants
 
@@ -74,7 +75,9 @@ banner/compositions/action-variants
 ## Rules
 
 - Show at most one banner in one place.
-- Give at most one button, and only when there is a way out: a 32px ink-bordered button (`variant="default" size="sm"`). Never a pink button: a banner is not the screen's primary action.
+- Give at most one button, and only when there is a way out: a 32px ink-bordered button (`variant="default"`). Never a pink, orange or red button: a banner is not where people commit. A second way out is a `TextLink` in the sentence. A consent banner is the one exception, with 2 equal `default` buttons ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#banners)).
+- Don't let a banner that reports a problem or a limit be dismissed; it goes when the cause does. Give a banner that only informs a ×, and remember the dismissal until the situation changes.
+- Lead a banner that has a title or a button with its intent's icon from the table, at the size the banner sets; don't pass another icon or a size of your own. An `info` banner may use its subject's icon instead (`Bell`). Don't lead a banner with a status pixel: that is `PanelNotice`'s ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#icons-and-pixels)).
 - Don't add an ink border. A banner is a soft tint, not a sticker ([Color](../../../../../design/foundations/color.md#soft-tints)); its edge is the container radius and a hairline.
 
 ## Inside a panel

@@ -142,3 +142,7 @@ Raft Chat departs from these patterns today. Each line is the product's side; th
 | A mention marker replaces the unread count ([States](../../foundations/states.md)) | A channel's row shows the @ marker before the pink count |
 | Every pushed page has Back ([Navigation](../../patterns/navigation.md#going-back)) | On the phone web, the RaftBench gate page and the Assistant page while it loads have neither Back nor the tab bar |
 | No empty state when loading failed ([Feedback](../../patterns/feedback.md#empty-loading-and-failed)) | When the list of Activity or Saved fails to load, it shows its empty state |
+| A confirmation has no × ([Actions and closing](../../patterns/actions-and-closing.md#cancel-and-the-close-button)) | Every confirmation built on `ConfirmDialog` (47) has a × in its header as well as Cancel |
+| Dialog footers come from the footer part ([Actions and closing](../../patterns/actions-and-closing.md#dialog-footers)) | About 28 dialogs draw their own button row; they don't stack on a phone |
+| A dismissed banner stays dismissed ([Actions and closing](../../patterns/actions-and-closing.md#banners)) | 7 dismissible banners come back on the next reload or event |
+| One pink name, `primary` ([Actions and closing](../../patterns/actions-and-closing.md#dialog-footers)) | Dialog commits use `accent` 37 times and `primary` 21 times; the upgrade dialog uses both |

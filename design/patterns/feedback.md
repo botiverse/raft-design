@@ -19,7 +19,7 @@ Every result, problem, empty view and wait that people need to know about.
 - Act at once, without a dialog or a toast, when the person can reverse the action in the same place: Mark as Done (Reopen Task), Save Message (Remove from Saved). A question before an action that is one click to undo only slows people down.
 - Confirm with a dialog any action that stops an agent's work, takes someone out of a place, or archives or deletes something, because none of these can be put back from where it happened: Stop Agent, Restart or Reset, Archive Agent, Leave Channel, Remove Member, Delete Server ([Dialog](../../packages/ui/src/components/dialog/dialog.md)). The confirm button repeats the action's verb ([Writing](../content/writing.md#actions-and-their-dialogs)).
 - In a dialog that confirms something that cannot be undone, put the message in a red banner and make the confirm button red. Don't color the action in the menu that opens it: the warning belongs where the person commits, not in a list of choices.
-- When an action has a natural way back in the same moment, act and show a toast with Undo instead of a dialog ([Toast](../../packages/ui/src/components/toast/toast.md)). For example, Raft Chat does this when someone removes an agent from a thread's followers; the toast stays 5 seconds.
+- When an action has a natural way back in the same moment, act and show a toast with Undo instead of a dialog ([Toast](../../packages/ui/src/components/toast/toast.md)). For example, Raft Chat does this when someone removes an agent from a thread's followers. How long a toast with an action stays is in [Actions and closing](./actions-and-closing.md#toasts).
 
 ### Empty, loading and failed
 
@@ -59,5 +59,6 @@ empty-state/compositions/default
 
 ## Related
 
+- [Actions and closing](./actions-and-closing.md): how many actions a dialog, a banner and a toast carry, and how each closes.
 - [States](../foundations/states.md): the error and busy states of controls.
 - [Hand-offs and approvals](../people-and-agents/handoffs-and-approvals.md#when-something-fails): an agent that fails.

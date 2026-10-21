@@ -38,7 +38,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `DialogTitle`: the title. Required.
 - `DialogDescription`: a sentence under the title or in the body.
 - `DialogBody`: the content. It scrolls when the dialog reaches the window height.
-- `DialogFooter`: the buttons, aligned to the end.
+- `DialogFooter`: the buttons, aligned to the end. Below 768px they are to stack full width, commit on top ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#on-a-phone)); the part doesn't do this yet.
 - `DialogClose`: closes the dialog. Without children it is the × icon button; with `render` it turns a Cancel button into a close button.
 - `DialogNav`: the section list of a wide dialog.
 - `DialogSurface`: the dialog's frame without Base UI behind it, for a centered modal whose app owns the backdrop, Esc and focus, such as search.
@@ -56,7 +56,7 @@ The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFoot
 ## Behavior
 
 - A centered dialog appears and disappears without animation, always over the scrim ([Motion](../../../../../design/foundations/motion.md#usage)). On a phone a dialog with fields is a sheet that slides up instead ([On a phone](#on-a-phone)).
-- Esc, × and Cancel close a dialog. A click on the scrim closes a small dialog.
+- Esc, × and Cancel close a dialog. A click on the scrim closes a small dialog only when nothing has been typed in it.
 - Don't close a large form dialog on a click outside it: pass `disablePointerDismissal` on `Dialog`, so a half-filled form isn't lost to a stray click.
 - A centered dialog on a narrow screen keeps a 16px margin on each side and never grows taller than the window less 32px.
 - Below 768px the wide dialog hides `DialogNav` and the sections follow one another.
@@ -99,8 +99,12 @@ Raft Chat builds these forms in the app for now (`NarrowDialog` in slock); they 
 
 ## Rules
 
-- Put at most two buttons in the footer: Cancel on the left (`variant="ghost"`), the confirm button on the right.
-- Make the confirm button pink (`variant="primary"`) when it does something. Color it by its consequence when it interrupts or can't be undone ([AlertDialog](../alert-dialog/alert-dialog.md#variants)).
+The footer's buttons, their colors and order, when a dialog has Cancel, × or both, and how the footer stacks on a phone are in [Actions and closing](../../../../../design/patterns/actions-and-closing.md#dialog-footers). In short:
+
+- Put at most two buttons in the footer, from `DialogFooter`: Cancel first (`variant="ghost"`), the commit button last.
+- Make the commit button pink (`variant="primary"`) when it does what the dialog exists for, and color it by its consequence when it interrupts or can't be undone ([AlertDialog](../alert-dialog/alert-dialog.md#variants)). A button that only closes the dialog (Got It, Done) is `default`.
+- Give every dialog that isn't a confirmation a `DialogClose` × in its header. Leave out Cancel only when leaving loses nothing (an offer, an announcement, content that is only read); the × is then required.
+- Put a link that leads elsewhere (Learn About Pricing) at the start of the footer as a muted [TextLink](../text-link/text-link.md), at most one.
 - Put anything people must read before they act in a [Banner](../banner/banner.md) inside the body ([Feedback](../../../../../design/patterns/feedback.md#errors-by-scope)).
 - Keep the small dialog at most 400px wide, with 20px padding.
 - Don't pass `overlay={false}` in product code: every centered dialog has the scrim, without exception.

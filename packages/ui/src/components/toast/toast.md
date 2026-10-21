@@ -37,7 +37,7 @@ Never put anything in a toast that would confuse people if they missed it ([Choo
 - `ToastRoot` and `ToastContent`: one toast and its layout.
 - `ToastIcon`: optional. Who did it (an avatar), or a status pixel when there is no "who".
 - `ToastBody`, holding `ToastTitle` (required) and an optional `ToastDescription`, both in `text-callout` ([Typography](../../../../../design/foundations/typography.md#type-scale)): 14/20 on a phone, 14/22 on a desktop, like a banner. `ToastIcon` is one line of that text tall, so the icon stays on the title's line.
-- `ToastActions`: optional, holding one `ToastAction` and `ToastClose`.
+- `ToastActions`: optional, holding one `ToastAction`, and `ToastClose` (the Dismiss text action) only on a toast that doesn't close by itself.
 - `ToastProgress`: an optional line that shows the time left before it closes.
 
 Leave out a part you don't need instead of rendering it empty.
@@ -62,8 +62,8 @@ toast/compositions/person
 
 ## Behavior
 
-- A toast closes on its own after the provider's `timeout`; hovering or focusing it pauses the timer.
-- People can swipe a toast away, or close it with `ToastClose`.
+- A toast closes on its own after the provider's `timeout`, 5 seconds by default. Give a toast with an action 8 seconds, so there is time to read and then act. Hovering or focusing it pauses the timer.
+- People can swipe a toast away, press Esc while it has focus (F6 moves focus to the toasts), or close it with `ToastClose`. Show `ToastClose` only on a toast that waits (`timeout={0}`) ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#toasts)).
 - Stacked toasts appear at the bottom center by default. An anchored toast opens next to the control that caused it.
 
 ## Content
@@ -85,4 +85,5 @@ Toast wraps Base UI's Toast, which announces each toast in a live region and kee
 - Show at most one toast at a time.
 - Use `layer-hud` for every toast, with `foreground-on-hud` text. Don't tint a toast with an intent color, and never use yellow: notices are neutral ([Color](../../../../../design/foundations/color.md#principles)).
 - Make the action a bold text action that underlines on hover (`ToastAction`), never a button. Never put a colored button in a toast.
-- Give a toast at most one action besides closing it.
+- Give a toast at most one action besides closing it, and only one that people can also reach another way: the toast disappears, so it may shorten a way but never be the only one.
+- Lead every toast with a pixel or an avatar. Never use red: a toast reports something that already happened.
