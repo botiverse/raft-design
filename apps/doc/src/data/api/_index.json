@@ -92,10 +92,12 @@
     "names": [
       "Banner",
       "BannerAction",
+      "BannerClose",
       "BannerDescription",
       "BannerTitle"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "A short notice people read before they act, on a soft tint that says its intent. Compose it from a leading icon, `BannerTitle`, `BannerDescription`, and either `BannerAction` (its button) or `BannerClose` (a × when there is no button)."
   },
   "button": {
     "names": [

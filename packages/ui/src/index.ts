@@ -1416,9 +1416,16 @@ export type { SpinnerProps } from "./components/spinner/index";
 export { Skeleton } from "./components/skeleton/index";
 export type { SkeletonProps, SkeletonVariant } from "./components/skeleton/index";
 
-export { Banner, BannerAction, BannerDescription, BannerTitle } from "./components/banner/index";
+export {
+  Banner,
+  BannerAction,
+  BannerClose,
+  BannerDescription,
+  BannerTitle,
+} from "./components/banner/index";
 export type {
   BannerActionProps,
+  BannerCloseProps,
   BannerDescriptionProps,
   BannerProps,
   BannerStatus,

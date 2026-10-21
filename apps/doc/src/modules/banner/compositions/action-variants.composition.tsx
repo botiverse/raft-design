@@ -1,5 +1,12 @@
-import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "@botiverse/raft-ui";
-import { CircleAlert, X } from "lucide-react";
+import {
+  Banner,
+  BannerAction,
+  BannerDescription,
+  BannerTitle,
+  Button,
+  TextLink,
+} from "@botiverse/raft-ui";
+import { Info, Sparkles, TriangleAlert } from "lucide-react";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";
@@ -8,12 +15,11 @@ import { CompositionPreview } from "#/components/composition-preview.tsx";
 export function BannerSingleActionContent() {
   return (
     <Banner status="warning">
-      <CircleAlert />
-      <BannerTitle>Invoice details missing</BannerTitle>
-      <BannerDescription>Add billing email and tax ID before the next cycle.</BannerDescription>
+      <TriangleAlert />
+      <BannerDescription>Couldn&rsquo;t load tasks.</BannerDescription>
       <BannerAction>
-        <Button variant="default" size="xs">
-          Review
+        <Button variant="default" size="sm">
+          Retry
         </Button>
       </BannerAction>
     </Banner>
@@ -22,30 +28,33 @@ export function BannerSingleActionContent() {
 
 export function BannerDualActionContent() {
   return (
-    <Banner status="warning">
-      <CircleAlert />
-      <BannerTitle>Plan limit reached</BannerTitle>
-      <BannerDescription>Remove an inactive machine before adding another.</BannerDescription>
+    <Banner status="info">
+      <Sparkles />
+      <BannerTitle>Threads now show in the sidebar</BannerTitle>
+      <BannerDescription>Pin the threads you follow so they stay one click away.</BannerDescription>
       <BannerAction>
-        <Button variant="ghost" size="xs">
+        <Button variant="ghost" size="sm">
           Dismiss
         </Button>
-        <Button variant="default" size="xs">
-          Upgrade
+        <Button variant="default" size="sm">
+          Show Me
         </Button>
       </BannerAction>
     </Banner>
   );
 }
 
-export function BannerDismissOnlyContent() {
+export function BannerTitleActionContent() {
   return (
     <Banner status="info">
-      <BannerTitle>Deployment live</BannerTitle>
-      <BannerDescription>Version 1.8.4 is in production.</BannerDescription>
+      <Info />
+      <BannerTitle>This channel shows the last 90 days</BannerTitle>
+      <BannerDescription>
+        Older messages come back on Pro. <TextLink variant="strong">View Usage</TextLink>
+      </BannerDescription>
       <BannerAction>
-        <Button variant="ghost" size="icon-xs" aria-label="Dismiss">
-          <X />
+        <Button variant="default" size="sm">
+          Upgrade
         </Button>
       </BannerAction>
     </Banner>
@@ -56,10 +65,10 @@ export function BannerDismissOnlyContent() {
 export function BannerActionVariantsComposition({ className }: { className?: string }) {
   return (
     <CompositionPreview className={className}>
-      <div className="flex w-[28rem] flex-col gap-3">
+      <div className="flex w-[48rem] max-w-full flex-col gap-3">
         <BannerSingleActionContent />
         <BannerDualActionContent />
-        <BannerDismissOnlyContent />
+        <BannerTitleActionContent />
       </div>
     </CompositionPreview>
   );
