@@ -192,3 +192,14 @@ describe("VirtualList: text selection", () => {
     expect(window.getSelection()!.toString()).toMatch(/^ow-2[\s\S]*row$/);
   });
 });
+
+describe("VirtualList: focus ring", () => {
+  it("the scroller shows the focus ring when Tab reaches it", async () => {
+    const { list, userEvent } = await mount();
+    await userEvent.click(document.getElementById("before")!);
+    await userEvent.keyboard("{Tab}");
+    await settle();
+    expect(document.activeElement).toBe(list);
+    expect(getComputedStyle(list).boxShadow).toMatch(/0px 0px 0px 4px/);
+  });
+});
