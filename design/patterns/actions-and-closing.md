@@ -66,7 +66,7 @@ These exceptions apply only to a dialog that offers a paid plan after a limit wa
 
 ### On a phone
 
-- In a centered dialog below 768px, stack the buttons full width in reading order: Cancel (or the secondary ghost button) first and the commit button under it, so the commit is the button nearest the bottom edge and the thumb. With a note, the note comes first, left-aligned above the buttons, because it says what the commit will do and must be read before it. A footer link goes last, centered, under the commit button. The note keeps its muted footnote text and its start alignment; it is never centered, moved under the buttons or truncated. Only `lg` and `wide` dialogs have a footer note, and it is at most about 40 characters: on a desktop it never wraps, one short line beside the buttons; on a phone it may wrap to two lines. Anything longer belongs in the body, so the footer stays compact and the dialog's content keeps the screen.
+- In a centered dialog below 768px, stack the buttons full width in reading order: Cancel (or the secondary ghost button) first and the commit button under it, so the commit is the button nearest the bottom edge and the thumb. With a note, the note comes first, left-aligned above the buttons, because it says what the commit will do and must be read before it. A footer link takes the note's place: first, above the buttons, left-aligned, so the commit stays the last thing in the footer, as in a sheet's `DrawerActions`. The note keeps its muted footnote text and its start alignment; it is never centered, moved under the buttons or truncated. Only `lg` and `wide` dialogs have a footer note, and it is at most about 40 characters: on a desktop it never wraps, one short line beside the buttons; on a phone it may wrap to two lines. Anything longer belongs in the body, so the footer stays compact and the dialog's content keeps the screen.
 - In a dialog sheet, the commit button moves into the head at `size="sm"` and × is Cancel ([Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)).
 
 ### Banners
@@ -196,7 +196,7 @@ An icon says the intent of a message; a pixel says the state of a thing; an avat
 
 | Width | Dialog footer | Banner | Toast |
 | --- | --- | --- | --- |
-| Below 768px | Stacked full width: the note, then Cancel, then commit, then a link; a sheet moves the commit into its head | Button and Dismiss on their own line under the text, at the end; the × stays on the first line. At most 2 on screen: the app frame's and the page's | Top center, under the app's top bar; swipe up to close; a touch pauses it |
+| Below 768px | Stacked full width: the note or a link, then Cancel, then commit; a sheet moves the commit into its head | Button and Dismiss on their own line under the text, at the end; the × stays on the first line. At most 2 on screen: the app frame's and the page's | Top center, under the app's top bar; swipe up to close; a touch pauses it |
 | 768px and up | One row at the end, Cancel then commit; a link or a note at the start | Button and Dismiss at the bottom right, at the end of the last line when the text fits beside them; the × on the first line | Top center, under the page header; hover and focus pause it |
 
 ## Related
