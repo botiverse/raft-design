@@ -42,7 +42,11 @@ function Receipt({
     <MessageItem compact>
       <MessageItemGutter />
       <MessageItemContent>
-        <MessageActionCard key={retracted ? "retracted" : "live"} defaultOpen={!retracted}>
+        <MessageActionCard
+          key={retracted ? "retracted" : "live"}
+          defaultOpen={!retracted}
+          className="max-w-xl"
+        >
           <MessageActionCardHeader>
             <MessageActionCardHeaderIcon>
               <Send />
