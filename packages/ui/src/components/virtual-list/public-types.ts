@@ -303,7 +303,9 @@ export interface VirtualListProps<T> extends VirtualListNativeProps {
   ref?: never;
   /**
    * Called when the content's height changes: a row resizes or mounts measured, the spacer's
-   * height changes, or the `footer` / `empty` element resizes (to follow the end of a chat).
+   * height changes, or the `footer` / `empty` element resizes (to follow the end of a chat). Not
+   * called for a change the list scrolls away exactly (rows above the view measured as it scrolls
+   * up): it moves nothing in view, nor the distance from the view to the end.
    */
   onContentResize?: (() => void) | undefined;
   /**

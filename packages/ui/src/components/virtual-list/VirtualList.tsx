@@ -1366,9 +1366,17 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       clearItemResizeQueue();
       return;
     }
+    const scrollTopBefore = listElBefore == null ? 0 : listElBefore.scrollTop;
+    const effectiveTopBefore = scrollTopBefore + compensationYRef.current;
     applyLayoutStyles(startIndex);
-    onContentResize?.();
     const listEl = listElRef.current;
+    /*
+     * Whether what is in view, or the distance from it to the end, changed: a change scrolled away
+     * exactly (rows above the view, measured while scrolling up) changes neither, so `onContentResize`
+     * is not called for it. A follower of the end within a few rows of it (still "at the bottom")
+     * would scroll to the end for it, and take back the scroll that mounted those rows.
+     */
+    let contentMoved = true;
     if (listEl != null) {
       const pendingTask = pendingScrollTaskRef.current;
       if (pendingTask?.type === undefined) {
@@ -1393,15 +1401,39 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         ) {
           compensation += leadingMarginDelta;
         }
-        if (compensation !== 0 && !addCompensation(compensation)) {
-          listEl.scrollBy(0, compensation);
+        if (compensation !== 0) {
+          /*
+           * Rows above the view that shrank shrink the spacer first (`applyLayoutStyles`): near the end,
+           * the browser clamps `scrollTop` to the new end, which moves the view up by the clamp already.
+           * Only the rest is scrolled, or the view would move by the clamp twice (the rows in view
+           * jumping down by it, the scroll that mounted the rows taken back).
+           */
+          const remaining = compensation - (listEl.scrollTop - scrollTopBefore);
+          if (remaining !== 0 && !addCompensation(remaining)) {
+            listEl.scrollBy(0, remaining);
+          }
         }
+        let sizeChange = leadingMarginDelta;
+        for (const { delta } of resizes) {
+          sizeChange += delta;
+        }
+        const effectiveTop = listEl.scrollTop + compensationYRef.current;
+        contentMoved =
+          sizeChange !== compensation ||
+          Math.abs(effectiveTop - (effectiveTopBefore + compensation)) >= 1;
       } else {
+        onContentResize?.();
         replayPendingScrollTask();
       }
       const viewport = viewportRef.current;
       viewport.scrollTop = listEl.scrollTop;
       viewport.scrollLeft = listEl.scrollLeft;
+      // After the change is scrolled away: the consumer reads where the view ends up.
+      if (pendingTask?.type === undefined && contentMoved) {
+        onContentResize?.();
+      }
+    } else if (contentMoved) {
+      onContentResize?.();
     }
     clearItemResizeQueue();
     updateRange("batchItemResize", false, null);
