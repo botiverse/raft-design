@@ -1440,8 +1440,12 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   });
   /**
    * Tracks the row holding focus: focusin finds the row the target is in (the visible-items element's
-   * child it is inside); focusout to outside the list releases it, and the range is updated so the row
-   * unmounts if it is out of the range.
+   * child it is inside); focusout to an element outside the list releases it, and the range is updated so
+   * the row unmounts if it is out of the range. A focusout to nowhere (`relatedTarget` null) does not
+   * release it: switching to another window or tab fires one while the element keeps focus, and the row
+   * must still be there when the person comes back. When focus did go to the page instead (a click on
+   * nothing focusable), the next range update finds `document.activeElement` outside the list and
+   * releases the row then.
    */
   const handleFocusIn = useEventCallback((event: FocusEvent) => {
     const visibleItemsEl = getVisibleItemsEl();
@@ -1454,7 +1458,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   const handleFocusOut = useEventCallback((event: FocusEvent) => {
     const listEl = listElRef.current;
     const next = event.relatedTarget;
-    if (listEl === null || (next instanceof Node && listEl.contains(next))) {
+    if (listEl === null || next === null || (next instanceof Node && listEl.contains(next))) {
       return;
     }
     if (focusedKeyRef.current !== null) {

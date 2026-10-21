@@ -83,7 +83,7 @@ virtual-list/compositions/chat
 ### Other behavior
 
 - While text is selected, rows that scroll out of view stay mounted, so the selection and copying survive scrolling.
-- The row that holds focus stays mounted, at its place, when it scrolls out of view: by End or Page Down, which the browser handles by scrolling the list, by the wheel or by the scrollbar. Unmounting it would drop focus to the page, and the next Tab would start from the top. Once focus leaves the row, it unmounts when it is out of view. This needs `itemResizable`, which marks each row with its key.
+- The row that holds focus stays mounted, at its place, when it scrolls out of view: by End or Page Down, which the browser handles by scrolling the list, by the wheel or by the scrollbar. Unmounting it would drop focus to the page, and the next Tab would start from the top. Once focus leaves the row, it unmounts when it is out of view. Switching to another window or tab doesn't count: the row keeps focus, and is still there when the person comes back. This needs `itemResizable`, which marks each row with its key.
 - `virtual={false}` renders every row in flow. With `itemResizable`, the row at the top of the view keeps its place when virtualization is switched off; switching it back on keeps the measurements, not the position.
 - `columns` with `renderCol` or `renderItemWithCols` scrolls sideways too and renders only the columns in view.
 - On iOS, size changes above the view during a fling are applied as a transform and written to the scroll position after it, because writing it stops the fling.
