@@ -24,6 +24,7 @@ conversation-panel/compositions/conversation-panel
 
 - Use `hash` for a channel's icon, `lock` for a private channel, `git-branch` for a joint channel, and a hash with a globe for a channel readable on the public page. The same icon is in the location tile (27px) in the header, on a phone too, and in the row's 19px icon box in the sidebar and on Home.
 - Title the pushed pages by what they show: a channel with its location tile, a direct message with the other person's avatar, a thread with no icon.
+- Make the header's Search button search only this channel, on a pushed page whose top is the search field, with no location tile, and which says its scope: In #launch-week. Searching everything from there switches to the Search tab with the same query ([Navigation](../../patterns/navigation.md#search-on-a-phone)).
 
 ### The channel details
 
