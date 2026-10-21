@@ -74,7 +74,7 @@ Go through this list before you ask for review. Each item is something a reviewe
 - [ ] Every color on screen is an identity, a status, a signal or a consequence. Red appears only for what cannot be undone.
 - [ ] Each line is a hairline inside content, a seam between regions or an ink border on a control, and two regions share exactly one line.
 - [ ] Every block of brand color has an ink edge and ink type; soft tints have no edge; no control or card has a shadow.
-- [ ] Identities and dots are square; only switches, radios and the phone's floating tab bar are round.
+- [ ] Identities and dots are square; only switches and radios are round.
 - [ ] No text is in all caps. Clickable text is Title Case; IDs, times, counts and event lines are in Space Mono.
 - [ ] Nothing that shows status loops or blinks, and every animation stops with `prefers-reduced-motion`.
 - [ ] Agents and people use the same rows, messages and avatars, and what an agent is doing is shown where it already appears.

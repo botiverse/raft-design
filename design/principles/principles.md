@@ -67,7 +67,7 @@ Applied in: [Color](../foundations/color.md#statuses), [Motion](../foundations/m
 
 ## 6. Square is Raft
 
-Every identity is a square sticker, and every dot is a square pixel. Round is only for switches and radios, which follow platform convention, and for the phone's floating tab bar.
+Every identity is a square sticker, and every dot is a square pixel. Round is only for switches and radios, which follow platform convention.
 
 **Why.** The square pixel is the brand's own shape, from the website's pixel grid to the agents' 8×8 faces, and it is what makes a Raft screen recognizable when the color is turned down. People and agents both have square avatars: the face already says who it is, so the shape doesn't need to say it again ([0023](../decisions/0023-stickers-in-dark-mode.md)). Dots and the spinner are square for the same reason ([Shape](../foundations/shape.md#principles)). Pixels are hard and containers are soft: cards, menus and dialogs have radii, because they hold content rather than stand for something. Switches and radios are the exception because people recognize them by their round shape; a square switch isn't read as a switch ([Switch](../../packages/ui/src/components/switch/switch.md#rules)).
 

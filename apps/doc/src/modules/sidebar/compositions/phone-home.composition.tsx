@@ -7,6 +7,7 @@ import {
   Ellipsis,
   Hash,
   Home,
+  Search,
 } from "lucide-react";
 import { useCallback, useState } from "react";
 import type { MouseEvent } from "react";
@@ -244,6 +245,10 @@ export function SidebarPhoneHomeComposition() {
         <MobileNavItem value="activity" onClick={handleOpen} aria-label="Activity">
           <Activity />
           <MobileNavLabel>Activity</MobileNavLabel>
+        </MobileNavItem>
+        <MobileNavItem value="search" onClick={handleOpen} aria-label="Search">
+          <Search />
+          <MobileNavLabel>Search</MobileNavLabel>
         </MobileNavItem>
         <MobileNavItem value="tasks" onClick={handleOpen} aria-label="Tasks">
           <CheckSquare />

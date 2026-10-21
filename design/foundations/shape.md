@@ -6,12 +6,12 @@ redirectFrom: [decisions/0021-square-dots-and-spinner, decisions/0026-upload-pro
 
 # Shape
 
-Square is Raft. Every identity is a square sticker and every dot is a square pixel; pixels are hard and containers are soft. Round is only for switches and radios, which follow platform convention, and for the phone's floating tab bar.
+Square is Raft. Every identity is a square sticker and every dot is a square pixel; pixels are hard and containers are soft. Round is only for switches and radios, which follow platform convention.
 
 ## Principles
 
 - **Identities and dots are square.** Avatars, workspace tiles, channel tiles, presence lights, attention dots and pixel spinners all use square pixels. A round dot or a ring spinner would be the one round mark among square pixels; the square pixel is the brand's own shape ([Principles](../principles/principles.md#6-square-is-raft)).
-- **Round only for switches, radios and the floating tab bar.** Nothing else uses a full radius.
+- **Round only for switches and radios.** Nothing else uses a full radius.
 - **Two stroke widths.** 1px for lines and for the frame of a field, 1.5px for the controls and stickers that have to stand out.
 
 ## Radii
@@ -23,9 +23,8 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 | `radius-control` | Controls and selection stickers: buttons, inputs, selects, filters, segmented controls, tabs, sidebar rows, rail items, the tab bar's icon sticker, menu items, the workspace pill |
 | `radius-container` | Containers: cards, inset groups, the composer, banners, menus, toasts, profile cards, file cards |
 | `radius-dialog` | Dialogs, and the top corners of bottom sheets |
-| `rounded-full` | Switches and radios; the floating pill of the phone tab bar and its round Search button. Nothing else |
+| `rounded-full` | Switches and radios only |
 
-- Round the floating tab bar's pill and its Search button fully, and nothing inside them: the tabs' icon stickers keep `radius-control`. The pill floats over content at the bottom of the screen, where the phone's own floating controls are round; a capsule with soft corners reads as a card left on the page, and a square Search button beside a capsule reads as a mistake. The exception covers these 2 shapes only, not other floating buttons or bars ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-floating-pill)).
 - Use a 2px radius for presence lights and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.
 
 ## Nested corners

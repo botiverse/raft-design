@@ -15,7 +15,7 @@ From top to bottom:
    - The pill opens the server list ([Built from existing parts](../../components/overview.md#switching-servers)).
    - The working summary is an avatar stack and a count; it opens Working now ([Working agents](../../people-and-agents/working-agents.md#where-working-shows)) and is hidden when no one is working.
    - The bell opens the notification center ([Raft Chat](./README.md#the-bell-and-activity)) and shows a pink pixel when there is something new.
-2. **The Saved row**, with a gray count in Space Mono: Saved's only entry point on a phone. Search is the round button beside the tab bar and Activity is a tab, so Home has no rows for them.
+2. **The Saved row**, with a gray count in Space Mono: Saved's only entry point on a phone. Search and Activity are on the tab bar, so Home has no rows for them.
 3. **Sections**: the sections of the Chat sidebar, without Saved, in the person's order.
 4. **The tab bar**, with Home selected. Nothing is attached above the tab bar.
 

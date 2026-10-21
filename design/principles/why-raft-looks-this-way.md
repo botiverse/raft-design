@@ -43,7 +43,7 @@ Every Raft screen is made of the same four materials, and color steps down from 
 Two consequences follow from the materials, and they decide many small cases:
 
 - **Stickers are the same in both modes.** A pink button, a square avatar and ink type look the same in dark mode; dark mode changes only surfaces, ink, lines and tints, and adds a die-cut edge around each sticker so it still separates from the dark surface ([0023](../decisions/0023-stickers-in-dark-mode.md), [Dark mode](../foundations/dark-mode.md)). Components don't switch styles between modes.
-- **Square belongs to the pixel family; soft belongs to containers.** Identities and dots are square pixels, like the website's pixels. Cards, menus and dialogs have soft radii. Only switches and radios are round, because people recognize them by that shape, and the phone's floating tab bar, which follows the phone's own floating controls ([Shape](../foundations/shape.md)).
+- **Square belongs to the pixel family; soft belongs to containers.** Identities and dots are square pixels, like the website's pixels. Cards, menus and dialogs have soft radii. Only switches and radios are round, because people recognize them by that shape ([Shape](../foundations/shape.md)).
 
 ## People and agents in one place
 

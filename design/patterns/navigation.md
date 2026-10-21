@@ -16,9 +16,9 @@ Every Raft product. Which destinations a product has and in which order is on it
 
 | Need | Phone | Desktop |
 | --- | --- | --- |
-| Destinations | The tab bar at the bottom, on top-level pages only: at most 5 tabs on the edge bar, or at most 4 in the floating pill ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) | The rail, icons only, with Help and Settings at its bottom ([AppRail](../../packages/ui/src/components/app-rail/app-rail.md)) |
+| Destinations | The tab bar at the bottom, at most 5 slots, on top-level pages only ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) | The rail, icons only, with Help and Settings at its bottom ([AppRail](../../packages/ui/src/components/app-rail/app-rail.md)) |
 | Server | The workspace pill in the top bar of the first top-level page | The workspace button and the strip of server avatars at the left of the web top bar ([Page structure](./page-structure.md#the-web-top-bar)) |
-| Search | The round Search button beside the floating pill, which opens search over the current tab; with the edge bar, a Search row at the top of the first top-level page | The search field in the center of the web top bar |
+| Search | A Search slot on the tab bar, which opens search over the current tab, or a Search row at the top of the first top-level page ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-more)) | The search field in the center of the web top bar |
 | Notifications | The bell at the right of the first top-level page's top bar | The bell at the right of the web top bar |
 | Close a side panel | Back (it covers the page like a pushed page) | × |
 
@@ -45,7 +45,7 @@ In Raft Chat the first top-level page is Home ([Raft Chat — Home](../products/
 - Put Back (`arrow-left`) at the top left of every pushed page. Back follows the browser history.
 - A link opened directly goes back one level at a time, up to the top-level page, so a shared link never leaves the person without a way out.
 - Make every tab of the tab bar open its top-level page. Tabs don't remember sub-pages, because a sub-page hides the tab bar and would leave no way back.
-- Push the pages listed under a More tab under More, with Back to its list, and open a link to one of them there too: the selected tab always says which part of the product the person is in.
+- Push the pages listed on a More tab under More, with Back to it, and open a link to one of them there too: the selected tab always says which part of the product the person is in.
 - Close search with Back, to the tab it was opened from. Search opens over a tab and never becomes one.
 
 ### Closing
