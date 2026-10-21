@@ -74,6 +74,7 @@ Every iOS browser is WebKit, and WebKit pays for some selectors that Chromium do
 - Use Base UI for dialog, menu, dropdown, tooltip, popover, combobox, selection, focus, and collection behavior when a matching primitive exists.
 - Menu-like children must register as the corresponding Base UI item; arbitrary buttons inside menu content do not participate in keyboard collection behavior.
 - Preserve Base UI portal/container props through wrappers.
+- Leave anchor tracking on: a positioner wrapper passes `disableAnchorTracking` through without a default of its own, so Base UI keeps the popup on its trigger when any ancestor scrolls or the layout shifts ([Elevation](../../design/foundations/elevation.md#popups)). A wrapper default of `true` left every Select, Popover, Combobox, PreviewCard and NotificationCenter at its opening coordinates while the page scrolled. Keep Select's `alignItemWithTrigger` off as well: in that mode Base UI turns tracking off and counts on its scroll lock, which only locks the document, so the list detaches wherever a pane scrolls instead (the docs site, the web app).
 - Do not introduce a package-specific portal provider when the primitive's container API solves the ownership problem.
 
 ## Exports and Graduation

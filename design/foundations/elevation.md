@@ -37,6 +37,7 @@ Menus, select and filter lists, and profile cards open next to the element that 
 - Float popups above the whole page. They never take space in the layout.
 - Move or flip a popup to the other side when it meets the window edge, and never make it larger than the space left.
 - Don't scroll or shift the page when a popup opens or when someone types in it.
+- Keep a popup on the element that opened it. When the page scrolls or moves under an open popup, whether the window scrolls or a pane inside it, the popup moves with its trigger; a popup left where it opened points at whatever has scrolled into its place. A context menu is the exception: it belongs to the point where it was opened, not to an element ([ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md#behavior)).
 
 ## Floating controls
 

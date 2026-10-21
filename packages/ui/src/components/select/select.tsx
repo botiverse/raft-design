@@ -263,7 +263,7 @@ export function SelectContent({
   collisionAvoidance,
   collisionBoundary,
   collisionPadding = 8,
-  disableAnchorTracking = true,
+  disableAnchorTracking,
   positionMethod = "fixed",
   side = "bottom",
   sideOffset,
