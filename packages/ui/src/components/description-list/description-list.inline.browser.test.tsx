@@ -2,7 +2,6 @@ import "./description-list.test.css";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
-import { Avatar } from "../avatar/avatar";
 import { Badge } from "../badge/badge";
 import { Button } from "../button/button";
 import {
@@ -68,24 +67,11 @@ function renderInline() {
   );
 }
 
-function baseline(id: string): number {
-  return screen.getByTestId(id).querySelector("[data-baseline]")!.getBoundingClientRect().top;
-}
-
 function textRect(id: string): DOMRect {
   const range = document.createRange();
   range.selectNodeContents(screen.getByTestId(id).firstChild!);
   return range.getBoundingClientRect();
 }
-
-it("inline: every term and value sits on one baseline", () => {
-  renderInline();
-  const first = baseline("term-plain");
-  for (const fact of facts) {
-    expect(Math.abs(baseline(`term-${fact}`) - first)).toBeLessThanOrEqual(0.5);
-    expect(Math.abs(baseline(`value-${fact}`) - first)).toBeLessThanOrEqual(0.5);
-  }
-});
 
 it("inline: a shaped value's text starts as far from its label as plain text", () => {
   renderInline();
@@ -103,84 +89,6 @@ it("inline: facts flow left to right, 24px apart, with no top padding on later f
     const next = items[i]!.getBoundingClientRect();
     expect(next.left - prev.right).toBeCloseTo(24, 0);
   }
-});
-
-it("inline: a value that wraps keeps its first line on the row's baseline", () => {
-  render(
-    <ThemeProvider>
-      <div style={{ width: "720px" }}>
-        <DescriptionList direction="inline">
-          <DescriptionItem>
-            <DescriptionTerm>
-              <Text id="term-short">Status</Text>
-            </DescriptionTerm>
-            <DescriptionDetails>
-              <Badge appearance="soft" variant="information">
-                <Text id="value-short">In review</Text>
-              </Badge>
-            </DescriptionDetails>
-          </DescriptionItem>
-          <DescriptionItem>
-            <DescriptionTerm>
-              <Text id="term-long">Notes</Text>
-            </DescriptionTerm>
-            <DescriptionDetails className="max-w-30">
-              <Text id="value-long">Waiting on the release notes from Atlas</Text>
-            </DescriptionDetails>
-          </DescriptionItem>
-        </DescriptionList>
-      </div>
-    </ThemeProvider>,
-  );
-  const first = baseline("term-short");
-  expect(Math.abs(baseline("value-short") - first)).toBeLessThanOrEqual(0.5);
-  expect(Math.abs(baseline("term-long") - first)).toBeLessThanOrEqual(0.5);
-  // The long value's first line, not its last, is on the row's baseline.
-  const range = document.createRange();
-  range.selectNodeContents(screen.getByTestId("value-long").firstChild!);
-  const lines = range.getClientRects();
-  expect(lines.length).toBeGreaterThan(1);
-  const valueLine = textRect("value-short");
-  expect(Math.abs(lines[0]!.bottom - valueLine.bottom)).toBeLessThanOrEqual(3);
-});
-
-// A value that leads with an avatar takes its baseline from its text: a box
-// with no text would give its bottom edge, and the whole value would stand
-// above its label. The avatar centres on the text's line.
-it("inline: a value led by an avatar keeps its text on the row's baseline", () => {
-  render(
-    <ThemeProvider>
-      <div style={{ width: "720px" }}>
-        <DescriptionList direction="inline">
-          <DescriptionItem>
-            <DescriptionTerm>
-              <Text id="term-plain">Created by</Text>
-            </DescriptionTerm>
-            <DescriptionDetails>
-              <Text id="value-plain">Atlas</Text>
-            </DescriptionDetails>
-          </DescriptionItem>
-          <DescriptionItem>
-            <DescriptionTerm>
-              <Text id="term-avatar">Source</Text>
-            </DescriptionTerm>
-            <DescriptionDetails>
-              <Avatar size="xs" type="human" data-testid="value-avatar-face" />
-              <Text id="value-avatar">Wang Lei</Text>
-            </DescriptionDetails>
-          </DescriptionItem>
-        </DescriptionList>
-      </div>
-    </ThemeProvider>,
-  );
-  const first = baseline("term-plain");
-  expect(Math.abs(baseline("term-avatar") - first)).toBeLessThanOrEqual(0.5);
-  expect(Math.abs(baseline("value-avatar") - first)).toBeLessThanOrEqual(0.5);
-  const face = screen.getByTestId("value-avatar-face").getBoundingClientRect();
-  const line = screen.getByTestId("value-avatar").getBoundingClientRect();
-  expect(Math.abs(face.top + face.height / 2 - (line.top + line.height / 2))).toBeLessThanOrEqual(
-    0.5,
-  );
 });
 
 // Every fact follows one flow: a long value is capped (24rem) and cut with an
@@ -255,57 +163,4 @@ it("an inline fact with a long value is capped and shares the line", () => {
   const firstLineBottom = Math.max(...firstLine.map((r) => r.bottom));
   const secondLineTop = Math.min(...nextLines.map((r) => r.top));
   expect(secondLineTop - firstLineBottom).toBeCloseTo(8, 0);
-});
-
-// Every fact has the same line box: a line with a 22px chip and an avatar
-// value is as tall as a line of plain text, so wrapped lines' baselines are
-// evenly spaced (28px line + 8px gap).
-it("wrapped inline lines are evenly spaced, whatever their values", () => {
-  render(
-    <ThemeProvider>
-      <div style={{ width: "260px" }}>
-        <DescriptionList direction="inline">
-          <DescriptionItem>
-            <DescriptionTerm>
-              <Text id="rhythm-1">Status</Text>
-            </DescriptionTerm>
-            <DescriptionDetails>
-              <Badge>In Review</Badge>
-            </DescriptionDetails>
-          </DescriptionItem>
-          <DescriptionItem>
-            <DescriptionTerm>
-              <Text id="rhythm-2">Assignee</Text>
-            </DescriptionTerm>
-            <DescriptionDetails>
-              <Avatar size="xs" type="human" />
-              Mia
-            </DescriptionDetails>
-          </DescriptionItem>
-          <DescriptionItem>
-            <DescriptionTerm>
-              <Text id="rhythm-3">Created by</Text>
-            </DescriptionTerm>
-            <DescriptionDetails>Cody</DescriptionDetails>
-          </DescriptionItem>
-          <DescriptionItem>
-            <DescriptionTerm>
-              <Text id="rhythm-4">Created at</Text>
-            </DescriptionTerm>
-            <DescriptionDetails>Oct 21, 2026, 23:24</DescriptionDetails>
-          </DescriptionItem>
-        </DescriptionList>
-      </div>
-    </ThemeProvider>,
-  );
-  const baseline = (id: string) =>
-    screen.getByTestId(id).querySelector("[data-baseline]")!.getBoundingClientRect().top;
-  const lines = [
-    ...new Set(
-      ["rhythm-1", "rhythm-2", "rhythm-3", "rhythm-4"].map((id) => Math.round(baseline(id))),
-    ),
-  ].sort((a, b) => a - b);
-  expect(lines.length).toBeGreaterThanOrEqual(3);
-  const pitches = lines.slice(1).map((top, i) => top - lines[i]!);
-  for (const pitch of pitches) expect(pitch).toBeCloseTo(36, 0);
 });

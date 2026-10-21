@@ -40,12 +40,13 @@ text/compositions/semantic-elements
 
 ## Variants
 
-| Variant                                                                                | Use for                                                                                                                   |
-| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `variant="muted"`                                                                      | Secondary text: previews, descriptions, labels (`foreground-muted`)                                                       |
-| `variant="placeholder"`                                                                | Tertiary text: times, IDs, group headings, a missing value (`foreground-hint`)                                            |
-| `variant="information"`, `"success"`, `"warning"`, `"danger"`, `"primary"`, `"accent"` | Text that carries its color's meaning ([Meanings of color](../../../../../design/foundations/color.md#meanings-of-color)) |
-| `size="tabular"`                                                                       | Numbers in a column, with figures of equal width                                                                          |
+| Variant                                                                                | Use for                                                                                                                                                                                             |
+| -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant="muted"`                                                                      | Secondary text: previews, descriptions, labels (`foreground-muted`)                                                                                                                                 |
+| `variant="placeholder"`                                                                | Tertiary text: times, IDs, group headings, a missing value (`foreground-hint`)                                                                                                                      |
+| `variant="information"`, `"success"`, `"warning"`, `"danger"`, `"primary"`, `"accent"` | Text that carries its color's meaning ([Meanings of color](../../../../../design/foundations/color.md#meanings-of-color))                                                                           |
+| `size="tabular"`                                                                       | Numbers in a column, with figures of equal width                                                                                                                                                    |
+| `trim` (`Text.Sans`, `Text.Mono`)                                                      | Text in a row with boxes (a chip, an avatar, an icon): its box trimmed to its cap band, so it centers like them ([One center line](../../../../../design/foundations/alignment.md#one-center-line)) |
 
 ## Content
 

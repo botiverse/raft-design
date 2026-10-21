@@ -1,5 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { createContext, useContext } from "react";
+import { trimText } from "../../lib/trim-text";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 
@@ -39,8 +41,8 @@ const descriptionList = tv({
       },
       inline: {
         root: [
-          "flex flex-wrap items-baseline gap-x-6 gap-y-2",
-          "*:data-[slot=description-item]:flex *:data-[slot=description-item]:min-w-0 *:data-[slot=description-item]:items-baseline *:data-[slot=description-item]:gap-3",
+          "flex flex-wrap items-center gap-x-6 gap-y-2",
+          "*:data-[slot=description-item]:flex *:data-[slot=description-item]:min-w-0 *:data-[slot=description-item]:items-center *:data-[slot=description-item]:gap-3",
           // One flow for every fact: the same 24px between facts and 8px
           // between lines, and no fact wider than 24rem (or the row). A long
           // value, such as the message a task came from, ends in an ellipsis
@@ -49,26 +51,18 @@ const descriptionList = tv({
           "[&>[data-slot=description-item]>[data-slot=description-details]]:min-w-0",
           "[&>[data-slot=description-item]+[data-slot=description-item]]:pt-0",
           "[&>[data-slot=description-item]>[data-slot=description-term]]:shrink-0",
-          // A value lays its own parts on the label's baseline too, so a value
-          // that leads with an avatar or an icon (the assignee, a task's
-          // source) takes its baseline from its text, not from the bottom
-          // edge of the avatar, which is the baseline a box with no text
-          // gets. The avatar and the icon centre on the text's line. The
-          // 28px floor moves to the item, so the value's line box is the
-          // text's and centring on it is optical centring (alignment.md).
-          "*:data-[slot=description-item]:min-h-7",
-          // One line box for every fact, so wrapped lines are evenly spaced:
-          // each fact starts with an empty 19px strut on the baseline, where
-          // callout text centred in the 28px line has its baseline. Every
-          // value fits inside that line (a 22px chip, an avatar trigger, a
-          // padded button), so none makes its line taller, and consecutive
-          // baselines are 28 + 8 = 36px apart. The strut is 0px wide and
-          // cancels the 12px gap after it.
-          "*:data-[slot=description-item]:before:h-[19px] *:data-[slot=description-item]:before:w-0",
-          "*:data-[slot=description-item]:before:-me-3 *:data-[slot=description-item]:before:content-['']",
+          // One center line (alignment.md): every fact is one 28px
+          // control-height row with align-items: center, and its text boxes
+          // are trimmed to their cap band (DescriptionTerm and
+          // DescriptionDetails trim plain text; Badge, TaskChip and Button
+          // trim their labels), so letters, chips, avatars and icons share
+          // one center. A text box's own center is not its letters' (it holds
+          // the font's ascent, descent and half-leading), which is why
+          // neither baseline nor center alignment of untrimmed text lines up
+          // with a box. Lines are 28 + 8 = 36px apart, whatever they hold.
+          "*:data-[slot=description-item]:h-7",
           "[&>[data-slot=description-item]>[data-slot=description-details]]:min-h-0",
-          "[&>[data-slot=description-item]>[data-slot=description-details]]:items-baseline",
-          "[&>[data-slot=description-item]>[data-slot=description-details]>:is([data-slot=avatar],svg)]:self-center",
+          "[&>[data-slot=description-item]>[data-slot=description-details]]:items-center",
           "[&>[data-slot=description-item]>[data-slot=description-details]>:is([data-slot=badge],[data-slot=task-chip],[data-slot=task-status-badge]):first-child]:-ml-1.5",
           "[&>[data-slot=description-item]>[data-slot=description-details]>:is([data-slot=badge],[data-slot=task-chip],[data-slot=task-status-badge]):first-child]:max-w-[calc(100%+6px)]",
           "[&>[data-slot=description-item]>[data-slot=description-details]>[data-slot=button]:first-child]:ml-[-7.5px]",
@@ -86,6 +80,10 @@ export type DescriptionListDirection = NonNullable<
   VariantProps<typeof descriptionList>["direction"]
 >;
 
+// In direction="inline" the term and the details trim their plain text to
+// its cap band, so it centers with the chips and avatars on the line.
+const DescriptionListDirectionContext = createContext<DescriptionListDirection>("vertical");
+
 export type DescriptionListProps = useRender.ComponentProps<"dl"> &
   Pick<VariantProps<typeof descriptionList>, "direction">;
 
@@ -100,7 +98,7 @@ export function DescriptionList({
     className: root({ className }),
   };
 
-  return useRender({
+  const element = useRender({
     defaultTagName: "dl",
     render,
     props: mergeProps<"dl">(defaultProps, props),
@@ -108,6 +106,11 @@ export function DescriptionList({
       slot: "description-list",
     },
   });
+  return (
+    <DescriptionListDirectionContext.Provider value={direction}>
+      {element}
+    </DescriptionListDirectionContext.Provider>
+  );
 }
 
 export type DescriptionItemProps = useRender.ComponentProps<"div">;
@@ -130,10 +133,12 @@ export function DescriptionItem({ className, render, ...props }: DescriptionItem
 
 export type DescriptionTermProps = useRender.ComponentProps<"dt">;
 
-export function DescriptionTerm({ className, render, ...props }: DescriptionTermProps) {
+export function DescriptionTerm({ className, render, children, ...props }: DescriptionTermProps) {
   const { term } = descriptionList();
+  const inline = useContext(DescriptionListDirectionContext) === "inline";
   const defaultProps: useRender.ElementProps<"dt"> = {
     className: term({ className }),
+    children: inline ? trimText(children) : children,
   };
 
   return useRender({
@@ -148,10 +153,17 @@ export function DescriptionTerm({ className, render, ...props }: DescriptionTerm
 
 export type DescriptionDetailsProps = useRender.ComponentProps<"dd">;
 
-export function DescriptionDetails({ className, render, ...props }: DescriptionDetailsProps) {
+export function DescriptionDetails({
+  className,
+  render,
+  children,
+  ...props
+}: DescriptionDetailsProps) {
   const { details } = descriptionList();
+  const inline = useContext(DescriptionListDirectionContext) === "inline";
   const defaultProps: useRender.ElementProps<"dd"> = {
     className: details({ className }),
+    children: inline ? trimText(children) : children,
   };
 
   return useRender({

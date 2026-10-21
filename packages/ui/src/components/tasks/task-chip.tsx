@@ -1,6 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cn } from "../../lib/cn";
+import { trimText } from "../../lib/trim-text";
 import { tv } from "../../lib/tv";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import type { TaskStatusId } from "./task-status.recipe";
@@ -104,7 +105,10 @@ export function TaskChip({
     "data-inline-reference": "",
     "data-loading": loading ? "true" : undefined,
     className: cn(root({ className }), loading && "pointer-events-none opacity-60"),
-    children,
+    // A standalone chip is a control-height box: its label is trimmed to its
+    // cap band so it centers like the pixel and the chevron (alignment.md,
+    // "One center line"). The inline chip follows its sentence's baseline.
+    children: variant === "default" ? trimText(children) : children,
   };
 
   return useRender({

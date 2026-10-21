@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { trimText } from "../../lib/trim-text";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 
@@ -84,11 +85,14 @@ export const badge = tv({
 
 export type BadgeProps = useRender.ComponentProps<"span"> & VariantProps<typeof badge>;
 
-function BadgeRoot({ appearance, variant, className, render, ...props }: BadgeProps) {
+function BadgeRoot({ appearance, variant, className, render, children, ...props }: BadgeProps) {
   const resolvedAppearance = appearance ?? "solid";
   const { root } = badge({ appearance: resolvedAppearance, variant });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: root({ className }),
+    // The label's box trimmed to its cap band, so the centered chip centers
+    // its letters (alignment.md, "One center line").
+    children: trimText(children),
   };
 
   return useRender({

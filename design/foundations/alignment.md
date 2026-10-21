@@ -37,7 +37,19 @@ When a shape with its own padding (a chip, a frameless button's hover fill) sits
 
 The row is read as text, so the eye compares where the words start, not where the fills start. Aligning the shapes by their edge would push their words 6px past the plain values beside them, and the row would look ragged. This is the exception to aligning a shape by its edge: that rule holds when shapes line up with one another down a column.
 
-An avatar or an icon in such a row (the assignee's face, the sender of a task's source message) never sets the row's baseline: the words beside it do, and it centers on their line. A box with no text gives its bottom edge as its baseline, so a value laid out with `items-center` that starts with an avatar stands its words several pixels above the rest of the row. Lay the value out with `items-baseline` and give the avatar `self-center` ([DescriptionList](../../packages/ui/src/components/description-list/description-list.md#inline)).
+An avatar, an icon or a chip in such a row (the assignee's face, the sender of a task's source message, the status chip) shares the row's one center line with the words beside it ([One center line](#one-center-line)).
+
+## One center line
+
+A line that mixes boxes (a chip, an avatar, an icon) with text, such as a row of task properties or a task row, puts everything on one center line: every box, and the cap band of every word.
+
+- **Why boxes and text don't line up on their own.** A text element's box holds its font's ascent, descent and half-leading, so the box's center is not where its letters are. A chip, an avatar or an icon is a true box: its center is what the eye sees. Centering untrimmed text boxes centers their line boxes, and a baseline layout puts a box's bottom edge, or its own text, on the line, so either way the boxes stand off the letters by a pixel or two, by a different amount for each size and face.
+- **Trim text to its glyphs.** Give every text in such a line a box trimmed to its cap height and baseline (`text-trim`: `text-box: trim-both cap alphabetic`, with Capsize-style margins from the font's metrics where `text-box` isn't supported). Its box is then its letters, and it centers like any other box. Badge, TaskChip, Button, Text (`trim`) and an inline DescriptionList's term and details trim their plain text; a caller's own text in such a row uses `text-trim`, and `truncate-trim` to cut it with an ellipsis without clipping its descenders.
+- **One control height, centered.** Lay each item out as a row of one control height (28px in a property list) with `align-items: center`, and center the parts of a value (an avatar and a name, a chip's pixel, label and chevron) the same way. No baseline layout, no top nudge and no per-font offset: the trim is the only correction, and it comes from the font files.
+- **What's left is the pixel grid.** A box of odd height (a 19px avatar, a 9px status pixel) centered on a whole-pixel line lands on a half pixel, and a text baseline lands on a whole one; each moves less than half a pixel. Measured from the ink at 3x, every center on a property line is within 0.5px of the line's center.
+- **CJK on the same line.** Ideographs come from a fallback face set on the same baseline; trimmed to the Latin cap band, their glyph box centers within about 0.03em of it (under 0.5px at 14px).
+
+This is for rows of boxed values. A line of text alone that mixes sizes or faces still shares a baseline ([Text of different sizes on one line](#text-of-different-sizes-on-one-line)).
 
 ## Text of different sizes on one line
 

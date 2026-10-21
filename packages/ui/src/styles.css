@@ -542,6 +542,73 @@ textarea:-webkit-autofill:disabled {
   background-size: 16px 16px;
 }
 
+/* One center line (design/foundations/alignment.md). A text element's box
+   holds its font's ascent, descent and half-leading, so its center is not
+   where its letters are; a chip, an avatar or an icon is a true box. Trimmed
+   to its glyphs, from the cap height to the baseline, a text box centers like
+   any other box: in a row of one control height with align-items: center,
+   letters, chips, avatars and icons share one center line, with no per-font
+   offsets.
+
+   The fallback (no `text-box`) trims the same amounts with Capsize-style
+   margins, from each font's metrics in units of the em: hhea ascent and
+   descent and OS/2 capHeight, read from the font files (unitsPerEm 1000):
+     Space Grotesk  ascent 984   descent 292  capHeight 700
+     Space Mono     ascent 1120  descent 361  capHeight 700
+   top trim    = half-leading + (ascent - capHeight)
+   bottom trim = half-leading + descent
+   half-leading = (1lh - (ascent + descent)) / 2
+   A CJK fallback face sets its ideographs on the same baseline; trimmed to
+   the Latin cap band, their glyph box centers within about 0.03em of it. */
+:root {
+  --text-trim-ascent: 0.984;
+  --text-trim-descent: 0.292;
+  --text-trim-cap-height: 0.7;
+}
+
+.font-mono {
+  --text-trim-ascent: 1.12;
+  --text-trim-descent: 0.361;
+  --text-trim-cap-height: 0.7;
+}
+
+@utility text-trim {
+  text-box: trim-both cap alphabetic;
+}
+
+@supports not (text-box: trim-both cap alphabetic) {
+  .text-trim::before,
+  .text-trim::after {
+    content: "";
+    display: table;
+  }
+
+  .text-trim::before {
+    margin-bottom: calc(
+      -1 *
+        ((1lh - (var(--text-trim-ascent) + var(--text-trim-descent)) * 1em) / 2 +
+          (var(--text-trim-ascent) - var(--text-trim-cap-height)) * 1em)
+    );
+  }
+
+  .text-trim::after {
+    margin-top: calc(
+      -1 *
+        ((1lh - (var(--text-trim-ascent) + var(--text-trim-descent)) * 1em) / 2 +
+          var(--text-trim-descent) * 1em)
+    );
+  }
+}
+
+/* One line cut with an ellipsis, for a trimmed text box: clipped, not
+   hidden, so the glyphs above the cap height and below the baseline show. */
+@utility truncate-trim {
+  overflow: clip;
+  overflow-clip-margin: 0.4em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Raft Design System press feedback: hover and press lay one overlay over the
    resting colour instead of swapping it, so a control keeps its identity.
    Paper controls take the 8% ink wash (fill-pressed); colour stickers take

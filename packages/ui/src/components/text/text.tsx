@@ -44,6 +44,9 @@ const sans = tv({
       group: ["text-footnote font-bold text-foreground-hint"],
     },
     variant: textColorVariants,
+    // A text box trimmed to its cap band, for text set in a row with boxes
+    // (alignment.md, "One center line").
+    trim: { true: ["text-trim"] },
   },
   defaultVariants: {
     size: "body",
@@ -59,6 +62,7 @@ const mono = tv({
       tabular: ["text-sm tabular-nums leading-5 text-foreground"],
     },
     variant: textColorVariants,
+    trim: { true: ["text-trim"] },
   },
   defaultVariants: {
     size: "code",
@@ -86,9 +90,16 @@ export function TextHeading({ level = 1, variant, className, render, ...props }:
 
 export type TextSansProps = useRender.ComponentProps<"p"> & VariantProps<typeof sans>;
 
-export function TextSans({ size = "body", variant, className, render, ...props }: TextSansProps) {
+export function TextSans({
+  size = "body",
+  variant,
+  trim,
+  className,
+  render,
+  ...props
+}: TextSansProps) {
   const defaultProps: useRender.ElementProps<"p"> = {
-    className: sans({ size, variant, className }),
+    className: sans({ size, variant, trim, className }),
   };
 
   return useRender({
@@ -105,9 +116,16 @@ export function TextSans({ size = "body", variant, className, render, ...props }
 
 export type TextMonoProps = useRender.ComponentProps<"p"> & VariantProps<typeof mono>;
 
-export function TextMono({ size = "code", variant, className, render, ...props }: TextMonoProps) {
+export function TextMono({
+  size = "code",
+  variant,
+  trim,
+  className,
+  render,
+  ...props
+}: TextMonoProps) {
   const defaultProps: useRender.ElementProps<"p"> = {
-    className: mono({ size, variant, className }),
+    className: mono({ size, variant, trim, className }),
   };
 
   return useRender({

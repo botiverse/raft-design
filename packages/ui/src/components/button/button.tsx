@@ -1,4 +1,5 @@
 import { Button as BaseButton } from "@base-ui/react/button";
+import { trimText } from "../../lib/trim-text";
 import type { DataAttributes } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
@@ -236,7 +237,9 @@ export function Button({
         data-loading={loading ? "true" : undefined}
         className={content()}
       >
-        {children}
+        {/* Its label trimmed to its cap band, so it centers with the icons
+            (alignment.md, "One center line"). */}
+        {trimText(children)}
       </span>
     </BaseButton>
   );
