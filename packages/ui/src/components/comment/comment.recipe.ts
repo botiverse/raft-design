@@ -18,7 +18,7 @@ export const comment = tv({
     cardTrigger: [
       "absolute -inset-px z-10 cursor-pointer",
       "rounded-container border-0 bg-transparent p-0",
-      "hover:bg-fill-pressed active:bg-fill-pressed",
+      "hover:bg-fill-row-hover active:bg-fill-pressed",
       "outline-none focus-visible:shadow-focus",
     ],
     cardQuote: ["sr-only"],

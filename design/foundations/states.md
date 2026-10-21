@@ -36,7 +36,8 @@ A row is anything whose whole width is one target: a message, a sidebar item, a 
 | Row | Hover | Light | Dark |
 | --- | --- | --- | --- |
 | Message ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)) | `fill-message-hover` | 3% ink | 2.2% ink |
-| Every other row | `fill-row-hover` | 4% ink | 3% ink |
+| Every other row, and a [comment card](../../packages/ui/src/components/comment/comment.md) | `fill-row-hover` | 4% ink | 3% ink |
+| A message with its menu open | `fill-row-open` | 5% ink | 4% ink |
 | Press, on every row | `fill-pressed` | 7.8% ink | 7.8% ink |
 
 - **Visible.** The hover is at least one just-noticeable step from its surface: 2 or more in OKLab distance (ΔE × 100). `fill-row-hover` is 2.8 on paper in both modes, `fill-message-hover` 2.1. The light and dark alphas differ so the step looks the same in both modes: the same ink alpha shows more on a dark surface.
@@ -45,8 +46,10 @@ A row is anything whose whole width is one target: a message, a sidebar item, a 
 - **A message is lighter than a row.** A message can be twenty lines tall, and the pointer rests on it while someone reads: a large area shows a smaller step just as well as a 36px row shows a larger one, so the message takes the lightest step that is still visible.
 - **Press stays `fill-pressed`.** A press lasts a moment and confirms a click, so it may be strong. A button keeps `fill-pressed` for hover too: it is small, and nobody reads through it.
 - An open menu on a row (`data-popup-open`) keeps the row at its hover, not its press: the row stays marked while the menu is up.
+- **A message with its menu open is a step past its hover.** The menu opens on right-click, from the toolbar's button, or on a phone when someone presses and holds the message. A phone has no hover, so the row's fill is the only sign of which message the menu acts on, and the message hover (2.1) is too faint to find at a glance. The open message takes `fill-row-open`: 3.5 (light) and 3.8 (dark) on the canvas, a clear step, and still under `info-soft` (6.4 and 4.6) on every surface a message sits on, so it never reads as selected. It is the same with a mouse, so an open menu looks the same everywhere. Body text loses up to 7 Lc on it, more than on a hover, which is fine for the moment a menu is open: people are choosing an action, not reading, and `foreground-hint` stays above 4.5:1.
+- **A comment card hovers like a row.** A collapsed card is two lines of a comment on `layer-card`, read like a row; `fill-message-hover` would be 1.9 on a dark card, under the visible step.
 
-Why: rows used to hover with `fill-pressed`, 7.8% ink. On paper that is 5.5 (light) and 7.3 (dark) from the surface, more than `info-soft` and as much as `brand-soft`, so the hover outranked the selected item. On a long message it greyed a block of text: body text fell from Lc 105 to 94 in light mode, and on a dark popup `foreground-hint` fell to 4.3:1, under its 4.5:1 guarantee.
+Why: rows used to hover with `fill-pressed`, 7.8% ink. On paper that is 5.5 (light) and 7.3 (dark) from the surface, more than `info-soft` and as much as `brand-soft`, so the hover outranked the selected item. A comment card hovered with it too. On a long message it greyed a block of text: body text fell from Lc 105 to 94 in light mode, and on a dark popup `foreground-hint` fell to 4.3:1, under its 4.5:1 guarantee.
 
 ## Clickable text
 

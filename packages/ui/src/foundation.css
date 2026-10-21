@@ -12,8 +12,9 @@
      layer = places on the elevation ladder; fill = neutral interaction fills
      (resting/hover/active/disabled surfaces): fill-muted and fill-strong are
      opaque, the -pressed and -hover overlays are translucent ink laid over a
-     surface (a row hovers with fill-row-hover or fill-message-hover, lighter
-     than any selection tint; press keeps fill-pressed).
+     surface (a row hovers with fill-row-hover or fill-message-hover, and a
+     message with its menu open takes fill-row-open, all lighter than any
+     selection tint; press keeps fill-pressed).
    Families:  {family}(-{slot})
      family = brand | attention | info | success | warning | danger | inactive
      slot   = -strong (deep shade: readable text, rings) > bare (solid fill)
@@ -178,6 +179,11 @@
      both modes), because a message is a large block someone reads with the
      pointer resting on it. */
   --fill-message-hover: oklch(0.1813 0.005 17.62 / 0.03);
+  /* A message whose menu is open (right-click, the toolbar's menu, press and
+     hold): one step over its hover (OKLab dE 3.5 light, 3.8 dark on the canvas),
+     because on a phone, which has no hover, it is the only sign of which message
+     the menu acts on. Still under info-soft on every surface. */
+  --fill-row-open: oklch(0.1813 0.005 17.62 / 0.05);
   --line-strong: oklch(0.1813 0.005 17.62);
   --line-seam: oklch(0.1813 0.005 17.62 / 0.451);
   --line-hairline: oklch(0.1813 0.005 17.62 / 0.149);
@@ -338,6 +344,7 @@
   --fill-pressed: oklch(0.9843 0.004 106.47 / 0.078);
   --fill-row-hover: oklch(0.9843 0.004 106.47 / 0.03);
   --fill-message-hover: oklch(0.9843 0.004 106.47 / 0.022);
+  --fill-row-open: oklch(0.9843 0.004 106.47 / 0.04);
   --line-strong: oklch(0.9211 0.004 106.48);
   --line-seam: oklch(0.9843 0.004 106.47 / 0.259);
   --line-hairline: oklch(0.9843 0.004 106.47 / 0.102);
@@ -421,6 +428,7 @@
     --fill-pressed: oklch(0.9843 0.004 106.47 / 0.078);
     --fill-row-hover: oklch(0.9843 0.004 106.47 / 0.03);
     --fill-message-hover: oklch(0.9843 0.004 106.47 / 0.022);
+    --fill-row-open: oklch(0.9843 0.004 106.47 / 0.04);
     --line-strong: oklch(0.9211 0.004 106.48);
     --line-seam: oklch(0.9843 0.004 106.47 / 0.259);
     --line-hairline: oklch(0.9843 0.004 106.47 / 0.102);

@@ -285,6 +285,7 @@
   --color-fill-pressed: var(--fill-pressed);
   --color-fill-row-hover: var(--fill-row-hover);
   --color-fill-message-hover: var(--fill-message-hover);
+  --color-fill-row-open: var(--fill-row-open);
   --color-layer-code: var(--layer-code);
   --color-foreground-link: var(--foreground-link);
   --color-sticker-ink: var(--sticker-ink);
