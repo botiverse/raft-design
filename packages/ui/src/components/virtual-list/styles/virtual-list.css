@@ -9,9 +9,6 @@
  * The spacer (`data-slot="virtual-list-items"`) and the rows' element (`data-slot="virtual-list-visible-items"`)
  * take their few styles inline, from VirtualList.tsx.
  *
- * Keyboard focus shows the focus ring (`--focus-ring`, as `focus-visible:shadow-focus` draws it; empty while
- * the last input was a pointer, see design/foundations/states.md#focus) in place of the outline.
- *
  * In the `components` layer, so a utility in the consumer's `className` (`h-*`, `max-h-*`, `overflow-*`)
  * overrides these rules.
  *
@@ -31,9 +28,6 @@
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-  }
-  .r-virtual-list:focus-visible {
-    box-shadow: var(--focus-ring);
   }
   .r-virtual-list.r-virtual-list--ios-compensation-enabled {
     overscroll-behavior: none;
