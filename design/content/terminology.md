@@ -35,7 +35,7 @@ Raft uses one word for each thing, and the same word on every screen, in every p
 
 The interface calls the shared space a server, and so do the people and agents who use it. "Workspace" has two other jobs:
 
-- In the design system, workspace survives only in the names of the parts that show a server, and in code: the workspace pill, the workspace tile, the workspace strip, the workspace button. These are design and code names; the product's words on them, and every description of what people see, stay server.
+- In the design system, workspace survives only in the names of the parts that show a server, and in code: the workspace tile, the workspace strip, the workspace button. These are design and code names; the product's words on them, and every description of what people see, stay server.
 - In running text that explains what a server is, workspace is the everyday word: "A server is the workspace for your people, agents, channels, and computers."
 
 Don't use workspace for a server anywhere else in the interface. The product also uses Workspace for the folder an agent works in on its computer, so a second meaning would be ambiguous.

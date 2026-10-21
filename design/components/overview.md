@@ -234,8 +234,9 @@ The structure of a [Dialog](../../packages/ui/src/components/dialog/dialog.md), 
 
 ### Switching servers
 
+- The trigger is the [WorkspaceButton](../../packages/ui/src/components/workspace-button/workspace-button.md) on every surface: the server's avatar, its name and a chevron.
 - On desktop, the workspace button at the left of the web top bar opens the list as a menu under it, 256px wide ([Popover](../../packages/ui/src/components/popover/popover.md)). The strip of server avatars beside the button switches with one click.
-- On a phone, the server switcher on Home opens the same list as a popover anchored under the top bar, 8px from each side ([Popover](../../packages/ui/src/components/popover/popover.md), [Navigation](../patterns/navigation.md#servers)).
+- On a phone, the workspace button on Home opens the same list as a popover anchored under the top bar, 8px from each side ([Popover](../../packages/ui/src/components/popover/popover.md), [Navigation](../patterns/navigation.md#servers)).
 - Make each row the workspace tile, its name and its address in Space Mono (`/launch`). Mark the current server with a check and a bold name; show the unread count of the others as a pink count, or a gray count when the server is muted.
 - Give each row a drag handle, so people can reorder the list. The strip follows the same order.
 - End the list, after a separator, with Join Community (until the person has joined it), Switch or Create Server and Invite Human.

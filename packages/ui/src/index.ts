@@ -436,6 +436,11 @@ export { RaftLogo, RaftLogoLockup, RaftWordmark } from "./components/logo";
 export type { RaftLogoLockupProps, RaftLogoProps, RaftWordmarkProps } from "./components/logo";
 
 export { MobileNavItem, MobileNavLabel, MobileNavRoot } from "./components/mobile-nav";
+export { WorkspaceButton, WorkspaceButtonName } from "./components/workspace-button/index";
+export type {
+  WorkspaceButtonNameProps,
+  WorkspaceButtonProps,
+} from "./components/workspace-button/index";
 export type {
   MobileNavItemProps,
   MobileNavLabelProps,

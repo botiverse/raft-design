@@ -20,12 +20,12 @@ logo/logo
 
 Where the logo may appear is in [Brand](../../../../../design/foundations/brand.md#logo) and [Logos](../../../../../design/assets/Logos/README.md#rules). Once it may appear, pick the export by what it shows:
 
-| Situation                      | Use                                                                                                                            |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| The mark alone                 | `RaftLogo`                                                                                                                     |
-| The word alone                 | `RaftWordmark`                                                                                                                 |
-| The mark and the word together | `RaftLogoLockup`                                                                                                               |
-| The frame of a working page    | Not the logo: the workspace pill or the rail's workspace tile ([Brand](../../../../../design/foundations/brand.md#principles)) |
+| Situation                      | Use                                                                                                                              |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| The mark alone                 | `RaftLogo`                                                                                                                       |
+| The word alone                 | `RaftWordmark`                                                                                                                   |
+| The mark and the word together | `RaftLogoLockup`                                                                                                                 |
+| The frame of a working page    | Not the logo: the workspace button or the rail's workspace tile ([Brand](../../../../../design/foundations/brand.md#principles)) |
 
 ## Anatomy
 

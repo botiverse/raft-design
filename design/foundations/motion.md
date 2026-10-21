@@ -28,7 +28,7 @@ Motion in Raft confirms an action or shows where something came from. It never d
 | The tab bar coming back when the keyboard closes | The platform's default transition, never an instant jump ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#behavior)). The tab bar doesn't move while a page scrolls | The platform's |
 | Someone joins or leaves an avatar stack | The faces slide apart and fade in or out, with `ease-slide` | 180ms to 220ms |
 | Text and numbers that change | Replace the text. Don't roll the digits | None |
-| Brand moments (setup only) | Once, never looping: on the last setup step the agent's avatar hops in and two square marks pop beside it and fade; on the page that creates a server, the workspace pill in the preview pops when its name changes | 580ms; 180ms |
+| Brand moments (setup only) | Once, never looping: on the last setup step the agent's avatar hops in and two square marks pop beside it and fade; on the page that creates a server, the workspace button in the preview pops when its name changes | 580ms; 180ms |
 
 - Show hover only on devices with a pointer (`@media (hover: hover)`).
 - Don't float or tilt the large avatar on a profile. It stays still.

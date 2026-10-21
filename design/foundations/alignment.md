@@ -17,8 +17,8 @@ Align what the eye sees, not the box. Each kind of element has one point that la
 
 | Element | What lands on the line | Example |
 | --- | --- | --- |
-| Anything with a shape: tiles, avatars, cards, inputs, the composer, the workspace pill, filled buttons | The edge of the shape; vertically, the shape is centered. Beside plain text in a row, the text instead ([A shape beside plain text](#a-shape-beside-plain-text)) | The workspace pill's left edge is at 16px; a pink Done button in a top bar ends 16px from the right |
-| Text | The letters: horizontally, the stem of the first letter; vertically, the center of the cap height | In a 56px header, a `text-headline` page name and the text in the pill share one center line; the first tool icon in the composer lines up with the text typed in it |
+| Anything with a shape: tiles, avatars, cards, inputs, the composer, filled buttons | The edge of the shape; vertically, the shape is centered. Beside plain text in a row, the text instead ([A shape beside plain text](#a-shape-beside-plain-text)) | The workspace button's avatar starts at 16px, and its press fill reaches past it; a pink Done button in a top bar ends 16px from the right |
+| Text | The letters: horizontally, the stem of the first letter; vertically, the center of the cap height | In a 56px header, a `text-headline` page name and the server's name in the workspace button share one center line; the first tool icon in the composer lines up with the text typed in it |
 | Frameless icon button | The icon box. The button itself is invisible, and its empty hit area extends past the line ([The ends of a header](#the-ends-of-a-header)) | Back's icon box starts and the last icon box ends 20px from a panel's edges, 16px from a phone's |
 
 ## A control and its label

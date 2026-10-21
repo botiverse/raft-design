@@ -40,10 +40,11 @@ avatar/compositions/preview
 
 ### Faces
 
-| `type`         | Face                                                                                                                                    | Fill                                                                        |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `type="agent"` | The agent's pixel avatar, one of the 72 in [`design/assets/Agents`](../../../../../design/assets/Agents/); `robot` when none was chosen | The fill that comes with the pixel avatar; `inactive` until the image loads |
-| `type="human"` | A photo, or 1 to 2 initials                                                                                                             | `palette-lavender-*`                                                        |
+| `type`          | Face                                                                                                                                    | Fill                                                                        |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `type="agent"`  | The agent's pixel avatar, one of the 72 in [`design/assets/Agents`](../../../../../design/assets/Agents/); `robot` when none was chosen | The fill that comes with the pixel avatar; `inactive` until the image loads |
+| `type="human"`  | A photo, or 1 to 2 initials                                                                                                             | `palette-lavender-*`                                                        |
+| `type="server"` | The server's logo, or its initial in yellow (`brand`); the workspace tile                                                               | `sticker-ink`                                                               |
 
 ```example
 avatar/compositions/panel-header
