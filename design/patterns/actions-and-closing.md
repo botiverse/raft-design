@@ -18,9 +18,9 @@ Every [Dialog](../../packages/ui/src/components/dialog/dialog.md), [AlertDialog]
 | Confirmation (AlertDialog, or a Dialog that confirms) | Cancel and 1 commit button | Cancel and Esc; no × | Nothing; a red [Banner](../../packages/ui/src/components/banner/banner.md) in the body when it cannot be undone |
 | Dialog with a task: a form, a picker, steps | Cancel and 1 commit button | × in the header, Cancel and Esc | Nothing |
 | Dialog that offers something or is only read: an upgrade, What's New, release notes | 1 commit button or none, and at most 1 text link | × in the header and Esc | Nothing |
-| Banner | At most 1 button, and at most 1 text link in the sentence | Only a banner that informs: a Dismiss text button before its button, or × when it has no button | The intent's icon |
+| Banner | At most 1 button, and at most 1 text link in the sentence; consent has 2 | Only an informational banner: a Dismiss text button before its button, or × when it has no button. A problem, a required action or a limit goes when its cause does | The intent's icon |
 | `PanelNotice` | At most 1 icon button and 1 text action | × in the actions, when the person can dismiss it | A status pixel |
-| Toast | At most 1 text action | Closes by itself; swipe; Esc when focused | A status pixel, or the avatar of who did it |
+| Toast | At most 1 text action, which can also be reached another way | Closes by itself after 5 seconds, or 8 with an action or an error; swipe; Esc when focused | A status pixel, or the avatar of who did it |
 
 ## Rules
 
@@ -66,30 +66,106 @@ These exceptions apply only to a dialog that offers a paid plan after a limit wa
 
 ### On a phone
 
-- In a centered dialog below 768px, stack the buttons full width, the commit button on top and Cancel under it, so Cancel is the button nearest the bottom edge, as in iOS alerts and Material's stacked buttons. With two buttons and a note, the footer stacks in reading order: the note first, left-aligned above the buttons, because it says what the commit will do and must be read before it; then the commit button; then Cancel. A footer link goes last, centered, under Cancel. On a phone a note may wrap to two lines; anything longer belongs in the body, so the footer stays about 150px tall and the dialog's content keeps the screen. `DialogFooter` doesn't stack yet; until it does, this is the rule its change follows.
+- In a centered dialog below 768px, stack the buttons full width, the commit button on top and Cancel under it, so Cancel is the button nearest the bottom edge, as in iOS alerts and Material's stacked buttons. With two buttons and a note, the footer stacks in reading order: the note first, left-aligned above the buttons, because it says what the commit will do and must be read before it; then the commit button; then Cancel. A footer link goes last, centered, under Cancel. The note keeps its muted footnote text and its start alignment; it is never centered, moved under the buttons or truncated. On a phone it may wrap to two lines; anything longer belongs in the body, so the footer stays about 150px tall and the dialog's content keeps the screen. `DialogFooter` doesn't stack yet; until it does, this is the rule its change follows.
 - In a dialog sheet, the commit button moves into the head at `size="sm"` and × is Cancel ([Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)).
 
 ### Banners
 
-- Give a banner at most 1 button, `variant="default"`: it is a way out of what the banner says (Retry, Reconnect, Enable), not the screen's action. Never make it pink, orange or red: a banner is not where people commit.
-- Put a banner's button at its end, never under the start of the text: at the end of the first line when the sentence fits beside it, before the × if there is one, and on a line of its own under the text, aligned to the end, when the sentence wraps or the banner is narrower than 480px (every phone). People read the sentence first and the button is its answer, so it comes after the sentence in reading order; aligned to the end, it lines up with the buttons of dialogs and cards and keeps the start of every line for text ([Alignment](../foundations/alignment.md)). A link stays inside the sentence.
-- Put a second way out in the sentence as a `TextLink variant="strong"` (View Billing), never as a second button.
-- Ask for consent (cookies) with 2 equal `default` buttons, Reject first and Accept last. It is the only banner with 2 buttons: a choice between two answers needs both, at the same weight.
-- Don't let a banner that reports a problem or a limit be dismissed: it goes when the cause does. A banner inside a dialog or a form is part of the content and has no × either.
-- Give a banner that only informs or suggests (a new version, turning on notifications, a tip) a ×.
-- When a banner that informs has a button, close it with a Dismiss text button (`variant="ghost"`) placed just before that button, not with ×: the two are the banner's two answers, side by side in the same order as a dialog's Cancel and commit, as in Material's banners. Use × only on a banner that informs and has no button. A banner that reports a problem or a limit still has no way to close it, so it never shows Dismiss.
-- Put the × at the end of the banner's first line (raft-ui has no part for it yet), on the line's center, as a frameless icon button whose icon box ends on the banner's padding: the header's edge rule, at the banner's scale ([Alignment](../foundations/alignment.md#the-ends-of-a-header)). Never put it in the button row under the text, where it reads as one of the actions.
-- Remember a dismissal until the situation changes (a new version, a new limit), at least per person and server on the device: a banner that comes back after a reload teaches people that × doesn't work. Don't keep it only in memory or for the session ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md#behavior) follows the same rule).
+A banner says what is true now and stays until that changes, or until the person says they've read it. What it may do depends on what it reports.
+
+| Kind | Examples | Where it sits | Tint and icon | Its button (`variant="default"`) | How it closes | Goes away by itself |
+| --- | --- | --- | --- | --- | --- | --- |
+| System problem | Can't reach Raft, sync failing | Top of the app frame | `warning`, `TriangleAlert` | Retry Now when Raft retries by itself, Retry when it doesn't; none when there is nothing to do, as when the device is offline | Can't be dismissed | Yes, as soon as the cause clears. It appears only after the cause has lasted 5 seconds, so a short drop doesn't flash it |
+| Required action | Verify your email; this version is no longer supported | Top of the app frame | `info` with the subject's icon (`Mail`); `warning` when something has already stopped working | The action, named: Resend Email, Update Raft | Can't be dismissed | Yes, when the action is done, in every open tab |
+| Limit | History cut off in this channel; the agent limit on the agents page | Top of the page's content, under the page header | `info`, `Info` | Upgrade, which opens [the upgrade dialog](#the-upgrade-dialog); View Usage goes in the sentence as a link | Can't be dismissed where the limit blocks; the same limit in the notification center can be | Yes, when the limit is lifted |
+| Informational | A new feature or a tip on this page, an announcement, turning on notifications, a new version | Top of the page's content | `info`, `Info` or the subject's icon | The next step: Show Me, Turn On, Reload | Dismiss (`variant="ghost"`) just before the button; × when there is no button | Only when it stops being true, such as when the new version is installed |
+| Consent | Cookies | Bottom of the viewport, on public pages only, never inside the app | `info`, `Cookie` | Reject and Accept: 2 equal `default` buttons, Reject first; Cookie Settings is a link in the sentence | Answering it closes it; it has no × and no Dismiss | No |
+| A problem in one panel | An agent won't start, a setting didn't save | `PanelNotice`, under the panel header | A status pixel, `warning` | A text button or an icon button: View Logs, Copy Details | × in its actions when it only reports something; none while the problem still blocks the panel | Yes, when the problem clears |
+| Part of a dialog or a form | Who will see a shared channel, what a delete removes | In the content | By intent ([Icons and pixels](#icons-and-pixels)) | At most 1, as for every banner | It never closes; it belongs to the content | No |
+
+- Keep the top of the app frame for what stops this device or this account from working: a system problem or a required action. The state of the server (a computer offline, a quota nearly full) goes in the [NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md), not in a strip across the app, so the top of the screen doesn't fill up with notices about things the person isn't doing.
+- Give a banner at most 1 button, `variant="default"`: it is a way out of what the banner says, not the screen's action. Never make it pink, orange or red: a banner is not where people commit. A second way out goes in the sentence as a `TextLink variant="strong"` (View Usage), never as a second button. Consent is the only banner with 2 buttons: a choice between two answers needs both, at the same weight.
+- Label the button with what it does, in Title Case: Retry, Resend Email, Update Raft, Upgrade, Show Me. Never OK, Got It or Learn More: those don't say what happens.
+- Don't let a system problem, a required action or a limit be dismissed: each goes when its cause does. Close an informational banner that has a button with Dismiss, placed just before that button; the two are the banner's two answers, side by side in the same order as a dialog's Cancel and commit, as in Material's banners. Use × only on an informational banner with no button.
+
+#### What a dismissal remembers
+
+| Banner | Remembered for | Kept in | Comes back |
+| --- | --- | --- | --- |
+| About the product: a new feature, a tip, an announcement | The person's account, on every device | The account's settings; until those exist, local storage per person and server | Never for the same item. A new item has a new key, so it shows |
+| About this device: notifications, installing the app, a new version | This device and this person | Local storage, per person and server | When the situation changes (a newer version); a suggestion such as turning on notifications comes back once, after 30 days, then never |
+| Consent | This browser | The consent cookie | When the cookie policy changes, or after 12 months |
+
+- Key every dismissal by what the banner is about (`new-version:2.14`, `tip:jump-to`), not by the banner's position, so a dismissal ends when the situation changes, as the notification center already does ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md#behavior)).
+- Never keep a dismissal only in memory or for the session: a banner that comes back after a reload teaches people that Dismiss and × don't work.
+
+#### How many, in what order
+
+- Show at most one banner in each place: the app frame, the page, a panel, and the bottom of a public page. A phone shows at most 2 at once, the app frame's and the page's: a panel is a screen of its own there.
+- When two banners want the same place, show the more severe and hold the other until it goes: a system problem, then a required action, then a limit, then an informational banner. Within one kind, the one shown first stays; banners never rotate or reshuffle while people read them.
+- Every banner held back is still in the notification center, so nothing is lost while it waits.
+
+#### Layout
+
+- Put the button, and Dismiss before it, at the end of the banner's first line when the sentence fits beside them. When the sentence wraps, or the banner is narrower than 480px (every phone), put them on a line of their own under the text, aligned to the end. Keep the × at the end of the first line in both cases, on the line's center, as a frameless icon button whose icon box ends on the banner's padding ([Alignment](../foundations/alignment.md#the-ends-of-a-header)). Never put the × in the button row, where it reads as one of the actions. raft-ui has no part for the × or for the end-of-line placement yet (`BannerClose`, and a `BannerAction` that can sit at the end); until it does, this is the rule those parts follow.
+- Let a banner's text wrap; never truncate or clamp it, because the end of a sentence is often what to do. Write a banner at the top of the app frame as one sentence that fits on 2 lines at 390px (about 90 characters); write a page banner as a title and at most 2 sentences. Anything longer goes behind a link to where it is explained.
+- Run a banner at the top of the app frame across the whole width of the window, above the sidebar and the header, with no radius and a `line-seam` under it, as a `PanelNotice` runs across a panel. It pushes the app down instead of covering it; on a phone it sits under the status bar and above the page header.
+- Put a page banner under the page header, inside the page's margins, outside the scrolling content, so it doesn't scroll away while the condition lasts.
+
+#### Keyboard and screen readers
+
+- Use `role="status"` for every banner, so a banner that appears is announced without interrupting. Use `role="alert"` only for a system problem that appears while people are working (Can't reach Raft), passed on the `Banner`, and for a `destructive` banner, which `Banner` makes an alert itself.
+- Never move focus to a banner when it appears or changes, and never let Esc close one: Esc belongs to what has focus.
+- Keep the DOM in reading order: the icon, the title, the sentence with its link, Dismiss, the button, then the ×. Tab then reaches the link, Dismiss and the button in the order they're read, and the × last. Label the × "Dismiss" (`aria-label`).
+- After Dismiss or ×, move focus to the next element that can take focus after where the banner was, or to the page's heading when there is none; never leave it on the document.
 
 ### Toasts
 
+A toast is the receipt for what the person just did. It closes itself, so it may only ever shorten a way that exists elsewhere.
+
+| Kind | Example | Leads with | Action | On screen | Announced |
+| --- | --- | --- | --- | --- | --- |
+| Confirmation | "Channel settings saved." | `success` pixel | None | 5 seconds | Politely |
+| Undoable action | "Wug no longer follows this thread." Undo | `info` pixel | Undo | 8 seconds | Politely |
+| Where something went | "Moved to #design." View | `success` pixel | View | 8 seconds | Politely |
+| Error from a one-off action that has no place of its own | "Couldn't copy the link. Your browser blocked it." | `warning` pixel (`toast.error`), never red | Usually none; Retry only when it repeats the control people just used | 8 seconds, with or without an action | At once (`priority: "high"`, which `toast.error` sets) |
+| Result of a long job, when the person has gone elsewhere | "report.pdf uploaded to #design." View | `success` or `warning` pixel | View | 8 seconds | Politely |
+| Someone else's work that the person asked for | "Atlas finished reviewing #25." View | Their avatar | View, or none | 5 seconds; 8 with View | Politely |
+| Progress | Uploading, migrating, an agent working | Not a toast | | | |
+
+- Report an error in a toast only when it has no place of its own: a copy blocked by the browser, a link that is no longer available. When the failure has a place, put it there: a message that didn't send says so under the message with Retry; a form that didn't save, in a banner in the form; a panel that failed, in its `PanelNotice`; a server that is down, in a banner at the top of the app frame ([Feedback](./feedback.md#errors-by-scope)). A toast is gone in seconds, so it is never the only report of something that stays broken.
+- Never show progress in a toast. Put it on the thing it belongs to: the attachment in the composer, the file's row, the agent's status ([Feedback](./feedback.md#progress)). When the job ends after the person has left the place, report the result in a toast with View; when they are still there, the thing itself shows the result and there is no toast. So Raft has no toast that waits (`timeout={0}`).
+- Toast someone else's work only when it is the result of something this person asked for: the agent they gave the review to has finished. Anything else that happened elsewhere goes to [ActivityInbox](../../packages/ui/src/components/activity-inbox/activity-inbox.md).
+
+#### Its action
+
+- Only offer an action that people can also reach another way, and know which way before adding it: Undo has the reverse action in place (follow the thread again, move the message back), View has the destination in the navigation. When there is no other way, as with a delete that has no trash, don't offer Undo in a toast: confirm with a dialog first ([Feedback](./feedback.md#confirming)).
+- Never put in a toast the only way to reach something, the only report of a failure that stays, or something people must read to decide. A toast can vanish before it is read, a screen reader can be busy, and a swipe closes it.
+- When people press the action, close the toast. If the action waits for the server (an Undo that must be saved), show its loading state in place (`loadingLabel`) and close the toast when it is done. After Undo, show no second toast when the restored thing is visible where the person is; when it isn't, confirm with a 5-second toast ("Wug follows this thread again."). When Undo fails, say so in a toast that names where to do it by hand.
+- While the device is offline, leave out an action that needs the network rather than offer one that will fail.
+
+#### Timing, closing and arriving
+
+- Pause the timer while the pointer is over the toast, while it or its action has focus, while a finger is on it, and while the window is in the background; resume with the time that was left. The time a toast stays is not a time limit on anything (WCAG 2.2.1): everything it offers can be reached another way, and it can be paused.
+- Let people swipe a toast away on a phone, down or to the right (what `ToastRoot` allows at the bottom). Never make the swipe the only way: it also times out.
+- Let F6 move focus to the newest toast and back to where it was; Tab reaches its action, and Esc closes it and returns focus. Esc with the focus elsewhere goes to what has focus: it closes a dialog, not a toast.
+- Show one toast at a time. A new toast replaces the one on screen at once; toasts don't queue, because a toast answers the latest thing the person did, and one that arrives later answers something they've moved on from. A replaced Undo loses only its shortcut, never the way back. `ToastProvider` shows up to 3 today (`limit`); pass `limit={1}` until its default changes.
+- Don't show Dismiss on a toast: every toast closes by itself, swipes away and closes with Esc, and a second text action beside Undo reads as a second choice. The `toast` command API shows it unless `dismissible: false` is passed; its default is to change with this rule.
+- Write the title so it carries the whole meaning without the action, and don't mention the action in it ("Press Undo to restore"): a screen reader announces the toast once, politely, and an `error` toast at once.
+
+#### Where it appears, and next to what
+
 - Show toasts at the bottom, centered, on every screen: on a phone above the tab bar or the composer, and above the keyboard while it is open. A toast answers what the person just did, usually with a hand near the bottom of the screen, so its Undo or View sits within reach of the thumb; the top of the screen holds the page's title and the operating system's own notifications, and a toast there would cover the header people use to find their way. A toast about a specific control may open next to it instead ([Toast](../../packages/ui/src/components/toast/toast.md)).
-- Give a toast at most 1 action, a text action (`ToastAction`): View, Undo or Retry. Never a button, never pink ([Toast](../../packages/ui/src/components/toast/toast.md#rules)).
-- Only put an action in a toast that people can also reach another way: the message is in the conversation, the agent is in the list, the setting can be changed back. A toast disappears, so it may only shorten a way, never be the only one.
-- Keep a toast without an action 5 seconds and a toast with an action 8 seconds, so there is time to read the sentence and then act. Hovering or focusing it pauses the timer. `ToastProvider` uses 5 seconds for both today; pass `timeout` on a toast with an action.
-- Don't show Dismiss on a toast that closes by itself: it closes, swipes away, and closes with Esc when focused, and a second text action beside View reads as a second choice. Show it only on a toast that waits (`timeout={0}`), such as a long upload. The `toast` command API shows it unless `dismissible: false` is passed; its default is to change with this rule.
-- Let people swipe a toast away on a phone, in the direction it came from, and never make the swipe the only way: it also times out.
-- Show one toast at a time. A new one replaces the one on screen.
+- While a modal dialog or a sheet is open, show only the toasts it causes and that leave it open (Copy Link in a share dialog): above the scrim, at the bottom of the screen, without an action, since an action there would act on the page behind the dialog. Don't show other toasts while it is open (an agent's result, a job that finished); what they report has another way in, by the rule above. A toast caused by a commit that closes the dialog appears after the dialog has closed.
+- Never let a toast cover a banner. Above a banner at the bottom of the screen (consent), the toast sits above it; banners at the top and toasts never meet. Never toast what a banner already says, and don't close a toast because a banner appears.
+- When the device is offline, say so once, in the banner at the top of the app frame. Show what waits on each thing, in place (Waiting to send); don't toast each action that couldn't go out. When the connection is back, the banner goes and the waiting things send; announce "Back online" politely, with no toast.
+
+#### Where this comes from
+
+- **Material 3** shows snackbars at the bottom, one at a time, with at most one action, and queues them rather than stacking them; Raft replaces instead, because a later toast answers a later action. Material's banners sit at the top of the content, stay until they are dismissed or their cause is resolved, and close with a Dismiss text button beside the action, which is where Raft's Dismiss comes from.
+- **Apple's Human Interface Guidelines** have no toast: status is shown in place, and alerts are kept for what needs a decision. Raft follows the first half by keeping progress and lasting failures in place, and the second by never asking for a decision in a toast or a banner.
+- **GOV.UK's notification banner** is one per page, at the top of the main content, not for errors that belong next to a field; its cookie banner gives Accept and Reject equal weight. Raft takes the one-per-place rule and the equal consent buttons. GOV.UK moves focus to a success banner after a form is sent; Raft doesn't, because its banners report states, not the result of a submission, which is a toast's.
+- **WCAG 2.2.1, Timing Adjustable**, requires a way to turn off, adjust or extend a time limit. A toast meets it by having nothing that can only be done within its time, and by pausing while people point at it or focus it; 4.1.3, Status Messages, is why every banner and toast is a live region that doesn't take focus.
 
 ### Icons and pixels
 
@@ -120,8 +196,8 @@ An icon says the intent of a message; a pixel says the state of a thing; an avat
 
 | Width | Dialog footer | Banner | Toast |
 | --- | --- | --- | --- |
-| Below 768px | Stacked full width, commit on top; a sheet moves the commit into its head | The same; the × stays on the first line | Bottom center; swipe down to close |
-| 768px and up | One row at the end, Cancel then commit; a link at the start | The same | Bottom center; hover pauses it |
+| Below 768px | Stacked full width: the note, then commit, then Cancel, then a link; a sheet moves the commit into its head | Button and Dismiss on their own line under the text, at the end; the × stays on the first line. At most 2 on screen: the app frame's and the page's | Bottom center, above the tab bar or composer and the keyboard; swipe down or right to close; a touch pauses it |
+| 768px and up | One row at the end, Cancel then commit; a link or a note at the start | Button and Dismiss at the end of the first line when the sentence fits beside them | Bottom center; hover and focus pause it |
 
 ## Related
 

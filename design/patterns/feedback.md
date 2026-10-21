@@ -48,6 +48,7 @@ empty-state/compositions/default
 | One panel: an agent won't start, a setting of the conversation didn't save | A full-width notice under the panel header (`PanelNotice`, [Panel](../../packages/ui/src/components/panel/panel.md)), with a `line-seam` above and below: it is a region of the panel, not a banner inside its content. Give it a × when the person can dismiss it, and an action when there is a next step, such as View Logs |
 | A one-off action that failed and has no place of its own: a copy blocked by the browser, a thread that is no longer available | A toast with an orange pixel ([Toast](../../packages/ui/src/components/toast/toast.md)) |
 | The whole server | The notification center ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)) |
+| This device or account: offline, Raft can't be reached, an unsupported version | A banner across the top of the app frame, which goes when the cause does ([Actions and closing](./actions-and-closing.md#banners)) |
 
 - Give every scope its own place, so an error shows where its cause is: an input, a dialog, a panel, the whole server.
 - Use orange when something goes wrong, not red: red means something cannot be undone ([Color](../foundations/color.md#meanings-of-color)).

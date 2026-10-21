@@ -20,14 +20,16 @@ banner/compositions/preview
 
 The wider the scope of a message, the further out it goes; the full table is in [Feedback](../../../../../design/patterns/feedback.md#errors-by-scope).
 
-| Situation                                                                  | Use                                                                                                      |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| One input is invalid                                                       | The input's error ([Field](../field/field.md)), not a banner                                             |
-| Something to know before acting in a dialog or a form                      | Banner, in the content                                                                                   |
-| Something in one panel failed: an agent won't start, a setting didn't save | `PanelNotice`, under the panel header ([Panel](../panel/panel.md))                                       |
-| The state of the whole server: a computer offline, a quota nearly full     | [NotificationCenter](../notification-center/notification-center.md), not a banner at the top of the page |
-| The result of something the person just did                                | [Toast](../toast/toast.md)                                                                               |
-| The person must decide now                                                 | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)                          |
+| Situation                                                                            | Use                                                                                                                            |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| One input is invalid                                                                 | The input's error ([Field](../field/field.md)), not a banner                                                                   |
+| Something to know before acting in a dialog or a form                                | Banner, in the content                                                                                                         |
+| Something in one panel failed: an agent won't start, a setting didn't save           | `PanelNotice`, under the panel header ([Panel](../panel/panel.md))                                                             |
+| The state of the whole server: a computer offline, a quota nearly full               | [NotificationCenter](../notification-center/notification-center.md), not a banner at the top of the app                        |
+| This device or account can't work: offline, unverified email, an unsupported version | Banner across the top of the app frame ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#banners))  |
+| A limit, a failed load or a tip about this page                                      | Banner at the top of the page's content ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#banners)) |
+| The result of something the person just did                                          | [Toast](../toast/toast.md)                                                                                                     |
+| The person must decide now                                                           | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)                                                |
 
 ## Anatomy
 
@@ -69,12 +71,13 @@ banner/compositions/action-variants
 ## Accessibility
 
 - `Banner` renders a `div` with `role="alert"` for `status="destructive"` and `role="status"` for the other intents, so a notice that isn't urgent doesn't interrupt a screen reader.
+- Pass `role="alert"` on a banner that reports a system problem appearing while people work (Can't reach Raft). Never move focus to a banner ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#keyboard-and-screen-readers)).
 - The icon repeats the intent and is decorative. The title and description must say the intent in words.
 - Give an icon-only button in `BannerAction` an `aria-label`.
 
 ## Rules
 
-- Show at most one banner in one place.
+- Show at most one banner in one place; when two want it, the more severe shows first ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#how-many-in-what-order)).
 - Give at most one button, and only when there is a way out: a 32px ink-bordered button (`variant="default"`). Never a pink, orange or red button: a banner is not where people commit. A second way out is a `TextLink` in the sentence. A consent banner is the one exception, with 2 equal `default` buttons ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#banners)).
 - Don't let a banner that reports a problem or a limit be dismissed; it goes when the cause does. Give a banner that only informs a ×, and remember the dismissal until the situation changes.
 - Lead a banner that has a title or a button with its intent's icon from the table, at the size the banner sets; don't pass another icon or a size of your own. An `info` banner may use its subject's icon instead (`Bell`). Don't lead a banner with a status pixel: that is `PanelNotice`'s ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#icons-and-pixels)).
