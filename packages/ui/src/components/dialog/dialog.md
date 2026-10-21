@@ -55,12 +55,34 @@ The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFoot
 
 ## Behavior
 
-- A dialog appears and disappears without animation, always over the scrim ([Motion](../../../../../design/foundations/motion.md#usage)).
+- A centered dialog appears and disappears without animation, always over the scrim ([Motion](../../../../../design/foundations/motion.md#usage)). On a phone a dialog with fields is a sheet that slides up instead ([On a phone](#on-a-phone)).
 - Esc, × and Cancel close a dialog. A click on the scrim closes a small dialog.
 - Don't close a large form dialog on a click outside it: pass `disablePointerDismissal` on `Dialog`, so a half-filled form isn't lost to a stray click.
-- On a narrow screen the dialog keeps a 16px margin on each side and never grows taller than the window less 32px.
+- A centered dialog on a narrow screen keeps a 16px margin on each side and never grows taller than the window less 32px.
 - Below 768px the wide dialog hides `DialogNav` and the sections follow one another.
 - A dialog opened from a dialog or a sheet draws its own, lighter scrim over the one below ([Stacked overlays](../../../../../design/foundations/elevation.md#stacked-overlays)). Render it inside the first one and this happens by itself. `layer={1}` is only for a dialog rendered outside the first one's tree: it lifts the dialog and its scrim above the first.
+
+## On a phone
+
+Below 768px a dialog stays centered unless it has several fields, a long list or steps, in which case it becomes a sheet (stdrc and Artea, 2026-10-21). On a desktop and a tablet every dialog stays centered.
+
+| What the dialog holds                                                                                                                                               | On a phone                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| A decision: a statement and buttons, at most a few fixed choices, nothing typed (every confirmation; archive, stop, reset)                                          | The centered dialog, as on a desktop                                                |
+| One input or one text box and its buttons: a confirmation that asks for a typed name, naming a section, editing a display name or a description, a reason to reject | The centered dialog in the upper part of the screen, so the keyboard opens below it |
+| Several fields, a long or searchable list to pick from, or steps: forms, pickers, wizards                                                                           | A sheet 90% of the screen tall                                                      |
+| Content that is only read: role help, release notes, an app's details. It is short information, so it stays a dialog                                                | The centered dialog, as on a desktop                                                |
+
+The sheet:
+
+- Rises from the bottom over the scrim, with `radius-dialog` on its top corners. The strip of page left above it shows that it is a layer over the page, not a new page.
+- Its head is a pushed page's head ([Navigation](../../../../../design/patterns/navigation.md)): × at the start, the title, and the dialog's one commit button at the end, at size `sm` with the same color and words as on a desktop. It has no footer: × is Cancel. In a flow of steps the button at the end is the step's (Next, then the last step's action), and × still closes.
+- The body scrolls under the head and keeps the phone's 16px margin and the home indicator's inset at the bottom.
+- × and Esc close it. A tap on the scrim doesn't, so a half-filled form isn't lost to a stray tap, as with a large form dialog on a desktop. When something has been typed, ask before closing.
+- Dragging the sheet down to close it is planned, for when the sheet moves into raft-ui on top of Drawer's drag.
+- It slides up as it opens, like every bottom sheet ([Motion](../../../../../design/foundations/motion.md#usage)).
+
+Raft Chat builds these forms in the app for now (`NarrowDialog` in slock); they move into raft-ui as a phone presentation of Dialog.
 
 ## Content
 
