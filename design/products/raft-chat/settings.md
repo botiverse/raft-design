@@ -15,7 +15,7 @@ Settings lists the person's own settings, the server's settings and Raft's resou
 sidebar/compositions/settings-list
 ```
 
-1. **The header**: Settings, on the frame on a phone, in the 56px navigation row.
+1. **The header**: on a phone, More, on the frame in the 56px navigation row, like every tab root; on desktop, Settings.
 2. **Three groups**, each a group label and sidebar rows with an icon and a name. On a phone, a group of Members and Computers comes first; guests don't have it:
    - Personal: Account, Language & Region, Appearance, Notifications.
    - Workspace: Server Profile, then what the person may see and the server has turned on: RaftBench, Plan & Billing, Administration, IM Bridges, Applications, Labs, MCP Servers, AI Providers.

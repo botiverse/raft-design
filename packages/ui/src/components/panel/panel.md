@@ -73,9 +73,9 @@ A phone's pushed page has a white top bar, and its location tile stays a yellow 
 
 ### Phone top bars
 
-The structure of a phone's top bars (the large title of a top-level page, Back and up to 2 icon buttons on a pushed page) is in [Page structure](../../../../../design/patterns/page-structure.md#phone). The top bar also follows these rules:
+The structure of a phone's top bars (the navigation row of a top-level page, Back and up to 2 icon buttons on a pushed page) is in [Page structure](../../../../../design/patterns/page-structure.md#phone). The top bar also follows these rules:
 
-- Show one large title per screen, in `text-display`. When the list scrolls up, it collapses into the 56px top bar as the page name in `text-headline` ([Page structure](../../../../../design/patterns/page-structure.md#phone)). The product doesn't show the large title yet: its top-level pages have only the 56px row, with the page name in `text-headline` or, on Home, the workspace pill.
+- On a top-level page, put the page name in the 56px row in `text-headline`, with no large title and no icon tile before it ([Page structure](../../../../../design/patterns/page-structure.md#phone)).
 - Don't put New or Search buttons in the top bar of a top-level page.
 - Make the bell the entry to the notification center, with a pink pixel when something is new. Which page shows it is the product's choice ([Raft Chat](../../../../../design/products/raft-chat/README.md)).
 - Use the `arrow-left` icon for Back, not a chevron: its ink fills the icon box like other icons, so it mirrors the button at the other end without being shifted ([Alignment](../../../../../design/foundations/alignment.md#top-bar-icon-buttons)).
