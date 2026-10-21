@@ -45,8 +45,7 @@ Start a comment where the reading is, and keep the screen free of comment contro
 
 ## Wide and narrow
 
-Comments take one of three forms, by the room the document can give: cards in a margin beside it, markers beside it that open a bottom sheet, or, when the page can't give up any width, numbered markers in the page that open a floating card.
-
+Comments take one of three forms, by the room the document can give: cards in a margin beside it, markers beside it that open a bottom sheet, or, when the page can't give up any width, markers in the page that open a floating card.
 
 The margin needs 304px beside the document: a 280px column of cards and 24px between it and the document. Show it only while the document keeps at least 480px, about 60 characters of text per line, so from a viewer 784px wide, and only on a desktop: from 768px with a mouse or a trackpad, the condition of every desktop metric ([Spacing](../foundations/spacing.md#hit-targets)). A tablet used by touch gets the markers at any width, like a phone.
 
@@ -68,7 +67,7 @@ comment/compositions/marker-sheet
 
 Some documents can't move over for a margin or a marker column: a full-width HTML page or a canvas, which would be cut off on the right. There, leave the page at its own width and put the markers in it:
 
-- Show a numbered marker on each commented passage, in the page. Its number is the order of the discussions down the page.
+- Show a marker on each commented passage, in the page, with the number of comments in its discussion, as `CommentMarker` counts them in the narrow layout. Not the discussion's place down the page: "3" would read as either, and inserting a discussion would renumber the rest.
 - Clicking a marker opens its discussion as a card floating beside the marker: the active `CommentCard`, with every comment and the reply box. Esc, a click outside it, and scrolling the marker out of view close it; it moves with the marker while the page scrolls. This is how Figma shows comment pins.
 - On a touch screen the marker opens the bottom sheet, as in the narrow layout.
 - Keep the highlights. A list of all the comments, when the product has one, is the only list in this layout; in the margin layout the margin already is the list, so don't open both at once.
