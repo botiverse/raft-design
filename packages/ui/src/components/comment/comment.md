@@ -85,7 +85,7 @@ comment/compositions/marker-sheet
 
 The passages are highlighted with the CSS Custom Highlight API: `setCommentHighlights(name, ranges)` registers `Range`s under a highlight name, and styles.css paints them. It never wraps the document's text in an element, so the document's DOM, its selection and its find in page stay as they were.
 
-- Register every passage with comments under `COMMENT_HIGHLIGHT` (`raft-comment`): `brand-soft` with a 2px `brand` underline.
+- Register every passage with comments under `COMMENT_HIGHLIGHT` (`raft-comment`): `brand` at 35% over the page (`color-mix`), with a 2px `brand` underline. Not `brand-soft`: in dark mode that is a 16% wash meant for a menu row, and a passage under it barely showed against the document.
 - Register the active one under `COMMENT_HIGHLIGHT_ACTIVE` (`raft-comment-active`) instead: `brand` with ink type, in both modes, like a search hit.
 - Call the function it returns to clear the highlight. In a browser without `CSS.highlights` it does nothing, and the cards still sit beside their passages.
 - The names are global to the page: registering a name replaces what was registered under it. Let one viewer at a time own them, the one on screen, and clear them when it closes.

@@ -160,7 +160,7 @@ A soft tint (`*-soft`) is a highlight, never a sticker: it has no border.
 
 | Tint | Use for |
 | --- | --- |
-| `brand-soft` | Menu highlight, the busy chip, text selection, a passage with comments ([Comments](../patterns/comments.md)) |
+| `brand-soft` | Menu highlight, the busy chip, text selection |
 | `info-soft` | The selected item in content, filters, info banners, runtime chips, thread references, a message inside a notification |
 | `attention-soft` | Channel references, a reaction you added |
 | `success-soft` | Success banners, the Done chip |
