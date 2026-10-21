@@ -1,0 +1,270 @@
+[
+  {
+    "name": "VirtualList",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": false,
+    "props": [
+      {
+        "name": "applySessionIdToItemKey",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "avoidSyncViewportOnListRefUpdated",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "canAnchorItem",
+        "type": "(item: T) => boolean",
+        "required": false,
+        "description": "With `keepAnchorOnItemsChange`: which rows may be the row kept in place. A row this rejects is passed over like a removed one (the first accepted row after it keeps its place). For rows that new items are inserted below, such as a leading header row above a prepend: keeping such a row in place would push the rows below it, the ones being read. All rows may by default.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "catchWheel",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "children",
+        "type": "(props: ItemRenderProps<T> & { key: string | undefined; }) => ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "columns",
+        "type": "readonly Column[]",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "componentRef",
+        "type": "((instance: VirtualListApi | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<VirtualListApi | null>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "defaultScrollIndex",
+        "type": "number",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "defaultScrollKey",
+        "type": "string",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "domRef",
+        "type": "((instance: HTMLDivElement | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<HTMLDivElement | null>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "empty",
+        "type": "ReactNode | VirtualListFooterRender",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "emptyAlign",
+        "type": "\"center\" | \"start\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusable",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "footer",
+        "type": "ReactNode | VirtualListFooterRender",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "footerAfterBottomPadding",
+        "type": "ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "getKey",
+        "type": "(item: T) => string",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "header",
+        "type": "ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "ignoreItemResize",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "ItemComponent",
+        "type": "ComponentType<ItemRenderProps<T>>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "itemEstimatedSize",
+        "type": "number",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "itemMinSize",
+        "type": "number",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "itemResizable",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "items",
+        "type": "readonly T[]",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "itemsClassName",
+        "type": "string",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "itemsStyle",
+        "type": "CSSProperties",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "keepAnchorOnItemsChange",
+        "type": "boolean",
+        "required": false,
+        "description": "When `items` change, keep the row at the top of the view where it is: the same row stays at the same distance from the view's top, so rows inserted or removed above it (most often a prepend, such as loading older history) do not move what is on screen. Also at the very top (`scrollTop` 0): the row that was first stays first in view and the new rows are above it, out of view. If that row was removed, the first row after it that is still there keeps its place; if none is left, `scrollTop` is kept. An instant jump still pending (`scrollTo` an index, a key, the top or the bottom, in the same frame) wins. Only with `virtual` on; a new `sessionId` resets the list as before.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "keyboardPageBottomOcclusion",
+        "type": "number",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onContentResize",
+        "type": "() => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onRenderAnomaly",
+        "type": "(anomaly: RenderAnomaly) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onResize",
+        "type": "(entry: ObservedResizeEntry) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onScroll",
+        "type": "(event: Event) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onTransformChange",
+        "type": "() => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "onWheel",
+        "type": "(event: WheelEvent) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "paddingBottom",
+        "type": "number",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "paddingTop",
+        "type": "number",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "printable",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "renderCol",
+        "type": "(info: VirtualListRenderColInfo) => ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "renderItemWithCols",
+        "type": "(info: VirtualListRenderItemWithColsInfo) => ReactNode",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "sessionId",
+        "type": "string",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "showScrollbar",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "from": "raft-ui"
+      },
+      {
+        "name": "virtual",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "visibleItemsProps",
+        "type": "object",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "visibleItemsTag",
+        "type": "ElementType",
+        "required": false,
+        "from": "raft-ui"
+      }
+    ]
+  }
+]

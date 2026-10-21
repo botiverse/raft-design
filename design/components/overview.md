@@ -24,7 +24,7 @@ Core is grouped by what a part does:
 | Overlays | Everything that floats above the page: dialogs, drawers, menus, popovers, tooltips, the lightbox |
 | Feedback | Telling people about a result, a problem, a wait or an empty view |
 | Layout | The frame of a screen and its regions: the app shell, panels, cards, separators, resizable columns |
-| Data display | Showing content and facts: text, Markdown, code, tables, description lists, list rows, badges, status pixels |
+| Data display | Showing content and facts: text, Markdown, code, tables, description lists, list rows, long virtualized lists, badges, status pixels |
 | Identity | What stands for someone or something: avatars, icon tiles, the conversation icons, the logo |
 
 ### Collaboration

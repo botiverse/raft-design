@@ -1322,5 +1322,11 @@
       "TooltipTrigger"
     ],
     "status": "stable"
+  },
+  "virtual-list": {
+    "names": [
+      "VirtualList"
+    ],
+    "status": "experimental"
   }
 }
