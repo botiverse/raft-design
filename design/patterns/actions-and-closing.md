@@ -83,6 +83,7 @@ These exceptions apply only to a dialog that offers a paid plan after a limit wa
 
 ### Toasts
 
+- Show toasts at the bottom, centered, on every screen: on a phone above the tab bar or the composer, and above the keyboard while it is open. A toast answers what the person just did, usually with a hand near the bottom of the screen, so its Undo or View sits within reach of the thumb; the top of the screen holds the page's title and the operating system's own notifications, and a toast there would cover the header people use to find their way. A toast about a specific control may open next to it instead ([Toast](../../packages/ui/src/components/toast/toast.md)).
 - Give a toast at most 1 action, a text action (`ToastAction`): View, Undo or Retry. Never a button, never pink ([Toast](../../packages/ui/src/components/toast/toast.md#rules)).
 - Only put an action in a toast that people can also reach another way: the message is in the conversation, the agent is in the list, the setting can be changed back. A toast disappears, so it may only shorten a way, never be the only one.
 - Keep a toast without an action 5 seconds and a toast with an action 8 seconds, so there is time to read the sentence and then act. Hovering or focusing it pauses the timer. `ToastProvider` uses 5 seconds for both today; pass `timeout` on a toast with an action.
