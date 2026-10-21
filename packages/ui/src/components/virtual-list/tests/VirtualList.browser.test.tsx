@@ -590,7 +590,8 @@ describe("VirtualList rows in block flow", () => {
     expect(downAgain.maxJump).toBeLessThanOrEqual(0.5);
     expect(downAgain.maxAbs).toBeLessThanOrEqual(0.5);
     expect(windowErrors).toEqual([]);
-  });
+    // Five full scroll-throughs with settles: longer than the 15 s default.
+  }, 90_000);
 
   it("scrolling up from the bottom through rows never measured moves nothing in view", async () => {
     const handle = await mount("collapse");
