@@ -1,6 +1,6 @@
 ---
 title: Identity and presence
-summary: How an agent is recognized (its pixel face, the agent tag and the runtime chip), how it is treated the same as a person, and what its presence light says.
+summary: How an agent is recognized (its pixel face, the agent tag and the runtime chip), how it is treated the same as a person, what its presence light says, and how a message an assistant sent for a person is marked.
 redirectFrom: [decisions/0040-profile-avatar-size]
 ---
 
@@ -67,7 +67,34 @@ avatar/compositions/badge-presence
 - The same light shows on the avatar everywhere: the message, the row, the header of a direct message, Working now, the profile.
 - Where the state is written out (a profile, a profile card, the header of a direct message), use a status chip: a soft tint, the pixel and the words. The chip for working is on `brand-soft` ([Status](../../packages/ui/src/components/status/status.md#agent-state-chips)).
 - An external agent that has been seen recently and reports what it is doing gets the same lights as any other agent.
-- In the product, presence lights belong to agents. People's avatars have no light.
+- In the product, presence lights belong to agents. People's avatars have no light; their corner holds the face of an assistant that sent a message for them ([Sent by an assistant](#sent-by-an-assistant)).
+
+## Sent by an assistant
+
+A person's assistant (see [Terminology](../content/terminology.md#people-and-agents)) can post a message as that person. The message stays the person's: their name, their avatar, their place in the timeline. Everyone must still see at a glance that the assistant sent it, so two marks say so, and the words are never left out.
+
+| Where | What shows |
+| --- | --- |
+| The first message of a group, with its avatar | The assistant's face, `2xs` (19px), on the bottom-right corner of the person's `md` avatar, and "sent by Friday" after the name |
+| A continuation row, without an avatar | The words only, at the end of the text: "(sent by Friday)" |
+| A one-line preview: an Activity row, a search result | The words only, with the name: "Alice (sent by Friday)" |
+| A quoted message | The words only, after the author's name: "(sent by Friday)" |
+
+```example
+message-item/compositions/delegated-group
+```
+
+- Put the face in the corner a presence light takes, sticking out as far: 4px past the avatar's ink edge on `md`, so 15px of it lies over the person's avatar. It reads as a second sticker on the first, in the shape language the presence light already uses, without a new avatar shape.
+- Separate the face from the avatar with a 1.5px ring in the surface behind the message: the canvas at rest, the row's fill while it is hovered, selected or jumped to. In dark mode the face keeps its die-cut edge inside the ring, like every sticker ([Dark mode](../foundations/dark-mode.md#the-die-cut-edge)).
+- Put the face only on a person's avatar. People have no presence light, so their corner is free; an agent's corner is its presence light, and one corner never holds both.
+- Leave the face out of continuations, one-line previews and quotes, and write the words instead: a continuation has no avatar, a quote's avatar is 19px, too small to carry a second face, and a preview row is read along its line, where the words sit next to the name.
+- Set the words in `foreground-muted`, one step stronger than the role beside them (`foreground-hint`): who sent the message matters more than the role, and this feature has to be seen at a glance.
+- When the name line runs out of room, let the role truncate first, then the person's name; the assistant's name truncates once the label reaches 45% of the line. Never truncate the words "sent by": without them, a name after another name says nothing.
+- When the assistant has been deleted, keep both marks: the default `robot` face, grayed like a deleted agent's avatar, and "sent by a deleted assistant", all of it words that never truncate, since there is no name left to cut. Nothing in it opens a profile. Dropping the label would make the message look as if the person wrote it.
+- Let the assistant's name open its profile; the product decides whether it does. The face is decoration: the words already say it, so a screen reader hears the header in its visible order ("Alice, Design lead, sent by Friday, 10:42") and not the face.
+- A message the assistant sent starts its own group in the timeline ([Conversation](../patterns/conversation.md#dates-and-grouping)).
+
+The words come from the product, in its language: "sent by Friday" after the name, and "sent by a deleted assistant" once it is gone. Chinese puts words on both sides of the name; the layout keeps both whole. raft-ui lays the words out but holds no copy.
 
 ## Rules
 

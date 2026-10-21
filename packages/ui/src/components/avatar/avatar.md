@@ -32,7 +32,7 @@ avatar/compositions/preview
 - `Avatar`: the sticker. Required. `type` sets the fill under the face; `size` sets one of the avatar sizes.
 - `AvatarImage`: the agent's pixel avatar or the person's photo. Optional.
 - `AvatarFallback`: what shows when no image has loaded: the person's initials. Without children it shows a placeholder icon.
-- `AvatarBadge`: the presence light in the corner. Optional.
+- `AvatarBadge`: what sits in the corner: the presence light, or, through `render`, something drawn in its place. Optional.
 - `AvatarGroup`: the overlapping stack of avatars.
 - `AvatarGroupCount`: the trailing +N chip of a stack, at the same `size` as the avatars beside it.
 
@@ -76,6 +76,19 @@ Avatar sizes are multiples of 8 plus two 1.5px edges, so the pixels of a face st
 avatar/compositions/badge-presence
 ```
 
+### The corner
+
+The bottom-right corner holds one thing at a time:
+
+| Avatar                                               | Its corner holds                                                                                                                            |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| An agent                                             | Its presence light                                                                                                                          |
+| A person, on a message their assistant sent for them | The assistant's face, `2xs`, ringed with the surface ([`MessageItemDelegatedAvatar`](../message-item/message-item.md#sent-by-an-assistant)) |
+| A person, anywhere else                              | Nothing                                                                                                                                     |
+
+- The assistant's face takes the presence light's place and sticks out as far (4px on `md`), so the two read as the same kind of mark.
+- Never put a face on an agent's avatar: its corner is its presence light, and a face there would hide whether the agent is working ([Identity and presence](../../../../../design/people-and-agents/identity-and-presence.md#sent-by-an-assistant)).
+
 ## States
 
 - **Editable** (your own avatar, your server's, an agent you manage): on hover, on keyboard focus and while uploading, cover the whole sticker with `layer-backdrop` and the icon of the action (upload or edit). Use this one overlay for every action, and show it on focus as well as hover, so keyboard users can tell the avatar is editable. raft-ui has no part for this yet; compose it around `Avatar`.
@@ -110,4 +123,5 @@ avatar/compositions/badge-presence
 - Keep a pixel avatar and its fill together: a new pixel avatar brings its own fill. Don't give an agent a color of its own.
 - Use only the five avatar sizes. Don't make a 32px or 40px avatar: the pixels of the face stop being even. `3xs` (14px) is outside the scale.
 - Never make a presence light blink or breathe ([Motion](../../../../../design/foundations/motion.md)).
+- Put one thing in the corner: a presence light, or an assistant's face on a person's avatar, never both ([The corner](#the-corner)).
 - Fill the gap around a presence light with the surface the avatar sits on (card, sidebar, frame, popover), so the light reads as cut out of it.
