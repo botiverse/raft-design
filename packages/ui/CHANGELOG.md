@@ -1,3 +1,9 @@
+## [0.11.0](https://github.com/botiverse/raft-design/compare/v0.10.7...v0.11.0) (2026-10-21)
+
+### Added
+
+- `VirtualList`: a virtualized list for long, variable-height content such as a conversation, exported from the main entry. Rows are measured in block flow, so their margins collapse as in a plain list; it holds its anchor through items added above or below, jumps exactly to an item (`scrollTo` with `align`), lays out multi-column rows, and keeps mounted the row that holds focus (so End, Home, paging and wheel scrolling don't lose it) and the rows a text selection reaches into. The scroller takes native HTML attributes and its ref as `domRef`; styles are in `.r-virtual-list`. The implementation borrows from DeepSeek web's virtual list. ([#627](https://github.com/botiverse/raft-design/pull/627))
+
 ## [0.10.7](https://github.com/botiverse/raft-design/compare/v0.10.6...v0.10.7) (2026-10-21)
 
 ### Fixed
