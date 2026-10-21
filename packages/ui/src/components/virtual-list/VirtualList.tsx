@@ -604,17 +604,14 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
         const { startIndex: nextStart, endIndex: nextEnd } = nextRange;
         const keptKeys: string[] = [];
         const selection = window.getSelection();
-        // Only a selection that reaches into the list keeps rows: one elsewhere on the page keeps none.
-        if (
-          selection != null &&
-          !selection.isCollapsed &&
-          selection.rangeCount > 0 &&
-          selection.containsNode(listEl, true)
-        ) {
+        if (selection != null && !selection.isCollapsed && selection.rangeCount > 0) {
           listEl.querySelectorAll(`[${ITEM_KEY_ATTR}]`).forEach((itemEl: Element) => {
-            // Only the rows the selection reaches into are kept: keeping every mounted row would keep
-            // every row scrolled past, and virtualization would stop while text is selected.
-            if (!selection.containsNode(itemEl, true)) {
+            // An item is skipped only when it is outside the selection AND holds an input, so every
+            // mounted item without an input is kept while a selection exists.
+            if (
+              !selection.containsNode(itemEl, true) &&
+              itemEl.getElementsByTagName("input").length !== 0
+            ) {
               return;
             }
             const key = itemEl.getAttribute(ITEM_KEY_ATTR);

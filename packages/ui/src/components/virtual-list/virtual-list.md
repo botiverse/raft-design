@@ -81,7 +81,7 @@ virtual-list/compositions/chat
 
 ### Other behavior
 
-- While text in the list is selected, the rows the selection reaches into stay mounted when they scroll out of view, so the selection and copying survive scrolling. The other rows are still unmounted, and a selection elsewhere on the page keeps no rows.
+- While text is selected, rows that scroll out of view stay mounted, so the selection and copying survive scrolling.
 - `virtual={false}` renders every row in flow. With `itemResizable`, the row at the top of the view keeps its place when virtualization is switched off; switching it back on keeps the measurements, not the position.
 - `columns` with `renderCol` or `renderItemWithCols` scrolls sideways too and renders only the columns in view.
 - On iOS, size changes above the view during a fling are applied as a transform and written to the scroll position after it, because writing it stops the fling.
