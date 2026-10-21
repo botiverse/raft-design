@@ -23,6 +23,12 @@ export const messageItem = tv({
       // paint (bg-clip-padding); a continuation row has none, so it sits
       // under the row it continues.
       "min-h-0 px-2 py-1 border-t-8 border-transparent bg-clip-padding",
+      // task #1309 (artea): the hover highlight is a rounded frame, not a
+      // square slab — the reply surface inside it keeps radius-container
+      // (10px) and the frame derives: inner + the 8px row padding that
+      // separates them (shape.md §Nested corners). Radius is invisible until
+      // the highlight paints on hover.
+      "rounded-[calc(var(--radius-container)+8px)]",
       "hover:bg-fill-pressed data-popup-open:bg-fill-pressed has-data-popup-open:bg-fill-pressed",
       "hover:[--mi-ct-color:var(--foreground-hint)] has-data-popup-open:[--mi-ct-color:var(--foreground-hint)]",
       "has-data-[slot=message-item-search-match]:bg-info-soft has-data-[slot=message-item-search-match]:hover:bg-info-soft",
