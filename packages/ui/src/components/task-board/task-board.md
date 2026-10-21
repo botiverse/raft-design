@@ -54,7 +54,7 @@ task-board/compositions/task-board-empty-columns
 - Order the columns Todo, In Progress, In Review, Done, Closed.
 - Switch between the board and the list with Board / List at the right end of the filter bar ([Tasks](../../../../../design/patterns/tasks.md#structure)), and remember the person's choice.
 - Scroll the whole board in one viewport, both ways. Columns keep their width and never scroll on their own.
-- Mount only the visible cards of a tall column with a virtualizer of your own that reads the board's scroll position, as below. [VirtualList](../virtual-list/virtual-list.md) doesn't fit here: it is its own scroller, and a column never scrolls on its own.
+- Mount only the visible cards of a tall column with a virtualizer of your own that reads the board's scroll position, as below.
 
 ```example
 task-board/compositions/task-board-virtualization
