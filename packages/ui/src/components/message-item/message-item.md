@@ -166,6 +166,7 @@ message-item/compositions/consecutive
 | Agent working                   | A still yellow light on the avatar and the inline status ([Working agents](../../../../../design/people-and-agents/working-agents.md))                                                                                                                                         |
 | Sender left, removed or deleted | A muted badge in `MessageItemSenderBadges`; a deleted agent's avatar is grayed                                                                                                                                                                                                 |
 | Sent by an assistant            | The assistant's face on the sender's avatar and "sent by Friday" after the name; the words only on a continuation row                                                                                                                                                          |
+| Retracted                       | The row stays in place with both marks; the body is one line in `foreground-hint` that says it was retracted, never the old text                                                                                                                                               |
 | Reaction failed                 | The chip on `warning-soft`, with `MessageReactionErrorIndicator` announcing why                                                                                                                                                                                                |
 
 ```example
@@ -197,6 +198,8 @@ When the assistant has been deleted, keep both marks: the default face in `Messa
 ```example
 message-item/compositions/delegated-deleted
 ```
+
+When the person retracts a message their assistant sent, keep the row, its sender, time and both marks, and replace the body with one line in `foreground-hint`: "This message was retracted by its sender." It isn't the person's words, so it isn't rendered as Markdown, and its muted color tells it apart from text, as with an unavailable quote ([MessageQuotedPreview](../message-quoted-preview/message-quoted-preview.md)).
 
 In an Activity row or a search result there is no face; write the words into the sender: "Alice (sent by Friday)".
 
