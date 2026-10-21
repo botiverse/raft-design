@@ -15,6 +15,7 @@ export function PanelAction({ className, render, nativeButton, ...props }: Panel
       nativeButton={nativeButton ?? defaultNativeButton(render)}
       type="button"
       data-slot="panel-action"
+      data-icon-inset=""
       className={panelAction({ className })}
     />
   );

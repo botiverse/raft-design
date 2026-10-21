@@ -4,6 +4,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { X } from "lucide-react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
+import { headEdgePull } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -25,6 +26,7 @@ const dialog = tv({
     header: [
       "grid shrink-0 grid-cols-[minmax(0,1fr)_max-content] items-center min-w-0",
       "gap-2 px-5 pt-5",
+      headEdgePull,
     ],
     body: [
       "min-w-0 flex-1 overflow-y-auto",
@@ -187,7 +189,7 @@ export function DialogClose({
           variant={variant ?? "ghost"}
           size={size ?? "icon-md"}
           aria-label={ariaLabel ?? "Close"}
-          className={cn("-my-1.5 -mr-1.5", className)}
+          className={cn("-my-1.5", className)}
         />
       }
       {...props}

@@ -2,6 +2,7 @@ import { Popover as BasePopover } from "@base-ui/react/popover";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { AlertTriangle, Bell, CheckCircle2, Info } from "lucide-react";
+import { headEdgePull } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import { EmptyState } from "../empty-state/empty-state";
@@ -30,7 +31,11 @@ const notificationCenter = tv({
       "rounded-container bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",
     ],
-    header: ["flex items-center px-4", "min-h-13 gap-2 border-b border-line-seam py-0 pr-2 pl-4"],
+    header: [
+      "flex items-center px-4",
+      "min-h-13 gap-2 border-b border-line-seam py-0",
+      headEdgePull,
+    ],
     title: ["font-sans text-headline text-foreground"],
     count: ["ml-auto", "font-mono text-mono-meta text-foreground-hint"],
     scroller: ["min-h-0 flex-1 overflow-y-auto overscroll-contain"],

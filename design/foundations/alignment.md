@@ -1,6 +1,6 @@
 ---
 title: Alignment
-summary: What lands on a margin or a center line — the shape, the letter or the icon box — and how the icon buttons at the ends of a top bar mirror each other.
+summary: What lands on a margin or a center line — the shape, the letter or the icon box — and where the icon buttons at the two ends of a header go.
 redirectFrom: [decisions/0035-mirrored-top-bar-buttons]
 ---
 
@@ -19,7 +19,7 @@ Align what the eye sees, not the box. Each kind of element has one point that la
 | --- | --- | --- |
 | Anything with a shape: tiles, avatars, cards, inputs, the composer, the workspace pill, filled buttons | The edge of the shape; vertically, the shape is centered. Beside plain text in a row, the text instead ([A shape beside plain text](#a-shape-beside-plain-text)) | The workspace pill's left edge is at 16px; a pink Done button in a top bar ends 16px from the right |
 | Text | The letters: horizontally, the stem of the first letter; vertically, the center of the cap height | In a 56px header, a `text-headline` page name and the text in the pill share one center line; the first tool icon in the composer lines up with the text typed in it |
-| Frameless icon button | The icon box. The button itself is invisible, and its empty hit area extends past the line | The last icon box in a desktop panel header ends at 20px |
+| Frameless icon button | The icon box. The button itself is invisible, and its empty hit area extends past the line ([The ends of a header](#the-ends-of-a-header)) | Back's icon box starts and the last icon box ends 20px from a panel's edges, 16px from a phone's |
 
 ## A control and its label
 
@@ -54,15 +54,21 @@ A reference chip, a mention of the person reading and inline code sit inside a s
 - **Center the letters in the fill by their cap height.** In Space Grotesk the line box already does this. Space Mono's letters sit 0.0275em below the center of their content area, so inline code moves its fill down by that much (top padding `1px - 0.0275em`, bottom `1px + 0.0275em`). Without it the letters sit about 0.6px low.
 - **Center a leading icon on the letters, not on the box.**
 
-## Top bar icon buttons
+## The ends of a header
 
-The icon buttons at the two ends of a phone top bar (Back on the left; the bell or the overflow menu on the right) mirror each other, so their icon centers are symmetric and Back is neither crowded against the edge nor out of balance with the right side:
+Every header puts the icon buttons at its two ends the same way: a panel header, a thread, profile or task panel's header, a phone's top bar, a drawer's or a sheet's header, a dialog's ×, the sidebar header and the right end of the web top bar.
 
-- Place each button 3px from the screen edge, which puts its icon box 14px from the edge and the icon's center 25px from the edge.
-- Common icons have about 2px of space inside their box, so their ink lands near 16px, on the same line as the content below.
-- Treat narrow icons (the vertical ellipsis) the same way, so both ends stay symmetric.
-- Don't shift a button to match each icon's ink: every icon has a different amount of space inside its box (an arrow, a gear and a vertical ellipsis differ by up to 9px), so the buttons would move with the icon and the two ends would stop mirroring.
-- Use `arrow-left` for Back, not a chevron. A chevron's ink fills only the middle of its box and would need a shift of its own; an arrow fills the box like other icons.
+- **Put the icon box on the content margin.** The first icon box starts and the last one ends on the margin of the column the header sits over, the line the content below starts on: 16px on a phone, 20px on a desktop and in a dialog ([Spacing](./spacing.md#layout-widths)).
+- **Let the hit area hang outward.** The rest of the button is empty, so it reaches past the line toward the edge, never inward: a 44px button with a 22px icon overhangs by 11px, a 32px one with an 18px icon by 7px. It stops at the edge of the screen or the panel; every header margin is wider than the largest overhang, so none is cut today.
+- **Keep the line at every button size.** A button is 32px with a mouse and 44px on a phone or a touch screen, also in the desktop layout ([Spacing](./spacing.md#hit-targets)); only the overhang changes. Never place an edge button by its own edge: a 44px Back at the margin puts its icon 11px inside the content below it, while the ⋮ at the other end, placed by its icon, stays on the line, and the two ends stop mirroring.
+- **Mirror the two ends.** Left and right follow the same rule, so Back and the last button sit at the same distance from their edges.
+- **Leave shapes and text where they are.** A filled button, a sticker or a title at the end of a header lands on the same margin by its edge or its letters ([Usage](#usage)).
+- **Don't shift a button to match its icon's ink.** Every icon has a different amount of space inside its box (an arrow, a gear and a vertical ellipsis differ by up to 9px), so the buttons would move with the icon and the two ends would stop mirroring. The same goes for narrow icons such as the vertical ellipsis.
+- **Use `arrow-left` for Back, not a chevron.** A chevron's ink fills only the middle of its box and would need a shift of its own; an arrow fills the box like other icons.
+
+A phone's top bar once put its icon boxes 2px outside the margin, 14px from the screen edge, so that a common icon's ink (about 2px inside its box) landed near 16px. That made the phone the only header aligned by ink rather than by icon box, and a touch screen in the desktop layout then had no rule at all: it placed Back by the button's edge, 11px inside the line. One rule by icon box holds on every screen and every button size.
+
+In raft-ui the header owns the margin and each frameless icon button declares how far its icon box sits inside it, `(button − icon) / 2`; the header pulls its first and last child out by that much ([Panel](../../packages/ui/src/components/panel/panel.md#rules)).
 
 ## Related
 

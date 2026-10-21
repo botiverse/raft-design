@@ -5,6 +5,8 @@ import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Drawer, DrawerContent, DrawerHeader } from "../drawer/drawer";
+import { Button } from "../button/button";
+import { PanelAction } from "./panel-action";
 import { PanelHeader } from "./panel-header";
 
 if (typeof window.matchMedia !== "function") {
@@ -20,32 +22,44 @@ if (typeof window.matchMedia !== "function") {
 
 afterEach(cleanup);
 
-// Phone heads: a filled thing puts its shape on 16; the two ghost edge buttons
-// overhang and mirror each other, 3px from their edges.
-test("a raft phone head starts on 16 and mirrors a leading Back with the last action", () => {
+// Every head pads both sides by the content margin (20, 16 on a phone) and
+// pulls its first and last frameless icon button out by its icon inset, so the
+// icon box lands on the margin and the two ends mirror. A filled thing declares
+// no inset and puts its shape on the margin. Positions are measured in
+// head-edges.browser.test.tsx; these pin the shared tokens.
+const EDGES = [
+  "px-5",
+  "max-md:px-4",
+  "[&>[data-icon-inset]:first-child]:-ml-icon-inset",
+  "[&>[data-icon-inset]:last-child]:-mr-icon-inset",
+];
+
+test("a raft head pads by the content margin and pulls both edge buttons by their inset", () => {
   render(
     <ThemeProvider>
       <PanelHeader data-testid="head" />
     </ThemeProvider>,
   );
   const classes = screen.getByTestId("head").className.split(/\s+/);
-  expect(classes).toContain("max-md:pl-4");
-  expect(classes).toContain("max-md:pr-1.5");
-  expect(classes).toContain("max-md:[&>[data-slot=panel-action]:first-child]:-ml-[13px]");
+  for (const token of EDGES) expect(classes).toContain(token);
+  expect(classes).not.toContain("max-md:pr-1.5");
+  expect(classes).not.toContain("max-md:[&>[data-slot=panel-action]:first-child]:-ml-[13px]");
 });
 
-test("a filled Button straight in a raft head ends its shape on the content edge", () => {
+test("a frameless icon button declares its inset; a filled one does not", () => {
   render(
     <ThemeProvider>
-      <PanelHeader data-testid="head" />
+      <PanelAction data-testid="action" aria-label="Back" />
+      <Button data-testid="ghost" variant="ghost" size="icon-md" aria-label="Close" />
+      <Button data-testid="filled" variant="primary" size="icon-lg" aria-label="Add" />
     </ThemeProvider>,
   );
-  const classes = screen.getByTestId("head").className.split(/\s+/);
-  expect(classes).toContain("[&>[data-slot=button]:last-child]:mr-2");
-  expect(classes).toContain("max-md:[&>[data-slot=button]:last-child]:mr-2.5");
+  expect(screen.getByTestId("action").hasAttribute("data-icon-inset")).toBe(true);
+  expect(screen.getByTestId("ghost").hasAttribute("data-icon-inset")).toBe(true);
+  expect(screen.getByTestId("filled").hasAttribute("data-icon-inset")).toBe(false);
 });
 
-test("a raft side sheet's head takes the panel head's phone edges", () => {
+test("a raft side sheet's head takes the panel head's edges", () => {
   render(
     <ThemeProvider>
       <Drawer open swipeDirection="right">
@@ -56,8 +70,5 @@ test("a raft side sheet's head takes the panel head's phone edges", () => {
     </ThemeProvider>,
   );
   const classes = screen.getByTestId("sheet-head").className.split(/\s+/);
-  expect(classes).toContain("pl-5");
-  expect(classes).toContain("max-md:pl-4");
-  expect(classes).toContain("max-md:pr-1.5");
-  expect(classes).toContain("max-md:[&>[data-slot=panel-action]:first-child]:-ml-[13px]");
+  for (const token of EDGES) expect(classes).toContain(token);
 });

@@ -90,6 +90,7 @@ export function ThreadPanelActions({ className, render, ...props }: ThreadPanelA
   const { actions } = threadPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "thread-panel-actions",
+    "data-icon-inset": "",
     className: actions({ className }),
   };
 

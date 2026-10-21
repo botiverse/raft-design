@@ -114,7 +114,7 @@ export const drawer = tv({
       "before:rounded-[1px] before:bg-line-seam",
     ],
     close: ["shrink-0"],
-    closeIcon: ["size-5.5"],
+    closeIcon: ["size-control-icon"],
     header: ["flex flex-col", "items-stretch gap-1 px-4 pt-4 pb-2 text-left"],
     body: ["flex flex-1 flex-col", "items-stretch px-4 pt-2 pb-4 text-left"],
     footer: ["mt-auto py-5", "px-4 pt-3 pb-4"],

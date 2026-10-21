@@ -83,5 +83,6 @@ lightbox/compositions/attachment-preview-shell
 
 - Don't build a media viewer from a Dialog, and don't put anything other than media or a file preview in a Lightbox.
 - Give the lightbox one close button, at the top right ([Navigation](../../../../../design/patterns/navigation.md#closing)).
+- In the toolbar, a framed button ends its shape on the 16px margin; a frameless icon button, as the last action or the close, ends its icon box there and its hit area hangs past it ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)).
 - In Raft Chat every file opens in the attachment shell, images included, so each file type has the same toolbar ([File viewer](../../../../../design/components/overview.md#file-viewer)).
 - Don't add colors or lines beyond the scrim, the info bar and the toolbar ([Built from existing parts](../../../../../design/components/overview.md#built-from-existing-parts)).

@@ -172,6 +172,7 @@ export function PanelActions({ className, render, ...props }: PanelActionsProps)
   const { actions } = panelHeader();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "panel-actions",
+    "data-icon-inset": "",
     className: actions({ className }),
   };
 
