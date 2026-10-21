@@ -1,3 +1,19 @@
+## [0.16.0](https://github.com/botiverse/raft-design/compare/v0.15.0...v0.16.0) (2026-10-21)
+
+### Breaking Changes
+
+- **VirtualList** `items`: compared by reference. A row renders again only when its item, its index or one of the list's render props changes, so replace an item to change it instead of editing it in place. ([#658](https://github.com/botiverse/raft-design/pull/658))
+  - Why: keeping rows across range updates is what removes the per-frame re-render.
+  - Migrate: if your code edits an item object in place, or a render function reads mutable state outside the props, replace the item (a new object) when it changes.
+  - Docs: https://raft-design.botiverse.build/components/virtual-list/
+
+### Changed
+
+- **VirtualList**: scrolling no longer restyles or re-renders every mounted row. Rows that stay in range keep their elements; rows are mounted ahead of the view in batches and passed rows stay mounted for a while; only the rows that fill the view below are mounted; rows above the view are planned at the average measured height; resize passes where nothing changed size write nothing. ([#658](https://github.com/botiverse/raft-design/pull/658))
+  - Why: in a long chat timeline the list dropped more frames than a plain list while scrolling, most with a slow CPU: every row was restyled on almost every frame, and each range change re-rendered every row.
+  - Affects: with a 4x slower CPU, frames over 33ms scrolling 320 messages 9 → 0 down and 24 → 0 up, p95 33ms → 16.7ms; main-thread time per frame 10–17ms → 2–5ms. Up to 2.5 viewports of passed rows stay mounted; after a jump only the rows in view mount, as before.
+  - Docs: https://raft-design.botiverse.build/components/virtual-list/
+
 ## [0.15.0](https://github.com/botiverse/raft-design/compare/v0.14.0...v0.15.0) (2026-10-21)
 
 ### Design System
