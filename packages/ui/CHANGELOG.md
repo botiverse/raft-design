@@ -1,3 +1,54 @@
+## [0.22.0](https://github.com/botiverse/raft-design/compare/v0.21.2...v0.22.0) (2026-10-22)
+
+### Design System
+
+- **A mark that leads text: a notice leads with its intent's icon**: a toast, a banner or a panel notice never uses a status light to say what kind of notice it is (success, info, warning, error); it leads with its intent's Lucide icon, or the avatar of whoever it is about. A status light keeps its own meanings: whether an agent, a person or a computer is working or online, a task's status, and the square attention dot that marks something waiting or unread. A notice about one of those things may still show that thing's light inside it. It applies to Toast, Banner and PanelNotice. ([#709](https://github.com/botiverse/raft-design/pull/709))
+  - Why: the same square light said both what kind of notice it was and whether someone was online or a task was done, so one mark carried several meanings; notices now lead with their intent's icon and the light keeps its own meanings.
+  - Affects: a notice's leading mark, a 9px status light → the intent's icon: `Info`, `CircleCheck`, `TriangleAlert` (and `OctagonAlert` for a `destructive` banner), 16px in a toast and a `sm` banner, 20px in a banner.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-mark-that-leads-text
+- **Chips in running text: one box**: every chip with a fill in a message's text, a reference chip, the yellow sticker of a mention of the person reading and an inline task chip, shares one box: 0.875em semibold type on a line 2px shorter than the body line, its words on the sentence's baseline, a leading mark centered on the chip, 6px at each end (4.5px with a leading mark, the mark 4px from the text) and `radius-sticker` corners. A chip never makes its line taller. In dark mode the sticker keeps its ink edge, drawn inside, and has no die-cut edge outside. Text marks without a fill, a mention of someone else and a web link, are unchanged. It applies to MessageReferenceChip, MessageReferencePending, MessageReferenceUnavailable, MessageReferenceText `primary` and TaskChip `inline`. ([#706](https://github.com/botiverse/raft-design/pull/706))
+  - Why: chips in one sentence had two sizes: a reference chip was 22px tall and made a desktop line 1px taller, while a task chip and the sticker took the sentence's own type on a shorter line, about 5px shorter than a reference chip with letters 2px larger; every filled chip in message text now takes the same box.
+  - Affects: chip height = body line − 2px: 20px on a desktop (body 14/22), 22px on a phone (body 16/24); type 12.25px on a desktop, 14px on a phone.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#marks-in-running-text
+
+### Breaking Changes
+
+- **Banner**, **PanelNotice** and **ToastIcon**: a `Status` light placed as the leading mark is no longer laid out as one. ([#709](https://github.com/botiverse/raft-design/pull/709))
+  - Why: see A mark that leads text: a notice leads with its intent's icon, above.
+  - Affects: in a Banner, a `Status` that is a direct child no longer gets the 20px (16px at `sm`) icon column, so it drops to a row of its own under the text; in a PanelNotice it is no longer centered on the first line; in a ToastIcon it is no longer held at 9px whatever size it was given. An icon in any of them is unchanged.
+  - Migrate: replace the leading `Status` with the intent's Lucide icon, as listed in Banner's and Toast's Variants (`Info`, `CircleCheck`, `TriangleAlert`, and `OctagonAlert` for a `destructive` banner). For something still pending, put a `Spinner` in a `status="info"` banner instead (see Added). A `Status` that shows a person's, an agent's or a task's own state may stay inside the notice's text.
+  - Docs: https://raft-design.botiverse.build/components/banner/
+
+### Added
+
+- **Banner** with a `Spinner`: while something is still pending, such as a computer that hasn't connected yet, a `Spinner` placed as a direct child takes the icon's place. Banner puts it in the icon's column and centers it on the first line, so the text starts where it does after an icon. Use it in a `status="info"` banner. ([#709](https://github.com/botiverse/raft-design/pull/709))
+  - Why: a pending state had no leading mark but a warning light, and waiting is not a problem; a spinner in an info banner says it is still going without the warning tint or its icon.
+  - Affects: the spinner's column is 20px (16px at `sm`), one line tall, with the icon's gap before the text (10px, 8px at `sm`).
+  - Docs: https://raft-design.botiverse.build/components/banner/
+- **MessageReferenceChip** and **MessageReferencePending** `capped`: stops the chip at `min(100%, 24em)`, and a longer `MessageReferenceLabel` truncates at the end. For words Raft doesn't write, such as the title an app gives a link it previews. Give the pending chip the same `capped` as the chip that replaces it, so the line keeps its width when it loads. ([#696](https://github.com/botiverse/raft-design/pull/696))
+  - Why: an app's link is shown as a reference chip with the app's own title, and a long title could take the whole line; a capped chip keeps each link to at most one line.
+  - Affects: cap 24em of the chip's text: 294px on a desktop, 336px on a phone, or the line when it is narrower.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#app-links
+
+### Changed
+
+- **toast** command API: `toast.info`, `toast.success`, `toast.warning` and `toast.error` lead with their intent's icon in `ToastIcon` instead of a status pixel. The calls, `icon: false` and `leading` are unchanged, and a `leading` node still takes the icon's place. ([#709](https://github.com/botiverse/raft-design/pull/709))
+  - Why: see A mark that leads text: a notice leads with its intent's icon, above.
+  - Affects: 9px status pixel → 16px Lucide icon in the same 20px column, hidden from assistive technology as before: `info` `Info`, `success` `CircleCheck`, `warning` and `error` `TriangleAlert`.
+  - Docs: https://raft-design.botiverse.build/components/toast/
+- **MessageReferenceChip**, **MessageReferencePending**, **MessageReferenceUnavailable**, **MessageReferenceText** `variant="primary"` and **TaskChip** `variant="inline"` take the shared chip box in running text; props, variants and markup are unchanged. ([#706](https://github.com/botiverse/raft-design/pull/706))
+  - Why: see Chips in running text: one box, above.
+  - Affects: reference chips: 1px padding above and below → 0, height 22px → body line − 2px (20px desktop, 22px phone), gap after a leading icon or `Spinner` and before a `MessageReferenceSuffix` 2px → 4px, a chip led by a `Spinner` (a pending reference) 6px → 4.5px at each end, as a chip led by an icon. The sticker (`primary`): sentence-size type on a 1.2em line → 0.875em on the chip line, sides 3px → 6px, the outer 1.5px `ring-sticker-edge` removed (the 1.5px inset ink ring stays). TaskChip `inline`: sentence-size type on a 1.2em line → 0.875em on the chip line, status pixel to text 6px → 4px, a leading icon 12px → 14px, its −2px side margins removed. Text set on a line other than the body's can give its chips their own line height with `--chip-line-height` on a container. The default and `sm` TaskChip are unchanged.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#chips-in-running-text
+- **DialogFooter** and **AlertDialogFooter**: the buttons stay in one row at the end, Cancel then the commit button, at every width, and stack full width, the commit button on top, only when they don't fit on one line. In `DialogFooter`, a `TextLink` written first sits at the start in footnote text, and the buttons after it form one group (`data-slot="dialog-footer-actions"`) that stays beside the link when both fit and wraps under it, still at the end, when they don't. Props are unchanged. ([#673](https://github.com/botiverse/raft-design/pull/673))
+  - Why: a commit button with a long label pushed the row past the dialog's padding; the footer now measures its row and stacks only then, never because the window is narrow, so Cancel and the commit button sit in the same place on every screen.
+  - Affects: a row that doesn't fit gets `data-stacked`, a full-width column with the commit button on top; Tab order stays the markup's, Cancel then commit. A `TextLink` in `DialogFooter` takes `text-footnote`. A footer that sets its own layout with `className` keeps it while it fits on one line; give text that may give way `min-w-0`, so it shrinks before the footer stacks. With a leading `TextLink`, styles aimed at the footer's direct button children now need to target the `dialog-footer-actions` group.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#the-footer
+- **Banner** `size="sm"`: the title and description keep the banner's 14px text (`text-callout`), as `md` and `lg`; `sm` tightens only its padding and its icon. ([#718](https://github.com/botiverse/raft-design/pull/718))
+  - Why: a `sm` banner's text was smaller than the label of its 32px button, which made the button look too big for the banner; a banner's text is now never smaller than its button's label.
+  - Affects: `sm` text `text-footnote` → `text-callout`: 12/18 → 14/22 on a desktop, 13/18 → 14/20 on a phone. The 16px icon and the 8px × 12px padding are unchanged. With a button, the button stays centered on the last line, 4px from the top and bottom edges, so the space above and below the text, (32px − one line) / 2 + 4px, goes 11px → 9px on a desktop and 11px → 10px on a phone; a one-line banner stays 40px tall.
+  - Docs: https://raft-design.botiverse.build/components/banner/#sizes
+
 ## [0.21.2](https://github.com/botiverse/raft-design/compare/v0.21.1...v0.21.2) (2026-10-22)
 
 ### Fixed
