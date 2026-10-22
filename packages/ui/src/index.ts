@@ -680,6 +680,7 @@ export {
 export type {
   SegmentedControlCountProps,
   SegmentedControlIconsOnlyBelow,
+  SegmentedControlIconsOnlyPreset,
   SegmentedControlItemProps,
   SegmentedControlLabelProps,
   SegmentedControlProps,

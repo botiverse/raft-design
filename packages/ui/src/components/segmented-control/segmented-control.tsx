@@ -92,14 +92,37 @@ const segmentedControl = tv({
         ],
       },
     },
+    iconsOnlyMeasured: {
+      true: {
+        root: [
+          "data-icons-only:**:data-[slot=segmented-control-item]:relative data-icons-only:**:data-[slot=segmented-control-item]:w-8 data-icons-only:**:data-[slot=segmented-control-item]:px-0",
+          "data-icons-only:**:data-[slot=segmented-control-label]:sr-only data-icons-only:**:data-[slot=segmented-control-count]:sr-only",
+        ],
+      },
+    },
   },
 });
 
+/** Tailwind's container sizes, `@xs` (20rem) to `@2xl` (42rem). */
+export type SegmentedControlIconsOnlyPreset = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+
 /**
- * Container widths (Tailwind's `@xs` 20rem to `@2xl` 42rem) below which the
- * segments show only their icons.
+ * When the segments show only their icons: `auto` when their labels don't fit
+ * the width the control is given, a container size preset, or a CSS length
+ * (`px`, `rem` or `em`) the row is narrower than.
  */
-export type SegmentedControlIconsOnlyBelow = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+export type SegmentedControlIconsOnlyBelow =
+  | "auto"
+  | SegmentedControlIconsOnlyPreset
+  | `${number}px`
+  | `${number}rem`
+  | `${number}em`;
+
+const ICONS_ONLY_PRESETS = new Set<string>(["xs", "sm", "md", "lg", "xl", "2xl"]);
+
+function isIconsOnlyPreset(value: string | undefined): value is SegmentedControlIconsOnlyPreset {
+  return value !== undefined && ICONS_ONLY_PRESETS.has(value);
+}
 
 const SegmentedControlIconsOnlyContext = createContext(false);
 
@@ -107,9 +130,11 @@ export type SegmentedControlProps<T extends string = string> = StyledProps<
   BaseRadioGroup.Props<T>
 > & {
   /**
-   * When the nearest `@container` ancestor (the row the control sits in) is
-   * narrower than this width, every segment shows only its icon (give each
-   * one). Its label stays the accessible name and shows in a tooltip.
+   * When every segment shows only its icon (give each one); its label stays
+   * the accessible name and shows in a tooltip. `auto`: when the labelled
+   * segments don't fit the width the control is given. A preset (`xs` to
+   * `2xl`) or a CSS length (`"18.5rem"`, `"296px"`): when the nearest
+   * `@container` ancestor (the row the control sits in) is narrower than it.
    */
   iconsOnlyBelow?: SegmentedControlIconsOnlyBelow;
   /**
@@ -122,17 +147,128 @@ export type SegmentedControlProps<T extends string = string> = StyledProps<
 };
 
 /**
- * Whether the track's segments run past its box: the track's own
- * `scrollWidth` against its `clientWidth`, so only what lays out inside it
- * counts (Base UI's visually hidden radio inputs sit outside the track's box
- * and must not). Measured again when the track or a segment resizes, a label
- * changes or a web font arrives. A pixel of rounding is not an overflow.
+ * A length threshold in CSS pixels, or `undefined` for a value that isn't a
+ * `px`, `rem` or `em` length. `em` is the container's font size, as in a
+ * container query.
  */
-function useTrackOverflows(ref: { current: HTMLElement | null }): boolean {
+function lengthToPx(value: string, container: Element): number | undefined {
+  const match = /^(\d*\.?\d+)(px|rem|em)$/.exec(value.trim());
+  if (!match) return undefined;
+  const amount = Number(match[1]);
+  if (match[2] === "px") return amount;
+  const fontOf = match[2] === "rem" ? document.documentElement : container;
+  return amount * parseFloat(getComputedStyle(fontOf).fontSize);
+}
+
+/** The nearest size container above the track, as a container query finds it; else its parent. */
+function queryContainerOf(track: HTMLElement): HTMLElement | null {
+  for (let el = track.parentElement; el; el = el.parentElement) {
+    if (getComputedStyle(el).containerType !== "normal") return el;
+  }
+  return track.parentElement;
+}
+
+function contentInlineSize(el: HTMLElement): number {
+  const style = getComputedStyle(el);
+  return el.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+}
+
+/**
+ * Whether the labelled segments fit the track's box: the segments, first to
+ * last, and the track's padding take no more than its `clientWidth` (half a
+ * pixel of rounding aside; `scrollWidth` would let the last segment eat into
+ * the end padding first, and Base UI's visually hidden radio inputs must not
+ * count), and no label is truncated (a track stretched with `*:flex-1`
+ * shrinks its labels instead). Measured in the labelled layout
+ * whatever the control shows now: the attribute comes off for the read and
+ * goes back before anything paints. The track is `w-fit max-w-full min-w-0`,
+ * so its box is the width it is given, a shrinking flex item's included,
+ * never more than its labels need: the answer depends only on the room
+ * around it, not on what it shows, and so can't flap at the boundary.
+ */
+function labelsFit(track: HTMLElement): boolean {
+  const iconsOnly = track.hasAttribute("data-icons-only");
+  if (iconsOnly) track.removeAttribute("data-icons-only");
+  const segments = Array.from(
+    track.querySelectorAll<HTMLElement>(":scope > [data-slot=segmented-control-item]"),
+  );
+  let fits = true;
+  if (segments.length > 0) {
+    const style = getComputedStyle(track);
+    const needed =
+      segments[segments.length - 1]!.getBoundingClientRect().right -
+      segments[0]!.getBoundingClientRect().left +
+      parseFloat(style.paddingLeft) +
+      parseFloat(style.paddingRight);
+    fits = needed - track.clientWidth <= 0.5;
+  }
+  if (fits) {
+    for (const label of Array.from(
+      track.querySelectorAll<HTMLElement>("[data-slot=segmented-control-label]"),
+    )) {
+      if (label.scrollWidth - label.clientWidth > 1) {
+        fits = false;
+        break;
+      }
+    }
+  }
+  if (iconsOnly) track.setAttribute("data-icons-only", "");
+  return fits;
+}
+
+/**
+ * Lays the track out and reports whether its segments run past its box. The
+ * track comes from a callback ref, so a swapped element is measured too.
+ *
+ * With `iconsOnlyBelow="auto"` or a length, it decides here whether the
+ * segments show only their icons, and sets `data-icons-only` on the track
+ * (the presets are container queries in CSS and need nothing here). The
+ * decision is taken synchronously, in the layout effect and in the observers'
+ * callbacks, so the first frame and every resize paint the right layout.
+ * Taken again when the track, a segment, the element it is measured against
+ * (the parent for `auto`, the container for a length) or one of that
+ * element's children resizes or comes and goes, a label, a count or the
+ * selection changes, or a web font arrives.
+ *
+ * The overflow is the track's own `scrollWidth` against its `clientWidth`
+ * after that decision, measured in the next frame.
+ */
+function useTrackFit(
+  track: HTMLElement | null,
+  iconsOnlyBelow: SegmentedControlIconsOnlyBelow | undefined,
+): boolean {
   const [overflowing, setOverflowing] = useState(false);
+  const measured = iconsOnlyBelow !== undefined && !isIconsOnlyPreset(iconsOnlyBelow);
   useLayoutEffect(() => {
-    const track = ref.current;
     if (!track || typeof ResizeObserver === "undefined") return undefined;
+    const reference = !measured
+      ? null
+      : iconsOnlyBelow === "auto"
+        ? track.parentElement
+        : queryContainerOf(track);
+    if (
+      measured &&
+      iconsOnlyBelow !== "auto" &&
+      reference &&
+      lengthToPx(iconsOnlyBelow, reference) === undefined &&
+      process.env.NODE_ENV !== "production"
+    ) {
+      console.warn(
+        `raft-ui: SegmentedControl iconsOnlyBelow="${iconsOnlyBelow}" is not a preset, "auto" or a px, rem or em length; the segments keep their labels.`,
+      );
+    }
+    const fitIcons = () => {
+      if (!measured) return;
+      let iconsOnly = false;
+      if (iconsOnlyBelow === "auto") iconsOnly = !labelsFit(track);
+      else if (reference) {
+        const threshold = lengthToPx(iconsOnlyBelow, reference);
+        iconsOnly = threshold !== undefined && contentInlineSize(reference) < threshold;
+      }
+      if (iconsOnly !== track.hasAttribute("data-icons-only")) {
+        track.toggleAttribute("data-icons-only", iconsOnly);
+      }
+    };
     let frame = 0;
     const measure = () => {
       frame = 0;
@@ -141,29 +277,64 @@ function useTrackOverflows(ref: { current: HTMLElement | null }): boolean {
     const schedule = () => {
       if (frame === 0) frame = requestAnimationFrame(measure);
     };
-    const resize = new ResizeObserver(schedule);
-    const observeSegments = () => {
+    const update = () => {
+      fitIcons();
+      schedule();
+    };
+    const resize = new ResizeObserver(update);
+    const observeAll = () => {
       resize.disconnect();
       resize.observe(track);
       for (const child of Array.from(track.children)) resize.observe(child);
+      if (reference) {
+        resize.observe(reference);
+        for (const child of Array.from(reference.children)) resize.observe(child);
+      }
     };
-    observeSegments();
+    observeAll();
     const mutation = new MutationObserver(() => {
-      observeSegments();
-      schedule();
+      observeAll();
+      update();
     });
-    mutation.observe(track, { childList: true, subtree: true, characterData: true });
+    mutation.observe(track, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributeFilter: ["data-checked"],
+    });
+    if (reference) mutation.observe(reference, { childList: true });
     const fonts = typeof document === "undefined" ? undefined : document.fonts;
-    fonts?.addEventListener("loadingdone", schedule);
+    fonts?.addEventListener("loadingdone", update);
+    fitIcons();
     measure();
     return () => {
       if (frame !== 0) cancelAnimationFrame(frame);
       resize.disconnect();
       mutation.disconnect();
-      fonts?.removeEventListener("loadingdone", schedule);
+      fonts?.removeEventListener("loadingdone", update);
+      track.removeAttribute("data-icons-only");
     };
-  }, [ref]);
+  }, [track, measured, iconsOnlyBelow]);
   return overflowing;
+}
+
+/** In development, warns when segments that may show only their icons have none. */
+function useIconsOnlyWarning(
+  ref: { current: HTMLElement | null },
+  iconsOnlyBelow: SegmentedControlIconsOnlyBelow | undefined,
+) {
+  useLayoutEffect(() => {
+    if (process.env.NODE_ENV === "production" || iconsOnlyBelow === undefined) return;
+    const items = ref.current?.querySelectorAll("[data-slot=segmented-control-item]") ?? [];
+    for (const item of Array.from(items)) {
+      if (!item.querySelector("svg, img")) {
+        console.warn(
+          "raft-ui: a SegmentedControl with iconsOnlyBelow has a segment with no icon; it would be left empty when the segments show only their icons. Give every segment an icon.",
+        );
+        return;
+      }
+    }
+  }, [ref, iconsOnlyBelow]);
 }
 
 export function SegmentedControl<T extends string = string>({
@@ -174,10 +345,17 @@ export function SegmentedControl<T extends string = string>({
   ref,
   ...props
 }: SegmentedControlProps<T>) {
-  const { root } = segmentedControl({ iconsOnlyBelow, variant });
+  const preset = isIconsOnlyPreset(iconsOnlyBelow);
+  const { root } = segmentedControl({
+    iconsOnlyBelow: preset ? iconsOnlyBelow : undefined,
+    iconsOnlyMeasured: iconsOnlyBelow !== undefined && !preset ? true : undefined,
+    variant,
+  });
   const rootRef = useRef<HTMLDivElement>(null);
-  const [setRef] = useMergedRef<HTMLDivElement>(rootRef, ref);
-  const overflowing = useTrackOverflows(rootRef);
+  const [track, setTrack] = useState<HTMLDivElement | null>(null);
+  const [setRef] = useMergedRef<HTMLDivElement>(rootRef, setTrack, ref);
+  const overflowing = useTrackFit(track, iconsOnlyBelow);
+  useIconsOnlyWarning(rootRef, iconsOnlyBelow);
   // Keep the checked segment in view when the track scrolls.
   const value = props.value;
   useLayoutEffect(() => {
