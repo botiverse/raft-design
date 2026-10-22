@@ -382,6 +382,32 @@
      MessageAttachment. */
   --spacing-control-embedded: var(--control-embedded-size);
   --spacing-embedded-inset: var(--control-embedded-inset);
+  /* ─── Timeline rhythm ───────────────────────────────────────────────────────
+     Two steps between the lines of a conversation, measured from text to text
+     (design/foundations/spacing.md#timeline-rhythm): `timeline-message` (16px)
+     between turns, `timeline-section` (24px) at a boundary. Every row carries
+     `timeline-row` (4px) above and below its text, the reach of its highlight;
+     a turn's first row adds `timeline-turn` (8px, a transparent border the
+     highlight doesn't paint) above that, so it starts `timeline-lead` (12px)
+     above its text. A date line takes those insets back out of its own
+     padding, so it sits a section from the text on both sides.
+     A product uses only two of them, around its list: `timeline-start`
+     over the first row (a section less the lead every row brings, the
+     notice included) and `timeline-end` under the last row (a section less
+     its row inset); `turn` and `lead` stay inside the components.
+
+     Consumers: MessageItem, SystemMessage, MessageListDateDivider,
+     MessageListNotice, ThreadPanelReplySummary, and the product's list top
+     and end. */
+  --spacing-timeline-message: var(--timeline-gap-message);
+  --spacing-timeline-section: var(--timeline-gap-section);
+  --spacing-timeline-row: var(--timeline-row-inset);
+  --spacing-timeline-turn: calc(var(--timeline-gap-message) - 2 * var(--timeline-row-inset));
+  --spacing-timeline-lead: calc(var(--timeline-gap-message) - var(--timeline-row-inset));
+  --spacing-timeline-end: calc(var(--timeline-gap-section) - var(--timeline-row-inset));
+  --spacing-timeline-start: calc(
+    var(--timeline-gap-section) - var(--timeline-gap-message) + var(--timeline-row-inset)
+  );
   /* ─── Option metric axis ────────────────────────────────────────────────────
      An option in a popup list (a Select, Combobox or ComboboxSelect option, a
      menu item) is as tall as its content, with the same space above and below

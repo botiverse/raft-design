@@ -18,11 +18,13 @@ export const messageItem = tv({
       // a whole-page recalc trap (#386).
       "hover:[--mi-toolbar-opacity:1] hover:[--mi-toolbar-pe:auto] focus-within:[--mi-toolbar-opacity:1] focus-within:[--mi-toolbar-pe:auto]",
       "has-data-popup-open:[--mi-toolbar-opacity:1] has-data-popup-open:[--mi-toolbar-pe:auto]",
-      // The highlight sits 4px above and below the text on every row. The
-      // 8px between groups is a transparent top border the highlight doesn't
-      // paint (bg-clip-padding); a continuation row has none, so it sits
-      // under the row it continues.
-      "min-h-0 px-2 py-1 border-t-8 border-transparent bg-clip-padding",
+      // The highlight sits a row inset (4px) above and below the text on
+      // every row. The rest of the message step that opens a turn (8px) is a
+      // transparent top border the highlight doesn't paint (bg-clip-padding),
+      // so two turns sit 16px apart, text to text; a continuation row has
+      // none, so it sits under the row it continues
+      // (design/foundations/spacing.md#timeline-rhythm).
+      "min-h-0 px-2 py-timeline-row border-t-(length:--spacing-timeline-turn) border-transparent bg-clip-padding",
       "hover:[--mi-ct-color:var(--foreground-hint)] has-data-popup-open:[--mi-ct-color:var(--foreground-hint)]",
       // The highlight is --mi-row-fill, set here once per state and painted
       // as the background, so parts that paint the row's surface around

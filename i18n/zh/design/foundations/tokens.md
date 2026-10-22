@@ -1,7 +1,7 @@
 ---
 title: Token
 summary: 每组 token 及其在两种模式下的值，token 名怎么构成，tokens.json 放在哪里、foundation.css 如何由它生成，以及如何迁移弃用的名称。
-sourceHash: 7e65b0af
+sourceHash: a3bb8abc
 ---
 
 # Token
@@ -233,6 +233,12 @@ card-title
 control
 ```
 
+时间线节奏：对话里各行之间的消息档和分段档，以及每行在文字周围保留的行内距（[间距](./spacing.md#timeline-rhythm)）。
+
+```tokens
+timeline
+```
+
 ### 在 styles.css 中定义的 token {#tokens-defined-in-stylescss}
 
 这些是 `styles.css` 里的 Tailwind 主题值，不是 `tokens.json` 中的条目，所以没有生成的表格。
@@ -242,6 +248,7 @@ control
 | `radius-sticker`、`radius-chip`、`radius-control`、`radius-container`、`radius-dialog` | [形状](./shape.md#radii) |
 | `text-hero` 到 `text-label`、`text-mono-meta`、`text-mono-code`、`text-control`，各有手机和桌面端两个值 | [字体排印](./typography.md#type-scale) |
 | `ease-slide` | [动效](./motion.md#easing) |
+| `spacing-timeline-message`、`spacing-timeline-section`、`spacing-timeline-row`（时间线 token 对应的间距工具类），以及由它们推出的 `spacing-timeline-turn`、`spacing-timeline-lead`、`spacing-timeline-start`、`spacing-timeline-end`。产品只用 `timeline-start` 和 `timeline-end` | [间距](./spacing.md#timeline-rhythm) |
 | `font-sans`、`font-heading`、`font-mono` | [字体排印](./typography.md#font-families) |
 
 ## 弃用的名称 {#deprecated-names}

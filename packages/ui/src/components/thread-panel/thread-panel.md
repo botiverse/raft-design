@@ -33,9 +33,9 @@ thread-panel/thread-panel
   - `ThreadPanelActions`: `PanelAction` buttons. The last one is the × ([Navigation](../../../../../design/patterns/navigation.md#closing)).
 - `ThreadPanelContent`: everything under the header.
   - `ThreadPanelSearch`, with `ThreadPanelSearchTrailing` and `ThreadPanelSearchCount`: an optional row for searching within the thread.
-  - `ThreadPanelOriginalMessage`: the message the thread replies to, with a hairline under it.
+  - `ThreadPanelOriginalMessage`: the message the thread replies to, with a hairline under it. The hairline is a boundary: it sits a section step, 24px, under the message's last line, and the replies start a section step under it (`ThreadPanelReplySummary`) ([Timeline rhythm](../../../../../design/foundations/spacing.md#timeline-rhythm)).
   - `ThreadPanelBody`: the scrolling replies. `ThreadPanelReplySummary` and `ThreadPanelReplyCount` head the list of replies.
-  - `ThreadPanelFooter`: the composer ([Composer](../composer/composer.md)).
+  - `ThreadPanelFooter`: the composer ([Composer](../composer/composer.md)), with no space of its own above it, as in [ConversationPanel](../conversation-panel/conversation-panel.md#anatomy).
 
 ## Behavior
 
