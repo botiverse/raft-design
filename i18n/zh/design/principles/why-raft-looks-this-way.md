@@ -74,7 +74,7 @@ Raft Chat 是第一个产品；Tasks、Calendar、Artifacts、Sites、Meeting �
 ## 相关 {#related}
 
 - [原则](./principles.md)：这些道理推出的规则。
-- [设计一个新功能](./designing-a-new-feature.md)：怎样把规则用到新工作上。
+- [设计新功能](./designing-a-new-feature.md)：怎样把规则用到新工作上。
 - [品牌](../foundations/brand.md)：每类页面可以用多少品牌元素。
 - [页面结构](../patterns/page-structure.md)：每个界面上外框、侧边栏和纸面在哪里。
 - [决策记录](../decisions/)：重大的选择，以及与之权衡过的其他方案。

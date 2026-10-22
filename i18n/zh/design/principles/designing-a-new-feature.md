@@ -28,7 +28,7 @@ sourceHash: e2938a19
 | 你要做的是 | 从这里开始 |
 | --- | --- |
 | 新的屏幕、面板或目的地 | [页面结构](../patterns/page-structure.md)、[导航](../patterns/navigation.md)和[响应式布局](../patterns/responsive.md) |
-| agent 做的或展示的任何东西 | [Agent](../people-and-agents/README.md)和[人和 agent](../people-and-agents/README.md) |
+| agent 做的或展示的任何东西 | [Agent](../people-and-agents/README.md) 和 [人和 agent](../people-and-agents/README.md) |
 | 消息、消息列、输入框 | [对话](../patterns/conversation.md) |
 | 任务及其状态 | [任务](../patterns/tasks.md) |
 | 表单或设置页 | [表单](../patterns/forms.md) |
@@ -98,6 +98,6 @@ raft-ui 的安装和配置见[使用 raft-ui](../about/use-raft-ui.md)。
 ## 相关内容 {#related}
 
 - [原则](./principles.md)：这些问题和清单所依据的规则。
-- [Raft 为什么长这样](./why-raft-looks-this-way.md)：这些规则背后的理由。
+- [为什么 Raft 长这样](./why-raft-looks-this-way.md)：这些规则背后的理由。
 - [选择组件](../components/overview.md)：每种情况对应一个组件。
 - [决策](../decisions/)：已经做出的重大选择，以及当时权衡过的其他方案。

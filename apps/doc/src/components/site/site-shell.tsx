@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import type { MouseEvent, ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { ExternalLink, FileText, Languages, Menu, Moon, Search, Sun, SunMoon } from "lucide-react";
+import { ExternalLink, FileText, Menu, Moon, Search, Sun, SunMoon } from "lucide-react";
 import {
   Button,
   Drawer,
@@ -34,20 +34,27 @@ import {
   SidebarSectionTitle,
 } from "@botiverse/raft-ui";
 import type { ThemeMode } from "@botiverse/raft-ui";
+import { SegmentedControlLink, SegmentedControlNav } from "@botiverse/raft-ui/wip";
 
 import { GithubMark } from "#/components/github-mark.tsx";
 import { usePreviewTheme } from "#/components/preview-theme.tsx";
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 import { navSections } from "#/lib/content/nav.ts";
 import type { NavItem } from "#/lib/content/nav.ts";
-import { DEFAULT_LOCALE, LANGUAGE_NAME, LANGUAGE_TAG, localizePath } from "#/lib/i18n/locales.ts";
+import { LANGUAGE_NAME, LANGUAGE_TAG, LOCALES, localizePath } from "#/lib/i18n/locales.ts";
 import { useLocale, useMessages } from "#/lib/i18n/use-locale.ts";
 
 import { SearchDialog } from "./search-dialog.tsx";
 import { StatusLabel } from "./status-label.tsx";
 import type { ComponentStatus } from "./status-label.tsx";
 
-function ThemeMenu() {
+function ThemeMenu({
+  variant = "on-frame",
+  className,
+}: {
+  variant?: "on-frame" | "ghost";
+  className?: string;
+}) {
   const messages = useMessages();
   const { mode, setMode } = usePreviewTheme();
   const Icon = mode === "dark" ? Moon : mode === "light" ? Sun : SunMoon;
@@ -55,7 +62,14 @@ function ThemeMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="on-frame" size="icon-md" aria-label={messages.colorMode} />}
+        render={
+          <Button
+            variant={variant}
+            size="icon-md"
+            className={className}
+            aria-label={messages.colorMode}
+          />
+        }
       >
         <Icon />
       </DropdownMenuTrigger>
@@ -71,42 +85,36 @@ function ThemeMenu() {
 }
 
 /**
- * The same page in the other language. A plain link, not a menu: with two
- * languages one click is enough, and the prerender crawler finds every
- * translated page through it. It loads the other document, so the whole site
+ * The language switch: one segment per language, each a link to the same
+ * page in that language (raft-ui's SegmentedControlNav), so it can be opened
+ * in a new tab or copied, and the prerender crawler finds every translated
+ * page through it. Following one loads the other document, so the whole site
  * switches with it.
  */
-function LanguageLink() {
+function LanguageSwitch({ variant = "default" }: { variant?: "default" | "on-frame" }) {
   const messages = useMessages();
   const locale = useLocale();
   const pathname = useLocation({ select: (location) => location.pathname });
-  const target = locale === DEFAULT_LOCALE ? "zh" : DEFAULT_LOCALE;
-  const href = localizePath(pathname, target);
   // The server never sees the fragment, so it joins the link only when it is
   // followed: the same section in the other language.
   const keepFragment = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
     if (window.location.hash) event.currentTarget.hash = window.location.hash;
   }, []);
-  const label = messages.language(LANGUAGE_NAME[target]);
-  const link = <a href={href} hrefLang={LANGUAGE_TAG[target]} onClick={keepFragment} />;
-  // On a phone the top bar has no room for the name: the icon alone.
   return (
-    <>
-      <Button variant="on-frame" className="max-sm:hidden" nativeButton={false} render={link}>
-        <Languages data-icon="inline-start" />
-        <span lang={LANGUAGE_TAG[target]}>{LANGUAGE_NAME[target]}</span>
-      </Button>
-      <Button
-        variant="on-frame"
-        size="icon-md"
-        className="sm:hidden"
-        aria-label={label}
-        nativeButton={false}
-        render={link}
-      >
-        <Languages />
-      </Button>
-    </>
+    <SegmentedControlNav aria-label={messages.languageSwitch} variant={variant}>
+      {LOCALES.map((option) => (
+        <SegmentedControlLink
+          key={option}
+          current={option === locale}
+          href={localizePath(pathname, option)}
+          hrefLang={LANGUAGE_TAG[option]}
+          lang={LANGUAGE_TAG[option]}
+          onClick={keepFragment}
+        >
+          {LANGUAGE_NAME[option]}
+        </SegmentedControlLink>
+      ))}
+    </SegmentedControlNav>
   );
 }
 
@@ -130,36 +138,41 @@ function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSear
       </Button>
       <Link
         to="/"
-        className="flex min-w-0 items-center gap-2 rounded-control outline-none focus-visible:shadow-focus"
+        className="flex min-w-0 items-center gap-2 rounded-control outline-none focus-visible:shadow-focus md:shrink-0"
       >
         <RaftLogo aria-hidden className="h-6 w-auto shrink-0" />
         <span className="truncate text-headline font-bold">{messages.siteName}</span>
       </Link>
-      <span className="hidden font-mono text-mono-meta text-foreground-on-frame-muted sm:inline">
+      <span className="hidden font-mono text-mono-meta text-foreground-on-frame-muted lg:inline">
         raft-ui {raftUiVersion}
       </span>
-      <div className="flex flex-1 justify-center px-4 max-md:hidden">
+      {/* From 1024 up there is room for the search box; below, a button. */}
+      <div className="flex flex-1 justify-center px-4 max-lg:hidden">
         <SearchTrigger onClick={onOpenSearch}>
           <Search />
           <SearchTriggerLabel>{messages.searchTrigger}</SearchTriggerLabel>
           <SearchTriggerShortcut>⌘K</SearchTriggerShortcut>
         </SearchTrigger>
       </div>
-      <div className="ml-auto flex items-center gap-1 md:ml-0">
+      <div className="ml-auto flex items-center gap-1 lg:ml-0">
         <Button
           variant="on-frame"
           size="icon-md"
-          className="md:hidden"
+          className="lg:hidden"
           aria-label={messages.search}
           onClick={onOpenSearch}
         >
           <Search />
         </Button>
-        <LanguageLink />
-        <ThemeMenu />
+        {/* On a phone the top bar has no room for it: it is at the top of the menu. */}
+        <div className="shrink-0 max-md:hidden">
+          <LanguageSwitch variant="on-frame" />
+        </div>
+        <ThemeMenu className="max-md:hidden" />
         <Button
           variant="on-frame"
           size="icon-md"
+          className="max-md:hidden"
           aria-label="GitHub"
           nativeButton={false}
           render={
@@ -321,10 +334,32 @@ export function SiteShell({ children }: { children: ReactNode }) {
 
       <Drawer open={navOpen} onOpenChange={setNavOpen} swipeDirection="left">
         <DrawerContent className="md:hidden">
-          <DrawerHeader>
+          <DrawerHeader className="flex items-center justify-between gap-2">
             <DrawerTitle>{messages.siteName}</DrawerTitle>
+            {/* The phone top bar has room only for the title and search. */}
+            <div className="flex items-center gap-1">
+              <ThemeMenu variant="ghost" />
+              <Button
+                variant="ghost"
+                size="icon-md"
+                aria-label="GitHub"
+                nativeButton={false}
+                render={
+                  <a
+                    href="https://github.com/botiverse/raft-design"
+                    target="_blank"
+                    rel="noreferrer"
+                  />
+                }
+              >
+                <GithubMark />
+              </Button>
+            </div>
           </DrawerHeader>
           <DrawerBody className="min-h-0 overflow-y-auto p-0">
+            <div className="px-3 pt-1 pb-3">
+              <LanguageSwitch />
+            </div>
             <SiteNav />
           </DrawerBody>
         </DrawerContent>

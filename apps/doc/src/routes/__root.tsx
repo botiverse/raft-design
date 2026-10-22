@@ -12,7 +12,7 @@ import { ThemeProvider } from "@botiverse/raft-ui";
 import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-theme.tsx";
 import { shortTitle } from "#/lib/content/nav.ts";
 import { SITE_ORIGIN } from "#/lib/content/links.ts";
-import { localize, pageAt, SECTIONS } from "#/lib/content/pages.ts";
+import { loadTranslations, localize, pageAt, SECTIONS } from "#/lib/content/pages.ts";
 import { redirectFor } from "#/lib/content/redirects.ts";
 import {
   DEFAULT_LOCALE,
@@ -39,7 +39,9 @@ export const Route = createRootRoute({
   // Old addresses (lib/content/redirects.ts). The root route runs for every
   // path, including ones no route matches any more and `.md` twins.
   // An old path redirects within the language it was asked for.
-  beforeLoad: ({ location }) => {
+  beforeLoad: async ({ location }) => {
+    // A page in another language renders from that language's translations.
+    await loadTranslations(localeOfPath(location.publicHref));
     const target = redirectFor(location.pathname);
     if (target) {
       const href = localizePath(target, localeOfPath(location.publicHref));

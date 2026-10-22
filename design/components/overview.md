@@ -72,6 +72,7 @@ Two questions decide a picker: when the choice takes effect, and how many values
 | Yes or no, applied on Save | [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) |
 | One of 2 to 5 answers, submitted with a form | [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md) |
 | Another view of the same content | [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md) |
+| The same page at another address, such as another language | Links in the SegmentedControl track ([SegmentedControlNav](../../packages/ui/src/components/segmented-control/segmented-control.md#segments-that-are-links)) |
 | Sections of one page, each with its own content | [Tabs](../../packages/ui/src/components/tabs/tabs.md) |
 | One of up to 10 values | [Select](../../packages/ui/src/components/select/select.md) |
 | One of many values | A field people type into to filter the list, on a phone too ([ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md)). When people only pick and never type, a [Select](../../packages/ui/src/components/select/select.md): ComboboxSelect always brings up a phone's keyboard |
@@ -80,7 +81,7 @@ Two questions decide a picker: when the choice takes effect, and how many values
 | To filter a list | A filter: a select or combobox opened from a [PickerTriggerButton](../../packages/ui/src/components/picker-trigger-button/picker-trigger-button.md) |
 | To change one property of an item in place | The value in a [DescriptionList](../../packages/ui/src/components/description-list/description-list.md) opens a picker |
 
-SegmentedControl and Tabs look alike, and the content decides between them: a segmented control shows the same content another way (Board or List), tabs switch to different content.
+SegmentedControl and Tabs look alike, and the content decides between them: a segmented control shows the same content another way (Board or List), tabs switch to different content. When each choice is a different URL, the segments are links (`SegmentedControlNav`), so each one can be opened in a new tab and shared.
 
 ### Telling people something
 

@@ -14,7 +14,14 @@ import {
   layerOf,
   shortTitle,
 } from "#/lib/content/nav.ts";
-import { isTranslated, localize, PAGES, SECTIONS, sectionIntro } from "#/lib/content/pages.ts";
+import {
+  isTranslated,
+  loadTranslations,
+  localize,
+  PAGES,
+  SECTIONS,
+  sectionIntro,
+} from "#/lib/content/pages.ts";
 import type { DocPage } from "#/lib/content/pages.ts";
 import { DEFAULT_LOCALE, LOCALES, localizePath } from "#/lib/i18n/locales.ts";
 import { renderMarkdownTwin } from "#/lib/content/twin.ts";
@@ -122,6 +129,7 @@ export async function renderTranslatedMarkdownPages(): Promise<
   const pages: { path: string; markdown: string }[] = [];
   for (const locale of LOCALES) {
     if (locale === DEFAULT_LOCALE) continue;
+    await loadTranslations(locale);
     for (const page of PAGES) {
       if (!isTranslated(page.repoPath, locale)) continue;
       pages.push({

@@ -6,7 +6,7 @@ sourceHash: 3e1d7caa
 
 # 原则
 
-七条规则适用于每个 Raft 产品的每个界面。每条都短到可以在评审时逐条核对，每条也都附有理由，因为没有理由的规则，第一次碰到不方便时就会被打破。文档里哪里都没写到的情况，由这些理由来决定。这套外观从哪里来，见[为什么 Raft 长这样](./why-raft-looks-this-way.md)；在新工作中怎么用这些规则，见[设计一个新功能](./designing-a-new-feature.md)。
+七条规则适用于每个 Raft 产品的每个界面。每条都短到可以在评审时逐条核对，每条也都附有理由，因为没有理由的规则，第一次碰到不方便时就会被打破。文档里哪里都没写到的情况，由这些理由来决定。这套外观从哪里来，见[为什么 Raft 长这样](./why-raft-looks-this-way.md)；在新工作中怎么用这些规则，见[设计新功能](./designing-a-new-feature.md)。
 
 编号固定不变：其他页面按编号引用原则。
 
@@ -96,5 +96,5 @@ sourceHash: 3e1d7caa
 ## 相关 {#related}
 
 - [为什么 Raft 长这样](./why-raft-looks-this-way.md)：这些规则所来自的气质。
-- [设计一个新功能](./designing-a-new-feature.md)：基于这些规则的问题和检查清单。
+- [设计新功能](./designing-a-new-feature.md)：基于这些规则的问题和检查清单。
 - [决策记录](../decisions/)：重大的选择，以及与之权衡过的其他方案。

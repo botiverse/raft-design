@@ -12,18 +12,20 @@
 ## 格式
 
 - 简体中文，全角标点（，。：；？！）。引用、界面上的词语用「」。
-- 中文与英文单词、数字、行内代码之间加一个半角空格：「每个 token 有一个用途」「间距是 4px 的倍数」。
+- 中文与英文单词、数字、行内代码之间加一个半角空格：「每个 token 有一个用途」「间距是 4px 的倍数」。`node scripts/i18n.mjs check` 会检查汉字和英文字母、数字之间有没有空格，和 Raft 中文界面的检查（slock 的 `zhCatalogSpacingContract`）一致。
+- 省略号只用一个「…」，不用「……」或「...」（同 slock 的 `zhEllipsisForm`）。
 - 粗体、列表、表格的结构与原文一一对应；表格列数不变。
 - 标题的数量、层级和顺序与原文完全一致，不增不减，也不要自己写 `{#id}`：脚本会给每个标题补上与英文一致的锚点。
 - 链接的地址（括号里的部分）原样保留，只翻译链接文字。
 - 代码块（包括 `example` 和 `tokens` 代码块）、行内代码、token 名、组件名、文件路径、URL 原样保留，不翻译。
-- 文件开头的 front matter 只保留 `title` 和 `summary` 两项，两项都翻译。
+- 文件开头的 front matter 只保留 `title` 和 `summary` 两项，两项都翻译；组件文档的 `title` 和一级标题保持英文组件名。
 
 ## 保持英文的词
 
 - **组件名**：Button、Dialog、Sheet、Toast、Tooltip、SegmentedControl 等，指组件本身时写英文原名。指一般概念时可以用中文（「对话框」「菜单」），第一次出现时可写成「对话框（Dialog）」。
 - **token 名和 token 这个词**：`layer-frame`、`foreground-muted`；「token」不译。
 - **产品名**：Raft、Raft Chat、Tasks、Calendar、Artifacts、Sites、Meeting、Canvas、raft-ui、Stamp。
+- **界面上的英文文字**：按钮、菜单项、标签页名、空状态文案等界面上原样显示的英文保留英文（Sign Out、Working now、Mark as Done），需要时在后面加中文说明。标签栏五项按术语表译成中文。
 - **英文界面文案的例子**：原文举例说明英文界面怎么写（如按钮写 "Sign In"、Title Case、不用全大写），例子保留英文，规则照译。需要时在后面加中文说明。
 
 ## 术语表
@@ -121,4 +123,24 @@
 | die-cut edge | 模切边 | |
 | soft tint | 浅色底 | |
 | typography | 字体排印 | 章节名 |
+| runtime | 运行时 | agent 运行所用的那个程序；「运行了多久」是运行时长 |
+| live bar | 实时条 | |
+| attention dot | 提醒圆点 | |
+| presence light | 在线状态灯 | |
+| destination | 目的地 | 标签栏、导航条上的一项 |
+| top-level page / pushed page | 一级页面 / 推入页面 | |
+| handle | 用户名（handle） | `@bugen` 这种 |
+| ghost button | 幽灵按钮 | |
+| chevron | V 形箭头 | |
+| side panel | 侧面板 | |
+| joint channel | 联合频道 | |
+| Identity and presence | 身份与在线状态 | 页面名 |
+| Writing about agents | 描述 agent 的用语 | 页面名 |
+| Hand-offs and approvals | 交接与审批 | 页面名 |
+| tile（location / channel / icon / workspace tile） | 图块（位置图块、频道图块、图标图块、工作空间图块） | |
+| subtle / medium tier（悬停、按下的两档） | 浅档 / 中档 | |
+| status pixel | 状态像素点 | |
+| lightbox | 图片查看器 | 指组件时写 Lightbox |
+| trigger | 触发按钮 | |
+| Anatomy / When to use / Variants / States / Behavior / Content / Accessibility | 结构 / 何时使用 / 变体 / 状态 / 行为 / 内容 / 无障碍 | 组件文档的章节名 |
 | decision record | 决策记录 | |

@@ -59,6 +59,45 @@ function headingsOf(lines) {
   return headings;
 }
 
+/**
+ * The text a reader sees: no front matter, code blocks, inline code (it
+ * renders as its own box), link targets, HTML tags, heading anchors or
+ * emphasis markers.
+ */
+function proseOf(body) {
+  return body
+    .replace(/^---\n[\s\S]*?\n---\n?/, "")
+    .replace(/^```[^\n]*\n[\s\S]*?^```/gm, "\n")
+    .replace(/`[^`\n]+`/g, " ")
+    .replace(/\]\([^)\s]*\)/g, "]")
+    .replace(/<[^>\n]+>/g, " ")
+    .replace(/\{#[\w-]+\}/g, "")
+    .replace(/https?:\/\/\S+/g, " ")
+    .replace(/[*_[\]]/g, "");
+}
+
+const HAN = /[\u3400-\u4dbf\u4e00-\u9fff]/;
+const LATIN_OR_DIGIT = /[A-Za-z0-9]/;
+
+/**
+ * Chinese typography the Raft app's catalog already enforces
+ * (slock's zhCatalogSpacingContract and zhEllipsisForm): a space between a
+ * Chinese character and a Latin letter or digit, and one … for an ellipsis.
+ */
+function typographyErrors(body) {
+  const problems = [];
+  for (const line of proseOf(body).split("\n")) {
+    for (let index = 0; index < line.length - 1; index++) {
+      const [a, b] = [line[index], line[index + 1]];
+      if ((HAN.test(a) && LATIN_OR_DIGIT.test(b)) || (LATIN_OR_DIGIT.test(a) && HAN.test(b))) {
+        problems.push(`no space in "${line.slice(Math.max(0, index - 6), index + 8).trim()}"`);
+      }
+    }
+    if (/……|\.\.\./.test(line)) problems.push(`use one … in "${line.trim().slice(0, 40)}"`);
+  }
+  return problems;
+}
+
 const fencesOf = (source) => source.match(/^```[^\n]*\n[\s\S]*?^```/gm) ?? [];
 
 function splitFrontMatter(source) {
@@ -155,6 +194,10 @@ for (const file of translations) {
     errors.push(
       `${name}: its example and tokens blocks differ from ${englishPath}; copy them as they are`,
     );
+  }
+
+  if (name.startsWith("i18n/zh/")) {
+    for (const problem of typographyErrors(source)) errors.push(`${name}: ${problem}`);
   }
 
   const recorded = source.match(/^sourceHash: (\w+)$/m)?.[1];

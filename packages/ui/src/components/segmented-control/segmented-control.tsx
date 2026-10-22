@@ -1,5 +1,7 @@
 import { createContext, use, useCallback, useRef, useState } from "react";
 import type { ComponentPropsWithRef, ReactElement } from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import type { TooltipProps } from "../tooltip/tooltip";
 import { Radio as BaseRadio } from "@base-ui/react/radio";
 import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
@@ -35,6 +37,18 @@ const segmentedControl = tv({
     count: ["font-mono", "text-mono-meta font-normal"],
   },
   variants: {
+    variant: {
+      default: {},
+      "on-frame": {
+        root: [
+          "bg-fill-frame-medium",
+          "**:data-[slot=segmented-control-item]:text-foreground-on-frame-muted **:data-[slot=segmented-control-item]:hover:text-foreground-on-frame",
+          "**:data-[slot=segmented-control-item]:hover:bg-transparent **:data-[slot=segmented-control-item]:hover:overlay-frame-medium **:data-[slot=segmented-control-item]:active:bg-transparent **:data-[slot=segmented-control-item]:active:overlay-frame-medium",
+          "**:data-[slot=segmented-control-item]:data-checked:border-line-frame-active **:data-[slot=segmented-control-item]:data-checked:bg-layer-frame-active **:data-[slot=segmented-control-item]:data-checked:text-foreground-on-frame-active",
+          "**:data-[slot=segmented-control-item]:data-checked:hover:bg-layer-frame-active **:data-[slot=segmented-control-item]:data-checked:hover:bg-none **:data-[slot=segmented-control-item]:data-checked:active:bg-layer-frame-active",
+        ],
+      },
+    },
     iconsOnlyBelow: {
       xs: {
         root: [
@@ -93,15 +107,18 @@ export type SegmentedControlProps<T extends string = string> = StyledProps<
    * one). Its label stays the accessible name and shows in a tooltip.
    */
   iconsOnlyBelow?: SegmentedControlIconsOnlyBelow;
+  /** `on-frame` in the yellow frame; see `SegmentedControlNav`. */
+  variant?: "default" | "on-frame";
 };
 
 export function SegmentedControl<T extends string = string>({
   disabled = false,
   iconsOnlyBelow,
+  variant = "default",
   className,
   ...props
 }: SegmentedControlProps<T>) {
-  const { root } = segmentedControl({ iconsOnlyBelow });
+  const { root } = segmentedControl({ iconsOnlyBelow, variant });
   return (
     <SegmentedControlIconsOnlyContext value={iconsOnlyBelow !== undefined}>
       <BaseRadioGroup
@@ -175,4 +192,59 @@ export type SegmentedControlCountProps = ComponentPropsWithRef<"span">;
 export function SegmentedControlCount({ className, ...props }: SegmentedControlCountProps) {
   const { count } = segmentedControl();
   return <span data-slot="segmented-control-count" className={count({ className })} {...props} />;
+}
+
+export type SegmentedControlNavProps = ComponentPropsWithRef<"nav"> & {
+  /**
+   * `on-frame` in the frame (a top bar): the track the frame's medium fill and
+   * the current segment in the frame's active colours (white on the yellow
+   * frame, yellow on the dark one), since a yellow sticker on yellow would
+   * not read as selected.
+   */
+  variant?: "default" | "on-frame";
+};
+
+/**
+ * The same track for choices that are places, not values: each segment is a
+ * link to another URL (a language, a version of the page), so it can be
+ * opened in a new tab and copied. Name it with `aria-label`.
+ */
+export function SegmentedControlNav({
+  variant = "default",
+  className,
+  ...props
+}: SegmentedControlNavProps) {
+  const { root } = segmentedControl({ variant });
+  return <nav data-slot="segmented-control" className={root({ className })} {...props} />;
+}
+
+export type SegmentedControlLinkProps = useRender.ComponentProps<"a"> & {
+  /** The segment for the page being shown: `aria-current="page"`, drawn as the selected segment. */
+  current?: boolean;
+};
+
+/** One segment of a `SegmentedControlNav`: a link, `<a>` unless `render` gives a router link. */
+export function SegmentedControlLink({
+  current = false,
+  className,
+  render,
+  ...props
+}: SegmentedControlLinkProps) {
+  const { item } = segmentedControl();
+  return useRender({
+    render: render ?? <a />,
+    props: mergeProps<"a">(
+      {
+        "data-slot": "segmented-control-item",
+        "aria-current": current ? "page" : undefined,
+        // The selected look is keyed to Base UI's `data-checked`; a link has
+        // no radio state, so the current page sets it.
+        ...(current ? { "data-checked": "" } : {}),
+        className: item({
+          className: `group/segmented-control-item ${className ?? ""}`.trim(),
+        }),
+      } as ComponentPropsWithRef<"a">,
+      props,
+    ),
+  });
 }
