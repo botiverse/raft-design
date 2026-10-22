@@ -1,3 +1,40 @@
+## [0.20.1](https://github.com/botiverse/raft-design/compare/v0.20.0...v0.20.1) (2026-10-22)
+
+### Design System
+
+- **A mark that leads text**: an icon or status light that starts a line of text is centered on the first line of that text and stays there when the text wraps or a description follows. Only the place is shared; each component keeps its own icon size and gap. A status light beside text is always 9px. It applies to Banner, PanelNotice, ToastIcon, MessageActionCardNotice, Badge and PanelActivity. ([#670](https://github.com/botiverse/raft-design/pull/670), [#687](https://github.com/botiverse/raft-design/pull/687))
+  - Why: each component placed its mark with its own fixed offset, which held for one type size and drifted at the next; one rule, the line box center (the cap-height center in Space Grotesk), now places every mark.
+  - Affects: offset `(1lh - size) / 2` on the row's own type; status light 9px with a 1.5px ink edge.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-mark-that-leads-text
+- **Popups stay on their trigger**: when the window or a pane scrolls under an open popup, the popup moves with the element that opened it. A context menu stays with the point where it was opened. It applies to SelectContent, ComboboxContent, PopoverContent, PreviewCardContent and NotificationCenterPopup. ([#669](https://github.com/botiverse/raft-design/pull/669))
+  - Why: popups stayed where they opened while the page scrolled, pointing at whatever had scrolled into place; the wrappers no longer turn Base UI's anchor tracking off.
+  - Docs: https://raft-design.botiverse.build/foundations/elevation/#popups
+
+### Added
+
+- **`lead-icon`** and **`lead-dot`** utilities: center an icon (`lead-icon`) or a `Status` light (`lead-dot`) you place yourself on the first line of the text beside it. ([#670](https://github.com/botiverse/raft-design/pull/670), [#687](https://github.com/botiverse/raft-design/pull/687))
+  - Why: a mark placed outside the components above had no way to follow the same rule except a hand-tuned margin.
+  - Affects: `lead-dot` sizes the light 9px with a 1.5px edge, so don't pass the `Status` a `size`. Both read `1lh`, so put the text's type on the row that holds the mark and the text.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-mark-that-leads-text
+
+### Changed
+
+- **Status** in Banner, PanelNotice, ToastIcon, Badge and PanelActivity: held at 9px and centered on the first line, whatever `size` or vertical margin it was given. ([#670](https://github.com/botiverse/raft-design/pull/670), [#687](https://github.com/botiverse/raft-design/pull/687))
+  - Why: the same light showed at different sizes in a toast, a banner and a chip; a light beside text has one size, 9px, the least color that tells green from yellow from orange, plus its ink edges.
+  - Affects: a `Status` passed `xs` (6px), `sm` (8px) or `lg` (11px) in these components renders 9px; the `xs` edge 1px → 1.5px (its 1px corner stays). The default `md` is unchanged, as are icon sizes and gaps.
+  - Docs: https://raft-design.botiverse.build/components/status/#sizes
+
+### Fixed
+
+- **PanelNotice**: a leading status light or icon is centered on the first line of the notice's text. ([#670](https://github.com/botiverse/raft-design/pull/670), [#687](https://github.com/botiverse/raft-design/pull/687))
+  - Why: the mark sat at the top of the first line, a light 6.5px above the line's center on a desktop (5.5px on a phone) and a 16px icon 3px (2px); the notice now follows A mark that leads text.
+  - Affects: icon size and gap are unchanged (your icon's size, 10px before the text).
+  - Docs: https://raft-design.botiverse.build/components/panel/
+- **Popups**: SelectContent, ComboboxContent, PopoverContent, PreviewCardContent and NotificationCenterPopup follow their trigger while the window or a scrolling pane moves. ([#669](https://github.com/botiverse/raft-design/pull/669))
+  - Why: these wrappers turned anchor tracking off by default, so an open popup kept its opening position and drifted off its trigger as soon as anything scrolled; they now leave it to Base UI's default.
+  - Affects: `disableAnchorTracking` default `true` → unset (Base UI's default, tracking on). ContextMenuContent drops its `true` default too; it is anchored to a point, so it looks the same. Pass `disableAnchorTracking` to turn it off for one popup. Select still turns tracking off with `alignItemWithTrigger`.
+  - Docs: https://raft-design.botiverse.build/foundations/elevation/#popups
+
 ## [0.20.0](https://github.com/botiverse/raft-design/compare/v0.19.0...v0.20.0) (2026-10-22)
 
 ### Design System
