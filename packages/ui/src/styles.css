@@ -512,6 +512,14 @@
   initial-value: 0px;
 }
 
+/* A reference chip's own type size, kept as a length so a smaller note inside
+   it can measure itself against the label (message-reference.recipe.ts). */
+@property --message-reference-em {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
 *,
 ::before,
 ::after {

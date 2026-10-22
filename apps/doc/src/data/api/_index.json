@@ -712,6 +712,7 @@
       "MessageReferenceIndicator",
       "MessageReferenceLabel",
       "MessageReferencePending",
+      "MessageReferenceSuffix",
       "MessageReferenceText",
       "MessageReferenceUnavailable",
       "MessageItem",
@@ -767,7 +768,7 @@
       "MessageItemDelegatedByName"
     ],
     "status": "stable",
-    "description": "Left-gutter hover clock for continuation rows, a `<time>`: pass the moment in `dateTime`. Show the hour and minute only, in the person's 12h/24h format, with no AM/PM (`6:35`, `18:35`)."
+    "description": "A short note after a chip's label in muted machine type, such as `msg` on a link to a message. It lines up with the label by the middle of its letters."
   },
   "message-list": {
     "names": [

@@ -802,6 +802,7 @@ export {
   MessageReferenceIndicator,
   MessageReferenceLabel,
   MessageReferencePending,
+  MessageReferenceSuffix,
   MessageReferenceText,
   MessageReferenceUnavailable,
 } from "./components/message-item/index";
@@ -811,6 +812,7 @@ export type {
   MessageReferenceIndicatorProps,
   MessageReferenceLabelProps,
   MessageReferencePendingProps,
+  MessageReferenceSuffixProps,
   MessageReferenceTextProps,
   MessageReferenceTextVariant,
   MessageReferenceUnavailableProps,

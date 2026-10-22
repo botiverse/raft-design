@@ -32,7 +32,7 @@ const taskChip = tv({
       closed: { root: ["bg-task-status-closed-soft"] },
     },
     variant: {
-      default: { root: ["h-[22px] gap-1.5 py-0 pr-2 pl-1.5", "text-[12px] leading-4"] },
+      default: { root: ["h-[22px] gap-1.5 px-2 py-0", "text-[12px] leading-4"] },
       inline: {},
     },
     // `sm` matches the Badges it sits beside: in the Activity card metadata
@@ -55,7 +55,7 @@ const taskChip = tv({
       status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: {
         root: [
-          "items-baseline gap-1.5 rounded-full border py-0 pr-2 pl-1 align-baseline",
+          "items-baseline gap-1.5 rounded-full border px-1.5 py-0 align-baseline",
           // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
           "[font-size:inherit] leading-[1.2em] font-[450]",
           "[&>svg]:size-[0.857em] [&>svg]:self-center",
@@ -65,12 +65,12 @@ const taskChip = tv({
     {
       variant: "default",
       size: "sm",
-      class: { root: ["h-5 gap-1 pr-1.5 pl-1"] },
+      class: { root: ["h-5 gap-1 px-1.5"] },
     },
     {
       variant: "inline",
       status: ["todo", "in-progress", "in-review", "done", "closed"],
-      class: { root: ["rounded-sticker border-0 pr-1.5 pl-[3px]", "font-semibold"] },
+      class: { root: ["rounded-sticker border-0", "font-semibold"] },
     },
   ],
   defaultVariants: {

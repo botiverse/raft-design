@@ -75,6 +75,21 @@ A reference chip, a mention of the person reading and inline code sit inside a s
 - **Center the letters in the fill by their cap height.** In Space Grotesk the line box already does this. Space Mono's letters sit 0.0275em below the center of their content area, so inline code moves its fill down by that much (top padding `1px - 0.0275em`, bottom `1px + 0.0275em`). Without it the letters sit about 0.6px low.
 - **Center a leading icon on the letters, not on the box.**
 
+## Chips
+
+A chip is a short run of ink in a fill: a reference in a message, a task chip, a badge, a reaction, a tag in a field. The ink at its two ends sits the same distance from the fill's edges, and its parts center on one line. Padding is only the means: each end's padding makes up for the empty space its own content brings.
+
+- **Measure on the ink, not on the boxes.** The eye compares the space from the fill's edge to the first and the last thing drawn: an icon's strokes, a letter's outline, a status pixel's square.
+- **Give an icon end the same padding as a text end.** A Lucide icon leaves 1/24 of its box empty at each side, 0.6px at 14px, about what a letter leaves beside it. A reference chip once gave its icon end 3px and its text end 6px: the icon sat 3.6px from the edge and the last letter 7px, and the right end looked empty.
+- **Give a mark drawn to its edges the same padding too.** A status pixel, an app's icon, an emoji and a status light carry no empty space. Task chips, task statuses and reactions once took 2px less on that end, which left 6px before the pixel and 8.5px after the text.
+- **Take a remove button's empty space off the other end.** A × sits centered in a button 4px shorter than the chip, 2px from its end, and Lucide draws it 3px inside its box, so its ink ends 6px from the edge of a 20px chip and 12px from a 32px one. The text end takes the same, `(chip − 18px) / 2 + 5px`, rather than a fixed 8px.
+- **Correct a fixed icon that is drawn narrower than its box.** A bookmark is drawn 2.3px inside a 14px box and a file 1.75px, so the saved marker and a forwarded file take 5px on the icon end. A reference chip can't see which icon it was given: a `#`, a pin or a file in one keeps 1px to 2px more on its left. Raft writes a channel's `#` as text.
+- **Leave letters as they are.** Two letters' side bearings differ by up to 1px and change with every word, so text at both ends takes equal padding.
+- **Center a smaller note on the label's letters.** A note in smaller machine type after a chip's label, such as `msg` on a link to a message, keeps the label's baseline in the layout and is drawn higher by a quarter of the size difference. Space Grotesk and Space Mono both have a 0.5em x-height, so the middles of the two x-heights meet at every type size. On the shared baseline, an 11px note sat 0.3px low beside a 12.25px label and 0.75px low beside a 14px one, and its descenders made it look lower still.
+- **Keep the label on the sentence's baseline.** Never center the whole chip to bring its parts together: the label's words would float 2px above the sentence ([Marks in running text](#marks-in-running-text)). Move only the smaller part.
+
+In raft-ui each chip's recipe holds its padding, and `MessageReferenceSuffix` is the note after a reference chip's label.
+
 ## The ends of a header
 
 Every header puts the icon buttons at its two ends the same way: a panel header, a thread, profile or task panel's header, a phone's top bar, a drawer's or a sheet's header, a dialog's ×, the sidebar header and the right end of the web top bar.

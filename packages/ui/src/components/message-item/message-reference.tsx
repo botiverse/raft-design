@@ -94,6 +94,28 @@ export function MessageReferenceLabel({ className, render, ...props }: MessageRe
   });
 }
 
+export type MessageReferenceSuffixProps = useRender.ComponentProps<"span">;
+
+/** A short note after a chip's label in muted machine type, such as `msg` on a
+ *  link to a message. It lines up with the label by the middle of its letters. */
+export function MessageReferenceSuffix({
+  className,
+  render,
+  ...props
+}: MessageReferenceSuffixProps) {
+  const { suffix } = messageReference();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: suffix({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: { slot: "message-reference-suffix" },
+  });
+}
+
 export type MessageReferencePendingProps = SpanProps;
 
 export function MessageReferencePending({
