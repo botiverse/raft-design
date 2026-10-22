@@ -18,8 +18,9 @@ export const messageActionCardContent = tv({
       "grid-cols-[minmax(88px,max-content)_minmax(0,1fr)] items-baseline gap-x-4 gap-y-0.5",
     ],
     property: ["contents"],
-    // Stacked (a narrow card), the value sits right under its label and a
-    // pair sits 8px from the next, as in DescriptionList.
+    // Stacked (a narrow card), the value sits 2px under its label and 10px
+    // above the next label (the 2px row gap plus 8px on each following
+    // label), as in DescriptionList.
     propertyLabel: [
       "max-w-40 min-w-0 wrap-break-word",
       "text-footnote font-medium text-foreground-hint",
