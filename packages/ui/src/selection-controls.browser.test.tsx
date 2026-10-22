@@ -5,7 +5,7 @@ import type { ReactElement, ReactNode } from "react";
 import { Checkbox } from "./components/checkbox/checkbox";
 import { RadioGroup, RadioGroupItem } from "./components/radio-group/radio-group";
 import { Switch } from "./components/switch/switch";
-import { Field, FieldItem, FieldLabel } from "./components/field/field";
+import { Field, FieldDescription, FieldItem, FieldLabel } from "./components/field/field";
 import {
   ListRow,
   ListRowBody,
@@ -153,6 +153,19 @@ const LABEL_ROWS = [
     texts: [SHORT, LONG],
   },
   { name: "items-center gap-3", className: "flex items-center gap-3 text-sm", texts: [SHORT] },
+  // Small text: a 16px line is shorter than the 20px box, which keeps its size
+  // (the row is 20px); a wrapping small label gives its line 20px.
+  { name: "text-xs items-center", className: "flex items-center gap-2 text-xs", texts: [SHORT] },
+  {
+    name: "text-xs leading-5 items-start",
+    className: "flex items-start gap-2 text-xs leading-5",
+    texts: [SHORT, LONG],
+  },
+  {
+    name: "text-sm items-start",
+    className: "flex items-start gap-2 text-sm",
+    texts: [SHORT, LONG],
+  },
 ] as const;
 
 for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
@@ -178,14 +191,28 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
           const gap = span.getBoundingClientRect().left - r.right;
           expectOnFirstLine(el, span, text === LONG, gap);
           expect(gap).toBe(row.className.includes("gap-3") ? 12 : GAP);
+          // The row is never shorter than the control, nor than its text.
+          const label = el.closest("label")!;
+          expect(label.getBoundingClientRect().height).toBe(
+            Math.max(
+              span.getBoundingClientRect().height,
+              control.size[1],
+              parseFloat(getComputedStyle(label).minHeight) || 0,
+            ),
+          );
         });
       }
     }
   }
 
+  const FIELD_ITEMS = [
+    { name: "one line", text: SHORT, description: false, wraps: false },
+    { name: "wrapped", text: LONG, description: false, wraps: true },
+    { name: "with a description", text: SHORT, description: true, wraps: false },
+  ] as const;
   for (const control of CONTROLS) {
-    for (const { name, text, wraps } of TEXTS) {
-      it(`${deviceName}: a ${control.name} in a FieldItem sits on its label's first line (${name})`, async () => {
+    for (const { name, text, description, wraps } of FIELD_ITEMS) {
+      it(`${deviceName}: a ${control.name} in a FieldItem sits on its label's first line, at main's height (${name})`, async () => {
         await device(deviceWidth, touch);
         render(
           wrap(
@@ -193,7 +220,10 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
             <Field className="w-[260px]">
               <FieldItem data-testid="item">
                 {control.el()}
-                <FieldLabel data-testid="text">{text}</FieldLabel>
+                <div data-testid="column" className="grid gap-0.5">
+                  <FieldLabel data-testid="text">{text}</FieldLabel>
+                  {description ? <FieldDescription>Off: only mentions.</FieldDescription> : null}
+                </div>
               </FieldItem>
             </Field>,
           ),
@@ -203,17 +233,21 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
           control.size,
         );
         expectOnFirstLine(el, screen.getByTestId("text"), wraps);
-        if (!wraps) {
-          // One line: the row is the taller of the line and the control, so a
-          // switch row is 30px with the label centred on it.
-          const label = screen.getByTestId("text");
-          const lineHeight = parseFloat(getComputedStyle(label).lineHeight);
-          expect(screen.getByTestId("item").getBoundingClientRect().height).toBe(
-            Math.max(lineHeight, control.size[1]),
-          );
-        }
+        // The row is as tall as on main: its text column, or the control
+        // pulled up by half the difference to the label's line, whichever is
+        // taller. Nothing is added above or below.
+        const item = screen.getByTestId("item");
+        const lineHeight = parseFloat(getComputedStyle(item).lineHeight);
+        const column = screen.getByTestId("column").getBoundingClientRect().height;
+        expect(item.getBoundingClientRect().height).toBe(
+          Math.max(column, (lineHeight + control.size[1]) / 2),
+        );
       });
+    }
+  }
 
+  for (const control of CONTROLS) {
+    for (const { name, wraps } of TEXTS) {
       it(`${deviceName}: a ${control.name} at the end of a plain ListRow (${name})`, async () => {
         await device(deviceWidth, touch);
         render(
@@ -391,8 +425,10 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
         document.elementFromPoint(x, y)?.closest("label")?.dataset.testid;
       // Just below the first box, and just above the second.
       expect(owner(a.bottom + 1), "1px below a").toBe("row-a");
-      expect(owner(a.bottom + gap / 2 - 1), "nearer a").toBe("row-a");
-      expect(owner(b.top - gap / 2 + 1), "nearer b").toBe("row-b");
+      // Within a pixel of the middle either may win: a 1.5px border renders
+      // as 1px at a device pixel ratio of 1, and hit-testing snaps to pixels.
+      expect(owner(a.bottom + gap / 2 - 2), "nearer a").toBe("row-a");
+      expect(owner(b.top - gap / 2 + 2), "nearer b").toBe("row-b");
       expect(owner(b.top - 1), "1px above b").toBe("row-b");
     });
   }

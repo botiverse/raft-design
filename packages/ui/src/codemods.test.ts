@@ -170,7 +170,7 @@ test("button-sizes finds a Button in another element's props and reports what it
   expect(source).toContain('actions={<Button size="md">Accept</Button>}');
   expect(source).toContain('<Button {...props} size="icon-md" />');
   expect(left).toEqual([
-    { line: 5, value: "sm", where: "<Banner>" },
+    { line: 5, value: "sm", where: "<Banner size>" },
     { line: 6, value: "sm", where: "a string" },
     { line: 7, value: "icon-sm", where: "a regular expression" },
   ]);

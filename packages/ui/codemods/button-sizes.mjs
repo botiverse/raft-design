@@ -8,6 +8,9 @@
 // icon-md. The old names keep working as deprecated aliases until raft-ui 1.0,
 // so the rewrite can land at any time after upgrading.
 //
+// Needs @babel/parser, an optional peer dependency of raft-ui: install it
+// in the project you migrate (`pnpm add -D @babel/parser`).
+//
 // Each file is parsed as TypeScript and JSX (@babel/parser), so comments,
 // strings and JSX text never confuse it, and a Button anywhere is found: as a
 // child, in another component's prop (`actions={<Button …/>}`,
@@ -29,8 +32,26 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const require = createRequire(import.meta.url);
-const { parse } = require("@babel/parser");
+let babelParse;
+
+/**
+ * @babel/parser is an optional peer dependency of raft-ui: only this codemod
+ * uses it. Look in the project being migrated first, then beside raft-ui.
+ */
+function loadParser() {
+  if (babelParse) return babelParse;
+  for (const from of [path.join(process.cwd(), "package.json"), import.meta.url]) {
+    try {
+      babelParse = createRequire(from)("@babel/parser").parse;
+      return babelParse;
+    } catch {
+      // Try the next place.
+    }
+  }
+  throw new Error(
+    "install @babel/parser to run this codemod (it parses your TSX): pnpm add -D @babel/parser",
+  );
+}
 
 /** Deprecated Button size -> the size it renders as. */
 export const BUTTON_SIZE_RENAMES = {
@@ -63,7 +84,7 @@ function parseSource(source, file) {
   const ext = path.extname(file);
   const plugins =
     ext === ".ts" || ext === ".mts" || ext === ".cts" ? ["typescript"] : ["typescript", "jsx"];
-  return parse(source, {
+  return loadParser()(source, {
     sourceType: "unambiguous",
     plugins,
     errorRecovery: true,
@@ -211,10 +232,12 @@ export function migrateButtonSizes(
         node.quasis.length === 1);
     if (!isString || !OLD.has(literalValue(node)) || edits.has(node.start)) return;
     let where = "a string";
+    let prop = "";
     for (let i = parents.length - 1; i >= 0; i -= 1) {
       const parent = parents[i];
+      if (parent.type === "JSXAttribute" && !prop) prop = ` ${parent.name.name}`;
       if (parent.type === "JSXOpeningElement") {
-        where = `<${elementName(parent.name)}>`;
+        where = `<${elementName(parent.name)}${prop}>`;
         break;
       }
       if (parent.type === "JSXElement" || parent.type === "JSXFragment") break;
@@ -263,6 +286,13 @@ function main(argv) {
   }
   let changed = 0;
   const review = [];
+  try {
+    loadParser();
+  } catch (error) {
+    console.error(error.message);
+    process.exit(1);
+  }
+  const groups = new Map();
   for (const target of targets) {
     for (const file of walkFiles(target)) {
       const before = readFileSync(file, "utf8");
@@ -274,8 +304,10 @@ function main(argv) {
         review.push(`${file}: could not parse (${error.message}); not changed`);
         continue;
       }
-      for (const { line, value, where } of result.left)
+      for (const { line, value, where } of result.left) {
         review.push(`${file}:${line}  "${value}" in ${where}`);
+        groups.set(where, (groups.get(where) ?? 0) + 1);
+      }
       if (result.source === before) continue;
       changed += 1;
       console.log(`${dry ? "would update" : "updated"} ${file}`);
@@ -285,8 +317,13 @@ function main(argv) {
   console.log(`${changed} file${changed === 1 ? "" : "s"} ${dry ? "to update" : "updated"}`);
   if (review.length > 0) {
     console.log(
-      "\nLeft as they are; check each by hand (another component's size, a variable, your own wrapper):",
+      "\nLeft as they are; check each by hand (another component's size, a variable, your own wrapper).",
     );
+    console.log("\nBy element and prop:");
+    for (const [where, count] of [...groups].sort((a, b) => b[1] - a[1])) {
+      console.log(`  ${String(count).padStart(4)}  ${where}`);
+    }
+    console.log("\nEach one:");
     for (const where of review) console.log(`  ${where}`);
   }
 }

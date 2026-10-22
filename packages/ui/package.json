@@ -58,7 +58,6 @@
     "test": "vp test"
   },
   "dependencies": {
-    "@babel/parser": "catalog:",
     "@base-ui/react": "catalog:",
     "@dnd-kit/core": "catalog:",
     "@dnd-kit/sortable": "catalog:",
@@ -72,6 +71,7 @@
     "tailwind-variants": "catalog:"
   },
   "devDependencies": {
+    "@babel/parser": "catalog:",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/dom": "catalog:",
     "@testing-library/react": "catalog:",
@@ -92,7 +92,13 @@
     "vitest": "catalog:"
   },
   "peerDependencies": {
+    "@babel/parser": "^7.29.9",
     "react": "^19",
     "react-dom": "^19"
+  },
+  "peerDependenciesMeta": {
+    "@babel/parser": {
+      "optional": true
+    }
   }
 }

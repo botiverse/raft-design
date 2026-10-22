@@ -16,20 +16,13 @@ const field = tv({
     // optical centering in Space Grotesk - cap centre and line-box centre sit
     // 0.004em apart, under 0.1px at any size we set - so there is nothing left
     // to nudge, and a hand-tuned margin means the control was aligned to the
-    // wrong thing. The offset goes on both sides, so the control's box is
-    // one line tall, as in a <label> row. A control taller than the line (a
-    // 30px switch, or a 20px box beside an 18px line) is never squeezed: the
-    // row pads by its overhang, so a one-line row is the control's height
-    // with the label centred on it.
+    // wrong thing.
     item: [
       "group/field-item flex items-start gap-2",
       "*:min-w-0",
-      "*:data-[slot=checkbox]:my-[calc((1lh-1.25rem)/2)]",
-      "*:data-[slot=radio-group-item]:my-[calc((1lh-1.25rem)/2)]",
-      "*:data-[slot=switch]:my-[calc((1lh-1.875rem)/2)]",
-      "has-[>[data-slot=switch]]:[--field-control:1.875rem]",
-      "has-[>[data-slot=checkbox],>[data-slot=radio-group-item]]:[--field-control:1.25rem]",
-      "py-[max(0px,calc((var(--field-control,0px)-1lh)/2))]",
+      "*:data-[slot=checkbox]:mt-[calc((1lh-1.25rem)/2)]",
+      "*:data-[slot=radio-group-item]:mt-[calc((1lh-1.25rem)/2)]",
+      "*:data-[slot=switch]:mt-[calc((1lh-1.875rem)/2)]",
     ],
     label: [
       "block wrap-anywhere",

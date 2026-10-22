@@ -286,9 +286,6 @@ importers:
 
   packages/ui:
     dependencies:
-      '@babel/parser':
-        specifier: 'catalog:'
-        version: 7.29.9
       '@base-ui/react':
         specifier: 'catalog:'
         version: 1.8.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -323,6 +320,9 @@ importers:
         specifier: 'catalog:'
         version: 3.3.1(tailwind-merge@3.7.0)(tailwindcss@4.3.3)
     devDependencies:
+      '@babel/parser':
+        specifier: 'catalog:'
+        version: 7.29.9
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(@voidzero-dev/vite-plus-core@1.0.0(@types/node@26.6.2)(esbuild@0.28.1)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.0))
