@@ -52,6 +52,11 @@ export const messageItem = tv({
       "has-data-[slot=message-item-search-match]:[--mi-row-fill:var(--info-soft)] has-data-[slot=message-item-search-match]:hover:[--mi-row-fill:var(--info-soft)]",
       "has-[[data-slot=message-multi-select-checkbox][data-checked]]:[--mi-row-fill:var(--info-soft)]",
       "has-[[data-slot=message-multi-select-checkbox][data-checked]]:hover:[--mi-row-fill:var(--info-soft)]",
+      // The row takes focus only when a jump started from the keyboard lands
+      // on it (tabIndex -1, states.md#located): the inset ring of an
+      // edge-to-edge row, square like its hover, and only after keyboard
+      // input. Never the browser's own outline.
+      "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
     ],
     gutter: ["relative shrink-0 self-stretch", "w-[35px]"],
     avatarSlot: [

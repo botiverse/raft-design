@@ -129,6 +129,7 @@
   {
     "name": "MessageItem",
     "entry": "@botiverse/raft-ui",
+    "description": "One message: an `article` named by its sender and its time (`aria-labelledby` pointing at `MessageItemSender` or `MessageItemSenderButton`, then `MessageItemTime` or `MessageItemContinuationTime`). Pass `role`, `aria-label` or `aria-labelledby` to override either.",
     "native": true,
     "props": [
       {
