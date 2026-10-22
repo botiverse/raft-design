@@ -34,7 +34,7 @@ Which message goes where is in [Choosing a component](../../../../../design/comp
 - `InboxItemTrigger`: an invisible button that covers the whole row and opens the item. Required.
 - `InboxItemSelection`: a [Checkbox](../checkbox/checkbox.md) for selecting several items. Optional.
 - `InboxItemLeading`: a 36px leading visual before the text: the person's or agent's avatar, or a channel's [IconTile](../icon-tile/icon-tile.md). The divider starts after it. Optional.
-  - `InboxItemLeadingBadge`: the thread badge, in the bottom-right corner of the avatar or tile, holding one icon (`message-square`). Only on a thread row ([The leading image](#the-leading-image)). Optional; experimental, from `@botiverse/raft-ui/wip`.
+  - `InboxItemLeadingBadge`: the thread badge, in the bottom-right corner of the avatar or tile, holding one icon, `ThreadIcon` ([Icons](../icons/icons.md)). Only on a thread row ([The leading image](#the-leading-image)). Optional; experimental, from `@botiverse/raft-ui/wip`.
 - `InboxItemContent`: the text column. Required.
   - `InboxItemContext`: where it happened: a channel, a task, a computer.
   - `InboxItemHeading` with `InboxItemTitle`: what happened, with an optional 14px icon before it.
@@ -64,8 +64,8 @@ inbox-item/compositions/thread-rows
 - **The badge is the same on a tile and on an avatar**: the same size, in the same corner, so "this is a thread" reads the same in both columns of the list.
 - **On an avatar, the badge takes the presence light's corner.** One corner holds one mark ([Avatar](../avatar/avatar.md#the-corner)). The row is about the thread, not about how the agent is doing now, so the badge wins and the thread row shows no presence light. The light stays on the direct message's own row.
 - **The second line doesn't repeat the leading image.** In a direct message the avatar already names the other side, so "@Lagoon · Lagoon: …" says the name twice; the line starts with the latest message. A tile doesn't name its channel, so a channel thread keeps "#channel ·" before it.
-- **A screen reader still hears where the thread is.** The "@Lagoon ·" hidden from sight stays in the row's accessible name, so someone who doesn't see the avatar still knows which direct message the thread belongs to.
-- **Until the direct message has loaded, lead with the direct-message icon**, never a `#` tile: the row must not claim a channel it isn't in, even for a moment.
+- **A screen reader still hears where the thread is.** The row's trigger `aria-label` keeps the conversation's name ("Thread in a direct message with Lagoon: …") even though "@Lagoon ·" is no longer on screen, so someone who doesn't see the avatar still knows which direct message the thread belongs to.
+- **Until the direct message has loaded, lead with an `IconTile` holding `DirectMessageIcon`**, never a `#` tile: the row must not claim a channel it isn't in, even for a moment.
 - **The thread follows its conversation's settings.** A thread in a muted direct message is muted too, the same as a thread in a muted channel.
 
 ## Variants

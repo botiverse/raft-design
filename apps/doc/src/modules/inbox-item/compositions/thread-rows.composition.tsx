@@ -1,5 +1,6 @@
-import { Hash, MessageSquare } from "lucide-react";
+import { Hash } from "lucide-react";
 import {
+  ThreadIcon,
   Avatar,
   AvatarBadge,
   AvatarFallback,
@@ -46,7 +47,7 @@ export function ThreadRowsContent() {
             <Hash />
           </IconTile>
           <InboxItemLeadingBadge>
-            <MessageSquare />
+            <ThreadIcon />
           </InboxItemLeadingBadge>
         </InboxItemLeading>
         <InboxItemContent>
@@ -78,7 +79,7 @@ export function ThreadRowsContent() {
             <AvatarFallback>SK</AvatarFallback>
           </Avatar>
           <InboxItemLeadingBadge>
-            <MessageSquare />
+            <ThreadIcon />
           </InboxItemLeadingBadge>
         </InboxItemLeading>
         <InboxItemContent>
@@ -107,7 +108,7 @@ export function ThreadRowsContent() {
             <AvatarFallback>L</AvatarFallback>
           </Avatar>
           <InboxItemLeadingBadge>
-            <MessageSquare />
+            <ThreadIcon />
           </InboxItemLeadingBadge>
         </InboxItemLeading>
         <InboxItemContent>
