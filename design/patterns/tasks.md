@@ -99,6 +99,7 @@ A task number is unique only in its place, so a reference names the place first:
 
 - Write a task reference as the place, `:`, then the number with its `#`. Agents write and read the same reference.
 - Render a reference as a link that opens the task details, in any place, for people who can see that place. For anyone else it stays plain text.
+- Render the link as the task chip in the task's status colours (its status pixel and soft tint), the same chip the task list under a message uses, so a reference reads "which task, and where it stands". Do not split the reference into differently coloured parts: it is one name, and the status already has the pixel and the tint. When the product has not loaded the task (another place's task), it reads the task by place and number; until then the reference is an outlined chip with no tint and no pixel. Never show it as a grey chip, which reads as Closed.
 - `#25` on its own still refers to task 25 of the place being read.
 
 ### Filters
