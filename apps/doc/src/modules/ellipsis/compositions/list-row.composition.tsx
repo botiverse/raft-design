@@ -14,7 +14,9 @@ export function EllipsisListRowContent() {
       {FILES.map((file) => (
         <li key={file.name} className="flex min-w-0 items-center gap-2 px-2 py-1.5 text-callout">
           <FileText aria-hidden className="size-4 shrink-0 text-foreground-hint" />
-          <Ellipsis className="flex-1">{file.name}</Ellipsis>
+          <Ellipsis className="flex-1" expandOnClick>
+            {file.name}
+          </Ellipsis>
           <span className="shrink-0 font-mono text-mono-meta text-foreground-hint">
             {file.size}
           </span>

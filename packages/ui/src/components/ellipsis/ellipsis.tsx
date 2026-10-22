@@ -2,8 +2,8 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -18,24 +18,32 @@ import type {
   RefObject,
 } from "react";
 import type { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
+import { measureContent, observeTruncation, readNow } from "../../lib/truncation";
+import type { Truncation, TruncationTarget } from "../../lib/truncation";
 import { tv } from "../../lib/tv";
 import { TextLink } from "../text-link/text-link";
 import type { TextLinkProps } from "../text-link/text-link";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
-import { measureTruncation, observeTruncation } from "./ellipsis-measure";
-import type { Truncation } from "./ellipsis-measure";
 
 // Raft Design System › Ellipsis: text that is cut with CSS (`truncate`,
 // `line-clamp`) and knows whether it was. The text is never rewritten, so
 // find in page, copy and screen readers get all of it; measuring only decides
 // whether the tooltip may open and whether the expand control shows.
+//
+// The text is always measured alone: while it is measured, `after` and its
+// spacer are taken out of the layout (`data-measuring` on the root), so a text
+// that fits by itself is never cut to make room for a control it doesn't need.
+// `after` takes room only once the text is known to be cut.
 const ellipsis = tv({
   slots: {
-    root: ["min-w-0 max-w-full"],
+    root: ["group/ellipsis min-w-0 max-w-full"],
     text: ["min-w-0"],
     content: [],
-    spacer: ["float-end h-[calc(100%-1lh)] w-0"],
-    after: ["data-hidden:invisible"],
+    spacer: [
+      "float-end h-[calc(100%-1lh)] w-0",
+      "data-hidden:hidden group-data-measuring/ellipsis:hidden",
+    ],
+    after: ["data-hidden:hidden group-data-measuring/ellipsis:hidden"],
   },
   variants: {
     multiline: {
@@ -100,16 +108,16 @@ export interface EllipsisProps extends Omit<ComponentProps<"span">, "children"> 
   /** How many lines the text may take before it is cut. */
   lines?: number;
   /**
-   * The tooltip shown on hover while the text is cut: `true` shows the
-   * children, a node shows that node, `false` shows none. It never opens on
-   * a text that fits, or on a touch screen.
+   * The tooltip shown on hover, and on keyboard focus when the text is a
+   * button, while the text is cut: `true` shows the children, a node shows
+   * that node, `false` shows none. It never opens on a text that fits, or on
+   * a touch screen.
    */
   tooltip?: ReactNode;
   /**
-   * Shown after the text, at the end of the last visible line. A function
-   * receives the state, for an expand control (`EllipsisToggle`). Its room
-   * is kept even while it is hidden, so it never changes where the text is
-   * cut; it shows only while the text is cut or expanded.
+   * Shown after the text, at the end of the last visible line, only while the
+   * text is cut or expanded; it takes no room while the text fits. A function
+   * receives the state, for an expand control (`EllipsisToggle`).
    */
   after?: ReactNode | ((state: EllipsisState) => ReactNode);
   /** Whether the whole text shows (controlled). */
@@ -118,9 +126,11 @@ export interface EllipsisProps extends Omit<ComponentProps<"span">, "children"> 
   defaultExpanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
   /**
-   * Makes the cut text itself a button that expands it. Only plain text
-   * takes it: a text with a link or another control inside stays text, and
-   * needs an `EllipsisToggle` in `after` instead.
+   * Makes the cut text itself the button that expands it and collapses it
+   * again, for a keyboard and a touch screen as well as a pointer. Only plain
+   * text with no `after` takes it: a text with a link or another control
+   * inside stays text, and so does one with an `after`, whose control is the
+   * button instead (a button can't hold another).
    */
   expandOnClick?: boolean;
 }
@@ -176,11 +186,14 @@ function useExpanded(
 }
 
 /**
- * Registers the text with the shared measurer while it is mounted, and keeps
- * its answer: whether it is cut, and whether it has a control inside.
- * `layout` names what remounts or reclamps the text; a new one measures again.
+ * Registers the text with the shared measurer (lib/truncation.ts) and keeps
+ * its answer: whether the text, alone, is cut, and whether it has a control
+ * inside. While it is expanded the last collapsed answer is kept, so the
+ * text and its control stay what they were until it collapses and is
+ * measured again. `layout` names what remounts or reclamps the text.
  */
-function useTruncation(lines: number, layout: string, onNotTruncated: () => void) {
+function useTruncation(expanded: boolean, layout: string, onNotTruncated: () => void) {
+  const rootRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLSpanElement>(null);
   const afterRef = useRef<HTMLSpanElement>(null);
@@ -189,46 +202,60 @@ function useTruncation(lines: number, layout: string, onNotTruncated: () => void
   }, []);
   const [truncation, setTruncation] = useState<Truncation>(undefined);
   const [interactive, setInteractive] = useState(false);
-  const linesRef = useRef(lines);
-  useEffect(() => {
-    linesRef.current = lines;
-  }, [lines]);
+  const expandedRef = useRef(expanded);
+  const targetRef = useRef<TruncationTarget | null>(null);
 
   const commit = useCallback(
     (next: Truncation) => {
-      setTruncation(next);
       setInteractive(contentRef.current?.querySelector(INTERACTIVE) != null);
+      if (expandedRef.current) return;
+      setTruncation(next);
       if (next !== true) onNotTruncated();
     },
     [onNotTruncated],
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    expandedRef.current = expanded;
+    const root = rootRef.current;
     const text = textRef.current;
     const content = contentRef.current;
-    if (!text || !content) return undefined;
-    return observeTruncation({
-      text,
-      content,
-      extra: () => [afterRef.current],
-      lines: () => linesRef.current,
+    if (!root || !text || !content) return undefined;
+    const target: TruncationTarget = {
+      observe: () => [text, afterRef.current],
+      watch: () => content,
+      isolate: () => {
+        root.setAttribute("data-measuring", "");
+        return () => root.removeAttribute("data-measuring");
+      },
+      read: () => measureContent(text, content),
       commit,
-    });
-  }, [commit, lines, layout]);
+    };
+    targetRef.current = target;
+    return observeTruncation(target);
+  }, [commit, expanded, layout]);
 
-  // Measured where the tooltip is about to open, not trusted from the last
+  // Measured as the tooltip is about to open, not trusted from the last
   // frame: a change the observers missed still cannot open it on a text that
   // fits, or keep it shut on one that is cut.
   const measureNow = useCallback(() => {
-    const text = textRef.current;
-    const content = contentRef.current;
-    if (!text || !content) return undefined;
-    const next = measureTruncation(text, content, linesRef.current);
+    const target = targetRef.current;
+    if (!target) return undefined;
+    const next = readNow(target);
     commit(next);
     return next;
   }, [commit]);
 
-  return { textRef, setTextRef, contentRef, afterRef, truncation, interactive, measureNow };
+  return {
+    rootRef,
+    textRef,
+    setTextRef,
+    contentRef,
+    afterRef,
+    truncation,
+    interactive,
+    measureNow,
+  };
 }
 
 /** The tooltip's `onOpenChange`: it opens only on a text measured as cut, now. */
@@ -252,21 +279,22 @@ function useOpenWhenTruncated(
   );
 }
 
-/** Makes the text a button that expands it, while `clickable`. */
+/**
+ * Makes the text the button that expands and collapses it, while
+ * `clickable`. It stays one while expanded, `aria-expanded="true"`, so focus
+ * stays on it and it collapses again the same way.
+ */
 function useExpandOnClick(
   clickable: boolean,
+  expanded: boolean,
   toggle: () => void,
   textRef: RefObject<HTMLElement | null>,
-  afterRef: RefObject<HTMLElement | null>,
 ): HTMLAttributes<HTMLElement> {
-  const onClick = useCallback(
-    (event: MouseEvent<HTMLElement>) => {
-      if (!clickable || contains(afterRef, event.target)) return;
-      if (textRef.current && hasSelection(textRef.current)) return;
-      toggle();
-    },
-    [afterRef, clickable, textRef, toggle],
-  );
+  const onClick = useCallback(() => {
+    if (!clickable) return;
+    if (textRef.current && hasSelection(textRef.current)) return;
+    toggle();
+  }, [clickable, textRef, toggle]);
   const onKeyDown = useCallback(
     (event: KeyboardEvent<HTMLElement>) => {
       if (!clickable || event.target !== event.currentTarget) return;
@@ -278,7 +306,7 @@ function useExpandOnClick(
     [clickable, toggle],
   );
   if (!clickable) return {};
-  return { role: "button", tabIndex: 0, "aria-expanded": false, onClick, onKeyDown };
+  return { role: "button", tabIndex: 0, "aria-expanded": expanded, onClick, onKeyDown };
 }
 
 type TextProps = HTMLAttributes<HTMLElement> & { "data-slot": string; "data-truncated"?: "" };
@@ -310,22 +338,21 @@ export function Ellipsis({
   const multiline = lines > 1;
   const hasTooltip = tooltip !== false && tooltip != null;
   const hasAfter = after != null;
-  const { textRef, setTextRef, contentRef, afterRef, truncation, interactive, measureNow } =
-    useTruncation(lines, `${hasAfter} ${hasTooltip} ${expanded}`, closeTooltip);
+  const measured = useTruncation(expanded, `${lines} ${hasAfter} ${hasTooltip}`, closeTooltip);
+  const { rootRef, textRef, setTextRef, contentRef, afterRef, truncation } = measured;
 
-  const handleOpenChange = useOpenWhenTruncated(setOpen, expanded, afterRef, measureNow);
+  const handleOpenChange = useOpenWhenTruncated(setOpen, expanded, afterRef, measured.measureNow);
 
   const truncated = truncation === true && !expanded;
-  const clickable = expandOnClick && truncated && !interactive;
-  const state: EllipsisState = { truncated, expanded, toggle };
-  const afterNode = typeof after === "function" ? after(state) : after;
+  const clickable =
+    expandOnClick && !hasAfter && !measured.interactive && (truncation === true || expanded);
+  const afterNode = typeof after === "function" ? after({ truncated, expanded, toggle }) : after;
   const afterHidden = !truncated && !expanded;
 
   const slots = ellipsis({ multiline, expanded, clickable });
   const context = useMemo(() => ({ expanded, toggle, textId }), [expanded, toggle, textId]);
   const rootStyle = useRootStyle(style, lines);
-
-  const clickProps = useExpandOnClick(clickable, toggle, textRef, afterRef);
+  const clickProps = useExpandOnClick(clickable, expanded, toggle, textRef);
 
   const afterElement = hasAfter ? (
     <span
@@ -343,7 +370,14 @@ export function Ellipsis({
   const floatingAfter = multiline && hasAfter;
   const textChildren = (
     <>
-      {floatingAfter && <span aria-hidden data-slot="ellipsis-spacer" className={slots.spacer()} />}
+      {floatingAfter && (
+        <span
+          aria-hidden
+          data-slot="ellipsis-spacer"
+          data-hidden={afterHidden ? "" : undefined}
+          className={slots.spacer()}
+        />
+      )}
       {floatingAfter && afterElement}
       <span ref={contentRef} data-slot="ellipsis-content" className={slots.content()}>
         {children}
@@ -378,7 +412,13 @@ export function Ellipsis({
 
   return (
     <EllipsisContext.Provider value={context}>
-      <span data-slot="ellipsis" className={slots.root({ className })} style={rootStyle} {...props}>
+      <span
+        ref={rootRef}
+        data-slot="ellipsis"
+        className={slots.root({ className })}
+        style={rootStyle}
+        {...props}
+      >
         {text}
         {!multiline ? afterElement : null}
       </span>
@@ -391,7 +431,7 @@ export type EllipsisToggleProps = Omit<TextLinkProps, "aria-expanded" | "aria-co
 /**
  * The control that expands an Ellipsis and collapses it again, for its
  * `after`. A real button, with `aria-expanded` and `aria-controls` pointing
- * at the text. The label is the caller's: "Show more" / "Show less".
+ * at the text. The label is the caller's: "Show More" / "Show Less".
  */
 export function EllipsisToggle({ onClick, ...props }: EllipsisToggleProps) {
   const context = useContext(EllipsisContext);

@@ -12,7 +12,7 @@ export function EllipsisWithLinkContent() {
         Plain text can expand where it is clicked: this one has no link or button inside it, so the
         whole text becomes the control that shows the rest.
       </Ellipsis>
-      <Ellipsis lines={2} expandOnClick tooltip={false} after={showMore}>
+      <Ellipsis lines={2} tooltip={false} after={showMore}>
         Frontend for the web client. Read the{" "}
         <a className="text-foreground-link underline-offset-2 hover:underline" href="#guide">
           contributing guide

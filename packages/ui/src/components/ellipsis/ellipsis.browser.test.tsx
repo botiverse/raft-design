@@ -239,7 +239,7 @@ function moreLess({ expanded }: EllipsisState) {
   return <EllipsisToggle>{expanded ? "Show less" : "Show more"}</EllipsisToggle>;
 }
 
-it("hides the expand control on a text that fits, and keeps its room", async () => {
+it("hides the expand control on a text that fits, where it takes no room", async () => {
   render(
     <Frame>
       <div className="w-[400px] text-footnote">
@@ -255,11 +255,9 @@ it("hides the expand control on a text that fits, and keeps its room", async () 
     </Frame>,
   );
   await settle();
-  expect(screen.queryByRole("button", { name: "Show more" })).not.toBeNull();
   expect(screen.getAllByRole("button", { name: "Show more" })).toHaveLength(1);
   const hidden = screen.getByTestId("fits").querySelector('[data-slot="ellipsis-after"]');
-  expect(getComputedStyle(hidden!).visibility).toBe("hidden");
-  expect(hidden!.getBoundingClientRect().width).toBeGreaterThan(0);
+  expect(getComputedStyle(hidden!).display).toBe("none");
 
   const toggle = screen.getByRole("button", { name: "Show more" });
   expect(toggle.getAttribute("aria-expanded")).toBe("false");
@@ -273,16 +271,21 @@ it("hides the expand control on a text that fits, and keeps its room", async () 
   expect(truncated("cut")).toBe(false);
 });
 
-it("does not flicker when the text fits only without the control", async () => {
-  render(
-    <Frame>
-      <span data-testid="natural" className="text-footnote whitespace-nowrap">
-        Release notes
-      </span>
-    </Frame>,
-  );
-  const natural = screen.getByTestId("natural").getBoundingClientRect().width;
-  cleanup();
+/** The width `text` takes on one line, uncut. */
+function naturalWidth(text: string) {
+  const probe = document.createElement("span");
+  probe.className = "text-footnote whitespace-nowrap";
+  probe.textContent = text;
+  document.body.append(probe);
+  const width = probe.getBoundingClientRect().width;
+  probe.remove();
+  return width;
+}
+
+it("shows a text that fits whole, with no ellipsis and no after, however narrow the row", async () => {
+  // Room for "Release notes" but not for "Release notes Show more": a text
+  // that fits alone is never cut to make room for a control it doesn't need.
+  const natural = naturalWidth("Release notes");
   render(
     <Frame>
       <div style={{ width: natural + 4 }} className="flex text-footnote">
@@ -290,16 +293,96 @@ it("does not flicker when the text fits only without the control", async () => {
           Release notes
         </Ellipsis>
       </div>
+      <div style={{ width: natural + 4 }} className="text-footnote">
+        <Ellipsis data-testid="two" lines={2} after={moreLess}>
+          Release notes
+        </Ellipsis>
+      </div>
     </Frame>,
   );
-  const seen = new Set<boolean>();
-  for (let frame = 0; frame < 8; frame += 1) {
+  for (let frame = 0; frame < 4; frame += 1) {
     await settle();
-    seen.add(truncated("row"));
+    for (const id of ["row", "two"]) {
+      expect(truncated(id)).toBe(false);
+      const text = textOf(id);
+      expect(text.getBoundingClientRect().width).toBeGreaterThanOrEqual(natural - 0.5);
+      const after = screen.getByTestId(id).querySelector('[data-slot="ellipsis-after"]')!;
+      expect(getComputedStyle(after).display).toBe("none");
+    }
   }
-  // The control's room is kept while it is hidden, so showing it never
-  // changes the cut: one answer, not a loop.
-  expect([...seen]).toEqual([true]);
+  expect(screen.queryByRole("button", { name: "Show more" })).toBeNull();
+});
+
+it("gives the after's room back when the box grows enough for the text alone", async () => {
+  const natural = naturalWidth("Release notes");
+  render(
+    <Frame>
+      <div data-testid="box" style={{ width: 60 }} className="flex text-footnote">
+        <Ellipsis data-testid="row" after={moreLess}>
+          Release notes
+        </Ellipsis>
+      </div>
+    </Frame>,
+  );
+  await settle();
+  expect(truncated("row")).toBe(true);
+  expect(screen.getByRole("button", { name: "Show more" })).toBeTruthy();
+  // Wide enough for the text, not for the text and the control.
+  screen.getByTestId("box").style.width = `${natural + 4}px`;
+  await settle();
+  await settle();
+  expect(truncated("row")).toBe(false);
+  expect(screen.queryByRole("button", { name: "Show more" })).toBeNull();
+  expect(textOf("row").getBoundingClientRect().width).toBeGreaterThanOrEqual(natural - 0.5);
+});
+
+it("never puts a button inside a button: with an after, the text stays text", async () => {
+  render(
+    <Frame>
+      <div className="w-[200px] text-footnote">
+        <Ellipsis data-testid="cut" lines={2} expandOnClick after={moreLess}>
+          {`${LONG}. ${LONG}. ${LONG}.`}
+        </Ellipsis>
+      </div>
+    </Frame>,
+  );
+  await settle();
+  expect(truncated("cut")).toBe(true);
+  const buttons = screen.getAllByRole("button");
+  expect(buttons.map((button) => button.textContent)).toEqual(["Show more"]);
+  for (const button of document.querySelectorAll("[role=button], button")) {
+    expect(button.parentElement?.closest("[role=button], button")).toBeNull();
+  }
+});
+
+it("expands with Enter, keeps focus on the text, and collapses with Enter again", async () => {
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  render(
+    <Frame>
+      <div className="w-[120px] text-footnote">
+        <Ellipsis data-testid="cut" expandOnClick tooltip={false}>
+          {LONG}
+        </Ellipsis>
+      </div>
+    </Frame>,
+  );
+  await settle();
+  const text = textOf("cut");
+  expect(text.getAttribute("role")).toBe("button");
+  expect(text.getAttribute("aria-expanded")).toBe("false");
+  text.focus();
+  await userEvent.keyboard("{Enter}");
+  await settle();
+  expect(document.activeElement).toBe(text);
+  expect(text.getAttribute("role")).toBe("button");
+  expect(text.getAttribute("aria-expanded")).toBe("true");
+  expect(text.className).not.toContain("truncate");
+
+  await userEvent.keyboard("{Enter}");
+  await settle();
+  expect(document.activeElement).toBe(text);
+  expect(text.getAttribute("aria-expanded")).toBe("false");
+  expect(truncated("cut")).toBe(true);
 });
 
 it("makes a cut plain text a button, but never a text with a link in it", async () => {
