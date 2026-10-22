@@ -59,7 +59,7 @@ function OnboardingDialogParts() {
           <Button variant="outline">Skip</Button>
           <Button variant="accent">
             <Monitor data-icon="inline-start" />
-            Add Computer
+            Add
           </Button>
         </div>
       </DialogFooter>

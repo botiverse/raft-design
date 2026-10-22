@@ -31,7 +31,7 @@ export function RemoveMemberDrawer({
     <Drawer open={open} onOpenChange={onOpenChange} onOpenChangeComplete={onOpenChangeComplete}>
       <DrawerTrigger render={<Button variant="danger-outline" className="w-full" />}>
         <UserMinus aria-hidden />
-        Remove member…
+        Remove Member…
       </DrawerTrigger>
 
       <DrawerContent>
@@ -47,9 +47,9 @@ export function RemoveMemberDrawer({
         <DrawerFooter>
           <DrawerActions>
             <DrawerClose render={<Button variant="danger" />} onClick={onRemove}>
-              Remove member
+              Remove
             </DrawerClose>
-            <DrawerClose render={<Button variant="outline" />}>Keep member</DrawerClose>
+            <DrawerClose render={<Button variant="outline" />}>Cancel</DrawerClose>
           </DrawerActions>
         </DrawerFooter>
       </DrawerContent>

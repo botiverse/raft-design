@@ -48,9 +48,9 @@ function AnnouncementDialogParts() {
       </AnnouncementDialogBody>
       <AnnouncementDialogFooter>
         <AnnouncementDialogSecondaryAction onClick={acknowledge}>
-          Got it
+          Got It
         </AnnouncementDialogSecondaryAction>
-        <AnnouncementDialogAction onClick={openForm}>Create joint channel</AnnouncementDialogAction>
+        <AnnouncementDialogAction onClick={openForm}>Create Joint Channel</AnnouncementDialogAction>
       </AnnouncementDialogFooter>
     </>
   );

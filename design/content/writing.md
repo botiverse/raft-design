@@ -12,12 +12,12 @@ These rules are for the words inside the product: labels, titles, messages, empt
 
 - **Short and direct.** Say the fact or the action, in as few words as it takes. Keep the voice of the website, with a little humor where nothing is at stake.
 - **Agents are teammates.** Name them, and use the verbs you would use for a person; see [Writing about agents](../people-and-agents/writing-about-agents.md).
-- **One action says one thing.** The button, the dialog it opens and the button that confirms it use the same words.
+- **One action says one thing.** The button and the dialog it opens use the same words, and the button that confirms it uses the same verb.
 
 ## Casing
 
-- Use Title Case for anything clickable, text links included: Create Task, Mark All Read, Convert to Task, Log Out. A link inside a sentence takes the sentence's case.
-- In Title Case, keep these short words lowercase: a, an, the, to, in, on, of, for, as, and, or, with, from, by, at. Short connecting words read as joints between the words that carry meaning: Continue with Google, Remove from Saved, Sort by Newest. Capitalize them when they come first or last, or when they belong to the verb: Sign In, Log In, Turn On, Back to Sign In, so a pair like Sign In and Log Out stays alike.
+- Use Title Case for anything clickable, text links included: Create Task, Mark All Read, Convert to Task, Sign Out. A link inside a sentence takes the sentence's case.
+- In Title Case, keep these short words lowercase: a, an, the, to, in, on, of, for, as, and, or, with, from, by, at. Short connecting words read as joints between the words that carry meaning: Continue with Google, Remove from Saved, Sort by Newest. Capitalize them when they come first or last, or when they belong to the verb: Sign In, Sign Out, Turn On, Back to Sign In, so a pair like Sign In and Sign Out stays alike.
 - Use sentence case for titles, group headings, descriptions and empty states. A dialog or sheet title that repeats the label of the button that opened it keeps that label's Title Case: Create Channel; see [Actions and their dialogs](#actions-and-their-dialogs).
 - Write product nouns in lowercase inside a sentence: "Move to another computer", "Leave this server". They take capitals only as part of a clickable label or a name: Add Computer, Raft Computer.
 - Never use all caps. Typeface and casing rules are in [Typography](../foundations/typography.md#casing).
@@ -35,8 +35,25 @@ These rules are for the words inside the product: labels, titles, messages, empt
 
 - Make a button's label the title of the dialog or sheet it opens: Register App opens Register App, Create Channel opens Create Channel. What people click is what opens: a dialog with other words looks like the wrong one opened.
 - Title an edit with Edit and the item's name: Edit Release Bot.
-- Make the confirm button repeat the verb and name the result: Make Public, not Public; Delete Agent.
-- Make the cancel button say what stays: Keep Box, Keep Working.
+- Label the button that does what the dialog is for with the action it performs, without its object. Usually that is the title's verb: Create Channel → Create, Register App → Register, Invite Human → Invite, Stop Wug? → Stop. An Edit title's button is Save: Edit Release Bot → Save, because what the button does is save the changes. The title is right above it and names the object already; a button that says it again reads as an echo, and on a phone sheet the two sit side by side in one row.
+- Keep the whole verb, with the words that belong to it: Sign Out, Start Over, Turn On, Make Public, Reset Session & Restart. Never cut them to Sign, Make or Reset: Public alone isn't an action.
+- Add the object only when the verb alone would leave people guessing:
+  - The title doesn't name it, or isn't an action: Unsaved changes → Discard Changes; See your whole chat history → Upgrade to Pro.
+  - The button does something other than the title says, or says where or how far it goes: Add Computer inside Create Agent, Continue to Stripe, Move to the Cloud, Disconnect for All Agents.
+  - It counts what it acts on: Add 3 Members, Create 3 Tasks. "Add 3" doesn't read.
+  - Its verb is Cancel: Cancel Subscription, so it can't be mistaken for closing the dialog.
+  - It appears away from its title and has to say on its own which action it is: the confirm button of an action card in a conversation says Create Channel, because several cards can be on screen at once and each is read from its button ([MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md)).
+- Keep the object on a confirmation that can't be undone, the red one: Delete Channel, Delete Server. It's the one moment that has to be exact, and people read the button, not the title, when they press it.
+- Label the button that closes without acting Cancel. Only when the action is itself a cancel or a stop does Cancel read as the action; then say what stays instead: Keep Subscription beside Cancel Subscription, Keep Migrating beside Cancel Migration.
+- Done, OK, Got It and Close aren't actions. Use them only when what the dialog is for has already happened and the button only closes it: the last step of Add Computer says Done, because the computer has connected by itself.
+- Read the button after the title to check it: Create Channel, Create reads right; Create Channel, Create Channel is an echo. If the verb alone no longer says what happens, or the button is red, put the object back.
+
+## Signing in and out
+
+- Say Sign In and Sign Out, the words of the sign-in page, never Log In, Log Out or Login as a verb. One pair everywhere, in the account menu, Settings, a runtime on a computer and an app's connection, so people learn it once. Sign in and sign out are also what Apple, Google, Microsoft, GitHub and Slack say.
+- Write signed in, signed out and sign back in in running text; sign-in as a noun: "The sign-in window was closed."
+- In Chinese, write *dēnglù* and *tuìchū dēnglù* in Simplified, *dēngrù* and *dēngchū* in Traditional, for every one of these.
+- Login keeps its form only inside a name: the Login with Raft and Agent Login features, and the CLI command `raft integration login`. It is never the verb.
 
 ## Errors and empty states
 

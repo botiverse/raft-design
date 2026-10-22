@@ -25,7 +25,7 @@ test("declares no height, padding, border or font-size of its own", () => {
 test("muted is the default, and strong is ink", () => {
   render(
     <>
-      <TextLink>Log Out</TextLink>
+      <TextLink>Sign Out</TextLink>
       <TextLink variant="strong">Create One</TextLink>
     </>,
   );
@@ -37,7 +37,7 @@ test("muted is the default, and strong is ink", () => {
 });
 
 test("a caller's font size wins over nothing and survives the merge", () => {
-  render(<TextLink className="text-footnote">Log Out</TextLink>);
+  render(<TextLink className="text-footnote">Sign Out</TextLink>);
   expect(screen.getByRole("button").className).toContain("text-footnote");
 });
 
@@ -50,7 +50,7 @@ test("renders a real button that does not submit a form", () => {
 });
 
 test("disabled is the native attribute", () => {
-  render(<TextLink disabled>Log Out</TextLink>);
+  render(<TextLink disabled>Sign Out</TextLink>);
   expect((screen.getByRole("button") as HTMLButtonElement).disabled).toBe(true);
 });
 

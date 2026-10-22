@@ -56,7 +56,7 @@ function EditChannelDialogParts() {
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-        <Button variant="accent">Save Changes</Button>
+        <Button variant="accent">Save</Button>
       </DialogFooter>
     </>
   );

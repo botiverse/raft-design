@@ -88,7 +88,7 @@ function CreateAgentDialogParts() {
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-        <Button variant="accent">Create Agent</Button>
+        <Button variant="accent">Create</Button>
       </DialogFooter>
     </>
   );

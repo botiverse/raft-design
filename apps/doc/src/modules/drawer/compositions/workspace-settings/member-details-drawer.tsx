@@ -82,7 +82,7 @@ export function MemberDetailsDrawer({
         </DrawerBody>
         <DrawerFooter>
           <DrawerActions>
-            <DrawerClose render={<Button variant="outline" />}>Back to workspace</DrawerClose>
+            <DrawerClose render={<Button variant="outline" />}>Back to Workspace</DrawerClose>
           </DrawerActions>
         </DrawerFooter>
       </DrawerContent>

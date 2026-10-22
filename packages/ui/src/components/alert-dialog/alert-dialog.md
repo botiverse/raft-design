@@ -45,7 +45,7 @@ The confirm button's color says what happens:
 | Consequence                      | Confirm button                                                                                  | Example      |
 | -------------------------------- | ----------------------------------------------------------------------------------------------- | ------------ |
 | Does something                   | `variant="primary"`                                                                             | Make Public  |
-| Interrupts, but can be recovered | `variant="warning"`                                                                             | Stop Wug     |
+| Interrupts, but can be recovered | `variant="warning"`                                                                             | Stop         |
 | Cannot be undone                 | `variant="danger"`, and a [Banner](../banner/banner.md) with `status="destructive"` in the body | Delete Agent |
 
 Deleting something large, such as an agent or a server, also asks for its name to be typed ([Forms](../../../../../design/patterns/forms.md#danger-zone)):
@@ -63,7 +63,7 @@ alert-dialog/compositions/typed-delete
 
 - Title it with the action and the thing it acts on, as a question: Delete Box?
 - Say in one or two sentences what happens, in plain words: "Box leaves every channel."
-- Make the confirm button repeat the verb and name the result (Delete Agent), and make Cancel say what stays (Keep Box) ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
+- Label the confirm button with the title's verb: Stop for Stop Wug?. Keep the object when it can't be undone, on the red button: Delete Agent. Label the other button Cancel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 
 ## Accessibility
 

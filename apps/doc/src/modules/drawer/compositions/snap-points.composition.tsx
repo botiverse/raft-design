@@ -41,7 +41,7 @@ export function DrawerSnapPointsComposition() {
               <dd className="text-foreground">3 of 5 complete</dd>
             </dl>
             <DrawerActions className="mt-6">
-              <DrawerClose render={<Button variant="primary" />}>Dismiss notification</DrawerClose>
+              <DrawerClose render={<Button variant="primary" />}>Dismiss Notification</DrawerClose>
             </DrawerActions>
           </DrawerBody>
         </DrawerContent>
@@ -59,7 +59,7 @@ export function DrawerSnapPointsComposition() {
               <dd className="text-foreground">3 of 5 complete</dd>
             </dl>
             <DrawerActions className="mt-6">
-              <DrawerClose render={<Button variant="primary" />}>Dismiss notification</DrawerClose>
+              <DrawerClose render={<Button variant="primary" />}>Dismiss Notification</DrawerClose>
             </DrawerActions>
           </DrawerBody>
           <DrawerHeader className="py-3">
