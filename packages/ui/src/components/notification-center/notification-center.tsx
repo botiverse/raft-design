@@ -70,7 +70,7 @@ const notificationCenter = tv({
         popup: "w-[380px]",
       },
       mobile: {
-        popup: "w-[min(92vw,360px)]",
+        popup: "w-[calc(100vw-16px)]",
       },
     },
     size: {
@@ -110,6 +110,14 @@ const notificationCenter = tv({
     status: "info",
   },
 });
+
+/**
+ * On a phone the popup is as wide as the screen less 8px on each side, and the
+ * collision padding stops it 8px from the edge it is pushed against, so it
+ * lines up with the server list under the same top bar
+ * (design/foundations/elevation.md#popups).
+ */
+const PHONE_INSET = 8;
 
 export type NotificationCenterProps = BasePopover.Root.Props;
 
@@ -207,7 +215,7 @@ export function NotificationCenterPopup({
         arrowPadding={arrowPadding}
         collisionAvoidance={collisionAvoidance}
         collisionBoundary={collisionBoundary}
-        collisionPadding={collisionPadding}
+        collisionPadding={collisionPadding ?? (viewport === "mobile" ? PHONE_INSET : undefined)}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
