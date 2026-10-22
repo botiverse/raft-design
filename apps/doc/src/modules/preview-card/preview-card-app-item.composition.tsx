@@ -46,9 +46,7 @@ export function PreviewCardAppItemComposition() {
                 #10449 refactor(i18n): one display-locale source for web and desktop
               </PreviewCardTitle>
               <PreviewCardMeta>
-                <Badge appearance="outline" variant="muted">
-                  Merged
-                </Badge>
+                <Badge appearance="soft">Merged</Badge>
                 <span>Martin · +803 −498</span>
               </PreviewCardMeta>
             </PreviewCardBody>

@@ -90,5 +90,5 @@ preview-card/preview-card-app-prompt
 
 - Keep the card read-only: no fields, no choices. Something people fill in is a [Popover](../popover/popover.md).
 - Put at most two small buttons on it, colored as in a [Popover](../popover/popover.md#rules): never pink.
-- Show the item's state once, in the app's own words, in a neutral Badge (`appearance="outline" variant="muted"`): no status color and no status light. Which states an item has, and what they mean, is the app's concept, not Raft's; Raft's status colors and the status light mean task and presence states ([Status](../status/status.md#rules)), so mapping an app's "Merged" onto a task's "done" would put Raft's reading on the app's word.
+- Show the item's state once, in the app's own words, in a neutral Badge (`appearance="soft"`): no status color and no status light. Which states an item has, and what they mean, is the app's concept, not Raft's; Raft's status colors and the status light mean task and presence states ([Status](../status/status.md#rules)), so mapping an app's "Merged" onto a task's "done" would put Raft's reading on the app's word.
 - Put no colors of the app's on an item card: no brand color, no colored header. The app's icon on the chip is the only mark of its own.
