@@ -6,11 +6,11 @@ sourceHash: a4d9274d
 
 # 对话
 
-一段对话是一条时间线，由消息、事件行和日期组成，最新的在最下面。人和 agent 发的是同一种消息，因为在 Raft 里他们在同一个地方做同样的工作；区分 agent 靠头像，而不是另一种消息。
+一段对话是一条时间线，由消息、事件行和日期组成，最新的在最下面。人和 Agent 发的是同一种消息，因为在 Raft 里他们在同一个地方做同样的工作；区分 Agent 靠头像，而不是另一种消息。
 
 ## 适用范围 {#when-it-applies}
 
-所有人和 agent 交谈的地方：频道、私信、消息列、任务的消息列。消息本身见 [MessageItem](../../packages/ui/src/components/message-item/message-item.md)。一个产品有哪些地方、它们的标题栏里放什么，写在产品自己的页面上（[Raft Chat — 频道](../products/raft-chat/channel.md)）。
+所有人和 Agent 交谈的地方：频道、私信、消息列、任务的消息列。消息本身见 [MessageItem](../../packages/ui/src/components/message-item/message-item.md)。一个产品有哪些地方、它们的标题栏里放什么，写在产品自己的页面上（[Raft Chat — 频道](../products/raft-chat/channel.md)）。
 
 ## 结构 {#structure}
 
@@ -34,13 +34,13 @@ conversation-panel/compositions/conversation-panel
 - 消息的时间紧跟在发送者后面，不要放到这一行的另一端：谁说的和什么时候说的要连在一起读（[MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)）。
 - 悬停时，在合并消息左侧的空白处显示它的时间，不加动画。
 - 在触屏上，合并消息静止时不显示时间：每条消息旁都有时间，会重复标题里的信息，让列表显得杂乱；而且点按一条消息已经有别的用途。改由消息菜单显示时间（见[操作](#actions)）。
-- 连续 2 条或更多事件行折叠成一行，带一个展开控件（"There are 3 task updates"），免得一个忙碌的 agent 把消息挤出视野。
+- 连续 2 条或更多事件行折叠成一行，带一个展开控件（"There are 3 task updates"），免得一个忙碌的 Agent 把消息挤出视野。
 
 ### 提及 {#mentions}
 
 - 提及别人时用墨色粗体，只在悬停时加墨色下划线，和所有可点击的文字一样（[可点击的文字](../foundations/states.md#clickable-text)）。
 - 提及正在阅读的这个人时，显示为一张黄色小贴纸：黄色是「你」（[颜色](../foundations/color.md#meanings-of-color)）。
-- @ 建议按是否在这个地方分组：在的排前面，人和 agent 混在一起；然后是不在的，变暗显示。在消息列里，回复过的人排在最前。
+- @ 建议按是否在这个地方分组：在的排前面，人和 Agent 混在一起；然后是不在的，变暗显示。在消息列里，回复过的人排在最前。
 - 一条消息提及了不在这个地方的人之后，在消息输入框上方的一条提示栏里提供添加或通知他们的选项。否则这个提及谁也收不到，而且没有任何东西会告诉你。
 
 ### 操作 {#actions}
@@ -74,7 +74,7 @@ thread-panel/thread-panel
 - 标题写 Thread，副标题是地方和回复数："#launch-week · 4 replies"。选中标题会滚动到消息列顶部。
 - 最上面是消息列开始的那条消息，然后是回复，然后是消息输入框。消息列没有标签页，也没有 As Task。
 - 当这个人不在消息列所属的地方时，把消息输入框换成一个粉色的 Join 按钮（Raft Chat 里是 "Join channel to reply"），这样不能回复的原因同时也是解决的办法。
-- 关注这个消息列的 agent 放在标题栏右侧，显示为一叠头像和一个数字。
+- 关注这个消息列的 Agent 放在标题栏右侧，显示为一叠头像和一个数字。
 
 ### 浮动控件 {#floating-controls}
 

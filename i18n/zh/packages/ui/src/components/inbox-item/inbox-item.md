@@ -6,7 +6,7 @@ sourceHash: 0095ee65
 
 # InboxItem
 
-InboxItem 是在别处发生、需要这个人看到的一件事：有人提及了他，有 agent 在等他审批，有工作交接给了他。未读的条目标题加粗，并带一个粉色提醒圆点；它需要的操作就放在这一行里。它是 [ActivityInbox](../activity-inbox/activity-inbox.md) 中的行。
+InboxItem 是在别处发生、需要这个人看到的一件事：有人提及了他，有 Agent 在等他审批，有工作交接给了他。未读的条目标题加粗，并带一个粉色提醒圆点；它需要的操作就放在这一行里。它是 [ActivityInbox](../activity-inbox/activity-inbox.md) 中的行。
 
 ```example
 activity/compositions/activity-preview
@@ -29,7 +29,7 @@ activity/compositions/activity-preview
 - `InboxItem`：这一行。必需。
 - `InboxItemTrigger`：覆盖整行、用来打开条目的隐形按钮。必需。
 - `InboxItemSelection`：用于多选条目的 [Checkbox](../checkbox/checkbox.md)。可选。
-- `InboxItemLeading`：文字前面 36px 的前置视觉元素：人或 agent 的头像，或者频道的 [IconTile](../icon-tile/icon-tile.md)。分隔线从它后面开始。可选。
+- `InboxItemLeading`：文字前面 36px 的前置视觉元素：人或 Agent 的头像，或者频道的 [IconTile](../icon-tile/icon-tile.md)。分隔线从它后面开始。可选。
   - `InboxItemLeadingBadge`：消息列徽标，位于头像或图块的右下角，里面放一个图标 `ThreadIcon`（[Icons](../icons/icons.md)）。只用在消息列的行上（[前置图像](#the-leading-image)）。可选；实验性，来自 `@botiverse/raft-ui/wip`。
 - `InboxItemContent`：文字列。必需。
   - `InboxItemContext`：事情发生在哪里：频道、任务、计算机。
@@ -49,9 +49,9 @@ activity/compositions/activity-preview
 | 行 | 前置图像 | 第二行 |
 | --- | --- | --- |
 | 频道 | 频道的 IconTile，用这个频道自己的图标 | 最新消息："Avery: …" |
-| 私信 | 对方（人或 agent）的头像；agent 的头像带在线状态灯 | 最新消息 |
+| 私信 | 对方（人或 Agent）的头像；Agent 的头像带在线状态灯 | 最新消息 |
 | 频道里的消息列 | 频道的 IconTile，带消息列徽标 | "#launch-week · Mira: …" |
-| 私信里的消息列 | 对方（人或 agent）的头像，带消息列徽标，没有在线状态灯 | "Lagoon: …"，不带 "@Lagoon ·" |
+| 私信里的消息列 | 对方（人或 Agent）的头像，带消息列徽标，没有在线状态灯 | "Lagoon: …"，不带 "@Lagoon ·" |
 
 ```example
 inbox-item/compositions/thread-rows
@@ -60,7 +60,7 @@ inbox-item/compositions/thread-rows
 - **频道的图块用这个频道自己的图标**，和侧栏、频道顶栏一致：普通频道用 `hash`，私有频道用 `lock`，joint channel 用 `git-branch`，公开页面可读的频道用带地球的 #（[Raft Chat 频道](../../../../../design/products/raft-chat/channel.md)）。在 joint channel 或私有频道上画一个普通的 `#`，等于说它是普通频道，频道本身那一行和它的消息列那一行都一样。
 - **显示对话，而不是频道的形状。** 私信里的消息列用 `#` 图块，等于说这个消息列在某个频道里。头像说明对话是和谁进行的，而且正是这个人在那个私信里已经熟悉的面孔。
 - **徽标在图块上和在头像上一样**：同样的尺寸，放在同一个角，所以「这是一个消息列」在列表的两种开头上读起来一样。
-- **在头像上，徽标占用在线状态灯的那个角。** 一个角只放一个标记（[Avatar](../avatar/avatar.md#the-corner)）。这一行讲的是消息列，不是 agent 现在的状态，所以徽标优先，消息列的行不显示在线状态灯。在线状态灯留在私信自己的那一行上。
+- **在头像上，徽标占用在线状态灯的那个角。** 一个角只放一个标记（[Avatar](../avatar/avatar.md#the-corner)）。这一行讲的是消息列，不是 Agent 现在的状态，所以徽标优先，消息列的行不显示在线状态灯。在线状态灯留在私信自己的那一行上。
 - **第二行不重复前置图像。** 在私信里，头像已经说明了对方是谁，"@Lagoon · Lagoon: …" 会把名字说两遍；这一行直接以最新消息开头。图块不会说出它是哪个频道，所以频道里的消息列在前面保留 "#channel ·"。
 - **读屏软件仍然能听到消息列在哪里。** 这一行触发按钮的 `aria-label` 保留对话的名称（"Thread in a direct message with Lagoon: …"），即使屏幕上已经没有 "@Lagoon ·"，看不到头像的人也知道这个消息列属于哪个私信。
 - **私信加载完成之前，用放着 `DirectMessageIcon` 的 `IconTile` 开头**，永远不用 `#` 图块：这一行不能声称自己在某个频道里，哪怕只有一瞬间。
@@ -138,6 +138,6 @@ activity/compositions/activity-hover-actions
 ## 规则 {#rules}
 
 - 行内的操作用墨色描边的小按钮，永远不用粉色：一个列表里可能同时有好几个等着这个人处理的条目（[Button](../button/button.md)）。
-- 有「谁」的时候，以「谁」开头：人或 agent 的头像。系统发出的提示没有「谁」；见 [NotificationCenter](../notification-center/notification-center.md#anatomy)。
+- 有「谁」的时候，以「谁」开头：人或 Agent 的头像。系统发出的提示没有「谁」；见 [NotificationCenter](../notification-center/notification-center.md#anatomy)。
 - 消息列的行以它所在的对话开头：频道的图块，或者在私信里用对方的头像，各自在角上带消息列徽标。永远不要给私信里的消息列用 `#` 图块，也永远不要在消息列的行上显示在线状态灯（[前置图像](#the-leading-image)）。
 - 条目列表加载时显示平铺的 `InboxItemSkeleton` 行，永远不要显示成卡片：不要有加载后的列表没有的边框、卡片或间距（[加载中](#loading)）。

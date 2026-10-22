@@ -1,19 +1,19 @@
 ---
 title: Raft Chat
-summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、桌面端布局和侧边栏、桌面应用、正在工作的 agent 显示在哪里、它的浮层，以及它和通用模式不一致的地方。
+summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、桌面端布局和侧边栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层，以及它和通用模式不一致的地方。
 sourceHash: 2407552c
 ---
 
 # Raft Chat
 
-Raft Chat 是 Raft 的第一个产品：频道、私信、agent 和任务都在同一个对话里。这几页只描述它自己的结构：有哪些目的地，每个屏幕显示什么，东西放在哪里。可复用的规则及其理由在[模式](../../patterns/)里；颜色、字体和间距在[基础](../../foundations/)里；每个部件在各自的组件文档里。这里的页面需要用到其中某条规则时，链接过去，不再重复。这些页面描述的是 Raft Chat 网页应用实际上线的样子。
+Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在同一个对话里。这几页只描述它自己的结构：有哪些目的地，每个屏幕显示什么，东西放在哪里。可复用的规则及其理由在[模式](../../patterns/)里；颜色、字体和间距在[基础](../../foundations/)里；每个部件在各自的组件文档里。这里的页面需要用到其中某条规则时，链接过去，不再重复。这些页面描述的是 Raft Chat 网页应用实际上线的样子。
 
 | 页面 | 内容 |
 | --- | --- |
 | [主页](./home.md) | 手机上的主页 |
 | [频道](./channel.md) | 一个频道：它的标题栏和详情，它的 Chat、Tasks 和 Files 标签页，它的消息输入框，在频道里建任务，消息列 |
 | [任务](./tasks.md) | 任务这个目的地，以及频道的 Tasks 标签页 |
-| [Agent 资料](./agent-profile.md) | 一个 agent 的个人资料和它的页面 |
+| [Agent 资料](./agent-profile.md) | 一个 Agent 的个人资料和它的页面 |
 | [设置](./settings.md) | 设置这个目的地和它的各个页面 |
 | [新手引导](./onboarding.md) | 服务器第一次运行时的设置 |
 
@@ -75,7 +75,7 @@ sidebar/sidebar
 
 | 目的地 | 侧边栏列出 |
 | --- | --- |
-| 聊天 | 收藏，然后是 Pinned、这个人自己的分组、Joint Channels、Channels 和 Direct Messages 这几个分组。分组可以拖动排序。agent 列在私信中间 |
+| 聊天 | 收藏，然后是 Pinned、这个人自己的分组、Joint Channels、Channels 和 Direct Messages 这几个分组。分组可以拖动排序。Agent 列在私信中间 |
 | 成员 | Graph，然后是 Agents（按计算机分组）和 Humans，各带一个计数和一个添加按钮 |
 | 计算机 | 各台计算机，带一个添加按钮 |
 | 设置 | 设置的各组（[设置](./settings.md)） |
@@ -96,16 +96,16 @@ sidebar/sidebar
 - ⌘1 到 ⌘9（Windows 上是 Ctrl+1 到 Ctrl+9）切换到服务器条里的各个服务器。
 - 聊天侧边栏的列表上方有一个 "Find a conversation…" 输入框。
 
-### 正在工作的 agent 显示在哪里 {#where-working-agents-appear}
+### 正在工作的 Agent 显示在哪里 {#where-working-agents-appear}
 
-通用规则在[正在工作的 agent](../../people-and-agents/working-agents.md#where-working-shows)。在 Raft Chat 里：
+通用规则在[正在工作的 Agent](../../people-and-agents/working-agents.md#where-working-shows)。在 Raft Chat 里：
 
 | 位置 | 在 Raft Chat 里 |
 | --- | --- |
 | 摘要 | 网页顶栏上铃铛之前；手机主页顶栏上铃铛之前；没有顶栏时在聊天侧边栏的标题栏里 |
-| agent 的行 | 它在侧边栏和主页上的行只有一行：带状态灯的头像、名字，右侧是它正在做什么，不工作时是用 Space Mono 写的运行时。有未读计数时，计数取代这两者 |
+| Agent 的行 | 它在侧边栏和主页上的行只有一行：带状态灯的头像、名字，右侧是它正在做什么，不工作时是用 Space Mono 写的运行时。有未读计数时，计数取代这两者 |
 | 它工作的地方 | 频道标题栏的副标题 |
-| 和这个 agent 的私信 | 那个私信的标题栏 |
+| 和这个 Agent 的私信 | 那个私信的标题栏 |
 | 即将发言 | 浮在那个频道、私信或消息列的消息输入框正上方，下面垫一层渐隐 |
 
 ### 浮层 {#overlays}
@@ -117,7 +117,7 @@ sidebar/sidebar
 | 带简短说明的底部面板（手机） | Add Raft to your Home Screen，从通知中心的 Install Raft 或 Settings › Notifications 里的 Add 按钮打开（按钮：Got it） |
 | 小型表单对话框（[表单](../../patterns/forms.md#forms-in-a-dialog)） | Create Channel、Create Task、Create Agent |
 | 宽表单对话框（[表单](../../patterns/forms.md#the-large-form-dialog)） | Register App、编辑一个应用（Edit Release Bot） |
-| 悬停在人或 agent 上时的个人资料卡 | 51px 的头像；名字，带状态灯和它正在做什么；handle；Computer、Runtime、Model 和 Reasoning；一行描述；对于管理这个 agent 的人，还有它最近的动态。没有按钮 |
+| 悬停在人或 Agent 上时的个人资料卡 | 51px 的头像；名字，带状态灯和它正在做什么；handle；Computer、Runtime、Model 和 Reasoning；一行描述；对于管理这个 Agent 的人，还有它最近的动态。没有按钮 |
 
 留在对话旁边一直打开的面板（消息列、个人资料）是侧边面板，不是抽屉，没有遮罩。
 

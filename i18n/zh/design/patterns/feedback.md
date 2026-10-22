@@ -17,9 +17,9 @@ sourceHash: b46f507d
 ### 确认 {#confirming}
 
 - 如果人能在同一个地方撤销操作，就立即执行，不弹对话框，也不弹轻提示：Mark as Done（Reopen Task）、Save Message（Remove from Saved）。一次点击就能撤销的操作，事先再问一句只会拖慢人。
-- 会停止 agent 的工作、把某人移出某个地方、或者归档或删除某样东西的操作，都要用对话框确认，因为这些都无法在发生的地方恢复：Stop Agent、Restart 或 Reset、Archive Agent、Leave Channel、Remove Member、Delete Server（[Dialog](../../packages/ui/src/components/dialog/dialog.md)）。确认按钮写操作的动词；不可撤销时还要带上对象：Stop、Delete Server（[写作](../content/writing.md#actions-and-their-dialogs)）。
+- 会停止 Agent 的工作、把某人移出某个地方、或者归档或删除某样东西的操作，都要用对话框确认，因为这些都无法在发生的地方恢复：Stop Agent、Restart 或 Reset、Archive Agent、Leave Channel、Remove Member、Delete Server（[Dialog](../../packages/ui/src/components/dialog/dialog.md)）。确认按钮写操作的动词；不可撤销时还要带上对象：Stop、Delete Server（[写作](../content/writing.md#actions-and-their-dialogs)）。
 - 确认不可撤销操作的对话框里，把说明放在红色横幅中，确认按钮用红色。打开它的菜单项不要上色：警告应该出现在人做出决定的地方，而不是一串选项里。
-- 操作在当下就有自然的退路时，直接执行并显示带 Undo 的轻提示，而不是弹对话框（[Toast](../../packages/ui/src/components/toast/toast.md)）。例如，在 Raft Chat 里把一个 agent 从消息列的关注者中移除时就是这样；轻提示停留 5 秒。
+- 操作在当下就有自然的退路时，直接执行并显示带 Undo 的轻提示，而不是弹对话框（[Toast](../../packages/ui/src/components/toast/toast.md)）。例如，在 Raft Chat 里把一个 Agent 从消息列的关注者中移除时就是这样；轻提示停留 5 秒。
 
 ### 空、加载中和加载失败 {#empty-loading-and-failed}
 
@@ -47,7 +47,7 @@ empty-state/compositions/default
 | --- | --- |
 | 一个输入框 | 输入框下方；见[表单](./forms.md#validation) |
 | 一个对话框或表单 | 其中的橙色横幅（[Banner](../../packages/ui/src/components/banner/banner.md)） |
-| 一个面板：agent 无法启动，会话的某项设置没有保存成功 | 面板标题栏下方的全宽提示（`PanelNotice`，[Panel](../../packages/ui/src/components/panel/panel.md)），上下各一条 `line-seam`：它是面板的一个区域，而不是面板内容里的横幅。人可以关掉它时，给它一个 ×；有下一步时，给它一个操作，比如 View Logs |
+| 一个面板：Agent 无法启动，会话的某项设置没有保存成功 | 面板标题栏下方的全宽提示（`PanelNotice`，[Panel](../../packages/ui/src/components/panel/panel.md)），上下各一条 `line-seam`：它是面板的一个区域，而不是面板内容里的横幅。人可以关掉它时，给它一个 ×；有下一步时，给它一个操作，比如 View Logs |
 | 一次性操作失败了，而且没有自己的位置：复制被浏览器拦截、消息列已不可用 | 一条 `warning` 轻提示，以它的 `TriangleAlert` 图标开头（[Toast](../../packages/ui/src/components/toast/toast.md)） |
 | 整个服务器 | 通知中心（[NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)） |
 
@@ -62,4 +62,4 @@ empty-state/compositions/default
 ## 相关 {#related}
 
 - [状态](../foundations/states.md)：控件的错误和忙碌状态。
-- [交接和审批](../people-and-agents/handoffs-and-approvals.md#when-something-fails)：agent 失败时。
+- [交接和审批](../people-and-agents/handoffs-and-approvals.md#when-something-fails)：Agent 失败时。

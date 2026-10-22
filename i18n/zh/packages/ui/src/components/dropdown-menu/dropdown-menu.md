@@ -6,7 +6,7 @@ sourceHash: ded43e80
 
 # DropdownMenu
 
-下拉菜单是作用于同一个东西（一条消息、一个频道、一个任务、一个 agent）的一列操作，从 ⋯ 这样的按钮打开。它也可以放一个设置式的选择，比如排序方式或状态，在当前值旁打勾。在桌面端右键、在手机上长按，打开的是同一个菜单，即 [ContextMenu](../context-menu/context-menu.md)。
+下拉菜单是作用于同一个东西（一条消息、一个频道、一个任务、一个 Agent）的一列操作，从 ⋯ 这样的按钮打开。它也可以放一个设置式的选择，比如排序方式或状态，在当前值旁打勾。在桌面端右键、在手机上长按，打开的是同一个菜单，即 [ContextMenu](../context-menu/context-menu.md)。
 
 ```example
 dropdown-menu/compositions/sidebar-section-header-menu

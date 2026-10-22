@@ -10,10 +10,10 @@ Raft 听起来像邻桌一位能干的队友：简短、直接、平实。这种
 
 ## 原则 {#principles}
 
-- **说一次，说短。** 人们是在别的工作之间读 Raft 的，旁边还有写得很多的 agent。每多一个字，都在和别人需要读的消息抢注意力。
+- **说一次，说短。** 人们是在别的工作之间读 Raft 的，旁边还有写得很多的 Agent。每多一个字，都在和别人需要读的消息抢注意力。
 - **平实胜过巧妙。** 用产品的名词（[术语](./terminology.md)）和日常动词。一个要人去破解的标签，听起来再好也是失败的。
 - **像屏幕一样安静。** 界面保持静止，颜色只留给含义（[颜色](../foundations/color.md)、[动效](../foundations/motion.md)）。文字也一样：不喊叫、不夸大，除非真有风险，否则不发警报。
-- **agent 是队友，不是功能。** 写 agent 就像写同事一样，叫它的名字，用写人时用的动词；见[描述 agent 的用语](../people-and-agents/writing-about-agents.md)。
+- **Agent 是队友，不是功能。** 写 Agent 就像写同事一样，叫它的名字，用写人时用的动词；见[描述 Agent 的用语](../people-and-agents/writing-about-agents.md)。
 - **帮人行动。** 报告问题的消息要说下一步怎么做。只表达情绪的消息（"Oops!"）不给人任何可做的事。
 
 ## Raft 听起来是什么样 {#how-raft-sounds}
@@ -22,7 +22,7 @@ Raft 听起来像邻桌一位能干的队友：简短、直接、平实。这种
 | --- | --- | --- |
 | 简短 | 能用一行说完事实或操作，就用一行 | 以 "Please note that…" 开头，或以 "Let us know if you need anything else" 结尾 |
 | 直接 | 步骤用祈使句："Restart Raft Computer and try again" | "You may want to consider restarting…" |
-| 平实 | 用产品名词和常用词：server、channel、agent、computer | "Messaging surface"、"AI-powered workspace"、"compute node" |
+| 平实 | 用产品名词和常用词：server、channel、Agent、computer | "Messaging surface"、"AI-powered workspace"、"compute node" |
 | 具体 | 说出是哪个东西："Could not save changes" | "Something went wrong" |
 | 在不费事的地方有温度 | 设置流程和成功时可以有一句轻松的话 | 在错误、警告或确认里开玩笑 |
 | 诚实 | 说 Raft 现在做得到的事 | 承诺、含糊其辞（"It looks like…"）、用道歉代替解释 |
@@ -47,7 +47,7 @@ Raft 听起来像邻桌一位能干的队友：简短、直接、平实。这种
 ## 为什么是这样的语气 {#why-the-voice-is-like-this}
 
 - Raft 一整天都开着，所以它的文字要经得起反复看。笑话只能读一次；人们每周都会看到的错误信息，得一直有用。
-- 人和 agent 在同一些频道里。平实、具体的声音让人很容易分清哪句是产品说的、哪句是队友说的，也让产品听起来不像聊天机器人。
+- 人和 Agent 在同一些频道里。平实、具体的声音让人很容易分清哪句是产品说的、哪句是队友说的，也让产品听起来不像聊天机器人。
 - 视觉系统让每种颜色只有一个含义，并让提示保持中性（[颜色](../foundations/color.md#principles)）。语气遵守同一条规则：强调只留给重要的事，这样用到的时候才管用。
 - 点了什么就打开什么（[写作](./writing.md#actions-and-their-dialogs)），任何文字都不用全大写（[0002](../decisions/0002-no-all-caps.md)）。两条规则出自同一个想法：界面永远不让人怀疑自己是不是看错了。
 
@@ -63,5 +63,5 @@ Raft 听起来像邻桌一位能干的队友：简短、直接、平实。这种
 
 - [写作](./writing.md)：大小写、标签、对话框、错误和空状态。
 - [术语](./terminology.md)：产品用词和要避免的词。
-- [描述 agent 的用语](../people-and-agents/writing-about-agents.md)：agent 的名字、动词和状态。
+- [描述 Agent 的用语](../people-and-agents/writing-about-agents.md)：Agent 的名字、动词和状态。
 - [反馈](../patterns/feedback.md)：每种消息显示在哪里。

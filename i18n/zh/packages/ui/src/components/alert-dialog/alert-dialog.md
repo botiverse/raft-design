@@ -16,8 +16,8 @@ alert-dialog/compositions/confirm-action
 
 | 场景 | 用 |
 | --- | --- |
-| 不可撤销的操作：删除一条消息、一个 agent、一个服务器 | AlertDialog，红色 |
-| 会打断但可以恢复的操作：停止 agent、重置会话、退出频道 | AlertDialog，橙色 |
+| 不可撤销的操作：删除一条消息、一个 Agent、一个服务器 | AlertDialog，红色 |
+| 会打断但可以恢复的操作：停止 Agent、重置会话、退出频道 | AlertDialog，橙色 |
 | 可以就地撤回的操作 | 不用对话框：直接执行；何时由 [Toast](../toast/toast.md) 提供 Undo，见[反馈](../../../../../design/patterns/feedback.md#confirming) |
 | 需要的不只是输入名称的决定 | [Dialog](../dialog/dialog.md) |
 
@@ -44,7 +44,7 @@ alert-dialog/compositions/confirm-action
 | 会打断，但可以恢复 | `variant="warning"` | Stop |
 | 不可撤销 | `variant="danger"`，正文里放一个 `status="destructive"` 的 [Banner](../banner/banner.md) | Delete Agent |
 
-删除大的东西，比如一个 agent 或一个服务器，还要求输入它的名称（[表单](../../../../../design/patterns/forms.md#danger-zone)）：
+删除大的东西，比如一个 Agent 或一个服务器，还要求输入它的名称（[表单](../../../../../design/patterns/forms.md#danger-zone)）：
 
 ```example
 alert-dialog/compositions/typed-delete

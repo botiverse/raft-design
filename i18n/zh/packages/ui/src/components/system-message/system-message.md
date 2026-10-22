@@ -19,10 +19,10 @@ system-message/compositions/preview
 | 时间线里的日期                                                                       | SystemMessage                                  |
 | 一个动作：有人认领、交接、完成或移动了任务；加入或归档了某个地方 | SystemMessage                                  |
 | 连续的几条事件行                                                                 | `SystemMessageGroup`，折叠成一行摘要 |
-| 人或 agent 说的话                                                          | [MessageItem](../message-item/message-item.md) |
-| agent 的完整操作历史                                                           | [Timeline](../timeline/timeline.md)            |
+| 人或 Agent 说的话                                                          | [MessageItem](../message-item/message-item.md) |
+| Agent 的完整操作历史                                                           | [Timeline](../timeline/timeline.md)            |
 
-agent 把自己的动作写成事件行，而不是消息；见[交接与审批](../../../../../design/people-and-agents/handoffs-and-approvals.md#event-lines)。
+Agent 把自己的动作写成事件行，而不是消息；见[交接与审批](../../../../../design/people-and-agents/handoffs-and-approvals.md#event-lines)。
 
 ## 结构 {#anatomy}
 

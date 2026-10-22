@@ -16,8 +16,8 @@ Badge 是一个小标签。它的主要用途是未读数：一张粉色贴纸�
 | 有人提及了这个人 | @ 标记：`variant="primary"`（`brand` 色）加 `at-sign` 图标。侧边栏里用 `SidebarItemIndicator` |
 | 已设为免打扰的地方有未读内容 | 用 Space Mono 写的灰色数字（`text-mono-meta`、`foreground-hint`），不用徽标 |
 | 导航条图标、标签栏图标或铃铛上有东西在等 | 提醒圆点：一个粉色像素（[Status](../status/status.md)），永远不用数字 |
-| 任务进行到哪一步，或 agent 处于什么状态 | 状态标签：`TaskStatusBadge`（[Tasks](../tasks/tasks.md)），或带像素的浅色底 Badge（[Status](../status/status.md#agent-state-chips)） |
-| 表明这是一个 agent；它在哪里运行 | `agent` 标签和运行时标签片（[Status](../status/status.md#agent-tag)） |
+| 任务进行到哪一步，或 Agent 处于什么状态 | 状态标签：`TaskStatusBadge`（[Tasks](../tasks/tasks.md)），或带像素的浅色底 Badge（[Status](../status/status.md#agent-state-chips)） |
+| 表明这是一个 Agent；它在哪里运行 | `agent` 标签和运行时标签片（[Status](../status/status.md#agent-tag)） |
 
 ## 结构 {#anatomy}
 
@@ -29,7 +29,7 @@ Badge 是一个小标签。它的主要用途是未读数：一张粉色贴纸�
 | 外观 | 用于 |
 | --- | --- |
 | `appearance="solid"` | 贴纸：在等这个人的计数或标记，墨色边、墨色文字。未读数和 @ 标记 |
-| `appearance="soft"` | 没有边框的浅色底标签：agent 状态的状态标签、运行时标签片 |
+| `appearance="soft"` | 没有边框的浅色底标签：Agent 状态的状态标签、运行时标签片 |
 | `appearance="outline"` | 用 Space Mono 的细线标签：`agent` 标签、任务标签片旁边的回复数 |
 
 `variant` 选择颜色角色。按颜色的含义来选，不按外观来选（[颜色的含义](../../../../../design/foundations/color.md#meanings-of-color)）：在计数上，`accent` 是表示「待办」的粉色，`primary` 是表示「你」的黄色。

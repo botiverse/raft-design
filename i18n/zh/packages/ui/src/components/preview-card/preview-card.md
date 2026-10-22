@@ -6,7 +6,7 @@ sourceHash: 8340566f
 
 # PreviewCard
 
-预览卡是人悬停或聚焦到正文里的某样东西上时出现的只读卡片，让人不离开对话就能知道它是什么。它有两种用途：人或 agent 的资料卡，出现在提及或名字上（比如 @Bugen），带头像、名字和一行状态；以及应用链接的条目卡片，比如消息链接到的一个 pull request，带它的标题和应用提供的详情。两种都最多带两个小按钮。Raft Chat 的资料卡没有按钮（[Raft Chat](../../../../../design/products/raft-chat/README.md#overlays)）。
+预览卡是人悬停或聚焦到正文里的某样东西上时出现的只读卡片，让人不离开对话就能知道它是什么。它有两种用途：人或 Agent 的资料卡，出现在提及或名字上（比如 @Bugen），带头像、名字和一行状态；以及应用链接的条目卡片，比如消息链接到的一个 pull request，带它的标题和应用提供的详情。两种都最多带两个小按钮。Raft Chat 的资料卡没有按钮（[Raft Chat](../../../../../design/products/raft-chat/README.md#overlays)）。
 
 ```example
 preview-card/preview-card-mention
@@ -16,7 +16,7 @@ preview-card/preview-card-mention
 
 | 场景 | 用 |
 | --- | --- |
-| 悬停时显示一个人或一个 agent | PreviewCard，作为资料卡 |
+| 悬停时显示一个人或一个 Agent | PreviewCard，作为资料卡 |
 | 悬停在标签片上时，显示应用链接到的条目 | PreviewCard，作为条目卡片（[条目卡片](#item-card)） |
 | 悬停时显示关于某样东西的一句话 | [Tooltip](../tooltip/tooltip.md) |
 | 点击时显示一个选择或一个输入框 | [Popover](../popover/popover.md) |
@@ -72,7 +72,7 @@ preview-card/preview-card-app-prompt
 
 ## 内容 {#content}
 
-- 对 agent，先说它现在在做什么，再说它是谁："Reviewing #25" 加上它的在线状态灯，然后是它的角色和运行位置。
+- 对 Agent，先说它现在在做什么，再说它是谁："Reviewing #25" 加上它的在线状态灯，然后是它的角色和运行位置。
 - 对人，显示其角色和当地时间。
 - 在条目卡片上，按应用发来的原样显示它的文字；应用没发的部分就不显示，不要用 Raft 自己的内容去填。
 - 按钮用 Title Case：Message、View Profile、Open in Stamp。

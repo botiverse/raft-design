@@ -6,7 +6,7 @@ sourceHash: 4d10206b
 
 # Textarea
 
-多行输入框在表单里接收几行文字：一段描述、一条备注、给 agent 的说明。它的墨色边框和状态与 [Input](../input/input.md) 相同，高度至少是三行字段文字（手机上 96px，桌面端 90px），人可以把它拖高。
+多行输入框在表单里接收几行文字：一段描述、一条备注、给 Agent 的说明。它的墨色边框和状态与 [Input](../input/input.md) 相同，高度至少是三行字段文字（手机上 96px，桌面端 90px），人可以把它拖高。
 
 ```example
 textarea/compositions/with-field

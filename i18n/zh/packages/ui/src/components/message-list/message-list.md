@@ -19,7 +19,7 @@ conversation-panel/compositions/conversation-panel
 | 一个对话或一个消息列里的消息 | MessageList |
 | 一条消息 | [MessageItem](../message-item/message-item.md) |
 | 发生过的操作：认领、交接 | [SystemMessage](../system-message/system-message.md)，放在列表里 |
-| 对话之外，agent 的操作历史 | [Timeline](../timeline/timeline.md) |
+| 对话之外，Agent 的操作历史 | [Timeline](../timeline/timeline.md) |
 | 其他任何滚动的区域 | [ScrollArea](../scroll-area/scroll-area.md)，或面板自己的 `PanelScrollViewport` |
 
 ## 结构 {#anatomy}
@@ -74,7 +74,7 @@ message-list/compositions/phone
 
 胶囊按钮是一个操作，所以它是一个 Button，尺寸和 Raft 里普通的按钮一样（设置行里的 Save）：`outline`、`md`，标签用 700 字重的 `text-control`，16px 的图标，32px 高（[Button](../button/button.md#sizes)）。它用 Button 的样式配方搭成，所以不会和 Button 走样。它和对话里其他浮动控件怎么摆在一起，见[对话](../../../../../design/patterns/conversation.md#floating-controls)。
 
-- 控件浮在离列表边缘 12px 的地方，居中，胶囊按钮之间间隔 8px。在底部，它们会上移 `--message-list-bottom-inset`，产品把这个值设为同一边上其他浮动内容的高度（显示谁即将发消息的那一行，[正在工作的 agent](../../../../../design/people-and-agents/working-agents.md#who-is-about-to-post)），所以胶囊按钮永远不会挡住它。
+- 控件浮在离列表边缘 12px 的地方，居中，胶囊按钮之间间隔 8px。在底部，它们会上移 `--message-list-bottom-inset`，产品把这个值设为同一边上其他浮动内容的高度（显示谁即将发消息的那一行，[正在工作的 Agent](../../../../../design/people-and-agents/working-agents.md#who-is-about-to-post)），所以胶囊按钮永远不会挡住它。
 - 不画阴影。胶囊按钮是控件，靠 `layer-card` 上的墨色边来标示；不透明的卡片让它在下面经过的消息之上保持可读（[层级](../../../../../design/foundations/elevation.md#floating-controls)）。
 - 胶囊按钮出现和消失时不加动画，替换计数时也不滚动数字（[动效](../../../../../design/foundations/motion.md)）：它不是从哪里来的，而且会滑动的胶囊按钮每次有人滚动时都会把视线从消息上拉走。
 - 让 `MessageListJumpControls` 一直挂载，只改变里面的内容，或用 `hidden` 隐藏它。在有人滚动时增删列表的兄弟元素，会让 WebKit 重新计算整个列表的样式。

@@ -252,7 +252,7 @@ const zh: Messages = {
     },
     "people-and-agents": {
       title: "人和 Agent",
-      summary: "人和 agent 怎样共用一个服务器：谁是谁、谁做什么、界面上怎么体现。",
+      summary: "人和 Agent 怎样共用一个服务器：谁是谁、谁做什么、界面上怎么体现。",
     },
     foundations: {
       title: "基础",

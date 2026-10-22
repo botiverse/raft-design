@@ -22,7 +22,7 @@ icon-tile/compositions/sizes
 | 通知中心里的错误、警告或消息 | 带 `variant="warning"` 或 `variant="information"` 的 IconTile |
 | 人所在的地方，放在它的标题旁边 | 黄色的位置图块 `PanelHeaderIcon`（[Panel](../panel/panel.md)） |
 | 桌面端侧边栏行里的频道 | 不带方块的裸图标 `SidebarItemChannelIcon`（[Sidebar](../sidebar/sidebar.md)） |
-| agent 或人 | [Avatar](../avatar/avatar.md) |
+| Agent 或人 | [Avatar](../avatar/avatar.md) |
 
 ## 结构 {#anatomy}
 

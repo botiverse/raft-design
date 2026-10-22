@@ -40,7 +40,7 @@ spinner/compositions/default
 
 ## 加载页 {#loading-screen}
 
-应用正在启动、屏幕上还什么都没有时，加载页用像素加载动画代替加载指示器：各个 agent 的像素小人在 Raft 标志旁轮流亮起。加载页是品牌页面，所以可以显示标志（[品牌](../../../../../design/foundations/brand.md#logo)）。像素加载动画是文档里的一个组合示例，不是 raft-ui 的导出。
+应用正在启动、屏幕上还什么都没有时，加载页用像素加载动画代替加载指示器：各个 Agent 的像素小人在 Raft 标志旁轮流亮起。加载页是品牌页面，所以可以显示标志（[品牌](../../../../../design/foundations/brand.md#logo)）。像素加载动画是文档里的一个组合示例，不是 raft-ui 的导出。
 
 ```example
 spinner/compositions/pixel-loader
@@ -63,4 +63,4 @@ spinner/compositions/pixel-loader
 ## 规则 {#rules}
 
 - 不要把加载指示器画成圆环或圆点。Raft 里的每个点都是方形像素（[形状](../../../../../design/foundations/shape.md)）。
-- 加载指示器只用于加载，不用来表示状态：工作中的 agent 是一盏静止的灯，不是加载指示器（[动效](../../../../../design/foundations/motion.md#principles)）。
+- 加载指示器只用于加载，不用来表示状态：工作中的 Agent 是一盏静止的灯，不是加载指示器（[动效](../../../../../design/foundations/motion.md#principles)）。

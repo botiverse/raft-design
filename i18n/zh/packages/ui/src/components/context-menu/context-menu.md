@@ -16,7 +16,7 @@ context-menu/context-menu
 
 | 情况 | 用 |
 | --- | --- |
-| 在消息、频道、任务或 agent 上右键或长按 | ContextMenu |
+| 在消息、频道、任务或 Agent 上右键或长按 | ContextMenu |
 | 同样的操作，从一个可见的按钮打开 | [DropdownMenu](../dropdown-menu/dropdown-menu.md) |
 | 在手机上对某个东西执行操作 | 长按打开的 ContextMenu，永远不用底部面板 |
 | 随表单提交的值 | [Select](../select/select.md) |

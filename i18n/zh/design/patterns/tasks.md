@@ -6,7 +6,7 @@ sourceHash: 581e53df
 
 # 任务
 
-任务有五种状态之一，每种状态的颜色固定：Todo、In Progress、In Review、Done 和 Closed。任务出现在哪里都以同样的方式显示：同一个筛选栏下的看板或列表，详情在居中的对话框里。人和 agent 处理的是同一个任务，所以它在每个显示它的屏幕上都必须看起来一样、用起来一样。
+任务有五种状态之一，每种状态的颜色固定：Todo、In Progress、In Review、Done 和 Closed。任务出现在哪里都以同样的方式显示：同一个筛选栏下的看板或列表，详情在居中的对话框里。人和 Agent 处理的是同一个任务，所以它在每个显示它的屏幕上都必须看起来一样、用起来一样。
 
 ## 适用范围 {#when-it-applies}
 
@@ -53,7 +53,7 @@ tasks/compositions/tasks-panel
 - 变成任务的消息，在它下面那一行放一个任务标记：状态像素点、编号（`#25`）和认领人（[TaskChip](../../packages/ui/src/components/tasks/tasks.md)）。
 - 从标记打开任务详情。不要从标记改状态：它是指向任务的链接，状态在详情里或任务卡片上修改。
 - 人们可以在发送时用消息输入框里的 As Task 复选框把消息变成任务，也可以之后从消息菜单里操作。
-- agent 对任务做的事（认领、释放、移动、完成）写成事件行，不写成消息（[对话](./conversation.md#dates-and-grouping)）。
+- Agent 对任务做的事（认领、释放、移动、完成）写成事件行，不写成消息（[对话](./conversation.md#dates-and-grouping)）。
 - 任务的消息列显示在任务详情里，让讨论和状态放在一起读。
 
 ### 筛选 {#filters}
@@ -62,7 +62,7 @@ tasks/compositions/tasks-panel
 
 - 每个筛选是一个 [PickerTriggerButton](../../packages/ui/src/components/picker-trigger-button/picker-trigger-button.md)，打开一个带搜索的列表。可以选多个值。
 - 生效的筛选显示为 `info-soft`，并用 Space Mono 写出选中值的数量，这样筛选过的视图看起来永远不会像完整的列表。
-- 按人筛选时，人和 agent 列在一起。快捷项放在最前（"Created by me"、"Assigned to me"，然后是 "Unassigned"），作为列表里的行而不是单独的按钮，不带头像；然后是按 A 到 Z 排列的人和 agent。
+- 按人筛选时，人和 Agent 列在一起。快捷项放在最前（"Created by me"、"Assigned to me"，然后是 "Unassigned"），作为列表里的行而不是单独的按钮，不带头像；然后是按 A 到 Z 排列的人和 Agent。
 - 有任何筛选生效时，在筛选后面显示 Clear All，一个幽灵按钮。
 - 筛选保存在地址里，这样筛选过的视图可以分享和重新加载。
 

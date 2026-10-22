@@ -1,12 +1,12 @@
 ---
 title: ListRow
-summary: 用于详情页上的人和 agent、设置和快捷入口的行：前导块、标题和预览、时间和一个徽标。
+summary: 用于详情页上的人和 Agent、设置和快捷入口的行：前导块、标题和预览、时间和一个徽标。
 sourceHash: 7188403c
 ---
 
 # ListRow
 
-ListRow 是列表里的一行：一个人、一个 agent、一项设置，或者通往另一个页面的快捷入口。整行都是点击目标。详情页或个人资料页上的 agent 和人、以及设置，都用它。Raft Chat 在手机上列出地方的列表（主页、成员、设置列表）则用侧边栏行（[选择组件](../../../../../design/components/overview.md#rows)）。
+ListRow 是列表里的一行：一个人、一个 Agent、一项设置，或者通往另一个页面的快捷入口。整行都是点击目标。详情页或个人资料页上的 Agent 和人、以及设置，都用它。Raft Chat 在手机上列出地方的列表（主页、成员、设置列表）则用侧边栏行（[选择组件](../../../../../design/components/overview.md#rows)）。
 
 ```example
 list-row/compositions/conversations
@@ -18,7 +18,7 @@ list-row/compositions/conversations
 | --- | --- |
 | 手机列表里的频道、私信和成员 | 侧边栏行（[Sidebar](../sidebar/sidebar.md)），和 Raft Chat 一样 |
 | 搜索结果里的频道和人 | ListRow，通过搜索结果行使用（[Search](../search/search.md)） |
-| 个人资料页或详情页（比如计算机详情）上的 agent 和人 | 放在 `ListRowGroup` 里的 ListRow（[身份与在线状态](../../../../../design/people-and-agents/identity-and-presence.md#the-same-as-people)） |
+| 个人资料页或详情页（比如计算机详情）上的 Agent 和人 | 放在 `ListRowGroup` 里的 ListRow（[身份与在线状态](../../../../../design/people-and-agents/identity-and-presence.md#the-same-as-people)） |
 | 桌面端侧边栏的一行 | 侧边栏行（[Sidebar](../sidebar/sidebar.md)） |
 | 动态和通知 | [InboxItem](../inbox-item/inbox-item.md) |
 | 一个任务 | [TaskCard](../task-card/task-card.md) |
@@ -40,7 +40,7 @@ list-row/compositions/conversations
 
 | 变体 | 用于 |
 | --- | --- |
-| `variant="default"` | 一个对话、一个人或一个 agent：前导块、标题、预览、时间和徽标。高度至少 64px |
+| `variant="default"` | 一个对话、一个人或一个 Agent：前导块、标题、预览、时间和徽标。高度至少 64px |
 | `variant="plain"` | 一项设置：可选的图标、标题（及其后果），然后是当前值和 V 形箭头，或一个开关。一行文字时高 48px |
 | `variant="entry"` | 列表顶部通往另一个页面的快捷入口（手机主页上的「收藏」）：20px 图标和名称，右侧是徽标或灰色计数。高 48px |
 

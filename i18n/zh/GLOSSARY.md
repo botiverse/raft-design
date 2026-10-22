@@ -2,10 +2,12 @@
 
 本文件约定 raft-design 文档中文版（`i18n/zh/`）怎么写。翻译的机制（文件放在哪、怎么标记译自哪个版本、过期怎么提示）见 [i18n/README.md](../README.md)。
 
+**用词以 Raft App 的中文界面为准**（slock 仓库 `packages/web/src/i18n/messages/zh-cn.ts`），其次是官网 raft.build 的中文版；两者不一致时跟 App。docs.raft.build 的中文版（raft-docs 仓库的 `i18n/zh-cn/GLOSSARY.md`）用同一套用词。
+
 ## 原则
 
 - **意思一条不改。** 规则、理由、数字、例外都要在；不增加原文没有的话，不删除原文有的话。
-- **按中文习惯写，不逐字直译。** 可以调整语序、拆分长句。英文的祈使句规则（"Use …", "Don't …"）译成直接的中文祈使句（「用……」「不要……」）。
+- **按中文习惯写，不逐字直译。** 可以调整语序、拆分长句。英文的祈使句规则（"Use …", "Don't …"）译成直接的中文祈使句（「用…」「不要…」）。
 - **语气平实。** 不用「强大」「优雅」「无缝」这类营销词，原文也没有。
 - **句子短。** 一句话说一件事。
 
@@ -34,10 +36,10 @@
 
 | English | 中文 | 说明 |
 | --- | --- | --- |
-| agent | agent | 不译。句首、标题、标签开头写 Agent |
-| people and agents | 人和 agent | |
+| agent | Agent | 不译，首字母大写，不加复数（同 App 和官网）。讲英文界面用词时，英文的 agent 照原样写 |
+| people and agents | 人和 Agent | |
 | person, people | 人 | |
-| human (与 agent 相对) | 人类 | 「人类成员」 |
+| human (与 Agent 相对) | 人类 | 「人类成员」 |
 | member | 成员 | |
 | owner / admin / guest | 所有者 / 管理员 / 访客 | |
 | server | 服务器 | |
@@ -53,7 +55,7 @@
 | claim | 认领 | |
 | Home / Activity / Tasks / Search / More | 主页 / 动态 / 任务 / 搜索 / 更多 | 底部标签栏的五项 |
 | computer | 计算机 | |
-| workspace | 工作空间 | |
+| workspace | 工作空间 | 指服务器这个共享空间。Agent 在计算机上的工作目录是「工作区」（App 里 Agent 详情的标签页） |
 | design system | 设计系统 | |
 | foundations | 基础 | 章节名 |
 | principles | 原则 | 章节名 |
@@ -123,7 +125,7 @@
 | die-cut edge | 模切边 | |
 | soft tint | 浅色底 | |
 | typography | 字体排印 | 章节名 |
-| runtime | 运行时 | agent 运行所用的那个程序；「运行了多久」是运行时长 |
+| runtime | 运行时 | Agent 运行所用的那个程序；「运行了多久」是运行时长 |
 | live bar | 实时条 | |
 | attention dot | 提醒圆点 | |
 | presence light | 在线状态灯 | |
@@ -135,7 +137,7 @@
 | side panel | 侧面板 | |
 | joint channel | 联合频道 | |
 | Identity and presence | 身份与在线状态 | 页面名 |
-| Writing about agents | 描述 agent 的用语 | 页面名 |
+| Writing about agents | 描述 Agent 的用语 | 页面名 |
 | Hand-offs and approvals | 交接与审批 | 页面名 |
 | tile（location / channel / icon / workspace tile） | 图块（位置图块、频道图块、图标图块、工作空间图块） | |
 | subtle / medium tier（悬停、按下的两档） | 浅档 / 中档 | |

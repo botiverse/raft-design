@@ -1,12 +1,12 @@
 ---
 title: Markdown
-summary: Markdown 渲染器把节点映射到的一组带样式的元素，包括标题、段落、链接、列表、引用、表格、图片和任务复选框，用于人和 agent 写的文字。
+summary: Markdown 渲染器把节点映射到的一组带样式的元素，包括标题、段落、链接、列表、引用、表格、图片和任务复选框，用于人和 Agent 写的文字。
 sourceHash: dca47847
 ---
 
 # Markdown
 
-Markdown 部件为人和 agent 用 Markdown 写的内容设置样式：消息正文、任务描述、agent 的笔记。raft-ui 为每种 Markdown 元素导出一个部件，不提供解析器。你的渲染器解析源文本，把每个节点映射到对应的部件；文档站的渲染器（[`markdown.tsx`](../../../../../apps/doc/src/lib/markdown/markdown.tsx)）用 react-markdown 解析 GitHub 风格的 Markdown，并转义源文本中的 HTML。
+Markdown 部件为人和 Agent 用 Markdown 写的内容设置样式：消息正文、任务描述、Agent 的笔记。raft-ui 为每种 Markdown 元素导出一个部件，不提供解析器。你的渲染器解析源文本，把每个节点映射到对应的部件；文档站的渲染器（[`markdown.tsx`](../../../../../apps/doc/src/lib/markdown/markdown.tsx)）用 react-markdown 解析 GitHub 风格的 Markdown，并转义源文本中的 HTML。
 
 ```example
 message-reference/compositions/mixed-long-message

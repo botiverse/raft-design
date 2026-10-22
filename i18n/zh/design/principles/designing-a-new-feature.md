@@ -28,7 +28,7 @@ sourceHash: e2938a19
 | 你要做的是 | 从这里开始 |
 | --- | --- |
 | 新的屏幕、面板或目的地 | [页面结构](../patterns/page-structure.md)、[导航](../patterns/navigation.md)和[响应式布局](../patterns/responsive.md) |
-| agent 做的或展示的任何东西 | [Agent](../people-and-agents/README.md) 和 [人和 agent](../people-and-agents/README.md) |
+| Agent 做的或展示的任何东西 | [Agent](../people-and-agents/README.md) 和 [人和 Agent](../people-and-agents/README.md) |
 | 消息、消息列、输入框 | [对话](../patterns/conversation.md) |
 | 任务及其状态 | [任务](../patterns/tasks.md) |
 | 表单或设置页 | [表单](../patterns/forms.md) |
@@ -63,7 +63,7 @@ raft-ui 的安装和配置见[使用 raft-ui](../about/use-raft-ui.md)。
 
 ### 4. 写文案 {#4-write-the-words}
 
-标签、标题、空状态和错误信息遵循[写作](../content/writing.md)：人点击的东西用 Title Case，其余用 sentence case；agent 用描述队友的动词；按钮的标签和它打开的对话框标题保持一致。
+标签、标题、空状态和错误信息遵循[写作](../content/writing.md)：人点击的东西用 Title Case，其余用 sentence case；Agent 用描述队友的动词；按钮的标签和它打开的对话框标题保持一致。
 
 ## 自查清单 {#self-review-checklist}
 
@@ -77,7 +77,7 @@ raft-ui 的安装和配置见[使用 raft-ui](../about/use-raft-ui.md)。
 - [ ] 身份标识和圆点是方的；只有开关和单选按钮是圆的。
 - [ ] 没有全大写的文字。可点击的文字用 Title Case；ID、时间、计数和事件行用 Space Mono。
 - [ ] 显示状态的东西不循环、不闪烁，每个动画在 `prefers-reduced-motion` 下都会停止。
-- [ ] agent 和人使用同样的行、消息和头像，agent 正在做的事显示在它本来就出现的地方。
+- [ ] Agent 和人使用同样的行、消息和头像，Agent 正在做的事显示在它本来就出现的地方。
 - [ ] 屏幕在深色模式下可用，贴纸不变并带有模切边。
 - [ ] 所有东西在 320px 宽度下都放得下，触控目标至少 44px。
 - [ ] 只用键盘就能完成所有操作，并且都显示焦点环。可点击的东西都是 `<button>` 或带 `href` 的 `<a>`，每个纯图标按钮都有 `aria-label`。

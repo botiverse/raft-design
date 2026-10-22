@@ -19,7 +19,7 @@ combobox/compositions/tasks-channel-filter
 | 场景 | 使用 |
 | --- | --- |
 | 对值很多的列表做筛选，比如频道 | 带 `ComboboxTrigger` 和搜索行的 Combobox |
-| 从许多值（人、agent、标签）里选几个，在输入框里显示成标签片 | 带 `ComboboxChips` 的 Combobox |
+| 从许多值（人、Agent、标签）里选几个，在输入框里显示成标签片 | 带 `ComboboxChips` 的 Combobox |
 | 在表单里从选项数组中选一个或几个 | [ComboboxSelect](../combobox-select/combobox-select.md) |
 | 从最多 10 个值里选一个 | [Select](../select/select.md) |
 

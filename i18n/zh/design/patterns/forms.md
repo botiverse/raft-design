@@ -39,7 +39,7 @@ field/compositions/preview
 ### 对话框里的表单 {#forms-in-a-dialog}
 
 - 对话框里的表单，底部放 Cancel 和提交按钮。Cancel 在对话框里是幽灵按钮，在页面上则带墨色边框（[Button](../../packages/ui/src/components/button/button.md#which-color)）。Cancel 在前；提交按钮是这个界面上的粉色按钮，写明它执行的操作，通常就是标题里的动词：Create Channel 里的 Create；标题是 Edit 时，按钮是 Save（[写作](../content/writing.md#actions-and-their-dialogs)）。两个按钮都是 `size="lg"`，和上面输入框一样高（[间距](../foundations/spacing.md#heights)）。
-- 只有几个字段的表单用小对话框，即默认的 `size="md"`，宽 448px：创建频道、agent 或任务。内容需要更宽的表单（比如键值行或命令）用 `size="lg"`，宽 640px（[Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)）。
+- 只有几个字段的表单用小对话框，即默认的 `size="md"`，宽 448px：创建频道、Agent 或任务。内容需要更宽的表单（比如键值行或命令）用 `size="lg"`，宽 640px（[Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)）。
 
 ### 大表单对话框 {#the-large-form-dialog}
 
@@ -101,7 +101,7 @@ select/compositions/option-height
 
 ### 前提条件 {#prerequisites}
 
-- 不要显示还不能用的表单。缺了什么，就说缺了什么，并给出下一步：先连接一台计算机，再创建 agent。
+- 不要显示还不能用的表单。缺了什么，就说缺了什么，并给出下一步：先连接一台计算机，再创建 Agent。
 
 ## 相关 {#related}
 

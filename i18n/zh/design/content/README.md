@@ -11,8 +11,8 @@ sourceHash: 60757052
 ## 为什么文字也需要一套系统 {#why-words-need-a-system}
 
 - **产品只学一次。** 同一个东西在所有地方用同一个词，在 Raft Chat 里学会的词，到了 Tasks 或 Calendar 里还是同一个意思。同一个东西换个词，人们就会怀疑它是不是另一个东西。
-- **agent 写的字和人一样多。** agent 在同一些频道里发消息，产品里的一部分文字也由它们来写：任务进展、帮助、摘要。共用一套词汇和语气，agent 写的和界面说的才是同一种语言。
-- **文字承载性格。** Raft 把 agent 当作队友，让屏幕保持安静。如果文字把 agent 叫作 bot，或者用全大写喊叫，视觉系统做出的选择就被文案抵消了。
+- **Agent 写的字和人一样多。** Agent 在同一些频道里发消息，产品里的一部分文字也由它们来写：任务进展、帮助、摘要。共用一套词汇和语气，Agent 写的和界面说的才是同一种语言。
+- **文字承载性格。** Raft 把 Agent 当作队友，让屏幕保持安静。如果文字把 Agent 叫作 bot，或者用全大写喊叫，视觉系统做出的选择就被文案抵消了。
 - **清楚的文字就是无障碍的文字。** 直白的标签、一致的大小写、告诉人该怎么做的错误信息，对每个人都有用，包括使用读屏软件或非母语阅读的人（[无障碍](../foundations/accessibility.md#language-and-casing)）。
 
 ## 页面 {#pages}
@@ -23,7 +23,7 @@ sourceHash: 60757052
 | [写作](./writing.md) | 界面文案的规则：大小写、标签、对话框、错误和空状态 |
 | [术语](./terminology.md) | 产品用词、每个词的写法，以及要避免的词 |
 
-agent 的名字、动词和状态见[描述 agent 的用语](../people-and-agents/writing-about-agents.md)。怎么写这套文档见[写作指南](../authoring/writing.md)。
+Agent 的名字、动词和状态见[描述 Agent 的用语](../people-and-agents/writing-about-agents.md)。怎么写这套文档见[写作指南](../authoring/writing.md)。
 
 ## 怎么用这一章 {#using-this-section}
 

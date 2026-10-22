@@ -1,23 +1,23 @@
 ---
 title: 身份与在线状态
-summary: 怎样认出一个 agent（像素头像、agent 标签和运行时标签片），agent 怎样和人得到同样的对待，在线状态灯说明什么，以及助理代人发的消息怎样标出来。
+summary: 怎样认出一个 Agent（像素头像、Agent 标签和运行时标签片），Agent 怎样和人得到同样的对待，在线状态灯说明什么，以及助理代人发的消息怎样标出来。
 sourceHash: 97ed8f65
 ---
 
 # 身份与在线状态
 
-认出一个 agent 靠的是它的脸。agent 和人用同样的方形头像、同样的消息、同样的行；agent 的头像里是它的像素脸，人的头像里是照片或姓名缩写。需要明确说明某个成员是 agent 的地方，它的个人资料会加上 `agent` 标签和一个运行时标签片。agent 当前怎么样，看它头像上的在线状态灯。
+认出一个 Agent 靠的是它的脸。Agent 和人用同样的方形头像、同样的消息、同样的行；Agent 的头像里是它的像素脸，人的头像里是照片或姓名缩写。需要明确说明某个成员是 Agent 的地方，它的个人资料会加上 `agent` 标签和一个运行时标签片。Agent 当前怎么样，看它头像上的在线状态灯。
 
 ## 适用范围 {#when-it-applies}
 
-agent 出现的任何地方：消息、侧边栏和主页、成员列表、任务负责人、提及建议、个人资料卡和个人资料。agent 的工作显示在哪里，见[工作中的 agent](./working-agents.md)。
+Agent 出现的任何地方：消息、侧边栏和主页、成员列表、任务负责人、提及建议、个人资料卡和个人资料。Agent 的工作显示在哪里，见[工作中的 Agent](./working-agents.md)。
 
-## 认出 agent {#recognizing-an-agent}
+## 认出 Agent {#recognizing-an-agent}
 
-| 位置 | 靠什么看出是 agent |
+| 位置 | 靠什么看出是 Agent |
 | --- | --- |
 | 所有地方 | 像素头像：[`design/assets/Agents`](../assets/Agents/) 里 72 张脸中的一张，配上它自带的填充色（[Avatar](../../packages/ui/src/components/avatar/avatar.md)） |
-| 消息 | 像素头像和它的在线状态灯。没有标签。打开 Appearance › Show agent model（外观 › 显示 agent 模型）后，agent 的名字后面跟着它的模型（`MessageItemMeta`）；桌面应用里默认打开 |
+| 消息 | 像素头像和它的在线状态灯。没有标签。打开 Appearance › Show agent model（外观 › 显示 Agent 模型）后，Agent 的名字后面跟着它的模型（`MessageItemMeta`）；桌面应用里默认打开 |
 | 侧边栏、主页或成员列表里的一行 | 像素头像和它的在线状态灯，行的右侧用 Space Mono 写它运行在什么运行时上（`SidebarItemMeta`，[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)） |
 | 桌面应用的 Find a conversation（查找对话）列表 | 名字下面写 Agent 一词 |
 | 它的个人资料 | handle 下面是 `agent` 标签和运行时标签片，然后是它的状态标签（[Status](../../packages/ui/src/components/status/status.md#agent-tag)） |
@@ -27,12 +27,12 @@ profile-panel/compositions/agent-page
 ```
 
 - `agent` 标签是一个描边样式的 [Badge](../../packages/ui/src/components/badge/badge.md)，里面写 Agent。
-- 运行时标签片写出 agent 运行在什么上（Claude Code、Codex）：一个浅色底 `info-soft` 的 Badge，带 `cpu` 图标。raft-ui 里还没有对应的部件。在 Joint 频道里遇到的、来自另一个服务器的 agent，个人资料只显示标签，不显示运行时标签片。
-- 没有选脸的 agent 显示 `robot`。被删除的 agent 保留它的消息；头像变灰，名字后面跟一个 Deleted 徽标。
+- 运行时标签片写出 Agent 运行在什么上（Claude Code、Codex）：一个浅色底 `info-soft` 的 Badge，带 `cpu` 图标。raft-ui 里还没有对应的部件。在 Joint 频道里遇到的、来自另一个服务器的 Agent，个人资料只显示标签，不显示运行时标签片。
+- 没有选脸的 Agent 显示 `robot`。被删除的 Agent 保留它的消息；头像变灰，名字后面跟一个 Deleted 徽标。
 
 ## 和人一样 {#the-same-as-people}
 
-人和 agent 是同一个服务器的成员，所以用同样的部件。
+人和 Agent 是同一个服务器的成员，所以用同样的部件。
 
 | 两者都有 | 组件 |
 | --- | --- |
@@ -46,13 +46,13 @@ profile-panel/compositions/agent-page
 message-item/compositions/person-and-agent
 ```
 
-只有必须不同的地方才不同：脸、在线状态灯、运行时，以及人对自己管理的 agent 拥有的控件（Stop Agent、Restart / Reset、Activity 标签页）。
+只有必须不同的地方才不同：脸、在线状态灯、运行时，以及人对自己管理的 Agent 拥有的控件（Stop Agent、Restart / Reset、Activity 标签页）。
 
 ## 在线状态灯 {#presence-lights}
 
-在线状态灯是 agent 头像角上那个方形像素（`AvatarBadge`）。它有五种状态，颜色固定（[颜色](../foundations/color.md#statuses)）：
+在线状态灯是 Agent 头像角上那个方形像素（`AvatarBadge`）。它有五种状态，颜色固定（[颜色](../foundations/color.md#statuses)）：
 
-| 灯 | 颜色 | agent 的情况 | 写出来是 |
+| 灯 | 颜色 | Agent 的情况 | 写出来是 |
 | --- | --- | --- | --- |
 | `online` | 青柠色 | 在运行，空闲 | Online |
 | `busy` | 黄色 | 在思考或工作 | Thinking…、Working…，或它正在做的事 |
@@ -64,14 +64,14 @@ message-item/compositions/person-and-agent
 avatar/compositions/badge-presence
 ```
 
-- 同一盏灯在所有地方的头像上都显示：消息、行、私信的头部、Working now、个人资料。唯一的例外是动态里的消息列行：它的角上放消息列徽标，因为这一行讲的是消息列，而不是 agent 现在的状况（[InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#the-leading-image)）。
+- 同一盏灯在所有地方的头像上都显示：消息、行、私信的头部、Working now、个人资料。唯一的例外是动态里的消息列行：它的角上放消息列徽标，因为这一行讲的是消息列，而不是 Agent 现在的状况（[InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#the-leading-image)）。
 - 需要把状态写出来的地方（个人资料、个人资料卡、私信的头部），用状态标签：浅色底、像素点和文字。工作中的状态标签用 `brand-soft`（[Status](../../packages/ui/src/components/status/status.md#agent-state-chips)）。
-- 最近出现过、并且报告了自己在做什么的外部 agent，和其他 agent 用同样的灯。
-- 在产品里，在线状态灯只属于 agent。人的头像没有灯；它的角上放的是代这个人发消息的助理的脸（[由助理发送](#sent-by-an-assistant)）。
+- 最近出现过、并且报告了自己在做什么的外部 Agent，和其他 Agent 用同样的灯。
+- 在产品里，在线状态灯只属于 Agent。人的头像没有灯；它的角上放的是代这个人发消息的助理的脸（[由助理发送](#sent-by-an-assistant)）。
 
 ## 由助理发送 {#sent-by-an-assistant}
 
-一个人的助理（见[术语](../content/terminology.md#people-and-agents)）不是服务器里的 agent，但它也有一张像素脸，放在同样的方形贴纸上，就是它的私信头部显示的那张。经主人允许，它可以以这个人的身份在频道、消息列或私信里发消息。消息仍然属于这个人：他的名字、他的头像、他在时间线上的位置。但每个人都必须一眼看出这条消息是助理发的，所以用两个标记说明，而且文字永远不省略。
+一个人的助理（见[术语](../content/terminology.md#people-and-agents)）不是服务器里的 Agent，但它也有一张像素脸，放在同样的方形贴纸上，就是它的私信头部显示的那张。经所有者允许，它可以以这个人的身份在频道、消息列或私信里发消息。消息仍然属于这个人：他的名字、他的头像、他在时间线上的位置。但每个人都必须一眼看出这条消息是助理发的，所以用两个标记说明，而且文字永远不省略。
 
 | 位置 | 显示什么 |
 | --- | --- |
@@ -86,7 +86,7 @@ message-item/compositions/delegated-group
 
 - 把脸放在在线状态灯所在的角上，伸出的距离也一样：在 `md` 上超出头像边缘 2.5px，和灯的可见伸出量相同，所以它有 15px 压在这个人的头像上。它读起来是贴在第一张贴纸上的第二张贴纸，用的是在线状态灯已经在用的形状语言，不引入新的头像形状。它比灯盖住的头像面积更多（[Avatar](../../packages/ui/src/components/avatar/avatar.md#the-corner)）。
 - 用一圈 1.5px 的环把脸和头像隔开，环的颜色是消息背后的表面：静止时是画布色，悬停、选中或跳转到这一行时是行的填充色。深色模式下，脸在环内保留模切边，和所有贴纸一样（[深色模式](../foundations/dark-mode.md#the-die-cut-edge)）。
-- 脸只放在人的头像上。人没有在线状态灯，所以角是空的；agent 的角是它的在线状态灯，一个角从不同时放两样东西。
+- 脸只放在人的头像上。人没有在线状态灯，所以角是空的；Agent 的角是它的在线状态灯，一个角从不同时放两样东西。
 - 接续行、单行预览和引用里不放脸，改写文字：接续行没有头像；引用的头像是 19px，太小，放不下第二张脸；预览行是沿着一行读的，文字就挨着名字。
 - 文字用 `foreground-muted`，比旁边的角色（`foreground-hint`）强一级：谁发的消息比角色更重要，而且这个功能必须一眼就能看到。
 - 名字这一行放不下时，先截断角色，再截断这个人的名字；标签占到这一行的 45% 时，助理的名字开始截断。永远不截断 "sent by" 这几个词，也不让它们跑到时间下面：没有这几个词，名字后面接另一个名字就什么也说明不了。如果光是这几个词就超过 45%（已删除的助理，在手机上），标签保持文字完整，让这个人的名字让位。
@@ -99,16 +99,16 @@ message-item/compositions/delegated-group
 
 ## 规则 {#rules}
 
-- 不要用形状、颜色、气泡或边框区分 agent 和人。脸已经说明了是谁（[0023](../decisions/0023-stickers-in-dark-mode.md)）。
-- 每个 agent 用一张像素脸，在产品里处处一样，脸和它的填充色始终在一起。不要给 agent 单独分配一种颜色。
-- 只在必须明确是 agent 的地方加 `agent` 标签，比如个人资料。不要加在消息或行上。
-- 不要用闪光、星星或类似的图标标记 agent（[图标](../foundations/iconography.md)）。
-- 新的 agent 状态要归入五盏灯之一。「卡住」是错误；「需要你」是一个提醒圆点加一个操作，不是一盏灯（[Status](../../packages/ui/src/components/status/status.md#rules)）。
+- 不要用形状、颜色、气泡或边框区分 Agent 和人。脸已经说明了是谁（[0023](../decisions/0023-stickers-in-dark-mode.md)）。
+- 每个 Agent 用一张像素脸，在产品里处处一样，脸和它的填充色始终在一起。不要给 Agent 单独分配一种颜色。
+- 只在必须明确是 Agent 的地方加 `agent` 标签，比如个人资料。不要加在消息或行上。
+- 不要用闪光、星星或类似的图标标记 Agent（[图标](../foundations/iconography.md)）。
+- 新的 Agent 状态要归入五盏灯之一。「卡住」是错误；「需要你」是一个提醒圆点加一个操作，不是一盏灯（[Status](../../packages/ui/src/components/status/status.md#rules)）。
 - 永远不要让在线状态灯闪烁、脉动或呼吸。思考和工作都是同样静止的黄色（[动效](../foundations/motion.md)）。
 - 旁边没有文字的灯，给它 `role="img"` 和一个说明状态的 `aria-label`（[Avatar](../../packages/ui/src/components/avatar/avatar.md#accessibility)）。
 
 ## 相关 {#related}
 
-- [工作中的 agent](./working-agents.md)：黄色的灯在哪里配上一句话。
-- [描述 agent 的用语](./writing-about-agents.md)：agent 怎么称呼。
+- [工作中的 Agent](./working-agents.md)：黄色的灯在哪里配上一句话。
+- [描述 Agent 的用语](./writing-about-agents.md)：Agent 怎么称呼。
 - [Avatar](../../packages/ui/src/components/avatar/avatar.md) 和 [Status](../../packages/ui/src/components/status/status.md)：相关部件。

@@ -17,7 +17,7 @@ dialog/compositions/create-channel
 | 场景 | 使用 |
 | --- | --- |
 | 1 到 5 个输入框的小任务（Create Channel） | Dialog |
-| 一次填完的大表单：注册或编辑应用、配置 agent | `size="wide"` 的 Dialog |
+| 一次填完的大表单：注册或编辑应用、配置 Agent | `size="wide"` 的 Dialog |
 | 任务详情 | 基于 Dialog 的工作空间浮层，宽 960px，手机上全屏，不属于四种尺寸（[任务](../../../../../design/patterns/tasks.md)） |
 | 确认一个不可撤销或会打断的操作 | [AlertDialog](../alert-dialog/alert-dialog.md) |
 | 能在原处撤回的操作 | 不用对话框：直接执行；什么时候用带 Undo 的 [Toast](../toast/toast.md)，见[反馈](../../../../../design/patterns/feedback.md#confirming) |
