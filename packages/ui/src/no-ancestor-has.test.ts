@@ -116,9 +116,7 @@ const BASELINE_TOKENS: Record<string, number> = {
   // (self-subject, 4), and with a "sent by" label the header aligns on the
   // baseline and floors the owner (3), and the label caps at 45% only when
   // it holds a name (4).
-  // The header fades out under the toolbar while a popup it opened is up,
-  // set on the row itself like the toolbar's own visibility (11).
-  "components/message-item/message-item.recipe.ts": 11,
+  "components/message-item/message-item.recipe.ts": 10,
   "components/message-item/message-reaction.recipe.ts": 1,
   "components/message-item/message-reference.recipe.ts": 4,
   // The header wraps when it holds "(sent by …)" (self-subject).
