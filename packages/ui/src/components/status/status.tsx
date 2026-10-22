@@ -22,25 +22,25 @@ const status = tv({
         root: "[--status-color:var(--presence-offline)]",
       },
       primary: {
-        root: "[--status-color:var(--color-primary-400)]",
+        root: "[--status-color:var(--brand-400)]",
       },
       information: {
-        root: "[--status-color:var(--color-info)]",
+        root: "[--status-color:var(--info)]",
       },
       muted: {
-        root: "[--status-color:var(--color-secondary-400)]",
+        root: "[--status-color:var(--secondary-400)]",
       },
       accent: {
-        root: "[--status-color:var(--color-accent-400)]",
+        root: "[--status-color:var(--attention-400)]",
       },
       success: {
-        root: "[--status-color:var(--color-success)]",
+        root: "[--status-color:var(--success)]",
       },
       warning: {
-        root: "[--status-color:var(--color-warning)]",
+        root: "[--status-color:var(--warning)]",
       },
       danger: {
-        root: "[--status-color:var(--color-danger)]",
+        root: "[--status-color:var(--danger)]",
       },
     },
     size: {
