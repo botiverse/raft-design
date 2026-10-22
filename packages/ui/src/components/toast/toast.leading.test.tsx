@@ -64,8 +64,8 @@ test("leading shows even when icon is false", async () => {
   expect(icon?.contains(screen.getByTestId("leading-avatar"))).toBe(true);
 });
 
-// A notice leads with its intent's icon, never a status light: the light
-// means an agent's state (design/foundations/alignment.md#a-mark-that-leads-text).
+// A notice leads with its intent's icon, never a status light that says
+// what kind of notice it is (status.md#sizes).
 test.each([
   ["success", "lucide-circle-check"],
   ["info", "lucide-info"],
