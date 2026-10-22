@@ -1,7 +1,7 @@
 ---
 title: Spinner
 summary: 像素加载指示器，四个方形像素轮流亮起，用于时长未知、又没有布局可占的等待。
-sourceHash: 6f60c892
+sourceHash: c0296ae5
 ---
 
 # Spinner
@@ -48,7 +48,7 @@ spinner/compositions/pixel-loader
 
 ## 行为 {#behavior}
 
-- 等待超过 1 秒后才显示加载指示器，这样加载快时它不会一闪而过。raft-ui 不会替你做延迟。
+- 等待超过 1 秒后才显示加载指示器，这样加载快时它不会一闪而过。raft-ui 不会替你做延迟：加载指示器常常放在行内或按钮里，在那里立刻开始才是对的。列表骨架屏只用于慢的加载，所以它默认会等待 1 秒（[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)）。
 - 等待一结束就立刻移除它。
 - 开启 `prefers-reduced-motion` 时，像素停止，第一个保持亮着（[动效](../../../../../design/foundations/motion.md#principles)）。
 

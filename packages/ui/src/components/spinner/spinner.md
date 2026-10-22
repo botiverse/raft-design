@@ -52,7 +52,7 @@ spinner/compositions/pixel-loader
 
 ## Behavior
 
-- Show the spinner only after the wait passes 1 second, so a fast load doesn't flash it. raft-ui doesn't delay it for you.
+- Show the spinner only after the wait passes 1 second, so a fast load doesn't flash it. raft-ui doesn't delay it for you: a spinner often sits inline or in a button, where starting at once is right. A list skeleton, which is only for a slow load, does wait 1 second by default ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)).
 - Remove it the moment the wait ends.
 - With `prefers-reduced-motion`, the pixels stop and the first one stays lit ([Motion](../../../../../design/foundations/motion.md#principles)).
 

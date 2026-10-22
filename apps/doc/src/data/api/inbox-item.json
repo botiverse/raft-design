@@ -296,7 +296,7 @@
   {
     "name": "InboxItemSkeleton",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "A placeholder for one `InboxItem` while the list loads. It is an `InboxItem` itself, with the same parts as the loaded row (an optional leading block, the context line, the title, the excerpt, the timestamp), each holding a bar instead of text. The padding, the divider and every line's height are the loaded row's, so nothing moves when the content arrives. Match `density`, `leading` and `context` to the rows it stands for. Hidden from assistive technology; mark the list `aria-busy`, or use `InboxItemSkeletonList`.",
+    "description": "A placeholder for one `InboxItem` while the list loads. It is an `InboxItem` itself, with the same parts as the loaded row (an optional leading block, the context line, the title, the excerpt, the timestamp), each holding a bar instead of text. The padding, the divider and every line's height are the loaded row's, so nothing moves when the content arrives. Match `density`, `leading` and `context` to the rows it stands for. Hidden from assistive technology: mark the region that stays while the list loads `aria-busy`.",
     "native": true,
     "props": [
       {
@@ -334,7 +334,7 @@
   {
     "name": "InboxItemSkeletonList",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The list of `InboxItemSkeleton` rows that stands in for a list of `InboxItem` rows while it loads: `aria-busy`, and nothing between or around the rows that the loaded list doesn't have (no gap, no border, no card). Renders `count` rows of the given shape, or its children.",
+    "description": "The list of `InboxItemSkeleton` rows that stands in for a list of `InboxItem` rows while it loads, with nothing between or around the rows that the loaded list doesn't have (no gap, no border, no card). Renders `count` rows of the given shape, or its children, once `delay` (1 second by default) has passed. It isn't `aria-busy` itself: it goes away when the content arrives, so mark the region that stays, such as the list's panel or viewport, `aria-busy` while it loads.",
     "native": true,
     "props": [
       {
@@ -356,8 +356,8 @@
         "name": "delay",
         "type": "number",
         "required": false,
-        "default": "0",
-        "description": "Milliseconds to wait before the rows appear, so a fast load doesn't flash them: pass `1000` (Feedback, \"Empty, loading and failed\"). The list is `aria-busy` and empty until then. `0`, the default, shows them at once: like `Spinner`, raft-ui doesn't delay unless asked.",
+        "default": "1000",
+        "description": "Milliseconds to wait before the rows appear, so a fast load doesn't flash them (Feedback, \"Empty, loading and failed\"). The list is empty until then. A list skeleton is only for a slow load, so it waits 1 second by default; pass `0` to show the rows at once.",
         "from": "raft-ui"
       },
       {

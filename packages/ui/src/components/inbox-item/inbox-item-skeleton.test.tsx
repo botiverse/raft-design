@@ -64,10 +64,11 @@ test("the pulse stops for reduced motion", () => {
   }
 });
 
-test("the list is busy, flat and renders count rows of one shape", () => {
-  render(<InboxItemSkeletonList data-testid="list" count={4} density="compact" leading />);
+test("the list is flat and renders count rows of one shape", () => {
+  render(
+    <InboxItemSkeletonList data-testid="list" count={4} density="compact" leading delay={0} />,
+  );
   const list = screen.getByTestId("list");
-  expect(list.getAttribute("aria-busy")).toBe("true");
   expect(list.getAttribute("data-slot")).toBe("inbox-item-skeleton-list");
   // No chrome the loaded list doesn't have: no gap, border, or card between rows.
   expect(list.className).not.toMatch(/\b(gap-|border|rounded|shadow|bg-|p-|py-)/);
@@ -79,9 +80,24 @@ test("the list is busy, flat and renders count rows of one shape", () => {
   }
 });
 
+test("the list isn't aria-busy: it goes away when the content arrives, so the region that stays carries it", () => {
+  vi.useFakeTimers();
+  try {
+    render(<InboxItemSkeletonList data-testid="list" count={2} />);
+    const list = screen.getByTestId("list");
+    expect(list.hasAttribute("aria-busy")).toBe(false);
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    expect(list.hasAttribute("aria-busy")).toBe(false);
+  } finally {
+    vi.useRealTimers();
+  }
+});
+
 test("the list renders its children in place of count rows", () => {
   render(
-    <InboxItemSkeletonList data-testid="list" count={6}>
+    <InboxItemSkeletonList data-testid="list" count={6} delay={0}>
       <InboxItemSkeleton context />
       <InboxItemSkeleton context />
     </InboxItemSkeletonList>,
@@ -89,12 +105,11 @@ test("the list renders its children in place of count rows", () => {
   expect(screen.getByTestId("list").children).toHaveLength(2);
 });
 
-test("with a delay, the list is busy but empty until the delay passes", () => {
+test("by default the list is empty for 1 second, so a fast load doesn't flash it", () => {
   vi.useFakeTimers();
   try {
-    render(<InboxItemSkeletonList data-testid="list" count={3} delay={1000} />);
+    render(<InboxItemSkeletonList data-testid="list" count={3} />);
     const list = screen.getByTestId("list");
-    expect(list.getAttribute("aria-busy")).toBe("true");
     expect(list.hasAttribute("data-waiting")).toBe(true);
     expect(list.children).toHaveLength(0);
 
@@ -113,13 +128,35 @@ test("with a delay, the list is busy but empty until the delay passes", () => {
   }
 });
 
-test("without a delay the rows show at once, and an unmounted list leaves no timer", () => {
+test("a custom delay waits that long", () => {
   vi.useFakeTimers();
   try {
-    render(<InboxItemSkeletonList data-testid="list" count={2} />);
-    expect(screen.getByTestId("list").children).toHaveLength(2);
+    render(<InboxItemSkeletonList data-testid="list" count={2} delay={300} />);
+    const list = screen.getByTestId("list");
+    act(() => {
+      vi.advanceTimersByTime(299);
+    });
+    expect(list.children).toHaveLength(0);
+    act(() => {
+      vi.advanceTimersByTime(1);
+    });
+    expect(list.children).toHaveLength(2);
+  } finally {
+    vi.useRealTimers();
+  }
+});
+
+test("delay={0} shows the rows at once, and an unmounted list leaves no timer", () => {
+  vi.useFakeTimers();
+  try {
+    render(<InboxItemSkeletonList data-testid="list" count={2} delay={0} />);
+    const list = screen.getByTestId("list");
+    expect(list.hasAttribute("data-waiting")).toBe(false);
+    expect(list.children).toHaveLength(2);
+    expect(vi.getTimerCount()).toBe(0);
     cleanup();
-    render(<InboxItemSkeletonList count={2} delay={1000} />);
+    render(<InboxItemSkeletonList count={2} />);
+    expect(vi.getTimerCount()).toBe(1);
     cleanup();
     expect(vi.getTimerCount()).toBe(0);
   } finally {

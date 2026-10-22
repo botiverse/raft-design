@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: c78266a9
+sourceHash: 0095ee65
 ---
 
 # InboxItem
@@ -91,7 +91,7 @@ activity/compositions/activity-conversation-list
 
 ### 加载中 {#loading}
 
-列表加载时，在 `InboxItemSkeletonList` 里显示 `InboxItemSkeleton` 行。每一行都是用加载后那一行的部件搭成的 `InboxItem`，每一行文字的位置换成一根横条，所以它有加载后那一行的内边距、分隔线和行高，条目到达时什么都不会移动（[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)）。让它和它代表的行形状一致：有上下文行就设 `context`，有头像或图块就设 `leading`，`density` 也一样。给列表设 `delay={1000}`，这样等待超过 1 秒后这些行才出现；在那之前，列表是空的，并带 `aria-busy`（[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)）。
+列表加载时，在 `InboxItemSkeletonList` 里显示 `InboxItemSkeleton` 行。每一行都是用加载后那一行的部件搭成的 `InboxItem`，每一行文字的位置换成一根横条，所以它有加载后那一行的内边距、分隔线和行高，条目到达时什么都不会移动（[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)）。让它和它代表的行形状一致：有上下文行就设 `context`，有头像或图块就设 `leading`，`density` 也一样。列表等待超过 1 秒后才显示这些行，在那之前是空的：列表骨架屏只用于慢的加载，所以它默认会等待（[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)）。传 `delay={0}` 可以立刻显示它们。列表加载时，给条目到达后仍然留着的区域（比如面板或视口）加上 `aria-busy`。
 
 ```example
 activity/compositions/loading-activity
@@ -133,7 +133,7 @@ activity/compositions/activity-hover-actions
 - 设了 `reveal="hover"` 的操作在隐藏时仍留在 Tab 键顺序中，焦点一到达这一行或它们本身就会显示。
 - 提醒圆点用 CSS 绘制，不会被朗读。在触发按钮的名称里写上 "unread"，或者加一个视觉上隐藏的词。
 - `InboxItemLeadingBadge` 对辅助技术隐藏。在触发按钮的名称里写上 "thread"：`aria-label="Open thread with Lagoon"`。
-- `InboxItemSkeleton` 对辅助技术隐藏；`InboxItemSkeletonList` 带 `aria-busy`，直到被加载后的列表替换。
+- `InboxItemSkeleton` 对辅助技术隐藏。`InboxItemSkeletonList` 不带 `aria-busy`：条目到达时它就消失了，读屏软件永远听不到它加载完。列表加载时，把 `aria-busy` 加在一直留着的容器上，比如 `ActivityInboxPanel`。
 
 ## 规则 {#rules}
 

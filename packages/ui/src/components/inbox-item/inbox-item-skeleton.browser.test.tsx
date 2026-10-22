@@ -165,7 +165,7 @@ it("a skeleton list is as tall as the loaded list of as many rows: no gap, no bo
       <LoadedDefault context />
       <LoadedDefault context />
     </div>,
-    <InboxItemSkeletonList count={3} context />,
+    <InboxItemSkeletonList count={3} context delay={0} />,
   );
   expect(skeleton).toBe(loaded);
 });

@@ -37,8 +37,8 @@ export type InboxItemSkeletonProps = Omit<InboxItemProps, "active" | "disabled" 
  * each holding a bar instead of text. The padding, the divider and every
  * line's height are the loaded row's, so nothing moves when the content
  * arrives. Match `density`, `leading` and `context` to the rows it stands for.
- * Hidden from assistive technology; mark the list `aria-busy`, or use
- * `InboxItemSkeletonList`.
+ * Hidden from assistive technology: mark the region that stays while the
+ * list loads `aria-busy`.
  */
 export function InboxItemSkeleton({
   density,
@@ -88,22 +88,25 @@ export type InboxItemSkeletonListProps = useRender.ComponentProps<"div"> &
     count?: number;
     /**
      * Milliseconds to wait before the rows appear, so a fast load doesn't
-     * flash them: pass `1000` (Feedback, "Empty, loading and failed"). The
-     * list is `aria-busy` and empty until then. `0`, the default, shows them
-     * at once: like `Spinner`, raft-ui doesn't delay unless asked.
+     * flash them (Feedback, "Empty, loading and failed"). The list is empty
+     * until then. A list skeleton is only for a slow load, so it waits 1
+     * second by default; pass `0` to show the rows at once.
      */
     delay?: number;
   };
 
 /**
  * The list of `InboxItemSkeleton` rows that stands in for a list of
- * `InboxItem` rows while it loads: `aria-busy`, and nothing between or around
- * the rows that the loaded list doesn't have (no gap, no border, no card).
- * Renders `count` rows of the given shape, or its children.
+ * `InboxItem` rows while it loads, with nothing between or around the rows
+ * that the loaded list doesn't have (no gap, no border, no card). Renders
+ * `count` rows of the given shape, or its children, once `delay` (1 second by
+ * default) has passed. It isn't `aria-busy` itself: it goes away when the
+ * content arrives, so mark the region that stays, such as the list's panel or
+ * viewport, `aria-busy` while it loads.
  */
 export function InboxItemSkeletonList({
   count = 6,
-  delay = 0,
+  delay = 1000,
   density,
   leading,
   context,
@@ -117,7 +120,6 @@ export function InboxItemSkeletonList({
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "inbox-item-skeleton-list",
     "data-waiting": shown ? undefined : "",
-    "aria-busy": true,
     className: list({ className }),
     children: shown
       ? (children ??

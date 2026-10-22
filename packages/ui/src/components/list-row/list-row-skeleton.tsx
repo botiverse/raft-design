@@ -49,7 +49,8 @@ export type ListRowSkeletonProps = Omit<
  * A placeholder for one `ListRow` while the list loads. It is a display-only
  * `ListRow` of the same `variant`, with a bar in its title, its time and its
  * description, so it is the loaded row's size and its divider sits in the
- * same place. Hidden from assistive technology; mark the list `aria-busy`.
+ * same place. Hidden from assistive technology: mark the region that stays
+ * while the list loads, such as its `ListRowGroup`, `aria-busy`.
  */
 export function ListRowSkeleton({
   variant = "default",

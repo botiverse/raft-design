@@ -95,7 +95,7 @@ activity/compositions/activity-conversation-list
 
 ### Loading
 
-While the list loads, show `InboxItemSkeleton` rows in an `InboxItemSkeletonList`. Each one is an `InboxItem` built from the loaded row's parts, with a bar in each line in place of its text, so it has the loaded row's padding, dividers and line heights and nothing moves when the items arrive ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)). Give it the shape of the rows it stands for: `context` for a context line, `leading` for an avatar or tile, and the same `density`. Give the list `delay={1000}`, so the rows appear only once the wait passes 1 second; until then it is empty and `aria-busy` ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)).
+While the list loads, show `InboxItemSkeleton` rows in an `InboxItemSkeletonList`. Each one is an `InboxItem` built from the loaded row's parts, with a bar in each line in place of its text, so it has the loaded row's padding, dividers and line heights and nothing moves when the items arrive ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)). Give it the shape of the rows it stands for: `context` for a context line, `leading` for an avatar or tile, and the same `density`. The list shows its rows only once the wait passes 1 second, and is empty until then: a list skeleton is only for a slow load, so it waits by default ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)). Pass `delay={0}` to show them at once. Mark the region that stays when the items arrive, such as the panel or the viewport, `aria-busy` while the list loads.
 
 ```example
 activity/compositions/loading-activity
@@ -137,7 +137,7 @@ activity/compositions/activity-hover-actions
 - Actions with `reveal="hover"` stay in the tab order while hidden, and show as soon as focus reaches the row or them.
 - The attention dot is drawn in CSS and isn't announced. Say "unread" in the trigger's name, or add a visually hidden word.
 - `InboxItemLeadingBadge` is hidden from assistive technology. Say "thread" in the trigger's name: `aria-label="Open thread with Lagoon"`.
-- `InboxItemSkeleton` is hidden from assistive technology, and `InboxItemSkeletonList` is `aria-busy` until it is replaced by the loaded list.
+- `InboxItemSkeleton` is hidden from assistive technology. `InboxItemSkeletonList` isn't `aria-busy`: it goes away when the items arrive, so a screen reader would never hear it finish. Put `aria-busy` on the container that stays, such as `ActivityInboxPanel`, while the list loads.
 
 ## Rules
 
