@@ -1,3 +1,42 @@
+## [0.22.1](https://github.com/botiverse/raft-design/compare/v0.22.0...v0.22.1) (2026-10-22)
+
+### Design System
+
+- **Located: one highlight for every jump**: the item a jump took someone to, such as a link to a message, a search result or Activity item that opens a message, Back to the list a result was opened from, a file comment's passage or the rows a bulk change touched, shows `info-soft` at once, holds it 1.2s and fades out with `ease-out`, gone at 2s. It is layered over the item's own fill and takes the item's corners; a stronger mark (selected, current, a search match, checked, an open menu) wins and the item isn't painted; a located item doesn't answer hover while it lasts, but a press still shows. With reduced motion it is held still for 2s and then goes off without a fade. It is only a look: a jump started from the keyboard also moves focus to the item. It applies to MessageItem. ([#719](https://github.com/botiverse/raft-design/pull/719))
+  - Why: the system had one line for a jumped-to message (`info-soft`, cleared after 2 seconds, listed under selection) and nothing shared to apply it, so each jump drew its own flash with its own timing and colour; every jump now shows one highlight that goes away by itself.
+  - Affects: `info-soft` cleared at 2s → held 0–1.2s, `ease-out` fade 1.2s–2s, gone at 2s (`LOCATED_MS` = 2000); the current match of a search inside a page is a selection and keeps `info-soft` while the search is open.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#located
+- **A status light beside text is 10px**: every status light and attention dot that sits beside text, in a chip, a badge, a panel header, a sidebar row or a list row, is 10px with a 1.5px ink edge and a 2px radius; none of them is 9px. A light on an avatar's corner still follows the avatar, and the 8px `Status` `sm` stays the attention dot on an icon's corner (the NotificationCenter bell's dot, a `Status` at the default size, is 10px). It applies to Status, Badge, PanelActivity, SidebarSectionAttention, LiveAgentActivityBarStatus, NotificationCenter and its trigger's dot, the task status icons (TaskStatusIcon, TaskChip, TaskCardStatus, TaskStatusBadge, TaskList, TaskBoard), InboxItem, MessageActionCard, Timeline and the `lead-dot` utility. ([#722](https://github.com/botiverse/raft-design/pull/722))
+  - Why: every line, chip and row a light sits in is an even number of pixels, so a 9px light had half a pixel left over and was drawn with one more device pixel above it than below (0.5px off center on a 1x screen, 0.17px on a 3x one); a 10px light centers on a whole pixel.
+  - Affects: light 9px → 10px, its colour 6px → 7px; the 1.5px ink edge and 2px radius are unchanged. Avatar corner badges (`AvatarBadge`) and `Status` `xs`, `sm` and `lg` are unchanged.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-mark-that-leads-text
+- **Link blue: a deeper, quieter blue**: `foreground-link`, the blue used only for links in running text, is a deep, quiet blue: in light mode about half the chroma of a bright link blue, so it sits beside black ink and yellow without being the loudest thing on a page full of links, and still reads as a link at a glance; dark mode uses the same blue, lightened to read on the dark canvas. It applies to Markdown links and anything colored with `foreground-link`. ([#725](https://github.com/botiverse/raft-design/pull/725))
+  - Why: with the bright blue, a page full of links looked loud against the black-and-yellow brand; links keep their blue and their underline, in a deeper, quieter shade.
+  - Affects: light `oklch(0.4878 0.2432 264.4)` (#1447e6) → `oklch(0.4327 0.1282 256.54)` (#184f95); dark `oklch(0.8071 0.1007 250.45)` (#8ec5ff) → `oklch(0.717 0.1183 253.58)` (#6da7ec). Against the canvas 6.83:1 → 8.11:1 in light mode and 9.51:1 → 6.89:1 in dark mode; against `foreground` 2.75:1 → 2.32:1 and 1.44:1 → 1.98:1, still under 3:1, so the underline at rest still marks the link.
+  - Docs: https://raft-design.botiverse.build/foundations/color/#meanings-of-color
+
+### Added
+
+- **useLocated**, **LOCATED_MS** and **LocatedRequest**, with the `data-located` highlight in `styles.css`: `useLocated(request)` returns `true` while an item should show the located highlight; set `data-located` on the item while it does. Pass a new `request` (a counter or token, a string or number, not the item's id) for each jump once the item is on screen. The hook turns the highlight on two frames later, so a second jump to the same item restarts it, and off after `LOCATED_MS`. ([#719](https://github.com/botiverse/raft-design/pull/719))
+  - Why: see Located: one highlight for every jump, above.
+  - Affects: `[data-located]` runs a 2s animation of the registered `--located-fill` colour (`info-soft` → transparent), painted as a `background-image` layer over the item's own fill; not painted while the item is `:active`, selected (`data-selected`, `data-active="true"`, `aria-selected="true"`), current (`aria-current`) or has `data-popup-open`. The `animation` shorthand replaces the item's own animation while it is located. Don't set `data-located` by hand: left on, it keeps hiding hover.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#located
+- **MessageItem** `located`: shows the located highlight on the message row; pass `useLocated(request)`. ([#719](https://github.com/botiverse/raft-design/pull/719))
+  - Why: see Located: one highlight for every jump, above.
+  - Affects: the row's resting fill is `--located-fill` (transparent unless located), so a search match, a checked row or an open menu keeps its own fill, and the ring around a delegated face matches the row; a located row doesn't take the `fill-subtle` hover while the highlight lasts. A row without `located` renders as before.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#states
+
+### Changed
+
+- **Status** `size="md"` (the default) and the `lead-dot` utility, so also **SidebarSectionAttention**, **LiveAgentActivityBarStatus** and the **NotificationCenterTrigger** dot; **TaskStatusIcon** and the per-status task icons, so the status pixel in **TaskChip**, **TaskCardStatus**, **TaskStatusBadge**, **TaskList** and **TaskBoard**; the unread dots of **InboxItem** and **NotificationCenter**, the **MessageActionCard** status dot and the **Timeline** default marker: 9px → 10px; props and markup are unchanged. ([#722](https://github.com/botiverse/raft-design/pull/722))
+  - Why: see A status light beside text is 10px, above.
+  - Affects: `--lead-dot` 9px → 10px, so Badge and PanelActivity hold a `Status` at 10px; the task status pixel svg 9×9 → 10×10; `--r-timeline-icon-size` default 9px → 10px. A chip that holds a status pixel is 1px wider, its height unchanged. The Timeline axis column is 1px wider and a horizontal Timeline 1px taller. The NotificationCenter unread dot sits centered on the title line: top 17.5px → 17px on a phone, 18px on a desktop. The NotificationCenterTrigger dot keeps its top-right anchor and grows 1px down and left. The InboxItem unread dot takes its extra pixel out of the gap below it, so rows keep their height.
+  - Docs: https://raft-design.botiverse.build/components/status/#sizes
+- **`foreground-link`** token: light and dark values deepened to the quieter link blue, in `foundation.css` and `tokens.json`; the token name is unchanged. ([#725](https://github.com/botiverse/raft-design/pull/725))
+  - Why: see Link blue: a deeper, quieter blue, above.
+  - Affects: light #1447e6 → #184f95, dark #8ec5ff → #6da7ec (values above). Markdown links take the new blue, and so does their hover colour (the link blue mixed 20% toward `foreground`).
+  - Docs: https://raft-design.botiverse.build/foundations/color/#meanings-of-color
+
 ## [0.22.0](https://github.com/botiverse/raft-design/compare/v0.21.2...v0.22.0) (2026-10-22)
 
 ### Design System
