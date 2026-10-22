@@ -6,11 +6,10 @@
 // measures each part's optical centre against the row's main text:
 //
 //   - text by the pixels of one flat letter (H, E, x, n ...) for its baseline,
-//     cap height or x-height, the rest from the font's metrics: text in the main
-//     text's face and size, or in a row without a fill laid out on the
-//     baseline, by its baseline; smaller or other text by the middle of its
-//     x-height (of its cap height when it has no lowercase), against the main
-//     text's;
+//     cap height or x-height, the rest from the font's metrics: on a line
+//     without a fill, text of any size by its baseline; inside a chip, smaller
+//     or other text by the middle of its x-height (of its cap height when it
+//     has no lowercase), against the main text's;
 //   - an icon, a pixel or anything else without text by its ink, from the pixels
 //     it draws (a screenshot with and without it);
 //   - a shape with words in it (a badge, a filled button) by its box.
@@ -351,7 +350,14 @@ function collect() {
         // A block of several lines (a title over its description) is not one
         // line of a row.
         if (r.height > lineHeight(getComputedStyle(c)) * 1.6 && r.height > run.size * 2) continue;
-        items.push({ kind: "text", run, lines: lines(c), desc: label(c) });
+        items.push({
+          kind: "text",
+          run,
+          lines: lines(c),
+          desc: label(c),
+          left: r.left,
+          right: r.right,
+        });
       } else {
         items.push({
           kind: "ink",
@@ -647,7 +653,11 @@ async function main() {
                 // smaller note in a chip or beside a label, centres its x-height.
                 const sameType =
                   Math.abs(item.run.size - ref.run.size) < 0.5 && item.run.mono === ref.run.mono;
-                if (sameType || (row.align === "baseline" && !row.filled)) {
+                // Text of another size on a line without a fill (a name and its
+                // note, a sender line) shares the baseline
+                // (alignment.md#text-of-different-sizes-on-one-line); only inside
+                // a chip does a smaller note centre its letters on the label's.
+                if (sameType || !row.filled) {
                   centre = item.run.baseline;
                   against = ref.run.baseline;
                   how = "baseline";
@@ -725,6 +735,7 @@ async function main() {
                   const r = el.getBoundingClientRect();
                   return {
                     dy: r.top - rect.top,
+                    dx: r.left - rect.left,
                     box: { left: r.left, top: r.top, width: r.width, height: r.height },
                   };
                 },
@@ -740,8 +751,10 @@ async function main() {
               ];
               for (const p of parts) {
                 const item = row.items[p.index];
-                const left = item.kind === "text" ? item.run.left : item.left;
-                const right = item.kind === "text" ? item.run.right : item.right;
+                const left =
+                  (item.kind === "text" ? (item.left ?? item.run.left) : item.left) + geo.dx;
+                const right =
+                  (item.kind === "text" ? (item.right ?? item.run.right) : item.right) + geo.dx;
                 lines.push({
                   left: left ?? geo.box.left,
                   width: Math.max(4, (right ?? left + 8) - (left ?? 0)),
@@ -869,7 +882,7 @@ function report(flags, rowsChecked, inlineChecked, halves) {
   lines.push(
     "## Marks on a half pixel",
     "",
-    `${kinds.size} kinds of mark sit a half pixel off their line, centred in a box whose size differs from theirs by an odd number of pixels.`,
+    `For information, not flagged: ${kinds.size} kinds of mark sit a half pixel off their line, centred in a box whose size differs from theirs by an odd number of pixels. That leaves them up to 0.5px off in a given engine, which does not show in a row, so it is not corrected (alignment.md#a-control-and-its-label).`,
     "",
   );
   for (const [k, where] of [...kinds].sort())
