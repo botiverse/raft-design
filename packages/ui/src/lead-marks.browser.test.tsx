@@ -11,6 +11,7 @@ import { MessageActionCardNotice } from "./components/message-action-card";
 import { Status } from "./components/status";
 import { Avatar } from "./components/avatar/avatar";
 import { toast, ToastProvider } from "./components/toast";
+import { Spinner } from "./components/spinner";
 
 // A mark that leads a line of text is centred on the first line of that
 // text, so it stays there when the text wraps
@@ -30,6 +31,8 @@ const LONG = "This channel is shared with Acme, and everyone there can read what
 const CJK = "这个频道已与 Acme 共享，对方的成员和智能体都能看到你在这里发的消息";
 
 const DOT = 9;
+// The default Spinner: two 5px pixels and a 2px gap a side.
+const SPINNER = 12;
 // Each component's own icon size and the space from the mark to the text.
 const BANNER = {
   md: { icon: 20, gap: 10 },
@@ -143,6 +146,26 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
         expectLeads(screen.getByTestId("mark"), screen.getByTestId("text"), {
           size: BANNER[size].icon,
           gap: BANNER[size].gap,
+          wraps,
+        });
+      });
+
+      // Something pending leads with a Spinner, centred in the icon's column,
+      // so the text starts where it does after an icon.
+      it(`${deviceName}: a ${size} Banner's spinner leads its first line (${name})`, async () => {
+        await device(deviceWidth, touch);
+        render(
+          <Frame width={width}>
+            <Banner status="warning" size={size}>
+              <Spinner aria-hidden />
+              <BannerDescription data-testid="text">{text}</BannerDescription>
+            </Banner>
+          </Frame>,
+        );
+        const mark = document.querySelector("[data-slot=spinner] [data-spinner-grid]")!;
+        expectLeads(mark, screen.getByTestId("text"), {
+          size: SPINNER,
+          gap: BANNER[size].gap + (BANNER[size].icon - SPINNER) / 2,
           wraps,
         });
       });
