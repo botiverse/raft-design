@@ -51,3 +51,7 @@ export type {
 // settled.
 export { useHoldThenMoveTouchSensor } from "./lib/touch-drag";
 export type { HoldThenMoveOptions } from "./lib/touch-drag";
+
+// Text cut with CSS that knows when it was: the tooltip opens and the expand
+// control shows only on a text that is actually cut. Until its API settles.
+export * from "./components/ellipsis/index";
