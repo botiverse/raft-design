@@ -24,6 +24,15 @@ export const inboxItem = tv({
     itemLeading: [
       "pointer-events-none relative z-10 flex size-9 shrink-0 items-center justify-center",
     ],
+    // The thread badge on the leading visual: the presence light's corner and
+    // overhang (2.5px past a 35px avatar or tile), larger so its icon reads.
+    // The ring is the canvas, so it reads as cut out of the row like a light.
+    itemLeadingBadge: [
+      "absolute -right-0.5 -bottom-0.5 z-10 inline-flex size-3.5 items-center justify-center",
+      "rounded-[3px] border border-sticker-ink outline-2 outline-layer-canvas outline-solid",
+      "bg-layer-canvas bg-[linear-gradient(var(--info-soft),var(--info-soft))] text-foreground",
+      "[&_svg]:size-2.5 [&_svg]:shrink-0",
+    ],
     itemSelection: ["relative z-10 mt-0.5 flex size-4 shrink-0 items-center justify-center"],
     itemContent: [
       "pointer-events-none relative z-10 min-w-0 flex-1 text-left",

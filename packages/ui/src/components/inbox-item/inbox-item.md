@@ -34,6 +34,7 @@ Which message goes where is in [Choosing a component](../../../../../design/comp
 - `InboxItemTrigger`: an invisible button that covers the whole row and opens the item. Required.
 - `InboxItemSelection`: a [Checkbox](../checkbox/checkbox.md) for selecting several items. Optional.
 - `InboxItemLeading`: a 36px leading visual before the text: the person's or agent's avatar, or a channel's [IconTile](../icon-tile/icon-tile.md). The divider starts after it. Optional.
+  - `InboxItemLeadingBadge`: the thread badge, in the bottom-right corner of the avatar or tile, holding one icon, `ThreadIcon` ([Icons](../icons/icons.md)). Only on a thread row ([The leading image](#the-leading-image)). Optional; experimental, from `@botiverse/raft-ui/wip`.
 - `InboxItemContent`: the text column. Required.
   - `InboxItemContext`: where it happened: a channel, a task, a computer.
   - `InboxItemHeading` with `InboxItemTitle`: what happened, with an optional 14px icon before it.
@@ -43,6 +44,29 @@ Which message goes where is in [Choosing a component](../../../../../design/comp
   - `InboxItemHoverTarget`: wraps a badge that has a tooltip, so the pointer reaches it (the rest of the text lets the pointer through to the trigger). A click on it still opens the item.
 - `InboxItemTrailing`: `InboxItemTimestamp`, `InboxItemActions` and, while unread, the attention dot.
   - `InboxItemMarks`: marks at the end of the excerpt's line: a mention, muted, an unread count. Optional.
+
+### The leading image
+
+The leading image shows the conversation the item lives in. A thread is not a conversation of its own, so its row shows the conversation the thread lives in, with the thread badge in the corner:
+
+| Row                          | Leading image                                                                     | Second line                      |
+| ---------------------------- | --------------------------------------------------------------------------------- | -------------------------------- |
+| A channel                    | The channel's IconTile (`hash`)                                                   | The latest message: "Avery: …"   |
+| A direct message             | The other person's or agent's avatar; an agent's with its presence light          | The latest message               |
+| A thread in a channel        | The channel's IconTile, with the thread badge                                     | "#launch-week · Mira: …"         |
+| A thread in a direct message | The other person's or agent's avatar, with the thread badge and no presence light | "Lagoon: …", without "@Lagoon ·" |
+
+```example
+inbox-item/compositions/thread-rows
+```
+
+- **Show the conversation, not a channel shape.** A `#` tile on a thread in a direct message would say the thread lives in a channel. The avatar says who the conversation is with, and it is the face the person already knows from that direct message.
+- **The badge is the same on a tile and on an avatar**: the same size, in the same corner, so "this is a thread" reads the same in both columns of the list.
+- **On an avatar, the badge takes the presence light's corner.** One corner holds one mark ([Avatar](../avatar/avatar.md#the-corner)). The row is about the thread, not about how the agent is doing now, so the badge wins and the thread row shows no presence light. The light stays on the direct message's own row.
+- **The second line doesn't repeat the leading image.** In a direct message the avatar already names the other side, so "@Lagoon · Lagoon: …" says the name twice; the line starts with the latest message. A tile doesn't name its channel, so a channel thread keeps "#channel ·" before it.
+- **A screen reader still hears where the thread is.** The row's trigger `aria-label` keeps the conversation's name ("Thread in a direct message with Lagoon: …") even though "@Lagoon ·" is no longer on screen, so someone who doesn't see the avatar still knows which direct message the thread belongs to.
+- **Until the direct message has loaded, lead with an `IconTile` holding `DirectMessageIcon`**, never a `#` tile: the row must not claim a channel it isn't in, even for a moment.
+- **The thread follows its conversation's settings.** A thread in a muted direct message is muted too, the same as a thread in a muted channel.
 
 ## Variants
 
@@ -93,6 +117,7 @@ activity/compositions/activity-hover-actions
 - Write the context line as where it happened: #launch-week · task #25.
 - Write the title as who did what, with a teammate verb: "Martin needs your OK", "Bugen handed off #25" ([Writing](../../../../../design/content/writing.md#voice)).
 - Keep the excerpt to at most 2 lines.
+- On a thread row, start the second line with the channel only when the leading image is a channel's tile: "#launch-week · Mira: …". In a direct message, start it with the latest message: "Lagoon: …" ([The leading image](#the-leading-image)).
 
 ## Accessibility
 
@@ -101,8 +126,10 @@ activity/compositions/activity-hover-actions
 - Name the selection checkbox and every icon-only action: `aria-label="Select activity item"`, `aria-label="Mark as done"`.
 - Actions with `reveal="hover"` stay in the tab order while hidden, and show as soon as focus reaches the row or them.
 - The attention dot is drawn in CSS and isn't announced. Say "unread" in the trigger's name, or add a visually hidden word.
+- `InboxItemLeadingBadge` is hidden from assistive technology. Say "thread" in the trigger's name: `aria-label="Open thread with Lagoon"`.
 
 ## Rules
 
 - Use ink-outline small buttons for actions in the row, never pink: a list can hold several items that wait for the person at once ([Button](../button/button.md)).
 - Lead with who, when there is a who: the person's or agent's avatar. A notice from the system has no who; see [NotificationCenter](../notification-center/notification-center.md#anatomy).
+- Lead a thread row with the conversation it lives in: the channel's tile, or in a direct message the other side's avatar, each with the thread badge in its corner. Never give a thread in a direct message a `#` tile, and never show a presence light on a thread row ([The leading image](#the-leading-image)).

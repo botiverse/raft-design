@@ -55,3 +55,9 @@ export type { HoldThenMoveOptions } from "./lib/touch-drag";
 // Text cut with CSS that knows when it was: the tooltip opens and the expand
 // control shows only on a text that is actually cut. Until its API settles.
 export * from "./components/ellipsis/index";
+
+// The thread badge on an Activity row's leading visual, in the corner a
+// presence light takes, on a channel's tile or a direct message's avatar
+// alike (inbox-item.md, "The leading image"). Until the part settles.
+export { InboxItemLeadingBadge } from "./components/inbox-item/inbox-item-leading-badge";
+export type { InboxItemLeadingBadgeProps } from "./components/inbox-item/inbox-item-leading-badge";
