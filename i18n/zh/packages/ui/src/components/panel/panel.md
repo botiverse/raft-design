@@ -79,7 +79,7 @@ conversation-panel/compositions/conversation-panel-header
 
 - 在 `PanelTitle` 里写地点、人或视图的名称。
 - 地点在 `PanelHeaderIcon` 里放位置图块（[IconTile](../icon-tile/icon-tile.md)），人放这个人的头像。其他页面没有图标：由它们的 `PanelMeta` 说明它们属于哪里，比如消息列所在的频道。
-- `PanelMeta` 先写实时的内容，再写数量："2 agents working · 5 members"（[正在工作的 agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。数字和 ID 用 Space Mono（[字体排印](../../../../../design/foundations/typography.md#usage)）。
+- `PanelMeta` 先写实时的内容，再写数量："2 agents working · 5 members"（[正在工作的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。数字和 ID 用 Space Mono（[字体排印](../../../../../design/foundations/typography.md#usage)）。
 - 名称上的标签（Experimental、Archived、Deleted）作为 `PanelStatus` 放在 `PanelHeading` 里，不要放在 `PanelMeta` 里：描述会被截断，截断会切掉标签的边。
 
 ## 无障碍 {#accessibility}

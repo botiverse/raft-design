@@ -35,7 +35,7 @@ NotificationCenter 是从铃铛打开的列表。它保存整个服务器的状�
 
 | 变体 | 用于 |
 | --- | --- |
-| 图标上的 `status="error"` | 某个东西停止工作了：计算机离线、agent 无法启动。`warning-soft` 方块，`octagon-alert` 图标 |
+| 图标上的 `status="error"` | 某个东西停止工作了：计算机离线、Agent 无法启动。`warning-soft` 方块，`octagon-alert` 图标 |
 | `status="warning"` | 某个东西快要停止工作：配额快满、密钥即将过期。`warning-soft` 方块，`triangle-alert` 图标 |
 | `status="info"` | 消息：有更新。`info-soft` 方块，`info` 图标 |
 | 弹出层上的 `viewport="mobile"` | 手机上更窄的弹出层 |

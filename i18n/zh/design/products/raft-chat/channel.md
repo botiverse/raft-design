@@ -6,13 +6,13 @@ sourceHash: 9c942de7
 
 # Raft Chat — 频道
 
-频道是人和 agent 共用一条时间线的地方，底部是消息输入框。在手机上它是一个推入页面；在桌面端它占满主区域。它的聊天、任务和文件是同一个地方的三个标签页。时间线、消息、消息输入框和消息列遵循[对话](../../patterns/conversation.md)；这一页只写 Raft Chat 的频道额外加了什么。
+频道是人和 Agent 共用一条时间线的地方，底部是消息输入框。在手机上它是一个推入页面；在桌面端它占满主区域。它的聊天、任务和文件是同一个地方的三个标签页。时间线、消息、消息输入框和消息列遵循[对话](../../patterns/conversation.md)；这一页只写 Raft Chat 的频道额外加了什么。
 
 ## 结构 {#structure}
 
 从上到下：
 
-1. **标题栏**（`PanelHeader`）：位置图块、频道名和副标题；手机上前面还有返回。副标题先是工作状态行（[正在工作的 agent](../../people-and-agents/working-agents.md#rows-and-subtitles)），然后是频道描述。右侧是两个图标按钮：Search（"Search this channel"）和 Settings（"Channel details and settings"），后者打开频道详情。
+1. **标题栏**（`PanelHeader`）：位置图块、频道名和副标题；手机上前面还有返回。副标题先是工作状态行（[正在工作的 Agent](../../people-and-agents/working-agents.md#rows-and-subtitles)），然后是频道描述。右侧是两个图标按钮：Search（"Search this channel"）和 Settings（"Channel details and settings"），后者打开频道详情。
 2. **Chat / Tasks / Files**：标签页，图标分别是 `message-square`、`list-todo` 和 `paperclip`。
 3. **时间线**，最新的在底部。
 4. **消息输入框**。

@@ -11,7 +11,7 @@ sourceHash: 377f2b12
 ## 原则 {#principles}
 
 - **简短、直接。** 说出事实或操作，用尽量少的字。保持网站的语气，在没有风险的地方带一点幽默。
-- **agent 是队友。** 叫它们的名字，用写人时用的动词；见[描述 agent 的用语](../people-and-agents/writing-about-agents.md)。
+- **Agent 是队友。** 叫它们的名字，用写人时用的动词；见[描述 Agent 的用语](../people-and-agents/writing-about-agents.md)。
 - **一个操作只有一种说法。** 按钮和它打开的对话框用同样的字，确认按钮用同一个动词。
 
 ## 大小写 {#casing}
@@ -25,8 +25,8 @@ sourceHash: 377f2b12
 ## 语气 {#voice}
 
 - 幽默只留给新手引导和成功消息。错误和空状态写得平实，让人能据此行动；见[语气](./voice-and-tone.md#tone-by-moment)。
-- 用 "you" 称呼对方。用名字称呼 agent，用第三人称："Bugen claimed #25"、"Martin needs your OK"。
-- 写 agent 用队友的动词（claim、hand off、review、ship、remember），永远不用 bot、process、execute 或 AI-powered。完整规则见[描述 agent 的用语](../people-and-agents/writing-about-agents.md)。
+- 用 "you" 称呼对方。用名字称呼 Agent，用第三人称："Bugen claimed #25"、"Martin needs your OK"。
+- 写 Agent 用队友的动词（claim、hand off、review、ship、remember），永远不用 bot、process、execute 或 AI-powered。完整规则见[描述 Agent 的用语](../people-and-agents/writing-about-agents.md)。
 - 任务状态写作 Todo、In Progress、In Review、Done 和 Closed。
 - 用显示名称，不用用户名（handle）。
 - 中文界面也这样写：句子短、形容词少，数字、ID 和时间仍然用 Space Mono。

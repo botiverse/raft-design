@@ -22,7 +22,7 @@ tasks/compositions/task-status
 | 词旁边用一个像素表示的任务状态 | `TaskStatusIcon` |
 | 一个任务页面或任务标签页 | 带工具栏和视口的 `TasksPanelRoot` |
 | 看板上或列表里作为一行的任务 | [TaskCard](../task-card/task-card.md) |
-| agent 处于什么状态 | agent 状态标签（[Status](../status/status.md#agent-state-chips)） |
+| Agent 处于什么状态 | Agent 状态标签（[Status](../status/status.md#agent-state-chips)） |
 
 ## 结构 {#anatomy}
 

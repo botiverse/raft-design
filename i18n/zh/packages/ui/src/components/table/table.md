@@ -14,7 +14,7 @@ sourceHash: 2935497b
 | --- | --- |
 | 按列比较的数值：每月用量、发票、每项资源的访问权限 | Table |
 | 一个条目的属性：Status、Assignee、Created by | [DescriptionList](../description-list/description-list.md) |
-| 人、agent、频道或设置的列表 | [ListRow](../list-row/list-row.md) |
+| 人、Agent、频道或设置的列表 | [ListRow](../list-row/list-row.md) |
 | 有人在消息里用 Markdown 写的表格 | `MarkdownTable` 部件，放在代码块的容器里（[用现有部件搭建](../../../../../design/components/overview.md#diagrams-and-markdown-tables)） |
 
 ## 结构 {#anatomy}

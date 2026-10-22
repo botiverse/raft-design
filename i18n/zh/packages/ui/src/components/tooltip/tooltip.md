@@ -16,7 +16,7 @@ sourceHash: 43b42bf9
 | 桌面端导航条上的一项                                                   | 右侧的 Tooltip，写目的地的名称（[AppRail](../app-rail/app-rail.md)） |
 | 控件上已经能看到的标签                                | 不用：不要在工具提示里重复它                                  |
 | 带链接或按钮的内容                                               | [Popover](../popover/popover.md)                                                       |
-| 一个人或一个 agent                                                          | [PreviewCard](../preview-card/preview-card.md)                                         |
+| 一个人或一个 Agent                                                          | [PreviewCard](../preview-card/preview-card.md)                                         |
 
 ## 结构 {#anatomy}
 

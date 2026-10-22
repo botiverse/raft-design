@@ -37,7 +37,7 @@ Raft 的所有间距都落在 4px 网格上，所有供人触摸的元素都至�
 - **最后一条消息不贴着消息输入框。** 消息输入框的外框很重；按消息档的距离，它看起来碰到了最后一行。最后一行到输入框外框是一个分段档，和列表顶部到第一行一样。
 - **每行带着自己的内距，分界把它们扣回来。** 每行在文字上下各留出行内距（`timeline-row-inset`，4px），也就是它悬停和选中时高亮伸出的范围。一轮发言的第一行在此之上再加 8px，是一条高亮不绘制的透明边框，所以每轮发言都从文字上方 12px 开始（`spacing-timeline-lead`）。日期线从自己的内边距里减去上方那行的内距和下方那行的起始距离，所以一行不需要知道下面跟着什么，两边是什么，距离都对。
 - **消息滚进去的那条边要渐隐。** 内容滚到哪条边下面，那条边就渐隐，而不是一刀切开，和标签栏在藏起标签的那一侧渐隐一样（[Tabs](../../packages/ui/src/components/tabs/tabs.md)）。列表的下沿、也就是消息输入框上方，始终从面板底色渐变到透明，高度是分段档 24px（`MessageListEndFade`，[MessageList](../../packages/ui/src/components/message-list/message-list.md)）：滚到下面的消息被柔化；滚到列表末尾时，它盖在末尾的空白上，看不出来。「谁正要发言」那一行就放在这条渐变上，不再另做一份。
-- **浮在列表末尾的那一行不挪动列表。** 「谁正要发言」那一行出现时，会在列表末尾加上它自己的高度，让最后一条消息完整地留在它上方（[正在工作的 agent](../people-and-agents/working-agents.md#who-is-about-to-post)）；「回到底部」只在末尾不在视野里时出现，所以不会盖住最后一条消息。
+- **浮在列表末尾的那一行不挪动列表。** 「谁正要发言」那一行出现时，会在列表末尾加上它自己的高度，让最后一条消息完整地留在它上方（[正在工作的 Agent](../people-and-agents/working-agents.md#who-is-about-to-post)）；「回到底部」只在末尾不在视野里时出现，所以不会盖住最后一条消息。
 - **产品不写这些数字。** 组件读时间线 token；产品自己搭列表的顶部或末尾时，只用两个：第一行上方用 `pt-timeline-start`（分段档减去每行自带的起始距离，历史开头的提示也算一行），最后一行下方用 `pb-timeline-end`（分段档减去最后一行的内距）。`timeline-turn` 和 `timeline-lead` 只给组件用；在产品里拿它们自己拼，正是以前间距走样的原因。
 
 ```tokens
@@ -73,7 +73,7 @@ timeline
 | 小控件：`md` 和 `icon-md` 尺寸的 Button、筛选触发器、分段控件的一段 | 32px |
 | 通栏行动按钮（`control-height-cta`，`xl` 尺寸的 Button） | 手机和触屏上 52px，桌面端 40px |
 | 手机上的地点列表（主页、成员、设置列表）：侧边栏行 | 44px |
-| 带头像和预览的行：对话、人、agent（[ListRow](../../packages/ui/src/components/list-row/list-row.md)） | 至少 64px |
+| 带头像和预览的行：对话、人、Agent（[ListRow](../../packages/ui/src/components/list-row/list-row.md)） | 至少 64px |
 | 设置页面内的设置行（[ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`） | 单行时 48px |
 | 单选行 | 至少 44px |
 | 选择控件：开关；复选框和单选按钮 | 50 × 30px；20px。手机和桌面端相同。单独使用时，复选框或单选按钮在触屏上的点击区域高 44px；放在 `<label>` 行里时，它延伸到与下一个选项间隔的一半，其余部分由标签承担点击。以标签的第一行居中；在设置行末尾时，以整行居中（[对齐](./alignment.md#a-control-and-its-label)） |
@@ -105,7 +105,7 @@ control
 | 动态和搜索结果列表，位于所选项目旁边 | 380px，可在 320px 到 640px 之间调整 |
 | 消息列面板 | 400px，可在 360px 到 720px 之间调整 |
 | 个人资料和任务侧面板 | 400px，可在 320px 到 640px 之间调整 |
-| agent 的文件树 | 256px，可在 180px 到 480px 之间调整 |
+| Agent 的文件树 | 256px，可在 180px 到 480px 之间调整 |
 | 主区域，位于各栏之间 | 至少 360px |
 | 文档旁的评论栏 | 280px，距文档 24px（[评论](../patterns/comments.md#wide-and-narrow)） |
 

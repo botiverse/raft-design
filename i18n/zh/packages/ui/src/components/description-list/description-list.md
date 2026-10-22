@@ -6,7 +6,7 @@ sourceHash: a4fdbc8a
 
 # DescriptionList
 
-DescriptionList 展示关于一个对象的几条信息，每条由标签和值组成：任务的 Status、Assignee 和 Created by，或者 agent 的运行时和计算机。可以更改的值在原地打开选择器。
+DescriptionList 展示关于一个对象的几条信息，每条由标签和值组成：任务的 Status、Assignee 和 Created by，或者 Agent 的运行时和计算机。可以更改的值在原地打开选择器。
 
 ```example
 description-list/compositions/member-info
@@ -65,7 +65,7 @@ raft-ui 还没有无外框的值触发器；member-info 组合用的是渲染成
 
 - 标签写成简短的名词，用 sentence case（句首大写）：Status、Assignee、Created by。
 - 值用现有部件搭建：状态标签（[Status](../status/status.md)）、头像加名字（[Avatar](../avatar/avatar.md)）、引用标签片、运行时标签片。ID 和时间用 Space Mono（[字体排印](../../../../../design/foundations/typography.md#usage)）。
-- 用显示名称称呼人和 agent（[写作](../../../../../design/content/writing.md#voice)）。
+- 用显示名称称呼人和 Agent（[写作](../../../../../design/content/writing.md#voice)）。
 
 ## 无障碍 {#accessibility}
 

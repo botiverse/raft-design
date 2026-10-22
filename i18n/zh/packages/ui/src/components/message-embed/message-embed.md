@@ -16,7 +16,7 @@ sourceHash: e771a902
 | 指向某个页面的链接，在消息下方预览 | MessageEmbed，作为链接卡片 |
 | 从另一个对话转过来的消息 | [MessageForwardedBundle](../message-forwarded-bundle/message-forwarded-bundle.md) |
 | 指向一条消息的链接，显示为摘录 | [MessageQuotedPreview](../message-quoted-preview/message-quoted-preview.md) |
-| agent 需要某个人审批 | [MessageActionCard](../message-action-card/message-action-card.md) |
+| Agent 需要某个人审批 | [MessageActionCard](../message-action-card/message-action-card.md) |
 | 文件、图片或视频 | [MessageAttachment](../message-attachment/message-attachment.md) |
 | 一条消息的回复 | [MessageReplies](../message-replies/message-replies.md) |
 | 代码、图表或 Markdown 表格 | [CodeBlock](../code-block/code-block.md) |

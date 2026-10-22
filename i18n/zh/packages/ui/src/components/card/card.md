@@ -19,7 +19,7 @@ card/compositions/project-summary
 | 页面上的一个主题，有标题和自己的内容或控件 | Card |
 | 一个开启某项功能的设置，下面是它的配置 | Card，`variant="inset"` |
 | 表单里从几个选项中选择，每个选项是一块 | Card，`variant="option"`，里面放一个 [Checkbox](../checkbox/checkbox.md) 或单选按钮 |
-| 一组行：设置、成员、agent | `ListRowGroup`（[ListRow](../list-row/list-row.md)） |
+| 一组行：设置、成员、Agent | `ListRowGroup`（[ListRow](../list-row/list-row.md)） |
 | 一个项目的属性，标签和值 | [DescriptionList](../description-list/description-list.md) |
 | 大表单的一部分 | [FormSection](../form-section/form-section.md) |
 | 主区域的一栏 | [Panel](../panel/panel.md) |

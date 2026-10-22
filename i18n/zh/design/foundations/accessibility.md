@@ -6,7 +6,7 @@ sourceHash: 27bf533c
 
 # 无障碍
 
-Raft 是人们整天开着的工作空间，旁边是从不停工的 agent。它要在每种表面上都清晰可读，只用键盘也能操作，对读屏软件清楚明白，在触屏上用着顺手，对关闭了动效的人保持静止。本页汇总适用于所有组件的规则。每份组件文档的「Accessibility」一节只补充该组件自己提供的、或需要你来提供的内容（[写作指南](../authoring/writing.md#accessibility)）。
+Raft 是人们整天开着的工作空间，旁边是从不停工的 Agent。它要在每种表面上都清晰可读，只用键盘也能操作，对读屏软件清楚明白，在触屏上用着顺手，对关闭了动效的人保持静止。本页汇总适用于所有组件的规则。每份组件文档的「Accessibility」一节只补充该组件自己提供的、或需要你来提供的内容（[写作指南](../authoring/writing.md#accessibility)）。
 
 ## 原则 {#principles}
 
@@ -58,7 +58,7 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 
 - 在 `prefers-reduced-motion: reduce` 下关闭所有动画和过渡。组件用 Tailwind 的 `motion-reduce:` 变体或 `@media (prefers-reduced-motion: reduce)` 块；新增动画要在同一次改动里加上它。
 - 减少动效时，[Spinner](../../packages/ui/src/components/spinner/spinner.md) 停止转动并保持第一个像素点亮着，[Skeleton](../../packages/ui/src/components/skeleton/skeleton.md) 停止闪烁。两者仍然表明正在加载。
-- 不要让状态循环播放。正在工作的 agent 是一盏静止的黄灯，不是一闪一闪的。
+- 不要让状态循环播放。正在工作的 Agent 是一盏静止的黄灯，不是一闪一闪的。
 - 居中的浮层不带动画地出现，这样不会有东西在人们没要求的情况下滑进来（[动效](./motion.md#usage)）。
 
 ## 读屏软件 {#screen-readers}
@@ -88,7 +88,7 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 | 出现字段错误 | `FieldError` 上的 `role="alert"` | [Field](../../packages/ui/src/components/field/field.md) |
 | 开始加载 | 加载指示器上的 `role="status"`，名称为 "Loading"，除非你说明加载的是什么 | [Spinner](../../packages/ui/src/components/spinner/spinner.md) |
 | 复制成功 | 复制按钮上的 `aria-live="polite"` | [CopyableCode](../../packages/ui/src/components/copyable-code/copyable-code.md) |
-| agent 开始或停止工作 | 活动条上的 `aria-live="polite"` | [LiveAgentActivityBar](../../packages/ui/src/components/live-agent-activity-bar/live-agent-activity-bar.md) |
+| Agent 开始或停止工作 | 活动条上的 `aria-live="polite"` | [LiveAgentActivityBar](../../packages/ui/src/components/live-agent-activity-bar/live-agent-activity-bar.md) |
 | 回应失败 | 一个视觉上隐藏的 `role="status"` | [MessageItem](../../packages/ui/src/components/message-item/message-item.md) |
 
 - 让轻提示或横幅的标题承载完整含义：它的图标是隐藏的。

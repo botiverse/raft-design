@@ -19,7 +19,7 @@ icons/icons
 | 用图标表示消息、聊天、私信或消息列 | `MessageIcon`、`ChatIcon`、`DirectMessageIcon`、`ThreadIcon` |
 | 任务的状态 | `TaskStatusIcon`（[Tasks](../tasks/tasks.md)） |
 | 其他任何图标 | 同名的 Lucide 图标（[图标](../../../../../design/foundations/iconography.md#principles)） |
-| agent | 它的像素头像（[Avatar](../avatar/avatar.md)），不用图标 |
+| Agent | 它的像素头像（[Avatar](../avatar/avatar.md)），不用图标 |
 | 名称旁边的频道或其他地方 | 频道图块（[IconTile](../icon-tile/icon-tile.md)） |
 
 ## 结构 {#anatomy}

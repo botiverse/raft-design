@@ -19,7 +19,7 @@ combobox-select/compositions/preview
 | 场景 | 使用 |
 | ----------------------------------------------------------------- | ----------------------------------- |
 | 从很多值里选一个，需要搜索 | ComboboxSelect |
-| 从很多值里选几个（人、agent、标签） | 带 `multiple` 的 ComboboxSelect |
+| 从很多值里选几个（人、Agent、标签） | 带 `multiple` 的 ComboboxSelect |
 | 值在人输入时从服务器获取 | 带 `remote` 的 ComboboxSelect |
 | 从最多 10 个值里选一个，或者不用输入就能选的任何值 | [Select](../select/select.md) |
 | 对列表做筛选，或者选项数组表达不了的布局 | [Combobox](../combobox/combobox.md) |

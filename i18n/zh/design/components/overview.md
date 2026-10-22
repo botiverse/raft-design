@@ -6,13 +6,13 @@ sourceHash: 1c398a0c
 
 # 组件
 
-raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部件：按钮、输入框、对话框、标签页、表格、头像。**协作（Collaboration）**是承载 Raft 自身概念的部件：消息、消息列、任务、agent、动态（Activity）和通知、搜索和文件。本页说明每一层用来做什么，几个组件看起来都合适时该选哪个，以及哪些东西应该用已有部件拼出来，而不是重新设计。选定之后怎么用，见各组件自己的文档。
+raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部件：按钮、输入框、对话框、标签页、表格、头像。**协作（Collaboration）**是承载 Raft 自身概念的部件：消息、消息列、任务、Agent、动态（Activity）和通知、搜索和文件。本页说明每一层用来做什么，几个组件看起来都合适时该选哪个，以及哪些东西应该用已有部件拼出来，而不是重新设计。选定之后怎么用，见各组件自己的文档。
 
 ## 两层 {#two-layers}
 
 ### 核心 {#core}
 
-核心组件是通用的。它们对消息、任务或 agent 一无所知：API 只谈值、条目、插槽和状态，放进一个完全没有 Raft 概念的应用里也能原样工作。Button、Field、Select、Dialog、Drawer、Tabs、Table、Markdown、Avatar 和 Status 都是核心组件。
+核心组件是通用的。它们对消息、任务或 Agent 一无所知：API 只谈值、条目、插槽和状态，放进一个完全没有 Raft 概念的应用里也能原样工作。Button、Field、Select、Dialog、Drawer、Tabs、Table、Markdown、Avatar 和 Status 都是核心组件。
 
 核心组件按部件的作用分组：
 
@@ -29,7 +29,7 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 
 ### 协作 {#collaboration}
 
-协作组件体现 Raft 的协作领域。每个组件都承载一个产品概念以及随之而来的规则：消息正文下方显示什么，一个消息列怎样概括在发起它的消息下面，任务按什么顺序经历哪些状态，agent 的审批请求处理完之后记录什么。它们由核心部件构建。
+协作组件体现 Raft 的协作领域。每个组件都承载一个产品概念以及随之而来的规则：消息正文下方显示什么，一个消息列怎样概括在发起它的消息下面，任务按什么顺序经历哪些状态，Agent 的审批请求处理完之后记录什么。它们由核心部件构建。
 
 协作组件按概念分组：
 
@@ -37,7 +37,7 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 | --- | --- |
 | 消息（Messages） | 单条消息及其组成部分（附件、嵌入内容、回复、翻译）、事件行、消息列表、消息输入框，以及会话面板和消息列面板 |
 | 任务（Tasks） | 任务卡片、看板和列表视图、所有任务视图共用的部件，以及展示任务历史的时间线 |
-| Agent（Agents） | 人或 agent 的个人资料，以及 agent 附在消息上、请人确认的卡片 |
+| Agent（Agents） | 人或 Agent 的个人资料，以及 Agent 附在消息上、请人确认的卡片 |
 | 收件箱（Inbox） | 动态、动态的行，以及通知中心 |
 | 搜索（Search） | 搜索入口和搜索结果的行 |
 | 文件（Files） | 某个地方共享的文件，以及显示文件类型的图标 |
@@ -46,11 +46,11 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 
 - **核心组件可以在任何地方复用。** 每个 Raft 产品（现在是 Raft Chat，接下来是 Tasks、Calendar 等）和任何内部工具都可以拿走一个核心部件，而不必带上 Raft 的数据模型。raft-ui 在代码里保证这一点：核心组件从不导入协作组件，而协作组件构建在核心组件之上。
 - **每条规则只在一个地方。** 关于颜色、线、形状或状态的规则属于核心部件，每个产品都继承它。关于产品概念的规则（一个消息列显示几条回复预览、任务状态的顺序）属于承载这个概念的协作部件，所以改变概念只需改一个组件，而不是每个显示它的屏幕。
-- **它告诉你去哪里找。** 构建和消息、任务、agent、动态或通知有关的东西时，从协作组件开始：你需要的部件（或者它的大部分）很可能已经存在，并且已经遵守产品规则。构建通用的东西时，留在核心组件里，不要因为某个协作部件看起来合适就借来用。InboxItem 是表示别处发生了某件事的行；设置列表用 [ListRow](../../packages/ui/src/components/list-row/list-row.md)，尽管两者都是带图标和标题的行。
+- **它告诉你去哪里找。** 构建和消息、任务、Agent、动态或通知有关的东西时，从协作组件开始：你需要的部件（或者它的大部分）很可能已经存在，并且已经遵守产品规则。构建通用的东西时，留在核心组件里，不要因为某个协作部件看起来合适就借来用。InboxItem 是表示别处发生了某件事的行；设置列表用 [ListRow](../../packages/ui/src/components/list-row/list-row.md)，尽管两者都是带图标和标题的行。
 
 ### 新组件属于哪一层 {#which-layer-a-new-component-belongs-to}
 
-只问一个问题：在一个没有消息、任务、agent、动态或通知的应用里，这个部件还说得通吗？
+只问一个问题：在一个没有消息、任务、Agent、动态或通知的应用里，这个部件还说得通吗？
 
 - **说得通：** 它是核心组件。按它做的事命名（如果 `Timeline` 不知道任务状态，它就会是核心组件），不给它任何产品相关的 props，放进它所做之事的类别。
 - **说不通：** 它的名字、props 或规则提到了 Raft 的概念，所以它是协作组件。用核心部件构建它，放进它所属概念的类别。
@@ -77,7 +77,7 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 | 最多 10 个值中选一个 | [Select](../../packages/ui/src/components/select/select.md) |
 | 很多值中选一个 | 一个可以输入文字来筛选列表的字段，手机上也一样（[ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md)）。如果人只选不输入，用 [Select](../../packages/ui/src/components/select/select.md)：ComboboxSelect 总会弹出手机键盘 |
 | 几个值中选几个 | 多选：每项前面有一个复选框，字段里显示已选的值（带 `multiple` 的 [Select](../../packages/ui/src/components/select/select.md)） |
-| 很多值中选几个（人、agent、标签） | 带搜索的多选：已选的值在字段里变成标签片，可以接着在后面输入（带 `multiple` 的 [ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md)，或带标签片的 [Combobox](../../packages/ui/src/components/combobox/combobox.md)） |
+| 很多值中选几个（人、Agent、标签） | 带搜索的多选：已选的值在字段里变成标签片，可以接着在后面输入（带 `multiple` 的 [ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md)，或带标签片的 [Combobox](../../packages/ui/src/components/combobox/combobox.md)） |
 | 筛选一个列表 | 筛选器：从 [PickerTriggerButton](../../packages/ui/src/components/picker-trigger-button/picker-trigger-button.md) 打开的下拉选择或组合框 |
 | 原地修改某一项的一个属性 | [DescriptionList](../../packages/ui/src/components/description-list/description-list.md) 里的值打开一个选择器 |
 
@@ -91,7 +91,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | --- | --- | --- |
 | 这个人刚做的事有了结果 | [Toast](../../packages/ui/src/components/toast/toast.md) | 几秒 |
 | 他们需要在操作前知道 | [Banner](../../packages/ui/src/components/banner/banner.md)，放在对话框或表单里 | 一直显示 |
-| 某个面板里有东西失败了：agent 无法启动，会话的某项设置没保存上 | 面板头部下方的通栏提示（`PanelNotice`，[Panel](../../packages/ui/src/components/panel/panel.md)） | 直到问题解决或被关闭 |
+| 某个面板里有东西失败了：Agent 无法启动，会话的某项设置没保存上 | 面板头部下方的通栏提示（`PanelNotice`，[Panel](../../packages/ui/src/components/panel/panel.md)） | 直到问题解决或被关闭 |
 | 整个服务器的状态：计算机离线、配额快满、有更新 | 通知中心（[NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)），铃铛上显示提醒圆点 | 直到状态改变 |
 | 别处发生了这个人应该看到的事 | 动态（[ActivityInbox](../../packages/ui/src/components/activity-inbox/activity-inbox.md)）；它的入口显示提醒圆点或数字 | 直到被读过 |
 | Agent 需要审批 | 会话里的操作卡片（[MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md)） | 直到被处理 |
@@ -108,7 +108,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | 情况 | 使用 |
 | --- | --- |
 | 悬停时显示一句话 | [Tooltip](../../packages/ui/src/components/tooltip/tooltip.md) |
-| 悬停时显示一个人或 agent | 个人资料卡（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)） |
+| 悬停时显示一个人或 Agent | 个人资料卡（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)） |
 | 悬停在标签片上时，显示应用链接到的条目 | 条目卡片（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)） |
 | 点击或长按时显示一组操作 | [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) |
 | 点击时选一个值 | [Select](../../packages/ui/src/components/select/select.md)，值多时带搜索 |
@@ -119,7 +119,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | 从顶栏打开的短列表：Working now、通知、服务器列表 | [Popover](../../packages/ui/src/components/popover/popover.md)，手机上也一样。在手机上，服务器列表锚定在顶栏下方（[导航](../patterns/navigation.md#servers)） |
 | 手机上的简短说明 | 底部面板（[Drawer](../../packages/ui/src/components/drawer/drawer.md)） |
 | 手机上有多个字段、长列表或多个步骤的对话框 | 占屏幕高度 90% 的面板；做决定、只供阅读的内容或单个输入框仍用居中的对话框（[Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)） |
-| 确认 | `size="sm"` 的 [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)，400px，与 AlertDialog 同宽，带 Cancel 和确认按钮；见[反馈](../patterns/feedback.md#confirming)。Raft Chat 的确认都基于 Dialog 构建，只有两处用 [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md)：放弃对 agent 个人资料未保存的修改，以及打开一个会跳转到其他应用的链接 |
+| 确认 | `size="sm"` 的 [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)，400px，与 AlertDialog 同宽，带 Cancel 和确认按钮；见[反馈](../patterns/feedback.md#confirming)。Raft Chat 的确认都基于 Dialog 构建，只有两处用 [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md)：放弃对 Agent 个人资料未保存的修改，以及打开一个会跳转到其他应用的链接 |
 | 任务详情 | 居中对话框，960px 宽，手机上全屏：Dialog 四种尺寸之外的一个工作空间浮层（[任务](../patterns/tasks.md)，[Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)） |
 
 - 每个居中浮层背后都放遮罩：对话框、确认、搜索、任务详情、大表单。浮层怎么运动，见[动效](../foundations/motion.md#usage)。
@@ -147,7 +147,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | --- | --- |
 | 桌面端侧边栏 | 侧边栏的行（[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)） |
 | 手机上的地方列表：主页的频道和私信、Members、Settings 列表 | 同样的侧边栏行，在手机上高 44px（[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)） |
-| 详情页或个人资料页上的 agent、人和应用，比如一台计算机的 agent | [ListRow](../../packages/ui/src/components/list-row/list-row.md)，放在内嵌分组里。产品用自己的一份副本（`AvatarListRow`）绘制这种行 |
+| 详情页或个人资料页上的 Agent、人和应用，比如一台计算机的 Agent | [ListRow](../../packages/ui/src/components/list-row/list-row.md)，放在内嵌分组里。产品用自己的一份副本（`AvatarListRow`）绘制这种行 |
 | 动态和通知 | [InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md) |
 | 搜索找到的消息 | 搜索结果行（[Search](../../packages/ui/src/components/search/search.md)） |
 | 一个任务 | [TaskCard](../../packages/ui/src/components/task-card/task-card.md)，在看板或列表里 |
@@ -247,7 +247,7 @@ toggle-group/compositions/formatting
 
 ## 所有组件 {#every-component}
 
-[组件索引](../../packages/ui/src/components/)列出 raft-ui 导出的每个组件，先按层、再按类别分组，附有摘要和状态。已弃用的组件保留文档，但不出现在导航中。同样的列表也以 `components.json` 和 `llms.txt` 的形式提供给 agent。
+[组件索引](../../packages/ui/src/components/)列出 raft-ui 导出的每个组件，先按层、再按类别分组，附有摘要和状态。已弃用的组件保留文档，但不出现在导航中。同样的列表也以 `components.json` 和 `llms.txt` 的形式提供给 Agent。
 
 ## 相关内容 {#related}
 

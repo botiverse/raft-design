@@ -22,9 +22,9 @@ tasks/compositions/tasks-panel
 
 ## 规则 {#rules}
 
-- 提供三个筛选：Channel、Creator 和 Assignee。Creator 和 Assignee 共用一份服务器里人和 agent 的列表。
+- 提供三个筛选：Channel、Creator 和 Assignee。Creator 和 Assignee 共用一份服务器里人和 Agent 的列表。
 - 这个页面上不要放创建操作。任务总是属于某个频道，所以在频道里创建（[频道](./channel.md#tasks-in-the-conversation)）。
-- 这个页面不包含私信和 agent 的任务，页面为空时要说明这一点。
+- 这个页面不包含私信和 Agent 的任务，页面为空时要说明这一点。
 - 先只加载进行中的状态：Done 和 Closed 在展开它们的分组时才加载。任务更多的分组用 Load more 分页。频道的 Tasks 标签页一次加载它的全部任务。
 
 ### 频道的 Tasks 标签页 {#a-channels-tasks-tab}

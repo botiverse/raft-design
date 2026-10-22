@@ -116,7 +116,7 @@ inactive
 | --- | --- | --- | --- |
 | 黄色 | `brand` | 你 | 外框、导航中的选中项、打开的开关、你所在位置的位置图块、提及你的地方、搜索命中、你打开的评论所对应的段落；你的服务器（工作空间图块，墨色底上的黄色） |
 | 粉色 | `attention` | 待办 | 每个屏幕最多一个主按钮；未读计数和提醒圆点 |
-| 青色 | `info` | 这一项、信息 | 进行中、运行时、外部 agent、进度条；`info-soft` 用于内容中被单独标出的项、生效中的筛选、信息横幅 |
+| 青色 | `info` | 这一项、信息 | 进行中、运行时、外部 Agent、进度条；`info-soft` 用于内容中被单独标出的项、生效中的筛选、信息横幅 |
 | 橙色 | `warning` | 打断 | 停止、离开或重置的按钮；警告；「待办」状态；错误状态灯 |
 | 红色 | `danger` | 不可撤销 | 删除按钮 |
 | 青柠色 | `success` | 完成 | 完成、在线、成功横幅 |
@@ -141,7 +141,7 @@ task-status
 | 进行中（青色） | `task-status-in-progress` | 忙碌（黄色） | `presence-busy` |
 | 待确认（薰衣草紫） | `task-status-in-review` | 错误（橙色） | `presence-error` |
 | 完成（青柠色） | `task-status-done` | 离线（石灰色） | `presence-offline` |
-| 已关闭（石灰色） | `task-status-closed` | 外部 agent（青色） | `presence-external` |
+| 已关闭（石灰色） | `task-status-closed` | 外部 Agent（青色） | `presence-external` |
 
 ```tokens
 presence

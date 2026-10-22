@@ -1,12 +1,12 @@
 ---
 title: Timeline
-summary: 按顺序列出发生过的事：任务的历史用任务状态的颜色和平实的文字，agent 的活动日志用在线状态的颜色和 Space Mono。
+summary: 按顺序列出发生过的事：任务的历史用任务状态的颜色和平实的文字，Agent 的活动日志用在线状态的颜色和 Space Mono。
 sourceHash: 2a2b1bea
 ---
 
 # Timeline
 
-Timeline 按顺序列出发生过的事。每一步是细线上的一个状态像素点，带标题和时间。它有两种用途：任务的 History，用任务状态的颜色和平实的文字；agent 的活动日志，用在线状态灯的颜色和 Space Mono。
+Timeline 按顺序列出发生过的事。每一步是细线上的一个状态像素点，带标题和时间。它有两种用途：任务的 History，用任务状态的颜色和平实的文字；Agent 的活动日志，用在线状态灯的颜色和 Space Mono。
 
 ```example
 timeline/compositions/preview
@@ -17,7 +17,7 @@ timeline/compositions/preview
 | 场景 | 用 |
 | --- | --- |
 | 任务的 History，在任务详情里折叠在属性下方 | Timeline（[用现有部件组合](../../../../../design/components/overview.md#task-details)） |
-| agent 做了什么（[交接与审批](../../../../../design/people-and-agents/handoffs-and-approvals.md#the-record-afterwards)） | Timeline，作为活动日志 |
+| Agent 做了什么（[交接与审批](../../../../../design/people-and-agents/handoffs-and-approvals.md#the-record-afterwards)） | Timeline，作为活动日志 |
 | 人要走过的一个流程的各个步骤 | [Steps](../steps/steps.md) |
 | 关于一个条目的事实，而不是事件 | [DescriptionList](../description-list/description-list.md) |
 | 对话里的消息和事件行 | 对话里的 [SystemMessage](../system-message/system-message.md)（[对话](../../../../../design/patterns/conversation.md)） |
@@ -67,7 +67,7 @@ timeline/compositions/horizontal
 
 - 标题和详情都用 Space Mono：日志是机器写的（[字体排印](../../../../../design/foundations/typography.md#principles)）。
 - 由 subagent 完成的步骤，加一个 `subagent` 标签。
-- 只写 agent 做了什么。不要显示它的提示词或输出。
+- 只写 Agent 做了什么。不要显示它的提示词或输出。
 
 ## 无障碍 {#accessibility}
 

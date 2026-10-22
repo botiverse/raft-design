@@ -8,7 +8,7 @@ sourceHash: 5d418a1b
 
 ## 背景 {#context}
 
-产品代码里，未读计数是粉色底上的白字（2.4:1），消息列的新回复用青色。产品里的提醒圆点默认是粉色，代码注释写着 "brutal-pink is the canonical unread color"（brutal-pink 是标准的未读颜色）。黄色在产品里也是「忙碌」的在线状态灯，所以黄色的未读圆点和正在工作的 agent 分不开。
+产品代码里，未读计数是粉色底上的白字（2.4:1），消息列的新回复用青色。产品里的提醒圆点默认是粉色，代码注释写着 "brutal-pink is the canonical unread color"（brutal-pink 是标准的未读颜色）。黄色在产品里也是「忙碌」的在线状态灯，所以黄色的未读圆点和正在工作的 Agent 分不开。
 
 ## 决定 {#decision}
 

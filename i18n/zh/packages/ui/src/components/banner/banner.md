@@ -20,7 +20,7 @@ banner/compositions/preview
 | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | 某一个输入无效                                                       | 输入框自己的错误提示（[Field](../field/field.md)），不用横幅                                             |
 | 在对话框或表单里操作前需要知道的事                      | Banner，放在内容里                                                                                   |
-| 某个面板里出了错：agent 启动不了、设置没保存上 | `PanelNotice`，放在面板标题栏下方（[Panel](../panel/panel.md)）                                       |
+| 某个面板里出了错：Agent 启动不了、设置没保存上 | `PanelNotice`，放在面板标题栏下方（[Panel](../panel/panel.md)）                                       |
 | 整个服务器的状态：计算机离线、配额快满了     | [NotificationCenter](../notification-center/notification-center.md)，不要在页面顶部放横幅 |
 | 刚刚做完的操作的结果                                | [Toast](../toast/toast.md)                                                                               |
 | 必须马上做决定                                 | [Dialog](../dialog/dialog.md) 或 [AlertDialog](../alert-dialog/alert-dialog.md)                          |
@@ -28,7 +28,7 @@ banner/compositions/preview
 ## 结构 {#anatomy}
 
 - `Banner`：浅色底的容器。必需。它填满给它的宽度，并按这个宽度排布各部分，所以要给它一个宽度（或让它填满父元素）；不要用 `w-fit`，那会让它缩成一团。
-- 图标：意图对应的 Lucide 图标（[变体](#variants)），作为直接子元素放在文字前面。Banner 把它设为 20px，与文字间隔 10px（`sm` 横幅里是 16px 和 8px），并对齐第一行的中线（[引导文字的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。某件事还在等待时，比如计算机还没有连上，用 `status="info"` 的横幅，并用一个 `Spinner` 代替图标：等待不是问题，所以既不用警告的底色，也不用警告图标。Banner 把加载指示器放在图标那一列，对齐第一行的中线，所以文字的起点和有图标时一样。不要用 `Status` 灯代替图标：状态灯从不说明这是哪一类提示（成功、信息、警告、错误）。状态灯保留它自己的含义：agent、人或计算机是否在工作或在线，任务的状态，以及标出有事等待或未读的方形提醒圆点；讲的是其中某件事的提示，仍然可以在里面显示那件事的状态灯（[Status](../status/status.md#sizes)）。
+- 图标：意图对应的 Lucide 图标（[变体](#variants)），作为直接子元素放在文字前面。Banner 把它设为 20px，与文字间隔 10px（`sm` 横幅里是 16px 和 8px），并对齐第一行的中线（[引导文字的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。某件事还在等待时，比如计算机还没有连上，用 `status="info"` 的横幅，并用一个 `Spinner` 代替图标：等待不是问题，所以既不用警告的底色，也不用警告图标。Banner 把加载指示器放在图标那一列，对齐第一行的中线，所以文字的起点和有图标时一样。不要用 `Status` 灯代替图标：状态灯从不说明这是哪一类提示（成功、信息、警告、错误）。状态灯保留它自己的含义：Agent、人或计算机是否在工作或在线，任务的状态，以及标出有事等待或未读的方形提醒圆点；讲的是其中某件事的提示，仍然可以在里面显示那件事的状态灯（[Status](../status/status.md#sizes)）。
 - `BannerTitle`：可选的粗体第一行。
 - `BannerDescription`：消息内容。必需。行内的文字操作用 `TextLink variant="strong"` 放在里面，因为它处在一句话中（[TextLink](../text-link/text-link.md#variants)）。
 - `BannerAction`：横幅的按钮；横幅可以关闭时，Dismiss 放在按钮前面。它位于右下角：文字和它能并排放在一行时，它在最后一行文字的末尾，对齐这一行的中线。有标题和描述时，这一行是描述的最后一行。文字在它旁边会换行时，或者横幅窄于 480px 时，它在文字下方单独占一行，靠末端对齐。这由 `BannerAction` 自己决定，不要手动摆放。宽度判断是对横幅内容区的容器查询：452px，也就是 `md` 下 480px 宽的横幅（`sm` 下 476px，`lg` 下 484px）。
@@ -105,7 +105,7 @@ banner/compositions/close
 
 ## 面板里的提示 {#inside-a-panel}
 
-某个面板里出了问题时（agent 启动不了、频道设置没保存上），用 [Panel](../panel/panel.md) 里的 `PanelNotice`，不用 `Banner`。它是面板的一个区域，不是面板内容里的一张卡片：
+某个面板里出了问题时（Agent 启动不了、频道设置没保存上），用 [Panel](../panel/panel.md) 里的 `PanelNotice`，不用 `Banner`。它是面板的一个区域，不是面板内容里的一张卡片：
 
 - 把它直接放在面板标题栏下方，横跨面板的整个宽度。
 - 不加圆角，不加细线。它上下各由一条接缝线（`line-seam`）封住；上面那条属于面板标题栏。

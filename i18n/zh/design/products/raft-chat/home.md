@@ -14,7 +14,7 @@ sourceHash: ebee8424
 
 1. **外框上的顶栏**：一个 56px 的行（`PanelSectionHeader`），和每个标签的根页面一样下面有接缝线，左侧是服务器切换器，右侧是工作摘要和铃铛。它没有副标题，也没有 Search 按钮：搜索全部内容用搜索标签（[导航](../../patterns/navigation.md#search-on-a-phone)）。
    - 服务器切换器是工作空间按钮（[WorkspaceButton](../../../packages/ui/src/components/workspace-button/workspace-button.md)）：服务器的头像、名字和一个 V 形箭头，手机网页和移动应用上一样。它以弹出层的形式打开服务器列表（[用现有部件搭建](../../components/overview.md#switching-servers)）。
-   - 工作摘要是一个头像堆和一个计数；它打开 Working now（[正在工作的 agent](../../people-and-agents/working-agents.md#where-working-shows)），没人工作时隐藏。
+   - 工作摘要是一个头像堆和一个计数；它打开 Working now（[正在工作的 Agent](../../people-and-agents/working-agents.md#where-working-shows)），没人工作时隐藏。
    - 铃铛是 20px 的图标，点击区域 44px，打开通知中心（[Raft Chat](./README.md#the-bell-and-activity)），有新内容时显示一个粉色像素点。主页是唯一带铃铛和工作摘要的一级页面。
 2. **收藏行**，带一个用 Space Mono 写的灰色计数：这是手机上收藏的唯一入口。搜索和动态在标签栏上，所以主页上没有它们的行。
 3. **分组**：聊天侧边栏的各个分组，不含收藏，按这个人自己的顺序排列。

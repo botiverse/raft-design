@@ -1,12 +1,12 @@
 ---
 title: MessageItem
-summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 agent 用法相同。
+summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
 sourceHash: 22f43307
 ---
 
 # MessageItem
 
-一条消息：发送者的头像、名字和时间，然后是正文，下面是附件、嵌入的卡片和页脚一行。人和 agent 发的是同一种消息；像素脸和 `agent` 标签说明是谁发的。消息如何组成时间线（分组、提及、悬停工具栏和菜单、消息列）见[对话](../../../../../design/patterns/conversation.md)；本页讲消息本身。
+一条消息：发送者的头像、名字和时间，然后是正文，下面是附件、嵌入的卡片和页脚一行。人和 Agent 发的是同一种消息；像素脸和 `agent` 标签说明是谁发的。消息如何组成时间线（分组、提及、悬停工具栏和菜单、消息列）见[对话](../../../../../design/patterns/conversation.md)；本页讲消息本身。
 
 ```example
 message-item/compositions/item-preview
@@ -16,7 +16,7 @@ message-item/compositions/item-preview
 
 | 场景 | 使用 |
 | --- | --- |
-| 一个人或一个 agent 说的话 | MessageItem |
+| 一个人或一个 Agent 说的话 | MessageItem |
 | 发生的一件事：日期、认领、交接、状态变化 | 一行事件（[SystemMessage](../system-message/system-message.md)），不是消息 |
 | 一条消息的回复 | [MessageReplies](../message-replies/message-replies.md)，放在消息下方 |
 | Agent 需要一个人的批准 | 消息里的一张 [MessageActionCard](../message-action-card/message-action-card.md) |
@@ -36,7 +36,7 @@ message-item/compositions/item-preview
     - `MessageItemMeta`：发送者的角色，比如 Product & Brand；
   - `MessageItemDelegatedBy`：助理代发送者发出消息时显示 "sent by Friday"（由 Friday 发送），助理的名字放在 `MessageItemDelegatedByName` 里；名字能打开助理的个人资料时用 `MessageItemDelegatedByButton`；
   - `MessageItemTime`：紧跟在发送者后面，`text-mono-meta`，`foreground-hint`。它是一个 `<time>`：把时刻传给 `dateTime`；
-  - `MessageItemInlineStatus`：时间后面的一个简短状态，比如消息正在转为任务时显示 "Converting…"。正在工作的 agent 由头像上的灯表示，不在这里显示（[工作中的 agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。
+  - `MessageItemInlineStatus`：时间后面的一个简短状态，比如消息正在转为任务时显示 "Converting…"。正在工作的 Agent 由头像上的灯表示，不在这里显示（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。
 - `MessageItemBody`：文字，用 `text-body`。必需。
 - `MessageItemEdited`：已编辑标记，放在文字末尾，完整行和接续行都一样。
 - `MessageItemAttachments`：文件和图片（[MessageAttachment](../message-attachment/message-attachment.md)）。
@@ -56,7 +56,7 @@ message-item/compositions/item-preview
 | 应用预览的链接 | `MessageReferenceChip variant="info" capped` | 青色标签片，带应用的图标和它的标题（[应用链接](#app-links)） |
 | 正在加载或无法打开的引用 | `MessageReferencePending`、`MessageReferenceUnavailable` | `inactive-soft` 上的灰色标签片 |
 | 引用标签片标签后面的注记 | `MessageReferenceSuffix` | 弱化的 Space Mono，比如指向消息的链接上的 `msg` |
-| 提及一个已读过这条消息的 agent | `MessageReferenceReadMark`，放在提及的最后 | 名字后面一个弱化的对勾（[提及上的已读回执](#read-receipts-on-a-mention)） |
+| 提及一个已读过这条消息的 Agent | `MessageReferenceReadMark`，放在提及的最后 | 名字后面一个弱化的对勾（[提及上的已读回执](#read-receipts-on-a-mention)） |
 | 网页链接 | Markdown 链接 | `foreground-link`，常态下带下划线（[Markdown](../markdown/markdown.md)） |
 | 任务编号 | `TaskChip` 或 Space Mono 文字 | [Tasks](../tasks/tasks.md) |
 | 行内代码 | [InlineCode](../inline-code/inline-code.md) | `fill-muted` 上的 Space Mono |
@@ -114,17 +114,17 @@ message-reference/compositions/app-link-pending
 
 ### 提及上的已读回执 {#read-receipts-on-a-mention}
 
-一条消息提及某个 agent 时，发消息的人想知道 agent 有没有读到。读到之后，提及后面跟一个对勾：把 `MessageReferenceReadMark` 放在 `MessageReferenceText` 的最后、名字后面，子元素是读屏软件要读出的文字（`Read`）。对勾本身对读屏软件隐藏。这个部件是实验性的，在设计获批之前从 `@botiverse/raft-ui/wip` 导出。
+一条消息提及某个 Agent 时，发消息的人想知道 Agent 有没有读到。读到之后，提及后面跟一个对勾：把 `MessageReferenceReadMark` 放在 `MessageReferenceText` 的最后、名字后面，子元素是读屏软件要读出的文字（`Read`）。对勾本身对读屏软件隐藏。这个部件是实验性的，在设计获批之前从 `@botiverse/raft-ui/wip` 导出。
 
 ```example
 message-reference/compositions/read-indicators
 ```
 
-- agent 读到之前什么都不显示。每条新提及都带一个"未读"标记，会在每条消息里制造噪音，而真正重要的是它变化的那一刻。
+- Agent 读到之前什么都不显示。每条新提及都带一个"未读"标记，会在每条消息里制造噪音，而真正重要的是它变化的那一刻。
 - 在提及的悬停卡片里也说出来："Read"或"Not read yet"，这样不管有没有标记，人都能查看任何一个提及。
 - 对勾用 Lucide `check`，和引用里的图标一样大（14px 文字旁 12px），颜色用 `foreground-hint`，不加彩色。它紧跟在名字后面，自己不再留间距，所以两者的墨迹之间只有对勾自身的内缩和字母的侧边距，约 2px：对勾读作提及的一部分，词间空格在它后面。原先再多 2px 时，对勾的墨迹离名字 4px，几乎是一个词间空格，看上去像漂在两个词中间。它以字母的大写字母高度居中，这也是引用里每个图标居中的那条线（[对齐](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）；不像上标那样抬高，也不降到 x 字高。它的盒子在行内放得下，所以提及和这一行的高度都不变。
 - 对勾的墨迹离提及边缘的距离，和 `@` 开始的距离相同（[对齐](../../../../../design/foundations/alignment.md#chips)）。Lucide 把对勾画在盒子内 3/24 处，其他图标只留 1/24，大约是一个字母的侧边距，所以标记在它那一端把多出的 2/24 收回来。
-- 不要用状态灯来标记。方形的灯表示在线状态和任务状态：表示已读的青柠色也是在线的灯，所以一个已读的提及看起来像一个在线的 agent（[Status](../status/status.md#presence-lights)）。`MessageReferenceIndicator` 是原来放它的、在提及右上角的插槽，仍然能渲染；不要用它做已读回执。
+- 不要用状态灯来标记。方形的灯表示在线状态和任务状态：表示已读的青柠色也是在线的灯，所以一个已读的提及看起来像一个在线的 Agent（[Status](../status/status.md#presence-lights)）。`MessageReferenceIndicator` 是原来放它的、在提及右上角的插槽，仍然能渲染；不要用它做已读回执。
 
 ```example
 message-reference/compositions/primary-references
@@ -148,8 +148,8 @@ message-item/compositions/consecutive
 | 被定位 | 用 `located` 属性时，整行立即变为 `info-soft`，2 秒内淡出，由 `useLocated` 驱动（[被定位](../../../../../design/foundations/states.md#located)）。搜索匹配、被勾选或菜单打开的行保留自己的底色 |
 | 搜索命中 | 行里有 `MessageItemSearchMatch` 时，整行用 `info-soft` |
 | 多选中被选中 | 当 `MessageMultiSelectCheckbox` 勾选时，整行用 `info-soft` |
-| Agent 正在工作 | 头像上一盏静止的黄灯，加上行内状态（[工作中的 agent](../../../../../design/people-and-agents/working-agents.md)） |
-| 发送者已离开、被移除或已删除 | `MessageItemSenderBadges` 里一个弱化的徽标；已删除 agent 的头像变灰 |
+| Agent 正在工作 | 头像上一盏静止的黄灯，加上行内状态（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md)） |
+| 发送者已离开、被移除或已删除 | `MessageItemSenderBadges` 里一个弱化的徽标；已删除 Agent 的头像变灰 |
 | 由助理发送 | 发送者头像上有助理的脸，名字后面有 "sent by Friday"；接续行上只有文字 |
 | 回应失败 | 标签片用 `warning-soft`，由 `MessageReactionErrorIndicator` 播报原因 |
 
@@ -257,7 +257,7 @@ message-item/compositions/reactions
 ## 规则 {#rules}
 
 - `MessageItemDelegatedAvatar` 只放在人的头像上，永远不和在线状态灯一起用（[Avatar](../avatar/avatar.md#rules)）。
-- 不要给消息加边框，也不要给 agent 用气泡颜色。只有嵌入的内容（代码块、附件、操作卡片）看起来像卡片。
+- 不要给消息加边框，也不要给 Agent 用气泡颜色。只有嵌入的内容（代码块、附件、操作卡片）看起来像卡片。
 - 页脚里先放任务标记，然后是回应，添加按钮放最后。
 - 任务标记做成状态标签：状态像素点、任务编号和负责人（[Tasks](../tasks/tasks.md)）。
 - 每个表情只显示一个回应标签片。这个人自己添加的回应用 `attention-soft`。

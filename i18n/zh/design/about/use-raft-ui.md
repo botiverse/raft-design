@@ -1,6 +1,6 @@
 ---
 title: 使用 raft-ui
-summary: 如何安装 raft-ui，配置它的样式表、Tailwind CSS v4 和深色模式，渲染第一个组件，在版本之间升级，以及 token 和给 agent 用的入口在哪里。
+summary: 如何安装 raft-ui，配置它的样式表、Tailwind CSS v4 和深色模式，渲染第一个组件，在版本之间升级，以及 token 和给 Agent 用的入口在哪里。
 sourceHash: 557a9bb8
 ---
 
@@ -150,9 +150,9 @@ pnpm remove raft-ui
 
 什么场合用哪个 token，见基础章节，从[颜色](../foundations/color.md)开始。
 
-## 给 agent {#for-agents}
+## 给 Agent {#for-agents}
 
-这份文档的每个页面都以 Markdown 形式提供给 agent：
+这份文档的每个页面都以 Markdown 形式提供给 Agent：
 
 - **[`llms.txt`](https://raft-design.botiverse.build/llms.txt)** 列出每个页面和它的一句话摘要。
 - **任意页面的 Markdown**：在页面路径后加 `.md`，例如 `https://raft-design.botiverse.build/components/button.md`。组件页面包含由代码生成的 API。

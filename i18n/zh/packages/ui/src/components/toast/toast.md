@@ -6,7 +6,7 @@ sourceHash: aae44d8a
 
 # Toast
 
-轻提示是人刚做的事情的回执：消息已发送、设置已保存、agent 完成了刚交给它的工作。它浮在页面上方的深色 HUD 上，说一句话，几秒后消失。它可以带一个文字操作，比如 View 或 Undo。
+轻提示是人刚做的事情的回执：消息已发送、设置已保存、Agent 完成了刚交给它的工作。它浮在页面上方的深色 HUD 上，说一句话，几秒后消失。它可以带一个文字操作，比如 View 或 Undo。
 
 ```example
 toast/compositions/toast
@@ -31,7 +31,7 @@ toast/compositions/toast
 - `toast`：默认管理器的命令式 API（`toast.success`、`toast.error`…）。
 - `ToastViewport`：轻提示在屏幕上出现的位置。`ToastPositioner` 和 `ToastArrow` 则把轻提示锚定到某个元素上。
 - `ToastRoot` 和 `ToastContent`：一条轻提示及其布局。
-- `ToastIcon`：可选。谁做的（头像），没有「谁」时是意图对应的图标。不要用状态灯表示轻提示的意图：状态灯从不说明这是哪一类提示（成功、信息、警告、错误）。状态灯保留它自己的含义：agent、人或计算机是否在工作或在线，任务的状态，以及标出有事等待或未读的方形提醒圆点；讲的是其中某件事的提示，仍然可以在里面显示那件事的状态灯（[Status](../status/status.md#sizes)）。
+- `ToastIcon`：可选。谁做的（头像），没有「谁」时是意图对应的图标。不要用状态灯表示轻提示的意图：状态灯从不说明这是哪一类提示（成功、信息、警告、错误）。状态灯保留它自己的含义：Agent、人或计算机是否在工作或在线，任务的状态，以及标出有事等待或未读的方形提醒圆点；讲的是其中某件事的提示，仍然可以在里面显示那件事的状态灯（[Status](../status/status.md#sizes)）。
 - `ToastBody`，包含 `ToastTitle`（必需）和可选的 `ToastDescription`，两者都用 `text-callout`（[字体排印](../../../../../design/foundations/typography.md#type-scale)）：手机上 14/20，桌面端 14/22，和横幅一样。`ToastIcon` 高一行这种文字，所以图标留在标题那一行：一个 16px 的图标，居中在一个 20px 的列里，距标题 12px，头像也一样（[文字前的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。
 - `ToastActions`：可选，包含一个 `ToastAction` 和 `ToastClose`。
 - `ToastProgress`：可选的一条线，显示关闭前剩余的时间。
@@ -44,7 +44,7 @@ toast/compositions/toast
 
 | 意图 | 用于 | `ToastIcon` 里放 |
 | --- | --- | --- |
-| 某个人或 agent 做的 | "Bugen finished reviewing #25." | 他们的头像 |
+| 某个人或 Agent 做的 | "Bugen finished reviewing #25." | 他们的头像 |
 | `success` | 某件事完成或已保存 | `CircleCheck` |
 | `warning`、`error` | 出了问题。`error` 以更高的优先级播报 | `TriangleAlert` |
 | `info` | 中性的结果，比如 "3 links copied." | `Info` |

@@ -21,7 +21,7 @@ mobile-nav/compositions/mobile-nav
 | 一个页面里的几个部分                | [Tabs](../tabs/tabs.md)                                       |
 | 同一内容的另一种视图    | [SegmentedControl](../segmented-control/segmented-control.md) |
 
-标签栏怎么和返回、推入页面配合，能放几个目的地，见[导航](../../../../../design/patterns/navigation.md)。标签栏上方不附加任何东西；正在工作的 agent 改在哪里显示，见[正在工作的 agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)。一个产品有哪些目的地，写在它自己的页面上（[Raft Chat](../../../../../design/products/raft-chat/README.md)）。
+标签栏怎么和返回、推入页面配合，能放几个目的地，见[导航](../../../../../design/patterns/navigation.md)。标签栏上方不附加任何东西；正在工作的 Agent 改在哪里显示，见[正在工作的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)。一个产品有哪些目的地，写在它自己的页面上（[Raft Chat](../../../../../design/products/raft-chat/README.md)）。
 
 ## 结构 {#anatomy}
 
