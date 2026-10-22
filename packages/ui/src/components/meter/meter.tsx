@@ -9,7 +9,7 @@ const meter = tv({
   slots: {
     root: [
       "group/meter grid w-full min-w-0 gap-1.5",
-      "[--meter-indicator:var(--ink-40)]",
+      "[--meter-indicator:var(--color-info)]",
       "[--meter-track:var(--fill-muted)]",
       "[--meter-track-edge:transparent]",
       "[--meter-value:var(--foreground-muted)]",
@@ -96,7 +96,8 @@ export type MeterProps = Omit<
 /**
  * How much of an allowance is left, such as a usage limit that resets. Takes
  * what is `used`; the bar shows what is left, full to start and draining.
- * Neutral until `low` or less is left, then the warning color; never danger.
+ * The info fill, like Progress, until `low` or less is left, then the warning
+ * color; never danger, and no success color at full.
  */
 export function Meter({
   size = "md",

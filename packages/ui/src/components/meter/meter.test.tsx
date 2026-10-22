@@ -43,10 +43,12 @@ describe("Meter", () => {
     expect(value.textContent).toBe("38% left · resets in 3h");
   });
 
-  it("has no warning color when nothing is used: the bar is full and neutral", () => {
+  it("stays info when nothing is used: the bar is full, with no warning and no complete color", () => {
     const meter = renderMeter({ used: 0, valueText: "100% left" });
     expect(meter.getAttribute("data-level")).toBe("plenty");
+    expect(meter.className).toContain("[--meter-indicator:var(--color-info)]");
     expect(meter.className).not.toContain(WARNING);
+    expect(meter.className).not.toContain("--color-success");
     const indicator = meter.querySelector<HTMLElement>('[data-slot="meter-indicator"]')!;
     expect(indicator.style.width).toBe("100%");
   });
@@ -57,7 +59,7 @@ describe("Meter", () => {
     expect(meter.className).toContain("[--meter-indicator:var(--color-warning)]");
   });
 
-  it("stays neutral just above low", () => {
+  it("stays info just above low", () => {
     const meter = renderMeter({ used: 79, low: 20, valueText: "21% left · resets in 3h" });
     expect(meter.getAttribute("data-level")).toBe("plenty");
     expect(meter.className).not.toContain(WARNING);

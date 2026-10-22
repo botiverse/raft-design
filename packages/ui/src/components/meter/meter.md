@@ -46,11 +46,11 @@ Meter vs Progress: a meter is a quantity within a range that rises and falls; a 
 
 The color follows what is left; there is no `variant`.
 
-| State       | When                                           | Looks                                                                                    |
-| ----------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Plenty left | More than `low` is left                        | A neutral fill (`ink-40`), up to a full bar. Nothing to notice, so no color, at full too |
-| Low         | `low` or less is left: 20% of `max` unless set | A `warning` fill and a `warning-strong` value                                            |
-| Used up     | `used` reaches `max`                           | An empty `warning-muted` track with a 1px `warning` edge, and a `warning-strong` value   |
+| State       | When                                           | Looks                                                                                                  |
+| ----------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Plenty left | More than `low` is left                        | The `info` fill, as on Progress, up to a full bar. A full meter stays `info`: it has no complete color |
+| Low         | `low` or less is left: 20% of `max` unless set | A `warning` fill and a `warning-strong` value                                                          |
+| Used up     | `used` reaches `max`                           | An empty `warning-muted` track with a 1px `warning` edge, and a `warning-strong` value                 |
 
 ```example
 meter/compositions/states
@@ -59,7 +59,8 @@ meter/compositions/states
 - `low` means at or below, unlike HTML's `<meter low>`, which is strictly below: with the default, 20% left is already low. It is in the units of `max` and clamped to 0 to `max`.
 - Give the used-up track its warning edge because the empty track has to read on its own: the edge measures 2.0:1 against white in light mode and 7.2:1 to 8.5:1 against the dark surfaces (popover to canvas), where a normal track is 1.1:1 and 1.1:1 to 1.5:1. The `warning-soft` wash alone measured 1.16:1 on the dark canvas, fainter than a normal track.
 - Don't use `danger` for a low or used-up allowance: it comes back at the reset, so it interrupts work but isn't irreversible ([Color](../../../../../design/foundations/color.md#meanings-of-color)).
-- Don't color a meter cyan or lime: cyan reads as a progress bar, and lime as something finished.
+- Keep the fill `info`, the color of Progress, so a meter and a progress bar read as one family, and let it turn orange only when little is left: the color changes when there is something to act on.
+- Don't turn a full meter lime: a full allowance is untouched, not finished. This is why a meter isn't drawn with Progress, which turns `success` at 100%.
 - Keep the default `low` unless an allowance needs another: the same amount left should look the same on every screen.
 
 ## Content

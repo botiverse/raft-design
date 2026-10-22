@@ -2,7 +2,7 @@
   {
     "name": "Meter",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "How much of an allowance is left, such as a usage limit that resets. Takes what is `used`; the bar shows what is left, full to start and draining. Neutral until `low` or less is left, then the warning color; never danger.",
+    "description": "How much of an allowance is left, such as a usage limit that resets. Takes what is `used`; the bar shows what is left, full to start and draining. The info fill, like Progress, until `low` or less is left, then the warning color; never danger, and no success color at full.",
     "native": true,
     "props": [
       {
