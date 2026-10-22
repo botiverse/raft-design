@@ -136,10 +136,6 @@ for (const file of translations) {
   let source = readFileSync(file, "utf8").replace(/\r\n/g, "\n");
   const front = splitFrontMatter(source);
   const englishHeadings = headingsOf(english.split("\n"));
-  const recorded = source.match(/^sourceHash: (\w+)$/m)?.[1];
-  const stale = Boolean(recorded) && recorded !== sourceHash(english) && !marked.has(file);
-  // Problems that a change to the English page explains are warnings on a stale translation.
-  const drift = stale ? warnings : errors;
   let lines = source.split("\n");
   let headings = headingsOf(lines);
 
@@ -171,6 +167,12 @@ for (const file of translations) {
       headings = headingsOf(lines);
     }
   }
+
+  // Read after sync, which may just have written or marked the hash.
+  const recorded = source.match(/^sourceHash: (\w+)$/m)?.[1];
+  const stale = Boolean(recorded) && recorded !== sourceHash(english);
+  // Problems that a change to the English page explains are warnings on a stale translation.
+  const drift = stale ? warnings : errors;
 
   if (!sameShape) {
     drift.push(
