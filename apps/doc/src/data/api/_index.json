@@ -940,9 +940,12 @@
       "PopoverSeparator",
       "PopoverTitle",
       "PopoverTrigger",
-      "PopoverViewport"
+      "PopoverViewport",
+      "PopoverActions",
+      "PopoverBody"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The panel's buttons, at its end, under `PopoverBody`: cancel first, then the confirm button."
   },
   "preview-card": {
     "names": [

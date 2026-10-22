@@ -15,6 +15,8 @@ const popover = tv({
       "shadow-float ring-1 ring-line-seam",
     ],
     header: ["flex items-center justify-between px-3", "min-h-11 gap-2 py-1.5 pr-1.5 pl-4"],
+    body: ["flex min-w-0 flex-col gap-1.5", "px-4 pt-4 pb-3 last:pb-4"],
+    actions: ["flex flex-wrap items-center justify-end gap-2", "px-4 pb-3 last:pb-4"],
     separator: ["border-t", "border-line-hairline"],
     title: ["m-0", "font-sans text-headline font-bold text-foreground"],
     description: ["m-0", "font-sans text-footnote text-foreground-muted"],
@@ -218,4 +220,20 @@ export function PopoverBackdrop({ className, ...props }: PopoverBackdropProps) {
       {...props}
     />
   );
+}
+
+export type PopoverBodyProps = ComponentPropsWithRef<"div">;
+
+/** The panel's text: a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges. */
+export function PopoverBody({ className, ...props }: PopoverBodyProps) {
+  const { body } = popover();
+  return <div data-slot="popover-body" className={body({ className })} {...props} />;
+}
+
+export type PopoverActionsProps = ComponentPropsWithRef<"div">;
+
+/** The panel's buttons, at its end, under `PopoverBody`: cancel first, then the confirm button. */
+export function PopoverActions({ className, ...props }: PopoverActionsProps) {
+  const { actions } = popover();
+  return <div data-slot="popover-actions" className={actions({ className })} {...props} />;
 }

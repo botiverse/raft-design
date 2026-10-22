@@ -32,6 +32,8 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `PopoverContent`: the panel, portaled and positioned next to the trigger. Required.
 - `PopoverHeader`: a row with `PopoverTitle` and an optional `PopoverClose`.
 - `PopoverTitle` and `PopoverDescription`: the title and a sentence under it.
+- `PopoverBody`: the panel's text, a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges. Experimental, from `@botiverse/raft-ui/wip`.
+- `PopoverActions`: the panel's buttons at its end, under `PopoverBody`: the way out first, then the confirm button. Experimental, from `@botiverse/raft-ui/wip`.
 - `PopoverSeparator`: a hairline between parts of the panel.
 - `PopoverClose`: a button that closes the popover.
 - `PopoverArrow`: an optional pointer toward the trigger.

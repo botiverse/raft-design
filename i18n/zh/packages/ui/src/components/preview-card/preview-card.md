@@ -1,7 +1,7 @@
 ---
 title: PreviewCard
 summary: 人悬停或聚焦到提及、名字或应用链接上时出现的只读卡片，说明某人是谁或应用的某个条目是什么，最多带两个小按钮。
-sourceHash: 9a570443
+sourceHash: 8340566f
 ---
 
 # PreviewCard
@@ -58,7 +58,7 @@ preview-card/preview-card-mention
 preview-card/preview-card-app-item
 ```
 
-读者允许这个应用之前，标签片保持灰色并显示地址，卡片改为提问：标题是一个问题，一句话说明允许后会怎样，一个确认按钮，再加页脚。在手机上卡片不会打开，产品在点按标签片时提问。
+读者允许这个应用之前，标签片保持灰色并显示地址，不带卡片：卡片是只读的，上面的按钮用键盘和触屏都够不到。在标签片上点击、点按或按 Enter，会打开一个 [Popover](../popover/popover.md) 来提问，所有设备都一样：标题是一个问题，一句话说明允许后会怎样，「Open Link」不带预览直接打开，「Show Previews」允许预览。
 
 ```example
 preview-card/preview-card-app-prompt
@@ -80,7 +80,7 @@ preview-card/preview-card-app-prompt
 ## 无障碍 {#accessibility}
 
 - PreviewCard 封装了 Base UI 的 PreviewCard。悬停或聚焦触发元素时打开，按 Esc 关闭。
-- 卡片是补充信息，触屏上不会打开。把触发元素做成真实链接，指向资料页或应用的条目，这样卡片上的一切都能通过别的途径获取。
+- 卡片是补充信息，触屏上不会打开，键盘也够不到上面的按钮：焦点会从触发元素移走，卡片随之关闭。把触发元素做成真实链接，指向资料页或应用的条目，这样卡片上的一切都能通过别的途径获取：条目卡片上的按钮只是一个捷径，指向链接打开的那一页上已有的东西，比如拉取请求的 View Changes。
 
 ## 规则 {#rules}
 

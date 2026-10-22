@@ -4,18 +4,13 @@ import {
   Button,
   MessageReferenceChip,
   MessageReferenceLabel,
-  PreviewCard,
-  PreviewCardContent,
-  PreviewCardTitle,
-  PreviewCardTrigger,
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverTitle,
+  PopoverTrigger,
 } from "@botiverse/raft-ui";
-import {
-  MessageReferenceIcon,
-  PreviewCardActions,
-  PreviewCardBody,
-  PreviewCardFooter,
-  PreviewCardMeta,
-} from "@botiverse/raft-ui/wip";
+import { MessageReferenceIcon, PopoverActions, PopoverBody } from "@botiverse/raft-ui/wip";
 
 export function PreviewCardAppPromptComposition() {
   const [allowed, setAllowed] = useState(false);
@@ -41,34 +36,35 @@ export function PreviewCardAppPromptComposition() {
             </MessageReferenceLabel>
           </MessageReferenceChip>
         ) : (
-          <PreviewCard>
-            <PreviewCardTrigger
+          <Popover>
+            <PopoverTrigger
               render={
-                <MessageReferenceChip
-                  variant="muted"
-                  capped
-                  render={<a href="#stamp-pull-10449" target="_blank" rel="noopener noreferrer" />}
-                />
+                <MessageReferenceChip variant="muted" capped render={<button type="button" />} />
               }
             >
               <LinkIcon />
               <MessageReferenceLabel>stamp.build/botiverse/slock/pull/10449</MessageReferenceLabel>
-            </PreviewCardTrigger>
-            <PreviewCardContent>
-              <PreviewCardBody>
-                <PreviewCardTitle>Show previews from Stamp?</PreviewCardTitle>
-                <PreviewCardMeta>
+            </PopoverTrigger>
+            <PopoverContent className="w-[300px]">
+              <PopoverBody>
+                <PopoverTitle>Show previews from Stamp?</PopoverTitle>
+                <PopoverDescription>
                   Stamp will show you the title and details of its links in your messages.
-                </PreviewCardMeta>
-              </PreviewCardBody>
-              <PreviewCardActions>
+                </PopoverDescription>
+              </PopoverBody>
+              <PopoverActions>
+                <Button
+                  variant="ghost"
+                  render={<a href="#stamp-pull-10449" target="_blank" rel="noopener noreferrer" />}
+                >
+                  Open Link
+                </Button>
                 <Button variant="outline" onClick={handleAllow}>
                   Show Previews
                 </Button>
-              </PreviewCardActions>
-              <PreviewCardFooter>Stamp · stamp.build</PreviewCardFooter>
-            </PreviewCardContent>
-          </PreviewCard>
+              </PopoverActions>
+            </PopoverContent>
+          </Popover>
         )}
         <span>, merged this morning.</span>
       </p>

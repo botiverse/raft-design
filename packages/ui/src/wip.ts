@@ -135,3 +135,9 @@ export type {
   PreviewCardFooterProps,
   PreviewCardMetaProps,
 } from "./components/preview-card/index";
+
+// A popover that asks something, such as whether to show an app's previews:
+// its text and its buttons, inset like a preview card's (popover.md). Until a
+// product uses them.
+export { PopoverActions, PopoverBody } from "./components/popover/popover";
+export type { PopoverActionsProps, PopoverBodyProps } from "./components/popover/popover";

@@ -90,7 +90,7 @@ message-reference/compositions/app-links
 message-reference/compositions/app-link-pending
 ```
 
-- When the reader hasn't allowed the app yet and the server asks whether to show its previews, keep the gray chip with the shortened address, as a link (`MessageReferenceChip variant="muted"`). On desktop, its hover card asks the question, with the confirm button; on a phone, tapping the chip asks it first, in the product's own confirmation, before the link opens.
+- When the reader hasn't allowed the app yet and the server asks whether to show its previews, keep the gray chip with the shortened address, as a link (`MessageReferenceChip variant="muted"`). It opens no card. Clicking, tapping or pressing Enter on it asks first, the same on every device, in a [Popover](../../packages/ui/src/components/popover/popover.md): Open Link goes without previews, Show Previews allows them. A card can't ask: it is read-only, and its buttons can't be reached by keyboard or touch.
 - On desktop, hovering or focusing the chip opens the app's item card with the details: the id, the title, a state and a line of details in the app's words, its actions, and the app's name and host ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)). Raft puts no colors of the app's on it.
 - On a phone, tapping the chip opens the link. A preview card doesn't open on touch, so make the chip a real link (`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`) that opens in a new tab, leaving the conversation where it was.
 

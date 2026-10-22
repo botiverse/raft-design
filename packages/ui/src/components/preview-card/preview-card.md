@@ -62,7 +62,7 @@ The card an app link opens on hover ([App links](../../../../../design/patterns/
 preview-card/preview-card-app-item
 ```
 
-Before the reader has allowed the app, the chip stays gray with its address, and the card asks instead: a question as the title, a sentence on what allowing it does, one confirm button and the footer. On a phone, where the card doesn't open, the product asks when the chip is tapped.
+Before the reader has allowed the app, the chip stays gray with its address and has no card: a card is read-only, and its buttons can't be reached by keyboard or touch. Clicking, tapping or pressing Enter on the chip opens a [Popover](../popover/popover.md) that asks instead, the same on every device: a question as the title, a sentence on what allowing it does, Open Link to go without previews, and Show Previews.
 
 ```example
 preview-card/preview-card-app-prompt
@@ -84,7 +84,7 @@ preview-card/preview-card-app-prompt
 ## Accessibility
 
 - PreviewCard wraps the Base UI PreviewCard. It opens on hover and on focus of the trigger, and closes on Esc.
-- The card is supplementary and doesn't open on touch. Make the trigger a real link, to the profile or to the app's item, so everything on the card is reachable another way.
+- The card is supplementary and doesn't open on touch, and its buttons can't be reached from the keyboard: focus moves on from the trigger, and the card closes. Make the trigger a real link, to the profile or to the app's item, so everything on the card is reachable another way: a button on an item card is a shortcut to something on the page the link opens, such as View Changes on a pull request.
 
 ## Rules
 
