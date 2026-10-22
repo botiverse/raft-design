@@ -66,3 +66,8 @@ export type { InboxItemLeadingBadgeProps } from "./components/inbox-item/inbox-i
 // to start, draining as it is used, orange when low (meter.md). Until the
 // API settles.
 export * from "./components/meter/index";
+
+// A menu item that is a link (the docs site's language menu), until it is
+// used in a product.
+export { DropdownMenuLinkItem } from "./components/dropdown-menu/dropdown-menu";
+export type { DropdownMenuLinkItemProps } from "./components/dropdown-menu/dropdown-menu";

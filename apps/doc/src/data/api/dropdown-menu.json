@@ -891,5 +891,49 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "DropdownMenuLinkItem",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One choice that is another page, such as the same page in another language: a link, so it opens in a new tab and can be copied. Its `href` goes on the item; `current` marks the page being shown.",
+    "native": true,
+    "props": [
+      {
+        "name": "current",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The page being shown: `aria-current=\"page\"`, drawn as the chosen value of a radio group (a check mark and bold text).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "closeOnClick",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to close the menu when the item is clicked.",
+        "from": "base-ui"
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Overrides the text label to use when the item is matched during keyboard text navigation.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
   }
 ]

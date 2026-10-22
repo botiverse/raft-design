@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import {
   ChevronDown,
@@ -44,6 +44,7 @@ import {
   SidebarSectionTitle,
 } from "@botiverse/raft-ui";
 import type { ThemeMode } from "@botiverse/raft-ui";
+import { DropdownMenuLinkItem } from "@botiverse/raft-ui/wip";
 
 import { GithubMark } from "#/components/github-mark.tsx";
 import { usePreviewTheme } from "#/components/preview-theme.tsx";
@@ -51,7 +52,6 @@ import { raftUiVersion } from "#/data/raft-ui-release.ts";
 import { navSections } from "#/lib/content/nav.ts";
 import type { NavItem } from "#/lib/content/nav.ts";
 import { LANGUAGE_NAME, LANGUAGE_TAG, LOCALES, localizePath } from "#/lib/i18n/locales.ts";
-import type { Locale } from "#/lib/i18n/locales.ts";
 import { useLocale, useMessages } from "#/lib/i18n/use-locale.ts";
 
 import { SearchDialog } from "./search-dialog.tsx";
@@ -95,22 +95,20 @@ function ThemeMenu({
 }
 
 /**
- * The language menu: a dropdown of the languages, each named in itself, that
- * opens the same page in the one picked. Picking loads the other document, so
- * the whole site switches with it, and keeps the section being read.
+ * The language menu: a dropdown of the languages, each named in itself and
+ * each a link to the same page in that language, so it can be opened in a
+ * new tab or copied. Following one loads the other document, so the whole
+ * site switches with it, and keeps the section being read.
  */
 function LanguageMenu({ variant = "on-frame" }: { variant?: "on-frame" | "ghost" }) {
   const messages = useMessages();
   const locale = useLocale();
   const pathname = useLocation({ select: (location) => location.pathname });
-  const switchTo = useCallback(
-    (value: unknown) => {
-      const target = value as Locale;
-      if (target === locale) return;
-      window.location.assign(`${localizePath(pathname, target)}${window.location.hash}`);
-    },
-    [locale, pathname],
-  );
+  // The server never sees the fragment, so it joins the link only when it is
+  // followed: the same section in the other language.
+  const keepFragment = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+    if (window.location.hash) event.currentTarget.hash = window.location.hash;
+  }, []);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -121,13 +119,18 @@ function LanguageMenu({ variant = "on-frame" }: { variant?: "on-frame" | "ghost"
         <ChevronDown data-icon="inline-end" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align={variant === "ghost" ? "start" : "end"}>
-        <DropdownMenuRadioGroup value={locale} onValueChange={switchTo}>
-          {LOCALES.map((option) => (
-            <DropdownMenuRadioItem key={option} value={option} lang={LANGUAGE_TAG[option]}>
-              {LANGUAGE_NAME[option]}
-            </DropdownMenuRadioItem>
-          ))}
-        </DropdownMenuRadioGroup>
+        {LOCALES.map((option) => (
+          <DropdownMenuLinkItem
+            key={option}
+            current={option === locale}
+            href={localizePath(pathname, option)}
+            hrefLang={LANGUAGE_TAG[option]}
+            lang={LANGUAGE_TAG[option]}
+            onClick={keepFragment}
+          >
+            {LANGUAGE_NAME[option]}
+          </DropdownMenuLinkItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

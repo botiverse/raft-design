@@ -38,6 +38,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `DropdownMenuShortcut`: the keyboard shortcut at the end of an item, in `text-mono-meta` and `foreground-hint`.
 - `DropdownMenuItemCount`: a count at the end of an item.
 - `DropdownMenuRadioGroup` and `DropdownMenuRadioItem`: a set of values with one current value, marked with a check mark.
+- `DropdownMenuLinkItem` (experimental, from `@botiverse/raft-ui/wip`): a choice that is another page, such as the same page in another language. It is a link, so it opens in a new tab and can be copied; `current` marks the page being shown with the same check mark and bold text as a radio item.
 - `DropdownMenuCheckboxItem`: an option that is on or off by itself.
 - `DropdownMenuLabel`: a heading over a group of items. Not interactive.
 - `DropdownMenuSeparator`: the line between sections.

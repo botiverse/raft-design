@@ -72,7 +72,7 @@ Two questions decide a picker: when the choice takes effect, and how many values
 | Yes or no, applied on Save | [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) |
 | One of 2 to 5 answers, submitted with a form | [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md) |
 | Another view of the same content | [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md) |
-| The same page in another language | A menu of the languages, each in its own name ([DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) with radio items) |
+| The same page in another language | A menu of the languages, each in its own name ([DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) whose items are links) |
 | Sections of one page, each with its own content | [Tabs](../../packages/ui/src/components/tabs/tabs.md) |
 | One of up to 10 values | [Select](../../packages/ui/src/components/select/select.md) |
 | One of many values | A field people type into to filter the list, on a phone too ([ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md)). When people only pick and never type, a [Select](../../packages/ui/src/components/select/select.md): ComboboxSelect always brings up a phone's keyboard |

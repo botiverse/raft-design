@@ -400,3 +400,41 @@ export function DropdownMenuCheckboxItemIndicator({
     />
   );
 }
+
+export type DropdownMenuLinkItemProps = StyledProps<BaseMenu.LinkItem.Props> & {
+  /**
+   * The page being shown: `aria-current="page"`, drawn as the chosen value
+   * of a radio group (a check mark and bold text).
+   */
+  current?: boolean;
+};
+
+/**
+ * One choice that is another page, such as the same page in another
+ * language: a link, so it opens in a new tab and can be copied. Its
+ * `href` goes on the item; `current` marks the page being shown.
+ */
+export function DropdownMenuLinkItem({
+  current = false,
+  className,
+  children,
+  ...props
+}: DropdownMenuLinkItemProps) {
+  const { radioItem, radioLabel, indicator } = dropdownMenu();
+  return (
+    <BaseMenu.LinkItem
+      data-slot="dropdown-menu-link-item"
+      aria-current={current ? "page" : undefined}
+      data-checked={current ? "" : undefined}
+      className={radioItem({ className })}
+      {...props}
+    >
+      {renderRadioItemChildren(children, radioLabel())}
+      {current ? (
+        <span className={indicator()}>
+          <DropdownMenuCheckIcon />
+        </span>
+      ) : null}
+    </BaseMenu.LinkItem>
+  );
+}
