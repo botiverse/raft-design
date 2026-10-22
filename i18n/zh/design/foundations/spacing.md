@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: b686b6a3
+sourceHash: 67cfd9cd
 ---
 
 # 间距与尺寸
@@ -72,7 +72,7 @@ timeline
 | 带头像和预览的行：对话、人、agent（[ListRow](../../packages/ui/src/components/list-row/list-row.md)） | 至少 64px |
 | 设置页面内的设置行（[ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`） | 单行时 48px |
 | 单选行 | 至少 44px |
-| 选择控件：开关；复选框和单选按钮 | 50 × 30px；20px。手机和桌面端相同。单独使用时，复选框或单选按钮在触屏上的点击区域高 44px；放在 `<label>` 行里时，它延伸到与下一个选项间隔的一半，其余部分由标签承担点击。以标签的第一行居中（[对齐](./alignment.md#a-control-and-its-label)） |
+| 选择控件：开关；复选框和单选按钮 | 50 × 30px；20px。手机和桌面端相同。单独使用时，复选框或单选按钮在触屏上的点击区域高 44px；放在 `<label>` 行里时，它延伸到与下一个选项间隔的一半，其余部分由标签承担点击。以标签的第一行居中；在设置行末尾时，以整行居中（[对齐](./alignment.md#a-control-and-its-label)） |
 | 弹出列表中的选项、菜单项 | 单行时 36px；行数更多时更高，内边距不变（[表单](../patterns/forms.md#option-height)） |
 | 手机顶栏行、面板头部、侧边栏头部、导航条头部、抽屉头部 | 56px |
 | 网页顶栏、桌面应用标题栏 | 48px |

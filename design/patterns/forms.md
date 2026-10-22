@@ -20,7 +20,7 @@ Settings pages, forms in dialogs and drawers, and large configuration forms. Whi
 - Mark optional fields "(optional)", and required fields with an asterisk.
 - Reserve the line under a field for its help text or its error, so the form doesn't move when an error appears.
 - Make a setting's description state the result, not repeat the title: the title already names the setting, and people read on to learn what it does.
-- Put a checkbox, a radio or a switch 8px before its label, centered on the label's first line, and at the end of a settings row on the title's first line. raft-ui places it there (`FieldItem`, a checkbox's or radio's `<label>` row, `ListRow`); never nudge it with a margin ([Alignment](../foundations/alignment.md#a-control-and-its-label)). The switch stays 50 × 30 and the checkbox and radio 20px, on a phone and a desktop alike.
+- Put a checkbox, a radio or a switch 8px before its label, centered on the label's first line, and at the end of a settings row centered on the whole row. raft-ui places it there (`FieldItem`, a checkbox's or radio's `<label>` row, `ListRow`); never nudge it with a margin ([Alignment](../foundations/alignment.md#a-control-and-its-label)). The switch stays 50 × 30 and the checkbox and radio 20px, on a phone and a desktop alike.
 
 ```example
 field/compositions/preview
