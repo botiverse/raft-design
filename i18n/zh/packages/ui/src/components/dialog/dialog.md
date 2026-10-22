@@ -1,7 +1,7 @@
 ---
 title: Dialog
 summary: 遮罩上居中的浮层，用于人们必须先完成才能继续的一个决定或几个输入框；宽尺寸用于一次填完的大表单。
-sourceHash: 6108edd6
+sourceHash: b940dce4
 ---
 
 # Dialog
@@ -106,7 +106,7 @@ dialog/compositions/create-channel
 
 - `DialogHeader` 变成推入页面的头部：它的 `DialogClose` 排在最前，作为头部的 ×，后面是 `DialogTitle`。给头部放一个作为直接子元素的 `DialogClose`：它是离开底部面板的唯一出口。包在 Tooltip、Fragment 或你自己的组件里的 × 找不到，会留在标题后面；开发环境下头部会在控制台里给出警告。
 - 头部只放得下一行，就是标题。底部面板对话框的 `DialogDescription` 放在 `DialogBody` 顶部，不放在 `DialogHeader` 里。
-- `DialogCommit` 移到头部末尾，尺寸为 `size="md"`，变体、文字、禁用和加载状态都不变。`type="submit"` 的按钮仍是它所在表单的默认按钮：它通过表单的 `id` 和写它的那个表单关联，所以点击它、在输入框里按 Enter 都会提交，禁用时两者都不会。给那个 `form` 一个 `id`（或者给 `DialogCommit` 传 `form`）；没有 `id` 时点击仍会提交，但在输入框里按 Enter 不会。
+- `DialogCommit` 移到头部末尾，尺寸为 `size="md"`，变体、文字、禁用和加载状态都不变。`type="submit"` 的按钮仍是它所在表单的默认按钮：它通过表单的 `id` 和写它的那个表单关联，所以点击它、在输入框里按 Enter 都会提交，禁用时两者都不会。给那个 `form` 一个 `id`（或者给 `DialogCommit` 传 `form`）；没有 `id` 时点击仍会提交，但在输入框里按 Enter 不会，而且只在手机上才这样，所以开发环境下 `DialogCommit` 会在控制台里给出警告；提交类型的 `DialogCommit` 没有可提交的表单时也一样。
 - `DialogFooter` 被隐藏，里面的 Cancel 和其他按钮（比如某一步的 Back）也一起隐藏。
 - `DialogBody` 在头部下方滚动，保持手机的 16px 边距，底部留出主屏幕指示条的内边距。宽对话框的 `bar` 正文也一样：隐藏 `DialogNav`，各分区依次排列。
 

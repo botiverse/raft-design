@@ -61,6 +61,13 @@ export function DialogSheetContent({
             // A press on the scrim above the sheet lands on this cover, not
             // on the backdrop itself, so Base UI doesn't dismiss: a stray tap
             // must not lose a half-filled form. × and Esc close it.
+            // This relies on Base UI: in @base-ui/react 1.8.0 a modal
+            // Dialog's outsidePress (dialog/root/useDialogRoot) closes only
+            // when the press's target is the backdrop element itself, or an
+            // element outside the popup's portal (mui/base-ui#1320), not a
+            // child of the backdrop. If an upgrade closes on any press inside
+            // the backdrop, "does not close on a tap on the scrim above it"
+            // in dialog.sheet.browser.test.tsx fails.
             children: <span aria-hidden className="absolute inset-0" />,
           },
     [overlay],
@@ -114,8 +121,17 @@ export function DialogCommit({ size, form, onClick, ...props }: DialogCommitProp
   // The form the button was written in, once it is drawn in the head.
   useLayoutEffect(() => {
     if (!commitSlot || form) return;
-    setWrittenIn(anchorRef.current?.closest("form") ?? null);
-  }, [commitSlot, form]);
+    const found = anchorRef.current?.closest("form") ?? null;
+    setWrittenIn(found);
+    if (process.env.NODE_ENV === "production" || props.type !== "submit" || found?.id) return;
+    // The head is outside the form, so only the form's id ties the two:
+    // without it Enter in a field submits nothing, on a phone only.
+    console.warn(
+      found
+        ? "raft-ui: a submit DialogCommit is drawn in a phone sheet's head, outside its form, and the form has no id, so Enter in a field doesn't submit it (a click still does). Give the form an id, or pass `form` to DialogCommit."
+        : "raft-ui: a submit DialogCommit in a phone sheet isn't inside a form and has no `form`, so it submits nothing. Pass `form` with the form's id.",
+    );
+  }, [commitSlot, form, props.type]);
 
   const handleClick = useCallback<NonNullable<ButtonProps["onClick"]>>(
     (event) => {
