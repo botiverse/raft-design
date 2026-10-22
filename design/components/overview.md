@@ -135,6 +135,7 @@ The more you know about a wait, the more specific its indicator. A known layout 
 | A button started the wait | The button's loading state ([Button](../../packages/ui/src/components/button/button.md)) |
 
 - Don't use pink for any of these. They are passive, and pink means something waits for the person.
+- A usage limit isn't a wait: show what is left of it with a [Meter](../../packages/ui/src/components/meter/meter.md), which drains, not a progress bar, which fills.
 - Raft Chat doesn't follow the skeleton rule in two places yet: the conversation timeline and the profile panel show the word "Loading…" while they wait.
 
 ### Rows

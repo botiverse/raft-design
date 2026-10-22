@@ -1,0 +1,152 @@
+[
+  {
+    "name": "Meter",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "How much of an allowance is left, such as a usage limit that resets. Pass what is left as `value`: the bar starts full and drains. Neutral until the value reaches `low`, then the warning color; never danger.",
+    "native": true,
+    "props": [
+      {
+        "name": "low",
+        "type": "number",
+        "required": false,
+        "default": "20% of the range above `min`",
+        "description": "At or below this value the meter is low and takes the warning color. In the same units as `value`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "aria-valuetext",
+        "type": "string",
+        "required": false,
+        "description": "A string value that provides a user-friendly name for `aria-valuenow`, the current value of the meter.",
+        "from": "base-ui"
+      },
+      {
+        "name": "format",
+        "type": "Intl.NumberFormatOptions",
+        "required": false,
+        "description": "Options to format the value.",
+        "from": "base-ui"
+      },
+      {
+        "name": "getAriaValueText",
+        "type": "(formattedValue: string, value: number) => string",
+        "required": false,
+        "description": "A function that returns a string value that provides a human-readable text alternative for `aria-valuenow`, the current value of the meter.",
+        "from": "base-ui"
+      },
+      {
+        "name": "locale",
+        "type": "string | Intl.Locale | readonly (string | Intl.Locale)[]",
+        "required": false,
+        "description": "The locale used by `Intl.NumberFormat` when formatting the value. Defaults to the user's runtime locale.",
+        "from": "base-ui"
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "default": "100",
+        "description": "The maximum value",
+        "from": "base-ui"
+      },
+      {
+        "name": "min",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "The minimum value",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "number",
+        "required": true,
+        "description": "The current value.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MeterHeader",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MeterIndicator",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MeterLabel",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MeterTrack",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MeterValue",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode | ((formattedValue: string, value: number) => ReactNode)",
+        "required": false,
+        "description": "The visible value, such as \"38% left · resets in 3h\". A function receives the formatted value and the raw value. Without children it shows the formatted value alone.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]
