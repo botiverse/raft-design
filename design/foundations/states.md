@@ -1,6 +1,6 @@
 ---
 title: States
-summary: How hover, press, focus, selection, unread, disabled, error, busy and autofill look, shared by every component.
+summary: How hover, press, focus, selection, located, unread, disabled, error, busy and autofill look, shared by every component.
 ---
 
 # States
@@ -21,7 +21,8 @@ Every component shows its interaction states the same way. A component doc only 
 | Press | The medium tier on everything, rows and cards too: `fill-medium`, `sticker-medium` on a colour sticker or `fill-frame-medium` on the frame ([Color](./color.md#hover-overlays)). A text button lights up its hit area when pressed |
 | Focus | See [Focus](#focus) |
 | Selected: navigation | A yellow sticker: sidebar rows, segmented controls, tabs, the tab bar's icon. On the yellow frame in light mode, the rail's selected item is a white sticker; in dark mode it is yellow |
-| Selected: content | `info-soft`: the open item, the message someone jumped to, an active filter |
+| Selected: content | `info-soft`: the open item, an active filter, the current match of a search inside a page while that search is open |
+| Located | `info-soft` for 2 seconds, fading out: the item a jump took someone to ([Located](#located)) |
 | Selected: value | Ink: a checked checkbox or radio. In a menu, the current value has a check mark and bold text |
 | Unread | Bold text and a pink count. When someone mentions the person, a yellow @ marker replaces the count. On an icon, one pink pixel. The selected item never shows either |
 | Disabled | `fill-muted` fill, `line-hairline` or `foreground-disabled` border, `foreground-disabled` text. The same for buttons, bordered icon buttons, inputs, selects, checkboxes, radios, switches, segmented controls and tabs. Frameless icon buttons and frameless buttons on the frame get no fill or border: only their icon and text turn `foreground-disabled`. List rows keep their fill: only their text and icons turn `foreground-disabled`. No reaction to hover or press |
@@ -64,6 +65,28 @@ Text that does something or goes somewhere, with no box, chip or fill around it:
 - Give text that cannot be clicked no hover change at all, and take the hover underline away from clickable text when it is disabled, so a change on hover always means "this can be clicked".
 - Exception: a link inside rendered message or document text ([Markdown](../../packages/ui/src/components/markdown/markdown.md)) keeps an underline at rest, because the link blue alone is too close to the body text around it: below the 3:1 that [WCAG 1.4.1](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html) asks of a link told apart by color alone. The underline is quieter at rest and takes the full color on hover; the values are in [Markdown](../../packages/ui/src/components/markdown/markdown.md).
 - Chips, cards, badges, buttons and tabs are not clickable text: they keep their hover tier or their own hover.
+
+## Located
+
+Located answers "where did that take me?". After a jump, the item someone arrived at shows `info-soft` at once, holds it, and fades out: a link to a message, a search result or Activity item that opens a message, Back to the list a result was opened from, the passage or table row a file comment is anchored to, the rows a bulk change touched. It is one look for one meaning, whatever the item is: a message, a list row, a table row or a region of a file.
+
+| Step | Value | Why |
+| --- | --- | --- |
+| Appears | At once, no fade in | The eye has to catch it as the view lands; a fade in starts at nothing just when people look for it |
+| Holds | 1.2s at full `info-soft` | Long enough to find the item in a list that just scrolled |
+| Fades out | 0.8s, `ease-out` | The item goes back to its own fill without a jump, so the end of the highlight doesn't read as a second change |
+| Gone | At 2s (`LOCATED_MS`) | Short enough not to look selected: the person didn't choose the item, the jump did |
+
+- **Cyan, because it singles out an item in content**, as [Selected: content](#usage) does. It is not a selection, so it goes away by itself; a selection stays until people change it. The current match of a search inside a page is a selection: it stays `info-soft` while that search is open, and doesn't fade.
+- **Layered over the item's own fill**, not in place of it: the row's surface is still there and comes back as the cyan fades. A message lays it as its row fill, so the ring around a delegated face matches the row ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#states)).
+- **No shape of its own.** The highlight fills the item and takes the item's corners, exactly as its hover does. Rows that run from edge to edge of their panel (messages, Activity items, search results, the rows of a sheet) stay square: a rounded fill that touches both edges of the panel would leave notches at its corners, and their hover is square too. An item with its own radius, or a row inside a rounded group, has the highlight clipped to that radius. A region of a file is marked the same way: a square fill with no border.
+- **A stronger mark wins.** An item that is already selected, current, a search match, checked, or has its menu open isn't located: its own mark already says where it is, and the highlight must never take it away, not even for 2 seconds.
+- **No hover while it lasts, but a press shows.** The pointer often rests where the item lands, and a grey hover would hide the cyan, so a located item doesn't answer hover. A press is an action, so it lays the medium tier as always.
+- **Start it when the item is on screen**, after the scroll that brings it there, not when the jump is asked for: a highlight that ran out while the list was still loading was never seen. New messages and loaded pages don't restart it; a new jump does, also to the same item.
+- **Reduced motion:** the same 2 seconds, held still, then off with no fade ([Motion](./motion.md)).
+- **Not for success.** The rows a bulk change touched are located, not green: the receipt already says the change worked, and the highlight only shows which rows it was.
+- **Only a look.** A screen reader doesn't see the highlight, and a keyboard user needs more than a colour. A jump started from the keyboard also moves focus to the item (`tabIndex={-1}`, then `focus({ preventScroll: true })` after the scroll), so keyboard and screen reader users land on it. A jump started with the pointer leaves focus where it was, in the composer for instance.
+- Drive it with `useLocated(request)` from raft-ui: pass a new request for each jump once the item is on screen (a counter or token that changes on every jump, a string or number; not the item's id, which stays the same on a second jump), and set `data-located` (MessageItem's `located`) while it returns true; styles.css runs the animation. The hook turns it off after `LOCATED_MS` and restarts it on the next jump, also to the same item: setting the attribute again while it is on doesn't restart the animation, only removing it for a frame does. Left on, the attribute keeps hiding hover, so don't set it by hand, and don't write your own flash or timer.
 
 ## Focus
 

@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 agent 用法相同。
-sourceHash: a50620dc
+sourceHash: b1a565d1
 ---
 
 # MessageItem
@@ -145,7 +145,8 @@ message-item/compositions/consecutive
 
 | 状态 | 样子 |
 | --- | --- |
-| 跳转到的消息 | 整行用 `info-soft`。行里有 `MessageItemSearchMatch` 时，raft-ui 会自动应用 |
+| 被定位 | 用 `located` 属性时，整行立即变为 `info-soft`，2 秒内淡出，由 `useLocated` 驱动（[被定位](../../../../../design/foundations/states.md#located)）。搜索匹配、被勾选或菜单打开的行保留自己的底色 |
+| 搜索命中 | 行里有 `MessageItemSearchMatch` 时，整行用 `info-soft` |
 | 多选中被选中 | 当 `MessageMultiSelectCheckbox` 勾选时，整行用 `info-soft` |
 | Agent 正在工作 | 头像上一盏静止的黄灯，加上行内状态（[工作中的 agent](../../../../../design/people-and-agents/working-agents.md)） |
 | 发送者已离开、被移除或已删除 | `MessageItemSenderBadges` 里一个弱化的徽标；已删除 agent 的头像变灰 |
@@ -191,7 +192,7 @@ message-item/compositions/delegated-preview
 ## 行为 {#behavior}
 
 - 按[时间线节奏](../../../../../design/foundations/spacing.md#timeline-rhythm)用分组来安排消息的间距：同一组的行之间 8px（接续行位于它所接续的那一行下方），新的一组之前是消息步长 16px。每一行的文字上下各留行内边距 4px，组前多出来的 8px 是一条透明的上边框，高亮不会画到它。样式从时间线 token（`py-timeline-row`、`border-t-(length:--spacing-timeline-turn)`）读取这两个值，所以改动节奏会改动每一行。所以悬停、选中和搜索的高亮在每一行上都均匀地围着文字：以前接续行没有上内边距时，高亮紧贴第一行，最后一行下面却留了 8px。
-- 悬停时，这一行在自身上铺一层 `fill-subtle`，即所有行都用的轻度一级：一条消息可能有很多行高，人读的时候鼠标指针常常停在上面，所以这一级变化很小，文字保持对比度（[悬停与按下](../../../../../design/foundations/states.md#hover-and-press)）。它以前比其他行更浅（3%）；现在消息和旁边的行、卡片用同样的级差。消息没有按下状态：这一行本身不是操作，点击是在选择文字，或落在其中的链接、名字或按钮上。跳转到的、搜索命中的或选中的消息，悬停时保持 `info-soft`。
+- 悬停时，这一行在自身上铺一层 `fill-subtle`，即所有行都用的轻度一级：一条消息可能有很多行高，人读的时候鼠标指针常常停在上面，所以这一级变化很小，文字保持对比度（[悬停与按下](../../../../../design/foundations/states.md#hover-and-press)）。它以前比其他行更浅（3%）；现在消息和旁边的行、卡片用同样的级差。消息没有按下状态：这一行本身不是操作，点击是在选择文字，或落在其中的链接、名字或按钮上。搜索命中的或选中的消息，悬停时保持 `info-soft`；被定位的消息在高亮持续期间不响应悬停。
 - 当它的某个弹出层打开时（右键、工具栏按钮或在手机上长按打开的上下文菜单），这一行在自身上铺一层 `fill-subtle`，与悬停同一级，所以两者不会叠加。手机没有悬停，所以这层填充表示菜单作用于哪条消息；它比 `info-soft` 浅，所以消息看起来不像被选中。
 - 悬停工具栏在悬停时、焦点在行内时，以及它的某个弹出层打开时出现。它骑在高亮的上边缘，靠右。
 - 悬停只增加信息，从不拿走信息。悬停在一条消息上，正是人想了解它的时候，所以工具栏出现在空白处，而不是盖住原来的内容。

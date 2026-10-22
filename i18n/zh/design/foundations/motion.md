@@ -1,7 +1,7 @@
 ---
 title: 动效
 summary: 按下、悬停、滑入和头像变化的时长与缓动，以及状态从不循环播放动画这条规则。
-sourceHash: ceb4850f
+sourceHash: 0cfb867d
 ---
 
 # 动效
@@ -27,6 +27,7 @@ Raft 里的动效用来确认一个操作，或者说明某样东西从哪里来
 | 手机上推入或返回一个页面 | 用平台默认的转场，手机网页、iOS 和 Android 都一样（[导航](../patterns/navigation.md#what-each-platform-draws)） | 平台默认 |
 | 键盘收起时标签栏重新出现 | 用平台默认的转场，不要瞬间跳出（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#behavior)）。页面滚动时标签栏不动 | 平台默认 |
 | 有人加入或离开头像组 | 头像向两侧滑开并淡入或淡出，使用 `ease-slide` | 180ms 到 220ms |
+| 跳转到达的那一项（被定位） | 立即显示 `info-soft`，保持 1.2 秒，再用 `ease-out` 淡出；开启减少动态效果时静止保持 2 秒后直接消失（[被定位](./states.md#located)） | 共 2 秒 |
 | 文字和数字变化 | 直接替换文字。不要做数字滚动 | 无 |
 | 品牌时刻（仅限初始设置） | 只播放一次，从不循环：在初始设置的最后一步，agent 的头像跳入，旁边弹出两个方形标记后淡出；在创建服务器的页面上，预览中的工作空间按钮在名称改变时弹一下 | 580ms；180ms |
 
