@@ -1,7 +1,7 @@
 ---
 title: Raft 设计系统
 summary: 所有 Raft 产品共用的设计语言：Raft 为什么长这样，怎样设计一个新功能，以及搭建它的组件。
-sourceHash: b259248a
+sourceHash: 75e1a7c6
 ---
 
 # Raft 设计系统

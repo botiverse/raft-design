@@ -1,7 +1,7 @@
 ---
 title: 动效
 summary: 按下、悬停、滑入和头像变化的时长与缓动，以及状态从不循环播放动画这条规则。
-sourceHash: 7e96155b
+sourceHash: ceb4850f
 ---
 
 # 动效

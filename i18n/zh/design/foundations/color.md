@@ -1,7 +1,7 @@
 ---
 title: 颜色
 summary: 表面、文字、线和角色的颜色，每种颜色的含义，以及它们保证的对比度。
-sourceHash: 181dba4b
+sourceHash: e862f9fb
 ---
 
 # 颜色

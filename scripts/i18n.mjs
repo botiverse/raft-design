@@ -87,8 +87,8 @@ for (const file of translations) {
     errors.push(`${name}: ${englishPath} does not exist; move or delete the translation`);
     continue;
   }
-  const english = readFileSync(englishFile, "utf8");
-  let source = readFileSync(file, "utf8");
+  const english = readFileSync(englishFile, "utf8").replace(/\r\n/g, "\n");
+  let source = readFileSync(file, "utf8").replace(/\r\n/g, "\n");
   const front = splitFrontMatter(source);
   const englishHeadings = headingsOf(english.split("\n"));
   let lines = source.split("\n");

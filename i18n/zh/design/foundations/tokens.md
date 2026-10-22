@@ -1,7 +1,7 @@
 ---
 title: Token
 summary: 每组 token 及其在两种模式下的值，token 名怎么构成，tokens.json 放在哪里、foundation.css 如何由它生成，以及如何迁移弃用的名称。
-sourceHash: 9ab8726d
+sourceHash: 7e65b0af
 ---
 
 # Token

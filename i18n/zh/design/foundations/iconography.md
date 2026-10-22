@@ -1,7 +1,7 @@
 ---
 title: 图标
 summary: 图标集、描边和颜色、各场景的图标尺寸，以及哪些东西不是图标。
-sourceHash: 393d4dd4
+sourceHash: e4cfe33a
 ---
 
 # 图标

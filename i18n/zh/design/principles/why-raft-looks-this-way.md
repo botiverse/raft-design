@@ -1,7 +1,7 @@
 ---
 title: 为什么 Raft 长这样
 summary: Raft 的外观从哪里来，产品为什么为了整天使用把品牌调低，每个界面由哪些材料构成，以及整条产品线「一个调性」意味着什么。
-sourceHash: cdb6fc58
+sourceHash: 1b119788
 ---
 
 # 为什么 Raft 长这样

@@ -1,7 +1,7 @@
 ---
 title: 深色模式
 summary: 深色模式下什么会变、什么不变，以及每张贴纸都会加上的模切边。
-sourceHash: 82f6c004
+sourceHash: 17002f66
 ---
 
 # 深色模式

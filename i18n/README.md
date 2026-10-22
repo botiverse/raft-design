@@ -19,7 +19,7 @@ The site serves the English page at its usual URL and the translation under the 
 
 ## Keeping translations current
 
-`sourceHash` is a hash of the English page the translation was made from: its text without the front matter, with whitespace normalized. `node scripts/i18n.mjs sync` writes it for a new translation. When the English text changes afterwards, the hashes stop matching:
+`sourceHash` is a hash of the English page the translation was made from: its text without the front matter, with every run of whitespace read as one space (so rewrapping a paragraph doesn't count as a change). `node scripts/i18n.mjs sync` writes it for a new translation. When the English text changes afterwards, the hashes stop matching:
 
 - `node scripts/i18n.mjs check` (CI, and `pnpm check:docs`) fails, so a pull request that changes an English page brings its translations up to date too. After updating a translation, run `node scripts/i18n.mjs sync --mark <path>` to record that it matches again.
 - Should a stale translation reach the site anyway, the translated page shows a note that the English page has changed, with a link to it.
