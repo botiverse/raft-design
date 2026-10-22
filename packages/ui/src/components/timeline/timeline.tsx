@@ -24,7 +24,7 @@ export interface TimelineProps extends ComponentPropsWithRef<"ol"> {
   itemPlacement?: TimelineItemPlacement;
   /** Lays the items out in a row instead of a column. */
   horizontal?: boolean;
-  /** Marker size in px. Defaults to 9px for the marker and 14px for an `icon`. */
+  /** Marker size in px. Defaults to 10px for the marker and 14px for an `icon`. */
   iconSize?: number;
 }
 

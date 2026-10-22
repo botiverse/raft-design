@@ -138,7 +138,7 @@ const CHIPS: Case[] = [
   },
   {
     kind: "task",
-    mark: 9,
+    mark: 10,
     chip: (
       <TaskChip variant="inline" status="in-progress">
         <TaskStatusIcon status="in-progress" />
@@ -254,11 +254,14 @@ for (const [name, width, line] of [
         `${kind} mark centre`,
       ).toBeLessThanOrEqual(0.5);
     }
-    // The task's status pixel keeps its own 9px box, with no slot around it.
+    // The task's status pixel keeps its own 10px box, with no slot around it,
+    // and being even in an even chip it lands on a whole pixel.
     const pixel = chipOf("task").querySelector(":scope > svg")!;
-    expect([pixel.getBoundingClientRect().width, pixel.getBoundingClientRect().height]).toEqual([
-      9, 9,
-    ]);
+    const px = pixel.getBoundingClientRect();
+    expect([px.width, px.height]).toEqual([10, 10]);
+    expect(px.top - chipOf("task").getBoundingClientRect().top).toBe(
+      (chipOf("task").getBoundingClientRect().height - 10) / 2,
+    );
     expect(getComputedStyle(pixel).marginLeft).toBe("0px");
     expect(getComputedStyle(pixel).marginRight).toBe("0px");
   });

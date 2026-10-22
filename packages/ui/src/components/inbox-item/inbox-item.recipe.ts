@@ -64,7 +64,7 @@ export const inboxItem = tv({
       "flex shrink-0",
       "mt-0 flex-col items-end gap-2 pt-px",
       "max-md:flex-col max-md:items-end max-md:gap-2",
-      "after:hidden after:size-[9px] after:shrink-0 after:rounded-[2px] after:border-[1.5px] after:border-sticker-ink after:bg-attention-400",
+      "after:hidden after:size-2.5 after:shrink-0 after:rounded-[2px] after:border-[1.5px] after:border-sticker-ink after:bg-attention-400",
       "group-data-[unread=true]/inbox-item:after:block",
       "*:not-data-[reveal=hover]:opacity-[calc(1-var(--inbox-item-reveal-aside,0)*var(--inbox-item-revealed,0))] after:opacity-[calc(1-var(--inbox-item-reveal-aside,0)*var(--inbox-item-revealed,0))]",
       "*:not-data-[reveal=hover]:mr-(--inbox-item-aside-room,0px) after:mr-(--inbox-item-aside-room,0px)",

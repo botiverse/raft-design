@@ -28,7 +28,7 @@ export const messageActionCard = tv({
     status: [
       "inline-flex h-auto items-center gap-1.5 rounded-none border-0 bg-transparent p-0 shadow-none",
       "text-caption font-semibold text-foreground-muted",
-      "before:size-[9px] before:shrink-0 before:rounded-[2px] before:border-[1.5px] before:border-sticker-ink before:content-['']",
+      "before:size-2.5 before:shrink-0 before:rounded-[2px] before:border-[1.5px] before:border-sticker-ink before:content-['']",
     ],
     collapseTrigger: [
       "flex shrink-0 cursor-pointer items-center justify-center",

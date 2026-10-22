@@ -46,7 +46,7 @@ const status = tv({
     size: {
       xs: { root: "size-1.5 rounded-[1px] border" },
       sm: { root: "size-2" },
-      md: { root: "size-[9px]" },
+      md: { root: "size-2.5" },
       lg: { root: "size-[11px]" },
     },
   },

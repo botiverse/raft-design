@@ -19,7 +19,7 @@ const taskChip = tv({
       "focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-offset-2 focus-visible:keyboard:outline-line-strong",
       "border-0",
       "font-sans font-semibold text-foreground",
-      "[&>svg:not([data-slot=task-status-icon])]:-mx-0.5 [&>svg[data-slot=task-status-icon]]:size-[9px]",
+      "[&>svg:not([data-slot=task-status-icon])]:-mx-0.5 [&>svg[data-slot=task-status-icon]]:size-2.5",
       "[a,button]:cursor-pointer [a,button]:hover:overlay-medium [a,button]:active:overlay-medium",
       "focus-visible:outline-none focus-visible:shadow-focus",
     ],
@@ -48,7 +48,7 @@ const taskChip = tv({
   compoundVariants: [
     // Inline (in a message) is an inline chip, the box a reference chip has
     // (lib/inline-chip.ts, message-item.md, Chips in running text). The status
-    // pixel keeps its own 9px box: it is drawn to its edges, so the chip takes
+    // pixel keeps its own 10px box: it is drawn to its edges, so the chip takes
     // 4.5px at each end and 4px from the pixel to the text, and the ink at both
     // ends sits equally far in (alignment.md, Chips). Its colours are the task
     // chip's own: the per-status tint above applies.
