@@ -2,11 +2,13 @@ export { MessageList } from "./message-list";
 export type { MessageListProps } from "./message-list";
 export {
   MessageListDateDivider,
+  MessageListEndFade,
   MessageListHistoryLimited,
   MessageListNotice,
 } from "./message-list-markers";
 export type {
   MessageListDateDividerProps,
+  MessageListEndFadeProps,
   MessageListHistoryLimitedProps,
   MessageListNoticeProps,
 } from "./message-list-markers";

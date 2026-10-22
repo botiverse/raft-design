@@ -30,7 +30,11 @@ import {
 import { Composer, ComposerInput } from "../composer/composer";
 import { ComposerRoot } from "../composer/composer-root";
 import { MessageList } from "./message-list";
-import { MessageListDateDivider, MessageListNotice } from "./message-list-markers";
+import {
+  MessageListDateDivider,
+  MessageListEndFade,
+  MessageListNotice,
+} from "./message-list-markers";
 
 // The timeline rhythm (design/foundations/spacing.md#timeline-rhythm),
 // measured text to text: 8px between the rows of a turn, 16px between turns (a sender line, an event line),
@@ -207,6 +211,7 @@ it("in a conversation panel, the composer's frame sits 24px under the last line"
               <PanelTurn id="p" />
               <div className="pb-timeline-end" />
             </MessageList>
+            <MessageListEndFade data-testid="panel-fade" />
           </ConversationPanelBody>
           <ConversationPanelFooter>
             <ComposerRoot>
@@ -221,6 +226,15 @@ it("in a conversation panel, the composer's frame sits 24px under the last line"
   );
   const frame = screen.getByTestId("panel-composer").getBoundingClientRect().top;
   expectGap("last line -> composer frame", frame - lineBox("bottom-p").bottom, 24);
+  // The end fade lies over the list's bottom edge, a section step tall, and
+  // takes no pointer events.
+  const fade = screen.getByTestId("panel-fade");
+  const fadeBox = fade.getBoundingClientRect();
+  const listBox = fade.parentElement!.getBoundingClientRect();
+  expectGap("end fade bottom -> list bottom", listBox.bottom - fadeBox.bottom, 0);
+  expectGap("end fade height", fadeBox.height, 24);
+  expect(getComputedStyle(fade).pointerEvents).toBe("none");
+  expect(getComputedStyle(fade).backgroundImage).toContain("linear-gradient");
 });
 
 it("in a thread panel, the root's rule sits 24px from the text on both sides", async () => {

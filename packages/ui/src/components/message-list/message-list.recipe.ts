@@ -3,6 +3,11 @@ import { tv } from "../../lib/tv";
 // The date line sits a section step (24px) from the text on both sides,
 // measured to its rule: its padding gives back the row inset of the row above
 // and the lead of the turn below (design/foundations/spacing.md#timeline-rhythm).
+// The end fade lies over the list's bottom edge, beside the list in its
+// positioned parent: the panel's colour fades to transparent upward over the
+// section step, so a message scrolled under the edge softens instead of being
+// cut, and over the empty end of the list it shows nothing. Under the jump
+// controls (z-10) and the line of who is about to post.
 // The notice is a row of its own: a row's lead above it, the row inset under
 // it.
 export const messageList = tv({
@@ -20,6 +25,11 @@ export const messageList = tv({
     dateDividerChip: [
       "inline-flex items-center",
       "font-mono text-mono-meta whitespace-nowrap text-foreground-hint",
+    ],
+    endFade: [
+      "pointer-events-none absolute inset-x-0 bottom-0 z-5",
+      "h-timeline-section",
+      "bg-linear-to-t from-layer-canvas to-transparent",
     ],
     notice: ["text-center", "pt-timeline-lead pb-timeline-row font-mono text-mono-meta"],
     historyLimited: [
