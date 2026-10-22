@@ -72,6 +72,19 @@ banner/compositions/close
 - Use `status="warning"` when something goes wrong; `destructive` is only for consequences that cannot be undone ([Color](../../../../../design/foundations/color.md#meanings-of-color)).
 - raft-ui also has a neutral `status="default"` on `fill-muted`. The system's banners always state an intent, so prefer one of the four above.
 
+### Sizes
+
+`size` sets the padding and the icon, never the type: a banner's title and description are `text-callout` at every size, 14/20 on a phone and 14/22 on a desktop ([Typography](../../../../../design/foundations/typography.md#type-scale)).
+
+| Size                  | Padding (top and bottom × sides) | Icon                       |
+| --------------------- | -------------------------------- | -------------------------- |
+| `size="sm"`           | 8px × 12px                       | 16px, 8px before the text  |
+| `size="md"` (default) | 12px × 14px                      | 20px, 10px before the text |
+| `size="lg"`           | 14px × 16px                      | 20px, 10px before the text |
+
+- A banner's text is never smaller than its button's label. The text and the button sit side by side, and a banner's button has one size, the 32px button, whose label is `text-control` (14px on a desktop, 13px on a phone). Text smaller than that label makes the button look too big for its banner, so a `sm` banner tightens only its padding and its icon, never its text.
+- A `sm` banner with a button keeps the button 4px from its top and bottom edges, centered on the last line of text, so the text has (32px − one line) / 2 + 4px above and below it.
+
 ## Content
 
 - Say what is happening now and what to do next ([Writing](../../../../../design/content/writing.md), [Feedback](../../../../../design/patterns/feedback.md#errors-by-scope)).
@@ -89,8 +102,8 @@ banner/compositions/close
 ## Rules
 
 - Show at most one banner in one place.
-- Give at most one button, plus Dismiss before it when the banner can be dismissed, and only when there is a way out: a 32px ink-bordered button (`variant="default" size="sm"`). Never a pink button: a banner is not the screen's primary action.
-- Put the button in `BannerAction`, at the bottom right, so it comes after what it acts on and ends where the eye ends, as a dialog's commit button does. A banner that can be dismissed and has a button puts Dismiss (`variant="ghost" size="sm"`) just before the button, in the same `BannerAction`.
+- Give at most one button, plus Dismiss before it when the banner can be dismissed, and only when there is a way out: a 32px ink-bordered button (`variant="default" size="md"`). Never a pink button: a banner is not the screen's primary action.
+- Put the button in `BannerAction`, at the bottom right, so it comes after what it acts on and ends where the eye ends, as a dialog's commit button does. A banner that can be dismissed and has a button puts Dismiss (`variant="ghost" size="md"`) just before the button, in the same `BannerAction`.
 - Use `BannerClose` only on a banner with no button, and never put a × in `BannerAction`, where it reads as one of the actions.
 - Don't add an ink border. A banner is a soft tint, not a sticker ([Color](../../../../../design/foundations/color.md#soft-tints)); its edge is the container radius and a hairline.
 

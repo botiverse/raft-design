@@ -61,7 +61,7 @@ const banner = tv({
     size: {
       sm: {
         root: [
-          "gap-x-2 px-3 py-2 text-footnote",
+          "gap-x-2 px-3 py-2",
           "has-[>svg]:grid-cols-[16px_minmax(0,1fr)] has-[>[data-slot=spinner]]:grid-cols-[16px_minmax(0,1fr)]",
           "[&>svg]:mt-[calc((1lh-16px)/2)] [&>svg]:size-4",
         ],

@@ -1,5 +1,5 @@
 import "./banner.test.css";
-import { afterEach, expect, test, vi } from "vite-plus/test";
+import { afterAll, afterEach, expect, test, vi } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Banner, BannerAction, BannerClose, BannerDescription, BannerTitle } from "./banner";
@@ -382,3 +382,102 @@ it("600px sm: a 32px button beside the line keeps clear of the banner's edges", 
   expect(main.top - banner.top).toBeGreaterThanOrEqual(4);
   expect(banner.bottom - main.bottom).toBeGreaterThanOrEqual(4);
 });
+
+// --- type: a banner's text is never smaller than its button's label, at every size ---
+
+async function device(width: number, pointer: "fine" | "coarse") {
+  const { cdp, page } = await import("vite-plus/test/browser/context");
+  await page.viewport(width, 900);
+  // Turning touch emulation off leaves no fine pointer, so the desktop cases
+  // run first and never turn it on.
+  if (pointer === "coarse") {
+    await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 1 });
+  }
+  await cdp().send("Emulation.setEmulatedMedia", {
+    features: [{ name: "pointer", value: pointer }],
+  });
+  await expect.poll(() => matchMedia("(pointer: fine)").matches).toBe(pointer === "fine");
+}
+
+afterAll(async () => {
+  if (typeof window === "undefined") return;
+  const { cdp, page } = await import("vite-plus/test/browser/context");
+  await page.viewport(414, 896);
+  await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: false });
+  await cdp().send("Emulation.setEmulatedMedia", { features: [] });
+});
+
+function fontSize(el: Element): number {
+  return Number.parseFloat(getComputedStyle(el).fontSize);
+}
+
+for (const [name, width, pointer] of [
+  ["desktop", 1280, "fine"],
+  ["phone", 390, "coarse"],
+] as const) {
+  for (const size of ["sm", "md", "lg"] as const) {
+    it(`${name} ${size}: the text is the size of the 32px button's label or larger, the same as md`, async () => {
+      await device(width, pointer);
+      render(
+        <ThemeProvider>
+          <div style={{ width: "360px" }}>
+            <Banner status="warning" size={size} data-testid="banner">
+              <svg />
+              <BannerTitle data-testid="title">Notifications are off</BannerTitle>
+              <BannerDescription data-testid="desc">
+                Turn them on to hear about replies.
+              </BannerDescription>
+              <BannerAction>
+                <Button variant="default" size="md" data-testid="main">
+                  Turn On
+                </Button>
+              </BannerAction>
+            </Banner>
+            <Banner status="warning" size="md" data-testid="md">
+              <BannerDescription data-testid="md-desc">Turn them on.</BannerDescription>
+            </Banner>
+          </div>
+        </ThemeProvider>,
+      );
+      const label = fontSize(screen.getByTestId("main"));
+      for (const id of ["desc", "title"]) {
+        const text = fontSize(screen.getByTestId(id));
+        expect(text).toBeGreaterThanOrEqual(label);
+        expect(text).toBe(fontSize(screen.getByTestId("md-desc")));
+        expect(lineHeight(screen.getByTestId(id))).toBe(lineHeight(screen.getByTestId("md-desc")));
+      }
+      // On a desktop the label is 14px, the size of the text beside it.
+      if (pointer === "fine") expect(fontSize(screen.getByTestId("desc"))).toBe(label);
+    });
+  }
+
+  it(`${name} sm: a 32px button beside the line centers on it, as far from the top as from the bottom`, async () => {
+    await device(width, pointer);
+    render(
+      <ThemeProvider>
+        <div style={{ width: "600px" }}>
+          <Banner status="warning" size="sm" data-testid="banner">
+            <svg />
+            <BannerDescription data-testid="desc">Couldn&rsquo;t load tasks.</BannerDescription>
+            <BannerAction data-testid="action">
+              <Button variant="default" size="md" data-testid="main">
+                Retry
+              </Button>
+            </BannerAction>
+          </Banner>
+        </div>
+      </ThemeProvider>,
+    );
+    const banner = screen.getByTestId("banner").getBoundingClientRect();
+    const main = screen.getByTestId("main").getBoundingClientRect();
+    const desc = screen.getByTestId("desc");
+    expect(main.left).toBeGreaterThan(desc.getBoundingClientRect().right);
+    expect(
+      Math.abs(centerY(screen.getByTestId("main")) - lastLineCenter(desc)),
+    ).toBeLessThanOrEqual(0.5);
+    expect(Math.abs(main.top - banner.top - (banner.bottom - main.bottom))).toBeLessThanOrEqual(
+      0.5,
+    );
+    expect(main.top - banner.top).toBeGreaterThanOrEqual(4);
+  });
+}
