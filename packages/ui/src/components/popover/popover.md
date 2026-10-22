@@ -18,6 +18,7 @@ A popover is a small panel that opens next to the element people click and holds
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | One sentence about something, on hover                  | [Tooltip](../tooltip/tooltip.md)                                                                       |
 | A summary of a person or an agent, on hover, with links | [PreviewCard](../preview-card/preview-card.md)                                                         |
+| The details of an item an app links to, on hover        | An item card ([PreviewCard](../preview-card/preview-card.md#item-card))                                |
 | A little choice or input, on click (snooze, rename)     | Popover, with a [RadioGroup](../radio-group/radio-group.md), an [Input](../input/input.md) and buttons |
 | A list of actions                                       | [DropdownMenu](../dropdown-menu/dropdown-menu.md)                                                      |
 | Something that stays open and scrolls                   | [Drawer](../drawer/drawer.md)                                                                          |

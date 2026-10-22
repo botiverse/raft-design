@@ -53,7 +53,7 @@ message-item/compositions/item-preview
 - `MessageItemBody`: the text, in `text-body`. Required.
 - `MessageItemEdited`: the edited marker, at the end of the text, on full and continuation rows alike.
 - `MessageItemAttachments`: files and images ([MessageAttachment](../message-attachment/message-attachment.md)).
-- `MessageItemEmbedded`: code blocks, action cards and link cards.
+- `MessageItemEmbedded`: code blocks, action cards and link cards. A link an app previews is not a card: it is a chip in the text ([App links](#app-links)).
 - `MessageItemFooter`: one row: the task marker, then the reactions (`MessageReactionChip`, with `MessageReactionAddButton` last), then the saved and read markers (`MessageItemSavedIndicator`, `MessageItemReadReceipt`).
 - `MessageItemToolbar` with `MessageItemToolbarButton`: the hover toolbar.
 - `MessageMultiSelectCheckbox` and `MessageMultiSelectToolbar`, with its actions in `MessageMultiSelectToolbarActions` (28px buttons 4px apart; on a touch screen each takes a 44px tap, and reaches only half the gap toward its neighbour, so a tap between two lands on the nearer): selecting several messages ([Built from existing parts](../../../../../design/components/overview.md#toolbar-for-selected-messages)).
@@ -66,6 +66,7 @@ message-item/compositions/item-preview
 | A mention of someone else                      | `MessageReferenceText`                                             | Ink, bold, underlined in ink on hover ([Conversation](../../../../../design/patterns/conversation.md#mentions))                                                           |
 | A mention of the person reading; a search hit  | `MessageReferenceText variant="primary"`; `MessageItemSearchMatch` | A small yellow sticker                                                                                                                                                    |
 | A reference chip                               | `MessageReferenceChip`                                             | `variant="accent"` for a channel or direct message, `variant="info"` for a thread or message ([Navigation](../../../../../design/patterns/navigation.md#going-somewhere)) |
+| A link an app previews                         | `MessageReferenceChip variant="info" capped`                       | A cyan chip with the app's icon and its title ([App links](#app-links))                                                                                                   |
 | A reference that is loading or can't be opened | `MessageReferencePending`, `MessageReferenceUnavailable`           | A gray chip on `inactive-soft`                                                                                                                                            |
 | A note after a reference chip's label          | `MessageReferenceSuffix`                                           | Muted Space Mono, such as `msg` on a link to a message                                                                                                                    |
 | A web link                                     | Markdown link                                                      | `foreground-link`, underlined at rest ([Markdown](../markdown/markdown.md))                                                                                               |
@@ -91,7 +92,7 @@ The marks in a message's text are of two kinds:
 | Height       | The body line less 2px: the line box of the chip's text, with no padding above or below                                                                                                    | 20px                 | 22px                |
 | Alignment    | The chip's words on the sentence's baseline, a leading mark centered on the chip ([Marks in running text](../../../../../design/foundations/alignment.md#marks-in-running-text))           | The line stays 22px  | The line stays 24px |
 | Sides        | 6px at each end; 4.5px at each end with a leading mark ([Alignment](../../../../../design/foundations/alignment.md#chips): ink equally far in at both ends), the mark then 4px to the text | 6px, or 4.5px        | 6px, or 4.5px       |
-| Leading mark | A 14px icon, the loading spinner or a task's 9px status pixel, each in its own box, centered on the chip                                                                                   | 14px, 9.5px or 9px   | 14px, 9.5px or 9px  |
+| Leading mark | A 14px icon (an svg, or an app's image in `MessageReferenceIcon`), the loading spinner or a task's 9px status pixel, each in its own box, centered on the chip                             | 14px, 9.5px or 9px   | 14px, 9.5px or 9px  |
 | Note         | A note after the label (`MessageReferenceSuffix`), 4px after it                                                                                                                            | 4px                  | 4px                 |
 | Corners      | `radius-sticker`                                                                                                                                                                           | 4px                  | 4px                 |
 
@@ -102,6 +103,26 @@ The chip's type is a share of the sentence's and its height a step below the sen
 - Inline code isn't a chip: it is code, not a reference, and keeps its own box ([InlineCode](../inline-code/inline-code.md)), 20px on a desktop and 23px on a phone, never taller than the line.
 
 In raft-ui the three components take the box from one recipe (`lib/inline-chip.ts`).
+
+### App links
+
+A link that an app previews is a reference chip in the sentence, with the app's icon and the app's own title. Why it is a chip and not a card, and its loading and hover behavior, are in [Navigation](../../../../../design/patterns/navigation.md#app-links).
+
+- `MessageReferenceChip variant="info" capped`, rendered as a link that opens in a new tab: `render={<a href="…" target="_blank" rel="noopener noreferrer" />}`.
+- `MessageReferenceIcon`: the app's registered icon, an `<img alt="">` served by Raft, first in the chip. It is 14px, centered on the chip, with 2px corners. It is a leading mark of the chip box ([Chips in running text](#chips-in-running-text)): 4.5px at each end, 4px to the label. The image is drawn to its edges, so it takes the same 4.5px as a status pixel, and its ink is as far from the chip's start as the last letter's from its end. Use it for any image or other non-svg icon: an `<img>` placed straight in the chip has no size of its own and sits on the text's baseline. Experimental, exported from `@botiverse/raft-ui/wip`.
+- `MessageReferenceLabel`: the app's `title`, as sent. Put it in the label, not straight in the chip: only the label truncates.
+- `capped` stops the chip at `min(100%, 24em)`, and the label truncates at the end. 24em of the chip's text is 294px on a desktop and 336px on a phone. In a 700px desktop message column, two full-length chips and a few words between them share a line, and three with shorter titles; on a 390px phone the line is narrower than 24em, so a long title takes one line of its own and never wraps inside the chip. Without `capped` a chip is as wide as its line, as before.
+- No state: the icon is always the app's, in its own colors, and the chip is always cyan.
+
+```example
+message-reference/compositions/app-links
+```
+
+While the preview loads, the link is `MessageReferencePending capped` with a `link` icon and the address shortened to its host and path. It has the same lead, icon size and cap as the chip that replaces it, so only the icon and the words change.
+
+```example
+message-reference/compositions/app-link-pending
+```
 
 ## Variants
 
@@ -220,7 +241,8 @@ message-item/compositions/reactions
 - Put the reason a reaction failed in `MessageReactionErrorIndicator`, a visually hidden `role="status"`.
 - `MessageTextSelectionToolbar` wraps Base UI `Toolbar`; give it an `aria-label`.
 - Give `MessageMultiSelectCheckbox` a label that names the message, such as "Select message from Bugen".
-- Render a reference chip that opens something as a link, through `render`; the chip is a `span` by default.
+- Render a reference chip that opens something as a link, through `render`; the chip is a `span` by default. An app link opens in a new tab, with `rel="noopener noreferrer"`.
+- Give an app's icon in `MessageReferenceIcon` an empty `alt`: the title beside it names the link.
 - Give the avatar image an empty `alt`: the name beside it already says who it is.
 - `MessageItemDelegatedAvatar` is `aria-hidden`: "sent by Friday" is plain text in the header, read in its order (name, role, "sent by Friday", time). When a product names the whole row (`aria-label`), it uses the same words. `MessageItemDelegatedByButton` is a `<button>`; render it as a link through `render` when it goes to a profile page.
 - Give `MessageItemTime` and `MessageItemContinuationTime` the moment in `dateTime` (ISO 8601), and the full date and time in a tooltip. A screen reader reads the header in the order it shows: name, badges, role, time.
