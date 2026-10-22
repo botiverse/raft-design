@@ -387,7 +387,7 @@
   {
     "name": "DialogCommit",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The dialog's one commit button: a `Button`, written where it goes on a desktop (the end of `DialogFooter`). In a `DialogSheetContent` below 768px it is drawn at the end of the sheet's head instead, the same button (color, words, disabled and loading state) at `size=\"sm\"`. In a flow of steps, write each step's button as one (Next, then the last step's action).",
+    "description": "The dialog's one commit button: a `Button`, written where it goes on a desktop (the end of `DialogFooter`). In a `DialogSheetContent` below 768px it is drawn at the end of the sheet's head instead, the same button (color, words, disabled and loading state) at `size=\"md\"`. In a flow of steps, write each step's button as one (Next, then the last step's action).",
     "native": true,
     "props": [
       {
@@ -404,9 +404,10 @@
       },
       {
         "name": "size",
-        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"icon-xs\" | \"icon-sm\" | \"icon-md\" | \"icon-lg\"",
+        "type": "\"md\" | \"lg\" | \"xl\" | \"icon-md\" | \"icon-lg\" | DeprecatedButtonSize",
         "required": false,
         "default": "\"md\"",
+        "description": "`md` (32px) and `icon-md` for rows, cards, banners, toolbars and panel headers; `lg` and `icon-lg` (the control height) for dialog footers, forms and beside a field; `xl` for a full-width call to action. The size follows the place: see Button › Size by place.",
         "from": "raft-ui"
       },
       {
@@ -443,7 +444,7 @@
   {
     "name": "DialogSheetBack",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "Back, in a later step of a flow drawn as a phone sheet: it takes the head's start, where × is on the first step. Put it in `DialogHeader` beside the `DialogClose`; it draws nothing outside a sheet, where Back stays in the footer.",
+    "description": "Back, in a later step of a flow drawn as a phone sheet: it takes the head's start in place of × (stdrc, 2026-10-22). The sheet is a stack of steps, and Back undoes one, as on a pushed page; Esc still closes. Put it in `DialogHeader` beside the `DialogClose`, from the second step on; it draws nothing outside a sheet, where Back stays in the footer. Its icon is `arrow-left`, as every Back (Alignment, \"The ends of a header\").",
     "native": true,
     "props": [
       {

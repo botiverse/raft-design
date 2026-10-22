@@ -131,8 +131,8 @@ it("has a pushed page's head: × at the start, the title, the commit button at t
   const icon = close.querySelector("svg") as SVGElement;
   expect(Math.round(icon.getBoundingClientRect().left)).toBe(16);
   expect(Math.round(commitBox.right)).toBe(390 - 16);
-  // The commit button is the footer's at size sm.
-  expect(commitBox.height).toBeLessThan(40);
+  // The commit button is the footer's at size md, 32px.
+  expect(commitBox.height).toBe(32);
 });
 
 it("has no footer: × is Cancel", async () => {
@@ -335,6 +335,10 @@ it("moves Next, then the last step's action, into the head of a flow of steps", 
   const backButton = screen.getByRole("button", { name: "Back" });
   expect(head.firstElementChild).toBe(backButton);
   expect(screen.queryByRole("button", { name: "Close" })).toBeNull();
+  // Back is an arrow, its icon box on the 16px margin where ×'s was.
+  const backIcon = backButton.querySelector("svg") as SVGElement;
+  expect(backIcon.classList.contains("lucide-arrow-left")).toBe(true);
+  expect(Math.round(backIcon.getBoundingClientRect().left)).toBe(16);
   backButton.click();
   await settle();
   expect(head.contains(screen.getByRole("button", { name: "Next" }))).toBe(true);

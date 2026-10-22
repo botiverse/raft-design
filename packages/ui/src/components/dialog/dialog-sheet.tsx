@@ -97,7 +97,7 @@ export type DialogCommitProps = ButtonProps;
  * The dialog's one commit button: a `Button`, written where it goes on a
  * desktop (the end of `DialogFooter`). In a `DialogSheetContent` below 768px
  * it is drawn at the end of the sheet's head instead, the same button (color,
- * words, disabled and loading state) at `size="sm"`. In a flow of steps, write
+ * words, disabled and loading state) at `size="md"`. In a flow of steps, write
  * each step's button as one (Next, then the last step's action).
  *
  * A submit button stays its form's default button in the head: it is tied to
@@ -135,7 +135,7 @@ export function DialogCommit({ size, form, onClick, ...props }: DialogCommitProp
     <>
       <span ref={anchorRef} hidden />
       {createPortal(
-        <Button size="sm" form={linkedForm} onClick={handleClick} {...props} />,
+        <Button size="md" form={linkedForm} onClick={handleClick} {...props} />,
         commitSlot,
       )}
     </>

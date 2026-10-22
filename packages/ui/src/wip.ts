@@ -73,7 +73,7 @@ export { DropdownMenuLinkItem } from "./components/dropdown-menu/dropdown-menu";
 export type { DropdownMenuLinkItemProps } from "./components/dropdown-menu/dropdown-menu";
 
 // Dialog's phone presentation (dialog.md, "On a phone"): a sheet below 768px
-// with a pushed page's head, until stdrc approves the parts.
+// with a pushed page's head, until Raft Chat has moved its sheets onto them.
 export { DialogCommit, DialogSheetBack, DialogSheetContent } from "./components/dialog/index";
 export type {
   DialogCommitProps,

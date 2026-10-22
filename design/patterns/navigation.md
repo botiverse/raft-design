@@ -97,6 +97,7 @@ On desktop, people can hide the sidebar to give the main area the whole width, a
 ### Closing
 
 - Give a dialog a × at its top right. Esc closes it too.
+- On a phone, a dialog drawn as a sheet has its × at the top left, where a pushed page has Back. From the second step of a flow on, Back takes that place and the × goes: the sheet is a stack of steps, and Back undoes one ([Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)).
 - Close a menu, a popover or a drawer with Esc or a press outside it. A drawer on a phone has Back instead.
 - Give a desktop side panel a × while it sits beside the main area, and Back when it covers it: what covers the page behaves like a pushed page.
 - Give a full-screen page only Back.

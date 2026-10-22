@@ -74,7 +74,7 @@ The large form dialog uses `bar` on `DialogHeader`, `DialogBody` and `DialogFoot
 ## Behavior
 
 - A centered dialog appears and disappears without animation, always over the scrim ([Motion](../../../../../design/foundations/motion.md#usage)). On a phone a dialog with fields is a sheet that slides up instead ([On a phone](#on-a-phone)).
-- Esc, × and Cancel close a dialog. A click on the scrim closes a small dialog.
+- Esc, × and Cancel close a dialog. A click on the scrim closes a small dialog, except one drawn as a sheet on a phone ([On a phone](#on-a-phone)).
 - Don't close a large form dialog on a click outside it: pass `disablePointerDismissal` on `Dialog`, so a half-filled form isn't lost to a stray click.
 - A centered dialog on a narrow screen keeps a 16px margin on each side and never grows taller than the window less 32px.
 - Below 768px the wide dialog hides `DialogNav` and the sections follow one another.
@@ -95,7 +95,8 @@ Below 768px a dialog stays centered unless it has several fields, a long list or
 The sheet:
 
 - Rises from the bottom over the scrim, with `radius-dialog` on its top corners. The strip of page left above it shows that it is a layer over the page, not a new page.
-- Its head is a pushed page's head ([Navigation](../../../../../design/patterns/navigation.md)): × at the start, the title, and the dialog's one commit button at the end, at size `md` with the same color and words as on a desktop. It has no footer: × is Cancel. In a flow of steps the button at the end is the step's (Next, then the last step's action), and × still closes.
+- Its head is a pushed page's head ([Navigation](../../../../../design/patterns/navigation.md)): × at the start, the title, and the dialog's one commit button at the end, at size `md` with the same color and words as on a desktop. It has no footer: × is Cancel. In a flow of steps the button at the end is the step's (Next, then the last step's action).
+- From the second step of a flow on, Back takes the place of × at the start of the head, with no × beside it (stdrc, 2026-10-22): the sheet is a stack of steps, and Back undoes one, as on a pushed page. Esc still closes the sheet from any step; on a touch screen, people go Back to the first step and close it with ×.
 - The body scrolls under the head and keeps the phone's 16px margin and the home indicator's inset at the bottom.
 - × and Esc close it. A tap on the scrim doesn't, so a half-filled form isn't lost to a stray tap, as with a large form dialog on a desktop. When something has been typed, ask before closing ([Asking before closing](#asking-before-closing)).
 - Dragging the sheet down to close it is planned, for when the sheet moves onto Drawer's drag.
@@ -109,7 +110,7 @@ Write the dialog as it is on a desktop and swap `DialogContent` for `DialogSheet
 
 - `DialogHeader` becomes the pushed page's head: its `DialogClose` goes first, as the head's ×, and its `DialogTitle` follows. Give the header a `DialogClose` as a direct child: it is the only way out of the sheet. One wrapped in a Tooltip, a Fragment or a component of your own isn't found and stays after the title; in development the head warns about it in the console.
 - The head has room for one line, the title. A `DialogDescription` goes at the top of `DialogBody` in a sheet dialog, not in `DialogHeader`.
-- `DialogCommit` moves to the end of the head at `size="sm"`, with the same variant, words, disabled and loading state. A `type="submit"` button stays its form's default button: it is tied to the form it was written in by the form's `id`, so a click and Enter in a field still submit, and neither does while it is disabled. Give that `form` an `id` (or pass `form` to `DialogCommit`); without one a click still submits but Enter in a field doesn't.
+- `DialogCommit` moves to the end of the head at `size="md"`, with the same variant, words, disabled and loading state. A `type="submit"` button stays its form's default button: it is tied to the form it was written in by the form's `id`, so a click and Enter in a field still submit, and neither does while it is disabled. Give that `form` an `id` (or pass `form` to `DialogCommit`); without one a click still submits but Enter in a field doesn't.
 - `DialogFooter` is hidden, and with it Cancel and any other button in it, such as a step's Back.
 - `DialogBody` scrolls under the head on the phone's 16px margin, with the home indicator's inset at the bottom. A wide dialog's `bar` body does the same: its `DialogNav` is hidden and its sections follow one another.
 
@@ -117,7 +118,7 @@ Write the dialog as it is on a desktop and swap `DialogContent` for `DialogSheet
 dialog/compositions/sheet-form
 ```
 
-In a flow of steps, write each step's button as a `DialogCommit`: Next, then the last step's action. From the second step on, put a `DialogSheetBack` in `DialogHeader`: on a phone it takes the head's start in place of ×, as on a pushed page, and Esc still closes; on a desktop it draws nothing and Back stays in the footer. (Back in place of × is proposed here for stdrc's review; the rule above says only that × closes.)
+In a flow of steps, write each step's button as a `DialogCommit`: Next, then the last step's action. From the second step on, put a `DialogSheetBack` in `DialogHeader`: on a phone the head shows it at its start and leaves out the `DialogClose`, so a later step has Back and no ×; on a desktop it draws nothing and Back stays in the footer.
 
 ```example
 dialog/compositions/sheet-steps

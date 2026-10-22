@@ -2,7 +2,7 @@ import { cn } from "../../lib/cn";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { ChevronLeft, X } from "lucide-react";
+import { ArrowLeft, X } from "lucide-react";
 import { Children, isValidElement, useEffect } from "react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { decisionWidth } from "../../lib/decision-width";
@@ -230,9 +230,11 @@ export type DialogSheetBackProps = PanelActionProps;
 
 /**
  * Back, in a later step of a flow drawn as a phone sheet: it takes the head's
- * start, where × is on the first step. Put it in `DialogHeader` beside the
- * `DialogClose`; it draws nothing outside a sheet, where Back stays in the
- * footer.
+ * start in place of × (stdrc, 2026-10-22). The sheet is a stack of steps, and
+ * Back undoes one, as on a pushed page; Esc still closes. Put it in
+ * `DialogHeader` beside the `DialogClose`, from the second step on; it draws
+ * nothing outside a sheet, where Back stays in the footer. Its icon is
+ * `arrow-left`, as every Back (Alignment, "The ends of a header").
  */
 export function DialogSheetBack({
   className,
@@ -249,7 +251,7 @@ export function DialogSheetBack({
       className={className}
       {...props}
     >
-      {children ?? <ChevronLeft />}
+      {children ?? <ArrowLeft />}
     </PanelAction>
   );
 }
