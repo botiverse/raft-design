@@ -115,3 +115,23 @@ export type {
   MobileNavServerPopoverDestinationProps,
   MobileNavServerPopoverProps,
 } from "./components/mobile-nav/index";
+
+// App links in a message (#150), until stdrc approves the parts: the leading
+// icon of a reference chip (an app's registered icon), and the item card a
+// chip opens on hover.
+export { MessageReferenceIcon } from "./components/message-item/index";
+export type { MessageReferenceIconProps } from "./components/message-item/index";
+export {
+  PreviewCardActions,
+  PreviewCardBody,
+  PreviewCardEyebrow,
+  PreviewCardFooter,
+  PreviewCardMeta,
+} from "./components/preview-card/index";
+export type {
+  PreviewCardActionsProps,
+  PreviewCardBodyProps,
+  PreviewCardEyebrowProps,
+  PreviewCardFooterProps,
+  PreviewCardMetaProps,
+} from "./components/preview-card/index";

@@ -65,15 +65,21 @@ export function MessageReferenceIndicator({
 
 export type MessageReferenceChipProps = SpanProps & {
   variant?: MessageReferenceChipVariant;
+  /**
+   * Stops the chip at `min(100%, 24em)`; a longer `MessageReferenceLabel`
+   * truncates at the end. For words Raft doesn't write, such as an app's title.
+   */
+  capped?: boolean;
 };
 
 export function MessageReferenceChip({
   className,
   render,
   variant = "muted",
+  capped,
   ...props
 }: MessageReferenceChipProps) {
-  const { root } = messageReference({ variant });
+  const { root } = messageReference({ variant, capped });
 
   return useReferenceRender(root({ className }), render, props);
 }
@@ -116,14 +122,39 @@ export function MessageReferenceSuffix({
   });
 }
 
-export type MessageReferencePendingProps = SpanProps;
+export type MessageReferenceIconProps = useRender.ComponentProps<"span">;
+
+/**
+ * The chip's leading icon when it is not a plain svg: an image or a `3xs`
+ * Avatar, such as an app's registered icon. It holds one child at 14px,
+ * centred on the chip. Put it first in the chip.
+ */
+export function MessageReferenceIcon({ className, render, ...props }: MessageReferenceIconProps) {
+  const { icon } = messageReference();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: icon({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: { slot: "message-reference-icon" },
+  });
+}
+
+export type MessageReferencePendingProps = SpanProps & {
+  /** The same cap as `MessageReferenceChip`'s, so the chip that replaces it keeps its width. */
+  capped?: boolean;
+};
 
 export function MessageReferencePending({
   className,
   render,
+  capped,
   ...props
 }: MessageReferencePendingProps) {
-  const { root } = messageReference({ variant: "pending" });
+  const { root } = messageReference({ variant: "pending", capped });
 
   return useReferenceRender(root({ className }), render, props);
 }

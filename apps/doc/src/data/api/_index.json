@@ -772,7 +772,8 @@
       "MessageItemDelegatedAvatar",
       "MessageItemDelegatedBy",
       "MessageItemDelegatedByButton",
-      "MessageItemDelegatedByName"
+      "MessageItemDelegatedByName",
+      "MessageReferenceIcon"
     ],
     "status": "stable",
     "description": "A short note after a chip's label in muted machine type, such as `msg` on a link to a message. It lines up with the label by the middle of its letters."
@@ -954,9 +955,15 @@
       "PreviewCardPortal",
       "PreviewCardSeparator",
       "PreviewCardTitle",
-      "PreviewCardTrigger"
+      "PreviewCardTrigger",
+      "PreviewCardActions",
+      "PreviewCardBody",
+      "PreviewCardEyebrow",
+      "PreviewCardFooter",
+      "PreviewCardMeta"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The row of at most two buttons."
   },
   "profile-panel": {
     "names": [

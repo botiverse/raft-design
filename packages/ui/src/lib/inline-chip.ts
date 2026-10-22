@@ -11,8 +11,9 @@
  *   `--chip-line-height` overrides it for text that isn't on the body line.
  * - Alignment: the chip's text on the sentence's baseline, a leading mark
  *   centred on the chip (alignment.md, Marks in running text).
- * - Sides: 6px at each end. A chip with a leading mark (a 14px icon, the
- *   loading spinner, a task's 9px status pixel, each in its own box) takes
+ * - Sides: 6px at each end. A chip with a leading mark (a 14px icon, an app's
+ *   image or avatar in `MessageReferenceIcon`'s 14px box, the loading spinner,
+ *   a task's 9px status pixel, each in its own box) takes
  *   4.5px at each end, so the ink at its two ends sits equally far in
  *   (alignment.md, Chips), and the mark is 4px from the text. A note after the
  *   label keeps the same 4px.
@@ -20,7 +21,7 @@
  */
 export const inlineChip = [
   "items-baseline gap-1 px-1.5 py-0 align-baseline",
-  "has-[>svg,>[data-slot=spinner]]:px-[4.5px]",
+  "has-[>svg,>[data-slot=spinner],>[data-slot=message-reference-icon]]:px-[4.5px]",
   // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
   "[font-size:0.875em] leading-[var(--chip-line-height,calc(var(--text-body--line-height)-2px))] font-semibold",
   "rounded-sticker",
