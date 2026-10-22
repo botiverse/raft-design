@@ -1,7 +1,7 @@
 ---
 title: Tasks
 summary: 所有任务视图共用的部件：显示任务进行到哪一步的状态徽标和任务标签片、状态像素点，以及任务面板的外壳。
-sourceHash: c30d4b8e
+sourceHash: fec78fd5
 ---
 
 # Tasks
@@ -45,7 +45,7 @@ tasks/compositions/tasks-panel
 | 变体 | 用于 |
 | --- | --- |
 | `variant="default"` | 单独出现的标签片：消息下方、卡片上、详情行里 |
-| `variant="inline"` | 正文里的标签片；它跟随周围文字的大小 |
+| `variant="inline"` | 正文里的标签片，用消息正文里所有标签片共用的盒子（[正文中的标签片](../message-item/message-item.md#chips-in-running-text)） |
 | `size="sm"` | 和小徽标排在同一行的默认标签片，比如动态条目的元数据行 |
 
 ```example
@@ -105,4 +105,4 @@ tasks/compositions/tasks-error
 
 - 任何显示任务状态的新界面，都用 `taskStatusSoft` 和 `taskStatusStrong` 搭建，这样一种状态在哪里都是同一种颜色。
 - 不要给标签片加边框：浅色底是高亮，不是贴纸（[Status](../status/status.md#rules)）。
-- 标签片把内边距平分到两端：各 7px，`sm` 时各 5px，内联时各 4.5px，总量和以前一样。状态像素画满到边缘，所以它前面的空白全是内边距；以前这一端少 2px 时，像素离边缘 6px，最后一个字母离边缘 8.5px（[对齐](../../../../../design/foundations/alignment.md#chips)）。
+- 标签片把内边距平分到两端：各 7px，`sm` 时各 5px，内联时各 4.5px，总量和以前一样。状态像素画满到边缘，所以它前面的空白全是内边距；以前这一端少 2px 时，像素离边缘 6px，最后一个字母离边缘 8.5px（[对齐](../../../../../design/foundations/alignment.md#chips)）。内联标签片里的状态像素用自己 9px 的盒子，离文字 4px（[正文中的标签片](../message-item/message-item.md#chips-in-running-text)）。

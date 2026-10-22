@@ -78,6 +78,31 @@ message-item/compositions/item-preview
 message-reference/compositions/mixed-long-message
 ```
 
+### Chips in running text
+
+The marks in a message's text are of two kinds:
+
+- **Chips** have a fill: a reference chip (`MessageReferenceChip` in any variant, `MessageReferencePending`, `MessageReferenceUnavailable`), the yellow sticker (`MessageReferenceText variant="primary"`: a mention of the person reading, or a message or an app shown as one) and a task in the text (`TaskChip variant="inline"`). All of them share one box.
+- **Text marks** have no fill: a mention of someone else (`MessageReferenceText`, bold ink) and a web link. They are words of the sentence, in its size.
+
+| Part         | The chip box                                                                                                                                                                               | Desktop (body 14/22) | Phone (body 16/24)  |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------- | ------------------- |
+| Type         | 0.875em of the sentence, semibold                                                                                                                                                          | 12.25px              | 14px                |
+| Height       | The body line less 2px: the line box of the chip's text, with no padding above or below                                                                                                    | 20px                 | 22px                |
+| Alignment    | The chip's words on the sentence's baseline, a leading mark centered on the chip ([Marks in running text](../../../../../design/foundations/alignment.md#marks-in-running-text))           | The line stays 22px  | The line stays 24px |
+| Sides        | 6px at each end; 4.5px at each end with a leading mark ([Alignment](../../../../../design/foundations/alignment.md#chips): ink equally far in at both ends), the mark then 4px to the text | 6px, or 4.5px        | 6px, or 4.5px       |
+| Leading mark | A 14px icon, the loading spinner or a task's 9px status pixel, each in its own box, centered on the chip                                                                                   | 14px, 9.5px or 9px   | 14px, 9.5px or 9px  |
+| Note         | A note after the label (`MessageReferenceSuffix`), 4px after it                                                                                                                            | 4px                  | 4px                 |
+| Corners      | `radius-sticker`                                                                                                                                                                           | 4px                  | 4px                 |
+
+The chip's type is a share of the sentence's and its height a step below the sentence's line, so a chip is always 2px shorter than its line. However many chips a line holds, it keeps its height, and chips on two lines keep at least 2px between them; on a phone the body is larger and the chips grow with it. Before, a reference chip was its 20px line plus 1px above and below, 22px, which made a desktop line 23px, and a task chip and the sticker took the sentence's own size on a 1.2em line: boxes 5px shorter than a reference chip's, with letters 2px larger.
+
+- The yellow sticker keeps its 1.5px ink edge inside and has no die-cut edge outside ([Dark mode](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)), so it is the size of the chips beside it.
+- The height follows `--text-body--line-height`. Chips set in text on another line take that line less 2px from `--chip-line-height`, set on a container. Nothing sets it yet: a chip outside a message's body (the callout text of a quoted preview, for one) falls back to the body line less 2px, so set `--chip-line-height` on that container when chips appear there.
+- Inline code isn't a chip: it is code, not a reference, and keeps its own box ([InlineCode](../inline-code/inline-code.md)), 20px on a desktop and 23px on a phone, never taller than the line.
+
+In raft-ui the three components take the box from one recipe (`lib/inline-chip.ts`).
+
 ## Variants
 
 | Variant   | Use for                                                                                            |

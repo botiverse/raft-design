@@ -46,11 +46,11 @@ tasks/compositions/tasks-panel
 
 ## Variants
 
-| Variant             | Use for                                                                                   |
-| ------------------- | ----------------------------------------------------------------------------------------- |
-| `variant="default"` | A chip on its own: under a message, on a card, in a details row                           |
-| `variant="inline"`  | A chip in running text; it follows the size of the text around it                         |
-| `size="sm"`         | A default chip in one row with small badges, such as the metadata row of an Activity item |
+| Variant             | Use for                                                                                                                                                   |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant="default"` | A chip on its own: under a message, on a card, in a details row                                                                                           |
+| `variant="inline"`  | A chip in running text, in the box every chip in a message's text shares ([Chips in running text](../message-item/message-item.md#chips-in-running-text)) |
+| `size="sm"`         | A default chip in one row with small badges, such as the metadata row of an Activity item                                                                 |
 
 ```example
 task-chip/compositions/task-chip-variants
@@ -109,4 +109,4 @@ None of these parts wraps a Base UI primitive; `TaskChip` renders a `<span>` unl
 
 - Build any new surface that shows a task status from `taskStatusSoft` and `taskStatusStrong`, so a status has one color everywhere.
 - Don't give a chip a border: the tint is a highlight, not a sticker ([Status](../status/status.md#rules)).
-- A chip splits its padding evenly between its two ends: 7px each, 5px when `sm`, 4.5px inline, the same total as before. The status pixel is drawn to its edges, so the space before it is all padding; with 2px less on that end, the pixel sat 6px from the edge and the last letter 8.5px ([Alignment](../../../../../design/foundations/alignment.md#chips)).
+- A chip splits its padding evenly between its two ends: 7px each, 5px when `sm`, 4.5px inline, the same total as before. The status pixel is drawn to its edges, so the space before it is all padding; with 2px less on that end, the pixel sat 6px from the edge and the last letter 8.5px ([Alignment](../../../../../design/foundations/alignment.md#chips)). An inline chip keeps the status pixel in its own 9px box, 4px from the text ([Chips in running text](../message-item/message-item.md#chips-in-running-text)).
