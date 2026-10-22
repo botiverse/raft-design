@@ -276,24 +276,21 @@ it("stacked, with an ×: Tab and Shift+Tab reach every control once a loop, and 
   await expectFocusLoop(controls, true);
 });
 
-it("a footer that lays itself out with stack={false} is never measured or stacked", async () => {
+it("a footer that lays itself out with className keeps its row while it fits", async () => {
+  // The server setup step's footer: two links at the start, Next at the end.
   await viewport(320);
   render(
     <ThemeProvider>
       <Dialog open>
-        <DialogContent>
+        <DialogContent className="max-w-[720px]">
           <DialogHeader>
-            <DialogTitle>Welcome</DialogTitle>
+            <DialogTitle>Start your computer</DialogTitle>
           </DialogHeader>
-          <DialogFooter
-            data-testid="footer"
-            stack={false}
-            className="flex items-center justify-between gap-3"
-          >
-            <span className="flex shrink-0 items-center gap-4 whitespace-nowrap">
-              <TextLink>Switch to Another Server</TextLink>
+          <DialogFooter data-testid="footer" className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-4 text-footnote">
+              <TextLink>Switch Server</TextLink>
               <TextLink>Server Settings</TextLink>
-            </span>
+            </div>
             <Button variant="accent" size="lg">
               Next
             </Button>
@@ -303,15 +300,11 @@ it("a footer that lays itself out with stack={false} is never measured or stacke
     </ThemeProvider>,
   );
   await new Promise((resolve) => requestAnimationFrame(resolve));
-  const footer = screen.getByTestId("footer");
-  expect(footer.hasAttribute("data-stacked")).toBe(false);
+  expect(screen.getByTestId("footer").hasAttribute("data-stacked")).toBe(false);
   const next = screen.getByRole("button", { name: "Next" }).getBoundingClientRect();
-  // Wider than the footer: without stack={false} this row would stack.
-  const link = screen
-    .getByRole("button", { name: "Switch to Another Server" })
-    .getBoundingClientRect();
+  const link = screen.getByRole("button", { name: "Server Settings" }).getBoundingClientRect();
   expect(link.top).toBeLessThan(next.bottom);
-  expect(next.left).toBeGreaterThan(link.left);
+  expect(next.left).toBeGreaterThan(link.right);
 });
 
 it("a label that may truncate shrinks before anything stacks", async () => {

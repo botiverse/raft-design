@@ -222,14 +222,6 @@
         "default": "false",
         "description": "A pinned bar of a scrolling (`size=\"wide\"`) dialog.",
         "from": "raft-ui"
-      },
-      {
-        "name": "stack",
-        "type": "boolean",
-        "required": false,
-        "default": "true",
-        "description": "Stack the buttons full width when they don't fit on one line (the default). Pass `false` for a footer that sets its own layout with `className`, such as a row with a checkbox or a pair of links, so it is never measured and keeps that layout at every width.",
-        "from": "raft-ui"
       }
     ]
   },

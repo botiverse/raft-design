@@ -1,7 +1,7 @@
 ---
 title: Dialog
 summary: 遮罩上居中的浮层，用于人们必须先完成才能继续的一个决定或几个输入框；宽尺寸用于一次填完的大表单。
-sourceHash: fea7de13
+sourceHash: ff9c1ecd
 ---
 
 # Dialog
@@ -104,7 +104,7 @@ dialog/compositions/footer-close-only
 - 窄屏上的居中对话框两边各保留 16px 边距，高度永远不超过窗口高度减 32px。
 - 768px 以下，宽对话框隐藏 `DialogNav`，各分区依次排列。
 - `DialogFooter` 在任何宽度下都把按钮排成一行。它按一行的排法测量，只有子元素超出底部时，才设置 `data-stacked`，把按钮叠成通栏，提交按钮在上（[底部](#the-footer)）。可以收缩的内容（比如会截断或换行的标签）先收缩，所以只有不能收缩的按钮才会让底部叠放。对话框尺寸变化、标签改变或字体加载完成时，它会重新测量；底部在底部面板里被隐藏时，它完全不测量。包在其他元素里的按钮（比如 tooltip 的触发元素）也会占满宽度。`AlertDialogFooter` 也一样。
-- 用 `className` 自己排版的底部（比如按钮旁边有复选框，或者一对链接）传 `stack={false}`：它从不被测量，在任何宽度下都保持自己的排版。
+- 用 `className` 自己排版的底部（比如按钮旁边有复选框，或者一对链接）也按同样的方式测量，不需要额外设置：内容在一行里放得下时保持自己的排版，放不下时才叠放。可以让位的文字加上 `min-w-0`（要截断的再加 `truncate`），它会先收缩，底部才叠放。
 - 从对话框或面板里打开的对话框，会在下面那层遮罩上再画一层更浅的遮罩（[叠放的浮层](../../../../../design/foundations/elevation.md#stacked-overlays)）。把它渲染在第一个对话框里面，这就会自动发生。`layer={1}` 只用于渲染在第一个对话框的树之外的对话框：它把这个对话框和它的遮罩抬到第一个之上。
 - 应用自己的模态框（自己的遮罩、Esc 和焦点，基于 `DialogSurface`）用 `@botiverse/raft-ui/wip` 里的 `OverlayLayerProvider` 和 `useParentOverlayKind` 加入同一个叠放顺序（[叠放的浮层](../../../../../design/foundations/elevation.md#stacked-overlays)）。
 

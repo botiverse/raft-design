@@ -40,7 +40,7 @@ function ServerSetupStepParts() {
           <CopyableCodeAction aria-label="Copy raft-computer start" />
         </CopyableCodeRoot>
       </DialogBody>
-      <DialogFooter stack={false} className="flex items-center justify-between gap-3">
+      <DialogFooter className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-4 text-footnote">
           <TextLink disabled>Switch Server</TextLink>
           <TextLink disabled>Server Settings</TextLink>

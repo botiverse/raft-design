@@ -372,19 +372,11 @@ export function DialogBody({ className, bar = false, children, ...props }: Dialo
 export type DialogFooterProps = ComponentPropsWithRef<"div"> & {
   /** A pinned bar of a scrolling (`size="wide"`) dialog. */
   bar?: boolean;
-  /**
-   * Stack the buttons full width when they don't fit on one line (the
-   * default). Pass `false` for a footer that sets its own layout with
-   * `className`, such as a row with a checkbox or a pair of links, so it is
-   * never measured and keeps that layout at every width.
-   */
-  stack?: boolean;
 };
 
 export function DialogFooter({
   className,
   bar = false,
-  stack = true,
   hidden,
   children,
   ref,
@@ -399,12 +391,15 @@ export function DialogFooter({
   // The quiet item at the start: a note anywhere in the footer, or a TextLink
   // written first. The buttons after it become one group.
   const start =
-    items.find((item) => isValidElement(item) && item.type === DialogFooterNote) ??
-    (isValidElement(items[0]) && items[0].type === TextLink ? items[0] : undefined);
+    items.find(
+      (item) =>
+        isValidElement<DialogFooterNoteProps>(item) &&
+        item.type === DialogFooterNote &&
+        hasNoteContent(item.props.children),
+    ) ?? (isValidElement(items[0]) && items[0].type === TextLink ? items[0] : undefined);
   const [stacked, rowRef] = useStackedActions<HTMLDivElement>(
     start == null ? ref : undefined,
     start != null,
-    stack,
   );
   const { footer, footerActions } = dialog({ bar, start: start != null });
   const stackedProps = stacked ? { "data-stacked": "" } : {};
@@ -449,6 +444,17 @@ export function DialogFooter({
 export type DialogFooterNoteProps = ComponentPropsWithRef<"p">;
 
 /**
+ * Whether a note has anything to show: not only null, false or "", but also
+ * whitespace and an empty array (`{items.map(...)}` of nothing). Numbers,
+ * 0 included, and elements count.
+ */
+function hasNoteContent(children: ReactNode) {
+  return Children.toArray(children).some(
+    (child) => typeof child !== "string" || child.trim() !== "",
+  );
+}
+
+/**
  * One short line at the start of `DialogFooter` that says what the commit
  * button will do ("You'll be billed $8 per member each month"). Muted footnote
  * text, start-aligned and never cut. Only in a `lg` or `wide` dialog, and at
@@ -470,7 +476,7 @@ export function DialogFooterNote({ className, children, ...props }: DialogFooter
     }
   }, [size]);
   // An empty note draws nothing, not an empty line.
-  if (children == null || children === "" || children === false) return null;
+  if (!hasNoteContent(children)) return null;
   return (
     <p data-slot="dialog-footer-note" className={footerNote({ className })} {...props}>
       {children}

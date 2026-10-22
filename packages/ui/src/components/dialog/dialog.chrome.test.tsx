@@ -196,6 +196,11 @@ test("an empty DialogFooterNote renders nothing, not an empty line", () => {
           <DialogFooter>
             <DialogFooterNote />
             <DialogFooterNote>{""}</DialogFooterNote>
+            <DialogFooterNote>{false}</DialogFooterNote>
+            <DialogFooterNote> </DialogFooterNote>
+            <DialogFooterNote>{"  \n "}</DialogFooterNote>
+            <DialogFooterNote>{[]}</DialogFooterNote>
+            <DialogFooterNote>{[null, " ", false, undefined]}</DialogFooterNote>
             <Button>Add Members</Button>
           </DialogFooter>
         </DialogContent>
@@ -203,4 +208,25 @@ test("an empty DialogFooterNote renders nothing, not an empty line", () => {
     </ThemeProvider>,
   );
   expect(document.querySelector("[data-slot=dialog-footer-note]")).toBeNull();
+  // The footer lays itself out as if there were no note: no start, one row.
+  expect(document.querySelector("[data-slot=dialog-footer-actions]")).toBeNull();
+});
+
+test("a DialogFooterNote with content renders, 0 included", () => {
+  render(
+    <ThemeProvider>
+      <Dialog open modal={false}>
+        <DialogContent size="lg">
+          <DialogTitle>Add 3 Members?</DialogTitle>
+          <DialogFooter>
+            <DialogFooterNote>{0}</DialogFooterNote>
+            <Button>Add Members</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+  const notes = document.querySelectorAll("[data-slot=dialog-footer-note]");
+  expect(notes).toHaveLength(1);
+  expect(notes[0]?.textContent).toBe("0");
 });

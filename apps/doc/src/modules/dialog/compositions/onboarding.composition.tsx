@@ -41,7 +41,7 @@ function OnboardingDialogParts() {
           </Text.Sans>
         </div>
       </DialogBody>
-      <DialogFooter stack={false} className="grid grid-cols-[minmax(0,1fr)_auto] items-center">
+      <DialogFooter className="grid grid-cols-[minmax(0,1fr)_auto] items-center">
         <Field className="min-w-0">
           <FieldItem size="sm" className="min-w-0">
             <Checkbox id="dialog-onboarding-reminder" />

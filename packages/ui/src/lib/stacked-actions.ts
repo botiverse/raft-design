@@ -82,13 +82,12 @@ function rowOverflows(row: HTMLElement, frame: HTMLElement) {
  * Sets `data-stacked` on a footer's row of buttons when it doesn't fit on one
  * line (rowOverflows). Pass the returned ref to the row. It must fit its own
  * content box, or with `inParent` (the group of buttons beside a note) its
- * parent's. With `enabled` false it measures nothing and never stacks. As BannerAction's `data-wrap`, it measures again when the footer
+ * parent's. As BannerAction's `data-wrap`, it measures again when the footer
  * resizes, the buttons change or a web font arrives.
  */
 export function useStackedActions<T extends HTMLElement>(
   ref?: Ref<T>,
   inParent = false,
-  enabled = true,
 ): [stacked: boolean, ref: RefCallback<T>] {
   const [row, setRow] = useState<T | null>(null);
   const [stacked, setStacked] = useState(false);
@@ -102,7 +101,7 @@ export function useStackedActions<T extends HTMLElement>(
 
   useLayoutEffect(() => {
     const frame = inParent ? row?.parentElement : row;
-    if (!enabled || !row || !frame || typeof ResizeObserver === "undefined") return;
+    if (!row || !frame || typeof ResizeObserver === "undefined") return;
 
     const measure = () => {
       const overflows = rowOverflows(row, frame);
@@ -134,7 +133,7 @@ export function useStackedActions<T extends HTMLElement>(
       mutation.disconnect();
       fonts?.removeEventListener("loadingdone", schedule);
     };
-  }, [row, inParent, enabled]);
+  }, [row, inParent]);
 
-  return [enabled && stacked, callbackRef];
+  return [stacked, callbackRef];
 }
