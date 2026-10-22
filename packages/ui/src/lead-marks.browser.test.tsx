@@ -18,7 +18,7 @@ import { toast, ToastProvider } from "./components/toast";
 // shared rule: each component keeps its own icon size and gap (a banner's
 // icon 20px and 10px from the text, 16px and 8px when small; a toast's in a
 // 20px column 12px from the title; an action card notice's 14px, 8px). A
-// notice leads with an icon or an avatar; a status light leads only a chip,
+// notice leads with an icon or an avatar; a status light leads a status chip,
 // where it keeps its one size, 9px, whatever size the caller passed
 // (status.md#sizes). Measured
 // with a mouse (32px controls, the desktop type scale) and on a touch screen

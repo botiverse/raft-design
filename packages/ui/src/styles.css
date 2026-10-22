@@ -643,8 +643,8 @@ textarea:-webkit-autofill:disabled {
    and keeps it at its one size beside text, 9px with a 1.5px ink edge
    (status.md#sizes). It is kept at 9px inside components (Badge,
    PanelActivity, a panel header); when placing Status yourself, don't pass
-   a size. A notice never leads with a status light: that is an agent's
-   state. */
+   a size. A notice never leads with a status light: a light shows the
+   state of a thing, not which kind a notice is. */
 @utility lead-icon {
   flex-shrink: 0;
   align-self: start;
