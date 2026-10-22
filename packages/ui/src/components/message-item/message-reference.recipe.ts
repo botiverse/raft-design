@@ -80,6 +80,24 @@ export const messageReference = tv({
       "pointer-events-none absolute -right-1.5 top-0 inline-flex size-2 shrink-0 items-center justify-center",
       "*:data-[slot=status]:size-full",
     ],
+    // The read receipt: a check after the mention's text, the size of an icon
+    // in a reference (12px beside 14px text). It is centred on the letters'
+    // cap height, the line every icon in a reference centres on
+    // (alignment.md#a-mark-that-leads-text): in running text by raising its
+    // bottom edge to half the cap height (0.7em / 2) less half its own box,
+    // in a flex row by `self-center`. Its 12px box sits inside the line, so
+    // the mention's box and the line keep their height. Lucide draws the check
+    // 3/24 inside its box where other icons leave 1/24, about a letter's side
+    // bearing, so its end takes the extra 2/24 back: the ink at that end sits
+    // as far from the mention's edge as the first letter does
+    // (alignment.md#chips).
+    readMark: [
+      "relative inline-block shrink-0 self-center",
+      "ml-0.5 -mr-[calc(0.857em*2/24)]",
+      "align-[calc(0.7em/2-0.857em/2)] leading-none",
+      "text-foreground-hint",
+      "[&>svg]:block [&>svg]:size-[0.857em]",
+    ],
   },
   variants: {
     variant: {

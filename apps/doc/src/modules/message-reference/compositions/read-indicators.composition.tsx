@@ -1,4 +1,5 @@
-import { MessageReferenceIndicator, MessageReferenceText, Status } from "@botiverse/raft-ui";
+import { MessageReferenceText } from "@botiverse/raft-ui";
+import { MessageReferenceReadMark } from "@botiverse/raft-ui/wip";
 
 export function MessageReferenceReadIndicatorsComposition() {
   return (
@@ -6,18 +7,10 @@ export function MessageReferenceReadIndicatorsComposition() {
       Ask{" "}
       <MessageReferenceText>
         @Atlas
-        <MessageReferenceIndicator>
-          <Status aria-label="Read" size="sm" variant="success" />
-        </MessageReferenceIndicator>
+        <MessageReferenceReadMark>Read</MessageReferenceReadMark>
       </MessageReferenceText>{" "}
-      or{" "}
-      <MessageReferenceText>
-        @Sage
-        <MessageReferenceIndicator>
-          <Status aria-label="Not read yet" size="sm" />
-        </MessageReferenceIndicator>
-      </MessageReferenceText>
-      , then loop in <MessageReferenceText>@Noah</MessageReferenceText>.
+      or <MessageReferenceText>@Sage</MessageReferenceText>, then loop in{" "}
+      <MessageReferenceText>@Noah</MessageReferenceText>.
     </p>
   );
 }

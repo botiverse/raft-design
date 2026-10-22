@@ -1343,5 +1343,20 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "MessageReferenceReadMark",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The read receipt on a mention: a muted check after the mention's text, once the one mentioned has read the message. Put it last inside the mention, and render nothing until then. The check is decorative; `children` is what a screen reader says instead (\"Read\"), visually hidden.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
   }
 ]

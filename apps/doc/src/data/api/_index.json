@@ -774,7 +774,8 @@
       "MessageItemDelegatedBy",
       "MessageItemDelegatedByButton",
       "MessageItemDelegatedByName",
-      "MessageReferenceIcon"
+      "MessageReferenceIcon",
+      "MessageReferenceReadMark"
     ],
     "status": "stable",
     "description": "A short note after a chip's label in muted machine type, such as `msg` on a link to a message. It lines up with the label by the middle of its letters."
