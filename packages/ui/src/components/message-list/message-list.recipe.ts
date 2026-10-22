@@ -1,17 +1,27 @@
 import { tv } from "../../lib/tv";
 
+// The date line sits a section step (24px) from the text on both sides,
+// measured to its rule: its padding gives back the row inset of the row above
+// and the lead of the turn below (design/foundations/spacing.md#timeline-rhythm).
+// The notice is a row of its own: a row's lead above it, the row inset under
+// it.
 export const messageList = tv({
   slots: {
     root: ["relative h-full min-h-0"],
     viewport: ["min-w-0 overscroll-none"],
     content: ["flex min-h-full w-full min-w-0 flex-col"],
-    dateDividerRoot: ["flex select-none items-center", "gap-2 px-4 py-3"],
+    dateDividerRoot: [
+      "flex select-none items-center",
+      "gap-2 px-4",
+      "pt-[calc(var(--spacing-timeline-section)-var(--spacing-timeline-row)-var(--text-mono-meta--line-height)/2)]",
+      "pb-[calc(var(--spacing-timeline-section)-var(--spacing-timeline-lead)-var(--text-mono-meta--line-height)/2)]",
+    ],
     dateDividerRule: ["flex-1", "min-w-3 border-t border-line-hairline"],
     dateDividerChip: [
       "inline-flex items-center",
       "font-mono text-mono-meta whitespace-nowrap text-foreground-hint",
     ],
-    notice: ["text-center", "pb-2 font-mono text-mono-meta"],
+    notice: ["text-center", "pt-timeline-lead pb-timeline-row font-mono text-mono-meta"],
     historyLimited: [
       "inline-flex items-center",
       "h-[22px] gap-1 rounded-chip px-1.5",

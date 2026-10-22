@@ -113,7 +113,7 @@ export function ConversationPanelComposition({
         </ConversationPanelTabs>
         <ConversationPanelBody>
           <MessageList ref={timelineRef}>
-            <div className="px-3 pt-3">
+            <div className="px-3 pt-timeline-start">
               <MessageListNotice>Beginning of messages</MessageListNotice>
             </div>
             <div className="h-px" aria-hidden />
@@ -228,9 +228,7 @@ export function ConversationPanelComposition({
             ))}
             {/* @docs-source-strip-end */}
             <div className="h-px" aria-hidden />
-            <div className="px-3 pb-3">
-              <div className="h-3" />
-            </div>
+            <div className="pb-timeline-end" aria-hidden />
           </MessageList>
           {newMessageCount > 0 ? (
             <MessageListJumpControls>

@@ -32,7 +32,7 @@ conversation-panel/compositions/conversation-panel
 - `ConversationPanelContent`: everything under the header.
   - `ConversationPanelTabs`: an optional row of [Tabs](../tabs/tabs.md), with a `line-seam` under it.
   - `ConversationPanelBody`: the scroll boundary for the message list.
-  - `ConversationPanelFooter`: the composer ([Composer](../composer/composer.md)).
+  - `ConversationPanelFooter`: the composer ([Composer](../composer/composer.md)). It adds no space above the composer: the list ends with `pb-timeline-end` under its last row, so the composer's frame sits a section step, 24px, under the last line ([Timeline rhythm](../../../../../design/foundations/spacing.md#timeline-rhythm)).
 - `ConversationPanelEmptyState`, with `ConversationPanelEmptyStateBrand` and `ConversationPanelEmptyStateBrandMark`: the panel's content when no conversation is open.
 
 ## Variants

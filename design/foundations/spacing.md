@@ -22,6 +22,27 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 - Inside a track that hugs its items, a segmented control or a toggle group, the items sit 3px from the track and 3px apart: the track's own inset, which the 4px grid doesn't divide.
 - Inside a frame, siblings that can each show a fill (the buttons of a toolbar, the segments of a segmented control, the chips and buttons in a field) sit as far apart as they sit from the frame: 4px in a floating toolbar, 3px in a segmented control, 6px in a field. A different gap between them would be one more distance for the eye to compare ([Shape](./shape.md#inside-a-frame)).
 
+## Timeline rhythm
+
+A conversation is read top to bottom, so the space between its lines is what tells a reader where one turn ends and where a new part of the conversation begins. The timeline uses three distances and no others, each measured from text to text (the last line of one thing to the first line of the next), because that is the gap the eye compares:
+
+| Step | Distance | Between |
+| --- | --- | --- |
+| Row | 8px | Two rows of one turn: a continuation row under the row it continues ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)). |
+| Message (`timeline-gap-message`) | 16px | Two turns: a message and the next sender line, a message and an event line ([SystemMessage](../../packages/ui/src/components/system-message/system-message.md)), two event lines. |
+| Section (`timeline-gap-section`) | 24px | A boundary: either side of a date line, measured to its rule; from the top of the list to its first line; from the last line to the composer's frame. |
+
+- **One step per kind of break.** Within a turn is tighter than between turns, and a boundary is one step wider than both, so a date line reads as a new day and not as one more message. The steps sit on the 4px grid, each one 8px wider than the last.
+- **A boundary is the same on both sides.** A date line sits 24px from the text above it and 24px from the sender line below it. When the space under a line was larger than the space over it, the line looked attached to the message above.
+- **The last message never sits on the composer.** The composer is a heavy frame; at the message step it read as touching the last line. From the last line to the composer's frame is a section step, the same as from the top of the list to the first line.
+- **Every row carries its own insets, and a boundary takes them back.** A row keeps the row inset (`timeline-row-inset`, 4px) above and below its text: the reach of its hover and selected highlight. The first row of a turn adds 8px above that, a transparent border the highlight doesn't paint, so every turn starts 12px above its text (`spacing-timeline-lead`). A date line subtracts the inset of the row above it and the lead of the row below it from its own padding, so a row never has to know what comes next, and the distances stay right whatever sits on either side.
+- **A line that floats over the end of the list doesn't move it.** The line of who is about to post adds its own height to the end of the list while it shows, so the last message stays whole above it ([Working agents](../people-and-agents/working-agents.md#who-is-about-to-post)); Back to Bottom shows only while the end is out of view, so it never covers the last message.
+- **Products don't write these numbers.** Components read the timeline tokens; a product that builds its own list top or end uses only `pt-timeline-start` above the first row (the section step less the lead every row brings, the history notice included) and `pb-timeline-end` (the section step less the last row's inset) under the last row. `timeline-turn` and `timeline-lead` are for the components; adding them up in a product is how the old gaps drifted.
+
+```tokens
+timeline
+```
+
 ## Hit targets
 
 - Make every touch target at least 44px in both directions.

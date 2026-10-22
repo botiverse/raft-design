@@ -159,7 +159,7 @@ function ThreadReplies() {
           <MessageRowToolbar />
         </MessageItem>
       ))}
-      <div className="h-6" aria-hidden />
+      <div className="pb-timeline-end" aria-hidden />
     </>
   );
 }

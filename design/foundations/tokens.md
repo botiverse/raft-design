@@ -232,6 +232,12 @@ The control metrics: a default control's height, its icon and hit area, and what
 control
 ```
 
+The timeline rhythm: the message step and the section step between the lines of a conversation, and the row inset each row keeps around its text ([Spacing](./spacing.md#timeline-rhythm)).
+
+```tokens
+timeline
+```
+
 ### Tokens defined in styles.css
 
 These are Tailwind theme values in `styles.css`, not entries in `tokens.json`, so they have no generated table.
@@ -241,6 +247,7 @@ These are Tailwind theme values in `styles.css`, not entries in `tokens.json`, s
 | `radius-sticker`, `radius-chip`, `radius-control`, `radius-container`, `radius-dialog` | [Shape](./shape.md#radii) |
 | `text-hero` to `text-label`, `text-mono-meta`, `text-mono-code`, `text-control`, each with a phone and a desktop value | [Typography](./typography.md#type-scale) |
 | `ease-slide` | [Motion](./motion.md#easing) |
+| `spacing-timeline-message`, `spacing-timeline-section`, `spacing-timeline-row` (the timeline tokens as spacing utilities) and `spacing-timeline-turn`, `spacing-timeline-lead`, `spacing-timeline-start`, `spacing-timeline-end`, derived from them. Products use only `timeline-start` and `timeline-end` | [Spacing](./spacing.md#timeline-rhythm) |
 | `font-sans`, `font-heading`, `font-mono` | [Typography](./typography.md#font-families) |
 
 ## Deprecated names

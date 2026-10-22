@@ -1,5 +1,9 @@
 import { tv } from "../../lib/tv";
 
+// The composer's footer adds no space above it: the list ends a section step
+// over the composer's frame with `pb-timeline-end` under its last row
+// (design/foundations/spacing.md#timeline-rhythm), and PanelFooter's own
+// 12px would stack on it.
 export const conversationPanel = tv({
   slots: {
     root: [
@@ -15,6 +19,6 @@ export const conversationPanel = tv({
       "*:data-[slot=tabs-list]:w-full *:data-[slot=tabs-list]:px-5 max-md:*:data-[slot=tabs-list]:px-4",
       "*:data-[slot=tabs-list]:data-[variant=default]:py-2",
     ],
-    footer: ["bg-layer-canvas"],
+    footer: ["pt-0", "bg-layer-canvas"],
   },
 });

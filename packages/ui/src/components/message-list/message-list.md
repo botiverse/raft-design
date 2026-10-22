@@ -40,7 +40,7 @@ conversation-panel/compositions/conversation-panel
 - `MessageList`: the scroll container. Its props and `ref` go to the element that scrolls, so the caller can read and set the scroll position; `rootClassName` styles the outer element.
 - `MessageListNotice`: a centered line in Space Mono at the start of the history, such as "Beginning of messages". `tone="faint"` (the default) sets it in `foreground-hint`, `tone="muted"` in `foreground-muted`.
 - `MessageListHistoryLimited`: a small chip with a `line-hairline` outline, in Space Mono, for a history that doesn't go back to the start.
-- `MessageListDateDivider`: the date between two `line-hairline` rules, in `text-mono-meta` and `foreground-hint`, drawn like an event line ([SystemMessage](../system-message/system-message.md#rules)).
+- `MessageListDateDivider`: the date between two `line-hairline` rules, in `text-mono-meta` and `foreground-hint`, drawn like an event line ([SystemMessage](../system-message/system-message.md#rules)). It is a boundary: its rule sits the section step, 24px, from the text above and below it ([Timeline rhythm](../../../../../design/foundations/spacing.md#timeline-rhythm)).
 - The jump controls ([Jump controls](#jump-controls)), experimental, exported from `@botiverse/raft-ui/wip`:
   - `MessageListJumpControls`: where the pills float, centered on the list's bottom edge, or its top with `side="top"`. Put it beside `MessageList`, in the same positioned parent (`ConversationPanelBody` is one).
   - `MessageListJumpPill`: one pill, a Button at `outline` and `md` built from the Button recipe: its icon, then its label.
@@ -107,4 +107,6 @@ A pill is one action, so it is a Button, at the size of the ordinary buttons aro
 ## Rules
 
 - Leave room above the first message for its hover toolbar ([MessageItem](../message-item/message-item.md#behavior)). A list that opens with a date line already has it.
+- Start the list a section step, 24px, above its first line (`pt-timeline-start` over the first row; the notice brings a row's lead like a message, so the step holds whichever comes first), and end it so the composer's frame sits a section step under the last line (`pb-timeline-end` under the last row, when the composer adds no space of its own). MessageList leaves both to the product, which knows what sits above and below the list ([Timeline rhythm](../../../../../design/foundations/spacing.md#timeline-rhythm)).
+- Give any other line that marks a boundary in the list, such as a new-messages line, the section step on both sides, like the date line.
 - Show one thing above the oldest loaded message: a notice while older messages load, the history marker when the history is cut short, or "Beginning of messages" once the start is reached.
