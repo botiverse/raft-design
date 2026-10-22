@@ -43,8 +43,8 @@ const descriptionList = tv({
           "*:data-[slot=description-item]:flex *:data-[slot=description-item]:min-w-0 *:data-[slot=description-item]:items-baseline *:data-[slot=description-item]:gap-3",
           // One flow for every fact: the same 24px between facts and 8px
           // between lines, and no fact wider than 24rem (or the row). A long
-          // value, such as the message a task came from, ends in an ellipsis
-          // there instead of taking a line of its own.
+          // value, such as the message a task came from, goes in an Ellipsis
+          // that cuts it there, instead of taking a line of its own.
           "*:data-[slot=description-item]:max-w-[min(100%,24rem)]",
           "[&>[data-slot=description-item]>[data-slot=description-details]]:min-w-0",
           "[&>[data-slot=description-item]+[data-slot=description-item]]:pt-0",
