@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef } from "react";
 import type { ReactNode, Ref } from "react";
 
 import { useEventCallback } from "../hooks/use-event-callback";
-import { useMergedRef } from "../hooks/use-merged-ref";
+import { useMergedRef } from "../../../lib/use-merged-ref";
 import { getResizeObserverDelegate } from "./resize-observer-delegate";
 import type { ObservedResizeEntry } from "./resize-observer-delegate";
 

@@ -90,7 +90,7 @@ list-row/compositions/loading
 
 - Start a preview with who spoke: "Wug: Release notes are drafted."
 - Show at most one badge in a row.
-- Set the time and counts in Space Mono; `ListRowMeta` does this.
+- Set the time and counts in Space Mono; `ListRowMeta` does this. It stays whole while the title gives way first, then truncates when there is still no room, so a long value in it, such as an email beside a button in a 320px row, is cut instead of running under the button.
 - Write a setting's consequence in `ListRowDescription` with `wrap`, so it isn't cut off.
 
 ### Group headings

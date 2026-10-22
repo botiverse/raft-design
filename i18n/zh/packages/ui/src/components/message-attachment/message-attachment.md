@@ -1,7 +1,7 @@
 ---
 title: MessageAttachment
 summary: 消息附带的文件、图片和视频：文件是一张卡片，带名称、大小和一个操作；图片和视频直接显示在消息里。
-sourceHash: 7319ebe1
+sourceHash: b336b44b
 ---
 
 # MessageAttachment
@@ -123,4 +123,4 @@ message-media/compositions/video-states
 ## 规则 {#rules}
 
 - 文件卡片最宽 360px。
-- 图片最宽 360px 显示，使用 `radius-container` 和 `line-hairline` 边框。
+- 图片最宽 360px 显示，使用 `radius-container` 和 `line-hairline` 边框，并且从不比栏宽：图库和视频的宽度是栏的 `min(360px, 100%)`，而不是窗口减去对外框的估计。图库的行高按图库自身的宽度定：不到满宽 360px 时 8rem（三张图时 7rem），满宽时 9rem（8rem），所以对话旁的 thread 和手机排得一样（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）。把它放进宽度确定的父元素里（块级元素、被拉伸的 flex 或 grid 子项，或设了宽度的元素），不要放进按内容收缩的父元素（`inline-block`、`w-fit`、没设宽度的绝对定位框或浮层、`flex-basis: auto` 又没设宽度的 flex 子项）：它是自己的容器，不从内容取宽度，在那里会缩成零宽。

@@ -296,18 +296,23 @@
   }
 }
 
-@media (width >= 40rem) {
-  .r-steps--horizontal {
-    flex-wrap: wrap;
-    row-gap: 8px;
-  }
+/* A row of steps is its own container, so it switches on its own width, not
+   the window's: a dialog or a 400px panel on a wide window is as narrow as a
+   phone (design/patterns/responsive.md#switch-on-the-regions-width). Being a
+   container, it fills its row. A row too long for its width wraps its steps
+   onto a second line. */
+.r-steps--horizontal {
+  container-type: inline-size;
+  flex-wrap: wrap;
+  row-gap: 8px;
+  inline-size: 100%;
 }
 
-/* Narrow screens: a row of titles beside their markers overflows a phone, so
-   the steps share the width and each stacks its text under the marker, the
-   titles wrapping. The marker and the connector share the top line; the text
-   spans the step below. */
-@media (width < 40rem) {
+/* A narrow row (below 40rem of its own width): the titles beside their
+   markers would overflow it, so the steps share the width and each stacks its
+   text under the marker, the titles wrapping. The marker and the connector
+   share the top line; the text spans the step below. */
+@container (width < 40rem) {
   .r-steps--horizontal > .r-step {
     --r-steps-connector-gap: 6px;
     --r-steps-connector-min-width: 8px;

@@ -1,4 +1,5 @@
-import { createContext, use, useCallback, useRef, useState } from "react";
+import { createContext, use, useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import type { ComponentPropsWithRef, ReactElement } from "react";
 import type { TooltipProps } from "../tooltip/tooltip";
 import { Radio as BaseRadio } from "@base-ui/react/radio";
@@ -10,13 +11,19 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
 const segmentedControl = tv({
   slots: {
     root: [
-      "inline-flex shrink-0 items-center", // The grey track hugs its segments (w-fit also stops a flex-column
+      "inline-flex min-w-0 items-center", // The grey track hugs its segments (w-fit also stops a flex-column
       // parent from stretching it), so it never shows an empty run of track
-      // beside them, and it never shrinks below them: the segments don't
-      // shrink, so a squeezed track let them spill onto the next control. A
-      // caller that wants it full width passes `w-full` and lets the segments
-      // share it (`*:flex-1`).
-      "w-fit flex-nowrap gap-[3px] rounded-[11px] bg-fill-muted p-[3px]",
+      // beside them. The segments don't shrink. When the row is narrower
+      // than the track and its neighbors have given way, the track may
+      // shrink to the row (max-w-full) and its segments scroll sideways
+      // inside it (data-overflowing), instead of spilling onto the next
+      // control: the last way a control gives way when it can't show only
+      // its icons (design/patterns/responsive.md#when-a-row-runs-out-of-room).
+      // The overflow is set only while it overflows, since it clips the
+      // focus ring 1px past the track. A caller that wants it full width
+      // passes `w-full` and lets the segments share it (`*:flex-1`).
+      "w-fit max-w-full flex-nowrap gap-[3px] rounded-[11px] bg-fill-muted p-[3px]",
+      "data-overflowing:overflow-x-auto data-overflowing:overscroll-x-contain data-overflowing:scrollbar-none",
     ],
     item: [
       "inline-flex min-w-0 shrink-0 items-center gap-1.5",
@@ -114,19 +121,84 @@ export type SegmentedControlProps<T extends string = string> = StyledProps<
   variant?: "default" | "on-frame";
 };
 
+/**
+ * Whether the track's segments run past its box: the track's own
+ * `scrollWidth` against its `clientWidth`, so only what lays out inside it
+ * counts (Base UI's visually hidden radio inputs sit outside the track's box
+ * and must not). Measured again when the track or a segment resizes, a label
+ * changes or a web font arrives. A pixel of rounding is not an overflow.
+ */
+function useTrackOverflows(ref: { current: HTMLElement | null }): boolean {
+  const [overflowing, setOverflowing] = useState(false);
+  useLayoutEffect(() => {
+    const track = ref.current;
+    if (!track || typeof ResizeObserver === "undefined") return undefined;
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      setOverflowing(track.scrollWidth - track.clientWidth > 1);
+    };
+    const schedule = () => {
+      if (frame === 0) frame = requestAnimationFrame(measure);
+    };
+    const resize = new ResizeObserver(schedule);
+    const observeSegments = () => {
+      resize.disconnect();
+      resize.observe(track);
+      for (const child of Array.from(track.children)) resize.observe(child);
+    };
+    observeSegments();
+    const mutation = new MutationObserver(() => {
+      observeSegments();
+      schedule();
+    });
+    mutation.observe(track, { childList: true, subtree: true, characterData: true });
+    const fonts = typeof document === "undefined" ? undefined : document.fonts;
+    fonts?.addEventListener("loadingdone", schedule);
+    measure();
+    return () => {
+      if (frame !== 0) cancelAnimationFrame(frame);
+      resize.disconnect();
+      mutation.disconnect();
+      fonts?.removeEventListener("loadingdone", schedule);
+    };
+  }, [ref]);
+  return overflowing;
+}
+
 export function SegmentedControl<T extends string = string>({
   disabled = false,
   iconsOnlyBelow,
   variant = "default",
   className,
+  ref,
   ...props
 }: SegmentedControlProps<T>) {
   const { root } = segmentedControl({ iconsOnlyBelow, variant });
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [setRef] = useMergedRef<HTMLDivElement>(rootRef, ref);
+  const overflowing = useTrackOverflows(rootRef);
+  // Keep the checked segment in view when the track scrolls.
+  const value = props.value;
+  useLayoutEffect(() => {
+    const track = rootRef.current;
+    if (!overflowing || !track) return;
+    const checked = track.querySelector<HTMLElement>("[data-checked]");
+    if (!checked) return;
+    const trackLeft = track.getBoundingClientRect().left;
+    const box = checked.getBoundingClientRect();
+    const start = box.left - trackLeft + track.scrollLeft;
+    const end = start + box.width;
+    if (start < track.scrollLeft) track.scrollLeft = start;
+    else if (end > track.scrollLeft + track.clientWidth) track.scrollLeft = end - track.clientWidth;
+  }, [overflowing, value]);
   return (
     <SegmentedControlIconsOnlyContext value={iconsOnlyBelow !== undefined}>
       <BaseRadioGroup
+        ref={setRef}
         disabled={disabled}
         data-slot="segmented-control"
+        data-overflowing={overflowing ? "" : undefined}
         className={root({ className })}
         {...props}
       />

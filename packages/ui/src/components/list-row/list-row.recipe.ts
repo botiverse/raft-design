@@ -48,7 +48,14 @@ export const listRow = tv({
       "group-data-[tone=unread]/list-row:font-bold",
     ],
     description: ["min-w-0 flex-1 truncate", "text-callout text-(--list-row-ink-2)"],
-    meta: ["shrink-0", "font-mono text-mono-meta font-normal tabular-nums text-(--list-row-ink-3)"],
+    // The time or a count, kept whole beside the title, which gives way
+    // first; a value with no room left (an email in a 320px row beside a
+    // button) truncates rather than overflowing the row
+    // (design/patterns/responsive.md#when-a-row-runs-out-of-room).
+    meta: [
+      "min-w-0 truncate",
+      "font-mono text-mono-meta font-normal tabular-nums text-(--list-row-ink-3)",
+    ],
     value: ["max-w-[45%] shrink-0 truncate", "text-subhead text-(--list-row-ink-3)"],
     chevron: [
       "flex shrink-0 items-center justify-center",

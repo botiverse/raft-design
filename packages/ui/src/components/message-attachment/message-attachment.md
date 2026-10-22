@@ -127,4 +127,4 @@ message-media/compositions/video-states
 ## Rules
 
 - Keep a file card at most 360px wide.
-- Show images at most 360px wide, with `radius-container` and a `line-hairline` border.
+- Show images at most 360px wide, with `radius-container` and a `line-hairline` border, and never wider than the column: a gallery and a video are `min(360px, 100%)` of the column, not the window less a guess at the chrome. A gallery's rows are 8rem tall (7rem with three images) below its full 360px and 9rem (8rem) at it, by the gallery's own width, so a thread beside a conversation lays out as a phone does ([Switch on the region's width](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)). Put it in a parent with a definite width (a block, a stretched flex or grid item, or a set width), not one that shrinks to its content (`inline-block`, `w-fit`, an absolutely positioned box or floating layer with no width, a flex item with `flex-basis: auto` and no width): as its own container it takes no width from what it holds and would collapse to nothing.

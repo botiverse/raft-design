@@ -126,7 +126,7 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/panel/panel-header.recipe.ts": 0,
   "components/picker-trigger-button/picker-trigger-button.tsx": 2,
   "components/sidebar/sidebar-item.recipe.ts": 2,
-  "components/sidebar/sidebar-section.recipe.ts": 3,
+  "components/sidebar/sidebar-section.recipe.ts": 1,
   "components/sidebar/sidebar.recipe.ts": 2,
   "components/task-card/task-card-status.recipe.ts": 1,
   "components/toast/toast.tsx": 2,

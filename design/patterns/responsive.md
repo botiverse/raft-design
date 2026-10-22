@@ -1,6 +1,6 @@
 ---
 title: Responsive layout
-summary: The breakpoints, what each width shows, how short desktop windows shrink, how a row gives way when it runs out of room, what replaces hover on a touch screen, and how phone layouts hold at 320px.
+summary: The breakpoints, what each width shows, how short desktop windows shrink, why a layout switches on the width of its own region, how a row gives way when it runs out of room, what replaces hover on a touch screen, and how phone layouts hold at 320px.
 ---
 
 # Responsive layout
@@ -29,16 +29,30 @@ app-shell/compositions/responsive
 
 ## Rules
 
+### Switch on the region's width
+
+Switch a layout on the width of the region it sits in, not on the window's. The same component sits in a 320px panel on a 1440px window and fills a 390px phone: the window's width says nothing about its room. A profile panel, a thread beside a conversation, a dialog and the Activity list are each narrower than the window, and a layout that asks the window still lays itself out for a screen it doesn't have: a two-column list in a 360px panel, a step row that wraps where it should stack.
+
+- **Content in a panel, column or card uses a container query on that region**: `@container` on the region, `@sm:`, `@max-[…]:` and the like on what it holds. A component that switches its own layout makes itself the container, so it works wherever it is put; it then fills its row's width, since a container can't take its width from what it holds. So give it a parent with a definite width: a block, a stretched flex or grid item, or anything with a width set. In a parent that shrinks to fit its content (`inline-block`, `w-fit` or `fit-content`, an absolutely positioned box or a floating layer with no width, a flex item with `flex-basis: auto` and no width) it collapses to no width at all, its text one word to a line. The components that make themselves containers say so on their pages.
+- **Only what the window itself sizes reads the window**: the page shell and its breakpoints (the table above), dialogs, sheets, toasts, the notification center, and a panel header's phone padding (on a phone the panel is the page).
+- **Mouse or touch is read with `pointer` and `hover`, never with the width** ([Touch screens](#touch-screens)): a tablet is touch at 1024px, and a narrow desktop window still has a mouse.
+- **Anything measured in script keeps measuring.** Observe the element mounted now (a callback ref, not a ref read once in an effect) and measure again when it resizes and when its content changes (a `ResizeObserver` on it, and a `MutationObserver` or a layout effect for content: a `ResizeObserver` doesn't report text changing inside an inline element). A measurement taken once is wrong as soon as content arrives late, a font loads or the element is swapped.
+- **Prefer a layout that needs no switch.** A row that wraps, a grid with `auto-fill`, a width as `min(360px, 100%)` rather than `100vw` less a guess at the chrome: these fit any region without asking its width.
+
+Three causes account for the layouts that broke in narrow regions in the 2026-10 audit: a switch on the window's width, a measurement taken once, and a row with no way to give way. This section is the first two; the next is the third.
+
 ### When a row runs out of room
 
-A toolbar, a header or a filter row has to fit at the narrowest width its region can take (the Activity results list goes down to 320px), in the longest translation. When it doesn't, its parts give way in a fixed order, so the person still sees every control:
+Every row needs a way to give way. A toolbar, a header, a filter row or a list row has to fit at the narrowest width its region can take (the Activity results list goes down to 320px), in the longest translation and with the longest value it can hold (an email address has no space to break at). When it doesn't, its parts give way in a fixed order, so the person still sees every control:
 
 1. A secondary text button shows only its icon, with its label kept as the accessible name and the tooltip. Mark all read becomes the `check-check` icon button.
 2. Only then, the main control shows only its icons: a segmented control's segments, a tab's label. A segmented control does this itself below the row width set in `iconsOnlyBelow`: each segment becomes a 32px square with its icon, its label kept as the accessible name and the tooltip ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)).
-3. Text truncates last, and only in a name (a channel, a person), never in a control's label.
+3. A row of controls that still doesn't fit wraps onto a second line, the controls kept whole; a segmented control that can't show its icons only scrolls sideways inside its own track rather than spilling onto its neighbor ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)).
+4. Text truncates last, and only in a name or a value (a channel, a person, an email, a time), never in a control's label.
 
 - Never let parts overlap, and never let a control shrink below its own content: wrapping a control in `min-w-0` lets its frame shrink while its content spills onto its neighbor.
-- Decide the switch with a container query on the row (`@container`, `@max-[…]:`), not the window width: the same row sits in columns of different widths.
+- Give every part that can give way the means to: `min-w-0` and `truncate` on the text that may be cut, `flex-wrap` on a row of controls, `iconsOnlyBelow` on a segmented control in a row that may narrow. A part that can neither shrink, wrap nor truncate is the one that overflows.
+- Decide the switch with a container query on the row (`@container`, `@max-[…]:`), not the window width ([Switch on the region's width](#switch-on-the-regions-width)).
 - Don't shrink text or a control's height to make a row fit: a label too small to read, or a target too small to hit, is worse than an icon with a tooltip.
 
 ### Touch screens
