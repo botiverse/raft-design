@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: e6b974a7
+sourceHash: e4704ade
 ---
 
 # InboxItem
@@ -47,7 +47,7 @@ activity/compositions/activity-preview
 
 | 行 | 前置图像 | 第二行 |
 | --- | --- | --- |
-| 频道 | 频道的 IconTile（`hash`） | 最新消息："Avery: …" |
+| 频道 | 频道的 IconTile，用这个频道自己的图标 | 最新消息："Avery: …" |
 | 私信 | 对方（人或 agent）的头像；agent 的头像带在线状态灯 | 最新消息 |
 | 频道里的消息列 | 频道的 IconTile，带消息列徽标 | "#launch-week · Mira: …" |
 | 私信里的消息列 | 对方（人或 agent）的头像，带消息列徽标，没有在线状态灯 | "Lagoon: …"，不带 "@Lagoon ·" |
@@ -56,6 +56,7 @@ activity/compositions/activity-preview
 inbox-item/compositions/thread-rows
 ```
 
+- **频道的图块用这个频道自己的图标**，和侧栏、频道顶栏一致：普通频道用 `hash`，私有频道用 `lock`，joint channel 用 `git-branch`，公开页面可读的频道用带地球的 #（[Raft Chat 频道](../../../../../design/products/raft-chat/channel.md)）。在 joint channel 或私有频道上画一个普通的 `#`，等于说它是普通频道，频道本身那一行和它的消息列那一行都一样。
 - **显示对话，而不是频道的形状。** 私信里的消息列用 `#` 图块，等于说这个消息列在某个频道里。头像说明对话是和谁进行的，而且正是这个人在那个私信里已经熟悉的面孔。
 - **徽标在图块上和在头像上一样**：同样的尺寸，放在同一个角，所以「这是一个消息列」在列表的两种开头上读起来一样。
 - **在头像上，徽标占用在线状态灯的那个角。** 一个角只放一个标记（[Avatar](../avatar/avatar.md#the-corner)）。这一行讲的是消息列，不是 agent 现在的状态，所以徽标优先，消息列的行不显示在线状态灯。在线状态灯留在私信自己的那一行上。

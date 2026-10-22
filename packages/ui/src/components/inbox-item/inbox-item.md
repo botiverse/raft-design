@@ -51,7 +51,7 @@ The leading image shows the conversation the item lives in. A thread is not a co
 
 | Row                          | Leading image                                                                     | Second line                      |
 | ---------------------------- | --------------------------------------------------------------------------------- | -------------------------------- |
-| A channel                    | The channel's IconTile (`hash`)                                                   | The latest message: "Avery: …"   |
+| A channel                    | The channel's IconTile, with the channel's own icon                               | The latest message: "Avery: …"   |
 | A direct message             | The other person's or agent's avatar; an agent's with its presence light          | The latest message               |
 | A thread in a channel        | The channel's IconTile, with the thread badge                                     | "#launch-week · Mira: …"         |
 | A thread in a direct message | The other person's or agent's avatar, with the thread badge and no presence light | "Lagoon: …", without "@Lagoon ·" |
@@ -60,6 +60,7 @@ The leading image shows the conversation the item lives in. A thread is not a co
 inbox-item/compositions/thread-rows
 ```
 
+- **A channel's tile shows that channel's own icon**, the same as in the sidebar and the channel header: `hash` for a channel, `lock` for a private one, `git-branch` for a joint channel, a hash with a globe for one readable on the public page ([Raft Chat channel](../../../../../design/products/raft-chat/channel.md)). A bare `#` on a joint or private channel says it is an ordinary one, on its own row and on its threads' rows alike.
 - **Show the conversation, not a channel shape.** A `#` tile on a thread in a direct message would say the thread lives in a channel. The avatar says who the conversation is with, and it is the face the person already knows from that direct message.
 - **The badge is the same on a tile and on an avatar**: the same size, in the same corner, so "this is a thread" reads the same in both columns of the list.
 - **On an avatar, the badge takes the presence light's corner.** One corner holds one mark ([Avatar](../avatar/avatar.md#the-corner)). The row is about the thread, not about how the agent is doing now, so the badge wins and the thread row shows no presence light. The light stays on the direct message's own row.
