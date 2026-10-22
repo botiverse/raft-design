@@ -1,3 +1,85 @@
+## [0.23.0](https://github.com/botiverse/raft-design/compare/v0.22.1...v0.23.0) (2026-10-22)
+
+### Design System
+
+- **Switch on the region's width**: a layout switches on the width of the region it sits in (a panel, a column, a card), not on the window's. A component that switches its own layout makes itself a container, so it lays out the same in a 360px panel on a wide window as on a phone; it then fills its row and needs a parent with a definite width. Only what the window itself sizes reads the window (the page shell, dialogs, sheets, toasts), and mouse or touch is read with `pointer` and `hover`, never with the width. Every row needs a way to give way: a row of controls that still doesn't fit wraps onto a second line, and a value such as an email truncates last. Whether a part's content fits is measured, not guessed from a width. It applies to DescriptionList, MessageActionCard, MessageImageGallery, MessageVideoPreview, MessageForwardedBundleGallery, Steps, the TasksPanel toolbar, ActivityInboxSelectionToolbar, ListRowMeta, SegmentedControl, SidebarSectionControls, SearchEntityResult and CodeBlockPre. ([#721](https://github.com/botiverse/raft-design/pull/721), [#733](https://github.com/botiverse/raft-design/pull/733))
+  - Why: the same component sits in a narrow panel on a wide window and fills a phone, so a layout that asked the window laid itself out for a screen it didn't have (a two-column list in a 360px panel, a step row that wrapped where it should stack); every layout that switched on the window was moved to its own region, or to the input where the switch is about touch.
+  - Affects: the switch points listed under Breaking Changes and Changed below.
+  - Docs: https://raft-design.botiverse.build/patterns/responsive/#switch-on-the-regions-width
+- **Stacked buttons each take a frame**: when buttons stack full width (a dialog footer whose row doesn't fit, a bottom or top sheet's actions), a ghost button there takes the ink border of `default`, with its hover and press; it goes back to frameless when the row fits again. It applies to Button, DialogFooter, AlertDialogFooter and DrawerActions. ([#727](https://github.com/botiverse/raft-design/pull/727))
+  - Why: stretched to the full width, a frameless Cancel read as a line of text under the commit button, not as a button; once buttons stack, each needs its own box.
+  - Affects: a stacked ghost button: border `transparent` → `line-strong` on `layer-card`, hover and press `overlay-medium`, as `default`; text sizes `xs` to `xl` only, ghost icon buttons stay frameless.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#the-footer
+- **Text selection: its own token**: selected text (`::selection`) is painted with the new `selection` token and keeps its own text color. In light mode it is `brand-soft`, as before; in dark mode it is `brand` over the page at 22%, the same wash as a commented passage. `brand-soft` stays the menu highlight. It applies to MessageItem text. ([#730](https://github.com/botiverse/raft-design/pull/730))
+  - Why: in dark mode `brand-soft` left a selection at 1.23:1 against the canvas, so it was hard to see what was selected; a menu row's highlight and a selection need different values in dark mode, so they no longer share one.
+  - Affects: dark `selection` `brand-soft` (`oklch(0.5501 0.0999 91.5 / 0.2)`) → `color-mix(in oklch, var(--brand-400) 22%, transparent)`: 1.23:1 → 1.77:1 against the canvas, the selected text 7.7:1 (APCA Lc 80). Light mode is unchanged (1.14:1 against the canvas, the text 16.5:1, Lc 96).
+  - Docs: https://raft-design.botiverse.build/foundations/color/#text-selection
+
+### Breaking Changes
+
+- **MessageItem**: the header keeps no room for the hover toolbar, and `--mi-toolbar-reserve` is no longer read. At rest the sender line has the full width; while the toolbar shows (hover, focus inside the row, an open menu), the end of a sender line long enough to reach the corner fades out under it. `MessageItemToolbar` measures its own width onto the row as `--mi-toolbar-width`, so a toolbar with more or fewer buttons masks exactly its width. ([#726](https://github.com/botiverse/raft-design/pull/726))
+  - Why: keeping room for the toolbar cut the name to a few letters in a narrow column all the time, to protect a corner that is covered only while the pointer is on that message; the line now keeps its full width and nothing reflows on hover.
+  - Affects: with a mouse, header end padding `--mi-toolbar-reserve` (default 7rem) → 0. While the toolbar shows, the header is masked from 4px left of the toolbar's left edge to its end, after a 12px fade (`--mi-header-mask`); a row without a `MessageItemToolbar` masks nothing. The time's tooltip, when it fades out under the toolbar, can be pointed at once the pointer leaves the toolbar, and stays in the keyboard order.
+  - Migrate: remove `--mi-toolbar-reserve` wherever you set it; it has no effect. Render the toolbar with `MessageItemToolbar` inside the `MessageItem` row, which writes `--mi-toolbar-width`; a hover toolbar of your own gets no fade unless it sets `--mi-toolbar-width` (its width in px) on the row (`[data-message-item]`).
+  - Docs: https://raft-design.botiverse.build/components/message-item/#behavior
+- **DescriptionList** `direction="horizontal"`, **MessageActionCardContent**, **MessageImageGallery**, **MessageForwardedBundleGallery**, **Steps** (without `vertical`) and **TasksPanelRoot** are size containers (`container-type: inline-size`) and switch their layout on their own width instead of the window's; the list, the galleries and the step row fill their row (`width: 100%`). ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: see Switch on the region's width, above.
+  - Affects: DescriptionList stacks below 24rem (384px) of its own width (was below a 640px window), the value right under its label (its 32px minimum row height dropped) and 10px between pairs (the 2px row gap plus 8px; was 2px). MessageActionCard properties stack below 24rem of the card's content (was below a 640px window) with the same spacing, the value's 6px padding above and below dropped; a card at its 440px cap keeps two columns. MessageImageGallery: at most `min(360px, 100%)` of its column (was `min(360px, 100vw − 112px)` below a 768px window); rows 8rem (7rem with three images) below 360px of the gallery's own width and 9rem (8rem) at it (was by a 640px window); three images stay two across and one under them. MessageForwardedBundleGallery: a row of three is three across from 360px of the gallery's own width (was from a 768px window) and two across below; its rows grow as above from 360px (was from a 640px window). Steps: below 40rem (640px) of the row's own width each step stacks its text under its marker (was below a 640px window), and from 40rem a row too long for its width wraps. TasksPanelToolbar: New Task and the view switch on one line and the filters on the next below 28rem (448px) of the panel's width (was below a 768px window), one wrapping row from 28rem; toolbar and viewport sides 16px below 28rem, 20px from it (was by a 768px window). The same window can now show a different layout: a narrow panel on a desktop takes the narrow layout, and a wide region on a small window keeps the wide one.
+  - Migrate: put each of these in a parent with a definite width: a block, a stretched flex or grid item, or anything with a width set. In a parent that shrinks to fit its content (`inline-block`, `w-fit` or `fit-content`, an absolutely positioned box or a floating layer with no width, a flex item with `flex-basis: auto` and no width) a size container takes no width from what it holds and collapses, its text one word to a line. Keep `TasksPanelToolbar` and `TasksPanelViewport` inside `TasksPanelRoot`, and `MessageActionCardProperties` inside `MessageActionCardContent`: outside them there is no container, so the tasks toolbar keeps its two-line layout with 20px sides and the properties stay in two columns at every width. Remove window breakpoint overrides (`sm:`, `md:`, `max-sm:`) you added to adjust these layouts, and check them in your narrowest panels.
+  - Docs: https://raft-design.botiverse.build/patterns/responsive/#switch-on-the-regions-width
+
+### Added
+
+- **SegmentedControl** `iconsOnlyBelow="auto"`: the segments show only their icons exactly when their labelled segments don't fit the width the control is given, and their labels again once they fit. It decides before the first frame paints, and again when the room, a label, a count, the selection or a web font changes, always against the labelled layout, so it doesn't flicker at the boundary. `iconsOnlyBelow` also takes any length in `px`, `rem` or `em` (`"18.5rem"`, `"296px"`), measured against the nearest `@container` (the control's parent when there is none), beside the presets `xs` to `2xl`, which stay CSS container queries. With `auto` or a length the track carries `data-icons-only` while it shows only icons. The presets' type is exported as `SegmentedControlIconsOnlyPreset`. ([#733](https://github.com/botiverse/raft-design/pull/733))
+  - Why: a width picked for one language, one count or one font was wrong for the others, and the room a control is given changes with what sits beside it; `auto` measures the labels against that room instead.
+  - Affects: with `auto`, the control is a shrinkable flex item (`min-w-0`); leave it free to shrink in its row (don't make it `shrink-0`). In development raft-ui warns when a segment has no icon, or when `iconsOnlyBelow` is neither a preset, `auto` nor a `px`, `rem` or `em` length (the segments then keep their labels).
+  - Docs: https://raft-design.botiverse.build/components/segmented-control/#behavior
+- **`selection`** token: `--selection` in `foundation.css` and `tokens.json`, and the Tailwind color `selection` (`selection:bg-selection`). ([#730](https://github.com/botiverse/raft-design/pull/730))
+  - Why: see Text selection: its own token, above.
+  - Affects: light `var(--brand-soft)`; dark `color-mix(in oklch, var(--brand-400) 22%, transparent)`. Paint your own `::selection` with it in place of `brand-soft`.
+  - Docs: https://raft-design.botiverse.build/foundations/color/#text-selection
+
+### Changed
+
+- **SegmentedControl**: the track may shrink to its row. When the row is narrower than the track, its neighbors have given way and the segments can't show only their icons (or no `iconsOnlyBelow` is set), the segments scroll sideways inside the track, the checked one kept in view, instead of spilling onto the next control; the track sets `data-overflowing` while they do. ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: the track never shrank below its segments, so in a narrow row it ran over its neighbor; scrolling inside it is the last way it gives way.
+  - Affects: track `shrink-0` → `min-w-0 max-w-full`; while overflowing, `overflow-x: auto` with no scrollbar. Segments still never shrink. A track you made `shrink-0` yourself still never shrinks.
+  - Docs: https://raft-design.botiverse.build/components/segmented-control/#behavior
+- **SidebarSectionControls** and **SearchEntityResult**: decided by the input, not the window's width. The section controls show at rest wherever there is no fine pointer (a touch screen, a tablet at any width) and on hover, focus or an open menu with a mouse; a search result row is at least 64px tall on a touch screen at any width. ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: a tablet is touch at 1024px and a narrow desktop window still has a mouse, so the width was the wrong question.
+  - Affects: section controls at rest: shown below a 768px window → shown without `pointer: fine`; a narrow desktop window with a mouse now shows them on hover only. Search result `min-height: 64px`: below a 768px window → `pointer: coarse`.
+  - Docs: https://raft-design.botiverse.build/patterns/responsive/#touch-screens
+- **ActivityInboxSelectionToolbar**: one 44px row while its controls fit, and they wrap onto a second line in a narrow column, whatever the window. ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: it wrapped only below a 768px window, so in a narrow column on a wide window its controls overflowed.
+  - Affects: `flex-wrap` at every width (was below a 768px window only); padding 6px above and 5px below (was 8px below a 768px window, 0 with a fixed 44px height from it).
+  - Docs: https://raft-design.botiverse.build/components/activity-inbox/
+- **ListRowMeta**: stays whole while the title gives way first, then truncates when there is still no room, so a long value (an email beside a button in a 320px row) is cut instead of running under the button. ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: the meta never shrank, so a long value overflowed the row.
+  - Affects: `shrink-0` → `min-w-0 truncate`.
+  - Docs: https://raft-design.botiverse.build/components/list-row/#content
+- **MessageVideoPreview**: at most `min(360px, 100%)` of its column. ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: its cap was the window less a guess at the message's chrome, which was wrong in a thread beside a conversation.
+  - Affects: `max-width` `min(360px, 100vw − 112px)` → `min(360px, 100%)`.
+  - Docs: https://raft-design.botiverse.build/components/message-attachment/#rules
+- **Button** `variant="ghost"`, so **DialogFooter**, **AlertDialogFooter** (`AlertDialogCancel`) and **DrawerActions**: a ghost text button inside an element with `data-stacked` takes the ink frame of `default`. Dialog and alert dialog footers set `data-stacked` only while their buttons stack; `DrawerActions` sets it in a bottom or top sheet, where its buttons are always stacked, and not in a drawer from a side. Keep writing Cancel as `ghost`. ([#727](https://github.com/botiverse/raft-design/pull/727))
+  - Why: see Stacked buttons each take a frame, above.
+  - Affects: as above; a disabled ghost button keeps the disabled fill, and ghost icon buttons stay frameless. A stacked footer's buttons have no transition until the row has been measured and painted once (`data-measured`), so the frame doesn't fade in as a dialog opens.
+  - Docs: https://raft-design.botiverse.build/components/button/#which-color
+- **MessageItem** text: selected text uses the `selection` token, so in dark mode a selection is deeper; light mode is unchanged. ([#730](https://github.com/botiverse/raft-design/pull/730))
+  - Why: see Text selection: its own token, above.
+  - Affects: `selection:bg-brand-soft` → `selection:bg-selection`.
+  - Docs: https://raft-design.botiverse.build/foundations/color/#text-selection
+
+### Fixed
+
+- **TaskChip** (default and `size="sm"`): the chip's baseline is its text's, so its words sit on the line of the text beside it, such as a DescriptionList label; the status pixel and icons stay centered in the chip. ([#732](https://github.com/botiverse/raft-design/pull/732))
+  - Why: a centered flex box takes its baseline from its first item, so a chip that led with its status pixel sat on the pixel's bottom edge and its words stood a pixel off the label beside them.
+  - Affects: text laid out on the baseline inside the chip with 3px above and below (default, 22px) and 2px (`sm`, 20px), marks `self-center`; heights unchanged. `variant="inline"` is unchanged.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#text-of-different-sizes-on-one-line
+- **CodeBlockPre**: measures again whenever the `pre` resizes or its code changes (highlighting that arrives late, code that streams in), so a line that grows too long becomes the keyboard-reachable region (`tabindex="0"`, `role="region"`) it should be. ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: it measured once when it mounted, so code that changed later kept the first answer.
+  - Docs: https://raft-design.botiverse.build/components/code-block/#accessibility
+
 ## [0.22.1](https://github.com/botiverse/raft-design/compare/v0.22.0...v0.22.1) (2026-10-22)
 
 ### Design System
