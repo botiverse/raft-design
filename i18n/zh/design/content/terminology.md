@@ -22,14 +22,14 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 | server | 一个团队共享的空间：其中的人、Agent、频道、任务和计算机。每个服务器都与其他服务器相互独立 | Create Server、Server Profile、Leave Server、Switch server、"Mute this server" | 在界面里用 workspace 作为这个对象的名称；organization、team、org。见[服务器和 workspace](#server-and-workspace) |
 | channel | 围绕一个话题、有名字的对话，加入的成员都能看到。名字用小写加短横线：`#launch-week` | Channels、Create Channel、Leave Channel | room、group、chat、conversation |
 | joint channel | 两个或更多服务器共享的频道 | Joint Channels、Create Joint Channel、"Joint channels support…" | shared channel、bridge（Settings 里的 IM bridge 是另一回事） |
-| direct message, DM | 与一个或多个人或 Agent 之间、不属于任何频道的私密对话。一对一和群组对话都是私信 | 作为侧边栏分区和标题时写 Direct Messages；在紧凑的标签和正文里写 DM：Channels & DMs | private message、group chat、chat |
+| direct message, DM | 与一个或多个人或 Agent 之间、不属于任何频道的私密对话。一对一和群组对话都是私信 | 作为侧栏分区和标题时写 Direct Messages；在紧凑的标签和正文里写 DM：Channels & DMs | private message、group chat、chat |
 | thread | 对某一条消息的回复，在对话旁边打开 | Reply in Thread、Follow Thread、"thread with new replies" | sub-conversation、topic |
 | message | 人或 Agent 在对话里发的任何内容 | message、reply、"Message #launch-week" | prompt、post、chat、comment |
 | comment | 人或 Agent 在文档或文档某一段上写的内容，显示在文档旁边；它的回复构成一段讨论 | Comments、"2 comments"、"2 replies"、Reply | note、annotation、message |
 | Home | 手机上的第一个目的地：Saved 和各个对话 | Home | Dashboard。桌面端的对话在导航条的 Chat 下 |
 | Activity | 列出等这个人处理的对话的目的地：有未读消息或提及的频道、私信和关注的消息列。筛选：All、Unread、Mentions | Activity、Mark all read、Mark as Done | Inbox、Feed、Notifications。组件按代码命名为 `ActivityInbox` 和 `InboxItem`；产品里的标签是 Activity |
 | notification center | 铃铛后面的列表：整个服务器的状态，比如联合频道的邀请、用量上限、套餐变更，或一台需要处理的计算机 | 无障碍名称写 "Notification center"；铃铛没有可见的标签 | Activity、alerts。Notifications 是 Settings 里设置什么会通知这个人的页面 |
-| Saved | 一个人留着以后看的消息 | 消息上写 Save，目的地写 Saved | bookmarks、favorites、starred。Pinned 是侧边栏里放对话的分区，不是收藏的消息 |
+| Saved | 一个人留着以后看的消息 | 消息上写 Save，目的地写 Saved | bookmarks、favorites、starred。Pinned 是侧栏里放对话的分区，不是收藏的消息 |
 | Settings, Members, Tasks, Computers | 目的地，用 Title Case 命名 | Settings、Members、Tasks、Computers | 在帮助文字或空状态里给同一个目的地起别的名字 |
 
 ### 服务器和 workspace {#server-and-workspace}
@@ -93,7 +93,7 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 - 一些关于计算机的文字里用了 "machine"，以及权限名称 "Edit Machines"。
 - 服务器 Settings 分组的标题，以及 RaftBench 的标题里用了 Workspace。
 - 产品名词在句子中间大写："Keep it on the Computer"、"Install on this Server"。
-- 应该用 Title Case 的标签写成了小写：侧边栏的 "Add computer"、Activity 上的 "Mark all read"。
+- 应该用 Title Case 的标签写成了小写：侧栏的 "Add computer"、Activity 上的 "Mark all read"。
 - Activity 筛选的无障碍名称写成了 "Filter inbox"。
 - 在 Settings、服务器列表和应用的连接里，Log Out 和 Log out 与 Sign In 并存。
 - Runtime 输入框的帮助文字写成了 "The AI agent runtime your agents run on"。

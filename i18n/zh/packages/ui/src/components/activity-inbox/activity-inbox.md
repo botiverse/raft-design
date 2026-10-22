@@ -25,7 +25,7 @@ activity/compositions/activity-inbox
 ## 结构 {#anatomy}
 
 - `ActivityInboxPanel`：面板本身。里面有一个标题为 Activity 的 [Panel](../panel/panel.md) 头部。必需。
-- `ActivityInboxSidebar`：左侧放视图和筛选的一列，用侧边栏行（[Sidebar](../sidebar/sidebar.md)）。手机上隐藏。
+- `ActivityInboxSidebar`：左侧放视图和筛选的一列，用侧栏行（[Sidebar](../sidebar/sidebar.md)）。手机上隐藏。
 - `ActivityInboxControls`：列表上方的一行：筛选（All、Unread 和 Mentions）和 Mark all read。这里没有搜索框：搜索是 [Search](../search/search.md) 的事，在这里放一个搜索框就多了一个入口。
 - `ActivityInboxSelectionToolbar`：一个全选复选框，后面是排序菜单，或者是 `ActivityInboxSelectionCount` 加上针对选中项的操作。放得下时是一行 44px；栏窄时它们折到第二行，不管窗口多宽（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）。
 - `ActivityInboxViewport`：可滚动的 [InboxItem](../inbox-item/inbox-item.md) 列表。
@@ -54,13 +54,13 @@ activity/compositions/empty-activity
 ## 行为 {#behavior}
 
 - 选中的项在列表旁边打开，并在它的行上标记 `active`。
-- 手机上，用面板头部的一个按钮代替侧边栏，点开后显示视图和筛选。
+- 手机上，用面板头部的一个按钮代替侧栏，点开后显示视图和筛选。
 - 有项被选中时，用选中数量和针对它们的操作代替排序菜单。
 - 面板提供 Mark All Read 时，把它作为一个小号幽灵按钮放在面板头部。
 
 ## 无障碍 {#accessibility}
 
-- 这些部件都是普通的布局元素；raft-ui 没有加任何 Base UI 基础组件。视图和筛选是侧边栏行，已读筛选是 [Tabs](../tabs/tabs.md)，排序是 [DropdownMenu](../dropdown-menu/dropdown-menu.md)。
+- 这些部件都是普通的布局元素；raft-ui 没有加任何 Base UI 基础组件。视图和筛选是侧栏行，已读筛选是 [Tabs](../tabs/tabs.md)，排序是 [DropdownMenu](../dropdown-menu/dropdown-menu.md)。
 - 给面板标题一个标题层级（`render={<h2 />}`）。
 - 用 `aria-current="page"` 标记当前视图，用 `aria-pressed` 标记按下的筛选。
 - 给全选复选框起名（`aria-label="Select all visible activity"`）。

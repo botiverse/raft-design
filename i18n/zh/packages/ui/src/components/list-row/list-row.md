@@ -6,7 +6,7 @@ sourceHash: 84bfec76
 
 # ListRow
 
-ListRow 是列表里的一行：一个人、一个 Agent、一项设置，或者通往另一个页面的快捷入口。整行都是点击目标。详情页或个人资料页上的 Agent 和人、以及设置，都用它。Raft Chat 在手机上列出地方的列表（主页、成员、设置列表）则用侧边栏行（[选择组件](../../../../../design/components/overview.md#rows)）。
+ListRow 是列表里的一行：一个人、一个 Agent、一项设置，或者通往另一个页面的快捷入口。整行都是点击目标。详情页或个人资料页上的 Agent 和人、以及设置，都用它。Raft Chat 在手机上列出地方的列表（主页、成员、设置列表）则用侧栏行（[选择组件](../../../../../design/components/overview.md#rows)）。
 
 ```example
 list-row/compositions/conversations
@@ -16,10 +16,10 @@ list-row/compositions/conversations
 
 | 情况 | 用 |
 | --- | --- |
-| 手机列表里的频道、私信和成员 | 侧边栏行（[Sidebar](../sidebar/sidebar.md)），和 Raft Chat 一样 |
+| 手机列表里的频道、私信和成员 | 侧栏行（[Sidebar](../sidebar/sidebar.md)），和 Raft Chat 一样 |
 | 搜索结果里的频道和人 | ListRow，通过搜索结果行使用（[Search](../search/search.md)） |
 | 个人资料页或详情页（比如计算机详情）上的 Agent 和人 | 放在 `ListRowGroup` 里的 ListRow（[身份与在线状态](../../../../../design/people-and-agents/identity-and-presence.md#the-same-as-people)） |
-| 桌面端侧边栏的一行 | 侧边栏行（[Sidebar](../sidebar/sidebar.md)） |
+| 桌面端侧栏的一行 | 侧栏行（[Sidebar](../sidebar/sidebar.md)） |
 | 动态和通知 | [InboxItem](../inbox-item/inbox-item.md) |
 | 一个任务 | [TaskCard](../task-card/task-card.md) |
 

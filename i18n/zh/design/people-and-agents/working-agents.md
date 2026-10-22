@@ -16,9 +16,9 @@ sourceHash: ce82b65c
 
 | 位置 | 显示什么 |
 | --- | --- |
-| 屏幕顶部：网页顶栏的右侧、手机主页顶栏的右侧，或者没有顶栏时桌面端 Chat 侧边栏的头部 | 摘要：最多 3 张脸和人数。点开是 Working now |
+| 屏幕顶部：网页顶栏的右侧、手机主页顶栏的右侧，或者没有顶栏时桌面端 Chat 侧栏的头部 | 摘要：最多 3 张脸和人数。点开是 Working now |
 | Working now | 每个工作中的 Agent 一行：头像和灯、名字、正在做的事 |
-| 侧边栏、主页和成员列表里 Agent 的行 | 行右侧的运行时换成它正在做的事 |
+| 侧栏、主页和成员列表里 Agent 的行 | 行右侧的运行时换成它正在做的事 |
 | 频道的头部 | 副标题开头是最多 3 张脸和 "2 agents working"，然后是 " · " 和频道描述 |
 | 和这个 Agent 的私信的头部 | 名字后面是它的灯和正在做的事 |
 | 对话 | 它每条消息的头像上都有黄色的灯 |
@@ -74,7 +74,7 @@ conversation-panel/compositions/conversation-panel-header
 
 ## 为什么没有实时条 {#why-there-is-no-live-bar}
 
-Raft Chat 曾经在手机标签栏上方和桌面端侧边栏底部显示一条工作中 Agent 的实时条（`LiveAgentActivityBar`）。它在一个地方回答了全部三个问题，但放错了地方：
+Raft Chat 曾经在手机标签栏上方和桌面端侧栏底部显示一条工作中 Agent 的实时条（`LiveAgentActivityBar`）。它在一个地方回答了全部三个问题，但放错了地方：
 
 - 它占了屏幕上拇指最常够到的位置。
 - 它的内容一直在变。
@@ -82,7 +82,7 @@ Raft Chat 曾经在手机标签栏上方和桌面端侧边栏底部显示一条�
 
 这条横条被拆开，每一部分回到它该在的地方：屏幕顶部的摘要、Agent 的行、所在位置的头部和 Working now。`LiveAgentActivityBar` 在 raft-ui 中已弃用，将在 1.0 移除（[LiveAgentActivityBar](../../packages/ui/src/components/live-agent-activity-bar/live-agent-activity-bar.md)）。
 
-- 不要在标签栏上方、侧边栏底部或其他任何地方加实时条。
+- 不要在标签栏上方、侧栏底部或其他任何地方加实时条。
 
 ## 动效 {#motion}
 

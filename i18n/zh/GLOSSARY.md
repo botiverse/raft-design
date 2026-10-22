@@ -65,7 +65,8 @@
 | paper | 纸面 | 白色的内容区 |
 | canvas | 画布 | 作为 token 层级时 |
 | rail | 导航条 | 桌面端最左侧那一条 |
-| sidebar | 侧边栏 | |
+| sidebar | 侧栏 | App 的叫法，不用「侧边栏」 |
+| account | 账户 | App 的叫法，不用「账号」 |
 | top bar | 顶栏 | |
 | tab bar | 标签栏 | 手机底部 |
 | header | 标题栏 / 头部 | 视上下文 |

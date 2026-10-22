@@ -21,7 +21,7 @@ separator/compositions/horizontal
 | 一组内容前带名称的分隔 | 带一个词的 Separator：Actions |
 | 菜单、选择列表或弹出层的分节 | 组件自带的分隔线：`DropdownMenuSeparator`、`SelectSeparator`、`PopoverSeparator` |
 | 列表的各行 | 列表自带的分割线（[ListRow](../list-row/list-row.md)） |
-| 标题栏和内容、导航条和侧边栏、两栏之间 | 区域自己画的 `line-seam`（[颜色](../../../../../design/foundations/color.md#lines)） |
+| 标题栏和内容、导航条和侧栏、两栏之间 | 区域自己画的 `line-seam`（[颜色](../../../../../design/foundations/color.md#lines)） |
 | 大型表单的各节 | [FormSection](../form-section/form-section.md)，它自己画细线 |
 
 ## 变体 {#variants}

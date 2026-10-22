@@ -77,7 +77,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 **中性角色。** 角色是以下四种之一：
 
 - `foreground-*`：文字和图标；
-- `layer-*`：表面，按叠放顺序排列（外框、侧边栏、画布、卡片、弹出层）；
+- `layer-*`：表面，按叠放顺序排列（外框、侧栏、画布、卡片、弹出层）；
 - `line-*`：线；
 - `fill-*`：铺在表面里或表面上的填充。
 

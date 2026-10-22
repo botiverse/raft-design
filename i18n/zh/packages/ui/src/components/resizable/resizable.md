@@ -6,7 +6,7 @@ sourceHash: 79e05ac4
 
 # Resizable
 
-Resizable 让人拖动两个区域之间的边界，改变各自占多少空间：侧边栏和主区域，或者一段对话和它的消息列。两列之间的接缝线是唯一的线，拖动手柄就在这条线上（[用现有部件搭成](../../../../../design/components/overview.md#resizable-columns)）。
+Resizable 让人拖动两个区域之间的边界，改变各自占多少空间：侧栏和主区域，或者一段对话和它的消息列。两列之间的接缝线是唯一的线，拖动手柄就在这条线上（[用现有部件搭成](../../../../../design/components/overview.md#resizable-columns)）。
 
 ```example
 app-shell/compositions/collapsible-sidebar
@@ -16,7 +16,7 @@ app-shell/compositions/collapsible-sidebar
 
 | 情况 | 用 |
 | --- | --- |
-| 人会调整的分栏：侧边栏、消息列面板 | Resizable |
+| 人会调整的分栏：侧栏、消息列面板 | Resizable |
 | 设计里固定的宽度 | [AppShell](../app-shell/app-shell.md) 的插槽，或普通布局 |
 | 在主区域旁边打开和关闭的侧面板 | 外壳里的 [Panel](../panel/panel.md) |
 | 暂时盖住页面的详情 | [Drawer](../drawer/drawer.md) |
@@ -41,8 +41,8 @@ app-shell/compositions/collapsible-sidebar
 
 - 手柄宽 12px，居中在边界上，两边各压住面板 6px，所以不占任何一边的空间。在粗略指针下（平板上的手指）宽 24px。
 - 双击手柄，列恢复默认宽度。
-- 默认、最小和最大宽度用[间距](../../../../../design/foundations/spacing.md#layout-widths)里的值：每一列有自己的范围，侧边栏在每个页面上保持同一个宽度（[调整列宽](../../../../../design/foundations/spacing.md#resizing-columns)）。
-- 在侧边栏的面板上传 `groupResizeBehavior="preserve-pixel-size"`，这样窗口变化时侧边栏保持宽度，差值由主区域承担。
+- 默认、最小和最大宽度用[间距](../../../../../design/foundations/spacing.md#layout-widths)里的值：每一列有自己的范围，侧栏在每个页面上保持同一个宽度（[调整列宽](../../../../../design/foundations/spacing.md#resizing-columns)）。
+- 在侧栏的面板上传 `groupResizeBehavior="preserve-pixel-size"`，这样窗口变化时侧栏保持宽度，差值由主区域承担。
 - 在 Raft Chat 里，768px 以下没有可以调整的并排列；服务器的公开页面从 640px 起保留它的列（[响应式布局](../../../../../design/patterns/responsive.md)）。
 
 ## 无障碍 {#accessibility}

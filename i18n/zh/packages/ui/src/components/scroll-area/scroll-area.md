@@ -6,7 +6,7 @@ sourceHash: cbc3c912
 
 # ScrollArea
 
-ScrollArea 用原生方式滚动内容，并在边缘上画一条细滚动条，只在内容移动时显示，所以滚动条不占布局的空间。raft-ui 把它用在桌面端的消息列表、侧边栏和消息输入框的附件行上。
+ScrollArea 用原生方式滚动内容，并在边缘上画一条细滚动条，只在内容移动时显示，所以滚动条不占布局的空间。raft-ui 把它用在桌面端的消息列表、侧栏和消息输入框的附件行上。
 
 ```example
 scroll-area/compositions/basic

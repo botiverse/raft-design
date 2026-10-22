@@ -20,7 +20,7 @@ activity/compositions/activity-preview
 | 整个服务器的状态：某台计算机离线、配额快满了 | 通知（[NotificationCenter](../notification-center/notification-center.md)） |
 | 这个人所做操作的结果 | [Toast](../toast/toast.md) |
 | 在对话框或表单中，操作前需要阅读的内容 | [Banner](../banner/banner.md) |
-| 列表中的频道、私信或成员 | 侧边栏的行（[Sidebar](../sidebar/sidebar.md)） |
+| 列表中的频道、私信或成员 | 侧栏的行（[Sidebar](../sidebar/sidebar.md)） |
 
 哪种消息放在哪里，见[选择组件](../../../../../design/components/overview.md#telling-people-something)。
 
