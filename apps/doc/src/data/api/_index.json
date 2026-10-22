@@ -853,9 +853,13 @@
     "names": [
       "MobileNavItem",
       "MobileNavLabel",
-      "MobileNavRoot"
+      "MobileNavRoot",
+      "MobileNavServerItem",
+      "MobileNavServerMenu",
+      "MobileNavServerMenuContent"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The tab: the server's avatar and its name in `MobileNavLabel`, as children. A press opens the menu, and so does holding it for 500ms (the long press of raft-ui's menus). Lifting the finger after the hold leaves the menu open: Base UI keeps a popover it did not open on a click (stickIfOpen) through the click that ends the hold. It is never `selected`: it holds no page."
   },
   "notification-center": {
     "names": [

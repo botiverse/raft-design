@@ -1,12 +1,12 @@
 ---
 title: Raft Chat — 设置
 summary: 设置这个目的地：Personal、Workspace 和 Resources 三组，它们打开的页面，通知，Sign Out 和危险区。
-sourceHash: fb024f64
+sourceHash: 0f421436
 ---
 
 # Raft Chat — 设置
 
-设置分三组列出这个人自己的设置、服务器的设置和 Raft 的资源。在桌面端，这几组就是侧边栏，页面在它们旁边打开；在手机上，它们是更多标签的一级页面，和每个标签的根页面一样标题为 More，排在成员和计算机这一组之后，每一行打开一个盖住标签栏的推入页面，带返回到列表的返回按钮。
+设置分三组列出这个人自己的设置、服务器的设置和 Raft 的资源。在桌面端，这几组就是侧边栏，页面在它们旁边打开；在手机上，它们是一个标题为 Settings 的推入页面，从服务器标签的菜单打开（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)），每一行再打开一个推入页面，带返回到列表的返回按钮。
 
 ## 结构 {#structure}
 
@@ -16,13 +16,13 @@ sourceHash: fb024f64
 sidebar/compositions/settings-list
 ```
 
-1. **标题栏**：手机上是 More，在外框上 56px 的导航行里，和每个标签的根页面一样；桌面端是 Settings。
-2. **三组**，每组是一个分组标签加若干带图标和名字的侧边栏行。手机上最前面是成员和计算机这一组；访客没有这一组：
+1. **标题栏**：手机上是推入页面的标题栏 Settings，带返回；桌面端是 Settings。
+2. **三组**，每组是一个分组标签加若干带图标和名字的侧边栏行。手机上的列表里没有成员和计算机：它们是服务器标签菜单里的行。
    - Personal：Account、Language & Region、Appearance、Notifications。
    - Workspace：Server Profile，然后是这个人有权查看且服务器已开启的项：RaftBench、Plan & Billing、Administration、IM Bridges、Applications、Labs、MCP Servers、AI Providers。
    - Resources：About、Documentation（指向文档站的链接）、Feedback、Release Notes。
 
-- 有新回复时 Feedback 显示一个粉色像素点；手机上有计算机需要处理时 Computers 也显示一个（[Raft Chat](./README.md#attention-dots)）。
+- 有新回复时 Feedback 显示一个粉色像素点；手机上有计算机需要处理时，服务器标签菜单里的 Computers 行也显示一个（[Raft Chat](./README.md#attention-dots)）。
 - 在桌面端，默认打开 Account，它的行是黄色贴纸。在手机上，打开某一行之前什么都不选中。
 
 ### 设置页面 {#a-settings-page}
