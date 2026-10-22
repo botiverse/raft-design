@@ -287,6 +287,10 @@
      empties it while the root carries data-input-modality="pointer", which
      installInputModality sets after a click or a tap. */
   --focus-ring: 0 0 0 2px oklch(1 0 0), 0 0 0 4px oklch(0.1813 0.005 17.62);
+  /* Selected text (::selection). brand-soft in light mode; in dark mode brand
+     over the page at 22%, the wash of a commented passage, because brand-soft
+     left a selection almost the same as the page. */
+  --selection: var(--brand-soft);
   --field-font-size: 16px;
   --field-font-weight: 400;
   --field-line-height: 24px;
@@ -415,6 +419,7 @@
     0 0 0 1px oklch(0.9843 0.004 106.47 / 0.078), 0 16px 40px -12px oklch(0 0 0 / 0.8);
   --elevation-sticker: 4px 4px 0 oklch(0 0 0);
   --focus-ring: 0 0 0 2px oklch(0.2213 0.0038 106.71), 0 0 0 4px oklch(0.9211 0.004 106.48);
+  --selection: color-mix(in oklch, var(--brand-400) 22%, transparent);
   --sticker-edge: oklch(0.9843 0.004 106.47 / 0.349);
 }
 
@@ -497,6 +502,7 @@
       0 0 0 1px oklch(0.9843 0.004 106.47 / 0.078), 0 16px 40px -12px oklch(0 0 0 / 0.8);
     --elevation-sticker: 4px 4px 0 oklch(0 0 0);
     --focus-ring: 0 0 0 2px oklch(0.2213 0.0038 106.71), 0 0 0 4px oklch(0.9211 0.004 106.48);
+    --selection: color-mix(in oklch, var(--brand-400) 22%, transparent);
     --sticker-edge: oklch(0.9843 0.004 106.47 / 0.349);
   }
 }

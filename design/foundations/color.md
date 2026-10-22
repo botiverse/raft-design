@@ -160,7 +160,7 @@ A soft tint (`*-soft`) is a highlight, never a sticker: it has no border.
 
 | Tint | Use for |
 | --- | --- |
-| `brand-soft` | Menu highlight, the busy chip, text selection |
+| `brand-soft` | Menu highlight, the busy chip |
 | `info-soft` | The selected item in content, filters, info banners, runtime chips, thread references, a message inside a notification |
 | `attention-soft` | Channel references, a reaction you added |
 | `success-soft` | Success banners, the Done chip |
@@ -170,6 +170,18 @@ A soft tint (`*-soft`) is a highlight, never a sticker: it has no border.
 | `task-status-closed-soft` | The Closed chip |
 
 - Draw a used-up usage meter's track in `warning-muted` with a 1px `warning` edge, not `warning-soft`: on the dark canvas `warning-soft` is 1.16:1, fainter than an empty track, and a soft tint can't take an edge ([Meter](../../packages/ui/src/components/meter/meter.md)).
+
+### Text selection
+
+Selected text has its own token, `selection`. A selection has to show clearly where it starts and ends against the page, while the text on it stays easy to read; a menu row's highlight only has to mark one row. The two needs part in dark mode, so they don't share a value.
+
+| Mode | `selection` | Against the canvas | Selected text |
+| --- | --- | --- | --- |
+| Light | `brand-soft` | 1.14:1 | 16.5:1, APCA Lc 96 |
+| Dark | `brand` over the page at 22%, the wash of a commented passage ([Comment](../../packages/ui/src/components/comment/comment.md#highlights)) | 1.77:1 | 7.7:1, APCA Lc 80 |
+
+- In dark mode `brand-soft` left a selection at 1.23:1 against the canvas, so it was hard to see what was selected. 30% would reach 2.25:1 but drop the selected text to Lc 74, under the Lc 75 that body text needs; 22% keeps both.
+- Paint `::selection` (Tailwind's `selection:` variant) with `selection` and leave the text its own color.
 
 ### Hover overlays
 

@@ -37,7 +37,7 @@ body {
   overflow-y: auto;
 }
 
-/* A text selection is the brand-soft tint (Color: soft tints). */
+/* Selected text is the `selection` token (Color: text selection). */
 ::selection {
-  background-color: var(--brand-soft);
+  background-color: var(--selection);
 }

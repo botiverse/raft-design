@@ -143,7 +143,7 @@ export const messageItem = tv({
       "wrap-break-word select-text",
       "**:select-text",
       "text-body text-foreground",
-      "selection:bg-brand-soft",
+      "selection:bg-selection",
     ],
     searchMatch: searchHit,
     embedded: ["min-w-0", "mt-2"],
