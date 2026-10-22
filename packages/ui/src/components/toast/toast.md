@@ -35,7 +35,7 @@ Never put anything in a toast that would confuse people if they missed it ([Choo
 - `toast`: the command API (`toast.success`, `toast.error`, …) for the default manager.
 - `ToastViewport`: where toasts appear on screen. `ToastPositioner` and `ToastArrow` anchor a toast to an element instead.
 - `ToastRoot` and `ToastContent`: one toast and its layout.
-- `ToastIcon`: optional. Who did it (an avatar), or the intent's icon when there is no "who". Never a status light: a status light shows only whether an agent or a person is working or online, never which kind a notice is ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
+- `ToastIcon`: optional. Who did it (an avatar), or the intent's icon when there is no "who". Never a status light: a status light shows only a state: whether an agent or a person is working or online, or a task's status; never which kind a notice is ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
 - `ToastBody`, holding `ToastTitle` (required) and an optional `ToastDescription`, both in `text-callout` ([Typography](../../../../../design/foundations/typography.md#type-scale)): 14/20 on a phone, 14/22 on a desktop, like a banner. `ToastIcon` is one line of that text tall, so the icon stays on the title's line: a 16px icon, centered in a 20px column 12px before the title, as is an avatar ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
 - `ToastActions`: optional, holding one `ToastAction` and `ToastClose`.
 - `ToastProgress`: an optional line that shows the time left before it closes.
