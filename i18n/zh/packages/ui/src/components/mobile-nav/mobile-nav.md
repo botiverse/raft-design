@@ -1,7 +1,7 @@
 ---
 title: MobileNav
 summary: 手机的标签栏：一级页面底部最多 5 个目的地，选中那一项的图标放在一张黄色贴纸里。
-sourceHash: 56ecc8ae
+sourceHash: efee0f71
 ---
 
 # MobileNav
@@ -50,11 +50,12 @@ mobile-nav/compositions/server-tab
 - `MobileNavServerItem`：标签，一个打开弹出层的 `MobileNavItem`。子元素是服务器的 [Avatar](../avatar/avatar.md)（`type="server"`，画成 22px，和其他标签的图标一样大）和放在 `MobileNavLabel` 里的名称，过长时截断。它不接受 `selected`：它没有页面，所以从不处于选中状态。弹出层打开时，它的头像下面显示按下时的底色。
 - `MobileNavServerPopoverContent`：弹出层，一个从标签栏上方升起的 [Popover](../popover/popover.md) 面板，距标签栏两侧各 8px、上方 8px，高度随内容，最高占屏幕的 60%（`60dvh`）。它由下面几个部件纵向排成一列，部件之间放 `PopoverSeparator`。
 - `MobileNavServerPopoverList`：服务器列表。它占用弹出层里剩下的空间，在里面滚动，后面的部件始终可见。
-- `MobileNavServerPopoverRow`：一行，高度是所有弹出列表的选项高度（`min-h-option`，36px，[表单](../../../../../design/patterns/forms.md#option-height)）：20px 的头像或 16px 的图标、过长时截断的 `MobileNavServerPopoverRowLabel`，然后是勾号、[Badge](../badge/badge.md) 或灰色计数。`aria-current="true"` 把当前服务器设为粗体。
+- `MobileNavServerPopoverRow`：一行，内边距和所有弹出列表的选项一样，一行文字时 36px，第二行只多出它自己的高度（[表单](../../../../../design/patterns/forms.md#option-height)）：20px 的头像或 16px 的图标、过长时截断的 `MobileNavServerPopoverRowLabel`，然后是勾号、[Badge](../badge/badge.md) 或灰色计数。`aria-current="true"` 把当前服务器设为粗体。
+- `MobileNavServerPopoverRowBody` 和 `MobileNavServerPopoverRowDescription`：服务器的名称，下面是它的地址（`/raft-hq`），用灰色的 Space Mono，和切换器里一样。头像和末尾的勾号或计数在两行之间居中。
 - `MobileNavServerPopoverDestinations` 和 `MobileNavServerPopoverDestination`：服务器自己的页面，放在一行等宽的按钮里，每个按钮是 20px 的图标，下面是放在 `span` 里的标签。这一行是一个 `group`；用 `aria-label` 给它命名，比如服务器的名称。
 - `MobileNavServerPopoverGroup`：始终可见的行，比如底部的操作。
 
-弹出层里的行由产品决定：先是和切换器一样的服务器列表（[切换服务器](../../../../../design/components/overview.md#switching-servers)），然后是服务器自己的页面，最后是切换器底部的操作。Raft Chat 的写在[导航](../../../../../design/patterns/navigation.md#the-server-tab-on-a-phone)里。
+弹出层里的行由产品决定：先是和切换器一样的服务器列表（[切换服务器](../../../../../design/components/overview.md#switching-servers)），然后是切换器底部的操作，最后在最底部、离标签栏最近的地方，是放在 `MobileNavServerPopoverDestinations` 一行里的服务器自己的页面。Raft Chat 的写在[导航](../../../../../design/patterns/navigation.md#the-server-tab-on-a-phone)里。
 
 - 点按打开弹出层，再点按一次关闭。
 - 长按（静止按住 500ms）也打开它，和 raft-ui 其他长按菜单打开的时刻相同（[状态](../../../../../design/foundations/states.md)）。松开手指后弹出层保持打开；弹出层已经打开时再长按，它保持原样。手指移动超过 10px 是滚动，不是按住。这个标签会阻止系统自己的长按菜单和文字选择。

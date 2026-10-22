@@ -22,6 +22,8 @@ import {
   MobileNavServerPopoverGroup,
   MobileNavServerPopoverList,
   MobileNavServerPopoverRow,
+  MobileNavServerPopoverRowBody,
+  MobileNavServerPopoverRowDescription,
   MobileNavServerPopoverRowLabel,
 } from "./mobile-nav-server";
 
@@ -70,12 +72,26 @@ function renderPhone(name = "Raft HQ", servers = 1) {
                     <Avatar type="server" size="xs" data-testid="row-avatar">
                       <AvatarFallback>S</AvatarFallback>
                     </Avatar>
-                    <MobileNavServerPopoverRowLabel>
-                      Server {index + 1}
-                    </MobileNavServerPopoverRowLabel>
+                    <MobileNavServerPopoverRowBody>
+                      <MobileNavServerPopoverRowLabel data-testid="row-label">
+                        Server {index + 1}
+                      </MobileNavServerPopoverRowLabel>
+                      <MobileNavServerPopoverRowDescription data-testid="row-slug">
+                        /server-{index + 1}
+                      </MobileNavServerPopoverRowDescription>
+                    </MobileNavServerPopoverRowBody>
                   </MobileNavServerPopoverRow>
                 ))}
               </MobileNavServerPopoverList>
+              <PopoverSeparator />
+              <MobileNavServerPopoverGroup data-testid="footer">
+                <MobileNavServerPopoverRow>
+                  <Plus />
+                  <MobileNavServerPopoverRowLabel>
+                    Switch or Create Server
+                  </MobileNavServerPopoverRowLabel>
+                </MobileNavServerPopoverRow>
+              </MobileNavServerPopoverGroup>
               <PopoverSeparator />
               <MobileNavServerPopoverDestinations aria-label={name} data-testid="destinations">
                 <MobileNavServerPopoverDestination>
@@ -92,15 +108,6 @@ function renderPhone(name = "Raft HQ", servers = 1) {
                   <span>Settings</span>
                 </MobileNavServerPopoverDestination>
               </MobileNavServerPopoverDestinations>
-              <PopoverSeparator />
-              <MobileNavServerPopoverGroup data-testid="footer">
-                <MobileNavServerPopoverRow>
-                  <Plus />
-                  <MobileNavServerPopoverRowLabel>
-                    Switch or Create Server
-                  </MobileNavServerPopoverRowLabel>
-                </MobileNavServerPopoverRow>
-              </MobileNavServerPopoverGroup>
             </MobileNavServerPopoverContent>
           </MobileNavServerPopover>
         </MobileNavRoot>
@@ -234,11 +241,30 @@ async function openMenu(servers: number) {
   return menu()!;
 }
 
-it("puts each server on one line at the option height, with a 20px avatar", async () => {
+it("puts each server's name over its address at the two-line option height, the 20px avatar centered", async () => {
   await openMenu(5);
   const rows = screen.getAllByTestId("row");
-  for (const row of rows) expect(row.getBoundingClientRect().height).toBe(36);
-  expect(screen.getAllByTestId("row-avatar")[0].getBoundingClientRect().width).toBe(20);
+  const labels = screen.getAllByTestId("row-label");
+  const slugs = screen.getAllByTestId("row-slug");
+  const avatars = screen.getAllByTestId("row-avatar");
+  rows.forEach((element, index) => {
+    const row = element.getBoundingClientRect();
+    const label = labels[index].getBoundingClientRect();
+    const slug = slugs[index].getBoundingClientRect();
+    const avatar = avatars[index].getBoundingClientRect();
+    // The one-line option's padding, (36px - one line) / 2, above and below;
+    // the second line adds its own height and nothing else.
+    expect(label.height).toBe(parseFloat(getComputedStyle(labels[index]).lineHeight));
+    expect(slug.height).toBe(parseFloat(getComputedStyle(slugs[index]).lineHeight));
+    const inset = (36 - label.height) / 2;
+    expect(label.top - row.top).toBeCloseTo(inset, 1);
+    expect(row.bottom - slug.bottom).toBeCloseTo(inset, 1);
+    expect(slug.top).toBeCloseTo(label.bottom, 1);
+    expect(row.height).toBeCloseTo(36 + slug.height, 1);
+    expect(avatar.width).toBe(20);
+    expect(avatar.top + avatar.height / 2).toBeCloseTo(row.top + row.height / 2, 0);
+  });
+  expect(getComputedStyle(slugs[0]).fontFamily).toMatch(/Mono/i);
   const destinations = [...screen.getByTestId("destinations").children].map((cell) =>
     cell.getBoundingClientRect(),
   );
@@ -254,6 +280,12 @@ it("with 20 servers stays within 60% of the screen; the list scrolls and the res
   expect(list.scrollHeight).toBeGreaterThan(list.clientHeight);
   list.scrollTop = 120;
   expect(list.scrollTop).toBe(120);
+  const footerBox = screen.getByTestId("footer").getBoundingClientRect();
+  const destinationsBox = screen.getByTestId("destinations").getBoundingClientRect();
+  expect(footerBox.top).toBeGreaterThanOrEqual(list.getBoundingClientRect().bottom);
+  // The server's pages come last, nearest the thumb and the tab bar.
+  expect(destinationsBox.top).toBeGreaterThanOrEqual(footerBox.bottom);
+  expect(popup.bottom - destinationsBox.bottom).toBeLessThanOrEqual(2);
   for (const id of ["destinations", "footer"]) {
     const part = screen.getByTestId(id).getBoundingClientRect();
     expect(part.height).toBeGreaterThan(0);

@@ -50,6 +50,11 @@ const mobileNavServer = tv({
       "*:data-[slot=avatar]:size-5 *:data-[slot=avatar]:shrink-0",
     ],
     rowLabel: ["min-w-0 flex-1 truncate"],
+    rowBody: ["flex min-w-0 flex-1 flex-col"],
+    rowDescription: [
+      "min-w-0 truncate",
+      "font-mono text-mono-meta font-normal text-foreground-hint",
+    ],
     destinations: ["grid shrink-0 grid-flow-col auto-cols-fr gap-1 p-1"],
     destination: [
       "relative flex min-w-0 cursor-default select-none flex-col items-center justify-center",
@@ -304,10 +309,12 @@ export function MobileNavServerPopoverGroup({
 export type MobileNavServerPopoverRowProps = ComponentPropsWithRef<"button">;
 
 /**
- * One line at the option height of every popup list (`min-h-option`, 36px):
- * a 20px avatar or a 16px icon, `MobileNavServerPopoverRowLabel`, then anything
- * trailing (a check, a count). `aria-current="true"` marks the current server
- * in bold.
+ * One row at the option height of every popup list (`py-option-inset`, 36px
+ * for one line; a second line adds its own height and nothing else): a 20px
+ * avatar or a 16px icon, `MobileNavServerPopoverRowLabel` (or a
+ * `MobileNavServerPopoverRowBody` with a description under the label), then
+ * anything trailing (a check, a count), centered on the row.
+ * `aria-current="true"` marks the current server in bold.
  */
 export function MobileNavServerPopoverRow({
   className,
@@ -379,6 +386,45 @@ export function MobileNavServerPopoverDestination({
       type={type}
       data-slot="mobile-nav-server-popover-destination"
       className={destination({ className })}
+      {...props}
+    />
+  );
+}
+
+export type MobileNavServerPopoverRowBodyProps = ComponentPropsWithRef<"span">;
+
+/**
+ * The text of a two-line row: `MobileNavServerPopoverRowLabel`, then
+ * `MobileNavServerPopoverRowDescription` under it. The second line adds its
+ * own height and nothing else; the avatar and the trailing check or count
+ * center on both lines.
+ */
+export function MobileNavServerPopoverRowBody({
+  className,
+  ...props
+}: MobileNavServerPopoverRowBodyProps) {
+  const { rowBody } = mobileNavServer();
+  return (
+    <span
+      data-slot="mobile-nav-server-popover-row-body"
+      className={rowBody({ className })}
+      {...props}
+    />
+  );
+}
+
+export type MobileNavServerPopoverRowDescriptionProps = ComponentPropsWithRef<"span">;
+
+/** A row's second line, such as a server's address: muted Space Mono; truncates. */
+export function MobileNavServerPopoverRowDescription({
+  className,
+  ...props
+}: MobileNavServerPopoverRowDescriptionProps) {
+  const { rowDescription } = mobileNavServer();
+  return (
+    <span
+      data-slot="mobile-nav-server-popover-row-description"
+      className={rowDescription({ className })}
       {...props}
     />
   );

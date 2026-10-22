@@ -24,6 +24,8 @@ import {
   MobileNavServerPopoverGroup,
   MobileNavServerPopoverList,
   MobileNavServerPopoverRow,
+  MobileNavServerPopoverRowBody,
+  MobileNavServerPopoverRowDescription,
   MobileNavServerPopoverRowLabel,
 } from "@botiverse/raft-ui/wip";
 import { SERVERS, TABS } from "../server-tab.fixtures";
@@ -126,7 +128,12 @@ export function MobileNavServerTabComposition() {
                     <Avatar type="server" size="xs">
                       <AvatarFallback>{item.name.slice(0, 1)}</AvatarFallback>
                     </Avatar>
-                    <MobileNavServerPopoverRowLabel>{item.name}</MobileNavServerPopoverRowLabel>
+                    <MobileNavServerPopoverRowBody>
+                      <MobileNavServerPopoverRowLabel>{item.name}</MobileNavServerPopoverRowLabel>
+                      <MobileNavServerPopoverRowDescription>
+                        {item.slug}
+                      </MobileNavServerPopoverRowDescription>
+                    </MobileNavServerPopoverRowBody>
                     {item.id === serverId ? (
                       <Check aria-label="Current server" />
                     ) : item.muted && item.unread ? (
@@ -141,6 +148,23 @@ export function MobileNavServerTabComposition() {
                   </MobileNavServerPopoverRow>
                 ))}
               </MobileNavServerPopoverList>
+              <PopoverSeparator />
+              <MobileNavServerPopoverGroup>
+                <MobileNavServerPopoverRow data-page="Join Community" onClick={handlePage}>
+                  <Globe />
+                  <MobileNavServerPopoverRowLabel>Join Community</MobileNavServerPopoverRowLabel>
+                </MobileNavServerPopoverRow>
+                <MobileNavServerPopoverRow data-page="Switch or Create Server" onClick={handlePage}>
+                  <Plus />
+                  <MobileNavServerPopoverRowLabel>
+                    Switch or Create Server
+                  </MobileNavServerPopoverRowLabel>
+                </MobileNavServerPopoverRow>
+                <MobileNavServerPopoverRow data-page="Invite Human" onClick={handlePage}>
+                  <UserPlus />
+                  <MobileNavServerPopoverRowLabel>Invite Human</MobileNavServerPopoverRowLabel>
+                </MobileNavServerPopoverRow>
+              </MobileNavServerPopoverGroup>
               <PopoverSeparator />
               <MobileNavServerPopoverDestinations aria-label={server.name}>
                 <MobileNavServerPopoverDestination data-page="Members" onClick={handlePage}>
@@ -163,23 +187,6 @@ export function MobileNavServerTabComposition() {
                   <span>Settings</span>
                 </MobileNavServerPopoverDestination>
               </MobileNavServerPopoverDestinations>
-              <PopoverSeparator />
-              <MobileNavServerPopoverGroup>
-                <MobileNavServerPopoverRow data-page="Join Community" onClick={handlePage}>
-                  <Globe />
-                  <MobileNavServerPopoverRowLabel>Join Community</MobileNavServerPopoverRowLabel>
-                </MobileNavServerPopoverRow>
-                <MobileNavServerPopoverRow data-page="Switch or Create Server" onClick={handlePage}>
-                  <Plus />
-                  <MobileNavServerPopoverRowLabel>
-                    Switch or Create Server
-                  </MobileNavServerPopoverRowLabel>
-                </MobileNavServerPopoverRow>
-                <MobileNavServerPopoverRow data-page="Invite Human" onClick={handlePage}>
-                  <UserPlus />
-                  <MobileNavServerPopoverRowLabel>Invite Human</MobileNavServerPopoverRowLabel>
-                </MobileNavServerPopoverRow>
-              </MobileNavServerPopoverGroup>
             </MobileNavServerPopoverContent>
           </MobileNavServerPopover>
         </MobileNavRoot>

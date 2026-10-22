@@ -860,6 +860,8 @@
       "MobileNavServerPopoverList",
       "MobileNavServerPopoverGroup",
       "MobileNavServerPopoverRow",
+      "MobileNavServerPopoverRowBody",
+      "MobileNavServerPopoverRowDescription",
       "MobileNavServerPopoverRowLabel",
       "MobileNavServerPopoverDestinations",
       "MobileNavServerPopoverDestination"

@@ -1,7 +1,7 @@
 ---
 title: Raft Chat
 summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、桌面端布局和侧边栏、桌面应用、正在工作的 agent 显示在哪里、它的浮层，以及它和通用模式不一致的地方。
-sourceHash: f665ce24
+sourceHash: 2407552c
 ---
 
 # Raft Chat
@@ -24,7 +24,7 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、agent 和任务都在�
 | 位置 | 目的地 |
 | --- | --- |
 | 手机标签栏 | 主页（`house`）、动态（`activity`，和桌面端导航条一样）、任务（`square-check-big`）、搜索（`search`），以及当前服务器（它的头像和名称），在贴边的标签栏上（[MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-the-server-tab)）。顺序固定。搜索是一个标签，也是搜索全部内容的唯一入口：它的页面没有返回，标签栏保持搜索选中，切换标签后它的查询、筛选、结果和滚动位置都保留（[导航](../../patterns/navigation.md#search-on-a-phone)）。移动应用和手机网页上都一样 |
-| 手机上的服务器标签 | 打开一个弹出层而不是页面：先是服务器列表，然后是并排一行的成员、计算机和[设置](./settings.md)，最后是 Join Community、Switch or Create Server 和 Invite Human。服务器自己的每一行打开一个推入页面，带返回。切换服务器时停在当前标签（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)）。访客没有成员和计算机 |
+| 手机上的服务器标签 | 打开一个弹出层而不是页面：先是服务器列表，然后是 Join Community、Switch or Create Server 和 Invite Human，最底部是并排一行的成员、计算机和[设置](./settings.md)。服务器自己的每个页面打开一个推入页面，带返回。切换服务器时停在当前标签（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)）。访客没有成员和计算机 |
 | 手机主页的第一行 | 收藏（带灰色计数），这是它唯一的入口；见[主页](./home.md) |
 | 网页顶栏（768px 起，以及桌面应用的标题栏） | 同[页面结构](../../patterns/page-structure.md#the-web-top-bar)；搜索框打开搜索 |
 | 桌面端导航条 | 聊天、动态、任务、成员、计算机；底部是帮助（`circle-help`）和设置。访客没有成员和计算机 |
