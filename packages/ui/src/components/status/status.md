@@ -33,7 +33,14 @@ status/compositions/default
 
 ## Anatomy
 
-- `Status`: the pixel, with an ink edge. `presence` draws one of the five presence lights; `variant` draws a color role.
+- `Status`: the pixel, with an ink edge. `presence` draws one of the five presence lights; `variant` draws a color role. `size` sets the pixel.
+
+## Sizes
+
+- **A status light beside text has one size, 9px** (`md`, the default) with a 1.5px ink edge: in a toast, a banner, a panel notice, a badge, a panel header, a sidebar row, a list row. Don't pass a size there. 9px is 6px of color, the least that tells green from yellow from orange, plus two 1.5px ink edges, and about the cap height of the 12px to 14px text beside it.
+- **A light on an avatar follows the avatar**, not the text: `AvatarBadge` sizes it from 6px to 20px with the avatar ([Avatar](../avatar/avatar.md)).
+- When the light leads a line of text it is centered on the first line ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)). Banner, PanelNotice, ToastIcon, Badge and PanelActivity place a `Status` in them this way and hold it at 9px whatever size it was given; elsewhere, give it `className="lead-dot"`.
+- `xs`, `sm` and `lg` (6px, 8px and 11px) are not for a light beside text.
 
 ## Variants
 

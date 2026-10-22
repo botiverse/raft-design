@@ -41,11 +41,11 @@ export const messageActionCardContent = tv({
     // It leads the content, before the properties, as a tinted block with a
     // leading icon. The agent's own reason is a hint, not a notice.
     notice: [
-      "flex items-start gap-2",
-      "[&>svg]:size-3.5 [&>svg]:shrink-0",
+      "flex items-start gap-lead",
+      "[&>svg]:lead-icon",
       "mb-0 rounded-control bg-fill-muted px-2.5 py-2",
       "text-footnote text-foreground-muted",
-      "[&>svg]:mt-0.5 [&>svg]:text-foreground-muted",
+      "[&>svg]:text-foreground-muted",
     ],
     completion: [
       "inline-flex items-center gap-1.5 text-footnote text-foreground-muted",

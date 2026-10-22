@@ -11,15 +11,12 @@ const banner = tv({
   slots: {
     root: [
       "group/banner @container grid gap-y-0",
-      "[&>svg]:col-start-1 [&>svg]:shrink-0",
-      "*:data-[slot=status]:col-start-1 *:data-[slot=status]:row-start-1",
-      "w-full grid-cols-[minmax(0,1fr)] items-start gap-x-2.5 rounded-container border-0",
+      "w-full grid-cols-[minmax(0,1fr)] items-start gap-x-lead rounded-container border-0",
       "font-sans text-callout text-foreground ring-1 ring-line-hairline ring-inset",
-      "has-[>svg]:grid-cols-[20px_minmax(0,1fr)]",
-      "has-[>[data-slot=status]]:grid-cols-[20px_minmax(0,1fr)]",
-      "[&>svg]:row-start-1 [&>svg]:size-5 [&>svg]:text-foreground",
-      "[&>svg]:mt-[calc((1lh-20px)/2)]",
-      "*:data-[slot=status]:mt-[calc((var(--text-callout--line-height)-9px)/2)] *:data-[slot=status]:self-start *:data-[slot=status]:justify-self-center",
+      "has-[>svg]:grid-cols-[auto_minmax(0,1fr)]",
+      "has-[>[data-slot=status]]:grid-cols-[auto_minmax(0,1fr)]",
+      "[&>svg]:col-start-1 [&>svg]:row-start-1 [&>svg]:lead-icon [&>svg]:text-foreground",
+      "*:data-[slot=status]:col-start-1 *:data-[slot=status]:row-start-1 *:data-[slot=status]:lead-dot",
       "has-[>svg]:[--banner-text-col:2]",
       "has-[>[data-slot=status]]:[--banner-text-col:2]",
       "has-[>[data-slot=banner-title]]:[--banner-desc-row:2]",
@@ -59,14 +56,7 @@ const banner = tv({
       success: { root: ["bg-success-soft"] },
     },
     size: {
-      sm: {
-        root: [
-          "gap-x-2 px-3 py-2 text-footnote",
-          "has-[>svg]:grid-cols-[16px_minmax(0,1fr)] has-[>[data-slot=status]]:grid-cols-[16px_minmax(0,1fr)]",
-          "[&>svg]:mt-[calc((1lh-16px)/2)] [&>svg]:size-4",
-          "*:data-[slot=status]:mt-[calc((var(--text-footnote--line-height)-9px)/2)]",
-        ],
-      },
+      sm: { root: ["px-3 py-2 text-footnote"] },
       md: { root: ["px-3.5 py-3"] },
       lg: { root: ["px-4 py-3.5"] },
     },

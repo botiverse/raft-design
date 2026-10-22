@@ -32,7 +32,7 @@ The wider the scope of a message, the further out it goes; the full table is in 
 ## Anatomy
 
 - `Banner`: the tinted container. Required. It fills the width it is given and lays out its parts by that width, so give it a width (or let it fill its parent); never `w-fit`, which collapses it.
-- An icon: a Lucide icon as a direct child, before the text.
+- An icon: a Lucide icon as a direct child, before the text, or a `Status` pixel in its place. Banner sizes and places either one by the text: an icon 16px beside a `md` banner's 14px text and 14px beside a `sm` banner's, a pixel at its one size, 9px; either centered on the first line with 8px before the text ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
 - `BannerTitle`: an optional bold first line.
 - `BannerDescription`: the message. Required. An inline text action goes inside it as a `TextLink variant="strong"`, because it sits in a sentence ([TextLink](../text-link/text-link.md#variants)).
 - `BannerAction`: the banner's button, and Dismiss before it when the banner has one. It sits at the bottom right: at the end of the last line of text, centered on that line, while the text fits beside it on one line. With a title and a description, that line is the description's. When the text would wrap beside it, or the banner is narrower than 480px, it takes a line of its own under the text, aligned to the end. `BannerAction` decides this itself; don't place it. The width is a container query on the banner's content: 452px, which is a 480px banner at `md` (476px at `sm`, 484px at `lg`).
@@ -101,7 +101,7 @@ When something in one panel goes wrong (an agent won't start, the channel's sett
 - Place it directly under the panel header, across the full width of the panel.
 - Give it no radius and no hairline. It is closed by seams (`line-seam`) above and below; the one above is the panel header's.
 - Line its sides up with the panel's margins ([Spacing](../../../../../design/foundations/spacing.md#layout-widths)).
-- Lead the text with a status pixel instead of an icon.
+- Lead the text with a status pixel instead of an icon. `PanelNotice` keeps it at 9px and centers it on the first line, as it does an icon ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
 - Write one message of at most 2 lines, in `PanelNoticeContent` (semibold `text-callout`).
 - Put the actions in `PanelNoticeActions`, on the right and centered on the first line of text: a small icon button (Copy Details) or a text button (View Logs). A 32px button doesn't make the strip taller.
 - Keep the default `status="warning"` for something to fix; use `destructive` only for what cannot be undone.
