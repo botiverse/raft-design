@@ -10,7 +10,7 @@ export const messageTextSelectionToolbar = tv({
     button: [
       "flex shrink-0 items-center gap-1.5 outline-none transition-colors",
       "h-7 rounded-chip px-2.5 whitespace-nowrap text-foreground",
-      "hover:bg-fill-pressed active:bg-fill-pressed",
+      "hover:bg-fill-medium active:bg-fill-medium",
       "focus-visible:shadow-focus",
       "[&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-foreground-muted",
     ],

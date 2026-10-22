@@ -34,7 +34,6 @@ const combobox = tv({
       "transition-[background-color,color] duration-100",
       "[&>svg]:shrink-0",
       "rounded-sticker text-foreground-hint opacity-100",
-      "hover:bg-transparent hover:text-foreground-hint",
       "[&>svg]:size-3.5 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
     ],
     control: [
@@ -94,7 +93,7 @@ const combobox = tv({
       "data-visible:pointer-events-auto data-visible:opacity-100",
       "h-7 min-w-0 rounded-chip px-2",
       "font-sans text-control font-semibold text-foreground-muted",
-      "hover:bg-fill-pressed hover:text-foreground active:bg-fill-pressed",
+      "hover:bg-fill-medium hover:text-foreground active:bg-fill-medium",
       "focus-visible:shadow-focus",
       "[&>svg]:size-4 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
     ],
@@ -115,7 +114,7 @@ const combobox = tv({
     chipRemove: [
       "inline-flex shrink-0 items-center justify-center outline-none transition-colors",
       "size-[calc(var(--control-embedded-size)-4px)] rounded-sticker text-foreground-hint",
-      "hover:bg-fill-pressed active:bg-fill-pressed",
+      "hover:bg-fill-medium active:bg-fill-medium",
       "focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
       "[&>svg]:size-3.5",
     ],

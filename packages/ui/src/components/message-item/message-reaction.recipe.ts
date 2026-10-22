@@ -17,7 +17,7 @@ export const messageReaction = tv({
       "inline-flex min-w-0 max-w-full items-center overflow-hidden whitespace-nowrap",
       "transition-colors",
       "h-6 gap-1 rounded-chip pr-2 pl-1.5 text-callout text-foreground",
-      "bg-fill-muted hover:press-overlay active:press-overlay",
+      "bg-fill-muted hover:overlay-medium active:overlay-medium",
       "data-pressed:bg-attention-soft",
       "has-data-[slot=message-reaction-error-indicator]:bg-warning-soft",
       "outline-none focus-visible:shadow-focus",
@@ -34,7 +34,7 @@ export const messageReaction = tv({
       "transition-colors",
       "[&_svg]:shrink-0",
       "h-6 rounded-chip px-1.5 [&_svg]:size-4",
-      "bg-fill-muted text-foreground-muted hover:press-overlay active:press-overlay",
+      "bg-fill-muted text-foreground-muted hover:overlay-medium active:overlay-medium",
       "outline-none focus-visible:shadow-focus",
     ],
     quickRow: [

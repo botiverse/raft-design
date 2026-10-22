@@ -45,7 +45,7 @@ button/compositions/preview
 button/compositions/on-frame
 ```
 
-On the frame, a button takes the frame's ink (`foreground-on-frame`) and lays `fill-frame-pressed` over itself on hover, on press and while its popup is open. The text and icon sizes become the 36px frame item.
+On the frame, a button takes the frame's ink (`foreground-on-frame`) and lays `fill-frame-medium` over itself on hover, on press and while its popup is open. The text and icon sizes become the 36px frame item.
 
 ### Which color
 
@@ -92,7 +92,7 @@ Icon sizes by context are in [Iconography](../../../../../design/foundations/ico
 
 ## States
 
-Hover, press, focus and disabled follow [States](../../../../../design/foundations/states.md): a sticker lays `sticker-pressed` over itself, a paper-colored button `fill-pressed`.
+Hover, press, focus and disabled follow [States](../../../../../design/foundations/states.md): every button hovers and presses with the medium tier ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)): a sticker lays `sticker-medium` over itself, a paper-colored button `fill-medium`.
 
 - **Disabled, frameless:** a frameless icon button (`ghost` at an icon size) and an `on-frame` button only turn their icon and text `foreground-disabled`. No fill or border appears.
 - **Disabled, colored:** a disabled pink, orange or red button is no longer a sticker: it takes the shared disabled look.

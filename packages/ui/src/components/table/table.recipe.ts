@@ -20,13 +20,13 @@ export const table = tv({
     // are not styled in v1 (`TableHead` is the column header).
     body: [
       "[&>tr:last-child>td]:border-b-0 [&>tr:last-child>th]:border-b-0",
-      "[&>tr]:hover:bg-fill-row-hover",
+      "[&>tr]:hover:bg-fill-subtle [&>tr]:active:bg-fill-medium",
     ],
     row: [
-      "not-aria-selected:not-data-[selected=true]:data-popup-open:bg-fill-row-open",
-      "not-aria-selected:not-data-[selected=true]:has-data-popup-open:bg-fill-row-open",
-      "aria-selected:bg-info-soft aria-selected:hover:bg-info-soft",
-      "data-[selected=true]:bg-info-soft data-[selected=true]:hover:bg-info-soft",
+      "not-aria-selected:not-data-[selected=true]:data-popup-open:bg-fill-subtle",
+      "not-aria-selected:not-data-[selected=true]:has-data-popup-open:bg-fill-subtle",
+      "aria-selected:bg-info-soft aria-selected:hover:bg-info-soft aria-selected:active:bg-info-soft",
+      "data-[selected=true]:bg-info-soft data-[selected=true]:hover:bg-info-soft data-[selected=true]:active:bg-info-soft",
     ],
     head: [
       "text-left whitespace-nowrap",

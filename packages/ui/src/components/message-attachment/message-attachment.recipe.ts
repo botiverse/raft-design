@@ -7,7 +7,7 @@ export const messageAttachment = tv({
       "group/attachment relative inline-flex h-20 w-44 min-w-44 max-w-44 shrink-0 flex-col overflow-hidden",
       "text-left",
       "rounded-container border border-line-hairline bg-layer-card py-2 pr-[calc(var(--control-embedded-inset)-1px)] pl-2.5 text-foreground",
-      "outline-none hover:press-overlay active:press-overlay focus-visible:shadow-focus",
+      "outline-none hover:overlay-subtle active:overlay-medium focus-visible:shadow-focus",
       "[&_[data-slot=message-attachment-action]_svg]:size-4",
     ],
     title: [
@@ -37,7 +37,7 @@ export const messageAttachment = tv({
       "before:absolute before:-inset-1 before:content-['']",
       "[&_svg]:shrink-0",
       "-mt-1 mb-[calc(var(--control-embedded-inset)-9px)] size-6 self-end rounded-chip text-foreground",
-      "outline-none hover:bg-fill-pressed active:bg-fill-pressed",
+      "outline-none hover:bg-fill-medium active:bg-fill-medium",
       "focus-visible:shadow-focus",
       "[&_svg]:size-4",
     ],

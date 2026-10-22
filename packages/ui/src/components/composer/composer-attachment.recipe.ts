@@ -72,7 +72,7 @@ export const composerAttachment = tv({
       "[&_svg]:shrink-0",
       "-top-1.5 -right-1.5 size-5 rounded-sticker border-[1.5px] border-line-strong",
       "bg-layer-card text-foreground opacity-100",
-      "hover:press-overlay active:press-overlay",
+      "hover:overlay-medium active:overlay-medium",
       "outline-none focus-visible:shadow-focus",
       "disabled:cursor-not-allowed disabled:border-line-hairline disabled:bg-fill-muted disabled:text-foreground-disabled",
       "after:absolute after:-inset-3 after:content-['']",

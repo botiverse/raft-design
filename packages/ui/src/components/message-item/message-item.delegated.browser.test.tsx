@@ -198,7 +198,7 @@ function Faces({ popupOpen = false, deleted = false }: { popupOpen?: boolean; de
           </MessageItemContent>
         </MessageItem>
         <span data-testid="canvas" style={{ color: "var(--layer-canvas)" }} />
-        <span data-testid="open" style={{ color: "var(--fill-row-open)" }} />
+        <span data-testid="open" style={{ color: "var(--fill-subtle)" }} />
       </div>
     </ThemeProvider>
   );

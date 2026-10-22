@@ -54,11 +54,11 @@ toggle-group/compositions/vertical
 
 ## States
 
-| State                         | Look                                                                                                              |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| Not pressed                   | `foreground-muted` text on the track; the pressed overlay on hover                                                |
-| Pressed                       | A yellow sticker with a bold label ([Color](../../../../../design/foundations/color.md#stickers))                 |
-| Disabled item, disabled group | `foreground-disabled` text, no reaction to hover or press ([States](../../../../../design/foundations/states.md)) |
+| State                         | Look                                                                                                                                                                                                                                          |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Not pressed                   | `foreground-muted` text on the track; the medium tier on hover and press                                                                                                                                                                      |
+| Pressed                       | A yellow sticker with a bold label ([Color](../../../../../design/foundations/color.md#stickers)). It doesn't change on hover; a press lays `sticker-medium` ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)) |
+| Disabled item, disabled group | `foreground-disabled` text, no reaction to hover or press ([States](../../../../../design/foundations/states.md))                                                                                                                             |
 
 ```example
 toggle-group/compositions/item-disabled

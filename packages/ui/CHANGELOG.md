@@ -165,7 +165,7 @@
 - **Row hover**: rows hover with their own lightest visible step, not the press overlay; a row whose menu is open is marked with one slightly stronger step. ([#641](https://github.com/botiverse/raft-design/pull/641), [#643](https://github.com/botiverse/raft-design/pull/643))
   - Why: the press fill made hovered messages and list rows read as grey and heavy, and on a phone a long-press menu left no mark of which row it belonged to.
   - Affects: hover `fill-pressed` 7.8% → `fill-row-hover` 4% (dark 3%), messages `fill-message-hover` 3% (dark 2.2%), menu-open `fill-row-open` 5% (dark 4%). Press and selection are unchanged; hover stays lighter than selection.
-  - Docs: https://raft-design.botiverse.build/foundations/states/#row-hover
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
 
 ### Added
 
@@ -179,11 +179,11 @@
 - **Message, SidebarItem, List, Inbox, Search, Table and File rows**: hover with `fill-row-hover` (messages with `fill-message-hover`) instead of `fill-pressed`. ([#641](https://github.com/botiverse/raft-design/pull/641))
   - Why: see Row hover above.
   - Affects: hover background 7.8% → 4% (messages 3%).
-  - Docs: https://raft-design.botiverse.build/foundations/states/#row-hover
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
 - **Rows with a menu open** (right-click, ⋯ menu, phone long-press): take `fill-row-open` while the menu is open; selection still wins. **Comment cards** hover with `fill-row-hover`. ([#643](https://github.com/botiverse/raft-design/pull/643))
   - Why: the open menu needs one marker of which row it belongs to, including on a phone where there is no hover.
   - Affects: menu-open background `fill-row-open` 5% / 4%.
-  - Docs: https://raft-design.botiverse.build/foundations/states/#row-hover
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
 - **Select, Combobox**: `collisionPadding` defaults to 8px. ([#642](https://github.com/botiverse/raft-design/pull/642))
   - Why: popups touched the screen edge on phones.
   - Affects: popup inset from the screen edge, 8px.

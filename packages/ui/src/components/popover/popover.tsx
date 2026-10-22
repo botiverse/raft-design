@@ -23,7 +23,7 @@ const popover = tv({
       "outline-none transition-colors",
       "h-8 min-w-8 rounded-chip px-1.5",
       "font-sans text-footnote font-bold text-foreground",
-      "hover:bg-fill-pressed active:bg-fill-pressed",
+      "hover:bg-fill-medium active:bg-fill-medium",
       "focus-visible:shadow-focus",
       "[&_svg]:size-4.5",
     ],

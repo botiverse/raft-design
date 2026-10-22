@@ -16,6 +16,10 @@ import { extendTailwindMerge } from "tailwind-merge";
 // read the control axis from the theme's spacing; without registering them
 // tailwind-merge does not see `h-control` and `h-8` as the same property.
 // `min-h-option` and `py-option-inset` are the option metric axis, likewise.
+// The hover overlays (`overlay-subtle`, `overlay-medium`, ... and their
+// deprecated names) paint background-image: registered there, a later
+// `hover:bg-none` or another tier's overlay replaces them instead of both
+// surviving.
 const twMerge = extendTailwindMerge({
   extend: {
     theme: {
@@ -59,6 +63,13 @@ const twMerge = extendTailwindMerge({
         },
       ],
       "font-weight": [{ font: ["field", "card-title"] }],
+      "bg-image": [
+        { overlay: ["subtle", "medium", "sticker-medium", "frame-medium"] },
+        "press-overlay",
+        "press-overlay-sticker",
+        "row-hover-overlay",
+        "row-open-overlay",
+      ],
     },
   },
 });

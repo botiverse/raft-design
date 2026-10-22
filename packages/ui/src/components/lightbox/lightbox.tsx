@@ -66,7 +66,7 @@ const lightbox = tv({
       "data-[disabled=true]:cursor-default",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0",
       "size-11 rounded-control border-[1.5px] border-line-strong bg-layer-card text-foreground shadow-none",
-      "hover:bg-layer-card hover:press-overlay active:press-overlay",
+      "hover:overlay-medium active:overlay-medium",
       "focus-visible:outline-transparent focus-visible:shadow-focus",
       "[&_svg]:size-5.5",
     ],

@@ -41,7 +41,8 @@ segmented-control/compositions/filters
 
 ## States
 
-- Selected: a yellow sticker with a bold label. The other segments are `foreground-muted`.
+- Selected: a yellow sticker with a bold label. It doesn't change on hover, like a selected tab; a press lays `sticker-medium` ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
+- The other segments are `foreground-muted`, with the medium tier, `fill-medium`, on hover and press.
 - Disabled: set on the whole control, as in [States](../../../../../design/foundations/states.md).
 
 ```example

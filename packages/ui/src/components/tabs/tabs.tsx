@@ -60,9 +60,9 @@ const tabs = tv({
         tab: [
           "h-8 justify-center gap-1.5 rounded-control border-[1.5px] border-transparent px-3",
           "after:inset-x-0 after:-inset-y-1.5",
-          "hover:bg-fill-pressed active:bg-fill-pressed",
+          "hover:bg-fill-medium active:bg-fill-medium",
           "data-active:border-sticker-ink data-active:bg-brand data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
-          "data-active:active:press-overlay-sticker",
+          "data-active:active:overlay-sticker-medium",
           "data-disabled:bg-transparent",
         ],
       },

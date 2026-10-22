@@ -34,7 +34,7 @@ export const appRail = tv({
       "[&_svg]:shrink-0",
       "size-10 rounded-control border-[1.5px] border-transparent",
       "text-foreground-on-frame [&_svg]:size-5",
-      "hover:bg-fill-frame-pressed active:bg-fill-frame-pressed",
+      "hover:bg-fill-frame-medium active:bg-fill-frame-medium",
       "data-[selected=true]:border-line-frame-active data-[selected=true]:bg-layer-frame-active",
       // The yellow "you are here" is a sticker: the die-cut edge in dark mode.
       "data-[selected=true]:ring-[1.5px] data-[selected=true]:ring-sticker-edge",

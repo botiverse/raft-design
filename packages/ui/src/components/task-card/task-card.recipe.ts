@@ -10,7 +10,7 @@ export const taskCard = tv({
       "group-data-[dragging=true]/task-draggable:transform-none",
       "motion-reduce:transform-none motion-reduce:transition-none",
       "rounded-container border border-line-hairline bg-layer-card p-3 text-foreground shadow-none",
-      "data-[interactive=true]:hover:press-overlay data-[interactive=true]:active:press-overlay",
+      "data-[interactive=true]:hover:overlay-subtle data-[interactive=true]:active:overlay-medium",
       "data-[disabled=true]:bg-fill-muted data-[disabled=true]:opacity-100",
       "group-data-[dragging=true]/task-draggable:shadow-float",
     ],

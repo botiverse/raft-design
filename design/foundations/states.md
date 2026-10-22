@@ -9,7 +9,7 @@ Every component shows its interaction states the same way. A component doc only 
 
 ## Principles
 
-- **Hover and press add an overlay.** They never change the fill; see [Motion](./motion.md). A row's hover is the lightest step people can see, lighter than its press and than any selection ([Row hover](#row-hover)). Text that can be clicked has no box to lay an overlay on, so it underlines on hover instead ([Clickable text](#clickable-text)).
+- **Hover and press add an overlay, in two tiers.** They never change the fill; see [Motion](./motion.md). Large things people read hover with the subtle tier, small controls with the medium tier, and anything clickable presses with the medium tier ([Hover and press](#hover-and-press)). Selected items don't respond to hover, and fields don't hover. Text that can be clicked has no box to lay an overlay on, so it underlines on hover instead ([Clickable text](#clickable-text)).
 - **Selection has three meanings, and three looks.** Where you are in navigation is yellow, the item singled out in content is cyan, and a chosen value is ink.
 - **Disabled looks the same everywhere** and doesn't react to hover or press.
 
@@ -17,8 +17,8 @@ Every component shows its interaction states the same way. A component doc only 
 
 | State | Look |
 | --- | --- |
-| Hover, keyboard highlight | Menus, select lists and the quick reactions in a menu fill with `brand-soft`; so does the keyboard highlight in search results. Buttons lay the pressed overlay over themselves on hover. Rows lay a lighter one: `fill-row-hover`, and `fill-message-hover` on a message ([Row hover](#row-hover)). A toolbar's actions are buttons, not menu rows, even in a toolbar that floats like a menu (the one over selected text): they hover grey with `fill-pressed`, never `brand-soft` |
-| Press | The pressed overlay: `fill-pressed`, `sticker-pressed` or `fill-frame-pressed` ([Color](./color.md#pressed-overlays)), on rows too. A text button lights up its hit area when pressed |
+| Hover, keyboard highlight | Menus, select lists and the quick reactions in a menu fill with `brand-soft`; so does the keyboard highlight in search results. Rows, messages and readable cards lay the subtle tier, `fill-subtle`; buttons, chips, tabs and segments the medium tier ([Hover and press](#hover-and-press)). A toolbar's actions are buttons, not menu rows, even in a toolbar that floats like a menu (the one over selected text): they hover grey with `fill-medium`, never `brand-soft` |
+| Press | The medium tier on everything, rows and cards too: `fill-medium`, `sticker-medium` on a colour sticker or `fill-frame-medium` on the frame ([Color](./color.md#hover-overlays)). A text button lights up its hit area when pressed |
 | Focus | See [Focus](#focus) |
 | Selected: navigation | A yellow sticker: sidebar rows, segmented controls, tabs, the tab bar's icon. On the yellow frame in light mode, the rail's selected item is a white sticker; in dark mode it is yellow |
 | Selected: content | `info-soft`: the open item, the message someone jumped to, an active filter |
@@ -29,35 +29,31 @@ Every component shows its interaction states the same way. A component doc only 
 | Error | An input gets a `danger-strong` border and a line that says how to fix it. In a dialog, a banner. A problem with the whole server goes to the notification center; see [Feedback](../patterns/feedback.md) |
 | Busy | A pixel spinner in the button, and a label that says what is happening. Anywhere else the spinner matches what it stands in for: in a line of text it keeps the line's height; in place of a panel's or a list's content it is `md` or `lg`, with a line in `text-callout` or `text-body` and `foreground-muted` ([Spinner](../../packages/ui/src/components/spinner/spinner.md#size)) |
 
-## Row hover
+## Hover and press
 
-A row is anything whose whole width is one target: a message, a sidebar item, a list row, an inbox item, a search result, a table row, a file row. Its hover says "the pointer is here, and this is what a click or the toolbar acts on". That is all it has to say, and people read the row while the pointer rests on it, so the hover takes the smallest step they can see and leaves the text as it was.
+Hover says "the pointer is here, and this is what a click acts on"; press confirms the click. Both lay one translucent layer of ink over the resting colour, never a different fill, so the step looks the same on white, on the yellowish sidebar and on a card. There are two tiers, sized by what is under the pointer, not by which token a component happened to use: before, raft-ui had nine ways to turn a thing grey, from a step of 2.1 to 8.4 (OKLab ΔE × 100), and two cards that look alike hovered at 2.7 and 5.7.
 
-| Row | Hover | Light | Dark |
-| --- | --- | --- | --- |
-| Message ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)) | `fill-message-hover` | 3% ink | 2.2% ink |
-| Every other row, and a [comment card](../../packages/ui/src/components/comment/comment.md) | `fill-row-hover` | 4% ink | 3% ink |
-| Any row with its menu open | `fill-row-open` | 5% ink | 4% ink |
-| Press, on every row | `fill-pressed` | 7.8% ink | 7.8% ink |
+| Tier | For | Token | Light | Dark | Step |
+| --- | --- | --- | --- | --- | --- |
+| **Subtle** | Hover on large things people read: a row, a message, a readable card (comment, attachment, replies bar, task card), and a row whose menu is open | `fill-subtle` (`overlay-subtle`) | 4% ink | 3% paper | 2.5 to 3 |
+| **Medium** | Hover on small controls: buttons, icon buttons, chips, badges, tabs, segment items, navigation items. Press on anything clickable | `fill-medium` (`overlay-medium`) | 7.8% ink | 6.5% paper | 5 to 6.5 |
+| Medium on a colour sticker | Primary, warning and danger buttons, colour badges, a selected segment pressed | `sticker-medium` (`overlay-sticker-medium`) | 10% ink | 10% ink | 5.5 to 6 |
+| Medium on the frame | Rail items, on-frame buttons, the workspace button, the notification trigger | `fill-frame-medium` (`overlay-frame-medium`, `bg-fill-frame-medium`) | 10% ink | 6% paper | about 6.4 |
+| **Yellow highlight** | The current item in a popup, by pointer and keyboard: menu items, options, suggestions, quick reactions | `brand-soft` | opaque | 20% yellow | 8.1 / 5.9 |
+| **None** | Selected items: a selected segment or toggle, the active sidebar item, the selected tab, a selected row. Fields: inputs, the select trigger, the search box | — | — | — | — |
 
-- **Visible.** The hover is at least one just-noticeable step from its surface: 2 or more in OKLab distance (ΔE × 100). `fill-row-hover` is 2.8 on paper in both modes, `fill-message-hover` 2.1. The light and dark alphas differ so the step looks the same in both modes: the same ink alpha shows more on a dark surface.
-- **Under selection.** A hover is always lighter than the selected, jumped-to and search-hit tints on the same surface, so it never reads as one of them: on paper `info-soft` is 6.4 (light) and 4.6 (dark), `brand-soft` 8.1 and 6.1. Hover stays neutral ink; selection keeps its color ([Selected: content](#usage)). A selected row doesn't change on hover.
-- **Text keeps its contrast.** On the hover, body text loses at most 5 APCA Lc on a message and 6 on a row, and `foreground-hint` stays at 4.5:1 or more on every surface ([Contrast](./color.md#contrast)).
-- **A message is lighter than a row.** A message can be twenty lines tall, and the pointer rests on it while someone reads: a large area shows a smaller step just as well as a 36px row shows a larger one, so the message takes the lightest step that is still visible.
-- **Press stays `fill-pressed`.** A press lasts a moment and confirms a click, so it may be strong. A button keeps `fill-pressed` for hover too: it is small, and nobody reads through it.
-- **A row with its menu open is a step past its hover.** Every row, a message or any other, takes `fill-row-open` while a menu or popup it opened is up (`data-popup-open` on the row, or on a button inside it), hovered or not, and a selected row keeps its selection. The menu opens on right-click, from the row's ⋯ button, or on a phone when someone presses and holds the row. A phone has no hover, so the row's fill is the only sign of which row the menu acts on, and a hover (2.1 to 2.8) is too faint to find at a glance. With a mouse it looks the same, so "the row this menu belongs to" reads the same everywhere. On every surface a row sits on, it is a clear step and still under both selection tints:
+- **Subtle for what people read.** A message can be twenty lines tall and a row runs the width of the panel; the pointer rests on them while someone reads. A small step shows on a large area, and body text loses at most 6 APCA Lc on it, `foreground-hint` stays at 4.5:1 or more on every surface ([Contrast](./color.md#contrast)). Messages used to hover lighter than rows (3% and 2.2%) and readable cards heavier (7.8%); now a row, a message and a card on the same screen step the same.
+- **Medium for small controls.** A 32px button needs a clear answer under the pointer, and nobody reads through it. The alphas differ by backdrop so the step looks the same: the same ink shows more on dark, yellow and pink, so dark mode takes 6.5%, a sticker and the yellow frame 10%, the dark frame 6%.
+- **Anything clickable presses with the medium tier.** A press lasts a moment and confirms the click, so it may be strong: rows, cards, chips, badges, mentions and the selected sticker (a selected segment, toggle, tab or sidebar item lays `sticker-medium`). A control hovers and presses with the same tier: there is no third, stronger press tier. A message has no press: the row itself is not an action (a click selects text or lands on a link, a name or a button inside it), so its hover only marks what the toolbar and the menu act on.
+- **A row with its menu open is subtle, hovered or not.** Every row, a message or any other, takes `fill-subtle` while a menu or popup it opened is up (`data-popup-open` on the row, or on a button inside it); a selected row keeps its selection. On a phone, which has no hover, it is the sign of which row the menu acts on (2.5 to 2.9 off every row surface). With a mouse it is the hover it already had, so the two never stack.
+- **Under selection.** Both grey tiers stay under the selection tints on the same surface, so a hover never reads as selected: on paper `info-soft` is 6.4 (light) and 4.6 (dark), `brand-soft` 8.1 and 6.1. Hover stays neutral ink; selection keeps its color ([Selected: content](#usage)).
+- **Selected items don't respond to hover.** Selection is the strongest signal on the item; darkening it on hover adds nothing and makes it look like something else. A selected segment or toggle, like a selected tab and the active sidebar item, keeps its look under the pointer; pressing it lays the medium tier.
+- **The yellow highlight is the popup's cursor, not a grey.** It moves with the pointer and the keyboard alike. In dark mode it is 20% yellow: at 16% it was 5.0, weaker than the button hover beside the popup.
+- **Fields don't hover.** A field's states are its caret, its focus ring and its error; a hover would say "click here to act" on something you type into. The select trigger and the top bar's search box are drawn as fields, so they don't hover either; pressing them still lays the medium tier.
+- **One signal.** A hover never adds a second change to its surface: no border, shadow or fill change beside the overlay. One exception: a frameless control whose icon or label rests in `foreground-muted` or `foreground-hint` (a field's clear and chevron buttons, the system-message disclosure, an icon button) steps that content to `foreground` with its overlay, the way clickable text steps to ink; the content answers, the surface doesn't change twice.
+- **Only with a pointer that hovers.** Every hover applies under `@media (hover: hover)`: Tailwind's `hover:` does this, and the CSS files wrap their `:hover` rules in the same query. On a touch screen a hover would stay on the last thing tapped.
 
-  | Surface | `fill-row-open`, light / dark | `info-soft` | `brand-soft` | `foreground-hint` on it |
-  | --- | --- | --- | --- | --- |
-  | `layer-canvas` (messages, inbox, tables) | 3.5 / 3.8 | 6.4 / 4.6 | 8.1 / 6.1 | 5.1:1 / 5.8:1 |
-  | `layer-sidebar` (sidebar items) | 3.5 / 4.3 | 6.1 / 6.0 | 6.1 / 7.5 | 5.0:1 / 6.7:1 |
-  | `layer-card` (list rows, file rows) | 3.5 / 3.5 | 6.4 / 3.9 | 8.1 / 5.4 | 5.1:1 / 5.2:1 |
-  | `layer-popover` (search results) | 3.5 / 3.4 | 6.4 / 3.6 | 8.1 / 5.0 | 5.1:1 / 4.8:1 |
-
-  Dark mode stops at 4% because of the popover and the card: 5% would be 4.2 on a dark popover, above `info-soft`. Body text loses up to 7 Lc on it, more than on a hover, which is fine for the moment a menu is open: people are choosing an action, not reading.
-- **A comment card hovers like a row.** A collapsed card is two lines of a comment on `layer-card`, read like a row; `fill-message-hover` would be 1.9 on a dark card, under the visible step.
-
-Why: rows used to hover with `fill-pressed`, 7.8% ink. On paper that is 5.5 (light) and 7.3 (dark) from the surface, more than `info-soft` and as much as `brand-soft`, so the hover outranked the selected item. A comment card hovered with it too. On a long message it greyed a block of text: body text fell from Lc 105 to 94 in light mode, and on a dark popup `foreground-hint` fell to 4.3:1, under its 4.5:1 guarantee.
+Use the overlay utility (`overlay-subtle`, `overlay-medium`, `overlay-sticker-medium`, `overlay-frame-medium`) on anything with a fill of its own, and the colour (`bg-fill-subtle`, `bg-fill-medium`, `bg-fill-frame-medium`) on a transparent control whose fill fades in with `transition-colors`.
 
 ## Clickable text
 
@@ -67,7 +63,7 @@ Text that does something or goes somewhere, with no box, chip or fill around it:
 - Never turn clickable text pink on hover. Pink is the one primary action on the screen ([Color](./color.md#meanings-of-color)); a color change on hover is only the step from a muted color to the ink of body text.
 - Give text that cannot be clicked no hover change at all, and take the hover underline away from clickable text when it is disabled, so a change on hover always means "this can be clicked".
 - Exception: a link inside rendered message or document text ([Markdown](../../packages/ui/src/components/markdown/markdown.md)) keeps an underline at rest, because the link blue alone is too close to the body text around it: below the 3:1 that [WCAG 1.4.1](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html) asks of a link told apart by color alone. The underline is quieter at rest and takes the full color on hover; the values are in [Markdown](../../packages/ui/src/components/markdown/markdown.md).
-- Chips, cards, badges, buttons and tabs are not clickable text: they keep the pressed overlay or their own hover.
+- Chips, cards, badges, buttons and tabs are not clickable text: they keep their hover tier or their own hover.
 
 ## Focus
 

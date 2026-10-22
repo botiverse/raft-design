@@ -19,8 +19,7 @@ const taskChip = tv({
       "rounded-chip border-0",
       "font-sans font-semibold text-foreground",
       "[&>svg:not([data-slot=task-status-icon])]:-mx-0.5 [&>svg[data-slot=task-status-icon]]:size-[9px]",
-      "hover:brightness-100",
-      "[a,button]:cursor-pointer [a,button]:hover:press-overlay [a,button]:active:press-overlay",
+      "[a,button]:cursor-pointer [a,button]:hover:overlay-medium [a,button]:active:overlay-medium",
       "focus-visible:outline-none focus-visible:shadow-focus",
     ],
   },
@@ -58,7 +57,7 @@ const taskChip = tv({
         root: [
           "items-baseline gap-1.5 rounded-full border py-0 pr-2 pl-1 align-baseline",
           // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
-          "[font-size:inherit] leading-[1.2em] font-[450] hover:brightness-100",
+          "[font-size:inherit] leading-[1.2em] font-[450]",
           "[&>svg]:size-[0.857em] [&>svg]:self-center",
         ],
       },

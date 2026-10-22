@@ -38,7 +38,7 @@ layer
 | `layer-backdrop` | The scrim behind centered overlays, modal drawers, bottom sheets and the lightbox |
 | `layer-backdrop-nested` | The lighter scrim under a modal surface opened from another one ([Stacked overlays](./elevation.md#stacked-overlays)) |
 
-Fills are laid into or over a surface: the sunken fill and the pressed overlays ([Pressed overlays](#pressed-overlays)).
+Fills are laid into or over a surface: the sunken fill and the hover overlays ([Hover overlays](#hover-overlays)).
 
 ```tokens
 fill
@@ -169,20 +169,18 @@ A soft tint (`*-soft`) is a highlight, never a sticker: it has no border.
 | `task-status-in-review-soft` | The In Review chip |
 | `task-status-closed-soft` | The Closed chip |
 
-### Pressed overlays
+### Hover overlays
 
-Hover and press lay a translucent overlay over a control instead of changing its fill; see [States](./states.md).
+Hover and press lay a translucent overlay over a control instead of changing its fill, in two tiers; see [Hover and press](./states.md#hover-and-press).
 
-| Token | Over |
-| --- | --- |
-| `fill-pressed` | Paper-colored controls and content: press everywhere, and hover on buttons |
-| `fill-row-hover` | Hover on a row: a sidebar item, a list row, an inbox item, a search result, a table row, a file row, a comment card |
-| `fill-message-hover` | Hover on a message |
-| `fill-row-open` | Any row with its menu open: a message, a sidebar item, a list row, an inbox item, a search result, a table row, a file row |
-| `sticker-pressed` | Stickers |
-| `fill-frame-pressed` | Anything on the frame |
+| Token | Tier | Over |
+| --- | --- | --- |
+| `fill-subtle` | Subtle | Hover on a row, a message or a readable card (a comment, attachment or task card, the replies bar), and a row with its menu open |
+| `fill-medium` | Medium | Hover on paper-colored controls (buttons, icon buttons, chips, tabs, segments) and press on everything |
+| `sticker-medium` | Medium | Hover and press on a colour sticker |
+| `fill-frame-medium` | Medium | Hover and press on anything on the frame |
 
-The two row hovers, and `fill-row-open`, are lighter than `fill-pressed` and than every selection tint, so a hovered row never looks selected and its text keeps its contrast. The values and the reasons are in [Row hover](./states.md#row-hover).
+`fill-subtle` is lighter than every selection tint, so a hovered row never looks selected and its text keeps its contrast. The names these tokens had before the two tiers keep working as deprecated aliases until raft-ui 1.0; `codemods/token-names.mjs` renames them.
 
 ## Stickers
 

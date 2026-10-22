@@ -140,7 +140,7 @@ export function RelatedSection({ pages }: { pages: readonly DocPage[] }) {
           <li key={page.url}>
             <Link
               to={page.url}
-              className="inline-flex h-8 items-center rounded-control border-[1.5px] border-line-strong px-3 text-subhead outline-none hover:press-overlay focus-visible:shadow-focus"
+              className="inline-flex h-8 items-center rounded-control border-[1.5px] border-line-strong px-3 text-subhead outline-none hover:overlay-medium focus-visible:shadow-focus"
             >
               {page.frontMatter.title}
             </Link>

@@ -1,4 +1,4 @@
-// Color maths for the row-hover browser tests (design/foundations/states.md#row-hover):
+// Color maths for the row-hover browser tests (design/foundations/states.md#hover-and-press):
 // tokens read as the browser serializes them, composited over their surface,
 // then measured as an OKLab step, WCAG contrast and APCA Lc.
 
@@ -60,7 +60,7 @@ function srgbToOklab(c: Rgba) {
   ];
 }
 
-// OKLab distance x 100, the visibility measure in states.md#row-hover.
+// OKLab distance x 100, the visibility measure in states.md#hover-and-press.
 export function deltaE(x: Rgba, y: Rgba) {
   const [p, q] = [srgbToOklab(x), srgbToOklab(y)];
   return 100 * Math.hypot(p[0]! - q[0]!, p[1]! - q[1]!, p[2]! - q[2]!);

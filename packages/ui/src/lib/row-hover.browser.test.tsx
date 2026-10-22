@@ -22,22 +22,22 @@ import {
   wcag,
 } from "./row-hover.test-colors";
 
-// Row hover (design/foundations/states.md#row-hover): a row hovers with the
-// lightest step people can see, lighter than its press and than selection,
-// so text read on it keeps its contrast. Rows used to hover with
-// fill-pressed (7.8% ink), which took 11 APCA Lc off a message's body text in
-// light mode. Measured in a real browser: :hover needs a real pointer.
+// Row hover (design/foundations/states.md#hover-and-press): a row or a
+// message hovers with the subtle tier, a small step people can see, lighter
+// than its press and than selection, so text read on it keeps its contrast.
+// Rows used to hover with the medium tier (7.8% ink), which took 11 APCA Lc
+// off a message's body text in light mode. Measured in a real browser: :hover
+// needs a real pointer. Per-tier alphas: hover-tiers.browser.test.tsx.
 
 const it = test.skipIf(typeof window === "undefined");
 
 afterEach(cleanup);
 
 const rows = [
-  // A message: the lightest step, its body text loses at most 5 Lc.
-  { id: "message", surface: "layer-canvas", fill: "fill-message-hover", maxDrop: 5, read: "color" },
-  // Compact rows: one step, at most 6 Lc.
-  { id: "sidebar", surface: "layer-sidebar", fill: "fill-row-hover", maxDrop: 6, read: "color" },
-  { id: "list-row", surface: "layer-card", fill: "fill-row-hover", maxDrop: 6, read: "image" },
+  // A message and a compact row take the same step: body text loses at most 6 Lc.
+  { id: "message", surface: "layer-canvas", fill: "fill-subtle", maxDrop: 6, read: "color" },
+  { id: "sidebar", surface: "layer-sidebar", fill: "fill-subtle", maxDrop: 6, read: "color" },
+  { id: "list-row", surface: "layer-card", fill: "fill-subtle", maxDrop: 6, read: "image" },
 ] as const;
 
 for (const mode of ["light", "dark"] as const) {
@@ -101,8 +101,8 @@ for (const mode of ["light", "dark"] as const) {
 }
 
 // With a mouse the open message is hovered too (the menu opened under the
-// pointer, or from the toolbar's button on the row): the open state wins.
-it("with a mouse, a hovered message with its menu open keeps fill-row-open", async () => {
+// pointer, or from the toolbar's button on the row): the two don't stack.
+it("with a mouse, a hovered message with its menu open keeps fill-subtle", async () => {
   const { getByTestId } = render(
     <ThemeProvider>
       <div data-testid="scope" className="bg-layer-canvas p-2">
@@ -124,23 +124,23 @@ it("with a mouse, a hovered message with its menu open keeps fill-row-open", asy
   const scope = getByTestId("scope");
   const open = getByTestId("open");
   expect(await settled(() => getComputedStyle(open).backgroundColor)).toBe(
-    token(scope, "fill-row-open"),
+    token(scope, "fill-subtle"),
   );
   await page.getByTestId("closed").hover();
   expect(await settled(() => getComputedStyle(getByTestId("closed")).backgroundColor)).toBe(
-    token(scope, "fill-message-hover"),
+    token(scope, "fill-subtle"),
   );
   await page.getByTestId("open").hover();
   expect(open.matches(":hover")).toBe(true);
   expect(await settled(() => getComputedStyle(open).backgroundColor)).toBe(
-    token(scope, "fill-row-open"),
+    token(scope, "fill-subtle"),
   );
 });
 
-// Every row with its menu open (states.md#row-hover) takes fill-row-open,
+// Every row with its menu open (states.md#hover-and-press) takes fill-subtle,
 // hovered or not: one look for "the row this menu belongs to". On each row's
-// surface it is a clear step (3 or more), under info-soft and brand-soft, and
-// hint text keeps 4.5:1.
+// surface it is a visible step (2 or more), under info-soft and brand-soft,
+// and hint text keeps 4.5:1.
 const openRows = [
   { id: "open-sidebar", surface: "layer-sidebar", read: "color" },
   { id: "open-list-row", surface: "layer-card", read: "image" },
@@ -152,7 +152,7 @@ const openRows = [
 ] as const;
 
 for (const mode of ["light", "dark"] as const) {
-  it(`${mode}: every row with its menu open takes fill-row-open, hovered or not`, async () => {
+  it(`${mode}: every row with its menu open takes fill-subtle, hovered or not`, async () => {
     const { getByTestId } = render(
       <ThemeProvider>
         <div className={mode} data-testid="scope">
@@ -216,17 +216,17 @@ for (const mode of ["light", "dark"] as const) {
       await userEvent.unhover(document.body);
       expect
         .soft(await settled(read), `${mode} ${row.id} at rest`)
-        .toBe(token(scope, "fill-row-open"));
+        .toBe(token(scope, "fill-subtle"));
       await page.getByTestId(row.id).hover();
       const fill = await settled(read);
-      expect.soft(fill, `${mode} ${row.id} hovered`).toBe(token(scope, "fill-row-open"));
+      expect.soft(fill, `${mode} ${row.id} hovered`).toBe(token(scope, "fill-subtle"));
 
       const surface = parseOklch(token(scope, row.surface));
       const open = over(parseOklch(fill), surface);
       const step = deltaE(open, surface);
       expect
         .soft(step, `${mode} ${row.id}: ${step.toFixed(2)} off ${row.surface}`)
-        .toBeGreaterThanOrEqual(3);
+        .toBeGreaterThanOrEqual(2);
       for (const selection of ["info-soft", "brand-soft"]) {
         const selected = deltaE(over(parseOklch(token(scope, selection)), surface), surface);
         expect.soft(step, `${mode} ${row.id}: under ${selection}`).toBeLessThan(selected);
@@ -237,11 +237,10 @@ for (const mode of ["light", "dark"] as const) {
   });
 }
 
-// A comment card is read like a row and hovers like one: fill-row-hover, not
-// the press overlay. fill-message-hover would be 1.9 off a dark card, under
-// the visible step of 2.
+// A comment card is read like a row and hovers like one: fill-subtle, not
+// the medium tier.
 for (const mode of ["light", "dark"] as const) {
-  it(`${mode}: a collapsed comment card hovers with fill-row-hover`, async () => {
+  it(`${mode}: a collapsed comment card hovers with fill-subtle`, async () => {
     const { getByTestId } = render(
       <ThemeProvider>
         <div className={mode} data-testid="scope">
@@ -264,7 +263,7 @@ for (const mode of ["light", "dark"] as const) {
     const el = getByTestId("trigger");
     await page.getByTestId("trigger").hover();
     const fill = await settled(() => getComputedStyle(el).backgroundColor);
-    expect(fill, `${mode}: the card's hover`).toBe(token(scope, "fill-row-hover"));
+    expect(fill, `${mode}: the card's hover`).toBe(token(scope, "fill-subtle"));
 
     const surface = parseOklch(token(scope, "layer-card"));
     const hovered = over(parseOklch(fill), surface);

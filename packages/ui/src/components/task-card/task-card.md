@@ -51,6 +51,7 @@ task-card/compositions/task-card-state-matrix
 
 ## Behavior
 
+- A card with an `onClick` hovers with the subtle tier, like the other cards people read, and presses with the medium tier; its status chip hovers medium ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
 - Pressing the status chip opens a list of the five statuses, with a check on the current one ([Select](../select/select.md)). Choosing one changes the status at once.
 - Pressing the chip doesn't open the card: stop the click from reaching `TaskCard`.
 

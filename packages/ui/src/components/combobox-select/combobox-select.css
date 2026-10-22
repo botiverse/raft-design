@@ -138,9 +138,18 @@
   width: 0.875rem;
   height: 0.875rem;
 }
-.r-combobox-select__action:hover,
-.r-combobox-select__remove:hover {
-  background: var(--fill-pressed);
+/* Hover only where there is a pointer that hovers: on a touch screen a
+   :hover would stay on the last button tapped. */
+@media (hover: hover) {
+  .r-combobox-select__action:hover,
+  .r-combobox-select__remove:hover {
+    background: var(--fill-medium);
+    color: var(--foreground);
+  }
+}
+.r-combobox-select__action:active,
+.r-combobox-select__remove:active {
+  background: var(--fill-medium);
   color: var(--foreground);
 }
 .r-combobox-select__action:focus-visible {
@@ -204,7 +213,12 @@
     background-color 120ms ease,
     color 120ms ease;
 }
-.r-combobox-select__option:hover,
+@media (hover: hover) {
+  .r-combobox-select__option:hover {
+    background: var(--brand-soft);
+    color: var(--foreground);
+  }
+}
 .r-combobox-select__option[data-highlighted] {
   background: var(--brand-soft);
   color: var(--foreground);

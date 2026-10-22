@@ -75,7 +75,7 @@ function PageList({ pages }: { pages: readonly DocPage[] }) {
         <li key={page.url}>
           <Link
             to={page.url}
-            className="flex flex-col gap-1 py-4 outline-none hover:press-overlay focus-visible:shadow-focus"
+            className="flex flex-col gap-1 py-4 outline-none hover:overlay-subtle focus-visible:shadow-focus"
           >
             <span className="text-headline font-bold text-foreground">{shortTitle(page)}</span>
             <span className="text-callout text-foreground-muted">{page.frontMatter.summary}</span>
@@ -93,7 +93,7 @@ function DecisionTable({ pages }: { pages: readonly DocPage[] }) {
         <li key={page.url}>
           <Link
             to={page.url}
-            className="flex gap-4 py-3 outline-none hover:press-overlay focus-visible:shadow-focus"
+            className="flex gap-4 py-3 outline-none hover:overlay-subtle focus-visible:shadow-focus"
           >
             <span className="w-12 shrink-0 font-mono text-mono-meta text-foreground-hint">
               {page.frontMatter.number ?? "—"}
@@ -153,7 +153,7 @@ function AboutLinks() {
           {row.href.startsWith("/") ? (
             <Link
               to={row.href}
-              className="flex flex-col gap-1 py-4 outline-none hover:press-overlay focus-visible:shadow-focus"
+              className="flex flex-col gap-1 py-4 outline-none hover:overlay-subtle focus-visible:shadow-focus"
             >
               <span className="text-headline font-bold text-foreground">{row.title}</span>
               <span className="text-callout text-foreground-muted">{row.summary}</span>
@@ -163,7 +163,7 @@ function AboutLinks() {
               href={row.href}
               target="_blank"
               rel="noreferrer"
-              className="flex flex-col gap-1 py-4 outline-none hover:press-overlay focus-visible:shadow-focus"
+              className="flex flex-col gap-1 py-4 outline-none hover:overlay-subtle focus-visible:shadow-focus"
             >
               <span className="text-headline font-bold text-foreground">{row.title}</span>
               <span className="text-callout text-foreground-muted">{row.summary}</span>

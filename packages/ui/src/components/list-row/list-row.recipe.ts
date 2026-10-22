@@ -2,8 +2,8 @@ import { tv } from "../../lib/tv";
 
 // Raft Design System › ListRow: the one row of phone lists, settings, and the
 // people and agents on a detail page. A list is content: no ink line, no
-// shadow. The whole row is the target: hover lays the row-hover overlay and
-// press the pressed overlay. Between two rows a hairline runs from where the text starts.
+// shadow. The whole row is the target: hover lays the subtle tier and press
+// the medium tier. Between two rows a hairline runs from where the text starts.
 const hairline = [
   "before:pointer-events-none before:absolute before:top-0 before:right-0 before:hidden",
   "before:left-(--list-row-rule-start) before:border-t before:border-line-hairline",
@@ -71,9 +71,9 @@ export const listRow = tv({
     interactive: {
       true: {
         root: [
-          "not-disabled:not-aria-disabled:not-data-selected:hover:row-hover-overlay",
-          "not-disabled:not-aria-disabled:not-data-selected:active:press-overlay",
-          "not-data-selected:data-popup-open:row-open-overlay not-disabled:not-aria-disabled:not-data-selected:data-popup-open:hover:row-open-overlay",
+          "not-disabled:not-aria-disabled:not-data-selected:hover:overlay-subtle",
+          "not-disabled:not-aria-disabled:not-data-selected:active:overlay-medium",
+          "not-data-selected:data-popup-open:overlay-subtle",
         ],
       },
       false: {},

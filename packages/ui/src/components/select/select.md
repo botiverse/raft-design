@@ -63,6 +63,7 @@ picker-trigger-button/compositions/select-filter
 
 - **No value:** `SelectValue` shows the placeholder in `foreground-hint`.
 - **Invalid:** `data-invalid` on the trigger gives it a `danger-strong` border.
+- The trigger is a field, so it doesn't hover; a press lays the medium tier ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
 - **Disabled** and the hover highlight in the list follow [States](../../../../../design/foundations/states.md).
 
 ## Behavior

@@ -64,12 +64,12 @@ Names are built from a few parts, so a name you haven't seen tells you what it i
 
 | Kind | Pattern | Examples |
 | --- | --- | --- |
-| Neutral roles | `{role}(-{purpose})(-{intensity})` | `layer-canvas`, `foreground-hint`, `line-seam`, `fill-pressed`, `foreground-on-hud` |
+| Neutral roles | `{role}(-{purpose})(-{intensity})` | `layer-canvas`, `foreground-hint`, `line-seam`, `fill-medium`, `foreground-on-hud` |
 | Color roles | `{family}(-{slot})` | `brand`, `brand-soft`, `danger-strong`, `info-muted` |
 | Ink steps | `ink-{alpha}` | `ink-8`, `ink-40` |
 | Palette | `palette-{color}-{step}` | `palette-yellow-400`, `palette-lavender-800` |
 | Statuses | `task-status-{status}(-soft\|-strong)`, `presence-{state}` | `task-status-in-review-soft`, `presence-busy` |
-| Stickers | `sticker-{part}` | `sticker-ink`, `sticker-edge`, `sticker-pressed` |
+| Stickers | `sticker-{part}` | `sticker-ink`, `sticker-edge`, `sticker-medium` |
 | Shadows | `elevation-{level}`, `focus-ring` | `elevation-float`, `elevation-sticker` |
 | Metrics | `{part}-{property}` | `field-font-size`, `card-title-line-height` |
 
@@ -94,7 +94,7 @@ The purpose says where the token is used: `frame`, `sidebar`, `canvas`, `card`, 
 | `-hover`, `-active` | The pair a solid fill takes on hover and press. A family has both or neither |
 | `-50` to `-950` | The numbered ramp. Only `brand` and `attention` have one |
 
-**Opacity.** Every `layer` token is opaque except the two scrims, `layer-backdrop` and `layer-backdrop-nested`. `fill-muted` and `fill-strong` are opaque. `fill-pressed`, `fill-frame-pressed`, `fill-row-hover`, `fill-message-hover`, `fill-row-open` and `sticker-pressed` are translucent: they are overlays laid on top of a control or a row ([Pressed overlays](./color.md#pressed-overlays)).
+**Opacity.** Every `layer` token is opaque except the two scrims, `layer-backdrop` and `layer-backdrop-nested`. `fill-muted` and `fill-strong` are opaque. `fill-subtle`, `fill-medium`, `fill-frame-medium` and `sticker-medium` are translucent: they are the hover tiers, laid on top of a control or a row ([Hover overlays](./color.md#hover-overlays)).
 
 **Utilities.** A Tailwind utility is the property's prefix and the token name: `bg-layer-card`, `text-foreground-muted`, `border-line-strong`. Shadows are named apart: `shadow-float` for `elevation-float`, `shadow-sticker` for `elevation-sticker`, `shadow-focus` for `focus-ring`. The numbered palette steps are only custom properties, not utilities; the bare `bg-palette-yellow` and its siblings are the exception.
 
@@ -128,7 +128,7 @@ layer
 
 ### Fills
 
-Usage: [Color](./color.md#surfaces) and [Pressed overlays](./color.md#pressed-overlays).
+Usage: [Color](./color.md#surfaces) and [Hover overlays](./color.md#hover-overlays).
 
 ```tokens
 fill
