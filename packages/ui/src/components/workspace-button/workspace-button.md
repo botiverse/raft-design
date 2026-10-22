@@ -18,11 +18,12 @@ workspace-button/workspace-button
 
 ## When to use
 
-| Situation                                                | Use                                                                   |
-| -------------------------------------------------------- | --------------------------------------------------------------------- |
-| The current server, on the frame, opening the list       | WorkspaceButton                                                       |
-| Another server, one click away, beside the button        | The workspace strip: the server's [Avatar](../avatar/avatar.md) alone |
-| The server on the desktop rail, when there is no top bar | The rail's workspace tile ([AppRail](../app-rail/app-rail.md))        |
+| Situation                                                | Use                                                                                                                        |
+| -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| The current server, on the frame, opening the list       | WorkspaceButton                                                                                                            |
+| Another server, one click away, beside the button        | The workspace strip: the server's [Avatar](../avatar/avatar.md) alone                                                      |
+| The server on the desktop rail, when there is no top bar | The rail's workspace tile ([AppRail](../app-rail/app-rail.md))                                                             |
+| The current server on the phone's tab bar                | The server tab, `MobileNavServerItem` ([MobileNav](../mobile-nav/mobile-nav.md#the-server-tab)), which opens the same list |
 
 ## Anatomy
 

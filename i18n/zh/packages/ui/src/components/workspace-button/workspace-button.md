@@ -1,7 +1,7 @@
 ---
 title: WorkspaceButton
 summary: 外框上的服务器切换器：服务器的头像、名称和一个 V 形箭头，组成一个打开服务器列表的按钮。
-sourceHash: 9364bfeb
+sourceHash: 2387d720
 ---
 
 # WorkspaceButton
@@ -19,6 +19,7 @@ workspace-button/workspace-button
 | 外框上的当前服务器，点击打开列表 | WorkspaceButton |
 | 按钮旁边、点一下就能进入的另一个服务器 | 工作空间条：只放服务器的 [Avatar](../avatar/avatar.md) |
 | 没有顶栏时，桌面端导航条上的服务器 | 导航条上的工作空间图块（[AppRail](../app-rail/app-rail.md)） |
+| 手机标签栏上的当前服务器 | 服务器标签 `MobileNavServerItem`（[MobileNav](../mobile-nav/mobile-nav.md#the-server-tab)），打开同一个列表 |
 
 ## 结构 {#anatomy}
 

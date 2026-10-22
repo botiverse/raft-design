@@ -85,3 +85,33 @@ export type {
 // overlays"), for an app's own modal to join, until its contract settles.
 export { OverlayLayerProvider, useParentOverlayKind } from "./lib/overlay-depth";
 export type { OverlayLayerKind, OverlayLayerProviderProps } from "./lib/overlay-depth";
+
+// The last phone tab as the current server (navigation.md, "Servers"): the
+// one tab that opens a popover, on a press or a long press, above the tab bar.
+// Until slock ships it and stdrc settles the parts.
+export {
+  MobileNavServerItem,
+  MobileNavServerPopover,
+  MobileNavServerPopoverContent,
+  MobileNavServerPopoverList,
+  MobileNavServerPopoverGroup,
+  MobileNavServerPopoverRow,
+  MobileNavServerPopoverRowBody,
+  MobileNavServerPopoverRowDescription,
+  MobileNavServerPopoverRowLabel,
+  MobileNavServerPopoverDestinations,
+  MobileNavServerPopoverDestination,
+} from "./components/mobile-nav/index";
+export type {
+  MobileNavServerItemProps,
+  MobileNavServerPopoverContentProps,
+  MobileNavServerPopoverListProps,
+  MobileNavServerPopoverGroupProps,
+  MobileNavServerPopoverRowProps,
+  MobileNavServerPopoverRowBodyProps,
+  MobileNavServerPopoverRowDescriptionProps,
+  MobileNavServerPopoverRowLabelProps,
+  MobileNavServerPopoverDestinationsProps,
+  MobileNavServerPopoverDestinationProps,
+  MobileNavServerPopoverProps,
+} from "./components/mobile-nav/index";

@@ -53,5 +53,276 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "MobileNavServerItem",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The tab: the server's avatar and its name in `MobileNavLabel`, as children. A press opens the popover, and so does holding it for 500ms (the long press of raft-ui's menus). Lifting the finger after a hold never closes it: the click that ends the hold is not a press, whether the hold opened the popover or found it open. It is never `selected`: it holds no page.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopover",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The root: owns the popover's open state, like `Popover` (`open`, `onOpenChange`).",
+    "native": false,
+    "props": [
+      {
+        "name": "actionsRef",
+        "type": "RefObject<PopoverRootActions | null>",
+        "required": false,
+        "description": "A ref to imperative actions. - `unmount`: Manually unmounts the popover. Call this after any externally controlled closing animation finishes. - `close`: Closes the popover imperatively when called.",
+        "from": "base-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode | PayloadChildRenderFunction<unknown>",
+        "required": false,
+        "description": "The content of the popover. This can be a regular React node or a render function that receives the `payload` of the active trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the popover is initially open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "defaultTriggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the popover is associated with. This is useful in conjunction with the `defaultOpen` prop to create an initially open popover.",
+        "from": "base-ui"
+      },
+      {
+        "name": "modal",
+        "type": "boolean | \"trap-focus\"",
+        "required": false,
+        "default": "false",
+        "description": "Determines if the popover enters a modal state when open. - `true`: user interaction is limited to the popover: document page scroll is locked, and pointer interactions on outside elements are disabled. - `false`: user interaction with the rest of the document is allowed. - `'trap-focus'`: focus is trapped inside the popover, but document page scroll is not locked and pointer interactions outside of it remain enabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean, eventDetails: BasePopover.Root.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Event handler called when the popover is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "onOpenChangeComplete",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Event handler called after any animations complete when the popover is opened or closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the popover is currently open.",
+        "from": "base-ui"
+      },
+      {
+        "name": "triggerId",
+        "type": "string",
+        "required": false,
+        "description": "ID of the trigger that the popover is associated with. This is useful in conjunction with the `open` prop to create a controlled popover. There's no need to specify this prop when the popover is uncontrolled (that is, when the `open` prop is not set).",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MobileNavServerPopoverContent",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The popover above the tab bar, 8px from each side of it and 8px above it, as tall as its content and at most 60% of the screen. It stops below the top safe area (a notch in a standalone web app): Base UI's collision padding takes only pixels, so the height cap subtracts `env(safe-area-inset-top)`. The bottom needs none: the tab bar under the popover already pads the bottom safe area. A column: `MobileNavServerPopoverList` takes the room left and scrolls, and the destinations and the footer after it stay in view.",
+    "native": true,
+    "props": [
+      {
+        "name": "container",
+        "type": "HTMLElement | ShadowRoot | RefObject<HTMLElement | ShadowRoot | null>",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "portalProps",
+        "type": "PopoverPortalProps",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "align",
+        "type": "Align",
+        "required": false,
+        "default": "\"center\"",
+        "description": "How to align the popup relative to the specified side.",
+        "from": "base-ui"
+      },
+      {
+        "name": "alignOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "0",
+        "description": "Additional offset along the alignment axis in pixels. Also accepts a function that returns the offset to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "anchor",
+        "type": "Element | VirtualElement | RefObject<Element | null> | (() => Element | VirtualElement | null)",
+        "required": false,
+        "description": "An element to position the popup against. By default, the popup will be positioned against the trigger.",
+        "from": "base-ui"
+      },
+      {
+        "name": "arrowPadding",
+        "type": "number",
+        "required": false,
+        "default": "5",
+        "description": "Minimum distance to maintain between the arrow and the edges of the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionAvoidance",
+        "type": "CollisionAvoidance",
+        "required": false,
+        "description": "Determines how to handle collisions when positioning the popup.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionBoundary",
+        "type": "Boundary",
+        "required": false,
+        "default": "'clipping-ancestors'",
+        "description": "An element or a rectangle that delimits the area that the popup is confined to.",
+        "from": "base-ui"
+      },
+      {
+        "name": "collisionPadding",
+        "type": "Padding",
+        "required": false,
+        "default": "8",
+        "description": "Additional space to maintain from the edge of the collision boundary.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disableAnchorTracking",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
+        "from": "base-ui"
+      },
+      {
+        "name": "finalFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((closeType: InteractionType) => void | boolean | HTMLElement | null)",
+        "required": false,
+        "description": "Determines the element to focus when the popover is closed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "initialFocus",
+        "type": "boolean | RefObject<HTMLElement | null> | ((openType: InteractionType) => void | boolean | HTMLElement | null)",
+        "required": false,
+        "description": "Determines the element to focus when the popover is opened. By default, focus moves to the first tabbable element inside the popup, except when the popover is opened by touch — then the popup itself is focused to avoid opening the virtual keyboard.",
+        "from": "base-ui"
+      },
+      {
+        "name": "positionMethod",
+        "type": "\"fixed\" | \"absolute\"",
+        "required": false,
+        "default": "'absolute'",
+        "description": "Determines which CSS `position` property to use.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "side",
+        "type": "Side",
+        "required": false,
+        "default": "\"top\"",
+        "description": "Which side of the anchor element to align the popup against. May automatically change to avoid collisions.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sideOffset",
+        "type": "number | OffsetFunction",
+        "required": false,
+        "default": "8",
+        "description": "Distance between the anchor and the popup in pixels. Also accepts a function that returns the distance to read the dimensions of the anchor and positioner elements, along with its side and alignment.",
+        "from": "base-ui"
+      },
+      {
+        "name": "sticky",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether to maintain the popup in the viewport after the anchor element was scrolled out of view.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MobileNavServerPopoverList",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The server list: takes the room left in the popover and scrolls inside it.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopoverGroup",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Rows that always stay in view, such as the footer actions.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopoverRow",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One row at the option height of every popup list (`py-option-inset`, 36px for one line; a second line adds its own height and nothing else): a 20px avatar or a 16px icon, `MobileNavServerPopoverRowLabel` (or a `MobileNavServerPopoverRowBody` with a description under the label), then anything trailing (a check, a count), centered on the row. `aria-current=\"true\"` marks the current server in bold.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopoverRowBody",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The text of a two-line row: `MobileNavServerPopoverRowLabel`, then `MobileNavServerPopoverRowDescription` under it. The second line adds its own height and nothing else; the avatar and the trailing check or count center on both lines.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopoverRowDescription",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A row's second line, such as a server's address: muted Space Mono; truncates.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopoverRowLabel",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A row's label: takes the room and truncates.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopoverDestinations",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The server's own pages, side by side in equal cells; a `group`, named with `aria-label`.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopoverDestination",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One of the server's pages: a 20px icon over a short label in a `span`, which truncates. Something new on that page (a feedback reply, a computer that needs attention) is an `accent` `Status` child, the attention dot at the icon's top-right corner: the server tab's avatar never carries it.",
+    "native": true,
+    "props": []
   }
 ]

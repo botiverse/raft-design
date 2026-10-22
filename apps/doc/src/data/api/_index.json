@@ -853,9 +853,21 @@
     "names": [
       "MobileNavItem",
       "MobileNavLabel",
-      "MobileNavRoot"
+      "MobileNavRoot",
+      "MobileNavServerItem",
+      "MobileNavServerPopover",
+      "MobileNavServerPopoverContent",
+      "MobileNavServerPopoverList",
+      "MobileNavServerPopoverGroup",
+      "MobileNavServerPopoverRow",
+      "MobileNavServerPopoverRowBody",
+      "MobileNavServerPopoverRowDescription",
+      "MobileNavServerPopoverRowLabel",
+      "MobileNavServerPopoverDestinations",
+      "MobileNavServerPopoverDestination"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The tab: the server's avatar and its name in `MobileNavLabel`, as children. A press opens the popover, and so does holding it for 500ms (the long press of raft-ui's menus). Lifting the finger after a hold never closes it: the click that ends the hold is not a press, whether the hold opened the popover or found it open. It is never `selected`: it holds no page."
   },
   "notification-center": {
     "names": [

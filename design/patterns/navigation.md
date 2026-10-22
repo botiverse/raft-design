@@ -25,7 +25,7 @@ Every Raft product. Which destinations a product has and in which order is on it
 | Need | Phone | Desktop |
 | --- | --- | --- |
 | Destinations | The tab bar at the bottom, at most 5 slots, on top-level pages only ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md)) | The rail, icons only, with Help and Settings at its bottom, and the bell above them when there is no web top bar ([AppRail](../../packages/ui/src/components/app-rail/app-rail.md)) |
-| Server | The server switcher in the top bar of the first top-level page; its list opens as a popover ([Servers](#servers)) | The workspace button and the strip of server avatars at the left of the web top bar ([Page structure](./page-structure.md#the-web-top-bar)) |
+| Server | The last tab of the tab bar is the current server; it opens the server list and the server's own pages as a popover above the bar. The first top-level page's top bar has the server switcher too ([Servers](#servers)) | The workspace button and the strip of server avatars at the left of the web top bar ([Page structure](./page-structure.md#the-web-top-bar)) |
 | Search | The Search tab on the tab bar, a top-level page like the others (no Back, the bar stays). It is the only way in to searching everything ([Search on a phone](#search-on-a-phone)) | The search field in the center of the web top bar |
 | Notifications | The bell at the right of the first top-level page's top bar, and on no other top-level page | The bell at the right of the web top bar; without the top bar, at the bottom of the rail, above Help |
 | Close a side panel (a thread, a profile) | Back: on a phone a thread is a pushed page, and a profile covers the page like one | × beside the main area, Back when it covers it ([Closing](#closing)) |
@@ -82,7 +82,7 @@ On desktop, people can hide the sidebar to give the main area the whole width, a
 - Keep each top-level page's own state when people switch to another tab and back: its scroll position and its filters (what Search keeps is in [Search on a phone](#search-on-a-phone)). Don't keep pushed pages: a tab always reopens on its top-level page, because a pushed page hides the tab bar and would leave no way back.
 - Tapping the selected tab scrolls its top-level page to the top. At the top it does nothing else and resets nothing. On Search it also focuses the search field.
 - Activity is the one exception (artin, 2026-10-21): it is the list people work through, so tapping Activity again, or its title bar, goes to the next unread item below the current position, scrolls it to the top of the list and highlights it briefly. After the last unread item the next tap goes back to the top, and the cycle starts again; with no unread item it goes to the top. It moves only within the current filter and marks nothing as read. Don't give any other tab a meaning of its own: the gesture should mean the same everywhere else.
-- Push the pages listed on a More tab under More, with Back to it, and open a link to one of them there too: the selected tab always says which part of the product the person is in.
+- Open the server's own pages from the server tab's popover (Members, Computers, Settings) as pushed pages: they cover the tab bar and Back returns to the page the popover was opened on. A link opened directly to one of them goes back to the first top-level page. They belong to no tab, because the server tab holds no page of its own ([Servers](#servers)).
 
 ### Search on a phone
 
@@ -104,10 +104,29 @@ On desktop, people can hide the sidebar to give the main area the whole width, a
 
 ### Servers
 
-- On every surface the server switcher is the workspace button: the server's avatar, its name and a chevron ([WorkspaceButton](../../packages/ui/src/components/workspace-button/workspace-button.md)). It keeps that shape whatever sits beside it.
+- On every surface the server switcher is the workspace button: the server's avatar, its name and a chevron ([WorkspaceButton](../../packages/ui/src/components/workspace-button/workspace-button.md)). It keeps that shape whatever sits beside it. The phone's server tab is the one exception, below: it is a tab, so it looks like the tabs beside it.
 - On desktop, open the server list as a menu under the workspace button of the top bar. The strip beside the button switches with one click; it shows as many server avatars as fit, at least 2, and marks the current one with a bar under its avatar.
-- On a phone, open the server list from the server switcher as a popover anchored under the top bar, 8px from each side. This is what the product ships, and the system follows it (stdrc, 2026-10-21); a bottom sheet for it is not planned.
 - Show an attention dot on the workspace button's avatar and on a server's avatar in the strip when another server has unread items. How the list is built is in [Built from existing parts](../components/overview.md#switching-servers).
+
+#### The server tab on a phone
+
+Decided on 2026-10-22 by stdrc (D1a, task #152).
+
+- Make the last tab the current server: its avatar where the other tabs have an icon, and its name as the label, truncated ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)). It takes the slot More had, so the bar keeps 5 tabs, and every top-level page says which server it shows, under the thumb.
+- Make it the one tab that opens a popover, not a page. It is never selected: a server is where you are, not a place to go, so it has no page of its own to mark.
+- Open the popover on a press and on a long press alike. A press is how every tab works, and a long press is how people switch accounts from a tab in other apps (Instagram); one tab should never do two different things.
+- Open it as a popover that rises above the tab bar, 8px from each side and 8px above the bar: it comes out of the tab that opened it, as the Home switcher's list comes out of the top bar. It is a popover, not a bottom sheet (stdrc, 2026-10-21).
+- Keep the popover compact, at most 60% of the screen's height, so the page it opened over stays in view and the popover reads as a quick switch, not a page of its own (artin, 2026-10-22).
+- Put the server list first, as the switcher's list has it: each server's name with its address under it (`/launch`) in muted Space Mono, so two servers with similar names can be told apart, as the switcher shows them. The row keeps the option padding of every popup list, and the address adds only its own line ([Forms](./forms.md#option-height)); the 20px avatar centers on both lines. The current one is bold and checked and the others with their unread counts, in the order people dragged them into. The list scrolls inside the popover; the rest stays in view.
+- Then the switcher's footer actions, one line each: Join Community (until the person has joined it), Switch or Create Server and Invite Human. Invite Human stays here and not in the row of pages: it opens a dialog rather than a place, and these are the same actions as the Home switcher's, so the two lists match.
+- Last, at the very bottom, the server's own pages, which More held: Members, Computers and Settings, side by side in one row of equal buttons, each an icon over its label. They are three places in the same server, so one row says they belong together and costs one line instead of three; at the bottom they are nearest the thumb and the tab bar they came from, where More was (stdrc, 2026-10-22). The row and the footer actions stay in view while the list scrolls.
+- What More held belongs to the server, so it sits under the server, and one popover answers both "which server" and "what in this server".
+- Open each of the server's pages as a pushed page, with Back ([Going back](#going-back)).
+- Keep the current tab when people switch servers: switching from Activity shows the new server's Activity. People switch to do the same thing in another server, and taking them Home would make them find their way back.
+- Show the attention dot on the server tab's avatar only when another server has unread items, as on Home's workspace button. One mark has one meaning: the same avatar with the same dot can't mean more on the tab bar than in the top bar. The server tab is on every top-level page, so news in another server is seen from anywhere, not only from Home. In the popover, each server's row shows its unread count, as the switcher's list does.
+- Mark something new on one of the server's own pages (a feedback reply, a computer that needs attention) with an attention dot on that page's button in the popover (Settings, Computers), never on the avatar.
+- When people come back from one of the server's pages, give focus back to the server tab, so a keyboard or a screen reader picks up where it left off.
+- Keep the workspace button in Home's top bar. It opens the same server list and footer actions, without the server's pages, as a popover anchored under the top bar, 8px from each side. It names the server at the top of the page people land on, so one switcher appears in two places, with one list.
 
 ### Several views of one place
 
