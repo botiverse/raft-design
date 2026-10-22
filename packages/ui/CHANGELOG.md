@@ -1,3 +1,12 @@
+## [0.23.1](https://github.com/botiverse/raft-design/compare/v0.23.0...v0.23.1) (2026-10-22)
+
+### Fixed
+
+- **MessageItemToolbar**: measures its width onto the row (`--mi-toolbar-width`) as the toolbar shows, on the row's `pointerenter` or `focusin`, instead of when the row mounts, so a message row mounts in one commit again and keeps no ResizeObserver of its own. The fade under the toolbar looks the same. ([#738](https://github.com/botiverse/raft-design/pull/738))
+  - Why: 0.23.0 kept the toolbar's element in React state and gave every toolbar its own ResizeObserver, and every message row renders a toolbar, so each row committed twice on mount and a long channel held one observer per message; only the toolbar that shows needs its width, so it is now measured then.
+  - Affects: per row on mount, 2 commits → 1 and 1 ResizeObserver → 0; while a toolbar shows (hover, focus inside the row, an open popup), one ResizeObserver shared by the page watches it; it lets go of a toolbar once the pointer and focus have left its row with no popup open (after a popup closed elsewhere, the next time any toolbar shows) and is disconnected when it watches none. On mount the row gets `--mi-toolbar-width: 164px` (five buttons' width), replaced by the measured width as the toolbar shows, so a toolbar that ever shows without a pointer or focus event on its row fades five buttons' width until it measures itself: too much for a smaller toolbar rather than too little. A row without a `MessageItemToolbar` still gets no width and masks nothing.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#behavior
+
 ## [0.23.0](https://github.com/botiverse/raft-design/compare/v0.22.1...v0.23.0) (2026-10-22)
 
 ### Design System
