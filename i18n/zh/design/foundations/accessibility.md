@@ -1,7 +1,7 @@
 ---
 title: 无障碍
 summary: 每个 Raft 产品都遵守的规则，让它在任何视力、键盘、读屏软件、触屏或动效设置下都能用：对比度、焦点、点击区域、动效、语义、触屏和语言，以及实现这些规则的组件。
-sourceHash: 011fcce9
+sourceHash: 27bf533c
 ---
 
 # 无障碍
@@ -49,7 +49,7 @@ token 的取值保证文字不必再逐个表面检查；见[颜色](./color.md#
 - 每个触屏目标在两个方向上都至少 44px（[间距](./spacing.md#hit-targets)）。
 - 用点击区域达到 44px，而不是用绘制出来的图形。32px 的 [Button](../../packages/ui/src/components/button/button.md) 和 20px 的 [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) 把透明的 `::after` 扩展到 44px，这样布局保持紧凑，目标依然够大。
 - 不要扩展正文中的行内链接和引用标签：它们跟随文字行。
-- 只用鼠标指针操作的桌面端控件可以更小：侧边栏行和菜单项 36px，导航条项 40px，悬停工具栏 36px、其中按钮 28px；在桌面端（768px 起且使用鼠标或触控板），默认控件（比如输入框）32px。触屏在任何宽度下都保持 44px（[间距](./spacing.md#heights)）。
+- 只用鼠标指针操作的桌面端控件可以更小：侧边栏行 36px，导航条项 40px，悬停工具栏 36px、其中按钮 28px；在桌面端（768px 起且使用鼠标或触控板），默认控件（比如输入框）32px。触屏在任何宽度下都保持 44px（[间距](./spacing.md#heights)），弹出列表中的行除外，它们在任何地方都是 36px（[间距](./spacing.md#hit-targets)）。
 - [ToggleGroup](../../packages/ui/src/components/toggle-group/toggle-group.md) 的项是 32px，且不扩展点击区域。在它们支持之前，不要在触屏上用切换组。
 
 ## 动效 {#motion}

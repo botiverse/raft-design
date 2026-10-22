@@ -49,7 +49,11 @@ timeline
 - Make every touch target at least 44px in both directions.
 - Extend a control that looks smaller than 44px, and a text button, with a transparent pseudo-element to 44px.
 - Don't extend inline links and reference chips in running text: they follow the line of text.
-- Desktop controls used only with a pointer may be smaller: sidebar rows and menu items 36px, rail items 40px, the hover toolbar 36px high with 28px buttons ([Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)).
+- The rows of a popup list are the one exception: an option of a Select, a Combobox or a ComboboxSelect, an item of a DropdownMenu or a ContextMenu, and a row of the server tab's popover on a phone ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)) are 36px with one line, on a touch screen as well as with a mouse ([Forms](../patterns/forms.md#option-height)). They touch each other edge to edge, so their hit area can't reach past the row to 44px. They stay 36px because:
+  - Each row spans the whole width of the popup, so a tap a few pixels off still lands on a row.
+  - A tap on the wrong row only moves the highlight or chooses the neighbor, which people see and can change. It never does anything that can't be put back: a menu item that deletes, stops or removes something opens a confirmation first ([Feedback](../patterns/feedback.md#confirming)). Keep such an item apart from the others, after a separator.
+  - 36px rows keep more of the list in view.
+- Desktop controls used only with a pointer may be smaller: sidebar rows 36px, rail items 40px, the hover toolbar 36px high with 28px buttons ([Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)).
 - On a desktop, a default control is 32px, Feishu's PC default, read with a pointer from further away. A desktop here is a screen from 768px (where the desktop layout begins) whose main pointer is a mouse or a trackpad, `(width >= 48rem) and (pointer: fine)`: density follows the input, not the width. A tablet used by touch keeps the phone's 44px controls and 16px field text, which also keeps iOS and iPadOS from zooming into a field on focus; an iPad with a trackpad reports a fine pointer and gets the desktop sizes. A button at 32px still overhangs to a 44px hit area (`after:-inset-y-control-hit`, plus its 1.5px border, because an overhanging `::after` is measured from inside the border), because a laptop can have a touch screen too; a field doesn't, since it is wide and its height is the target.
 
 ## The same kind, the same size
@@ -73,7 +77,7 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 | Settings row inside a settings page ([ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`) | 48px with one line |
 | Radio row | At least 44px |
 | Selection control: a switch; a checkbox and a radio | 50 × 30px; 20px. The same on a phone and a desktop. On its own, a checkbox's or radio's hit area is 44px tall on a touch screen; in a `<label>` row it reaches half the gap to the next option, and the label is the target. Centered on the label's first line; at the end of a settings row, on the whole row ([Alignment](./alignment.md#a-control-and-its-label)) |
-| Option in a popup list, menu item | 36px with one line; taller with more, at the same padding ([Forms](../patterns/forms.md#option-height)) |
+| Option in a popup list, menu item | 36px with one line, with a mouse and on a touch screen ([Hit targets](#hit-targets)); taller with more, at the same padding ([Forms](../patterns/forms.md#option-height)) |
 | Phone top bar row, panel header, sidebar header, rail header, drawer header | 56px |
 | Web top bar, desktop app title bar | 48px |
 
