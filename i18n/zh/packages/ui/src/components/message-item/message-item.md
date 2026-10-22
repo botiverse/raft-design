@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 agent 用法相同。
-sourceHash: a3df066f
+sourceHash: 6d9783e8
 ---
 
 # MessageItem
@@ -85,7 +85,7 @@ message-reference/compositions/mixed-long-message
 标签片的字号是句子字号的固定比例，高度比句子的行高低固定的一步，所以标签片总比它所在的行矮 2px。一行里放多少标签片，这一行都保持原来的高度，上下两行的标签片之间至少隔 2px；手机上正文变大，标签片也跟着变大。以前引用标签片是 20px 的行加上下各 1px，共 22px，在桌面端把一行撑到 23px；任务标签片和贴纸用句子本身的字号、1.2em 的行高：盒子比引用标签片矮 5px，字却大 2px。
 
 - 黄色贴纸保留画在里面的 1.5px 墨色边，外面不加模切边（[深色模式](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)），所以它和旁边的标签片一样大。
-- 高度跟随 `--text-body--line-height`。放在别的行高的文字里时，在容器上设置 `--chip-line-height`，取那一行减 2px。
+- 高度跟随 `--text-body--line-height`。放在别的行高的文字里时，在容器上设置 `--chip-line-height`，取那一行减 2px。目前还没有地方设置它：消息正文以外的标签片（比如引用预览里的正文）会退回到正文行高减 2px，所以那里出现标签片时，要在容器上设置 `--chip-line-height`。
 - 行内代码不是标签片：它是代码，不是引用，保留自己的盒子（[InlineCode](../inline-code/inline-code.md)），桌面端 20px，手机 23px，不会比行高。
 
 在 raft-ui 里，这三个组件从同一个配方（`lib/inline-chip.ts`）取这个盒子。

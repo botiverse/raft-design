@@ -98,7 +98,7 @@ The marks in a message's text are of two kinds:
 The chip's type is a share of the sentence's and its height a step below the sentence's line, so a chip is always 2px shorter than its line. However many chips a line holds, it keeps its height, and chips on two lines keep at least 2px between them; on a phone the body is larger and the chips grow with it. Before, a reference chip was its 20px line plus 1px above and below, 22px, which made a desktop line 23px, and a task chip and the sticker took the sentence's own size on a 1.2em line: boxes 5px shorter than a reference chip's, with letters 2px larger.
 
 - The yellow sticker keeps its 1.5px ink edge inside and has no die-cut edge outside ([Dark mode](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)), so it is the size of the chips beside it.
-- The height follows `--text-body--line-height`. Chips set in text on another line take that line less 2px from `--chip-line-height`, set on a container.
+- The height follows `--text-body--line-height`. Chips set in text on another line take that line less 2px from `--chip-line-height`, set on a container. Nothing sets it yet: a chip outside a message's body (the callout text of a quoted preview, for one) falls back to the body line less 2px, so set `--chip-line-height` on that container when chips appear there.
 - Inline code isn't a chip: it is code, not a reference, and keeps its own box ([InlineCode](../inline-code/inline-code.md)), 20px on a desktop and 23px on a phone, never taller than the line.
 
 In raft-ui the three components take the box from one recipe (`lib/inline-chip.ts`).

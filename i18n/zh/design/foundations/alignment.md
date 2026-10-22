@@ -1,7 +1,7 @@
 ---
 title: 对齐
 summary: 落在边距线或中线上的是什么：形状、字母还是图标框；以及标题栏两端的图标按钮放在哪里。
-sourceHash: a9a34d86
+sourceHash: d4c75033
 ---
 
 # 对齐
