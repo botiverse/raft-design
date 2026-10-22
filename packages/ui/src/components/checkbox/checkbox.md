@@ -31,7 +31,7 @@ Which controls apply at once and which are saved is in [Forms](../../../../../de
 ## Anatomy
 
 - `Checkbox`: the 20px box, with a hidden native input that holds the state. Required.
-- A label: wrap the checkbox and its text in a `<label>` (`Label`, or `FieldItem` with `FieldLabel` in a [Field](../field/field.md)).
+- A label: wrap the checkbox and its text in a `<label>` (`Label`, or `FieldItem` with `FieldLabel` in a [Field](../field/field.md)). Make the `<label>` a flex row with `gap-2` and the label's type: the box centers on the label's first line by itself, 8px before the text, with or without a description and however the label wraps. Don't add a `margin-top` ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
 - `CheckboxIndicator`: the box drawn on its own, with no input or role, for a row or menu item that already has checkbox semantics.
 
 ```example
@@ -52,7 +52,7 @@ checkbox/compositions/indicator
 
 ## Behavior
 
-- Make the whole label clickable, not only the box. A label row is 32px high, with a 44px hit area.
+- Make the whole label clickable, not only the box. The box's own hit area is 44px wide, and 44px tall on a touch screen; with a mouse, which needs less, it is 36px tall.
 
 ## Content
 

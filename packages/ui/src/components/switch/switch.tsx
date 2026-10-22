@@ -11,6 +11,7 @@ const switchRecipe = tv({
       "not-data-disabled:cursor-pointer",
       "data-disabled:cursor-not-allowed",
       "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-['']",
+      "[label>&]:my-[calc((1lh-1.875rem)/2)] [label>&]:self-start",
       "focus-visible:ring-line-strong focus-visible:ring-offset-layer-sidebar",
       "h-[30px] w-[50px] rounded-full border-[1.5px] border-line-strong bg-fill-muted p-[2.5px]",
       "duration-150",

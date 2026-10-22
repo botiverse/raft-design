@@ -28,6 +28,14 @@ A checkbox, radio or switch centers on the first line of its label — the same 
 - **Center the control on the first line of its label.** Offset it by half the difference between that line and the control — `(1lh - 20px) / 2` for a 20px box — so it lands correctly at every type size without a hand-tuned nudge.
 - **Don't align the control to the top of the text block.** A 20px box sitting on the top of an 18px line hangs 1px below the line's centre, and on a 16px line 2px below it.
 - **Don't center it on the label either.** A label is often one line, which makes the two look the same — until it wraps, and the control slides to the middle of the block: 27px off the first line at a narrow width, and 8px off as soon as a description follows. The first line is what the control belongs to; the block is a coincidence.
+- **Leave 8px between the control and its label.** The switch keeps 50 × 30 and the checkbox and radio 20px wherever they sit, and the switch is the one taller than a line of text: on the first line it overhangs the line by 3px above and below, by negative margins, so the row doesn't grow for it.
+- **A control at the end of a row centers on the row's first line too:** a switch at the end of a settings row centers on the title, not on the title and its description together.
+
+raft-ui does this wherever it puts a control beside its label, so don't add a `margin-top` or `items-center` of your own:
+
+- `FieldItem` centers a `Checkbox`, `RadioGroupItem` or `Switch` in it on the first line of its `FieldLabel`, 8px before it.
+- A `Checkbox`, `RadioGroupItem` or `Switch` placed directly in a `<label>` row centers on that row's first line, in a box one line tall. Make the label a flex row with `gap-2`, and set the label's type on the `<label>`, since the control reads its line from there.
+- A `ListRow variant="plain"` centers a trailing `Switch`, `Checkbox` or `RadioGroupItem` on its title's first line.
 
 In Space Grotesk the cap-height center and the line-box center are the same point: the face is centered in its em box to within 0.006em, under 0.1px at any size we set. So centering the control on the line box *is* optical centering, and no per-size correction is needed. A hand-tuned `margin-top` is a sign the control was aligned to the wrong thing: it is the right answer for one label at one size, and silently wrong for the next. Write the offset as the arithmetic, not as the number it currently comes to: `Banner` once carried `mt-px` for a 16px icon and `mt-[4.5px]` for a 9px status, `(18 - 16) / 2` and `(18 - 9) / 2` against an 18px line, and both went wrong when the desktop line changed. An icon or a status light that leads a line of text is centered on the first line the same way in every component ([A mark that leads text](#a-mark-that-leads-text)).
 

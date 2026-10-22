@@ -15,7 +15,9 @@ const radioGroup = tv({
     item: [
       "relative inline-flex shrink-0 touch-manipulation items-center justify-center rounded-full outline-none",
       "data-disabled:cursor-not-allowed",
-      "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-['']",
+      "after:absolute after:-inset-x-[calc(--spacing(3)+1.5px)] after:-inset-y-[calc(--spacing(2)+1.5px)] after:content-['']",
+      "pointer-coarse:after:-inset-y-[calc(--spacing(3)+1.5px)]",
+      "[label>&]:my-[calc((1lh-1.25rem)/2)] [label>&]:self-start",
       "size-5 border-[1.5px] border-line-strong bg-layer-card text-foreground",
       "focus-visible:shadow-focus",
       "data-disabled:border-foreground-disabled data-disabled:bg-fill-muted data-disabled:text-foreground-disabled",

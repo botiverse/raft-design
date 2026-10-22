@@ -233,7 +233,7 @@ for (const s of SCREENS) {
       <InputGroup data-testid="group">
         <InputGroupInput aria-label="Search" defaultValue="design" />
         <InputGroupAddon align="inline-end">
-          <Button variant="ghost" size="icon-xs" aria-label="Clear search" data-testid="clear">
+          <Button variant="ghost" size="icon-md" aria-label="Clear search" data-testid="clear">
             {ICON}
           </Button>
         </InputGroupAddon>
@@ -258,7 +258,7 @@ for (const s of SCREENS) {
             </ComposerIconButton>
           </ComposerActions>
           <ComposerMeta>
-            <ComposerSubmit aria-label="Send" size="icon-sm" data-testid="send">
+            <ComposerSubmit aria-label="Send" size="icon-md" data-testid="send">
               {ICON}
             </ComposerSubmit>
           </ComposerMeta>
@@ -550,7 +550,7 @@ function moreCases(s: Screen) {
         <LightboxInfoBar data-testid="lightbox">
           <LightboxInfoTitle>photo.png</LightboxInfoTitle>
           <LightboxInfoActions>
-            <Button variant="ghost" size="icon-sm" aria-label="Download" data-testid="download">
+            <Button variant="ghost" size="icon-md" aria-label="Download" data-testid="download">
               {ICON}
             </Button>
           </LightboxInfoActions>
@@ -558,10 +558,10 @@ function moreCases(s: Screen) {
         <MessageMultiSelectToolbar data-testid="multi">
           <span>1 selected</span>
           <MessageMultiSelectToolbarActions>
-            <Button size="xs" data-testid="cancel">
+            <Button size="md" data-testid="cancel">
               Cancel
             </Button>
-            <Button size="icon-xs" aria-label="More" data-testid="more">
+            <Button size="icon-md" aria-label="More" data-testid="more">
               {ICON}
             </Button>
           </MessageMultiSelectToolbarActions>

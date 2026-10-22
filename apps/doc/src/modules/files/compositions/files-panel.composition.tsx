@@ -124,7 +124,7 @@ export function FilesPanelComposition({
                     Loading more files…
                   </span>
                 ) : (
-                  <Button variant="outline" size="sm" disabled={!onLoadMore} onClick={onLoadMore}>
+                  <Button variant="outline" size="md" disabled={!onLoadMore} onClick={onLoadMore}>
                     Load more
                   </Button>
                 )}

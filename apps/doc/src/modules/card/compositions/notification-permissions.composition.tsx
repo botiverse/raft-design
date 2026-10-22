@@ -42,7 +42,7 @@ export function CardNotificationPermissionsComposition() {
       <CardContent className="grid gap-3">
         <Button
           type="button"
-          size="sm"
+          size="md"
           className="justify-self-start"
           disabled={!enabled}
           onClick={handleSendTestPush}

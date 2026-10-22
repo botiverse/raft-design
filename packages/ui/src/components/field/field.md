@@ -32,7 +32,7 @@ field/compositions/preview
 - The control: [Input](../input/input.md), [InputGroup](../input-group/input-group.md), [Textarea](../textarea/textarea.md), [Select](../select/select.md) or `FieldControl` for another native control.
 - `FieldDescription`: help text below the control. Optional.
 - `FieldError`: the error, in place of the help text. Shown only while the field is invalid.
-- `FieldItem`: a row that puts a checkbox, radio or switch beside its label and description. It centres the control on the label's first line, working from its own line height, so **give it the same `size` as the label**: `<FieldItem size="sm">` with `<FieldLabel size="sm">`. A mismatch leaves the control 1px off ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
+- `FieldItem`: a row that puts a checkbox, radio or switch beside its label and description, 8px apart. It centres the control on the label's first line, working from its own line height, so **give it the same `size` as the label**: `<FieldItem size="sm">` with `<FieldLabel size="sm">`. A mismatch leaves the control 1px off ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
 - `FieldValidity`: read access to the field's validity state, for custom messages.
 
 ## Variants

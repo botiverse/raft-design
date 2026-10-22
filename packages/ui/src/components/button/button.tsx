@@ -28,8 +28,9 @@ const outline = (ink: string) => [
 // overhanging ::after. An absolute ::after is placed from the padding box, so
 // each overhang adds the 1.5px border back: 32 - 3 + 2 x (6 + 1.5) = 44. `lg`, `icon-lg` and `xl` take the control height, 44px
 // (52px) on a phone and 32px (40px) on a desktop, from the token layer; there
-// `lg` and `icon-lg` overhang by `control-hit` to keep 44px. `xs` and `sm` are
-// the old names of `md`, `icon-xs` and `icon-sm` of `icon-md`.
+// `lg` and `icon-lg` overhang by `control-hit` to keep 44px. `xs` and `sm`
+// are deprecated aliases of `md`, `icon-xs` and `icon-sm` of `icon-md`, kept
+// until raft-ui 1.0 (codemods/button-sizes.mjs renames them).
 const textMd = [
   "h-8 gap-2 rounded-control px-3 py-0 text-control",
   "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
@@ -185,9 +186,31 @@ export const buttonVariants = tv({
 const FRAMELESS = new Set(["ghost", "on-frame"]);
 const ICON_SIZES = new Set(["icon-xs", "icon-sm", "icon-md", "icon-lg"]);
 
+type ButtonVariantProps = VariantProps<typeof buttonVariants>;
+
+/** The Button sizes: `md`, `lg`, `xl`, `icon-md` and `icon-lg`. */
+export type ButtonSize = "md" | "lg" | "xl" | "icon-md" | "icon-lg";
+
+/**
+ * Deprecated: `xs` and `sm` render as `md`, `icon-xs` and `icon-sm` as
+ * `icon-md`. Removed in raft-ui 1.0; run
+ * `node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src>`.
+ */
+export type DeprecatedButtonSize = "xs" | "sm" | "icon-xs" | "icon-sm";
+
 export type ButtonProps = StyledProps<BaseButton.Props> &
-  VariantProps<typeof buttonVariants> &
+  Omit<ButtonVariantProps, "size"> &
   DataAttributes & {
+    /**
+     * `md` (32px) and `icon-md` for rows, cards, banners, toolbars and panel
+     * headers; `lg` and `icon-lg` (the control height) for dialog footers,
+     * forms and beside a field; `xl` for a full-width call to action. The size
+     * follows the place: see Button › Size by place.
+     *
+     * `xs`, `sm`, `icon-xs` and `icon-sm` are deprecated aliases of `md` and
+     * `icon-md`, removed in raft-ui 1.0 (`codemods/button-sizes.mjs`).
+     */
+    size?: "md" | "lg" | "xl" | "icon-md" | "icon-lg" | DeprecatedButtonSize;
     loading?: boolean;
     loadingLabel?: string;
   };

@@ -24,10 +24,10 @@ function AttachmentPreviewDialogParts() {
             HTML preview
           </span>
         </div>
-        <Button type="button" variant="outline" size="icon-xs" aria-label="Download attachment">
+        <Button type="button" variant="outline" size="icon-md" aria-label="Download attachment">
           <Download />
         </Button>
-        <DialogClose size="icon-xs" />
+        <DialogClose size="icon-md" />
       </DialogHeader>
       <DialogBody className="min-h-0 bg-layer-canvas p-0">
         <div className="grid min-h-72 place-items-center bg-fill-muted">

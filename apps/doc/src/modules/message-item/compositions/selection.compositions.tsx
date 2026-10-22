@@ -86,7 +86,7 @@ export function MessageMultiSelectToolbarComposition({
       </span>
       <MessageMultiSelectToolbarActions ref={actionsRef}>
         <Button
-          size={compactCancel ? "icon-xs" : "xs"}
+          size={compactCancel ? "icon-md" : "md"}
           onClick={onCancel}
           aria-label="Cancel"
           title="Cancel"
@@ -95,7 +95,7 @@ export function MessageMultiSelectToolbarComposition({
           {compactCancel ? null : <span>Cancel</span>}
         </Button>
         <Button
-          size={compactForward ? "icon-xs" : "xs"}
+          size={compactForward ? "icon-md" : "md"}
           variant="accent"
           aria-label="Forward"
           disabled={!onForward}
@@ -106,7 +106,7 @@ export function MessageMultiSelectToolbarComposition({
           {compactForward ? null : <span>Forward</span>}
         </Button>
         <Button
-          size={compactCopyLink ? "icon-xs" : "xs"}
+          size={compactCopyLink ? "icon-md" : "md"}
           aria-label="Copy link"
           disabled={!onCopyLink}
           onClick={onCopyLink}
@@ -119,7 +119,7 @@ export function MessageMultiSelectToolbarComposition({
           <DropdownMenuTrigger
             render={
               <Button
-                size="icon-xs"
+                size="icon-md"
                 aria-label="More selected message actions"
                 disabled={!onGenerateImage && !onCopyMarkdown}
                 title="More"

@@ -295,7 +295,7 @@ export function BannerClose({
     <Button
       {...props}
       variant="ghost"
-      size="icon-sm"
+      size="icon-md"
       aria-label={ariaLabel}
       data-banner-close=""
       className={close({ className })}

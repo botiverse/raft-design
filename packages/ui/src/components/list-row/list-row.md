@@ -34,7 +34,7 @@ list-row/compositions/conversations
 - `ListRowBody`: the text column. Required.
   - `ListRowTop`: `ListRowTitle`, then the time in `ListRowMeta`.
   - `ListRowBottom`: the preview in `ListRowDescription`, then at most one badge.
-- Trailing: a setting's `ListRowValue` and `ListRowChevron`, or a [Switch](../switch/switch.md). Optional.
+- Trailing: a setting's `ListRowValue` and `ListRowChevron`, or a [Switch](../switch/switch.md). Optional. In a `plain` row a trailing switch, checkbox or radio centers on the title's first line, not on the title and description together, so a wrapped title or a description leaves it beside the title ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
 - `ListRowGroup`: an inset group that wraps rows in a card. Optional.
 
 ## Variants

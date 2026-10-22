@@ -3,6 +3,8 @@ import { expect, test } from "vite-plus/test";
 import { renameDependency, renameSpecifiers } from "../codemods/package-name.mjs";
 // @ts-expect-error -- plain ESM scripts shipped in the package, without types.
 import { renameTokens } from "../codemods/token-names.mjs";
+// @ts-expect-error -- plain ESM scripts shipped in the package, without types.
+import { leftovers, renameButtonSizes } from "../codemods/button-sizes.mjs";
 
 test("package-name rewrites JS and CSS specifiers once, and leaves bare strings alone", () => {
   const before = [
@@ -98,4 +100,37 @@ test("token-names moves the old hover names onto the two hover tiers", () => {
     ].join("\n"),
   );
   expect(renameTokens(after)).toBe(after);
+});
+
+test("button-sizes renames Button's duplicate sizes, and only a Button's", () => {
+  const before = [
+    '<Button size="sm">Save</Button>',
+    '<Button variant="ghost" size=\'icon-sm\' aria-label="More" />',
+    '<Button\n  size={inHead ? "sm" : "lg"}\n  onClick={() => go({ size: "sm" })}\n>',
+    '<Button size={"xs"} /> <Button size="icon-xs" />',
+    '<DialogClose size="icon-xs" /> <ComposerSubmit size="icon-sm" />',
+    '<AlertDialogCancel size="sm" />',
+    '<Dialog size="sm"> <Banner size="sm"> <Avatar size="xs" />',
+    '<FileAction size="icon-sm" />',
+    'const cls = buttonVariants({ variant: "ghost", size: "icon-sm" });',
+    'const other = { size: "sm" };',
+  ].join("\n");
+  const after = renameButtonSizes(before);
+  expect(after).toBe(
+    [
+      '<Button size="md">Save</Button>',
+      '<Button variant="ghost" size=\'icon-md\' aria-label="More" />',
+      '<Button\n  size={inHead ? "md" : "lg"}\n  onClick={() => go({ size: "sm" })}\n>',
+      '<Button size={"md"} /> <Button size="icon-md" />',
+      '<DialogClose size="icon-md" /> <ComposerSubmit size="icon-md" />',
+      '<AlertDialogCancel size="md" />',
+      '<Dialog size="sm"> <Banner size="sm"> <Avatar size="xs" />',
+      '<FileAction size="icon-md" />',
+      'const cls = buttonVariants({ variant: "ghost", size: "icon-md" });',
+      'const other = { size: "sm" };',
+    ].join("\n"),
+  );
+  expect(renameButtonSizes(after)).toBe(after);
+  expect(renameButtonSizes('<MyButton size="sm" />', ["MyButton"])).toBe('<MyButton size="md" />');
+  expect(leftovers('const s = "icon-sm";\nok')).toEqual([1]);
 });

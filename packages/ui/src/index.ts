@@ -93,7 +93,7 @@ export { FormSection } from "./components/form-section/index";
 export type { FormSectionProps } from "./components/form-section/index";
 
 export { Button, buttonVariants } from "./components/button/index";
-export type { ButtonProps } from "./components/button/index";
+export type { ButtonProps, ButtonSize, DeprecatedButtonSize } from "./components/button/index";
 
 export { TextLink, textLinkVariants } from "./components/text-link/index";
 export type { TextLinkProps } from "./components/text-link/index";

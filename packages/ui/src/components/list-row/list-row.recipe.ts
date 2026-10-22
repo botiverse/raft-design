@@ -62,8 +62,19 @@ export const listRow = tv({
       default: { root: ["min-h-16 [--list-row-rule-start:63px]", hairline] },
       // A setting: a title (and its consequence), the current value and a
       // chevron, or a switch; 48 tall with one line. The line starts at the
-      // row's edge.
-      plain: { root: ["[--list-row-rule-start:16px]", hairline] },
+      // row's edge. A trailing switch, checkbox or radio centres on the
+      // title's first line in a box one line tall, so it stays there when a
+      // description follows and the switch doesn't make the row taller
+      // (Alignment: a control and its label).
+      plain: {
+        root: [
+          "[--list-row-rule-start:16px]",
+          hairline,
+          "*:data-[slot=switch]:my-[calc((var(--text-body--line-height)-1.875rem)/2)] *:data-[slot=switch]:self-start",
+          "*:data-[slot=checkbox]:my-[calc((var(--text-body--line-height)-1.25rem)/2)] *:data-[slot=checkbox]:self-start",
+          "*:data-[slot=radio-group-item]:my-[calc((var(--text-body--line-height)-1.25rem)/2)] *:data-[slot=radio-group-item]:self-start",
+        ],
+      },
       // A shortcut into another page (Search, Activity, Saved): a 20px icon and
       // a name, 48 tall. A group of them is a set of buttons, so no lines.
       entry: { root: "" },

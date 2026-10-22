@@ -55,7 +55,7 @@ function TaskTitleRow({
         <Button
           type="button"
           variant="outline"
-          size="icon-sm"
+          size="icon-md"
           aria-label={`Remove task ${index + 1}`}
           onClick={handleRemove}
         >
@@ -185,7 +185,7 @@ export function CreateTaskDialogComposition({
               <Button
                 type="button"
                 variant="outline"
-                size="sm"
+                size="md"
                 className="mt-3"
                 onClick={handleAddRow}
               >

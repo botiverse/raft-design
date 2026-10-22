@@ -181,7 +181,7 @@ function RaftRow({ item, domRef, style }: VirtualListItemRenderProps<Row>) {
       data-row={item.key}
       style={style === undefined ? ROW_STYLE : { ...ROW_STYLE, ...style }}
     >
-      <Button size="sm" data-button={item.key} onClick={pressRow}>
+      <Button size="md" data-button={item.key} onClick={pressRow}>
         Open
       </Button>
       <SegmentedControl aria-label={item.key} value={view} onValueChange={setView}>

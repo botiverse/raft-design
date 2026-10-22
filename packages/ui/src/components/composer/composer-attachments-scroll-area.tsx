@@ -90,7 +90,7 @@ export function ComposerAttachmentsScrollArea({
       {showPrev ? (
         <Button
           type="button"
-          size="icon-sm"
+          size="icon-md"
           variant={navVariant}
           aria-label="Scroll attachments left"
           className={prevNavClassName}
@@ -109,7 +109,7 @@ export function ComposerAttachmentsScrollArea({
       {showNext ? (
         <Button
           type="button"
-          size="icon-sm"
+          size="icon-md"
           variant={navVariant}
           aria-label="Scroll attachments right"
           className={nextNavClassName}

@@ -73,7 +73,7 @@ function ReactionRow() {
   return (
     <div className={cn("flex h-9 items-center gap-1 px-2", "-mx-1 rounded-sm bg-layer-canvas/70")}>
       {["👍", "❤️", "😂", "🎉", "👀"].map((emoji) => (
-        <Button key={emoji} variant="ghost" size="icon-sm" aria-label={`React with ${emoji}`}>
+        <Button key={emoji} variant="ghost" size="icon-md" aria-label={`React with ${emoji}`}>
           {emoji}
         </Button>
       ))}

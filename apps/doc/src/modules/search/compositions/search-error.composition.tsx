@@ -36,7 +36,7 @@ export function SearchErrorComposition() {
             <Button
               type="button"
               variant="danger-outline"
-              size="sm"
+              size="md"
               disabled={retrying}
               onClick={handleRetry}
             >

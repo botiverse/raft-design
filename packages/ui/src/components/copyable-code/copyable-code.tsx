@@ -174,10 +174,10 @@ export function CopyableCodeAction({
   variant,
   ...props
 }: CopyableCodeActionProps) {
-  const { copied, copyValue, size: codeSize } = useCopyableCode("CopyableCodeAction");
+  const { copied, copyValue } = useCopyableCode("CopyableCodeAction");
   const { action } = copyableCode();
   const accessibleLabel = copied ? "Copied code" : "Copy code";
-  const buttonSize = size ?? (codeSize === "md" ? "icon-md" : "icon-sm");
+  const buttonSize = size ?? "icon-md";
   const buttonVariant = variant ?? "ghost";
 
   const handleClick = useCallback<NonNullable<ButtonProps["onClick"]>>(

@@ -68,7 +68,7 @@ export function CardSettingsSectionComposition() {
             </Field>
 
             <div>
-              <Button type="submit" variant="accent" size="sm" disabled={!profileDirty}>
+              <Button type="submit" variant="accent" size="md" disabled={!profileDirty}>
                 Save Profile
               </Button>
             </div>
@@ -77,7 +77,7 @@ export function CardSettingsSectionComposition() {
           <Separator />
 
           <div>
-            <Button type="button" variant="ghost" size="sm">
+            <Button type="button" variant="ghost" size="md">
               <ChevronRight data-icon="inline-start" />
               Change Password
             </Button>
