@@ -30,6 +30,16 @@ const linkChip = (fill: string) => [
   "text-foreground cursor-pointer hover:overlay-medium active:overlay-medium",
 ];
 
+// Where a note after the label (`msg`) is drawn. "x-height" puts the middle of
+// its x-height on the label's; "icon" puts it on the middle of the label's cap
+// height, the line the icon centres on. Both keep the label's baseline in the
+// layout. The choice is still open: change this one line to switch.
+const SUFFIX_CENTRE: "x-height" | "icon" = "x-height";
+const SUFFIX_LIFT = {
+  "x-height": "top-[calc((1em-var(--message-reference-em))/4)]",
+  icon: "top-[calc(0.25em-var(--message-reference-em)*0.35)]",
+}[SUFFIX_CENTRE];
+
 export const messageReference = tv({
   slots: {
     root: [
@@ -40,20 +50,21 @@ export const messageReference = tv({
       "max-w-full truncate select-text no-underline",
       "outline-none focus-visible:shadow-focus",
       "[&_svg]:size-[0.857em] [&_svg]:shrink-0 [&_svg]:self-center",
+      "*:data-[slot=spinner]:self-center",
       "has-[>[data-slot=message-reference-indicator]]:relative has-[>[data-slot=message-reference-indicator]]:mr-2",
       "has-[>[data-slot=message-reference-indicator]]:inline-block",
       "has-[>[data-slot=message-reference-indicator]]:overflow-visible",
     ],
     chipLabel: "min-w-0 truncate",
     // A note after the label, in smaller machine type. It keeps the label's
-    // baseline in the layout, and is drawn a quarter of the size difference
-    // higher: Space Grotesk and Space Mono both have a 0.5em x-height, so this
-    // puts the middle of its x-height on the middle of the label's
-    // (alignment.md#chips). On the baseline, an 11px note sat 0.3px low beside a
-    // 12.25px label and 0.75px low beside a 14px one, and its descenders made it
-    // look lower still.
+    // baseline in the layout, and is drawn higher (SUFFIX_CENTRE). For the
+    // x-height: a quarter of the size difference, since Space Grotesk and Space
+    // Mono both have a 0.5em x-height (alignment.md#chips). On the baseline, an
+    // 11px note sat 0.3px low beside a 12.25px label and 0.75px low beside a
+    // 14px one, and its descenders made it look lower still.
     suffix: [
-      "relative top-[calc((1em-var(--message-reference-em))/4)] shrink-0",
+      "relative shrink-0",
+      SUFFIX_LIFT,
       "font-mono text-label leading-none font-normal text-foreground-hint",
     ],
     indicator: [

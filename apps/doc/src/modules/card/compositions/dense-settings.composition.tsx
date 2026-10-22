@@ -25,7 +25,7 @@ export function CardDenseSettingsComposition() {
       </CardHeader>
 
       <CardContent className="grid gap-4">
-        <div className="flex min-w-0 items-center justify-between gap-4">
+        <div className="flex min-w-0 items-start justify-between gap-4 leading-5">
           <div className="min-w-0">
             <Text.Sans render={<h4 id="external-links-label" />} size="small">
               External links
@@ -33,6 +33,7 @@ export function CardDenseSettingsComposition() {
             <Text.Sans size="caption">Require approval before opening untrusted domains.</Text.Sans>
           </div>
           <Switch
+            className="mt-[calc((1lh-1.875rem)/2)]"
             aria-labelledby="external-links-label"
             checked={externalLinks}
             onCheckedChange={setExternalLinks}
@@ -41,7 +42,7 @@ export function CardDenseSettingsComposition() {
 
         <Separator />
 
-        <div className="flex min-w-0 items-center justify-between gap-4">
+        <div className="flex min-w-0 items-start justify-between gap-4 leading-5">
           <div className="min-w-0">
             <Text.Sans render={<h4 id="downloads-label" />} size="small">
               File downloads
@@ -49,6 +50,7 @@ export function CardDenseSettingsComposition() {
             <Text.Sans size="caption">Block files that have not completed verification.</Text.Sans>
           </div>
           <Switch
+            className="mt-[calc((1lh-1.875rem)/2)]"
             aria-labelledby="downloads-label"
             checked={downloads}
             onCheckedChange={setDownloads}
@@ -57,7 +59,7 @@ export function CardDenseSettingsComposition() {
 
         <Separator />
 
-        <div className="flex min-w-0 items-center justify-between gap-4">
+        <div className="flex min-w-0 items-start justify-between gap-4 leading-5">
           <div className="min-w-0">
             <Text.Sans render={<h4 id="session-archive-label" />} size="small">
               Inactive sessions
@@ -67,6 +69,7 @@ export function CardDenseSettingsComposition() {
             </Text.Sans>
           </div>
           <Switch
+            className="mt-[calc((1lh-1.875rem)/2)]"
             aria-labelledby="session-archive-label"
             checked={sessionArchive}
             onCheckedChange={setSessionArchive}
