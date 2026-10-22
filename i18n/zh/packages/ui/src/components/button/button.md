@@ -1,7 +1,7 @@
 ---
 title: Button
 summary: 执行操作的按钮，可以带标签也可以不带；颜色说明它是哪一类操作，尺寸由它所在的位置决定。
-sourceHash: 728773a6
+sourceHash: cd6cb598
 ---
 
 # Button
@@ -70,7 +70,7 @@ button/compositions/on-frame
 
 这三种加上两种图标尺寸 `icon-md` 和 `icon-lg`，就是全部尺寸。`xs` 和 `sm` 的渲染与 `md` 完全相同，`icon-xs` 和 `icon-sm` 与 `icon-md` 完全相同。它们是已弃用的别名，保留到 raft-ui 1.0。`node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src>` 会把它们改名，屏幕上什么都不会变。
 
-一个地方看起来放不下 32px 的按钮时，改容器，不要改按钮。带按钮的横幅就是标准横幅，不是 `sm`。
+一个地方看起来放不下 32px 的按钮时，改容器，不要改按钮。横幅的按钮在任何尺寸的横幅里都是 `md`，横幅的文字和按钮的文字一样大（[Banner](../banner/banner.md#sizes)）。
 
 #### 按位置选尺寸 {#size-by-place}
 

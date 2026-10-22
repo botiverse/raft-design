@@ -1,7 +1,7 @@
 ---
 title: Banner
 summary: 对话框或表单里一条浅色底的提示，让人在操作前先读到；作为 PanelNotice 时，是某个面板里出错时铺在面板标题栏下方的一整条。
-sourceHash: f564adc9
+sourceHash: 71053e95
 ---
 
 # Banner
@@ -68,6 +68,19 @@ banner/compositions/close
 - 出了问题时用 `status="warning"`；`destructive` 只用于无法撤销的后果（[颜色](../../../../../design/foundations/color.md#meanings-of-color)）。
 - raft-ui 还有一个用 `fill-muted` 的中性 `status="default"`。系统里的横幅总会表明一种意图，所以优先用上面四种之一。
 
+### 尺寸 {#sizes}
+
+`size` 只决定内边距和图标，从不决定字号：横幅的标题和描述在每个尺寸下都是 `text-callout`，手机上 14/20，桌面端 14/22（[字体排印](../../../../../design/foundations/typography.md#type-scale)）。
+
+| 尺寸                  | 内边距（上下 × 左右） | 图标                    |
+| --------------------- | --------------------- | ----------------------- |
+| `size="sm"`           | 8px × 12px            | 16px，距文字 8px        |
+| `size="md"`（默认）   | 12px × 14px           | 20px，距文字 10px       |
+| `size="lg"`           | 14px × 16px           | 20px，距文字 10px       |
+
+- 横幅的文字从不小于它按钮的文字。文字和按钮并排放着，而横幅的按钮只有一个尺寸，即 32px 的按钮，它的文字是 `text-control`（桌面端 14px，手机上 13px）。文字比按钮的文字小，按钮就显得比横幅大了一号，所以 `sm` 横幅只收紧内边距和图标，从不缩小文字。
+- 有按钮的 `sm` 横幅让按钮离上下边缘各 4px，对齐最后一行文字的中线，所以文字上下各留 (32px − 一行) / 2 + 4px。
+
 ## 内容 {#content}
 
 - 说明现在发生了什么，下一步该做什么（[写作](../../../../../design/content/writing.md)、[反馈](../../../../../design/patterns/feedback.md#errors-by-scope)）。
@@ -85,8 +98,8 @@ banner/compositions/close
 ## 规则 {#rules}
 
 - 同一个位置最多显示一条横幅。
-- 最多一个按钮，横幅可以关闭时再在前面加一个 Dismiss；而且只在确实有解决办法时才放按钮：32px 的墨色边框按钮（`variant="default" size="sm"`）。不要用粉色按钮：横幅不是这个屏幕的主要操作。
-- 把按钮放进 `BannerAction`，位于右下角，这样它排在它所作用的内容之后，并停在视线停下的地方，就像对话框的提交按钮。可以关闭又有按钮的横幅，把 Dismiss（`variant="ghost" size="sm"`）放在按钮紧前面，同在一个 `BannerAction` 里。
+- 最多一个按钮，横幅可以关闭时再在前面加一个 Dismiss；而且只在确实有解决办法时才放按钮：32px 的墨色边框按钮（`variant="default" size="md"`）。不要用粉色按钮：横幅不是这个屏幕的主要操作。
+- 把按钮放进 `BannerAction`，位于右下角，这样它排在它所作用的内容之后，并停在视线停下的地方，就像对话框的提交按钮。可以关闭又有按钮的横幅，把 Dismiss（`variant="ghost" size="md"`）放在按钮紧前面，同在一个 `BannerAction` 里。
 - 只在没有按钮的横幅上用 `BannerClose`；不要把 × 放进 `BannerAction`，在那里它会被当成其中一个操作。
 - 不要加墨色边框。横幅是浅色底，不是贴纸（[颜色](../../../../../design/foundations/color.md#soft-tints)）；它的边缘是容器圆角加一条细线。
 
