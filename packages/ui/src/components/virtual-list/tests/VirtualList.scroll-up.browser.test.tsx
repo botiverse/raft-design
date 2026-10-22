@@ -172,3 +172,85 @@ describe("VirtualList scrolling up from the bottom past rows smaller than the es
     expect(windowErrors).toEqual([]);
   }, 30_000);
 });
+
+// Changes that cancel out: in one batch, a row above the view grows (scrolled away), a row in view
+// grows 10px and a row below it shrinks 10px. The rows in view moved, so `onContentResize` must run,
+// even though the changes the view didn't take back add up to zero.
+//
+// Scene: 100 rows of 40px (the estimate is exact, so opening measures nothing), in a 390 x 600 frame,
+// scrolled to row 40.
+let setHeights: Dispatch<SetStateAction<Record<string, number>>> | null = null;
+const registerSetHeights = (value: Dispatch<SetStateAction<Record<string, number>>>) => {
+  setHeights = value;
+};
+const fixedRows = createRows(0, 100);
+let contentResizeCalls = 0;
+const countContentResize = () => {
+  contentResizeCalls++;
+};
+
+function ResizeHarness() {
+  const [heights, setHarnessHeights] = useState<Record<string, number>>({});
+  useLayoutEffect(() => registerSetHeights(setHarnessHeights), []);
+  return (
+    <div style={FRAME_STYLE}>
+      <VirtualList
+        componentRef={setApi}
+        items={fixedRows}
+        getKey={getKey}
+        itemEstimatedSize={40}
+        itemMinSize={20}
+        itemResizable
+        onContentResize={countContentResize}
+      >
+        {({ item, domRef, style }: VirtualListItemRenderProps<Row>) => {
+          const rowStyle = { height: heights[item.key] ?? 40 };
+          return (
+            <div
+              key={item.key}
+              ref={domRef}
+              data-row={item.key}
+              style={style === undefined ? rowStyle : { ...rowStyle, ...style }}
+            >
+              {item.key}
+            </div>
+          );
+        }}
+      </VirtualList>
+    </div>
+  );
+}
+
+describe("VirtualList onContentResize for changes that cancel out", () => {
+  it("runs when a row in view grows and one below shrinks by as much, while a row above the view is scrolled away", async () => {
+    const { page } = await import("vite-plus/test/browser/context");
+    await page.viewport(800, 800);
+    render(<ResizeHarness />);
+    for (let i = 0; i < 60 && !document.querySelector("[data-row]"); i++) await frame();
+    const list = api!.listElRef.current!;
+    // Scrolled down past row 40, then up to it: the rows just above the view stay mounted.
+    list.scrollTop = 50 * 40;
+    await settle(5);
+    list.scrollTop = 40 * 40;
+    await settle(5);
+    const listTop = list.getBoundingClientRect().top + list.clientTop;
+    const listBottom = listTop + list.clientHeight;
+    const mounted = [...list.querySelectorAll<HTMLElement>("[data-row]")].map((el) => ({
+      key: el.dataset.row!,
+      rect: el.getBoundingClientRect(),
+    }));
+    const above = mounted.filter(({ rect }) => rect.bottom <= listTop).at(-1);
+    const inView = mounted.find(({ rect }) => rect.top >= listTop && rect.bottom <= listBottom);
+    const below = mounted.find(({ rect }) => rect.top >= listBottom);
+    expect(above && inView && below).toBeTruthy();
+    contentResizeCalls = 0;
+    const inViewTop = inView!.rect.top;
+    setHeights!({ [above!.key]: 60, [inView!.key]: 50, [below!.key]: 30 });
+    await settle(5);
+    // The row above the view was scrolled away: the row in view stays where it was.
+    const inViewEl = list.querySelector(`[data-row="${inView!.key}"]`)!;
+    expect(Math.abs(inViewEl.getBoundingClientRect().top - inViewTop)).toBeLessThanOrEqual(1);
+    expect(contentResizeCalls).toBeGreaterThan(0);
+    expect(windowErrors).toEqual([]);
+  }, 30_000);
+});

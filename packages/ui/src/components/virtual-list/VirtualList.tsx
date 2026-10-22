@@ -1384,9 +1384,14 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
           (key !== undefined && isFirstOfKey.get(key) === true && prependIndexes.includes(index)) ||
           index < viewTopIndex;
         let compensation = 0;
+        // Any change the view didn't take back moved the content, even when changes in and below the
+        // view add up to zero.
+        let uncompensated = false;
         for (const { index, key, delta } of resizes) {
           if (compensates(index, key)) {
             compensation += delta;
+          } else if (delta !== 0) {
+            uncompensated = true;
           }
         }
         /*
@@ -1400,6 +1405,8 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
           (viewTop > 0 || compensates(0, firstItem === undefined ? undefined : getKey(firstItem)))
         ) {
           compensation += leadingMarginDelta;
+        } else if (leadingMarginDelta !== 0) {
+          uncompensated = true;
         }
         if (compensation !== 0) {
           /*
@@ -1413,14 +1420,9 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
             listEl.scrollBy(0, remaining);
           }
         }
-        let sizeChange = leadingMarginDelta;
-        for (const { delta } of resizes) {
-          sizeChange += delta;
-        }
         const effectiveTop = listEl.scrollTop + compensationYRef.current;
         contentMoved =
-          sizeChange !== compensation ||
-          Math.abs(effectiveTop - (effectiveTopBefore + compensation)) >= 1;
+          uncompensated || Math.abs(effectiveTop - (effectiveTopBefore + compensation)) >= 1;
       } else {
         onContentResize?.();
         replayPendingScrollTask();
