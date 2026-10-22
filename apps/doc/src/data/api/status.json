@@ -13,7 +13,7 @@
       },
       {
         "name": "size",
-        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"lead\"",
+        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
         "required": false,
         "default": "\"md\"",
         "from": "raft-ui"

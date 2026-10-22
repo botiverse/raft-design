@@ -609,16 +609,20 @@ textarea:-webkit-autofill:disabled {
    the line box is the centre of the cap height (to 0.006em), so this is
    optical centring and needs no per-size nudge.
 
-   Its size comes from the text it inherits, so one class holds at every type
-   size and on both the phone and the desktop scale:
-   - an icon is 1.15em, rounded to an even pixel (Lucide's 24px grid halves
-     cleanly): 14px beside 12-13px text, 16px beside 14px, 18px beside 16px
-     (design/foundations/iconography.md#sizes);
-   - a status pixel is the x-height, `1ex`, rounded to a whole pixel: 6px
-     beside 12-13px text, 7px beside 14px, 8px beside 16px. Its ink edge
-     shrinks from 1.5px to 1px at 6px, so at least 4px of the colour shows.
-   The mark reads `1lh`, `em` and `ex` from the type it inherits, so set the
-   type on the row that holds the mark and the text, as Banner and
+   An icon takes its size from the text it inherits, so one class holds at
+   every type size and on both the phone and the desktop scale: 1.15em,
+   rounded to an even pixel (Lucide's 24px grid halves cleanly), 14px beside
+   12-13px text, 16px beside 14px, 18px beside 16px
+   (design/foundations/iconography.md#sizes).
+
+   A status pixel does not: beside text it has one size, the default
+   `Status` 9px with a 1.5px ink edge, whatever the text's size, so the same
+   light reads the same in a toast, a banner, a chip and a sidebar row
+   (packages/ui/src/components/status/status.md#anatomy). `lead-dot` only
+   places it, and holds it at 9px whatever size the caller passed.
+
+   The mark reads `1lh` (and an icon `em`) from the type it inherits, so set
+   the type on the row that holds the mark and the text, as Banner and
    PanelNotice do, not only on the text. */
 @utility lead-icon {
   --lead-icon: round(1.15em, 2px);
@@ -628,11 +632,11 @@ textarea:-webkit-autofill:disabled {
   margin-block: calc((1lh - var(--lead-icon)) / 2);
 }
 @utility lead-dot {
-  --lead-dot: round(1ex, 1px);
+  --lead-dot: 9px;
   flex-shrink: 0;
   width: var(--lead-dot);
   height: var(--lead-dot);
-  border-width: clamp(1px, (var(--lead-dot) - 4px) / 2, 1.5px);
+  border-width: 1.5px;
   margin-block: calc((1lh - var(--lead-dot)) / 2);
 }
 

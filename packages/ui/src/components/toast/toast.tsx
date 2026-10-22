@@ -781,7 +781,7 @@ function DefaultToastIcon({ toast: toastObject }: { toast: ToastObject<ToastData
 
   return (
     <ToastIcon>
-      <Status aria-hidden size="lead" variant={TOAST_PIXEL[intent]} />
+      <Status aria-hidden variant={TOAST_PIXEL[intent]} />
     </ToastIcon>
   );
 }

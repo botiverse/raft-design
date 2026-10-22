@@ -110,7 +110,7 @@
       },
       {
         "name": "size",
-        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"lead\"",
+        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\"",
         "required": false,
         "default": "\"sm\"",
         "from": "raft-ui"

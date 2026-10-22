@@ -14,8 +14,10 @@ import { toast, ToastProvider } from "./components/toast";
 // A mark that leads a line of text, an icon or a status pixel, sits in a box
 // one line of that text tall and is centred in it, so it stays on the first
 // line when the text wraps (design/foundations/alignment.md#a-mark-that-leads-text).
-// Its size follows the text: an icon is 1.15em on an even pixel, a pixel is
-// the x-height on a whole one; 8px separate it from a notice's text. Measured
+// An icon's size follows the text, 1.15em on an even pixel; a status pixel
+// keeps its one size, 9px with a 1.5px ink edge, whatever the text or the
+// size the caller passed (status.md#sizes); 8px separate either from a
+// notice's text. Measured
 // with a mouse (32px controls, the desktop type scale) and on a touch screen
 // (44px controls, the phone scale). Real layout only: jsdom has no boxes.
 
@@ -24,9 +26,10 @@ const it = test.skipIf(typeof window === "undefined");
 const LONG = "This channel is shared with Acme, and everyone there can read what you post";
 const CJK = "这个频道已与 Acme 共享，对方的成员和智能体都能看到你在这里发的消息";
 
-// Text size → mark size, the iconography scale for a leading mark.
+// Text size → icon size, the iconography scale for a leading icon. A status
+// light is 9px beside any text.
 const ICON: Record<number, number> = { 12: 14, 13: 14, 14: 16 };
-const DOT: Record<number, number> = { 12: 6, 13: 6, 14: 7 };
+const DOT = 9;
 const GAP = 8;
 
 const DEVICES = [
@@ -95,7 +98,7 @@ function expectLeads(
   { kind, gap = GAP, wraps }: { kind: "icon" | "dot"; gap?: number; wraps: boolean },
 ) {
   const fontSize = parseFloat(getComputedStyle(text).fontSize);
-  const size = (kind === "icon" ? ICON : DOT)[fontSize];
+  const size = kind === "icon" ? ICON[fontSize] : DOT;
   const m = mark.getBoundingClientRect();
   if (wraps) expect(lines(text)).toBeGreaterThanOrEqual(2);
   else expect(lines(text)).toBe(1);
@@ -240,7 +243,7 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
     });
   }
 
-  it(`${deviceName}: a Badge's and a PanelActivity's status pixel is the caption's x-height, on its line`, async () => {
+  it(`${deviceName}: a Badge's and a PanelActivity's status pixel is 9px, centred on the caption's line`, async () => {
     await device(deviceWidth, touch);
     render(
       <ThemeProvider>
@@ -264,9 +267,8 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
       const range = document.createRange();
       range.selectNodeContents(chip.lastChild!);
       const word = range.getBoundingClientRect();
-      const fontSize = parseFloat(getComputedStyle(chip).fontSize);
       expect(Math.abs(middle(dot) - middle(word))).toBeLessThanOrEqual(0.5);
-      expect([dot.width, dot.height]).toEqual([DOT[fontSize], DOT[fontSize]]);
+      expect([dot.width, dot.height]).toEqual([DOT, DOT]);
     }
   });
 }
