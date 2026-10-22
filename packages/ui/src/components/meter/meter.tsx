@@ -9,7 +9,7 @@ const meter = tv({
   slots: {
     root: [
       "group/meter grid w-full min-w-0 gap-1.5",
-      "[--meter-indicator:var(--color-info)]",
+      "[--meter-indicator:var(--info)]",
       "[--meter-track:var(--fill-muted)]",
       "[--meter-track-edge:transparent]",
       "[--meter-value:var(--foreground-muted)]",
@@ -34,16 +34,13 @@ const meter = tv({
     level: {
       plenty: {},
       low: {
-        root: [
-          "[--meter-indicator:var(--color-warning)]",
-          "[--meter-value:var(--color-warning-strong)]",
-        ],
+        root: ["[--meter-indicator:var(--warning)]", "[--meter-value:var(--warning-strong)]"],
       },
       empty: {
         root: [
-          "[--meter-track:var(--color-warning-muted)]",
-          "[--meter-track-edge:var(--color-warning)]",
-          "[--meter-value:var(--color-warning-strong)]",
+          "[--meter-track:var(--warning-muted)]",
+          "[--meter-track-edge:var(--warning)]",
+          "[--meter-value:var(--warning-strong)]",
         ],
       },
     },
