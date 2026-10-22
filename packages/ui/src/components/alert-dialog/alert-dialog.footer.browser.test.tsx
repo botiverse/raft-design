@@ -120,6 +120,21 @@ it("on a phone: a ghost Cancel takes a frame in the stack and stays frameless in
   expect(framed(screen.getByRole("button", { name: "Cancel" }))).toBe(false);
 });
 
+it("on a phone: a stacked Cancel is framed in the first frame, with no fade from ghost", async () => {
+  // The footer measures after its buttons were styled as a row. Until it has
+  // been painted once it holds their transitions, so the first frame is the
+  // stack and nothing fades in as the dialog opens (Jasper, 2026-10-22).
+  await viewport(390);
+  renderConfirm(LONG);
+  const cancel = screen.getByRole("button", { name: "Cancel" });
+  expect(screen.getByTestId("footer").hasAttribute("data-stacked")).toBe(true);
+  expect(cancel.getAnimations()).toEqual([]);
+  expect(framed(cancel)).toBe(true);
+  // A frame later, transitions are back for hover and press.
+  for (let i = 0; i < 3; i += 1) await new Promise((resolve) => requestAnimationFrame(resolve));
+  expect(getComputedStyle(cancel).transitionProperty).not.toBe("none");
+});
+
 it("stacked: Tab and Shift+Tab reach both buttons once a loop, and wrap", async () => {
   await viewport(390);
   renderConfirm(LONG);
