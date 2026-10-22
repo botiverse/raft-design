@@ -1,12 +1,12 @@
 ---
 title: Progress
-summary: 显示一项可计量的任务进行了多少的进度条，比如上传或用量占上限的比例，带标签和数值。
-sourceHash: 957052cc
+summary: 显示一项可计量的任务进行了多少的进度条，比如上传或转换，带标签和数值。
+sourceHash: 1b884554
 ---
 
 # Progress
 
-进度条显示一件已知百分比的事进行了多少：上传、正在处理的文件、配额的用量。旁边的标签说明它是什么、进行到了哪里。哪种等待用哪种加载指示，见[选择组件](../../../../../design/components/overview.md#waiting)。
+进度条显示一件已知百分比的事进行了多少：上传、正在处理的文件、正在转换的频道。旁边的标签说明它是什么、进行到了哪里。哪种等待用哪种加载指示，见[选择组件](../../../../../design/components/overview.md#waiting)。
 
 ```example
 progress/compositions/preview
@@ -19,6 +19,9 @@ progress/compositions/preview
 | 知道百分比 | Progress |
 | 不知道要多久 | [Spinner](../spinner/spinner.md)，不用进度条 |
 | 知道加载内容的布局 | [Skeleton](../skeleton/skeleton.md) |
+| 用量上限还剩多少 | [Meter](../meter/meter.md) |
+
+Meter 与 Progress：进度条是一项只会往前走、到 100% 就完成的任务，所以到那里时填充会变成 `success`；计量条是一个范围内会升也会降的量，比如会用完、之后又会恢复的额度。不要把用量画成进度条：一份还没动过的额度会看起来像已经完成。
 
 ## 结构 {#anatomy}
 
@@ -32,10 +35,10 @@ progress/compositions/preview
 | 变体 | 用于 |
 | --- | --- |
 | 默认（`variant="primary"`） | 任何一种进度：`info` 填充 |
-| `variant="warning"` | 用量达到上限的 90% 或更多 |
+| `variant="warning"` | 只用于 [Meter](../meter/meter.md) 出现之前画好的、接近上限的用量；新的用量用 Meter |
 | 完成 | `value` 到达最大值时，填充自动变成 `success` |
 
-- 不要用 `variant="danger"`：到达上限是打断，不是不可撤销的（[颜色](../../../../../design/foundations/color.md#meanings-of-color)）。
+- 不要用 `variant="danger"`：进度条显示的东西没有一样是不可撤销的（[颜色](../../../../../design/foundations/color.md#meanings-of-color)）。
 - `information` 和 `accent` 与默认相同。用默认。
 
 ```example
@@ -48,8 +51,8 @@ progress/compositions/embedded-progress
 
 ## 内容 {#content}
 
-- 在 `ProgressLabel` 里写明正在进行的是什么："Uploading design-crop.png"、"Agent hours this month"。
-- 在 `ProgressValue` 里显示进行了多少，写成百分比，或者写成已用量与上限。
+- 在 `ProgressLabel` 里写明正在进行的是什么："Uploading design-crop.png"、"Converting #launch-week"。
+- 在 `ProgressValue` 里显示进行了多少，写成百分比，或者写成已完成量与总量。
 
 ## 无障碍 {#accessibility}
 

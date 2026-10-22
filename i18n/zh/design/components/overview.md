@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: fdb9b97f
+sourceHash: ec541675
 ---
 
 # 组件
@@ -135,6 +135,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | 由按钮发起的等待 | 按钮的加载状态（[Button](../../packages/ui/src/components/button/button.md)） |
 
 - 这些都不要用粉色。它们是被动的，而粉色表示有东西在等这个人处理。
+- 用量上限不是等待：用 [Meter](../../packages/ui/src/components/meter/meter.md) 显示它还剩多少，计量条会逐渐变空，不用会逐渐填满的进度条。
 - Raft Chat 还有两处没遵守骨架屏的规则：会话时间线和个人资料面板在等待时显示文字 "Loading…"。
 
 ### 行 {#rows}

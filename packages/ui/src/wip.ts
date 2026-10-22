@@ -61,3 +61,8 @@ export * from "./components/ellipsis/index";
 // alike (inbox-item.md, "The leading image"). Until the part settles.
 export { InboxItemLeadingBadge } from "./components/inbox-item/inbox-item-leading-badge";
 export type { InboxItemLeadingBadgeProps } from "./components/inbox-item/inbox-item-leading-badge";
+
+// How much of an allowance is left, such as a usage limit that resets: full
+// to start, draining as it is used, orange when low (meter.md). Until the
+// API settles.
+export * from "./components/meter/index";

@@ -1,0 +1,117 @@
+[
+  {
+    "name": "Meter",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "How much of an allowance is left, such as a usage limit that resets. Takes what is `used`; the bar shows what is left, full to start and draining. The info fill, like Progress, until `low` or less is left, then the warning color; never danger, and no success color at full.",
+    "native": true,
+    "props": [
+      {
+        "name": "low",
+        "type": "number",
+        "required": false,
+        "default": "20% of `max`",
+        "description": "When as much as this is left, or less, the meter is low and takes the warning color (\"at or below\", unlike HTML's `<meter low>`, which is strictly below). In the units of `max`, clamped to 0 to `max`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "default": "100",
+        "description": "The whole allowance, in the same units as `used`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\"",
+        "required": false,
+        "default": "\"md\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "used",
+        "type": "number",
+        "required": true,
+        "description": "How much of the allowance is used, as the provider reports it, from 0 to `max`. The meter draws and announces what is left: `max - used`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "valueText",
+        "type": "string",
+        "required": true,
+        "description": "What is left, in words: \"38% left · resets in 3h\". `MeterValue` shows it, and it is the meter's `aria-valuetext`, so the caller writes it once.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MeterHeader",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MeterIndicator",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MeterLabel",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MeterTrack",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MeterValue",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Shows the meter's `valueText`, at the end of `MeterHeader`.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]
