@@ -12,10 +12,10 @@ export function BannerNarrowContent() {
       <BannerTitle>Threads now show in the sidebar</BannerTitle>
       <BannerDescription>Pin the threads you follow.</BannerDescription>
       <BannerAction>
-        <Button variant="ghost" size="sm">
+        <Button variant="ghost" size="md">
           Dismiss
         </Button>
-        <Button variant="default" size="sm">
+        <Button variant="default" size="md">
           Show Me
         </Button>
       </BannerAction>

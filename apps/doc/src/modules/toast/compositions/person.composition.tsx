@@ -38,7 +38,7 @@ export function PersonContent({ portalContainer }: { portalContainer: HTMLElemen
 
   return (
     <ToastProvider timeout={0} portalContainer={portalContainer} viewportStrategy="absolute">
-      <Button type="button" size="sm" variant="outline" onClick={showReviewDone}>
+      <Button type="button" size="md" variant="outline" onClick={showReviewDone}>
         Request review
       </Button>
     </ToastProvider>

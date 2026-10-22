@@ -18,7 +18,7 @@ export function BannerSingleActionContent() {
       <TriangleAlert />
       <BannerDescription>Couldn&rsquo;t load tasks.</BannerDescription>
       <BannerAction>
-        <Button variant="default" size="sm">
+        <Button variant="default" size="md">
           Retry
         </Button>
       </BannerAction>
@@ -33,10 +33,10 @@ export function BannerDualActionContent() {
       <BannerTitle>Threads now show in the sidebar</BannerTitle>
       <BannerDescription>Pin the threads you follow so they stay one click away.</BannerDescription>
       <BannerAction>
-        <Button variant="ghost" size="sm">
+        <Button variant="ghost" size="md">
           Dismiss
         </Button>
-        <Button variant="default" size="sm">
+        <Button variant="default" size="md">
           Show Me
         </Button>
       </BannerAction>
@@ -53,7 +53,7 @@ export function BannerTitleActionContent() {
         Older messages come back on Pro. <TextLink variant="strong">View Usage</TextLink>
       </BannerDescription>
       <BannerAction>
-        <Button variant="default" size="sm">
+        <Button variant="default" size="md">
           Upgrade
         </Button>
       </BannerAction>

@@ -89,7 +89,7 @@ message-action-card/compositions/resolution-states
 
 ## Rules
 
-- Make the confirm button the small ink-bordered button (`Button` with `size="sm"`), not pink: the screen's one pink button is the composer's send button.
+- Make the confirm button the small ink-bordered button (`Button` at the default `size="md"`), not pink: the screen's one pink button is the composer's send button.
 - Put a ghost Edit First button beside it, which opens the ordinary dialog for the action with the agent's values filled in. Don't edit fields on the card: the card is a summary.
 - Run the action as the person who confirmed it.
 - Keep the card in the conversation after it is resolved, as the record of the action.

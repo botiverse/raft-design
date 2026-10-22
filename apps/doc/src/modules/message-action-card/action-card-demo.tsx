@@ -132,10 +132,10 @@ export function ActionCardDemo({
             {note && !folds ? (
               <MessageActionCardActionsNote>{note}</MessageActionCardActionsNote>
             ) : null}
-            <Button size="sm" variant="ghost" disabled={blocked}>
+            <Button size="md" variant="ghost" disabled={blocked}>
               Decline
             </Button>
-            <Button size="sm" variant="accent" disabled={blocked}>
+            <Button size="md" variant="accent" disabled={blocked}>
               {state === "confirm-again"
                 ? "Reconfirm"
                 : card.pattern === "review"

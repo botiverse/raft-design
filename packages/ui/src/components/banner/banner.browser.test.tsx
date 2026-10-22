@@ -118,10 +118,10 @@ function ActionBanner({
           ) : null}
           <BannerDescription data-testid="desc">{text}</BannerDescription>
           <BannerAction data-testid="action">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="md">
               Dismiss
             </Button>
-            <Button variant="default" size="sm" data-testid="main">
+            <Button variant="default" size="md" data-testid="main">
               Show Me
             </Button>
           </BannerAction>
@@ -220,7 +220,7 @@ it("a title with no description: the actions center on the title's line", () => 
         <Banner status="info" data-testid="banner">
           <BannerTitle data-testid="title">Title</BannerTitle>
           <BannerAction>
-            <Button variant="default" size="sm" data-testid="main">
+            <Button variant="default" size="md" data-testid="main">
               Retry
             </Button>
           </BannerAction>
@@ -282,7 +282,7 @@ it("600px: a × beside a button never shares its column; the button takes a line
           <svg />
           <BannerDescription data-testid="desc">Pin the threads you follow.</BannerDescription>
           <BannerAction data-testid="action">
-            <Button variant="default" size="sm" data-testid="main">
+            <Button variant="default" size="md" data-testid="main">
               Show Me
             </Button>
           </BannerAction>
@@ -335,10 +335,10 @@ it("600px: a title runs on over the actions' column, so it doesn't wrap early", 
           </BannerTitle>
           <BannerDescription data-testid="desc">Pin the threads you follow.</BannerDescription>
           <BannerAction data-testid="action">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="md">
               Dismiss
             </Button>
-            <Button variant="default" size="sm" data-testid="main">
+            <Button variant="default" size="md" data-testid="main">
               Show Me
             </Button>
           </BannerAction>
@@ -365,7 +365,7 @@ it("600px sm: a 32px button beside the line keeps clear of the banner's edges", 
           <svg />
           <BannerDescription data-testid="desc">Couldn&rsquo;t load tasks.</BannerDescription>
           <BannerAction>
-            <Button variant="default" size="sm" data-testid="main">
+            <Button variant="default" size="md" data-testid="main">
               Retry
             </Button>
           </BannerAction>

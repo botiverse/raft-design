@@ -30,12 +30,12 @@ export function AttachmentPreviewShellComposition() {
             <LightboxTitle>diagram-export.html</LightboxTitle>
           </LightboxHeaderMeta>
           <LightboxActions>
-            <Button type="button" variant="default" size="icon-sm" aria-label="Download">
+            <Button type="button" variant="default" size="icon-md" aria-label="Download">
               <Download />
             </Button>
             <LightboxClose
               aria-label="Close"
-              render={<Button type="button" variant="default" size="icon-sm" />}
+              render={<Button type="button" variant="default" size="icon-md" />}
             >
               <X />
             </LightboxClose>

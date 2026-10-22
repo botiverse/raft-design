@@ -263,7 +263,7 @@ export function ConversationPanelComposition({
                     <Checkbox aria-label="Send as task" />
                     As Task
                   </ComposerToolbarLabel>
-                  <ComposerSubmit size="icon-sm" aria-label="Send" disabled>
+                  <ComposerSubmit size="icon-md" aria-label="Send" disabled>
                     <Send />
                   </ComposerSubmit>
                 </ComposerMeta>

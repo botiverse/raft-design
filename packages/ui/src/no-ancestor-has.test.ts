@@ -109,6 +109,9 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/files/files.recipe.ts": 7,
   "components/inbox-item/inbox-item.recipe.ts": 14,
   "components/input-group/input-group.tsx": 7,
+  // A plain row with a description moves its leading block onto the title's
+  // line: two custom properties set on the row itself (self-subject).
+  "components/list-row/list-row.recipe.ts": 2,
   "components/message-attachment/message-image-gallery.recipe.ts": 1,
   // The row sets its jumped-to / selected fill as --mi-row-fill on itself
   // (self-subject, 4), and with a "sent by" label the header aligns on the

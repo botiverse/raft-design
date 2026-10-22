@@ -52,5 +52,5 @@ empty-state/compositions/activity-inbox
 ## Rules
 
 - Put the empty state directly in the middle of the content area. Don't wrap it in a card, frame the icon or add a sticker: empty states are working pages ([Brand](../../../../../design/foundations/brand.md#how-much-brand)).
-- Give it at most one button: a 32px ink-bordered button (`variant="default" size="sm"`), never pink.
+- Give it at most one button: a 32px ink-bordered button (`variant="default" size="md"`), never pink.
 - Keep it quiet. The empty state is a hint, not a heading: small, faint type that doesn't compete with the button people should press next.

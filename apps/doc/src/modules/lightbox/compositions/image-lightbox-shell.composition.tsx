@@ -36,7 +36,7 @@ export function ImageLightboxShellComposition() {
                 release-card-final-approved-for-directory-cover.png
               </LightboxInfoTitle>
               <LightboxInfoActions>
-                <Button type="button" variant="ghost" size="icon-sm" aria-label="Download">
+                <Button type="button" variant="ghost" size="icon-md" aria-label="Download">
                   <Download />
                 </Button>
               </LightboxInfoActions>

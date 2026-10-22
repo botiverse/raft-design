@@ -184,7 +184,7 @@ export function SearchHeader({
             <Button
               type="button"
               variant="ghost"
-              size="icon-xs"
+              size="icon-md"
               onClick={onClear}
               aria-label="Clear search"
             >
@@ -507,7 +507,7 @@ export function SearchError({ onRetry }: { onRetry: () => void }) {
         </EmptyStateDescription>
       </EmptyStateContent>
       <EmptyStateActions>
-        <Button type="button" variant="danger-outline" size="sm" onClick={onRetry}>
+        <Button type="button" variant="danger-outline" size="md" onClick={onRetry}>
           Retry
         </Button>
       </EmptyStateActions>

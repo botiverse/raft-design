@@ -351,7 +351,7 @@ export function ActivityInboxComposition({
           <Button
             type="button"
             variant="outline"
-            size="icon-sm"
+            size="icon-md"
             onClick={onBack}
             aria-label="Back to Home"
             className="md:hidden"
@@ -377,7 +377,7 @@ export function ActivityInboxComposition({
                 <Button
                   type="button"
                   variant="outline"
-                  size="sm"
+                  size="md"
                   aria-label="Switch Activity"
                   className="min-w-0 max-w-28"
                 >
@@ -539,7 +539,7 @@ export function ActivityInboxComposition({
                   <Button
                     type="button"
                     variant="ghost"
-                    size="icon-xs"
+                    size="icon-md"
                     onClick={handleClearQuery}
                     aria-label="Clear search"
                   >
@@ -564,7 +564,7 @@ export function ActivityInboxComposition({
                   render={
                     <Button
                       type="button"
-                      size="xs"
+                      size="md"
                       variant="ghost"
                       data-activity-inbox-action="sort"
                       className="ml-auto"
@@ -601,7 +601,7 @@ export function ActivityInboxComposition({
                   <>
                     <Button
                       type="button"
-                      size="xs"
+                      size="md"
                       variant="outline"
                       onClick={handleMarkSelectedRead}
                     >
@@ -609,7 +609,7 @@ export function ActivityInboxComposition({
                     </Button>
                     <Button
                       type="button"
-                      size="xs"
+                      size="md"
                       variant="primary"
                       onClick={handleMarkSelectedDone}
                     >
@@ -619,7 +619,7 @@ export function ActivityInboxComposition({
                 ) : view === "done" ? (
                   <Button
                     type="button"
-                    size="xs"
+                    size="md"
                     variant="primary"
                     data-activity-inbox-action="primary"
                     onClick={handleRestoreSelected}
@@ -629,7 +629,7 @@ export function ActivityInboxComposition({
                 ) : (
                   <Button
                     type="button"
-                    size="xs"
+                    size="md"
                     variant="primary"
                     data-activity-inbox-action="primary"
                     onClick={handleUnsaveSelected}

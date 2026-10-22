@@ -90,7 +90,7 @@ export const TaskCardComposition = memo(function TaskCardComposition({
               <TaskStatusSelect {...statusSelectProps} title="Change task status">
                 <Button
                   variant="ghost"
-                  size="icon-xs"
+                  size="icon-md"
                   disabled={disabled || busy || !onStatusChange}
                   aria-label={`Edit status for task #${task.taskNumber}`}
                   className="ml-auto"

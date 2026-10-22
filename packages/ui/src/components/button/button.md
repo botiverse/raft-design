@@ -73,6 +73,35 @@ Size follows the purpose. The same purpose has the same size everywhere, and the
 | `size="md"` (default) | 32px, 44px hit area                                | Actions in list rows, cards, banners, toolbars and panel headers                                                                                        |
 | `size="xl"`           | 52px on a phone, 40px on a desktop                 | Only the full-width pink button across a sign-in, sign-up or setup form                                                                                 |
 
+These three and the two icon sizes, `icon-md` and `icon-lg`, are all the sizes. `xs` and `sm` render exactly as `md`, and `icon-xs` and `icon-sm` exactly as `icon-md`. They are deprecated aliases, kept until raft-ui 1.0. `node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src>` renames them, and nothing on screen changes.
+
+When a place looks too tight for a 32px button, change the container, not the button. A banner with a button is a standard banner, not `sm`.
+
+#### Size by place
+
+Every place has one answer. Where a part of the container sets the place, follow it: the size comes with the place, not with the button.
+
+| Place                                                                       | Size                                   | Who decides                                                                                               |
+| --------------------------------------------------------------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Dialog, drawer and sheet footers                                            | `lg`                                   | `DialogFooter`: Cancel and the submit button are `lg`. `DialogCommit` moved into a phone's header is `md` |
+| A form's submit; Save on a card that holds fields                           | `lg`                                   | You, because fields are above it                                                                          |
+| Beside a field: copy a link, remove a row, add                              | `lg`, `icon-lg`                        | You: it takes the field's height ([Icon buttons](#icon-buttons))                                          |
+| A full-width button across a sign-in, sign-up or setup form                 | `xl`                                   | You                                                                                                       |
+| A full-width column of actions at the bottom of a panel                     | `lg`                                   | You                                                                                                       |
+| A banner's button and its Dismiss                                           | `md`                                   | `BannerAction` places them; `BannerClose` is its own 32px ×                                               |
+| A toast's action                                                            | none                                   | `ToastAction` is the toast's own text action; it takes no Button size                                     |
+| A desktop panel header                                                      | none                                   | `PanelAction` and `PanelToggleAction` are their own buttons, 32px on a desktop and 44px on a phone        |
+| Card and message action card actions; a single action in a settings section | `md`                                   | You                                                                                                       |
+| The end of a list row or a table row                                        | `md`, `icon-md`                        | You                                                                                                       |
+| Toolbars, filter bars, empty states, the bottom of a popover, Load More     | `md`, `icon-md`                        | You                                                                                                       |
+| A phone top bar; the media viewer                                           | `icon-lg`                              | The top bar, `Lightbox`                                                                                   |
+| The rail, the web top bar, the desktop title bar                            | `on-frame` at `md` or `icon-md` (36px) | The frame                                                                                                 |
+| A menu, a phone's overflow menu                                             | No Button: a menu item                 | `DropdownMenu`, the sheet                                                                                 |
+
+#### Inside a floating toolbar
+
+A toolbar that floats over content shows on every message under the pointer, so it is more compact than the page. The message hover toolbar and the text-selection toolbar are 36px high, with 28px buttons 4px from the frame and 4px apart, at `radius-chip`. The container sizes them: `MessageItemToolbarButton` and `MessageTextSelectionToolbarButton` are the toolbars' own parts, and `MessageMultiSelectToolbarActions` brings a `md` Button in it to 28px ([MessageItem](../message-item/message-item.md)). The only other 28px button is `SidebarSectionControl` on a sidebar section's 16px header line. 28px is not a Button size, so don't make a Button 28px yourself.
+
 ### Icon buttons
 
 | Where                                                                   | Props                               | Size and icon                                                           |

@@ -96,7 +96,7 @@ export function ComposerIconButton({ className, ...props }: ComposerIconButtonPr
   return (
     <Button
       type="button"
-      size="icon-sm"
+      size="icon-md"
       variant="ghost"
       className={iconButton({ className })}
       {...props}

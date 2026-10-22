@@ -225,7 +225,7 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
                   </ComposerIconButton>
                 </ComposerActions>
                 <ComposerMeta>
-                  <ComposerSubmit size="icon-sm" aria-label="Send" disabled>
+                  <ComposerSubmit size="icon-md" aria-label="Send" disabled>
                     <Send />
                   </ComposerSubmit>
                 </ComposerMeta>

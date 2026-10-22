@@ -62,8 +62,29 @@ export const listRow = tv({
       default: { root: ["min-h-16 [--list-row-rule-start:63px]", hairline] },
       // A setting: a title (and its consequence), the current value and a
       // chevron, or a switch; 48 tall with one line. The line starts at the
-      // row's edge.
-      plain: { root: ["[--list-row-rule-start:16px]", hairline] },
+      // row's edge. With a description, both ends move from the block's
+      // centre to the title's first line: the leading icon, avatar or tile,
+      // and the trailing switch, checkbox, radio, value or chevron. Each keeps
+      // its own height, so the row still accounts for a 30px switch; it is
+      // moved half a line down and back up by half its own height. With a
+      // title alone the title is the block and everything stays centred, at
+      // the row's own height (Alignment: a control and its label).
+      plain: {
+        root: [
+          "[--list-row-rule-start:16px]",
+          hairline,
+          "has-data-[slot=list-row-description]:[--list-row-ends:start]",
+          "has-data-[slot=list-row-description]:[--list-row-end-shift:calc(var(--text-body--line-height)/2-50%)]",
+          "*:data-[slot=list-row-icon]:[align-self:var(--list-row-ends,center)] *:data-[slot=list-row-icon]:translate-y-(--list-row-end-shift,0)",
+          "*:data-[slot=avatar]:[align-self:var(--list-row-ends,center)] *:data-[slot=avatar]:translate-y-(--list-row-end-shift,0)",
+          "*:data-[slot=icon-tile]:[align-self:var(--list-row-ends,center)] *:data-[slot=icon-tile]:translate-y-(--list-row-end-shift,0)",
+          "*:data-[slot=switch]:[align-self:var(--list-row-ends,center)] *:data-[slot=switch]:translate-y-(--list-row-end-shift,0)",
+          "*:data-[slot=checkbox]:[align-self:var(--list-row-ends,center)] *:data-[slot=checkbox]:translate-y-(--list-row-end-shift,0)",
+          "*:data-[slot=radio-group-item]:[align-self:var(--list-row-ends,center)] *:data-[slot=radio-group-item]:translate-y-(--list-row-end-shift,0)",
+          "*:data-[slot=list-row-value]:[align-self:var(--list-row-ends,center)] *:data-[slot=list-row-value]:translate-y-(--list-row-end-shift,0)",
+          "*:data-[slot=list-row-chevron]:[align-self:var(--list-row-ends,center)] *:data-[slot=list-row-chevron]:translate-y-(--list-row-end-shift,0)",
+        ],
+      },
       // A shortcut into another page (Search, Activity, Saved): a 20px icon and
       // a name, 48 tall. A group of them is a set of buttons, so no lines.
       entry: { root: "" },

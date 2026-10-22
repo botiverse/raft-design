@@ -73,7 +73,7 @@ The product ships these actions:
 | Register an app, update it, recover its owner | Register App, Update App, Recover Owner | Runs the action |
 
 - Title the card with the verb and its object, in sentence case: Create private channel #launch-review, Approve Linear for @bugen.
-- Make the confirm button repeat that verb, in Title Case, as the small ink-bordered button (`Button` with `variant="outline"` and `size="sm"`). It is not pink: the screen's one pink button is the composer's send button.
+- Make the confirm button repeat that verb, in Title Case, as the small ink-bordered button (`Button` with `variant="outline"` at the default `size="md"`). It is not pink: the screen's one pink button is the composer's send button.
 - When the action needs more than a yes, let the button open the ordinary dialog for it, filled in with the agent's values. The person can change them there before anything is created. Don't make the fields on the card editable: the card is a summary.
 - Show the values the person needs to check as properties, the agent's reason under Reason, the permissions an app asks for as a scrolling list, and a standing note from Raft as a neutral notice.
 - Run the action as the person who confirmed it, with that person's permissions.

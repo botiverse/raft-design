@@ -26,7 +26,7 @@ function AgreementDialogParts() {
             Version 3
           </Text.Sans>
         </div>
-        <DialogClose size="icon-sm">
+        <DialogClose size="icon-md">
           <X className="size-4" />
         </DialogClose>
       </DialogHeader>
@@ -41,8 +41,8 @@ function AgreementDialogParts() {
         </div>
       </DialogBody>
       <DialogFooter>
-        <DialogClose render={<Button variant="outline" size="sm" />}>Cancel</DialogClose>
-        <Button variant="accent" size="sm">
+        <DialogClose render={<Button variant="outline" size="md" />}>Cancel</DialogClose>
+        <Button variant="accent" size="md">
           Agree & Continue
         </Button>
       </DialogFooter>

@@ -92,7 +92,7 @@ export function MessageActionCardAgentRequestContent() {
               </MessageActionCardHint>
               {done ? null : (
                 <MessageActionCardActions>
-                  <Button type="button" variant="outline" size="sm" onClick={handleConfirm}>
+                  <Button type="button" variant="outline" size="md" onClick={handleConfirm}>
                     Create Channel
                   </Button>
                 </MessageActionCardActions>

@@ -175,7 +175,7 @@ export function SearchResults({
 
               {messages.length < messageCount ? (
                 <div className="flex justify-center py-4">
-                  <Button type="button" variant="outline" size="xs" onClick={onLoadMore}>
+                  <Button type="button" variant="outline" size="md" onClick={onLoadMore}>
                     Load More
                   </Button>
                 </div>

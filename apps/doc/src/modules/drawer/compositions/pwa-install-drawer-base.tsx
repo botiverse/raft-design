@@ -128,7 +128,7 @@ export function PwaInstallDrawerComposition({
   return (
     <Drawer {...drawerProps}>
       {showTrigger ? (
-        <DrawerTrigger render={<Button variant="primary" size="sm" />}>Install</DrawerTrigger>
+        <DrawerTrigger render={<Button variant="primary" size="md" />}>Install</DrawerTrigger>
       ) : null}
       <DrawerContent portalProps={portalProps}>
         <PwaInstallDrawerPanel variant={variant} />

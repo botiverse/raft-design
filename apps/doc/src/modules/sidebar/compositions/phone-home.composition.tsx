@@ -82,7 +82,7 @@ export function SidebarPhoneHomeComposition() {
         <PanelActions className="ml-auto">
           <Popover>
             <PopoverTrigger
-              render={<Button variant="ghost" size="sm" aria-label="2 agents working" />}
+              render={<Button variant="ghost" size="md" aria-label="2 agents working" />}
             >
               <AvatarGroup aria-hidden>
                 <Avatar size="xs" type="agent" />

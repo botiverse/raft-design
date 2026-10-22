@@ -213,7 +213,7 @@ export type SidebarSectionControlProps = useRender.ComponentProps<"button"> &
 export function SidebarSectionControl({
   className,
   render,
-  size = "icon-sm",
+  size = "icon-md",
   variant = "ghost",
   loading = false,
   loadingLabel = "Loading",
