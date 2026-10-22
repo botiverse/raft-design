@@ -41,7 +41,7 @@ drawer/compositions/responsive-placement
 - `DrawerDescription`: a sentence under the title.
 - `DrawerBody`: the content. It scrolls.
 - `DrawerFooter`: the bottom bar. In a drawer from the right it has a `line-seam` over it.
-- `DrawerActions`: the buttons in the footer, in a row at the end in a drawer and stacked full width in a bottom sheet.
+- `DrawerActions`: the buttons in the footer, in a row at the end in a drawer and stacked full width in a bottom sheet, where a ghost Cancel takes a frame ([Button](../button/button.md#which-color)).
 - `DrawerClose`: closes the drawer. Without children it is the × icon button; with `render` it turns another button into a close button.
 - `DrawerPortal` and `DrawerOverlay`: lower-level parts.
 

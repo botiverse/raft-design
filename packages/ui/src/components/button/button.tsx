@@ -139,6 +139,23 @@ export const buttonVariants = tv({
     size: "md",
   },
   compoundVariants: [
+    // Stacked full width (a dialog footer whose buttons don't fit on one
+    // line, a bottom sheet's actions: `data-stacked`), a frameless button
+    // reads as a line of text, not a button: each button in a stack needs its
+    // own box (stdrc, 2026-10-22). There a ghost text button takes the ink
+    // border of `default`, with its hover and press. `in-data-stacked:` is a
+    // `:where()`, so the disabled fill still wins.
+    {
+      variant: "ghost",
+      size: ["xs", "sm", "md", "lg", "xl"],
+      class: {
+        root: [
+          "in-data-stacked:border-line-strong in-data-stacked:bg-layer-card",
+          "in-data-stacked:hover:bg-layer-card in-data-stacked:active:bg-layer-card",
+          "in-data-stacked:hover:overlay-medium in-data-stacked:active:overlay-medium",
+        ],
+      },
+    },
     {
       variant: "ghost",
       size: ["icon-xs", "icon-sm", "icon-md", "icon-lg"],

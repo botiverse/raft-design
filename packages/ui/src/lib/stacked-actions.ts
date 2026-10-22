@@ -15,14 +15,11 @@ import type { Ref, RefCallback } from "react";
  * to the commit button. No `reading-flow`: the dialog's focus trap wraps in
  * markup order, and a visual order would fight it (Cancel would trap focus).
  * Off, the stack keeps the markup's order, Cancel above the commit button.
+ *
+ * In the stack a ghost Cancel takes a frame: Button reads `data-stacked`
+ * (button.tsx, `in-data-stacked:`).
  */
 const COMMIT_ON_TOP = true;
-
-/**
- * Classes the footer adds to its buttons while they are stacked, such as a
- * frame around Cancel. Empty: Cancel keeps its row style (ghost).
- */
-const STACKED_CANCEL: string[] = [];
 
 /**
  * The row of buttons while `data-stacked` is set: a full-width column. A
@@ -32,7 +29,6 @@ export const stackedActions = [
   COMMIT_ON_TOP ? "data-stacked:flex-col-reverse" : "data-stacked:flex-col",
   "data-stacked:items-stretch",
   "data-stacked:*:data-[slot=button]:w-full data-stacked:[&>*>[data-slot=button]:only-child]:w-full",
-  ...STACKED_CANCEL.map((value) => `data-stacked:${value}`),
 ];
 
 function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {
