@@ -63,6 +63,21 @@
     ]
   },
   {
+    "name": "MessageReferenceSuffix",
+    "entry": "@botiverse/raft-ui",
+    "description": "A short note after a chip's label in muted machine type, such as `msg` on a link to a message. It lines up with the label by the middle of its letters.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
     "name": "MessageReferenceText",
     "entry": "@botiverse/raft-ui",
     "native": true,

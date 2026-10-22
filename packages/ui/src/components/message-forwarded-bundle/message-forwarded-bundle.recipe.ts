@@ -68,7 +68,7 @@ export const messageForwardedBundleItem = tv({
     attachments: ["flex flex-wrap", "mt-1.5 gap-1.5"],
     attachment: [
       "inline-flex max-w-full items-center",
-      "h-[22px] gap-1 rounded-chip bg-fill-muted px-1.5",
+      "h-[22px] gap-1 rounded-chip bg-fill-muted pr-[6.5px] pl-[5.5px]",
       "text-caption font-semibold text-foreground [&_svg]:size-3.5",
     ],
     attachmentName: ["min-w-0 truncate"],

@@ -35,7 +35,7 @@ export function CardSupportingNoteComposition() {
       </CardHeader>
 
       <CardContent className="grid gap-4">
-        <div className="flex min-w-0 items-center justify-between gap-4">
+        <div className="flex min-w-0 items-start justify-between gap-4 leading-5">
           <div className="min-w-0">
             <Text.Sans
               render={<h4 id="new-sign-ins-label" />}
@@ -50,6 +50,7 @@ export function CardSupportingNoteComposition() {
             </Text.Sans>
           </div>
           <Switch
+            className="mt-[calc((1lh-1.875rem)/2)]"
             aria-labelledby="new-sign-ins-label"
             checked={newSignIns}
             disabled={!enabled}
@@ -59,7 +60,7 @@ export function CardSupportingNoteComposition() {
 
         <Separator />
 
-        <div className="flex min-w-0 items-center justify-between gap-4">
+        <div className="flex min-w-0 items-start justify-between gap-4 leading-5">
           <div className="min-w-0">
             <Text.Sans
               render={<h4 id="permission-changes-label" />}
@@ -74,6 +75,7 @@ export function CardSupportingNoteComposition() {
             </Text.Sans>
           </div>
           <Switch
+            className="mt-[calc((1lh-1.875rem)/2)]"
             aria-labelledby="permission-changes-label"
             checked={permissionChanges}
             disabled={!enabled}
@@ -83,7 +85,7 @@ export function CardSupportingNoteComposition() {
 
         <Separator />
 
-        <div className="flex min-w-0 items-center justify-between gap-4">
+        <div className="flex min-w-0 items-start justify-between gap-4 leading-5">
           <div className="min-w-0">
             <Text.Sans
               render={<h4 id="recovery-attempts-label" />}
@@ -98,6 +100,7 @@ export function CardSupportingNoteComposition() {
             </Text.Sans>
           </div>
           <Switch
+            className="mt-[calc((1lh-1.875rem)/2)]"
             aria-labelledby="recovery-attempts-label"
             checked={recoveryAttempts}
             disabled={!enabled}

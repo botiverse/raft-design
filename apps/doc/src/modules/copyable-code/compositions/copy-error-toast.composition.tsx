@@ -58,7 +58,7 @@ export function CopyErrorToastCompositionContent() {
           <CopyableCode truncate>{COMMAND}</CopyableCode>
           <CopyableCodeAction aria-label="Copy login command" />
         </CopyableCodeRoot>
-        <label className="flex items-center gap-2 text-xs text-foreground-muted">
+        <label className="flex items-start gap-2 text-xs leading-5 text-foreground-muted">
           <Checkbox
             checked={copyDenied}
             onCheckedChange={setCopyDenied}

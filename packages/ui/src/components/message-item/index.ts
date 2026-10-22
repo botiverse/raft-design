@@ -58,6 +58,7 @@ export {
   MessageReferenceIndicator,
   MessageReferenceLabel,
   MessageReferencePending,
+  MessageReferenceSuffix,
   MessageReferenceText,
   MessageReferenceUnavailable,
 } from "./message-reference";
@@ -141,6 +142,7 @@ export type {
   MessageReferenceChipVariant,
   MessageReferenceIndicatorProps,
   MessageReferenceLabelProps,
+  MessageReferenceSuffixProps,
   MessageReferencePendingProps,
   MessageReferenceTextProps,
   MessageReferenceTextVariant,

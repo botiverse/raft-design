@@ -15,13 +15,15 @@ export const messageQuotedPreview = tv({
       "has-data-[slot=message-quoted-preview-author-delegated-by]:flex-wrap",
       "gap-1.5 p-0 pb-0.5",
     ],
+    // The icon sits on the first line of the name when a long name wraps
+    // (alignment.md#a-mark-that-leads-text), not in the middle of both lines.
     channel: [
-      "inline-flex items-center",
-      "gap-1 text-footnote font-semibold text-foreground-hint [&_svg]:size-3.5",
+      "inline-flex items-start",
+      "gap-1 text-footnote font-semibold text-foreground-hint [&_svg]:size-3.5 [&_svg]:lead-icon",
     ],
     thread: [
-      "inline-flex items-center",
-      "gap-1 text-footnote font-semibold text-foreground-hint [&_svg]:size-3.5",
+      "inline-flex items-start",
+      "gap-1 text-footnote font-semibold text-foreground-hint [&_svg]:size-3.5 [&_svg]:lead-icon",
     ],
     author: ["inline-flex min-w-0 items-center", "gap-1.5"],
     authorName: ["truncate", "text-footnote font-bold text-foreground-muted"],

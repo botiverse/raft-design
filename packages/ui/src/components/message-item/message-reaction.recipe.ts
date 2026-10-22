@@ -16,7 +16,7 @@ export const messageReaction = tv({
     chip: [
       "inline-flex min-w-0 max-w-full items-center overflow-hidden whitespace-nowrap",
       "transition-colors",
-      "h-6 gap-1 rounded-chip pr-2 pl-1.5 text-callout text-foreground",
+      "h-6 gap-1 rounded-chip px-[7px] text-callout text-foreground",
       "bg-fill-muted hover:overlay-medium active:overlay-medium",
       "data-pressed:bg-attention-soft",
       "has-data-[slot=message-reaction-error-indicator]:bg-warning-soft",
