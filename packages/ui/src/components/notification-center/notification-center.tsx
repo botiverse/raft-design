@@ -70,7 +70,7 @@ const notificationCenter = tv({
         popup: "w-[380px]",
       },
       mobile: {
-        popup: "w-[calc(100vw-16px)]",
+        popup: "w-[min(var(--available-width,calc(100vw-16px)),480px)]",
       },
     },
     size: {

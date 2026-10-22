@@ -58,7 +58,7 @@ Errors by scope are in [Feedback](../../../../../design/patterns/feedback.md#err
 - When the person dismisses a notice, don't show it again until the situation changes.
 - Show the attention dot on the bell only while a notice is unread. The default trigger always draws the dot, so pass the bell alone as the trigger's children when nothing is unread.
 - Float the popup next to the bell; it doesn't take space in the layout ([Elevation](../../../../../design/foundations/elevation.md#popups)).
-- On a phone (`viewport="mobile"`), the popup is 8px from each screen edge, the same as the server list under the same top bar: it is `calc(100vw - 16px)` wide, with no cap, and its collision padding is 8px, so it sits 8px from both edges although it hangs from a bell at the right ([Elevation](../../../../../design/foundations/elevation.md#popups)). Pass `collisionPadding` to change it. On desktop it is 380px with Base UI's default collision padding.
+- On a phone (`viewport="mobile"`), the popup is 8px from each screen edge, the same as the server list under the same top bar: it is as wide as the positioner's `--available-width` (the screen less both 8px paddings), at most 480px, which only a phone on its side reaches, and its collision padding is 8px, so it sits 8px from both edges although it hangs from a bell at the right ([Elevation](../../../../../design/foundations/elevation.md#popups)). Pass `collisionPadding` to change it. On desktop it is 380px with Base UI's default collision padding.
 
 ## Content
 

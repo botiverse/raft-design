@@ -5,7 +5,8 @@ import "./notification-center.test.css";
  * sits 8px from each screen edge, as the server list under the same top bar
  * does, on every phone width. Base UI's default 5px collision padding and a
  * `min(92vw, 360px)` width left it 6px from the right edge and 25px from the
- * left on a 390px phone.
+ * left on a 390px phone in this harness, whose bell ends 6px from the edge
+ * (5px and 26px in slock, whose bell ends 5px from it).
  */
 import { afterAll, afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, waitFor } from "@testing-library/react";
@@ -68,3 +69,10 @@ for (const width of [320, 375, 390, 430]) {
     expect(right).toBeCloseTo(8, 0);
   });
 }
+
+it("on a phone on its side (667px) the popup stops at 480px, 8px from the bell's edge", async () => {
+  const box = await openOnPhone(667);
+  const right = document.documentElement.clientWidth - box.right;
+  expect(box.width).toBeCloseTo(480, 0);
+  expect(right).toBeCloseTo(8, 0);
+});
