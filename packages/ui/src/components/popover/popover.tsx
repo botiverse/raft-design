@@ -232,7 +232,7 @@ export function PopoverBody({ className, ...props }: PopoverBodyProps) {
 
 export type PopoverActionsProps = ComponentPropsWithRef<"div">;
 
-/** The panel's buttons, at its end, under `PopoverBody`: cancel first, then the confirm button. */
+/** The panel's buttons, at its end, under `PopoverBody`: the way out first, then the confirm button. */
 export function PopoverActions({ className, ...props }: PopoverActionsProps) {
   const { actions } = popover();
   return <div data-slot="popover-actions" className={actions({ className })} {...props} />;

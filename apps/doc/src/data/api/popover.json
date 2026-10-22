@@ -421,7 +421,7 @@
   {
     "name": "PopoverActions",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The panel's buttons, at its end, under `PopoverBody`: cancel first, then the confirm button.",
+    "description": "The panel's buttons, at its end, under `PopoverBody`: the way out first, then the confirm button.",
     "native": true,
     "props": []
   },

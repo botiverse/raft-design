@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link as LinkIcon } from "lucide-react";
 import {
   Button,
@@ -14,9 +14,14 @@ import { MessageReferenceIcon, PopoverActions, PopoverBody } from "@botiverse/ra
 
 export function PreviewCardAppPromptComposition() {
   const [allowed, setAllowed] = useState(false);
+  const chipRef = useRef<HTMLAnchorElement>(null);
   const handleAllow = useCallback(() => {
     setAllowed(true);
   }, []);
+  // The question's trigger is gone once answered: keep focus on the link that replaces it.
+  useEffect(() => {
+    if (allowed) chipRef.current?.focus();
+  }, [allowed]);
 
   return (
     <div className="flex size-full min-h-72 items-start justify-center pt-8">
@@ -26,7 +31,9 @@ export function PreviewCardAppPromptComposition() {
           <MessageReferenceChip
             variant="info"
             capped
-            render={<a href="#stamp-pull-10449" target="_blank" rel="noopener noreferrer" />}
+            render={
+              <a ref={chipRef} href="#stamp-pull-10449" target="_blank" rel="noopener noreferrer" />
+            }
           >
             <MessageReferenceIcon>
               <img src="/app-icons/stamp.svg" alt="" />
