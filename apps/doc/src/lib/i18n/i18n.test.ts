@@ -70,11 +70,13 @@ describe("translated pages", () => {
   });
 
   it("shows the English text, marked, where there is no translation", () => {
-    const english = pageAt("/components/button")!;
+    // Every written page has a translation today; a new page starts without one.
+    const english = { ...pageAt("/components/button")!, repoPath: "design/patterns/not-yet.md" };
     const zh = localize(english, "zh");
     expect(zh.translation).toBe("missing");
     expect(zh.body).toBe(english.body);
     expect(localize(english, "en")).toBe(english);
+    expect(localize(pageAt("/components/button")!, "zh").translation).toBe("current");
   });
 
   it("hashes the English source the same on every platform", () => {
@@ -84,7 +86,7 @@ describe("translated pages", () => {
 });
 
 describe("links and search in another language", () => {
-  it("links a Markdown twin to the translated twin, or to the English one", () => {
+  it("links a Markdown twin to the translated twin", () => {
     expect(
       resolveDocLinkForMarkdown("design/foundations/shape.md", "./color.md#stickers", "zh"),
     ).toBe("https://raft-design.botiverse.build/zh/foundations/color.md#stickers");
@@ -94,7 +96,7 @@ describe("links and search in another language", () => {
         "../../packages/ui/src/components/button/button.md",
         "zh",
       ),
-    ).toBe("https://raft-design.botiverse.build/components/button.md");
+    ).toBe("https://raft-design.botiverse.build/zh/components/button.md");
   });
 
   it("finds a translated page by its English title too", () => {
@@ -138,7 +140,7 @@ describe("what reads in Chinese", () => {
     expect(isTranslatedPath("/foundations/color", "zh")).toBe(true);
     expect(isTranslatedPath("/foundations/color/", "zh")).toBe(true);
     expect(isTranslatedPath("/foundations", "zh")).toBe(true);
-    expect(isTranslatedPath("/components/button", "zh")).toBe(false);
+    expect(isTranslatedPath("/components/button", "zh")).toBe(true);
     expect(isTranslatedPath("/changelog", "zh")).toBe(false);
     expect(isTranslatedPath("/components/button", "en")).toBe(true);
   });

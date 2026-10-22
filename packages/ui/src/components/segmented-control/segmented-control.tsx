@@ -1,5 +1,7 @@
 import { createContext, use, useCallback, useRef, useState } from "react";
 import type { ComponentPropsWithRef, ReactElement } from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import type { TooltipProps } from "../tooltip/tooltip";
 import { Radio as BaseRadio } from "@base-ui/react/radio";
 import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
@@ -175,4 +177,47 @@ export type SegmentedControlCountProps = ComponentPropsWithRef<"span">;
 export function SegmentedControlCount({ className, ...props }: SegmentedControlCountProps) {
   const { count } = segmentedControl();
   return <span data-slot="segmented-control-count" className={count({ className })} {...props} />;
+}
+
+export type SegmentedControlNavProps = ComponentPropsWithRef<"nav">;
+
+/**
+ * The same track for choices that are places, not values: each segment is a
+ * link to another URL (a language, a version of the page), so it can be
+ * opened in a new tab and copied. Name it with `aria-label`.
+ */
+export function SegmentedControlNav({ className, ...props }: SegmentedControlNavProps) {
+  const { root } = segmentedControl();
+  return <nav data-slot="segmented-control" className={root({ className })} {...props} />;
+}
+
+export type SegmentedControlLinkProps = useRender.ComponentProps<"a"> & {
+  /** The segment for the page being shown: `aria-current="page"`, drawn as the selected segment. */
+  current?: boolean;
+};
+
+/** One segment of a `SegmentedControlNav`: a link, `<a>` unless `render` gives a router link. */
+export function SegmentedControlLink({
+  current = false,
+  className,
+  render,
+  ...props
+}: SegmentedControlLinkProps) {
+  const { item } = segmentedControl();
+  return useRender({
+    render: render ?? <a />,
+    props: mergeProps<"a">(
+      {
+        "data-slot": "segmented-control-item",
+        "aria-current": current ? "page" : undefined,
+        // The selected look is keyed to Base UI's `data-checked`; a link has
+        // no radio state, so the current page sets it.
+        ...(current ? { "data-checked": "" } : {}),
+        className: item({
+          className: `group/segmented-control-item ${className ?? ""}`.trim(),
+        }),
+      } as ComponentPropsWithRef<"a">,
+      props,
+    ),
+  });
 }

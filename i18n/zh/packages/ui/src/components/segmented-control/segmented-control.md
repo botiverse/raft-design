@@ -1,0 +1,81 @@
+---
+title: SegmentedControl
+summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
+sourceHash: 41720dbf
+---
+
+# SegmentedControl
+
+分段控件（SegmentedControl）在原处切换同一内容的 2 到 4 种视图：同一批任务的看板或列表，浅色或深色外观。分段放在灰色轨道里，选中的那个是一张黄色贴纸。
+
+```example
+segmented-control/compositions/view-mode
+```
+
+## 何时使用 {#when-to-use}
+
+| 场景 | 使用 |
+| --- | --- |
+| 同一内容的另一种视图：Board / List、Light / Dark / System | SegmentedControl |
+| 一个页面的几个部分，各有各的内容 | [Tabs](../tabs/tabs.md) |
+| 随表单提交的答案 | [RadioGroup](../radio-group/radio-group.md) |
+| 选项多到放不进分段 | [Select](../select/select.md) |
+| 同一个页面的另一个地址：另一种语言、另一个版本 | `SegmentedControlNav`（见下文） |
+
+完整的表格见[选择组件](../../../../../design/components/overview.md#picking-something)。Board / List 在任务列表里放在哪里，见[任务](../../../../../design/patterns/tasks.md)。
+
+## 结构 {#anatomy}
+
+- `SegmentedControl`：轨道，用 `fill-muted`。
+- `SegmentedControlItem`：一个 32px 的分段，标签前可选一个图标。
+- `SegmentedControlLabel`：分段的文字。会截断。
+- `SegmentedControlCount`：标签后面的数量，用 Space Mono 字体。
+- `SegmentedControlNav` 和 `SegmentedControlLink`（实验性，从 `@botiverse/raft-ui/wip` 导入）：每个选项是另一个 URL 时（比如另一种语言的同一页），用的同一条轨道和同样的分段。每个分段是一个链接；`current` 标出当前显示的页面。
+
+```example
+segmented-control/compositions/filters
+```
+
+### 链接形式的分段 {#segments-that-are-links}
+
+选一个分段意味着去另一个地址时（另一种语言的同一页、文档的另一个版本），用 `SegmentedControlNav`，每个选项一个 `SegmentedControlLink`。外观一样，但每个分段都是真正的链接：可以在新标签页打开、可以复制，爬虫也能顺着它找到背后的页面。同一内容的不同视图不要用它，那是 `SegmentedControl`。
+
+```example
+segmented-control/compositions/language-links
+```
+
+## 状态 {#states}
+
+- 选中：一张黄色贴纸，标签加粗。悬停时不变，和选中的标签页一样；按下时叠一层 `sticker-medium`（[悬停和按下](../../../../../design/foundations/states.md#hover-and-press)）。
+- 其他分段是 `foreground-muted`，悬停和按下时用中间一档 `fill-medium`。
+- 禁用：设置在整个控件上，见[状态](../../../../../design/foundations/states.md)。
+
+```example
+segmented-control/compositions/disabled
+```
+
+## 行为 {#behavior}
+
+- 分段距轨道 3px，彼此相隔 3px，所以两个分段之间的间隔等于分段到轨道的间隔（[间距](../../../../../design/foundations/spacing.md#spacing)）。
+- 轨道紧贴它的分段。不要把它拉伸到填满容器：拉伸的轨道会在分段旁边留出一段空的灰色。
+- 控件永远不会缩到比它的分段更窄。行太窄时，先让旁边的元素让位，然后分段只显示图标（[响应式布局](../../../../../design/patterns/responsive.md#when-a-row-runs-out-of-room)）。
+- 要让分段只显示图标，用 `@container` 标记这一行，并在控件上把 `iconsOnlyBelow` 设为标签放不下时的行宽：`xs`（20rem）、`sm`（24rem）、`md`（28rem）、`lg`（32rem）、`xl`（36rem）或 `2xl`（42rem）。低于这个宽度时，每个分段变成只显示图标的 32px 正方形：它的标签和数量仍是它的无障碍名称，悬停和键盘聚焦时用工具提示显示标签。控件保持 32px 高度和原来的字号。只有每个分段都有图标时才设置 `iconsOnlyBelow`：没有图标的分段会变成空的。
+- 按行的宽度来选，而不是按窗口：同一行会出现在不同宽度的列里，容器查询跟随的是列。
+- 只有当它是表单里唯一的选择时才拉伸它。这时让它单独占一行、用满宽度（`w-full`），不要和其他控件放在同一行，并让各分段平分宽度：在一行里，不能缩小的满宽轨道会挤到旁边的元素。
+- 在手机上，最多用 4 个分段，放不下时用 `iconsOnlyBelow` 只显示图标（[响应式布局](../../../../../design/patterns/responsive.md#phone)）。
+
+```example
+segmented-control/compositions/narrow-row
+```
+
+## 内容 {#content}
+
+- 每个分段的标签用 1 到 2 个词，Title Case：Board、List；Relevant、Recent（[字体排印](../../../../../design/foundations/typography.md#casing)）。
+- 数量放在 `SegmentedControlCount` 里，永远不要写进标签文字。
+
+## 无障碍 {#accessibility}
+
+- `SegmentedControl` 封装了 Base UI RadioGroup，每个 `SegmentedControlItem` 是渲染为按钮的 Base UI Radio：整个控件是一个 Tab 停靠点，方向键移动选择。
+- 用 `aria-label` 按它切换的内容给控件命名：「Task view」「Time format」。
+- `SegmentedControlNav` 是一组链接组成的 `nav`，每个分段各占一个 Tab 停靠点，当前的那个带 `aria-current="page"`。也用 `aria-label` 给它命名（「Language」）。
+- 给每个只有图标的分段一个 `aria-label`。因为 `iconsOnlyBelow` 而只显示图标的分段不需要：它的标签仍在里面，只是视觉上隐藏，辅助技术仍能读到。

@@ -24,7 +24,7 @@ token 的取值保证文字不必再逐个表面检查；见[颜色](./color.md#
 - 贴纸上的墨色（`sticker-ink`）在两种模式下都至少 6.8:1。贴纸上从不放白字，因为白色在黄色、青柠色或青色上不达标。
 - 控件有 1.5px 的墨色边框（`line-strong`；输入框周围用 `line-field`），所以每个控件的边缘在任何表面上都清楚。浅色模式下 `line-seam` 在白色上是 3.0:1，在黄色上是 2.8:1；它用来分隔区域，从不用来标出控件。
 - 用三级文字 token，不要用它们的透明度变体（`text-foreground-muted/70`）：保证只对这几个层级 token 成立。
-- `foreground-disabled` 故意低于 4.5:1，这是对非活动控件的允许范围。不要把它用于人们需要读的文字。需要让人知道某个操作为什么不可用时，用 `focusableWhenDisabled` 让按钮仍能获得焦点，并在[工具提示（Tooltip）](../../packages/ui/src/components/tooltip/tooltip.md)里说明（[Button](../../packages/ui/src/components/button/button.md#accessibility)）。
+- `foreground-disabled` 故意低于 4.5:1，这是对非活动控件的允许范围。不要把它用于人们需要读的文字。需要让人知道某个操作为什么不可用时，用 `focusableWhenDisabled` 让按钮仍能获得焦点，并在 [Tooltip](../../packages/ui/src/components/tooltip/tooltip.md) 里说明（[Button](../../packages/ui/src/components/button/button.md#accessibility)）。
 - 修改 `tokens.json` 中的文字、表面或浅色底 token 时，两种模式下都要重新核对这些比值。目前还没有自动测试检查它们。
 
 ## 焦点与键盘 {#focus-and-keyboard}
@@ -111,7 +111,7 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 - 可点击的东西用 Title Case，其他一切用 sentence case，这样一个标签在屏幕上、工具提示里和无障碍名称中读起来都一样（[写作](../content/writing.md#casing)）。
 - 在 `<html>` 元素上把 `lang` 设为界面语言。读屏软件据此选择嗓音和发音。Raft 网页应用在界面语言变化时都会设置它。
 - 在无障碍名称里写明符号的含义：快捷键的 ⌘、数量的 +3、两条信息之间的分隔符。
-- 用平实的话写错误和空状态，说明发生了什么、接下来该做什么（[语气与语调](../content/voice-and-tone.md)）。
+- 用平实的话写错误和空状态，说明发生了什么、接下来该做什么（[语气](../content/voice-and-tone.md)）。
 
 ## 检查一次改动 {#checking-a-change}
 

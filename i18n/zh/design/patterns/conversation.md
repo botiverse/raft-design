@@ -92,7 +92,7 @@ thread-panel/thread-panel
 
 ## 相关 {#related}
 
-- [交接和审批](../people-and-agents/handoffs-and-approvals.md)：事件行、状态和操作卡片。
+- [交接与审批](../people-and-agents/handoffs-and-approvals.md)：事件行、状态和操作卡片。
 - [导航](./navigation.md)：引用标签片和链接。
 - [评论](./comments.md)：文档上的评论，放在它所说的那段文字旁边；它们不是消息。
 - [用现有部件搭建](../components/overview.md#built-from-existing-parts)：链接卡片、转发的消息、翻译和多选。

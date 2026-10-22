@@ -300,7 +300,7 @@ node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <dir-or-file>... [
 - 新 token 的名字要遵循上面的命名规则；如果组件需要，在 `styles.css` 里加上它的工具类。
 - 重命名 token 时，把旧名称保留在 `deprecated` 分组里并指向新名称，同时把这次重命名加进 codemod。只在大版本中删除别名。
 - 文字、表面或淡色的值变化时，在两种模式下重新核对[颜色](./color.md#contrast)中的对比度保证。
-- 在同一个 pull request 里更新这个 token 所属的基础页面（[编写文档](../authoring/README.md#changing-the-system)）。
+- 在同一个 pull request 里更新这个 token 所属的基础页面（[编写指南](../authoring/README.md#changing-the-system)）。
 
 ## 相关 {#related}
 

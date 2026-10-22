@@ -15,6 +15,7 @@ The site serves the English page at its usual URL and the translation under the 
 - Keep the headings, in the same number, depth and order as the English page. `node scripts/i18n.mjs sync` gives each one the English page's anchor (`## 颜色的含义 {#meanings-of-color}`), so links between pages and shared URLs work in both languages.
 - Keep links as the English page writes them: relative paths to the English Markdown files. The site resolves them to the page in the reader's language.
 - Leave code, `example` and `tokens` blocks, token names and component names as they are.
+- Chinese follows the Raft app's catalog rules, which `check` enforces: a space between a Chinese character and a Latin letter or digit, and one `…` for an ellipsis.
 - The language's own guide and glossary is in its folder: [zh/GLOSSARY.md](./zh/GLOSSARY.md).
 
 ## Keeping translations current

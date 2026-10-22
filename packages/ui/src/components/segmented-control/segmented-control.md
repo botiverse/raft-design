@@ -25,6 +25,7 @@ segmented-control/compositions/view-mode
 | Sections of one page, each with its own content                       | [Tabs](../tabs/tabs.md)                     |
 | An answer submitted with a form                                       | [RadioGroup](../radio-group/radio-group.md) |
 | More options than fit as segments                                     | [Select](../select/select.md)               |
+| The same page at another address: a language, a version               | `SegmentedControlNav` (below)               |
 
 The full table is in [Choosing a component](../../../../../design/components/overview.md#picking-something). Where Board / List goes on a task list is in [Tasks](../../../../../design/patterns/tasks.md).
 
@@ -34,9 +35,18 @@ The full table is in [Choosing a component](../../../../../design/components/ove
 - `SegmentedControlItem`: one 32px segment, with an optional icon before its label.
 - `SegmentedControlLabel`: the segment's text. It truncates.
 - `SegmentedControlCount`: a count after the label, in Space Mono.
+- `SegmentedControlNav` and `SegmentedControlLink` (experimental, from `@botiverse/raft-ui/wip`): the same track and segments when each choice is another URL, such as the page in another language. Each segment is a link; `current` marks the page being shown.
 
 ```example
 segmented-control/compositions/filters
+```
+
+### Segments that are links
+
+When choosing a segment means going to another address (the same page in another language, another version of a document), use `SegmentedControlNav` with a `SegmentedControlLink` per choice. It looks the same, but each segment is a real link: it opens in a new tab and can be copied, and a crawler finds the pages behind it. Don't use it for views of the same content; that is `SegmentedControl`.
+
+```example
+segmented-control/compositions/language-links
 ```
 
 ## States
@@ -72,4 +82,5 @@ segmented-control/compositions/narrow-row
 
 - `SegmentedControl` wraps the Base UI RadioGroup, and each `SegmentedControlItem` is a Base UI Radio rendered as a button: the control is one tab stop, and the arrow keys move the selection.
 - Name the control with `aria-label` after what it switches: "Task view", "Time format".
+- `SegmentedControlNav` is a `nav` of links, one tab stop per segment, and the current one has `aria-current="page"`. Name it with `aria-label` too ("Language").
 - Give every icon-only segment an `aria-label`. A segment that shows only its icon because of `iconsOnlyBelow` needs none: its label is still in it, hidden from sight but not from assistive technology.

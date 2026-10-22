@@ -250,5 +250,5 @@ toggle-group/compositions/formatting
 
 - [反馈](../patterns/feedback.md)：按作用范围处理错误。
 - [表单](../patterns/forms.md)：哪些控件立即生效，哪些要保存。
-- [会话](../patterns/conversation.md)：大部分由已有部件拼成的东西出现的地方。
-- [编写文档](../authoring/README.md)：把组件归入它的层和类别的 front matter。
+- [对话](../patterns/conversation.md)：大部分由已有部件拼成的东西出现的地方。
+- [编写指南](../authoring/README.md)：把组件归入它的层和类别的 front matter。

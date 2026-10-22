@@ -35,7 +35,7 @@ sidebar/compositions/phone-home
 - 摘要里最多显示 3 张脸，尺寸 19px（`xs`），每张和前一张重叠 5px。后面跟着用 Space Mono 写的人数。其余的只体现在人数里。
 - 摘要的无障碍名称用完整的句子："2 agents working"。脸对辅助技术隐藏。
 - 没有人在工作时隐藏摘要。不要写 0。
-- 在 300px 宽的[弹出层（Popover）](../../packages/ui/src/components/popover/popover.md)里打开 Working now，与摘要的末端对齐，手机上也一样。标题写 Working now。
+- 在 300px 宽的 [Popover](../../packages/ui/src/components/popover/popover.md) 里打开 Working now，与摘要的末端对齐，手机上也一样。标题写 Working now。
 - 每一行放 agent 27px（`sm`）的头像和它的灯、粗体的名字，以及用 `foreground-muted` 写的正在做的事，最多 2 行。选中一行打开这个 agent 的页面。
 - 脸和行都按每个 agent 开始工作的时间排序。工作进行期间保持这个顺序，这样只有在有人开始或停止时脸才会移动。
 - agent 变为空闲后继续列出 5 秒。agent 在两步之间会停顿；没有这段宽限，脸会在一分钟里离开又回来好几次。

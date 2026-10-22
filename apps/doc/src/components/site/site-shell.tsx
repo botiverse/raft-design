@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import type { MouseEvent, ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { ExternalLink, FileText, Languages, Menu, Moon, Search, Sun, SunMoon } from "lucide-react";
+import { ExternalLink, FileText, Menu, Moon, Search, Sun, SunMoon } from "lucide-react";
 import {
   Button,
   Drawer,
@@ -34,13 +34,15 @@ import {
   SidebarSectionTitle,
 } from "@botiverse/raft-ui";
 import type { ThemeMode } from "@botiverse/raft-ui";
+import { SegmentedControlLink, SegmentedControlNav } from "@botiverse/raft-ui/wip";
 
 import { GithubMark } from "#/components/github-mark.tsx";
 import { usePreviewTheme } from "#/components/preview-theme.tsx";
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 import { navSections } from "#/lib/content/nav.ts";
 import type { NavItem } from "#/lib/content/nav.ts";
-import { DEFAULT_LOCALE, LANGUAGE_NAME, LANGUAGE_TAG, localizePath } from "#/lib/i18n/locales.ts";
+import { LANGUAGE_NAME, LANGUAGE_TAG, LOCALES, localizePath } from "#/lib/i18n/locales.ts";
+import type { Locale } from "#/lib/i18n/locales.ts";
 import { useLocale, useMessages } from "#/lib/i18n/use-locale.ts";
 
 import { SearchDialog } from "./search-dialog.tsx";
@@ -70,43 +72,43 @@ function ThemeMenu() {
   );
 }
 
+/** Short names for the language switch where the top bar has no room for the full ones. */
+const LANGUAGE_SHORT: Record<Locale, string> = { en: "EN", zh: "中" };
+
 /**
- * The same page in the other language. A plain link, not a menu: with two
- * languages one click is enough, and the prerender crawler finds every
- * translated page through it. It loads the other document, so the whole site
+ * The language switch: one segment per language, each a link to the same
+ * page in that language (raft-ui's SegmentedControlNav), so it can be opened
+ * in a new tab or copied, and the prerender crawler finds every translated
+ * page through it. Following one loads the other document, so the whole site
  * switches with it.
  */
-function LanguageLink() {
+function LanguageSwitch() {
   const messages = useMessages();
   const locale = useLocale();
   const pathname = useLocation({ select: (location) => location.pathname });
-  const target = locale === DEFAULT_LOCALE ? "zh" : DEFAULT_LOCALE;
-  const href = localizePath(pathname, target);
   // The server never sees the fragment, so it joins the link only when it is
   // followed: the same section in the other language.
   const keepFragment = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
     if (window.location.hash) event.currentTarget.hash = window.location.hash;
   }, []);
-  const label = messages.language(LANGUAGE_NAME[target]);
-  const link = <a href={href} hrefLang={LANGUAGE_TAG[target]} onClick={keepFragment} />;
-  // On a phone the top bar has no room for the name: the icon alone.
   return (
-    <>
-      <Button variant="on-frame" className="max-sm:hidden" nativeButton={false} render={link}>
-        <Languages data-icon="inline-start" />
-        <span lang={LANGUAGE_TAG[target]}>{LANGUAGE_NAME[target]}</span>
-      </Button>
-      <Button
-        variant="on-frame"
-        size="icon-md"
-        className="sm:hidden"
-        aria-label={label}
-        nativeButton={false}
-        render={link}
-      >
-        <Languages />
-      </Button>
-    </>
+    <SegmentedControlNav aria-label={messages.languageSwitch}>
+      {LOCALES.map((option) => (
+        <SegmentedControlLink
+          key={option}
+          current={option === locale}
+          href={localizePath(pathname, option)}
+          hrefLang={LANGUAGE_TAG[option]}
+          lang={LANGUAGE_TAG[option]}
+          onClick={keepFragment}
+        >
+          <span className="max-sm:sr-only">{LANGUAGE_NAME[option]}</span>
+          <span className="sm:hidden" aria-hidden>
+            {LANGUAGE_SHORT[option]}
+          </span>
+        </SegmentedControlLink>
+      ))}
+    </SegmentedControlNav>
   );
 }
 
@@ -155,7 +157,7 @@ function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSear
         >
           <Search />
         </Button>
-        <LanguageLink />
+        <LanguageSwitch />
         <ThemeMenu />
         <Button
           variant="on-frame"

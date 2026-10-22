@@ -22,7 +22,7 @@ system-message/compositions/task-thread
 
 - 把认领、释放、指派和状态变化记录成事件行（[SystemMessage](../../packages/ui/src/components/system-message/system-message.md)）：谁做的、动词和任务。例如 "Bugen claimed #25 "Fix onboarding copy""。
 - 把这些事件行发在任务自己的消息列里，而不是任务所属的频道里。频道保持好读；关注这个任务消息列的人能看到它的历史。
-- 在任务来源的那条消息上，用任务标记显示任务当前的状态：状态像素、任务编号和负责人（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。
+- 在任务来源的那条消息上，用任务标记显示任务当前的状态：状态像素点、任务编号和负责人（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。
 - 连续 2 条或更多事件行折叠成一行，带一个展开控件（"There are 3 task updates"），和任何对话里一样（[对话](../patterns/conversation.md#dates-and-grouping)）。
 
 ### 事件行 {#event-lines}

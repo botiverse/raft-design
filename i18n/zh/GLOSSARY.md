@@ -12,12 +12,13 @@
 ## 格式
 
 - 简体中文，全角标点（，。：；？！）。引用、界面上的词语用「」。
-- 中文与英文单词、数字、行内代码之间加一个半角空格：「每个 token 有一个用途」「间距是 4px 的倍数」。
+- 中文与英文单词、数字、行内代码之间加一个半角空格：「每个 token 有一个用途」「间距是 4px 的倍数」。`node scripts/i18n.mjs check` 会检查汉字和英文字母、数字之间有没有空格，和 Raft 中文界面的检查（slock 的 `zhCatalogSpacingContract`）一致。
+- 省略号只用一个「…」，不用「……」或「...」（同 slock 的 `zhEllipsisForm`）。
 - 粗体、列表、表格的结构与原文一一对应；表格列数不变。
 - 标题的数量、层级和顺序与原文完全一致，不增不减，也不要自己写 `{#id}`：脚本会给每个标题补上与英文一致的锚点。
 - 链接的地址（括号里的部分）原样保留，只翻译链接文字。
 - 代码块（包括 `example` 和 `tokens` 代码块）、行内代码、token 名、组件名、文件路径、URL 原样保留，不翻译。
-- 文件开头的 front matter 只保留 `title` 和 `summary` 两项，两项都翻译。
+- 文件开头的 front matter 只保留 `title` 和 `summary` 两项，两项都翻译；组件文档的 `title` 和一级标题保持英文组件名。
 
 ## 保持英文的词
 
@@ -136,4 +137,10 @@
 | Identity and presence | 身份与在线状态 | 页面名 |
 | Writing about agents | 描述 agent 的用语 | 页面名 |
 | Hand-offs and approvals | 交接与审批 | 页面名 |
+| tile（location / channel / icon / workspace tile） | 图块（位置图块、频道图块、图标图块、工作空间图块） | |
+| subtle / medium tier（悬停、按下的两档） | 浅档 / 中档 | |
+| status pixel | 状态像素点 | |
+| lightbox | 图片查看器 | 指组件时写 Lightbox |
+| trigger | 触发按钮 | |
+| Anatomy / When to use / Variants / States / Behavior / Content / Accessibility | 结构 / 何时使用 / 变体 / 状态 / 行为 / 内容 / 无障碍 | 组件文档的章节名 |
 | decision record | 决策记录 | |

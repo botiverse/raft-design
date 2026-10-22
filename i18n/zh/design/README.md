@@ -12,7 +12,7 @@ Raft 设计系统是所有 Raft 产品共用的设计语言：现在是 Raft Cha
 
 | 如果 | 读 |
 | --- | --- |
-| 我要设计一个新东西 | [设计一个新功能](./principles/designing-a-new-feature.md)：要问的问题、流程和自查清单 |
+| 我要设计一个新东西 | [设计新功能](./principles/designing-a-new-feature.md)：要问的问题、流程和自查清单 |
 | 我需要一个组件 | 先看[组件总览](./components/overview.md)，再按[使用 raft-ui](./about/use-raft-ui.md) 完成配置 |
 | 为什么是这样？ | [原则](./principles/principles.md)和[为什么 Raft 长这样](./principles/why-raft-looks-this-way.md) |
 

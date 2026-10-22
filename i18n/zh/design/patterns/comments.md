@@ -76,5 +76,5 @@ comment/compositions/marker-sheet
 ## 相关 {#related}
 
 - [Comment](../../packages/ui/src/components/comment/comment.md)：部件、布局和无障碍。
-- [会话](./conversation.md)：消息和消息列，它们不是评论。
+- [对话](./conversation.md)：消息和消息列，它们不是评论。
 - [由现有部件组成](../components/overview.md#file-viewer)：文件查看器和它的 Comments 操作。
