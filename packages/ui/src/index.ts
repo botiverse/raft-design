@@ -1206,11 +1206,13 @@ export type {
 export {
   MessageList,
   MessageListDateDivider,
+  MessageListEndFade,
   MessageListHistoryLimited,
   MessageListNotice,
 } from "./components/message-list/index";
 export type {
   MessageListDateDividerProps,
+  MessageListEndFadeProps,
   MessageListHistoryLimitedProps,
   MessageListNoticeProps,
   MessageListProps,

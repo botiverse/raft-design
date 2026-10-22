@@ -773,6 +773,7 @@
     "names": [
       "MessageList",
       "MessageListDateDivider",
+      "MessageListEndFade",
       "MessageListHistoryLimited",
       "MessageListNotice",
       "MessageListJumpControls",

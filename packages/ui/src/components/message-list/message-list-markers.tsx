@@ -73,3 +73,23 @@ export function MessageListHistoryLimited({
     props: mergeProps<"span">(defaultProps, props),
   });
 }
+
+export type MessageListEndFadeProps = useRender.ComponentProps<"div">;
+
+// Raft Design System › MessageList › End fade: the list's bottom edge, where
+// messages scroll under the composer, fades instead of cutting them
+// (design/foundations/spacing.md#timeline-rhythm).
+export function MessageListEndFade({ className, render, ...props }: MessageListEndFadeProps) {
+  const { endFade } = messageList();
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "message-list-end-fade",
+    "aria-hidden": true,
+    className: endFade({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}

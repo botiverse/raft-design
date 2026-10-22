@@ -46,7 +46,12 @@ import {
   MessageItemToolbarButton,
 } from "@botiverse/raft-ui";
 import type { PanelEdge } from "@botiverse/raft-ui";
-import { MessageList, MessageListDateDivider, MessageListNotice } from "@botiverse/raft-ui";
+import {
+  MessageList,
+  MessageListDateDivider,
+  MessageListEndFade,
+  MessageListNotice,
+} from "@botiverse/raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
 import { MessageListJumpControls, MessageListJumpPill } from "@botiverse/raft-ui/wip";
 import { ConversationPanelHeaderComposition } from "./conversation-panel-header.composition.tsx";
@@ -230,6 +235,7 @@ export function ConversationPanelComposition({
             <div className="h-px" aria-hidden />
             <div className="pb-timeline-end" aria-hidden />
           </MessageList>
+          <MessageListEndFade />
           {newMessageCount > 0 ? (
             <MessageListJumpControls>
               <MessageListJumpPill onClick={handleJump}>

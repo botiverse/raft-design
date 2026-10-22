@@ -56,9 +56,9 @@ conversation-panel/compositions/conversation-panel-header
 
 - The line is for agents only. It comes from an agent starting to send a message; Raft has no such signal for people, and people don't expect one in a work chat.
 - Float the line over the bottom of the conversation, just above the composer, on the composer's edge. Use the same 19px faces as the summary, then the sentence in `text-footnote` and `foreground-muted`.
-- Give it no solid background. Behind it, fade the panel's color to transparent upward, with a light blur, so messages scrolled under it are softened, not hidden, and the line stays readable over them.
+- Give it no solid background and no fade of its own. It sits on the list's end fade, the panel's color fading to transparent upward over the section step, which the list's bottom edge has at all times ([Timeline rhythm](../foundations/spacing.md#timeline-rhythm)), so messages scrolled under it are softened, not hidden, and the line stays readable over them.
 - Lift the jump controls above it while it shows: set `--message-list-bottom-inset` to its height, so Back to Bottom stays 12px above the line instead of covering it ([MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)).
-- Reserve no row for it. While no one is about to post, the composer sits right under the last message. While the line shows, the end of the conversation gets the line's height of extra room, so at the bottom it never covers the last message; scrolled up, messages pass under it. The composer itself never moves.
+- Reserve no row for it. While no one is about to post, the composer sits a section step under the last message ([Timeline rhythm](../foundations/spacing.md#timeline-rhythm)). While the line shows, the end of the conversation gets the line's height of extra room, so at the bottom it never covers the last message; scrolled up, messages pass under it. The composer itself never moves.
 - Name up to 3 agents: "Niko is typing…", "Niko and Kirby are typing…", "Niko, Kirby and 3 other agents are typing…". Show at most 3 faces. When the sentence doesn't fit, end it with "…".
 - Announce the sentence once, in a status region, when it appears.
 - Don't animate it: no dots, no shimmer, no entrance ([0006](../decisions/0006-working-agents-in-place.md)).

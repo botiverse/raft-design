@@ -47,7 +47,12 @@ import {
   MessageItemToolbar,
   MessageItemToolbarButton,
 } from "@botiverse/raft-ui";
-import { MessageList, MessageListDateDivider, MessageListNotice } from "@botiverse/raft-ui";
+import {
+  MessageList,
+  MessageListDateDivider,
+  MessageListEndFade,
+  MessageListNotice,
+} from "@botiverse/raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
 
 function preventSubmit(event: FormEvent<HTMLFormElement>) {
@@ -210,6 +215,7 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
           <MessageList>
             <ThreadReplies />
           </MessageList>
+          <MessageListEndFade />
         </ThreadPanelBody>
         <ThreadPanelFooter>
           <ComposerRoot onSubmit={preventSubmit}>
