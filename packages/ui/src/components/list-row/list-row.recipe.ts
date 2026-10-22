@@ -62,17 +62,25 @@ export const listRow = tv({
       default: { root: ["min-h-16 [--list-row-rule-start:63px]", hairline] },
       // A setting: a title (and its consequence), the current value and a
       // chevron, or a switch; 48 tall with one line. The line starts at the
-      // row's edge. A trailing switch, checkbox or radio centres on the
-      // title's first line in a box one line tall, so it stays there when a
-      // description follows and the switch doesn't make the row taller
-      // (Alignment: a control and its label).
+      // row's edge. Both ends sit on the title's line. With a description,
+      // the leading icon, avatar or tile and a trailing switch, checkbox or
+      // radio leave the block's centre for the title's first line; with a
+      // title alone the title is the block and all three stay centred, so a
+      // leading block taller than the line doesn't pull the others up. A
+      // trailing control sits in a box one line tall either way, so a switch
+      // doesn't make the row taller (Alignment: a control and its label).
       plain: {
         root: [
           "[--list-row-rule-start:16px]",
           hairline,
-          "*:data-[slot=switch]:my-[calc((var(--text-body--line-height)-1.875rem)/2)] *:data-[slot=switch]:self-start",
-          "*:data-[slot=checkbox]:my-[calc((var(--text-body--line-height)-1.25rem)/2)] *:data-[slot=checkbox]:self-start",
-          "*:data-[slot=radio-group-item]:my-[calc((var(--text-body--line-height)-1.25rem)/2)] *:data-[slot=radio-group-item]:self-start",
+          "has-data-[slot=list-row-description]:[--list-row-ends:start]",
+          "has-data-[slot=list-row-description]:[--list-row-lead-shift:calc(var(--text-body--line-height)/2-50%)]",
+          "*:data-[slot=list-row-icon]:[align-self:var(--list-row-ends,center)] *:data-[slot=list-row-icon]:translate-y-(--list-row-lead-shift,0)",
+          "*:data-[slot=avatar]:[align-self:var(--list-row-ends,center)] *:data-[slot=avatar]:translate-y-(--list-row-lead-shift,0)",
+          "*:data-[slot=icon-tile]:[align-self:var(--list-row-ends,center)] *:data-[slot=icon-tile]:translate-y-(--list-row-lead-shift,0)",
+          "*:data-[slot=switch]:my-[calc((var(--text-body--line-height)-1.875rem)/2)] *:data-[slot=switch]:[align-self:var(--list-row-ends,center)]",
+          "*:data-[slot=checkbox]:my-[calc((var(--text-body--line-height)-1.25rem)/2)] *:data-[slot=checkbox]:[align-self:var(--list-row-ends,center)]",
+          "*:data-[slot=radio-group-item]:my-[calc((var(--text-body--line-height)-1.25rem)/2)] *:data-[slot=radio-group-item]:[align-self:var(--list-row-ends,center)]",
         ],
       },
       // A shortcut into another page (Search, Activity, Saved): a 20px icon and

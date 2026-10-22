@@ -34,8 +34,10 @@ list-row/compositions/conversations
 - `ListRowBody`: the text column. Required.
   - `ListRowTop`: `ListRowTitle`, then the time in `ListRowMeta`.
   - `ListRowBottom`: the preview in `ListRowDescription`, then at most one badge.
-- Trailing: a setting's `ListRowValue` and `ListRowChevron`, or a [Switch](../switch/switch.md). Optional. In a `plain` row a trailing switch, checkbox or radio centers on the title's first line, not on the title and description together, so a wrapped title or a description leaves it beside the title ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
+- Trailing: a setting's `ListRowValue` and `ListRowChevron`, or a [Switch](../switch/switch.md). Optional.
 - `ListRowGroup`: an inset group that wraps rows in a card. Optional.
+
+In a `plain` row both ends sit on the title's first line. With a description, the leading icon, avatar or tile and a trailing switch, checkbox or radio leave the middle of the title and description and center on the title's line instead. With a title alone, the title is the whole block and everything stays centered, an avatar taller than the line included. A 30px switch overhangs the title's line rather than making the row taller, so a one-line settings row stays 48px, and stacked switches keep the row's 12px padding between them ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
 
 ## Variants
 

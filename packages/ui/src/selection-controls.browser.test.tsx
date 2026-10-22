@@ -11,8 +11,10 @@ import {
   ListRowBody,
   ListRowDescription,
   ListRowGroup,
+  ListRowIcon,
   ListRowTitle,
 } from "./components/list-row";
+import { Avatar } from "./components/avatar/avatar";
 
 // A switch, a checkbox or a radio centres on the FIRST line of its label,
 // 8px before it, wherever raft-ui puts it beside one: FieldItem, a <label>
@@ -162,6 +164,9 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
         const list = (
           <ListRowGroup className="w-80">
             <ListRow variant="plain" interactive={false}>
+              <ListRowIcon data-testid="lead">
+                <svg viewBox="0 0 24 24" />
+              </ListRowIcon>
               <ListRowBody>
                 <ListRowTitle data-testid="text">Agents can merge</ListRowTitle>
                 {wraps ? <ListRowDescription wrap>{LONG}</ListRowDescription> : null}
@@ -174,6 +179,9 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
         const title = screen.getByTestId("text");
         const el = screen.getByTestId("control");
         expect(Math.abs(middle(el) - firstLine(title).middle)).toBeLessThanOrEqual(0.5);
+        // Both ends: the leading icon sits on the same line as the control.
+        const lead = screen.getByTestId("lead");
+        expect(Math.abs(middle(lead) - firstLine(title).middle)).toBeLessThanOrEqual(0.5);
         if (wraps) {
           // With a description, the block's centre is well below the title.
           const body = title.parentElement!;
@@ -189,6 +197,59 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
       });
     }
   }
+
+  for (const description of [false, true]) {
+    it(`${deviceName}: a plain ListRow's 35px avatar ${description ? "sits on the title's line" : "stays centred with a title alone"}`, async () => {
+      await device(deviceWidth, touch);
+      render(
+        <ListRowGroup className="w-80">
+          <ListRow variant="plain" interactive={false}>
+            <Avatar data-testid="lead" size="md" type="human" />
+            <ListRowBody>
+              <ListRowTitle data-testid="text">Ada Lovelace</ListRowTitle>
+              {description ? <ListRowDescription wrap>{LONG}</ListRowDescription> : null}
+            </ListRowBody>
+            <Switch data-testid="control" aria-label="On" />
+          </ListRow>
+        </ListRowGroup>,
+      );
+      const title = screen.getByTestId("text");
+      const lead = screen.getByTestId("lead");
+      // With a title alone the title is the block: avatar, title and switch
+      // share the row's centre. With a description all three leave the
+      // block's centre for the title's line.
+      for (const el of [lead, screen.getByTestId("control")]) {
+        expect(Math.abs(middle(el) - firstLine(title).middle)).toBeLessThanOrEqual(0.5);
+      }
+      if (!description) {
+        const row = lead.closest<HTMLElement>("[data-slot=list-row]")!;
+        expect(Math.abs(middle(lead) - middle(row))).toBeLessThanOrEqual(0.5);
+      }
+    });
+  }
+
+  it(`${deviceName}: switches in stacked settings rows keep the row's padding between them`, async () => {
+    await device(deviceWidth, touch);
+    render(
+      <ListRowGroup className="w-80">
+        {["Mentions", "Thread replies", "Direct messages"].map((title, index) => (
+          <ListRow key={title} variant="plain" interactive={false}>
+            <ListRowBody>
+              <ListRowTitle>{title}</ListRowTitle>
+              {index === 1 ? <ListRowDescription wrap>{LONG}</ListRowDescription> : null}
+            </ListRowBody>
+            <Switch data-testid="stacked" aria-label={title} />
+          </ListRow>
+        ))}
+      </ListRowGroup>,
+    );
+    const rects = screen.getAllByTestId("stacked").map((el) => el.getBoundingClientRect());
+    // The 30px switch overhangs a 22-24px line by 3-4px, into the row's 12px
+    // padding: the next switch is still at least 12px away.
+    for (let i = 1; i < rects.length; i += 1) {
+      expect(rects[i]!.top - rects[i - 1]!.bottom).toBeGreaterThanOrEqual(12);
+    }
+  });
 
   for (const control of CONTROLS.filter((c) => c.name !== "switch")) {
     it(`${deviceName}: a ${control.name}'s hit area is 44 wide and ${touch ? 44 : 36} tall`, async () => {
