@@ -22,7 +22,12 @@ The site serves the English page at its usual URL and the translation under the 
 
 `sourceHash` is a hash of the English page the translation was made from: its text without the front matter, with every run of whitespace read as one space (so rewrapping a paragraph doesn't count as a change). `node scripts/i18n.mjs sync` writes it for a new translation. When the English text changes afterwards, the hashes stop matching:
 
-- `node scripts/i18n.mjs check` (CI, and `pnpm check:docs`) fails, so a pull request that changes an English page brings its translations up to date too. After updating a translation, run `node scripts/i18n.mjs sync --mark <path>` to record that it matches again.
-- Should a stale translation reach the site anyway, the translated page shows a note that the English page has changed, with a link to it.
+- `node scripts/i18n.mjs check` (CI, and `pnpm check:docs`) warns that the translation is stale. A stale translation doesn't fail CI, and neither do the heading, anchor and `example` block mismatches a change to the English page causes.
+- The translated page shows a note that the English page has changed, with a link to it.
+- Translations are brought up to date separately: Hasaki maintains them and checks every few days, in #proj-i18n on Raft. A pull request that changes an English page doesn't need to touch its translations. After updating a translation, run `node scripts/i18n.mjs sync --mark <path>` to record that it matches again.
+
+A new English page starts without a translation; the site shows its English text under `/zh/` with a note until one is added.
+
+`check` still fails on a translation that is broken by itself: a missing anchor or `sourceHash`, front matter other than `title`, `summary` and `sourceHash`, or the Chinese spacing and ellipsis rules.
 
 A translation links to other pages with the English page's relative paths. The site resolves them to the page in the reader's language; on GitHub they point into `i18n/<language>/` and work only where that page is translated.

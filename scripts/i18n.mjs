@@ -2,7 +2,7 @@
 // Keeps the translations in i18n/<locale>/ in step with the English pages
 // they translate (i18n/README.md).
 //
-//   node scripts/i18n.mjs check           fails on a broken or stale translation
+//   node scripts/i18n.mjs check           fails on a broken translation; warns on a stale one
 //   node scripts/i18n.mjs sync            gives every heading the English anchor, and a new
 //                                         translation the hash of its English file
 //   node scripts/i18n.mjs sync --mark <path>...
@@ -116,6 +116,12 @@ function rel(file) {
 }
 
 const errors = [];
+// A translation whose English page changed since (its sourceHash no longer
+// matches) is stale. Staleness, and every mismatch it explains (headings,
+// anchors, example blocks, a moved English page), is a warning: whoever
+// changes an English page doesn't update its translations; they are brought
+// up to date separately (i18n/README.md).
+const warnings = [];
 let written = 0;
 
 for (const file of translations) {
@@ -123,13 +129,17 @@ for (const file of translations) {
   const englishPath = name.replace(/^i18n\/[\w-]+\//, "");
   const englishFile = path.join(root, englishPath);
   if (!existsSync(englishFile)) {
-    errors.push(`${name}: ${englishPath} does not exist; move or delete the translation`);
+    warnings.push(`${name}: ${englishPath} does not exist; move or delete the translation`);
     continue;
   }
   const english = readFileSync(englishFile, "utf8").replace(/\r\n/g, "\n");
   let source = readFileSync(file, "utf8").replace(/\r\n/g, "\n");
   const front = splitFrontMatter(source);
   const englishHeadings = headingsOf(english.split("\n"));
+  const recorded = source.match(/^sourceHash: (\w+)$/m)?.[1];
+  const stale = Boolean(recorded) && recorded !== sourceHash(english) && !marked.has(file);
+  // Problems that a change to the English page explains are warnings on a stale translation.
+  const drift = stale ? warnings : errors;
   let lines = source.split("\n");
   let headings = headingsOf(lines);
 
@@ -163,7 +173,7 @@ for (const file of translations) {
   }
 
   if (!sameShape) {
-    errors.push(
+    drift.push(
       `${name}: its headings (${headings.map((h) => h.depth).join(",")}) do not match ${englishPath} (${englishHeadings.map((h) => h.depth).join(",")}); keep the same headings in the same order`,
     );
   } else {
@@ -171,7 +181,7 @@ for (const file of translations) {
       if (!heading.explicit) {
         errors.push(`${name}: "${heading.text}" has no anchor; run node scripts/i18n.mjs sync`);
       } else if (heading.id !== englishHeadings[index].id) {
-        errors.push(
+        drift.push(
           `${name}: "${heading.text}" has the anchor #${heading.id}, the English heading #${englishHeadings[index].id}`,
         );
       }
@@ -191,7 +201,7 @@ for (const file of translations) {
   const englishFences = fencesOf(english).filter((fence) => /^```(example|tokens)/.test(fence));
   const fences = fencesOf(source).filter((fence) => /^```(example|tokens)/.test(fence));
   if (englishFences.join("\n") !== fences.join("\n")) {
-    errors.push(
+    drift.push(
       `${name}: its example and tokens blocks differ from ${englishPath}; copy them as they are`,
     );
   }
@@ -200,21 +210,23 @@ for (const file of translations) {
     for (const problem of typographyErrors(source)) errors.push(`${name}: ${problem}`);
   }
 
-  const recorded = source.match(/^sourceHash: (\w+)$/m)?.[1];
   if (!recorded) {
     errors.push(`${name}: no sourceHash; run node scripts/i18n.mjs sync`);
-  } else if (recorded !== sourceHash(english)) {
-    errors.push(
-      `${name}: ${englishPath} changed since it was translated; bring the translation up to date in the same pull request, then node scripts/i18n.mjs sync --mark ${name}`,
+  } else if (stale) {
+    warnings.push(
+      `${name}: ${englishPath} changed since it was translated; after updating the translation, run node scripts/i18n.mjs sync --mark ${name}`,
     );
   }
 }
 
 if (command === "sync")
   console.log(`i18n: updated ${written} of ${translations.length} translations`);
+for (const warning of warnings) console.warn(`warning: ${warning}`);
 for (const error of errors) console.error(`error: ${error}`);
 if (command === "check" || errors.length) {
-  console.log(`i18n: ${translations.length} translations, ${errors.length} errors`);
+  console.log(
+    `i18n: ${translations.length} translations, ${errors.length} errors, ${warnings.length} warnings`,
+  );
 }
 if (command !== "check" && command !== "sync") {
   console.error("usage: node scripts/i18n.mjs check | sync [--mark <path>...]");
