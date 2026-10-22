@@ -18,6 +18,15 @@ export const messageItem = tv({
       // a whole-page recalc trap (#386).
       "hover:[--mi-toolbar-opacity:1] hover:[--mi-toolbar-pe:auto] focus-within:[--mi-toolbar-opacity:1] focus-within:[--mi-toolbar-pe:auto]",
       "has-data-popup-open:[--mi-toolbar-opacity:1] has-data-popup-open:[--mi-toolbar-pe:auto]",
+      // While the toolbar shows, the header fades out its end under it
+      // (header, below): the toolbar's width (measured onto the row by
+      // MessageItemToolbar) plus the 4px it sits inside the header's end
+      // (right-3 against the row's px-2) and a 4px gap, after a 12px fade.
+      // Without a toolbar on the row the width is unset, the gradient is
+      // invalid, and the header has no mask.
+      "hover:[--mi-header-mask:linear-gradient(to_left,transparent_calc(var(--mi-toolbar-width)+8px),black_calc(var(--mi-toolbar-width)+20px))]",
+      "focus-within:[--mi-header-mask:linear-gradient(to_left,transparent_calc(var(--mi-toolbar-width)+8px),black_calc(var(--mi-toolbar-width)+20px))]",
+      "has-data-popup-open:[--mi-header-mask:linear-gradient(to_left,transparent_calc(var(--mi-toolbar-width)+8px),black_calc(var(--mi-toolbar-width)+20px))]",
       // The highlight sits a row inset (4px) above and below the text on
       // every row. The rest of the message step that opens a turn (8px) is a
       // transparent top border the highlight doesn't paint (bg-clip-padding),
@@ -56,9 +65,12 @@ export const messageItem = tv({
       "text-(--mi-ct-color,transparent)",
     ],
     content: ["min-w-0 flex-1", "text-body text-foreground"],
-    // With a mouse, the header ends where the hover toolbar begins, so the
-    // toolbar never covers the name or the time. A product with more toolbar
-    // buttons sets --mi-toolbar-reserve to the toolbar's width plus its inset.
+    // The header keeps no room for the hover toolbar: it takes the full
+    // width at rest and on hover, so hovering never reflows the line. Where
+    // the line is long enough to reach the corner, its end fades out under
+    // the toolbar while the toolbar shows (stdrc, 2026-10-22): the toolbar's
+    // card reaches only part of the line's height, so covering alone left
+    // half-cut letters below and beside it.
     //
     // With a "sent by" label the owner keeps at least 3rem (or its whole
     // name, if shorter): its basis is 3rem, capped at its own width, it grows
@@ -73,7 +85,7 @@ export const messageItem = tv({
     // baseline the time's digits stand as tall as the role's capitals.
     header: [
       "mb-px flex min-w-0 items-baseline gap-1.5 overflow-hidden",
-      "pointer-fine:pe-(--mi-toolbar-reserve,7rem)",
+      "mask-(--mi-header-mask,none)",
       "has-data-[slot=message-item-delegated-by]:[--mi-owner-basis:3rem] has-data-[slot=message-item-delegated-by]:[--mi-owner-flex:1_0]",
     ],
     // The role grows into what is left after the name and badges (it has no
