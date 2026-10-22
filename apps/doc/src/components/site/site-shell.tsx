@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { ExternalLink, FileText, Languages, Menu, Moon, Search, Sun, SunMoon } from "lucide-react";
 import {
@@ -79,23 +79,22 @@ function ThemeMenu() {
 function LanguageLink() {
   const messages = useMessages();
   const locale = useLocale();
-  const { pathname, hash } = useLocation();
+  const pathname = useLocation({ select: (location) => location.pathname });
   const target = locale === DEFAULT_LOCALE ? "zh" : DEFAULT_LOCALE;
-  const href = `${localizePath(pathname, target)}${hash ? `#${hash}` : ""}`;
+  const href = localizePath(pathname, target);
+  // The server never sees the fragment, so it joins the link only when it is
+  // followed: the same section in the other language.
+  const keepFragment = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+    if (window.location.hash) event.currentTarget.hash = window.location.hash;
+  }, []);
   const label = messages.language(LANGUAGE_NAME[target]);
-  const link = <a href={href} hrefLang={LANGUAGE_TAG[target]} lang={LANGUAGE_TAG[target]} />;
+  const link = <a href={href} hrefLang={LANGUAGE_TAG[target]} onClick={keepFragment} />;
   // On a phone the top bar has no room for the name: the icon alone.
   return (
     <>
-      <Button
-        variant="on-frame"
-        className="max-sm:hidden"
-        aria-label={label}
-        nativeButton={false}
-        render={link}
-      >
+      <Button variant="on-frame" className="max-sm:hidden" nativeButton={false} render={link}>
         <Languages data-icon="inline-start" />
-        {LANGUAGE_NAME[target]}
+        <span lang={LANGUAGE_TAG[target]}>{LANGUAGE_NAME[target]}</span>
       </Button>
       <Button
         variant="on-frame"

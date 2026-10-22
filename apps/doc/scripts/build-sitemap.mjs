@@ -5,7 +5,7 @@
 // same page, omits the trailing slash the site redirects to (every entry would
 // be a 307), and declares the urlset namespace as https:// where the protocol
 // requires http://.
-import { readdir, writeFile } from "node:fs/promises";
+import { readdir, readFile, writeFile } from "node:fs/promises";
 import { join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -46,16 +46,36 @@ const paths = entries
     const dir = relative(outDir, entry.parentPath).split(sep).join("/");
     return dir ? `/${dir}/` : "/";
   })
-  .filter((path) => !EXCLUDED_PREFIXES.some((prefix) => path.startsWith(prefix)))
-  .sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+  .filter((path) => !EXCLUDED_PREFIXES.some((prefix) => path.startsWith(prefix)));
+
+/**
+ * A page under another language's prefix that still shows the English text
+ * says `noindex` (src/routes/__root.tsx); it is not that language's page.
+ */
+const NOINDEX = /<meta name="robots" content="noindex"/;
+const indexed = [];
+for (const path of paths) {
+  const html = await readFile(join(outDir, path, "index.html"), "utf8");
+  if (!NOINDEX.test(html)) indexed.push(path);
+}
+
+/** `/zh/foundations/` ranks as `/foundations/`, after it. */
+const LANGUAGE_PREFIX = /^\/zh(?=\/)/;
+const unprefixed = (path) => path.replace(LANGUAGE_PREFIX, "");
+indexed.sort(
+  (a, b) =>
+    rank(unprefixed(a)) - rank(unprefixed(b)) ||
+    unprefixed(a).localeCompare(unprefixed(b)) ||
+    a.localeCompare(b),
+);
 
 const xml = [
   '<?xml version="1.0" encoding="UTF-8"?>',
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-  ...paths.map((path) => `  <url><loc>${origin}${path}</loc></url>`),
+  ...indexed.map((path) => `  <url><loc>${origin}${path}</loc></url>`),
   "</urlset>",
   "",
 ].join("\n");
 
 await writeFile(join(outDir, "sitemap.xml"), xml);
-console.log(`sitemap: wrote ${paths.length} URLs`);
+console.log(`sitemap: wrote ${indexed.length} URLs`);

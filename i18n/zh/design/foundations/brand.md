@@ -1,7 +1,7 @@
 ---
 title: 品牌
 summary: 每类页面可以用多少品牌元素，以及 logo 和手绘回应的规则。
-sourceHash: 663cb3d8
+sourceHash: 1f695405
 ---
 
 # 品牌

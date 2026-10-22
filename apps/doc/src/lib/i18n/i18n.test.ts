@@ -6,6 +6,8 @@ import { localize, pageAt, PAGES, README, SECTIONS } from "../content/pages.ts";
 import { searchDocs } from "../content/search.ts";
 import { parseHeading } from "../content/slug.ts";
 import { localeOfPath, localizePath, stripLocale } from "./locales.ts";
+import { renderMarkdownTwin } from "../content/twin.ts";
+import { isTranslatedPath } from "./coverage.ts";
 import { messagesFor } from "./messages.ts";
 import { sourceHash } from "./source-hash.ts";
 
@@ -127,5 +129,23 @@ describe("the site's own words", () => {
     const zh = messagesFor("zh");
     for (const category of CATEGORIES) expect(zh.categories[category.id]).toBeTruthy();
     for (const layer of LAYERS) expect(zh.layers[layer.id]).toBeTruthy();
+  });
+});
+
+describe("what reads in Chinese", () => {
+  it("counts a path as Chinese only where its text is translated", () => {
+    expect(isTranslatedPath("/", "zh")).toBe(true);
+    expect(isTranslatedPath("/foundations/color", "zh")).toBe(true);
+    expect(isTranslatedPath("/foundations/color/", "zh")).toBe(true);
+    expect(isTranslatedPath("/foundations", "zh")).toBe(true);
+    expect(isTranslatedPath("/components/button", "zh")).toBe(false);
+    expect(isTranslatedPath("/changelog", "zh")).toBe(false);
+    expect(isTranslatedPath("/components/button", "en")).toBe(true);
+  });
+
+  it("gives a Markdown reader the translated headings without their anchors", async () => {
+    const twin = await renderMarkdownTwin(localize(pageAt("/foundations/color")!, "zh"));
+    expect(twin).not.toMatch(/\{#[\w-]+\}/);
+    expect(twin).toContain("/zh/foundations/color");
   });
 });

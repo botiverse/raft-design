@@ -19,9 +19,9 @@ The site serves the English page at its usual URL and the translation under the 
 
 ## Keeping translations current
 
-`sourceHash` is a hash of the English file the translation was made from. `node scripts/i18n.mjs sync` writes it for a new translation; when the English page changes afterwards, the hashes stop matching:
+`sourceHash` is a hash of the English page the translation was made from: its text without the front matter, with whitespace normalized. `node scripts/i18n.mjs sync` writes it for a new translation. When the English text changes afterwards, the hashes stop matching:
 
-- the site shows a note on the translated page that the English page has changed, with a link to it;
-- `node scripts/i18n.mjs check` (run by CI) lists the stale translations as warnings, and fails on a translation whose English page is gone or whose headings no longer match.
+- `node scripts/i18n.mjs check` (CI, and `pnpm check:docs`) fails, so a pull request that changes an English page brings its translations up to date too. After updating a translation, run `node scripts/i18n.mjs sync --mark <path>` to record that it matches again.
+- Should a stale translation reach the site anyway, the translated page shows a note that the English page has changed, with a link to it.
 
-After bringing a translation up to date, run `node scripts/i18n.mjs sync --mark <path>` to record that it now matches.
+A translation links to other pages with the English page's relative paths. The site resolves them to the page in the reader's language; on GitHub they point into `i18n/<language>/` and work only where that page is translated.

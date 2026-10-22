@@ -1,7 +1,7 @@
 ---
 title: 原则
 summary: 每个 Raft 界面都遵守的七条规则，每条都附上理由，让你能把它用到文档没写到的情况上。
-sourceHash: 0d7c8d8a
+sourceHash: 65eb0bc8
 ---
 
 # 原则

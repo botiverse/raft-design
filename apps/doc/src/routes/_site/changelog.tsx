@@ -5,7 +5,9 @@ import { DocMarkdown } from "#/components/site/doc-markdown.tsx";
 import { raftUiChangelogMarkdown, raftUiVersion } from "#/data/raft-ui-release.ts";
 import { REPOSITORY_URL } from "#/lib/content/links.ts";
 import { headingSlug } from "#/lib/content/slug.ts";
+import { localeOfMatches } from "#/lib/i18n/head.ts";
 import { DEFAULT_LOCALE } from "#/lib/i18n/locales.ts";
+import { messagesFor } from "#/lib/i18n/messages.ts";
 import { useLocale, useMessages } from "#/lib/i18n/use-locale.ts";
 
 const SUMMARY = "What changed in each release of raft-ui, newest first.";
@@ -24,8 +26,10 @@ async function getMarkdown() {
 }
 
 export const Route = createFileRoute("/_site/changelog")({
-  head: () => ({
-    meta: [{ name: "description", content: SUMMARY }],
+  head: ({ matches }) => ({
+    meta: [
+      { name: "description", content: messagesFor(localeOfMatches(matches)).changelogSummary },
+    ],
     links: [{ rel: "alternate", type: "text/markdown", href: "/changelog.md" }],
   }),
   component: Changelog,

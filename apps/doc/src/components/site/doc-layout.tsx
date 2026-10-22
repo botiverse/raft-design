@@ -52,7 +52,10 @@ export function DocLayout({
   eyebrow: string;
   title: string;
   summary?: string;
-  /** The page's language when it differs from the site's: an untranslated page. */
+  /**
+   * The language of the title and summary when it differs from the site's:
+   * an untranslated page's. The site's own words around them keep the site's.
+   */
   lang?: string;
   meta?: ReactNode;
   notice?: ReactNode;
@@ -64,18 +67,24 @@ export function DocLayout({
 }) {
   return (
     <div className="mx-auto flex max-w-[1120px] gap-12 px-4 pt-8 pb-24 md:px-10 md:pt-10">
-      <article className="min-w-0 max-w-[760px] flex-1" lang={lang}>
+      <article className="min-w-0 max-w-[760px] flex-1">
         <header className="mb-8 flex flex-col gap-3 border-b border-line-hairline pb-6">
           <p className="text-footnote font-bold text-foreground-hint">{eyebrow}</p>
           <div className="flex flex-wrap items-start justify-between gap-3">
-            <h1 className="text-display font-bold text-foreground">{title}</h1>
+            <h1 className="text-display font-bold text-foreground" lang={lang}>
+              {title}
+            </h1>
             <PageActions
               markdownPath={markdownPath}
               sourceHref={sourceHref}
               getMarkdown={getMarkdown}
             />
           </div>
-          {summary ? <p className="text-body text-foreground-muted">{summary}</p> : null}
+          {summary ? (
+            <p className="text-body text-foreground-muted" lang={lang}>
+              {summary}
+            </p>
+          ) : null}
           {meta}
         </header>
         {notice ? <div className="mb-8">{notice}</div> : null}

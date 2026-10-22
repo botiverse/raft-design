@@ -22,6 +22,9 @@ import {
   localizePath,
 } from "#/lib/i18n/locales.ts";
 import type { Locale } from "#/lib/i18n/locales.ts";
+import { isTranslatedPath } from "#/lib/i18n/coverage.ts";
+import { localeOfMatches } from "#/lib/i18n/head.ts";
+import { LocaleContext } from "#/lib/i18n/use-locale.ts";
 import { messagesFor } from "#/lib/i18n/messages.ts";
 import {
   documentThemeMode,
@@ -71,6 +74,11 @@ export const Route = createRootRoute({
         // Modern browsers use the OKLCH value; others skip the chrome tint.
         content: "oklch(0.8868 0.1822 95.33)",
       },
+      // A page under another language's prefix that still shows English text
+      // is not that language's page: search engines keep the English one.
+      ...(isTranslatedPath(matches.at(-1)?.pathname ?? "/", localeOfMatches(matches))
+        ? []
+        : [{ name: "robots", content: "noindex" }]),
     ],
     links: [
       ...languageAlternates(matches.at(-1)?.pathname),
@@ -120,9 +128,14 @@ export const Route = createRootRoute({
 function languageAlternates(pathname: string | undefined) {
   if (!pathname || pathname.startsWith("/iframe/")) return [];
   const path = pathname.replace(/\/+$/, "") || "/";
-  const url = (locale: Locale) => `${SITE_ORIGIN}${localizePath(path, locale)}`;
+  const locales = LOCALES.filter((locale) => isTranslatedPath(path, locale));
+  if (locales.length < 2) return [];
+  // With the trailing slash the prerendered pages are served at, so no
+  // alternate answers with a redirect.
+  const url = (locale: Locale) =>
+    `${SITE_ORIGIN}${localizePath(path, locale).replace(/\/?$/, "/")}`;
   return [
-    ...LOCALES.map((locale) => ({
+    ...locales.map((locale) => ({
       rel: "alternate",
       hrefLang: LANGUAGE_TAG[locale],
       href: url(locale),
@@ -168,13 +181,15 @@ function RootDocument({ children }: { children: ReactNode }) {
             : "bg-layer-canvas text-foreground antialiased dark:bg-layer-sidebar"
         }
       >
-        <PreviewThemeProvider initial={storedPreviewTheme}>
-          <DocumentThemeProvider>
-            {/* Every page brings its own chrome: the docs shell (routes/_site)
-                or a bare iframe fixture. */}
-            <div className="isolate h-full">{children}</div>
-          </DocumentThemeProvider>
-        </PreviewThemeProvider>
+        <LocaleContext.Provider value={locale}>
+          <PreviewThemeProvider initial={storedPreviewTheme}>
+            <DocumentThemeProvider>
+              {/* Every page brings its own chrome: the docs shell (routes/_site)
+                  or a bare iframe fixture. */}
+              <div className="isolate h-full">{children}</div>
+            </DocumentThemeProvider>
+          </PreviewThemeProvider>
+        </LocaleContext.Provider>
         <Scripts />
       </body>
     </html>

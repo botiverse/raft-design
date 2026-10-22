@@ -50,7 +50,7 @@ function TranslationNotice({ page }: { page: DocPage }) {
       <BannerDescription>
         {page.translation === "stale" ? messages.stale : messages.notTranslated}{" "}
         {/* The English page: a document navigation, so the whole site switches language. */}
-        <a href={page.url} lang="en" className="text-foreground-link">
+        <a href={page.url} hrefLang="en" className="text-foreground-link">
           {messages.readInEnglish}
         </a>
       </BannerDescription>
@@ -119,7 +119,11 @@ export function DocPageView({
       getMarkdown={getMarkdown}
       toc={shownToc}
     >
-      {shown.body ? <DocMarkdown sourcePath={page.repoPath}>{shown.body}</DocMarkdown> : null}
+      {shown.body ? (
+        <div lang={shown.translation === "missing" ? "en" : undefined}>
+          <DocMarkdown sourcePath={page.repoPath}>{shown.body}</DocMarkdown>
+        </div>
+      ) : null}
       {children}
     </DocLayout>
   );

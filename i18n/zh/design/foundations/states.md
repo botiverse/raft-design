@@ -1,7 +1,7 @@
 ---
 title: 状态
 summary: 悬停、按下、焦点、选中、未读、禁用、错误、忙碌和自动填充的样子，所有组件通用。
-sourceHash: b332705f
+sourceHash: 0e71b074
 ---
 
 # 状态

@@ -1,7 +1,7 @@
 ---
 title: 形状
 summary: 五种圆角、两种描边宽度，以及为什么圆角容器的边缘上不贴任何东西。
-sourceHash: d81a7131
+sourceHash: e0c6c0ab
 ---
 
 # 形状

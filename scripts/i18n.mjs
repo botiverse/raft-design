@@ -2,7 +2,7 @@
 // Keeps the translations in i18n/<locale>/ in step with the English pages
 // they translate (i18n/README.md).
 //
-//   node scripts/i18n.mjs check           fails on a broken translation; stale ones are warnings
+//   node scripts/i18n.mjs check           fails on a broken or stale translation
 //   node scripts/i18n.mjs sync            gives every heading the English anchor, and a new
 //                                         translation the hash of its English file
 //   node scripts/i18n.mjs sync --mark <path>...
@@ -77,7 +77,6 @@ function rel(file) {
 }
 
 const errors = [];
-const warnings = [];
 let written = 0;
 
 for (const file of translations) {
@@ -162,20 +161,17 @@ for (const file of translations) {
   if (!recorded) {
     errors.push(`${name}: no sourceHash; run node scripts/i18n.mjs sync`);
   } else if (recorded !== sourceHash(english)) {
-    warnings.push(
-      `${name}: ${englishPath} changed since it was translated; update it, then node scripts/i18n.mjs sync --mark ${name}`,
+    errors.push(
+      `${name}: ${englishPath} changed since it was translated; bring the translation up to date in the same pull request, then node scripts/i18n.mjs sync --mark ${name}`,
     );
   }
 }
 
 if (command === "sync")
   console.log(`i18n: updated ${written} of ${translations.length} translations`);
-for (const warning of warnings) console.warn(`warning: ${warning}`);
 for (const error of errors) console.error(`error: ${error}`);
 if (command === "check" || errors.length) {
-  console.log(
-    `i18n: ${translations.length} translations, ${errors.length} errors, ${warnings.length} stale`,
-  );
+  console.log(`i18n: ${translations.length} translations, ${errors.length} errors`);
 }
 if (command !== "check" && command !== "sync") {
   console.error("usage: node scripts/i18n.mjs check | sync [--mark <path>...]");

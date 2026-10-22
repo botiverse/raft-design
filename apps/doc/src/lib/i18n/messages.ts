@@ -41,6 +41,10 @@ const en = {
   viewAsMarkdown: "View as Markdown",
   copyMarkdownLink: "Copy Markdown Link",
   viewSource: "View Source",
+  copyCode: "Copy code",
+  copiedCode: "Copied code",
+  codeLabel: (language: string | null | undefined) => (language ? `${language} code` : "Code"),
+  englishTitle: (title: string) => `In English: ${title}`,
 
   notTranslatedTitle: "Not translated yet",
   notTranslated: "This page is in English until its translation is written.",
@@ -189,6 +193,10 @@ const zh: Messages = {
   viewAsMarkdown: "查看 Markdown",
   copyMarkdownLink: "复制 Markdown 链接",
   viewSource: "查看源文件",
+  copyCode: "复制代码",
+  copiedCode: "已复制代码",
+  codeLabel: (language) => (language ? `${language} 代码` : "代码"),
+  englishTitle: (title) => `英文：${title}`,
 
   notTranslatedTitle: "本页尚未翻译",
   notTranslated: "译文完成之前，这里显示英文原文。",

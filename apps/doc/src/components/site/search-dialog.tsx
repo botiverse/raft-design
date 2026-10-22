@@ -89,7 +89,9 @@ function SearchHitRow({
           </SearchEntityResultTitle>
         </SearchEntityResultHeader>
         <SearchEntityResultDescription>
-          {hit.alias ? `${messages.alsoCalled(hit.alias)} · ` : ""}
+          {hit.alias
+            ? `${hit.alias === hit.page.englishTitle ? messages.englishTitle(hit.alias) : messages.alsoCalled(hit.alias)} · `
+            : ""}
           {where}
         </SearchEntityResultDescription>
       </SearchEntityResultContent>

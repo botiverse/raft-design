@@ -1,7 +1,7 @@
 ---
 title: 字体排印
 summary: 两种字体，字号阶梯以及每种字号和字重的用途，文字颜色的三个层级，字体度量 token，以及大小写规则。
-sourceHash: 29094afb
+sourceHash: 61e37299
 ---
 
 # 字体排印

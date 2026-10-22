@@ -54,8 +54,13 @@ function rewriteLinks(markdown: string, repoPath: string, locale: Locale) {
  */
 export async function renderMarkdownTwin(page: DocPage, appendix = "") {
   const locale = page.translation && page.translation !== "missing" ? page.locale! : DEFAULT_LOCALE;
-  let body = page.body;
-  for (const [block, kind, argument] of page.body.matchAll(BLOCK)) {
+  // A translation's headings carry the English anchors (`## 颜色 {#color}`);
+  // a Markdown reader gets the heading alone.
+  let body =
+    locale === DEFAULT_LOCALE
+      ? page.body
+      : page.body.replace(/^(#{2,6} .*?)\s*\{#[\w-]+\}\s*$/gm, "$1");
+  for (const [block, kind, argument] of body.matchAll(BLOCK)) {
     const replacement =
       kind === "tokens"
         ? tokensTable(argument!)
