@@ -1,7 +1,7 @@
 ---
 title: ThreadPanel
 summary: 一个消息列的侧面板：标题栏写明它是什么，下面是原始消息、回复和消息输入框，没有标签页。
-sourceHash: 9efb7689
+sourceHash: 7d4a8d5a
 ---
 
 # ThreadPanel
@@ -29,9 +29,9 @@ thread-panel/thread-panel
   - `ThreadPanelActions`：`PanelAction` 按钮。最后一个是 ×（[导航](../../../../../design/patterns/navigation.md#closing)）。
 - `ThreadPanelContent`：标题栏下面的所有内容。
   - `ThreadPanelSearch`，带 `ThreadPanelSearchTrailing` 和 `ThreadPanelSearchCount`：可选的一行，用于在消息列内搜索。
-  - `ThreadPanelOriginalMessage`：消息列所回复的那条消息，下方一条细线。
+  - `ThreadPanelOriginalMessage`：消息列所回复的那条消息，下方一条细线。这条细线是一条分界：它在消息最后一行下方一个分段档（24px）处，回复从它下方一个分段档处开始（`ThreadPanelReplySummary`）（[时间线节奏](../../../../../design/foundations/spacing.md#timeline-rhythm)）。
   - `ThreadPanelBody`：可滚动的回复。`ThreadPanelReplySummary` 和 `ThreadPanelReplyCount` 位于回复列表的开头。
-  - `ThreadPanelFooter`：消息输入框（[Composer](../composer/composer.md)）。
+  - `ThreadPanelFooter`：消息输入框（[Composer](../composer/composer.md)），上方不加自己的空白，和 [ConversationPanel](../conversation-panel/conversation-panel.md#anatomy) 里一样。
 
 ## 行为 {#behavior}
 

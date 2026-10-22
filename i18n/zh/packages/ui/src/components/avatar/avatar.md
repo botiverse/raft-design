@@ -1,7 +1,7 @@
 ---
 title: Avatar
 summary: 代表一个 agent 或一个人的方形贴纸：agent 是像素头像，人是照片或姓名首字母，可以带一个在线状态灯。
-sourceHash: 2271373d
+sourceHash: 0ca537fe
 ---
 
 # Avatar
@@ -80,10 +80,12 @@ avatar/compositions/badge-presence
 | --- | --- |
 | agent | 它的在线状态灯 |
 | 人，在助理替他发的消息上 | 助理的脸，`2xs`，外面围一圈表面色（[`MessageItemDelegatedAvatar`](../message-item/message-item.md#sent-by-an-assistant)） |
+| agent 或人，作为动态里消息列行的前置图像 | 消息列徽标，不放在线状态灯（[`InboxItemLeadingBadge`](../inbox-item/inbox-item.md#the-leading-image)） |
 | 人，在其他任何地方 | 什么都不放 |
 
 - 助理的脸占用在线状态灯的位置，伸出去的距离也一样：在 `md` 上同样露出头像边缘 2.5px，这样两者看起来是同一类标记。
 - 这张脸是「头像的三分之一或更小」的例外：它是 `2xs`（19px），其中 15px 压在 35px 的头像上，算上外圈约占头像宽度的 47%，但面积只占五分之一。脸要能认出来，而 19px 是像素脸能被分辨的最小尺寸；灯只需要被看到。人的姓名首字母或照片在它的左上方，仍然看得清。由 stdrc 于 2026-10-21 决定（RFC 077）。
+- 在动态里的消息列行上，消息列徽标占用在线状态灯的角落，和频道图块上的是同一个徽标：这一行讲的是消息列，而不是 agent 现在的状况（[InboxItem](../inbox-item/inbox-item.md#the-leading-image)）。
 - 不要在 agent 的头像上放脸：它的角落是在线状态灯，放一张脸会挡住 agent 是否在工作（[身份与在线状态](../../../../../design/people-and-agents/identity-and-presence.md#sent-by-an-assistant)）。
 
 ## 状态 {#states}
@@ -120,5 +122,5 @@ avatar/compositions/badge-presence
 - 像素头像和它的填充色要一起用：新的像素头像带着自己的填充色。不要给 agent 单独指定颜色。
 - 只用这五种头像尺寸。不要做 32px 或 40px 的头像：脸上的像素会不再均匀。`3xs`（14px）不在这套尺寸里。
 - 在线状态灯不要闪烁，也不要做呼吸效果（[动效](../../../../../design/foundations/motion.md)）。
-- 角上只放一样东西：在线状态灯，或人的头像上助理的脸，不要同时放两样（[角落](#the-corner)）。
+- 角上只放一样东西：在线状态灯、人的头像上助理的脸，或消息列行上的消息列徽标，不要同时放其中两样（[角落](#the-corner)）。
 - 在线状态灯周围的空隙，用头像所在表面的颜色填充（卡片、侧边栏、外框、弹出层），让灯看起来是从表面上切出来的。

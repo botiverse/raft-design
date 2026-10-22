@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 agent 用法相同。
-sourceHash: 872fb617
+sourceHash: 801c5c07
 ---
 
 # MessageItem
@@ -54,6 +54,7 @@ message-item/compositions/item-preview
 | 提及正在阅读的人；搜索命中 | `MessageReferenceText variant="primary"`；`MessageItemSearchMatch` | 一张小小的黄色贴纸 |
 | 引用标签片 | `MessageReferenceChip` | 频道或私信用 `variant="accent"`，消息列或消息用 `variant="info"`（[导航](../../../../../design/patterns/navigation.md#going-somewhere)） |
 | 正在加载或无法打开的引用 | `MessageReferencePending`、`MessageReferenceUnavailable` | `inactive-soft` 上的灰色标签片 |
+| 引用标签片标签后面的注记 | `MessageReferenceSuffix` | 弱化的 Space Mono，比如指向消息的链接上的 `msg` |
 | 网页链接 | Markdown 链接 | `foreground-link`，常态下带下划线（[Markdown](../markdown/markdown.md)） |
 | 任务编号 | `TaskChip` 或 Space Mono 文字 | [Tasks](../tasks/tasks.md) |
 | 行内代码 | [InlineCode](../inline-code/inline-code.md) | `fill-muted` 上的 Space Mono |
@@ -124,7 +125,7 @@ message-item/compositions/delegated-preview
 
 ## 行为 {#behavior}
 
-- 用分组来安排消息的间距：同一组的行之间 8px（接续行位于它所接续的那一行下方），新的一组之前 16px。每一行的文字上下各留 4px，组前多出来的 8px 是一条透明的上边框，高亮不会画到它。所以悬停、选中和搜索的高亮在每一行上都均匀地围着文字：以前接续行没有上内边距时，高亮紧贴第一行，最后一行下面却留了 8px。
+- 按[时间线节奏](../../../../../design/foundations/spacing.md#timeline-rhythm)用分组来安排消息的间距：同一组的行之间 8px（接续行位于它所接续的那一行下方），新的一组之前是消息步长 16px。每一行的文字上下各留行内边距 4px，组前多出来的 8px 是一条透明的上边框，高亮不会画到它。样式从时间线 token（`py-timeline-row`、`border-t-(length:--spacing-timeline-turn)`）读取这两个值，所以改动节奏会改动每一行。所以悬停、选中和搜索的高亮在每一行上都均匀地围着文字：以前接续行没有上内边距时，高亮紧贴第一行，最后一行下面却留了 8px。
 - 悬停时，这一行在自身上铺一层 `fill-subtle`，即所有行都用的轻度一级：一条消息可能有很多行高，人读的时候鼠标指针常常停在上面，所以这一级变化很小，文字保持对比度（[悬停与按下](../../../../../design/foundations/states.md#hover-and-press)）。它以前比其他行更浅（3%）；现在消息和旁边的行、卡片用同样的级差。消息没有按下状态：这一行本身不是操作，点击是在选择文字，或落在其中的链接、名字或按钮上。跳转到的、搜索命中的或选中的消息，悬停时保持 `info-soft`。
 - 当它的某个弹出层打开时（右键、工具栏按钮或在手机上长按打开的上下文菜单），这一行在自身上铺一层 `fill-subtle`，与悬停同一级，所以两者不会叠加。手机没有悬停，所以这层填充表示菜单作用于哪条消息；它比 `info-soft` 浅，所以消息看起来不像被选中。
 - 悬停工具栏在悬停时、焦点在行内时，以及它的某个弹出层打开时出现。它骑在高亮的上边缘，靠右。
@@ -193,4 +194,6 @@ message-item/compositions/reactions
 - 页脚里先放任务标记，然后是回应，添加按钮放最后。
 - 任务标记做成状态标签：状态像素点、任务编号和负责人（[Tasks](../tasks/tasks.md)）。
 - 每个表情只显示一个回应标签片。这个人自己添加的回应用 `attention-soft`。
+- 让标签片的墨色离左边缘和离右边缘一样远（[对齐](../../../../../design/foundations/alignment.md#chips)）。带图标的引用标签片和回应把内边距平均分配，两端各 4.5px 和 7px，总量和宽度与以前相同：Lucide 图标在它的方框里留出的空白和旁边的字母差不多，而表情或应用图标画满到边缘。收藏标记在书签图标前留 5.5px（书签画在方框内 2.3px 处），在文字后留 6.5px。
+- 引用标签片标签后面的注记放在 `MessageReferenceSuffix` 里，不要放在自己写的 span 里。它在布局中保持在标签的基线上，绘制时上移字号差的四分之一，让两者 x 高度的中线对齐；标签保持在句子的基线上。
 - 回应标签片高 24px，点击区域 44px（[间距](../../../../../design/foundations/spacing.md#hit-targets)）。

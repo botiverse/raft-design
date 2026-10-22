@@ -1,7 +1,7 @@
 ---
 title: MessageForwardedBundle
 summary: 消息下方的一张卡片，装着从另一个对话转发来的一条或多条消息，带作者、时间和附件，内容太长时折叠。
-sourceHash: 35e24625
+sourceHash: 86698e95
 ---
 
 # MessageForwardedBundle
@@ -78,6 +78,7 @@ message-forwarded-bundle/compositions/forwarded-bundle-static-source
 - 每个作者用显示名称，不用用户名（handle）（[写作](../../../../../design/content/writing.md#voice)）。
 - 底部栏的操作用 Title Case 写明它做什么：Show All 6 Messages，然后是 Collapse。
 - 每个附件标签片写文件名和类型："release-notes.md · markdown"。
+- 附件标签片在图标前留 5.5px，在文字后留 6.5px，总共仍是 12px：文件图标画在它的方框内 1.75px 处，所以图标的墨色和最后一个字母都离边缘约 7.2px（[对齐](../../../../../design/foundations/alignment.md#chips)）。
 
 ## 无障碍 {#accessibility}
 

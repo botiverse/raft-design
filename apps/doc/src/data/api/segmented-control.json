@@ -12,6 +12,14 @@
         "from": "raft-ui"
       },
       {
+        "name": "variant",
+        "type": "\"default\" | \"on-frame\"",
+        "required": false,
+        "default": "\"default\"",
+        "description": "`on-frame` in the yellow frame; see `SegmentedControlNav`.",
+        "from": "raft-ui"
+      },
+      {
         "name": "defaultValue",
         "type": "T",
         "required": false,
@@ -183,6 +191,15 @@
     "entry": "@botiverse/raft-ui/wip",
     "description": "The same track for choices that are places, not values: each segment is a link to another URL (a language, a version of the page), so it can be opened in a new tab and copied. Name it with `aria-label`.",
     "native": true,
-    "props": []
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"default\" | \"on-frame\"",
+        "required": false,
+        "default": "\"default\"",
+        "description": "`on-frame` in the yellow frame (a top bar): the track a deeper yellow and the current segment white paper with its ink edge, since a yellow sticker on yellow would not read as selected.",
+        "from": "raft-ui"
+      }
+    ]
   }
 ]

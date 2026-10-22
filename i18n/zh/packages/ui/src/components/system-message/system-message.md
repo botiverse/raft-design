@@ -1,7 +1,7 @@
 ---
 title: SystemMessage
 summary: 对话里的一条事件行（日期、认领、交接、状态变化），用 Space Mono 排在两条细线之间，可以单独出现，也可以折叠成一组。
-sourceHash: 92e58959
+sourceHash: 780b508c
 ---
 
 # SystemMessage
@@ -55,7 +55,7 @@ system-message/compositions/grouped-generic
 ## 行为 {#behavior}
 
 - 一条事件行只占一行：内容过长时截断，完整文字放在它的 `title` 里。
-- 单独一行的上下各留 12px；展开的分组里，各行之间更紧凑。
+- 单独一行自成一轮：它离上方和下方的文字都是一个消息档，16px，和新的发送者行一样（[时间线节奏](../../../../../design/foundations/spacing.md#timeline-rhythm)）。它在文字上方留 12px、下方留 4px，也就是消息行的起始距离和行内距，其余部分由下一行的起始距离补足。折叠的分组的标题行在它的展开按钮文字周围保持同样的距离。展开的分组里，各行之间更紧凑。
 - 分组展开时，V 形箭头随之转动。
 
 ## 内容 {#content}

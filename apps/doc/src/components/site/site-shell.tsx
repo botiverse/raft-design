@@ -42,7 +42,6 @@ import { raftUiVersion } from "#/data/raft-ui-release.ts";
 import { navSections } from "#/lib/content/nav.ts";
 import type { NavItem } from "#/lib/content/nav.ts";
 import { LANGUAGE_NAME, LANGUAGE_TAG, LOCALES, localizePath } from "#/lib/i18n/locales.ts";
-import type { Locale } from "#/lib/i18n/locales.ts";
 import { useLocale, useMessages } from "#/lib/i18n/use-locale.ts";
 
 import { SearchDialog } from "./search-dialog.tsx";
@@ -72,9 +71,6 @@ function ThemeMenu() {
   );
 }
 
-/** Short names for the language switch where the top bar has no room for the full ones. */
-const LANGUAGE_SHORT: Record<Locale, string> = { en: "EN", zh: "中" };
-
 /**
  * The language switch: one segment per language, each a link to the same
  * page in that language (raft-ui's SegmentedControlNav), so it can be opened
@@ -82,7 +78,7 @@ const LANGUAGE_SHORT: Record<Locale, string> = { en: "EN", zh: "中" };
  * page through it. Following one loads the other document, so the whole site
  * switches with it.
  */
-function LanguageSwitch() {
+function LanguageSwitch({ variant = "default" }: { variant?: "default" | "on-frame" }) {
   const messages = useMessages();
   const locale = useLocale();
   const pathname = useLocation({ select: (location) => location.pathname });
@@ -92,7 +88,7 @@ function LanguageSwitch() {
     if (window.location.hash) event.currentTarget.hash = window.location.hash;
   }, []);
   return (
-    <SegmentedControlNav aria-label={messages.languageSwitch}>
+    <SegmentedControlNav aria-label={messages.languageSwitch} variant={variant}>
       {LOCALES.map((option) => (
         <SegmentedControlLink
           key={option}
@@ -102,10 +98,7 @@ function LanguageSwitch() {
           lang={LANGUAGE_TAG[option]}
           onClick={keepFragment}
         >
-          <span className="max-sm:sr-only">{LANGUAGE_NAME[option]}</span>
-          <span className="sm:hidden" aria-hidden>
-            {LANGUAGE_SHORT[option]}
-          </span>
+          {LANGUAGE_NAME[option]}
         </SegmentedControlLink>
       ))}
     </SegmentedControlNav>
@@ -157,7 +150,10 @@ function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSear
         >
           <Search />
         </Button>
-        <LanguageSwitch />
+        {/* On a phone the top bar has no room for it: it is at the top of the menu. */}
+        <div className="max-md:hidden">
+          <LanguageSwitch variant="on-frame" />
+        </div>
         <ThemeMenu />
         <Button
           variant="on-frame"
@@ -327,6 +323,9 @@ export function SiteShell({ children }: { children: ReactNode }) {
             <DrawerTitle>{messages.siteName}</DrawerTitle>
           </DrawerHeader>
           <DrawerBody className="min-h-0 overflow-y-auto p-0">
+            <div className="px-3 pt-1 pb-3">
+              <LanguageSwitch />
+            </div>
             <SiteNav />
           </DrawerBody>
         </DrawerContent>

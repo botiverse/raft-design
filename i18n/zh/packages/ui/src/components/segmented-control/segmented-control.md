@@ -1,7 +1,7 @@
 ---
 title: SegmentedControl
 summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
-sourceHash: 41720dbf
+sourceHash: c2b50a5f
 ---
 
 # SegmentedControl
@@ -49,6 +49,7 @@ segmented-control/compositions/language-links
 - 选中：一张黄色贴纸，标签加粗。悬停时不变，和选中的标签页一样；按下时叠一层 `sticker-medium`（[悬停和按下](../../../../../design/foundations/states.md#hover-and-press)）。
 - 其他分段是 `foreground-muted`，悬停和按下时用中间一档 `fill-medium`。
 - 禁用：设置在整个控件上，见[状态](../../../../../design/foundations/states.md)。
+- 放在黄色外框里（顶栏）时，设 `variant="on-frame"`：轨道是深一档的黄，其他分段用 `foreground-on-frame-muted`，悬停和按下时叠加外框的中档叠加层（`overlay-frame-medium`），选中的分段是带墨色描边的白纸。黄色贴纸放在黄色外框上看不出是选中的，旁边白色的那一格反而像被选中了。在手机上顶栏放不下它，就把它放进菜单，不放在顶栏上。
 
 ```example
 segmented-control/compositions/disabled

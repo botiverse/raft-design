@@ -1,7 +1,7 @@
 ---
 title: MessageList
 summary: 对话或消息列中滚动的时间线，包括日期线、开头的说明、历史受限的标记，以及浮在上面的跳转控件。
-sourceHash: ae5072e2
+sourceHash: c99d457b
 ---
 
 # MessageList
@@ -27,7 +27,7 @@ conversation-panel/compositions/conversation-panel
 - `MessageList`：滚动容器。它的 props 和 `ref` 传给真正滚动的元素，调用方可以读取和设置滚动位置；`rootClassName` 用来设置外层元素的样式。
 - `MessageListNotice`：历史开头一行居中的 Space Mono 文字，例如 "Beginning of messages"。`tone="faint"`（默认）用 `foreground-hint`，`tone="muted"` 用 `foreground-muted`。
 - `MessageListHistoryLimited`：带 `line-hairline` 轮廓的 Space Mono 小标签片，用于没有回溯到开头的历史。
-- `MessageListDateDivider`：两条 `line-hairline` 线之间的日期，用 `text-mono-meta` 和 `foreground-hint`，画法和事件行一样（[SystemMessage](../system-message/system-message.md#rules)）。
+- `MessageListDateDivider`：两条 `line-hairline` 线之间的日期，用 `text-mono-meta` 和 `foreground-hint`，画法和事件行一样（[SystemMessage](../system-message/system-message.md#rules)）。它是一条分界：它的线离上方和下方的文字都是一个分段档，24px（[时间线节奏](../../../../../design/foundations/spacing.md#timeline-rhythm)）。
 - 跳转控件（[跳转控件](#jump-controls)），实验性，从 `@botiverse/raft-ui/wip` 导出：
   - `MessageListJumpControls`：胶囊按钮浮动的位置，在列表底边居中，用 `side="top"` 时在顶边。把它放在 `MessageList` 旁边，同一个定位父元素里（`ConversationPanelBody` 就是一个）。
   - `MessageListJumpPill`：一个胶囊按钮，是用 Button 样式配方搭成的 `outline`、`md` 尺寸的 Button：先是图标，然后是标签。
@@ -94,4 +94,6 @@ message-list/compositions/phone
 ## 规则 {#rules}
 
 - 在第一条消息上方留出它的悬停工具栏的位置（[MessageItem](../message-item/message-item.md#behavior)）。以日期线开头的列表已经留出了。
+- 列表从第一行上方一个分段档（24px）处开始（第一行上方用 `pt-timeline-start`；历史开头的提示和消息一样带着一行的起始距离，所以无论最先出现的是哪个，这一档都成立），并在末尾让消息输入框的外框离最后一行一个分段档（消息输入框自身不加空白时，在最后一行下方用 `pb-timeline-end`）。MessageList 把这两处都留给产品，因为产品知道列表上方和下方是什么（[时间线节奏](../../../../../design/foundations/spacing.md#timeline-rhythm)）。
+- 列表里任何其他标记分界的线，比如新消息线，也和日期线一样，两侧各留一个分段档。
 - 最早加载的消息上方只显示一样东西：加载更早消息时显示说明，历史被截断时显示历史标记，到达开头后显示 "Beginning of messages"。

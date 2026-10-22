@@ -1,7 +1,7 @@
 ---
 title: IconTile
 summary: 一个放图标的中性方块，尺寸与头像相同，用于没有面孔的地方或东西：频道、系统提示、文件、应用、计算机。
-sourceHash: 119ab8b8
+sourceHash: 01979617
 ---
 
 # IconTile
@@ -17,6 +17,7 @@ icon-tile/compositions/sizes
 | 情况 | 用 |
 | --- | --- |
 | 列表、搜索结果或引用里的频道 | 带 `hash` 图标的 IconTile |
+| 频道里的消息列，作为动态里一行的开头 | 带 `hash` 图标和消息列徽标的 IconTile（[InboxItem](../inbox-item/inbox-item.md#the-leading-image)）；私信里的消息列改用头像开头 |
 | 系统提示、文件、应用、计算机、某一类搜索结果 | 带对应图标的 IconTile |
 | 通知中心里的错误、警告或消息 | 带 `variant="warning"` 或 `variant="information"` 的 IconTile |
 | 人所在的地方，放在它的标题旁边 | 黄色的位置图块 `PanelHeaderIcon`（[Panel](../panel/panel.md)） |

@@ -1,7 +1,7 @@
 ---
 title: DescriptionList
 summary: 关于一个对象的一组信息，每条是一对标签和值，例如任务的 Status、Assignee 和 Created by；可以更改的值会打开一个选择器。
-sourceHash: 2cc72a53
+sourceHash: 1ce3134b
 ---
 
 # DescriptionList
@@ -46,6 +46,8 @@ description-list/compositions/horizontal
 
 `direction="inline"` 把这些信息像一行文字那样排开。所有标签和值都落在同一条基线上，所以状态标签、按钮和纯文本读起来是一行；标签与值相距 12px，信息之间相距 24px，换行时行与行之间留 8px。
 
+每条信息都按同样的方式排布，不管它的值是什么：只有在这一行放不下时才换到下一行，间隔和其他信息一样是 24px 和 8px。一条信息最宽 24rem，如果整行比这更窄，就以整行宽度为限。长的值，比如任务来源的那条消息，放进 [Ellipsis](../ellipsis/ellipsis.md)：它在这个宽度处截断文字，悬停时显示全文。列表只限制宽度，不截断文字，所以没有放进 Ellipsis 的纯文本会在 24rem 内换行。不要给长的值单独一行、整行宽度或别的间隔。这是密集元数据（比如任务的属性）的布局：两列网格（`direction="horizontal"`）让每条信息各占一行，几条简短的信息就要占满一屏的高度，而且在手机上反正也会叠成一列。
+
 画在形状里的值，把它的内边距伸进 12px 的间隔里，这样它的文字起点与纯文本相同，填充向外延伸（[对齐](../../../../../design/foundations/alignment.md#a-shape-beside-plain-text)）。当 Badge、TaskChip、TaskStatusBadge 或 Button 是 `DescriptionDetails` 中的第一个元素时，raft-ui 会自动这样处理；Button 改用标签片的 6px 内边距来适配。其他形状，或被包在别的元素里的形状，需要调用方自己做同样的偏移：负的左外边距，大小等于它的左内边距，并把它的 `max-width` 加大同样的量。
 
 ```example
@@ -74,3 +76,4 @@ raft-ui 还没有无外框的值触发器；member-info 组合用的是渲染成
 ## 规则 {#rules}
 
 - 不能更改的信息不要做得像能点：不要 V 形箭头，不要悬停效果，不要按钮。
+- 在 `direction="inline"` 里，所有信息用同一种布局：不让某条信息单独占一行，也不给它单独的宽度或间隔。长的值在信息 24rem 的上限处用省略号截断，并在别处提供完整的值（它的工具提示，或它链接到的地方）。
