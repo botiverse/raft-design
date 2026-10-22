@@ -3,15 +3,18 @@ import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ArrowLeft, X } from "lucide-react";
-import { Children, isValidElement, useEffect } from "react";
+import { Children, createContext, isValidElement, useContext, useEffect } from "react";
+import { createPortal } from "react-dom";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { decisionWidth } from "../../lib/decision-width";
 import { headEdgePull } from "../../lib/head-edges";
+import { stackedActions, useStackedActions } from "../../lib/stacked-actions";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
 import { Button } from "../button/index";
+import { TextLink } from "../text-link/index";
 import type { ButtonProps } from "../button/index";
 import { PanelAction } from "../panel/panel-action";
 import type { PanelActionProps } from "../panel/panel-action";
@@ -44,9 +47,28 @@ const dialog = tv({
       "px-5 pt-1.5 pb-5 first:pt-5",
       "font-sans text-subhead text-foreground-muted",
     ],
+    // One row at the end, Cancel then commit, on a phone as on a desktop
+    // (stdrc, 2026-10-22). It stacks full width only when the row doesn't fit
+    // on one line (stackedActions, `data-stacked`): the commit button on top.
     footer: [
       "flex shrink-0 items-center justify-end",
+      ...stackedActions,
       "gap-2 px-5 pb-5 first:pt-5 [[data-slot=dialog-header]+&]:pt-5",
+      "*:data-[slot=text-link]:text-footnote",
+    ],
+    footerNote: [
+      "m-0 md:me-2 md:flex-1",
+      "text-start font-sans text-footnote text-pretty text-foreground-muted md:whitespace-nowrap",
+    ],
+    // With a note or a link at the start, the buttons are one group: it sits
+    // beside the start item when both fit on the line and wraps under it,
+    // still at the end, when they don't. It stacks only when the buttons
+    // alone don't fit. The note is never cut and the buttons never leave the
+    // padding.
+    footerActions: [
+      "ms-auto flex shrink-0 items-center justify-end gap-2",
+      ...stackedActions,
+      "data-stacked:ms-0 data-stacked:w-full",
     ],
     title: ["m-0 min-w-0 text-foreground", "font-sans text-headline font-bold"],
     description: ["m-0", "font-sans text-subhead text-foreground-muted"],
@@ -91,6 +113,10 @@ const dialog = tv({
     nested: {
       false: {},
       true: { overlay: ["bg-layer-backdrop-nested"] },
+    },
+    start: {
+      false: {},
+      true: { footer: ["flex-wrap justify-between"] },
     },
   },
   defaultVariants: {
@@ -141,6 +167,11 @@ export function DialogOverlay({ className, layer, ...props }: DialogOverlayProps
   );
 }
 
+// The size of the DialogContent around a part, for the parts whose rules
+// depend on it (DialogFooterNote is for lg and wide dialogs only). Undefined
+// outside DialogContent and when a className sets the width instead.
+const DialogSizeContext = createContext<DialogContentProps["size"]>(undefined);
+
 export type DialogContentProps = StyledProps<BaseDialog.Popup.Props> & {
   portalProps?: DialogPortalProps;
   overlay?: false | DialogOverlayProps;
@@ -165,7 +196,11 @@ export function DialogContent({
     <DialogPortal {...portalProps}>
       {overlay === false ? null : <DialogOverlay layer={layer} {...overlayProps} />}
       <BaseDialog.Popup data-slot="dialog-content" className={content({ className })} {...props}>
-        <DialogSheetReset>{children}</DialogSheetReset>
+        <DialogSizeContext.Provider
+          value={size ?? (/(^|\s)max-w-/.test(className ?? "") ? undefined : "md")}
+        >
+          <DialogSheetReset>{children}</DialogSheetReset>
+        </DialogSizeContext.Provider>
       </BaseDialog.Popup>
     </DialogPortal>
   );
@@ -309,8 +344,8 @@ export type DialogBodyProps = ComponentPropsWithRef<"div"> & {
   bar?: boolean;
 };
 
-export function DialogBody({ className, bar = false, ...props }: DialogBodyProps) {
-  const { sheet } = useDialogSheet();
+export function DialogBody({ className, bar = false, children, ...props }: DialogBodyProps) {
+  const { sheet, setBodyEndSlot } = useDialogSheet();
   const { body } = dialog({ bar });
   // In a sheet a wide dialog's body scrolls as one, on the same margin: its
   // DialogNav is hidden below 768px and its sections follow one another.
@@ -320,7 +355,17 @@ export function DialogBody({ className, bar = false, ...props }: DialogBodyProps
       data-slot="dialog-body"
       className={body({ className: sheetBody ? cn(sheetBody, className) : className })}
       {...props}
-    />
+    >
+      {children}
+      {sheet ? (
+        // The footer is hidden in a sheet: its note or link moves here.
+        <div
+          ref={setBodyEndSlot}
+          data-slot="dialog-sheet-body-end"
+          className={dialogSheet().bodyEnd()}
+        />
+      ) : null}
+    </div>
   );
 }
 
@@ -329,17 +374,113 @@ export type DialogFooterProps = ComponentPropsWithRef<"div"> & {
   bar?: boolean;
 };
 
-export function DialogFooter({ className, bar = false, hidden, ...props }: DialogFooterProps) {
+export function DialogFooter({
+  className,
+  bar = false,
+  hidden,
+  children,
+  ref,
+  ...props
+}: DialogFooterProps) {
   // A phone sheet has no footer: × is Cancel and the commit sits in the head.
-  const { sheet } = useDialogSheet();
-  const { footer } = dialog({ bar });
+  // The footer still renders, hidden, so DialogCommit can move into the head;
+  // its note or link moves to the end of the body. While hidden the footer
+  // has no width, so useStackedActions measures nothing.
+  const { sheet, bodyEndSlot } = useDialogSheet();
+  const items = Children.toArray(children);
+  // The quiet item at the start: a note anywhere in the footer, or a TextLink
+  // written first. The buttons after it become one group.
+  const start =
+    items.find(
+      (item) =>
+        isValidElement<DialogFooterNoteProps>(item) &&
+        item.type === DialogFooterNote &&
+        hasNoteContent(item.props.children),
+    ) ?? (isValidElement(items[0]) && items[0].type === TextLink ? items[0] : undefined);
+  const [stacked, rowRef] = useStackedActions<HTMLDivElement>(
+    start == null ? ref : undefined,
+    start != null,
+  );
+  const { footer, footerActions } = dialog({ bar, start: start != null });
+  const stackedProps = stacked ? { "data-stacked": "" } : {};
+  if (start == null) {
+    return (
+      <div
+        data-slot="dialog-footer"
+        ref={rowRef}
+        className={footer({ className })}
+        hidden={sheet || hidden}
+        {...stackedProps}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
   return (
-    <div
-      data-slot="dialog-footer"
-      className={footer({ className })}
-      hidden={sheet || hidden}
-      {...props}
-    />
+    <>
+      {sheet && bodyEndSlot ? createPortal(start, bodyEndSlot) : null}
+      <div
+        data-slot="dialog-footer"
+        ref={ref}
+        className={footer({ className })}
+        hidden={sheet || hidden}
+        {...props}
+      >
+        {sheet ? null : start}
+        <div
+          data-slot="dialog-footer-actions"
+          ref={rowRef}
+          className={footerActions()}
+          {...stackedProps}
+        >
+          {items.filter((item) => item !== start)}
+        </div>
+      </div>
+    </>
+  );
+}
+
+export type DialogFooterNoteProps = ComponentPropsWithRef<"p">;
+
+/**
+ * Whether a note has anything to show: not only null, false or "", but also
+ * whitespace and an empty array (`{items.map(...)}` of nothing). Numbers,
+ * 0 included, and elements count.
+ */
+function hasNoteContent(children: ReactNode) {
+  return Children.toArray(children).some(
+    (child) => typeof child !== "string" || child.trim() !== "",
+  );
+}
+
+/**
+ * One short line at the start of `DialogFooter` that says what the commit
+ * button will do ("You'll be billed $8 per member each month"). Muted footnote
+ * text, start-aligned and never cut. Only in a `lg` or `wide` dialog, and at
+ * most 40 characters: on a desktop it is one line beside the buttons and never
+ * wraps; on a phone it goes above the buttons when they don't fit beside it,
+ * and may wrap to 2 lines. In a phone sheet, which has no footer, it moves
+ * to the end of the body. Longer copy belongs in the body. A footer holds a note or a `TextLink`,
+ * never both.
+ */
+export function DialogFooterNote({ className, children, ...props }: DialogFooterNoteProps) {
+  const { footerNote } = dialog();
+  const size = useContext(DialogSizeContext);
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+    if (size === "sm" || size === "md") {
+      console.warn(
+        `raft-ui: a DialogFooterNote is in a size="${size}" dialog. A footer note fits beside the buttons only in a size="lg" or size="wide" dialog; put the sentence in DialogBody instead.`,
+      );
+    }
+  }, [size]);
+  // An empty note draws nothing, not an empty line.
+  if (!hasNoteContent(children)) return null;
+  return (
+    <p data-slot="dialog-footer-note" className={footerNote({ className })} {...props}>
+      {children}
+    </p>
   );
 }
 

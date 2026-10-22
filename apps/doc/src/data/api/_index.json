@@ -307,6 +307,7 @@
       "DialogCommit",
       "DialogSheetBack",
       "DialogSheetContent",
+      "DialogFooterNote",
       "AnnouncementDialog",
       "AnnouncementDialogTrigger",
       "AnnouncementDialogClose"

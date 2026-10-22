@@ -527,6 +527,13 @@
     ]
   },
   {
+    "name": "DialogFooterNote",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One short line at the start of `DialogFooter` that says what the commit button will do (\"You'll be billed $8 per member each month\"). Muted footnote text, start-aligned and never cut. Only in a `lg` or `wide` dialog, and at most 40 characters: on a desktop it is one line beside the buttons and never wraps; on a phone it goes above the buttons when they don't fit beside it, and may wrap to 2 lines. In a phone sheet, which has no footer, it moves to the end of the body. Longer copy belongs in the body. A footer holds a note or a `TextLink`, never both.",
+    "native": true,
+    "props": []
+  },
+  {
     "name": "AnnouncementDialog",
     "entry": "@botiverse/raft-ui/wip",
     "native": false,

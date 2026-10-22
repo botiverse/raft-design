@@ -92,11 +92,7 @@ export function InviteHumanDialogContent() {
 // @docs-source-strip-start
 export function InviteHumanDialogComposition({ className }: { className?: string }) {
   return (
-    <CompositionModalPreview
-      className={className}
-
-      portalClassName="px-0"
-    >
+    <CompositionModalPreview className={className} portalClassName="px-0">
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent
