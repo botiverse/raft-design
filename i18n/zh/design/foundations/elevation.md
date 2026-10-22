@@ -1,7 +1,7 @@
 ---
 title: 层级
 summary: 哪些东西会浮起并投下阴影，哪些控件浮在对话之上却不带阴影，弹出层如何定位，以及焦点环。
-sourceHash: 89b76cfe
+sourceHash: cdb1efd8
 ---
 
 # 层级
@@ -58,6 +58,13 @@ focus
 - 从面板打开的面板是例外：下面那个面板自己退后（[Drawer](../../packages/ui/src/components/drawer/drawer.md#behavior)）。
 
 raft-ui 会自动处理这件事。模态的 `Dialog`、`AlertDialog` 或 `Drawer` 会告诉它根节点下的所有内容它已打开，方式与 Base UI 判断对话框是否嵌套相同，所以在它下面打开的对话框、警告对话框或面板会画出嵌套遮罩。非模态的不算：它下面不会被压暗。Base UI 默认不给嵌套对话框画遮罩，这就是从面板打开的确认框曾经叠在一个未压暗的面板上的原因。
+
+应用自己的模态表面（有自己的遮罩、Esc 和焦点）用 raft-ui 的两个部件加入同一个叠放顺序（目前在 `@botiverse/raft-ui/wip` 里）：
+
+- `OverlayLayerProvider`（`kind`、`modal`）：用它包住这个表面的遮罩和内容。从里面打开的 raft-ui 浮层就会在它上面画嵌套遮罩。应用自己的模态框不管长什么样都用 `kind="dialog"`：`"drawer"` 是给 Base UI Drawer 用的，它在另一个抽屉下面会自己嵌套，只在 `"dialog"` 之上才画自己的遮罩。
+- `useParentOverlayKind()`：在这个 provider 里面调用，返回打开这个表面的那个表面的类型；如果它是第一层，返回 `null`。不是 `null` 就表示：画 `layer-backdrop-nested`。
+
+两者都只用于模态浮层。非模态的浮层传 `modal={false}`，什么也不加，所以在它里面调用 `useParentOverlayKind` 会把下面那层当成自己的。两者读取的是 React context（portal 也算在内），所以只能看到浮层所在那棵树里的表面：把浮层渲染在打开它的那个表面里面。从另一棵 React 树打开的浮层（比如应用从全局 store 打开的确认框）不会被它们叠放，需要 `layer={1}` 或者应用自己的判断。
 
 ## 焦点环 {#focus-ring}
 

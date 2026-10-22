@@ -71,3 +71,17 @@ export * from "./components/meter/index";
 // used in a product.
 export { DropdownMenuLinkItem } from "./components/dropdown-menu/dropdown-menu";
 export type { DropdownMenuLinkItemProps } from "./components/dropdown-menu/dropdown-menu";
+
+// Dialog's phone presentation (dialog.md, "On a phone"): a sheet below 768px
+// with a pushed page's head, until Raft Chat has moved its sheets onto them.
+export { DialogCommit, DialogSheetBack, DialogSheetContent } from "./components/dialog/index";
+export type {
+  DialogCommitProps,
+  DialogSheetBackProps,
+  DialogSheetContentProps,
+} from "./components/dialog/index";
+
+// The modal-overlay stack behind stacked scrims (elevation.md, "Stacked
+// overlays"), for an app's own modal to join, until its contract settles.
+export { OverlayLayerProvider, useParentOverlayKind } from "./lib/overlay-depth";
+export type { OverlayLayerKind, OverlayLayerProviderProps } from "./lib/overlay-depth";

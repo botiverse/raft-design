@@ -9,6 +9,7 @@ import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
 import { Button } from "../button/index";
+import { DialogSheetReset } from "../dialog/dialog-sheet-context";
 import type { ButtonProps } from "../button/index";
 
 const alertDialog = tv({
@@ -142,7 +143,7 @@ export function AlertDialogContent({
         {...props}
         role="alertdialog"
       >
-        {children}
+        <DialogSheetReset>{children}</DialogSheetReset>
       </BaseDialog.Popup>
     </AlertDialogPortal>
   );

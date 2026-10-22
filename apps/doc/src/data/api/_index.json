@@ -304,6 +304,9 @@
       "DialogSurface",
       "DialogTitle",
       "DialogTrigger",
+      "DialogCommit",
+      "DialogSheetBack",
+      "DialogSheetContent",
       "AnnouncementDialog",
       "AnnouncementDialogTrigger",
       "AnnouncementDialogClose"
