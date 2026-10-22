@@ -1,7 +1,10 @@
 import { API_INDEX } from "./api.ts";
 import { parseFrontMatter } from "./front-matter.ts";
 import type { FrontMatter } from "./front-matter.ts";
-import { headingSlug } from "./slug.ts";
+import { DEFAULT_LOCALE } from "../i18n/locales.ts";
+import type { Locale } from "../i18n/locales.ts";
+import { sourceHash } from "../i18n/source-hash.ts";
+import { parseHeading } from "./slug.ts";
 
 // Every documentation page is a Markdown file in the repository
 // (design/authoring/README.md, "Where things live"). This module finds them,
@@ -23,6 +26,14 @@ const readmeSource = import.meta.glob<string>("../../../../../design/README.md",
   import: "default",
   eager: true,
 });
+/** Translations, each at `i18n/<locale>/<path of the English file>` (i18n/README.md). */
+const translationFiles = import.meta.glob<string>(
+  [
+    "../../../../../i18n/*/design/**/*.md",
+    "../../../../../i18n/*/packages/ui/src/components/*/*.md",
+  ],
+  { query: "?raw", import: "default", eager: true },
+);
 const componentFiles = import.meta.glob<string>(
   "../../../../../packages/ui/src/components/*/*.md",
   {
@@ -168,6 +179,16 @@ export type DocPage = {
    * own page, at `/<section>`.
    */
   intro?: boolean;
+  /** The language the page is shown in; English when absent. */
+  locale?: Locale;
+  /**
+   * Shown in a language other than English: `current` when translated,
+   * `stale` when the English file changed after the translation was made,
+   * `missing` when the page is not translated and shows the English text.
+   */
+  translation?: "current" | "stale" | "missing";
+  /** The English title, for a translated page: search finds the page by it too. */
+  englishTitle?: string;
 };
 
 const REPO_PREFIX = /^(\.\.\/)+/;
@@ -217,8 +238,7 @@ function headingsOf(body: string) {
     if (inFence) continue;
     const match = line.match(/^(#{2,6}) (.+)$/);
     if (!match) continue;
-    const title = match[2]!.trim();
-    const id = headingSlug(title);
+    const { id, title } = parseHeading(match[2]!);
     anchors.push(id);
     const depth = match[1]!.length;
     if (depth === 2 || depth === 3) headings.push({ id, title, depth });
@@ -374,4 +394,77 @@ export function sectionIntro(section: SectionId) {
 
 export function sectionOf(id: SectionId) {
   return SECTIONS.find((section) => section.id === id)!;
+}
+
+type Translation = {
+  title: string;
+  summary: string;
+  body: string;
+  stale: boolean;
+} & Pick<DocPage, "headings" | "anchors">;
+
+/** `i18n/zh/design/foundations/color.md` → `zh` and `design/foundations/color.md`. */
+function translationKey(globKey: string) {
+  const match = toRepoPath(globKey).match(/^i18n\/([\w-]+)\/(.+)$/);
+  return match ? { locale: match[1]!, repoPath: match[2]! } : null;
+}
+
+const englishSources = new Map(
+  [...WRITTEN_PAGES, ...(README ? [README] : [])].map((page) => [page.repoPath, page.source]),
+);
+
+const TRANSLATIONS = new Map<string, Translation>();
+for (const [key, source] of Object.entries(translationFiles)) {
+  const target = translationKey(key);
+  if (!target) continue;
+  const english = englishSources.get(target.repoPath);
+  if (english === undefined) continue;
+  const { data, content } = parseFrontMatter(source);
+  const body = content.replace(/^\s*# .+\r?\n+/, "").trim();
+  const recorded = (data as { sourceHash?: string }).sourceHash;
+  TRANSLATIONS.set(`${target.locale}:${target.repoPath}`, {
+    title: data.title || content.match(/^# (.+)$/m)?.[1]?.trim() || "",
+    summary: data.summary,
+    body,
+    stale: recorded !== sourceHash(english),
+    ...headingsOf(body),
+  });
+}
+
+/** Whether `repoPath` has a translation into `locale`. */
+export function isTranslated(repoPath: string, locale: Locale) {
+  return locale === DEFAULT_LOCALE || TRANSLATIONS.has(`${locale}:${repoPath}`);
+}
+
+const localized = new Map<string, DocPage>();
+
+/**
+ * The page as it is shown in `locale`: the translation's title, summary and
+ * body when there is one, else the English page marked `missing`. Its URL,
+ * order and the rest of its front matter stay the English page's.
+ */
+export function localize(page: DocPage, locale: Locale): DocPage {
+  if (locale === DEFAULT_LOCALE) return page;
+  const key = `${locale}:${page.repoPath}`;
+  const cached = localized.get(key);
+  if (cached) return cached;
+  const translation = TRANSLATIONS.get(key);
+  const result: DocPage = translation
+    ? {
+        ...page,
+        frontMatter: {
+          ...page.frontMatter,
+          title: translation.title || page.frontMatter.title,
+          summary: translation.summary || page.frontMatter.summary,
+        },
+        body: translation.body,
+        headings: translation.headings,
+        anchors: translation.anchors,
+        locale,
+        translation: translation.stale ? "stale" : "current",
+        englishTitle: page.frontMatter.title,
+      }
+    : { ...page, locale, translation: "missing" };
+  localized.set(key, result);
+  return result;
 }

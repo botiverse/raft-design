@@ -1,14 +1,13 @@
 import { Badge } from "@botiverse/raft-ui";
 
+import { useMessages } from "#/lib/i18n/use-locale.ts";
+
 export type ComponentStatus = "experimental" | "stable" | "deprecated";
 
-const STATUS_LABEL: Record<
-  ComponentStatus,
-  { label: string; variant: "information" | "success" | "muted" }
-> = {
-  experimental: { label: "Experimental", variant: "information" },
-  stable: { label: "Stable", variant: "success" },
-  deprecated: { label: "Deprecated", variant: "muted" },
+const STATUS_VARIANT: Record<ComponentStatus, "information" | "success" | "muted"> = {
+  experimental: "information",
+  stable: "success",
+  deprecated: "muted",
 };
 
 /**
@@ -17,10 +16,10 @@ const STATUS_LABEL: Record<
  * labelled on the page itself, never in lists.
  */
 export function StatusLabel({ status }: { status: ComponentStatus }) {
-  const { label, variant } = STATUS_LABEL[status];
+  const messages = useMessages();
   return (
-    <Badge appearance="soft" variant={variant}>
-      {label}
+    <Badge appearance="soft" variant={STATUS_VARIANT[status]}>
+      {messages[status]}
     </Badge>
   );
 }

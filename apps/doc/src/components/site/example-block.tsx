@@ -20,6 +20,7 @@ import { CodeCopyAction } from "#/lib/code-block/code-copy-action.tsx";
 import { ShikiHighlightedCode } from "#/lib/code-block/shiki-highlighted-code.tsx";
 
 import { hasExample, loadExample, loadExampleSource } from "#/lib/examples.ts";
+import { useMessages } from "#/lib/i18n/use-locale.ts";
 
 type Theme = "page" | "light" | "dark" | "both";
 
@@ -50,6 +51,7 @@ class ExampleBoundary extends Component<
  * the same composition in a 375px frame so media queries see a phone.
  */
 export function ExampleBlock({ path }: { path: string }) {
+  const messages = useMessages();
   const [Example, setExample] = useState<ComponentType | null>(null);
   const [source, setSource] = useState<string | null>(null);
   const [theme, setTheme] = useState<Theme>("page");
@@ -91,27 +93,27 @@ export function ExampleBlock({ path }: { path: string }) {
           {path}
         </figcaption>
         <SegmentedControl
-          aria-label="Example theme"
+          aria-label={messages.exampleTheme}
           value={theme}
           onValueChange={handleThemeChange}
         >
           <SegmentedControlItem value="page">
-            <SegmentedControlLabel>Page</SegmentedControlLabel>
+            <SegmentedControlLabel>{messages.page}</SegmentedControlLabel>
           </SegmentedControlItem>
           <SegmentedControlItem value="light">
-            <SegmentedControlLabel>Light</SegmentedControlLabel>
+            <SegmentedControlLabel>{messages.light}</SegmentedControlLabel>
           </SegmentedControlItem>
           <SegmentedControlItem value="dark">
-            <SegmentedControlLabel>Dark</SegmentedControlLabel>
+            <SegmentedControlLabel>{messages.dark}</SegmentedControlLabel>
           </SegmentedControlItem>
           <SegmentedControlItem value="both">
-            <SegmentedControlLabel>Both</SegmentedControlLabel>
+            <SegmentedControlLabel>{messages.both}</SegmentedControlLabel>
           </SegmentedControlItem>
         </SegmentedControl>
         <Button
           variant={phone ? "default" : "ghost"}
           size="icon-md"
-          aria-label="Phone width"
+          aria-label={messages.phoneWidth}
           aria-pressed={phone}
           onClick={togglePhone}
         >
@@ -120,7 +122,7 @@ export function ExampleBlock({ path }: { path: string }) {
         <Button
           variant={showCode ? "default" : "ghost"}
           size="icon-md"
-          aria-label="Show code"
+          aria-label={messages.showCode}
           aria-pressed={showCode}
           onClick={toggleCode}
         >
@@ -137,12 +139,12 @@ export function ExampleBlock({ path }: { path: string }) {
           >
             {modes.length === 2 ? (
               <span className="absolute top-2 left-3 font-mono text-mono-meta text-foreground-hint">
-                {mode === "light" ? "Light" : "Dark"}
+                {mode === "light" ? messages.light : messages.dark}
               </span>
             ) : null}
             {phone ? (
               <iframe
-                title={`${path} at phone width`}
+                title={messages.atPhoneWidth(path)}
                 src={`/iframe/example?path=${encodeURIComponent(path)}&mode=${mode}`}
                 className="h-[560px] w-[375px] max-w-full rounded-container border border-line-seam bg-layer-canvas"
               />

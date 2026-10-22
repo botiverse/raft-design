@@ -11,8 +11,18 @@ import { ThemeProvider } from "@botiverse/raft-ui";
 
 import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-theme.tsx";
 import { shortTitle } from "#/lib/content/nav.ts";
-import { pageAt, SECTIONS } from "#/lib/content/pages.ts";
+import { SITE_ORIGIN } from "#/lib/content/links.ts";
+import { localize, pageAt, SECTIONS } from "#/lib/content/pages.ts";
 import { redirectFor } from "#/lib/content/redirects.ts";
+import {
+  DEFAULT_LOCALE,
+  LANGUAGE_TAG,
+  LOCALES,
+  localeOfPath,
+  localizePath,
+} from "#/lib/i18n/locales.ts";
+import type { Locale } from "#/lib/i18n/locales.ts";
+import { messagesFor } from "#/lib/i18n/messages.ts";
 import {
   documentThemeMode,
   getStoredPreviewTheme,
@@ -25,17 +35,24 @@ import appCss from "../styles.css?url";
 export const Route = createRootRoute({
   // Old addresses (lib/content/redirects.ts). The root route runs for every
   // path, including ones no route matches any more and `.md` twins.
+  // An old path redirects within the language it was asked for.
   beforeLoad: ({ location }) => {
     const target = redirectFor(location.pathname);
-    if (target) throw redirect({ href: target, statusCode: 301 });
+    if (target) {
+      const href = localizePath(target, localeOfPath(location.publicHref));
+      throw redirect({ href, statusCode: 301 });
+    }
   },
-  loader: async () => ({
+  loader: async ({ location }) => ({
+    // The page's language, from its public URL (lib/i18n/locales.ts); the
+    // routes' `head` reads it from here (lib/i18n/head.ts).
+    locale: localeOfPath(location.publicHref),
     storedPreviewTheme:
       typeof document === "undefined"
         ? await getStoredPreviewTheme()
         : readPreviewThemeCookieFromDocument(),
   }),
-  head: () => ({
+  head: ({ matches }) => ({
     meta: [
       {
         charSet: "utf-8",
@@ -56,6 +73,7 @@ export const Route = createRootRoute({
       },
     ],
     links: [
+      ...languageAlternates(matches.at(-1)?.pathname),
       {
         rel: "stylesheet",
         href: fontsCss,
@@ -95,13 +113,31 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 });
 
+/**
+ * The page in every language, for search engines: each language's URL, and
+ * the English one as the default for any other language.
+ */
+function languageAlternates(pathname: string | undefined) {
+  if (!pathname || pathname.startsWith("/iframe/")) return [];
+  const path = pathname.replace(/\/+$/, "") || "/";
+  const url = (locale: Locale) => `${SITE_ORIGIN}${localizePath(path, locale)}`;
+  return [
+    ...LOCALES.map((locale) => ({
+      rel: "alternate",
+      hrefLang: LANGUAGE_TAG[locale],
+      href: url(locale),
+    })),
+    { rel: "alternate", hrefLang: "x-default", href: url(DEFAULT_LOCALE) },
+  ];
+}
+
 function RootDocument({ children }: { children: ReactNode }) {
   const location = useLocation();
-  const { storedPreviewTheme } = Route.useLoaderData();
+  const { storedPreviewTheme, locale } = Route.useLoaderData();
   const isStandalonePage = useMatches({
     select: (matches) => matches.some((match) => match.staticData?.standalone === true),
   });
-  const documentTitle = getDocumentTitle(location.pathname);
+  const documentTitle = getDocumentTitle(location.pathname, locale);
   // The document mode follows the stored selection. One mapping shared by the
   // SSR markup, the pre-paint script in <head>, and `DocumentThemeProvider`'s
   // effect.
@@ -109,7 +145,7 @@ function RootDocument({ children }: { children: ReactNode }) {
 
   return (
     <html
-      lang="en"
+      lang={LANGUAGE_TAG[locale]}
       data-standalone={isStandalonePage || undefined}
       style={{ colorScheme: documentMode }}
       className={documentMode}
@@ -158,13 +194,16 @@ function DocumentThemeProvider({ children }: { children: ReactNode }) {
   );
 }
 
-const SECTION_TITLES: Record<string, string> = {
-  "/changelog": "Changelog",
-  ...Object.fromEntries(SECTIONS.map((section) => [`/${section.id}`, section.title])),
-};
-
-function getDocumentTitle(pathname: string) {
+function getDocumentTitle(pathname: string, locale: Locale) {
+  const messages = messagesFor(locale);
+  const sectionTitles: Record<string, string> = {
+    "/changelog": messages.changelog,
+    ...Object.fromEntries(
+      SECTIONS.map((section) => [`/${section.id}`, messages.sections[section.id].title]),
+    ),
+  };
   const path = pathname.replace(/\/+$/, "") || "/";
-  const title = pageAt(path) ? shortTitle(pageAt(path)!) : SECTION_TITLES[path];
-  return title ? `${title} · Raft Design System` : "Raft Design System";
+  const page = pageAt(path);
+  const title = page ? shortTitle(localize(page, locale)) : sectionTitles[path];
+  return title ? `${title} · ${messages.siteName}` : messages.siteName;
 }

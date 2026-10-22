@@ -1,5 +1,8 @@
+import { DEFAULT_LOCALE } from "../i18n/locales.ts";
+import type { Locale } from "../i18n/locales.ts";
+import { messagesFor } from "../i18n/messages.ts";
 import { REPOSITORY_URL } from "./links.ts";
-import { pagesIn, SECTIONS, sectionIntro } from "./pages.ts";
+import { localize, pagesIn, SECTIONS, sectionIntro } from "./pages.ts";
 import type { DocPage, SectionId } from "./pages.ts";
 
 export type NavItem = {
@@ -42,10 +45,9 @@ export const CATEGORIES: readonly { id: string; title: string; layer: string }[]
   { id: "files", title: "Files", layer: "collaboration" },
 ];
 
-const NOT_DOCUMENTED = "Not documented yet";
-
-export function categoryTitle(id: string | undefined) {
-  return CATEGORIES.find((category) => category.id === id)?.title ?? "Other";
+export function categoryTitle(id: string | undefined, locale: Locale = DEFAULT_LOCALE) {
+  const messages = messagesFor(locale);
+  return (id && messages.categories[id]) ?? messages.otherCategory;
 }
 
 /**
@@ -60,13 +62,15 @@ export function layerOf(page: DocPage) {
   return CATEGORIES.find((category) => category.id === page.frontMatter.category)?.layer;
 }
 
-export function layerTitle(id: string | undefined) {
-  return LAYERS.find((layer) => layer.id === id)?.title;
+export function layerTitle(id: string | undefined, locale: Locale = DEFAULT_LOCALE) {
+  return id && LAYERS.some((layer) => layer.id === id) ? messagesFor(locale).layers[id] : undefined;
 }
 
 /** The group a component is listed under: its category, or "Not documented yet". */
-export function componentGroup(page: DocPage) {
-  return page.generated ? NOT_DOCUMENTED : categoryTitle(page.frontMatter.category);
+export function componentGroup(page: DocPage, locale: Locale = DEFAULT_LOCALE) {
+  return page.generated
+    ? messagesFor(locale).notDocumentedTitle
+    : categoryTitle(page.frontMatter.category, locale);
 }
 
 /** "Core · Actions": the group with its layer, where one label has to carry both. */
@@ -119,26 +123,30 @@ export function shortTitle(page: DocPage) {
 }
 
 /** Components as sidebar rows, grouped by category under their layer. */
-export function componentItems(pages: readonly DocPage[] = pagesIn("components")): NavItem[] {
+export function componentItems(
+  pages: readonly DocPage[] = pagesIn("components"),
+  locale: Locale = DEFAULT_LOCALE,
+): NavItem[] {
   return listedComponents(pages).map((page) => ({
     title: page.frontMatter.title,
     url: page.url,
-    group: componentGroup(page),
-    layer: layerTitle(layerOf(page)),
+    group: componentGroup(page, locale),
+    layer: layerTitle(layerOf(page), locale),
     status: page.frontMatter.status,
   }));
 }
 
-function productItems(): NavItem[] {
-  const pages = pagesIn("products");
+function productItems(locale: Locale): NavItem[] {
+  const { overview: OVERVIEW } = messagesFor(locale);
+  const pages = pagesIn("products").map((page) => localize(page, locale));
   const intro = sectionIntro("products");
-  const overview = intro ? [{ title: "Overview", url: intro.url }] : [];
+  const overview = intro ? [{ title: OVERVIEW, url: intro.url }] : [];
   return [
     ...overview,
     ...pages.map((page) => {
       const readme = pages.find((item) => item.slug === page.product);
       return {
-        title: page.slug === page.product ? "Overview" : shortTitle(page),
+        title: page.slug === page.product ? OVERVIEW : shortTitle(page),
         url: page.url,
         group: readme?.frontMatter.title ?? page.product,
       };
@@ -146,12 +154,14 @@ function productItems(): NavItem[] {
   ];
 }
 
-function decisionItems(): NavItem[] {
+function decisionItems(locale: Locale): NavItem[] {
   if (pagesIn("decisions").length === 0) return [];
   const openQuestions = pagesIn("decisions").find((page) => page.slug === "open-questions");
   return [
-    { title: "Decisions", url: "/decisions" },
-    ...(openQuestions ? [{ title: openQuestions.frontMatter.title, url: openQuestions.url }] : []),
+    { title: messagesFor(locale).decisions, url: "/decisions" },
+    ...(openQuestions
+      ? [{ title: localize(openQuestions, locale).frontMatter.title, url: openQuestions.url }]
+      : []),
   ];
 }
 
@@ -161,21 +171,25 @@ export const CONTRIBUTING_URL = `${REPOSITORY_URL}/blob/main/CONTRIBUTING.md`;
  * About: the pages in design/about, then the decision records (their own
  * section, at /decisions), the changelog and how to contribute.
  */
-function aboutItems(): NavItem[] {
+function aboutItems(locale: Locale): NavItem[] {
+  const messages = messagesFor(locale);
   return [
-    ...pageItems("about"),
-    ...decisionItems(),
-    { title: "Changelog", url: "/changelog" },
-    { title: "Contributing", url: CONTRIBUTING_URL, external: true },
+    ...pageItems("about", locale),
+    ...decisionItems(locale),
+    { title: messages.changelog, url: "/changelog" },
+    { title: messages.contributing, url: CONTRIBUTING_URL, external: true },
   ];
 }
 
 /** A section's pages, after an Overview row when its folder has an introduction. */
-function pageItems(section: SectionId): NavItem[] {
+function pageItems(section: SectionId, locale: Locale): NavItem[] {
   const intro = sectionIntro(section);
   return [
-    ...(intro ? [{ title: "Overview", url: intro.url }] : []),
-    ...pagesIn(section).map((page) => ({ title: page.frontMatter.title, url: page.url })),
+    ...(intro ? [{ title: messagesFor(locale).overview, url: intro.url }] : []),
+    ...pagesIn(section).map((page) => ({
+      title: localize(page, locale).frontMatter.title,
+      url: page.url,
+    })),
   ];
 }
 
@@ -184,17 +198,21 @@ function pageItems(section: SectionId): NavItem[] {
  * listed under another one (decisions, under About) is not a section of its
  * own here. Sections without pages are left out.
  */
-export function navSections(): NavSection[] {
+export function navSections(locale: Locale = DEFAULT_LOCALE): NavSection[] {
+  const messages = messagesFor(locale);
   return SECTIONS.filter((section) => !section.parent)
     .map((section) => {
       let items: NavItem[];
       if (section.id === "components") {
         const intro = sectionIntro("components");
-        items = [...(intro ? [{ title: "Overview", url: intro.url }] : []), ...componentItems()];
-      } else if (section.id === "products") items = productItems();
-      else if (section.id === "about") items = aboutItems();
-      else items = pageItems(section.id);
-      return { id: section.id, title: section.title, items };
+        items = [
+          ...(intro ? [{ title: messages.overview, url: intro.url }] : []),
+          ...componentItems(undefined, locale),
+        ];
+      } else if (section.id === "products") items = productItems(locale);
+      else if (section.id === "about") items = aboutItems(locale);
+      else items = pageItems(section.id, locale);
+      return { id: section.id, title: messages.sections[section.id].title, items };
     })
     .filter((section) => section.items.length > 0);
 }

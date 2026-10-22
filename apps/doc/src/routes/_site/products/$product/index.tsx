@@ -7,7 +7,7 @@ import { pageAt } from "#/lib/content/pages.ts";
 // A product's README: design/products/<product>/README.md.
 export const Route = createFileRoute("/_site/products/$product/")({
   loader: ({ params }) => loadDocPage(`/products/${params.product}`),
-  head: ({ loaderData }) => docPageHead(loaderData?.url),
+  head: ({ loaderData, matches }) => docPageHead(loaderData?.url, matches),
   component: function Page() {
     return <DocPageView page={pageAt(Route.useLoaderData().url)!} />;
   },

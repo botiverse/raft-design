@@ -39,6 +39,7 @@ import { componentGroup, shortTitle } from "#/lib/content/nav.ts";
 import type { SectionId } from "#/lib/content/pages.ts";
 import { searchDocs, sectionTitle } from "#/lib/content/search.ts";
 import type { SearchHit } from "#/lib/content/search.ts";
+import { useLocale, useMessages } from "#/lib/i18n/use-locale.ts";
 
 const SECTION_ICON: Record<SectionId, typeof Box> = {
   principles: Compass,
@@ -65,11 +66,13 @@ function SearchHitRow({
   onHighlight: (index: number) => void;
   onSelect: (index: number) => void;
 }) {
+  const locale = useLocale();
+  const messages = useMessages();
   const Icon = SECTION_ICON[hit.page.section];
   const where =
     hit.page.section === "components" && !hit.page.intro
-      ? `Components · ${componentGroup(hit.page)}`
-      : sectionTitle(hit.page);
+      ? `${messages.sections.components.title} · ${componentGroup(hit.page, locale)}`
+      : sectionTitle(hit.page, locale);
   const handleMouseEnter = useCallback(() => onHighlight(index), [index, onHighlight]);
   const handleClick = useCallback(() => onSelect(index), [index, onSelect]);
   return (
@@ -86,7 +89,7 @@ function SearchHitRow({
           </SearchEntityResultTitle>
         </SearchEntityResultHeader>
         <SearchEntityResultDescription>
-          {hit.alias ? `Also called ${hit.alias} · ` : ""}
+          {hit.alias ? `${messages.alsoCalled(hit.alias)} · ` : ""}
           {where}
         </SearchEntityResultDescription>
       </SearchEntityResultContent>
@@ -114,7 +117,9 @@ export function SearchDialog({
   const [query, setQuery] = useState("");
   const [highlight, setHighlight] = useState(0);
   const navigate = useNavigate();
-  const hits = useMemo(() => searchDocs(query), [query]);
+  const locale = useLocale();
+  const messages = useMessages();
+  const hits = useMemo(() => searchDocs(query, undefined, locale), [query, locale]);
 
   const go = useCallback(
     (index: number) => {
@@ -152,7 +157,7 @@ export function SearchDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-xl gap-0 p-0">
-        <DialogTitle className="sr-only">Search the docs</DialogTitle>
+        <DialogTitle className="sr-only">{messages.searchTheDocs}</DialogTitle>
         <div className="border-b border-line-seam p-3">
           <InputGroup>
             <InputGroupAddon>
@@ -160,8 +165,8 @@ export function SearchDialog({
             </InputGroupAddon>
             <InputGroupInput
               autoFocus
-              aria-label="Search the docs"
-              placeholder="Try “sheet”, “snackbar” or “color”"
+              aria-label={messages.searchTheDocs}
+              placeholder={messages.searchPlaceholder}
               value={query}
               onChange={onChange}
               onKeyDown={onKeyDown}
@@ -175,16 +180,14 @@ export function SearchDialog({
                 <Search />
               </EmptyStateIcon>
               <EmptyStateContent>
-                <EmptyStateTitle>No pages match “{query}”</EmptyStateTitle>
-                <EmptyStateDescription>
-                  Search matches page titles, former names and summaries.
-                </EmptyStateDescription>
+                <EmptyStateTitle>{messages.searchNoMatch(query)}</EmptyStateTitle>
+                <EmptyStateDescription>{messages.searchNoMatchHelp}</EmptyStateDescription>
               </EmptyStateContent>
             </EmptyState>
           ) : null}
           {!query ? (
             <p className="px-3 py-6 text-center text-callout text-foreground-hint">
-              Pages, components and their other names. Use ↑ ↓ and Enter.
+              {messages.searchEmpty}
             </p>
           ) : null}
           <SearchResultsList>

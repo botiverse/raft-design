@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { ExternalLink, FileText, Menu, Moon, Search, Sun, SunMoon } from "lucide-react";
+import { ExternalLink, FileText, Languages, Menu, Moon, Search, Sun, SunMoon } from "lucide-react";
 import {
   Button,
   Drawer,
@@ -40,30 +40,74 @@ import { usePreviewTheme } from "#/components/preview-theme.tsx";
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 import { navSections } from "#/lib/content/nav.ts";
 import type { NavItem } from "#/lib/content/nav.ts";
+import { DEFAULT_LOCALE, LANGUAGE_NAME, LANGUAGE_TAG, localizePath } from "#/lib/i18n/locales.ts";
+import { useLocale, useMessages } from "#/lib/i18n/use-locale.ts";
 
 import { SearchDialog } from "./search-dialog.tsx";
 import { StatusLabel } from "./status-label.tsx";
 import type { ComponentStatus } from "./status-label.tsx";
 
 function ThemeMenu() {
+  const messages = useMessages();
   const { mode, setMode } = usePreviewTheme();
   const Icon = mode === "dark" ? Moon : mode === "light" ? Sun : SunMoon;
   const handleModeChange = useCallback((value: unknown) => setMode(value as ThemeMode), [setMode]);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="on-frame" size="icon-md" aria-label="Color mode" />}
+        render={<Button variant="on-frame" size="icon-md" aria-label={messages.colorMode} />}
       >
         <Icon />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuRadioGroup value={mode} onValueChange={handleModeChange}>
-          <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="light">{messages.light}</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="dark">{messages.dark}</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="system">{messages.system}</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+}
+
+/**
+ * The same page in the other language. A plain link, not a menu: with two
+ * languages one click is enough, and the prerender crawler finds every
+ * translated page through it. It loads the other document, so the whole site
+ * switches with it.
+ */
+function LanguageLink() {
+  const messages = useMessages();
+  const locale = useLocale();
+  const { pathname, hash } = useLocation();
+  const target = locale === DEFAULT_LOCALE ? "zh" : DEFAULT_LOCALE;
+  const href = `${localizePath(pathname, target)}${hash ? `#${hash}` : ""}`;
+  const label = messages.language(LANGUAGE_NAME[target]);
+  const link = <a href={href} hrefLang={LANGUAGE_TAG[target]} lang={LANGUAGE_TAG[target]} />;
+  // On a phone the top bar has no room for the name: the icon alone.
+  return (
+    <>
+      <Button
+        variant="on-frame"
+        className="max-sm:hidden"
+        aria-label={label}
+        nativeButton={false}
+        render={link}
+      >
+        <Languages data-icon="inline-start" />
+        {LANGUAGE_NAME[target]}
+      </Button>
+      <Button
+        variant="on-frame"
+        size="icon-md"
+        className="sm:hidden"
+        aria-label={label}
+        nativeButton={false}
+        render={link}
+      >
+        <Languages />
+      </Button>
+    </>
   );
 }
 
@@ -73,13 +117,14 @@ function ThemeMenu() {
  * like sign-in, so it shows the Raft mark rather than a workspace.
  */
 function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSearch: () => void }) {
+  const messages = useMessages();
   return (
     <header className="flex h-14 shrink-0 items-center gap-2 border-b border-line-seam bg-layer-frame px-2 text-foreground-on-frame md:px-5">
       <Button
         variant="on-frame"
         size="icon-md"
         className="md:hidden"
-        aria-label="Open navigation"
+        aria-label={messages.openNavigation}
         onClick={onOpenNav}
       >
         <Menu />
@@ -89,7 +134,7 @@ function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSear
         className="flex min-w-0 items-center gap-2 rounded-control outline-none focus-visible:shadow-focus"
       >
         <RaftLogo aria-hidden className="h-6 w-auto shrink-0" />
-        <span className="truncate text-headline font-bold">Raft Design System</span>
+        <span className="truncate text-headline font-bold">{messages.siteName}</span>
       </Link>
       <span className="hidden font-mono text-mono-meta text-foreground-on-frame-muted sm:inline">
         raft-ui {raftUiVersion}
@@ -97,7 +142,7 @@ function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSear
       <div className="flex flex-1 justify-center px-4 max-md:hidden">
         <SearchTrigger onClick={onOpenSearch}>
           <Search />
-          <SearchTriggerLabel>Search components, tokens, patterns</SearchTriggerLabel>
+          <SearchTriggerLabel>{messages.searchTrigger}</SearchTriggerLabel>
           <SearchTriggerShortcut>⌘K</SearchTriggerShortcut>
         </SearchTrigger>
       </div>
@@ -106,11 +151,12 @@ function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSear
           variant="on-frame"
           size="icon-md"
           className="md:hidden"
-          aria-label="Search"
+          aria-label={messages.search}
           onClick={onOpenSearch}
         >
           <Search />
         </Button>
+        <LanguageLink />
         <ThemeMenu />
         <Button
           variant="on-frame"
@@ -180,30 +226,32 @@ function NavLabels({ item, previous }: { item: NavItem; previous: NavItem | unde
  * decision records under About).
  */
 export function SiteNav() {
+  const locale = useLocale();
+  const messages = useMessages();
   const { pathname } = useLocation();
   const path = pathname.replace(/\/+$/, "") || "/";
   const currentSection = path.split("/")[1];
 
   return (
-    <SidebarRoot aria-label="Documentation">
+    <SidebarRoot aria-label={messages.documentation}>
       <SidebarBody>
         <SidebarContent>
           <div className="flex flex-col gap-0.5 pb-2">
             <SidebarItem active={path === "/"} render={<Link to="/" />}>
               <SidebarItemContent>
-                <SidebarItemTitle>Overview</SidebarItemTitle>
+                <SidebarItemTitle>{messages.overview}</SidebarItemTitle>
               </SidebarItemContent>
             </SidebarItem>
             <SidebarItem render={<a href="/llms.txt" />}>
               <SidebarItemContent>
-                <SidebarItemTitle>For Agents</SidebarItemTitle>
+                <SidebarItemTitle>{messages.forAgents}</SidebarItemTitle>
               </SidebarItemContent>
               <SidebarItemAside>
                 <FileText className="size-4 text-foreground-hint" aria-hidden />
               </SidebarItemAside>
             </SidebarItem>
           </div>
-          {navSections().map((section) => (
+          {navSections(locale).map((section) => (
             <SidebarSection
               key={section.id}
               defaultOpen={section.id !== "components" || currentSection === "components"}
@@ -235,6 +283,7 @@ export function SiteNav() {
  * (design/foundations/color.md). Below 768 the sidebar is a drawer.
  */
 export function SiteShell({ children }: { children: ReactNode }) {
+  const messages = useMessages();
   const [navOpen, setNavOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { pathname } = useLocation();
@@ -274,7 +323,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
       <Drawer open={navOpen} onOpenChange={setNavOpen} swipeDirection="left">
         <DrawerContent className="md:hidden">
           <DrawerHeader>
-            <DrawerTitle>Raft Design System</DrawerTitle>
+            <DrawerTitle>{messages.siteName}</DrawerTitle>
           </DrawerHeader>
           <DrawerBody className="min-h-0 overflow-y-auto p-0">
             <SiteNav />

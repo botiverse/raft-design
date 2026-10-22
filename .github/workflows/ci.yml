@@ -35,6 +35,9 @@ jobs:
       - name: Check docs
         run: node scripts/check-docs.mjs --strict
 
+      - name: Check translations
+        run: node scripts/i18n.mjs check
+
       - name: Run tests
         run: vp run -r test
 

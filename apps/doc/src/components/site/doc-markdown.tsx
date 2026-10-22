@@ -4,7 +4,9 @@ import { useNavigate } from "@tanstack/react-router";
 import { MarkdownHeading, MarkdownLink } from "@botiverse/raft-ui";
 
 import { resolveDocLink } from "#/lib/content/links.ts";
-import { headingSlug } from "#/lib/content/slug.ts";
+import { parseHeading } from "#/lib/content/slug.ts";
+import { localizePath } from "#/lib/i18n/locales.ts";
+import { useLocale } from "#/lib/i18n/use-locale.ts";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import type { MarkdownProps } from "#/lib/markdown/markdown.tsx";
 import { MarkdownCodeFence } from "#/lib/markdown/markdown-code-fence.tsx";
@@ -32,9 +34,36 @@ function fenceOf(children: ReactNode) {
   return { language, text: textOf(code?.props.children).trim() };
 }
 
-/** A link in a doc: relative Markdown paths become site URLs; site links navigate in place. */
+/**
+ * A heading's children without the anchor a translation writes after it
+ * (`颜色的含义 {#meanings-of-color}`), and its id.
+ */
+function headingParts(children: ReactNode) {
+  const { id } = parseHeading(textOf(children));
+  const parts = Children.toArray(children);
+  const last = parts.at(-1);
+  if (typeof last === "string" && /\{#[\w-]+\}\s*$/.test(last)) {
+    parts[parts.length - 1] = last.replace(/\s*\{#[\w-]+\}\s*$/, "");
+  }
+  return { id, children: parts };
+}
+
+function DocHeading({ level, children, ...props }: ComponentProps<typeof MarkdownHeading>) {
+  const parts = headingParts(children);
+  return (
+    <MarkdownHeading level={level} id={parts.id} className="scroll-mt-6" {...props}>
+      {parts.children}
+    </MarkdownHeading>
+  );
+}
+
+/**
+ * A link in a doc: relative Markdown paths become site URLs, in the page's
+ * language; site links navigate in place.
+ */
 export function DocMarkdownLink({ href = "", ...props }: ComponentProps<"a">) {
   const sourcePath = useContext(SourcePathContext);
+  const locale = useLocale();
   const navigate = useNavigate();
   const resolved = resolveDocLink(sourcePath, href);
   const internal = resolved.startsWith("/") || resolved.startsWith("#");
@@ -54,7 +83,7 @@ export function DocMarkdownLink({ href = "", ...props }: ComponentProps<"a">) {
   return (
     <MarkdownLink
       {...props}
-      href={resolved}
+      href={internal ? localizePath(resolved, locale) : resolved}
       onClick={handleClick}
       {...(internal ? {} : { target: "_blank", rel: "noreferrer" })}
     />
@@ -66,36 +95,9 @@ const CodeFence = MarkdownCodeFence as ComponentType<ComponentProps<"pre">>;
 
 const components: MarkdownProps["components"] = {
   a: ({ node: _node, ...props }) => <DocMarkdownLink {...props} />,
-  h2: ({ node: _node, children, ...props }) => (
-    <MarkdownHeading
-      level={2}
-      id={headingSlug(textOf(children))}
-      className="scroll-mt-6"
-      {...props}
-    >
-      {children}
-    </MarkdownHeading>
-  ),
-  h3: ({ node: _node, children, ...props }) => (
-    <MarkdownHeading
-      level={3}
-      id={headingSlug(textOf(children))}
-      className="scroll-mt-6"
-      {...props}
-    >
-      {children}
-    </MarkdownHeading>
-  ),
-  h4: ({ node: _node, children, ...props }) => (
-    <MarkdownHeading
-      level={4}
-      id={headingSlug(textOf(children))}
-      className="scroll-mt-6"
-      {...props}
-    >
-      {children}
-    </MarkdownHeading>
-  ),
+  h2: ({ node: _node, ...props }) => <DocHeading level={2} {...props} />,
+  h3: ({ node: _node, ...props }) => <DocHeading level={3} {...props} />,
+  h4: ({ node: _node, ...props }) => <DocHeading level={4} {...props} />,
   // The two block types the authoring guide adds to Markdown; any other fence
   // is a highlighted code block.
   pre: (props) => {
