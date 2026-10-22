@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 agent 用法相同。
-sourceHash: 9989931e
+sourceHash: a3df066f
 ---
 
 # MessageItem
@@ -77,8 +77,8 @@ message-reference/compositions/mixed-long-message
 | 字号 | 句子字号的 0.875，半粗 | 12.25px | 14px |
 | 高度 | 正文行高减 2px：标签片文字的行框，上下没有内边距 | 20px | 22px |
 | 对齐 | 文字在句子的基线上，前置标记在标签片里居中（[正文中的标记](../../../../../design/foundations/alignment.md#marks-in-running-text)） | 行高保持 22px | 行高保持 24px |
-| 两端 | 两端各 6px。有前置标记时，标记前 3px，标记占 14px 的位置，再隔 4px 到文字 | 6px，或 3px + 14px + 4px | 6px，或 3px + 14px + 4px |
-| 前置标记 | 14px 的图标、加载中的旋转图标，或任务 9px 的状态像素点，都在 14px 的位置里居中 | 14px 的位置 | 14px 的位置 |
+| 两端 | 两端各 6px；有前置标记时两端各 4.5px（[对齐](../../../../../design/foundations/alignment.md#chips)：两端的墨迹离边缘一样远），标记再隔 4px 到文字 | 6px 或 4.5px | 6px 或 4.5px |
+| 前置标记 | 14px 的图标、加载中的旋转图标，或任务 9px 的状态像素点，各自用自己的盒子，在标签片里居中 | 14px、9.5px 或 9px | 14px、9.5px 或 9px |
 | 注记 | 标签后的注记（`MessageReferenceSuffix`），离标签 4px | 4px | 4px |
 | 圆角 | `radius-sticker` | 4px | 4px |
 
@@ -219,6 +219,6 @@ message-item/compositions/reactions
 - 页脚里先放任务标记，然后是回应，添加按钮放最后。
 - 任务标记做成状态标签：状态像素点、任务编号和负责人（[Tasks](../tasks/tasks.md)）。
 - 每个表情只显示一个回应标签片。这个人自己添加的回应用 `attention-soft`。
-- 让标签片的墨色离左边缘和离右边缘一样远（[对齐](../../../../../design/foundations/alignment.md#chips)）。回应把内边距平均分配，两端各 7px：表情或应用图标画满到边缘。收藏标记在书签图标前留 5.5px（书签画在方框内 2.3px 处），在文字后留 6.5px。正文里的标签片改用标签片盒子的两端（[正文中的标签片](#chips-in-running-text)）。
+- 让标签片的墨色离左边缘和离右边缘一样远（[对齐](../../../../../design/foundations/alignment.md#chips)）。带图标的引用标签片和回应把内边距平均分配，两端各 4.5px 和 7px，总量和宽度与以前相同：Lucide 图标在它的方框里留出的空白和旁边的字母差不多，而表情或应用图标画满到边缘。收藏标记在书签图标前留 5.5px（书签画在方框内 2.3px 处），在文字后留 6.5px。
 - 引用标签片标签后面的注记放在 `MessageReferenceSuffix` 里，不要放在自己写的 span 里。它在布局中保持在标签的基线上，绘制时上移字号差的四分之一，让两者 x 高度的中线对齐；标签保持在句子的基线上。
 - 回应标签片高 24px，点击区域 44px（[间距](../../../../../design/foundations/spacing.md#hit-targets)）。

@@ -19,8 +19,9 @@ import {
 
 // Every chip in a message's text shares one box (message-item.md, Chips in
 // running text): 0.875em of the sentence, semibold, the body line less 2px
-// tall with no padding above or below, 6px at each end, or 3px before a
-// leading mark in a 14px slot and 4px from the mark to the text. A chip is
+// tall with no padding above or below, 6px at each end, or 4.5px at each end
+// with a leading mark and 4px from the mark to the text, so the ink at both
+// ends sits equally far in (alignment.md, Chips). A chip is
 // always 2px shorter than its line, so a line holding one keeps the body's
 // line height: 22px on a desktop, 24px on a phone. Before, a reference chip
 // was 22px and made a desktop line 23px, and the task chip and the yellow
@@ -44,17 +45,19 @@ beforeAll(async () => {
 
 afterEach(cleanup);
 
-type Case = { kind: string; mark: boolean; chip: ReactNode };
+// `mark`: the leading mark's own width. A Lucide icon is 14px; the loading
+// spinner and a task's status pixel keep their own boxes, drawn to their edges.
+type Case = { kind: string; mark: number | null; chip: ReactNode };
 
 const CHIPS: Case[] = [
   {
     kind: "channel",
-    mark: false,
+    mark: null,
     chip: <MessageReferenceChip variant="accent">#general</MessageReferenceChip>,
   },
   {
     kind: "joint",
-    mark: true,
+    mark: 14,
     chip: (
       <MessageReferenceChip variant="accent">
         <Hash />
@@ -64,7 +67,7 @@ const CHIPS: Case[] = [
   },
   {
     kind: "thread",
-    mark: true,
+    mark: 14,
     chip: (
       <MessageReferenceChip variant="info">
         <MessageSquare />
@@ -74,7 +77,7 @@ const CHIPS: Case[] = [
   },
   {
     kind: "message",
-    mark: true,
+    mark: 14,
     chip: (
       <MessageReferenceChip variant="link">
         <Link2 />
@@ -85,12 +88,12 @@ const CHIPS: Case[] = [
   },
   {
     kind: "muted",
-    mark: false,
+    mark: null,
     chip: <MessageReferenceChip variant="muted">mac-studio</MessageReferenceChip>,
   },
   {
     kind: "pending",
-    mark: true,
+    mark: 9.5,
     chip: (
       <MessageReferencePending>
         <Spinner size="xs" />
@@ -100,7 +103,7 @@ const CHIPS: Case[] = [
   },
   {
     kind: "unavailable",
-    mark: true,
+    mark: 14,
     chip: (
       <MessageReferenceUnavailable>
         <CircleOff />
@@ -110,12 +113,12 @@ const CHIPS: Case[] = [
   },
   {
     kind: "sticker",
-    mark: false,
+    mark: null,
     chip: <MessageReferenceText variant="primary">@Developer</MessageReferenceText>,
   },
   {
     kind: "task",
-    mark: true,
+    mark: 9,
     chip: (
       <TaskChip variant="inline" status="in-progress">
         <TaskStatusIcon status="in-progress" />
@@ -203,7 +206,7 @@ for (const [name, width, line] of [
     });
   }
 
-  it(`${name}: 6px at each end, or 3px, a 14px mark slot and 4px before the text`, async () => {
+  it(`${name}: 6px at each end, or 4.5px at each end and 4px from a leading mark to the text`, async () => {
     const { page } = await import("vite-plus/test/browser/context");
     await page.viewport(width, 1200);
     render(
@@ -215,26 +218,27 @@ for (const [name, width, line] of [
       const chip = chipOf(kind);
       const style = getComputedStyle(chip);
       const box = chip.getBoundingClientRect();
-      expect(style.paddingRight, `${kind} right`).toBe("6px");
-      expect(style.paddingLeft, `${kind} left`).toBe(mark ? "3px" : "6px");
-      if (!mark) continue;
+      const side = mark === null ? "6px" : "4.5px";
+      expect([style.paddingLeft, style.paddingRight], `${kind} sides`).toEqual([side, side]);
+      if (mark === null) continue;
       const el = chip.querySelector(":scope > svg, :scope > [data-slot=spinner]")!;
       const r = el.getBoundingClientRect();
-      const ms = getComputedStyle(el);
-      const slotLeft = r.left - Number.parseFloat(ms.marginLeft);
-      const slotRight = r.right + Number.parseFloat(ms.marginRight);
-      expect(slotLeft - box.left, `${kind} before the mark`).toBeCloseTo(3, 1);
-      expect(slotRight - slotLeft, `${kind} mark slot`).toBeCloseTo(14, 1);
-      expect(textStartAfter(el) - slotRight, `${kind} mark to text`).toBeCloseTo(4, 1);
+      expect(r.left - box.left, `${kind} before the mark`).toBeCloseTo(4.5, 1);
+      expect(r.width, `${kind} mark box`).toBeCloseTo(mark, 1);
+      expect(textStartAfter(el) - r.right, `${kind} mark to text`).toBeCloseTo(4, 1);
       // The mark is centred on the chip.
       expect(
         Math.abs(r.top + r.height / 2 - (box.top + box.height / 2)),
         `${kind} mark centre`,
       ).toBeLessThanOrEqual(0.5);
     }
-    // The task's status pixel keeps its one 9px size inside the slot.
-    const pixel = chipOf("task").querySelector(":scope > svg")!.getBoundingClientRect();
-    expect([pixel.width, pixel.height]).toEqual([9, 9]);
+    // The task's status pixel keeps its own 9px box, with no slot around it.
+    const pixel = chipOf("task").querySelector(":scope > svg")!;
+    expect([pixel.getBoundingClientRect().width, pixel.getBoundingClientRect().height]).toEqual([
+      9, 9,
+    ]);
+    expect(getComputedStyle(pixel).marginLeft).toBe("0px");
+    expect(getComputedStyle(pixel).marginRight).toBe("0px");
   });
 }
 

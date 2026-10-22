@@ -13,12 +13,13 @@ export type MessageReferenceTextVariant = "primary" | "secondary";
 // icon, set the chip's baseline; the root's `self-center` centres the icon on
 // the chip. With `items-center` the icon would supply the baseline, and the
 // chip's words would float 2px above the sentence (alignment.md, Marks in
-// running text). A loading spinner takes the icon's 14px slot.
+// running text). A loading spinner keeps its own box, as wide as its pixels:
+// in an icon's 14px slot its ink sat about 2px further in than the text's at the
+// other end (alignment.md, Chips).
 const chip = (fill: string) => [
   ...inlineChip,
   "[--message-reference-em:1em]",
   "[&_svg]:size-3.5 [&_svg]:text-foreground-muted",
-  "*:data-[slot=spinner]:w-3.5",
   fill,
 ];
 const linkChip = (fill: string) => [

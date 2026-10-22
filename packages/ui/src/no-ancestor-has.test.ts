@@ -131,9 +131,9 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/task-card/task-card-status.recipe.ts": 1,
   "components/toast/toast.tsx": 2,
   "components/tooltip/tooltip.tsx": 2,
-  // The inline chip box takes 3px before a leading icon or spinner, read from
-  // the chip's own children (self-subject). It moved here from the reference
-  // chip's recipe, which the task chip now shares.
+  // The inline chip box takes 4.5px at each end with a leading icon or
+  // spinner, read from the chip's own children (self-subject). It moved here
+  // from the reference chip's recipe, which the task chip now shares.
   "lib/inline-chip.ts": 1,
 };
 

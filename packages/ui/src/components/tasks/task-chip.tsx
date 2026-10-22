@@ -47,10 +47,11 @@ const taskChip = tv({
   },
   compoundVariants: [
     // Inline (in a message) is an inline chip, the box a reference chip has
-    // (lib/inline-chip.ts, message-item.md, Chips in running text), with the
-    // status pixel at its one 9px size centred in the 14px slot a reference
-    // chip's icon takes. Its colours are the task chip's own: the per-status
-    // tint above applies.
+    // (lib/inline-chip.ts, message-item.md, Chips in running text). The status
+    // pixel keeps its own 9px box: it is drawn to its edges, so the chip takes
+    // 4.5px at each end and 4px from the pixel to the text, and the ink at both
+    // ends sits equally far in (alignment.md, Chips). Its colours are the task
+    // chip's own: the per-status tint above applies.
     {
       variant: "inline",
       status: ["todo", "in-progress", "in-review", "done", "closed"],
@@ -58,7 +59,6 @@ const taskChip = tv({
         root: [
           ...inlineChip,
           "[&>svg]:size-3.5 [&>svg]:self-center [&>svg:not([data-slot=task-status-icon])]:mx-0",
-          "[&>svg[data-slot=task-status-icon]]:mx-[2.5px]",
         ],
       },
     },
