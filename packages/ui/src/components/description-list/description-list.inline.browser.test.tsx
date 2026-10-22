@@ -5,6 +5,7 @@ import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Badge } from "../badge/badge";
 import { Button } from "../button/button";
 import { Ellipsis } from "../ellipsis/ellipsis";
+import { TaskStatusBadge } from "../tasks/task-status-badge";
 import { TooltipProvider } from "../tooltip/tooltip";
 import {
   DescriptionDetails,
@@ -17,7 +18,7 @@ const it = test.skipIf(typeof window === "undefined");
 
 afterEach(cleanup);
 
-const facts = ["plain", "badge", "button"] as const;
+const facts = ["plain", "badge", "task", "button"] as const;
 
 // A zero-size inline-block sits on its line's baseline, so its top is the
 // baseline of the text it follows.
@@ -51,6 +52,16 @@ function renderInline() {
               <Badge appearance="soft" variant="information">
                 <Text id="value-badge">In review</Text>
               </Badge>
+            </DescriptionDetails>
+          </DescriptionItem>
+          <DescriptionItem data-testid="item-task">
+            <DescriptionTerm>
+              <Text id="term-task">Task</Text>
+            </DescriptionTerm>
+            <DescriptionDetails>
+              <TaskStatusBadge status="in-review">
+                <Text id="value-task">In review</Text>
+              </TaskStatusBadge>
             </DescriptionDetails>
           </DescriptionItem>
           <DescriptionItem data-testid="item-button">
@@ -90,7 +101,15 @@ it("inline: every term and value sits on one baseline", () => {
 
 it("inline: a shaped value's text starts as far from its label as plain text", () => {
   renderInline();
-  const gaps = facts.map((fact) => textRect(`value-${fact}`).left - textRect(`term-${fact}`).right);
+  // A shape's first mark is its text, or its icon when it leads with one.
+  const firstMark = (fact: (typeof facts)[number]) =>
+    fact === "task"
+      ? screen
+          .getByTestId("item-task")
+          .querySelector("[data-slot=task-status-icon]")!
+          .getBoundingClientRect()
+      : textRect(`value-${fact}`);
+  const gaps = facts.map((fact) => firstMark(fact).left - textRect(`term-${fact}`).right);
   expect(gaps[0]).toBeCloseTo(12, 0);
   for (const gap of gaps) expect(Math.abs(gap - gaps[0]!)).toBeLessThanOrEqual(0.5);
 });
