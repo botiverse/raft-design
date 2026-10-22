@@ -42,10 +42,10 @@ const segmentedControl = tv({
       "on-frame": {
         root: [
           "bg-fill-frame-medium",
-          "**:data-[slot=segmented-control-item]:text-foreground-on-frame-muted",
+          "**:data-[slot=segmented-control-item]:text-foreground-on-frame-muted **:data-[slot=segmented-control-item]:hover:text-foreground-on-frame",
           "**:data-[slot=segmented-control-item]:hover:bg-transparent **:data-[slot=segmented-control-item]:hover:overlay-frame-medium **:data-[slot=segmented-control-item]:active:bg-transparent **:data-[slot=segmented-control-item]:active:overlay-frame-medium",
-          "**:data-[slot=segmented-control-item]:data-checked:bg-layer-canvas **:data-[slot=segmented-control-item]:data-checked:text-foreground",
-          "**:data-[slot=segmented-control-item]:data-checked:hover:bg-layer-canvas **:data-[slot=segmented-control-item]:data-checked:hover:bg-none **:data-[slot=segmented-control-item]:data-checked:active:bg-layer-canvas",
+          "**:data-[slot=segmented-control-item]:data-checked:border-line-frame-active **:data-[slot=segmented-control-item]:data-checked:bg-layer-frame-active **:data-[slot=segmented-control-item]:data-checked:text-foreground-on-frame-active",
+          "**:data-[slot=segmented-control-item]:data-checked:hover:bg-layer-frame-active **:data-[slot=segmented-control-item]:data-checked:hover:bg-none **:data-[slot=segmented-control-item]:data-checked:active:bg-layer-frame-active",
         ],
       },
     },
@@ -196,9 +196,10 @@ export function SegmentedControlCount({ className, ...props }: SegmentedControlC
 
 export type SegmentedControlNavProps = ComponentPropsWithRef<"nav"> & {
   /**
-   * `on-frame` in the yellow frame (a top bar): the track a deeper yellow and
-   * the current segment white paper with its ink edge, since a yellow
-   * sticker on yellow would not read as selected.
+   * `on-frame` in the frame (a top bar): the track the frame's medium fill and
+   * the current segment in the frame's active colours (white on the yellow
+   * frame, yellow on the dark one), since a yellow sticker on yellow would
+   * not read as selected.
    */
   variant?: "default" | "on-frame";
 };

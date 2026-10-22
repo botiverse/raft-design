@@ -54,7 +54,7 @@ segmented-control/compositions/language-links
 - Selected: a yellow sticker with a bold label. It doesn't change on hover, like a selected tab; a press lays `sticker-medium` ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
 - The other segments are `foreground-muted`, with the medium tier, `fill-medium`, on hover and press.
 - Disabled: set on the whole control, as in [States](../../../../../design/foundations/states.md).
-- In the yellow frame (a top bar), set `variant="on-frame"`: the track is a deeper yellow, the other segments are `foreground-on-frame-muted` with the frame's medium overlay (`overlay-frame-medium`) on hover and press, and the selected segment is white paper with its ink edge. A yellow sticker on the yellow frame would not read as selected, and the white segment beside it would look chosen instead. On a phone, where the top bar has no room for it, put the control in the menu rather than the bar.
+- In the frame (a top bar), set `variant="on-frame"`: the track is the frame's medium fill, the other segments are `foreground-on-frame-muted` (`foreground-on-frame` and the frame's medium overlay, `overlay-frame-medium`, on hover and press), and the selected segment takes the frame's active colours, `layer-frame-active` with a `line-frame-active` edge and `foreground-on-frame-active` text: white on the yellow frame, yellow on the dark one, as a selected rail item. A yellow sticker on the yellow frame would not read as selected, and the white segment beside it would look chosen instead. On a phone, where the top bar has no room for it, put the control in the menu rather than the bar.
 
 ```example
 segmented-control/compositions/disabled

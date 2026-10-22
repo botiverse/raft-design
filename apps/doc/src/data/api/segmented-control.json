@@ -197,7 +197,7 @@
         "type": "\"default\" | \"on-frame\"",
         "required": false,
         "default": "\"default\"",
-        "description": "`on-frame` in the yellow frame (a top bar): the track a deeper yellow and the current segment white paper with its ink edge, since a yellow sticker on yellow would not read as selected.",
+        "description": "`on-frame` in the frame (a top bar): the track the frame's medium fill and the current segment in the frame's active colours (white on the yellow frame, yellow on the dark one), since a yellow sticker on yellow would not read as selected.",
         "from": "raft-ui"
       }
     ]

@@ -48,7 +48,13 @@ import { SearchDialog } from "./search-dialog.tsx";
 import { StatusLabel } from "./status-label.tsx";
 import type { ComponentStatus } from "./status-label.tsx";
 
-function ThemeMenu() {
+function ThemeMenu({
+  variant = "on-frame",
+  className,
+}: {
+  variant?: "on-frame" | "ghost";
+  className?: string;
+}) {
   const messages = useMessages();
   const { mode, setMode } = usePreviewTheme();
   const Icon = mode === "dark" ? Moon : mode === "light" ? Sun : SunMoon;
@@ -56,7 +62,14 @@ function ThemeMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="on-frame" size="icon-md" aria-label={messages.colorMode} />}
+        render={
+          <Button
+            variant={variant}
+            size="icon-md"
+            className={className}
+            aria-label={messages.colorMode}
+          />
+        }
       >
         <Icon />
       </DropdownMenuTrigger>
@@ -125,39 +138,41 @@ function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSear
       </Button>
       <Link
         to="/"
-        className="flex min-w-0 items-center gap-2 rounded-control outline-none focus-visible:shadow-focus"
+        className="flex min-w-0 items-center gap-2 rounded-control outline-none focus-visible:shadow-focus md:shrink-0"
       >
         <RaftLogo aria-hidden className="h-6 w-auto shrink-0" />
         <span className="truncate text-headline font-bold">{messages.siteName}</span>
       </Link>
-      <span className="hidden font-mono text-mono-meta text-foreground-on-frame-muted sm:inline">
+      <span className="hidden font-mono text-mono-meta text-foreground-on-frame-muted lg:inline">
         raft-ui {raftUiVersion}
       </span>
-      <div className="flex flex-1 justify-center px-4 max-md:hidden">
+      {/* From 1024 up there is room for the search box; below, a button. */}
+      <div className="flex flex-1 justify-center px-4 max-lg:hidden">
         <SearchTrigger onClick={onOpenSearch}>
           <Search />
           <SearchTriggerLabel>{messages.searchTrigger}</SearchTriggerLabel>
           <SearchTriggerShortcut>⌘K</SearchTriggerShortcut>
         </SearchTrigger>
       </div>
-      <div className="ml-auto flex items-center gap-1 md:ml-0">
+      <div className="ml-auto flex items-center gap-1 lg:ml-0">
         <Button
           variant="on-frame"
           size="icon-md"
-          className="md:hidden"
+          className="lg:hidden"
           aria-label={messages.search}
           onClick={onOpenSearch}
         >
           <Search />
         </Button>
         {/* On a phone the top bar has no room for it: it is at the top of the menu. */}
-        <div className="max-md:hidden">
+        <div className="shrink-0 max-md:hidden">
           <LanguageSwitch variant="on-frame" />
         </div>
-        <ThemeMenu />
+        <ThemeMenu className="max-md:hidden" />
         <Button
           variant="on-frame"
           size="icon-md"
+          className="max-md:hidden"
           aria-label="GitHub"
           nativeButton={false}
           render={
@@ -319,8 +334,27 @@ export function SiteShell({ children }: { children: ReactNode }) {
 
       <Drawer open={navOpen} onOpenChange={setNavOpen} swipeDirection="left">
         <DrawerContent className="md:hidden">
-          <DrawerHeader>
+          <DrawerHeader className="flex items-center justify-between gap-2">
             <DrawerTitle>{messages.siteName}</DrawerTitle>
+            {/* The phone top bar has room only for the title and search. */}
+            <div className="flex items-center gap-1">
+              <ThemeMenu variant="ghost" />
+              <Button
+                variant="ghost"
+                size="icon-md"
+                aria-label="GitHub"
+                nativeButton={false}
+                render={
+                  <a
+                    href="https://github.com/botiverse/raft-design"
+                    target="_blank"
+                    rel="noreferrer"
+                  />
+                }
+              >
+                <GithubMark />
+              </Button>
+            </div>
           </DrawerHeader>
           <DrawerBody className="min-h-0 overflow-y-auto p-0">
             <div className="px-3 pt-1 pb-3">
