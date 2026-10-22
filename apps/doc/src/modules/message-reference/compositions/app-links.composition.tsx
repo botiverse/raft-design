@@ -35,7 +35,7 @@ export function MessageReferenceAppLinksComposition() {
     >
       {stampIcon}
       <MessageReferenceLabel>
-        refactor(i18n): one display-locale source for web and desktop
+        #10449 refactor(i18n): one display-locale source for web and desktop
       </MessageReferenceLabel>
     </MessageReferenceChip>
   );
@@ -46,7 +46,7 @@ export function MessageReferenceAppLinksComposition() {
       render={<a href="#stamp-pull-10451" target="_blank" rel="noopener noreferrer" />}
     >
       {stampIcon}
-      <MessageReferenceLabel>test(i18n): cover the zh-CN fallback</MessageReferenceLabel>
+      <MessageReferenceLabel>#10451 test(i18n): cover the zh-CN fallback</MessageReferenceLabel>
     </MessageReferenceChip>
   );
   const third = (
@@ -57,7 +57,7 @@ export function MessageReferenceAppLinksComposition() {
     >
       {stampIcon}
       <MessageReferenceLabel>
-        fix(i18n): read the locale cookie before the Accept-Language header
+        #10437 fix(i18n): read the locale cookie before the Accept-Language header
       </MessageReferenceLabel>
     </MessageReferenceChip>
   );

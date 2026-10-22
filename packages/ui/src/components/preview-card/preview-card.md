@@ -44,7 +44,7 @@ The item card adds these parts, experimental and exported from `@botiverse/raft-
 
 - `PreviewCardBody`: the block with the id line, the title and the details row, 16px from the card's edges.
 - `PreviewCardEyebrow`: the id line above the title, in `foreground-muted` Space Mono, one line, truncated.
-- `PreviewCardMeta`: the row under the title: one state chip, then a muted line of details. It wraps when it runs out of room.
+- `PreviewCardMeta`: the row under the title: the state, in a neutral Badge, then a muted line of details. It wraps when it runs out of room.
 - `PreviewCardActions`: the row of up to two buttons.
 - `PreviewCardFooter`: a caption under a hairline at the bottom: the app and the host.
 
@@ -90,5 +90,5 @@ preview-card/preview-card-app-prompt
 
 - Keep the card read-only: no fields, no choices. Something people fill in is a [Popover](../popover/popover.md).
 - Put at most two small buttons on it, colored as in a [Popover](../popover/popover.md#rules): never pink.
-- Show one state chip on an item card, once. Color it by the stage the app gives its item, with one of the five status colors (`TaskStatusBadge`): not started, under way, in review, done or closed; with no stage, a soft gray Badge. Never invent a color for an app's state ([Status](../status/status.md#rules)).
+- Show the item's state once, in the app's own words, in a neutral Badge (`appearance="outline" variant="muted"`): no status color and no status light. Which states an item has, and what they mean, is the app's concept, not Raft's; Raft's status colors and the status light mean task and presence states ([Status](../status/status.md#rules)), so mapping an app's "Merged" onto a task's "done" would put Raft's reading on the app's word.
 - Put no colors of the app's on an item card: no brand color, no colored header. The app's icon on the chip is the only mark of its own.

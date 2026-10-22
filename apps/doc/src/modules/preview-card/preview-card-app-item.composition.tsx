@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   MessageReferenceChip,
   MessageReferenceLabel,
@@ -6,7 +7,6 @@ import {
   PreviewCardContent,
   PreviewCardTitle,
   PreviewCardTrigger,
-  TaskStatusBadge,
 } from "@botiverse/raft-ui";
 import {
   MessageReferenceIcon,
@@ -36,17 +36,19 @@ export function PreviewCardAppItemComposition() {
               <img src="/app-icons/stamp.svg" alt="" />
             </MessageReferenceIcon>
             <MessageReferenceLabel>
-              refactor(i18n): one display-locale source for web and desktop
+              #10449 refactor(i18n): one display-locale source for web and desktop
             </MessageReferenceLabel>
           </PreviewCardTrigger>
           <PreviewCardContent>
             <PreviewCardBody>
-              <PreviewCardEyebrow>botiverse/slock#10449</PreviewCardEyebrow>
+              <PreviewCardEyebrow>botiverse/slock</PreviewCardEyebrow>
               <PreviewCardTitle>
-                refactor(i18n): one display-locale source for web and desktop
+                #10449 refactor(i18n): one display-locale source for web and desktop
               </PreviewCardTitle>
               <PreviewCardMeta>
-                <TaskStatusBadge status="done">Merged</TaskStatusBadge>
+                <Badge appearance="outline" variant="muted">
+                  Merged
+                </Badge>
                 <span>Martin · +803 −498</span>
               </PreviewCardMeta>
             </PreviewCardBody>

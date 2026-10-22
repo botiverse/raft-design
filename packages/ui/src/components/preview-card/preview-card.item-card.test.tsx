@@ -27,7 +27,7 @@ test("each part renders its slot and the product's words", () => {
   render(
     <>
       <PreviewCardBody data-testid="body">
-        <PreviewCardEyebrow data-testid="eyebrow">botiverse/slock#10449</PreviewCardEyebrow>
+        <PreviewCardEyebrow data-testid="eyebrow">botiverse/slock</PreviewCardEyebrow>
         <PreviewCardTitle>refactor(i18n): one display-locale source</PreviewCardTitle>
         <PreviewCardMeta data-testid="meta">Martin · +803 −498</PreviewCardMeta>
       </PreviewCardBody>
@@ -45,7 +45,7 @@ test("each part renders its slot and the product's words", () => {
   for (const [id, slot] of Object.entries(expected)) {
     expect(screen.getByTestId(id).getAttribute("data-slot")).toBe(slot);
   }
-  expect(screen.getByTestId("eyebrow").textContent).toBe("botiverse/slock#10449");
+  expect(screen.getByTestId("eyebrow").textContent).toBe("botiverse/slock");
   expect(screen.getByTestId("footer").textContent).toBe("Stamp · stamp.build");
 });
 

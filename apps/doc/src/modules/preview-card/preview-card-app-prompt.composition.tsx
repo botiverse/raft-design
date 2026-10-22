@@ -37,7 +37,7 @@ export function PreviewCardAppPromptComposition() {
               <img src="/app-icons/stamp.svg" alt="" />
             </MessageReferenceIcon>
             <MessageReferenceLabel>
-              refactor(i18n): one display-locale source for web and desktop
+              #10449 refactor(i18n): one display-locale source for web and desktop
             </MessageReferenceLabel>
           </MessageReferenceChip>
         ) : (
