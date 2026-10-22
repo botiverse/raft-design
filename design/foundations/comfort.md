@@ -35,7 +35,7 @@ Put things that belong together closer to each other than to anything else, with
 
 - **Use only the 4px steps** ([Spacing](./spacing.md#spacing)): 4px and 8px inside a row or a chip, 12px and 16px between groups, 24px and 32px between sections. A value off the scale (5px, 14px, 18px) is a sign that something is being nudged instead of laid out.
 - **Make the space between groups about twice the space inside one, or more.** Proximity is how the eye groups things before it reads them. When the gaps are close in size, nothing groups, and the screen reads as an even grey.
-- **Keep a heading closer to what it names than to what comes before it**, by about twice: a status heading in the Tasks card sits on its rows (its words at the bottom of its 32px), and the groups are 16px apart. A heading as far from the rows above as from its own looks as if it belonged to both. Where the heading is a toggle, let its touch target reach into the gap above it rather than push it away from its rows.
+- **Keep a heading closer to what it names than to what comes before it**, by about twice: a status heading in the Tasks card has the Sidebar section header's spacing, 16px above its words and 6px below, and the groups have no gap of their own (about 25px from the rows above, 16px to its own). A heading as far from the rows above as from its own looks as if it belonged to both. Where the heading is a toggle, let its touch target reach into the space above it rather than push it away from its rows.
 - **A row's own padding counts.** Measure a gap between letters and marks, not between boxes: a 36px row with 14px of text already has 11px of space above and below its letters.
 
 ## Edges
