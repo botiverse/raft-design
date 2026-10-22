@@ -1,3 +1,71 @@
+## [0.21.0](https://github.com/botiverse/raft-design/compare/v0.20.1...v0.21.0) (2026-10-22)
+
+0.20.1 was not published to npm. This release includes its changes, listed under [0.20.1](https://github.com/botiverse/raft-design/blob/v0.21.0/packages/ui/CHANGELOG.md#0201-2026-10-22) in the changelog.
+
+### Design System
+
+- **Timeline rhythm**: a conversation uses three distances between its lines, measured from text to text: 8px between the rows of one turn, the message step (16px) between turns, and the section step (24px) at a boundary: either side of a date line, from the top of the list to its first line, and from the last line to the composer's frame. It applies to MessageItem, SystemMessage, SystemMessageGroupHeader, MessageListDateDivider, MessageListNotice, ThreadPanelOriginalMessage, ThreadPanelReplySummary, ThreadPanelReplyCount, ConversationPanelFooter and ThreadPanelFooter. ([#694](https://github.com/botiverse/raft-design/pull/694))
+  - Why: each part kept its own spacing, so a date line sat closer to the message above it than to the one below and looked attached to it, an event line had more space under it than over it, and the composer's frame read as touching the last message; the parts now read one rhythm from tokens, one step wider for each kind of break.
+  - Affects: new tokens `timeline-gap-message` 16px, `timeline-gap-section` 24px and `timeline-row-inset` 4px (the reach of a row's highlight above and below its text).
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#timeline-rhythm
+- **A control and its label**: a checkbox, radio or switch sits 8px before its label, centered on the label's first line, and keeps its size wherever it sits. In a settings row with a description, both ends center on the title's first line. A tap between two options lands on the nearer one. It applies to Checkbox, RadioGroupItem and ListRow; FieldItem already followed it. ([#686](https://github.com/botiverse/raft-design/pull/686))
+  - Why: a box in a `<label>` row followed the row instead of the text's line, so callers nudged it with a margin, and a settings row's ends centered on the title and description together, level with neither; the components now place the control themselves.
+  - Affects: switch 50 × 30px and checkbox and radio 20px, unchanged; 8px from control to label.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-control-and-its-label
+
+### Breaking Changes
+
+- **ConversationPanelFooter** and **ThreadPanelFooter**: no space of their own above the composer; the end of the list sets it. ([#694](https://github.com/botiverse/raft-design/pull/694))
+  - Why: the footer's 12px stacked on whatever space the list left under its last message, so the gap to the composer differed from list to list; now the list ends with one token and the composer's frame sits a section step, 24px, under the last line.
+  - Affects: footer top padding 12px → 0; `pb-timeline-end` is 20px (the 24px section step less the last row's 4px inset).
+  - Migrate: end your message list with `pb-timeline-end` under its last row, in place of any spacer you had there; without it the composer moves 12px closer to the last message. You can also start the list with `pt-timeline-start` over its first row, so its top follows the same step.
+  - Docs: https://raft-design.botiverse.build/components/conversation-panel/
+
+### Added
+
+- **Timeline spacing utilities**: `pt-timeline-start` and `pb-timeline-end` for the top and end of a message list you build, and `timeline-message`, `timeline-section`, `timeline-row`, `timeline-turn` and `timeline-lead`, which the components use. All are registered with the `cn` helper, so they merge with other padding and margin classes. ([#694](https://github.com/botiverse/raft-design/pull/694))
+  - Why: a list's top and end were written by hand in each product, which is how the gaps drifted; two utilities now give the section step with the rows' own insets taken out.
+  - Affects: `timeline-start` 12px, `timeline-end` 20px, `timeline-turn` 8px, `timeline-lead` 12px, `timeline-message` 16px, `timeline-section` 24px, `timeline-row` 4px. Use only `timeline-start` and `timeline-end` in a product.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#timeline-rhythm
+- **`ButtonSize`** and **`DeprecatedButtonSize`** types, and the **`button-sizes` codemod**, which renames deprecated Button sizes to the size they render as. ([#686](https://github.com/botiverse/raft-design/pull/686))
+  - Why: the deprecated names could only be found by hand, and `sm` and `xs` are also sizes of other components; the codemod parses TSX and renames `size` only on Buttons, the raft-ui parts that pass `size` to a Button and wrappers you name, plus `icon-sm` / `icon-xs` on any element and `size` in `buttonVariants()` calls.
+  - Affects: run `node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src> [--dry] [--components=MyButton]`; it renames `xs`, `sm` → `md` and `icon-xs`, `icon-sm` → `icon-md`, then lists every `sm`, `xs`, `icon-sm` and `icon-xs` it left for review. It needs `@babel/parser`, a new optional peer dependency (`pnpm add -D @babel/parser`); nothing else uses it.
+  - Docs: https://raft-design.botiverse.build/components/button/#sizes
+
+### Changed
+
+- **Button** `size`: `xs` and `sm` are deprecated aliases of `md`, and `icon-xs` and `icon-sm` of `icon-md`, kept until raft-ui 1.0. They already rendered as those sizes, so nothing on screen changes. ([#686](https://github.com/botiverse/raft-design/pull/686))
+  - Why: nine names for five sizes made a smaller button look available where there is none; a new Size by place table says which size each place takes.
+  - Affects: sizes `md` (32px), `lg`, `xl`, `icon-md` and `icon-lg`; `size` is typed `ButtonSize | DeprecatedButtonSize`, so every existing size name still type-checks. No runtime warning.
+  - Docs: https://raft-design.botiverse.build/components/button/#size-by-place
+- **Checkbox** and **RadioGroupItem** directly in a `<label>`: the box takes one line of the label's height and centers on it, so it sits on the first line in an `items-start` row and on the one line in an `items-center` row, at any min-height. ([#686](https://github.com/botiverse/raft-design/pull/686))
+  - Why: the box followed the row rather than the text's line, so it sat above the center of a line taller than 20px and callers added a `margin-top`; see A control and its label above.
+  - Affects: vertical margin `max(0, (1lh - 20px) / 2)` from the `<label>`'s type (2px on a 24px line); the box stays 20px and a `text-xs` row stays 20px tall. A `margin-top` you added to line it up is no longer needed. Set the label's type on the `<label>`, use `items-start` when the text can wrap, and give a wrapping `text-xs` label `leading-5`.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-control-and-its-label
+- **DescriptionList** `direction="inline"`: every fact is at most 24rem wide, or the row's width if that is narrower, and keeps the same 24px between facts and 8px between lines as the others. ([#697](https://github.com/botiverse/raft-design/pull/697))
+  - Why: a long value, such as a message, made its fact as wide as the row on a line of its own, so one line of facts no longer read as one flow; every fact now wraps the same way, and a long value wraps at the cap, or is cut there when the caller truncates it.
+  - Affects: fact `max-width` none → `min(100%, 24rem)` (384px); plain text longer than that wraps inside the 24rem. To cut a long value on one line instead, truncate it with an ellipsis and make the whole value available elsewhere, such as a tooltip.
+  - Docs: https://raft-design.botiverse.build/components/description-list/
+- **ListRow** `variant="plain"` with a description: the leading icon, avatar or tile and the trailing switch, checkbox, radio, value or chevron center on the title's first line instead of the middle of the title and description. With a title alone, nothing changes. ([#686](https://github.com/botiverse/raft-design/pull/686))
+  - Why: with a description the ends sat between the title and the description, level with neither and with no line of text.
+  - Affects: the ends move without changing size, so row heights are unchanged (54px on a phone for a one-line row with a switch).
+  - Docs: https://raft-design.botiverse.build/components/list-row/
+- **MessageListDateDivider**, **SystemMessage**, **SystemMessageGroupHeader**, **MessageListNotice**, **ThreadPanelOriginalMessage**, **ThreadPanelReplySummary** and **ThreadPanelReplyCount**: spaced on the timeline rhythm. ([#694](https://github.com/botiverse/raft-design/pull/694))
+  - Why: see Timeline rhythm above.
+  - Affects: a date line's rule sits 24px from the text above and below it (was 24px / 32px on a phone, 25px / 33px on a desktop); SystemMessage padding 12px / 12px → 12px / 4px, 16px from the text on both sides; a closed SystemMessageGroupHeader keeps the same 12px / 4px around its disclosure's text (padding 6px / 6px → 6px top and −2px bottom on a phone, 7px and −1px on a desktop), and an open one keeps its 6px under the header; MessageListNotice padding 0 / 8px → 12px / 4px; ThreadPanelOriginalMessage bottom padding 8px → 20px and ThreadPanelReplySummary top padding 8px → 12px, so the thread's rule sits 24px from the text on both sides; ThreadPanelReplyCount gains 4px above it (margin 0 / 4px → 4px / 4px). MessageItem keeps its 4px / 8px, now read from the tokens.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#timeline-rhythm
+
+### Fixed
+
+- **Select**, **Combobox**, **ComboboxSelect** and **InputGroup**: a value cut with an ellipsis gets its full text as a `title` whenever it is cut. ([#695](https://github.com/botiverse/raft-design/pull/695))
+  - Why: the check compared whole pixels with 1px to spare, so it missed cuts of about 0.6–1.3px that still showed an ellipsis, and it did not measure again when a web font finished loading; it now compares fractional sizes and measures again after fonts load.
+  - Affects: tolerance 1px (whole pixels) → 0.5px (fractional).
+  - Docs: https://raft-design.botiverse.build/components/select/
+- **Checkbox** and **RadioGroupItem** hit areas: in a `<label>` row the box or circle reaches 4px past its line, half the 8px gap to the next option, so a tap between two options lands on the nearer one; the label is the target for the rest. On its own, its hit area is 44px tall on a touch screen. ([#686](https://github.com/botiverse/raft-design/pull/686))
+  - Why: each option's hit area reached across the gap and the next option's covered it, so a tap just under one option could select the next one.
+  - Affects: standalone touch hit area 44px tall (was 36px for a checkbox, 33px for a radio); standalone mouse hit area unchanged; in a `<label>` row the hit area is the line plus 4px above and below, for every pointer.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-control-and-its-label
+
 ## [0.20.1](https://github.com/botiverse/raft-design/compare/v0.20.0...v0.20.1) (2026-10-22)
 
 ### Design System
