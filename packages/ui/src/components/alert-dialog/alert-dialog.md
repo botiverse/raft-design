@@ -33,8 +33,8 @@ alert-dialog/compositions/confirm-action
 - `AlertDialogHeader`: the title row, with an optional `AlertDialogClose` (×).
 - `AlertDialogTitle`: the title. Required.
 - `AlertDialogBody` and `AlertDialogDescription`: what will happen.
-- `AlertDialogFooter`: the buttons in one row at the end, Cancel then the commit button, on a phone as on a desktop. Only when they don't fit on one line do they stack full width, the commit button on top, as in [Dialog](../dialog/dialog.md#the-footer).
-- `AlertDialogCancel`: a ghost button that closes the dialog. Required.
+- `AlertDialogFooter`: the buttons in one row at the end, Cancel then the commit button, on a phone as on a desktop. Only when they don't fit on one line do they stack full width, the commit button on top and Cancel framed, as in [Dialog](../dialog/dialog.md#the-footer).
+- `AlertDialogCancel`: a ghost button that closes the dialog; framed when the buttons stack. Required.
 - `AlertDialogAction`: the confirm button. It is a Button and doesn't close the dialog by itself: close it when the action finishes.
 - `AlertDialogPortal`: a lower-level part.
 

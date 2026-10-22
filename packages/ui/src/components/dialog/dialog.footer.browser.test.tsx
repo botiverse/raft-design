@@ -68,6 +68,14 @@ const LONG_COMMIT = "Add Members and Send Invites";
 const FOOTNOTE_LINE = 18;
 const MARGIN = 20;
 
+/** Whether Cancel draws a frame: an ink border and the card fill (Button, `in-data-stacked:`). */
+function framed(button: HTMLElement) {
+  // The footer stacks after its first layout, so the colours are mid-transition.
+  for (const animation of button.getAnimations()) animation.finish();
+  const style = getComputedStyle(button);
+  return !/^(transparent|rgba\(0, 0, 0, 0\)|oklab\(0 0 0 \/ 0\))$/.test(style.borderTopColor);
+}
+
 function renderDialog(
   start: "note" | "link" | "none",
   {
@@ -262,6 +270,35 @@ it("on a phone: a commit label too long for the row stacks, the commit button on
   expect(getComputedStyle(footer).flexDirection).toBe("column-reverse");
   expect(getComputedStyle(footer).getPropertyValue("reading-flow") || "normal").toBe("normal");
   expect(await tabOrder(2)).toEqual(["Cancel", LONG_COMMIT]);
+});
+
+it("on a phone: a ghost Cancel takes a frame in the stack and stays frameless in the row", async () => {
+  // Stacked full width, a frameless button reads as a line of text: each
+  // button in a stack needs its own box (stdrc, 2026-10-22).
+  await viewport(390);
+  renderDialog("none", { label: LONG_COMMIT });
+  expect(screen.getByTestId("footer").hasAttribute("data-stacked")).toBe(true);
+  expect(framed(screen.getByRole("button", { name: "Cancel" }))).toBe(true);
+  cleanup();
+
+  renderDialog("none");
+  expect(screen.getByTestId("footer").hasAttribute("data-stacked")).toBe(false);
+  expect(framed(screen.getByRole("button", { name: "Cancel" }))).toBe(false);
+});
+
+it("on a phone: a stacked Cancel is framed in the first frame, with no fade from ghost", async () => {
+  // The footer measures after its buttons were styled as a row. Until it has
+  // been painted once it holds their transitions, so the first frame is the
+  // stack and nothing fades in as the dialog opens (Jasper, 2026-10-22).
+  await viewport(390);
+  renderDialog("none", { label: LONG_COMMIT });
+  const cancel = screen.getByRole("button", { name: "Cancel" });
+  expect(screen.getByTestId("footer").hasAttribute("data-stacked")).toBe(true);
+  expect(cancel.getAnimations()).toEqual([]);
+  expect(framed(cancel)).toBe(true);
+  // A frame later, transitions are back for hover and press.
+  for (let i = 0; i < 3; i += 1) await new Promise((resolve) => requestAnimationFrame(resolve));
+  expect(getComputedStyle(cancel).transitionProperty).not.toBe("none");
 });
 
 it("stacked, with an ×: Tab and Shift+Tab reach every control once a loop, and wrap", async () => {

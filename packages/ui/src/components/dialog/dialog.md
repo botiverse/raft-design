@@ -92,7 +92,7 @@ dialog/compositions/footer-close-only
 
 The footer stays one row on a phone, the same as on a desktop (stdrc, 2026-10-22). One layout everywhere means Cancel and the commit button are in the same place on every screen; stacking is only a fallback for a label too long for the row. So the footer stacks when its buttons don't fit on one line, at any width, and never because the window is narrow:
 
-- The buttons stack full width, the commit button on top and Cancel under it, still `ghost`.
+- The buttons stack full width, the commit button on top and Cancel under it. Cancel takes the ink border of `default` there, with its hover and press: a frameless button stretched to the full width reads as a line of text, not a button, so once buttons stack each needs its own box (stdrc, 2026-10-22). Keep writing Cancel as `ghost`; the stack gives it the frame, and it goes back to frameless when the row fits again.
 - A note or a link stays first, left-aligned above the buttons.
 - Write the parts in the order of the row: the note or the link first, then Cancel, then the commit button. The footer turns the stack around on screen only: Tab still goes Cancel then commit, so in the stack focus moves up from Cancel to the commit button ([Accessibility](#accessibility)).
 
@@ -204,7 +204,7 @@ A dialog that stays centered on a phone keeps `DialogContent` and `Button`.
 
 ## Rules
 
-- Put at most two buttons in the footer: Cancel first (`variant="ghost"`), the confirm button last. They stay one row on a phone; only when they don't fit do they stack, the confirm button on top.
+- Put at most two buttons in the footer: Cancel first (`variant="ghost"`), the confirm button last. They stay one row on a phone; only when they don't fit do they stack, the confirm button on top and Cancel framed.
 - Put at most one item at the start of the footer: a muted `TextLink` or a `DialogFooterNote`, never both. Never put an action that changes something there, and never something people need to decide; that goes in the body.
 - Use a `DialogFooterNote` only in a `size="lg"` or `size="wide"` dialog, and keep it to 40 characters: it never wraps on a desktop.
 - Build the footer from `DialogFooter`, not a row of your own: it holds the spacing, the order and the stack when the buttons don't fit.

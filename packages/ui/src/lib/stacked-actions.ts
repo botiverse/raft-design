@@ -15,24 +15,26 @@ import type { Ref, RefCallback } from "react";
  * to the commit button. No `reading-flow`: the dialog's focus trap wraps in
  * markup order, and a visual order would fight it (Cancel would trap focus).
  * Off, the stack keeps the markup's order, Cancel above the commit button.
+ *
+ * In the stack a ghost Cancel takes a frame: Button reads `data-stacked`
+ * (button.tsx, `in-data-stacked:`).
  */
 const COMMIT_ON_TOP = true;
 
 /**
- * Classes the footer adds to its buttons while they are stacked, such as a
- * frame around Cancel. Empty: Cancel keeps its row style (ghost).
- */
-const STACKED_CANCEL: string[] = [];
-
-/**
  * The row of buttons while `data-stacked` is set: a full-width column. A
  * button alone in a wrapper (a tooltip's trigger) fills the width too.
+ *
+ * Until the row has been measured and painted once (`data-measured`), its
+ * buttons have no transition. The first measure lands after the buttons were
+ * styled as a row, so a stacked ghost Cancel would otherwise fade its frame in
+ * as the dialog opens; the first painted frame must already be the stack.
  */
 export const stackedActions = [
   COMMIT_ON_TOP ? "data-stacked:flex-col-reverse" : "data-stacked:flex-col",
   "data-stacked:items-stretch",
   "data-stacked:*:data-[slot=button]:w-full data-stacked:[&>*>[data-slot=button]:only-child]:w-full",
-  ...STACKED_CANCEL.map((value) => `data-stacked:${value}`),
+  "not-data-measured:**:data-[slot=button]:transition-none",
 ];
 
 function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {
@@ -103,12 +105,21 @@ export function useStackedActions<T extends HTMLElement>(
     const frame = inParent ? row?.parentElement : row;
     if (!row || !frame || typeof ResizeObserver === "undefined") return;
 
+    let raf = 0;
+    let settle = 0;
     const measure = () => {
       const overflows = rowOverflows(row, frame);
-      if (overflows !== undefined) setStacked(overflows);
+      if (overflows === undefined) return;
+      setStacked(overflows);
+      // Transitions come back a frame after the first measure is painted, so
+      // nothing animates from the row's look to the stack's.
+      if (!settle && !row.hasAttribute("data-measured")) {
+        settle = requestAnimationFrame(() => {
+          settle = requestAnimationFrame(() => row.setAttribute("data-measured", ""));
+        });
+      }
     };
 
-    let raf = 0;
     const schedule = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(measure);
@@ -129,6 +140,7 @@ export function useStackedActions<T extends HTMLElement>(
     return () => {
       live = false;
       cancelAnimationFrame(raf);
+      cancelAnimationFrame(settle);
       resize.disconnect();
       mutation.disconnect();
       fonts?.removeEventListener("loadingdone", schedule);

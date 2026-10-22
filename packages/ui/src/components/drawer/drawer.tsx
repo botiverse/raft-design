@@ -232,8 +232,11 @@ export type DrawerActionsProps = useRender.ComponentProps<"div">;
 export function DrawerActions({ className, render, children, ...props }: DrawerActionsProps) {
   const swipeAxis = useContext(DrawerConfigContext)?.swipeAxis;
   const { actions } = drawer({ axis: swipeAxis });
-  const defaultProps: useRender.ElementProps<"div"> = {
+  // Stacked full width unless the drawer comes from a side: `data-stacked`
+  // gives a ghost Cancel its frame there, as in a stacked dialog footer.
+  const defaultProps: useRender.ElementProps<"div"> & { "data-stacked"?: "" } = {
     className: actions({ className }),
+    "data-stacked": swipeAxis === "x" ? undefined : "",
     children,
   };
 
