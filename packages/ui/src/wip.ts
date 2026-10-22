@@ -81,6 +81,11 @@ export type {
   DialogSheetContentProps,
 } from "./components/dialog/index";
 
+// The footer note of a lg or wide dialog (dialog.md, "The footer"), until its
+// rules settle in product use.
+export { DialogFooterNote } from "./components/dialog/index";
+export type { DialogFooterNoteProps } from "./components/dialog/index";
+
 // The modal-overlay stack behind stacked scrims (elevation.md, "Stacked
 // overlays"), for an app's own modal to join, until its contract settles.
 export { OverlayLayerProvider, useParentOverlayKind } from "./lib/overlay-depth";

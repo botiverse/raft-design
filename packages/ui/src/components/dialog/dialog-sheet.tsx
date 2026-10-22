@@ -31,13 +31,20 @@ export function DialogSheetContent({
 }: DialogSheetContentProps) {
   const phone = useMobileViewport();
   const [commitSlot, setCommitSlot] = useState<HTMLElement | null>(null);
+  const [bodyEndSlot, setBodyEndSlot] = useState<HTMLElement | null>(null);
   const [popup, setPopup] = useState<HTMLDivElement | null>(null);
   const keyboardBox = useSheetKeyboardBox(phone);
   useRevealNewProblems(phone ? popup : null);
 
   const state = useMemo<DialogSheetState>(
-    () => ({ sheet: phone, commitSlot: phone ? commitSlot : null, setCommitSlot }),
-    [phone, commitSlot],
+    () => ({
+      sheet: phone,
+      commitSlot: phone ? commitSlot : null,
+      setCommitSlot,
+      bodyEndSlot: phone ? bodyEndSlot : null,
+      setBodyEndSlot,
+    }),
+    [phone, commitSlot, bodyEndSlot],
   );
   const setRef = useCallback(
     (element: HTMLDivElement | null) => {

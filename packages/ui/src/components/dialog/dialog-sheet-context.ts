@@ -12,12 +12,17 @@ export type DialogSheetState = {
   sheet: boolean;
   commitSlot: HTMLElement | null;
   setCommitSlot: (element: HTMLElement | null) => void;
+  /** The end of the body, where the footer's note or link moves. */
+  bodyEndSlot: HTMLElement | null;
+  setBodyEndSlot: (element: HTMLElement | null) => void;
 };
 
 export const NO_SHEET: DialogSheetState = {
   sheet: false,
   commitSlot: null,
   setCommitSlot: () => undefined,
+  bodyEndSlot: null,
+  setBodyEndSlot: () => undefined,
 };
 
 export const DialogSheetContext = createContext<DialogSheetState>(NO_SHEET);
@@ -77,5 +82,9 @@ export const dialogSheet = tv({
       "px-4 pt-4 first:pt-4 pb-[max(16px,env(safe-area-inset-bottom,0px))]",
     ],
     barBody: ["block overflow-y-auto"],
+    bodyEnd: [
+      "mt-4 empty:hidden",
+      "text-start font-sans text-footnote text-foreground-muted *:data-[slot=text-link]:text-footnote",
+    ],
   },
 });

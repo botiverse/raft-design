@@ -1,7 +1,7 @@
 /**
  * @vitest-environment jsdom
  */
-import { afterEach, expect, test } from "vite-plus/test";
+import { afterEach, expect, test, vi } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import {
@@ -10,6 +10,7 @@ import {
   DialogClose,
   DialogContent,
   DialogFooter,
+  DialogFooterNote,
   DialogHeader,
   DialogTitle,
 } from "./dialog";
@@ -144,4 +145,62 @@ test("the title is the 17px headline at 700, not lighter than a field label", ()
   expect(cls).toMatch(/\bfont-bold\b/);
   expect(cls, "14px/500 was the inverted-hierarchy state").not.toMatch(/\btext-sm\b/);
   expect(cls).not.toMatch(/\bfont-medium\b/);
+});
+
+/**
+ * A footer note fits beside the buttons only in a lg or wide dialog
+ * (dialog.md#the-footer), so a development build warns when one is in a
+ * sm or md dialog, the default included, but not when a className sets the
+ * width instead.
+ */
+test.each([
+  ["sm", undefined, true],
+  [undefined, undefined, true],
+  ["lg", undefined, false],
+  ["wide", undefined, false],
+  [undefined, "max-w-lg", false],
+] as const)(
+  "a DialogFooterNote in a %s dialog (className %s) warns: %s",
+  (size, className, warns) => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    try {
+      render(
+        <ThemeProvider>
+          <Dialog open modal={false}>
+            <DialogContent size={size} className={className}>
+              <DialogTitle>Add 3 Members?</DialogTitle>
+              <DialogFooter>
+                <DialogFooterNote>Billed $8 per member monthly.</DialogFooterNote>
+                <Button>Add Members</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </ThemeProvider>,
+      );
+      const noteWarnings = warn.mock.calls.filter(([message]) =>
+        String(message).includes("DialogFooterNote"),
+      );
+      expect(noteWarnings.length > 0).toBe(warns);
+    } finally {
+      warn.mockRestore();
+    }
+  },
+);
+
+test("an empty DialogFooterNote renders nothing, not an empty line", () => {
+  render(
+    <ThemeProvider>
+      <Dialog open modal={false}>
+        <DialogContent size="lg">
+          <DialogTitle>Add 3 Members?</DialogTitle>
+          <DialogFooter>
+            <DialogFooterNote />
+            <DialogFooterNote>{""}</DialogFooterNote>
+            <Button>Add Members</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+  expect(document.querySelector("[data-slot=dialog-footer-note]")).toBeNull();
 });
