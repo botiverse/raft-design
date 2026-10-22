@@ -644,7 +644,8 @@ textarea:-webkit-autofill:disabled {
    (status.md#sizes). It is kept at 9px inside components (Badge,
    PanelActivity, a panel header); when placing Status yourself, don't pass
    a size. A notice never leads with a status light: a light shows only
-   someone's working or online state, or a task's status. */
+   the working or online state of an agent,
+   a person or a computer, or a task's status. */
 @utility lead-icon {
   flex-shrink: 0;
   align-self: start;
