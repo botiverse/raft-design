@@ -64,6 +64,9 @@ inbox-item/compositions/thread-rows
 - **The badge is the same on a tile and on an avatar**: the same size, in the same corner, so "this is a thread" reads the same in both columns of the list.
 - **On an avatar, the badge takes the presence light's corner.** One corner holds one mark ([Avatar](../avatar/avatar.md#the-corner)). The row is about the thread, not about how the agent is doing now, so the badge wins and the thread row shows no presence light. The light stays on the direct message's own row.
 - **The second line doesn't repeat the leading image.** In a direct message the avatar already names the other side, so "@Lagoon · Lagoon: …" says the name twice; the line starts with the latest message. A tile doesn't name its channel, so a channel thread keeps "#channel ·" before it.
+- **A screen reader still hears where the thread is.** The "@Lagoon ·" hidden from sight stays in the row's accessible name, so someone who doesn't see the avatar still knows which direct message the thread belongs to.
+- **Until the direct message has loaded, lead with the direct-message icon**, never a `#` tile: the row must not claim a channel it isn't in, even for a moment.
+- **The thread follows its conversation's settings.** A thread in a muted direct message is muted too, the same as a thread in a muted channel.
 
 ## Variants
 
