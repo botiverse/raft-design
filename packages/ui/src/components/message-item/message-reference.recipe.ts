@@ -64,6 +64,18 @@ export const messageReference = tv({
       SUFFIX_LIFT,
       "font-mono text-label leading-none font-normal text-foreground-hint",
     ],
+    // A 14px box for a leading icon that is not a plain svg, such as an app's
+    // image or a 3xs Avatar: a leading mark of the inline chip, which gives it
+    // 4.5px at each end and 4px to the text (lib/inline-chip.ts). It centres
+    // on the chip as an svg does (an image would sit on the baseline). An
+    // app's image is drawn to its edges, so its ink starts 4.5px in, as a
+    // status pixel's does, against 4.5px plus the last letter's side bearing
+    // at the other end (alignment.md, Chips). An image takes the 2px corner of
+    // small images (shape.md).
+    icon: [
+      "inline-flex size-3.5 shrink-0 items-center justify-center self-center",
+      "*:size-full *:shrink-0 [&>img]:rounded-[2px] [&>img]:object-cover",
+    ],
     indicator: [
       "pointer-events-none absolute -right-1.5 top-0 inline-flex size-2 shrink-0 items-center justify-center",
       "*:data-[slot=status]:size-full",
@@ -97,6 +109,11 @@ export const messageReference = tv({
       link: { root: linkChip("bg-info-soft") },
       pending: { root: chip("cursor-wait bg-inactive-soft text-foreground-muted") },
       unavailable: { root: chip("cursor-default bg-inactive-soft text-foreground-hint") },
+    },
+    // A chip whose words come from outside Raft (an app's title) stops at
+    // 24em, about 294px on a desktop and 336px on a phone, or the line.
+    capped: {
+      true: { root: "max-w-[min(100%,24em)]" },
     },
   },
   defaultVariants: {

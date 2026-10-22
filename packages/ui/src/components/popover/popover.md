@@ -18,6 +18,7 @@ A popover is a small panel that opens next to the element people click and holds
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | One sentence about something, on hover                  | [Tooltip](../tooltip/tooltip.md)                                                                       |
 | A summary of a person or an agent, on hover, with links | [PreviewCard](../preview-card/preview-card.md)                                                         |
+| The details of an item an app links to, on hover        | An item card ([PreviewCard](../preview-card/preview-card.md#item-card))                                |
 | A little choice or input, on click (snooze, rename)     | Popover, with a [RadioGroup](../radio-group/radio-group.md), an [Input](../input/input.md) and buttons |
 | A list of actions                                       | [DropdownMenu](../dropdown-menu/dropdown-menu.md)                                                      |
 | Something that stays open and scrolls                   | [Drawer](../drawer/drawer.md)                                                                          |
@@ -31,6 +32,8 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `PopoverContent`: the panel, portaled and positioned next to the trigger. Required.
 - `PopoverHeader`: a row with `PopoverTitle` and an optional `PopoverClose`.
 - `PopoverTitle` and `PopoverDescription`: the title and a sentence under it.
+- `PopoverBody`: the panel's text, a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges. Experimental, from `@botiverse/raft-ui/wip`.
+- `PopoverActions`: the panel's buttons at its end, under `PopoverBody`: the way out first, then the confirm button. Experimental, from `@botiverse/raft-ui/wip`.
 - `PopoverSeparator`: a hairline between parts of the panel.
 - `PopoverClose`: a button that closes the popover.
 - `PopoverArrow`: an optional pointer toward the trigger.

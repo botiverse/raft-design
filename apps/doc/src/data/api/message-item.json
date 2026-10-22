@@ -5,6 +5,13 @@
     "native": true,
     "props": [
       {
+        "name": "capped",
+        "type": "boolean",
+        "required": false,
+        "description": "Stops the chip at `min(100%, 24em)`; a longer `MessageReferenceLabel` truncates at the end. For words Raft doesn't write, such as an app's title.",
+        "from": "raft-ui"
+      },
+      {
         "name": "variant",
         "type": "MessageReferenceChipVariant",
         "required": false,
@@ -53,6 +60,13 @@
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
+      {
+        "name": "capped",
+        "type": "boolean",
+        "required": false,
+        "description": "The same cap as `MessageReferenceChip`'s, so the chip that replaces it keeps its width.",
+        "from": "raft-ui"
+      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
@@ -1304,6 +1318,21 @@
     "name": "MessageItemDelegatedByName",
     "entry": "@botiverse/raft-ui/wip",
     "description": "The assistant's name in `MessageItemDelegatedBy`, the part that truncates.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReferenceIcon",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The chip's leading icon when it is not a plain svg: an image or a `3xs` Avatar, such as an app's registered icon. It holds one child at 14px, centred on the chip. Put it first in the chip.",
     "native": true,
     "props": [
       {

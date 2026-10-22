@@ -1,7 +1,7 @@
 ---
 title: MessageEmbed
 summary: 消息里嵌入内容所用的卡片：细线卡片里的头部、内容和底部；用于链接卡片，也是转发消息组、操作卡片和回复摘要的基础。
-sourceHash: e9f05df0
+sourceHash: e771a902
 ---
 
 # MessageEmbed
@@ -12,6 +12,7 @@ sourceHash: e9f05df0
 
 | 场景 | 使用 |
 | --- | --- |
+| 应用预览的链接（一个 pull request、一份文档） | 正文里的引用标签片，不是卡片（[MessageItem](../message-item/message-item.md#app-links)） |
 | 指向某个页面的链接，在消息下方预览 | MessageEmbed，作为链接卡片 |
 | 从另一个对话转过来的消息 | [MessageForwardedBundle](../message-forwarded-bundle/message-forwarded-bundle.md) |
 | 指向一条消息的链接，显示为摘录 | [MessageQuotedPreview](../message-quoted-preview/message-quoted-preview.md) |

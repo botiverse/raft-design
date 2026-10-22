@@ -1,7 +1,7 @@
 ---
 title: Popover
 summary: 在人点击的元素旁边打开的小面板，用于少量输入，比如一个选项、一个输入框和一个按钮。
-sourceHash: b3bc0aef
+sourceHash: a4a86d8f
 ---
 
 # Popover
@@ -14,6 +14,7 @@ sourceHash: b3bc0aef
 | --- | --- |
 | 悬停时关于某样东西的一句话 | [Tooltip](../tooltip/tooltip.md) |
 | 悬停时显示一个人或 agent 的概要，带链接 | [PreviewCard](../preview-card/preview-card.md) |
+| 悬停时显示应用链接到的条目的详情 | 条目卡片（[PreviewCard](../preview-card/preview-card.md#item-card)） |
 | 点击后做一个小选择或少量输入（暂缓、改名） | Popover，配合 [RadioGroup](../radio-group/radio-group.md)、[Input](../input/input.md) 和按钮 |
 | 一组操作 | [DropdownMenu](../dropdown-menu/dropdown-menu.md) |
 | 保持打开、可以滚动的内容 | [Drawer](../drawer/drawer.md) |
@@ -27,6 +28,8 @@ sourceHash: b3bc0aef
 - `PopoverContent`：面板本身，通过 portal 渲染，定位在触发元素旁边。必需。
 - `PopoverHeader`：一行，放 `PopoverTitle` 和可选的 `PopoverClose`。
 - `PopoverTitle` 和 `PopoverDescription`：标题和它下面的一句话。
+- `PopoverBody`：面板的文字，一个 `PopoverTitle` 和一个 `PopoverDescription`，离面板边缘 16px。实验性，从 `@botiverse/raft-ui/wip` 引入。
+- `PopoverActions`：面板末尾的按钮，在 `PopoverBody` 下面：先放离开的按钮，再放确认按钮。实验性，从 `@botiverse/raft-ui/wip` 引入。
 - `PopoverSeparator`：面板各部分之间的细线。
 - `PopoverClose`：关闭弹出层的按钮。
 - `PopoverArrow`：可选的、指向触发元素的箭头。

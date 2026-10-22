@@ -22,16 +22,17 @@ The card for something embedded in a message: a link card, or the base that othe
 
 ## When to use
 
-| Situation                                     | Use                                                                                                                                                                     |
-| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| A link to a page, previewed under the message | MessageEmbed, as a link card                                                                                                                                            |
-| Messages passed on from another conversation  | [MessageForwardedBundle](../message-forwarded-bundle/message-forwarded-bundle.md)                                                                                       |
-| A link to one message, shown as an excerpt    | [MessageQuotedPreview](../message-quoted-preview/message-quoted-preview.md)                                                                                             |
-| An agent needs a person's approval            | [MessageActionCard](../message-action-card/message-action-card.md)                                                                                                      |
-| A file, an image or a video                   | [MessageAttachment](../message-attachment/message-attachment.md)                                                                                                        |
-| The replies to a message                      | [MessageReplies](../message-replies/message-replies.md)                                                                                                                 |
-| Code, a diagram or a Markdown table           | [CodeBlock](../code-block/code-block.md)                                                                                                                                |
-| A new kind of embedded card                   | MessageEmbed as its base, not a new container ([Built from existing parts](../../../../../design/components/overview.md#link-cards-forwarded-messages-quoted-previews)) |
+| Situation                                           | Use                                                                                                                                                                     |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A link an app previews (a pull request, a document) | A reference chip in the text, not a card ([MessageItem](../message-item/message-item.md#app-links))                                                                     |
+| A link to a page, previewed under the message       | MessageEmbed, as a link card                                                                                                                                            |
+| Messages passed on from another conversation        | [MessageForwardedBundle](../message-forwarded-bundle/message-forwarded-bundle.md)                                                                                       |
+| A link to one message, shown as an excerpt          | [MessageQuotedPreview](../message-quoted-preview/message-quoted-preview.md)                                                                                             |
+| An agent needs a person's approval                  | [MessageActionCard](../message-action-card/message-action-card.md)                                                                                                      |
+| A file, an image or a video                         | [MessageAttachment](../message-attachment/message-attachment.md)                                                                                                        |
+| The replies to a message                            | [MessageReplies](../message-replies/message-replies.md)                                                                                                                 |
+| Code, a diagram or a Markdown table                 | [CodeBlock](../code-block/code-block.md)                                                                                                                                |
+| A new kind of embedded card                         | MessageEmbed as its base, not a new container ([Built from existing parts](../../../../../design/components/overview.md#link-cards-forwarded-messages-quoted-previews)) |
 
 ## Anatomy
 

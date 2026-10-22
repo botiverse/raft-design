@@ -67,8 +67,32 @@ On desktop, people can hide the sidebar to give the main area the whole width, a
 
 ### Going somewhere
 
-- Link to places and items in running text with reference chips: a soft pink chip for a channel, a soft cyan chip for a thread, a computer or another piece of content. Link to the web with a blue link.
+- Link to places and items in running text with reference chips: a soft pink chip for a channel, a soft cyan chip for a thread, a computer or another piece of content. A link that an app previews is a piece of content too, a cyan chip ([App links](#app-links)). Link to the rest of the web with a blue link.
 - Highlight the message someone jumped to with `info-soft`, and clear the highlight after 2 seconds: long enough to find it, short enough not to look selected.
+
+#### App links
+
+An app connected to a server, such as Stamp for code review, can preview its own links: when someone posts the address of a pull request, a document or a run, the app supplies a title and details for it. The link stays where it was written, in the sentence, as a cyan reference chip with the app's icon and the app's title; the details open on hover.
+
+```example
+message-reference/compositions/app-links
+```
+
+- Show an app link as a reference chip in the text (`MessageReferenceChip variant="info"`), never as a card under the message. The link is one item in a sentence: a card moves it out of the sentence to the bottom of the message, where the reader has to match it back to the words around it, and a message with three links would carry three cards.
+- Show a message that is only a link as the same chip, with no card of its own: one link is one item whether or not words surround it.
+- Write the app's `title` in the chip exactly as the app sends it. Don't compose a format of Raft's own, such as "repo#number · title": the title says what the app wants to say, in its own product's terms, and Raft doesn't interpret what an app's item is.
+- Cap the chip and truncate a long title at the end, so each link takes at most one line ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#app-links)).
+- Lead the chip with the app's registered icon, the image Raft stores for the app and serves itself. Never show an image from an address the app sends with the preview: an image fetched from the app on every view tells the app who read the message and when, and an app could draw an icon that passes for one of Raft's own.
+- Show no state on the chip, in its icon or its color. Which states an item has is the app's concept, not Raft's, and the status colors mean task and presence states: a lime "done" on a merged pull request would read the opposite of what developers know from GitHub, where merged is purple and green is open. The state is in the app's words, on the hover card.
+- While the preview loads (it is fetched for each reader after the message appears), show the link as `MessageReferencePending`: a gray chip with the address shortened to its host and path, capped at the same width. When the preview arrives only the icon and the words change, so the text around the chip moves as little as it can.
+
+```example
+message-reference/compositions/app-link-pending
+```
+
+- When the reader hasn't allowed the app yet and the server asks whether to show its previews, keep the gray chip with the shortened address (`MessageReferenceChip variant="muted"`), as a button, not a link: a link would open the address at the same click and skip the question. It opens no card. Clicking, tapping or pressing Enter on it asks first, the same on every device, in a [Popover](../../packages/ui/src/components/popover/popover.md): Open Link goes without previews, Show Previews allows them. A card can't ask: it is read-only, and its buttons can't be reached by keyboard or touch.
+- On desktop, hovering or focusing the chip opens the app's item card with the details: the id, the title, a state and a line of details in the app's words, its actions, and the app's name and host ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)). Raft puts no colors of the app's on it.
+- On a phone, tapping the chip opens the link. A preview card doesn't open on touch, so make the chip a real link (`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`) that opens in a new tab, leaving the conversation where it was.
 
 ### Going back
 

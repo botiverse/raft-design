@@ -417,5 +417,19 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "PopoverActions",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The panel's buttons, at its end, under `PopoverBody`: the way out first, then the confirm button.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "PopoverBody",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The panel's text: a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges.",
+    "native": true,
+    "props": []
   }
 ]

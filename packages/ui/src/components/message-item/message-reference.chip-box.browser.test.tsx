@@ -10,6 +10,7 @@ import { TaskStatusIcon } from "../tasks/task-status-icon";
 import { MessageItemBody, MessageItemContent } from "./message-item-content";
 import {
   MessageReferenceChip,
+  MessageReferenceIcon,
   MessageReferenceLabel,
   MessageReferencePending,
   MessageReferenceSuffix,
@@ -45,9 +46,16 @@ beforeAll(async () => {
 
 afterEach(cleanup);
 
-// `mark`: the leading mark's own width. A Lucide icon is 14px; the loading
-// spinner and a task's status pixel keep their own boxes, drawn to their edges.
+// `mark`: the leading mark's own width. A Lucide icon is 14px, and so is an
+// app's image in `MessageReferenceIcon`; the loading spinner and a task's
+// status pixel keep their own boxes, drawn to their edges.
 type Case = { kind: string; mark: number | null; chip: ReactNode };
+
+const APP_IMAGE =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><rect width="16" height="16" fill="oklch(0.6 0.19 30)"/></svg>',
+  );
 
 const CHIPS: Case[] = [
   {
@@ -83,6 +91,18 @@ const CHIPS: Case[] = [
         <Link2 />
         <MessageReferenceLabel>#proj-chat</MessageReferenceLabel>
         <MessageReferenceSuffix>msg</MessageReferenceSuffix>
+      </MessageReferenceChip>
+    ),
+  },
+  {
+    kind: "app",
+    mark: 14,
+    chip: (
+      <MessageReferenceChip variant="info" capped>
+        <MessageReferenceIcon>
+          <img src={APP_IMAGE} alt="" />
+        </MessageReferenceIcon>
+        <MessageReferenceLabel>#10449 one locale source</MessageReferenceLabel>
       </MessageReferenceChip>
     ),
   },
@@ -221,7 +241,9 @@ for (const [name, width, line] of [
       const side = mark === null ? "6px" : "4.5px";
       expect([style.paddingLeft, style.paddingRight], `${kind} sides`).toEqual([side, side]);
       if (mark === null) continue;
-      const el = chip.querySelector(":scope > svg, :scope > [data-slot=spinner]")!;
+      const el = chip.querySelector(
+        ":scope > svg, :scope > [data-slot=spinner], :scope > [data-slot=message-reference-icon]",
+      )!;
       const r = el.getBoundingClientRect();
       expect(r.left - box.left, `${kind} before the mark`).toBeCloseTo(4.5, 1);
       expect(r.width, `${kind} mark box`).toBeCloseTo(mark, 1);

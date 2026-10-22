@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 agent 用法相同。
-sourceHash: 6d9783e8
+sourceHash: af1f8ca4
 ---
 
 # MessageItem
@@ -40,7 +40,7 @@ message-item/compositions/item-preview
 - `MessageItemBody`：文字，用 `text-body`。必需。
 - `MessageItemEdited`：已编辑标记，放在文字末尾，完整行和接续行都一样。
 - `MessageItemAttachments`：文件和图片（[MessageAttachment](../message-attachment/message-attachment.md)）。
-- `MessageItemEmbedded`：代码块、操作卡片和链接卡片。
+- `MessageItemEmbedded`：代码块、操作卡片和链接卡片。应用预览的链接不是卡片：它是正文里的标签片（[应用链接](#app-links)）。
 - `MessageItemFooter`：一行：先是任务标记，然后是回应（`MessageReactionChip`，最后是 `MessageReactionAddButton`），再是收藏和已读标记（`MessageItemSavedIndicator`、`MessageItemReadReceipt`）。
 - `MessageItemToolbar` 加 `MessageItemToolbarButton`：悬停工具栏。
 - `MessageMultiSelectCheckbox` 和 `MessageMultiSelectToolbar`，操作放在 `MessageMultiSelectToolbarActions` 里（28px 的按钮，间隔 4px；在触屏上每个按钮的点击区域是 44px，向相邻按钮只延伸到间隔的一半，所以点在两者之间会落到较近的那个上）：用于选择多条消息（[由现有部件组成](../../../../../design/components/overview.md#toolbar-for-selected-messages)）。
@@ -53,6 +53,7 @@ message-item/compositions/item-preview
 | 提及别人 | `MessageReferenceText` | 墨色，加粗，悬停时加墨色下划线（[对话](../../../../../design/patterns/conversation.md#mentions)） |
 | 提及正在阅读的人；搜索命中 | `MessageReferenceText variant="primary"`；`MessageItemSearchMatch` | 一张小小的黄色贴纸 |
 | 引用标签片 | `MessageReferenceChip` | 频道或私信用 `variant="accent"`，消息列或消息用 `variant="info"`（[导航](../../../../../design/patterns/navigation.md#going-somewhere)） |
+| 应用预览的链接 | `MessageReferenceChip variant="info" capped` | 青色标签片，带应用的图标和它的标题（[应用链接](#app-links)） |
 | 正在加载或无法打开的引用 | `MessageReferencePending`、`MessageReferenceUnavailable` | `inactive-soft` 上的灰色标签片 |
 | 引用标签片标签后面的注记 | `MessageReferenceSuffix` | 弱化的 Space Mono，比如指向消息的链接上的 `msg` |
 | 网页链接 | Markdown 链接 | `foreground-link`，常态下带下划线（[Markdown](../markdown/markdown.md)） |
@@ -78,7 +79,7 @@ message-reference/compositions/mixed-long-message
 | 高度 | 正文行高减 2px：标签片文字的行框，上下没有内边距 | 20px | 22px |
 | 对齐 | 文字在句子的基线上，前置标记在标签片里居中（[正文中的标记](../../../../../design/foundations/alignment.md#marks-in-running-text)） | 行高保持 22px | 行高保持 24px |
 | 两端 | 两端各 6px；有前置标记时两端各 4.5px（[对齐](../../../../../design/foundations/alignment.md#chips)：两端的墨迹离边缘一样远），标记再隔 4px 到文字 | 6px 或 4.5px | 6px 或 4.5px |
-| 前置标记 | 14px 的图标、加载中的旋转图标，或任务 9px 的状态像素点，各自用自己的盒子，在标签片里居中 | 14px、9.5px 或 9px | 14px、9.5px 或 9px |
+| 前置标记 | 14px 的图标（svg，或放在 `MessageReferenceIcon` 里的应用图片）、加载中的旋转图标，或任务 9px 的状态像素点，各自用自己的盒子，在标签片里居中 | 14px、9.5px 或 9px | 14px、9.5px 或 9px |
 | 注记 | 标签后的注记（`MessageReferenceSuffix`），离标签 4px | 4px | 4px |
 | 圆角 | `radius-sticker` | 4px | 4px |
 
@@ -89,6 +90,26 @@ message-reference/compositions/mixed-long-message
 - 行内代码不是标签片：它是代码，不是引用，保留自己的盒子（[InlineCode](../inline-code/inline-code.md)），桌面端 20px，手机 23px，不会比行高。
 
 在 raft-ui 里，这三个组件从同一个配方（`lib/inline-chip.ts`）取这个盒子。
+
+### 应用链接 {#app-links}
+
+应用预览的链接是句子里的一个引用标签片，带应用的图标和应用自己给的标题。为什么它是标签片而不是卡片，以及它的加载和悬停行为，见[导航](../../../../../design/patterns/navigation.md#app-links)。
+
+- `MessageReferenceChip variant="info" capped`，渲染成在新标签页打开的链接：`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`。
+- `MessageReferenceIcon`：应用注册的图标，一个由 Raft 提供的 `<img alt="">`，放在标签片最前面。它 14px，在标签片里居中，带 2px 圆角。它是标签片盒子的前置标记（[正文中的标签片](#chips-in-running-text)）：两端各 4.5px，到标签 4px。图片画满到边缘，所以它和状态像素点一样取 4.5px（[对齐](../../../../../design/foundations/alignment.md#chips)）：它的墨迹离标签片起始边 4.5px，另一端最后一个字母之后约 4.8px。任何图片或其他非 svg 图标都用它：直接放进标签片的 `<img>` 没有自己的尺寸，会落在文字的基线上。实验性，从 `@botiverse/raft-ui/wip` 导出。
+- `MessageReferenceLabel`：应用的 `title`，原样显示。放在标签里，不要直接放进标签片：只有标签会截断。
+- `capped` 让标签片最宽到 `min(100%, 24em)`，标签在末尾截断。标签片文字的 24em 在桌面端是 294px，手机上是 336px。在 700px 宽的桌面端消息列里，两个满长的标签片加中间几个字能放在一行，标题短一些的能放三个；在 390px 的手机上，一行比 24em 窄，所以长标题自己占一行，绝不在标签片里换行。不加 `capped` 时，标签片和以前一样，最宽到整行。
+- 没有状态：图标总是应用自己的、用它自己的颜色，标签片总是青色。
+
+```example
+message-reference/compositions/app-links
+```
+
+预览加载时，链接是 `MessageReferencePending capped`，带一个 `link` 图标，地址缩短为主机名和路径。它的两端、图标尺寸和上限宽度都和替换它的标签片一样，所以变的只有图标和文字。
+
+```example
+message-reference/compositions/app-link-pending
+```
 
 ## 变体 {#variants}
 
@@ -207,7 +228,8 @@ message-item/compositions/reactions
 - 回应失败的原因放在 `MessageReactionErrorIndicator` 里，它是一个视觉上隐藏的 `role="status"`。
 - `MessageTextSelectionToolbar` 封装了 Base UI `Toolbar`；给它一个 `aria-label`。
 - 给 `MessageMultiSelectCheckbox` 一个指明是哪条消息的标签，比如 "Select message from Bugen"。
-- 能打开某个东西的引用标签片，通过 `render` 渲染成链接；标签片默认是 `span`。
+- 能打开某个东西的引用标签片，通过 `render` 渲染成链接；标签片默认是 `span`。应用链接在新标签页打开，带 `rel="noopener noreferrer"`。
+- 给 `MessageReferenceIcon` 里的应用图标一个空的 `alt`：旁边的标题已经说明了这个链接。
 - 给头像图片一个空的 `alt`：旁边的名字已经说明了是谁。
 - `MessageItemDelegatedAvatar` 是 `aria-hidden`："sent by Friday" 是标题栏里的纯文字，按它的顺序读出（名字、角色、"sent by Friday"、时间）。产品给整行命名（`aria-label`）时，用同样的文字。`MessageItemDelegatedByButton` 是一个 `<button>`；它跳到个人资料页时，通过 `render` 渲染成链接。
 - 给 `MessageItemTime` 和 `MessageItemContinuationTime` 的 `dateTime` 传入时刻（ISO 8601），并在工具提示里显示完整的日期和时间。读屏软件按显示的顺序读标题栏：名字、徽标、角色、时间。

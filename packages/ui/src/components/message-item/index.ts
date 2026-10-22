@@ -55,6 +55,7 @@ export {
 } from "./message-reaction";
 export {
   MessageReferenceChip,
+  MessageReferenceIcon,
   MessageReferenceIndicator,
   MessageReferenceLabel,
   MessageReferencePending,
@@ -140,6 +141,7 @@ export type {
 export type {
   MessageReferenceChipProps,
   MessageReferenceChipVariant,
+  MessageReferenceIconProps,
   MessageReferenceIndicatorProps,
   MessageReferenceLabelProps,
   MessageReferenceSuffixProps,

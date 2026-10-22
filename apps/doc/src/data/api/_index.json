@@ -773,7 +773,8 @@
       "MessageItemDelegatedAvatar",
       "MessageItemDelegatedBy",
       "MessageItemDelegatedByButton",
-      "MessageItemDelegatedByName"
+      "MessageItemDelegatedByName",
+      "MessageReferenceIcon"
     ],
     "status": "stable",
     "description": "A short note after a chip's label in muted machine type, such as `msg` on a link to a message. It lines up with the label by the middle of its letters."
@@ -940,9 +941,12 @@
       "PopoverSeparator",
       "PopoverTitle",
       "PopoverTrigger",
-      "PopoverViewport"
+      "PopoverViewport",
+      "PopoverActions",
+      "PopoverBody"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The panel's buttons, at its end, under `PopoverBody`: the way out first, then the confirm button."
   },
   "preview-card": {
     "names": [
@@ -955,9 +959,15 @@
       "PreviewCardPortal",
       "PreviewCardSeparator",
       "PreviewCardTitle",
-      "PreviewCardTrigger"
+      "PreviewCardTrigger",
+      "PreviewCardActions",
+      "PreviewCardBody",
+      "PreviewCardEyebrow",
+      "PreviewCardFooter",
+      "PreviewCardMeta"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The row of at most two buttons."
   },
   "profile-panel": {
     "names": [

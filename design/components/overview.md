@@ -109,6 +109,7 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | --- | --- |
 | One sentence on hover | [Tooltip](../../packages/ui/src/components/tooltip/tooltip.md) |
 | A person or agent, on hover | A profile card ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)) |
+| An item an app links to, on hover over its chip | An item card ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)) |
 | A list of actions, on click or press and hold | [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) |
 | One value, on click | [Select](../../packages/ui/src/components/select/select.md), with search when there are many values |
 | Several values, on click | A multi-select, with search when there are many values. Choosing a value doesn't close the list |
@@ -177,7 +178,7 @@ lightbox/compositions/attachment-preview-shell
 
 ### Link cards, forwarded messages, quoted previews
 
-The structure of a file card ([MessageAttachment](../../packages/ui/src/components/message-attachment/message-attachment.md)) with the header of a message ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)): [MessageEmbed](../../packages/ui/src/components/message-embed/message-embed.md), [MessageForwardedBundle](../../packages/ui/src/components/message-forwarded-bundle/message-forwarded-bundle.md), [MessageQuotedPreview](../../packages/ui/src/components/message-quoted-preview/message-quoted-preview.md).
+The structure of a file card ([MessageAttachment](../../packages/ui/src/components/message-attachment/message-attachment.md)) with the header of a message ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)): [MessageEmbed](../../packages/ui/src/components/message-embed/message-embed.md), [MessageForwardedBundle](../../packages/ui/src/components/message-forwarded-bundle/message-forwarded-bundle.md), [MessageQuotedPreview](../../packages/ui/src/components/message-quoted-preview/message-quoted-preview.md). A link that an app previews is not one of them: it is a reference chip in the text, with its details in a hover card ([App links](../patterns/navigation.md#app-links)).
 
 ```example
 message-forwarded-bundle/compositions/forwarded-bundle

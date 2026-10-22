@@ -28,6 +28,26 @@ const previewCard = tv({
       "px-4 py-3 last:pb-4 font-sans text-callout text-foreground-muted",
     ],
     arrow: ["size-2 rotate-45", "border-l border-t border-line-seam bg-layer-popover"],
+    // The item card: an id line, the title, a row of state and details, then
+    // actions and a footer. In the body the title wraps, up to 3 lines: an
+    // item's title is what the card is for, and a cut-off one says less than
+    // the chip it came from.
+    body: [
+      "flex min-w-0 flex-col gap-1.5",
+      "px-4 pt-4 pb-3 last:pb-4",
+      "*:data-[slot=preview-card-title]:line-clamp-3 *:data-[slot=preview-card-title]:whitespace-normal",
+    ],
+    eyebrow: ["m-0 truncate", "font-mono text-mono-meta text-foreground-muted"],
+    meta: [
+      "flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1",
+      "m-0 font-sans text-callout text-foreground-muted",
+    ],
+    actions: ["flex flex-wrap items-center gap-2", "px-4 pb-3 last:pb-4"],
+    footer: [
+      "m-0 truncate",
+      "border-t border-line-hairline px-4 py-2",
+      "font-sans text-caption text-foreground-muted",
+    ],
   },
 });
 
@@ -191,4 +211,44 @@ export function PreviewCardArrow({ className, ...props }: PreviewCardArrowProps)
       {...props}
     />
   );
+}
+
+export type PreviewCardBodyProps = ComponentPropsWithRef<"div">;
+
+/** The item card's block: the id line, the title and the details row, in that order. */
+export function PreviewCardBody({ className, ...props }: PreviewCardBodyProps) {
+  const { body } = previewCard();
+  return <div data-slot="preview-card-body" className={body({ className })} {...props} />;
+}
+
+export type PreviewCardEyebrowProps = ComponentPropsWithRef<"p">;
+
+/** The muted line above the title that identifies the item, such as its id. One line, truncated. */
+export function PreviewCardEyebrow({ className, ...props }: PreviewCardEyebrowProps) {
+  const { eyebrow } = previewCard();
+  return <p data-slot="preview-card-eyebrow" className={eyebrow({ className })} {...props} />;
+}
+
+export type PreviewCardMetaProps = ComponentPropsWithRef<"div">;
+
+/** The row under the title: one state chip, then muted details. Wraps when it runs out of room. */
+export function PreviewCardMeta({ className, ...props }: PreviewCardMetaProps) {
+  const { meta } = previewCard();
+  return <div data-slot="preview-card-meta" className={meta({ className })} {...props} />;
+}
+
+export type PreviewCardActionsProps = ComponentPropsWithRef<"div">;
+
+/** The row of at most two buttons. */
+export function PreviewCardActions({ className, ...props }: PreviewCardActionsProps) {
+  const { actions } = previewCard();
+  return <div data-slot="preview-card-actions" className={actions({ className })} {...props} />;
+}
+
+export type PreviewCardFooterProps = ComponentPropsWithRef<"p">;
+
+/** The caption under a hairline at the bottom of the card: where the item comes from. */
+export function PreviewCardFooter({ className, ...props }: PreviewCardFooterProps) {
+  const { footer } = previewCard();
+  return <p data-slot="preview-card-footer" className={footer({ className })} {...props} />;
 }
