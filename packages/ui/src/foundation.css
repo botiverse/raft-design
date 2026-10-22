@@ -157,7 +157,7 @@
   --foreground-on-frame: var(--sticker-ink);
   --foreground-on-frame-muted: oklch(0.4082 0.0679 93.96);
   --foreground-on-frame-active: var(--sticker-ink);
-  --foreground-link: oklch(0.4878 0.2432 264.4);
+  --foreground-link: oklch(0.4327 0.1282 256.54);
   --layer-canvas: oklch(1 0 0);
   --layer-sidebar: oklch(0.986 0.0154 86.42);
   --layer-popover: oklch(1 0 0);
@@ -351,7 +351,7 @@
   --foreground-on-hud-muted: var(--foreground-muted);
   --foreground-on-frame: oklch(0.9211 0.004 106.48);
   --foreground-on-frame-muted: oklch(0.6984 0.0043 106.51);
-  --foreground-link: oklch(0.8071 0.1007 250.45);
+  --foreground-link: oklch(0.717 0.1183 253.58);
   --layer-canvas: oklch(0.2213 0.0038 106.71);
   --layer-sidebar: oklch(0.1582 0.0041 106.86);
   --layer-popover: oklch(0.2802 0.0036 106.63);
@@ -433,7 +433,7 @@
     --foreground-on-hud-muted: var(--foreground-muted);
     --foreground-on-frame: oklch(0.9211 0.004 106.48);
     --foreground-on-frame-muted: oklch(0.6984 0.0043 106.51);
-    --foreground-link: oklch(0.8071 0.1007 250.45);
+    --foreground-link: oklch(0.717 0.1183 253.58);
     --layer-canvas: oklch(0.2213 0.0038 106.71);
     --layer-sidebar: oklch(0.1582 0.0041 106.86);
     --layer-popover: oklch(0.2802 0.0036 106.63);
