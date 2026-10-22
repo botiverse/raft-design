@@ -68,7 +68,7 @@ On desktop, people can hide the sidebar to give the main area the whole width, a
 ### Going somewhere
 
 - Link to places and items in running text with reference chips: a soft pink chip for a channel, a soft cyan chip for a thread, a computer or another piece of content. A link that an app previews is a piece of content too, a cyan chip ([App links](#app-links)). Link to the rest of the web with a blue link.
-- Highlight the message someone jumped to with `info-soft`, and clear the highlight after 2 seconds: long enough to find it, short enough not to look selected.
+- Mark the message someone jumped to as located: `info-soft` at once, fading out by 2 seconds, long enough to find it and short enough not to look selected ([Located](../foundations/states.md#located)). The same goes for every jump: to a reply in a thread, to a file comment's passage, to an Activity item.
 
 #### App links
 
@@ -105,7 +105,7 @@ message-reference/compositions/app-link-pending
 - A link opened directly goes back one level at a time, up to the top-level page, so a shared link never leaves the person without a way out.
 - Keep each top-level page's own state when people switch to another tab and back: its scroll position and its filters (what Search keeps is in [Search on a phone](#search-on-a-phone)). Don't keep pushed pages: a tab always reopens on its top-level page, because a pushed page hides the tab bar and would leave no way back.
 - Tapping the selected tab scrolls its top-level page to the top. At the top it does nothing else and resets nothing. On Search it also focuses the search field.
-- Activity is the one exception (artin, 2026-10-21): it is the list people work through, so tapping Activity again, or its title bar, goes to the next unread item below the current position, scrolls it to the top of the list and highlights it briefly. After the last unread item the next tap goes back to the top, and the cycle starts again; with no unread item it goes to the top. It moves only within the current filter and marks nothing as read. Don't give any other tab a meaning of its own: the gesture should mean the same everywhere else.
+- Activity is the one exception (artin, 2026-10-21): it is the list people work through, so tapping Activity again, or its title bar, goes to the next unread item below the current position, scrolls it to the top of the list and marks it as located ([Located](../foundations/states.md#located)). After the last unread item the next tap goes back to the top, and the cycle starts again; with no unread item it goes to the top. It moves only within the current filter and marks nothing as read. Don't give any other tab a meaning of its own: the gesture should mean the same everywhere else.
 - Open the server's own pages from the server tab's popover (Members, Computers, Settings) as pushed pages: they cover the tab bar and Back returns to the page the popover was opened on. A link opened directly to one of them goes back to the first top-level page. They belong to no tab, because the server tab holds no page of its own ([Servers](#servers)).
 
 ### Search on a phone
@@ -115,7 +115,7 @@ message-reference/compositions/app-link-pending
 - Don't open the keyboard when people switch to Search: the tab bar and the selected tab stay in view. The keyboard opens when they tap the field, or when they tap Search again on the tab bar, which focuses the field.
 - Show the recent searches while the field is empty.
 - Keep the query, the filters, the results and their scroll position when people switch to another tab and back.
-- Opening a result is entering a page: it has Back and covers the bar, whatever the result opens. Back returns to the results at the same scroll position and highlights the result just opened, as for a jump ([Going somewhere](#going-somewhere)), so people see where they came from.
+- Opening a result is entering a page: it has Back and covers the bar, whatever the result opens. Back returns to the results at the same scroll position and marks the result just opened as located, as for a jump ([Located](../foundations/states.md#located)), so people see where they came from. On a desktop the results stay beside what they opened, and the open result is selected, so it needs no located highlight.
 - A search started inside a place, such as a channel's Search button, searches only that place. It opens as a pushed page that says its scope ("In #launch-week") and offers to search everything. Searching everything switches to the Search tab with the same query; the scoped page doesn't turn into the Search tab. A search keeps the scope of the place it starts from, and searching everything has its own tab.
 
 ### Closing

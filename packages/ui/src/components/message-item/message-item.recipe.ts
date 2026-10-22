@@ -30,8 +30,11 @@ export const messageItem = tv({
       // as the background, so parts that paint the row's surface around
       // themselves (the delegated face's ring) read the same value. Read off
       // the root, not through group-has-*: see no-ancestor-has.test.ts.
-      "bg-(--mi-row-fill) [--mi-row-fill:initial]",
-      "hover:[--mi-row-fill:var(--fill-subtle)]",
+      // At rest the fill is the located highlight: transparent unless the row
+      // is located (styles.css animates --located-fill), so every mark below
+      // wins over it, and hover doesn't replace it while it lasts.
+      "bg-(--mi-row-fill) [--mi-row-fill:var(--located-fill)]",
+      "not-data-located:hover:[--mi-row-fill:var(--fill-subtle)]",
       // An open menu marks its message with the same subtle tier as a hover:
       // on a phone it is the only sign of which message the menu acts on
       // (states.md#hover-and-press).

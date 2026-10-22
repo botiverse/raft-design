@@ -578,6 +578,79 @@ textarea:-webkit-autofill:disabled {
   text-decoration-line: none;
 }
 
+/* Located: the item a jump took someone to (a link to a message, Back to the
+   results, a comment's anchor, the rows a bulk change touched) shows
+   `info-soft` at once, holds it 1.2s, fades out over 0.8s and is gone at 2s
+   (design/foundations/states.md#located). The fill is a registered colour so
+   it can animate; it is painted as a layer over the item's own fill, so a
+   row's surface stays underneath and comes back as the cyan fades.
+   - Stronger marks win: an item that is selected, active, current, a search
+     match, checked, or has its popup open isn't painted; its own mark already
+     says where it is.
+   - Unlayered, so it beats the hover utilities (a located item doesn't answer
+     hover: the pointer often rests where the item lands, and a grey would
+     hide the cyan). Not while pressed: :active lets the press tier show.
+   - The app sets data-located through useLocated (lib/located.ts), which
+     drops it after LOCATED_MS. Setting the attribute again while it is on
+     doesn't restart the animation; it restarts only after it was removed
+     for a frame, which useLocated does. Left on, the end state is a
+     transparent layer that still hides hover, so don't set it by hand.
+   - A message row takes the fill as --mi-row-fill instead: its resting
+     fill is var(--located-fill), so its own marks (an open menu, a search
+     match, a checked box) override it like any other state, with no has-selector
+     here, and the delegated face's ring keeps matching the row
+     (message-item.recipe.ts). */
+@property --located-fill {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+@keyframes raft-located {
+  0%,
+  60% {
+    --located-fill: var(--info-soft);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    --located-fill: transparent;
+  }
+}
+
+@keyframes raft-located-still {
+  from,
+  to {
+    --located-fill: var(--info-soft);
+  }
+}
+
+/* The shorthand replaces any animation of the element's own while it is
+   located; no raft-ui row has one. It runs on every located item, marked or
+   not, so a mark that comes and goes (a popup opened and closed) doesn't
+   start the highlight over. */
+[data-located] {
+  animation: var(--located-animation, raft-located) 2s linear;
+}
+
+[data-located]:not(
+  [data-message-item],
+  :active,
+  [data-selected]:not([data-selected="false"]),
+  [data-active="true"],
+  [aria-selected="true"],
+  [aria-current]:not([aria-current="false"]),
+  [data-popup-open]
+) {
+  background-image: linear-gradient(var(--located-fill), var(--located-fill));
+}
+
+/* Reduced motion: the same 2s, held still, then off without a fade. */
+@media (prefers-reduced-motion: reduce) {
+  [data-located] {
+    --located-animation: raft-located-still;
+  }
+}
+
 @utility image-transparency-bg {
   --checker-cell: light-dark(oklch(0.1813 0.00497 17.62 / 0.12), oklch(1 0 0 / 0.1));
   background-color: light-dark(oklch(1 0 0), oklch(0.23 0 0));
