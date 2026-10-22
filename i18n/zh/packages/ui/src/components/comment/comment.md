@@ -66,7 +66,7 @@ comment/compositions/card-states
 
 ### 宽屏与窄屏 {#wide-and-narrow}
 
-评论栏里的卡片和带底部面板的标记是两棵不同的树，所以两者之间的切换在 JavaScript 里完成，而不是用容器查询。`useCommentMarginFits(viewer)` 只在以下情况返回 true：在桌面端，即 768px 起且使用鼠标或触控板（`(width >= 48rem) and (pointer: fine)`，所有桌面端尺寸用的都是这个查询），并且查看器元素（装着文档和评论栏的那个元素）至少 784px 宽（`minWidth`）。它用一个 `ResizeObserver` 观察查看器，所以旁边打开侧边栏或消息列时，布局会随之变化。
+评论栏里的卡片和带底部面板的标记是两棵不同的树，所以两者之间的切换在 JavaScript 里完成，而不是用容器查询。`useCommentMarginFits(viewer)` 只在以下情况返回 true：在桌面端，即 768px 起且使用鼠标或触控板（`(width >= 48rem) and (pointer: fine)`，所有桌面端尺寸用的都是这个查询），并且查看器元素（装着文档和评论栏的那个元素）至少 784px 宽（`minWidth`）。它用一个 `ResizeObserver` 观察查看器，所以旁边打开侧栏或消息列时，布局会随之变化。
 
 ```example
 comment/compositions/viewer

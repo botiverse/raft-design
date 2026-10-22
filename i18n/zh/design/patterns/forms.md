@@ -47,7 +47,7 @@ field/compositions/preview
 
 - 56px 的头部放这一项的图标、标题和 ×。标题就是打开它的那几个词（Register App）；编辑时是 Edit 加这一项的名称。不要把提交按钮放在头部。
 - 头部下方放一条横栏，放表单滚动时必须一直看得到的东西：表单的错误，或只显示一次的密钥。
-- 左侧放 208px 宽的分区列表，让人能在长表单里跳转（侧边栏行；正在阅读的分区是一张黄色贴纸，随滚动移动），右侧放各个分区（[FormSection](../../packages/ui/src/components/form-section/form-section.md)：一个小标题、一个状态标签、一行描述，分区之间一条细线）。
+- 左侧放 208px 宽的分区列表，让人能在长表单里跳转（侧栏行；正在阅读的分区是一张黄色贴纸，随滚动移动），右侧放各个分区（[FormSection](../../packages/ui/src/components/form-section/form-section.md)：一个小标题、一个状态标签、一行描述，分区之间一条细线）。
 - 底部 Cancel 在前，粉色按钮在最后。
 - 点击对话框外部时不要关闭，免得误点一下就丢掉一张长表单。×、Esc 和 Cancel 可以关闭它。
 - 宽度小于 768px 时，去掉分区列表。

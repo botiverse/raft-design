@@ -50,7 +50,7 @@ comment/compositions/margin
 
 页边需要文档旁边有 304px：280px 的卡片列，加上它和文档之间 24px。只在文档还能保留至少 480px（每行约 60 个字符）时显示页边，也就是查看器宽 784px 起；并且只在桌面端显示：用鼠标或触控板、宽度 768px 起，这是所有桌面端尺寸的条件（[间距](../foundations/spacing.md#hit-targets)）。用触屏操作的平板不论多宽都用标记，和手机一样。
 
-测量的是查看器，不是窗口：查看器旁边可能有侧边栏或消息列（[响应式布局](./responsive.md#when-a-row-runs-out-of-room)）。卡片和标记是两种不同的结构，不是同一个结构换了样式，所以查看器用 JavaScript 测量自己的宽度，用 [`useCommentMarginFits`](../../packages/ui/src/components/comment/comment.md#wide-and-narrow)，而不是用容器查询。
+测量的是查看器，不是窗口：查看器旁边可能有侧栏或消息列（[响应式布局](./responsive.md#when-a-row-runs-out-of-room)）。卡片和标记是两种不同的结构，不是同一个结构换了样式，所以查看器用 JavaScript 测量自己的宽度，用 [`useCommentMarginFits`](../../packages/ui/src/components/comment/comment.md#wide-and-narrow)，而不是用容器查询。
 
 ```example
 comment/compositions/viewer

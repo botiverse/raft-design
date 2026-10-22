@@ -6,7 +6,7 @@ sourceHash: 8b7fb292
 
 # Raft Chat — 设置
 
-设置分三组列出这个人自己的设置、服务器的设置和 Raft 的资源。在桌面端，这几组就是侧边栏，页面在它们旁边打开；在手机上，它们是一个标题为 Settings 的推入页面，从服务器标签的弹出层打开（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)），每一行再打开一个推入页面，带返回到列表的返回按钮。
+设置分三组列出这个人自己的设置、服务器的设置和 Raft 的资源。在桌面端，这几组就是侧栏，页面在它们旁边打开；在手机上，它们是一个标题为 Settings 的推入页面，从服务器标签的弹出层打开（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)），每一行再打开一个推入页面，带返回到列表的返回按钮。
 
 ## 结构 {#structure}
 
@@ -17,7 +17,7 @@ sidebar/compositions/settings-list
 ```
 
 1. **标题栏**：手机上是推入页面的标题栏 Settings，带返回；桌面端是 Settings。
-2. **三组**，每组是一个分组标签加若干带图标和名字的侧边栏行。手机上的列表里没有成员和计算机：它们是服务器标签弹出层里的按钮。
+2. **三组**，每组是一个分组标签加若干带图标和名字的侧栏行。手机上的列表里没有成员和计算机：它们是服务器标签弹出层里的按钮。
    - Personal：Account、Language & Region、Appearance、Notifications。
    - Workspace：Server Profile，然后是这个人有权查看且服务器已开启的项：RaftBench、Plan & Billing、Administration、IM Bridges、Applications、Labs、MCP Servers、AI Providers。
    - Resources：About、Documentation（指向文档站的链接）、Feedback、Release Notes。
@@ -41,4 +41,4 @@ sidebar/compositions/settings-list
 ## 规则 {#rules}
 
 - 把 Sign Out 放在 Account 的最后，在一张 Session 卡片里：一个橙色按钮，点击后打开确认。
-- 把危险区放在 Server Profile 的最后：Leave Server，所有者还有 Delete Server（[表单](../../patterns/forms.md#danger-zone)）。账号不能在设置里删除。
+- 把危险区放在 Server Profile 的最后：Leave Server，所有者还有 Delete Server（[表单](../../patterns/forms.md#danger-zone)）。账户不能在设置里删除。

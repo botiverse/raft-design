@@ -20,7 +20,7 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 | --- | --- |
 | 操作（Actions） | 按钮 |
 | 输入（Inputs） | 表单控件及其周边部件：输入框、选择器、开关、标签和字段 |
-| 导航（Navigation） | 在不同地方和区块之间移动：导航条、侧边栏、手机标签栏、标签页、步骤、分段控件 |
+| 导航（Navigation） | 在不同地方和区块之间移动：导航条、侧栏、手机标签栏、标签页、步骤、分段控件 |
 | 浮层（Overlays） | 所有浮在页面之上的东西：对话框、抽屉、菜单、弹出层、工具提示、图片查看器 |
 | 反馈（Feedback） | 告诉人一个结果、一个问题、一段等待或一个空视图 |
 | 布局（Layout） | 屏幕的框架和各个区域：应用外壳、面板、卡片、分隔线、可调整大小的列 |
@@ -141,12 +141,12 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 
 ### 行 {#rows}
 
-行跟随它所代表的东西，而不是它出现的位置：一个地方在侧边栏里和在手机的地方列表里看起来一样，其他各类行则带上各自主体需要的东西（待查看事项的提醒圆点、任务的状态标签）。同一类行在应用的各个标签页里也是同样大小（[同一类，同样大小](../foundations/spacing.md#the-same-kind-the-same-size)）。
+行跟随它所代表的东西，而不是它出现的位置：一个地方在侧栏里和在手机的地方列表里看起来一样，其他各类行则带上各自主体需要的东西（待查看事项的提醒圆点、任务的状态标签）。同一类行在应用的各个标签页里也是同样大小（[同一类，同样大小](../foundations/spacing.md#the-same-kind-the-same-size)）。
 
 | 位置 | 使用 |
 | --- | --- |
-| 桌面端侧边栏 | 侧边栏的行（[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)） |
-| 手机上的地方列表：主页的频道和私信、Members、Settings 列表 | 同样的侧边栏行，在手机上高 44px（[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)） |
+| 桌面端侧栏 | 侧栏的行（[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)） |
+| 手机上的地方列表：主页的频道和私信、Members、Settings 列表 | 同样的侧栏行，在手机上高 44px（[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)） |
 | 详情页或个人资料页上的 Agent、人和应用，比如一台计算机的 Agent | [ListRow](../../packages/ui/src/components/list-row/list-row.md)，放在内嵌分组里。产品用自己的一份副本（`AvatarListRow`）绘制这种行 |
 | 动态和通知 | [InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md) |
 | 搜索找到的消息 | 搜索结果行（[Search](../../packages/ui/src/components/search/search.md)） |

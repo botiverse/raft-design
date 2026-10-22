@@ -50,7 +50,7 @@ sourceHash: 377f2b12
 
 ## 登录和退出登录 {#signing-in-and-out}
 
-- 写 Sign In 和 Sign Out，也就是登录页上的说法，永远不用 Log In、Log Out，也不把 Login 当动词用。在账号菜单、Settings、计算机上的运行时和应用的连接里，到处都用同一对词，让人只学一次。Apple、Google、Microsoft、GitHub 和 Slack 也都说 sign in 和 sign out。
+- 写 Sign In 和 Sign Out，也就是登录页上的说法，永远不用 Log In、Log Out，也不把 Login 当动词用。在账户菜单、Settings、计算机上的运行时和应用的连接里，到处都用同一对词，让人只学一次。Apple、Google、Microsoft、GitHub 和 Slack 也都说 sign in 和 sign out。
 - 在正文里写 signed in、signed out 和 sign back in；名词写 sign-in："The sign-in window was closed."
 - 中文里，以上这些在简体中写「登录」和「退出登录」，在繁体中写「登入」和「登出」。
 - Login 只在名称里保留原样：Login with Raft 和 Agent Login 这两个功能，以及 CLI 命令 `raft integration login`。它永远不是动词。

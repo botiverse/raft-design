@@ -12,8 +12,8 @@ Badge 是一个小标签。它的主要用途是未读数：一张粉色贴纸�
 
 | 情况 | 用 |
 | --- | --- |
-| 列表行或侧边栏行上的未读消息；消息列的新回复；新动态 | 未读数：`variant="accent"`（`attention` 色）。侧边栏里用 `SidebarItemCount`（[Sidebar](../sidebar/sidebar.md)） |
-| 有人提及了这个人 | @ 标记：`variant="primary"`（`brand` 色）加 `at-sign` 图标。侧边栏里用 `SidebarItemIndicator` |
+| 列表行或侧栏行上的未读消息；消息列的新回复；新动态 | 未读数：`variant="accent"`（`attention` 色）。侧栏里用 `SidebarItemCount`（[Sidebar](../sidebar/sidebar.md)） |
+| 有人提及了这个人 | @ 标记：`variant="primary"`（`brand` 色）加 `at-sign` 图标。侧栏里用 `SidebarItemIndicator` |
 | 已设为免打扰的地方有未读内容 | 用 Space Mono 写的灰色数字（`text-mono-meta`、`foreground-hint`），不用徽标 |
 | 导航条图标、标签栏图标或铃铛上有东西在等 | 提醒圆点：一个粉色像素（[Status](../status/status.md)），永远不用数字 |
 | 任务进行到哪一步，或 Agent 处于什么状态 | 状态标签：`TaskStatusBadge`（[Tasks](../tasks/tasks.md)），或带像素的浅色底 Badge（[Status](../status/status.md#agent-state-chips)） |

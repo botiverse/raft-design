@@ -25,7 +25,7 @@ app-rail/compositions/with-top-bar
 ## 结构 {#anatomy}
 
 - `AppRailRoot`：这一列，在 `layer-frame` 上，右边缘有一条 `line-seam`。
-- `AppRailHeader`：顶部 56px 的正方形，放工作空间图块。它的接缝线和侧边栏、面板的接缝线对齐（[页面结构](../../../../../design/patterns/page-structure.md#headers)）。显示网页顶栏时省略。
+- `AppRailHeader`：顶部 56px 的正方形，放工作空间图块。它的接缝线和侧栏、面板的接缝线对齐（[页面结构](../../../../../design/patterns/page-structure.md#headers)）。显示网页顶栏时省略。
 - `AppRailNav`：目的地。
 - `AppRailItem`：一个目的地：一个装着 20px 图标的 `AppRailItemIcon`，和一个写着名称的 `AppRailItemLabel`。
 - `AppRailItemAttention`：一项上的粉色像素点，带有给辅助技术读的文字。基于 `AppRailItemIndicator` 构建。

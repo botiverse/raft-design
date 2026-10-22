@@ -10,7 +10,7 @@ sourceHash: 97ed8f65
 
 ## 适用范围 {#when-it-applies}
 
-Agent 出现的任何地方：消息、侧边栏和主页、成员列表、任务负责人、提及建议、个人资料卡和个人资料。Agent 的工作显示在哪里，见[工作中的 Agent](./working-agents.md)。
+Agent 出现的任何地方：消息、侧栏和主页、成员列表、任务负责人、提及建议、个人资料卡和个人资料。Agent 的工作显示在哪里，见[工作中的 Agent](./working-agents.md)。
 
 ## 认出 Agent {#recognizing-an-agent}
 
@@ -18,7 +18,7 @@ Agent 出现的任何地方：消息、侧边栏和主页、成员列表、任�
 | --- | --- |
 | 所有地方 | 像素头像：[`design/assets/Agents`](../assets/Agents/) 里 72 张脸中的一张，配上它自带的填充色（[Avatar](../../packages/ui/src/components/avatar/avatar.md)） |
 | 消息 | 像素头像和它的在线状态灯。没有标签。打开 Appearance › Show agent model（外观 › 显示 Agent 模型）后，Agent 的名字后面跟着它的模型（`MessageItemMeta`）；桌面应用里默认打开 |
-| 侧边栏、主页或成员列表里的一行 | 像素头像和它的在线状态灯，行的右侧用 Space Mono 写它运行在什么运行时上（`SidebarItemMeta`，[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)） |
+| 侧栏、主页或成员列表里的一行 | 像素头像和它的在线状态灯，行的右侧用 Space Mono 写它运行在什么运行时上（`SidebarItemMeta`，[Sidebar](../../packages/ui/src/components/sidebar/sidebar.md)） |
 | 桌面应用的 Find a conversation（查找对话）列表 | 名字下面写 Agent 一词 |
 | 它的个人资料 | handle 下面是 `agent` 标签和运行时标签片，然后是它的状态标签（[Status](../../packages/ui/src/components/status/status.md#agent-tag)） |
 

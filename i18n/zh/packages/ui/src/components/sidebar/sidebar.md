@@ -6,7 +6,7 @@ sourceHash: 8039c509
 
 # Sidebar
 
-侧边栏是桌面端导航条和主区域之间的一列。它列出 [AppRail](../app-rail/app-rail.md) 上选中的目的地里有什么，比如频道、Agent 和人。它的头部写着目的地的名称，每一行显示你在哪里、什么未读、什么提及了你。
+侧栏是桌面端导航条和主区域之间的一列。它列出 [AppRail](../app-rail/app-rail.md) 上选中的目的地里有什么，比如频道、Agent 和人。它的头部写着目的地的名称，每一行显示你在哪里、什么未读、什么提及了你。
 
 ```example
 sidebar/sidebar
@@ -21,7 +21,7 @@ sidebar/sidebar
 | 目的地本身 | [AppRail](../app-rail/app-rail.md) |
 | 动态和通知 | [InboxItem](../inbox-item/inbox-item.md) |
 
-哪些目的地有侧边栏、每个侧边栏列出什么，由产品决定（[Raft Chat](../../../../../design/products/raft-chat/README.md)）。没有侧边栏的目的地，把内容直接放在导航条旁边（[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)）。
+哪些目的地有侧栏、每个侧栏列出什么，由产品决定（[Raft Chat](../../../../../design/products/raft-chat/README.md)）。没有侧栏的目的地，把内容直接放在导航条旁边（[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)）。
 
 ## 结构 {#anatomy}
 
@@ -59,7 +59,7 @@ sidebar-item/compositions/tones-item
 
 ## 行为 {#behavior}
 
-- 侧边栏宽 240px，可以在 200px 到 400px 之间拖动；在每个有侧边栏的页面上都保持同一个宽度（[间距](../../../../../design/foundations/spacing.md#layout-widths)）。
+- 侧栏宽 240px，可以在 200px 到 400px 之间拖动；在每个有侧栏的页面上都保持同一个宽度（[间距](../../../../../design/foundations/spacing.md#layout-widths)）。
 - 名称只占一行，超出部分以省略号结尾。跟在后面的描述先让出空间；描述没了之后名称才会截断。
 - 内容有两行的行（计算机的名称和它是否在运行 Agent）用 `wrap` 加 `SidebarItemContent stacked`：它从 36px 开始变高，文字距行的边缘 8px，图标和第一行对齐。名称仍然只占一行。
 - 收起的分组在 `SidebarSectionCount` 里显示它有多少行。
@@ -84,5 +84,5 @@ sidebar-item/compositions/tones-item
 - 每个分组里的行都用同样的画法：原有分组、置顶分组还是自定义分组都一样。分组从不改变行的样子（不在某个分组里换行，也不在某个分组里隐藏描述），否则同一个会话看起来会像两个不同的东西。
 - 不要用 `wrap` 让名称折成多行，置顶分组里也不行。只在内容有两行的行上使用它。
 - 桌面端每一行高 36px，用 `text-subhead`。低于 `md` 时，行会自动长到至少 44px，用 `text-body`、字重 600：这时它是手机上的地点列表（Home、Members、Settings 列表），需要手指能点中。不要在调用处另加手机尺寸。Settings 列表在手机上曾经是 36px，因为尺寸写在一个产品类里，而只有 Home 的行用了这个类。
-- 不要把服务器切换器放在侧边栏头部。它在网页顶栏里；没有顶栏时，在导航条顶部。
-- 不要用 `SidebarLiveActivity` 在侧边栏底部做实时条。工作中的 Agent 改为显示在头部的工作摘要和它们自己的行里（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。
+- 不要把服务器切换器放在侧栏头部。它在网页顶栏里；没有顶栏时，在导航条顶部。
+- 不要用 `SidebarLiveActivity` 在侧栏底部做实时条。工作中的 Agent 改为显示在头部的工作摘要和它们自己的行里（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。
