@@ -37,11 +37,11 @@ Where a product puts the way into Activity is on the product's own page.
 
 ## States
 
-| State        | Use for                                                                                                                     |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| Loading      | Skeleton rows in the shape of inbox items ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)) |
-| Loading more | `ActivityInboxLoadingMore` under the last item                                                                              |
-| Empty        | An [EmptyState](../empty-state/empty-state.md) that says what will appear here                                              |
+| State        | Use for                                                                                                                                         |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Loading      | Flat `InboxItemSkeleton` rows in the shape of the inbox items, in an `InboxItemSkeletonList` ([InboxItem](../inbox-item/inbox-item.md#loading)) |
+| Loading more | `ActivityInboxLoadingMore` under the last item                                                                                                  |
+| Empty        | An [EmptyState](../empty-state/empty-state.md) that says what will appear here                                                                  |
 
 ```example
 activity/compositions/loading-activity

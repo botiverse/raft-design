@@ -468,7 +468,9 @@
       "InboxItemTitle",
       "InboxItemTrailing",
       "InboxItemTrigger",
-      "InboxItemLeadingBadge"
+      "InboxItemLeadingBadge",
+      "InboxItemSkeleton",
+      "InboxItemSkeletonList"
     ],
     "status": "stable",
     "description": "A small badge in the bottom-right corner of `InboxItemLeading`, the corner a presence light takes: on a thread row, the thread mark, on the channel's `IconTile` or on the direct message's `Avatar` alike. Put it inside `InboxItemLeading`, after the tile or avatar, with one icon as its child; leave the avatar's `AvatarBadge` out, since the corner holds one mark. It is hidden from assistive technology unless given a `role`."
@@ -568,7 +570,8 @@
       "ListRowMeta",
       "ListRowTitle",
       "ListRowTop",
-      "ListRowValue"
+      "ListRowValue",
+      "ListRowSkeleton"
     ],
     "status": "stable",
     "description": "One row of a list. It renders a `button` by default; pass `render={<a />}` (or a router link) for a row that goes somewhere. Children are the leading block (an avatar, a channel or icon tile, `ListRowIcon`), `ListRowBody`, and anything trailing (a value, a badge, a switch, `ListRowChevron`)."

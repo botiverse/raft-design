@@ -1,7 +1,7 @@
 ---
 title: ActivityInbox
 summary: 动态面板：一列收件项，带视图、筛选和多选工具栏；选中一项，它会在列表旁边打开。
-sourceHash: edd0f55b
+sourceHash: 0eddc50b
 ---
 
 # ActivityInbox
@@ -35,7 +35,7 @@ activity/compositions/activity-inbox
 
 | 状态 | 用于 |
 | --- | --- |
-| 加载中 | 收件项形状的骨架屏行（[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)） |
+| 加载中 | 收件项形状的平铺 `InboxItemSkeleton` 行，放在 `InboxItemSkeletonList` 里（[InboxItem](../inbox-item/inbox-item.md#loading)） |
 | 加载更多 | 最后一项下面的 `ActivityInboxLoadingMore` |
 | 空 | 一个 [EmptyState](../empty-state/empty-state.md)，说明这里会出现什么 |
 

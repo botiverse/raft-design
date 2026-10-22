@@ -1,7 +1,7 @@
 ---
 title: Skeleton
 summary: 按正在加载的内容的形状画出的灰色占位，用于布局已知的列表、卡片和面板。
-sourceHash: 9fc25651
+sourceHash: 93946183
 ---
 
 # Skeleton
@@ -40,4 +40,5 @@ skeleton/compositions/basic
 
 ## 规则 {#rules}
 
-- 骨架屏的形状和它代表的内容一致：头像和图块是方形，文字是横条。尺寸规则以及不要替换占位的规则，见[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)。
+- 骨架屏的形状和它代表的内容一致：头像和图块是方形，文字是横条。尺寸规则、显示前等待 1 秒的规则以及不要替换占位的规则，见[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)。
+- 列表的行用这一行自己的骨架屏，而不是自己拼 `Skeleton`：`InboxItemSkeleton`（[InboxItem](../inbox-item/inbox-item.md#loading)）和 `ListRowSkeleton`（[ListRow](../list-row/list-row.md#loading)）用行的部件搭成，所以保持行的大小，也和行一样是平铺的。
