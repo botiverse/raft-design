@@ -116,7 +116,7 @@ A place can hold several kinds of content, such as a channel's chat, tasks and f
 - Let people reorder the tabs by dragging, and keep their order. The first tab in their order is the one a place opens on.
 - Hide the row when a place has only one view, such as a thread.
 - Use the same row in every place of a product, so a view is in the same spot wherever people open it. Raft Chat's channel views are in [Channel](../products/raft-chat/channel.md#chat-tasks-and-files).
-- The same page at another address, such as in another language, is not a view of it: switch to it with links, in the SegmentedControl track ([SegmentedControlNav](../../packages/ui/src/components/segmented-control/segmented-control.md#segments-that-are-links)), so each one can be opened in a new tab and shared.
+- The same page in another language is not a view of it: switch to it from a menu that lists each language in its own name (English, Español), as a [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) with radio items. In a web top bar it sits at the right end; on a phone, where the top bar has no room for it, it goes in the menu.
 
 ## Related
 

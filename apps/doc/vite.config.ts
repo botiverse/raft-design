@@ -49,6 +49,10 @@ const config = defineConfig({
       rsc: {
         enabled: true,
       },
+      // The crawler starts at the home page of each language: the Chinese
+      // pages are reached through /zh's own links (the language menu is not a
+      // link it can follow).
+      pages: [{ path: "/" }, { path: "/zh" }],
       prerender: {
         enabled: true,
         crawlLinks: true,

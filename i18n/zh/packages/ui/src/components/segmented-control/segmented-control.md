@@ -1,7 +1,7 @@
 ---
 title: SegmentedControl
 summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
-sourceHash: d62b8260
+sourceHash: bde4ff7f
 ---
 
 # SegmentedControl
@@ -20,7 +20,6 @@ segmented-control/compositions/view-mode
 | 一个页面的几个部分，各有各的内容 | [Tabs](../tabs/tabs.md) |
 | 随表单提交的答案 | [RadioGroup](../radio-group/radio-group.md) |
 | 选项多到放不进分段 | [Select](../select/select.md) |
-| 同一个页面的另一个地址：另一种语言、另一个版本 | `SegmentedControlNav`（见下文） |
 
 完整的表格见[选择组件](../../../../../design/components/overview.md#picking-something)。Board / List 在任务列表里放在哪里，见[任务](../../../../../design/patterns/tasks.md)。
 
@@ -30,18 +29,9 @@ segmented-control/compositions/view-mode
 - `SegmentedControlItem`：一个 32px 的分段，标签前可选一个图标。
 - `SegmentedControlLabel`：分段的文字。会截断。
 - `SegmentedControlCount`：标签后面的数量，用 Space Mono 字体。
-- `SegmentedControlNav` 和 `SegmentedControlLink`（实验性，从 `@botiverse/raft-ui/wip` 导入）：每个选项是另一个 URL 时（比如另一种语言的同一页），用的同一条轨道和同样的分段。每个分段是一个链接；`current` 标出当前显示的页面。
 
 ```example
 segmented-control/compositions/filters
-```
-
-### 链接形式的分段 {#segments-that-are-links}
-
-选一个分段意味着去另一个地址时（另一种语言的同一页、文档的另一个版本），用 `SegmentedControlNav`，每个选项一个 `SegmentedControlLink`。外观一样，但每个分段都是真正的链接：可以在新标签页打开、可以复制，爬虫也能顺着它找到背后的页面。同一内容的不同视图不要用它，那是 `SegmentedControl`。
-
-```example
-segmented-control/compositions/language-links
 ```
 
 ## 状态 {#states}
@@ -78,5 +68,4 @@ segmented-control/compositions/narrow-row
 
 - `SegmentedControl` 封装了 Base UI RadioGroup，每个 `SegmentedControlItem` 是渲染为按钮的 Base UI Radio：整个控件是一个 Tab 停靠点，方向键移动选择。
 - 用 `aria-label` 按它切换的内容给控件命名：「Task view」「Time format」。
-- `SegmentedControlNav` 是一组链接组成的 `nav`，每个分段各占一个 Tab 停靠点，当前的那个带 `aria-current="page"`。也用 `aria-label` 给它命名（「Language」）。
 - 给每个只有图标的分段一个 `aria-label`。因为 `iconsOnlyBelow` 而只显示图标的分段不需要：它的标签仍在里面，只是视觉上隐藏，辅助技术仍能读到。

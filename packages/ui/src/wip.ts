@@ -61,11 +61,3 @@ export * from "./components/ellipsis/index";
 // alike (inbox-item.md, "The leading image"). Until the part settles.
 export { InboxItemLeadingBadge } from "./components/inbox-item/inbox-item-leading-badge";
 export type { InboxItemLeadingBadgeProps } from "./components/inbox-item/inbox-item-leading-badge";
-
-// Segments that are links (the docs site's language switch), until the
-// pattern is used in a product.
-export { SegmentedControlLink, SegmentedControlNav } from "./components/segmented-control/index";
-export type {
-  SegmentedControlLinkProps,
-  SegmentedControlNavProps,
-} from "./components/segmented-control/index";
