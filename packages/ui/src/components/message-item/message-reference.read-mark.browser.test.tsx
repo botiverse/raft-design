@@ -134,10 +134,13 @@ for (const [name, width] of [
       `ink ${left.toFixed(2)}px from the left edge, ${right.toFixed(2)}px from the right`,
     ).toBeLessThanOrEqual(0.5);
 
-    // The gap: the check's box starts 2px after the name's last letter box.
+    // The gap: the check's box starts where the name's letters end, so the
+    // ink between them is only the check's own inset and the letter's side
+    // bearing, about 2px: the check reads as part of the mention, and the word
+    // space comes after it.
     const svg = mention.querySelector("svg.lucide-check")!.getBoundingClientRect();
     const name = document.createRange();
     name.selectNodeContents(mention.firstChild!);
-    expect(svg.left - name.getBoundingClientRect().right, "2px from the name").toBeCloseTo(2, 1);
+    expect(svg.left - name.getBoundingClientRect().right, "right after the name").toBeCloseTo(0, 1);
   });
 }

@@ -93,7 +93,7 @@ export const messageReference = tv({
     // (alignment.md#chips).
     readMark: [
       "relative inline-block shrink-0 self-center",
-      "ml-0.5 -mr-[calc(0.857em*2/24)]",
+      "-mr-[calc(0.857em*2/24)]",
       "align-[calc(0.7em/2-0.857em/2)] leading-none",
       "text-foreground-hint",
       "[&>svg]:block [&>svg]:size-[0.857em]",

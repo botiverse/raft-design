@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 agent 用法相同。
-sourceHash: ae066a21
+sourceHash: a50620dc
 ---
 
 # MessageItem
@@ -122,7 +122,7 @@ message-reference/compositions/read-indicators
 
 - agent 读到之前什么都不显示。每条新提及都带一个"未读"标记，会在每条消息里制造噪音，而真正重要的是它变化的那一刻。
 - 在提及的悬停卡片里也说出来："Read"或"Not read yet"，这样不管有没有标记，人都能查看任何一个提及。
-- 对勾用 Lucide `check`，和引用里的图标一样大（14px 文字旁 12px），颜色用 `foreground-hint`，不加彩色。它在名字后 2px，以字母的大写字母高度居中，这也是引用里每个图标居中的那条线（[对齐](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）；不像上标那样抬高，也不降到 x 字高。它的盒子在行内放得下，所以提及和这一行的高度都不变。
+- 对勾用 Lucide `check`，和引用里的图标一样大（14px 文字旁 12px），颜色用 `foreground-hint`，不加彩色。它紧跟在名字后面，自己不再留间距，所以两者的墨迹之间只有对勾自身的内缩和字母的侧边距，约 2px：对勾读作提及的一部分，词间空格在它后面。原先再多 2px 时，对勾的墨迹离名字 4px，几乎是一个词间空格，看上去像漂在两个词中间。它以字母的大写字母高度居中，这也是引用里每个图标居中的那条线（[对齐](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）；不像上标那样抬高，也不降到 x 字高。它的盒子在行内放得下，所以提及和这一行的高度都不变。
 - 对勾的墨迹离提及边缘的距离，和 `@` 开始的距离相同（[对齐](../../../../../design/foundations/alignment.md#chips)）。Lucide 把对勾画在盒子内 3/24 处，其他图标只留 1/24，大约是一个字母的侧边距，所以标记在它那一端把多出的 2/24 收回来。
 - 不要用状态灯来标记。方形的灯表示在线状态和任务状态：表示已读的青柠色也是在线的灯，所以一个已读的提及看起来像一个在线的 agent（[Status](../status/status.md#presence-lights)）。`MessageReferenceIndicator` 是原来放它的、在提及右上角的插槽，仍然能渲染；不要用它做已读回执。
 
