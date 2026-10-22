@@ -1,7 +1,7 @@
 ---
 title: FilesPanel
 summary: 某个地方分享过的文件列表，每个文件一行，显示类型、名称、大小和时间；点击打开预览，并提供 Jump to Message 和 Download。
-sourceHash: 75a72ae3
+sourceHash: bfdb0988
 ---
 
 # FilesPanel
@@ -20,6 +20,8 @@ files/compositions/default
 | 附在某条消息上的文件 | 文件卡片（[MessageAttachment](../message-attachment/message-attachment.md)） |
 | 消息输入框里还没发出的文件 | [FilePreview](../file-preview/file-preview.md)，放在 [Composer](../composer/composer.md) 里 |
 | 从某一行打开的图片或视频 | [Lightbox](../lightbox/lightbox.md) |
+
+在对话旁边的 Files 卡片里，文件用 Tasks 卡片的那种紧凑行列出（[紧凑列表的行](../../../../../design/patterns/tasks.md#rows-in-a-compact-list)）：类型图标、名字和大小，然后是紧凑写法的时间（今天写 15:00，今年写 Oct 21，更早写 2025-10-21），右端是操作，在卡片的 320px 宽度下全在一行，行之间用细线，而不是每个文件一张卡片。`FileRow` 是完整 Files 视图里的卡片行，还没有紧凑变体。
 
 一个地方的文件在界面上放在哪里（标签页、侧面板或频道详情），见[导航](../../../../../design/patterns/navigation.md#several-views-of-one-place)和[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)。
 

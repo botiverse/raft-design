@@ -1,7 +1,7 @@
 ---
 title: 导航
 summary: 人如何到达各个目的地、看到自己在哪里、打开链接、返回、关闭界面、切换服务器，以及在同一个地方的几个视图之间切换。
-sourceHash: b055ebc6
+sourceHash: 7548b607
 ---
 
 # 导航
@@ -154,12 +154,13 @@ message-reference/compositions/app-link-pending
 
 ### 同一个地方的几个视图 {#several-views-of-one-place}
 
-一个地方可以容纳几类内容，比如频道的聊天、任务和文件。
+一个地方可以容纳几类内容，比如 agent 的个人资料和它的动态，或者频道的聊天、任务和文件。
 
-- 用面板头部下方的一行贴纸标签在它们之间切换（[Tabs](../../packages/ui/src/components/tabs/tabs.md#variants)，在 `ConversationPanelTabs` 里）。每个标签有一个图标和一个单词的标签文字，不带数量。
+- 人们在聊天时查看的内容，比如频道的任务和文件，显示为对话旁边的侧边卡片，而不是标签页，这样对话一直在视野里（[页面结构](./page-structure.md#sidebar-and-side-panel)）。
+- 用面板头部下方的一行贴纸标签在其他视图之间切换（[Tabs](../../packages/ui/src/components/tabs/tabs.md#variants)，在 `ConversationPanelTabs` 里）。每个标签有一个图标和一个单词的标签文字，不带数量。
 - 让人可以拖动标签来调整顺序，并记住他们的顺序。按他们的顺序排在第一的标签，就是打开这个地方时显示的那个。
 - 一个地方只有一个视图时（比如消息列），隐藏这一行。
-- 在一个产品的每个地方都用同样的这一行，这样不管人在哪里打开，同一个视图都在同一个位置。Raft Chat 的频道视图见[频道](../products/raft-chat/channel.md#chat-tasks-and-files)。
+- 在一个产品的每个地方都用同样的这一行，这样不管人在哪里打开，同一个视图都在同一个位置。Raft Chat 的频道视图见[频道](../products/raft-chat/channel.md#tasks-and-files)。
 - 同一个页面的另一种语言不是它的视图：用一个菜单切换过去，菜单里每种语言用它自己的名字（English、简体中文），即选项都是链接的 [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)（`DropdownMenuLinkItem`），每一项都可以在新标签页打开、可以分享。在网页顶栏上放在最右端；手机顶栏放不下，就放进菜单里。
 
 ## 相关 {#related}
