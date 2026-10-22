@@ -139,7 +139,7 @@ export function DropdownMenuContent({
   collisionAvoidance,
   collisionBoundary,
   collisionPadding,
-  disableAnchorTracking = false,
+  disableAnchorTracking,
   positionMethod = "fixed",
   side = "bottom",
   sideOffset,

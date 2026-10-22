@@ -130,7 +130,7 @@ export function ContextMenuContent({
   collisionAvoidance = CONTENT_COLLISION_AVOIDANCE,
   collisionBoundary,
   collisionPadding = 8,
-  disableAnchorTracking = true,
+  disableAnchorTracking,
   positionMethod = "fixed",
   side = "right",
   sideOffset = 0,

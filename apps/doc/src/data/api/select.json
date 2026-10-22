@@ -285,7 +285,7 @@
         "name": "disableAnchorTracking",
         "type": "boolean",
         "required": false,
-        "default": "true",
+        "default": "false",
         "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
         "from": "base-ui"
       },

@@ -188,7 +188,7 @@ export function NotificationCenterPopup({
   collisionAvoidance,
   collisionBoundary,
   collisionPadding,
-  disableAnchorTracking = true,
+  disableAnchorTracking,
   positionMethod = "fixed",
   side = "bottom",
   sideOffset = 4,

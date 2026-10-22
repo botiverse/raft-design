@@ -93,7 +93,7 @@ export function PopoverContent({
   collisionAvoidance,
   collisionBoundary,
   collisionPadding,
-  disableAnchorTracking = true,
+  disableAnchorTracking,
   positionMethod = "fixed",
   side = "bottom",
   sideOffset = 4,

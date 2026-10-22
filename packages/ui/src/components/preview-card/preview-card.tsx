@@ -105,7 +105,7 @@ export function PreviewCardContent({
   collisionAvoidance,
   collisionBoundary,
   collisionPadding,
-  disableAnchorTracking = true,
+  disableAnchorTracking,
   positionMethod = "fixed",
   side = "bottom",
   sideOffset = 6,
