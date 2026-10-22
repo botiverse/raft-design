@@ -74,7 +74,7 @@ message-action-card/compositions/resolution-states
 ## Content
 
 - Title the card with a verb and its object, in sentence case: Create channel #launch-week, Merge #26 into main.
-- Make the confirm button repeat the verb and the object of the title, in Title Case: Create Channel. Unlike a dialog's button, it keeps the object: the card sits in a conversation where several cards can be on screen at once, and the button has to say on its own which action it approves ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
+- Make the confirm button repeat the verb and the object of the title, in Title Case: Create Channel. Unlike a dialog's button, it keeps the object, because it appears away from a dialog title and has to say on its own which action it approves ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - List only the properties the person needs to check.
 - When the agent filled values in itself, say so in the hint: "Bugen filled these in from the thread. You can change them before it's created."
 - Record the result with the person and the time: Approved by Martin · 10:51.
