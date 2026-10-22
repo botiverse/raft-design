@@ -1,5 +1,5 @@
-import { ArrowLeft, Check, Monitor, Plus, Settings, UserPlus, Users } from "lucide-react";
-import { useCallback, useState } from "react";
+import { ArrowLeft, Check, Globe, Monitor, Plus, Settings, UserPlus, Users } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import {
   Avatar,
@@ -7,13 +7,6 @@ import {
   AvatarFallback,
   Badge,
   Button,
-  ListRow,
-  ListRowBody,
-  ListRowChevron,
-  ListRowDescription,
-  ListRowIcon,
-  ListRowTitle,
-  ListRowValue,
   MobileNavItem,
   MobileNavLabel,
   MobileNavRoot,
@@ -24,8 +17,14 @@ import {
 import type { AvatarBadgeOffset } from "@botiverse/raft-ui";
 import {
   MobileNavServerItem,
-  MobileNavServerMenu,
-  MobileNavServerMenuContent,
+  MobileNavServerPopover,
+  MobileNavServerPopoverContent,
+  MobileNavServerPopoverDestination,
+  MobileNavServerPopoverDestinations,
+  MobileNavServerPopoverGroup,
+  MobileNavServerPopoverList,
+  MobileNavServerPopoverRow,
+  MobileNavServerPopoverRowLabel,
 } from "@botiverse/raft-ui/wip";
 import { SERVERS, TABS } from "../server-tab.fixtures";
 
@@ -36,6 +35,9 @@ export function MobileNavServerTabComposition() {
   const [tab, setTab] = useState("activity");
   const [page, setPage] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [computerAttention, setComputerAttention] = useState(true);
+  const serverTab = useRef<HTMLButtonElement>(null);
+  const focusServerTab = useRef(false);
   const server = SERVERS.find((item) => item.id === serverId) ?? SERVERS[0];
   const otherUnread = SERVERS.some((item) => item.id !== serverId && item.unread && !item.muted);
 
@@ -48,10 +50,21 @@ export function MobileNavServerTabComposition() {
     setOpen(false);
   }, []);
   const handlePage = useCallback((event: MouseEvent<HTMLElement>) => {
-    setPage(event.currentTarget.dataset.page ?? null);
+    const next = event.currentTarget.dataset.page ?? null;
+    if (next === "Computers") setComputerAttention(false);
+    setPage(next);
     setOpen(false);
   }, []);
-  const handleBack = useCallback(() => setPage(null), []);
+  // Back returns focus to the tab that opened the popover, not to the page body.
+  const handleBack = useCallback(() => {
+    focusServerTab.current = true;
+    setPage(null);
+  }, []);
+  useEffect(() => {
+    if (page || !focusServerTab.current) return;
+    focusServerTab.current = false;
+    serverTab.current?.focus();
+  }, [page]);
 
   return (
     <div className="flex h-[720px] w-[390px] max-w-full flex-col overflow-hidden rounded-container border border-line-seam bg-layer-page">
@@ -83,8 +96,9 @@ export function MobileNavServerTabComposition() {
               <MobileNavLabel>{item.label}</MobileNavLabel>
             </MobileNavItem>
           ))}
-          <MobileNavServerMenu open={open} onOpenChange={setOpen}>
+          <MobileNavServerPopover open={open} onOpenChange={setOpen}>
             <MobileNavServerItem
+              ref={serverTab}
               aria-label={
                 otherUnread ? `${server.name}, another server has unread items` : server.name
               }
@@ -100,91 +114,74 @@ export function MobileNavServerTabComposition() {
               </Avatar>
               <MobileNavLabel>{server.name}</MobileNavLabel>
             </MobileNavServerItem>
-            <MobileNavServerMenuContent aria-label="Servers">
-              <div className="min-h-0 flex-1 overflow-y-auto py-1">
+            <MobileNavServerPopoverContent aria-label="Servers">
+              <MobileNavServerPopoverList>
                 {SERVERS.map((item) => (
-                  <ListRow
+                  <MobileNavServerPopoverRow
                     key={item.id}
-                    variant="plain"
                     aria-current={item.id === serverId ? "true" : undefined}
                     data-server={item.id}
                     onClick={handleServer}
                   >
-                    <Avatar type="server" size="sm">
+                    <Avatar type="server" size="xs">
                       <AvatarFallback>{item.name.slice(0, 1)}</AvatarFallback>
                     </Avatar>
-                    <ListRowBody>
-                      <ListRowTitle>{item.name}</ListRowTitle>
-                      <ListRowDescription>{item.address}</ListRowDescription>
-                    </ListRowBody>
+                    <MobileNavServerPopoverRowLabel>{item.name}</MobileNavServerPopoverRowLabel>
                     {item.id === serverId ? (
-                      <ListRowIcon>
-                        <Check aria-label="Current server" />
-                      </ListRowIcon>
+                      <Check aria-label="Current server" />
                     ) : item.muted && item.unread ? (
-                      <ListRowValue>{item.unread}</ListRowValue>
+                      <Text.Mono size="meta" render={<span />}>
+                        {item.unread}
+                      </Text.Mono>
                     ) : item.unread ? (
                       <Badge variant="accent" role="img" aria-label={`${item.unread} unread`}>
                         {item.unread}
                       </Badge>
                     ) : null}
-                  </ListRow>
+                  </MobileNavServerPopoverRow>
                 ))}
-              </div>
+              </MobileNavServerPopoverList>
               <PopoverSeparator />
-              <div className="py-1">
-                <Text.Sans size="group" className="px-4 pt-2 pb-1">
-                  {server.name}
-                </Text.Sans>
-                <ListRow variant="plain" data-page="Members" onClick={handlePage}>
-                  <ListRowIcon>
-                    <Users />
-                  </ListRowIcon>
-                  <ListRowBody>
-                    <ListRowTitle>Members</ListRowTitle>
-                  </ListRowBody>
-                  <ListRowChevron />
-                </ListRow>
-                <ListRow variant="plain" data-page="Computers" onClick={handlePage}>
-                  <ListRowIcon>
-                    <Monitor />
-                  </ListRowIcon>
-                  <ListRowBody>
-                    <ListRowTitle>Computers</ListRowTitle>
-                  </ListRowBody>
-                  <ListRowChevron />
-                </ListRow>
-                <ListRow variant="plain" data-page="Settings" onClick={handlePage}>
-                  <ListRowIcon>
-                    <Settings />
-                  </ListRowIcon>
-                  <ListRowBody>
-                    <ListRowTitle>Settings</ListRowTitle>
-                  </ListRowBody>
-                  <ListRowChevron />
-                </ListRow>
-              </div>
+              <MobileNavServerPopoverDestinations aria-label={server.name}>
+                <MobileNavServerPopoverDestination data-page="Members" onClick={handlePage}>
+                  <Users />
+                  <span>Members</span>
+                </MobileNavServerPopoverDestination>
+                <MobileNavServerPopoverDestination
+                  data-page="Computers"
+                  aria-label={
+                    computerAttention ? "Computers, a computer needs attention" : undefined
+                  }
+                  onClick={handlePage}
+                >
+                  <Monitor />
+                  <span>Computers</span>
+                  {computerAttention ? <Status aria-hidden variant="accent" size="sm" /> : null}
+                </MobileNavServerPopoverDestination>
+                <MobileNavServerPopoverDestination data-page="Settings" onClick={handlePage}>
+                  <Settings />
+                  <span>Settings</span>
+                </MobileNavServerPopoverDestination>
+              </MobileNavServerPopoverDestinations>
               <PopoverSeparator />
-              <div className="py-1">
-                <ListRow variant="plain" data-page="Switch or Create Server" onClick={handlePage}>
-                  <ListRowIcon>
-                    <Plus />
-                  </ListRowIcon>
-                  <ListRowBody>
-                    <ListRowTitle>Switch or Create Server</ListRowTitle>
-                  </ListRowBody>
-                </ListRow>
-                <ListRow variant="plain" data-page="Invite Human" onClick={handlePage}>
-                  <ListRowIcon>
-                    <UserPlus />
-                  </ListRowIcon>
-                  <ListRowBody>
-                    <ListRowTitle>Invite Human</ListRowTitle>
-                  </ListRowBody>
-                </ListRow>
-              </div>
-            </MobileNavServerMenuContent>
-          </MobileNavServerMenu>
+              <MobileNavServerPopoverGroup>
+                <MobileNavServerPopoverRow data-page="Join Community" onClick={handlePage}>
+                  <Globe />
+                  <MobileNavServerPopoverRowLabel>Join Community</MobileNavServerPopoverRowLabel>
+                </MobileNavServerPopoverRow>
+                <MobileNavServerPopoverRow data-page="Switch or Create Server" onClick={handlePage}>
+                  <Plus />
+                  <MobileNavServerPopoverRowLabel>
+                    Switch or Create Server
+                  </MobileNavServerPopoverRowLabel>
+                </MobileNavServerPopoverRow>
+                <MobileNavServerPopoverRow data-page="Invite Human" onClick={handlePage}>
+                  <UserPlus />
+                  <MobileNavServerPopoverRowLabel>Invite Human</MobileNavServerPopoverRowLabel>
+                </MobileNavServerPopoverRow>
+              </MobileNavServerPopoverGroup>
+            </MobileNavServerPopoverContent>
+          </MobileNavServerPopover>
         </MobileNavRoot>
       )}
     </div>

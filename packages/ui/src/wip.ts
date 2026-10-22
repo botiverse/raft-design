@@ -87,15 +87,27 @@ export { OverlayLayerProvider, useParentOverlayKind } from "./lib/overlay-depth"
 export type { OverlayLayerKind, OverlayLayerProviderProps } from "./lib/overlay-depth";
 
 // The last phone tab as the current server (navigation.md, "Servers"): the
-// one tab that opens a menu, on a press or a long press, above the tab bar.
+// one tab that opens a popover, on a press or a long press, above the tab bar.
 // Until slock ships it and stdrc settles the parts.
 export {
   MobileNavServerItem,
-  MobileNavServerMenu,
-  MobileNavServerMenuContent,
+  MobileNavServerPopover,
+  MobileNavServerPopoverContent,
+  MobileNavServerPopoverList,
+  MobileNavServerPopoverGroup,
+  MobileNavServerPopoverRow,
+  MobileNavServerPopoverRowLabel,
+  MobileNavServerPopoverDestinations,
+  MobileNavServerPopoverDestination,
 } from "./components/mobile-nav/index";
 export type {
   MobileNavServerItemProps,
-  MobileNavServerMenuContentProps,
-  MobileNavServerMenuProps,
+  MobileNavServerPopoverContentProps,
+  MobileNavServerPopoverListProps,
+  MobileNavServerPopoverGroupProps,
+  MobileNavServerPopoverRowProps,
+  MobileNavServerPopoverRowLabelProps,
+  MobileNavServerPopoverDestinationsProps,
+  MobileNavServerPopoverDestinationProps,
+  MobileNavServerPopoverProps,
 } from "./components/mobile-nav/index";

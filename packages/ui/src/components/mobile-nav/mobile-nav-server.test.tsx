@@ -10,8 +10,8 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { MobileNavLabel, MobileNavRoot } from "./mobile-nav";
 import {
   MobileNavServerItem,
-  MobileNavServerMenu,
-  MobileNavServerMenuContent,
+  MobileNavServerPopover,
+  MobileNavServerPopoverContent,
 } from "./mobile-nav-server";
 
 afterEach(() => {
@@ -22,15 +22,15 @@ afterEach(() => {
 function renderTab() {
   render(
     <MobileNavRoot aria-label="Primary">
-      <MobileNavServerMenu>
+      <MobileNavServerPopover>
         <MobileNavServerItem aria-label="Raft HQ">
           <span data-slot="avatar">R</span>
           <MobileNavLabel>Raft HQ</MobileNavLabel>
         </MobileNavServerItem>
-        <MobileNavServerMenuContent aria-label="Servers">
+        <MobileNavServerPopoverContent aria-label="Servers">
           <button type="button">Launch Crew</button>
-        </MobileNavServerMenuContent>
-      </MobileNavServerMenu>
+        </MobileNavServerPopoverContent>
+      </MobileNavServerPopover>
     </MobileNavRoot>,
   );
   return screen.getByRole("button", { name: "Raft HQ" });
@@ -80,6 +80,22 @@ describe("MobileNavServerItem", () => {
     expect(tab.getAttribute("aria-expanded")).toBe("true");
   });
 
+  test("a long press on the open popover leaves it open", () => {
+    vi.useFakeTimers();
+    const tab = renderTab();
+    press(tab);
+    expect(tab.getAttribute("aria-expanded")).toBe("true");
+    fireEvent.pointerDown(tab, { button: 0, pointerType: "touch", clientX: 10, clientY: 10 });
+    act(() => {
+      vi.advanceTimersByTime(500);
+    });
+    fireEvent.pointerUp(tab, { button: 0, pointerType: "touch", clientX: 10, clientY: 10 });
+    fireEvent.click(tab);
+    expect(tab.getAttribute("aria-expanded")).toBe("true");
+    press(tab);
+    expect(tab.getAttribute("aria-expanded")).toBe("false");
+  });
+
   test("a finger that moves off the spot is a scroll, not a hold", () => {
     vi.useFakeTimers();
     const tab = renderTab();
@@ -98,10 +114,10 @@ describe("MobileNavServerItem", () => {
     expect(event.defaultPrevented).toBe(true);
   });
 
-  test("needs MobileNavServerMenu around it", () => {
+  test("needs MobileNavServerPopover around it", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     expect(() => render(<MobileNavServerItem>Raft HQ</MobileNavServerItem>)).toThrow(
-      /MobileNavServerMenu/,
+      /MobileNavServerPopover/,
     );
   });
 });

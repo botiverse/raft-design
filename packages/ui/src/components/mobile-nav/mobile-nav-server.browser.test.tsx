@@ -7,14 +7,22 @@ import "./mobile-nav.test.css";
  */
 import { afterEach, expect, test } from "vite-plus/test";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { Activity, CheckSquare, Home, Search } from "lucide-react";
+import { Activity, CheckSquare, Home, Monitor, Plus, Search, Settings, Users } from "lucide-react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Avatar, AvatarFallback } from "../avatar/avatar";
+import { Status } from "../status/status";
 import { MobileNavItem, MobileNavLabel, MobileNavRoot } from "./mobile-nav";
+import { PopoverSeparator } from "../popover/popover";
 import {
   MobileNavServerItem,
-  MobileNavServerMenu,
-  MobileNavServerMenuContent,
+  MobileNavServerPopover,
+  MobileNavServerPopoverContent,
+  MobileNavServerPopoverDestination,
+  MobileNavServerPopoverDestinations,
+  MobileNavServerPopoverGroup,
+  MobileNavServerPopoverList,
+  MobileNavServerPopoverRow,
+  MobileNavServerPopoverRowLabel,
 } from "./mobile-nav-server";
 
 const it = test.skipIf(typeof window === "undefined");
@@ -23,7 +31,7 @@ afterEach(cleanup);
 
 const LONG_NAME = "Botiverse Research Laboratories";
 
-function renderPhone(name = "Raft HQ") {
+function renderPhone(name = "Raft HQ", servers = 1) {
   render(
     <ThemeProvider>
       <div
@@ -48,19 +56,53 @@ function renderPhone(name = "Raft HQ") {
             <Search />
             <MobileNavLabel>Search</MobileNavLabel>
           </MobileNavItem>
-          <MobileNavServerMenu>
+          <MobileNavServerPopover>
             <MobileNavServerItem aria-label={name}>
               <Avatar type="server" size="xs" data-testid="avatar">
                 <AvatarFallback>{name.slice(0, 1)}</AvatarFallback>
               </Avatar>
               <MobileNavLabel data-testid="name">{name}</MobileNavLabel>
             </MobileNavServerItem>
-            <MobileNavServerMenuContent aria-label="Servers">
-              <button type="button" style={{ height: 48 }}>
-                Launch Crew
-              </button>
-            </MobileNavServerMenuContent>
-          </MobileNavServerMenu>
+            <MobileNavServerPopoverContent aria-label="Servers">
+              <MobileNavServerPopoverList data-testid="list">
+                {Array.from({ length: servers }, (_, index) => (
+                  <MobileNavServerPopoverRow key={index} data-testid="row">
+                    <Avatar type="server" size="xs" data-testid="row-avatar">
+                      <AvatarFallback>S</AvatarFallback>
+                    </Avatar>
+                    <MobileNavServerPopoverRowLabel>
+                      Server {index + 1}
+                    </MobileNavServerPopoverRowLabel>
+                  </MobileNavServerPopoverRow>
+                ))}
+              </MobileNavServerPopoverList>
+              <PopoverSeparator />
+              <MobileNavServerPopoverDestinations aria-label={name} data-testid="destinations">
+                <MobileNavServerPopoverDestination>
+                  <Users />
+                  <span>Members</span>
+                </MobileNavServerPopoverDestination>
+                <MobileNavServerPopoverDestination>
+                  <Monitor data-testid="computers-icon" />
+                  <span>Computers</span>
+                  <Status aria-hidden variant="accent" size="sm" data-testid="computers-dot" />
+                </MobileNavServerPopoverDestination>
+                <MobileNavServerPopoverDestination>
+                  <Settings />
+                  <span>Settings</span>
+                </MobileNavServerPopoverDestination>
+              </MobileNavServerPopoverDestinations>
+              <PopoverSeparator />
+              <MobileNavServerPopoverGroup data-testid="footer">
+                <MobileNavServerPopoverRow>
+                  <Plus />
+                  <MobileNavServerPopoverRowLabel>
+                    Switch or Create Server
+                  </MobileNavServerPopoverRowLabel>
+                </MobileNavServerPopoverRow>
+              </MobileNavServerPopoverGroup>
+            </MobileNavServerPopoverContent>
+          </MobileNavServerPopover>
         </MobileNavRoot>
       </div>
     </ThemeProvider>,
@@ -180,4 +222,52 @@ it("truncates a long server name inside its fifth of the bar", () => {
   expect(name.scrollWidth).toBeGreaterThan(name.clientWidth);
   expect(name.getBoundingClientRect().right).toBeLessThanOrEqual(item.right);
   expect(getComputedStyle(name).textOverflow).toBe("ellipsis");
+});
+
+async function openMenu(servers: number) {
+  const tab = renderPhone("Raft HQ", servers);
+  await tap(tab);
+  await act(async () => {
+    await frame();
+    await frame();
+  });
+  return menu()!;
+}
+
+it("puts each server on one line at the option height, with a 20px avatar", async () => {
+  await openMenu(5);
+  const rows = screen.getAllByTestId("row");
+  for (const row of rows) expect(row.getBoundingClientRect().height).toBe(36);
+  expect(screen.getAllByTestId("row-avatar")[0].getBoundingClientRect().width).toBe(20);
+  const destinations = [...screen.getByTestId("destinations").children].map((cell) =>
+    cell.getBoundingClientRect(),
+  );
+  expect(destinations).toHaveLength(3);
+  expect(destinations[1].top).toBe(destinations[0].top);
+  expect(destinations[1].width).toBeCloseTo(destinations[0].width, 0);
+});
+
+it("with 20 servers stays within 60% of the screen; the list scrolls and the rest stays in view", async () => {
+  const popup = (await openMenu(20)).getBoundingClientRect();
+  expect(popup.height).toBeLessThanOrEqual(window.innerHeight * 0.6 + 1);
+  const list = screen.getByTestId("list");
+  expect(list.scrollHeight).toBeGreaterThan(list.clientHeight);
+  list.scrollTop = 120;
+  expect(list.scrollTop).toBe(120);
+  for (const id of ["destinations", "footer"]) {
+    const part = screen.getByTestId(id).getBoundingClientRect();
+    expect(part.height).toBeGreaterThan(0);
+    expect(part.top).toBeGreaterThanOrEqual(popup.top);
+    expect(part.bottom).toBeLessThanOrEqual(popup.bottom + 0.5);
+  }
+});
+
+it("puts a destination's attention dot on its icon's top-right corner", async () => {
+  await openMenu(3);
+  const icon = screen.getByTestId("computers-icon").getBoundingClientRect();
+  const dot = screen.getByTestId("computers-dot").getBoundingClientRect();
+  const centerX = dot.left + dot.width / 2;
+  const centerY = dot.top + dot.height / 2;
+  expect(Math.abs(centerX - icon.right)).toBeLessThanOrEqual(2);
+  expect(Math.abs(centerY - icon.top)).toBeLessThanOrEqual(2);
 });

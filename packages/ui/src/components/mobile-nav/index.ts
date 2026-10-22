@@ -2,11 +2,23 @@ export { MobileNavItem, MobileNavLabel, MobileNavRoot } from "./mobile-nav";
 export type { MobileNavItemProps, MobileNavLabelProps, MobileNavRootProps } from "./mobile-nav";
 export {
   MobileNavServerItem,
-  MobileNavServerMenu,
-  MobileNavServerMenuContent,
+  MobileNavServerPopover,
+  MobileNavServerPopoverContent,
+  MobileNavServerPopoverList,
+  MobileNavServerPopoverGroup,
+  MobileNavServerPopoverRow,
+  MobileNavServerPopoverRowLabel,
+  MobileNavServerPopoverDestinations,
+  MobileNavServerPopoverDestination,
 } from "./mobile-nav-server";
 export type {
   MobileNavServerItemProps,
-  MobileNavServerMenuContentProps,
-  MobileNavServerMenuProps,
+  MobileNavServerPopoverContentProps,
+  MobileNavServerPopoverListProps,
+  MobileNavServerPopoverGroupProps,
+  MobileNavServerPopoverRowProps,
+  MobileNavServerPopoverRowLabelProps,
+  MobileNavServerPopoverDestinationsProps,
+  MobileNavServerPopoverDestinationProps,
+  MobileNavServerPopoverProps,
 } from "./mobile-nav-server";

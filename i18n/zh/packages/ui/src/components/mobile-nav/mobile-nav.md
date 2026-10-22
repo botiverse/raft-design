@@ -1,12 +1,12 @@
 ---
 title: MobileNav
 summary: 手机的标签栏：一级页面底部最多 5 个目的地，选中那一项的图标放在一张黄色贴纸里。
-sourceHash: 5db8b2d2
+sourceHash: 56ecc8ae
 ---
 
 # MobileNav
 
-MobileNav 是手机网页的标签栏：每个一级页面底部的一排产品目的地。选中的目的地的图标放在一张黄色贴纸里。推入页面会盖住它。它的最后一个标签可以是当前服务器，打开的是菜单而不是页面。iOS 和 Android 应用用各自系统的标签栏画同样的目的地（[导航](../../../../../design/patterns/navigation.md#what-each-platform-draws)）。
+MobileNav 是手机网页的标签栏：每个一级页面底部的一排产品目的地。选中的目的地的图标放在一张黄色贴纸里。推入页面会盖住它。它的最后一个标签可以是当前服务器，打开的是弹出层而不是页面。iOS 和 Android 应用用各自系统的标签栏画同样的目的地（[导航](../../../../../design/patterns/navigation.md#what-each-platform-draws)）。
 
 ```example
 mobile-nav/compositions/mobile-nav
@@ -34,27 +34,32 @@ mobile-nav/compositions/mobile-nav
 产品可以把标签栏的一个位置给搜索，并把最后一个标签设为当前服务器。Raft Chat 在移动应用和手机网页上都这样做。
 
 - 把搜索做成和其他一样的标签：它的页面是一级页面，没有返回，标签栏保持显示，搜索处于 `selected`。搜索从不显示提醒圆点。它的页面和搜索结果怎么表现，见[导航](../../../../../design/patterns/navigation.md#search-on-a-phone)。
-- 产品有服务器、目的地又多到放不下时，把最后一个标签设为当前服务器：服务器自己的页面放进它的菜单（[服务器标签](#the-server-tab)）。它取代了「更多」标签，那是一个列出其余目的地的页面，Raft Chat 一直用到 2026-10-22。
+- 产品有服务器、目的地又多到放不下时，把最后一个标签设为当前服务器：服务器自己的页面放进它的弹出层（[服务器标签](#the-server-tab)）。它取代了「更多」标签，那是一个列出其余目的地的页面，Raft Chat 一直用到 2026-10-22。
 
 raft-ui 用 `MobileNavItem` 画搜索，用 `MobileNavServerItem` 画服务器标签。不再计划为悬浮胶囊和搜索按钮提供单独的部件（`MobileNavPill`、`MobileNavSearch`）。
 
 ## 服务器标签 {#the-server-tab}
 
-最后一个标签是当前服务器：别的标签放图标的地方放它的头像，标签是它的名称。它是唯一一个打开菜单而不是页面的标签（[导航](../../../../../design/patterns/navigation.md#the-server-tab-on-a-phone)）。实验性：这三个部件从 `@botiverse/raft-ui/wip` 导出，API 可能在任何版本里改变。
+最后一个标签是当前服务器：别的标签放图标的地方放它的头像，标签是它的名称。它是唯一一个打开弹出层而不是页面的标签（[导航](../../../../../design/patterns/navigation.md#the-server-tab-on-a-phone)）。实验性：它的部件从 `@botiverse/raft-ui/wip` 导出，API 可能在任何版本里改变。
 
 ```example
 mobile-nav/compositions/server-tab
 ```
 
-- `MobileNavServerMenu`：根，一个 Base UI Popover 的根。它管理打开状态（`open`、`defaultOpen`、`onOpenChange`）。把它放在 `MobileNavRoot` 里，作为最后一项；它自己不渲染任何东西。
-- `MobileNavServerItem`：标签，一个打开菜单的 `MobileNavItem`。子元素是服务器的 [Avatar](../avatar/avatar.md)（`type="server"`，画成 22px，和其他标签的图标一样大）和放在 `MobileNavLabel` 里的名称，过长时截断。它不接受 `selected`：它没有页面，所以从不处于选中状态。菜单打开时，它的头像下面显示按下时的底色。
-- `MobileNavServerMenuContent`：菜单，一个从标签栏上方升起的 [Popover](../popover/popover.md) 面板，距标签栏两侧各 8px、上方 8px，高度随内容，最高到离窗口顶部 8px。它是一个纵向排列的列：给很长的服务器列表加上 `min-h-0 flex-1` 和它自己的滚动，后面的行就始终可见。
+- `MobileNavServerPopover`：根，一个 Base UI Popover 的根。它管理打开状态（`open`、`defaultOpen`、`onOpenChange`）。把它放在 `MobileNavRoot` 里，作为最后一项；它自己不渲染任何东西。
+- `MobileNavServerItem`：标签，一个打开弹出层的 `MobileNavItem`。子元素是服务器的 [Avatar](../avatar/avatar.md)（`type="server"`，画成 22px，和其他标签的图标一样大）和放在 `MobileNavLabel` 里的名称，过长时截断。它不接受 `selected`：它没有页面，所以从不处于选中状态。弹出层打开时，它的头像下面显示按下时的底色。
+- `MobileNavServerPopoverContent`：弹出层，一个从标签栏上方升起的 [Popover](../popover/popover.md) 面板，距标签栏两侧各 8px、上方 8px，高度随内容，最高占屏幕的 60%（`60dvh`）。它由下面几个部件纵向排成一列，部件之间放 `PopoverSeparator`。
+- `MobileNavServerPopoverList`：服务器列表。它占用弹出层里剩下的空间，在里面滚动，后面的部件始终可见。
+- `MobileNavServerPopoverRow`：一行，高度是所有弹出列表的选项高度（`min-h-option`，36px，[表单](../../../../../design/patterns/forms.md#option-height)）：20px 的头像或 16px 的图标、过长时截断的 `MobileNavServerPopoverRowLabel`，然后是勾号、[Badge](../badge/badge.md) 或灰色计数。`aria-current="true"` 把当前服务器设为粗体。
+- `MobileNavServerPopoverDestinations` 和 `MobileNavServerPopoverDestination`：服务器自己的页面，放在一行等宽的按钮里，每个按钮是 20px 的图标，下面是放在 `span` 里的标签。这一行是一个 `group`；用 `aria-label` 给它命名，比如服务器的名称。
+- `MobileNavServerPopoverGroup`：始终可见的行，比如底部的操作。
 
-菜单里的行由产品决定：先是和切换器一样的服务器列表（[切换服务器](../../../../../design/components/overview.md#switching-servers)），然后是服务器自己的页面，最后是切换器底部的操作。Raft Chat 的写在[导航](../../../../../design/patterns/navigation.md#the-server-tab-on-a-phone)里。
+弹出层里的行由产品决定：先是和切换器一样的服务器列表（[切换服务器](../../../../../design/components/overview.md#switching-servers)），然后是服务器自己的页面，最后是切换器底部的操作。Raft Chat 的写在[导航](../../../../../design/patterns/navigation.md#the-server-tab-on-a-phone)里。
 
-- 点按打开菜单，再点按一次关闭。
-- 长按（静止按住 500ms）也打开它，和 raft-ui 其他长按菜单打开的时刻相同（[状态](../../../../../design/foundations/states.md)）。松开手指后菜单保持打开。手指移动超过 10px 是滚动，不是按住。这个标签会阻止系统自己的长按菜单和文字选择。
-- Esc、点按菜单外面和选择一行都会关闭它；焦点回到这个标签。
+- 点按打开弹出层，再点按一次关闭。
+- 长按（静止按住 500ms）也打开它，和 raft-ui 其他长按菜单打开的时刻相同（[状态](../../../../../design/foundations/states.md)）。松开手指后弹出层保持打开；弹出层已经打开时再长按，它保持原样。手指移动超过 10px 是滚动，不是按住。这个标签会阻止系统自己的长按菜单和文字选择。
+- Esc、点按弹出层外面和选择一行都会关闭它；焦点回到这个标签。某一行打开推入页面时，人从那个页面回来后，产品要把焦点还给这个标签，示例就是这样做的。
+- 它是一个弹出层（`dialog`），不是 ARIA 菜单：里面的行是按钮，用 Tab 到达，没有方向键导航。
 
 ## 行为 {#behavior}
 
@@ -69,7 +74,7 @@ mobile-nav/compositions/server-tab
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | 未选中          | 图标和标签用 `foreground-hint`                                                                                                                                |
 | 选中（`selected`） | 图标放在一张 56×30px 的黄色贴纸里；标签用 `foreground`，粗体                                                                                              |
-| 提醒             | 图标右上角一个粉色像素点（[状态](../../../../../design/foundations/states.md)），从不显示数字；在服务器标签上，放在头像的右上角（`AvatarBadge` 加 `offset={["100%", 0]}` 和一个 `accent` 的 [Status](../status/status.md)）。选中的项上从不显示，没有例外 |
+| 提醒             | 图标右上角一个粉色像素点（[状态](../../../../../design/foundations/states.md)），从不显示数字；在服务器标签上，放在头像的右上角（`AvatarBadge` 加 `offset={["100%", 0]}` 和一个 `accent` 的 [Status](../status/status.md)），而且只表示其他服务器有未读。选中的项上从不显示，没有例外 |
 
 贴纸只包住图标，不包住整个项：一个黄色的项会在屏幕底部再加一条外框，而只包住图标能让颜色减半，同时选中状态仍然一眼就能看出（[导航](../../../../../design/patterns/navigation.md#where-you-are)）。
 
@@ -78,11 +83,11 @@ mobile-nav/compositions/server-tab
 - 每一项都要有标签，用 Title Case（[字体排印](../../../../../design/foundations/typography.md#casing)）。标签最多 8 个拉丁字母或 4 个汉字，这样 5 项能放进 320px；更长的会被截断。服务器标签的标签是服务器的名称，由人自己起：它会被截断，旁边的头像仍然能区分各个服务器。
 - 哪些项可以显示提醒圆点，由产品决定。其他新消息改在页面里说。
 - 标签栏上显示圆点，从不显示数量：数量放在页面里，挨着它所计数的东西。
-- 其他服务器有未读内容时，或者菜单里有别处都不显示的东西时，给服务器标签加圆点，并且在引起它的那一行上显示同样的圆点，让人能找到新的东西。
+- 只有其他服务器有未读内容时，才给服务器标签加圆点，这和同样的头像加圆点在主页 [WorkspaceButton](../workspace-button/workspace-button.md) 上的含义相同。服务器自己的某个页面有新东西时，圆点放在弹出层里那个页面的按钮上，即 `MobileNavServerPopoverDestination` 里的一个 `accent` `Status`，从不放在头像上。
 
 ## 无障碍 {#accessibility}
 
 - `MobileNavRoot` 渲染一个 `nav`。用 `aria-label="Primary"` 给它命名。
 - `MobileNavItem` 渲染 Base UI 的 Button；`selected` 设置 `aria-pressed`。对于用来跳转的项，渲染一个链接（`render={<a href="…" />}` 加 `nativeButton={false}`），并在选中的那个上设置 `aria-current="page"`：raft-ui 在链接上两者都不设置。
 - 可见的标签就是这一项的名称。一项显示提醒圆点时，给它一个同时说出两者的 `aria-label`："Raft HQ, another server has unread items"。圆点本身是 `aria-hidden`。
-- 给服务器标签一个写着服务器名称的 `aria-label`，这样头像里的首字母不会被一起读出来。它会说明自己有菜单（`aria-haspopup="dialog"`、`aria-expanded`）；在 `MobileNavServerMenuContent` 上用 `aria-label` 给菜单命名，比如 "Servers"。菜单打开时焦点移进菜单，关闭时回到标签。点按就能打开它，所以没有人需要长按。
+- 给服务器标签一个写着服务器名称的 `aria-label`，这样头像里的首字母不会被一起读出来。它会说明自己有弹出层（`aria-haspopup="dialog"`、`aria-expanded`）；在 `MobileNavServerPopoverContent` 上用 `aria-label` 给弹出层命名，比如 "Servers"。弹出层打开时焦点移进弹出层，关闭时回到标签。点按就能打开它，所以没有人需要长按。

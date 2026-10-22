@@ -24,7 +24,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | Where | Destinations |
 | --- | --- |
 | Phone tab bar | Home (`house`), Activity (`activity`, as on the desktop rail), Tasks (`square-check-big`), Search (`search`), and the current server, its avatar and its name, on the edge bar ([MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-the-server-tab)). The order is fixed. Search is a tab, the only way in to searching everything: no Back on its page, the bar stays with Search selected, and it keeps its query, filters, results and scroll position across tabs ([Navigation](../../patterns/navigation.md#search-on-a-phone)). The same in the mobile app and on the phone web |
-| Phone server tab | Opens a menu, not a page: the server list, then Members, Computers and [Settings](./settings.md) under the server's name, then Join Community, Switch or Create Server and Invite Human. Each of the server's rows opens a pushed page, with Back. Switching keeps the current tab ([Navigation](../../patterns/navigation.md#the-server-tab-on-a-phone)). Guests don't have Members or Computers |
+| Phone server tab | Opens a popover, not a page: the server list, then Members, Computers and [Settings](./settings.md) in one row, then Join Community, Switch or Create Server and Invite Human. Each of the server's rows opens a pushed page, with Back. Switching keeps the current tab ([Navigation](../../patterns/navigation.md#the-server-tab-on-a-phone)). Guests don't have Members or Computers |
 | The first row of phone Home | Saved (with a gray count), its only entry point; see [Home](./home.md) |
 | Web top bar (from 768px, and the desktop app's title bar) | As in [Page structure](../../patterns/page-structure.md#the-web-top-bar); the search field opens search |
 | Desktop rail | Chat, Activity, Tasks, Members, Computers; at the bottom Help (`circle-help`) and Settings. Guests don't have Members or Computers |
@@ -37,9 +37,9 @@ Without the web top bar (an older desktop build, a server's public page), the ra
 Attention dots follow [Navigation](../../patterns/navigation.md#where-you-are). In Raft Chat they mark:
 
 - on the rail: Chat when there are unread messages, Activity when there is unread activity, Computers when a computer needs attention, Settings when feedback has a new reply, and Help once, to announce the mobile app, until its mobile-app item is opened;
-- on the phone tab bar: Activity when there is unread activity, and the server tab when another server has unread items, feedback has a new reply or a computer needs attention. Search never has one.
+- on the phone tab bar: Activity when there is unread activity, and the server tab's avatar when another server has unread items, as on Home's workspace button. Search never has one.
 
-None of them shows while its destination is selected, Settings and Help included, and each is always a dot, never a count ([Navigation](../../patterns/navigation.md#where-you-are)). Besides another server's unread items, which its row in the menu shows as a count, the server tab's dot is only for what shows nowhere else, and the row that caused it shows the same dot: Settings for a feedback reply (and Feedback inside it), Computers for a computer. Everything else new shows inside the pages; unread counts are inside Activity.
+None of them shows while its destination is selected, Settings and Help included, and each is always a dot, never a count ([Navigation](../../patterns/navigation.md#where-you-are)). Another server's unread items show as a count on its row in the server tab's popover. A feedback reply and a computer that needs attention are not on the server tab: each has a dot on its own button in the popover, Settings (and Feedback inside it) and Computers (on a phone, the only place they show). Everything else new shows inside the pages; unread counts are inside Activity.
 
 A computer's dot marks a change you haven't seen, not a state that lasts. On the rail and on the phone alike:
 

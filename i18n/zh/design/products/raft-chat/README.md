@@ -1,7 +1,7 @@
 ---
 title: Raft Chat
 summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、桌面端布局和侧边栏、桌面应用、正在工作的 agent 显示在哪里、它的浮层，以及它和通用模式不一致的地方。
-sourceHash: 629a0f89
+sourceHash: f665ce24
 ---
 
 # Raft Chat
@@ -24,7 +24,7 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、agent 和任务都在�
 | 位置 | 目的地 |
 | --- | --- |
 | 手机标签栏 | 主页（`house`）、动态（`activity`，和桌面端导航条一样）、任务（`square-check-big`）、搜索（`search`），以及当前服务器（它的头像和名称），在贴边的标签栏上（[MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-the-server-tab)）。顺序固定。搜索是一个标签，也是搜索全部内容的唯一入口：它的页面没有返回，标签栏保持搜索选中，切换标签后它的查询、筛选、结果和滚动位置都保留（[导航](../../patterns/navigation.md#search-on-a-phone)）。移动应用和手机网页上都一样 |
-| 手机上的服务器标签 | 打开一个菜单而不是页面：先是服务器列表，然后在服务器名称下面是成员、计算机和[设置](./settings.md)，最后是 Join Community、Switch or Create Server 和 Invite Human。服务器自己的每一行打开一个推入页面，带返回。切换服务器时停在当前标签（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)）。访客没有成员和计算机 |
+| 手机上的服务器标签 | 打开一个弹出层而不是页面：先是服务器列表，然后是并排一行的成员、计算机和[设置](./settings.md)，最后是 Join Community、Switch or Create Server 和 Invite Human。服务器自己的每一行打开一个推入页面，带返回。切换服务器时停在当前标签（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)）。访客没有成员和计算机 |
 | 手机主页的第一行 | 收藏（带灰色计数），这是它唯一的入口；见[主页](./home.md) |
 | 网页顶栏（768px 起，以及桌面应用的标题栏） | 同[页面结构](../../patterns/page-structure.md#the-web-top-bar)；搜索框打开搜索 |
 | 桌面端导航条 | 聊天、动态、任务、成员、计算机；底部是帮助（`circle-help`）和设置。访客没有成员和计算机 |
@@ -37,9 +37,9 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、agent 和任务都在�
 提醒圆点遵循[导航](../../patterns/navigation.md#where-you-are)。在 Raft Chat 里，它们标在：
 
 - 导航条上：有未读消息时标在聊天上，有未读动态时标在动态上，有计算机需要处理时标在计算机上，反馈有新回复时标在设置上；帮助上标一次，用来宣布移动应用，直到其中的移动应用一项被打开；
-- 手机标签栏上：有未读动态时标在动态上，其他服务器有未读、反馈有新回复或有计算机需要处理时标在服务器标签上。搜索上从不出现圆点。
+- 手机标签栏上：有未读动态时标在动态上；其他服务器有未读内容时标在服务器标签的头像上，和主页的工作空间按钮一样。搜索上从不出现圆点。
 
-目的地被选中时，它的圆点都不显示，设置和帮助也一样；圆点永远只是一个点，从不是计数（[导航](../../patterns/navigation.md#where-you-are)）。其他服务器的未读在菜单里它的那一行显示为计数；除此之外，服务器标签上的圆点只用于其他地方都不显示的东西，引起它的那一行也显示同样的圆点：反馈回复对应 Settings（以及里面的 Feedback），计算机对应 Computers。其他新内容都显示在页面里面；未读计数在动态里。
+目的地被选中时，它的圆点都不显示，设置和帮助也一样；圆点永远只是一个点，从不是计数（[导航](../../patterns/navigation.md#where-you-are)）。其他服务器的未读显示为服务器标签弹出层里它那一行的计数。反馈回复和需要处理的计算机不标在服务器标签上：它们各自在弹出层里自己的按钮上显示圆点，即 Settings（以及里面的 Feedback）和 Computers（在手机上，只在这里显示）。其他新内容都显示在页面里面；未读计数在动态里。
 
 计算机的圆点表示一次你还没看到的变化，而不是一个持续的状态。在导航条和手机上都一样：
 

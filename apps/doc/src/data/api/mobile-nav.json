@@ -57,14 +57,14 @@
   {
     "name": "MobileNavServerItem",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The tab: the server's avatar and its name in `MobileNavLabel`, as children. A press opens the menu, and so does holding it for 500ms (the long press of raft-ui's menus). Lifting the finger after the hold leaves the menu open: Base UI keeps a popover it did not open on a click (stickIfOpen) through the click that ends the hold. It is never `selected`: it holds no page.",
+    "description": "The tab: the server's avatar and its name in `MobileNavLabel`, as children. A press opens the popover, and so does holding it for 500ms (the long press of raft-ui's menus). Lifting the finger after a hold never closes it: the click that ends the hold is not a press, whether the hold opened the popover or found it open. It is never `selected`: it holds no page.",
     "native": true,
     "props": []
   },
   {
-    "name": "MobileNavServerMenu",
+    "name": "MobileNavServerPopover",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The root: owns the menu's open state, like `Popover` (`open`, `onOpenChange`).",
+    "description": "The root: owns the popover's open state, like `Popover` (`open`, `onOpenChange`).",
     "native": false,
     "props": [
       {
@@ -135,9 +135,9 @@
     ]
   },
   {
-    "name": "MobileNavServerMenuContent",
+    "name": "MobileNavServerPopoverContent",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The menu: a popover above the tab bar, 8px from each side of it and 8px above it, as tall as the content up to the top of the window. A column, so a scrolling list can take the room and the footer actions stay in view.",
+    "description": "The popover above the tab bar, 8px from each side of it and 8px above it, as tall as its content and at most 60% of the screen. It stops below the top safe area (a notch in a standalone web app): Base UI's collision padding takes only pixels, so the height cap subtracts `env(safe-area-inset-top)`. The bottom needs none: the tab bar under the popover already pads the bottom safe area. A column: `MobileNavServerPopoverList` takes the room left and scrolls, and the destinations and the footer after it stay in view.",
     "native": true,
     "props": [
       {
@@ -268,5 +268,47 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "MobileNavServerPopoverList",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The server list: takes the room left in the popover and scrolls inside it.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopoverGroup",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Rows that always stay in view, such as the footer actions.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopoverRow",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One line at the option height of every popup list (`min-h-option`, 36px): a 20px avatar or a 16px icon, `MobileNavServerPopoverRowLabel`, then anything trailing (a check, a count). `aria-current=\"true\"` marks the current server in bold.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopoverRowLabel",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A row's label: takes the room and truncates.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopoverDestinations",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The server's own pages, side by side in equal cells; a `group`, named with `aria-label`.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "MobileNavServerPopoverDestination",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One of the server's pages: a 20px icon over a short label in a `span`, which truncates. Something new on that page (a feedback reply, a computer that needs attention) is an `accent` `Status` child, the attention dot at the icon's top-right corner: the server tab's avatar never carries it.",
+    "native": true,
+    "props": []
   }
 ]

@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 0303745f
+sourceHash: 3db03bf4
 ---
 
 # 组件
@@ -239,7 +239,7 @@ toggle-group/compositions/formatting
 
 - 在每个表面上，触发器都是 [WorkspaceButton](../../packages/ui/src/components/workspace-button/workspace-button.md)：服务器的头像、名称和一个 V 形箭头。
 - 在桌面端，网页顶栏左侧的工作空间按钮在它下方以菜单形式打开列表，256px 宽（[Popover](../../packages/ui/src/components/popover/popover.md)）。按钮旁边的那排服务器头像点一下就能切换。
-- 在手机上，服务器标签（标签栏的最后一个标签）打开同一个列表，作为标签栏上方的弹出层，距两侧各 8px，列表和底部操作之间是这个服务器自己的页面（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)，`MobileNavServerMenuContent`）。主页上的工作空间按钮只打开列表，作为锚定在顶栏下方的弹出层，距两侧各 8px（[Popover](../../packages/ui/src/components/popover/popover.md)，[导航](../patterns/navigation.md#the-server-tab-on-a-phone)）。
+- 在手机上，服务器标签（标签栏的最后一个标签）打开同一个列表，作为标签栏上方的弹出层，距两侧各 8px，列表和底部操作之间是这个服务器自己的页面（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)，`MobileNavServerPopoverContent`）。主页上的工作空间按钮只打开列表，作为锚定在顶栏下方的弹出层，距两侧各 8px（[Popover](../../packages/ui/src/components/popover/popover.md)，[导航](../patterns/navigation.md#the-server-tab-on-a-phone)）。
 - 每一行是工作空间图块、它的名称，以及用 Space Mono 显示的地址（`/launch`）。当前服务器用勾号和粗体名称标出；其他服务器的未读数显示为粉色计数，服务器被静音时显示为灰色计数。
 - 每一行都有拖动手柄，让人可以调整列表顺序。那排头像也按同样的顺序排列。
 - 列表末尾，在分隔线之后，依次是 Join Community（直到这个人加入为止）、Switch or Create Server 和 Invite Human。

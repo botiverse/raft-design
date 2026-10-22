@@ -5,7 +5,7 @@ summary: The Settings destination — the Personal, Workspace and Resources grou
 
 # Raft Chat — Settings
 
-Settings lists the person's own settings, the server's settings and Raft's resources in three groups. On desktop the groups are the sidebar and a page opens beside them; on a phone they are a pushed page titled Settings, opened from the server tab's menu ([Navigation](../../patterns/navigation.md#the-server-tab-on-a-phone)), and each row opens another pushed page, with Back to the list.
+Settings lists the person's own settings, the server's settings and Raft's resources in three groups. On desktop the groups are the sidebar and a page opens beside them; on a phone they are a pushed page titled Settings, opened from the server tab's popover ([Navigation](../../patterns/navigation.md#the-server-tab-on-a-phone)), and each row opens another pushed page, with Back to the list.
 
 ## Structure
 
@@ -16,12 +16,12 @@ sidebar/compositions/settings-list
 ```
 
 1. **The header**: on a phone, the pushed page's header, Settings, with Back; on desktop, Settings.
-2. **Three groups**, each a group label and sidebar rows with an icon and a name. Members and Computers are not in the list on a phone: they are rows of the server tab's menu.
+2. **Three groups**, each a group label and sidebar rows with an icon and a name. Members and Computers are not in the list on a phone: they are buttons in the server tab's popover.
    - Personal: Account, Language & Region, Appearance, Notifications.
    - Workspace: Server Profile, then what the person may see and the server has turned on: RaftBench, Plan & Billing, Administration, IM Bridges, Applications, Labs, MCP Servers, AI Providers.
    - Resources: About, Documentation (a link to the documentation site), Feedback, Release Notes.
 
-- Feedback shows a pink pixel when there is a new reply, and on a phone the Computers row of the server tab's menu shows one when a computer needs attention ([Raft Chat](./README.md#attention-dots)).
+- Feedback shows a pink pixel when there is a new reply, and on a phone the Computers button in the server tab's popover shows one when a computer needs attention, as does the Settings button for a feedback reply ([Raft Chat](./README.md#attention-dots)).
 - On desktop, Account opens by default and its row is the yellow sticker. On a phone, nothing is selected until a row is opened.
 
 ### A settings page
