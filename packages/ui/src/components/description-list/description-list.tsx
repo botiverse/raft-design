@@ -31,9 +31,10 @@ const descriptionList = tv({
           // window
           // (design/patterns/responsive.md#switch-on-the-regions-width).
           "@container/description-list w-full grid items-baseline",
-          // Stacked, a value sits right under its label (no 32px row to centre
-          // in) and a pair sits 8px from the next, so each label reads with its
-          // own value, not the one above it.
+          // Stacked, a value sits 2px under its label (the row gap; no 32px row
+          // to centre in) and 10px above the next label (the 2px row gap plus
+          // 8px on each following term), so each label reads with its own
+          // value, not the one above it.
           "[&>[data-slot=description-item]>*]:@max-sm/description-list:col-span-full",
           "[&>[data-slot=description-item]>[data-slot=description-details]]:@max-sm/description-list:min-h-0",
           "[&>[data-slot=description-item]+[data-slot=description-item]>[data-slot=description-term]]:@max-sm/description-list:mt-2",
