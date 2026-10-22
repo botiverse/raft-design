@@ -50,7 +50,8 @@ describe("translated pages", () => {
   });
 
   it("shows a translation with the English page's anchors", () => {
-    const english = pageAt("/foundations/color")!;
+    // Any current translation: a page whose English changed may be stale for a while.
+    const english = PAGES.find((page) => localize(page, "zh").translation === "current")!;
     const zh = localize(english, "zh");
     expect(zh.translation).toBe("current");
     expect(zh.url).toBe(english.url);
@@ -60,11 +61,12 @@ describe("translated pages", () => {
   });
 
   // Whether a translation is current is a warning (scripts/i18n.mjs check), not a
-  // failure: an English page may change before its translation does.
-  it("every translation has the anchors of its English page", () => {
+  // failure: an English page may change before its translation does, headings
+  // included, so only a current translation must have its English page's anchors.
+  it("every current translation has the anchors of its English page", () => {
     const translated = [...PAGES, README!]
       .map((page) => [page, localize(page, "zh")] as const)
-      .filter(([, zh]) => zh.translation !== "missing");
+      .filter(([, zh]) => zh.translation === "current");
     expect(translated.length).toBeGreaterThan(0);
     for (const [english, zh] of translated) {
       expect(zh.anchors, english.repoPath).toEqual(english.anchors);
@@ -78,7 +80,7 @@ describe("translated pages", () => {
     expect(zh.translation).toBe("missing");
     expect(zh.body).toBe(english.body);
     expect(localize(english, "en")).toBe(english);
-    expect(localize(pageAt("/components/button")!, "zh").translation).toBe("current");
+    expect(localize(pageAt("/components/button")!, "zh").translation).not.toBe("missing");
   });
 
   it("hashes the English source the same on every platform", () => {
