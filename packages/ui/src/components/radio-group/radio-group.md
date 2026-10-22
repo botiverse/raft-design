@@ -32,7 +32,7 @@ radio-group/compositions/reset-mode
 - `RadioGroup`: the group. Holds the value. Required.
 - `RadioGroupItem`: one answer's 20px circle with a 1.5px ink border, holding a hidden native input. Required, one per answer.
 - `RadioGroupIndicator`: the 8px ink dot inside the chosen circle. `RadioGroupItem` renders it by default.
-- A label: wrap each item, its label and its description in a `<label>`, a flex row with `gap-2` that carries the label's type (`text-subhead`). The circle centers on the label's first line by itself, 8px before it; don't add a `margin-top` ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
+- A label: wrap each item, its label and its description in a `<label>`, a flex row with `items-start` and `gap-2` that carries the label's type. The circle centers on the label's first line by itself, 8px before it, at any min-height; don't add a `margin-top` ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
 
 ## Variants
 
@@ -52,7 +52,7 @@ radio-group/compositions/reset-mode-restored
 
 ## Behavior
 
-- Make each answer a row at least 44px high, and make the whole row clickable. The circle's own hit area is 44px wide, and 44px tall on a touch screen (36px with a mouse).
+- Make each answer a row at least 44px high, and make the whole row clickable. In its row the circle's hit area reaches 4px past its line, half the 8px gap between answers, so a tap between two lands on the nearer; the label is the target for the rest.
 - Always have one answer chosen. Choose the most common and safest answer by default.
 
 ## Content

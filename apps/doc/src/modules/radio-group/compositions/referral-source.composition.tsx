@@ -32,7 +32,7 @@ export function RadioGroupReferralSourceContent({
       className="w-64"
     >
       {REFERRAL_OPTIONS.map((option) => (
-        <label key={option.value} className="flex cursor-pointer items-start gap-2 text-sm">
+        <label key={option.value} className="flex cursor-pointer items-center gap-2 text-sm">
           <RadioGroupItem value={option.value} />
           <span>{option.label}</span>
         </label>

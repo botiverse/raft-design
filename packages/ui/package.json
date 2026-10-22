@@ -58,6 +58,7 @@
     "test": "vp test"
   },
   "dependencies": {
+    "@babel/parser": "catalog:",
     "@base-ui/react": "catalog:",
     "@dnd-kit/core": "catalog:",
     "@dnd-kit/sortable": "catalog:",

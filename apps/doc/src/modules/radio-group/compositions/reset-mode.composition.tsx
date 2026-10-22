@@ -42,14 +42,12 @@ export function RadioGroupResetModeContent({
       {RESET_MODE_OPTIONS.map((option) => (
         <label
           key={option.value}
-          className="flex cursor-pointer items-start gap-2 text-left text-subhead"
+          className="flex cursor-pointer items-start gap-2 text-left text-sm"
         >
           <RadioGroupItem value={option.value} />
-          <span className="grid min-w-0 gap-0.5">
-            <span className="font-semibold text-foreground">{option.label}</span>
-            <span className="text-footnote font-normal text-foreground-muted">
-              {option.description}
-            </span>
+          <span className="grid min-w-0 gap-1">
+            <span className="text-sm font-medium text-foreground">{option.label}</span>
+            <span className="text-xs leading-5 text-foreground-muted">{option.description}</span>
           </span>
         </label>
       ))}

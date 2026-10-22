@@ -11,17 +11,26 @@ import {
   ListRowBody,
   ListRowDescription,
   ListRowGroup,
+  ListRowChevron,
   ListRowIcon,
   ListRowTitle,
+  ListRowValue,
 } from "./components/list-row";
 import { Avatar } from "./components/avatar/avatar";
 
-// A switch, a checkbox or a radio centres on the FIRST line of its label,
-// 8px before it, wherever raft-ui puts it beside one: FieldItem, a <label>
-// row, the end of a plain ListRow (design/foundations/alignment.md#a-control-
-// and-its-label). The switch keeps 50 x 30, the box and the circle 20, and the
-// box's and the circle's hit area is 44 tall on a touch screen (36 with a
-// mouse). Real layout only: jsdom has no boxes.
+// A switch, a checkbox or a radio centres on the FIRST line of its label's
+// text, wherever raft-ui puts it beside one, without being squeezed
+// (design/foundations/alignment.md#a-control-and-its-label):
+// - in a <label> row, a checkbox's or a radio's box is one line of the label
+//   tall, so it lands on the text's line however the row aligns and however
+//   tall its min-height (the row decides where a line of text goes);
+// - in a FieldItem, the same, and a row with a switch is at least the
+//   switch's 30px, the label centred on it;
+// - in a plain ListRow with a description, both ends sit on the title's first
+//   line; with a title alone everything stays centred at the row's height.
+// On a touch screen a box or circle on its own has a 44px hit area; in a
+// <label> row it reaches only half the 8px gap past its line, so a tap
+// between two options lands on the nearer one. Real layout only.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -92,6 +101,11 @@ function expectOnFirstLine(control: Element, text: HTMLElement, wraps: boolean, 
     expect(text.getBoundingClientRect().left - control.getBoundingClientRect().right).toBe(gap);
 }
 
+const TEXTS = [
+  { name: "one line", text: SHORT, wraps: false },
+  { name: "two lines", text: LONG, wraps: true },
+] as const;
+
 const CONTROLS: { name: string; size: [number, number]; el: () => ReactElement }[] = [
   { name: "switch", size: [50, 30], el: () => <Switch data-testid="control" aria-label="On" /> },
   {
@@ -105,6 +119,7 @@ const CONTROLS: { name: string; size: [number, number]; el: () => ReactElement }
     el: () => <RadioGroupItem data-testid="control" value="a" aria-label="On" />,
   },
 ];
+const BOXES = CONTROLS.filter((c) => c.name !== "switch");
 
 function Radio({ children }: { children: ReactNode }) {
   return (
@@ -114,91 +129,159 @@ function Radio({ children }: { children: ReactNode }) {
   );
 }
 
-const TEXTS = [
-  { name: "one line", text: SHORT, wraps: false },
-  { name: "two lines", text: LONG, wraps: true },
+function wrap(name: string, node: ReactNode) {
+  return name === "radio" ? <Radio>{node}</Radio> : node;
+}
+
+// The label rows the control has to live with: its own recommended row, and
+// the rows products write (slock: `min-h-11 items-center`, `min-h-8`).
+const LABEL_ROWS = [
+  { name: "items-start", className: "flex items-start gap-2 text-subhead", texts: [SHORT, LONG] },
+  {
+    name: "min-h-8 items-center",
+    className: "flex min-h-8 items-center gap-3 text-sm",
+    texts: [SHORT],
+  },
+  {
+    name: "min-h-11 items-center",
+    className: "flex min-h-11 items-center gap-2 text-sm",
+    texts: [SHORT],
+  },
+  {
+    name: "min-h-11 items-start",
+    className: "flex min-h-11 items-start gap-2 text-sm",
+    texts: [SHORT, LONG],
+  },
+  { name: "items-center gap-3", className: "flex items-center gap-3 text-sm", texts: [SHORT] },
 ] as const;
 
 for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
+  for (const control of BOXES) {
+    for (const row of LABEL_ROWS) {
+      for (const text of row.texts) {
+        const lines = text === LONG ? "two lines" : "one line";
+        it(`${deviceName}: a ${control.name} in a \`${row.name}\` <label> sits on its text's first line (${lines})`, async () => {
+          await device(deviceWidth, touch);
+          render(
+            wrap(
+              control.name,
+              <label className={`w-[260px] ${row.className}`}>
+                {control.el()}
+                <span data-testid="text">{text}</span>
+              </label>,
+            ),
+          );
+          const el = screen.getByTestId("control");
+          const r = el.getBoundingClientRect();
+          expect([r.width, r.height]).toEqual(control.size);
+          const span = screen.getByTestId("text");
+          const gap = span.getBoundingClientRect().left - r.right;
+          expectOnFirstLine(el, span, text === LONG, gap);
+          expect(gap).toBe(row.className.includes("gap-3") ? 12 : GAP);
+        });
+      }
+    }
+  }
+
   for (const control of CONTROLS) {
     for (const { name, text, wraps } of TEXTS) {
-      it(`${deviceName}: a ${control.name} in a <label> row sits on its first line (${name})`, async () => {
+      it(`${deviceName}: a ${control.name} in a FieldItem sits on its label's first line (${name})`, async () => {
         await device(deviceWidth, touch);
-        // `items-center` on purpose: the control places itself, whatever the
-        // row asks, and the row doesn't grow for a switch taller than a line.
-        const row = (
-          <label className="flex w-[260px] items-center gap-2 text-subhead">
-            {control.el()}
-            <span data-testid="text">{text}</span>
-          </label>
+        render(
+          wrap(
+            control.name,
+            <Field className="w-[260px]">
+              <FieldItem data-testid="item">
+                {control.el()}
+                <FieldLabel data-testid="text">{text}</FieldLabel>
+              </FieldItem>
+            </Field>,
+          ),
         );
-        render(control.name === "radio" ? <Radio>{row}</Radio> : row);
         const el = screen.getByTestId("control");
-        const r = el.getBoundingClientRect();
-        expect([r.width, r.height]).toEqual(control.size);
+        expect([el.getBoundingClientRect().width, el.getBoundingClientRect().height]).toEqual(
+          control.size,
+        );
         expectOnFirstLine(el, screen.getByTestId("text"), wraps);
         if (!wraps) {
-          const label = el.closest("label")!;
-          expect(label.getBoundingClientRect().height).toBe(
-            parseFloat(getComputedStyle(label).lineHeight),
+          // One line: the row is the taller of the line and the control, so a
+          // switch row is 30px with the label centred on it.
+          const label = screen.getByTestId("text");
+          const lineHeight = parseFloat(getComputedStyle(label).lineHeight);
+          expect(screen.getByTestId("item").getBoundingClientRect().height).toBe(
+            Math.max(lineHeight, control.size[1]),
           );
         }
       });
 
-      it(`${deviceName}: a ${control.name} in a FieldItem sits on its label's first line (${name})`, async () => {
+      it(`${deviceName}: a ${control.name} at the end of a plain ListRow (${name})`, async () => {
         await device(deviceWidth, touch);
-        const field = (
-          <Field className="w-[260px]">
-            <FieldItem>
-              {control.el()}
-              <FieldLabel data-testid="text">{text}</FieldLabel>
-            </FieldItem>
-          </Field>
+        render(
+          wrap(
+            control.name,
+            <ListRowGroup className="w-80">
+              <ListRow variant="plain" interactive={false} data-testid="row">
+                <ListRowIcon data-testid="lead">
+                  <svg viewBox="0 0 24 24" />
+                </ListRowIcon>
+                <ListRowBody>
+                  <ListRowTitle data-testid="text">Agents can merge</ListRowTitle>
+                  {wraps ? <ListRowDescription wrap>{LONG}</ListRowDescription> : null}
+                </ListRowBody>
+                {control.el()}
+              </ListRow>
+            </ListRowGroup>,
+          ),
         );
-        render(control.name === "radio" ? <Radio>{field}</Radio> : field);
-        expectOnFirstLine(screen.getByTestId("control"), screen.getByTestId("text"), wraps);
-      });
-
-      it(`${deviceName}: a ${control.name} at the end of a plain ListRow sits on the title's line (${name})`, async () => {
-        await device(deviceWidth, touch);
-        const list = (
-          <ListRowGroup className="w-80">
-            <ListRow variant="plain" interactive={false}>
-              <ListRowIcon data-testid="lead">
-                <svg viewBox="0 0 24 24" />
-              </ListRowIcon>
-              <ListRowBody>
-                <ListRowTitle data-testid="text">Agents can merge</ListRowTitle>
-                {wraps ? <ListRowDescription wrap>{LONG}</ListRowDescription> : null}
-              </ListRowBody>
-              {control.el()}
-            </ListRow>
-          </ListRowGroup>
-        );
-        render(control.name === "radio" ? <Radio>{list}</Radio> : list);
         const title = screen.getByTestId("text");
         const el = screen.getByTestId("control");
-        expect(Math.abs(middle(el) - firstLine(title).middle)).toBeLessThanOrEqual(0.5);
-        // Both ends: the leading icon sits on the same line as the control.
         const lead = screen.getByTestId("lead");
-        expect(Math.abs(middle(lead) - firstLine(title).middle)).toBeLessThanOrEqual(0.5);
+        const row = screen.getByTestId("row");
+        // Never squeezed.
+        expect([el.getBoundingClientRect().width, el.getBoundingClientRect().height]).toEqual(
+          control.size,
+        );
+        // Both ends on the title's line: with a title alone that is the row's
+        // centre, with a description the title's first line.
+        for (const end of [el, lead]) {
+          expect(Math.abs(middle(end) - firstLine(title).middle)).toBeLessThanOrEqual(0.5);
+        }
         if (wraps) {
-          // With a description, the block's centre is well below the title.
-          const body = title.parentElement!;
-          expect(middle(body) - middle(el)).toBeGreaterThan(8);
+          expect(middle(title.parentElement!) - middle(el)).toBeGreaterThan(8);
         } else {
-          // One line: the row is its padding and the title's line (48px on
-          // a phone), the switch overhanging the line instead of growing it.
-          const row = el.closest<HTMLElement>("[data-slot=list-row]")!;
+          // A title alone: the row is its padding and its tallest part, as
+          // before (54px with a switch on a phone).
+          const lineHeight = parseFloat(getComputedStyle(title).lineHeight);
           expect(row.getBoundingClientRect().height).toBe(
-            24 + parseFloat(getComputedStyle(title).lineHeight),
+            24 + Math.max(lineHeight, control.size[1]),
           );
+          expect(Math.abs(middle(el) - middle(row))).toBeLessThanOrEqual(0.5);
         }
       });
     }
   }
 
   for (const description of [false, true]) {
+    it(`${deviceName}: a plain ListRow's value and chevron ${description ? "sit on the title's line" : "stay centred with a title alone"}`, async () => {
+      await device(deviceWidth, touch);
+      render(
+        <ListRowGroup className="w-80">
+          <ListRow variant="plain">
+            <ListRowBody>
+              <ListRowTitle data-testid="text">Appearance</ListRowTitle>
+              {description ? <ListRowDescription wrap>{LONG}</ListRowDescription> : null}
+            </ListRowBody>
+            <ListRowValue data-testid="value">System</ListRowValue>
+            <ListRowChevron data-testid="chevron" />
+          </ListRow>
+        </ListRowGroup>,
+      );
+      const line = firstLine(screen.getByTestId("text")).middle;
+      for (const id of ["value", "chevron"]) {
+        expect(Math.abs(middle(screen.getByTestId(id)) - line), id).toBeLessThanOrEqual(0.5);
+      }
+    });
+
     it(`${deviceName}: a plain ListRow's 35px avatar ${description ? "sits on the title's line" : "stays centred with a title alone"}`, async () => {
       await device(deviceWidth, touch);
       render(
@@ -215,9 +298,6 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
       );
       const title = screen.getByTestId("text");
       const lead = screen.getByTestId("lead");
-      // With a title alone the title is the block: avatar, title and switch
-      // share the row's centre. With a description all three leave the
-      // block's centre for the title's line.
       for (const el of [lead, screen.getByTestId("control")]) {
         expect(Math.abs(middle(el) - firstLine(title).middle)).toBeLessThanOrEqual(0.5);
       }
@@ -244,44 +324,76 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
       </ListRowGroup>,
     );
     const rects = screen.getAllByTestId("stacked").map((el) => el.getBoundingClientRect());
-    // The 30px switch overhangs a 22-24px line by 3-4px, into the row's 12px
-    // padding: the next switch is still at least 12px away.
     for (let i = 1; i < rects.length; i += 1) {
       expect(rects[i]!.top - rects[i - 1]!.bottom).toBeGreaterThanOrEqual(12);
     }
   });
 
-  for (const control of CONTROLS.filter((c) => c.name !== "switch")) {
-    it(`${deviceName}: a ${control.name}'s hit area is 44 wide and ${touch ? 44 : 36} tall`, async () => {
+  for (const control of BOXES) {
+    // A box or a circle on its own: 44 tall on a touch screen. With a mouse
+    // the hit area is as it was (checkbox 44 x 36, radio 41 x 33: its ::after
+    // starts inside its 1.5px border).
+    const wide = control.name === "radio" ? 41 : 44;
+    const tall = touch ? 44 : control.name === "radio" ? 33 : 36;
+    it(`${deviceName}: a ${control.name} on its own has a hit area ${wide} wide and ${tall} tall`, async () => {
       await device(deviceWidth, touch);
-      render(
-        <div className="p-10">
-          {control.name === "radio" ? <Radio>{control.el()}</Radio> : control.el()}
-        </div>,
-      );
+      render(<div className="p-10">{wrap(control.name, control.el())}</div>);
       const el = screen.getByTestId("control");
       const r = el.getBoundingClientRect();
-      const x = r.left + r.width / 2;
-      const y = r.top + r.height / 2;
+      const [x, y] = [r.left + r.width / 2, r.top + r.height / 2];
       const hits = (dx: number, dy: number) => {
         const target = document.elementFromPoint(x + dx, y + dy);
         return target === el || el.contains(target);
       };
-      // Scan across the control's centre in half pixels: the hit area runs
-      // from the first point that lands on the control to the last.
+      // Scan across the centre in half pixels; hit-testing snaps to pixels,
+      // so the extent can read 1px over.
       const extent = (axis: "x" | "y") => {
         const hit: number[] = [];
         for (let d = -30; d <= 30; d += 0.5)
           if (axis === "y" ? hits(0, d) : hits(d, 0)) hit.push(d);
         return hit[hit.length - 1]! - hit[0]!;
       };
-      // Hit-testing snaps to pixels, so the extent can read 1px over.
-      const [w, h] = [extent("x"), extent("y")];
-      const tall = touch ? 44 : 36;
-      expect(w, "width").toBeGreaterThanOrEqual(44);
-      expect(w, "width").toBeLessThanOrEqual(45);
-      expect(h, "height").toBeGreaterThanOrEqual(tall);
-      expect(h, "height").toBeLessThanOrEqual(tall + 1);
+      for (const [value, want, label] of [
+        [extent("x"), wide, "width"],
+        [extent("y"), tall, "height"],
+      ] as const) {
+        expect(value, label).toBeGreaterThanOrEqual(want);
+        expect(value, label).toBeLessThanOrEqual(want + 1);
+      }
+    });
+
+    it(`${deviceName}: a tap between two ${control.name} rows lands on the nearer one`, async () => {
+      await device(deviceWidth, touch);
+      const row = (key: string) => (
+        <label key={key} className="flex items-start gap-2 text-sm" data-testid={`row-${key}`}>
+          {control.name === "radio" ? (
+            <RadioGroupItem value={key} data-testid={`control-${key}`} />
+          ) : (
+            <Checkbox data-testid={`control-${key}`} />
+          )}
+          <span>Option {key}</span>
+        </label>
+      );
+      render(
+        <div className="w-[260px] p-10">
+          {control.name === "radio" ? (
+            <RadioGroup aria-label="Options">{[row("a"), row("b")]}</RadioGroup>
+          ) : (
+            <div className="grid gap-2">{[row("a"), row("b")]}</div>
+          )}
+        </div>,
+      );
+      const a = screen.getByTestId("control-a").getBoundingClientRect();
+      const b = screen.getByTestId("control-b").getBoundingClientRect();
+      const gap = b.top - a.bottom;
+      const x = a.left + a.width / 2;
+      const owner = (y: number) =>
+        document.elementFromPoint(x, y)?.closest("label")?.dataset.testid;
+      // Just below the first box, and just above the second.
+      expect(owner(a.bottom + 1), "1px below a").toBe("row-a");
+      expect(owner(a.bottom + gap / 2 - 1), "nearer a").toBe("row-a");
+      expect(owner(b.top - gap / 2 + 1), "nearer b").toBe("row-b");
+      expect(owner(b.top - 1), "1px above b").toBe("row-b");
     });
   }
 }

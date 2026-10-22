@@ -106,6 +106,9 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/button/button.tsx": 4,
   "components/card/card.recipe.ts": 7,
   "components/composer/composer-attachment.recipe.ts": 7,
+  // A FieldItem pads itself by its control's overhang: it sets the control's
+  // height on itself (self-subject).
+  "components/field/field.tsx": 2,
   "components/files/files.recipe.ts": 7,
   "components/inbox-item/inbox-item.recipe.ts": 14,
   "components/input-group/input-group.tsx": 7,

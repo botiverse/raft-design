@@ -29,7 +29,7 @@ Which controls apply at once and which are saved is in [Forms](../../../../../de
 
 ## Anatomy
 
-- `Switch`: the 50 × 30px track, the same on a phone and a desktop. Required. Beside a label (in `FieldItem`, a `<label>` row, or at the end of a `ListRow variant="plain"`) it centers on the label's first line in a box one line tall, so it overhangs a 24px line by 3px above and below without making the row taller. Don't add a `margin-top` ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
+- `Switch`: the 50 × 30px track, the same on a phone and a desktop. Required. Beside a label, put it in a `FieldItem` or at the end of a `ListRow variant="plain"`: it centers on the label's or title's first line and is never squeezed, so a one-line row is at least 30px (54px for a settings row on a phone), with its text centered on the switch. Don't add a `margin-top` ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
 - `SwitchThumb`: the round knob. `Switch` renders it by default.
 
 ## States

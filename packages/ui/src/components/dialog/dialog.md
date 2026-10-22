@@ -91,7 +91,7 @@ Below 768px a dialog stays centered unless it has several fields, a long list or
 The sheet:
 
 - Rises from the bottom over the scrim, with `radius-dialog` on its top corners. The strip of page left above it shows that it is a layer over the page, not a new page.
-- Its head is a pushed page's head ([Navigation](../../../../../design/patterns/navigation.md)): × at the start, the title, and the dialog's one commit button at the end, at size `sm` with the same color and words as on a desktop. It has no footer: × is Cancel. In a flow of steps the button at the end is the step's (Next, then the last step's action), and × still closes.
+- Its head is a pushed page's head ([Navigation](../../../../../design/patterns/navigation.md)): × at the start, the title, and the dialog's one commit button at the end, at size `md` with the same color and words as on a desktop. It has no footer: × is Cancel. In a flow of steps the button at the end is the step's (Next, then the last step's action), and × still closes.
 - The body scrolls under the head and keeps the phone's 16px margin and the home indicator's inset at the bottom.
 - × and Esc close it. A tap on the scrim doesn't, so a half-filled form isn't lost to a stray tap, as with a large form dialog on a desktop. When something has been typed, ask before closing.
 - Dragging the sheet down to close it is planned, for when the sheet moves into raft-ui on top of Drawer's drag.

@@ -50,7 +50,7 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 | Row with an avatar and a preview: a conversation, a person, an agent ([ListRow](../../packages/ui/src/components/list-row/list-row.md)) | At least 64px |
 | Settings row inside a settings page ([ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`) | 48px with one line |
 | Radio row | At least 44px |
-| Selection control: a switch; a checkbox and a radio | 50 × 30px; 20px. The same on a phone and a desktop. The hit area is at least 44px each way on a touch screen; with a mouse a checkbox's or a radio's is 36px tall. Centered on the label's first line ([Alignment](./alignment.md#a-control-and-its-label)) |
+| Selection control: a switch; a checkbox and a radio | 50 × 30px; 20px. The same on a phone and a desktop. On its own, a checkbox's or radio's hit area is 44px tall on a touch screen; in a `<label>` row it reaches half the gap to the next option, and the label is the target. Centered on the label's first line ([Alignment](./alignment.md#a-control-and-its-label)) |
 | Option in a popup list, menu item | 36px with one line; taller with more, at the same padding ([Forms](../patterns/forms.md#option-height)) |
 | Phone top bar row, panel header, sidebar header, rail header, drawer header | 56px |
 | Web top bar, desktop app title bar | 48px |

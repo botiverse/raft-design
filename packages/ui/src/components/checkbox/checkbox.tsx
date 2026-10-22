@@ -5,9 +5,13 @@ import { tv } from "../../lib/tv";
 import { CheckboxIndicator } from "./checkbox-indicator";
 import type { StyledProps } from "../../lib/styled-props";
 
-// The DS checkbox: a 20px box with a hit area 44px wide, and 44px tall on a
-// touch screen (36px with a mouse). Directly in a <label> row it centres on the label's first line in
-// a box one line tall (design/foundations/alignment.md#a-control-and-its-label).
+// The DS checkbox: a 20px box with a 44px hit area around it (36px tall with a
+// mouse). Directly in a <label> row its box is one line of the label tall,
+// centred on that line, so it sits wherever the row puts a line of text:
+// on the first line with items-start, on the one line with items-center
+// (design/foundations/alignment.md#a-control-and-its-label). There its hit
+// area reaches 4px past that line, half the 8px gap to the next option, so a
+// tap between two lands on the nearer; the label is the target for the rest.
 const checkbox = tv({
   slots: {
     root: [
@@ -15,7 +19,8 @@ const checkbox = tv({
       "rounded-sticker focus-visible:shadow-focus",
       "data-disabled:cursor-not-allowed",
       "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-[''] pointer-coarse:after:-inset-y-3",
-      "[label>&]:my-[calc((1lh-1.25rem)/2)] [label>&]:self-start",
+      "[label>&]:my-[calc((1lh-1.25rem)/2)]",
+      "[label>&]:after:-inset-y-[calc((1lh-1.25rem)/2+4px)]",
     ],
     indicator: "pointer-events-none",
   },
