@@ -78,6 +78,31 @@ message-item/compositions/item-preview
 message-reference/compositions/mixed-long-message
 ```
 
+### Chips in running text
+
+The marks in a message's text are of two kinds:
+
+- **Chips** have a fill: a reference chip (`MessageReferenceChip` in any variant, `MessageReferencePending`, `MessageReferenceUnavailable`), the yellow sticker (`MessageReferenceText variant="primary"`: a mention of the person reading, or a message or an app shown as one) and a task in the text (`TaskChip variant="inline"`). All of them share one box.
+- **Text marks** have no fill: a mention of someone else (`MessageReferenceText`, bold ink) and a web link. They are words of the sentence, in its size.
+
+| Part         | The chip box                                                                                                                                                                     | Desktop (body 14/22)     | Phone (body 16/24)       |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ | ------------------------ |
+| Type         | 0.875em of the sentence, semibold                                                                                                                                                | 12.25px                  | 14px                     |
+| Height       | The body line less 2px: the line box of the chip's text, with no padding above or below                                                                                          | 20px                     | 22px                     |
+| Alignment    | The chip's words on the sentence's baseline, a leading mark centered on the chip ([Marks in running text](../../../../../design/foundations/alignment.md#marks-in-running-text)) | The line stays 22px      | The line stays 24px      |
+| Sides        | 6px at each end. With a leading mark, 3px before it, the mark in a 14px slot, then 4px to the text                                                                               | 6px, or 3px + 14px + 4px | 6px, or 3px + 14px + 4px |
+| Leading mark | A 14px icon, the loading spinner, or a task's 9px status pixel, each centered in its 14px slot                                                                                   | 14px slot                | 14px slot                |
+| Note         | A note after the label (`MessageReferenceSuffix`), 4px after it                                                                                                                  | 4px                      | 4px                      |
+| Corners      | `radius-sticker`                                                                                                                                                                 | 4px                      | 4px                      |
+
+The chip's type is a share of the sentence's and its height a step below the sentence's line, so a chip is always 2px shorter than its line. However many chips a line holds, it keeps its height, and chips on two lines keep at least 2px between them; on a phone the body is larger and the chips grow with it. Before, a reference chip was its 20px line plus 1px above and below, 22px, which made a desktop line 23px, and a task chip and the sticker took the sentence's own size on a 1.2em line: boxes 5px shorter than a reference chip's, with letters 2px larger.
+
+- The yellow sticker keeps its 1.5px ink edge inside and has no die-cut edge outside ([Dark mode](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)), so it is the size of the chips beside it.
+- The height follows `--text-body--line-height`. Chips set in text on another line take that line less 2px from `--chip-line-height`, set on a container.
+- Inline code isn't a chip: it is code, not a reference, and keeps its own box ([InlineCode](../inline-code/inline-code.md)), 20px on a desktop and 23px on a phone, never taller than the line.
+
+In raft-ui the three components take the box from one recipe (`lib/inline-chip.ts`).
+
 ## Variants
 
 | Variant   | Use for                                                                                            |
@@ -207,6 +232,6 @@ message-item/compositions/reactions
 - Put the task marker first in the footer, then the reactions, with the add button last.
 - Make the task marker a status chip: the status pixel, the task number and the assignee ([Tasks](../tasks/tasks.md)).
 - Show one reaction chip per emoji. Put a reaction the person added on `attention-soft`.
-- Keep a chip's ink as far from its left edge as from its right ([Alignment](../../../../../design/foundations/alignment.md#chips)). A reference chip with an icon and a reaction split their padding evenly, 4.5px and 7px at each end, the same total and width as before: a Lucide icon leaves about as much space in its box as a letter beside it, and an emoji or an app's icon is drawn to its edges. The saved marker takes 5.5px before its bookmark, which is drawn 2.3px inside its box, and 6.5px after its text.
+- Keep a chip's ink as far from its left edge as from its right ([Alignment](../../../../../design/foundations/alignment.md#chips)). A reaction splits its padding evenly, 7px at each end: an emoji or an app's icon is drawn to its edges. The saved marker takes 5.5px before its bookmark, which is drawn 2.3px inside its box, and 6.5px after its text. A chip in the text takes the chip box's sides instead ([Chips in running text](#chips-in-running-text)).
 - Put a note after a reference chip's label in `MessageReferenceSuffix`, not in a span of your own. It stays on the label's baseline in the layout and is drawn a quarter of the size difference higher, so the middles of the two x-heights meet; the label stays on the sentence's baseline.
 - Make a reaction chip 24px tall, with a 44px hit area ([Spacing](../../../../../design/foundations/spacing.md#hit-targets)).

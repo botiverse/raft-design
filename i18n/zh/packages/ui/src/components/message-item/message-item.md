@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 agent 用法相同。
-sourceHash: 801c5c07
+sourceHash: 9989931e
 ---
 
 # MessageItem
@@ -64,6 +64,31 @@ message-item/compositions/item-preview
 ```example
 message-reference/compositions/mixed-long-message
 ```
+
+### 正文中的标签片 {#chips-in-running-text}
+
+消息正文里的标记分两类：
+
+- **标签片**带填充：引用标签片（任意变体的 `MessageReferenceChip`、`MessageReferencePending`、`MessageReferenceUnavailable`）、黄色贴纸（`MessageReferenceText variant="primary"`：对当前读者的提及，或以贴纸显示的消息和应用引用），以及正文里的任务（`TaskChip variant="inline"`）。它们共用一个盒子。
+- **文字标记**没有填充：提及别人（`MessageReferenceText`，粗体墨色）和网页链接。它们是句子里的字，字号和句子一样。
+
+| 部分 | 标签片盒子 | 桌面端（正文 14/22） | 手机（正文 16/24） |
+| --- | --- | --- | --- |
+| 字号 | 句子字号的 0.875，半粗 | 12.25px | 14px |
+| 高度 | 正文行高减 2px：标签片文字的行框，上下没有内边距 | 20px | 22px |
+| 对齐 | 文字在句子的基线上，前置标记在标签片里居中（[正文中的标记](../../../../../design/foundations/alignment.md#marks-in-running-text)） | 行高保持 22px | 行高保持 24px |
+| 两端 | 两端各 6px。有前置标记时，标记前 3px，标记占 14px 的位置，再隔 4px 到文字 | 6px，或 3px + 14px + 4px | 6px，或 3px + 14px + 4px |
+| 前置标记 | 14px 的图标、加载中的旋转图标，或任务 9px 的状态像素点，都在 14px 的位置里居中 | 14px 的位置 | 14px 的位置 |
+| 注记 | 标签后的注记（`MessageReferenceSuffix`），离标签 4px | 4px | 4px |
+| 圆角 | `radius-sticker` | 4px | 4px |
+
+标签片的字号是句子字号的固定比例，高度比句子的行高低固定的一步，所以标签片总比它所在的行矮 2px。一行里放多少标签片，这一行都保持原来的高度，上下两行的标签片之间至少隔 2px；手机上正文变大，标签片也跟着变大。以前引用标签片是 20px 的行加上下各 1px，共 22px，在桌面端把一行撑到 23px；任务标签片和贴纸用句子本身的字号、1.2em 的行高：盒子比引用标签片矮 5px，字却大 2px。
+
+- 黄色贴纸保留画在里面的 1.5px 墨色边，外面不加模切边（[深色模式](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)），所以它和旁边的标签片一样大。
+- 高度跟随 `--text-body--line-height`。放在别的行高的文字里时，在容器上设置 `--chip-line-height`，取那一行减 2px。
+- 行内代码不是标签片：它是代码，不是引用，保留自己的盒子（[InlineCode](../inline-code/inline-code.md)），桌面端 20px，手机 23px，不会比行高。
+
+在 raft-ui 里，这三个组件从同一个配方（`lib/inline-chip.ts`）取这个盒子。
 
 ## 变体 {#variants}
 
@@ -194,6 +219,6 @@ message-item/compositions/reactions
 - 页脚里先放任务标记，然后是回应，添加按钮放最后。
 - 任务标记做成状态标签：状态像素点、任务编号和负责人（[Tasks](../tasks/tasks.md)）。
 - 每个表情只显示一个回应标签片。这个人自己添加的回应用 `attention-soft`。
-- 让标签片的墨色离左边缘和离右边缘一样远（[对齐](../../../../../design/foundations/alignment.md#chips)）。带图标的引用标签片和回应把内边距平均分配，两端各 4.5px 和 7px，总量和宽度与以前相同：Lucide 图标在它的方框里留出的空白和旁边的字母差不多，而表情或应用图标画满到边缘。收藏标记在书签图标前留 5.5px（书签画在方框内 2.3px 处），在文字后留 6.5px。
+- 让标签片的墨色离左边缘和离右边缘一样远（[对齐](../../../../../design/foundations/alignment.md#chips)）。回应把内边距平均分配，两端各 7px：表情或应用图标画满到边缘。收藏标记在书签图标前留 5.5px（书签画在方框内 2.3px 处），在文字后留 6.5px。正文里的标签片改用标签片盒子的两端（[正文中的标签片](#chips-in-running-text)）。
 - 引用标签片标签后面的注记放在 `MessageReferenceSuffix` 里，不要放在自己写的 span 里。它在布局中保持在标签的基线上，绘制时上移字号差的四分之一，让两者 x 高度的中线对齐；标签保持在句子的基线上。
 - 回应标签片高 24px，点击区域 44px（[间距](../../../../../design/foundations/spacing.md#hit-targets)）。

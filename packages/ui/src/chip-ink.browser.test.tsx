@@ -30,6 +30,12 @@ import {
 //
 // Every chip keeps its total padding, and so its width: only the split between
 // the two ends moved.
+//
+// The chips in a message's text with a leading mark are left out too: they
+// share one box (message-item.md, Chips in running text), which takes 3px
+// before the mark's 14px slot and 6px after the text, so a Lucide icon ends
+// about 3px nearer its edge than the last letter (alignment.md#chips).
+// message-reference.chip-box.browser.test.tsx measures that box.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -44,6 +50,14 @@ const LETTERS_AT_BOTH_ENDS = new Set([
   "history-limited",
 ]);
 const NARROW_ICON = new Set(["ref-channel"]);
+const INLINE_CHIP_BOX = new Set([
+  "ref-message",
+  "ref-app",
+  "ref-thread",
+  "ref-pending",
+  "ref-unavailable",
+  "task-inline",
+]);
 
 beforeAll(async () => {
   if (typeof window === "undefined") return;
@@ -81,7 +95,10 @@ for (const [name, width] of [
     );
     const kinds = [...MESSAGE_CHIPS, ...ROW_CHIPS]
       .map((c) => c.kind)
-      .filter((kind) => !LETTERS_AT_BOTH_ENDS.has(kind) && !NARROW_ICON.has(kind));
+      .filter(
+        (kind) =>
+          !LETTERS_AT_BOTH_ENDS.has(kind) && !NARROW_ICON.has(kind) && !INLINE_CHIP_BOX.has(kind),
+      );
     const rows = kinds.map((kind) => {
       const gaps = inkGaps(chipOf(document.querySelector(`[data-chip="${kind}"]`)!));
       return { kind, ...gaps };

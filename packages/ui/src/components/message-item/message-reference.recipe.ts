@@ -1,3 +1,4 @@
+import { inlineChip } from "../../lib/inline-chip";
 import { tv } from "../../lib/tv";
 
 /** Chip variants the public `MessageReferenceChip` prop accepts. */
@@ -6,24 +7,18 @@ export type MessageReferenceChipVariant = "accent" | "muted" | "info" | "link";
 /** Visual variants the public `MessageReferenceText` prop accepts. */
 export type MessageReferenceTextVariant = "primary" | "secondary";
 
-// A reference chip in a message sits on the body text's baseline, and its
-// letters look centred in the fill (design/foundations/alignment.md, Marks in
-// running text). The fill is the label's 20px line box plus 1px above and below,
-// 22px in all, with no fixed height and no vertical nudge. `items-baseline`
-// (the root's `[&_svg]:self-center` centres icons on their own) lets the text,
-// not a leading icon, set the chip's baseline. With `items-center` the icon
-// would supply it, and the chip's words would float 2px above the sentence.
-// The ink at both ends sits the same distance from the edge (alignment.md,
-// Chips). A chip with an icon keeps its 9px of padding, split evenly: a Lucide
-// icon keeps 1/24 of its box empty at each side, about what a letter keeps, so
-// the two ends take the same padding. 3px before the icon and 6px after the
-// text left the icon 3.6px from the edge against 7px after the last letter.
+// A reference chip is an inline chip (lib/inline-chip.ts, message-item.md,
+// Chips in running text): 0.875em text on the body line less 2px, its letters
+// on the sentence's baseline. `items-baseline` lets the text, not a leading
+// icon, set the chip's baseline; the root's `self-center` centres the icon on
+// the chip. With `items-center` the icon would supply the baseline, and the
+// chip's words would float 2px above the sentence (alignment.md, Marks in
+// running text). A loading spinner takes the icon's 14px slot.
 const chip = (fill: string) => [
-  "items-baseline gap-0.5 rounded-sticker px-1.5 py-px has-[>svg]:px-[4.5px]",
-  // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
-  "[font-size:0.875em] leading-5 font-semibold",
+  ...inlineChip,
   "[--message-reference-em:1em]",
   "[&_svg]:size-3.5 [&_svg]:text-foreground-muted",
+  "*:data-[slot=spinner]:w-3.5",
   fill,
 ];
 const linkChip = (fill: string) => [
@@ -75,12 +70,15 @@ export const messageReference = tv({
   },
   variants: {
     variant: {
-      // You: a small yellow sticker.
+      // You: a small yellow sticker, in the inline chip's box. Its ink edge
+      // is drawn inside, so it is no bigger than the chips beside it.
       primary: {
         root: [
-          "inline-flex cursor-pointer rounded-sticker px-[3px]",
-          "font-semibold text-sticker-ink no-underline",
-          "bg-brand inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
+          "inline-flex cursor-pointer",
+          ...inlineChip,
+          "[--message-reference-em:1em]",
+          "text-sticker-ink no-underline",
+          "bg-brand inset-ring-[1.5px] inset-ring-sticker-ink",
           "hover:overlay-sticker-medium active:overlay-sticker-medium",
         ],
       },

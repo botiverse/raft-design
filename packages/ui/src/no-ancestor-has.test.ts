@@ -118,7 +118,7 @@ const BASELINE_TOKENS: Record<string, number> = {
   // it holds a name (4).
   "components/message-item/message-item.recipe.ts": 10,
   "components/message-item/message-reaction.recipe.ts": 1,
-  "components/message-item/message-reference.recipe.ts": 5,
+  "components/message-item/message-reference.recipe.ts": 4,
   // The header wraps when it holds "(sent by …)" (self-subject).
   "components/message-quoted-preview/message-quoted-preview.recipe.ts": 1,
   "components/message-replies/message-replies.recipe.ts": 1,
@@ -131,6 +131,10 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/task-card/task-card-status.recipe.ts": 1,
   "components/toast/toast.tsx": 2,
   "components/tooltip/tooltip.tsx": 2,
+  // The inline chip box takes 3px before a leading icon or spinner, read from
+  // the chip's own children (self-subject). It moved here from the reference
+  // chip's recipe, which the task chip now shares.
+  "lib/inline-chip.ts": 1,
 };
 
 /**
