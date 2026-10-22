@@ -61,19 +61,20 @@ message-item/compositions/item-preview
 
 ### In the body
 
-| Element                                        | Part                                                               | Looks                                                                                                                                                                     |
-| ---------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| A mention of someone else                      | `MessageReferenceText`                                             | Ink, bold, underlined in ink on hover ([Conversation](../../../../../design/patterns/conversation.md#mentions))                                                           |
-| A mention of the person reading; a search hit  | `MessageReferenceText variant="primary"`; `MessageItemSearchMatch` | A small yellow sticker                                                                                                                                                    |
-| A reference chip                               | `MessageReferenceChip`                                             | `variant="accent"` for a channel or direct message, `variant="info"` for a thread or message ([Navigation](../../../../../design/patterns/navigation.md#going-somewhere)) |
-| A link an app previews                         | `MessageReferenceChip variant="info" capped`                       | A cyan chip with the app's icon and its title ([App links](#app-links))                                                                                                   |
-| A reference that is loading or can't be opened | `MessageReferencePending`, `MessageReferenceUnavailable`           | A gray chip on `inactive-soft`                                                                                                                                            |
-| A note after a reference chip's label          | `MessageReferenceSuffix`                                           | Muted Space Mono, such as `msg` on a link to a message                                                                                                                    |
-| A web link                                     | Markdown link                                                      | `foreground-link`, underlined at rest ([Markdown](../markdown/markdown.md))                                                                                               |
-| A task number                                  | `TaskChip` or Space Mono text                                      | [Tasks](../tasks/tasks.md)                                                                                                                                                |
-| Inline code                                    | [InlineCode](../inline-code/inline-code.md)                        | Space Mono on `fill-muted`                                                                                                                                                |
-| A quote                                        | Markdown blockquote                                                | A 2px bar on the left, `foreground-muted` text                                                                                                                            |
-| A code block                                   | [CodeBlock](../code-block/code-block.md)                           | `layer-code` with a hairline                                                                                                                                              |
+| Element                                         | Part                                                               | Looks                                                                                                                                                                     |
+| ----------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A mention of someone else                       | `MessageReferenceText`                                             | Ink, bold, underlined in ink on hover ([Conversation](../../../../../design/patterns/conversation.md#mentions))                                                           |
+| A mention of the person reading; a search hit   | `MessageReferenceText variant="primary"`; `MessageItemSearchMatch` | A small yellow sticker                                                                                                                                                    |
+| A reference chip                                | `MessageReferenceChip`                                             | `variant="accent"` for a channel or direct message, `variant="info"` for a thread or message ([Navigation](../../../../../design/patterns/navigation.md#going-somewhere)) |
+| A link an app previews                          | `MessageReferenceChip variant="info" capped`                       | A cyan chip with the app's icon and its title ([App links](#app-links))                                                                                                   |
+| A reference that is loading or can't be opened  | `MessageReferencePending`, `MessageReferenceUnavailable`           | A gray chip on `inactive-soft`                                                                                                                                            |
+| A note after a reference chip's label           | `MessageReferenceSuffix`                                           | Muted Space Mono, such as `msg` on a link to a message                                                                                                                    |
+| A mention of an agent that has read the message | `MessageReferenceReadMark`, last inside the mention                | A muted check after the name ([Read receipts on a mention](#read-receipts-on-a-mention))                                                                                  |
+| A web link                                      | Markdown link                                                      | `foreground-link`, underlined at rest ([Markdown](../markdown/markdown.md))                                                                                               |
+| A task number                                   | `TaskChip` or Space Mono text                                      | [Tasks](../tasks/tasks.md)                                                                                                                                                |
+| Inline code                                     | [InlineCode](../inline-code/inline-code.md)                        | Space Mono on `fill-muted`                                                                                                                                                |
+| A quote                                         | Markdown blockquote                                                | A 2px bar on the left, `foreground-muted` text                                                                                                                            |
+| A code block                                    | [CodeBlock](../code-block/code-block.md)                           | `layer-code` with a hairline                                                                                                                                              |
 
 ```example
 message-reference/compositions/mixed-long-message
@@ -122,6 +123,24 @@ While the preview loads, the link is `MessageReferencePending capped` with a `li
 
 ```example
 message-reference/compositions/app-link-pending
+```
+
+### Read receipts on a mention
+
+When a message mentions an agent, the person who sent it wants to know whether the agent has read it. Once it has, a check follows the mention: put `MessageReferenceReadMark` last inside the `MessageReferenceText`, after the name, with the words a screen reader says as its children (`Read`). The check itself is hidden from screen readers. The part is experimental, exported from `@botiverse/raft-ui/wip` until the design is approved.
+
+```example
+message-reference/compositions/read-indicators
+```
+
+- Show nothing until the agent has read the message. A mark for "not read yet" on every new mention would be noise in each message, and the moment it changes is the one that matters.
+- Say it in the mention's hover card too: "Read" or "Not read yet", so a person can check any mention, marked or not.
+- The check is Lucide `check`, the size of an icon in a reference (12px beside 14px text), in `foreground-hint` with no color. It follows the name with no space of its own, so between their ink there is only the check's inset and the letter's side bearing, about 2px: the check reads as part of the mention, and the word space comes after it. A 2px margin more put its ink 4px from the name, nearly a word space, so it floated between the two words. It is centered on the letters' cap height, the line every icon in a reference centers on ([Alignment](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)), not raised like a superscript and not dropped to the x-height. Its box fits inside the line, so the mention and the line keep their height.
+- The check's ink ends as far from the mention's edge as the `@` starts ([Alignment](../../../../../design/foundations/alignment.md#chips)). Lucide draws the check 3/24 inside its box, where other icons leave 1/24, about a letter's side bearing, so the mark takes the extra 2/24 back at its end.
+- Don't mark it with a status light. The square light means presence and task status: lime for read is also the online light, so a read mention looked like an agent that is online ([Status](../status/status.md#presence-lights)). `MessageReferenceIndicator`, the slot at the mention's top right that held it, still renders; don't use it for a read receipt.
+
+```example
+message-reference/compositions/primary-references
 ```
 
 ## Variants

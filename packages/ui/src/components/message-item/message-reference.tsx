@@ -1,3 +1,4 @@
+import { Check } from "lucide-react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { messageReference } from "./message-reference.recipe";
@@ -60,6 +61,39 @@ export function MessageReferenceIndicator({
     render,
     props: mergeProps<"span">(defaultProps, props),
     state: { slot: "message-reference-indicator" },
+  });
+}
+
+export type MessageReferenceReadMarkProps = useRender.ComponentProps<"span">;
+
+/**
+ * The read receipt on a mention: a muted check after the mention's text, once
+ * the one mentioned has read the message. Put it last inside the mention, and
+ * render nothing until then. The check is decorative; `children` is what a
+ * screen reader says instead ("Read"), visually hidden.
+ */
+export function MessageReferenceReadMark({
+  children,
+  className,
+  render,
+  ...props
+}: MessageReferenceReadMarkProps) {
+  const { readMark } = messageReference();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: readMark({ className }),
+    children: (
+      <>
+        <Check aria-hidden strokeWidth={2} />
+        {children == null ? null : <span className="sr-only">{children}</span>}
+      </>
+    ),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: { slot: "message-reference-read-mark" },
   });
 }
 

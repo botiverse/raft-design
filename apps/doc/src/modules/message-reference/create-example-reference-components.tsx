@@ -3,12 +3,15 @@ import { GitBranch, Hash } from "lucide-react";
 import {
   MarkdownLink,
   MessageReferenceChip,
-  MessageReferenceIndicator,
   MessageReferenceLabel,
-  Status,
+  PreviewCardDescription,
+  PreviewCardHeader,
+  PreviewCardSeparator,
+  PreviewCardTitle,
   TaskChip,
   TaskStatusIcon,
 } from "@botiverse/raft-ui";
+import { MessageReferenceReadMark } from "@botiverse/raft-ui/wip";
 import { parseMarkdownReference } from "#/lib/markdown/parse-markdown-reference.ts";
 import { MessageMentionReferenceComposition } from "./compositions/reference-adapters.composition.tsx";
 import {
@@ -49,23 +52,30 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
       if (reference.kind === "mention") {
         const actor = findActor(reference.name);
         if (!actor) return <>{children}</>;
-        const readStateLabel = actor.readState === "read" ? "Read" : "Not read yet";
 
         return (
           <MessageMentionReferenceComposition
             portalContainer={portalContainer}
-            preview={<p>{actor.preview}</p>}
+            preview={
+              actor.readState ? (
+                <>
+                  <PreviewCardHeader>
+                    <PreviewCardTitle>{actor.preview}</PreviewCardTitle>
+                  </PreviewCardHeader>
+                  <PreviewCardSeparator />
+                  <PreviewCardDescription>
+                    {actor.readState === "read" ? "Read" : "Not read yet"}
+                  </PreviewCardDescription>
+                </>
+              ) : (
+                <p>{actor.preview}</p>
+              )
+            }
             variant={actor.self ? "primary" : "secondary"}
           >
             {`@${actor.name}`}
-            {actor.readState ? (
-              <MessageReferenceIndicator title={readStateLabel}>
-                <Status
-                  aria-label={readStateLabel}
-                  size="sm"
-                  variant={actor.readState === "read" ? "success" : "default"}
-                />
-              </MessageReferenceIndicator>
+            {actor.readState === "read" ? (
+              <MessageReferenceReadMark>Read</MessageReferenceReadMark>
             ) : null}
           </MessageMentionReferenceComposition>
         );

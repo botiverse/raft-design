@@ -17,15 +17,16 @@ describe("MessageItemExampleMarkdown", () => {
     expect(markup).toContain('href="#channel-northstar"');
   });
 
-  it("renders Atlas with an explicit read state", () => {
+  it("marks Atlas as read with a check, not a status light", () => {
     const markup = renderToStaticMarkup(
       <ThemeProvider syncDom={false}>
         <MessageItemExampleMarkdown />
       </ThemeProvider>,
     );
 
-    expect(markup.match(/data-slot="message-reference-indicator"/g)).toHaveLength(1);
-    expect(markup).toContain('aria-label="Read"');
-    expect(markup).toContain('data-variant="success"');
+    expect(markup.match(/data-slot="message-reference-read-mark"/g)).toHaveLength(1);
+    expect(markup).toContain('<span class="sr-only">Read</span>');
+    expect(markup).not.toContain('data-slot="message-reference-indicator"');
+    expect(markup).not.toContain('data-slot="status"');
   });
 });
