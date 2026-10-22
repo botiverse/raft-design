@@ -45,6 +45,7 @@ function Timeline({ mode }: { mode: "light" | "dark" }) {
         <span data-testid="ink" className="text-foreground">
           ink
         </span>
+        <p data-testid="outside">Text that takes no focus</p>
         <MessageItem data-testid="row" tabIndex={-1}>
           <MessageItemContent>
             <MessageItemHeader>
@@ -85,21 +86,46 @@ for (const mode of ["light", "dark"] as const) {
     expect(getComputedStyle(screen.getByTestId("toolbar")).opacity).toBe("1");
   });
 
-  it(`${mode}: a row focused after a click shows no ring and no outline`, async () => {
+  it(`${mode}: a row focused after a click on plain text shows no ring and no outline, though it is :focus-visible`, async () => {
+    // Guards the two halves of the class, not the ring itself. A click on text
+    // that takes no focus leaves Chromium treating the next programmatic focus
+    // as :focus-visible, so the browser would draw its outline (main fails
+    // here on outlineStyle "auto") and an ungated ring would show; only
+    // `outline-none` and the `keyboard:` variant keep the row quiet.
     const userEvent = await context();
     render(<Timeline mode={mode} />);
     const row = screen.getByTestId("row");
 
-    await userEvent.click(screen.getByTestId("before"));
+    await userEvent.click(screen.getByTestId("outside"));
     row.focus({ preventScroll: true });
     await settle();
 
     expect(document.activeElement).toBe(row);
+    expect(row.matches(":focus-visible"), "Chromium still calls it focus-visible").toBe(true);
     expect(insetRingColor(row), "no inset ring after a pointer input").toBeNull();
-    const style = getComputedStyle(row);
-    expect(style.outlineStyle, "no browser outline").toBe("none");
+    expect(getComputedStyle(row).outlineStyle, "no browser outline").toBe("none");
   });
 }
+
+it("a jump that lands more than a second after the key press still shows the ring", async () => {
+  // slock reads the input when the jump is asked for and focuses the row once
+  // it has loaded and scrolled into view, which can take a while; the ring
+  // must not depend on the key press being recent. Fails on main: no ring.
+  const userEvent = await context();
+  render(<Timeline mode="light" />);
+  const row = screen.getByTestId("row");
+
+  await userEvent.keyboard("{Tab}");
+  await new Promise((r) => setTimeout(r, 1200));
+  row.focus({ preventScroll: true });
+  await settle();
+
+  expect(document.activeElement).toBe(row);
+  expect(insetRingColor(row), "inset ring 1.2s after the key press").toBe(
+    getComputedStyle(screen.getByTestId("ink")).color,
+  );
+  expect(getComputedStyle(row).outlineStyle).toBe("none");
+});
 
 it("the ring follows keyboard input again after a click", async () => {
   const userEvent = await context();

@@ -1,9 +1,18 @@
-import { createContext, useContext, useId, useLayoutEffect, useRef, useState } from "react";
+import {
+  createContext,
+  isValidElement,
+  useContext,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 /**
  * A MessageItem is announced as an article named by its sender and its time
  * (design/foundations/states.md#located). The parts that show them register
- * their ids with the row, and the row writes `aria-labelledby` itself.
+ * their ids with the row, and the row writes `role` and `aria-labelledby`
+ * itself.
  *
  * The row writes the attribute onto its element instead of rendering it from
  * state: a part mounts after its row has rendered, so state would give every
@@ -42,41 +51,47 @@ export function useMessageItemLabelId(part: LabelPart, id: string | undefined) {
 /** Roles that can't be named: on them the row writes no `aria-labelledby`. */
 const NAMELESS_ROLES = new Set(["none", "presentation", "generic"]);
 
-type LabelMode = "parts" | "consumer" | "off";
-
-/**
- * The row's side: a stable registry for its parts and a ref for its element.
- * A consumer's `aria-labelledby` is rendered by React and left alone; a
- * consumer's `aria-label`, or a role that takes no name, turns the parts'
- * name off, since `aria-labelledby` would win over the label.
- */
-export function useMessageItemLabel({
-  role,
-  ariaLabel,
-  ariaLabelledBy,
-}: {
+/** What the consumer set on the row: on MessageItem or on its `render` element. */
+type ConsumerLabel = {
   role: string | undefined;
   ariaLabel: string | undefined;
   ariaLabelledBy: string | undefined;
-}) {
-  const mode: LabelMode =
-    ariaLabelledBy !== undefined
-      ? "consumer"
-      : ariaLabel !== undefined || (role !== undefined && NAMELESS_ROLES.has(role))
-        ? "off"
-        : "parts";
-  const modeRef = useRef<LabelMode>(mode);
+};
+
+/**
+ * The row's side: a stable registry for its parts and a ref for its element.
+ * The row writes `role="article"` and `aria-labelledby` itself, and only once
+ * something names it: a sender or time part, or the consumer's `aria-label` or
+ * `aria-labelledby`. A row with none of them (a receipt card in the text
+ * column, say) stays a plain `div`, not an article with no name.
+ *
+ * A consumer's `role` or `aria-labelledby` is rendered by React and left
+ * alone. A consumer's `aria-label`, or a role that takes no name, turns the
+ * parts' `aria-labelledby` off, since it would win over the label.
+ */
+export function useMessageItemLabel(consumer: ConsumerLabel) {
+  const consumerRef = useRef(consumer);
 
   const [label] = useState(() => {
     const parts: Record<LabelPart, string[]> = { sender: [], time: [] };
     let element: HTMLElement | null = null;
 
+    const write = (name: string, value: string) => {
+      if (!element) return;
+      if (!value) element.removeAttribute(name);
+      else if (element.getAttribute(name) !== value) element.setAttribute(name, value);
+    };
+
     const sync = () => {
-      if (!element || modeRef.current === "consumer") return;
-      const value = modeRef.current === "parts" ? [...parts.sender, ...parts.time].join(" ") : "";
-      if (!value) element.removeAttribute("aria-labelledby");
-      else if (element.getAttribute("aria-labelledby") !== value) {
-        element.setAttribute("aria-labelledby", value);
+      const { role, ariaLabel, ariaLabelledBy } = consumerRef.current;
+      const ids = [...parts.sender, ...parts.time].join(" ");
+      if (role === undefined) {
+        const named = ids !== "" || ariaLabel !== undefined || ariaLabelledBy !== undefined;
+        write("role", named ? "article" : "");
+      }
+      if (ariaLabelledBy === undefined) {
+        const nameable = role === undefined || !NAMELESS_ROLES.has(role);
+        write("aria-labelledby", ariaLabel === undefined && nameable ? ids : "");
       }
     };
 
@@ -100,10 +115,36 @@ export function useMessageItemLabel({
     return { registry, ref, sync };
   });
 
+  const { role, ariaLabel, ariaLabelledBy } = consumer;
   useLayoutEffect(() => {
-    modeRef.current = mode;
+    consumerRef.current = { role, ariaLabel, ariaLabelledBy };
     label.sync();
-  }, [mode, label]);
+  }, [role, ariaLabel, ariaLabelledBy, label]);
 
   return label;
+}
+
+/**
+ * The consumer's role and name, from MessageItem's props and, where `render`
+ * is an element, from that element's props, which Base UI merges over them.
+ * A `render` function's props can't be read: pass them to MessageItem.
+ */
+export function readConsumerLabel(
+  props: {
+    role?: string | undefined;
+    "aria-label"?: string | undefined;
+    "aria-labelledby"?: string | undefined;
+  },
+  render: unknown,
+): ConsumerLabel {
+  const own = isValidElement(render)
+    ? (render.props as Record<string, unknown>)
+    : ({} as Record<string, unknown>);
+  const pick = (key: "role" | "aria-label" | "aria-labelledby") =>
+    (key in own ? own[key] : props[key]) as string | undefined;
+  return {
+    role: pick("role"),
+    ariaLabel: pick("aria-label"),
+    ariaLabelledBy: pick("aria-labelledby"),
+  };
 }

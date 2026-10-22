@@ -81,17 +81,106 @@ test("a continuation row, with no sender, is named by its time and points at no 
   expect(labelledByText(screen.getByTestId("row"))).toBe("2:21");
 });
 
-test("a row with neither part has no aria-labelledby at all", () => {
+test("a row with nothing to name it by is a plain div, not an unnamed article", () => {
+  // Such as slock's receipt for a message an assistant sent: a compact row
+  // with a gutter and a card, and no sender or time part.
   render(
-    <MessageItem data-testid="row">
-      <MessageItemContent>
-        <MessageItemBody>Body only.</MessageItemBody>
-      </MessageItemContent>
-    </MessageItem>,
+    <>
+      <MessageItem compact data-testid="row">
+        <MessageItemGutter />
+        <MessageItemContent>
+          <MessageItemBody>Body only.</MessageItemBody>
+        </MessageItemContent>
+      </MessageItem>
+      <MessageItem data-testid="labelled" aria-label="Sent for Martin">
+        <MessageItemContent>
+          <MessageItemBody>Body only.</MessageItemBody>
+        </MessageItemContent>
+      </MessageItem>
+    </>,
   );
   const row = screen.getByTestId("row");
-  expect(row.getAttribute("role")).toBe("article");
+  expect(row.hasAttribute("role")).toBe(false);
   expect(row.hasAttribute("aria-labelledby")).toBe(false);
+  expect(screen.queryAllByRole("article")).toEqual([screen.getByTestId("labelled")]);
+});
+
+test("the row becomes an article when a part that names it mounts, and stops when it goes", () => {
+  const Row = ({ time }: { time: boolean }) => (
+    <MessageItem compact data-testid="row">
+      <MessageItemGutter>
+        {time ? <MessageItemContinuationTime>2:21</MessageItemContinuationTime> : null}
+      </MessageItemGutter>
+      <MessageItemContent>
+        <MessageItemBody>Text</MessageItemBody>
+      </MessageItemContent>
+    </MessageItem>
+  );
+  const { rerender } = render(<Row time={false} />);
+  expect(screen.getByTestId("row").hasAttribute("role")).toBe(false);
+  rerender(<Row time />);
+  expect(screen.getByRole("article", { name: "2:21" })).toBe(screen.getByTestId("row"));
+  rerender(<Row time={false} />);
+  expect(screen.getByTestId("row").hasAttribute("role")).toBe(false);
+});
+
+test("overrides on the render element count like props on MessageItem", () => {
+  render(
+    <>
+      <MessageItem data-testid="label" render={<div aria-label="Message from Atlas" />}>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Atlas</MessageItemSender>
+            <MessageItemTime>2:20 PM</MessageItemTime>
+          </MessageItemHeader>
+        </MessageItemContent>
+      </MessageItem>
+      <MessageItem data-testid="role" render={<div role="listitem" />}>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Mia</MessageItemSender>
+          </MessageItemHeader>
+        </MessageItemContent>
+      </MessageItem>
+      <MessageItem data-testid="none" render={<div role="presentation" />}>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Mia</MessageItemSender>
+          </MessageItemHeader>
+        </MessageItemContent>
+      </MessageItem>
+    </>,
+  );
+  const label = screen.getByTestId("label");
+  expect(label.hasAttribute("aria-labelledby")).toBe(false);
+  expect(screen.getByRole("article", { name: "Message from Atlas" })).toBe(label);
+  const role = screen.getByTestId("role");
+  expect(role.getAttribute("role")).toBe("listitem");
+  expect(labelledByText(role)).toBe("Mia");
+  const none = screen.getByTestId("none");
+  expect(none.getAttribute("role")).toBe("presentation");
+  expect(none.hasAttribute("aria-labelledby")).toBe(false);
+});
+
+test("a role or name the consumer adds later is left to React, and removing it hands back", () => {
+  const Row = ({ label }: { label?: string }) => (
+    <MessageItem data-testid="row" role={label ? "region" : undefined} aria-label={label}>
+      <MessageItemContent>
+        <MessageItemHeader>
+          <MessageItemSender>Atlas</MessageItemSender>
+          <MessageItemTime>2:20 PM</MessageItemTime>
+        </MessageItemHeader>
+      </MessageItemContent>
+    </MessageItem>
+  );
+  const { rerender } = render(<Row />);
+  rerender(<Row label="Pinned message" />);
+  const row = screen.getByTestId("row");
+  expect(row.getAttribute("role")).toBe("region");
+  expect(row.hasAttribute("aria-labelledby")).toBe(false);
+  rerender(<Row />);
+  expect(row.getAttribute("role")).toBe("article");
+  expect(labelledByText(row)).toBe("Atlas 2:20 PM");
 });
 
 test("the name follows the header: removing it leaves the time, adding it back names both", () => {

@@ -1,7 +1,11 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { MessageItemLabelProvider, useMessageItemLabel } from "./message-item-label";
+import {
+  MessageItemLabelProvider,
+  readConsumerLabel,
+  useMessageItemLabel,
+} from "./message-item-label";
 import { messageItem } from "./message-item.recipe";
 import type { MessageItemVariantProps } from "./message-item.recipe";
 
@@ -21,8 +25,11 @@ export type MessageItemProps = useRender.ComponentProps<"div"> &
  * One message: an `article` named by its sender and its time
  * (`aria-labelledby` pointing at `MessageItemSender` or
  * `MessageItemSenderButton`, then `MessageItemTime` or
- * `MessageItemContinuationTime`). Pass `role`, `aria-label` or
- * `aria-labelledby` to override either.
+ * `MessageItemContinuationTime`). A row with neither, and no `aria-label` or
+ * `aria-labelledby`, is a plain `div`. Pass `role`, `aria-label` or
+ * `aria-labelledby` on MessageItem or on a `render` element to override
+ * either; a `render` function's props can't be read, so pass them on
+ * MessageItem then.
  */
 export function MessageItem({
   className,
@@ -32,13 +39,8 @@ export function MessageItem({
   ...props
 }: MessageItemProps) {
   const { root } = messageItem({ compact });
-  const label = useMessageItemLabel({
-    role: props.role,
-    ariaLabel: props["aria-label"],
-    ariaLabelledBy: props["aria-labelledby"],
-  });
+  const label = useMessageItemLabel(readConsumerLabel(props, render));
   const defaultProps: useRender.ElementProps<"div"> & SlotElementProps<"div"> = {
-    role: "article",
     "data-message-item": "",
     "data-compact": compact ? "true" : undefined,
     "data-located": located ? "" : undefined,

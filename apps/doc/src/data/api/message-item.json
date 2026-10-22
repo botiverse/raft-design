@@ -129,7 +129,7 @@
   {
     "name": "MessageItem",
     "entry": "@botiverse/raft-ui",
-    "description": "One message: an `article` named by its sender and its time (`aria-labelledby` pointing at `MessageItemSender` or `MessageItemSenderButton`, then `MessageItemTime` or `MessageItemContinuationTime`). Pass `role`, `aria-label` or `aria-labelledby` to override either.",
+    "description": "One message: an `article` named by its sender and its time (`aria-labelledby` pointing at `MessageItemSender` or `MessageItemSenderButton`, then `MessageItemTime` or `MessageItemContinuationTime`). A row with neither, and no `aria-label` or `aria-labelledby`, is a plain `div`. Pass `role`, `aria-label` or `aria-labelledby` on MessageItem or on a `render` element to override either; a `render` function's props can't be read, so pass them on MessageItem then.",
     "native": true,
     "props": [
       {
