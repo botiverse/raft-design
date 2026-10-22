@@ -10,37 +10,37 @@ import {
 export function MeterStatesContent() {
   return (
     <div className="w-full max-w-sm stack-y-4">
-      <Meter value={80} size="sm" aria-valuetext="80% left, resets in 3 hours">
+      <Meter used={20} size="sm" valueText="80% left · resets in 3h">
         <MeterHeader>
           <MeterLabel>5-hour limit</MeterLabel>
-          <MeterValue>80% left · resets in 3h</MeterValue>
+          <MeterValue />
         </MeterHeader>
         <MeterTrack>
           <MeterIndicator />
         </MeterTrack>
       </Meter>
-      <Meter value={25} size="sm" aria-valuetext="25% left, resets in 3 hours">
+      <Meter used={75} size="sm" valueText="25% left · resets in 3h">
         <MeterHeader>
           <MeterLabel>5-hour limit</MeterLabel>
-          <MeterValue>25% left · resets in 3h</MeterValue>
+          <MeterValue />
         </MeterHeader>
         <MeterTrack>
           <MeterIndicator />
         </MeterTrack>
       </Meter>
-      <Meter value={8} size="sm" aria-valuetext="8% left, resets in 3 hours">
+      <Meter used={92} size="sm" valueText="8% left · resets in 3h">
         <MeterHeader>
           <MeterLabel>5-hour limit</MeterLabel>
-          <MeterValue>8% left · resets in 3h</MeterValue>
+          <MeterValue />
         </MeterHeader>
         <MeterTrack>
           <MeterIndicator />
         </MeterTrack>
       </Meter>
-      <Meter value={0} size="sm" aria-valuetext="Used up, resets in 3 hours">
+      <Meter used={100} size="sm" valueText="Used up · resets in 3h">
         <MeterHeader>
           <MeterLabel>5-hour limit</MeterLabel>
-          <MeterValue>Used up · resets in 3h</MeterValue>
+          <MeterValue />
         </MeterHeader>
         <MeterTrack>
           <MeterIndicator />

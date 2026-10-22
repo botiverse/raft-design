@@ -10,19 +10,19 @@ import {
 export function MeterPreviewContent() {
   return (
     <div className="w-full max-w-sm stack-y-3">
-      <Meter value={38} aria-valuetext="38% left, resets in 3 hours">
+      <Meter used={62} valueText="38% left · resets in 3h">
         <MeterHeader>
           <MeterLabel>5-hour limit</MeterLabel>
-          <MeterValue>38% left · resets in 3h</MeterValue>
+          <MeterValue />
         </MeterHeader>
         <MeterTrack>
           <MeterIndicator />
         </MeterTrack>
       </Meter>
-      <Meter value={81} aria-valuetext="81% left, resets in 4 days">
+      <Meter used={19} valueText="81% left · resets in 4d">
         <MeterHeader>
           <MeterLabel>Weekly limit</MeterLabel>
-          <MeterValue>81% left · resets in 4d</MeterValue>
+          <MeterValue />
         </MeterHeader>
         <MeterTrack>
           <MeterIndicator />

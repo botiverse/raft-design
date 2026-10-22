@@ -2,15 +2,23 @@
   {
     "name": "Meter",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "How much of an allowance is left, such as a usage limit that resets. Pass what is left as `value`: the bar starts full and drains. Neutral until the value reaches `low`, then the warning color; never danger.",
+    "description": "How much of an allowance is left, such as a usage limit that resets. Takes what is `used`; the bar shows what is left, full to start and draining. Neutral until `low` or less is left, then the warning color; never danger.",
     "native": true,
     "props": [
       {
         "name": "low",
         "type": "number",
         "required": false,
-        "default": "20% of the range above `min`",
-        "description": "At or below this value the meter is low and takes the warning color. In the same units as `value`.",
+        "default": "20% of `max`",
+        "description": "When as much as this is left, or less, the meter is low and takes the warning color (\"at or below\", unlike HTML's `<meter low>`, which is strictly below). In the units of `max`, clamped to 0 to `max`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "default": "100",
+        "description": "The whole allowance, in the same units as `used`.",
         "from": "raft-ui"
       },
       {
@@ -21,61 +29,24 @@
         "from": "raft-ui"
       },
       {
-        "name": "aria-valuetext",
+        "name": "used",
+        "type": "number",
+        "required": true,
+        "description": "How much of the allowance is used, as the provider reports it, from 0 to `max`. The meter draws and announces what is left: `max - used`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "valueText",
         "type": "string",
-        "required": false,
-        "description": "A string value that provides a user-friendly name for `aria-valuenow`, the current value of the meter.",
-        "from": "base-ui"
-      },
-      {
-        "name": "format",
-        "type": "Intl.NumberFormatOptions",
-        "required": false,
-        "description": "Options to format the value.",
-        "from": "base-ui"
-      },
-      {
-        "name": "getAriaValueText",
-        "type": "(formattedValue: string, value: number) => string",
-        "required": false,
-        "description": "A function that returns a string value that provides a human-readable text alternative for `aria-valuenow`, the current value of the meter.",
-        "from": "base-ui"
-      },
-      {
-        "name": "locale",
-        "type": "string | Intl.Locale | readonly (string | Intl.Locale)[]",
-        "required": false,
-        "description": "The locale used by `Intl.NumberFormat` when formatting the value. Defaults to the user's runtime locale.",
-        "from": "base-ui"
-      },
-      {
-        "name": "max",
-        "type": "number",
-        "required": false,
-        "default": "100",
-        "description": "The maximum value",
-        "from": "base-ui"
-      },
-      {
-        "name": "min",
-        "type": "number",
-        "required": false,
-        "default": "0",
-        "description": "The minimum value",
-        "from": "base-ui"
+        "required": true,
+        "description": "What is left, in words: \"38% left · resets in 3h\". `MeterValue` shows it, and it is the meter's `aria-valuetext`, so the caller writes it once.",
+        "from": "raft-ui"
       },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
         "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      },
-      {
-        "name": "value",
-        "type": "number",
-        "required": true,
-        "description": "The current value.",
         "from": "base-ui"
       }
     ]
@@ -131,15 +102,9 @@
   {
     "name": "MeterValue",
     "entry": "@botiverse/raft-ui/wip",
+    "description": "Shows the meter's `valueText`, at the end of `MeterHeader`.",
     "native": true,
     "props": [
-      {
-        "name": "children",
-        "type": "ReactNode | ((formattedValue: string, value: number) => ReactNode)",
-        "required": false,
-        "description": "The visible value, such as \"38% left · resets in 3h\". A function receives the formatted value and the raw value. Without children it shows the formatted value alone.",
-        "from": "raft-ui"
-      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",

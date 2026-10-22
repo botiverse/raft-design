@@ -842,7 +842,7 @@
       "MeterValue"
     ],
     "status": "experimental",
-    "description": "How much of an allowance is left, such as a usage limit that resets. Pass what is left as `value`: the bar starts full and drains. Neutral until the value reaches `low`, then the warning color; never danger."
+    "description": "How much of an allowance is left, such as a usage limit that resets. Takes what is `used`; the bar shows what is left, full to start and draining. Neutral until `low` or less is left, then the warning color; never danger."
   },
   "mobile-nav": {
     "names": [

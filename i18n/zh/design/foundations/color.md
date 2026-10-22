@@ -1,7 +1,7 @@
 ---
 title: 颜色
 summary: 表面、文字、线和角色的颜色，每种颜色的含义，以及它们保证的对比度。
-sourceHash: e862f9fb
+sourceHash: 645b5e95
 ---
 
 # 颜色
@@ -168,6 +168,8 @@ presence
 | `danger-soft` | 危险横幅 |
 | `task-status-in-review-soft` | 待确认标签片 |
 | `task-status-closed-soft` | 已关闭标签片 |
+
+- 用量计量条用完时，轨道用 `warning-muted` 加 1px 的 `warning` 边，不用 `warning-soft`：在深色画布上 `warning-soft` 只有 1.16:1，比空轨道还淡，而柔和色调不能加边（[Meter](../../packages/ui/src/components/meter/meter.md)）。
 
 ### 悬停叠加层 {#hover-overlays}
 

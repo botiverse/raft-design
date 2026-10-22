@@ -1,5 +1,6 @@
 import { Meter as BaseMeter } from "@base-ui/react/meter";
-import type { ComponentPropsWithRef, ReactNode } from "react";
+import { createContext, useContext } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -10,19 +11,16 @@ const meter = tv({
       "group/meter grid w-full min-w-0 gap-1.5",
       "[--meter-indicator:var(--ink-40)]",
       "[--meter-track:var(--fill-muted)]",
-      "data-low:[--meter-indicator:var(--color-warning)]",
-      "data-empty:[--meter-track:var(--color-warning-soft)]",
+      "[--meter-track-edge:transparent]",
+      "[--meter-value:var(--foreground-muted)]",
       "font-sans",
     ],
     header: ["flex min-w-0 flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5"],
     label: ["min-w-0 truncate", "text-footnote font-semibold text-foreground"],
-    value: [
-      "shrink-0 text-right tabular-nums",
-      "text-footnote text-foreground-muted",
-      "group-data-low/meter:text-warning-strong",
-    ],
+    value: ["shrink-0 text-right tabular-nums", "text-footnote text-(--meter-value)"],
     track: [
       "relative w-full overflow-hidden bg-(--meter-track)",
+      "inset-ring-1 inset-ring-(--meter-track-edge)",
       "h-2 group-data-[size=sm]/meter:h-1.5",
       "rounded-sticker",
     ],
@@ -33,57 +31,101 @@ const meter = tv({
     ],
   },
   variants: {
+    level: {
+      plenty: {},
+      low: {
+        root: [
+          "[--meter-indicator:var(--color-warning)]",
+          "[--meter-value:var(--color-warning-strong)]",
+        ],
+      },
+      empty: {
+        root: [
+          "[--meter-track:var(--color-warning-muted)]",
+          "[--meter-track-edge:var(--color-warning)]",
+          "[--meter-value:var(--color-warning-strong)]",
+        ],
+      },
+    },
     size: {
       sm: {},
       md: {},
     },
   },
   defaultVariants: {
+    level: "plenty",
     size: "md",
   },
 });
 
-export type MeterProps = StyledProps<BaseMeter.Root.Props> &
-  VariantProps<typeof meter> & {
+const MeterTextContext = createContext<string>("");
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, Number.isNaN(value) ? min : value));
+}
+
+export type MeterProps = Omit<
+  StyledProps<BaseMeter.Root.Props>,
+  "value" | "min" | "max" | "aria-valuetext" | "getAriaValueText" | "format" | "locale"
+> &
+  Pick<VariantProps<typeof meter>, "size"> & {
     /**
-     * At or below this value the meter is low and takes the warning color.
-     * In the same units as `value`.
-     * @default 20% of the range above `min`
+     * How much of the allowance is used, as the provider reports it, from 0 to
+     * `max`. The meter draws and announces what is left: `max - used`.
+     */
+    used: number;
+    /**
+     * The whole allowance, in the same units as `used`.
+     * @default 100
+     */
+    max?: number;
+    /**
+     * When as much as this is left, or less, the meter is low and takes the
+     * warning color ("at or below", unlike HTML's `<meter low>`, which is
+     * strictly below). In the units of `max`, clamped to 0 to `max`.
+     * @default 20% of `max`
      */
     low?: number;
+    /**
+     * What is left, in words: "38% left · resets in 3h". `MeterValue` shows it,
+     * and it is the meter's `aria-valuetext`, so the caller writes it once.
+     */
+    valueText: string;
   };
 
 /**
- * How much of an allowance is left, such as a usage limit that resets. Pass
- * what is left as `value`: the bar starts full and drains. Neutral until the
- * value reaches `low`, then the warning color; never danger.
+ * How much of an allowance is left, such as a usage limit that resets. Takes
+ * what is `used`; the bar shows what is left, full to start and draining.
+ * Neutral until `low` or less is left, then the warning color; never danger.
  */
 export function Meter({
   size = "md",
-  min = 0,
+  used,
   max = 100,
   low,
-  value,
+  valueText,
   className,
   ...props
 }: MeterProps) {
-  const { root } = meter({ size });
-  const lowAt = low ?? min + (max - min) * 0.2;
-  const isEmpty = value <= min;
-  const isLow = isEmpty || value <= lowAt;
+  const left = max - clamp(used, 0, max);
+  const lowAt = clamp(low ?? max * 0.2, 0, max);
+  const level = left <= 0 ? "empty" : left <= lowAt ? "low" : "plenty";
+  const { root } = meter({ size, level });
 
   return (
-    <BaseMeter.Root
-      data-slot="meter"
-      data-size={size}
-      data-low={isLow ? "" : undefined}
-      data-empty={isEmpty ? "" : undefined}
-      min={min}
-      max={max}
-      value={value}
-      className={root({ className })}
-      {...props}
-    />
+    <MeterTextContext.Provider value={valueText}>
+      <BaseMeter.Root
+        data-slot="meter"
+        data-size={size}
+        data-level={level}
+        min={0}
+        max={max}
+        value={left}
+        aria-valuetext={valueText}
+        className={root({ className })}
+        {...props}
+      />
+    </MeterTextContext.Provider>
   );
 }
 
@@ -101,24 +143,15 @@ export function MeterLabel({ className, ...props }: MeterLabelProps) {
   return <BaseMeter.Label data-slot="meter-label" className={label({ className })} {...props} />;
 }
 
-export type MeterValueProps = Omit<StyledProps<BaseMeter.Value.Props>, "children"> & {
-  /**
-   * The visible value, such as "38% left · resets in 3h". A function receives
-   * the formatted value and the raw value. Without children it shows the
-   * formatted value alone.
-   */
-  children?: ReactNode | ((formattedValue: string, value: number) => ReactNode);
-};
+export type MeterValueProps = Omit<StyledProps<BaseMeter.Value.Props>, "children">;
 
-export function MeterValue({ className, children, ...props }: MeterValueProps) {
+/** Shows the meter's `valueText`, at the end of `MeterHeader`. */
+export function MeterValue({ className, ...props }: MeterValueProps) {
   const { value } = meter();
+  const valueText = useContext(MeterTextContext);
   return (
     <BaseMeter.Value data-slot="meter-value" className={value({ className })} {...props}>
-      {children === undefined || children === null
-        ? undefined
-        : typeof children === "function"
-          ? children
-          : () => children}
+      {() => valueText}
     </BaseMeter.Value>
   );
 }
