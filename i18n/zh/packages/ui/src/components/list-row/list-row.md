@@ -1,7 +1,7 @@
 ---
 title: ListRow
 summary: 用于详情页上的人和 agent、设置和快捷入口的行：前导块、标题和预览、时间和一个徽标。
-sourceHash: 44bfcba7
+sourceHash: 4abe55b7
 ---
 
 # ListRow
@@ -33,7 +33,7 @@ list-row/compositions/conversations
 - 尾部：设置项的 `ListRowValue` 和 `ListRowChevron`，或一个 [Switch](../switch/switch.md)。可选。
 - `ListRowGroup`：内嵌分组，把若干行包在一张卡片里。可选。
 
-在带描述的 `plain` 行里，两端的元素对齐标题的第一行居中，而不是对齐标题加描述的中间：前导的图标、头像或方块，以及尾部的值、V 形箭头、开关、复选框或单选按钮。它们各自保持原尺寸，所以行高仍然留得下 30px 的开关。只有标题时，标题就是整个文字块，所有元素都在行高内居中，手机上带开关的行高 54px（[对齐](../../../../../design/foundations/alignment.md#a-control-and-its-label)）。
+在 `plain` 行里，两端的元素都以整行居中，无论有没有描述：前导的图标、头像或方块，以及尾部的值、V 形箭头、开关、复选框或单选按钮。一个设置读起来是一个整体，它的控件属于整行，而不是属于标题。它们各自保持原尺寸，行高是内边距加上最高的那部分：手机上只有标题、带开关时是 54px（[对齐](../../../../../design/foundations/alignment.md#a-control-and-its-label)）。
 
 ## 变体 {#variants}
 

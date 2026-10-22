@@ -37,7 +37,7 @@ list-row/compositions/conversations
 - Trailing: a setting's `ListRowValue` and `ListRowChevron`, or a [Switch](../switch/switch.md). Optional.
 - `ListRowGroup`: an inset group that wraps rows in a card. Optional.
 
-In a `plain` row with a description, both ends center on the title's first line instead of the middle of the title and description: the leading icon, avatar or tile, and the trailing value, chevron, switch, checkbox or radio. Each keeps its size, so the row still accounts for a 30px switch. With a title alone, the title is the whole block and everything stays centered at the row's height, 54px on a phone with a switch ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
+In a `plain` row, both ends center on the whole row, with or without a description: the leading icon, avatar or tile, and the trailing value, chevron, switch, checkbox or radio. A setting reads as one unit, and its controls belong to the whole row, not to the title. Each keeps its size, and the row is its padding and its tallest part: 54px on a phone with a switch and a title alone ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
 
 ## Variants
 

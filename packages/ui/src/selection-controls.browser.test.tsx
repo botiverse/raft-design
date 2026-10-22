@@ -19,15 +19,17 @@ import {
 import { Avatar } from "./components/avatar/avatar";
 
 // A switch, a checkbox or a radio centres on the FIRST line of its label's
-// text, wherever raft-ui puts it beside one, without being squeezed
+// text where raft-ui puts it beside a label, without being squeezed
 // (design/foundations/alignment.md#a-control-and-its-label):
 // - in a <label> row, a checkbox's or a radio's box is one line of the label
 //   tall, so it lands on the text's line however the row aligns and however
 //   tall its min-height (the row decides where a line of text goes);
 // - in a FieldItem, the same, and a row with a switch is at least the
 //   switch's 30px, the label centred on it;
-// - in a plain ListRow with a description, both ends sit on the title's first
-//   line; with a title alone everything stays centred at the row's height.
+// - a plain ListRow is the exception: a setting reads as one unit, so both
+//   its ends (the leading icon or avatar, the trailing switch, value or
+//   chevron) centre on the whole row, with or without a description, and the
+//   row is its padding and its tallest part.
 // On a touch screen a box or circle on its own has a 44px hit area; in a
 // <label> row it reaches only half the 8px gap past its line, so a tap
 // between two options lands on the nearer one. Real layout only.
@@ -248,7 +250,7 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
 
   for (const control of CONTROLS) {
     for (const { name, wraps } of TEXTS) {
-      it(`${deviceName}: a ${control.name} at the end of a plain ListRow (${name})`, async () => {
+      it(`${deviceName}: a ${control.name} at the end of a plain ListRow centres on the row (${name})`, async () => {
         await device(deviceWidth, touch);
         render(
           wrap(
@@ -275,32 +277,33 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
         expect([el.getBoundingClientRect().width, el.getBoundingClientRect().height]).toEqual(
           control.size,
         );
-        // Both ends on the title's line: with a title alone that is the row's
-        // centre, with a description the title's first line.
+        // Both ends centre on the whole row, with or without a description.
         for (const end of [el, lead]) {
-          expect(Math.abs(middle(end) - firstLine(title).middle)).toBeLessThanOrEqual(0.5);
+          expect(Math.abs(middle(end) - middle(row))).toBeLessThanOrEqual(0.5);
         }
+        // The row is its padding and its tallest part: 54px with a switch and
+        // a title alone on a phone.
+        const body = title.parentElement!.getBoundingClientRect().height;
+        expect(row.getBoundingClientRect().height).toBe(24 + Math.max(body, control.size[1]));
         if (wraps) {
-          expect(middle(title.parentElement!) - middle(el)).toBeGreaterThan(8);
+          // Centred on the row, so well below the title's first line.
+          expect(middle(el) - firstLine(title).middle).toBeGreaterThan(8);
         } else {
-          // A title alone: the row is its padding and its tallest part, as
-          // before (54px with a switch on a phone).
           const lineHeight = parseFloat(getComputedStyle(title).lineHeight);
           expect(row.getBoundingClientRect().height).toBe(
             24 + Math.max(lineHeight, control.size[1]),
           );
-          expect(Math.abs(middle(el) - middle(row))).toBeLessThanOrEqual(0.5);
         }
       });
     }
   }
 
   for (const description of [false, true]) {
-    it(`${deviceName}: a plain ListRow's value and chevron ${description ? "sit on the title's line" : "stay centred with a title alone"}`, async () => {
+    it(`${deviceName}: a plain ListRow's value and chevron centre on the row (${description ? "with a description" : "a title alone"})`, async () => {
       await device(deviceWidth, touch);
       render(
         <ListRowGroup className="w-80">
-          <ListRow variant="plain">
+          <ListRow variant="plain" data-testid="row">
             <ListRowBody>
               <ListRowTitle data-testid="text">Appearance</ListRowTitle>
               {description ? <ListRowDescription wrap>{LONG}</ListRowDescription> : null}
@@ -310,13 +313,13 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
           </ListRow>
         </ListRowGroup>,
       );
-      const line = firstLine(screen.getByTestId("text")).middle;
+      const row = middle(screen.getByTestId("row"));
       for (const id of ["value", "chevron"]) {
-        expect(Math.abs(middle(screen.getByTestId(id)) - line), id).toBeLessThanOrEqual(0.5);
+        expect(Math.abs(middle(screen.getByTestId(id)) - row), id).toBeLessThanOrEqual(0.5);
       }
     });
 
-    it(`${deviceName}: a plain ListRow's 35px avatar ${description ? "sits on the title's line" : "stays centred with a title alone"}`, async () => {
+    it(`${deviceName}: a plain ListRow's 35px avatar and switch centre on the row (${description ? "with a description" : "a title alone"})`, async () => {
       await device(deviceWidth, touch);
       render(
         <ListRowGroup className="w-80">
@@ -330,14 +333,10 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
           </ListRow>
         </ListRowGroup>,
       );
-      const title = screen.getByTestId("text");
       const lead = screen.getByTestId("lead");
+      const row = lead.closest<HTMLElement>("[data-slot=list-row]")!;
       for (const el of [lead, screen.getByTestId("control")]) {
-        expect(Math.abs(middle(el) - firstLine(title).middle)).toBeLessThanOrEqual(0.5);
-      }
-      if (!description) {
-        const row = lead.closest<HTMLElement>("[data-slot=list-row]")!;
-        expect(Math.abs(middle(lead) - middle(row))).toBeLessThanOrEqual(0.5);
+        expect(Math.abs(middle(el) - middle(row))).toBeLessThanOrEqual(0.5);
       }
     });
   }
