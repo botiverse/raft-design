@@ -292,5 +292,95 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "InboxItemSkeleton",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A placeholder for one `InboxItem` while the list loads. It is an `InboxItem` itself, with the same parts as the loaded row (an optional leading block, the context line, the title, the excerpt, the timestamp), each holding a bar instead of text. The padding, the divider and every line's height are the loaded row's, so nothing moves when the content arrives. Match `density`, `leading` and `context` to the rows it stands for. Hidden from assistive technology; mark the list `aria-busy`, or use `InboxItemSkeletonList`.",
+    "native": true,
+    "props": [
+      {
+        "name": "context",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "A context line above the title, where the rows have an `InboxItemContext`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "density",
+        "type": "\"compact\"",
+        "required": false,
+        "description": "The density of the rows it stands for.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "leading",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "A 35px block where the rows have an `InboxItemLeading` avatar or tile.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "InboxItemSkeletonList",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The list of `InboxItemSkeleton` rows that stands in for a list of `InboxItem` rows while it loads: `aria-busy`, and nothing between or around the rows that the loaded list doesn't have (no gap, no border, no card). Renders `count` rows of the given shape, or its children.",
+    "native": true,
+    "props": [
+      {
+        "name": "context",
+        "type": "boolean",
+        "required": false,
+        "description": "A context line above the title, where the rows have an `InboxItemContext`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "required": false,
+        "default": "6",
+        "description": "How many rows to show. About a screenful; ignored when there are children.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "delay",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "Milliseconds to wait before the rows appear, so a fast load doesn't flash them: pass `1000` (Feedback, \"Empty, loading and failed\"). The list is `aria-busy` and empty until then. `0`, the default, shows them at once: like `Spinner`, raft-ui doesn't delay unless asked.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "density",
+        "type": "\"compact\"",
+        "required": false,
+        "description": "The density of the rows it stands for.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "leading",
+        "type": "boolean",
+        "required": false,
+        "description": "A 35px block where the rows have an `InboxItemLeading` avatar or tile.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
   }
 ]

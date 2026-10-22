@@ -62,6 +62,20 @@ export * from "./components/ellipsis/index";
 export { InboxItemLeadingBadge } from "./components/inbox-item/inbox-item-leading-badge";
 export type { InboxItemLeadingBadgeProps } from "./components/inbox-item/inbox-item-leading-badge";
 
+// Loading rows for a list of InboxItem or ListRow rows, built from the real
+// row parts so they are the loaded row's size (feedback.md, "Empty, loading
+// and failed"). Until a product list has moved onto them.
+export {
+  InboxItemSkeleton,
+  InboxItemSkeletonList,
+} from "./components/inbox-item/inbox-item-skeleton";
+export type {
+  InboxItemSkeletonListProps,
+  InboxItemSkeletonProps,
+} from "./components/inbox-item/inbox-item-skeleton";
+export { ListRowSkeleton } from "./components/list-row/list-row-skeleton";
+export type { ListRowSkeletonProps } from "./components/list-row/list-row-skeleton";
+
 // How much of an allowance is left, such as a usage limit that resets: full
 // to start, draining as it is used, orange when low (meter.md). Until the
 // API settles.

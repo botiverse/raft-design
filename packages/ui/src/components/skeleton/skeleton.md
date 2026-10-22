@@ -44,4 +44,5 @@ skeleton/compositions/basic
 
 ## Rules
 
-- Give the skeleton the shape of the content it stands for: square for avatars and tiles, bars for text. The size rule and the rule against swapping placeholders are in [Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed).
+- Give the skeleton the shape of the content it stands for: square for avatars and tiles, bars for text. The size rule, the 1-second wait before it shows and the rule against swapping placeholders are in [Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed).
+- For the rows of a list, use the row's own skeleton rather than arranging `Skeleton`s by hand: `InboxItemSkeleton` ([InboxItem](../inbox-item/inbox-item.md#loading)) and `ListRowSkeleton` ([ListRow](../list-row/list-row.md#loading)) are built from the row's parts, so they keep its size, and stay flat like it.

@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: e4704ade
+sourceHash: c78266a9
 ---
 
 # InboxItem
@@ -40,6 +40,7 @@ activity/compositions/activity-preview
   - `InboxItemHoverTarget`：包住带工具提示的徽标，让鼠标指针能触到它（其余文字会让指针穿透到触发按钮上）。点击它仍然会打开条目。
 - `InboxItemTrailing`：`InboxItemTimestamp`、`InboxItemActions`，以及未读时的提醒圆点。
   - `InboxItemMarks`：摘录那一行末尾的标记：提及、已静音、未读数。可选。
+- `InboxItemSkeleton`，放在 `InboxItemSkeletonList` 里：列表加载时代替 `InboxItem` 的行（[加载中](#loading)）。可选；实验性，来自 `@botiverse/raft-ui/wip`。
 
 ### 前置图像 {#the-leading-image}
 
@@ -88,8 +89,16 @@ activity/compositions/activity-conversation-list
 | 菜单打开 | `InboxItem` 上有 `data-popup-open`，或者从其中某个按钮打开了菜单：`fill-subtle`，与悬停时同一个浅层级；`active` 的条目保持 `info-soft`（[悬停和按下](../../../../../design/foundations/states.md#hover-and-press)） |
 | `disabled` | 没有悬停，没有按下；触发按钮不能按 |
 
+### 加载中 {#loading}
+
+列表加载时，在 `InboxItemSkeletonList` 里显示 `InboxItemSkeleton` 行。每一行都是用加载后那一行的部件搭成的 `InboxItem`，每一行文字的位置换成一根横条，所以它有加载后那一行的内边距、分隔线和行高，条目到达时什么都不会移动（[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)）。让它和它代表的行形状一致：有上下文行就设 `context`，有头像或图块就设 `leading`，`density` 也一样。给列表设 `delay={1000}`，这样等待超过 1 秒后这些行才出现；在那之前，列表是空的，并带 `aria-busy`（[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)）。
+
 ```example
 activity/compositions/loading-activity
+```
+
+```example
+activity/compositions/loading-conversation-list
 ```
 
 ## 行为 {#behavior}
@@ -124,9 +133,11 @@ activity/compositions/activity-hover-actions
 - 设了 `reveal="hover"` 的操作在隐藏时仍留在 Tab 键顺序中，焦点一到达这一行或它们本身就会显示。
 - 提醒圆点用 CSS 绘制，不会被朗读。在触发按钮的名称里写上 "unread"，或者加一个视觉上隐藏的词。
 - `InboxItemLeadingBadge` 对辅助技术隐藏。在触发按钮的名称里写上 "thread"：`aria-label="Open thread with Lagoon"`。
+- `InboxItemSkeleton` 对辅助技术隐藏；`InboxItemSkeletonList` 带 `aria-busy`，直到被加载后的列表替换。
 
 ## 规则 {#rules}
 
 - 行内的操作用墨色描边的小按钮，永远不用粉色：一个列表里可能同时有好几个等着这个人处理的条目（[Button](../button/button.md)）。
 - 有「谁」的时候，以「谁」开头：人或 agent 的头像。系统发出的提示没有「谁」；见 [NotificationCenter](../notification-center/notification-center.md#anatomy)。
 - 消息列的行以它所在的对话开头：频道的图块，或者在私信里用对方的头像，各自在角上带消息列徽标。永远不要给私信里的消息列用 `#` 图块，也永远不要在消息列的行上显示在线状态灯（[前置图像](#the-leading-image)）。
+- 条目列表加载时显示平铺的 `InboxItemSkeleton` 行，永远不要显示成卡片：不要有加载后的列表没有的边框、卡片或间距（[加载中](#loading)）。

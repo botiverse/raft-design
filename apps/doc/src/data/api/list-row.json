@@ -202,5 +202,43 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "ListRowSkeleton",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A placeholder for one `ListRow` while the list loads. It is a display-only `ListRow` of the same `variant`, with a bar in its title, its time and its description, so it is the loaded row's size and its divider sits in the same place. Hidden from assistive technology; mark the list `aria-busy`.",
+    "native": true,
+    "props": [
+      {
+        "name": "description",
+        "type": "boolean",
+        "required": false,
+        "default": "variant === \"default\"",
+        "description": "A second line, where the rows have a `ListRowDescription`. On by default in a `default` row.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "leading",
+        "type": "boolean",
+        "required": false,
+        "default": "variant === \"default\"",
+        "description": "A leading block: 35px for an avatar or tile in a `default` row, 20px for a `ListRowIcon` in a `plain` or `entry` row. On by default in a `default` row.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"plain\" | \"entry\"",
+        "required": false,
+        "default": "\"default\"",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
   }
 ]

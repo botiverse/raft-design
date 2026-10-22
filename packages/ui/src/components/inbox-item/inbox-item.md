@@ -44,6 +44,7 @@ Which message goes where is in [Choosing a component](../../../../../design/comp
   - `InboxItemHoverTarget`: wraps a badge that has a tooltip, so the pointer reaches it (the rest of the text lets the pointer through to the trigger). A click on it still opens the item.
 - `InboxItemTrailing`: `InboxItemTimestamp`, `InboxItemActions` and, while unread, the attention dot.
   - `InboxItemMarks`: marks at the end of the excerpt's line: a mention, muted, an unread count. Optional.
+- `InboxItemSkeleton`, in an `InboxItemSkeletonList`: a row that stands in for an `InboxItem` while the list loads ([Loading](#loading)). Optional; experimental, from `@botiverse/raft-ui/wip`.
 
 ### The leading image
 
@@ -92,8 +93,16 @@ activity/compositions/activity-conversation-list
 | Menu open                             | `data-popup-open` on `InboxItem`, or a menu open from a button in it: `fill-subtle`, the same subtle tier as the hover; an `active` item keeps `info-soft` ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)) |
 | `disabled`                            | No hover, no press; the trigger can't be pressed                                                                                                                                                                                            |
 
+### Loading
+
+While the list loads, show `InboxItemSkeleton` rows in an `InboxItemSkeletonList`. Each one is an `InboxItem` built from the loaded row's parts, with a bar in each line in place of its text, so it has the loaded row's padding, dividers and line heights and nothing moves when the items arrive ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)). Give it the shape of the rows it stands for: `context` for a context line, `leading` for an avatar or tile, and the same `density`. Give the list `delay={1000}`, so the rows appear only once the wait passes 1 second; until then it is empty and `aria-busy` ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)).
+
 ```example
 activity/compositions/loading-activity
+```
+
+```example
+activity/compositions/loading-conversation-list
 ```
 
 ## Behavior
@@ -128,9 +137,11 @@ activity/compositions/activity-hover-actions
 - Actions with `reveal="hover"` stay in the tab order while hidden, and show as soon as focus reaches the row or them.
 - The attention dot is drawn in CSS and isn't announced. Say "unread" in the trigger's name, or add a visually hidden word.
 - `InboxItemLeadingBadge` is hidden from assistive technology. Say "thread" in the trigger's name: `aria-label="Open thread with Lagoon"`.
+- `InboxItemSkeleton` is hidden from assistive technology, and `InboxItemSkeletonList` is `aria-busy` until it is replaced by the loaded list.
 
 ## Rules
 
 - Use ink-outline small buttons for actions in the row, never pink: a list can hold several items that wait for the person at once ([Button](../button/button.md)).
 - Lead with who, when there is a who: the person's or agent's avatar. A notice from the system has no who; see [NotificationCenter](../notification-center/notification-center.md#anatomy).
 - Lead a thread row with the conversation it lives in: the channel's tile, or in a direct message the other side's avatar, each with the thread badge in its corner. Never give a thread in a direct message a `#` tile, and never show a presence light on a thread row ([The leading image](#the-leading-image)).
+- Load a list of items as flat `InboxItemSkeleton` rows, never as cards: no border, card or gap the loaded list doesn't have ([Loading](#loading)).

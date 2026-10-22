@@ -1,40 +1,13 @@
-import {
-  ActivityInboxPanel,
-  ActivityInboxViewport,
-  InboxItem,
-  InboxItemContent,
-  InboxItemSelection,
-  InboxItemTrailing,
-  Skeleton,
-} from "@botiverse/raft-ui";
+import { ActivityInboxPanel, ActivityInboxViewport } from "@botiverse/raft-ui";
+import { InboxItemSkeletonList } from "@botiverse/raft-ui/wip";
 
+/** The Activity list while it loads: flat skeleton rows in the shape of its InboxItem rows. */
 export function LoadingActivityComposition() {
   return (
-    <ActivityInboxPanel aria-busy="true">
+    <ActivityInboxPanel>
       <ActivityInboxViewport>
-        <div className="flex flex-col gap-2">
-          <ActivityLoadingItem titleWidth="w-2/5" bodyWidth="w-4/5" />
-          <ActivityLoadingItem titleWidth="w-1/3" bodyWidth="w-3/5" />
-          <ActivityLoadingItem titleWidth="w-1/2" bodyWidth="w-3/4" />
-        </div>
+        <InboxItemSkeletonList count={4} context delay={1000} />
       </ActivityInboxViewport>
     </ActivityInboxPanel>
-  );
-}
-
-function ActivityLoadingItem({ titleWidth, bodyWidth }: { titleWidth: string; bodyWidth: string }) {
-  return (
-    <InboxItem aria-hidden disabled>
-      <InboxItemSelection>
-        <Skeleton className="size-4" />
-      </InboxItemSelection>
-      <InboxItemContent className="flex flex-col gap-2 py-0.5">
-        <Skeleton variant="line" className={titleWidth} />
-        <Skeleton variant="line" className={bodyWidth} />
-      </InboxItemContent>
-      <InboxItemTrailing>
-        <Skeleton variant="line" className="w-14" />
-      </InboxItemTrailing>
-    </InboxItem>
   );
 }

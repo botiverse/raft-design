@@ -1,7 +1,7 @@
 ---
 title: ListRow
 summary: 用于详情页上的人和 agent、设置和快捷入口的行：前导块、标题和预览、时间和一个徽标。
-sourceHash: 4abe55b7
+sourceHash: 7188403c
 ---
 
 # ListRow
@@ -32,6 +32,7 @@ list-row/compositions/conversations
   - `ListRowBottom`：`ListRowDescription` 里的预览，然后最多一个徽标。
 - 尾部：设置项的 `ListRowValue` 和 `ListRowChevron`，或一个 [Switch](../switch/switch.md)。可选。
 - `ListRowGroup`：内嵌分组，把若干行包在一张卡片里。可选。
+- `ListRowSkeleton`：列表加载时代替 `ListRow` 的行（[加载中](#loading)）。可选；实验性，来自 `@botiverse/raft-ui/wip`。
 
 在 `plain` 行里，两端的元素都以整行居中，无论有没有描述：前导的图标、头像或方块，以及尾部的值、V 形箭头、开关、复选框或单选按钮。一个设置读起来是一个整体，它的控件属于整行，而不是属于标题。它们各自保持原尺寸，行高是内边距加上最高的那部分：手机上只有标题、带开关时是 54px（[对齐](../../../../../design/foundations/alignment.md#a-control-and-its-label)）。
 
@@ -65,6 +66,14 @@ list-row/compositions/entries
 
 ```example
 list-row/compositions/tones
+```
+
+### 加载中 {#loading}
+
+列表加载时，在那些行将要出现的地方显示 `ListRowSkeleton` 行；那些行有 `ListRowGroup` 的话，就放在同一个 `ListRowGroup` 里，并给列表加上 `aria-busy`。每一行都是同一 `variant` 的只读 `ListRow`，标题、时间和描述里各有一根横条，所以它和加载后的行一样高，分隔线也在同一位置（[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)）。`default` 行有 35px 的前导块和描述；用 `leading` 和 `description` 打开或关闭它们，和那些行保持一致。等待超过 1 秒后才显示它们（[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)）；`ListRowSkeleton` 自己不会延迟。
+
+```example
+list-row/compositions/loading
 ```
 
 ## 行为 {#behavior}
