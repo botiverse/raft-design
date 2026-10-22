@@ -1,7 +1,7 @@
 ---
 title: 颜色
 summary: 表面、文字、线和角色的颜色，每种颜色的含义，以及它们保证的对比度。
-sourceHash: a233bf75
+sourceHash: 571b098c
 ---
 
 # 颜色
@@ -160,7 +160,7 @@ presence
 
 | 色调 | 用于 |
 | --- | --- |
-| `brand-soft` | 菜单高亮、忙碌标签片、文本选区 |
+| `brand-soft` | 菜单高亮、忙碌标签片 |
 | `info-soft` | 内容中的选中项、筛选、信息横幅、运行时标签片、消息列引用、通知里的消息 |
 | `attention-soft` | 频道引用、你添加的回应 |
 | `success-soft` | 成功横幅、完成标签片 |
@@ -170,6 +170,18 @@ presence
 | `task-status-closed-soft` | 已关闭标签片 |
 
 - 用量计量条用完时，轨道用 `warning-muted` 加 1px 的 `warning` 边，不用 `warning-soft`：在深色画布上 `warning-soft` 只有 1.16:1，比空轨道还淡，而柔和色调不能加边（[Meter](../../packages/ui/src/components/meter/meter.md)）。
+
+### 文本选区 {#text-selection}
+
+选中的文字有自己的 token：`selection`。选区要能和页面清楚分开，让人看出从哪里选到哪里，同时上面的文字仍要好读；菜单行的高亮只需要标出一行。两者的要求在深色模式下不一样，所以不共用一个值。
+
+| 模式 | `selection` | 与画布 | 选中的文字 |
+| --- | --- | --- | --- |
+| 浅色 | `brand-soft` | 1.14:1 | 16.5:1，APCA Lc 96 |
+| 深色 | 在页面上叠 22% 的 `brand`，与有评论段落的底色相同（[Comment](../../packages/ui/src/components/comment/comment.md#highlights)） | 1.77:1 | 7.7:1，APCA Lc 80 |
+
+- 深色模式下，`brand-soft` 的选区与画布只有 1.23:1，很难看出选中了什么。30% 能到 2.25:1，但选中的文字会降到 Lc 74，低于正文要求的 Lc 75；22% 两者兼顾。
+- `::selection`（Tailwind 的 `selection:` 变体）用 `selection` 上色，文字保持原来的颜色。
 
 ### 悬停叠加层 {#hover-overlays}
 
