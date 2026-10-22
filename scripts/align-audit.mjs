@@ -22,7 +22,7 @@
 // also checked against the sentence's baseline.
 //
 // Usage (start the docs first: `pnpm dev`, or `pnpm exec vp dev` in apps/doc):
-//   node scripts/align-audit.mjs [--base http://localhost:5173] [--out dir]
+//   node scripts/align-audit.mjs [--base http://localhost:5173] [--out align-audit/<name>]
 //        [--only substring] [--threshold 0.75] [--no-images] [--workers 4]
 //        [--half-pixel-only]
 // Writes report.md, results.json and one overlay PNG per flagged row.
@@ -39,7 +39,16 @@ const opt = (name, fallback) => {
   return i >= 0 ? args[i + 1] : fallback;
 };
 const BASE = opt("base", "http://localhost:5173");
-const OUT = path.resolve(opt("out", path.join(root, "align-audit")));
+// Reports go in align-audit/ in the repository (ignored by git), or a folder
+// inside it. A folder is only ever emptied when the audit made it: it carries
+// a marker file. Anything else is refused.
+const AUDIT_ROOT = path.join(root, "align-audit");
+const MARKER = ".align-audit";
+const OUT = path.resolve(opt("out", AUDIT_ROOT));
+if (OUT !== AUDIT_ROOT && !OUT.startsWith(AUDIT_ROOT + path.sep)) {
+  process.stderr.write(`--out must be ${AUDIT_ROOT} or a folder inside it, not ${OUT}\n`);
+  process.exit(1);
+}
 const ONLY = opt("only", "");
 const THRESHOLD = Number(opt("threshold", "0.75"));
 const IMAGES = !args.includes("--no-images");
@@ -200,6 +209,7 @@ function collect() {
       cap: m.cap * size,
       xHeight: m.x * size,
       renderer,
+      lineHeight: L,
       flat,
       caps,
       left: r.left,
@@ -275,7 +285,10 @@ function collect() {
     const gridRow = /grid/.test(cs.display);
     if (!flexRow && !gridRow) continue;
     const align = cs.alignItems;
-    if (!/center|baseline/.test(align)) continue;
+    // A row laid out at the top puts its parts on the first line of its text
+    // (alignment.md#a-control-and-its-label): they are measured against it.
+    const firstLine = /^(start|flex-start|self-start)$/.test(align);
+    if (!firstLine && !/center|baseline/.test(align)) continue;
     if (turned(el)) continue;
     {
       const rowRect = el.getBoundingClientRect();
@@ -323,6 +336,11 @@ function collect() {
       if (c.nodeType !== 1 || !visible(c)) continue;
       const ccs = getComputedStyle(c);
       if (ccs.position === "absolute" || ccs.position === "fixed") continue;
+      // In a row laid out at the top, a part that centres itself or spans
+      // several rows (a card's trailing control, a leading tile over a title
+      // and its description) has chosen its own line.
+      if (firstLine && (/center|end|baseline/.test(ccs.alignSelf) || /span/.test(ccs.gridRowEnd)))
+        continue;
       const r = c.getBoundingClientRect();
       // A column (a title over a description) is not a part of the row's line.
       if (c.tagName !== "svg" && /flex/.test(ccs.display) && /column/.test(ccs.flexDirection))
@@ -349,7 +367,12 @@ function collect() {
       } else if (run) {
         // A block of several lines (a title over its description) is not one
         // line of a row.
-        if (r.height > lineHeight(getComputedStyle(c)) * 1.6 && r.height > run.size * 2) continue;
+        if (
+          !firstLine &&
+          r.height > lineHeight(getComputedStyle(c)) * 1.6 &&
+          r.height > run.size * 2
+        )
+          continue;
         items.push({
           kind: "text",
           run,
@@ -372,14 +395,21 @@ function collect() {
     }
     const texts = items.filter((i) => i.kind === "text");
     if (items.length < 2 || !texts.length) continue;
-    const ref = texts.reduce((a, b) =>
+    // The main text; in a row laid out at the top, the main text of the
+    // first line.
+    const firstLineTexts = firstLine
+      ? texts.filter(
+          (t) => t.run.baseline - Math.min(...texts.map((u) => u.run.baseline)) < t.run.size * 0.5,
+        )
+      : texts;
+    const ref = firstLineTexts.reduce((a, b) =>
       b.run.size > a.run.size + 0.01 ||
       (Math.abs(b.run.size - a.run.size) < 0.01 && b.run.weight > a.run.weight)
         ? b
         : a,
     );
     const r = el.getBoundingClientRect();
-    if (r.height > 48) continue; // a block, not a line
+    if (r.height > (firstLine ? 160 : 48)) continue; // a block, not a line
     // Only what sits on the main text's line: in a wrapping row the rest moved
     // to another line.
     const top = ref.run.baseline - ref.run.size;
@@ -387,6 +417,11 @@ function collect() {
     const onLine = items.filter((i) => {
       if (i === ref) return true;
       if (i.kind === "text") return Math.abs(i.run.baseline - ref.run.baseline) < ref.run.size;
+      // In a row laid out at the top, a shape taller than the line (an avatar
+      // beside a title and a preview, a tile) lines up by its edge, not on the
+      // first line (alignment.md#usage).
+      if (firstLine && i.bottom - i.top > (ref.run.lineHeight ?? ref.run.size * 1.4) + 12)
+        return false;
       return i.bottom > top && i.top < bottom && i.bottom - i.top <= 44;
     });
     if (onLine.length < 2) continue;
@@ -502,8 +537,17 @@ const FONT_CSS = `
 
 async function main() {
   const keys = compositions();
-  if (existsSync(OUT)) rmSync(OUT, { recursive: true });
+  if (existsSync(OUT)) {
+    if (!existsSync(path.join(OUT, MARKER))) {
+      process.stderr.write(
+        `${OUT} exists and was not made by this audit (no ${MARKER}); not touching it\n`,
+      );
+      process.exit(1);
+    }
+    rmSync(OUT, { recursive: true });
+  }
   mkdirSync(path.join(OUT, "rows"), { recursive: true });
+  writeFileSync(path.join(OUT, MARKER), "Made by scripts/align-audit.mjs; emptied on every run.\n");
   const browser = await chromium.launch();
   const flags = [];
   const halves = [];
@@ -607,11 +651,15 @@ async function main() {
                   row.rect.left,
               };
               const shift = rowTop - row.rect.top;
+              // Only the letter's own line: the same columns on the next line of
+              // a wrapping text would read as the same letter.
+              const run = item.run;
+              const letterTop = rowTop + (run.baseline - row.rect.top) - run.size * 1.1;
               const clip = {
                 x: Math.max(0, flat.left),
-                y: Math.max(0, rowTop - 6),
+                y: Math.max(0, letterTop),
                 width: Math.max(1, flat.right - flat.left),
-                height: row.rect.height + 12,
+                height: run.size * 1.5,
               };
               if (rowTop + row.rect.height < 0 || flat.right <= 0) continue;
               const on = (await page.screenshot({ clip })).toString("base64");
@@ -628,7 +676,6 @@ async function main() {
               if (!ink) continue;
               const top = clip.y + ink.top - shift;
               const bottom = clip.y + ink.bottom - shift;
-              const run = item.run;
               run.measured = "pixels";
               run.baseline = bottom;
               if (flat.kind === "cap") {
