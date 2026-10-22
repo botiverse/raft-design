@@ -38,11 +38,10 @@ const progress = tv({
     root: [
       "group/progress grid w-full min-w-0 gap-1.5",
       "[--progress-color:var(--foreground)]",
-      "[--progress-light:var(--fill-muted)]",
       "[--progress-indicator:var(--progress-color)]",
       "[--progress-track:var(--fill-muted)]",
       "font-sans",
-      "data-complete:[--progress-indicator:var(--color-success)]",
+      "data-complete:[--progress-indicator:var(--success)]",
     ],
     header: ["flex min-w-0 items-center justify-between gap-3"],
     label: ["min-w-0 truncate", "text-footnote font-semibold text-foreground"],
@@ -63,40 +62,22 @@ const progress = tv({
   variants: {
     variant: {
       primary: {
-        root: [
-          "[--progress-color:var(--color-info)]",
-          "[--progress-light:var(--color-info-muted)]",
-        ],
+        root: ["[--progress-color:var(--info)]"],
       },
       information: {
-        root: [
-          "[--progress-color:var(--color-info)]",
-          "[--progress-light:var(--color-info-muted)]",
-        ],
+        root: ["[--progress-color:var(--info)]"],
       },
       accent: {
-        root: [
-          "[--progress-color:var(--color-info)]",
-          "[--progress-light:var(--color-info-muted)]",
-        ],
+        root: ["[--progress-color:var(--info)]"],
       },
       success: {
-        root: [
-          "[--progress-color:var(--color-success)]",
-          "[--progress-light:var(--color-success-muted)]",
-        ],
+        root: ["[--progress-color:var(--success)]"],
       },
       warning: {
-        root: [
-          "[--progress-color:var(--color-warning)]",
-          "[--progress-light:var(--color-warning-muted)]",
-        ],
+        root: ["[--progress-color:var(--warning)]"],
       },
       danger: {
-        root: [
-          "[--progress-color:var(--color-danger)]",
-          "[--progress-light:var(--color-danger-muted)]",
-        ],
+        root: ["[--progress-color:var(--danger)]"],
       },
     },
     size: {
