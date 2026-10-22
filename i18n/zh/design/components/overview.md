@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 49a67815
+sourceHash: 8bbfe73f
 ---
 
 # 组件
@@ -72,6 +72,7 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 | 是或否，保存时生效 | [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) |
 | 2 到 5 个选项中选一个，随表单提交 | [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md) |
 | 同一内容的另一种视图 | [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md) |
+| 同一个页面的另一个地址，比如另一种语言 | 放在 SegmentedControl 轨道里的链接（[SegmentedControlNav](../../packages/ui/src/components/segmented-control/segmented-control.md#segments-that-are-links)） |
 | 同一页面的不同区块，各有自己的内容 | [Tabs](../../packages/ui/src/components/tabs/tabs.md) |
 | 最多 10 个值中选一个 | [Select](../../packages/ui/src/components/select/select.md) |
 | 很多值中选一个 | 一个可以输入文字来筛选列表的字段，手机上也一样（[ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md)）。如果人只选不输入，用 [Select](../../packages/ui/src/components/select/select.md)：ComboboxSelect 总会弹出手机键盘 |
@@ -80,7 +81,7 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 | 筛选一个列表 | 筛选器：从 [PickerTriggerButton](../../packages/ui/src/components/picker-trigger-button/picker-trigger-button.md) 打开的下拉选择或组合框 |
 | 原地修改某一项的一个属性 | [DescriptionList](../../packages/ui/src/components/description-list/description-list.md) 里的值打开一个选择器 |
 
-SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控件用另一种方式显示同样的内容（Board 或 List），标签页切换到不同的内容。
+SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控件用另一种方式显示同样的内容（Board 或 List），标签页切换到不同的内容。每个选项是一个不同的 URL 时，分段就是链接（`SegmentedControlNav`），每一个都可以在新标签页打开、可以分享。
 
 ### 告诉人一件事 {#telling-people-something}
 

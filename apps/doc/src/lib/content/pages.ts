@@ -26,14 +26,27 @@ const readmeSource = import.meta.glob<string>("../../../../../design/README.md",
   import: "default",
   eager: true,
 });
-/** Translations, each at `i18n/<locale>/<path of the English file>` (i18n/README.md). */
-const translationFiles = import.meta.glob<string>(
-  [
-    "../../../../../i18n/*/design/**/*.md",
-    "../../../../../i18n/*/packages/ui/src/components/*/*.md",
-  ],
-  { query: "?raw", import: "default", eager: true },
+/**
+ * Which pages have a translation, each at `i18n/<locale>/<path of the English
+ * file>` (i18n/README.md). Only the names: the text of a language is loaded
+ * with `loadTranslations`, so the English site carries none of it.
+ */
+const translationNames = Object.keys(
+  import.meta.glob(
+    [
+      "../../../../../i18n/*/design/**/*.md",
+      "../../../../../i18n/*/packages/ui/src/components/*/*.md",
+    ],
+    { query: "?raw" },
+  ),
 );
+
+/** Each language's translations, as one chunk (`translations/<locale>.ts`). */
+const TRANSLATION_CHUNKS: Partial<
+  Record<Locale, () => Promise<{ default: Record<string, string> }>>
+> = {
+  zh: () => import("./translations/zh.ts"),
+};
 const componentFiles = import.meta.glob<string>(
   "../../../../../packages/ui/src/components/*/*.md",
   {
@@ -413,27 +426,54 @@ const englishSources = new Map(
   [...WRITTEN_PAGES, ...(README ? [README] : [])].map((page) => [page.repoPath, page.source]),
 );
 
+/** `zh:design/foundations/color.md` for every translation that exists. */
+const TRANSLATED = new Set(
+  translationNames
+    .map(translationKey)
+    .filter((target) => target !== null && englishSources.has(target.repoPath))
+    .map((target) => `${target!.locale}:${target!.repoPath}`),
+);
+
 const TRANSLATIONS = new Map<string, Translation>();
-for (const [key, source] of Object.entries(translationFiles)) {
-  const target = translationKey(key);
-  if (!target) continue;
-  const english = englishSources.get(target.repoPath);
-  if (english === undefined) continue;
-  const { data, content } = parseFrontMatter(source);
-  const body = content.replace(/^\s*# .+\r?\n+/, "").trim();
-  const recorded = (data as { sourceHash?: string }).sourceHash;
-  TRANSLATIONS.set(`${target.locale}:${target.repoPath}`, {
-    title: data.title || content.match(/^# (.+)$/m)?.[1]?.trim() || "",
-    summary: data.summary,
-    body,
-    stale: recorded !== sourceHash(english),
-    ...headingsOf(body),
-  });
+const loading = new Map<Locale, Promise<void>>();
+const loaded = new Set<Locale>([DEFAULT_LOCALE]);
+
+/**
+ * Loads a language's translations; `localize` needs them. The root route
+ * awaits it before any page in that language renders, and so does the client
+ * entry before it hydrates one.
+ */
+export function loadTranslations(locale: Locale): Promise<void> {
+  if (loaded.has(locale)) return Promise.resolve();
+  let promise = loading.get(locale);
+  if (!promise) {
+    const chunk = TRANSLATION_CHUNKS[locale];
+    promise = (chunk ? chunk() : Promise.resolve({ default: {} })).then(({ default: files }) => {
+      for (const [key, source] of Object.entries(files as Record<string, string>)) {
+        const target = translationKey(key);
+        const english = target ? englishSources.get(target.repoPath) : undefined;
+        if (!target || english === undefined) continue;
+        const { data, content } = parseFrontMatter(source);
+        const body = content.replace(/^\s*# .+\r?\n+/, "").trim();
+        const recorded = (data as { sourceHash?: string }).sourceHash;
+        TRANSLATIONS.set(`${target.locale}:${target.repoPath}`, {
+          title: data.title || content.match(/^# (.+)$/m)?.[1]?.trim() || "",
+          summary: data.summary,
+          body,
+          stale: recorded !== sourceHash(english),
+          ...headingsOf(body),
+        });
+      }
+      loaded.add(locale);
+    });
+    loading.set(locale, promise);
+  }
+  return promise;
 }
 
-/** Whether `repoPath` has a translation into `locale`. */
+/** Whether `repoPath` has a translation into `locale`; known without loading it. */
 export function isTranslated(repoPath: string, locale: Locale) {
-  return locale === DEFAULT_LOCALE || TRANSLATIONS.has(`${locale}:${repoPath}`);
+  return locale === DEFAULT_LOCALE || TRANSLATED.has(`${locale}:${repoPath}`);
 }
 
 const localized = new Map<string, DocPage>();
@@ -448,6 +488,7 @@ export function localize(page: DocPage, locale: Locale): DocPage {
   const key = `${locale}:${page.repoPath}`;
   const cached = localized.get(key);
   if (cached) return cached;
+  if (!loaded.has(locale)) throw new Error(`localize: loadTranslations("${locale}") first`);
   const translation = TRANSLATIONS.get(key);
   const result: DocPage = translation
     ? {

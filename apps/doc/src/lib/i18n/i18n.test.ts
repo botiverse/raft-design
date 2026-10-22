@@ -1,8 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import { resolveDocLinkForMarkdown } from "../content/links.ts";
 import { CATEGORIES, LAYERS, navSections } from "../content/nav.ts";
-import { localize, pageAt, PAGES, README, SECTIONS } from "../content/pages.ts";
+import { loadTranslations, localize, pageAt, PAGES, README, SECTIONS } from "../content/pages.ts";
 import { searchDocs } from "../content/search.ts";
 import { parseHeading } from "../content/slug.ts";
 import { localeOfPath, localizePath, stripLocale } from "./locales.ts";
@@ -10,6 +10,8 @@ import { renderMarkdownTwin } from "../content/twin.ts";
 import { isTranslatedPath } from "./coverage.ts";
 import { messagesFor } from "./messages.ts";
 import { sourceHash } from "./source-hash.ts";
+
+beforeAll(() => loadTranslations("zh"));
 
 describe("language prefix", () => {
   it("reads the language from the public path", () => {
