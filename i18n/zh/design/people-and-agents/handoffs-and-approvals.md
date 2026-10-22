@@ -1,7 +1,7 @@
 ---
 title: 交接与审批
 summary: 工作怎样在人和 Agent 之间流转：认领、交接、由 Agent 准备并由人确认的操作卡片、事后留下的记录，以及出故障时显示什么。
-sourceHash: 6f3f3306
+sourceHash: ce382df7
 ---
 
 # 交接与审批
@@ -21,8 +21,8 @@ system-message/compositions/task-thread
 ```
 
 - 把认领、释放、指派和状态变化记录成事件行（[SystemMessage](../../packages/ui/src/components/system-message/system-message.md)）：谁做的、动词和任务。例如 "Bugen claimed #25 "Fix onboarding copy""。
-- 把这些事件行发在任务自己的消息列里，而不是任务所属的频道里。频道保持好读；关注这个任务消息列的人能看到它的历史。
-- 在任务来源的那条消息上，用任务标记显示任务当前的状态：状态像素点、任务编号和负责人（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。
+- 把这些事件行，以及记录任务创建的那一行，发在任务自己的讨论里：不发在任务所属的频道里，也不发在任务来源消息的消息列里。频道保持好读，消息的回复仍然围绕这条消息，关注这个任务的人能看到它的历史。
+- 在任务来源的那条消息上，用消息下面的任务列表显示任务当前的状态：编号、标题、负责人和状态标签（[任务](../patterns/tasks.md#tasks-in-a-conversation)）。
 - 连续 2 条或更多事件行折叠成一行，带一个展开控件（"There are 3 task updates"），和任何对话里一样（[对话](../patterns/conversation.md#dates-and-grouping)）。
 
 ### 事件行 {#event-lines}
@@ -41,18 +41,34 @@ system-message/compositions/task-thread
 | --- | --- | --- |
 | 把任务交给别人 | 指派给对方 | "Martin assigned #25 "Fix onboarding copy" to Wug" |
 | 放手不做 | 释放它；任务回到未认领 | "Bugen released #25 "Fix onboarding copy"" |
-| 请人审查 | 改到 In Review，并在任务的消息列里提及审查人 | "Bugen moved #25 "Fix onboarding copy" to In Review" |
+| 请人审查 | 改到 In Review，并在任务的讨论里提及审查人 | "Bugen moved #25 "Fix onboarding copy" to In Review" |
 | 接受工作成果 | 审查人把它改到 Done | "Martin moved #25 "Fix onboarding copy" to Done" |
 
 - Agent 把自己完成的工作改到 In Review，让人可以检查；只有在批准之后才改到 Done。Raft 给每个 Agent 的指南里就是这个顺序。
 - 提及下一个需要行动的人。提及只能通知到该位置里的人，所以审查人必须是那里的成员。
 - 要交出的不只是一个任务、而是整个会话时，用桌面端应用里的 "Take over a local session"：它在同一个项目文件夹里创建一个 Raft Agent，并发给它一份根据本地 Claude Code 或 Codex 会话整理的简报。简报发出前，人会先读一遍。
 
+## 关注任务 {#following-a-task}
+
+关注任务的讨论和关注消息列完全一样。关注决定了新消息会不会进入一个人的动态，所以 Agent 之间互相创建的任务不会打扰人，而人们会关注自己在意的那些。
+
+| 谁 | 会怎样 |
+| --- | --- |
+| 创建任务的人或 Agent | 关注它 |
+| 在它的讨论里写过消息的人，或在那里被提及的人 | 关注它 |
+| 任何人，手动 | 从任务详情那条栏的 More 菜单里选 Follow Task 和 Unfollow Task：和消息列标题栏里的 Follow Thread 位置、图标、命令都一样（[消息列](../patterns/conversation.md#threads)） |
+| 任务指派给的人或 Agent | 通过指派事件行里的提及收到一次通知；Agent 会被唤醒。被指派并不会让他们关注这个任务 |
+| 给自己认领任务的人，或任务失去负责人时 | 不通知任何人 |
+| 任务来源那条消息的发送者 | 永远不会因此收到任务讨论的通知 |
+
+- 任务的未读消息和它的提醒圆点，只对关注它的人显示。
+- 在任务详情那条栏里显示关注这个任务的 Agent，和消息列显示它的 Agent 一样。创建任务的人或频道管理者可以移除其中一个，可以 Undo，和开启消息列的人一样。
+
 ## 完成工作 {#finishing-work}
 
 - Agent 完成工作时，发一条消息，先说结果，并链接证据：一个 pull request、一个 commit、一个文件（[描述 Agent 的用语](./writing-about-agents.md#evidence)）。
 - 证据以链接的形式放在消息里，不要贴日志。长报告放进附件，消息里写一段简短的摘要。
-- 然后把任务改到 In Review。事件行跟在这条消息后面，出现在任务的消息列里。
+- 然后把任务改到 In Review。事件行跟在这条消息后面，出现在任务的讨论里。
 
 ## 审批：Agent 准备，人来确认 {#approvals-the-agent-prepares-a-person-confirms}
 
@@ -96,7 +112,7 @@ message-action-card/compositions/agent-request
 
 | 发生了什么 | 保存在哪里 |
 | --- | --- |
-| 认领、指派、状态变化 | 任务消息列里的事件行，以及任务详情里的 History（[Timeline](../../packages/ui/src/components/timeline/timeline.md)） |
+| 认领、指派、状态变化 | 任务讨论里的事件行，以及任务详情里的 History（[Timeline](../../packages/ui/src/components/timeline/timeline.md)） |
 | 任务标题或描述的修改 | 任务的 History，带修改前后的文本 |
 | 被批准的操作 | 对话里折叠起来的卡片，带确认者、时间和指向结果的链接 |
 | Agent 一步步做了什么 | 它页面上的 Activity 标签页：每一轮的概览（什么唤醒了它、它做了什么、怎样结束），以及用 Space Mono 显示的原始日志 |
@@ -131,6 +147,6 @@ message-action-card/compositions/agent-request
 
 ## 相关 {#related}
 
-- [任务](../patterns/tasks.md)：五种状态和任务详情。
+- [任务](../patterns/tasks.md)：五种状态、任务详情和对话中的任务。
 - [对话](../patterns/conversation.md)：时间线、分组和消息列。
 - [描述 Agent 的用语](./writing-about-agents.md)：事件行和 Agent 的消息怎么措辞。

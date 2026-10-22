@@ -19,9 +19,9 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 | Token | Use for |
 | --- | --- |
 | `radius-sticker` | The pixel family: avatars, workspace tiles, channel tiles, checkboxes, badges, steps, skeletons; inline marks in running text (inline code, a mention of you, search hits, reference chips) |
-| `radius-chip` | Chips (value chips, the chips in a field, task markers, reactions), tooltips, the highlighted item in a popup, and every control embedded in another component's frame ([Inside a frame](#inside-a-frame)) |
+| `radius-chip` | Chips (value chips, the chips in a field, task status chips, reactions), tooltips, the highlighted item in a popup, and every control embedded in another component's frame ([Inside a frame](#inside-a-frame)) |
 | `radius-control` | Controls and selection stickers that stand on their own: buttons, inputs, selects, filters, segmented controls, tabs, sidebar rows, rail items, the tab bar's icon sticker, the workspace button |
-| `radius-container` | Containers: cards, inset groups, the composer, banners, menus, toasts, profile cards, file cards |
+| `radius-container` | Containers: cards, inset groups, the composer, banners, menus, toasts, profile cards, file cards, the box of tasks under a message, side cards |
 | `radius-dialog` | Dialogs, and the top corners of bottom sheets |
 | `rounded-full` | Switches and radios only |
 

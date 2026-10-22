@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 1c398a0c
+sourceHash: 37083bee
 ---
 
 # 组件
@@ -160,7 +160,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 
 ### 任务详情 {#task-details}
 
-一个居中的 [Dialog](../../packages/ui/src/components/dialog/dialog.md)，960px 宽，是 Dialog 四种尺寸之外的一个工作空间浮层：一条显示所在地方和任务编号的栏，标题和描述，一行属性（Status、Assignee、Created by）放在 [DescriptionList](../../packages/ui/src/components/description-list/description-list.md) 里，折叠起来的 [Timeline](../../packages/ui/src/components/timeline/timeline.md) 里是 History，然后是任务的消息列和一个 [Composer](../../packages/ui/src/components/composer/composer.md)。它的尺寸和那条栏见[任务](../patterns/tasks.md#structure)。
+一个居中的 [Dialog](../../packages/ui/src/components/dialog/dialog.md)，960px 宽，是 Dialog 四种尺寸之外的一个工作空间浮层：一条显示所在地方和任务编号的栏，标题和描述，一行属性（Status、Assignee、Created by）放在 [DescriptionList](../../packages/ui/src/components/description-list/description-list.md) 里，从消息创建的任务还有它的 Source，折叠起来的 [Timeline](../../packages/ui/src/components/timeline/timeline.md) 里是 History，然后是任务的讨论和一个 [Composer](../../packages/ui/src/components/composer/composer.md)。它的尺寸和那条栏见[任务](../patterns/tasks.md#structure)。
 
 ### 文件查看器 {#file-viewer}
 

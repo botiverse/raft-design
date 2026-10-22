@@ -19,14 +19,15 @@ panel/panel
 
 ## When to use
 
-| Situation                                                                              | Use                                                                              |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| A column of the desktop main area, or a side panel beside it (tasks, files, a profile) | Panel                                                                            |
-| A conversation: header, tabs, messages and composer                                    | [ConversationPanel](../conversation-panel/conversation-panel.md), built on Panel |
-| A thread beside a conversation                                                         | [ThreadPanel](../thread-panel/thread-panel.md)                                   |
-| The top bar of a phone's pushed page                                                   | `PanelHeader`                                                                    |
-| The list of what a destination contains, next to the rail                              | [Sidebar](../sidebar/sidebar.md)                                                 |
-| Details or settings that slide in over the page                                        | [Drawer](../drawer/drawer.md)                                                    |
+| Situation                                                                          | Use                                                                                                                                                 |
+| ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A column of the desktop main area, or a side panel beside it (a thread, a profile) | Panel                                                                                                                                               |
+| A channel's tasks and files                                                        | Side cards inside the conversation's panel, not a Panel ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)) |
+| A conversation: header, tabs, messages and composer                                | [ConversationPanel](../conversation-panel/conversation-panel.md), built on Panel                                                                    |
+| A thread beside a conversation                                                     | [ThreadPanel](../thread-panel/thread-panel.md)                                                                                                      |
+| The top bar of a phone's pushed page                                               | `PanelHeader`                                                                                                                                       |
+| The list of what a destination contains, next to the rail                          | [Sidebar](../sidebar/sidebar.md)                                                                                                                    |
+| Details or settings that slide in over the page                                    | [Drawer](../drawer/drawer.md)                                                                                                                       |
 
 How the regions of a screen are arranged, and when a side panel sits beside the main area or covers it, is in [Page structure](../../../../../design/patterns/page-structure.md) and [Responsive layout](../../../../../design/patterns/responsive.md).
 

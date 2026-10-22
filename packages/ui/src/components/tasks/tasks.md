@@ -10,7 +10,7 @@ related: [status, task-card, task-board, task-list, badge, message-item]
 
 # Tasks
 
-These are the parts every task view shares. `TaskStatusBadge` writes a task's status as a status chip: the status's soft tint, its pixel and its name. `TaskChip` is the same chip carrying a task instead: the task marker under a message, or a task mentioned in running text. `TasksPanelRoot` and its parts are the shell of a page of tasks. The five statuses and how tasks are shown are in [Tasks](../../../../../design/patterns/tasks.md); their colors are in [Color](../../../../../design/foundations/color.md#statuses).
+These are the parts every task view shares. `TaskStatusBadge` writes a task's status as a status chip: the status's soft tint, its pixel and its name. `TaskChip` is the same chip carrying a task instead, such as a task mentioned in running text (`#design:#25`). `TasksPanelRoot` and its parts are the shell of a page of tasks. The five statuses and how tasks are shown are in [Tasks](../../../../../design/patterns/tasks.md); their colors are in [Color](../../../../../design/foundations/color.md#statuses).
 
 ```example
 tasks/compositions/task-status
@@ -18,15 +18,15 @@ tasks/compositions/task-status
 
 ## When to use
 
-| Situation                                             | Use                                                                               |
-| ----------------------------------------------------- | --------------------------------------------------------------------------------- |
-| A task's status: on a card, in properties, in details | `TaskStatusBadge`                                                                 |
-| A task under a message                                | `TaskChip` in the message footer ([MessageItem](../message-item/message-item.md)) |
-| A task mentioned in running text                      | `TaskChip` with `variant="inline"`                                                |
-| A task's status as a pixel beside a word              | `TaskStatusIcon`                                                                  |
-| A page or a tab of tasks                              | `TasksPanelRoot` with its toolbar and viewport                                    |
-| A task as a row on a board or in a list               | [TaskCard](../task-card/task-card.md)                                             |
-| How an agent is                                       | An agent state chip ([Status](../status/status.md#agent-state-chips))             |
+| Situation                                             | Use                                                                                                                                       |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| A task's status: on a card, in properties, in details | `TaskStatusBadge`                                                                                                                         |
+| The tasks created from a message                      | A list of compact rows under it, each with a `TaskStatusBadge` ([Tasks](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)) |
+| A task mentioned in running text                      | `TaskChip` with `variant="inline"`                                                                                                        |
+| A task's status as a pixel beside a word              | `TaskStatusIcon`                                                                                                                          |
+| A page or a tab of tasks                              | `TasksPanelRoot` with its toolbar and viewport                                                                                            |
+| A task as a row on a board or in a list               | [TaskCard](../task-card/task-card.md)                                                                                                     |
+| How an agent is                                       | An agent state chip ([Status](../status/status.md#agent-state-chips))                                                                     |
 
 ## Anatomy
 
@@ -48,7 +48,7 @@ tasks/compositions/tasks-panel
 
 | Variant             | Use for                                                                                                                                                   |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `variant="default"` | A chip on its own: under a message, on a card, in a details row                                                                                           |
+| `variant="default"` | A chip on its own: on a task row, on a card, in a details row                                                                                             |
 | `variant="inline"`  | A chip in running text, in the box every chip in a message's text shares ([Chips in running text](../message-item/message-item.md#chips-in-running-text)) |
 | `size="sm"`         | A default chip in one row with small badges, such as the metadata row of an Activity item                                                                 |
 
@@ -90,20 +90,20 @@ tasks/compositions/tasks-error
 ## Behavior
 
 - Make a status chip on a task card a button that opens the list of statuses, with a down arrow after the name ([TaskCard](../task-card/task-card.md)). The other ways to change a status are in [Tasks](../../../../../design/patterns/tasks.md#rules).
-- Make the task marker under a message open the task.
+- Make a task reference in running text open the task. A task row under a message opens it too, and changes no status ([Tasks in a conversation](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)).
 
 ## Content
 
 - Spell the statuses Todo, In Progress, In Review, Done and Closed. `TaskStatusBadge` has no built-in label: the caller passes it, and translates it.
 - Set the task number in Space Mono: `#25` ([Typography](../../../../../design/foundations/typography.md#usage)).
-- In a task marker, write the number, then the assignee: `#25` @Bugen.
+- In a task reference, write the place, then the number: `#design:#25` ([Referring to a task](../../../../../design/patterns/tasks.md#referring-to-a-task)).
 
 ## Accessibility
 
 None of these parts wraps a Base UI primitive; `TaskChip` renders a `<span>` unless `render` makes it a link or a button.
 
 - The status pixel is hidden from assistive technology. Always pass the status name, or keep the task number next to it.
-- Render a task marker that opens the task as an `<a>` or a `<button>`, and give it an `aria-label` that says what it opens ("Open task #25") when its text doesn't. A `title` is not an accessible name.
+- Render a task chip that opens the task as an `<a>` or a `<button>`, and give it an `aria-label` that says what it opens ("Open task #25") when its text doesn't. A `title` is not an accessible name.
 
 ## Rules
 

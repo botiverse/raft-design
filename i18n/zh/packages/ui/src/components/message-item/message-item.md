@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: aab26f85
+sourceHash: cc050b39
 ---
 
 # MessageItem
@@ -36,12 +36,12 @@ message-item/compositions/item-preview
     - `MessageItemMeta`：发送者的角色，比如 Product & Brand；
   - `MessageItemDelegatedBy`：助理代发送者发出消息时显示 "sent by Friday"（由 Friday 发送），助理的名字放在 `MessageItemDelegatedByName` 里；名字能打开助理的个人资料时用 `MessageItemDelegatedByButton`；
   - `MessageItemTime`：紧跟在发送者后面，`text-mono-meta`，`foreground-hint`。它是一个 `<time>`：把时刻传给 `dateTime`；
-  - `MessageItemInlineStatus`：时间后面的一个简短状态，比如消息正在转为任务时显示 "Converting…"。正在工作的 Agent 由头像上的灯表示，不在这里显示（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。
+  - `MessageItemInlineStatus`：时间后面的一个简短状态，比如消息的翻译正在加载时显示 "Translating…"。正在工作的 Agent 由头像上的灯表示，不在这里显示（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。
 - `MessageItemBody`：文字，用 `text-body`。必需。
 - `MessageItemEdited`：已编辑标记，放在文字末尾，完整行和接续行都一样。
 - `MessageItemAttachments`：文件和图片（[MessageAttachment](../message-attachment/message-attachment.md)）。
 - `MessageItemEmbedded`：代码块、操作卡片和链接卡片。应用预览的链接不是卡片：它是正文里的标签片（[应用链接](#app-links)）。
-- `MessageItemFooter`：一行：先是任务标记，然后是回应（`MessageReactionChip`，最后是 `MessageReactionAddButton`），再是收藏和已读标记（`MessageItemSavedIndicator`、`MessageItemReadReceipt`）。
+- `MessageItemFooter`：一行：先是回应（`MessageReactionChip`，最后是 `MessageReactionAddButton`），再是收藏和已读标记（`MessageItemSavedIndicator`、`MessageItemReadReceipt`）。从这条消息创建的任务不在这一行里：它们是这一行上面的一个列表（[对话中的任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)）。
 - `MessageItemToolbar` 加 `MessageItemToolbarButton`：悬停工具栏。它在自己所在的行上设置 `--mi-toolbar-width`，标题栏在它下面淡出时读这个值。以前的版本从 app 读 `--mi-toolbar-reserve` 来在标题栏里留位置；现在不再读它，设置它的地方可以删掉。
 - `MessageMultiSelectCheckbox` 和 `MessageMultiSelectToolbar`，操作放在 `MessageMultiSelectToolbarActions` 里（28px 的按钮，间隔 4px；在触屏上每个按钮的点击区域是 44px，向相邻按钮只延伸到间隔的一半，所以点在两者之间会落到较近的那个上）：用于选择多条消息（[由现有部件组成](../../../../../design/components/overview.md#toolbar-for-selected-messages)）。
 - `MessageTextSelectionToolbar` 加 `MessageTextSelectionToolbarButton` 和 `MessageTextSelectionToolbarSeparator`：对选中文字的操作（[选中文字的工具栏](#toolbar-for-selected-text)）；用 `createMessageTextSelectionAnchor` 定位。
@@ -208,7 +208,7 @@ message-item/compositions/delegated-long-names
 - 工具栏高 36px：28px 的按钮，16px 的图标，距外框 4px，按钮之间间隔 4px，细线画在这个高度之内。它骑在高亮的上边缘，向上伸出 18px，即自身高度的一半；在一组的第一行上，透明的 8px 边框占去其中一部分，所以它只超出这一行 10px。它的按钮是 `MessageItemToolbarButton`，不是 [Button](../button/button.md)。它保持这么紧凑，是因为它出现在鼠标指针下的每条消息上：做成 38px 时，它会盖住发送者那一行，并在第一条消息上方被裁掉。
 - 工具栏和所有弹出层一样用 `radius-container`。它的按钮是嵌在外框里的控件，所以用 `radius-chip`，就像输入框、消息输入框和卡片角落里的按钮一样（[外框之内](../../../../../design/foundations/shape.md#inside-a-frame)）。
 - 在滚动区域的第一条消息上方和消息列的根消息上方至少留 18px，这样工具栏永远不会被裁掉。以日期行开头的时间线已经有这个空间。
-- 任务标记打开任务。状态在任务里修改，不在标记上修改。
+- 消息下面的任务行打开任务。状态在任务详情里修改，不在这一行上修改（[对话中的任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)）。
 
 ```example
 message-item/compositions/toolbar
@@ -259,8 +259,8 @@ message-item/compositions/reactions
 
 - `MessageItemDelegatedAvatar` 只放在人的头像上，永远不和在线状态灯一起用（[Avatar](../avatar/avatar.md#rules)）。
 - 不要给消息加边框，也不要给 Agent 用气泡颜色。只有嵌入的内容（代码块、附件、操作卡片）看起来像卡片。
-- 页脚里先放任务标记，然后是回应，添加按钮放最后。
-- 任务标记做成状态标签：状态像素点、任务编号和负责人（[Tasks](../tasks/tasks.md)）。
+- 页脚里先放回应，添加按钮放最后。
+- 从一条消息创建的任务放在页脚上面，是一个由紧凑行组成的列表，而不是页脚里的一个标记（[紧凑列表的行](../../../../../design/patterns/tasks.md#rows-in-a-compact-list)）。
 - 每个表情只显示一个回应标签片。这个人自己添加的回应用 `attention-soft`。
 - 让标签片的墨色离左边缘和离右边缘一样远（[对齐](../../../../../design/foundations/alignment.md#chips)）。带图标的引用标签片和回应把内边距平均分配，两端各 4.5px 和 7px，总量和宽度与以前相同：Lucide 图标在它的方框里留出的空白和旁边的字母差不多，而表情或应用图标画满到边缘。收藏标记在书签图标前留 5.5px（书签画在方框内 2.3px 处），在文字后留 6.5px。
 - 引用标签片标签后面的注记放在 `MessageReferenceSuffix` 里，不要放在自己写的 span 里。它在布局中保持在标签的基线上，绘制时上移字号差的四分之一，让两者 x 高度的中线对齐；标签保持在句子的基线上。

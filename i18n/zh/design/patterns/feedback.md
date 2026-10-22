@@ -1,7 +1,7 @@
 ---
 title: 反馈
 summary: 怎么告诉人们一件事：什么立即执行、什么需要确认，空、加载中和加载失败的区别，错误按范围放在哪里，以及怎么措辞。
-sourceHash: b46f507d
+sourceHash: 95771133
 ---
 
 # 反馈
@@ -16,7 +16,7 @@ sourceHash: b46f507d
 
 ### 确认 {#confirming}
 
-- 如果人能在同一个地方撤销操作，就立即执行，不弹对话框，也不弹轻提示：Mark as Done（Reopen Task）、Save Message（Remove from Saved）。一次点击就能撤销的操作，事先再问一句只会拖慢人。
+- 如果人能在同一个地方撤销操作，就立即执行，不弹对话框，也不弹轻提示：Follow Thread（Unfollow Thread）、Save Message（Remove from Saved）。一次点击就能撤销的操作，事先再问一句只会拖慢人。
 - 会停止 Agent 的工作、把某人移出某个地方、或者归档或删除某样东西的操作，都要用对话框确认，因为这些都无法在发生的地方恢复：Stop Agent、Restart 或 Reset、Archive Agent、Leave Channel、Remove Member、Delete Server（[Dialog](../../packages/ui/src/components/dialog/dialog.md)）。确认按钮写操作的动词；不可撤销时还要带上对象：Stop、Delete Server（[写作](../content/writing.md#actions-and-their-dialogs)）。
 - 确认不可撤销操作的对话框里，把说明放在红色横幅中，确认按钮用红色。打开它的菜单项不要上色：警告应该出现在人做出决定的地方，而不是一串选项里。
 - 操作在当下就有自然的退路时，直接执行并显示带 Undo 的轻提示，而不是弹对话框（[Toast](../../packages/ui/src/components/toast/toast.md)）。例如，在 Raft Chat 里把一个 Agent 从消息列的关注者中移除时就是这样；轻提示停留 5 秒。

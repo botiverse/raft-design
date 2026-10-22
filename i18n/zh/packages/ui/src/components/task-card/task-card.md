@@ -1,7 +1,7 @@
 ---
 title: TaskCard
 summary: 显示一个任务的卡片，包含任务编号、标题和一个可以修改状态的状态标签，用在任务看板和任务列表里。
-sourceHash: eb9dc713
+sourceHash: 94088764
 ---
 
 # TaskCard
@@ -17,7 +17,7 @@ task-card/compositions/task-card-state-matrix
 | 场景 | 使用 |
 | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | 看板或列表里的一个任务 | TaskCard，放在 [TaskBoard](../task-board/task-board.md) 的列或 [TaskList](../task-list/task-list.md) 的分组里 |
-| 对话里的一个任务 | 不用卡片：消息本身就是任务，下面挂一个任务标记（[MessageItem](../message-item/message-item.md)） |
+| 对话里的一个任务 | 不用卡片：用它来源消息下面任务列表里的一行（[任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)） |
 | 正文、一行或一个标题里的任务状态或编号 | `TaskChip` 或 `TaskStatusBadge`（[任务组件](../tasks/tasks.md)） |
 | 任务详情 | 居中对话框；见[任务](../../../../../design/patterns/tasks.md#structure) |
 

@@ -1,7 +1,7 @@
 ---
 title: 对话
 summary: 消息和事件行组成的时间线，一条消息能放什么，消息的操作、提及、消息输入框、消息列，以及对话中的搜索。
-sourceHash: c2c20a7b
+sourceHash: 14939507
 ---
 
 # 对话
@@ -10,7 +10,7 @@ sourceHash: c2c20a7b
 
 ## 适用范围 {#when-it-applies}
 
-所有人和 Agent 交谈的地方：频道、私信、消息列、任务的消息列。消息本身见 [MessageItem](../../packages/ui/src/components/message-item/message-item.md)。一个产品有哪些地方、它们的标题栏里放什么，写在产品自己的页面上（[Raft Chat — 频道](../products/raft-chat/channel.md)）。
+所有人和 Agent 交谈的地方：频道、私信、消息列、任务的讨论。消息本身见 [MessageItem](../../packages/ui/src/components/message-item/message-item.md)。一个产品有哪些地方、它们的标题栏里放什么，写在产品自己的页面上（[Raft Chat — 频道](../products/raft-chat/channel.md)）。
 
 ## 结构 {#structure}
 
@@ -20,8 +20,8 @@ conversation-panel/compositions/conversation-panel
 
 - 时间线：消息、事件行（[SystemMessage](../../packages/ui/src/components/system-message/system-message.md)）和日期行，最新的在最下面。
 - 消息里面：提及、引用标签片、蓝色链接、行内代码、代码块、引用、附件和操作卡片。
-- 消息下面：一行放任务标记、收藏标记和回应；再下面是消息列的回复，最多预览 3 条（[MessageReplies](../../packages/ui/src/components/message-replies/message-replies.md)）。
-- 最底部：[Composer](../../packages/ui/src/components/composer/composer.md)，工具栏左侧是附件按钮，右侧是 As Task 复选框和发送按钮。
+- 消息下面：先是从它创建的任务列表（[任务](./tasks.md#tasks-in-a-conversation)），然后是一行，放收藏标记和回应；再下面是消息列的回复，最多预览 3 条（[MessageReplies](../../packages/ui/src/components/message-replies/message-replies.md)）。
+- 最底部：[Composer](../../packages/ui/src/components/composer/composer.md)，工具栏左侧是附件按钮，右侧是发送按钮。
 
 ## 规则 {#rules}
 
@@ -62,7 +62,7 @@ message-item/compositions/context-menu-showcase
 - 发送按钮是对话里唯一的粉色按钮：发送正是这个屏幕存在的目的（[颜色](../foundations/color.md#meanings-of-color)）。
 - 占位文字里写出这个地方的名字："Message #launch-week"、"Message @Martin"。
 - 竖握的触屏上，Return 插入新行，用发送按钮发送，因为没有 Shift 键可按。其他情况下，Return 发送，Shift+Return 插入新行。
-- 在有任务的产品里，勾选 As Task 复选框后发出的消息就是一个任务（[任务](./tasks.md#tasks-in-a-conversation)）。
+- 创建任务不放在消息输入框里：在有任务的产品里，任务是在消息发出之后从消息创建的（[任务](./tasks.md#tasks-in-a-conversation)）。
 
 ### 消息列 {#threads}
 
@@ -72,9 +72,10 @@ thread-panel/thread-panel
 
 - 消息列在侧面板中打开（[ThreadPanel](../../packages/ui/src/components/thread-panel/thread-panel.md)），这样它所属的对话还留在视野里。根据宽度，它放在对话旁边或盖住对话（[响应式布局](./responsive.md)）；在手机上它总是盖住对话，带 Back。
 - 标题写 Thread，副标题是地方和回复数："#launch-week · 4 replies"。选中标题会滚动到消息列顶部。
-- 最上面是消息列开始的那条消息，然后是回复，然后是消息输入框。消息列没有标签页，也没有 As Task。
+- 最上面是消息列开始的那条消息，然后是回复，然后是消息输入框。消息列没有标签页。
 - 当这个人不在消息列所属的地方时，把消息输入框换成一个粉色的 Join 按钮（Raft Chat 里是 "Join channel to reply"），这样不能回复的原因同时也是解决的办法。
 - 关注这个消息列的 Agent 放在标题栏右侧，显示为一叠头像和一个数字。
+- Follow Thread 和 Unfollow Thread 放在消息列标题栏右侧的 More 菜单里，不单独做一个开关：关注是一个命令，不是一项设置。任务详情把 Follow Task 放在同样的位置（[任务](./tasks.md)），所以两者的关注方式一样。
 
 ### 浮动控件 {#floating-controls}
 

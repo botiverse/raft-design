@@ -1,7 +1,7 @@
 ---
 title: 层级
 summary: 哪些东西会浮起并投下阴影，哪些控件浮在对话之上却不带阴影，弹出层如何定位，以及焦点环。
-sourceHash: cdb1efd8
+sourceHash: ebe298ed
 ---
 
 # 层级
@@ -26,7 +26,7 @@ focus
 
 | Token（工具类） | 用于 |
 | --- | --- |
-| `elevation-float`（`shadow-float`） | 菜单、下拉选择列表、抽屉、底部面板、对话框、个人资料卡、工具提示、轻提示、消息的悬停工具栏和选中文字的工具栏（浮在所操作消息之上的弹出层）、被拖动中的卡片（它被从看板上提起；留在原处的卡片不投阴影），以及文档边栏中展开的评论卡片（它被从卡片列中提起，其他卡片为它让开位置；[评论](../patterns/comments.md)） |
+| `elevation-float`（`shadow-float`） | 菜单、下拉选择列表、抽屉、底部面板、对话框、个人资料卡、工具提示、轻提示、消息的悬停工具栏和选中文字的工具栏（浮在所操作消息之上的弹出层）、被拖动中的卡片（它被从看板上提起；留在原处的卡片不投阴影）、浮在窄消息列表上方时的侧边卡片（[响应式布局](../patterns/responsive.md)），以及文档边栏中展开的评论卡片（它被从卡片列中提起，其他卡片为它让开位置；[评论](../patterns/comments.md)） |
 | `elevation-sticker`（`shadow-sticker`） | 仅限品牌插画：个人资料上和初始设置最后一步的 99px 头像，以及创建服务器页面上新服务器的预览（[品牌](./brand.md#how-much-brand)）。其他地方都不用 |
 | `focus-ring`（`shadow-focus`） | 所有能用键盘到达的元素，在键盘到达它时 |
 
@@ -79,5 +79,6 @@ raft-ui 会自动处理这件事。模态的 `Dialog`、`AlertDialog` 或 `Drawe
 ## 相关 {#related}
 
 - [状态](./states.md)：悬停、按下和焦点。
+- [视觉舒适度](./comfort.md#surfaces)：内容什么时候才需要卡片或边框。
 - [品牌](./brand.md)：贴纸阴影可以出现在哪里。
 - [选择组件](../components/overview.md#how-to-choose-a-component)：该用哪种弹出层。

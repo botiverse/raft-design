@@ -1,7 +1,7 @@
 ---
 title: 字体排印
 summary: 两种字体，字号阶梯以及每种字号和字重的用途，文字颜色的三个层级，字体度量 token，以及大小写规则。
-sourceHash: 238c8c37
+sourceHash: 08672e9a
 ---
 
 # 字体排印
@@ -75,7 +75,7 @@ Raft 用两种字体，各管一件事：Space Grotesk 写人说的话，Space M
 
 | 样式 | 用于 |
 | --- | --- |
-| `text-headline` | 标题，全部用 700：面板、消息列、对话框、弹出层、抽屉、侧栏顶部 |
+| `text-headline` | 标题，全部用 700：面板、消息列、对话框、弹出层、抽屉、侧栏顶部。任务详情里的任务标题是对话框页面级的标题，用 600，放在说明这是哪个对话框、字重 700 的那条栏下面（[视觉舒适度](./comfort.md#hierarchy-contrast)） |
 | `text-body` | 消息正文；卡片标题用 600（`card-title-*`）；任务卡片和搜索结果中的名称 |
 | `field-*` | 字段中的文字：Input、Textarea、InputGroup、`chrome="field"` 的 Select |
 | `text-subhead` | 发送者用 700；侧栏行用 500，选中的行用 700；动态里的标题；对话框正文和说明；`lg` 尺寸的 Button |

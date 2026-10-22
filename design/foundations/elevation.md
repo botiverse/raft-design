@@ -26,7 +26,7 @@ focus
 
 | Token (utility) | Use for |
 | --- | --- |
-| `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, the hover toolbar of a message and the toolbar for selected text (popups over the message they act on), a card while it is dragged (it is lifted off the board; the card left behind casts nothing), and the open comment card in a document's margin (it is lifted off the column of cards, which move out of its way; [Comments](../patterns/comments.md)) |
+| `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, the hover toolbar of a message and the toolbar for selected text (popups over the message they act on), a card while it is dragged (it is lifted off the board; the card left behind casts nothing), the side cards while they float over a narrow message list ([Responsive layout](../patterns/responsive.md)), and the open comment card in a document's margin (it is lifted off the column of cards, which move out of its way; [Comments](../patterns/comments.md)) |
 | `elevation-sticker` (`shadow-sticker`) | Brand illustration only: the 99px avatar on a profile and on the last setup step, and the preview of the new server on the page that creates a server ([Brand](./brand.md#how-much-brand)). Nothing else |
 | `focus-ring` (`shadow-focus`) | Every element that can be reached with the keyboard, when the keyboard reaches it |
 
@@ -79,5 +79,6 @@ Both are for modal overlays only. A non-modal one passes `modal={false}` and add
 ## Related
 
 - [States](./states.md): hover, press and focus.
+- [Visual comfort](./comfort.md#surfaces): when content gets a card or a border at all.
 - [Brand](./brand.md): where the sticker shadow may appear.
 - [Choosing a component](../components/overview.md#how-to-choose-a-component): which popup to use.

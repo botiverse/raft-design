@@ -9,7 +9,7 @@ A conversation is one timeline of messages, event lines and dates, with the newe
 
 ## When it applies
 
-Any place people and agents talk: a channel, a direct message, a thread, a task's thread. The message itself is in [MessageItem](../../packages/ui/src/components/message-item/message-item.md). Which places a product has, and what their headers hold, is on the product's own page ([Raft Chat — Channel](../products/raft-chat/channel.md)).
+Any place people and agents talk: a channel, a direct message, a thread, a task's discussion. The message itself is in [MessageItem](../../packages/ui/src/components/message-item/message-item.md). Which places a product has, and what their headers hold, is on the product's own page ([Raft Chat — Channel](../products/raft-chat/channel.md)).
 
 ## Structure
 
@@ -19,8 +19,8 @@ conversation-panel/compositions/conversation-panel
 
 - The timeline: messages, event lines ([SystemMessage](../../packages/ui/src/components/system-message/system-message.md)) and date lines, newest at the bottom.
 - Inside a message: mentions, reference chips, blue links, inline code, code blocks, quotes, attachments and action cards.
-- Under a message: one row with the task marker, the Saved marker and the reactions, and under it the thread replies, with at most 3 shown as a preview ([MessageReplies](../../packages/ui/src/components/message-replies/message-replies.md)).
-- At the bottom: the [Composer](../../packages/ui/src/components/composer/composer.md), with the attach buttons on the left of its toolbar, and the As Task checkbox and the send button on the right.
+- Under a message: the list of tasks created from it ([Tasks](./tasks.md#tasks-in-a-conversation)), then one row with the Saved marker and the reactions, and under it the thread replies, with at most 3 shown as a preview ([MessageReplies](../../packages/ui/src/components/message-replies/message-replies.md)).
+- At the bottom: the [Composer](../../packages/ui/src/components/composer/composer.md), with the attach buttons on the left of its toolbar and the send button on the right.
 
 ## Rules
 
@@ -61,7 +61,7 @@ message-item/compositions/context-menu-showcase
 - Make the send button the conversation's one pink button: sending is what the screen exists for ([Color](../foundations/color.md#meanings-of-color)).
 - Name the place in the placeholder: "Message #launch-week", "Message @Martin".
 - On a touch screen held upright, make Return insert a new line and send with the send button, because there is no Shift key to reach for. Elsewhere Return sends and Shift+Return inserts a new line.
-- In a product with tasks, the As Task checkbox makes the message sent a task ([Tasks](./tasks.md#tasks-in-a-conversation)).
+- Keep task creation out of the composer: in a product with tasks, a task is created from a message after it is sent ([Tasks](./tasks.md#tasks-in-a-conversation)).
 
 ### Threads
 
@@ -71,9 +71,10 @@ thread-panel/thread-panel
 
 - Open a thread in the side panel ([ThreadPanel](../../packages/ui/src/components/thread-panel/thread-panel.md)), so the conversation it came from stays in view. It sits beside the conversation or covers it, depending on the width ([Responsive layout](./responsive.md)); on a phone it always covers the conversation, with Back.
 - Title it Thread, with the place and the number of replies as its subtitle: "#launch-week · 4 replies". Selecting the title scrolls to the top of the thread.
-- Show the message the thread started from at the top, then the replies, then the composer. A thread has no tabs and no As Task.
+- Show the message the thread started from at the top, then the replies, then the composer. A thread has no tabs.
 - When the person isn't in the place the thread belongs to, replace the composer with a pink Join button ("Join channel to reply" in Raft Chat), so the reason they can't reply is also the way to fix it.
 - Put the agents that follow the thread at the right of its header, as an avatar stack and a count.
+- Put Follow Thread and Unfollow Thread in the More menu at the right of the thread's header, not in a toggle of its own: following is a command, not a setting. A task's details put Follow Task in the same place ([Tasks](./tasks.md)), so following works the same for both.
 
 ### Floating controls
 

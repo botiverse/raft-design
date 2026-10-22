@@ -11,8 +11,8 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | Page | Covers |
 | --- | --- |
 | [Home](./home.md) | The phone's Home screen |
-| [Channel](./channel.md) | A channel: its header and details, its Chat, Tasks and Files tabs, its composer, tasks inside it, threads |
-| [Tasks](./tasks.md) | The Tasks destination and a channel's Tasks tab |
+| [Channel](./channel.md) | A channel: its header and details, its Tasks and Files cards, its composer, tasks inside it, threads |
+| [Tasks](./tasks.md) | The Tasks destination and a channel's Tasks card |
 | [Agent profile](./agent-profile.md) | An agent's profile and its page |
 | [Settings](./settings.md) | The Settings destination and its pages |
 | [Onboarding](./onboarding.md) | The first-run setup of a server |
@@ -65,7 +65,7 @@ Each follows [Page structure](../../patterns/page-structure.md#phone). What thei
 
 ### The desktop layout
 
-A channel on desktop, under the web top bar, from left to right: the rail; the Chat sidebar; the main area with the channel ([Channel](./channel.md)); and a side panel when a thread or a profile is open. The regions and their lines follow [Page structure](../../patterns/page-structure.md#desktop).
+A channel on desktop, under the web top bar, from left to right: the rail; the Chat sidebar; the main area with the channel ([Channel](./channel.md)) and, when open, its Tasks and Files cards; and a side panel when a thread or a profile is open. The regions and their lines follow [Page structure](../../patterns/page-structure.md#desktop).
 
 ```example
 sidebar/sidebar

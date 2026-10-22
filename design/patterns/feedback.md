@@ -16,7 +16,7 @@ Every result, problem, empty view and wait that people need to know about.
 
 ### Confirming
 
-- Act at once, without a dialog or a toast, when the person can reverse the action in the same place: Mark as Done (Reopen Task), Save Message (Remove from Saved). A question before an action that is one click to undo only slows people down.
+- Act at once, without a dialog or a toast, when the person can reverse the action in the same place: Follow Thread (Unfollow Thread), Save Message (Remove from Saved). A question before an action that is one click to undo only slows people down.
 - Confirm with a dialog any action that stops an agent's work, takes someone out of a place, or archives or deletes something, because none of these can be put back from where it happened: Stop Agent, Restart or Reset, Archive Agent, Leave Channel, Remove Member, Delete Server ([Dialog](../../packages/ui/src/components/dialog/dialog.md)). The confirm button says the action's verb, and keeps the object when it can't be undone: Stop, Delete Server ([Writing](../content/writing.md#actions-and-their-dialogs)).
 - In a dialog that confirms something that cannot be undone, put the message in a red banner and make the confirm button red. Don't color the action in the menu that opens it: the warning belongs where the person commits, not in a list of choices.
 - When an action has a natural way back in the same moment, act and show a toast with Undo instead of a dialog ([Toast](../../packages/ui/src/components/toast/toast.md)). For example, Raft Chat does this when someone removes an agent from a thread's followers; the toast stays 5 seconds.

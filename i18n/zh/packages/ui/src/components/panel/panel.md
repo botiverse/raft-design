@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带 56px 的面板标题栏和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: ae9b1a54
+sourceHash: e4443e29
 ---
 
 # Panel
@@ -16,7 +16,8 @@ panel/panel
 
 | 情况 | 用 |
 | --- | --- |
-| 桌面端主区域的一栏，或者它旁边的侧面板（任务、文件、个人资料） | Panel |
+| 桌面端主区域的一栏，或者它旁边的侧面板（消息列、个人资料） | Panel |
+| 频道的任务和文件 | 对话面板里的侧边卡片，不是 Panel（[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)） |
 | 一段对话：标题栏、标签页、消息和消息输入框 | [ConversationPanel](../conversation-panel/conversation-panel.md)，基于 Panel 构建 |
 | 对话旁边的消息列 | [ThreadPanel](../thread-panel/thread-panel.md) |
 | 手机推入页面的顶栏 | `PanelHeader` |

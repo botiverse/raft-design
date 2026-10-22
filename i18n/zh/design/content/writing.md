@@ -1,7 +1,7 @@
 ---
 title: 写作
 summary: Raft 产品里文字的规则：大小写、语气、名称，以及按钮、它打开的对话框和确认按钮各写什么。
-sourceHash: 377f2b12
+sourceHash: 6bcf9bbd
 ---
 
 # 写作
@@ -16,7 +16,7 @@ sourceHash: 377f2b12
 
 ## 大小写 {#casing}
 
-- 所有可点击的东西都用 Title Case，文字链接也一样：Create Task、Mark All Read、Convert to Task、Sign Out。句子里的链接跟随句子的大小写。
+- 所有可点击的东西都用 Title Case，文字链接也一样：Create Task、Mark All Read、Create Task from Message、Sign Out。句子里的链接跟随句子的大小写。
 - 在 Title Case 里，这些短词保持小写：a、an、the、to、in、on、of、for、as、and、or、with、from、by、at。起连接作用的短词读起来像承载意思的词之间的关节：Continue with Google、Remove from Saved、Sort by Newest。它们在开头或结尾、或者属于动词的一部分时，首字母大写：Sign In、Sign Out、Turn On、Back to Sign In，这样 Sign In 和 Sign Out 这样成对的词才保持一致。
 - 标题、分组标题、描述和空状态用 sentence case。对话框或底部面板的标题如果重复打开它的按钮的标签，就保留那个标签的 Title Case：Create Channel；见[操作和它的对话框](#actions-and-their-dialogs)。
 - 产品名词在句子里写成小写："Move to another computer"、"Leave this server"。只有作为可点击标签或名称的一部分时才大写：Add Computer、Raft Computer。

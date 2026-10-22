@@ -21,7 +21,7 @@ checkbox/compositions/preview
 | Situation                                                                     | Use                                                                                            |
 | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | A yes or no in a form that is saved: a dialog, a drawer, the wide form dialog | Checkbox                                                                                       |
-| An option attached to an action, such as sending a message as a task          | Checkbox in the action's toolbar (`ComposerToolbarLabel`, [Composer](../composer/composer.md)) |
+| An option attached to an action, next to the button that runs it              | Checkbox in the action's toolbar (`ComposerToolbarLabel`, [Composer](../composer/composer.md)) |
 | Choosing several items in a list or a multi-select                            | Checkbox, or `CheckboxIndicator` in a row that owns the semantics                              |
 | A yes or no that applies at once                                              | [Switch](../switch/switch.md)                                                                  |
 | One of several answers                                                        | [RadioGroup](../radio-group/radio-group.md)                                                    |

@@ -1,7 +1,7 @@
 ---
 title: ThreadPanel
 summary: 一个消息列的侧面板：标题栏写明它是什么，下面是原始消息、回复和消息输入框，没有标签页。
-sourceHash: 7d4a8d5a
+sourceHash: 9cbeec78
 ---
 
 # ThreadPanel
@@ -18,7 +18,8 @@ thread-panel/thread-panel
 | --- | --- |
 | 对一条消息的回复，在对话旁边阅读 | ThreadPanel |
 | 对话本身 | [ConversationPanel](../conversation-panel/conversation-panel.md) |
-| 对话旁边的任务、文件或个人资料 | 带 `edge="attached"` 的 [Panel](../panel/panel.md) |
+| 对话旁边的个人资料 | 带 `edge="attached"` 的 [Panel](../panel/panel.md) |
+| 频道的任务和文件 | 对话面板里的侧边卡片（[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)） |
 | 如何从一条消息进入消息列 | [MessageReplies](../message-replies/message-replies.md) |
 
 ## 结构 {#anatomy}

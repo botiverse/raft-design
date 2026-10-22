@@ -1,7 +1,7 @@
 ---
 title: Toast
 summary: 深色的浮动提示，确认人刚做的事情的结果，几秒后消失，可以提供 View 或 Undo。
-sourceHash: aae44d8a
+sourceHash: 856b9565
 ---
 
 # Toast
@@ -48,7 +48,6 @@ toast/compositions/toast
 | `success` | 某件事完成或已保存 | `CircleCheck` |
 | `warning`、`error` | 出了问题。`error` 以更高的优先级播报 | `TriangleAlert` |
 | `info` | 中性的结果，比如 "3 links copied." | `Info` |
-| 作为任务发送的消息 | "Sent to #design as a task." | 任务自己的状态：待办（`TaskStatusIcon`） |
 
 使用 `toast` 命令式 API 时，把头像作为 `leading` 传入。它替代 `ToastIcon` 里的图标，并对辅助技术隐藏。
 

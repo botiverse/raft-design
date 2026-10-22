@@ -1,12 +1,12 @@
 ---
 title: Tasks
 summary: 所有任务视图共用的部件：显示任务进行到哪一步的状态徽标和任务标签片、状态像素点，以及任务面板的外壳。
-sourceHash: d5234551
+sourceHash: c520983e
 ---
 
 # Tasks
 
-这些是所有任务视图共用的部件。`TaskStatusBadge` 把任务的状态写成一个状态标签：状态的浅色底、它的像素和它的名称。`TaskChip` 是同样的标签片，只是里面装的是一个任务：消息下方的任务标记，或正文里提到的任务。`TasksPanelRoot` 和它的部件是任务页面的外壳。五种状态以及任务怎么显示，见[任务](../../../../../design/patterns/tasks.md)；它们的颜色见[颜色](../../../../../design/foundations/color.md#statuses)。
+这些是所有任务视图共用的部件。`TaskStatusBadge` 把任务的状态写成一个状态标签：状态的浅色底、它的像素和它的名称。`TaskChip` 是同样的标签片，只是里面装的是一个任务，比如正文里提到的任务（`#design:#25`）。`TasksPanelRoot` 和它的部件是任务页面的外壳。五种状态以及任务怎么显示，见[任务](../../../../../design/patterns/tasks.md)；它们的颜色见[颜色](../../../../../design/foundations/color.md#statuses)。
 
 ```example
 tasks/compositions/task-status
@@ -17,7 +17,7 @@ tasks/compositions/task-status
 | 情况 | 用 |
 | --- | --- |
 | 任务的状态：在卡片上、属性里、详情里 | `TaskStatusBadge` |
-| 消息下方的任务 | 消息底部的 `TaskChip`（[MessageItem](../message-item/message-item.md)） |
+| 从一条消息创建的任务 | 消息下面由紧凑行组成的列表，每行带一个 `TaskStatusBadge`（[任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)） |
 | 正文里提到的任务 | `variant="inline"` 的 `TaskChip` |
 | 词旁边用一个像素表示的任务状态 | `TaskStatusIcon` |
 | 一个任务页面或任务标签页 | 带工具栏和视口的 `TasksPanelRoot` |
@@ -44,7 +44,7 @@ tasks/compositions/tasks-panel
 
 | 变体 | 用于 |
 | --- | --- |
-| `variant="default"` | 单独出现的标签片：消息下方、卡片上、详情行里 |
+| `variant="default"` | 单独出现的标签片：任务行上、卡片上、详情行里 |
 | `variant="inline"` | 正文里的标签片，用消息正文里所有标签片共用的盒子（[正文中的标签片](../message-item/message-item.md#chips-in-running-text)） |
 | `size="sm"` | 和小徽标排在同一行的默认标签片，比如动态条目的元数据行 |
 
@@ -86,20 +86,20 @@ tasks/compositions/tasks-error
 ## 行为 {#behavior}
 
 - 任务卡片上的状态标签做成按钮，点开状态列表，名称后面带一个向下的箭头（[TaskCard](../task-card/task-card.md)）。其他改状态的方式见[任务](../../../../../design/patterns/tasks.md#rules)。
-- 消息下方的任务标记点开后打开这个任务。
+- 正文里的任务引用点开后打开这个任务。消息下面的任务行也打开它，并且不修改状态（[对话中的任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)）。
 
 ## 内容 {#content}
 
 - 状态写作 Todo、In Progress、In Review、Done 和 Closed（中文界面为待办、进行中、待确认、完成、已关闭）。`TaskStatusBadge` 没有内置标签：由调用方传入并翻译。
 - 任务编号用 Space Mono：`#25`（[字体排印](../../../../../design/foundations/typography.md#usage)）。
-- 在任务标记里，先写编号，再写负责人：`#25` @Bugen。
+- 在任务引用里，先写地方，再写编号：`#design:#25`（[引用任务](../../../../../design/patterns/tasks.md#referring-to-a-task)）。
 
 ## 无障碍 {#accessibility}
 
 这些部件都不包装 Base UI 原语；`TaskChip` 渲染一个 `<span>`，除非 `render` 把它变成链接或按钮。
 
 - 状态像素点对辅助技术隐藏。始终传入状态名称，或者让任务编号紧挨着它。
-- 能打开任务的任务标记渲染成 `<a>` 或 `<button>`，如果文字没说明它打开什么，就加一个说明的 `aria-label`（"Open task #25"）。`title` 不是无障碍名称。
+- 能打开任务的任务标签片渲染成 `<a>` 或 `<button>`，如果文字没说明它打开什么，就加一个说明的 `aria-label`（"Open task #25"）。`title` 不是无障碍名称。
 
 ## 规则 {#rules}
 

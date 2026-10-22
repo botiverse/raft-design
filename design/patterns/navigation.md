@@ -154,12 +154,13 @@ Decided on 2026-10-22 by stdrc (D1a, task #152).
 
 ### Several views of one place
 
-A place can hold several kinds of content, such as a channel's chat, tasks and files.
+A place can hold several kinds of content, such as an agent's profile and its activity, or a channel's chat, tasks and files.
 
-- Switch between them with one row of sticker tabs under the panel header ([Tabs](../../packages/ui/src/components/tabs/tabs.md#variants), in `ConversationPanelTabs`). Give each tab an icon and a one-word label, without a count.
+- Show content that people check while they talk, such as a channel's tasks and files, as side cards beside the conversation rather than as tabs, so the conversation stays in view ([Page structure](./page-structure.md#sidebar-and-side-panel)). When the cards float over the messages or cover the panel and both are open, they show one at a time under a Tasks / Files row of tabs ([Responsive layout](./responsive.md#structure)).
+- Switch between the other views with one row of sticker tabs under the panel header ([Tabs](../../packages/ui/src/components/tabs/tabs.md#variants), in `ConversationPanelTabs`). Give each tab an icon and a one-word label, without a count.
 - Let people reorder the tabs by dragging, and keep their order. The first tab in their order is the one a place opens on.
 - Hide the row when a place has only one view, such as a thread.
-- Use the same row in every place of a product, so a view is in the same spot wherever people open it. Raft Chat's channel views are in [Channel](../products/raft-chat/channel.md#chat-tasks-and-files).
+- Use the same row in every place of a product, so a view is in the same spot wherever people open it. Raft Chat's channel views are in [Channel](../products/raft-chat/channel.md#tasks-and-files).
 - The same page in another language is not a view of it: switch to it from a menu that lists each language in its own name (English, Español), as a [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) whose items are links (`DropdownMenuLinkItem`), so each one can be opened in a new tab and shared. In a web top bar it sits at the right end; on a phone, where the top bar has no room for it, it goes in the menu.
 
 ## Related

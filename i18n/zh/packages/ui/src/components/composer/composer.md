@@ -1,12 +1,12 @@
 ---
 title: Composer
 summary: 对话底部的消息输入框：输入区、工具、附件、@ 建议和粉色发送按钮都在同一圈墨色边框里。
-sourceHash: 2596e759
+sourceHash: 83bfcd9d
 ---
 
 # Composer
 
-消息输入框（Composer）是人们写消息的地方：位于频道、私信、消息列或任务消息列的底部。一圈墨色边框里装着输入区、工具、附件和粉色的发送按钮。输入 @ 会在它上方打开一个人和 Agent 的列表。
+消息输入框（Composer）是人们写消息的地方：位于频道、私信、消息列或任务讨论的底部。一圈墨色边框里装着输入区、工具、附件和粉色的发送按钮。输入 @ 会在它上方打开一个人和 Agent 的列表。
 
 ```example
 chat-composer/compositions/composer-default

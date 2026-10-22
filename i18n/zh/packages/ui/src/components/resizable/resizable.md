@@ -1,12 +1,12 @@
 ---
 title: Resizable
-summary: 可以拖动分隔位置的列或行，拖动手柄就在两者之间的接缝线上。
-sourceHash: 79e05ac4
+summary: 可以拖动分隔位置的列或行，拖动手柄就在两者之间的接缝线上，或者在没有接缝线的卡片之间的空隙里。
+sourceHash: 7e7fbc27
 ---
 
 # Resizable
 
-Resizable 让人拖动两个区域之间的边界，改变各自占多少空间：侧栏和主区域，或者一段对话和它的消息列。两列之间的接缝线是唯一的线，拖动手柄就在这条线上（[用现有部件搭成](../../../../../design/components/overview.md#resizable-columns)）。
+Resizable 让人拖动两个区域之间的边界，改变各自占多少空间：侧栏和主区域，或者一段对话和它的消息列。两列之间的接缝线是唯一的线，拖动手柄就在这条线上（[用现有部件搭成](../../../../../design/components/overview.md#resizable-columns)）。排在面板里的卡片没有接缝线，所以它们的手柄是卡片之间的空隙（[空隙手柄](#the-gap-handle)）。
 
 ```example
 app-shell/compositions/collapsible-sidebar
@@ -29,7 +29,31 @@ app-shell/compositions/collapsible-sidebar
 
 面板本身不画表面、边或内边距。每个面板里的区域自己画，包括两者之间那一条接缝线（[页面结构](../../../../../design/patterns/page-structure.md#one-line-between-two-regions)）。
 
+## 变体 {#variants}
+
+| 变体 | 用于 |
+| --- | --- |
+| 在接缝线上 | 在接缝线处相接的列：侧栏和主区域，一段对话和它的消息列。默认，由 `ResizableHandle` 画 |
+| 在空隙里 | 排在面板里、周围有 12px 空隙的卡片：对话旁边的侧边卡片（[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)） |
+
+### 空隙手柄 {#the-gap-handle}
+
+排在面板里的卡片，比如对话旁边的 Tasks 和 Files 卡片，没有可拖动的接缝线：每张卡片画自己的边，它和旁边之间的 12px 是空的。所以手柄就是空隙本身：卡片左边的 12px（消息列表自己的右内边距），以及两张上下堆叠的卡片之间的 12px。在空隙里画一条线，就成了卡片排布时特意不要的那条接缝线，所以手柄改为显示一根短条，读起来是一个抓手，而不是一条边。
+
+| 状态 | 样子 |
+| --- | --- |
+| 静止 | 什么都没有 |
+| 悬停 | 空隙中间沿着它出现一根 56 × 4px 的短条，`line-seam`，`rounded-[1px]`，和 [Drawer](../drawer/drawer.md) 的拖动条一样，停顿 150ms 后才出现，这样路过的指针不会让它闪一下；带 Resize 工具提示，鼠标指针变成调整大小的样式 |
+| 拖动中 | 短条变成 `foreground-muted` |
+| 键盘焦点 | 短条变成 `foreground` |
+
+- 点击区域是沿着卡片的整条 12px 空隙，在粗略指针下是 24px，所以不占卡片的空间。双击恢复默认尺寸。
+- 两条空隙交叉的地方，它们相交的 12px 方块（触屏时 24px）用移动光标同时拖动两边，就像网格的交叉点那样，悬停或拖动它时两根短条都亮起。双击它把两边都复位。这个方块只给鼠标指针用：每条空隙都保留自己的键盘手柄，和接缝线上的一样，是一个可聚焦的 `separator`。
+- `ResizableHandle` 目前只画接缝线上的手柄；Raft Chat 的侧边卡片自己画空隙手柄。
+
 ## 状态 {#states}
+
+这些是接缝线上手柄的状态；空隙手柄的状态见[空隙手柄](#the-gap-handle)。
 
 | 状态 | 样子 |
 | --- | --- |
@@ -54,4 +78,4 @@ app-shell/compositions/collapsible-sidebar
 ## 规则 {#rules}
 
 - Resizable 只用于人会调整的分栏。不要因为「以后可能要调整」就把固定布局包进组里。
-- 不要在手柄上画线，也不要给面板画第二条边：区域的接缝线是唯一的线。
+- 不要在接缝线的手柄上画线，也不要给面板画第二条边：区域的接缝线是唯一的线。空隙手柄只画它的短条，而且只在悬停、拖动和聚焦时画。

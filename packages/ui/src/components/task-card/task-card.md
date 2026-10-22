@@ -18,12 +18,12 @@ task-card/compositions/task-card-state-matrix
 
 ## When to use
 
-| Situation                                                     | Use                                                                                                                    |
-| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| A task on a board or in a list                                | TaskCard, inside a [TaskBoard](../task-board/task-board.md) column or a [TaskList](../task-list/task-list.md) group    |
-| A task in a conversation                                      | Not a card: the message is the task, and a task marker hangs under it ([MessageItem](../message-item/message-item.md)) |
-| A task's status or number in running text, a row or a heading | `TaskChip` or `TaskStatusBadge` ([Tasks components](../tasks/tasks.md))                                                |
-| The task's details                                            | A centered dialog; see [Tasks](../../../../../design/patterns/tasks.md#structure)                                      |
+| Situation                                                     | Use                                                                                                                                              |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| A task on a board or in a list                                | TaskCard, inside a [TaskBoard](../task-board/task-board.md) column or a [TaskList](../task-list/task-list.md) group                              |
+| A task in a conversation                                      | Not a card: a row in the list of tasks under the message it came from ([Tasks](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)) |
+| A task's status or number in running text, a row or a heading | `TaskChip` or `TaskStatusBadge` ([Tasks components](../tasks/tasks.md))                                                                          |
+| The task's details                                            | A centered dialog; see [Tasks](../../../../../design/patterns/tasks.md#structure)                                                                |
 
 ## Anatomy
 
