@@ -1,3 +1,12 @@
+## [0.21.2](https://github.com/botiverse/raft-design/compare/v0.21.1...v0.21.2) (2026-10-22)
+
+### Fixed
+
+- **DescriptionList** inline: a TaskChip or TaskStatusBadge that comes first in `DescriptionDetails` hangs by its 7px left padding, so its text starts where the other values' text does. ([#710](https://github.com/botiverse/raft-design/pull/710))
+  - Why: 0.21.1 gave these chips 7px of left padding, but the list still pulled them 6px, so their text started 1px to the right of the plain values beside them; the pull now matches the chip's padding.
+  - Affects: left margin `-6px` → `-7px` and `max-width` `calc(100% + 6px)` → `calc(100% + 7px)` for a leading TaskChip or TaskStatusBadge; a Badge (6px) and a Button are unchanged.
+  - Docs: https://raft-design.botiverse.build/components/description-list/
+
 ## [0.21.1](https://github.com/botiverse/raft-design/compare/v0.21.0...v0.21.1) (2026-10-22)
 
 ### Design System
