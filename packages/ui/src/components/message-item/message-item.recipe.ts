@@ -19,11 +19,12 @@ export const messageItem = tv({
       "hover:[--mi-toolbar-opacity:1] hover:[--mi-toolbar-pe:auto] focus-within:[--mi-toolbar-opacity:1] focus-within:[--mi-toolbar-pe:auto]",
       "has-data-popup-open:[--mi-toolbar-opacity:1] has-data-popup-open:[--mi-toolbar-pe:auto]",
       // While the toolbar shows, the header fades out its end under it
-      // (header, below): the toolbar's width (measured onto the row by
-      // MessageItemToolbar) plus the 4px it sits inside the header's end
-      // (right-3 against the row's px-2) and a 4px gap, after a 12px fade.
-      // Without a toolbar on the row the width is unset, the gradient is
-      // invalid, and the header has no mask.
+      // (header, below): the toolbar's width (written onto the row by
+      // MessageItemToolbar: five buttons' width, 164px, when it mounts, then
+      // its measured width as it shows) plus the 4px it sits inside the
+      // header's end (right-3 against the row's px-2) and a 4px gap, after a
+      // 12px fade. Without a toolbar on the row the width is unset, the
+      // gradient is invalid, and the header has no mask.
       "hover:[--mi-header-mask:linear-gradient(to_left,transparent_calc(var(--mi-toolbar-width)+8px),black_calc(var(--mi-toolbar-width)+20px))]",
       "focus-within:[--mi-header-mask:linear-gradient(to_left,transparent_calc(var(--mi-toolbar-width)+8px),black_calc(var(--mi-toolbar-width)+20px))]",
       "has-data-popup-open:[--mi-header-mask:linear-gradient(to_left,transparent_calc(var(--mi-toolbar-width)+8px),black_calc(var(--mi-toolbar-width)+20px))]",
