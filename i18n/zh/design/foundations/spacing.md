@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: 67cfd9cd
+sourceHash: 467aa925
 ---
 
 # 间距与尺寸
@@ -49,7 +49,11 @@ timeline
 - 每个触摸目标在两个方向上都至少 44px。
 - 看起来小于 44px 的控件和文字按钮，用透明的伪元素扩展到 44px。
 - 正文中的行内链接和引用标签不扩展：它们跟随文字行。
-- 只用鼠标指针操作的桌面端控件可以更小：侧边栏行和菜单项 36px，导航条项 40px，悬停工具栏高 36px、其中的按钮 28px（[Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)）。
+- 弹出列表中的行是唯一的例外：Select、Combobox、ComboboxSelect 的选项，DropdownMenu、ContextMenu 的菜单项，以及手机上服务器标签页弹出层里的行（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)），单行时都是 36px，在触屏上和用鼠标时一样（[表单](../patterns/forms.md#option-height)）。它们一行紧挨着一行，点击区域没法伸出自己的行、扩到 44px。它们保持 36px，因为：
+  - 每一行横跨弹出层的整个宽度，所以点偏几个像素，仍然落在某一行上。
+  - 点错一行只会移动高亮，或者选中相邻的一项，人能看到，也能改回来。它从不触发无法挽回的操作：删除、停止或移除某样东西的菜单项会先弹出确认（[反馈](../patterns/feedback.md#confirming)）。把这样的菜单项和其他项分开，放在分隔线之后。
+  - 36px 的行能让列表中更多的选项留在视野里。
+- 只用鼠标指针操作的桌面端控件可以更小：侧边栏行 36px，导航条项 40px，悬停工具栏高 36px、其中的按钮 28px（[Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)）。
 - 桌面端的默认控件是 32px，即飞书 PC 端的默认值，因为桌面端用鼠标指针操作，观看距离也更远。这里的桌面端指宽度 768px 起（桌面布局从这里开始）、主要指针是鼠标或触控板的屏幕，即 `(width >= 48rem) and (pointer: fine)`：密度跟随输入方式，而不是宽度。用触屏操作的平板保持手机的 44px 控件和 16px 字段文字，这也能防止 iOS 和 iPadOS 在聚焦字段时放大页面；连接触控板的 iPad 报告精确指针，使用桌面端尺寸。32px 的按钮仍向外扩展出 44px 的点击区域（`after:-inset-y-control-hit`，再加上 1.5px 的边框，因为向外扩展的 `::after` 是从边框内侧量起的），因为笔记本电脑也可能有触屏；字段不扩展，因为它很宽，它的高度本身就是目标。
 
 ## 同类元素，同样尺寸 {#the-same-kind-the-same-size}
@@ -73,7 +77,7 @@ timeline
 | 设置页面内的设置行（[ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`） | 单行时 48px |
 | 单选行 | 至少 44px |
 | 选择控件：开关；复选框和单选按钮 | 50 × 30px；20px。手机和桌面端相同。单独使用时，复选框或单选按钮在触屏上的点击区域高 44px；放在 `<label>` 行里时，它延伸到与下一个选项间隔的一半，其余部分由标签承担点击。以标签的第一行居中；在设置行末尾时，以整行居中（[对齐](./alignment.md#a-control-and-its-label)） |
-| 弹出列表中的选项、菜单项 | 单行时 36px；行数更多时更高，内边距不变（[表单](../patterns/forms.md#option-height)） |
+| 弹出列表中的选项、菜单项 | 单行时 36px，用鼠标和在触屏上都一样（[点击区域](#hit-targets)）；行数更多时更高，内边距不变（[表单](../patterns/forms.md#option-height)） |
 | 手机顶栏行、面板头部、侧边栏头部、导航条头部、抽屉头部 | 56px |
 | 网页顶栏、桌面应用标题栏 | 48px |
 
