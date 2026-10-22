@@ -1,3 +1,55 @@
+## [0.21.1](https://github.com/botiverse/raft-design/compare/v0.21.0...v0.21.1) (2026-10-22)
+
+### Design System
+
+- **Chips**: the ink at a chip's two ends sits the same distance from its fill's edges. A chip keeps its total padding and its width, and splits the padding between its ends so each end makes up for the empty space its own content brings. A smaller note after a chip's label centers on the label's letters, and the label stays on the sentence's baseline. It applies to MessageReferenceChip, MessageReferencePending, MessageReferenceUnavailable, MessageReactionChip, MessageItemSavedIndicator, MessageForwardedBundleAttachment, TaskChip and TaskCardStatus, and to the new MessageReferenceSuffix. ([#700](https://github.com/botiverse/raft-design/pull/700))
+  - Why: the chips split their padding as if every end were the same, so an icon or a status pixel sat closer to its edge than the last letter did to the other (3.6px against 7px in a reference chip), and the end after the text looked empty; each chip's padding is now set from where its ink is drawn.
+  - Affects: the padding at each end, left / right, totals unchanged; see Fixed below.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#chips
+- **A control and its label**: a settings row is the exception to the first-line rule. The leading icon, avatar or tile and the trailing switch, checkbox, radio, value or chevron of a `ListRow variant="plain"` center on the whole row, with or without a description, as they did in 0.20. A checkbox or radio beside wrapping text in a `<label>` row still sits on that text's first line. It applies to ListRow. ([#703](https://github.com/botiverse/raft-design/pull/703))
+  - Why: a setting reads as one unit, and with its controls on the title's first line they belonged to the title instead of the row; settings rows center them on the row again.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-control-and-its-label
+- **Timeline rhythm: the edge that messages scroll under fades**: the bottom edge of a message list, over the composer, fades from the panel's color to transparent over the section step, at all times, instead of cutting the message under it. The line of who is about to post sits on the same fade and has none of its own. It applies to the new MessageListEndFade. ([#699](https://github.com/botiverse/raft-design/pull/699))
+  - Why: a message scrolled under the composer was cut off by a hard edge; the edge now fades, as a tab bar fades on the side that hides tabs.
+  - Affects: fade height `timeline-section` 24px, `layer-canvas` to transparent.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#timeline-rhythm
+
+### Added
+
+- **MessageReferenceSuffix**: a short note after a reference chip's label, in muted Space Mono, such as `msg` on a link to a message. Put it inside `MessageReferenceChip`, after `MessageReferenceLabel`. ([#700](https://github.com/botiverse/raft-design/pull/700))
+  - Why: a note in a span of the caller's own sat on the label's baseline, 0.3px low beside a 12.25px label and 0.75px low beside a 14px one, and its descenders made it look lower still; the part keeps the label's baseline in the layout and draws the note a quarter of the size difference higher, so the middles of the two x-heights meet.
+  - Affects: `text-label` (11px) in `foreground-hint`, line height 1; drawn `(label size - 1em) / 4` higher.
+  - Docs: https://raft-design.botiverse.build/components/message-item/
+- **MessageListEndFade**: the fade over a message list's bottom edge. Put it beside `MessageList`, in the same positioned parent (`ConversationPanelBody` is one), like the jump controls; it lies under them, is hidden from assistive technology and takes no pointer events. ([#699](https://github.com/botiverse/raft-design/pull/699))
+  - Why: see Timeline rhythm: the edge that messages scroll under fades, above.
+  - Affects: 24px tall (`h-timeline-section`), `layer-canvas` to transparent upward, `z-index` 5.
+  - Docs: https://raft-design.botiverse.build/components/message-list/
+- **SegmentedControl** `variant="on-frame"`, for a control in the frame (a top bar). `variant="default"` is unchanged and stays the default. ([#693](https://github.com/botiverse/raft-design/pull/693))
+  - Why: a yellow sticker on the yellow frame did not read as selected, and a white segment beside it looked chosen instead; in the frame the selected segment takes the frame's active colors, as a selected rail item does.
+  - Affects: track `fill-frame-medium`; other segments `foreground-on-frame-muted`, with `foreground-on-frame` on hover and `overlay-frame-medium` on hover and press; the selected segment `layer-frame-active` with a `line-frame-active` edge and `foreground-on-frame-active` text (white on the yellow frame, yellow on the dark one).
+  - Docs: https://raft-design.botiverse.build/components/segmented-control/
+
+### Changed
+
+- **ListRow** `variant="plain"` with a description: the leading icon, avatar or tile and the trailing switch, checkbox, radio, value or chevron center on the whole row again, as in 0.20, instead of on the title's first line. With a title alone, nothing changes. This reverts the 0.21.0 change to ListRow. ([#703](https://github.com/botiverse/raft-design/pull/703))
+  - Why: see A control and its label above.
+  - Affects: the ends move without changing size, so row heights are unchanged (54px on a phone for a one-line row with a switch).
+  - Docs: https://raft-design.botiverse.build/components/list-row/
+
+### Fixed
+
+- **MessageReferenceChip**, **MessageReferencePending**, **MessageReferenceUnavailable**, **MessageReactionChip**, **MessageItemSavedIndicator**, **MessageForwardedBundleAttachment**, **TaskChip** and **TaskCardStatus**: the ink at both ends sits the same distance from the edges; each chip keeps its total padding and its width. ([#700](https://github.com/botiverse/raft-design/pull/700))
+  - Why: see Chips above.
+  - Affects: padding left / right: MessageReferenceChip, MessageReferencePending and MessageReferenceUnavailable with an icon 3px / 6px → 4.5px / 4.5px (without an icon unchanged, 6px / 6px); MessageReactionChip 6px / 8px → 7px / 7px; MessageItemSavedIndicator and MessageForwardedBundleAttachment 6px / 6px → 5.5px / 6.5px (their bookmark and file icons are drawn inside their boxes); TaskChip 6px / 8px → 7px / 7px, `size="sm"` 4px / 6px → 5px / 5px and `variant="inline"` 3px / 6px → 4.5px / 4.5px; TaskCardStatus 6px / 8px → 7px / 7px.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#chips
+- **MessageReferencePending**, and any reference chip, holding a `Spinner`: the spinner centers on the middle of the label's line, as an icon does. ([#700](https://github.com/botiverse/raft-design/pull/700))
+  - Why: the chip centered only `svg` icons on the label's line, and a spinner is not one, so it sat on the baseline, 5–6px below the middle of the label's line.
+  - Docs: https://raft-design.botiverse.build/components/message-item/
+- **MessageQuotedPreviewChannel** and **MessageQuotedPreviewThread**: the icon sits on the first line of the name when a long name wraps, instead of in the middle of both lines. ([#700](https://github.com/botiverse/raft-design/pull/700))
+  - Why: the icon was centered on the whole name, so it slid between the lines of a wrapped name; it now follows A mark that leads text, like the other components.
+  - Affects: the icon (14px) is placed `(1lh - 14px) / 2` from the top of the name's first line.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-mark-that-leads-text
+
 ## [0.21.0](https://github.com/botiverse/raft-design/compare/v0.20.1...v0.21.0) (2026-10-22)
 
 0.20.1 was not published to npm. This release includes its changes, listed under [0.20.1](https://github.com/botiverse/raft-design/blob/v0.21.0/packages/ui/CHANGELOG.md#0201-2026-10-22) in the changelog.
