@@ -50,6 +50,8 @@ description-list/compositions/horizontal
 
 `direction="inline"` lays the facts out like a line of text. Every label and value sits on one baseline, so a status chip, a button and plain text read as one line; the label is 12px from its value, the facts 24px apart, and a row that wraps leaves 8px between lines.
 
+Every fact follows the same flow, whatever its value: it wraps to the next line only when it doesn't fit on this one, with the same 24px and 8px gaps as the others. A fact is at most 24rem wide, or the row's width if that is narrower. Put a long value, such as the message a task came from, in an [Ellipsis](../ellipsis/ellipsis.md): it cuts the text at that width and shows the whole of it on hover. The list caps the width but doesn't cut the text, so plain text left outside an Ellipsis wraps inside the 24rem instead. Don't give a long value a line of its own, a full width or other gaps. This is the layout for dense metadata such as a task's properties: a two-column grid (`direction="horizontal"`) gives each fact a line, so a handful of short facts takes a screen's height, and stacks into one column on a phone anyway.
+
 A value drawn in a shape hangs its padding into the 12px gap, so its text starts where plain text would and its fill reaches outward ([Alignment](../../../../../design/foundations/alignment.md#a-shape-beside-plain-text)). raft-ui does this for a Badge, TaskChip, TaskStatusBadge or Button that comes first in `DescriptionDetails`; the Button takes the chip's 6px padding to fit. Any other shape, or one wrapped in another element, needs the same pull from its caller: a negative left margin equal to its left padding, and its `max-width` grown by as much.
 
 ```example
@@ -78,3 +80,4 @@ raft-ui has no frameless value trigger yet; the member-info composition uses a [
 ## Rules
 
 - Don't make a fact that can't be changed look clickable: no chevron, no hover, no button.
+- In `direction="inline"`, give every fact the same layout: no fact on a line of its own, no width or gap of its own. Cut a long value with an ellipsis at the fact's 24rem cap, and make the whole value available elsewhere (its tooltip, or the place it links to).

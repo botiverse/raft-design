@@ -4,6 +4,8 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Badge } from "../badge/badge";
 import { Button } from "../button/button";
+import { Ellipsis } from "../ellipsis/ellipsis";
+import { TooltipProvider } from "../tooltip/tooltip";
 import {
   DescriptionDetails,
   DescriptionItem,
@@ -141,4 +143,72 @@ it("inline: a value that wraps keeps its first line on the row's baseline", () =
   expect(lines.length).toBeGreaterThan(1);
   const valueLine = textRect("value-short");
   expect(Math.abs(lines[0]!.bottom - valueLine.bottom)).toBeLessThanOrEqual(3);
+});
+
+// Every fact follows one flow: a long value is capped (24rem) and, put in an
+// Ellipsis, cut there, sharing its line with the next fact instead of taking a
+// line of its own; facts on a line are 24px apart and lines 8px apart.
+it("an inline fact with a long value is capped and shares the line", async () => {
+  render(
+    <ThemeProvider>
+      <TooltipProvider>
+        <div style={{ width: "900px" }}>
+          <DescriptionList direction="inline" data-testid="list">
+            <DescriptionItem data-testid="fact-status">
+              <DescriptionTerm>Status</DescriptionTerm>
+              <DescriptionDetails>In Review</DescriptionDetails>
+            </DescriptionItem>
+            <DescriptionItem data-testid="fact-source">
+              <DescriptionTerm>Source</DescriptionTerm>
+              <DescriptionDetails>
+                <Ellipsis data-testid="source-text">
+                  {"A message long enough to fill the whole row on its own, and then some more words after that. ".repeat(
+                    3,
+                  )}
+                </Ellipsis>
+              </DescriptionDetails>
+            </DescriptionItem>
+            <DescriptionItem data-testid="fact-created-by">
+              <DescriptionTerm>Created by</DescriptionTerm>
+              <DescriptionDetails>Cody</DescriptionDetails>
+            </DescriptionItem>
+            <DescriptionItem data-testid="fact-created-at">
+              <DescriptionTerm>Created at</DescriptionTerm>
+              <DescriptionDetails>Oct 21, 2026, 23:24</DescriptionDetails>
+            </DescriptionItem>
+            <DescriptionItem data-testid="fact-more">
+              <DescriptionTerm>Earlier discussion</DescriptionTerm>
+              <DescriptionDetails>4 replies</DescriptionDetails>
+            </DescriptionItem>
+          </DescriptionList>
+        </div>
+      </TooltipProvider>
+    </ThemeProvider>,
+  );
+  const box = (id: string) => screen.getByTestId(id).getBoundingClientRect();
+  const status = box("fact-status");
+  const source = box("fact-source");
+  const createdBy = box("fact-created-by");
+  expect(source.width).toBeLessThanOrEqual(24 * 16 + 0.5);
+  // Source stays on Status's line, 24px after it, and the next fact follows.
+  expect(Math.abs(source.top - status.top)).toBeLessThan(8);
+  expect(source.left - status.right).toBeCloseTo(24, 0);
+  expect(Math.abs(createdBy.top - status.top)).toBeLessThan(8);
+  expect(createdBy.left - source.right).toBeCloseTo(24, 0);
+  const text = () => screen.getByTestId("source-text").querySelector('[data-slot="ellipsis-text"]');
+  await expect.poll(() => text()?.hasAttribute("data-truncated")).toBe(true);
+  // A fact that wraps starts the next line 8px under the last one.
+  const items = [
+    "fact-status",
+    "fact-source",
+    "fact-created-by",
+    "fact-created-at",
+    "fact-more",
+  ].map(box);
+  const firstLine = items.filter((r) => r.top < status.top + 8);
+  const nextLines = items.filter((r) => r.top >= status.top + 8);
+  expect(nextLines.length).toBeGreaterThan(0);
+  const firstLineBottom = Math.max(...firstLine.map((r) => r.bottom));
+  const secondLineTop = Math.min(...nextLines.map((r) => r.top));
+  expect(secondLineTop - firstLineBottom).toBeCloseTo(8, 0);
 });
