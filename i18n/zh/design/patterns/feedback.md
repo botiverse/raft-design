@@ -1,7 +1,7 @@
 ---
 title: 反馈
 summary: 怎么告诉人们一件事：什么立即执行、什么需要确认，空、加载中和加载失败的区别，错误按范围放在哪里，以及怎么措辞。
-sourceHash: 24a5fa10
+sourceHash: 288d2578
 ---
 
 # 反馈
@@ -46,7 +46,7 @@ empty-state/compositions/default
 | 一个输入框 | 输入框下方；见[表单](./forms.md#validation) |
 | 一个对话框或表单 | 其中的橙色横幅（[Banner](../../packages/ui/src/components/banner/banner.md)） |
 | 一个面板：agent 无法启动，会话的某项设置没有保存成功 | 面板标题栏下方的全宽提示（`PanelNotice`，[Panel](../../packages/ui/src/components/panel/panel.md)），上下各一条 `line-seam`：它是面板的一个区域，而不是面板内容里的横幅。人可以关掉它时，给它一个 ×；有下一步时，给它一个操作，比如 View Logs |
-| 一次性操作失败了，而且没有自己的位置：复制被浏览器拦截、消息列已不可用 | 带一个橙色像素的轻提示（[Toast](../../packages/ui/src/components/toast/toast.md)） |
+| 一次性操作失败了，而且没有自己的位置：复制被浏览器拦截、消息列已不可用 | 一条 `warning` 轻提示，以它的 `TriangleAlert` 图标开头（[Toast](../../packages/ui/src/components/toast/toast.md)） |
 | 整个服务器 | 通知中心（[NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)） |
 
 - 每个范围都有自己的位置，这样错误出现在原因所在的地方：输入框、对话框、面板、整个服务器。

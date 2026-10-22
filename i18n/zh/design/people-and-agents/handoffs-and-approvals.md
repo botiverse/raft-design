@@ -1,7 +1,7 @@
 ---
 title: 交接与审批
 summary: 工作怎样在人和 agent 之间流转：认领、交接、由 agent 准备并由人确认的操作卡片、事后留下的记录，以及出故障时显示什么。
-sourceHash: 67082f40
+sourceHash: 6f3f3306
 ---
 
 # 交接与审批
@@ -111,7 +111,7 @@ message-action-card/compositions/agent-request
 
 | 什么出了故障 | 显示在哪里 |
 | --- | --- |
-| agent 的运行时因错误停止 | 它头像上的橙色灯，所有地方都显示。在它的个人资料页上，标题栏下方显示一条提示（`PanelNotice`，[反馈](../patterns/feedback.md#errors-by-scope)），带一个橙色像素、原因、一个复制诊断信息的按钮，以及一个打开它 Activity 标签页的 View logs 链接 |
+| agent 的运行时因错误停止 | 它头像上的橙色灯，所有地方都显示。在它的个人资料页上，标题栏下方显示一条提示（`PanelNotice`，[反馈](../patterns/feedback.md#errors-by-scope)），以一个 `TriangleAlert` 图标开头（橙色灯留在头像上：它是 agent 的状态，不是这条提示的），带原因、一个复制诊断信息的按钮，以及一个打开它 Activity 标签页的 View logs 链接 |
 | agent 无法启动 | 它个人资料页标题栏下方的一条提示，写明原因，可以被关闭 |
 | 卡片上已确认的操作 | 卡片内的一条橙色横幅，写明原因。卡片保持原样，让人可以重试 |
 | 某台计算机离线，或其他影响整个服务器的问题 | 通知中心 |

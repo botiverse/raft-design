@@ -1,7 +1,7 @@
 ---
 title: Status
 summary: 方形的状态像素点（在线状态灯、提醒圆点，或文字旁的状态色），以及用它构成的状态标签、agent 标签和运行时标签片。
-sourceHash: 0e6326b0
+sourceHash: 121c1bc5
 ---
 
 # Status
@@ -32,9 +32,10 @@ status/compositions/default
 
 ## 尺寸 {#sizes}
 
-- **文字旁边的状态灯只有一种尺寸：9px**（`md`，默认值），带 1.5px 的墨色边：用在轻提示、横幅、面板提示、徽标、面板头部、侧边栏行、列表行中。这些地方不要传 size。9px 是 6px 的颜色（能分清绿、黄、橙的最小尺寸）加两条 1.5px 的墨色边，大约等于旁边 12px 到 14px 文字的大写字母高度。
+- **文字旁边的状态灯只有一种尺寸：9px**（`md`，默认值），带 1.5px 的墨色边：用在徽标、面板头部、侧边栏行、列表行中。这些地方不要传 size。9px 是 6px 的颜色（能分清绿、黄、橙的最小尺寸）加两条 1.5px 的墨色边，大约等于旁边 12px 到 14px 文字的大写字母高度。
 - **头像上的状态灯跟随头像**，而不是跟随文字：`AvatarBadge` 随头像把它的尺寸设为 6px 到 20px（[Avatar](../avatar/avatar.md)）。
-- 状态灯位于一行文字开头时，与第一行垂直居中对齐（[文字前的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。Banner、PanelNotice、ToastIcon、Badge 和 PanelActivity 会这样放置其中的 `Status`，并且无论传入什么尺寸都保持 9px；在其他地方，给它加 `className="lead-dot"`。
+- 状态灯位于一行文字开头时，与第一行垂直居中对齐（[文字前的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。Badge 和 PanelActivity 会这样放置其中的 `Status`，并且无论传入什么尺寸都保持 9px；在其他地方，给它加 `className="lead-dot"`。
+- 不要让提示（轻提示、横幅、面板提示）以状态灯开头。状态灯只表示一种状态：agent、人或计算机是否在工作或在线，或者任务的状态；从不表示一条提示是哪一类；提示以它的意图图标开头，讲的是某个人时用头像（[Banner](../banner/banner.md#variants)、[Toast](../toast/toast.md#variants)）。
 - `xs`、`sm` 和 `lg`（6px、8px 和 11px）不用于文字旁边的状态灯。
 
 ## 变体 {#variants}
