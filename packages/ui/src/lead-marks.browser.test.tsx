@@ -9,15 +9,17 @@ import { Banner, BannerDescription, BannerTitle } from "./components/banner";
 import { PanelActivity, PanelNotice, PanelNoticeContent } from "./components/panel";
 import { MessageActionCardNotice } from "./components/message-action-card";
 import { Status } from "./components/status";
+import { Avatar } from "./components/avatar/avatar";
 import { toast, ToastProvider } from "./components/toast";
 
-// A mark that leads a line of text, an icon or a status pixel, sits in a box
-// one line of that text tall and is centred in it, so it stays on the first
-// line when the text wraps (design/foundations/alignment.md#a-mark-that-leads-text).
-// An icon's size follows the text, 1.15em on an even pixel; a status pixel
-// keeps its one size, 9px with a 1.5px ink edge, whatever the text or the
-// size the caller passed (status.md#sizes); 8px separate either from a
-// notice's text. Measured
+// A mark that leads a line of text, an icon or a status light, is centred on
+// the first line of that text, so it stays there when the text wraps
+// (design/foundations/alignment.md#a-mark-that-leads-text). That is the only
+// shared rule: each component keeps its own icon size and gap (a banner's
+// icon 20px and 10px from the text, 16px and 8px when small; a toast's in a
+// 20px column 12px from the title; an action card notice's 14px, 8px), and a
+// status light keeps its one size, 9px, whatever size the caller passed
+// (status.md#sizes). Measured
 // with a mouse (32px controls, the desktop type scale) and on a touch screen
 // (44px controls, the phone scale). Real layout only: jsdom has no boxes.
 
@@ -26,11 +28,16 @@ const it = test.skipIf(typeof window === "undefined");
 const LONG = "This channel is shared with Acme, and everyone there can read what you post";
 const CJK = "这个频道已与 Acme 共享，对方的成员和智能体都能看到你在这里发的消息";
 
-// Text size → icon size, the iconography scale for a leading icon. A status
-// light is 9px beside any text.
-const ICON: Record<number, number> = { 12: 14, 13: 14, 14: 16 };
 const DOT = 9;
-const GAP = 8;
+// Each component's own icon size and the space from the mark to the text.
+// A light sits centred in the icon's column, so its gap is the column's.
+const BANNER = {
+  md: { icon: 20, gap: 10, dotGap: 10 + (20 - DOT) / 2 },
+  sm: { icon: 16, gap: 8, dotGap: 8 + (16 - DOT) / 2 },
+} as const;
+const PANEL_NOTICE_GAP = 10;
+const TOAST_COLUMN = 20;
+const TOAST_GAP = 12;
 
 const DEVICES = [
   { name: "desktop", width: 1280, touch: false },
@@ -95,10 +102,8 @@ function lines(text: HTMLElement) {
 function expectLeads(
   mark: Element,
   text: HTMLElement,
-  { kind, gap = GAP, wraps }: { kind: "icon" | "dot"; gap?: number; wraps: boolean },
+  { size, gap, wraps }: { size: number; gap: number; wraps: boolean },
 ) {
-  const fontSize = parseFloat(getComputedStyle(text).fontSize);
-  const size = kind === "icon" ? ICON[fontSize] : DOT;
   const m = mark.getBoundingClientRect();
   if (wraps) expect(lines(text)).toBeGreaterThanOrEqual(2);
   else expect(lines(text)).toBe(1);
@@ -135,7 +140,8 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
           </Frame>,
         );
         expectLeads(screen.getByTestId("mark"), screen.getByTestId("text"), {
-          kind: "icon",
+          size: BANNER[size].icon,
+          gap: BANNER[size].gap,
           wraps,
         });
       });
@@ -150,7 +156,11 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
             </Banner>
           </Frame>,
         );
-        expectLeads(screen.getByTestId("mark"), screen.getByTestId("text"), { kind: "dot", wraps });
+        expectLeads(screen.getByTestId("mark"), screen.getByTestId("text"), {
+          size: DOT,
+          gap: BANNER[size].dotGap,
+          wraps,
+        });
       });
     }
 
@@ -170,7 +180,8 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
         </Frame>,
       );
       expectLeads(screen.getByTestId("mark"), screen.getByTestId("text"), {
-        kind: "icon",
+        size: BANNER[size].icon,
+        gap: BANNER[size].gap,
         wraps: true,
       });
     });
@@ -187,7 +198,11 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
           </PanelNotice>
         </Frame>,
       );
-      expectLeads(screen.getByTestId("mark"), screen.getByTestId("text"), { kind: "dot", wraps });
+      expectLeads(screen.getByTestId("mark"), screen.getByTestId("text"), {
+        size: DOT,
+        gap: PANEL_NOTICE_GAP,
+        wraps,
+      });
     });
 
     it(`${deviceName}: a PanelNotice's icon leads its first line (${name})`, async () => {
@@ -195,12 +210,17 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
       render(
         <Frame width={width + 40}>
           <PanelNotice>
-            <TriangleAlert data-testid="mark" />
+            {/* PanelNotice keeps the caller's icon size and centres it. */}
+            <TriangleAlert data-testid="mark" className="size-4" />
             <PanelNoticeContent data-testid="text">{text}</PanelNoticeContent>
           </PanelNotice>
         </Frame>,
       );
-      expectLeads(screen.getByTestId("mark"), screen.getByTestId("text"), { kind: "icon", wraps });
+      expectLeads(screen.getByTestId("mark"), screen.getByTestId("text"), {
+        size: 16,
+        gap: PANEL_NOTICE_GAP,
+        wraps,
+      });
     });
   }
 
@@ -214,7 +234,8 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
       );
       const notice = screen.getByTestId("notice");
       expectLeads(notice.querySelector("svg")!, notice.querySelector("span")!, {
-        kind: "icon",
+        size: 14,
+        gap: 8,
         wraps,
       });
     });
@@ -239,9 +260,37 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
       if (description) {
         expect(lines(screen.getByText(description))).toBeGreaterThanOrEqual(2);
       }
-      expectLeads(mark, title, { kind: "dot", wraps: false });
+      expectLeads(mark, title, {
+        size: DOT,
+        gap: TOAST_GAP + (TOAST_COLUMN - DOT) / 2,
+        wraps: false,
+      });
     });
   }
+
+  it(`${deviceName}: a person Toast's avatar leads the title, 12px before it`, async () => {
+    await device(deviceWidth, touch);
+    render(
+      <ThemeProvider>
+        <ToastProvider timeout={0} />
+      </ThemeProvider>,
+    );
+    toast.info("Atlas finished reviewing #25.", {
+      description: LONG,
+      leading: <Avatar data-testid="avatar" size="xs" type="agent" />,
+    });
+    const title = await screen.findByText("Atlas finished reviewing #25.");
+    const content = title.closest<HTMLElement>('[data-slot="toast-content"]')!;
+    const root = content.closest<HTMLElement>('[data-slot="toast"]') ?? content;
+    await waitFor(() => expect(root.getBoundingClientRect().width).toBe(root.offsetWidth));
+    const avatar = screen.getByTestId("avatar");
+    const size = avatar.getBoundingClientRect().width;
+    expectLeads(avatar, title, {
+      size,
+      gap: TOAST_GAP + (TOAST_COLUMN - size) / 2,
+      wraps: false,
+    });
+  });
 
   it(`${deviceName}: a Badge's and a PanelActivity's status pixel is 9px, centred on the caption's line`, async () => {
     await device(deviceWidth, touch);

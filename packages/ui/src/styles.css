@@ -407,14 +407,6 @@
      (design/foundations/alignment.md#the-ends-of-a-header). A shape or text
      declares nothing and stays on the margin. */
   --spacing-icon-inset: var(--icon-inset);
-  /* ─── Lead gap ──────────────────────────────────────────────────────────────
-     The space between a mark that leads a line of text (`lead-icon`,
-     `lead-dot`) and the text, in a notice: 8px, for an icon and a dot alike
-     (design/foundations/alignment.md#a-mark-that-leads-text). A chip keeps
-     its own tighter gap.
-
-     Consumers: `Banner`, `PanelNotice`, `ToastIcon`, `MessageActionCardNotice`. */
-  --spacing-lead: 0.5rem;
 
   /* Deprecated utility names, kept until raft-ui 1.0 (see codemods/token-names.mjs). */
   --color-fill-pressed: var(--fill-medium);
@@ -599,37 +591,28 @@ textarea:-webkit-autofill:disabled {
   background-image: linear-gradient(var(--fill-medium), var(--fill-medium));
 }
 
-/* A mark that leads a line of text: the icon or status pixel at the start of
-   a banner, a toast, a panel notice, an action card's notice or a chip
-   (design/foundations/alignment.md#a-mark-that-leads-text). Its box is one
-   line of the text it leads, `1lh`, with the mark centred in it: the margins
-   are `(1lh - size) / 2`, negative when the mark is taller than the line, so
-   the outer box is exactly one line tall at every type size and the mark
-   stays on the first line when the text wraps. In Space Grotesk the centre of
-   the line box is the centre of the cap height (to 0.006em), so this is
-   optical centring and needs no per-size nudge.
+/* A mark that leads a line of text: the icon or status light at the start of
+   a banner, a toast, a panel notice or a chip sits on the first line of its
+   text, centred on it, and stays there when the text wraps
+   (design/foundations/alignment.md#a-mark-that-leads-text). In Space
+   Grotesk the centre of the line box is the centre of the cap height (to
+   0.006em), so this is optical centring and needs no per-size nudge. Only
+   the place is shared: each component keeps its own icon size and gap.
 
-   An icon takes its size from the text it inherits, so one class holds at
-   every type size and on both the phone and the desktop scale: 1.15em,
-   rounded to an even pixel (Lucide's 24px grid halves cleanly), 14px beside
-   12-13px text, 16px beside 14px, 18px beside 16px
-   (design/foundations/iconography.md#sizes).
+   `lead-icon` centres an icon of any size on the line its parent sets, by
+   moving it half a line down and back up by half its own height. Set the
+   type on the row that holds the mark and the text, as PanelNotice does:
+   the mark reads `1lh` from it.
 
-   A status pixel does not: beside text it has one size, the default
-   `Status` 9px with a 1.5px ink edge, whatever the text's size, so the same
-   light reads the same in a toast, a banner, a chip and a sidebar row
-   (packages/ui/src/components/status/status.md#anatomy). `lead-dot` only
-   places it, and holds it at 9px whatever size the caller passed.
-
-   The mark reads `1lh` (and an icon `em`) from the type it inherits, so set
-   the type on the row that holds the mark and the text, as Banner and
-   PanelNotice do, not only on the text. */
+   `lead-dot` places a status light the same way, in a box one line tall,
+   and keeps it at its one size beside text, 9px with a 1.5px ink edge
+   (status.md#sizes). It is kept at 9px inside components (Banner,
+   PanelNotice, ToastIcon, Badge, PanelActivity); when placing Status
+   yourself, don't pass a size. */
 @utility lead-icon {
-  --lead-icon: round(1.15em, 2px);
   flex-shrink: 0;
-  width: var(--lead-icon);
-  height: var(--lead-icon);
-  margin-block: calc((1lh - var(--lead-icon)) / 2);
+  align-self: start;
+  translate: 0 calc(0.5lh - 50%);
 }
 @utility lead-dot {
   --lead-dot: 9px;
