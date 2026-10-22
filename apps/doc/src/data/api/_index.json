@@ -1021,12 +1021,9 @@
       "SegmentedControl",
       "SegmentedControlCount",
       "SegmentedControlItem",
-      "SegmentedControlLabel",
-      "SegmentedControlLink",
-      "SegmentedControlNav"
+      "SegmentedControlLabel"
     ],
-    "status": "stable",
-    "description": "One segment of a `SegmentedControlNav`: a link, `<a>` unless `render` gives a router link."
+    "status": "stable"
   },
   "select": {
     "names": [

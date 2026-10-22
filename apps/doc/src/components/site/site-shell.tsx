@@ -1,7 +1,17 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import type { MouseEvent, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { ExternalLink, FileText, Menu, Moon, Search, Sun, SunMoon } from "lucide-react";
+import {
+  ChevronDown,
+  ExternalLink,
+  FileText,
+  Languages,
+  Menu,
+  Moon,
+  Search,
+  Sun,
+  SunMoon,
+} from "lucide-react";
 import {
   Button,
   Drawer,
@@ -34,7 +44,6 @@ import {
   SidebarSectionTitle,
 } from "@botiverse/raft-ui";
 import type { ThemeMode } from "@botiverse/raft-ui";
-import { SegmentedControlLink, SegmentedControlNav } from "@botiverse/raft-ui/wip";
 
 import { GithubMark } from "#/components/github-mark.tsx";
 import { usePreviewTheme } from "#/components/preview-theme.tsx";
@@ -42,6 +51,7 @@ import { raftUiVersion } from "#/data/raft-ui-release.ts";
 import { navSections } from "#/lib/content/nav.ts";
 import type { NavItem } from "#/lib/content/nav.ts";
 import { LANGUAGE_NAME, LANGUAGE_TAG, LOCALES, localizePath } from "#/lib/i18n/locales.ts";
+import type { Locale } from "#/lib/i18n/locales.ts";
 import { useLocale, useMessages } from "#/lib/i18n/use-locale.ts";
 
 import { SearchDialog } from "./search-dialog.tsx";
@@ -85,36 +95,41 @@ function ThemeMenu({
 }
 
 /**
- * The language switch: one segment per language, each a link to the same
- * page in that language (raft-ui's SegmentedControlNav), so it can be opened
- * in a new tab or copied, and the prerender crawler finds every translated
- * page through it. Following one loads the other document, so the whole site
- * switches with it.
+ * The language menu: a dropdown of the languages, each named in itself, that
+ * opens the same page in the one picked. Picking loads the other document, so
+ * the whole site switches with it, and keeps the section being read.
  */
-function LanguageSwitch({ variant = "default" }: { variant?: "default" | "on-frame" }) {
+function LanguageMenu({ variant = "on-frame" }: { variant?: "on-frame" | "ghost" }) {
   const messages = useMessages();
   const locale = useLocale();
   const pathname = useLocation({ select: (location) => location.pathname });
-  // The server never sees the fragment, so it joins the link only when it is
-  // followed: the same section in the other language.
-  const keepFragment = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
-    if (window.location.hash) event.currentTarget.hash = window.location.hash;
-  }, []);
+  const switchTo = useCallback(
+    (value: unknown) => {
+      const target = value as Locale;
+      if (target === locale) return;
+      window.location.assign(`${localizePath(pathname, target)}${window.location.hash}`);
+    },
+    [locale, pathname],
+  );
   return (
-    <SegmentedControlNav aria-label={messages.languageSwitch} variant={variant}>
-      {LOCALES.map((option) => (
-        <SegmentedControlLink
-          key={option}
-          current={option === locale}
-          href={localizePath(pathname, option)}
-          hrefLang={LANGUAGE_TAG[option]}
-          lang={LANGUAGE_TAG[option]}
-          onClick={keepFragment}
-        >
-          {LANGUAGE_NAME[option]}
-        </SegmentedControlLink>
-      ))}
-    </SegmentedControlNav>
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={<Button variant={variant} aria-label={messages.languageSwitch} />}
+      >
+        <Languages data-icon="inline-start" />
+        <span lang={LANGUAGE_TAG[locale]}>{LANGUAGE_NAME[locale]}</span>
+        <ChevronDown data-icon="inline-end" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align={variant === "ghost" ? "start" : "end"}>
+        <DropdownMenuRadioGroup value={locale} onValueChange={switchTo}>
+          {LOCALES.map((option) => (
+            <DropdownMenuRadioItem key={option} value={option} lang={LANGUAGE_TAG[option]}>
+              {LANGUAGE_NAME[option]}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
@@ -166,7 +181,7 @@ function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSear
         </Button>
         {/* On a phone the top bar has no room for it: it is at the top of the menu. */}
         <div className="shrink-0 max-md:hidden">
-          <LanguageSwitch variant="on-frame" />
+          <LanguageMenu />
         </div>
         <ThemeMenu className="max-md:hidden" />
         <Button
@@ -357,8 +372,8 @@ export function SiteShell({ children }: { children: ReactNode }) {
             </div>
           </DrawerHeader>
           <DrawerBody className="min-h-0 overflow-y-auto p-0">
-            <div className="px-3 pt-1 pb-3">
-              <LanguageSwitch />
+            <div className="px-3 pt-1 pb-2">
+              <LanguageMenu variant="ghost" />
             </div>
             <SiteNav />
           </DrawerBody>
