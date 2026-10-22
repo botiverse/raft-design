@@ -1,3 +1,86 @@
+## [0.20.0](https://github.com/botiverse/raft-design/compare/v0.19.0...v0.20.0) (2026-10-22)
+
+### Design System
+
+- **Hover and press**: hover and press are one translucent ink layer over the resting colour, never a fill swap, in two tiers sized by what is under the pointer. Subtle for rows, messages, readable cards and a row whose menu is open; medium for small controls and for pressing anything clickable. A colour sticker and the frame get their own medium alphas. Selected items and fields don't hover, a message has no press, and every hover sits under `(hover: hover)`. It applies to every row, card, button, badge, tab, segment, sidebar and rail item, table row, inbox item and menu. ([#681](https://github.com/botiverse/raft-design/pull/681))
+  - Why: the same hover looked different on paper, the sidebar and a card, rows and messages used three different steps, and some clickable parts gave no feedback on press; one layer in two tiers reads the same everywhere.
+  - Affects: subtle `fill-subtle` 4% light / 3% dark; medium `fill-medium` 7.8% light / 6.5% dark (was 7.8%); `sticker-medium` 10% (was 12.2%); `fill-frame-medium` 10% light (was 12.2%) / 6% dark (was 7.8%); dark `brand-soft` 16% → 20%; colour `-hover` / `-active` pairs mix 10% ink (was 12%).
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
+- **Inside a frame**: a control embedded in another component's frame (a field, the composer, a toolbar, a card or media corner) wears `radius-chip` (6px) and sits the same distance from every side of the frame and from its siblings; frames themselves don't change. It applies to ComboboxSelect, Combobox, InputGroup, the composer, the message hover and text-selection toolbars, the lightbox and multi-select bars, CodeBlock, media and file card actions, popover close, menus and SegmentedControl / ToggleGroup. ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: embedded buttons at the free-standing 8px corner read nearly round at 20px, and their offsets differed per component; one corner and one even inset make them read as one kind of thing.
+  - Affects: new tokens `control-embedded-inset` 6px and `control-embedded-size` 20px desktop / 32px phone (utilities `embedded-inset`, `control-embedded`); insets 6px in a field, the composer and a corner, 4px in a floating toolbar and for a popup's highlight, 3px between segments.
+  - Docs: https://raft-design.botiverse.build/foundations/shape/#inside-a-frame
+
+### Breaking Changes
+
+- **Dialog** `size`: `sm` is 400px (was 384) and `lg` is 640px (was 512); `md` 448 and `wide` 896 are unchanged. Sizes are chosen by content: `sm` for a decision, `md` for a small task, `lg` for content that needs width. ([#676](https://github.com/botiverse/raft-design/pull/676))
+  - Why: the steps between sizes were too small to mean anything, and a confirmation could be 384 or 400 wide depending on the component; now every confirmation is 400, the same as AlertDialog.
+  - Affects: `sm` `max-w-sm` (384px) → 400px; `lg` `max-w-lg` (512px) → 640px.
+  - Migrate: dialogs with `size="sm"` grow 16px and `size="lg"` 128px; check their content and pick the size by content. Set width with `size` only, not your own `max-w-*`.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#variants
+- **Hover tokens**: renamed to their tier. The old names stay as deprecated aliases until 1.0, but they now resolve to the tier values, so some hovers change. ([#681](https://github.com/botiverse/raft-design/pull/681))
+  - Why: names that said where a fill was used (row hover, message hover, row open, pressed) could not describe two tiers that apply everywhere.
+  - Affects: `fill-row-hover`, `fill-row-open`, `fill-message-hover` → `fill-subtle` (row open 5% → 4%, message hover 3% → 4%); `fill-pressed` → `fill-medium`; `fill-frame-pressed` → `fill-frame-medium`; `sticker-pressed` → `sticker-medium`; utilities `row-hover-overlay`, `row-open-overlay` → `overlay-subtle`, `press-overlay` → `overlay-medium`, `press-overlay-sticker` → `overlay-sticker-medium`. Overlays are registered with the `cn` helper as background images, so a later `hover:bg-none` or another tier replaces them.
+  - Migrate: run `node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <paths>`; it renames classes, `var(--…)` and `var(--color-…)` forms. Then move readable cards that used `press-overlay` for hover to `overlay-subtle`. Tests that assert a token name in a class (for example `var(--fill-row-open)` on a message) look for the new name.
+  - Docs: https://raft-design.botiverse.build/foundations/color/#hover-overlays
+- **MessageItemToolbar** and **MessageTextSelectionToolbar**: 36px tall (was 32), buttons 4px from the frame and 4px apart (was 2px), at `radius-chip`. The hover toolbar rides 18px above the row (was 16). ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: at a 2px inset the buttons' hover fill nearly touched the frame; see Inside a frame above.
+  - Affects: toolbar height 32 → 36px; inset and gap 2 → 4px; the message header's default reserve `--mi-toolbar-reserve` 6.5rem → 7rem (three buttons).
+  - Migrate: if you set `--mi-toolbar-reserve` yourself, compute it as `1rem + 2rem × buttons` (was `1.25rem + 1.75rem × buttons`). Leave at least 18px above the first message of a scroll area and above a thread's root message.
+  - Docs: https://raft-design.botiverse.build/components/message-item/
+- **MessageMultiSelectToolbar**: 36px tall (was 48) with 28px buttons (was 32) 4px from the frame; on a touch screen each button takes a 44px tap. The buttons go in the new `MessageMultiSelectToolbarActions`. ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: every floating toolbar is now 36px with 28px buttons; the touch hit area keeps the smaller buttons easy to tap.
+  - Affects: height 48 → 36px; buttons 32 → 28px; inset 8 / 10 → 4px; gap 6 → 4px.
+  - Migrate: wrap the toolbar's buttons in `MessageMultiSelectToolbarActions`, which owns their 4px gap and the touch hit areas; remove your own gap or padding there.
+  - Docs: https://raft-design.botiverse.build/components/message-item/
+- **ComboboxSelect**, **Combobox** and **InputGroup** chips and end buttons: chips and embedded buttons in a field are 20px on a desktop and 32px on a phone (chips were 28px, end buttons 32px), 6px from the field's edge and from each other, at `radius-chip`, so a field with chips stays 32 / 44px tall (it grew to 42). ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: 28px chips made a field with chips taller than one without, and the embedded buttons sat at different offsets per component.
+  - Affects: chips 28 → 20px desktop / 32px phone; chip remove 16 / 28px at `radius-sticker`; InputGroup end-addon Button 32 → 20 / 32px with a 16px icon; ComboboxSelect `sm` keeps 22px chips at 3px, `lg` uses 40px chips in a 52px field.
+  - Migrate: remove size, offset or radius overrides on chips and end-addon buttons in fields. In an InputGroup end addon, put a Kbd before the Button, so on a phone (Kbd hidden) the button is the last child and ends 6px from the edge.
+  - Docs: https://raft-design.botiverse.build/components/combobox-select/
+
+### Added
+
+- **CodeBlockPre**: renders the code's `pre`. While the code overflows it is a keyboard-reachable named region (`tabindex=0`, `role=region`, `aria-label` "Code" by default), so it can be scrolled from the keyboard; code that fits adds no Tab stop. ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: a scrolling code block could not be reached from the keyboard in Safari.
+  - Docs: https://raft-design.botiverse.build/components/code-block/
+- **MessageMultiSelectToolbarActions**: the multi-select toolbar's actions at its end, 4px apart, with touch hit areas. ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: see MessageMultiSelectToolbar above.
+  - Docs: https://raft-design.botiverse.build/components/message-item/
+- **Press feedback**: Badge, the mention sticker, InboxItem, Table rows, the system-message disclosure and the selected SidebarItem now press with the medium tier. ([#681](https://github.com/botiverse/raft-design/pull/681))
+  - Why: anything clickable presses with the medium tier; these gave no feedback on press.
+  - Affects: solid Badge `sticker-medium`; soft and outline Badge, InboxItem, Table row, system-message disclosure `fill-medium`; selected SidebarItem `sticker-medium`.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
+
+### Changed
+
+- **MessageItem**, **MessageAttachmentCard**, **MessageReplies**, **TaskCard** and menu-open rows: hover with the subtle tier. ([#681](https://github.com/botiverse/raft-design/pull/681))
+  - Why: a message, a readable card and a row whose menu is open are large things people read; one subtle step keeps text contrast and never stacks with the menu-open fill.
+  - Affects: message hover 3% / 2.2% → 4% / 3%; menu-open row 5% / 4% → 4% / 3%; attachment card, replies bar and task card 7.8% → 4% / 3%. Press stays medium.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
+- **SegmentedControl**, **ToggleGroup** and **Select**: a selected segment or toggle no longer darkens on hover and presses with `sticker-medium`; the Select trigger and the top-bar SearchTrigger don't hover, only press. SegmentedControl and ToggleGroup items are 3px apart (was 2). ([#681](https://github.com/botiverse/raft-design/pull/681), [#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: selected items and fields don't hover, like selected tabs and the active sidebar item.
+  - Affects: segment gap 2 → 3px.
+  - Docs: https://raft-design.botiverse.build/components/segmented-control/
+- **DropdownMenu**, **ContextMenu**, **Select**, **Combobox**, **ComboboxSelect**, the suggestion list and quick reactions: the highlighted item sits 4px inside the popup at `radius-chip`, and separators take 4px. ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: see Inside a frame above.
+  - Affects: highlight inset 6px (quick reactions 8px) → 4px; highlight radius 8 → 6px; separator margins 6 → 4px.
+  - Docs: https://raft-design.botiverse.build/components/dropdown-menu/
+- **CodeBlock**: the copy and other actions sit 6px from the corner at `radius-chip`, and without a header they take a column of their own instead of covering the first line; the code scrolls beside them. With a header, the actions sit 6px from its end, centred in it, 4px apart. ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: on a phone the copy button covered the first line of code.
+  - Affects: action offset 9px (no header) / 5px (header) → 6px; radius 8 → 6px; a one-line block keeps 6px under the button.
+  - Docs: https://raft-design.botiverse.build/components/code-block/
+- **Composer**, **MessageActionCard**, **Popover** header close, **Lightbox** info bar, video preview, gallery and file card actions: embedded buttons at `radius-chip`, 6px from the frame's sides (4px in the lightbox bar, whose buttons are 28px with a 44px touch target). ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: see Inside a frame above.
+  - Affects: composer buttons 8 / 13px from the sides and 9px from the bottom → 6px; media and file card actions 9 / 7 / 5px → 6px; lightbox buttons 32 → 28px.
+  - Docs: https://raft-design.botiverse.build/foundations/shape/#inside-a-frame
+
+### Fixed
+
+- **ComboboxSelect** and **FloatButton**: hover no longer sticks after a tap on a touch screen; their `:hover` rules are under `(hover: hover)`, and the ghost FloatButton hovers and presses with the overlay instead of a fill swap. ([#681](https://github.com/botiverse/raft-design/pull/681))
+  - Why: ungated `:hover` rules stayed applied after a tap.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
+
 ## [0.19.0](https://github.com/botiverse/raft-design/compare/v0.18.0...v0.19.0) (2026-10-21)
 
 ### Design System
