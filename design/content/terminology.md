@@ -82,6 +82,7 @@ These words are wrong for Raft even when they are common elsewhere.
 | workspace, for a server | The interface calls it a server | server; see [Server and workspace](#server-and-workspace) |
 | room, conversation, chat | Too vague: Raft has three kinds of conversation | channel, DM or thread |
 | leverage, unlock, supercharge, next-gen | Promotional words describe nothing; the [writing guide](../authoring/writing.md#voice) lists more | Say what the feature does |
+| log in, log out, login as a verb | The sign-in page says Sign In; one pair everywhere ([Writing](./writing.md#signing-in-and-out)) | sign in, sign out |
 | simply, just, easily | They tell people a step is easy instead of making it easy, and make people who struggle feel worse | Leave them out |
 
 ## Where the product isn't consistent yet
@@ -93,6 +94,7 @@ The web app has strings that don't follow this page. Fix them when you touch the
 - Product nouns capitalized in the middle of a sentence: "Keep it on the Computer", "Install on this Server".
 - Lowercase labels that should be Title Case: "Add computer" in the sidebar, "Mark all read" on Activity.
 - "Filter inbox" as the accessible name of the Activity filters.
+- Log Out and Log out beside Sign In, in Settings, on the server list and for an app's connection.
 - "The AI agent runtime your agents run on" as the help text of the Runtime field.
 
 ## Related

@@ -37,7 +37,7 @@ field/compositions/preview
 
 ### Forms in a dialog
 
-- Put Cancel and the submit button at the bottom of a form in a dialog. Cancel is a ghost button there, and takes an ink border on a page ([Button](../../packages/ui/src/components/button/button.md#which-color)). Cancel comes first; the submit button is the screen's pink button and repeats the words that opened the dialog, Create Channel ([Writing](../content/writing.md#actions-and-their-dialogs)). Both are `size="lg"`, the height of the fields above them ([Spacing](../foundations/spacing.md#heights)).
+- Put Cancel and the submit button at the bottom of a form in a dialog. Cancel is a ghost button there, and takes an ink border on a page ([Button](../../packages/ui/src/components/button/button.md#which-color)). Cancel comes first; the submit button is the screen's pink button and says the title's verb: Create in Create Channel, Save in an edit ([Writing](../content/writing.md#actions-and-their-dialogs)). Both are `size="lg"`, the height of the fields above them ([Spacing](../foundations/spacing.md#heights)).
 - Make a form with a few fields a small dialog, the default `size="md"`, 448px wide: creating a channel, an agent or a task. A form whose content needs more width, such as key-value rows or a command, takes `size="lg"`, 640px ([Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)).
 
 ### The large form dialog

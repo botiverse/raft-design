@@ -136,7 +136,7 @@ export function CreateTaskDialogComposition({
         portalProps={resolvedPortalProps}
       >
         <DialogHeader>
-          <DialogTitle>{isBatch ? "Create Tasks" : "Create Task"}</DialogTitle>
+          <DialogTitle>{isBatch ? "Create Tasks" : "Create"}</DialogTitle>
           <DialogClose aria-label="Close Create Task dialog">
             <X aria-hidden />
           </DialogClose>
@@ -201,7 +201,7 @@ export function CreateTaskDialogComposition({
                 ? "Creating…"
                 : isBatch
                   ? `Create ${rows.filter((row) => row.title.trim()).length} Tasks`
-                  : "Create Task"}
+                  : "Create"}
             </Button>
           </DialogFooter>
         </form>

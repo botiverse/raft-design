@@ -1,6 +1,6 @@
 ---
 title: Raft Chat — Settings
-summary: The Settings destination — the Personal, Workspace and Resources groups, the pages they open, Notifications, Log Out and the danger zone.
+summary: The Settings destination — the Personal, Workspace and Resources groups, the pages they open, Notifications, Sign Out and the danger zone.
 ---
 
 # Raft Chat — Settings
@@ -39,5 +39,5 @@ In the desktop app the page is one Desktop notifications card saying that the sy
 
 ## Rules
 
-- Put Log Out at the end of Account, in a Session card: an orange button that opens a confirmation.
+- Put Sign Out at the end of Account, in a Session card: an orange button that opens a confirmation.
 - Put the danger zone at the end of Server Profile: Leave Server, and for the owner Delete Server ([Forms](../../patterns/forms.md#danger-zone)). The account can't be deleted from Settings.

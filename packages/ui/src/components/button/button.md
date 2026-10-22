@@ -34,7 +34,7 @@ button/compositions/preview
 | -------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------ |
 | `variant="primary"`  | The action the screen exists for: a pink sticker                                             | Send, Create Channel, Bring an Agent |
 | `variant="default"`  | Every other action, including one that every row of a list repeats: an ink border            | Assign, Approve, Claim               |
-| `variant="ghost"`    | Cancel and minor actions inside a surface that draws its own edge: no frame                  | Cancel in a dialog, Keep Box         |
+| `variant="ghost"`    | Cancel and minor actions inside a surface that draws its own edge: no frame                  | Cancel in a dialog                   |
 | `variant="warning"`  | Actions that interrupt but can be undone: an orange sticker                                  | Stop Wug, Leave Channel, Reset       |
 | `variant="danger"`   | Actions that cannot be undone, on the confirm button of a confirmation dialog: a red sticker | Delete Agent                         |
 | `variant="on-frame"` | A frameless button on the frame: the rail, the web top bar, the desktop title bar            | The workspace button                 |
@@ -100,7 +100,7 @@ Hover, press, focus and disabled follow [States](../../../../../design/foundatio
 
 ## Content
 
-- Start with a verb and name the result: Send for Review, not OK or Submit.
+- Start with a verb and name the result: Send for Review, not OK or Submit. In a dialog the title names the object, so its main button says the verb alone: Create in Create Channel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Use Title Case ([Writing](../../../../../design/content/writing.md#casing)), and repeat the button's words in the dialog it opens ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Put an icon before the label (`data-icon="inline-start"`), and Return or an arrow after it (`data-icon="inline-end"`).
 - While loading, say what is happening: Creating….

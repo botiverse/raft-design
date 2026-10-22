@@ -87,7 +87,7 @@ for (const variant of ["muted", "strong"] as const) {
       <ThemeProvider>
         <p className="m-0 p-4 text-footnote">
           <TextLink data-testid="link" variant={variant}>
-            Log Out
+            Sign Out
           </TextLink>
         </p>
       </ThemeProvider>,
@@ -112,7 +112,7 @@ for (const variant of ["muted", "strong"] as const) {
         <p className="m-0 p-4 text-footnote">
           <TextLink data-testid="control">Forgot Password</TextLink>{" "}
           <TextLink data-testid="disabled" variant={variant} disabled>
-            Log Out
+            Sign Out
           </TextLink>
         </p>
       </ThemeProvider>,

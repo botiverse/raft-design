@@ -46,7 +46,7 @@ export function WorkspaceSettingsDrawer({
         </DrawerBody>
         <DrawerFooter>
           <DrawerActions>
-            <DrawerClose render={<Button variant="outline" />}>Close settings</DrawerClose>
+            <DrawerClose render={<Button variant="outline" />}>Close</DrawerClose>
           </DrawerActions>
         </DrawerFooter>
       </DrawerContent>

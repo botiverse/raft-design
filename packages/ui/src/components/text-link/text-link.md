@@ -10,7 +10,7 @@ related: [button]
 
 # TextLink
 
-TextLink is text that does something or goes somewhere, with no underline until the pointer is over it. It is the bottom step of the emphasis ladder, below a frameless button ([Button](../button/button.md#which-color)): use it where even a frameless button would be too much weight, such as Forgot Password on a sign-in page, Log Out under a server list, or a See All beside a section title.
+TextLink is text that does something or goes somewhere, with no underline until the pointer is over it. It is the bottom step of the emphasis ladder, below a frameless button ([Button](../button/button.md#which-color)): use it where even a frameless button would be too much weight, such as Forgot Password on a sign-in page, Sign Out under a server list, or a See All beside a section title.
 
 ```example
 text-link/compositions/preview
@@ -31,7 +31,7 @@ The variant follows where the link sits, not how important the action is.
 
 | Variant                     | Use for                                                                                                                             |
 | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `variant="muted"` (default) | A link that stands on its own: Forgot Password, Log Out, See All. `foreground-muted`, 500; on hover, ink and underlined.            |
+| `variant="muted"` (default) | A link that stands on its own: Forgot Password, Sign Out, See All. `foreground-muted`, 500; on hover, ink and underlined.           |
 | `variant="strong"`          | A link inside a sentence: "Don't have an account? Create One", a banner's "Manage Machines". Ink, 600; on hover, underlined in ink. |
 
 **Why the position decides.** On its own, a TextLink is the quietest control on the screen, so it is muted: it must not compete with the screen's text or its buttons. Inside a sentence, the same muted grey would sit lighter than the words around it and read as disabled, so there it takes the ink of body text and stands out by weight instead. Neither variant is pink, at rest or on hover: pink belongs to the one primary button.
@@ -56,7 +56,7 @@ text-link/compositions/disabled
 
 ## Content
 
-- Start with a verb, or name the place: Forgot Password, Log Out, See All.
+- Start with a verb, or name the place: Forgot Password, Sign Out, See All.
 - Use Title Case, like every button label ([Writing](../../../../../design/content/writing.md#casing)).
 
 ## Accessibility

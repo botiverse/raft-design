@@ -74,7 +74,7 @@ function InviteHumanDialogParts() {
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
         <Button variant="accent">
           <Mail data-icon="inline-start" />
-          Send invites
+          Invite
         </Button>
       </DialogFooter>
     </>

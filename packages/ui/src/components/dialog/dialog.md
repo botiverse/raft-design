@@ -101,7 +101,7 @@ Raft Chat builds these forms in the app for now (`NarrowDialog` in slock); they 
 
 ## Content
 
-- Title the dialog with the words of the button that opened it, or Edit and the item's name, and make Cancel say what stays: Keep Box ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
+- Title the dialog with the words of the button that opened it, or Edit and the item's name. Label its main button with the title's verb, without the object (Create Channel → Create, an edit → Save), and the other one Cancel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Set body text in `foreground-muted`, below a title in `foreground`. Their type styles are in [Typography](../../../../../design/foundations/typography.md).
 
 ## Accessibility

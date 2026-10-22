@@ -68,7 +68,7 @@ function expectHoverUnderline(cls: string) {
 test("TextLink: no underline at rest and an underline on hover, in both variants", () => {
   render(
     <>
-      <TextLink>Log Out</TextLink>
+      <TextLink>Sign Out</TextLink>
       <TextLink variant="strong">Create One</TextLink>
     </>,
   );
@@ -76,7 +76,7 @@ test("TextLink: no underline at rest and an underline on hover, in both variants
 });
 
 test("TextLink: the hover underline is gated off when disabled", () => {
-  render(<TextLink disabled>Log Out</TextLink>);
+  render(<TextLink disabled>Sign Out</TextLink>);
   const t = tokens(screen.getByRole("button").className);
   expect(t).toContain("not-disabled:hover:underline");
   expect(t).not.toContain("hover:underline");

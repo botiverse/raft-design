@@ -36,7 +36,7 @@ Raft sounds like a capable teammate at the next desk: short, direct and plain. T
 | Empty states | The fact, then the next step if there is one | "No tasks match these filters" |
 | Errors | Plain: what happened, then what to do. No humor, no blame | "Runtime detection failed. Restart Raft Computer and try again." |
 | Warnings | Plain and specific about the consequence | "Apps using this token will lose access. Other tokens will stay active." |
-| Destructive confirmations | Exact. Repeat the verb, name the result, say what stays | Delete Agent / Keep Working |
+| Destructive confirmations | Exact. The title's verb, and the object too when it can't be undone; Cancel beside it | Delete Agent / Cancel |
 | Notices (toasts, tooltips) | One line, an aside; never the only place for something people must act on | "Link copied." |
 
 - Keep humor to onboarding and success messages. People read an error when something is already in their way.
@@ -55,6 +55,7 @@ Raft sounds like a capable teammate at the next desk: short, direct and plain. T
 - Follow the same principles: short sentences, few adjectives, the imperative for steps.
 - Keep numbers, IDs, times and runtime names in Space Mono ([Typography](../foundations/typography.md)).
 - Translate a term the same way everywhere, following the product's catalog; see [Terminology](./terminology.md).
+- Label a dialog's buttons the way the English does: when the English drops the object, drop it too, *chuàngjiàn* ("create") for Create Channel; when it keeps it, keep it, *shānchú píndào* ("delete channel"). Keep a verb phrase whole: *tuìchū dēnglù* ("sign out"), never *tuìchū* alone ([Writing](./writing.md#actions-and-their-dialogs)).
 - Write an empty state with *hái méiyǒu* ("not yet") or *méiyǒu* ("none"), in the same forms as the English ([Writing](./writing.md#errors-and-empty-states)). Don't write *zànwú* ("temporarily none"), which reads as an official notice, or *wéi kōng* ("is empty"), which describes the container instead of what is missing.
 
 ## Related
