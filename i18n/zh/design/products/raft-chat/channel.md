@@ -37,7 +37,7 @@ conversation-panel/compositions/conversation-panel
 ### 任务和文件 {#tasks-and-files}
 
 - 把 Tasks（`list-todo`）和 Files（`paperclip`）做成标题栏里的开关（`PanelToggleAction`，[Panel](../../../packages/ui/src/components/panel/panel.md)）：按下时，开关是一张黄色贴纸，它的卡片打开。它们的标签随之变成 Close Tasks 和 Close Files。
-- 两个开关上都不显示计数：大多数任务是 agent 自己的事，所以卡片是在有人想看时才在那里，而不是来要人注意的东西。
+- 两个开关上都不显示计数：大多数任务是 Agent 自己的事，所以卡片是在有人想看时才在那里，而不是来要人注意的东西。
 - 用开关或卡片的 × 关闭卡片；在手机上用 Back。两张都打开时，Tasks 在 Files 上面。
 - 哪些卡片打开着，按人记住，而不是按频道：卡片跟着人从一个频道到另一个频道，和消息列那一栏一样。
 - 私信也有同样的两个开关。

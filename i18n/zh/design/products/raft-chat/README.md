@@ -1,7 +1,7 @@
 ---
 title: Raft Chat
 summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、桌面端布局和侧栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层，以及它和通用模式不一致的地方。
-sourceHash: 2407552c
+sourceHash: 1befb300
 ---
 
 # Raft Chat

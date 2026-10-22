@@ -1,7 +1,7 @@
 ---
 title: 术语
 summary: Raft 产品用来称呼地方、人、Agent 和工作的词：server、channel、DM、thread、agent、task、computer、runtime、Activity、notifications 等，每个词怎么写，以及要避免的词。
-sourceHash: 80f6fb17
+sourceHash: 805009cb
 ---
 
 # 术语

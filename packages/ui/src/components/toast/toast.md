@@ -46,13 +46,12 @@ Leave out a part you don't need instead of rendering it empty.
 
 The intent sets the icon in `ToastIcon`, the same icon a banner of that intent leads with ([Banner](../banner/banner.md#variants)). When the toast is about someone, show their avatar there instead.
 
-| Intent                   | Use for                                                         | In `ToastIcon`                                  |
-| ------------------------ | --------------------------------------------------------------- | ----------------------------------------------- |
-| A person or agent did it | "Bugen finished reviewing #25."                                 | Their avatar                                    |
-| `success`                | Something finished or saved                                     | `CircleCheck`                                   |
-| `warning`, `error`       | Something went wrong. `error` is announced at a higher priority | `TriangleAlert`                                 |
-| `info`                   | A neutral result, such as "3 links copied."                     | `Info`                                          |
-| A message sent as a task | "Sent to #design as a task."                                    | The task's own status, To Do (`TaskStatusIcon`) |
+| Intent                   | Use for                                                         | In `ToastIcon`  |
+| ------------------------ | --------------------------------------------------------------- | --------------- |
+| A person or agent did it | "Bugen finished reviewing #25."                                 | Their avatar    |
+| `success`                | Something finished or saved                                     | `CircleCheck`   |
+| `warning`, `error`       | Something went wrong. `error` is announced at a higher priority | `TriangleAlert` |
+| `info`                   | A neutral result, such as "3 links copied."                     | `Info`          |
 
 With the `toast` command API, pass the avatar as `leading`. It takes the icon's place in `ToastIcon`, hidden from assistive technology.
 

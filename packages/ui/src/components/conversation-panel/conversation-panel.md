@@ -18,12 +18,13 @@ conversation-panel/compositions/conversation-panel
 
 ## When to use
 
-| Situation                                           | Use                                                 |
-| --------------------------------------------------- | --------------------------------------------------- |
-| A channel or a direct message in the main area      | ConversationPanel                                   |
-| The replies to one message, beside the conversation | [ThreadPanel](../thread-panel/thread-panel.md)      |
-| Tasks, files or a profile beside the conversation   | A [Panel](../panel/panel.md) with `edge="attached"` |
-| Any other column of the main area                   | [Panel](../panel/panel.md)                          |
+| Situation                                           | Use                                                                                                                                       |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| A channel or a direct message in the main area      | ConversationPanel                                                                                                                         |
+| The replies to one message, beside the conversation | [ThreadPanel](../thread-panel/thread-panel.md)                                                                                            |
+| A profile beside the conversation                   | A [Panel](../panel/panel.md) with `edge="attached"`                                                                                       |
+| A channel's tasks and files                         | Side cards inside the panel, under its header ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)) |
+| Any other column of the main area                   | [Panel](../panel/panel.md)                                                                                                                |
 
 ## Anatomy
 
@@ -37,7 +38,7 @@ conversation-panel/compositions/conversation-panel
 
 ## Variants
 
-A place can hold several kinds of content, such as a channel's chat, tasks and files. They are one row of sticker tabs in `ConversationPanelTabs`, under the header ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)). Leave the row out when the place has only one view, such as a thread.
+A place can hold several kinds of content, such as an agent's profile, activity and workspace. They are one row of sticker tabs in `ConversationPanelTabs`, under the header ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)). Leave the row out when the place has only one view, such as a thread.
 
 ## Behavior
 

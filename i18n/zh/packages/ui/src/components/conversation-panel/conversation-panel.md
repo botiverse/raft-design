@@ -1,7 +1,7 @@
 ---
 title: ConversationPanel
 summary: 主区域里显示一个会话的面板：面板头部、可选的一排标签页、消息列表和消息输入框。
-sourceHash: bf35bd66
+sourceHash: f4ec29e6
 ---
 
 # ConversationPanel
@@ -18,7 +18,8 @@ conversation-panel/compositions/conversation-panel
 | --- | --- |
 | 主区域里的频道或私信 | ConversationPanel |
 | 会话旁边，某条消息的回复 | [ThreadPanel](../thread-panel/thread-panel.md) |
-| 会话旁边的任务、文件或个人资料 | 带 `edge="attached"` 的 [Panel](../panel/panel.md) |
+| 会话旁边的个人资料 | 带 `edge="attached"` 的 [Panel](../panel/panel.md) |
+| 频道的任务和文件 | 面板里、头部下面的侧边卡片（[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)） |
 | 主区域里的其他列 | [Panel](../panel/panel.md) |
 
 ## 结构 {#anatomy}
@@ -33,7 +34,7 @@ conversation-panel/compositions/conversation-panel
 
 ## 变体 {#variants}
 
-一个地方可以有几种内容，比如频道的聊天、任务和文件。它们是头部下方 `ConversationPanelTabs` 里的一排贴纸标签页（[导航](../../../../../design/patterns/navigation.md#several-views-of-one-place)）。地方只有一个视图时（比如消息列），省略这一排。
+一个地方可以有几种内容，比如一个 Agent 的资料、动态和工作区。它们是头部下方 `ConversationPanelTabs` 里的一排贴纸标签页（[导航](../../../../../design/patterns/navigation.md#several-views-of-one-place)）。地方只有一个视图时（比如消息列），省略这一排。
 
 ## 行为 {#behavior}
 

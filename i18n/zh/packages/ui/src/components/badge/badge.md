@@ -1,7 +1,7 @@
 ---
 title: Badge
 summary: 小标签：最主要的是粉色的未读数和黄色的 @ 标记，另外还有浅色底标签和细线标签。
-sourceHash: 6e83c97f
+sourceHash: 55ed263d
 ---
 
 # Badge
@@ -30,7 +30,7 @@ Badge 是一个小标签。它的主要用途是未读数：一张粉色贴纸�
 | --- | --- |
 | `appearance="solid"` | 贴纸：在等这个人的计数或标记，墨色边、墨色文字。未读数和 @ 标记 |
 | `appearance="soft"` | 没有边框的浅色底标签：Agent 状态的状态标签、运行时标签片 |
-| `appearance="outline"` | 用 Space Mono 的细线标签：`agent` 标签、任务标签片旁边的回复数 |
+| `appearance="outline"` | 用 Space Mono 的细线标签：`agent` 标签、任务行里跟在标题后面的回复数 |
 
 `variant` 选择颜色角色。按颜色的含义来选，不按外观来选（[颜色的含义](../../../../../design/foundations/color.md#meanings-of-color)）：在计数上，`accent` 是表示「待办」的粉色，`primary` 是表示「你」的黄色。
 

@@ -104,7 +104,7 @@ Use one term per concept, everywhere. These are the system's terms.
 | tab bar | The phone's bottom row of destinations. |
 | top bar | The bar at the top of a phone page. |
 | panel | A column of the desktop main area, with a panel header. |
-| side panel | A panel opened beside the conversation (thread, task, files, profile). |
+| side panel | A panel opened beside the conversation (thread, profile). A channel's tasks and files are side cards inside the conversation's panel, and a task opens in a dialog. |
 | inset group | A rounded card holding a group of rows. |
 | bottom sheet | A sheet that rises from the bottom of a phone screen. |
 

@@ -49,12 +49,12 @@ message-item/compositions/item-preview
     - `MessageItemMeta`: the sender's role, such as Product & Brand;
   - `MessageItemDelegatedBy`: "sent by Friday" when an assistant sent the message for the sender, with the assistant's name in `MessageItemDelegatedByName`, or `MessageItemDelegatedByButton` when it opens the assistant's profile;
   - `MessageItemTime`: right after the sender, `text-mono-meta` in `foreground-hint`. A `<time>`: pass the moment in `dateTime`;
-  - `MessageItemInlineStatus`: a short state after the time, such as "Converting…" while a message becomes a task. A working agent is shown by the light on its avatar, not here ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)).
+  - `MessageItemInlineStatus`: a short state after the time, such as "Translating…" while the message's translation loads. A working agent is shown by the light on its avatar, not here ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)).
 - `MessageItemBody`: the text, in `text-body`. Required.
 - `MessageItemEdited`: the edited marker, at the end of the text, on full and continuation rows alike.
 - `MessageItemAttachments`: files and images ([MessageAttachment](../message-attachment/message-attachment.md)).
 - `MessageItemEmbedded`: code blocks, action cards and link cards. A link an app previews is not a card: it is a chip in the text ([App links](#app-links)).
-- `MessageItemFooter`: one row: the task marker, then the reactions (`MessageReactionChip`, with `MessageReactionAddButton` last), then the saved and read markers (`MessageItemSavedIndicator`, `MessageItemReadReceipt`).
+- `MessageItemFooter`: one row: the reactions (`MessageReactionChip`, with `MessageReactionAddButton` last), then the saved and read markers (`MessageItemSavedIndicator`, `MessageItemReadReceipt`). The tasks created from the message are not in it: they are a list above it ([Tasks in a conversation](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)).
 - `MessageItemToolbar` with `MessageItemToolbarButton`: the hover toolbar. It sets `--mi-toolbar-width` on its row, which the header's fade under it reads. Earlier versions read a `--mi-toolbar-reserve` from the app to keep room in the header; it is now ignored, so remove it where you set it.
 - `MessageMultiSelectCheckbox` and `MessageMultiSelectToolbar`, with its actions in `MessageMultiSelectToolbarActions` (28px buttons 4px apart; on a touch screen each takes a 44px tap, and reaches only half the gap toward its neighbour, so a tap between two lands on the nearer): selecting several messages ([Built from existing parts](../../../../../design/components/overview.md#toolbar-for-selected-messages)).
 - `MessageTextSelectionToolbar` with `MessageTextSelectionToolbarButton` and `MessageTextSelectionToolbarSeparator`: actions on selected text ([Toolbar for selected text](#toolbar-for-selected-text)); `createMessageTextSelectionAnchor` places it.
@@ -221,7 +221,7 @@ message-item/compositions/delegated-long-names
 - The toolbar is 36px high: 28px buttons with 16px icons, 4px from the frame and 4px apart, with its hairline drawn inside that height. It rides the top edge of the highlight and reaches 18px above it, half its height; on a group's first row the transparent 8px border takes part of that, so it reaches only 10px beyond the row. Its buttons are `MessageItemToolbarButton`, not [Button](../button/button.md). It stays this compact because it appears on every message under the pointer: at 38px it covered the sender line and was clipped above the first message.
 - The toolbar keeps `radius-container`, like every popup. Its buttons are controls embedded in its frame, so they wear `radius-chip`, like the buttons in a field, the composer and a card corner ([Inside a frame](../../../../../design/foundations/shape.md#inside-a-frame)).
 - Leave at least 18px above the first message of a scroll area and above the root message of a thread, so the toolbar is never clipped. A timeline that opens with a date line already has the room.
-- The task marker opens the task. Status changes in the task, not from the marker.
+- A task row under a message opens the task. Status changes in the task's details, not from the row ([Tasks in a conversation](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)).
 
 ```example
 message-item/compositions/toolbar
@@ -272,8 +272,8 @@ message-item/compositions/reactions
 
 - Put `MessageItemDelegatedAvatar` only on a person's avatar, never with a presence light ([Avatar](../avatar/avatar.md#rules)).
 - Don't frame a message, and don't give agents a bubble color. Only what is embedded (code blocks, attachments, action cards) looks like a card.
-- Put the task marker first in the footer, then the reactions, with the add button last.
-- Make the task marker a status chip: the status pixel, the task number and the assignee ([Tasks](../tasks/tasks.md)).
+- Put the reactions first in the footer, with the add button last.
+- Put the tasks created from a message above the footer, as a list of compact rows, not as a marker in the footer ([Rows in a compact list](../../../../../design/patterns/tasks.md#rows-in-a-compact-list)).
 - Show one reaction chip per emoji. Put a reaction the person added on `attention-soft`.
 - Keep a chip's ink as far from its left edge as from its right ([Alignment](../../../../../design/foundations/alignment.md#chips)). A reference chip with an icon and a reaction split their padding evenly, 4.5px and 7px at each end, the same total and width as before: a Lucide icon leaves about as much space in its box as a letter beside it, and an emoji or an app's icon is drawn to its edges. The saved marker takes 5.5px before its bookmark, which is drawn 2.3px inside its box, and 6.5px after its text.
 - Put a note after a reference chip's label in `MessageReferenceSuffix`, not in a span of your own. It stays on the label's baseline in the layout and is drawn a quarter of the size difference higher, so the middles of the two x-heights meet; the label stays on the sentence's baseline.

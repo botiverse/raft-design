@@ -1,12 +1,12 @@
 ---
 title: Tabs
 summary: 一排标签页，对应同一页面的各个部分，每个部分有自己的内容；选中的标签页是一张黄色贴纸，标签页放不下时这一排可以滚动。
-sourceHash: a74ac108
+sourceHash: e106ddb2
 ---
 
 # Tabs
 
-标签页在同一页面的各个部分之间切换，每个部分有自己的内容，比如一个频道的聊天、任务和文件。选中的标签页是一张黄色贴纸，和选中的侧栏行或分段控件一样，表示「你在这里」。标签页放不下时，这一排可以横向滚动。
+标签页在同一页面的各个部分之间切换，每个部分有自己的内容，比如一个 Agent 的资料、动态和工作区。选中的标签页是一张黄色贴纸，和选中的侧栏行或分段控件一样，表示「你在这里」。标签页放不下时，这一排可以横向滚动。
 
 ```example
 tabs/compositions/placement
@@ -21,7 +21,7 @@ tabs/compositions/placement
 | 一个流程中按顺序排列的步骤 | [Steps](../steps/steps.md) |
 | 产品的目的地 | [AppRail](../app-rail/app-rail.md)、[MobileNav](../mobile-nav/mobile-nav.md) |
 
-有多种内容的地方，比如频道，在头部下面用一排贴纸标签页展示它们（[导航](../../../../../design/patterns/navigation.md#several-views-of-one-place)）。
+有多种内容的地方，比如一个 Agent，在头部下面用一排贴纸标签页展示它们（[导航](../../../../../design/patterns/navigation.md#several-views-of-one-place)）。频道的任务和文件不是标签页：它们是对话旁边的侧边卡片。只有在卡片浮在消息上方或盖住面板、两张都打开时，才用一行 Tasks / Files 标签页在它们之间切换（[响应式布局](../../../../../design/patterns/responsive.md#structure)）。
 
 ## 结构 {#anatomy}
 
@@ -49,7 +49,7 @@ tabs/compositions/placement
 
 ## 标签页自己的控件 {#a-tabs-own-controls}
 
-一个标签页的内容有自己的控件时（视图切换、筛选、搜索、排序），把它们放在标签页内容顶部、标签页下方的一行工具栏里。每个有控件的标签页都用同样的一行，即任务标签页画的那一行（[TasksPanelToolbar](../tasks/tasks.md)），这样一个人学会了一个标签页，就知道在下一个标签页里往哪儿看：
+一个标签页的内容有自己的控件时（视图切换、筛选、搜索、排序），把它们放在标签页内容顶部、标签页下方的一行工具栏里。每个有控件的标签页都用同样的一行，即 Tasks 页面画的那一行（[TasksPanelToolbar](../tasks/tasks.md)），这样一个人学会了一个标签页，就知道在下一个标签页里往哪儿看：
 
 - 这一行有自己的高度和内边距，两侧是内容的边距，下方是一条 `line-seam`，内容在它下面滚动时它保持固定。内容从不紧贴这一行开始，也从不向上滚到贴着标签页。
 - 筛选和搜索从这一行的左侧开始；切换视图的 [SegmentedControl](../segmented-control/segmented-control.md) 放在右端。视图切换放在左侧会正好在选中的标签页下面，两张黄色贴纸上下叠在一起，看起来像同一级。
@@ -57,7 +57,7 @@ tabs/compositions/placement
 
 ## 内容 {#content}
 
-- 标签页用 1 到 2 个词，Title Case：Chat、Tasks、Files（[字体排印](../../../../../design/foundations/typography.md#casing)）。
+- 标签页用 1 到 2 个词，Title Case：Profile、Activity、Workspace（[字体排印](../../../../../design/foundations/typography.md#casing)）。
 - 数量放在标签后面单独的 Space Mono 元素里，不要写进标签文字。
 
 ## 无障碍 {#accessibility}

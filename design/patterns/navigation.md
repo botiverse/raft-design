@@ -156,7 +156,7 @@ Decided on 2026-10-22 by stdrc (D1a, task #152).
 
 A place can hold several kinds of content, such as an agent's profile and its activity, or a channel's chat, tasks and files.
 
-- Show content that people check while they talk, such as a channel's tasks and files, as side cards beside the conversation rather than as tabs, so the conversation stays in view ([Page structure](./page-structure.md#sidebar-and-side-panel)).
+- Show content that people check while they talk, such as a channel's tasks and files, as side cards beside the conversation rather than as tabs, so the conversation stays in view ([Page structure](./page-structure.md#sidebar-and-side-panel)). When the cards float over the messages or cover the panel and both are open, they show one at a time under a Tasks / Files row of tabs ([Responsive layout](./responsive.md#structure)).
 - Switch between the other views with one row of sticker tabs under the panel header ([Tabs](../../packages/ui/src/components/tabs/tabs.md#variants), in `ConversationPanelTabs`). Give each tab an icon and a one-word label, without a count.
 - Let people reorder the tabs by dragging, and keep their order. The first tab in their order is the one a place opens on.
 - Hide the row when a place has only one view, such as a thread.

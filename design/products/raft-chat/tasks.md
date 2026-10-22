@@ -32,7 +32,7 @@ The card follows [Tasks beside a conversation](../../patterns/tasks.md#tasks-bes
 
 - Count the active tasks (Todo, In Progress, In Review) on All, and the active tasks assigned to the person on For Me. The header carries no count of its own.
 - Put a ghost Create Task icon button (`plus`) before ×. It opens Create Task, a small dialog with one row per task and Add Another.
-- Within a status group, list the newest task first.
+- Within a status group, list the newest task first: the card is read while people talk, so a task just created from the conversation shows at the top of its group, where they look for it.
 
 ### Empty states
 

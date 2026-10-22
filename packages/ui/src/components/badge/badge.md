@@ -34,7 +34,7 @@ Badge is a small label. Its main job is the unread count: a pink sticker that sa
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `appearance="solid"`   | A sticker: a count or a mark that waits for the person, with an ink edge and ink type. The unread count and the @ marker |
 | `appearance="soft"`    | A soft-tinted label with no border: status chips of agent states, the runtime chip                                       |
-| `appearance="outline"` | A hairline label in Space Mono: the `agent` tag, a reply count beside a task chip                                        |
+| `appearance="outline"` | A hairline label in Space Mono: the `agent` tag, a reply count after a task row's title                                  |
 
 `variant` picks the color role. Choose it by what the color means, not by how it looks ([Meanings of color](../../../../../design/foundations/color.md#meanings-of-color)): on a count, `accent` is the pink of "to do" and `primary` the yellow of "you".
 
