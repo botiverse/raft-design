@@ -11,9 +11,8 @@ import {
   CopyableCode,
   CopyableCodeAction,
   CopyableCodeRoot,
-  Status,
 } from "@botiverse/raft-ui";
-import { Terminal } from "lucide-react";
+import { Terminal, TriangleAlert } from "lucide-react";
 
 // @docs-source-strip-start
 import { Dialog } from "@botiverse/raft-ui";
@@ -41,7 +40,7 @@ function AddMachineDialogParts() {
           <CopyableCodeAction aria-label="Copy daemon command" />
         </CopyableCodeRoot>
         <Banner status="warning" size="md" className="mb-5">
-          <Status variant="warning" size="sm" />
+          <TriangleAlert />
           <BannerDescription>Waiting for computer to connect...</BannerDescription>
         </Banner>
       </DialogBody>

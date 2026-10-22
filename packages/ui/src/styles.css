@@ -625,9 +625,9 @@ textarea:-webkit-autofill:disabled {
   background-image: linear-gradient(var(--fill-medium), var(--fill-medium));
 }
 
-/* A mark that leads a line of text: the icon or status light at the start of
-   a banner, a toast, a panel notice or a chip sits on the first line of its
-   text, centred on it, and stays there when the text wraps
+/* A mark that leads a line of text: the icon at the start of a banner, a
+   toast or a panel notice, or the status light of a chip, sits on the first
+   line of its text, centred on it, and stays there when the text wraps
    (design/foundations/alignment.md#a-mark-that-leads-text). In Space
    Grotesk's metrics the centre of the line box is the centre of the cap
    height (to 0.006em); Chromium's rounding can lift the letters 0.5px, which
@@ -641,9 +641,10 @@ textarea:-webkit-autofill:disabled {
 
    `lead-dot` places a status light the same way, in a box one line tall,
    and keeps it at its one size beside text, 9px with a 1.5px ink edge
-   (status.md#sizes). It is kept at 9px inside components (Banner,
-   PanelNotice, ToastIcon, Badge, PanelActivity); when placing Status
-   yourself, don't pass a size. */
+   (status.md#sizes). It is kept at 9px inside components (Badge,
+   PanelActivity, a panel header); when placing Status yourself, don't pass
+   a size. A notice never leads with a status light: that is an agent's
+   state. */
 @utility lead-icon {
   flex-shrink: 0;
   align-self: start;

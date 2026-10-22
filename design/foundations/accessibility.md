@@ -70,7 +70,7 @@ A screen reader announces what the markup says, not what the screen shows. Every
 - Give every icon-only button an `aria-label` in Title Case, the same words as its tooltip: Add Reaction ([Button](../../packages/ui/src/components/button/button.md#accessibility)).
 - Start the accessible name of a control that has visible text with that text. People who use voice control say what they see.
 - Give every dialog, drawer and bottom sheet a title; it is what is announced when it opens ([Dialog](../../packages/ui/src/components/dialog/dialog.md#accessibility)).
-- Hide decoration from assistive technology (`aria-hidden`) when the words are next to it: a status pixel beside its word, a banner's icon, a toast's pixel and progress bar ([Status](../../packages/ui/src/components/status/status.md)).
+- Hide decoration from assistive technology (`aria-hidden`) when the words are next to it: a status pixel beside its word, a banner's icon, a toast's icon and progress bar ([Status](../../packages/ui/src/components/status/status.md)).
 - Name what stands alone without words: a presence light gets `role="img"` and its state ("Online"); an attention dot says what waits; an avatar stack says the full count ("5 agents working"), since it shows only "+3" ([Avatar](../../packages/ui/src/components/avatar/avatar.md#accessibility)).
 - Include the unread state in the name of a trigger that shows a count or a dot: "Notifications, 2 unread" ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)).
 - Mark a region that is loading with `aria-busy="true"`; skeletons are hidden ([Skeleton](../../packages/ui/src/components/skeleton/skeleton.md)).

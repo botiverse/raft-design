@@ -12,13 +12,14 @@ import { Status } from "./components/status";
 import { Avatar } from "./components/avatar/avatar";
 import { toast, ToastProvider } from "./components/toast";
 
-// A mark that leads a line of text, an icon or a status light, is centred on
-// the first line of that text, so it stays there when the text wraps
+// A mark that leads a line of text is centred on the first line of that
+// text, so it stays there when the text wraps
 // (design/foundations/alignment.md#a-mark-that-leads-text). That is the only
 // shared rule: each component keeps its own icon size and gap (a banner's
 // icon 20px and 10px from the text, 16px and 8px when small; a toast's in a
-// 20px column 12px from the title; an action card notice's 14px, 8px), and a
-// status light keeps its one size, 9px, whatever size the caller passed
+// 20px column 12px from the title; an action card notice's 14px, 8px). A
+// notice leads with an icon or an avatar; a status light leads only a chip,
+// where it keeps its one size, 9px, whatever size the caller passed
 // (status.md#sizes). Measured
 // with a mouse (32px controls, the desktop type scale) and on a touch screen
 // (44px controls, the phone scale). Real layout only: jsdom has no boxes.
@@ -30,13 +31,13 @@ const CJK = "这个频道已与 Acme 共享，对方的成员和智能体都能�
 
 const DOT = 9;
 // Each component's own icon size and the space from the mark to the text.
-// A light sits centred in the icon's column, so its gap is the column's.
 const BANNER = {
-  md: { icon: 20, gap: 10, dotGap: 10 + (20 - DOT) / 2 },
-  sm: { icon: 16, gap: 8, dotGap: 8 + (16 - DOT) / 2 },
+  md: { icon: 20, gap: 10 },
+  sm: { icon: 16, gap: 8 },
 } as const;
 const PANEL_NOTICE_GAP = 10;
 const TOAST_COLUMN = 20;
+const TOAST_ICON = 16;
 const TOAST_GAP = 12;
 
 const DEVICES = [
@@ -145,23 +146,6 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
           wraps,
         });
       });
-
-      it(`${deviceName}: a ${size} Banner's status pixel leads its first line (${name})`, async () => {
-        await device(deviceWidth, touch);
-        render(
-          <Frame width={width}>
-            <Banner status="warning" size={size}>
-              <Status data-testid="mark" variant="warning" size="sm" />
-              <BannerDescription data-testid="text">{text}</BannerDescription>
-            </Banner>
-          </Frame>,
-        );
-        expectLeads(screen.getByTestId("mark"), screen.getByTestId("text"), {
-          size: DOT,
-          gap: BANNER[size].dotGap,
-          wraps,
-        });
-      });
     }
 
     it(`${deviceName}: a ${size} Banner's icon leads the title, not the description`, async () => {
@@ -188,23 +172,6 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
   }
 
   for (const { name, text, width, wraps } of TEXTS) {
-    it(`${deviceName}: a PanelNotice's status pixel leads its first line (${name})`, async () => {
-      await device(deviceWidth, touch);
-      render(
-        <Frame width={width + 40}>
-          <PanelNotice>
-            <Status data-testid="mark" variant="warning" />
-            <PanelNoticeContent data-testid="text">{text}</PanelNoticeContent>
-          </PanelNotice>
-        </Frame>,
-      );
-      expectLeads(screen.getByTestId("mark"), screen.getByTestId("text"), {
-        size: DOT,
-        gap: PANEL_NOTICE_GAP,
-        wraps,
-      });
-    });
-
     it(`${deviceName}: a PanelNotice's icon leads its first line (${name})`, async () => {
       await device(deviceWidth, touch);
       render(
@@ -243,7 +210,7 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
 
   for (const description of [undefined, LONG]) {
     const shape = description ? "with a wrapped description" : "title only";
-    it(`${deviceName}: a Toast's status pixel leads the title (${shape})`, async () => {
+    it(`${deviceName}: a Toast's intent icon leads the title (${shape})`, async () => {
       await device(deviceWidth, touch);
       render(
         <ThemeProvider>
@@ -253,7 +220,7 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
       toast.info("Copied the link to #25.", { description });
       const title = await screen.findByText("Copied the link to #25.");
       const content = title.closest<HTMLElement>('[data-slot="toast-content"]')!;
-      const mark = content.querySelector('[data-slot="toast-icon"] > [data-slot="status"]')!;
+      const mark = content.querySelector('[data-slot="toast-icon"] > svg')!;
       // Measure after the enter transition: it scales the toast from 0.98.
       const root = content.closest<HTMLElement>('[data-slot="toast"]') ?? content;
       await waitFor(() => expect(root.getBoundingClientRect().width).toBe(root.offsetWidth));
@@ -261,8 +228,8 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
         expect(lines(screen.getByText(description))).toBeGreaterThanOrEqual(2);
       }
       expectLeads(mark, title, {
-        size: DOT,
-        gap: TOAST_GAP + (TOAST_COLUMN - DOT) / 2,
+        size: TOAST_ICON,
+        gap: TOAST_GAP + (TOAST_COLUMN - TOAST_ICON) / 2,
         wraps: false,
       });
     });
