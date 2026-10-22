@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: 22f43307
+sourceHash: aab26f85
 ---
 
 # MessageItem
@@ -42,7 +42,7 @@ message-item/compositions/item-preview
 - `MessageItemAttachments`：文件和图片（[MessageAttachment](../message-attachment/message-attachment.md)）。
 - `MessageItemEmbedded`：代码块、操作卡片和链接卡片。应用预览的链接不是卡片：它是正文里的标签片（[应用链接](#app-links)）。
 - `MessageItemFooter`：一行：先是任务标记，然后是回应（`MessageReactionChip`，最后是 `MessageReactionAddButton`），再是收藏和已读标记（`MessageItemSavedIndicator`、`MessageItemReadReceipt`）。
-- `MessageItemToolbar` 加 `MessageItemToolbarButton`：悬停工具栏。
+- `MessageItemToolbar` 加 `MessageItemToolbarButton`：悬停工具栏。它在自己所在的行上设置 `--mi-toolbar-width`，标题栏在它下面淡出时读这个值。以前的版本从 app 读 `--mi-toolbar-reserve` 来在标题栏里留位置；现在不再读它，设置它的地方可以删掉。
 - `MessageMultiSelectCheckbox` 和 `MessageMultiSelectToolbar`，操作放在 `MessageMultiSelectToolbarActions` 里（28px 的按钮，间隔 4px；在触屏上每个按钮的点击区域是 44px，向相邻按钮只延伸到间隔的一半，所以点在两者之间会落到较近的那个上）：用于选择多条消息（[由现有部件组成](../../../../../design/components/overview.md#toolbar-for-selected-messages)）。
 - `MessageTextSelectionToolbar` 加 `MessageTextSelectionToolbarButton` 和 `MessageTextSelectionToolbarSeparator`：对选中文字的操作（[选中文字的工具栏](#toolbar-for-selected-text)）；用 `createMessageTextSelectionAnchor` 定位。
 
@@ -195,11 +195,11 @@ message-item/compositions/delegated-preview
 - 悬停时，这一行在自身上铺一层 `fill-subtle`，即所有行都用的轻度一级：一条消息可能有很多行高，人读的时候鼠标指针常常停在上面，所以这一级变化很小，文字保持对比度（[悬停与按下](../../../../../design/foundations/states.md#hover-and-press)）。它以前比其他行更浅（3%）；现在消息和旁边的行、卡片用同样的级差。消息没有按下状态：这一行本身不是操作，点击是在选择文字，或落在其中的链接、名字或按钮上。搜索命中的或选中的消息，悬停时保持 `info-soft`；被定位的消息在高亮持续期间不响应悬停。
 - 当它的某个弹出层打开时（右键、工具栏按钮或在手机上长按打开的上下文菜单），这一行在自身上铺一层 `fill-subtle`，与悬停同一级，所以两者不会叠加。手机没有悬停，所以这层填充表示菜单作用于哪条消息；它比 `info-soft` 浅，所以消息看起来不像被选中。
 - 悬停工具栏在悬停时、焦点在行内时，以及它的某个弹出层打开时出现。它骑在高亮的上边缘，靠右。
-- 悬停只增加信息，从不拿走信息。悬停在一条消息上，正是人想了解它的时候，所以工具栏出现在空白处，而不是盖住原来的内容。
-- 时间属于发送者：谁说的、什么时候说的，要作为一个整体来读，所以时间跟在名字、徽标和角色后面，悬停时也留在那里。右上角只属于工具栏。
-- 用鼠标时，标题栏在工具栏开始的地方结束，所以不管发送者那一行多长，工具栏都不会盖住它。这段空间由 `--mi-toolbar-reserve` 设定，按三个按钮的宽度计算；工具栏按钮更多的产品，在消息列表上设置它。在触屏上没有悬停工具栏，标题栏保持全宽。
+- 悬停从不让消息移动。工具栏浮在这一行的右上角，不为它重新排版，所以正在读的那一行留在原处。
+- 时间属于发送者：谁说的、什么时候说的，要作为一个整体来读，所以时间跟在名字、徽标和角色后面，从不被推到最右边。
+- 标题栏不给工具栏留位置（stdrc，2026-10-22）。平时发送者这一行占满全宽，所以即使在 360px 的消息列里也能看到完整的名字；工具栏出现时，长到伸进右上角的那一行的末尾在它下面淡出：标题栏从工具栏左边缘再往左 4px 起，到自己的末端，经过 12px 的渐隐后全部遮住，所以卡片下方和旁边不会露出被切了一半的字（卡片只盖住这一行的一部分高度）。`MessageItemToolbar` 把自己的宽度量到这一行上（`--mi-toolbar-width`），所以按钮多或少的工具栏都正好遮住自己的宽度；这一行上什么都不会移动。没有工具栏的行（比如手机上）不遮任何东西。留位置会让窄栏里的名字一直被截成几个字母，只为了保护一个只在指针停在这条消息上时才被盖住的角落；只在悬停时留位置，又会让指针每划过一条消息，这一行就重新排版一次。Slack 和 Discord 也是这样做的。
 - 发送者那一行放不下时，`MessageItemSenderGroup` 按固定顺序让出空间：先截断角色，再截断名字。徽标在名字旁边保持完整，时间从不截断（[一行放不下时](../../../../../design/patterns/responsive.md#when-a-row-runs-out-of-room)）。名字和角色可能被截断时，在工具提示里显示完整内容。
-- `MessageItemDelegatedBy` 按自身宽度占位，最多占这一行的 45%；超出时只截断助理的名字。当它的文字本身就比这更宽时（手机上的 "sent by a deleted assistant"），它的宽度就是文字的宽度，改由发送者的名字让出空间：这些文字从不截断，也从不跑到时间下面。发送者的名字至少保留 3rem，名字更短时保留全部；连这也放不下时（360px 宽的消息列面板，还要给工具栏留位置），纯文字按需要换成多行，第一行落在名字的基线上，时间留在第一行，不碰到工具栏。名字周围的文字从不截断：产品在名字两边的空格按原样保留，名字两边都有文字的翻译（中文）两边都保持完整。
+- `MessageItemDelegatedBy` 按自身宽度占位，最多占这一行的 45%；超出时只截断助理的名字。当它的文字本身就比这更宽时（手机上的 "sent by a deleted assistant"），它的宽度就是文字的宽度，改由发送者的名字让出空间：这些文字从不截断，也从不跑到时间下面。发送者的名字至少保留 3rem，名字更短时保留全部；连这也放不下时（360px 宽的消息列面板），纯文字按需要换成多行，第一行落在名字的基线上，时间留在第一行。名字周围的文字从不截断：产品在名字两边的空格按原样保留，名字两边都有文字的翻译（中文）两边都保持完整。
 
 ```example
 message-item/compositions/delegated-long-names
@@ -252,6 +252,7 @@ message-item/compositions/reactions
 - 给 `MessageReferenceIcon` 里的应用图标一个空的 `alt`：旁边的标题已经说明了这个链接。
 - 给头像图片一个空的 `alt`：旁边的名字已经说明了是谁。
 - `MessageItemDelegatedAvatar` 是 `aria-hidden`："sent by Friday" 是标题栏里的纯文字，按它的顺序读出（名字、角色、"sent by Friday"、时间）。产品给整行命名（`aria-label`）时，用同样的文字。`MessageItemDelegatedByButton` 是一个 `<button>`；它跳到个人资料页时，通过 `render` 渲染成链接。
+- 工具栏出现时，在它下面淡出的部分（时间、「sent by」）指针点不到：指针离开工具栏后，时间的工具提示和 `MessageItemDelegatedByButton` 就能用了；用键盘时它们一直在阅读顺序里。
 - 给 `MessageItemTime` 和 `MessageItemContinuationTime` 的 `dateTime` 传入时刻（ISO 8601），并在工具提示里显示完整的日期和时间。读屏软件按显示的顺序读标题栏：名字、徽标、角色、时间。
 
 ## 规则 {#rules}

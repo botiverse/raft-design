@@ -49,7 +49,7 @@ conversation-panel/compositions/conversation-panel
 - Open that menu with the message's full date and time, as a label that can't be chosen: on a touch screen it is the only place a merged message's time shows, and the full date settles which day a long group spans. Arrow keys skip it.
 - Make the quick reactions the first row under it, with a separator between them and the actions.
 - Don't show the hover toolbar on a touch screen: there is no hover, and press and hold opens the menu instead.
-- Let hover only add: the toolbar appears where nothing was, and the header gives it room, so it never covers the name or the time.
+- Let hover never move the message: the toolbar floats over the row's top right corner, the header keeps no room for it, and nothing reflows. In a narrow column the end of a long sender line fades out under it while it shows; at rest the whole line is there ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)).
 - To act on several messages (forward, copy), choose Select Message in the menu; the toolbar for selected messages appears at the bottom of the conversation ([Built from existing parts](../components/overview.md#toolbar-for-selected-messages)).
 
 ```example
