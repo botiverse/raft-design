@@ -46,13 +46,13 @@ Three causes account for the layouts that broke in narrow regions in the 2026-10
 Every row needs a way to give way. A toolbar, a header, a filter row or a list row has to fit at the narrowest width its region can take (the Activity results list goes down to 320px), in the longest translation and with the longest value it can hold (an email address has no space to break at). When it doesn't, its parts give way in a fixed order, so the person still sees every control:
 
 1. A secondary text button shows only its icon, with its label kept as the accessible name and the tooltip. Mark all read becomes the `check-check` icon button.
-2. Only then, the main control shows only its icons: a segmented control's segments, a tab's label. A segmented control does this itself below the row width set in `iconsOnlyBelow`: each segment becomes a 32px square with its icon, its label kept as the accessible name and the tooltip ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)).
+2. Only then, the main control shows only its icons: a segmented control's segments, a tab's label. A segmented control does this itself with `iconsOnlyBelow="auto"`, exactly when its labels don't fit the room it is given: each segment becomes a 32px square with its icon, its label kept as the accessible name and the tooltip ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)).
 3. A row of controls that still doesn't fit wraps onto a second line, the controls kept whole; a segmented control that can't show its icons only scrolls sideways inside its own track rather than spilling onto its neighbor ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)).
 4. Text truncates last, and only in a name or a value (a channel, a person, an email, a time), never in a control's label.
 
 - Never let parts overlap, and never let a control shrink below its own content: wrapping a control in `min-w-0` lets its frame shrink while its content spills onto its neighbor.
-- Give every part that can give way the means to: `min-w-0` and `truncate` on the text that may be cut, `flex-wrap` on a row of controls, `iconsOnlyBelow` on a segmented control in a row that may narrow. A part that can neither shrink, wrap nor truncate is the one that overflows.
-- Decide the switch with a container query on the row (`@container`, `@max-[…]:`), not the window width ([Switch on the region's width](#switch-on-the-regions-width)).
+- Give every part that can give way the means to: `min-w-0` and `truncate` on the text that may be cut, `flex-wrap` on a row of controls, `iconsOnlyBelow="auto"` on a segmented control in a row that may narrow. A part that can neither shrink, wrap nor truncate is the one that overflows.
+- Decide the switch with a container query on the row (`@container`, `@max-[…]:`), not the window width ([Switch on the region's width](#switch-on-the-regions-width)). Where the switch is whether a part's content fits, measure the content rather than guess a width, as `iconsOnlyBelow="auto"` does: a width picked for one language or one count is wrong for another.
 - Don't shrink text or a control's height to make a row fit: a label too small to read, or a target too small to hit, is worse than an icon with a tooltip.
 
 ### Touch screens
@@ -70,7 +70,7 @@ A touch screen has no hover, so anything that only appears on hover is out of re
 - Design for 390px wide, and make everything fit at 320px, the narrowest phone still in use.
 - Truncate long names. What a long value does in a form field, and what wraps instead, is in [Forms](./forms.md#long-values-in-fields).
 - Let buttons wrap to a new line. Don't shrink their text: a label too small to read is worse than a taller button.
-- Use at most 4 segments in a segmented control. When they don't fit, show only their icons, with the label kept as the accessible name (`iconsOnlyBelow`).
+- Use at most 4 segments in a segmented control. When they don't fit, show only their icons, with the label kept as the accessible name (`iconsOnlyBelow="auto"`).
 - Scroll tabs horizontally when they don't fit ([Tabs](../../packages/ui/src/components/tabs/tabs.md)).
 - The composer and the message actions on a touch screen are in [Conversation](./conversation.md#the-composer).
 
