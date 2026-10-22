@@ -33,7 +33,18 @@ const taskChip = tv({
       closed: { root: ["bg-task-status-closed-soft"] },
     },
     variant: {
-      default: { root: ["h-[22px] gap-1.5 rounded-chip px-[7px] py-0", "text-[12px] leading-4"] },
+      // The chip's baseline is its text's, so it sits on the line of text
+      // beside it (a DescriptionList value on its label's baseline): the text
+      // is baseline-aligned in a 16px line 3px from each edge, and the marks
+      // are centred on that line. Left to `items-center`, an inline-flex box
+      // takes its baseline from its first item, the status pixel, whose
+      // bottom edge is not the text's baseline.
+      default: {
+        root: [
+          "h-[22px] items-baseline gap-1.5 rounded-chip px-[7px] py-[3px] [&>svg]:self-center",
+          "text-[12px] leading-4",
+        ],
+      },
       inline: {},
     },
     // `sm` matches the Badges it sits beside: in the Activity card metadata
@@ -65,7 +76,7 @@ const taskChip = tv({
     {
       variant: "default",
       size: "sm",
-      class: { root: ["h-5 gap-1 px-[5px]"] },
+      class: { root: ["h-5 gap-1 px-[5px] py-0.5"] },
     },
   ],
   defaultVariants: {
