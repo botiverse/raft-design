@@ -1,7 +1,7 @@
 ---
 title: Steps
 summary: 显示一个人在 3 到 5 步的短流程中走到了哪里：已完成的步骤是墨色，当前步骤是黄色贴纸，后面的步骤只有轮廓。
-sourceHash: a9d30da0
+sourceHash: ddc64355
 ---
 
 # Steps
@@ -64,6 +64,7 @@ steps/compositions/status
 
 ## 行为 {#behavior}
 
+- 一行步骤占满所在的行，按自己的宽度切换，而不是窗口的（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）。自身宽度小于 40rem（640px）时，每一步的文字排到标记下面，各步平分宽度，标题换行；在宽窗口里的弹窗或 400px 面板中也和手机上一样。40rem 起标题在标记旁边，一行太长时折到第二行。把它放进宽度确定的父元素里（块级元素、被拉伸的 flex 或 grid 子项，或设了宽度的元素），不要放进按内容收缩的父元素（`inline-block`、`w-fit`、没设宽度的绝对定位框或浮层、`flex-basis: auto` 又没设宽度的 flex 子项）：它是自己的容器，不从内容取宽度，在那里会缩成零宽。
 - 横排宽度放不下所有标题时，只显示当前步骤的标题。
 
 ## 内容 {#content}

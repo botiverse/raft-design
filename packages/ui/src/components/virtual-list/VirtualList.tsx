@@ -45,7 +45,7 @@ import { useEventCallback } from "./hooks/use-event-callback";
 import { useLatestRef } from "./hooks/use-latest-ref";
 import { useLayoutEffectWithPrevious } from "./hooks/use-layout-effect-with-previous";
 import { useMemoWithPrevious } from "./hooks/use-memo-with-previous";
-import { useMergedRef } from "./hooks/use-merged-ref";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import { useNonPassiveWheel } from "./hooks/use-non-passive-wheel";
 import { ColumnsContext, ItemColumns } from "./ItemColumns";
 import type { ColumnsContextValue } from "./ItemColumns";

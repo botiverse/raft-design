@@ -34,7 +34,7 @@ tasks/compositions/task-status
 - `TaskChip`: the chip. `status` sets its tint. Its children are a status icon, then the task number, then the assignee.
 - `TaskStatusIcon`, and `TaskTodoIcon`, `TaskInProgressIcon`, `TaskInReviewIcon`, `TaskDoneIcon`, `TaskClosedIcon`: the status pixel.
 - `TasksPanelRoot`: the column of a task page.
-  - `TasksPanelToolbar`: the bar on top, with a seam under it. It holds `TasksPanelToolbarNewTask`, `TasksPanelToolbarFilters` and `TasksPanelToolbarView` (Board / List), and lays them out for narrow screens. `TasksPanelToolbarGroup` and `TasksPanelToolbarLabel` are for anything else in it.
+  - `TasksPanelToolbar`: the bar on top, with a seam under it. It holds `TasksPanelToolbarNewTask`, `TasksPanelToolbarFilters` and `TasksPanelToolbarView` (Board / List), and lays them out by the panel's own width: below 28rem (448px) New Task and the view switch share the first line and the filters take the second; from 28rem they share one row that wraps. A task column 360px wide on a wide window takes the narrow layout ([Switch on the region's width](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)). `TasksPanelToolbarGroup` and `TasksPanelToolbarLabel` are for anything else in it.
   - `TasksPanelViewport`: the scrolling content: a [TaskBoard](../task-board/task-board.md) or a [TaskList](../task-list/task-list.md).
   - `TasksPanelEmpty`: holds an [EmptyState](../empty-state/empty-state.md) when there are no tasks.
 - `TaskLoadingList`, `TaskLoadingRow`: placeholder rows while tasks load.

@@ -5,7 +5,7 @@ export const messageVideoPreview = tv({
     root: [
       "group/video relative aspect-video w-full overflow-hidden",
       "bg-black text-left",
-      "max-w-[min(360px,calc(100vw-112px))] rounded-container border border-line-hairline bg-clip-padding",
+      "max-w-[min(360px,100%)] rounded-container border border-line-hairline bg-clip-padding",
     ],
     media: "block size-full  bg-black object-contain",
     fallback: "flex size-full  items-center justify-center bg-black text-white",

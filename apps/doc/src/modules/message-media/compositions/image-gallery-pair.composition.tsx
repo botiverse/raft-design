@@ -20,7 +20,7 @@ export function MessageImageGalleryPairComposition() {
   return (
     <MessageImageGallery>
       <div className="grid grid-cols-2 gap-2">
-        <MessageImageGalleryItem className="h-[128px] sm:h-[144px]">
+        <MessageImageGalleryItem className="h-[128px] @min-[22.5rem]/gallery:h-[144px]">
           <MessageImageGalleryMedia>
             <img
               src={MESSAGE_FIXTURE_IMAGE_SRC}
@@ -33,7 +33,7 @@ export function MessageImageGalleryPairComposition() {
             <Download />
           </MessageImageGalleryAction>
         </MessageImageGalleryItem>
-        <MessageImageGalleryItem className="h-[128px] sm:h-[144px]">
+        <MessageImageGalleryItem className="h-[128px] @min-[22.5rem]/gallery:h-[144px]">
           <MessageImageGalleryMedia>
             <img
               src={MESSAGE_FIXTURE_IMAGE_SRC}

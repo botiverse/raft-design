@@ -1,7 +1,7 @@
 ---
 title: MessageForwardedBundle
 summary: 消息下方的一张卡片，装着从另一个对话转发来的一条或多条消息，带作者、时间和附件，内容太长时折叠。
-sourceHash: 86698e95
+sourceHash: 00e21da7
 ---
 
 # MessageForwardedBundle
@@ -68,7 +68,7 @@ message-forwarded-bundle/compositions/forwarded-bundle-static-source
 - 内容加载进来或宽度变化时，卡片会重新测量。人一旦手动折叠或展开过，就保持他留下的样子，除非内容已经不需要折叠。
 - 想自己控制折叠时，给 `MessageForwardedBundleItems` 传 `collapsed`，例如显示全部内容的详情视图。这时底部栏总是渲染，标签由你来写。
 - 要让底部栏的操作打开详情视图而不是展开，在它的 `onClick` 里调用 `preventDefault`。
-- `MessageForwardedBundleGallery` 把图片排成每行 3 张，4 张图片排成 2 行、每行 2 张，尺寸与消息自身的图库相同（[MessageAttachment](../message-attachment/message-attachment.md)）。
+- `MessageForwardedBundleGallery` 把图片排成每行 3 张，4 张图片排成 2 行、每行 2 张，尺寸与消息自身的图库相同（[MessageAttachment](../message-attachment/message-attachment.md)）。图库自身宽度不到 360px 时，3 张一行变成 2 张一行，看的是卡片的宽度而不是窗口的（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）。把它放进宽度确定的父元素里（块级元素、被拉伸的 flex 或 grid 子项，或设了宽度的元素），不要放进按内容收缩的父元素（`inline-block`、`w-fit`、没设宽度的绝对定位框或浮层、`flex-basis: auto` 又没设宽度的 flex 子项）：它是自己的容器，不从内容取宽度，在那里会缩成零宽。
 
 ## 内容 {#content}
 

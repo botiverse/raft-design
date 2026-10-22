@@ -24,8 +24,19 @@ const descriptionList = tv({
       vertical: {},
       horizontal: {
         root: [
-          "grid items-baseline",
-          "max-sm:grid-cols-1 max-sm:gap-y-0.5",
+          // The list is its own container: below 24rem (384px) of its own
+          // width the label sits above its value (both span the two
+          // columns), so it stacks in a narrow panel on a wide window and on
+          // a phone (a 390px screen leaves the list about 358px), not by the
+          // window
+          // (design/patterns/responsive.md#switch-on-the-regions-width).
+          "@container/description-list w-full grid items-baseline",
+          // Stacked, a value sits right under its label (no 32px row to centre
+          // in) and a pair sits 8px from the next, so each label reads with its
+          // own value, not the one above it.
+          "[&>[data-slot=description-item]>*]:@max-sm/description-list:col-span-full",
+          "[&>[data-slot=description-item]>[data-slot=description-details]]:@max-sm/description-list:min-h-0",
+          "[&>[data-slot=description-item]+[data-slot=description-item]>[data-slot=description-term]]:@max-sm/description-list:mt-2",
           "*:data-[slot=description-item]:contents",
           "[&>[data-slot=description-item]>[data-slot=description-term]]:mb-0",
           "[&>[data-slot=description-item]>[data-slot=description-term]]:max-w-40",

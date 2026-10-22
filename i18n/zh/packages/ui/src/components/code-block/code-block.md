@@ -1,7 +1,7 @@
 ---
 title: CodeBlock
 summary: 放在带框的代码表面上的多行代码或一段日志，可以加一个头部，写文件名、放复制操作。
-sourceHash: 08db2e3e
+sourceHash: 36f52363
 ---
 
 # CodeBlock
@@ -67,7 +67,7 @@ code-block/compositions/animated-copy
 - 每个 `CodeBlockAction` 都要有 `aria-label`，例如 "Copy code"：它只有图标。
 - 复制完成时要播报出来，例如在按钮上用 `aria-live`，不要让图标的变化成为唯一的信号。
 - 代码保持在 `pre` 和 `code` 里，这样它会被当作代码读出，并保留空白。
-- 在 `CodeBlockPre` 里渲染代码。长行在它里面滚动；滚动时它是一个键盘可以到达的区域（`tabindex="0"`、`role="region"`），由它的 `aria-label` 命名（默认是 "Code"；按语言命名，如 "ts code"）：Safari 不让键盘到达无法获得焦点的滚动容器，而没有角色的 `pre` 无法带名称。放得下的代码不增加 Tab 停留点。键盘聚焦时显示内嵌的墨色焦点环。
+- 在 `CodeBlockPre` 里渲染代码。长行在它里面滚动；滚动时它是一个键盘可以到达的区域（`tabindex="0"`、`role="region"`），由它的 `aria-label` 命名（默认是 "Code"；按语言命名，如 "ts code"）：Safari 不让键盘到达无法获得焦点的滚动容器，而没有角色的 `pre` 无法带名称。放得下的代码不增加 Tab 停留点。`pre` 变大小或代码变了（晚到的高亮、流式输出的代码），它都会重新量，所以变长的行会得到 Tab 停留点。键盘聚焦时显示内嵌的墨色焦点环。
 
 ## 规则 {#rules}
 

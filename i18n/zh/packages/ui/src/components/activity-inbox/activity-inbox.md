@@ -1,7 +1,7 @@
 ---
 title: ActivityInbox
 summary: 动态面板：一列收件项，带视图、筛选和多选工具栏；选中一项，它会在列表旁边打开。
-sourceHash: 0eddc50b
+sourceHash: 4b2956ea
 ---
 
 # ActivityInbox
@@ -27,7 +27,7 @@ activity/compositions/activity-inbox
 - `ActivityInboxPanel`：面板本身。里面有一个标题为 Activity 的 [Panel](../panel/panel.md) 头部。必需。
 - `ActivityInboxSidebar`：左侧放视图和筛选的一列，用侧边栏行（[Sidebar](../sidebar/sidebar.md)）。手机上隐藏。
 - `ActivityInboxControls`：列表上方的一行：筛选（All、Unread 和 Mentions）和 Mark all read。这里没有搜索框：搜索是 [Search](../search/search.md) 的事，在这里放一个搜索框就多了一个入口。
-- `ActivityInboxSelectionToolbar`：一个全选复选框，后面是排序菜单，或者是 `ActivityInboxSelectionCount` 加上针对选中项的操作。
+- `ActivityInboxSelectionToolbar`：一个全选复选框，后面是排序菜单，或者是 `ActivityInboxSelectionCount` 加上针对选中项的操作。放得下时是一行 44px；栏窄时它们折到第二行，不管窗口多宽（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）。
 - `ActivityInboxViewport`：可滚动的 [InboxItem](../inbox-item/inbox-item.md) 列表。
 - `ActivityInboxLoadingMore`：加载更多项时，列表末尾的一行。
 

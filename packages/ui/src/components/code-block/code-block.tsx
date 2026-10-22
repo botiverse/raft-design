@@ -1,6 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 import { codeBlock } from "./code-block.recipe";
 
 const CORNERS = [
@@ -155,18 +155,34 @@ export function CodeBlockPre({
   "aria-label": ariaLabel = "Code",
   ...props
 }: CodeBlockPreProps) {
-  const preRef = useRef<HTMLPreElement>(null);
+  // The pre mounted now (a callback ref), measured again whenever it resizes
+  // or its content changes: highlighting that swaps the `code`, or code that
+  // streams in, changes the content without changing the pre's own box, and
+  // a ResizeObserver doesn't report an inline `code` growing
+  // (design/patterns/responsive.md#switch-on-the-regions-width).
+  const [pre, setPre] = useState<HTMLPreElement | null>(null);
+  const preRef = useCallback((element: HTMLPreElement | null) => setPre(element), []);
   const [overflowing, setOverflowing] = useState(false);
-  useEffect(() => {
-    const pre = preRef.current;
+  useLayoutEffect(() => {
     if (!pre) return;
-    // The observer reports once as it starts, then on every change of the
-    // pre's width or of its content's.
-    const observer = new ResizeObserver(() => setOverflowing(pre.scrollWidth > pre.clientWidth));
-    observer.observe(pre);
-    for (const child of pre.children) observer.observe(child);
-    return () => observer.disconnect();
-  }, []);
+    const measure = () => setOverflowing(pre.scrollWidth > pre.clientWidth);
+    const resize = new ResizeObserver(measure);
+    const observe = () => {
+      resize.disconnect();
+      resize.observe(pre);
+      for (const child of pre.children) resize.observe(child);
+    };
+    observe();
+    const mutation = new MutationObserver(() => {
+      observe();
+      measure();
+    });
+    mutation.observe(pre, { childList: true, subtree: true, characterData: true });
+    return () => {
+      resize.disconnect();
+      mutation.disconnect();
+    };
+  }, [pre]);
   const defaultProps: useRender.ElementProps<"pre"> = overflowing
     ? { tabIndex: 0, role: "region", "aria-label": ariaLabel }
     : {};

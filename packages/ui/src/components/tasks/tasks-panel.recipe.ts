@@ -2,12 +2,19 @@ import { tv } from "../../lib/tv";
 
 export const tasksPanel = tv({
   slots: {
-    root: ["flex min-h-0 min-w-0 flex-1 flex-col", "bg-layer-canvas text-foreground"],
+    // The panel is the container its toolbar switches on: a task column can
+    // be 360px on a wide window (design/patterns/responsive.md#switch-on-the-regions-width).
+    root: [
+      "@container/tasks flex min-h-0 min-w-0 flex-1 flex-col",
+      "bg-layer-canvas text-foreground",
+    ],
     toolbar: [
       "grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2",
-      "md:flex md:flex-wrap md:items-center md:justify-between",
+      "@min-md/tasks:flex @min-md/tasks:flex-wrap @min-md/tasks:items-center @min-md/tasks:justify-between",
+      // 16px sides in a narrow panel, 20px in a wide one: by the panel's
+      // width like its layout, not the window's.
       "min-h-14 border-b border-line-seam bg-layer-canvas px-5 py-3",
-      "max-md:px-4",
+      "@max-md/tasks:px-4",
     ],
     toolbarGroup: ["flex flex-wrap items-center gap-2"],
     toolbarNewTask: [
@@ -17,7 +24,7 @@ export const tasksPanel = tv({
     toolbarFilters: [
       "col-span-2 row-start-2 min-w-0",
       "only:col-auto only:row-auto",
-      "md:mr-auto",
+      "@min-md/tasks:mr-auto",
       "flex flex-wrap items-center gap-2",
     ],
     toolbarView: ["col-start-2 row-start-1 justify-self-end", "flex flex-wrap items-center gap-2"],
@@ -32,7 +39,7 @@ export const tasksPanel = tv({
       "min-h-0 flex-1 overflow-auto overscroll-contain p-4",
       "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
       "bg-layer-canvas px-5",
-      "max-md:px-4",
+      "@max-md/tasks:px-4",
     ],
     empty: ["flex h-full flex-col items-center justify-center"],
   },

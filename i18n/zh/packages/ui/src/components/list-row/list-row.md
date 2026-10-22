@@ -1,7 +1,7 @@
 ---
 title: ListRow
 summary: 用于详情页上的人和 Agent、设置和快捷入口的行：前导块、标题和预览、时间和一个徽标。
-sourceHash: 7188403c
+sourceHash: 84bfec76
 ---
 
 # ListRow
@@ -86,7 +86,7 @@ list-row/compositions/loading
 
 - 预览以说话的人开头："Wug: Release notes are drafted."
 - 一行里最多一个徽标。
-- 时间和计数用 Space Mono；`ListRowMeta` 会处理这一点。
+- 时间和计数用 Space Mono；`ListRowMeta` 会处理这一点。标题先让位时它保持完整，仍然放不下才截断，所以放在里面的长值，比如 320px 的行里按钮旁的邮箱，会被截断，而不是跑到按钮下面。
 - 设置项的后果写在带 `wrap` 的 `ListRowDescription` 里，这样不会被截断。
 
 ### 分组标题 {#group-headings}

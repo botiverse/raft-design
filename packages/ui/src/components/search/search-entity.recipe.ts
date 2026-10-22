@@ -5,7 +5,9 @@ export const searchEntity = tv({
     entity: [
       "flex min-w-0 w-full items-center gap-3 p-3 text-left transition-colors",
       "relative rounded-none border-0 bg-transparent px-4 py-3 text-foreground shadow-none",
-      "max-md:min-h-16",
+      // A finger's row: 64px on a touch screen at any width, by the input,
+      // not the width (design/patterns/responsive.md#touch-screens).
+      "pointer-coarse:min-h-16",
       "not-first:before:absolute not-first:before:top-0 not-first:before:right-0 not-first:before:left-[55px] not-first:before:border-t not-first:before:border-line-hairline",
       "hover:bg-fill-subtle active:bg-fill-medium",
       "not-data-[selected=true]:data-popup-open:bg-fill-subtle",
