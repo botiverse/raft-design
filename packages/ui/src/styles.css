@@ -629,8 +629,9 @@ textarea:-webkit-autofill:disabled {
    a banner, a toast, a panel notice or a chip sits on the first line of its
    text, centred on it, and stays there when the text wraps
    (design/foundations/alignment.md#a-mark-that-leads-text). In Space
-   Grotesk the centre of the line box is the centre of the cap height (to
-   0.006em), so this is optical centring and needs no per-size nudge. Only
+   Grotesk's metrics the centre of the line box is the centre of the cap
+   height (to 0.006em); Chromium's rounding can lift the letters 0.5px, which
+   is left alone, as the alignment page explains. Only
    the place is shared: each component keeps its own icon size and gap.
 
    `lead-icon` centres an icon of any size on the line its parent sets, by
