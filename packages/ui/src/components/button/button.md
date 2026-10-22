@@ -75,7 +75,7 @@ Size follows the purpose. The same purpose has the same size everywhere, and the
 
 These three and the two icon sizes, `icon-md` and `icon-lg`, are all the sizes. `xs` and `sm` render exactly as `md`, and `icon-xs` and `icon-sm` exactly as `icon-md`. They are deprecated aliases, kept until raft-ui 1.0. `node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src>` renames them, and nothing on screen changes.
 
-When a place looks too tight for a 32px button, change the container, not the button. A banner with a button is a standard banner, not `sm`.
+When a place looks too tight for a 32px button, change the container, not the button. A banner's button is `md` at every banner size, and the banner's text is as large as its label ([Banner](../banner/banner.md#sizes)).
 
 #### Size by place
 
