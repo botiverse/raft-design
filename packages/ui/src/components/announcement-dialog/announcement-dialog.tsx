@@ -24,10 +24,7 @@ const announcement = tv({
       "flex min-w-0 items-center gap-2 wrap-break-word",
       "text-caption text-foreground-muted",
     ],
-    dot: [
-      "shrink-0",
-      "size-[9px] rounded-[2px] border-[1.5px] border-sticker-ink bg-attention-400",
-    ],
+    dot: ["shrink-0", "size-2.5 rounded-[2px] border-[1.5px] border-sticker-ink bg-attention-400"],
     title: ["mt-3 wrap-break-word normal-case", "text-headline font-bold tracking-normal"],
     picture: [
       "mt-5 h-44 w-full overflow-hidden border border-line-hairline [&_img]:size-full  [&_img]:object-contain",

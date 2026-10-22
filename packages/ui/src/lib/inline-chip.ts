@@ -13,7 +13,7 @@
  *   centred on the chip (alignment.md, Marks in running text).
  * - Sides: 6px at each end. A chip with a leading mark (a 14px icon, an app's
  *   image or avatar in `MessageReferenceIcon`'s 14px box, the loading spinner,
- *   a task's 9px status pixel, each in its own box) takes
+ *   a task's 10px status pixel, each in its own box) takes
  *   4.5px at each end, so the ink at its two ends sits equally far in
  *   (alignment.md, Chips), and the mark is 4px from the text. A note after the
  *   label keeps the same 4px.

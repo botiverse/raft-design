@@ -91,7 +91,7 @@ const notificationCenter = tv({
       false: {
         item: [
           "pr-[37px]",
-          "after:pointer-events-none after:absolute after:top-[17.5px] after:right-4 after:size-[9px]",
+          "after:pointer-events-none after:absolute after:top-[calc(--spacing(3)+(var(--text-subhead--line-height)-10px)/2)] after:right-4 after:size-2.5",
           "after:rounded-[2px] after:border-[1.5px] after:border-sticker-ink after:bg-attention-400",
         ],
       },

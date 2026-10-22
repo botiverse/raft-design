@@ -20,7 +20,7 @@ import { Spinner } from "./components/spinner";
 // icon 20px and 10px from the text, 16px and 8px when small; a toast's in a
 // 20px column 12px from the title; an action card notice's 14px, 8px). A
 // notice leads with an icon or an avatar; a status light leads a status chip,
-// where it keeps its one size, 9px, whatever size the caller passed
+// where it keeps its one size, 10px, whatever size the caller passed
 // (status.md#sizes). Measured
 // with a mouse (32px controls, the desktop type scale) and on a touch screen
 // (44px controls, the phone scale). Real layout only: jsdom has no boxes.
@@ -30,7 +30,7 @@ const it = test.skipIf(typeof window === "undefined");
 const LONG = "This channel is shared with Acme, and everyone there can read what you post";
 const CJK = "这个频道已与 Acme 共享，对方的成员和智能体都能看到你在这里发的消息";
 
-const DOT = 9;
+const DOT = 10;
 // The default Spinner: two 5px pixels and a 2px gap a side.
 const SPINNER = 12;
 // Each component's own icon size and the space from the mark to the text.
@@ -282,7 +282,7 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
     });
   });
 
-  it(`${deviceName}: a Badge's and a PanelActivity's status pixel is 9px, centred on the caption's line`, async () => {
+  it(`${deviceName}: a Badge's and a PanelActivity's status pixel is 10px, centred on the caption's line`, async () => {
     await device(deviceWidth, touch);
     render(
       <ThemeProvider>
@@ -308,6 +308,10 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
       const word = range.getBoundingClientRect();
       expect(Math.abs(middle(dot) - middle(word))).toBeLessThanOrEqual(0.5);
       expect([dot.width, dot.height]).toEqual([DOT, DOT]);
+      // Even in an even line, it sits on a whole pixel: the same space above
+      // and below it in the chip.
+      const box = chip.getBoundingClientRect();
+      expect(dot.top - box.top).toBe(box.bottom - dot.bottom);
     }
   });
 }

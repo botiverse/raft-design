@@ -1,8 +1,9 @@
 import type { CSSProperties, SVGProps } from "react";
 import type { TaskStatusId } from "./task-status.recipe";
 
-/** Raft draws every status as its pixel: a 9px square in the status colour
- *  with a 1.5px sticker-ink edge (2px outer radius). The square keeps its size
+/** Raft draws every status as its pixel: a 10px square in the status colour
+ *  with a 1.5px sticker-ink edge (2px outer radius), the size of every status
+ *  light beside text (status.md#sizes). The square keeps its size
  *  and sits centred in whatever box the context gives the icon, so an icon
  *  slot sized for a glyph still shows the same pixel. */
 const TASK_STATUS_PIXEL_STYLE: Record<TaskStatusId, CSSProperties> = {
@@ -23,8 +24,8 @@ function TaskStatusPixel({
       aria-hidden
       data-slot="task-status-icon"
       data-status={status}
-      width="9"
-      height="9"
+      width="10"
+      height="10"
       overflow="visible"
       className={className}
       {...props}
@@ -32,11 +33,11 @@ function TaskStatusPixel({
       <rect
         x="50%"
         y="50%"
-        width="7.5"
-        height="7.5"
+        width="8.5"
+        height="8.5"
         rx="1.25"
         strokeWidth="1.5"
-        transform="translate(-3.75 -3.75)"
+        transform="translate(-4.25 -4.25)"
         style={TASK_STATUS_PIXEL_STYLE[status]}
       />
     </svg>

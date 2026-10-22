@@ -25,7 +25,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 | `radius-dialog` | Dialogs, and the top corners of bottom sheets |
 | `rounded-full` | Switches and radios only |
 
-- Use a 2px radius for presence lights and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.
+- Use a 2px radius for status lights and attention dots (10px beside text, 6px to 20px on an avatar's corner) and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.
 
 ## Inside a frame
 

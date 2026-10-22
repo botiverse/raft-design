@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 agent 用法相同。
-sourceHash: b1a565d1
+sourceHash: 22f43307
 ---
 
 # MessageItem
@@ -80,7 +80,7 @@ message-reference/compositions/mixed-long-message
 | 高度 | 正文行高减 2px：标签片文字的行框，上下没有内边距 | 20px | 22px |
 | 对齐 | 文字在句子的基线上，前置标记在标签片里居中（[正文中的标记](../../../../../design/foundations/alignment.md#marks-in-running-text)） | 行高保持 22px | 行高保持 24px |
 | 两端 | 两端各 6px；有前置标记时两端各 4.5px（[对齐](../../../../../design/foundations/alignment.md#chips)：两端的墨迹离边缘一样远），标记再隔 4px 到文字 | 6px 或 4.5px | 6px 或 4.5px |
-| 前置标记 | 14px 的图标（svg，或放在 `MessageReferenceIcon` 里的应用图片）、加载中的旋转图标，或任务 9px 的状态像素点，各自用自己的盒子，在标签片里居中 | 14px、9.5px 或 9px | 14px、9.5px 或 9px |
+| 前置标记 | 14px 的图标（svg，或放在 `MessageReferenceIcon` 里的应用图片）、加载中的旋转图标，或任务 10px 的状态像素点，各自用自己的盒子，在标签片里居中 | 14px、9.5px 或 10px | 14px、9.5px 或 10px |
 | 注记 | 标签后的注记（`MessageReferenceSuffix`），离标签 4px | 4px | 4px |
 | 圆角 | `radius-sticker` | 4px | 4px |
 

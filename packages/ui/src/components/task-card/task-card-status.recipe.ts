@@ -9,7 +9,7 @@ export const taskCardStatus = tv({
     "font-sans text-[12px] leading-4 font-semibold text-foreground",
     "[&:not(:has([data-slot=task-card-status-label]))]:hidden",
     "**:data-[slot=task-card-status-label]:inline-flex **:data-[slot=task-card-status-label]:items-center [&_[data-slot=task-card-status-label]]:gap-1.5",
-    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:size-3 [&_svg:not([data-slot=task-status-icon])]:-mx-0.5 [&_svg[data-slot=task-status-icon]]:size-[9px]",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:size-3 [&_svg:not([data-slot=task-status-icon])]:-mx-0.5 [&_svg[data-slot=task-status-icon]]:size-2.5",
     "[button&]:cursor-pointer [button&]:enabled:hover:overlay-medium [button&]:enabled:active:overlay-medium",
     "disabled:cursor-default disabled:opacity-100",
     "focus-visible:shadow-focus",

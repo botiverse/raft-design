@@ -1,7 +1,7 @@
 ---
 title: 形状
 summary: 五种圆角、两种描边宽度，以及为什么圆角容器的边缘上不贴任何东西。
-sourceHash: 61dff855
+sourceHash: 4b783519
 ---
 
 # 形状
@@ -25,7 +25,7 @@ sourceHash: 61dff855
 | `radius-dialog` | 对话框，以及底部面板的上两个角 |
 | `rounded-full` | 仅限开关和单选框 |
 
-- 在线状态灯，以及 9px 到 11px 头像里的图片，用 2px 圆角：它们太小，用不了 `radius-sticker`。
+- 状态灯和提醒圆点（文字旁 10px，头像角上 6px 到 20px），以及 9px 到 11px 头像里的图片，用 2px 圆角：它们太小，用不了 `radius-sticker`。
 
 ## 外框之内 {#inside-a-frame}
 

@@ -2,7 +2,7 @@
    - Local CSS variables (--r-timeline-*) declared on the list; items inherit them
    - Modifier classes rebind local variables
    - Component styles strictly consume local variables
-   - Every marker is a status pixel: a 9px square in the item's colour with a
+   - Every marker is a status pixel: a 10px square in the item's colour with a
      1.5px sticker-ink edge, strung on a hairline. Titles are 14/20 ink,
      details and times Space Mono 12 in ink-3, the time on the right of the
      row. One scale for every size; `lg` only opens the title to 16/24.
@@ -13,7 +13,7 @@
    ───────────────────────────────────────────────────────────────────────── */
 
 .r-timeline {
-  --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 9px);
+  --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 10px);
   /* The type scale's callout and mono meta, so a desktop gets its sizes too. */
   --r-timeline-title-font-size: var(--text-callout);
   --r-timeline-content-font-size: var(--text-mono-meta);
