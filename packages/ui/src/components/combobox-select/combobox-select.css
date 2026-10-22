@@ -61,13 +61,10 @@
   height: var(--control-embedded-size);
   padding: 0 4px;
 }
-/* The text sits as far from the chip's left edge as the × does from its right
-   (alignment.md#chips): the × is a 14px icon centred in a button 4px shorter
-   than the chip, 2px from its end, and draws 3px inside its box. */
 .r-combobox-select__chip {
   max-width: 100%;
   height: var(--control-embedded-size);
-  padding: 0 2px 0 calc((var(--control-embedded-size) - 18px) / 2 + 5px);
+  padding: 0 2px 0 8px;
   display: inline-flex;
   align-items: center;
   gap: 6px;

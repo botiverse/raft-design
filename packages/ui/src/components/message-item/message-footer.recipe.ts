@@ -6,7 +6,7 @@ export const messageFooter = tv({
     savedIndicator: [
       "inline-flex min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap select-none",
       "[&_svg]:shrink-0",
-      "h-[22px] rounded-chip pr-1.5 pl-[5px]",
+      "h-[22px] rounded-chip pr-[6.5px] pl-[5.5px]",
       "text-caption font-semibold text-foreground-muted",
       "bg-fill-muted hover:overlay-medium active:overlay-medium",
       "outline-none focus-visible:shadow-focus",

@@ -74,7 +74,6 @@ A phone here is a touch screen narrower than the desktop layout, `(width < 48rem
 - The list always opens below the field, between the field and the keyboard, as a native autocomplete does, and never flips. Which side has more room depends on whether the keyboard happens to be up, so a list that chose the roomier side opened downward one time and upward the next on the same field. When fewer than three rows fit below, the field scrolls up to the top of what is visible instead. As the keyboard comes up or goes, the address bar moves, or the filtered list shrinks and grows, only the list's height changes: the field stays where it is.
 - The input stays at 16px or more at every `size`, so iOS doesn't zoom into it.
 - `size="lg"` is a 52px field with 40px chips and buttons, 6px inside it; `size="sm"` is a 28px field with 22px chips and buttons, 3px inside it, as close as a segmented control's items sit to their track.
-- A chip's text starts as far from its left edge as its × ends from its right, at every `size`: the padding before the text grows with the chip's remove button, as in [Combobox](../combobox/combobox.md) ([Alignment](../../../../../design/foundations/alignment.md#chips)).
 - Inside a bottom [Drawer](../drawer/drawer.md), give the drawer a height that doesn't follow the keyboard (`lvh`, not `dvh`) and room below the field for the list, and raise `listMaxHeight` when the drawer is tall.
 
 ```example

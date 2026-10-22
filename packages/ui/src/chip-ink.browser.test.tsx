@@ -24,6 +24,12 @@ import {
 // a `#` icon: Lucide draws `#` 1.75px inside its 14px box where most icons
 // leave 0.6px, and a reference chip cannot see which icon it was given, so it
 // keeps that 1-2px (alignment.md#chips). The product writes `#` as text.
+// Tags with a remove button in a field are left out too: matching their ends
+// would take padding they don't have or move the button off its 2px inset, so
+// they keep their padding (alignment.md#chips).
+//
+// Every chip keeps its total padding, and so its width: only the split between
+// the two ends moved.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -80,12 +86,7 @@ for (const [name, width] of [
       const gaps = inkGaps(chipOf(document.querySelector(`[data-chip="${kind}"]`)!));
       return { kind, ...gaps };
     });
-    for (const [index, chip] of [
-      ...document.querySelectorAll("[data-chip=combobox-chip], .r-combobox-select__chip"),
-    ].entries()) {
-      rows.push({ kind: `field-tag-${index}`, ...inkGaps(chip) });
-    }
-    expect(rows.length).toBe(kinds.length + 4);
+    expect(rows.length).toBe(kinds.length);
     for (const row of rows) {
       expect(
         Math.abs(row.left - row.right),

@@ -109,4 +109,4 @@ None of these parts wraps a Base UI primitive; `TaskChip` renders a `<span>` unl
 
 - Build any new surface that shows a task status from `taskStatusSoft` and `taskStatusStrong`, so a status has one color everywhere.
 - Don't give a chip a border: the tint is a highlight, not a sticker ([Status](../status/status.md#rules)).
-- A chip has the same padding at both ends: 8px, 6px when `sm` or inline. The status pixel is drawn to its edges, so the space before it is all padding; with 2px less on that end, the pixel sat 6px from the edge and the last letter 8.5px ([Alignment](../../../../../design/foundations/alignment.md#chips)).
+- A chip splits its padding evenly between its two ends: 7px each, 5px when `sm`, 4.5px inline, the same total as before. The status pixel is drawn to its edges, so the space before it is all padding; with 2px less on that end, the pixel sat 6px from the edge and the last letter 8.5px ([Alignment](../../../../../design/foundations/alignment.md#chips)).

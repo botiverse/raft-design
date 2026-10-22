@@ -108,7 +108,7 @@ const combobox = tv({
     chip: [
       "inline-flex min-w-0 max-w-full items-center overflow-hidden",
       "[&>:not([data-slot=combobox-chip-remove])]:min-w-0 [&>:not([data-slot=combobox-chip-remove])]:truncate",
-      "h-control-embedded gap-1.5 rounded-chip bg-fill-muted pr-0.5 pl-[calc((var(--control-embedded-size)-18px)/2+5px)]",
+      "h-control-embedded gap-1.5 rounded-chip bg-fill-muted pr-0.5 pl-2",
       "text-footnote font-semibold text-foreground",
     ],
     chipRemove: [

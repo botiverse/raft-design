@@ -13,12 +13,13 @@ export type MessageReferenceTextVariant = "primary" | "secondary";
 // (the root's `[&_svg]:self-center` centres icons on their own) lets the text,
 // not a leading icon, set the chip's baseline. With `items-center` the icon
 // would supply it, and the chip's words would float 2px above the sentence.
-// The ink at both ends sits 6px from the edge (alignment.md, Chips): a Lucide
+// The ink at both ends sits the same distance from the edge (alignment.md,
+// Chips). A chip with an icon keeps its 9px of padding, split evenly: a Lucide
 // icon keeps 1/24 of its box empty at each side, about what a letter keeps, so
-// an icon end takes the same padding as a text end. A 3px icon end left the icon
-// 3.6px from the edge against 7px after the last letter.
+// the two ends take the same padding. 3px before the icon and 6px after the
+// text left the icon 3.6px from the edge against 7px after the last letter.
 const chip = (fill: string) => [
-  "items-baseline gap-0.5 rounded-sticker px-1.5 py-px",
+  "items-baseline gap-0.5 rounded-sticker px-1.5 py-px has-[>svg]:px-[4.5px]",
   // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
   "[font-size:0.875em] leading-5 font-semibold",
   "[--message-reference-em:1em]",
