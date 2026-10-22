@@ -52,7 +52,7 @@ Content keeps the same inset from every edge of its container, so the container 
 
 One center line per row, one start edge down a column. The rules and their reasons are in [Alignment](./alignment.md); in short:
 
-- **A row with boxes and text** (a chip, an avatar, an icon, a word) **centers every part on the row's line box**, with no trimming of the text and no per-engine correction ([A mark that leads text](./alignment.md#a-mark-that-leads-text)).
+- **A row with boxes and text** (a chip, an avatar, an icon, a word) **centers every part on the row's line box**, with no trimming of the text and no per-engine correction ([A mark that leads text](./alignment.md#a-mark-that-leads-text)). A line of label–value facts is not such a row: an inline [DescriptionList](../../packages/ui/src/components/description-list/description-list.md#inline) puts its texts on one baseline and centers only the marks without text.
 - **A line of text alone** shares one baseline across sizes and faces ([Text of different sizes on one line](./alignment.md#text-of-different-sizes-on-one-line)).
 - **A column shares one start edge**: a panel's title, its filters, its group headings and its rows all start on the panel's margin, and an icon button at either end puts its icon box on it ([The ends of a header](./alignment.md#the-ends-of-a-header)).
 

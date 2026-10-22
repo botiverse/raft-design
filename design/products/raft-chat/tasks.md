@@ -30,7 +30,7 @@ tasks/compositions/tasks-panel
 
 The card follows [Tasks beside a conversation](../../patterns/tasks.md#tasks-beside-a-conversation). In Raft Chat:
 
-- Count the active tasks (Todo, In Progress, In Review) in its header and on All, and the active tasks assigned to the person on For Me: "5 active · 1 for you".
+- Count the active tasks (Todo, In Progress, In Review) on All, and the active tasks assigned to the person on For Me. The header carries no count of its own.
 - Put a ghost Create Task icon button (`plus`) before ×. It opens Create Task, a small dialog with one row per task and Add Another.
 - Within a status group, list the newest task first.
 
