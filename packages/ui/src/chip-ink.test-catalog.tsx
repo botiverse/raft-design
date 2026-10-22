@@ -22,6 +22,7 @@ import {
   MessageReactionCount,
   MessageReactionGlyph,
   MessageReferenceChip,
+  MessageReferenceIcon,
   MessageReferenceLabel,
   MessageReferencePending,
   MessageReferenceSuffix,
@@ -53,6 +54,13 @@ export function AppIcon() {
     </svg>
   );
 }
+
+/** An app's registered icon as Raft serves it: an image filled to its edges. */
+const APP_IMAGE =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="oklch(0.6 0.19 30)"/><g fill="oklch(0.99 0 0)"><circle cx="32" cy="21" r="10"/><rect x="14" y="37" width="36" height="9" rx="2"/></g></svg>',
+  );
 
 export type ChipCase = {
   kind: string;
@@ -86,6 +94,20 @@ export const MESSAGE_CHIPS: ChipCase[] = [
       <MessageReferenceChip variant="link" render={<a href="#pr" />}>
         <AppIcon />
         <MessageReferenceLabel>raft-design#686 · Button sizes</MessageReferenceLabel>
+      </MessageReferenceChip>
+    ),
+  },
+  {
+    kind: "ref-app-image",
+    caption: "App link (image)",
+    before: "Merged",
+    after: "this morning.",
+    chip: (
+      <MessageReferenceChip variant="info" capped render={<a href="#pr-10449" />}>
+        <MessageReferenceIcon>
+          <img src={APP_IMAGE} alt="" />
+        </MessageReferenceIcon>
+        <MessageReferenceLabel>#10449 one locale source</MessageReferenceLabel>
       </MessageReferenceChip>
     ),
   },

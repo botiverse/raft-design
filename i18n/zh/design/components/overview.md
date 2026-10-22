@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: b9176046
+sourceHash: 1c398a0c
 ---
 
 # 组件
@@ -109,6 +109,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | --- | --- |
 | 悬停时显示一句话 | [Tooltip](../../packages/ui/src/components/tooltip/tooltip.md) |
 | 悬停时显示一个人或 agent | 个人资料卡（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)） |
+| 悬停在标签片上时，显示应用链接到的条目 | 条目卡片（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)） |
 | 点击或长按时显示一组操作 | [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) |
 | 点击时选一个值 | [Select](../../packages/ui/src/components/select/select.md)，值多时带搜索 |
 | 点击时选几个值 | 多选，值多时带搜索。选中一个值不会关闭列表 |
@@ -177,7 +178,7 @@ lightbox/compositions/attachment-preview-shell
 
 ### 链接卡片、转发的消息、引用预览 {#link-cards-forwarded-messages-quoted-previews}
 
-文件卡片（[MessageAttachment](../../packages/ui/src/components/message-attachment/message-attachment.md)）的结构，加上消息（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）的头部：[MessageEmbed](../../packages/ui/src/components/message-embed/message-embed.md)、[MessageForwardedBundle](../../packages/ui/src/components/message-forwarded-bundle/message-forwarded-bundle.md)、[MessageQuotedPreview](../../packages/ui/src/components/message-quoted-preview/message-quoted-preview.md)。
+文件卡片（[MessageAttachment](../../packages/ui/src/components/message-attachment/message-attachment.md)）的结构，加上消息（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）的头部：[MessageEmbed](../../packages/ui/src/components/message-embed/message-embed.md)、[MessageForwardedBundle](../../packages/ui/src/components/message-forwarded-bundle/message-forwarded-bundle.md)、[MessageQuotedPreview](../../packages/ui/src/components/message-quoted-preview/message-quoted-preview.md)。应用预览的链接不属于这些：它是正文里的引用标签片，详情在悬停卡片里（[应用链接](../patterns/navigation.md#app-links)）。
 
 ```example
 message-forwarded-bundle/compositions/forwarded-bundle

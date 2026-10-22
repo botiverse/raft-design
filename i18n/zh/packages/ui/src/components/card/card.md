@@ -1,7 +1,7 @@
 ---
 title: Card
 summary: 带细线轮廓的白色容器，在页面上把一个主题归在一起（标题栏里有标题和描述，下面是内容和页脚），或在表单里做成一个可选的选项。
-sourceHash: 836cf46c
+sourceHash: e2ab8280
 ---
 
 # Card
@@ -23,7 +23,7 @@ card/compositions/project-summary
 | 一个项目的属性，标签和值 | [DescriptionList](../description-list/description-list.md) |
 | 大表单的一部分 | [FormSection](../form-section/form-section.md) |
 | 主区域的一栏 | [Panel](../panel/panel.md) |
-| 一个任务、消息上的一个文件、悬停时显示的一个人 | [TaskCard](../task-card/task-card.md)、[MessageAttachment](../message-attachment/message-attachment.md)、[PreviewCard](../preview-card/preview-card.md) |
+| 一个任务、消息上的一个文件、悬停时显示的一个人或应用的一个条目 | [TaskCard](../task-card/task-card.md)、[MessageAttachment](../message-attachment/message-attachment.md)、[PreviewCard](../preview-card/preview-card.md) |
 
 ## 结构 {#anatomy}
 

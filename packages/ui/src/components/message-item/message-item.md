@@ -109,7 +109,7 @@ In raft-ui the three components take the box from one recipe (`lib/inline-chip.t
 A link that an app previews is a reference chip in the sentence, with the app's icon and the app's own title. Why it is a chip and not a card, and its loading and hover behavior, are in [Navigation](../../../../../design/patterns/navigation.md#app-links).
 
 - `MessageReferenceChip variant="info" capped`, rendered as a link that opens in a new tab: `render={<a href="…" target="_blank" rel="noopener noreferrer" />}`.
-- `MessageReferenceIcon`: the app's registered icon, an `<img alt="">` served by Raft, first in the chip. It is 14px, centered on the chip, with 2px corners. It is a leading mark of the chip box ([Chips in running text](#chips-in-running-text)): 4.5px at each end, 4px to the label. The image is drawn to its edges, so it takes the same 4.5px as a status pixel, and its ink is as far from the chip's start as the last letter's from its end. Use it for any image or other non-svg icon: an `<img>` placed straight in the chip has no size of its own and sits on the text's baseline. Experimental, exported from `@botiverse/raft-ui/wip`.
+- `MessageReferenceIcon`: the app's registered icon, an `<img alt="">` served by Raft, first in the chip. It is 14px, centered on the chip, with 2px corners. It is a leading mark of the chip box ([Chips in running text](#chips-in-running-text)): 4.5px at each end, 4px to the label. The image is drawn to its edges, so it takes the same 4.5px as a status pixel ([Alignment](../../../../../design/foundations/alignment.md#chips)): its ink starts 4.5px from the chip's start, against about 4.8px after the last letter at the other end. Use it for any image or other non-svg icon: an `<img>` placed straight in the chip has no size of its own and sits on the text's baseline. Experimental, exported from `@botiverse/raft-ui/wip`.
 - `MessageReferenceLabel`: the app's `title`, as sent. Put it in the label, not straight in the chip: only the label truncates.
 - `capped` stops the chip at `min(100%, 24em)`, and the label truncates at the end. 24em of the chip's text is 294px on a desktop and 336px on a phone. In a 700px desktop message column, two full-length chips and a few words between them share a line, and three with shorter titles; on a 390px phone the line is narrower than 24em, so a long title takes one line of its own and never wraps inside the chip. Without `capped` a chip is as wide as its line, as before.
 - No state: the icon is always the app's, in its own colors, and the chip is always cyan.
@@ -118,7 +118,7 @@ A link that an app previews is a reference chip in the sentence, with the app's 
 message-reference/compositions/app-links
 ```
 
-While the preview loads, the link is `MessageReferencePending capped` with a `link` icon and the address shortened to its host and path. It has the same lead, icon size and cap as the chip that replaces it, so only the icon and the words change.
+While the preview loads, the link is `MessageReferencePending capped` with a `link` icon and the address shortened to its host and path. It has the same ends, icon size and cap as the chip that replaces it, so only the icon and the words change.
 
 ```example
 message-reference/compositions/app-link-pending
