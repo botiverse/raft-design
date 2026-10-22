@@ -1,6 +1,8 @@
 import { loadExampleSource } from "#/lib/examples.ts";
 import { tokenGroup } from "#/lib/tokens/tokens.ts";
 
+import { DEFAULT_LOCALE, localizePath } from "../i18n/locales.ts";
+import type { Locale } from "../i18n/locales.ts";
 import { resolveDocLinkForMarkdown, SITE_ORIGIN } from "./links.ts";
 import type { DocPage } from "./pages.ts";
 
@@ -29,7 +31,7 @@ function tokensTable(group: string) {
 }
 
 /** Rewrites relative links outside code to absolute URLs, `.md` twins for pages. */
-function rewriteLinks(markdown: string, repoPath: string) {
+function rewriteLinks(markdown: string, repoPath: string, locale: Locale) {
   return markdown
     .split(/(```[\s\S]*?```)/g)
     .map((part, index) =>
@@ -37,7 +39,7 @@ function rewriteLinks(markdown: string, repoPath: string) {
         ? part
         : part.replace(
             /\]\(([^)\s]+)\)/g,
-            (_, href: string) => `](${resolveDocLinkForMarkdown(repoPath, href)})`,
+            (_, href: string) => `](${resolveDocLinkForMarkdown(repoPath, href, locale)})`,
           ),
     )
     .join("");
@@ -51,8 +53,14 @@ function rewriteLinks(markdown: string, repoPath: string) {
  * component's API.
  */
 export async function renderMarkdownTwin(page: DocPage, appendix = "") {
-  let body = page.body;
-  for (const [block, kind, argument] of page.body.matchAll(BLOCK)) {
+  const locale = page.translation && page.translation !== "missing" ? page.locale! : DEFAULT_LOCALE;
+  // A translation's headings carry the English anchors (`## 颜色 {#color}`);
+  // a Markdown reader gets the heading alone.
+  let body =
+    locale === DEFAULT_LOCALE
+      ? page.body
+      : page.body.replace(/^(#{2,6} .*?)\s*\{#[\w-]+\}\s*$/gm, "$1");
+  for (const [block, kind, argument] of body.matchAll(BLOCK)) {
     const replacement =
       kind === "tokens"
         ? tokensTable(argument!)
@@ -64,7 +72,9 @@ export async function renderMarkdownTwin(page: DocPage, appendix = "") {
     "",
     `> ${page.frontMatter.summary}`,
     "",
-    `Source: ${SITE_ORIGIN}${page.url}. Generated from the current release; where it differs from what you remember, this page is right.`,
+    locale === DEFAULT_LOCALE
+      ? `Source: ${SITE_ORIGIN}${page.url}. Generated from the current release; where it differs from what you remember, this page is right.`
+      : `Source: ${SITE_ORIGIN}${localizePath(page.url, locale)}. Translated from ${SITE_ORIGIN}${page.url}.md; where the two differ, the English page is right.`,
   ].join("\n");
-  return `${header}\n\n${rewriteLinks(body, page.repoPath).trim()}${appendix ? `\n\n${appendix.trim()}` : ""}\n`;
+  return `${header}\n\n${rewriteLinks(body, page.repoPath, locale).trim()}${appendix ? `\n\n${appendix.trim()}` : ""}\n`;
 }

@@ -6,6 +6,8 @@ import { motion, useReducedMotion } from "motion/react";
 import { useCallback } from "react";
 import { CodeBlockAction } from "@botiverse/raft-ui";
 
+import { useMessages } from "#/lib/i18n/use-locale.ts";
+
 const SWAP_DURATION = 0.14;
 const SWAP_EASE = [0.2, 0.8, 0.2, 1] as const;
 const SWAP_VISIBLE = { opacity: 1, scale: 1, filter: "blur(0px)" };
@@ -19,8 +21,9 @@ export type CodeCopyActionProps = {
 
 /** Copy behavior for CodeBlock headers. raft-ui only owns the action shell. */
 export function CodeCopyAction({ code }: CodeCopyActionProps) {
+  const messages = useMessages();
   const { copied, copy } = useClipboard({ timeout: 1400 });
-  const label = copied ? "Copied code" : "Copy code";
+  const label = copied ? messages.copiedCode : messages.copyCode;
   const Icon = copied ? Check : Copy;
   const handleClick = useCallback(() => void copy(code), [copy, code]);
 
@@ -42,9 +45,10 @@ export function CodeCopyAction({ code }: CodeCopyActionProps) {
  * (blur + small start scale) run faster than its 250ms ease-in-out.
  */
 export function AnimatedCodeCopyAction({ code }: CodeCopyActionProps) {
+  const messages = useMessages();
   const { copied, copy } = useClipboard();
   const reduceMotion = useReducedMotion();
-  const label = copied ? "Copied code" : "Copy code";
+  const label = copied ? messages.copiedCode : messages.copyCode;
   const handleClick = useCallback(() => void copy(code), [copy, code]);
   const transition = reduceMotion ? SWAP_TRANSITION_REDUCED : SWAP_TRANSITION;
 

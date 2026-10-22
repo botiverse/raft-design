@@ -23,6 +23,7 @@ import {
 
 import { GithubMark } from "#/components/github-mark.tsx";
 import { CodeCopyAction } from "#/lib/code-block/code-copy-action.tsx";
+import { useMessages } from "#/lib/i18n/use-locale.ts";
 
 /**
  * Copy Page copies the page's Markdown twin, the same text served at the page
@@ -38,6 +39,7 @@ export function PageActions({
   sourceHref: string;
   getMarkdown: () => Promise<string>;
 }) {
+  const messages = useMessages();
   const { copied, copy } = useClipboard();
   const { copied: linkCopied, copy: copyLink } = useClipboard();
   const [twin, setTwin] = useState<string | null>(null);
@@ -57,7 +59,7 @@ export function PageActions({
     <div className="flex shrink-0 items-center">
       <Button variant="default" className="rounded-r-none" onClick={copyPage}>
         {copied ? <Check data-icon="inline-start" /> : <Copy data-icon="inline-start" />}
-        {copied ? "Copied" : "Copy Page"}
+        {copied ? messages.copied : messages.copyPage}
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger
@@ -66,7 +68,7 @@ export function PageActions({
               variant="default"
               size="icon-md"
               className="ml-[-1.5px] rounded-l-none"
-              aria-label="More page actions"
+              aria-label={messages.morePageActions}
             />
           }
         >
@@ -75,16 +77,16 @@ export function PageActions({
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={viewTwin}>
             <FileText />
-            <DropdownMenuItemLabel>View as Markdown</DropdownMenuItemLabel>
+            <DropdownMenuItemLabel>{messages.viewAsMarkdown}</DropdownMenuItemLabel>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={copyTwinLink}>
             {linkCopied ? <Check /> : <LinkIcon />}
-            <DropdownMenuItemLabel>Copy Markdown Link</DropdownMenuItemLabel>
+            <DropdownMenuItemLabel>{messages.copyMarkdownLink}</DropdownMenuItemLabel>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={openSource}>
             <GithubMark />
-            <DropdownMenuItemLabel>View Source</DropdownMenuItemLabel>
+            <DropdownMenuItemLabel>{messages.viewSource}</DropdownMenuItemLabel>
             <ExternalLink className="ml-auto" />
           </DropdownMenuItem>
         </DropdownMenuContent>

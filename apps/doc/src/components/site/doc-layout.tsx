@@ -1,17 +1,20 @@
 import type { ReactNode } from "react";
 
+import { useMessages } from "#/lib/i18n/use-locale.ts";
+
 import { PageActions } from "./page-actions.tsx";
 
 export type TocEntry = { id: string; title: string; depth?: 2 | 3 };
 
 function OnThisPage({ entries }: { entries: readonly TocEntry[] }) {
+  const messages = useMessages();
   if (entries.length < 2) return null;
   return (
     <nav
-      aria-label="On this page"
+      aria-label={messages.onThisPage}
       className="sticky top-10 hidden w-48 shrink-0 self-start xl:block"
     >
-      <p className="mb-2 text-footnote font-bold text-foreground-hint">On this page</p>
+      <p className="mb-2 text-footnote font-bold text-foreground-hint">{messages.onThisPage}</p>
       <ul className="flex flex-col gap-1.5 border-l border-line-hairline pl-3">
         {entries.map((entry) => (
           <li key={entry.id} className={entry.depth === 3 ? "pl-3" : undefined}>
@@ -37,6 +40,7 @@ export function DocLayout({
   eyebrow,
   title,
   summary,
+  lang,
   meta,
   notice,
   markdownPath,
@@ -48,6 +52,11 @@ export function DocLayout({
   eyebrow: string;
   title: string;
   summary?: string;
+  /**
+   * The language of the title and summary when it differs from the site's:
+   * an untranslated page's. The site's own words around them keep the site's.
+   */
+  lang?: string;
   meta?: ReactNode;
   notice?: ReactNode;
   markdownPath: string;
@@ -62,14 +71,20 @@ export function DocLayout({
         <header className="mb-8 flex flex-col gap-3 border-b border-line-hairline pb-6">
           <p className="text-footnote font-bold text-foreground-hint">{eyebrow}</p>
           <div className="flex flex-wrap items-start justify-between gap-3">
-            <h1 className="text-display font-bold text-foreground">{title}</h1>
+            <h1 className="text-display font-bold text-foreground" lang={lang}>
+              {title}
+            </h1>
             <PageActions
               markdownPath={markdownPath}
               sourceHref={sourceHref}
               getMarkdown={getMarkdown}
             />
           </div>
-          {summary ? <p className="text-body text-foreground-muted">{summary}</p> : null}
+          {summary ? (
+            <p className="text-body text-foreground-muted" lang={lang}>
+              {summary}
+            </p>
+          ) : null}
           {meta}
         </header>
         {notice ? <div className="mb-8">{notice}</div> : null}

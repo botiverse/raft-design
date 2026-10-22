@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { tokenGroup } from "#/lib/tokens/tokens.ts";
 import type { TokenRow, TokenValue } from "#/lib/tokens/tokens.ts";
+import { useMessages } from "#/lib/i18n/use-locale.ts";
 
 /**
  * A swatch inside a light or dark island, so both columns render live from
@@ -53,6 +54,7 @@ function Value({ row, value, mode }: { row: TokenRow; value: TokenValue; mode: "
  * see it.
  */
 export function TokensBlock({ group }: { group: string }) {
+  const messages = useMessages();
   const rows = tokenGroup(group);
   if (!rows) {
     return (
@@ -69,10 +71,10 @@ export function TokensBlock({ group }: { group: string }) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Token</TableHead>
-            <TableHead>Light</TableHead>
-            <TableHead>Dark</TableHead>
-            {hasDesktop ? <TableHead>Desktop</TableHead> : null}
+            <TableHead>{messages.token}</TableHead>
+            <TableHead>{messages.light}</TableHead>
+            <TableHead>{messages.dark}</TableHead>
+            {hasDesktop ? <TableHead>{messages.desktop}</TableHead> : null}
           </TableRow>
         </TableHeader>
         <TableBody>
