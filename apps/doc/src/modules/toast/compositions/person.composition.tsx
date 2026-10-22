@@ -13,7 +13,7 @@ import { ToastPreviewScene } from "./toast.composition";
 // @docs-source-strip-end
 
 /**
- * A toast about someone: their avatar takes the status pixel's place in
+ * A toast about someone: their avatar takes the intent icon's place in
  * `ToastIcon`. The command API renders `leading` hidden from assistive
  * technology, so the name stays in the title.
  */

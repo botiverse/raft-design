@@ -37,9 +37,10 @@ status/compositions/default
 
 ## Sizes
 
-- **A status light beside text has one size, 9px** (`md`, the default) with a 1.5px ink edge: in a toast, a banner, a panel notice, a badge, a panel header, a sidebar row, a list row. Don't pass a size there. 9px is 6px of color, the least that tells green from yellow from orange, plus two 1.5px ink edges, and about the cap height of the 12px to 14px text beside it.
+- **A status light beside text has one size, 9px** (`md`, the default) with a 1.5px ink edge: in a badge, a panel header, a sidebar row, a list row. Don't pass a size there. 9px is 6px of color, the least that tells green from yellow from orange, plus two 1.5px ink edges, and about the cap height of the 12px to 14px text beside it.
 - **A light on an avatar follows the avatar**, not the text: `AvatarBadge` sizes it from 6px to 20px with the avatar ([Avatar](../avatar/avatar.md)).
-- When the light leads a line of text it is centered on the first line ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)). Banner, PanelNotice, ToastIcon, Badge and PanelActivity place a `Status` in them this way and hold it at 9px whatever size it was given; elsewhere, give it `className="lead-dot"`.
+- When the light leads a line of text it is centered on the first line ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)). Badge and PanelActivity place a `Status` in them this way and hold it at 9px whatever size it was given; elsewhere, give it `className="lead-dot"`.
+- A notice (a toast, a banner, a panel notice) never uses a status light to say what kind of notice it is (success, info, warning, error); it leads with its intent's icon, or an avatar when it is about someone ([Banner](../banner/banner.md#variants), [Toast](../toast/toast.md#variants)). One square mark must not carry several meanings, and a status light keeps its own, the ones in [When to use](#when-to-use): whether an agent, a person or a computer is working or online, a task's status, and the square attention dot that marks something waiting or unread. A notice about one of those things may still show that thing's light inside it, such as the task's status pixel in a toast for a message sent as a task.
 - `xs`, `sm` and `lg` (6px, 8px and 11px) are not for a light beside text.
 
 ## Variants

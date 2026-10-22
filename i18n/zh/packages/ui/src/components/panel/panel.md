@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带 56px 的面板标题栏和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: fb07ec35
+sourceHash: ae9b1a54
 ---
 
 # Panel
@@ -36,7 +36,7 @@ panel/panel
   - `PanelActions`：末尾的 `PanelAction` 和 `PanelToggleAction` 按钮。
 - `PanelSectionHeader`：用于分区级视图的同一种条。在手机上它放在外框上。
 - `PanelHeaderRoot`：两种标题栏共同基于的那条 56px 的空白条，用于自己排版的标题栏。
-- `PanelNotice`，以及 `PanelNoticeContent` 和 `PanelNoticeActions`：标题栏下方通栏的一条，用于这个面板里出现的问题。什么时候用它而不用横幅，见 [Banner](../banner/banner.md)。放在 `PanelNoticeContent` 前面的状态像素点或图标，跟它的第一行对齐（[文字前的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。
+- `PanelNotice`，以及 `PanelNoticeContent` 和 `PanelNoticeActions`：标题栏下方通栏的一条，用于这个面板里出现的问题。什么时候用它而不用横幅，见 [Banner](../banner/banner.md)。放在 `PanelNoticeContent` 前面的意图图标，跟它的第一行对齐；不要用状态灯说明这是哪一类提示，状态灯保留它自己的含义（[Status](../status/status.md#sizes)）（[文字前的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。
 - `PanelBody`、`PanelScrollViewport` 和 `PanelScrollContent`：内容及它唯一的滚动容器。
 - `PanelSection`：上方有一条细线的一块内容。
 - `PanelFooter`：底部的操作区，为安全区域留出内边距。

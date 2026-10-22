@@ -74,13 +74,15 @@ test("root base grid has no zero-width phantom column", () => {
 test("description column follows the lead parts through the shared variable", () => {
   renderWithAction("warning");
   const desc = screen.getByTestId("desc").className.split(/\s+/);
-  // The description reads the variable the root sets when an icon/status slot
-  // is present; it no longer carries an ancestor :has() shape itself (#386).
+  // The description reads the variable the root sets when an icon is
+  // present; it no longer carries an ancestor :has() shape itself (#386).
   expect(desc).toContain("col-start-(--banner-text-col,1)");
   expect(desc.some((c) => c.includes("group-has"))).toBe(false);
   const root = cls();
   expect(root).toContain("has-[>svg]:[--banner-text-col:2]");
-  expect(root).toContain("has-[>[data-slot=status]]:[--banner-text-col:2]");
+  // A banner leads with its icon, never a status light, so the root keeps no
+  // place for one.
+  expect(root.some((c) => c.includes("slot=status"))).toBe(false);
 });
 
 // --- inline button colour (warning description) ---

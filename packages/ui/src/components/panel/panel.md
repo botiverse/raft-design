@@ -41,7 +41,7 @@ How the regions of a screen are arranged, and when a side panel sits beside the 
   - `PanelActions`: the trailing `PanelAction` and `PanelToggleAction` buttons.
 - `PanelSectionHeader`: the same bar for a section-level view. On a phone it sits on the frame.
 - `PanelHeaderRoot`: the bare 56px bar both headers are built on, for a header with its own layout.
-- `PanelNotice`, with `PanelNoticeContent` and `PanelNoticeActions`: a full-width strip under the header for a problem in this panel. When to use it instead of a banner is in [Banner](../banner/banner.md). A status pixel or an icon placed before `PanelNoticeContent` leads its first line ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
+- `PanelNotice`, with `PanelNoticeContent` and `PanelNoticeActions`: a full-width strip under the header for a problem in this panel. When to use it instead of a banner is in [Banner](../banner/banner.md). The intent's icon placed before `PanelNoticeContent` leads its first line; never a status light to say what kind of notice it is, since a status light keeps its own meanings ([Status](../status/status.md#sizes)) ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
 - `PanelBody`, `PanelScrollViewport` and `PanelScrollContent`: the content and its single scroll container.
 - `PanelSection`: a block of content with a hairline above it.
 - `PanelFooter`: the bottom action area, padded for the safe area.

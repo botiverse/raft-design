@@ -1,7 +1,7 @@
 ---
 title: 无障碍
 summary: 每个 Raft 产品都遵守的规则，让它在任何视力、键盘、读屏软件、触屏或动效设置下都能用：对比度、焦点、点击区域、动效、语义、触屏和语言，以及实现这些规则的组件。
-sourceHash: b5cd6480
+sourceHash: 011fcce9
 ---
 
 # 无障碍
@@ -71,7 +71,7 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 - 给每个纯图标按钮一个 Title Case 的 `aria-label`，与它的工具提示用词相同：Add Reaction（[Button](../../packages/ui/src/components/button/button.md#accessibility)）。
 - 有可见文字的控件，其无障碍名称要以这段文字开头。用语音控制的人会说出他们看到的字。
 - 给每个对话框、抽屉和底部面板一个标题；打开时播报的就是它（[Dialog](../../packages/ui/src/components/dialog/dialog.md#accessibility)）。
-- 旁边已经有文字时，对辅助技术隐藏装饰（`aria-hidden`）：文字旁的状态像素点、横幅的图标、轻提示的像素点和进度条（[Status](../../packages/ui/src/components/status/status.md)）。
+- 旁边已经有文字时，对辅助技术隐藏装饰（`aria-hidden`）：文字旁的状态像素点、横幅的图标、轻提示的图标和进度条（[Status](../../packages/ui/src/components/status/status.md)）。
 - 给没有文字、单独存在的东西命名：在线状态灯加上 `role="img"` 和它的状态（"Online"）；提醒圆点说明在等什么；头像堆叠说出完整数量（"5 agents working"），因为它只显示 "+3"（[Avatar](../../packages/ui/src/components/avatar/avatar.md#accessibility)）。
 - 显示数量或圆点的触发器，名称里要包含未读状态："Notifications, 2 unread"（[NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)）。
 - 用 `aria-busy="true"` 标记正在加载的区域；骨架屏是隐藏的（[Skeleton](../../packages/ui/src/components/skeleton/skeleton.md)）。
