@@ -348,9 +348,11 @@
       "DropdownMenuShortcut",
       "DropdownMenuSubmenu",
       "DropdownMenuSubmenuTrigger",
-      "DropdownMenuTrigger"
+      "DropdownMenuTrigger",
+      "DropdownMenuLinkItem"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "One choice that is another page, such as the same page in another language: a link, so it opens in a new tab and can be copied. Its `href` goes on the item; `current` marks the page being shown."
   },
   "ellipsis": {
     "names": [

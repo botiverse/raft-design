@@ -1,7 +1,7 @@
 ---
 title: DropdownMenu
 summary: 从按钮打开的一列操作，作用于同一个东西；也可以放一个设置式的选择，在当前值旁打勾。
-sourceHash: b770841f
+sourceHash: ded43e80
 ---
 
 # DropdownMenu
@@ -34,6 +34,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 - `DropdownMenuShortcut`：菜单项末尾的键盘快捷键，用 `text-mono-meta` 和 `foreground-hint`。
 - `DropdownMenuItemCount`：菜单项末尾的计数。
 - `DropdownMenuRadioGroup` 和 `DropdownMenuRadioItem`：一组值，其中一个是当前值，用勾号标出。
+- `DropdownMenuLinkItem`（实验性，从 `@botiverse/raft-ui/wip` 导入）：一个本身是另一个页面的选项，比如另一种语言的同一页。它是链接，可以在新标签页打开、可以复制；`current` 标出当前显示的页面，样式和单选项选中时一样（勾和粗体）。
 - `DropdownMenuCheckboxItem`：一个独立开关的选项。
 - `DropdownMenuLabel`：一组菜单项上方的标题。不可交互。
 - `DropdownMenuSeparator`：分区之间的线。

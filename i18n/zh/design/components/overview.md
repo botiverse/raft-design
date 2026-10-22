@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: ec541675
+sourceHash: 0303745f
 ---
 
 # 组件
@@ -72,7 +72,7 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 | 是或否，保存时生效 | [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) |
 | 2 到 5 个选项中选一个，随表单提交 | [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md) |
 | 同一内容的另一种视图 | [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md) |
-| 同一个页面的另一种语言 | 一个列出各种语言的菜单，每种语言用它自己的名字（[DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)，用单选项） |
+| 同一个页面的另一种语言 | 一个列出各种语言的菜单，每种语言用它自己的名字（[DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)，选项都是链接） |
 | 同一页面的不同区块，各有自己的内容 | [Tabs](../../packages/ui/src/components/tabs/tabs.md) |
 | 最多 10 个值中选一个 | [Select](../../packages/ui/src/components/select/select.md) |
 | 很多值中选一个 | 一个可以输入文字来筛选列表的字段，手机上也一样（[ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md)）。如果人只选不输入，用 [Select](../../packages/ui/src/components/select/select.md)：ComboboxSelect 总会弹出手机键盘 |
