@@ -29,7 +29,7 @@ export function CardSessionActionComposition() {
         <Button
           type="button"
           variant="warning"
-          size="sm"
+          size="md"
           disabled={signedOut}
           onClick={handleSignOut}
         >
