@@ -9,8 +9,10 @@ import {
   Link as LinkIcon,
   MessageSquare,
   RotateCcw,
+  SmilePlus,
 } from "lucide-react";
 import {
+  ThreadIcon,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuLabel,
@@ -33,6 +35,8 @@ export type MessageContextMenuCompositionProps = {
   onCopyMarkdown?: () => void;
   onFollowChange?: (followed: boolean) => void;
   onOpenThread?: () => void;
+  /** Opens every emoji, from the `smile-plus` button that ends the quick reactions. */
+  onOpenEmojiPicker?: () => void;
   onQuickReact?: (emoji: string) => void;
   onSavedChange?: (saved: boolean) => void;
   onSelectMessage?: () => void;
@@ -64,7 +68,7 @@ function MessageQuickReactionItem({ emoji, onQuickReact }: MessageQuickReactionI
         />
       }
     >
-      <MessageReactionGlyphComposition emoji={emoji} size={18} />
+      <MessageReactionGlyphComposition emoji={emoji} size={22} />
     </ContextMenuItem>
   );
 }
@@ -76,6 +80,7 @@ export function MessageContextMenuComposition({
   onCopyMarkdown,
   onFollowChange,
   onOpenThread,
+  onOpenEmojiPicker,
   onQuickReact,
   onSavedChange,
   onSelectMessage,
@@ -90,7 +95,7 @@ export function MessageContextMenuComposition({
       ? { icon: <RotateCcw />, label: "Reopen Task" }
       : task === "open"
         ? { icon: <CheckCircle />, label: "Mark as Done" }
-        : { icon: <ClipboardCheck />, label: "Convert to Task" };
+        : { icon: <ClipboardCheck />, label: "Create Task from Message" };
 
   const portalProps = useMemo(
     () => (portalContainer ? { container: portalContainer } : undefined),
@@ -120,8 +125,35 @@ export function MessageContextMenuComposition({
         {MESSAGE_QUICK_REACTIONS.map((emoji) => (
           <MessageQuickReactionItem key={emoji} emoji={emoji} onQuickReact={onQuickReact} />
         ))}
+        <ContextMenuItem
+          nativeButton
+          disabled={!onOpenEmojiPicker}
+          onClick={onOpenEmojiPicker}
+          render={<MessageReactionQuickButton title="Add Reaction" aria-label="Add Reaction" />}
+        >
+          <SmilePlus />
+        </ContextMenuItem>
       </MessageReactionQuickRow>
       <ContextMenuSeparator />
+      {/* Keep going on this message. */}
+      {onOpenThread ? (
+        <ContextMenuItem onClick={onOpenThread}>
+          <ThreadIcon />
+          Reply in Thread
+        </ContextMenuItem>
+      ) : null}
+      {onFollowChange ? (
+        <ContextMenuItem onClick={handleFollowToggle}>
+          <MessageSquare />
+          {followed ? "Unfollow Thread" : "Follow Thread"}
+        </ContextMenuItem>
+      ) : null}
+      <ContextMenuItem disabled={!onTaskChange} onClick={handleTaskToggle}>
+        {taskAction.icon}
+        {taskAction.label}
+      </ContextMenuItem>
+      <ContextMenuSeparator />
+      {/* Take it elsewhere: nothing changes here. */}
       <ContextMenuItem disabled={!onCopyLink} onClick={onCopyLink}>
         <LinkIcon />
         Copy Link
@@ -138,26 +170,10 @@ export function MessageContextMenuComposition({
         </ContextMenuItem>
       ) : null}
       <ContextMenuSeparator />
-      {onOpenThread ? (
-        <ContextMenuItem onClick={onOpenThread}>
-          <MessageSquare />
-          Open Thread
-        </ContextMenuItem>
-      ) : null}
+      {/* Just for me: nobody else sees it. */}
       <ContextMenuItem disabled={!onSavedChange} onClick={handleSavedToggle}>
         {saved ? <BookmarkMinus /> : <Bookmark />}
         {saved ? "Remove from Saved" : "Save Message"}
-      </ContextMenuItem>
-      {onFollowChange ? (
-        <ContextMenuItem onClick={handleFollowToggle}>
-          <MessageSquare />
-          {followed ? "Unfollow Thread" : "Follow Thread"}
-        </ContextMenuItem>
-      ) : null}
-      <ContextMenuSeparator />
-      <ContextMenuItem disabled={!onTaskChange} onClick={handleTaskToggle}>
-        {taskAction.icon}
-        {taskAction.label}
       </ContextMenuItem>
     </ContextMenuContent>
   );
