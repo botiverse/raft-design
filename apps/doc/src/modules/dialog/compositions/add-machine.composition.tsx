@@ -11,7 +11,7 @@ import {
   CopyableCode,
   CopyableCodeAction,
   CopyableCodeRoot,
-  Status,
+  Spinner,
 } from "@botiverse/raft-ui";
 import { Terminal } from "lucide-react";
 
@@ -32,16 +32,16 @@ function AddMachineDialogParts() {
         <DialogClose />
       </DialogHeader>
       <DialogBody>
-        <div className="mb-6 flex items-center gap-2 text-sm font-medium text-foreground">
-          <Terminal className="size-4" />
+        <div className="mb-6 flex items-start gap-2 text-sm font-medium text-foreground">
+          <Terminal className="size-4 lead-icon" />
           Run this command on your computer to connect:
         </div>
         <CopyableCodeRoot className="mb-7">
           <CopyableCode truncate>{CONNECT_COMMAND}</CopyableCode>
           <CopyableCodeAction aria-label="Copy daemon command" />
         </CopyableCodeRoot>
-        <Banner status="warning" size="md" className="mb-5">
-          <Status variant="warning" size="sm" />
+        <Banner status="info" size="md" className="mb-5">
+          <Spinner aria-hidden />
           <BannerDescription>Waiting for computer to connect...</BannerDescription>
         </Banner>
       </DialogBody>
@@ -57,7 +57,7 @@ function AddMachineDialogParts() {
 
 export function AddMachineDialogContent() {
   return (
-    <DialogContent className="max-w-lg">
+    <DialogContent size="lg">
       <AddMachineDialogParts />
     </DialogContent>
   );
@@ -66,7 +66,7 @@ export function AddMachineDialogContent() {
 // @docs-source-strip-start
 export function AddMachineDialogComposition({ className }: { className?: string }) {
   return (
-    <CompositionModalPreview className={className} contentClassName="max-w-lg">
+    <CompositionModalPreview className={className}>
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent
@@ -75,6 +75,7 @@ export function AddMachineDialogComposition({ className }: { className?: string 
             finalFocus={false}
             portalProps={portalProps}
             className={contentClassName}
+            size="lg"
           >
             <AddMachineDialogParts />
           </DialogContent>

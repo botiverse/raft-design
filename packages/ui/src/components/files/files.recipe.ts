@@ -11,8 +11,8 @@ export const files = tv({
       "items-center rounded-container border border-line-hairline bg-layer-card py-2.5 pr-1.5 pl-2.5 shadow-none",
       // The hover is on a child (the open button), so `hover:` cannot express it;
       // the explicit media query keeps it off touch screens, like `hover:` does.
-      "[@media(hover:hover)]:has-[[data-slot=file-row-open]:hover]:row-hover-overlay has-[[data-slot=file-row-open]:active]:press-overlay",
-      "has-data-popup-open:row-open-overlay",
+      "[@media(hover:hover)]:has-[[data-slot=file-row-open]:hover]:overlay-subtle has-[[data-slot=file-row-open]:active]:overlay-medium",
+      "has-data-popup-open:overlay-subtle",
       "has-[[data-slot=file-row-open]:focus-visible]:shadow-focus",
     ],
     rowOpen: [

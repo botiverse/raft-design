@@ -26,7 +26,7 @@ focus
 
 | Token (utility) | Use for |
 | --- | --- |
-| `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, the hover toolbar of a message and the toolbar for selected text (popups over the message they act on), a card while it is dragged (it is lifted off the board; the card left behind casts nothing), and the open comment card in a document's margin (it is lifted off the column of cards, which move out of its way; [Comments](../patterns/comments.md)) |
+| `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, the hover toolbar of a message and the toolbar for selected text (popups over the message they act on), a card while it is dragged (it is lifted off the board; the card left behind casts nothing), the side cards while they float over a narrow message list ([Responsive layout](../patterns/responsive.md)), and the open comment card in a document's margin (it is lifted off the column of cards, which move out of its way; [Comments](../patterns/comments.md)) |
 | `elevation-sticker` (`shadow-sticker`) | Brand illustration only: the 99px avatar on a profile and on the last setup step, and the preview of the new server on the page that creates a server ([Brand](./brand.md#how-much-brand)). Nothing else |
 | `focus-ring` (`shadow-focus`) | Every element that can be reached with the keyboard, when the keyboard reaches it |
 
@@ -36,7 +36,9 @@ Menus, select and filter lists, and profile cards open next to the element that 
 
 - Float popups above the whole page. They never take space in the layout.
 - Move or flip a popup to the other side when it meets the window edge, and never make it larger than the space left.
+- On a phone, put a popup about as wide as the screen 8px from each screen edge: as wide as the screen less 8px on each side, at most 480px, and stopped 8px from the edge it is pushed against. The 8px is measured from the screen's edge, not from the safe area, as the server list does. That is the inset stdrc chose for the server list, under the top bar on Home and above the tab bar ([Navigation](../patterns/navigation.md#the-server-tab-on-a-phone)), and every popup that wide uses it, whether it comes out of a bar or out of a button in it, such as the notification center ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md#behavior)). Popups that open from the same top bar then line up with each other and sit evenly between the screen's edges. The 480px cap never touches a phone held upright (the widest leaves 424px), so upright it always sits evenly; it only stops a phone on its side, 667px wide, from getting a 650px popup far wider than what it holds. Take the width from the positioner's `--available-width` (the screen less both 8px paddings, without a scrollbar) rather than `100vw`, which counts a desktop window's scrollbar in a narrow window.
 - Don't scroll or shift the page when a popup opens or when someone types in it.
+- Keep a popup on the element that opened it. When the page scrolls or moves under an open popup, whether the window scrolls or a pane inside it, the popup moves with its trigger; a popup left where it opened points at whatever has scrolled into its place. A context menu is the exception: it belongs to the point where it was opened, not to an element ([ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md#behavior)).
 
 ## Floating controls
 
@@ -51,11 +53,19 @@ The jump pills of a conversation, Back to Bottom, "3 New Messages" and "Next Unr
 A modal surface (a dialog, an alert dialog, a modal sheet) dims everything under it with a scrim, so the one thing that can be used is the one on top. When one opens from another, the same must stay true: the surface below has to step back, or a white dialog sits on a white sheet with nothing to say which of the two is live.
 
 - Put a scrim directly under every modal surface, including one opened from another. The scrim is what says "this is on top"; a shadow alone doesn't.
+- Draw every scrim the same: `layer-backdrop`, or `layer-backdrop-nested` over another modal surface, with no blur and no tint of its own, whether it is under a dialog, a drawer, a bottom sheet or the search overlay (stdrc, 2026-10-21). How it appears follows its surface ([Motion](./motion.md#usage)).
 - The first surface gets `layer-backdrop`. One opened from it gets the lighter `layer-backdrop-nested` (40% in both themes), so the surface below dims without the page going black. In light mode one scrim leaves a white page at about 35% of its light, and two full ones would leave 12%; with the nested scrim it keeps about 21%. In dark mode the first scrim is 60%, and the nested 40% still leaves the dark surface below visibly stepped back without merging it into the page.
 - Stack at most two modal surfaces. When a third would open, replace the top one, or move the flow to a page.
 - A sheet opened from a sheet is the exception: the one below steps back by itself instead ([Drawer](../../packages/ui/src/components/drawer/drawer.md#behavior)).
 
 raft-ui does this on its own. A modal `Dialog`, `AlertDialog` or `Drawer` tells everything under its root that it is open, the same way Base UI decides a dialog is nested, so a dialog, an alert dialog or a sheet opened under it draws the nested scrim. A non-modal one doesn't count: nothing below it is dimmed. Base UI draws no scrim for a nested dialog by default, which is how a confirm opened from a sheet came to sit on an undimmed sheet.
+
+An app's own modal surface, one with its own backdrop, Esc and focus, joins the same stack with two pieces of raft-ui (`@botiverse/raft-ui/wip` for now):
+
+- `OverlayLayerProvider` (`kind`, `modal`): wrap the surface's scrim and content in it. A raft-ui overlay opened from inside then draws the nested scrim over it. Use `kind="dialog"` for an app's own modal, whatever it looks like: `"drawer"` is for a Base UI Drawer, which nests under another drawer by itself and draws its own scrim only over a `"dialog"`.
+- `useParentOverlayKind()`: called inside that provider, it returns the kind of surface this one was opened from, or `null` when it is the first. Not `null` means: draw `layer-backdrop-nested`.
+
+Both are for modal overlays only. A non-modal one passes `modal={false}` and adds nothing, so `useParentOverlayKind` inside it would read the layer below as its own. Both read React context, portals included, so they see only the surfaces whose tree the overlay is rendered in: render the overlay inside the surface it was opened from. An overlay opened from another React tree (a confirm an app opens from a global store, say) isn't stacked by them; it needs `layer={1}` or the app's own check.
 
 ## Focus ring
 
@@ -70,5 +80,6 @@ raft-ui does this on its own. A modal `Dialog`, `AlertDialog` or `Drawer` tells 
 ## Related
 
 - [States](./states.md): hover, press and focus.
+- [Visual comfort](./comfort.md#surfaces): when content gets a card or a border at all.
 - [Brand](./brand.md): where the sticker shadow may appear.
 - [Choosing a component](../components/overview.md#how-to-choose-a-component): which popup to use.

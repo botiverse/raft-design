@@ -6,7 +6,6 @@ import {
   AvatarImage,
   MarkdownParagraph,
   MessageReferenceChip,
-  MessageReferenceIndicator,
   MessageReferenceLabel,
   MessageItem,
   MessageItemAvatarSlot,
@@ -16,8 +15,12 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-  Status,
+  PreviewCardDescription,
+  PreviewCardHeader,
+  PreviewCardSeparator,
+  PreviewCardTitle,
 } from "@botiverse/raft-ui";
+import { MessageReferenceReadMark } from "@botiverse/raft-ui/wip";
 
 import {
   MessageMentionReferenceComposition,
@@ -52,12 +55,18 @@ export function MessagePrimaryReferencesComposition() {
                 Ask{" "}
                 <MessageMentionReferenceComposition
                   portalContainer={portalContainer}
-                  preview={<p>Atlas · owner</p>}
+                  preview={
+                    <>
+                      <PreviewCardHeader>
+                        <PreviewCardTitle>Atlas · owner</PreviewCardTitle>
+                      </PreviewCardHeader>
+                      <PreviewCardSeparator />
+                      <PreviewCardDescription>Read</PreviewCardDescription>
+                    </>
+                  }
                 >
                   @Atlas
-                  <MessageReferenceIndicator>
-                    <Status aria-label="Read" size="sm" variant="success" />
-                  </MessageReferenceIndicator>
+                  <MessageReferenceReadMark>Read</MessageReferenceReadMark>
                 </MessageMentionReferenceComposition>{" "}
                 or{" "}
                 <MessageMentionReferenceComposition

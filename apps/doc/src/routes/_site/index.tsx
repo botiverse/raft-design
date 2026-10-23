@@ -13,11 +13,20 @@ import {
 import { DocMarkdown } from "#/components/site/doc-markdown.tsx";
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 import { latestChanges } from "#/lib/content/api.ts";
-import { pagesIn, README } from "#/lib/content/pages.ts";
+import { localize, pagesIn, README } from "#/lib/content/pages.ts";
+import { localeOfMatches } from "#/lib/i18n/head.ts";
+import { useLocale, useMessages } from "#/lib/i18n/use-locale.ts";
 
 export const Route = createFileRoute("/_site/")({
-  head: () => ({
-    meta: README ? [{ name: "description", content: README.frontMatter.summary }] : [],
+  head: ({ matches }) => ({
+    meta: README
+      ? [
+          {
+            name: "description",
+            content: localize(README, localeOfMatches(matches)).frontMatter.summary,
+          },
+        ]
+      : [],
   }),
   component: Home,
 });
@@ -26,26 +35,14 @@ const COMPONENTS: string = "/components";
 /** Why the system is the way it is: the Principles, until they are written the Foundations. */
 const WHY =
   pagesIn("principles").length > 0
-    ? { url: "/principles" as string, label: "Read the Principles" }
-    : { url: "/foundations" as string, label: "Read the Foundations" };
+    ? { url: "/principles" as string, label: "readPrinciples" as const }
+    : { url: "/foundations" as string, label: "readFoundations" as const };
 
 const AGENT_SURFACES = [
-  {
-    icon: FileText,
-    path: "/llms.txt",
-    text: "Every page with a one-line summary, by section.",
-  },
-  { icon: FileText, path: "/llms-full.txt", text: "Every page in one file, in the same order." },
-  {
-    icon: FileText,
-    path: "/components/button.md",
-    text: "Any page as Markdown: its path plus .md.",
-  },
-  {
-    icon: Braces,
-    path: "/components.json",
-    text: "Every component with its status, other names, category, import and doc URLs.",
-  },
+  { icon: FileText, path: "/llms.txt", text: "llmsText" },
+  { icon: FileText, path: "/llms-full.txt", text: "llmsFullText" },
+  { icon: FileText, path: "/components/button.md", text: "markdownTwinText" },
+  { icon: Braces, path: "/components.json", text: "componentsJsonText" },
 ] as const;
 
 const LATEST = latestChanges(4);
@@ -89,42 +86,48 @@ function Heading({ children }: { children: ReactNode }) {
  * latest release.
  */
 function Home() {
+  const locale = useLocale();
+  const messages = useMessages();
+  const readme = README ? localize(README, locale) : null;
   return (
     <div className="mx-auto flex max-w-[1120px] flex-col gap-14 px-4 pt-10 pb-24 md:px-10">
       <section className="grid items-center gap-8 md:grid-cols-[minmax(0,1fr)_auto]">
         <div className="flex flex-col gap-4">
           <h1 className="text-display font-bold">
-            {README?.frontMatter.title ?? "Raft Design System"}
+            {readme?.frontMatter.title ?? messages.siteName}
           </h1>
-          {README ? (
-            <p className="max-w-xl text-body text-foreground-muted">{README.frontMatter.summary}</p>
+          {readme ? (
+            <p className="max-w-xl text-body text-foreground-muted">{readme.frontMatter.summary}</p>
           ) : null}
           <CopyableCodeRoot size="sm" className="self-start">
             <CopyableCode>pnpm add @botiverse/raft-ui</CopyableCode>
-            <CopyableCodeAction aria-label="Copy install command" />
+            <CopyableCodeAction aria-label={messages.copyInstall} />
           </CopyableCodeRoot>
           <div className="flex flex-wrap gap-2">
             <Button variant="primary" nativeButton={false} render={<Link to={COMPONENTS} />}>
-              Browse Components
+              {messages.browseComponents}
               <ArrowRight data-icon="inline-end" />
             </Button>
             <Button variant="default" nativeButton={false} render={<Link to={WHY.url} />}>
-              {WHY.label}
+              {messages[WHY.label]}
             </Button>
           </div>
         </div>
         <FrameDiagram />
       </section>
 
-      {README ? (
-        <section className="max-w-[760px]">
-          <DocMarkdown sourcePath={README.repoPath}>{README.body}</DocMarkdown>
+      {readme ? (
+        <section
+          className="max-w-[760px]"
+          lang={readme.translation === "missing" ? "en" : undefined}
+        >
+          <DocMarkdown sourcePath={readme.repoPath}>{readme.body}</DocMarkdown>
         </section>
       ) : null}
 
       <section className="grid gap-10 md:grid-cols-2">
         <div>
-          <Heading>For agents</Heading>
+          <Heading>{messages.forAgentsHeading}</Heading>
           <ul className="flex flex-col rule-y rule-line-hairline">
             {AGENT_SURFACES.map(({ icon: Icon, path, text }) => (
               <li key={path} className="flex items-start gap-3 py-3">
@@ -133,14 +136,14 @@ function Home() {
                   <a href={path} className="font-mono text-mono-code text-foreground-link">
                     {path}
                   </a>
-                  <span className="text-callout text-foreground-muted">{text}</span>
+                  <span className="text-callout text-foreground-muted">{messages[text]}</span>
                 </span>
               </li>
             ))}
           </ul>
         </div>
         <div>
-          <Heading>Latest release</Heading>
+          <Heading>{messages.latestRelease}</Heading>
           <p className="mb-2 font-mono text-mono-meta text-foreground-hint">
             raft-ui {raftUiVersion}
           </p>
@@ -163,7 +166,7 @@ function Home() {
             ))}
           </ul>
           <Link to="/changelog" className="mt-2 inline-block text-callout text-foreground-link">
-            Full changelog
+            {messages.fullChangelog}
           </Link>
         </div>
       </section>

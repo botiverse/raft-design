@@ -6,12 +6,12 @@ redirectFrom: [decisions/0021-square-dots-and-spinner, decisions/0026-upload-pro
 
 # Shape
 
-Square is Raft. Every identity is a square sticker and every dot is a square pixel; pixels are hard and containers are soft. Round is only for switches and radios, which follow platform convention.
+Square is Raft. Every identity is a square sticker and every dot is a square pixel; pixels are hard and containers are soft. Round is only for switches, radios and grab handles, which follow platform convention.
 
 ## Principles
 
 - **Identities and dots are square.** Avatars, workspace tiles, channel tiles, presence lights, attention dots and pixel spinners all use square pixels. A round dot or a ring spinner would be the one round mark among square pixels; the square pixel is the brand's own shape ([Principles](../principles/principles.md#6-square-is-raft)).
-- **Round only for switches and radios.** Nothing else uses a full radius.
+- **Round only for switches, radios and grab handles.** Nothing else uses a full radius. A grab handle (the bar at a bottom sheet's top edge, the bar in a gap between side cards) is something to take hold of, and every platform draws it with round ends (the iOS sheet grabber, Material's drag handle). Square ends on a 4px bar read as a cut edge, not a handle.
 - **Two stroke widths.** 1px for lines, 1.5px for every control, field and sticker.
 
 ## Radii
@@ -19,20 +19,33 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 | Token | Use for |
 | --- | --- |
 | `radius-sticker` | The pixel family: avatars, workspace tiles, channel tiles, checkboxes, badges, steps, skeletons; inline marks in running text (inline code, a mention of you, search hits, reference chips) |
-| `radius-chip` | 22px chips, task markers, value chips, reactions, tooltips |
-| `radius-control` | Controls and selection stickers: buttons, inputs, selects, filters, segmented controls, tabs, sidebar rows, rail items, the tab bar's icon sticker, menu items, the workspace button |
-| `radius-container` | Containers: cards, inset groups, the composer, banners, menus, toasts, profile cards, file cards |
+| `radius-chip` | Chips (value chips, the chips in a field, task status chips, reactions), tooltips, the highlighted item in a popup, and every control embedded in another component's frame ([Inside a frame](#inside-a-frame)) |
+| `radius-control` | Controls and selection stickers that stand on their own: buttons, inputs, selects, filters, segmented controls, tabs, sidebar rows, rail items, the tab bar's icon sticker, the workspace button |
+| `radius-container` | Containers: cards, inset groups, the composer, banners, menus, toasts, profile cards, file cards, the box of tasks under a message, side cards |
 | `radius-dialog` | Dialogs, and the top corners of bottom sheets |
-| `rounded-full` | Switches and radios only |
+| `rounded-full` | Switches, radios and grab handles only |
 
-- Use a 2px radius for presence lights and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.
+- Use a 2px radius for status lights and attention dots (10px beside text, 6px to 20px on an avatar's corner) and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.
 
-## Nested corners
+## Inside a frame
 
-When a rounded control sits close inside a rounded frame, as the buttons of a toolbar or the items of a segmented control do, the two corners share a center.
+The radius belongs to the element; the space around it adapts to the frame it sits in. Frames keep their own radius whatever they hold: a field and the composer, a card, a popup, a toolbar and a dialog never round off to fit what is inside them, because hard edges are Raft's.
 
-- Make the frame's radius the inner radius plus the gap between the inner edge and the frame's outer edge, a hairline drawn inside the frame included: with equal radii the gap pinches at the corner and widens along the sides, so the inner shape looks pushed into the corner.
-- Keep the inner radius from the scale and derive the frame's: the control's corner is what people see change on hover. `radius-control` (8px) with a 2px frame gives `radius-container` (10px), as on the message hover toolbar; with a 3px frame it gives 11px, as on the segmented control.
+| Element | Radius | Space to the frame's outer edge | Between two of them |
+| --- | --- | --- | --- |
+| A Button standing on its own | `radius-control` | — | — |
+| A control embedded in another component's frame: the clear, toggle and end buttons of a field, the composer's buttons and its send button, the buttons of a floating toolbar (message hover toolbar, text selection toolbar, the lightbox's info bar, the multi-select bar), the corner action of a card or of media (a code block's copy, a video, a gallery image, a file card's download) | `radius-chip` | 6px in a field, the composer and a corner; 4px in a floating toolbar | The same as the space to the frame |
+| A chip in a field | `radius-chip`, its remove button `radius-sticker` | 6px; the remove button 2px inside the chip | 6px |
+| The highlighted item in a popup | `radius-chip` | 4px | 0 |
+| The thumb of a segmented control or toggle group | `radius-control` | 3px | 3px |
+
+- **One shape for one kind of thing.** The same small button wears the same corner in a field, the composer, a card corner and a toolbar, and the same corner as the chips beside it. At `radius-control` a 20px button in a field reads almost round; under `radius-chip` it reads hard.
+- **The space is even on every side.** A control embedded in a frame sits the same distance from the frame's top, bottom and side, and two of them sit that distance apart, so no gap is wider than the others. In a field the embedded controls and chips are the field's height less that space on both sides: 20px on a desktop and 32px on a phone, and the field stays 32px or 44px tall with chips in it.
+- **A floating toolbar leaves 4px around its buttons**, so the buttons' corners sit evenly inside the toolbar's: at 2px the corners left a wider gap than the sides. The message hover toolbar is 36px tall.
+- **Close to the frame, the inner corner follows the frame's.** A popup's highlight 4px inside the popup and a segmented thumb 3px inside its track run close to the frame's arc, so the frame's corner is chosen to keep the gap even around it. Further inside, as a chip 6px inside a field is, the element reads as an object of its own and simply wears its own radius.
+- **Nothing covers content.** A corner action that sits on content, as a code block's copy button does when the block has no header, reserves its column: the content stops short of the button on every line.
+- **A chip's remove button wears `radius-sticker`**, the one exception: it is a smaller target 2px inside the chip, so close that it follows the chip's corner, as a popup's highlight follows the popup's. At `radius-chip` its corner would run into the chip's.
+- A focus ring that its host would clip, as on a chip's remove button, is drawn inside the element.
 
 ## Stroke widths
 

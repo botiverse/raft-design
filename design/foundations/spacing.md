@@ -19,13 +19,41 @@ Raft spaces everything on a 4px grid and sizes everything people touch to at lea
 
 - Use the 4px steps for all spacing between and inside components.
 - Inside small pieces (chips, the gap between a pixel and its word, tags) a half step of 2px is allowed: 6px and 10px.
+- Inside a track that hugs its items, a segmented control or a toggle group, the items sit 3px from the track and 3px apart: the track's own inset, which the 4px grid doesn't divide.
+- Inside a frame, siblings that can each show a fill (the buttons of a toolbar, the segments of a segmented control, the chips and buttons in a field) sit as far apart as they sit from the frame: 4px in a floating toolbar, 3px in a segmented control, 6px in a field. A different gap between them would be one more distance for the eye to compare ([Shape](./shape.md#inside-a-frame)).
+
+## Timeline rhythm
+
+A conversation is read top to bottom, so the space between its lines is what tells a reader where one turn ends and where a new part of the conversation begins. The timeline uses three distances and no others, each measured from text to text (the last line of one thing to the first line of the next), because that is the gap the eye compares:
+
+| Step | Distance | Between |
+| --- | --- | --- |
+| Row | 8px | Two rows of one turn: a continuation row under the row it continues ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)). |
+| Message (`timeline-gap-message`) | 16px | Two turns: a message and the next sender line, a message and an event line ([SystemMessage](../../packages/ui/src/components/system-message/system-message.md)), two event lines. |
+| Section (`timeline-gap-section`) | 24px | A boundary: either side of a date line, measured to its rule; from the top of the list to its first line; from the last line to the composer's frame. |
+
+- **One step per kind of break.** Within a turn is tighter than between turns, and a boundary is one step wider than both, so a date line reads as a new day and not as one more message. The steps sit on the 4px grid, each one 8px wider than the last.
+- **A boundary is the same on both sides.** A date line sits 24px from the text above it and 24px from the sender line below it. When the space under a line was larger than the space over it, the line looked attached to the message above.
+- **The last message never sits on the composer.** The composer is a heavy frame; at the message step it read as touching the last line. From the last line to the composer's frame is a section step, the same as from the top of the list to the first line.
+- **Every row carries its own insets, and a boundary takes them back.** A row keeps the row inset (`timeline-row-inset`, 4px) above and below its text: the reach of its hover and selected highlight. The first row of a turn adds 8px above that, a transparent border the highlight doesn't paint, so every turn starts 12px above its text (`spacing-timeline-lead`). A date line subtracts the inset of the row above it and the lead of the row below it from its own padding, so a row never has to know what comes next, and the distances stay right whatever sits on either side.
+- **The edge the messages scroll under fades.** Wherever content scrolls under an edge, the edge fades instead of cutting it, as a tab bar fades on the side that hides tabs ([Tabs](../../packages/ui/src/components/tabs/tabs.md)). The list's bottom edge, over the composer, fades from the panel's color to transparent over the section step, 24px, at all times (`MessageListEndFade`, [MessageList](../../packages/ui/src/components/message-list/message-list.md)): a message scrolled under it softens, and at the end of the list it lies over the empty end and shows nothing. The line of who is about to post sits on the same fade and has none of its own.
+- **A line that floats over the end of the list doesn't move it.** The line of who is about to post adds its own height to the end of the list while it shows, so the last message stays whole above it ([Working agents](../people-and-agents/working-agents.md#who-is-about-to-post)); Back to Bottom shows only while the end is out of view, so it never covers the last message.
+- **Products don't write these numbers.** Components read the timeline tokens; a product that builds its own list top or end uses only `pt-timeline-start` above the first row (the section step less the lead every row brings, the history notice included) and `pb-timeline-end` (the section step less the last row's inset) under the last row. `timeline-turn` and `timeline-lead` are for the components; adding them up in a product is how the old gaps drifted.
+
+```tokens
+timeline
+```
 
 ## Hit targets
 
 - Make every touch target at least 44px in both directions.
 - Extend a control that looks smaller than 44px, and a text button, with a transparent pseudo-element to 44px.
 - Don't extend inline links and reference chips in running text: they follow the line of text.
-- Desktop controls used only with a pointer may be smaller: sidebar rows and menu items 36px, rail items 40px, the hover toolbar 32px high with 28px buttons.
+- The rows of a popup list are the one exception: an option of a Select, a Combobox or a ComboboxSelect, an item of a DropdownMenu or a ContextMenu, and a row of the server tab's popover on a phone ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)) are 36px with one line, on a touch screen as well as with a mouse ([Forms](../patterns/forms.md#option-height)). They touch each other edge to edge, so their hit area can't reach past the row to 44px. They stay 36px because:
+  - Each row spans the whole width of the popup, so a tap a few pixels off still lands on a row.
+  - A tap on the wrong row only moves the highlight or chooses the neighbor, which people see and can change. It never does anything that can't be put back: a menu item that deletes, stops or removes something opens a confirmation first ([Feedback](../patterns/feedback.md#confirming)). Keep such an item apart from the others, after a separator.
+  - 36px rows keep more of the list in view.
+- Desktop controls used only with a pointer may be smaller: sidebar rows 36px, rail items 40px, the hover toolbar 36px high with 28px buttons ([Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)).
 - On a desktop, a default control is 32px, Feishu's PC default, read with a pointer from further away. A desktop here is a screen from 768px (where the desktop layout begins) whose main pointer is a mouse or a trackpad, `(width >= 48rem) and (pointer: fine)`: density follows the input, not the width. A tablet used by touch keeps the phone's 44px controls and 16px field text, which also keeps iOS and iPadOS from zooming into a field on focus; an iPad with a trackpad reports a fine pointer and gets the desktop sizes. A button at 32px still overhangs to a 44px hit area (`after:-inset-y-control-hit`, plus its 1.5px border, because an overhanging `::after` is measured from inside the border), because a laptop can have a touch screen too; a field doesn't, since it is wide and its height is the target.
 
 ## The same kind, the same size
@@ -48,8 +76,10 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 | Row with an avatar and a preview: a conversation, a person, an agent ([ListRow](../../packages/ui/src/components/list-row/list-row.md)) | At least 64px |
 | Settings row inside a settings page ([ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`) | 48px with one line |
 | Radio row | At least 44px |
-| Option in a popup list, menu item | 36px with one line; taller with more, at the same padding ([Forms](../patterns/forms.md#option-height)) |
+| Selection control: a switch; a checkbox and a radio | 50 × 30px; 20px. The same on a phone and a desktop. On its own, a checkbox's or radio's hit area is 44px tall on a touch screen; in a `<label>` row it reaches half the gap to the next option, and the label is the target. Centered on the label's first line; at the end of a settings row, on the whole row ([Alignment](./alignment.md#a-control-and-its-label)) |
+| Option in a popup list, menu item | 36px with one line, with a mouse and on a touch screen ([Hit targets](#hit-targets)); taller with more, at the same padding ([Forms](../patterns/forms.md#option-height)) |
 | Phone top bar row, panel header, sidebar header, rail header, drawer header | 56px |
+| A side card's header, also when the card is folded to it | 48px, its 32px icon buttons 8px from the top, the bottom and their side. An exception to [The ends of a header](./alignment.md#the-ends-of-a-header): a button set into the card's rounded corner sits on the corner's diagonal, so its hover square is inset evenly, and its icon lands 1px inside the 16px margin |
 | Web top bar, desktop app title bar | 48px |
 
 - Size a default control with the control tokens (`h-control`, `size-control`, `size-control-icon` for its icon), never with a breakpoint of its own: they switch once, in the token layer. A metric that follows the control and has no token, such as its padding or the margin that puts its glyph on an edge, switches on the same query, `md:pointer-fine:`, never on `md:` alone: `md:` would give a touch screen from 768px the desktop's 32px.
@@ -72,14 +102,29 @@ Avatars come in 19px, 27px, 35px, 51px and 99px: a multiple of 8 plus two 1.5px 
 | Phone content margin | 16px on each side |
 | Desktop main area, panel header, sidebar header, drawer margin | 20px on each side |
 | Rail | 56px, plus a 1px seam; the labeled rail is 68px, plus a 1px seam |
-| Sidebar | 240px, resizable from 180px to 320px |
-| Side panel | 380px |
-| Thread panel | 400px, resizable from 360px to 60% of the window |
+| Sidebar (every page that has one: Chat, Members, Computers, Settings, a server's public page) | 240px, resizable from 200px to 400px |
+| The Activity and Search results list, beside the item picked from it | 380px, resizable from 320px to 640px |
+| Thread panel | 400px, resizable from 360px until the conversation beside it is down to its 360px |
+| Profile and task side panel | 400px, resizable from 320px until the main area beside it is down to its 360px |
+| An agent's file tree | 256px, resizable from 180px to 480px |
+| Main area, between the columns | At least 360px |
 | Comment margin beside a document | 280px, 24px from the document ([Comments](../patterns/comments.md#wide-and-narrow)) |
+| Side cards beside a conversation | 360px, resizable from 280px until the messages beside them are down to their 360px, measured as the card itself; the column adds its 12px gutter at the right (and 12px above and below). The 12px between the messages and the cards is the message list's own right padding, counted in its 360px minimum, so it adds nothing: the cards sit beside the messages from a 652px panel (360 + 280 + 12), and float below it. Two cards share the height, each at least 160px, and a folded card keeps its 48px header (its buttons 8px from every edge, an exception to [The ends of a header](./alignment.md#the-ends-of-a-header) given in the header row above) and hides its body. Floating over the message list, the card is 12px in from the panel's edges and at most the panel's width less 24px |
 
 How things land on these margins is in [Alignment](./alignment.md). Breakpoints are in [Responsive layout](../patterns/responsive.md).
+
+### Resizing columns
+
+On a desktop every column with a range above can be dragged on its seam, within that range. The side cards have no seam: they are dragged by the gaps around them, the gap handle variant ([Resizable](../../packages/ui/src/components/resizable/resizable.md#the-gap-handle)). The comment margin keeps its 280px, because the cards are laid out against it ([Resizable](../../packages/ui/src/components/resizable/resizable.md)). The ranges come from what each column holds: the sidebar's names, counts and marks start to crowd under 200px and gain nothing past 400px; a results row keeps two or three words of a thread's title at 320px and only shows more of a one-line preview past 640px.
+
+A panel on the right of the main area (a thread, a profile or task side panel, the side cards) has no width of its own at which it stops: it grows until the area left of it is down to that area's 360px minimum. What it holds, a conversation or a task, reads better the wider it is, and a fixed maximum (640px, 720px) stopped it at about half of a 1280px to 1440px window, though people wanted it to take three quarters while they worked in it (2026-10-23). The 360px it leaves is the same minimum the main area keeps when the window narrows, so a drag never takes the conversation below the width at which it still works.
+
+- Remember each width in each browser, not per server or account. The sidebar is one width on every page that has one, so it doesn't jump when people move between Chat, Members, Computers and Settings. The profile panel and the task side panel share one width too.
+- When the window is too narrow for the remembered widths, draw the columns narrower, starting with the rightmost, down to their minimums, and keep the main area at least 360px; a side panel that still doesn't fit covers the main area ([Responsive layout](../patterns/responsive.md)). The remembered widths don't change, so a wider window brings them back. A column left of the main area narrows for a side panel only while that still puts the panel beside the main area; when it can't, the column keeps its width and the panel covers the main area.
+- Draw a remembered width outside a column's range at the nearest end of the range; don't reset it, so a change to a range doesn't throw away a person's choice.
 
 ## Related
 
 - [Page structure](../patterns/page-structure.md): how the regions are arranged.
 - [Shape](./shape.md): radii and stroke widths.
+- [Visual comfort](./comfort.md): how spacing, insets, lines and surfaces work together.

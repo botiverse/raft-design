@@ -56,7 +56,7 @@ function EditChannelDialogParts() {
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-        <Button variant="accent">Save Changes</Button>
+        <Button variant="accent">Save</Button>
       </DialogFooter>
     </>
   );
@@ -73,11 +73,7 @@ export function EditChannelDialogContent() {
 // @docs-source-strip-start
 export function EditChannelDialogComposition({ className }: { className?: string }) {
   return (
-    <CompositionModalPreview
-      className={className}
-      contentClassName="max-w-md"
-      portalClassName="px-0"
-    >
+    <CompositionModalPreview className={className} portalClassName="px-0">
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent

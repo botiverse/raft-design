@@ -40,9 +40,9 @@ async function longPress(element: Element) {
   await cdp().send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
 }
 
-// A row with its menu open (states.md#row-hover): on a phone there is no
-// hover, so the row's fill is the only sign of which row the menu acts on.
-// Every row takes fill-row-open, a clear step (3 or more) off its surface,
+// A row with its menu open (states.md#hover-and-press): on a phone there is
+// no hover, so the row's fill is the only sign of which row the menu acts on.
+// Every row takes fill-subtle, a visible step (2 or more) off its surface,
 // still under info-soft and brand-soft so it never reads as selected.
 const rows = [
   {
@@ -67,7 +67,7 @@ const rows = [
 
 for (const mode of ["light", "dark"] as const) {
   for (const row of rows) {
-    it(`${mode}: a ${row.name} pressed and held on a phone is marked with fill-row-open`, async () => {
+    it(`${mode}: a ${row.name} pressed and held on a phone is marked with fill-subtle`, async () => {
       await emulatePhone();
       const { getByTestId } = render(
         <ThemeProvider>
@@ -89,12 +89,12 @@ for (const mode of ["light", "dark"] as const) {
       await longPress(el);
       expect(el.hasAttribute("data-popup-open"), "the long press opened the menu").toBe(true);
       const fill = await settled(() => getComputedStyle(el).backgroundColor);
-      expect(fill, `${mode}: the open ${row.name}'s fill`).toBe(token(scope, "fill-row-open"));
+      expect(fill, `${mode}: the open ${row.name}'s fill`).toBe(token(scope, "fill-subtle"));
 
       const surface = parseOklch(token(scope, row.surface));
       const open = over(parseOklch(fill), surface);
       const step = deltaE(open, surface);
-      expect(step, `${mode}: ${step.toFixed(2)} off ${row.surface}`).toBeGreaterThanOrEqual(3);
+      expect(step, `${mode}: ${step.toFixed(2)} off ${row.surface}`).toBeGreaterThanOrEqual(2);
       for (const selection of ["info-soft", "brand-soft"]) {
         const selected = deltaE(over(parseOklch(token(scope, selection)), surface), surface);
         expect(step, `${mode}: under ${selection} (${selected.toFixed(2)})`).toBeLessThan(selected);

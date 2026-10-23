@@ -265,7 +265,7 @@ function ToastDemoControls({ options }: { options: ToastDemoOptions }) {
       <Button
         ref={copyButtonRef}
         type="button"
-        size="sm"
+        size="md"
         variant="primary"
         onClick={handleCopyClick}
       >
@@ -274,7 +274,7 @@ function ToastDemoControls({ options }: { options: ToastDemoOptions }) {
       <Button
         ref={forwardButtonRef}
         type="button"
-        size="sm"
+        size="md"
         variant="outline"
         onClick={handleForwardClick}
       >
@@ -283,7 +283,7 @@ function ToastDemoControls({ options }: { options: ToastDemoOptions }) {
       <Button
         ref={errorButtonRef}
         type="button"
-        size="sm"
+        size="md"
         variant="danger-outline"
         onClick={handleErrorClick}
       >

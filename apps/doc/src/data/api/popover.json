@@ -203,7 +203,7 @@
         "name": "disableAnchorTracking",
         "type": "boolean",
         "required": false,
-        "default": "true",
+        "default": "false",
         "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
         "from": "base-ui"
       },
@@ -417,5 +417,19 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "PopoverActions",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The panel's buttons, at its end, under `PopoverBody`: the way out first, then the confirm button.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "PopoverBody",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The panel's text: a `PopoverTitle` and a `PopoverDescription`, 16px in from its edges.",
+    "native": true,
+    "props": []
   }
 ]

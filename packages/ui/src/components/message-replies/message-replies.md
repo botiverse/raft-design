@@ -53,7 +53,7 @@ message-replies/compositions/unread-draft
 
 ## Behavior
 
-- Selecting anywhere on the block opens the thread.
+- Selecting anywhere on the block opens the thread. The block is read, so it hovers with the subtle tier and presses with the medium tier ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
 - The block lines up with the message text and is at most 480px wide.
 - Each preview keeps to one line: the content truncates, the name and the time stay.
 

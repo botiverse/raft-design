@@ -22,9 +22,9 @@ import {
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
 
-// The vitest browser default viewport is 414px wide; the message gallery row
-// layout (md:grid-cols-3, the 360px cap) and the sm+ row heights only exist at
-// >= 768px, so the layout assertions pin a desktop viewport. Imported lazily:
+// The gallery's three-across rows and taller row heights follow its own
+// width (from 22.5rem), not the window's; the layout assertions still pin a
+// desktop viewport so the rest of the card lays out as on a desktop. Imported lazily:
 // CI also loads this file in the node pool, where the browser context module
 // refuses to import and every test is skipped anyway.
 beforeAll(async () => {
@@ -466,28 +466,32 @@ it("fullWidth releases the 34rem cap", () => {
   expect(released).toBeGreaterThan(800);
 });
 
-it("forwarded rows keep per-image heights when they wrap on narrow viewports", async () => {
-  const { page } = await import("vite-plus/test/browser/context");
-  await page.viewport(390, 900);
-  try {
-    renderGallery(5, { mode: "light" });
-    const rows = galleryRows("gallery");
-    // 5 images = a three-up row + a two-up row; at 390px the three-up row
-    // folds into two grid rows, each keeping the 112px image height.
-    const threeUp = rows[0];
-    expect(threeUp.children.length).toBe(3);
-    for (const tile of threeUp.children) {
-      expect(Math.round(tile.getBoundingClientRect().height)).toBe(112);
-    }
-    expect(Math.round(threeUp.getBoundingClientRect().height)).toBe(112 * 2 + 8);
-    // The two-up family keeps 8rem below sm (only the three-up family is 7rem),
-    // matching the pre-migration two-up height.
-    const twoUp = rows[1];
-    for (const tile of twoUp.children) {
-      expect(Math.round(tile.getBoundingClientRect().height)).toBe(128);
-    }
-    expect(Math.round(twoUp.getBoundingClientRect().height)).toBe(128);
-  } finally {
-    await page.viewport(1280, 900);
+it("forwarded rows keep per-image heights when they wrap in a narrow card, on a wide window", () => {
+  // The gallery switches on its own width, not the window's: a 320px card
+  // on this 1280px window takes the narrow layout.
+  renderGallery(5, { mode: "light", width: 320 });
+  const rows = galleryRows("gallery");
+  // 5 images = a three-up row + a two-up row; below 360px of the gallery's
+  // width the three-up row folds into two grid rows, each keeping the 112px
+  // image height.
+  const threeUp = rows[0];
+  expect(threeUp.children.length).toBe(3);
+  for (const tile of threeUp.children) {
+    expect(Math.round(tile.getBoundingClientRect().height)).toBe(112);
   }
+  expect(Math.round(threeUp.getBoundingClientRect().height)).toBe(112 * 2 + 8);
+  // The two-up family keeps 8rem when narrow (only the three-up family is 7rem).
+  const twoUp = rows[1];
+  for (const tile of twoUp.children) {
+    expect(Math.round(tile.getBoundingClientRect().height)).toBe(128);
+  }
+  expect(Math.round(twoUp.getBoundingClientRect().height)).toBe(128);
+  cleanup();
+  // From 360px of its own width: three across, the taller rows.
+  renderGallery(5, { mode: "light", width: 360 });
+  const wide = galleryRows("gallery")[0];
+  for (const tile of wide.children) {
+    expect(Math.round(tile.getBoundingClientRect().height)).toBe(128);
+  }
+  expect(Math.round(wide.getBoundingClientRect().height)).toBe(128);
 });

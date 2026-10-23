@@ -4,6 +4,6 @@ import { SectionIndex } from "#/components/site/doc-page-view.tsx";
 import { docPageHead } from "#/components/site/doc-route.ts";
 
 export const Route = createFileRoute("/_site/decisions/")({
-  head: () => docPageHead("/decisions"),
+  head: ({ matches }) => docPageHead("/decisions", matches),
   component: () => <SectionIndex section="decisions" />,
 });

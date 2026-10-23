@@ -1,3 +1,636 @@
+## [0.27.0](https://github.com/botiverse/raft-design/compare/v0.26.0...v0.27.0) (2026-10-23)
+
+### Design System
+
+- **Refreshing a snapshot page by pulling**: on a phone, a page that shows a snapshot (Activity, Tasks, Members, Computers) refreshes when pulled down past 100px; while it refreshes the indicator holds at 60px, and it snaps back in 300ms without overshoot. Realtime pages (a conversation) are never pulled. On iOS a pull that passed the trigger stays armed; on Android, as in Material 3, pulling back above it takes it back, and crossing it gives a short vibration. The indicator is the Spinner on every platform. Every such page also reloads when it is opened, so the gesture is never the only way. `PullToRefresh` is experimental, from `@botiverse/raft-ui/wip`. ([#743](https://github.com/botiverse/raft-design/pull/743))
+  - Why: on a phone there was no way to ask a snapshot page for what is new without leaving it; the numbers match Raft's iOS app so the two feel the same.
+  - Affects: a rule for products; raft-ui adds `PullToRefresh` (wip).
+  - Docs: https://raft-design.botiverse.build/patterns/navigation/#refreshing
+- **A right panel grows until the area left of it is 360px**: a thread, a profile or task side panel and the side cards have no fixed maximum width (640px, 720px before); they grow until the area beside them is down to its 360px minimum. ([#759](https://github.com/botiverse/raft-design/pull/759))
+  - Why: a fixed maximum stopped them at about half of a 1280px to 1440px window, though people wanted three quarters while they worked in them.
+  - Affects: a rule for products.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/
+- **Dragging past the end snaps**: dragging the sidebar 40px past its minimum collapses it, and dragging a thread 40px past where the conversation is down to 360px puts it in focus mode, during the drag; dragging back undoes it, and the width before the snap comes back. ([#761](https://github.com/botiverse/raft-design/pull/761))
+  - Why: the jump is how people know they went past the end; 40px keeps a drag that only reaches it from snapping by accident.
+  - Affects: a rule for products.
+  - Docs: https://raft-design.botiverse.build/components/resizable/#dragging-past-the-end
+
+## [0.26.0](https://github.com/botiverse/raft-design/compare/v0.25.0...v0.26.0) (2026-10-23)
+
+### Design System
+
+- **Links that leave Raft end in ↗**: a control that takes someone to another site (docs, pricing, terms and privacy, an app's homepage, TestFlight, Stripe, GitHub) ends in Lucide's `ArrowUpRight`, the only mark for it, never the box with an arrow. A TextLink takes `TextLinkExternalIcon`; a button puts it in its trailing icon's place; a menu item where the shortcut goes; a sidebar row in its trailing slot, in `foreground-hint`. It opens in a new tab with `rel="noopener noreferrer"` and a screen reader hears "(opens in a new tab)"; Stripe checkout and the billing portal stay in the same tab and still end in ↗. Sign-in round trips, downloads, links people write in messages and anything inside Raft get no mark. ([#758](https://github.com/botiverse/raft-design/pull/758))
+  - Why: people couldn't tell before pressing whether a control would take them out of Raft, and the product used three different marks (and none on most links) for it.
+  - Affects: a rule for products; raft-ui adds `TextLinkExternalIcon`.
+  - Docs: https://raft-design.botiverse.build/patterns/navigation/#links-that-leave-raft
+- **An item card's warning line**: a line an app marks as a warning (`tone: "warning"`, such as "2 checks failing") reads in `warning-strong`, Raft's color for a warning; the state's Badge stays neutral and nothing else on the card is colored. ([#760](https://github.com/botiverse/raft-design/pull/760))
+  - Why: an app's own state colors on a card competed with Raft's; a warning reads the same everywhere when it is Raft's color.
+  - Affects: a rule for products rendering app item cards.
+  - Docs: https://raft-design.botiverse.build/components/preview-card/
+
+### Added
+
+- **TextLinkExternalIcon**: the ↗ after a TextLink that leaves Raft. Lucide `ArrowUpRight` at 0.857em of the text, 2px after it, centered on the letters' cap height at every size, in an inline-flex box so the hover underline stops at the text. `label` is read by a screen reader after the text ("(opens in a new tab)"); the caller supplies the copy. ([#758](https://github.com/botiverse/raft-design/pull/758))
+  - Docs: https://raft-design.botiverse.build/components/text-link/#leaving-raft
+
+## [0.25.0](https://github.com/botiverse/raft-design/compare/v0.24.0...v0.25.0) (2026-10-23)
+
+### Design System
+
+- **Themes: a frame, never a new palette**: a person can pick a theme for themselves, and it follows their account to every server. Raft Yellow, the foundation itself, stays the default; beside it are Boring Gray and nine avatar-series themes (Bots, Critters, Space, Desk, Food, Quest, Weather, Plants, Spooky). A theme may recolor only the frame (rail, web top bar, phone top bar), the sidebar and, in dark mode, the canvas, cards and popups, tinted to its hue. The pink primary button, unread and @ counts, status lights, warnings and errors look the same in every theme. Every theme has a light and a dark version. An avatar-series theme can draw its series' pixel sprites on the empty parts of the frame, and the person can turn them off. Boring Gray is the one theme that also changes the brand: where you are is a gray fill with ink type, not yellow. It applies to AppRail and SidebarItem. ([#754](https://github.com/botiverse/raft-design/pull/754))
+  - Why: the frame is on every screen but nobody reads it, so it can carry a person's choice of look; keeping every meaning fixed means someone who switches themes doesn't have to learn the product again. In dark mode the surfaces take the theme's hue because a neutral black panel inside a colored frame looked pasted on.
+  - Affects: Navigation and States: "where you are is always yellow" now has one exception, Boring Gray, where `brand` and its washes are neutral grays and `brand-edge` is transparent. Sprites go only on the web top bar right of the search field (from 1024px) and on the desktop rail under its items, never where they could be taken for a control, an avatar or a status, and never behind text.
+  - Docs: https://raft-design.botiverse.build/foundations/themes/#principles
+- **The first frame is the settled one**: draw the first frame the way it will stay. Read what decides a layout (a remembered width, a collapsed section, a view mode, the viewport, the pointer, the platform) before the first paint, not in an effect after mount. Measure and decide in a layout effect, not in the next animation frame. While data reloads, keep a part's presence and size, such as counts and the controls that depend on them, at their last values until the new answer arrives. A placeholder, such as the fallback of a lazily loaded panel, takes the size and place of what it stands for. ([#748](https://github.com/botiverse/raft-design/pull/748))
+  - Why: a frame drawn from a "not known yet" default and corrected a moment later is a flash: a row grows and shrinks back, a panel snaps to another width, and controls move under the pointer.
+  - Affects: a rule for products; nothing in raft-ui changes. Feedback's skeleton rule now points to it.
+  - Docs: https://raft-design.botiverse.build/patterns/responsive/#the-first-frame-is-the-settled-one
+- **A row with a fill: one line height, no mark taller than the line**: in a row whose items share the first baseline, such as a task row, every text takes the main text's line height, and a taller hit area hangs into the padding instead of making the row taller. A row that centers its items (`items-center`), as every raft-ui list row does, needs neither. ([#750](https://github.com/botiverse/raft-design/pull/750))
+  - Why: a smaller text has a shorter line box, so a Space Mono group sat 3px lower than the title and a mark centered in it sat 1.5px below the row's center; a 32px button made the row taller and the text sat 2.5px above the center of the hover fill.
+  - Affects: give the row `leading-(--text-callout--line-height)` (and set it on sizes that set their own); `text-mono-meta` and `text-caption` 18px → 22px line on such a row.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#text-of-different-sizes-on-one-line
+- **Grab handles have round ends**: round is now for switches, radios and grab handles: the bar at a bottom sheet's top edge and the bar in a gap between side cards. It applies to Drawer. ([#747](https://github.com/botiverse/raft-design/pull/747))
+  - Why: every platform draws a grab handle with round ends (the iOS sheet grabber, Material's drag handle), and square ends on a 4px bar read as a cut edge, not something to take hold of.
+  - Affects: `rounded-full`: switches and radios only → switches, radios and grab handles. A bottom sheet's grab handle is a 36 × 4px bar in `line-seam`.
+  - Docs: https://raft-design.botiverse.build/foundations/shape/#principles
+- **The gap handle's bar follows the pointer**: on hover, the 56 × 4px bar in a gap between side cards is centered on the pointer along the gap, kept half a bar inside each end, with round ends; while dragging it stays where the drag started, and with keyboard focus it sits in the middle. Where two gaps cross, the crossing gap's bar lights at the pointer and the other at its end against the corner. `ResizableHandle` still draws only the seam handle; products draw the gap handle themselves. ([#746](https://github.com/botiverse/raft-design/pull/746))
+  - Why: a gap has no line, so the bar is the only thing that shows where the hand is, and a bar fixed in the middle of a long edge looked unrelated to the pointer.
+  - Affects: hover bar: middle of the gap, `rounded-[1px]` → at the pointer, `rounded-full`. Touch has no hover, so there the bar stays in the middle.
+  - Docs: https://raft-design.botiverse.build/components/resizable/#the-gap-handle
+- **An app link shows its host wherever a touch can open it**: a chip for a link that an app previews shows the link's host after its title (`MessageReferenceSuffix`) on any device with touch input, including a laptop with a touch screen. Write the full host, dropping only a leading `www.`, never shortened to the registered domain, and an internationalized host in its ASCII form (`xn--…`). The title truncates first; if the host alone still doesn't fit, it loses its start, never its end. It applies to MessageItem and MessageReference. ([#749](https://github.com/botiverse/raft-design/pull/749), [#753](https://github.com/botiverse/raft-design/pull/753), [#755](https://github.com/botiverse/raft-design/pull/755))
+  - Why: the title is the app's own words and may say anything, and a tap opens the link without the hover card that shows where it goes on a desktop. A link someone can open without seeing where it goes is a safety problem, and the end of a host (`…review.attacker.example`) is the part that says where.
+  - Affects: suffix `hidden any-pointer-coarse:inline` (any touch input, not only the main pointer). A host that overflows is truncated at its start: `dir="ltr"` and `unicode-bidi: isolate` inside a right-to-left box, so the ellipsis lands at the start.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#app-links
+- **An app link is a plain link until Raft knows an app previews it**: before a message's previews are first read, an app's link is an ordinary link. Once someone allows an app's previews and Raft reads them again, each of that app's links is `MessageReferencePending capped` until its preview arrives. It applies to MessageItem. ([#753](https://github.com/botiverse/raft-design/pull/753))
+  - Why: until the previews are read, the client can't tell an app's link from any other.
+  - Affects: pending chip shown while any preview loads → only for links of an app whose previews are allowed, after they are read again.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#app-links
+- **Read receipts on a mention: on a touch screen the check alone says it**: there is no hover card on a touch screen, and tapping a mention opens the agent's profile, so the check is the whole answer there: no mark means not read yet. Don't add a long press or a popup only for this line. It applies to MessageItem. ([#745](https://github.com/botiverse/raft-design/pull/745))
+  - Why: a gesture for one line of text is more to learn than it tells.
+  - Affects: a rule for products; the check's own word ("Read") still reaches a screen reader.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#read-receipts-on-a-mention
+- **The message menu: its order written down**: the menu opens with the message's full date and time as a label that can't be chosen, then the 7 quick reactions and a `smile-plus` button that opens every emoji, then the actions in three sections by what they do to the message: keep going on it (Reply in Thread, Follow or Unfollow Thread, the task action), take it elsewhere (Copy Link, Copy Markdown, Forward, Select Message), and just for me (Save or Remove from Saved, Translate). A section with nothing in it is left out with its separator. It applies to DropdownMenu, ContextMenu and MessageReactionQuickRow. ([#751](https://github.com/botiverse/raft-design/pull/751))
+  - Why: the order lived only in the compositions; it is now a rule, grouped by what each action does to the message.
+  - Affects: 8 buttons of 36px make the menu 316px wide, wider than its 240px minimum; the actions take the same width.
+  - Docs: https://raft-design.botiverse.build/components/dropdown-menu/#the-message-menu
+
+### Added
+
+- **Themes**: a new export, `@botiverse/raft-ui/themes.css`, with Boring Gray (`boring`) and the nine avatar-series themes (`bots`, `critters`, `space`, `desk`, `food`, `quest`, `weather`, `plants`, `spooky`), each with a light and a dark version. Import it after `foundation.css` and put `data-theme="<id>"` on the element that carries the mode class (`.light` / `.dark`); without `data-theme` the app is Raft Yellow. Put `data-theme-decor="off"` on the same element to turn the sprites off and keep the colors. A top bar you draw yourself takes the new `frame-decor-top` utility for its sprites; `frame-decor-rail` is the rail's, which AppRail already draws. ([#754](https://github.com/botiverse/raft-design/pull/754))
+  - Why: see Themes: a frame, never a new palette, above.
+  - Affects: a theme overrides only `layer-frame`, `layer-frame-active`, `foreground-on-frame` (and `-muted`, `-active`), `fill-frame-medium`, `line-frame-active` and `layer-sidebar`; in dark mode also `layer-canvas`, `layer-card` and `layer-popover`; Boring Gray also `brand`, `brand-soft`, `brand-strong`, `brand-glow`, `brand-edge` and `selection`. `frame-decor-top` paints `--frame-decor-top` 72px from the right end, from 1024px wide only; both are `none` without a decorated theme. Themes are generated from `themes.json` (`vp run @botiverse/raft-ui#build:themes`).
+  - Docs: https://raft-design.botiverse.build/foundations/themes/#using-themes
+- **`brand-edge`** Tailwind color: `--color-brand-edge` maps the existing `--brand-edge` token (`border-brand-edge`, `ring-brand-edge`). ([#754](https://github.com/botiverse/raft-design/pull/754))
+  - Why: the edge of a selected navigation item has to follow the theme: ink by default, transparent in Boring Gray.
+  - Affects: `var(--brand-edge)`, which is `var(--sticker-ink)` in the foundation and `transparent` in Boring Gray.
+  - Docs: https://raft-design.botiverse.build/foundations/themes/#what-a-theme-may-change
+
+### Changed
+
+- **SidebarItem**: the active item's border takes `brand-edge` instead of `sticker-ink`, so in Boring Gray the selected row is a plain gray fill. It renders the same in Raft Yellow and the avatar-series themes. ([#754](https://github.com/botiverse/raft-design/pull/754))
+  - Why: see Themes: a frame, never a new palette, above.
+  - Affects: `data-active:border-sticker-ink` → `data-active:border-brand-edge`.
+  - Docs: https://raft-design.botiverse.build/foundations/themes/#the-themes
+- **AppRail**: the nav draws the theme's rail sprites as its last flex item, an `::after` pushed to the bottom under the items, up to 48 × 112px, which shrinks when the rail has less room so it never sits behind an item. Without a decorated theme it is empty. ([#754](https://github.com/botiverse/raft-design/pull/754))
+  - Why: see Themes: a frame, never a new palette, above.
+  - Affects: nav gains `after:mt-auto after:h-28 after:min-h-0 after:w-12 after:shrink after:content-[''] after:frame-decor-rail`. A nav `::after` of your own would replace it.
+  - Docs: https://raft-design.botiverse.build/foundations/themes/#decorations
+- **Drawer**: a bottom or top sheet's grab handle has round ends. ([#747](https://github.com/botiverse/raft-design/pull/747))
+  - Why: see Grab handles have round ends, above.
+  - Affects: handle `before:rounded-[1px]` → `before:rounded-full`.
+  - Docs: https://raft-design.botiverse.build/components/drawer/#rules
+- **MessageIcon**, **ChatIcon** and **ThreadIcon**: their lines are drawn at Lucide's weight. ([#751](https://github.com/botiverse/raft-design/pull/751))
+  - Why: at 1 they drew 0.89px at 16px, thinner than every Lucide icon beside them in a menu or a toolbar.
+  - Affects: `strokeWidth` 1 → 1.5 on the 18px grid (1.33px at 16px, as Lucide's 2 on its 24px grid).
+  - Docs: https://raft-design.botiverse.build/components/icons/#anatomy
+- **ThreadIcon**: both bubbles are outlined; the back one stops a stroke's width short of the front one on both sides, and both stay inside the 18px box with their stroke. ([#752](https://github.com/botiverse/raft-design/pull/752))
+  - Why: every icon in Raft is a line drawing at one weight, and a filled bubble read heavier than the Lucide icons beside it.
+  - Affects: front bubble `fill="currentColor"` → outline; the paths are redrawn, so the icon's shape changes slightly.
+  - Docs: https://raft-design.botiverse.build/components/icons/#anatomy
+
+### Fixed
+
+- **MessageReactionQuickRow**: the quick reactions line up with the menu's items: the first drawing starts 10px in, where the items' icons do. ([#751](https://github.com/botiverse/raft-design/pull/751))
+  - Why: with no side padding the reactions stood 3px left of the icons below them, so the column the eye follows down the menu stepped out at the top.
+  - Affects: `p-0` → `px-0.75 py-0` (3px at each side).
+  - Docs: https://raft-design.botiverse.build/components/dropdown-menu/#the-message-menu
+- **Banner** `size="sm"`: with a × (and no action button), the banner keeps the same room above and below as with a button, so the ×'s 32px hover fill stays 4px inside the banner's edges. ([#677](https://github.com/botiverse/raft-design/pull/677))
+  - Why: the room was kept only for an action button, so the ×'s hover fill reached the banner's edge.
+  - Affects: padding above and below with a × only: 8px → (32px − one line) / 2 + 4px, 9px on a desktop and 10px on a phone.
+  - Docs: https://raft-design.botiverse.build/components/banner/#sizes
+- **VirtualList**: scrolling up near the end of a list no longer snaps back, and on iOS the rows stay painted when older rows land at the top while the finger is still down. `onContentResize` is no longer called for rows above the view that the list measures and scrolls away exactly as you scroll up, since nothing in view moves and neither does the distance to the end. ([#683](https://github.com/botiverse/raft-design/pull/683))
+  - Why: a chat that follows the end from `onContentResize` and still counted the person as at the bottom scrolled back to the end, taking back the scroll that had mounted those rows; and when rows above the view shrank near the end, the browser's clamp and the list's own compensation both moved the view, so the rows in view jumped down. On iOS, at the top with the finger down, the pending compensation wasn't applied as a transform, so the rows were drawn below the view and a newly loaded older page showed blank.
+  - Affects: `onContentResize` still runs when content in view or below it changes, and when a pending scroll is replayed. The clamp is subtracted from the scroll compensation instead of being applied twice.
+  - Docs: https://raft-design.botiverse.build/components/virtual-list/#following-the-end
+
+## [0.24.0](https://github.com/botiverse/raft-design/compare/v0.23.1...v0.24.0) (2026-10-23)
+
+### Design System
+
+- **Phone popups 8px from each screen edge**: on a phone, a popup about as wide as the screen is the screen's width less 8px on each side, at most 480px, and stops 8px from the edge it is pushed against, measured from the screen's edge, not the safe area. Its width comes from the positioner's `--available-width`, not `100vw`. It applies to NotificationCenter. ([#737](https://github.com/botiverse/raft-design/pull/737))
+  - Why: popups that open from the same phone top bar sat at different insets and widths, so they didn't line up with each other or sit evenly between the screen's edges; every popup that wide now takes the server list's 8px inset.
+  - Affects: inset 8px from both screen edges; width `min(var(--available-width), 480px)`. The 480px cap only reaches a phone on its side.
+  - Docs: https://raft-design.botiverse.build/foundations/elevation/#popups
+- **Located: focus on the item is the inset ring, and a message is an article**: an item that a keyboard jump focuses draws the 2px inset ring in `foreground`, inside the item and with its corners, only after keyboard input, never the browser's outline. A message is announced as an article named by its sender and its time. It applies to MessageItem. ([#740](https://github.com/botiverse/raft-design/pull/740))
+  - Why: the browser's outline is drawn outside the item with its own rounded corners, so on a message it framed the transparent gap above the row and a scroller cut it off, and a screen reader landing on a message heard its text with no sender or time; the ring now sits inside the item and the row carries its own name.
+  - Affects: focus on a jumped-to item: browser outline → `inset-ring-2 inset-ring-foreground` after keyboard input.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#located
+
+### Breaking Changes
+
+- **MessageItem**: the row is an `article` named by its sender and its time. When it holds a `MessageItemSender` or `MessageItemSenderButton`, a `MessageItemTime` or a `MessageItemContinuationTime`, the row gets `role="article"` and `aria-labelledby` pointing at them, in that order, and those parts get ids raft-ui generates (an `id` you pass is kept and is the one the row points at). A screen reader announces, for example, "Atlas 2:20 PM" before the text; a continuation row is named by its time. A row with none of these parts and no `aria-label` or `aria-labelledby` stays a plain `div`. ([#740](https://github.com/botiverse/raft-design/pull/740))
+  - Why: a screen reader landing on a message, after a jump or with its reading keys, read the text with no sender or time; the row now carries its own role and name.
+  - Affects: every row with a sender or time part, role none (`div`) → `article`, with `aria-labelledby`; the sender and time parts gain an `id`. Your own `role` or `aria-labelledby` on `MessageItem` or its `render` element is left as is; your own `aria-label` drops the generated `aria-labelledby`, and a role that takes no name (`none`, `presentation`, `generic`) gets none.
+  - Migrate: don't render `MessageItem` as an `li` or put rows in a `list`: `role="article"` replaces `listitem`, and a list may hold only list items. Remove the list role from the timeline, or pass `role="listitem"` on `MessageItem` to keep the old semantics. Update tests and selectors that find rows by role or expect no `role` on the row. When `render` is a function, pass `role`, `aria-label` and `aria-labelledby` on `MessageItem`, since a function's props can't be read. Don't give `MessageItemSenderButton` an `aria-label` of its own: the row would read that instead of the visible name.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#accessibility
+
+### Changed
+
+- **MessageItem**: a focused row (`tabIndex={-1}`, set by the caller when a keyboard jump lands on it) shows the 2px inset ring in `foreground`, square like its hover, after keyboard input, and shows its toolbar; it never shows the browser's outline. After a click, nothing shows. raft-ui still doesn't make the row focusable. ([#740](https://github.com/botiverse/raft-design/pull/740))
+  - Why: see Located: focus on the item is the inset ring, above.
+  - Affects: focused row: browser outline → `outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground`. While the toolbar shows, its card covers part of the ring's top edge at the right.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#states
+
+### Fixed
+
+- **NotificationCenterPopup** `viewport="mobile"`: the popup is the screen's width less 8px on each side, at most 480px, and sits 8px from both screen edges, though it hangs from a bell at the right, lined up with the server list under the same top bar. Pass `collisionPadding` to change the inset. On desktop it is unchanged: 380px with Base UI's default collision padding. ([#737](https://github.com/botiverse/raft-design/pull/737))
+  - Why: see Phone popups 8px from each screen edge, above.
+  - Affects: width `min(92vw, 360px)` → `min(var(--available-width), 480px)`; collision padding Base UI's default → 8px with `viewport="mobile"`.
+  - Docs: https://raft-design.botiverse.build/components/notification-center/#behavior
+
+## [0.23.1](https://github.com/botiverse/raft-design/compare/v0.23.0...v0.23.1) (2026-10-22)
+
+### Fixed
+
+- **MessageItemToolbar**: measures its width onto the row (`--mi-toolbar-width`) as the toolbar shows, on the row's `pointerenter` or `focusin`, instead of when the row mounts, so a message row mounts in one commit again and keeps no ResizeObserver of its own. The fade under the toolbar looks the same. ([#738](https://github.com/botiverse/raft-design/pull/738))
+  - Why: 0.23.0 kept the toolbar's element in React state and gave every toolbar its own ResizeObserver, and every message row renders a toolbar, so each row committed twice on mount and a long channel held one observer per message; only the toolbar that shows needs its width, so it is now measured then.
+  - Affects: per row on mount, 2 commits → 1 and 1 ResizeObserver → 0; while a toolbar shows (hover, focus inside the row, an open popup), one ResizeObserver shared by the page watches it; it lets go of a toolbar once the pointer and focus have left its row with no popup open (after a popup closed elsewhere, the next time any toolbar shows) and is disconnected when it watches none. On mount the row gets `--mi-toolbar-width: 164px` (five buttons' width), replaced by the measured width as the toolbar shows, so a toolbar that ever shows without a pointer or focus event on its row fades five buttons' width until it measures itself: too much for a smaller toolbar rather than too little. A row without a `MessageItemToolbar` still gets no width and masks nothing.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#behavior
+
+## [0.23.0](https://github.com/botiverse/raft-design/compare/v0.22.1...v0.23.0) (2026-10-22)
+
+### Design System
+
+- **Switch on the region's width**: a layout switches on the width of the region it sits in (a panel, a column, a card), not on the window's. A component that switches its own layout makes itself a container, so it lays out the same in a 360px panel on a wide window as on a phone; it then fills its row and needs a parent with a definite width. Only what the window itself sizes reads the window (the page shell, dialogs, sheets, toasts), and mouse or touch is read with `pointer` and `hover`, never with the width. Every row needs a way to give way: a row of controls that still doesn't fit wraps onto a second line, and a value such as an email truncates last. Whether a part's content fits is measured, not guessed from a width. It applies to DescriptionList, MessageActionCard, MessageImageGallery, MessageVideoPreview, MessageForwardedBundleGallery, Steps, the TasksPanel toolbar, ActivityInboxSelectionToolbar, ListRowMeta, SegmentedControl, SidebarSectionControls, SearchEntityResult and CodeBlockPre. ([#721](https://github.com/botiverse/raft-design/pull/721), [#733](https://github.com/botiverse/raft-design/pull/733))
+  - Why: the same component sits in a narrow panel on a wide window and fills a phone, so a layout that asked the window laid itself out for a screen it didn't have (a two-column list in a 360px panel, a step row that wrapped where it should stack); every layout that switched on the window was moved to its own region, or to the input where the switch is about touch.
+  - Affects: the switch points listed under Breaking Changes and Changed below.
+  - Docs: https://raft-design.botiverse.build/patterns/responsive/#switch-on-the-regions-width
+- **Stacked buttons each take a frame**: when buttons stack full width (a dialog footer whose row doesn't fit, a bottom or top sheet's actions), a ghost button there takes the ink border of `default`, with its hover and press; it goes back to frameless when the row fits again. It applies to Button, DialogFooter, AlertDialogFooter and DrawerActions. ([#727](https://github.com/botiverse/raft-design/pull/727))
+  - Why: stretched to the full width, a frameless Cancel read as a line of text under the commit button, not as a button; once buttons stack, each needs its own box.
+  - Affects: a stacked ghost button: border `transparent` → `line-strong` on `layer-card`, hover and press `overlay-medium`, as `default`; text sizes `xs` to `xl` only, ghost icon buttons stay frameless.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#the-footer
+- **Text selection: its own token**: selected text (`::selection`) is painted with the new `selection` token and keeps its own text color. In light mode it is `brand-soft`, as before; in dark mode it is `brand` over the page at 22%, the same wash as a commented passage. `brand-soft` stays the menu highlight. It applies to MessageItem text. ([#730](https://github.com/botiverse/raft-design/pull/730))
+  - Why: in dark mode `brand-soft` left a selection at 1.23:1 against the canvas, so it was hard to see what was selected; a menu row's highlight and a selection need different values in dark mode, so they no longer share one.
+  - Affects: dark `selection` `brand-soft` (`oklch(0.5501 0.0999 91.5 / 0.2)`) → `color-mix(in oklch, var(--brand-400) 22%, transparent)`: 1.23:1 → 1.77:1 against the canvas, the selected text 7.7:1 (APCA Lc 80). Light mode is unchanged (1.14:1 against the canvas, the text 16.5:1, Lc 96).
+  - Docs: https://raft-design.botiverse.build/foundations/color/#text-selection
+
+### Breaking Changes
+
+- **MessageItem**: the header keeps no room for the hover toolbar, and `--mi-toolbar-reserve` is no longer read. At rest the sender line has the full width; while the toolbar shows (hover, focus inside the row, an open menu), the end of a sender line long enough to reach the corner fades out under it. `MessageItemToolbar` measures its own width onto the row as `--mi-toolbar-width`, so a toolbar with more or fewer buttons masks exactly its width. ([#726](https://github.com/botiverse/raft-design/pull/726))
+  - Why: keeping room for the toolbar cut the name to a few letters in a narrow column all the time, to protect a corner that is covered only while the pointer is on that message; the line now keeps its full width and nothing reflows on hover.
+  - Affects: with a mouse, header end padding `--mi-toolbar-reserve` (default 7rem) → 0. While the toolbar shows, the header is masked from 4px left of the toolbar's left edge to its end, after a 12px fade (`--mi-header-mask`); a row without a `MessageItemToolbar` masks nothing. The time's tooltip, when it fades out under the toolbar, can be pointed at once the pointer leaves the toolbar, and stays in the keyboard order.
+  - Migrate: remove `--mi-toolbar-reserve` wherever you set it; it has no effect. Render the toolbar with `MessageItemToolbar` inside the `MessageItem` row, which writes `--mi-toolbar-width`; a hover toolbar of your own gets no fade unless it sets `--mi-toolbar-width` (its width in px) on the row (`[data-message-item]`).
+  - Docs: https://raft-design.botiverse.build/components/message-item/#behavior
+- **DescriptionList** `direction="horizontal"`, **MessageActionCardContent**, **MessageImageGallery**, **MessageForwardedBundleGallery**, **Steps** (without `vertical`) and **TasksPanelRoot** are size containers (`container-type: inline-size`) and switch their layout on their own width instead of the window's; the list, the galleries and the step row fill their row (`width: 100%`). ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: see Switch on the region's width, above.
+  - Affects: DescriptionList stacks below 24rem (384px) of its own width (was below a 640px window), the value right under its label (its 32px minimum row height dropped) and 10px between pairs (the 2px row gap plus 8px; was 2px). MessageActionCard properties stack below 24rem of the card's content (was below a 640px window) with the same spacing, the value's 6px padding above and below dropped; a card at its 440px cap keeps two columns. MessageImageGallery: at most `min(360px, 100%)` of its column (was `min(360px, 100vw − 112px)` below a 768px window); rows 8rem (7rem with three images) below 360px of the gallery's own width and 9rem (8rem) at it (was by a 640px window); three images stay two across and one under them. MessageForwardedBundleGallery: a row of three is three across from 360px of the gallery's own width (was from a 768px window) and two across below; its rows grow as above from 360px (was from a 640px window). Steps: below 40rem (640px) of the row's own width each step stacks its text under its marker (was below a 640px window), and from 40rem a row too long for its width wraps. TasksPanelToolbar: New Task and the view switch on one line and the filters on the next below 28rem (448px) of the panel's width (was below a 768px window), one wrapping row from 28rem; toolbar and viewport sides 16px below 28rem, 20px from it (was by a 768px window). The same window can now show a different layout: a narrow panel on a desktop takes the narrow layout, and a wide region on a small window keeps the wide one.
+  - Migrate: put each of these in a parent with a definite width: a block, a stretched flex or grid item, or anything with a width set. In a parent that shrinks to fit its content (`inline-block`, `w-fit` or `fit-content`, an absolutely positioned box or a floating layer with no width, a flex item with `flex-basis: auto` and no width) a size container takes no width from what it holds and collapses, its text one word to a line. Keep `TasksPanelToolbar` and `TasksPanelViewport` inside `TasksPanelRoot`, and `MessageActionCardProperties` inside `MessageActionCardContent`: outside them there is no container, so the tasks toolbar keeps its two-line layout with 20px sides and the properties stay in two columns at every width. Remove window breakpoint overrides (`sm:`, `md:`, `max-sm:`) you added to adjust these layouts, and check them in your narrowest panels.
+  - Docs: https://raft-design.botiverse.build/patterns/responsive/#switch-on-the-regions-width
+
+### Added
+
+- **SegmentedControl** `iconsOnlyBelow="auto"`: the segments show only their icons exactly when their labelled segments don't fit the width the control is given, and their labels again once they fit. It decides before the first frame paints, and again when the room, a label, a count, the selection or a web font changes, always against the labelled layout, so it doesn't flicker at the boundary. `iconsOnlyBelow` also takes any length in `px`, `rem` or `em` (`"18.5rem"`, `"296px"`), measured against the nearest `@container` (the control's parent when there is none), beside the presets `xs` to `2xl`, which stay CSS container queries. With `auto` or a length the track carries `data-icons-only` while it shows only icons. The presets' type is exported as `SegmentedControlIconsOnlyPreset`. ([#733](https://github.com/botiverse/raft-design/pull/733))
+  - Why: a width picked for one language, one count or one font was wrong for the others, and the room a control is given changes with what sits beside it; `auto` measures the labels against that room instead.
+  - Affects: with `auto`, the control is a shrinkable flex item (`min-w-0`); leave it free to shrink in its row (don't make it `shrink-0`). In development raft-ui warns when a segment has no icon, or when `iconsOnlyBelow` is neither a preset, `auto` nor a `px`, `rem` or `em` length (the segments then keep their labels).
+  - Docs: https://raft-design.botiverse.build/components/segmented-control/#behavior
+- **`selection`** token: `--selection` in `foundation.css` and `tokens.json`, and the Tailwind color `selection` (`selection:bg-selection`). ([#730](https://github.com/botiverse/raft-design/pull/730))
+  - Why: see Text selection: its own token, above.
+  - Affects: light `var(--brand-soft)`; dark `color-mix(in oklch, var(--brand-400) 22%, transparent)`. Paint your own `::selection` with it in place of `brand-soft`.
+  - Docs: https://raft-design.botiverse.build/foundations/color/#text-selection
+
+### Changed
+
+- **SegmentedControl**: the track may shrink to its row. When the row is narrower than the track, its neighbors have given way and the segments can't show only their icons (or no `iconsOnlyBelow` is set), the segments scroll sideways inside the track, the checked one kept in view, instead of spilling onto the next control; the track sets `data-overflowing` while they do. ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: the track never shrank below its segments, so in a narrow row it ran over its neighbor; scrolling inside it is the last way it gives way.
+  - Affects: track `shrink-0` → `min-w-0 max-w-full`; while overflowing, `overflow-x: auto` with no scrollbar. Segments still never shrink. A track you made `shrink-0` yourself still never shrinks.
+  - Docs: https://raft-design.botiverse.build/components/segmented-control/#behavior
+- **SidebarSectionControls** and **SearchEntityResult**: decided by the input, not the window's width. The section controls show at rest wherever there is no fine pointer (a touch screen, a tablet at any width) and on hover, focus or an open menu with a mouse; a search result row is at least 64px tall on a touch screen at any width. ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: a tablet is touch at 1024px and a narrow desktop window still has a mouse, so the width was the wrong question.
+  - Affects: section controls at rest: shown below a 768px window → shown without `pointer: fine`; a narrow desktop window with a mouse now shows them on hover only. Search result `min-height: 64px`: below a 768px window → `pointer: coarse`.
+  - Docs: https://raft-design.botiverse.build/patterns/responsive/#touch-screens
+- **ActivityInboxSelectionToolbar**: one 44px row while its controls fit, and they wrap onto a second line in a narrow column, whatever the window. ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: it wrapped only below a 768px window, so in a narrow column on a wide window its controls overflowed.
+  - Affects: `flex-wrap` at every width (was below a 768px window only); padding 6px above and 5px below (was 8px below a 768px window, 0 with a fixed 44px height from it).
+  - Docs: https://raft-design.botiverse.build/components/activity-inbox/
+- **ListRowMeta**: stays whole while the title gives way first, then truncates when there is still no room, so a long value (an email beside a button in a 320px row) is cut instead of running under the button. ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: the meta never shrank, so a long value overflowed the row.
+  - Affects: `shrink-0` → `min-w-0 truncate`.
+  - Docs: https://raft-design.botiverse.build/components/list-row/#content
+- **MessageVideoPreview**: at most `min(360px, 100%)` of its column. ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: its cap was the window less a guess at the message's chrome, which was wrong in a thread beside a conversation.
+  - Affects: `max-width` `min(360px, 100vw − 112px)` → `min(360px, 100%)`.
+  - Docs: https://raft-design.botiverse.build/components/message-attachment/#rules
+- **Button** `variant="ghost"`, so **DialogFooter**, **AlertDialogFooter** (`AlertDialogCancel`) and **DrawerActions**: a ghost text button inside an element with `data-stacked` takes the ink frame of `default`. Dialog and alert dialog footers set `data-stacked` only while their buttons stack; `DrawerActions` sets it in a bottom or top sheet, where its buttons are always stacked, and not in a drawer from a side. Keep writing Cancel as `ghost`. ([#727](https://github.com/botiverse/raft-design/pull/727))
+  - Why: see Stacked buttons each take a frame, above.
+  - Affects: as above; a disabled ghost button keeps the disabled fill, and ghost icon buttons stay frameless. A stacked footer's buttons have no transition until the row has been measured and painted once (`data-measured`), so the frame doesn't fade in as a dialog opens.
+  - Docs: https://raft-design.botiverse.build/components/button/#which-color
+- **MessageItem** text: selected text uses the `selection` token, so in dark mode a selection is deeper; light mode is unchanged. ([#730](https://github.com/botiverse/raft-design/pull/730))
+  - Why: see Text selection: its own token, above.
+  - Affects: `selection:bg-brand-soft` → `selection:bg-selection`.
+  - Docs: https://raft-design.botiverse.build/foundations/color/#text-selection
+
+### Fixed
+
+- **TaskChip** (default and `size="sm"`): the chip's baseline is its text's, so its words sit on the line of the text beside it, such as a DescriptionList label; the status pixel and icons stay centered in the chip. ([#732](https://github.com/botiverse/raft-design/pull/732))
+  - Why: a centered flex box takes its baseline from its first item, so a chip that led with its status pixel sat on the pixel's bottom edge and its words stood a pixel off the label beside them.
+  - Affects: text laid out on the baseline inside the chip with 3px above and below (default, 22px) and 2px (`sm`, 20px), marks `self-center`; heights unchanged. `variant="inline"` is unchanged.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#text-of-different-sizes-on-one-line
+- **CodeBlockPre**: measures again whenever the `pre` resizes or its code changes (highlighting that arrives late, code that streams in), so a line that grows too long becomes the keyboard-reachable region (`tabindex="0"`, `role="region"`) it should be. ([#721](https://github.com/botiverse/raft-design/pull/721))
+  - Why: it measured once when it mounted, so code that changed later kept the first answer.
+  - Docs: https://raft-design.botiverse.build/components/code-block/#accessibility
+
+## [0.22.1](https://github.com/botiverse/raft-design/compare/v0.22.0...v0.22.1) (2026-10-22)
+
+### Design System
+
+- **Located: one highlight for every jump**: the item a jump took someone to, such as a link to a message, a search result or Activity item that opens a message, Back to the list a result was opened from, a file comment's passage or the rows a bulk change touched, shows `info-soft` at once, holds it 1.2s and fades out with `ease-out`, gone at 2s. It is layered over the item's own fill and takes the item's corners; a stronger mark (selected, current, a search match, checked, an open menu) wins and the item isn't painted; a located item doesn't answer hover while it lasts, but a press still shows. With reduced motion it is held still for 2s and then goes off without a fade. It is only a look: a jump started from the keyboard also moves focus to the item. It applies to MessageItem. ([#719](https://github.com/botiverse/raft-design/pull/719))
+  - Why: the system had one line for a jumped-to message (`info-soft`, cleared after 2 seconds, listed under selection) and nothing shared to apply it, so each jump drew its own flash with its own timing and colour; every jump now shows one highlight that goes away by itself.
+  - Affects: `info-soft` cleared at 2s → held 0–1.2s, `ease-out` fade 1.2s–2s, gone at 2s (`LOCATED_MS` = 2000); the current match of a search inside a page is a selection and keeps `info-soft` while the search is open.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#located
+- **A status light beside text is 10px**: every status light and attention dot that sits beside text, in a chip, a badge, a panel header, a sidebar row or a list row, is 10px with a 1.5px ink edge and a 2px radius; none of them is 9px. A light on an avatar's corner still follows the avatar, and the 8px `Status` `sm` stays the attention dot on an icon's corner (the NotificationCenter bell's dot, a `Status` at the default size, is 10px). It applies to Status, Badge, PanelActivity, SidebarSectionAttention, LiveAgentActivityBarStatus, NotificationCenter and its trigger's dot, the task status icons (TaskStatusIcon, TaskChip, TaskCardStatus, TaskStatusBadge, TaskList, TaskBoard), InboxItem, MessageActionCard, Timeline and the `lead-dot` utility. ([#722](https://github.com/botiverse/raft-design/pull/722))
+  - Why: every line, chip and row a light sits in is an even number of pixels, so a 9px light had half a pixel left over and was drawn with one more device pixel above it than below (0.5px off center on a 1x screen, 0.17px on a 3x one); a 10px light centers on a whole pixel.
+  - Affects: light 9px → 10px, its colour 6px → 7px; the 1.5px ink edge and 2px radius are unchanged. Avatar corner badges (`AvatarBadge`) and `Status` `xs`, `sm` and `lg` are unchanged.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-mark-that-leads-text
+- **Link blue: a deeper, quieter blue**: `foreground-link`, the blue used only for links in running text, is a deep, quiet blue: in light mode about half the chroma of a bright link blue, so it sits beside black ink and yellow without being the loudest thing on a page full of links, and still reads as a link at a glance; dark mode uses the same blue, lightened to read on the dark canvas. It applies to Markdown links and anything colored with `foreground-link`. ([#725](https://github.com/botiverse/raft-design/pull/725))
+  - Why: with the bright blue, a page full of links looked loud against the black-and-yellow brand; links keep their blue and their underline, in a deeper, quieter shade.
+  - Affects: light `oklch(0.4878 0.2432 264.4)` (#1447e6) → `oklch(0.4327 0.1282 256.54)` (#184f95); dark `oklch(0.8071 0.1007 250.45)` (#8ec5ff) → `oklch(0.717 0.1183 253.58)` (#6da7ec). Against the canvas 6.83:1 → 8.11:1 in light mode and 9.51:1 → 6.89:1 in dark mode; against `foreground` 2.75:1 → 2.32:1 and 1.44:1 → 1.98:1, still under 3:1, so the underline at rest still marks the link.
+  - Docs: https://raft-design.botiverse.build/foundations/color/#meanings-of-color
+
+### Added
+
+- **useLocated**, **LOCATED_MS** and **LocatedRequest**, with the `data-located` highlight in `styles.css`: `useLocated(request)` returns `true` while an item should show the located highlight; set `data-located` on the item while it does. Pass a new `request` (a counter or token, a string or number, not the item's id) for each jump once the item is on screen. The hook turns the highlight on two frames later, so a second jump to the same item restarts it, and off after `LOCATED_MS`. ([#719](https://github.com/botiverse/raft-design/pull/719))
+  - Why: see Located: one highlight for every jump, above.
+  - Affects: `[data-located]` runs a 2s animation of the registered `--located-fill` colour (`info-soft` → transparent), painted as a `background-image` layer over the item's own fill; not painted while the item is `:active`, selected (`data-selected`, `data-active="true"`, `aria-selected="true"`), current (`aria-current`) or has `data-popup-open`. The `animation` shorthand replaces the item's own animation while it is located. Don't set `data-located` by hand: left on, it keeps hiding hover.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#located
+- **MessageItem** `located`: shows the located highlight on the message row; pass `useLocated(request)`. ([#719](https://github.com/botiverse/raft-design/pull/719))
+  - Why: see Located: one highlight for every jump, above.
+  - Affects: the row's resting fill is `--located-fill` (transparent unless located), so a search match, a checked row or an open menu keeps its own fill, and the ring around a delegated face matches the row; a located row doesn't take the `fill-subtle` hover while the highlight lasts. A row without `located` renders as before.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#states
+
+### Changed
+
+- **Status** `size="md"` (the default) and the `lead-dot` utility, so also **SidebarSectionAttention**, **LiveAgentActivityBarStatus** and the **NotificationCenterTrigger** dot; **TaskStatusIcon** and the per-status task icons, so the status pixel in **TaskChip**, **TaskCardStatus**, **TaskStatusBadge**, **TaskList** and **TaskBoard**; the unread dots of **InboxItem** and **NotificationCenter**, the **MessageActionCard** status dot and the **Timeline** default marker: 9px → 10px; props and markup are unchanged. ([#722](https://github.com/botiverse/raft-design/pull/722))
+  - Why: see A status light beside text is 10px, above.
+  - Affects: `--lead-dot` 9px → 10px, so Badge and PanelActivity hold a `Status` at 10px; the task status pixel svg 9×9 → 10×10; `--r-timeline-icon-size` default 9px → 10px. A chip that holds a status pixel is 1px wider, its height unchanged. The Timeline axis column is 1px wider and a horizontal Timeline 1px taller. The NotificationCenter unread dot sits centered on the title line: top 17.5px → 17px on a phone, 18px on a desktop. The NotificationCenterTrigger dot keeps its top-right anchor and grows 1px down and left. The InboxItem unread dot takes its extra pixel out of the gap below it, so rows keep their height.
+  - Docs: https://raft-design.botiverse.build/components/status/#sizes
+- **`foreground-link`** token: light and dark values deepened to the quieter link blue, in `foundation.css` and `tokens.json`; the token name is unchanged. ([#725](https://github.com/botiverse/raft-design/pull/725))
+  - Why: see Link blue: a deeper, quieter blue, above.
+  - Affects: light #1447e6 → #184f95, dark #8ec5ff → #6da7ec (values above). Markdown links take the new blue, and so does their hover colour (the link blue mixed 20% toward `foreground`).
+  - Docs: https://raft-design.botiverse.build/foundations/color/#meanings-of-color
+
+## [0.22.0](https://github.com/botiverse/raft-design/compare/v0.21.2...v0.22.0) (2026-10-22)
+
+### Design System
+
+- **A mark that leads text: a notice leads with its intent's icon**: a toast, a banner or a panel notice never uses a status light to say what kind of notice it is (success, info, warning, error); it leads with its intent's Lucide icon, or the avatar of whoever it is about. A status light keeps its own meanings: whether an agent, a person or a computer is working or online, a task's status, and the square attention dot that marks something waiting or unread. A notice about one of those things may still show that thing's light inside it. It applies to Toast, Banner and PanelNotice. ([#709](https://github.com/botiverse/raft-design/pull/709))
+  - Why: the same square light said both what kind of notice it was and whether someone was online or a task was done, so one mark carried several meanings; notices now lead with their intent's icon and the light keeps its own meanings.
+  - Affects: a notice's leading mark, a 9px status light → the intent's icon: `Info`, `CircleCheck`, `TriangleAlert` (and `OctagonAlert` for a `destructive` banner), 16px in a toast and a `sm` banner, 20px in a banner.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-mark-that-leads-text
+- **Chips in running text: one box**: every chip with a fill in a message's text, a reference chip, the yellow sticker of a mention of the person reading and an inline task chip, shares one box: 0.875em semibold type on a line 2px shorter than the body line, its words on the sentence's baseline, a leading mark centered on the chip, 6px at each end (4.5px with a leading mark, the mark 4px from the text) and `radius-sticker` corners. A chip never makes its line taller. In dark mode the sticker keeps its ink edge, drawn inside, and has no die-cut edge outside. Text marks without a fill, a mention of someone else and a web link, are unchanged. It applies to MessageReferenceChip, MessageReferencePending, MessageReferenceUnavailable, MessageReferenceText `primary` and TaskChip `inline`. ([#706](https://github.com/botiverse/raft-design/pull/706))
+  - Why: chips in one sentence had two sizes: a reference chip was 22px tall and made a desktop line 1px taller, while a task chip and the sticker took the sentence's own type on a shorter line, about 5px shorter than a reference chip with letters 2px larger; every filled chip in message text now takes the same box.
+  - Affects: chip height = body line − 2px: 20px on a desktop (body 14/22), 22px on a phone (body 16/24); type 12.25px on a desktop, 14px on a phone.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#marks-in-running-text
+
+### Breaking Changes
+
+- **Banner**, **PanelNotice** and **ToastIcon**: a `Status` light placed as the leading mark is no longer laid out as one. ([#709](https://github.com/botiverse/raft-design/pull/709))
+  - Why: see A mark that leads text: a notice leads with its intent's icon, above.
+  - Affects: in a Banner, a `Status` that is a direct child no longer gets the 20px (16px at `sm`) icon column, so it drops to a row of its own under the text; in a PanelNotice it is no longer centered on the first line; in a ToastIcon it is no longer held at 9px whatever size it was given. An icon in any of them is unchanged.
+  - Migrate: replace the leading `Status` with the intent's Lucide icon, as listed in Banner's and Toast's Variants (`Info`, `CircleCheck`, `TriangleAlert`, and `OctagonAlert` for a `destructive` banner). For something still pending, put a `Spinner` in a `status="info"` banner instead (see Added). A `Status` that shows a person's, an agent's or a task's own state may stay inside the notice's text.
+  - Docs: https://raft-design.botiverse.build/components/banner/
+
+### Added
+
+- **Banner** with a `Spinner`: while something is still pending, such as a computer that hasn't connected yet, a `Spinner` placed as a direct child takes the icon's place. Banner puts it in the icon's column and centers it on the first line, so the text starts where it does after an icon. Use it in a `status="info"` banner. ([#709](https://github.com/botiverse/raft-design/pull/709))
+  - Why: a pending state had no leading mark but a warning light, and waiting is not a problem; a spinner in an info banner says it is still going without the warning tint or its icon.
+  - Affects: the spinner's column is 20px (16px at `sm`), one line tall, with the icon's gap before the text (10px, 8px at `sm`).
+  - Docs: https://raft-design.botiverse.build/components/banner/
+- **MessageReferenceChip** and **MessageReferencePending** `capped`: stops the chip at `min(100%, 24em)`, and a longer `MessageReferenceLabel` truncates at the end. For words Raft doesn't write, such as the title an app gives a link it previews. Give the pending chip the same `capped` as the chip that replaces it, so the line keeps its width when it loads. ([#696](https://github.com/botiverse/raft-design/pull/696))
+  - Why: an app's link is shown as a reference chip with the app's own title, and a long title could take the whole line; a capped chip keeps each link to at most one line.
+  - Affects: cap 24em of the chip's text: 294px on a desktop, 336px on a phone, or the line when it is narrower.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#app-links
+
+### Changed
+
+- **toast** command API: `toast.info`, `toast.success`, `toast.warning` and `toast.error` lead with their intent's icon in `ToastIcon` instead of a status pixel. The calls, `icon: false` and `leading` are unchanged, and a `leading` node still takes the icon's place. ([#709](https://github.com/botiverse/raft-design/pull/709))
+  - Why: see A mark that leads text: a notice leads with its intent's icon, above.
+  - Affects: 9px status pixel → 16px Lucide icon in the same 20px column, hidden from assistive technology as before: `info` `Info`, `success` `CircleCheck`, `warning` and `error` `TriangleAlert`.
+  - Docs: https://raft-design.botiverse.build/components/toast/
+- **MessageReferenceChip**, **MessageReferencePending**, **MessageReferenceUnavailable**, **MessageReferenceText** `variant="primary"` and **TaskChip** `variant="inline"` take the shared chip box in running text; props, variants and markup are unchanged. ([#706](https://github.com/botiverse/raft-design/pull/706))
+  - Why: see Chips in running text: one box, above.
+  - Affects: reference chips: 1px padding above and below → 0, height 22px → body line − 2px (20px desktop, 22px phone), gap after a leading icon or `Spinner` and before a `MessageReferenceSuffix` 2px → 4px, a chip led by a `Spinner` (a pending reference) 6px → 4.5px at each end, as a chip led by an icon. The sticker (`primary`): sentence-size type on a 1.2em line → 0.875em on the chip line, sides 3px → 6px, the outer 1.5px `ring-sticker-edge` removed (the 1.5px inset ink ring stays). TaskChip `inline`: sentence-size type on a 1.2em line → 0.875em on the chip line, status pixel to text 6px → 4px, a leading icon 12px → 14px, its −2px side margins removed. Text set on a line other than the body's can give its chips their own line height with `--chip-line-height` on a container. The default and `sm` TaskChip are unchanged.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#chips-in-running-text
+- **DialogFooter** and **AlertDialogFooter**: the buttons stay in one row at the end, Cancel then the commit button, at every width, and stack full width, the commit button on top, only when they don't fit on one line. In `DialogFooter`, a `TextLink` written first sits at the start in footnote text, and the buttons after it form one group (`data-slot="dialog-footer-actions"`) that stays beside the link when both fit and wraps under it, still at the end, when they don't. Props are unchanged. ([#673](https://github.com/botiverse/raft-design/pull/673))
+  - Why: a commit button with a long label pushed the row past the dialog's padding; the footer now measures its row and stacks only then, never because the window is narrow, so Cancel and the commit button sit in the same place on every screen.
+  - Affects: a row that doesn't fit gets `data-stacked`, a full-width column with the commit button on top; Tab order stays the markup's, Cancel then commit. A `TextLink` in `DialogFooter` takes `text-footnote`. A footer that sets its own layout with `className` keeps it while it fits on one line; give text that may give way `min-w-0`, so it shrinks before the footer stacks. With a leading `TextLink`, styles aimed at the footer's direct button children now need to target the `dialog-footer-actions` group.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#the-footer
+- **Banner** `size="sm"`: the title and description keep the banner's 14px text (`text-callout`), as `md` and `lg`; `sm` tightens only its padding and its icon. ([#718](https://github.com/botiverse/raft-design/pull/718))
+  - Why: a `sm` banner's text was smaller than the label of its 32px button, which made the button look too big for the banner; a banner's text is now never smaller than its button's label.
+  - Affects: `sm` text `text-footnote` → `text-callout`: 12/18 → 14/22 on a desktop, 13/18 → 14/20 on a phone. The 16px icon and the 8px × 12px padding are unchanged. With a button, the button stays centered on the last line, 4px from the top and bottom edges, so the space above and below the text, (32px − one line) / 2 + 4px, goes 11px → 9px on a desktop and 11px → 10px on a phone; a one-line banner stays 40px tall.
+  - Docs: https://raft-design.botiverse.build/components/banner/#sizes
+
+## [0.21.2](https://github.com/botiverse/raft-design/compare/v0.21.1...v0.21.2) (2026-10-22)
+
+### Fixed
+
+- **DescriptionList** inline: a default-size TaskChip or TaskStatusBadge that comes first in `DescriptionDetails` hangs by its 7px left padding, so its icon or text starts where the other values' text does. ([#710](https://github.com/botiverse/raft-design/pull/710))
+  - Why: 0.21.1 gave these chips 7px of left padding, but the list still pulled them 6px, so they started 1px to the right of the plain values beside them; the pull now matches the default chip's padding.
+  - Affects: left margin `-6px` → `-7px` and `max-width` `calc(100% + 6px)` → `calc(100% + 7px)` for a leading TaskChip or TaskStatusBadge of any size; the pull fits the default 7px padding, so a `size="sm"` (5px) or `variant="inline"` (4.5px) chip in that place is pulled 7px too. A Badge (6px) and a Button are unchanged.
+  - Docs: https://raft-design.botiverse.build/components/description-list/
+
+## [0.21.1](https://github.com/botiverse/raft-design/compare/v0.21.0...v0.21.1) (2026-10-22)
+
+### Design System
+
+- **Chips**: the ink at a chip's two ends sits the same distance from its fill's edges. A chip keeps its total padding and its width, and splits the padding between its ends so each end makes up for the empty space its own content brings. A smaller note after a chip's label centers on the label's letters, and the label stays on the sentence's baseline. It applies to MessageReferenceChip, MessageReferencePending, MessageReferenceUnavailable, MessageReactionChip, MessageItemSavedIndicator, MessageForwardedBundleAttachment, TaskChip and TaskCardStatus, and to the new MessageReferenceSuffix. ([#700](https://github.com/botiverse/raft-design/pull/700))
+  - Why: the chips split their padding as if every end were the same, so an icon or a status pixel sat closer to its edge than the last letter did to the other (3.6px against 7px in a reference chip), and the end after the text looked empty; each chip's padding is now set from where its ink is drawn.
+  - Affects: the padding at each end, left / right, totals unchanged; see Fixed below.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#chips
+- **A control and its label**: a settings row is the exception to the first-line rule. The leading icon, avatar or tile and the trailing switch, checkbox, radio, value or chevron of a `ListRow variant="plain"` center on the whole row, with or without a description, as they did in 0.20. A checkbox or radio beside wrapping text in a `<label>` row still sits on that text's first line. It applies to ListRow. ([#703](https://github.com/botiverse/raft-design/pull/703))
+  - Why: a setting reads as one unit, and with its controls on the title's first line they belonged to the title instead of the row; settings rows center them on the row again.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-control-and-its-label
+- **Timeline rhythm: the edge that messages scroll under fades**: the bottom edge of a message list, over the composer, fades from the panel's color to transparent over the section step, at all times, instead of cutting the message under it. The line of who is about to post sits on the same fade and has none of its own. It applies to the new MessageListEndFade. ([#699](https://github.com/botiverse/raft-design/pull/699))
+  - Why: a message scrolled under the composer was cut off by a hard edge; the edge now fades, as a tab bar fades on the side that hides tabs.
+  - Affects: fade height `timeline-section` 24px, `layer-canvas` to transparent.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#timeline-rhythm
+
+### Added
+
+- **MessageReferenceSuffix**: a short note after a reference chip's label, in muted Space Mono, such as `msg` on a link to a message. Put it inside `MessageReferenceChip`, after `MessageReferenceLabel`. ([#700](https://github.com/botiverse/raft-design/pull/700))
+  - Why: a note in a span of the caller's own sat on the label's baseline, 0.3px low beside a 12.25px label and 0.75px low beside a 14px one, and its descenders made it look lower still; the part keeps the label's baseline in the layout and draws the note a quarter of the size difference higher, so the middles of the two x-heights meet.
+  - Affects: `text-label` (11px) in `foreground-hint`, line height 1; drawn `(label size - 1em) / 4` higher.
+  - Docs: https://raft-design.botiverse.build/components/message-item/
+- **MessageListEndFade**: the fade over a message list's bottom edge. Put it beside `MessageList`, in the same positioned parent (`ConversationPanelBody` is one), like the jump controls; it lies under them, is hidden from assistive technology and takes no pointer events. ([#699](https://github.com/botiverse/raft-design/pull/699))
+  - Why: see Timeline rhythm: the edge that messages scroll under fades, above.
+  - Affects: 24px tall (`h-timeline-section`), `layer-canvas` to transparent upward, `z-index` 5.
+  - Docs: https://raft-design.botiverse.build/components/message-list/
+- **SegmentedControl** `variant="on-frame"`, for a control in the frame (a top bar). `variant="default"` is unchanged and stays the default. ([#693](https://github.com/botiverse/raft-design/pull/693))
+  - Why: a yellow sticker on the yellow frame did not read as selected, and a white segment beside it looked chosen instead; in the frame the selected segment takes the frame's active colors, as a selected rail item does.
+  - Affects: track `fill-frame-medium`; other segments `foreground-on-frame-muted`, with `foreground-on-frame` on hover and `overlay-frame-medium` on hover and press; the selected segment `layer-frame-active` with a `line-frame-active` edge and `foreground-on-frame-active` text (white on the yellow frame, yellow on the dark one).
+  - Docs: https://raft-design.botiverse.build/components/segmented-control/
+
+### Changed
+
+- **ListRow** `variant="plain"` with a description: the leading icon, avatar or tile and the trailing switch, checkbox, radio, value or chevron center on the whole row again, as in 0.20, instead of on the title's first line. With a title alone, nothing changes. This reverts the 0.21.0 change to ListRow. ([#703](https://github.com/botiverse/raft-design/pull/703))
+  - Why: see A control and its label above.
+  - Affects: the ends move without changing size, so row heights are unchanged (54px on a phone for a one-line row with a switch).
+  - Docs: https://raft-design.botiverse.build/components/list-row/
+
+### Fixed
+
+- **MessageReferenceChip**, **MessageReferencePending**, **MessageReferenceUnavailable**, **MessageReactionChip**, **MessageItemSavedIndicator**, **MessageForwardedBundleAttachment**, **TaskChip** and **TaskCardStatus**: the ink at both ends sits the same distance from the edges; each chip keeps its total padding and its width. ([#700](https://github.com/botiverse/raft-design/pull/700))
+  - Why: see Chips above.
+  - Affects: padding left / right: MessageReferenceChip, MessageReferencePending and MessageReferenceUnavailable with an icon 3px / 6px → 4.5px / 4.5px (without an icon unchanged, 6px / 6px); MessageReactionChip 6px / 8px → 7px / 7px; MessageItemSavedIndicator and MessageForwardedBundleAttachment 6px / 6px → 5.5px / 6.5px (their bookmark and file icons are drawn inside their boxes); TaskChip 6px / 8px → 7px / 7px, `size="sm"` 4px / 6px → 5px / 5px and `variant="inline"` 3px / 6px → 4.5px / 4.5px; TaskCardStatus 6px / 8px → 7px / 7px.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#chips
+- **MessageReferencePending**, and any reference chip, holding a `Spinner`: the spinner centers on the middle of the label's line, as an icon does. ([#700](https://github.com/botiverse/raft-design/pull/700))
+  - Why: the chip centered only `svg` icons on the label's line, and a spinner is not one, so it sat on the baseline, 5–6px below the middle of the label's line.
+  - Docs: https://raft-design.botiverse.build/components/message-item/
+- **MessageQuotedPreviewChannel** and **MessageQuotedPreviewThread**: the icon sits on the first line of the name when a long name wraps, instead of in the middle of both lines. ([#700](https://github.com/botiverse/raft-design/pull/700))
+  - Why: the icon was centered on the whole name, so it slid between the lines of a wrapped name; it now follows A mark that leads text, like the other components.
+  - Affects: the icon (14px) is placed `(1lh - 14px) / 2` from the top of the name's first line.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-mark-that-leads-text
+
+## [0.21.0](https://github.com/botiverse/raft-design/compare/v0.20.1...v0.21.0) (2026-10-22)
+
+0.20.1 was not published to npm. This release includes its changes, listed under [0.20.1](https://github.com/botiverse/raft-design/blob/v0.21.0/packages/ui/CHANGELOG.md#0201-2026-10-22) in the changelog.
+
+### Design System
+
+- **Timeline rhythm**: a conversation uses three distances between its lines, measured from text to text: 8px between the rows of one turn, the message step (16px) between turns, and the section step (24px) at a boundary: either side of a date line, from the top of the list to its first line, and from the last line to the composer's frame. It applies to MessageItem, SystemMessage, SystemMessageGroupHeader, MessageListDateDivider, MessageListNotice, ThreadPanelOriginalMessage, ThreadPanelReplySummary, ThreadPanelReplyCount, ConversationPanelFooter and ThreadPanelFooter. ([#694](https://github.com/botiverse/raft-design/pull/694))
+  - Why: each part kept its own spacing, so a date line sat closer to the message above it than to the one below and looked attached to it, an event line had more space under it than over it, and the composer's frame read as touching the last message; the parts now read one rhythm from tokens, one step wider for each kind of break.
+  - Affects: new tokens `timeline-gap-message` 16px, `timeline-gap-section` 24px and `timeline-row-inset` 4px (the reach of a row's highlight above and below its text).
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#timeline-rhythm
+- **A control and its label**: a checkbox, radio or switch sits 8px before its label, centered on the label's first line, and keeps its size wherever it sits. In a settings row with a description, both ends center on the title's first line. A tap between two options lands on the nearer one. It applies to Checkbox, RadioGroupItem and ListRow; FieldItem already followed it. ([#686](https://github.com/botiverse/raft-design/pull/686))
+  - Why: a box in a `<label>` row followed the row instead of the text's line, so callers nudged it with a margin, and a settings row's ends centered on the title and description together, level with neither; the components now place the control themselves.
+  - Affects: switch 50 × 30px and checkbox and radio 20px, unchanged; 8px from control to label.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-control-and-its-label
+
+### Breaking Changes
+
+- **ConversationPanelFooter** and **ThreadPanelFooter**: no space of their own above the composer; the end of the list sets it. ([#694](https://github.com/botiverse/raft-design/pull/694))
+  - Why: the footer's 12px stacked on whatever space the list left under its last message, so the gap to the composer differed from list to list; now the list ends with one token and the composer's frame sits a section step, 24px, under the last line.
+  - Affects: footer top padding 12px → 0; `pb-timeline-end` is 20px (the 24px section step less the last row's 4px inset).
+  - Migrate: end your message list with `pb-timeline-end` under its last row, in place of any spacer you had there; without it the composer moves 12px closer to the last message. You can also start the list with `pt-timeline-start` over its first row, so its top follows the same step.
+  - Docs: https://raft-design.botiverse.build/components/conversation-panel/
+
+### Added
+
+- **Timeline spacing utilities**: `pt-timeline-start` and `pb-timeline-end` for the top and end of a message list you build, and `timeline-message`, `timeline-section`, `timeline-row`, `timeline-turn` and `timeline-lead`, which the components use. All are registered with the `cn` helper, so they merge with other padding and margin classes. ([#694](https://github.com/botiverse/raft-design/pull/694))
+  - Why: a list's top and end were written by hand in each product, which is how the gaps drifted; two utilities now give the section step with the rows' own insets taken out.
+  - Affects: `timeline-start` 12px, `timeline-end` 20px, `timeline-turn` 8px, `timeline-lead` 12px, `timeline-message` 16px, `timeline-section` 24px, `timeline-row` 4px. Use only `timeline-start` and `timeline-end` in a product.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#timeline-rhythm
+- **`ButtonSize`** and **`DeprecatedButtonSize`** types, and the **`button-sizes` codemod**, which renames deprecated Button sizes to the size they render as. ([#686](https://github.com/botiverse/raft-design/pull/686))
+  - Why: the deprecated names could only be found by hand, and `sm` and `xs` are also sizes of other components; the codemod parses TSX and renames `size` only on Buttons, the raft-ui parts that pass `size` to a Button and wrappers you name, plus `icon-sm` / `icon-xs` on any element and `size` in `buttonVariants()` calls.
+  - Affects: run `node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src> [--dry] [--components=MyButton]`; it renames `xs`, `sm` → `md` and `icon-xs`, `icon-sm` → `icon-md`, then lists every `sm`, `xs`, `icon-sm` and `icon-xs` it left for review. It needs `@babel/parser`, a new optional peer dependency (`pnpm add -D @babel/parser`); nothing else uses it.
+  - Docs: https://raft-design.botiverse.build/components/button/#sizes
+
+### Changed
+
+- **Button** `size`: `xs` and `sm` are deprecated aliases of `md`, and `icon-xs` and `icon-sm` of `icon-md`, kept until raft-ui 1.0. They already rendered as those sizes, so nothing on screen changes. ([#686](https://github.com/botiverse/raft-design/pull/686))
+  - Why: nine names for five sizes made a smaller button look available where there is none; a new Size by place table says which size each place takes.
+  - Affects: sizes `md` (32px), `lg`, `xl`, `icon-md` and `icon-lg`; `size` is typed `ButtonSize | DeprecatedButtonSize`, so every existing size name still type-checks. No runtime warning.
+  - Docs: https://raft-design.botiverse.build/components/button/#size-by-place
+- **Checkbox** and **RadioGroupItem** directly in a `<label>`: the box takes one line of the label's height and centers on it, so it sits on the first line in an `items-start` row and on the one line in an `items-center` row, at any min-height. ([#686](https://github.com/botiverse/raft-design/pull/686))
+  - Why: the box followed the row rather than the text's line, so it sat above the center of a line taller than 20px and callers added a `margin-top`; see A control and its label above.
+  - Affects: vertical margin `max(0, (1lh - 20px) / 2)` from the `<label>`'s type (2px on a 24px line); the box stays 20px and a `text-xs` row stays 20px tall. A `margin-top` you added to line it up is no longer needed. Set the label's type on the `<label>`, use `items-start` when the text can wrap, and give a wrapping `text-xs` label `leading-5`.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-control-and-its-label
+- **DescriptionList** `direction="inline"`: every fact is at most 24rem wide, or the row's width if that is narrower, and keeps the same 24px between facts and 8px between lines as the others. ([#697](https://github.com/botiverse/raft-design/pull/697))
+  - Why: a long value, such as a message, made its fact as wide as the row on a line of its own, so one line of facts no longer read as one flow; every fact now wraps the same way, and a long value wraps at the cap, or is cut there when the caller truncates it.
+  - Affects: fact `max-width` none → `min(100%, 24rem)` (384px); plain text longer than that wraps inside the 24rem. To cut a long value on one line instead, truncate it with an ellipsis and make the whole value available elsewhere, such as a tooltip.
+  - Docs: https://raft-design.botiverse.build/components/description-list/
+- **ListRow** `variant="plain"` with a description: the leading icon, avatar or tile and the trailing switch, checkbox, radio, value or chevron center on the title's first line instead of the middle of the title and description. With a title alone, nothing changes. ([#686](https://github.com/botiverse/raft-design/pull/686))
+  - Why: with a description the ends sat between the title and the description, level with neither and with no line of text.
+  - Affects: the ends move without changing size, so row heights are unchanged (54px on a phone for a one-line row with a switch).
+  - Docs: https://raft-design.botiverse.build/components/list-row/
+- **MessageListDateDivider**, **SystemMessage**, **SystemMessageGroupHeader**, **MessageListNotice**, **ThreadPanelOriginalMessage**, **ThreadPanelReplySummary** and **ThreadPanelReplyCount**: spaced on the timeline rhythm. ([#694](https://github.com/botiverse/raft-design/pull/694))
+  - Why: see Timeline rhythm above.
+  - Affects: a date line's rule sits 24px from the text above and below it (was 24px / 32px on a phone, 25px / 33px on a desktop); SystemMessage padding 12px / 12px → 12px / 4px, 16px from the text on both sides; a closed SystemMessageGroupHeader keeps the same 12px / 4px around its disclosure's text (padding 6px / 6px → 6px top and −2px bottom on a phone, 7px and −1px on a desktop), and an open one keeps its 6px under the header; MessageListNotice padding 0 / 8px → 12px / 4px; ThreadPanelOriginalMessage bottom padding 8px → 20px and ThreadPanelReplySummary top padding 8px → 12px, so the thread's rule sits 24px from the text on both sides; ThreadPanelReplyCount gains 4px above it (margin 0 / 4px → 4px / 4px). MessageItem keeps its 4px / 8px, now read from the tokens.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#timeline-rhythm
+
+### Fixed
+
+- **Select**, **Combobox**, **ComboboxSelect** and **InputGroup**: a value cut with an ellipsis gets its full text as a `title` whenever it is cut. ([#695](https://github.com/botiverse/raft-design/pull/695))
+  - Why: the check compared whole pixels with 1px to spare, so it missed cuts of about 0.6–1.3px that still showed an ellipsis, and it did not measure again when a web font finished loading; it now compares fractional sizes and measures again after fonts load.
+  - Affects: tolerance 1px (whole pixels) → 0.5px (fractional).
+  - Docs: https://raft-design.botiverse.build/components/select/
+- **Checkbox** and **RadioGroupItem** hit areas: in a `<label>` row the box or circle reaches 4px past its line, half the 8px gap to the next option, so a tap between two options lands on the nearer one; the label is the target for the rest. On its own, its hit area is 44px tall on a touch screen. ([#686](https://github.com/botiverse/raft-design/pull/686))
+  - Why: each option's hit area reached across the gap and the next option's covered it, so a tap just under one option could select the next one.
+  - Affects: standalone touch hit area 44px tall (was 36px for a checkbox, 33px for a radio); standalone mouse hit area unchanged; in a `<label>` row the hit area is the line plus 4px above and below, for every pointer.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-control-and-its-label
+
+## [0.20.1](https://github.com/botiverse/raft-design/compare/v0.20.0...v0.20.1) (2026-10-22)
+
+### Design System
+
+- **A mark that leads text**: an icon or status light that starts a line of text is centered on the first line of that text and stays there when the text wraps or a description follows. Only the place is shared; each component keeps its own icon size and gap. A status light beside text is always 9px. It applies to Banner, PanelNotice, ToastIcon, MessageActionCardNotice, Badge and PanelActivity. ([#670](https://github.com/botiverse/raft-design/pull/670), [#687](https://github.com/botiverse/raft-design/pull/687))
+  - Why: each component placed its mark with its own fixed offset, which held for one type size and drifted at the next; one rule, the line box center (the cap-height center in Space Grotesk), now places every mark.
+  - Affects: offset `(1lh - size) / 2` on the row's own type; status light 9px with a 1.5px ink edge.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-mark-that-leads-text
+- **Popups stay on their trigger**: when the window or a pane scrolls under an open popup, the popup moves with the element that opened it. A context menu stays with the point where it was opened. It applies to SelectContent, ComboboxContent, PopoverContent, PreviewCardContent and NotificationCenterPopup. ([#669](https://github.com/botiverse/raft-design/pull/669))
+  - Why: popups stayed where they opened while the page scrolled, pointing at whatever had scrolled into place; the wrappers no longer turn Base UI's anchor tracking off.
+  - Docs: https://raft-design.botiverse.build/foundations/elevation/#popups
+
+### Added
+
+- **`lead-icon`** and **`lead-dot`** utilities: center an icon (`lead-icon`) or a `Status` light (`lead-dot`) you place yourself on the first line of the text beside it. ([#670](https://github.com/botiverse/raft-design/pull/670), [#687](https://github.com/botiverse/raft-design/pull/687))
+  - Why: a mark placed outside the components above had no way to follow the same rule except a hand-tuned margin.
+  - Affects: `lead-dot` sizes the light 9px with a 1.5px edge, so don't pass the `Status` a `size`. Both read `1lh`, so put the text's type on the row that holds the mark and the text.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#a-mark-that-leads-text
+
+### Changed
+
+- **Status** in Banner, PanelNotice, ToastIcon, Badge and PanelActivity: held at 9px and centered on the first line, whatever `size` or vertical margin it was given. ([#670](https://github.com/botiverse/raft-design/pull/670), [#687](https://github.com/botiverse/raft-design/pull/687))
+  - Why: the same light showed at different sizes in a toast, a banner and a chip; a light beside text has one size, 9px, the least color that tells green from yellow from orange, plus its ink edges.
+  - Affects: a `Status` passed `xs` (6px), `sm` (8px) or `lg` (11px) in these components renders 9px; the `xs` edge 1px → 1.5px (its 1px corner stays). The default `md` is unchanged, as are icon sizes and gaps.
+  - Docs: https://raft-design.botiverse.build/components/status/#sizes
+
+### Fixed
+
+- **PanelNotice**: a leading status light or icon is centered on the first line of the notice's text. ([#670](https://github.com/botiverse/raft-design/pull/670), [#687](https://github.com/botiverse/raft-design/pull/687))
+  - Why: the mark sat at the top of the first line, a light 6.5px above the line's center on a desktop (5.5px on a phone) and a 16px icon 3px (2px); the notice now follows A mark that leads text.
+  - Affects: icon size and gap are unchanged (your icon's size, 10px before the text).
+  - Docs: https://raft-design.botiverse.build/components/panel/
+- **Popups**: SelectContent, ComboboxContent, PopoverContent, PreviewCardContent and NotificationCenterPopup follow their trigger while the window or a scrolling pane moves. ([#669](https://github.com/botiverse/raft-design/pull/669))
+  - Why: these wrappers turned anchor tracking off by default, so an open popup kept its opening position and drifted off its trigger as soon as anything scrolled; they now leave it to Base UI's default.
+  - Affects: `disableAnchorTracking` default `true` → unset (Base UI's default, tracking on). ContextMenuContent drops its `true` default too; it is anchored to a point, so it looks the same. Pass `disableAnchorTracking` to turn it off for one popup. Select still turns tracking off with `alignItemWithTrigger`.
+  - Docs: https://raft-design.botiverse.build/foundations/elevation/#popups
+
+## [0.20.0](https://github.com/botiverse/raft-design/compare/v0.19.0...v0.20.0) (2026-10-22)
+
+### Design System
+
+- **Hover and press**: hover and press are one translucent ink layer over the resting colour, never a fill swap, in two tiers sized by what is under the pointer. Subtle for rows, messages, readable cards and a row whose menu is open; medium for small controls and for pressing anything clickable. A colour sticker and the frame get their own medium alphas. Selected items and fields don't hover, a message has no press, and every hover sits under `(hover: hover)`. It applies to every row, card, button, badge, tab, segment, sidebar and rail item, table row, inbox item and menu. ([#681](https://github.com/botiverse/raft-design/pull/681))
+  - Why: the same hover looked different on paper, the sidebar and a card, rows and messages used three different steps, and some clickable parts gave no feedback on press; one layer in two tiers reads the same everywhere.
+  - Affects: subtle `fill-subtle` 4% light / 3% dark; medium `fill-medium` 7.8% light / 6.5% dark (was 7.8%); `sticker-medium` 10% (was 12.2%); `fill-frame-medium` 10% light (was 12.2%) / 6% dark (was 7.8%); dark `brand-soft` 16% → 20%; colour `-hover` / `-active` pairs mix 10% ink (was 12%).
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
+- **Inside a frame**: a control embedded in another component's frame (a field, the composer, a toolbar, a card or media corner) wears `radius-chip` (6px) and sits the same distance from every side of the frame and from its siblings; frames themselves don't change. It applies to ComboboxSelect, Combobox, InputGroup, the composer, the message hover and text-selection toolbars, the lightbox and multi-select bars, CodeBlock, media and file card actions, popover close, menus and SegmentedControl / ToggleGroup. ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: embedded buttons at the free-standing 8px corner read nearly round at 20px, and their offsets differed per component; one corner and one even inset make them read as one kind of thing.
+  - Affects: new tokens `control-embedded-inset` 6px and `control-embedded-size` 20px desktop / 32px phone (utilities `embedded-inset`, `control-embedded`); insets 6px in a field, the composer and a corner, 4px in a floating toolbar and for a popup's highlight, 3px between segments.
+  - Docs: https://raft-design.botiverse.build/foundations/shape/#inside-a-frame
+
+### Breaking Changes
+
+- **Dialog** `size`: `sm` is 400px (was 384) and `lg` is 640px (was 512); `md` 448 and `wide` 896 are unchanged. Sizes are chosen by content: `sm` for a decision, `md` for a small task, `lg` for content that needs width. ([#676](https://github.com/botiverse/raft-design/pull/676))
+  - Why: the steps between sizes were too small to mean anything, and a confirmation could be 384 or 400 wide depending on the component; now every confirmation is 400, the same as AlertDialog.
+  - Affects: `sm` `max-w-sm` (384px) → 400px; `lg` `max-w-lg` (512px) → 640px.
+  - Migrate: dialogs with `size="sm"` grow 16px and `size="lg"` 128px; check their content and pick the size by content. Set width with `size` only, not your own `max-w-*`.
+  - Docs: https://raft-design.botiverse.build/components/dialog/#variants
+- **Hover tokens**: renamed to their tier. The old names stay as deprecated aliases until 1.0, but they now resolve to the tier values, so some hovers change. ([#681](https://github.com/botiverse/raft-design/pull/681))
+  - Why: names that said where a fill was used (row hover, message hover, row open, pressed) could not describe two tiers that apply everywhere.
+  - Affects: `fill-row-hover`, `fill-row-open`, `fill-message-hover` → `fill-subtle` (row open 5% → 4%, message hover 3% → 4%); `fill-pressed` → `fill-medium`; `fill-frame-pressed` → `fill-frame-medium`; `sticker-pressed` → `sticker-medium`; utilities `row-hover-overlay`, `row-open-overlay` → `overlay-subtle`, `press-overlay` → `overlay-medium`, `press-overlay-sticker` → `overlay-sticker-medium`. Overlays are registered with the `cn` helper as background images, so a later `hover:bg-none` or another tier replaces them.
+  - Migrate: run `node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <paths>`; it renames classes, `var(--…)` and `var(--color-…)` forms. Then move readable cards that used `press-overlay` for hover to `overlay-subtle`. Tests that assert a token name in a class (for example `var(--fill-row-open)` on a message) look for the new name.
+  - Docs: https://raft-design.botiverse.build/foundations/color/#hover-overlays
+- **MessageItemToolbar** and **MessageTextSelectionToolbar**: 36px tall (was 32), buttons 4px from the frame and 4px apart (was 2px), at `radius-chip`. The hover toolbar rides 18px above the row (was 16). ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: at a 2px inset the buttons' hover fill nearly touched the frame; see Inside a frame above.
+  - Affects: toolbar height 32 → 36px; inset and gap 2 → 4px; the message header's default reserve `--mi-toolbar-reserve` 6.5rem → 7rem (three buttons).
+  - Migrate: if you set `--mi-toolbar-reserve` yourself, compute it as `1rem + 2rem × buttons` (was `1.25rem + 1.75rem × buttons`). Leave at least 18px above the first message of a scroll area and above a thread's root message.
+  - Docs: https://raft-design.botiverse.build/components/message-item/
+- **MessageMultiSelectToolbar**: 36px tall (was 48) with 28px buttons (was 32) 4px from the frame; on a touch screen each button takes a 44px tap. The buttons go in the new `MessageMultiSelectToolbarActions`. ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: every floating toolbar is now 36px with 28px buttons; the touch hit area keeps the smaller buttons easy to tap.
+  - Affects: height 48 → 36px; buttons 32 → 28px; inset 8 / 10 → 4px; gap 6 → 4px.
+  - Migrate: wrap the toolbar's buttons in `MessageMultiSelectToolbarActions`, which owns their 4px gap and the touch hit areas; remove your own gap or padding there.
+  - Docs: https://raft-design.botiverse.build/components/message-item/
+- **ComboboxSelect**, **Combobox** and **InputGroup** chips and end buttons: chips and embedded buttons in a field are 20px on a desktop and 32px on a phone (chips were 28px, end buttons 32px), 6px from the field's edge and from each other, at `radius-chip`, so a field with chips stays 32 / 44px tall (it grew to 42). ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: 28px chips made a field with chips taller than one without, and the embedded buttons sat at different offsets per component.
+  - Affects: chips 28 → 20px desktop / 32px phone; chip remove 16 / 28px at `radius-sticker`; InputGroup end-addon Button 32 → 20 / 32px with a 16px icon; ComboboxSelect `sm` keeps 22px chips at 3px, `lg` uses 40px chips in a 52px field.
+  - Migrate: remove size, offset or radius overrides on chips and end-addon buttons in fields. In an InputGroup end addon, put a Kbd before the Button, so on a phone (Kbd hidden) the button is the last child and ends 6px from the edge.
+  - Docs: https://raft-design.botiverse.build/components/combobox-select/
+
+### Added
+
+- **CodeBlockPre**: renders the code's `pre`. While the code overflows it is a keyboard-reachable named region (`tabindex=0`, `role=region`, `aria-label` "Code" by default), so it can be scrolled from the keyboard; code that fits adds no Tab stop. ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: a scrolling code block could not be reached from the keyboard in Safari.
+  - Docs: https://raft-design.botiverse.build/components/code-block/
+- **MessageMultiSelectToolbarActions**: the multi-select toolbar's actions at its end, 4px apart, with touch hit areas. ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: see MessageMultiSelectToolbar above.
+  - Docs: https://raft-design.botiverse.build/components/message-item/
+- **Press feedback**: Badge, the mention sticker, InboxItem, Table rows, the system-message disclosure and the selected SidebarItem now press with the medium tier. ([#681](https://github.com/botiverse/raft-design/pull/681))
+  - Why: anything clickable presses with the medium tier; these gave no feedback on press.
+  - Affects: solid Badge `sticker-medium`; soft and outline Badge, InboxItem, Table row, system-message disclosure `fill-medium`; selected SidebarItem `sticker-medium`.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
+
+### Changed
+
+- **MessageItem**, **MessageAttachmentCard**, **MessageReplies**, **TaskCard** and menu-open rows: hover with the subtle tier. ([#681](https://github.com/botiverse/raft-design/pull/681))
+  - Why: a message, a readable card and a row whose menu is open are large things people read; one subtle step keeps text contrast and never stacks with the menu-open fill.
+  - Affects: message hover 3% / 2.2% → 4% / 3%; menu-open row 5% / 4% → 4% / 3%; attachment card, replies bar and task card 7.8% → 4% / 3%. Press stays medium.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
+- **SegmentedControl**, **ToggleGroup** and **Select**: a selected segment or toggle no longer darkens on hover and presses with `sticker-medium`; the Select trigger and the top-bar SearchTrigger don't hover, only press. SegmentedControl and ToggleGroup items are 3px apart (was 2). ([#681](https://github.com/botiverse/raft-design/pull/681), [#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: selected items and fields don't hover, like selected tabs and the active sidebar item.
+  - Affects: segment gap 2 → 3px.
+  - Docs: https://raft-design.botiverse.build/components/segmented-control/
+- **DropdownMenu**, **ContextMenu**, **Select**, **Combobox**, **ComboboxSelect**, the suggestion list and quick reactions: the highlighted item sits 4px inside the popup at `radius-chip`, and separators take 4px. ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: see Inside a frame above.
+  - Affects: highlight inset 6px (quick reactions 8px) → 4px; highlight radius 8 → 6px; separator margins 6 → 4px.
+  - Docs: https://raft-design.botiverse.build/components/dropdown-menu/
+- **CodeBlock**: the copy and other actions sit 6px from the corner at `radius-chip`, and without a header they take a column of their own instead of covering the first line; the code scrolls beside them. With a header, the actions sit 6px from its end, centred in it, 4px apart. ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: on a phone the copy button covered the first line of code.
+  - Affects: action offset 9px (no header) / 5px (header) → 6px; radius 8 → 6px; a one-line block keeps 6px under the button.
+  - Docs: https://raft-design.botiverse.build/components/code-block/
+- **Composer**, **MessageActionCard**, **Popover** header close, **Lightbox** info bar, video preview, gallery and file card actions: embedded buttons at `radius-chip`, 6px from the frame's sides (4px in the lightbox bar, whose buttons are 28px with a 44px touch target). ([#682](https://github.com/botiverse/raft-design/pull/682))
+  - Why: see Inside a frame above.
+  - Affects: composer buttons 8 / 13px from the sides and 9px from the bottom → 6px; media and file card actions 9 / 7 / 5px → 6px; lightbox buttons 32 → 28px.
+  - Docs: https://raft-design.botiverse.build/foundations/shape/#inside-a-frame
+
+### Fixed
+
+- **ComboboxSelect** and **FloatButton**: hover no longer sticks after a tap on a touch screen; their `:hover` rules are under `(hover: hover)`, and the ghost FloatButton hovers and presses with the overlay instead of a fill swap. ([#681](https://github.com/botiverse/raft-design/pull/681))
+  - Why: ungated `:hover` rules stayed applied after a tap.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
+
+## [0.19.0](https://github.com/botiverse/raft-design/compare/v0.18.0...v0.19.0) (2026-10-21)
+
+### Design System
+
+- **Collapsing the sidebar**: on desktop the sidebar toggle is the first item of the rail's footer, above Help and Settings. Its icon shows what pressing it does (`panel-left-close` while the sidebar is shown, `panel-left-open` while it is hidden), its tooltip says Collapse Sidebar or Expand Sidebar with the shortcut (⌘\ on macOS, Ctrl+\ elsewhere), and the state is remembered on the device. It applies to AppShellSidebarTrigger. ([#674](https://github.com/botiverse/raft-design/pull/674))
+  - Why: the toggle belongs to the frame rather than to a page, so it needs one fixed place and one behavior whatever the main area shows.
+  - Docs: https://raft-design.botiverse.build/patterns/navigation/#collapsing-the-sidebar
+
+### Breaking Changes
+
+- **BannerAction**: the buttons sit at the bottom right, at the end of the last line of text and centered on it, while the text fits beside them on one line. When the text would wrap beside them, or the banner is narrower than 480px, they take a line of their own under the text, aligned to the end. `BannerAction` places itself; it sets `data-wrap` when it takes its own line. ([#672](https://github.com/botiverse/raft-design/pull/672))
+  - Why: the button sat in a start-aligned row under the text, away from where the eye ends; it now comes after what it acts on and ends where reading ends, as a dialog's commit button does.
+  - Affects: action placement from a row under the text (start-aligned, `mt-2`) → the end of the last line from 452px of banner content (a 480px banner at `md`), otherwise its own line under the text, end-aligned; `size="sm"` banners with an action get vertical padding that centers a 32px button on the line.
+  - Migrate: remove layout overrides on `BannerAction`, such as `col-span-full`, `col-start-*`, `row-start-*` or `mt-*`, which now fight its placement. Give `Banner` a width (or let it fill its parent); never `w-fit`. Use `variant="default" size="sm"` for the button, and put a ghost Dismiss (`variant="ghost" size="sm"`) before it when the banner can be dismissed; move a × out of `BannerAction` into `BannerClose`, on a banner with no button.
+  - Docs: https://raft-design.botiverse.build/components/banner/
+- **AppShellSidebarTrigger**: the trigger is a disclosure button. It has `aria-expanded` and `aria-controls` naming the sidebar slot, instead of `aria-pressed`, and its labels are Title Case: "Collapse Sidebar" and "Expand Sidebar". ([#674](https://github.com/botiverse/raft-design/pull/674))
+  - Why: the trigger shows and hides a region, which assistive technology announces as expanded or collapsed, not as a pressed toggle.
+  - Affects: `aria-pressed` → `aria-expanded`; new `aria-controls`; `AppShellSidebarSlot` gets a generated `id` when the root is `sidebarCollapsible` and none is passed; label and `title` "Collapse sidebar" / "Expand sidebar" → "Collapse Sidebar" / "Expand Sidebar".
+  - Migrate: update tests and selectors that read `aria-pressed` or the old labels to `aria-expanded` and the Title Case labels. When you wrap the trigger in a Tooltip, pass `title={undefined}` and repeat the label in the tooltip; to translate it, pass your own `aria-label`.
+  - Docs: https://raft-design.botiverse.build/components/app-shell/
+- **AppShellMainSlot** and **AppShellSidebarSlot**: in a collapsible shell, the main area has a z-index only while it slides over the sidebar, and the collapsed sidebar is `inert`. ([#674](https://github.com/botiverse/raft-design/pull/674))
+  - Why: the main area sat at z-index 45 at rest and covered the app's own fixed layers, such as a bar at z-40, and a collapsed sidebar's controls stayed in the tab order while hidden.
+  - Affects: main slot `z-45` always → `z-2` with `data-sliding` only during the slide, none at rest; the expanded sidebar slot is `relative z-1`, so a resize handle past its edge stays grabbable; the collapsed sidebar slot adds `inert` to `aria-hidden`.
+  - Migrate: remove workarounds that lowered the app's own layers below z-45 or raised them over the main slot, and any code or test that reads an inline or computed z-index on the main slot at rest. Don't make the collapsed sidebar focusable yourself; a shortcut that collapses it while focus is inside should move focus to the trigger first.
+  - Docs: https://raft-design.botiverse.build/components/app-shell/
+
+### Added
+
+- **BannerClose**: the × of a banner that has no button, a frameless icon button at the end of the first line whose icon box ends on the banner's padding. Its label defaults to "Dismiss". ([#672](https://github.com/botiverse/raft-design/pull/672))
+  - Why: a × put in `BannerAction` read as one of the actions and sat on the wrong line; the close control now has a place of its own.
+  - Affects: `variant="ghost"`, `size="icon-sm"` (32px), centered on the first line. With `BannerAction` in the same banner, raft-ui warns in development and moves the actions to a line of their own.
+  - Docs: https://raft-design.botiverse.build/components/banner/
+
+### Fixed
+
+- **BannerTitle** and **BannerDescription**: a long word or URL breaks onto the next line instead of pushing the banner wider. ([#672](https://github.com/botiverse/raft-design/pull/672))
+  - Why: an unbroken string, such as a URL, ran out of the text column and under the actions; the text now wraps inside its column.
+  - Docs: https://raft-design.botiverse.build/components/banner/
+- **ResizableHandle**: under a coarse pointer, such as a finger on a tablet, the handle is easier to grab. ([#667](https://github.com/botiverse/raft-design/pull/667))
+  - Why: a 12px handle was too narrow to hit with a finger.
+  - Affects: handle hit area 12px → 24px under `pointer: coarse`, still centered on the boundary; mouse and pen keep 12px.
+  - Docs: https://raft-design.botiverse.build/components/resizable/
+
 ## [0.18.0](https://github.com/botiverse/raft-design/compare/v0.17.0...v0.18.0) (2026-10-21)
 
 ### Design System
@@ -122,7 +755,7 @@
 - **Row hover**: rows hover with their own lightest visible step, not the press overlay; a row whose menu is open is marked with one slightly stronger step. ([#641](https://github.com/botiverse/raft-design/pull/641), [#643](https://github.com/botiverse/raft-design/pull/643))
   - Why: the press fill made hovered messages and list rows read as grey and heavy, and on a phone a long-press menu left no mark of which row it belonged to.
   - Affects: hover `fill-pressed` 7.8% → `fill-row-hover` 4% (dark 3%), messages `fill-message-hover` 3% (dark 2.2%), menu-open `fill-row-open` 5% (dark 4%). Press and selection are unchanged; hover stays lighter than selection.
-  - Docs: https://raft-design.botiverse.build/foundations/states/#row-hover
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
 
 ### Added
 
@@ -136,11 +769,11 @@
 - **Message, SidebarItem, List, Inbox, Search, Table and File rows**: hover with `fill-row-hover` (messages with `fill-message-hover`) instead of `fill-pressed`. ([#641](https://github.com/botiverse/raft-design/pull/641))
   - Why: see Row hover above.
   - Affects: hover background 7.8% → 4% (messages 3%).
-  - Docs: https://raft-design.botiverse.build/foundations/states/#row-hover
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
 - **Rows with a menu open** (right-click, ⋯ menu, phone long-press): take `fill-row-open` while the menu is open; selection still wins. **Comment cards** hover with `fill-row-hover`. ([#643](https://github.com/botiverse/raft-design/pull/643))
   - Why: the open menu needs one marker of which row it belongs to, including on a phone where there is no hover.
   - Affects: menu-open background `fill-row-open` 5% / 4%.
-  - Docs: https://raft-design.botiverse.build/foundations/states/#row-hover
+  - Docs: https://raft-design.botiverse.build/foundations/states/#hover-and-press
 - **Select, Combobox**: `collisionPadding` defaults to 8px. ([#642](https://github.com/botiverse/raft-design/pull/642))
   - Why: popups touched the screen edge on phones.
   - Affects: popup inset from the screen edge, 8px.

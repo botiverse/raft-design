@@ -30,7 +30,7 @@ design/
   people-and-agents/      How people and agents share a server: identity, presence,
                           working agents, handoffs and approvals, writing about agents
   foundations/            Values and the rules for using them: color, typography, spacing,
-                          alignment, shape, elevation, motion, states, iconography, brand,
+                          alignment, comfort, shape, elevation, motion, states, iconography, brand,
                           dark mode, accessibility, tokens
   content/                Voice and tone, UI writing, terminology
   patterns/               How components combine into screens, for every Raft product:
@@ -162,3 +162,4 @@ Link to a section with its heading anchor (`color.md#dark-mode`). Headings are s
 - A change to how something looks or behaves updates the rule it follows in the same pull request, in code and docs together.
 - A choice that overrides a decision record adds a new record and marks the earlier one `superseded`. A choice that changes a smaller rule updates that rule and its reason in the page that owns it.
 - When raft-ui and the docs disagree, one of them is wrong. Fix the code or the rule; never leave them apart.
+- Write in English. Translations live in `i18n/<language>/`, mirroring these paths, and are kept up to date separately: a pull request that changes or adds an English page doesn't touch them ([i18n/README.md](../../i18n/README.md)).

@@ -68,7 +68,7 @@ export const messageForwardedBundleItem = tv({
     attachments: ["flex flex-wrap", "mt-1.5 gap-1.5"],
     attachment: [
       "inline-flex max-w-full items-center",
-      "h-[22px] gap-1 rounded-chip bg-fill-muted px-1.5",
+      "h-[22px] gap-1 rounded-chip bg-fill-muted pr-[6.5px] pl-[5.5px]",
       "text-caption font-semibold text-foreground [&_svg]:size-3.5",
     ],
     attachmentName: ["min-w-0 truncate"],
@@ -84,8 +84,8 @@ export const messageForwardedBundleItem = tv({
       static: {},
       interactive: {
         attachment: [
-          "cursor-pointer transition-colors hover:border-line-strong focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-offset-2 focus-visible:keyboard:outline-line-strong",
-          "hover:press-overlay active:press-overlay",
+          "cursor-pointer focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-offset-2 focus-visible:keyboard:outline-line-strong",
+          "hover:overlay-medium active:overlay-medium",
           "focus-visible:outline-none focus-visible:shadow-focus",
         ],
       },
@@ -104,18 +104,23 @@ export const messageForwardedBundleItem = tv({
  */
 export const messageForwardedBundleGallery = tv({
   slots: {
-    root: ["min-w-0"],
+    // The bundle is the container its rows switch on: three across and the
+    // taller rows from 360px of its own width, two across below,
+    // wherever it is (design/patterns/responsive.md#switch-on-the-regions-width).
+    root: ["@container/bundle w-full min-w-0"],
     row: ["grid gap-2"],
     tile: ["[&_img]:block [&_img]:size-full [&_img]:object-cover"],
   },
   variants: {
     count: {
       // Heights ride the grid rows (auto-rows), so a row that wraps into two
-      // columns on narrow viewports keeps per-image heights (same fix as the
+      // columns in a narrow bundle keeps per-image heights (same fix as the
       // message gallery rows).
-      1: { row: "grid-cols-1 auto-rows-[8rem] sm:auto-rows-[9rem]" },
-      2: { row: "grid-cols-2 auto-rows-[8rem] sm:auto-rows-[9rem]" },
-      3: { row: "grid-cols-2 auto-rows-[7rem] sm:auto-rows-[8rem] md:grid-cols-3" },
+      1: { row: "grid-cols-1 auto-rows-[8rem] @min-[360px]/bundle:auto-rows-[9rem]" },
+      2: { row: "grid-cols-2 auto-rows-[8rem] @min-[360px]/bundle:auto-rows-[9rem]" },
+      3: {
+        row: "grid-cols-2 auto-rows-[7rem] @min-[360px]/bundle:auto-rows-[8rem] @min-[360px]/bundle:grid-cols-3",
+      },
     },
   },
 });

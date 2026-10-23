@@ -8,7 +8,7 @@ export function MessageImageGalleryGeometryComposition() {
   return (
     <MessageImageGallery>
       <div className="grid grid-cols-1 gap-2">
-        <MessageImageGalleryItem className="h-[128px] sm:h-[144px]">
+        <MessageImageGalleryItem className="h-[128px] @min-[22.5rem]/gallery:h-[144px]">
           <MessageImageGalleryMedia>
             <img
               src="/raft-logo.svg"
@@ -19,7 +19,7 @@ export function MessageImageGalleryGeometryComposition() {
         </MessageImageGalleryItem>
       </div>
       <div className="grid grid-cols-2 gap-2">
-        <MessageImageGalleryItem className="h-[128px] sm:h-[144px]">
+        <MessageImageGalleryItem className="h-[128px] @min-[22.5rem]/gallery:h-[144px]">
           <MessageImageGalleryMedia>
             <img
               src="/message-fixtures/tall-diagram.svg"

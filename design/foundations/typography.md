@@ -74,7 +74,7 @@ The desktop scale is Feishu's (Lark's) for PC: 16/24 for titles, 14/22 for every
 
 | Style | Used for |
 | --- | --- |
-| `text-headline` | Titles, all at 700: panel, thread, dialog, popover, drawer, the top of the sidebar |
+| `text-headline` | Titles, all at 700: panel, thread, dialog, popover, drawer, the top of the sidebar. A task's title in its details is the dialog's page-level title, at 600 under the 700 bar that names the dialog ([Visual comfort](./comfort.md#hierarchy-contrast)) |
 | `text-body` | Message text; card titles at 600 (`card-title-*`); the names on task cards and in search results |
 | `field-*` | The text in a field: Input, Textarea, InputGroup, a Select at `chrome="field"` |
 | `text-subhead` | Senders at 700; sidebar rows at 500, the selected one at 700; titles in Activity; dialog body text and descriptions; Buttons at `lg` |
@@ -134,7 +134,7 @@ card-title
 
 | Text | Case | Example |
 | --- | --- | --- |
-| Anything clickable: buttons, text links, menu items, tabs, tab bar items, status names | Title Case | Create Task, Mark All Read, Log Out |
+| Anything clickable: buttons, text links, menu items, tabs, tab bar items, status names | Title Case | Create Task, Mark All Read, Sign Out |
 | Titles, group headings, descriptions, empty states | Sentence case | No tasks match these filters |
 | A dialog or sheet title that repeats its button's label | Title Case | Create Channel |
 

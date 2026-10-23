@@ -268,7 +268,7 @@ export function SidebarCreateMenu({
           <Button
             type="button"
             variant="outline"
-            size="icon-sm"
+            size="icon-md"
             aria-label="Add channel"
             disabled={disabled}
           >

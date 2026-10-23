@@ -14,8 +14,25 @@ import {
   layerOf,
   shortTitle,
 } from "#/lib/content/nav.ts";
-import { PAGES, SECTIONS, sectionIntro } from "#/lib/content/pages.ts";
+import {
+  isTranslated,
+  loadTranslations,
+  localize,
+  PAGES,
+  SECTIONS,
+  sectionIntro,
+} from "#/lib/content/pages.ts";
+import type { DocPage } from "#/lib/content/pages.ts";
+import { DEFAULT_LOCALE, LOCALES, localizePath } from "#/lib/i18n/locales.ts";
 import { renderMarkdownTwin } from "#/lib/content/twin.ts";
+
+/** What a component page adds from code to its twin: the API and the changes. */
+async function appendixOf(page: DocPage) {
+  if (page.section !== "components" || page.intro) return "";
+  return [apiMarkdown(await loadComponentApi(page.slug)), changesMarkdown(changesFor(page.slug))]
+    .filter(Boolean)
+    .join("\n\n");
+}
 
 export type MarkdownPage = {
   /** URL path of the HTML page, e.g. `/components/button`. */
@@ -58,11 +75,7 @@ export async function renderMarkdownPages(): Promise<MarkdownPage[]> {
   ];
   for (const page of ordered) {
     const isComponent = page.section === "components" && !page.intro;
-    const appendix = isComponent
-      ? [apiMarkdown(await loadComponentApi(page.slug)), changesMarkdown(changesFor(page.slug))]
-          .filter(Boolean)
-          .join("\n\n")
-      : "";
+    const appendix = await appendixOf(page);
     pages.push({
       path: page.url,
       title: shortTitle(page),
@@ -103,4 +116,27 @@ export function renderComponentIndex() {
     related: page.frontMatter.related ?? [],
     ...(page.frontMatter.replacedBy ? { replacedBy: page.frontMatter.replacedBy } : {}),
   }));
+}
+
+/**
+ * The `.md` twin of every translated page, at its translated path
+ * (`/zh/foundations/color.md`). llms.txt and llms-full.txt stay English; an
+ * untranslated page has only its English twin.
+ */
+export async function renderTranslatedMarkdownPages(): Promise<
+  { path: string; markdown: string }[]
+> {
+  const pages: { path: string; markdown: string }[] = [];
+  for (const locale of LOCALES) {
+    if (locale === DEFAULT_LOCALE) continue;
+    await loadTranslations(locale);
+    for (const page of PAGES) {
+      if (!isTranslated(page.repoPath, locale)) continue;
+      pages.push({
+        path: localizePath(page.url, locale),
+        markdown: (await renderMarkdownTwin(localize(page, locale), await appendixOf(page))).trim(),
+      });
+    }
+  }
+  return pages;
 }

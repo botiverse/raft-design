@@ -2,8 +2,8 @@ import { tv } from "../../lib/tv";
 
 // Raft Design System › ListRow: the one row of phone lists, settings, and the
 // people and agents on a detail page. A list is content: no ink line, no
-// shadow. The whole row is the target: hover lays the row-hover overlay and
-// press the pressed overlay. Between two rows a hairline runs from where the text starts.
+// shadow. The whole row is the target: hover lays the subtle tier and press
+// the medium tier. Between two rows a hairline runs from where the text starts.
 const hairline = [
   "before:pointer-events-none before:absolute before:top-0 before:right-0 before:hidden",
   "before:left-(--list-row-rule-start) before:border-t before:border-line-hairline",
@@ -48,7 +48,14 @@ export const listRow = tv({
       "group-data-[tone=unread]/list-row:font-bold",
     ],
     description: ["min-w-0 flex-1 truncate", "text-callout text-(--list-row-ink-2)"],
-    meta: ["shrink-0", "font-mono text-mono-meta font-normal tabular-nums text-(--list-row-ink-3)"],
+    // The time or a count, kept whole beside the title, which gives way
+    // first; a value with no room left (an email in a 320px row beside a
+    // button) truncates rather than overflowing the row
+    // (design/patterns/responsive.md#when-a-row-runs-out-of-room).
+    meta: [
+      "min-w-0 truncate",
+      "font-mono text-mono-meta font-normal tabular-nums text-(--list-row-ink-3)",
+    ],
     value: ["max-w-[45%] shrink-0 truncate", "text-subhead text-(--list-row-ink-3)"],
     chevron: [
       "flex shrink-0 items-center justify-center",
@@ -62,7 +69,11 @@ export const listRow = tv({
       default: { root: ["min-h-16 [--list-row-rule-start:63px]", hairline] },
       // A setting: a title (and its consequence), the current value and a
       // chevron, or a switch; 48 tall with one line. The line starts at the
-      // row's edge.
+      // row's edge. Its ends, the leading icon, avatar or tile and the
+      // trailing switch, value or chevron, centre on the whole row, with or
+      // without a description: a setting reads as one unit, and its controls
+      // belong to the row, not to the title (Alignment: a control and its
+      // label).
       plain: { root: ["[--list-row-rule-start:16px]", hairline] },
       // A shortcut into another page (Search, Activity, Saved): a 20px icon and
       // a name, 48 tall. A group of them is a set of buttons, so no lines.
@@ -71,9 +82,9 @@ export const listRow = tv({
     interactive: {
       true: {
         root: [
-          "not-disabled:not-aria-disabled:not-data-selected:hover:row-hover-overlay",
-          "not-disabled:not-aria-disabled:not-data-selected:active:press-overlay",
-          "not-data-selected:data-popup-open:row-open-overlay not-disabled:not-aria-disabled:not-data-selected:data-popup-open:hover:row-open-overlay",
+          "not-disabled:not-aria-disabled:not-data-selected:hover:overlay-subtle",
+          "not-disabled:not-aria-disabled:not-data-selected:active:overlay-medium",
+          "not-data-selected:data-popup-open:overlay-subtle",
         ],
       },
       false: {},

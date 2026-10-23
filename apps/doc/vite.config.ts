@@ -15,6 +15,9 @@ const raftUiIndexPath = fileURLToPath(new URL("../../packages/ui/src/index.ts", 
 const raftUiCnPath = fileURLToPath(new URL("../../packages/ui/src/lib/cn.ts", import.meta.url));
 const raftUiWipPath = fileURLToPath(new URL("../../packages/ui/src/wip.ts", import.meta.url));
 const raftUiFontsPath = fileURLToPath(new URL("../../packages/ui/src/fonts.css", import.meta.url));
+const raftUiThemesPath = fileURLToPath(
+  new URL("../../packages/ui/src/themes.css", import.meta.url),
+);
 const raftUiStylesPath = fileURLToPath(
   new URL("../../packages/ui/src/styles.css", import.meta.url),
 );
@@ -33,6 +36,7 @@ const config = defineConfig({
       { find: /^@botiverse\/raft-ui\/wip$/, replacement: raftUiWipPath },
       { find: /^@botiverse\/raft-ui\/fonts\.css$/, replacement: raftUiFontsPath },
       { find: /^@botiverse\/raft-ui\/styles\.css$/, replacement: raftUiStylesPath },
+      { find: /^@botiverse\/raft-ui\/themes\.css$/, replacement: raftUiThemesPath },
       { find: "@base-ui/utils/useRefWithInit", replacement: baseUiUseRefWithInitPath },
     ],
   },
@@ -49,6 +53,10 @@ const config = defineConfig({
       rsc: {
         enabled: true,
       },
+      // The crawler starts at the home page of each language: the Chinese
+      // pages are reached through /zh's own links (the language menu is not a
+      // link it can follow).
+      pages: [{ path: "/" }, { path: "/zh" }],
       prerender: {
         enabled: true,
         crawlLinks: true,

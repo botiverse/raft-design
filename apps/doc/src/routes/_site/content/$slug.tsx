@@ -6,7 +6,7 @@ import { pageAt } from "#/lib/content/pages.ts";
 
 export const Route = createFileRoute("/_site/content/$slug")({
   loader: ({ params }) => loadDocPage(`/content/${params.slug}`),
-  head: ({ loaderData }) => docPageHead(loaderData?.url),
+  head: ({ loaderData, matches }) => docPageHead(loaderData?.url, matches),
   component: function Page() {
     return <DocPageView page={pageAt(Route.useLoaderData().url)!} />;
   },

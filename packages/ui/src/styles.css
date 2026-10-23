@@ -65,9 +65,14 @@
 
   /* Raft Design System shape scale: pixels are hard, containers are soft.
      sticker = avatars, channel tiles, checkboxes, counts, inline marks;
-     chip = 22px tags and status chips; control = buttons, fields, rows, menu
-     items; container = cards, menus, composer, banners; dialog = dialogs and
-     sheet tops. Round (rounded-full) is only for switches and radios. */
+     chip = chips, a popup's highlighted item, and every control embedded in
+     another component's frame (a field's buttons, the composer's, a floating
+     toolbar's, a card's corner action); control = buttons, fields and rows
+     that stand on their own; container = cards, menus, composer, banners;
+     dialog = dialogs and sheet tops. Round (rounded-full) is only for
+     switches and radios. A frame keeps its radius whatever it holds: the
+     element keeps its own, and the space around it adapts
+     (design/foundations/shape.md#inside-a-frame). */
   --radius-sticker: 4px;
   --radius-chip: 6px;
   --radius-control: 8px;
@@ -207,6 +212,7 @@
   --color-ink-40: var(--ink-40);
 
   --color-brand: var(--brand-400);
+  --color-brand-edge: var(--brand-edge);
   --color-brand-50: var(--brand-50);
   --color-brand-100: var(--brand-100);
   --color-brand-200: var(--brand-200);
@@ -220,6 +226,7 @@
   --color-brand-950: var(--brand-950);
   --color-brand-strong: var(--brand-strong);
   --color-brand-soft: var(--brand-soft);
+  --color-selection: var(--selection);
   --color-brand-hover: var(--brand-hover);
   --color-brand-active: var(--brand-active);
 
@@ -281,17 +288,15 @@
   --color-foreground-on-frame: var(--foreground-on-frame);
   --color-foreground-on-frame-muted: var(--foreground-on-frame-muted);
   --color-foreground-on-frame-active: var(--foreground-on-frame-active);
-  --color-fill-frame-pressed: var(--fill-frame-pressed);
-  --color-fill-pressed: var(--fill-pressed);
-  --color-fill-row-hover: var(--fill-row-hover);
-  --color-fill-message-hover: var(--fill-message-hover);
-  --color-fill-row-open: var(--fill-row-open);
+  --color-fill-subtle: var(--fill-subtle);
+  --color-fill-medium: var(--fill-medium);
+  --color-fill-frame-medium: var(--fill-frame-medium);
   --color-layer-code: var(--layer-code);
   --color-foreground-link: var(--foreground-link);
   --color-sticker-ink: var(--sticker-ink);
   --color-sticker-paper: var(--sticker-paper);
   --color-sticker-edge: var(--sticker-edge);
-  --color-sticker-pressed: var(--sticker-pressed);
+  --color-sticker-medium: var(--sticker-medium);
   --color-presence-online: var(--presence-online);
   --color-presence-busy: var(--presence-busy);
   --color-presence-error: var(--presence-error);
@@ -370,6 +375,41 @@
   --spacing-control-cta: var(--control-height-cta);
   --spacing-control-icon: var(--control-icon-size);
   --spacing-control-hit: var(--control-hit-inset);
+  /* A chip or a button embedded in a frame sits `embedded-inset` (6px) inside
+     the frame's outer edge on every side and from its sibling; in a field it
+     is `control-embedded` tall, 20px on a desktop and 32px on a phone, so the
+     field keeps the control height (design/foundations/shape.md#inside-a-frame).
+     Consumers: `ComboboxChips`, `ComboboxControl`, `ComboboxSelect`,
+     InputGroup's end addon, the composer, CodeBlock and the corner actions of
+     MessageAttachment. */
+  --spacing-control-embedded: var(--control-embedded-size);
+  --spacing-embedded-inset: var(--control-embedded-inset);
+  /* ─── Timeline rhythm ───────────────────────────────────────────────────────
+     Two steps between the lines of a conversation, measured from text to text
+     (design/foundations/spacing.md#timeline-rhythm): `timeline-message` (16px)
+     between turns, `timeline-section` (24px) at a boundary. Every row carries
+     `timeline-row` (4px) above and below its text, the reach of its highlight;
+     a turn's first row adds `timeline-turn` (8px, a transparent border the
+     highlight doesn't paint) above that, so it starts `timeline-lead` (12px)
+     above its text. A date line takes those insets back out of its own
+     padding, so it sits a section from the text on both sides.
+     A product uses only two of them, around its list: `timeline-start`
+     over the first row (a section less the lead every row brings, the
+     notice included) and `timeline-end` under the last row (a section less
+     its row inset); `turn` and `lead` stay inside the components.
+
+     Consumers: MessageItem, SystemMessage, MessageListDateDivider,
+     MessageListNotice, ThreadPanelReplySummary, and the product's list top
+     and end. */
+  --spacing-timeline-message: var(--timeline-gap-message);
+  --spacing-timeline-section: var(--timeline-gap-section);
+  --spacing-timeline-row: var(--timeline-row-inset);
+  --spacing-timeline-turn: calc(var(--timeline-gap-message) - 2 * var(--timeline-row-inset));
+  --spacing-timeline-lead: calc(var(--timeline-gap-message) - var(--timeline-row-inset));
+  --spacing-timeline-end: calc(var(--timeline-gap-section) - var(--timeline-row-inset));
+  --spacing-timeline-start: calc(
+    var(--timeline-gap-section) - var(--timeline-gap-message) + var(--timeline-row-inset)
+  );
   /* ─── Option metric axis ────────────────────────────────────────────────────
      An option in a popup list (a Select, Combobox or ComboboxSelect option, a
      menu item) is as tall as its content, with the same space above and below
@@ -397,6 +437,12 @@
   --spacing-icon-inset: var(--icon-inset);
 
   /* Deprecated utility names, kept until raft-ui 1.0 (see codemods/token-names.mjs). */
+  --color-fill-pressed: var(--fill-medium);
+  --color-fill-frame-pressed: var(--fill-frame-medium);
+  --color-fill-row-hover: var(--fill-subtle);
+  --color-fill-row-open: var(--fill-subtle);
+  --color-fill-message-hover: var(--fill-subtle);
+  --color-sticker-pressed: var(--sticker-medium);
   --color-foreground-strong: var(--foreground);
   --color-foreground-icon: var(--foreground-muted);
   --color-foreground-placeholder: var(--foreground-hint);
@@ -468,6 +514,14 @@
   initial-value: 0px;
 }
 
+/* A reference chip's own type size, kept as a length so a smaller note inside
+   it can measure itself against the label (message-reference.recipe.ts). */
+@property --message-reference-em {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
 *,
 ::before,
 ::after {
@@ -509,11 +563,12 @@ textarea:-webkit-autofill:disabled {
    yellow of a highlight and a 2px yellow underline; the passage of the open
    discussion gets the full yellow with ink type, like a search hit, in both
    modes. `--brand-400` is the `brand` role (what `bg-brand` paints):
-   `--color-brand` is an inline theme value and emits no variable. */
+   `--color-brand` is an inline theme value and emits no variable. In dark
+   mode the wash is `--selection` (brand at 22%), kept in one place. */
 ::highlight(raft-comment) {
   background-color: light-dark(
     color-mix(in oklch, var(--brand-400) 35%, transparent),
-    color-mix(in oklch, var(--brand-400) 22%, transparent)
+    var(--selection)
   );
   text-decoration-line: underline;
   text-decoration-color: var(--brand-400);
@@ -524,6 +579,79 @@ textarea:-webkit-autofill:disabled {
   background-color: var(--brand-400);
   color: var(--sticker-ink);
   text-decoration-line: none;
+}
+
+/* Located: the item a jump took someone to (a link to a message, Back to the
+   results, a comment's anchor, the rows a bulk change touched) shows
+   `info-soft` at once, holds it 1.2s, fades out over 0.8s and is gone at 2s
+   (design/foundations/states.md#located). The fill is a registered colour so
+   it can animate; it is painted as a layer over the item's own fill, so a
+   row's surface stays underneath and comes back as the cyan fades.
+   - Stronger marks win: an item that is selected, active, current, a search
+     match, checked, or has its popup open isn't painted; its own mark already
+     says where it is.
+   - Unlayered, so it beats the hover utilities (a located item doesn't answer
+     hover: the pointer often rests where the item lands, and a grey would
+     hide the cyan). Not while pressed: :active lets the press tier show.
+   - The app sets data-located through useLocated (lib/located.ts), which
+     drops it after LOCATED_MS. Setting the attribute again while it is on
+     doesn't restart the animation; it restarts only after it was removed
+     for a frame, which useLocated does. Left on, the end state is a
+     transparent layer that still hides hover, so don't set it by hand.
+   - A message row takes the fill as --mi-row-fill instead: its resting
+     fill is var(--located-fill), so its own marks (an open menu, a search
+     match, a checked box) override it like any other state, with no has-selector
+     here, and the delegated face's ring keeps matching the row
+     (message-item.recipe.ts). */
+@property --located-fill {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+@keyframes raft-located {
+  0%,
+  60% {
+    --located-fill: var(--info-soft);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    --located-fill: transparent;
+  }
+}
+
+@keyframes raft-located-still {
+  from,
+  to {
+    --located-fill: var(--info-soft);
+  }
+}
+
+/* The shorthand replaces any animation of the element's own while it is
+   located; no raft-ui row has one. It runs on every located item, marked or
+   not, so a mark that comes and goes (a popup opened and closed) doesn't
+   start the highlight over. */
+[data-located] {
+  animation: var(--located-animation, raft-located) 2s linear;
+}
+
+[data-located]:not(
+  [data-message-item],
+  :active,
+  [data-selected]:not([data-selected="false"]),
+  [data-active="true"],
+  [aria-selected="true"],
+  [aria-current]:not([aria-current="false"]),
+  [data-popup-open]
+) {
+  background-image: linear-gradient(var(--located-fill), var(--located-fill));
+}
+
+/* Reduced motion: the same 2s, held still, then off without a fade. */
+@media (prefers-reduced-motion: reduce) {
+  [data-located] {
+    --located-animation: raft-located-still;
+  }
 }
 
 @utility image-transparency-bg {
@@ -542,28 +670,103 @@ textarea:-webkit-autofill:disabled {
   background-size: 16px 16px;
 }
 
-/* Raft Design System press feedback: hover and press lay one overlay over the
-   resting colour instead of swapping it, so a control keeps its identity.
-   Paper controls take the 8% ink wash (fill-pressed); colour stickers take
-   sticker-pressed (12% ink in both modes). */
+/* Raft Design System hover and press: two tiers, each a translucent ink
+   layer over the resting colour instead of a swap, so a control keeps its
+   identity and the step looks the same on white, the yellowish sidebar and a
+   card (design/foundations/states.md#hover-and-press).
+   overlay-subtle: hover on large things people read (rows, messages, readable
+   cards) and a row whose menu is open.
+   overlay-medium: hover on small controls and press on everything; on a colour
+   sticker overlay-sticker-medium, on the frame overlay-frame-medium.
+   Use the bg-fill-* colours instead on a transparent control whose fill fades
+   in with transition-colors. */
+/* Theme decorations on the frame (themes.css): the theme's sprites on the top
+   bar's right and above the rail's foot; none without a decorated theme. */
+/* The top bar's strip (190px) sits 72px from its right end, clear of the
+   right-hand controls; only from 1024px, where the centered search field
+   (at most min(32vw, 420px)) leaves it room. */
+@utility frame-decor-top {
+  background-repeat: no-repeat;
+  background-position: right 72px center;
+  @media (width >= 1024px) {
+    background-image: var(--frame-decor-top, none);
+  }
+}
+
+/* The rail's strip (48×112), for the nav's last flex item: laid out after
+   the items, so it never sits behind one, and clipped from the top when the
+   rail has less room than the strip. */
+@utility frame-decor-rail {
+  background-image: var(--frame-decor-rail, none);
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}
+
+@utility overlay-subtle {
+  background-image: linear-gradient(var(--fill-subtle), var(--fill-subtle));
+}
+
+@utility overlay-medium {
+  background-image: linear-gradient(var(--fill-medium), var(--fill-medium));
+}
+
+@utility overlay-sticker-medium {
+  background-image: linear-gradient(var(--sticker-medium), var(--sticker-medium));
+}
+
+@utility overlay-frame-medium {
+  background-image: linear-gradient(var(--fill-frame-medium), var(--fill-frame-medium));
+}
+
+/* Deprecated overlay names, kept until raft-ui 1.0 (see codemods/token-names.mjs). */
 @utility press-overlay {
-  background-image: linear-gradient(var(--fill-pressed), var(--fill-pressed));
+  background-image: linear-gradient(var(--fill-medium), var(--fill-medium));
 }
 
-/* A row laid over a solid surface (a list row on a card, a file row) hovers
-   with the lighter row step, as an overlay too, so press (press-overlay)
-   replaces it instead of stacking on it. */
-@utility row-hover-overlay {
-  background-image: linear-gradient(var(--fill-row-hover), var(--fill-row-hover));
-}
+/* A mark that leads a line of text: the icon at the start of a banner, a
+   toast or a panel notice, or the status light of a chip, sits on the first
+   line of its text, centred on it, and stays there when the text wraps
+   (design/foundations/alignment.md#a-mark-that-leads-text). In Space
+   Grotesk's metrics the centre of the line box is the centre of the cap
+   height (to 0.006em); Chromium's rounding can lift the letters 0.5px, which
+   is left alone, as the alignment page explains. Only
+   the place is shared: each component keeps its own icon size and gap.
 
-/* The same row with its menu open: fill-row-open, as an overlay. */
-@utility row-open-overlay {
-  background-image: linear-gradient(var(--fill-row-open), var(--fill-row-open));
+   `lead-icon` centres an icon of any size on the line its parent sets, by
+   moving it half a line down and back up by half its own height. Set the
+   type on the row that holds the mark and the text, as PanelNotice does:
+   the mark reads `1lh` from it.
+
+   `lead-dot` places a status light the same way, in a box one line tall,
+   and keeps it at its one size beside text, 10px with a 1.5px ink edge
+   (status.md#sizes). It is kept at 10px inside components (Badge,
+   PanelActivity, a panel header); when placing Status yourself, don't pass
+   a size. A notice never uses a status light to say what kind of notice
+   it is; it leads with its intent's icon (status.md#sizes). */
+@utility lead-icon {
+  flex-shrink: 0;
+  align-self: start;
+  translate: 0 calc(0.5lh - 50%);
+}
+@utility lead-dot {
+  --lead-dot: 10px;
+  flex-shrink: 0;
+  width: var(--lead-dot);
+  height: var(--lead-dot);
+  border-width: 1.5px;
+  margin-block: calc((1lh - var(--lead-dot)) / 2);
 }
 
 @utility press-overlay-sticker {
-  background-image: linear-gradient(var(--sticker-pressed), var(--sticker-pressed));
+  background-image: linear-gradient(var(--sticker-medium), var(--sticker-medium));
+}
+
+@utility row-hover-overlay {
+  background-image: linear-gradient(var(--fill-subtle), var(--fill-subtle));
+}
+
+@utility row-open-overlay {
+  background-image: linear-gradient(var(--fill-subtle), var(--fill-subtle));
 }
 
 /* Space and rules between siblings: stack-y-* / stack-x-* and rule-y / rule-x

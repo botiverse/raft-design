@@ -20,6 +20,7 @@ const panelNotice = tv({
       "flex shrink-0 items-start",
       "min-h-10 gap-2.5 border-b border-line-seam px-5 py-2.5 max-md:px-4",
       "font-sans text-callout font-semibold text-foreground",
+      "[&>svg]:lead-icon",
     ],
     content: ["min-w-0 flex-1"],
     actions: ["flex shrink-0 items-center", "-my-1.5 gap-3"],

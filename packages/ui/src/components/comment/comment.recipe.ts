@@ -18,7 +18,7 @@ export const comment = tv({
     cardTrigger: [
       "absolute -inset-px z-10 cursor-pointer",
       "rounded-container border-0 bg-transparent p-0",
-      "hover:bg-fill-row-hover active:bg-fill-pressed",
+      "hover:bg-fill-subtle active:bg-fill-medium",
       "outline-none focus-visible:shadow-focus",
     ],
     cardQuote: ["sr-only"],
@@ -37,14 +37,14 @@ export const comment = tv({
     entryBody: [
       "wrap-break-word select-text",
       "text-callout text-foreground",
-      "selection:bg-brand-soft",
+      "selection:bg-selection",
     ],
     marker: [
       "relative inline-flex h-6 shrink-0 items-center gap-1 align-top whitespace-nowrap",
       "rounded-chip border border-line-hairline py-0 ps-[3px] pe-1.5",
       "font-mono text-mono-meta font-bold tabular-nums text-foreground",
       "bg-layer-card [--avatar-group-surface:var(--layer-card)]",
-      "cursor-pointer hover:press-overlay active:press-overlay",
+      "cursor-pointer hover:overlay-medium active:overlay-medium",
       "data-active:border-[1.5px] data-active:border-line-strong data-active:bg-brand-soft data-active:ps-[2.5px] data-active:pe-[5.5px]",
       "data-popup-open:border-[1.5px] data-popup-open:border-line-strong data-popup-open:bg-brand-soft data-popup-open:ps-[2.5px] data-popup-open:pe-[5.5px]",
       "data-active:[--avatar-group-surface:var(--brand-soft)] data-popup-open:[--avatar-group-surface:var(--brand-soft)]",

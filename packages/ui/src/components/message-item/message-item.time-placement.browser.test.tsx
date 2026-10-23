@@ -1,7 +1,7 @@
 import "./message-item.avatar-align.test.css";
 import { afterAll, afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Badge } from "../badge";
 import { MessageItem } from "./message-item-root";
@@ -21,11 +21,12 @@ import {
 } from "./message-item-header";
 import { MessageItemToolbar, MessageItemToolbarButton } from "./message-item-toolbar";
 
-// The time follows the sender and stays put when the hover toolbar shows:
-// hover only adds, never removes. With a mouse the header ends where the
-// toolbar begins, so nothing under it is covered; on a touch screen there is
-// no toolbar and no reserve. When the line is too narrow the role gives way
-// first, then the name; the badges stay whole and the time never truncates.
+// The time follows the sender and stays put when the hover toolbar shows.
+// The header keeps no room for the toolbar (stdrc, 2026-10-22): it has the
+// full width at rest and on hover, so hovering never reflows the line, and a
+// long sender line runs under the toolbar's opaque card while it shows. When
+// the line is too narrow the role gives way first, then the name; the badges
+// stay whole and the time never truncates.
 // Measured in a real browser; touch is emulated through CDP, and as in
 // panel-action.browser.test.tsx the mouse cases run before it.
 
@@ -127,7 +128,7 @@ function Row({ width, header }: { width: number; header: ReactNode }) {
   );
 }
 
-it("the time stays visible and whole while the toolbar shows, and nothing sits under the toolbar", async () => {
+it("hovering shows the toolbar without moving the header: same box, same time, nothing reflows", async () => {
   await viewport(1280);
   render(
     <Row
@@ -144,29 +145,80 @@ it("the time stays visible and whole while the toolbar shows, and nothing sits u
   );
   const { page, userEvent } = await import("vite-plus/test/browser/context");
   await userEvent.unhover(document.body);
-  await page.getByTestId("row").hover();
   const toolbar = screen.getByTestId("toolbar");
+  expect(await settled(() => getComputedStyle(toolbar).opacity)).toBe("0");
+  const before = Object.fromEntries(
+    ["header", "sender", "meta", "time"].map((id) => [id, rect(id)]),
+  );
+  await page.getByTestId("row").hover();
   expect(await settled(() => getComputedStyle(toolbar).opacity)).toBe("1");
-
+  for (const id of ["header", "sender", "meta", "time"]) {
+    const after = rect(id);
+    expect(after.left, id).toBeCloseTo(before[id].left, 1);
+    expect(after.width, id).toBeCloseTo(before[id].width, 1);
+  }
   const time = screen.getByTestId("time");
-  expect(getComputedStyle(time).opacity).toBe("1");
   expect(time.textContent).toBe("14:32");
   expect(truncated("time")).toBe(false);
-  // Inside the header's box, so its overflow clips none of it.
-  const header = rect("header");
-  expect(rect("time").left).toBeGreaterThanOrEqual(header.left);
-  expect(rect("time").right).toBeLessThanOrEqual(header.right + 0.5);
-  // Nothing in the header reaches under the toolbar.
-  const toolbarLeft = rect("toolbar").left;
-  for (const id of ["sender", "badges", "meta", "time"]) {
-    expect(rect(id).right, id).toBeLessThanOrEqual(toolbarLeft);
-  }
+  // The toolbar is an opaque card, so what it covers is hidden, not overlapped.
+  expect(alpha(getComputedStyle(toolbar).backgroundColor)).toBe(1);
+});
+
+/** The alpha of a computed colour: 1 unless it says otherwise. */
+function alpha(color: string): number {
+  const ctx = document.createElement("canvas").getContext("2d");
+  if (!ctx) throw new Error("no canvas");
+  ctx.fillStyle = "#000";
+  ctx.fillStyle = color;
+  ctx.clearRect(0, 0, 1, 1);
+  ctx.fillRect(0, 0, 1, 1);
+  return ctx.getImageData(0, 0, 1, 1).data[3] / 255;
+}
+
+it("while the toolbar shows, the header fades out everything from the toolbar's left edge on, so no letter shows cut below or beside it", async () => {
+  await viewport(1280);
+  render(
+    <Row
+      width={360}
+      header={
+        <MessageItemHeader data-testid="header">
+          <MessageItemSender data-testid="sender">Developer Relations Agent</MessageItemSender>
+          <MessageItemTime data-testid="time">2:33 PM</MessageItemTime>
+        </MessageItemHeader>
+      }
+    />,
+  );
+  const { page, userEvent } = await import("vite-plus/test/browser/context");
+  await userEvent.unhover(document.body);
+  const toolbar = screen.getByTestId("toolbar");
+  const header = screen.getByTestId("header");
+  expect(await settled(() => getComputedStyle(toolbar).opacity)).toBe("0");
+  // At rest nothing is masked: the whole line shows.
+  expect(getComputedStyle(header).maskImage).toBe("none");
+
+  await page.getByTestId("row").hover();
+  expect(await settled(() => getComputedStyle(toolbar).opacity)).toBe("1");
+  const mask = getComputedStyle(header).maskImage;
+  // Chromium resolves `transparent` to rgba(0, 0, 0, 0) and the calc to px.
+  const clearStop = /^linear-gradient\(to left, (?:transparent|rgba\(0, 0, 0, 0\)) ([\d.]+)px/;
+  expect(mask).toMatch(clearStop);
+  // The transparent stretch, measured from the header's end, reaches past the
+  // toolbar's left edge: nothing of the line is left visible under or beside
+  // the card, which only reaches part of the line's height.
+  const clear = Number(clearStop.exec(mask)?.[1]);
+  const box = toolbar.getBoundingClientRect();
+  const line = header.getBoundingClientRect();
+  expect(clear).toBeGreaterThan(box.width);
+  expect(line.right - clear).toBeLessThanOrEqual(box.left);
+  // And the card overhangs the line's end, so the fade doesn't stop short of
+  // the header's right edge either.
+  expect(box.right).toBeLessThanOrEqual(line.right);
 });
 
 function Group({ width }: { width: number }) {
   return (
     <ThemeProvider>
-      <div style={{ width, "--mi-toolbar-reserve": "0px" } as CSSProperties}>
+      <div style={{ width }}>
         <MessageItemHeader data-testid="header">
           <MessageItemSenderGroup>
             <MessageItemSender data-testid="sender">{NAME}</MessageItemSender>
@@ -242,12 +294,12 @@ it("both times render a <time> with its dateTime", async () => {
   }
 });
 
-function ReserveRow({ reserve }: { reserve?: string }) {
+function HeaderRow({ width, name = "Ada" }: { width?: number; name?: string }) {
   return (
     <ThemeProvider>
-      <div style={reserve ? ({ "--mi-toolbar-reserve": reserve } as CSSProperties) : undefined}>
+      <div style={width ? { width } : undefined}>
         <MessageItemHeader data-testid="header">
-          <MessageItemSender>Ada</MessageItemSender>
+          <MessageItemSender data-testid="sender">{name}</MessageItemSender>
           <MessageItemTime>14:32</MessageItemTime>
         </MessageItemHeader>
       </div>
@@ -257,20 +309,26 @@ function ReserveRow({ reserve }: { reserve?: string }) {
 
 const paddingEnd = () => getComputedStyle(screen.getByTestId("header")).paddingRight;
 
-it("with a mouse the header reserves the toolbar's width, and a product can change it", async () => {
+it("with a mouse the header keeps no room for the toolbar", async () => {
   for (const width of [600, 1280]) {
     await viewport(width);
-    render(<ReserveRow />);
-    expect(paddingEnd(), `at ${width}px`).toBe("104px");
+    render(<HeaderRow />);
+    expect(paddingEnd(), `at ${width}px`).toBe("0px");
     cleanup();
   }
-  render(<ReserveRow reserve="8.25rem" />);
-  expect(paddingEnd()).toBe("132px");
 });
 
-it("on a touch screen the header reserves nothing: there is no hover toolbar", async () => {
+it("in a 360px column a long sender name shows whole at rest", async () => {
+  await viewport(1280);
+  // The content column of a 360px thread: 360 less the row's 8px sides, the
+  // 35px avatar and its 12px gap.
+  render(<HeaderRow width={360 - 16 - 35 - 12} name="Developer Relations Agent" />);
+  expect(truncated("sender")).toBe(false);
+});
+
+it("on a touch screen the header keeps no room either", async () => {
   await viewport(1280);
   await touch();
-  render(<ReserveRow />);
+  render(<HeaderRow />);
   expect(paddingEnd()).toBe("0px");
 });

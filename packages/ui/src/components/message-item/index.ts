@@ -55,9 +55,12 @@ export {
 } from "./message-reaction";
 export {
   MessageReferenceChip,
+  MessageReferenceIcon,
   MessageReferenceIndicator,
   MessageReferenceLabel,
   MessageReferencePending,
+  MessageReferenceReadMark,
+  MessageReferenceSuffix,
   MessageReferenceText,
   MessageReferenceUnavailable,
 } from "./message-reference";
@@ -65,6 +68,7 @@ export {
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
   MessageMultiSelectToolbar,
+  MessageMultiSelectToolbarActions,
 } from "./message-multi-select";
 export {
   MessageTextSelectionToolbar,
@@ -138,9 +142,12 @@ export type {
 export type {
   MessageReferenceChipProps,
   MessageReferenceChipVariant,
+  MessageReferenceIconProps,
   MessageReferenceIndicatorProps,
   MessageReferenceLabelProps,
+  MessageReferenceSuffixProps,
   MessageReferencePendingProps,
+  MessageReferenceReadMarkProps,
   MessageReferenceTextProps,
   MessageReferenceTextVariant,
   MessageReferenceUnavailableProps,
@@ -148,6 +155,7 @@ export type {
 export type {
   MessageMultiSelectCheckboxProps,
   MessageMultiSelectProps,
+  MessageMultiSelectToolbarActionsProps,
   MessageMultiSelectToolbarProps,
 } from "./message-multi-select";
 export type {

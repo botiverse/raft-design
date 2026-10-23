@@ -19,7 +19,7 @@ const notificationCenter = tv({
       "relative inline-flex size-10 items-center justify-center overflow-visible p-0",
       "rounded-control border-[1.5px] border-transparent bg-transparent text-foreground-on-frame",
       "select-none outline-none",
-      "hover:bg-fill-frame-pressed active:bg-fill-frame-pressed data-popup-open:bg-fill-frame-pressed",
+      "hover:bg-fill-frame-medium active:bg-fill-frame-medium data-popup-open:bg-fill-frame-medium",
       "focus-visible:shadow-focus",
       "[&_svg]:size-5 [&_svg]:shrink-0",
     ],
@@ -70,7 +70,7 @@ const notificationCenter = tv({
         popup: "w-[380px]",
       },
       mobile: {
-        popup: "w-[min(92vw,360px)]",
+        popup: "w-[min(var(--available-width,calc(100vw-16px)),480px)]",
       },
     },
     size: {
@@ -91,7 +91,7 @@ const notificationCenter = tv({
       false: {
         item: [
           "pr-[37px]",
-          "after:pointer-events-none after:absolute after:top-[17.5px] after:right-4 after:size-[9px]",
+          "after:pointer-events-none after:absolute after:top-[calc(--spacing(3)+(var(--text-subhead--line-height)-10px)/2)] after:right-4 after:size-2.5",
           "after:rounded-[2px] after:border-[1.5px] after:border-sticker-ink after:bg-attention-400",
         ],
       },
@@ -110,6 +110,14 @@ const notificationCenter = tv({
     status: "info",
   },
 });
+
+/**
+ * On a phone the popup is as wide as the screen less 8px on each side, and the
+ * collision padding stops it 8px from the edge it is pushed against, so it
+ * lines up with the server list under the same top bar
+ * (design/foundations/elevation.md#popups).
+ */
+const PHONE_INSET = 8;
 
 export type NotificationCenterProps = BasePopover.Root.Props;
 
@@ -188,7 +196,7 @@ export function NotificationCenterPopup({
   collisionAvoidance,
   collisionBoundary,
   collisionPadding,
-  disableAnchorTracking = true,
+  disableAnchorTracking,
   positionMethod = "fixed",
   side = "bottom",
   sideOffset = 4,
@@ -207,7 +215,7 @@ export function NotificationCenterPopup({
         arrowPadding={arrowPadding}
         collisionAvoidance={collisionAvoidance}
         collisionBoundary={collisionBoundary}
-        collisionPadding={collisionPadding}
+        collisionPadding={collisionPadding ?? (viewport === "mobile" ? PHONE_INSET : undefined)}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}

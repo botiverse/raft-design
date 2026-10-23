@@ -16,7 +16,7 @@ export const sidebarItemRecipe = tv({
       "max-md:h-auto max-md:min-h-11 max-md:py-[8.5px]",
       "font-sans text-subhead font-medium text-foreground",
       "max-md:text-body max-md:font-semibold",
-      "data-active:border-sticker-ink data-active:bg-brand data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
+      "data-active:border-brand-edge data-active:bg-brand data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
       "not-data-active:data-[tone=muted]:text-foreground-muted not-data-active:data-[tone=away]:text-foreground-hint",
       "outline-none",
     ],
@@ -85,7 +85,8 @@ export const sidebarItemRecipe = tv({
     interactive: {
       true: {
         sidebarItem: [
-          "hover:bg-fill-row-hover active:bg-fill-pressed not-data-active:data-popup-open:bg-fill-row-open",
+          "hover:bg-fill-subtle active:bg-fill-medium not-data-active:data-popup-open:bg-fill-subtle",
+          "data-active:active:overlay-sticker-medium",
           "focus-visible:shadow-focus",
         ],
       },

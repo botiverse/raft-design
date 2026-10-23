@@ -13,7 +13,7 @@ export const Route = createFileRoute("/_site/components/$slug")({
     const { url } = loadDocPage(`/components/${params.slug}`);
     return { url, api: await loadComponentApi(params.slug) };
   },
-  head: ({ loaderData }) => docPageHead(loaderData?.url),
+  head: ({ loaderData, matches }) => docPageHead(loaderData?.url, matches),
   component: function Page() {
     const { url, api } = Route.useLoaderData();
     return <ComponentPageView page={pageAt(url)!} api={api} />;

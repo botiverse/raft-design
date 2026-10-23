@@ -35,7 +35,7 @@ message-action-card/compositions/action-card-interactive
   - `MessageActionCardCollapseTrigger`: folds the card to its header and back.
 - `MessageActionCardContent`: everything under the header; it folds.
   - `MessageActionCardNotice`: a standing note from Raft about consequences or permissions. At most one.
-  - `MessageActionCardProperties`, `MessageActionCardProperty`, `MessageActionCardPropertyLabel`, `MessageActionCardPropertyValue`: the values the person checks, as a description list ([DescriptionList](../description-list/description-list.md)).
+  - `MessageActionCardProperties`, `MessageActionCardProperty`, `MessageActionCardPropertyLabel`, `MessageActionCardPropertyValue`: the values the person checks, as a description list ([DescriptionList](../description-list/description-list.md)): the label beside its value, and above it (the value 2px under it, 10px between a value and the next label: the 2px row gap plus 8px above each following label) when the card's content is narrower than 24rem (384px), as in a 360px thread or on a phone, whatever the window; a card at its 440px cap has 416px of content and keeps two columns ([Switch on the region's width](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)). The card's content is the container, so give the card a definite width (its usual place in a message column does); in a parent that shrinks to its content it would collapse.
   - `MessageActionCardHintLabel`, `MessageActionCardHint`: the agent's own note, such as its reason or what it filled in.
   - `MessageActionCardScopeList`, `MessageActionCardScopeListLabel`, `MessageActionCardScopeListViewport`, `MessageActionCardScope`, `MessageActionCardScopeName`, `MessageActionCardScopeDescription`: the permissions an app asks for.
   - `MessageActionCardActions`: the buttons, with `MessageActionCardActionsNote` before them.
@@ -74,7 +74,7 @@ message-action-card/compositions/resolution-states
 ## Content
 
 - Title the card with a verb and its object, in sentence case: Create channel #launch-week, Merge #26 into main.
-- Make the confirm button repeat the verb of the title, in Title Case: Create Channel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
+- Make the confirm button repeat the verb and the object of the title, in Title Case: Create Channel. Unlike a dialog's button, it keeps the object, because it appears away from a dialog title and has to say on its own which action it approves ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - List only the properties the person needs to check.
 - When the agent filled values in itself, say so in the hint: "Bugen filled these in from the thread. You can change them before it's created."
 - Record the result with the person and the time: Approved by Martin · 10:51.
@@ -89,7 +89,7 @@ message-action-card/compositions/resolution-states
 
 ## Rules
 
-- Make the confirm button the small ink-bordered button (`Button` with `size="sm"`), not pink: the screen's one pink button is the composer's send button.
+- Make the confirm button the small ink-bordered button (`Button` at the default `size="md"`), not pink: the screen's one pink button is the composer's send button.
 - Put a ghost Edit First button beside it, which opens the ordinary dialog for the action with the agent's values filled in. Don't edit fields on the card: the card is a summary.
 - Run the action as the person who confirmed it.
 - Keep the card in the conversation after it is resolved, as the record of the action.

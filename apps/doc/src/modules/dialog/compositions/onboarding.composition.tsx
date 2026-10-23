@@ -59,7 +59,7 @@ function OnboardingDialogParts() {
           <Button variant="outline">Skip</Button>
           <Button variant="accent">
             <Monitor data-icon="inline-start" />
-            Add Computer
+            Add
           </Button>
         </div>
       </DialogFooter>
@@ -69,7 +69,7 @@ function OnboardingDialogParts() {
 
 export function OnboardingDialogContent() {
   return (
-    <DialogContent className="max-w-lg">
+    <DialogContent>
       <OnboardingDialogParts />
     </DialogContent>
   );
@@ -78,12 +78,7 @@ export function OnboardingDialogContent() {
 // @docs-source-strip-start
 export function OnboardingDialogComposition({ className }: { className?: string }) {
   return (
-    <CompositionModalPreview
-      className={className}
-      contentClassName="max-w-lg"
-      portalClassName="px-0"
-      backdrop={false}
-    >
+    <CompositionModalPreview className={className} portalClassName="px-0" backdrop={false}>
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent

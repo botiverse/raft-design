@@ -117,7 +117,7 @@ export function ComposerWithLightboxComposition() {
               <LightboxInfoBar>
                 <LightboxInfoTitle>{currentImage.name}</LightboxInfoTitle>
                 <LightboxInfoActions>
-                  <Button type="button" variant="ghost" size="icon-sm" aria-label="Download">
+                  <Button type="button" variant="ghost" size="icon-md" aria-label="Download">
                     <Download />
                   </Button>
                 </LightboxInfoActions>

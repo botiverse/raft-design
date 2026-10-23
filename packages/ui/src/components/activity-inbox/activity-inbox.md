@@ -31,17 +31,17 @@ Where a product puts the way into Activity is on the product's own page.
 - `ActivityInboxPanel`: the panel. It holds a [Panel](../panel/panel.md) header with the title Activity. Required.
 - `ActivityInboxSidebar`: the column of views and filters on the left, as sidebar rows ([Sidebar](../sidebar/sidebar.md)). Hidden on a phone.
 - `ActivityInboxControls`: the row above the list: the filters (All, Unread and Mentions) and Mark all read. It has no search field: searching is the job of [Search](../search/search.md), and a field here would be a second way in.
-- `ActivityInboxSelectionToolbar`: a select-all checkbox, then either the sort menu or `ActivityInboxSelectionCount` and the actions for the selected items.
+- `ActivityInboxSelectionToolbar`: a select-all checkbox, then either the sort menu or `ActivityInboxSelectionCount` and the actions for the selected items. One 44px row while they fit; in a narrow column they wrap onto a second line, whatever the window ([Switch on the region's width](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)).
 - `ActivityInboxViewport`: the scrolling list of [InboxItem](../inbox-item/inbox-item.md) rows.
 - `ActivityInboxLoadingMore`: one line at the end of the list while more items load.
 
 ## States
 
-| State        | Use for                                                                                                                     |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------- |
-| Loading      | Skeleton rows in the shape of inbox items ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)) |
-| Loading more | `ActivityInboxLoadingMore` under the last item                                                                              |
-| Empty        | An [EmptyState](../empty-state/empty-state.md) that says what will appear here                                              |
+| State        | Use for                                                                                                                                         |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Loading      | Flat `InboxItemSkeleton` rows in the shape of the inbox items, in an `InboxItemSkeletonList` ([InboxItem](../inbox-item/inbox-item.md#loading)) |
+| Loading more | `ActivityInboxLoadingMore` under the last item                                                                                                  |
+| Empty        | An [EmptyState](../empty-state/empty-state.md) that says what will appear here                                                                  |
 
 ```example
 activity/compositions/loading-activity

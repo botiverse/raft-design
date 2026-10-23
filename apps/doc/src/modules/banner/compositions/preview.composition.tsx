@@ -1,10 +1,10 @@
 import { Banner, BannerDescription } from "@botiverse/raft-ui";
-import { CircleAlert } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 
 export function BannerPreviewContent() {
   return (
     <Banner status="warning" className="w-[28rem]">
-      <CircleAlert />
+      <TriangleAlert />
       <BannerDescription>This action can&rsquo;t be undone.</BannerDescription>
     </Banner>
   );

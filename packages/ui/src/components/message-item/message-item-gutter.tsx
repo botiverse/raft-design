@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { useMessageItemLabelId } from "./message-item-label";
 import { messageItem } from "./message-item.recipe";
 
 export type MessageItemGutterProps = useRender.ComponentProps<"div">;
@@ -43,11 +44,14 @@ export type MessageItemContinuationTimeProps = useRender.ComponentProps<"time">;
 /** Left-gutter hover clock for continuation rows, a `<time>`: pass the moment in `dateTime`. Show the hour and minute only, in the person's 12h/24h format, with no AM/PM (`6:35`, `18:35`). */
 export function MessageItemContinuationTime({
   className,
+  id,
   render,
   ...props
 }: MessageItemContinuationTimeProps) {
   const { continuationTime } = messageItem();
+  const labelId = useMessageItemLabelId("time", id);
   const defaultProps: useRender.ElementProps<"time"> = {
+    id: labelId,
     className: continuationTime({ className }),
   };
 

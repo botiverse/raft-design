@@ -56,7 +56,7 @@ export function CardAppNotificationsComposition() {
                   placeholder="https://example.com/raft/events"
                   onChange={handleEndpointChange}
                 />
-                <Button type="submit" size="sm" disabled={!endpoint.trim() || saved}>
+                <Button type="submit" size="md" disabled={!endpoint.trim() || saved}>
                   {saved ? "Saved" : "Save endpoint"}
                 </Button>
               </div>

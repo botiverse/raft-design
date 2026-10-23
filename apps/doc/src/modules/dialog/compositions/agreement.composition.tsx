@@ -26,7 +26,7 @@ function AgreementDialogParts() {
             Version 3
           </Text.Sans>
         </div>
-        <DialogClose size="icon-sm">
+        <DialogClose size="icon-md">
           <X className="size-4" />
         </DialogClose>
       </DialogHeader>
@@ -41,8 +41,8 @@ function AgreementDialogParts() {
         </div>
       </DialogBody>
       <DialogFooter>
-        <DialogClose render={<Button variant="outline" size="sm" />}>Cancel</DialogClose>
-        <Button variant="accent" size="sm">
+        <DialogClose render={<Button variant="outline" size="md" />}>Cancel</DialogClose>
+        <Button variant="accent" size="md">
           Agree & Continue
         </Button>
       </DialogFooter>
@@ -52,7 +52,7 @@ function AgreementDialogParts() {
 
 export function AgreementDialogContent() {
   return (
-    <DialogContent className="max-w-lg">
+    <DialogContent size="lg">
       <AgreementDialogParts />
     </DialogContent>
   );
@@ -63,7 +63,6 @@ export function AgreementDialogComposition({ className }: { className?: string }
   return (
     <CompositionModalPreview
       className={className}
-      contentClassName="max-w-lg"
       placementPaddingClassName="px-0 py-6"
       backdrop={false}
     >
@@ -75,6 +74,7 @@ export function AgreementDialogComposition({ className }: { className?: string }
             finalFocus={false}
             portalProps={portalProps}
             className={contentClassName}
+            size="lg"
           >
             <AgreementDialogParts />
           </DialogContent>

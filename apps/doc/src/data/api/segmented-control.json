@@ -8,7 +8,15 @@
         "name": "iconsOnlyBelow",
         "type": "SegmentedControlIconsOnlyBelow",
         "required": false,
-        "description": "When the nearest `@container` ancestor (the row the control sits in) is narrower than this width, every segment shows only its icon (give each one). Its label stays the accessible name and shows in a tooltip.",
+        "description": "When every segment shows only its icon (give each one); its label stays the accessible name and shows in a tooltip. `auto`: when the labelled segments don't fit the width the control is given. A preset (`xs` to `2xl`) or a CSS length (`\"18.5rem\"`, `\"296px\"`): when the nearest `@container` ancestor (the row the control sits in) is narrower than it.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"on-frame\"",
+        "required": false,
+        "default": "\"default\"",
+        "description": "`on-frame` in the frame (a top bar): the track the frame's medium fill and the selected segment in the frame's active colours (white on the yellow frame, yellow on the dark one), since a yellow sticker on yellow would not read as selected.",
         "from": "raft-ui"
       },
       {

@@ -17,13 +17,13 @@ import type {
   Ref,
 } from "react";
 import { Toast as BaseToast } from "@base-ui/react/toast";
+import { CircleCheck, Info, TriangleAlert } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Spinner } from "../spinner/index";
-import { Status } from "../status/index";
-import type { StatusProps } from "../status/index";
 import { cn } from "../../lib/cn";
 
 const toastStyles = tv({
@@ -258,10 +258,10 @@ type ToastCommandOptions<Data extends object = ToastData> = Omit<
   };
   contentClassName?: string;
   dismissible?: boolean;
-  /** Show the status pixel for the intent in `ToastIcon`. Defaults to `true`. */
+  /** Show the intent's icon in `ToastIcon`. Defaults to `true`. */
   icon?: boolean;
   /**
-   * Replaces the status pixel in `ToastIcon` with this node, such as an xs
+   * Replaces the intent's icon in `ToastIcon` with this node, such as an xs
    * `Avatar` for the person or agent the toast is about. Rendered
    * hidden from assistive technology: the title must already carry the name.
    * Shown even when `icon` is `false`.
@@ -760,12 +760,12 @@ function DefaultToastItem({
   );
 }
 
-const TOAST_PIXEL = {
-  info: "information",
-  success: "success",
-  warning: "warning",
-  error: "warning",
-} as const satisfies Record<ToastIntent, StatusProps["variant"]>;
+const TOAST_ICON = {
+  info: Info,
+  success: CircleCheck,
+  warning: TriangleAlert,
+  error: TriangleAlert,
+} as const satisfies Record<ToastIntent, LucideIcon>;
 
 function hasLeading(toastObject: ToastObject<ToastData>) {
   const leading = toastObject.data?.leading;
@@ -778,10 +778,11 @@ function DefaultToastIcon({ toast: toastObject }: { toast: ToastObject<ToastData
   }
 
   const intent = toastObject.data?.intent ?? getToastTone(toastObject.type);
+  const Icon = TOAST_ICON[intent];
 
   return (
     <ToastIcon>
-      <Status aria-hidden variant={TOAST_PIXEL[intent]} />
+      <Icon aria-hidden />
     </ToastIcon>
   );
 }

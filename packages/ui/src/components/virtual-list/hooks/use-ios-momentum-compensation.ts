@@ -137,10 +137,13 @@ export function useIosMomentumCompensation({
     clampCompensation();
     const listEl = listElRef.current;
     if (listEl) {
-      if (listEl.scrollTop <= 0) {
-        if (touchEndedRef.current) {
-          flushCompensation("scrollToTop");
-        }
+      /*
+       * At the top with the finger still down the compensation waits for the lift like anywhere else,
+       * but as a transform too: the range is laid out at `scrollTop + compensation`, so without it the
+       * rows in view would be drawn that far below the view (an older page landing: all of it blank).
+       */
+      if (listEl.scrollTop <= 0 && touchEndedRef.current) {
+        flushCompensation("scrollToTop");
         return true;
       }
       if (iosCompYRef.current > 0) {

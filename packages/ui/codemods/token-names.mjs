@@ -32,6 +32,12 @@ export const TOKEN_RENAMES = {
   "theme-shadow-sticker": "elevation-sticker",
   "theme-focus-ring": "focus-ring",
   "soft-signal": "palette-yellow",
+  "fill-pressed": "fill-medium",
+  "fill-frame-pressed": "fill-frame-medium",
+  "fill-row-hover": "fill-subtle",
+  "fill-row-open": "fill-subtle",
+  "fill-message-hover": "fill-subtle",
+  "sticker-pressed": "sticker-medium",
 };
 
 /** Families renamed with every step: `primary-soft` -> `brand-soft`. */
@@ -61,6 +67,10 @@ export const UTILITY_RENAMES = {
   "shadow-raft-xl": "shadow-float",
   "shadow-raft-sticker": "shadow-sticker",
   "shadow-raft-focus": "shadow-focus",
+  "press-overlay": "overlay-medium",
+  "press-overlay-sticker": "overlay-sticker-medium",
+  "row-hover-overlay": "overlay-subtle",
+  "row-open-overlay": "overlay-subtle",
 };
 
 const COLOR_UTILITY =
@@ -83,6 +93,8 @@ function rules() {
   for (const [from, to] of tokens) {
     list.push([new RegExp(`(?<![\\w-])(${COLOR_UTILITY})-${escape(from)}${END}`, "g"), `$1-${to}`]);
     list.push([new RegExp(`${VAR}${escape(from)}${REF_END}`, "g"), `--${to}`]);
+    // The Tailwind theme variable of the same token: `var(--color-fill-pressed)`.
+    list.push([new RegExp(`${VAR}color-${escape(from)}${REF_END}`, "g"), `--color-${to}`]);
   }
   for (const [from, to] of Object.entries(FAMILY_RENAMES)) {
     list.push([
@@ -90,6 +102,10 @@ function rules() {
       `$1-${to}$2`,
     ]);
     list.push([new RegExp(`${VAR}${from}((?:-[a-z0-9]+)*)${REF_END}`, "g"), `--${to}$1`]);
+    list.push([
+      new RegExp(`${VAR}color-${from}((?:-[a-z0-9]+)*)${REF_END}`, "g"),
+      `--color-${to}$1`,
+    ]);
   }
   for (const [from, to] of Object.entries(PALETTE_COLORS)) {
     list.push([

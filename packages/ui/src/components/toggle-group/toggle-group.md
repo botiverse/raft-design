@@ -54,11 +54,11 @@ toggle-group/compositions/vertical
 
 ## States
 
-| State                         | Look                                                                                                              |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| Not pressed                   | `foreground-muted` text on the track; the pressed overlay on hover                                                |
-| Pressed                       | A yellow sticker with a bold label ([Color](../../../../../design/foundations/color.md#stickers))                 |
-| Disabled item, disabled group | `foreground-disabled` text, no reaction to hover or press ([States](../../../../../design/foundations/states.md)) |
+| State                         | Look                                                                                                                                                                                                                                          |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Not pressed                   | `foreground-muted` text on the track; the medium tier on hover and press                                                                                                                                                                      |
+| Pressed                       | A yellow sticker with a bold label ([Color](../../../../../design/foundations/color.md#stickers)). It doesn't change on hover; a press lays `sticker-medium` ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)) |
+| Disabled item, disabled group | `foreground-disabled` text, no reaction to hover or press ([States](../../../../../design/foundations/states.md))                                                                                                                             |
 
 ```example
 toggle-group/compositions/item-disabled
@@ -72,6 +72,7 @@ toggle-group/compositions/disabled
 
 - A horizontal group wraps its items onto a new row when they don't fit, and never grows wider than its container.
 - Pressing a pressed item turns it off, in both variants.
+- Items sit 3px inside the track and 3px apart, like the segments of a [SegmentedControl](../segmented-control/segmented-control.md).
 - Items are 32px high and don't extend their hit area to 44px. On touch screens that is below the [hit target](../../../../../design/foundations/spacing.md#hit-targets).
 
 ## Content

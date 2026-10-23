@@ -21,7 +21,7 @@ export function TasksErrorComposition() {
             <RotateCcw aria-hidden />
             <BannerDescription>Couldn&apos;t load tasks.</BannerDescription>
             <BannerAction>
-              <Button variant="outline" size="sm" onClick={reloadPage}>
+              <Button variant="outline" size="md" onClick={reloadPage}>
                 Retry
               </Button>
             </BannerAction>

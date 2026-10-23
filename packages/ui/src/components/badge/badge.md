@@ -34,13 +34,13 @@ Badge is a small label. Its main job is the unread count: a pink sticker that sa
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `appearance="solid"`   | A sticker: a count or a mark that waits for the person, with an ink edge and ink type. The unread count and the @ marker |
 | `appearance="soft"`    | A soft-tinted label with no border: status chips of agent states, the runtime chip                                       |
-| `appearance="outline"` | A hairline label in Space Mono: the `agent` tag, a reply count beside a task chip                                        |
+| `appearance="outline"` | A hairline label in Space Mono: the `agent` tag, a reply count after a task row's title                                  |
 
 `variant` picks the color role. Choose it by what the color means, not by how it looks ([Meanings of color](../../../../../design/foundations/color.md#meanings-of-color)): on a count, `accent` is the pink of "to do" and `primary` the yellow of "you".
 
 ## States
 
-- A Badge rendered as a button (`render={<button />}`) shows the pressed overlay on hover and press, and the shared disabled look ([States](../../../../../design/foundations/states.md)).
+- A Badge rendered as a button (`render={<button />}`) shows the medium tier on hover and press (`sticker-medium` on a colour badge), and the shared disabled look ([States](../../../../../design/foundations/states.md)).
 - The selected row never shows a count or an @ marker ([States](../../../../../design/foundations/states.md#usage)).
 
 ## Content

@@ -10,6 +10,7 @@ export const badge = tv({
       "font-sans text-caption font-semibold normal-case tracking-normal",
       "transition-[filter,opacity] duration-100",
       "[&_svg]:size-3.5 [&_svg]:shrink-0 [&_[data-slot='spinner']]:size-3 [&_[data-slot='spinner']]:text-xs",
+      "*:data-[slot=status]:lead-dot",
       "disabled:cursor-not-allowed disabled:bg-fill-muted disabled:text-foreground-disabled disabled:opacity-100 disabled:inset-ring-0",
     ],
   },
@@ -22,17 +23,19 @@ export const badge = tv({
           "font-bold tabular-nums",
           "text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
           "[&_svg]:size-[13px]",
-          "enabled:hover:press-overlay-sticker",
+          "enabled:hover:overlay-sticker-medium enabled:active:overlay-sticker-medium",
         ],
       },
       // A soft fill: a highlight, with no edge.
-      soft: { root: ["text-foreground", "enabled:hover:press-overlay"] },
+      soft: {
+        root: ["text-foreground", "enabled:hover:overlay-medium enabled:active:overlay-medium"],
+      },
       // A hairline label in machine type.
       outline: {
         root: [
           "font-mono text-mono-meta font-normal",
           "bg-transparent text-foreground-muted inset-ring inset-ring-line-hairline",
-          "enabled:hover:bg-fill-pressed",
+          "enabled:hover:bg-fill-medium enabled:active:bg-fill-medium",
         ],
       },
     },

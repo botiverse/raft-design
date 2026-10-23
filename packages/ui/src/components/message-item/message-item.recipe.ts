@@ -18,24 +18,45 @@ export const messageItem = tv({
       // a whole-page recalc trap (#386).
       "hover:[--mi-toolbar-opacity:1] hover:[--mi-toolbar-pe:auto] focus-within:[--mi-toolbar-opacity:1] focus-within:[--mi-toolbar-pe:auto]",
       "has-data-popup-open:[--mi-toolbar-opacity:1] has-data-popup-open:[--mi-toolbar-pe:auto]",
-      // The highlight sits 4px above and below the text on every row. The
-      // 8px between groups is a transparent top border the highlight doesn't
-      // paint (bg-clip-padding); a continuation row has none, so it sits
-      // under the row it continues.
-      "min-h-0 px-2 py-1 border-t-8 border-transparent bg-clip-padding",
+      // While the toolbar shows, the header fades out its end under it
+      // (header, below): the toolbar's width (written onto the row by
+      // MessageItemToolbar: five buttons' width, 164px, when it mounts, then
+      // its measured width as it shows) plus the 4px it sits inside the
+      // header's end (right-3 against the row's px-2) and a 4px gap, after a
+      // 12px fade. Without a toolbar on the row the width is unset, the
+      // gradient is invalid, and the header has no mask.
+      "hover:[--mi-header-mask:linear-gradient(to_left,transparent_calc(var(--mi-toolbar-width)+8px),black_calc(var(--mi-toolbar-width)+20px))]",
+      "focus-within:[--mi-header-mask:linear-gradient(to_left,transparent_calc(var(--mi-toolbar-width)+8px),black_calc(var(--mi-toolbar-width)+20px))]",
+      "has-data-popup-open:[--mi-header-mask:linear-gradient(to_left,transparent_calc(var(--mi-toolbar-width)+8px),black_calc(var(--mi-toolbar-width)+20px))]",
+      // The highlight sits a row inset (4px) above and below the text on
+      // every row. The rest of the message step that opens a turn (8px) is a
+      // transparent top border the highlight doesn't paint (bg-clip-padding),
+      // so two turns sit 16px apart, text to text; a continuation row has
+      // none, so it sits under the row it continues
+      // (design/foundations/spacing.md#timeline-rhythm).
+      "min-h-0 px-2 py-timeline-row border-t-(length:--spacing-timeline-turn) border-transparent bg-clip-padding",
       "hover:[--mi-ct-color:var(--foreground-hint)] has-data-popup-open:[--mi-ct-color:var(--foreground-hint)]",
       // The highlight is --mi-row-fill, set here once per state and painted
       // as the background, so parts that paint the row's surface around
       // themselves (the delegated face's ring) read the same value. Read off
       // the root, not through group-has-*: see no-ancestor-has.test.ts.
-      "bg-(--mi-row-fill) [--mi-row-fill:initial]",
-      "hover:[--mi-row-fill:var(--fill-message-hover)]",
-      // An open menu marks its message a step past hover: on a phone it is the
-      // only sign of which message the menu acts on (states.md#row-hover).
-      "data-popup-open:[--mi-row-fill:var(--fill-row-open)] has-data-popup-open:[--mi-row-fill:var(--fill-row-open)]",
+      // At rest the fill is the located highlight: transparent unless the row
+      // is located (styles.css animates --located-fill), so every mark below
+      // wins over it, and hover doesn't replace it while it lasts.
+      "bg-(--mi-row-fill) [--mi-row-fill:var(--located-fill)]",
+      "not-data-located:hover:[--mi-row-fill:var(--fill-subtle)]",
+      // An open menu marks its message with the same subtle tier as a hover:
+      // on a phone it is the only sign of which message the menu acts on
+      // (states.md#hover-and-press).
+      "data-popup-open:[--mi-row-fill:var(--fill-subtle)] has-data-popup-open:[--mi-row-fill:var(--fill-subtle)]",
       "has-data-[slot=message-item-search-match]:[--mi-row-fill:var(--info-soft)] has-data-[slot=message-item-search-match]:hover:[--mi-row-fill:var(--info-soft)]",
       "has-[[data-slot=message-multi-select-checkbox][data-checked]]:[--mi-row-fill:var(--info-soft)]",
       "has-[[data-slot=message-multi-select-checkbox][data-checked]]:hover:[--mi-row-fill:var(--info-soft)]",
+      // The row takes focus only when a jump started from the keyboard lands
+      // on it (tabIndex -1, states.md#located): the inset ring of an
+      // edge-to-edge row, square like its hover, and only after keyboard
+      // input. Never the browser's own outline.
+      "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
     ],
     gutter: ["relative shrink-0 self-stretch", "w-[35px]"],
     avatarSlot: [
@@ -50,9 +71,12 @@ export const messageItem = tv({
       "text-(--mi-ct-color,transparent)",
     ],
     content: ["min-w-0 flex-1", "text-body text-foreground"],
-    // With a mouse, the header ends where the hover toolbar begins, so the
-    // toolbar never covers the name or the time. A product with more toolbar
-    // buttons sets --mi-toolbar-reserve to the toolbar's width plus its inset.
+    // The header keeps no room for the hover toolbar: it takes the full
+    // width at rest and on hover, so hovering never reflows the line. Where
+    // the line is long enough to reach the corner, its end fades out under
+    // the toolbar while the toolbar shows (stdrc, 2026-10-22): the toolbar's
+    // card reaches only part of the line's height, so covering alone left
+    // half-cut letters below and beside it.
     //
     // With a "sent by" label the owner keeps at least 3rem (or its whole
     // name, if shorter): its basis is 3rem, capped at its own width, it grows
@@ -67,7 +91,7 @@ export const messageItem = tv({
     // baseline the time's digits stand as tall as the role's capitals.
     header: [
       "mb-px flex min-w-0 items-baseline gap-1.5 overflow-hidden",
-      "pointer-fine:pe-(--mi-toolbar-reserve,6.5rem)",
+      "mask-(--mi-header-mask,none)",
       "has-data-[slot=message-item-delegated-by]:[--mi-owner-basis:3rem] has-data-[slot=message-item-delegated-by]:[--mi-owner-flex:1_0]",
     ],
     // The role grows into what is left after the name and badges (it has no
@@ -137,7 +161,7 @@ export const messageItem = tv({
       "wrap-break-word select-text",
       "**:select-text",
       "text-body text-foreground",
-      "selection:bg-brand-soft",
+      "selection:bg-selection",
     ],
     searchMatch: searchHit,
     embedded: ["min-w-0", "mt-2"],
@@ -147,15 +171,15 @@ export const messageItem = tv({
       "absolute z-20 flex items-center",
       "opacity-(--mi-toolbar-opacity,0)",
       "[pointer-events:var(--mi-toolbar-pe,none)]",
-      "top-[-16px] right-3 gap-0.5 overflow-visible rounded-container p-0.5",
+      "top-[-18px] right-3 gap-1 overflow-visible rounded-container p-1",
       "bg-layer-popover ring-1 ring-line-seam ring-inset shadow-float",
     ],
     toolbarButton: [
       "inline-flex shrink-0 items-center justify-center",
       "[&_svg]:shrink-0",
-      "size-7 rounded-control border-0 bg-transparent p-0",
-      "text-foreground-muted hover:bg-fill-pressed active:bg-fill-pressed",
-      "data-popup-open:bg-fill-pressed data-active:text-foreground",
+      "size-7 rounded-chip border-0 bg-transparent p-0",
+      "text-foreground-muted hover:bg-fill-medium active:bg-fill-medium",
+      "data-popup-open:bg-fill-medium data-active:text-foreground",
       "outline-none focus-visible:shadow-focus",
       "[&_svg]:size-4",
     ],

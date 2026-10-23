@@ -1,2 +1,2 @@
-export { TextLink, textLinkVariants } from "./text-link";
-export type { TextLinkProps } from "./text-link";
+export { TextLink, TextLinkExternalIcon, textLinkVariants } from "./text-link";
+export type { TextLinkExternalIconProps, TextLinkProps } from "./text-link";

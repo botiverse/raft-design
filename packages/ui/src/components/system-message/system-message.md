@@ -59,7 +59,7 @@ system-message/compositions/grouped-generic
 ## Behavior
 
 - A line keeps one line: its content truncates, and the full text is in its `title`.
-- A single line keeps 12px above and below it; lines inside an open group sit closer together.
+- A single line is a turn of its own: it sits the message step, 16px, from the text above and below it, like a new sender line ([Timeline rhythm](../../../../../design/foundations/spacing.md#timeline-rhythm)). It keeps 12px above its text and 4px under it, the lead and row inset of a message row, so the next row's lead makes up the rest. A collapsed group's header keeps the same distances around its disclosure's text. Lines inside an open group sit closer together.
 - The group's chevron turns when the group opens.
 
 ## Content

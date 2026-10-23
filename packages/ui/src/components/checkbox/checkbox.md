@@ -21,7 +21,7 @@ checkbox/compositions/preview
 | Situation                                                                     | Use                                                                                            |
 | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | A yes or no in a form that is saved: a dialog, a drawer, the wide form dialog | Checkbox                                                                                       |
-| An option attached to an action, such as sending a message as a task          | Checkbox in the action's toolbar (`ComposerToolbarLabel`, [Composer](../composer/composer.md)) |
+| An option attached to an action, next to the button that runs it              | Checkbox in the action's toolbar (`ComposerToolbarLabel`, [Composer](../composer/composer.md)) |
 | Choosing several items in a list or a multi-select                            | Checkbox, or `CheckboxIndicator` in a row that owns the semantics                              |
 | A yes or no that applies at once                                              | [Switch](../switch/switch.md)                                                                  |
 | One of several answers                                                        | [RadioGroup](../radio-group/radio-group.md)                                                    |
@@ -31,7 +31,7 @@ Which controls apply at once and which are saved is in [Forms](../../../../../de
 ## Anatomy
 
 - `Checkbox`: the 20px box, with a hidden native input that holds the state. Required.
-- A label: wrap the checkbox and its text in a `<label>` (`Label`, or `FieldItem` with `FieldLabel` in a [Field](../field/field.md)).
+- A label: wrap the checkbox and its text in a `<label>` (`Label`, or `FieldItem` with `FieldLabel` in a [Field](../field/field.md)). Make the `<label>` a flex row with `gap-2` and the label's type: the box takes a box one line of the label tall, so it centers on the text's line by itself, on the first line with `items-start` (use it when the label can wrap) and on the one line with `items-center` at any min-height. Don't add a `margin-top` ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
 - `CheckboxIndicator`: the box drawn on its own, with no input or role, for a row or menu item that already has checkbox semantics.
 
 ```example
@@ -52,7 +52,7 @@ checkbox/compositions/indicator
 
 ## Behavior
 
-- Make the whole label clickable, not only the box. A label row is 32px high, with a 44px hit area.
+- Make the whole label clickable, not only the box. In a `<label>` row the box's hit area reaches 4px past its line, half the 8px gap to the next option, so a tap between two lands on the nearer. On its own it is 44 × 44 on a touch screen and 44 × 36 with a mouse.
 
 ## Content
 

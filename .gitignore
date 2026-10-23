@@ -26,3 +26,4 @@ dist-ssr
 # AI agent worktrees
 .claude/worktrees/
 .vitest/
+align-audit/

@@ -48,7 +48,7 @@ Fingers are less precise than a pointer, and a target people miss feels broken.
 - Make every touch target at least 44px in both directions ([Spacing](./spacing.md#hit-targets)).
 - Reach 44px with the hit area, not the drawing. A 32px [Button](../../packages/ui/src/components/button/button.md) and a 20px [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) extend a transparent `::after` to 44px, so the layout stays compact and the target stays large.
 - Don't extend inline links and reference chips in running text: they follow the line of text.
-- Desktop controls used only with a pointer may be smaller: sidebar rows and menu items 36px, rail items 40px, the hover toolbar 32px, and on a desktop (from 768px with a mouse or trackpad) a default control, such as a field, 32px. A touch screen keeps 44px at any width ([Spacing](./spacing.md#heights)).
+- Desktop controls used only with a pointer may be smaller: sidebar rows 36px, rail items 40px, the hover toolbar 36px with 28px buttons, and on a desktop (from 768px with a mouse or trackpad) a default control, such as a field, 32px. A touch screen keeps 44px at any width ([Spacing](./spacing.md#heights)), except for the rows of a popup list, which are 36px everywhere ([Spacing](./spacing.md#hit-targets)).
 - [ToggleGroup](../../packages/ui/src/components/toggle-group/toggle-group.md) items are 32px and don't extend their hit area. Don't use a toggle group on a touch screen until they do.
 
 ## Motion
@@ -70,7 +70,7 @@ A screen reader announces what the markup says, not what the screen shows. Every
 - Give every icon-only button an `aria-label` in Title Case, the same words as its tooltip: Add Reaction ([Button](../../packages/ui/src/components/button/button.md#accessibility)).
 - Start the accessible name of a control that has visible text with that text. People who use voice control say what they see.
 - Give every dialog, drawer and bottom sheet a title; it is what is announced when it opens ([Dialog](../../packages/ui/src/components/dialog/dialog.md#accessibility)).
-- Hide decoration from assistive technology (`aria-hidden`) when the words are next to it: a status pixel beside its word, a banner's icon, a toast's pixel and progress bar ([Status](../../packages/ui/src/components/status/status.md)).
+- Hide decoration from assistive technology (`aria-hidden`) when the words are next to it: a status pixel beside its word, a banner's icon, a toast's icon and progress bar ([Status](../../packages/ui/src/components/status/status.md)).
 - Name what stands alone without words: a presence light gets `role="img"` and its state ("Online"); an attention dot says what waits; an avatar stack says the full count ("5 agents working"), since it shows only "+3" ([Avatar](../../packages/ui/src/components/avatar/avatar.md#accessibility)).
 - Include the unread state in the name of a trigger that shows a count or a dot: "Notifications, 2 unread" ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)).
 - Mark a region that is loading with `aria-busy="true"`; skeletons are hidden ([Skeleton](../../packages/ui/src/components/skeleton/skeleton.md)).

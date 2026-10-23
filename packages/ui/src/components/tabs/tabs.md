@@ -11,7 +11,7 @@ redirectFrom: [decisions/0013-sticker-tabs]
 
 # Tabs
 
-Tabs switch between the sections of one page, each with its own content: a channel's chat, tasks and files, for example. The selected tab is a yellow sticker, the same "you are here" as a sidebar row or a segmented control. When the tabs don't fit, the row scrolls sideways.
+Tabs switch between the sections of one page, each with its own content: an agent's profile, activity and workspace, for example. The selected tab is a yellow sticker, the same "you are here" as a sidebar row or a segmented control. When the tabs don't fit, the row scrolls sideways.
 
 ```example
 tabs/compositions/placement
@@ -26,7 +26,7 @@ tabs/compositions/placement
 | The steps of a flow, in order                   | [Steps](../steps/steps.md)                                                   |
 | A product's destinations                        | [AppRail](../app-rail/app-rail.md), [MobileNav](../mobile-nav/mobile-nav.md) |
 
-A place with several kinds of content, such as a channel, shows them as one row of sticker tabs under its header ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)).
+A place with several kinds of content, such as an agent, shows them as one row of sticker tabs under its header ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)). A channel's tasks and files are not tabs: they are side cards beside the conversation. Only when the cards float over the messages or cover the panel with both open does a Tasks / Files row of tabs switch between them ([Responsive layout](../../../../../design/patterns/responsive.md#structure)).
 
 ## Anatomy
 
@@ -54,7 +54,7 @@ The sticker tab is the default, and the one the product ships: a selected tab sa
 
 ## A tab's own controls
 
-When a tab's content has controls of its own (a view switch, filters, search, a sort), they go in one toolbar row at the top of the tab's content, under the tabs. Every tab with controls uses the same row, the one the Tasks tab draws ([TasksPanelToolbar](../tasks/tasks.md)), so a person who has learned one tab knows where to look in the next:
+When a tab's content has controls of its own (a view switch, filters, search, a sort), they go in one toolbar row at the top of the tab's content, under the tabs. Every tab with controls uses the same row, the one the Tasks page draws ([TasksPanelToolbar](../tasks/tasks.md)), so a person who has learned one tab knows where to look in the next:
 
 - The row has its own height and padding, the content margin at its sides and a `line-seam` below it, and it stays pinned while the content scrolls under it. Content never starts flush under the row, and never scrolls up against the tabs.
 - Filters and search start at the row's left; a [SegmentedControl](../segmented-control/segmented-control.md) that switches the view goes at its right end. A view switch on the left would sit right under the selected tab, and two yellow stickers stacked one above the other read as the same level.
@@ -62,7 +62,7 @@ When a tab's content has controls of its own (a view switch, filters, search, a 
 
 ## Content
 
-- Label tabs with 1 or 2 words in Title Case: Chat, Tasks, Files ([Typography](../../../../../design/foundations/typography.md#casing)).
+- Label tabs with 1 or 2 words in Title Case: Profile, Activity, Workspace ([Typography](../../../../../design/foundations/typography.md#casing)).
 - Put a count in its own Space Mono element after the label, never in the label's text.
 
 ## Accessibility

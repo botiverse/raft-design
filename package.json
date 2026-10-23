@@ -9,7 +9,8 @@
     "docs:preview": "vp run doc#preview",
     "ready": "vp check && vp run -r test && vp run -r build",
     "prepare": "vp config",
-    "check:docs": "node scripts/check-docs.mjs"
+    "check:docs": "node scripts/check-docs.mjs && node scripts/i18n.mjs check",
+    "check:i18n": "node scripts/i18n.mjs check"
   },
   "devDependencies": {
     "eslint-plugin-better-tailwindcss": "catalog:",

@@ -64,12 +64,12 @@ Names are built from a few parts, so a name you haven't seen tells you what it i
 
 | Kind | Pattern | Examples |
 | --- | --- | --- |
-| Neutral roles | `{role}(-{purpose})(-{intensity})` | `layer-canvas`, `foreground-hint`, `line-seam`, `fill-pressed`, `foreground-on-hud` |
+| Neutral roles | `{role}(-{purpose})(-{intensity})` | `layer-canvas`, `foreground-hint`, `line-seam`, `fill-medium`, `foreground-on-hud` |
 | Color roles | `{family}(-{slot})` | `brand`, `brand-soft`, `danger-strong`, `info-muted` |
 | Ink steps | `ink-{alpha}` | `ink-8`, `ink-40` |
 | Palette | `palette-{color}-{step}` | `palette-yellow-400`, `palette-lavender-800` |
 | Statuses | `task-status-{status}(-soft\|-strong)`, `presence-{state}` | `task-status-in-review-soft`, `presence-busy` |
-| Stickers | `sticker-{part}` | `sticker-ink`, `sticker-edge`, `sticker-pressed` |
+| Stickers | `sticker-{part}` | `sticker-ink`, `sticker-edge`, `sticker-medium` |
 | Shadows | `elevation-{level}`, `focus-ring` | `elevation-float`, `elevation-sticker` |
 | Metrics | `{part}-{property}` | `field-font-size`, `card-title-line-height` |
 
@@ -94,7 +94,7 @@ The purpose says where the token is used: `frame`, `sidebar`, `canvas`, `card`, 
 | `-hover`, `-active` | The pair a solid fill takes on hover and press. A family has both or neither |
 | `-50` to `-950` | The numbered ramp. Only `brand` and `attention` have one |
 
-**Opacity.** Every `layer` token is opaque except the two scrims, `layer-backdrop` and `layer-backdrop-nested`. `fill-muted` and `fill-strong` are opaque. `fill-pressed`, `fill-frame-pressed`, `fill-row-hover`, `fill-message-hover`, `fill-row-open` and `sticker-pressed` are translucent: they are overlays laid on top of a control or a row ([Pressed overlays](./color.md#pressed-overlays)).
+**Opacity.** Every `layer` token is opaque except the two scrims, `layer-backdrop` and `layer-backdrop-nested`. `fill-muted` and `fill-strong` are opaque. `fill-subtle`, `fill-medium`, `fill-frame-medium` and `sticker-medium` are translucent: they are the hover tiers, laid on top of a control or a row ([Hover overlays](./color.md#hover-overlays)).
 
 **Utilities.** A Tailwind utility is the property's prefix and the token name: `bg-layer-card`, `text-foreground-muted`, `border-line-strong`. Shadows are named apart: `shadow-float` for `elevation-float`, `shadow-sticker` for `elevation-sticker`, `shadow-focus` for `focus-ring`. The numbered palette steps are only custom properties, not utilities; the bare `bg-palette-yellow` and its siblings are the exception.
 
@@ -128,7 +128,7 @@ layer
 
 ### Fills
 
-Usage: [Color](./color.md#surfaces) and [Pressed overlays](./color.md#pressed-overlays).
+Usage: [Color](./color.md#surfaces) and [Hover overlays](./color.md#hover-overlays).
 
 ```tokens
 fill
@@ -226,6 +226,18 @@ field
 card-title
 ```
 
+The control metrics: a default control's height, its icon and hit area, and what a control embedded in a frame keeps: `control-embedded-inset`, its distance from the frame's outer edge and from its sibling, and `control-embedded-size`, a chip's or a button's height in a field ([Spacing](./spacing.md#heights), [Shape](./shape.md#inside-a-frame)).
+
+```tokens
+control
+```
+
+The timeline rhythm: the message step and the section step between the lines of a conversation, and the row inset each row keeps around its text ([Spacing](./spacing.md#timeline-rhythm)).
+
+```tokens
+timeline
+```
+
 ### Tokens defined in styles.css
 
 These are Tailwind theme values in `styles.css`, not entries in `tokens.json`, so they have no generated table.
@@ -235,6 +247,7 @@ These are Tailwind theme values in `styles.css`, not entries in `tokens.json`, s
 | `radius-sticker`, `radius-chip`, `radius-control`, `radius-container`, `radius-dialog` | [Shape](./shape.md#radii) |
 | `text-hero` to `text-label`, `text-mono-meta`, `text-mono-code`, `text-control`, each with a phone and a desktop value | [Typography](./typography.md#type-scale) |
 | `ease-slide` | [Motion](./motion.md#easing) |
+| `spacing-timeline-message`, `spacing-timeline-section`, `spacing-timeline-row` (the timeline tokens as spacing utilities) and `spacing-timeline-turn`, `spacing-timeline-lead`, `spacing-timeline-start`, `spacing-timeline-end`, derived from them. Products use only `timeline-start` and `timeline-end` | [Spacing](./spacing.md#timeline-rhythm) |
 | `font-sans`, `font-heading`, `font-mono` | [Typography](./typography.md#font-families) |
 
 ## Deprecated names

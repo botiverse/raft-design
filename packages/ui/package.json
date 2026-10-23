@@ -1,6 +1,6 @@
 {
   "name": "@botiverse/raft-ui",
-  "version": "0.18.0",
+  "version": "0.27.0",
   "description": "React components and CSS foundations for the Raft Design System.",
   "keywords": [
     "agent-skills",
@@ -43,13 +43,15 @@
     "./styles.css": "./dist/styles.css",
     "./package.json": "./package.json",
     "./foundation.css": "./dist/foundation.css",
-    "./tokens.json": "./dist/tokens.json"
+    "./tokens.json": "./dist/tokens.json",
+    "./themes.css": "./dist/themes.css"
   },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "bench:virtual-list": "node bench/virtual-list/run.mjs",
+    "build:themes": "node scripts/build-themes.mjs",
     "build:tokens": "node scripts/build-tokens.mjs",
     "build": "vp pack",
     "check": "vp check",
@@ -71,6 +73,7 @@
     "tailwind-variants": "catalog:"
   },
   "devDependencies": {
+    "@babel/parser": "catalog:",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/dom": "catalog:",
     "@testing-library/react": "catalog:",
@@ -91,7 +94,13 @@
     "vitest": "catalog:"
   },
   "peerDependencies": {
+    "@babel/parser": "^7.29.9",
     "react": "^19",
     "react-dom": "^19"
+  },
+  "peerDependenciesMeta": {
+    "@babel/parser": {
+      "optional": true
+    }
   }
 }

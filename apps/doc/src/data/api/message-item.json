@@ -5,6 +5,13 @@
     "native": true,
     "props": [
       {
+        "name": "capped",
+        "type": "boolean",
+        "required": false,
+        "description": "Stops the chip at `min(100%, 24em)`; a longer `MessageReferenceLabel` truncates at the end. For words Raft doesn't write, such as an app's title.",
+        "from": "raft-ui"
+      },
+      {
         "name": "variant",
         "type": "MessageReferenceChipVariant",
         "required": false,
@@ -54,6 +61,28 @@
     "native": true,
     "props": [
       {
+        "name": "capped",
+        "type": "boolean",
+        "required": false,
+        "description": "The same cap as `MessageReferenceChip`'s, so the chip that replaces it keeps its width.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReferenceSuffix",
+    "entry": "@botiverse/raft-ui",
+    "description": "A short note after a chip's label in muted machine type, such as `msg` on a link to a message. It lines up with the label by the middle of its letters.",
+    "native": true,
+    "props": [
+      {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
@@ -100,12 +129,21 @@
   {
     "name": "MessageItem",
     "entry": "@botiverse/raft-ui",
+    "description": "One message: an `article` named by its sender and its time (`aria-labelledby` pointing at `MessageItemSender` or `MessageItemSenderButton`, then `MessageItemTime` or `MessageItemContinuationTime`). A row with neither, and no `aria-label` or `aria-labelledby`, is a plain `div`. Pass `role`, `aria-label` or `aria-labelledby` on MessageItem or on a `render` element to override either; a `render` function's props can't be read, so pass them on MessageItem then.",
     "native": true,
     "props": [
       {
         "name": "compact",
         "type": "boolean",
         "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "located",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The message someone just jumped to: the row shows `info-soft` at once and fades it out by `LOCATED_MS` (design/foundations/states.md#located). Pass `useLocated(request)`, which turns it off after `LOCATED_MS` and restarts it on the next jump; a search match, a checked row or an open popup keeps its own fill instead.",
         "from": "raft-ui"
       },
       {
@@ -631,6 +669,21 @@
     "name": "MessageMultiSelectToolbar",
     "entry": "@botiverse/raft-ui",
     "description": "Shared select-mode toolbar shell. Consumers compose the count and actions as children.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageMultiSelectToolbarActions",
+    "entry": "@botiverse/raft-ui",
+    "description": "The toolbar's actions, at its end, 4px apart like every floating toolbar's buttons.",
     "native": true,
     "props": [
       {
@@ -1274,6 +1327,36 @@
     "name": "MessageItemDelegatedByName",
     "entry": "@botiverse/raft-ui/wip",
     "description": "The assistant's name in `MessageItemDelegatedBy`, the part that truncates.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReferenceIcon",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The chip's leading icon when it is not a plain svg: an image or a `3xs` Avatar, such as an app's registered icon. It holds one child at 14px, centred on the chip. Put it first in the chip.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageReferenceReadMark",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The read receipt on a mention: a muted check after the mention's text, once the one mentioned has read the message. Put it last inside the mention, and render nothing until then. The check is decorative; `children` is what a screen reader says instead (\"Read\"), visually hidden.",
     "native": true,
     "props": [
       {

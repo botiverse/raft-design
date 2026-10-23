@@ -36,6 +36,9 @@ list-row/compositions/conversations
   - `ListRowBottom`: the preview in `ListRowDescription`, then at most one badge.
 - Trailing: a setting's `ListRowValue` and `ListRowChevron`, or a [Switch](../switch/switch.md). Optional.
 - `ListRowGroup`: an inset group that wraps rows in a card. Optional.
+- `ListRowSkeleton`: a row that stands in for a `ListRow` while the list loads ([Loading](#loading)). Optional; experimental, from `@botiverse/raft-ui/wip`.
+
+In a `plain` row, both ends center on the whole row, with or without a description: the leading icon, avatar or tile, and the trailing value, chevron, switch, checkbox or radio. A setting reads as one unit, and its controls belong to the whole row, not to the title. Each keeps its size, and the row is its padding and its tallest part: 54px on a phone with a switch and a title alone ([Alignment](../../../../../design/foundations/alignment.md#a-control-and-its-label)).
 
 ## Variants
 
@@ -69,17 +72,25 @@ list-row/compositions/entries
 list-row/compositions/tones
 ```
 
+### Loading
+
+While the list loads, show `ListRowSkeleton` rows where the rows will be, in the same `ListRowGroup` if they have one, and mark the list `aria-busy`. Each one is a display-only `ListRow` of the same `variant`, with a bar in its title, time and description, so it has the loaded row's height and dividers ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)). A `default` row has a 35px leading block and a description; turn them on or off with `leading` and `description` to match the rows. Show them only once the wait passes 1 second ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)); `ListRowSkeleton` doesn't delay itself.
+
+```example
+list-row/compositions/loading
+```
+
 ## Behavior
 
 - Divide rows with `line-hairline`. In the default variant the line starts where the text starts; in a settings list it starts at the row's edge (16px); entry rows have no lines between them, because they are a set of buttons, not a list of content.
-- The whole row is the target: hover lays `fill-row-hover` over all of it and press the pressed overlay ([Row hover](../../../../../design/foundations/states.md#row-hover)). While a menu it opened is up (`data-popup-open`: a context menu, or press and hold on a phone), it lays `fill-row-open`, a step past the hover, hovered or not; a selected row keeps its selection.
+- The whole row is the target: hover lays the subtle tier, `fill-subtle`, over all of it and press the medium tier ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). While a menu it opened is up (`data-popup-open`: a context menu, or press and hold on a phone), it lays `fill-subtle` too, hovered or not; a selected row keeps its selection.
 - A row whose only targets are its own controls (a setting with a switch) takes `interactive={false}`: it renders a plain element with no hover or press. See [States](../../../../../design/foundations/states.md).
 
 ## Content
 
 - Start a preview with who spoke: "Wug: Release notes are drafted."
 - Show at most one badge in a row.
-- Set the time and counts in Space Mono; `ListRowMeta` does this.
+- Set the time and counts in Space Mono; `ListRowMeta` does this. It stays whole while the title gives way first, then truncates when there is still no room, so a long value in it, such as an email beside a button in a 320px row, is cut instead of running under the button.
 - Write a setting's consequence in `ListRowDescription` with `wrap`, so it isn't cut off.
 
 ### Group headings

@@ -28,15 +28,15 @@ export const messageActionCard = tv({
     status: [
       "inline-flex h-auto items-center gap-1.5 rounded-none border-0 bg-transparent p-0 shadow-none",
       "text-caption font-semibold text-foreground-muted",
-      "before:size-[9px] before:shrink-0 before:rounded-[2px] before:border-[1.5px] before:border-sticker-ink before:content-['']",
+      "before:size-2.5 before:shrink-0 before:rounded-[2px] before:border-[1.5px] before:border-sticker-ink before:content-['']",
     ],
     collapseTrigger: [
       "flex shrink-0 cursor-pointer items-center justify-center",
       "[&>svg]:transition-transform [&>svg]:duration-200 motion-reduce:[&>svg]:transition-none",
       "data-panel-open:[&>svg]:rotate-180",
       "focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-offset-1",
-      "my-0 -mr-1 size-[27px] rounded-control text-foreground-muted",
-      "hover:bg-fill-pressed hover:text-foreground active:bg-fill-pressed",
+      "my-0 -mr-1 size-[27px] rounded-chip text-foreground-muted",
+      "hover:bg-fill-medium hover:text-foreground active:bg-fill-medium",
       "focus-visible:outline-none focus-visible:shadow-focus",
       "[&>svg]:size-4",
     ],

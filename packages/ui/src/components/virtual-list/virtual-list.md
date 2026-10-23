@@ -75,7 +75,7 @@ virtual-list/compositions/jump
 
 ### Following the end
 
-The list doesn't follow new rows on its own: whether to follow is the product's choice. To keep a chat at the newest message, track whether the person is at the bottom in `onScroll`, and while they are, call `scrollTo({ position: "bottom" })` when rows are added and from `onContentResize`, which runs when a row grows, such as a reply that streams in.
+The list doesn't follow new rows on its own: whether to follow is the product's choice. To keep a chat at the newest message, track whether the person is at the bottom in `onScroll`, and while they are, call `scrollTo({ position: "bottom" })` when rows are added and from `onContentResize`, which runs when a row grows, such as a reply that streams in. It doesn't run for rows above the view that are measured as the person scrolls up: the list scrolls their change away, so nothing in view moves and neither does the distance to the end, and following them would take back a scroll that started near the bottom.
 
 ```example
 virtual-list/compositions/chat

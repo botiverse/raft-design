@@ -18,13 +18,14 @@ message-quoted-preview/compositions/quoted-preview
 
 ## When to use
 
-| Situation                          | Use                                                                                |
-| ---------------------------------- | ---------------------------------------------------------------------------------- |
-| A message links to another message | MessageQuotedPreview, under the reference chip                                     |
-| Several messages passed on in full | [MessageForwardedBundle](../message-forwarded-bundle/message-forwarded-bundle.md)  |
-| A link to a page outside Raft      | A link card ([MessageEmbed](../message-embed/message-embed.md))                    |
-| A quote typed into the message     | A Markdown blockquote ([MessageItem](../message-item/message-item.md#in-the-body)) |
-| The replies to a message           | [MessageReplies](../message-replies/message-replies.md)                            |
+| Situation                          | Use                                                                                     |
+| ---------------------------------- | --------------------------------------------------------------------------------------- |
+| A message links to another message | MessageQuotedPreview, under the reference chip                                          |
+| Several messages passed on in full | [MessageForwardedBundle](../message-forwarded-bundle/message-forwarded-bundle.md)       |
+| A link an app previews             | A reference chip in the text ([MessageItem](../message-item/message-item.md#app-links)) |
+| A link to a page outside Raft      | A link card ([MessageEmbed](../message-embed/message-embed.md))                         |
+| A quote typed into the message     | A Markdown blockquote ([MessageItem](../message-item/message-item.md#in-the-body))      |
+| The replies to a message           | [MessageReplies](../message-replies/message-replies.md)                                 |
 
 ## Anatomy
 

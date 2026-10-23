@@ -13,7 +13,7 @@ The first run has two parts. Creating an account's identity and a server happens
 
 - The pages follow [Brand](../../foundations/brand.md#how-much-brand) for creating an account or a server: from 1024px a brand pane beside the form, and below 1024px a frame bar above it.
 - From 1024px, the form takes 2 parts of 5 on the left, and the form itself is at most 448px wide. The preview in the pane follows the form: the server's name and address appear in it as they are typed.
-- Under the form, a line says who is signed in, with Log Out.
+- Under the form, a line says who is signed in, with Sign Out.
 
 ### The setup dialog
 
@@ -25,7 +25,7 @@ The steps, in order:
 4. **Choose your display style**.
 5. **The handoff**: the agent takes it from here.
 
-Steps 3 to 5 share one frame, 720px wide and about 520px high, so the dialog doesn't change size between them. Every step has:
+Steps 3 to 5 share one frame, 720px wide and about 520px high, so the dialog doesn't change size between them. It is the showcase frame, which only these steps and the Upgrade to Pro dialog use, outside the four Dialog sizes ([Dialog](../../../packages/ui/src/components/dialog/dialog.md#variants)). Every step has:
 
 - **A header**: the step label "Set up your server" in Space Mono, the title in `text-title` and one line of explanation.
 - **A body** that scrolls inside the frame.

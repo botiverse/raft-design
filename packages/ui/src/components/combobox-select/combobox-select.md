@@ -63,8 +63,9 @@ combobox-select/compositions/async-search
 - With `multiple`, keep the list open when a value is chosen; clicking outside or Esc closes it. Typing continues after the last chip.
 - An option is as tall as its content: one line is 36px, and a second line adds only its own height, with the same space above and below the text ([Forms](../../../../../design/patterns/forms.md#option-height)).
 - A long option wraps to two lines, then truncates; a long chip truncates at the width of the field. Each has its whole text as its `title` while it is cut off ([Forms](../../../../../design/patterns/forms.md#long-values-in-fields)).
+- A chip, the clear button and the toggle sit 6px inside the field's outer edge and 6px apart: 20px on a desktop and 32px on a phone, so the field keeps its height with chips in it. They wear `radius-chip`, like every control embedded in a frame; a chip's remove button wears `radius-sticker` 2px inside the chip, with its focus ring drawn inside it ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
 - With `maxTagCount`, chips beyond the count collapse into a count while the field is not focused. All of them come back on focus.
-- The list grows to 16rem (256px), its 6px padding above and below included: six 36px rows and part of a seventh, which shows there are more. Then it scrolls. `listMaxHeight` (a CSS length, or pixels, measured the same way) moves that cap, and `listMaxHeight="16rem"` is the same as leaving it out. Raise it where the field has a tall space of its own below it, such as a tall bottom [Drawer](../drawer/drawer.md); lower it when the list would cover something people need to see while they choose.
+- The list grows to 16rem (256px), its 4px padding above and below included: six 36px rows and part of a seventh, which shows there are more. Then it scrolls. `listMaxHeight` (a CSS length, or pixels, measured the same way) moves that cap, and `listMaxHeight="16rem"` is the same as leaving it out. Raise it where the field has a tall space of its own below it, such as a tall bottom [Drawer](../drawer/drawer.md); lower it when the list would cover something people need to see while they choose.
 
 ### On a phone
 
@@ -72,6 +73,7 @@ A phone here is a touch screen narrower than the desktop layout, `(width < 48rem
 
 - The list always opens below the field, between the field and the keyboard, as a native autocomplete does, and never flips. Which side has more room depends on whether the keyboard happens to be up, so a list that chose the roomier side opened downward one time and upward the next on the same field. When fewer than three rows fit below, the field scrolls up to the top of what is visible instead. As the keyboard comes up or goes, the address bar moves, or the filtered list shrinks and grows, only the list's height changes: the field stays where it is.
 - The input stays at 16px or more at every `size`, so iOS doesn't zoom into it.
+- `size="lg"` is a 52px field with 40px chips and buttons, 6px inside it; `size="sm"` is a 28px field with 22px chips and buttons, 3px inside it, as close as a segmented control's items sit to their track.
 - Inside a bottom [Drawer](../drawer/drawer.md), give the drawer a height that doesn't follow the keyboard (`lvh`, not `dvh`) and room below the field for the list, and raise `listMaxHeight` when the drawer is tall.
 
 ```example

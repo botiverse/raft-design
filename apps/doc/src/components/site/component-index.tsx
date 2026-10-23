@@ -3,14 +3,14 @@ import { Link } from "@tanstack/react-router";
 import { MarkdownHeading } from "@botiverse/raft-ui";
 
 import { componentItems } from "#/lib/content/nav.ts";
-import { pageAt, sectionIntro, sectionOf } from "#/lib/content/pages.ts";
+import { localize, pageAt, sectionIntro } from "#/lib/content/pages.ts";
+import { useLocale, useMessages } from "#/lib/i18n/use-locale.ts";
 
 import { DocMarkdown } from "./doc-markdown.tsx";
 import { StatusLabel } from "./status-label.tsx";
 import type { ComponentStatus } from "./status-label.tsx";
 
-const ITEMS = componentItems();
-const INTRO = sectionIntro("components");
+const ENGLISH_INTRO = sectionIntro("components");
 
 /**
  * /components: the overview (design/components/overview.md), then every
@@ -18,7 +18,10 @@ const INTRO = sectionIntro("components");
  * status. Deprecated components are not listed; their pages stay.
  */
 export function ComponentIndex() {
-  const info = sectionOf("components");
+  const locale = useLocale();
+  const info = useMessages().sections.components;
+  const ITEMS = componentItems(undefined, locale);
+  const INTRO = ENGLISH_INTRO ? localize(ENGLISH_INTRO, locale) : undefined;
   return (
     <div className="mx-auto max-w-[760px] px-4 pt-8 pb-24 md:px-10 md:pt-10">
       <header className="mb-8 flex flex-col gap-3">
@@ -28,7 +31,7 @@ export function ComponentIndex() {
         </p>
       </header>
       {INTRO?.body ? (
-        <div className="mb-4">
+        <div className="mb-4" lang={INTRO.translation === "missing" ? "en" : undefined}>
           <DocMarkdown sourcePath={INTRO.repoPath}>{INTRO.body}</DocMarkdown>
         </div>
       ) : null}
@@ -53,7 +56,7 @@ export function ComponentIndex() {
             ) : null}
             <Link
               to={item.url}
-              className="flex flex-col gap-1 border-b border-line-hairline py-3 outline-none hover:press-overlay focus-visible:shadow-focus"
+              className="flex flex-col gap-1 border-b border-line-hairline py-3 outline-none hover:overlay-subtle focus-visible:shadow-focus"
             >
               <span className="flex items-center gap-2">
                 <span className="text-subhead font-semibold text-foreground">{item.title}</span>
@@ -62,7 +65,7 @@ export function ComponentIndex() {
                 ) : null}
               </span>
               <span className="text-callout text-foreground-muted">
-                {pageAt(item.url)?.frontMatter.summary}
+                {localize(pageAt(item.url)!, locale).frontMatter.summary}
               </span>
             </Link>
           </Fragment>

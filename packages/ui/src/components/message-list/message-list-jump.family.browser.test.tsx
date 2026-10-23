@@ -15,8 +15,8 @@ import { MessageListJumpPill } from "./message-list-jump";
 // Save button (Button `md`, as in a settings row): a jump pill is a single
 // action, so it is that Button exactly; the hover toolbar and the toolbar for
 // selected text are groups of actions on content, so they share the Button's
-// outer height, label type and 16px icon but keep 28px buttons inside a 2px
-// frame (design/foundations/spacing.md#hit-targets). Measured on a desktop
+// label type and 16px icon but keep 28px buttons 4px inside their frame, so
+// they are 36px tall (design/foundations/spacing.md#hit-targets). Measured on a desktop
 // (1280, mouse) and a phone (390, touch), light and dark.
 
 const it = test.skipIf(typeof window === "undefined");
@@ -141,12 +141,13 @@ for (const [name, setup, type] of [
       // Every label in the family is `text-control` at 700.
       expect(m.pill.type).toBe(type);
       expect(m.selection.type).toBe(type);
-      // Every outer edge is 32px, and every icon 16px.
-      for (const control of Object.values(m)) {
-        expect(control.outer).toBe(32);
-        expect(control.icon).toBe("16");
-      }
-      // The toolbars hold 28px buttons in a 2px frame, and float as popups
+      // A single action is 32px and a toolbar 36px; every icon is 16px.
+      expect(m.save.outer).toBe(32);
+      expect(m.pill.outer).toBe(32);
+      expect(m.selection.outer).toBe(36);
+      expect(m.hover.outer).toBe(36);
+      for (const control of Object.values(m)) expect(control.icon).toBe("16");
+      // The toolbars hold 28px buttons 4px inside the frame, and float as popups
       // with the soft shadow; a pill is a control, marked by its ink edge.
       expect(m.selection.item).toBe(28);
       expect(m.hover.item).toBe(28);

@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { useMessageItemLabelId } from "./message-item-label";
 import { messageItem } from "./message-item.recipe";
 
 export type MessageItemHeaderProps = useRender.ComponentProps<"div">;
@@ -50,9 +51,11 @@ export function MessageItemSenderGroup({
 
 export type MessageItemSenderProps = useRender.ComponentProps<"span">;
 
-export function MessageItemSender({ className, render, ...props }: MessageItemSenderProps) {
+export function MessageItemSender({ className, id, render, ...props }: MessageItemSenderProps) {
   const { sender } = messageItem();
+  const labelId = useMessageItemLabelId("sender", id);
   const defaultProps: useRender.ElementProps<"span"> = {
+    id: labelId,
     className: sender({ className }),
   };
 
@@ -70,12 +73,15 @@ export type MessageItemSenderButtonProps = useRender.ComponentProps<"button">;
 
 export function MessageItemSenderButton({
   className,
+  id,
   render,
   ...props
 }: MessageItemSenderButtonProps) {
   const { senderButton } = messageItem();
+  const labelId = useMessageItemLabelId("sender", id);
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
+    id: labelId,
     className: senderButton({ className }),
   };
 
@@ -135,9 +141,11 @@ export type MessageItemTimeProps = useRender.ComponentProps<"time">;
  * The message's time, right after the sender. A `<time>`: pass the moment in
  * `dateTime` (ISO 8601) and the full date and time as its tooltip.
  */
-export function MessageItemTime({ className, render, ...props }: MessageItemTimeProps) {
+export function MessageItemTime({ className, id, render, ...props }: MessageItemTimeProps) {
   const { time } = messageItem();
+  const labelId = useMessageItemLabelId("time", id);
   const defaultProps: useRender.ElementProps<"time"> = {
+    id: labelId,
     className: time({ className }),
   };
 

@@ -102,7 +102,9 @@ const BANNED_REGRESSIONS = [
  * intentional addition; the message says so when a file drops below baseline.
  */
 const BASELINE_TOKENS: Record<string, number> = {
-  "components/banner/banner.tsx": 7,
+  // A Spinner in place of the icon, for something pending, takes the icon's
+  // column (3).
+  "components/banner/banner.tsx": 11,
   "components/button/button.tsx": 4,
   "components/card/card.recipe.ts": 7,
   "components/composer/composer-attachment.recipe.ts": 7,
@@ -116,7 +118,7 @@ const BASELINE_TOKENS: Record<string, number> = {
   // it holds a name (4).
   "components/message-item/message-item.recipe.ts": 10,
   "components/message-item/message-reaction.recipe.ts": 1,
-  "components/message-item/message-reference.recipe.ts": 5,
+  "components/message-item/message-reference.recipe.ts": 4,
   // The header wraps when it holds "(sent by …)" (self-subject).
   "components/message-quoted-preview/message-quoted-preview.recipe.ts": 1,
   "components/message-replies/message-replies.recipe.ts": 1,
@@ -124,11 +126,15 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/panel/panel-header.recipe.ts": 0,
   "components/picker-trigger-button/picker-trigger-button.tsx": 2,
   "components/sidebar/sidebar-item.recipe.ts": 2,
-  "components/sidebar/sidebar-section.recipe.ts": 3,
+  "components/sidebar/sidebar-section.recipe.ts": 1,
   "components/sidebar/sidebar.recipe.ts": 2,
   "components/task-card/task-card-status.recipe.ts": 1,
   "components/toast/toast.tsx": 2,
   "components/tooltip/tooltip.tsx": 2,
+  // The inline chip box takes 4.5px at each end with a leading icon or
+  // spinner, read from the chip's own children (self-subject). It moved here
+  // from the reference chip's recipe, which the task chip now shares.
+  "lib/inline-chip.ts": 1,
 };
 
 /**

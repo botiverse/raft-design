@@ -1,7 +1,8 @@
 import "./search-trigger.test.css";
 /**
- * Browser-mode check: a disabled search trigger does not react to hover,
- * while an enabled one lays the press overlay.
+ * Browser-mode check: the search trigger is drawn as a field, so like every
+ * field it doesn't hover (design/foundations/states.md#hover-and-press); an
+ * enabled one lays the medium tier when pressed, a disabled one never does.
  *
  * Run: `vp test --browser.enabled=true src/components/search/search-trigger.browser.test.tsx`
  * The file stays importable in the node pool, where it skips.
@@ -27,7 +28,7 @@ async function settled(read: () => string): Promise<string> {
   return next;
 }
 
-it("a disabled trigger ignores hover; an enabled one lays the overlay", async () => {
+it("it doesn't hover like a field; an enabled one lays the overlay when pressed", async () => {
   render(
     <ThemeProvider>
       <SearchTrigger data-testid="enabled">
@@ -38,11 +39,28 @@ it("a disabled trigger ignores hover; an enabled one lays the overlay", async ()
       </SearchTrigger>
     </ThemeProvider>,
   );
-  const { page } = await import("vite-plus/test/browser/context");
+  const { page, cdp } = await import("vite-plus/test/browser/context");
   const overlay = (id: string) => getComputedStyle(page.getByTestId(id).element()).backgroundImage;
 
   await page.getByTestId("enabled").hover();
-  expect(await settled(() => overlay("enabled"))).toContain("linear-gradient");
+  expect(await settled(() => overlay("enabled"))).toBe("none");
+
+  const rect = page.getByTestId("enabled").element().getBoundingClientRect();
+  const at = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+  await cdp().send("Input.dispatchMouseEvent", {
+    type: "mousePressed",
+    button: "left",
+    clickCount: 1,
+    ...at,
+  });
+  const pressed = await settled(() => overlay("enabled"));
+  await cdp().send("Input.dispatchMouseEvent", {
+    type: "mouseReleased",
+    button: "left",
+    clickCount: 1,
+    ...at,
+  });
+  expect(pressed).toContain("linear-gradient");
 
   await page.getByTestId("disabled").hover({ force: true });
   expect(await settled(() => overlay("disabled"))).toBe("none");

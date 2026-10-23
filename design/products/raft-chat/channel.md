@@ -1,20 +1,21 @@
 ---
 title: Raft Chat — Channel
-summary: A channel — its header and details, its Chat, Tasks and Files tabs, its composer, how tasks are made in it, and its threads.
+summary: A channel — its header and details, its Tasks and Files cards, its composer, how tasks are made in it, and its threads.
 ---
 
 # Raft Chat — Channel
 
-A channel is a place where people and agents share one timeline, with the composer at the bottom. On a phone it is a pushed page; on desktop it fills the main area. Its chat, tasks and files are three tabs of the same place. The timeline, messages, the composer and threads follow [Conversation](../../patterns/conversation.md); this page holds only what a Raft Chat channel adds.
+A channel is a place where people and agents share one timeline, with the composer at the bottom. On a phone it is a pushed page; on desktop it fills the main area. Its tasks and its files open as cards beside the timeline, so people see them while they talk. The timeline, messages, the composer and threads follow [Conversation](../../patterns/conversation.md); this page holds only what a Raft Chat channel adds.
 
 ## Structure
 
 From top to bottom:
 
-1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the working line ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)), then the channel's description. On the right, two icon buttons: Search ("Search this channel") and Settings ("Channel details and settings"), which opens the channel details.
-2. **Chat / Tasks / Files**: the tabs, with the icons `message-square`, `list-todo` and `paperclip`.
-3. **The timeline**, newest at the bottom.
-4. **The composer**.
+1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the working line ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)), then the channel's description. On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open Tasks"), Files ("Open Files") and Settings ("Channel details and settings"), which opens the channel details.
+2. **The timeline**, newest at the bottom.
+3. **The composer**.
+
+Beside the timeline and the composer, the Tasks card and the Files card when they are open ([Page structure](../../patterns/page-structure.md#sidebar-and-side-panel)).
 
 ```example
 conversation-panel/compositions/conversation-panel
@@ -32,23 +33,28 @@ conversation-panel/compositions/conversation-panel
 - Put the channel's name, its visibility (Public, Private or Joint) and its description at the top. Then the members as a row of avatars with an add tile, which opens the member list inside the drawer; then the channel's settings, its preferences (mute, collapse long messages), Stop All Agents and Leave Channel.
 - When someone closes the drawer with unsaved edits, ask whether to save or discard them.
 
-### Chat, tasks and files
+### Tasks and files
 
-- The three tabs follow [Navigation](../../patterns/navigation.md#several-views-of-one-place): the order people give them is kept for every channel.
-- Show the Tasks tab as described in [Tasks](./tasks.md#a-channels-tasks-tab).
-- Show the Files tab as the list of files posted in the channel; a file opens in the preview.
+- Make Tasks (`list-todo`) and Files (`paperclip`) toggles in the header (`PanelToggleAction`, [Panel](../../../packages/ui/src/components/panel/panel.md)): pressed, each is a yellow sticker and its card is open. Their labels switch to Close Tasks and Close Files.
+- Show no count on either toggle: most tasks are the agents' own business, so the card is there when someone wants to look, not something that asks for attention.
+- Close a card with its toggle or its ×; on a phone, with Back. When both are open, Tasks is above Files.
+- Keep which cards are open for the person, not per channel: the cards follow them from channel to channel, as the thread column does.
+- Give a direct message the same two toggles.
+- Show the Tasks card as described in [Tasks](./tasks.md#a-channels-tasks-card).
+- Show the Files card as the list of files posted in the channel; a file opens in the preview.
 
 ### The composer in a channel
 
-- Put Attach media and Attach file on the left of the toolbar. ⌘ or Ctrl + Shift + Enter sends a task even when As Task isn't checked.
+- Put Attach media and Attach file on the left of the toolbar. The composer has no As Task: people send messages, and tasks are created from them ([Tasks in the conversation](#tasks-in-the-conversation)).
 - Group the @ suggestions as "In this channel", "Not in this channel", Computers and Apps ([Conversation](../../patterns/conversation.md#mentions)).
 
 ### Tasks in the conversation
 
 Tasks in the timeline follow [Tasks](../../patterns/tasks.md#tasks-in-a-conversation).
 
-- Create a task with As Task in the composer, Convert to Task in the message menu, or Create Task in the channel's Tasks tab.
-- Let people mark a task done, and reopen it, from the message menu.
+- Create a task with + in the Tasks card, for a task of the channel with no message, or with Create Task from Message in the message menu. Create Task from Message opens Create Task with the message quoted and its text as the first title; every task created there is linked to the message, and a message can have several.
+- Show the tasks created from a message under it, and under the message at the top of its thread.
+- Change a task's status in its details or on the Tasks page, not from the message menu.
 
 ### Threads
 

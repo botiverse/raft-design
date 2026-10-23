@@ -72,7 +72,7 @@ message-forwarded-bundle/compositions/forwarded-bundle-static-source
 - The bundle measures again when content arrives or the width changes. Once the person has folded or unfolded it, it stays as they left it, unless the content no longer needs folding.
 - Pass `collapsed` to `MessageForwardedBundleItems` to control the fold yourself, as a detail view that shows everything does. The footer then always renders, and you label it.
 - To make the footer action open a detail view instead of unfolding, call `preventDefault` in its `onClick`.
-- `MessageForwardedBundleGallery` lays images in rows of 3, and 4 images as 2 rows of 2, at the sizes of a message's own gallery ([MessageAttachment](../message-attachment/message-attachment.md)).
+- `MessageForwardedBundleGallery` lays images in rows of 3, and 4 images as 2 rows of 2, at the sizes of a message's own gallery ([MessageAttachment](../message-attachment/message-attachment.md)). Below 360px of the gallery's own width a row of 3 is 2 across, by the card's width rather than the window's ([Switch on the region's width](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)). Put it in a parent with a definite width (a block, a stretched flex or grid item, or a set width), not one that shrinks to its content (`inline-block`, `w-fit`, an absolutely positioned box or floating layer with no width, a flex item with `flex-basis: auto` and no width): as its own container it takes no width from what it holds and would collapse to nothing.
 
 ## Content
 
@@ -82,6 +82,7 @@ message-forwarded-bundle/compositions/forwarded-bundle-static-source
 - Name each author by their display name, not a handle ([Writing](../../../../../design/content/writing.md#voice)).
 - Label the footer action with what it does, in Title Case: Show All 6 Messages, then Collapse.
 - Give each attachment chip its file name and type: "release-notes.md · markdown".
+- An attachment chip takes 5.5px before its icon and 6.5px after its text, 12px in all as before: a file icon is drawn 1.75px inside its box, so its ink and the last letter both sit about 7.2px from the edges ([Alignment](../../../../../design/foundations/alignment.md#chips)).
 
 ## Accessibility
 

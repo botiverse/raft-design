@@ -202,7 +202,7 @@ export function TooltipContent({
   collisionAvoidance = CONTENT_COLLISION_AVOIDANCE,
   collisionBoundary,
   collisionPadding,
-  disableAnchorTracking = false,
+  disableAnchorTracking,
   positionMethod = "fixed",
   side = "top",
   sideOffset,

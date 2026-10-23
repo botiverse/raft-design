@@ -1,7 +1,10 @@
 "use client";
 
 import { memo, useEffect, useState } from "react";
+import { CodeBlockPre } from "@botiverse/raft-ui";
 import type { CSSProperties } from "react";
+import { useMessages } from "#/lib/i18n/use-locale.ts";
+
 import { supportsCodeLanguage } from "./code-language.ts";
 import type * as ShikiHighlighter from "./shiki-highlighter.ts";
 import type { CodeTokenLine } from "./shiki-highlighter.ts";
@@ -42,6 +45,7 @@ function tokenStyle(token: CodeTokenLine[number]): CSSProperties | undefined {
 }
 
 function ShikiHighlightedCodeImpl({ code, language }: ShikiHighlightedCodeProps) {
+  const messages = useMessages();
   const key = `${language ?? ""}\u0000${code}`;
   const [highlighted, setHighlighted] = useState<HighlightedCode | null>(null);
 
@@ -83,9 +87,9 @@ function ShikiHighlightedCodeImpl({ code, language }: ShikiHighlightedCodeProps)
       : code;
 
   return (
-    <pre className="shiki">
+    <CodeBlockPre className="shiki" aria-label={messages.codeLabel(language)}>
       <code>{content}</code>
-    </pre>
+    </CodeBlockPre>
   );
 }
 

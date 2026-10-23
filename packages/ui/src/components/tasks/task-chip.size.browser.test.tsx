@@ -53,3 +53,49 @@ it("an sm task chip is the compact chip, and an sm status badge has the same box
     expect(style("status-sm")[prop], `status-sm ${prop}`).toBe(style("chip-sm")[prop]);
   }
 });
+
+// A chip beside text sits on that text's baseline (a DescriptionList value on
+// its label's line), so its baseline must be its text's, not its first item's:
+// the status pixel's bottom edge, which an inline-flex box falls back to when
+// its items are centred. The 10px pixel stays centred: 6px above and below in
+// the 22px chip, 5px in the 20px one.
+it("a task chip's baseline is its text's, and its pixel stays centred", () => {
+  render(
+    <ThemeProvider mode="light">
+      <div style={{ fontSize: 13, lineHeight: "20px" }}>
+        {(["default", "sm"] as const).map((size) => (
+          <p key={size} data-testid={`line-${size}`}>
+            Status
+            <span data-baseline style={{ display: "inline-block", width: 0, height: 0 }} />{" "}
+            <TaskStatusBadge status="in-review" size={size} data-testid={`chip-${size}`}>
+              <span data-testid={`text-${size}`}>
+                In review
+                <span data-baseline style={{ display: "inline-block", width: 0, height: 0 }} />
+              </span>
+            </TaskStatusBadge>
+          </p>
+        ))}
+      </div>
+    </ThemeProvider>,
+  );
+  for (const [size, inset] of [
+    ["default", 6],
+    ["sm", 5],
+  ] as const) {
+    const top = (el: Element) => el.querySelector("[data-baseline]")!.getBoundingClientRect().top;
+    const line = screen.getByTestId(`line-${size}`);
+    expect(Math.abs(top(screen.getByTestId(`text-${size}`)) - top(line)), size).toBeLessThanOrEqual(
+      0.5,
+    );
+    const chip = screen.getByTestId(`chip-${size}`).getBoundingClientRect();
+    const pixel = screen
+      .getByTestId(`chip-${size}`)
+      .querySelector("[data-slot=task-status-icon]")!
+      .getBoundingClientRect();
+    expect([pixel.height, pixel.top - chip.top, chip.bottom - pixel.bottom], size).toEqual([
+      10,
+      inset,
+      inset,
+    ]);
+  }
+});

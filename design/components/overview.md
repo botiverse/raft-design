@@ -72,6 +72,7 @@ Two questions decide a picker: when the choice takes effect, and how many values
 | Yes or no, applied on Save | [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) |
 | One of 2 to 5 answers, submitted with a form | [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md) |
 | Another view of the same content | [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md) |
+| The same page in another language | A menu of the languages, each in its own name ([DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) whose items are links) |
 | Sections of one page, each with its own content | [Tabs](../../packages/ui/src/components/tabs/tabs.md) |
 | One of up to 10 values | [Select](../../packages/ui/src/components/select/select.md) |
 | One of many values | A field people type into to filter the list, on a phone too ([ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md)). When people only pick and never type, a [Select](../../packages/ui/src/components/select/select.md): ComboboxSelect always brings up a phone's keyboard |
@@ -108,6 +109,7 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | --- | --- |
 | One sentence on hover | [Tooltip](../../packages/ui/src/components/tooltip/tooltip.md) |
 | A person or agent, on hover | A profile card ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)) |
+| An item an app links to, on hover over its chip | An item card ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)) |
 | A list of actions, on click or press and hold | [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) |
 | One value, on click | [Select](../../packages/ui/src/components/select/select.md), with search when there are many values |
 | Several values, on click | A multi-select, with search when there are many values. Choosing a value doesn't close the list |
@@ -117,8 +119,8 @@ The more an overlay asks of people, the more of the screen it takes. What only i
 | A short list opened from a top bar: Working now, the notifications, the server list | [Popover](../../packages/ui/src/components/popover/popover.md), on a phone too. On a phone the server list is anchored under the top bar ([Navigation](../patterns/navigation.md#servers)) |
 | A short explanation, on a phone | A bottom sheet ([Drawer](../../packages/ui/src/components/drawer/drawer.md)) |
 | A dialog with several fields, a long list or steps, on a phone | A sheet 90% of the screen tall; a decision, content that is only read, or a single input stays the centered dialog ([Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)) |
-| A confirmation | A small [Dialog](../../packages/ui/src/components/dialog/dialog.md), 384px, with Cancel and the confirm button; see [Feedback](../patterns/feedback.md#confirming). Raft Chat builds its confirmations on Dialog, except two that use [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md): discarding unsaved edits to an agent's profile, and opening a link that hands off to another app |
-| Task details | A centered dialog, 960px wide, full screen on a phone ([Tasks](../patterns/tasks.md)) |
+| A confirmation | A [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants) at `size="sm"`, 400px, the width of AlertDialog, with Cancel and the confirm button; see [Feedback](../patterns/feedback.md#confirming). Raft Chat builds its confirmations on Dialog, except two that use [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md): discarding unsaved edits to an agent's profile, and opening a link that hands off to another app |
+| Task details | A centered dialog, 960px wide, full screen on a phone: a workspace overlay outside the four Dialog sizes ([Tasks](../patterns/tasks.md), [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)) |
 
 - Put a scrim behind every centered overlay: dialogs, confirmations, search, task details, large forms. How overlays move is in [Motion](../foundations/motion.md#usage).
 
@@ -134,6 +136,7 @@ The more you know about a wait, the more specific its indicator. A known layout 
 | A button started the wait | The button's loading state ([Button](../../packages/ui/src/components/button/button.md)) |
 
 - Don't use pink for any of these. They are passive, and pink means something waits for the person.
+- A usage limit isn't a wait: show what is left of it with a [Meter](../../packages/ui/src/components/meter/meter.md), which drains, not a progress bar, which fills.
 - Raft Chat doesn't follow the skeleton rule in two places yet: the conversation timeline and the profile panel show the word "Loading…" while they wait.
 
 ### Rows
@@ -157,7 +160,7 @@ If what you need isn't here and no component fits, follow the six questions in t
 
 ### Task details
 
-A centered [Dialog](../../packages/ui/src/components/dialog/dialog.md), 960px wide: a bar with the place and the task number, the title and the description, one row of properties (Status, Assignee, Created by) in a [DescriptionList](../../packages/ui/src/components/description-list/description-list.md), the History in a collapsed [Timeline](../../packages/ui/src/components/timeline/timeline.md), then the task's thread and a [Composer](../../packages/ui/src/components/composer/composer.md). Its size and its bar are in [Tasks](../patterns/tasks.md#structure).
+A centered [Dialog](../../packages/ui/src/components/dialog/dialog.md), 960px wide, a workspace overlay outside Dialog's four sizes: a bar with the place and the task number, the title and the description, one row of properties (Status, Assignee, Created by) in a [DescriptionList](../../packages/ui/src/components/description-list/description-list.md), for a task created from a message its Source, the History in a collapsed [Timeline](../../packages/ui/src/components/timeline/timeline.md), then the task's discussion and a [Composer](../../packages/ui/src/components/composer/composer.md). Its size and its bar are in [Tasks](../patterns/tasks.md#structure).
 
 ### File viewer
 
@@ -175,7 +178,7 @@ lightbox/compositions/attachment-preview-shell
 
 ### Link cards, forwarded messages, quoted previews
 
-The structure of a file card ([MessageAttachment](../../packages/ui/src/components/message-attachment/message-attachment.md)) with the header of a message ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)): [MessageEmbed](../../packages/ui/src/components/message-embed/message-embed.md), [MessageForwardedBundle](../../packages/ui/src/components/message-forwarded-bundle/message-forwarded-bundle.md), [MessageQuotedPreview](../../packages/ui/src/components/message-quoted-preview/message-quoted-preview.md).
+The structure of a file card ([MessageAttachment](../../packages/ui/src/components/message-attachment/message-attachment.md)) with the header of a message ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)): [MessageEmbed](../../packages/ui/src/components/message-embed/message-embed.md), [MessageForwardedBundle](../../packages/ui/src/components/message-forwarded-bundle/message-forwarded-bundle.md), [MessageQuotedPreview](../../packages/ui/src/components/message-quoted-preview/message-quoted-preview.md). A link that an app previews is not one of them: it is a reference chip in the text, with its details in a hover card ([App links](../patterns/navigation.md#app-links)).
 
 ```example
 message-forwarded-bundle/compositions/forwarded-bundle
@@ -199,7 +202,7 @@ message-translation/compositions/translation-showcase
 
 ### Toolbar for selected messages
 
-While messages are selected, a toolbar takes the composer's place at the bottom of the conversation: Select All, Cancel, Forward, Copy link, and a More menu with Generate image and Copy MD. Select Message in the message menu starts the selection; each message gets a checkbox ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)).
+While messages are selected, a toolbar takes the composer's place at the bottom of the conversation: Select All, Cancel, Forward, Copy link, and a More menu with Generate image and Copy MD. Select Message in the message menu starts the selection; each message gets a checkbox ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)). It is a floating toolbar, 36px tall like the hover toolbar: its buttons are 28px, 4px inside it and 4px apart, and wear `radius-chip` ([Shape](../foundations/shape.md#inside-a-frame)).
 
 ```example
 message-item/compositions/selection-showcase
@@ -237,7 +240,7 @@ The structure of a [Dialog](../../packages/ui/src/components/dialog/dialog.md), 
 
 - The trigger is the [WorkspaceButton](../../packages/ui/src/components/workspace-button/workspace-button.md) on every surface: the server's avatar, its name and a chevron.
 - On desktop, the workspace button at the left of the web top bar opens the list as a menu under it, 256px wide ([Popover](../../packages/ui/src/components/popover/popover.md)). The strip of server avatars beside the button switches with one click.
-- On a phone, the workspace button on Home opens the same list as a popover anchored under the top bar, 8px from each side ([Popover](../../packages/ui/src/components/popover/popover.md), [Navigation](../patterns/navigation.md#servers)).
+- On a phone, the server tab, the last tab of the tab bar, opens the same list as a popover above the tab bar, 8px from each side, with the server's own pages in one row under its footer, at the very bottom ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab), `MobileNavServerPopoverContent`). The workspace button on Home opens the list alone, as a popover anchored under the top bar, 8px from each side ([Popover](../../packages/ui/src/components/popover/popover.md), [Navigation](../patterns/navigation.md#the-server-tab-on-a-phone)).
 - Make each row the workspace tile, its name and its address in Space Mono (`/launch`). Mark the current server with a check and a bold name; show the unread count of the others as a pink count, or a gray count when the server is muted.
 - Give each row a drag handle, so people can reorder the list. The strip follows the same order.
 - End the list, after a separator, with Join Community (until the person has joined it), Switch or Create Server and Invite Human.

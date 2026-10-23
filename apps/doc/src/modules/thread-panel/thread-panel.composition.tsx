@@ -47,7 +47,12 @@ import {
   MessageItemToolbar,
   MessageItemToolbarButton,
 } from "@botiverse/raft-ui";
-import { MessageList, MessageListDateDivider, MessageListNotice } from "@botiverse/raft-ui";
+import {
+  MessageList,
+  MessageListDateDivider,
+  MessageListEndFade,
+  MessageListNotice,
+} from "@botiverse/raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
 
 function preventSubmit(event: FormEvent<HTMLFormElement>) {
@@ -159,7 +164,7 @@ function ThreadReplies() {
           <MessageRowToolbar />
         </MessageItem>
       ))}
-      <div className="h-6" aria-hidden />
+      <div className="pb-timeline-end" aria-hidden />
     </>
   );
 }
@@ -210,6 +215,7 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
           <MessageList>
             <ThreadReplies />
           </MessageList>
+          <MessageListEndFade />
         </ThreadPanelBody>
         <ThreadPanelFooter>
           <ComposerRoot onSubmit={preventSubmit}>
@@ -225,7 +231,7 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
                   </ComposerIconButton>
                 </ComposerActions>
                 <ComposerMeta>
-                  <ComposerSubmit size="icon-sm" aria-label="Send" disabled>
+                  <ComposerSubmit size="icon-md" aria-label="Send" disabled>
                     <Send />
                   </ComposerSubmit>
                 </ComposerMeta>

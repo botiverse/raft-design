@@ -31,17 +31,18 @@ code-block/compositions/shiki
 - `CodeBlockHeader`: the optional top bar, with a hairline under it.
   - `CodeBlockTitle`: the file name, in Space Mono.
   - `CodeBlockActions`: the actions at its right end.
-- `CodeBlockBody`: the code panel. Render the complete `pre` and `code` inside it. Required.
-- `CodeBlockAction`: a 32px icon button. You provide its icon and what it does.
+- `CodeBlockBody`: the code panel. Render the code in a `CodeBlockPre` with its `code` inside it. Required.
+- `CodeBlockPre`: the code's `pre`, keyboard-reachable while it scrolls ([Accessibility](#accessibility)).
+- `CodeBlockAction`: a 32px icon button with `radius-chip`, like every control embedded in a frame. You provide its icon and what it does.
 
 ## Variants
 
-| Variant          | Use for                                                                                                   |
-| ---------------- | --------------------------------------------------------------------------------------------------------- |
-| With a header    | Code from a file: the header names it                                                                     |
-| Without a header | A snippet or a log without a file name; `CodeBlockActions` placed inside the body floats at its top right |
-| Highlighted      | Code in a known language, highlighted with Shiki                                                          |
-| Plain            | Logs and text without a language                                                                          |
+| Variant          | Use for                                                                                                                 |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| With a header    | Code from a file: the header names it                                                                                   |
+| Without a header | A snippet or a log without a file name; `CodeBlockActions` placed inside the body takes its own column at its top right |
+| Highlighted      | Code in a known language, highlighted with Shiki                                                                        |
+| Plain            | Logs and text without a language                                                                                        |
 
 ```example
 code-block/compositions/plain
@@ -70,8 +71,10 @@ code-block/compositions/animated-copy
 - Give every `CodeBlockAction` an `aria-label`, such as "Copy code": it is icon-only.
 - Announce a completed copy, for example with `aria-live` on the button, so the change of icon isn't the only signal.
 - Keep the code in `pre` and `code`, so it is read as code and keeps its whitespace.
+- Render the code in `CodeBlockPre`. A long line scrolls inside it, and while it does it is a region the keyboard can reach (`tabindex="0"`, `role="region"`), named by its `aria-label` ("Code" by default; name it after the language, "ts code"): Safari doesn't let the keyboard reach a scroller that can't take focus, and a `pre` with no role can't carry a name. Code that fits adds no Tab stop. It measures again whenever the `pre` resizes or its code changes (highlighting that arrives late, code that streams in), so a line that grows long gets the Tab stop. It shows the inset ink ring on keyboard focus.
 
 ## Rules
 
 - Set code in Space Mono, `text-mono-code`.
 - Put the block on `layer-code`, with a `line-hairline` border and `radius-container`.
+- Put the actions 6px from the block's corner, 4px apart. Without a header they sit in a column of their own beside the code, as wide as the actions, so no line runs under them however many there are, and the block is at least tall enough to keep 6px under them. In a header they are centred in its 40px and 6px from its end ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).

@@ -10,7 +10,7 @@ related: [button]
 
 # TextLink
 
-TextLink is text that does something or goes somewhere, with no underline until the pointer is over it. It is the bottom step of the emphasis ladder, below a frameless button ([Button](../button/button.md#which-color)): use it where even a frameless button would be too much weight, such as Forgot Password on a sign-in page, Log Out under a server list, or a See All beside a section title.
+TextLink is text that does something or goes somewhere, with no underline until the pointer is over it. It is the bottom step of the emphasis ladder, below a frameless button ([Button](../button/button.md#which-color)): use it where even a frameless button would be too much weight, such as Forgot Password on a sign-in page, Sign Out under a server list, or a See All beside a section title.
 
 ```example
 text-link/compositions/preview
@@ -31,7 +31,7 @@ The variant follows where the link sits, not how important the action is.
 
 | Variant                     | Use for                                                                                                                             |
 | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `variant="muted"` (default) | A link that stands on its own: Forgot Password, Log Out, See All. `foreground-muted`, 500; on hover, ink and underlined.            |
+| `variant="muted"` (default) | A link that stands on its own: Forgot Password, Sign Out, See All. `foreground-muted`, 500; on hover, ink and underlined.           |
 | `variant="strong"`          | A link inside a sentence: "Don't have an account? Create One", a banner's "Manage Machines". Ink, 600; on hover, underlined in ink. |
 
 **Why the position decides.** On its own, a TextLink is the quietest control on the screen, so it is muted: it must not compete with the screen's text or its buttons. Inside a sentence, the same muted grey would sit lighter than the words around it and read as disabled, so there it takes the ink of body text and stands out by weight instead. Neither variant is pink, at rest or on hover: pink belongs to the one primary button.
@@ -56,8 +56,16 @@ text-link/compositions/disabled
 
 ## Content
 
-- Start with a verb, or name the place: Forgot Password, Log Out, See All.
+- Start with a verb, or name the place: Forgot Password, Sign Out, See All.
 - Use Title Case, like every button label ([Writing](../../../../../design/content/writing.md#casing)).
+
+## Leaving Raft
+
+A TextLink that goes to another site ends in `TextLinkExternalIcon`: Lucide's `ArrowUpRight` at 0.857em of the text (12px at 14px, like the icons in a reference chip), 2px after the text, in the text's color, centered on the letters' cap height at every size ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)). It sits in an inline-flex box, so the underline on hover stops at the text and never runs under the arrow. Pass `label` for a screen reader, "(opens in a new tab)"; it is product copy, so raft-ui doesn't write it. The rule for every control that leaves Raft is in [Navigation](../../../../../design/patterns/navigation.md#links-that-leave-raft).
+
+```example
+text-link/compositions/leaving-raft
+```
 
 ## Accessibility
 

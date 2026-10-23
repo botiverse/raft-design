@@ -22,6 +22,7 @@ export const appRail = tv({
       // short windows the items shrink to 36 and the inset to 6.
       "gap-1.5 pt-2.5 pb-2 first:pt-2",
       "[@media(max-height:600px)]:pt-1.5 [@media(max-height:600px)]:first:pt-1.5",
+      "after:mt-auto after:h-28 after:min-h-0 after:w-12 after:shrink after:content-[''] after:frame-decor-rail",
     ],
     footer: [
       "flex w-full shrink-0 flex-col items-center justify-center",
@@ -34,7 +35,7 @@ export const appRail = tv({
       "[&_svg]:shrink-0",
       "size-10 rounded-control border-[1.5px] border-transparent",
       "text-foreground-on-frame [&_svg]:size-5",
-      "hover:bg-fill-frame-pressed active:bg-fill-frame-pressed",
+      "hover:bg-fill-frame-medium active:bg-fill-frame-medium",
       "data-[selected=true]:border-line-frame-active data-[selected=true]:bg-layer-frame-active",
       // The yellow "you are here" is a sticker: the die-cut edge in dark mode.
       "data-[selected=true]:ring-[1.5px] data-[selected=true]:ring-sticker-edge",

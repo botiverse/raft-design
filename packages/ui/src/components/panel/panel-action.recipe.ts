@@ -15,7 +15,7 @@ const panelActionBase = tv({
     "px-2 md:pointer-fine:px-[5px]",
     "after:absolute after:-inset-control-hit",
     "text-foreground",
-    "hover:bg-fill-pressed active:bg-fill-pressed",
+    "hover:bg-fill-medium active:bg-fill-medium",
     "focus-visible:shadow-focus",
     "[&>svg]:size-control-icon",
     controlIconInset,
@@ -30,7 +30,7 @@ export const panelAction = tv({
     "gap-1.5 text-control font-bold",
     "disabled:bg-transparent disabled:text-foreground-disabled disabled:opacity-100",
     "aria-pressed:border-sticker-ink aria-pressed:bg-brand aria-pressed:text-sticker-ink aria-pressed:ring-[1.5px] aria-pressed:ring-sticker-edge",
-    "aria-pressed:active:press-overlay-sticker",
+    "aria-pressed:active:overlay-sticker-medium",
   ],
 });
 
@@ -41,6 +41,6 @@ export const panelToggleAction = tv({
     "gap-1.5 text-control font-bold",
     "data-disabled:bg-transparent data-disabled:text-foreground-disabled data-disabled:opacity-100",
     "data-pressed:border-sticker-ink data-pressed:bg-brand data-pressed:text-sticker-ink data-pressed:ring-[1.5px] data-pressed:ring-sticker-edge",
-    "data-pressed:active:press-overlay-sticker",
+    "data-pressed:active:overlay-sticker-medium",
   ],
 });

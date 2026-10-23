@@ -12,6 +12,7 @@ import {
 
 import type { ApiComponent, ChangeEntry } from "#/lib/content/api.ts";
 import type { DocPage } from "#/lib/content/pages.ts";
+import { useMessages } from "#/lib/i18n/use-locale.ts";
 
 import { StatusLabel } from "./status-label.tsx";
 
@@ -38,11 +39,12 @@ function groupBySameProps(components: readonly ApiComponent[]) {
 }
 
 function PropsTable({ component }: { component: ApiComponent }) {
+  const messages = useMessages();
   if (component.props.length === 0) {
     return component.native ? (
-      <p className="text-callout text-foreground-muted">Takes the attributes of its element.</p>
+      <p className="text-callout text-foreground-muted">{messages.takesAttributes}</p>
     ) : (
-      <p className="text-callout text-foreground-muted">No props.</p>
+      <p className="text-callout text-foreground-muted">{messages.noProps}</p>
     );
   }
   return (
@@ -51,9 +53,9 @@ function PropsTable({ component }: { component: ApiComponent }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Prop</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Default</TableHead>
+              <TableHead>{messages.prop}</TableHead>
+              <TableHead>{messages.type}</TableHead>
+              <TableHead>{messages.default}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -68,7 +70,7 @@ function PropsTable({ component }: { component: ApiComponent }) {
                   </span>
                   {prop.description || prop.deprecated ? (
                     <span className="mt-1 block max-w-80 text-caption text-foreground-muted">
-                      {prop.deprecated ? "Deprecated. " : ""}
+                      {prop.deprecated ? messages.deprecatedProp : ""}
                       {prop.description}
                     </span>
                   ) : null}
@@ -129,18 +131,19 @@ export function ApiSection({ components }: { components: readonly ApiComponent[]
 }
 
 export function RelatedSection({ pages }: { pages: readonly DocPage[] }) {
+  const messages = useMessages();
   if (pages.length === 0) return null;
   return (
     <section className="mt-12">
       <MarkdownHeading level={2} id="related" className="scroll-mt-6">
-        Related
+        {messages.related}
       </MarkdownHeading>
       <ul className="flex flex-wrap gap-2">
         {pages.map((page) => (
           <li key={page.url}>
             <Link
               to={page.url}
-              className="inline-flex h-8 items-center rounded-control border-[1.5px] border-line-strong px-3 text-subhead outline-none hover:press-overlay focus-visible:shadow-focus"
+              className="inline-flex h-8 items-center rounded-control border-[1.5px] border-line-strong px-3 text-subhead outline-none hover:overlay-medium focus-visible:shadow-focus"
             >
               {page.frontMatter.title}
             </Link>
@@ -168,11 +171,12 @@ function ChangeText({ text }: { text: string }) {
 }
 
 export function ChangesSection({ changes }: { changes: readonly ChangeEntry[] }) {
+  const messages = useMessages();
   if (changes.length === 0) return null;
   return (
     <section className="mt-12">
       <MarkdownHeading level={2} id="changes" className="scroll-mt-6">
-        Changes
+        {messages.changes}
       </MarkdownHeading>
       <ul className="flex flex-col rule-y rule-line-hairline">
         {changes.map((change) => (

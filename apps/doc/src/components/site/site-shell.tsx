@@ -1,7 +1,17 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { ExternalLink, FileText, Menu, Moon, Search, Sun, SunMoon } from "lucide-react";
+import {
+  ChevronDown,
+  ExternalLink,
+  FileText,
+  Languages,
+  Menu,
+  Moon,
+  Search,
+  Sun,
+  SunMoon,
+} from "lucide-react";
 import {
   Button,
   Drawer,
@@ -34,34 +44,93 @@ import {
   SidebarSectionTitle,
 } from "@botiverse/raft-ui";
 import type { ThemeMode } from "@botiverse/raft-ui";
+import { DropdownMenuLinkItem } from "@botiverse/raft-ui/wip";
 
 import { GithubMark } from "#/components/github-mark.tsx";
 import { usePreviewTheme } from "#/components/preview-theme.tsx";
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 import { navSections } from "#/lib/content/nav.ts";
 import type { NavItem } from "#/lib/content/nav.ts";
+import { LANGUAGE_NAME, LANGUAGE_TAG, LOCALES, localizePath } from "#/lib/i18n/locales.ts";
+import { useLocale, useMessages } from "#/lib/i18n/use-locale.ts";
 
 import { SearchDialog } from "./search-dialog.tsx";
 import { StatusLabel } from "./status-label.tsx";
 import type { ComponentStatus } from "./status-label.tsx";
 
-function ThemeMenu() {
+function ThemeMenu({
+  variant = "on-frame",
+  className,
+}: {
+  variant?: "on-frame" | "ghost";
+  className?: string;
+}) {
+  const messages = useMessages();
   const { mode, setMode } = usePreviewTheme();
   const Icon = mode === "dark" ? Moon : mode === "light" ? Sun : SunMoon;
   const handleModeChange = useCallback((value: unknown) => setMode(value as ThemeMode), [setMode]);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="on-frame" size="icon-md" aria-label="Color mode" />}
+        render={
+          <Button
+            variant={variant}
+            size="icon-md"
+            className={className}
+            aria-label={messages.colorMode}
+          />
+        }
       >
         <Icon />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuRadioGroup value={mode} onValueChange={handleModeChange}>
-          <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="light">{messages.light}</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="dark">{messages.dark}</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="system">{messages.system}</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+/**
+ * The language menu: a dropdown of the languages, each named in itself and
+ * each a link to the same page in that language, so it can be opened in a
+ * new tab or copied. Following one loads the other document, so the whole
+ * site switches with it, and keeps the section being read.
+ */
+function LanguageMenu({ variant = "on-frame" }: { variant?: "on-frame" | "ghost" }) {
+  const messages = useMessages();
+  const locale = useLocale();
+  const pathname = useLocation({ select: (location) => location.pathname });
+  // The server never sees the fragment, so it joins the link only when it is
+  // followed: the same section in the other language.
+  const keepFragment = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+    if (window.location.hash) event.currentTarget.hash = window.location.hash;
+  }, []);
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={<Button variant={variant} aria-label={messages.languageSwitch} />}
+      >
+        <Languages data-icon="inline-start" />
+        <span lang={LANGUAGE_TAG[locale]}>{LANGUAGE_NAME[locale]}</span>
+        <ChevronDown data-icon="inline-end" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align={variant === "ghost" ? "start" : "end"}>
+        {LOCALES.map((option) => (
+          <DropdownMenuLinkItem
+            key={option}
+            current={option === locale}
+            href={localizePath(pathname, option)}
+            hrefLang={LANGUAGE_TAG[option]}
+            lang={LANGUAGE_TAG[option]}
+            onClick={keepFragment}
+          >
+            {LANGUAGE_NAME[option]}
+          </DropdownMenuLinkItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -73,48 +142,55 @@ function ThemeMenu() {
  * like sign-in, so it shows the Raft mark rather than a workspace.
  */
 function TopBar({ onOpenNav, onOpenSearch }: { onOpenNav: () => void; onOpenSearch: () => void }) {
+  const messages = useMessages();
   return (
     <header className="flex h-14 shrink-0 items-center gap-2 border-b border-line-seam bg-layer-frame px-2 text-foreground-on-frame md:px-5">
       <Button
         variant="on-frame"
         size="icon-md"
         className="md:hidden"
-        aria-label="Open navigation"
+        aria-label={messages.openNavigation}
         onClick={onOpenNav}
       >
         <Menu />
       </Button>
       <Link
         to="/"
-        className="flex min-w-0 items-center gap-2 rounded-control outline-none focus-visible:shadow-focus"
+        className="flex min-w-0 items-center gap-2 rounded-control outline-none focus-visible:shadow-focus md:shrink-0"
       >
         <RaftLogo aria-hidden className="h-6 w-auto shrink-0" />
-        <span className="truncate text-headline font-bold">Raft Design System</span>
+        <span className="truncate text-headline font-bold">{messages.siteName}</span>
       </Link>
-      <span className="hidden font-mono text-mono-meta text-foreground-on-frame-muted sm:inline">
+      <span className="hidden font-mono text-mono-meta text-foreground-on-frame-muted lg:inline">
         raft-ui {raftUiVersion}
       </span>
-      <div className="flex flex-1 justify-center px-4 max-md:hidden">
+      {/* From 1024 up there is room for the search box; below, a button. */}
+      <div className="flex flex-1 justify-center px-4 max-lg:hidden">
         <SearchTrigger onClick={onOpenSearch}>
           <Search />
-          <SearchTriggerLabel>Search components, tokens, patterns</SearchTriggerLabel>
+          <SearchTriggerLabel>{messages.searchTrigger}</SearchTriggerLabel>
           <SearchTriggerShortcut>⌘K</SearchTriggerShortcut>
         </SearchTrigger>
       </div>
-      <div className="ml-auto flex items-center gap-1 md:ml-0">
+      <div className="ml-auto flex items-center gap-1 lg:ml-0">
         <Button
           variant="on-frame"
           size="icon-md"
-          className="md:hidden"
-          aria-label="Search"
+          className="lg:hidden"
+          aria-label={messages.search}
           onClick={onOpenSearch}
         >
           <Search />
         </Button>
-        <ThemeMenu />
+        {/* On a phone the top bar has no room for it: it is at the top of the menu. */}
+        <div className="shrink-0 max-md:hidden">
+          <LanguageMenu />
+        </div>
+        <ThemeMenu className="max-md:hidden" />
         <Button
           variant="on-frame"
           size="icon-md"
+          className="max-md:hidden"
           aria-label="GitHub"
           nativeButton={false}
           render={
@@ -180,30 +256,32 @@ function NavLabels({ item, previous }: { item: NavItem; previous: NavItem | unde
  * decision records under About).
  */
 export function SiteNav() {
+  const locale = useLocale();
+  const messages = useMessages();
   const { pathname } = useLocation();
   const path = pathname.replace(/\/+$/, "") || "/";
   const currentSection = path.split("/")[1];
 
   return (
-    <SidebarRoot aria-label="Documentation">
+    <SidebarRoot aria-label={messages.documentation}>
       <SidebarBody>
         <SidebarContent>
           <div className="flex flex-col gap-0.5 pb-2">
             <SidebarItem active={path === "/"} render={<Link to="/" />}>
               <SidebarItemContent>
-                <SidebarItemTitle>Overview</SidebarItemTitle>
+                <SidebarItemTitle>{messages.overview}</SidebarItemTitle>
               </SidebarItemContent>
             </SidebarItem>
             <SidebarItem render={<a href="/llms.txt" />}>
               <SidebarItemContent>
-                <SidebarItemTitle>For Agents</SidebarItemTitle>
+                <SidebarItemTitle>{messages.forAgents}</SidebarItemTitle>
               </SidebarItemContent>
               <SidebarItemAside>
                 <FileText className="size-4 text-foreground-hint" aria-hidden />
               </SidebarItemAside>
             </SidebarItem>
           </div>
-          {navSections().map((section) => (
+          {navSections(locale).map((section) => (
             <SidebarSection
               key={section.id}
               defaultOpen={section.id !== "components" || currentSection === "components"}
@@ -235,6 +313,7 @@ export function SiteNav() {
  * (design/foundations/color.md). Below 768 the sidebar is a drawer.
  */
 export function SiteShell({ children }: { children: ReactNode }) {
+  const messages = useMessages();
   const [navOpen, setNavOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { pathname } = useLocation();
@@ -273,10 +352,32 @@ export function SiteShell({ children }: { children: ReactNode }) {
 
       <Drawer open={navOpen} onOpenChange={setNavOpen} swipeDirection="left">
         <DrawerContent className="md:hidden">
-          <DrawerHeader>
-            <DrawerTitle>Raft Design System</DrawerTitle>
+          <DrawerHeader className="flex items-center justify-between gap-2">
+            <DrawerTitle>{messages.siteName}</DrawerTitle>
+            {/* The phone top bar has room only for the title and search. */}
+            <div className="flex items-center gap-1">
+              <ThemeMenu variant="ghost" />
+              <Button
+                variant="ghost"
+                size="icon-md"
+                aria-label="GitHub"
+                nativeButton={false}
+                render={
+                  <a
+                    href="https://github.com/botiverse/raft-design"
+                    target="_blank"
+                    rel="noreferrer"
+                  />
+                }
+              >
+                <GithubMark />
+              </Button>
+            </div>
           </DrawerHeader>
           <DrawerBody className="min-h-0 overflow-y-auto p-0">
+            <div className="px-3 pt-1 pb-2">
+              <LanguageMenu variant="ghost" />
+            </div>
             <SiteNav />
           </DrawerBody>
         </DrawerContent>

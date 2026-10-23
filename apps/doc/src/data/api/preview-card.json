@@ -153,7 +153,7 @@
         "name": "disableAnchorTracking",
         "type": "boolean",
         "required": false,
-        "default": "true",
+        "default": "false",
         "description": "Whether to disable the popup from tracking any layout shift of its positioning anchor.",
         "from": "base-ui"
       },
@@ -300,5 +300,40 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "PreviewCardActions",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The row of at most two buttons.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "PreviewCardBody",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The item card's block: the id line, the title and the details row, in that order.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "PreviewCardEyebrow",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The muted line above the title that identifies the item, such as its id. One line, truncated.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "PreviewCardFooter",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The caption under a hairline at the bottom of the card: where the item comes from.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "PreviewCardMeta",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The row under the title: one state chip, then muted details. Wraps when it runs out of room.",
+    "native": true,
+    "props": []
   }
 ]

@@ -9,31 +9,31 @@ import {
 } from "@botiverse/raft-ui";
 
 export function CardSessionActionComposition() {
-  const [loggedOut, setLoggedOut] = useState(false);
+  const [signedOut, setSignedOut] = useState(false);
 
-  const handleLogOut = useCallback(() => {
-    setLoggedOut(true);
+  const handleSignOut = useCallback(() => {
+    setSignedOut(true);
   }, []);
 
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle render={<h3 />}>Log out</CardTitle>
+        <CardTitle render={<h3 />}>Sign out</CardTitle>
         <CardDescription aria-live="polite">
-          {loggedOut
-            ? "Logged out of this browser."
-            : "Log out of this browser. Your account and data stay; you can log back in any time."}
+          {signedOut
+            ? "Signed out of this browser."
+            : "Sign out of this browser. Your account and data stay; you can sign back in any time."}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex justify-end">
         <Button
           type="button"
           variant="warning"
-          size="sm"
-          disabled={loggedOut}
-          onClick={handleLogOut}
+          size="md"
+          disabled={signedOut}
+          onClick={handleSignOut}
         >
-          {loggedOut ? "Logged out" : "Log out"}
+          {signedOut ? "Signed Out" : "Sign Out"}
         </Button>
       </CardContent>
     </Card>

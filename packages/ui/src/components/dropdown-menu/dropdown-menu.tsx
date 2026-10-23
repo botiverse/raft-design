@@ -16,13 +16,13 @@ const dropdownMenu = tv({
     content: [
       "max-h-(--available-height) overflow-hidden",
       "outline-none",
-      "flex min-w-60 flex-col gap-0 rounded-container bg-layer-popover p-1.5 text-foreground",
+      "flex min-w-60 flex-col gap-0 rounded-container bg-layer-popover p-1 text-foreground",
       "shadow-float ring-1 ring-line-seam",
     ],
     item: [
       "flex w-full cursor-default select-none items-center",
       "text-left outline-none transition-colors",
-      "min-h-option gap-2.5 rounded-control px-2.5 py-option-inset",
+      "min-h-option gap-2.5 rounded-chip px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft",
       "data-checked:font-bold data-[selected]:font-bold data-[emphasis=strong]:font-bold",
@@ -33,7 +33,7 @@ const dropdownMenu = tv({
     radioItem: [
       "flex w-full cursor-default select-none items-center",
       "text-left outline-none transition-colors",
-      "min-h-option gap-2.5 rounded-control px-2.5 py-option-inset",
+      "min-h-option gap-2.5 rounded-chip px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft",
       "data-checked:font-bold",
@@ -44,7 +44,7 @@ const dropdownMenu = tv({
     submenuTrigger: [
       "flex w-full cursor-default select-none items-center",
       "text-left outline-none transition-colors",
-      "min-h-option gap-2.5 rounded-control px-2.5 py-option-inset",
+      "min-h-option gap-2.5 rounded-chip px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft data-popup-open:bg-brand-soft",
       "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
@@ -60,7 +60,7 @@ const dropdownMenu = tv({
       "font-mono text-mono-meta font-normal text-foreground-hint",
     ],
     itemCount: ["ml-auto inline-flex min-w-5 justify-center gap-0 px-1 tabular-nums"],
-    separator: ["-mx-1.5 my-1.5 h-px border-0 bg-line-hairline"],
+    separator: ["-mx-1 my-1 h-px border-0 bg-line-hairline"],
     indicator: [
       "pointer-events-none ml-auto flex shrink-0 items-center justify-center",
       "size-4 text-foreground [&_svg]:size-4",
@@ -139,7 +139,7 @@ export function DropdownMenuContent({
   collisionAvoidance,
   collisionBoundary,
   collisionPadding,
-  disableAnchorTracking = false,
+  disableAnchorTracking,
   positionMethod = "fixed",
   side = "bottom",
   sideOffset,
@@ -398,5 +398,43 @@ export function DropdownMenuCheckboxItemIndicator({
       className={className}
       {...props}
     />
+  );
+}
+
+export type DropdownMenuLinkItemProps = StyledProps<BaseMenu.LinkItem.Props> & {
+  /**
+   * The page being shown: `aria-current="page"`, drawn as the chosen value
+   * of a radio group (a check mark and bold text).
+   */
+  current?: boolean;
+};
+
+/**
+ * One choice that is another page, such as the same page in another
+ * language: a link, so it opens in a new tab and can be copied. Its
+ * `href` goes on the item; `current` marks the page being shown.
+ */
+export function DropdownMenuLinkItem({
+  current = false,
+  className,
+  children,
+  ...props
+}: DropdownMenuLinkItemProps) {
+  const { radioItem, radioLabel, indicator } = dropdownMenu();
+  return (
+    <BaseMenu.LinkItem
+      data-slot="dropdown-menu-link-item"
+      aria-current={current ? "page" : undefined}
+      data-checked={current ? "" : undefined}
+      className={radioItem({ className })}
+      {...props}
+    >
+      {renderRadioItemChildren(children, radioLabel())}
+      {current ? (
+        <span className={indicator()}>
+          <DropdownMenuCheckIcon />
+        </span>
+      ) : null}
+    </BaseMenu.LinkItem>
   );
 }

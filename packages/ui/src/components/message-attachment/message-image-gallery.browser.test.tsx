@@ -28,11 +28,11 @@ const IMAGE =
 
 type ImageInput = { width?: number | null; height?: number | null };
 
-function renderImages(images: ImageInput[], options: { mode?: ThemeMode } = {}) {
+function renderImages(images: ImageInput[], options: { mode?: ThemeMode; width?: number } = {}) {
   const rows = buildMessageImageGalleryRows(images);
   return render(
     <ThemeProvider mode={options.mode}>
-      <div style={{ width: 560 }}>
+      <div style={{ width: options.width ?? 560 }}>
         <MessageImageGallery data-testid="gallery">
           {rows.map((row, rowIndex) => (
             <MessageImageGalleryRow key={rowIndex} data-testid={`row-${rowIndex}`} row={row}>
@@ -125,22 +125,22 @@ it("a single image without dimensions reserves the 4/3 fallback box", () => {
   expect(height(item)).toBe(132);
 });
 
-it("a three-up row keeps per-image heights when it wraps on narrow viewports", async () => {
-  const { page } = await import("vite-plus/test/browser/context");
+it("a three-up row keeps per-image heights when it wraps, by the column's width", () => {
   const images = [
     { width: 320, height: 240 },
     { width: 320, height: 240 },
     { width: 320, height: 240 },
   ];
-  // Below 768px the three-up rows fold into two grid rows; the height must
-  // ride each grid row (auto-rows), not the row box — otherwise both rows
-  // squeeze into one fixed height (the regression this pins).
-  for (const [viewportWidth, rowHeight] of [
-    [390, 112],
-    [700, 128],
+  // Three images are two across and one under them; the height must ride
+  // each grid row (auto-rows), not the row box, or both rows squeeze into one
+  // fixed height. The gallery switches on its own width (at most 360px), not
+  // the window's: on this 1280px window a 300px column takes the 112px rows
+  // and a wide one the 128px rows.
+  for (const [columnWidth, rowHeight] of [
+    [300, 112],
+    [560, 128],
   ] as const) {
-    await page.viewport(viewportWidth, 900);
-    renderImages(images);
+    renderImages(images, { width: columnWidth });
     const row = galleryRows()[0];
     const tiles = [...row.children] as HTMLElement[];
     expect(tiles.length).toBe(3);
@@ -150,5 +150,4 @@ it("a three-up row keeps per-image heights when it wraps on narrow viewports", a
     expect(Math.round(row.getBoundingClientRect().height)).toBe(rowHeight * 2 + 4);
     cleanup();
   }
-  await page.viewport(1280, 900);
 });

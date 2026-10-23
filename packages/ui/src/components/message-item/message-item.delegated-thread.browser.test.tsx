@@ -16,11 +16,12 @@ import {
 } from "./message-item-header";
 import { MessageItemDelegatedBy, MessageItemDelegatedByName } from "./message-item-delegated";
 
-// In a thread panel (360px at its narrowest, 400px by default) with a mouse,
-// the name line also leaves room for the hover toolbar (--mi-toolbar-reserve).
+// In a thread panel (360px at its narrowest, 400px by default) with a mouse.
+// The name line keeps no room for the hover toolbar (it covers the line's
+// end only while it shows).
 // There the owner's name keeps at least 3rem, or all of it when shorter; when
 // the label's plain words don't fit beside it they wrap onto more lines;
-// the time stays whole, on the first line, clear of the toolbar's room.
+// the time stays whole, on the first line.
 // Measured in a real browser (pointer: fine, the default).
 
 const it = test.skipIf(typeof window === "undefined");
@@ -84,8 +85,8 @@ function measure() {
 
 function expectReadable(owner: string) {
   const m = measure();
-  // The toolbar's room is there (a mouse), and nothing enters it.
-  expect(m.reserve).toBeGreaterThan(0);
+  // No room is kept for the toolbar, and nothing runs past the header.
+  expect(m.reserve).toBe(0);
   expect(m.timeRect.right).toBeLessThanOrEqual(m.contentRight + 0.5);
   expect(m.labelRect.right).toBeLessThanOrEqual(m.contentRight + 0.5);
   // The time is whole and on the owner's line.

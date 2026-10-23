@@ -11,16 +11,16 @@ import { Spinner } from "../spinner/index";
 // ink outline for the rest, no frame for cancel and minor actions, orange for
 // what interrupts and red for what cannot be undone. Underlined text, the step
 // below a frameless button, is TextLink, not a variant here. Every button that is not
-// disabled shows the press overlay on hover and press instead of changing fill.
+// disabled lays the medium hover tier on hover and press instead of changing fill.
 // A frameless icon button that is disabled only greys its icon: no box appears
 // (DS IconButton), while a disabled text button keeps the sunken fill.
 const sticker = (fill: string) => [
   `border-sticker-ink ${fill} text-sticker-ink ring-[1.5px] ring-sticker-edge`,
-  "hover:press-overlay-sticker active:press-overlay-sticker",
+  "hover:overlay-sticker-medium active:overlay-sticker-medium",
 ];
 const outline = (ink: string) => [
   `border-line-strong bg-layer-card ${ink}`,
-  "hover:press-overlay active:press-overlay",
+  "hover:overlay-medium active:overlay-medium",
 ];
 
 // Three text sizes and two icon sizes, nothing in between, so a button reads
@@ -28,8 +28,9 @@ const outline = (ink: string) => [
 // overhanging ::after. An absolute ::after is placed from the padding box, so
 // each overhang adds the 1.5px border back: 32 - 3 + 2 x (6 + 1.5) = 44. `lg`, `icon-lg` and `xl` take the control height, 44px
 // (52px) on a phone and 32px (40px) on a desktop, from the token layer; there
-// `lg` and `icon-lg` overhang by `control-hit` to keep 44px. `xs` and `sm` are
-// the old names of `md`, `icon-xs` and `icon-sm` of `icon-md`.
+// `lg` and `icon-lg` overhang by `control-hit` to keep 44px. `xs` and `sm`
+// are deprecated aliases of `md`, `icon-xs` and `icon-sm` of `icon-md`, kept
+// until raft-ui 1.0 (codemods/button-sizes.mjs renames them).
 const textMd = [
   "h-8 gap-2 rounded-control px-3 py-0 text-control",
   "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
@@ -85,7 +86,7 @@ export const buttonVariants = tv({
       ghost: {
         root: [
           "border-transparent bg-transparent text-foreground",
-          "hover:bg-fill-pressed active:bg-fill-pressed",
+          "hover:bg-fill-medium active:bg-fill-medium",
         ],
       },
       // Frameless, on the yellow frame (rail, top bar, desktop title bar): the
@@ -94,8 +95,8 @@ export const buttonVariants = tv({
       "on-frame": {
         root: [
           "border-transparent bg-transparent text-foreground-on-frame",
-          "hover:bg-fill-frame-pressed active:bg-fill-frame-pressed",
-          "aria-expanded:bg-fill-frame-pressed data-popup-open:bg-fill-frame-pressed",
+          "hover:bg-fill-frame-medium active:bg-fill-frame-medium",
+          "aria-expanded:bg-fill-frame-medium data-popup-open:bg-fill-frame-medium",
           "disabled:border-transparent disabled:bg-transparent",
           "aria-disabled:border-transparent aria-disabled:bg-transparent",
         ],
@@ -138,6 +139,23 @@ export const buttonVariants = tv({
     size: "md",
   },
   compoundVariants: [
+    // Stacked full width (a dialog footer whose buttons don't fit on one
+    // line, a bottom sheet's actions: `data-stacked`), a frameless button
+    // reads as a line of text, not a button: each button in a stack needs its
+    // own box (stdrc, 2026-10-22). There a ghost text button takes the ink
+    // border of `default`, with its hover and press. `in-data-stacked:` is a
+    // `:where()`, so the disabled fill still wins.
+    {
+      variant: "ghost",
+      size: ["xs", "sm", "md", "lg", "xl"],
+      class: {
+        root: [
+          "in-data-stacked:border-line-strong in-data-stacked:bg-layer-card",
+          "in-data-stacked:hover:bg-layer-card in-data-stacked:active:bg-layer-card",
+          "in-data-stacked:hover:overlay-medium in-data-stacked:active:overlay-medium",
+        ],
+      },
+    },
     {
       variant: "ghost",
       size: ["icon-xs", "icon-sm", "icon-md", "icon-lg"],
@@ -185,9 +203,31 @@ export const buttonVariants = tv({
 const FRAMELESS = new Set(["ghost", "on-frame"]);
 const ICON_SIZES = new Set(["icon-xs", "icon-sm", "icon-md", "icon-lg"]);
 
+type ButtonVariantProps = VariantProps<typeof buttonVariants>;
+
+/** The Button sizes: `md`, `lg`, `xl`, `icon-md` and `icon-lg`. */
+export type ButtonSize = "md" | "lg" | "xl" | "icon-md" | "icon-lg";
+
+/**
+ * Deprecated: `xs` and `sm` render as `md`, `icon-xs` and `icon-sm` as
+ * `icon-md`. Removed in raft-ui 1.0; run
+ * `node node_modules/@botiverse/raft-ui/codemods/button-sizes.mjs <src>`.
+ */
+export type DeprecatedButtonSize = "xs" | "sm" | "icon-xs" | "icon-sm";
+
 export type ButtonProps = StyledProps<BaseButton.Props> &
-  VariantProps<typeof buttonVariants> &
+  Omit<ButtonVariantProps, "size"> &
   DataAttributes & {
+    /**
+     * `md` (32px) and `icon-md` for rows, cards, banners, toolbars and panel
+     * headers; `lg` and `icon-lg` (the control height) for dialog footers,
+     * forms and beside a field; `xl` for a full-width call to action. The size
+     * follows the place: see Button › Size by place.
+     *
+     * `xs`, `sm`, `icon-xs` and `icon-sm` are deprecated aliases of `md` and
+     * `icon-md`, removed in raft-ui 1.0 (`codemods/button-sizes.mjs`).
+     */
+    size?: "md" | "lg" | "xl" | "icon-md" | "icon-lg" | DeprecatedButtonSize;
     loading?: boolean;
     loadingLabel?: string;
   };

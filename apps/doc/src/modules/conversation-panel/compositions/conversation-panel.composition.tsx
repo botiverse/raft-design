@@ -46,7 +46,12 @@ import {
   MessageItemToolbarButton,
 } from "@botiverse/raft-ui";
 import type { PanelEdge } from "@botiverse/raft-ui";
-import { MessageList, MessageListDateDivider, MessageListNotice } from "@botiverse/raft-ui";
+import {
+  MessageList,
+  MessageListDateDivider,
+  MessageListEndFade,
+  MessageListNotice,
+} from "@botiverse/raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "@botiverse/raft-ui";
 import { MessageListJumpControls, MessageListJumpPill } from "@botiverse/raft-ui/wip";
 import { ConversationPanelHeaderComposition } from "./conversation-panel-header.composition.tsx";
@@ -113,7 +118,7 @@ export function ConversationPanelComposition({
         </ConversationPanelTabs>
         <ConversationPanelBody>
           <MessageList ref={timelineRef}>
-            <div className="px-3 pt-3">
+            <div className="px-3 pt-timeline-start">
               <MessageListNotice>Beginning of messages</MessageListNotice>
             </div>
             <div className="h-px" aria-hidden />
@@ -228,10 +233,9 @@ export function ConversationPanelComposition({
             ))}
             {/* @docs-source-strip-end */}
             <div className="h-px" aria-hidden />
-            <div className="px-3 pb-3">
-              <div className="h-3" />
-            </div>
+            <div className="pb-timeline-end" aria-hidden />
           </MessageList>
+          <MessageListEndFade />
           {newMessageCount > 0 ? (
             <MessageListJumpControls>
               <MessageListJumpPill onClick={handleJump}>
@@ -263,7 +267,7 @@ export function ConversationPanelComposition({
                     <Checkbox aria-label="Send as task" />
                     As Task
                   </ComposerToolbarLabel>
-                  <ComposerSubmit size="icon-sm" aria-label="Send" disabled>
+                  <ComposerSubmit size="icon-md" aria-label="Send" disabled>
                     <Send />
                   </ComposerSubmit>
                 </ComposerMeta>

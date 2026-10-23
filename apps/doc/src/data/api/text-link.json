@@ -19,5 +19,20 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "TextLinkExternalIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "The ↗ after a link that leaves Raft (design/patterns/navigation.md#links-that-leave-raft): 0.857em (12px at 14px text, as the icons in a reference chip), 2px after the text, centred on the letters' cap height at every text size (0.7em/2 above the baseline; design/foundations/alignment.md#a-mark-that-leads-text). It sits in an inline-flex box, so the link's underline stops at the text and never runs under the arrow.",
+    "native": false,
+    "props": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Read by a screen reader after the link text, such as \"(opens in a new tab)\". Product copy, so the caller passes it.",
+        "from": "raft-ui"
+      }
+    ]
   }
 ]

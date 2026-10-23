@@ -289,7 +289,7 @@ export function SearchFilters({
         </Select>
 
         {channel ? (
-          <Button type="button" variant="outline" size="sm" onClick={handleChannelClear}>
+          <Button type="button" variant="outline" size="md" onClick={handleChannelClear}>
             <Hash aria-hidden size={12} />#{channel.name}
             <X aria-hidden size={10} />
           </Button>
@@ -401,7 +401,7 @@ export function SearchFilters({
         </Select>
 
         {hasActiveFilters ? (
-          <Button type="button" variant="ghost" size="xs" onClick={handleClearAll}>
+          <Button type="button" variant="ghost" size="md" onClick={handleClearAll}>
             Clear All
           </Button>
         ) : null}

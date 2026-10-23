@@ -1,4 +1,7 @@
-import { PAGES, SECTIONS } from "./pages.ts";
+import { DEFAULT_LOCALE } from "../i18n/locales.ts";
+import type { Locale } from "../i18n/locales.ts";
+import { messagesFor } from "../i18n/messages.ts";
+import { localize, PAGES } from "./pages.ts";
 import type { DocPage } from "./pages.ts";
 
 export type SearchHit = {
@@ -9,16 +12,41 @@ export type SearchHit = {
   heading?: { id: string; title: string };
 };
 
-export function sectionTitle(page: DocPage) {
-  return SECTIONS.find((section) => section.id === page.section)!.title;
+export function sectionTitle(page: DocPage, locale: Locale = DEFAULT_LOCALE) {
+  return messagesFor(locale).sections[page.section].title;
 }
 
 /**
  * Ranks title matches first, then aliases (former design names and the names
  * other systems use: Sheet, Snackbar, Modal), then headings, then summaries.
  */
-export function searchDocs(query: string, limit = 12): SearchHit[] {
-  return searchIn(PAGES, query, limit);
+export function searchDocs(
+  query: string,
+  limit = 12,
+  locale: Locale = DEFAULT_LOCALE,
+): SearchHit[] {
+  return searchIn(localizedPages(locale), query, limit);
+}
+
+const byLocale = new Map<Locale, readonly DocPage[]>();
+
+/**
+ * The pages as shown in `locale`, a translated page also answering to its
+ * English title: someone reading in Chinese can still search for "sheet".
+ */
+function localizedPages(locale: Locale) {
+  if (locale === DEFAULT_LOCALE) return PAGES;
+  let pages = byLocale.get(locale);
+  if (!pages) {
+    pages = PAGES.map((page) => {
+      const shown = localize(page, locale);
+      if (!shown.englishTitle || shown.englishTitle === shown.frontMatter.title) return shown;
+      const aliases = [...(shown.frontMatter.aliases ?? []), shown.englishTitle];
+      return { ...shown, frontMatter: { ...shown.frontMatter, aliases } };
+    });
+    byLocale.set(locale, pages);
+  }
+  return pages;
 }
 
 export function searchIn(pages: readonly DocPage[], query: string, limit = 12): SearchHit[] {

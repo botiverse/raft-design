@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   MessageMultiSelectToolbar,
+  MessageMultiSelectToolbarActions,
 } from "@botiverse/raft-ui";
 
 export type MessageMultiSelectToolbarCompositionProps = {
@@ -83,12 +84,9 @@ export function MessageMultiSelectToolbarComposition({
       >
         {children}
       </span>
-      <div
-        ref={actionsRef}
-        className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-1.5"
-      >
+      <MessageMultiSelectToolbarActions ref={actionsRef}>
         <Button
-          size={compactCancel ? "icon-xs" : "xs"}
+          size={compactCancel ? "icon-md" : "md"}
           onClick={onCancel}
           aria-label="Cancel"
           title="Cancel"
@@ -97,7 +95,7 @@ export function MessageMultiSelectToolbarComposition({
           {compactCancel ? null : <span>Cancel</span>}
         </Button>
         <Button
-          size={compactForward ? "icon-xs" : "xs"}
+          size={compactForward ? "icon-md" : "md"}
           variant="accent"
           aria-label="Forward"
           disabled={!onForward}
@@ -108,7 +106,7 @@ export function MessageMultiSelectToolbarComposition({
           {compactForward ? null : <span>Forward</span>}
         </Button>
         <Button
-          size={compactCopyLink ? "icon-xs" : "xs"}
+          size={compactCopyLink ? "icon-md" : "md"}
           aria-label="Copy link"
           disabled={!onCopyLink}
           onClick={onCopyLink}
@@ -121,7 +119,7 @@ export function MessageMultiSelectToolbarComposition({
           <DropdownMenuTrigger
             render={
               <Button
-                size="icon-xs"
+                size="icon-md"
                 aria-label="More selected message actions"
                 disabled={!onGenerateImage && !onCopyMarkdown}
                 title="More"
@@ -147,7 +145,7 @@ export function MessageMultiSelectToolbarComposition({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
+      </MessageMultiSelectToolbarActions>
     </MessageMultiSelectToolbar>
   );
 }

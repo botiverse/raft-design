@@ -74,7 +74,7 @@ function InviteHumanDialogParts() {
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
         <Button variant="accent">
           <Mail data-icon="inline-start" />
-          Send invites
+          Invite
         </Button>
       </DialogFooter>
     </>
@@ -83,7 +83,7 @@ function InviteHumanDialogParts() {
 
 export function InviteHumanDialogContent() {
   return (
-    <DialogContent className="max-w-md">
+    <DialogContent>
       <InviteHumanDialogParts />
     </DialogContent>
   );
@@ -92,11 +92,7 @@ export function InviteHumanDialogContent() {
 // @docs-source-strip-start
 export function InviteHumanDialogComposition({ className }: { className?: string }) {
   return (
-    <CompositionModalPreview
-      className={className}
-      contentClassName="max-w-md"
-      portalClassName="px-0"
-    >
+    <CompositionModalPreview className={className} portalClassName="px-0">
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent

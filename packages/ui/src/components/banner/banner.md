@@ -20,25 +20,23 @@ banner/compositions/preview
 
 The wider the scope of a message, the further out it goes; the full table is in [Feedback](../../../../../design/patterns/feedback.md#errors-by-scope).
 
-| Situation                                                                            | Use                                                                                                                            |
-| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| One input is invalid                                                                 | The input's error ([Field](../field/field.md)), not a banner                                                                   |
-| Something to know before acting in a dialog or a form                                | Banner, in the content                                                                                                         |
-| Something in one panel failed: an agent won't start, a setting didn't save           | `PanelNotice`, under the panel header ([Panel](../panel/panel.md))                                                             |
-| The state of the whole server: a computer offline, a quota nearly full               | [NotificationCenter](../notification-center/notification-center.md), not a banner at the top of the app                        |
-| This device or account can't work: offline, unverified email, an unsupported version | Banner across the top of the app frame ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#banners))  |
-| A limit, a failed load or a tip about this page                                      | Banner at the top of the page's content ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#banners)) |
-| The result of something the person just did                                          | [Toast](../toast/toast.md)                                                                                                     |
-| The person must decide now                                                           | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)                                                |
+| Situation                                                                  | Use                                                                                                      |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| One input is invalid                                                       | The input's error ([Field](../field/field.md)), not a banner                                             |
+| Something to know before acting in a dialog or a form                      | Banner, in the content                                                                                   |
+| Something in one panel failed: an agent won't start, a setting didn't save | `PanelNotice`, under the panel header ([Panel](../panel/panel.md))                                       |
+| The state of the whole server: a computer offline, a quota nearly full     | [NotificationCenter](../notification-center/notification-center.md), not a banner at the top of the page |
+| The result of something the person just did                                | [Toast](../toast/toast.md)                                                                               |
+| The person must decide now                                                 | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)                          |
 
 ## Anatomy
 
-- `Banner`: the tinted container. Required.
-- An icon: a Lucide icon as a direct child, before the text.
+- `Banner`: the tinted container. Required. It fills the width it is given and lays out its parts by that width, so give it a width (or let it fill its parent); never `w-fit`, which collapses it.
+- An icon: the intent's Lucide icon ([Variants](#variants)) as a direct child, before the text. Banner sizes it 20px with 10px before the text (16px and 8px in a `sm` banner) and centers it on the first line ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)). While something is still pending, such as a computer that hasn't connected yet, a `Spinner` takes the icon's place in a `status="info"` banner: waiting is not a problem, so it gets neither the warning tint nor its icon. Banner centers the spinner in the icon's column on the first line, so the text starts where it does after an icon. Never a `Status` light in its place: a status light never says what kind of notice this is (success, info, warning, error). A status light keeps its own meanings, whether an agent, a person or a computer is working or online, a task's status, and the square attention dot that marks something waiting or unread; a notice about one of those things may still show that thing's light inside it ([Status](../status/status.md#sizes)).
 - `BannerTitle`: an optional bold first line.
 - `BannerDescription`: the message. Required. An inline text action goes inside it as a `TextLink variant="strong"`, because it sits in a sentence ([TextLink](../text-link/text-link.md#variants)).
-- `BannerAction`: an optional row under the text, for one button. Never put the × here, where it reads as one of the actions.
-- A ×, only on a banner that informs: a frameless icon button at the end of the first line. raft-ui has no part for it yet ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#banners)).
+- `BannerAction`: the banner's button, and Dismiss before it when the banner has one. It sits at the bottom right: at the end of the last line of text, centered on that line, while the text fits beside it on one line. With a title and a description, that line is the description's. When the text would wrap beside it, or the banner is narrower than 480px, it takes a line of its own under the text, aligned to the end. `BannerAction` decides this itself; don't place it. The width is a container query on the banner's content: 452px, which is a 480px banner at `md` (476px at `sm`, 484px at `lg`).
+- `BannerClose`: the × of a banner that has no button. A frameless icon button at the end of the first line, centered on it, whose icon box ends on the banner's padding, like a frameless icon button at the end of a header ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)). Its label defaults to "Dismiss". Don't use it with `BannerAction`: a banner with a button closes with Dismiss. If both are there, raft-ui warns in development and puts the actions on a line of their own, so they never share the ×'s place.
 
 ## Variants
 
@@ -59,8 +57,33 @@ banner/compositions/info
 banner/compositions/action-variants
 ```
 
+Under 480px, as on every phone, the buttons go under the text, at the end:
+
+```example
+banner/compositions/narrow
+```
+
+A banner with no button closes with `BannerClose`:
+
+```example
+banner/compositions/close
+```
+
 - Use `status="warning"` when something goes wrong; `destructive` is only for consequences that cannot be undone ([Color](../../../../../design/foundations/color.md#meanings-of-color)).
 - raft-ui also has a neutral `status="default"` on `fill-muted`. The system's banners always state an intent, so prefer one of the four above.
+
+### Sizes
+
+`size` sets the padding and the icon, never the type: a banner's title and description are `text-callout` at every size, 14/20 on a phone and 14/22 on a desktop ([Typography](../../../../../design/foundations/typography.md#type-scale)).
+
+| Size                  | Padding (top and bottom × sides) | Icon                       |
+| --------------------- | -------------------------------- | -------------------------- |
+| `size="sm"`           | 8px × 12px                       | 16px, 8px before the text  |
+| `size="md"` (default) | 12px × 14px                      | 20px, 10px before the text |
+| `size="lg"`           | 14px × 16px                      | 20px, 10px before the text |
+
+- A banner's text is never smaller than its button's label. The text and the button sit side by side, and a banner's button has one size, the 32px button, whose label is `text-control` (14px on a desktop, 13px on a phone). Text smaller than that label makes the button look too big for its banner, so a `sm` banner tightens only its padding and its icon, never its text.
+- A `sm` banner with a button or a × keeps it 4px from its top and bottom edges, centered on the last line of text, so the text has (32px − one line) / 2 + 4px above and below it. The × needs the same room: its 32px hover fill on an 18px line would otherwise reach the banner's edge.
 
 ## Content
 
@@ -71,16 +94,17 @@ banner/compositions/action-variants
 ## Accessibility
 
 - `Banner` renders a `div` with `role="alert"` for `status="destructive"` and `role="status"` for the other intents, so a notice that isn't urgent doesn't interrupt a screen reader.
-- Pass `role="alert"` on a banner that reports a system problem appearing while people work (Can't reach Raft). Never move focus to a banner ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#keyboard-and-screen-readers)).
 - The icon repeats the intent and is decorative. The title and description must say the intent in words.
-- Give an icon-only button in `BannerAction` an `aria-label`.
+- `BannerClose` is labelled "Dismiss"; pass an `aria-label` that names the notice when a page has more than one thing to dismiss.
+- `BannerClose` doesn't move focus. When the banner goes, the app moves focus to the next element after where the banner was, or to the page's heading when there is none; never leave it on the document.
+- Keep the parts in reading order: the icon, the title, the description with its link, then `BannerAction` (Dismiss, then the button) or `BannerClose`. Tab reaches them in that order.
 
 ## Rules
 
-- Show at most one banner in one place; when two want it, the more severe shows first ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#how-many-in-what-order)).
-- Give at most one button, and only when there is a way out: a 32px ink-bordered button (`variant="default"`). Never a pink, orange or red button: a banner is not where people commit. A second way out is a `TextLink` in the sentence. A consent banner is the one exception, with 2 equal `default` buttons ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#banners)).
-- Don't let a banner that reports a problem or a limit be dismissed; it goes when the cause does. Give a banner that only informs a ×, and remember the dismissal until the situation changes.
-- Lead a banner that has a title or a button with its intent's icon from the table, at the size the banner sets; don't pass another icon or a size of your own. An `info` banner may use its subject's icon instead (`Bell`). Don't lead a banner with a status pixel: that is `PanelNotice`'s ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#icons-and-pixels)).
+- Show at most one banner in one place.
+- Give at most one button, plus Dismiss before it when the banner can be dismissed, and only when there is a way out: a 32px ink-bordered button (`variant="default" size="md"`). Never a pink button: a banner is not the screen's primary action.
+- Put the button in `BannerAction`, at the bottom right, so it comes after what it acts on and ends where the eye ends, as a dialog's commit button does. A banner that can be dismissed and has a button puts Dismiss (`variant="ghost" size="md"`) just before the button, in the same `BannerAction`.
+- Use `BannerClose` only on a banner with no button, and never put a × in `BannerAction`, where it reads as one of the actions.
 - Don't add an ink border. A banner is a soft tint, not a sticker ([Color](../../../../../design/foundations/color.md#soft-tints)); its edge is the container radius and a hairline.
 
 ## Inside a panel
@@ -90,7 +114,7 @@ When something in one panel goes wrong (an agent won't start, the channel's sett
 - Place it directly under the panel header, across the full width of the panel.
 - Give it no radius and no hairline. It is closed by seams (`line-seam`) above and below; the one above is the panel header's.
 - Line its sides up with the panel's margins ([Spacing](../../../../../design/foundations/spacing.md#layout-widths)).
-- Lead the text with a status pixel instead of an icon.
+- Lead the text with the intent's icon, as a banner does ([Variants](#variants)), never a status light that says what kind of notice it is. `PanelNotice` keeps the icon's size and centers it on the first line ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
 - Write one message of at most 2 lines, in `PanelNoticeContent` (semibold `text-callout`).
 - Put the actions in `PanelNoticeActions`, on the right and centered on the first line of text: a small icon button (Copy Details) or a text button (View Logs). A 32px button doesn't make the strip taller.
 - Keep the default `status="warning"` for something to fix; use `destructive` only for what cannot be undone.

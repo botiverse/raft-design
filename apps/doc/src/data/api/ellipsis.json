@@ -1,0 +1,89 @@
+[
+  {
+    "name": "Ellipsis",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "after",
+        "type": "ReactNode | ((state: EllipsisState) => ReactNode)",
+        "required": false,
+        "description": "Shown after the text, at the end of the last visible line, only while the text is cut or expanded; it takes no room while the text fits. A function receives the state, for an expand control (`EllipsisToggle`).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": true,
+        "description": "The text. Inline content only (text, links, code, mentions): a block child such as `<p>` or `<div>` breaks the clamp.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "defaultExpanded",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the whole text shows at first (uncontrolled).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "expanded",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the whole text shows (controlled).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "expandOnClick",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Makes the cut text itself the button that expands it and collapses it again, for a keyboard and a touch screen as well as a pointer. Only plain text with no `after` takes it: a text with a link or another control inside stays text, and so does one with an `after`, whose control is the button instead (a button can't hold another).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "lines",
+        "type": "number",
+        "required": false,
+        "default": "1",
+        "description": "How many lines the text may take before it is cut.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onExpandedChange",
+        "type": "(expanded: boolean) => void",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "tooltip",
+        "type": "ReactNode",
+        "required": false,
+        "default": "true",
+        "description": "The tooltip shown on hover, and on keyboard focus when the text is a button, while the text is cut: `true` shows the children, a node shows that node, `false` shows none. It never opens on a text that fits, or on a touch screen.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "EllipsisToggle",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The control that expands an Ellipsis and collapses it again, for its `after`. A real button, with `aria-expanded` and `aria-controls` pointing at the text. The label is the caller's: \"Show More\" / \"Show Less\".",
+    "native": true,
+    "props": [
+      {
+        "name": "variant",
+        "type": "\"strong\" | \"muted\"",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

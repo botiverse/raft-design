@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { useCallback, useLayoutEffect, useState } from "react";
 import { codeBlock } from "./code-block.recipe";
 
 const CORNERS = [
@@ -66,7 +67,7 @@ export function CodeBlockTitle({ className, render, ...props }: CodeBlockTitlePr
 
 export type CodeBlockActionsProps = useRender.ComponentProps<"div">;
 
-/** Trailing action region. Placed inside the body it floats over the code panel. */
+/** Trailing action region. In the header it ends the header; in the body it takes a column of its own beside the code. */
 export function CodeBlockActions({ className, render, ...props }: CodeBlockActionsProps) {
   const { actions } = codeBlock();
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -105,7 +106,10 @@ export function CodeBlockAction({ className, render, ...props }: CodeBlockAction
 
 export type CodeBlockBodyProps = useRender.ComponentProps<"div">;
 
-/** Inner code panel. Render the complete pre and code as children. */
+/**
+ * Inner code panel. Render the code in a `CodeBlockPre` (or a complete pre
+ * and code) as children.
+ */
 export function CodeBlockBody({ children, className, render, ...props }: CodeBlockBodyProps) {
   const { body, corner } = codeBlock();
   const defaultProps: useRender.ElementProps<"div"> = {
@@ -133,6 +137,63 @@ export function CodeBlockBody({ children, className, render, ...props }: CodeBlo
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "code-block-body",
+    },
+  });
+}
+
+export type CodeBlockPreProps = useRender.ComponentProps<"pre">;
+
+/**
+ * The code's `pre`. A long line scrolls inside it; while it does, it is a
+ * named region the keyboard can reach (`tabindex="0"`, `role="region"`, its
+ * `aria-label`, "Code" by default), since Safari doesn't focus a scroller on
+ * its own. Code that fits adds no Tab stop.
+ */
+export function CodeBlockPre({
+  render,
+  ref,
+  "aria-label": ariaLabel = "Code",
+  ...props
+}: CodeBlockPreProps) {
+  // The pre mounted now (a callback ref), measured again whenever it resizes
+  // or its content changes: highlighting that swaps the `code`, or code that
+  // streams in, changes the content without changing the pre's own box, and
+  // a ResizeObserver doesn't report an inline `code` growing
+  // (design/patterns/responsive.md#switch-on-the-regions-width).
+  const [pre, setPre] = useState<HTMLPreElement | null>(null);
+  const preRef = useCallback((element: HTMLPreElement | null) => setPre(element), []);
+  const [overflowing, setOverflowing] = useState(false);
+  useLayoutEffect(() => {
+    if (!pre) return;
+    const measure = () => setOverflowing(pre.scrollWidth > pre.clientWidth);
+    const resize = new ResizeObserver(measure);
+    const observe = () => {
+      resize.disconnect();
+      resize.observe(pre);
+      for (const child of pre.children) resize.observe(child);
+    };
+    observe();
+    const mutation = new MutationObserver(() => {
+      observe();
+      measure();
+    });
+    mutation.observe(pre, { childList: true, subtree: true, characterData: true });
+    return () => {
+      resize.disconnect();
+      mutation.disconnect();
+    };
+  }, [pre]);
+  const defaultProps: useRender.ElementProps<"pre"> = overflowing
+    ? { tabIndex: 0, role: "region", "aria-label": ariaLabel }
+    : {};
+
+  return useRender({
+    defaultTagName: "pre",
+    render,
+    ref: ref ? [preRef, ref] : preRef,
+    props: mergeProps<"pre">(defaultProps, props),
+    state: {
+      slot: "code-block-pre",
     },
   });
 }

@@ -19,14 +19,15 @@ panel/panel
 
 ## When to use
 
-| Situation                                                                              | Use                                                                              |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| A column of the desktop main area, or a side panel beside it (tasks, files, a profile) | Panel                                                                            |
-| A conversation: header, tabs, messages and composer                                    | [ConversationPanel](../conversation-panel/conversation-panel.md), built on Panel |
-| A thread beside a conversation                                                         | [ThreadPanel](../thread-panel/thread-panel.md)                                   |
-| The top bar of a phone's pushed page                                                   | `PanelHeader`                                                                    |
-| The list of what a destination contains, next to the rail                              | [Sidebar](../sidebar/sidebar.md)                                                 |
-| Details or settings that slide in over the page                                        | [Drawer](../drawer/drawer.md)                                                    |
+| Situation                                                                          | Use                                                                                                                                                 |
+| ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A column of the desktop main area, or a side panel beside it (a thread, a profile) | Panel                                                                                                                                               |
+| A channel's tasks and files                                                        | Side cards inside the conversation's panel, not a Panel ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)) |
+| A conversation: header, tabs, messages and composer                                | [ConversationPanel](../conversation-panel/conversation-panel.md), built on Panel                                                                    |
+| A thread beside a conversation                                                     | [ThreadPanel](../thread-panel/thread-panel.md)                                                                                                      |
+| The top bar of a phone's pushed page                                               | `PanelHeader`                                                                                                                                       |
+| The list of what a destination contains, next to the rail                          | [Sidebar](../sidebar/sidebar.md)                                                                                                                    |
+| Details or settings that slide in over the page                                    | [Drawer](../drawer/drawer.md)                                                                                                                       |
 
 How the regions of a screen are arranged, and when a side panel sits beside the main area or covers it, is in [Page structure](../../../../../design/patterns/page-structure.md) and [Responsive layout](../../../../../design/patterns/responsive.md).
 
@@ -41,7 +42,7 @@ How the regions of a screen are arranged, and when a side panel sits beside the 
   - `PanelActions`: the trailing `PanelAction` and `PanelToggleAction` buttons.
 - `PanelSectionHeader`: the same bar for a section-level view. On a phone it sits on the frame.
 - `PanelHeaderRoot`: the bare 56px bar both headers are built on, for a header with its own layout.
-- `PanelNotice`, with `PanelNoticeContent` and `PanelNoticeActions`: a full-width strip under the header for a problem in this panel. When to use it instead of a banner is in [Banner](../banner/banner.md).
+- `PanelNotice`, with `PanelNoticeContent` and `PanelNoticeActions`: a full-width strip under the header for a problem in this panel. When to use it instead of a banner is in [Banner](../banner/banner.md). The intent's icon placed before `PanelNoticeContent` leads its first line; never a status light to say what kind of notice it is, since a status light keeps its own meanings ([Status](../status/status.md#sizes)) ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
 - `PanelBody`, `PanelScrollViewport` and `PanelScrollContent`: the content and its single scroll container.
 - `PanelSection`: a block of content with a hairline above it.
 - `PanelFooter`: the bottom action area, padded for the safe area.

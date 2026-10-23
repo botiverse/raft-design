@@ -2,12 +2,15 @@ import { cn } from "../../lib/cn";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { X } from "lucide-react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
+import { decisionWidth } from "../../lib/decision-width";
 import { headEdgePull } from "../../lib/head-edges";
+import { stackedActions, useStackedActions } from "../../lib/stacked-actions";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
 import { Button } from "../button/index";
+import { DialogSheetReset } from "../dialog/dialog-sheet-context";
 import type { ButtonProps } from "../button/index";
 
 const alertDialog = tv({
@@ -16,7 +19,8 @@ const alertDialog = tv({
     // slide; a dialog is simply there).
     overlay: ["fixed inset-0 z-50 bg-layer-backdrop"],
     content: [
-      "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] max-w-[400px] -translate-1/2 outline-none",
+      "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] -translate-1/2 outline-none",
+      decisionWidth,
       "overflow-clip rounded-dialog bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",
     ],
@@ -30,8 +34,11 @@ const alertDialog = tv({
       "px-5 pt-1.5 pb-5 first:pt-5",
       "font-sans text-subhead text-foreground-muted",
     ],
+    // As DialogFooter: one row, on a phone too; it stacks full width, the
+    // commit button on top, only when the row doesn't fit (stackedActions).
     footer: [
-      "flex items-center justify-end",
+      "flex min-w-0 items-center justify-end",
+      ...stackedActions,
       "gap-2 px-5 pb-5 first:pt-5 [[data-slot=alert-dialog-header]+&]:pt-5",
     ],
     title: ["m-0 min-w-0 text-foreground", "font-sans text-headline font-bold"],
@@ -140,7 +147,7 @@ export function AlertDialogContent({
         {...props}
         role="alertdialog"
       >
-        {children}
+        <DialogSheetReset>{children}</DialogSheetReset>
       </BaseDialog.Popup>
     </AlertDialogPortal>
   );
@@ -164,10 +171,19 @@ export function AlertDialogBody({ className, ...props }: AlertDialogBodyProps) {
 
 export type AlertDialogFooterProps = ComponentPropsWithRef<"div">;
 
-export function AlertDialogFooter({ className, ...props }: AlertDialogFooterProps) {
+export function AlertDialogFooter({ className, ref, ...props }: AlertDialogFooterProps) {
   const { footer } = alertDialog();
+  const [stacked, rowRef] = useStackedActions<HTMLDivElement>(ref);
 
-  return <div data-slot="alert-dialog-footer" className={footer({ className })} {...props} />;
+  return (
+    <div
+      data-slot="alert-dialog-footer"
+      ref={rowRef}
+      className={footer({ className })}
+      {...(stacked ? { "data-stacked": "" } : {})}
+      {...props}
+    />
+  );
 }
 
 export type AlertDialogTitleProps = StyledProps<BaseDialog.Title.Props>;

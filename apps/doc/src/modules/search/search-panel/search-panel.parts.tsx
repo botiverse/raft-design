@@ -179,18 +179,18 @@ export function SearchHeader({
           aria-label="Search channels, DMs, people, agents, and messages"
         />
         <InputGroupAddon align="inline-end">
+          <Kbd className="max-md:hidden">Esc</Kbd>
           {query ? (
             <Button
               type="button"
               variant="ghost"
-              size="icon-xs"
+              size="icon-md"
               onClick={onClear}
               aria-label="Clear search"
             >
-              <X aria-hidden size={12} />
+              <X aria-hidden />
             </Button>
           ) : null}
-          <Kbd className="max-md:hidden">Esc</Kbd>
         </InputGroupAddon>
       </InputGroup>
     </PanelHeader>
@@ -507,7 +507,7 @@ export function SearchError({ onRetry }: { onRetry: () => void }) {
         </EmptyStateDescription>
       </EmptyStateContent>
       <EmptyStateActions>
-        <Button type="button" variant="danger-outline" size="sm" onClick={onRetry}>
+        <Button type="button" variant="danger-outline" size="md" onClick={onRetry}>
           Retry
         </Button>
       </EmptyStateActions>

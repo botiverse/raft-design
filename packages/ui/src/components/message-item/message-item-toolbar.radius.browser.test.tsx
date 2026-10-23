@@ -8,10 +8,11 @@ import { MessageItemToolbar, MessageItemToolbarButton } from "./message-item-too
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
 
-// Nested corners (design/foundations/shape.md): a button's corner sits
-// inside the toolbar's corner, so its radius is the toolbar's radius minus
-// the gap between the button's edge and the toolbar's outer edge.
-it("the toolbar's corner minus its frame is the button's corner", () => {
+// Inside a frame (design/foundations/shape.md#inside-a-frame): the toolbar's
+// buttons are controls embedded in its frame, so they wear the chip radius and
+// sit the same 4px from its top and its side; the toolbar keeps its own
+// container radius.
+it("the toolbar's buttons wear radius-chip, 4px inside it on every side", () => {
   render(
     <ThemeProvider>
       <MessageItem>
@@ -34,12 +35,9 @@ it("the toolbar's corner minus its frame is the button's corner", () => {
   // ring is inset, so the toolbar's border box is its visible outer edge.
   const gapTop = inner.top - outer.top;
   const gapRight = outer.right - inner.right;
-  expect(gapTop).toBeCloseTo(gapRight, 1);
-  expect(gapTop).toBeGreaterThan(0);
+  expect(gapTop).toBeCloseTo(4, 1);
+  expect(gapRight).toBeCloseTo(4, 1);
 
-  const outerRadius = parseFloat(getComputedStyle(toolbar).borderTopRightRadius);
-  const innerRadius = parseFloat(getComputedStyle(button).borderTopRightRadius);
-
-  expect(innerRadius).toBeGreaterThan(0);
-  expect(outerRadius - gapTop).toBeCloseTo(innerRadius, 1);
+  expect(getComputedStyle(toolbar).borderTopRightRadius).toBe("10px");
+  expect(getComputedStyle(button).borderTopRightRadius).toBe("6px");
 });

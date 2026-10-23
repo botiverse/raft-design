@@ -92,10 +92,12 @@
     "names": [
       "Banner",
       "BannerAction",
+      "BannerClose",
       "BannerDescription",
       "BannerTitle"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "A short notice people read before they act, on a soft tint that says its intent. Compose it from a leading icon, `BannerTitle`, `BannerDescription`, and either `BannerAction` (its button) or `BannerClose` (a × when there is no button)."
   },
   "button": {
     "names": [
@@ -130,6 +132,7 @@
       "CodeBlockActions",
       "CodeBlockBody",
       "CodeBlockHeader",
+      "CodeBlockPre",
       "CodeBlockTitle"
     ],
     "status": "stable",
@@ -301,6 +304,10 @@
       "DialogSurface",
       "DialogTitle",
       "DialogTrigger",
+      "DialogCommit",
+      "DialogSheetBack",
+      "DialogSheetContent",
+      "DialogFooterNote",
       "AnnouncementDialog",
       "AnnouncementDialogTrigger",
       "AnnouncementDialogClose"
@@ -345,9 +352,19 @@
       "DropdownMenuShortcut",
       "DropdownMenuSubmenu",
       "DropdownMenuSubmenuTrigger",
-      "DropdownMenuTrigger"
+      "DropdownMenuTrigger",
+      "DropdownMenuLinkItem"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "One choice that is another page, such as the same page in another language: a link, so it opens in a new tab and can be copied. Its `href` goes on the item; `current` marks the page being shown."
+  },
+  "ellipsis": {
+    "names": [
+      "Ellipsis",
+      "EllipsisToggle"
+    ],
+    "status": "experimental",
+    "description": "The control that expands an Ellipsis and collapses it again, for its `after`. A real button, with `aria-expanded` and `aria-controls` pointing at the text. The label is the caller's: \"Show More\" / \"Show Less\"."
   },
   "empty-state": {
     "names": [
@@ -450,9 +467,13 @@
       "InboxItemTimestamp",
       "InboxItemTitle",
       "InboxItemTrailing",
-      "InboxItemTrigger"
+      "InboxItemTrigger",
+      "InboxItemLeadingBadge",
+      "InboxItemSkeleton",
+      "InboxItemSkeletonList"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "A small badge in the bottom-right corner of `InboxItemLeading`, the corner a presence light takes: on a thread row, the thread mark, on the channel's `IconTile` or on the direct message's `Avatar` alike. Put it inside `InboxItemLeading`, after the tile or avatar, with one icon as its child; leave the avatar's `AvatarBadge` out, since the corner holds one mark. It is hidden from assistive technology unless given a `role`."
   },
   "inline-code": {
     "names": [
@@ -549,7 +570,8 @@
       "ListRowMeta",
       "ListRowTitle",
       "ListRowTop",
-      "ListRowValue"
+      "ListRowValue",
+      "ListRowSkeleton"
     ],
     "status": "stable",
     "description": "One row of a list. It renders a `button` by default; pass `render={<a />}` (or a router link) for a row that goes somewhere. Children are the leading block (an avatar, a channel or icon tile, `ListRowIcon`), `ListRowBody`, and anything trailing (a value, a badge, a switch, `ListRowChevron`)."
@@ -701,6 +723,7 @@
       "MessageReferenceIndicator",
       "MessageReferenceLabel",
       "MessageReferencePending",
+      "MessageReferenceSuffix",
       "MessageReferenceText",
       "MessageReferenceUnavailable",
       "MessageItem",
@@ -731,6 +754,7 @@
       "MessageMultiSelect",
       "MessageMultiSelectCheckbox",
       "MessageMultiSelectToolbar",
+      "MessageMultiSelectToolbarActions",
       "MessageReactionAddButton",
       "MessageReactionChip",
       "MessageReactionCount",
@@ -752,15 +776,18 @@
       "MessageItemDelegatedAvatar",
       "MessageItemDelegatedBy",
       "MessageItemDelegatedByButton",
-      "MessageItemDelegatedByName"
+      "MessageItemDelegatedByName",
+      "MessageReferenceIcon",
+      "MessageReferenceReadMark"
     ],
     "status": "stable",
-    "description": "Left-gutter hover clock for continuation rows, a `<time>`: pass the moment in `dateTime`. Show the hour and minute only, in the person's 12h/24h format, with no AM/PM (`6:35`, `18:35`)."
+    "description": "A short note after a chip's label in muted machine type, such as `msg` on a link to a message. It lines up with the label by the middle of its letters."
   },
   "message-list": {
     "names": [
       "MessageList",
       "MessageListDateDivider",
+      "MessageListEndFade",
       "MessageListHistoryLimited",
       "MessageListNotice",
       "MessageListJumpControls",
@@ -816,13 +843,37 @@
     ],
     "status": "stable"
   },
+  "meter": {
+    "names": [
+      "Meter",
+      "MeterHeader",
+      "MeterIndicator",
+      "MeterLabel",
+      "MeterTrack",
+      "MeterValue"
+    ],
+    "status": "experimental",
+    "description": "How much of an allowance is left, such as a usage limit that resets. Takes what is `used`; the bar shows what is left, full to start and draining. The info fill, like Progress, until `low` or less is left, then the warning color; never danger, and no success color at full."
+  },
   "mobile-nav": {
     "names": [
       "MobileNavItem",
       "MobileNavLabel",
-      "MobileNavRoot"
+      "MobileNavRoot",
+      "MobileNavServerItem",
+      "MobileNavServerPopover",
+      "MobileNavServerPopoverContent",
+      "MobileNavServerPopoverList",
+      "MobileNavServerPopoverGroup",
+      "MobileNavServerPopoverRow",
+      "MobileNavServerPopoverRowBody",
+      "MobileNavServerPopoverRowDescription",
+      "MobileNavServerPopoverRowLabel",
+      "MobileNavServerPopoverDestinations",
+      "MobileNavServerPopoverDestination"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The tab: the server's avatar and its name in `MobileNavLabel`, as children. A press opens the popover, and so does holding it for 500ms (the long press of raft-ui's menus). Lifting the finger after a hold never closes it: the click that ends the hold is not a press, whether the hold opened the popover or found it open. It is never `selected`: it holds no page."
   },
   "notification-center": {
     "names": [
@@ -894,9 +945,12 @@
       "PopoverSeparator",
       "PopoverTitle",
       "PopoverTrigger",
-      "PopoverViewport"
+      "PopoverViewport",
+      "PopoverActions",
+      "PopoverBody"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The panel's buttons, at its end, under `PopoverBody`: the way out first, then the confirm button."
   },
   "preview-card": {
     "names": [
@@ -909,9 +963,15 @@
       "PreviewCardPortal",
       "PreviewCardSeparator",
       "PreviewCardTitle",
-      "PreviewCardTrigger"
+      "PreviewCardTrigger",
+      "PreviewCardActions",
+      "PreviewCardBody",
+      "PreviewCardEyebrow",
+      "PreviewCardFooter",
+      "PreviewCardMeta"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The row of at most two buttons."
   },
   "profile-panel": {
     "names": [
@@ -933,6 +993,13 @@
       "ProgressValue"
     ],
     "status": "stable"
+  },
+  "pull-to-refresh": {
+    "names": [
+      "PullToRefreshIndicator"
+    ],
+    "status": "experimental",
+    "description": "The pull's indicator, with the DS Spinner in it. Render it as the scroller's first child: by default it is the space the pull opens, so the content moves down with the pull; on Android it travels down over the content instead (Material 3). It holds a polite live region that announces `label` while refreshing."
   },
   "radio-group": {
     "names": [
@@ -1253,9 +1320,11 @@
   },
   "text-link": {
     "names": [
-      "TextLink"
+      "TextLink",
+      "TextLinkExternalIcon"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The ↗ after a link that leaves Raft (design/patterns/navigation.md#links-that-leave-raft): 0.857em (12px at 14px text, as the icons in a reference chip), 2px after the text, centred on the letters' cap height at every text size (0.7em/2 above the baseline; design/foundations/alignment.md#a-mark-that-leads-text). It sits in an inline-flex box, so the link's underline stops at the text and never runs under the arrow."
   },
   "textarea": {
     "names": [

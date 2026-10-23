@@ -1,6 +1,6 @@
 ---
 title: Hand-offs and approvals
-summary: How work moves between people and agents — claiming, handing off, action cards that an agent prepares and a person confirms, the record left afterwards, and what shows when something fails.
+summary: How work moves between people and agents — claiming, handing off, following a task, action cards that an agent prepares and a person confirms, the record left afterwards, and what shows when something fails.
 ---
 
 # Hand-offs and approvals
@@ -20,8 +20,8 @@ system-message/compositions/task-thread
 ```
 
 - Record a claim, a release, an assignment and a status change as an event line ([SystemMessage](../../packages/ui/src/components/system-message/system-message.md)): who did it, the verb and the task. "Bugen claimed #25 "Fix onboarding copy"".
-- Post those event lines in the task's own thread, not in the channel the task belongs to. The channel stays readable; the people who follow the task's thread see its history.
-- Show the task's current state on the message it came from, as the task marker: the status pixel, the task number and the assignee ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)).
+- Post those event lines, and the line that records the task's creation, in the task's own discussion: not in the channel the task belongs to, and not in the thread of the message it came from. The channel stays readable, the message's replies stay about the message, and the people who follow the task see its history.
+- Show the task's current state on the message it came from, in the list of its tasks under it: the number, the title, the assignee and the status chip ([Tasks](../patterns/tasks.md#tasks-in-a-conversation)).
 - Fold 2 or more event lines in a row into one line with a disclosure ("There are 3 task updates"), as in any conversation ([Conversation](../patterns/conversation.md#dates-and-grouping)).
 
 ### Event lines
@@ -40,18 +40,34 @@ A hand-off is one of the moves a task already has. There is no separate hand-off
 | --- | --- | --- |
 | Give the task to someone else | Assign it to them | "Martin assigned #25 "Fix onboarding copy" to Wug" |
 | Let it go | Release it; it goes back to unclaimed | "Bugen released #25 "Fix onboarding copy"" |
-| Ask for a review | Move it to In Review and mention the reviewer in the task's thread | "Bugen moved #25 "Fix onboarding copy" to In Review" |
+| Ask for a review | Move it to In Review and mention the reviewer in the task's discussion | "Bugen moved #25 "Fix onboarding copy" to In Review" |
 | Accept the work | The reviewer moves it to Done | "Martin moved #25 "Fix onboarding copy" to Done" |
 
 - Agents move their own finished work to In Review, so a person can check it, and to Done only after it is approved. This is the order the Raft agent guide gives every agent.
 - Mention the person who has to act next. A mention reaches only people in the place, so the reviewer has to be a member of it.
 - Hand a whole session over, not only a task, with "Take over a local session" in the desktop app: it creates a Raft agent in the same project folder and sends it a briefing drawn from a local Claude Code or Codex session. The person reads the briefing before it is sent.
 
+## Following a task
+
+A task's discussion is followed exactly as a thread is. Following is what puts its new messages in a person's Activity, so people aren't interrupted by the tasks agents make for each other and follow the ones they care about.
+
+| Who | What happens |
+| --- | --- |
+| The person or agent who created the task | Follows it |
+| Someone who writes in its discussion, or is mentioned there | Follows it |
+| Anyone, by hand | Follow Task and Unfollow Task, from the More menu in the task details' bar: the same place, icons and command as Follow Thread in a thread's header ([Threads](../patterns/conversation.md#threads)) |
+| The person or agent the task is assigned to | Is notified once, through a mention in the assignment's event line; an agent is woken. Being assigned doesn't make them follow it |
+| Someone who claims a task for themselves, or a task that loses its assignee | Nobody is notified |
+| The sender of the message the task came from | Is never notified of the task's discussion because of it |
+
+- Show a task's unread messages, and its attention dot, only to people who follow it.
+- Show the agents that follow a task in the task details' bar, as a thread shows its agents. The person who created the task, or a channel manager, can remove one, with Undo, as the person who started a thread can.
+
 ## Finishing work
 
 - When an agent finishes, it posts a message that leads with the outcome and links its proof: a pull request, a commit, a file ([Writing about agents](./writing-about-agents.md#evidence)).
 - Link the proof as a link in the message, not as a pasted log. A long report goes into an attached file, with a short summary in the message.
-- Then move the task to In Review. The event line follows the message in the task's thread.
+- Then move the task to In Review. The event line follows the message in the task's discussion.
 
 ## Approvals: the agent prepares, a person confirms
 
@@ -73,7 +89,7 @@ The product ships these actions:
 | Register an app, update it, recover its owner | Register App, Update App, Recover Owner | Runs the action |
 
 - Title the card with the verb and its object, in sentence case: Create private channel #launch-review, Approve Linear for @bugen.
-- Make the confirm button repeat that verb, in Title Case, as the small ink-bordered button (`Button` with `variant="outline"` and `size="sm"`). It is not pink: the screen's one pink button is the composer's send button.
+- Make the confirm button repeat that verb, in Title Case, as the small ink-bordered button (`Button` with `variant="outline"` at the default `size="md"`). It is not pink: the screen's one pink button is the composer's send button.
 - When the action needs more than a yes, let the button open the ordinary dialog for it, filled in with the agent's values. The person can change them there before anything is created. Don't make the fields on the card editable: the card is a summary.
 - Show the values the person needs to check as properties, the agent's reason under Reason, the permissions an app asks for as a scrolling list, and a standing note from Raft as a neutral notice.
 - Run the action as the person who confirmed it, with that person's permissions.
@@ -95,7 +111,7 @@ Nothing about a hand-off is lost when it is over.
 
 | What happened | Where it is kept |
 | --- | --- |
-| A claim, an assignment, a status change | The event lines in the task's thread, and the task's History in its details ([Timeline](../../packages/ui/src/components/timeline/timeline.md)) |
+| A claim, an assignment, a status change | The event lines in the task's discussion, and the task's History in its details ([Timeline](../../packages/ui/src/components/timeline/timeline.md)) |
 | A change to a task's title or description | The task's History, with the text before and after |
 | An approved action | The folded card in the conversation, with who confirmed it, when, and a link to the result |
 | What an agent did, step by step | The Activity tab on its page: an overview of each turn (what woke it, what it did, how it ended) and the raw log in Space Mono |
@@ -110,7 +126,7 @@ Say what failed at the scope it affects, and say it once ([Feedback](../patterns
 
 | What failed | Where it shows |
 | --- | --- |
-| An agent's runtime stopped with an error | The orange light on its avatar everywhere. On its profile, a notice under the header (`PanelNotice`, [Feedback](../patterns/feedback.md#errors-by-scope)) with an orange pixel, the reason, a button that copies the diagnostic info, and a View logs link that opens its Activity tab |
+| An agent's runtime stopped with an error | The orange light on its avatar everywhere. On its profile, a notice under the header (`PanelNotice`, [Feedback](../patterns/feedback.md#errors-by-scope)) led by a `TriangleAlert` icon (the orange light stays on the avatar: it is the agent's state, not the notice's), the reason, a button that copies the diagnostic info, and a View logs link that opens its Activity tab |
 | An agent couldn't start | A notice under the header of its profile, with the reason, that the person can close |
 | A confirmed action on a card | An orange banner inside the card, with the reason. The card stays as it was, so the person can try again |
 | A computer went offline, or another problem for the whole server | The notification center |
@@ -130,6 +146,6 @@ The component doc for [MessageActionCard](../../packages/ui/src/components/messa
 
 ## Related
 
-- [Tasks](../patterns/tasks.md): the five statuses and task details.
+- [Tasks](../patterns/tasks.md): the five statuses, task details and tasks in a conversation.
 - [Conversation](../patterns/conversation.md): the timeline, grouping and threads.
 - [Writing about agents](./writing-about-agents.md): how event lines and agents' messages are worded.

@@ -55,7 +55,7 @@ function TaskTitleRow({
         <Button
           type="button"
           variant="outline"
-          size="icon-sm"
+          size="icon-md"
           aria-label={`Remove task ${index + 1}`}
           onClick={handleRemove}
         >
@@ -132,11 +132,11 @@ export function CreateTaskDialogComposition({
         overlay={preview ? false : undefined}
         initialFocus={preview ? false : undefined}
         finalFocus={preview ? false : undefined}
-        className={contentClassName ?? "max-w-md"}
+        className={contentClassName}
         portalProps={resolvedPortalProps}
       >
         <DialogHeader>
-          <DialogTitle>{isBatch ? "Create Tasks" : "Create Task"}</DialogTitle>
+          <DialogTitle>{isBatch ? "Create Tasks" : "Create"}</DialogTitle>
           <DialogClose aria-label="Close Create Task dialog">
             <X aria-hidden />
           </DialogClose>
@@ -185,7 +185,7 @@ export function CreateTaskDialogComposition({
               <Button
                 type="button"
                 variant="outline"
-                size="sm"
+                size="md"
                 className="mt-3"
                 onClick={handleAddRow}
               >
@@ -201,7 +201,7 @@ export function CreateTaskDialogComposition({
                 ? "Creating…"
                 : isBatch
                   ? `Create ${rows.filter((row) => row.title.trim()).length} Tasks`
-                  : "Create Task"}
+                  : "Create"}
             </Button>
           </DialogFooter>
         </form>

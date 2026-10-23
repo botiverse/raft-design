@@ -1,0 +1,237 @@
+#!/usr/bin/env node
+// Keeps the translations in i18n/<locale>/ in step with the English pages
+// they translate (i18n/README.md).
+//
+//   node scripts/i18n.mjs check           fails on a broken translation; warns on a stale one
+//   node scripts/i18n.mjs sync            gives every heading the English anchor, and a new
+//                                         translation the hash of its English file
+//   node scripts/i18n.mjs sync --mark <path>...
+//                                         records that these translations match their English
+//                                         file now (after bringing them up to date)
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+import { sourceHash } from "../apps/doc/src/lib/i18n/source-hash.ts";
+
+const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const i18nDir = path.join(root, "i18n");
+const [command, ...rest] = process.argv.slice(2);
+const marked = new Set(rest.filter((arg) => arg !== "--mark").map((arg) => path.resolve(arg)));
+
+/** GitHub's anchor for a heading, as apps/doc/src/lib/content/slug.ts writes it. */
+function headingSlug(text) {
+  return text
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s_-]/gu, "")
+    .replace(/\s/g, "-");
+}
+
+function walk(dir, out = []) {
+  if (!existsSync(dir)) return out;
+  for (const name of readdirSync(dir)) {
+    const full = path.join(dir, name);
+    if (statSync(full).isDirectory()) walk(full, out);
+    else out.push(full);
+  }
+  return out;
+}
+
+/** `## Title {#id}` lines outside code fences: their line index, depth, text and anchor. */
+function headingsOf(lines) {
+  const headings = [];
+  let inFence = false;
+  lines.forEach((line, index) => {
+    if (line.startsWith("```")) inFence = !inFence;
+    if (inFence) return;
+    const match = line.match(/^(#{2,6}) (.+)$/);
+    if (!match) return;
+    const explicit = match[2].match(/^(.*?)\s*\{#([\w-]+)\}\s*$/);
+    headings.push({
+      index,
+      depth: match[1].length,
+      text: explicit ? explicit[1] : match[2],
+      id: explicit ? explicit[2] : headingSlug(match[2]),
+      explicit: Boolean(explicit),
+    });
+  });
+  return headings;
+}
+
+/**
+ * The text a reader sees: no front matter, code blocks, inline code (it
+ * renders as its own box), link targets, HTML tags, heading anchors or
+ * emphasis markers.
+ */
+function proseOf(body) {
+  return body
+    .replace(/^---\n[\s\S]*?\n---\n?/, "")
+    .replace(/^```[^\n]*\n[\s\S]*?^```/gm, "\n")
+    .replace(/`[^`\n]+`/g, " ")
+    .replace(/\]\([^)\s]*\)/g, "]")
+    .replace(/<[^>\n]+>/g, " ")
+    .replace(/\{#[\w-]+\}/g, "")
+    .replace(/https?:\/\/\S+/g, " ")
+    .replace(/[*_[\]]/g, "");
+}
+
+const HAN = /[\u3400-\u4dbf\u4e00-\u9fff]/;
+const LATIN_OR_DIGIT = /[A-Za-z0-9]/;
+
+/**
+ * Chinese typography the Raft app's catalog already enforces
+ * (slock's zhCatalogSpacingContract and zhEllipsisForm): a space between a
+ * Chinese character and a Latin letter or digit, and one … for an ellipsis.
+ */
+function typographyErrors(body) {
+  const problems = [];
+  for (const line of proseOf(body).split("\n")) {
+    for (let index = 0; index < line.length - 1; index++) {
+      const [a, b] = [line[index], line[index + 1]];
+      if ((HAN.test(a) && LATIN_OR_DIGIT.test(b)) || (LATIN_OR_DIGIT.test(a) && HAN.test(b))) {
+        problems.push(`no space in "${line.slice(Math.max(0, index - 6), index + 8).trim()}"`);
+      }
+    }
+    if (/……|\.\.\./.test(line)) problems.push(`use one … in "${line.trim().slice(0, 40)}"`);
+  }
+  return problems;
+}
+
+const fencesOf = (source) => source.match(/^```[^\n]*\n[\s\S]*?^```/gm) ?? [];
+
+function splitFrontMatter(source) {
+  const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+  if (!match) return { keys: [], lines: [], body: source };
+  const lines = match[1].split(/\r?\n/);
+  const keys = lines.map((line) => line.match(/^([\w-]+):/)?.[1]).filter(Boolean);
+  return { keys, lines, body: source.slice(match[0].length) };
+}
+
+const translations = walk(i18nDir).filter(
+  (file) => file.endsWith(".md") && /^i18n\/[\w-]+\/(design|packages)\//.test(rel(file)),
+);
+function rel(file) {
+  return path.relative(root, file).split(path.sep).join("/");
+}
+
+const errors = [];
+// A translation whose English page changed since (its sourceHash no longer
+// matches) is stale. Staleness, and every mismatch it explains (headings,
+// anchors, example blocks, a moved English page), is a warning: whoever
+// changes an English page doesn't update its translations; they are brought
+// up to date separately (i18n/README.md).
+const warnings = [];
+let written = 0;
+
+for (const file of translations) {
+  const name = rel(file);
+  const englishPath = name.replace(/^i18n\/[\w-]+\//, "");
+  const englishFile = path.join(root, englishPath);
+  if (!existsSync(englishFile)) {
+    warnings.push(`${name}: ${englishPath} does not exist; move or delete the translation`);
+    continue;
+  }
+  const english = readFileSync(englishFile, "utf8").replace(/\r\n/g, "\n");
+  let source = readFileSync(file, "utf8").replace(/\r\n/g, "\n");
+  const front = splitFrontMatter(source);
+  const englishHeadings = headingsOf(english.split("\n"));
+  let lines = source.split("\n");
+  let headings = headingsOf(lines);
+
+  const sameShape =
+    headings.length === englishHeadings.length &&
+    headings.every((heading, index) => heading.depth === englishHeadings[index].depth);
+
+  if (command === "sync" && sameShape) {
+    headings.forEach((heading, index) => {
+      const id = englishHeadings[index].id;
+      lines[heading.index] = `${"#".repeat(heading.depth)} ${heading.text.trim()} {#${id}}`;
+    });
+    let next = lines.join("\n");
+    const hash = sourceHash(english);
+    const hasHash = front.keys.includes("sourceHash");
+    if (!hasHash || marked.has(file)) {
+      next = hasHash
+        ? next.replace(/^sourceHash: .*$/m, `sourceHash: ${hash}`)
+        : next.replace(
+            /^---\r?\n([\s\S]*?)\r?\n---/,
+            (all, inner) => `---\n${inner}\nsourceHash: ${hash}\n---`,
+          );
+    }
+    if (next !== source) {
+      writeFileSync(file, next);
+      written++;
+      source = next;
+      lines = next.split("\n");
+      headings = headingsOf(lines);
+    }
+  }
+
+  // Read after sync, which may just have written or marked the hash.
+  const recorded = source.match(/^sourceHash: (\w+)$/m)?.[1];
+  const stale = Boolean(recorded) && recorded !== sourceHash(english);
+  // Problems that a change to the English page explains are warnings on a stale translation.
+  const drift = stale ? warnings : errors;
+
+  if (!sameShape) {
+    drift.push(
+      `${name}: its headings (${headings.map((h) => h.depth).join(",")}) do not match ${englishPath} (${englishHeadings.map((h) => h.depth).join(",")}); keep the same headings in the same order`,
+    );
+  } else {
+    headings.forEach((heading, index) => {
+      if (!heading.explicit) {
+        errors.push(`${name}: "${heading.text}" has no anchor; run node scripts/i18n.mjs sync`);
+      } else if (heading.id !== englishHeadings[index].id) {
+        drift.push(
+          `${name}: "${heading.text}" has the anchor #${heading.id}, the English heading #${englishHeadings[index].id}`,
+        );
+      }
+    });
+  }
+
+  const extra = front.keys.filter((key) => !["title", "summary", "sourceHash"].includes(key));
+  if (extra.length) {
+    errors.push(
+      `${name}: front matter has ${extra.join(", ")}; a translation holds only title, summary and sourceHash`,
+    );
+  }
+  for (const key of ["title", "summary"]) {
+    if (!front.keys.includes(key)) errors.push(`${name}: front matter has no ${key}`);
+  }
+
+  const englishFences = fencesOf(english).filter((fence) => /^```(example|tokens)/.test(fence));
+  const fences = fencesOf(source).filter((fence) => /^```(example|tokens)/.test(fence));
+  if (englishFences.join("\n") !== fences.join("\n")) {
+    drift.push(
+      `${name}: its example and tokens blocks differ from ${englishPath}; copy them as they are`,
+    );
+  }
+
+  if (name.startsWith("i18n/zh/")) {
+    for (const problem of typographyErrors(source)) errors.push(`${name}: ${problem}`);
+  }
+
+  if (!recorded) {
+    errors.push(`${name}: no sourceHash; run node scripts/i18n.mjs sync`);
+  } else if (stale) {
+    warnings.push(
+      `${name}: ${englishPath} changed since it was translated; after updating the translation, run node scripts/i18n.mjs sync --mark ${name}`,
+    );
+  }
+}
+
+if (command === "sync")
+  console.log(`i18n: updated ${written} of ${translations.length} translations`);
+for (const warning of warnings) console.warn(`warning: ${warning}`);
+for (const error of errors) console.error(`error: ${error}`);
+if (command === "check" || errors.length) {
+  console.log(
+    `i18n: ${translations.length} translations, ${errors.length} errors, ${warnings.length} warnings`,
+  );
+}
+if (command !== "check" && command !== "sync") {
+  console.error("usage: node scripts/i18n.mjs check | sync [--mark <path>...]");
+  process.exit(2);
+}
+process.exit(errors.length ? 1 : 0);

@@ -93,10 +93,10 @@ export { FormSection } from "./components/form-section/index";
 export type { FormSectionProps } from "./components/form-section/index";
 
 export { Button, buttonVariants } from "./components/button/index";
-export type { ButtonProps } from "./components/button/index";
+export type { ButtonProps, ButtonSize, DeprecatedButtonSize } from "./components/button/index";
 
-export { TextLink, textLinkVariants } from "./components/text-link/index";
-export type { TextLinkProps } from "./components/text-link/index";
+export { TextLink, TextLinkExternalIcon, textLinkVariants } from "./components/text-link/index";
+export type { TextLinkExternalIconProps, TextLinkProps } from "./components/text-link/index";
 
 export { FloatButton, FloatButtonGroup } from "./components/float-button/index";
 export type {
@@ -680,6 +680,7 @@ export {
 export type {
   SegmentedControlCountProps,
   SegmentedControlIconsOnlyBelow,
+  SegmentedControlIconsOnlyPreset,
   SegmentedControlItemProps,
   SegmentedControlLabelProps,
   SegmentedControlProps,
@@ -741,6 +742,7 @@ export {
   CodeBlockActions,
   CodeBlockBody,
   CodeBlockHeader,
+  CodeBlockPre,
   CodeBlockTitle,
 } from "./components/code-block/index";
 export type {
@@ -748,6 +750,7 @@ export type {
   CodeBlockActionsProps,
   CodeBlockBodyProps,
   CodeBlockHeaderProps,
+  CodeBlockPreProps,
   CodeBlockProps,
   CodeBlockTitleProps,
 } from "./components/code-block/index";
@@ -800,6 +803,7 @@ export {
   MessageReferenceIndicator,
   MessageReferenceLabel,
   MessageReferencePending,
+  MessageReferenceSuffix,
   MessageReferenceText,
   MessageReferenceUnavailable,
 } from "./components/message-item/index";
@@ -809,6 +813,7 @@ export type {
   MessageReferenceIndicatorProps,
   MessageReferenceLabelProps,
   MessageReferencePendingProps,
+  MessageReferenceSuffixProps,
   MessageReferenceTextProps,
   MessageReferenceTextVariant,
   MessageReferenceUnavailableProps,
@@ -843,6 +848,7 @@ export {
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
   MessageMultiSelectToolbar,
+  MessageMultiSelectToolbarActions,
   MessageReactionAddButton,
   MessageReactionChip,
   MessageReactionCount,
@@ -893,6 +899,7 @@ export type {
   MessageItemToolbarProps,
   MessageMultiSelectCheckboxProps,
   MessageMultiSelectProps,
+  MessageMultiSelectToolbarActionsProps,
   MessageMultiSelectToolbarProps,
   MessageReactionAddButtonProps,
   MessageReactionChipProps,
@@ -1202,11 +1209,13 @@ export type {
 export {
   MessageList,
   MessageListDateDivider,
+  MessageListEndFade,
   MessageListHistoryLimited,
   MessageListNotice,
 } from "./components/message-list/index";
 export type {
   MessageListDateDividerProps,
+  MessageListEndFadeProps,
   MessageListHistoryLimitedProps,
   MessageListNoticeProps,
   MessageListProps,
@@ -1416,9 +1425,16 @@ export type { SpinnerProps } from "./components/spinner/index";
 export { Skeleton } from "./components/skeleton/index";
 export type { SkeletonProps, SkeletonVariant } from "./components/skeleton/index";
 
-export { Banner, BannerAction, BannerDescription, BannerTitle } from "./components/banner/index";
+export {
+  Banner,
+  BannerAction,
+  BannerClose,
+  BannerDescription,
+  BannerTitle,
+} from "./components/banner/index";
 export type {
   BannerActionProps,
+  BannerCloseProps,
   BannerDescriptionProps,
   BannerProps,
   BannerStatus,
@@ -1704,6 +1720,8 @@ export * from "./components/inbox-item/index";
 export * from "./components/search/index";
 
 export { cn } from "./lib/cn";
+export { LOCATED_MS, useLocated } from "./lib/located";
+export type { LocatedRequest } from "./lib/located";
 export { ThemeProvider } from "./lib/theme/theme-provider";
 export type { ThemeProviderProps } from "./lib/theme/theme-provider";
 export { useTheme } from "./lib/theme/use-theme";

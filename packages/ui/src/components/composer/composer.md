@@ -10,7 +10,7 @@ related: [button, checkbox, textarea, message-attachment, conversation-panel, th
 
 # Composer
 
-The composer is where people write a message: at the bottom of a channel, a direct message, a thread or a task's thread. One ink border holds the input, the tools, any attachments and the pink send button. Typing @ opens a list of people and agents above it.
+The composer is where people write a message: at the bottom of a channel, a direct message, a thread or a task's discussion. One ink border holds the input, the tools, any attachments and the pink send button. Typing @ opens a list of people and agents above it.
 
 ```example
 chat-composer/compositions/composer-default
@@ -58,6 +58,7 @@ composer-suggestions/composer-suggestions
 - Let people drag files into the composer, but not folders.
 - Grow the input with its content up to a maximum height, then scroll inside it.
 - On a phone, keep the composer on top of the keyboard when the keyboard opens. Return inserts a new line on a phone held upright ([Responsive layout](../../../../../design/patterns/responsive.md#phone)), so sending uses the send button.
+- Its buttons, the send button included, are controls embedded in its frame: they wear `radius-chip` and sit 6px from the composer's outer edge at the bottom and at each side ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
 - Put the composer's border on the content margin ([Page structure](../../../../../design/patterns/page-structure.md#one-edge-per-column)), with 16px plus the safe area below it.
 
 ```example
@@ -78,7 +79,7 @@ Composer has no Base UI primitive: it renders a native `<form>` and `<textarea>`
 
 ## Rules
 
-- Count the send button as the screen's pink button ([Button](../button/button.md#which-color)). It is a pink icon button (`size="icon-sm"`) with `aria-label="Send"`, on a phone and on desktop.
+- Count the send button as the screen's pink button ([Button](../button/button.md#which-color)). It is a pink icon button (`size="icon-md"`) with `aria-label="Send"`, on a phone and on desktop.
 - Draw one ink border around the whole group: 1.5px `line-field`, like a field ([Shape](../../../../../design/foundations/shape.md#stroke-widths)). The tools inside it have none: `ComposerIconButton` is frameless.
 - Keep the input text `text-body` at regular weight wherever the composer sits (a channel, a thread, a comment on an attachment, a forward). Don't let it inherit the surrounding type. Make tool icons `foreground-muted`.
 - Under a scrolling region, such as a comment on an attachment or a note added to a forward, use a compact composer: a `line-seam` above it, 12px of space around it, and no fill of its own.

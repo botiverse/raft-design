@@ -191,7 +191,7 @@ export function CommentMarkerSheetContent() {
                 />
                 <ComposerToolbar>
                   <ComposerMeta className="ms-auto">
-                    <ComposerSubmit size="icon-sm" aria-label="Send" disabled={!draft.trim()}>
+                    <ComposerSubmit size="icon-md" aria-label="Send" disabled={!draft.trim()}>
                       <ArrowUp />
                     </ComposerSubmit>
                   </ComposerMeta>

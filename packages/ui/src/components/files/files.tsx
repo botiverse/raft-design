@@ -91,6 +91,6 @@ export function FileActions(props: FileActionsProps) {
 export type FileActionProps = Omit<ButtonProps, "variant" | "size"> &
   Pick<Partial<ButtonProps>, "variant" | "size">;
 
-export function FileAction({ variant, size = "icon-sm", ...props }: FileActionProps) {
+export function FileAction({ variant, size = "icon-md", ...props }: FileActionProps) {
   return <Button variant={variant ?? "ghost"} size={size} {...props} />;
 }

@@ -59,7 +59,7 @@ export function TaskCardStateMatrixComposition({
               >
                 <Button
                   variant="ghost"
-                  size="icon-xs"
+                  size="icon-md"
                   disabled={false}
                   aria-label="Edit status for task #142"
                   className="ml-auto"
@@ -122,7 +122,7 @@ export function TaskCardStateMatrixComposition({
               >
                 <Button
                   variant="ghost"
-                  size="icon-xs"
+                  size="icon-md"
                   disabled={false}
                   aria-label="Edit status for task #139"
                   className="ml-auto"
@@ -190,7 +190,7 @@ export function TaskCardStateMatrixComposition({
               >
                 <Button
                   variant="ghost"
-                  size="icon-xs"
+                  size="icon-md"
                   disabled={false}
                   aria-label="Edit status for task #126"
                   className="ml-auto"
@@ -240,7 +240,7 @@ export function TaskCardStateMatrixComposition({
               <TaskStatusSelect value={defaultStatus} disabled title="Change task status">
                 <Button
                   variant="ghost"
-                  size="icon-xs"
+                  size="icon-md"
                   disabled
                   aria-label="Edit status for task #142"
                   className="ml-auto"
@@ -288,7 +288,7 @@ export function TaskCardStateMatrixComposition({
               <TaskStatusSelect value="in-progress" disabled title="Change task status">
                 <Button
                   variant="ghost"
-                  size="icon-xs"
+                  size="icon-md"
                   disabled
                   aria-label="Edit status for task #137"
                   className="ml-auto"
@@ -345,7 +345,7 @@ export function TaskCardStateMatrixComposition({
               >
                 <Button
                   variant="ghost"
-                  size="icon-xs"
+                  size="icon-md"
                   disabled={false}
                   aria-label="Edit status for task #121"
                   className="ml-auto"

@@ -13,8 +13,8 @@ export const inboxItem = tv({
       "[[data-slot=inbox-item]+&]:before:block has-data-[slot=inbox-item-selection]:before:left-11",
       "has-data-[slot=inbox-item-leading]:before:left-16",
       "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:before:left-23",
-      "hover:bg-fill-row-hover",
-      "not-data-[active=true]:data-popup-open:bg-fill-row-open not-data-[active=true]:has-data-popup-open:bg-fill-row-open",
+      "hover:bg-fill-subtle not-data-[active=true]:active:bg-fill-medium",
+      "not-data-[active=true]:data-popup-open:bg-fill-subtle not-data-[active=true]:has-data-popup-open:bg-fill-subtle",
       "data-[active=true]:bg-info-soft data-[active=true]:hover:bg-info-soft",
       "data-disabled:pointer-events-none data-disabled:hover:bg-transparent",
       "has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:inset-ring-2 has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:inset-ring-foreground",
@@ -23,6 +23,15 @@ export const inboxItem = tv({
     itemTrigger: ["absolute inset-0 z-0 outline-none"],
     itemLeading: [
       "pointer-events-none relative z-10 flex size-9 shrink-0 items-center justify-center",
+    ],
+    // The thread badge on the leading visual: the presence light's corner and
+    // overhang (2.5px past a 35px avatar or tile), larger so its icon reads.
+    // The ring is the canvas, so it reads as cut out of the row like a light.
+    itemLeadingBadge: [
+      "absolute -right-0.5 -bottom-0.5 z-10 inline-flex size-3.5 items-center justify-center",
+      "rounded-[3px] border border-sticker-ink outline-2 outline-layer-canvas outline-solid",
+      "bg-layer-canvas bg-[linear-gradient(var(--info-soft),var(--info-soft))] text-foreground",
+      "[&_svg]:size-2.5 [&_svg]:shrink-0",
     ],
     itemSelection: ["relative z-10 mt-0.5 flex size-4 shrink-0 items-center justify-center"],
     itemContent: [
@@ -55,7 +64,10 @@ export const inboxItem = tv({
       "flex shrink-0",
       "mt-0 flex-col items-end gap-2 pt-px",
       "max-md:flex-col max-md:items-end max-md:gap-2",
-      "after:hidden after:size-[9px] after:shrink-0 after:rounded-[2px] after:border-[1.5px] after:border-sticker-ink after:bg-attention-400",
+      // The unread dot is the 10px status light (status.md#sizes). Its 1px
+      // over the old 9px comes out of the gap below it, so the column, and
+      // an unread row it sets the height of, keeps its even height.
+      "after:hidden after:size-2.5 after:-mb-px after:shrink-0 after:rounded-[2px] after:border-[1.5px] after:border-sticker-ink after:bg-attention-400",
       "group-data-[unread=true]/inbox-item:after:block",
       "*:not-data-[reveal=hover]:opacity-[calc(1-var(--inbox-item-reveal-aside,0)*var(--inbox-item-revealed,0))] after:opacity-[calc(1-var(--inbox-item-reveal-aside,0)*var(--inbox-item-revealed,0))]",
       "*:not-data-[reveal=hover]:mr-(--inbox-item-aside-room,0px) after:mr-(--inbox-item-aside-room,0px)",
@@ -96,7 +108,7 @@ export const inboxItem = tv({
       "[&>[data-slot=panel-toggle-action][data-pressed]]:border-transparent",
       "[&>[data-slot=panel-toggle-action][data-pressed]]:bg-transparent",
       "[&>[data-slot=panel-toggle-action][data-pressed]]:text-foreground",
-      "[&>[data-slot=panel-toggle-action][data-pressed]]:hover:bg-fill-pressed",
+      "[&>[data-slot=panel-toggle-action][data-pressed]]:hover:bg-fill-medium [&>[data-slot=panel-toggle-action][data-pressed]]:active:bg-fill-medium",
       "pointer-coarse:gap-3",
       "pointer-coarse:*:data-[slot=panel-action]:after:absolute pointer-coarse:*:data-[slot=panel-action]:after:-inset-1.5",
       "pointer-coarse:*:data-[slot=panel-toggle-action]:after:absolute pointer-coarse:*:data-[slot=panel-toggle-action]:after:-inset-1.5",

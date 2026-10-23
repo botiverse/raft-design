@@ -4,6 +4,7 @@ export {
   CodeBlockActions,
   CodeBlockBody,
   CodeBlockHeader,
+  CodeBlockPre,
   CodeBlockTitle,
 } from "./code-block";
 export type {
@@ -11,6 +12,7 @@ export type {
   CodeBlockActionsProps,
   CodeBlockBodyProps,
   CodeBlockHeaderProps,
+  CodeBlockPreProps,
   CodeBlockProps,
   CodeBlockTitleProps,
 } from "./code-block";

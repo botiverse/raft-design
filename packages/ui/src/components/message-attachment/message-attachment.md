@@ -104,8 +104,10 @@ message-media/compositions/video-states
 ## Behavior
 
 - The whole card is clickable: the file name is the link, and it covers the card. The action buttons sit above it and work on their own.
+- The card is read, so it hovers with the subtle tier, like a file row or a comment card, and presses with the medium tier; its action buttons hover medium ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
 - Selecting an image or a file opens it in the file viewer ([Built from existing parts](../../../../../design/components/overview.md#file-viewer)).
 - The gallery's action button shows on hover and on keyboard focus.
+- An action in a card's or a medium's corner (a file card's Download, a video's or an image's action) is a control embedded in its frame: it sits 6px from the corner and wears `radius-chip` ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
 
 ## Content
 
@@ -125,4 +127,4 @@ message-media/compositions/video-states
 ## Rules
 
 - Keep a file card at most 360px wide.
-- Show images at most 360px wide, with `radius-container` and a `line-hairline` border.
+- Show images at most 360px wide, with `radius-container` and a `line-hairline` border, and never wider than the column: a gallery and a video are `min(360px, 100%)` of the column, not the window less a guess at the chrome. A gallery's rows are 8rem tall (7rem with three images) below its full 360px and 9rem (8rem) at it, by the gallery's own width, so a thread beside a conversation lays out as a phone does ([Switch on the region's width](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)). Put it in a parent with a definite width (a block, a stretched flex or grid item, or a set width), not one that shrinks to its content (`inline-block`, `w-fit`, an absolutely positioned box or floating layer with no width, a flex item with `flex-basis: auto` and no width): as its own container it takes no width from what it holds and would collapse to nothing.

@@ -29,12 +29,12 @@ alert-dialog/compositions/confirm-action
 
 - `AlertDialog`: the root. Required.
 - `AlertDialogTrigger`: the button that opens it. Usually the dialog is opened from a menu item instead.
-- `AlertDialogContent`: the centered surface, at most 400px wide, with the scrim (`AlertDialogOverlay`) behind it. Required.
-- `AlertDialogHeader`: the title row. Don't add `AlertDialogClose` (×) to a confirmation: Cancel and Esc are its way out ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#cancel-and-the-close-button)).
+- `AlertDialogContent`: the centered surface, at most 400px wide, the width of a `size="sm"` [Dialog](../dialog/dialog.md#variants), so every confirmation is one width, with the scrim (`AlertDialogOverlay`) behind it. Required.
+- `AlertDialogHeader`: the title row, with an optional `AlertDialogClose` (×).
 - `AlertDialogTitle`: the title. Required.
 - `AlertDialogBody` and `AlertDialogDescription`: what will happen.
-- `AlertDialogFooter`: the buttons, aligned to the end.
-- `AlertDialogCancel`: a ghost button that closes the dialog. Required. Give it `size="lg"`, like the confirm button.
+- `AlertDialogFooter`: the buttons in one row at the end, Cancel then the commit button, on a phone as on a desktop. Only when they don't fit on one line do they stack full width, the commit button on top and Cancel framed, as in [Dialog](../dialog/dialog.md#the-footer).
+- `AlertDialogCancel`: a ghost button that closes the dialog; framed when the buttons stack. Required.
 - `AlertDialogAction`: the confirm button. It is a Button and doesn't close the dialog by itself: close it when the action finishes.
 - `AlertDialogPortal`: a lower-level part.
 
@@ -45,7 +45,7 @@ The confirm button's color says what happens:
 | Consequence                      | Confirm button                                                                                  | Example      |
 | -------------------------------- | ----------------------------------------------------------------------------------------------- | ------------ |
 | Does something                   | `variant="primary"`                                                                             | Make Public  |
-| Interrupts, but can be recovered | `variant="warning"`                                                                             | Stop Wug     |
+| Interrupts, but can be recovered | `variant="warning"`                                                                             | Stop         |
 | Cannot be undone                 | `variant="danger"`, and a [Banner](../banner/banner.md) with `status="destructive"` in the body | Delete Agent |
 
 Deleting something large, such as an agent or a server, also asks for its name to be typed ([Forms](../../../../../design/patterns/forms.md#danger-zone)):
@@ -63,7 +63,7 @@ alert-dialog/compositions/typed-delete
 
 - Title it with the action and the thing it acts on, as a question: Delete Box?
 - Say in one or two sentences what happens, in plain words: "Box leaves every channel."
-- Make the confirm button repeat the verb and name the result (Delete Agent). Label Cancel "Cancel", or name what stays (Keep Subscription) when the action is itself a cancel or a stop ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
+- Label the confirm button with the title's verb: Stop for Stop Wug?. Keep the object when it can't be undone, on the red button: Delete Agent. Label the other button Cancel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 
 ## Accessibility
 
@@ -73,8 +73,5 @@ alert-dialog/compositions/typed-delete
 
 ## Rules
 
-- Put Cancel on the left and the confirm button on the right, and no other buttons. The one exception is the unsaved-changes alert, with Discard at the start ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#dialog-footers)).
-- Don't give a confirmation a ×: a question with two answers needs no third way out.
-- Put the first focus on Cancel in a red confirmation, so a stray Return doesn't delete.
-- Use the same color for the same verb in every confirmation: Disconnect is always orange, Discard always orange.
+- Put Cancel on the left and the confirm button on the right, and no other buttons.
 - Don't color the menu item that opens the dialog: the confirm button carries the color ([Feedback](../../../../../design/patterns/feedback.md#confirming)).

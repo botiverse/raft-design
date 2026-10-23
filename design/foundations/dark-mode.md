@@ -34,8 +34,8 @@ A sticker's edge is ink, which disappears against a dark surface. In dark mode e
   - pink, orange and red buttons (not when disabled: a disabled button is no longer a sticker);
   - switches;
   - count and @ badges;
-  - mentions of the person in messages and Markdown;
   - reply counts.
+- A mention of the person reading in a message's text is the exception. It is a chip in running text, the size of the chips beside it and 2px shorter than its line, so it keeps only its ink edge, drawn inside ([Chips in running text](../../packages/ui/src/components/message-item/message-item.md#chips-in-running-text)).
 - The die-cut edge sits outside the sticker's box. So the box aligns to the grid and the visible edge aligns with it: in dark mode an avatar and a tab sticker line up, instead of being 3px apart.
 - Don't clip a container that holds stickers, because the edge sits outside the box. Truncate only text: keep chips, badges and avatars in a row outside the text that is cut off with an ellipsis.
 

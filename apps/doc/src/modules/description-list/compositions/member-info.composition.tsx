@@ -45,7 +45,7 @@ export function MemberInfoComposition({ direction = "vertical" }: MemberInfoComp
           <Button
             type="button"
             variant="ghost"
-            size="icon-xs"
+            size="icon-md"
             className="text-foreground-muted"
             aria-label="Explain member roles"
             aria-pressed={showRoleHelp}

@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "./styles.css";
+
+/* The design's fonts, from the repository, so the marks are measured beside
+   the faces people see (fonts.css fetches them from Google Fonts instead). */
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("../../../design/fonts/SpaceGrotesk-Variable.woff2") format("woff2");
+  font-weight: 300 700;
+}
+:root {
+  --sans-font:
+    "Space Grotesk", "PingFang SC", "Noto Sans SC", "Noto Sans CJK SC", system-ui, sans-serif;
+}

@@ -18,14 +18,15 @@ icon-tile/compositions/sizes
 
 ## When to use
 
-| Situation                                                            | Use                                                                                        |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| A channel in a list, a search result or a reference                  | IconTile with the `hash` icon                                                              |
-| A system notice, a file, an app, a computer, a kind of search result | IconTile with its icon                                                                     |
-| An error, a warning or a message in the notification center          | IconTile with `variant="warning"` or `variant="information"`                               |
-| The place the person is in, beside its title                         | The yellow location tile, `PanelHeaderIcon` ([Panel](../panel/panel.md))                   |
-| A channel in a desktop sidebar row                                   | The bare icon, `SidebarItemChannelIcon` ([Sidebar](../sidebar/sidebar.md)), without a tile |
-| An agent or a person                                                 | [Avatar](../avatar/avatar.md)                                                              |
+| Situation                                                            | Use                                                                                                                                                                         |
+| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A channel in a list, a search result or a reference                  | IconTile with the `hash` icon                                                                                                                                               |
+| A thread in a channel, leading an Activity row                       | IconTile with the `hash` icon and the thread badge ([InboxItem](../inbox-item/inbox-item.md#the-leading-image)); a thread in a direct message leads with the avatar instead |
+| A system notice, a file, an app, a computer, a kind of search result | IconTile with its icon                                                                                                                                                      |
+| An error, a warning or a message in the notification center          | IconTile with `variant="warning"` or `variant="information"`                                                                                                                |
+| The place the person is in, beside its title                         | The yellow location tile, `PanelHeaderIcon` ([Panel](../panel/panel.md))                                                                                                    |
+| A channel in a desktop sidebar row                                   | The bare icon, `SidebarItemChannelIcon` ([Sidebar](../sidebar/sidebar.md)), without a tile                                                                                  |
+| An agent or a person                                                 | [Avatar](../avatar/avatar.md)                                                                                                                                               |
 
 ## Anatomy
 

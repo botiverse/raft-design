@@ -13,7 +13,7 @@ Color in Raft works in two ways. Surfaces get less color from the outside in: th
 - **Yellow goes on the frame only.** The frame is on every screen but nobody reads it, so color there costs almost nothing. Everything people read (messages, lists, cards, the content of pushed pages) sits on paper. The frame is the desktop rail, the web top bar and the top bar of a phone's top-level pages; see [Page structure](../patterns/page-structure.md).
 - **Each color has one meaning.** Yellow is you, pink is to do, cyan is this item, orange interrupts, red is irreversible. Status colors are fixed too; see [Meanings of color](#meanings-of-color).
 - **A block of brand color is a sticker.** It has a 1.5px ink edge and ink type on it, in both modes; see [Stickers](#stickers).
-- **Notices are neutral.** Toasts and tooltips are dark gray (`layer-hud`), not a brand color, and no button is yellow. A notice is an aside: a yellow toast would compete with selection, and yellow means only "you" (where you are, what you selected, what calls you).
+- **Notices are neutral.** Toasts and tooltips are dark gray (`layer-hud`), not a brand color, and no button is yellow. A notice is an aside: a yellow toast would compete with selection, and yellow means only "you" (where you are, what you selected, what calls you). In Boring Gray that yellow is a gray fill ([Themes](./themes.md#the-themes): someone chose the neutral look on purpose, and the selection keeps its fill and ink type, so where you are stays just as clear).
 
 ## Tokens
 
@@ -38,7 +38,7 @@ layer
 | `layer-backdrop` | The scrim behind centered overlays, modal drawers, bottom sheets and the lightbox |
 | `layer-backdrop-nested` | The lighter scrim under a modal surface opened from another one ([Stacked overlays](./elevation.md#stacked-overlays)) |
 
-Fills are laid into or over a surface: the sunken fill and the pressed overlays ([Pressed overlays](#pressed-overlays)).
+Fills are laid into or over a surface: the sunken fill and the hover overlays ([Hover overlays](#hover-overlays)).
 
 ```tokens
 fill
@@ -124,7 +124,7 @@ inactive
 | Stone | `inactive` | Closed | Closed, offline |
 
 - Use orange when something goes wrong: red is only for consequences that cannot be undone.
-- Use blue (`foreground-link`) only for links in running text.
+- Use blue (`foreground-link`) only for links in running text. It is a deep, quiet blue, close to the link blue of Claude's apps and docs: in light mode it has about half the chroma of a bright link blue, so it sits beside black ink and yellow without being the loudest thing on a page full of links, and it still reads as a link at a glance. Dark mode uses the same blue, lightened to read on the dark canvas.
 - Lime, lavender and stone only mark a status. Don't use them for anything else.
 
 ### Statuses
@@ -160,7 +160,7 @@ A soft tint (`*-soft`) is a highlight, never a sticker: it has no border.
 
 | Tint | Use for |
 | --- | --- |
-| `brand-soft` | Menu highlight, the busy chip, text selection |
+| `brand-soft` | Menu highlight, the busy chip |
 | `info-soft` | The selected item in content, filters, info banners, runtime chips, thread references, a message inside a notification |
 | `attention-soft` | Channel references, a reaction you added |
 | `success-soft` | Success banners, the Done chip |
@@ -169,20 +169,32 @@ A soft tint (`*-soft`) is a highlight, never a sticker: it has no border.
 | `task-status-in-review-soft` | The In Review chip |
 | `task-status-closed-soft` | The Closed chip |
 
-### Pressed overlays
+- Draw a used-up usage meter's track in `warning-muted` with a 1px `warning` edge, not `warning-soft`: on the dark canvas `warning-soft` is 1.16:1, fainter than an empty track, and a soft tint can't take an edge ([Meter](../../packages/ui/src/components/meter/meter.md)).
 
-Hover and press lay a translucent overlay over a control instead of changing its fill; see [States](./states.md).
+### Text selection
 
-| Token | Over |
-| --- | --- |
-| `fill-pressed` | Paper-colored controls and content: press everywhere, and hover on buttons |
-| `fill-row-hover` | Hover on a row: a sidebar item, a list row, an inbox item, a search result, a table row, a file row, a comment card |
-| `fill-message-hover` | Hover on a message |
-| `fill-row-open` | Any row with its menu open: a message, a sidebar item, a list row, an inbox item, a search result, a table row, a file row |
-| `sticker-pressed` | Stickers |
-| `fill-frame-pressed` | Anything on the frame |
+Selected text has its own token, `selection`. A selection has to show clearly where it starts and ends against the page, while the text on it stays easy to read; a menu row's highlight only has to mark one row. The two needs part in dark mode, so they don't share a value.
 
-The two row hovers, and `fill-row-open`, are lighter than `fill-pressed` and than every selection tint, so a hovered row never looks selected and its text keeps its contrast. The values and the reasons are in [Row hover](./states.md#row-hover).
+| Mode | `selection` | Against the canvas | Selected text |
+| --- | --- | --- | --- |
+| Light | `brand-soft` | 1.14:1 | 16.5:1, APCA Lc 96 |
+| Dark | `brand` over the page at 22%, the wash of a commented passage ([Comment](../../packages/ui/src/components/comment/comment.md#highlights)) | 1.77:1 | 7.7:1, APCA Lc 80 |
+
+- In dark mode `brand-soft` left a selection at 1.23:1 against the canvas, so it was hard to see what was selected. 30% would reach 2.25:1 but drop the selected text to Lc 74, under the Lc 75 that body text needs; 22% keeps both.
+- Paint `::selection` (Tailwind's `selection:` variant) with `selection` and leave the text its own color.
+
+### Hover overlays
+
+Hover and press lay a translucent overlay over a control instead of changing its fill, in two tiers; see [Hover and press](./states.md#hover-and-press).
+
+| Token | Tier | Over |
+| --- | --- | --- |
+| `fill-subtle` | Subtle | Hover on a row, a message or a readable card (a comment, attachment or task card, the replies bar), and a row with its menu open |
+| `fill-medium` | Medium | Hover on paper-colored controls (buttons, icon buttons, chips, tabs, segments) and press on everything |
+| `sticker-medium` | Medium | Hover and press on a colour sticker |
+| `fill-frame-medium` | Medium | Hover and press on anything on the frame |
+
+`fill-subtle` is lighter than every selection tint, so a hovered row never looks selected and its text keeps its contrast. The names these tokens had before the two tiers keep working as deprecated aliases until raft-ui 1.0; `codemods/token-names.mjs` renames them.
 
 ## Stickers
 
@@ -216,6 +228,7 @@ palette
 ## Related
 
 - [Dark mode](./dark-mode.md): what changes and what stays in dark mode.
+- [Themes](./themes.md): the themes a person can pick and what each may change.
 - [States](./states.md): the colors of hover, selection, unread and error.
 - [Brand](./brand.md): how much brand color each kind of page may use.
 - [Button](../../packages/ui/src/components/button/button.md): which button color to use for which action.

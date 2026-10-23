@@ -24,7 +24,7 @@ test("a raft dialog dims the page and appears without motion", () => {
     <ThemeProvider>
       <Dialog open>
         <DialogContent data-testid="content">
-          <DialogTitle>Log out</DialogTitle>
+          <DialogTitle>Sign out</DialogTitle>
         </DialogContent>
       </Dialog>
     </ThemeProvider>,

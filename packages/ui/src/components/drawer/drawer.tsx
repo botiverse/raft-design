@@ -7,6 +7,7 @@ import { cn } from "../../lib/cn";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { Button } from "../button/index";
+import { DialogSheetReset } from "../dialog/dialog-sheet-context";
 import type { ButtonProps } from "../button/index";
 import { drawer } from "./drawer.recipe";
 import { useParentOverlayKind, withOverlayLayer } from "../../lib/overlay-depth";
@@ -123,7 +124,7 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
         <DrawerPrimitive.Popup data-slot="drawer-popup" className={popup({ className })} {...props}>
           {hasSnapPoints ? <DrawerSwipeHandle /> : null}
           <DrawerPrimitive.Content data-slot="drawer-content" className={content()}>
-            {children}
+            <DialogSheetReset>{children}</DialogSheetReset>
           </DrawerPrimitive.Content>
         </DrawerPrimitive.Popup>
       </DrawerPrimitive.Viewport>
@@ -231,8 +232,11 @@ export type DrawerActionsProps = useRender.ComponentProps<"div">;
 export function DrawerActions({ className, render, children, ...props }: DrawerActionsProps) {
   const swipeAxis = useContext(DrawerConfigContext)?.swipeAxis;
   const { actions } = drawer({ axis: swipeAxis });
-  const defaultProps: useRender.ElementProps<"div"> = {
+  // Stacked full width unless the drawer comes from a side: `data-stacked`
+  // gives a ghost Cancel its frame there, as in a stacked dialog footer.
+  const defaultProps: useRender.ElementProps<"div"> & { "data-stacked"?: "" } = {
     className: actions({ className }),
+    "data-stacked": swipeAxis === "x" ? undefined : "",
     children,
   };
 

@@ -38,10 +38,13 @@ export const sidebarSectionRecipe = tv({
     sidebarSectionControls: [
       "flex shrink-0 items-center gap-1",
       "pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 opacity-0",
-      "max-md:static max-md:pointer-events-auto max-md:translate-y-0 max-md:opacity-100",
-      "md:group-hover/section-header:pointer-events-auto md:group-hover/section-header:opacity-100",
-      "md:focus-within:pointer-events-auto md:focus-within:opacity-100",
-      "md:has-[[data-popup-open]]:pointer-events-auto md:has-[[data-popup-open]]:opacity-100",
+      // Shown at rest where there is no hover (a touch screen, a tablet at any
+      // width), on hover with a mouse: decided by the input, not the width
+      // (design/patterns/responsive.md#touch-screens).
+      "not-pointer-fine:static not-pointer-fine:pointer-events-auto not-pointer-fine:translate-y-0 not-pointer-fine:opacity-100",
+      "pointer-fine:group-hover/section-header:pointer-events-auto pointer-fine:group-hover/section-header:opacity-100",
+      "pointer-fine:focus-within:pointer-events-auto pointer-fine:focus-within:opacity-100",
+      "pointer-fine:has-data-popup-open:pointer-events-auto pointer-fine:has-data-popup-open:opacity-100",
     ],
     // 28px tall in a 16px header line: it overhangs the line instead of
     // making the header taller.

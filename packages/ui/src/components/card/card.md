@@ -27,7 +27,7 @@ card/compositions/project-summary
 | Properties of one item, label and value                              | [DescriptionList](../description-list/description-list.md)                                                                                              |
 | A part of a large form                                               | [FormSection](../form-section/form-section.md)                                                                                                          |
 | A column of the main area                                            | [Panel](../panel/panel.md)                                                                                                                              |
-| A task, a file on a message, a person on hover                       | [TaskCard](../task-card/task-card.md), [MessageAttachment](../message-attachment/message-attachment.md), [PreviewCard](../preview-card/preview-card.md) |
+| A task, a file on a message, a person or an app's item on hover      | [TaskCard](../task-card/task-card.md), [MessageAttachment](../message-attachment/message-attachment.md), [PreviewCard](../preview-card/preview-card.md) |
 
 ## Anatomy
 

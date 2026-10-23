@@ -8,8 +8,9 @@ import type { KbdProps } from "../kbd/index";
 // Raft Design System › Search, the web top bar: the search box that opens the
 // search dialog. It reads as a field (36 tall, the 1.5px field line, surface,
 // the placeholder in ink-3) but it is a button: pressing it opens the dialog
-// whose own field grows out of it. Disabled, it is a disabled field (sunken,
-// a hairline, ink-disabled) and the press overlay is reset, not drawn.
+// whose own field grows out of it. Like every field it doesn't hover; a press
+// lays the medium overlay. Disabled, it is a disabled field (sunken, a
+// hairline, ink-disabled) and the press overlay is reset, not drawn.
 const searchTrigger = tv({
   slots: {
     root: [
@@ -17,7 +18,7 @@ const searchTrigger = tv({
       "rounded-control border-[1.5px] border-line-field bg-layer-card",
       "text-left font-sans text-body font-normal text-foreground-hint",
       "select-none outline-none transition-colors duration-100",
-      "hover:press-overlay active:press-overlay focus-visible:shadow-focus",
+      "active:overlay-medium focus-visible:shadow-focus",
       "disabled:cursor-not-allowed disabled:border-line-hairline disabled:bg-fill-muted disabled:bg-none disabled:text-foreground-disabled",
       "aria-disabled:cursor-not-allowed aria-disabled:border-line-hairline aria-disabled:bg-fill-muted aria-disabled:bg-none aria-disabled:text-foreground-disabled",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-[18px]",

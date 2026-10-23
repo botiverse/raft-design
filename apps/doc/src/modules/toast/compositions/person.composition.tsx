@@ -13,7 +13,7 @@ import { ToastPreviewScene } from "./toast.composition";
 // @docs-source-strip-end
 
 /**
- * A toast about someone: their avatar takes the status pixel's place in
+ * A toast about someone: their avatar takes the intent icon's place in
  * `ToastIcon`. The command API renders `leading` hidden from assistive
  * technology, so the name stays in the title.
  */
@@ -38,7 +38,7 @@ export function PersonContent({ portalContainer }: { portalContainer: HTMLElemen
 
   return (
     <ToastProvider timeout={0} portalContainer={portalContainer} viewportStrategy="absolute">
-      <Button type="button" size="sm" variant="outline" onClick={showReviewDone}>
+      <Button type="button" size="md" variant="outline" onClick={showReviewDone}>
         Request review
       </Button>
     </ToastProvider>

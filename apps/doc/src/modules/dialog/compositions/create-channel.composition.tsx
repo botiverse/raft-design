@@ -67,10 +67,10 @@ function CreateChannelDialogParts() {
             </span>
             <span>Unarchive it to keep its history, or choose a different name.</span>
             <span className="flex flex-wrap justify-end gap-2">
-              <Button type="button" variant="accent" size="xs">
+              <Button type="button" variant="accent" size="md">
                 Unarchive
               </Button>
-              <Button type="button" variant="outline" size="xs">
+              <Button type="button" variant="outline" size="md">
                 Change name
               </Button>
             </span>
@@ -142,7 +142,7 @@ function CreateChannelDialogParts() {
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-        <Button variant="accent">Create Channel</Button>
+        <Button variant="accent">Create</Button>
       </DialogFooter>
     </>
   );
@@ -159,7 +159,7 @@ export function CreateChannelDialogContent() {
 // @docs-source-strip-start
 export function CreateChannelDialogComposition({ className }: { className?: string }) {
   return (
-    <CompositionModalPreview className={className} contentClassName="max-w-md">
+    <CompositionModalPreview className={className}>
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent

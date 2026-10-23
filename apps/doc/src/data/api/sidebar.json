@@ -459,8 +459,9 @@
       },
       {
         "name": "size",
-        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"icon-xs\" | \"icon-sm\" | \"icon-md\" | \"icon-lg\"",
+        "type": "\"md\" | \"lg\" | \"xl\" | \"icon-md\" | \"icon-lg\" | DeprecatedButtonSize",
         "required": false,
+        "description": "`md` (32px) and `icon-md` for rows, cards, banners, toolbars and panel headers; `lg` and `icon-lg` (the control height) for dialog footers, forms and beside a field; `xl` for a full-width call to action. The size follows the place: see Button › Size by place.",
         "from": "raft-ui"
       },
       {
@@ -573,9 +574,10 @@
       },
       {
         "name": "size",
-        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"icon-xs\" | \"icon-sm\" | \"icon-md\" | \"icon-lg\"",
+        "type": "\"md\" | \"lg\" | \"xl\" | \"icon-md\" | \"icon-lg\" | DeprecatedButtonSize",
         "required": false,
-        "default": "\"icon-sm\"",
+        "default": "\"icon-md\"",
+        "description": "`md` (32px) and `icon-md` for rows, cards, banners, toolbars and panel headers; `lg` and `icon-lg` (the control height) for dialog footers, forms and beside a field; `xl` for a full-width call to action. The size follows the place: see Button › Size by place.",
         "from": "raft-ui"
       },
       {

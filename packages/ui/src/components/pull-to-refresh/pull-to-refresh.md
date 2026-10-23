@@ -1,0 +1,99 @@
+---
+title: PullToRefresh
+summary: Pull down from the top of a list on a touch screen to reload it, for phone pages that load a snapshot and don't update themselves; never on a page fed by realtime updates.
+status: experimental
+aliases: [Pull to refresh, Pull-to-refresh, Swipe to refresh, Refresh control]
+layer: core
+category: feedback
+related: [spinner, toast, scroll-area]
+---
+
+# PullToRefresh
+
+Pull to refresh reloads a page when a person pulls its list down from the top with a finger. Use it on a phone page that loads a snapshot when it opens and doesn't update by itself, such as Saved. A page that realtime updates keep current never has it ([Navigation](../../../../../design/patterns/navigation.md#refreshing)).
+
+```example
+pull-to-refresh/compositions/preview
+```
+
+It is a hook, `usePullToRefresh`, on the page's existing scroll container, and a part, `PullToRefreshIndicator`, that you render as that container's first child. The browser draws no pull to refresh of its own inside a scroll container or in the installed web app (`display: standalone`), so phone web draws this one. The iOS and Android apps use their own control, and this one is tuned to feel the same: its numbers are the iOS app's (mobile #3553), and on Android it takes Material 3's shape ([On Android](#on-android)). Its indicator is the design system's loading icon, the [Spinner](../spinner/spinner.md), on every platform: never the platform's own spinner (decided by artin).
+
+## When to use
+
+| Situation                                                                                                                                                                                     | Use                                                                                                              |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| A phone page that loads a snapshot when it opens: Saved, search results once a search is showing, a channel's or a thread's files, the lists in Settings (invites, join links, apps, billing) | PullToRefresh                                                                                                    |
+| A page fed by realtime updates: messages, threads, direct messages, Home's conversation list, Activity, Tasks, Members, Computers and a computer's page, a channel's members                  | Nothing. The page stays current by itself and catches up when the app comes back to the foreground or reconnects |
+| A search with no results showing yet                                                                                                                                                          | Nothing. There is nothing to refresh                                                                             |
+| A mouse or a trackpad                                                                                                                                                                         | Not this component: it answers a finger only                                                                     |
+| A first load that failed                                                                                                                                                                      | Retry in the error state ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed))       |
+
+Never put pull to refresh on a realtime page: a page that needs a pull to show what is new tells people it may be out of date, and then they pull every page to be sure. A realtime page has to be current without one, and when it isn't, that is a bug to fix in its updates, not something for people to work around.
+
+## Anatomy
+
+- `usePullToRefresh(scrollRef, { onRefresh, disabled })`: required. The gesture on the scroll container `scrollRef` points at. It returns the pull: its state (`idle`, `pulling`, `refreshing`), its distance, its progress towards the threshold, and the platform whose shape it takes (`default` or `android`).
+- `PullToRefreshIndicator`: required. Takes the pull as `pull` and the announcement as `label`. It is the space the pull opens at the top of the list, with the [Spinner](../spinner/spinner.md) in it; on Android, a small surface that travels down over the list instead.
+
+## States
+
+```example
+pull-to-refresh/compositions/states
+```
+
+- **Pulling**: the spinner stands still and fades in with the pull, and its lit pixel walks clockwise one step for each quarter of the threshold (25px), so it shows how close a release is to refreshing. At the threshold the pull is armed: the spinner is fully in and the last pixel lit.
+- **Refreshing**: the spinner runs, and the indicator holds at 60px until the promise `onRefresh` returns settles.
+- **Failed**: the hook only ends the refresh. In `onRefresh`, keep the content on screen and show a `warning` toast with the same message as a failed first load ([Toast](../toast/toast.md)). Don't show a banner: what is on screen is still useful, only not the newest.
+
+## Behavior
+
+| Value                                                                 | Default         | Option         |
+| --------------------------------------------------------------------- | --------------- | -------------- |
+| Rubber band: the indicator moves this share of the finger's travel    | 0.55            |                |
+| Threshold: pulled this far, the pull is armed and a release refreshes | 100px           | `threshold`    |
+| Furthest pull                                                         | 140px           | `maxDistance`  |
+| Height while refreshing                                               | 60px            | `holdDistance` |
+| Snap-back, after the finger lifts or the refresh ends                 | 300ms, ease-out |                |
+
+- It answers a finger only. On a fine pointer (`pointer: fine`) the hook adds no listeners and the indicator stays at 0px.
+- A pull starts only when the scroll container is at its top, with one finger. Moving sideways or up first is a swipe or a scroll, not a pull.
+- The page scrolls as usual until the finger has moved 6px down; from then on the hook stops the browser scrolling or bouncing for that touch.
+- A touch that starts in a text field, a `select`, an editable element or anything inside `[data-pull-to-refresh-ignore]` never pulls. Put the attribute on drag handles and on anything else that moves with a finger, such as a slider or a carousel.
+- A finger held still for 500ms before it pulls is a long press: the pull lets go, so a menu or a drag can start ([States](../../../../../design/foundations/states.md#dragging-on-a-touch-screen)). A `contextmenu` or `dragstart` event, or a touch move another handler already took, also ends it.
+- While it is on, the scroll container gets `overscroll-behavior-y: contain`, so a browser tab doesn't also reload the whole page. The hook puts the old value back when it turns off.
+- An armed pull keeps the touch while it is armed: the page doesn't scroll under it.
+- A pull during a refresh does nothing.
+- With `prefers-reduced-motion`, the indicator snaps back without its transition and the spinner doesn't run ([Motion](../../../../../design/foundations/motion.md)).
+
+`disabled` turns it off, such as before the first load has finished or while a search is empty. Don't derive it from the refresh itself: turning it off mid-refresh drops the indicator before the promise settles.
+
+### Why these numbers
+
+- **They are the iOS app's.** The mobile team settled them for the iOS app (mobile #3553) and the product lead approved them, so a pull feels the same in the app and on phone web.
+- **0.55** is the rubber band of iOS's own scroll views: the list lags the finger, so the pull reads as resistance. The threshold takes about 182px of finger travel, so a refresh needs a deliberate pull.
+- **The threshold latches, except on Android.** Once the pull passes 100px it stays armed until the finger lifts, even if the finger moves back up first; a release then refreshes, as with iOS's `UIRefreshControl`. People who pull past the point and ease off still get the refresh they asked for. Only a cancel (the browser taking the touch, a second finger) lets an armed pull go. Android doesn't latch: Material 3 lets a pull be taken back; iOS commits once armed ([On Android](#on-android)).
+- **140px** is the ceiling: 40px past the threshold shows the pull is armed and still alive, and a hard stop there keeps a long drag from pushing the list off a small phone's screen.
+- **60px** while refreshing is the iOS app's height. It is below the threshold, so on release the indicator settles back up and gives the list back some of the room the pull took.
+- **The snap-back** takes 300ms with `ease-slide`, an ease-out curve that never passes its end: the indicator settles where it goes, with no overshoot or bounce, because a bounce would read as a second pull. With `prefers-reduced-motion` it snaps at once.
+
+### On Android
+
+On Android (by the user agent) the pull follows Material 3's pull to refresh, so it looks like the rest of the phone:
+
+- The indicator, the Spinner on a small `layer-popover` surface, travels down over the list. The list itself stays still: no rubber-band stretch of the content. The indicator still moves 0.55 of the finger's travel.
+- When the pull crosses the threshold, the phone ticks once (`navigator.vibrate(10)`), where the browser supports it. Elsewhere there is no vibration.
+- There is no latch: Material 3 lets a pull be taken back; iOS commits once armed. Moving back above the threshold before release disarms the pull, and the release then doesn't refresh. Crossing the threshold again arms it again, with another tick.
+- Everything else is the same: the numbers, the snap-back and the Spinner.
+
+`platform` overrides the detected platform, such as in a preview. Every other touch screen, iOS included, gets the default shape, in which the content moves down with the pull.
+
+## Accessibility
+
+- The indicator holds a polite live region (`role="status"`) that announces `label` when a refresh starts. Pass the product's own words, such as "Refreshing…": raft-ui holds no copy. The spinner itself is hidden from assistive technology.
+- A pull is not reachable without a finger, and that is fine for these pages: each one loads again when it is opened, and screen-reader users can do the same. Don't add a Refresh button on a phone for them ([Navigation](../../../../../design/patterns/navigation.md#refreshing)).
+
+## Rules
+
+- Put the indicator as the first child of the element `scrollRef` points at, so the content moves down with the pull.
+- Use one per page, on the page's main list. Nested scroll containers, such as a horizontal row of chips, carry `data-pull-to-refresh-ignore`.
+- Return a promise from `onRefresh` that settles when the new content is on screen, not when the request is sent: the indicator stays until then.

@@ -8,8 +8,8 @@ import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.f
 export function MessageImageGalleryTripleComposition() {
   return (
     <MessageImageGallery>
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-        <MessageImageGalleryItem className="h-[112px] sm:h-[128px]">
+      <div className="grid grid-cols-2 gap-2">
+        <MessageImageGalleryItem className="h-[112px] @min-[22.5rem]/gallery:h-[128px]">
           <MessageImageGalleryMedia>
             <img
               src={MESSAGE_FIXTURE_IMAGE_SRC}
@@ -18,7 +18,7 @@ export function MessageImageGalleryTripleComposition() {
             />
           </MessageImageGalleryMedia>
         </MessageImageGalleryItem>
-        <MessageImageGalleryItem className="h-[112px] sm:h-[128px]">
+        <MessageImageGalleryItem className="h-[112px] @min-[22.5rem]/gallery:h-[128px]">
           <MessageImageGalleryMedia>
             <img
               src={MESSAGE_FIXTURE_IMAGE_SRC}
@@ -27,7 +27,7 @@ export function MessageImageGalleryTripleComposition() {
             />
           </MessageImageGalleryMedia>
         </MessageImageGalleryItem>
-        <MessageImageGalleryItem className="h-[112px] sm:h-[128px]">
+        <MessageImageGalleryItem className="h-[112px] @min-[22.5rem]/gallery:h-[128px]">
           <MessageImageGalleryMedia>
             <img
               src={MESSAGE_FIXTURE_IMAGE_SRC}

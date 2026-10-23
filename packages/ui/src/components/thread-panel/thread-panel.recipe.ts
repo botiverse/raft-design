@@ -1,6 +1,12 @@
 import { tv } from "../../lib/tv";
 import { panelHeadActions, panelHeadEdges } from "../panel/panel-header.recipe";
 
+// The composer's footer adds no space above it: the list ends a section step
+// over the composer's frame with `pb-timeline-end` under its last row
+// (design/foundations/spacing.md#timeline-rhythm), and PanelFooter's own
+// 12px would stack on it.
+// The root message ends a section step over its rule; the replies start a
+// section step under it (`replySummary`).
 export const threadPanel = tv({
   slots: {
     root: [
@@ -28,14 +34,14 @@ export const threadPanel = tv({
     ],
     originalMessage: [
       "relative shrink-0",
-      "border-b border-line-hairline bg-transparent pb-2",
+      "border-b border-line-hairline bg-transparent pb-timeline-end",
       "**:data-message-item:bg-transparent",
     ],
-    replySummary: ["pt-2", "px-5"],
+    replySummary: ["pt-timeline-start", "px-5"],
     replyCount: [
-      "mb-1 border-b pb-2 text-center font-mono",
+      "my-timeline-row border-b pb-2 text-center font-mono",
       "border-line-hairline text-mono-meta text-foreground-hint",
     ],
-    footer: ["text-caption text-foreground-hint"],
+    footer: ["pt-0", "text-caption text-foreground-hint"],
   },
 });

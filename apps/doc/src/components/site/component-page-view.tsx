@@ -14,6 +14,7 @@ import { apiMarkdown, changesFor, changesMarkdown } from "#/lib/content/api.ts";
 import type { ApiComponent } from "#/lib/content/api.ts";
 import { pageAt } from "#/lib/content/pages.ts";
 import type { DocPage } from "#/lib/content/pages.ts";
+import { useMessages } from "#/lib/i18n/use-locale.ts";
 
 import { ApiSection, ChangesSection, RelatedSection } from "./api-section.tsx";
 import { DocMarkdownLink } from "./doc-markdown.tsx";
@@ -36,6 +37,7 @@ function importLineOf(page: DocPage, api: readonly ApiComponent[]) {
  * the generated parts.
  */
 export function ComponentPageView({ page, api }: { page: DocPage; api: readonly ApiComponent[] }) {
+  const messages = useMessages();
   const { status, aliases, replacedBy } = page.frontMatter;
   const changes = useMemo(() => changesFor(page.slug), [page.slug]);
   const related = useMemo(
@@ -52,11 +54,11 @@ export function ComponentPageView({ page, api }: { page: DocPage; api: readonly 
   const toc = useMemo(
     () => [
       ...page.headings,
-      { id: "api", title: "API", depth: 2 as const },
-      ...(related.length ? [{ id: "related", title: "Related", depth: 2 as const }] : []),
-      ...(changes.length ? [{ id: "changes", title: "Changes", depth: 2 as const }] : []),
+      { id: "api", title: messages.api, depth: 2 as const },
+      ...(related.length ? [{ id: "related", title: messages.related, depth: 2 as const }] : []),
+      ...(changes.length ? [{ id: "changes", title: messages.changes, depth: 2 as const }] : []),
     ],
-    [page.headings, related.length, changes.length],
+    [page.headings, related.length, changes.length, messages],
   );
   const replacement = replacedBy ? pageAt(`/components/${replacedBy}`) : undefined;
 
@@ -65,12 +67,12 @@ export function ComponentPageView({ page, api }: { page: DocPage; api: readonly 
       {status || aliases?.length ? (
         <div className="flex flex-wrap items-center gap-2 text-callout text-foreground-muted">
           {status ? <StatusLabel status={status as ComponentStatus} /> : null}
-          {aliases?.length ? <span>Also called {aliases.join(", ")}</span> : null}
+          {aliases?.length ? <span>{messages.alsoCalled(aliases.join(", "))}</span> : null}
         </div>
       ) : null}
       <CopyableCodeRoot size="sm" className="self-start">
         <CopyableCode>{importLineOf(page, api)}</CopyableCode>
-        <CopyableCodeAction aria-label="Copy import" />
+        <CopyableCodeAction aria-label={messages.copyImport} />
       </CopyableCodeRoot>
     </>
   );
@@ -78,20 +80,20 @@ export function ComponentPageView({ page, api }: { page: DocPage; api: readonly 
   const deprecatedNotice = (
     <Banner status="warning">
       <Info />
-      <BannerTitle>Deprecated</BannerTitle>
+      <BannerTitle>{messages.deprecated}</BannerTitle>
       <BannerDescription>
         {replacement ? (
           <>
-            Use{" "}
+            {messages.useInstead}{" "}
             <DocMarkdownLink href={replacement.url}>
               {replacement.frontMatter.title}
-            </DocMarkdownLink>{" "}
-            instead. {page.frontMatter.title} will be removed in the next major version.
+            </DocMarkdownLink>
+            {messages.insteadRemoved(page.frontMatter.title)}
           </>
         ) : typeof api[0]?.deprecated === "string" ? (
           api[0].deprecated
         ) : (
-          <>{page.frontMatter.title} will be removed in the next major version.</>
+          <>{messages.willBeRemoved(page.frontMatter.title)}</>
         )}
       </BannerDescription>
     </Banner>
@@ -99,10 +101,10 @@ export function ComponentPageView({ page, api }: { page: DocPage; api: readonly 
   const undocumentedNotice = (
     <Banner status="default">
       <Info />
-      <BannerTitle>Not documented yet</BannerTitle>
+      <BannerTitle>{messages.notDocumentedTitle}</BannerTitle>
       <BannerDescription>
-        The API below is generated from raft-ui. The guidelines will be in{" "}
-        <code className="font-mono">{page.repoPath}</code>.
+        {messages.notDocumented} <code className="font-mono">{page.repoPath}</code>
+        {messages.notDocumentedEnd}
       </BannerDescription>
     </Banner>
   );

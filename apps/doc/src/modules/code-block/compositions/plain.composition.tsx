@@ -3,6 +3,7 @@ import {
   CodeBlockActions,
   CodeBlockBody,
   CodeBlockHeader,
+  CodeBlockPre,
   CodeBlockTitle,
 } from "@botiverse/raft-ui";
 import { CodeCopyAction } from "#/lib/code-block/code-copy-action.tsx";
@@ -22,9 +23,9 @@ export function PlainCodeBlockComposition() {
         </CodeBlockActions>
       </CodeBlockHeader>
       <CodeBlockBody>
-        <pre>
+        <CodeBlockPre>
           <code>{CODE}</code>
-        </pre>
+        </CodeBlockPre>
       </CodeBlockBody>
     </CodeBlock>
   );

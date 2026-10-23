@@ -49,14 +49,14 @@ sidebar-item/compositions/channel-item
 
 ## States
 
-| State                 | Look                                                                                                                                                                                                                                                       |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `active`              | A yellow sticker: you are here                                                                                                                                                                                                                             |
-| `tone="unread"`       | A bold name and a pink `SidebarItemCount`. When someone mentions the person, a yellow `SidebarItemIndicator` replaces the count                                                                                                                            |
-| `tone="muted"`        | A `bell-off` `SidebarItemMetaIcon`, the name in `foreground-muted`, and the unread number as quiet text in `SidebarItemMeta`                                                                                                                               |
-| `tone="away"`         | Offline, or not joined: the name in `foreground-hint`                                                                                                                                                                                                      |
-| Menu open             | `data-popup-open` (a context menu, or press and hold on a phone): `fill-row-open`, a step past the hover, so the row the menu acts on stays marked; an `active` row stays the sticker ([Row hover](../../../../../design/foundations/states.md#row-hover)) |
-| `interactive={false}` | A display-only row, such as this computer, whose action is a button inside it: a `div` that doesn't react to hover or press                                                                                                                                |
+| State                 | Look                                                                                                                                                                                                                                                                             |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `active`              | A yellow sticker: you are here. It doesn't change on hover; a press lays `sticker-medium`                                                                                                                                                                                        |
+| `tone="unread"`       | A bold name and a pink `SidebarItemCount`. When someone mentions the person, a yellow `SidebarItemIndicator` replaces the count                                                                                                                                                  |
+| `tone="muted"`        | A `bell-off` `SidebarItemMetaIcon`, the name in `foreground-muted`, and the unread number as quiet text in `SidebarItemMeta`                                                                                                                                                     |
+| `tone="away"`         | Offline, or not joined: the name in `foreground-hint`                                                                                                                                                                                                                            |
+| Menu open             | `data-popup-open` (a context menu, or press and hold on a phone): `fill-subtle`, the same subtle tier as the hover, so the row the menu acts on stays marked; an `active` row stays the sticker ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)) |
+| `interactive={false}` | A display-only row, such as this computer, whose action is a button inside it: a `div` that doesn't react to hover or press                                                                                                                                                      |
 
 ```example
 sidebar-item/compositions/tones-item
@@ -64,7 +64,7 @@ sidebar-item/compositions/tones-item
 
 ## Behavior
 
-- The sidebar is 240px wide and can be dragged between 180px and 320px ([Spacing](../../../../../design/foundations/spacing.md#layout-widths)).
+- The sidebar is 240px wide and can be dragged between 200px and 400px; it keeps one width on every page that has it ([Spacing](../../../../../design/foundations/spacing.md#layout-widths)).
 - A name stays on one line and ends with an ellipsis. A description after it gives up its room first; the name truncates only once the description is gone.
 - A row whose content is 2 lines (a computer's name and whether it runs agents) uses `wrap` with `SidebarItemContent stacked`: it grows from 36px, its text stays 8px from the row's edges, and its icon lines up with the first line. The name still stays on one line.
 - A collapsed group shows how many rows it holds in `SidebarSectionCount`.

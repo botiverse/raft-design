@@ -1,0 +1,61 @@
+---
+title: TaskDnd
+summary: 让人在各列之间、在其他卡片之间拖动任务卡片的一组拖放部件；允许放到哪里、移动后做什么由调用方决定。
+sourceHash: 2798df6a
+---
+
+# TaskDnd
+
+TaskDnd 是 [TaskBoard](../task-board/task-board.md) 背后的拖放连接层：一个 provider、人拖动的卡片、放下卡片的位置、卡片落入的空隙，以及跟着鼠标指针移动的卡片副本。它不对任务做任何决定。哪些放置是允许的、一次移动要做什么（比如把 #25 从 Todo 改成 In Review），由调用方说了算。
+
+```example
+task-dnd/compositions/task-dnd
+```
+
+## 何时使用 {#when-to-use}
+
+| 情况 | 用 |
+| --- | --- |
+| 把卡片移到看板的另一列来改变状态 | TaskDnd，放在 [TaskBoard](../task-board/task-board.md) 里 |
+| 在一列的卡片之间调整某张卡片的顺序 | TaskDnd，每张卡片上都有一个放置目标 |
+| 不拖动就改变状态 | 卡片上的状态标签，或任务详情里的属性（[任务](../../../../../design/patterns/tasks.md#rules)） |
+| 调整消息输入框里附件的顺序 | 消息输入框自带的可排序附件（[Composer](../composer/composer.md)） |
+| 调整一列的宽度 | [Resizable](../resizable/resizable.md) |
+
+## 结构 {#anatomy}
+
+- `TaskDndProvider`：包住看板和它的浮层。它持有调用方的策略 `isDropAllowed`，卡片放到允许的目标上时调用 `onMove`，并把 `accessibility` 传给 dnd-kit。必需。
+- `TaskDropZone`：可以放下卡片的地方，通常是通过 `render` 渲染的 `TaskBoardColumn`。它报告 `dropState`：`idle`、`allowed` 或 `blocked`。
+- `TaskDraggable`：包住一张 [TaskCard](../task-card/task-card.md)，让它可以拖动。带 `dropId` 时它也是一个放置目标，卡片可以落在它前面或后面。
+- `TaskDropPlaceholder`：卡片将要落下的空隙，在某张卡片前面或后面，或在空列里。只有允许放在那里时才显示。
+- `TaskDragOverlay`：跟着鼠标指针移动的卡片副本。把被拖动的卡片渲染在里面，没有卡片被拖动时什么都不渲染。
+
+## 状态 {#states}
+
+| 状态 | 样子 |
+| --- | --- |
+| 拖动中 | `TaskDragOverlay` 里的副本是唯一带 `shadow-float` 的卡片（[TaskCard](../task-card/task-card.md#states)） |
+| 在允许的目标上方 | `TaskDropPlaceholder` 显示一个 `line-strong` 的虚线框，高度与被拖动的卡片相同 |
+| 在禁止的目标上方 | 没有占位框；目标的 `dropState` 是 `blocked`，空列会说明原因（[TaskBoard](../task-board/task-board.md#states)） |
+| 关闭拖动 | provider 上的 `disabled` 去掉所有拖动方式；`TaskDraggable` 上的 `disabled` 只对那张卡片去掉拖动 |
+
+## 行为 {#behavior}
+
+- 用鼠标时，指针移动 5px 后才开始拖动，所以点击卡片不算拖动。
+- 在触屏上，按住卡片不动 500ms，然后移动：拖动在这次移动时开始。按住时间不够就移动，会滚动看板（[触屏上的拖动](../../../../../design/foundations/states.md#dragging-on-a-touch-screen)）。
+- 卡片落在哪里，以被拖动卡片的中点为准：在下方卡片中线以上是 `before`，以下是 `after`。
+- 放下时卡片没有弹回或归位的动画。移动由调用方负责：`onMove` 可以返回一个 promise，它被拒绝时 `onMoveError` 会收到错误，调用方可以撤销改动并说明出了什么问题。
+
+## 无障碍 {#accessibility}
+
+- 这些部件包装的是 dnd-kit，不是 Base UI。`TaskDraggable` 带有 dnd-kit 的属性：它可以获得焦点，并为读屏软件提供角色描述和操作说明。
+- 键盘：按 Tab 移到一张卡片上，然后按 Space 拿起它。ArrowDown 和 ArrowUp 让它在本列中向下或向上移动一格，落到每张卡片的前面或后面；ArrowLeft 和 ArrowRight 让它移到相邻列中最近的放置目标，比如一个空列或与它平齐的卡片。Space 放下，Escape 取消。按键在放置目标之间逐个移动，所以不管拖动时卡片是否离开本列，移动方式都一样。
+- 用键盘放下之后，焦点停在 dnd-kit 留下的位置。被移动的卡片在 DOM 中有了新位置，把焦点移到它上面是调用方的事：在看板渲染出这次移动后，在 `onMove` 或 `onDragEnd` 中聚焦它。
+- dnd-kit 自带的播报用 ID 称呼卡片和目标。给 `TaskDndProvider` 传入 `accessibility` 来替换它们：它会原样传给 dnd-kit 的 `DndContext`，包括 `announcements`（拿起、移动、放下和取消时说什么）和 `screenReaderInstructions`（怎么拖动，每张卡片都会读出）。用文字来写，比如 "Task #25 moved to In Review"，或者在你自己的 polite 实时区域里播报每次移动；[TaskBoard](../task-board/task-board.md#accessibility) 的组合示例演示了做法。
+- `TaskDropPlaceholder` 对辅助技术隐藏。
+
+## 规则 {#rules}
+
+- 在 `isDropAllowed` 里决定哪些放置是允许的，这样卡片悬在目标上方时，目标就能说明卡片不能移到这里（[TaskBoard](../task-board/task-board.md#content)）。
+- 提供另一种改变状态的方式：拖动只是三种方式之一（[任务](../../../../../design/patterns/tasks.md#rules)）。
+- 在 `TaskDragOverlay` 里放被拖动卡片自己的 `TaskCard`，这样指针下的卡片和列里的那张读起来一样。

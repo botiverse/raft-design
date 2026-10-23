@@ -88,7 +88,7 @@ function CreateAgentDialogParts() {
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-        <Button variant="accent">Create Agent</Button>
+        <Button variant="accent">Create</Button>
       </DialogFooter>
     </>
   );
@@ -105,11 +105,7 @@ export function CreateAgentDialogContent() {
 // @docs-source-strip-start
 export function CreateAgentDialogComposition({ className }: { className?: string }) {
   return (
-    <CompositionModalPreview
-      className={className}
-      contentClassName="max-w-md"
-      portalClassName="px-0"
-    >
+    <CompositionModalPreview className={className} portalClassName="px-0">
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent

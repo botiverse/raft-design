@@ -33,7 +33,7 @@ export function TasksPanelFilteredEmptyContent() {
             Assignee
             <ChevronDown aria-hidden />
           </TasksPanelToolbarLabel>
-          <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="md">
             Clear
           </Button>
         </TasksPanelToolbarFilters>

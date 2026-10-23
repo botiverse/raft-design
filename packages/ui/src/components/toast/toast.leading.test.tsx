@@ -24,7 +24,8 @@ afterEach(() => {
 });
 
 async function iconOf(title: string) {
-  const titleNode = await screen.findByText(title);
+  // An error toast is also announced in a live region, so match the title.
+  const titleNode = await screen.findByText(title, { selector: '[data-slot="toast-title"]' });
   const content = titleNode.closest<HTMLElement>('[data-slot="toast-content"]');
   expect(content, "toast content element must exist").not.toBeNull();
   return content!.querySelector<HTMLElement>('[data-slot="toast-icon"]');
@@ -38,7 +39,7 @@ function renderProvider() {
   );
 }
 
-test("leading renders in ToastIcon, hidden from assistive technology, in place of the pixel", async () => {
+test("leading renders in ToastIcon, hidden from assistive technology, in place of the intent icon", async () => {
   renderProvider();
   toast.info("Bugen finished reviewing #25.", {
     leading: <Avatar size="xs" type="agent" data-testid="leading-avatar" />,
@@ -48,7 +49,7 @@ test("leading renders in ToastIcon, hidden from assistive technology, in place o
   expect(icon).not.toBeNull();
   expect(icon!.getAttribute("aria-hidden")).toBe("true");
   expect(icon!.contains(screen.getByTestId("leading-avatar"))).toBe(true);
-  expect(icon!.querySelector('[data-slot="status"]')).toBeNull();
+  expect(icon!.querySelector(".lucide-info")).toBeNull();
   expect(icon!.parentElement!.hasAttribute("data-has-icon")).toBe(true);
 });
 
@@ -63,13 +64,28 @@ test("leading shows even when icon is false", async () => {
   expect(icon?.contains(screen.getByTestId("leading-avatar"))).toBe(true);
 });
 
-test("without leading the icon slot renders the status pixel exactly as before", async () => {
+// A notice leads with its intent's icon, never a status light that says
+// what kind of notice it is (status.md#sizes).
+test.each([
+  ["success", "lucide-circle-check"],
+  ["info", "lucide-info"],
+  ["warning", "lucide-triangle-alert"],
+  ["error", "lucide-triangle-alert"],
+] as const)("a %s toast leads with its icon, not a status light", async (intent, icon) => {
+  renderProvider();
+  toast[intent](`A ${intent} toast.`);
+  const slot = await iconOf(`A ${intent} toast.`);
+  expect(slot!.querySelector(`svg.${icon}`)?.getAttribute("aria-hidden")).toBe("true");
+  expect(slot!.querySelector('[data-slot="status"]')).toBeNull();
+});
+
+test("without leading the icon slot renders the intent icon exactly as before", async () => {
   renderProvider();
   toast.info("3 links copied.");
   const plain = await iconOf("3 links copied.");
   const plainHtml = plain!.outerHTML;
   expect(plain!.hasAttribute("aria-hidden")).toBe(false);
-  expect(plain!.querySelector('[data-slot="status"]')).not.toBeNull();
+  expect(plain!.querySelector("svg.lucide-info")).not.toBeNull();
   toast.dismiss();
   cleanup();
 

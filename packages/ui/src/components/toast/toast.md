@@ -35,26 +35,25 @@ Never put anything in a toast that would confuse people if they missed it ([Choo
 - `toast`: the command API (`toast.success`, `toast.error`, …) for the default manager.
 - `ToastViewport`: where toasts appear on screen. `ToastPositioner` and `ToastArrow` anchor a toast to an element instead.
 - `ToastRoot` and `ToastContent`: one toast and its layout.
-- `ToastIcon`: optional. Who did it (an avatar), or a status pixel when there is no "who".
-- `ToastBody`, holding `ToastTitle` (required) and an optional `ToastDescription`, both in `text-callout` ([Typography](../../../../../design/foundations/typography.md#type-scale)): 14/20 on a phone, 14/22 on a desktop, like a banner. `ToastIcon` is one line of that text tall, so the icon stays on the title's line.
-- `ToastActions`: optional, holding one `ToastAction`, and `ToastClose` (the Dismiss text action) only on a toast that doesn't close by itself, which Raft doesn't use: progress is not a toast.
+- `ToastIcon`: optional. Who did it (an avatar), or the intent's icon when there is no "who". Never a status light for the toast's intent: a status light never says what kind of notice this is (success, info, warning, error). A status light keeps its own meanings, whether an agent, a person or a computer is working or online, a task's status, and the square attention dot that marks something waiting or unread; a notice about one of those things may still show that thing's light inside it ([Status](../status/status.md#sizes)).
+- `ToastBody`, holding `ToastTitle` (required) and an optional `ToastDescription`, both in `text-callout` ([Typography](../../../../../design/foundations/typography.md#type-scale)): 14/20 on a phone, 14/22 on a desktop, like a banner. `ToastIcon` is one line of that text tall, so the icon stays on the title's line: a 16px icon, centered in a 20px column 12px before the title, as is an avatar ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
+- `ToastActions`: optional, holding one `ToastAction` and `ToastClose`.
 - `ToastProgress`: an optional line that shows the time left before it closes.
 
 Leave out a part you don't need instead of rendering it empty.
 
 ## Variants
 
-The intent sets the pixel in `ToastIcon`. When the toast is about someone, show their avatar there instead.
+The intent sets the icon in `ToastIcon`, the same icon a banner of that intent leads with ([Banner](../banner/banner.md#variants)). When the toast is about someone, show their avatar there instead.
 
-| Intent                   | Use for                                                         |
-| ------------------------ | --------------------------------------------------------------- |
-| A person or agent did it | Their avatar in `ToastIcon`: "Bugen finished reviewing #25."    |
-| `success`                | Something finished or saved                                     |
-| `warning`, `error`       | Something went wrong. `error` is announced at a higher priority |
-| `info`                   | A neutral result, such as "3 links copied."                     |
-| A message sent as a task | The Todo pixel in `ToastIcon`                                   |
+| Intent                   | Use for                                                         | In `ToastIcon`  |
+| ------------------------ | --------------------------------------------------------------- | --------------- |
+| A person or agent did it | "Bugen finished reviewing #25."                                 | Their avatar    |
+| `success`                | Something finished or saved                                     | `CircleCheck`   |
+| `warning`, `error`       | Something went wrong. `error` is announced at a higher priority | `TriangleAlert` |
+| `info`                   | A neutral result, such as "3 links copied."                     | `Info`          |
 
-With the `toast` command API, pass the avatar as `leading`. It takes the pixel's place in `ToastIcon`, hidden from assistive technology.
+With the `toast` command API, pass the avatar as `leading`. It takes the icon's place in `ToastIcon`, hidden from assistive technology.
 
 ```example
 toast/compositions/person
@@ -62,10 +61,9 @@ toast/compositions/person
 
 ## Behavior
 
-- A toast closes on its own after the provider's `timeout`, 5 seconds by default. Give a toast with an action 8 seconds, so there is time to read and then act. Hovering or focusing it pauses the timer.
-- People can swipe a toast away, press Esc while it has focus (F6 moves focus to the toasts), or close it with `ToastClose`. Raft shows no `ToastClose`: every toast closes by itself, and progress belongs on the thing it is about ([Actions and closing](../../../../../design/patterns/actions-and-closing.md#toasts)).
-- Show one toast at a time: pass `limit={1}` to `ToastProvider` (it shows 3 by default). A new toast replaces the one on screen.
-- Toasts appear at the top center, under the page header ([Actions and closing](../../../../../design/patterns/actions-and-closing.md)). raft-ui's viewport still defaults to the bottom; until it changes, place `ToastViewport` at the top. An anchored toast opens next to the control that caused it.
+- A toast closes on its own after the provider's `timeout`; hovering or focusing it pauses the timer.
+- People can swipe a toast away, or close it with `ToastClose`.
+- Stacked toasts appear at the bottom center by default. An anchored toast opens next to the control that caused it.
 
 ## Content
 
@@ -77,7 +75,7 @@ toast/compositions/person
 
 Toast wraps Base UI's Toast, which announces each toast in a live region and keeps it open while it has focus.
 
-- Make `ToastTitle` carry the whole meaning. The pixel in `ToastIcon` is hidden from assistive technology, and so is `ToastProgress`.
+- Make `ToastTitle` carry the whole meaning. The icon in `ToastIcon` is hidden from assistive technology, and so is `ToastProgress`.
 - Hide an avatar in `ToastIcon` with `aria-hidden`; the name is already in the text. The command API's `leading` does this for you.
 - Pass `loadingLabel` to a `ToastAction` that shows a loading state, so its spinner says what it waits for.
 
@@ -86,5 +84,4 @@ Toast wraps Base UI's Toast, which announces each toast in a live region and kee
 - Show at most one toast at a time.
 - Use `layer-hud` for every toast, with `foreground-on-hud` text. Don't tint a toast with an intent color, and never use yellow: notices are neutral ([Color](../../../../../design/foundations/color.md#principles)).
 - Make the action a bold text action that underlines on hover (`ToastAction`), never a button. Never put a colored button in a toast.
-- Give a toast at most one action besides closing it, and only one that people can also reach another way: the toast disappears, so it may shorten a way but never be the only one.
-- Lead every toast with a pixel or an avatar. Never use red: a toast reports something that already happened.
+- Give a toast at most one action besides closing it.

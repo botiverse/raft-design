@@ -1,6 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cn } from "../../lib/cn";
+import { inlineChip } from "../../lib/inline-chip";
 import { tv } from "../../lib/tv";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import type { TaskStatusId } from "./task-status.recipe";
@@ -16,11 +17,10 @@ const taskChip = tv({
       "no-underline select-text",
       "transition-[filter,opacity] duration-100",
       "focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-offset-2 focus-visible:keyboard:outline-line-strong",
-      "rounded-chip border-0",
+      "border-0",
       "font-sans font-semibold text-foreground",
-      "[&>svg:not([data-slot=task-status-icon])]:-mx-0.5 [&>svg[data-slot=task-status-icon]]:size-[9px]",
-      "hover:brightness-100",
-      "[a,button]:cursor-pointer [a,button]:hover:press-overlay [a,button]:active:press-overlay",
+      "[&>svg:not([data-slot=task-status-icon])]:-mx-0.5 [&>svg[data-slot=task-status-icon]]:size-2.5",
+      "[a,button]:cursor-pointer [a,button]:hover:overlay-medium [a,button]:active:overlay-medium",
       "focus-visible:outline-none focus-visible:shadow-focus",
     ],
   },
@@ -33,7 +33,18 @@ const taskChip = tv({
       closed: { root: ["bg-task-status-closed-soft"] },
     },
     variant: {
-      default: { root: ["h-[22px] gap-1.5 py-0 pr-2 pl-1.5", "text-[12px] leading-4"] },
+      // The chip's baseline is its text's, so it sits on the line of text
+      // beside it (a DescriptionList value on its label's baseline): the text
+      // is baseline-aligned in a 16px line 3px from each edge, and the marks
+      // are centred on that line. Left to `items-center`, an inline-flex box
+      // takes its baseline from its first item, the status pixel, whose
+      // bottom edge is not the text's baseline.
+      default: {
+        root: [
+          "h-[22px] items-baseline gap-1.5 rounded-chip px-[7px] py-[3px] [&>svg]:self-center",
+          "text-[12px] leading-4",
+        ],
+      },
       inline: {},
     },
     // `sm` matches the Badges it sits beside: in the Activity card metadata
@@ -46,32 +57,26 @@ const taskChip = tv({
     },
   },
   compoundVariants: [
-    // Inline (in a message) follows the message-reference rule: body text
-    // size on the body baseline, the box made of the text's own line box plus
-    // symmetric padding — no fixed height or nudge. Its colours are the task
-    // chip's own: no background or border colour is set here, so the
-    // per-status wash and border above apply.
+    // Inline (in a message) is an inline chip, the box a reference chip has
+    // (lib/inline-chip.ts, message-item.md, Chips in running text). The status
+    // pixel keeps its own 10px box: it is drawn to its edges, so the chip takes
+    // 4.5px at each end and 4px from the pixel to the text, and the ink at both
+    // ends sits equally far in (alignment.md, Chips). Its colours are the task
+    // chip's own: the per-status tint above applies.
     {
       variant: "inline",
       status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: {
         root: [
-          "items-baseline gap-1.5 rounded-full border py-0 pr-2 pl-1 align-baseline",
-          // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
-          "[font-size:inherit] leading-[1.2em] font-[450] hover:brightness-100",
-          "[&>svg]:size-[0.857em] [&>svg]:self-center",
+          ...inlineChip,
+          "[&>svg]:size-3.5 [&>svg]:self-center [&>svg:not([data-slot=task-status-icon])]:mx-0",
         ],
       },
     },
     {
       variant: "default",
       size: "sm",
-      class: { root: ["h-5 gap-1 pr-1.5 pl-1"] },
-    },
-    {
-      variant: "inline",
-      status: ["todo", "in-progress", "in-review", "done", "closed"],
-      class: { root: ["rounded-sticker border-0 pr-1.5 pl-[3px]", "font-semibold"] },
+      class: { root: ["h-5 gap-1 px-[5px] py-0.5"] },
     },
   ],
   defaultVariants: {

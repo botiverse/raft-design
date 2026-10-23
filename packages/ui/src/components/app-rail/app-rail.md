@@ -55,7 +55,7 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 
 - Selected: a sticker on the frame, white in light mode and yellow in dark mode ([States](../../../../../design/foundations/states.md)).
 - Attention: one pink pixel at the top right of the icon, never a count. The selected item never shows it, with no exception.
-- Hover and press lay `fill-frame-pressed` over the item ([Color](../../../../../design/foundations/color.md#pressed-overlays)).
+- Hover and press lay `fill-frame-medium` over the item, the medium tier on the frame ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). The selected item doesn't change on hover.
 
 ## Behavior
 
@@ -78,4 +78,4 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 
 ## Rules
 
-- Make the workspace tile ink with the server's initial in yellow. It opens the server list next to the tile ([Built from existing parts](../../../../../design/components/overview.md#switching-servers)).
+- Make the workspace tile ink with the server's initial in yellow. It opens the server list next to the tile ([Built from existing parts](../../../../../design/components/overview.md#switching-servers)). In the mobile apps' desktop mode the tile is the only server entry and opens the phone server tab's popover instead, with Members and Computers but not Settings, which is at the rail's bottom ([Navigation](../../../../../design/patterns/navigation.md#the-server-in-the-apps-desktop-mode)).

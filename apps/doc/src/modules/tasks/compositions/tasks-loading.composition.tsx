@@ -32,7 +32,7 @@ export function TasksLoadingComposition() {
       <TasksPanelRoot aria-label="Loading tasks">
         <TasksPanelToolbar>
           <TasksPanelToolbarNewTask>
-            <Button variant="accent" size="sm" onClick={handleNewTask}>
+            <Button variant="accent" size="md" onClick={handleNewTask}>
               <Plus aria-hidden />
               New Task
             </Button>

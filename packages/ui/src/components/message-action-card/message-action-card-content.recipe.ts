@@ -2,7 +2,11 @@ import { tv } from "../../lib/tv";
 
 export const messageActionCardContent = tv({
   slots: {
-    root: ["p-3", "flex flex-col gap-2 px-3 pt-0 pb-3"],
+    // The card's content is the container its properties switch on: one
+    // column below 24rem of it, wherever the card is (DescriptionList's
+    // rule). A card at its 440px cap has 416px of content, so it keeps two
+    // columns on a desktop; on a phone it stacks.
+    root: ["p-3", "@container/action-card flex flex-col gap-2 px-3 pt-0 pb-3"],
     panel: [
       "h-(--collapsible-panel-height) overflow-hidden",
       "transition-[height] duration-200 ease-out motion-reduce:transition-none",
@@ -10,15 +14,23 @@ export const messageActionCardContent = tv({
     ],
     properties: [
       "m-0 grid",
-      "max-sm:grid-cols-1 max-sm:gap-y-0.5",
+      "@max-sm/action-card:grid-cols-1",
       "grid-cols-[minmax(88px,max-content)_minmax(0,1fr)] items-baseline gap-x-4 gap-y-0.5",
     ],
     property: ["contents"],
+    // Stacked (a narrow card), the value sits 2px under its label and 10px
+    // above the next label (the 2px row gap plus 8px on each following
+    // label), as in DescriptionList.
     propertyLabel: [
       "max-w-40 min-w-0 wrap-break-word",
       "text-footnote font-medium text-foreground-hint",
+      "[[data-slot=message-action-card-property]+[data-slot=message-action-card-property]>&]:@max-sm/action-card:mt-2",
     ],
-    propertyValue: ["m-0 min-w-0 wrap-break-word", "min-h-8 py-1.5 text-callout text-foreground"],
+    propertyValue: [
+      "m-0 min-w-0 wrap-break-word",
+      "min-h-8 py-1.5 text-callout text-foreground",
+      "@max-sm/action-card:min-h-0 @max-sm/action-card:py-0",
+    ],
     scopeList: ["mt-0 stack-y-1.5"],
     // A long permission list scrolls inside the card instead of stretching it;
     // the cap cuts through the third row so the cut-off says "more".
@@ -45,7 +57,7 @@ export const messageActionCardContent = tv({
       "[&>svg]:size-3.5 [&>svg]:shrink-0",
       "mb-0 rounded-control bg-fill-muted px-2.5 py-2",
       "text-footnote text-foreground-muted",
-      "[&>svg]:mt-0.5 [&>svg]:text-foreground-muted",
+      "[&>svg]:mt-[calc((1lh-14px)/2)] [&>svg]:text-foreground-muted",
     ],
     completion: [
       "inline-flex items-center gap-1.5 text-footnote text-foreground-muted",

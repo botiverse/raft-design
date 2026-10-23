@@ -115,7 +115,7 @@ export function TasksIdentityFiltersComposition({
         onOpenChange={handleAssigneeOpenChange}
       />
       {hasActiveFilters ? (
-        <Button variant="ghost" size="sm" onClick={clearFilters}>
+        <Button variant="ghost" size="md" onClick={clearFilters}>
           Clear
         </Button>
       ) : null}

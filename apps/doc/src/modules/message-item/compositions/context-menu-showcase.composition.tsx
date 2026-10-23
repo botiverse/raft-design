@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { MESSAGE_FIXTURE_AVATAR_SRC, MESSAGE_EXAMPLE_HREFS } from "../message-item.fixtures.ts";
 import { Bookmark, MessageSquare } from "lucide-react";
 import {
@@ -41,6 +41,9 @@ export function MessageContextMenuShowcaseComposition() {
   const [reaction, setReaction] = useState("✅");
   const [saved, setSaved] = useState(false);
   const [task, setTask] = useState<MessageTaskState>("none");
+  // The docs have no full emoji picker: Add Reaction reacts with an emoji
+  // outside the quick seven, as choosing one in the picker would.
+  const reactWithPickedEmoji = useCallback(() => setReaction("🙌"), []);
 
   return (
     <div className="w-full max-w-3xl">
@@ -85,6 +88,7 @@ export function MessageContextMenuShowcaseComposition() {
             onCopyLink={copyMessageLink}
             onCopyMarkdown={copyMessageMarkdown}
             onFollowChange={setFollowed}
+            onOpenEmojiPicker={reactWithPickedEmoji}
             onQuickReact={setReaction}
             onSavedChange={setSaved}
             onTaskChange={setTask}

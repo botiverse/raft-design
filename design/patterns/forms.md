@@ -20,6 +20,7 @@ Settings pages, forms in dialogs and drawers, and large configuration forms. Whi
 - Mark optional fields "(optional)", and required fields with an asterisk.
 - Reserve the line under a field for its help text or its error, so the form doesn't move when an error appears.
 - Make a setting's description state the result, not repeat the title: the title already names the setting, and people read on to learn what it does.
+- Put a checkbox, a radio or a switch 8px before its label, centered on the label's first line, and at the end of a settings row centered on the whole row. raft-ui places it there (`FieldItem`, a checkbox's or radio's `<label>` row, `ListRow`); never nudge it with a margin ([Alignment](../foundations/alignment.md#a-control-and-its-label)). The switch stays 50 × 30 and the checkbox and radio 20px, on a phone and a desktop alike.
 
 ```example
 field/compositions/preview
@@ -37,8 +38,8 @@ field/compositions/preview
 
 ### Forms in a dialog
 
-- Put Cancel and the submit button at the bottom of a form in a dialog. Cancel is a ghost button there, and takes an ink border on a page ([Button](../../packages/ui/src/components/button/button.md#which-color)). Cancel comes first; the submit button is the screen's pink button and repeats the words that opened the dialog, Create Channel ([Writing](../content/writing.md#actions-and-their-dialogs)). Both are `size="lg"`, the height of the fields above them ([Spacing](../foundations/spacing.md#heights)).
-- Make a form with a few fields a small dialog, 448px wide: creating a channel, an agent or a task.
+- Put Cancel and the submit button at the bottom of a form in a dialog. Cancel is a ghost button there, framed when the buttons stack full width ([Dialog](../../packages/ui/src/components/dialog/dialog.md#the-footer)), and takes an ink border on a page ([Button](../../packages/ui/src/components/button/button.md#which-color)). Cancel comes first; the submit button is the screen's pink button and names the action it performs, usually the title's verb: Create in Create Channel; an Edit title's button is Save ([Writing](../content/writing.md#actions-and-their-dialogs)). Both are `size="lg"`, the height of the fields above them ([Spacing](../foundations/spacing.md#heights)).
+- Make a form with a few fields a small dialog, the default `size="md"`, 448px wide: creating a channel, an agent or a task. A form whose content needs more width, such as key-value rows or a command, takes `size="lg"`, 640px ([Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)).
 
 ### The large form dialog
 
@@ -80,10 +81,11 @@ Every control holds these rules itself, so a form never adds its own `min-w-0` o
 
 An option's height follows its content, and its padding is constant. This holds for every row in a popup list: an option of a Select, a Combobox or a ComboboxSelect, and an item of a DropdownMenu or a ContextMenu, with a check mark, a radio mark or neither.
 
-- **One line is 36px**, with a mouse and on a touch screen. The space above and below the text is what that row leaves around one line of the option's type: 7px around a desktop's 22px line, 8px around a touch screen's 20px line.
+- **One line is 36px, with a mouse and on a touch screen.** The rows of a popup list are the one exception to 44px touch targets: they touch each other, so their hit area can't grow past the row, and a full-width row is easy to hit and a wrong tap is easy to see and change ([Spacing](../foundations/spacing.md#hit-targets)). The space above and below the text is what that row leaves around one line of the option's type: 7px around a desktop's 22px line, 8px around a touch screen's 20px line.
 - **A second line adds its own height and nothing else**, whether the label wraps ([Long values in fields](#long-values-in-fields)) or a description sits under it. The space above and below stays the one-line option's, so a two-line option looks as loose as its neighbors instead of cramped, and two of them never touch.
 - **A list never sets its options' height.** Options in one list may differ in height; they never differ in padding. Don't give an option a fixed height, a fixed line box or `leading-none`, and don't give a list a fixed row size: one line would fit and the second would be cut off or squeezed. A list that only shows some of its options at a time measures each one.
 - **A part beside the text fits the line**: a 16px icon, a check mark, a count. It doesn't make a one-line option taller.
+- **The highlight sits 4px inside the popup**, with `radius-chip`: that close to the popup's edge it follows the popup's corner, so the space around it is even at the corner as along the sides. A separator leaves the same 4px above and below it ([Shape](../foundations/shape.md#inside-a-frame)).
 
 ```example
 select/compositions/option-height

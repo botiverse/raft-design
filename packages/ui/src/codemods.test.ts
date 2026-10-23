@@ -3,6 +3,8 @@ import { expect, test } from "vite-plus/test";
 import { renameDependency, renameSpecifiers } from "../codemods/package-name.mjs";
 // @ts-expect-error -- plain ESM scripts shipped in the package, without types.
 import { renameTokens } from "../codemods/token-names.mjs";
+// @ts-expect-error -- plain ESM scripts shipped in the package, without types.
+import { migrateButtonSizes, renameButtonSizes } from "../codemods/button-sizes.mjs";
 
 test("package-name rewrites JS and CSS specifiers once, and leaves bare strings alone", () => {
   const before = [
@@ -79,4 +81,97 @@ test("token-names renames utilities and references, not declarations or BEM modi
     ].join("\n"),
   );
   expect(renameTokens(after)).toBe(after);
+});
+
+test("token-names moves the old hover names onto the two hover tiers", () => {
+  const before = [
+    '<a className="hover:press-overlay active:press-overlay-sticker hover:row-hover-overlay data-popup-open:row-open-overlay" />',
+    '<b className="hover:bg-fill-pressed hover:bg-fill-frame-pressed hover:bg-fill-row-hover data-popup-open:bg-fill-row-open" />',
+    ".x { --fill: var(--fill-message-hover); background: var(--sticker-pressed); }",
+    ".y { color: var(--color-fill-pressed); border-color: var(--color-primary-soft); }",
+  ].join("\n");
+  const after = renameTokens(before);
+  expect(after).toBe(
+    [
+      '<a className="hover:overlay-medium active:overlay-sticker-medium hover:overlay-subtle data-popup-open:overlay-subtle" />',
+      '<b className="hover:bg-fill-medium hover:bg-fill-frame-medium hover:bg-fill-subtle data-popup-open:bg-fill-subtle" />',
+      ".x { --fill: var(--fill-subtle); background: var(--sticker-medium); }",
+      ".y { color: var(--color-fill-medium); border-color: var(--color-brand-soft); }",
+    ].join("\n"),
+  );
+  expect(renameTokens(after)).toBe(after);
+});
+
+test("button-sizes renames Button's duplicate sizes, and only a Button's", () => {
+  const before = [
+    'use(<Button size="sm">Save</Button>);',
+    'use(<Button variant="ghost" size=\'icon-sm\' aria-label="More" />);',
+    'use(<Button\n  size={inHead ? "sm" : "lg"}\n  onClick={() => go({ size: "sm" })}\n/>);',
+    'use(<><Button size={"xs"} /> <Button size="icon-xs" /></>);',
+    'use(<><DialogClose size="icon-xs" /> <ComposerSubmit size="icon-sm" /></>);',
+    'use(<><AlertDialogCancel size="sm" /> <FileAction size="icon-sm" /></>);',
+    'use(<><Dialog size="sm" /> <Banner size="sm" /> <Avatar size="xs" /></>);',
+    'const cls = buttonVariants({ variant: "ghost", size: "icon-sm" });',
+    'const other = { size: "sm" };',
+  ].join("\n");
+  const after = renameButtonSizes(before);
+  expect(after).toBe(
+    [
+      'use(<Button size="md">Save</Button>);',
+      'use(<Button variant="ghost" size=\'icon-md\' aria-label="More" />);',
+      'use(<Button\n  size={inHead ? "md" : "lg"}\n  onClick={() => go({ size: "sm" })}\n/>);',
+      'use(<><Button size={"md"} /> <Button size="icon-md" /></>);',
+      'use(<><DialogClose size="icon-md" /> <ComposerSubmit size="icon-md" /></>);',
+      'use(<><AlertDialogCancel size="md" /> <FileAction size="icon-md" /></>);',
+      'use(<><Dialog size="sm" /> <Banner size="sm" /> <Avatar size="xs" /></>);',
+      'const cls = buttonVariants({ variant: "ghost", size: "icon-md" });',
+      'const other = { size: "sm" };',
+    ].join("\n"),
+  );
+  expect(renameButtonSizes(after)).toBe(after);
+  expect(renameButtonSizes('use(<MyButton size="sm" />);', ["MyButton"])).toBe(
+    'use(<MyButton size="md" />);',
+  );
+});
+
+test("button-sizes reads comments, strings and JSX text as such", () => {
+  // An apostrophe in a comment or in JSX text once opened a quote that ran to
+  // the end of the file, and a Spinner far below was taken for the Button.
+  const before = [
+    "function A() {",
+    "  // Keep RUI's spacing here.",
+    "  return (",
+    "    <div>",
+    '      <Button size="sm">It\'s fine</Button>',
+    "      {/* don't */}",
+    '      <Spinner size="sm" />',
+    "      Don't {`it's`} <Spinner size='sm' />",
+    "    </div>",
+    "  );",
+    "}",
+  ].join("\n");
+  const after = renameButtonSizes(before);
+  expect(after).toContain('<Button size="md">It\'s fine</Button>');
+  expect(after).toContain('<Spinner size="sm" />');
+  expect(after).toContain("<Spinner size='sm' />");
+});
+
+test("button-sizes finds a Button in another element's props and reports what it leaves", () => {
+  const before = [
+    "use(<Card",
+    '  actions={<Button size="sm">Accept</Button>}',
+    '  render={(props) => <Button {...props} size="icon-sm" />}',
+    "/>);",
+    'use(<Banner size="sm" />);',
+    'const size = compact ? "sm" : "md";',
+    'assert.match(source, /size=\\{compact \\? "icon-sm" : "sm"\\}/);',
+  ].join("\n");
+  const { source, left } = migrateButtonSizes(before);
+  expect(source).toContain('actions={<Button size="md">Accept</Button>}');
+  expect(source).toContain('<Button {...props} size="icon-md" />');
+  expect(left).toEqual([
+    { line: 5, value: "sm", where: "<Banner size>" },
+    { line: 6, value: "sm", where: "a string" },
+    { line: 7, value: "icon-sm", where: "a regular expression" },
+  ]);
 });

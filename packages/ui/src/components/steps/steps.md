@@ -68,6 +68,7 @@ steps/compositions/status
 
 ## Behavior
 
+- A row of steps fills its row and switches on its own width, not the window's ([Switch on the region's width](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)). Below 40rem (640px) of its own width each step stacks its text under its marker and the steps share the width, the titles wrapping; so it does in a dialog or a 400px panel on a wide window as on a phone. From 40rem the titles sit beside their markers, and a row too long for its width wraps onto a second line. Put it in a parent with a definite width (a block, a stretched flex or grid item, or a set width), not one that shrinks to its content (`inline-block`, `w-fit`, an absolutely positioned box or floating layer with no width, a flex item with `flex-basis: auto` and no width): as its own container it takes no width from what it holds and would collapse to nothing.
 - Where the row is too narrow for every title, show only the current step's title.
 
 ## Content
