@@ -36,13 +36,25 @@ In Raft Chat the first top-level page is Home ([Raft Chat — Home](../products/
 
 ### What each platform draws
 
-Principle 1 keeps three things native: the tab bar, system Back and the page transitions, with the platform's pull to refresh. Everything else is drawn by Raft and is the same on phone web, iOS and Android.
+Principle 1 keeps three things native: the tab bar, system Back and the page transitions. Pull to refresh is the platform's own in the iOS and Android apps and drawn by raft-ui on phone web, where the browser has none ([Refreshing](#refreshing)). Everything else is drawn by Raft and is the same on phone web, iOS and Android.
 
 - Keep the destinations, their order, their levels and the attention-dot rules the same on phone web and in the iOS and Android apps.
 - Draw the tab bar in each platform's own way: phone web uses raft-ui's [MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md) edge bar, iOS the system tab bar, Android its bottom navigation bar. Don't imitate one platform's look on another, such as a floating glass bar on web or a floating pill anywhere.
 - Use the platform's own system Back: the edge swipe on iOS, the system Back button on Android, the browser's Back on the web. What each one does is in [Going back](#going-back).
-- Use the platform's default transition when a page is pushed or popped ([Motion](../foundations/motion.md#usage)), and the platform's own pull to refresh.
+- Use the platform's default transition when a page is pushed or popped ([Motion](../foundations/motion.md#usage)).
+- Use the platform's own pull to refresh in the iOS and Android apps, and raft-ui's [PullToRefresh](../../packages/ui/src/components/pull-to-refresh/pull-to-refresh.md) on phone web, on the pages that have one ([Refreshing](#refreshing)).
 - Draw the top bars, Back, the titles and the filter rows with Raft's own parts ([Page structure](./page-structure.md#phone)), never with a platform's navigation bar. Their rules, such as no large title, are Raft's own and don't change with a platform's default.
+
+### Refreshing
+
+Decided on 2026-10-23 by stdrc. A page that updates by itself never asks people to refresh it: if a pull were needed to see what is new, people could never trust that what they see is current, and would pull every page to be sure. So a page fed by realtime updates stays current on its own, and pull to refresh is only for pages that load a snapshot and have no other way to catch up.
+
+- On a phone, put pull to refresh only on pages that load a snapshot when they open and don't update themselves. In Raft Chat these are Saved, search results (once a search is showing), a channel's or a thread's files, and the lists in Settings: invites, join links, apps and billing.
+- Never put it on a page fed by realtime updates: messages, threads, direct messages, Home's conversation list, Activity, Tasks, Members, Computers and a computer's page, a channel's members. These stay current on their own, and catch up when the app comes back to the foreground or reconnects; a page that falls behind is a bug in its updates.
+- In the iOS and Android apps, use the platform's own pull to refresh control, in Raft's look.
+- On phone web, and in the installed web app, use raft-ui's [PullToRefresh](../../packages/ui/src/components/pull-to-refresh/pull-to-refresh.md): the browser has no pull to refresh inside a page's scroll container, nor any in standalone mode. Its indicator is the native apps' one: the pixel spinner, whose lit pixel walks with the pull.
+- Don't put a Refresh button on a phone: pulling is the one way to refresh there. A Retry button in a failed load's error state stays, because it recovers from the failure rather than refreshing content ([Feedback](./feedback.md#empty-loading-and-failed)).
+- When a refresh fails, keep the content on screen and show a `warning` toast with the same message as a failed first load, not a banner: what is on screen is still useful, only not the newest.
 
 ### Where you are
 

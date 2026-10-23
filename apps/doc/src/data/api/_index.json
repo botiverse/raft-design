@@ -994,6 +994,13 @@
     ],
     "status": "stable"
   },
+  "pull-to-refresh": {
+    "names": [
+      "PullToRefreshIndicator"
+    ],
+    "status": "experimental",
+    "description": "The space the pull opens at the top of the scroller, with the pixel spinner in it. Render it as the scroller's first child, so the content moves down with the pull. It holds a polite live region that announces `label` while refreshing."
+  },
   "radio-group": {
     "names": [
       "RadioGroup",
