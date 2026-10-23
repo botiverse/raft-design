@@ -125,6 +125,12 @@
     ],
     "status": "stable"
   },
+  "choice-list": {
+    "names": [
+      "ChoiceList"
+    ],
+    "status": "experimental"
+  },
   "code-block": {
     "names": [
       "CodeBlock",
