@@ -171,3 +171,10 @@ export type { MessageReferenceReadMarkProps } from "./components/message-item/in
 // on a page fed by realtime updates. Until Raft Chat's phone web has moved its
 // snapshot pages onto it and the native apps' indicator is matched.
 export * from "./components/pull-to-refresh/index";
+
+// An always-open list to choose one or several from, when choosing is the
+// dialog's or page's main content: rows with a name, up to two description
+// lines and a button of their own at the end, and a search box above five
+// items (choice-list.md; radio-group.md, "An open list to choose from"). Until
+// slock's migration target list and member pickers have moved onto it.
+export * from "./components/choice-list/index";

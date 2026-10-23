@@ -1,0 +1,99 @@
+[
+  {
+    "name": "ChoiceList",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": false,
+    "props": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "clearSearchLabel",
+        "type": "string",
+        "required": true,
+        "description": "The clear button's accessible name.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "defaultSearchValue",
+        "type": "string",
+        "required": false,
+        "description": "The search box's text when the list first draws, such as a search carried over.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "empty",
+        "type": "ReactNode",
+        "required": false,
+        "description": "The line drawn when there are no items at all.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "items",
+        "type": "readonly ChoiceListItem[]",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "multiple",
+        "type": "boolean",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "noMatchLabel",
+        "type": "ReactNode",
+        "required": false,
+        "description": "The line under the chosen rows when nothing else matches.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: string) => void) | ((value: string[]) => void)",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "search",
+        "type": "\"auto\" | \"always\"",
+        "required": false,
+        "description": "When the search box shows. `\"always\"` when people look for an item they know by name, such as a person: the box shows at any count, and with a mouse or trackpad focus starts in it. `\"auto\"` when people choose by comparing the rows: the box shows only above 5 items.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "searchLabel",
+        "type": "string",
+        "required": true,
+        "description": "The search box's accessible name. Required: any list can come to search, since `\"auto\"` shows the box once the items, usually from data, pass 5.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "searchPlaceholder",
+        "type": "string",
+        "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "value",
+        "type": "string | readonly string[]",
+        "required": true,
+        "from": "raft-ui"
+      }
+    ]
+  }
+]
