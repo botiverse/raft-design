@@ -22,11 +22,11 @@ import { MessageReferenceIcon } from "@botiverse/raft-ui/wip";
 // Links an app (Stamp) previews, in a message: each is a cyan chip in the
 // sentence with the app's registered icon and the app's own title, capped
 // and truncated. A message that is only a link is the same chip. Where nothing
-// can hover (a phone), the chip also says the link's host, which the item card
+// can be tapped (a phone, a touch laptop), the chip also says the link's host, which the item card
 // says on hover: the title is the app's words, the host is where it goes.
 export function MessageReferenceAppLinksComposition() {
   const host = (
-    <MessageReferenceSuffix className="hidden pointer-coarse:inline">
+    <MessageReferenceSuffix className="hidden any-pointer-coarse:inline">
       stamp.build
     </MessageReferenceSuffix>
   );
