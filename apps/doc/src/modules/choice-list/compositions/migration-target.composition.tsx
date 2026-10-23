@@ -8,7 +8,7 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@botiverse/raft-ui";
-import { ChoiceList } from "@botiverse/raft-ui/wip";
+import { ChoiceList, PopoverBody } from "@botiverse/raft-ui/wip";
 
 function ComputerDetails({ name, details }: { name: string; details: string }) {
   return (
@@ -18,9 +18,11 @@ function ComputerDetails({ name, details }: { name: string; details: string }) {
       >
         <Info />
       </PopoverTrigger>
-      <PopoverContent className="w-72">
-        <PopoverTitle>{name}</PopoverTitle>
-        <PopoverDescription>{details}</PopoverDescription>
+      <PopoverContent className="w-[300px]">
+        <PopoverBody>
+          <PopoverTitle>{name}</PopoverTitle>
+          <PopoverDescription>{details}</PopoverDescription>
+        </PopoverBody>
       </PopoverContent>
     </Popover>
   );
