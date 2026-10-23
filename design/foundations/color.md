@@ -228,6 +228,7 @@ palette
 ## Related
 
 - [Dark mode](./dark-mode.md): what changes and what stays in dark mode.
+- [Themes](./themes.md): the themes a person can pick and what each may change.
 - [States](./states.md): the colors of hover, selection, unread and error.
 - [Brand](./brand.md): how much brand color each kind of page may use.
 - [Button](../../packages/ui/src/components/button/button.md): which button color to use for which action.

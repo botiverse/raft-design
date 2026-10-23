@@ -22,7 +22,7 @@ import {
 export function WebTopBarComposition() {
   return (
     <div className="w-full overflow-x-auto">
-      <div className="flex h-12 min-w-[720px] items-center border-b border-line-seam bg-layer-frame text-foreground-on-frame">
+      <div className="flex h-12 min-w-[720px] items-center border-b border-line-seam bg-layer-frame text-foreground-on-frame frame-decor-top">
         <div className="flex min-w-0 flex-1 items-center pr-2 pl-[calc(--spacing(2)+1px)]">
           <WorkspaceButton aria-label="Raft HQ, switch server">
             <Avatar type="server" size="sm">

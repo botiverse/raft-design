@@ -212,6 +212,7 @@
   --color-ink-40: var(--ink-40);
 
   --color-brand: var(--brand-400);
+  --color-brand-edge: var(--brand-edge);
   --color-brand-50: var(--brand-50);
   --color-brand-100: var(--brand-100);
   --color-brand-200: var(--brand-200);
@@ -679,6 +680,20 @@ textarea:-webkit-autofill:disabled {
    sticker overlay-sticker-medium, on the frame overlay-frame-medium.
    Use the bg-fill-* colours instead on a transparent control whose fill fades
    in with transition-colors. */
+/* Theme decorations on the frame (themes.css): the theme's sprites on the top
+   bar's right and above the rail's foot; none without a decorated theme. */
+@utility frame-decor-top {
+  background-image: var(--frame-decor-top, none);
+  background-repeat: no-repeat;
+  background-position: right 72px center;
+}
+
+@utility frame-decor-rail {
+  background-image: var(--frame-decor-rail, none);
+  background-repeat: no-repeat;
+  background-position: center bottom 112px;
+}
+
 @utility overlay-subtle {
   background-image: linear-gradient(var(--fill-subtle), var(--fill-subtle));
 }

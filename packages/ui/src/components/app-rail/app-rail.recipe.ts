@@ -5,7 +5,7 @@ export const appRail = tv({
     root: [
       "flex size-full  flex-col items-center select-none",
       "w-[calc(var(--shell-header-height,56px)+1px)] border-r border-line-seam",
-      "bg-layer-frame text-foreground-on-frame",
+      "bg-layer-frame text-foreground-on-frame frame-decor-rail",
       "[@media(max-height:600px)]:w-[49px]",
     ],
     header: [
