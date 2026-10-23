@@ -1,3 +1,22 @@
+## [0.31.0](https://github.com/botiverse/raft-design/compare/v0.30.0...v0.31.0) (2026-10-23)
+
+### Design System
+
+- **A row swipe on a phone**: a swipe starts once the finger has gone 10px on the web (twice as far across as up or down), and swipes that start within 24px of the screen edge stay with the browser. A release applies the action past 40% of the row's width, or past 20% with a quick flick. The uncovered layer is soft until a release would apply, then solid `success` with ink, and ticks once on Android as it turns solid. It says "Done"; the menu keeps "Mark as Done". The row leaves at once, with an 8-second Undo. On a phone, Activity's Mark as Done stays in the row as a button only screen readers see. ([#775](https://github.com/botiverse/raft-design/pull/775), [#776](https://github.com/botiverse/raft-design/pull/776))
+  - Why: Activity on a phone moved Mark as Done to the swipe (stdrc); the swipe must be predictable, reversible, and reachable without swiping.
+  - Affects: a rule for products.
+  - Docs: https://raft-design.botiverse.build/patterns/responsive/#touch-screens
+
+### Added
+
+- **ChoiceList** (wip): ([#774](https://github.com/botiverse/raft-design/pull/774))
+  - `groups` with headings. Each group is named by its heading, and the arrow keys cross groups.
+  - `searchValue` / `onSearchValueChange`, so the app can read and set the search text. It hears `""` when the box hides.
+  - `footer`, which stays in view while the rows scroll.
+  - `fill`, which fills its container's height.
+  - The frame now wraps a `choice-list-scroller`.
+  - Docs: https://raft-design.botiverse.build/components/choice-list/
+
 ## [0.30.0](https://github.com/botiverse/raft-design/compare/v0.29.0...v0.30.0) (2026-10-23)
 
 ### Design System
