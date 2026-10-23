@@ -22,5 +22,41 @@
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
+  },
+  {
+    "name": "ComputerIcon",
+    "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "cloud",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The Computer runs in a cloud: hosted by Raft, or on a cloud provider the caller recognizes. Renders a cloud in place of `device`, with the same platform mark.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "device",
+        "type": "ComputerDevice",
+        "required": false,
+        "description": "Device shape. `null`/omitted renders a generic monitor.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "distro",
+        "type": "ComputerDistro",
+        "required": false,
+        "description": "Linux distribution, for the `linux` mark (see `computerDistro`). Drawn in place of Tux from 18px up; below that, and for `null` or an unknown value, the mark stays Tux. Ignored on other platforms.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "platform",
+        "type": "ComputerPlatform",
+        "required": false,
+        "description": "Platform corner mark. `null`/omitted (or an unknown value) renders no mark.",
+        "from": "raft-ui"
+      }
+    ]
   }
 ]

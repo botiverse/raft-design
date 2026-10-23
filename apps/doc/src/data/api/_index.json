@@ -444,7 +444,8 @@
       "ChatIcon",
       "DirectMessageIcon",
       "MessageIcon",
-      "ThreadIcon"
+      "ThreadIcon",
+      "ComputerIcon"
     ],
     "status": "stable"
   },
