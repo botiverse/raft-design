@@ -68,7 +68,7 @@ const pullToRefreshIndicator = tv({
       android: {
         root: ["sticky top-0 z-10 h-0 overflow-visible"],
         surface: [
-          "absolute inset-x-0 top-0 mx-auto size-10 rounded-full bg-layer-popover shadow-float ring-1 ring-line-seam",
+          "absolute inset-x-0 top-0 mx-auto size-10 rounded-full bg-layer-popover shadow-float",
           "translate-y-[calc(var(--pull-distance)-100%)]",
           "transition-[translate,opacity,scale]",
           ...SNAP_BACK,
