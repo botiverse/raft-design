@@ -1,3 +1,20 @@
+## [0.27.0](https://github.com/botiverse/raft-design/compare/v0.26.0...v0.27.0) (2026-10-23)
+
+### Design System
+
+- **Refreshing a snapshot page by pulling**: on a phone, a page that shows a snapshot (Activity, Tasks, Members, Computers) refreshes when pulled down past 100px; while it refreshes the indicator holds at 60px, and it snaps back in 300ms without overshoot. Realtime pages (a conversation) are never pulled. On iOS a pull that passed the trigger stays armed; on Android, as in Material 3, pulling back above it takes it back, and crossing it gives a short vibration. The indicator is the Spinner on every platform. Every such page also reloads when it is opened, so the gesture is never the only way. `PullToRefresh` is experimental, from `@botiverse/raft-ui/wip`. ([#743](https://github.com/botiverse/raft-design/pull/743))
+  - Why: on a phone there was no way to ask a snapshot page for what is new without leaving it; the numbers match Raft's iOS app so the two feel the same.
+  - Affects: a rule for products; raft-ui adds `PullToRefresh` (wip).
+  - Docs: https://raft-design.botiverse.build/patterns/navigation/#refreshing
+- **A right panel grows until the area left of it is 360px**: a thread, a profile or task side panel and the side cards have no fixed maximum width (640px, 720px before); they grow until the area beside them is down to its 360px minimum. ([#759](https://github.com/botiverse/raft-design/pull/759))
+  - Why: a fixed maximum stopped them at about half of a 1280px to 1440px window, though people wanted three quarters while they worked in them.
+  - Affects: a rule for products.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/
+- **Dragging past the end snaps**: dragging the sidebar 40px past its minimum collapses it, and dragging a thread 40px past where the conversation is down to 360px puts it in focus mode, during the drag; dragging back undoes it, and the width before the snap comes back. ([#761](https://github.com/botiverse/raft-design/pull/761))
+  - Why: the jump is how people know they went past the end; 40px keeps a drag that only reaches it from snapping by accident.
+  - Affects: a rule for products.
+  - Docs: https://raft-design.botiverse.build/components/resizable/#dragging-past-the-end
+
 ## [0.26.0](https://github.com/botiverse/raft-design/compare/v0.25.0...v0.26.0) (2026-10-23)
 
 ### Design System
