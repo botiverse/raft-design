@@ -89,7 +89,7 @@ The desktop scale is Feishu's (Lark's) for PC: 16/24 for titles, 14/22 for every
 | --- | --- |
 | 400 | Reading text: message body, values, field text, mono notes (times, counts) |
 | 500 | Menu items, sidebar rows, description-list terms; `text-caption` sets 500 for the model and an inline status |
-| 600 | Names in list rows, card titles, field labels, tabs, badges |
+| 600 | Names in list rows, card titles, field labels, tabs and a row swipe's buttons (an icon over one word, like a tab), badges |
 | 700 | Titles, senders, buttons, group headings, solid badges and unread counts, the selected tab, row or menu item; a textarea's counter when the text is invalid or over the limit |
 
 ## Color tiers
