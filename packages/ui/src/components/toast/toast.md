@@ -68,21 +68,23 @@ toast/compositions/person
 
 ### Where it appears
 
-Toasts appear at the top center (`viewportPlacement="top-center"`), under the page's header, on every screen. Only the app knows where its header ends, so it sets `--toast-viewport-top` to that distance from the top of the window, on `:root` or with `viewportClassName`. The toast sits 16px under it, and never higher than 16px under the system's status bar (`env(safe-area-inset-top)`), so on a phone it stays clear of the notification area even when the variable is unset. When a banner sits at the top of the page or the app frame, include it, so the toast opens under it.
+Toasts appear at the bottom center (`viewportPlacement="bottom-center"`) on every screen, just above whatever holds the bottom of the page: the composer on a conversation page, the tab bar on a phone's top-level page, and the on-screen keyboard while it is up. Only the app knows where that is, so it sets `--toast-viewport-bottom` to the distance from the bottom of the window to that thing's top edge, on `:root` or with `viewportClassName`, and updates it as the composer grows or the keyboard opens. The toast's bottom edge sits 16px above it, and never lower than 16px above the system's home indicator (`env(safe-area-inset-bottom)`), so on a phone it stays clear of it even when the variable is unset.
 
 ```css
 :root {
-  --toast-viewport-top: 56px; /* the bottom edge of the page header */
+  --toast-viewport-bottom: 72px; /* the top edge of the composer */
 }
 ```
 
 ```example
-toast/compositions/under-header
+toast/compositions/above-composer
 ```
 
-A toast swipes away the way it came: up from the top, down or right from the bottom. `ToastRoot` takes the direction from its `ToastViewport`; pass `swipeDirection` to change it.
+A surface whose bottom is taken by something a toast must not cover can pass `viewportPlacement="top-center"` instead; the app then sets `--toast-viewport-top` to where its header ends, and the toast sits 16px under it, never higher than 16px under the status bar (`env(safe-area-inset-top)`).
 
-While a modal dialog or sheet is open, show only the toasts it causes and that leave it open, at the bottom above the scrim, without an action. Toasts already draw above dialogs; switch the viewport to the bottom for as long as the dialog is open (`viewportPlacement={dialogOpen ? "bottom-center" : "top-center"}`) and leave the action out.
+A toast swipes away the way it came: down or right from the bottom, up from the top. `ToastRoot` takes the direction from its `ToastViewport`; pass `swipeDirection` to change it.
+
+While a modal dialog or sheet is open, show only the toasts it causes and that leave it open, without an action. Toasts already draw above dialogs and their scrim.
 
 ## Content
 

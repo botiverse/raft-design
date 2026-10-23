@@ -113,10 +113,16 @@ const toastStyles = tv({
   variants: {
     placement: {
       "bottom-center": {
-        viewport: "bottom-4 left-1/2 -translate-x-1/2",
+        viewport: [
+          "bottom-[calc(max(var(--toast-viewport-bottom,0px),env(safe-area-inset-bottom))+1rem)]",
+          "left-1/2 -translate-x-1/2",
+        ],
       },
       "bottom-right": {
-        viewport: "right-4 bottom-4",
+        viewport: [
+          "bottom-[calc(max(var(--toast-viewport-bottom,0px),env(safe-area-inset-bottom))+1rem)]",
+          "right-4",
+        ],
       },
       "top-center": {
         viewport: [
@@ -181,7 +187,7 @@ const toastStyles = tv({
     },
   },
   defaultVariants: {
-    placement: "top-center",
+    placement: "bottom-center",
     layout: "stacked",
     strategy: "fixed",
   },
@@ -217,7 +223,8 @@ const DEFAULT_TOAST_ACTION_TIMEOUT_MS = 8000;
 const ToastProviderConfigContext = createContext({ timeout: DEFAULT_TOAST_TIMEOUT_MS });
 const ToastPlacementContext = createContext<ToastPlacement | undefined>(undefined);
 
-// A toast swipes away the way it came: up from the top, down from the bottom.
+// A toast swipes away the way it came: up from the top, down or right from
+// the bottom.
 const SWIPE_DIRECTION_BY_EDGE = {
   top: ["up"],
   bottom: ["down", "right"],
@@ -402,7 +409,7 @@ export function ToastProvider({
   toastManager = defaultToastManager,
   timeout = DEFAULT_TOAST_TIMEOUT_MS,
   viewportClassName,
-  viewportPlacement = "top-center",
+  viewportPlacement = "bottom-center",
   viewportStrategy = "fixed",
   ...props
 }: ToastProviderProps) {
@@ -444,7 +451,7 @@ export type ToastViewportProps = StyledProps<BaseToast.Viewport.Props> &
   Pick<VariantProps<typeof toastStyles>, "placement" | "strategy">;
 
 export function ToastViewport({
-  placement = "top-center",
+  placement = "bottom-center",
   strategy = "fixed",
   className,
   ...props

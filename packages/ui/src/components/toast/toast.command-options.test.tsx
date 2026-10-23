@@ -138,7 +138,7 @@ test("toast progress defines countdown keyframes with reduced-motion fallback", 
 });
 
 // A toast with an action, or an error, stays 8 seconds: time to read, then
-// act (design/patterns/actions-and-closing.md#toasts).
+// act (toast.md#behavior).
 for (const [name, show] of [
   [
     "an action",

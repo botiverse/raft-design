@@ -6,12 +6,13 @@ import { useEffect } from "react";
 // @docs-source-strip-end
 
 /**
- * Toasts show at the top center, under the page's header: the app tells the
- * viewport where its header ends with `--toast-viewport-top`. One shows at a
- * time, so Unfollow replaces Save's toast instead of stacking on it, and
- * neither has a Dismiss: each closes by itself, and swipes up on a phone.
+ * Toasts show at the bottom center, just above the composer: the app tells
+ * the viewport where the composer's top edge is with `--toast-viewport-bottom`.
+ * One shows at a time, so Unfollow replaces Save's toast instead of stacking
+ * on it, and neither has a Dismiss: each closes by itself, and swipes down on
+ * a phone.
  */
-export function UnderHeaderContent({ portalContainer }: { portalContainer: HTMLElement | null }) {
+export function AboveComposerContent({ portalContainer }: { portalContainer: HTMLElement | null }) {
   const [toastManager] = useState(() => createToastManager());
 
   const save = useCallback(() => {
@@ -46,7 +47,7 @@ export function UnderHeaderContent({ portalContainer }: { portalContainer: HTMLE
       toastManager={toastManager}
       portalContainer={portalContainer}
       viewportStrategy="absolute"
-      viewportClassName="[--toast-viewport-top:3.5rem]"
+      viewportClassName="[--toast-viewport-bottom:4.5rem]"
     >
       <div className="flex gap-2">
         <Button type="button" size="sm" variant="outline" onClick={save}>
@@ -61,23 +62,18 @@ export function UnderHeaderContent({ portalContainer }: { portalContainer: HTMLE
 }
 
 // @docs-source-strip-start
-export function UnderHeaderComposition() {
+export function AboveComposerComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
   return (
     <div ref={setPortalContainer} className="relative h-64 w-full overflow-hidden bg-layer-panel">
-      <div
-        aria-hidden
-        className="flex h-14 items-center border-b border-line-seam px-5 text-headline font-semibold text-foreground"
-      >
-        #design
+      <div className="absolute inset-x-0 top-6 z-10 flex justify-center">
+        {portalContainer ? <AboveComposerContent portalContainer={portalContainer} /> : null}
       </div>
-      <div aria-hidden className="grid gap-3 px-5 pt-20">
-        <div className="h-2 w-2/3 rounded-full bg-ink-6" />
-        <div className="h-2 w-1/2 rounded-full bg-ink-6" />
-      </div>
-      <div className="absolute inset-x-0 bottom-6 z-10 flex justify-center">
-        {portalContainer ? <UnderHeaderContent portalContainer={portalContainer} /> : null}
+      <div aria-hidden className="absolute inset-x-0 bottom-0 px-4 pb-4">
+        <div className="flex h-14 items-center rounded-container border border-line-seam bg-layer-card px-4 text-callout text-foreground-muted">
+          Message #design
+        </div>
       </div>
     </div>
   );

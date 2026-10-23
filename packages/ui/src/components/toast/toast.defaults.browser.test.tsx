@@ -14,14 +14,16 @@ import {
   useToastManager,
 } from "./toast";
 
-// The toast rules (design/patterns/actions-and-closing.md#toasts) as the
-// component's defaults: a toast shows at the top center, under the page's
-// header (`--toast-viewport-top`), one at a time, with no Dismiss, and swipes
-// away up, the way it came.
+// The toast rules (toast.md) as the component's defaults: a toast shows at the
+// bottom center, just above the composer or tab bar (`--toast-viewport-bottom`),
+// one at a time, with no Dismiss, and swipes away down, the way it came. A
+// surface can choose the top center instead, under its header
+// (`--toast-viewport-top`), where it swipes away up.
 
 const it = test.skipIf(typeof window === "undefined");
 
 const HEADER_BOTTOM = 56;
+const COMPOSER_HEIGHT = 72;
 
 async function cdp() {
   const { cdp } = await import("vite-plus/test/browser/context");
@@ -38,6 +40,7 @@ afterEach(() => {
   toast.dismiss();
   cleanup();
   document.documentElement.style.removeProperty("--toast-viewport-top");
+  document.documentElement.style.removeProperty("--toast-viewport-bottom");
 });
 
 afterAll(async () => {
@@ -57,23 +60,48 @@ function renderProvider(props: Parameters<typeof ToastProvider>[0] = {}) {
 
 const toastOf = (title: HTMLElement) => title.closest<HTMLElement>('[data-slot="toast"]')!;
 
-it("shows the toast at the top center, 16px under the offset the app sets", async () => {
-  document.documentElement.style.setProperty("--toast-viewport-top", `${HEADER_BOTTOM}px`);
-  renderProvider();
-  toast.success("Channel settings saved.");
-  const title = await screen.findByText("Channel settings saved.");
-  const root = toastOf(title);
+async function settled(title: string) {
+  const root = toastOf(await screen.findByText(title));
   await waitFor(() => expect(root.hasAttribute("data-starting-style")).toBe(false));
-  await waitFor(() => expect(root.getBoundingClientRect().top).toBeCloseTo(HEADER_BOTTOM + 16, 0));
+  return root;
+}
+
+function expectCentered(root: HTMLElement) {
   const box = root.getBoundingClientRect();
   expect(Math.abs(box.left + box.width / 2 - window.innerWidth / 2)).toBeLessThanOrEqual(0.5);
-});
+}
 
-it("without an offset, the toast sits 16px from the top of the window", async () => {
+it("shows the toast at the bottom center, 16px above the bottom of the window", async () => {
   renderProvider();
   toast.success("Channel settings saved.");
-  const root = toastOf(await screen.findByText("Channel settings saved."));
-  await waitFor(() => expect(root.getBoundingClientRect().top).toBeCloseTo(16, 0));
+  const root = await settled("Channel settings saved.");
+  await waitFor(() =>
+    expect(window.innerHeight - root.getBoundingClientRect().bottom).toBeCloseTo(16, 0),
+  );
+  expectCentered(root);
+});
+
+it("sits 16px above the offset the app sets for its composer", async () => {
+  document.documentElement.style.setProperty("--toast-viewport-bottom", `${COMPOSER_HEIGHT}px`);
+  renderProvider();
+  toast.success("Channel settings saved.");
+  const root = await settled("Channel settings saved.");
+  await waitFor(() =>
+    expect(window.innerHeight - root.getBoundingClientRect().bottom).toBeCloseTo(
+      COMPOSER_HEIGHT + 16,
+      0,
+    ),
+  );
+  expectCentered(root);
+});
+
+it("top-center, when chosen, sits 16px under the header offset", async () => {
+  document.documentElement.style.setProperty("--toast-viewport-top", `${HEADER_BOTTOM}px`);
+  renderProvider({ viewportPlacement: "top-center" });
+  toast.success("Channel settings saved.");
+  const root = await settled("Channel settings saved.");
+  await waitFor(() => expect(root.getBoundingClientRect().top).toBeCloseTo(HEADER_BOTTOM + 16, 0));
+  expectCentered(root);
 });
 
 it("a later toast replaces the earlier one, which doesn't come back", async () => {
@@ -149,24 +177,26 @@ async function swipe(root: HTMLElement, dy: number) {
   await touch("touchEnd", x, y + dy);
 }
 
-for (const [name, dy, closes] of [
-  ["up closes it", -60, true],
-  ["down doesn't", 60, false],
+for (const [placement, name, dy, closes, direction] of [
+  ["bottom-center", "down closes it", 60, true, "down"],
+  ["bottom-center", "up doesn't", -60, false, undefined],
+  ["top-center", "up closes it", -60, true, "up"],
+  ["top-center", "down doesn't", 60, false, undefined],
 ] as const) {
-  it(`on a phone, a swipe ${name}`, async () => {
+  it(`on a phone, at ${placement}, a swipe ${name}`, async () => {
     const { page } = await import("vite-plus/test/browser/context");
     await page.viewport(390, 844);
     await (
       await cdp()
     ).send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 1 });
     document.documentElement.style.setProperty("--toast-viewport-top", `${HEADER_BOTTOM}px`);
-    renderProvider();
+    document.documentElement.style.setProperty("--toast-viewport-bottom", `${COMPOSER_HEIGHT}px`);
+    renderProvider({ viewportPlacement: placement });
     toast.success("Channel settings saved.");
-    const root = toastOf(await screen.findByText("Channel settings saved."));
-    await waitFor(() => expect(root.hasAttribute("data-starting-style")).toBe(false));
+    const root = await settled("Channel settings saved.");
     await swipe(root, dy);
     if (closes) {
-      await waitFor(() => expect(root.getAttribute("data-swipe-direction")).toBe("up"));
+      await waitFor(() => expect(root.getAttribute("data-swipe-direction")).toBe(direction));
       await waitFor(() => expect(screen.queryByText("Channel settings saved.")).toBeNull());
     } else {
       await wait(400);

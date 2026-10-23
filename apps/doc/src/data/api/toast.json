@@ -303,7 +303,7 @@
         "name": "viewportPlacement",
         "type": "\"none\" | \"bottom-right\" | \"top-right\" | \"bottom-center\" | \"top-center\"",
         "required": false,
-        "default": "\"top-center\"",
+        "default": "\"bottom-center\"",
         "from": "raft-ui"
       },
       {
@@ -405,7 +405,7 @@
         "name": "placement",
         "type": "\"none\" | \"bottom-right\" | \"top-right\" | \"bottom-center\" | \"top-center\"",
         "required": false,
-        "default": "\"top-center\"",
+        "default": "\"bottom-center\"",
         "from": "raft-ui"
       },
       {
