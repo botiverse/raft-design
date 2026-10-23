@@ -94,6 +94,24 @@ message-reference/compositions/app-link-pending
 - On desktop, hovering or focusing the chip opens the app's item card with the details: the id, the title, a state and a line of details in the app's words, its actions, and the app's name and host ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)). Raft puts no colors of the app's on it.
 - On a phone, tapping the chip opens the link. A preview card doesn't open on touch, so make the chip a real link (`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`) that opens in a new tab, leaving the conversation where it was.
 
+### Links that leave Raft
+
+A control that takes someone to another site ends in ↗, so they know before they press it that they will leave Raft. Docs, pricing, terms and privacy, an app's homepage, TestFlight, Stripe and GitHub all count.
+
+- Use one mark: Lucide's `ArrowUpRight`, never the box with an arrow (`ExternalLink`, `SquareArrowOutUpRight`). It is in the text's color.
+- Put it at the end:
+  - TextLink: `TextLinkExternalIcon`, 0.857em of the text (12px at 14px), 2px after the text, centered on the cap height; the underline stops at the text ([TextLink](../../packages/ui/src/components/text-link/text-link.md#leaving-raft)).
+  - Button: in the trailing icon's place, at the button's icon size.
+  - Menu item: where the shortcut goes, so it lines up with the other items' shortcuts.
+  - Sidebar row: in the row's trailing slot, in `foreground-hint`.
+- Open it in a new tab (`target="_blank" rel="noopener noreferrer"`), and give the mark a label a screen reader reads after the text, "(opens in a new tab)". On desktop the same link opens in the system browser and looks the same.
+- Stripe checkout and the billing portal stay in the same tab, because they come back to Raft by themselves when payment is done. They still end in ↗; the label says where they go ("(goes to Stripe)").
+- No ↗ on:
+  - sign-in round trips (Google, GitHub, an app's sign-in): they come back by themselves, and nobody needs to know they changed sites;
+  - downloads: they take the download icon and don't leave the page;
+  - links people write in messages: they are already visibly links, show their address on hover, and an arrow on every one would be noise (app link chips follow [MessageItem](../../packages/ui/src/components/message-item/message-item.md#app-links));
+  - anything inside Raft. To open a Raft place in a new tab, people use the browser's own gestures; never mark an internal link with ↗.
+
 ### Going back
 
 - Show either Back or the tab bar, never both (principle 2). A page with Back at its top was entered from somewhere, so it covers the tab bar; a page without Back is a tab's top-level page, so it shows the tab bar. The mobile app and the phone web follow this one test on every page.

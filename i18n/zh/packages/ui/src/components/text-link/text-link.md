@@ -1,7 +1,7 @@
 ---
 title: TextLink
 summary: 悬停时显示下划线的文字，是屏幕上最安静的控件，用于一个操作或通往某处；按钮强调层级的最底一级。
-sourceHash: 65687928
+sourceHash: 6905d252
 ---
 
 # TextLink
@@ -54,6 +54,14 @@ text-link/compositions/disabled
 
 - 以动词开头，或者写出地点的名称：Forgot Password、Sign Out、See All。
 - 用 Title Case，和所有按钮标签一样（[写作](../../../../../design/content/writing.md#casing)）。
+
+## 离开 Raft {#leaving-raft}
+
+去别的网站的 TextLink 以 `TextLinkExternalIcon` 结尾：Lucide 的 `ArrowUpRight`，大小是文字的 0.857em（14px 文字时是 12px，和引用标签里的图标一样），和文字隔 2px，颜色和文字一样，在每种字号下都对齐字母大写高度的中线（[文字前面的记号](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。它放在一个 inline-flex 的盒子里，所以悬停时的下划线只画在文字下面，不会延伸到箭头下面。给读屏传 `label`，比如"（在新标签页打开）"；这是产品文案，所以 raft-ui 不写。所有离开 Raft 的控件的规则见[导航](../../../../../design/patterns/navigation.md#links-that-leave-raft)。
+
+```example
+text-link/compositions/leaving-raft
+```
 
 ## 无障碍 {#accessibility}
 
