@@ -42,7 +42,7 @@ Errors by scope are in [Feedback](../../../../../design/patterns/feedback.md#err
 | `status="error"` on the icon     | Something stopped working: a computer offline, an agent that can't start. `warning-soft` tile, `octagon-alert` icon      |
 | `status="warning"`               | Something will stop working soon: a quota nearly full, a key about to expire. `warning-soft` tile, `triangle-alert` icon |
 | `status="info"`                  | News: an update. `info-soft` tile, `info` icon                                                                           |
-| `viewport="mobile"` on the popup | The narrower popup on a phone                                                                                            |
+| `viewport="mobile"` on the popup | The popup on a phone: the screen's width less 8px on each side, kept 8px from the screen's edges                         |
 | `size` on the popup              | The popup's height: `sm`, `md` or `lg`                                                                                   |
 
 ## States
@@ -58,6 +58,7 @@ Errors by scope are in [Feedback](../../../../../design/patterns/feedback.md#err
 - When the person dismisses a notice, don't show it again until the situation changes.
 - Show the attention dot on the bell only while a notice is unread. The default trigger always draws the dot, so pass the bell alone as the trigger's children when nothing is unread.
 - Float the popup next to the bell; it doesn't take space in the layout ([Elevation](../../../../../design/foundations/elevation.md#popups)).
+- On a phone (`viewport="mobile"`), the popup is 8px from each screen edge, the same as the server list under the same top bar: it is as wide as the positioner's `--available-width` (the screen less both 8px paddings), at most 480px, which only a phone on its side reaches, and its collision padding is 8px, so it sits 8px from both edges although it hangs from a bell at the right ([Elevation](../../../../../design/foundations/elevation.md#popups)). Pass `collisionPadding` to change it. On desktop it is 380px with Base UI's default collision padding.
 
 ## Content
 
