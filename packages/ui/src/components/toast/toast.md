@@ -31,7 +31,7 @@ Never put anything in a toast that would confuse people if they missed it ([Choo
 
 ## Anatomy
 
-- `ToastProvider`: holds the toast manager and, by default, renders the viewport. Mount it once near the root.
+- `ToastProvider`: holds the toast manager and, by default, renders the viewport. Mount it once near the root: the default manager (`toast.*`) takes its timing (`timeout`, `actionTimeout`) from the one provider that uses it, so two providers on the default manager would overwrite each other's. Give a second provider its own `toastManager`.
 - `toast`: the command API (`toast.success`, `toast.error`, …) for the default manager.
 - `ToastViewport`: where toasts appear on screen. `ToastPositioner` and `ToastArrow` anchor a toast to an element instead.
 - `ToastRoot` and `ToastContent`: one toast and its layout.
