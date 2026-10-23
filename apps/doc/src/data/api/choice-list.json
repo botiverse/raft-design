@@ -19,7 +19,7 @@
       {
         "name": "clearSearchLabel",
         "type": "string",
-        "required": false,
+        "required": true,
         "description": "The clear button's accessible name.",
         "from": "raft-ui"
       },
@@ -78,8 +78,8 @@
       {
         "name": "searchLabel",
         "type": "string",
-        "required": false,
-        "description": "The search box's accessible name. Required once the list can search.",
+        "required": true,
+        "description": "The search box's accessible name. Required: any list can come to search, since `\"auto\"` shows the box once the items, usually from data, pass 5.",
         "from": "raft-ui"
       },
       {

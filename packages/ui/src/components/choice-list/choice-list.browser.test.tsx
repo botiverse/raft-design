@@ -1,5 +1,5 @@
 import "./choice-list.test.css";
-import { afterEach, expect, test } from "vite-plus/test";
+import { afterAll, afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { useState } from "react";
 import { Button } from "../button/button";
@@ -18,17 +18,24 @@ async function context() {
   return import("vite-plus/test/browser/context");
 }
 
-async function setCoarsePointer(enabled: boolean) {
+// Turning touch emulation off leaves Chromium with no fine pointer, whatever
+// the media emulation says (option-height.browser.test.tsx), so it is only
+// ever turned on: the mouse cases come first in this file, the touch cases
+// last, and afterAll resets it.
+async function useCoarsePointer() {
   const { cdp } = await context();
+  await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 1 });
   await cdp().send("Emulation.setEmulatedMedia", {
-    features: [{ name: "pointer", value: enabled ? "coarse" : "fine" }],
+    features: [{ name: "pointer", value: "coarse" }],
   });
-  await cdp().send("Emulation.setTouchEmulationEnabled", { enabled, maxTouchPoints: 1 });
 }
 
-afterEach(async () => {
-  cleanup();
-  if (typeof window !== "undefined") await setCoarsePointer(false);
+afterEach(cleanup);
+afterAll(async () => {
+  if (typeof window === "undefined") return;
+  const { cdp } = await context();
+  await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: false });
+  await cdp().send("Emulation.setEmulatedMedia", { features: [] });
 });
 
 const NAMES = ["atlas", "borealis", "cassini", "dione", "europa", "fermi", "galileo", "hubble"];
@@ -82,7 +89,7 @@ function Picker({
         value={value}
         onValueChange={setValue}
       />
-      <output data-testid="value">{value ?? ""}</output>
+      <span data-testid="value">{value ?? ""}</span>
     </div>
   );
 }
@@ -185,8 +192,47 @@ it("with a mouse a one-line row is 36px; a description line adds its own height"
   expect(row("borealis").getBoundingClientRect().height).toBeGreaterThan(36);
 });
 
+it("with the search on, the frame scrolls inside a fixed height", () => {
+  const many = [...NAMES, "io", "juno", "kepler", "luna"];
+  render(<Picker items={makeItems(many)} />);
+  const frame = document.querySelector("[data-slot=choice-list-frame]") as HTMLElement;
+  expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(288.5);
+  expect(frame.scrollHeight).toBeGreaterThan(frame.clientHeight);
+  expect(getComputedStyle(frame).overflowY).toBe("auto");
+});
+
+it('search="always": with a mouse, focus starts in the box', () => {
+  expect(matchMedia("(pointer: fine)").matches).toBe(true);
+  render(<Picker search="always" items={makeItems(NAMES.slice(0, 3))} />);
+  expect(document.activeElement).toBe(screen.getByRole("searchbox"));
+});
+
+it("items that load late never take focus from a field people are in", async () => {
+  expect(matchMedia("(pointer: fine)").matches).toBe(true);
+  function Late() {
+    const [items, setItems] = useState<readonly ChoiceListItem[]>([]);
+    return (
+      <>
+        <input aria-label="Channel name" />
+        <button type="button" onClick={() => setItems(makeItems(NAMES.slice(0, 3)))}>
+          Load
+        </button>
+        <Picker search="always" items={items} />
+      </>
+    );
+  }
+  render(<Late />);
+  const name = screen.getByRole("textbox", { name: "Channel name" });
+  name.focus();
+  screen.getByRole("button", { name: "Load" }).click();
+  await waitFor(() => expect(screen.getByRole("searchbox")).toBeTruthy());
+  expect(document.activeElement).toBe(name);
+});
+
+// Touch from here on (see useCoarsePointer).
+
 it("on a touch screen a one-line row is 44px and its action keeps a 44px target", async () => {
-  await setCoarsePointer(true);
+  await useCoarsePointer();
   expect(matchMedia("(pointer: coarse)").matches).toBe(true);
   render(<Picker items={makeItems(NAMES.slice(0, 3))} />);
   expect(row("atlas").getBoundingClientRect().height).toBeCloseTo(44, 0);
@@ -202,26 +248,10 @@ it("on a touch screen a one-line row is 44px and its action keeps a 44px target"
   }
 });
 
-it("with the search on, the frame scrolls inside a fixed height", () => {
-  const many = [...NAMES, "io", "juno", "kepler", "luna"];
-  render(<Picker items={makeItems(many)} />);
-  const frame = document.querySelector("[data-slot=choice-list-frame]") as HTMLElement;
-  expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(288.5);
-  expect(frame.scrollHeight).toBeGreaterThan(frame.clientHeight);
-  expect(getComputedStyle(frame).overflowY).toBe("auto");
-});
-
-it('search="always": focus starts in the box with a mouse, not on a touch screen', async () => {
-  await setCoarsePointer(false);
-  expect(matchMedia("(pointer: fine)").matches).toBe(true);
-  const few = makeItems(NAMES.slice(0, 3));
-  const { unmount } = render(<Picker search="always" items={few} />);
-  expect(document.activeElement).toBe(screen.getByRole("searchbox"));
-  unmount();
-
-  await setCoarsePointer(true);
+it('search="always": on a touch screen, focus stays out of the box', async () => {
+  await useCoarsePointer();
   expect(matchMedia("(pointer: fine)").matches).toBe(false);
-  render(<Picker search="always" items={few} />);
+  render(<Picker search="always" items={makeItems(NAMES.slice(0, 3))} />);
   expect(screen.getByRole("searchbox")).toBeTruthy();
   expect(document.activeElement).not.toBe(screen.getByRole("searchbox"));
 });

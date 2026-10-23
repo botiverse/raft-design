@@ -75,7 +75,7 @@ function Single({
         value={value}
         onValueChange={setValue}
       />
-      <output data-testid="value">{value ?? ""}</output>
+      <span data-testid="value">{value ?? ""}</span>
     </>
   );
 }
@@ -100,7 +100,7 @@ function Multiple({
         value={value}
         onValueChange={setValue}
       />
-      <output data-testid="value">{value.join(",")}</output>
+      <span data-testid="value">{value.join(",")}</span>
     </>
   );
 }
@@ -192,7 +192,7 @@ test("the search filters by label, case-insensitively, and says when nothing mat
   render(<Single items={makeItems(8)} />);
   search("UB");
   expect(rowNames()).toEqual(["hubble"]);
-  expect(screen.queryByRole("status")).toBeNull();
+  expect(screen.getByRole("status").textContent).toBe("");
   search("zzz");
   expect(screen.queryAllByRole("radio")).toHaveLength(0);
   expect(screen.getByRole("status").textContent).toBe("No matches");
@@ -206,6 +206,33 @@ test("the chosen row stays first, above the matches, and the no-match line goes 
   expect(rowNames()).toEqual(["galileo"]);
   expect(screen.getByRole("status").textContent).toBe("No matches");
   expect((screen.getByRole("radio") as HTMLElement).getAttribute("aria-checked")).toBe("true");
+});
+
+test("a chosen row that matches is a match: no no-match line under it", () => {
+  render(<Single items={makeItems(8)} initial="hubble" />);
+  search("hub");
+  expect(rowNames()).toEqual(["hubble"]);
+  expect(screen.getByRole("status").textContent).toBe("");
+});
+
+test("the status is there with the box, empty, before anything fails to match", () => {
+  render(<Single items={makeItems(8)} />);
+  const status = screen.getByRole("status");
+  expect(status.textContent).toBe("");
+  search("zzz");
+  expect(screen.getByRole("status")).toBe(status);
+  expect(status.textContent).toBe("No matches");
+});
+
+test('under "auto", the search text goes when the box does, and doesn\'t come back with it', () => {
+  const { rerender } = render(<Single items={makeItems(8)} />);
+  search("a");
+  rerender(<Single items={makeItems(3)} />);
+  expect(screen.queryByRole("searchbox")).toBeNull();
+  expect(rowNames()).toEqual(NAMES.slice(0, 3));
+  rerender(<Single items={makeItems(8)} />);
+  expect((screen.getByRole("searchbox") as HTMLInputElement).value).toBe("");
+  expect(rowNames()).toEqual(NAMES.slice(0, 8));
 });
 
 test("filtering never changes the choice, and clearing restores the original order", () => {

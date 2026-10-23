@@ -75,6 +75,9 @@ export function ChoiceListMigrationTargetComposition() {
     <div className="w-104 max-w-full">
       <ChoiceList
         aria-label="Move Kirby to"
+        searchLabel="Search computers"
+        clearSearchLabel="Clear search"
+        noMatchLabel="No matches"
         items={COMPUTERS}
         value={target}
         onValueChange={setTarget}

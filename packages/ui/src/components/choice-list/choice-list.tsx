@@ -52,13 +52,16 @@ type ChoiceListCommonProps = {
   "aria-label"?: string;
   "aria-labelledby"?: string;
   disabled?: boolean;
-  /** The search box's accessible name. Required once the list can search. */
-  searchLabel?: string;
+  /**
+   * The search box's accessible name. Required: any list can come to search,
+   * since `"auto"` shows the box once the items, usually from data, pass 5.
+   */
+  searchLabel: string;
   searchPlaceholder?: string;
   /** The search box's text when the list first draws, such as a search carried over. */
   defaultSearchValue?: string;
   /** The clear button's accessible name. */
-  clearSearchLabel?: string;
+  clearSearchLabel: string;
   /** The line under the chosen rows when nothing else matches. */
   noMatchLabel?: ReactNode;
   /** The line drawn when there are no items at all. */
@@ -91,6 +94,25 @@ function descriptionLines(description: ChoiceListItem["description"]): ReactNode
   return lines.filter(isDrawn);
 }
 
+const NOT_TEXT_INPUTS = new Set([
+  "button",
+  "checkbox",
+  "radio",
+  "submit",
+  "reset",
+  "image",
+  "file",
+  "range",
+  "color",
+]);
+
+function isTextEntry(element: Element | null) {
+  if (!(element instanceof HTMLElement)) return false;
+  if (element.isContentEditable || element instanceof HTMLTextAreaElement) return true;
+  if (element instanceof HTMLSelectElement) return true;
+  return element instanceof HTMLInputElement && !NOT_TEXT_INPUTS.has(element.type);
+}
+
 function searchTextOf(item: ChoiceListItem) {
   if (item.searchText !== undefined) return item.searchText;
   return typeof item.label === "string" ? item.label : "";
@@ -115,7 +137,8 @@ function visibleItems(
     (item) => isPinned(item) || (chosen.includes(item.value) && !matches(item)),
   );
   const rest = items.filter((item) => !top.includes(item) && matches(item));
-  return { rows: [...top, ...rest], noMatch: rest.length === 0 };
+  // A pinned row that matches is a match: "No match" only when none does.
+  return { rows: [...top, ...rest], noMatch: !items.some(matches) };
 }
 
 export function ChoiceList(props: ChoiceListProps) {
@@ -145,6 +168,13 @@ export function ChoiceList(props: ChoiceListProps) {
   const baseId = useId();
 
   const searchable = items.length > 0 && (search === "always" || items.length > SEARCH_ABOVE);
+  // When the box goes away (the items dropped to 5 or fewer under "auto"),
+  // its text goes too, so it can't come back with the items.
+  const [wasSearchable, setWasSearchable] = useState(searchable);
+  if (wasSearchable !== searchable) {
+    setWasSearchable(searchable);
+    if (!searchable) setQuery("");
+  }
   const needle = searchable ? query.trim().toLowerCase() : "";
   const { rows, noMatch } = visibleItems(items, needle, pinned, chosen);
   const hasAction = rows.some((item) => item.action !== undefined && item.action !== null);
@@ -155,26 +185,28 @@ export function ChoiceList(props: ChoiceListProps) {
     if (!ariaLabel && !ariaLabelledBy) {
       console.warn("raft-ui: a ChoiceList has neither aria-label nor aria-labelledby.");
     }
-    if (searchable && (!searchLabel || !clearSearchLabel)) {
-      console.warn(
-        "raft-ui: this ChoiceList shows a search box; pass searchLabel and clearSearchLabel to name it and its clear button.",
-      );
-    }
     if (items.some((item) => descriptionLines(item.description).length > MAX_DESCRIPTION_LINES)) {
       console.warn(
         `raft-ui: a ChoiceList item has more than ${MAX_DESCRIPTION_LINES} description lines; only the first ${MAX_DESCRIPTION_LINES} are drawn.`,
       );
     }
-  }, [ariaLabel, ariaLabelledBy, searchable, searchLabel, clearSearchLabel, items]);
+  }, [ariaLabel, ariaLabelledBy, items]);
 
   // Typing is the way in when people know the name, so with a mouse or
   // trackpad focus starts in the box. Never on a touch screen, where focus
-  // would bring up the keyboard over the list.
+  // would bring up the keyboard over the list. Only once, when the box first
+  // shows (items may load later), and never out of a field people are typing
+  // in. Focus on a button is taken: that is the one that opened the dialog.
   const focusSearch = search === "always" && searchable;
+  const focusedSearch = useRef(false);
   useEffect(() => {
-    if (!focusSearch || typeof window.matchMedia !== "function") return;
-    if (window.matchMedia("(pointer: fine)").matches)
-      inputRef.current?.focus({ preventScroll: true });
+    if (!focusSearch || focusedSearch.current) return;
+    focusedSearch.current = true;
+    const input = inputRef.current;
+    if (!input || typeof window.matchMedia !== "function") return;
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    if (isTextEntry(document.activeElement)) return;
+    input.focus({ preventScroll: true });
   }, [focusSearch]);
 
   const changeQuery = useCallback(
@@ -320,9 +352,16 @@ export function ChoiceList(props: ChoiceListProps) {
                 )}
               </div>
             ) : null}
-            {noMatch ? (
-              <p role="status" data-slot="choice-list-note" className={slots.note()}>
-                {noMatchLabel}
+            {searchable ? (
+              // Mounted with the box and empty until nothing matches: a
+              // screen reader announces a status whose text changes, not one
+              // that appears with its text.
+              <p
+                role="status"
+                data-slot="choice-list-status"
+                className={noMatch ? slots.note() : "sr-only"}
+              >
+                {noMatch ? noMatchLabel : null}
               </p>
             ) : null}
           </>
