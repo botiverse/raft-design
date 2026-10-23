@@ -1,3 +1,26 @@
+## [0.28.0](https://github.com/botiverse/raft-design/compare/v0.27.0...v0.28.0) (2026-10-23)
+
+### Design System
+
+- **Toasts: one at a time, no Dismiss, above the composer on a phone**: a toast shows alone; a new one replaces it at once and the replaced one is closed, not queued. It has no Dismiss: it closes by itself after 5 seconds, or 8 with an action or as an error, and can be swiped away or closed with Esc. It stays at the bottom center: at the bottom of the window on a desktop, and on a phone just above the composer, the tab bar or the keyboard, which the app sets with `--toast-viewport-bottom`. ([#675](https://github.com/botiverse/raft-design/pull/675))
+  - Why: stacked toasts and a × on each one asked people to manage messages that were only receipts; at the very bottom of a phone a toast sat under the composer and the keyboard (decided with stdrc).
+  - Affects: a rule for products; raft-ui's Toast defaults.
+  - Docs: https://raft-design.botiverse.build/components/toast/#where-it-appears
+
+- **Pull to refresh looks like Android's own on Android**: on Android web the indicator is Material 3's: a small disc with a shadow slides down over the list, which stays still; inside, a progress arc with an arrowhead grows with the pull, faint until the pull is armed and faint again when it is pulled back (disarmed); while refreshing the arc turns; at the end the disc scales away. iOS and everything else keep the Spinner. The disc is the one round surface besides switches, radios and grab handles, and its turning arc the one other looping animation. ([#765](https://github.com/botiverse/raft-design/pull/765))
+  - Why: a pull on Android should look the way it does in every Android app (decided by stdrc); armed and disarmed now look different.
+  - Affects: `PullToRefresh` (wip) on Android; shape, motion and navigation rules record the exception.
+  - Docs: https://raft-design.botiverse.build/components/pull-to-refresh/#on-android
+
+### Changed
+
+- **Toast defaults** ([#675](https://github.com/botiverse/raft-design/pull/675)):
+  - `limit` is 1 (was 3); a newer toast replaces the older and closes it.
+  - The command API shows `ToastClose` only with `dismissible: true`.
+  - `actionTimeout` (8s) applies to toasts with an action and to errors; `timeout` stays 5s.
+  - Bottom placements sit 16px above `max(var(--toast-viewport-bottom, 0px), env(safe-area-inset-bottom))`; `top-center` takes `--toast-viewport-top`. A toast swipes away toward the edge it came from.
+  - Migration: an app that passed its own `placement` or drew its own close can drop them; set `--toast-viewport-bottom` on a phone (from `visualViewport` while the keyboard is up on iOS).
+
 ## [0.27.0](https://github.com/botiverse/raft-design/compare/v0.26.0...v0.27.0) (2026-10-23)
 
 ### Design System
