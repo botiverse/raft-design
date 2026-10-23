@@ -59,6 +59,7 @@ radio-group/compositions/reset-mode-restored
 
 - Set each answer's label in `text-subhead` at weight 600, and its description in `text-footnote` and `foreground-muted`.
 - An answer may have two description lines when each says something people compare across the answers, such as an account's quota and then the machine itself ("Claude Max · 5h 72% left · this week 40% left", "120 GB free · 3 agents"). Each line truncates on its own; a line with nothing to say is left out, never shown empty.
+- When choosing is the dialog's main content, keep the answers open as a list at any count, with a filter field above it from 6 answers, and let the list scroll; the whole row chooses. Its rows look like those of a list that adds several (Add Members), with the radio circle where that list has its checkbox: the same list, and the circle says only one can be chosen ([Choosing a control](../../../../../design/components/overview.md)).
 - To open more about one answer, put a 32px frameless icon button at the end of its row, centered on the label's line, **outside** the item's `<label>`: inside it, pressing the button would also choose the answer, and a screen reader would read a button inside a radio. Name it after the answer ("Studio Mac details") and open the details in a [Popover](../popover/popover.md), which a tap opens too, not a hover card. The group stays one Tab stop moved with the arrow keys; each button is a Tab stop of its own after it.
 
 ## Accessibility
