@@ -7,7 +7,11 @@ export default defineConfig({
   test: {
     browser: {
       provider: playwright(),
-      instances: [{ browser: "chromium" }],
+      // A browser run takes only the browser tests. The rest are Node and
+      // jsdom tests (node:fs reads, @vitest-environment jsdom) that CI runs;
+      // in Chromium a node:fs import never resolves and the run hangs, so
+      // running a whole component folder by hand stalled (2026-10-23).
+      instances: [{ browser: "chromium", include: ["src/**/*.browser.test.{ts,tsx}"] }],
     },
   },
   pack: {

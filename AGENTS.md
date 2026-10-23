@@ -37,6 +37,8 @@ cd packages/ui
 pnpm exec vp test --run --browser.enabled --browser.headless src/components/<component>
 ```
 
+A browser run takes only `*.browser.test.{ts,tsx}` files (`packages/ui/vite.config.ts`), so a whole component folder can be named: its Node and jsdom tests stay with CI's Node run.
+
 - Install the browser once with the Playwright this repo pins, not a global one: `node node_modules/.pnpm/playwright-core@*/node_modules/playwright-core/cli.js install chromium`.
 - Headed mode needs a display; use `--browser.headless` on a machine without one.
 - A new browser test must start with the same `skipIf` guard, or CI fails on `document is not defined`.
