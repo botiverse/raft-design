@@ -14,14 +14,22 @@ import {
   MessageItemTime,
   MessageReferenceChip,
   MessageReferenceLabel,
+  MessageReferenceSuffix,
   MessageReferenceText,
 } from "@botiverse/raft-ui";
 import { MessageReferenceIcon } from "@botiverse/raft-ui/wip";
 
 // Links an app (Stamp) previews, in a message: each is a cyan chip in the
 // sentence with the app's registered icon and the app's own title, capped
-// and truncated. A message that is only a link is the same chip.
+// and truncated. A message that is only a link is the same chip. Where nothing
+// can hover (a phone), the chip also says the link's host, which the item card
+// says on hover: the title is the app's words, the host is where it goes.
 export function MessageReferenceAppLinksComposition() {
+  const host = (
+    <MessageReferenceSuffix className="hidden pointer-coarse:inline">
+      stamp.build
+    </MessageReferenceSuffix>
+  );
   const stampIcon = (
     <MessageReferenceIcon>
       <img src="/app-icons/stamp.svg" alt="" />
@@ -37,6 +45,7 @@ export function MessageReferenceAppLinksComposition() {
       <MessageReferenceLabel>
         #10449 refactor(i18n): one display-locale source for web and desktop
       </MessageReferenceLabel>
+      {host}
     </MessageReferenceChip>
   );
   const second = (
@@ -47,6 +56,7 @@ export function MessageReferenceAppLinksComposition() {
     >
       {stampIcon}
       <MessageReferenceLabel>#10451 test(i18n): cover the zh-CN fallback</MessageReferenceLabel>
+      {host}
     </MessageReferenceChip>
   );
   const third = (
@@ -59,6 +69,7 @@ export function MessageReferenceAppLinksComposition() {
       <MessageReferenceLabel>
         #10437 fix(i18n): read the locale cookie before the Accept-Language header
       </MessageReferenceLabel>
+      {host}
     </MessageReferenceChip>
   );
 
