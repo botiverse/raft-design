@@ -49,7 +49,7 @@ export type {
 // for a menu, hold and move to drag. It subclasses dnd-kit's TouchSensor
 // through fields dnd-kit types as private, so it stays here until that is
 // settled.
-export { useHoldThenMoveTouchSensor } from "./lib/touch-drag";
+export { TOUCH_DRAG_HOLD_MS, useHoldThenMoveTouchSensor } from "./lib/touch-drag";
 export type { HoldThenMoveOptions } from "./lib/touch-drag";
 
 // Text cut with CSS that knows when it was: the tooltip opens and the expand
