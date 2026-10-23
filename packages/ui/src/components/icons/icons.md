@@ -31,11 +31,11 @@ icons/icons
 - `MessageIcon`: a speech bubble.
 - `ChatIcon`: a speech bubble with three dots.
 - `DirectMessageIcon`: a speech bubble with a person.
-- `ThreadIcon`: two overlapping speech bubbles, the front one filled.
+- `ThreadIcon`: two overlapping speech bubbles, both outlined. Every icon in Raft is a line drawing at one weight; a filled bubble read heavier than every Lucide icon beside it in a menu or a toolbar (stdrc, 2026-10-23).
 
 Each one is an 18px `svg` drawn in `currentColor`, so it takes the color of the text around it. Size it with a class, by the context it is in ([Iconography](../../../../../design/foundations/iconography.md#sizes)).
 
-Their lines are 1.5 on the 18px grid, the weight of Lucide's 2 on its 24px grid, so at any size they match the Lucide icons beside them: 1.33px at 16px, as Lucide's are. At 1 they drew 0.89px at 16px, thinner than every icon around them in a menu or a toolbar, and `ThreadIcon`'s filled bubble looked heavy against its own thin outline.
+Their lines are 1.5 on the 18px grid, the weight of Lucide's 2 on its 24px grid, so at any size they match the Lucide icons beside them: 1.33px at 16px, as Lucide's are. At 1 they drew 0.89px at 16px, thinner than every icon around them in a menu or a toolbar.
 
 ## Accessibility
 
