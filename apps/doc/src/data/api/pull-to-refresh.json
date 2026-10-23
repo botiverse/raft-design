@@ -1,0 +1,24 @@
+[
+  {
+    "name": "PullToRefreshIndicator",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The pull's indicator, with the DS Spinner in it. Render it as the scroller's first child: by default it is the space the pull opens, so the content moves down with the pull; on Android it travels down over the content instead (Material 3). It holds a polite live region that announces `label` while refreshing.",
+    "native": true,
+    "props": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": true,
+        "description": "What a screen reader announces when the refresh starts, such as \"Refreshing…\". Product copy, so it comes from the consumer.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "pull",
+        "type": "PullToRefresh",
+        "required": true,
+        "description": "The result of `usePullToRefresh`.",
+        "from": "raft-ui"
+      }
+    ]
+  }
+]
