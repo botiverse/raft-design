@@ -63,7 +63,7 @@ Several components can look right for the same job. These tables pick one per si
 
 ### Picking something
 
-Two questions decide a picker: when the choice takes effect, and how many values there are. A control that applies at once (Switch, a menu) must be safe to flip without a Save; a control saved with a form (Checkbox, RadioGroup, Select) can wait for the person to review it ([Forms](../patterns/forms.md)). Radio buttons show every answer, so they fit only a few; a select hides the values behind one field, so it fits more; past that people need to search. That count holds for a field among other fields in a form. When choosing is what a dialog is for (where to move an agent, whom to add), the choices stay open as a list at any count, so people can compare them without opening anything: a radio circle before each row for one choice, a checkbox for several, a filter field above it from 6 choices, and the list scrolls past that.
+Two questions decide a picker: when the choice takes effect, and how many values there are. A control that applies at once (Switch, a menu) must be safe to flip without a Save; a control saved with a form (Checkbox, RadioGroup, Select) can wait for the person to review it ([Forms](../patterns/forms.md)). Radio buttons show every answer, so they fit only a few; a select hides the values behind one field, so it fits more; past that people need to search. That count holds for a field among other fields in a form. When choosing is what a dialog is for (where to move an agent, whom to add), the choices stay open as a list at any count, so people can compare them without opening anything: a radio circle before each row for one choice, a checkbox for several, a filter field above it when people look for something they know by name (a person: always, since typing the name is fastest at any count) or when they choose by comparing and the list is longer than a glance (from 6 choices), and the list scrolls past that.
 
 | You need | Use |
 | --- | --- |
@@ -71,7 +71,7 @@ Two questions decide a picker: when the choice takes effect, and how many values
 | Yes or no, applied at once | [Switch](../../packages/ui/src/components/switch/switch.md) |
 | Yes or no, applied on Save | [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) |
 | One of 2 to 5 answers, submitted with a form | [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md) |
-| One of any number of choices, when choosing is the dialog's main content | An open list of [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md) rows, with a filter field above it from 6 choices ([RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md#content)) |
+| One of any number of choices, when choosing is the dialog's main content | An open list of [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md) rows, with a filter field for things found by name, or from 6 choices ([RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md#content)) |
 | Another view of the same content | [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md) |
 | The same page in another language | A menu of the languages, each in its own name ([DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) whose items are links) |
 | Sections of one page, each with its own content | [Tabs](../../packages/ui/src/components/tabs/tabs.md) |
