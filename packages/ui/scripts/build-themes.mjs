@@ -119,7 +119,7 @@ const HEADER = `/* Generated from themes.json by scripts/build-themes.mjs. Do no
 `;
 
 const BASE = `/* The frame decorations components draw (AppRail; the app's top bar via
-   bg-frame-decor-top). none unless the theme has decor and it is on. */
+   frame-decor-top). none unless the theme has decor and it is on. */
 :root,
 .light,
 .dark {
