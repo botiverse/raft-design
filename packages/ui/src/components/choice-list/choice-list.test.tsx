@@ -621,3 +621,76 @@ test("fill: the list takes the height it is given and scrolls inside it, with no
   expect(scroller.className).toMatch(/\boverflow-y-auto\b/);
   expect(scroller.className).not.toMatch(/\bmax-h-72\b/);
 });
+
+test('searchValue under "auto": when the box goes, the caller hears ""; a text set from outside re-pins the chosen row', () => {
+  const heard: string[] = [];
+  function Owner({ count, text: start }: { count: number; text: string }) {
+    const [text, setText] = useState(start);
+    const hear = useCallback((next: string) => {
+      heard.push(next);
+      setText(next);
+    }, []);
+    return (
+      <>
+        <ChoiceList
+          aria-label="Target computer"
+          searchLabel="Search computers"
+          clearSearchLabel="Clear search"
+          searchValue={text}
+          onSearchValueChange={hear}
+          items={makeItems(count)}
+          value="galileo"
+          onValueChange={ignore}
+        />
+        <span data-testid="text">{text}</span>
+      </>
+    );
+  }
+  const { rerender, unmount } = render(<Owner count={8} text="bo" />);
+  expect(rowNames()).toEqual(["galileo", "borealis"]);
+  rerender(<Owner count={3} text="bo" />);
+  expect(screen.queryByRole("searchbox")).toBeNull();
+  expect(heard).toEqual([""]);
+  expect(screen.getByTestId("text").textContent).toBe("");
+  unmount();
+
+  function Outside({ text }: { text: string }) {
+    const [value, setValue] = useState<string | null>("atlas");
+    return (
+      <ChoiceList
+        aria-label="Target computer"
+        searchLabel="Search computers"
+        clearSearchLabel="Clear search"
+        searchValue={text}
+        items={EIGHT_ITEMS}
+        value={value}
+        onValueChange={setValue}
+      />
+    );
+  }
+  const outside = render(<Outside text="e" />);
+  fireEvent.click(screen.getByRole("radio", { name: "europa" }));
+  // Rows hold still while choosing...
+  expect(rowNames()[0]).toBe("atlas");
+  // ...and a new text from the caller pins the new choice.
+  outside.rerender(<Outside text="er" />);
+  expect(rowNames()).toEqual(["europa", "fermi"]);
+});
+
+test("a group value with a space still names its group", () => {
+  render(
+    <ChoiceList
+      aria-label="Members"
+      searchLabel="Search people"
+      clearSearchLabel="Clear search"
+      groups={SPACED_GROUPS}
+      items={SPACED_ITEMS}
+      value={null}
+      onValueChange={ignore}
+    />,
+  );
+  expect(screen.getByRole("group", { name: "Your agents" })).toBeTruthy();
+});
+
+const SPACED_GROUPS = [{ value: "my agents", label: "Your agents" }];
+const SPACED_ITEMS: ChoiceListItem[] = [{ value: "kirby", label: "Kirby", group: "my agents" }];

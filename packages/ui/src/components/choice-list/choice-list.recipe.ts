@@ -37,7 +37,7 @@ export const choiceList = tv({
       "font-sans text-subhead",
     ],
     note: ["px-2.5 py-2 font-sans text-callout text-foreground-hint"],
-    footer: ["shrink-0 border-t border-line-seam"],
+    footer: ["shrink-0 border-t border-line-seam p-1"],
   },
   variants: {
     scroll: {

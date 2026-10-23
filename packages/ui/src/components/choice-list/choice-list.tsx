@@ -250,6 +250,17 @@ export function ChoiceList(props: ChoiceListProps) {
     setWasSearchable(searchable);
     if (!searchable) setOwnQuery("");
   }
+  // A caller that owns the text hears it go too, so a footer named after it
+  // ("Create an agent named …") doesn't keep a search no one can see.
+  useEffect(() => {
+    if (!searchable && searchValue) onSearchValueChange?.("");
+  }, [searchable, searchValue, onSearchValueChange]);
+  // The pin is taken whenever the text changes, typed or set by the caller.
+  const [pinnedFor, setPinnedFor] = useState(query);
+  if (pinnedFor !== query) {
+    setPinnedFor(query);
+    setPinned(chosen);
+  }
   const needle = searchable ? query.trim().toLowerCase() : "";
   const { rows, noMatch } = visibleItems(items, needle, pinned, chosen);
   const hasAction = rows.some((item) => item.action !== undefined && item.action !== null);
@@ -287,16 +298,14 @@ export function ChoiceList(props: ChoiceListProps) {
   const changeQuery = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       setQuery(event.currentTarget.value);
-      setPinned(chosen);
     },
-    [chosen, setQuery],
+    [setQuery],
   );
 
   const clearQuery = useCallback(() => {
     setQuery("");
-    setPinned(chosen);
     inputRef.current?.focus();
-  }, [chosen, setQuery]);
+  }, [setQuery]);
 
   const { sections, gridRowOf, gridRows } = layoutSections(rows, groups);
 
@@ -353,9 +362,9 @@ export function ChoiceList(props: ChoiceListProps) {
     );
   };
 
-  const rowElements = sections.map((section) => {
+  const rowElements = sections.map((section, index) => {
     if (!section.group) return section.rows.map(rowElement);
-    const headingId = `${baseId}-group-${section.group.value}`;
+    const headingId = `${baseId}-group-${index}`;
     const start = (gridRowOf.get(section.rows[0]!.value) ?? 1) - 1;
     return (
       <div

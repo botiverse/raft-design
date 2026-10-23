@@ -65,12 +65,10 @@ export function ChoiceListAddMembersComposition() {
         value={members}
         onValueChange={setMembers}
         footer={
-          <div className="p-1">
-            <Button variant="ghost" className="w-full justify-start" onClick={createAgent}>
-              <Plus aria-hidden />
-              {name ? `Create an agent named “${name}”` : "Create an agent"}
-            </Button>
-          </div>
+          <Button variant="ghost" className="w-full justify-start" onClick={createAgent}>
+            <Plus aria-hidden />
+            {name ? `Create an agent named “${name}”` : "Create an agent"}
+          </Button>
         }
       />
     </div>
