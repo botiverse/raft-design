@@ -35,10 +35,12 @@ A field among other fields keeps the choice behind one control, so the form stay
 ChoiceList is one component driven by an `items` array; it draws the parts below from it.
 
 - The search box: an [InputGroup](../input-group/input-group.md) with a search icon and, once there is text, a 32px clear button. Always with `search="always"`; above 5 items with `search="auto"`.
-- The frame: a card-coloured box with a hairline border around the rows, which scrolls inside a fixed height once the search box shows.
+- The frame: a card-coloured box with a hairline border around the rows, which scroll inside it at a fixed height once the search box shows.
+- A group heading, one per group in `groups`: a small heading over the rows of one kind (Agents, People), in the size and colour of a [Select](../select/select.md) group label.
 - A row, one per item: the radio circle or checkbox, the item's `media` (an avatar, an icon), its `label` and up to two `description` lines. The whole row is a `<label>`.
 - A row's `action`: a button at the end of the row, beside it but outside its `<label>`.
 - A note: the caller's `noMatchLabel` under the chosen rows when the search matches nothing else, or its `empty` line when there are no items.
+- The footer: the caller's `footer`, inside the frame under the rows, past a seam line. It doesn't scroll with the rows, so it is always in view.
 
 ## Variants
 
@@ -77,6 +79,9 @@ choice-list/compositions/no-match
 - **Rows hold still while you choose.** The rows chosen first are taken when the text changes, not when the choice does, so a row never moves under the pointer or the arrow keys; the order is redrawn at the next keystroke.
 - **The list scrolls.** With the search box on, the frame stops at 288px and scrolls inside the dialog; a cut-off last row shows there is more.
 - **Row heights.** A row with one line is 36px with a mouse and 44px on a touch screen; each description line adds its own height and nothing else.
+- **Groups.** With `groups`, each item names its group, and the rows come under their group's heading in the groups' order; items of no known group follow, with no heading. A group with nothing to show, before or during a search, draws no heading. While searching, the chosen rows come first in their own group, so a person never moves out of the People heading.
+- **A way out under the list.** When the item may not be there, put the way to make it in `footer`, such as "Create an agent": it stays under the rows as they scroll. To name it after what people typed ("Create an agent named “Mia”"), pass `searchValue` and `onSearchValueChange`; the caller then owns the search text and can quote it in the footer or in `noMatchLabel`.
+- **Filling a sheet.** With `fill`, the list takes the height it is given, such as the rest of a phone sheet, and its rows scroll inside it instead of stopping at 288px.
 - **Row actions.** An `action` sits at the end of its row, centred on the name's line. It is laid in a second grid column on the same rows but comes after the whole group in the DOM, so clicking it chooses nothing and Tab reaches it after the group, in row order. Open details in a [Popover](../popover/popover.md), which a tap opens too.
 
 ```example
@@ -97,6 +102,7 @@ choice-list/compositions/search
 - `multiple`: Base UI CheckboxGroup with raft-ui [Checkbox](../checkbox/checkbox.md), a `group` of checkboxes. Each checkbox is its own Tab stop and Space ticks it: the WAI-ARIA checkbox pattern. A multi-select listbox would make each row an option, which can't hold a button of its own.
 - Name the list with `aria-label`, or `aria-labelledby` pointing at the dialog's question. Each radio or checkbox is named by its row's `label` alone and described by its lines, so a screen reader reads the name first and the quota after it, not the whole row as the name.
 - Row actions are outside the group and the rows' labels: they are never read into a radio's name, and the group's arrow keys never land on them.
+- Each group is a `group` named by its heading, inside the list's own group, so a screen reader says "Agents" as focus enters it. The arrow keys move across the groups as one list.
 - With `search="always"` and a fine pointer, focus starts in the search box, so the list is ready for typing; with `search="auto"` or on a touch screen focus stays where the dialog puts it. It moves there once, when the box first shows, and never out of a field people are typing in: items that load while someone fills in the channel's name leave the focus in the name.
 - The search box is `type="search"` (WebKit's own cancel mark is hidden; the clear button replaces it, and clearing puts focus back in the box). The no-match line is a `status` that is there, empty, as long as the box is, and gets its text when nothing matches: screen readers announce a status whose text changes, and often miss one that appears with its text. A chosen row that matches is a match, so it never has "No match" under it.
 - On a touch screen each row is at least 44px tall and each 32px action keeps a 44px hit area ([Touch screens](../../../../../design/patterns/responsive.md#touch-screens)).
@@ -106,3 +112,5 @@ choice-list/compositions/search
 - Pass `action` for a row's own button rather than putting a button in `label` or `description`: inside the row's `<label>`, pressing it would also choose the row, and a screen reader would read a button inside a radio.
 - Don't put a ChoiceList in a form among other fields; there, use the field the [When to use](#when-to-use) table names.
 - Keep removable chips of the chosen people (Add Members) outside the list, above it; ChoiceList draws only the list.
+- Use `groups` for kinds people tell apart at a glance (Agents and People), not to sort a long list into many small sections: a search finds a name faster than headings do.
+- Put only the way out of the list in `footer`, one row; a second choice list or a form belongs outside the frame.

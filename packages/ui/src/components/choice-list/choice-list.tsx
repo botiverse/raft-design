@@ -38,6 +38,14 @@ export type ChoiceListItem = {
    */
   action?: ReactNode;
   disabled?: boolean;
+  /** The `value` of the group in `groups` this item is listed under. */
+  group?: string;
+};
+
+export type ChoiceListGroup = {
+  value: string;
+  /** The small heading over the group's rows, such as "Agents". */
+  label: ReactNode;
 };
 
 type ChoiceListCommonProps = {
@@ -60,12 +68,37 @@ type ChoiceListCommonProps = {
   searchPlaceholder?: string;
   /** The search box's text when the list first draws, such as a search carried over. */
   defaultSearchValue?: string;
+  /**
+   * The search box's text, for a caller that uses it: a "Create “…”" row
+   * named after it, or a no-match line that quotes it. With it, the caller
+   * owns the text, and `onSearchValueChange` reports each change.
+   */
+  searchValue?: string;
+  onSearchValueChange?: (value: string) => void;
   /** The clear button's accessible name. */
   clearSearchLabel: string;
   /** The line under the chosen rows when nothing else matches. */
   noMatchLabel?: ReactNode;
   /** The line drawn when there are no items at all. */
   empty?: ReactNode;
+  /**
+   * Headings that split the rows by kind, in this order, such as Agents then
+   * People. Each item names its group; a group with no rows to show, or a
+   * search that leaves it empty, draws no heading.
+   */
+  groups?: readonly ChoiceListGroup[];
+  /**
+   * A row of the caller's under the list, inside its frame, that stays in
+   * view while the rows scroll: the way out when the item isn't there, such
+   * as "Create an agent".
+   */
+  footer?: ReactNode;
+  /**
+   * The list takes the height it is given and its rows scroll inside it, for
+   * a sheet or panel whose main content is the list. Otherwise a list with a
+   * search scrolls past 18rem.
+   */
+  fill?: boolean;
   className?: string;
 };
 
@@ -141,6 +174,35 @@ function visibleItems(
   return { rows: [...top, ...rest], noMatch: !items.some(matches) };
 }
 
+// The rows by group, in the groups' order, each keeping the order the search
+// gave it (the pinned rows first); rows of no known group last, with no
+// heading. Each heading and row takes one grid row: the actions are laid on
+// their rows' grid rows.
+function layoutSections(
+  rows: readonly ChoiceListItem[],
+  groups: readonly ChoiceListGroup[] | undefined,
+) {
+  const known = new Set(groups?.map((group) => group.value));
+  const sections: { group: ChoiceListGroup | null; rows: ChoiceListItem[] }[] = groups
+    ? groups.map((group) => ({ group, rows: rows.filter((item) => item.group === group.value) }))
+    : [];
+  sections.push({
+    group: null,
+    rows: rows.filter((item) => !groups || item.group === undefined || !known.has(item.group)),
+  });
+  const drawn = sections.filter((section) => section.rows.length > 0);
+  const gridRowOf = new Map<string, number>();
+  let gridRows = 0;
+  for (const section of drawn) {
+    if (section.group) gridRows += 1;
+    for (const item of section.rows) {
+      gridRows += 1;
+      gridRowOf.set(item.value, gridRows);
+    }
+  }
+  return { sections: drawn, gridRowOf, gridRows };
+}
+
 export function ChoiceList(props: ChoiceListProps) {
   const {
     items,
@@ -151,9 +213,14 @@ export function ChoiceList(props: ChoiceListProps) {
     searchLabel,
     searchPlaceholder,
     defaultSearchValue = "",
+    searchValue,
+    onSearchValueChange,
     clearSearchLabel,
     noMatchLabel,
     empty,
+    groups,
+    footer,
+    fill = false,
     className,
   } = props;
   const value = props.value;
@@ -162,7 +229,15 @@ export function ChoiceList(props: ChoiceListProps) {
     [value],
   );
 
-  const [query, setQuery] = useState(defaultSearchValue);
+  const [ownQuery, setOwnQuery] = useState(defaultSearchValue);
+  const query = searchValue ?? ownQuery;
+  const setQuery = useCallback(
+    (next: string) => {
+      if (searchValue === undefined) setOwnQuery(next);
+      onSearchValueChange?.(next);
+    },
+    [searchValue, onSearchValueChange],
+  );
   const [pinned, setPinned] = useState<readonly string[]>(chosen);
   const inputRef = useRef<HTMLInputElement>(null);
   const baseId = useId();
@@ -173,12 +248,23 @@ export function ChoiceList(props: ChoiceListProps) {
   const [wasSearchable, setWasSearchable] = useState(searchable);
   if (wasSearchable !== searchable) {
     setWasSearchable(searchable);
-    if (!searchable) setQuery("");
+    if (!searchable) setOwnQuery("");
+  }
+  // A caller that owns the text hears it go too, so a footer named after it
+  // ("Create an agent named …") doesn't keep a search no one can see.
+  useEffect(() => {
+    if (!searchable && searchValue) onSearchValueChange?.("");
+  }, [searchable, searchValue, onSearchValueChange]);
+  // The pin is taken whenever the text changes, typed or set by the caller.
+  const [pinnedFor, setPinnedFor] = useState(query);
+  if (pinnedFor !== query) {
+    setPinnedFor(query);
+    setPinned(chosen);
   }
   const needle = searchable ? query.trim().toLowerCase() : "";
   const { rows, noMatch } = visibleItems(items, needle, pinned, chosen);
   const hasAction = rows.some((item) => item.action !== undefined && item.action !== null);
-  const slots = choiceList({ scroll: searchable });
+  const slots = choiceList({ scroll: searchable && !fill, fill });
 
   useEffect(() => {
     if (process.env.NODE_ENV === "production") return;
@@ -212,26 +298,26 @@ export function ChoiceList(props: ChoiceListProps) {
   const changeQuery = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       setQuery(event.currentTarget.value);
-      setPinned(chosen);
     },
-    [chosen],
+    [setQuery],
   );
 
   const clearQuery = useCallback(() => {
     setQuery("");
-    setPinned(chosen);
     inputRef.current?.focus();
-  }, [chosen]);
+  }, [setQuery]);
+
+  const { sections, gridRowOf, gridRows } = layoutSections(rows, groups);
 
   const groupProps = {
     "aria-label": ariaLabel,
     "aria-labelledby": ariaLabelledBy,
     disabled,
     className: slots.group(),
-    style: { gridRow: `1 / span ${rows.length}` },
+    style: { gridRow: `1 / span ${gridRows}` },
   };
 
-  const rowElements = rows.map((item) => {
+  const rowElement = (item: ChoiceListItem) => {
     const id = `${baseId}-${items.indexOf(item)}`;
     const lines = descriptionLines(item.description).slice(0, MAX_DESCRIPTION_LINES);
     const rowDisabled = disabled || item.disabled === true;
@@ -274,6 +360,27 @@ export function ChoiceList(props: ChoiceListProps) {
         </span>
       </label>
     );
+  };
+
+  const rowElements = sections.map((section, index) => {
+    if (!section.group) return section.rows.map(rowElement);
+    const headingId = `${baseId}-group-${index}`;
+    const start = (gridRowOf.get(section.rows[0]!.value) ?? 1) - 1;
+    return (
+      <div
+        key={section.group.value}
+        role="group"
+        aria-labelledby={headingId}
+        data-slot="choice-list-section"
+        className={slots.section()}
+        style={{ gridRow: `${start} / span ${section.rows.length + 1}` }}
+      >
+        <div id={headingId} data-slot="choice-list-heading" className={slots.heading()}>
+          {section.group.label}
+        </div>
+        {section.rows.map(rowElement)}
+      </div>
+    );
   });
 
   return (
@@ -309,63 +416,72 @@ export function ChoiceList(props: ChoiceListProps) {
         </InputGroup>
       ) : null}
       <div data-slot="choice-list-frame" className={slots.frame()}>
-        {items.length === 0 ? (
-          <p data-slot="choice-list-note" className={slots.note()}>
-            {empty}
-          </p>
-        ) : (
-          <>
-            {rows.length > 0 ? (
-              <div data-slot="choice-list-rows" className={slots.rows()}>
-                {props.multiple ? (
-                  <BaseCheckboxGroup
-                    data-slot="choice-list-group"
-                    // Base UI only reads it.
-                    value={props.value as string[]}
-                    onValueChange={props.onValueChange}
-                    {...groupProps}
-                  >
-                    {rowElements}
-                  </BaseCheckboxGroup>
-                ) : (
-                  <RadioGroup
-                    data-slot="choice-list-group"
-                    // Base UI reads null as "controlled, nothing chosen".
-                    value={props.value as string}
-                    onValueChange={props.onValueChange}
-                    {...groupProps}
-                  >
-                    {rowElements}
-                  </RadioGroup>
-                )}
-                {rows.map((item, index) =>
-                  item.action !== undefined && item.action !== null ? (
-                    <div
-                      key={item.value}
-                      data-slot="choice-list-action"
-                      className={slots.action()}
-                      style={{ gridRow: index + 1 }}
+        <div data-slot="choice-list-scroller" className={slots.scroller()}>
+          {items.length === 0 ? (
+            <p data-slot="choice-list-note" className={slots.note()}>
+              {empty}
+            </p>
+          ) : (
+            <>
+              {rows.length > 0 ? (
+                <div data-slot="choice-list-rows" className={slots.rows()}>
+                  {props.multiple ? (
+                    <BaseCheckboxGroup
+                      data-slot="choice-list-group"
+                      // Base UI only reads it.
+                      value={props.value as string[]}
+                      onValueChange={props.onValueChange}
+                      {...groupProps}
                     >
-                      {item.action}
-                    </div>
-                  ) : null,
-                )}
-              </div>
-            ) : null}
-            {searchable ? (
-              // Mounted with the box and empty until nothing matches: a
-              // screen reader announces a status whose text changes, not one
-              // that appears with its text.
-              <p
-                role="status"
-                data-slot="choice-list-status"
-                className={noMatch ? slots.note() : "sr-only"}
-              >
-                {noMatch ? noMatchLabel : null}
-              </p>
-            ) : null}
-          </>
-        )}
+                      {rowElements}
+                    </BaseCheckboxGroup>
+                  ) : (
+                    <RadioGroup
+                      data-slot="choice-list-group"
+                      // Base UI reads null as "controlled, nothing chosen".
+                      value={props.value as string}
+                      onValueChange={props.onValueChange}
+                      {...groupProps}
+                    >
+                      {rowElements}
+                    </RadioGroup>
+                  )}
+                  {sections.flatMap((section) =>
+                    section.rows.map((item) =>
+                      item.action !== undefined && item.action !== null ? (
+                        <div
+                          key={item.value}
+                          data-slot="choice-list-action"
+                          className={slots.action()}
+                          style={{ gridRow: gridRowOf.get(item.value) }}
+                        >
+                          {item.action}
+                        </div>
+                      ) : null,
+                    ),
+                  )}
+                </div>
+              ) : null}
+              {searchable ? (
+                // Mounted with the box and empty until nothing matches: a
+                // screen reader announces a status whose text changes, not one
+                // that appears with its text.
+                <p
+                  role="status"
+                  data-slot="choice-list-status"
+                  className={noMatch ? slots.note() : "sr-only"}
+                >
+                  {noMatch ? noMatchLabel : null}
+                </p>
+              ) : null}
+            </>
+          )}
+        </div>
+        {footer !== undefined && footer !== null ? (
+          <div data-slot="choice-list-footer" className={slots.footer()}>
+            {footer}
+          </div>
+        ) : null}
       </div>
     </div>
   );

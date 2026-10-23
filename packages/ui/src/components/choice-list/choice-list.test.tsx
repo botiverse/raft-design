@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { useState } from "react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { useCallback, useState } from "react";
 import { afterEach, expect, test, vi } from "vite-plus/test";
 import { Button } from "../button/button";
 import { ChoiceList } from "./choice-list";
@@ -421,3 +421,276 @@ test("defaultSearchValue starts the search, with the chosen row pinned", () => {
   expect(rowNames()).toEqual(["cassini"]);
   expect(screen.getByRole("status").textContent).toBe("No matches");
 });
+
+const GROUPS = [
+  { value: "agents", label: "Agents" },
+  { value: "people", label: "People" },
+];
+
+const PEOPLE_AND_AGENTS: ChoiceListItem[] = [
+  { value: "mia", label: "Mia", group: "people" },
+  { value: "kirby", label: "Kirby", group: "agents" },
+  { value: "noel", label: "Noel", group: "agents" },
+  { value: "ricky", label: "Ricky", group: "people" },
+  { value: "guest", label: "Guest" },
+];
+
+const RICKY = ["ricky"];
+
+function withDetails(items: readonly ChoiceListItem[]): ChoiceListItem[] {
+  return items.map((item) => ({
+    ...item,
+    action: <Button aria-label={`Details for ${item.value}`}>i</Button>,
+  }));
+}
+
+function Grouped({ initial = [] as string[], groups = GROUPS }) {
+  const [value, setValue] = useState<string[]>(initial);
+  return (
+    <ChoiceList
+      multiple
+      search="always"
+      aria-label="Members"
+      searchLabel="Search people"
+      clearSearchLabel="Clear search"
+      noMatchLabel="No matches"
+      groups={groups}
+      items={PEOPLE_AND_AGENTS}
+      value={value}
+      onValueChange={setValue}
+    />
+  );
+}
+
+/** Each group's heading and the names under it, in DOM order; "" for rows of no group. */
+function sectionsShown() {
+  const group = document.querySelector("[data-slot=choice-list-group]")!;
+  return [...group.children].map((child) =>
+    child.getAttribute("data-slot") === "choice-list-section"
+      ? [
+          child.querySelector("[data-slot=choice-list-heading]")?.textContent,
+          ...[...child.querySelectorAll("[data-slot=choice-list-label]")].map(
+            (el) => el.textContent,
+          ),
+        ]
+      : ["", child.querySelector("[data-slot=choice-list-label]")?.textContent],
+  );
+}
+
+test("groups: a heading over each group's rows, in the groups' order; rows of no group come last", () => {
+  render(<Grouped />);
+  expect(sectionsShown()).toEqual([
+    ["Agents", "Kirby", "Noel"],
+    ["People", "Mia", "Ricky"],
+    ["", "Guest"],
+  ]);
+  // Each group is a group named by its heading, inside the one checkbox group.
+  const agents = screen.getByRole("group", { name: "Agents" });
+  expect(screen.getByRole("group", { name: "Members" }).contains(agents)).toBe(true);
+  expect(within(agents).getAllByRole("checkbox")).toHaveLength(2);
+});
+
+test("groups: a group the search leaves empty loses its heading; the chosen row stays first in its own group", () => {
+  render(<Grouped initial={RICKY} />);
+  search("i");
+  expect(sectionsShown()).toEqual([
+    ["Agents", "Kirby"],
+    ["People", "Ricky", "Mia"],
+  ]);
+  search("noel");
+  expect(sectionsShown()).toEqual([
+    ["Agents", "Noel"],
+    ["People", "Ricky"],
+  ]);
+  search("zzz");
+  expect(sectionsShown()).toEqual([["People", "Ricky"]]);
+  expect(screen.getByRole("status").textContent).toBe("No matches");
+});
+
+test("groups: a heading and its rows take grid rows in order, and each action is laid on its row's", () => {
+  render(
+    <ChoiceList
+      aria-label="Members"
+      searchLabel="Search people"
+      clearSearchLabel="Clear search"
+      groups={GROUPS}
+      items={withDetails(PEOPLE_AND_AGENTS)}
+      value={null}
+      onValueChange={ignore}
+    />,
+  );
+  const sections = document.querySelectorAll<HTMLElement>("[data-slot=choice-list-section]");
+  expect([...sections].map((section) => section.style.gridRow)).toEqual([
+    "1 / span 3",
+    "4 / span 3",
+  ]);
+  const actions = document.querySelectorAll<HTMLElement>("[data-slot=choice-list-action]");
+  expect([...actions].map((action) => [action.textContent, action.style.gridRow])).toEqual([
+    ["i", "2"],
+    ["i", "3"],
+    ["i", "5"],
+    ["i", "6"],
+    ["i", "7"],
+  ]);
+  expect(
+    [...actions].map((action) => action.querySelector("button")?.getAttribute("aria-label")),
+  ).toEqual([
+    "Details for kirby",
+    "Details for noel",
+    "Details for mia",
+    "Details for ricky",
+    "Details for guest",
+  ]);
+  expect(
+    (document.querySelector("[data-slot=choice-list-group]") as HTMLElement).style.gridRow,
+  ).toBe("1 / span 7");
+});
+
+test("searchValue: the caller owns the search text and hears each change, the clear button too", () => {
+  const changes: string[] = [];
+  function Controlled() {
+    const [text, setText] = useState("");
+    const hear = useCallback((next: string) => {
+      changes.push(next);
+      setText(next);
+    }, []);
+    return (
+      <>
+        <ChoiceList
+          aria-label="Target computer"
+          searchLabel="Search computers"
+          clearSearchLabel="Clear search"
+          noMatchLabel={`Nothing matches “${text}”`}
+          searchValue={text}
+          onSearchValueChange={hear}
+          items={EIGHT_ITEMS}
+          value={null}
+          onValueChange={ignore}
+        />
+        <span data-testid="query">{text}</span>
+      </>
+    );
+  }
+  render(<Controlled />);
+  search("zzz");
+  expect(screen.getByTestId("query").textContent).toBe("zzz");
+  expect(screen.getByRole("status").textContent).toBe("Nothing matches “zzz”");
+  fireEvent.click(screen.getByRole("button", { name: "Clear search" }));
+  expect(changes).toEqual(["zzz", ""]);
+  expect(rowNames()).toHaveLength(8);
+});
+
+test("footer: the caller's row sits in the frame under the rows, outside what scrolls", () => {
+  render(
+    <ChoiceList
+      aria-label="Target computer"
+      searchLabel="Search computers"
+      clearSearchLabel="Clear search"
+      items={EIGHT_ITEMS}
+      value={null}
+      onValueChange={ignore}
+      footer={<Button>Create an agent</Button>}
+    />,
+  );
+  const frame = document.querySelector("[data-slot=choice-list-frame]")!;
+  const scroller = document.querySelector("[data-slot=choice-list-scroller]")!;
+  const footer = document.querySelector("[data-slot=choice-list-footer]")!;
+  expect(frame.contains(footer)).toBe(true);
+  expect(scroller.contains(footer)).toBe(false);
+  expect(scroller.className).toMatch(/\boverflow-y-auto\b/);
+  expect(
+    within(footer as HTMLElement).getByRole("button", { name: "Create an agent" }),
+  ).toBeTruthy();
+});
+
+test("fill: the list takes the height it is given and scrolls inside it, with no 18rem cap", () => {
+  render(
+    <ChoiceList
+      fill
+      aria-label="Target computer"
+      searchLabel="Search computers"
+      clearSearchLabel="Clear search"
+      items={EIGHT_ITEMS}
+      value={null}
+      onValueChange={ignore}
+    />,
+  );
+  const root = document.querySelector("[data-slot=choice-list]")!;
+  const scroller = document.querySelector("[data-slot=choice-list-scroller]")!;
+  expect(root.className).toMatch(/\bflex-1\b/);
+  expect(scroller.className).toMatch(/\boverflow-y-auto\b/);
+  expect(scroller.className).not.toMatch(/\bmax-h-72\b/);
+});
+
+test('searchValue under "auto": when the box goes, the caller hears ""; a text set from outside re-pins the chosen row', () => {
+  const heard: string[] = [];
+  function Owner({ count, text: start }: { count: number; text: string }) {
+    const [text, setText] = useState(start);
+    const hear = useCallback((next: string) => {
+      heard.push(next);
+      setText(next);
+    }, []);
+    return (
+      <>
+        <ChoiceList
+          aria-label="Target computer"
+          searchLabel="Search computers"
+          clearSearchLabel="Clear search"
+          searchValue={text}
+          onSearchValueChange={hear}
+          items={makeItems(count)}
+          value="galileo"
+          onValueChange={ignore}
+        />
+        <span data-testid="text">{text}</span>
+      </>
+    );
+  }
+  const { rerender, unmount } = render(<Owner count={8} text="bo" />);
+  expect(rowNames()).toEqual(["galileo", "borealis"]);
+  rerender(<Owner count={3} text="bo" />);
+  expect(screen.queryByRole("searchbox")).toBeNull();
+  expect(heard).toEqual([""]);
+  expect(screen.getByTestId("text").textContent).toBe("");
+  unmount();
+
+  function Outside({ text }: { text: string }) {
+    const [value, setValue] = useState<string | null>("atlas");
+    return (
+      <ChoiceList
+        aria-label="Target computer"
+        searchLabel="Search computers"
+        clearSearchLabel="Clear search"
+        searchValue={text}
+        items={EIGHT_ITEMS}
+        value={value}
+        onValueChange={setValue}
+      />
+    );
+  }
+  const outside = render(<Outside text="e" />);
+  fireEvent.click(screen.getByRole("radio", { name: "europa" }));
+  // Rows hold still while choosing...
+  expect(rowNames()[0]).toBe("atlas");
+  // ...and a new text from the caller pins the new choice.
+  outside.rerender(<Outside text="er" />);
+  expect(rowNames()).toEqual(["europa", "fermi"]);
+});
+
+test("a group value with a space still names its group", () => {
+  render(
+    <ChoiceList
+      aria-label="Members"
+      searchLabel="Search people"
+      clearSearchLabel="Clear search"
+      groups={SPACED_GROUPS}
+      items={SPACED_ITEMS}
+      value={null}
+      onValueChange={ignore}
+    />,
+  );
+  expect(screen.getByRole("group", { name: "Your agents" })).toBeTruthy();
+});
+
+const SPACED_GROUPS = [{ value: "my agents", label: "Your agents" }];
+const SPACED_ITEMS: ChoiceListItem[] = [{ value: "kirby", label: "Kirby", group: "my agents" }];

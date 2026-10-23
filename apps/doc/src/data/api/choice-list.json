@@ -44,6 +44,27 @@
         "from": "raft-ui"
       },
       {
+        "name": "fill",
+        "type": "boolean",
+        "required": false,
+        "description": "The list takes the height it is given and its rows scroll inside it, for a sheet or panel whose main content is the list. Otherwise a list with a search scrolls past 18rem.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "footer",
+        "type": "ReactNode",
+        "required": false,
+        "description": "A row of the caller's under the list, inside its frame, that stays in view while the rows scroll: the way out when the item isn't there, such as \"Create an agent\".",
+        "from": "raft-ui"
+      },
+      {
+        "name": "groups",
+        "type": "readonly ChoiceListGroup[]",
+        "required": false,
+        "description": "Headings that split the rows by kind, in this order, such as Agents then People. Each item names its group; a group with no rows to show, or a search that leaves it empty, draws no heading.",
+        "from": "raft-ui"
+      },
+      {
         "name": "items",
         "type": "readonly ChoiceListItem[]",
         "required": true,
@@ -60,6 +81,12 @@
         "type": "ReactNode",
         "required": false,
         "description": "The line under the chosen rows when nothing else matches.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onSearchValueChange",
+        "type": "(value: string) => void",
+        "required": false,
         "from": "raft-ui"
       },
       {
@@ -86,6 +113,13 @@
         "name": "searchPlaceholder",
         "type": "string",
         "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "searchValue",
+        "type": "string",
+        "required": false,
+        "description": "The search box's text, for a caller that uses it: a \"Create “…”\" row named after it, or a no-match line that quotes it. With it, the caller owns the text, and `onSearchValueChange` reports each change.",
         "from": "raft-ui"
       },
       {
