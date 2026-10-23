@@ -56,7 +56,7 @@ message-item/compositions/item-preview
 | 应用预览的链接 | `MessageReferenceChip variant="info" capped` | 青色标签片，带应用的图标和它的标题（[应用链接](#app-links)） |
 | 正在加载或无法打开的引用 | `MessageReferencePending`、`MessageReferenceUnavailable` | `inactive-soft` 上的灰色标签片 |
 | 引用标签片标签后面的注记 | `MessageReferenceSuffix` | 弱化的 Space Mono，比如指向消息的链接上的 `msg` |
-| 提及一个已读过这条消息的 Agent | `MessageReferenceReadMark`，放在提及的最后 | 名字后面一个弱化的对勾（[提及上的已读回执](#read-receipts-on-a-mention)） |
+| 提及一个已读过这条消息的 Agent | `MessageReferenceReadMark`，放在提及的最后 | 名字右上角带墨色对勾的在线灯（[提及上的已读回执](#read-receipts-on-a-mention)） |
 | 网页链接 | Markdown 链接 | `foreground-link`，常态下带下划线（[Markdown](../markdown/markdown.md)） |
 | 任务编号 | `TaskChip` 或 Space Mono 文字 | [Tasks](../tasks/tasks.md) |
 | 行内代码 | [InlineCode](../inline-code/inline-code.md) | `fill-muted` 上的 Space Mono |
@@ -114,7 +114,7 @@ message-reference/compositions/app-link-pending
 
 ### 提及上的已读回执 {#read-receipts-on-a-mention}
 
-一条消息提及某个 Agent 时，发消息的人想知道 Agent 有没有读到。读到之后，提及后面跟一个对勾：把 `MessageReferenceReadMark` 放在 `MessageReferenceText` 的最后、名字后面，子元素是读屏软件要读出的文字（`Read`）。对勾本身对读屏软件隐藏。这个部件是实验性的，在设计获批之前从 `@botiverse/raft-ui/wip` 导出。
+一条消息提及某个 Agent 时，发消息的人想知道 Agent 有没有读到。读到之后，提及的右上角出现已读灯：在线灯的方块，里面一个墨色对勾。把 `MessageReferenceReadMark` 放在 `MessageReferenceText` 的最后、名字后面，子元素是读屏软件要读出的文字（`Read`）。灯和对勾本身对读屏软件隐藏。
 
 ```example
 message-reference/compositions/read-indicators
@@ -122,9 +122,11 @@ message-reference/compositions/read-indicators
 
 - Agent 读到之前什么都不显示。每条新提及都带一个"未读"标记，会在每条消息里制造噪音，而真正重要的是它变化的那一刻。
 - 在提及的悬停卡片里也说出来："Read"或"Not read yet"，这样不管有没有标记，人都能查看任何一个提及。
-- 对勾用 Lucide `check`，和引用里的图标一样大（14px 文字旁 12px），颜色用 `foreground-hint`，不加彩色。它紧跟在名字后面，自己不再留间距，所以两者的墨迹之间只有对勾自身的内缩和字母的侧边距，约 2px：对勾读作提及的一部分，词间空格在它后面。原先再多 2px 时，对勾的墨迹离名字 4px，几乎是一个词间空格，看上去像漂在两个词中间。它以字母的大写字母高度居中，这也是引用里每个图标居中的那条线（[对齐](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）；不像上标那样抬高，也不降到 x 字高。它的盒子在行内放得下，所以提及和这一行的高度都不变。
-- 对勾的墨迹离提及边缘的距离，和 `@` 开始的距离相同（[对齐](../../../../../design/foundations/alignment.md#chips)）。Lucide 把对勾画在盒子内 3/24 处，其他图标只留 1/24，大约是一个字母的侧边距，所以标记在它那一端把多出的 2/24 收回来。
-- 不要用状态灯来标记。方形的灯表示在线状态和任务状态：表示已读的青柠色也是在线的灯，所以一个已读的提及看起来像一个在线的 Agent（[Status](../status/status.md#presence-lights)）。`MessageReferenceIndicator` 是原来放它的、在提及右上角的插槽，仍然能渲染；不要用它做已读回执。
+- 触屏上没有悬停卡片，点一下提及会打开 Agent 的资料，它不属于任何一条消息。在那里只靠已读灯来表达：没有灯就是还没读。不要只为这一行加长按或弹窗：为一行文字设一个手势，要学的比它告诉人的还多。灯自己的文字（"Read"）仍然能传到读屏软件。
+- 已读灯就是在线灯，`Status presence="online" size="sm"`：8px 的 `presence-online` 青柠色，1.5px 的 `sticker-ink` 边，2px 圆角（[Status](../status/status.md#presence-lights)）。里面居中一个 Lucide `check`，6.5px，线宽 3，颜色 `sticker-ink`。
+- 区分它和在线状态的是对勾：没有对勾的灯是在线状态，带对勾的灯是已读。对勾是墨色，和灯的边一样，从不用白色：彩色底上 Raft 用墨色来画（[颜色](../../../../../design/foundations/color.md#stickers)）。
+- 它放在 `MessageReferenceIndicator` 在提及右上角的那个插槽里：顶边和提及的顶边对齐，盒子从名字文字之后 2px 开始，所以从不盖住名字。提及在文字后面留出 10px，也就是灯和这段间隙，然后才是词间空格，所以下一个词不会跑到它下面，这一行的高度也不变。
+- 由 artin 和 stdrc 于 2026-10-23 决定（[提及已读标记看板](https://raft-artifacts.com/p/raft/mention-read-mark/v/6)上的 Ik2 方案）。它取代了名字后面那个光秃秃的弱化对勾（它读起来像文字的一部分，容易被忽略），也取代了"已读的提及不能用状态灯"这条规则。`MessageReferenceReadMark` 保留它的名字和 API，现在画的是这盏灯；它是稳定的，从 `@botiverse/raft-ui` 导出，仍然从 `@botiverse/raft-ui/wip` 再导出，供已有的导入使用。
 
 ```example
 message-reference/compositions/primary-references

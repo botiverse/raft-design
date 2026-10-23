@@ -77,6 +77,21 @@
     ]
   },
   {
+    "name": "MessageReferenceReadMark",
+    "entry": "@botiverse/raft-ui",
+    "description": "The read receipt on a mention: the online light (8px, lime, ink edge) with an ink check in it, at the mention's top right, once the one mentioned has read the message. Put it last inside the mention, and render nothing until then. The light and check are decorative; `children` is what a screen reader says instead (\"Read\"), visually hidden.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
     "name": "MessageReferenceSuffix",
     "entry": "@botiverse/raft-ui",
     "description": "A short note after a chip's label in muted machine type, such as `msg` on a link to a message. It lines up with the label by the middle of its letters.",
@@ -1342,21 +1357,6 @@
     "name": "MessageReferenceIcon",
     "entry": "@botiverse/raft-ui/wip",
     "description": "The chip's leading icon when it is not a plain svg: an image or a `3xs` Avatar, such as an app's registered icon. It holds one child at 14px, centred on the chip. Put it first in the chip.",
-    "native": true,
-    "props": [
-      {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
-        "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      }
-    ]
-  },
-  {
-    "name": "MessageReferenceReadMark",
-    "entry": "@botiverse/raft-ui/wip",
-    "description": "The read receipt on a mention: a muted check after the mention's text, once the one mentioned has read the message. Put it last inside the mention, and render nothing until then. The check is decorative; `children` is what a screen reader says instead (\"Read\"), visually hidden.",
     "native": true,
     "props": [
       {

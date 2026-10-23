@@ -7,6 +7,7 @@ import {
   MarkdownParagraph,
   MessageReferenceChip,
   MessageReferenceLabel,
+  MessageReferenceReadMark,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -20,7 +21,6 @@ import {
   PreviewCardSeparator,
   PreviewCardTitle,
 } from "@botiverse/raft-ui";
-import { MessageReferenceReadMark } from "@botiverse/raft-ui/wip";
 
 import {
   MessageMentionReferenceComposition,

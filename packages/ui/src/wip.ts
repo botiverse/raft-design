@@ -160,9 +160,9 @@ export type {
 // product uses them.
 export { PopoverActions, PopoverBody } from "./components/popover/popover";
 export type { PopoverActionsProps, PopoverBodyProps } from "./components/popover/popover";
-// The read receipt on a mention of an agent: a check after the mention, not
-// the square status light, which means presence and task status
-// (message-item.md, "Read receipts on a mention"). Until stdrc approves it.
+// The read receipt on a mention: stable since artin and stdrc approved it on
+// 2026-10-23 (message-item.md, "Read receipts on a mention"); exported from
+// the package root. Kept here so existing `/wip` imports keep working.
 export { MessageReferenceReadMark } from "./components/message-item/index";
 export type { MessageReferenceReadMarkProps } from "./components/message-item/index";
 
