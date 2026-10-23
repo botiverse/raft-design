@@ -1,6 +1,6 @@
 ---
 title: Responsive layout
-summary: The breakpoints, what each width shows, how short desktop windows shrink, why a layout switches on the width of its own region, how a row gives way when it runs out of room, what replaces hover on a touch screen, and how phone layouts hold at 320px.
+summary: The breakpoints, what each width shows, how short desktop windows shrink, why a layout switches on the width of its own region, how a row gives way when it runs out of room, why the first frame is already the settled one, what replaces hover on a touch screen, and how phone layouts hold at 320px.
 ---
 
 # Responsive layout
@@ -55,6 +55,16 @@ Every row needs a way to give way. A toolbar, a header, a filter row or a list r
 - Give every part that can give way the means to: `min-w-0` and `truncate` on the text that may be cut, `flex-wrap` on a row of controls, `iconsOnlyBelow="auto"` on a segmented control in a row that may narrow. A part that can neither shrink, wrap nor truncate is the one that overflows.
 - Decide the switch with a container query on the row (`@container`, `@max-[…]:`), not the window width ([Switch on the region's width](#switch-on-the-regions-width)). Where the switch is whether a part's content fits, measure the content rather than guess a width, as `iconsOnlyBelow="auto"` does: a width picked for one language or one count is wrong for another.
 - Don't shrink text or a control's height to make a row fit: a label too small to read, or a target too small to hit, is worse than an icon with a tooltip.
+
+### The first frame is the settled one
+
+Draw the first frame the way it will stay. A frame drawn from a "not known yet" default and corrected a moment later is a flash: a row that grows and shrinks back, a panel that opens at one width and snaps to another, a card that pops in and pushes the page down. For that moment people see a layout that was never meant, and controls move under the pointer.
+
+- **Read what decides a layout before the first paint.** A remembered width, a collapsed section and a view mode go into the initial state from storage; so do the viewport, the pointer and the platform. Don't read them in an effect after mount: an effect runs after the browser has painted.
+- **Measure in a layout effect and decide there**, not in the next animation frame: a state set in a layout effect renders again before the browser paints. Wait for a frame only for later measurements, on a resize.
+- **Keep a part's presence and size while its data reloads.** When a list reloads for a new filter, keep the counts, and the controls that show only when there is a count, at their last values until the new answer arrives. Don't drop them to an empty default and bring them back. A control that goes away for that moment gives its room to its neighbors, and they lay themselves out again: a segmented control with `iconsOnlyBelow="auto"` shows its labels and then goes back to icons.
+- **A placeholder takes the size and place of what it stands for.** The fallback of a panel whose code loads lazily is that panel's own box at its remembered width, not the rest of the row. A skeleton is the size of its content ([Feedback](./feedback.md#empty-loading-and-failed)).
+- **Change once, when the real answer arrives:** from the old value straight to the new one, never through an empty one.
 
 ### Touch screens
 
