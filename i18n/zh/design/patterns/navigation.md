@@ -100,7 +100,7 @@ message-reference/compositions/app-link-pending
 
 - 只用一个记号：Lucide 的 `ArrowUpRight`，不用方框带箭头的（`ExternalLink`、`SquareArrowOutUpRight`）。颜色和文字一样。
 - 放在结尾：
-  - TextLink：用 `TextLinkExternalIcon`，14px，和文字隔 2px；下划线只画在文字下面（[TextLink](../../packages/ui/src/components/text-link/text-link.md#leaving-raft)）。
+  - TextLink：用 `TextLinkExternalIcon`，大小是文字的 0.857em（14px 文字时是 12px），和文字隔 2px，对齐大写字母高度的中线；下划线只画在文字下面（[TextLink](../../packages/ui/src/components/text-link/text-link.md#leaving-raft)）。
   - 按钮：放在结尾图标的位置，用按钮图标的大小。
   - 菜单项：放在快捷键的位置，和其他项的快捷键对齐。
   - 侧栏的行：放在行尾的位置，用 `foreground-hint`。

@@ -100,7 +100,7 @@ A control that takes someone to another site ends in ↗, so they know before th
 
 - Use one mark: Lucide's `ArrowUpRight`, never the box with an arrow (`ExternalLink`, `SquareArrowOutUpRight`). It is in the text's color.
 - Put it at the end:
-  - TextLink: `TextLinkExternalIcon`, 14px, 2px after the text; the underline stops at the text ([TextLink](../../packages/ui/src/components/text-link/text-link.md#leaving-raft)).
+  - TextLink: `TextLinkExternalIcon`, 0.857em of the text (12px at 14px), 2px after the text, centered on the cap height; the underline stops at the text ([TextLink](../../packages/ui/src/components/text-link/text-link.md#leaving-raft)).
   - Button: in the trailing icon's place, at the button's icon size.
   - Menu item: where the shortcut goes, so it lines up with the other items' shortcuts.
   - Sidebar row: in the row's trailing slot, in `foreground-hint`.

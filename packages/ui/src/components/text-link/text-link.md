@@ -61,7 +61,7 @@ text-link/compositions/disabled
 
 ## Leaving Raft
 
-A TextLink that goes to another site ends in `TextLinkExternalIcon`: Lucide's `ArrowUpRight` at 14px, 2px after the text, in the text's color. It sits in an inline-flex box, so the underline on hover stops at the text and never runs under the arrow. Pass `label` for a screen reader, "(opens in a new tab)"; it is product copy, so raft-ui doesn't write it. The rule for every control that leaves Raft is in [Navigation](../../../../../design/patterns/navigation.md#links-that-leave-raft).
+A TextLink that goes to another site ends in `TextLinkExternalIcon`: Lucide's `ArrowUpRight` at 0.857em of the text (12px at 14px, like the icons in a reference chip), 2px after the text, in the text's color, centered on the letters' cap height at every size ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)). It sits in an inline-flex box, so the underline on hover stops at the text and never runs under the arrow. Pass `label` for a screen reader, "(opens in a new tab)"; it is product copy, so raft-ui doesn't write it. The rule for every control that leaves Raft is in [Navigation](../../../../../design/patterns/navigation.md#links-that-leave-raft).
 
 ```example
 text-link/compositions/leaving-raft

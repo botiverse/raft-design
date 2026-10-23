@@ -56,16 +56,24 @@ export type TextLinkExternalIconProps = {
 
 /**
  * The ↗ after a link that leaves Raft (design/patterns/navigation.md#links-that-leave-raft):
- * 14px, 2px after the text. It sits in an inline-flex box, so the link's
- * underline stops at the text and never runs under the arrow.
+ * 0.857em (12px at 14px text, as the icons in a reference chip), 2px after the
+ * text, centred on the letters' cap height at every text size (0.7em/2 above
+ * the baseline; design/foundations/alignment.md#a-mark-that-leads-text). It
+ * sits in an inline-flex box, so the link's underline stops at the text and
+ * never runs under the arrow.
  */
 export function TextLinkExternalIcon({ label, className }: TextLinkExternalIconProps) {
   return (
     <span
       data-slot="text-link-external-icon"
-      className={cn("ml-0.5 inline-flex align-[-2px]", className)}
+      className={cn("ml-0.5 inline-flex align-[calc(0.7em/2-0.857em/2)]", className)}
     >
-      <ArrowUpRight aria-hidden="true" focusable="false" className="size-3.5" strokeWidth={2} />
+      <ArrowUpRight
+        aria-hidden="true"
+        focusable="false"
+        className="size-[0.857em]"
+        strokeWidth={2}
+      />
       {label ? <span className="sr-only"> {label}</span> : null}
     </span>
   );
