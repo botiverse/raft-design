@@ -1,7 +1,7 @@
 ---
 title: 无障碍
 summary: 每个 Raft 产品都遵守的规则，让它在任何视力、键盘、读屏软件、触屏或动效设置下都能用：对比度、焦点、点击区域、动效、语义、触屏和语言，以及实现这些规则的组件。
-sourceHash: 27bf533c
+sourceHash: c4280eac
 ---
 
 # 无障碍
@@ -101,7 +101,7 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 - 只在能悬停的设备上显示悬停样式。Tailwind 的 `hover:` 变体只在 `@media (hover: hover)` 下生效，所以用它，而不是裸写 `:hover`（[动效](./motion.md#usage)）。
 - 触屏上不显示消息的悬停工具栏；长按打开消息菜单（[响应式布局](../patterns/responsive.md)、[ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md)）。
 - 触屏上不要依赖工具提示。把说明写在界面里，或在长按时显示（[Tooltip](../../packages/ui/src/components/tooltip/tooltip.md#accessibility)）。预览卡片在触屏上不会打开，所以把它的触发器做成真正的链接（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)）。
-- 长按 200ms 后才开始拖拽，这样滚动列表时不会移动卡片（[TaskDnd](../../packages/ui/src/components/task-dnd/task-dnd.md)）。
+- 在触屏上，手指先静止按住 500ms、再移动，才开始拖拽，这样滚动列表时不会移动卡片、行或服务器，静止按住则打开菜单。所有能拖动的列表都用同一个按住时长，任务卡片也一样（[触屏上的拖动](./states.md#dragging-on-a-touch-screen)）。
 - 不要让滑动成为关闭某样东西的唯一方式：抽屉和面板保留 ×、返回或一个按钮，轻提示保留 `ToastClose`（[Drawer](../../packages/ui/src/components/drawer/drawer.md#accessibility)）。
 - 让输入框保持在屏幕键盘上方；手机竖持时，让回车键插入新行（[Composer](../../packages/ui/src/components/composer/composer.md)）。
 
