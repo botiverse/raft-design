@@ -6,7 +6,7 @@ redirectFrom: [decisions/0007-workspace-switcher-sheet]
 
 # Navigation
 
-A product's destinations are on the tab bar on a phone and on the rail on desktop. Where you are is always yellow. Going back follows the history; a popup closes with ×, Esc or a press outside it. People move between many places and many servers in a day, so every product puts these in the same spots and marks them the same way.
+A product's destinations are on the tab bar on a phone and on the rail on desktop. Where you are is always yellow, except in Boring Gray, where it is a gray fill ([Themes](../foundations/themes.md#the-themes): someone chose the neutral look on purpose, and the selection keeps its fill and ink type, so where you are stays just as clear). Going back follows the history; a popup closes with ×, Esc or a press outside it. People move between many places and many servers in a day, so every product puts these in the same spots and marks them the same way.
 
 ## Principles
 

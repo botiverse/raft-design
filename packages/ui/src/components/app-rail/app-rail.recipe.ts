@@ -22,6 +22,7 @@ export const appRail = tv({
       // short windows the items shrink to 36 and the inset to 6.
       "gap-1.5 pt-2.5 pb-2 first:pt-2",
       "[@media(max-height:600px)]:pt-1.5 [@media(max-height:600px)]:first:pt-1.5",
+      "after:mt-auto after:h-28 after:min-h-0 after:w-12 after:shrink after:content-[''] after:frame-decor-rail",
     ],
     footer: [
       "flex w-full shrink-0 flex-col items-center justify-center",

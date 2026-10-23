@@ -43,13 +43,15 @@
     "./styles.css": "./dist/styles.css",
     "./package.json": "./package.json",
     "./foundation.css": "./dist/foundation.css",
-    "./tokens.json": "./dist/tokens.json"
+    "./tokens.json": "./dist/tokens.json",
+    "./themes.css": "./dist/themes.css"
   },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "bench:virtual-list": "node bench/virtual-list/run.mjs",
+    "build:themes": "node scripts/build-themes.mjs",
     "build:tokens": "node scripts/build-tokens.mjs",
     "build": "vp pack",
     "check": "vp check",

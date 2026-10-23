@@ -13,7 +13,7 @@ Color in Raft works in two ways. Surfaces get less color from the outside in: th
 - **Yellow goes on the frame only.** The frame is on every screen but nobody reads it, so color there costs almost nothing. Everything people read (messages, lists, cards, the content of pushed pages) sits on paper. The frame is the desktop rail, the web top bar and the top bar of a phone's top-level pages; see [Page structure](../patterns/page-structure.md).
 - **Each color has one meaning.** Yellow is you, pink is to do, cyan is this item, orange interrupts, red is irreversible. Status colors are fixed too; see [Meanings of color](#meanings-of-color).
 - **A block of brand color is a sticker.** It has a 1.5px ink edge and ink type on it, in both modes; see [Stickers](#stickers).
-- **Notices are neutral.** Toasts and tooltips are dark gray (`layer-hud`), not a brand color, and no button is yellow. A notice is an aside: a yellow toast would compete with selection, and yellow means only "you" (where you are, what you selected, what calls you).
+- **Notices are neutral.** Toasts and tooltips are dark gray (`layer-hud`), not a brand color, and no button is yellow. A notice is an aside: a yellow toast would compete with selection, and yellow means only "you" (where you are, what you selected, what calls you). In Boring Gray that yellow is a gray fill ([Themes](./themes.md#the-themes): someone chose the neutral look on purpose, and the selection keeps its fill and ink type, so where you are stays just as clear).
 
 ## Tokens
 
@@ -228,6 +228,7 @@ palette
 ## Related
 
 - [Dark mode](./dark-mode.md): what changes and what stays in dark mode.
+- [Themes](./themes.md): the themes a person can pick and what each may change.
 - [States](./states.md): the colors of hover, selection, unread and error.
 - [Brand](./brand.md): how much brand color each kind of page may use.
 - [Button](../../packages/ui/src/components/button/button.md): which button color to use for which action.

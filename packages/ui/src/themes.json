@@ -1,0 +1,339 @@
+{
+  "$description": "Raft UI themes. Each theme overrides frame and surface tokens per mode; decor lists the Agents sprites (design/assets/Agents) drawn on the frame. Rendered to src/themes.css by scripts/build-themes.mjs.",
+  "themes": {
+    "boring": {
+      "name": "Boring Gray",
+      "decor": null,
+      "light": {
+        "--layer-frame": "oklch(0.975 0 0)",
+        "--layer-sidebar": "oklch(0.975 0 0)",
+        "--layer-frame-active": "oklch(0.92 0 0)",
+        "--foreground-on-frame": "oklch(0.2 0 0)",
+        "--foreground-on-frame-active": "oklch(0.2 0 0)",
+        "--foreground-on-frame-muted": "oklch(0.45 0 0)",
+        "--fill-frame-medium": "oklch(0 0 0 / 0.06)",
+        "--line-frame-active": "transparent",
+        "--brand-400": "oklch(0.925 0 0)",
+        "--brand-soft": "oklch(0.95 0 0)",
+        "--brand-strong": "oklch(0.35 0 0)",
+        "--brand-glow": "oklch(0.925 0 0)",
+        "--brand-edge": "transparent",
+        "--selection": "oklch(0.9 0 0)"
+      },
+      "dark": {
+        "--layer-frame": "oklch(0.19 0 0)",
+        "--layer-sidebar": "oklch(0.19 0 0)",
+        "--layer-canvas": "oklch(0.235 0 0)",
+        "--layer-card": "oklch(0.26 0 0)",
+        "--layer-popover": "oklch(0.28 0 0)",
+        "--layer-frame-active": "oklch(0.32 0 0)",
+        "--foreground-on-frame": "oklch(0.93 0 0)",
+        "--foreground-on-frame-active": "oklch(0.96 0 0)",
+        "--foreground-on-frame-muted": "oklch(0.7 0 0)",
+        "--fill-frame-medium": "oklch(1 0 0 / 0.07)",
+        "--line-frame-active": "transparent",
+        "--brand-400": "oklch(0.86 0 0)",
+        "--brand-soft": "oklch(1 0 0 / 0.12)",
+        "--brand-strong": "oklch(0.86 0 0)",
+        "--brand-glow": "oklch(0.86 0 0)",
+        "--brand-edge": "transparent",
+        "--selection": "oklch(1 0 0 / 0.2)"
+      }
+    },
+    "bots": {
+      "name": "Bots",
+      "decor": {
+        "light": {
+          "top": ["robot", "led", "drone", "antenna", "tv"],
+          "rail": ["boxbot", "led", "robot", "catbot"]
+        },
+        "dark": {
+          "top": ["robot", "led", "drone", "antenna", "tv"],
+          "rail": ["boxbot", "led", "robot", "catbot"]
+        }
+      },
+      "light": {
+        "--layer-frame": "oklch(0.82 0.04 240)",
+        "--foreground-on-frame": "var(--sticker-ink)",
+        "--foreground-on-frame-muted": "color-mix(in oklch, var(--sticker-ink) 62%, var(--layer-frame))",
+        "--foreground-on-frame-active": "var(--sticker-ink)",
+        "--layer-frame-active": "oklch(1 0 0)",
+        "--fill-frame-medium": "oklch(0.1813 0.005 17.62 / 0.1)",
+        "--layer-sidebar": "oklch(0.985 0.012 240)"
+      },
+      "dark": {
+        "--layer-frame": "oklch(0.31 0.04 240)",
+        "--foreground-on-frame": "oklch(0.96 0.01 90)",
+        "--foreground-on-frame-muted": "oklch(0.80 0.02 90)",
+        "--layer-frame-active": "var(--brand-400)",
+        "--fill-frame-medium": "oklch(1 0 0 / 0.1)",
+        "--layer-canvas": "oklch(0.235 0.02 240)",
+        "--layer-sidebar": "oklch(0.205 0.022 240)",
+        "--layer-card": "oklch(0.265 0.02 240)",
+        "--layer-popover": "oklch(0.29 0.02 240)"
+      }
+    },
+    "critters": {
+      "name": "Critters",
+      "decor": {
+        "light": {
+          "top": ["cat", "bunny", "fox", "penguin", "dog"],
+          "rail": ["owl", "frog", "bear", "cat"]
+        },
+        "dark": {
+          "top": ["cat", "bunny", "fox", "penguin", "dog"],
+          "rail": ["owl", "frog", "bear", "cat"]
+        }
+      },
+      "light": {
+        "--layer-frame": "oklch(0.87 0.07 60)",
+        "--foreground-on-frame": "var(--sticker-ink)",
+        "--foreground-on-frame-muted": "color-mix(in oklch, var(--sticker-ink) 62%, var(--layer-frame))",
+        "--foreground-on-frame-active": "var(--sticker-ink)",
+        "--layer-frame-active": "oklch(1 0 0)",
+        "--fill-frame-medium": "oklch(0.1813 0.005 17.62 / 0.1)",
+        "--layer-sidebar": "oklch(0.985 0.012 60)"
+      },
+      "dark": {
+        "--layer-frame": "oklch(0.31 0.045 60)",
+        "--foreground-on-frame": "oklch(0.96 0.01 90)",
+        "--foreground-on-frame-muted": "oklch(0.80 0.02 90)",
+        "--layer-frame-active": "var(--brand-400)",
+        "--fill-frame-medium": "oklch(1 0 0 / 0.1)",
+        "--layer-canvas": "oklch(0.235 0.02 60)",
+        "--layer-sidebar": "oklch(0.205 0.022 60)",
+        "--layer-card": "oklch(0.265 0.02 60)",
+        "--layer-popover": "oklch(0.29 0.02 60)"
+      }
+    },
+    "space": {
+      "name": "Space",
+      "decor": {
+        "light": {
+          "top": ["star", "planet", "star", "ufo", "moon"],
+          "rail": ["star", "rocket", "star", "astronaut"]
+        },
+        "dark": {
+          "top": ["star", "planet", "star", "ufo", "moon"],
+          "rail": ["star", "rocket", "star", "astronaut"]
+        }
+      },
+      "light": {
+        "--layer-frame": "oklch(0.30 0.10 293)",
+        "--foreground-on-frame": "oklch(0.96 0.01 90)",
+        "--foreground-on-frame-muted": "oklch(0.80 0.02 90)",
+        "--layer-frame-active": "var(--brand-400)",
+        "--fill-frame-medium": "oklch(1 0 0 / 0.1)",
+        "--layer-sidebar": "oklch(0.985 0.012 293)"
+      },
+      "dark": {
+        "--layer-frame": "oklch(0.29 0.085 293)",
+        "--foreground-on-frame": "oklch(0.96 0.01 90)",
+        "--foreground-on-frame-muted": "oklch(0.80 0.02 90)",
+        "--layer-frame-active": "var(--brand-400)",
+        "--fill-frame-medium": "oklch(1 0 0 / 0.1)",
+        "--layer-canvas": "oklch(0.235 0.035 293)",
+        "--layer-sidebar": "oklch(0.205 0.039 293)",
+        "--layer-card": "oklch(0.265 0.035 293)",
+        "--layer-popover": "oklch(0.29 0.035 293)"
+      }
+    },
+    "desk": {
+      "name": "Desk",
+      "decor": {
+        "light": {
+          "top": ["pencil", "bulb", "floppy", "magnifier", "terminal"],
+          "rail": ["plane", "bell", "clipboard", "floppy"]
+        },
+        "dark": {
+          "top": ["pencil", "bulb", "floppy", "magnifier", "terminal"],
+          "rail": ["plane", "bell", "clipboard", "floppy"]
+        }
+      },
+      "light": {
+        "--layer-frame": "oklch(0.83 0.06 75)",
+        "--foreground-on-frame": "var(--sticker-ink)",
+        "--foreground-on-frame-muted": "color-mix(in oklch, var(--sticker-ink) 62%, var(--layer-frame))",
+        "--foreground-on-frame-active": "var(--sticker-ink)",
+        "--layer-frame-active": "oklch(1 0 0)",
+        "--fill-frame-medium": "oklch(0.1813 0.005 17.62 / 0.1)",
+        "--layer-sidebar": "oklch(0.985 0.012 75)"
+      },
+      "dark": {
+        "--layer-frame": "oklch(0.31 0.04 75)",
+        "--foreground-on-frame": "oklch(0.96 0.01 90)",
+        "--foreground-on-frame-muted": "oklch(0.80 0.02 90)",
+        "--layer-frame-active": "var(--brand-400)",
+        "--fill-frame-medium": "oklch(1 0 0 / 0.1)",
+        "--layer-canvas": "oklch(0.235 0.02 75)",
+        "--layer-sidebar": "oklch(0.205 0.022 75)",
+        "--layer-card": "oklch(0.265 0.02 75)",
+        "--layer-popover": "oklch(0.29 0.02 75)"
+      }
+    },
+    "food": {
+      "name": "Food",
+      "decor": {
+        "light": {
+          "top": ["donut", "strawberry", "pizza", "icecream", "onigiri"],
+          "rail": ["cupcake", "cookie", "egg", "donut"]
+        },
+        "dark": {
+          "top": ["donut", "strawberry", "pizza", "icecream", "onigiri"],
+          "rail": ["cupcake", "cookie", "egg", "donut"]
+        }
+      },
+      "light": {
+        "--layer-frame": "oklch(0.88 0.065 355)",
+        "--foreground-on-frame": "var(--sticker-ink)",
+        "--foreground-on-frame-muted": "color-mix(in oklch, var(--sticker-ink) 62%, var(--layer-frame))",
+        "--foreground-on-frame-active": "var(--sticker-ink)",
+        "--layer-frame-active": "oklch(1 0 0)",
+        "--fill-frame-medium": "oklch(0.1813 0.005 17.62 / 0.1)",
+        "--layer-sidebar": "oklch(0.985 0.012 355)"
+      },
+      "dark": {
+        "--layer-frame": "oklch(0.31 0.055 355)",
+        "--foreground-on-frame": "oklch(0.96 0.01 90)",
+        "--foreground-on-frame-muted": "oklch(0.80 0.02 90)",
+        "--layer-frame-active": "var(--brand-400)",
+        "--fill-frame-medium": "oklch(1 0 0 / 0.1)",
+        "--layer-canvas": "oklch(0.235 0.025 355)",
+        "--layer-sidebar": "oklch(0.205 0.028 355)",
+        "--layer-card": "oklch(0.265 0.025 355)",
+        "--layer-popover": "oklch(0.29 0.025 355)"
+      }
+    },
+    "quest": {
+      "name": "Quest",
+      "decor": {
+        "light": {
+          "top": ["sword", "crown", "shield", "potion", "key"],
+          "rail": ["diamond", "chest", "heart", "sword"]
+        },
+        "dark": {
+          "top": ["sword", "crown", "shield", "potion", "key"],
+          "rail": ["diamond", "chest", "heart", "sword"]
+        }
+      },
+      "light": {
+        "--layer-frame": "oklch(0.40 0.12 25)",
+        "--foreground-on-frame": "oklch(0.96 0.01 90)",
+        "--foreground-on-frame-muted": "oklch(0.80 0.02 90)",
+        "--layer-frame-active": "var(--brand-400)",
+        "--fill-frame-medium": "oklch(1 0 0 / 0.1)",
+        "--layer-sidebar": "oklch(0.985 0.012 25)"
+      },
+      "dark": {
+        "--layer-frame": "oklch(0.31 0.08 25)",
+        "--foreground-on-frame": "oklch(0.96 0.01 90)",
+        "--foreground-on-frame-muted": "oklch(0.80 0.02 90)",
+        "--layer-frame-active": "var(--brand-400)",
+        "--fill-frame-medium": "oklch(1 0 0 / 0.1)",
+        "--layer-canvas": "oklch(0.235 0.03 25)",
+        "--layer-sidebar": "oklch(0.205 0.033 25)",
+        "--layer-card": "oklch(0.265 0.03 25)",
+        "--layer-popover": "oklch(0.29 0.03 25)"
+      }
+    },
+    "weather": {
+      "name": "Weather",
+      "decor": {
+        "light": {
+          "top": ["cloud", "sun", "rainbow", "cloud", "umbrella"],
+          "rail": ["partlysunny", "cloud", "raincloud", "snowman"]
+        },
+        "dark": {
+          "top": ["star", "moon", "cloud", "star", "bolt"],
+          "rail": ["moon", "star", "raincloud", "snowman"]
+        }
+      },
+      "light": {
+        "--layer-frame": "oklch(0.86 0.085 222)",
+        "--foreground-on-frame": "var(--sticker-ink)",
+        "--foreground-on-frame-muted": "color-mix(in oklch, var(--sticker-ink) 62%, var(--layer-frame))",
+        "--foreground-on-frame-active": "var(--sticker-ink)",
+        "--layer-frame-active": "oklch(1 0 0)",
+        "--fill-frame-medium": "oklch(0.1813 0.005 17.62 / 0.1)",
+        "--layer-sidebar": "oklch(0.985 0.012 222)"
+      },
+      "dark": {
+        "--layer-frame": "oklch(0.30 0.055 245)",
+        "--foreground-on-frame": "oklch(0.96 0.01 90)",
+        "--foreground-on-frame-muted": "oklch(0.80 0.02 90)",
+        "--layer-frame-active": "var(--brand-400)",
+        "--fill-frame-medium": "oklch(1 0 0 / 0.1)",
+        "--layer-canvas": "oklch(0.235 0.03 245)",
+        "--layer-sidebar": "oklch(0.205 0.033 245)",
+        "--layer-card": "oklch(0.265 0.03 245)",
+        "--layer-popover": "oklch(0.29 0.03 245)"
+      }
+    },
+    "plants": {
+      "name": "Plants",
+      "decor": {
+        "light": {
+          "top": ["tree", "tulip", "pine", "sunflower", "cactus"],
+          "rail": ["leaf", "pine", "mushroom", "sprout"]
+        },
+        "dark": {
+          "top": ["tree", "tulip", "pine", "sunflower", "cactus"],
+          "rail": ["leaf", "pine", "mushroom", "sprout"]
+        }
+      },
+      "light": {
+        "--layer-frame": "oklch(0.80 0.075 158)",
+        "--foreground-on-frame": "var(--sticker-ink)",
+        "--foreground-on-frame-muted": "color-mix(in oklch, var(--sticker-ink) 62%, var(--layer-frame))",
+        "--foreground-on-frame-active": "var(--sticker-ink)",
+        "--layer-frame-active": "oklch(1 0 0)",
+        "--fill-frame-medium": "oklch(0.1813 0.005 17.62 / 0.1)",
+        "--layer-sidebar": "oklch(0.985 0.012 158)"
+      },
+      "dark": {
+        "--layer-frame": "oklch(0.30 0.05 158)",
+        "--foreground-on-frame": "oklch(0.96 0.01 90)",
+        "--foreground-on-frame-muted": "oklch(0.80 0.02 90)",
+        "--layer-frame-active": "var(--brand-400)",
+        "--fill-frame-medium": "oklch(1 0 0 / 0.1)",
+        "--layer-canvas": "oklch(0.235 0.025 158)",
+        "--layer-sidebar": "oklch(0.205 0.028 158)",
+        "--layer-card": "oklch(0.265 0.025 158)",
+        "--layer-popover": "oklch(0.29 0.025 158)"
+      }
+    },
+    "spooky": {
+      "name": "Spooky",
+      "decor": {
+        "light": {
+          "top": ["pumpkin", "ghost", "bat", "skull", "pumpkin"],
+          "rail": ["bat", "ghost", "spider", "pumpkin"]
+        },
+        "dark": {
+          "top": ["ghost", "eye", "bat", "flame", "pumpkin"],
+          "rail": ["bat", "wizard", "spider", "skull"]
+        }
+      },
+      "light": {
+        "--layer-frame": "oklch(0.77 0.14 52)",
+        "--foreground-on-frame": "var(--sticker-ink)",
+        "--foreground-on-frame-muted": "color-mix(in oklch, var(--sticker-ink) 62%, var(--layer-frame))",
+        "--foreground-on-frame-active": "var(--sticker-ink)",
+        "--layer-frame-active": "oklch(1 0 0)",
+        "--fill-frame-medium": "oklch(0.1813 0.005 17.62 / 0.1)",
+        "--layer-sidebar": "oklch(0.985 0.012 52)"
+      },
+      "dark": {
+        "--layer-frame": "oklch(0.27 0.06 300)",
+        "--foreground-on-frame": "oklch(0.96 0.01 90)",
+        "--foreground-on-frame-muted": "oklch(0.80 0.02 90)",
+        "--layer-frame-active": "var(--brand-400)",
+        "--fill-frame-medium": "oklch(1 0 0 / 0.1)",
+        "--layer-canvas": "oklch(0.235 0.03 300)",
+        "--layer-sidebar": "oklch(0.205 0.033 300)",
+        "--layer-card": "oklch(0.265 0.03 300)",
+        "--layer-popover": "oklch(0.29 0.03 300)"
+      }
+    }
+  }
+}
