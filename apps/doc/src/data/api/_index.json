@@ -723,6 +723,7 @@
       "MessageReferenceIndicator",
       "MessageReferenceLabel",
       "MessageReferencePending",
+      "MessageReferenceReadMark",
       "MessageReferenceSuffix",
       "MessageReferenceText",
       "MessageReferenceUnavailable",
@@ -777,11 +778,10 @@
       "MessageItemDelegatedBy",
       "MessageItemDelegatedByButton",
       "MessageItemDelegatedByName",
-      "MessageReferenceIcon",
-      "MessageReferenceReadMark"
+      "MessageReferenceIcon"
     ],
     "status": "stable",
-    "description": "A short note after a chip's label in muted machine type, such as `msg` on a link to a message. It lines up with the label by the middle of its letters."
+    "description": "The read receipt on a mention: the online light (8px, lime, ink edge) with an ink check in it, at the mention's top right, once the one mentioned has read the message. Put it last inside the mention, and render nothing until then. The light and check are decorative; `children` is what a screen reader says instead (\"Read\"), visually hidden."
   },
   "message-list": {
     "names": [

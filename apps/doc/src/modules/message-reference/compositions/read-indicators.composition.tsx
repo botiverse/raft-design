@@ -1,5 +1,4 @@
-import { MessageReferenceText } from "@botiverse/raft-ui";
-import { MessageReferenceReadMark } from "@botiverse/raft-ui/wip";
+import { MessageReferenceReadMark, MessageReferenceText } from "@botiverse/raft-ui";
 
 export function MessageReferenceReadIndicatorsComposition() {
   return (

@@ -119,7 +119,7 @@ inactive
 | Cyan | `info` | This item, information | In Progress, runtimes, external agents, progress bars; `info-soft` for the item singled out in content, an active filter, an info banner |
 | Orange | `warning` | Interrupts | Buttons that stop, leave or reset; warnings; Todo; the error presence light |
 | Red | `danger` | Irreversible | Delete buttons |
-| Lime | `success` | Done | Done, online, success banners |
+| Lime | `success` | Done | Done, online, success banners, a read mention (the online light with an ink check) |
 | Lavender | `palette-lavender-*` | — | In Review, and people without a photo |
 | Stone | `inactive` | Closed | Closed, offline |
 

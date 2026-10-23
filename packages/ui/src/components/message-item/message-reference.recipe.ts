@@ -37,6 +37,11 @@ const SUFFIX_LIFT = {
   icon: "top-[calc(0.25em-var(--message-reference-em)*0.35)]",
 }[SUFFIX_CENTRE];
 
+const INDICATOR = [
+  "pointer-events-none absolute -right-2.5 top-0 inline-flex size-2 shrink-0 items-center justify-center",
+  "*:data-[slot=status]:size-full",
+];
+
 export const messageReference = tv({
   slots: {
     root: [
@@ -48,9 +53,9 @@ export const messageReference = tv({
       "outline-none focus-visible:shadow-focus",
       "[&_svg]:size-[0.857em] [&_svg]:shrink-0 [&_svg]:self-center",
       "*:data-[slot=spinner]:self-center",
-      "has-[>[data-slot=message-reference-indicator]]:relative has-[>[data-slot=message-reference-indicator]]:mr-2",
-      "has-[>[data-slot=message-reference-indicator]]:inline-block",
-      "has-[>[data-slot=message-reference-indicator]]:overflow-visible",
+      "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:relative has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:mr-2.5",
+      "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:inline-block",
+      "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:overflow-visible",
     ],
     chipLabel: "min-w-0 truncate",
     // A note after the label, in smaller machine type. It keeps the label's
@@ -76,27 +81,20 @@ export const messageReference = tv({
       "inline-flex size-3.5 shrink-0 items-center justify-center self-center",
       "*:size-full *:shrink-0 [&>img]:rounded-[2px] [&>img]:object-cover",
     ],
-    indicator: [
-      "pointer-events-none absolute -right-1.5 top-0 inline-flex size-2 shrink-0 items-center justify-center",
-      "*:data-[slot=status]:size-full",
-    ],
-    // The read receipt: a check after the mention's text, the size of an icon
-    // in a reference (12px beside 14px text). It is centred on the letters'
-    // cap height, the line every icon in a reference centres on
-    // (alignment.md#a-mark-that-leads-text): in running text by raising its
-    // bottom edge to half the cap height (0.7em / 2) less half its own box,
-    // in a flex row by `self-center`. Its 12px box sits inside the line, so
-    // the mention's box and the line keep their height. Lucide draws the check
-    // 3/24 inside its box where other icons leave 1/24, about a letter's side
-    // bearing, so its end takes the extra 2/24 back: the ink at that end sits
-    // as far from the mention's edge as the first letter does
-    // (alignment.md#chips).
+    // The 8px slot at the mention's top right. Its box starts 2px after the
+    // mention's text box (8px wide at -10px), so it never covers the name's
+    // last letter; at -6px it did. The mention reserves the same 10px after
+    // it (`mr-2.5`) before the word space.
+    indicator: INDICATOR,
+    // The read receipt: the indicator slot holding the online light (Status
+    // presence="online" size="sm": 8px, lime, 1.5px ink edge, 2px corners)
+    // with an ink check centred in it, a 6.5px Lucide check at stroke 3. The
+    // check tells it from a presence light; ink on the colour, never white
+    // (message-item.md, "Read receipts on a mention").
     readMark: [
-      "relative inline-block shrink-0 self-center",
-      "-mr-[calc(0.857em*2/24)]",
-      "align-[calc(0.7em/2-0.857em/2)] leading-none",
-      "text-foreground-hint",
-      "[&>svg]:block [&>svg]:size-[0.857em]",
+      ...INDICATOR,
+      "[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-1/2",
+      "[&>svg]:size-[6.5px]! [&>svg]:text-sticker-ink",
     ],
   },
   variants: {

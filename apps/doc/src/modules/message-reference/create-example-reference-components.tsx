@@ -4,6 +4,7 @@ import {
   MarkdownLink,
   MessageReferenceChip,
   MessageReferenceLabel,
+  MessageReferenceReadMark,
   PreviewCardDescription,
   PreviewCardHeader,
   PreviewCardSeparator,
@@ -11,7 +12,6 @@ import {
   TaskChip,
   TaskStatusIcon,
 } from "@botiverse/raft-ui";
-import { MessageReferenceReadMark } from "@botiverse/raft-ui/wip";
 import { parseMarkdownReference } from "#/lib/markdown/parse-markdown-reference.ts";
 import { MessageMentionReferenceComposition } from "./compositions/reference-adapters.composition.tsx";
 import {

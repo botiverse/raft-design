@@ -2,20 +2,14 @@ import "./message-reference.test.css";
 import { afterEach, beforeAll, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
-import { inkSpan } from "../../chip-ink.test-catalog";
 import { MessageItemContent } from "./message-item-content";
 import { MessageReferenceReadMark, MessageReferenceText } from "./message-reference";
 
 // The read receipt on a mention (message-item.md, "Read receipts on a
-// mention"): a check last inside the mention. It must not change the
-// mention's box or the line it sits on, it centres on the letters' cap height
-// like every icon in a reference, and its ink ends as far from the mention's
-// edge as the first letter starts (design/foundations/alignment.md#chips).
-// Lucide draws the check 3/24 inside its box, other icons 1/24, about a
-// letter's side bearing; the mark takes the extra 2/24 back. What is left is
-// the difference between the `@`'s side bearing and 1/24 of the icon, under
-// 0.5px (0.36px at 14px, 0.42px at 15px); without the correction the check
-// end sits 0.6-0.7px further out than the `@`.
+// mention"): the online light, 8px, with an ink check centred in it, at the
+// mention's top right. Its box starts 2px after the name's text, so it never
+// covers the last letter (at -6px it did), the mention reserves 10px after its
+// text before the word space, and the line keeps its height.
 // Real layout only: jsdom has no boxes.
 
 const it = test.skipIf(typeof window === "undefined");
@@ -44,48 +38,37 @@ function Sentences() {
         Ask{" "}
         <MessageReferenceText data-testid="read-mention">
           @Atlas
-          <MessageReferenceReadMark>Read</MessageReferenceReadMark>
-        </MessageReferenceText>{" "}
-        to review it.
+          <MessageReferenceReadMark data-testid="mark">Read</MessageReferenceReadMark>
+        </MessageReferenceText>
+        <span data-testid="after"> to</span> review it.
       </p>
     </MessageItemContent>
   );
 }
 
-// The middle of the cap height, from the baseline (a zero-size probe sits on
-// it) and the font's `H`.
-function capMiddleOf(el: Element) {
-  const probe = document.createElement("span");
-  probe.style.cssText = "display:inline-block;width:0;height:0;vertical-align:baseline";
-  el.append(probe);
-  const baseline = probe.getBoundingClientRect().top;
-  probe.remove();
-  const cs = getComputedStyle(el);
-  const ctx = document.createElement("canvas").getContext("2d")!;
-  ctx.font = `${cs.fontStyle} ${cs.fontWeight} 1000px ${cs.fontFamily}`;
-  const cap = (ctx.measureText("H").actualBoundingBoxAscent * parseFloat(cs.fontSize)) / 1000;
-  return baseline - cap / 2;
-}
-
-// The drawn check's vertical middle, from its stroked path.
-function checkMiddleOf(svg: SVGSVGElement) {
+// The drawn check's box, from its stroked paths.
+function checkInkOf(svg: SVGSVGElement) {
   let top = Infinity;
   let bottom = -Infinity;
+  let left = Infinity;
+  let right = -Infinity;
   for (const shape of svg.querySelectorAll<SVGGraphicsElement>("path, polyline")) {
     const box = shape.getBBox();
     const m = shape.getScreenCTM()!;
     const half = (parseFloat(getComputedStyle(shape).strokeWidth) / 2) * Math.hypot(m.c, m.d);
     top = Math.min(top, m.d * box.y + m.f - half);
     bottom = Math.max(bottom, m.d * (box.y + box.height) + m.f + half);
+    left = Math.min(left, m.a * box.x + m.e - half);
+    right = Math.max(right, m.a * (box.x + box.width) + m.e + half);
   }
-  return (top + bottom) / 2;
+  return { top, bottom, left, right };
 }
 
 for (const [name, width] of [
   ["desktop", 1280],
   ["phone", 390],
 ] as const) {
-  it(`${name}: the check keeps the mention's box and the line, and centres on the letters`, async () => {
+  it(`${name}: the read light sits at the mention's top right, clear of the name, and keeps the line`, async () => {
     const { page } = await import("vite-plus/test/browser/context");
     await page.viewport(width, 900);
     render(
@@ -96,51 +79,50 @@ for (const [name, width] of [
       </ThemeProvider>,
     );
     const get = (id: string) => document.querySelector(`[data-testid="${id}"]`)!;
-    const plain = get("plain-mention").getBoundingClientRect();
-    const read = get("read-mention").getBoundingClientRect();
-    expect(read.height, "the mention's height").toBe(plain.height);
+    const mention = get("read-mention");
+    const box = mention.getBoundingClientRect();
+    const mark = get("mark").getBoundingClientRect();
+
     expect(get("read").getBoundingClientRect().height, "the line's height").toBe(
       get("plain").getBoundingClientRect().height,
     );
 
-    const svg = get("read-mention").querySelector<SVGSVGElement>("svg.lucide-check")!;
-    expect(svg.getBoundingClientRect().width, "a 12px check beside 14px text").toBeCloseTo(
-      (12 / 14) * parseFloat(getComputedStyle(get("read-mention")).fontSize),
+    expect(mark.width, "an 8px light").toBe(8);
+    expect(mark.height, "an 8px light").toBe(8);
+    const light = get("mark").querySelector("[data-slot=status]")!.getBoundingClientRect();
+    expect([light.width, light.height], "the online light fills the slot").toEqual([8, 8]);
+
+    expect(mark.top, "its top on the mention's top").toBeCloseTo(box.top, 1);
+    const text = document.createRange();
+    text.selectNodeContents(mention.firstChild!);
+    const textRight = text.getBoundingClientRect().right;
+    expect(mark.left - textRight, "at least 2px after the name's text").toBeGreaterThanOrEqual(
+      2 - 0.01,
+    );
+    // The mention reserves the light's 10px, so the word space comes after it.
+    const after = document.createRange();
+    after.selectNodeContents(get("after").firstChild!);
+    expect(after.getBoundingClientRect().left, "the next word starts after the light").toBeCloseTo(
+      mark.right,
       1,
     );
-    expect(
-      Math.abs(checkMiddleOf(svg) - capMiddleOf(get("read-mention"))),
-      "the check's middle against the letters' cap-height middle",
-    ).toBeLessThanOrEqual(0.5);
-  });
 
-  it(`${name}: the check's ink ends as far from the mention's edge as the first letter starts`, async () => {
-    const { page } = await import("vite-plus/test/browser/context");
-    await page.viewport(width, 900);
-    render(
-      <ThemeProvider mode="light">
-        <div style={{ width: Math.min(width, 420) }}>
-          <Sentences />
-        </div>
-      </ThemeProvider>,
+    const svg = get("mark").querySelector<SVGSVGElement>("svg.lucide-check")!;
+    const svgBox = svg.getBoundingClientRect();
+    expect(svgBox.width, "a 6.5px check").toBeCloseTo(6.5, 1);
+    expect(getComputedStyle(svg).color, "the check in the light's ink edge colour").toBe(
+      getComputedStyle(get("mark").querySelector("[data-slot=status]")!).borderTopColor,
     );
-    const mention = document.querySelector('[data-testid="read-mention"]')!;
-    const box = mention.getBoundingClientRect();
-    const ink = inkSpan(mention);
-    const left = ink.left - box.left;
-    const right = box.right - ink.right;
+    const ink = checkInkOf(svg);
     expect(
-      Math.abs(left - right),
-      `ink ${left.toFixed(2)}px from the left edge, ${right.toFixed(2)}px from the right`,
-    ).toBeLessThanOrEqual(0.5);
-
-    // The gap: the check's box starts where the name's letters end, so the
-    // ink between them is only the check's own inset and the letter's side
-    // bearing, about 2px: the check reads as part of the mention, and the word
-    // space comes after it.
-    const svg = mention.querySelector("svg.lucide-check")!.getBoundingClientRect();
-    const name = document.createRange();
-    name.selectNodeContents(mention.firstChild!);
-    expect(svg.left - name.getBoundingClientRect().right, "right after the name").toBeCloseTo(0, 1);
+      Math.abs((svgBox.left + svgBox.right) / 2 - (mark.left + mark.right) / 2),
+      "the check's box centred across",
+    ).toBeLessThanOrEqual(0.01);
+    expect(
+      Math.abs((svgBox.top + svgBox.bottom) / 2 - (mark.top + mark.bottom) / 2),
+      "the check's box centred down",
+    ).toBeLessThanOrEqual(0.01);
+    expect(ink.left, "the check's ink inside the light").toBeGreaterThanOrEqual(mark.left);
+    expect(ink.right, "the check's ink inside the light").toBeLessThanOrEqual(mark.right);
   });
 }
