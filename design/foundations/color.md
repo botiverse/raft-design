@@ -34,7 +34,7 @@ layer
 | `layer-popover` | Popups: menus, drawers, bottom sheets, dialogs, profile cards |
 | `fill-muted` | Sunken fills: tracks, inline code, skeletons, neutral tiles, reactions, thread previews |
 | `layer-code` | Code blocks and command lines |
-| `layer-hud` | Toasts and tooltips, and a neutral swipe's layer once a release would apply ([Touch screens](../patterns/responsive.md#touch-screens)); text on it is `foreground-on-hud` and `foreground-on-hud-muted` |
+| `layer-hud` | Toasts and tooltips; text on it is `foreground-on-hud` and `foreground-on-hud-muted` |
 | `layer-backdrop` | The scrim behind centered overlays, modal drawers, bottom sheets and the lightbox |
 | `layer-backdrop-nested` | The lighter scrim under a modal surface opened from another one ([Stacked overlays](./elevation.md#stacked-overlays)) |
 
