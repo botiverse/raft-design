@@ -1,3 +1,21 @@
+## [0.26.0](https://github.com/botiverse/raft-design/compare/v0.25.0...v0.26.0) (2026-10-23)
+
+### Design System
+
+- **Links that leave Raft end in ↗**: a control that takes someone to another site (docs, pricing, terms and privacy, an app's homepage, TestFlight, Stripe, GitHub) ends in Lucide's `ArrowUpRight`, the only mark for it, never the box with an arrow. A TextLink takes `TextLinkExternalIcon`; a button puts it in its trailing icon's place; a menu item where the shortcut goes; a sidebar row in its trailing slot, in `foreground-hint`. It opens in a new tab with `rel="noopener noreferrer"` and a screen reader hears "(opens in a new tab)"; Stripe checkout and the billing portal stay in the same tab and still end in ↗. Sign-in round trips, downloads, links people write in messages and anything inside Raft get no mark. ([#758](https://github.com/botiverse/raft-design/pull/758))
+  - Why: people couldn't tell before pressing whether a control would take them out of Raft, and the product used three different marks (and none on most links) for it.
+  - Affects: a rule for products; raft-ui adds `TextLinkExternalIcon`.
+  - Docs: https://raft-design.botiverse.build/patterns/navigation/#links-that-leave-raft
+- **An item card's warning line**: a line an app marks as a warning (`tone: "warning"`, such as "2 checks failing") reads in `warning-strong`, Raft's color for a warning; the state's Badge stays neutral and nothing else on the card is colored. ([#760](https://github.com/botiverse/raft-design/pull/760))
+  - Why: an app's own state colors on a card competed with Raft's; a warning reads the same everywhere when it is Raft's color.
+  - Affects: a rule for products rendering app item cards.
+  - Docs: https://raft-design.botiverse.build/components/preview-card/
+
+### Added
+
+- **TextLinkExternalIcon**: the ↗ after a TextLink that leaves Raft. Lucide `ArrowUpRight` at 0.857em of the text, 2px after it, centered on the letters' cap height at every size, in an inline-flex box so the hover underline stops at the text. `label` is read by a screen reader after the text ("(opens in a new tab)"); the caller supplies the copy. ([#758](https://github.com/botiverse/raft-design/pull/758))
+  - Docs: https://raft-design.botiverse.build/components/text-link/#leaving-raft
+
 ## [0.25.0](https://github.com/botiverse/raft-design/compare/v0.24.0...v0.25.0) (2026-10-23)
 
 ### Design System
