@@ -249,6 +249,74 @@ it("on Android there is no latch: past the threshold and back above it, the rele
   expect(indicator.dataset.state).toBe("idle");
 });
 
+it("on Android, the indicator is Material's: a round disc, an arc faint until armed and faint again once disarmed", async () => {
+  const { indicator, row } = setup({ platform: "android" });
+  const surface = indicator.querySelector<HTMLElement>('[data-slot="pull-to-refresh-surface"]')!;
+  const arcOpacity = () =>
+    Number(getComputedStyle(indicator.querySelector("g")!).opacity.replace(/^$/, "1"));
+  const settle = () => act(() => new Promise((resolve) => setTimeout(resolve, 250)));
+
+  pullBy(row, SHORT);
+  expect(indicator.querySelector('[data-slot="spinner"]')).toBeNull();
+  expect(surface.getBoundingClientRect().width).toBe(40);
+  expect(getComputedStyle(surface).borderRadius).not.toBe("0px");
+  expect(indicator.querySelector("[data-material-arrow]")).not.toBeNull();
+  await settle();
+  const before = arcOpacity();
+
+  touch(row, "touchmove", 100 + PAST);
+  await settle();
+  const armed = arcOpacity();
+
+  touch(row, "touchmove", 100 + SHORT);
+  await settle();
+  const disarmed = arcOpacity();
+
+  expect(before).toBeCloseTo(0.3, 2);
+  expect(armed).toBe(1);
+  expect(disarmed).toBeCloseTo(0.3, 2);
+  expect(indicator.querySelector("[data-material-arrow]")).not.toBeNull();
+  touch(row, "touchend", 100 + SHORT);
+});
+
+it("on Android, a finished refresh scales the disc down with its arc where it held, without sliding back up", async () => {
+  let finish: () => void = () => undefined;
+  const { indicator, row } = setup({
+    platform: "android",
+    onRefresh: () => new Promise<void>((resolve) => (finish = resolve)),
+  });
+  const surface = indicator.querySelector<HTMLElement>('[data-slot="pull-to-refresh-surface"]')!;
+  pullBy(row, PAST);
+  touch(row, "touchend", 100 + PAST);
+  await snapBack();
+  const spinning = indicator.querySelector("[data-material-indeterminate]")!;
+  const disc = surface.getBoundingClientRect();
+  const arc = spinning.getBoundingClientRect();
+  // The turning arc stays inside the disc.
+  expect(arc.left).toBeGreaterThanOrEqual(disc.left);
+  expect(arc.right).toBeLessThanOrEqual(disc.right);
+  expect(arc.top).toBeGreaterThanOrEqual(disc.top);
+  expect(arc.bottom).toBeLessThanOrEqual(disc.bottom);
+  const center = () => {
+    const box = surface.getBoundingClientRect();
+    return box.top + box.height / 2;
+  };
+  const heldCenter = center();
+
+  await act(async () => finish());
+  expect(surface.dataset.exit).toBe("finish");
+  // The arc keeps turning as the disc goes, rather than the disc emptying first.
+  expect(indicator.querySelector("[data-material-indeterminate]")).not.toBeNull();
+  const scales = await sampleFrames(() => surface.getBoundingClientRect().width / 40);
+  expectMonotonicDown(scales);
+  expect(scales.at(-1)).toBe(0);
+  expect(scales.some((s) => s > 0.05 && s < 0.95)).toBe(true);
+  expect(center()).toBeCloseTo(heldCenter, 0);
+  // Once it has gone, the arc stops turning.
+  await act(() => new Promise((resolve) => setTimeout(resolve, 50)));
+  expect(indicator.querySelector("[data-material-indeterminate]")).toBeNull();
+});
+
 it("never vibrates outside Android", () => {
   const vibrate = vi.fn(() => true);
   Object.defineProperty(navigator, "vibrate", { value: vibrate, configurable: true });
