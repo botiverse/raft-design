@@ -111,7 +111,7 @@ export const drawer = tv({
     swipeHandle: [
       "relative z-10 shrink-0 cursor-grab select-none active:cursor-grabbing",
       "before:absolute before:content-['']",
-      "before:rounded-[1px] before:bg-line-seam",
+      "before:rounded-full before:bg-line-seam",
     ],
     close: ["shrink-0"],
     closeIcon: ["size-control-icon"],

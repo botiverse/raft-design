@@ -89,5 +89,5 @@ drawer/compositions/nested-close-callback
 - Put the buttons in the footer, never in the header. They are `size="lg"` (44px on a phone, 32px on a desktop): Cancel first, Save last ([Forms](../../../../../design/patterns/forms.md#forms-in-a-dialog)).
 - Split a long form in a drawer into [FormSection](../form-section/form-section.md) parts, the same sections as in the wide dialog, and save them all together with the footer's Save.
 - Under each yes-or-no checkbox in a drawer form, add a line that says what happens when it is unchecked. It is a checkbox, not a switch, because the form is saved ([Forms](../../../../../design/patterns/forms.md#forms-in-a-dialog)).
-- Give every bottom sheet a grab handle at its top edge.
+- Give every bottom sheet a grab handle at its top edge: a 36 × 4px bar in `line-seam` with round ends, as every platform draws one ([Shape](../../../../../design/foundations/shape.md#principles)).
 - In a bottom sheet list, make each row 52px tall, with a 20px icon and the label in `text-body`, medium. Mark the current row with a check mark and bold text.
