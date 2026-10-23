@@ -10,7 +10,7 @@ Motion in Raft confirms an action or shows where something came from. It never d
 
 ## Principles
 
-- **Status doesn't loop.** A working agent is a still yellow light. The only looping animation in the working product is the pixel spinner while something loads, and it goes away as soon as loading ends.
+- **Status doesn't loop.** A working agent is a still yellow light. The only looping animation in the working product is the pixel spinner while something loads, and it goes away as soon as loading ends. The one exception is pull to refresh on Android web, which draws Android's own turning arc while it refreshes ([PullToRefresh](../../packages/ui/src/components/pull-to-refresh/pull-to-refresh.md#on-android)).
 - **Press doesn't move.** Hover and press add an overlay; nothing shifts or scales.
 - **Reduced motion stops everything.** With `prefers-reduced-motion`, every animation on this page is off.
 

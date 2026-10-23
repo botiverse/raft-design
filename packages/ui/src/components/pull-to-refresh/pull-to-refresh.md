@@ -16,7 +16,7 @@ Pull to refresh reloads a page when a person pulls its list down from the top wi
 pull-to-refresh/compositions/preview
 ```
 
-It is a hook, `usePullToRefresh`, on the page's existing scroll container, and a part, `PullToRefreshIndicator`, that you render as that container's first child. The browser draws no pull to refresh of its own inside a scroll container or in the installed web app (`display: standalone`), so phone web draws this one. The iOS and Android apps use their own control, and this one is tuned to feel the same: its numbers are the iOS app's (mobile #3553), and on Android it takes Material 3's shape ([On Android](#on-android)). Its indicator is the design system's loading icon, the [Spinner](../spinner/spinner.md), on every platform: never the platform's own spinner (decided by artin).
+It is a hook, `usePullToRefresh`, on the page's existing scroll container, and a part, `PullToRefreshIndicator`, that you render as that container's first child. The browser draws no pull to refresh of its own inside a scroll container or in the installed web app (`display: standalone`), so phone web draws this one. The iOS and Android apps use their own control, and this one is tuned to feel the same: its numbers are the iOS app's (mobile #3553), and on Android it takes Material 3's shape ([On Android](#on-android)). On Android its indicator is Android's own, Material 3's progress arc on a small disc, so a pull looks the same in Chrome on Android as in any Android app (decided by stdrc on 2026-10-23). Everywhere else, iOS included, the indicator is the design system's loading icon, the [Spinner](../spinner/spinner.md), never the platform's own spinner (decided by artin).
 
 ## When to use
 
@@ -33,13 +33,15 @@ Never put pull to refresh on a realtime page: a page that needs a pull to show w
 ## Anatomy
 
 - `usePullToRefresh(scrollRef, { onRefresh, disabled })`: required. The gesture on the scroll container `scrollRef` points at. It returns the pull: its state (`idle`, `pulling`, `refreshing`), its distance, its progress towards the threshold, and the platform whose shape it takes (`default` or `android`).
-- `PullToRefreshIndicator`: required. Takes the pull as `pull` and the announcement as `label`. It is the space the pull opens at the top of the list, with the [Spinner](../spinner/spinner.md) in it; on Android, a small surface that travels down over the list instead.
+- `PullToRefreshIndicator`: required. Takes the pull as `pull` and the announcement as `label`. It is the space the pull opens at the top of the list, with the [Spinner](../spinner/spinner.md) in it; on Android, Material 3's own indicator instead: a 40px disc with a progress arc in it that travels down over the list.
 
 ## States
 
 ```example
 pull-to-refresh/compositions/states
 ```
+
+The top row is the default shape, with the Spinner; the bottom row is Android's, described under [On Android](#on-android). The states below are the default shape's.
 
 - **Pulling**: the spinner stands still and fades in with the pull, and its lit pixel walks clockwise one step for each quarter of the threshold (25px), so it shows how close a release is to refreshing. At the threshold the pull is armed: the spinner is fully in and the last pixel lit.
 - **Refreshing**: the spinner runs, and the indicator holds at 60px until the promise `onRefresh` returns settles.
@@ -63,7 +65,7 @@ pull-to-refresh/compositions/states
 - While it is on, the scroll container gets `overscroll-behavior-y: contain`, so a browser tab doesn't also reload the whole page. The hook puts the old value back when it turns off.
 - An armed pull keeps the touch while it is armed: the page doesn't scroll under it.
 - A pull during a refresh does nothing.
-- With `prefers-reduced-motion`, the indicator snaps back without its transition and the spinner doesn't run ([Motion](../../../../../design/foundations/motion.md)).
+- With `prefers-reduced-motion`, the indicator snaps back without its transition and the spinner doesn't run; on Android the arc holds still while refreshing and the disc goes at once ([Motion](../../../../../design/foundations/motion.md)).
 
 `disabled` turns it off, such as before the first load has finished or while a search is empty. Don't derive it from the refresh itself: turning it off mid-refresh drops the indicator before the promise settles.
 
@@ -78,18 +80,28 @@ pull-to-refresh/compositions/states
 
 ### On Android
 
-On Android (by the user agent) the pull follows Material 3's pull to refresh, so it looks like the rest of the phone:
+On Android (by the user agent) the pull follows Material 3's pull to refresh, and its indicator is Android's own, so it looks like the rest of the phone. Decided by stdrc on 2026-10-23: on Android web the indicator is Material's, which overrides the earlier rule of the Spinner on every platform for Android only; iOS and every other platform keep the Spinner. A pull is a system gesture, and on Android people know it by Material's arc: Chrome draws it for a page, and every Android app draws it for a list. The Spinner there read as a different control.
 
-- The indicator, the Spinner on a small `layer-popover` surface, travels down over the list. The list itself stays still: no rubber-band stretch of the content. The indicator still moves 0.55 of the finger's travel.
-- When the pull crosses the threshold, the phone ticks once (`navigator.vibrate(10)`), where the browser supports it. Elsewhere there is no vibration.
-- There is no latch: Material 3 lets a pull be taken back; iOS commits once armed. Moving back above the threshold before release disarms the pull, and the release then doesn't refresh. Crossing the threshold again arms it again, with another tick.
-- Everything else is the same: the numbers, the snap-back and the Spinner.
+```example
+pull-to-refresh/compositions/android
+```
 
-`platform` overrides the detected platform, such as in a preview. Every other touch screen, iOS included, gets the default shape, in which the content moves down with the pull.
+From left to right: pulling, armed, disarmed and refreshing.
+
+- **The disc.** A 40px circle on `layer-popover`, white in light mode and the raised dark surface in dark mode, with the `elevation-float` shadow: it floats over the list for a moment, like a popup ([Elevation](../../../../../design/foundations/elevation.md)). It travels down over the list, which stays still: no rubber-band stretch of the content. It still moves 0.55 of the finger's travel.
+- **Pulling.** Inside the disc a 2.5px arc of radius 7.5px grows with the pull, as Material draws it: nothing for the first 40% of the threshold, then up to 0.8 of the circle at the threshold, turning a little as it grows, with an arrowhead at its end. Until the pull is armed the arc is at 30% opacity.
+- **Armed.** Past the threshold the arc is fully opaque, and the phone ticks once (`navigator.vibrate(10)`), where the browser supports it. Elsewhere there is no vibration.
+- **Disarmed.** There is no latch: Material 3 lets a pull be taken back; iOS commits once armed. Moving back above the threshold before release disarms the pull: the arc goes back to 30% opacity, the arrowhead stays, and the release then doesn't refresh. Crossing the threshold again arms it again, with another tick.
+- **Refreshing.** The disc holds at 60px and the arc runs Material's indeterminate animation: it turns once every 1.4s while it grows and shrinks.
+- **Finished.** When the refresh ends, the disc scales down to nothing where it held, in 150ms, as Material's does. A pull released short of the threshold slides back up instead, in the usual 300ms snap-back.
+- **The arc is `info-strong`.** Material draws it in the theme's primary color. In Raft, cyan means progress ([Color](../../../../../design/foundations/color.md#meanings-of-color): progress bars, In Progress), and Raft's primary, yellow, means "you", and is 1.3:1 on white. The arc is a thin line with no ink edge, so it takes the strong tier of cyan: 11:1 on the white disc and 8:1 on the dark one, where `info` itself would be 1.9:1, below the 3:1 a graphic needs.
+- **Reduced motion.** With `prefers-reduced-motion`, the arc holds still at three quarters of the circle while refreshing, and the disc moves and goes without transitions.
+
+Everything else is the same as the default shape: the numbers and the snap-back. `platform` overrides the detected platform, such as in a preview. Every other touch screen, iOS included, gets the default shape, in which the content moves down with the pull and the Spinner shows it.
 
 ## Accessibility
 
-- The indicator holds a polite live region (`role="status"`) that announces `label` when a refresh starts. Pass the product's own words, such as "Refreshing…": raft-ui holds no copy. The spinner itself is hidden from assistive technology.
+- The indicator holds a polite live region (`role="status"`) that announces `label` when a refresh starts. Pass the product's own words, such as "Refreshing…": raft-ui holds no copy. The spinner, or Android's arc, is hidden from assistive technology.
 - A pull is not reachable without a finger, and that is fine for these pages: each one loads again when it is opened, and screen-reader users can do the same. Don't add a Refresh button on a phone for them ([Navigation](../../../../../design/patterns/navigation.md#refreshing)).
 
 ## Rules
