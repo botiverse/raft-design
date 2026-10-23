@@ -90,7 +90,7 @@ choice-list/compositions/search
 
 ## Content
 
-- The name is `text-subhead` at weight 600; each description line is `text-footnote` in `foreground-muted`. Each truncates on its own line.
+- The name is `text-subhead` at weight 600; each description line is `text-footnote` in `foreground-muted`. Each truncates on its own line, and while a line is cut off its whole text is its `title`, so a long description can still be read with a mouse ([Long values in fields](../../../../../design/patterns/forms.md#long-values-in-fields)).
 - Give a row a second line only when each line says something people compare across rows ("Claude Max · 5h 72% left · this week 40% left", "120 GB free · 3 agents"). Leave a line with nothing to say out (`null`, `false` or `""`): it isn't drawn, never shown empty.
 - Colour inside a line is the caller's, for a value that needs it: a used-up quota window in `warning-strong`.
 - raft-ui holds no copy. The search box's name and placeholder, the clear button's name, the no-match line and the empty line all come from the caller, in the product's words ("No matches", "No one matches").

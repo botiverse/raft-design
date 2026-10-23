@@ -6,6 +6,7 @@ import { Button } from "../button/button";
 import { Checkbox } from "../checkbox/checkbox";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../input-group/input-group";
 import { RadioGroup, RadioGroupItem } from "../radio-group/radio-group";
+import { useOverflowTitle } from "../../lib/use-overflow-title";
 import { choiceList } from "./choice-list.recipe";
 
 // An always-open list to choose from when choosing is what the dialog or page
@@ -132,6 +133,28 @@ function isDrawn(line: ReactNode) {
 function descriptionLines(description: ChoiceListItem["description"]): ReactNode[] {
   const lines: readonly ReactNode[] = Array.isArray(description) ? description : [description];
   return lines.filter(isDrawn);
+}
+
+// A row's name or description line ends in an ellipsis when it doesn't fit;
+// while it is cut off its whole text is its `title`, so a long description can
+// still be read with a mouse (design/patterns/forms.md#long-values-in-fields).
+function CutLine({
+  id,
+  slot,
+  className,
+  children,
+}: {
+  id?: string;
+  slot: string;
+  className: string;
+  children: ReactNode;
+}) {
+  const ref = useOverflowTitle<HTMLSpanElement>();
+  return (
+    <span ref={ref} id={id} data-slot={slot} className={className}>
+      {children}
+    </span>
+  );
 }
 
 const NOT_TEXT_INPUTS = new Set([
@@ -358,19 +381,15 @@ export function ChoiceList(props: ChoiceListProps) {
           </span>
         ) : null}
         <span data-slot="choice-list-body" className={slots.body()}>
-          <span id={`${id}-label`} data-slot="choice-list-label" className={slots.label()}>
+          <CutLine id={`${id}-label`} slot="choice-list-label" className={slots.label()}>
             {item.label}
-          </span>
+          </CutLine>
           {lines.length > 0 ? (
             <span id={`${id}-description`} className="contents">
               {lines.map((line, index) => (
-                <span
-                  key={index}
-                  data-slot="choice-list-description"
-                  className={slots.description()}
-                >
+                <CutLine key={index} slot="choice-list-description" className={slots.description()}>
                   {line}
-                </span>
+                </CutLine>
               ))}
             </span>
           ) : null}
