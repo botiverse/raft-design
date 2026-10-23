@@ -83,5 +83,11 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 
 The message menu starts with the quick reactions ([Conversation](../../../../../design/patterns/conversation.md#actions); sizes in [Brand](../../../../../design/foundations/brand.md#reactions)).
 
-- End the row of quick reactions with a `smile-plus` icon button that opens every emoji.
-- Put one separator between the reactions and the first action, then group the actions into sections.
+- Open the menu with the message's full date and time, a `DropdownMenuLabel` (`ContextMenuLabel`) that can't be chosen ([Conversation](../../../../../design/patterns/conversation.md#actions)).
+- Then the 7 quick reactions at 22px, each a `MessageReactionQuickButton` that is a menu item, so the arrow keys reach it. End the row with a `smile-plus` icon button that opens every emoji. That is 8 buttons of 36px, so the menu is as wide as the row (316px), wider than its 240px minimum; the actions take the same width.
+- Line the reactions up with the actions: `MessageReactionQuickRow` keeps 3px at each side, so the first drawing starts where the items' icons do (10px in), and the column the eye follows down the menu doesn't step out by 3px at the top.
+- Put one separator between the reactions and the first action, then group the actions into sections, by what they do to the message (stdrc, 2026-10-20):
+  1. **Keep going on this message:** Reply in Thread, Follow Thread or Unfollow Thread, then the task action (Create Task from Message, or Mark as Done and Reopen Task on a task's message). A task's discussion lives in its thread, so the two sit together.
+  2. **Take it elsewhere:** Copy Link, Copy Markdown, Forward, Select Message. Nothing changes here. They go from a pointer to the content to sending one message to sending several.
+  3. **Just for me:** Save Message or Remove from Saved, and Translate. Nobody else sees these.
+- Leave out a section with nothing in it, and its separator with it.
