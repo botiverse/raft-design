@@ -68,7 +68,7 @@ toast/compositions/person
 
 ### Where it appears
 
-Toasts appear at the bottom center (`viewportPlacement="bottom-center"`) on every screen, just above whatever holds the bottom of the page: the composer on a conversation page, the tab bar on a phone's top-level page, and the on-screen keyboard while it is up. Only the app knows where that is, so it sets `--toast-viewport-bottom` to the distance from the bottom of the window to that thing's top edge, on `:root` or with `viewportClassName`, and updates it as the composer grows or the keyboard opens. The toast's bottom edge sits 16px above it, and never lower than 16px above the system's home indicator (`env(safe-area-inset-bottom)`), so on a phone it stays clear of it even when the variable is unset.
+Toasts appear at the bottom center (`viewportPlacement="bottom-center"`). On a desktop that is the bottom of the window (decided by stdrc, 2026-10-23). On a phone the toast sits just above whatever holds the bottom of the page: the composer on a conversation page, the tab bar on a top-level page, and the on-screen keyboard while it is up. Only the app knows where that is, so it sets `--toast-viewport-bottom` to the distance from the bottom of the window to that thing's top edge, on `:root` or with `viewportClassName`, and updates it as the composer grows or the keyboard opens. The toast's bottom edge sits 16px above it, and never lower than 16px above the system's home indicator (`env(safe-area-inset-bottom)`), so on a phone it stays clear of it even when the variable is unset.
 
 ```css
 :root {
