@@ -1,3 +1,14 @@
+## [0.32.2](https://github.com/botiverse/raft-design/compare/v0.32.1...v0.32.2) (2026-10-23)
+
+### Added
+
+- `TOUCH_DRAG_HOLD_MS` (wip), the 500ms hold before a touch drag, exported next to `useHoldThenMoveTouchSensor`, so a product that tells a hold from a tap uses the same number. ([#787](https://github.com/botiverse/raft-design/pull/787))
+
+### Design System
+
+- **Touch drags:** every touch drag, task cards included, waits for a 500ms hold and then a move; the Accessibility page no longer says 200ms. ([#787](https://github.com/botiverse/raft-design/pull/787))
+  - Docs: https://raft-design.botiverse.build/foundations/states/#dragging-on-a-touch-screen
+
 ## [0.32.1](https://github.com/botiverse/raft-design/compare/v0.32.0...v0.32.1) (2026-10-23)
 
 ### Fixed
