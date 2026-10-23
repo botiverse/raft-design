@@ -1,7 +1,7 @@
 ---
 title: MessageList
 summary: 对话或消息列中滚动的时间线，包括日期线、开头的说明、历史受限的标记，以及浮在上面的跳转控件。
-sourceHash: 7cd43768
+sourceHash: 8964c481
 ---
 
 # MessageList
@@ -98,4 +98,4 @@ message-list/compositions/phone
 - 列表从第一行上方一个分段档（24px）处开始（第一行上方用 `pt-timeline-start`；历史开头的提示和消息一样带着一行的起始距离，所以无论最先出现的是哪个，这一档都成立），并在末尾让消息输入框的外框离最后一行一个分段档（消息输入框自身不加空白时，在最后一行下方用 `pb-timeline-end`）。MessageList 把这两处都留给产品，因为产品知道列表上方和下方是什么（[时间线节奏](../../../../../design/foundations/spacing.md#timeline-rhythm)）。
 - 只要列表下方有消息输入框或别的东西，就用 `MessageListEndFade` 让列表下沿渐隐：滚到下沿下面的消息被柔化而不是被切断；滚到列表末尾时，渐变盖在末尾的空白上（[时间线节奏](../../../../../design/foundations/spacing.md#timeline-rhythm)）。不要给浮在上面的那一行再单独加一层渐变。
 - 列表里任何其他标记分界的线，比如新消息线，也和日期线一样，两侧各留一个分段档。
-- 最早加载的消息上方只显示一样东西：加载更早消息时显示说明，历史被截断时显示历史标记，到达开头后显示 "Beginning of messages"。
+- 最早加载的消息上方只显示一样东西：加载更早消息时显示说明，历史被截断时显示历史标记，到达开头后显示 "Beginning of messages"。套餐截断历史时，产品可以在那里放付费墙代替历史标记（[Raft Chat：套餐时间范围之外的历史](../../../../../design/products/raft-chat/channel.md#history-behind-the-plans-window)）。

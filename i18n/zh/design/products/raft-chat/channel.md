@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的 Tasks 和 Files 卡片，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: bdcad1d2
+sourceHash: cef7fa20
 ---
 
 # Raft Chat — 频道
@@ -60,3 +60,15 @@ conversation-panel/compositions/conversation-panel
 ### 消息列 {#threads}
 
 - 在消息列标题栏的右侧，先在关注者的头像堆旁边放 "2 Agents following"，然后是一个菜单（Focus mode、Search in thread、View in channel、Follow Thread），宽屏上最后还有 ×。
+
+### 套餐时间范围之外的历史 {#history-behind-the-plans-window}
+
+Free 服务器只显示频道、私信、消息列和任务对话最近 30 天的内容。在显示出来的历史开始的地方，会话用历史付费墙代替历史说明（[MessageList](../../../packages/ui/src/components/message-list/message-list.md#rules)）。
+
+- 在最早加载的消息原本所在的位置放一张和消息行一样宽的 [Card](../../../packages/ui/src/components/card/card.md)：`CardLeading` 里放 20px 的 `History`（不用锁：锁表示私有频道），标题说清楚隐藏了多少条、在哪里（"6 earlier messages are older than 30 days"、"All 13 messages in this channel…"、"The first message and 3 replies…"），一行说明 Free 显示什么、Pro 能恢复什么，再加一个 `primary` 小号的 Upgrade to Pro 按钮。所有角色点按钮都打开升级弹窗，由弹窗决定谁付款、谁去请所有者。
+- 卡片上方用消息行显示最新的两条被隐藏消息：发送者、时间和前 40 个字，最多两行，越往上越淡。它们不能交互。只显示聊天消息；只有系统消息被隐藏时，只出卡片。如果消息列开头的消息也被隐藏，它排在最前面。
+- 卡片下面的第一条日期线写成 "Last 30 days · Tuesday, October 20"。消息列没有日期线，就单独加一条 "Last 30 days"。
+- 所有消息都被隐藏时，把预览和卡片放在输入框上方，也就是最新消息原本所在的位置，下面用 `MessageListNotice` `muted` 写 "No new messages in the last 30 days"。输入框照常可用，新消息出现在卡片下面。
+- 链接或搜索打开一条超过 30 天的消息时，停在卡片处，以那条消息为中心：它均匀变浅，显示前 80 个字，上下更淡的相邻消息分别往上、往下淡出，标题写 "The message you're looking for is older than 30 days"。
+- 升级以后卡片消失，更早的消息在上方加载出来，不用刷新。
+
