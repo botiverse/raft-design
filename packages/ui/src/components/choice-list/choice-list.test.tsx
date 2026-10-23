@@ -711,7 +711,8 @@ test("matchedValues: the caller's own search decides the matches and their order
       />
     );
   }
-  // "hb" matches no label as text; the caller's ranked search says hubble, then borealis.
+  // "hb" matches no label as text; the caller's ranked search says hubble, then
+  // borealis (and hubble again, which shows once).
   const { rerender } = render(<Ranked text="hb" matched={HUBBLE_THEN_BOREALIS} />);
   expect(rowNames()).toEqual(["atlas", "hubble", "borealis"]);
   expect(screen.getByRole("status").textContent).toBe("");
@@ -720,5 +721,5 @@ test("matchedValues: the caller's own search decides the matches and their order
   expect(screen.getByRole("status").textContent).toBe("No matches");
 });
 
-const HUBBLE_THEN_BOREALIS = ["hubble", "borealis"];
+const HUBBLE_THEN_BOREALIS = ["hubble", "borealis", "hubble"];
 const NONE: string[] = [];

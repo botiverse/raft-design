@@ -182,7 +182,9 @@ function visibleItems(
   );
   // The caller's matches keep the caller's order (its ranking); our own keep the items'.
   const byValue = matchedValues ? new Map(items.map((item) => [item.value, item])) : null;
-  const ordered = byValue ? matchedValues!.flatMap((value) => byValue.get(value) ?? []) : items;
+  // A value the caller's search returns twice is shown once, where it came first.
+  const ordered =
+    byValue && matched ? [...matched].flatMap((value) => byValue.get(value) ?? []) : items;
   const rest = ordered.filter((item) => !top.includes(item) && matches(item));
   // A pinned row that matches is a match: "No match" only when none does.
   return { rows: [...top, ...rest], noMatch: !items.some(matches) };
