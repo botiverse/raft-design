@@ -15,6 +15,35 @@ import type { PullGesture, PullGestureEvent, PullToRefreshState } from "./pull-t
 /** A primary pointer that is a finger: the only input pull to refresh answers. */
 export const PULL_TO_REFRESH_POINTER_QUERY = "(pointer: coarse)";
 
+/**
+ * How the pull looks. `default` (iOS and every other touch screen), as in
+ * the iOS app: the content moves down with the pull and the indicator sits in
+ * the space it opens. `android` follows Material 3: the indicator travels
+ * down over the content, which stays still, and arming the pull gives a
+ * short vibration.
+ */
+export type PullToRefreshPlatform = "default" | "android";
+
+/** The one platform check: Android, by its user agent (Client Hints first). */
+export function detectPullToRefreshPlatform(): PullToRefreshPlatform {
+  if (typeof navigator === "undefined") return "default";
+  const hints = (navigator as Navigator & { userAgentData?: { platform?: string } }).userAgentData;
+  if (hints?.platform) return hints.platform === "Android" ? "android" : "default";
+  return /\bAndroid\b/i.test(navigator.userAgent) ? "android" : "default";
+}
+
+/** The haptic tick on Android when the pull arms, where the browser has one. */
+export const PULL_TO_REFRESH_HAPTIC_MS = 10;
+
+function hapticTick() {
+  if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
+    navigator.vibrate(PULL_TO_REFRESH_HAPTIC_MS);
+  }
+}
+
+const subscribeNever = () => () => undefined;
+const defaultSnapshot = (): PullToRefreshPlatform => "default";
+
 export type UsePullToRefreshOptions = {
   /**
    * Reload the page's snapshot. The indicator holds until the promise
@@ -24,12 +53,14 @@ export type UsePullToRefreshOptions = {
   onRefresh: () => Promise<unknown>;
   /** Turn the gesture off, such as while the first load is still running or a search is empty. */
   disabled?: boolean;
-  /** Pull distance, after damping, that refreshes on release. Default 56px. */
+  /** Pull distance, after damping, that arms the refresh. Default 100px. */
   threshold?: number;
-  /** The furthest the indicator follows the finger. Default 72px. */
+  /** The furthest the indicator follows the finger. Default 140px. */
   maxDistance?: number;
-  /** The indicator's height while refreshing. Default 36px. */
+  /** The indicator's height while refreshing. Default 60px. */
   holdDistance?: number;
+  /** Override the detected platform, such as in a preview. */
+  platform?: PullToRefreshPlatform;
 };
 
 export type PullToRefresh = {
@@ -37,8 +68,10 @@ export type PullToRefresh = {
   state: PullToRefreshState;
   /** The indicator's height in px. */
   distance: number;
-  /** How far towards the threshold the pull is, from 0 to 1; 1 while refreshing. */
+  /** How far towards the threshold the pull is, from 0 to 1; 1 once armed and while refreshing. */
   progress: number;
+  /** Which platform's look the indicator takes. */
+  platform: PullToRefreshPlatform;
 };
 
 function subscribeCoarse(onChange: () => void) {
@@ -68,7 +101,8 @@ function ignoredTarget(target: EventTarget | null) {
  * threshold calls `onRefresh`; render a `PullToRefreshIndicator` with the
  * result as the scroller's first child.
  *
- * It does nothing on a fine pointer. While it is on, the scroller gets
+ * On Android it takes Material 3's look (`PullToRefreshPlatform`). It does
+ * nothing on a fine pointer. While it is on, the scroller gets
  * `overscroll-behavior-y: contain`, so a browser tab's own pull to reload
  * doesn't run as well. `scrollRef` is read when the hook turns on; a
  * scroller that is replaced later needs the hook remounted (a `key`).
@@ -81,9 +115,16 @@ export function usePullToRefresh(
     threshold = DEFAULT_PULL_GESTURE_CONFIG.threshold,
     maxDistance = DEFAULT_PULL_GESTURE_CONFIG.maxDistance,
     holdDistance = DEFAULT_PULL_GESTURE_CONFIG.holdDistance,
+    platform: platformOverride,
   }: UsePullToRefreshOptions,
 ): PullToRefresh {
   const coarse = useSyncExternalStore(subscribeCoarse, coarseSnapshot, () => false);
+  const detected = useSyncExternalStore(
+    subscribeNever,
+    detectPullToRefreshPlatform,
+    defaultSnapshot,
+  );
+  const platform = platformOverride ?? detected;
   const enabled = coarse && !disabled;
   const [gesture, setGesture] = useState<PullGesture>(IDLE_PULL_GESTURE);
   const gestureRef = useRef<PullGesture>(IDLE_PULL_GESTURE);
@@ -104,6 +145,7 @@ export function usePullToRefresh(
         setGesture(next.gesture);
       }
       if (next.gesture.phase !== "tracking") clearTimeout(holdTimer);
+      if (next.armed && platform === "android") hapticTick();
       if (next.refresh) {
         const settle = () => {
           if (live) dispatch({ type: "settle" });
@@ -178,13 +220,14 @@ export function usePullToRefresh(
       gestureRef.current = IDLE_PULL_GESTURE;
       setGesture(IDLE_PULL_GESTURE);
     };
-  }, [enabled, scrollRef, onRefreshRef, threshold, maxDistance, holdDistance]);
+  }, [enabled, scrollRef, onRefreshRef, threshold, maxDistance, holdDistance, platform]);
 
   const state = pullState(gesture);
   const distance = state === "idle" ? 0 : gesture.distance;
   return {
     state,
     distance,
-    progress: state === "refreshing" ? 1 : pullProgress(distance, threshold),
+    progress: state === "refreshing" || gesture.armed ? 1 : pullProgress(distance, threshold),
+    platform,
   };
 }

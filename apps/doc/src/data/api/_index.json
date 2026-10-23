@@ -999,7 +999,7 @@
       "PullToRefreshIndicator"
     ],
     "status": "experimental",
-    "description": "The space the pull opens at the top of the scroller, with the pixel spinner in it. Render it as the scroller's first child, so the content moves down with the pull. It holds a polite live region that announces `label` while refreshing."
+    "description": "The pull's indicator, with the DS Spinner in it. Render it as the scroller's first child: by default it is the space the pull opens, so the content moves down with the pull; on Android it travels down over the content instead (Material 3). It holds a polite live region that announces `label` while refreshing."
   },
   "radio-group": {
     "names": [

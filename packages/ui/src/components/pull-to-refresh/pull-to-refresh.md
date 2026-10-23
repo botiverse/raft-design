@@ -16,7 +16,7 @@ Pull to refresh reloads a page when a person pulls its list down from the top wi
 pull-to-refresh/compositions/preview
 ```
 
-It is a hook, `usePullToRefresh`, on the page's existing scroll container, and a part, `PullToRefreshIndicator`, that you render as that container's first child. The browser draws no pull to refresh of its own inside a scroll container or in the installed web app (`display: standalone`), so phone web draws this one. The iOS and Android apps use their own control; this one's indicator, the pixel spinner whose lit pixel walks with the pull, is theirs.
+It is a hook, `usePullToRefresh`, on the page's existing scroll container, and a part, `PullToRefreshIndicator`, that you render as that container's first child. The browser draws no pull to refresh of its own inside a scroll container or in the installed web app (`display: standalone`), so phone web draws this one. The iOS and Android apps use their own control, and this one is tuned to feel the same: its numbers are the iOS app's (mobile #3553), and on Android it takes Material 3's shape ([On Android](#on-android)). Its indicator is the design system's loading icon, the [Spinner](../spinner/spinner.md), on every platform: never the platform's own spinner (decided by artin).
 
 ## When to use
 
@@ -32,8 +32,8 @@ Never put pull to refresh on a realtime page: a page that needs a pull to show w
 
 ## Anatomy
 
-- `usePullToRefresh(scrollRef, { onRefresh, disabled })`: required. The gesture on the scroll container `scrollRef` points at. It returns the pull: its state (`idle`, `pulling`, `refreshing`), its distance and its progress towards the threshold.
-- `PullToRefreshIndicator`: required. Takes the pull as `pull` and the announcement as `label`. It is the space the pull opens at the top of the list, with the [Spinner](../spinner/spinner.md) in it.
+- `usePullToRefresh(scrollRef, { onRefresh, disabled })`: required. The gesture on the scroll container `scrollRef` points at. It returns the pull: its state (`idle`, `pulling`, `refreshing`), its distance, its progress towards the threshold, and the platform whose shape it takes (`default` or `android`).
+- `PullToRefreshIndicator`: required. Takes the pull as `pull` and the announcement as `label`. It is the space the pull opens at the top of the list, with the [Spinner](../spinner/spinner.md) in it; on Android, a small surface that travels down over the list instead.
 
 ## States
 
@@ -41,18 +41,19 @@ Never put pull to refresh on a realtime page: a page that needs a pull to show w
 pull-to-refresh/compositions/states
 ```
 
-- **Pulling**: the spinner stands still and fades in with the pull, and its lit pixel walks clockwise one step for each quarter of the threshold, as in the native apps.
-- **Refreshing**: the spinner runs, and the space holds until the promise `onRefresh` returns settles.
+- **Pulling**: the spinner stands still and fades in with the pull, and its lit pixel walks clockwise one step for each quarter of the threshold (25px), so it shows how close a release is to refreshing. At the threshold the pull is armed: the spinner is fully in and the last pixel lit.
+- **Refreshing**: the spinner runs, and the indicator holds at 60px until the promise `onRefresh` returns settles.
 - **Failed**: the hook only ends the refresh. In `onRefresh`, keep the content on screen and show a `warning` toast with the same message as a failed first load ([Toast](../toast/toast.md)). Don't show a banner: what is on screen is still useful, only not the newest.
 
 ## Behavior
 
-| Value                                                          | Default | Option         |
-| -------------------------------------------------------------- | ------- | -------------- |
-| Damping: the indicator moves this share of the finger's travel | 0.42    |                |
-| Threshold: pulled this far on release, it refreshes            | 56px    | `threshold`    |
-| Furthest pull                                                  | 72px    | `maxDistance`  |
-| Height while refreshing                                        | 36px    | `holdDistance` |
+| Value                                                                 | Default         | Option         |
+| --------------------------------------------------------------------- | --------------- | -------------- |
+| Rubber band: the indicator moves this share of the finger's travel    | 0.55            |                |
+| Threshold: pulled this far, the pull is armed and a release refreshes | 100px           | `threshold`    |
+| Furthest pull                                                         | 140px           | `maxDistance`  |
+| Height while refreshing                                               | 60px            | `holdDistance` |
+| Snap-back, after the finger lifts or the refresh ends                 | 300ms, ease-out |                |
 
 - It answers a finger only. On a fine pointer (`pointer: fine`) the hook adds no listeners and the indicator stays at 0px.
 - A pull starts only when the scroll container is at its top, with one finger. Moving sideways or up first is a swipe or a scroll, not a pull.
@@ -60,10 +61,30 @@ pull-to-refresh/compositions/states
 - A touch that starts in a text field, a `select`, an editable element or anything inside `[data-pull-to-refresh-ignore]` never pulls. Put the attribute on drag handles and on anything else that moves with a finger, such as a slider or a carousel.
 - A finger held still for 500ms before it pulls is a long press: the pull lets go, so a menu or a drag can start ([States](../../../../../design/foundations/states.md#dragging-on-a-touch-screen)). A `contextmenu` or `dragstart` event, or a touch move another handler already took, also ends it.
 - While it is on, the scroll container gets `overscroll-behavior-y: contain`, so a browser tab doesn't also reload the whole page. The hook puts the old value back when it turns off.
+- An armed pull keeps the touch until the finger lifts: the page doesn't scroll under it.
 - A pull during a refresh does nothing.
-- With `prefers-reduced-motion`, the space opens and closes without its transition and the spinner doesn't run ([Motion](../../../../../design/foundations/motion.md)).
+- With `prefers-reduced-motion`, the indicator snaps back without its transition and the spinner doesn't run ([Motion](../../../../../design/foundations/motion.md)).
 
 `disabled` turns it off, such as before the first load has finished or while a search is empty. Don't derive it from the refresh itself: turning it off mid-refresh drops the indicator before the promise settles.
+
+### Why these numbers
+
+- **They are the iOS app's.** The mobile team settled them for the iOS app (mobile #3553) and the product lead approved them, so a pull feels the same in the app and on phone web.
+- **0.55** is the rubber band of iOS's own scroll views: the list lags the finger, so the pull reads as resistance. The threshold takes about 182px of finger travel, so a refresh needs a deliberate pull.
+- **The threshold latches.** Once the pull passes 100px it stays armed until the finger lifts, even if the finger moves back up first; a release then refreshes, as with iOS's `UIRefreshControl`. People who pull past the point and ease off still get the refresh they asked for. Only a cancel (the browser taking the touch, a second finger) lets an armed pull go.
+- **140px** is the ceiling: 40px past the threshold shows the pull is armed and still alive, and a hard stop there keeps a long drag from pushing the list off a small phone's screen.
+- **60px** while refreshing is the iOS app's height. It is below the threshold, so on release the indicator settles back up and gives the list back some of the room the pull took.
+- **The snap-back** takes 300ms with `ease-slide`, an ease-out curve that never passes its end: the indicator settles where it goes, with no overshoot or bounce, because a bounce would read as a second pull. With `prefers-reduced-motion` it snaps at once.
+
+### On Android
+
+On Android (by the user agent) the pull follows Material 3's pull to refresh, so it looks like the rest of the phone:
+
+- The indicator, the Spinner on a small `layer-popover` surface, travels down over the list. The list itself stays still: no rubber-band stretch of the content. The indicator still moves 0.55 of the finger's travel.
+- When the pull crosses the threshold, the phone ticks once (`navigator.vibrate(10)`), where the browser supports it. Elsewhere there is no vibration.
+- Everything else is the same: the numbers, the latch, the snap-back and the Spinner.
+
+`platform` overrides the detected platform, such as in a preview. Every other touch screen, iOS included, gets the default shape, in which the content moves down with the pull.
 
 ## Accessibility
 

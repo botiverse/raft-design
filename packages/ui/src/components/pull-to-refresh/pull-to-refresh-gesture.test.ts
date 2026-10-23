@@ -4,6 +4,7 @@ import {
   PULL_TO_REFRESH_DAMPING,
   PULL_TO_REFRESH_HOLD_DISTANCE,
   PULL_TO_REFRESH_MAX_DISTANCE,
+  PULL_TO_REFRESH_SNAP_BACK_MS,
   PULL_TO_REFRESH_THRESHOLD,
   pullDistance,
   pullProgress,
@@ -22,24 +23,40 @@ function run(events: PullGestureEvent[], from: PullGesture = IDLE_PULL_GESTURE) 
   let gesture = from;
   let refreshed = 0;
   let prevented = 0;
+  let armed = 0;
   for (const event of events) {
     const next = stepPullGesture(gesture, event);
     gesture = next.gesture;
     if (next.refresh) refreshed += 1;
     if (next.preventDefault) prevented += 1;
+    if (next.armed) armed += 1;
   }
-  return { gesture, refreshed, prevented };
+  return { gesture, refreshed, prevented, armed };
 }
 
 // A finger travel that damps to just past the threshold, and one just short of it.
 const PAST = Math.ceil(PULL_TO_REFRESH_THRESHOLD / PULL_TO_REFRESH_DAMPING) + 1;
 const SHORT = Math.floor(PULL_TO_REFRESH_THRESHOLD / PULL_TO_REFRESH_DAMPING) - 2;
 
+describe("the tuning", () => {
+  test("matches the iOS app (mobile #3553)", () => {
+    expect(PULL_TO_REFRESH_THRESHOLD).toBe(100);
+    expect(PULL_TO_REFRESH_HOLD_DISTANCE).toBe(60);
+    expect(PULL_TO_REFRESH_DAMPING).toBe(0.55);
+    expect(PULL_TO_REFRESH_MAX_DISTANCE).toBe(140);
+    expect(PULL_TO_REFRESH_SNAP_BACK_MS).toBe(300);
+  });
+});
+
 describe("pullDistance", () => {
-  test("damps the finger's travel and stops at the maximum", () => {
+  test("damps the finger's travel by 0.55 and stops at the ceiling", () => {
     expect(pullDistance(0)).toBe(0);
     expect(pullDistance(-20)).toBe(0);
-    expect(pullDistance(100)).toBeCloseTo(42);
+    expect(pullDistance(100)).toBeCloseTo(55);
+    // The threshold takes about 182px of finger travel, the ceiling about 255px.
+    expect(pullDistance(181)).toBeLessThan(PULL_TO_REFRESH_THRESHOLD);
+    expect(pullDistance(182)).toBeGreaterThanOrEqual(PULL_TO_REFRESH_THRESHOLD);
+    expect(pullDistance(250)).toBeCloseTo(137.5);
     expect(pullDistance(1000)).toBe(PULL_TO_REFRESH_MAX_DISTANCE);
   });
 });
@@ -47,7 +64,10 @@ describe("pullDistance", () => {
 describe("pullProgress and pullStep", () => {
   test("progress runs from 0 to 1 at the threshold", () => {
     expect(pullProgress(0)).toBe(0);
-    expect(pullProgress(PULL_TO_REFRESH_THRESHOLD / 2)).toBe(0.5);
+    expect(pullProgress(25)).toBe(0.25);
+    expect(pullProgress(50)).toBe(0.5);
+    expect(pullProgress(99)).toBe(0.99);
+    expect(pullProgress(100)).toBe(1);
     expect(pullProgress(PULL_TO_REFRESH_MAX_DISTANCE)).toBe(1);
   });
 
@@ -68,6 +88,44 @@ describe("stepPullGesture", () => {
     expect(gesture.phase).toBe("refreshing");
     expect(gesture.distance).toBe(PULL_TO_REFRESH_HOLD_DISTANCE);
     expect(pullState(gesture)).toBe("refreshing");
+  });
+
+  test("latches: past the threshold, then back above it, a release still refreshes", () => {
+    const pulled = run([start(), move(100 + PAST), move(100 + SHORT), move(100 + 20)]);
+    expect(pulled.armed).toBe(1);
+    expect(pulled.gesture.armed).toBe(true);
+    expect(pulled.gesture.distance).toBeLessThan(PULL_TO_REFRESH_THRESHOLD);
+    expect(pullState(pulled.gesture)).toBe("pulling");
+    const released = run([{ type: "end" }], pulled.gesture);
+    expect(released.refreshed).toBe(1);
+    expect(released.gesture.phase).toBe("refreshing");
+    expect(released.gesture.distance).toBe(PULL_TO_REFRESH_HOLD_DISTANCE);
+  });
+
+  test("an armed pull keeps the touch, even back past where it started", () => {
+    const { gesture, refreshed, prevented } = run([
+      start(),
+      move(100 + PAST),
+      move(80),
+      move(70, { atTop: false }),
+      { type: "end" },
+    ]);
+    expect(prevented).toBe(3);
+    expect(refreshed).toBe(1);
+    expect(gesture.phase).toBe("refreshing");
+  });
+
+  test("arms once, on the move that crosses the threshold (the Android haptic)", () => {
+    expect(run([start(), move(100 + SHORT)]).armed).toBe(0);
+    const crossed = run([start(), move(100 + SHORT), move(100 + PAST), move(100 + PAST + 40)]);
+    expect(crossed.armed).toBe(1);
+    expect(run([start(), move(100 + PAST), move(100 + SHORT), move(100 + PAST)]).armed).toBe(1);
+  });
+
+  test("a cancel still drops an armed pull", () => {
+    const { gesture, refreshed } = run([start(), move(100 + PAST), { type: "cancel" }]);
+    expect(refreshed).toBe(0);
+    expect(gesture).toEqual(IDLE_PULL_GESTURE);
   });
 
   test("a pull short of the threshold springs back without refreshing", () => {

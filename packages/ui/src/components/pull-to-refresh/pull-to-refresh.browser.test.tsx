@@ -1,9 +1,16 @@
+import "./pull-to-refresh.test.css";
 import { useRef } from "react";
 import { act, cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, expect, test, vi } from "vite-plus/test";
 import { PullToRefreshIndicator } from "./pull-to-refresh-indicator";
-import { PULL_TO_REFRESH_DAMPING, PULL_TO_REFRESH_HOLD_DISTANCE } from "./pull-to-refresh-gesture";
+import {
+  PULL_TO_REFRESH_DAMPING,
+  PULL_TO_REFRESH_HOLD_DISTANCE,
+  PULL_TO_REFRESH_SNAP_BACK_MS,
+  PULL_TO_REFRESH_THRESHOLD,
+} from "./pull-to-refresh-gesture";
 import { PULL_TO_REFRESH_POINTER_QUERY, usePullToRefresh } from "./use-pull-to-refresh";
+import type { PullToRefreshPlatform } from "./use-pull-to-refresh";
 
 // Real TouchEvents on rows inside a real scroller: the listeners a phone's
 // finger reaches. Headless Chromium has a fine pointer, so the coarse-pointer
@@ -37,9 +44,17 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-function Page({ onRefresh, disabled }: { onRefresh: () => Promise<unknown>; disabled?: boolean }) {
+function Page({
+  onRefresh,
+  disabled,
+  platform,
+}: {
+  onRefresh: () => Promise<unknown>;
+  disabled?: boolean;
+  platform?: PullToRefreshPlatform;
+}) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const pull = usePullToRefresh(scrollRef, { onRefresh, disabled });
+  const pull = usePullToRefresh(scrollRef, { onRefresh, disabled, platform });
   return (
     <div ref={scrollRef} data-testid="scroller" style={{ height: 300, overflowY: "auto" }}>
       <PullToRefreshIndicator pull={pull} label="Refreshing…" data-testid="indicator" />
@@ -78,12 +93,44 @@ function pullBy(target: Element, travel: number) {
 }
 
 const height = (element: HTMLElement) => element.getBoundingClientRect().height;
-const PAST = Math.ceil(56 / PULL_TO_REFRESH_DAMPING) + 10;
-const SHORT = Math.floor(56 / PULL_TO_REFRESH_DAMPING) - 10;
+const PAST = Math.ceil(PULL_TO_REFRESH_THRESHOLD / PULL_TO_REFRESH_DAMPING) + 10;
+const SHORT = Math.floor(PULL_TO_REFRESH_THRESHOLD / PULL_TO_REFRESH_DAMPING) - 10;
 
-function setup(options: { disabled?: boolean; onRefresh?: () => Promise<unknown> } = {}) {
+/** Waits out the snap-back. */
+const snapBack = () =>
+  act(() => new Promise((resolve) => setTimeout(resolve, PULL_TO_REFRESH_SNAP_BACK_MS + 100)));
+
+/** Reads `read` on every frame for the length of the snap-back and a little more. */
+async function sampleFrames(read: () => number) {
+  const samples: number[] = [];
+  const until = performance.now() + PULL_TO_REFRESH_SNAP_BACK_MS + 100;
+  await new Promise<void>((resolve) => {
+    const frame = () => {
+      samples.push(read());
+      if (performance.now() < until) requestAnimationFrame(frame);
+      else resolve();
+    };
+    requestAnimationFrame(frame);
+  });
+  return samples;
+}
+
+/** Each sample is at or above the next: it only ever moves one way, so it never overshoots. */
+function expectMonotonicDown(samples: number[]) {
+  for (let i = 1; i < samples.length; i += 1) {
+    expect(samples[i]).toBeLessThanOrEqual(samples[i - 1]! + 0.01);
+  }
+}
+
+function setup(
+  options: {
+    disabled?: boolean;
+    onRefresh?: () => Promise<unknown>;
+    platform?: PullToRefreshPlatform;
+  } = {},
+) {
   const onRefresh = vi.fn(options.onRefresh ?? (() => Promise.resolve()));
-  render(<Page onRefresh={onRefresh} disabled={options.disabled} />);
+  render(<Page onRefresh={onRefresh} disabled={options.disabled} platform={options.platform} />);
   return {
     onRefresh,
     scroller: screen.getByTestId("scroller"),
@@ -98,7 +145,7 @@ it("a pull past the threshold from the top refreshes, and the content moves down
   const move = pullBy(row, PAST);
   expect(move.defaultPrevented).toBe(true);
   expect(indicator.dataset.state).toBe("pulling");
-  expect(height(indicator)).toBeGreaterThanOrEqual(56);
+  expect(height(indicator)).toBeGreaterThanOrEqual(PULL_TO_REFRESH_THRESHOLD);
   expect(row.getBoundingClientRect().top - rowTop).toBeCloseTo(height(indicator), 0);
   expect(getComputedStyle(scroller).overscrollBehaviorY).toBe("contain");
   touch(row, "touchend", 100 + PAST);
@@ -113,7 +160,95 @@ it("a pull short of the threshold springs back without refreshing", async () => 
   await act(() => Promise.resolve());
   expect(onRefresh).not.toHaveBeenCalled();
   expect(indicator.dataset.state).toBe("idle");
+  await snapBack();
   expect(height(indicator)).toBe(0);
+});
+
+it("latches: past the threshold and back above it, the release still refreshes", () => {
+  const { onRefresh, indicator, row } = setup();
+  pullBy(row, PAST);
+  const back = touch(row, "touchmove", 100 + 40);
+  expect(back.defaultPrevented).toBe(true);
+  expect(indicator.dataset.state).toBe("pulling");
+  expect(height(indicator)).toBeLessThan(PULL_TO_REFRESH_THRESHOLD);
+  touch(row, "touchend", 100 + 40);
+  expect(onRefresh).toHaveBeenCalledTimes(1);
+  expect(indicator.dataset.state).toBe("refreshing");
+});
+
+it("snaps back in about 0.3s with no overshoot: down to the hold height, then to 0", async () => {
+  let finish: () => void = () => undefined;
+  const { indicator, row } = setup({
+    onRefresh: () => new Promise<void>((resolve) => (finish = resolve)),
+  });
+  pullBy(row, PAST + 60);
+  expect(height(indicator)).toBeGreaterThan(PULL_TO_REFRESH_HOLD_DISTANCE);
+  touch(row, "touchend", 100 + PAST + 60);
+  const toHold = await sampleFrames(() => height(indicator));
+  expectMonotonicDown(toHold);
+  expect(Math.min(...toHold)).toBeGreaterThanOrEqual(PULL_TO_REFRESH_HOLD_DISTANCE - 0.01);
+  expect(toHold.at(-1)).toBeCloseTo(PULL_TO_REFRESH_HOLD_DISTANCE, 1);
+  // It animates rather than jumping: some frame lands between the two heights.
+  expect(toHold.some((h) => h > PULL_TO_REFRESH_HOLD_DISTANCE + 1 && h < toHold[0]! - 1)).toBe(
+    true,
+  );
+
+  await act(async () => finish());
+  const toZero = await sampleFrames(() => height(indicator));
+  expectMonotonicDown(toZero);
+  expect(Math.min(...toZero)).toBeGreaterThanOrEqual(0);
+  expect(toZero.at(-1)).toBe(0);
+});
+
+it("on Android, the indicator travels down over still content and ticks once when armed", async () => {
+  const vibrate = vi.fn(() => true);
+  Object.defineProperty(navigator, "vibrate", { value: vibrate, configurable: true });
+  try {
+    let finish: () => void = () => undefined;
+    const { onRefresh, indicator, row } = setup({
+      platform: "android",
+      onRefresh: () => new Promise<void>((resolve) => (finish = resolve)),
+    });
+    const surface = indicator.querySelector<HTMLElement>('[data-slot="pull-to-refresh-surface"]')!;
+    const rowTop = row.getBoundingClientRect().top;
+    const top = () => surface.getBoundingClientRect().top - indicator.getBoundingClientRect().top;
+
+    pullBy(row, SHORT);
+    expect(vibrate).not.toHaveBeenCalled();
+    pullBy(row, PAST);
+    expect(vibrate).toHaveBeenCalledTimes(1);
+    expect(vibrate).toHaveBeenCalledWith(10);
+    expect(indicator.dataset.platform).toBe("android");
+    expect(height(indicator)).toBe(0);
+    expect(row.getBoundingClientRect().top).toBe(rowTop);
+    expect(top()).toBeGreaterThan(0);
+
+    touch(row, "touchend", 100 + PAST);
+    expect(onRefresh).toHaveBeenCalledTimes(1);
+    const toHold = await sampleFrames(top);
+    expectMonotonicDown(toHold);
+    expect(Math.min(...toHold) + height(surface)).toBeGreaterThanOrEqual(
+      PULL_TO_REFRESH_HOLD_DISTANCE - 0.01,
+    );
+    expect(toHold.at(-1)! + height(surface)).toBeCloseTo(PULL_TO_REFRESH_HOLD_DISTANCE, 1);
+    expect(row.getBoundingClientRect().top).toBe(rowTop);
+    await act(async () => finish());
+  } finally {
+    Reflect.deleteProperty(navigator, "vibrate");
+  }
+});
+
+it("never vibrates outside Android", () => {
+  const vibrate = vi.fn(() => true);
+  Object.defineProperty(navigator, "vibrate", { value: vibrate, configurable: true });
+  try {
+    const { row } = setup({ platform: "default" });
+    pullBy(row, PAST);
+    touch(row, "touchend", 100 + PAST);
+    expect(vibrate).not.toHaveBeenCalled();
+  } finally {
+    Reflect.deleteProperty(navigator, "vibrate");
+  }
 });
 
 it("does not start when the scroller is not at the top", () => {
@@ -160,7 +295,7 @@ it("holds the indicator and announces until the refresh's promise settles", asyn
   });
   pullBy(row, PAST);
   touch(row, "touchend", 100 + PAST);
-  await act(() => new Promise((resolve) => setTimeout(resolve, 300)));
+  await snapBack();
   expect(onRefresh).toHaveBeenCalledTimes(1);
   expect(indicator.dataset.state).toBe("refreshing");
   expect(height(indicator)).toBe(PULL_TO_REFRESH_HOLD_DISTANCE);

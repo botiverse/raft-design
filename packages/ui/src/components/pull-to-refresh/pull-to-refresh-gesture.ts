@@ -6,14 +6,31 @@ import { TOUCH_DRAG_HOLD_MS, TOUCH_DRAG_TOLERANCE_PX } from "../../lib/touch-dra
  * file owns every decision, so the rules can be tested without a DOM.
  */
 
+// The numbers are the iOS app's (mobile #3553), so a pull feels the same in
+// the app and on phone web.
+
 /** How far the indicator has to be pulled, after damping, for a release to refresh. */
-export const PULL_TO_REFRESH_THRESHOLD = 56;
-/** The furthest the indicator follows the finger. */
-export const PULL_TO_REFRESH_MAX_DISTANCE = 72;
+export const PULL_TO_REFRESH_THRESHOLD = 100;
+/**
+ * The furthest the indicator follows the finger. 40px past the threshold is
+ * enough to show the pull is armed and still going; any further and a long
+ * drag would push the list off a small phone's screen.
+ */
+export const PULL_TO_REFRESH_MAX_DISTANCE = 140;
 /** The indicator's height while the refresh runs. */
-export const PULL_TO_REFRESH_HOLD_DISTANCE = 36;
-/** The indicator moves this fraction of the finger's travel: it lags, so the pull reads as resistance. */
-export const PULL_TO_REFRESH_DAMPING = 0.42;
+export const PULL_TO_REFRESH_HOLD_DISTANCE = 60;
+/**
+ * The rubber band: the indicator moves this fraction of the finger's travel,
+ * so it lags and the pull reads as resistance. 0.55 is iOS's own
+ * scroll-view constant.
+ */
+export const PULL_TO_REFRESH_DAMPING = 0.55;
+/**
+ * How long the indicator takes to go back, to the hold height or to 0, once
+ * the finger lifts or the refresh ends: ease-out (`ease-slide`), with no
+ * overshoot. Instant with reduced motion.
+ */
+export const PULL_TO_REFRESH_SNAP_BACK_MS = 300;
 /** Finger travel before the page stops scrolling and the pull takes over. */
 export const PULL_TO_REFRESH_SLOP = 6;
 /** A finger held this long before it pulls is a long press (a menu, a drag), not a pull. */
@@ -55,9 +72,20 @@ export type PullGesture = {
   startX: number;
   startY: number;
   distance: number;
+  /**
+   * The pull has passed the threshold. It stays armed until the finger
+   * lifts, even if it moves back up: a release then refreshes, as on iOS.
+   */
+  armed: boolean;
 };
 
-export const IDLE_PULL_GESTURE: PullGesture = { phase: "idle", startX: 0, startY: 0, distance: 0 };
+export const IDLE_PULL_GESTURE: PullGesture = {
+  phase: "idle",
+  startX: 0,
+  startY: 0,
+  distance: 0,
+  armed: false,
+};
 
 export type PullGestureEvent =
   | { type: "start"; x: number; y: number; fingers: number; atTop: boolean; ignored: boolean }
@@ -76,6 +104,8 @@ export type PullGestureStep = {
   preventDefault: boolean;
   /** Call `onRefresh` now. */
   refresh: boolean;
+  /** This step armed the pull: it has just crossed the threshold (for the Android haptic). */
+  armed: boolean;
 };
 
 /** How far the indicator is for a finger that has travelled `delta` px down. */
@@ -102,11 +132,17 @@ export function pullStep(progress: number): 0 | 1 | 2 | 3 {
 /** The state the indicator shows for a gesture. */
 export function pullState(gesture: PullGesture): PullToRefreshState {
   if (gesture.phase === "refreshing") return "refreshing";
-  return gesture.phase === "pulling" && gesture.distance > 0 ? "pulling" : "idle";
+  if (gesture.phase !== "pulling") return "idle";
+  return gesture.distance > 0 || gesture.armed ? "pulling" : "idle";
 }
 
-function step(gesture: PullGesture, preventDefault = false, refresh = false): PullGestureStep {
-  return { gesture, preventDefault, refresh };
+function step(
+  gesture: PullGesture,
+  preventDefault = false,
+  refresh = false,
+  armed = false,
+): PullGestureStep {
+  return { gesture, preventDefault, refresh, armed };
 }
 
 /** The next gesture for an event. */
@@ -122,11 +158,14 @@ export function stepPullGesture(
   switch (event.type) {
     case "start":
       if (event.fingers !== 1 || !event.atTop || event.ignored) return step(IDLE_PULL_GESTURE);
-      return step({ phase: "tracking", startX: event.x, startY: event.y, distance: 0 });
+      return step({ ...IDLE_PULL_GESTURE, phase: "tracking", startX: event.x, startY: event.y });
 
     case "move": {
       if (gesture.phase === "idle") return step(gesture);
-      if (event.fingers !== 1 || !event.atTop) return step(IDLE_PULL_GESTURE);
+      if (event.fingers !== 1) return step(IDLE_PULL_GESTURE);
+      // An armed pull keeps the touch until the finger lifts: the hook stops
+      // the scroll, so the scroller can't leave the top under it.
+      if (!event.atTop && !gesture.armed) return step(IDLE_PULL_GESTURE);
       const dx = event.x - gesture.startX;
       const dy = event.y - gesture.startY;
       if (gesture.phase === "tracking") {
@@ -138,7 +177,13 @@ export function stepPullGesture(
         if (dy <= PULL_TO_REFRESH_SLOP) return step(gesture);
       }
       const distance = pullDistance(dy, config.maxDistance);
-      return step({ ...gesture, phase: "pulling", distance }, dy > PULL_TO_REFRESH_SLOP);
+      const armed = gesture.armed || distance >= config.threshold;
+      return step(
+        { ...gesture, phase: "pulling", distance, armed },
+        armed || dy > PULL_TO_REFRESH_SLOP,
+        false,
+        armed && !gesture.armed,
+      );
     }
 
     case "hold":
@@ -147,7 +192,7 @@ export function stepPullGesture(
       return step(gesture.phase === "tracking" ? IDLE_PULL_GESTURE : gesture);
 
     case "end":
-      if (gesture.phase === "pulling" && gesture.distance >= config.threshold) {
+      if (gesture.phase === "pulling" && gesture.armed) {
         return step(
           { ...gesture, phase: "refreshing", distance: config.holdDistance },
           false,
