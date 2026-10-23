@@ -1,3 +1,17 @@
+## [0.30.0](https://github.com/botiverse/raft-design/compare/v0.29.0...v0.30.0) (2026-10-23)
+
+### Design System
+
+- **A dialog whose job is to choose keeps an open list**: when choosing is the dialog's main content (a computer to move an agent to, people to add), the choices stay open as a list at any count, not a select: a radio circle for one choice, a checkbox for several. A search field shows always when people look for something they know by name, and from 6 choices when they choose by comparing. Filtering never clears the choice; the chosen rows stay first. A row may have two description lines, and a details button at its end outside the row's label. ([#767](https://github.com/botiverse/raft-design/pull/767), [#772](https://github.com/botiverse/raft-design/pull/772))
+  - Why: a dropdown hides what people came to compare (stdrc, xxchan).
+  - Affects: a rule for products; raft-ui adds `ChoiceList` (wip).
+  - Docs: https://raft-design.botiverse.build/components/choice-list/
+
+### Added
+
+- **ChoiceList** (wip, `@botiverse/raft-ui/wip`): an always-open list to choose one (`value: string | null`) or several (`multiple`, `string[]`), built on Base UI RadioGroup / CheckboxGroup. `items` take a label, search text, up to two description lines, media, a row-end action and disabled; `search="auto" | "always"`; `searchLabel` and `clearSearchLabel` are required. Rows are 36px with a mouse and 44px on a touch screen. ([#772](https://github.com/botiverse/raft-design/pull/772))
+  - Docs: https://raft-design.botiverse.build/components/choice-list/
+
 ## [0.29.0](https://github.com/botiverse/raft-design/compare/v0.28.0...v0.29.0) (2026-10-23)
 
 ### Design System
