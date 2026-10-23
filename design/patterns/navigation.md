@@ -152,6 +152,15 @@ Decided on 2026-10-22 by stdrc (D1a, task #152).
 - When people come back from one of the server's pages, give focus back to the server tab, so a keyboard or a screen reader picks up where it left off.
 - Keep the workspace button in Home's top bar. It opens the same server list and footer actions, without the server's pages, as a popover anchored under the top bar, 8px from each side. It names the server at the top of the page people land on, so one switcher appears in two places, with one list.
 
+#### The server in the apps' desktop mode
+
+Decided on 2026-10-23 by Jasper, on sindresorhus's proposal (task #8).
+
+- From 840dp, where the apps show the rail ([Responsive layout](./responsive.md#structure)), the server is the workspace tile in the rail's header and nowhere else: the rail has no server tab. Two entries to the same server side by side make people wonder whether they do different things. The web has one, the workspace button at the top left.
+- The tile opens the server tab's popover next to it: the server list, the footer actions, then the server's pages. The apps' rail keeps the phone's destinations, so Members and Computers have no item on it, and the popover is where they live, as on a phone.
+- Leave Settings out of the popover's row there: it is already at the bottom of the rail, as on the web, and one place has one button. The row holds Members and Computers, and a feedback reply's dot stays on the rail's Settings.
+- Show the attention dot on the tile's avatar only when another server has unread items, the same rule as the server tab's.
+
 ### Several views of one place
 
 A place can hold several kinds of content, such as an agent's profile and its activity, or a channel's chat, tasks and files.

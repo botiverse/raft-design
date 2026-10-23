@@ -78,4 +78,4 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 
 ## Rules
 
-- Make the workspace tile ink with the server's initial in yellow. It opens the server list next to the tile ([Built from existing parts](../../../../../design/components/overview.md#switching-servers)).
+- Make the workspace tile ink with the server's initial in yellow. It opens the server list next to the tile ([Built from existing parts](../../../../../design/components/overview.md#switching-servers)). In the mobile apps' desktop mode the tile is the only server entry and opens the phone server tab's popover instead, with Members and Computers but not Settings, which is at the rail's bottom ([Navigation](../../../../../design/patterns/navigation.md#the-server-in-the-apps-desktop-mode)).
