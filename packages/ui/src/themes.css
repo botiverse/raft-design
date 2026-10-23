@@ -6,7 +6,7 @@
    the app is Raft Yellow, the foundation itself. */
 
 /* The frame decorations components draw (AppRail; the app's top bar via
-   bg-frame-decor-top). none unless the theme has decor and it is on. */
+   frame-decor-top). none unless the theme has decor and it is on. */
 :root,
 .light,
 .dark {

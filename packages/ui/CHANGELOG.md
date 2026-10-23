@@ -1,3 +1,93 @@
+## [0.25.0](https://github.com/botiverse/raft-design/compare/v0.24.0...v0.25.0) (2026-10-23)
+
+### Design System
+
+- **Themes: a frame, never a new palette**: a person can pick a theme for themselves, and it follows their account to every server. Raft Yellow, the foundation itself, stays the default; beside it are Boring Gray and nine avatar-series themes (Bots, Critters, Space, Desk, Food, Quest, Weather, Plants, Spooky). A theme may recolor only the frame (rail, web top bar, phone top bar), the sidebar and, in dark mode, the canvas, cards and popups, tinted to its hue. The pink primary button, unread and @ counts, status lights, warnings and errors look the same in every theme. Every theme has a light and a dark version. An avatar-series theme can draw its series' pixel sprites on the empty parts of the frame, and the person can turn them off. Boring Gray is the one theme that also changes the brand: where you are is a gray fill with ink type, not yellow. It applies to AppRail and SidebarItem. ([#754](https://github.com/botiverse/raft-design/pull/754))
+  - Why: the frame is on every screen but nobody reads it, so it can carry a person's choice of look; keeping every meaning fixed means someone who switches themes doesn't have to learn the product again. In dark mode the surfaces take the theme's hue because a neutral black panel inside a colored frame looked pasted on.
+  - Affects: Navigation and States: "where you are is always yellow" now has one exception, Boring Gray, where `brand` and its washes are neutral grays and `brand-edge` is transparent. Sprites go only on the web top bar right of the search field (from 1024px) and on the desktop rail under its items, never where they could be taken for a control, an avatar or a status, and never behind text.
+  - Docs: https://raft-design.botiverse.build/foundations/themes/#principles
+- **The first frame is the settled one**: draw the first frame the way it will stay. Read what decides a layout (a remembered width, a collapsed section, a view mode, the viewport, the pointer, the platform) before the first paint, not in an effect after mount. Measure and decide in a layout effect, not in the next animation frame. While data reloads, keep a part's presence and size, such as counts and the controls that depend on them, at their last values until the new answer arrives. A placeholder, such as the fallback of a lazily loaded panel, takes the size and place of what it stands for. ([#748](https://github.com/botiverse/raft-design/pull/748))
+  - Why: a frame drawn from a "not known yet" default and corrected a moment later is a flash: a row grows and shrinks back, a panel snaps to another width, and controls move under the pointer.
+  - Affects: a rule for products; nothing in raft-ui changes. Feedback's skeleton rule now points to it.
+  - Docs: https://raft-design.botiverse.build/patterns/responsive/#the-first-frame-is-the-settled-one
+- **A row with a fill: one line height, no mark taller than the line**: in a row whose items share the first baseline, such as a task row, every text takes the main text's line height, and a taller hit area hangs into the padding instead of making the row taller. A row that centers its items (`items-center`), as every raft-ui list row does, needs neither. ([#750](https://github.com/botiverse/raft-design/pull/750))
+  - Why: a smaller text has a shorter line box, so a Space Mono group sat 3px lower than the title and a mark centered in it sat 1.5px below the row's center; a 32px button made the row taller and the text sat 2.5px above the center of the hover fill.
+  - Affects: give the row `leading-(--text-callout--line-height)` (and set it on sizes that set their own); `text-mono-meta` and `text-caption` 18px → 22px line on such a row.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/#text-of-different-sizes-on-one-line
+- **Grab handles have round ends**: round is now for switches, radios and grab handles: the bar at a bottom sheet's top edge and the bar in a gap between side cards. It applies to Drawer. ([#747](https://github.com/botiverse/raft-design/pull/747))
+  - Why: every platform draws a grab handle with round ends (the iOS sheet grabber, Material's drag handle), and square ends on a 4px bar read as a cut edge, not something to take hold of.
+  - Affects: `rounded-full`: switches and radios only → switches, radios and grab handles. A bottom sheet's grab handle is a 36 × 4px bar in `line-seam`.
+  - Docs: https://raft-design.botiverse.build/foundations/shape/#principles
+- **The gap handle's bar follows the pointer**: on hover, the 56 × 4px bar in a gap between side cards is centered on the pointer along the gap, kept half a bar inside each end, with round ends; while dragging it stays where the drag started, and with keyboard focus it sits in the middle. Where two gaps cross, the crossing gap's bar lights at the pointer and the other at its end against the corner. `ResizableHandle` still draws only the seam handle; products draw the gap handle themselves. ([#746](https://github.com/botiverse/raft-design/pull/746))
+  - Why: a gap has no line, so the bar is the only thing that shows where the hand is, and a bar fixed in the middle of a long edge looked unrelated to the pointer.
+  - Affects: hover bar: middle of the gap, `rounded-[1px]` → at the pointer, `rounded-full`. Touch has no hover, so there the bar stays in the middle.
+  - Docs: https://raft-design.botiverse.build/components/resizable/#the-gap-handle
+- **An app link shows its host wherever a touch can open it**: a chip for a link that an app previews shows the link's host after its title (`MessageReferenceSuffix`) on any device with touch input, including a laptop with a touch screen. Write the full host, dropping only a leading `www.`, never shortened to the registered domain, and an internationalized host in its ASCII form (`xn--…`). The title truncates first; if the host alone still doesn't fit, it loses its start, never its end. It applies to MessageItem and MessageReference. ([#749](https://github.com/botiverse/raft-design/pull/749), [#753](https://github.com/botiverse/raft-design/pull/753), [#755](https://github.com/botiverse/raft-design/pull/755))
+  - Why: the title is the app's own words and may say anything, and a tap opens the link without the hover card that shows where it goes on a desktop. A link someone can open without seeing where it goes is a safety problem, and the end of a host (`…review.attacker.example`) is the part that says where.
+  - Affects: suffix `hidden any-pointer-coarse:inline` (any touch input, not only the main pointer). A host that overflows is truncated at its start: `dir="ltr"` and `unicode-bidi: isolate` inside a right-to-left box, so the ellipsis lands at the start.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#app-links
+- **An app link is a plain link until Raft knows an app previews it**: before a message's previews are first read, an app's link is an ordinary link. Once someone allows an app's previews and Raft reads them again, each of that app's links is `MessageReferencePending capped` until its preview arrives. It applies to MessageItem. ([#753](https://github.com/botiverse/raft-design/pull/753))
+  - Why: until the previews are read, the client can't tell an app's link from any other.
+  - Affects: pending chip shown while any preview loads → only for links of an app whose previews are allowed, after they are read again.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#app-links
+- **Read receipts on a mention: on a touch screen the check alone says it**: there is no hover card on a touch screen, and tapping a mention opens the agent's profile, so the check is the whole answer there: no mark means not read yet. Don't add a long press or a popup only for this line. It applies to MessageItem. ([#745](https://github.com/botiverse/raft-design/pull/745))
+  - Why: a gesture for one line of text is more to learn than it tells.
+  - Affects: a rule for products; the check's own word ("Read") still reaches a screen reader.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#read-receipts-on-a-mention
+- **The message menu: its order written down**: the menu opens with the message's full date and time as a label that can't be chosen, then the 7 quick reactions and a `smile-plus` button that opens every emoji, then the actions in three sections by what they do to the message: keep going on it (Reply in Thread, Follow or Unfollow Thread, the task action), take it elsewhere (Copy Link, Copy Markdown, Forward, Select Message), and just for me (Save or Remove from Saved, Translate). A section with nothing in it is left out with its separator. It applies to DropdownMenu, ContextMenu and MessageReactionQuickRow. ([#751](https://github.com/botiverse/raft-design/pull/751))
+  - Why: the order lived only in the compositions; it is now a rule, grouped by what each action does to the message.
+  - Affects: 8 buttons of 36px make the menu 316px wide, wider than its 240px minimum; the actions take the same width.
+  - Docs: https://raft-design.botiverse.build/components/dropdown-menu/#the-message-menu
+
+### Added
+
+- **Themes**: a new export, `@botiverse/raft-ui/themes.css`, with Boring Gray (`boring`) and the nine avatar-series themes (`bots`, `critters`, `space`, `desk`, `food`, `quest`, `weather`, `plants`, `spooky`), each with a light and a dark version. Import it after `foundation.css` and put `data-theme="<id>"` on the element that carries the mode class (`.light` / `.dark`); without `data-theme` the app is Raft Yellow. Put `data-theme-decor="off"` on the same element to turn the sprites off and keep the colors. A top bar you draw yourself takes the new `frame-decor-top` utility for its sprites; `frame-decor-rail` is the rail's, which AppRail already draws. ([#754](https://github.com/botiverse/raft-design/pull/754))
+  - Why: see Themes: a frame, never a new palette, above.
+  - Affects: a theme overrides only `layer-frame`, `layer-frame-active`, `foreground-on-frame` (and `-muted`, `-active`), `fill-frame-medium`, `line-frame-active` and `layer-sidebar`; in dark mode also `layer-canvas`, `layer-card` and `layer-popover`; Boring Gray also `brand`, `brand-soft`, `brand-strong`, `brand-glow`, `brand-edge` and `selection`. `frame-decor-top` paints `--frame-decor-top` 72px from the right end, from 1024px wide only; both are `none` without a decorated theme. Themes are generated from `themes.json` (`vp run @botiverse/raft-ui#build:themes`).
+  - Docs: https://raft-design.botiverse.build/foundations/themes/#using-themes
+- **`brand-edge`** Tailwind color: `--color-brand-edge` maps the existing `--brand-edge` token (`border-brand-edge`, `ring-brand-edge`). ([#754](https://github.com/botiverse/raft-design/pull/754))
+  - Why: the edge of a selected navigation item has to follow the theme: ink by default, transparent in Boring Gray.
+  - Affects: `var(--brand-edge)`, which is `var(--sticker-ink)` in the foundation and `transparent` in Boring Gray.
+  - Docs: https://raft-design.botiverse.build/foundations/themes/#what-a-theme-may-change
+
+### Changed
+
+- **SidebarItem**: the active item's border takes `brand-edge` instead of `sticker-ink`, so in Boring Gray the selected row is a plain gray fill. It renders the same in Raft Yellow and the avatar-series themes. ([#754](https://github.com/botiverse/raft-design/pull/754))
+  - Why: see Themes: a frame, never a new palette, above.
+  - Affects: `data-active:border-sticker-ink` → `data-active:border-brand-edge`.
+  - Docs: https://raft-design.botiverse.build/foundations/themes/#the-themes
+- **AppRail**: the nav draws the theme's rail sprites as its last flex item, an `::after` pushed to the bottom under the items, up to 48 × 112px, which shrinks when the rail has less room so it never sits behind an item. Without a decorated theme it is empty. ([#754](https://github.com/botiverse/raft-design/pull/754))
+  - Why: see Themes: a frame, never a new palette, above.
+  - Affects: nav gains `after:mt-auto after:h-28 after:min-h-0 after:w-12 after:shrink after:content-[''] after:frame-decor-rail`. A nav `::after` of your own would replace it.
+  - Docs: https://raft-design.botiverse.build/foundations/themes/#decorations
+- **Drawer**: a bottom or top sheet's grab handle has round ends. ([#747](https://github.com/botiverse/raft-design/pull/747))
+  - Why: see Grab handles have round ends, above.
+  - Affects: handle `before:rounded-[1px]` → `before:rounded-full`.
+  - Docs: https://raft-design.botiverse.build/components/drawer/#rules
+- **MessageIcon**, **ChatIcon** and **ThreadIcon**: their lines are drawn at Lucide's weight. ([#751](https://github.com/botiverse/raft-design/pull/751))
+  - Why: at 1 they drew 0.89px at 16px, thinner than every Lucide icon beside them in a menu or a toolbar.
+  - Affects: `strokeWidth` 1 → 1.5 on the 18px grid (1.33px at 16px, as Lucide's 2 on its 24px grid).
+  - Docs: https://raft-design.botiverse.build/components/icons/#anatomy
+- **ThreadIcon**: both bubbles are outlined; the back one stops a stroke's width short of the front one on both sides, and both stay inside the 18px box with their stroke. ([#752](https://github.com/botiverse/raft-design/pull/752))
+  - Why: every icon in Raft is a line drawing at one weight, and a filled bubble read heavier than the Lucide icons beside it.
+  - Affects: front bubble `fill="currentColor"` → outline; the paths are redrawn, so the icon's shape changes slightly.
+  - Docs: https://raft-design.botiverse.build/components/icons/#anatomy
+
+### Fixed
+
+- **MessageReactionQuickRow**: the quick reactions line up with the menu's items: the first drawing starts 10px in, where the items' icons do. ([#751](https://github.com/botiverse/raft-design/pull/751))
+  - Why: with no side padding the reactions stood 3px left of the icons below them, so the column the eye follows down the menu stepped out at the top.
+  - Affects: `p-0` → `px-0.75 py-0` (3px at each side).
+  - Docs: https://raft-design.botiverse.build/components/dropdown-menu/#the-message-menu
+- **Banner** `size="sm"`: with a × (and no action button), the banner keeps the same room above and below as with a button, so the ×'s 32px hover fill stays 4px inside the banner's edges. ([#677](https://github.com/botiverse/raft-design/pull/677))
+  - Why: the room was kept only for an action button, so the ×'s hover fill reached the banner's edge.
+  - Affects: padding above and below with a × only: 8px → (32px − one line) / 2 + 4px, 9px on a desktop and 10px on a phone.
+  - Docs: https://raft-design.botiverse.build/components/banner/#sizes
+- **VirtualList**: scrolling up near the end of a list no longer snaps back, and on iOS the rows stay painted when older rows land at the top while the finger is still down. `onContentResize` is no longer called for rows above the view that the list measures and scrolls away exactly as you scroll up, since nothing in view moves and neither does the distance to the end. ([#683](https://github.com/botiverse/raft-design/pull/683))
+  - Why: a chat that follows the end from `onContentResize` and still counted the person as at the bottom scrolled back to the end, taking back the scroll that had mounted those rows; and when rows above the view shrank near the end, the browser's clamp and the list's own compensation both moved the view, so the rows in view jumped down. On iOS, at the top with the finger down, the pending compensation wasn't applied as a transform, so the rows were drawn below the view and a newly loaded older page showed blank.
+  - Affects: `onContentResize` still runs when content in view or below it changes, and when a pending scroll is replayed. The clamp is subtracted from the scroll compensation instead of being applied twice.
+  - Docs: https://raft-design.botiverse.build/components/virtual-list/#following-the-end
+
 ## [0.24.0](https://github.com/botiverse/raft-design/compare/v0.23.1...v0.24.0) (2026-10-23)
 
 ### Design System
