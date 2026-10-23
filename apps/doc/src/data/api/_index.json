@@ -1313,9 +1313,11 @@
   },
   "text-link": {
     "names": [
-      "TextLink"
+      "TextLink",
+      "TextLinkExternalIcon"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The ↗ after a link that leaves Raft (design/patterns/navigation.md#links-that-leave-raft): 14px, 2px after the text. It sits in an inline-flex box, so the link's underline stops at the text and never runs under the arrow."
   },
   "textarea": {
     "names": [

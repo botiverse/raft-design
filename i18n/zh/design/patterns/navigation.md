@@ -94,6 +94,24 @@ message-reference/compositions/app-link-pending
 - 在桌面上，悬停或聚焦标签片会打开应用的条目卡片，显示详情：编号、标题、用应用自己的话写的状态和一行详情、它的操作，以及应用的名称和主机名（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)）。Raft 不在上面使用应用的颜色。
 - 在手机上，点按标签片会打开链接。预览卡片在触屏上不会打开，所以把标签片做成真正的链接（`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`），在新标签页打开，对话留在原处。
 
+### 离开 Raft 的链接 {#links-that-leave-raft}
+
+会把人带到别的网站的控件，结尾加一个 ↗，让人在点之前就知道会离开 Raft。文档、定价、服务条款和隐私政策、App 的主页、TestFlight、Stripe、GitHub 都算。
+
+- 只用一个记号：Lucide 的 `ArrowUpRight`，不用方框带箭头的（`ExternalLink`、`SquareArrowOutUpRight`）。颜色和文字一样。
+- 放在结尾：
+  - TextLink：用 `TextLinkExternalIcon`，14px，和文字隔 2px；下划线只画在文字下面（[TextLink](../../packages/ui/src/components/text-link/text-link.md#leaving-raft)）。
+  - 按钮：放在结尾图标的位置，用按钮图标的大小。
+  - 菜单项：放在快捷键的位置，和其他项的快捷键对齐。
+  - 侧栏的行：放在行尾的位置，用 `foreground-hint`。
+- 在新标签页打开（`target="_blank" rel="noopener noreferrer"`），并给这个记号一段读屏会在文字后面念的说明："（在新标签页打开）"。桌面端同样的链接在系统浏览器里打开，样子不变。
+- Stripe 付款页和账单管理留在同一个标签页，因为付完会自己回到 Raft。它们同样以 ↗ 结尾；说明写去哪里（"（前往 Stripe）"）。
+- 这些不加 ↗：
+  - 登录往返（Google、GitHub、App 的登录）：会自己回来，用户不需要知道换过网站；
+  - 下载：用下载图标，也不离开当前页；
+  - 用户在消息里写的链接：本来就看得出是链接，悬停能看到地址，每条都加箭头太吵（App 链接卡片按 [MessageItem](../../packages/ui/src/components/message-item/message-item.md#app-links)）；
+  - Raft 里面的任何东西。想在新标签页打开 Raft 里的某个地方，用浏览器自己的手势；内部链接永远不加 ↗。
+
 ### 返回 {#going-back}
 
 - 返回和标签栏只显示其一，不能同时出现（原则 2）。顶部有返回的页面是从别处进入的，所以它盖住标签栏；没有返回的页面是标签的一级页面，所以它显示标签栏。移动应用和手机网页的每个页面都按这一条来判断。

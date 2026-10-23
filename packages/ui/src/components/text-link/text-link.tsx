@@ -1,5 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { ArrowUpRight } from "lucide-react";
+import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 
@@ -44,4 +46,27 @@ export function TextLink({ variant, className, render, ...props }: TextLinkProps
       slot: "text-link",
     },
   });
+}
+
+export type TextLinkExternalIconProps = {
+  /** Read by a screen reader after the link text, such as "(opens in a new tab)". Product copy, so the caller passes it. */
+  label?: string;
+  className?: string;
+};
+
+/**
+ * The ↗ after a link that leaves Raft (design/patterns/navigation.md#links-that-leave-raft):
+ * 14px, 2px after the text. It sits in an inline-flex box, so the link's
+ * underline stops at the text and never runs under the arrow.
+ */
+export function TextLinkExternalIcon({ label, className }: TextLinkExternalIconProps) {
+  return (
+    <span
+      data-slot="text-link-external-icon"
+      className={cn("ml-0.5 inline-flex align-[-2px]", className)}
+    >
+      <ArrowUpRight aria-hidden="true" focusable="false" className="size-3.5" strokeWidth={2} />
+      {label ? <span className="sr-only"> {label}</span> : null}
+    </span>
+  );
 }

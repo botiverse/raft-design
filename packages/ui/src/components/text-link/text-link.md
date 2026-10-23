@@ -59,6 +59,14 @@ text-link/compositions/disabled
 - Start with a verb, or name the place: Forgot Password, Sign Out, See All.
 - Use Title Case, like every button label ([Writing](../../../../../design/content/writing.md#casing)).
 
+## Leaving Raft
+
+A TextLink that goes to another site ends in `TextLinkExternalIcon`: Lucide's `ArrowUpRight` at 14px, 2px after the text, in the text's color. It sits in an inline-flex box, so the underline on hover stops at the text and never runs under the arrow. Pass `label` for a screen reader, "(opens in a new tab)"; it is product copy, so raft-ui doesn't write it. The rule for every control that leaves Raft is in [Navigation](../../../../../design/patterns/navigation.md#links-that-leave-raft).
+
+```example
+text-link/compositions/leaving-raft
+```
+
 ## Accessibility
 
 TextLink renders a native `button type="button"`. For a way somewhere, render a real link so it opens in a new tab and announces as a link: `render={<a href="…" />}`.
