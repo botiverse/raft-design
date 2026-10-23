@@ -1,3 +1,38 @@
+## [0.24.0](https://github.com/botiverse/raft-design/compare/v0.23.1...v0.24.0) (2026-10-23)
+
+### Design System
+
+- **Phone popups 8px from each screen edge**: on a phone, a popup about as wide as the screen is the screen's width less 8px on each side, at most 480px, and stops 8px from the edge it is pushed against, measured from the screen's edge, not the safe area. Its width comes from the positioner's `--available-width`, not `100vw`. It applies to NotificationCenter. ([#737](https://github.com/botiverse/raft-design/pull/737))
+  - Why: popups that open from the same phone top bar sat at different insets and widths, so they didn't line up with each other or sit evenly between the screen's edges; every popup that wide now takes the server list's 8px inset.
+  - Affects: inset 8px from both screen edges; width `min(var(--available-width), 480px)`. The 480px cap only reaches a phone on its side.
+  - Docs: https://raft-design.botiverse.build/foundations/elevation/#popups
+- **Located: focus on the item is the inset ring, and a message is an article**: an item that a keyboard jump focuses draws the 2px inset ring in `foreground`, inside the item and with its corners, only after keyboard input, never the browser's outline. A message is announced as an article named by its sender and its time. It applies to MessageItem. ([#740](https://github.com/botiverse/raft-design/pull/740))
+  - Why: the browser's outline is drawn outside the item with its own rounded corners, so on a message it framed the transparent gap above the row and a scroller cut it off, and a screen reader landing on a message heard its text with no sender or time; the ring now sits inside the item and the row carries its own name.
+  - Affects: focus on a jumped-to item: browser outline → `inset-ring-2 inset-ring-foreground` after keyboard input.
+  - Docs: https://raft-design.botiverse.build/foundations/states/#located
+
+### Breaking Changes
+
+- **MessageItem**: the row is an `article` named by its sender and its time. When it holds a `MessageItemSender` or `MessageItemSenderButton`, a `MessageItemTime` or a `MessageItemContinuationTime`, the row gets `role="article"` and `aria-labelledby` pointing at them, in that order, and those parts get ids raft-ui generates (an `id` you pass is kept and is the one the row points at). A screen reader announces, for example, "Atlas 2:20 PM" before the text; a continuation row is named by its time. A row with none of these parts and no `aria-label` or `aria-labelledby` stays a plain `div`. ([#740](https://github.com/botiverse/raft-design/pull/740))
+  - Why: a screen reader landing on a message, after a jump or with its reading keys, read the text with no sender or time; the row now carries its own role and name.
+  - Affects: every row with a sender or time part, role none (`div`) → `article`, with `aria-labelledby`; the sender and time parts gain an `id`. Your own `role` or `aria-labelledby` on `MessageItem` or its `render` element is left as is; your own `aria-label` drops the generated `aria-labelledby`, and a role that takes no name (`none`, `presentation`, `generic`) gets none.
+  - Migrate: don't render `MessageItem` as an `li` or put rows in a `list`: `role="article"` replaces `listitem`, and a list may hold only list items. Remove the list role from the timeline, or pass `role="listitem"` on `MessageItem` to keep the old semantics. Update tests and selectors that find rows by role or expect no `role` on the row. When `render` is a function, pass `role`, `aria-label` and `aria-labelledby` on `MessageItem`, since a function's props can't be read. Don't give `MessageItemSenderButton` an `aria-label` of its own: the row would read that instead of the visible name.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#accessibility
+
+### Changed
+
+- **MessageItem**: a focused row (`tabIndex={-1}`, set by the caller when a keyboard jump lands on it) shows the 2px inset ring in `foreground`, square like its hover, after keyboard input, and shows its toolbar; it never shows the browser's outline. After a click, nothing shows. raft-ui still doesn't make the row focusable. ([#740](https://github.com/botiverse/raft-design/pull/740))
+  - Why: see Located: focus on the item is the inset ring, above.
+  - Affects: focused row: browser outline → `outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground`. While the toolbar shows, its card covers part of the ring's top edge at the right.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#states
+
+### Fixed
+
+- **NotificationCenterPopup** `viewport="mobile"`: the popup is the screen's width less 8px on each side, at most 480px, and sits 8px from both screen edges, though it hangs from a bell at the right, lined up with the server list under the same top bar. Pass `collisionPadding` to change the inset. On desktop it is unchanged: 380px with Base UI's default collision padding. ([#737](https://github.com/botiverse/raft-design/pull/737))
+  - Why: see Phone popups 8px from each screen edge, above.
+  - Affects: width `min(92vw, 360px)` → `min(var(--available-width), 480px)`; collision padding Base UI's default → 8px with `viewport="mobile"`.
+  - Docs: https://raft-design.botiverse.build/components/notification-center/#behavior
+
 ## [0.23.1](https://github.com/botiverse/raft-design/compare/v0.23.0...v0.23.1) (2026-10-22)
 
 ### Fixed
