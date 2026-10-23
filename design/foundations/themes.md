@@ -22,7 +22,7 @@ A theme changes the frame and the surfaces around the content. It never changes 
 | Boring Gray | Near-white frame and sidebar, gray selection; no yellow, no ink edge on selection | None |
 | Bots, Critters, Space, Desk, Food, Quest, Weather, Plants, Spooky | One per avatar series in `design/assets/Agents`, colored after it | That series' sprites |
 
-Boring Gray is the one theme that also changes the brand: `brand` and its washes become neutral grays and `brand-edge` is transparent, so selected rows are a plain gray fill. Its selection keeps ink type in both modes, like every sticker ([Color](./color.md)), so in dark mode it is a light gray.
+Boring Gray is the one theme that also changes the brand, so it is the one exception to "where you are is yellow" ([Navigation](../patterns/navigation.md), [States](./states.md)): `brand` and its washes become neutral grays and `brand-edge` is transparent, so selected rows are a plain gray fill. Its selection keeps ink type in both modes, like every sticker ([Color](./color.md)), so in dark mode it is a light gray.
 
 ## What a theme may change
 
@@ -37,8 +37,8 @@ Anything else stays the foundation's value. A frame light enough for ink type us
 
 A decorated theme draws its series' sprites, at 2× and 3× pixel scale, only where the frame is empty:
 
-- on the web top bar, right of the search field (`frame-decor-top`);
-- on the desktop rail, above its foot (`frame-decor-rail`, drawn by AppRail).
+- on the web top bar, right of the search field (`frame-decor-top`), only from 1024px wide, where the centered search field leaves room for it;
+- on the desktop rail, under its items (`frame-decor-rail`, drawn by AppRail's nav as its last item). It is laid out after the items, so it never sits behind one, and a rail with less room shows less of it.
 
 Never put a sprite where it could be mistaken for a control, an avatar or a status, and never behind text.
 

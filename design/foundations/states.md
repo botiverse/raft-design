@@ -10,7 +10,7 @@ Every component shows its interaction states the same way. A component doc only 
 ## Principles
 
 - **Hover and press add an overlay, in two tiers.** They never change the fill; see [Motion](./motion.md). Large things people read hover with the subtle tier, small controls with the medium tier, and anything clickable presses with the medium tier ([Hover and press](#hover-and-press)). Selected items don't respond to hover, and fields don't hover. Text that can be clicked has no box to lay an overlay on, so it underlines on hover instead ([Clickable text](#clickable-text)). One named exception: a collapsible group heading only darkens ([Collapsible group headings](#collapsible-group-headings)).
-- **Selection has three meanings, and three looks.** Where you are in navigation is yellow, the item singled out in content is cyan, and a chosen value is ink.
+- **Selection has three meanings, and three looks.** Where you are in navigation is yellow (a gray fill in Boring Gray ([Themes](./themes.md#the-themes): someone chose the neutral look on purpose, and the selection keeps its fill and ink type, so where you are stays just as clear)), the item singled out in content is cyan, and a chosen value is ink.
 - **Disabled looks the same everywhere** and doesn't react to hover or press.
 
 ## Usage
