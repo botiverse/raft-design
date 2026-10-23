@@ -98,6 +98,22 @@ function value() {
   return screen.getByTestId("value").textContent;
 }
 
+const GROUPS = [
+  { value: "agents", label: "Agents" },
+  { value: "people", label: "People" },
+];
+
+function groupedItems(): ChoiceListItem[] {
+  return ["kirby", "noel", "mia", "ricky"].map((name, index) => ({
+    value: name,
+    label: name,
+    group: index < 2 ? "agents" : "people",
+    action: <Details name={name} />,
+  }));
+}
+
+function ignore() {}
+
 function row(name: string) {
   return screen.getByRole("radio", { name }).closest("label") as HTMLElement;
 }
@@ -195,10 +211,59 @@ it("with a mouse a one-line row is 36px; a description line adds its own height"
 it("with the search on, the frame scrolls inside a fixed height", () => {
   const many = [...NAMES, "io", "juno", "kepler", "luna"];
   render(<Picker items={makeItems(many)} />);
-  const frame = document.querySelector("[data-slot=choice-list-frame]") as HTMLElement;
-  expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(288.5);
-  expect(frame.scrollHeight).toBeGreaterThan(frame.clientHeight);
-  expect(getComputedStyle(frame).overflowY).toBe("auto");
+  const scroller = document.querySelector("[data-slot=choice-list-scroller]") as HTMLElement;
+  expect(scroller.getBoundingClientRect().height).toBeLessThanOrEqual(288.5);
+  expect(scroller.scrollHeight).toBeGreaterThan(scroller.clientHeight);
+  expect(getComputedStyle(scroller).overflowY).toBe("auto");
+});
+
+it("with groups, each action stays on its own row's name line, under the headings", () => {
+  render(
+    <div style={{ width: 360 }}>
+      <ChoiceList
+        aria-label="Members"
+        searchLabel="Search people"
+        clearSearchLabel="Clear search"
+        groups={GROUPS}
+        items={groupedItems()}
+        value={null}
+        onValueChange={ignore}
+      />
+    </div>,
+  );
+  for (const name of ["kirby", "noel", "mia", "ricky"]) {
+    const label = row(name).querySelector("[data-slot=choice-list-label]")!.getBoundingClientRect();
+    const button = screen
+      .getByRole("button", { name: `Details for ${name}` })
+      .getBoundingClientRect();
+    expect((button.top + button.bottom) / 2).toBeCloseTo((label.top + label.bottom) / 2, 0);
+  }
+  const heading = screen.getByText("People").getBoundingClientRect();
+  expect(heading.bottom).toBeLessThanOrEqual(row("mia").getBoundingClientRect().top + 0.5);
+  expect(heading.top).toBeGreaterThanOrEqual(row("noel").getBoundingClientRect().bottom - 0.5);
+});
+
+it("a footer stays in view under rows that scroll", () => {
+  const many = [...NAMES, "io", "juno", "kepler", "luna"];
+  render(
+    <div style={{ width: 360 }}>
+      <ChoiceList
+        aria-label="Target computer"
+        searchLabel="Search computers"
+        clearSearchLabel="Clear search"
+        items={makeItems(many)}
+        value={null}
+        onValueChange={ignore}
+        footer={<Button>Create an agent</Button>}
+      />
+    </div>,
+  );
+  const frame = document.querySelector("[data-slot=choice-list-frame]")!.getBoundingClientRect();
+  const scroller = document.querySelector("[data-slot=choice-list-scroller]") as HTMLElement;
+  scroller.scrollTop = scroller.scrollHeight;
+  const footer = screen.getByRole("button", { name: "Create an agent" }).getBoundingClientRect();
+  expect(footer.bottom).toBeLessThanOrEqual(frame.bottom + 0.5);
+  expect(footer.top).toBeGreaterThanOrEqual(scroller.getBoundingClientRect().bottom - 0.5);
 });
 
 it('search="always": with a mouse, focus starts in the box', () => {

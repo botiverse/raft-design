@@ -4,9 +4,18 @@ export const choiceList = tv({
   slots: {
     root: ["grid min-w-0 gap-2"],
     searchInput: ["[&::-webkit-search-cancel-button]:appearance-none"],
-    frame: ["min-w-0 rounded-container border border-line-hairline bg-layer-card p-1"],
+    frame: [
+      "flex min-w-0 flex-col overflow-hidden",
+      "rounded-container border border-line-hairline bg-layer-card",
+    ],
+    scroller: ["min-h-0 min-w-0 p-1"],
     rows: ["grid grid-cols-[minmax(0,1fr)_auto] gap-x-0 gap-y-0.5"],
     group: ["col-span-2 col-start-1 grid grid-cols-subgrid grid-rows-subgrid gap-x-0 gap-y-0.5"],
+    section: ["col-span-2 col-start-1 grid grid-cols-subgrid grid-rows-subgrid"],
+    heading: [
+      "col-span-2 px-2.5 pt-2 pb-1",
+      "font-sans text-caption font-bold text-foreground-hint",
+    ],
     item: [
       "col-span-2 flex min-w-0 items-start gap-2.5 rounded-chip px-2.5",
       "min-h-option py-option-inset",
@@ -28,10 +37,18 @@ export const choiceList = tv({
       "font-sans text-subhead",
     ],
     note: ["px-2.5 py-2 font-sans text-callout text-foreground-hint"],
+    footer: ["shrink-0 border-t border-line-seam"],
   },
   variants: {
     scroll: {
-      true: { frame: ["max-h-72 overflow-y-auto overscroll-contain"] },
+      true: { scroller: ["max-h-72 overflow-y-auto overscroll-contain"] },
+    },
+    fill: {
+      true: {
+        root: ["flex min-h-0 flex-1 flex-col"],
+        frame: ["min-h-0 flex-1"],
+        scroller: ["flex-1 overflow-y-auto overscroll-contain"],
+      },
     },
     hasAction: {
       true: { item: ["pr-11"] },
