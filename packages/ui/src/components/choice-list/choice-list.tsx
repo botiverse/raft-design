@@ -75,6 +75,13 @@ type ChoiceListCommonProps = {
    */
   searchValue?: string;
   onSearchValueChange?: (value: string) => void;
+  /**
+   * The values of the items that match the search text, in the order to show
+   * them, for a caller with its own search (a ranked people search shared
+   * with mentions). With it ChoiceList doesn't match `searchText` itself; it
+   * still keeps the chosen rows first and says when nothing matches.
+   */
+  matchedValues?: readonly string[];
   /** The clear button's accessible name. */
   clearSearchLabel: string;
   /** The line under the chosen rows when nothing else matches. */
@@ -162,14 +169,23 @@ function visibleItems(
   needle: string,
   pinned: readonly string[],
   chosen: readonly string[],
+  matchedValues: readonly string[] | undefined,
 ) {
   if (!needle) return { rows: items, noMatch: false };
-  const matches = (item: ChoiceListItem) => searchTextOf(item).toLowerCase().includes(needle);
-  const isPinned = (item: ChoiceListItem) => pinned.includes(item.value);
+  const matched = matchedValues ? new Set(matchedValues) : null;
+  const matches = (item: ChoiceListItem) =>
+    matched ? matched.has(item.value) : searchTextOf(item).toLowerCase().includes(needle);
+  const pinnedSet = new Set(pinned);
+  const isPinned = (item: ChoiceListItem) => pinnedSet.has(item.value);
   const top = items.filter(
     (item) => isPinned(item) || (chosen.includes(item.value) && !matches(item)),
   );
-  const rest = items.filter((item) => !top.includes(item) && matches(item));
+  // The caller's matches keep the caller's order (its ranking); our own keep the items'.
+  const byValue = matchedValues ? new Map(items.map((item) => [item.value, item])) : null;
+  // A value the caller's search returns twice is shown once, where it came first.
+  const ordered =
+    byValue && matched ? [...matched].flatMap((value) => byValue.get(value) ?? []) : items;
+  const rest = ordered.filter((item) => !top.includes(item) && matches(item));
   // A pinned row that matches is a match: "No match" only when none does.
   return { rows: [...top, ...rest], noMatch: !items.some(matches) };
 }
@@ -215,6 +231,7 @@ export function ChoiceList(props: ChoiceListProps) {
     defaultSearchValue = "",
     searchValue,
     onSearchValueChange,
+    matchedValues,
     clearSearchLabel,
     noMatchLabel,
     empty,
@@ -262,7 +279,7 @@ export function ChoiceList(props: ChoiceListProps) {
     setPinned(chosen);
   }
   const needle = searchable ? query.trim().toLowerCase() : "";
-  const { rows, noMatch } = visibleItems(items, needle, pinned, chosen);
+  const { rows, noMatch } = visibleItems(items, needle, pinned, chosen, matchedValues);
   const hasAction = rows.some((item) => item.action !== undefined && item.action !== null);
   const slots = choiceList({ scroll: searchable && !fill, fill });
 
