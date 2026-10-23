@@ -1,3 +1,10 @@
+## [0.32.1](https://github.com/botiverse/raft-design/compare/v0.32.0...v0.32.1) (2026-10-23)
+
+### Fixed
+
+- **ChoiceList** (wip): a row's name or description line that is cut off has its whole text as its `title` while it is cut off, so a long description can still be read with a mouse. ([#783](https://github.com/botiverse/raft-design/pull/783))
+  - Docs: https://raft-design.botiverse.build/components/choice-list/
+
 ## [0.32.0](https://github.com/botiverse/raft-design/compare/v0.31.0...v0.32.0) (2026-10-23)
 
 ### Added
