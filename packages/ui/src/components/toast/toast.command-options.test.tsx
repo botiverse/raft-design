@@ -136,3 +136,55 @@ test("toast progress defines countdown keyframes with reduced-motion fallback", 
   expect(source).toContain("prefers-reduced-motion: reduce");
   expect(source).toContain('[data-slot="toast-progress"]');
 });
+
+// A toast with an action, or an error, stays 8 seconds: time to read, then
+// act (toast.md#behavior).
+for (const [name, show] of [
+  [
+    "an action",
+    () => toast.success("Moved to #design.", { action: { label: "View" }, progress: true }),
+  ],
+  ["an error", () => toast.error("Couldn't copy the link.", { progress: true })],
+] as const) {
+  test(`a toast with ${name} stays 8 seconds by default`, async () => {
+    render(
+      <ThemeProvider>
+        <ToastProvider />
+      </ThemeProvider>,
+    );
+    show();
+    await waitFor(() =>
+      expect(
+        document
+          .querySelector<HTMLElement>('[data-slot="toast-progress"]')
+          ?.style.getPropertyValue("--toast-progress-duration"),
+      ).toBe("8000ms"),
+    );
+  });
+}
+
+test("actionTimeout follows a provider that keeps toasts open", async () => {
+  render(
+    <ThemeProvider>
+      <ToastProvider timeout={0} />
+    </ThemeProvider>,
+  );
+  toast.success("Moved to #design.", { action: { label: "View" }, progress: true });
+  await screen.findByText("Moved to #design.");
+  expect(document.querySelector('[data-slot="toast-progress"]')).toBeNull();
+});
+
+test("the command API shows no Dismiss unless dismissible is passed", async () => {
+  render(
+    <ThemeProvider>
+      <ToastProvider />
+    </ThemeProvider>,
+  );
+  toast.success("Channel settings saved.", { action: { label: "View" } });
+  await screen.findByText("Channel settings saved.");
+  expect(document.querySelector('[data-slot="toast-close"]')).toBeNull();
+
+  toast.success("Moved to #design.", { dismissible: true });
+  await screen.findByText("Moved to #design.");
+  await waitFor(() => expect(document.querySelector('[data-slot="toast-close"]')).not.toBeNull());
+});

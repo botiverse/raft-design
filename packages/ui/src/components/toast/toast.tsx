@@ -113,16 +113,28 @@ const toastStyles = tv({
   variants: {
     placement: {
       "bottom-center": {
-        viewport: "bottom-4 left-1/2 -translate-x-1/2",
+        viewport: [
+          "bottom-[calc(max(var(--toast-viewport-bottom,0px),env(safe-area-inset-bottom))+1rem)]",
+          "left-1/2 -translate-x-1/2",
+        ],
       },
       "bottom-right": {
-        viewport: "right-4 bottom-4",
+        viewport: [
+          "bottom-[calc(max(var(--toast-viewport-bottom,0px),env(safe-area-inset-bottom))+1rem)]",
+          "right-4",
+        ],
       },
       "top-center": {
-        viewport: "top-4 left-1/2 -translate-x-1/2",
+        viewport: [
+          "top-[calc(max(var(--toast-viewport-top,0px),env(safe-area-inset-top))+1rem)]",
+          "left-1/2 -translate-x-1/2",
+        ],
       },
       "top-right": {
-        viewport: "top-4 right-4",
+        viewport: [
+          "top-[calc(max(var(--toast-viewport-top,0px),env(safe-area-inset-top))+1rem)]",
+          "right-4",
+        ],
       },
       none: {
         viewport: "contents",
@@ -207,7 +219,33 @@ const toastProgressStyle = (
 
 type ToastPlacement = NonNullable<VariantProps<typeof toastStyles>["placement"]>;
 const DEFAULT_TOAST_TIMEOUT_MS = 5000;
+const DEFAULT_TOAST_ACTION_TIMEOUT_MS = 8000;
 const ToastProviderConfigContext = createContext({ timeout: DEFAULT_TOAST_TIMEOUT_MS });
+const ToastPlacementContext = createContext<ToastPlacement | undefined>(undefined);
+
+// A toast swipes away the way it came: up from the top, down or right from
+// the bottom.
+const SWIPE_DIRECTION_BY_EDGE = {
+  top: ["up"],
+  bottom: ["down", "right"],
+} as const satisfies Record<string, BaseToast.Root.Props["swipeDirection"]>;
+
+function getSwipeDirection(placement: ToastPlacement | undefined) {
+  if (placement?.startsWith("top-")) return [...SWIPE_DIRECTION_BY_EDGE.top];
+  if (placement?.startsWith("bottom-")) return [...SWIPE_DIRECTION_BY_EDGE.bottom];
+  return undefined;
+}
+
+function resolveActionTimeout(timeout: number, actionTimeout: number | undefined) {
+  if (actionTimeout !== undefined) return actionTimeout;
+  return timeout > 0 ? Math.max(timeout, DEFAULT_TOAST_ACTION_TIMEOUT_MS) : 0;
+}
+
+// The `toast` command API is bound to the default manager, so it takes its
+// timing from the ToastProvider that mounts that manager.
+const defaultManagerTiming = {
+  actionTimeout: DEFAULT_TOAST_ACTION_TIMEOUT_MS,
+};
 
 // A toast's action is a text action on the HUD: bold type that underlines on
 // hover (design/foundations/states.md#clickable-text), a pressed veil on a hit
@@ -257,6 +295,10 @@ type ToastCommandOptions<Data extends object = ToastData> = Omit<
     onClick?: ComponentPropsWithRef<"button">["onClick"];
   };
   contentClassName?: string;
+  /**
+   * Show `ToastClose` (Dismiss). Defaults to `false`: every toast closes by
+   * itself, swipes away and closes with Esc.
+   */
   dismissible?: boolean;
   /** Show the intent's icon in `ToastIcon`. Defaults to `true`. */
   icon?: boolean;
@@ -285,11 +327,14 @@ function addDefaultToast(
     leading,
     priority,
     progress,
+    timeout,
     ...toastOptions
   } = options;
+  const needsTimeToAct = Boolean(action) || intent === "error";
 
   return defaultToastManager.add({
     ...toastOptions,
+    timeout: timeout ?? (needsTimeToAct ? defaultManagerTiming.actionTimeout : undefined),
     actionProps: action
       ? {
           children: action.label,
@@ -334,6 +379,12 @@ export const toast = {
 };
 
 export type ToastProviderProps = BaseToast.Provider.Props & {
+  /**
+   * How long a toast from the `toast` command API stays when it has an action
+   * or is an `error`, in ms. Defaults to 8000, or to `timeout` when that is
+   * longer, and to 0 when `timeout` is 0.
+   */
+  actionTimeout?: number;
   portalContainer?: BaseToast.Portal.Props["container"];
   renderViewport?: boolean;
   viewportClassName?: string;
@@ -350,7 +401,9 @@ function getToastTone(type: string | undefined) {
 }
 
 export function ToastProvider({
+  actionTimeout,
   children,
+  limit = 1,
   portalContainer,
   renderViewport = true,
   toastManager = defaultToastManager,
@@ -361,10 +414,19 @@ export function ToastProvider({
   ...props
 }: ToastProviderProps) {
   const config = useMemo(() => ({ timeout }), [timeout]);
+  const resolvedActionTimeout = resolveActionTimeout(timeout, actionTimeout);
+
+  useLayoutEffect(() => {
+    if (toastManager !== defaultToastManager) return;
+    defaultManagerTiming.actionTimeout = resolvedActionTimeout;
+    return () => {
+      defaultManagerTiming.actionTimeout = DEFAULT_TOAST_ACTION_TIMEOUT_MS;
+    };
+  }, [resolvedActionTimeout, toastManager]);
 
   return (
     <ToastProviderConfigContext.Provider value={config}>
-      <BaseToast.Provider toastManager={toastManager} timeout={timeout} {...props}>
+      <BaseToast.Provider toastManager={toastManager} timeout={timeout} limit={limit} {...props}>
         {children}
         {renderViewport ? (
           <DefaultToastLayer
@@ -397,12 +459,14 @@ export function ToastViewport({
   const { viewport } = toastStyles({ placement, strategy });
 
   return (
-    <BaseToast.Viewport
-      data-slot="toast-viewport"
-      data-toast-placement={placement}
-      className={viewport({ className })}
-      {...props}
-    />
+    <ToastPlacementContext.Provider value={placement}>
+      <BaseToast.Viewport
+        data-slot="toast-viewport"
+        data-toast-placement={placement}
+        className={viewport({ className })}
+        {...props}
+      />
+    </ToastPlacementContext.Provider>
   );
 }
 
@@ -423,18 +487,33 @@ export function ToastPositioner({ className, ...props }: ToastPositionerProps) {
 export type ToastRootProps = StyledProps<BaseToast.Root.Props> &
   Pick<VariantProps<typeof toastStyles>, "layout">;
 
+/**
+ * A toast pushed past the provider's `limit` by a newer one is closed, not
+ * held back: toasts replace each other and never queue, so an older toast
+ * can't come back when the newer one goes. Its swipe direction follows the
+ * viewport's edge unless `swipeDirection` is passed.
+ */
 export function ToastRoot({
   layout = "stacked",
   className,
+  swipeDirection,
   toast: toastObject,
   ...props
 }: ToastRootProps) {
   const { root } = toastStyles({ layout });
+  const placement = useContext(ToastPlacementContext);
+  const { close } = useToastManager();
+  const replaced = toastObject.limited === true && toastObject.transitionStatus !== "ending";
+
+  useLayoutEffect(() => {
+    if (replaced) close(toastObject.id);
+  }, [close, replaced, toastObject.id]);
 
   return (
     <BaseToast.Root
       data-slot="toast"
       data-toast-type={toastObject.type ?? "info"}
+      swipeDirection={swipeDirection ?? getSwipeDirection(placement)}
       toast={toastObject}
       className={root({ className })}
       {...props}
@@ -703,33 +782,23 @@ function DefaultToastLayer({
   return (
     <ToastPortal container={portalContainer}>
       <ToastViewport placement={placement} strategy={strategy} className={viewportClassName}>
-        <DefaultToastList placement={placement} />
+        <DefaultToastList />
       </ToastViewport>
     </ToastPortal>
   );
 }
 
-function DefaultToastList({ placement }: { placement: ToastPlacement }) {
+function DefaultToastList() {
   const { toasts } = useToastManager<ToastData>();
 
-  return toasts.map((toastObject) => (
-    <DefaultToastItem key={toastObject.id} placement={placement} toast={toastObject} />
-  ));
+  return toasts.map((toastObject) => <DefaultToastItem key={toastObject.id} toast={toastObject} />);
 }
 
-const TOP_SWIPE_DIRECTION: BaseToast.Root.Props["swipeDirection"] = ["up", "right"];
-
-function DefaultToastItem({
-  placement,
-  toast: toastObject,
-}: {
-  placement: ToastPlacement;
-  toast: ToastObject<ToastData>;
-}) {
+function DefaultToastItem({ toast: toastObject }: { toast: ToastObject<ToastData> }) {
   const { timeout } = useContext(ToastProviderConfigContext);
   const showDescription = Boolean(toastObject.description);
   const showAction = Boolean(toastObject.actionProps?.children);
-  const showClose = toastObject.data?.hasClose !== false;
+  const showClose = toastObject.data?.hasClose === true;
   const showIcon = hasLeading(toastObject) || toastObject.data?.hasIcon !== false;
   const progressDuration = toastObject.timeout ?? timeout;
   const showProgress =
@@ -738,10 +807,7 @@ function DefaultToastItem({
     progressDuration > 0;
 
   return (
-    <ToastRoot
-      toast={toastObject}
-      swipeDirection={placement.startsWith("top-") ? TOP_SWIPE_DIRECTION : undefined}
-    >
+    <ToastRoot toast={toastObject}>
       <ToastContent className={toastObject.data?.contentClassName}>
         {showIcon ? <DefaultToastIcon toast={toastObject} /> : null}
         <ToastBody>

@@ -129,7 +129,7 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/sidebar/sidebar-section.recipe.ts": 1,
   "components/sidebar/sidebar.recipe.ts": 2,
   "components/task-card/task-card-status.recipe.ts": 1,
-  "components/toast/toast.tsx": 2,
+  "components/toast/toast.tsx": 1,
   "components/tooltip/tooltip.tsx": 2,
   // The inline chip box takes 4.5px at each end with a leading icon or
   // spinner, read from the chip's own children (self-subject). It moved here

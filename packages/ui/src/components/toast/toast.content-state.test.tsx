@@ -52,10 +52,10 @@ async function renderToast(title: string, options?: Parameters<typeof toast.succ
  * `ToastContent` now measures the rendered DOM after layout and reflects
  * `data-has-icon` / `data-has-description` / `data-has-actions` onto itself.
  */
-test("default toast marks icon/actions present and description absent", async () => {
+test("default toast marks the icon present and actions and description absent", async () => {
   const content = await renderToast("Saved");
   expect(content.hasAttribute("data-has-icon")).toBe(true);
-  expect(content.hasAttribute("data-has-actions")).toBe(true);
+  expect(content.hasAttribute("data-has-actions")).toBe(false);
   expect(content.hasAttribute("data-has-description")).toBe(false);
   expect(content.className).toContain(
     "[&:not([data-has-description])>[data-slot=toast-body]:only-child]:justify-self-center",
@@ -74,7 +74,7 @@ test("a description flips data-has-description and the self-start rule keys off 
 });
 
 test("a title-only toast (no icon, no close, no description) carries the title-only state", async () => {
-  const content = await renderToast("Saved", { dismissible: false, icon: false });
+  const content = await renderToast("Saved", { icon: false });
   expect(content.hasAttribute("data-has-icon")).toBe(false);
   expect(content.hasAttribute("data-has-actions")).toBe(false);
   expect(content.hasAttribute("data-has-description")).toBe(false);
