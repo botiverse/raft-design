@@ -1,5 +1,6 @@
 import { describe, expect, test } from "vite-plus/test";
 import {
+  DEFAULT_PULL_GESTURE_CONFIG,
   IDLE_PULL_GESTURE,
   PULL_TO_REFRESH_DAMPING,
   PULL_TO_REFRESH_HOLD_DISTANCE,
@@ -19,13 +20,19 @@ const start = (y = 100, extra: Partial<Extract<PullGestureEvent, { type: "start"
 const move = (y: number, extra: Partial<Extract<PullGestureEvent, { type: "move" }>> = {}) =>
   ({ type: "move", x: 50, y, fingers: 1, atTop: true, ...extra }) as const;
 
-function run(events: PullGestureEvent[], from: PullGesture = IDLE_PULL_GESTURE) {
+const ANDROID = { ...DEFAULT_PULL_GESTURE_CONFIG, latch: false };
+
+function run(
+  events: PullGestureEvent[],
+  from: PullGesture = IDLE_PULL_GESTURE,
+  config = DEFAULT_PULL_GESTURE_CONFIG,
+) {
   let gesture = from;
   let refreshed = 0;
   let prevented = 0;
   let armed = 0;
   for (const event of events) {
-    const next = stepPullGesture(gesture, event);
+    const next = stepPullGesture(gesture, event, config);
     gesture = next.gesture;
     if (next.refresh) refreshed += 1;
     if (next.preventDefault) prevented += 1;
@@ -90,7 +97,7 @@ describe("stepPullGesture", () => {
     expect(pullState(gesture)).toBe("refreshing");
   });
 
-  test("latches: past the threshold, then back above it, a release still refreshes", () => {
+  test("latches by default (iOS): past the threshold, then back above it, a release still refreshes", () => {
     const pulled = run([start(), move(100 + PAST), move(100 + SHORT), move(100 + 20)]);
     expect(pulled.armed).toBe(1);
     expect(pulled.gesture.armed).toBe(true);
@@ -100,6 +107,40 @@ describe("stepPullGesture", () => {
     expect(released.refreshed).toBe(1);
     expect(released.gesture.phase).toBe("refreshing");
     expect(released.gesture.distance).toBe(PULL_TO_REFRESH_HOLD_DISTANCE);
+  });
+
+  test("latches on every platform but Android (the default config)", () => {
+    expect(DEFAULT_PULL_GESTURE_CONFIG.latch).toBe(true);
+  });
+
+  test("on Android, moving back above the threshold disarms: the release doesn't refresh", () => {
+    const pulled = run([start(), move(100 + PAST), move(100 + SHORT)], IDLE_PULL_GESTURE, ANDROID);
+    expect(pulled.armed).toBe(1);
+    expect(pulled.gesture.armed).toBe(false);
+    expect(pullState(pulled.gesture)).toBe("pulling");
+    const released = run([{ type: "end" }], pulled.gesture, ANDROID);
+    expect(released.refreshed).toBe(0);
+    expect(released.gesture).toEqual(IDLE_PULL_GESTURE);
+  });
+
+  test("on Android, a pull still past the threshold on release refreshes", () => {
+    const { gesture, refreshed } = run(
+      [start(), move(100 + PAST), move(100 + SHORT), move(100 + PAST), { type: "end" }],
+      IDLE_PULL_GESTURE,
+      ANDROID,
+    );
+    expect(refreshed).toBe(1);
+    expect(gesture.phase).toBe("refreshing");
+  });
+
+  test("on Android, each crossing of the threshold arms again (one haptic per crossing)", () => {
+    expect(
+      run(
+        [start(), move(100 + PAST), move(100 + SHORT), move(100 + PAST)],
+        IDLE_PULL_GESTURE,
+        ANDROID,
+      ).armed,
+    ).toBe(2);
   });
 
   test("an armed pull keeps the touch, even back past where it started", () => {

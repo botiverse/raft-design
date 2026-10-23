@@ -55,12 +55,19 @@ export type PullGestureConfig = {
   threshold: number;
   maxDistance: number;
   holdDistance: number;
+  /**
+   * Once armed, the pull stays armed until the finger lifts (iOS, which
+   * commits once armed). Off on Android: Material 3 lets a pull be taken
+   * back, so moving back above the threshold disarms it.
+   */
+  latch: boolean;
 };
 
 export const DEFAULT_PULL_GESTURE_CONFIG: PullGestureConfig = {
   threshold: PULL_TO_REFRESH_THRESHOLD,
   maxDistance: PULL_TO_REFRESH_MAX_DISTANCE,
   holdDistance: PULL_TO_REFRESH_HOLD_DISTANCE,
+  latch: true,
 };
 
 export type PullGesture = {
@@ -73,8 +80,9 @@ export type PullGesture = {
   startY: number;
   distance: number;
   /**
-   * The pull has passed the threshold. It stays armed until the finger
-   * lifts, even if it moves back up: a release then refreshes, as on iOS.
+   * The pull has passed the threshold, so a release refreshes. With
+   * `latch` it stays armed until the finger lifts, even if it moves back up
+   * (iOS); without it, moving back above the threshold disarms it (Android).
    */
   armed: boolean;
 };
@@ -104,7 +112,7 @@ export type PullGestureStep = {
   preventDefault: boolean;
   /** Call `onRefresh` now. */
   refresh: boolean;
-  /** This step armed the pull: it has just crossed the threshold (for the Android haptic). */
+  /** This step armed the pull: it has just crossed the threshold (for the Android haptic, once per crossing). */
   armed: boolean;
 };
 
@@ -177,7 +185,7 @@ export function stepPullGesture(
         if (dy <= PULL_TO_REFRESH_SLOP) return step(gesture);
       }
       const distance = pullDistance(dy, config.maxDistance);
-      const armed = gesture.armed || distance >= config.threshold;
+      const armed = (config.latch && gesture.armed) || distance >= config.threshold;
       return step(
         { ...gesture, phase: "pulling", distance, armed },
         armed || dy > PULL_TO_REFRESH_SLOP,

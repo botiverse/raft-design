@@ -19,8 +19,8 @@ export const PULL_TO_REFRESH_POINTER_QUERY = "(pointer: coarse)";
  * How the pull looks. `default` (iOS and every other touch screen), as in
  * the iOS app: the content moves down with the pull and the indicator sits in
  * the space it opens. `android` follows Material 3: the indicator travels
- * down over the content, which stays still, and arming the pull gives a
- * short vibration.
+ * down over the content, which stays still, arming the pull gives a short
+ * vibration, and moving back above the threshold disarms it (no latch).
  */
 export type PullToRefreshPlatform = "default" | "android";
 
@@ -133,7 +133,8 @@ export function usePullToRefresh(
   useEffect(() => {
     const element = scrollRef.current;
     if (!enabled || !element) return;
-    const config = { threshold, maxDistance, holdDistance };
+    // Android doesn't latch: Material 3 lets a pull be taken back.
+    const config = { threshold, maxDistance, holdDistance, latch: platform !== "android" };
     let holdTimer: ReturnType<typeof setTimeout> | undefined;
     let live = true;
 

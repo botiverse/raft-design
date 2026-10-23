@@ -164,7 +164,7 @@ it("a pull short of the threshold springs back without refreshing", async () => 
   expect(height(indicator)).toBe(0);
 });
 
-it("latches: past the threshold and back above it, the release still refreshes", () => {
+it("latches by default (iOS): past the threshold and back above it, the release still refreshes", () => {
   const { onRefresh, indicator, row } = setup();
   pullBy(row, PAST);
   const back = touch(row, "touchmove", 100 + 40);
@@ -236,6 +236,17 @@ it("on Android, the indicator travels down over still content and ticks once whe
   } finally {
     Reflect.deleteProperty(navigator, "vibrate");
   }
+});
+
+it("on Android there is no latch: past the threshold and back above it, the release doesn't refresh", async () => {
+  const { onRefresh, indicator, row } = setup({ platform: "android" });
+  pullBy(row, PAST);
+  touch(row, "touchmove", 100 + SHORT);
+  expect(indicator.dataset.state).toBe("pulling");
+  touch(row, "touchend", 100 + SHORT);
+  await act(() => Promise.resolve());
+  expect(onRefresh).not.toHaveBeenCalled();
+  expect(indicator.dataset.state).toBe("idle");
 });
 
 it("never vibrates outside Android", () => {

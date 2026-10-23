@@ -61,7 +61,7 @@ pull-to-refresh/compositions/states
 - A touch that starts in a text field, a `select`, an editable element or anything inside `[data-pull-to-refresh-ignore]` never pulls. Put the attribute on drag handles and on anything else that moves with a finger, such as a slider or a carousel.
 - A finger held still for 500ms before it pulls is a long press: the pull lets go, so a menu or a drag can start ([States](../../../../../design/foundations/states.md#dragging-on-a-touch-screen)). A `contextmenu` or `dragstart` event, or a touch move another handler already took, also ends it.
 - While it is on, the scroll container gets `overscroll-behavior-y: contain`, so a browser tab doesn't also reload the whole page. The hook puts the old value back when it turns off.
-- An armed pull keeps the touch until the finger lifts: the page doesn't scroll under it.
+- An armed pull keeps the touch while it is armed: the page doesn't scroll under it.
 - A pull during a refresh does nothing.
 - With `prefers-reduced-motion`, the indicator snaps back without its transition and the spinner doesn't run ([Motion](../../../../../design/foundations/motion.md)).
 
@@ -71,7 +71,7 @@ pull-to-refresh/compositions/states
 
 - **They are the iOS app's.** The mobile team settled them for the iOS app (mobile #3553) and the product lead approved them, so a pull feels the same in the app and on phone web.
 - **0.55** is the rubber band of iOS's own scroll views: the list lags the finger, so the pull reads as resistance. The threshold takes about 182px of finger travel, so a refresh needs a deliberate pull.
-- **The threshold latches.** Once the pull passes 100px it stays armed until the finger lifts, even if the finger moves back up first; a release then refreshes, as with iOS's `UIRefreshControl`. People who pull past the point and ease off still get the refresh they asked for. Only a cancel (the browser taking the touch, a second finger) lets an armed pull go.
+- **The threshold latches, except on Android.** Once the pull passes 100px it stays armed until the finger lifts, even if the finger moves back up first; a release then refreshes, as with iOS's `UIRefreshControl`. People who pull past the point and ease off still get the refresh they asked for. Only a cancel (the browser taking the touch, a second finger) lets an armed pull go. Android doesn't latch: Material 3 lets a pull be taken back; iOS commits once armed ([On Android](#on-android)).
 - **140px** is the ceiling: 40px past the threshold shows the pull is armed and still alive, and a hard stop there keeps a long drag from pushing the list off a small phone's screen.
 - **60px** while refreshing is the iOS app's height. It is below the threshold, so on release the indicator settles back up and gives the list back some of the room the pull took.
 - **The snap-back** takes 300ms with `ease-slide`, an ease-out curve that never passes its end: the indicator settles where it goes, with no overshoot or bounce, because a bounce would read as a second pull. With `prefers-reduced-motion` it snaps at once.
@@ -82,7 +82,8 @@ On Android (by the user agent) the pull follows Material 3's pull to refresh, so
 
 - The indicator, the Spinner on a small `layer-popover` surface, travels down over the list. The list itself stays still: no rubber-band stretch of the content. The indicator still moves 0.55 of the finger's travel.
 - When the pull crosses the threshold, the phone ticks once (`navigator.vibrate(10)`), where the browser supports it. Elsewhere there is no vibration.
-- Everything else is the same: the numbers, the latch, the snap-back and the Spinner.
+- There is no latch: Material 3 lets a pull be taken back; iOS commits once armed. Moving back above the threshold before release disarms the pull, and the release then doesn't refresh. Crossing the threshold again arms it again, with another tick.
+- Everything else is the same: the numbers, the snap-back and the Spinner.
 
 `platform` overrides the detected platform, such as in a preview. Every other touch screen, iOS included, gets the default shape, in which the content moves down with the pull.
 
