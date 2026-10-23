@@ -92,12 +92,10 @@ export function ThreadIcon(props: ConversationIconProps) {
       strokeWidth={1.5}
       {...props}
     >
-      <path d="M16.25 5V4.25C16.25 3.15 15.35 2.25 14.25 2.25H3.75C2.65 2.25 1.75 3.15 1.75 4.25V11.25C1.75 12.35 2.65 13.25 3.75 13.25H5.75V16.25L7.5 14.85" />
-      <path
-        d="M8.75 5.5H15.5C16.6 5.5 17.5 6.4 17.5 7.5V12.25C17.5 13.35 16.6 14.25 15.5 14.25H14V16.75L10.75 14.25H8.75C7.65 14.25 6.75 13.35 6.75 12.25V7.5C6.75 6.4 7.65 5.5 8.75 5.5Z"
-        fill="currentColor"
-        stroke="none"
-      />
+      {/* The back bubble ends 2.75 short of the front one's outline on both sides,
+          so a stroke-wide gap shows between them, as in Lucide's messages-square. */}
+      <path d="M3.5 11.5L1.75 13.25V4.25A2 2 0 0 1 3.75 2.25H11.25" />
+      <path d="M8.25 5H14.5C15.6 5 16.5 5.9 16.5 7V11.75C16.5 12.85 15.6 13.75 14.5 13.75H13V16.25L9.75 13.75H8.25C7.15 13.75 6.25 12.85 6.25 11.75V7C6.25 5.9 7.15 5 8.25 5Z" />
     </svg>
   );
 }
