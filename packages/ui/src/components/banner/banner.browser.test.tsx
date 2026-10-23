@@ -383,6 +383,27 @@ it("600px sm: a 32px button beside the line keeps clear of the banner's edges", 
   expect(banner.bottom - main.bottom).toBeGreaterThanOrEqual(4);
 });
 
+it("600px sm: the ×'s hover fill keeps clear of the banner's edges", () => {
+  render(
+    <ThemeProvider>
+      <div style={{ width: "600px" }}>
+        <Banner status="success" size="sm" data-testid="banner">
+          <svg />
+          <BannerDescription data-testid="desc">Changed the model of 4 agents.</BannerDescription>
+          <BannerClose data-testid="close" />
+        </Banner>
+      </div>
+    </ThemeProvider>,
+  );
+  const banner = screen.getByTestId("banner").getBoundingClientRect();
+  const close = screen.getByTestId("close").getBoundingClientRect();
+  expect(
+    Math.abs(centerY(screen.getByTestId("close")) - firstLineCenter(screen.getByTestId("desc"))),
+  ).toBeLessThanOrEqual(0.5);
+  expect(close.top - banner.top).toBeGreaterThanOrEqual(4);
+  expect(banner.bottom - close.bottom).toBeGreaterThanOrEqual(4);
+});
+
 // --- type: a banner's text is never smaller than its button's label, at every size ---
 
 async function device(width: number, pointer: "fine" | "coarse") {
