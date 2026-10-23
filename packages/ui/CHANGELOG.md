@@ -1,3 +1,10 @@
+## [0.32.0](https://github.com/botiverse/raft-design/compare/v0.31.0...v0.32.0) (2026-10-23)
+
+### Added
+
+- **ChoiceList** (wip): `matchedValues`, for a product with its own search (a ranked people search shared with mentions). With it ChoiceList shows the values the caller's search found, in the caller's order, instead of matching `searchText` itself; the chosen rows still come first and "No match" still shows. A value given twice shows once. Pass matches for the current text, and keep the previous ones while a slower search works. ([#780](https://github.com/botiverse/raft-design/pull/780))
+  - Docs: https://raft-design.botiverse.build/components/choice-list/
+
 ## [0.31.0](https://github.com/botiverse/raft-design/compare/v0.30.0...v0.31.0) (2026-10-23)
 
 ### Design System
