@@ -266,6 +266,34 @@ it("a footer stays in view under rows that scroll", () => {
   expect(footer.top).toBeGreaterThanOrEqual(scroller.getBoundingClientRect().bottom - 0.5);
 });
 
+it("a cut-off name or description line has its whole text as its title; one that fits has none", async () => {
+  render(
+    <div style={{ width: 240 }}>
+      <ChoiceList
+        aria-label="Members"
+        searchLabel="Search people"
+        clearSearchLabel="Clear search"
+        items={TITLE_ITEMS}
+        value={null}
+        onValueChange={ignore}
+      />
+    </div>,
+  );
+  const lineOf = (name: string) =>
+    row(name).querySelector("[data-slot=choice-list-description]") as HTMLElement;
+  await waitFor(() => expect(lineOf("kirby").title).toBe(LONG_DESCRIPTION));
+  expect(lineOf("noel").hasAttribute("title")).toBe(false);
+  const label = row("noel").querySelector("[data-slot=choice-list-label]") as HTMLElement;
+  expect(label.hasAttribute("title")).toBe(false);
+});
+
+const LONG_DESCRIPTION =
+  "Writes the weekly release notes from merged pull requests and the changelog";
+const TITLE_ITEMS: ChoiceListItem[] = [
+  { value: "kirby", label: "kirby", description: LONG_DESCRIPTION },
+  { value: "noel", label: "noel", description: "Reviews" },
+];
+
 it('search="always": with a mouse, focus starts in the box', () => {
   expect(matchMedia("(pointer: fine)").matches).toBe(true);
   render(<Picker search="always" items={makeItems(NAMES.slice(0, 3))} />);
