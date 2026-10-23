@@ -1,3 +1,21 @@
+## [0.29.0](https://github.com/botiverse/raft-design/compare/v0.28.0...v0.29.0) (2026-10-23)
+
+### Design System
+
+- **A mention's read mark is the online light with an ink check**: once an agent has read a message that mentions it, the online light (the 8px lime square with its ink edge) shows at the mention's top right with an ink check in it. A light with no check means presence; a light with a check means read. It never covers the name: the mention keeps 10px after it. Nothing shows until the agent has read the message, the hover card still says Read or Not read yet, and on a touch screen the read light alone says it. Colored fills carry ink, never white. ([#770](https://github.com/botiverse/raft-design/pull/770))
+  - Why: the bare gray check was too faint to notice (artin), and the corner light is what people knew from the app; the check keeps it apart from presence (decided by artin and stdrc).
+  - Affects: a rule for products; `MessageReferenceReadMark` draws the new mark; status and color rules list the read light.
+  - Docs: https://raft-design.botiverse.build/components/message-item/#read-receipts-on-a-mention
+- **On a phone, Activity's Mark as Done is the left swipe and the press-and-hold menu**: no button at rest on a phone; a tablet or a desktop keeps it. A swipe starts only when the finger moves clearly sideways. ([#769](https://github.com/botiverse/raft-design/pull/769))
+  - Why: a list of rows to clear read as a column of buttons; swiping a row away is how people clear lists on a phone (decided by stdrc).
+  - Affects: a rule for products.
+  - Docs: https://raft-design.botiverse.build/patterns/responsive/#touch-screens
+
+### Changed
+
+- **`MessageReferenceIndicator` placement**: `right: -10px` (was `-6px`) and `top: 0`; the mention keeps 10px after its text (was 8px), so the corner mark no longer overlaps the last letter. ([#770](https://github.com/botiverse/raft-design/pull/770))
+- **`MessageReferenceReadMark`** is exported from `@botiverse/raft-ui` (still from `/wip` too) and draws the online light with a check; its API is unchanged (children are what a screen reader says). ([#770](https://github.com/botiverse/raft-design/pull/770))
+
 ## [0.28.0](https://github.com/botiverse/raft-design/compare/v0.27.0...v0.28.0) (2026-10-23)
 
 ### Design System
