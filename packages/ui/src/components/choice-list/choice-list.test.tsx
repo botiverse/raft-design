@@ -694,3 +694,31 @@ test("a group value with a space still names its group", () => {
 
 const SPACED_GROUPS = [{ value: "my agents", label: "Your agents" }];
 const SPACED_ITEMS: ChoiceListItem[] = [{ value: "kirby", label: "Kirby", group: "my agents" }];
+
+test("matchedValues: the caller's own search decides the matches and their order; the chosen row still comes first", () => {
+  function Ranked({ text, matched }: { text: string; matched: readonly string[] }) {
+    return (
+      <ChoiceList
+        aria-label="Target computer"
+        searchLabel="Search computers"
+        clearSearchLabel="Clear search"
+        noMatchLabel="No matches"
+        searchValue={text}
+        matchedValues={matched}
+        items={EIGHT_ITEMS}
+        value="atlas"
+        onValueChange={ignore}
+      />
+    );
+  }
+  // "hb" matches no label as text; the caller's ranked search says hubble, then borealis.
+  const { rerender } = render(<Ranked text="hb" matched={HUBBLE_THEN_BOREALIS} />);
+  expect(rowNames()).toEqual(["atlas", "hubble", "borealis"]);
+  expect(screen.getByRole("status").textContent).toBe("");
+  rerender(<Ranked text="zzz" matched={NONE} />);
+  expect(rowNames()).toEqual(["atlas"]);
+  expect(screen.getByRole("status").textContent).toBe("No matches");
+});
+
+const HUBBLE_THEN_BOREALIS = ["hubble", "borealis"];
+const NONE: string[] = [];

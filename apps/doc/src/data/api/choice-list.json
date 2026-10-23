@@ -71,6 +71,13 @@
         "from": "raft-ui"
       },
       {
+        "name": "matchedValues",
+        "type": "readonly string[]",
+        "required": false,
+        "description": "The values of the items that match the search text, in the order to show them, for a caller with its own search (a ranked people search shared with mentions). With it ChoiceList doesn't match `searchText` itself; it still keeps the chosen rows first and says when nothing matches.",
+        "from": "raft-ui"
+      },
+      {
         "name": "multiple",
         "type": "boolean",
         "required": false,
