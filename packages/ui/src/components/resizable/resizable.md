@@ -79,10 +79,10 @@ These are the states of the handle on a seam; the gap handle's are in [The gap h
 A drag that reaches the end of a column's range and keeps going changes the layout's state instead of stopping: the column snaps to its next state, and that jump is how people know they went past the end (stdrc, 2026-10-23).
 
 - **The sidebar collapses.** Drag it to its minimum and 40px further toward the edge: it collapses at once, while the drag is still held.
-- **A right panel takes the whole area.** Drag a panel on the right of the main area (a thread, a profile or task side panel, the side cards) until the main area is down to its 360px, then 40px further: it goes to focus mode, the panel taking the whole area, at once.
+- **A thread goes to focus mode.** Drag the thread panel (where a task's conversation opens too) until the conversation is down to its 360px, then 40px further: it goes to its focus mode, the one its header's menu opens, at once. Only a panel that already has a focus mode snaps to it. The side cards and the profile or task side panel stop at the conversation's 360px: a focus mode made only to give a drag somewhere to go is a feature nobody asked for.
 - **It switches during the drag, not on release.** Dragging back across the line, still held, undoes it; releasing keeps whichever state is showing. A preview that only switches on release has no jump, and the jump is the point: VS Code's sidebar and macOS split views snap the same way.
 - **40px, not a touch.** The extra 40px keeps a drag that just reaches the end from snapping by accident.
-- **The width comes back.** The width the column had before it snapped is remembered, and expanding the sidebar or leaving focus mode brings it back. A double click on the handle still resets to the default width.
+- **The width comes back.** The width the column had before it snapped is remembered, and expanding the sidebar or leaving focus mode (with its own control, as before) brings it back. A double click on the handle still resets to the default width.
 - **The keyboard reaches both states.** Enter on the handle collapses or restores the sidebar, as for any collapsible panel ([Accessibility](#accessibility)), and focus mode keeps its own button, so neither state needs a pointer.
 
 ## Accessibility
