@@ -53,7 +53,8 @@ export const messageReference = tv({
       "outline-none focus-visible:shadow-focus",
       "[&_svg]:size-[0.857em] [&_svg]:shrink-0 [&_svg]:self-center",
       "*:data-[slot=spinner]:self-center",
-      "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:relative has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:mr-2.5",
+      "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:relative",
+      "has-[>[data-slot=message-reference-indicator]]:mr-2.5 has-[>[data-slot=message-reference-read-mark]]:mr-3",
       "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:inline-block",
       "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:overflow-visible",
     ],
@@ -86,15 +87,15 @@ export const messageReference = tv({
     // last letter; at -6px it did. The mention reserves the same 10px after
     // it (`mr-2.5`) before the word space.
     indicator: INDICATOR,
-    // The read receipt: the indicator slot holding the online light (Status
-    // presence="online" size="sm": 8px, lime, 1.5px ink edge, 2px corners)
-    // with an ink check centred in it, a 6.5px Lucide check at stroke 3. The
-    // check tells it from a presence light; ink on the colour, never white
-    // (message-item.md, "Read receipts on a mention").
+    // The read receipt: a bare Lucide check, 10px at stroke 2.5, no light and
+    // no box. Its box sits where the indicator's does, top on the mention's
+    // top and 2px after the name's text (10px wide at -12px); the mention
+    // reserves those 12px (`mr-3`) before the word space. `read-mark` is
+    // palette-lime-700 in light mode, the online lime in dark mode: the lime
+    // alone is 1.64:1 on white (message-item.md, "Read receipts on a mention").
     readMark: [
-      ...INDICATOR,
-      "[&>svg]:absolute [&>svg]:top-1/2 [&>svg]:left-1/2 [&>svg]:-translate-1/2",
-      "[&>svg]:size-[6.5px]! [&>svg]:text-sticker-ink",
+      "pointer-events-none absolute -right-3 top-0 inline-flex size-2.5 shrink-0 items-center justify-center",
+      "[&>svg]:size-2.5! [&>svg]:text-read-mark",
     ],
   },
   variants: {

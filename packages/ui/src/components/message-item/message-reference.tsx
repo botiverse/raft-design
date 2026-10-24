@@ -1,7 +1,6 @@
 import { Check } from "lucide-react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { Status } from "../status/status";
 import { messageReference } from "./message-reference.recipe";
 import type {
   MessageReferenceChipVariant,
@@ -68,11 +67,11 @@ export function MessageReferenceIndicator({
 export type MessageReferenceReadMarkProps = useRender.ComponentProps<"span">;
 
 /**
- * The read receipt on a mention: the online light (8px, lime, ink edge) with
- * an ink check in it, at the mention's top right, once the one mentioned has
- * read the message. Put it last inside the mention, and render nothing until
- * then. The light and check are decorative; `children` is what a screen
- * reader says instead ("Read"), visually hidden.
+ * The read receipt on a mention: a bare lime check (10px, no box) at the
+ * mention's top right, once the one mentioned has read the message. Put it
+ * last inside the mention, and render nothing until then. The check is
+ * decorative; `children` is what a screen reader says instead ("Read"),
+ * visually hidden.
  */
 export function MessageReferenceReadMark({
   children,
@@ -85,8 +84,7 @@ export function MessageReferenceReadMark({
     className: readMark({ className }),
     children: (
       <>
-        <Status presence="online" size="sm" aria-hidden />
-        <Check aria-hidden strokeWidth={3} />
+        <Check aria-hidden strokeWidth={2.5} />
         {children == null ? null : <span className="sr-only">{children}</span>}
       </>
     ),

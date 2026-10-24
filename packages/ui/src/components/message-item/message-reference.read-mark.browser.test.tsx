@@ -6,10 +6,11 @@ import { MessageItemContent } from "./message-item-content";
 import { MessageReferenceReadMark, MessageReferenceText } from "./message-reference";
 
 // The read receipt on a mention (message-item.md, "Read receipts on a
-// mention"): the online light, 8px, with an ink check centred in it, at the
-// mention's top right. Its box starts 2px after the name's text, so it never
-// covers the last letter (at -6px it did), the mention reserves 10px after its
-// text before the word space, and the line keeps its height.
+// mention"): a bare lime check, 10px, no light and no box, at the mention's
+// top right. Its box starts 2px after the name's text, so it never covers the
+// last letter, the mention reserves 12px after its text before the word space,
+// and the line keeps its height. Light mode draws it in palette-lime-700, dark
+// mode in the online lime.
 // Real layout only: jsdom has no boxes.
 
 const it = test.skipIf(typeof window === "undefined");
@@ -64,16 +65,27 @@ function checkInkOf(svg: SVGSVGElement) {
   return { top, bottom, left, right };
 }
 
-for (const [name, width] of [
-  ["desktop", 1280],
-  ["phone", 390],
+// The colour a custom property resolves to inside `scope`.
+function colourOf(scope: Element, property: string) {
+  const probe = document.createElement("span");
+  probe.style.color = `var(${property})`;
+  scope.appendChild(probe);
+  const colour = getComputedStyle(probe).color;
+  probe.remove();
+  return colour;
+}
+
+for (const [name, width, mode, expected] of [
+  ["desktop, light", 1280, "light", "--palette-lime-700"],
+  ["phone, light", 390, "light", "--palette-lime-700"],
+  ["desktop, dark", 1280, "dark", "--presence-online"],
 ] as const) {
-  it(`${name}: the read light sits at the mention's top right, clear of the name, and keeps the line`, async () => {
+  it(`${name}: the read check sits at the mention's top right, clear of the name, and keeps the line`, async () => {
     const { page } = await import("vite-plus/test/browser/context");
     await page.viewport(width, 900);
     render(
-      <ThemeProvider mode="light">
-        <div style={{ width: Math.min(width, 420) }}>
+      <ThemeProvider mode={mode}>
+        <div data-testid="scope" className={mode} style={{ width: Math.min(width, 420) }}>
           <Sentences />
         </div>
       </ThemeProvider>,
@@ -87,42 +99,34 @@ for (const [name, width] of [
       get("plain").getBoundingClientRect().height,
     );
 
-    expect(mark.width, "an 8px light").toBe(8);
-    expect(mark.height, "an 8px light").toBe(8);
-    const light = get("mark").querySelector("[data-slot=status]")!.getBoundingClientRect();
-    expect([light.width, light.height], "the online light fills the slot").toEqual([8, 8]);
+    expect(get("mark").querySelector("[data-slot=status]") === null, "no status light").toBe(true);
+    expect(mark.width, "a 10px check").toBe(10);
+    expect(mark.height, "a 10px check").toBe(10);
 
     expect(mark.top, "its top on the mention's top").toBeCloseTo(box.top, 1);
     const text = document.createRange();
     text.selectNodeContents(mention.firstChild!);
     const textRight = text.getBoundingClientRect().right;
-    expect(mark.left - textRight, "at least 2px after the name's text").toBeGreaterThanOrEqual(
-      2 - 0.01,
-    );
-    // The mention reserves the light's 10px, so the word space comes after it.
+    expect(mark.left - textRight, "2px after the name's text").toBeCloseTo(2, 1);
+    // The mention reserves the check's 12px, so the word space comes after it.
     const after = document.createRange();
     after.selectNodeContents(get("after").firstChild!);
-    expect(after.getBoundingClientRect().left, "the next word starts after the light").toBeCloseTo(
+    expect(after.getBoundingClientRect().left, "the next word starts after the check").toBeCloseTo(
       mark.right,
       1,
     );
 
     const svg = get("mark").querySelector<SVGSVGElement>("svg.lucide-check")!;
     const svgBox = svg.getBoundingClientRect();
-    expect(svgBox.width, "a 6.5px check").toBeCloseTo(6.5, 1);
-    expect(getComputedStyle(svg).color, "the check in the light's ink edge colour").toBe(
-      getComputedStyle(get("mark").querySelector("[data-slot=status]")!).borderTopColor,
+    expect([svgBox.width, svgBox.height], "the check fills the 10px box").toEqual([10, 10]);
+    expect(svg.getAttribute("stroke-width"), "stroke 2.5").toBe("2.5");
+    expect(getComputedStyle(svg).color, `the check in ${expected}`).toBe(
+      colourOf(get("scope"), expected),
     );
     const ink = checkInkOf(svg);
-    expect(
-      Math.abs((svgBox.left + svgBox.right) / 2 - (mark.left + mark.right) / 2),
-      "the check's box centred across",
-    ).toBeLessThanOrEqual(0.01);
-    expect(
-      Math.abs((svgBox.top + svgBox.bottom) / 2 - (mark.top + mark.bottom) / 2),
-      "the check's box centred down",
-    ).toBeLessThanOrEqual(0.01);
-    expect(ink.left, "the check's ink inside the light").toBeGreaterThanOrEqual(mark.left);
-    expect(ink.right, "the check's ink inside the light").toBeLessThanOrEqual(mark.right);
+    expect(ink.left, "the check's ink inside its box").toBeGreaterThanOrEqual(mark.left);
+    expect(ink.right, "the check's ink inside its box").toBeLessThanOrEqual(mark.right);
+    expect(ink.top, "the check's ink inside its box").toBeGreaterThanOrEqual(mark.top);
+    expect(ink.bottom, "the check's ink inside its box").toBeLessThanOrEqual(mark.bottom);
   });
 }
