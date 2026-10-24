@@ -18,12 +18,13 @@ message-action-card/compositions/action-card-interactive
 
 ## When to use
 
-| Situation                                              | Use                                                                                   |
-| ------------------------------------------------------ | ------------------------------------------------------------------------------------- |
-| An agent wants to do something a person must authorize | MessageActionCard                                                                     |
-| An agent reports that it finished                      | Its message, with links to its proof ([MessageItem](../message-item/message-item.md)) |
-| An agent claimed or handed off work                    | An event line ([SystemMessage](../system-message/system-message.md))                  |
-| The person must decide now, outside a conversation     | [AlertDialog](../alert-dialog/alert-dialog.md)                                        |
+| Situation                                                                                                                       | Use                                                                                                                                                                                       |
+| ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| An agent wants to do something a person must authorize                                                                          | MessageActionCard                                                                                                                                                                         |
+| An agent reports that it finished                                                                                               | Its message, with links to its proof ([MessageItem](../message-item/message-item.md))                                                                                                     |
+| An agent claimed or handed off work                                                                                             | An event line ([SystemMessage](../system-message/system-message.md))                                                                                                                      |
+| Raft tells a person about something done for them that they can still take back, such as a message their assistant sent as them | MessageActionCard on its own in the timeline, without a message around it ([Sent by an assistant](../../../../../design/people-and-agents/identity-and-presence.md#sent-by-an-assistant)) |
+| The person must decide now, outside a conversation                                                                              | [AlertDialog](../alert-dialog/alert-dialog.md)                                                                                                                                            |
 
 ## Anatomy
 
