@@ -10,7 +10,7 @@ Every component shows its interaction states the same way. A component doc only 
 ## Principles
 
 - **Hover and press add an overlay, in two tiers.** They never change the fill; see [Motion](./motion.md). Large things people read hover with the subtle tier, small controls with the medium tier, and anything clickable presses with the medium tier ([Hover and press](#hover-and-press)). Selected items don't respond to hover, and fields don't hover. Text that can be clicked has no box to lay an overlay on, so it underlines on hover instead ([Clickable text](#clickable-text)). One named exception: a collapsible group heading only darkens ([Collapsible group headings](#collapsible-group-headings)).
-- **Selection has three meanings, and three looks.** Where you are in navigation is yellow (`selected`, in every theme: [Themes](./themes.md#signals)), the item singled out in content is cyan, and a chosen value is ink.
+- **Selection has three meanings, and three looks.** Where you are in navigation is yellow (`selected`, in every theme: [Themes](./themes.md#signals); on the frame, such as the rail, it takes the theme's frame colors), the item singled out in content is cyan, and a chosen value is ink.
 - **Disabled looks the same everywhere** and doesn't react to hover or press.
 
 ## Usage
@@ -20,7 +20,7 @@ Every component shows its interaction states the same way. A component doc only 
 | Hover, keyboard highlight | Menus, select lists and the quick reactions in a menu fill with `brand-soft`; so does the keyboard highlight in search results. Rows, messages and readable cards lay the subtle tier, `fill-subtle`; buttons, chips, tabs and segments the medium tier ([Hover and press](#hover-and-press)). A toolbar's actions are buttons, not menu rows, even in a toolbar that floats like a menu (the one over selected text): they hover gray with `fill-medium`, never `brand-soft` |
 | Press | The medium tier on everything, rows and cards too: `fill-medium`, `sticker-medium` on a color sticker or `fill-frame-medium` on the frame ([Color](./color.md#hover-overlays)). A text button lights up its hit area when pressed |
 | Focus | See [Focus](#focus) |
-| Selected: navigation | A yellow sticker: sidebar rows, segmented controls, tabs, the tab bar's icon. On the yellow frame in light mode, the rail's selected item is a white sticker; in dark mode it is yellow |
+| Selected: navigation | A yellow sticker: sidebar rows, segmented controls, tabs, the tab bar's icon. On the yellow frame in light mode, the rail's selected item is a white sticker; in dark mode it is yellow. On the frame the selection is the theme's `layer-frame-active`, so other themes recolor it (gray in Boring Gray) |
 | Selected: content | `info-soft`: the open item, an active filter, the current match of a search inside a page while that search is open |
 | Located | `info-soft` for 2 seconds, fading out: the item a jump took someone to ([Located](#located)) |
 | Selected: value | Ink: a checked checkbox or radio. In a menu, the current value has a check mark and bold text |

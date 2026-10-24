@@ -167,3 +167,24 @@ for (const [id, theme] of Object.entries(themes.themes)) {
     });
   }
 }
+
+// The signal tokens are Raft yellow, as `brand` is in Raft Yellow, and no theme
+// sets them (themes.md#signals): the three literals can't drift apart, and
+// Boring Gray can't gray them by accident.
+test("you and selected are brand's yellow in Raft Yellow, in both modes", () => {
+  for (const vars of [LIGHT, DARK]) {
+    expect(parse(vars["--you"], vars)).toEqual(parse(vars["--brand-400"], vars));
+    expect(parse(vars["--selected"], vars)).toEqual(parse(vars["--brand-400"], vars));
+  }
+});
+
+test("no theme sets you or selected", () => {
+  const set = Object.entries(themes.themes).flatMap(([id, theme]) =>
+    (["light", "dark"] as const).flatMap((mode) =>
+      ["--you", "--selected"]
+        .filter((name) => name in theme[mode])
+        .map((name) => `${id} ${mode}: ${name}`),
+    ),
+  );
+  expect(set).toEqual([]);
+});

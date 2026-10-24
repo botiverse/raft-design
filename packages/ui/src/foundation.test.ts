@@ -126,8 +126,18 @@ test("the Tailwind entry includes the shared foundation and still generates sema
       throw new Error(`Unexpected stylesheet id: ${id}`);
     },
   });
-  const css = compiler.build(["bg-layer-canvas", "text-foreground", "shadow-raft-md"]);
+  const css = compiler.build([
+    "bg-layer-canvas",
+    "text-foreground",
+    "shadow-raft-md",
+    "bg-you",
+    "bg-selected",
+    "border-selected",
+  ]);
   expect(css).toContain("background-color: var(--layer-canvas)");
+  expect(css).toContain("background-color: var(--you)");
+  expect(css).toContain("background-color: var(--selected)");
+  expect(css).toContain("border-color: var(--selected)");
   expect(css).toContain("color: var(--foreground)");
   expect(css).toContain("var(--theme-shadow-md)");
   expect(css).toMatch(/^\.dark \{$/m);

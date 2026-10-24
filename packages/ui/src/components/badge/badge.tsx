@@ -43,6 +43,7 @@ export const badge = tv({
     variant: {
       default: "",
       primary: "",
+      you: "",
       information: "",
       muted: "",
       accent: "",
@@ -59,6 +60,7 @@ export const badge = tv({
     { appearance: "solid", variant: "default", class: { root: "bg-sticker-paper" } },
     { appearance: "solid", variant: "muted", class: { root: "bg-inactive" } },
     { appearance: "solid", variant: "primary", class: { root: "bg-brand" } },
+    { appearance: "solid", variant: "you", class: { root: "bg-you" } },
     { appearance: "solid", variant: "information", class: { root: "bg-info" } },
     {
       appearance: "solid",

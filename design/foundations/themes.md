@@ -11,7 +11,7 @@ A theme changes the frame and the surfaces around the content. It never changes 
 
 - **A theme is a frame, not a new palette.** It recolors the frame (the rail, the web top bar, the phone's top bar), the sidebar and, in dark mode, the dark surfaces. Content stays on white paper in light mode.
 - **Meaning never changes.** The pink primary button, unread and @ counts, status lights, warnings and errors look the same in every theme, so a person who switches themes doesn't have to learn the product again.
-- **A theme quiets the environment, never information.** What is addressed to you (`you`) and what is selected or on (`selected`) keep Raft yellow in every theme, Boring Gray included ([Signals](#signals)).
+- **A theme quiets the environment, never information.** What is addressed to you (`you`) and what is selected or on (`selected`) keep Raft yellow in every theme, Boring Gray included ([Signals](#signals)). The frame is the exception: the rail, and anything on the frame (a segmented control with `variant="on-frame"`), is environment, so its selected item takes the theme's frame colors (`layer-frame-active`), not `selected`.
 - **Each theme has a light and a dark version.** In dark mode the canvas, sidebar, cards and popups take the theme's hue at low chroma. A neutral black panel inside a colored frame looked pasted on.
 - **Decorations are optional.** A theme from the avatar series can draw its pixel sprites on the frame; the person can turn them off and keep the colors.
 
@@ -34,6 +34,7 @@ Yellow carries two meanings in Raft, and both are information, not decoration ([
 | `you` | Addressed to you | A mention of you (`MessageReferenceText variant="primary"`), the sidebar's @ marker (`SidebarItemIndicator`), a search hit, the passage of the comment you opened |
 | `selected` | Where you are, what is on | The active sidebar row, the selected segment, tab and tab bar item, a pressed toggle or panel action, an on switch, the current step |
 
+- Only on paper. On the frame (the rail's selected item, an `on-frame` segmented control) the selection is the theme's `layer-frame-active` and `line-frame-active`: white in light themes, gray in Boring Gray. The frame is the environment a theme recolors.
 - Each keeps the sticker's 1.5px ink edge (`sticker-ink`) and ink type, in every theme.
 - Gray can't stand in for them. When Boring Gray painted them with its gray `brand`, a selected segment was ΔE 1.4 (OKLab × 100) from a hovered one in light mode, under the 2 a person can notice; the selected sidebar row was 5.0 from the sidebar and a mention of you 7.5 from the page. The yellow is 16.5 to 20. A gray dark enough to match it is a mid-gray slab, heavier than the yellow it replaces. `themes.contrast.test.ts` holds every theme to ΔE 10.
 - Paint a new "you" signal or a selected sticker with these tokens, not with `brand`: `brand` is the environment and follows the theme.

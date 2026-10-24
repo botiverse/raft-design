@@ -244,7 +244,7 @@ export function ActivityItem({
             </Badge>
           ) : null}
           {item.hasMention && item.unreadCount > 0 ? (
-            <Badge variant="primary">
+            <Badge variant="you">
               <AtSign size={10} />
               Mention
             </Badge>
