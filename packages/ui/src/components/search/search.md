@@ -10,7 +10,7 @@ related: [list-row, empty-state, select, combobox, dialog, input-group, thread-p
 
 # Search
 
-Search is a field, a few filters and results grouped by kind. Places and people are rows; messages are hits that say who, where and when, with the matched words as small yellow stickers. On the web, search opens from the search field in the top bar (`SearchTrigger`); on a phone it is the Search tab, with the field in the tab's top bar.
+Search is a field, a few filters and results grouped by kind. Places and people are rows; messages are hits that say who, where and when, with the matched words on a yellow fill. On the web, search opens from the search field in the top bar (`SearchTrigger`); on a phone it is the Search tab, with the field in the tab's top bar.
 
 ```example
 search/compositions/search-panel
@@ -83,6 +83,8 @@ search/compositions/search-no-results
 ## Content
 
 - Make the excerpt of a message at most 2 lines, with the matched words in `SearchMessageResultMatch`.
+- Mark the matched words on a `you` fill, in the text's own weight and with no edge (stdrc, 2026-10-24). A hit is a highlight behind words, not a thing, so it has no ink edge ([A block of color is a sticker](../../../../../design/principles/principles.md#3-a-block-of-color-is-a-sticker)); with one it read as one more badge beside a row's "DM" or "Channel" tag and cut through the descenders. It keeps the full `you` yellow rather than a soft tint: a 40% tint was ΔE 1.2 from a selected row's fill and turned muddy in dark mode, where the full fill keeps ink type at 13:1 in both modes. The fill reaches 1px past the glyphs above and below, so descenders stay inside it. A mention of you keeps its sticker, edge and all.
+- Include a leading `@` or `#` in the hit when the query matches a handle or a channel name: "@Remy", not "@" outside the fill.
 - Write the no-results state as what wasn't found and how to widen it: "No results for “launch”", "Try another word or remove a filter."
 - Write the trigger's placeholder as what it searches: Search Raft.
 
