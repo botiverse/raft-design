@@ -1,12 +1,15 @@
 /**
- * The DS search hit: what you looked for is a small yellow sticker, like an @
- * to you. Every place that marks a hit (message text, Markdown, search
- * results) uses this. The hit keeps the surrounding font (`[font:inherit]`
- * drops the browser's mark styling) but is always bold, which needs `!` to win
- * over that shorthand.
+ * The DS search hit: what you looked for sits on a `you` fill, yellow in every
+ * theme, with ink type in the surrounding font and weight. No edge and no bold
+ * (stdrc, 2026-10-24): a ring made a hit look like one more badge beside a
+ * row's "DM" or "Channel" tag and cut the descenders, and it is the mention of
+ * you that keeps the ring. The fill covers the whole line box (`py-px`), so
+ * descenders stay inside it. Every place that marks a hit (message text,
+ * Markdown, search results) uses this; `[font:inherit]` drops the browser's
+ * mark styling.
  */
 export const searchHit = [
-  "[font:inherit] font-bold!",
-  "rounded-sticker bg-you px-[3px] box-decoration-clone",
-  "text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
+  "[font:inherit]",
+  "rounded-sticker bg-you px-[2px] py-px box-decoration-clone",
+  "text-sticker-ink",
 ];

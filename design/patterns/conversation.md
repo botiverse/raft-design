@@ -87,7 +87,7 @@ Three kinds of control float over a conversation: the jump pills over the list (
 ### Search
 
 - Group results by kind: places and people first, then messages. Group hits in one thread under that thread.
-- Show matched words as small yellow stickers ([Search](../../packages/ui/src/components/search/search.md)).
+- Show matched words on a yellow fill, in the text's own weight and with no edge ([Search](../../packages/ui/src/components/search/search.md)).
 - Highlight the message a result jumps to as in [Navigation](./navigation.md#going-somewhere).
 
 ## Related
