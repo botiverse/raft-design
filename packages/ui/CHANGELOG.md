@@ -1,3 +1,14 @@
+## [0.35.0](https://github.com/botiverse/raft-design/compare/v0.34.0...v0.35.0) (2026-10-24)
+
+### Changed
+
+- A search hit (`searchHit`: `MessageItemSearchMatch`, `MarkdownMark`, `SearchMessageResultMatch`) is a `you` fill with ink type, in the surrounding weight, with no ink ring, and 1px of fill above and below so descenders stay inside it. A mention of you keeps its sticker. ([#796](https://github.com/botiverse/raft-design/pull/796))
+
+### Design System
+
+- **Search:** matched words sit on a yellow fill, no edge, no bold (stdrc); a leading @ or # is part of the hit. Principle 3 names the inline "you" highlight as the one full-yellow highlight without an edge. ([#796](https://github.com/botiverse/raft-design/pull/796))
+  - Docs: https://raft-design.botiverse.build/components/search/
+
 ## [0.34.0](https://github.com/botiverse/raft-design/compare/v0.33.0...v0.34.0) (2026-10-24)
 
 ### Added
