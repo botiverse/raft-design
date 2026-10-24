@@ -1,3 +1,19 @@
+## [0.34.0](https://github.com/botiverse/raft-design/compare/v0.33.0...v0.34.0) (2026-10-24)
+
+### Added
+
+- Token `read-mark` (`text-read-mark`): the read mark's check, `palette-lime-700` in light (6.2:1 on white) and the online lime in dark (10.5:1). ([#794](https://github.com/botiverse/raft-design/pull/794))
+
+### Changed
+
+- `MessageReferenceReadMark` is a bare 10px Lucide check (stroke 2.5) in `read-mark`, with no light and no box, 2px after the name; the mention reserves 10px after its text, as for the indicator. The API is unchanged. ([#794](https://github.com/botiverse/raft-design/pull/794))
+
+### Design System
+
+- **Read mark:** a bare check, since the light with an ink check read as a black frame (stdrc). It is no longer a status light. ([#794](https://github.com/botiverse/raft-design/pull/794))
+  - Docs: https://raft-design.botiverse.build/components/message-item/
+- **Touch screens:** a right swipe on an Activity row marks it read or unread, one button with the menu's icon and word, no toast; under Unread or Mentions the row stays until the person leaves the list or changes the filter. ([#793](https://github.com/botiverse/raft-design/pull/793))
+
 ## [0.33.0](https://github.com/botiverse/raft-design/compare/v0.32.2...v0.33.0) (2026-10-24)
 
 ### Added
