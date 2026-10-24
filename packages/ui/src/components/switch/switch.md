@@ -35,7 +35,7 @@ Which controls apply at once and which are saved is in [Forms](../../../../../de
 ## States
 
 - **Off:** a `fill-muted` track with an ink border, and a white knob on the left.
-- **On:** a `brand` sticker with an ink edge, and a white knob on the right. It looks the same in dark mode, where it gains the die-cut edge ([Dark mode](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)).
+- **On:** a `selected` sticker with an ink edge, yellow in every theme ([Themes](../../../../../design/foundations/themes.md#signals)), and a white knob on the right. It looks the same in dark mode, where it gains the die-cut edge ([Dark mode](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)).
 - **Disabled:** the shared disabled look, on or off ([States](../../../../../design/foundations/states.md)).
 
 ## Behavior

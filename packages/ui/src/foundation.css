@@ -23,6 +23,8 @@
               | -foreground (text on the solid)
               | -hover / -active (derived interaction pair, opt-in per family;
                 an opted-in family always gets both)
+   Signals:   you | selected — the yellow of "addressed to you" and of the
+              selected sticker, with their own value so no theme grays them.
    Washes:    ink-{alpha%} (2..40) — neutral overlays, hairlines, hover fills.
    Opacity rule: layer tokens are opaque in every theme, except the two
    backdrops (overlays by contract); among fills only the hover tiers
@@ -218,6 +220,15 @@
      colour. */
   --brand-hover: color-mix(in srgb, var(--brand-400) 90%, var(--sticker-ink));
   --brand-active: var(--brand-hover);
+  /* Raft yellow for what is addressed to you: a mention of you, the sidebar's @
+     marker, a search hit, the passage of the comment you opened. Its own value,
+     not brand, so a theme that grays the brand (Boring Gray) keeps it yellow. */
+  --you: oklch(0.8829 0.1623 91.9);
+  /* Raft yellow for the selected sticker: where you are (the active sidebar row,
+     a segment, a tab, the tab bar's item, the current step) and what is on (a
+     switch, a toggle, a pressed panel action). Its own value, not brand, so a
+     theme that grays the brand (Boring Gray) keeps it yellow. */
+  --selected: oklch(0.8829 0.1623 91.9);
   --attention-50: var(--palette-pink-50);
   --attention-100: var(--palette-pink-100);
   --attention-200: var(--palette-pink-200);

@@ -234,6 +234,8 @@ const HEADER = `/* Generated from tokens.json by scripts/build-tokens.mjs. Do no
               | -foreground (text on the solid)
               | -hover / -active (derived interaction pair, opt-in per family;
                 an opted-in family always gets both)
+   Signals:   you | selected — the yellow of "addressed to you" and of the
+              selected sticker, with their own value so no theme grays them.
    Washes:    ink-{alpha%} (2..40) — neutral overlays, hairlines, hover fills.
    Opacity rule: layer tokens are opaque in every theme, except the two
    backdrops (overlays by contract); among fills only the hover tiers

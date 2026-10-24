@@ -14,14 +14,14 @@ Badge is a small label. Its main job is the unread count: a pink sticker that sa
 
 ## When to use
 
-| Situation                                                                        | Use                                                                                                                                          |
-| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Unread messages on a list row or a sidebar row; new thread replies; new activity | The unread count: `variant="accent"` (the `attention` color). In the sidebar, `SidebarItemCount` ([Sidebar](../sidebar/sidebar.md))          |
-| Someone mentioned the person                                                     | The @ marker: `variant="primary"` (the `brand` color) with the `at-sign` icon. In the sidebar, `SidebarItemIndicator`                        |
-| Unread items in a muted place                                                    | A gray number in Space Mono (`text-mono-meta`, `foreground-hint`), not a badge                                                               |
-| Something waits, on a rail icon, a tab bar icon or the bell                      | The attention dot: one pink pixel ([Status](../status/status.md)), never a number                                                            |
-| Where a task is, or how an agent is                                              | A status chip: `TaskStatusBadge` ([Tasks](../tasks/tasks.md)) or a soft Badge with a pixel ([Status](../status/status.md#agent-state-chips)) |
-| This is an agent; where it runs                                                  | The `agent` tag and the runtime chip ([Status](../status/status.md#agent-tag))                                                               |
+| Situation                                                                        | Use                                                                                                                                                                       |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Unread messages on a list row or a sidebar row; new thread replies; new activity | The unread count: `variant="accent"` (the `attention` color). In the sidebar, `SidebarItemCount` ([Sidebar](../sidebar/sidebar.md))                                       |
+| Someone mentioned the person                                                     | The @ marker: `variant="primary"` (the `brand` color) with the `at-sign` icon. In the sidebar, `SidebarItemIndicator`, which paints `you` and stays yellow in every theme |
+| Unread items in a muted place                                                    | A gray number in Space Mono (`text-mono-meta`, `foreground-hint`), not a badge                                                                                            |
+| Something waits, on a rail icon, a tab bar icon or the bell                      | The attention dot: one pink pixel ([Status](../status/status.md)), never a number                                                                                         |
+| Where a task is, or how an agent is                                              | A status chip: `TaskStatusBadge` ([Tasks](../tasks/tasks.md)) or a soft Badge with a pixel ([Status](../status/status.md#agent-state-chips))                              |
+| This is an agent; where it runs                                                  | The `agent` tag and the runtime chip ([Status](../status/status.md#agent-tag))                                                                                            |
 
 ## Anatomy
 

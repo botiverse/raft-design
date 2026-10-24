@@ -47,6 +47,8 @@ text/compositions/semantic-elements
 | `variant="information"`, `"success"`, `"warning"`, `"danger"`, `"primary"`, `"accent"` | Text that carries its color's meaning ([Meanings of color](../../../../../design/foundations/color.md#meanings-of-color)) |
 | `size="tabular"`                                                                       | Numbers in a column, with figures of equal width                                                                          |
 
+- `variant="primary"` is `brand-strong`, the brand's shade for text: 8.9:1 on white and 12.5:1 on the dark canvas. It used `brand-700`, which was 3.1:1 (APCA Lc 22) on the dark canvas, and which no theme reached, so it stayed yellow-brown in Boring Gray. Yellow text is the brand, not a signal (a signal is a yellow sticker: [Themes](../../../../../design/foundations/themes.md#signals)), so it grays with Boring Gray.
+
 ## Content
 
 - Follow the casing in [Typography](../../../../../design/foundations/typography.md#casing): sentence case for text, Title Case only for what people click.

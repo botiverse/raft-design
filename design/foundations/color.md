@@ -13,7 +13,7 @@ Color in Raft works in two ways. Surfaces get less color from the outside in: th
 - **Yellow goes on the frame only.** The frame is on every screen but nobody reads it, so color there costs almost nothing. Everything people read (messages, lists, cards, the content of pushed pages) sits on paper. The frame is the desktop rail, the web top bar and the top bar of a phone's top-level pages; see [Page structure](../patterns/page-structure.md).
 - **Each color has one meaning.** Yellow is you, pink is to do, cyan is this item, orange interrupts, red is irreversible. Status colors are fixed too; see [Meanings of color](#meanings-of-color).
 - **A block of brand color is a sticker.** It has a 1.5px ink edge and ink type on it, in both modes; see [Stickers](#stickers).
-- **Notices are neutral.** Toasts and tooltips are dark gray (`layer-hud`), not a brand color, and no button is yellow. A notice is an aside: a yellow toast would compete with selection, and yellow means only "you" (where you are, what you selected, what calls you). In Boring Gray that yellow is a gray fill ([Themes](./themes.md#the-themes): someone chose the neutral look on purpose, and the selection keeps its fill and ink type, so where you are stays just as clear).
+- **Notices are neutral.** Toasts and tooltips are dark gray (`layer-hud`), not a brand color, and no button is yellow. A notice is an aside: a yellow toast would compete with selection, and yellow means only "you" (where you are, what you selected, what calls you). That yellow stays yellow in every theme, Boring Gray included: it is information, so it has its own tokens, `you` and `selected` ([Themes](./themes.md#signals)).
 
 ## Tokens
 
@@ -86,6 +86,13 @@ ink
 brand
 ```
 
+`you` and `selected` are the yellow of the two things yellow means. They have the value of `brand` in Raft Yellow, but their own, not a reference to it, so a theme that grays the brand keeps them ([Themes](./themes.md#signals)).
+
+| Token | Value, both modes | Use for |
+| --- | --- | --- |
+| `you` | `oklch(0.8829 0.1623 91.9)` | What is addressed to you: a mention of you, the sidebar's @ marker, a search hit, the passage of the comment you opened |
+| `selected` | `oklch(0.8829 0.1623 91.9)` | The selected sticker: where you are (a sidebar row, a segment, a tab, the tab bar's item, the current step) and what is on (a switch, a pressed toggle or panel action) |
+
 ```tokens
 attention
 ```
@@ -114,7 +121,7 @@ inactive
 
 | Color | Role | Means | Use for |
 | --- | --- | --- | --- |
-| Yellow | `brand` | You | The frame, the selected item in navigation, an on switch, the location tile of the place you are in, a mention of you, search hits, the passage of the comment you opened; your server (the workspace tile, yellow on ink) |
+| Yellow | `brand`, `you`, `selected` | You | The frame, the location tile of the place you are in, your server (the workspace tile, yellow on ink): `brand`. A mention of you, search hits, the passage of the comment you opened: `you`. The selected item in navigation, an on switch: `selected` |
 | Pink | `attention` | To do | At most one primary button per screen; unread counts and attention dots |
 | Cyan | `info` | This item, information | In Progress, runtimes, external agents, progress bars; `info-soft` for the item singled out in content, an active filter, an info banner |
 | Orange | `warning` | Interrupts | Buttons that stop, leave or reset; warnings; Todo; the error presence light |

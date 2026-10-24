@@ -107,7 +107,7 @@ export const messageReference = tv({
           ...inlineChip,
           "[--message-reference-em:1em]",
           "text-sticker-ink no-underline",
-          "bg-brand inset-ring-[1.5px] inset-ring-sticker-ink",
+          "bg-you inset-ring-[1.5px] inset-ring-sticker-ink",
           "hover:overlay-sticker-medium active:overlay-sticker-medium",
         ],
       },

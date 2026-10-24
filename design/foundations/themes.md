@@ -11,6 +11,7 @@ A theme changes the frame and the surfaces around the content. It never changes 
 
 - **A theme is a frame, not a new palette.** It recolors the frame (the rail, the web top bar, the phone's top bar), the sidebar and, in dark mode, the dark surfaces. Content stays on white paper in light mode.
 - **Meaning never changes.** The pink primary button, unread and @ counts, status lights, warnings and errors look the same in every theme, so a person who switches themes doesn't have to learn the product again.
+- **A theme quiets the environment, never information.** What is addressed to you (`you`) and what is selected or on (`selected`) keep Raft yellow in every theme, Boring Gray included ([Signals](#signals)).
 - **Each theme has a light and a dark version.** In dark mode the canvas, sidebar, cards and popups take the theme's hue at low chroma. A neutral black panel inside a colored frame looked pasted on.
 - **Decorations are optional.** A theme from the avatar series can draw its pixel sprites on the frame; the person can turn them off and keep the colors.
 
@@ -19,10 +20,23 @@ A theme changes the frame and the surfaces around the content. It never changes 
 | Theme | Frame | Decorations |
 |---|---|---|
 | Raft Yellow (default) | The foundation: yellow frame, cream sidebar | None |
-| Boring Gray | Near-white frame and sidebar, gray selection; no yellow, no ink edge on selection | None |
+| Boring Gray | Near-white frame and sidebar, gray brand art and washes; yellow only where something is selected or addressed to you | None |
 | Bots, Critters, Space, Desk, Food, Quest, Weather, Plants, Spooky | One per avatar series in `design/assets/Agents`, colored after it | That series' sprites |
 
-Boring Gray is the one theme that also changes the brand, so it is the one exception to "where you are is yellow" ([Navigation](../patterns/navigation.md), [States](./states.md)): `brand` and its washes become neutral grays and `brand-edge` is transparent, so selected rows are a plain gray fill. Its selection keeps ink type in both modes, like every sticker ([Color](./color.md)), so in dark mode it is a light gray.
+Boring Gray is the one theme that also changes the brand. Besides its gray frame and sidebar, `brand` and its washes become neutral grays: the brand art (the panel header's icon sticker, the workspace tile's letter), the popup cursor (`brand-soft` on menu, option and suggestion rows), the wash under commented passages and selected text. That is the environment a person who picks "Boring" opts out of. The yellow that is left is small and local, one row, one segment or one chip, and it appears only where something is selected or addressed to you ([Signals](#signals)).
+
+## Signals
+
+Yellow carries two meanings in Raft, and both are information, not decoration ([Meanings of color](./color.md#meanings-of-color)). They have their own tokens, which point at the raw yellow instead of `brand`, so no theme reaches them:
+
+| Token | Means | Use for |
+|---|---|---|
+| `you` | Addressed to you | A mention of you (`MessageReferenceText variant="primary"`), the sidebar's @ marker (`SidebarItemIndicator`), a search hit, the passage of the comment you opened |
+| `selected` | Where you are, what is on | The active sidebar row, the selected segment, tab and tab bar item, a pressed toggle or panel action, an on switch, the current step |
+
+- Each keeps the sticker's 1.5px ink edge (`sticker-ink`) and ink type, in every theme.
+- Gray can't stand in for them. When Boring Gray painted them with its gray `brand`, a selected segment was ΔE 1.4 (OKLab × 100) from a hovered one in light mode, under the 2 a person can notice; the selected sidebar row was 5.0 from the sidebar and a mention of you 7.5 from the page. The yellow is 16.5 to 20. A gray dark enough to match it is a mid-gray slab, heavier than the yellow it replaces. `themes.contrast.test.ts` holds every theme to ΔE 10.
+- Paint a new "you" signal or a selected sticker with these tokens, not with `brand`: `brand` is the environment and follows the theme.
 
 ## What a theme may change
 
@@ -31,7 +45,7 @@ Boring Gray is the one theme that also changes the brand, so it is the one excep
 - In dark mode, `layer-canvas`, `layer-card` and `layer-popover`, tinted to the theme's hue.
 - Boring Gray only: `brand`, `brand-soft`, `brand-strong`, `brand-glow`, `brand-edge` and `selection`.
 
-Anything else stays the foundation's value. A frame light enough for ink type uses ink on it and a white `layer-frame-active`; a dark frame uses light type and keeps the yellow selected item, as the dark-mode rail does ([0012](../decisions/0012-yellow-rail-selection-in-dark-mode.md)).
+Anything else stays the foundation's value. No theme changes `you` or `selected` ([Signals](#signals)). A frame light enough for ink type uses ink on it and a white `layer-frame-active`; a dark frame uses light type and keeps the yellow selected item, as the dark-mode rail does ([0012](../decisions/0012-yellow-rail-selection-in-dark-mode.md)).
 
 ## Decorations
 

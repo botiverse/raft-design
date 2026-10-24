@@ -23,7 +23,7 @@ const mobileNav = tv({
       "active:before:bg-fill-medium",
       "data-[selected=true]:font-bold data-[selected=true]:text-foreground",
       "data-[selected=true]:[&_svg]:text-sticker-ink",
-      "data-[selected=true]:before:border-sticker-ink data-[selected=true]:before:bg-brand data-[selected=true]:before:ring-[1.5px] data-[selected=true]:before:ring-sticker-edge",
+      "data-[selected=true]:before:border-sticker-ink data-[selected=true]:before:bg-selected data-[selected=true]:before:ring-[1.5px] data-[selected=true]:before:ring-sticker-edge",
       "data-[selected=true]:active:before:overlay-sticker-medium",
       "rounded-control focus-visible:shadow-focus",
     ],
