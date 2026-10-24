@@ -16,7 +16,7 @@ export const sidebarItemRecipe = tv({
       "max-md:h-auto max-md:min-h-11 max-md:py-[8.5px]",
       "font-sans text-subhead font-medium text-foreground",
       "max-md:text-body max-md:font-semibold",
-      "data-active:border-brand-edge data-active:bg-brand data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
+      "data-active:border-sticker-ink data-active:bg-selected data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
       "not-data-active:data-[tone=muted]:text-foreground-muted not-data-active:data-[tone=away]:text-foreground-hint",
       "outline-none",
     ],
@@ -56,7 +56,7 @@ export const sidebarItemRecipe = tv({
       "[&:has(svg)]:px-0",
       "[&_svg]:shrink-0 [&_svg]:translate-y-0",
       "size-5 min-w-5 rounded-sticker border-0 p-0",
-      "bg-brand text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
+      "bg-you text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
       "[&_svg]:size-[13px] [&_svg]:stroke-2",
     ],
     sidebarItemMetaIcon: [

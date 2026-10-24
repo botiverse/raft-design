@@ -14,7 +14,7 @@ const switchRecipe = tv({
       "focus-visible:ring-line-strong focus-visible:ring-offset-layer-sidebar",
       "h-[30px] w-[50px] rounded-full border-[1.5px] border-line-strong bg-fill-muted p-[2.5px]",
       "duration-150",
-      "data-checked:border-sticker-ink data-checked:bg-brand data-checked:ring-[1.5px] data-checked:ring-sticker-edge",
+      "data-checked:border-sticker-ink data-checked:bg-selected data-checked:ring-[1.5px] data-checked:ring-sticker-edge",
       "focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:shadow-focus",
       "data-disabled:border-foreground-disabled data-disabled:bg-fill-muted",
       "data-checked:data-disabled:border-foreground-disabled data-checked:data-disabled:bg-fill-muted",

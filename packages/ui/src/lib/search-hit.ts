@@ -7,6 +7,6 @@
  */
 export const searchHit = [
   "[font:inherit] font-bold!",
-  "rounded-sticker bg-brand px-[3px] box-decoration-clone",
+  "rounded-sticker bg-you px-[3px] box-decoration-clone",
   "text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
 ];

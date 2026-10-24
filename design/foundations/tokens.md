@@ -66,6 +66,7 @@ Names are built from a few parts, so a name you haven't seen tells you what it i
 | --- | --- | --- |
 | Neutral roles | `{role}(-{purpose})(-{intensity})` | `layer-canvas`, `foreground-hint`, `line-seam`, `fill-medium`, `foreground-on-hud` |
 | Color roles | `{family}(-{slot})` | `brand`, `brand-soft`, `danger-strong`, `info-muted` |
+| Signals | `you`, `selected` | `you`, `selected` |
 | Ink steps | `ink-{alpha}` | `ink-8`, `ink-40` |
 | Palette | `palette-{color}-{step}` | `palette-yellow-400`, `palette-lavender-800` |
 | Statuses | `task-status-{status}(-soft\|-strong)`, `presence-{state}` | `task-status-in-review-soft`, `presence-busy` |
@@ -93,6 +94,8 @@ The purpose says where the token is used: `frame`, `sidebar`, `canvas`, `card`, 
 | `-foreground` | Text on the solid color, where a family has its own |
 | `-hover`, `-active` | The pair a solid fill takes on hover and press. A family has both or neither |
 | `-50` to `-950` | The numbered ramp. Only `brand` and `attention` have one |
+
+**Signals.** `you` and `selected` are the yellow of what is addressed to you and of the selected sticker. They hold their own value instead of pointing at `brand`, so no theme grays them ([Themes](./themes.md#signals)).
 
 **Opacity.** Every `layer` token is opaque except the two scrims, `layer-backdrop` and `layer-backdrop-nested`. `fill-muted` and `fill-strong` are opaque. `fill-subtle`, `fill-medium`, `fill-frame-medium` and `sticker-medium` are translucent: they are the hover tiers, laid on top of a control or a row ([Hover overlays](./color.md#hover-overlays)).
 

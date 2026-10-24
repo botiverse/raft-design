@@ -64,7 +64,7 @@ export function ListRowConversationsComposition() {
           </ListRowTop>
           <ListRowBottom>
             <ListRowDescription>Bugen claimed #25 Polish onboarding flow</ListRowDescription>
-            <Badge variant="primary" role="img" aria-label="Mentions you">
+            <Badge variant="you" role="img" aria-label="Mentions you">
               <AtSign />
             </Badge>
           </ListRowBottom>

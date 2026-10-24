@@ -6,7 +6,7 @@ redirectFrom: [decisions/0007-workspace-switcher-sheet]
 
 # Navigation
 
-A product's destinations are on the tab bar on a phone and on the rail on desktop. Where you are is always yellow, except in Boring Gray, where it is a gray fill ([Themes](../foundations/themes.md#the-themes): someone chose the neutral look on purpose, and the selection keeps its fill and ink type, so where you are stays just as clear). Going back follows the history; a popup closes with ×, Esc or a press outside it. People move between many places and many servers in a day, so every product puts these in the same spots and marks them the same way.
+A product's destinations are on the tab bar on a phone and on the rail on desktop. Where you are on paper is always yellow, in every theme (`selected`: [Themes](../foundations/themes.md#signals)); on the frame, the rail's selected item takes the theme's frame colors ([Where you are](#where-you-are)). Going back follows the history; a popup closes with ×, Esc or a press outside it. People move between many places and many servers in a day, so every product puts these in the same spots and marks them the same way.
 
 ## Principles
 
@@ -64,7 +64,7 @@ Decided on 2026-10-23 by stdrc. A page that updates by itself never asks people 
 
 - Mark the current place with a yellow sticker on paper: sidebar rows, segmented controls, tabs. Yellow means "you" everywhere, so where you are and what calls you share one color ([0011](../decisions/0011-yellow-navigation-selection.md)).
 - On the tab bar, the sticker wraps only the icon: a whole yellow cell at the bottom of the screen would read as a second frame ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#states)).
-- On the rail, the selected item is a white sticker on the yellow frame in light mode and a yellow sticker in dark mode, where the frame is neutral ([0012](../decisions/0012-yellow-rail-selection-in-dark-mode.md)).
+- On the rail, the selected item is a white sticker on the yellow frame in light mode and a yellow sticker in dark mode, where the frame is neutral ([0012](../decisions/0012-yellow-rail-selection-in-dark-mode.md)). The rail is part of the frame, so in another theme its selected item takes that theme's frame colors (`layer-frame-active`), gray in Boring Gray ([Themes](../foundations/themes.md#signals)).
 - Put a yellow location tile beside the title of the place the person is in, such as a channel ([IconTile](../../packages/ui/src/components/icon-tile/icon-tile.md)).
 - Name a rail item in a tooltip to its right. The rail shows no labels, so that it stays 56px and its top-left corner stays square ([Spacing](../foundations/spacing.md#heights)).
 - Show an attention dot on a destination when something in it waits for the person ([States](../foundations/states.md)). Which destinations carry one is on the product's page.
