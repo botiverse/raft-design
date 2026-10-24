@@ -1,3 +1,23 @@
+## [0.33.0](https://github.com/botiverse/raft-design/compare/v0.32.2...v0.33.0) (2026-10-24)
+
+### Added
+
+- Tokens `you` and `selected` (`bg-you`, `bg-selected`, `border-selected`): the yellow of a signal addressed to you and of a selected or "on" state. They equal `brand-400` in Raft Yellow, and no theme overrides them. ([#791](https://github.com/botiverse/raft-design/pull/791))
+- Badge `variant="you"`: the @ marker for something addressed to you outside the sidebar. It stays yellow in every theme, while `primary` follows the theme. ([#791](https://github.com/botiverse/raft-design/pull/791))
+
+### Changed
+
+- Selected and "on" states (segmented control, sidebar row, tabs, toggle group, mobile nav, pressed panel action, switch, current step) paint `selected`, and signals addressed to you (mention-of-you chip, sidebar @ marker, search hit, active comment) paint `you`. Raft Yellow looks the same; Boring Gray now keeps them yellow. ([#791](https://github.com/botiverse/raft-design/pull/791))
+- The selected sidebar row's edge is `sticker-ink`, so it keeps its ink edge in Boring Gray. ([#791](https://github.com/botiverse/raft-design/pull/791))
+- `Text variant="primary"` uses `brand-strong` and follows the theme (deeper in light, yellow in dark; 8.9:1 and 12.5:1). ([#791](https://github.com/botiverse/raft-design/pull/791))
+
+### Design System
+
+- **Themes:** a theme quiets the environment, never information. Signals addressed to you and selected states keep their color in every theme; the rail and anything on the frame follow the theme's frame. ([#791](https://github.com/botiverse/raft-design/pull/791))
+  - Docs: https://raft-design.botiverse.build/foundations/themes/
+- **ChoiceList:** a description line is cut at its end, so it leads with what people compare. ([#789](https://github.com/botiverse/raft-design/pull/789))
+- **Touch screens:** the swipe buttons' type, and what a tap does while a row is open. ([#790](https://github.com/botiverse/raft-design/pull/790))
+
 ## [0.32.2](https://github.com/botiverse/raft-design/compare/v0.32.1...v0.32.2) (2026-10-23)
 
 ### Added
