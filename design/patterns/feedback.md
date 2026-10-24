@@ -61,5 +61,6 @@ empty-state/compositions/default
 
 ## Related
 
+- [Actions and closing](./actions-and-closing.md): when an action goes in a dialog, a banner or a toast, and how each one closes.
 - [States](../foundations/states.md): the error and busy states of controls.
 - [Hand-offs and approvals](../people-and-agents/handoffs-and-approvals.md#when-something-fails): an agent that fails.
