@@ -54,7 +54,7 @@ export const messageReference = tv({
       "[&_svg]:size-[0.857em] [&_svg]:shrink-0 [&_svg]:self-center",
       "*:data-[slot=spinner]:self-center",
       "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:relative",
-      "has-[>[data-slot=message-reference-indicator]]:mr-2.5 has-[>[data-slot=message-reference-read-mark]]:mr-3",
+      "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:mr-2.5",
       "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:inline-block",
       "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:overflow-visible",
     ],

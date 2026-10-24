@@ -8,7 +8,7 @@ import { MessageReferenceReadMark, MessageReferenceText } from "./message-refere
 // The read receipt on a mention (message-item.md, "Read receipts on a
 // mention"): a bare lime check, 10px, no light and no box, at the mention's
 // top right. Its box starts 2px after the name's text, so it never covers the
-// last letter, the mention reserves 12px after its text before the word space,
+// last letter, the mention reserves 10px after its text before the word space,
 // and the line keeps its height. Light mode draws it in palette-lime-700, dark
 // mode in the online lime.
 // Real layout only: jsdom has no boxes.
@@ -108,13 +108,14 @@ for (const [name, width, mode, expected] of [
     text.selectNodeContents(mention.firstChild!);
     const textRight = text.getBoundingClientRect().right;
     expect(mark.left - textRight, "2px after the name's text").toBeCloseTo(2, 1);
-    // The mention reserves the check's 12px, so the word space comes after it.
+    // The mention reserves 10px, as for the indicator: the check's box ends 2px
+    // into the word space, where the glyph has only its own empty padding.
     const after = document.createRange();
     after.selectNodeContents(get("after").firstChild!);
-    expect(after.getBoundingClientRect().left, "the next word starts after the check").toBeCloseTo(
-      mark.right,
-      1,
-    );
+    expect(
+      after.getBoundingClientRect().left,
+      "the word space starts 10px after the name",
+    ).toBeCloseTo(mark.right - 2, 1);
 
     const svg = get("mark").querySelector<SVGSVGElement>("svg.lucide-check")!;
     const svgBox = svg.getBoundingClientRect();

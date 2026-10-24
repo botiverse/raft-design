@@ -32,7 +32,7 @@ test("the read mark is a bare check, no light, last inside the mention", () => {
   expect(mention.lastElementChild).toBe(mark);
 });
 
-test("the mark is a 10px lime check, 2px after the name, and the mention reserves 12px", () => {
+test("the mark is a 10px lime check, 2px after the name, and the mention reserves 10px like the indicator", () => {
   render(<MessageReferenceReadMark data-testid="mark">Read</MessageReferenceReadMark>);
   const classes = screen.getByTestId("mark").className.split(/\s+/);
   expect(classes).toEqual(
@@ -47,8 +47,9 @@ test("the mark is a 10px lime check, 2px after the name, and the mention reserve
   );
   expect(classes).not.toContain("[&>svg]:text-sticker-ink");
   const root = messageReference().root().split(/\s+/);
-  expect(root).toContain("has-[>[data-slot=message-reference-read-mark]]:mr-3");
-  expect(root).toContain("has-[>[data-slot=message-reference-indicator]]:mr-2.5");
+  expect(root).toContain(
+    "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:mr-2.5",
+  );
 });
 
 test("without children the mark adds no hidden text", () => {
