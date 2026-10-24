@@ -304,6 +304,7 @@
   --color-presence-error: var(--presence-error);
   --color-presence-offline: var(--presence-offline);
   --color-presence-external: var(--presence-external);
+  --color-read-mark: var(--read-mark);
 
   /* Task-status scale for Tailwind (`bg-task-status-todo`, `text-task-status-*`,
      …). One slot per state plus its soft wash / strong ink; all four theme

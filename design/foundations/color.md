@@ -126,7 +126,7 @@ inactive
 | Cyan | `info` | This item, information | In Progress, runtimes, external agents, progress bars; `info-soft` for the item singled out in content, an active filter, an info banner |
 | Orange | `warning` | Interrupts | Buttons that stop, leave or reset; warnings; Todo; the error presence light |
 | Red | `danger` | Irreversible | Delete buttons |
-| Lime | `success` | Done | Done, online, success banners, a read mention (the online light with an ink check) |
+| Lime | `success` | Done | Done, online, success banners, a read mention (a bare check: `read-mark`, `palette-lime-700` in light mode, the online lime in dark mode) |
 | Lavender | `palette-lavender-*` | — | In Review, and people without a photo |
 | Stone | `inactive` | Closed | Closed, offline |
 
@@ -158,6 +158,12 @@ presence
 - `presence-busy` has its own value instead of pointing at `brand`, so that a change of brand color doesn't change what busy looks like.
 - `presence-offline` is stone from the palette, not a default gray: raft-ui doesn't use Tailwind's default palette, so every presence light comes from the same palette.
 - Presence lights never blink; see [Motion](./motion.md).
+
+A read mention is marked by a bare check, not a light, in its own token: `read-mark` is `palette-lime-700` in light mode (6.2:1 on white) and the online lime in dark mode (10.5:1 on the dark canvas). The online lime alone is 1.64:1 on white, enough inside a light's ink edge but not for a bare 10px check ([Read receipts on a mention](../../packages/ui/src/components/message-item/message-item.md#read-receipts-on-a-mention)).
+
+```tokens
+read-mark
+```
 
 ### Soft tints
 

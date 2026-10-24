@@ -2,10 +2,11 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, expect, test } from "vite-plus/test";
 import { MessageReferenceReadMark, MessageReferenceText } from "./message-reference";
+import { messageReference } from "./message-reference.recipe";
 
 afterEach(cleanup);
 
-test("the read mark is the online light with an ink check, last inside the mention", () => {
+test("the read mark is a bare check, no light, last inside the mention", () => {
   render(
     <p>
       Ask{" "}
@@ -19,14 +20,11 @@ test("the read mark is the online light with an ink check, last inside the menti
   const mark = mention.querySelector("[data-slot=message-reference-read-mark]");
 
   expect(mark).not.toBeNull();
-  const light = mark!.querySelector("[data-slot=status]");
-  expect(light).not.toBeNull();
-  expect(light!.getAttribute("data-presence")).toBe("online");
-  expect(light!.getAttribute("aria-hidden")).toBe("true");
+  expect(mark!.querySelector("[data-slot=status]") === null, "no status light").toBe(true);
   const check = mark!.querySelector("svg.lucide-check");
   expect(check).not.toBeNull();
   expect(check!.getAttribute("aria-hidden")).toBe("true");
-  expect(check!.getAttribute("stroke-width")).toBe("3");
+  expect(check!.getAttribute("stroke-width")).toBe("2.5");
   // The state is said in text, which a screen reader reads with the name.
   expect(mention.textContent).toBe("@AtlasRead");
   expect(screen.getByText("Read").className).toContain("sr-only");
@@ -34,20 +32,24 @@ test("the read mark is the online light with an ink check, last inside the menti
   expect(mention.lastElementChild).toBe(mark);
 });
 
-test("the mark sits in the indicator's top-right slot, clear of the name, with an ink check", () => {
+test("the mark is a 10px lime check, 2px after the name, and the mention reserves 10px like the indicator", () => {
   render(<MessageReferenceReadMark data-testid="mark">Read</MessageReferenceReadMark>);
   const classes = screen.getByTestId("mark").className.split(/\s+/);
   expect(classes).toEqual(
     expect.arrayContaining([
       "absolute",
-      "-right-2.5",
+      "-right-3",
       "top-0",
-      "size-2",
-      "[&>svg]:size-[6.5px]!",
-      "[&>svg]:text-sticker-ink",
+      "size-2.5",
+      "[&>svg]:size-2.5!",
+      "[&>svg]:text-read-mark",
     ]),
   );
-  expect(classes).not.toContain("-right-1.5");
+  expect(classes).not.toContain("[&>svg]:text-sticker-ink");
+  const root = messageReference().root().split(/\s+/);
+  expect(root).toContain(
+    "has-[>[data-slot=message-reference-indicator],>[data-slot=message-reference-read-mark]]:mr-2.5",
+  );
 });
 
 test("without children the mark adds no hidden text", () => {

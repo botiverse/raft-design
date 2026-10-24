@@ -787,7 +787,7 @@
       "MessageReferenceIcon"
     ],
     "status": "stable",
-    "description": "The read receipt on a mention: the online light (8px, lime, ink edge) with an ink check in it, at the mention's top right, once the one mentioned has read the message. Put it last inside the mention, and render nothing until then. The light and check are decorative; `children` is what a screen reader says instead (\"Read\"), visually hidden."
+    "description": "The read receipt on a mention: a bare lime check (10px, no box) at the mention's top right, once the one mentioned has read the message. Put it last inside the mention, and render nothing until then. The check is decorative; `children` is what a screen reader says instead (\"Read\"), visually hidden."
   },
   "message-list": {
     "names": [
