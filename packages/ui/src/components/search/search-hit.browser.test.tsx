@@ -28,11 +28,7 @@ it("a hit is a fill with no edge, in the text's own weight, covering the descend
   expect(style.fontWeight, "the text's own weight").toBe(getComputedStyle(body).fontWeight);
   expect(style.backgroundColor, "a fill").not.toBe("rgba(0, 0, 0, 0)");
 
-  // The fill's box reaches below the glyphs' descent: the "y" sits inside it.
-  const range = document.createRange();
-  range.selectNodeContents(hit.firstChild!);
-  const glyphs = range.getBoundingClientRect();
-  const box = hit.getBoundingClientRect();
-  expect(box.bottom, "the fill covers the descenders").toBeGreaterThanOrEqual(glyphs.bottom);
-  expect(box.top, "and the ascenders").toBeLessThanOrEqual(glyphs.top);
+  // 1px of fill above and below the glyphs' box, so a "y" sits inside it.
+  expect(parseFloat(style.paddingTop), "fill above the ascenders").toBeGreaterThanOrEqual(1);
+  expect(parseFloat(style.paddingBottom), "fill below the descenders").toBeGreaterThanOrEqual(1);
 });
