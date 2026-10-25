@@ -1,3 +1,12 @@
+## [0.35.1](https://github.com/botiverse/raft-design/compare/v0.35.0...v0.35.1) (2026-10-25)
+
+### Fixed
+
+- **PanelNotice**: a leading `Spinner` is centred on the first line of text, in the 16px icon's column. ([#801](https://github.com/botiverse/raft-design/pull/801))
+  - Why: a pending notice that led with a Spinner showed it 3–4px above the text's first line, because only an icon was centred; the Spinner now takes the icon's place the way it does in Banner.
+  - Affects: Spinner column 16px (any Spinner size); text starts where it does after a 16px icon.
+  - Docs: https://raft-design.botiverse.build/components/panel/
+
 ## [0.35.0](https://github.com/botiverse/raft-design/compare/v0.34.0...v0.35.0) (2026-10-24)
 
 ### Changed
