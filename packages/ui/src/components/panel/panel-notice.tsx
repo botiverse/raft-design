@@ -23,9 +23,9 @@ const panelNotice = tv({
       "[&>svg]:lead-icon",
       // Something pending leads with a Spinner instead (Banner, "While
       // something is still pending"): centred on the first line like an icon,
-      // in a 16px column so the text starts where it does after one. The
+      // in a 16px column (any Spinner size) so the text starts where it does after one. The
       // Spinner sets leading-none; lead-icon reads 1lh, so it takes the row's.
-      "*:data-[slot=spinner]:lead-icon *:data-[slot=spinner]:mx-0.5 *:data-[slot=spinner]:leading-[inherit]",
+      "*:data-[slot=spinner]:lead-icon *:data-[slot=spinner]:w-4 *:data-[slot=spinner]:leading-[inherit]",
     ],
     content: ["min-w-0 flex-1"],
     actions: ["flex shrink-0 items-center", "-my-1.5 gap-3"],
