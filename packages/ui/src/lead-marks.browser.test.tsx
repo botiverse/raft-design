@@ -215,6 +215,27 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
   }
 
   for (const { name, text, width, wraps } of TEXTS) {
+    // A pending notice leads with a Spinner in the 16px icon's column.
+    it(`${deviceName}: a PanelNotice's spinner leads its first line (${name})`, async () => {
+      await device(deviceWidth, touch);
+      render(
+        <Frame width={width + 40}>
+          <PanelNotice status="info">
+            <Spinner aria-hidden />
+            <PanelNoticeContent data-testid="text">{text}</PanelNoticeContent>
+          </PanelNotice>
+        </Frame>,
+      );
+      const mark = document.querySelector("[data-slot=spinner] [data-spinner-grid]")!;
+      expectLeads(mark, screen.getByTestId("text"), {
+        size: SPINNER,
+        gap: PANEL_NOTICE_GAP + (16 - SPINNER) / 2,
+        wraps,
+      });
+    });
+  }
+
+  for (const { name, text, width, wraps } of TEXTS) {
     it(`${deviceName}: a MessageActionCardNotice's icon leads its first line (${name})`, async () => {
       await device(deviceWidth, touch);
       render(
