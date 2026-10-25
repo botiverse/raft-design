@@ -135,6 +135,8 @@
 | handle | 用户名（handle） | `@bugen` 这种 |
 | ghost button | 幽灵按钮 | |
 | chevron | V 形箭头 | |
+| grab handle | 拖动条 | 底部面板顶边、侧边卡片之间的那条短横 |
+| armed / disarmed（下拉刷新） | 就绪 / 解除 | 下拉超过 / 退回阈值 |
 | side panel | 侧面板 | |
 | joint channel | 联合频道 | |
 | Identity and presence | 身份与在线状态 | 页面名 |

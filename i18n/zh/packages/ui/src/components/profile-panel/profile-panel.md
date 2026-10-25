@@ -6,7 +6,7 @@ sourceHash: 45268c24
 
 # ProfilePanel
 
-ProfilePanel 在对话旁边显示一个人或一个 Agent 的个人资料：一个 [Panel](../panel/panel.md)，标题栏写出他的名字，下面是大头像和几个详情部分。人和 Agent 用同一个面板，大小也一样（[身份与在线状态](../../../../../design/people-and-agents/identity-and-presence.md#the-same-as-people)）。
+ProfilePanel 在对话旁边显示一个人或一个 Agent 的个人资料：一个 [Panel](../panel/panel.md)，标题栏写出这个人或 Agent 的名字，下面是大头像和几个详情部分。人和 Agent 用同一个面板，大小也一样（[身份与在线状态](../../../../../design/people-and-agents/identity-and-presence.md#the-same-as-people)）。
 
 ```example
 profile-panel/compositions/member-detail
@@ -27,14 +27,14 @@ profile-panel/compositions/member-detail
 ## 结构 {#anatomy}
 
 - `ProfilePanel`：面板，放在 `layer-canvas` 上，填满所在列的高度。
-- `ProfilePanelHeader`：56px 的面板标题栏（[Panel](../panel/panel.md#anatomy)），最前面是他的头像。
+- `ProfilePanelHeader`：56px 的面板标题栏（[Panel](../panel/panel.md#anatomy)），最前面是头像。
   - `ProfilePanelHeaderContent`：`PanelTitle` 里是名字，`PanelMeta` 里是一行信息，例如用户名（handle）或角色。
   - `PanelActions`：图标按钮，例如 Message。
 - `ProfilePanelBody`：标题栏下方的内容，和对话面板的内容在同一个表面上。里面放 `PanelScrollViewport` 和 `PanelScrollContent`。
 - `ProfilePanelSection`：个人资料的一个部分，上方有一条 `line-hairline`。依次是：
   - 他是谁：`xl` 的 [Avatar](../avatar/avatar.md)、名字和用户名；
   - 详情，用 [DescriptionList](../description-list/description-list.md)：描述、角色、邮箱、加入时间；
-  - 属于他的 Agent 或人，用内嵌分组里的 [ListRow](../list-row/list-row.md) 行；
+  - 属于这个人或 Agent 的 Agent 或人，用内嵌分组里的 [ListRow](../list-row/list-row.md) 行；
   - 操作，放在最后。
 
 ## 变体 {#variants}
