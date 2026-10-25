@@ -1,7 +1,7 @@
 ---
 title: AlertDialog
 summary: 一个居中的小对话框，在执行不可撤销或会打断工作的操作前请人确认；确认按钮的颜色表示后果。
-sourceHash: 6d5c842e
+sourceHash: f1ff7cfa
 ---
 
 # AlertDialog
@@ -29,8 +29,8 @@ alert-dialog/compositions/confirm-action
 - `AlertDialogHeader`：标题行，可带一个 `AlertDialogClose`（×）。
 - `AlertDialogTitle`：标题。必需。
 - `AlertDialogBody` 和 `AlertDialogDescription`：会发生什么。
-- `AlertDialogFooter`：靠末端排成一行的按钮，Cancel 在前、提交按钮在后，手机上和桌面端一样。只有一行放不下时，它们才叠成通栏，提交按钮在上，和 [Dialog](../dialog/dialog.md#the-footer) 一样。
-- `AlertDialogCancel`：关闭对话框的幽灵按钮。必需。
+- `AlertDialogFooter`：靠末端排成一行的按钮，Cancel 在前、提交按钮在后，手机上和桌面端一样。只有一行放不下时，它们才叠成通栏，提交按钮在上，Cancel 加上边框，和 [Dialog](../dialog/dialog.md#the-footer) 一样。
+- `AlertDialogCancel`：关闭对话框的幽灵按钮；按钮叠放时加上边框。必需。
 - `AlertDialogAction`：确认按钮。它是一个 Button，自己不会关闭对话框：操作完成后再关闭。
 - `AlertDialogPortal`：底层部件。
 

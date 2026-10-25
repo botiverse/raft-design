@@ -1,7 +1,7 @@
 ---
 title: Raft Chat
 summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、桌面端布局和侧栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层，以及它和通用模式不一致的地方。
-sourceHash: 1befb300
+sourceHash: 9347bbd9
 ---
 
 # Raft Chat
@@ -24,11 +24,11 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 | 位置 | 目的地 |
 | --- | --- |
 | 手机标签栏 | 主页（`house`）、动态（`activity`，和桌面端导航条一样）、任务（`square-check-big`）、搜索（`search`），以及当前服务器（它的头像和名称），在贴边的标签栏上（[MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-the-server-tab)）。顺序固定。搜索是一个标签，也是搜索全部内容的唯一入口：它的页面没有返回，标签栏保持搜索选中，切换标签后它的查询、筛选、结果和滚动位置都保留（[导航](../../patterns/navigation.md#search-on-a-phone)）。移动应用和手机网页上都一样 |
-| 手机上的服务器标签 | 打开一个弹出层而不是页面：先是服务器列表，然后是 Join Community、Switch or Create Server 和 Invite Human，最底部是并排一行的成员、计算机和[设置](./settings.md)。服务器自己的每个页面打开一个推入页面，带返回。切换服务器时停在当前标签（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)）。访客没有成员和计算机 |
+| 手机上的服务器标签 | 打开一个弹出层而不是页面：先是服务器列表，然后是 Join Community、Switch or Create Server 和 Invite Human，最底部是并排一行的成员、计算机和[设置](./settings.md)。服务器自己的每个页面打开一个推入页面，带返回。切换服务器时停在当前标签（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)）。访客没有成员和计算机，所以他们的那一行只有设置。在应用的桌面模式下（840dp 起）没有服务器标签：导航条头部的工作空间图块打开这个弹出层，里面没有设置，设置在导航条底部（[导航](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)） |
 | 手机主页的第一行 | 收藏（带灰色计数），这是它唯一的入口；见[主页](./home.md) |
 | 网页顶栏（768px 起，以及桌面应用的标题栏） | 同[页面结构](../../patterns/page-structure.md#the-web-top-bar)；搜索框打开搜索 |
 | 桌面端导航条 | 聊天、动态、任务、成员、计算机；底部是帮助（`circle-help`）和设置。访客没有成员和计算机 |
-| 只在[设置](./settings.md)里 | 成员和计算机（手机上），以及 Account 末尾的 Sign Out |
+| 只在[设置](./settings.md)里 | Account 末尾的 Sign Out |
 
 没有网页顶栏时（较旧的桌面版本、服务器的公开页面），导航条顶部显示工作空间图块，搜索在聊天之前，铃铛在帮助上方。
 
@@ -50,7 +50,7 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 ### 铃铛和动态 {#the-bell-and-activity}
 
 - 铃铛打开通知中心：整个服务器的状态。它列出联合频道的邀请、服务商的用量上限、套餐变更、需要处理、离线或磁盘空间不足的计算机、在这台设备上安装 Raft，以及反馈的新回复。每一条都有自己的操作和 Dismiss。
-- 动态列出等这个人处理的对话：有未读消息或提及的频道、私信和关注的消息列。它按 All、Unread 和 Mentions 筛选，有 Mark all read，没有搜索框，每一行有一个 Mark as Done 勾选（[InboxItem](../../../packages/ui/src/components/inbox-item/inbox-item.md)）。审批和任务不会作为单独的行出现在里面。在标签栏上再点一次动态，或点它的标题栏，会跳到下方下一个未读对话，到底后回到顶部，循环往复（[导航](../../patterns/navigation.md#going-back)）。
+- 动态列出等这个人处理的对话：有未读消息或提及的频道、私信和关注的消息列。它按 All、Unread 和 Mentions 筛选，有 Mark all read，没有搜索框，每一行有一个 Mark as Done 勾选，在手机上则改为左滑和这一行长按菜单里的一项（[触屏](../../patterns/responsive.md#touch-screens)）。审批和任务不会作为单独的行出现在里面。在手机上，左滑露出这一行的按钮：先是 Done，然后关注的消息列上是 Unfollow，已加入、动态没有静音的频道上是 Mute，各自只在适用时出现；拉过 60% 就执行 Done。轻提示说明发生了什么（「Unfollowed …」「Muted activity in #…」），带 Undo，同样的操作也在长按菜单里。右滑把这一行标为已读，已经是已读时标为未读，这一行留在原处，没有轻提示。在标签栏上再点一次动态，或点它的标题栏，会跳到下方下一个未读对话，到底后回到顶部，循环往复（[导航](../../patterns/navigation.md#going-back)）。
 
 ### 手机一级页面的顶部 {#the-tops-of-the-phones-top-level-pages}
 

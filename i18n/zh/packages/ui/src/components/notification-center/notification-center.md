@@ -1,7 +1,7 @@
 ---
 title: NotificationCenter
 summary: 从铃铛打开的列表，保存整个服务器的状态（计算机离线、配额快满、有更新），直到状态改变。
-sourceHash: 060cd791
+sourceHash: f15eef2e
 ---
 
 # NotificationCenter
@@ -38,7 +38,7 @@ NotificationCenter 是从铃铛打开的列表。它保存整个服务器的状�
 | 图标上的 `status="error"` | 某个东西停止工作了：计算机离线、Agent 无法启动。`warning-soft` 方块，`octagon-alert` 图标 |
 | `status="warning"` | 某个东西快要停止工作：配额快满、密钥即将过期。`warning-soft` 方块，`triangle-alert` 图标 |
 | `status="info"` | 消息：有更新。`info-soft` 方块，`info` 图标 |
-| 弹出层上的 `viewport="mobile"` | 手机上更窄的弹出层 |
+| 弹出层上的 `viewport="mobile"` | 手机上的弹出层：屏幕宽度减去两侧各 8px，与屏幕边缘保持 8px |
 | 弹出层上的 `size` | 弹出层的高度：`sm`、`md` 或 `lg` |
 
 ## 状态 {#states}
@@ -54,6 +54,7 @@ NotificationCenter 是从铃铛打开的列表。它保存整个服务器的状�
 - 这个人关掉一条提示后，在情况改变之前不要再显示它。
 - 只在有未读提示时显示铃铛上的提醒圆点。默认的触发按钮总是画出圆点，所以没有未读时，只把铃铛作为触发按钮的 children 传入。
 - 弹出层浮在铃铛旁边，不占布局空间（[层级](../../../../../design/foundations/elevation.md#popups)）。
+- 在手机上（`viewport="mobile"`），弹出层离屏幕两侧边缘各 8px，和同一个顶栏下的服务器列表一样：它和定位元素的 `--available-width` 一样宽（屏幕减去两侧各 8px 的内边距），最宽 480px，只有横过来的手机才会达到；它的碰撞内边距是 8px，所以虽然它挂在右边的铃铛下，仍然离两侧边缘各 8px（[层级](../../../../../design/foundations/elevation.md#popups)）。要改这个值，传 `collisionPadding`。在桌面端它是 380px，用 Base UI 默认的碰撞内边距。
 
 ## 内容 {#content}
 

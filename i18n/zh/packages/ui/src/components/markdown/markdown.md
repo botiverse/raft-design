@@ -1,7 +1,7 @@
 ---
 title: Markdown
 summary: Markdown 渲染器把节点映射到的一组带样式的元素，包括标题、段落、链接、列表、引用、表格、图片和任务复选框，用于人和 Agent 写的文字。
-sourceHash: dca47847
+sourceHash: 556d2d0b
 ---
 
 # Markdown
@@ -43,7 +43,7 @@ message-reference/compositions/mixed-long-message
 | 1 到 3 级标题 | `text-title`、`text-headline` 和 `text-subhead`，粗体 |
 | 4 到 6 级标题 | `text-footnote`，粗体，用 `foreground-muted` |
 | 链接 | `foreground-link`，带 40% 的 2px 下划线，是唯一在静止时就带下划线的可点击文字（[可点击的文字](../../../../../design/foundations/states.md#clickable-text)）：单靠链接蓝，与 `foreground` 的对比度在浅色模式下只有 2.32:1，深色模式下只有 1.98:1，都低于 3:1。悬停时下划线变为满色，文字向正文墨色靠近 20%，浅色模式下变深，深色模式下变浅，因此两种模式下它与纸面的对比度都会提高 |
-| 搜索命中 | 一张小的黄色贴纸，与 `MessageItemSearchMatch` 相同 |
+| 搜索命中 | 黄色填充，没有边，保持文字本身的字重；与 `MessageItemSearchMatch` 相同 |
 | 引用 | 左侧一条 2px 的竖条，文字用 `foreground-muted` |
 | 分隔线 | 一条 `line-hairline` |
 | 表格 | `line-hairline` 的外框和分隔线，`radius-container`；表头行铺 `fill-muted`（[由现有部件搭成](../../../../../design/components/overview.md#diagrams-and-markdown-tables)） |

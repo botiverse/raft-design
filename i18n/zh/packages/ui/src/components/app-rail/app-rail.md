@@ -1,7 +1,7 @@
 ---
 title: AppRail
 summary: 桌面端最左侧的一列，在外框上、网页顶栏下方：产品的目的地在上，帮助和设置在下。
-sourceHash: 7269a834
+sourceHash: 212064d3
 ---
 
 # AppRail
@@ -74,4 +74,4 @@ app-rail/compositions/without-top-bar
 
 ## 规则 {#rules}
 
-- 工作空间图块用墨色，上面是黄色的服务器首字母。点击后在图块旁打开服务器列表（[用现有部件搭建](../../../../../design/components/overview.md#switching-servers)）。
+- 工作空间图块用墨色，上面是黄色的服务器首字母。点击后在图块旁打开服务器列表（[用现有部件搭建](../../../../../design/components/overview.md#switching-servers)）。在移动应用的桌面模式里，图块是唯一的服务器入口，改为打开手机上服务器标签的弹出层，里面有 Members 和 Computers，但没有 Settings，Settings 在导航条底部（[导航](../../../../../design/patterns/navigation.md#the-server-in-the-apps-desktop-mode)）。

@@ -1,7 +1,7 @@
 ---
 title: VirtualList
 summary: 用于长列表的滚动容器，各行高度不同、挂载后才知道；它只渲染视野内的行，在尺寸和行变化时让人正在读的内容保持不动。
-sourceHash: 23c3f0ad
+sourceHash: 8d01373d
 ---
 
 # VirtualList
@@ -71,7 +71,7 @@ virtual-list/compositions/jump
 
 ### 跟随末尾 {#following-the-end}
 
-列表不会自己跟随新行：是否跟随由产品决定。要让聊天停在最新消息处，在 `onScroll` 里记录人是否在底部；只要在底部，就在新增行时以及在 `onContentResize` 里调用 `scrollTo({ position: "bottom" })`。`onContentResize` 在某一行变高时运行，比如流式输出的回复。
+列表不会自己跟随新行：是否跟随由产品决定。要让聊天停在最新消息处，在 `onScroll` 里记录人是否在底部；只要在底部，就在新增行时以及在 `onContentResize` 里调用 `scrollTo({ position: "bottom" })`。`onContentResize` 在某一行变高时运行，比如流式输出的回复。人向上滚动时，视图上方的行会被测量，这时它不运行：列表把这些行的变化滚掉，所以视图里什么都不动，离末尾的距离也不变；跟随这些变化，就会把一次从底部附近开始的滚动拉回去。
 
 ```example
 virtual-list/compositions/chat

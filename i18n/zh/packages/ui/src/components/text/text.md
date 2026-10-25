@@ -1,7 +1,7 @@
 ---
 title: Text
 summary: 基础的字体排印部件：Text.Heading、Text.Sans 和 Text.Mono，用于没有其他组件承载的文字，使用系统的两种字体。
-sourceHash: 1128baf7
+sourceHash: 73213f5f
 ---
 
 # Text
@@ -42,6 +42,8 @@ text/compositions/semantic-elements
 | `variant="placeholder"` | 第三级文字：时间、ID、分组标题、缺失的值（`foreground-hint`） |
 | `variant="information"`、`"success"`、`"warning"`、`"danger"`、`"primary"`、`"accent"` | 带有其颜色含义的文字（[颜色的含义](../../../../../design/foundations/color.md#meanings-of-color)） |
 | `size="tabular"` | 一列数字，数字等宽 |
+
+- `variant="primary"` 是 `brand-strong`，即品牌色给文字用的那一档：在白色上 8.9:1，在深色画布上 12.5:1。它以前用 `brand-700`，在深色画布上只有 3.1:1（APCA Lc 22），而且没有哪个主题会改到它，所以在无聊灰里它仍然是黄褐色。黄色文字是品牌，不是信号（信号是黄色贴纸：[主题](../../../../../design/foundations/themes.md#signals)），所以它在无聊灰里会变灰。
 
 ## 内容 {#content}
 

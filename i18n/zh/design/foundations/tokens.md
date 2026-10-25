@@ -1,7 +1,7 @@
 ---
 title: Token
 summary: 每组 token 及其在两种模式下的值，token 名怎么构成，tokens.json 放在哪里、foundation.css 如何由它生成，以及如何迁移弃用的名称。
-sourceHash: a3bb8abc
+sourceHash: e9bbcbba
 ---
 
 # Token
@@ -67,6 +67,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 | --- | --- | --- |
 | 中性角色 | `{role}(-{purpose})(-{intensity})` | `layer-canvas`、`foreground-hint`、`line-seam`、`fill-medium`、`foreground-on-hud` |
 | 颜色角色 | `{family}(-{slot})` | `brand`、`brand-soft`、`danger-strong`、`info-muted` |
+| 信号 | `you`、`selected` | `you`、`selected` |
 | 墨色阶 | `ink-{alpha}` | `ink-8`、`ink-40` |
 | 调色板 | `palette-{color}-{step}` | `palette-yellow-400`、`palette-lavender-800` |
 | 状态 | `task-status-{status}(-soft\|-strong)`、`presence-{state}` | `task-status-in-review-soft`、`presence-busy` |
@@ -94,6 +95,8 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 | `-foreground` | 实色上的文字，仅限有自己文字色的色系 |
 | `-hover`、`-active` | 实色填充在悬停和按下时用的一对值。一个色系要么两个都有，要么都没有 |
 | `-50` 到 `-950` | 带编号的色阶。只有 `brand` 和 `attention` 有 |
+
+**信号。** `you` 和 `selected` 是发给你的东西和选中的贴纸所用的黄色。它们有自己的值，而不是指向 `brand`，所以没有哪套主题会把它们变灰（[主题](./themes.md#signals)）。
 
 **不透明度。** 除了两个遮罩 `layer-backdrop` 和 `layer-backdrop-nested`，所有 `layer` token 都是不透明的。`fill-muted` 和 `fill-strong` 是不透明的。`fill-subtle`、`fill-medium`、`fill-frame-medium` 和 `sticker-medium` 是半透明的：它们是悬停层级，叠在控件或行上面（[悬停浮层](./color.md#hover-overlays)）。
 

@@ -1,7 +1,7 @@
 ---
 title: 动效
 summary: 按下、悬停、滑入和头像变化的时长与缓动，以及状态从不循环播放动画这条规则。
-sourceHash: 0cfb867d
+sourceHash: 05d6fd49
 ---
 
 # 动效
@@ -10,7 +10,7 @@ Raft 里的动效用来确认一个操作，或者说明某样东西从哪里来
 
 ## 原则 {#principles}
 
-- **状态不循环。** 正在工作的 Agent 是一盏静止的黄灯。产品中唯一循环的动画是加载时的像素加载指示器，加载一结束它就消失。
+- **状态不循环。** 正在工作的 Agent 是一盏静止的黄灯。产品中唯一循环的动画是加载时的像素加载指示器，加载一结束它就消失。唯一的例外是 Android 网页上的下拉刷新：刷新时它画 Android 自己的旋转圆弧（[PullToRefresh](../../packages/ui/src/components/pull-to-refresh/pull-to-refresh.md#on-android)）。
 - **按下不位移。** 悬停和按下只叠加一层浮层；任何东西都不移动、不缩放。
 - **减弱动效时全部停止。** 开启 `prefers-reduced-motion` 时，本页的所有动画都关闭。
 
