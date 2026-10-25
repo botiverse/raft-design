@@ -1,12 +1,12 @@
 ---
 title: Search
 summary: 网页顶栏里的搜索入口，以及搜索结果的各个部分：地点和人的行、消息和消息列的命中项，按类型分组，匹配的词带标记。
-sourceHash: 61f31bc7
+sourceHash: e935e3af
 ---
 
 # Search
 
-搜索由一个输入框、几个筛选条件和按类型分组的结果组成。地点和人是一行行的；消息是命中项，写明谁、在哪里、什么时候，匹配的词是黄色的小贴纸。在网页上，搜索从顶栏的搜索框（`SearchTrigger`）打开；在手机上，它是「搜索」标签页，输入框在标签页的顶栏里。
+搜索由一个输入框、几个筛选条件和按类型分组的结果组成。地点和人是一行行的；消息是命中项，写明谁、在哪里、什么时候，匹配的词衬着黄色填充。在网页上，搜索从顶栏的搜索框（`SearchTrigger`）打开；在手机上，它是「搜索」标签页，输入框在标签页的顶栏里。
 
 ```example
 search/compositions/search-panel
@@ -79,6 +79,8 @@ search/compositions/search-no-results
 ## 内容 {#content}
 
 - 消息摘录最多 2 行，匹配的词放在 `SearchMessageResultMatch` 里。
+- 匹配的词用 `you` 填充标出，保持文字本身的字重，没有边（stdrc, 2026-10-24）。命中是衬在词后面的高亮，不是一个东西，所以没有墨色边（[一块颜色就是一张贴纸](../../../../../design/principles/principles.md#3-a-block-of-color-is-a-sticker)）；加了边，它读起来就像行里「DM」或「Channel」标签旁边又多了一个徽标，还会切过下伸部分。它用完整的 `you` 黄色，不用浅色底：40% 的浅色和选中行的填充只差 ΔE 1.2，在深色模式下还发浑；完整的填充让墨色文字在两种模式下都保持 13:1。填充在字形上下各多出 1px，所以下伸部分也在里面。提及你的地方仍然是贴纸，连同它的边。
+- 查询匹配用户名（handle）或频道名时，把开头的 `@` 或 `#` 也放进命中里：「@Remy」，而不是把「@」留在填充外面。
 - 无结果状态写什么没找到、怎样扩大范围："No results for “launch”"、"Try another word or remove a filter."
 - 入口的占位文字写它搜索什么：Search Raft。
 

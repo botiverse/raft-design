@@ -1,7 +1,7 @@
 ---
 title: Switch
 summary: 圆形的开关控件，用于拨动后立即生效的设置。
-sourceHash: e3c5bab6
+sourceHash: 33ed7311
 ---
 
 # Switch
@@ -30,7 +30,7 @@ list-row/compositions/settings
 ## 状态 {#states}
 
 - **关：** `fill-muted` 轨道加墨色边框，白色圆钮在左侧。
-- **开：** 带墨色边的 `brand` 贴纸，白色圆钮在右侧。深色模式下看起来一样，并加上模切边（[深色模式](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)）。
+- **开：** 带墨色边的 `selected` 贴纸，在每个主题里都是黄色（[主题](../../../../../design/foundations/themes.md#signals)），白色圆钮在右侧。深色模式下看起来一样，并加上模切边（[深色模式](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)）。
 - **禁用：** 通用的禁用外观，开关状态都一样（[状态](../../../../../design/foundations/states.md)）。
 
 ## 行为 {#behavior}

@@ -1,7 +1,7 @@
 ---
 title: Sidebar
 summary: 桌面端导航条旁边的一列，列出选中的目的地里有什么，每一行标出你在哪里、什么未读、什么提及了你。
-sourceHash: 8039c509
+sourceHash: 2a978fd0
 ---
 
 # Sidebar
@@ -46,7 +46,7 @@ sidebar-item/compositions/channel-item
 
 | 状态 | 外观 |
 | --- | --- |
-| `active` | 一张黄色贴纸：你在这里。悬停时不变；按下时叠加 `sticker-medium` |
+| `active` | 一张黄色贴纸（`selected`，带墨色边，每个主题都一样）：你在这里。悬停时不变；按下时叠加 `sticker-medium` |
 | `tone="unread"` | 名称加粗，`SidebarItemCount` 为粉色。有人提及这个人时，由黄色的 `SidebarItemIndicator` 代替数字 |
 | `tone="muted"` | 一个 `bell-off` 的 `SidebarItemMetaIcon`，名称用 `foreground-muted`，未读数作为不显眼的文字放在 `SidebarItemMeta` 里 |
 | `tone="away"` | 离线或未加入：名称用 `foreground-hint` |

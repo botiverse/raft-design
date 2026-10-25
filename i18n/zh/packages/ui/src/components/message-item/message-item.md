@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: cc050b39
+sourceHash: 3c19a0ef
 ---
 
 # MessageItem
@@ -42,7 +42,7 @@ message-item/compositions/item-preview
 - `MessageItemAttachments`：文件和图片（[MessageAttachment](../message-attachment/message-attachment.md)）。
 - `MessageItemEmbedded`：代码块、操作卡片和链接卡片。应用预览的链接不是卡片：它是正文里的标签片（[应用链接](#app-links)）。
 - `MessageItemFooter`：一行：先是回应（`MessageReactionChip`，最后是 `MessageReactionAddButton`），再是收藏和已读标记（`MessageItemSavedIndicator`、`MessageItemReadReceipt`）。从这条消息创建的任务不在这一行里：它们是这一行上面的一个列表（[对话中的任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)）。
-- `MessageItemToolbar` 加 `MessageItemToolbarButton`：悬停工具栏。它在自己所在的行上设置 `--mi-toolbar-width`，标题栏在它下面淡出时读这个值。以前的版本从 app 读 `--mi-toolbar-reserve` 来在标题栏里留位置；现在不再读它，设置它的地方可以删掉。
+- `MessageItemToolbar` 加 `MessageItemToolbarButton`：悬停工具栏。它在显示时在自己所在的行上设置 `--mi-toolbar-width`，标题栏在它下面淡出时读这个值。以前的版本从 app 读 `--mi-toolbar-reserve` 来在标题栏里留位置；现在不再读它，设置它的地方可以删掉。
 - `MessageMultiSelectCheckbox` 和 `MessageMultiSelectToolbar`，操作放在 `MessageMultiSelectToolbarActions` 里（28px 的按钮，间隔 4px；在触屏上每个按钮的点击区域是 44px，向相邻按钮只延伸到间隔的一半，所以点在两者之间会落到较近的那个上）：用于选择多条消息（[由现有部件组成](../../../../../design/components/overview.md#toolbar-for-selected-messages)）。
 - `MessageTextSelectionToolbar` 加 `MessageTextSelectionToolbarButton` 和 `MessageTextSelectionToolbarSeparator`：对选中文字的操作（[选中文字的工具栏](#toolbar-for-selected-text)）；用 `createMessageTextSelectionAnchor` 定位。
 
@@ -51,12 +51,13 @@ message-item/compositions/item-preview
 | 元素 | 部件 | 样子 |
 | --- | --- | --- |
 | 提及别人 | `MessageReferenceText` | 墨色，加粗，悬停时加墨色下划线（[对话](../../../../../design/patterns/conversation.md#mentions)） |
-| 提及正在阅读的人；搜索命中 | `MessageReferenceText variant="primary"`；`MessageItemSearchMatch` | 一张小小的黄色贴纸 |
+| 提及正在阅读的人 | `MessageReferenceText variant="primary"` | 一张小小的黄色贴纸 |
+| 搜索命中 | `MessageItemSearchMatch` | 黄色填充，没有边，保持文字本身的字重 |
 | 引用标签片 | `MessageReferenceChip` | 频道或私信用 `variant="accent"`，消息列或消息用 `variant="info"`（[导航](../../../../../design/patterns/navigation.md#going-somewhere)） |
 | 应用预览的链接 | `MessageReferenceChip variant="info" capped` | 青色标签片，带应用的图标和它的标题（[应用链接](#app-links)） |
 | 正在加载或无法打开的引用 | `MessageReferencePending`、`MessageReferenceUnavailable` | `inactive-soft` 上的灰色标签片 |
 | 引用标签片标签后面的注记 | `MessageReferenceSuffix` | 弱化的 Space Mono，比如指向消息的链接上的 `msg` |
-| 提及一个已读过这条消息的 Agent | `MessageReferenceReadMark`，放在提及的最后 | 名字右上角带墨色对勾的在线灯（[提及上的已读回执](#read-receipts-on-a-mention)） |
+| 提及一个已读过这条消息的 Agent | `MessageReferenceReadMark`，放在提及的最后 | 一个青柠色的对勾，在名字右上角（[提及上的已读回执](#read-receipts-on-a-mention)） |
 | 网页链接 | Markdown 链接 | `foreground-link`，常态下带下划线（[Markdown](../markdown/markdown.md)） |
 | 任务编号 | `TaskChip` 或 Space Mono 文字 | [Tasks](../tasks/tasks.md) |
 | 行内代码 | [InlineCode](../inline-code/inline-code.md) | `fill-muted` 上的 Space Mono |
@@ -99,6 +100,9 @@ message-reference/compositions/mixed-long-message
 - `MessageReferenceChip variant="info" capped`，渲染成在新标签页打开的链接：`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`。
 - `MessageReferenceIcon`：应用注册的图标，一个由 Raft 提供的 `<img alt="">`，放在标签片最前面。它 14px，在标签片里居中，带 2px 圆角。它是标签片盒子的前置标记（[正文中的标签片](#chips-in-running-text)）：两端各 4.5px，到标签 4px。图片画满到边缘，所以它和状态像素点一样取 4.5px（[对齐](../../../../../design/foundations/alignment.md#chips)）：它的墨迹离标签片起始边 4.5px，另一端最后一个字母之后约 4.8px。任何图片或其他非 svg 图标都用它：直接放进标签片的 `<img>` 没有自己的尺寸，会落在文字的基线上。实验性，从 `@botiverse/raft-ui/wip` 导出。
 - `MessageReferenceLabel`：应用的 `title`，原样显示。放在标签里，不要直接放进标签片：只有标签会截断。
+- `MessageReferenceSuffix`：链接的主机名，在触摸能打开链接的地方显示（`hidden any-pointer-coarse:inline`）。标题是应用自己的话，可能写任何东西（「GitHub PR」），所以人在点开链接之前必须能看到它通向哪里。在桌面端，条目卡片会写出来（「Stamp · stamp.build」，[PreviewCard](../preview-card/preview-card.md)）；在手指能点到链接的地方，标签片自己写出来，因为点一下就会打开，前面没有悬停（[触屏](../../../../../design/patterns/responsive.md#touch-screens)）。这也包括带触摸屏的笔记本电脑，它的主要指针是鼠标：查询用的是 `any-pointer-coarse`，即只要有任何触摸输入，而不是 `pointer-coarse`，即主要的那个输入。只有这一处按存在的所有输入方式、而不是主要的输入方式来决定是否显示主机名，因为一个人能在看不到去向时就打开的链接，是安全问题，不是布局上的选择。标签先截断。如果光是主机名在这一行里还放不下，它丢掉开头，绝不丢掉结尾：结尾（`…review.attacker.example`）才是说明链接去向的部分。把它放在一个从右到左的盒子里，用 `dir="ltr"` 和 `unicode-bidi: isolate` 保持它的字符顺序，这样省略号落在开头。
+  - 写出链接完整的主机名，只去掉开头的 `www.`。绝不缩短成注册域名：子域名可能属于别人（`someone.github.io`）。
+  - 国际化域名写成它的 ASCII 形式（`xn--…`），这样长得像的字母没法冒充另一个网站。
 - `capped` 让标签片最宽到 `min(100%, 24em)`，标签在末尾截断。标签片文字的 24em 在桌面端是 294px，手机上是 336px。在 700px 宽的桌面端消息列里，两个满长的标签片加中间几个字能放在一行，标题短一些的能放三个；在 390px 的手机上，一行比 24em 窄，所以长标题自己占一行，绝不在标签片里换行。不加 `capped` 时，标签片和以前一样，最宽到整行。
 - 没有状态：图标总是应用自己的、用它自己的颜色，标签片总是青色。
 
@@ -106,7 +110,7 @@ message-reference/compositions/mixed-long-message
 message-reference/compositions/app-links
 ```
 
-预览加载时，链接是 `MessageReferencePending capped`，带一个 `link` 图标，地址缩短为主机名和路径。它的两端、图标尺寸和上限宽度都和替换它的标签片一样，所以变的只有图标和文字。
+在 Raft 知道某个应用会预览一个链接之前，它就是一个普通链接：消息的预览第一次被读取之前，客户端分不出应用的链接和其他链接。有人允许了某个应用的预览、Raft 重新读取之后，这个应用的每个链接在预览到达之前都是 `MessageReferencePending capped`：一个 `link` 图标，地址缩短为主机名和路径。它的两端、图标尺寸和上限宽度都和替换它的标签片一样，所以变的只有图标和文字。
 
 ```example
 message-reference/compositions/app-link-pending
@@ -114,7 +118,7 @@ message-reference/compositions/app-link-pending
 
 ### 提及上的已读回执 {#read-receipts-on-a-mention}
 
-一条消息提及某个 Agent 时，发消息的人想知道 Agent 有没有读到。读到之后，提及的右上角出现已读灯：在线灯的方块，里面一个墨色对勾。把 `MessageReferenceReadMark` 放在 `MessageReferenceText` 的最后、名字后面，子元素是读屏软件要读出的文字（`Read`）。灯和对勾本身对读屏软件隐藏。
+一条消息提及某个 Agent 时，发消息的人想知道 Agent 有没有读到。读到之后，提及的右上角出现一个青柠色的对勾。把 `MessageReferenceReadMark` 放在 `MessageReferenceText` 的最后、名字后面，子元素是读屏软件要读出的文字（`Read`）。对勾本身对读屏软件隐藏。
 
 ```example
 message-reference/compositions/read-indicators
@@ -122,11 +126,11 @@ message-reference/compositions/read-indicators
 
 - Agent 读到之前什么都不显示。每条新提及都带一个"未读"标记，会在每条消息里制造噪音，而真正重要的是它变化的那一刻。
 - 在提及的悬停卡片里也说出来："Read"或"Not read yet"，这样不管有没有标记，人都能查看任何一个提及。
-- 触屏上没有悬停卡片，点一下提及会打开 Agent 的资料，它不属于任何一条消息。在那里只靠已读灯来表达：没有灯就是还没读。不要只为这一行加长按或弹窗：为一行文字设一个手势，要学的比它告诉人的还多。灯自己的文字（"Read"）仍然能传到读屏软件。
-- 已读灯就是在线灯，`Status presence="online" size="sm"`：8px 的 `presence-online` 青柠色，1.5px 的 `sticker-ink` 边，2px 圆角（[Status](../status/status.md#presence-lights)）。里面居中一个 Lucide `check`，6.5px，线宽 3，颜色 `sticker-ink`。
-- 区分它和在线状态的是对勾：没有对勾的灯是在线状态，带对勾的灯是已读。对勾是墨色，和灯的边一样，从不用白色：彩色底上 Raft 用墨色来画（[颜色](../../../../../design/foundations/color.md#stickers)）。
-- 它放在 `MessageReferenceIndicator` 在提及右上角的那个插槽里：顶边和提及的顶边对齐，盒子从名字文字之后 2px 开始，所以从不盖住名字。提及在文字后面留出 10px，也就是灯和这段间隙，然后才是词间空格，所以下一个词不会跑到它下面，这一行的高度也不变。
-- 由 artin 和 stdrc 于 2026-10-23 决定（[提及已读标记看板](https://raft-artifacts.com/p/raft/mention-read-mark/v/6)上的 Ik2 方案）。它取代了名字后面那个光秃秃的弱化对勾（它读起来像文字的一部分，容易被忽略），也取代了"已读的提及不能用状态灯"这条规则。`MessageReferenceReadMark` 保留它的名字和 API，现在画的是这盏灯；它是稳定的，从 `@botiverse/raft-ui` 导出，仍然从 `@botiverse/raft-ui/wip` 再导出，供已有的导入使用。
+- 触屏上没有悬停卡片，点一下提及会打开 Agent 的资料，它不属于任何一条消息。在那里只靠对勾来表达：没有对勾就是还没读。不要只为这一行加长按或弹窗：为一行文字设一个手势，要学的比它告诉人的还多。对勾自己的文字（"Read"）仍然能传到读屏软件。
+- 已读标记是一个光秃秃的 Lucide `check`，10px，线宽 2.5，周围没有灯也没有框，颜色用 `read-mark`：浅色模式下是 `palette-lime-700`（在白色上 6.2:1），深色模式下是在线的青柠色（`presence-online`，在深色画布上 10.5:1）。在线的青柠色在白色上只有 1.64:1，对这么小的标记来说太淡，所以浅色模式用同一色相更深的一档。
+- 它不是状态灯。灯，即带墨色边的方块，表示在线状态；对勾表示已读，所以两者从不相像（[Status](../status/status.md)）。
+- 它放在提及右上角指示标记的位置：顶边和提及的顶边对齐，10px 的盒子从名字文字之后 2px 开始，所以从不盖住名字。提及在文字后面留出 10px，和指示标记一样，所以下一个词不会跑到它下面，这一行的高度也不变；对勾的盒子伸进词间空格 2px，那里只有字形自己的空白内边距。
+- 由 stdrc 于 2026-10-24 决定：带墨色对勾的在线灯读起来像一个黑框，对一个只做确认的标记来说太暗；只要一个对勾。青柠色本身在白色上只有 1.64:1，所以浅色模式用 `palette-lime-700`，深色模式保留在线的青柠色。它取代了带墨色对勾的在线灯（artin 和 stdrc，2026-10-23，[提及已读标记看板](https://raft-artifacts.com/p/raft/mention-read-mark/v/6)上的 Ik2 方案），而那盏灯取代的是名字后面一个弱化的对勾，它读起来像文字的一部分。`MessageReferenceReadMark` 保留它的名字和 API，现在画的是这个光秃秃的对勾；它是稳定的，从 `@botiverse/raft-ui` 导出，仍然从 `@botiverse/raft-ui/wip` 再导出，供已有的导入使用。
 
 ```example
 message-reference/compositions/primary-references
@@ -148,6 +152,7 @@ message-item/compositions/consecutive
 | 状态 | 样子 |
 | --- | --- |
 | 被定位 | 用 `located` 属性时，整行立即变为 `info-soft`，2 秒内淡出，由 `useLocated` 驱动（[被定位](../../../../../design/foundations/states.md#located)）。搜索匹配、被勾选或菜单打开的行保留自己的底色 |
+| 获得焦点 | 从键盘发起的跳转让这一行获得焦点后（`tabIndex={-1}`，由调用方设置），显示 2px、`foreground` 色的方角内嵌环，以及工具栏；点击之后什么都不显示。从不显示浏览器自带的 outline（[被定位](../../../../../design/foundations/states.md#located)） |
 | 搜索命中 | 行里有 `MessageItemSearchMatch` 时，整行用 `info-soft` |
 | 多选中被选中 | 当 `MessageMultiSelectCheckbox` 勾选时，整行用 `info-soft` |
 | Agent 正在工作 | 头像上一盏静止的黄灯，加上行内状态（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md)） |
@@ -196,10 +201,11 @@ message-item/compositions/delegated-preview
 - 按[时间线节奏](../../../../../design/foundations/spacing.md#timeline-rhythm)用分组来安排消息的间距：同一组的行之间 8px（接续行位于它所接续的那一行下方），新的一组之前是消息步长 16px。每一行的文字上下各留行内边距 4px，组前多出来的 8px 是一条透明的上边框，高亮不会画到它。样式从时间线 token（`py-timeline-row`、`border-t-(length:--spacing-timeline-turn)`）读取这两个值，所以改动节奏会改动每一行。所以悬停、选中和搜索的高亮在每一行上都均匀地围着文字：以前接续行没有上内边距时，高亮紧贴第一行，最后一行下面却留了 8px。
 - 悬停时，这一行在自身上铺一层 `fill-subtle`，即所有行都用的轻度一级：一条消息可能有很多行高，人读的时候鼠标指针常常停在上面，所以这一级变化很小，文字保持对比度（[悬停与按下](../../../../../design/foundations/states.md#hover-and-press)）。它以前比其他行更浅（3%）；现在消息和旁边的行、卡片用同样的级差。消息没有按下状态：这一行本身不是操作，点击是在选择文字，或落在其中的链接、名字或按钮上。搜索命中的或选中的消息，悬停时保持 `info-soft`；被定位的消息在高亮持续期间不响应悬停。
 - 当它的某个弹出层打开时（右键、工具栏按钮或在手机上长按打开的上下文菜单），这一行在自身上铺一层 `fill-subtle`，与悬停同一级，所以两者不会叠加。手机没有悬停，所以这层填充表示菜单作用于哪条消息；它比 `info-soft` 浅，所以消息看起来不像被选中。
-- 悬停工具栏在悬停时、焦点在行内时，以及它的某个弹出层打开时出现。它骑在高亮的上边缘，靠右。
+- 悬停工具栏在悬停时、焦点在行内时，以及它的某个弹出层打开时出现。它骑在高亮的上边缘，靠右。焦点在这一行本身上也算：从键盘发起的跳转让这一行获得焦点时，它的工具栏会显示，这样键盘用户能看到这条消息的操作，并用 Tab 经过消息里的链接和按钮到达它们。
 - 悬停从不让消息移动。工具栏浮在这一行的右上角，不为它重新排版，所以正在读的那一行留在原处。
 - 时间属于发送者：谁说的、什么时候说的，要作为一个整体来读，所以时间跟在名字、徽标和角色后面，从不被推到最右边。
 - 标题栏不给工具栏留位置（stdrc，2026-10-22）。平时发送者这一行占满全宽，所以即使在 360px 的消息列里也能看到完整的名字；工具栏出现时，长到伸进右上角的那一行的末尾在它下面淡出：标题栏从工具栏左边缘再往左 4px 起，到自己的末端，经过 12px 的渐隐后全部遮住，所以卡片下方和旁边不会露出被切了一半的字（卡片只盖住这一行的一部分高度）。`MessageItemToolbar` 把自己的宽度量到这一行上（`--mi-toolbar-width`），所以按钮多或少的工具栏都正好遮住自己的宽度；这一行上什么都不会移动。没有工具栏的行（比如手机上）不遮任何东西。留位置会让窄栏里的名字一直被截成几个字母，只为了保护一个只在指针停在这条消息上时才被盖住的角落；只在悬停时留位置，又会让指针每划过一条消息，这一行就重新排版一次。Slack 和 Discord 也是这样做的。
+- `MessageItemToolbar` 在工具栏显示时测量自己的宽度，而不是在这一行挂载时。指针进入这一行，或焦点移进这一行，会在那个事件里写入宽度，早于显示工具栏的那一帧，所以第一帧就按正确的宽度淡出；弹出层只会在这两者之一之后从工具栏打开，所以它打开时宽度已经写好了。工具栏显示期间，由整个页面共用的一个观察器看着它，所以显示期间新加的按钮会被重新测量；指针和焦点都离开这一行、也没有弹出层打开时，它就停止观察，没有工具栏显示时，不会留下任何观察器。每条消息都渲染一个工具栏，只有指针或焦点下的那一个需要它的宽度，所以在显示时测量能让长列表保持轻量：一行在一次提交里挂载完，也不保留自己的观察器。在挂载时测量每一行，需要第二次提交，每行还要一个 ResizeObserver，在一个长频道里就是几千个。在测量之前，工具栏挂载时会把五个按钮的宽度（164px）写到它的行上，这是一次什么都不读的普通写入，所以万一工具栏在测量自己之前就显示了，这一行会淡出得多一些，而不是少一些；没有工具栏的行不会得到宽度，什么都不遮。淡出和工具栏在完全相同的条件下出现，所以留在行上的宽度从不会在没有工具栏盖着时让标题栏淡出：没有悬停的触屏在点一下之后两者都不显示，而点一下让行内某个按钮获得焦点时，两者都显示。
 - 发送者那一行放不下时，`MessageItemSenderGroup` 按固定顺序让出空间：先截断角色，再截断名字。徽标在名字旁边保持完整，时间从不截断（[一行放不下时](../../../../../design/patterns/responsive.md#when-a-row-runs-out-of-room)）。名字和角色可能被截断时，在工具提示里显示完整内容。
 - `MessageItemDelegatedBy` 按自身宽度占位，最多占这一行的 45%；超出时只截断助理的名字。当它的文字本身就比这更宽时（手机上的 "sent by a deleted assistant"），它的宽度就是文字的宽度，改由发送者的名字让出空间：这些文字从不截断，也从不跑到时间下面。发送者的名字至少保留 3rem，名字更短时保留全部；连这也放不下时（360px 宽的消息列面板），纯文字按需要换成多行，第一行落在名字的基线上，时间留在第一行。名字周围的文字从不截断：产品在名字两边的空格按原样保留，名字两边都有文字的翻译（中文）两边都保持完整。
 
@@ -245,6 +251,9 @@ message-item/compositions/reactions
 ## 无障碍 {#accessibility}
 
 - `MessageItem` 和它的部件都是用 Base UI `useRender` 构建的普通元素；用 `render` 改变元素，比如把 `MessageItemSenderButton` 渲染成链接。
+- `MessageItem` 是一个以发送者和时间命名的 `article`：它的 `aria-labelledby` 指向 `MessageItemSender`（或 `MessageItemSenderButton`）和 `MessageItemTime`（或 `MessageItemContinuationTime`），这一行渲染的是哪个就指向哪个，id 由 raft-ui 生成。读屏软件通过跳转或阅读按键落到一条消息上时，会在正文之前读出一个名为「Atlas 2:20 PM」的 article：这是谁的消息、什么时候发的，顺序和标题栏显示的一样。接续行不显示名字，所以用时间命名。两者都没有的行，比如文字栏里的回执卡片，是普通的 `div`，不是 article：没有名字的 article 只会被读成一句光秃秃的「article」，对读屏软件用户什么都没说；如果它应该是 article，给它 `aria-label`。要自己给一行命名，在 `MessageItem` 或它的 `render` 元素上传 `aria-labelledby` 或 `aria-label`；要改角色，传 `role`。`render` 函数的 props 读不到，所以用函数时，把它们传给 `MessageItem`。你给某个部件的 `id`，就是这一行指向的那个。发送者按钮的名字就是它显示的名字，所以不要给它单独的 `aria-label`：不然这一行会改读那个名字。
+- 不要把消息放进 `list`，也不要把 `MessageItem` 渲染成 `li`：`role="article"` 会取代 `listitem`，而列表里只能放列表项。包住它们的时间线不用列表角色（[MessageList](../message-list/message-list.md#accessibility)）。也不要把它做成 `feed`：feed 承诺用 Page Down 和 Page Up 在 article 之间移动，而时间线没有实现这一点。
+- 只有从键盘发起的跳转落到一行上时，这一行才获得焦点（[被定位](../../../../../design/foundations/states.md#located)）。raft-ui 不让这一行可聚焦：调用方在 `focus({ preventScroll: true })` 之前给 `MessageItem` 设 `tabIndex={-1}`，焦点离开时再去掉，这样之后点击这一行不会把焦点从消息输入框抢走。这时它显示内嵌的环，从不显示浏览器自带的 outline，并显示它的工具栏；Tab 接着经过消息里的链接和按钮，包括工具栏的按钮。工具栏显示时，它的卡片盖住环上边缘靠右的一部分，就像它盖住高亮那样：环在另外三边和上边的大部分仍然看得出来，而只为了焦点把工具栏从这一行的边缘挪开，会让它跳动。
 - 给每个 `MessageItemToolbarButton` 一个 Title Case 的 `aria-label`：Reply in Thread、Add Reaction、Save。工具栏在键盘焦点进入时显示，所以按 Tab 能到达它。
 - `MessageReactionChip` 封装了 Base UI `Toggle`：`aria-pressed` 表示这个人是否回应了。给它一个 `aria-label`；里面画出来的回应是隐藏的（[品牌](../../../../../design/foundations/brand.md#reactions)）。
 - 回应失败的原因放在 `MessageReactionErrorIndicator` 里，它是一个视觉上隐藏的 `role="status"`。

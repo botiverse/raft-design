@@ -1,7 +1,7 @@
 ---
 title: DescriptionList
 summary: 关于一个对象的一组信息，每条是一对标签和值，例如任务的 Status、Assignee 和 Created by；可以更改的值会打开一个选择器。
-sourceHash: bd3791ba
+sourceHash: 7fc0259d
 ---
 
 # DescriptionList
@@ -34,7 +34,7 @@ description-list/compositions/member-info
 
 | 变体 | 用于 |
 | --- | --- |
-| `direction="horizontal"` | 两列排列的信息，标签在左。列表自身宽度小于 24rem（384px）时，标签放到值的上面，值紧贴在标签下，每组之间隔 8px，窄面板里和手机上一样，390px 的手机屏幕留给列表约 358px（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）：这时最宽 160px 的标签加上 16px 的间隔，留给值的地方比标签还少。列表是自己的容器：要放进宽度确定的父元素，不要放进按内容收缩的父元素（`inline-block`、`w-fit`、没设宽度的绝对定位框、`flex-basis: auto` 又没设宽度的 flex 子项），否则会缩成零宽 |
+| `direction="horizontal"` | 两列排列的信息，标签在左。列表自身宽度小于 24rem（384px）时，标签放到值的上面，值在标签下 2px（列表的行间隔），一个值和下一个标签之间隔 10px（2px 的行间隔，加上每个后续标签上方的 8px），窄面板里和手机上一样，390px 的手机屏幕留给列表约 358px（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）：这时最宽 160px 的标签加上 16px 的间隔，留给值的地方比标签还少。列表是自己的容器：要放进宽度确定的父元素，不要放进按内容收缩的父元素（`inline-block`、`w-fit`、没设宽度的绝对定位框、`flex-basis: auto` 又没设宽度的 flex 子项），否则会缩成零宽 |
 | `direction="vertical"` | 标签在值上方的信息，用在侧面板这类窄的地方 |
 | `direction="inline"` | 一行里放几条简短的信息，每个标签挨着它的值，放不下时换到下一行：任务的属性 |
 

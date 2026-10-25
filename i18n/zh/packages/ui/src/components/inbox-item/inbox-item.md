@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: 0095ee65
+sourceHash: 632060c1
 ---
 
 # InboxItem
@@ -106,7 +106,8 @@ activity/compositions/loading-conversation-list
 - 触发按钮覆盖整行。行内的按钮位于它上方，每个都可以单独按下。
 - 条目之间用 `line-hairline` 分隔，从文字处开始；有 `InboxItemLeading` 时，从它后面开始。
 - 使用鼠标时，只在这一行被悬停、持有焦点、处于 `active` 或打开了菜单时才显示 Mark as Done：给 `InboxItemActions` 设 `reveal="hover"`。每一行都显示按钮的列表看起来像一堵按钮墙，而这一行本身才是主要目标。操作显示时，它们占据 `InboxItemTrailing` 其余内容的位置：时间、标记和提醒圆点让开。
-- 在触屏上，Mark as Done 在静止时就显示，并且也放进长按菜单里；滑动手势可以作为额外的快捷方式，但永远不能取代它（[响应式布局](../../../../../design/patterns/responsive.md#touch-screens)）。`reveal="hover"` 会这样处理：`InboxItemTrailing` 的其余内容移开，给它腾出位置。
+- 在触屏上，Mark as Done 在静止时就显示，并且也放进长按菜单里；滑动手势可以作为额外的快捷方式，但永远不能取代它（[响应式布局](../../../../../design/patterns/responsive.md#touch-screens)）。`reveal="hover"` 会这样处理：在触屏上按钮静止时就显示，`InboxItemTrailing` 的其余内容移开，给它腾出位置。
+- 在手机上，动态里的行静止时不显示它：Mark as Done 是向左滑动露出的第一个按钮，也是长按菜单里的一项（stdrc, 2026-10-23），所以在那里不要把 `InboxItemActions` 放进这一行，但要为读屏软件保留这个按钮，在视觉上隐藏（`sr-only`），放在行的末尾。读屏软件没法滑动一行，网页也没有办法给一行配上它自己的操作；作为隐藏的按钮，它就是这一行之后的下一个元素。按它所在的行给它命名（「Mark #launch-week as Done」），这样朗读列表时不会一直重复同一个名字；它获得键盘焦点时要显示出来（`focus-visible:not-sr-only`），这样在接了键盘的手机上按 Tab，焦点永远不会落在看不见的东西上。它和平板、桌面端显示的是同一个按钮，按下去效果也一样。滑动露出的按钮（Done 用实心的 `success` 加墨色，这一行的其他操作用 `fill-muted`）、滑动的距离（滑过按钮宽度的一半就打开，滑过 60% 就是 Done）、Android 上的触感反馈和 8 秒的 Undo 见[响应式布局](../../../../../design/patterns/responsive.md#touch-screens)。raft-ui 还没有可滑动的行；在那之前，由产品在这一行外面画出滑动。
 
 - 在默认密度下，`InboxItemTrailing` 只在 `InboxItemContent` 的前两行旁边占位（上下文行和标题，或者标题和摘录）；之后的行占满整个宽度，排在它下方。这一列大约两行高（时间和圆点，或 32px 的 Mark as Done），如果在每一行旁边都占位，只会让手机上本来就窄的行更容易换行、变得更高。在 `density="compact"` 中，它在两行旁边都保留。
 
@@ -131,6 +132,7 @@ activity/compositions/activity-hover-actions
 - 给触发按钮一个说明条目的无障碍名称：`aria-label="Open Martin needs your OK"`。在打开的那个条目的触发按钮上设 `aria-current`。
 - 给选择复选框和每个只有图标的操作命名：`aria-label="Select activity item"`、`aria-label="Mark as done"`。
 - 设了 `reveal="hover"` 的操作在隐藏时仍留在 Tab 键顺序中，焦点一到达这一行或它们本身就会显示。
+- 从键盘发起的跳转落在某个条目上时（比如用 Back 回到打开这个条目的那个列表），把焦点移到它的 `InboxItemTrigger`，而不是这一行（[被定位](../../../../../design/foundations/states.md#located)）：触发按钮本来就是一个能获得焦点、带有条目名称的按钮，这一行会在它周围画出内嵌的环，所以这一行不需要自己的 `tabIndex`。
 - 提醒圆点用 CSS 绘制，不会被朗读。在触发按钮的名称里写上 "unread"，或者加一个视觉上隐藏的词。
 - `InboxItemLeadingBadge` 对辅助技术隐藏。在触发按钮的名称里写上 "thread"：`aria-label="Open thread with Lagoon"`。
 - `InboxItemSkeleton` 对辅助技术隐藏。`InboxItemSkeletonList` 不带 `aria-busy`：条目到达时它就消失了，读屏软件永远听不到它加载完。列表加载时，把 `aria-busy` 加在一直留着的容器上，比如 `ActivityInboxPanel`。

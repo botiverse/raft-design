@@ -1,7 +1,7 @@
 ---
 title: Icons
 summary: raft-ui 自己绘制的四个对话图标：Message、Chat、Direct Message 和 Thread；其他图标都来自 Lucide。
-sourceHash: 67c17047
+sourceHash: 40ad6743
 ---
 
 # Icons
@@ -27,9 +27,11 @@ icons/icons
 - `MessageIcon`：一个对话气泡。
 - `ChatIcon`：带三个点的对话气泡。
 - `DirectMessageIcon`：带一个人像的对话气泡。
-- `ThreadIcon`：两个重叠的对话气泡，前面那个是实心的。
+- `ThreadIcon`：两个重叠的对话气泡，都只有描边。Raft 里的每个图标都是同一粗细的线描；实心的气泡在菜单或工具栏里比旁边的每个 Lucide 图标都显得重（stdrc, 2026-10-23）。后面的气泡在两侧都停在离前面气泡一个描边宽度的地方，所以重叠处看起来是一道空隙，而不是连在一起，两个气泡连同描边都在 18px 的框内。
 
 每个都是 18px 的 `svg`，用 `currentColor` 绘制，所以会继承周围文字的颜色。按所在的场景用 class 设置尺寸（[图标](../../../../../design/foundations/iconography.md#sizes)）。
+
+它们的线条在 18px 网格上是 1.5，和 Lucide 在 24px 网格上的 2 一样粗，所以在任何尺寸下都和旁边的 Lucide 图标一致：16px 时是 1.33px，和 Lucide 的一样。线条为 1 时，16px 下只有 0.89px，比菜单或工具栏里周围的每个图标都细。
 
 ## 无障碍 {#accessibility}
 

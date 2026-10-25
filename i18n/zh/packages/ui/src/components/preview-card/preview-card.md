@@ -1,7 +1,7 @@
 ---
 title: PreviewCard
 summary: 人悬停或聚焦到提及、名字或应用链接上时出现的只读卡片，说明某人是谁或应用的某个条目是什么，最多带两个小按钮。
-sourceHash: 8340566f
+sourceHash: 88026c56
 ---
 
 # PreviewCard
@@ -87,4 +87,5 @@ preview-card/preview-card-app-prompt
 - 卡片保持只读：没有输入框，没有选择。需要人填写的东西用 [Popover](../popover/popover.md)。
 - 卡片上最多放两个小按钮，颜色按 [Popover](../popover/popover.md#rules) 的规则：绝不用粉色。
 - 条目的状态只显示一次，用应用自己的话，放在中性的 Badge（`appearance="soft"`）里：不用状态颜色，也不用状态灯。条目有哪些状态、各自是什么意思，是应用的概念，不是 Raft 的；Raft 的状态颜色和状态灯表示任务和在线状态（[Status](../status/status.md#rules)），把应用的 "Merged" 对应到任务的 "done"，就是把 Raft 的理解加在应用的用词上。
+- 应用标为警告的一行（`tone: "warning"`，比如「2 checks failing」）用 `warning-strong`，和 raft-ui 自己的警告行一样。这是 Raft 表示警告的颜色，不是应用表示状态的颜色：状态的 Badge 仍然是中性的，卡片上别的东西都不上色。
 - 条目卡片上不使用应用的颜色：没有品牌色，没有彩色头部。标签片上的应用图标是它唯一的自有标记。

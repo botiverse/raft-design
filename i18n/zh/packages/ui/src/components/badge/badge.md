@@ -1,7 +1,7 @@
 ---
 title: Badge
 summary: 小标签：最主要的是粉色的未读数和黄色的 @ 标记，另外还有浅色底标签和细线标签。
-sourceHash: 55ed263d
+sourceHash: d5a10ea4
 ---
 
 # Badge
@@ -13,7 +13,7 @@ Badge 是一个小标签。它的主要用途是未读数：一张粉色贴纸�
 | 情况 | 用 |
 | --- | --- |
 | 列表行或侧栏行上的未读消息；消息列的新回复；新动态 | 未读数：`variant="accent"`（`attention` 色）。侧栏里用 `SidebarItemCount`（[Sidebar](../sidebar/sidebar.md)） |
-| 有人提及了这个人 | @ 标记：`variant="primary"`（`brand` 色）加 `at-sign` 图标。侧栏里用 `SidebarItemIndicator` |
+| 有人提及了这个人 | @ 标记：`variant="you"`（`you` 色，在每个主题里都是黄色）加 `at-sign` 图标。侧栏里用 `SidebarItemIndicator` |
 | 已设为免打扰的地方有未读内容 | 用 Space Mono 写的灰色数字（`text-mono-meta`、`foreground-hint`），不用徽标 |
 | 导航条图标、标签栏图标或铃铛上有东西在等 | 提醒圆点：一个粉色像素（[Status](../status/status.md)），永远不用数字 |
 | 任务进行到哪一步，或 Agent 处于什么状态 | 状态标签：`TaskStatusBadge`（[Tasks](../tasks/tasks.md)），或带像素的浅色底 Badge（[Status](../status/status.md#agent-state-chips)） |
@@ -32,7 +32,10 @@ Badge 是一个小标签。它的主要用途是未读数：一张粉色贴纸�
 | `appearance="soft"` | 没有边框的浅色底标签：Agent 状态的状态标签、运行时标签片 |
 | `appearance="outline"` | 用 Space Mono 的细线标签：`agent` 标签、任务行里跟在标题后面的回复数 |
 
-`variant` 选择颜色角色。按颜色的含义来选，不按外观来选（[颜色的含义](../../../../../design/foundations/color.md#meanings-of-color)）：在计数上，`accent` 是表示「待办」的粉色，`primary` 是表示「你」的黄色。
+`variant` 选择颜色角色。按颜色的含义来选，不按外观来选（[颜色的含义](../../../../../design/foundations/color.md#meanings-of-color)）：在计数上，`accent` 是表示「待办」的粉色，`you` 是表示「你」的黄色。
+
+- `variant="you"` 是 @ 标记的填充色，即 `you` 信号：它在每个主题里都保持黄色，无聊灰也一样（[主题](../../../../../design/foundations/themes.md#signals)）。它只有实心一种；浅色底或细线的 Badge 没有 `you` 的样子。
+- `variant="primary"` 是 `brand` 色，跟随主题：无聊灰会把它变成灰色。不要把它用在发给这个人的东西上。
 
 ## 状态 {#states}
 

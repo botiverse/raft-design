@@ -1,7 +1,7 @@
 ---
 title: Drawer
 summary: 从右侧滑入的面板，放人要看一阵子的详情和设置；在手机上则是底部面板，用来选择去哪里，或读一段简短的说明。
-sourceHash: 7e250177
+sourceHash: 5338c04a
 ---
 
 # Drawer
@@ -36,7 +36,7 @@ drawer/compositions/responsive-placement
 - `DrawerDescription`：标题下的一句话。
 - `DrawerBody`：内容，可以滚动。
 - `DrawerFooter`：底栏。在从右侧滑入的抽屉里，上方有一条 `line-seam`。
-- `DrawerActions`：底栏里的按钮。在抽屉里排成一行靠末端，在底部面板里纵向堆叠、占满宽度。
+- `DrawerActions`：底栏里的按钮。在抽屉里排成一行靠末端，在底部面板里纵向堆叠、占满宽度，这时幽灵按钮 Cancel 会加上边框（[Button](../button/button.md#which-color)）。
 - `DrawerClose`：关闭抽屉。没有子元素时是 × 图标按钮；用 `render` 时可以把另一个按钮变成关闭按钮。
 - `DrawerPortal` 和 `DrawerOverlay`：更底层的部件。
 
@@ -84,5 +84,5 @@ drawer/compositions/nested-close-callback
 - 按钮放在底栏，不要放在标题栏。按钮用 `size="lg"`（手机上 44px，桌面端 32px）：Cancel 在前，Save 在后（[表单](../../../../../design/patterns/forms.md#forms-in-a-dialog)）。
 - 抽屉里的长表单拆成几个 [FormSection](../form-section/form-section.md)，分区和宽版对话框里的一样，用底栏的 Save 一起保存。
 - 抽屉表单里每个「是或否」的复选框下面，加一行说明不勾选时会怎样。这里用复选框而不用开关，因为表单是要保存的（[表单](../../../../../design/patterns/forms.md#forms-in-a-dialog)）。
-- 每个底部面板的上边缘都要有拖动条。
+- 每个底部面板的上边缘都要有拖动条：一根 36 × 4px、两端圆头的 `line-seam` 色条，每个平台都这样画（[形状](../../../../../design/foundations/shape.md#principles)）。
 - 底部面板里的列表，每行高 52px，配 20px 的图标，标签用 `text-body`、中等字重。当前行用对勾和粗体标出。

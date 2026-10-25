@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 37083bee
+sourceHash: 85680365
 ---
 
 # 组件
@@ -63,7 +63,7 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 
 ### 选择 {#picking-something}
 
-选择器由两个问题决定：选择何时生效，以及有多少个值。立即生效的控件（Switch、菜单）必须能放心切换，不需要保存；随表单保存的控件（Checkbox、RadioGroup、Select）可以等人检查一遍（[表单](../patterns/forms.md)）。单选按钮把每个选项都显示出来，所以只适合少数几个；下拉选择把值收在一个字段后面，所以能容纳更多；再多的话，人就需要搜索了。
+选择器由两个问题决定：选择何时生效，以及有多少个值。立即生效的控件（Switch、菜单）必须能放心切换，不需要保存；随表单保存的控件（Checkbox、RadioGroup、Select）可以等人检查一遍（[表单](../patterns/forms.md)）。单选按钮把每个选项都显示出来，所以只适合少数几个；下拉选择把值收在一个字段后面，所以能容纳更多；再多的话，人就需要搜索了。这个数量适用于表单里与其他字段并列的一个字段。如果对话框本身就是用来做选择的（把 Agent 移到哪里、添加谁），不论有多少个选项，都把它们展开成一个列表，让人不用打开任何东西就能比较：选一个时每行前面是一个单选圆圈，选几个时是一个复选框；如果人要找的是叫得出名字的东西（人总是如此，因为不论有多少个，输入名字都最快），或者要靠比较来选、而列表长到一眼看不完（6 个选项起），就在列表上方放一个筛选字段；再多就让列表滚动。
 
 | 你需要 | 使用 |
 | --- | --- |
@@ -71,6 +71,7 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 | 是或否，立即生效 | [Switch](../../packages/ui/src/components/switch/switch.md) |
 | 是或否，保存时生效 | [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) |
 | 2 到 5 个选项中选一个，随表单提交 | [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md) |
+| 在任意数量的选项中选一个或几个，选择是对话框的主要内容 | 一个展开的行列表；要按名字找的东西，或选项有 6 个起，加一个筛选字段（[ChoiceList](../../packages/ui/src/components/choice-list/choice-list.md)；它的行遵循 [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md#content)） |
 | 同一内容的另一种视图 | [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md) |
 | 同一个页面的另一种语言 | 一个列出各种语言的菜单，每种语言用它自己的名字（[DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)，选项都是链接） |
 | 同一页面的不同区块，各有自己的内容 | [Tabs](../../packages/ui/src/components/tabs/tabs.md) |

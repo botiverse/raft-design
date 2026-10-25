@@ -1,7 +1,7 @@
 ---
 title: Button
 summary: 执行操作的按钮，可以带标签也可以不带；颜色说明它是哪一类操作，尺寸由它所在的位置决定。
-sourceHash: cd6cb598
+sourceHash: 83f056a4
 ---
 
 # Button
@@ -52,6 +52,7 @@ button/compositions/on-frame
 - 一个界面有第二个主操作时，用 `default`。
 - 其他所有操作都用墨色边框（`default`）。
 - 在自己画出边缘的表面里，取消和次要操作不加框（`ghost`）。在页面上，同样的操作用墨色边框（`default`）。
+- 按钮叠成通栏时（对话框底部一行放不下、底部面板的操作），那里的 `ghost` 按钮用 `default` 的墨色边框，悬停和按下也跟 `default` 一样。拉到通栏宽度后，无框按钮读起来像一行文字，而不是按钮：按钮一旦叠放，每个都需要自己的框（stdrc, 2026-10-22）。容器用 `data-stacked` 标出叠放；按钮仍是 `ghost` 变体，这一行恢复时又去掉边框。禁用时它保留禁用的填充；图标按钮仍然不加框。
 - 阶梯的最底层用 [TextLink](../text-link/text-link.md)：连无框按钮都显得太重的地方，比如登录页上的 Forgot Password，或分节标题旁边的 See All。它可以承载操作，但它是界面上最安静的控件，永远不是在拥挤的一行里多塞一个按钮的办法。它不是 Button 的变体：文字链接是一行里的一个词，不是一个框，所以它跟随周围文字的大小；而 Button 会带来高度、边框和内边距，每一样都得再去掉。
 - 会打断但可以撤销的操作用橙色（`warning`）：停止、离开、重置。
 - 红色（`danger`）只用于不可撤销的操作，而且只用在确认对话框里（[AlertDialog](../alert-dialog/alert-dialog.md)）。菜单里的破坏性项不要上色（[DropdownMenu](../dropdown-menu/dropdown-menu.md)）。

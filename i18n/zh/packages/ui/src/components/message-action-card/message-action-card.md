@@ -1,7 +1,7 @@
 ---
 title: MessageActionCard
 summary: Agent 附在消息上的卡片，操作已经填好，等人确认；确认之后，它记录是谁、在什么时候做的。
-sourceHash: 216b6425
+sourceHash: 4a611534
 ---
 
 # MessageActionCard
@@ -31,7 +31,7 @@ message-action-card/compositions/action-card-interactive
   - `MessageActionCardCollapseTrigger`：把卡片折叠到只剩头部，再展开。
 - `MessageActionCardContent`：头部下面的所有内容；它会折叠。
   - `MessageActionCardNotice`：Raft 给出的一条固定说明，关于后果或权限。最多一条。
-  - `MessageActionCardProperties`、`MessageActionCardProperty`、`MessageActionCardPropertyLabel`、`MessageActionCardPropertyValue`：这个人要核对的值，以描述列表的形式呈现（[DescriptionList](../description-list/description-list.md)）：标签在值的左边；卡片内容窄于 24rem（384px）时，比如在 360px 的 thread 里或手机上，标签放到值的上面（值紧贴在标签下，每组之间隔 8px），不管窗口多宽（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）。 卡片内容是容器，所以要给卡片一个确定的宽度（它在消息栏里的常规位置就是）；放进按内容收缩的父元素会缩没。最宽 440px 的卡片内容有 416px，保持两列。
+  - `MessageActionCardProperties`、`MessageActionCardProperty`、`MessageActionCardPropertyLabel`、`MessageActionCardPropertyValue`：这个人要核对的值，以描述列表的形式呈现（[DescriptionList](../description-list/description-list.md)）：标签在值的左边；卡片内容窄于 24rem（384px）时，比如在 360px 的消息列里或手机上，标签放到值的上面（值在标签下 2px，一个值和下一个标签之间隔 10px：2px 的行间隔，加上每个后续标签上方的 8px），不管窗口多宽（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）。 卡片内容是容器，所以要给卡片一个确定的宽度（它在消息栏里的常规位置就是）；放进按内容收缩的父元素会缩没。最宽 440px 的卡片内容有 416px，保持两列。
   - `MessageActionCardHintLabel`、`MessageActionCardHint`：Agent 自己的说明，例如它的理由或它填了什么。
   - `MessageActionCardScopeList`、`MessageActionCardScopeListLabel`、`MessageActionCardScopeListViewport`、`MessageActionCardScope`、`MessageActionCardScopeName`、`MessageActionCardScopeDescription`：应用申请的权限。
   - `MessageActionCardActions`：按钮，前面是 `MessageActionCardActionsNote`。

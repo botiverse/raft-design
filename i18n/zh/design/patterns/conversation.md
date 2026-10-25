@@ -1,7 +1,7 @@
 ---
 title: 对话
 summary: 消息和事件行组成的时间线，一条消息能放什么，消息的操作、提及、消息输入框、消息列，以及对话中的搜索。
-sourceHash: 14939507
+sourceHash: 2e3df5b3
 ---
 
 # 对话
@@ -88,7 +88,7 @@ thread-panel/thread-panel
 ### 搜索 {#search}
 
 - 结果按类型分组：地方和人在前，然后是消息。同一个消息列里的命中归到那个消息列下。
-- 匹配的词显示为黄色小贴纸（[Search](../../packages/ui/src/components/search/search.md)）。
+- 匹配的词显示在黄色填充上，用文字本身的字重，不带边框（[Search](../../packages/ui/src/components/search/search.md)）。
 - 结果跳转到的那条消息，按[导航](./navigation.md#going-somewhere)里的方式高亮。
 
 ## 相关 {#related}
