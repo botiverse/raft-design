@@ -8,6 +8,7 @@ import type {
   KeyboardSensorOptions,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { eventWindow, holdEscape, releaseEscape } from "../../lib/drag-escape";
 import { useHoldThenMoveTouchSensor, useMouseOnlyPointerSensor } from "../../lib/touch-drag";
 import type { HoldThenMoveOptions } from "../../lib/touch-drag";
 
@@ -27,6 +28,39 @@ export const DRAG_KEYBOARD_CODES: NonNullable<KeyboardSensorOptions["keyboardCod
   cancel: ["Escape"],
   end: ["Space"],
 };
+
+// The fields and methods of dnd-kit's KeyboardSensor the subclass reaches (its
+// typings mark them private).
+type KeyboardSensorInternals = {
+  props: { event: Event };
+  attach(): void;
+  detach(): void;
+  handleCancel(event?: Event): void;
+};
+
+class DragKeyboardSensorImpl extends (KeyboardSensor as unknown as new (
+  ...args: never[]
+) => KeyboardSensorInternals) {
+  static activators = KeyboardSensor.activators;
+
+  attach() {
+    super.attach();
+    holdEscape(eventWindow(this.props.event), this, (event) => this.handleCancel(event));
+  }
+
+  detach() {
+    releaseEscape(eventWindow(this.props.event), this);
+    super.detach();
+  }
+}
+
+/**
+ * dnd-kit's KeyboardSensor, but Escape during the drag puts the item back and
+ * reaches nothing else: no dialog, panel or popover that closes on Escape
+ * hears it (`drag-escape.ts`). The pointer sensors of `useDragSensors` do the
+ * same.
+ */
+const DragKeyboardSensor = DragKeyboardSensorImpl as unknown as typeof KeyboardSensor;
 
 export type DragSensorsOptions = {
   /**
@@ -51,6 +85,11 @@ const NO_TOUCH: HoldThenMoveOptions = {};
  * - the keyboard: Space picks up, the arrows move, Space drops, Escape puts
  *   back. Enter never starts a drag.
  *
+ * However the drag started, Escape during it only puts the item back: it is
+ * taken in the capture phase on the window and stopped, so no app handler
+ * (a dialog, a panel, a popover that closes on Escape) hears it. Once the drag
+ * is over, Escape reaches the app again.
+ *
  * Pass the options, or only the keyboard's `coordinateGetter`.
  */
 export function useDragSensors(options: DragSensorsOptions | KeyboardCoordinateGetter = {}) {
@@ -65,7 +104,7 @@ export function useDragSensors(options: DragSensorsOptions | KeyboardCoordinateG
   );
   const mouse = useMouseOnlyPointerSensor(MOUSE_DRAG_DISTANCE_PX);
   const finger = useHoldThenMoveTouchSensor(touch);
-  const keys = useSensor(KeyboardSensor, keyboardOptions);
+  const keys = useSensor(DragKeyboardSensor, keyboardOptions);
   return useSensors(mouse, finger, keyboard ? keys : null);
 }
 
