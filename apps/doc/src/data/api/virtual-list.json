@@ -217,7 +217,7 @@
         "name": "onTransformChange",
         "type": "() => void",
         "required": false,
-        "description": "Called when the rows' offset (`--virtual-list-transform-y`) changes, for content positioned against it.",
+        "description": "Called when the rows' offset (the translateY of the rows' element) changes, for content that must follow it.",
         "from": "raft-ui"
       },
       {

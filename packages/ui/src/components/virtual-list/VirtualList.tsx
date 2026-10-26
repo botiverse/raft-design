@@ -502,8 +502,9 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   /**
    * Writes the layout without a render: the spacer height (the total size plus the first row's top
    * margin; a min-height with itemResizable, so the real content may exceed it) and the visible items'
-   * translateY, with the CSS variables sticky children read (`--virtual-list-transform-y`,
-   * `--virtual-list-ios-compensation-y`).
+   * translateY. It writes no CSS variable on the visible items: custom properties inherit, so one
+   * written there on every scroll restyles every row. Content that must follow the rows' offset uses
+   * `onTransformChange`.
    *
    * Unlike the reference implementation (DeepSeek web): the translateY puts the border box of the first
    * mounted row at its offset (`firstIndex`, or the first row in the DOM), not the element's top. The visible-items element is a
@@ -545,9 +546,6 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     if (visibleItemsEl instanceof HTMLElement) {
       const offset = px(leadingMargin + fenwickTree.sum(index) - firstRowStart);
       visibleItemsEl.style.transform = `translateY(${offset})`;
-      visibleItemsEl.style.setProperty("--virtual-list-transform-y", offset);
-      const compensation = px(compensationYRef.current);
-      visibleItemsEl.style.setProperty("--virtual-list-ios-compensation-y", compensation);
       const signature = `${index}|${offset}`;
       if (lastTransformSignatureRef.current !== signature) {
         lastTransformSignatureRef.current = signature;

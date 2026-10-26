@@ -12,12 +12,10 @@
  * In the `components` layer, so a utility in the consumer's `className` (`h-*`, `max-h-*`, `overflow-*`)
  * overrides these rules.
  *
- * CSS variables the list writes as inline styles, for sticky children to read:
- *   --virtual-list-transform-y          on the rows' element: its translateY (the offset of the first
- *                                       mounted row, less its top margin), "0px" with virtualization off
- *   --virtual-list-ios-compensation-y   on the rows' element: the iOS momentum-scroll compensation
- *                                       applied to the spacer as translateY(-value)
- *   --virtual-list-width                on `.r-virtual-list`: the list's offsetWidth
+ * CSS variable the list writes as an inline style, for sticky children to read:
+ *   --virtual-list-width   on `.r-virtual-list`: the list's offsetWidth
+ * The rows' element carries no CSS variable: custom properties inherit, so one written there on every
+ * scroll would restyle every row. Content that must follow the rows' offset uses `onTransformChange`.
  */
 @layer components {
   .r-virtual-list {

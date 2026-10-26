@@ -25,15 +25,8 @@ export const VIRTUAL_VISIBLE_ITEMS_STYLE: CSSProperties = {
   display: "flow-root",
 };
 
-/**
- * With virtualization off, the visible-items element still carries the CSS variables, so sticky
- * children that use `calc(var(--virtual-list-transform-y))` keep working.
- */
-export const NON_VIRTUAL_VISIBLE_ITEMS_STYLE: CSSProperties & {
-  [property: `--${string}`]: string;
-} = {
-  "--virtual-list-transform-y": "0px",
-  "--virtual-list-ios-compensation-y": "0px",
+/** With virtualization off, the visible-items element sits at translateY(0px). */
+export const NON_VIRTUAL_VISIBLE_ITEMS_STYLE: CSSProperties = {
   transform: "translateY(0px)",
   position: "relative",
   display: "flow-root",
