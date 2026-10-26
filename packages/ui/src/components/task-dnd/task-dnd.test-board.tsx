@@ -8,6 +8,7 @@ import {
   TaskDropZone,
 } from "./task-dnd";
 import type { TaskDndAccessibility, TaskMoveDetails } from "./task-dnd";
+import { TaskCard } from "../task-card/task-card";
 
 export type TestStatus = "todo" | "done";
 export type TestCard = { id: string; status: TestStatus };
@@ -123,6 +124,7 @@ function TestBoardCard({ card, index }: { card: TestCard; index: number }) {
       style={CARD_STYLE}
     >
       Card {card.id}
+      <TaskCard aria-hidden />
     </TaskDraggable>
   );
 }

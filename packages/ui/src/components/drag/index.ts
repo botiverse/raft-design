@@ -2,19 +2,22 @@ export {
   DRAG_KEYBOARD_CODES,
   DragRemeasure,
   MOUSE_DRAG_DISTANCE_PX,
-  dragKeyboardCoordinates,
+  listKeyboardCoordinates,
   useDragAcrossLists,
   useDragSensors,
 } from "./drag-sensors";
 export type { DragAcrossLists, DragRemeasureProps, DragSensorsOptions } from "./drag-sensors";
 export {
   DRAG_AUTO_SCROLL_ZONE_PX,
-  DRAG_DROP_ANIMATION,
+  DROP_GLIDE,
   DRAG_KEYBOARD_OFFSET_PX,
   DRAG_SETTLE,
   DRAG_SIBLING_TRANSITION,
   DragLift,
+  LIFT_CLASS,
+  ORIGIN_OPACITY,
   cancelDrag,
+  keepGrabInside,
   useDragSiblingTransition,
 } from "./drag-lift";
 export type { DragLiftProps } from "./drag-lift";
@@ -44,9 +47,9 @@ export {
 export type { HoldThenMoveOptions } from "../../lib/touch-drag";
 export {
   DragLiveRegion,
-  DragSlot,
+  DraggedSlot,
   dragListStrategy,
   useDragAnnouncer,
   useDragLists,
 } from "./drag-lists";
-export type { DragListsItems, DragSlotProps, UseDragListsOptions } from "./drag-lists";
+export type { DragListsItems, DraggedSlotProps, UseDragListsOptions } from "./drag-lists";

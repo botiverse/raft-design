@@ -5,7 +5,9 @@ import type { CSSProperties, ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { DragOverlay, defaultDropAnimationSideEffects, useDndContext } from "@dnd-kit/core";
 import type { DropAnimation, Modifier } from "@dnd-kit/core";
-import { drag } from "./drag.recipe";
+import { drag, LIFT_CLASS } from "./drag.recipe";
+
+export { LIFT_CLASS };
 
 /**
  * A drag settling (motion.md, `motion-drag-settle-*`): the lifted copy
@@ -19,6 +21,9 @@ export const DRAG_SIBLING_TRANSITION = {
   duration: DRAG_SETTLE.duration,
   easing: DRAG_SETTLE.easing,
 } as const;
+
+/** The item a drag came from, while nothing else has taken its place (`data-drag-origin`). */
+export const ORIGIN_OPACITY = 0.4;
 
 /** Auto-scroll starts this close to the edge of anything that scrolls. */
 export const DRAG_AUTO_SCROLL_ZONE_PX = 48;
@@ -34,7 +39,7 @@ const hideActiveWhileGliding = defaultDropAnimationSideEffects({
  * Drop: the copy glides into its place. Cancel: it glides back home. While
  * it glides, the item it will become stays hidden, then appears there.
  */
-export const DRAG_DROP_ANIMATION: DropAnimation = {
+export const DROP_GLIDE: DropAnimation = {
   duration: DRAG_SETTLE.duration,
   easing: DRAG_SETTLE.easing,
   sideEffects: (parameters) => {
@@ -81,6 +86,31 @@ const KEYBOARD_OFFSET = `${DRAG_KEYBOARD_OFFSET_PX}px ${DRAG_KEYBOARD_OFFSET_PX}
 
 function isKeyboardEvent(event: Event | null): event is KeyboardEvent {
   return typeof KeyboardEvent !== "undefined" && event instanceof KeyboardEvent;
+}
+
+/**
+ * For a compact proxy (a section's head, at most 240px wide): the grab point
+ * is kept, but pulled to within `inset` of the proxy's end, so the hand never
+ * holds empty air beside it. A constant shift: the copy still tracks 1:1.
+ */
+export function keepGrabInside(proxyWidth: number, inset = 20): Modifier {
+  return ({ transform, activatorEvent, activeNodeRect }) => {
+    if (!activeNodeRect || !activatorEvent) return transform;
+    const point = eventPoint(activatorEvent);
+    if (!point) return transform;
+    const grabX = point.x - activeNodeRect.left;
+    const max = proxyWidth - inset;
+    return grabX > max ? { ...transform, x: transform.x + (grabX - max) } : transform;
+  };
+}
+
+function eventPoint(event: Event): { x: number; y: number } | null {
+  if ("clientX" in event && typeof (event as PointerEvent).clientX === "number") {
+    const pointerEvent = event as PointerEvent;
+    return { x: pointerEvent.clientX, y: pointerEvent.clientY };
+  }
+  const touch = (event as TouchEvent).touches?.[0] ?? (event as TouchEvent).changedTouches?.[0];
+  return touch ? { x: touch.clientX, y: touch.clientY } : null;
 }
 
 /**
@@ -156,7 +186,7 @@ export function DragLift({
   );
   const overlay = (
     <DragOverlay
-      dropAnimation={reduced ? null : DRAG_DROP_ANIMATION}
+      dropAnimation={reduced ? null : DROP_GLIDE}
       modifiers={modifiers}
       zIndex={zIndex}
       style={OVERLAY_STYLE}

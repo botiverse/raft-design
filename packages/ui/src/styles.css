@@ -668,7 +668,8 @@ textarea:-webkit-autofill:disabled {
    data-drag-refused while the place under the hand refuses it: the cursor
    says so over everything, whatever the element under it would show. The
    item a drag came from carries data-drag-origin and stays in place at 40%
-   until something else takes its place. Unlayered, so no utility on the
+   until something else takes its place, and a container it has moved into
+   carries data-drag-into. Unlayered, so no utility on the
    item overrides the one value. */
 :root[data-dragging],
 :root[data-dragging] * {
@@ -682,6 +683,12 @@ textarea:-webkit-autofill:disabled {
 
 [data-drag-origin] {
   opacity: 0.4;
+}
+
+/* A container the dragged item has moved into (another sidebar section, a
+   row it drops onto) takes the subtle hover tier while the item is in it. */
+[data-drag-into] {
+  background-color: var(--fill-subtle);
 }
 
 @utility image-transparency-bg {

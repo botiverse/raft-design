@@ -37,6 +37,10 @@ it("the card stays in place at 40% under the lifted copy, and the place in the n
 
   expect(card("a").hasAttribute("data-drag-origin")).toBe(true);
   expect(getComputedStyle(card("a")).opacity).toBe("0.4");
+  // The card left behind casts nothing: only the lifted copy floats.
+  await wait(200);
+  const left = card("a").querySelector<HTMLElement>("[data-slot=task-card]")!;
+  expect(getComputedStyle(left).boxShadow).not.toContain("12px 32px -12px");
   // Over its own card: no place opens.
   expect(
     document.querySelector("[data-slot=task-drop-placeholder][data-drop-state=allowed]"),

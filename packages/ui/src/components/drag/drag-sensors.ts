@@ -31,7 +31,7 @@ export const DRAG_KEYBOARD_CODES: NonNullable<KeyboardSensorOptions["keyboardCod
 export type DragSensorsOptions = {
   /**
    * How the arrow keys move a lifted item. Defaults to
-   * `dragKeyboardCoordinates`, which steps through a sortable list.
+   * `listKeyboardCoordinates`, which steps through a sortable list.
    */
   coordinateGetter?: KeyboardCoordinateGetter;
   /** Leave the keyboard out, for a surface whose keyboard path is a button. */
@@ -50,12 +50,15 @@ const NO_TOUCH: HoldThenMoveOptions = {};
  * - a finger: hold still 500ms, then move 10px (`useHoldThenMoveTouchSensor`);
  * - the keyboard: Space picks up, the arrows move, Space drops, Escape puts
  *   back. Enter never starts a drag.
+ *
+ * Pass the options, or only the keyboard's `coordinateGetter`.
  */
-export function useDragSensors({
-  coordinateGetter = dragKeyboardCoordinates,
-  keyboard = true,
-  touch = NO_TOUCH,
-}: DragSensorsOptions = {}) {
+export function useDragSensors(options: DragSensorsOptions | KeyboardCoordinateGetter = {}) {
+  const {
+    coordinateGetter = listKeyboardCoordinates,
+    keyboard = true,
+    touch = NO_TOUCH,
+  } = typeof options === "function" ? { coordinateGetter: options } : options;
   const keyboardOptions = useMemo<KeyboardSensorOptions>(
     () => ({ keyboardCodes: DRAG_KEYBOARD_CODES, coordinateGetter }),
     [coordinateGetter],
@@ -72,7 +75,7 @@ export function useDragSensors({
  * lifted copy. After an item moves into another list the two differ, and the
  * arrows would skip a place. Use it for lists inside one `DndContext`.
  */
-export const dragKeyboardCoordinates: KeyboardCoordinateGetter = (event, args) => {
+export const listKeyboardCoordinates: KeyboardCoordinateGetter = (event, args) => {
   const { context } = args;
   const node =
     context.active == null ? null : context.draggableNodes.get(context.active.id)?.node.current;
@@ -112,7 +115,7 @@ export type DragAcrossLists = {
  *
  * - right after it moves list, the item is over itself (by keyboard until the
  *   next arrow, by pointer for one frame);
- * - the arrows are measured from the item's real place (`dragKeyboardCoordinates`).
+ * - the arrows are measured from the item's real place (`listKeyboardCoordinates`).
  *
  * Render `DragRemeasure` too, so the lists are measured again after the move.
  */
@@ -135,7 +138,7 @@ export function useDragAcrossLists(collisionDetection: CollisionDetection): Drag
           : collisionDetection(args),
       coordinateGetter: (event, args) => {
         box.current.overSelf = false;
-        return dragKeyboardCoordinates(event, args);
+        return listKeyboardCoordinates(event, args);
       },
       moved: (viaKeyboard) => {
         const state = box.current;

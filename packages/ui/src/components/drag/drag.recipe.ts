@@ -1,12 +1,14 @@
 import { tv } from "../../lib/tv";
 
+/**
+ * The lift look, for a copy drawn outside `DragLift`: an opaque popover
+ * surface, `shadow-float` and the `line-seam` ring. No scale, no tilt.
+ */
+export const LIFT_CLASS = "bg-layer-popover shadow-float ring-1 ring-line-seam";
+
 export const drag = tv({
   slots: {
-    lift: [
-      "pointer-events-none size-full",
-      "rounded-control",
-      "bg-layer-popover shadow-float ring-1 ring-line-seam",
-    ],
+    lift: ["pointer-events-none size-full", "rounded-control", LIFT_CLASS],
     placeholder: [
       "pointer-events-none box-border",
       "rounded-control",

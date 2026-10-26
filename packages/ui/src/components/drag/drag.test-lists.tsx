@@ -13,7 +13,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { DragLift } from "./drag-lift";
 import {
   DragLiveRegion,
-  DragSlot,
+  DraggedSlot,
   dragListStrategy,
   useDragAnnouncer,
   useDragLists,
@@ -121,11 +121,11 @@ function TestRow({ id, isHome }: { id: string; isHome: (id: string, index: numbe
     useSortable({ id });
   return (
     <div ref={setNodeRef} style={{ transform: CSS.Translate.toString(transform), transition }}>
-      <DragSlot dragging={isDragging} home={isHome(id, overIndex >= 0 ? overIndex : index)}>
+      <DraggedSlot dragging={isDragging} home={isHome(id, overIndex >= 0 ? overIndex : index)}>
         <div {...attributes} {...listeners} data-testid={`row-${id}`} style={ROW}>
           #{id}
         </div>
-      </DragSlot>
+      </DraggedSlot>
     </div>
   );
 }

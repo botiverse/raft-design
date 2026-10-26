@@ -274,12 +274,18 @@ export function useDragLists<L extends string>({
   };
 }
 
-export type DragSlotProps = {
-  /** This item is the one being dragged. */
-  dragging: boolean;
+export type DraggedSlotProps = {
+  /**
+   * This item is the one being dragged. Render the slot around every item
+   * and pass `isDragging`, so the dragged one keeps its node (and focus).
+   * @default true
+   */
+  dragging?: boolean;
   /** The dragged item still stands at its own place. */
   home: boolean;
-  /** The item's radius, for the place: `rounded-control` by default. */
+  /** The item's radius class, for the place: `rounded-control` by default. */
+  radius?: string;
+  /** Classes for the place, after `radius`. */
   className?: string;
   children: ReactNode;
 };
@@ -290,7 +296,13 @@ export type DragSlotProps = {
  * stands anywhere else. Every other item renders as it is: the wrapper stays
  * the same, so the item keeps focus when its drag starts.
  */
-export function DragSlot({ dragging, home, className, children }: DragSlotProps) {
+export function DraggedSlot({
+  dragging = true,
+  home,
+  radius,
+  className,
+  children,
+}: DraggedSlotProps) {
   const place = dragging && !home;
   return (
     <div data-slot="drag-slot" className="relative">
@@ -300,7 +312,7 @@ export function DragSlot({ dragging, home, className, children }: DragSlotProps)
       >
         {children}
       </div>
-      {place ? <DropPlaceholder className={cn("absolute inset-0", className)} /> : null}
+      {place ? <DropPlaceholder className={cn("absolute inset-0", radius, className)} /> : null}
     </div>
   );
 }
