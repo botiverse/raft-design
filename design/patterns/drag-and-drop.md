@@ -40,6 +40,7 @@ task-dnd/compositions/task-dnd
 
 - Make the whole item the handle for small items: rows, tabs, chips, avatars, cards. A grip on a row is one more thing to aim at, and the row is already the target.
 - Make only the grip the handle for a panel of live content, such as a side section. Its head already does things when clicked (a thread head, a jump to the channel), so a drag from anywhere on it would fight those clicks. Show the grip bar on the head while it is hovered or the grip has keyboard focus (always, on a device that can't hover, where there is no hover to reveal it), and make its hit area larger than the bar: at least 24px tall, wider than the bar on both sides, so it doesn't need careful aim. The rest of the head keeps its clicks and doesn't show `grab`. The grip is also the keyboard's way in (Space on the grip).
+- Keep the grip's hit area clear of a neighboring resize seam's hit band (Resizable), and draw the bar inside the grip's hit area: a press on the bar always lifts the panel, never resizes it.
 - Show `grab` over a handle, `grabbing` everywhere while something is lifted, and `not-allowed` over a place that refuses it. `DragLift` and `DragRefusalHint` set the last two for the whole page, whatever is under the pointer.
 
 ## What follows the hand
