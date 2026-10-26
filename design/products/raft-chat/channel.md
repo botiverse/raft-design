@@ -59,3 +59,15 @@ Tasks in the timeline follow [Tasks](../../patterns/tasks.md#tasks-in-a-conversa
 ### Threads
 
 - Put "2 Agents following" beside the followers' avatar stack, then a menu (Focus mode, Search in thread, View in channel, Follow Thread) at the right of the thread's header, then × on wide screens.
+
+### History behind the plan's window
+
+A Free server shows the last 30 days of a channel, DM, thread or task conversation. Where the shown history starts, the conversation has a history paywall instead of a history notice ([MessageList](../../../packages/ui/src/components/message-list/message-list.md#rules)).
+
+- Put a [Card](../../../packages/ui/src/components/card/card.md) as wide as the message rows where the oldest loaded message would be: `History` in `CardLeading` at 20px (not a lock: a lock is a private channel), a title that says how many messages are hidden and where ("6 earlier messages are older than 30 days", "All 13 messages in this channel…", "The first message and 3 replies…"), one line on what Free shows and what Pro restores, and a `primary` small Upgrade to Pro button. The button opens the upgrade dialog for every role; the dialog decides who pays and who asks an owner.
+- Above the card, show the newest two hidden messages as message rows: sender, time and the first 40 characters, at most two lines, fading out toward the top. They are not interactive. Show only chat messages; when only system lines are hidden, show the card alone. In a thread whose first message is hidden too, that message leads.
+- Under the card, write the first date line as "Last 30 days · Tuesday, October 20". A thread, which has no date lines, gets a "Last 30 days" line of its own.
+- When every message is hidden, put the glimpse and the card on the composer, where the newest messages would be, with "No new messages in the last 30 days" under them in `MessageListNotice` `muted`. The composer stays usable; a new message appears under the card.
+- When a link or search opens a message older than 30 days, stop at the card and center on that message: it is evenly muted with its first 80 characters, between lighter neighbors that fade out above and below, and the title says "The message you're looking for is older than 30 days".
+- After an upgrade, the card goes and the older messages load above it, without a reload.
+
