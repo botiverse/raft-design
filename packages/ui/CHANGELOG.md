@@ -1,3 +1,29 @@
+## [0.37.0](https://github.com/botiverse/raft-design/compare/v0.36.1...v0.37.0) (2026-10-26)
+
+### Design System
+
+- **Edges fade:** content that goes on past an edge fades with a mask, not a colour gradient, so the fade works on any surface (a hovered, selected or located row, a card). Two lengths: 24px at the edge of a scrolling strip, 48px over cut-off content. `MessageListEndFade` is the one exception. ([#816](https://github.com/botiverse/raft-design/pull/816))
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/
+- **Dimmed:** deleted, offline and pending items are `opacity-dimmed` (60%); a drag origin stays 40%. Media hover is an `ink-8` overlay, not a brightness filter. ([#816](https://github.com/botiverse/raft-design/pull/816))
+  - Docs: https://raft-design.botiverse.build/foundations/states/
+- **Tooltip:** a disabled control's reason under its name is a second line in `foreground-on-hud-muted`, 4px below. ([#813](https://github.com/botiverse/raft-design/pull/813))
+- **Drag and drop:** a panel grip's hit area stays clear of a neighbouring resize seam, with its bar inside it. ([#814](https://github.com/botiverse/raft-design/pull/814))
+- **Raft Chat:** the history paywall where a plan cuts a conversation's history. ([#757](https://github.com/botiverse/raft-design/pull/757))
+
+### Added
+
+- Utilities `mask-fade-t`, `mask-fade-b` (48px), `mask-fade-t-edge`, `mask-fade-b-edge` (24px) and `mask-fade-x` (24px on the side named by `data-overflow="start|end|both"`); tokens `fade-edge`, `fade-content`. ([#816](https://github.com/botiverse/raft-design/pull/816))
+- Token `layer-veil` (the page at 80%) for busy and loading covers, `bg-layer-veil`; `opacity-dimmed` (0.6). Both registered with `cn`'s tailwind-merge. ([#816](https://github.com/botiverse/raft-design/pull/816))
+
+### Changed
+
+- **Tabs**: the overflow fade is `mask-fade-x`, 24px (was 32px). ([#816](https://github.com/botiverse/raft-design/pull/816))
+- **MessageForwardedBundle**: the fold fades with `mask-fade-b` (48px, was a 40px card-colour gradient; a tight fold 24px, was 20px). ([#816](https://github.com/botiverse/raft-design/pull/816))
+  - Affects: overrides that targeted the fold's `::after` must drop it.
+- **Composer** upload and failed covers, and the pending **MessageImageGallery** image, use `layer-veil` (were `layer-card/80`, `layer-card/90` and `opacity-70`); the pending spinner uses its default colour. ([#816](https://github.com/botiverse/raft-design/pull/816))
+- **Lightbox** thumbnails dim with `layer-backdrop-nested` (40%, was `black/45`); hover 28% unchanged. ([#816](https://github.com/botiverse/raft-design/pull/816))
+- Task chip and task-card busy states, and the deleted delegated avatar, use `opacity-dimmed` (same 60%). ([#816](https://github.com/botiverse/raft-design/pull/816))
+
 ## [0.36.1](https://github.com/botiverse/raft-design/compare/v0.36.0...v0.36.1) (2026-10-26)
 
 ### Design System
