@@ -64,7 +64,11 @@ test("the fade utilities are masks over the fade lengths, never a colour", async
     "mask-fade-x",
     "opacity-dimmed",
     "bg-layer-veil",
+    "data-tight-fold:mask-fade-b-edge",
   ]);
+  expect(block(css, ".data-tight-fold\\:mask-fade-b-edge[data-tight-fold]")).toContain(
+    "var(--fade-edge)",
+  );
   expect(block(css, ".mask-fade-t")).toContain(
     "mask-image: linear-gradient(to bottom, transparent, oklch(0 0 0) var(--fade-content));",
   );
@@ -94,6 +98,10 @@ test("the fade utilities are masks over the fade lengths, never a colour", async
 
 test("tailwind-merge sees the fades as mask-image and dimmed as opacity", () => {
   expect(cn("mask-fade-b", "mask-fade-b-edge")).toBe("mask-fade-b-edge");
+  // A variant is its own slot: the tight fold's edge fade survives beside the default.
+  expect(cn("mask-fade-b", "data-tight-fold:mask-fade-b-edge")).toBe(
+    "mask-fade-b data-tight-fold:mask-fade-b-edge",
+  );
   expect(cn("mask-[linear-gradient(red,blue)]", "mask-fade-x")).toBe("mask-fade-x");
   expect(cn("opacity-60", "opacity-dimmed")).toBe("opacity-dimmed");
   expect(cn("opacity-dimmed", "opacity-100")).toBe("opacity-100");
@@ -115,7 +123,8 @@ test("the busy covers take the veil", () => {
 test("a folded bundle fades with a mask, not a card-coloured gradient", () => {
   const items = messageForwardedBundle({ collapsed: true }).items();
   expect(items).toContain("mask-fade-b");
-  expect(items).toContain("data-[tight-fold]:mask-fade-b-edge");
+  // The canonical spelling of data-[tight-fold]: (the lint's autofix writes it).
+  expect(items).toContain("data-tight-fold:mask-fade-b-edge");
   expect(items).not.toMatch(/from-layer-card|after:bg-linear/);
 });
 
