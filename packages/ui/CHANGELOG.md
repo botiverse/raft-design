@@ -1,3 +1,33 @@
+## [0.36.0](https://github.com/botiverse/raft-design/compare/v0.35.1...v0.36.0) (2026-10-26)
+
+### Design System
+
+- **Drag and drop:** one model for every drag: a mouse drag starts after 6px, a touch drag after a 500ms hold then 10px, the keyboard picks up with Space (never Enter), moves with the arrows, drops with Space and cancels with Escape. A lifted copy follows the pointer 1:1 (opaque popover surface, `shadow-float`, a hairline ring), the item it came from stays in place at 40%, every landing place is one dashed placeholder, and a drop or a cancel glides in 160ms. Screen readers hear names and positions, never ids. ([#804](https://github.com/botiverse/raft-design/pull/804))
+  - Docs: https://raft-design.botiverse.build/patterns/drag-and-drop/
+
+### Added
+
+- Tokens `motion-drag-settle-duration` (160ms) and `motion-drag-settle-easing` (`cubic-bezier(0.25, 1, 0.5, 1)`), with the Tailwind ease `ease-drag-settle`. ([#804](https://github.com/botiverse/raft-design/pull/804))
+  - Why: drops, cancels and sibling slides each used their own timing (250ms, 160ms or none); one settle motion now serves them all.
+  - Docs: https://raft-design.botiverse.build/foundations/motion/
+- Attributes `data-drag-origin` (the item a drag came from, at 40%) and `data-drag-into` (a container the dragged item has moved into, `fill-subtle`). ([#804](https://github.com/botiverse/raft-design/pull/804))
+  - Why: each surface faded the origin and marked containers differently; these two attributes give every drag the same look.
+  - Docs: https://raft-design.botiverse.build/patterns/drag-and-drop/
+
+### Changed
+
+- **TaskDnd**: the lifted card is a copy that glides into place on a drop and back on a cancel; the card stays in its column at 40% instead of collapsing, and a drop on its own place moves nothing. A mouse drag starts after 6px (was 5px) and Enter no longer starts a keyboard drag. New `describe` on `TaskDndProvider` announces cards and places by name; without it nothing is announced (no ids). `TaskDragOverlay` takes `container`. ([#804](https://github.com/botiverse/raft-design/pull/804))
+  - Why: the overlay snapped, the column reflowed under the hand, and the screen reader read internal ids.
+  - Affects: activation 5px → 6px; drop and cancel 160ms `motion-drag-settle-*`; overlay z-index 999.
+  - Docs: https://raft-design.botiverse.build/components/task-dnd/
+- **SortableTabsList**: tabs can be reordered by keyboard (Space picks up, arrows move, Space drops, Escape cancels; Enter selects); a lifted copy follows the pointer and renders in `document.body` (`container` to change it), and the tab's slot shows the dashed place. Announcements use the tab's label and position; `messages` takes translations. ([#804](https://github.com/botiverse/raft-design/pull/804))
+  - Why: reordering had no keyboard path, and inside a drawer or dialog the moving tab was offset by the ancestor's transform.
+  - Affects: Space on a focused sortable tab picks it up instead of selecting it.
+  - Docs: https://raft-design.botiverse.build/components/tabs/
+- **SortableComposerAttachments**: the lifted thumbnail moves on both axes, renders in `document.body` (`container`), glides on drop and cancel, and is announced by its `label`; `messages` takes translations. ([#804](https://github.com/botiverse/raft-design/pull/804))
+  - Why: the drag looked and moved differently from every other drag.
+  - Docs: https://raft-design.botiverse.build/components/composer/
+
 ## [0.35.1](https://github.com/botiverse/raft-design/compare/v0.35.0...v0.35.1) (2026-10-25)
 
 ### Fixed
