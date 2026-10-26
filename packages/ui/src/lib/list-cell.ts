@@ -3,9 +3,11 @@
 // states are drawn on one shape, its ::before, which fills the row's height
 // and is inset 8px from each side, with the control radius. The rows are
 // spaced by their list, not by the shape: every container of list cells is a
-// column with a 2px gap (gap-0.5: SidebarList, SearchResultsList,
-// ListRowGroup, ActivityInboxViewport), so two filled rows show 2px of the
-// list between them and the list needs no divider. The 2px belongs to no row.
+// column with a 2px gap and 8px at its ends (gap-0.5 py-2: SidebarList,
+// SearchResultsList, ActivityInboxViewport), so two filled rows show 2px of
+// the list between them, the first and last shapes sit 8px from the list's
+// ends as from its sides, and the list needs no divider. The 2px belongs to
+// no row. ListRow is a cell only with `cell`; a settings card keeps its lines.
 // The end inset is measured from the scroller's outer edge: a scroller that
 // shows a classic scrollbar publishes its width as --scrollbar-size
 // (useScrollbarSize), and the shape gives that much of its 8px back, so the

@@ -40,6 +40,8 @@ const rows = [
   // token: fill-subtle in light, a stronger step in dark.
   { id: "sidebar", surface: "layer-sidebar", fill: "fill-cell-hover", maxDrop: 6, read: "before" },
   { id: "list-row", surface: "layer-card", fill: "fill-cell-hover", maxDrop: 6, read: "before" },
+  // A settings row (ListRow without `cell`) keeps its row-wide overlay.
+  { id: "settings-row", surface: "layer-card", fill: "fill-subtle", maxDrop: 6, read: "image" },
 ] as const;
 
 for (const mode of ["light", "dark"] as const) {
@@ -62,7 +64,10 @@ for (const mode of ["light", "dark"] as const) {
             </SidebarItem>
           </div>
           <div className="bg-layer-card p-2">
-            <ListRow data-testid="list-row">Wug</ListRow>
+            <ListRow cell data-testid="list-row">
+              Wug
+            </ListRow>
+            <ListRow data-testid="settings-row">Appearance</ListRow>
           </div>
         </div>
       </ThemeProvider>,
@@ -145,6 +150,7 @@ it("with a mouse, a hovered message with its menu open keeps fill-subtle", async
 const openRows = [
   { id: "open-sidebar", surface: "layer-sidebar", read: "before" },
   { id: "open-list-row", surface: "layer-card", read: "before" },
+  { id: "open-settings-row", surface: "layer-card", read: "image" },
   { id: "open-inbox", surface: "layer-canvas", read: "before" },
   { id: "open-entity", surface: "layer-popover", read: "before" },
   { id: "open-search-message", surface: "layer-popover", read: "before" },
@@ -171,7 +177,10 @@ for (const mode of ["light", "dark"] as const) {
             </SidebarItem>
           </div>
           <div className="bg-layer-card p-2">
-            <ListRow data-testid="open-list-row" data-popup-open="">
+            <ListRow cell data-testid="open-list-row" data-popup-open="">
+              Wug
+            </ListRow>
+            <ListRow data-testid="open-settings-row" data-popup-open="">
               Wug
             </ListRow>
           </div>

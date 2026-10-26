@@ -12,9 +12,9 @@ export const search = tv({
     section: ["mb-0"],
     sectionHeading: [
       "py-2",
-      "flex items-center gap-2 px-4 pt-5 pb-2",
+      "flex items-center gap-2 px-4 pt-3 pb-0",
       "font-sans text-footnote font-bold text-foreground-hint",
     ],
-    list: ["flex flex-col", "gap-0.5"],
+    list: ["flex flex-col", "gap-0.5 py-2"],
   },
 });

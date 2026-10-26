@@ -8,6 +8,7 @@ import { searchMessage } from "../components/search/search-message.recipe";
 import { searchThread } from "../components/search/search-thread.recipe";
 import { search } from "../components/search/search.recipe";
 import { sidebarSectionRecipe } from "../components/sidebar/sidebar-section.recipe";
+import { sidebarRecipe } from "../components/sidebar/sidebar.recipe";
 import { sidebarItemRecipe } from "../components/sidebar/sidebar-item.recipe";
 import { listCell, listCellStates } from "./list-cell";
 
@@ -18,8 +19,8 @@ import { listCell, listCellStates } from "./list-cell";
 
 const cells = {
   "inbox-item": inboxItem().item(),
-  "list-row": listRow().root(),
-  "list-row plain": listRow({ variant: "plain" }).root(),
+  "list-row": listRow({ cell: true }).root(),
+  "list-row plain": listRow({ cell: true, variant: "plain" }).root(),
   "sidebar-item": sidebarItemRecipe().sidebarItem(),
   "search-entity-result": searchEntity().entity(),
   "search-message-result": searchMessage().message(),
@@ -43,22 +44,45 @@ test("the shape fills the row's height, inset 8px at each side, with the control
   expect(fragment).toContain("before:pointer-events-none");
 });
 
-test("every container of list cells is a column with a 2px gap", () => {
+test("every container of list cells is a column with a 2px gap and 8px at its ends", () => {
   const containers = {
     "sidebar-list": sidebarSectionRecipe().sidebarList(),
     "search-results-list": search().list(),
     "search-thread-messages": searchThread().threadMessages(),
-    "list-row-group": listRow().group(),
-    "activity-inbox-viewport": activityInboxShell().viewport(),
   };
   for (const [name, value] of Object.entries(containers)) {
     const classes = classesOf(value);
     expect(classes, name).toContain("flex");
     expect(classes, name).toContain("flex-col");
     expect(classes, name).toContain("gap-0.5");
+    expect(classes, name).toContain("py-2");
   }
-  // In a group the first and last shapes keep the gap from the card's frame.
-  expect(classesOf(listRow().group())).toContain("py-0.5");
+  // The scroller is the list: 8px at the top, 8px plus the safe area below.
+  const viewport = classesOf(activityInboxShell().viewport());
+  expect(viewport).toEqual(expect.arrayContaining(["flex", "flex-col", "gap-0.5", "pt-2"]));
+  expect(viewport).toContain("pb-[calc(8px+env(safe-area-inset-bottom,0px))]");
+});
+
+test("a heading has no bottom padding: the list's 8px is the space to its first row", () => {
+  const headings = {
+    "sidebar-section-header": sidebarSectionRecipe().sidebarSectionHeader(),
+    "sidebar-group-label": sidebarRecipe().sidebarGroupLabel(),
+    "search-results-section-heading": search().sectionHeading(),
+    "search-thread-header": searchThread().threadHeader(),
+  };
+  for (const [name, value] of Object.entries(headings)) {
+    expect(classesOf(value), name).toContain("pb-0");
+  }
+  // An empty section's line sits where the first row would.
+  expect(classesOf(sidebarSectionRecipe().sidebarSectionEmpty())).toContain("py-2");
+});
+
+test("a settings ListRow is not a list cell: it keeps its line and row-wide fills", () => {
+  const plain = classesOf(listRow({ variant: "plain" }).root());
+  expect(plain).not.toContain("list-cell");
+  expect(plain).toContain("before:border-t");
+  expect(plain).toContain("data-selected:bg-info-soft");
+  expect(classesOf(listRow().group())).not.toContain("gap-0.5");
 });
 
 for (const [name, value] of Object.entries(cells)) {

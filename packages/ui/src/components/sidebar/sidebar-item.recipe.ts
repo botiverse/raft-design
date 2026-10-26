@@ -7,7 +7,7 @@ export const sidebarItemRecipe = tv({
     // away (offline, not joined) ink-3. The yellow sticker keeps its own ink.
     // The row is a list cell (lib/list-cell.ts): it runs the sidebar's full
     // width, 38px tall, and its states are drawn on the inset shape, as tall
-    // as the row. SidebarList spaces the rows 2px apart (gap-0.5).
+    // as the row. SidebarList spaces the rows 2px apart and pads its ends by 8px.
     // The content sits 9.5px inside the shape on both sides (17.5px from the
     // row's edges), where it sat inside the old 1.5px edge.
     // Below md the row is a phone list of places (Home, Members, Settings):
@@ -60,7 +60,7 @@ export const sidebarItemRecipe = tv({
     sidebarItemStatus: ["shrink-0", "inline-flex items-center"],
     sidebarItemIndicator: [
       "shrink-0 items-center justify-center gap-0",
-      "[&:has(svg)]:px-0",
+      "has-[svg]:px-0",
       "[&_svg]:shrink-0 [&_svg]:translate-y-0",
       "size-5 min-w-5 rounded-sticker border-0 p-0",
       "bg-you text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",

@@ -65,7 +65,7 @@ list-row/compositions/entries
 | `tone="unread"` | Something waits here: bold title, the preview in `foreground`, and a pink count in `ListRowBottom`. When someone mentions the person, the yellow @ marker replaces the count ([Badge](../badge/badge.md)) |
 | `tone="muted"`  | The person muted it: the title in `foreground-muted`. Add a `bell-off` icon after the title, and show unread as a gray count in `ListRowMeta` instead of a pink badge                                     |
 | `tone="away"`   | The person hasn't joined yet: title and preview in `foreground-hint`                                                                                                                                      |
-| `selected`      | The item open beside the list: `fill-cell-selected` on the inset shape (`info-soft` in light, a stronger cyan in dark), and no hover                                                                      |
+| `selected`      | The item open beside the list: an `info-soft` wash, and no hover                                                                                                                                          |
 | `disabled`      | Every part in `foreground-disabled`; no tone, no unread or muted marks, no hover or press, and the fill doesn't change                                                                                    |
 
 ```example
@@ -74,7 +74,7 @@ list-row/compositions/tones
 
 ### Loading
 
-While the list loads, show `ListRowSkeleton` rows where the rows will be, in the same `ListRowGroup` if they have one, and mark the list `aria-busy`. Each one is a display-only `ListRow` of the same `variant`, with a bar in its title, time and description, so it has the loaded row's height ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)). A `default` row has a 35px leading block and a description; turn them on or off with `leading` and `description` to match the rows. Show them only once the wait passes 1 second ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)); `ListRowSkeleton` doesn't delay itself.
+While the list loads, show `ListRowSkeleton` rows where the rows will be, in the same `ListRowGroup` if they have one, and mark the list `aria-busy`. Each one is a display-only `ListRow` of the same `variant`, with a bar in its title, time and description, so it has the loaded row's height and dividers ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)). A `default` row has a 35px leading block and a description; turn them on or off with `leading` and `description` to match the rows. Show them only once the wait passes 1 second ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)); `ListRowSkeleton` doesn't delay itself.
 
 ```example
 list-row/compositions/loading
@@ -82,8 +82,10 @@ list-row/compositions/loading
 
 ## Behavior
 
-- Draw no line between rows, in any variant, flat or in a `ListRowGroup`. A row is a list cell ([Lists](../../../../../design/patterns/lists.md)): every state is drawn on one rounded shape as tall as the row and inset 8px from each side. The list spaces the rows 2px apart: `ListRowGroup` is a column with a 2px gap, and a flat list is the caller's `flex flex-col gap-0.5` column, so two filled rows show 2px between them. In a `ListRowGroup` the shape sits 8px inside the group's border at the sides, and the group pads its top and bottom by the same 2px (`py-0.5`), so the first and last shapes don't touch its frame.
-- The whole row is the target: hover lays `fill-cell-hover` on the shape and press `fill-cell-press`, at once and on a touch screen the same as with a mouse ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). While a menu it opened is up (`data-popup-open`: a context menu, or press and hold on a phone), it lays `fill-cell-hover` too, hovered or not; a selected row keeps its selection. Keyboard focus is the 2px inset ring on the same shape.
+- Divide rows with `line-hairline`. In the default variant the line starts where the text starts; in a settings list it starts at the row's edge (16px); entry rows have no lines between them, because they are a set of buttons, not a list of content.
+- The whole row is the target: hover lays the subtle tier, `fill-subtle`, over all of it and press the medium tier ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). While a menu it opened is up (`data-popup-open`: a context menu, or press and hold on a phone), it lays `fill-subtle` too, hovered or not; a selected row keeps its selection.
+- A list of places or people on a phone (conversations, members, the entries into other pages) passes `cell`: each row is a list cell ([Lists](../../../../../design/patterns/lists.md)). It draws no line, and hover (`fill-cell-hover`), press (`fill-cell-press`), selection (`fill-cell-selected`), menu open and keyboard focus are drawn on one rounded shape, as tall as the row and inset 8px at the sides. Put the rows in a `flex flex-col gap-0.5 py-2` column, so they sit 2px apart and the first and last shapes 8px from the list's ends.
+- A settings card (`ListRowGroup`, `variant="plain"`) keeps the look above: lines between rows and the row-wide fills. Its rows are a fixed form read as one card, where the line ties each setting to the next; an inset shape inside the card's own border would draw a third edge.
 - A row whose only targets are its own controls (a setting with a switch) takes `interactive={false}`: it renders a plain element with no hover or press. See [States](../../../../../design/foundations/states.md).
 
 ## Content

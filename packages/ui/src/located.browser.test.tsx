@@ -276,7 +276,7 @@ it("a selected row keeps its selected fill and gets no located layer", () => {
   render(
     <ThemeProvider>
       <Tokens />
-      <ListRow data-testid="row" data-located="" selected>
+      <ListRow cell data-testid="row" data-located="" selected>
         <ListRowBody>Selected row</ListRowBody>
       </ListRow>
       <div data-testid="current" data-located="" aria-current="page" />
@@ -349,7 +349,7 @@ it("a located item keeps its own corners; a list cell paints it on its inset sha
         Rounded item
       </div>
       <ListRowGroup data-testid="group">
-        <ListRow data-testid="grouped" data-located="">
+        <ListRow cell data-testid="grouped" data-located="">
           <ListRowBody>First row</ListRowBody>
         </ListRow>
       </ListRowGroup>
@@ -398,4 +398,61 @@ it("a cell rendered through another part (its data-slot replaced) still paints l
     gradientColor(getComputedStyle(row, "::before").backgroundImage)!,
     token("fill-cell-selected"),
   );
+});
+
+it("a selected settings row (ListRow without cell) keeps info-soft and gets no located layer", () => {
+  render(
+    <ThemeProvider>
+      <Tokens />
+      <ListRow data-testid="row" data-located="" selected>
+        <ListRowBody>Selected row</ListRowBody>
+      </ListRow>
+      <div data-testid="current" data-located="" aria-current="page" />
+      <div data-testid="active" data-located="" data-active="true" />
+      <div data-testid="not-current" data-located="" aria-current="false" />
+    </ThemeProvider>,
+  );
+  const row = screen.getByTestId("row");
+  seek(located(row), 1700);
+  expectSameColor(getComputedStyle(row).backgroundColor, token("info-soft"));
+  expect(layer(row)).toBeNull();
+  for (const id of ["current", "active"]) {
+    expect(layer(screen.getByTestId(id))).toBeNull();
+  }
+  const notCurrent = screen.getByTestId("not-current");
+  seek(located(notCurrent), 0);
+  expectSameColor(layer(notCurrent)!, token("info-soft"));
+});
+
+it("a located settings row keeps its own corners: a rounded row, and a row in a rounded group", () => {
+  render(
+    <ThemeProvider>
+      <Tokens />
+      <ListRow data-testid="rounded" data-located="" className="rounded-container">
+        <ListRowBody>Rounded row</ListRowBody>
+      </ListRow>
+      <ListRowGroup data-testid="group">
+        <ListRow data-testid="grouped" data-located="">
+          <ListRowBody>First row</ListRowBody>
+        </ListRow>
+      </ListRowGroup>
+    </ThemeProvider>,
+  );
+  for (const id of ["rounded", "grouped"]) {
+    const row = screen.getByTestId(id);
+    const radius = getComputedStyle(row).borderTopLeftRadius;
+    seek(located(row), 0);
+    const style = getComputedStyle(row);
+    expectSameColor(layer(row)!, token("info-soft"));
+    expect(style.backgroundClip).toBe("border-box");
+    expect(style.borderTopLeftRadius).toBe(radius);
+    expect(style.boxShadow).not.toContain("inset");
+    for (const pseudo of ["::before", "::after"]) {
+      expect(getComputedStyle(row, pseudo).backgroundImage).not.toContain("gradient");
+    }
+  }
+  expect(getComputedStyle(screen.getByTestId("rounded")).borderTopLeftRadius).not.toBe("0px");
+  const group = getComputedStyle(screen.getByTestId("group"));
+  expect(group.borderTopLeftRadius).not.toBe("0px");
+  expect(group.overflow).toBe("hidden");
 });

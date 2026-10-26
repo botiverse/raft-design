@@ -61,13 +61,13 @@ const lists: List[] = [
   {
     name: "list-row",
     row: (i, props) => (
-      <ListRow key={i} data-testid={`row-${i}`} {...props}>
+      <ListRow cell key={i} data-testid={`row-${i}`} {...props}>
         Wug
       </ListRow>
     ),
     // A flat list of ListRows: the caller's column, with the list gap.
     list: (rows) => (
-      <div data-testid="list" className="flex flex-col gap-0.5">
+      <div data-testid="list" className="flex flex-col gap-0.5 py-2">
         {rows}
       </div>
     ),
@@ -178,7 +178,13 @@ for (const { name } of lists) {
     const a = rows[0]!.getBoundingClientRect();
     const b = rows[1]!.getBoundingClientRect();
     expect(b.top - a.bottom, `${name}: the list gap`).toBe(2);
-    expect(getComputedStyle(rows[0]!.parentElement!).rowGap).toBe("2px");
+    const list = rows[0]!.parentElement!;
+    expect(getComputedStyle(list).rowGap).toBe("2px");
+    // The list's ends: 8px at the top and bottom, as far as the shape sits
+    // from the sides, so the first shape is 8px below the list's top edge.
+    expect(getComputedStyle(list).paddingTop, `${name}: list top`).toBe("8px");
+    expect(getComputedStyle(list).paddingBottom, `${name}: list bottom`).toBe("8px");
+    expect(a.top - list.getBoundingClientRect().top, `${name}: first shape`).toBe(8);
     for (const x of [a.left + 2, a.left + a.width / 2, a.right - 2]) {
       const hit = document.elementFromPoint(x, a.bottom - 0.5);
       expect(hit && rows[0]!.contains(hit), `${name}: ${x},${a.bottom - 0.5} hits row 0`).toBe(
@@ -241,7 +247,7 @@ it("press fills the shape at once, with no hover gate, so a finger presses as a 
   };
   render(
     <ThemeProvider>
-      <ListRow>Wug</ListRow>
+      <ListRow cell>Wug</ListRow>
     </ThemeProvider>,
   );
   for (const sheet of Array.from(document.styleSheets)) walk(sheet.cssRules, false);

@@ -118,7 +118,9 @@ for (const mode of ["light", "dark"] as const) {
                 <InboxItemTitle>Kirby mentioned you</InboxItemTitle>
               </InboxItemContent>
             </InboxItem>
-            <ListRow data-testid="list-row">Wug</ListRow>
+            <ListRow cell data-testid="list-row">
+              Wug
+            </ListRow>
           </div>
           <Table>
             <TableBody>

@@ -25,8 +25,7 @@ afterEach(cleanup);
 const RING = /0px 0px 0px 4px/;
 const ringed = (el: Element) => RING.test(getComputedStyle(el).boxShadow);
 /** The inset ring of a row that touches its container's edge (`keyboard:` variant). */
-const insetRinged = (el: Element, pseudo: string | null = null) =>
-  /0px 0px 0px 2px inset/.test(getComputedStyle(el, pseudo).boxShadow);
+const insetRinged = (el: Element) => /0px 0px 0px 2px inset/.test(getComputedStyle(el).boxShadow);
 
 async function context() {
   const { userEvent } = await import("vite-plus/test/browser/context");
@@ -210,8 +209,7 @@ it("focus moved by code after a click shows no ring, token or inset; after Tab i
   row.focus();
   await settle();
   expect(row.matches(":focus-visible")).toBe(true);
-  // A list cell draws its ring on its inset shape (lib/list-cell.ts).
-  expect(insetRinged(row, "::before"), "row focused by code").toBe(false);
+  expect(insetRinged(row), "row focused by code").toBe(false);
 
   await userEvent.click(screen.getByTestId("input"));
   await userEvent.keyboard("{Tab}");
@@ -219,7 +217,7 @@ it("focus moved by code after a click shows no ring, token or inset; after Tab i
   expect(ringed(button), "button tabbed to").toBe(true);
   await userEvent.keyboard("{Tab}");
   await settle();
-  expect(insetRinged(row, "::before"), "row tabbed to").toBe(true);
+  expect(insetRinged(row), "row tabbed to").toBe(true);
 });
 
 it("Esc in a field inside a dialog opened with the mouse returns focus to the trigger with a ring", async () => {

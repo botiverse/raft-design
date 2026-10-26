@@ -22,7 +22,7 @@ afterEach(cleanup);
 const classes = (element: Element) => element.className.split(/\s+/);
 
 describe("ListRow", () => {
-  test("is a button, a list cell that fills its inset shape on hover and press", () => {
+  test("is a button that lays the row-hover overlay on hover and the pressed one on press", () => {
     render(<ListRow>launch-week</ListRow>);
     const row = screen.getByRole("button", { name: "launch-week" });
     expect(row.getAttribute("type")).toBe("button");
@@ -31,16 +31,14 @@ describe("ListRow", () => {
     const rowClasses = classes(row);
     expect(rowClasses).toContain("min-h-16");
     expect(rowClasses).toContain(
-      "not-data-active:not-data-selected:not-data-disabled:not-disabled:not-aria-disabled:hover:before:bg-fill-cell-hover",
+      "not-disabled:not-aria-disabled:not-data-selected:hover:overlay-subtle",
     );
     expect(rowClasses).toContain(
-      "not-data-active:not-data-selected:not-data-disabled:not-disabled:not-aria-disabled:active:before:bg-fill-cell-press",
+      "not-disabled:not-aria-disabled:not-data-selected:active:overlay-medium",
     );
-    // The row itself stays transparent: the fill is the shape's.
-    expect(rowClasses.some((name) => /(?:^|:)overlay-/.test(name))).toBe(false);
-    // The focus ring sits inside the shape, so an inset card cannot clip it;
+    // A flush row keeps its focus ring inside, so an inset card cannot clip it;
     // it is not the token, so it carries the keyboard-only gate.
-    expect(rowClasses).toContain("focus-visible:keyboard:before:inset-ring-2");
+    expect(rowClasses).toContain("focus-visible:keyboard:inset-ring-2");
   });
 
   test("a row that goes somewhere renders the link, without a button type", () => {
@@ -56,23 +54,23 @@ describe("ListRow", () => {
     expect(row.hasAttribute("type")).toBe(false);
   });
 
-  test("no variant draws a divider between two rows", () => {
-    for (const variant of ["default", "plain", "entry"] as const) {
-      const { unmount } = render(<ListRow data-testid="row" variant={variant} />);
-      const row = screen.getByTestId("row");
-      expect(row.className, variant).not.toContain("border-t");
-      expect(row.className, variant).not.toContain("line-hairline");
-      expect(row.className, variant).not.toContain("rule-start");
-      expect(classes(row), variant).toContain("before:left-(--cell-inset-x)");
-      if (variant === "plain") {
-        // 12 + 24 + 12: one line of text makes 48, so no minimum is set.
-        expect(classes(row).some((name) => name.startsWith("min-h-"))).toBe(false);
-      }
-      unmount();
-    }
+  test("a hairline from the text start separates two rows; a setting's starts at the edge", () => {
+    const { rerender } = render(<ListRow data-testid="row" />);
+    let rowClasses = classes(screen.getByTestId("row"));
+    expect(rowClasses).toContain("[--list-row-rule-start:63px]");
+    expect(rowClasses).toContain("before:left-(--list-row-rule-start)");
+    expect(rowClasses).toContain("[[data-slot=list-row]+&]:before:block");
+    expect(rowClasses).toContain("[li+li>&]:before:block");
+
+    rerender(<ListRow data-testid="row" variant="plain" />);
+    rowClasses = classes(screen.getByTestId("row"));
+    // 12 + 24 + 12: one line of text makes 48, so no minimum is set.
+    expect(rowClasses.some((name) => name.startsWith("min-h-"))).toBe(false);
+    expect(rowClasses).toContain("[--list-row-rule-start:16px]");
+    expect(rowClasses).toContain("[[data-slot=list-row]+&]:before:block");
   });
 
-  test("entry rows are a set of buttons with a 20px icon", () => {
+  test("entry rows are a set of buttons: no lines between them", () => {
     render(
       <ListRow variant="entry" data-testid="row">
         <ListRowIcon data-testid="icon">
@@ -102,10 +100,10 @@ describe("ListRow", () => {
     const row = screen.getByRole("button", { name: "release-review" });
     expect(row.hasAttribute("data-selected")).toBe(true);
     expect(row.getAttribute("aria-current")).toBe("true");
-    expect(classes(row)).toContain("data-selected:before:bg-fill-cell-selected");
+    expect(classes(row)).toContain("data-selected:bg-info-soft");
     expect(
       classes(row).filter(
-        (name) => name.includes("bg-fill-cell-press") && !name.includes("not-data-selected"),
+        (name) => name.includes("overlay-medium") && !name.includes("not-data-selected"),
       ),
     ).toEqual([]);
   });
@@ -121,8 +119,7 @@ describe("ListRow", () => {
     const row = screen.getByTestId("row");
     expect(row.tagName).toBe("DIV");
     expect(row.hasAttribute("type")).toBe(false);
-    expect(row.className).not.toContain("bg-fill-cell-press");
-    expect(row.className).not.toContain("bg-fill-cell-hover");
+    expect(row.className).not.toContain("overlay-medium");
   });
 
   test("the row owns its inks: the tone sets them, and never on a disabled row", () => {
@@ -229,5 +226,46 @@ describe("ListRow", () => {
         "bg-layer-card",
       ]),
     );
+  });
+});
+
+// A list of places or people on a phone opts in to the list cell
+// (design/patterns/lists.md); a settings card keeps the default look above.
+describe("ListRow cell", () => {
+  test("draws no line in any variant, and every state on the inset shape", () => {
+    for (const variant of ["default", "plain", "entry"] as const) {
+      const { unmount } = render(<ListRow cell data-testid="row" variant={variant} />);
+      const rowClasses = classes(screen.getByTestId("row"));
+      expect(rowClasses.join(" "), variant).not.toContain("border-t");
+      expect(rowClasses, variant).toContain("list-cell");
+      expect(rowClasses, variant).toContain("before:left-(--cell-inset-x)");
+      expect(
+        rowClasses.some((name) => /(?:^|:)overlay-/.test(name)),
+        variant,
+      ).toBe(false);
+      expect(rowClasses, variant).not.toContain("data-selected:bg-info-soft");
+      expect(rowClasses, variant).not.toContain("focus-visible:keyboard:inset-ring-2");
+      expect(rowClasses, variant).toContain("focus-visible:keyboard:before:inset-ring-2");
+      expect(rowClasses, variant).toContain(
+        "not-data-active:not-data-selected:not-data-disabled:not-disabled:not-aria-disabled:hover:before:bg-fill-cell-hover",
+      );
+      unmount();
+    }
+  });
+
+  test("a selected cell takes the cell's selected tint on its shape", () => {
+    render(
+      <ListRow cell selected>
+        release-review
+      </ListRow>,
+    );
+    expect(classes(screen.getByRole("button"))).toContain(
+      "data-selected:before:bg-fill-cell-selected",
+    );
+  });
+
+  test("a display-only cell has no hover or press", () => {
+    render(<ListRow cell interactive={false} data-testid="row" />);
+    expect(screen.getByTestId("row").className).not.toContain("bg-fill-cell-hover");
   });
 });
