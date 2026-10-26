@@ -10,7 +10,7 @@ Controls and cards sit flat on the page. Only things that float above it for a m
 
 ## Principles
 
-- **No shadow on controls and cards.** A control is marked by its ink border, not a shadow, even where it floats over content. The two exceptions are cards that leave their place for a moment: a dragged card and the open comment card.
+- **No shadow on controls and cards.** A control is marked by its ink border, not a shadow, even where it floats over content. The two exceptions are things that leave their place for a moment: the lifted copy of anything dragged and the open comment card.
 - **One soft shadow for everything that floats.**
 - **The hard sticker shadow is for brand illustration only.**
 
@@ -26,7 +26,7 @@ focus
 
 | Token (utility) | Use for |
 | --- | --- |
-| `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, the hover toolbar of a message and the toolbar for selected text (popups over the message they act on), a card while it is dragged (it is lifted off the board; the card left behind casts nothing), the side cards while they float over a narrow message list ([Responsive layout](../patterns/responsive.md)), and the open comment card in a document's margin (it is lifted off the column of cards, which move out of its way; [Comments](../patterns/comments.md)) |
+| `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts, the hover toolbar of a message and the toolbar for selected text (popups over the message they act on), the lifted copy of anything dragged, a row, a tab, a card or a section's head, on a `layer-popover` surface with a `line-seam` ring and no scale or tilt (it is lifted off its list; the item left behind at 40% casts nothing; [Drag and drop](../patterns/drag-and-drop.md#what-follows-the-hand)), the side cards while they float over a narrow message list ([Responsive layout](../patterns/responsive.md)), and the open comment card in a document's margin (it is lifted off the column of cards, which move out of its way; [Comments](../patterns/comments.md)) |
 | `elevation-sticker` (`shadow-sticker`) | Brand illustration only: the 99px avatar on a profile and on the last setup step, and the preview of the new server on the page that creates a server ([Brand](./brand.md#how-much-brand)). Nothing else |
 | `focus-ring` (`shadow-focus`) | Every element that can be reached with the keyboard, when the keyboard reaches it |
 
@@ -80,6 +80,7 @@ Both are for modal overlays only. A non-modal one passes `modal={false}` and add
 ## Related
 
 - [States](./states.md): hover, press and focus.
+- [Drag and drop](../patterns/drag-and-drop.md): the lift look of a dragged item.
 - [Visual comfort](./comfort.md#surfaces): when content gets a card or a border at all.
 - [Brand](./brand.md): where the sticker shadow may appear.
 - [Choosing a component](../components/overview.md#how-to-choose-a-component): which popup to use.

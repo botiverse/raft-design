@@ -39,11 +39,11 @@ task-card/compositions/task-card-state-matrix
 
 ## States
 
-| State                                    | Use for                                                                                                            |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `busy` on `TaskCard` or `TaskCardStatus` | A status change is being saved; the chip can't be pressed until it finishes                                        |
-| `disabled`                               | A task that can't be opened or changed: a `fill-muted` card with `foreground-disabled` text                        |
-| Dragging                                 | On a board, the card being dragged is the only card with `shadow-float` ([TaskBoard](../task-board/task-board.md)) |
+| State                                    | Use for                                                                                                                                                       |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `busy` on `TaskCard` or `TaskCardStatus` | A status change is being saved; the chip can't be pressed until it finishes                                                                                   |
+| `disabled`                               | A task that can't be opened or changed: a `fill-muted` card with `foreground-disabled` text                                                                   |
+| Dragging                                 | On a board, the lifted copy of the card is the only card with `shadow-float`; the card stays in its column at 40% ([TaskDnd](../task-dnd/task-dnd.md#states)) |
 
 ```example
 task-card/compositions/task-card-state-matrix

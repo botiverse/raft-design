@@ -1,0 +1,156 @@
+[
+  {
+    "name": "DragRemeasure",
+    "entry": "@botiverse/raft-ui",
+    "description": "Measures every drop target again once an item's move into another list has rendered. dnd-kit's own observers skip targets whose size didn't change, even when they moved. Render it inside the `DndContext`.",
+    "native": false,
+    "props": [
+      {
+        "name": "version",
+        "type": "{}",
+        "required": true,
+        "description": "Anything that changes when an item moves list, such as the lists' items.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "DragLift",
+    "entry": "@botiverse/raft-ui",
+    "description": "The copy of a dragged item that follows the hand (design/patterns/drag-and-drop.md#what-follows-the-hand): an opaque popover surface with `shadow-float` and a `line-seam` ring, no scale and no tilt, 1:1 with the pointer from the grab point, never clamped to its container and never held to one axis. On a drop it glides into its place, and on a cancel back home (160ms, `motion-drag-settle-*`; none with reduced motion).",
+    "native": false,
+    "props": [
+      {
+        "name": "autoScroll",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Scroll whatever scrollable area the pointer comes within 48px of the edge of. Turn dnd-kit's own off (`<DndContext autoScroll={false}>`) so the two don't scroll together.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "description": "The lifted copy: the dragged item itself, or a compact proxy for a large one. Nothing while nothing is lifted.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "container",
+        "type": "Element | DocumentFragment",
+        "required": false,
+        "description": "Render the copy in another element, such as `document.body` when an ancestor has a transform. By default it renders in place (it is `position: fixed`).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "modifiers",
+        "type": "Modifier[]",
+        "required": false,
+        "description": "Modifiers for the copy only, such as one that keeps a compact proxy under the hand.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "zIndex",
+        "type": "number",
+        "required": false,
+        "default": "60",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "DragRefusalHint",
+    "entry": "@botiverse/raft-ui",
+    "description": "Shown while the hand is over a place that refuses the item (design/patterns/drag-and-drop.md#refused-places): the reason, in a HUD chip by the pointer (by the lifted copy in a keyboard drag), and the not-allowed cursor. Render it only while the place is refused, inside the `DndContext`, with no placeholder anywhere. Announce the reason as well: the chip is not read out.",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "string",
+        "required": true,
+        "description": "Why the place under the hand won't take the item, such as \"Can't move from Todo to Done\".",
+        "from": "raft-ui"
+      },
+      {
+        "name": "container",
+        "type": "Element | DocumentFragment",
+        "required": false,
+        "description": "Render the hint in another element; by default it renders in `document.body`.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "DropPlaceholder",
+    "entry": "@botiverse/raft-ui",
+    "description": "Where a dragged item will land (design/patterns/drag-and-drop.md#where-it-will-land): a 1.5px dashed `line-strong` outline on `fill-subtle`, with the item's radius and size. One look for every place. The control radius is the default; pass the item's own (`rounded-container` for a card). Hidden from assistive technology: the announcements say where the item is.",
+    "native": true,
+    "props": [
+      {
+        "name": "opaque",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Over live content (a panel, a column of a layout): an opaque `layer-canvas` under the `fill-subtle` wash, so the content under it never shows through.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "DragLiveRegion",
+    "entry": "@botiverse/raft-ui",
+    "description": "A polite, visually hidden live region for drag announcements.",
+    "native": false,
+    "props": [
+      {
+        "name": "message",
+        "type": "string",
+        "required": true,
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "DraggedSlot",
+    "entry": "@botiverse/raft-ui",
+    "description": "Wraps each item's content in a list. The dragged item's own node is at 40% while it is still home, and the dashed place (its size, its radius) once it stands anywhere else. Every other item renders as it is: the wrapper stays the same, so the item keeps focus when its drag starts.",
+    "native": false,
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "dragging",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "This item is the one being dragged. Render the slot around every item and pass `isDragging`, so the dragged one keeps its node (and focus).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "home",
+        "type": "boolean",
+        "required": true,
+        "description": "The dragged item still stands at its own place.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "radius",
+        "type": "string",
+        "required": false,
+        "description": "The item's radius class, for the place: `rounded-control` by default.",
+        "from": "raft-ui"
+      }
+    ]
+  }
+]

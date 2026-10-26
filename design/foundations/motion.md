@@ -1,6 +1,6 @@
 ---
 title: Motion
-summary: The durations and easing for press, hover, slides and avatar changes, and the rule that status never animates in a loop.
+summary: The durations and easing for press, hover, slides, a drag settling and avatar changes, and the rule that status never animates in a loop.
 redirectFrom: [decisions/0028-centered-overlays-no-animation]
 ---
 
@@ -16,7 +16,11 @@ Motion in Raft confirms an action or shows where something came from. It never d
 
 ## Easing
 
-`ease-slide` is the one easing curve for things that move: slides, sheets and changes to an avatar stack.
+`ease-slide` is the easing curve for things that move: slides, sheets and changes to an avatar stack. A drag settling has its own, `ease-drag-settle` (`motion-drag-settle-easing`), an ease-out that leaves the hand fast and lands softly.
+
+```tokens
+motion
+```
 
 ## Usage
 
@@ -26,6 +30,7 @@ Motion in Raft confirms an action or shows where something came from. It never d
 | Slides and sheets | `ease-slide` | 220ms to 380ms |
 | A page pushed or popped on a phone | The platform's default transition, on phone web, iOS and Android alike ([Navigation](../patterns/navigation.md#what-each-platform-draws)) | The platform's |
 | The tab bar coming back when the keyboard closes | The platform's default transition, never an instant jump ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#behavior)). The tab bar doesn't move while a page scrolls | The platform's |
+| A drag settling: the lifted copy gliding into its place on a drop, or back home on a cancel; siblings sliding apart to open the place; a layout reflowing on a drop, in step with the glide ([Drag and drop](../patterns/drag-and-drop.md#drop-and-cancel)) | `motion-drag-settle-easing` | `motion-drag-settle-duration`, 160ms |
 | Someone joins or leaves an avatar stack | The faces slide apart and fade in or out, with `ease-slide` | 180ms to 220ms |
 | The item a jump lands on (located) | `info-soft` at once, held 1.2s, then faded out with `ease-out`; with reduced motion held still for 2s and then off ([Located](./states.md#located)) | 2s in all |
 | Text and numbers that change | Replace the text. Don't roll the digits | None |
@@ -39,5 +44,6 @@ Motion in Raft confirms an action or shows where something came from. It never d
 ## Related
 
 - [States](./states.md): the hover tiers.
+- [Drag and drop](../patterns/drag-and-drop.md): the drop and cancel glide.
 - [Working agents](../people-and-agents/working-agents.md#motion): how working agents are shown without animation.
 - [Brand](./brand.md): where brand illustration is allowed.

@@ -77,12 +77,20 @@
   {
     "name": "TaskDragOverlay",
     "entry": "@botiverse/raft-ui",
+    "description": "The copy of the dragged card that follows the hand: a `DragLift` with the card's radius. On a drop it glides into the card's new place, and on a cancel back home. While it is rendered, the dragged card stays in its place at 40% instead of moving.",
     "native": false,
     "props": [
       {
         "name": "children",
         "type": "ReactNode",
         "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "container",
+        "type": "Element | DocumentFragment",
+        "required": false,
+        "description": "Render the copy in another element, such as `document.body` when an ancestor has a transform.",
         "from": "raft-ui"
       }
     ]
