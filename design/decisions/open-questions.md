@@ -21,7 +21,7 @@ These were open, and the web app (Raft's product code) now ships one version. Th
 | The server list on a phone | A popover anchored under the top bar, 8px from each side, opened from the server switcher on Home ([Navigation](../patterns/navigation.md#servers)) | `components/layout/Sidebar.tsx`, `components/ui/ServerSwitcherMenu.tsx` |
 | The desktop rail | Icons only, 56px plus the seam; names are in tooltips. The top-left corner stays square ([Spacing](../foundations/spacing.md#heights)) | `components/layout/LeftRail.tsx` |
 | Tabs | The yellow sticker. The underline stays a variant of [Tabs](../../packages/ui/src/components/tabs/tabs.md#variants) | `components/message/ChatPanel.tsx`, `components/agent/AgentDetailPanel.tsx` |
-| Tasks and files in a Raft Chat channel | Side cards beside the message list, opened from Tasks and Files toggles in the channel header ([Channel](../products/raft-chat/channel.md#tasks-and-files)) | `components/message/ChatPanel.tsx`, `components/task/ChannelSideColumn.tsx` |
+| Tasks and files in a Raft Chat channel | Side sections in columns right of the conversation panel, opened from Tasks and Files toggles in the channel header ([Channel](../products/raft-chat/channel.md#tasks-and-files), [The channel's side columns](../patterns/responsive.md#the-channels-side-columns)) | `components/message/ChatPanel.tsx`, `components/task/ChannelSideArea.tsx` |
 
 ## Related
 
