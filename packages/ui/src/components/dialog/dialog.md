@@ -65,7 +65,7 @@ Pick the size by what the dialog holds, not by what looks right. The four sizes 
 - Only these overlays have a width outside the four sizes, each set by its own rule. Nothing else may add one:
   - Task details, 960px: a workspace overlay ([Tasks](../../../../../design/patterns/tasks.md)).
   - Search, 720px, on `DialogSurface`, its top edge over the top bar's field ([Search](../search/search.md)).
-  - The showcase frame, 720px wide and about 520px high, shared by steps 3 to 5 of onboarding and the Upgrade to Pro dialog, and used by nothing else ([Onboarding](../../../../../design/products/raft-chat/onboarding.md)).
+  - The showcase frame, 720px wide and about 520px high, shared by steps 3 to 5 of onboarding, the Upgrade to Pro dialog and Pro's Add seats dialog (cindyz, 2026-10-26: adding seats is a paywall, like upgrading), and used by nothing else ([Onboarding](../../../../../design/products/raft-chat/onboarding.md)).
   - [AnnouncementDialog](../announcement-dialog/announcement-dialog.md), 576px: its picture and one-paragraph text read best there; at 640px the text runs past 80 characters a line.
   - An attachment preview, as wide as the file needs, up to 768px.
 - On a narrow screen every size is as wide as itself or the window less 32px, whichever is smaller, so at 390px each one is 358px wide. Its height and the wide dialog's sections are in [Behavior](#behavior).
