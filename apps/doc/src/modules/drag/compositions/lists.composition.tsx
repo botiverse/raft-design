@@ -12,10 +12,6 @@ import type { CollisionDetection } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
-  DragLift,
-  DragLiveRegion,
-  DragRemeasure,
-  DraggedSlot,
   SidebarItem,
   SidebarItemChannelIcon,
   SidebarItemContent,
@@ -28,13 +24,19 @@ import {
   SidebarSectionDisclosure,
   SidebarSectionHeader,
   SidebarSectionTitle,
+} from "@botiverse/raft-ui";
+import {
+  DragLift,
+  DragLiveRegion,
+  DragRemeasure,
+  DraggedSlot,
   dragListStrategy,
   useDragAnnouncer,
   useDragLists,
   useDragSensors,
   useDragSiblingTransition,
-} from "@botiverse/raft-ui";
-import type { DragListsItems } from "@botiverse/raft-ui";
+} from "@botiverse/raft-ui/wip";
+import type { DragListsItems } from "@botiverse/raft-ui/wip";
 
 type Section = "pinned" | "channels";
 

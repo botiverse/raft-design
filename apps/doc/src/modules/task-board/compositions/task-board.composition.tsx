@@ -25,10 +25,8 @@ import {
   TaskDraggable,
   TaskDropPlaceholder,
   TaskDropZone,
-  DragRefusalHint,
-  createDragAnnouncements,
-  dragInstructions,
 } from "@botiverse/raft-ui";
+import { DragRefusalHint, createDragAnnouncements, dragInstructions } from "@botiverse/raft-ui/wip";
 import type { TaskDndAccessibility, TaskMoveDetails } from "@botiverse/raft-ui";
 import { ChevronDown } from "lucide-react";
 

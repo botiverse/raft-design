@@ -1,7 +1,7 @@
 ---
 title: Drag
 summary: The parts every drag in Raft is built from — one sensor set, the lifted copy that follows the hand, the dashed place where an item will land, the reason a place refuses it, and announcements by name.
-status: stable
+status: experimental
 aliases:
   [
     Drag and drop,
@@ -20,7 +20,7 @@ related: [task-dnd, tabs, composer, sidebar]
 
 # Drag
 
-The Drag parts are what every drag in Raft is built from, on dnd-kit: `useDragSensors` starts a drag the same way everywhere, `DragLift` is the copy that follows the hand and settles on a drop or a cancel, `DropPlaceholder` is the one look of where an item will land, and `DragRefusalHint` says why a place won't take it. The model they implement, and its reasons, is in [Drag and drop](../../../../../design/patterns/drag-and-drop.md).
+The Drag parts are what every drag in Raft is built from, on dnd-kit: `useDragSensors` starts a drag the same way everywhere, `DragLift` is the copy that follows the hand and settles on a drop or a cancel, `DropPlaceholder` is the one look of where an item will land, and `DragRefusalHint` says why a place won't take it. The model they implement, and its reasons, is in [Drag and drop](../../../../../design/patterns/drag-and-drop.md). Import them from `@botiverse/raft-ui/wip`: the API can still change while Raft Chat moves its drags onto it.
 
 ```example
 drag/compositions/lists

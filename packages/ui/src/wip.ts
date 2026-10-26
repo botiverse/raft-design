@@ -45,12 +45,13 @@ export type {
   MessageListJumpPillProps,
 } from "./components/message-list/index";
 
-// The touch drag rule (states.md, "Dragging on a touch screen"): hold still
-// for a menu, hold and move to drag. Stable since the one drag model
-// (design/patterns/drag-and-drop.md): exported from the package root with
-// useDragSensors. Kept here so existing `/wip` imports keep working.
-export { TOUCH_DRAG_HOLD_MS, useHoldThenMoveTouchSensor } from "./lib/touch-drag";
-export type { HoldThenMoveOptions } from "./lib/touch-drag";
+// The one drag model (design/patterns/drag-and-drop.md, drag.md): the sensor
+// set (the touch rule of states.md, "Dragging on a touch screen", included),
+// the lifted copy, the place, the refusal hint, the lists and the
+// announcements by name. Until slock's adoption has settled the API. The
+// touch sensor subclasses dnd-kit's TouchSensor through fields dnd-kit types
+// as private.
+export * from "./components/drag/index";
 
 // Text cut with CSS that knows when it was: the tooltip opens and the expand
 // control shows only on a text that is actually cut. Until its API settles.

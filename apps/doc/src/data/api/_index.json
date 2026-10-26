@@ -330,7 +330,7 @@
       "DragLiveRegion",
       "DraggedSlot"
     ],
-    "status": "stable",
+    "status": "experimental",
     "description": "Measures every drop target again once an item's move into another list has rendered. dnd-kit's own observers skip targets whose size didn't change, even when they moved. Render it inside the `DndContext`."
   },
   "drawer": {

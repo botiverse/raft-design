@@ -1,7 +1,7 @@
 [
   {
     "name": "DragRemeasure",
-    "entry": "@botiverse/raft-ui",
+    "entry": "@botiverse/raft-ui/wip",
     "description": "Measures every drop target again once an item's move into another list has rendered. dnd-kit's own observers skip targets whose size didn't change, even when they moved. Render it inside the `DndContext`.",
     "native": false,
     "props": [
@@ -16,7 +16,7 @@
   },
   {
     "name": "DragLift",
-    "entry": "@botiverse/raft-ui",
+    "entry": "@botiverse/raft-ui/wip",
     "description": "The copy of a dragged item that follows the hand (design/patterns/drag-and-drop.md#what-follows-the-hand): an opaque popover surface with `shadow-float` and a `line-seam` ring, no scale and no tilt, 1:1 with the pointer from the grab point, never clamped to its container and never held to one axis. On a drop it glides into its place, and on a cancel back home (160ms, `motion-drag-settle-*`; none with reduced motion).",
     "native": false,
     "props": [
@@ -60,7 +60,7 @@
   },
   {
     "name": "DragRefusalHint",
-    "entry": "@botiverse/raft-ui",
+    "entry": "@botiverse/raft-ui/wip",
     "description": "Shown while the hand is over a place that refuses the item (design/patterns/drag-and-drop.md#refused-places): the reason, in a HUD chip by the pointer (by the lifted copy in a keyboard drag), and the not-allowed cursor. Render it only while the place is refused, inside the `DndContext`, with no placeholder anywhere. Announce the reason as well: the chip is not read out.",
     "native": true,
     "props": [
@@ -82,7 +82,7 @@
   },
   {
     "name": "DropPlaceholder",
-    "entry": "@botiverse/raft-ui",
+    "entry": "@botiverse/raft-ui/wip",
     "description": "Where a dragged item will land (design/patterns/drag-and-drop.md#where-it-will-land): a 1.5px dashed `line-strong` outline on `fill-subtle`, with the item's radius and size. One look for every place. The control radius is the default; pass the item's own (`rounded-container` for a card). Hidden from assistive technology: the announcements say where the item is.",
     "native": true,
     "props": [
@@ -105,7 +105,7 @@
   },
   {
     "name": "DragLiveRegion",
-    "entry": "@botiverse/raft-ui",
+    "entry": "@botiverse/raft-ui/wip",
     "description": "A polite, visually hidden live region for drag announcements.",
     "native": false,
     "props": [
@@ -119,7 +119,7 @@
   },
   {
     "name": "DraggedSlot",
-    "entry": "@botiverse/raft-ui",
+    "entry": "@botiverse/raft-ui/wip",
     "description": "Wraps each item's content in a list. The dragged item's own node is at 40% while it is still home, and the dashed place (its size, its radius) once it stands anywhere else. Every other item renders as it is: the wrapper stays the same, so the item keeps focus when its drag starts.",
     "native": false,
     "props": [

@@ -7,7 +7,7 @@ summary: The one way everything in Raft is dragged — how a drag starts, what f
 
 Everything people can drag in Raft (sidebar rows and sections, tabs, servers, task cards, composer attachments, side sections, an agent onto a computer) is dragged the same way. The item is picked up the same way, a lifted copy of it follows the hand, the item it came from stays behind at 40%, one dashed place shows where it will land, a place that won't take it says why, and a drop or a cancel settles in 160ms. Learning one drag is learning all of them, and none of them needs a mouse.
 
-raft-ui carries the model: `useDragSensors`, `DragLift`, `DropPlaceholder`, `DragRefusalHint` and the announcement helpers ([Drag](../../packages/ui/src/components/drag/drag.md)). `TaskDnd`, `SortableTabsList` and `SortableComposerAttachments` are built on them.
+raft-ui carries the model: `useDragSensors`, `DragLift`, `DropPlaceholder`, `DragRefusalHint` and the announcement helpers ([Drag](../../packages/ui/src/components/drag/drag.md)), from `@botiverse/raft-ui/wip` until their API settles. `TaskDnd`, `SortableTabsList` and `SortableComposerAttachments` are built on them.
 
 ## When it applies
 
