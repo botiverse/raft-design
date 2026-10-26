@@ -1,6 +1,7 @@
 import "./drag.test.css";
 import { afterEach, expect, test, vi } from "vite-plus/test";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { pointerWithin } from "@dnd-kit/core";
 import { TestLists } from "./drag.test-lists";
 import type { TestList } from "./drag.test-lists";
 import type { DragListsItems } from "./drag-lists";
@@ -104,4 +105,54 @@ it("a refused list opens no place, shows the reason by the hand, and the drop pu
   );
   expect(onChange).toHaveBeenLastCalledWith(INITIAL);
   expect(document.documentElement.hasAttribute("data-drag-refused")).toBe(false);
+});
+
+async function mouse(type: "mousePressed" | "mouseMoved" | "mouseReleased", x: number, y: number) {
+  const { cdp } = await import("vite-plus/test/browser/context");
+  await cdp().send("Input.dispatchMouseEvent", {
+    type,
+    x,
+    y,
+    button: "left",
+    buttons: type === "mouseReleased" ? 0 : 1,
+    clickCount: 1,
+    pointerType: "mouse",
+  });
+}
+
+async function glide(from: { x: number; y: number }, to: { x: number; y: number }) {
+  for (let step = 1; step <= 6; step++) {
+    await mouse(
+      "mouseMoved",
+      from.x + ((to.x - from.x) * step) / 6,
+      from.y + ((to.y - from.y) * step) / 6,
+    );
+    await wait(16);
+  }
+  await wait(80);
+}
+
+it("leaving a refused list for nothing clears the refusal", async () => {
+  // Only what is under the pointer counts, so the hand can be over nothing.
+  render(<TestLists initial={INITIAL} refuse={refusePinned} collisionDetection={pointerWithin} />);
+  const row = screen.getByTestId("row-random").getBoundingClientRect();
+  const pinned = screen.getByTestId("row-general").getBoundingClientRect();
+  const start = { x: row.left + 40, y: row.top + 16 };
+  await mouse("mousePressed", start.x, start.y);
+  await mouse("mouseMoved", start.x, start.y + 8);
+  await wait(30);
+  const over = { x: pinned.left + 40, y: pinned.top + 16 };
+  await glide({ x: start.x, y: start.y + 8 }, over);
+  expect(await screen.findByText("Pinned is full")).not.toBeNull();
+  expect(document.documentElement.hasAttribute("data-drag-refused")).toBe(true);
+
+  const nowhere = { x: pinned.left + 600, y: pinned.top + 400 };
+  await glide(over, nowhere);
+  expect(screen.queryByText("Pinned is full")).toBeNull();
+  expect(document.documentElement.hasAttribute("data-drag-refused")).toBe(false);
+  expect(screen.getByTestId("announcement").textContent).toBe(
+    "Not over a place. Dropping now cancels.",
+  );
+  await mouse("mouseReleased", nowhere.x, nowhere.y);
+  await wait(250);
 });

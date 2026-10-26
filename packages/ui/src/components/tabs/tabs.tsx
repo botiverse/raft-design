@@ -20,8 +20,9 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { DragLift, useDragSiblingTransition } from "../drag/drag-lift";
-import { dragInstructions } from "../drag/drag-announcements";
+import { DragLift, useDragSiblingTransition, useLiftContainer } from "../drag/drag-lift";
+import { createDragAnnouncements, dragInstructions } from "../drag/drag-announcements";
+import type { DragAnnouncementSource, DragMessages } from "../drag/drag-announcements";
 import { useDragSensors } from "../drag/drag-sensors";
 import { DropPlaceholder } from "../drag/drop-placeholder";
 import { tv } from "../../lib/tv";
@@ -161,6 +162,8 @@ type TabsReorderContextValue = {
   activeId?: string | undefined;
   /** Each sortable tab's content, for the copy that follows the hand. */
   copies?: Map<string, ReactNode>;
+  /** Each sortable tab's node, for its name in the announcements. */
+  nodes?: Map<string, HTMLElement>;
 };
 
 const TabsReorderContext = createContext<TabsReorderContextValue>({ enabled: false });
@@ -336,12 +339,68 @@ export type SortableTabsListProps<T extends string = string> = TabsListProps & {
    *  have opened a menu the caller owns: close it here (DS › States ›
    *  Dragging on a touch screen). */
   onDragStart?: (value: T) => void;
+  /**
+   * Your translations of the drag's instructions and announcements. Each step
+   * is said by the tab's name (its `aria-label` or text) and its position in
+   * the row, named after the list's `aria-label`; never by its value.
+   */
+  messages?: Partial<DragMessages>;
+  /**
+   * Where the lifted copy renders: `document.body` by default, so a
+   * transformed ancestor (a drawer, a dialog) doesn't offset it. `null`
+   * renders it in place.
+   */
+  container?: Element | DocumentFragment | null;
 };
+
+/** What people call a tab: its `aria-label`, or its text. */
+function tabName(node: HTMLElement | undefined) {
+  if (!node) return "";
+  return (node.getAttribute("aria-label") ?? node.textContent ?? "").replace(/\s+/g, " ").trim();
+}
+
+/** What people call the row a tab is in: the tab list's accessible name, or nothing. */
+function tabListName(node: HTMLElement | undefined) {
+  const list = node?.closest<HTMLElement>("[role=tablist]");
+  if (!list) return "";
+  const label = list.getAttribute("aria-label");
+  if (label) return label.trim();
+  const ids = list.getAttribute("aria-labelledby")?.split(/\s+/).filter(Boolean) ?? [];
+  return ids
+    .map((id) => list.ownerDocument.getElementById(id)?.textContent?.trim() ?? "")
+    .filter(Boolean)
+    .join(" ");
+}
+
+/**
+ * A tab is said by its name, at its position in the row: a drop on a tab
+ * takes its place, and with nothing under the hand the tab is home. Read
+ * when dnd-kit announces, never while rendering.
+ */
+function tabAnnouncementSource(
+  positions: Map<string, number>,
+  nodes: Map<string, HTMLElement>,
+): DragAnnouncementSource {
+  return {
+    name: (id) => tabName(nodes.get(String(id))),
+    place: (id, overId) => {
+      const index = positions.get(String(overId ?? id));
+      if (index == null) return null;
+      return {
+        place: tabListName(nodes.get(String(id))),
+        position: index + 1,
+        count: positions.size,
+      };
+    },
+  };
+}
 
 export function SortableTabsList<T extends string = string>({
   value,
   onReorder,
   onDragStart,
+  messages,
+  container,
   children,
   variant = "default",
   ...props
@@ -353,12 +412,28 @@ export function SortableTabsList<T extends string = string>({
   const dndContextId = useId();
   const sensors = useDragSensors();
   const [copies] = useState(() => new Map<string, ReactNode>());
+  const [nodes] = useState(() => new Map<string, HTMLElement>());
+  const liftContainer = useLiftContainer(container);
   const selectedValue = use(TabsValueContext);
   const { tab: tabClassName, content: contentClassName } = tabs({ variant, placement });
   const tabIds = useMemo(() => value.map(String), [value]);
+  // Read by the announcements, which dnd-kit calls outside render.
+  // Each tab's index, for the announcements dnd-kit makes outside render.
+  const [positions] = useState(() => new Map<string, number>());
+  useLayoutEffect(() => {
+    positions.clear();
+    tabIds.forEach((id, index) => positions.set(id, index));
+  }, [positions, tabIds]);
+  const accessibility = useMemo(
+    () => ({
+      screenReaderInstructions: dragInstructions(messages),
+      announcements: createDragAnnouncements(tabAnnouncementSource(positions, nodes), messages),
+    }),
+    [messages, nodes, positions],
+  );
   const reorderContext = useMemo(
-    () => ({ enabled: true, activeId, copies }) as const satisfies TabsReorderContextValue,
-    [activeId, copies],
+    () => ({ enabled: true, activeId, copies, nodes }) as const satisfies TabsReorderContextValue,
+    [activeId, copies, nodes],
   );
   // While a tab is lifted the arrow keys and Space move and drop it: Base UI
   // must not move focus or select another tab under it.
@@ -395,7 +470,7 @@ export function SortableTabsList<T extends string = string>({
   return (
     <DndContext
       id={dndContextId}
-      accessibility={TABS_DRAG_ACCESSIBILITY}
+      accessibility={accessibility}
       autoScroll={false}
       sensors={sensors}
       collisionDetection={closestCenter}
@@ -422,7 +497,7 @@ export function SortableTabsList<T extends string = string>({
           </TabsList>
         </TabsReorderContext.Provider>
       </SortableContext>
-      <DragLift className="rounded-control">
+      <DragLift className="rounded-control" container={liftContainer}>
         {activeId === undefined ? null : (
           <span
             data-slot="tabs-tab"
@@ -477,6 +552,16 @@ export function SortableTabsTab<T extends string = string>({
       copies.delete(key);
     };
   }, [copies, key, children]);
+  const nodes = reorder.nodes;
+  const sortableRef = useCallback(
+    (node: HTMLElement | null) => {
+      setNodeRef(node);
+      if (!nodes) return;
+      if (node) nodes.set(key, node);
+      else nodes.delete(key);
+    },
+    [setNodeRef, nodes, key],
+  );
   const baseStyle = typeof props.style === "function" ? undefined : props.style;
   const vertical = placement === "left" || placement === "right";
   const translate = vertical ? transform?.y : transform?.x;
@@ -516,7 +601,7 @@ export function SortableTabsTab<T extends string = string>({
   return (
     <TabsTabButton
       value={value}
-      sortableRef={setNodeRef}
+      sortableRef={sortableRef}
       {...props}
       data-dragging-active={isDraggingActive ? "true" : undefined}
       data-dragging-source={isDragging ? "true" : undefined}
@@ -537,8 +622,6 @@ const PLACE_STYLE: CSSProperties = {
   borderColor: "transparent",
   boxShadow: "none",
 };
-
-const TABS_DRAG_ACCESSIBILITY = { screenReaderInstructions: dragInstructions() };
 
 function TabsTabButton<T extends string = string>({
   value,

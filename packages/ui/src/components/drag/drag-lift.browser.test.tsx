@@ -6,6 +6,7 @@ import { afterEach, expect, test, vi } from "vite-plus/test";
 import { DRAG_KEYBOARD_OFFSET_PX, DRAG_SETTLE, DragLift } from "./drag-lift";
 import { useDragSensors } from "./drag-sensors";
 import { DropPlaceholder } from "./drop-placeholder";
+import { ThemeProvider } from "../../lib/theme/theme-provider";
 
 // The lifted copy, the place and the ways a drag ends
 // (design/patterns/drag-and-drop.md), in real layout with real input: the copy
@@ -46,7 +47,7 @@ function Item() {
   );
 }
 
-function setup() {
+function setup({ container }: { container?: Element } = {}) {
   const onDragCancel = vi.fn();
   const onDragEnd = vi.fn();
   function Harness() {
@@ -70,11 +71,17 @@ function setup() {
         onDragCancel={cancel}
       >
         <Item />
-        <DragLift>{active ? <div data-testid="copy">#launch-week</div> : null}</DragLift>
+        <DragLift container={container}>
+          {active ? <div data-testid="copy">#launch-week</div> : null}
+        </DragLift>
       </DndContext>
     );
   }
-  render(<Harness />);
+  render(
+    <ThemeProvider mode="dark" syncDom={false}>
+      <Harness />
+    </ThemeProvider>,
+  );
   return { onDragCancel, onDragEnd, x: 150, y: 120 };
 }
 
@@ -101,9 +108,13 @@ async function pickUp(x: number, y: number) {
 const lift = () => document.querySelector<HTMLElement>("[data-slot=drag-lift]");
 
 function resolved(property: string, value: string) {
+  return resolvedIn(document.body, property, value);
+}
+
+function resolvedIn(scope: Element, property: string, value: string) {
   const probe = document.createElement("div");
   probe.style.setProperty(property, value);
-  document.body.append(probe);
+  scope.append(probe);
   const out = getComputedStyle(probe).getPropertyValue(property);
   probe.remove();
   return out;
@@ -195,12 +206,34 @@ it("the window losing focus cancels the drag", async () => {
   expect(onDragEnd).not.toHaveBeenCalled();
 });
 
+it("a cancel on blur is heard by no Escape handler: the dialog the drag is in stays open", async () => {
+  const escapes = vi.fn();
+  const listener = (event: KeyboardEvent) => {
+    if (event.key === "Escape") escapes();
+  };
+  window.addEventListener("keydown", listener);
+  window.addEventListener("keydown", listener, { capture: true });
+  try {
+    const { x, y, onDragCancel } = setup();
+    await pickUp(x, y);
+    window.dispatchEvent(new Event("blur"));
+    await wait(30);
+    expect(onDragCancel).toHaveBeenCalledTimes(1);
+    expect(escapes).not.toHaveBeenCalled();
+    await mouse("mouseReleased", x + 10, y);
+  } finally {
+    window.removeEventListener("keydown", listener);
+    window.removeEventListener("keydown", listener, { capture: true });
+  }
+});
+
 it("the tab going hidden cancels the drag", async () => {
   const { x, y, onDragCancel } = setup();
   await pickUp(x, y);
   const visibility = vi.spyOn(document, "visibilityState", "get").mockReturnValue("hidden");
-  document.dispatchEvent(new Event("visibilitychange"));
-  window.dispatchEvent(new Event("visibilitychange"));
+  // On the document only, not bubbling: dnd-kit listens on the window and
+  // doesn't hear it, so the cancel is DragLift's.
+  document.dispatchEvent(new Event("visibilitychange", { bubbles: false }));
   visibility.mockRestore();
   await wait(30);
   expect(onDragCancel).toHaveBeenCalled();
@@ -237,4 +270,21 @@ it("the place is a 1.5px dashed line-strong outline on fill-subtle; over live co
   const layout = getComputedStyle(screen.getByTestId("layout"));
   expect(layout.backgroundColor).toBe(resolved("background-color", "var(--layer-canvas)"));
   expect(layout.backgroundImage).toContain("linear-gradient");
+});
+
+it("in another container the copy keeps the theme scope it was rendered in", async () => {
+  const { x, y } = setup({ container: document.body });
+  await pickUp(x, y);
+  const portal = lift()!.closest("[data-slot=drag-lift-portal]")!;
+  expect(portal.parentElement).toBe(document.body);
+  expect(portal.classList.contains("dark")).toBe(true);
+  // The dark popover surface, not the light page's.
+  const dark = document.createElement("div");
+  dark.className = "dark";
+  document.body.append(dark);
+  const darkPopover = resolvedIn(dark, "background-color", "var(--layer-popover)");
+  dark.remove();
+  expect(darkPopover).not.toBe(resolved("background-color", "var(--layer-popover)"));
+  expect(getComputedStyle(lift()!).backgroundColor).toBe(darkPopover);
+  await mouse("mouseReleased", x + 10, y);
 });

@@ -5,6 +5,8 @@ import type { CSSProperties, ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { DragOverlay, defaultDropAnimationSideEffects, useDndContext } from "@dnd-kit/core";
 import type { DropAnimation, Modifier } from "@dnd-kit/core";
+import { cn } from "../../lib/cn";
+import { useTheme } from "../../lib/theme/use-theme";
 import { drag, LIFT_CLASS } from "./drag.recipe";
 
 export { LIFT_CLASS };
@@ -114,18 +116,34 @@ function eventPoint(event: Event): { x: number; y: number } | null {
 }
 
 /**
- * Cancels the drag in progress, whichever sensor holds it: every sensor of
- * `useDragSensors` puts the item back on Escape.
+ * Cancels the drag in progress, whichever sensor holds it. Every dnd-kit
+ * sensor (and so every sensor of `useDragSensors`) puts the item back when the
+ * window is resized, so this sends the window a `resize`: unlike a synthetic
+ * Escape, no app's own Escape handler (a dialog, a panel, a popover) hears it.
  */
-export function cancelDrag(doc: Document = document) {
-  doc.dispatchEvent(
-    new KeyboardEvent("keydown", {
-      code: "Escape",
-      key: "Escape",
-      bubbles: true,
-      cancelable: true,
-    }),
-  );
+export function cancelDrag(win: Window = window) {
+  win.dispatchEvent(new Event("resize"));
+}
+
+/**
+ * Above every raft-ui layer (popovers 50, a stacked dialog 60, toasts and the
+ * lightbox 70) and an app's own top layers: the copy in the hand is always on
+ * top. dnd-kit's own default.
+ */
+export const DRAG_LIFT_Z_INDEX = 999;
+
+const noSubscribe = () => () => {};
+const clientBody = () => document.body;
+const serverBody = () => null;
+
+/**
+ * For a component whose copy goes to `document.body` unless it is told
+ * otherwise: `undefined` is the body (once on the client, so hydration
+ * matches), `null` is in place, and an element is that element.
+ */
+export function useLiftContainer(container: Element | DocumentFragment | null | undefined) {
+  const body = useSyncExternalStore(noSubscribe, clientBody, serverBody);
+  return container === undefined ? body : container;
 }
 
 export type DragLiftProps = {
@@ -147,9 +165,14 @@ export type DragLiftProps = {
    * @default true
    */
   autoScroll?: boolean;
-  /** Render the copy in another element, such as `document.body` when an ancestor has a transform. By default it renders in place (it is `position: fixed`). */
+  /**
+   * Render the copy in another element, such as `document.body` when an
+   * ancestor has a transform (a drawer, a dialog), which would offset a
+   * `position: fixed` copy. It keeps the theme scope it was rendered in
+   * (`light` / `dark`), as raft-ui's portals do. By default it renders in place.
+   */
   container?: Element | DocumentFragment | null;
-  /** @default 60 */
+  /** @default DRAG_LIFT_Z_INDEX (999) */
   zIndex?: number;
 };
 
@@ -172,9 +195,10 @@ export function DragLift({
   modifiers,
   autoScroll = true,
   container,
-  zIndex = 60,
+  zIndex = DRAG_LIFT_Z_INDEX,
 }: DragLiftProps) {
   const { lift } = drag();
+  const { resolvedMode } = useTheme();
   const reduced = useSyncExternalStore(subscribeReducedMotion, reducedMotion, () => false);
   const { activatorEvent } = useDndContext();
   // By keyboard the copy sits a little down and right of its place, so the
@@ -205,7 +229,14 @@ export function DragLift({
   return (
     <>
       <DragSession autoScroll={autoScroll} />
-      {container ? createPortal(overlay, container) : overlay}
+      {container
+        ? createPortal(
+            <div data-slot="drag-lift-portal" className={cn("contents", resolvedMode)}>
+              {overlay}
+            </div>,
+            container,
+          )
+        : overlay}
     </>
   );
 }

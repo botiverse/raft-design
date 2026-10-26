@@ -1,5 +1,6 @@
 import "../drag/drag.test.css";
 import { cleanup, render, screen } from "@testing-library/react";
+import type { CSSProperties } from "react";
 import { afterEach, expect, test, vi } from "vite-plus/test";
 import { SortableComposerAttachment, SortableComposerAttachments } from "./index";
 
@@ -79,4 +80,94 @@ it("lifts a copy, keeps the original at 40% while home, opens the dashed place, 
   await mouse("mouseReleased", c.left + 40, y + 30);
   await wait(250);
   expect(onReorder).toHaveBeenLastCalledWith(["b", "c", "a"]);
+});
+
+const FILES: Record<string, string> = {
+  "att-1f2": "roadmap.png",
+  "att-8d4": "notes.pdf",
+  "att-5c9": "budget.xlsx",
+};
+const FILE_IDS = Object.keys(FILES);
+
+function renderFiles({
+  wrapperStyle,
+  container,
+}: { wrapperStyle?: CSSProperties; container?: Element | null } = {}) {
+  render(
+    <div data-testid="wrapper" style={{ width: 400, ...wrapperStyle }}>
+      <SortableComposerAttachments items={FILE_IDS} onReorder={vi.fn()} container={container}>
+        {FILE_IDS.map((id) => (
+          <SortableComposerAttachment key={id} id={id} label={FILES[id]!}>
+            <div data-testid={`tile-${id}`} style={TILE}>
+              {FILES[id]}
+            </div>
+          </SortableComposerAttachment>
+        ))}
+      </SortableComposerAttachments>
+    </div>,
+  );
+  const first = screen.getAllByTestId(`tile-${FILE_IDS[0]}`)[0]!.getBoundingClientRect();
+  const last = screen.getAllByTestId(`tile-${FILE_IDS[2]}`)[0]!.getBoundingClientRect();
+  return { x: first.left + 32, y: first.top + 32, first, last };
+}
+
+// A drawer's popup (translate3d and scale) or a dialog (-translate-1/2) makes
+// itself the containing block of anything `position: fixed` inside it.
+const TRANSFORMED: CSSProperties = { transform: "translate3d(40px, 30px, 0) scale(0.98)" };
+
+it("the lifted copy renders in document.body, where a transformed ancestor can't offset it", async () => {
+  const { x, y, first } = renderFiles({ wrapperStyle: TRANSFORMED });
+  await mouse("mousePressed", x, y);
+  await mouse("mouseMoved", x + 8, y);
+  await wait(50);
+  await mouse("mouseMoved", x + 8, y + 20);
+  await wait(50);
+  const lift = document.querySelector<HTMLElement>("[data-slot=drag-lift]")!;
+  expect(screen.getByTestId("wrapper").contains(lift)).toBe(false);
+  expect(lift.closest("[data-slot=drag-lift-portal]")?.parentElement).toBe(document.body);
+  // 1:1 with the hand from where it was grabbed, not shifted by the transform.
+  expect(lift.getBoundingClientRect().left - first.left).toBeCloseTo(8, 0);
+  expect(lift.getBoundingClientRect().top - first.top).toBeCloseTo(20, 0);
+  await mouse("mouseReleased", x + 8, y + 20);
+  await wait(250);
+});
+
+it("container renders the copy there", async () => {
+  const host = document.createElement("div");
+  document.body.append(host);
+  try {
+    const { x, y } = renderFiles({ container: host });
+    await mouse("mousePressed", x, y);
+    await mouse("mouseMoved", x + 8, y);
+    await wait(50);
+    expect(host.querySelector("[data-slot=drag-lift]")).not.toBeNull();
+    await mouse("mouseReleased", x + 8, y);
+    await wait(250);
+  } finally {
+    host.remove();
+  }
+});
+
+it("every step is announced by the attachment's label and position, never its id", async () => {
+  const { x, y, last } = renderFiles();
+  const region = document.querySelector("[role=status][aria-live]")!;
+  const said: string[] = [];
+  const observer = new MutationObserver(() => {
+    if (region.textContent) said.push(region.textContent);
+  });
+  observer.observe(region, { childList: true, characterData: true, subtree: true });
+  await mouse("mousePressed", x, y);
+  await mouse("mouseMoved", x + 8, y);
+  await wait(50);
+  for (let step = 1; step <= 6; step++) {
+    await mouse("mouseMoved", x + ((last.left + 40 - x) * step) / 6, y);
+    await wait(16);
+  }
+  await wait(80);
+  await mouse("mouseReleased", last.left + 40, y);
+  await wait(250);
+  observer.disconnect();
+  for (const line of said) expect(line).not.toMatch(/att-\w{3}/);
+  expect(said[0]).toBe("Picked up roadmap.png. Over position 1 of 3.");
+  expect(said.at(-1)).toBe("Dropped roadmap.png in position 3 of 3.");
 });

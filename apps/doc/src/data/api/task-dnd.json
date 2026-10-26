@@ -8,12 +8,20 @@
         "name": "accessibility",
         "type": "{ announcements?: Announcements; container?: Element; restoreFocus?: boolean; screenReaderInstructions?: ScreenReaderInstructions; }",
         "required": false,
+        "description": "Passed to dnd-kit's `DndContext` as is, over the announcements built from `describe`.",
         "from": "raft-ui"
       },
       {
         "name": "children",
         "type": "ReactNode",
         "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "describe",
+        "type": "DragAnnouncementSource",
+        "required": false,
+        "description": "The card and the places it can go, in words, for the screen-reader announcements: `name` (the card's title, never its id), `place` (the status or column and the position) and `refusal`. Without it nothing is announced, so no id is ever read out.",
         "from": "raft-ui"
       },
       {
@@ -28,6 +36,13 @@
         "type": "(activeId: UniqueIdentifier, overId: UniqueIdentifier, overData: TaskDropData | undefined) => boolean",
         "required": false,
         "default": "allowTaskDrop",
+        "from": "raft-ui"
+      },
+      {
+        "name": "messages",
+        "type": "Partial<DragMessages>",
+        "required": false,
+        "description": "Your translations of the announcements and instructions.",
         "from": "raft-ui"
       },
       {

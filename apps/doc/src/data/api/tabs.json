@@ -5,6 +5,20 @@
     "native": true,
     "props": [
       {
+        "name": "container",
+        "type": "Element | DocumentFragment",
+        "required": false,
+        "description": "Where the lifted copy renders: `document.body` by default, so a transformed ancestor (a drawer, a dialog) doesn't offset it. `null` renders it in place.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "messages",
+        "type": "Partial<DragMessages>",
+        "required": false,
+        "description": "Your translations of the drag's instructions and announcements. Each step is said by the tab's name (its `aria-label` or text) and its position in the row, named after the list's `aria-label`; never by its value.",
+        "from": "raft-ui"
+      },
+      {
         "name": "onDragStart",
         "type": "((event: BaseUIEvent<DragEvent<HTMLDivElement>>) => void) & ((value: T) => void)",
         "required": false,

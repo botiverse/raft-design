@@ -26,8 +26,9 @@ import {
   TaskDropPlaceholder,
   TaskDropZone,
 } from "@botiverse/raft-ui";
-import { DragRefusalHint, createDragAnnouncements, dragInstructions } from "@botiverse/raft-ui/wip";
-import type { TaskDndAccessibility, TaskMoveDetails } from "@botiverse/raft-ui";
+import { DragRefusalHint } from "@botiverse/raft-ui/wip";
+import type { DragAnnouncementSource } from "@botiverse/raft-ui/wip";
+import type { TaskMoveDetails } from "@botiverse/raft-ui";
 import { ChevronDown } from "lucide-react";
 
 import {
@@ -198,25 +199,22 @@ export function TaskBoardComposition({
     [isDropAllowed],
   );
   // Screen readers hear the task and the status by name, never an id.
-  const accessibility = useMemo<TaskDndAccessibility>(
+  const describe = useMemo<DragAnnouncementSource>(
     () => ({
-      screenReaderInstructions: dragInstructions(),
-      announcements: createDragAnnouncements({
-        name: (id) => `Task #${tasks.find((task) => task.id === String(id))?.taskNumber ?? ""}`,
-        place: (id, overId) => {
-          const status =
-            overId == null
-              ? tasks.find((task) => task.id === String(id))?.status
-              : statusOfDropId(tasks, String(overId));
-          return status ? { place: getTaskStatusLabel(status) } : null;
-        },
-        refusal: (id, overId) => {
-          const status = statusOfDropId(tasks, String(overId));
-          return status && !isDropAllowed(id, overId, { status })
-            ? { place: getTaskStatusLabel(status), reason: "Cannot move there." }
-            : null;
-        },
-      }),
+      name: (id) => `Task #${tasks.find((task) => task.id === String(id))?.taskNumber ?? ""}`,
+      place: (id, overId) => {
+        const status =
+          overId == null
+            ? tasks.find((task) => task.id === String(id))?.status
+            : statusOfDropId(tasks, String(overId));
+        return status ? { place: getTaskStatusLabel(status) } : null;
+      },
+      refusal: (id, overId) => {
+        const status = statusOfDropId(tasks, String(overId));
+        return status && !isDropAllowed(id, overId, { status })
+          ? { place: getTaskStatusLabel(status), reason: "Cannot move there." }
+          : null;
+      },
     }),
     [isDropAllowed, tasks],
   );
@@ -246,7 +244,7 @@ export function TaskBoardComposition({
       <ScrollAreaViewport className="p-4">
         <ScrollAreaContent className="min-w-max">
           <TaskDndProvider
-            accessibility={accessibility}
+            describe={describe}
             isDropAllowed={isDropAllowed}
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}

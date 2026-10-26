@@ -8,6 +8,7 @@ import {
   TaskDropZone,
 } from "./task-dnd";
 import type { TaskDndAccessibility, TaskMoveDetails } from "./task-dnd";
+import type { DragAnnouncementSource } from "../drag/drag-announcements";
 import { TaskCard } from "../task-card/task-card";
 
 export type TestStatus = "todo" | "done";
@@ -46,12 +47,14 @@ export function TestBoard({
   initial,
   onMove,
   accessibility,
+  describe,
   overlay = true,
   keepActive = false,
 }: {
   initial: readonly TestCard[];
   onMove: (details: TaskMoveDetails) => void;
   accessibility?: TaskDndAccessibility;
+  describe?: DragAnnouncementSource;
   overlay?: boolean;
   keepActive?: boolean;
 }) {
@@ -75,6 +78,7 @@ export function TestBoard({
   return (
     <TaskDndProvider
       accessibility={accessibility}
+      describe={describe}
       onDragStart={handleDragStart}
       onDragEnd={clearActive}
       onDragCancel={clearActive}

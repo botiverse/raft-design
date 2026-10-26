@@ -51,7 +51,7 @@ The sticker tab is the default, and the one the product ships: a selected tab sa
 - The row shows no scrollbar, and a vertical mouse wheel scrolls it sideways.
 - The side that hides tabs fades out over 32px.
 - The selected tab always scrolls into view.
-- In a `SortableTabsList`, dragging a tab follows [Drag and drop](../../../../../design/patterns/drag-and-drop.md): a lifted copy of the tab follows the hand, the tab stays at 40% until it moves, its slot becomes the dashed place and the other tabs slide apart, and a drop or a cancel glides in 160ms. A mouse picks a tab up after 6px; a finger after a 500ms hold.
+- In a `SortableTabsList`, dragging a tab follows [Drag and drop](../../../../../design/patterns/drag-and-drop.md): a lifted copy of the tab follows the hand, the tab stays at 40% until it moves, its slot becomes the dashed place and the other tabs slide apart, and a drop or a cancel glides in 160ms. A mouse picks a tab up after 6px; a finger after a 500ms hold. The lifted copy renders in `document.body` (`container` to change it), so a drawer's or a dialog's transform doesn't offset it.
 
 ```example
 tabs/compositions/sortable
@@ -75,7 +75,8 @@ When a tab's content has controls of its own (a view switch, filters, search, a 
 - `Tabs` wraps the Base UI Tabs, which provides the tab list, tab and panel semantics and the arrow keys.
 - Name the `TabsList` after the place it belongs to: `aria-label="launch-week"`.
 - Give every icon-only tab an `aria-label`.
-- Sortable tabs are reordered with a pointer, by touch or with the keyboard: Space picks the focused tab up, ArrowLeft and ArrowRight (ArrowUp and ArrowDown on a vertical row) move it, Space drops it and Escape puts it back. While a tab is lifted, the arrow keys move it instead of the focus ([Drag and drop](../../../../../design/patterns/drag-and-drop.md#keyboard)).
+- Sortable tabs are reordered with a pointer, by touch or with the keyboard: Space picks the focused tab up, ArrowLeft and ArrowRight (ArrowUp and ArrowDown on a vertical row) move it, Space drops it and Escape puts it back. Enter selects the focused tab; in a sortable row Space doesn't, it picks the tab up. While a tab is lifted, the arrow keys move it instead of the focus ([Drag and drop](../../../../../design/patterns/drag-and-drop.md#keyboard)).
+- Each step of a tab's drag is announced by the tab's name (its `aria-label` or its text) and its position in the row, named after the `TabsList`'s `aria-label`; never by its value. Pass your translations as `messages`.
 
 ## Rules
 

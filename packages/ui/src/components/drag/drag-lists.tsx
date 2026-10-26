@@ -14,7 +14,7 @@ import type {
 } from "@dnd-kit/core";
 import { arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import type { SortingStrategy } from "@dnd-kit/sortable";
-import { dragInstructions, dragMessages } from "./drag-announcements";
+import { dragInstructions, dragMessages, SILENT_DRAG_ANNOUNCEMENTS } from "./drag-announcements";
 import type { DragMessages, DragPlace } from "./drag-announcements";
 import { useDragAcrossLists } from "./drag-sensors";
 import { DropPlaceholder } from "./drop-placeholder";
@@ -41,14 +41,6 @@ export type UseDragListsOptions<L extends string> = {
   announce: (message: string) => void;
   /** Your translations of the announcements. */
   messages?: Partial<DragMessages>;
-};
-
-const SILENT: Announcements = {
-  onDragStart: () => undefined,
-  onDragMove: () => undefined,
-  onDragOver: () => undefined,
-  onDragEnd: () => undefined,
-  onDragCancel: () => undefined,
 };
 
 /** dnd-kit's vertical strategy, except that nothing moves while the hand is outside the list. */
@@ -153,6 +145,8 @@ export function useDragLists<L extends string>({
     if (!start) return;
     const id = String(active.id);
     if (!over) {
+      // Off a refused list onto nothing: the reason no longer applies.
+      if (refusalRef.current) setRefusal(null);
       announce(say.notOver({ name: itemName(id) }));
       return;
     }
@@ -223,8 +217,12 @@ export function useDragLists<L extends string>({
     if (!dropped || overId == null || refused) {
       // Cancel, a drop on nothing, or on a refused place: everything returns, and the copy glides home.
       update(start.snapshot);
-      const back = say.cancelled({ name: itemName(id), ...where(start.snapshot, id) });
-      announce(refused && dropped ? `${refused.reason}. ${back}` : back);
+      const home = { name: itemName(id), ...where(start.snapshot, id) };
+      announce(
+        refused && dropped
+          ? say.refusedDrop({ ...home, reason: refused.reason })
+          : say.cancelled(home),
+      );
       return;
     }
     const current = itemsRef.current;
@@ -249,7 +247,10 @@ export function useDragLists<L extends string>({
     announcements: Announcements;
     screenReaderInstructions: ScreenReaderInstructions;
   }>(
-    () => ({ announcements: SILENT, screenReaderInstructions: dragInstructions(messages) }),
+    () => ({
+      announcements: SILENT_DRAG_ANNOUNCEMENTS,
+      screenReaderInstructions: dragInstructions(messages),
+    }),
     [messages],
   );
 
@@ -278,7 +279,7 @@ export type DraggedSlotProps = {
   /**
    * This item is the one being dragged. Render the slot around every item
    * and pass `isDragging`, so the dragged one keeps its node (and focus).
-   * @default true
+   * @default false
    */
   dragging?: boolean;
   /** The dragged item still stands at its own place. */
@@ -297,7 +298,7 @@ export type DraggedSlotProps = {
  * the same, so the item keeps focus when its drag starts.
  */
 export function DraggedSlot({
-  dragging = true,
+  dragging = false,
   home,
   radius,
   className,

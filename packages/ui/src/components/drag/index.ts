@@ -9,6 +9,7 @@ export {
 export type { DragAcrossLists, DragRemeasureProps, DragSensorsOptions } from "./drag-sensors";
 export {
   DRAG_AUTO_SCROLL_ZONE_PX,
+  DRAG_LIFT_Z_INDEX,
   DROP_GLIDE,
   DRAG_KEYBOARD_OFFSET_PX,
   DRAG_SETTLE,

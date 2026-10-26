@@ -39,7 +39,7 @@
         "name": "container",
         "type": "Element | DocumentFragment",
         "required": false,
-        "description": "Render the copy in another element, such as `document.body` when an ancestor has a transform. By default it renders in place (it is `position: fixed`).",
+        "description": "Render the copy in another element, such as `document.body` when an ancestor has a transform (a drawer, a dialog), which would offset a `position: fixed` copy. It keeps the theme scope it was rendered in (`light` / `dark`), as raft-ui's portals do. By default it renders in place.",
         "from": "raft-ui"
       },
       {
@@ -53,7 +53,7 @@
         "name": "zIndex",
         "type": "number",
         "required": false,
-        "default": "60",
+        "default": "DRAG_LIFT_Z_INDEX",
         "from": "raft-ui"
       }
     ]
@@ -133,7 +133,7 @@
         "name": "dragging",
         "type": "boolean",
         "required": false,
-        "default": "true",
+        "default": "false",
         "description": "This item is the one being dragged. Render the slot around every item and pass `isDragging`, so the dragged one keeps its node (and focus).",
         "from": "raft-ui"
       },

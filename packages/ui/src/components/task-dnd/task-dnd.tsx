@@ -36,7 +36,12 @@ import {
 } from "react";
 import type { ComponentPropsWithRef, CSSProperties, Ref, ReactNode } from "react";
 import { DragLift } from "../drag/drag-lift";
-import { dragInstructions } from "../drag/drag-announcements";
+import {
+  createDragAnnouncements,
+  dragInstructions,
+  SILENT_DRAG_ANNOUNCEMENTS,
+} from "../drag/drag-announcements";
+import type { DragAnnouncementSource, DragMessages } from "../drag/drag-announcements";
 import { useDragSensors } from "../drag/drag-sensors";
 import { drag } from "../drag/drag.recipe";
 import { taskDnd } from "./task-dnd.recipe";
@@ -93,6 +98,16 @@ export type TaskDndAccessibility = NonNullable<DndContextProps["accessibility"]>
 
 export type TaskDndProviderProps = {
   children: ReactNode;
+  /**
+   * The card and the places it can go, in words, for the screen-reader
+   * announcements: `name` (the card's title, never its id), `place` (the
+   * status or column and the position) and `refusal`. Without it nothing is
+   * announced, so no id is ever read out.
+   */
+  describe?: DragAnnouncementSource;
+  /** Your translations of the announcements and instructions. */
+  messages?: Partial<DragMessages>;
+  /** Passed to dnd-kit's `DndContext` as is, over the announcements built from `describe`. */
   accessibility?: TaskDndAccessibility;
   disabled?: boolean;
   isDropAllowed?: (
@@ -111,6 +126,8 @@ export type TaskDndProviderProps = {
 
 export function TaskDndProvider({
   children,
+  describe,
+  messages,
   accessibility,
   disabled = false,
   isDropAllowed = allowTaskDrop,
@@ -130,8 +147,14 @@ export function TaskDndProvider({
   const [overStore] = useState(createTaskDndOverStore);
   const sensors = useDragSensors({ coordinateGetter: taskKeyboardCoordinates });
   const resolvedAccessibility = useMemo<TaskDndAccessibility>(
-    () => ({ screenReaderInstructions: dragInstructions(), ...accessibility }),
-    [accessibility],
+    () => ({
+      screenReaderInstructions: dragInstructions(messages),
+      announcements: describe
+        ? createDragAnnouncements(describe, messages)
+        : SILENT_DRAG_ANNOUNCEMENTS,
+      ...accessibility,
+    }),
+    [accessibility, describe, messages],
   );
   const context = useMemo(
     () =>

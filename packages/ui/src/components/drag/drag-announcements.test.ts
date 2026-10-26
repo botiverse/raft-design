@@ -47,7 +47,7 @@ test("a refused place says why, and a drop there puts the item back", () => {
     "#launch-week can't go to Channels. Channels is read-only.",
   );
   expect(announcements.onDragEnd({ active: active("c1"), over: over("s2") } as never)).toBe(
-    "Cancelled. #launch-week is back in Pinned, position 1 of 3.",
+    "Channels is read-only. Cancelled. #launch-week is back in Pinned, position 1 of 3.",
   );
   expect(announcements.onDragOver({ active: active("c1"), over: null } as never)).toBe(
     "Not over a place. Dropping now cancels.",
@@ -69,4 +69,56 @@ test("your messages replace the English ones, built from the same details", () =
   expect(dragInstructions(messages).draggable).toBe("Appuyez sur Espace pour prendre un élément.");
   expect(dragInstructions().draggable).toContain("press Space");
   expect(dragInstructions().draggable).not.toContain("Enter");
+});
+
+const every = (said: ReturnType<typeof createDragAnnouncements>) => [
+  said.onDragStart({ active: active("c1") } as never),
+  said.onDragOver({ active: active("c1"), over: over("s1") } as never),
+  said.onDragEnd({ active: active("c1"), over: over("s1") } as never),
+  said.onDragCancel({ active: active("c1"), over: null } as never),
+];
+
+test("with no name, nothing is said: never the id in its place", () => {
+  const unnamed = createDragAnnouncements({
+    name: () => "",
+    place: () => ({ place: "Pinned", position: 1, count: 3 }),
+  });
+  expect(every(unnamed)).toEqual([undefined, undefined, undefined, undefined]);
+});
+
+test("a place with no name is said by its position", () => {
+  const row = createDragAnnouncements({
+    name: () => "Files",
+    place: (_id, overId) => ({ place: "", position: overId == null ? 1 : 3, count: 3 }),
+  });
+  expect(every(row)).toEqual([
+    "Picked up Files. Over position 1 of 3.",
+    "Over position 3 of 3.",
+    "Dropped Files in position 3 of 3.",
+    "Cancelled. Files is back in position 1 of 3.",
+  ]);
+});
+
+test("without places, a move over one and a drop on one are not said wrongly", () => {
+  const named = createDragAnnouncements({ name: () => "Task #25" });
+  expect(every(named)).toEqual([
+    "Picked up Task #25.",
+    undefined,
+    undefined,
+    "Cancelled. Task #25 is back.",
+  ]);
+});
+
+test("a drop on a refused place takes your refusedDrop message", () => {
+  const localized = createDragAnnouncements(
+    {
+      name: () => "#launch-week",
+      place: () => ({ place: "Épinglés" }),
+      refusal: () => ({ place: "Canaux", reason: "Canaux est en lecture seule" }),
+    },
+    { refusedDrop: ({ name, reason, place }) => `${reason}. ${name} revient dans ${place}.` },
+  );
+  expect(localized.onDragEnd({ active: active("c1"), over: over("s2") } as never)).toBe(
+    "Canaux est en lecture seule. #launch-week revient dans Épinglés.",
+  );
 });

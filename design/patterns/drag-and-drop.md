@@ -48,6 +48,7 @@ task-dnd/compositions/task-dnd
 - For a small item, the copy is the item. For a large one (a panel, a section), the copy is a compact proxy: the head's icon and title, at most 240px wide, held so the hand stays on it.
 - Give the copy the lift look: an opaque `layer-popover` surface, `shadow-float` and a `line-seam` ring, with no scale and no tilt ([Elevation](../foundations/elevation.md)). The ring separates the copy from what is under it in dark mode, where a shadow barely shows. The same ring is on the HUD chip of a refused place.
 - In a keyboard drag, set the copy 6px down and right of the place it stands on, so the dashed outline under it stays visible.
+- Keep the copy above everything, popovers, dialogs and toasts included, and render it where no ancestor's transform can move it (`document.body` from a drawer or a dialog): it is the one thing under the hand, and it must stay there.
 
 ## Where it came from
 
@@ -71,7 +72,7 @@ One placeholder for every place: a 1.5px dashed `line-strong` outline on `fill-s
 ## Drop and cancel
 
 - On a drop, glide the copy into the place in 160ms with `motion-drag-settle-easing` (ease-out), then show the item there. In a layout, the reflow animates over the same 160ms, in step with the glide ([Motion](../foundations/motion.md#usage)).
-- Cancel on Escape, a `pointercancel` (the system took the touch), the window losing focus and the tab going hidden: the copy glides back to the item, and everything that moved returns. `DragLift` covers the ones dnd-kit leaves open.
+- Cancel on Escape, a `pointercancel` (the system took the touch), the window losing focus and the tab going hidden: the copy glides back to the item, and everything that moved returns. `DragLift` covers the ones dnd-kit leaves open, without a synthetic Escape: a cancel must never close the dialog or panel the drag happens in.
 - With reduced motion, the copy and the siblings settle at once.
 
 ## Keyboard
@@ -84,7 +85,7 @@ One placeholder for every place: a 1.5px dashed `line-strong` outline on `fill-s
 ## Screen readers
 
 - Announce every step in a polite live region, by name and never by id: "Picked up #launch-week. Over Pinned, position 2 of 5." "Dropped #launch-week in Channels, position 1 of 4." "Cancelled. #launch-week is back in Pinned, position 2 of 5."
-- Build the strings from your translations: `createDragAnnouncements` takes the names and places and your messages, and `dragInstructions` says to press Space, not Enter. dnd-kit's own English, id-based defaults never ship.
+- Build the strings from your translations: `createDragAnnouncements` takes the names and places and your messages, and `dragInstructions` says to press Space, not Enter. dnd-kit's own English, id-based defaults never ship: where there is no name for the item, say nothing. `SortableTabsList` and `SortableComposerAttachments` announce by the tab's and the attachment's name and take your `messages`; `TaskDndProvider` announces from the card's and the status's names you pass as `describe`, and says nothing without them.
 
 ## Auto-scroll
 

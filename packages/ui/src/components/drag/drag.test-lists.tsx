@@ -47,10 +47,13 @@ export function TestLists({
   initial,
   onChange,
   refuse,
+  collisionDetection = collision,
 }: {
   initial: DragListsItems<TestList>;
   onChange?: (items: DragListsItems<TestList>) => void;
   refuse?: (from: TestList, to: TestList) => string | null;
+  /** By default rows win over lists, and the closest row is under the hand when none is. */
+  collisionDetection?: CollisionDetection;
 }) {
   const [items, setItems] = useState(initial);
   const { message, announce } = useDragAnnouncer();
@@ -64,7 +67,7 @@ export function TestLists({
     listName: (list) => LIST_NAME[list],
     itemName: (id) => `#${id}`,
     refuse,
-    collisionDetection: collision,
+    collisionDetection,
     announce,
   });
   const sensors = useDragSensors({ coordinateGetter: lists.coordinateGetter });

@@ -2,6 +2,7 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, expect, test, vi } from "vite-plus/test";
 import type { TaskDndAccessibility } from "./task-dnd";
+import type { DragAnnouncementSource } from "../drag/drag-announcements";
 import { TestBoard } from "./task-dnd.test-board";
 import type { TestCard } from "./task-dnd.test-board";
 
@@ -123,4 +124,51 @@ test("passes accessibility through to dnd-kit", async () => {
   expect(document.body.textContent).toContain("Press space to lift the task.");
   await press(screen.getByText("Card a"), "Space");
   expect(document.body.textContent).toContain("Lifted the task.");
+});
+
+const TASK_ID = "t-7f3a";
+const ONE_TASK: readonly TestCard[] = [{ id: TASK_ID, status: "todo" }];
+const DESCRIBE: DragAnnouncementSource = {
+  name: () => "Fix the login",
+  place: (_id, overId) => ({
+    place: overId == null || String(overId).endsWith("todo") ? "Todo" : "Done",
+  }),
+};
+
+/** Every announcement dnd-kit's live region makes while `run` runs. */
+async function announced(run: () => Promise<void>) {
+  const region = document.querySelector("[role=status][aria-live]")!;
+  const said: string[] = [];
+  const observer = new MutationObserver(() => {
+    if (region.textContent) said.push(region.textContent);
+  });
+  observer.observe(region, { childList: true, characterData: true, subtree: true });
+  await run();
+  observer.disconnect();
+  return said;
+}
+
+async function moveRight() {
+  await press(screen.getByText(`Card ${TASK_ID}`), "Space");
+  await press(document, "ArrowRight");
+  await press(document, "Space");
+}
+
+test("with no names, nothing is announced: never a card's or a target's id", async () => {
+  const onMove = vi.fn();
+  render(<TestBoard initial={ONE_TASK} onMove={onMove} overlay={false} />);
+  const said = await announced(moveRight);
+  expect(onMove).toHaveBeenCalledTimes(1);
+  expect(said).toEqual([]);
+});
+
+test("describe names the card and its place in every announcement", async () => {
+  render(<TestBoard initial={ONE_TASK} onMove={vi.fn()} overlay={false} describe={DESCRIBE} />);
+  const said = await announced(moveRight);
+  expect(said).toEqual([
+    "Picked up Fix the login. Over Todo.",
+    "Over Done.",
+    "Dropped Fix the login in Done.",
+  ]);
+  for (const line of said) expect(line).not.toMatch(/t-7f3a|column:/);
 });

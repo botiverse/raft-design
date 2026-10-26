@@ -582,9 +582,23 @@
         "from": "raft-ui"
       },
       {
+        "name": "container",
+        "type": "Element | DocumentFragment",
+        "required": false,
+        "description": "Where the lifted copy renders: `document.body` by default, so a transformed ancestor (a drawer, a dialog) doesn't offset it. `null` renders it in place.",
+        "from": "raft-ui"
+      },
+      {
         "name": "items",
         "type": "readonly string[]",
         "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "messages",
+        "type": "Partial<DragMessages>",
+        "required": false,
+        "description": "Your translations of the drag's instructions and announcements. Each step is said by the attachment's `label` and its position; never by its id.",
         "from": "raft-ui"
       },
       {
@@ -608,9 +622,23 @@
         "from": "raft-ui"
       },
       {
+        "name": "container",
+        "type": "Element | DocumentFragment",
+        "required": false,
+        "description": "Where the lifted copy renders: `document.body` by default, so a transformed ancestor (a drawer, a dialog) doesn't offset it. `null` renders it in place.",
+        "from": "raft-ui"
+      },
+      {
         "name": "items",
         "type": "readonly string[]",
         "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "messages",
+        "type": "Partial<DragMessages>",
+        "required": false,
+        "description": "Your translations of the drag's instructions and announcements. Each step is said by the attachment's `label` and its position; never by its id.",
         "from": "raft-ui"
       },
       {
