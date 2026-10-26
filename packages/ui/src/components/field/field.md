@@ -72,3 +72,4 @@ Field wraps Base UI Field. It connects the label, the description and the error 
 
 - Give `FieldLabel` an `htmlFor` that matches the control's `id` when the control is not a Base UI one, such as [Textarea](../textarea/textarea.md), and point `aria-describedby` at the description.
 - `FieldError` has `role="alert"`, so the error is announced when it appears.
+- Put an action that belongs to the field at the end of its label row, such as Forgot Password, after the control in the markup and place it beside the label with layout. Tab and a screen reader then reach the field before its action: email, password, Forgot Password, Sign In.
