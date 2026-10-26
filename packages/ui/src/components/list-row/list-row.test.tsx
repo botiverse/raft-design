@@ -22,7 +22,7 @@ afterEach(cleanup);
 const classes = (element: Element) => element.className.split(/\s+/);
 
 describe("ListRow", () => {
-  test("is a button that lays the row-hover overlay on hover and the pressed one on press", () => {
+  test("is a button, a list cell that fills its inset shape on hover and press", () => {
     render(<ListRow>launch-week</ListRow>);
     const row = screen.getByRole("button", { name: "launch-week" });
     expect(row.getAttribute("type")).toBe("button");
@@ -31,14 +31,16 @@ describe("ListRow", () => {
     const rowClasses = classes(row);
     expect(rowClasses).toContain("min-h-16");
     expect(rowClasses).toContain(
-      "not-disabled:not-aria-disabled:not-data-selected:hover:overlay-subtle",
+      "not-data-active:not-data-selected:not-data-disabled:not-disabled:not-aria-disabled:hover:before:bg-fill-cell-hover",
     );
     expect(rowClasses).toContain(
-      "not-disabled:not-aria-disabled:not-data-selected:active:overlay-medium",
+      "not-data-active:not-data-selected:not-data-disabled:not-disabled:not-aria-disabled:active:before:bg-fill-cell-press",
     );
-    // A flush row keeps its focus ring inside, so an inset card cannot clip it;
+    // The row itself stays transparent: the fill is the shape's.
+    expect(rowClasses.some((name) => /(?:^|:)overlay-/.test(name))).toBe(false);
+    // The focus ring sits inside the shape, so an inset card cannot clip it;
     // it is not the token, so it carries the keyboard-only gate.
-    expect(rowClasses).toContain("focus-visible:keyboard:inset-ring-2");
+    expect(rowClasses).toContain("focus-visible:keyboard:before:inset-ring-2");
   });
 
   test("a row that goes somewhere renders the link, without a button type", () => {
@@ -54,23 +56,23 @@ describe("ListRow", () => {
     expect(row.hasAttribute("type")).toBe(false);
   });
 
-  test("a hairline from the text start separates two rows; a setting's starts at the edge", () => {
-    const { rerender } = render(<ListRow data-testid="row" />);
-    let rowClasses = classes(screen.getByTestId("row"));
-    expect(rowClasses).toContain("[--list-row-rule-start:63px]");
-    expect(rowClasses).toContain("before:left-(--list-row-rule-start)");
-    expect(rowClasses).toContain("[[data-slot=list-row]+&]:before:block");
-    expect(rowClasses).toContain("[li+li>&]:before:block");
-
-    rerender(<ListRow data-testid="row" variant="plain" />);
-    rowClasses = classes(screen.getByTestId("row"));
-    // 12 + 24 + 12: one line of text makes 48, so no minimum is set.
-    expect(rowClasses.some((name) => name.startsWith("min-h-"))).toBe(false);
-    expect(rowClasses).toContain("[--list-row-rule-start:16px]");
-    expect(rowClasses).toContain("[[data-slot=list-row]+&]:before:block");
+  test("no variant draws a divider between two rows", () => {
+    for (const variant of ["default", "plain", "entry"] as const) {
+      const { unmount } = render(<ListRow data-testid="row" variant={variant} />);
+      const row = screen.getByTestId("row");
+      expect(row.className, variant).not.toContain("border-t");
+      expect(row.className, variant).not.toContain("line-hairline");
+      expect(row.className, variant).not.toContain("rule-start");
+      expect(classes(row), variant).toContain("before:left-(--cell-inset-x)");
+      if (variant === "plain") {
+        // 12 + 24 + 12: one line of text makes 48, so no minimum is set.
+        expect(classes(row).some((name) => name.startsWith("min-h-"))).toBe(false);
+      }
+      unmount();
+    }
   });
 
-  test("entry rows are a set of buttons: no lines between them", () => {
+  test("entry rows are a set of buttons with a 20px icon", () => {
     render(
       <ListRow variant="entry" data-testid="row">
         <ListRowIcon data-testid="icon">
@@ -100,10 +102,10 @@ describe("ListRow", () => {
     const row = screen.getByRole("button", { name: "release-review" });
     expect(row.hasAttribute("data-selected")).toBe(true);
     expect(row.getAttribute("aria-current")).toBe("true");
-    expect(classes(row)).toContain("data-selected:bg-info-soft");
+    expect(classes(row)).toContain("data-selected:before:bg-fill-cell-selected");
     expect(
       classes(row).filter(
-        (name) => name.includes("overlay-medium") && !name.includes("not-data-selected"),
+        (name) => name.includes("bg-fill-cell-press") && !name.includes("not-data-selected"),
       ),
     ).toEqual([]);
   });
@@ -119,7 +121,8 @@ describe("ListRow", () => {
     const row = screen.getByTestId("row");
     expect(row.tagName).toBe("DIV");
     expect(row.hasAttribute("type")).toBe(false);
-    expect(row.className).not.toContain("overlay-medium");
+    expect(row.className).not.toContain("bg-fill-cell-press");
+    expect(row.className).not.toContain("bg-fill-cell-hover");
   });
 
   test("the row owns its inks: the tone sets them, and never on a disabled row", () => {

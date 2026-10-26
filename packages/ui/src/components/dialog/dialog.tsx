@@ -550,7 +550,7 @@ const dialogNav = tv({
     root: [
       "flex shrink-0 flex-col overflow-y-auto", // A wide dialog's section list: a 208px column of sidebar rows beside
       // the scrolling body, a seam between them; a phone has no room for it.
-      "w-52 gap-0.5 border-r border-line-seam p-2 max-md:hidden",
+      "w-52 gap-0.5 border-r border-line-seam py-2 max-md:hidden",
     ],
   },
 });

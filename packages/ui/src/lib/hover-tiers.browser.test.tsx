@@ -32,6 +32,9 @@ import { deltaE, firstOklch, over, parseOklch, settled, token } from "./row-hove
 // - subtle: hover on rows, messages and readable cards; a row whose menu is open;
 // - medium: hover on small controls and press on everything, with its own
 //   alpha on a colour sticker and on the frame;
+// - cell: a list row (lib/list-cell.ts) hovers on its inset shape with
+//   fill-cell-hover, the subtle tier in light and a stronger step in dark,
+//   rows only, so the shape reads on a dark surface;
 // - selected items don't respond to hover.
 
 const it = test.skipIf(typeof window === "undefined");
@@ -42,6 +45,7 @@ afterEach(cleanup);
 
 const ALPHA = {
   subtle: { light: 0.04, dark: 0.03 },
+  cell: { light: 0.04, dark: 0.075 },
   medium: { light: 0.078, dark: 0.065 },
   sticker: { light: 0.1, dark: 0.1 },
   frame: { light: 0.1, dark: 0.06 },
@@ -49,8 +53,10 @@ const ALPHA = {
 type Tier = keyof typeof ALPHA;
 
 /** The alpha of the hover layer an element paints: its background-image's
- *  first colour when it lays an overlay, else its background colour. */
-function paintedLayer(el: Element, read: "color" | "image") {
+ *  first colour when it lays an overlay, its ::before shape's colour for a
+ *  list cell, else its background colour. */
+function paintedLayer(el: Element, read: "color" | "image" | "before") {
+  if (read === "before") return getComputedStyle(el, "::before").backgroundColor;
   const style = getComputedStyle(el);
   return read === "image" ? firstOklch(style.backgroundImage) : style.backgroundColor;
 }
@@ -60,7 +66,7 @@ const alphaOf = (value: string) => parseOklch(value)[3];
 const cases: {
   id: string;
   tier: Tier;
-  read: "color" | "image";
+  read: "color" | "image" | "before";
   element: ReactElement;
 }[] = [
   {
@@ -77,8 +83,8 @@ const cases: {
   },
   {
     id: "sidebar",
-    tier: "subtle",
-    read: "color",
+    tier: "cell",
+    read: "before",
     element: (
       <SidebarItem data-testid="sidebar">
         <SidebarItemTitle>launch-week</SidebarItemTitle>
@@ -87,8 +93,8 @@ const cases: {
   },
   {
     id: "list-row",
-    tier: "subtle",
-    read: "image",
+    tier: "cell",
+    read: "before",
     element: <ListRow data-testid="list-row">Wug</ListRow>,
   },
   {

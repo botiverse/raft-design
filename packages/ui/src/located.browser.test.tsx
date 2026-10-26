@@ -11,6 +11,7 @@ import {
   MessageMultiSelectCheckbox,
 } from "./components/message-item";
 import { ListRow, ListRowBody, ListRowGroup } from "./components/list-row";
+import { InboxItem, InboxItemContent, InboxItemTitle } from "./components/inbox-item";
 
 // The located highlight (design/foundations/states.md#located): info-soft at
 // once, held 1.2s, faded out by 2s, layered over the item's own fill, no hover
@@ -81,6 +82,21 @@ function layer(el: HTMLElement): string | null {
   return gradientColor(getComputedStyle(el).backgroundImage);
 }
 
+/** The located animation on a list cell's inset shape, its ::before
+ *  (lib/list-cell.ts), paused. */
+function locatedShape(el: HTMLElement): Animation {
+  const animation = el
+    .getAnimations({ subtree: true })
+    .find(
+      (a) =>
+        (a as CSSAnimation).animationName?.startsWith("raft-located") &&
+        (a.effect as KeyframeEffect | null)?.pseudoElement === "::before",
+    );
+  if (!animation) throw new Error("no located animation on the shape");
+  animation.pause();
+  return animation;
+}
+
 function located(el: HTMLElement): Animation {
   const animation = el
     .getAnimations()
@@ -101,7 +117,7 @@ function token(name: string): string {
 function Tokens() {
   return (
     <>
-      {["info-soft", "fill-subtle"].map((name) => (
+      {["info-soft", "fill-subtle", "fill-cell-selected"].map((name) => (
         <div
           key={name}
           data-testid={`token-${name}`}
@@ -256,7 +272,7 @@ it.each(["light", "dark"] as const)(
   },
 );
 
-it("a selected row keeps info-soft and gets no located layer", () => {
+it("a selected row keeps its selected fill and gets no located layer", () => {
   render(
     <ThemeProvider>
       <Tokens />
@@ -269,8 +285,11 @@ it("a selected row keeps info-soft and gets no located layer", () => {
     </ThemeProvider>,
   );
   const row = screen.getByTestId("row");
-  seek(located(row), 1700);
-  expectSameColor(getComputedStyle(row).backgroundColor, token("info-soft"));
+  // A list cell: the selected fill and the located layer are its shape's.
+  seek(locatedShape(row), 1700);
+  const shape = getComputedStyle(row, "::before");
+  expectSameColor(shape.backgroundColor, token("fill-cell-selected"));
+  expect(gradientColor(shape.backgroundImage)).toBeNull();
   expect(layer(row)).toBeNull();
   for (const id of ["current", "active"]) {
     expect(layer(screen.getByTestId(id))).toBeNull();
@@ -322,13 +341,13 @@ it("reduced motion holds the highlight still for 2s, with no fade", () => {
 // hover. It is a background layer on the item, which CSS clips to the item's
 // border radius, and a rounded group clips its rows (overflow: hidden). A
 // pseudo-element or a box-shadow would ignore both, so neither may carry it.
-it("a located row keeps its own corners: a rounded row, and a row in a rounded group", () => {
+it("a located item keeps its own corners; a list cell paints it on its inset shape", () => {
   render(
     <ThemeProvider>
       <Tokens />
-      <ListRow data-testid="rounded" data-located="" className="rounded-container">
-        <ListRowBody>Rounded row</ListRowBody>
-      </ListRow>
+      <div data-testid="rounded" data-located="" className="rounded-container p-4">
+        Rounded item
+      </div>
       <ListRowGroup data-testid="group">
         <ListRow data-testid="grouped" data-located="">
           <ListRowBody>First row</ListRowBody>
@@ -336,21 +355,47 @@ it("a located row keeps its own corners: a rounded row, and a row in a rounded g
       </ListRowGroup>
     </ThemeProvider>,
   );
-  for (const id of ["rounded", "grouped"]) {
-    const row = screen.getByTestId(id);
-    const radius = getComputedStyle(row).borderTopLeftRadius;
-    seek(located(row), 0);
-    const style = getComputedStyle(row);
-    expectSameColor(layer(row)!, token("info-soft"));
-    expect(style.backgroundClip).toBe("border-box");
-    expect(style.borderTopLeftRadius).toBe(radius);
-    expect(style.boxShadow).not.toContain("inset");
-    for (const pseudo of ["::before", "::after"]) {
-      expect(getComputedStyle(row, pseudo).backgroundImage).not.toContain("gradient");
-    }
-  }
-  expect(getComputedStyle(screen.getByTestId("rounded")).borderTopLeftRadius).not.toBe("0px");
+  const item = screen.getByTestId("rounded");
+  const radius = getComputedStyle(item).borderTopLeftRadius;
+  seek(located(item), 0);
+  const style = getComputedStyle(item);
+  expectSameColor(layer(item)!, token("info-soft"));
+  expect(style.backgroundClip).toBe("border-box");
+  expect(style.borderTopLeftRadius).toBe(radius);
+  expect(radius).not.toBe("0px");
+  expect(style.boxShadow).not.toContain("inset");
+
+  // A list cell: the row stays transparent and the highlight is the shape's,
+  // as tall as the row, inset 8px, with the control radius, in the cell's selected tint.
+  const row = screen.getByTestId("grouped");
+  seek(locatedShape(row), 0);
+  expect(layer(row)).toBeNull();
+  const shape = getComputedStyle(row, "::before");
+  expectSameColor(gradientColor(shape.backgroundImage)!, token("fill-cell-selected"));
+  expect([shape.top, shape.left, shape.borderTopLeftRadius]).toEqual(["0px", "8px", "8px"]);
+  expect(getComputedStyle(row, "::after").backgroundImage).not.toContain("gradient");
   const group = getComputedStyle(screen.getByTestId("group"));
   expect(group.borderTopLeftRadius).not.toBe("0px");
   expect(group.overflow).toBe("hidden");
+});
+
+it("a cell rendered through another part (its data-slot replaced) still paints located on its shape", () => {
+  render(
+    <ThemeProvider>
+      <Tokens />
+      <InboxItem data-testid="row" data-slot="context-menu-trigger" data-located="">
+        <InboxItemContent>
+          <InboxItemTitle>Kirby mentioned you</InboxItemTitle>
+        </InboxItemContent>
+      </InboxItem>
+    </ThemeProvider>,
+  );
+  const row = screen.getByTestId("row");
+  expect(row.dataset.slot).toBe("context-menu-trigger");
+  seek(locatedShape(row), 0);
+  expect(layer(row)).toBeNull();
+  expectSameColor(
+    gradientColor(getComputedStyle(row, "::before").backgroundImage)!,
+    token("fill-cell-selected"),
+  );
 });

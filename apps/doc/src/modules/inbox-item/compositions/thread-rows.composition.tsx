@@ -34,7 +34,7 @@ export function ThreadRowsContent() {
   }, []);
 
   return (
-    <div className="flex w-full max-w-md flex-col">
+    <div className="flex w-full max-w-md flex-col gap-0.5">
       <InboxItem density="compact" active={activeId === "thread:launch-week"} data-unread>
         <InboxItemTrigger
           value="thread:launch-week"

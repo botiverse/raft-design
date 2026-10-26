@@ -1,3 +1,4 @@
+import { listCell, listCellStates } from "../../lib/list-cell";
 import { tv } from "../../lib/tv";
 
 export const inboxItem = tv({
@@ -7,17 +8,12 @@ export const inboxItem = tv({
       "has-data-[slot=inbox-item-selection]:grid-cols-[auto_minmax(0,1fr)_auto]",
       "has-data-[slot=inbox-item-leading]:grid-cols-[auto_minmax(0,1fr)_auto]",
       "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
-      "transition-colors",
-      "gap-x-3 gap-y-0 rounded-none border-0 bg-transparent px-4 py-3 shadow-none",
-      "before:pointer-events-none before:absolute before:top-0 before:right-0 before:left-4 before:hidden before:border-t before:border-line-hairline",
-      "[[data-slot=inbox-item]+&]:before:block has-data-[slot=inbox-item-selection]:before:left-11",
-      "has-data-[slot=inbox-item-leading]:before:left-16",
-      "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:before:left-23",
-      "hover:bg-fill-subtle not-data-[active=true]:active:bg-fill-medium",
-      "not-data-[active=true]:data-popup-open:bg-fill-subtle not-data-[active=true]:has-data-popup-open:bg-fill-subtle",
-      "data-[active=true]:bg-info-soft data-[active=true]:hover:bg-info-soft",
-      "data-disabled:pointer-events-none data-disabled:hover:bg-transparent",
-      "has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:inset-ring-2 has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:inset-ring-foreground",
+      "gap-x-3 gap-y-0 rounded-none border-0 px-4 py-3",
+      listCell,
+      listCellStates,
+      "data-[active=true]:before:bg-fill-cell-selected",
+      "data-disabled:pointer-events-none",
+      "has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:before:inset-ring-2 has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:before:inset-ring-foreground",
       "not-data-[density=compact]:has-data-[slot=inbox-item-trailing]:[--inbox-item-content-display:grid] not-data-[density=compact]:has-data-[slot=inbox-item-trailing]:[--inbox-item-content-end:-1]",
     ],
     itemTrigger: ["absolute inset-0 z-0 outline-none"],

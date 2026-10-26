@@ -299,6 +299,9 @@
   --color-fill-subtle: var(--fill-subtle);
   --color-fill-medium: var(--fill-medium);
   --color-fill-frame-medium: var(--fill-frame-medium);
+  --color-fill-cell-hover: var(--fill-cell-hover);
+  --color-fill-cell-press: var(--fill-cell-press);
+  --color-fill-cell-selected: var(--fill-cell-selected);
   --color-layer-code: var(--layer-code);
   --color-foreground-link: var(--foreground-link);
   --color-sticker-ink: var(--sticker-ink);
@@ -625,7 +628,7 @@ textarea:-webkit-autofill:disabled {
 @keyframes raft-located {
   0%,
   60% {
-    --located-fill: var(--info-soft);
+    --located-fill: var(--located-tint, var(--info-soft));
     animation-timing-function: ease-out;
   }
   100% {
@@ -636,7 +639,7 @@ textarea:-webkit-autofill:disabled {
 @keyframes raft-located-still {
   from,
   to {
-    --located-fill: var(--info-soft);
+    --located-fill: var(--located-tint, var(--info-soft));
   }
 }
 
@@ -650,6 +653,7 @@ textarea:-webkit-autofill:disabled {
 
 [data-located]:not(
   [data-message-item],
+  .list-cell,
   :active,
   [data-selected]:not([data-selected="false"]),
   [data-active="true"],
@@ -657,6 +661,28 @@ textarea:-webkit-autofill:disabled {
   [aria-current]:not([aria-current="false"]),
   [data-popup-open]
 ) {
+  background-image: linear-gradient(var(--located-fill), var(--located-fill));
+}
+
+/* A list cell (lib/list-cell.ts, marked with the `list-cell` class, which
+   survives a row rendered through another part's `render`, where its
+   data-slot doesn't) draws its states on its inset ::before shape and leaves
+   the row transparent, so its located fill is painted there too, in the
+   cell's selected tint (fill-cell-selected, stronger in dark). The animation
+   runs on the shape: the registered fill doesn't inherit. */
+.list-cell[data-located]::before {
+  --located-tint: var(--fill-cell-selected);
+  animation: var(--located-animation, raft-located) 2s linear;
+}
+
+.list-cell[data-located]:not(
+    :active,
+    [data-selected]:not([data-selected="false"]),
+    [data-active]:not([data-active="false"]),
+    [aria-selected="true"],
+    [aria-current]:not([aria-current="false"]),
+    [data-popup-open]
+  )::before {
   background-image: linear-gradient(var(--located-fill), var(--located-fill));
 }
 
@@ -888,6 +914,48 @@ textarea:-webkit-autofill:disabled {
 
 @utility row-open-overlay {
   background-image: linear-gradient(var(--fill-subtle), var(--fill-subtle));
+}
+
+/* The marker of a list cell (lib/list-cell.ts), read by the located rules
+   above. */
+@utility list-cell {
+  --list-cell: 1;
+}
+
+/* The scrollbar of a scroller that holds list cells (design/patterns/
+   lists.md): an 8px classic scrollbar with a 4px thumb, so a cell's
+   end inset can come out of the scrollbar's own width and its fill sits 8px
+   from both edges of the list. Pair it with useScrollbarSize, which
+   publishes the width the cells read; an overlay scrollbar (a phone, macOS
+   by default) takes no room and the inset stays 8px. scrollbar-width and
+   scrollbar-color stay auto: either one switches Chromium off the
+   ::-webkit-scrollbar styling. Firefox takes its thin scrollbar, 8px. */
+@utility scrollbar-list {
+  scrollbar-width: auto;
+  scrollbar-color: auto;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    min-height: 32px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    background: color-mix(in oklch, var(--foreground) 24%, transparent);
+    background-clip: padding-box;
+  }
+  @media (hover: hover) {
+    &:hover::-webkit-scrollbar-thumb {
+      background-color: color-mix(in oklch, var(--foreground) 36%, transparent);
+    }
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklch, var(--foreground) 24%, transparent) transparent;
+  }
 }
 
 /* Space and rules between siblings: stack-y-* / stack-x-* and rule-y / rule-x

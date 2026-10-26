@@ -43,7 +43,7 @@ export function ActivityHoverActionsComposition() {
   }
 
   return (
-    <div className="flex w-full max-w-xl flex-col">
+    <div className="flex w-full max-w-xl flex-col gap-0.5">
       {items.map((item) => (
         <ActivityHoverRow
           key={item.id}

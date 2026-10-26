@@ -1,19 +1,19 @@
+import { listCell, listCellFocus, listCellStates } from "../../lib/list-cell";
 import { tv } from "../../lib/tv";
 
 export const searchEntity = tv({
   slots: {
     entity: [
-      "flex min-w-0 w-full items-center gap-3 p-3 text-left transition-colors",
-      "relative rounded-none border-0 bg-transparent px-4 py-3 text-foreground shadow-none",
+      "flex min-w-0 w-full items-center gap-3 p-3 text-left",
+      "rounded-none border-0 px-4 py-3 text-foreground",
       // A finger's row: 64px on a touch screen at any width, by the input,
       // not the width (design/patterns/responsive.md#touch-screens).
       "pointer-coarse:min-h-16",
-      "not-first:before:absolute not-first:before:top-0 not-first:before:right-0 not-first:before:left-[55px] not-first:before:border-t not-first:before:border-line-hairline",
-      "hover:bg-fill-subtle active:bg-fill-medium",
-      "not-data-[selected=true]:data-popup-open:bg-fill-subtle",
-      "disabled:cursor-default disabled:hover:bg-transparent disabled:active:bg-transparent",
-      "data-[selected=true]:bg-brand-soft data-[selected=true]:hover:bg-brand-soft",
-      "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
+      listCell,
+      listCellStates,
+      "disabled:cursor-default",
+      "data-[selected=true]:before:bg-brand-soft",
+      listCellFocus,
     ],
     entityLeading: ["relative flex shrink-0"],
     entityIcon: [

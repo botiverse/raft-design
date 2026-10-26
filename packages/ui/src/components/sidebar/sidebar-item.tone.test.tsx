@@ -61,10 +61,10 @@ describe("interactive", () => {
     expect(row.getAttribute("type")).toBe("button");
     expect(classes(row)).toEqual(
       expect.arrayContaining([
-        "hover:bg-fill-subtle",
-        "active:bg-fill-medium",
-        "not-data-active:data-popup-open:bg-fill-subtle",
-        "focus-visible:shadow-focus",
+        "not-data-active:not-data-selected:not-data-disabled:not-disabled:not-aria-disabled:hover:before:bg-fill-cell-hover",
+        "not-data-active:not-data-selected:not-data-disabled:not-disabled:not-aria-disabled:active:before:bg-fill-cell-press",
+        "not-data-active:not-data-selected:data-popup-open:before:bg-fill-cell-hover",
+        "not-data-active:focus-visible:keyboard:before:inset-ring-2",
       ]),
     );
   });
@@ -80,8 +80,8 @@ describe("interactive", () => {
     const row = screen.getByTestId("row");
     expect(row.tagName).toBe("DIV");
     expect(row.hasAttribute("type")).toBe(false);
-    expect(row.className).not.toContain("bg-fill-medium");
-    expect(row.className).not.toContain("focus-visible:shadow-focus");
+    expect(row.className).not.toContain("bg-fill-cell-press");
+    expect(row.className).not.toContain("focus-visible");
     expect(classes(row)).toContain("cursor-default");
     // The two-line layout still applies.
     expect(classes(row)).toContain("h-auto");

@@ -1,30 +1,27 @@
+import { listCell, listCellFocus, listCellStates } from "../../lib/list-cell";
 import { tv } from "../../lib/tv";
 
 // Raft Design System › ListRow: the one row of phone lists, settings, and the
 // people and agents on a detail page. A list is content: no ink line, no
-// shadow. The whole row is the target: hover lays the subtle tier and press
-// the medium tier. Between two rows a hairline runs from where the text starts.
-const hairline = [
-  "before:pointer-events-none before:absolute before:top-0 before:right-0 before:hidden",
-  "before:left-(--list-row-rule-start) before:border-t before:border-line-hairline",
-  "[[data-slot=list-row]+&]:before:block [li+li>&]:before:block",
-];
+// shadow, and no divider between two rows. The row is a list cell
+// (lib/list-cell.ts): the whole row is the target, and hover, press,
+// selection and focus are drawn on its inset shape.
 
 export const listRow = tv({
   slots: {
     group: [
-      "flex min-w-0 flex-col overflow-hidden",
+      "flex min-w-0 flex-col gap-0.5 overflow-hidden",
       "rounded-container border border-line-hairline bg-layer-card text-foreground",
     ],
     // The row owns its three inks and the parts read them, so the tone and the
     // disabled state are decided once, on the row: a tone never applies to a
     // disabled row, which greys everything.
     root: [
-      "group/list-row relative flex w-full min-w-0 items-center gap-3 px-4 py-3 text-left",
+      "group/list-row flex w-full min-w-0 items-center gap-3 px-4 py-3 text-left",
       "font-sans no-underline",
-      "transition-colors duration-100",
-      "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
-      "data-selected:bg-info-soft",
+      listCell,
+      listCellFocus,
+      "data-selected:before:bg-fill-cell-selected",
       "[--list-row-ink:var(--foreground)] [--list-row-ink-2:var(--foreground-muted)] [--list-row-ink-3:var(--foreground-hint)]",
       "text-(--list-row-ink)",
       "not-disabled:not-aria-disabled:data-[tone=unread]:[--list-row-ink-2:var(--foreground)]",
@@ -65,27 +62,22 @@ export const listRow = tv({
   variants: {
     variant: {
       // A conversation, a person, an agent: a 35px leading block, a title and
-      // a preview, the time and a badge. The line starts at the text, 16 + 35 + 12.
-      default: { root: ["min-h-16 [--list-row-rule-start:63px]", hairline] },
+      // a preview, the time and a badge.
+      default: { root: "min-h-16" },
       // A setting: a title (and its consequence), the current value and a
-      // chevron, or a switch; 48 tall with one line. The line starts at the
-      // row's edge. Its ends, the leading icon, avatar or tile and the
-      // trailing switch, value or chevron, centre on the whole row, with or
-      // without a description: a setting reads as one unit, and its controls
-      // belong to the row, not to the title (Alignment: a control and its
-      // label).
-      plain: { root: ["[--list-row-rule-start:16px]", hairline] },
+      // chevron, or a switch; 48 tall with one line. Its ends, the leading
+      // icon, avatar or tile and the trailing switch, value or chevron, centre
+      // on the whole row, with or without a description: a setting reads as
+      // one unit, and its controls belong to the row, not to the title
+      // (Alignment: a control and its label).
+      plain: { root: "" },
       // A shortcut into another page (Search, Activity, Saved): a 20px icon and
-      // a name, 48 tall. A group of them is a set of buttons, so no lines.
+      // a name, 48 tall.
       entry: { root: "" },
     },
     interactive: {
       true: {
-        root: [
-          "not-disabled:not-aria-disabled:not-data-selected:hover:overlay-subtle",
-          "not-disabled:not-aria-disabled:not-data-selected:active:overlay-medium",
-          "not-data-selected:data-popup-open:overlay-subtle",
-        ],
+        root: listCellStates,
       },
       false: {},
     },

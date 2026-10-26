@@ -158,9 +158,9 @@ it("a compact skeleton row is as tall as a loaded compact row, with and without 
   expect(lead.skeleton).toBe(lead.loaded);
 });
 
-it("a skeleton list is as tall as the loaded list of as many rows: no gap, no border", async () => {
+it("a skeleton list is as tall as the loaded list of as many rows: the list gap, no border", async () => {
   const { loaded, skeleton } = await heightsOf(
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-0.5">
       <LoadedDefault context />
       <LoadedDefault context />
       <LoadedDefault context />

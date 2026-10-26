@@ -9,7 +9,8 @@
       "ActivityInboxSelectionToolbar",
       "ActivityInboxSelectionCount"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The list's scroller. It publishes its scrollbar's width for the item cells (useScrollbarSize), so their fills sit 8px from both edges."
   },
   "alert-dialog": {
     "names": [
@@ -1121,7 +1122,7 @@
       "SearchTriggerShortcut"
     ],
     "status": "stable",
-    "description": "The top bar's search box. Children: a search icon, a `SearchTriggerLabel` and an optional `SearchTriggerShortcut`."
+    "description": "The results' scroller. It publishes its scrollbar's width for the result cells (useScrollbarSize), so their fills sit 8px from both edges."
   },
   "segmented-control": {
     "names": [

@@ -445,7 +445,7 @@ export function ActivityInboxComposition({
 
       <div className="flex min-h-0 flex-1">
         <ActivityInboxSidebar>
-          <div className="flex flex-col gap-0">
+          <div className="flex flex-col gap-0.5">
             <ActivityNavigationItem
               active={view === "active"}
               icon={<Inbox size={15} />}
@@ -469,7 +469,7 @@ export function ActivityInboxComposition({
           </div>
 
           <SidebarGroupLabel>Filters</SidebarGroupLabel>
-          <div className="flex flex-col gap-0">
+          <div className="flex flex-col gap-0.5">
             <ActivityNavigationItem
               pressed={view === "active" && mentionsOnly}
               disabled={view !== "active"}
@@ -489,7 +489,7 @@ export function ActivityInboxComposition({
               </SidebarSectionTrailing>
             ) : null}
           </SidebarGroupLabel>
-          <div className="flex flex-col gap-0">
+          <div className="flex flex-col gap-0.5">
             {groups.map((group) => (
               <ActivityGroupNavigationItem
                 key={group.id}
@@ -671,7 +671,7 @@ export function ActivityInboxComposition({
                 </EmptyStateContent>
               </EmptyState>
             ) : (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-0.5">
                 {visibleItems.map((item) => (
                   <ActivityItem
                     key={item.id}

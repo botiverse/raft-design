@@ -26,6 +26,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 | `radius-dialog` | Dialogs, and the top corners of bottom sheets |
 | `rounded-full` | Switches, radios and grab handles; the Android pull-to-refresh disc |
 
+- Give the state shape of a list row (Activity items, sidebar rows, search results, ListRow) `radius-control`: its hover, press, selection and focus fill a rounded shape as tall as the row and inset 8px from each side, never the row's square full width ([Lists](../patterns/lists.md)).
 - Use a 2px radius for status lights and attention dots (10px beside text, 6px to 20px on an avatar's corner) and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.
 
 ## Inside a frame

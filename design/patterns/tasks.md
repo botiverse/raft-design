@@ -99,7 +99,7 @@ A place's tasks open as a Tasks section beside its conversation ([Page structure
 
 ### Rows in a compact list
 
-The tasks under a message, the Tasks section and the Files section are one kind of list and use one row. Like a [ListRow](../../packages/ui/src/components/list-row/list-row.md) list it is content: hairlines between the rows, the whole row the target, and no card for each row. A row reads as one line: what it is on the left, who has it and where it stands on the right.
+The tasks under a message, the Tasks section and the Files section are one kind of list and use one row. It is content: hairlines between the rows, the whole row the target, and no card for each row. These compact rows keep their lines for now; the other lists of rows (Activity, search, the sidebar, and ListRow lists of cells) have none and draw their states on an inset shape ([Lists](./lists.md)). A row reads as one line: what it is on the left, who has it and where it stands on the right.
 
 | Part | Spec |
 | --- | --- |

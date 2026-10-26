@@ -30,28 +30,31 @@ function renderRow(wrap: boolean) {
   return screen.getByTestId("row");
 }
 
-test("a fixed raft row is 36 tall, centred, with no padding at md", () => {
+test("a fixed raft row is 38 tall, centred, with no padding at md and no margin", () => {
   const row = renderRow(false);
-  expect(row.className).toMatch(/(?:^|\s)h-9(?:\s|$)/);
+  expect(row.className).toMatch(/(?:^|\s)h-\[38px\](?:\s|$)/);
+  // Rows touch: the gap between two fills is the shape's inset, not a margin.
+  expect(row.className).not.toMatch(/(?:^|\s)my-/);
   expect(row.className).toContain("md:py-0");
   expect(row.hasAttribute("data-wrap")).toBe(false);
 });
 
-test("a wrapping raft row grows from 36 and keeps the 8px text inset at every breakpoint", () => {
+test("a wrapping raft row grows from 38 and keeps its 9px text inset at every breakpoint", () => {
   const row = renderRow(true);
   const classes = row.className.split(/\s+/);
   expect(row.getAttribute("data-wrap")).toBe("true");
   expect(classes).toContain("h-auto");
-  expect(classes).not.toContain("h-9");
-  expect(classes).toContain("min-h-9");
+  expect(classes).not.toContain("h-[38px]");
+  expect(classes).toContain("min-h-[38px]");
   expect(classes).toContain("items-start");
   expect(classes).not.toContain("items-center");
   // The fixed row zeroes its padding at md and in short desktop windows; a
-  // wrapping row restates the 6.5px (8px less the 1.5px sticker edge) at each.
-  // Below md the phone row's 8.5px wins (sidebar-item.phone.browser.test).
-  expect(classes).toContain("py-[6.5px]");
-  expect(classes).toContain("md:py-[6.5px]");
-  expect(classes).toContain("md:[@media(max-height:600px)]:py-[6.5px]");
+  // wrapping row restates the 9px (38 less a 20px line, halved) at each, so a
+  // one-line wrapping row is as tall as a fixed one. Below md the phone row's
+  // 10px wins (sidebar-item.phone.browser.test).
+  expect(classes).toContain("py-[9px]");
+  expect(classes).toContain("md:py-[9px]");
+  expect(classes).toContain("md:[@media(max-height:600px)]:py-[9px]");
   expect(classes).not.toContain("md:py-0");
   expect(classes).not.toContain("md:[@media(max-height:600px)]:py-0");
   // The leading glyph centres on the first line.

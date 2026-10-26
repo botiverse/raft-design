@@ -25,7 +25,7 @@ export const sidebarRecipe = tv({
       "font-sans text-headline text-foreground max-md:text-foreground-on-frame",
     ],
     sidebarGroupLabel: [
-      "px-2 pt-4 pb-1.5",
+      "px-4 pt-4 pb-1.5",
       "font-sans text-footnote font-bold normal-case tracking-normal text-foreground-hint",
     ],
     sidebarBody: [
@@ -34,10 +34,7 @@ export const sidebarRecipe = tv({
     ],
     sidebarContent: ["relative flex min-h-0 min-w-0 flex-1"],
     sidebarViewport: ["size-full min-h-0  flex-1 overflow-x-hidden overflow-y-auto"],
-    sidebarContentInner: [
-      "min-h-full min-w-0 w-full px-2",
-      "pt-2 pb-(--sidebar-content-bottom,8px)",
-    ],
+    sidebarContentInner: ["min-h-full min-w-0 w-full", "pt-2 pb-(--sidebar-content-bottom,8px)"],
     sidebarScrollbar: [
       "z-30 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
       "pointer-events-none",

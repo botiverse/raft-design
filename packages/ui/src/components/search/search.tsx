@@ -3,6 +3,8 @@ import { useRender } from "@base-ui/react/use-render";
 import type { ComponentPropsWithRef } from "react";
 
 import type { SlotElementProps } from "../../lib/data-attributes";
+import { useMergedRef } from "../../lib/use-merged-ref";
+import { useScrollbarSize } from "../../lib/use-scrollbar-size";
 import { Panel } from "../panel/panel";
 import { search } from "./search.recipe";
 
@@ -30,9 +32,20 @@ export function SearchShellFilters({ className, ...props }: SearchShellFiltersPr
 
 export type SearchShellViewportProps = ComponentPropsWithRef<"div">;
 
-export function SearchShellViewport({ className, ...props }: SearchShellViewportProps) {
+/** The results' scroller. It publishes its scrollbar's width for the result
+ *  cells (useScrollbarSize), so their fills sit 8px from both edges. */
+export function SearchShellViewport({ className, ref, ...props }: SearchShellViewportProps) {
   const { viewport } = search();
-  return <div data-slot="search-shell-viewport" className={viewport({ className })} {...props} />;
+  const scrollbarRef = useScrollbarSize<HTMLDivElement>();
+  const [setRef] = useMergedRef<HTMLDivElement>(ref, scrollbarRef);
+  return (
+    <div
+      data-slot="search-shell-viewport"
+      className={viewport({ className })}
+      {...props}
+      ref={setRef}
+    />
+  );
 }
 
 export type SearchResultsSummaryProps = useRender.ComponentProps<"span">;

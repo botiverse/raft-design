@@ -50,13 +50,13 @@ search/compositions/search-preview
 
 ## States
 
-| State                                        | Use for                                                                                                                                                                                                                |
-| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `selected` on a result                       | The keyboard highlight: `brand-soft`, as in menus ([States](../../../../../design/foundations/states.md#usage))                                                                                                        |
-| Menu open (`data-popup-open` on a result)    | `fill-subtle`, the same subtle tier as the hover, so the result the menu acts on stays marked; a `selected` result keeps `brand-soft` ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)) |
-| `muted` on an entity's title and description | A place the person can't post in any more, such as an archived channel                                                                                                                                                 |
-| Loading                                      | A summary line and skeletons in the shape of the results ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed))                                                                             |
-| No results                                   | An [EmptyState](../empty-state/empty-state.md) that says how to widen the search                                                                                                                                       |
+| State                                        | Use for                                                                                                                                                                                                                                |
+| -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `selected` on a result                       | The keyboard highlight: `brand-soft` on the result's inset shape, as in menus ([States](../../../../../design/foundations/states.md#usage))                                                                                            |
+| Menu open (`data-popup-open` on a result)    | `fill-cell-hover` on the inset shape, the same fill as the hover, so the result the menu acts on stays marked; a `selected` result keeps `brand-soft` ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)) |
+| `muted` on an entity's title and description | A place the person can't post in any more, such as an archived channel                                                                                                                                                                 |
+| Loading                                      | A summary line and skeletons in the shape of the results ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed))                                                                                             |
+| No results                                   | An [EmptyState](../empty-state/empty-state.md) that says how to widen the search                                                                                                                                                       |
 
 ```example
 search/compositions/search-muted-entity
@@ -76,6 +76,7 @@ search/compositions/search-no-results
 - Give the field the same margin on both sides, the content edge of what is under it (16px on a phone). Don't leave a narrower edge on one side for an icon.
 - On the web, open search from the top bar's field as a centered dialog, 720px wide, whose top edge covers the top bar's field, so the field seems to grow into it. It has the scrim and no animation, like every centered overlay ([Choosing a component](../../../../../design/components/overview.md#overlays)).
 - Group results by kind ([Conversation](../../../../../design/patterns/conversation.md#search)): places and people first, then messages.
+- Draw no line between results, or between two threads. A result is a list cell ([Lists](../../../../../design/patterns/lists.md)): hover, press, menu open, the keyboard highlight and the focus ring are drawn on one rounded shape as tall as the result and inset 8px from each side. `SearchResultsList` and a thread's messages are columns with a 2px gap, so two filled results show 2px between them. Section headings and a thread's header separate the groups. `SearchShellViewport` takes the 8px list scrollbar and publishes its width, so the shape stays 8px from both edges with a classic scrollbar.
 - Show the scope, the sender, the place and the time range as filters in the filter row, each a select or combobox.
 - Open a selected result in the side panel ([Conversation](../../../../../design/patterns/conversation.md#search)). A hit in a thread opens that thread directly.
 - Move the keyboard highlight from the field into the results with the Down arrow, and open the highlighted result with Enter.

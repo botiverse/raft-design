@@ -22,7 +22,7 @@ export function ListRowConversationsComposition() {
   }, []);
 
   return (
-    <div className="w-full max-w-sm">
+    <div className="flex w-full max-w-sm flex-col gap-0.5">
       <ListRow
         value="wug"
         tone="unread"

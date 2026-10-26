@@ -3,6 +3,7 @@ import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
 import { ThemeProvider } from "./theme/theme-provider";
 import { Badge } from "../components/badge/badge";
+import { ListRow } from "../components/list-row/list-row";
 import { InboxItem, InboxItemContent, InboxItemTitle } from "../components/inbox-item";
 import { MessageReferenceText } from "../components/message-item/message-reference";
 import { SidebarItem, SidebarItemTitle } from "../components/sidebar/sidebar-item";
@@ -26,6 +27,9 @@ afterEach(cleanup);
 
 const ALPHA = {
   medium: { light: 0.078, dark: 0.065 },
+  // A list cell (lib/list-cell.ts) presses its inset shape with
+  // fill-cell-press: the medium tier in light, a stronger step in dark.
+  cell: { light: 0.078, dark: 0.12 },
   sticker: { light: 0.1, dark: 0.1 },
 } as const;
 type Tier = keyof typeof ALPHA;
@@ -34,8 +38,9 @@ const ACTIVE = /(?<!\\):active(?![\w-])/;
 const ACTIVE_ALL = /(?<!\\):active(?![\w-])/g;
 
 /** The colours the :active rules matching `el` paint, resolved in `el`'s
- *  scope: background-image (an overlay) or background-color. */
-function pressLayers(el: Element, read: "color" | "image"): string[] {
+ *  scope: background-image (an overlay) or background-color, on the element
+ *  or, for a list cell, on its ::before shape. */
+function pressLayers(el: Element, read: "color" | "image", shape = false): string[] {
   const property = read === "image" ? "background-image" : "background-color";
   const declared: string[] = [];
   const walk = (rules: CSSRuleList, parent: string) => {
@@ -48,8 +53,10 @@ function pressLayers(el: Element, read: "color" | "image"): string[] {
         if (value) {
           for (const part of selector.split(/,(?![^(]*\))/)) {
             if (!ACTIVE.test(part)) continue;
+            const target = part.replace(ACTIVE_ALL, "").trim();
+            if (shape !== target.endsWith("::before")) continue;
             try {
-              if (el.matches(part.replace(ACTIVE_ALL, ""))) declared.push(value);
+              if (el.matches(target.replace(/::before$/, ""))) declared.push(value);
             } catch {
               // A selector that can't be matched on its own (a ::pseudo-element).
             }
@@ -73,15 +80,16 @@ function pressLayers(el: Element, read: "color" | "image"): string[] {
   });
 }
 
-const presses: { id: string; tier: Tier; read: "color" | "image" }[] = [
+const presses: { id: string; tier: Tier; read: "color" | "image"; shape?: boolean }[] = [
   { id: "badge-solid", tier: "sticker", read: "image" },
   { id: "badge-soft", tier: "medium", read: "image" },
   { id: "badge-outline", tier: "medium", read: "color" },
   { id: "mention", tier: "sticker", read: "image" },
-  { id: "inbox", tier: "medium", read: "color" },
+  { id: "inbox", tier: "cell", read: "color", shape: true },
+  { id: "list-row", tier: "cell", read: "color", shape: true },
   { id: "table-row", tier: "medium", read: "color" },
   { id: "disclosure", tier: "medium", read: "color" },
-  { id: "sidebar-active", tier: "sticker", read: "image" },
+  { id: "sidebar-active", tier: "sticker", read: "image", shape: true },
 ];
 
 for (const mode of ["light", "dark"] as const) {
@@ -110,6 +118,7 @@ for (const mode of ["light", "dark"] as const) {
                 <InboxItemTitle>Kirby mentioned you</InboxItemTitle>
               </InboxItemContent>
             </InboxItem>
+            <ListRow data-testid="list-row">Wug</ListRow>
           </div>
           <Table>
             <TableBody>
@@ -134,7 +143,7 @@ for (const mode of ["light", "dark"] as const) {
     // Tailwind injects rules as classes are seen: let the sheet settle.
     await new Promise((r) => setTimeout(r, 300));
     for (const c of presses) {
-      const alphas = pressLayers(getByTestId(c.id), c.read)
+      const alphas = pressLayers(getByTestId(c.id), c.read, c.shape)
         .filter((v) => v.startsWith("oklch"))
         .map((v) => parseOklch(v)[3]);
       expect

@@ -18,15 +18,15 @@ separator/compositions/horizontal
 
 ## When to use
 
-| Situation                                                   | Use                                                                                           |
-| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Two groups of content in one region                         | Separator                                                                                     |
-| Two groups of controls in a row of fixed height             | Separator with `orientation="vertical"`                                                       |
-| A named break before a group                                | Separator with a word: Actions                                                                |
-| Sections of a menu, a select list or a popover              | The component's own separator: `DropdownMenuSeparator`, `SelectSeparator`, `PopoverSeparator` |
-| Rows of a list                                              | The list's own dividers ([ListRow](../list-row/list-row.md))                                  |
-| A header and its content, a rail and a sidebar, two columns | The `line-seam` the region draws ([Color](../../../../../design/foundations/color.md#lines))  |
-| Sections of a large form                                    | [FormSection](../form-section/form-section.md), which draws its own hairline                  |
+| Situation                                                   | Use                                                                                             |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Two groups of content in one region                         | Separator                                                                                       |
+| Two groups of controls in a row of fixed height             | Separator with `orientation="vertical"`                                                         |
+| A named break before a group                                | Separator with a word: Actions                                                                  |
+| Sections of a menu, a select list or a popover              | The component's own separator: `DropdownMenuSeparator`, `SelectSeparator`, `PopoverSeparator`   |
+| Rows of a list                                              | Nothing: the rows of a list have no dividers ([Lists](../../../../../design/patterns/lists.md)) |
+| A header and its content, a rail and a sidebar, two columns | The `line-seam` the region draws ([Color](../../../../../design/foundations/color.md#lines))    |
+| Sections of a large form                                    | [FormSection](../form-section/form-section.md), which draws its own hairline                    |
 
 ## Variants
 

@@ -34,9 +34,9 @@ it("on a phone a row is 44px", async () => {
   expect(rowHeight()).toBe(44);
 });
 
-it("CONTROL: on a desktop the same row stays 36px", async () => {
+it("CONTROL: on a desktop the same row is 38px", async () => {
   await viewport(1280);
-  expect(rowHeight()).toBe(36);
+  expect(rowHeight()).toBe(38);
 });
 
 it("on a phone the name is set in 16/24 at 600", async () => {
@@ -68,6 +68,6 @@ it("on a phone on its side, a wrapping row keeps the phone padding", async () =>
     </ThemeProvider>,
   );
   const row = screen.getByTestId("row");
-  expect(getComputedStyle(row).paddingTop).toBe("8.5px");
+  expect(getComputedStyle(row).paddingTop).toBe("10px");
   expect(row.getBoundingClientRect().height).toBe(44);
 });
