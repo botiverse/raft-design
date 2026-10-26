@@ -44,6 +44,7 @@ The tooltip is `layer-hud` with `foreground-on-hud` text, like a toast ([Color](
 - Write one name or one short sentence, in sentence case: Search, Runs on Martin's MacBook.
 - Use the same word in the tooltip as in the trigger's `aria-label`.
 - Put the shortcut in a `Kbd` after the text: Search ⌘K.
+- Where a disabled control's tooltip also gives the reason it can't be used, and the first line names the control (its label cut short on the trigger), put the reason on a second line in `foreground-on-hud-muted`, 4px below the name: the name, then why. A reason alone is the tooltip's one line, in its own text color.
 
 ## Accessibility
 
