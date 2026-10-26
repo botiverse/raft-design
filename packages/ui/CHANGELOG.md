@@ -1,3 +1,31 @@
+## [0.36.1](https://github.com/botiverse/raft-design/compare/v0.36.0...v0.36.1) (2026-10-26)
+
+### Design System
+
+- **Drag and drop:** a panel of live content (a side section) is lifted by its grip only, so its head keeps its clicks (opening a thread, jumping to the channel). The grip shows while the head is hovered or the grip has focus, always on a device that can't hover, and its hit area is at least 24px tall and wider than the bar. ([#809](https://github.com/botiverse/raft-design/pull/809))
+  - Docs: https://raft-design.botiverse.build/patterns/drag-and-drop/
+- **Motion:** the app's columns change without animation: collapsing or expanding the sidebar, and Focus Mode in or out, by a button or by dragging past the end. ([#811](https://github.com/botiverse/raft-design/pull/811))
+  - Docs: https://raft-design.botiverse.build/foundations/motion/
+- **Field:** an action at the end of a field's label row (Forgot Password) comes after the control in the markup, so Tab and a screen reader reach the field first. ([#808](https://github.com/botiverse/raft-design/pull/808))
+  - Docs: https://raft-design.botiverse.build/components/field/
+
+### Fixed
+
+- **AppShell**: the sidebar collapses and expands at once; the main area no longer slides and the sidebar no longer fades. `data-sliding` is gone. ([#811](https://github.com/botiverse/raft-design/pull/811))
+  - Why: Focus Mode already switched at once while the sidebar slid; a whole column sliding flickers.
+  - Affects: no transition on `AppShellMainSlot` (`left`) or `AppShellSidebarSlot` (opacity); no z-index on the main slot while collapsing.
+  - Docs: https://raft-design.botiverse.build/components/app-shell/
+- **Composer**: its buttons sit 6px apart (`gap-embedded-inset`), the same as their distance from the frame. ([#810](https://github.com/botiverse/raft-design/pull/810))
+  - Why: the buttons were 8px apart but 6px from the edge, against Shape › Inside a frame.
+  - Affects: gap in the toolbar, actions and meta 8px → 6px.
+  - Docs: https://raft-design.botiverse.build/components/composer/
+- **DragRefusalHint**: the chip stays inside the window and off the lifted copy: left of the pointer and the copy at the right edge, above the pointer at the bottom edge, 8px inside on every side. ([#807](https://github.com/botiverse/raft-design/pull/807))
+  - Why: near the window's edge the chip was drawn outside it, or under the copy when flipped.
+  - Docs: https://raft-design.botiverse.build/components/drag/
+- **useDragSensors**: Escape during a drag, however it started, only cancels the drag; the keydown is stopped in the capture phase, so no app Escape handler (closing a panel, a dialog, a popover) hears it. ([#807](https://github.com/botiverse/raft-design/pull/807))
+  - Why: Escape cancelled the drag and also closed the panel around it.
+  - Docs: https://raft-design.botiverse.build/components/drag/
+
 ## [0.36.0](https://github.com/botiverse/raft-design/compare/v0.35.1...v0.36.0) (2026-10-26)
 
 ### Design System
