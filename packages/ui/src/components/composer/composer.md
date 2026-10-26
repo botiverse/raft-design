@@ -59,7 +59,7 @@ composer-suggestions/composer-suggestions
 - Reordering attachments is a drag like any other ([Drag and drop](../../../../../design/patterns/drag-and-drop.md)): a lifted copy of the thumbnail follows the hand on both axes, the thumbnail it came from stays at 40% until it moves, its slot becomes the dashed place, and a drop or a cancel glides in 160ms. Space on a focused attachment picks it up, the arrow keys move it and Space drops it. Each step is announced by the attachment's `label` and its position, never its id; pass your translations as `messages`. The lifted copy renders in `document.body` (`container` to change it), so a drawer's or a dialog's transform doesn't offset it.
 - Grow the input with its content up to a maximum height, then scroll inside it.
 - On a phone, keep the composer on top of the keyboard when the keyboard opens. Return inserts a new line on a phone held upright ([Responsive layout](../../../../../design/patterns/responsive.md#phone)), so sending uses the send button.
-- Its buttons, the send button included, are controls embedded in its frame: they wear `radius-chip` and sit 6px from the composer's outer edge at the bottom and at each side ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
+- Its buttons, the send button included, are controls embedded in its frame: they wear `radius-chip` and sit 6px from the composer's outer edge at the bottom and at each side, and 6px apart ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
 - Put the composer's border on the content margin ([Page structure](../../../../../design/patterns/page-structure.md#one-edge-per-column)), with 16px plus the safe area below it.
 
 ```example

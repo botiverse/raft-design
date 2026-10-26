@@ -20,10 +20,10 @@ export const composer = tv({
     ],
     toolbar: [
       "flex items-center justify-between",
-      "mx-[calc(var(--control-embedded-inset)-0.75rem-1px)] gap-2",
+      "mx-[calc(var(--control-embedded-inset)-0.75rem-1px)] gap-embedded-inset",
     ],
-    actions: ["flex items-center gap-2"],
-    meta: ["flex items-center", "gap-2"],
+    actions: ["flex items-center gap-embedded-inset"],
+    meta: ["flex items-center", "gap-embedded-inset"],
     iconButton: [
       "size-8 rounded-chip text-foreground-muted",
       "disabled:border-transparent disabled:bg-transparent",
