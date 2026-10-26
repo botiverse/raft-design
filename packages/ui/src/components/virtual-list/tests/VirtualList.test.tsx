@@ -27,6 +27,12 @@ const renderRow = ({ domRef, item, style }: VirtualListItemRenderProps<Row>) => 
   </div>
 );
 
+// Custom properties inherit: one written on the rows' element on every scroll restyles every row.
+const expectNoInheritedVariables = (visible: HTMLElement) => {
+  expect(visible.style.getPropertyValue("--virtual-list-transform-y")).toBe("");
+  expect(visible.style.getPropertyValue("--virtual-list-ios-compensation-y")).toBe("");
+};
+
 describe("VirtualList", () => {
   it("renders its DOM: scroller, spacer, visible items with their keys", async () => {
     const api = createRef<VirtualListApi>();
@@ -70,6 +76,9 @@ describe("VirtualList", () => {
       [...visible.children].map((el) => el.getAttribute("data-virtual-list-item-key"));
     expect(keys()).toEqual([]);
     await waitFor(() => expect(keys()).toEqual(["row-0", "row-1"]));
+    // The layout is written (the rows' translateY), with no CSS variable on the rows' element.
+    expect(visible.style.transform).toBe("translateY(0px)");
+    expectNoInheritedVariables(visible);
     expect(api.current?.listElRef.current).toBe(list);
     expect(listRef.current).toBe(list);
     expect(list.id).toBe("history");
@@ -118,7 +127,7 @@ describe("VirtualList", () => {
     ) as HTMLElement;
     expect(visible.children).toHaveLength(50);
     expect(visible.style.transform).toBe("translateY(0px)");
-    expect(visible.style.getPropertyValue("--virtual-list-transform-y")).toBe("0px");
+    expectNoInheritedVariables(visible);
   });
 
   it("mounts under React StrictMode, with and without items", () => {

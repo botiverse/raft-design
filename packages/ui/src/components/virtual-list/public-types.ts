@@ -309,8 +309,8 @@ export interface VirtualListProps<T> extends VirtualListNativeProps {
    */
   onContentResize?: (() => void) | undefined;
   /**
-   * Called when the rows' offset (`--virtual-list-transform-y`) changes, for content positioned
-   * against it.
+   * Called when the rows' offset (the translateY of the rows' element) changes, for content that
+   * must follow it.
    */
   onTransformChange?: (() => void) | undefined;
   /** The imperative API: `scrollTo`, `getOffsetTopOfKey`, the scroller's and spacer's elements. */

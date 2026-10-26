@@ -515,6 +515,33 @@ describe("VirtualList size changes above the view", () => {
   });
 });
 
+describe("VirtualList rows' element", () => {
+  // Custom properties inherit, so a variable written on the rows' element on every scroll restyles
+  // every row. The list writes only the translateY there.
+  it("carries the rows' translateY and no CSS variable after scrolling", async () => {
+    const { list } = await mount("align");
+    list.scrollTop += 3000;
+    await settle(5);
+    const visible = list.querySelector<HTMLElement>('[data-slot="virtual-list-visible-items"]')!;
+    expect(visible.style.transform).toMatch(/^translateY\(\d/);
+    expect(visible.style.transform).not.toBe("translateY(0px)");
+    expect(visible.style.getPropertyValue("--virtual-list-transform-y")).toBe("");
+    expect(visible.style.getPropertyValue("--virtual-list-ios-compensation-y")).toBe("");
+    expect(windowErrors).toEqual([]);
+  });
+
+  it("carries no CSS variable with virtualization off", async () => {
+    const { list } = await mount("margins", { virtual: false });
+    list.scrollTop += 1000;
+    await settle(3);
+    const visible = list.querySelector<HTMLElement>('[data-slot="virtual-list-visible-items"]')!;
+    expect(visible.style.transform).toBe("translateY(0px)");
+    expect(visible.style.getPropertyValue("--virtual-list-transform-y")).toBe("");
+    expect(visible.style.getPropertyValue("--virtual-list-ios-compensation-y")).toBe("");
+    expect(windowErrors).toEqual([]);
+  });
+});
+
 describe("VirtualList rows in block flow", () => {
   // After scrolling into the middle (and up, so rows above the view are mounted and measured for the
   // first time), every mounted row starts where the list put it: the top of its border box, relative
