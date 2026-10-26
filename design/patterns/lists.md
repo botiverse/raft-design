@@ -39,7 +39,7 @@ The four row components share one recipe fragment, `listCell` (`packages/ui/src/
 | --- | --- |
 | Row | Full width, no margin, no border, transparent. The whole row is the target. Its height doesn't change: a sidebar row is 38px (44px on a phone). |
 | State shape | The row's `::before`: as tall as the row, 8px from the start and end, `radius-control` (8px), under the row's content |
-| Gap between two rows | 2px, the list's `gap` (`gap-0.5`), never a margin or an inset of the shape. `SidebarList`, `SearchResultsList`, a search thread's messages, `ListRowGroup` and `ActivityInboxViewport` are columns with this gap; any other list of cells is a `flex flex-col gap-0.5` column. At 4px the gap between two conversation rows read too big (stdrc, 2026-10-26). |
+| Gap between two rows | 2px, the list's `gap` (`gap-0.5`), never a margin or an inset of the shape. `SidebarList`, `SearchResultsList`, a search thread's messages, `ListRowGroup` and `ActivityInboxViewport` are columns with this gap; any other list of cells is a `flex flex-col gap-0.5` column. At 4px the gap between two conversation rows read too big (design review, 2026-10-26). |
 | Content | 16px from the row's edges in an edge-to-edge list (8px inset and 8px inside the shape), where it sat before the shape. The sidebar row keeps 17.5px, the 9.5px it had inside its old 1.5px edge. |
 
 ## Rules
@@ -65,7 +65,7 @@ The four row components share one recipe fragment, `listCell` (`packages/ui/src/
 - **Don't let a selected or disabled row answer hover or press.** Its own fill stays.
 - **Keep the shape 8px from both edges of the list, whatever the scrollbar.** A scroller of list cells takes the 8px list scrollbar (`scrollbar-list`) and publishes its width with `useScrollbarSize`. The shape gives that width back from its end inset, so it sits 8px from the scroller's outer edge with a classic scrollbar (8px, inside the gutter) and with an overlay scrollbar (0px, which takes no room). `ActivityInboxViewport` and `SearchShellViewport` do both; the Sidebar's ScrollArea has an overlay scrollbar. A wider classic scrollbar would push the shape's end in and leave it uneven, which is why the scrollbar is 8px.
 - **Put a list of cells straight in its scroller, with no side padding.** The row brings its own inset. Side padding on the scroller would add to it, and leave a strip at each side that belongs to no row.
-- **Inside an inset group, keep the same shape.** A ListRow in a ListRowGroup draws the shape 8px inside the group's border, with no lines between the rows.
+- **Inside an inset group, keep the same shape.** A ListRow in a ListRowGroup draws the shape 8px inside the group's border, with no lines between the rows. The group pads its top and bottom by the list's 2px, so the first and last shapes keep the same distance from the frame as from each other.
 
 ## Wide and narrow
 

@@ -57,6 +57,8 @@ test("every container of list cells is a column with a 2px gap", () => {
     expect(classes, name).toContain("flex-col");
     expect(classes, name).toContain("gap-0.5");
   }
+  // In a group the first and last shapes keep the gap from the card's frame.
+  expect(classesOf(listRow().group())).toContain("py-0.5");
 });
 
 for (const [name, value] of Object.entries(cells)) {
@@ -71,8 +73,8 @@ for (const [name, value] of Object.entries(cells)) {
   test(`${name} draws no divider and paints no state on the row itself`, () => {
     expect(value).not.toContain("border-t");
     expect(value).not.toContain("line-hairline");
-    // Margins would leave a dead strip between two rows.
-    expect(classes.some((cls) => /^(?:[\w-]+:)*m[ty]?-/.test(cls))).toBe(false);
+    // No margin on any side: the list's gap spaces the rows, not the row.
+    expect(classes.some((cls) => /^(?:[\w-]+:)*-?m[trblxyse]?-/.test(cls))).toBe(false);
     // Every fill is on the shape: no hover, press, open or selected
     // background on the row, which stays transparent.
     const rowFills = classes.filter(

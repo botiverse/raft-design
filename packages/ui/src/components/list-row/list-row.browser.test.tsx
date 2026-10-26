@@ -88,6 +88,10 @@ it("draws no line between rows, flat, in a ul > li list or as entries; the shape
   const li1 = getByTestId("li-1").getBoundingClientRect();
   const li2 = getByTestId("li-2").getBoundingClientRect();
   expect(li2.top - li1.bottom).toBe(2);
+  // The group pads its top and bottom by the same 2px, inside its 1px border.
+  const group = getByTestId("li-1").closest("ul")!.getBoundingClientRect();
+  expect(li1.top - group.top).toBe(3);
+  expect(group.bottom - li2.bottom).toBe(3);
 });
 
 it("a selected or a disabled row does not react to hover; an enabled one does", async () => {

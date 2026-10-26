@@ -10,7 +10,7 @@ import { tv } from "../../lib/tv";
 export const listRow = tv({
   slots: {
     group: [
-      "flex min-w-0 flex-col gap-0.5 overflow-hidden",
+      "flex min-w-0 flex-col gap-0.5 overflow-hidden py-0.5",
       "rounded-container border border-line-hairline bg-layer-card text-foreground",
     ],
     // The row owns its three inks and the parts read them, so the tone and the

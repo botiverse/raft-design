@@ -925,9 +925,12 @@ textarea:-webkit-autofill:disabled {
 /* The scrollbar of a scroller that holds list cells (design/patterns/
    lists.md): an 8px classic scrollbar with a 4px thumb, so a cell's
    end inset can come out of the scrollbar's own width and its fill sits 8px
-   from both edges of the list. Pair it with useScrollbarSize, which
-   publishes the width the cells read; an overlay scrollbar (a phone, macOS
-   by default) takes no room and the inset stays 8px. scrollbar-width and
+   from both edges of the list. Styling ::-webkit-scrollbar makes Chromium
+   draw this classic, always-visible 8px bar even where the platform's own
+   scrollbar would overlay (a phone, macOS by default), so the bar takes 8px
+   of room wherever the list scrolls. Pair it with useScrollbarSize, which
+   publishes the width the bar really takes (8px, or 0 where it doesn't
+   show), so the shape stays 8px from both edges either way. scrollbar-width and
    scrollbar-color stay auto: either one switches Chromium off the
    ::-webkit-scrollbar styling. Firefox takes its thin scrollbar, 8px. */
 @utility scrollbar-list {

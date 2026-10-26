@@ -10,7 +10,7 @@ export const activityInboxSidebar = tv({
     ],
     sidebarBody: ["bg-layer-canvas"],
     sidebarContent: [
-      "px-1 py-3",
+      "py-3",
       "[&_[data-slot=sidebar-group-label]]:mt-5 [&_[data-slot=sidebar-group-label]]:mb-1",
       "**:data-[slot=sidebar-group-label]:flex **:data-[slot=sidebar-group-label]:items-center [&_[data-slot=sidebar-group-label]]:gap-2",
       "[&_[data-slot=sidebar-group-label]]:px-4 [&_[data-slot=sidebar-group-label]]:py-0",
