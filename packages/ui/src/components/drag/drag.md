@@ -28,14 +28,14 @@ drag/compositions/lists
 
 ## When to use
 
-| Situation                                                                       | Use                                                                         |
-| ------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| Reordering items in a list, or moving them between lists (a sidebar's sections) | `useDragLists` with `DraggedSlot`, `DragLift` and `useDragSensors`          |
-| Moving task cards on a board                                                    | [TaskDnd](../task-dnd/task-dnd.md), built on these parts                    |
-| Reordering tabs                                                                 | [`SortableTabsList`](../tabs/tabs.md)                                       |
-| Reordering composer attachments                                                 | [`SortableComposerAttachments`](../composer/composer.md)                    |
-| Moving a section of a layout (side sections)                                    | `useDragSensors`, `DragLift` with a compact proxy, `DropPlaceholder opaque` |
-| Resizing a column                                                               | [Resizable](../resizable/resizable.md)                                      |
+| Situation                                                                       | Use                                                                  |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Reordering items in a list, or moving them between lists (a sidebar's sections) | `useDragLists` with `DraggedSlot`, `DragLift` and `useDragSensors`   |
+| Moving task cards on a board                                                    | [TaskDnd](../task-dnd/task-dnd.md), built on these parts             |
+| Reordering tabs                                                                 | [`SortableTabsList`](../tabs/tabs.md)                                |
+| Reordering composer attachments                                                 | [`SortableComposerAttachments`](../composer/composer.md)             |
+| Moving a section of a layout (side sections)                                    | `useDragSensors`, `DragLift` with a compact proxy, `DropPlaceholder` |
+| Resizing a column                                                               | [Resizable](../resizable/resizable.md)                               |
 
 ## Anatomy
 
