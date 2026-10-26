@@ -51,27 +51,36 @@ function hitAt(testId: string) {
   return document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
 }
 
-it("at rest the main area has no z-index, so app-level bars at z-40 stay on top", async () => {
+it("the main area has no z-index, so app-level bars at z-40 stay on top", () => {
   const { main } = renderShell();
   expect(getComputedStyle(main).zIndex).toBe("auto");
   expect(hitAt("app-bar")).toBe(screen.getByTestId("app-bar"));
 
   fireEvent.click(screen.getByRole("button", { name: "Collapse Sidebar" }));
-  await waitFor(() => expect(main.hasAttribute("data-sliding")).toBe(false), { timeout: 2000 });
   expect(getComputedStyle(main).zIndex).toBe("auto");
   expect(hitAt("app-bar")).toBe(screen.getByTestId("app-bar"));
 });
 
-it("the main area rises over the sidebar only while it slides", async () => {
-  const { main } = renderShell();
+// stdrc (#proj-raft-ui:639854ff): collapsing and expanding switch at once, by
+// the toggle or by dragging past the end, the same as Focus Mode. A slide of a
+// whole column flickers.
+it("collapsing and expanding the sidebar switch at once, without a transition", () => {
+  const { main, sidebar } = renderShell();
+  const noTransition = (element: HTMLElement) => {
+    const { transitionDuration } = getComputedStyle(element);
+    return transitionDuration.split(",").every((duration) => Number.parseFloat(duration) === 0);
+  };
+  expect(noTransition(main)).toBe(true);
+  expect(noTransition(sidebar)).toBe(true);
+
   fireEvent.click(screen.getByRole("button", { name: "Collapse Sidebar" }));
-  expect(main.hasAttribute("data-sliding")).toBe(true);
-  expect(getComputedStyle(main).zIndex).toBe("2");
-  await waitFor(() => expect(getComputedStyle(main).zIndex).toBe("auto"), { timeout: 2000 });
+  expect(main.getAnimations()).toHaveLength(0);
+  expect(sidebar.getAnimations()).toHaveLength(0);
+  expect(getComputedStyle(sidebar).opacity).toBe("0");
 
   fireEvent.click(screen.getByRole("button", { name: "Expand Sidebar" }));
-  expect(getComputedStyle(main).zIndex).toBe("2");
-  await waitFor(() => expect(getComputedStyle(main).zIndex).toBe("auto"), { timeout: 2000 });
+  expect(main.getAnimations()).toHaveLength(0);
+  expect(getComputedStyle(sidebar).opacity).toBe("1");
 });
 
 it("the expanded sidebar stacks above the main area, so what pokes past its edge stays grabbable", () => {

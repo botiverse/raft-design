@@ -67,8 +67,8 @@ app-shell/compositions/mobile-root
 - The root sets the header height for the regions inside it: 56px, and 48px in a window shorter than 600px ([Spacing](../../../../../design/foundations/spacing.md#heights)).
 - The root clips what overflows it instead of scrolling, so moving focus never shifts the whole app sideways.
 - On a phone the root pads its top for the status bar's safe area.
-- Collapsing the sidebar slides the main area over it with `ease-slide` while the sidebar fades out; expanding reverses it. With reduced motion, both happen at once ([Motion](../../../../../design/foundations/motion.md#usage)).
-- The main area rises over the sidebar (z-index 2, one above the expanded sidebar, with `data-sliding` on the main slot) only while it slides. At rest it has no z-index, so it never covers the app's own fixed layers, such as a bar at z-40. The expanded sidebar stacks just above the main area, so a resize handle that pokes past its edge stays grabbable.
+- Collapsing and expanding the sidebar switch at once, with no slide or fade, whether by the toggle or by dragging past the end ([Motion](../../../../../design/foundations/motion.md#usage)).
+- The main area has no z-index, so it never covers the app's own fixed layers, such as a bar at z-40. The expanded sidebar stacks just above the main area, so a resize handle that pokes past its edge stays grabbable.
 - The open state is the app's to keep: pass `sidebarOpen` and `onSidebarOpenChange`, and remember the value per device, so the sidebar comes back the way it was left.
 - The shell measures the sidebar's width, so a collapsible sidebar can also be resizable.
 
