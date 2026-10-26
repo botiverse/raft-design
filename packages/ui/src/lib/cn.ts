@@ -21,6 +21,9 @@ import { extendTailwindMerge } from "tailwind-merge";
 // deprecated names) paint background-image: registered there, a later
 // `hover:bg-none` or another tier's overlay replaces them instead of both
 // surviving.
+// The content fades (`mask-fade-b`, `mask-fade-x`, ...) set mask-image and
+// `opacity-dimmed` sets opacity: registered, they replace a `mask-[...]` or an
+// `opacity-60` instead of both surviving.
 const twMerge = extendTailwindMerge({
   extend: {
     theme: {
@@ -71,6 +74,8 @@ const twMerge = extendTailwindMerge({
         },
       ],
       "font-weight": [{ font: ["field", "card-title"] }],
+      "mask-image": [{ "mask-fade": ["t", "t-edge", "b", "b-edge", "x"] }],
+      opacity: [{ opacity: ["dimmed"] }],
       "bg-image": [
         { overlay: ["subtle", "medium", "sticker-medium", "frame-medium"] },
         "press-overlay",

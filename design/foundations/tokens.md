@@ -97,7 +97,7 @@ The purpose says where the token is used: `frame`, `sidebar`, `canvas`, `card`, 
 
 **Signals.** `you` and `selected` are the yellow of what is addressed to you and of the selected sticker. They hold their own value instead of pointing at `brand`, so no theme grays them ([Themes](./themes.md#signals)).
 
-**Opacity.** Every `layer` token is opaque except the two scrims, `layer-backdrop` and `layer-backdrop-nested`. `fill-muted` and `fill-strong` are opaque. `fill-subtle`, `fill-medium`, `fill-frame-medium` and `sticker-medium` are translucent: they are the hover tiers, laid on top of a control or a row ([Hover overlays](./color.md#hover-overlays)).
+**Opacity.** Every `layer` token is opaque except the two scrims, `layer-backdrop` and `layer-backdrop-nested`, and the cover over something busy, `layer-veil` ([Surfaces](./color.md#surfaces)). `fill-muted` and `fill-strong` are opaque. `fill-subtle`, `fill-medium`, `fill-frame-medium` and `sticker-medium` are translucent: they are the hover tiers, laid on top of a control or a row ([Hover overlays](./color.md#hover-overlays)).
 
 **Utilities.** A Tailwind utility is the property's prefix and the token name: `bg-layer-card`, `text-foreground-muted`, `border-line-strong`. Shadows are named apart: `shadow-float` for `elevation-float`, `shadow-sticker` for `elevation-sticker`, `shadow-focus` for `focus-ring`. The numbered palette steps are only custom properties, not utilities; the bare `bg-palette-yellow` and its siblings are the exception.
 
@@ -239,6 +239,16 @@ The timeline rhythm: the message step and the section step between the lines of 
 
 ```tokens
 timeline
+```
+
+The fade lengths: `fade-content` where content is cut across its height, `fade-edge` at the sides of a strip that scrolls ([Edges fade](./spacing.md#edges-fade)). And the dimmed opacity, for something present but not active ([Dimmed](./states.md#dimmed)).
+
+```tokens
+fade
+```
+
+```tokens
+opacity
 ```
 
 ### Tokens defined in styles.css

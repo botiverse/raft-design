@@ -86,7 +86,7 @@ message-media/compositions/image-gallery-triple
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Uploading             | The meta line says "Uploading · 64%", and a 4px progress track runs under the file name, inside the card and aligned with the text ([Shape](../../../../../design/foundations/shape.md#nothing-on-the-edge-of-a-rounded-container)) |
 | Opening or processing | `aria-busy` on the card, and a [Spinner](../spinner/spinner.md) in place of the action                                                                                                                                              |
-| Pending image         | The image dimmed under `MessageImageGalleryOverlay`                                                                                                                                                                                 |
+| Pending image         | The image under `MessageImageGalleryOverlay`, a `layer-veil` cover with a default-color spinner                                                                                                                                     |
 | Failed                | A `danger-strong` border, a line that says why, and Remove or Retry                                                                                                                                                                 |
 
 ```example
@@ -106,6 +106,7 @@ message-media/compositions/video-states
 - The whole card is clickable: the file name is the link, and it covers the card. The action buttons sit above it and work on their own.
 - The card is read, so it hovers with the subtle tier, like a file row or a comment card, and presses with the medium tier; its action buttons hover medium ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
 - Selecting an image or a file opens it in the file viewer ([Built from existing parts](../../../../../design/components/overview.md#file-viewer)).
+- An image hovers with `ink-8` over the whole picture, the media hover ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
 - The gallery's action button shows on hover and on keyboard focus.
 - An action in a card's or a medium's corner (a file card's Download, a video's or an image's action) is a control embedded in its frame: it sits 6px from the corner and wears `radius-chip` ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
 

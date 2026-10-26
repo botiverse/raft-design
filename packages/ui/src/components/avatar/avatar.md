@@ -95,7 +95,7 @@ The bottom-right corner holds one thing at a time:
 
 ## States
 
-- **Editable** (your own avatar, your server's, an agent you manage): on hover, on keyboard focus and while uploading, cover the whole sticker with `layer-backdrop` and the icon of the action (upload or edit). Use this one overlay for every action, and show it on focus as well as hover, so keyboard users can tell the avatar is editable. raft-ui has no part for this yet; compose it around `Avatar`.
+- **Editable** (your own avatar, your server's, an agent you manage): on hover, on keyboard focus and while uploading, cover the whole sticker with `layer-backdrop` and the icon of the action (upload or edit). Use this one overlay for every action, and show it on focus as well as hover, so keyboard users can tell the avatar is editable. raft-ui has no part for this yet; compose it around `Avatar`. The next step is an `AvatarEditVeil` part in raft-ui, moved from the app.
 
 ## Behavior
 

@@ -250,8 +250,8 @@ export function MessageForwardedBundleItems({
     () => (clampStyle || style ? { ...clampStyle, ...style } : undefined),
     [clampStyle, style],
   );
-  // A very short fold would otherwise sit entirely under the 40px bottom
-  // fade; compress the fade to one line so something stays readable.
+  // A very short fold would otherwise sit mostly under the 48px content
+  // fade; it takes the 24px edge fade so one line stays readable.
   const tightFold = foldHeight !== null && foldHeight < 60;
 
   return (

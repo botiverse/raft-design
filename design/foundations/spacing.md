@@ -36,13 +36,27 @@ A conversation is read top to bottom, so the space between its lines is what tel
 - **A boundary is the same on both sides.** A date line sits 24px from the text above it and 24px from the sender line below it. When the space under a line was larger than the space over it, the line looked attached to the message above.
 - **The last message never sits on the composer.** The composer is a heavy frame; at the message step it read as touching the last line. From the last line to the composer's frame is a section step, the same as from the top of the list to the first line.
 - **Every row carries its own insets, and a boundary takes them back.** A row keeps the row inset (`timeline-row-inset`, 4px) above and below its text: the reach of its hover and selected highlight. The first row of a turn adds 8px above that, a transparent border the highlight doesn't paint, so every turn starts 12px above its text (`spacing-timeline-lead`). A date line subtracts the inset of the row above it and the lead of the row below it from its own padding, so a row never has to know what comes next, and the distances stay right whatever sits on either side.
-- **The edge the messages scroll under fades.** Wherever content scrolls under an edge, the edge fades instead of cutting it, as a tab bar fades on the side that hides tabs ([Tabs](../../packages/ui/src/components/tabs/tabs.md)). The list's bottom edge, over the composer, fades from the panel's color to transparent over the section step, 24px, at all times (`MessageListEndFade`, [MessageList](../../packages/ui/src/components/message-list/message-list.md)): a message scrolled under it softens, and at the end of the list it lies over the empty end and shows nothing. The line of who is about to post sits on the same fade and has none of its own.
+- **The edge the messages scroll under fades.** Wherever content scrolls under an edge, the edge fades instead of cutting it ([Edges fade](#edges-fade)). The list's bottom edge, over the composer, fades from the panel's color to transparent over the section step, 24px, at all times (`MessageListEndFade`, [MessageList](../../packages/ui/src/components/message-list/message-list.md)): a message scrolled under it softens, and at the end of the list it lies over the empty end and shows nothing. The line of who is about to post sits on the same fade and has none of its own.
 - **A line that floats over the end of the list doesn't move it.** The line of who is about to post adds its own height to the end of the list while it shows, so the last message stays whole above it ([Working agents](../people-and-agents/working-agents.md#who-is-about-to-post)); Back to Bottom shows only while the end is out of view, so it never covers the last message.
 - **Products don't write these numbers.** Components read the timeline tokens; a product that builds its own list top or end uses only `pt-timeline-start` above the first row (the section step less the lead every row brings, the history notice included) and `pb-timeline-end` (the section step less the last row's inset) under the last row. `timeline-turn` and `timeline-lead` are for the components; adding them up in a product is how the old gaps drifted.
 
 ```tokens
 timeline
 ```
+
+## Edges fade
+
+Where content is cut, by a fold or by the edge of a strip that scrolls, its edge fades out instead of stopping on a hard line, so the cut reads as "there is more" and not as a clipped line. A fade has two lengths and no others:
+
+| Length | Value | Utility | For |
+| --- | --- | --- | --- |
+| Content (`fade-content`) | 48px, about two lines | `mask-fade-b`, `mask-fade-t` | Content cut across its height: a long message or a forwarded bundle folded, a glimpse of hidden history |
+| Edge (`fade-edge`) | 24px | `mask-fade-x`, `mask-fade-b-edge`, `mask-fade-t-edge` | The sides of a strip that scrolls sideways (tabs, a row of slots), and a fold too short to give 48px to the fade |
+
+- **A fade is a mask, never a color gradient.** The utilities fade the content itself (`mask-image`), so whatever lies behind it, a row's hover or located fill, a card, a tint, shows through the fade unchanged. A gradient from the surface's color to transparent only matches one background, and bands over every other.
+- **`mask-fade-x` fades only the side that hides something.** It reads `data-overflow` on the same element, `start`, `end` or `both`, and draws no mask without it, so a strip that fits has no fade. The component that scrolls sets the attribute (Tabs does).
+- **Put the mask on the box that is cut.** `mask-fade-b` goes on the element with the fold's `max-height` and `overflow-clip`, not on a layer laid over it.
+- One exception: the end of a message list fades with `MessageListEndFade`, a layer of the panel's color over the list's bottom edge ([Timeline rhythm](#timeline-rhythm)). It lies beside the scrolling list, on the panel's own colour, under the jump controls, and a mask on the list's viewport would fade its scrollbar too.
 
 ## Hit targets
 

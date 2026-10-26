@@ -100,7 +100,7 @@ const lightbox = tv({
     ],
     thumbnailOverlay: [
       "pointer-events-none absolute inset-0 block transition-colors duration-150",
-      "bg-black/45 group-hover/lightbox-thumb:bg-black/28",
+      "bg-layer-backdrop-nested group-hover/lightbox-thumb:bg-layer-backdrop-nested/70",
       "group-data-active/lightbox-thumb:bg-transparent",
     ],
     close: ["pointer-events-auto"],

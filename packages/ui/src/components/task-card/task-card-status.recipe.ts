@@ -4,7 +4,7 @@ export const taskCardStatus = tv({
   base: [
     "inline-flex min-w-0 shrink-0 touch-manipulation items-center",
     "transition-[filter,opacity] duration-100 outline-none",
-    "data-[busy=true]:pointer-events-none data-[busy=true]:cursor-wait data-[busy=true]:opacity-60 data-[busy=true]:disabled:opacity-100",
+    "data-[busy=true]:pointer-events-none data-[busy=true]:cursor-wait data-[busy=true]:opacity-dimmed data-[busy=true]:disabled:opacity-100",
     "h-[22px] gap-1.5 rounded-chip border-0 px-[7px] py-0",
     "font-sans text-[12px] leading-4 font-semibold text-foreground",
     "[&:not(:has([data-slot=task-card-status-label]))]:hidden",

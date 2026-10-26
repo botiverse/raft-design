@@ -49,7 +49,7 @@ The sticker tab is the default, and the one the product ships: a selected tab sa
 
 - When the tabs don't fit, the row scrolls on its own. Tabs never wrap onto a second line and never shrink their text.
 - The row shows no scrollbar, and a vertical mouse wheel scrolls it sideways.
-- The side that hides tabs fades out over 32px.
+- The side that hides tabs fades out over the edge fade, 24px (`mask-fade-x`, [Edges fade](../../../../../design/foundations/spacing.md#edges-fade)). It was 32px; it now matches every strip that scrolls sideways.
 - The selected tab always scrolls into view.
 - In a `SortableTabsList`, dragging a tab follows [Drag and drop](../../../../../design/patterns/drag-and-drop.md): a lifted copy of the tab follows the hand, the tab stays at 40% until it moves, its slot becomes the dashed place and the other tabs slide apart, and a drop or a cancel glides in 160ms. A mouse picks a tab up after 6px; a finger after a 500ms hold. The lifted copy renders in `document.body` (`container` to change it), so a drawer's or a dialog's transform doesn't offset it.
 
