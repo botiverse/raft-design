@@ -69,8 +69,8 @@ task-board/compositions/task-board-virtualization
 
 - Each column is a Base UI `Collapsible` rendered as a `section`; its trigger is a button with `aria-expanded`.
 - Give each column an accessible name: the status name in the trigger, or `aria-label` on the section.
-- Cards can be moved with the keyboard: the drag parts use dnd-kit's keyboard sensor (Space to pick up, the arrow keys to move, Space to drop, Escape to cancel).
-- Announce each move in a polite live region: "Task #25 moved to In Review". The board doesn't announce on its own.
+- Cards can be moved with the keyboard: Space picks a card up, the arrow keys move it, Space drops it and Escape puts it back. Enter opens the card ([Drag and drop](../../../../../design/patterns/drag-and-drop.md#keyboard)).
+- Announce each step by name: "Picked up Task #25. Over Todo." "Dropped Task #25 in In Review." Pass the card's and the status's names to `TaskDndProvider`'s `describe`; the board composition shows how. The board doesn't announce on its own, and without `describe` nothing is announced.
 
 ## Rules
 

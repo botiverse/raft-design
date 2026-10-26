@@ -10,15 +10,10 @@ export const taskDnd = tv({
       "rounded-container",
       "focus-visible:shadow-focus",
     ],
-    overlay: [
-      "group/task-drag-overlay pointer-events-none",
-      "z-20",
-      "**:data-[slot=task-card]:shadow-float",
-    ],
+    overlay: ["group/task-drag-overlay pointer-events-none", "size-full rounded-[inherit]"],
     placeholder: [
       "hidden w-full shrink-0",
       "h-(--task-dnd-placeholder-height,72px) rounded-container",
-      "border-[1.5px] border-dashed border-line-strong bg-transparent",
       "data-[drop-state=allowed]:block",
     ],
   },

@@ -546,7 +546,7 @@
   {
     "name": "SortableComposerAttachment",
     "entry": "@botiverse/raft-ui",
-    "description": "Sized placeholder stays in the flex flow (opacity 0). DragOverlay is the pointer ghost — the root reads these `children` for it. Live draft reorder moves this slot to the drop index; wrap skips strategy transforms so siblings FLIP via layout instead of wrong gaps.",
+    "description": "The lifted attachment's own slot stays in the flex flow: at 40% while it is still home, the dashed place once it stands anywhere else. DragLift holds the copy that follows the hand; the root reads these `children` for it. Live draft reorder moves this slot to the drop index; wrap skips strategy transforms so siblings FLIP via layout instead of wrong gaps.",
     "native": false,
     "props": [
       {
@@ -582,9 +582,23 @@
         "from": "raft-ui"
       },
       {
+        "name": "container",
+        "type": "Element | DocumentFragment",
+        "required": false,
+        "description": "Where the lifted copy renders: `document.body` by default, so a transformed ancestor (a drawer, a dialog) doesn't offset it. `null` renders it in place.",
+        "from": "raft-ui"
+      },
+      {
         "name": "items",
         "type": "readonly string[]",
         "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "messages",
+        "type": "Partial<DragMessages>",
+        "required": false,
+        "description": "Your translations of the drag's instructions and announcements. Each step is said by the attachment's `label` and its position; never by its id.",
         "from": "raft-ui"
       },
       {
@@ -608,9 +622,23 @@
         "from": "raft-ui"
       },
       {
+        "name": "container",
+        "type": "Element | DocumentFragment",
+        "required": false,
+        "description": "Where the lifted copy renders: `document.body` by default, so a transformed ancestor (a drawer, a dialog) doesn't offset it. `null` renders it in place.",
+        "from": "raft-ui"
+      },
+      {
         "name": "items",
         "type": "readonly string[]",
         "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "messages",
+        "type": "Partial<DragMessages>",
+        "required": false,
+        "description": "Your translations of the drag's instructions and announcements. Each step is said by the attachment's `label` and its position; never by its id.",
         "from": "raft-ui"
       },
       {

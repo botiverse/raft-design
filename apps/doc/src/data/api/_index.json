@@ -239,7 +239,7 @@
       "SortableComposerAttachmentsScroll"
     ],
     "status": "stable",
-    "description": "Sized placeholder stays in the flex flow (opacity 0). DragOverlay is the pointer ghost — the root reads these `children` for it. Live draft reorder moves this slot to the drop index; wrap skips strategy transforms so siblings FLIP via layout instead of wrong gaps."
+    "description": "The lifted attachment's own slot stays in the flex flow: at 40% while it is still home, the dashed place once it stands anywhere else. DragLift holds the copy that follows the hand; the root reads these `children` for it. Live draft reorder moves this slot to the drop index; wrap skips strategy transforms so siblings FLIP via layout instead of wrong gaps."
   },
   "context-menu": {
     "names": [
@@ -320,6 +320,18 @@
     ],
     "status": "stable",
     "description": "The section list of a wide (`size=\"wide\"`) dialog, inside a `bar` body."
+  },
+  "drag": {
+    "names": [
+      "DragRemeasure",
+      "DragLift",
+      "DragRefusalHint",
+      "DropPlaceholder",
+      "DragLiveRegion",
+      "DraggedSlot"
+    ],
+    "status": "experimental",
+    "description": "Measures every drop target again once an item's move into another list has rendered. dnd-kit's own observers skip targets whose size didn't change, even when they moved. Render it inside the `DndContext`."
   },
   "drawer": {
     "names": [
@@ -1275,7 +1287,8 @@
       "TaskDropPlaceholder",
       "TaskDropZone"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "The copy of the dragged card that follows the hand: a `DragLift` with the card's radius. On a drop it glides into the card's new place, and on a cancel back home. While it is rendered, the dragged card stays in its place at 40% instead of moving."
   },
   "task-list": {
     "names": [

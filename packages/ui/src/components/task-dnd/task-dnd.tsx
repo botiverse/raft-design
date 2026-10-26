@@ -1,18 +1,12 @@
 "use client";
 
-import { useHoldThenMoveTouchSensor, useMouseOnlyPointerSensor } from "../../lib/touch-drag";
-
 import {
   closestCorners,
   DndContext,
-  DragOverlay,
   getFirstCollision,
   KeyboardCode,
-  KeyboardSensor,
   useDraggable,
   useDroppable,
-  useSensor,
-  useSensors,
 } from "@dnd-kit/core";
 import type {
   ClientRect,
@@ -25,6 +19,7 @@ import type {
   DroppableContainer,
   KeyboardCoordinateGetter,
   UniqueIdentifier,
+  useSensors,
 } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { mergeProps } from "@base-ui/react/merge-props";
@@ -33,12 +28,22 @@ import {
   createContext,
   use,
   useCallback,
+  useEffect,
   useId,
   useMemo,
   useState,
   useSyncExternalStore,
 } from "react";
 import type { ComponentPropsWithRef, CSSProperties, Ref, ReactNode } from "react";
+import { DragLift } from "../drag/drag-lift";
+import {
+  createDragAnnouncements,
+  dragInstructions,
+  SILENT_DRAG_ANNOUNCEMENTS,
+} from "../drag/drag-announcements";
+import type { DragAnnouncementSource, DragMessages } from "../drag/drag-announcements";
+import { useDragSensors } from "../drag/drag-sensors";
+import { drag } from "../drag/drag.recipe";
 import { taskDnd } from "./task-dnd.recipe";
 
 export type TaskDropState = "idle" | "allowed" | "blocked";
@@ -47,7 +52,12 @@ export type TaskDropData = Record<string, unknown>;
 
 type TaskDndContextValue = {
   activeId: UniqueIdentifier | null;
+  /** The drop target of the dragged card itself: over it, the card would stay where it is. */
+  activeDropId: UniqueIdentifier | null;
   activeHeight: number | null;
+  /** A TaskDragOverlay is rendered: its copy follows the hand, and the card stays in place. */
+  overlay: boolean;
+  setOverlay: (mounted: boolean) => void;
   isDropAllowed: (
     activeId: UniqueIdentifier,
     overId: UniqueIdentifier,
@@ -88,6 +98,16 @@ export type TaskDndAccessibility = NonNullable<DndContextProps["accessibility"]>
 
 export type TaskDndProviderProps = {
   children: ReactNode;
+  /**
+   * The card and the places it can go, in words, for the screen-reader
+   * announcements: `name` (the card's title, never its id), `place` (the
+   * status or column and the position) and `refusal`. Without it nothing is
+   * announced, so no id is ever read out.
+   */
+  describe?: DragAnnouncementSource;
+  /** Your translations of the announcements and instructions. */
+  messages?: Partial<DragMessages>;
+  /** Passed to dnd-kit's `DndContext` as is, over the announcements built from `describe`. */
   accessibility?: TaskDndAccessibility;
   disabled?: boolean;
   isDropAllowed?: (
@@ -106,6 +126,8 @@ export type TaskDndProviderProps = {
 
 export function TaskDndProvider({
   children,
+  describe,
+  messages,
   accessibility,
   disabled = false,
   isDropAllowed = allowTaskDrop,
@@ -119,24 +141,36 @@ export function TaskDndProvider({
 }: TaskDndProviderProps) {
   const id = useId();
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
+  const [activeDropId, setActiveDropId] = useState<UniqueIdentifier | null>(null);
   const [activeHeight, setActiveHeight] = useState<number | null>(null);
+  const [overlay, setOverlay] = useState(false);
   const [overStore] = useState(createTaskDndOverStore);
-  const sensors = useSensors(
-    useMouseOnlyPointerSensor(5),
-    useHoldThenMoveTouchSensor(),
-    useSensor(KeyboardSensor, { coordinateGetter: taskKeyboardCoordinates }),
+  const sensors = useDragSensors({ coordinateGetter: taskKeyboardCoordinates });
+  const resolvedAccessibility = useMemo<TaskDndAccessibility>(
+    () => ({
+      screenReaderInstructions: dragInstructions(messages),
+      announcements: describe
+        ? createDragAnnouncements(describe, messages)
+        : SILENT_DRAG_ANNOUNCEMENTS,
+      ...accessibility,
+    }),
+    [accessibility, describe, messages],
   );
   const context = useMemo(
     () =>
       ({
         activeId,
+        activeDropId,
         activeHeight,
         isDropAllowed,
+        overlay,
+        setOverlay,
       }) satisfies TaskDndContextValue,
-    [activeHeight, activeId, isDropAllowed],
+    [activeDropId, activeHeight, activeId, isDropAllowed, overlay],
   );
   const reset = useCallback(() => {
     setActiveId(null);
+    setActiveDropId(null);
     setActiveHeight(null);
     overStore.update(EMPTY_OVER_SNAPSHOT);
   }, [overStore]);
@@ -145,6 +179,7 @@ export function TaskDndProvider({
     (event: DragStartEvent) => {
       overStore.update(EMPTY_OVER_SNAPSHOT);
       setActiveId(event.active.id);
+      setActiveDropId(getOwnDropId(event.active.data.current));
       setActiveHeight(event.active.rect.current.initial?.height ?? null);
       onDragStart?.(event);
     },
@@ -188,7 +223,12 @@ export function TaskDndProvider({
       const nextActiveId = event.active.id;
       const nextOverId = event.over?.id;
       const nextOverData = event.over?.data.current as TaskDropData | undefined;
-      if (nextOverId != null && isDropAllowed(nextActiveId, nextOverId, nextOverData)) {
+      const ownDropId = getOwnDropId(event.active.data.current);
+      if (
+        nextOverId != null &&
+        nextOverId !== ownDropId &&
+        isDropAllowed(nextActiveId, nextOverId, nextOverData)
+      ) {
         const details = {
           activeId: nextActiveId,
           overId: nextOverId,
@@ -208,7 +248,8 @@ export function TaskDndProvider({
   return (
     <DndContext
       id={id}
-      accessibility={accessibility}
+      accessibility={resolvedAccessibility}
+      autoScroll={!overlay}
       sensors={disabled ? NO_SENSORS : sensors}
       onDragStart={handleDragStart}
       onDragMove={handleDragMove}
@@ -243,17 +284,23 @@ export function TaskDraggable({
   ...props
 }: TaskDraggableProps) {
   const { draggable } = taskDnd();
+  const context = use(TaskDndContext);
+  const ownDrop = useMemo(() => (dropId == null ? undefined : { [OWN_DROP_ID]: dropId }), [dropId]);
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id,
     disabled,
+    data: ownDrop,
   });
+  // With a TaskDragOverlay the copy follows the hand and the card stays in
+  // place, faded, until it drops; without one the card itself moves.
+  const lifted = isDragging && context?.overlay === true;
   const { setNodeRef: setDropNodeRef, isOver: isDropOver } = useDroppable({
     id: dropId ?? id,
     data: dropData,
     disabled: dropId == null || dropDisabled,
   });
   const dragStyle: CSSProperties = {
-    transform: CSS.Translate.toString(transform),
+    transform: lifted ? undefined : CSS.Translate.toString(transform),
     ...style,
   };
   const mergedRef = useCallback(
@@ -272,6 +319,7 @@ export function TaskDraggable({
       ref={mergedRef}
       data-slot="task-draggable"
       data-dragging={isDragging ? "true" : undefined}
+      data-drag-origin={lifted ? "" : undefined}
       data-drop-over={isDropOver ? "true" : undefined}
       data-disabled={disabled ? "true" : undefined}
       className={draggable({ className })}
@@ -326,6 +374,7 @@ export function TaskDropPlaceholder({
   const context = use(TaskDndContext);
   const overStore = use(TaskDndOverContext) ?? EMPTY_OVER_STORE;
   const { placeholder } = taskDnd();
+  const { placeholder: dropPlaceholder } = drag();
   const dropState = useSyncExternalStore<TaskDropState>(
     overStore.subscribe,
     () => getPlaceholderDropState(context, overStore.getSnapshot(), id, placement),
@@ -346,7 +395,7 @@ export function TaskDropPlaceholder({
       "aria-hidden": true,
       "data-slot": "task-drop-placeholder",
       "data-drop-state": dropState,
-      className: placeholder({ className }),
+      className: dropPlaceholder({ className: placeholder({ className }) }),
       style: placeholderStyle,
       ...props,
     },
@@ -356,20 +405,41 @@ export function TaskDropPlaceholder({
 export type TaskDragOverlayProps = {
   children?: ReactNode;
   className?: string;
+  /** Render the copy in another element, such as `document.body` when an ancestor has a transform. */
+  container?: Element | DocumentFragment | null;
 };
 
-export function TaskDragOverlay({ children, className }: TaskDragOverlayProps) {
+/**
+ * The copy of the dragged card that follows the hand: a `DragLift` with the
+ * card's radius. On a drop it glides into the card's new place, and on a
+ * cancel back home. While it is rendered, the dragged card stays in its place
+ * at 40% instead of moving.
+ */
+export function TaskDragOverlay({ children, className, container }: TaskDragOverlayProps) {
   const { overlay } = taskDnd();
+  const setOverlay = use(TaskDndContext)?.setOverlay;
+  useEffect(() => {
+    if (!setOverlay) return;
+    setOverlay(true);
+    return () => setOverlay(false);
+  }, [setOverlay]);
 
   return (
-    <DragOverlay dropAnimation={null}>
+    <DragLift className="rounded-container" container={container}>
       {children == null ? null : (
         <div data-slot="task-drag-overlay" data-dragging="true" className={overlay({ className })}>
           {children}
         </div>
       )}
-    </DragOverlay>
+    </DragLift>
   );
+}
+
+const OWN_DROP_ID = "taskDndDropId";
+
+function getOwnDropId(data: Record<string, unknown> | undefined): UniqueIdentifier | null {
+  const value = data?.[OWN_DROP_ID];
+  return typeof value === "string" || typeof value === "number" ? value : null;
 }
 
 /**
@@ -490,6 +560,8 @@ function getPlaceholderDropState(
   id: UniqueIdentifier,
   placement: TaskDropPlacement | undefined,
 ) {
+  // Over its own card the card would stay where it is: no place opens.
+  if (context?.activeDropId != null && context.activeDropId === id) return "idle";
   const isOver = over.overId === id && (placement == null || over.overPlacement === placement);
   return getDropState(context, id, isOver, over.overData);
 }

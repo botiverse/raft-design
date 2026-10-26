@@ -8,6 +8,8 @@ import {
   TaskDropZone,
 } from "./task-dnd";
 import type { TaskDndAccessibility, TaskMoveDetails } from "./task-dnd";
+import type { DragAnnouncementSource } from "../drag/drag-announcements";
+import { TaskCard } from "../task-card/task-card";
 
 export type TestStatus = "todo" | "done";
 export type TestCard = { id: string; status: TestStatus };
@@ -32,7 +34,9 @@ const OVERLAY_CARD_STYLE: CSSProperties = { height: 80 };
 /**
  * The TaskBoard shape: each column is a drop zone that takes drops only while
  * empty, each card is draggable and a drop target, a card leaves its column
- * while dragged and its copy in TaskDragOverlay is what moves.
+ * while dragged and its copy in TaskDragOverlay is what moves. With
+ * `keepActive` the dragged card stays in its column (at 40%, under the
+ * overlay), as the docs' board does.
  *
  * jsdom has no layout, so each node also declares its rect in `data-rect`
  * ("left top width height") for the jsdom test to read, and leaves the overlay
@@ -43,12 +47,16 @@ export function TestBoard({
   initial,
   onMove,
   accessibility,
+  describe,
   overlay = true,
+  keepActive = false,
 }: {
   initial: readonly TestCard[];
   onMove: (details: TaskMoveDetails) => void;
   accessibility?: TaskDndAccessibility;
+  describe?: DragAnnouncementSource;
   overlay?: boolean;
+  keepActive?: boolean;
 }) {
   const [cards, setCards] = useState(initial);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -70,6 +78,7 @@ export function TestBoard({
   return (
     <TaskDndProvider
       accessibility={accessibility}
+      describe={describe}
       onDragStart={handleDragStart}
       onDragEnd={clearActive}
       onDragCancel={clearActive}
@@ -77,7 +86,9 @@ export function TestBoard({
     >
       <div style={BOARD_STYLE}>
         {STATUSES.map((status) => {
-          const visible = cards.filter((card) => card.status === status && card.id !== activeId);
+          const visible = cards.filter(
+            (card) => card.status === status && (keepActive || card.id !== activeId),
+          );
           return (
             <TaskDropZone
               key={status}
@@ -117,6 +128,7 @@ function TestBoardCard({ card, index }: { card: TestCard; index: number }) {
       style={CARD_STYLE}
     >
       Card {card.id}
+      <TaskCard aria-hidden />
     </TaskDraggable>
   );
 }

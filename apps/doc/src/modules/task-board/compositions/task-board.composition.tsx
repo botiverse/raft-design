@@ -26,6 +26,8 @@ import {
   TaskDropPlaceholder,
   TaskDropZone,
 } from "@botiverse/raft-ui";
+import { DragRefusalHint } from "@botiverse/raft-ui/wip";
+import type { DragAnnouncementSource } from "@botiverse/raft-ui/wip";
 import type { TaskMoveDetails } from "@botiverse/raft-ui";
 import { ChevronDown } from "lucide-react";
 
@@ -170,10 +172,52 @@ export function TaskBoardComposition({
   const openTask = useCallback((task: TaskFixture) => {
     setAnnouncement(`Opened task #${task.taskNumber}: ${task.title}`);
   }, []);
+  const [refusal, setRefusal] = useState<string | null>(null);
   const handleDragStart = useCallback(({ active }: { active: { id: string | number } }) => {
     setActiveTaskId(String(active.id));
   }, []);
-  const clearActiveTask = useCallback(() => setActiveTaskId(null), []);
+  const clearActiveTask = useCallback(() => {
+    setActiveTaskId(null);
+    setRefusal(null);
+  }, []);
+  // A column that won't take the card says why by the hand, as its empty state does.
+  const handleDragOver = useCallback(
+    ({
+      active,
+      over,
+    }: {
+      active: { id: string | number };
+      over: { id: string | number; data: { current?: Record<string, unknown> } } | null;
+    }) => {
+      const overData = over?.data.current;
+      setRefusal(
+        over && isTaskDropTarget(overData) && !isDropAllowed(active.id, over.id, overData)
+          ? `Cannot move to ${getTaskStatusLabel(overData.status)}`
+          : null,
+      );
+    },
+    [isDropAllowed],
+  );
+  // Screen readers hear the task and the status by name, never an id.
+  const describe = useMemo<DragAnnouncementSource>(
+    () => ({
+      name: (id) => `Task #${tasks.find((task) => task.id === String(id))?.taskNumber ?? ""}`,
+      place: (id, overId) => {
+        const status =
+          overId == null
+            ? tasks.find((task) => task.id === String(id))?.status
+            : statusOfDropId(tasks, String(overId));
+        return status ? { place: getTaskStatusLabel(status) } : null;
+      },
+      refusal: (id, overId) => {
+        const status = statusOfDropId(tasks, String(overId));
+        return status && !isDropAllowed(id, overId, { status })
+          ? { place: getTaskStatusLabel(status), reason: "Cannot move there." }
+          : null;
+      },
+    }),
+    [isDropAllowed, tasks],
+  );
   const handleMove = useCallback(
     ({ activeId, overData, placement }: TaskMoveDetails) => {
       if (!isTaskDropTarget(overData)) return;
@@ -184,8 +228,8 @@ export function TaskBoardComposition({
         taskId: overData.taskId,
         placement,
       });
+      // The drop itself is announced by the drag's announcements.
       if (controlledTasks === undefined) setLocalTasks(next);
-      setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(overData.status)}`);
     },
     [controlledTasks, tasks],
   );
@@ -200,8 +244,10 @@ export function TaskBoardComposition({
       <ScrollAreaViewport className="p-4">
         <ScrollAreaContent className="min-w-max">
           <TaskDndProvider
+            describe={describe}
             isDropAllowed={isDropAllowed}
             onDragStart={handleDragStart}
+            onDragOver={handleDragOver}
             onDragCancel={clearActiveTask}
             onDragEnd={clearActiveTask}
             onMove={handleMove}
@@ -209,7 +255,6 @@ export function TaskBoardComposition({
             <TaskBoardRoot>
               {TASK_STATUSES.map((status) => {
                 const statusTasks = tasks.filter((task) => task.status === status.id);
-                const visibleTasks = statusTasks.filter((task) => task.id !== activeTaskId);
                 const columnDropId = `task-status:${status.id}`;
                 return (
                   <TaskBoardStatusColumn
@@ -217,7 +262,7 @@ export function TaskBoardComposition({
                     status={status.id}
                     dropId={columnDropId}
                     collapsed={collapsed[status.id]}
-                    dropDisabled={!collapsed[status.id] && visibleTasks.length > 0}
+                    dropDisabled={!collapsed[status.id] && statusTasks.length > 0}
                     onCollapsedChange={handleCollapsedChange}
                   >
                     <TaskBoardColumnTrigger>
@@ -233,7 +278,7 @@ export function TaskBoardComposition({
                     </TaskBoardColumnTrigger>
                     <TaskBoardColumnPanel>
                       <TaskBoardColumnItems>
-                        {visibleTasks.length === 0 ? (
+                        {statusTasks.length === 0 ? (
                           <>
                             <TaskBoardColumnEmpty>
                               <TaskBoardColumnEmptyIdle>
@@ -250,7 +295,7 @@ export function TaskBoardComposition({
                           </>
                         ) : (
                           <>
-                            {visibleTasks.map((task) => (
+                            {statusTasks.map((task) => (
                               <TaskBoardDraggableItem key={task.id} status={status.id} task={task}>
                                 <TaskCardComposition
                                   task={task}
@@ -279,6 +324,7 @@ export function TaskBoardComposition({
                 />
               )}
             </TaskDragOverlay>
+            {refusal ? <DragRefusalHint>{refusal}</DragRefusalHint> : null}
           </TaskDndProvider>
           <span className="sr-only" aria-live="polite">
             {announcement}
@@ -294,6 +340,16 @@ export function TaskBoardComposition({
       <ScrollAreaCorner />
     </ScrollArea>
   );
+}
+
+/** The status a drop target stands for: a column (`task-status:<status>`) or a card's (`task-item:<id>`). */
+function statusOfDropId(tasks: readonly TaskFixture[], dropId: string): TaskStatus | undefined {
+  if (dropId.startsWith("task-status:")) return dropId.slice("task-status:".length) as TaskStatus;
+  if (dropId.startsWith("task-item:")) {
+    const taskId = dropId.slice("task-item:".length);
+    return tasks.find((task) => task.id === taskId)?.status;
+  }
+  return undefined;
 }
 
 function isTaskDropTarget(value: Record<string, unknown> | undefined): value is {

@@ -9,7 +9,8 @@ const EXT = "build.botiverse.raft";
 
 type OklchValue = { colorSpace: "oklch"; components: [number, number, number]; alpha?: number };
 type DimensionValue = { value: number; unit: string };
-type RawValue = string | number | OklchValue | DimensionValue;
+type CubicBezierValue = [number, number, number, number];
+type RawValue = string | number | OklchValue | DimensionValue | CubicBezierValue;
 type RawToken = {
   $value: RawValue;
   $type?: string;
@@ -94,6 +95,7 @@ function formatValue(value: RawValue, mode: "light" | "dark", depth = 0): TokenV
     return { display: value };
   }
   if (typeof value === "number") return { display: String(value) };
+  if (Array.isArray(value)) return { display: `cubic-bezier(${value.join(", ")})` };
   if ("colorSpace" in value) {
     const hex = oklchToHex(value.components);
     return {

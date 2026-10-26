@@ -8,12 +8,20 @@
         "name": "accessibility",
         "type": "{ announcements?: Announcements; container?: Element; restoreFocus?: boolean; screenReaderInstructions?: ScreenReaderInstructions; }",
         "required": false,
+        "description": "Passed to dnd-kit's `DndContext` as is, over the announcements built from `describe`.",
         "from": "raft-ui"
       },
       {
         "name": "children",
         "type": "ReactNode",
         "required": true,
+        "from": "raft-ui"
+      },
+      {
+        "name": "describe",
+        "type": "DragAnnouncementSource",
+        "required": false,
+        "description": "The card and the places it can go, in words, for the screen-reader announcements: `name` (the card's title, never its id), `place` (the status or column and the position) and `refusal`. Without it nothing is announced, so no id is ever read out.",
         "from": "raft-ui"
       },
       {
@@ -28,6 +36,13 @@
         "type": "(activeId: UniqueIdentifier, overId: UniqueIdentifier, overData: TaskDropData | undefined) => boolean",
         "required": false,
         "default": "allowTaskDrop",
+        "from": "raft-ui"
+      },
+      {
+        "name": "messages",
+        "type": "Partial<DragMessages>",
+        "required": false,
+        "description": "Your translations of the announcements and instructions.",
         "from": "raft-ui"
       },
       {
@@ -77,12 +92,20 @@
   {
     "name": "TaskDragOverlay",
     "entry": "@botiverse/raft-ui",
+    "description": "The copy of the dragged card that follows the hand: a `DragLift` with the card's radius. On a drop it glides into the card's new place, and on a cancel back home. While it is rendered, the dragged card stays in its place at 40% instead of moving.",
     "native": false,
     "props": [
       {
         "name": "children",
         "type": "ReactNode",
         "required": false,
+        "from": "raft-ui"
+      },
+      {
+        "name": "container",
+        "type": "Element | DocumentFragment",
+        "required": false,
+        "description": "Render the copy in another element, such as `document.body` when an ancestor has a transform.",
         "from": "raft-ui"
       }
     ]

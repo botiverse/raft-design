@@ -126,7 +126,7 @@ On a touch screen one long press can mean two things on an item that can be move
 - Let go of the item if the finger moves more than 10px before the 500ms are up (that was a scroll), or if a second finger comes down (a pinch).
 - Lifting the finger after the hold without moving leaves the menu open and moves nothing.
 - Close the item's menu when its drag starts. The component that owns the menu closes it: an app that puts its own menu on a draggable item closes it in the drag's `onDragStart` (`SortableTabsList` passes one through).
-- Use the same hold, distance and tolerance for everything that can be dragged by touch (sidebar rows, tabs, task cards, attachments in the composer): raft-ui's `useHoldThenMoveTouchSensor` carries them, next to a pointer sensor that leaves fingers to it. A mouse or a pen still starts a drag after 5–6px of movement, with no hold.
+- Use the same hold, distance and tolerance for everything that can be dragged by touch (sidebar rows, tabs, task cards, attachments in the composer): raft-ui's `useDragSensors` carries them (`useHoldThenMoveTouchSensor`, next to a pointer sensor that leaves fingers to it). A mouse or a pen still starts a drag after 6px of movement, with no hold. The rest of a drag, from the lifted copy to the drop, is in [Drag and drop](../patterns/drag-and-drop.md).
 - Don't let the held item select its text or open the platform's own callout (`select-none`, `-webkit-touch-callout: none`), and keep it scrollable (`touch-manipulation`, not `touch-none`).
 
 ## Autofill
@@ -141,3 +141,4 @@ A field the browser filled in (a saved email or password) looks like any other f
 - [Color](./color.md): the tokens named here.
 - [Elevation](./elevation.md): the focus ring.
 - [Feedback](../patterns/feedback.md): where errors go, by scope.
+- [Drag and drop](../patterns/drag-and-drop.md): the whole drag, from pick-up to drop.

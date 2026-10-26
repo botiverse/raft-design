@@ -4,13 +4,14 @@ import {
   useCallback,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
-import type { ComponentPropsWithRef, CSSProperties } from "react";
+import type { ComponentPropsWithRef, CSSProperties, KeyboardEvent, ReactNode } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
-import { closestCenter, DndContext, useSensors } from "@dnd-kit/core";
+import { closestCenter, DndContext } from "@dnd-kit/core";
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -19,7 +20,11 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useHoldThenMoveTouchSensor, useMouseOnlyPointerSensor } from "../../lib/touch-drag";
+import { DragLift, useDragSiblingTransition, useLiftContainer } from "../drag/drag-lift";
+import { createDragAnnouncements, dragInstructions } from "../drag/drag-announcements";
+import type { DragAnnouncementSource, DragMessages } from "../drag/drag-announcements";
+import { useDragSensors } from "../drag/drag-sensors";
+import { DropPlaceholder } from "../drag/drop-placeholder";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -155,6 +160,10 @@ const TabsPlacementContext = createContext<TabsPlacement>("top");
 type TabsReorderContextValue = {
   enabled: boolean;
   activeId?: string | undefined;
+  /** Each sortable tab's content, for the copy that follows the hand. */
+  copies?: Map<string, ReactNode>;
+  /** Each sortable tab's node, for its name in the announcements. */
+  nodes?: Map<string, HTMLElement>;
 };
 
 const TabsReorderContext = createContext<TabsReorderContextValue>({ enabled: false });
@@ -330,12 +339,68 @@ export type SortableTabsListProps<T extends string = string> = TabsListProps & {
    *  have opened a menu the caller owns: close it here (DS › States ›
    *  Dragging on a touch screen). */
   onDragStart?: (value: T) => void;
+  /**
+   * Your translations of the drag's instructions and announcements. Each step
+   * is said by the tab's name (its `aria-label` or text) and its position in
+   * the row, named after the list's `aria-label`; never by its value.
+   */
+  messages?: Partial<DragMessages>;
+  /**
+   * Where the lifted copy renders: `document.body` by default, so a
+   * transformed ancestor (a drawer, a dialog) doesn't offset it. `null`
+   * renders it in place.
+   */
+  container?: Element | DocumentFragment | null;
 };
+
+/** What people call a tab: its `aria-label`, or its text. */
+function tabName(node: HTMLElement | undefined) {
+  if (!node) return "";
+  return (node.getAttribute("aria-label") ?? node.textContent ?? "").replace(/\s+/g, " ").trim();
+}
+
+/** What people call the row a tab is in: the tab list's accessible name, or nothing. */
+function tabListName(node: HTMLElement | undefined) {
+  const list = node?.closest<HTMLElement>("[role=tablist]");
+  if (!list) return "";
+  const label = list.getAttribute("aria-label");
+  if (label) return label.trim();
+  const ids = list.getAttribute("aria-labelledby")?.split(/\s+/).filter(Boolean) ?? [];
+  return ids
+    .map((id) => list.ownerDocument.getElementById(id)?.textContent?.trim() ?? "")
+    .filter(Boolean)
+    .join(" ");
+}
+
+/**
+ * A tab is said by its name, at its position in the row: a drop on a tab
+ * takes its place, and with nothing under the hand the tab is home. Read
+ * when dnd-kit announces, never while rendering.
+ */
+function tabAnnouncementSource(
+  positions: Map<string, number>,
+  nodes: Map<string, HTMLElement>,
+): DragAnnouncementSource {
+  return {
+    name: (id) => tabName(nodes.get(String(id))),
+    place: (id, overId) => {
+      const index = positions.get(String(overId ?? id));
+      if (index == null) return null;
+      return {
+        place: tabListName(nodes.get(String(id))),
+        position: index + 1,
+        count: positions.size,
+      };
+    },
+  };
+}
 
 export function SortableTabsList<T extends string = string>({
   value,
   onReorder,
   onDragStart,
+  messages,
+  container,
   children,
   variant = "default",
   ...props
@@ -345,11 +410,40 @@ export function SortableTabsList<T extends string = string>({
   // Stable id keeps dnd-kit's aria-describedby deterministic across SSR/client
   // (its internal counter-based id otherwise mismatches and breaks hydration).
   const dndContextId = useId();
-  const sensors = useSensors(useMouseOnlyPointerSensor(6), useHoldThenMoveTouchSensor());
+  const sensors = useDragSensors();
+  const [copies] = useState(() => new Map<string, ReactNode>());
+  const [nodes] = useState(() => new Map<string, HTMLElement>());
+  const liftContainer = useLiftContainer(container);
+  const selectedValue = use(TabsValueContext);
+  const { tab: tabClassName, content: contentClassName } = tabs({ variant, placement });
   const tabIds = useMemo(() => value.map(String), [value]);
+  // Read by the announcements, which dnd-kit calls outside render.
+  // Each tab's index, for the announcements dnd-kit makes outside render.
+  const [positions] = useState(() => new Map<string, number>());
+  useLayoutEffect(() => {
+    positions.clear();
+    tabIds.forEach((id, index) => positions.set(id, index));
+  }, [positions, tabIds]);
+  const accessibility = useMemo(
+    () => ({
+      screenReaderInstructions: dragInstructions(messages),
+      announcements: createDragAnnouncements(tabAnnouncementSource(positions, nodes), messages),
+    }),
+    [messages, nodes, positions],
+  );
   const reorderContext = useMemo(
-    () => ({ enabled: true, activeId }) as const satisfies TabsReorderContextValue,
-    [activeId],
+    () => ({ enabled: true, activeId, copies, nodes }) as const satisfies TabsReorderContextValue,
+    [activeId, copies, nodes],
+  );
+  // While a tab is lifted the arrow keys and Space move and drop it: Base UI
+  // must not move focus or select another tab under it.
+  const { onKeyDown: onListKeyDown, ...listProps } = props;
+  const handleListKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLDivElement> & { preventBaseUIHandler?: () => void }) => {
+      onListKeyDown?.(event as never);
+      if (activeId !== undefined) event.preventBaseUIHandler?.();
+    },
+    [activeId, onListKeyDown],
   );
   const handleDragStart = useCallback(
     ({ active }: DragStartEvent) => {
@@ -376,6 +470,7 @@ export function SortableTabsList<T extends string = string>({
   return (
     <DndContext
       id={dndContextId}
+      accessibility={accessibility}
       autoScroll={false}
       sensors={sensors}
       collisionDetection={closestCenter}
@@ -392,11 +487,29 @@ export function SortableTabsList<T extends string = string>({
         }
       >
         <TabsReorderContext.Provider value={reorderContext}>
-          <TabsList variant={variant} {...props} data-sorting={activeId ? "true" : undefined}>
+          <TabsList
+            variant={variant}
+            {...listProps}
+            onKeyDown={handleListKeyDown}
+            data-sorting={activeId ? "true" : undefined}
+          >
             {children}
           </TabsList>
         </TabsReorderContext.Provider>
       </SortableContext>
+      <DragLift className="rounded-control" container={liftContainer}>
+        {activeId === undefined ? null : (
+          <span
+            data-slot="tabs-tab"
+            data-active={selectedValue === activeId ? "" : undefined}
+            className={tabClassName({ className: "pointer-events-none size-full" })}
+          >
+            <span data-slot="tabs-tab-content" className={contentClassName()}>
+              {copies.get(activeId)}
+            </span>
+          </span>
+        )}
+      </DragLift>
     </DndContext>
   );
 }
@@ -418,11 +531,37 @@ export function SortableTabsTab<T extends string = string>({
   const reorder = use(TabsReorderContext);
   const activeValue = use(TabsValueContext);
   const placement = use(TabsPlacementContext);
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: value,
-    disabled: !reorder.enabled,
-  });
+  const siblingTransition = useDragSiblingTransition();
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging, index, overIndex } =
+    useSortable({
+      id: value,
+      disabled: !reorder.enabled,
+      transition: siblingTransition,
+    });
   const isDraggingActive = isDragging && activeValue === String(value);
+  // The lifted tab's own slot: faded while it is still home, the dashed place
+  // once it stands anywhere else.
+  const home = overIndex < 0 || overIndex === index;
+  const copies = reorder.copies;
+  const key = String(value);
+  const { children } = props;
+  useLayoutEffect(() => {
+    if (!copies) return;
+    copies.set(key, children);
+    return () => {
+      copies.delete(key);
+    };
+  }, [copies, key, children]);
+  const nodes = reorder.nodes;
+  const sortableRef = useCallback(
+    (node: HTMLElement | null) => {
+      setNodeRef(node);
+      if (!nodes) return;
+      if (node) nodes.set(key, node);
+      else nodes.delete(key);
+    },
+    [setNodeRef, nodes, key],
+  );
   const baseStyle = typeof props.style === "function" ? undefined : props.style;
   const vertical = placement === "left" || placement === "right";
   const translate = vertical ? transform?.y : transform?.x;
@@ -438,8 +577,19 @@ export function SortableTabsTab<T extends string = string>({
       transition,
       zIndex: isDragging ? 20 : baseStyle?.zIndex,
       cursor: isDragging ? "grabbing" : "pointer",
+      ...(isDragging && !home ? PLACE_STYLE : null),
     }),
-    [baseStyle, vertical, translate, transition, isDragging],
+    [baseStyle, vertical, translate, transition, isDragging, home],
+  );
+  const { onKeyDown: onTabKeyDown } = props;
+  const { onKeyDown: onSortableKeyDown, ...sortableListeners } = listeners ?? {};
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLElement> & { preventBaseUIHandler?: () => void }) => {
+      onTabKeyDown?.(event as never);
+      if (reorder.activeId !== undefined) event.preventBaseUIHandler?.();
+      onSortableKeyDown?.(event);
+    },
+    [onTabKeyDown, onSortableKeyDown, reorder.activeId],
   );
 
   if (!reorder.enabled) {
@@ -451,26 +601,38 @@ export function SortableTabsTab<T extends string = string>({
   return (
     <TabsTabButton
       value={value}
-      sortableRef={setNodeRef}
+      sortableRef={sortableRef}
       {...props}
       data-dragging-active={isDraggingActive ? "true" : undefined}
       data-dragging-source={isDragging ? "true" : undefined}
+      data-drag-origin={isDragging && home ? "" : undefined}
       data-reorderable="true"
       style={style}
       {...sortableAttributes}
-      {...listeners}
+      {...sortableListeners}
+      onKeyDown={handleKeyDown}
+      dropPlace={isDragging && !home}
     />
   );
 }
 
+/** The lifted tab's slot away from home: none of the tab's own look, under the dashed place. */
+const PLACE_STYLE: CSSProperties = {
+  backgroundColor: "transparent",
+  borderColor: "transparent",
+  boxShadow: "none",
+};
+
 function TabsTabButton<T extends string = string>({
   value,
   sortableRef,
+  dropPlace = false,
   className,
   children,
   ...props
 }: TabsTabProps<T> & {
   sortableRef?: (node: HTMLElement | null) => void;
+  dropPlace?: boolean;
 }) {
   const variant = use(TabsListVariantContext);
   const placement = use(TabsPlacementContext);
@@ -484,9 +646,13 @@ function TabsTabButton<T extends string = string>({
       className={tab({ className })}
       {...props}
     >
-      <span data-slot="tabs-tab-content" className={content()}>
+      <span
+        data-slot="tabs-tab-content"
+        className={content({ className: dropPlace ? "invisible" : undefined })}
+      >
         {children}
       </span>
+      {dropPlace ? <DropPlaceholder className="absolute inset-0 z-10 rounded-control" /> : null}
     </BaseTabs.Tab>
   );
 }
