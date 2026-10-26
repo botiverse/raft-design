@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import { PointerSensor, TouchSensor, useSensor } from "@dnd-kit/core";
 import type { PointerSensorOptions, TouchSensorOptions } from "@dnd-kit/core";
+import { eventWindow, holdEscape, releaseEscape } from "./drag-escape";
 
 /**
  * How a finger picks up something that can be dragged
@@ -44,7 +45,7 @@ type Point = { x: number; y: number };
 type SensorInternals = {
   activated: boolean;
   initialCoordinates: Point | null;
-  props: { options: HoldThenMoveOptions };
+  props: { options: HoldThenMoveOptions; event: Event };
   handleStart(): void;
   handleCancel(): void;
 };
@@ -64,7 +65,26 @@ function farther(from: Point, to: Point, limit: number) {
   return Math.hypot(to.x - from.x, to.y - from.y) > limit;
 }
 
-type SensorMethods = { attach(): void; detach(): void; handleMove(event: Event): void };
+type SensorMethods = {
+  attach(): void;
+  detach(): void;
+  handleStart(): void;
+  handleMove(event: Event): void;
+};
+
+/**
+ * Once a pointer sensor's drag has started, Escape cancels it and reaches
+ * nothing else (`drag-escape.ts`): no app handler on the window, the document
+ * or an element hears it.
+ */
+function holdEscapeOnceActive(sensor: object) {
+  const self = sensor as SensorInternals;
+  if (self.activated) holdEscape(eventWindow(self.props.event), sensor, () => self.handleCancel());
+}
+
+function releaseEscapeOf(sensor: object) {
+  releaseEscape(eventWindow((sensor as SensorInternals).props.event), sensor);
+}
 
 class HoldThenMoveTouchSensorImpl extends (TouchSensor as unknown as new (
   ...args: never[]
@@ -88,6 +108,11 @@ class HoldThenMoveTouchSensorImpl extends (TouchSensor as unknown as new (
       }, holdMs),
     };
     holds.set(this, state);
+  }
+
+  handleStart() {
+    super.handleStart();
+    holdEscapeOnceActive(this);
   }
 
   handleMove(event: Event) {
@@ -121,6 +146,7 @@ class HoldThenMoveTouchSensorImpl extends (TouchSensor as unknown as new (
     const state = holds.get(this);
     if (state) clearTimeout(state.timer);
     holds.delete(this);
+    releaseEscapeOf(this);
     super.detach();
   }
 }
@@ -128,11 +154,9 @@ class HoldThenMoveTouchSensorImpl extends (TouchSensor as unknown as new (
 /** A TouchSensor that starts a drag on the first move after a still hold (see above). */
 export const HoldThenMoveTouchSensor = HoldThenMoveTouchSensorImpl as unknown as typeof TouchSensor;
 
-/**
- * dnd-kit's PointerSensor for a mouse and a pen only: a finger's pointerdown is
- * left to `HoldThenMoveTouchSensor`.
- */
-export class MouseOnlyPointerSensor extends PointerSensor {
+class MouseOnlyPointerSensorImpl extends (PointerSensor as unknown as new (
+  ...args: never[]
+) => SensorMethods) {
   static activators = [
     {
       eventName: "onPointerDown" as const,
@@ -142,7 +166,24 @@ export class MouseOnlyPointerSensor extends PointerSensor {
           : PointerSensor.activators[0].handler(event, options),
     },
   ];
+
+  handleStart() {
+    super.handleStart();
+    holdEscapeOnceActive(this);
+  }
+
+  detach() {
+    releaseEscapeOf(this);
+    super.detach();
+  }
 }
+
+/**
+ * dnd-kit's PointerSensor for a mouse and a pen only: a finger's pointerdown is
+ * left to `HoldThenMoveTouchSensor`. While it holds a drag, Escape puts the
+ * item back and reaches nothing else.
+ */
+export const MouseOnlyPointerSensor = MouseOnlyPointerSensorImpl as unknown as typeof PointerSensor;
 
 /**
  * `useSensor(HoldThenMoveTouchSensor, …)` with the activation the sensor relies

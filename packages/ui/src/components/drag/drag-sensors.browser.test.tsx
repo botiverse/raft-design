@@ -113,6 +113,71 @@ it("Escape during a mouse drag puts the item back", async () => {
   expect(onDragEnd).not.toHaveBeenCalled();
 });
 
+/**
+ * The Escape handlers an app has: a panel or a dialog that closes on Escape
+ * listens on the window or the document, in either phase.
+ */
+function appEscapes() {
+  const heard = vi.fn();
+  const listener = (event: KeyboardEvent) => {
+    if (event.key === "Escape") heard();
+  };
+  const targets = [window, document] as const;
+  for (const target of targets) {
+    target.addEventListener("keydown", listener as EventListener);
+    target.addEventListener("keydown", listener as EventListener, { capture: true });
+  }
+  const remove = () => {
+    for (const target of targets) {
+      target.removeEventListener("keydown", listener as EventListener);
+      target.removeEventListener("keydown", listener as EventListener, { capture: true });
+    }
+  };
+  return { heard, remove };
+}
+
+it("Escape during a mouse drag only puts the item back: no app handler hears it", async () => {
+  const app = appEscapes();
+  try {
+    const { onDragStart, onDragCancel, onDragEnd, x, y } = setup();
+    await mouse("mousePressed", x, y);
+    await mouse("mouseMoved", x + 20, y + 20);
+    await wait(30);
+    expect(onDragStart).toHaveBeenCalledTimes(1);
+    await key("{Escape}");
+    expect(onDragCancel).toHaveBeenCalledTimes(1);
+    expect(app.heard).not.toHaveBeenCalled();
+    await mouse("mouseReleased", x + 20, y + 20);
+    expect(onDragEnd).not.toHaveBeenCalled();
+
+    // The drag is over: Escape is the app's again.
+    await key("{Escape}");
+    expect(app.heard).toHaveBeenCalled();
+    expect(onDragCancel).toHaveBeenCalledTimes(1);
+  } finally {
+    app.remove();
+  }
+});
+
+it("Escape during a keyboard drag only puts the item back: no app handler hears it", async () => {
+  const app = appEscapes();
+  try {
+    const { onDragStart, onDragCancel, onDragEnd } = setup();
+    screen.getByTestId("item").focus();
+    await key(" ");
+    expect(onDragStart).toHaveBeenCalledTimes(1);
+    await key("{Escape}");
+    expect(onDragCancel).toHaveBeenCalledTimes(1);
+    expect(onDragEnd).not.toHaveBeenCalled();
+    expect(app.heard).not.toHaveBeenCalled();
+
+    await key("{Escape}");
+    expect(app.heard).toHaveBeenCalled();
+  } finally {
+    app.remove();
+  }
+});
+
 it("Enter never picks the item up: it opens or activates it", async () => {
   const { onDragStart } = setup();
   screen.getByTestId("item").focus();

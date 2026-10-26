@@ -196,6 +196,42 @@ it("a keyboard drag sets the copy 6px off its place, so the place shows", async 
   await userEvent.keyboard("{Escape}");
 });
 
+it("Escape during a pointer drag glides the copy home, and no app Escape handler hears it", async () => {
+  const escapes = vi.fn();
+  const listener = (event: KeyboardEvent) => {
+    if (event.key === "Escape") escapes();
+  };
+  window.addEventListener("keydown", listener);
+  window.addEventListener("keydown", listener, { capture: true });
+  try {
+    const { x, y, onDragCancel, onDragEnd } = setup();
+    await pickUp(x, y);
+    await mouse("mouseMoved", x + 200, y + 150);
+    await wait(30);
+    const { userEvent } = await import("vite-plus/test/browser/context");
+    await userEvent.keyboard("{Escape}");
+    expect(onDragCancel).toHaveBeenCalledTimes(1);
+    expect(escapes).not.toHaveBeenCalled();
+    // Mid-glide the copy is on its way home, then the item shows there.
+    await wait(DRAG_SETTLE.duration / 3);
+    const copy = lift();
+    expect(copy).not.toBeNull();
+    expect(copy!.getBoundingClientRect().left).toBeLessThan(ITEM.left + 200);
+    await wait(DRAG_SETTLE.duration + 150);
+    expect(lift()).toBeNull();
+    expect(getComputedStyle(screen.getByTestId("item")).opacity).toBe("1");
+    await mouse("mouseReleased", x + 200, y + 150);
+    expect(onDragEnd).not.toHaveBeenCalled();
+
+    // The drag is over: Escape reaches the app again.
+    await userEvent.keyboard("{Escape}");
+    expect(escapes).toHaveBeenCalledTimes(2);
+  } finally {
+    window.removeEventListener("keydown", listener);
+    window.removeEventListener("keydown", listener, { capture: true });
+  }
+});
+
 it("the window losing focus cancels the drag", async () => {
   const { x, y, onDragCancel, onDragEnd } = setup();
   await pickUp(x, y);
