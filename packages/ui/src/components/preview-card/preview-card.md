@@ -45,7 +45,7 @@ The item card adds these parts, experimental and exported from `@botiverse/raft-
 - `PreviewCardBody`: the block with the id line, the title and the details row, 16px from the card's edges.
 - `PreviewCardEyebrow`: the id line above the title, in `foreground-muted` Space Mono, one line, truncated.
 - `PreviewCardMeta`: the row under the title: the state, in a neutral Badge, then a muted line of details. It wraps when it runs out of room.
-- `PreviewCardActions`: the row of up to two buttons.
+- `PreviewCardActions`: the row of up to two buttons; on an item card, a More menu after them holds the rest ([Buttons](#buttons)).
 - `PreviewCardFooter`: a caption under a hairline at the bottom: the app and the host.
 
 ## Item card
@@ -55,7 +55,7 @@ The card an app link opens on hover ([App links](../../../../../design/patterns/
 1. **Which item is it?** `PreviewCardEyebrow`: the app's id for it, such as `botiverse/slock#10449`. Optional.
 2. **What is it about?** `PreviewCardTitle`: the app's title in ink, up to 3 lines. Not in `foreground-link`: the card is not a link itself, its buttons and the chip are.
 3. **Where does it stand?** `PreviewCardMeta`: one state chip in the app's words, such as Merged, then one muted line of details, such as "Martin · +803 −498".
-4. **What can I do?** `PreviewCardActions`: up to two buttons the app provides, such as Open in Stamp.
+4. **What can I do?** `PreviewCardActions`: the buttons the app provides, such as Approve or Open in Stamp: up to two, and the rest in a More menu ([Buttons](#buttons)).
 5. **Who says so?** `PreviewCardFooter`: the app's name and the link's host, "Stamp · stamp.build".
 
 ```example
@@ -67,6 +67,16 @@ Before the reader has allowed the app, the chip stays gray with its address and 
 ```example
 preview-card/preview-card-app-prompt
 ```
+
+### Buttons
+
+An app may send more actions than fit. The row keeps the card's size and order:
+
+- The first two actions, in the order the app sends them, are buttons in the row, `default` or `ghost` as the app asks.
+- The rest are items of a [DropdownMenu](../dropdown-menu/dropdown-menu.md), in the same order, opened from a frameless More button (`variant="ghost"` at an icon size, a ⋯ icon, labelled More Actions) right after those two. The row never wraps them onto another line and never drops one.
+- A link to the app's own page, such as Open in Stamp, is not an action: it doesn't count toward the two and stays where the app puts it. When the row is full it goes on the next line.
+- While an action runs, the buttons and the menu's items are disabled and a line under them says In progress, with a [Spinner](../spinner/spinner.md). The More button stays enabled, so people can still see what is in it. An item the app has disabled shows its reason as a second line, since a menu item has no tooltip.
+- An action that asks to be confirmed opens an [AlertDialog](../alert-dialog/alert-dialog.md#variants) outside the card, its confirm button colored by what it does; the dialog names the app and its host under the details.
 
 ## Behavior
 
@@ -89,7 +99,7 @@ preview-card/preview-card-app-prompt
 ## Rules
 
 - Keep the card read-only: no fields, no choices. Something people fill in is a [Popover](../popover/popover.md).
-- Put at most two small buttons on it, colored as in a [Popover](../popover/popover.md#rules): never pink.
+- Put at most two small buttons on it, colored as in a [Popover](../popover/popover.md#rules): never pink. On an item card, the app's other actions go in a More menu after them; a link to the app's page doesn't count toward the two ([Buttons](#buttons)).
 - Show the item's state once, in the app's own words, in a neutral Badge (`appearance="soft"`): no status color and no status light. Which states an item has, and what they mean, is the app's concept, not Raft's; Raft's status colors and the status light mean task and presence states ([Status](../status/status.md#rules)), so mapping an app's "Merged" onto a task's "done" would put Raft's reading on the app's word.
 - A line the app marks as a warning (`tone: "warning"`, such as "2 checks failing") reads in `warning-strong`, as raft-ui's own warning lines do. This is Raft's color for a warning, not the app's for a state: the state's Badge stays neutral, and nothing else on the card is colored.
 - Put no colors of the app's on an item card: no brand color, no colored header. The app's icon on the chip is the only mark of its own.
