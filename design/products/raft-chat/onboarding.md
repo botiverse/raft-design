@@ -25,7 +25,7 @@ The steps, in order:
 4. **Choose your display style**.
 5. **The handoff**: the agent takes it from here.
 
-Steps 3 to 5 share one frame, 720px wide and about 520px high, so the dialog doesn't change size between them. It is the showcase frame, which only these steps and the Upgrade to Pro dialog use, outside the four Dialog sizes ([Dialog](../../../packages/ui/src/components/dialog/dialog.md#variants)). Every step has:
+Steps 3 to 5 share one frame, 720px wide and about 520px high, so the dialog doesn't change size between them. It is the showcase frame, which only these steps, the Upgrade to Pro dialog and Pro's Add seats dialog use, outside the four Dialog sizes ([Dialog](../../../packages/ui/src/components/dialog/dialog.md#variants)). Every step has:
 
 - **A header**: the step label "Set up your server" in Space Mono, the title in `text-title` and one line of explanation.
 - **A body** that scrolls inside the frame.
