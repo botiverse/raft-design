@@ -11,7 +11,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 ## Principles
 
 - **Identities and dots are square.** Avatars, workspace tiles, channel tiles, presence lights, attention dots and pixel spinners all use square pixels. A round dot or a ring spinner would be the one round mark among square pixels; the square pixel is the brand's own shape ([Principles](../principles/principles.md#6-square-is-raft)).
-- **Round only for switches, radios and grab handles.** Nothing else uses a full radius. A grab handle (the bar at a bottom sheet's top edge, the bar in a gap between side cards) is something to take hold of, and every platform draws it with round ends (the iOS sheet grabber, Material's drag handle). Square ends on a 4px bar read as a cut edge, not a handle.
+- **Round only for switches, radios and grab handles.** Nothing else uses a full radius. A grab handle (the bar at a bottom sheet's top edge, the grip bar on a side section's head) is something to take hold of, and every platform draws it with round ends (the iOS sheet grabber, Material's drag handle). Square ends on a 4px bar read as a cut edge, not a handle.
 - **Pull to refresh on Android web is a round disc, Android's own** (stdrc, 2026-10-23): Material's refresh indicator, so a pull feels like the platform's ([PullToRefresh](../../packages/ui/src/components/pull-to-refresh/pull-to-refresh.md#on-android)). It is the one round surface besides those above.
 - **Two stroke widths.** 1px for lines, 1.5px for every control, field and sticker.
 
@@ -22,7 +22,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 | `radius-sticker` | The pixel family: avatars, workspace tiles, channel tiles, checkboxes, badges, steps, skeletons; inline marks in running text (inline code, a mention of you, search hits, reference chips) |
 | `radius-chip` | Chips (value chips, the chips in a field, task status chips, reactions), tooltips, the highlighted item in a popup, and every control embedded in another component's frame ([Inside a frame](#inside-a-frame)) |
 | `radius-control` | Controls and selection stickers that stand on their own: buttons, inputs, selects, filters, segmented controls, tabs, sidebar rows, rail items, the tab bar's icon sticker, the workspace button |
-| `radius-container` | Containers: cards, inset groups, the composer, banners, menus, toasts, profile cards, file cards, the box of tasks under a message, side cards |
+| `radius-container` | Containers: cards, inset groups, the composer, banners, menus, toasts, profile cards, file cards, the box of tasks under a message |
 | `radius-dialog` | Dialogs, and the top corners of bottom sheets |
 | `rounded-full` | Switches, radios and grab handles; the Android pull-to-refresh disc |
 

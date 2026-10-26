@@ -35,14 +35,14 @@ The panels draw no surface, edge or padding. The region inside each panel draws 
 
 ## Variants
 
-| Variant   | Use for                                                                                                                                                                                 |
-| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| On a seam | Columns that meet at a seam: the sidebar and the main area, a conversation and its thread. The default, drawn by `ResizableHandle`                                                      |
-| In a gap  | Cards laid out in a panel with a 12px gap around them: the side cards beside a conversation ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)) |
+| Variant   | Use for                                                                                                                                                                                                                                                                             |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| On a seam | Columns that meet at a seam: the sidebar and the main area, a conversation and its thread, a channel's side columns and the sections stacked in them. The default, drawn by `ResizableHandle`                                                                                       |
+| In a gap  | Cards laid out in a panel with a 12px gap around them. No layout uses it today: the channel's side cards it was made for are now side sections in columns that meet at seams ([The channel's side columns](../../../../../design/patterns/responsive.md#the-channels-side-columns)) |
 
 ### The gap handle
 
-Cards laid out in a panel, such as the Tasks and Files cards beside a conversation, have no seam to drag: each card draws its own edge, and the 12px between it and its neighbor is empty. So the handle is the gap itself: the 12px left of the cards (the message list's own right padding) and the 12px between two stacked cards. A line drawn in the gap would be the seam the cards were laid out without, so the handle shows a short bar instead, which reads as a grip, not as an edge.
+Cards laid out in a panel have no seam to drag: each card draws its own edge, and the 12px between it and its neighbor is empty. So the handle is the gap itself: the 12px beside the cards and the 12px between two stacked cards. A line drawn in the gap would be the seam the cards were laid out without, so the handle shows a short bar instead, which reads as a grip, not as an edge.
 
 | State          | Look                                                                                                                                                                                                                                                                                                           |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -54,7 +54,7 @@ Cards laid out in a panel, such as the Tasks and Files cards beside a conversati
 - The bar follows the pointer because a gap has no line: the bar is the only thing that marks where the hand is, and a bar fixed in the middle of a long edge looks unrelated to the pointer. A touch has no hover to follow, so there the bar stays in the middle.
 - The hit area is the whole 12px gap along the card, 24px under a coarse pointer, so it takes no room from the cards. A double click puts the size back to its default.
 - Where two gaps cross, the 12px square where they meet (24px by touch) drags both at once with the move cursor, as at a grid's crossing, and hovering or dragging it lights both bars where they meet: the one along the crossing gap at the pointer, the other at its end against the corner. A double click on it resets both. The square is for the pointer only: each gap keeps its own keyboard handle, a focusable `separator` like a seam's.
-- `ResizableHandle` draws only the seam handle today; Raft Chat's side cards draw the gap handle themselves.
+- `ResizableHandle` draws only the seam handle today.
 
 ## States
 
@@ -79,7 +79,7 @@ These are the states of the handle on a seam; the gap handle's are in [The gap h
 A drag that reaches the end of a column's range and keeps going changes the layout's state instead of stopping: the column snaps to its next state, and that jump is how people know they went past the end (stdrc, 2026-10-23).
 
 - **The sidebar collapses.** Drag it to its minimum and 40px further toward the edge: it collapses at once, while the drag is still held.
-- **A thread goes to focus mode.** Drag the thread panel (where a task's conversation opens too) until the conversation is down to its 360px, then 40px further: it goes to its focus mode, the one its header's menu opens, at once. Only a panel that already has a focus mode snaps to it. The side cards and the profile or task side panel stop at the conversation's 360px: a focus mode made only to give a drag somewhere to go is a feature nobody asked for.
+- **A thread goes to focus mode.** Drag the thread panel (where a task's conversation opens too) until the conversation is down to its 360px, then 40px further: it goes to its focus mode, the one its header's menu opens, at once. Only a panel that already has a focus mode snaps to it. A channel's side columns and the profile or task side panel stop at the conversation's 360px (a Thread among the side columns stops where the others still stand, and 40px past that goes to focus mode): a focus mode made only to give a drag somewhere to go is a feature nobody asked for.
 - **It switches during the drag, not on release.** Dragging back across the line, still held, undoes it; releasing keeps whichever state is showing. A preview that only switches on release has no jump, and the jump is the point: VS Code's sidebar and macOS split views snap the same way.
 - **40px, not a touch.** The extra 40px keeps a drag that just reaches the end from snapping by accident.
 - **The width comes back.** The width the column had before it snapped is remembered, and expanding the sidebar or leaving focus mode (with its own control, as before) brings it back. A double click on the handle still resets to the default width.

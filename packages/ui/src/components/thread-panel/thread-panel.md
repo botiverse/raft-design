@@ -18,13 +18,13 @@ thread-panel/thread-panel
 
 ## When to use
 
-| Situation                                                | Use                                                                                                                                    |
-| -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| The replies to one message, read beside the conversation | ThreadPanel                                                                                                                            |
-| The conversation itself                                  | [ConversationPanel](../conversation-panel/conversation-panel.md)                                                                       |
-| A profile beside the conversation                        | A [Panel](../panel/panel.md) with `edge="attached"`                                                                                    |
-| A channel's tasks and files                              | Side cards inside the conversation's panel ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)) |
-| How a thread is reached from a message                   | [MessageReplies](../message-replies/message-replies.md)                                                                                |
+| Situation                                                | Use                                                                                                                                                    |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| The replies to one message, read beside the conversation | ThreadPanel                                                                                                                                            |
+| The conversation itself                                  | [ConversationPanel](../conversation-panel/conversation-panel.md)                                                                                       |
+| A profile beside the conversation                        | A [Panel](../panel/panel.md) with `edge="attached"`                                                                                                    |
+| A channel's tasks and files                              | Side sections in columns right of the conversation's panel ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)) |
+| How a thread is reached from a message                   | [MessageReplies](../message-replies/message-replies.md)                                                                                                |
 
 ## Anatomy
 

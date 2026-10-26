@@ -27,7 +27,7 @@ files/compositions/default
 
 In a Files card beside a conversation, list the files in the compact row the Tasks card uses ([Rows in a compact list](../../../../../design/patterns/tasks.md#rows-in-a-compact-list)): the type icon, the name and its size, then the compact time (15:00 today, Oct 21 this year, 2025-10-21 before) and the actions at the right, all on one line at the card's default 360px, with hairlines between rows instead of a card for each. Jump to Message lands on the message with the located highlight ([Located](../../../../../design/foundations/states.md#located)). `FileRow` is the card row of a full Files view and has no compact variant yet.
 
-Where the files of a place sit on a screen (a side card or the channel details) is in [Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place) and [Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel).
+Where the files of a place sit on a screen (a side section or the channel details) is in [Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place) and [Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel).
 
 ## Anatomy
 

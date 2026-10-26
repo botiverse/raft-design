@@ -26,7 +26,7 @@ tabs/compositions/placement
 | The steps of a flow, in order                   | [Steps](../steps/steps.md)                                                   |
 | A product's destinations                        | [AppRail](../app-rail/app-rail.md), [MobileNav](../mobile-nav/mobile-nav.md) |
 
-A place with several kinds of content, such as an agent, shows them as one row of sticker tabs under its header ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)). A channel's tasks and files are not tabs: they are side cards beside the conversation. Only when the cards float over the messages or cover the panel with both open does a Tasks / Files row of tabs switch between them ([Responsive layout](../../../../../design/patterns/responsive.md#structure)).
+A place with several kinds of content, such as an agent, shows them as one row of sticker tabs under its header ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)). A channel's tasks and files are not tabs: they are side sections beside the conversation. Only where a column is too short for two stacked sections, or the sections cover the panel, does a Tasks / Files row of tabs switch between them ([The channel's side columns](../../../../../design/patterns/responsive.md#the-channels-side-columns)).
 
 ## Anatomy
 

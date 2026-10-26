@@ -18,13 +18,13 @@ profile-panel/compositions/member-detail
 
 ## When to use
 
-| Situation                                                  | Use                                                                                                                                    |
-| ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Everything about one person or agent, read beside the chat | ProfilePanel                                                                                                                           |
-| Who someone is, on hover over their name or avatar         | A profile card ([PreviewCard](../preview-card/preview-card.md))                                                                        |
-| A list of members or agents                                | [ListRow](../list-row/list-row.md) rows                                                                                                |
-| Any other side panel                                       | [Panel](../panel/panel.md)                                                                                                             |
-| A channel's tasks and files                                | Side cards inside the conversation's panel ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)) |
+| Situation                                                  | Use                                                                                                                                                    |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Everything about one person or agent, read beside the chat | ProfilePanel                                                                                                                                           |
+| Who someone is, on hover over their name or avatar         | A profile card ([PreviewCard](../preview-card/preview-card.md))                                                                                        |
+| A list of members or agents                                | [ListRow](../list-row/list-row.md) rows                                                                                                                |
+| Any other side panel                                       | [Panel](../panel/panel.md)                                                                                                                             |
+| A channel's tasks and files                                | Side sections in columns right of the conversation's panel ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)) |
 
 What an agent's profile holds in Raft Chat (its header actions, its tabs, the hero, its details and its actions) is in [Raft Chat: Agent profile](../../../../../design/products/raft-chat/agent-profile.md).
 
