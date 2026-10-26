@@ -1711,6 +1711,7 @@ export type {
 export * from "./components/task-board/index";
 export * from "./components/task-card/index";
 export * from "./components/task-dnd/index";
+export * from "./components/drag/index";
 export * from "./components/task-list/index";
 export * from "./components/virtual-list/index";
 export * from "./components/icons/index";

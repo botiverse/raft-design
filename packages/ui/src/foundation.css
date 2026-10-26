@@ -35,7 +35,8 @@
    one-off precision values (tokenize on the third repeat). */
 
 /* Raw brand ramps (the website palette) — variables only, no utility registration. Consumed by the
-   Tailwind aliases in styles.css, the brand ramps, and state families below. */
+   Tailwind aliases in styles.css, the brand ramps, and state families below. Then the
+   mode-independent motion values (design/foundations/motion.md). */
 :where(:root) {
   --palette-yellow-50: oklch(0.984 0.017 84.56);
   --palette-yellow-100: oklch(0.975 0.027 85.64);
@@ -136,6 +137,8 @@
   --palette-cream-800: oklch(0.396 0.082 95);
   --palette-cream-900: oklch(0.276 0.057 95.1);
   --palette-cream-950: oklch(0.19 0.039 94.7);
+  --motion-drag-settle-duration: 160ms;
+  --motion-drag-settle-easing: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Raft Design System, light: yellow frame -> cream sidebar -> white paper; ink

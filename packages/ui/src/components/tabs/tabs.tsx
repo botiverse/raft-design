@@ -4,13 +4,14 @@ import {
   useCallback,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
-import type { ComponentPropsWithRef, CSSProperties } from "react";
+import type { ComponentPropsWithRef, CSSProperties, KeyboardEvent, ReactNode } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
-import { closestCenter, DndContext, useSensors } from "@dnd-kit/core";
+import { closestCenter, DndContext } from "@dnd-kit/core";
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -19,7 +20,10 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useHoldThenMoveTouchSensor, useMouseOnlyPointerSensor } from "../../lib/touch-drag";
+import { DragLift, useDragSiblingTransition } from "../drag/drag-lift";
+import { dragInstructions } from "../drag/drag-announcements";
+import { useDragSensors } from "../drag/drag-sensors";
+import { DropPlaceholder } from "../drag/drop-placeholder";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -155,6 +159,8 @@ const TabsPlacementContext = createContext<TabsPlacement>("top");
 type TabsReorderContextValue = {
   enabled: boolean;
   activeId?: string | undefined;
+  /** Each sortable tab's content, for the copy that follows the hand. */
+  copies?: Map<string, ReactNode>;
 };
 
 const TabsReorderContext = createContext<TabsReorderContextValue>({ enabled: false });
@@ -345,11 +351,24 @@ export function SortableTabsList<T extends string = string>({
   // Stable id keeps dnd-kit's aria-describedby deterministic across SSR/client
   // (its internal counter-based id otherwise mismatches and breaks hydration).
   const dndContextId = useId();
-  const sensors = useSensors(useMouseOnlyPointerSensor(6), useHoldThenMoveTouchSensor());
+  const sensors = useDragSensors();
+  const [copies] = useState(() => new Map<string, ReactNode>());
+  const selectedValue = use(TabsValueContext);
+  const { tab: tabClassName, content: contentClassName } = tabs({ variant, placement });
   const tabIds = useMemo(() => value.map(String), [value]);
   const reorderContext = useMemo(
-    () => ({ enabled: true, activeId }) as const satisfies TabsReorderContextValue,
-    [activeId],
+    () => ({ enabled: true, activeId, copies }) as const satisfies TabsReorderContextValue,
+    [activeId, copies],
+  );
+  // While a tab is lifted the arrow keys and Space move and drop it: Base UI
+  // must not move focus or select another tab under it.
+  const { onKeyDown: onListKeyDown, ...listProps } = props;
+  const handleListKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLDivElement> & { preventBaseUIHandler?: () => void }) => {
+      onListKeyDown?.(event as never);
+      if (activeId !== undefined) event.preventBaseUIHandler?.();
+    },
+    [activeId, onListKeyDown],
   );
   const handleDragStart = useCallback(
     ({ active }: DragStartEvent) => {
@@ -376,6 +395,7 @@ export function SortableTabsList<T extends string = string>({
   return (
     <DndContext
       id={dndContextId}
+      accessibility={TABS_DRAG_ACCESSIBILITY}
       autoScroll={false}
       sensors={sensors}
       collisionDetection={closestCenter}
@@ -392,11 +412,29 @@ export function SortableTabsList<T extends string = string>({
         }
       >
         <TabsReorderContext.Provider value={reorderContext}>
-          <TabsList variant={variant} {...props} data-sorting={activeId ? "true" : undefined}>
+          <TabsList
+            variant={variant}
+            {...listProps}
+            onKeyDown={handleListKeyDown}
+            data-sorting={activeId ? "true" : undefined}
+          >
             {children}
           </TabsList>
         </TabsReorderContext.Provider>
       </SortableContext>
+      <DragLift className="rounded-control">
+        {activeId === undefined ? null : (
+          <span
+            data-slot="tabs-tab"
+            data-active={selectedValue === activeId ? "" : undefined}
+            className={tabClassName({ className: "pointer-events-none size-full" })}
+          >
+            <span data-slot="tabs-tab-content" className={contentClassName()}>
+              {copies.get(activeId)}
+            </span>
+          </span>
+        )}
+      </DragLift>
     </DndContext>
   );
 }
@@ -418,11 +456,27 @@ export function SortableTabsTab<T extends string = string>({
   const reorder = use(TabsReorderContext);
   const activeValue = use(TabsValueContext);
   const placement = use(TabsPlacementContext);
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: value,
-    disabled: !reorder.enabled,
-  });
+  const siblingTransition = useDragSiblingTransition();
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging, index, overIndex } =
+    useSortable({
+      id: value,
+      disabled: !reorder.enabled,
+      transition: siblingTransition,
+    });
   const isDraggingActive = isDragging && activeValue === String(value);
+  // The lifted tab's own slot: faded while it is still home, the dashed place
+  // once it stands anywhere else.
+  const home = overIndex < 0 || overIndex === index;
+  const copies = reorder.copies;
+  const key = String(value);
+  const { children } = props;
+  useLayoutEffect(() => {
+    if (!copies) return;
+    copies.set(key, children);
+    return () => {
+      copies.delete(key);
+    };
+  }, [copies, key, children]);
   const baseStyle = typeof props.style === "function" ? undefined : props.style;
   const vertical = placement === "left" || placement === "right";
   const translate = vertical ? transform?.y : transform?.x;
@@ -438,8 +492,19 @@ export function SortableTabsTab<T extends string = string>({
       transition,
       zIndex: isDragging ? 20 : baseStyle?.zIndex,
       cursor: isDragging ? "grabbing" : "pointer",
+      ...(isDragging && !home ? PLACE_STYLE : null),
     }),
-    [baseStyle, vertical, translate, transition, isDragging],
+    [baseStyle, vertical, translate, transition, isDragging, home],
+  );
+  const { onKeyDown: onTabKeyDown } = props;
+  const { onKeyDown: onSortableKeyDown, ...sortableListeners } = listeners ?? {};
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLElement> & { preventBaseUIHandler?: () => void }) => {
+      onTabKeyDown?.(event as never);
+      if (reorder.activeId !== undefined) event.preventBaseUIHandler?.();
+      onSortableKeyDown?.(event);
+    },
+    [onTabKeyDown, onSortableKeyDown, reorder.activeId],
   );
 
   if (!reorder.enabled) {
@@ -455,22 +520,36 @@ export function SortableTabsTab<T extends string = string>({
       {...props}
       data-dragging-active={isDraggingActive ? "true" : undefined}
       data-dragging-source={isDragging ? "true" : undefined}
+      data-drag-origin={isDragging && home ? "" : undefined}
       data-reorderable="true"
       style={style}
       {...sortableAttributes}
-      {...listeners}
+      {...sortableListeners}
+      onKeyDown={handleKeyDown}
+      dropPlace={isDragging && !home}
     />
   );
 }
 
+/** The lifted tab's slot away from home: none of the tab's own look, under the dashed place. */
+const PLACE_STYLE: CSSProperties = {
+  backgroundColor: "transparent",
+  borderColor: "transparent",
+  boxShadow: "none",
+};
+
+const TABS_DRAG_ACCESSIBILITY = { screenReaderInstructions: dragInstructions() };
+
 function TabsTabButton<T extends string = string>({
   value,
   sortableRef,
+  dropPlace = false,
   className,
   children,
   ...props
 }: TabsTabProps<T> & {
   sortableRef?: (node: HTMLElement | null) => void;
+  dropPlace?: boolean;
 }) {
   const variant = use(TabsListVariantContext);
   const placement = use(TabsPlacementContext);
@@ -484,9 +563,13 @@ function TabsTabButton<T extends string = string>({
       className={tab({ className })}
       {...props}
     >
-      <span data-slot="tabs-tab-content" className={content()}>
+      <span
+        data-slot="tabs-tab-content"
+        className={content({ className: dropPlace ? "invisible" : undefined })}
+      >
         {children}
       </span>
+      {dropPlace ? <DropPlaceholder className="absolute inset-0 z-10 rounded-control" /> : null}
     </BaseTabs.Tab>
   );
 }

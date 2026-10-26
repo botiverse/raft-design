@@ -46,9 +46,9 @@ export type {
 } from "./components/message-list/index";
 
 // The touch drag rule (states.md, "Dragging on a touch screen"): hold still
-// for a menu, hold and move to drag. It subclasses dnd-kit's TouchSensor
-// through fields dnd-kit types as private, so it stays here until that is
-// settled.
+// for a menu, hold and move to drag. Stable since the one drag model
+// (design/patterns/drag-and-drop.md): exported from the package root with
+// useDragSensors. Kept here so existing `/wip` imports keep working.
 export { TOUCH_DRAG_HOLD_MS, useHoldThenMoveTouchSensor } from "./lib/touch-drag";
 export type { HoldThenMoveOptions } from "./lib/touch-drag";
 

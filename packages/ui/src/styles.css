@@ -174,6 +174,10 @@
 }
 
 @theme inline {
+  /* A drag settling: the drop and cancel glide, siblings sliding apart, a
+     layout reflowing on a drop (design/foundations/motion.md). */
+  --ease-drag-settle: var(--motion-drag-settle-easing);
+
   --color-foreground: var(--foreground);
   --color-foreground-muted: var(--foreground-muted);
   --color-foreground-hint: var(--foreground-hint);
@@ -657,6 +661,27 @@ textarea:-webkit-autofill:disabled {
   [data-located] {
     --located-animation: raft-located-still;
   }
+}
+
+/* Drag and drop (design/patterns/drag-and-drop.md). While something is
+   lifted, DragLift sets data-dragging on the root, and DragRefusalHint sets
+   data-drag-refused while the place under the hand refuses it: the cursor
+   says so over everything, whatever the element under it would show. The
+   item a drag came from carries data-drag-origin and stays in place at 40%
+   until something else takes its place. Unlayered, so no utility on the
+   item overrides the one value. */
+:root[data-dragging],
+:root[data-dragging] * {
+  cursor: grabbing !important;
+}
+
+:root[data-drag-refused],
+:root[data-drag-refused] * {
+  cursor: not-allowed !important;
+}
+
+[data-drag-origin] {
+  opacity: 0.4;
 }
 
 @utility image-transparency-bg {

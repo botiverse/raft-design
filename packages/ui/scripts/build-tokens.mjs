@@ -39,6 +39,7 @@ function formatValue(value) {
     return value;
   }
   if (typeof value === "number") return formatNumber(value);
+  if (Array.isArray(value)) return `cubic-bezier(${value.map(formatNumber).join(", ")})`;
   if (value && value.colorSpace === "oklch") {
     const components = value.components.map(formatNumber).join(" ");
     return value.alpha === undefined
@@ -131,7 +132,8 @@ export function renderFoundation(tokens) {
 
   return `${HEADER}
 /* Raw brand ramps (the website palette) — variables only, no utility registration. Consumed by the
-   Tailwind aliases in styles.css, the brand ramps, and state families below. */
+   Tailwind aliases in styles.css, the brand ramps, and state families below. Then the
+   mode-independent motion values (design/foundations/motion.md). */
 :where(:root) {
 ${block(root, "  ")}
 }

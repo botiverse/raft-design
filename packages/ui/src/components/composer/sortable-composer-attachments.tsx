@@ -1,26 +1,30 @@
-import { useHoldThenMoveTouchSensor, useMouseOnlyPointerSensor } from "../../lib/touch-drag";
-import {
-  closestCenter,
-  DndContext,
-  DragOverlay,
-  KeyboardSensor,
-  pointerWithin,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import type { CollisionDetection, DragOverEvent, DragStartEvent, Modifier } from "@dnd-kit/core";
+import { closestCenter, DndContext, pointerWithin } from "@dnd-kit/core";
+import type { CollisionDetection, DragOverEvent, DragStartEvent } from "@dnd-kit/core";
 import {
   arrayMove,
   defaultAnimateLayoutChanges,
   horizontalListSortingStrategy,
   SortableContext,
-  sortableKeyboardCoordinates,
   useSortable,
 } from "@dnd-kit/sortable";
 import type { SortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Children, isValidElement, useCallback, useId, useMemo, useRef, useState } from "react";
+import {
+  Children,
+  createContext,
+  isValidElement,
+  use,
+  useCallback,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import type { CSSProperties, ReactElement, ReactNode } from "react";
+import { dragInstructions } from "../drag/drag-announcements";
+import { DragLift, useDragSiblingTransition } from "../drag/drag-lift";
+import { useDragSensors } from "../drag/drag-sensors";
+import { DropPlaceholder } from "../drag/drop-placeholder";
 import { ComposerAttachmentsScrollArea } from "./composer-attachments-scroll-area";
 
 export type SortableComposerAttachmentsProps = {
@@ -33,10 +37,10 @@ type SortableAttachmentsAxis = "x" | "xy";
 
 type SortableAttachmentElement = ReactElement<{ children?: ReactNode }>;
 
-const SORTABLE_TRANSITION = {
-  duration: 160,
-  easing: "cubic-bezier(0.25, 1, 0.5, 1)",
-} as const;
+/** Whether the lifted attachment still stands at its own index. */
+const SortableAttachmentsHomeContext = createContext(true);
+
+const DRAG_ACCESSIBILITY = { screenReaderInstructions: dragInstructions() };
 
 /**
  * Mixed-width flex-wrap cannot be predicted by rectSortingStrategy. Preview
@@ -45,18 +49,6 @@ const SORTABLE_TRANSITION = {
  * @see https://github.com/clauderic/dnd-kit/issues/44
  */
 const liveReorderStrategy: SortingStrategy = () => null;
-
-const restrictToHorizontalAxis: Modifier = ({ transform }) => ({
-  ...transform,
-  y: 0,
-});
-
-const HORIZONTAL_MODIFIERS = [restrictToHorizontalAxis];
-
-const HORIZONTAL_AUTO_SCROLL = {
-  threshold: { x: 0.15, y: 0 },
-  canScroll: (element: Element) => element.scrollWidth > element.clientWidth + 1,
-};
 
 /**
  * Prefer pointer hits; if the active droppable is still under the pointer /
@@ -134,11 +126,7 @@ function SortableComposerAttachmentsRoot({
   // Ignore collision flips caused by our own layout update while the pointer is still.
   const lastReorderPointerRef = useRef<{ x: number; y: number } | null>(null);
 
-  const sensors = useSensors(
-    useMouseOnlyPointerSensor(6),
-    useHoldThenMoveTouchSensor(),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
-  );
+  const sensors = useDragSensors();
 
   const attachments = useMemo(() => attachmentsById(children), [children]);
   const itemIds = useMemo(() => items.map(String), [items]);
@@ -146,6 +134,7 @@ function SortableComposerAttachmentsRoot({
   // Live draft order drives the DOM during drag so the opacity-0 slot tracks the
   // drop index. Wrap uses liveReorderStrategy (null); horizontal keeps its strategy.
   const displayIds = activeId !== null ? draftIds : itemIds;
+  const home = activeId === null || draftIds.indexOf(activeId) === itemIds.indexOf(activeId);
   const orderedChildren = useMemo(
     () =>
       displayIds.flatMap((id) => {
@@ -215,15 +204,13 @@ function SortableComposerAttachmentsRoot({
     clearDrag();
   }, [clearDrag, onReorder]);
 
-  const modifiers = horizontal ? HORIZONTAL_MODIFIERS : undefined;
-
   return (
     <DndContext
       id={dndContextId}
+      accessibility={DRAG_ACCESSIBILITY}
       sensors={sensors}
       collisionDetection={sortableCollisionDetection}
-      modifiers={modifiers}
-      autoScroll={horizontal ? HORIZONTAL_AUTO_SCROLL : false}
+      autoScroll={false}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragCancel={handleDragCancel}
@@ -236,14 +223,12 @@ function SortableComposerAttachmentsRoot({
         style={listMinHeight != null ? { minHeight: listMinHeight } : undefined}
       >
         <SortableContext items={displayIds} strategy={strategy}>
-          {orderedChildren}
+          <SortableAttachmentsHomeContext value={home}>
+            {orderedChildren}
+          </SortableAttachmentsHomeContext>
         </SortableContext>
       </div>
-      <DragOverlay dropAnimation={null} modifiers={modifiers}>
-        {activeId && overlay ? (
-          <div className="w-max max-w-full shrink-0 cursor-grabbing">{overlay}</div>
-        ) : null}
-      </DragOverlay>
+      <DragLift className="rounded-control">{activeId && overlay ? overlay : null}</DragLift>
     </DndContext>
   );
 }
@@ -273,43 +258,49 @@ export type SortableComposerAttachmentProps = {
 };
 
 /**
- * Sized placeholder stays in the flex flow (opacity 0). DragOverlay is the
- * pointer ghost — the root reads these `children` for it. Live draft reorder
- * moves this slot to the drop index; wrap skips strategy transforms so siblings
- * FLIP via layout instead of wrong gaps.
+ * The lifted attachment's own slot stays in the flex flow: at 40% while it is
+ * still home, the dashed place once it stands anywhere else. DragLift holds
+ * the copy that follows the hand; the root reads these `children` for it.
+ * Live draft reorder moves this slot to the drop index; wrap skips strategy
+ * transforms so siblings FLIP via layout instead of wrong gaps.
  */
 export function SortableComposerAttachment({
   id,
   label,
   children,
 }: SortableComposerAttachmentProps) {
+  const home = use(SortableAttachmentsHomeContext);
+  const siblingTransition = useDragSiblingTransition();
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
     animateLayoutChanges: defaultAnimateLayoutChanges,
-    transition: SORTABLE_TRANSITION,
+    transition: siblingTransition,
   });
   // Keep Base UI / consumer controls as the interactive roles (e.g. remove button).
   const { role: _sortableRole, tabIndex: _sortableTabIndex, ...sortableAttributes } = attributes;
   const style: CSSProperties = {
-    // DragOverlay owns the pointer ghost; keep the opacity-0 slot in flow.
+    // DragLift owns the copy that follows the hand; this slot stays in flow.
     transform: isDragging ? undefined : CSS.Translate.toString(transform),
     transition: isDragging ? undefined : transition,
-    opacity: isDragging ? 0 : undefined,
     zIndex: isDragging ? 0 : undefined,
   };
+  const place = isDragging && !home;
 
   return (
     <div
       ref={setNodeRef}
       aria-label={`Reorder ${label}`}
-      className="w-max max-w-full shrink-0 cursor-grab touch-manipulation select-none [-webkit-touch-callout:none] active:cursor-grabbing"
+      className="relative w-max max-w-full shrink-0 cursor-grab touch-manipulation select-none [-webkit-touch-callout:none] active:cursor-grabbing data-drop-place:[&>:not([data-slot=drop-placeholder])]:invisible"
       data-dragging={isDragging ? "true" : undefined}
+      data-drag-origin={isDragging && home ? "" : undefined}
+      data-drop-place={place ? "" : undefined}
       data-slot="sortable-composer-attachment"
       style={style}
       {...sortableAttributes}
       {...listeners}
     >
       {children}
+      {place ? <DropPlaceholder className="absolute inset-0" /> : null}
     </div>
   );
 }
