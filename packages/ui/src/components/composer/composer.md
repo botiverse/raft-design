@@ -44,7 +44,8 @@ Where the composer sits in a conversation is in [Conversation](../../../../../de
 chat-composer/compositions/composer-attachment-states
 ```
 
-- **Uploading:** a thumbnail shows cyan progress on its own track, inset from its edges ([Shape](../../../../../design/foundations/shape.md#nothing-on-the-edge-of-a-rounded-container)); × in its corner cancels the upload while it runs and removes the file after. File cards are in [MessageAttachment](../message-attachment/message-attachment.md).
+- **Uploading:** a thumbnail shows cyan progress on its own track, inset from its edges ([Shape](../../../../../design/foundations/shape.md#nothing-on-the-edge-of-a-rounded-container)); × in its corner cancels the upload while it runs and removes the file after. The thumbnail lies under a `layer-veil` cover (`ComposerAttachmentUploadingOverlay`) with a default-color spinner.
+- **Failed:** the same `layer-veil` cover with a `danger-strong` border and a line that says it failed (`ComposerAttachmentFailedOverlay`). Both covers use the one veil ([Surfaces](../../../../../design/foundations/color.md#surfaces)). File cards are in [MessageAttachment](../message-attachment/message-attachment.md).
 - **Nothing to send:** disable `ComposerSubmit` until there is text or an attachment.
 - **Focus:** the whole composer takes the focus ring ([States](../../../../../design/foundations/states.md#focus)).
 

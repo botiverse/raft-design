@@ -55,7 +55,7 @@ lightbox/compositions/attachment-preview-shell
 ## States
 
 - **First and last item:** previous or next is disabled. It stays focusable (`aria-disabled`) and ignores clicks.
-- **Thumbnails:** the shown item has a solid edge; the others are dimmed until hovered.
+- **Thumbnails:** the shown item has a solid edge; the others are dimmed with `layer-backdrop-nested` (40%), 28% on hover. The strip lies on `layer-backdrop`, dark in both modes, so the nested scrim dims a thumbnail the same way in light and dark mode ([Surfaces](../../../../../design/foundations/color.md#surfaces)).
 
 ## Behavior
 

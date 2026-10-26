@@ -26,7 +26,7 @@ export function MessageImageGalleryPendingComposition() {
             />
           </MessageImageGalleryMedia>
           <MessageImageGalleryOverlay>
-            <Spinner size="md" variant="inverse" />
+            <Spinner size="md" />
           </MessageImageGalleryOverlay>
         </MessageImageGalleryItem>
       </div>

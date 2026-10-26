@@ -43,12 +43,12 @@ export const messageForwardedBundle = tv({
           // overflow-clip, not hidden: a folded card must not become a scroll
           // container — sticky content inside (the mermaid action bar) would
           // otherwise anchor to the clipped card instead of the message list.
+          // The cut fades out over the content fade (48px), a mask, so a
+          // hovered or located row under it fades with its fill.
           "max-h-40 overflow-clip",
-          "after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-10 after:bg-linear-to-t",
-          // A fold shorter than the fade would be all gradient; keep one line
-          // readable at those sizes.
-          "data-[tight-fold]:after:h-5",
-          "after:from-layer-card after:via-layer-card/80 after:to-layer-card/0",
+          // A fold shorter than 60px would be mostly fade; it takes the edge
+          // fade (24px) and keeps one line readable.
+          "mask-fade-b data-tight-fold:mask-fade-b-edge",
         ],
       },
     },

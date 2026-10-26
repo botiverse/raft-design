@@ -37,6 +37,10 @@ layer
 | `layer-hud` | Toasts and tooltips; text on it is `foreground-on-hud` and `foreground-on-hud-muted` |
 | `layer-backdrop` | The scrim behind centered overlays, modal drawers, bottom sheets and the lightbox |
 | `layer-backdrop-nested` | The lighter scrim under a modal surface opened from another one ([Stacked overlays](./elevation.md#stacked-overlays)) |
+| `layer-veil` | The cover over something busy or loading in place: an image uploading or that failed to, a preview being prepared |
+
+- **Three layers are translucent, by contract.** `layer-backdrop` and `layer-backdrop-nested` dim the page under a modal surface; `layer-veil` covers one thing that is busy, so it shows through, dimmed, under a spinner or a line that says what is happening. The veil is the page's color at 80% (white in light mode, `layer-canvas` in dark), so a default-color [Spinner](../../packages/ui/src/components/spinner/spinner.md#size) and `foreground` text read on it in both modes. It replaces the card and canvas colors at 75%, 80% and 90% that loading covers used before. Every other layer is opaque.
+- **Dim a thumbnail on the scrim with the nested scrim.** The lightbox's thumbnails lie on `layer-backdrop`, dark in both modes, and the ones not shown are dimmed with `layer-backdrop-nested` (40%), 28% on hover (`/70`), never a raw black ([Lightbox](../../packages/ui/src/components/lightbox/lightbox.md)).
 
 Fills are laid into or over a surface: the sunken fill and the hover overlays ([Hover overlays](#hover-overlays)).
 

@@ -133,7 +133,8 @@ export function renderFoundation(tokens) {
   return `${HEADER}
 /* Raw brand ramps (the website palette) — variables only, no utility registration. Consumed by the
    Tailwind aliases in styles.css, the brand ramps, and state families below. Then the
-   mode-independent motion values (design/foundations/motion.md). */
+   mode-independent values: the fade lengths (design/foundations/spacing.md), the dimmed
+   opacity (design/foundations/states.md) and motion (design/foundations/motion.md). */
 :where(:root) {
 ${block(root, "  ")}
 }
@@ -240,8 +241,9 @@ const HEADER = `/* Generated from tokens.json by scripts/build-tokens.mjs. Do no
               selected sticker, with their own value so no theme grays them.
    Washes:    ink-{alpha%} (2..40) — neutral overlays, hairlines, hover fills.
    Opacity rule: layer tokens are opaque in every theme, except the two
-   backdrops (overlays by contract); among fills only the hover tiers
-   (fill-subtle, fill-medium, fill-frame-medium) are translucent.
+   backdrops and the veil (overlays by contract: a scrim under a modal
+   surface, a cover over something busy in place); among fills only the
+   hover tiers (fill-subtle, fill-medium, fill-frame-medium) are translucent.
    Interaction fills: transparent resting → ink-N directly; solid family fill →
    the family's -hover/-active pair; neutral or tinted surface → step up its ladder.
    Escape hatches: ink ramp for one-off washes; inline oklch() literals for

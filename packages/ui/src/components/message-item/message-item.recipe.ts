@@ -152,7 +152,7 @@ export const messageItem = tv({
       "size-[19px] group-data-[size=md]/avatar:size-[19px]",
       "rounded-sticker outline-none",
       "bg-layer-canvas bg-[linear-gradient(var(--mi-row-fill,transparent),var(--mi-row-fill,transparent))]",
-      "data-deleted:*:data-[slot=avatar]:grayscale data-deleted:*:data-[slot=avatar]:opacity-60",
+      "data-deleted:*:data-[slot=avatar]:grayscale data-deleted:*:data-[slot=avatar]:opacity-dimmed",
       "shadow-[0_0_0_1.5px_var(--mi-row-fill,transparent),0_0_0_1.5px_var(--layer-canvas)]",
       "dark:shadow-[0_0_0_3px_var(--mi-row-fill,transparent),0_0_0_3px_var(--layer-canvas)]",
     ],

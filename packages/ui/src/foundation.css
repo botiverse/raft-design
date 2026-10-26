@@ -27,8 +27,9 @@
               selected sticker, with their own value so no theme grays them.
    Washes:    ink-{alpha%} (2..40) — neutral overlays, hairlines, hover fills.
    Opacity rule: layer tokens are opaque in every theme, except the two
-   backdrops (overlays by contract); among fills only the hover tiers
-   (fill-subtle, fill-medium, fill-frame-medium) are translucent.
+   backdrops and the veil (overlays by contract: a scrim under a modal
+   surface, a cover over something busy in place); among fills only the
+   hover tiers (fill-subtle, fill-medium, fill-frame-medium) are translucent.
    Interaction fills: transparent resting → ink-N directly; solid family fill →
    the family's -hover/-active pair; neutral or tinted surface → step up its ladder.
    Escape hatches: ink ramp for one-off washes; inline oklch() literals for
@@ -36,7 +37,8 @@
 
 /* Raw brand ramps (the website palette) — variables only, no utility registration. Consumed by the
    Tailwind aliases in styles.css, the brand ramps, and state families below. Then the
-   mode-independent motion values (design/foundations/motion.md). */
+   mode-independent values: the fade lengths (design/foundations/spacing.md), the dimmed
+   opacity (design/foundations/states.md) and motion (design/foundations/motion.md). */
 :where(:root) {
   --palette-yellow-50: oklch(0.984 0.017 84.56);
   --palette-yellow-100: oklch(0.975 0.027 85.64);
@@ -137,6 +139,9 @@
   --palette-cream-800: oklch(0.396 0.082 95);
   --palette-cream-900: oklch(0.276 0.057 95.1);
   --palette-cream-950: oklch(0.19 0.039 94.7);
+  --fade-edge: 24px;
+  --fade-content: 48px;
+  --opacity-dimmed: 0.6;
   --motion-drag-settle-duration: 160ms;
   --motion-drag-settle-easing: cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -168,6 +173,11 @@
   --layer-popover: oklch(1 0 0);
   --layer-backdrop: oklch(0 0 0 / 0.651);
   --layer-backdrop-nested: oklch(0 0 0 / 0.4);
+  /* The cover over something busy or loading in place: an image uploading or
+     that failed, a preview being prepared. The page at 80%, so what is under it
+     shows through, dimmed, and a default-colour Spinner on it reads in both
+     modes. Translucent by contract, like the two backdrops. */
+  --layer-veil: oklch(1 0 0 / 0.8);
   --layer-card: oklch(1 0 0);
   --layer-hud: oklch(0.2634 0.0093 294.92);
   --layer-frame: oklch(0.8829 0.1623 91.9);
@@ -381,6 +391,7 @@
   --layer-popover: oklch(0.2802 0.0036 106.63);
   --layer-backdrop: oklch(0 0 0 / 0.6);
   --layer-backdrop-nested: oklch(0 0 0 / 0.4);
+  --layer-veil: oklch(0.2213 0.0038 106.71 / 0.8);
   --layer-card: oklch(0.2596 0.0037 106.65);
   --layer-hud: oklch(0.2802 0.0036 106.63);
   --layer-frame: oklch(0.1582 0.0041 106.86);
@@ -465,6 +476,7 @@
     --layer-popover: oklch(0.2802 0.0036 106.63);
     --layer-backdrop: oklch(0 0 0 / 0.6);
     --layer-backdrop-nested: oklch(0 0 0 / 0.4);
+    --layer-veil: oklch(0.2213 0.0038 106.71 / 0.8);
     --layer-card: oklch(0.2596 0.0037 106.65);
     --layer-hud: oklch(0.2802 0.0036 106.63);
     --layer-frame: oklch(0.1582 0.0041 106.86);

@@ -37,10 +37,8 @@ const tabs = tv({
       "overscroll-contain whitespace-nowrap",
       "scrollbar-none [&::-webkit-scrollbar]:hidden",
       // More tabs than fit: the row scrolls (a mouse wheel too) and fades
-      // at the side where tabs are hidden.
-      "data-[overflow=end]:mask-[linear-gradient(to_right,black_calc(100%-32px),transparent)]",
-      "data-[overflow=start]:mask-[linear-gradient(to_right,transparent,black_32px)]",
-      "data-[overflow=both]:mask-[linear-gradient(to_right,transparent,black_32px,black_calc(100%-32px),transparent)]",
+      // at the side where tabs are hidden, over the edge fade (24px).
+      "mask-fade-x",
     ],
     background: ["", "hidden"],
     tab: [

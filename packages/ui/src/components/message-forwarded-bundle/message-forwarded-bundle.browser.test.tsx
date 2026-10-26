@@ -325,15 +325,21 @@ it("a consumer style merges with the computed fold height", () => {
   expect(computed.color).toBe("rgb(1, 2, 3)");
 });
 
-it("a fold shorter than the fade compresses the fade to one line", () => {
+it("a fold shorter than the fade takes the edge fade, a mask, to keep one line", () => {
   renderFoldableBundle(3, { mode: "light", foldLineLimit: 2 });
   const items = screen.getByTestId("items");
   expect(items.getAttribute("data-collapsed")).toBe("true");
   expect(items.hasAttribute("data-tight-fold")).toBe(true);
+  // A mask over the edge fade (24px), not a card-colored layer over the text.
+  expect(getComputedStyle(items).maskImage).toMatch(/^linear-gradient\(to top, .*24px\)$/);
+  expect(getComputedStyle(items, "::after").backgroundImage).toBe("none");
   cleanup();
-  // The default fold keeps the regular fade.
+  // The default fold keeps the content fade (48px).
   renderFoldableBundle(9, { mode: "light" });
   expect(screen.getByTestId("items").hasAttribute("data-tight-fold")).toBe(false);
+  expect(getComputedStyle(screen.getByTestId("items")).maskImage).toMatch(
+    /^linear-gradient\(to top, .*48px\)$/,
+  );
 });
 
 it("changing the fold line limit re-evaluates the fold", () => {

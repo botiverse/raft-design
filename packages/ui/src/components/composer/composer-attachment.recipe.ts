@@ -49,7 +49,7 @@ export const composerAttachment = tv({
     attachmentUploadingOverlay: [
       "absolute inset-0 z-10 flex flex-col items-center justify-center px-1",
       "text-center",
-      "rounded-control bg-layer-card/80",
+      "rounded-control bg-layer-veil",
       "font-mono text-mono-meta font-bold text-foreground",
     ],
     attachmentUploadProgressBar: [
@@ -62,7 +62,7 @@ export const composerAttachment = tv({
       "absolute inset-0 z-10 flex flex-col items-center justify-center px-1",
       "[border-width:var(--ca-overlay-border,2px)]",
       "text-center",
-      "rounded-control border-danger-strong bg-layer-card/90",
+      "rounded-control border-danger-strong bg-layer-veil",
       "font-sans text-caption font-semibold text-danger-strong",
     ],
     attachmentRemove: [

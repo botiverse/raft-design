@@ -108,7 +108,7 @@ export function TaskChip({
     "data-slot": "task-chip",
     "data-inline-reference": "",
     "data-loading": loading ? "true" : undefined,
-    className: cn(root({ className }), loading && "pointer-events-none opacity-60"),
+    className: cn(root({ className }), loading && "pointer-events-none opacity-dimmed"),
     children,
   };
 

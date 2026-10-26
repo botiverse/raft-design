@@ -191,6 +191,7 @@
   --color-layer-popover: var(--layer-popover);
   --color-layer-backdrop: var(--layer-backdrop);
   --color-layer-backdrop-nested: var(--layer-backdrop-nested);
+  --color-layer-veil: var(--layer-veil);
   --color-layer-card: var(--layer-card);
   --color-layer-hud: var(--layer-hud);
   --color-foreground-on-hud: var(--foreground-on-hud);
@@ -660,6 +661,56 @@ textarea:-webkit-autofill:disabled {
 @media (prefers-reduced-motion: reduce) {
   [data-located] {
     --located-animation: raft-located-still;
+  }
+}
+
+/* Dimmed: something present but not active, deleted, offline or still
+   pending, at 60% (design/foundations/states.md#dimmed). Lighter than the 40%
+   of a drag origin, which says "it was here", not "it is here, inactive". */
+@utility opacity-dimmed {
+  opacity: var(--opacity-dimmed);
+}
+
+/* Content fades (design/foundations/spacing.md#edges-fade): a mask, never a
+   colour gradient, so whatever is behind the content (a row's hover or
+   located fill, a card, a tint) shows through the fade unchanged.
+   mask-fade-t / mask-fade-b fade the top or bottom edge over fade-content
+   (48px), where content is cut: a fold, a glimpse. mask-fade-x fades the
+   sides of a strip that scrolls sideways over fade-edge (24px), on the side
+   its data-overflow names (start, end or both) and nowhere without it.
+   mask-fade-t-edge / mask-fade-b-edge take the edge length instead, for a
+   fold too short to give 48px to the fade. */
+@utility mask-fade-t {
+  mask-image: linear-gradient(to bottom, transparent, oklch(0 0 0) var(--fade-content));
+}
+
+@utility mask-fade-t-edge {
+  mask-image: linear-gradient(to bottom, transparent, oklch(0 0 0) var(--fade-edge));
+}
+
+@utility mask-fade-b {
+  mask-image: linear-gradient(to top, transparent, oklch(0 0 0) var(--fade-content));
+}
+
+@utility mask-fade-b-edge {
+  mask-image: linear-gradient(to top, transparent, oklch(0 0 0) var(--fade-edge));
+}
+
+@utility mask-fade-x {
+  &[data-overflow="start"] {
+    mask-image: linear-gradient(to right, transparent, oklch(0 0 0) var(--fade-edge));
+  }
+  &[data-overflow="end"] {
+    mask-image: linear-gradient(to left, transparent, oklch(0 0 0) var(--fade-edge));
+  }
+  &[data-overflow="both"] {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      oklch(0 0 0) var(--fade-edge),
+      oklch(0 0 0) calc(100% - var(--fade-edge)),
+      transparent
+    );
   }
 }
 
