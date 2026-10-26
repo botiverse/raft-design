@@ -4,7 +4,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useId,
   useLayoutEffect,
   useMemo,
@@ -211,13 +210,9 @@ export function AppShellSidebarSlot({
       className: cn(
         className,
         sidebar?.collapsible && [
-          "will-change-[opacity]",
-          "transition-opacity duration-160 ease-slide",
-          "motion-reduce:transition-none",
           "group-data-[state=expanded]/app-shell:relative group-data-[state=expanded]/app-shell:z-1",
           "group-data-[state=collapsed]/app-shell:pointer-events-none",
           "group-data-[state=collapsed]/app-shell:opacity-0",
-          "group-data-[state=collapsed]/app-shell:duration-120",
         ],
       ),
     }),
@@ -278,20 +273,14 @@ export function AppShellMainSlot({
   const { mainSlot } = appShell({ overlay });
   const sidebar = useOptionalAppShellSidebar();
   const collapsible = sidebar?.collapsible ?? false;
-  const open = sidebar?.open ?? true;
-  const sliding = useSidebarSlide(collapsible, open);
 
   const defaultProps: SlotElementProps<"main"> = {
     "data-slot": "app-shell-main-slot",
-    "data-sliding": sliding.active ? "" : undefined,
     className: mainSlot({
       className: cn(
         className,
         collapsible && [
           "absolute inset-y-0 right-0 left-0",
-          "data-sliding:z-2",
-          "transition-[left] duration-220 ease-slide",
-          "motion-reduce:transition-none",
           "group-data-[state=collapsed]/app-shell:-left-(--app-shell-sidebar-width)",
         ],
       ),
@@ -301,49 +290,8 @@ export function AppShellMainSlot({
   return useRender({
     defaultTagName: "main",
     render,
-    ref: sliding.ref,
     props: mergeProps<"main">(defaultProps, props),
   });
-}
-
-// The main area rises over the sidebar only while it slides: at rest it has no
-// z-index, so it never covers the app's own fixed layers.
-function useSidebarSlide(collapsible: boolean, open: boolean) {
-  const elementRef = useRef<HTMLElement | null>(null);
-  const [slide, setSlide] = useState({ active: false, open });
-  if (slide.open !== open) setSlide({ active: collapsible, open });
-  const active = slide.active;
-  const ref = useCallback((element: HTMLElement | null) => {
-    elementRef.current = element;
-  }, []);
-
-  useEffect(() => {
-    if (!active) return;
-    const element = elementRef.current;
-    const transitions =
-      element
-        ?.getAnimations?.()
-        .filter(
-          (animation) =>
-            "transitionProperty" in animation &&
-            animation.transitionProperty === "left" &&
-            animation.effect?.getComputedTiming().activeDuration !== 0,
-        ) ?? [];
-    let current = true;
-    const settle = () => {
-      if (current) setSlide((state) => (state.open === open ? { active: false, open } : state));
-    };
-    if (transitions.length === 0) {
-      settle();
-      return;
-    }
-    void Promise.allSettled(transitions.map((transition) => transition.finished)).then(settle);
-    return () => {
-      current = false;
-    };
-  }, [active, open]);
-
-  return { active, ref };
 }
 
 export type AppShellSidebarTriggerProps = useRender.ComponentProps<"button"> & {
