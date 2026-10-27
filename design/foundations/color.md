@@ -159,7 +159,7 @@ presence
 ```
 
 - Put a status chip on its `task-status-*-soft` tint.
-- `presence-busy` has its own value instead of pointing at `brand`, so that a change of brand color doesn't change what busy looks like.
+- `presence-busy` has its own value instead of pointing at `brand`, so that a change of brand color doesn't change what busy looks like, and neither does a theme: Boring Gray grays `brand`, and a working agent stays yellow ([Themes](./themes.md#signals)). The Working chip's tint, `presence-busy-soft`, is its own copy of `brand-soft` for the same reason.
 - `presence-offline` is stone from the palette, not a default gray: raft-ui doesn't use Tailwind's default palette, so every presence light comes from the same palette.
 - Presence lights never blink; see [Motion](./motion.md).
 
@@ -177,7 +177,8 @@ A soft tint (`*-soft`) is a highlight, never a sticker: it has no border.
 
 | Tint | Use for |
 | --- | --- |
-| `brand-soft` | Menu highlight, the busy chip |
+| `brand-soft` | Menu highlight |
+| `presence-busy-soft` | The Working chip |
 | `info-soft` | The selected item in content, filters, info banners, runtime chips, thread references, a message inside a notification |
 | `attention-soft` | Channel references, a reaction you added |
 | `success-soft` | Success banners, the Done chip |

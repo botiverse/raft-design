@@ -121,7 +121,7 @@ export function AgentPageComposition() {
                   </Badge>
                 </div>
                 <div className="mt-1.5">
-                  <Badge appearance="soft" variant="primary">
+                  <Badge appearance="soft" variant="busy">
                     <Status aria-hidden presence="busy" />
                     Working…
                   </Badge>

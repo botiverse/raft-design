@@ -44,7 +44,7 @@ export const messageActionCard = tv({
   variants: {
     tone: {
       neutral: { status: ["before:bg-inactive"] },
-      primary: { status: ["before:bg-brand"] },
+      primary: { status: ["before:bg-presence-busy"] },
       information: { status: ["before:bg-info"] },
       accent: { status: ["before:bg-attention"] },
       success: { status: ["before:bg-success"] },

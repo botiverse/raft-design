@@ -155,7 +155,7 @@ presence
 ```
 
 - 状态标签片放在对应的 `task-status-*-soft` 色调上。
-- `presence-busy` 有自己的值，而不是指向 `brand`，这样品牌色变了，忙碌的样子也不会跟着变。
+- `presence-busy` 有自己的值，而不是指向 `brand`，这样品牌色变了，忙碌的样子也不会跟着变，换主题也一样：无聊灰把 `brand` 变灰，工作中的 Agent 仍是黄色（[主题](./themes.md#signals)）。Working 标签片的底色 `presence-busy-soft` 出于同样的原因，是 `brand-soft` 的一份独立拷贝。
 - `presence-offline` 是色板里的石灰色，不是默认的灰色：raft-ui 不使用 Tailwind 的默认色板，所以每个在线状态灯都来自同一个色板。
 - 在线状态灯从不闪烁；见[动效](./motion.md)。
 
@@ -173,7 +173,8 @@ read-mark
 
 | 色调 | 用于 |
 | --- | --- |
-| `brand-soft` | 菜单高亮、忙碌标签片 |
+| `brand-soft` | 菜单高亮 |
+| `presence-busy-soft` | Working 标签片 |
 | `info-soft` | 内容中的选中项、筛选、信息横幅、运行时标签片、消息列引用、通知里的消息 |
 | `attention-soft` | 频道引用、你添加的回应 |
 | `success-soft` | 成功横幅、完成标签片 |

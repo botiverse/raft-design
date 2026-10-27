@@ -306,6 +306,7 @@
   --color-sticker-medium: var(--sticker-medium);
   --color-presence-online: var(--presence-online);
   --color-presence-busy: var(--presence-busy);
+  --color-presence-busy-soft: var(--presence-busy-soft);
   --color-presence-error: var(--presence-error);
   --color-presence-offline: var(--presence-offline);
   --color-presence-external: var(--presence-external);

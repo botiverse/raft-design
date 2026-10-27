@@ -430,7 +430,7 @@
       },
       {
         "name": "variant",
-        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"muted\" | \"success\" | \"you\"",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"information\" | \"muted\" | \"success\" | \"busy\" | \"you\"",
         "required": false,
         "from": "raft-ui"
       },

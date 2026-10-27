@@ -359,7 +359,13 @@
      both modes. */
   --sticker-medium: oklch(0.1813 0.005 17.62 / 0.1);
   --presence-online: oklch(0.8272 0.1354 130.07);
+  /* Yellow for an agent at work, and for Status variant="primary". The value of
+     brand in Raft Yellow, but its own, so a theme that grays the brand (Boring
+     Gray) keeps a working agent yellow. */
   --presence-busy: oklch(0.8829 0.1623 91.9);
+  /* The tint of the Working chip (Badge variant="busy"). The value of brand-soft
+     in Raft Yellow, but its own, so Boring Gray keeps it yellow. */
+  --presence-busy-soft: oklch(0.9547 0.0674 93.62);
   --presence-error: oklch(0.7855 0.1227 50.11);
   --presence-offline: oklch(0.7892 0.0137 71.29);
   --presence-external: oklch(0.7833 0.1353 219.21);
@@ -452,6 +458,7 @@
   --focus-ring: 0 0 0 2px oklch(0.2213 0.0038 106.71), 0 0 0 4px oklch(0.9211 0.004 106.48);
   --selection: color-mix(in oklch, var(--brand-400) 22%, transparent);
   --sticker-edge: oklch(0.9843 0.004 106.47 / 0.349);
+  --presence-busy-soft: oklch(0.5501 0.0999 91.5 / 0.2);
   --read-mark: var(--presence-online);
 }
 
@@ -537,6 +544,7 @@
     --focus-ring: 0 0 0 2px oklch(0.2213 0.0038 106.71), 0 0 0 4px oklch(0.9211 0.004 106.48);
     --selection: color-mix(in oklch, var(--brand-400) 22%, transparent);
     --sticker-edge: oklch(0.9843 0.004 106.47 / 0.349);
+    --presence-busy-soft: oklch(0.5501 0.0999 91.5 / 0.2);
     --read-mark: var(--presence-online);
   }
 }

@@ -1,17 +1,17 @@
 ---
 title: 主题
 summary: 用户可以选的主题，主题能改什么、永远不改什么，以及外框上的装饰。
-sourceHash: 7c7303da
+sourceHash: 8e98d399
 ---
 
 # 主题
 
-主题改的是外框和内容周围的底色，从不改颜色的含义。Raft 黄（也就是基础样式本身）是默认主题；用户可以给自己选别的主题，它跟着账户走，在每个服务器上都一样。
+主题改的是外框和内容周围的底色，从不改颜色的含义。Raft 黄（也就是基础样式本身）是默认主题；用户可以在自己所在的每个服务器里分别给自己选别的主题，所以同一个人可以在一个服务器里用 Raft 黄，在另一个服务器里用无聊灰。这个选择只属于他自己，不会改变其他成员看到的样子。
 
 ## 原则 {#principles}
 
 - **主题是外框，不是一套新配色。** 它给外框（导航条、网页顶栏、手机顶栏）、侧栏，以及深色模式下的各层深色底换颜色。浅色模式下内容仍然在白色纸面上。
-- **含义永远不变。** 粉色主按钮、未读数和 @ 数、状态灯、警告和错误在所有主题里都一样，换了主题的人不用重新学一遍产品。
+- **含义永远不变。** 粉色主按钮、未读数和 @ 数、状态灯、警告和错误在所有主题里都一样，换了主题的人不用重新学一遍产品。它们每一个都有主题碰不到的 token，没有一个用 `brand` 画（[信号](#signals)）。
 - **主题让环境安静下来，从不让信息安静。** 发给你的东西（`you`）和选中或打开的东西（`selected`）在每套主题里都保持 Raft 黄，无聊灰也不例外（[信号](#signals)）。外框是例外：导航条以及外框上的任何东西（`variant="on-frame"` 的 SegmentedControl）属于环境，所以它的选中项用主题的外框颜色（`layer-frame-active`），而不是 `selected`。
 - **每套主题都有浅色版和深色版。** 深色模式下，画布、侧栏、卡片和弹出层带上主题的色相，饱和度很低。中性黑色的面板放在彩色外框里，看起来像是贴上去的。
 - **装饰可以关。** 头像系列的主题可以在外框上画这个系列的像素画；用户可以关掉它们，保留颜色。
@@ -40,6 +40,8 @@ sourceHash: 7c7303da
 - 灰色代替不了它们。无聊灰用它的灰色 `brand` 画它们的时候，浅色模式下选中的分段和悬停的分段只差 ΔE 1.4（OKLab × 100），低于人能察觉的 2；选中的侧栏行和侧栏差 5.0，提及你的地方和页面差 7.5。黄色是 16.5 到 20。深到能和它相当的灰色是一大块中灰，比它替换掉的黄色还重。`themes.contrast.test.ts` 要求每套主题都达到 ΔE 10。
 - 新的「你」信号或选中的贴纸用这两个 token 画，不要用 `brand`：`brand` 是环境，跟着主题变。
 
+状态灯也是信息，按同样的规则在每套主题里保持颜色。工作中的 Agent 的黄色是 `presence-busy`，它的 Working 标签片的底色是 `presence-busy-soft`：在 Raft 黄里它们和 `brand`、`brand-soft` 的值相同，但有自己的值，所以无聊灰不会把它们变灰。`Status variant="primary"` 和 `variant="primary"` 的 `MessageActionCardStatus` 的像素就是这个 `presence-busy`，浅色的 `Badge variant="busy"` 就是这个底色（[Status](../../packages/ui/src/components/status/status.md#agent-state-chips)）。Working 的灯和标签片跟着 `brand` 的时候，无聊灰把它们变成了灰色，工作中的 Agent 看起来像离线。`themes.status.test.tsx` 要求两者在每套主题里都是同一个颜色。状态用 `presence-*` 或 `task-status-*` token 画，永远不要用 `brand`。
+
 ## 主题能改什么 {#what-a-theme-may-change}
 
 - `layer-frame`、`layer-frame-active`、`foreground-on-frame` 以及它的 `-muted` 和 `-active` 两级、`fill-frame-medium`、`line-frame-active`：外框。
@@ -47,7 +49,7 @@ sourceHash: 7c7303da
 - 深色模式下的 `layer-canvas`、`layer-card` 和 `layer-popover`，带上主题的色相。
 - 只有无聊灰：`brand`、`brand-soft`、`brand-strong`、`brand-glow`、`brand-edge` 和 `selection`。
 
-其他所有东西都保持基础样式的值。没有哪套主题改 `you` 或 `selected`（[信号](#signals)）。外框浅到能放墨色文字时，上面用墨色文字，选中项用白色；外框是深色时，用浅色文字，选中项保留黄色，和深色模式的导航条一样（[0012](../decisions/0012-yellow-rail-selection-in-dark-mode.md)）。
+其他所有东西都保持基础样式的值。没有哪套主题改 `you` 或 `selected`，也不改状态色：`presence-*` 和 `task-status-*`（[信号](#signals)）。外框浅到能放墨色文字时，上面用墨色文字，选中项用白色；外框是深色时，用浅色文字，选中项保留黄色，和深色模式的导航条一样（[0012](../decisions/0012-yellow-rail-selection-in-dark-mode.md)）。
 
 ## 装饰 {#decorations}
 
