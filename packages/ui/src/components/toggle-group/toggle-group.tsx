@@ -3,6 +3,8 @@ import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { ToggleGroup as BaseToggleGroup } from "@base-ui/react/toggle-group";
 import { tv } from "../../lib/tv";
 import { defaultNativeButton } from "../../lib/default-native-button";
+import { useTapActivation } from "../../lib/tap-activation";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import type { StyledProps } from "../../lib/styled-props";
 
 const toggleGroup = tv({
@@ -52,11 +54,16 @@ export function ToggleGroupItem<T extends string = string>({
   className,
   nativeButton,
   render,
+  ref,
   ...props
 }: ToggleGroupItemProps<T>) {
   const { item } = toggleGroup();
+  // Switches when the finger lifts (design/patterns/navigation.md#switching-on-finger-lift).
+  const tapRef = useTapActivation<HTMLElement>();
+  const [setRef] = useMergedRef<HTMLElement>(tapRef, ref);
   return (
     <BaseToggle
+      ref={setRef}
       render={render}
       nativeButton={nativeButton ?? defaultNativeButton(render)}
       type="button"

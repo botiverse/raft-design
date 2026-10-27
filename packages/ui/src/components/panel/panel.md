@@ -71,6 +71,7 @@ A phone's pushed page has a white top bar, and its location tile stays a yellow 
 - The title and the description truncate with an ellipsis on one line each.
 - On a phone the header sticks to the top of the page.
 - When the window is shorter than 600px, the header shrinks with every other header ([Spacing](../../../../../design/foundations/spacing.md#heights)).
+- Give Back `activateOnTouchEnd`: on a touch screen it then goes back when the finger lifts, so a tap that stops a scrolling page still goes back ([Switching on finger lift](../../../../../design/patterns/navigation.md#switching-on-finger-lift)). `DialogSheetBack` sets it. Leave it off the header's other actions: they change things, and the rule is for navigation.
 
 ### Phone top bars
 

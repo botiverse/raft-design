@@ -72,6 +72,7 @@ toggle-group/compositions/disabled
 
 - A horizontal group wraps its items onto a new row when they don't fit, and never grows wider than its container.
 - Pressing a pressed item turns it off, in both variants.
+- On a touch screen an item toggles when the finger lifts, so a tap that stops a scrolling list still toggles ([Switching on finger lift](../../../../../design/patterns/navigation.md#switching-on-finger-lift)).
 - Items sit 3px inside the track and 3px apart, like the segments of a [SegmentedControl](../segmented-control/segmented-control.md).
 - Items are 32px high and don't extend their hit area to 44px. On touch screens that is below the [hit target](../../../../../design/foundations/spacing.md#hit-targets).
 

@@ -60,6 +60,7 @@ segmented-control/compositions/disabled
 - A fixed width is a container query instead: mark the row with `@container` and set `iconsOnlyBelow` to the row width below which the segments show only their icons, either Tailwind's container sizes, `xs` (20rem), `sm` (24rem), `md` (28rem), `lg` (32rem), `xl` (36rem) or `2xl` (42rem), or any length in `px`, `rem` or `em` (`"18.5rem"`, `"296px"`). A length is measured in script against the nearest `@container` (the control's parent when there is none); a size is a CSS container query. Pick the width from the row, not the window: the same row sits in columns of different widths, and a container query follows the column.
 - Stretch it only when it is the only choice in a form. Then give it the full width (`w-full`) on its own line, not in a row beside other controls, and let the segments share it equally: in a row, a full-width track that can't shrink pushes past its neighbors.
 - On a phone, use at most 4 segments and show only their icons when they don't fit, with `iconsOnlyBelow="auto"` ([Responsive layout](../../../../../design/patterns/responsive.md#phone)).
+- On a touch screen a segment switches when the finger lifts, so a tap that stops a scrolling list still switches ([Switching on finger lift](../../../../../design/patterns/navigation.md#switching-on-finger-lift)).
 
 ```example
 segmented-control/compositions/fit-row

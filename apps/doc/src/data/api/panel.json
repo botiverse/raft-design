@@ -25,6 +25,14 @@
     "native": true,
     "props": [
       {
+        "name": "activateOnTouchEnd",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Activate when the finger lifts instead of on the click after it, so a tap that stops a scrolling page still acts. Give it to Back, the header's navigation; not to actions that change things (design/patterns/navigation.md#switching-on-finger-lift).",
+        "from": "raft-ui"
+      },
+      {
         "name": "focusableWhenDisabled",
         "type": "boolean",
         "required": false,

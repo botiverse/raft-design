@@ -27,6 +27,8 @@ import { useDragSensors } from "../drag/drag-sensors";
 import { DropPlaceholder } from "../drag/drop-placeholder";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
+import { useTapActivation } from "../../lib/tap-activation";
+import { useMergedRef } from "../../lib/use-merged-ref";
 import type { StyledProps } from "../../lib/styled-props";
 
 const tabs = tv({
@@ -627,6 +629,7 @@ function TabsTabButton<T extends string = string>({
   dropPlace = false,
   className,
   children,
+  ref,
   ...props
 }: TabsTabProps<T> & {
   sortableRef?: (node: HTMLElement | null) => void;
@@ -635,10 +638,14 @@ function TabsTabButton<T extends string = string>({
   const variant = use(TabsListVariantContext);
   const placement = use(TabsPlacementContext);
   const { content, tab } = tabs({ variant, placement });
+  // A tab switches when the finger lifts, so a tap that stops a scrolling
+  // list still switches (design/patterns/navigation.md#switching-on-finger-lift).
+  const tapRef = useTapActivation<HTMLElement>();
+  const [setRef] = useMergedRef<HTMLElement>(sortableRef, tapRef, ref);
 
   return (
     <BaseTabs.Tab
-      ref={sortableRef}
+      ref={setRef}
       value={value}
       data-slot="tabs-tab"
       className={tab({ className })}

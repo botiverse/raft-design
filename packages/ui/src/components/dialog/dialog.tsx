@@ -281,6 +281,7 @@ export function DialogSheetBack({
   if (!inSheetHead) return null;
   return (
     <PanelAction
+      activateOnTouchEnd
       data-slot="dialog-sheet-back"
       aria-label={ariaLabel ?? "Back"}
       className={className}

@@ -206,6 +206,16 @@ A place can hold several kinds of content, such as an agent's profile and its ac
 - Use the same row in every place of a product, so a view is in the same spot wherever people open it. Raft Chat's channel views are in [Channel](../products/raft-chat/channel.md#tasks-and-files).
 - The same page in another language is not a view of it: switch to it from a menu that lists each language in its own name (English, Español), as a [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) whose items are links (`DropdownMenuLinkItem`), so each one can be opened in a new tab and shared. In a web top bar it sits at the right end; on a phone, where the top bar has no room for it, it goes in the menu.
 
+### Switching on finger lift
+
+On a phone, a tap that lands while a list is still momentum-scrolling only stops the scroll: the browser sends no click, so a control that switches on click needed a second tap. Navigation controls switch when the finger lifts instead (`touchend`), so the first tap both stops the list and switches (Artea, 2026-10-27, after testing on a phone).
+
+- A touch counts as a tap when it is one finger, moves no more than 10px from where it landed, lifts inside the control, and lasts less than 500ms. More than 10px is a scroll (the same tolerance as a touch drag, [States](../foundations/states.md#dragging-on-a-touch-screen)); sliding off the control is how people cancel; at 500ms a long press opens a menu or arms a drag, and a tap must not race them.
+- The control then activates once: the lift cancels the browser's own click, so nothing activates twice and no ghost click lands on what appears under the finger. When the browser won't let the lift be cancelled, the control waits for its click as before.
+- A mouse, a pen and the keyboard are unchanged: they activate on click. A disabled control does nothing.
+- It applies to [Tabs](../../packages/ui/src/components/tabs/tabs.md), [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md), [ToggleGroup](../../packages/ui/src/components/toggle-group/toggle-group.md), the [MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md) tab bar, and Back ([Panel](../../packages/ui/src/components/panel/panel.md)'s `PanelAction` with `activateOnTouchEnd`, which `DialogSheetBack` sets). raft-ui does it with `useTapActivation` (`lib/tap-activation.ts`).
+- Rows, list items and menu items keep switching on click. They sit in the list that scrolls, so a finger that stops the list on a row would open it by accident.
+
 ## Related
 
 - [Page structure](./page-structure.md): the regions.

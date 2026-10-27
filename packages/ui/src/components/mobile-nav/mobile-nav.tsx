@@ -2,6 +2,7 @@ import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import { useTapActivation } from "../../lib/tap-activation";
 import { tv } from "../../lib/tv";
 
 const mobileNav = tv({
@@ -57,9 +58,13 @@ export function MobileNavItem({
   selected,
   className,
   render,
+  ref,
   ...props
 }: MobileNavItemProps) {
   const { item } = mobileNav();
+  // A tab bar item switches when the finger lifts, so a tap that stops a
+  // scrolling page still switches (design/patterns/navigation.md#switching-on-finger-lift).
+  const tapRef = useTapActivation<HTMLButtonElement>();
   const defaultProps: SlotElementProps<"button"> = {
     type: nativeButton ? "button" : undefined,
     "aria-pressed": nativeButton ? selected : undefined,
@@ -70,6 +75,7 @@ export function MobileNavItem({
 
   return useRender({
     render: render ?? <BaseButton />,
+    ref: ref ? [ref, tapRef] : tapRef,
     props: mergeProps<"button">(defaultProps, props),
   });
 }
