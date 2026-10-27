@@ -213,11 +213,20 @@ test("a text field that already has focus keeps it, so the keyboard stays open",
   const field = document.createElement("input");
   document.body.append(field);
   field.focus();
-  onClick.mockImplementation(() => field.focus());
+  // The click leaves focus alone; before the fix the tap then focused the control.
   start({ x: 50, y: 20 });
   end({ x: 50, y: 20 });
   expect(onClick).toHaveBeenCalledTimes(1);
   expect(document.activeElement).toBe(field);
+});
+
+test("focus on the page or another control still moves to the tapped control", () => {
+  const other = document.createElement("button");
+  document.body.append(other);
+  other.focus();
+  start({ x: 50, y: 20 });
+  end({ x: 50, y: 20 });
+  expect(document.activeElement).toBe(button);
 });
 
 test("detaching removes the behavior", () => {

@@ -59,10 +59,12 @@ function findTouch(list: TouchList | undefined, id: number): Touch | undefined {
   return undefined;
 }
 
+// Read by tag, not instanceof, so a control in an iframe or another window
+// classifies its own document's fields too.
 function isTextEntry(node: Element | null): boolean {
-  if (!node || !(node instanceof HTMLElement)) return false;
-  if (node.isContentEditable || node instanceof HTMLTextAreaElement) return true;
-  return node instanceof HTMLInputElement && !NON_TEXT_INPUTS.has(node.type);
+  if (!node) return false;
+  if ((node as HTMLElement).isContentEditable || node.tagName === "TEXTAREA") return true;
+  return node.tagName === "INPUT" && !NON_TEXT_INPUTS.has((node as HTMLInputElement).type);
 }
 
 const NON_TEXT_INPUTS = new Set([
