@@ -1,3 +1,21 @@
+## [0.40.0](https://github.com/botiverse/raft-design/compare/v0.39.0...v0.40.0) (2026-10-28)
+
+### Design System
+
+- **MessageActionCard:** an Expired state: folded, saying no one acted in time and nothing changed. The 0.39.0 rule that a Done card stays open while it holds a next step is withdrawn. ([#836](https://github.com/botiverse/raft-design/pull/836), [#837](https://github.com/botiverse/raft-design/pull/837))
+  - Docs: https://raft-design.botiverse.build/components/message-action-card/
+- **Combobox:** an inline list (`inline open`) for pickers inside a dialog: the arrow keys move a highlight, Enter or a click chooses, Esc reaches the dialog. ([#838](https://github.com/botiverse/raft-design/pull/838))
+  - Docs: https://raft-design.botiverse.build/components/combobox/
+
+### Added
+
+- **AvatarGroupButton** (wip): an avatar stack that is a button, opening the list of who is in it (who is viewing, a channel's members). ([#838](https://github.com/botiverse/raft-design/pull/838))
+- **CommentCardMeta** styles itself as clickable text when rendered as a `<button>` (the anchor line that jumps to the commented spot). ([#838](https://github.com/botiverse/raft-design/pull/838))
+
+### Fixed
+
+- **Tap activation:** a tap no longer moves focus out of a text field that already has it. ([#835](https://github.com/botiverse/raft-design/pull/835))
+
 ## [0.39.0](https://github.com/botiverse/raft-design/compare/v0.38.0...v0.39.0) (2026-10-27)
 
 ### Design System
