@@ -57,7 +57,10 @@ export type CommentCardMetaProps = useRender.ComponentProps<"div">;
 /**
  * A short line about the discussion, in the caller's words: how many replies
  * it has, that it is about the whole document, or that the passage it was on
- * can no longer be found.
+ * can no longer be found. When choosing it does something (makes this the
+ * discussion being read), render it as a button,
+ * `render={<button type="button" />}`: it then underlines on hover, as
+ * clickable text, and takes the focus ring.
  */
 export function CommentCardMeta({ className, render, ...props }: CommentCardMetaProps) {
   const { cardMeta } = comment();

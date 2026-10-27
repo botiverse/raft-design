@@ -20,13 +20,14 @@ choice-list/compositions/migration-target
 
 The full choice between pickers is in [Choosing a component](../../../../../design/components/overview.md#picking-something).
 
-| Situation                                                                                 | Use                                                     |
-| ----------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| One of any number of choices, when choosing is the dialog's main content                  | ChoiceList                                              |
-| Several of any number, when choosing is the dialog's main content (Add Members)           | ChoiceList with `multiple` and `search="always"`        |
-| One of 2 to 5 answers, as one field among others in a form                                | [RadioGroup](../radio-group/radio-group.md)             |
-| One of up to 10 values, as a field in a form                                              | [Select](../select/select.md)                           |
-| One or a few of many values, as a field in a form, or values from a server as people type | [ComboboxSelect](../combobox-select/combobox-select.md) |
+| Situation                                                                                 | Use                                                                                               |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| One of any number of choices, when choosing is the dialog's main content                  | ChoiceList                                                                                        |
+| Several of any number, when choosing is the dialog's main content (Add Members)           | ChoiceList with `multiple` and `search="always"`                                                  |
+| One of 2 to 5 answers, as one field among others in a form                                | [RadioGroup](../radio-group/radio-group.md)                                                       |
+| One of up to 10 values, as a field in a form                                              | [Select](../select/select.md)                                                                     |
+| One or a few of many values, as a field in a form, or values from a server as people type | [ComboboxSelect](../combobox-select/combobox-select.md)                                           |
+| One of many, when choosing a row costs something, such as asking the server about it      | [Combobox](../combobox/combobox.md#inline-list) with `inline open`: the arrow keys only highlight |
 
 A field among other fields keeps the choice behind one control, so the form stays short. When the choice is the content, opening a field to see the choices only hides what people came to compare, so the list stays open at every length.
 
@@ -98,7 +99,7 @@ choice-list/compositions/search
 
 ## Accessibility
 
-- Single: Base UI RadioGroup through raft-ui [RadioGroup](../radio-group/radio-group.md). The group is one Tab stop, on the chosen row; the arrow keys move the choice and focus among the rows drawn, never to a row the search has hidden.
+- Single: Base UI RadioGroup through raft-ui [RadioGroup](../radio-group/radio-group.md). The group is one Tab stop, on the chosen row; the arrow keys move the choice and focus among the rows drawn, never to a row the search has hidden. Each row the arrow keys reach is chosen, so where a choice starts work (a request about that row), use an [inline Combobox](../combobox/combobox.md#inline-list), whose arrow keys only highlight.
 - `multiple`: Base UI CheckboxGroup with raft-ui [Checkbox](../checkbox/checkbox.md), a `group` of checkboxes. Each checkbox is its own Tab stop and Space ticks it: the WAI-ARIA checkbox pattern. A multi-select listbox would make each row an option, which can't hold a button of its own.
 - Name the list with `aria-label`, or `aria-labelledby` pointing at the dialog's question. Each radio or checkbox is named by its row's `label` alone and described by its lines, so a screen reader reads the name first and the quota after it, not the whole row as the name.
 - Row actions are outside the group and the rows' labels: they are never read into a radio's name, and the group's arrow keys never land on them.

@@ -30,7 +30,7 @@ comment/compositions/margin
 - `CommentMargin`: the column beside the document, `position: relative`, as tall as its lowest card. Required for the margin.
   - `CommentMarginItem`: one card's place. `top` is where its anchor is, in px from the margin's top; `active` pins it there. Required for each card.
 - `CommentCard`: one discussion, on `layer-card` with a `line-hairline` border and `radius-container`. `active` marks the open one.
-  - `CommentCardMeta`: a line in `text-caption` and `foreground-hint` with the caller's words: "2 replies", "On the whole document", "Position not found". Optional.
+  - `CommentCardMeta`: a line in `text-caption` and `foreground-hint` with the caller's words: "2 replies", "On the whole document", "Position not found". Optional. When choosing it does something, such as making this the discussion being read and its passage the active highlight, render it as a button (`render={<button type="button" />}`): it underlines on hover, as clickable text does, and takes the focus ring ([States](../../../../../design/foundations/states.md#clickable-text)).
   - `CommentEntry`: one comment. At least one.
     - `CommentEntryHeader`: the author's [Avatar](../avatar/avatar.md) at `size="xs"`, `CommentEntryAuthor` (`text-subhead`, bold) and `CommentEntryTime` (Space Mono, `text-mono-meta`, `foreground-hint`), a `<time>`.
     - `CommentEntryBody`: the text, in `text-callout`. `clamp` cuts it to 2 lines.
@@ -67,6 +67,12 @@ Which parts a card holds is the caller's choice: raft-ui has no `collapsed` or `
 - The margin measures its cards with one `ResizeObserver`, so a card that opens or gets a reply moves the ones below it. The resolved top is the item's `data-top`, applied as `transform: translateY()`, so a move doesn't lay the margin out again; it takes 150ms after the first placement, and none under reduced motion. The transform makes the item the containing block of anything `position: fixed` inside it: portal popups out of the card.
 - `top` is the caller's measurement: the top of the passage's first line box (`range.getClientRects()[0].top`) minus the margin's top. Measure again when the document or the margin changes size, since the text rewraps.
 - Show a discussion whose passage can't be found in the document any more at the top, with the comments on the whole document, and say so in `CommentCardMeta`; never drop it ([Comments](../../../../../design/patterns/comments.md#rules)).
+- A reply is one more `CommentEntry` after the comment it answers, in the card's own column: the card is the discussion, so replies get no indent, rail or box of their own. Each `CommentEntry` sets its own space from the entry before it, so put the entries straight in the card, never in a wrapper of their own.
+- Where a card's `CommentCardMeta` names its passage and choosing it makes this the discussion being read, render the meta as a button. It underlines on hover and takes the focus ring; the card shows `active`.
+
+```example
+comment/compositions/passage-button
+```
 
 ### Wide and narrow
 

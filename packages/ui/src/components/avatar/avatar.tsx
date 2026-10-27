@@ -2,7 +2,10 @@ import type { ComponentPropsWithRef } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { Avatar as AvatarPrimitive } from "@base-ui/react";
+import { Button as BaseButton } from "@base-ui/react/button";
 import { cn } from "../../lib/cn";
+import type { DataAttributes } from "../../lib/data-attributes";
+import { defaultNativeButton } from "../../lib/default-native-button";
 import { PRESENCE_COLOR } from "../../lib/presence";
 import type { Presence } from "../../lib/presence";
 import { tv } from "../../lib/tv";
@@ -101,6 +104,17 @@ const avatar = tv({
       "stack-x-[-5px]",
       "*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
       "*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
+    ],
+    groupButton: [
+      "relative inline-flex shrink-0 cursor-pointer items-center p-1",
+      "rounded-chip border-0 bg-transparent",
+      "transition-colors enabled:hover:bg-fill-medium enabled:active:bg-fill-medium",
+      "enabled:hover:*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--fill-medium),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
+      "enabled:hover:*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--fill-medium),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
+      "enabled:active:*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--fill-medium),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
+      "enabled:active:*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--fill-medium),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
+      "outline-none focus-visible:shadow-focus",
+      "disabled:cursor-default",
     ],
   },
   variants: {
@@ -346,6 +360,31 @@ export type AvatarGroupProps = ComponentPropsWithRef<"div">;
 export function AvatarGroup({ className, ...props }: AvatarGroupProps) {
   const { group } = avatar();
   return <div data-slot="avatar-group" className={group({ className })} {...props} />;
+}
+
+export type AvatarGroupButtonProps = StyledProps<BaseButton.Props> & DataAttributes;
+
+// An AvatarGroup that is a button: a stack that opens who is in it (who is
+// viewing, a channel's members), usually as a PopoverTrigger's `render`. The
+// stack sits 4px inside the button's hover fill, and the ring between faces
+// takes the same fill, so the stack hovers as one control. Name it with the
+// full count and what it opens ("3 people viewing"): the faces are not text.
+export function AvatarGroupButton({
+  className,
+  render,
+  nativeButton,
+  ...props
+}: AvatarGroupButtonProps) {
+  const { group, groupButton } = avatar();
+  return (
+    <BaseButton
+      {...props}
+      render={render}
+      nativeButton={nativeButton ?? defaultNativeButton(render)}
+      data-slot="avatar-group-button"
+      className={group({ class: [groupButton(), className] })}
+    />
+  );
 }
 
 export type AvatarGroupCountProps = ComponentPropsWithRef<"span"> & {

@@ -25,7 +25,7 @@
   {
     "name": "CommentCardMeta",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "A short line about the discussion, in the caller's words: how many replies it has, that it is about the whole document, or that the passage it was on can no longer be found.",
+    "description": "A short line about the discussion, in the caller's words: how many replies it has, that it is about the whole document, or that the passage it was on can no longer be found. When choosing it does something (makes this the discussion being read), render it as a button, `render={<button type=\"button\" />}`: it then underlines on hover, as clickable text, and takes the focus ring.",
     "native": true,
     "props": [
       {

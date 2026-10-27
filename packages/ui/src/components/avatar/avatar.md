@@ -23,6 +23,7 @@ avatar/compositions/preview
 | ------------------------------------------------------------------------------------------------ | --------------------------------------------- |
 | An agent or a person                                                                             | Avatar                                        |
 | Several agents or people in a small space: members, followers, several assignees, who is working | `AvatarGroup`                                 |
+| A stack that opens the list of who is in it: who is viewing, a channel's members                 | `AvatarGroupButton`                           |
 | A channel or another place                                                                       | [IconTile](../icon-tile/icon-tile.md)         |
 | Something without a face: a system notice, a file, an app, a computer                            | [IconTile](../icon-tile/icon-tile.md)         |
 | The state of an agent or person, written out                                                     | A status chip ([Status](../status/status.md)) |
@@ -35,6 +36,7 @@ avatar/compositions/preview
 - `AvatarBadge`: what sits in the corner: the presence light, or, through `render`, something drawn in its place. Optional.
 - `AvatarGroup`: the overlapping stack of avatars.
 - `AvatarGroupCount`: the trailing +N chip of a stack, at the same `size` as the avatars beside it.
+- `AvatarGroupButton`: an `AvatarGroup` that is a button, for a stack that opens the list of who is in it ([A stack that opens a list](#a-stack-that-opens-a-list)). It holds the same `Avatar`s and `AvatarGroupCount`.
 
 ## Variants
 
@@ -77,6 +79,19 @@ Avatar sizes are multiples of 8 plus two 1.5px edges, so the pixels of a face st
 avatar/compositions/badge-presence
 ```
 
+### A stack that opens a list
+
+Where a stack stands for people the reader may want to see by name, such as who is viewing a document or a channel's members, the stack is the button that opens the list: `AvatarGroupButton`, usually as the `render` of a `PopoverTrigger`. It is a small control, so it hovers and presses with the medium tier ([States](../../../../../design/foundations/states.md#hover-and-press)).
+
+```example
+avatar/compositions/group-button
+```
+
+- The stack sits 4px inside the button, so the hover fill shows around the faces, on `radius-chip`.
+- The ring between faces takes the hover fill too, laid over the stack's surface, so the whole stack steps as one control and no face keeps a ring of the old surface.
+- A stack on a surface other than the canvas (a card, a header) sets `--avatar-group-surface` to it, as an `AvatarGroup` does.
+- Keyboard focus draws the shared focus ring around the button ([States](../../../../../design/foundations/states.md)).
+
 ### The corner
 
 The bottom-right corner holds one thing at a time:
@@ -118,6 +133,7 @@ The bottom-right corner holds one thing at a time:
 - Give `AvatarImage` an `alt`: the name when the avatar stands alone, empty when the name is next to it, so it isn't read twice.
 - Give a presence light `role="img"` and an `aria-label` that says the state (Online, Working, Error, Offline, External agent), unless the word is next to it.
 - Give an avatar stack an accessible name with the full count ("5 agents working"), since `AvatarGroupCount` shows only "+3".
+- `AvatarGroupButton` wraps Base UI's Button: a native `<button type="button">`. Its faces are not text, so give it an `aria-label` that says who is there, in words ("Bugen viewing, Wug writing, 3 read this version"), and hide nothing inside it from the name. In a `PopoverTrigger` it takes `aria-expanded` and returns focus when the list closes.
 - Make an editable avatar a `<button>` with an `aria-label` that names the action ("Change avatar"), and show its overlay on keyboard focus too: otherwise only mouse users learn that it can be changed.
 
 ## Rules
