@@ -6,8 +6,10 @@ import { useCallback, useRef } from "react";
  * that much of its 8px end inset back, so its fill sits 8px from both outer
  * edges of the list whether the scrollbar takes room (a classic scrollbar,
  * `scrollbar-list`) or not (an overlay scrollbar: 0). CSS alone can't tell
- * the two apart. The width is kept current while the scroller or its
- * content resizes, which is when a scrollbar comes and goes.
+ * the two apart. The width is kept current while the scroller or one of its
+ * direct children resizes, which is when a scrollbar comes and goes: content
+ * deeper down that grows also grows the child that holds it. A child whose
+ * box keeps its size while its content overflows it would not be seen.
  *
  * Returns a ref callback for the scroller.
  */

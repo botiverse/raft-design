@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 import { expect, test } from "vite-plus/test";
 import { activityInboxShell } from "../components/activity-inbox/activity-inbox-shell.recipe";
+import { activityInboxToolbar } from "../components/activity-inbox/activity-inbox-toolbar.recipe";
+import { panelHeader } from "../components/panel/panel-header.recipe";
 import { inboxItem } from "../components/inbox-item/inbox-item.recipe";
 import { listRow } from "../components/list-row/list-row.recipe";
 import { searchEntity } from "../components/search/search-entity.recipe";
@@ -71,6 +73,34 @@ test("a heading over a list of cells starts where the cells' content starts, 20p
   for (const [name, value] of Object.entries(headings)) {
     expect(classesOf(value), name).toContain("px-5");
   }
+});
+
+test("a list column sets its margin to 20px at every width; heads and toolbars pad by it", () => {
+  // design/patterns/lists.md#one-edge. The browser test (list-column) measures
+  // the line; this pins the wiring, so dropping it fails in CI's Node run too.
+  const roots = {
+    "activity-inbox-panel": activityInboxShell().panel(),
+    "sidebar-root": sidebarRecipe().sidebarRoot(),
+    "search-shell-root": search().frame(),
+  };
+  for (const [name, value] of Object.entries(roots)) {
+    expect(classesOf(value), name).toContain("[--column-margin:20px]");
+  }
+  const padded = {
+    "panel-section-header": panelHeader().sectionHeader(),
+    "sidebar-header": sidebarRecipe().sidebarHeader(),
+    "activity-inbox-controls": activityInboxToolbar().controls(),
+    "activity-inbox-selection-toolbar": activityInboxToolbar().selectionToolbar(),
+    "search-shell-filters": search().filtersRow(),
+  };
+  for (const [name, value] of Object.entries(padded)) {
+    expect(classesOf(value), name).toContain("px-(--column-margin)");
+    expect(classesOf(value), name).not.toContain("max-md:px-4");
+  }
+  const css = readFileSync(new URL("../styles.css", import.meta.url), "utf8");
+  expect(css).toMatch(
+    /--column-margin:\s*16px;[\s\S]*@media \(width >= 48rem\)[\s\S]*--column-margin:\s*20px;/,
+  );
 });
 
 test("every container of list cells is a column with a 2px gap and 8px at its ends", () => {

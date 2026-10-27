@@ -664,8 +664,8 @@ textarea:-webkit-autofill:disabled {
 /* The shorthand replaces any animation of the element's own while it is
    located; no raft-ui row has one. It runs on every located item, marked or
    not, so a mark that comes and goes (a popup opened and closed) doesn't
-   start the highlight over. */
-[data-located] {
+   start the highlight over. A list cell runs it on its shape instead (below). */
+[data-located]:not(.list-cell) {
   animation: var(--located-animation, raft-located) 2s linear;
 }
 
