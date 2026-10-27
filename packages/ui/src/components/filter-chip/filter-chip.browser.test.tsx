@@ -1,17 +1,24 @@
 import "./filter-chip.test.css";
 import { afterAll, afterEach, expect, test } from "vite-plus/test";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { ChevronDown, ListFilter, Pin } from "lucide-react";
+import { useCallback, useRef, useState } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItemLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "../dropdown-menu/dropdown-menu";
 import { PickerTriggerButton } from "../picker-trigger-button/picker-trigger-button";
 import { FilterChip, FilterChipLabel, FilterChipRemove } from "./filter-chip";
 
 // A FilterChip sits beside the Filter button (filter-chip.md): as high as the
 // button, 32px, on a phone and on a desktop; its × a 24px square 4px from the
 // chip's end, centred on the chip; in a narrow row only the label gives way.
-// The Filter button is outlined until its menu opens, then takes its hover
-// fill; an applied filter keeps its info-soft fill while open. Real layout
-// and computed colours only: jsdom has neither.
+// Real layout, computed colours and focus only: jsdom has no layout.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -104,27 +111,66 @@ function colourOf(className: string, mode: (typeof MODES)[number]) {
 }
 
 for (const mode of MODES) {
-  it(`fills the chip info-soft, and the open Filter button fill-medium (${mode})`, () => {
+  it(`fills the chip info-soft (${mode})`, () => {
     const infoSoft = colourOf("bg-info-soft", mode);
-    const fillMedium = colourOf("bg-fill-medium", mode);
     render(
       <ThemeProvider mode={mode}>
         <FilterChip data-testid="chip">
           <FilterChipLabel>Unread</FilterChipLabel>
         </FilterChip>
-        <PickerTriggerButton data-testid="closed">Filter</PickerTriggerButton>
-        <PickerTriggerButton data-testid="open" data-popup-open="">
-          Filter
-        </PickerTriggerButton>
-        <PickerTriggerButton data-testid="applied-open" data-popup-open="" data-has-value="">
-          Unread
-        </PickerTriggerButton>
       </ThemeProvider>,
     );
-    const bg = (id: string) => getComputedStyle(screen.getByTestId(id)).backgroundColor;
-    expect(bg("chip")).toBe(infoSoft);
-    expect(bg("closed")).toBe("rgba(0, 0, 0, 0)");
-    expect(bg("open")).toBe(fillMedium);
-    expect(bg("applied-open")).toBe(infoSoft);
+    expect(getComputedStyle(screen.getByTestId("chip")).backgroundColor).toBe(infoSoft);
   });
 }
+
+// The docs composition (filter-chip/compositions/filter-button) built the
+// same way: packages/ui can't import apps/doc. The × removes itself, so its
+// handler moves focus to the Filter button; without it focus falls to body.
+function FilterButtonRow() {
+  const [filter, setFilter] = useState<"all" | "unread">("unread");
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const handleValueChange = useCallback((value: unknown) => {
+    if (value === "all" || value === "unread") setFilter(value);
+  }, []);
+  const handleClear = useCallback(() => {
+    setFilter("all");
+    triggerRef.current?.focus();
+  }, []);
+  return (
+    <ThemeProvider>
+      <div className="flex min-w-0 items-center gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger ref={triggerRef} render={<PickerTriggerButton />}>
+            <ListFilter aria-hidden data-icon="inline-start" />
+            Filter
+          </DropdownMenuTrigger>
+          <DropdownMenuContent aria-label="Filter activity">
+            <DropdownMenuRadioGroup value={filter} onValueChange={handleValueChange}>
+              <DropdownMenuRadioItem value="all">
+                <DropdownMenuItemLabel>All</DropdownMenuItemLabel>
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="unread">
+                <DropdownMenuItemLabel>Unread</DropdownMenuItemLabel>
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        {filter !== "all" && (
+          <FilterChip>
+            <FilterChipLabel>Unread</FilterChipLabel>
+            <FilterChipRemove aria-label="Clear Filter" onClick={handleClear} />
+          </FilterChip>
+        )}
+      </div>
+    </ThemeProvider>
+  );
+}
+
+it("leaves focus on the Filter button after × removes the chip", async () => {
+  const { userEvent } = await import("vite-plus/test/browser/context");
+  render(<FilterButtonRow />);
+  await userEvent.click(screen.getByRole("button", { name: "Clear Filter" }));
+  await waitFor(() => expect(document.querySelector('[data-slot="filter-chip"]')).toBeNull());
+  expect(document.activeElement).toBe(screen.getByRole("button", { name: "Filter" }));
+});

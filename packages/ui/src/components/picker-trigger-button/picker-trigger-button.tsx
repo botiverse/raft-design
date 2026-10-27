@@ -15,7 +15,7 @@ const pickerTriggerButton = tv({
     "gap-1.5 rounded-control border-0 bg-transparent px-2.5 py-0",
     "font-sans text-control font-semibold text-foreground-muted",
     "inset-ring inset-ring-line-seam",
-    "hover:bg-fill-medium active:bg-fill-medium data-popup-open:not-data-has-value:bg-fill-medium",
+    "hover:bg-fill-medium active:bg-fill-medium",
     "data-has-value:bg-info-soft data-has-value:text-foreground data-has-value:inset-ring-0",
     "data-has-value:hover:bg-info-soft data-has-value:hover:overlay-medium data-has-value:active:overlay-medium",
     "data-invalid:inset-ring data-invalid:inset-ring-danger-strong",

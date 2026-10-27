@@ -43,13 +43,12 @@ picker-trigger-button/compositions/combobox-filter
 
 ## States
 
-| State                                 | Look                                                                                                                                                |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Not applied                           | `foreground-muted` text inside a `line-seam` outline                                                                                                |
-| Open, not applied (`data-popup-open`) | The hover fill, `fill-medium`, while its list is open, so the button that opened it stays marked                                                    |
-| Applied (`data-has-value`)            | `info-soft` fill, `foreground` text, no outline ([States](../../../../../design/foundations/states.md#usage): an active filter is selected content) |
-| Invalid (`data-invalid`)              | A `danger-strong` outline                                                                                                                           |
-| Disabled                              | Follows [States](../../../../../design/foundations/states.md#usage): `fill-muted`, `foreground-disabled` text                                       |
+| State                      | Look                                                                                                                                                |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Not applied                | `foreground-muted` text inside a `line-seam` outline                                                                                                |
+| Applied (`data-has-value`) | `info-soft` fill, `foreground` text, no outline ([States](../../../../../design/foundations/states.md#usage): an active filter is selected content) |
+| Invalid (`data-invalid`)   | A `danger-strong` outline                                                                                                                           |
+| Disabled                   | Follows [States](../../../../../design/foundations/states.md#usage): `fill-muted`, `foreground-disabled` text                                       |
 
 - `ComboboxTrigger` sets `data-has-value` when the combobox has a value. A `SelectTrigger` always holds a value, so it never sets it: pass `data-has-value` yourself when the filter differs from its default.
 
