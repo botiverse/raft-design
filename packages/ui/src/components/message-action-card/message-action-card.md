@@ -51,14 +51,14 @@ message-action-card/compositions/integration-actions
 
 ## States
 
-| State         | The card                                                                                        |
-| ------------- | ----------------------------------------------------------------------------------------------- |
-| Waiting       | Open, with its buttons. The status says whom it waits on, with a pink pixel: Needs an admin     |
-| Paused        | Open; the note before the buttons says why, and the buttons are disabled                        |
-| Confirm again | Open; something changed since the agent prepared it, and the note says what                     |
-| Done          | Folded to its header; the description says who did it and when. Open while it holds a next step |
-| Declined      | Folded; the description says who declined it and that nothing changed                           |
-| View only     | Folded; the description says why the person can't act. No buttons                               |
+| State         | The card                                                                                    |
+| ------------- | ------------------------------------------------------------------------------------------- |
+| Waiting       | Open, with its buttons. The status says whom it waits on, with a pink pixel: Needs an admin |
+| Paused        | Open; the note before the buttons says why, and the buttons are disabled                    |
+| Confirm again | Open; something changed since the agent prepared it, and the note says what                 |
+| Done          | Folded to its header; the description says who did it and when                              |
+| Declined      | Folded; the description says who declined it and that nothing changed                       |
+| View only     | Folded; the description says why the person can't act. No buttons                           |
 
 - When the action fails, show a toast and leave the card as it was, so the person can try again ([Toast](../toast/toast.md)).
 
@@ -69,7 +69,6 @@ message-action-card/compositions/resolution-states
 ## Behavior
 
 - The card is open by default. Fold a resolved or view-only card with `defaultOpen={false}`; the collapse trigger opens it again.
-- A Done card that leaves the viewer a next step stays open, with that step's button in its actions row: folded, it would hide the one thing left to do. An example is a request someone else completed for the viewer, after which only the viewer can create what they asked for. Once the step is taken or no longer possible, the card folds like any other Done card.
 - A long list of permissions scrolls inside its own area, so the card doesn't grow with it.
 
 ## Content
