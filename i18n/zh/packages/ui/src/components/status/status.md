@@ -1,7 +1,7 @@
 ---
 title: Status
 summary: 方形的状态像素点（在线状态灯、提醒圆点，或文字旁的状态色），以及用它构成的状态标签、Agent 标签和运行时标签片。
-sourceHash: 06955a77
+sourceHash: 389e63f2
 ---
 
 # Status
@@ -56,7 +56,9 @@ status/compositions/default
 
 ### Agent 状态标签 {#agent-state-chips}
 
-Agent 状态标签是一个浅色的 [Badge](../badge/badge.md)，里面放一个带对应 `presence` 的 Status 和上表中的文字。底色是状态灯颜色的浅色一级：Working 用 `brand-soft`，其他状态用同一色系的 `*-soft` 浅色底（[浅色底](../../../../../design/foundations/color.md#soft-tints)）。
+Agent 状态标签是一个浅色的 [Badge](../badge/badge.md)，里面放一个带对应 `presence` 的 Status 和上表中的文字。底色是状态灯颜色的浅色一级：Working 用 `presence-busy-soft`（`Badge appearance="soft" variant="busy"`），其他状态用同一色系的 `*-soft` 浅色底（[浅色底](../../../../../design/foundations/color.md#soft-tints)）。
+
+状态在每套主题里都保持颜色（[主题](../../../../../design/foundations/themes.md#signals)）。Working 的灯和它的底色有自己的 token：`presence-busy` 和 `presence-busy-soft`，在 Raft 黄里和 `brand`、`brand-soft` 的值相同。它们指向 `brand` 的时候，无聊灰把工作中的 Agent 变成了灰色。`variant="primary"` 就是这个 `presence-busy`。
 
 ### Agent 标签 {#agent-tag}
 
@@ -84,4 +86,5 @@ Status 渲染一个 `<span>`，不封装任何 Base UI 原语。
 - 每个标签片都是 22px 高，用 `radius-chip`，让标签片排成一行时对齐；Badge 和 TaskChip 已经是这样。
 - 新的状态要归入五种任务状态或五种在线状态灯之一；不要发明新颜色。"Stuck"（卡住）是 Agent 的错误状态。"Needs you"（需要你）是一个提醒圆点加一个操作按钮，不是一种状态（[Tasks](../../../../../design/patterns/tasks.md#rules)）。
 - 不要自定义 `--status-color`：每种状态色都有固定的含义。
+- 不要用 `brand` 或 `brand-soft` 画状态或它后面的底色：它们跟着主题变，状态不变。
 - 状态永远不加动画：正在工作的 Agent 是一盏静止的灯（[动效](../../../../../design/foundations/motion.md)）。

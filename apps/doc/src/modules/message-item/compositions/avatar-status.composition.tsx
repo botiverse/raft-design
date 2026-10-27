@@ -44,16 +44,7 @@ export function MessageAvatarStatusComposition() {
           <Avatar size="md" type="agent">
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>MI</AvatarFallback>
-            <AvatarBadge
-              title="Thinking…"
-              render={
-                <Status
-                  aria-hidden
-                  className="[--status-color:var(--color-primary)]"
-                  variant="warning"
-                />
-              }
-            />
+            <AvatarBadge title="Thinking…" render={<Status aria-hidden presence="busy" />} />
           </Avatar>
         </MessageItemAvatarSlot>
         <MessageItemContent>
@@ -71,16 +62,7 @@ export function MessageAvatarStatusComposition() {
           <Avatar size="md" type="agent">
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>NO</AvatarFallback>
-            <AvatarBadge
-              title="Working…"
-              render={
-                <Status
-                  aria-hidden
-                  className="[--status-color:var(--color-primary)]"
-                  variant="warning"
-                />
-              }
-            />
+            <AvatarBadge title="Working…" render={<Status aria-hidden presence="busy" />} />
           </Avatar>
         </MessageItemAvatarSlot>
         <MessageItemContent>

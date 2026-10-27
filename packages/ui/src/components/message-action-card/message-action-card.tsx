@@ -113,6 +113,7 @@ const STATUS_TONES: Record<NonNullable<BadgeProps["variant"]>, MessageActionCard
   muted: "neutral",
   primary: "primary",
   you: "primary",
+  busy: "primary",
   information: "information",
   accent: "accent",
   success: "success",

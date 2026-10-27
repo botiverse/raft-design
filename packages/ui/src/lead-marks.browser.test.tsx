@@ -307,7 +307,7 @@ for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
     await device(deviceWidth, touch);
     render(
       <ThemeProvider>
-        <Badge appearance="soft" variant="primary" data-testid="badge">
+        <Badge appearance="soft" variant="busy" data-testid="badge">
           <Status data-testid="badge-dot" presence="busy" />
           Working…
         </Badge>

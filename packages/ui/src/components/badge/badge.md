@@ -39,7 +39,8 @@ Badge is a small label. Its main job is the unread count: a pink sticker that sa
 `variant` picks the color role. Choose it by what the color means, not by how it looks ([Meanings of color](../../../../../design/foundations/color.md#meanings-of-color)): on a count, `accent` is the pink of "to do" and `you` the yellow of "you".
 
 - `variant="you"` is the @ marker's fill, the `you` signal: it stays yellow in every theme, Boring Gray included ([Themes](../../../../../design/foundations/themes.md#signals)). It is solid only; a soft or outline Badge has no `you` look.
-- `variant="primary"` is the `brand` color, and follows the theme: Boring Gray makes it gray. Don't use it for something addressed to the person.
+- `variant="primary"` is the `brand` color, and follows the theme: Boring Gray makes it gray. Don't use it for something addressed to the person, or for a status (use `busy`).
+- `variant="busy"` is the yellow of a working agent, a status, so it stays yellow in every theme ([Status](../status/status.md#agent-state-chips)): soft, it is the Working chip's tint, `presence-busy-soft`; solid, a `presence-busy` sticker. An outline Badge has no `busy` look.
 
 ## States
 

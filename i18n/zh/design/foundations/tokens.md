@@ -70,7 +70,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 | 信号 | `you`、`selected` | `you`、`selected` |
 | 墨色阶 | `ink-{alpha}` | `ink-8`、`ink-40` |
 | 调色板 | `palette-{color}-{step}` | `palette-yellow-400`、`palette-lavender-800` |
-| 状态 | `task-status-{status}(-soft\|-strong)`、`presence-{state}` | `task-status-in-review-soft`、`presence-busy` |
+| 状态 | `task-status-{status}(-soft\|-strong)`、`presence-{state}(-soft)` | `task-status-in-review-soft`、`presence-busy`、`presence-busy-soft` |
 | 贴纸 | `sticker-{part}` | `sticker-ink`、`sticker-edge`、`sticker-medium` |
 | 阴影 | `elevation-{level}`、`focus-ring` | `elevation-float`、`elevation-sticker` |
 | 尺寸 | `{part}-{property}` | `field-font-size`、`card-title-line-height` |

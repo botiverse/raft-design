@@ -76,7 +76,7 @@ export function AgentProfileComposition() {
                     Tw93
                   </Text.Heading>
                   <PanelActivity>
-                    <Status size="md" variant="warning" aria-label="Working" />
+                    <Status size="md" presence="busy" aria-label="Working" />
                     Working…
                   </PanelActivity>
                 </PanelHeading>

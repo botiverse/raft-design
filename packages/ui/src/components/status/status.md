@@ -61,7 +61,9 @@ Their colors, and the five task status colors, are in [Color](../../../../../des
 
 ### Agent state chips
 
-An agent state chip is a soft [Badge](../badge/badge.md) holding a Status with its `presence` and the word from the table above. The tint is the soft step of the light's color: `brand-soft` for Working, and the `*-soft` tint of the same family for the others ([Soft tints](../../../../../design/foundations/color.md#soft-tints)).
+An agent state chip is a soft [Badge](../badge/badge.md) holding a Status with its `presence` and the word from the table above. The tint is the soft step of the light's color: `presence-busy-soft` for Working (`Badge appearance="soft" variant="busy"`), and the `*-soft` tint of the same family for the others ([Soft tints](../../../../../design/foundations/color.md#soft-tints)).
+
+A status keeps its color in every theme ([Themes](../../../../../design/foundations/themes.md#signals)). The Working light and its tint have their own tokens, `presence-busy` and `presence-busy-soft`, with the values of `brand` and `brand-soft` in Raft Yellow: when they pointed at `brand`, Boring Gray turned a working agent gray. `variant="primary"` is that same `presence-busy`.
 
 ### Agent tag
 
@@ -89,4 +91,5 @@ Status renders a `<span>` and wraps no Base UI primitive.
 - Make every chip 22px high with `radius-chip`, so chips line up in a row; Badge and TaskChip already do.
 - Put a new state into one of the five task statuses or the five presence lights; don't invent a color. "Stuck" is an agent error. "Needs you" is an attention dot and an action button, not a status ([Tasks](../../../../../design/patterns/tasks.md#rules)).
 - Don't set a custom `--status-color`: every status color has a fixed meaning.
+- Don't paint a status, or the tint behind it, with `brand` or `brand-soft`: they follow the theme, and a status doesn't.
 - Never animate a status: a working agent is a still light ([Motion](../../../../../design/foundations/motion.md)).

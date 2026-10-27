@@ -69,7 +69,7 @@ Names are built from a few parts, so a name you haven't seen tells you what it i
 | Signals | `you`, `selected` | `you`, `selected` |
 | Ink steps | `ink-{alpha}` | `ink-8`, `ink-40` |
 | Palette | `palette-{color}-{step}` | `palette-yellow-400`, `palette-lavender-800` |
-| Statuses | `task-status-{status}(-soft\|-strong)`, `presence-{state}` | `task-status-in-review-soft`, `presence-busy` |
+| Statuses | `task-status-{status}(-soft\|-strong)`, `presence-{state}(-soft)` | `task-status-in-review-soft`, `presence-busy`, `presence-busy-soft` |
 | Stickers | `sticker-{part}` | `sticker-ink`, `sticker-edge`, `sticker-medium` |
 | Shadows | `elevation-{level}`, `focus-ring` | `elevation-float`, `elevation-sticker` |
 | Metrics | `{part}-{property}` | `field-font-size`, `card-title-line-height` |

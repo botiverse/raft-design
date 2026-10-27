@@ -22,7 +22,7 @@ const status = tv({
         root: "[--status-color:var(--presence-offline)]",
       },
       primary: {
-        root: "[--status-color:var(--brand-400)]",
+        root: "[--status-color:var(--presence-busy)]",
       },
       information: {
         root: "[--status-color:var(--info)]",

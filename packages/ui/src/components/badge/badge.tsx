@@ -44,6 +44,7 @@ export const badge = tv({
       default: "",
       primary: "",
       you: "",
+      busy: "",
       information: "",
       muted: "",
       accent: "",
@@ -61,6 +62,7 @@ export const badge = tv({
     { appearance: "solid", variant: "muted", class: { root: "bg-inactive" } },
     { appearance: "solid", variant: "primary", class: { root: "bg-brand" } },
     { appearance: "solid", variant: "you", class: { root: "bg-you" } },
+    { appearance: "solid", variant: "busy", class: { root: "bg-presence-busy" } },
     { appearance: "solid", variant: "information", class: { root: "bg-info" } },
     {
       appearance: "solid",
@@ -73,6 +75,7 @@ export const badge = tv({
     { appearance: "soft", variant: "default", class: { root: "bg-fill-muted" } },
     { appearance: "soft", variant: "muted", class: { root: "bg-inactive-soft" } },
     { appearance: "soft", variant: "primary", class: { root: "bg-brand-soft" } },
+    { appearance: "soft", variant: "busy", class: { root: "bg-presence-busy-soft" } },
     { appearance: "soft", variant: "information", class: { root: "bg-info-soft" } },
     { appearance: "soft", variant: "accent", class: { root: "bg-attention-soft" } },
     { appearance: "soft", variant: "success", class: { root: "bg-success-soft" } },

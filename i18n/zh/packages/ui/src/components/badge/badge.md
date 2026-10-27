@@ -35,7 +35,8 @@ Badge 是一个小标签。它的主要用途是未读数：一张粉色贴纸�
 `variant` 选择颜色角色。按颜色的含义来选，不按外观来选（[颜色的含义](../../../../../design/foundations/color.md#meanings-of-color)）：在计数上，`accent` 是表示「待办」的粉色，`you` 是表示「你」的黄色。
 
 - `variant="you"` 是 @ 标记的填充色，即 `you` 信号：它在每个主题里都保持黄色，无聊灰也一样（[主题](../../../../../design/foundations/themes.md#signals)）。它只有实心一种；浅色底或细线的 Badge 没有 `you` 的样子。
-- `variant="primary"` 是 `brand` 色，跟随主题：无聊灰会把它变成灰色。不要把它用在发给这个人的东西上。
+- `variant="primary"` 是 `brand` 色，跟随主题：无聊灰会把它变成灰色。不要把它用在发给这个人的东西上，也不要用在状态上（用 `busy`）。
+- `variant="busy"` 是工作中的 Agent 的黄色，它是状态，所以在每套主题里都保持黄色（[Status](../status/status.md#agent-state-chips)）：浅色外观是 Working 标签片的底色 `presence-busy-soft`；实心外观是 `presence-busy` 贴纸。描边 Badge 没有 `busy` 的样子。
 
 ## 状态 {#states}
 

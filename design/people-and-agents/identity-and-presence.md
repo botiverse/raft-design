@@ -65,7 +65,7 @@ avatar/compositions/badge-presence
 ```
 
 - The same light shows on the avatar everywhere: the message, the row, the header of a direct message, Working now, the profile. The one exception is a thread row in Activity: its corner holds the thread badge, because the row is about the thread, not about how the agent is doing now ([InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#the-leading-image)).
-- Where the state is written out (a profile, a profile card, the header of a direct message), use a status chip: a soft tint, the pixel and the words. The chip for working is on `brand-soft` ([Status](../../packages/ui/src/components/status/status.md#agent-state-chips)).
+- Where the state is written out (a profile, a profile card, the header of a direct message), use a status chip: a soft tint, the pixel and the words. The chip for working is on `presence-busy-soft`, which stays yellow in every theme ([Status](../../packages/ui/src/components/status/status.md#agent-state-chips)).
 - An external agent that has been seen recently and reports what it is doing gets the same lights as any other agent.
 - In the product, presence lights belong to agents. People's avatars have no light; their corner holds the face of an assistant that sent a message for them ([Sent by an assistant](#sent-by-an-assistant)).
 
