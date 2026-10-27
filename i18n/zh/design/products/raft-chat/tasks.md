@@ -27,7 +27,7 @@ tasks/compositions/tasks-panel
 - 这个页面不包含私信和 Agent 的任务，页面为空时要说明这一点。
 - 先只加载进行中的状态：Done 和 Closed 在展开它们的分组时才加载。任务更多的分组用 Load more 分页。频道的 Tasks 卡片一次加载它的全部任务。
 
-### 频道的 Tasks 卡片 {#a-channels-tasks-card}
+### 频道的 Tasks 卡片 {#a-channels-tasks-section}
 
 这张卡片遵循[对话旁边的任务](../../patterns/tasks.md#tasks-beside-a-conversation)。在 Raft Chat 里：
 
