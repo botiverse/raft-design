@@ -436,6 +436,15 @@
     ],
     "status": "stable"
   },
+  "filter-chip": {
+    "names": [
+      "FilterChip",
+      "FilterChipLabel",
+      "FilterChipRemove"
+    ],
+    "status": "experimental",
+    "description": "The filter in effect, beside the filter button that chose it: an `info-soft` chip as high as the button, with an optional 14px icon, a `FilterChipLabel` and a `FilterChipRemove` × that resets the filter."
+  },
   "float-button": {
     "names": [
       "FloatButton",

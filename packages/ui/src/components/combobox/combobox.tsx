@@ -2,6 +2,7 @@ import { createContext, use, useCallback, useMemo, useState } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
+import { chipRemoveBase } from "../../lib/chip-remove";
 import { tv } from "../../lib/tv";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
@@ -111,13 +112,7 @@ const combobox = tv({
       "h-control-embedded gap-1.5 rounded-chip bg-fill-muted pr-0.5 pl-2",
       "text-footnote font-semibold text-foreground",
     ],
-    chipRemove: [
-      "inline-flex shrink-0 items-center justify-center outline-none transition-colors",
-      "size-[calc(var(--control-embedded-size)-4px)] rounded-sticker text-foreground-hint",
-      "hover:bg-fill-medium active:bg-fill-medium",
-      "focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
-      "[&>svg]:size-3.5",
-    ],
+    chipRemove: [...chipRemoveBase, "size-[calc(var(--control-embedded-size)-4px)]"],
   },
   variants: {
     inputOwner: {

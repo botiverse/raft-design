@@ -18,23 +18,24 @@ picker-trigger-button/compositions/select-filter
 
 ## When to use
 
-| Situation                                     | Use                                                                     |
-| --------------------------------------------- | ----------------------------------------------------------------------- |
-| Filtering a list by one value or a few values | PickerTriggerButton, rendered as a `SelectTrigger` or `ComboboxTrigger` |
-| Picking a value in a form                     | The select's own field ([Select](../select/select.md))                  |
-| A list of actions                             | A menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md))              |
-| A row of options, each on or off on its own   | [ToggleGroup](../toggle-group/toggle-group.md)                          |
+| Situation                                                          | Use                                                                                                                                            |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Filtering a list by one value or a few values                      | PickerTriggerButton, rendered as a `SelectTrigger` or `ComboboxTrigger`                                                                        |
+| A filter people set seldom, by habit, that the button doesn't name | PickerTriggerButton that always says Filter, rendered as a `DropdownMenuTrigger`, with a [FilterChip](../filter-chip/filter-chip.md) beside it |
+| Picking a value in a form                                          | The select's own field ([Select](../select/select.md))                                                                                         |
+| A list of actions                                                  | A menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md))                                                                                     |
+| A row of options, each on or off on its own                        | [ToggleGroup](../toggle-group/toggle-group.md)                                                                                                 |
 
 The full choice between pickers is in [Choosing a component](../../../../../design/components/overview.md#picking-something). How a filter looks, how many values it shows and where Clear All goes are in [Select › Filters](../select/select.md#filters).
 
 ## Anatomy
 
-PickerTriggerButton is one part. Pass it as `render` to `SelectTrigger` or `ComboboxTrigger`, and put the trigger's usual parts inside, in this order:
+PickerTriggerButton is one part. Pass it as `render` to `SelectTrigger` or `ComboboxTrigger` (or `DropdownMenuTrigger` for a Filter button, below), and put the trigger's usual parts inside, in this order:
 
 - A leading icon: optional, 14px.
 - The value: `SelectValue`, or the chosen label for a combobox. Required.
 - `ComboboxTriggerCount`: how many values an applied combobox filter has. Optional.
-- The indicator: `SelectIcon` or `ComboboxTriggerIndicator`, a chevron in `foreground-hint`.
+- The indicator: `SelectIcon` or `ComboboxTriggerIndicator`, a chevron in `foreground-hint`. In a `DropdownMenuTrigger`, wrap the chevron in a `span` with `data-picker-trigger-indicator`.
 
 ```example
 picker-trigger-button/compositions/combobox-filter
@@ -59,6 +60,7 @@ picker-trigger-button/compositions/combobox-filter
 ## Content
 
 - Show the current value, not the filter's name, once a value is chosen: Relevance, #launch-week. Before that, show the filter's name: Channel, Assignee.
+- The exception is the Filter button: for a filter people set seldom and by habit, the button always says Filter and a [FilterChip](../filter-chip/filter-chip.md) beside it names the active filter. Which of the two a filter takes is in [Select › Filters](../select/select.md#which-filter-button).
 - The general rules for labels are in [Writing](../../../../../design/content/writing.md#casing).
 
 ## Accessibility
@@ -71,5 +73,5 @@ picker-trigger-button/compositions/combobox-filter
 ## Rules
 
 - Use PickerTriggerButton only for filters. A picker in a form uses the select's own field with an ink border, as high as the inputs around it.
-- Don't open a menu of actions from it: it always opens a list of values.
-- Don't style an applied filter yourself. Set `data-has-value` and let the component fill it.
+- Don't open a menu of actions from it: it always opens a list of values. A Filter button's menu holds only radio items, one per filter.
+- Don't style an applied filter yourself. Set `data-has-value` and let the component fill it. A Filter button never sets it: its chip shows that a filter is applied.
