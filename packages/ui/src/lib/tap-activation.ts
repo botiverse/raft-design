@@ -59,6 +59,27 @@ function findTouch(list: TouchList | undefined, id: number): Touch | undefined {
   return undefined;
 }
 
+// Read by tag, not instanceof, so a control in an iframe or another window
+// classifies its own document's fields too.
+function isTextEntry(node: Element | null): boolean {
+  if (!node) return false;
+  if ((node as HTMLElement).isContentEditable || node.tagName === "TEXTAREA") return true;
+  return node.tagName === "INPUT" && !NON_TEXT_INPUTS.has((node as HTMLInputElement).type);
+}
+
+const NON_TEXT_INPUTS = new Set([
+  "button",
+  "checkbox",
+  "color",
+  "file",
+  "hidden",
+  "image",
+  "radio",
+  "range",
+  "reset",
+  "submit",
+]);
+
 function isStylus(touch: Touch): boolean {
   return (touch as Touch & { touchType?: string }).touchType === "stylus";
 }
@@ -127,8 +148,10 @@ export function attachTapActivation(element: HTMLElement): () => void {
       clicking = false;
     }
     // After the click, so a control that selects on focus does not select twice.
-    // Leave focus alone if the click moved it (a tab that opens a search field).
-    if (element.ownerDocument.activeElement === focusedBefore)
+    // Leave focus alone if the click moved it (a tab that opens a search field),
+    // or if it is in a text field: taking it would close the keyboard.
+    const focusedAfter = element.ownerDocument.activeElement;
+    if (focusedAfter === focusedBefore && !isTextEntry(focusedAfter))
       element.focus({ preventScroll: true });
   };
 
