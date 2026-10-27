@@ -82,6 +82,10 @@ export type { ListRowSkeletonProps } from "./components/list-row/list-row-skelet
 // API settles.
 export * from "./components/meter/index";
 
+// The filter in effect beside a Filter button, with an × back to the default
+// (filter-chip.md). Until a second product filter has used it.
+export * from "./components/filter-chip/index";
+
 // A menu item that is a link (the docs site's language menu), until it is
 // used in a product.
 export { DropdownMenuLinkItem } from "./components/dropdown-menu/dropdown-menu";

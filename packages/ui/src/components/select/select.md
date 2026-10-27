@@ -59,6 +59,27 @@ picker-trigger-button/compositions/select-filter
 - Put a `ghost` Clear All button after the filters.
 - Open the same list as any picker: single or multiple, with search when there are many values.
 
+#### Which filter button
+
+A filter button either shows the current value or always says Filter. How often people change the filter, and why, decides which:
+
+| The filter                                                                                                                                 | Use                                                                                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| People change it often while they work, or its value is what the view is about: a sort, a channel, an assignee, the filters of a task list | A button that shows the current value (Relevance, #launch-week), filled `info-soft` once applied. The value is always in sight, and a glance tells people which view they are in |
+| People change it seldom, by personal habit, and come back to the same choice: Unread or Mentions in Activity                               | A button that always says Filter, and beside it a [FilterChip](../filter-chip/filter-chip.md) that names the active filter. The × resets it to the default                       |
+
+```example
+filter-chip/compositions/filter-button
+```
+
+The Filter button and its chip:
+
+- Make the button say Filter, with a filter icon and the chevron, whatever is chosen. It stays outlined: the chip carries the applied look, so the button never fills.
+- Open a menu with one radio item per filter, the default first ([DropdownMenu](../dropdown-menu/dropdown-menu.md) with radio items); a filter that is a scope rather than a read state, such as Pinned, goes after a separator. Choosing applies it at once.
+- Show the chip only while the filter differs from its default. Its × resets the filter in one step, without opening the menu.
+- Remember the choice on the device, per place (per server, per channel): people who set it by habit expect to find it as they left it. A filter whose value is the point of the view goes in the address instead, so the view can be shared ([Tasks](../../../../../design/patterns/tasks.md#filters)).
+- Use it for one filter with a few values. Several filters, or many values, take buttons that show their values, so people can see every applied one at once.
+
 ## States
 
 - **No value:** `SelectValue` shows the placeholder in `foreground-hint`.

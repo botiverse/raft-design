@@ -1,0 +1,54 @@
+[
+  {
+    "name": "FilterChip",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The filter in effect, beside the filter button that chose it: an `info-soft` chip as high as the button, with an optional 14px icon, a `FilterChipLabel` and a `FilterChipRemove` × that resets the filter.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "FilterChipLabel",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The name of the active filter. It truncates when the row has no room.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "FilterChipRemove",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The × that resets the filter to its default. Shows an X unless given children.",
+    "native": true,
+    "props": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": true,
+        "description": "What the × does, said in words: the chip shows only a glyph. Name the result, such as \"Clear Filter\" or \"Show All\".",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]
