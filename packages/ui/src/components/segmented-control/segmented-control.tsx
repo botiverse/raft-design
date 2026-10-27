@@ -1,6 +1,7 @@
 import { createContext, use, useCallback, useLayoutEffect, useRef, useState } from "react";
 import { useMergedRef } from "../../lib/use-merged-ref";
-import type { ComponentPropsWithRef, ReactElement } from "react";
+import { useTapActivation } from "../../lib/tap-activation";
+import type { ComponentPropsWithRef, ReactElement, Ref } from "react";
 import type { TooltipProps } from "../tooltip/tooltip";
 import { Radio as BaseRadio } from "@base-ui/react/radio";
 import { RadioGroup as BaseRadioGroup } from "@base-ui/react/radio-group";
@@ -390,12 +391,17 @@ export type SegmentedControlItemProps<T extends string = string> = StyledProps<
 
 export function SegmentedControlItem<T extends string = string>({
   className,
+  ref,
   ...props
 }: SegmentedControlItemProps<T>) {
   const { item } = segmentedControl();
   const iconsOnly = use(SegmentedControlIconsOnlyContext);
+  // Switches when the finger lifts (design/patterns/navigation.md#switching-on-finger-lift).
+  const tapRef = useTapActivation<HTMLElement>();
+  const [setRef] = useMergedRef<HTMLElement>(tapRef, ref as Ref<HTMLElement> | undefined);
   const radio = (
     <BaseRadio.Root
+      ref={setRef}
       render={<button type="button" />}
       nativeButton
       data-slot="segmented-control-item"

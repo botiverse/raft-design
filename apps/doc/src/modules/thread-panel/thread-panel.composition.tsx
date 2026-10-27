@@ -173,7 +173,7 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
   return (
     <ThreadPanelRoot>
       <ThreadPanelHeader>
-        <PanelAction className="lg:hidden" aria-label="Back" disabled>
+        <PanelAction className="lg:hidden" aria-label="Back" activateOnTouchEnd disabled>
           <ArrowLeft />
         </PanelAction>
         <ThreadPanelTitle>

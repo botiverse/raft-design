@@ -46,7 +46,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 - `DialogPortal` and `DialogOverlay`: lower-level parts.
 - `DialogSheetContent` (`@botiverse/raft-ui/wip`): `DialogContent` for a dialog that becomes a sheet on a phone ([On a phone](#on-a-phone)). On a desktop and a tablet it is `DialogContent`, the same markup.
 - `DialogCommit` (`@botiverse/raft-ui/wip`): the dialog's one commit button, a `Button` written at the end of `DialogFooter`. In a sheet on a phone it is drawn at the end of the head instead.
-- `DialogSheetBack` (`@botiverse/raft-ui/wip`): Back at the start of a sheet's head, in a later step of a flow. It draws nothing outside a sheet.
+- `DialogSheetBack` (`@botiverse/raft-ui/wip`): Back at the start of a sheet's head, in a later step of a flow. It draws nothing outside a sheet. On a touch screen it goes back when the finger lifts ([Switching on finger lift](../../../../../design/patterns/navigation.md#switching-on-finger-lift)).
 
 ## Variants
 

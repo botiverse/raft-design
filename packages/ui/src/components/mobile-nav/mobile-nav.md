@@ -72,6 +72,7 @@ The popover's rows are the product's: the server list as the switcher has it ([S
 - Hide the bar while the on-screen keyboard is open. Pinned above the keyboard, it would cover the field being typed in and the composer. When the keyboard closes, bring the bar back with the platform's default transition, not an instant jump, so people can see the navigation return rather than wonder where it went.
 - Show the bar only on top-level pages: a page with Back never shows it ([Navigation](../../../../../design/patterns/navigation.md#going-back)). Pushed pages cover it; menus, dialogs and bottom sheets leave it as it is.
 - Keep the bar in place while a page scrolls. Don't hide it on scroll: it is how people know where they are.
+- An item switches when the finger lifts, so a tap while the page is still momentum-scrolling switches tabs at once ([Switching on finger lift](../../../../../design/patterns/navigation.md#switching-on-finger-lift)).
 - Tapping the selected item scrolls its page to the top, and on Search focuses the field. Each tab keeps its page's scroll position and filters while another tab is open ([Navigation](../../../../../design/patterns/navigation.md#going-back)).
 
 ## States
