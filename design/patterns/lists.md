@@ -46,6 +46,22 @@ The four row components share one recipe fragment, `listCell` (`packages/ui/src/
 | Heading → first row | 8px from the bottom of a heading's words to the first shape, in every list: a heading (a sidebar section header or group label, a search section heading, a search thread's header) has no bottom padding, and the list's own 8px is the whole space. A section's empty line (`SidebarSectionEmpty`) sits the same 8px under it. |
 | Content | Padded from the shape, not from the list: 12px inside the shape at the start and at the end (`--cell-pad-x`), so 20px from the list's edges (8px inset + 12px). Leading avatars, icons and checkboxes start at the shape's inner start; trailing times, counts, the @ sticker, the muted mark and hover-revealed buttons (Mark as Done) end at its inner end. Top and bottom keep the row's own padding: 12px (`py-3`) for InboxItem, search results and ListRow; a 38px sidebar row centres its 20px line (9px). `listCell` sets the inline padding, so a row recipe sets none of its own. |
 
+## One edge
+
+A list sits in a column with a head over it, often a toolbar (Filter, Mark all as read, the search filters), and section headings. All of them start on one line, the line the rows' content starts on: **20px from the column's edge, on a phone as on a desktop**. The rows put their content 8px (the shape) + 12px in; the column's margin follows them.
+
+| Part | From the column's edge |
+| --- | --- |
+| The head's title, or the shape at its start (the workspace button's avatar, the search field) | 20px |
+| A toolbar's first control, by its shape (the outlined Filter button), and its last, by its words or icon box | 20px |
+| Section headings, the summary, a section's empty line, a banner in the list | 20px |
+| A row's state shape | 8px |
+| A row's leading avatar, tile or checkbox, and its trailing time, counts and buttons | 20px (12px inside the shape) |
+
+A phone's other columns keep their 16px ([Alignment](../foundations/alignment.md#usage)). The column's margin is the `--column-margin` variable, which every head, panel notice and footer pads by: 16px on a phone and 20px from 768px, and a column of list cells sets it to 20px at every width (`ActivityInboxPanel`, `SidebarRoot`, `SearchShellRoot`). A toolbar or banner of the app's own in such a column pads by `px-(--column-margin)`; an app's own column of cells sets `[--column-margin:20px]` on its root.
+
+Why not keep 16px on a phone: the rows would then need their content 8px inside the shape (it touches the shape when filled, the problem this page exists to fix), or the shape 4px from the screen's edge, where it reads as a misplaced full-width band. One margin for the whole column keeps the 8px shape and the 12px inside it at every width (design review, 2026-10-27).
+
 ## Rules
 
 - **Draw no line between two rows of a list.** The 2px between two rows, the leading tiles and avatars, and the space under a section heading separate the rows. A line through a list also cuts through every rounded shape on it.
@@ -53,6 +69,7 @@ The four row components share one recipe fragment, `listCell` (`packages/ui/src/
 - **Make the whole row the target.** A row's open button covers the row (`InboxItemTrigger`), or the row is the button itself, so every point of a row, up to its edges, lands on it. The 2px gap between two rows belongs to no row: a click there lands on the list. It is the price of spacing rows with the list's `gap` rather than inside the rows, and it is too narrow to aim at.
 - **Space the rows with the list's gap, and pad its ends by 8px.** Put the rows straight in a column with `gap-0.5 py-2`. A margin on a row, or a shape inset from the row's top and bottom, would make each row draw its own share of the space. In a virtualized list, whose rows are placed one by one, add the 2px to the virtualizer's item spacing instead, since a `gap` doesn't reach rows positioned on their own.
 - **Pad the content from the shape, never from the list.** A shape inset 8px with the content still 16px from the list's edge leaves 8px, or none once an app insets the shape further, and the trailing marks and the Mark as Done button sit on the shape's edge (design review, 2026-10-27: "the check icon and the unread count touch the edge on hover"). Inside the shape the content keeps 12px on both sides, the same at the start and at the end, in every state: at rest, hovered (with the actions revealed), pressed, selected, located and focused. Nothing inside a row may reach into that 12px: a part as wide as its contents (the 20px selection checkbox has a 20px slot), and a part's outer edge (a sticker's 1.5px ring) only from its own 12px. A text that runs long truncates at the inner padding. The value matches the web sidebar's row, the reference the design review named: its shape sits 8px from the sidebar's sides and its trailing count 11.5px inside it (now 12, the same at the start, where it was 9.5).
+- **Start the head, the toolbar and the headings on the rows' content line.** 20px from the column's edge at every width ([One edge](#one-edge)). A toolbar at 16px over rows at 20px leaves two edges 4px apart, which reads as a mistake.
 - **Don't move the shape or the content from outside.** An app that adds side padding to the scroller (`px-2`), or moves the shape's end (`before:right-4`), or sets a row's padding (`px-2.5`), undoes the rule: the shape no longer sits 8px from the list, or the content no longer 12px inside it.
 - **Draw every state on the same shape.** The row stays transparent; hover, press, menu open, selection, the located highlight and keyboard focus fill or ring the shape, never the row's full rectangle:
 
@@ -74,7 +91,7 @@ The four row components share one recipe fragment, `listCell` (`packages/ui/src/
 
 ## Wide and narrow
 
-The shape and the content's 12px inside it are the same at every width. On a phone the sidebar row grows to 44px for a finger, and its shape with it; the 2px between two rows stays. A phone's overlay scrollbar takes no room, so the shape is 8px from both edges of the screen.
+The shape, the content's 12px inside it, and the column's 20px margin are the same at every width ([One edge](#one-edge)). On a phone the sidebar row grows to 44px for a finger, and its shape with it; the 2px between two rows stays. A phone's overlay scrollbar takes no room, so the shape is 8px from both edges of the screen.
 
 ## Related
 

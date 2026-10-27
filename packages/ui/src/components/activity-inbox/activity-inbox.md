@@ -28,9 +28,9 @@ Where a product puts the way into Activity is on the product's own page.
 
 ## Anatomy
 
-- `ActivityInboxPanel`: the panel. It holds a [Panel](../panel/panel.md) header with the title Activity. Required.
+- `ActivityInboxPanel`: the panel. It holds a [Panel](../panel/panel.md) header with the title Activity. Required. It is a column of list cells, so it sets the column's margin to 20px at every width: the title, the controls' first button and the rows' leading content start on one line, 20px in, on a phone too ([Lists](../../../../../design/patterns/lists.md#one-edge)).
 - `ActivityInboxSidebar`: the column of views and filters on the left, as sidebar rows ([Sidebar](../sidebar/sidebar.md)). Hidden on a phone.
-- `ActivityInboxControls`: the row above the list: the filters (All, Unread and Mentions) and Mark all read. It has no search field: searching is the job of [Search](../search/search.md), and a field here would be a second way in.
+- `ActivityInboxControls`: the row above the list, padded by the column's margin: the filters (All, Unread and Mentions) and Mark all read. It has no search field: searching is the job of [Search](../search/search.md), and a field here would be a second way in.
 - `ActivityInboxSelectionToolbar`: a select-all checkbox, then either the sort menu or `ActivityInboxSelectionCount` and the actions for the selected items. One 44px row while they fit; in a narrow column they wrap onto a second line, whatever the window ([Switch on the region's width](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)).
 - `ActivityInboxViewport`: the scrolling list of [InboxItem](../inbox-item/inbox-item.md) rows.
 - `ActivityInboxLoadingMore`: one line at the end of the list while more items load.

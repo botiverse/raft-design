@@ -112,7 +112,7 @@ Avatars come in 19px, 27px, 35px, 51px and 99px: a multiple of 8 plus two 1.5px 
 
 | Region | Width |
 | --- | --- |
-| Phone content margin | 16px on each side |
+| Phone content margin | 16px on each side; 20px in a column of list cells ([Lists](../patterns/lists.md#one-edge)) |
 | Desktop main area, panel header, sidebar header, drawer margin | 20px on each side |
 | Rail | 56px, plus a 1px seam; the labeled rail is 68px, plus a 1px seam |
 | Sidebar (every page that has one: Chat, Members, Computers, Settings, a server's public page) | 240px, resizable from 200px to 400px |

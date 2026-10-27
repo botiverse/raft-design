@@ -7,8 +7,8 @@ import type { SlotElementProps } from "../../lib/data-attributes";
  * A notice strip that runs the full width of a panel, under its head (a
  * runtime error, a setting that failed to save). It is a region of its own,
  * so it is closed by the region seam, the same line the head draws above it
- * — never the lighter in-region divider. Its edges are the panel's (20 / 16
- * on a phone), and its trailing actions overhang the padding so a 32px
+ * — never the lighter in-region divider. Its edges are the panel's (`--column-margin`:
+ * 20 / 16 on a phone, 20 in a column of list cells), and its trailing actions overhang the padding so a 32px
  * button sits on the first text line instead of making the strip taller.
  *
  * Inside a card or a dialog, where a notice is part of the content, use
@@ -18,7 +18,7 @@ const panelNotice = tv({
   slots: {
     root: [
       "flex shrink-0 items-start",
-      "min-h-10 gap-2.5 border-b border-line-seam px-5 py-2.5 max-md:px-4",
+      "min-h-10 gap-2.5 border-b border-line-seam px-(--column-margin) py-2.5",
       "font-sans text-callout font-semibold text-foreground",
       "[&>svg]:lead-icon",
       // Something pending leads with a Spinner instead (Banner, "While

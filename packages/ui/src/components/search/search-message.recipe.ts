@@ -19,14 +19,14 @@ export const searchMessage = tv({
       "font-mono text-mono-meta text-foreground-hint",
     ],
     messageBody: ["min-w-0 line-clamp-2", "mt-0.5 font-sans text-callout text-foreground-muted"],
-    messageMeta: ["min-w-0 truncate"],
+    messageMeta: ["min-w-0 shrink-1000 truncate"],
     messageThreadMeta: ["inline-flex items-center gap-1", "shrink-0 [&_svg]:size-3"],
     messageSender: [
       "inline-flex items-center",
       "order-first shrink-0 gap-1.5 whitespace-nowrap",
       "font-sans text-callout font-bold text-foreground",
     ],
-    messageTimestamp: ["ml-auto shrink-0 whitespace-nowrap"],
+    messageTimestamp: ["ml-auto min-w-0 truncate"],
     messageMatch: searchHit,
   },
 });

@@ -24,8 +24,21 @@ export const headEdgePull = [
   "[&>[data-icon-inset]:last-child]:-mr-icon-inset",
 ];
 
-/** A panel's head: the margin, 20px on a desktop and 16px on a phone, and the pull. */
-export const headEdges = ["px-5 max-md:px-4", ...headEdgePull];
+/**
+ * A panel's head: its column's margin, and the pull. The margin is
+ * `--column-margin` (styles.css): 20px on a desktop and 16px on a phone,
+ * and 20px at every width in a column of list cells, whose rows put their
+ * content 8 + 12 = 20px in (lib/list-cell.ts). The column sets it (an
+ * ActivityInboxPanel, a SidebarRoot, a Search frame), so its head, its
+ * toolbar and its rows start on one line on a phone as on a desktop.
+ */
+export const headEdges = ["px-(--column-margin)", ...headEdgePull];
+
+/**
+ * Sets a column of list cells' margin to 20px at every width: the rows'
+ * content edge (lib/list-cell.ts), which the heads and notices in it follow.
+ */
+export const listColumnMargin = "[--column-margin:20px]";
 
 /**
  * The inset of a control-height icon button (a PanelAction, a Button at

@@ -47,8 +47,7 @@ test("a raft panel notice is closed by the region seam, never the in-region divi
 
 test("a raft panel notice takes the panel's edges and a warning tint by default", () => {
   const { notice } = renderNotice();
-  expect(notice).toContain("px-5");
-  expect(notice).toContain("max-md:px-4");
+  expect(notice).toContain("px-(--column-margin)");
   expect(notice).toContain("bg-warning-soft");
 });
 

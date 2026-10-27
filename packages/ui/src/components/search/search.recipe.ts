@@ -1,9 +1,14 @@
+import { listColumnMargin } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 
 export const search = tv({
   slots: {
-    frame: ["flex h-full min-h-0 flex-1 flex-col", "bg-layer-canvas text-foreground"],
-    filtersRow: ["shrink-0", "border-b border-line-seam bg-layer-canvas px-4 py-3"],
+    frame: [
+      "flex h-full min-h-0 flex-1 flex-col",
+      "bg-layer-canvas text-foreground",
+      listColumnMargin,
+    ],
+    filtersRow: ["shrink-0", "border-b border-line-seam bg-layer-canvas px-(--column-margin) py-3"],
     viewport: [
       "min-h-0 flex-1 overflow-y-auto scrollbar-list p-4",
       "bg-layer-canvas px-0 pt-0 pb-4",

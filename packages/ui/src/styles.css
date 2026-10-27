@@ -136,6 +136,24 @@
   --color-brutal-cream: var(--palette-cream-200);
 }
 
+/* A column's content margin (design/foundations/alignment.md#usage): 16px on a
+   phone, 20px from 768px (`md`). Heads, notices and footers pad by it
+   (lib/head-edges.ts). A column of list cells sets it to 20px at every width
+   (`listColumnMargin`), where its rows' content starts (8px shape inset +
+   12px), so its head, toolbar and rows share one line on a phone too. */
+@layer theme {
+  :root,
+  :host {
+    --column-margin: 16px;
+  }
+  @media (width >= 48rem) {
+    :root,
+    :host {
+      --column-margin: 20px;
+    }
+  }
+}
+
 /* Desktop type: from 768px (Tailwind's `md`, where the desktop layout begins)
    with a mouse or trackpad, the same query as the desktop metrics in
    foundation.css. Feishu's PC scale, 14/22 for reading, 12px for notes (on an

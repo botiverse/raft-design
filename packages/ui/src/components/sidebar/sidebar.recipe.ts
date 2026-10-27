@@ -1,10 +1,11 @@
-import { headEdgePull } from "../../lib/head-edges";
+import { headEdgePull, listColumnMargin } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 
 export const sidebarRecipe = tv({
   slots: {
     sidebarRoot: [
       "relative flex size-full min-h-0  select-none flex-col",
+      listColumnMargin,
       "has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:overflow-clip",
       "bg-layer-sidebar text-foreground max-md:bg-layer-canvas",
       "border-line-seam md:border-r",
@@ -12,9 +13,9 @@ export const sidebarRecipe = tv({
     ],
     sidebarHeader: [
       "flex items-center",
-      "h-(--shell-header-height,56px) shrink-0 gap-2 border-b border-line-seam px-5",
+      "h-(--shell-header-height,56px) shrink-0 gap-2 border-b border-line-seam px-(--column-margin)",
       "bg-layer-sidebar text-foreground",
-      "max-md:bg-layer-frame max-md:px-4 max-md:text-foreground-on-frame",
+      "max-md:bg-layer-frame max-md:text-foreground-on-frame",
       headEdgePull,
       "[@media(max-height:600px)]:h-12",
     ],
