@@ -22,6 +22,7 @@ export type ActionCardState =
   | "confirm-again"
   | "done"
   | "declined"
+  | "expired"
   | "view-only";
 
 export interface ActionCardScopeFixture {
@@ -188,10 +189,11 @@ export const ACTION_CARD_STATES: ReadonlyArray<{ value: ActionCardState; label: 
   { value: "confirm-again", label: "Confirm again" },
   { value: "done", label: "Done" },
   { value: "declined", label: "Declined" },
+  { value: "expired", label: "Expired" },
   { value: "view-only", label: "View only" },
 ];
 
 /** Resolved and view-only cards fold to their header by default. */
 export function foldsByDefault(state: ActionCardState): boolean {
-  return state === "done" || state === "declined" || state === "view-only";
+  return state === "done" || state === "declined" || state === "expired" || state === "view-only";
 }

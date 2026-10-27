@@ -48,6 +48,7 @@ const STATUS: Partial<Record<ActionCardState, { label: string; variant: BadgePro
     "confirm-again": { label: "Confirm again", variant: "warning" },
     done: { label: "Done", variant: "success" },
     declined: { label: "Declined", variant: "muted" },
+    expired: { label: "Expired", variant: "muted" },
     "view-only": { label: "View only", variant: "muted" },
   };
 
@@ -55,6 +56,7 @@ const NOTE: Partial<Record<ActionCardState, string>> = {
   paused: "Paused while this channel is being converted to a Joint channel.",
   "confirm-again": "This channel became a Joint channel. Confirm again to continue.",
   declined: "Declined by Ada. Nothing was changed.",
+  expired: "No one acted on this within 7 days. Nothing was changed.",
   "view-only": "Join this channel to act on this card.",
 };
 
@@ -68,7 +70,7 @@ export function ActionCardDemo({
 }) {
   const Icon = ICONS[card.kind];
   const status = STATUS[state];
-  const resolved = state === "done" || state === "declined";
+  const resolved = state === "done" || state === "declined" || state === "expired";
   const blocked = state === "paused" || state === "view-only";
   // A card that folds by default explains its state under the title, so the
   // line is visible folded; the others keep their note beside the buttons.
