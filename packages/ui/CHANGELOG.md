@@ -1,3 +1,28 @@
+## [0.38.0](https://github.com/botiverse/raft-design/compare/v0.37.0...v0.38.0) (2026-10-27)
+
+### Design System
+
+- **Navigation:** tabs, segmented controls, toggle groups and the mobile tab bar switch on finger lift, so a tap while a list is still momentum-scrolling switches on the first try. Rows, list items and menu items stay on click. ([#829](https://github.com/botiverse/raft-design/pull/829))
+  - Docs: https://raft-design.botiverse.build/patterns/navigation/
+- **Filters:** a filter people set by habit uses a Filter button that always says Filter, plus a FilterChip naming the filter in effect. ([#825](https://github.com/botiverse/raft-design/pull/825))
+- **Responsive:** the side area's columns, and a Thread that covers the conversation when the window is narrow. Columns that don't fit beside it become tabs. ([#821](https://github.com/botiverse/raft-design/pull/821), [#827](https://github.com/botiverse/raft-design/pull/827))
+- **Spacing and page structure:** these docs now describe the channel's side columns; Tasks and Files are sections, not cards. ([#822](https://github.com/botiverse/raft-design/pull/822), [#824](https://github.com/botiverse/raft-design/pull/824))
+- **Drag and drop:** in a layout, the target column makes room and the origin stays uncovered. ([#820](https://github.com/botiverse/raft-design/pull/820))
+- **Public page:** the sign-up prompt. ([#823](https://github.com/botiverse/raft-design/pull/823))
+- **Dialog:** the showcase frame also holds Pro's Add seats dialog. ([#818](https://github.com/botiverse/raft-design/pull/818))
+
+### Added
+
+- **FilterChip** (experimental, from `wip`): the filter in effect as an `info-soft` chip, with an × that resets the filter to its default. ([#825](https://github.com/botiverse/raft-design/pull/825))
+- **PanelAction** `activateOnTouchEnd`: opt-in switch on finger lift for a back or close action; `DialogSheetBack` sets it. ([#829](https://github.com/botiverse/raft-design/pull/829))
+
+### Changed
+
+- **TabsTab**, **SegmentedControlItem**, **ToggleGroupItem** and **MobileNavItem** activate on a tap's `touchend` (one finger, moved ≤10px, lifted inside, under 500ms), and the click that follows is dropped. Mouse, pen and keyboard are unchanged. ([#829](https://github.com/botiverse/raft-design/pull/829))
+  - Affects: an `onClick` on these controls still runs exactly once per tap. A touch handler that relied on the browser's click arriving after `touchend` now sees the click earlier.
+- **VirtualList** no longer writes `--virtual-list-transform-y` or `--virtual-list-ios-compensation-y` on the rows' element (every scroll used to restyle every row). ([#819](https://github.com/botiverse/raft-design/pull/819))
+  - Affects: content that read those variables uses `onTransformChange` instead.
+
 ## [0.37.0](https://github.com/botiverse/raft-design/compare/v0.36.1...v0.37.0) (2026-10-26)
 
 ### Design System
