@@ -102,7 +102,7 @@ Something that is there but not active, a deleted agent's avatar, an offline slo
 
 ## Collapsible group headings
 
-A heading that folds the group under it, such as a status heading in the Tasks card ([Tasks](../patterns/tasks.md#rows-in-a-compact-list)), is a named exception to [Hover and press](#hover-and-press) and [Clickable text](#clickable-text): it has a box, but lays no overlay, and its words can be clicked, but don't underline.
+A heading that folds the group under it, such as a status heading in the Tasks section ([Tasks](../patterns/tasks.md#rows-in-a-compact-list)), is a named exception to [Hover and press](#hover-and-press) and [Clickable text](#clickable-text): it has a box, but lays no overlay, and its words can be clicked, but don't underline.
 
 - On hover, turn its words and its chevron from `foreground-hint` to `foreground`, with no fill and no underline. A heading is a label over its rows, not a row: a fill would read as one more row in the list, and an underline would make the group's name read as a link that goes somewhere.
 - On press, show the same as hover, with no pressed fill: a press fill would flash that extra row for a moment.

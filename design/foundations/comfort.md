@@ -19,7 +19,7 @@ People keep Raft open all day, so a screen has to be easy to read at a glance an
 
 ## Separators
 
-A line separates siblings inside a container, so it spans what that container visibly bounds. These rules are for the compact lists: the task rows under a message and in the Tasks card, and the rows of the Files card ([Rows in a compact list](../patterns/tasks.md#rows-in-a-compact-list)). Other lists keep their own dividers (the end of this section).
+A line separates siblings inside a container, so it spans what that container visibly bounds. These rules are for the compact lists: the task rows under a message and in the Tasks section, and the rows of the Files section ([Rows in a compact list](../patterns/tasks.md#rows-in-a-compact-list)). Other lists keep their own dividers (the end of this section).
 
 - **Inside a bordered box, run the line edge to edge, so it meets the border on both sides.** The box and its lines then make one set of cells. A line that stops short of the border leaves a gap at each end, and the box reads as a frame with scratches in it. The tasks under a message sit in such a box: their lines meet its border ([Tasks](../patterns/tasks.md#rows-in-a-compact-list)).
 - **Without a visible edge, inset the line at both ends to the content: from where the text starts to where the last mark ends.** With nothing to meet, a full-width line reads as the edge of a region, a seam, and cuts the page into strips. A line that starts and ends with the content belongs to the content. A list inside a larger card or a side section, and the phone page a side section becomes, have no edge of their own around the list, so their lines are inset: 20px from each side of a side section and 16px from each side of the phone screen.
@@ -35,7 +35,7 @@ Put things that belong together closer to each other than to anything else, with
 
 - **Take every space from the scale in [Spacing](./spacing.md#spacing)**, its half steps included. A value off it (5px, 14px, 18px) is a sign that something is being nudged instead of laid out.
 - **Make the space between groups about twice the space inside one, or more.** Proximity is how the eye groups things before it reads them. When the gaps are close in size, nothing groups, and the screen reads as an even gray.
-- **Keep a heading clearly closer to what it names than to what comes before it**: a status heading in the Tasks card has the Sidebar section header's spacing, 16px above its words and 6px below, and the groups have no gap of their own, so its words are noticeably farther from the rows above (about 25px) than from its own (16px). A heading as far from the rows above as from its own looks as if it belonged to both. Where the heading is a toggle, let its touch target reach into the space above it rather than push it away from its rows.
+- **Keep a heading clearly closer to what it names than to what comes before it**: a status heading in the Tasks section has the Sidebar section header's spacing, 16px above its words and 6px below, and the groups have no gap of their own, so its words are noticeably farther from the rows above (about 25px) than from its own (16px). A heading as far from the rows above as from its own looks as if it belonged to both. Where the heading is a toggle, let its touch target reach into the space above it rather than push it away from its rows.
 - **A row's own padding counts.** Measure a gap between letters and marks, not between boxes: a 36px row with 14px of text already has 11px of space above and below its letters.
 
 ## Edges

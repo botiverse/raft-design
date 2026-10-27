@@ -1,11 +1,11 @@
 ---
 title: Raft Chat — Channel
-summary: A channel — its header and details, its Tasks and Files cards, its composer, how tasks are made in it, and its threads.
+summary: A channel — its header and details, its Tasks and Files sections, its composer, how tasks are made in it, and its threads.
 ---
 
 # Raft Chat — Channel
 
-A channel is a place where people and agents share one timeline, with the composer at the bottom. On a phone it is a pushed page; on desktop it fills the main area. Its tasks and its files open as cards beside the timeline, so people see them while they talk. The timeline, messages, the composer and threads follow [Conversation](../../patterns/conversation.md); this page holds only what a Raft Chat channel adds.
+A channel is a place where people and agents share one timeline, with the composer at the bottom. On a phone it is a pushed page; on desktop it fills the main area. Its tasks and its files open as sections beside the timeline, so people see them while they talk. The timeline, messages, the composer and threads follow [Conversation](../../patterns/conversation.md); this page holds only what a Raft Chat channel adds.
 
 ## Structure
 
@@ -15,7 +15,7 @@ From top to bottom:
 2. **The timeline**, newest at the bottom.
 3. **The composer**.
 
-Beside the timeline and the composer, the Tasks card and the Files card when they are open ([Page structure](../../patterns/page-structure.md#sidebar-and-side-panel)).
+Beside the timeline and the composer, the Tasks section and the Files section when they are open ([Page structure](../../patterns/page-structure.md#sidebar-and-side-panel)).
 
 ```example
 conversation-panel/compositions/conversation-panel
@@ -35,13 +35,13 @@ conversation-panel/compositions/conversation-panel
 
 ### Tasks and files
 
-- Make Tasks (`list-todo`) and Files (`paperclip`) toggles in the header (`PanelToggleAction`, [Panel](../../../packages/ui/src/components/panel/panel.md)): pressed, each is a yellow sticker and its card is open. Their labels switch to Close Tasks and Close Files.
-- Show no count on either toggle: most tasks are the agents' own business, so the card is there when someone wants to look, not something that asks for attention.
-- Close a card with its toggle or its ×; on a phone, with Back. When both are open, Tasks is above Files.
-- Keep which cards are open for the person, not per channel: the cards follow them from channel to channel, as the thread column does.
+- Make Tasks (`list-todo`) and Files (`paperclip`) toggles in the header (`PanelToggleAction`, [Panel](../../../packages/ui/src/components/panel/panel.md)): pressed, each is a yellow sticker and its section is open. Their labels switch to Close Tasks and Close Files.
+- Show no count on either toggle: most tasks are the agents' own business, so the section is there when someone wants to look, not something that asks for attention.
+- Close a section with its toggle or its ×; on a phone, with Back. When both are open, Tasks is above Files.
+- Keep which sections are open for the person, not per channel: the sections follow them from channel to channel, as the thread column does.
 - Give a direct message the same two toggles.
-- Show the Tasks card as described in [Tasks](./tasks.md#a-channels-tasks-card).
-- Show the Files card as the list of files posted in the channel; a file opens in the preview.
+- Show the Tasks section as described in [Tasks](./tasks.md#a-channels-tasks-section).
+- Show the Files section as the list of files posted in the channel; a file opens in the preview.
 
 ### The composer in a channel
 
@@ -52,7 +52,7 @@ conversation-panel/compositions/conversation-panel
 
 Tasks in the timeline follow [Tasks](../../patterns/tasks.md#tasks-in-a-conversation).
 
-- Create a task with + in the Tasks card, for a task of the channel with no message, or with Create Task from Message in the message menu. Create Task from Message opens Create Task with the message quoted and its text as the first title; every task created there is linked to the message, and a message can have several.
+- Create a task with + in the Tasks section, for a task of the channel with no message, or with Create Task from Message in the message menu. Create Task from Message opens Create Task with the message quoted and its text as the first title; every task created there is linked to the message, and a message can have several.
 - Show the tasks created from a message under it, and under the message at the top of its thread.
 - Change a task's status in its details or on the Tasks page, not from the message menu.
 
