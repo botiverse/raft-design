@@ -199,6 +199,16 @@ test("focus moves after the click, so a select-on-focus control sees the click f
   expect(order).toEqual(["click", "focus"]);
 });
 
+test("focus the click moved elsewhere stays there", () => {
+  const field = document.createElement("input");
+  document.body.append(field);
+  onClick.mockImplementation(() => field.focus());
+  start({ x: 50, y: 20 });
+  end({ x: 50, y: 20 });
+  expect(onClick).toHaveBeenCalledTimes(1);
+  expect(document.activeElement).toBe(field);
+});
+
 test("detaching removes the behavior", () => {
   detach();
   start({ x: 50, y: 20 });

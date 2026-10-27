@@ -119,6 +119,7 @@ export function attachTapActivation(element: HTMLElement): () => void {
 
     event.preventDefault();
     swallowClickUntil = now() + ECHO_CLICK_MS;
+    const focusedBefore = element.ownerDocument.activeElement;
     clicking = true;
     try {
       element.click();
@@ -126,7 +127,9 @@ export function attachTapActivation(element: HTMLElement): () => void {
       clicking = false;
     }
     // After the click, so a control that selects on focus does not select twice.
-    element.focus({ preventScroll: true });
+    // Leave focus alone if the click moved it (a tab that opens a search field).
+    if (element.ownerDocument.activeElement === focusedBefore)
+      element.focus({ preventScroll: true });
   };
 
   // Only a touch's own click is an echo: a key press or a mouse or pen press
