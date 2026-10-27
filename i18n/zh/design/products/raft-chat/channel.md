@@ -41,7 +41,7 @@ conversation-panel/compositions/conversation-panel
 - 用开关或卡片的 × 关闭卡片；在手机上用 Back。两张都打开时，Tasks 在 Files 上面。
 - 哪些卡片打开着，按人记住，而不是按频道：卡片跟着人从一个频道到另一个频道，和消息列那一栏一样。
 - 私信也有同样的两个开关。
-- Tasks 卡片按[任务](./tasks.md#a-channels-tasks-card)里的描述显示。
+- Tasks 卡片按[任务](./tasks.md#a-channels-tasks-section)里的描述显示。
 - Files 卡片显示频道里发过的文件列表；文件在预览里打开。
 
 ### 频道里的消息输入框 {#the-composer-in-a-channel}
