@@ -173,6 +173,32 @@ test("a click after the echo window activates as usual", () => {
   expect(onClick).toHaveBeenCalledTimes(2);
 });
 
+test("a key press or mouse press right after a tap is a new activation", () => {
+  for (const press of [
+    () => button.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" })),
+    () => button.dispatchEvent(Object.assign(new Event("pointerdown"), { pointerType: "mouse" })),
+  ]) {
+    onClick.mockClear();
+    clock += 1000;
+    start({ x: 50, y: 20 });
+    end({ x: 50, y: 20 });
+    press();
+    browserClick();
+    expect(onClick).toHaveBeenCalledTimes(2);
+  }
+});
+
+test("focus moves after the click, so a select-on-focus control sees the click first", () => {
+  const order: string[] = [];
+  onClick.mockImplementation(() =>
+    order.push(document.activeElement === button ? "click:focused" : "click"),
+  );
+  button.addEventListener("focus", () => order.push("focus"));
+  start({ x: 50, y: 20 });
+  end({ x: 50, y: 20 });
+  expect(order).toEqual(["click", "focus"]);
+});
+
 test("detaching removes the behavior", () => {
   detach();
   start({ x: 50, y: 20 });

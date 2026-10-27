@@ -119,13 +119,23 @@ export function attachTapActivation(element: HTMLElement): () => void {
 
     event.preventDefault();
     swallowClickUntil = now() + ECHO_CLICK_MS;
-    element.focus({ preventScroll: true });
     clicking = true;
     try {
       element.click();
     } finally {
       clicking = false;
     }
+    // After the click, so a control that selects on focus does not select twice.
+    element.focus({ preventScroll: true });
+  };
+
+  // Only a touch's own click is an echo: a key press or a mouse or pen press
+  // inside the window is a new activation.
+  const endEchoWindow = () => {
+    swallowClickUntil = -Infinity;
+  };
+  const onPointerDown = (event: PointerEvent) => {
+    if (event.pointerType !== "touch") endEchoWindow();
   };
 
   const onClick = (event: MouseEvent) => {
@@ -139,6 +149,8 @@ export function attachTapActivation(element: HTMLElement): () => void {
   element.addEventListener("touchstart", onTouchStart, passive);
   element.addEventListener("touchmove", onTouchMove, passive);
   element.addEventListener("touchcancel", onTouchCancel, passive);
+  element.addEventListener("pointerdown", onPointerDown, passive);
+  element.addEventListener("keydown", endEchoWindow, passive);
   // Not passive: it calls preventDefault().
   element.addEventListener("touchend", onTouchEnd, { passive: false });
   // Capture, so the echo is stopped before React's delegated onClick sees it.
@@ -147,6 +159,8 @@ export function attachTapActivation(element: HTMLElement): () => void {
     element.removeEventListener("touchstart", onTouchStart);
     element.removeEventListener("touchmove", onTouchMove);
     element.removeEventListener("touchcancel", onTouchCancel);
+    element.removeEventListener("pointerdown", onPointerDown);
+    element.removeEventListener("keydown", endEchoWindow);
     element.removeEventListener("touchend", onTouchEnd);
     element.removeEventListener("click", onClick, { capture: true });
   };
