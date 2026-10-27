@@ -20,17 +20,18 @@ combobox/compositions/tasks-channel-filter
 
 The full choice between pickers is in [Choosing a component](../../../../../design/components/overview.md#picking-something).
 
-| Situation                                                         | Use                                                     |
-| ----------------------------------------------------------------- | ------------------------------------------------------- |
-| A filter over a list with many values, such as channels           | Combobox with `ComboboxTrigger` and a search row        |
-| A few of many values (people, agents, labels) as chips in a field | Combobox with `ComboboxChips`                           |
-| One or a few of many values in a form, from an array of options   | [ComboboxSelect](../combobox-select/combobox-select.md) |
-| One of up to 10 values                                            | [Select](../select/select.md)                           |
+| Situation                                                                                    | Use                                                       |
+| -------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| A filter over a list with many values, such as channels                                      | Combobox with `ComboboxTrigger` and a search row          |
+| A few of many values (people, agents, labels) as chips in a field                            | Combobox with `ComboboxChips`                             |
+| One or a few of many values in a form, from an array of options                              | [ComboboxSelect](../combobox-select/combobox-select.md)   |
+| An always-open list where choosing a row costs something, such as asking the server about it | Combobox with `inline open` ([Inline list](#inline-list)) |
+| One of up to 10 values                                                                       | [Select](../select/select.md)                             |
 
 ## Anatomy
 
 - `Combobox`: the root. Holds the value, the typed text and the open state. Required.
-- What opens the list, one of:
+- What opens the list, one of (an [inline list](#inline-list) is always open, and its `ComboboxControl` is only the search field):
   - `ComboboxTrigger`: the filter button, with an icon, a label, `ComboboxTriggerCount` and `ComboboxTriggerIndicator`;
   - `ComboboxControl`: a field at the control height (44px on a phone, 32px on a desktop) with an ink border, holding `ComboboxInput`, `ComboboxClear` and `ComboboxTriggerIndicator`;
   - `ComboboxChips`: a field at least the control height, holding one `ComboboxChip` per chosen value, each with a `ComboboxChipRemove`, then `ComboboxInput`.
@@ -43,15 +44,29 @@ The full choice between pickers is in [Choosing a component](../../../../../desi
 
 ## Variants
 
-| Variant                                 | Use for                                                                                      |
-| --------------------------------------- | -------------------------------------------------------------------------------------------- |
-| Filter (`ComboboxTrigger`)              | Filtering a list: the look of a filter is in [Select › Filters](../select/select.md#filters) |
-| Field (`ComboboxControl`)               | Typing to find one value in a form                                                           |
-| Chips (`ComboboxChips` with `multiple`) | A few of many values, shown as chips in the field                                            |
+| Variant                                 | Use for                                                                                             |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Filter (`ComboboxTrigger`)              | Filtering a list: the look of a filter is in [Select › Filters](../select/select.md#filters)        |
+| Field (`ComboboxControl`)               | Typing to find one value in a form                                                                  |
+| Chips (`ComboboxChips` with `multiple`) | A few of many values, shown as chips in the field                                                   |
+| Inline list (`inline open`)             | An always-open list in a dialog, where the arrow keys move a highlight and Enter or a click chooses |
 
 ```example
 picker-trigger-button/compositions/combobox-filter
 ```
+
+### Inline list
+
+An inline list is always open, in the page or dialog rather than in a popup: `<Combobox inline open>`, with a `ComboboxControl` to search it and a `ComboboxList` under it, no `ComboboxContent`. Use it where choosing a row starts something, such as asking the server who in that conversation can't see a file. The arrow keys move the highlight through the rows while focus stays in the search field, and only Enter or a click chooses one, so that work happens once, for the row chosen. A [ChoiceList](../choice-list/choice-list.md) chooses the row the arrow keys reach, as a radio group does, and would start it for every row passed.
+
+```example
+combobox/compositions/inline-list
+```
+
+- Pass `open` with `inline`: the list is always shown. Inside a Dialog, leave `open` fixed rather than binding it to the dialog's open state: the dialog unmounts the list when it closes.
+- Name the list with `aria-labelledby` on `ComboboxList`, pointing at the heading above it (Recent, Results).
+- Show what was chosen the way the rest of the screen does (the commit button's label, a summary beside the list): `ComboboxItemIndicator` and `data-selected` mark it in the list.
+- To filter with your own search (ranked, from the server), pass `filter={null}`, the rows to show as `items`, and control `inputValue`. Choosing a row leaves the search text as it was.
 
 ## States
 
@@ -75,6 +90,7 @@ picker-trigger-button/compositions/combobox-filter
 
 Combobox wraps Base UI Combobox: a text input with `role="combobox"` that controls a listbox, with arrow-key navigation and the highlighted item announced.
 
+- In an inline list, focus stays in the search field: the highlighted row is its `aria-activedescendant`, the chosen one has `aria-selected="true"`. Enter on a highlighted row chooses it and doesn't submit the form around it; with no row highlighted, Enter submits as usual. Esc reaches the dialog around the list and closes it.
 - Name the input: with a `FieldLabel` ([Field](../field/field.md)), or with `aria-label` on a search row in a popup (Search Channels).
 - In a chips field, each chip's remove button and the input are reachable with the keyboard. Name each remove button after its value (Remove Bugen).
 - Give `ComboboxClear` a label that says what it clears when it shows only an icon.

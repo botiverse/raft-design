@@ -78,7 +78,8 @@
       "AvatarFallback",
       "AvatarGroup",
       "AvatarGroupCount",
-      "AvatarImage"
+      "AvatarImage",
+      "AvatarGroupButton"
     ],
     "status": "stable"
   },

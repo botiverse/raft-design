@@ -5,6 +5,7 @@ export {
   AvatarFallback,
   AvatarBadge,
   AvatarGroup,
+  AvatarGroupButton,
   AvatarGroupCount,
 } from "./avatar";
 export type {
@@ -14,5 +15,6 @@ export type {
   AvatarBadgeOffset,
   AvatarBadgeProps,
   AvatarGroupProps,
+  AvatarGroupButtonProps,
   AvatarGroupCountProps,
 } from "./avatar";

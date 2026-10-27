@@ -183,3 +183,9 @@ export * from "./components/pull-to-refresh/index";
 // items (choice-list.md; radio-group.md, "An open list to choose from"). Until
 // slock's migration target list and member pickers have moved onto it.
 export * from "./components/choice-list/index";
+
+// An avatar stack that is a button, for a stack that opens who is in it (who
+// is viewing an Artifact, a channel's members): avatar.md, "A stack that
+// opens a list". Until the Artifacts viewer's presence has settled on it.
+export { AvatarGroupButton } from "./components/avatar/index";
+export type { AvatarGroupButtonProps } from "./components/avatar/index";

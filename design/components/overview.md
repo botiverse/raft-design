@@ -72,6 +72,7 @@ Two questions decide a picker: when the choice takes effect, and how many values
 | Yes or no, applied on Save | [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) |
 | One of 2 to 5 answers, submitted with a form | [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md) |
 | One or several of any number of choices, when choosing is the dialog's main content | An open list of rows, with a filter field for things found by name, or from 6 choices ([ChoiceList](../../packages/ui/src/components/choice-list/choice-list.md); its rows follow [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md#content)) |
+| One of many in an open list, when choosing a row starts work (asks the server about it) | An open list whose arrow keys only highlight, and Enter or a click chooses ([Combobox](../../packages/ui/src/components/combobox/combobox.md#inline-list) with `inline open`). A ChoiceList chooses every row the arrow keys reach |
 | Another view of the same content | [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md) |
 | The same page in another language | A menu of the languages, each in its own name ([DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md) whose items are links) |
 | Sections of one page, each with its own content | [Tabs](../../packages/ui/src/components/tabs/tabs.md) |
