@@ -209,6 +209,17 @@ test("focus the click moved elsewhere stays there", () => {
   expect(document.activeElement).toBe(field);
 });
 
+test("a text field that already has focus keeps it, so the keyboard stays open", () => {
+  const field = document.createElement("input");
+  document.body.append(field);
+  field.focus();
+  onClick.mockImplementation(() => field.focus());
+  start({ x: 50, y: 20 });
+  end({ x: 50, y: 20 });
+  expect(onClick).toHaveBeenCalledTimes(1);
+  expect(document.activeElement).toBe(field);
+});
+
 test("detaching removes the behavior", () => {
   detach();
   start({ x: 50, y: 20 });

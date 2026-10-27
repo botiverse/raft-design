@@ -59,6 +59,25 @@ function findTouch(list: TouchList | undefined, id: number): Touch | undefined {
   return undefined;
 }
 
+function isTextEntry(node: Element | null): boolean {
+  if (!node || !(node instanceof HTMLElement)) return false;
+  if (node.isContentEditable || node instanceof HTMLTextAreaElement) return true;
+  return node instanceof HTMLInputElement && !NON_TEXT_INPUTS.has(node.type);
+}
+
+const NON_TEXT_INPUTS = new Set([
+  "button",
+  "checkbox",
+  "color",
+  "file",
+  "hidden",
+  "image",
+  "radio",
+  "range",
+  "reset",
+  "submit",
+]);
+
 function isStylus(touch: Touch): boolean {
   return (touch as Touch & { touchType?: string }).touchType === "stylus";
 }
@@ -127,8 +146,10 @@ export function attachTapActivation(element: HTMLElement): () => void {
       clicking = false;
     }
     // After the click, so a control that selects on focus does not select twice.
-    // Leave focus alone if the click moved it (a tab that opens a search field).
-    if (element.ownerDocument.activeElement === focusedBefore)
+    // Leave focus alone if the click moved it (a tab that opens a search field),
+    // or if it is in a text field: taking it would close the keyboard.
+    const focusedAfter = element.ownerDocument.activeElement;
+    if (focusedAfter === focusedBefore && !isTextEntry(focusedAfter))
       element.focus({ preventScroll: true });
   };
 
