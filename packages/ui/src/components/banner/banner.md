@@ -26,6 +26,7 @@ The wider the scope of a message, the further out it goes; the full table is in 
 | Something to know before acting in a dialog or a form                      | Banner, in the content                                                                                   |
 | Something in one panel failed: an agent won't start, a setting didn't save | `PanelNotice`, under the panel header ([Panel](../panel/panel.md))                                       |
 | The state of the whole server: a computer offline, a quota nearly full     | [NotificationCenter](../notification-center/notification-center.md), not a banner at the top of the page |
+| A signed-out visitor on a public page: sign up                             | The sign-up prompt, not a banner ([see below](#the-sign-up-prompt-on-a-public-page))                     |
 | The result of something the person just did                                | [Toast](../toast/toast.md)                                                                               |
 | The person must decide now                                                 | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)                          |
 
@@ -118,3 +119,27 @@ When something in one panel goes wrong (an agent won't start, the channel's sett
 - Write one message of at most 2 lines, in `PanelNoticeContent` (semibold `text-callout`).
 - Put the actions in `PanelNoticeActions`, on the right and centered on the first line of text: a small icon button (Copy Details) or a text button (View Logs). A 32px button doesn't make the strip taller.
 - Keep the default `status="warning"` for something to fix; use `destructive` only for what cannot be undone.
+
+## The sign-up prompt on a public page
+
+A public page, such as a shared Artifact or a public channel, invites a signed-out visitor to sign up with one prompt. It is not a `Banner`: a banner has a button or a ×, never both, and has no centered neutral strip. Compose it from a `Button` (and, on a phone, an icon `Button`) in a plain container. The rules above stay as they are for banners: a banner with a button closes with a ghost Dismiss, never a ×.
+
+On a desktop (`sm` and up):
+
+- A 48px strip across the full width of the window, above the page header.
+- `fill-subtle`, no border.
+- The sentence and one 32px outlined button (`variant="default" size="md"`), centered together, 24px apart. Never a pink button.
+- It can't be dismissed.
+
+On a phone:
+
+- A block under the page header, on `info-soft`, with `info-strong` text.
+- The sentence, over at most 2 lines, and the outlined button under it.
+- An × at the top right, with a target of at least 44px. Remember the dismissal on the device.
+
+Rules:
+
+- Show it only to signed-out visitors, and only on public pages; never in the signed-in app.
+- Show at most one on a page.
+- Never put a status in its place: what is true of this page (it failed to load, it is read-only, it changed) goes where [When to use](#when-to-use) puts it.
+- Write one sentence that says what Raft gets the visitor, then the action: "Make pages like this with Raft and your AI agents. Sign up now and start building." Label the button "Sign Up or Log In".
