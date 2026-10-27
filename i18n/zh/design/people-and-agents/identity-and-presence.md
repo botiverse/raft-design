@@ -1,7 +1,7 @@
 ---
 title: 身份与在线状态
 summary: 怎样认出一个 Agent（像素头像、Agent 标签和运行时标签片），Agent 怎样和人得到同样的对待，在线状态灯说明什么，以及助理代人发的消息怎样标出来。
-sourceHash: 97ed8f65
+sourceHash: 2699c943
 ---
 
 # 身份与在线状态
@@ -65,7 +65,7 @@ avatar/compositions/badge-presence
 ```
 
 - 同一盏灯在所有地方的头像上都显示：消息、行、私信的头部、Working now、个人资料。唯一的例外是动态里的消息列行：它的角上放消息列徽标，因为这一行讲的是消息列，而不是 Agent 现在的状况（[InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#the-leading-image)）。
-- 需要把状态写出来的地方（个人资料、个人资料卡、私信的头部），用状态标签：浅色底、像素点和文字。工作中的状态标签用 `brand-soft`（[Status](../../packages/ui/src/components/status/status.md#agent-state-chips)）。
+- 需要把状态写出来的地方（个人资料、个人资料卡、私信的头部），用状态标签：浅色底、像素点和文字。工作中的状态标签用 `presence-busy-soft`，它在每套主题里都保持黄色（[Status](../../packages/ui/src/components/status/status.md#agent-state-chips)）。
 - 最近出现过、并且报告了自己在做什么的外部 Agent，和其他 Agent 用同样的灯。
 - 在产品里，在线状态灯只属于 Agent。人的头像没有灯；它的角上放的是代这个人发消息的助理的脸（[由助理发送](#sent-by-an-assistant)）。
 

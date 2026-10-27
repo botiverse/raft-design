@@ -128,11 +128,21 @@ test.each(cases)("%s is the same colour in every theme as in Raft Yellow", (_, m
   expect(drift).toEqual([]);
 });
 
-test("Status primary and the Working chip keep the yellow they had from brand", () => {
-  for (const vars of Object.values(MODES)) {
-    expect(resolve("--presence-busy", vars)).toBe(resolve("--brand-400", vars));
-    expect(resolve("--presence-busy-soft", vars)).toBe(resolve("--brand-soft", vars));
-  }
+// What each one painted when it followed brand: Raft Yellow must not change.
+const BRAND: Record<string, string> = {
+  'Status variant="primary"': "--brand-400",
+  'MessageActionCardStatus variant="primary"\'s pixel': "--color-brand",
+  "the Working chip's tint": "--brand-soft",
+};
+const WAS = cases
+  .filter(([name]) => name in BRAND)
+  .map(([name, mount]): [string, () => HTMLElement, string] => [name, mount, BRAND[name]]);
+
+test("every case that followed brand is checked", () => expect(WAS).toHaveLength(3));
+
+test.each(WAS)("%s paints what it painted from brand in Raft Yellow", (_, mount, was) => {
+  const name = paint(mount());
+  for (const vars of Object.values(MODES)) expect(resolve(name, vars)).toBe(resolve(was, vars));
 });
 
 test("Boring Gray does gray brand, so the checks above can tell", () => {

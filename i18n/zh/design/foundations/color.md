@@ -154,6 +154,8 @@ task-status
 presence
 ```
 
+第六个 presence 色块 `presence-busy-soft` 不是状态灯，而是 Working 标签片的底色（[浅色底](#soft-tints)）。
+
 - 状态标签片放在对应的 `task-status-*-soft` 色调上。
 - `presence-busy` 有自己的值，而不是指向 `brand`，这样品牌色变了，忙碌的样子也不会跟着变，换主题也一样：无聊灰把 `brand` 变灰，工作中的 Agent 仍是黄色（[主题](./themes.md#signals)）。Working 标签片的底色 `presence-busy-soft` 出于同样的原因，是 `brand-soft` 的一份独立拷贝。
 - `presence-offline` 是色板里的石灰色，不是默认的灰色：raft-ui 不使用 Tailwind 的默认色板，所以每个在线状态灯都来自同一个色板。
