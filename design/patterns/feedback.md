@@ -52,6 +52,7 @@ empty-state/compositions/default
 | The whole server | The notification center ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)) |
 
 - Give every scope its own place, so an error shows where its cause is: an input, a dialog, a panel, the whole server.
+- The prompt that invites a signed-out visitor on a public page to sign up is not feedback, and not a banner ([Banner](../../packages/ui/src/components/banner/banner.md#the-sign-up-prompt-on-a-public-page)). A page's own state never takes its place.
 - Use orange when something goes wrong, not red: red means something cannot be undone ([Color](../foundations/color.md#meanings-of-color)).
 - Say what happened, why, and what to do next, in plain words ([Writing](../content/writing.md)).
 
