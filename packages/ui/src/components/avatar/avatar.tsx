@@ -108,7 +108,7 @@ const avatar = tv({
     groupButton: [
       "relative inline-flex shrink-0 cursor-pointer items-center p-1",
       "rounded-chip border-0 bg-transparent",
-      "transition-colors enabled:hover:bg-fill-medium enabled:active:bg-fill-medium",
+      "transition-colors *:transition-shadow *:duration-150 enabled:hover:bg-fill-medium enabled:active:bg-fill-medium",
       "enabled:hover:*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--fill-medium),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
       "enabled:hover:*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--fill-medium),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
       "enabled:active:*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--fill-medium),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",

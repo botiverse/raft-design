@@ -78,9 +78,9 @@ function ringPaint(avatar: HTMLElement): string[] {
     .reverse();
 }
 
-/** Ends the hover fill's colour transition, so the computed colour is the hovered one. */
+/** Ends the hover transitions (the fill and the rings), so the computed paint is the hovered one. */
 function settle(el: HTMLElement) {
-  for (const animation of el.getAnimations()) animation.finish();
+  for (const animation of el.getAnimations({ subtree: true })) animation.finish();
 }
 
 function Stack() {

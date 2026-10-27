@@ -31,7 +31,7 @@ The full choice between pickers is in [Choosing a component](../../../../../desi
 ## Anatomy
 
 - `Combobox`: the root. Holds the value, the typed text and the open state. Required.
-- What opens the list, one of (none for an [inline list](#inline-list), which is always open):
+- What opens the list, one of (an [inline list](#inline-list) is always open, and its `ComboboxControl` is only the search field):
   - `ComboboxTrigger`: the filter button, with an icon, a label, `ComboboxTriggerCount` and `ComboboxTriggerIndicator`;
   - `ComboboxControl`: a field at the control height (44px on a phone, 32px on a desktop) with an ink border, holding `ComboboxInput`, `ComboboxClear` and `ComboboxTriggerIndicator`;
   - `ComboboxChips`: a field at least the control height, holding one `ComboboxChip` per chosen value, each with a `ComboboxChipRemove`, then `ComboboxInput`.
@@ -63,7 +63,7 @@ An inline list is always open, in the page or dialog rather than in a popup: `<C
 combobox/compositions/inline-list
 ```
 
-- Pass `open` with `inline`: the list is always shown. Bind neither to a Dialog: the dialog's open state is its own.
+- Pass `open` with `inline`: the list is always shown. Inside a Dialog, leave `open` fixed rather than binding it to the dialog's open state: the dialog unmounts the list when it closes.
 - Name the list with `aria-labelledby` on `ComboboxList`, pointing at the heading above it (Recent, Results).
 - Show what was chosen the way the rest of the screen does (the commit button's label, a summary beside the list): `ComboboxItemIndicator` and `data-selected` mark it in the list.
 - To filter with your own search (ranked, from the server), pass `filter={null}`, the rows to show as `items`, and control `inputValue`. Choosing a row leaves the search text as it was.
@@ -91,7 +91,6 @@ combobox/compositions/inline-list
 Combobox wraps Base UI Combobox: a text input with `role="combobox"` that controls a listbox, with arrow-key navigation and the highlighted item announced.
 
 - In an inline list, focus stays in the search field: the highlighted row is its `aria-activedescendant`, the chosen one has `aria-selected="true"`. Enter on a highlighted row chooses it and doesn't submit the form around it; with no row highlighted, Enter submits as usual. Esc reaches the dialog around the list and closes it.
-
 - Name the input: with a `FieldLabel` ([Field](../field/field.md)), or with `aria-label` on a search row in a popup (Search Channels).
 - In a chips field, each chip's remove button and the input are reachable with the keyboard. Name each remove button after its value (Remove Bugen).
 - Give `ComboboxClear` a label that says what it clears when it shows only an icon.

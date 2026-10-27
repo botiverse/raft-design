@@ -133,7 +133,7 @@ The bottom-right corner holds one thing at a time:
 - Give `AvatarImage` an `alt`: the name when the avatar stands alone, empty when the name is next to it, so it isn't read twice.
 - Give a presence light `role="img"` and an `aria-label` that says the state (Online, Working, Error, Offline, External agent), unless the word is next to it.
 - Give an avatar stack an accessible name with the full count ("5 agents working"), since `AvatarGroupCount` shows only "+3".
-- `AvatarGroupButton` wraps Base UI's Button: a native `<button type="button">`. Its faces are not text, so give it an `aria-label` that says who is there, in words ("Bugen viewing, Wug writing, 3 read this version"), and hide nothing inside it from the name. In a `PopoverTrigger` it takes `aria-expanded` and returns focus when the list closes.
+- `AvatarGroupButton` wraps Base UI's Button: a native `<button type="button">`. Its faces are not text, so give it an `aria-label` that says who is there, in words ("Bugen viewing, Wug writing, 3 read this version"): the label replaces what the faces would say, so it must name everyone the stack stands for, the +N included. In a `PopoverTrigger` it takes `aria-expanded` and returns focus when the list closes.
 - Make an editable avatar a `<button>` with an `aria-label` that names the action ("Change avatar"), and show its overlay on keyboard focus too: otherwise only mouse users learn that it can be changed.
 
 ## Rules
