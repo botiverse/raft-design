@@ -139,7 +139,7 @@ Say what failed at the scope it affects, and say it once ([Feedback](../patterns
 
 The component doc for [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) describes a few things Raft Chat doesn't ship:
 
-- A ghost Edit First button beside the confirm button, and a Decline button with a Declined state. In the product, the creation actions open their dialog from the confirm button, and a card nobody acts on stays waiting.
+- A ghost Edit First button beside the confirm button, and a Decline button with a Declined state. In the product, the creation actions open their dialog from the confirm button, and a card nobody acts on stays waiting, except a person's seat or upgrade request, which expires after 7 days.
 - A "Needs an admin" status, with a pink pixel, on a waiting card. The product shows no status until something changes.
 - A list of waiting cards in Activity. In the product, a waiting card is found in its conversation.
 - A toast when the action fails. The product shows the reason in a banner inside the card.
