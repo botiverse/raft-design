@@ -1,3 +1,24 @@
+## [0.39.0](https://github.com/botiverse/raft-design/compare/v0.38.0...v0.39.0) (2026-10-27)
+
+### Design System
+
+- **Themes:** status lights, the Working chip and task status keep their colour in every theme, Boring Gray included. A theme is chosen per member per server (the docs said it followed the account). ([#832](https://github.com/botiverse/raft-design/pull/832))
+  - Docs: https://raft-design.botiverse.build/foundations/themes/
+- **MessageActionCard:** a Done card that leaves the viewer a next step stays open, with that step in its actions row. ([#831](https://github.com/botiverse/raft-design/pull/831))
+
+### Added
+
+- Token `presence-busy-soft` (same values as `brand-soft`) and **Badge** `variant="busy"`: the Working chip's tint and a `presence-busy` sticker that no theme recolours. ([#832](https://github.com/botiverse/raft-design/pull/832))
+
+### Changed
+
+- **Status** `variant="primary"` and the **MessageActionCardStatus** primary pixel use `presence-busy` (were `brand-400` / `brand`). Same colour in Raft Yellow; stays yellow in Boring Gray. ([#832](https://github.com/botiverse/raft-design/pull/832))
+  - Affects: a "Working" chip built as `Badge variant="primary" appearance="soft"` still follows the theme; use `variant="busy"`.
+
+### Fixed
+
+- **Tap activation** (TabsTab, SegmentedControlItem, ToggleGroupItem, MobileNavItem, PanelAction `activateOnTouchEnd`): when the click moves focus (a tab that focuses a search field), the control no longer takes focus back. ([#833](https://github.com/botiverse/raft-design/pull/833))
+
 ## [0.38.0](https://github.com/botiverse/raft-design/compare/v0.37.0...v0.38.0) (2026-10-27)
 
 ### Design System
