@@ -44,6 +44,35 @@ test("the shape fills the row's height, inset 8px at each side, with the control
   expect(fragment).toContain("before:pointer-events-none");
 });
 
+test("the content is padded from the shape: 12px inside it at the start and the end", () => {
+  const fragment = listCell.join(" ");
+  expect(fragment).toContain("[--cell-pad-x:12px]");
+  expect(fragment).toContain("pl-[calc(var(--cell-inset-x)+var(--cell-pad-x))]");
+  expect(fragment).toContain("pr-[calc(var(--cell-inset-end)+var(--cell-pad-x))]");
+  // The fragment owns the inline padding: no recipe sets its own, which
+  // would pad the content from the list's edge instead of the shape.
+  for (const [name, value] of Object.entries(cells)) {
+    const own = classesOf(value).filter(
+      (cls) => /^(?:[\w-]+:)*p[xlrse]?-/.test(cls) && !listCell.join(" ").includes(cls),
+    );
+    expect(own, name).toEqual([]);
+  }
+});
+
+test("a heading over a list of cells starts where the cells' content starts, 20px in", () => {
+  const headings = {
+    "sidebar-section-header": sidebarSectionRecipe().sidebarSectionHeader(),
+    "sidebar-section-empty": sidebarSectionRecipe().sidebarSectionEmpty(),
+    "sidebar-group-label": sidebarRecipe().sidebarGroupLabel(),
+    "search-results-summary": search().summary(),
+    "search-results-section-heading": search().sectionHeading(),
+    "search-thread-header": searchThread().threadHeader(),
+  };
+  for (const [name, value] of Object.entries(headings)) {
+    expect(classesOf(value), name).toContain("px-5");
+  }
+});
+
 test("every container of list cells is a column with a 2px gap and 8px at its ends", () => {
   const containers = {
     "sidebar-list": sidebarSectionRecipe().sidebarList(),

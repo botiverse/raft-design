@@ -4,11 +4,11 @@ import { tv } from "../../lib/tv";
 export const inboxItem = tv({
   slots: {
     item: [
-      "relative grid w-full grid-cols-[minmax(0,1fr)_auto] items-start gap-3 p-3 text-left",
+      "relative grid w-full grid-cols-[minmax(0,1fr)_auto] items-start gap-3 text-left",
       "has-data-[slot=inbox-item-selection]:grid-cols-[auto_minmax(0,1fr)_auto]",
       "has-data-[slot=inbox-item-leading]:grid-cols-[auto_minmax(0,1fr)_auto]",
       "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
-      "gap-x-3 gap-y-0 rounded-none border-0 px-4 py-3",
+      "gap-x-3 gap-y-0 rounded-none border-0 py-3",
       listCell,
       listCellStates,
       "data-[active=true]:before:bg-fill-cell-selected",
@@ -29,7 +29,9 @@ export const inboxItem = tv({
       "bg-layer-canvas bg-[linear-gradient(var(--info-soft),var(--info-soft))] text-foreground",
       "[&_svg]:size-2.5 [&_svg]:shrink-0",
     ],
-    itemSelection: ["relative z-10 mt-0.5 flex size-4 shrink-0 items-center justify-center"],
+    // As wide as its 20px checkbox, so the box doesn't overhang the slot
+    // into the shape's padding; centred on the first line as the 16px slot was.
+    itemSelection: ["relative z-10 flex size-5 shrink-0 items-center justify-center"],
     itemContent: [
       "pointer-events-none relative z-10 min-w-0 flex-1 text-left",
       "-col-start-3 col-end-(--inbox-item-content-end) row-start-1",

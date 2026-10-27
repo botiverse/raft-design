@@ -25,7 +25,7 @@ export const listRow = tv({
     // disabled state are decided once, on the row: a tone never applies to a
     // disabled row, which greys everything.
     root: [
-      "group/list-row flex w-full min-w-0 items-center gap-3 px-4 py-3 text-left",
+      "group/list-row flex w-full min-w-0 items-center gap-3 py-3 text-left",
       "font-sans no-underline",
       "[--list-row-ink:var(--foreground)] [--list-row-ink-2:var(--foreground-muted)] [--list-row-ink-3:var(--foreground-hint)]",
       "text-(--list-row-ink)",
@@ -88,7 +88,7 @@ export const listRow = tv({
     cell: {
       false: {
         root: [
-          "relative",
+          "relative px-4",
           "transition-colors duration-100",
           "outline-none focus-visible:keyboard:inset-ring-2 focus-visible:keyboard:inset-ring-foreground",
           "data-selected:bg-info-soft",

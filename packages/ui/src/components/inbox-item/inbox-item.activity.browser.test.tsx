@@ -199,9 +199,10 @@ it("draws no divider; the leading visual and text keep their places inside the i
     row.getBoundingClientRect().top - screen.getByTestId("row-1").getBoundingClientRect().bottom,
   ).toBe(2);
   const leading = screen.getByTestId("leading-2").getBoundingClientRect();
-  expect(leading.left - rowLeft).toBe(16);
+  // The content is padded from the shape: 8px inset + 12px inside it.
+  expect(leading.left - rowLeft).toBe(20);
   expect(leading.width).toBe(36);
-  expect(screen.getByTestId("content-2").getBoundingClientRect().left - rowLeft).toBe(64);
+  expect(screen.getByTestId("content-2").getBoundingClientRect().left - rowLeft).toBe(68);
 });
 
 it("sets a compact row on one line each for the title and the excerpt", async () => {

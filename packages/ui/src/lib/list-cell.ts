@@ -8,6 +8,12 @@
 // the list between them, the first and last shapes sit 8px from the list's
 // ends as from its sides, and the list needs no divider. The 2px belongs to
 // no row. ListRow is a cell only with `cell`; a settings card keeps its lines.
+// The content is padded from the shape, not from the list: inside the shape
+// it keeps 12px (--cell-pad-x) at the start and at the end, so the leading
+// avatar or icon and the trailing time, badges and hover-revealed buttons sit
+// 8 + 12 = 20px from the list's edges and never touch the shape. Each row
+// keeps its own block padding (12px, py-3; a 38px sidebar row centres its
+// line); the fragment owns the inline padding, so a recipe sets none.
 // The end inset is measured from the scroller's outer edge: a scroller that
 // shows a classic scrollbar publishes its width as --scrollbar-size
 // (useScrollbarSize), and the shape gives that much of its 8px back, so the
@@ -20,8 +26,9 @@
 // highlight moves onto the shape in styles.css.
 export const listCell = [
   "list-cell relative isolate bg-transparent shadow-none outline-none",
-  "[--cell-inset-x:8px] [--cell-radius:var(--radius-control)]",
+  "[--cell-inset-x:8px] [--cell-pad-x:12px] [--cell-radius:var(--radius-control)]",
   "[--cell-inset-end:max(0px,calc(var(--cell-inset-x)-var(--scrollbar-size,0px)))]",
+  "pr-[calc(var(--cell-inset-end)+var(--cell-pad-x))] pl-[calc(var(--cell-inset-x)+var(--cell-pad-x))]",
   "before:pointer-events-none before:absolute before:-z-1 before:block before:content-['']",
   "before:inset-y-0 before:right-(--cell-inset-end) before:left-(--cell-inset-x)",
   "before:rounded-(--cell-radius) before:border-0",

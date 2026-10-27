@@ -6,7 +6,7 @@ export const searchThread = tv({
       "overflow-hidden",
       "relative rounded-none border-0 bg-transparent text-foreground shadow-none",
     ],
-    threadHeader: ["py-2", "px-4 pt-3 pb-0"],
+    threadHeader: ["py-2", "px-5 pt-3 pb-0"],
     threadMeta: [
       "flex flex-wrap items-center",
       "mb-0.5 gap-1.5",

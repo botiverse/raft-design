@@ -8,8 +8,10 @@ export const sidebarItemRecipe = tv({
     // The row is a list cell (lib/list-cell.ts): it runs the sidebar's full
     // width, 38px tall, and its states are drawn on the inset shape, as tall
     // as the row. SidebarList spaces the rows 2px apart and pads its ends by 8px.
-    // The content sits 9.5px inside the shape on both sides (17.5px from the
-    // row's edges), where it sat inside the old 1.5px edge.
+    // The content sits 12px inside the shape on both sides (--cell-pad-x,
+    // 20px from the row's edges): the icon or avatar and the count, @ sticker
+    // or time never touch the shape. A sticker's 1.5px outer edge leaves
+    // 10.5px of the shape around its ink.
     // Below md the row is a phone list of places (Home, Members, Settings):
     // at least 44px for a finger, in the ListRow title type (16/24 600).
     // 10px top and bottom centres one 24px line in 44, so a wrapping row
@@ -18,7 +20,6 @@ export const sidebarItemRecipe = tv({
       "group/sidebar-item flex w-full items-center text-left",
       listCell,
       "h-[38px] gap-2 rounded-none border-0 py-0",
-      "pr-[calc(var(--cell-inset-end)+9.5px)] pl-[calc(var(--cell-inset-x)+9.5px)]",
       "md:py-0 md:[@media(max-height:600px)]:py-0",
       "max-md:h-auto max-md:min-h-11 max-md:py-2.5",
       "font-sans text-subhead font-medium text-foreground",

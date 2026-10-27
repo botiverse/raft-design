@@ -4,11 +4,11 @@ export const sidebarSectionRecipe = tv({
   slots: {
     sidebarSection: ["group/section", "px-0"],
     sidebarList: ["flex flex-col gap-0.5 py-2"],
-    sidebarSectionEmpty: ["px-4 py-2", "font-sans text-footnote", "text-foreground-hint"],
+    sidebarSectionEmpty: ["px-5 py-2", "font-sans text-footnote", "text-foreground-hint"],
     sidebarSectionHeader: [
       "flex items-center justify-between",
       "group/section-header",
-      "my-0  h-auto gap-2 px-4 pt-4 pb-0",
+      "my-0  h-auto gap-2 px-5 pt-4 pb-0",
     ],
     sidebarSectionDisclosure: [
       "flex min-w-0 flex-1 items-center",

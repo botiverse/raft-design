@@ -155,7 +155,8 @@ it("keeps the trailing column beside the first lines of a card on a touch screen
   const body = screen.getByTestId("card-body").getBoundingClientRect();
   // The excerpt runs the full width of the text, under the trailing column.
   expect(body.right).toBeGreaterThan(trailing.left);
-  expect(body.right).toBe(card.right - 16);
+  // It ends 12px inside the shape, 20px from the row's edge.
+  expect(body.right).toBe(card.right - 20);
   // But it starts below the trailing column and its Done action, so a taller
   // trailing column can never run over the excerpt.
   const done = screen.getByRole("button", { name: "Mark as done" }).getBoundingClientRect();

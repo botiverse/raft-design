@@ -4,8 +4,8 @@ import { tv } from "../../lib/tv";
 export const searchEntity = tv({
   slots: {
     entity: [
-      "flex min-w-0 w-full items-center gap-3 p-3 text-left",
-      "rounded-none border-0 px-4 py-3 text-foreground",
+      "flex min-w-0 w-full items-center gap-3 text-left",
+      "rounded-none border-0 py-3 text-foreground",
       // A finger's row: 64px on a touch screen at any width, by the input,
       // not the width (design/patterns/responsive.md#touch-screens).
       "pointer-coarse:min-h-16",

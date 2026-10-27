@@ -6,7 +6,7 @@ export const searchMessage = tv({
   slots: {
     message: [
       "w-full text-left",
-      "block rounded-none border-0 px-4 py-3 text-foreground",
+      "block rounded-none border-0 py-3 text-foreground",
       listCell,
       listCellStates,
       "disabled:cursor-default",

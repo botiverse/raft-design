@@ -1,11 +1,11 @@
 ---
 title: Lists
-summary: How the rows of a list are drawn — no dividers, one inset rounded shape for hover, press, menu open, selection and focus, rows spaced 2px apart by the list's gap, and a scroller that keeps the shape even.
+summary: How the rows of a list are drawn — no dividers, one inset rounded shape for hover, press, menu open, selection and focus, the content padded 12px inside that shape, rows spaced 2px apart by the list's gap, and a scroller that keeps the shape even.
 ---
 
 # Lists
 
-A row of a list is a cell. The row runs the full width of its list, and its states are drawn on one rounded shape inside the row, as tall as the row and inset 8px from each side. The list spaces its rows 2px apart with its `gap` and pads its top and bottom by 8px, as far as the shape sits from its sides, so two filled rows show 2px of the list between them, which separates them without a line: lists have no dividers.
+A row of a list is a cell. The row runs the full width of its list, and its states are drawn on one rounded shape inside the row, as tall as the row and inset 8px from each side. The list spaces its rows 2px apart with its `gap` and pads its top and bottom by 8px, as far as the shape sits from its sides, so two filled rows show 2px of the list between them, which separates them without a line: lists have no dividers. The row's content is padded from the shape, 12px inside it at both ends, so nothing in a row touches its shape.
 
 ## When it applies
 
@@ -44,14 +44,16 @@ The four row components share one recipe fragment, `listCell` (`packages/ui/src/
 | The list's ends | 8px of padding at the top and bottom (`py-2`), so the first shape sits 8px below the list's top edge and the last 8px above its bottom, as far as every shape sits from the sides: a rounded shape is measured on all four sides, not only left and right (design review, 2026-10-26). |
 | Containers | `SidebarList`, `SearchResultsList` and a search thread's messages are `flex flex-col gap-0.5 py-2`; `ActivityInboxViewport` is the same column, its bottom padding adding the safe area; `DialogNav` too. Any other list of cells is a `flex flex-col gap-0.5 py-2` column. |
 | Heading → first row | 8px from the bottom of a heading's words to the first shape, in every list: a heading (a sidebar section header or group label, a search section heading, a search thread's header) has no bottom padding, and the list's own 8px is the whole space. A section's empty line (`SidebarSectionEmpty`) sits the same 8px under it. |
-| Content | 16px from the row's edges in an edge-to-edge list (8px inset and 8px inside the shape), where it sat before the shape. The sidebar row keeps 17.5px, the 9.5px it had inside its old 1.5px edge. |
+| Content | Padded from the shape, not from the list: 12px inside the shape at the start and at the end (`--cell-pad-x`), so 20px from the list's edges (8px inset + 12px). Leading avatars, icons and checkboxes start at the shape's inner start; trailing times, counts, the @ sticker, the muted mark and hover-revealed buttons (Mark as Done) end at its inner end. Top and bottom keep the row's own padding: 12px (`py-3`) for InboxItem, search results and ListRow; a 38px sidebar row centres its 20px line (9px). `listCell` sets the inline padding, so a row recipe sets none of its own. |
 
 ## Rules
 
 - **Draw no line between two rows of a list.** The 2px between two rows, the leading tiles and avatars, and the space under a section heading separate the rows. A line through a list also cuts through every rounded shape on it.
-- **Split groups with a section heading and space**, never with a line. A heading starts where the row's content starts (16px from the list's edge), not at the shape's edge.
+- **Split groups with a section heading and space**, never with a line. A heading starts where the row's content starts (20px from the list's edge), not at the shape's edge.
 - **Make the whole row the target.** A row's open button covers the row (`InboxItemTrigger`), or the row is the button itself, so every point of a row, up to its edges, lands on it. The 2px gap between two rows belongs to no row: a click there lands on the list. It is the price of spacing rows with the list's `gap` rather than inside the rows, and it is too narrow to aim at.
 - **Space the rows with the list's gap, and pad its ends by 8px.** Put the rows straight in a column with `gap-0.5 py-2`. A margin on a row, or a shape inset from the row's top and bottom, would make each row draw its own share of the space. In a virtualized list, whose rows are placed one by one, add the 2px to the virtualizer's item spacing instead, since a `gap` doesn't reach rows positioned on their own.
+- **Pad the content from the shape, never from the list.** A shape inset 8px with the content still 16px from the list's edge leaves 8px, or none once an app insets the shape further, and the trailing marks and the Mark as Done button sit on the shape's edge (design review, 2026-10-27: "the check icon and the unread count touch the edge on hover"). Inside the shape the content keeps 12px on both sides, the same at the start and at the end, in every state: at rest, hovered (with the actions revealed), pressed, selected, located and focused. Nothing inside a row may reach into that 12px: a part as wide as its contents (the 20px selection checkbox has a 20px slot), and a part's outer edge (a sticker's 1.5px ring) only from its own 12px. A text that runs long truncates at the inner padding. The value matches the web sidebar's row, the reference the design review named: its shape sits 8px from the sidebar's sides and its trailing count 11.5px inside it (now 12, the same at the start, where it was 9.5).
+- **Don't move the shape or the content from outside.** An app that adds side padding to the scroller (`px-2`), or moves the shape's end (`before:right-4`), or sets a row's padding (`px-2.5`), undoes the rule: the shape no longer sits 8px from the list, or the content no longer 12px inside it.
 - **Draw every state on the same shape.** The row stays transparent; hover, press, menu open, selection, the located highlight and keyboard focus fill or ring the shape, never the row's full rectangle:
 
   | State | Fill on the shape |
@@ -72,7 +74,7 @@ The four row components share one recipe fragment, `listCell` (`packages/ui/src/
 
 ## Wide and narrow
 
-The shape is the same at every width. On a phone the sidebar row grows to 44px for a finger, and its shape with it; the 2px between two rows stays. A phone's overlay scrollbar takes no room, so the shape is 8px from both edges of the screen.
+The shape and the content's 12px inside it are the same at every width. On a phone the sidebar row grows to 44px for a finger, and its shape with it; the 2px between two rows stays. A phone's overlay scrollbar takes no room, so the shape is 8px from both edges of the screen.
 
 ## Related
 

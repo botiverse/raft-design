@@ -8,11 +8,11 @@ export const search = tv({
       "min-h-0 flex-1 overflow-y-auto scrollbar-list p-4",
       "bg-layer-canvas px-0 pt-0 pb-4",
     ],
-    summary: ["block", "mb-0 px-4 pt-2 font-sans text-footnote text-foreground-hint"],
+    summary: ["block", "mb-0 px-5 pt-2 font-sans text-footnote text-foreground-hint"],
     section: ["mb-0"],
     sectionHeading: [
       "py-2",
-      "flex items-center gap-2 px-4 pt-3 pb-0",
+      "flex items-center gap-2 px-5 pt-3 pb-0",
       "font-sans text-footnote font-bold text-foreground-hint",
     ],
     list: ["flex flex-col", "gap-0.5 py-2"],
