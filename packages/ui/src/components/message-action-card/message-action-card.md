@@ -58,6 +58,7 @@ message-action-card/compositions/integration-actions
 | Confirm again | Open; something changed since the agent prepared it, and the note says what                 |
 | Done          | Folded to its header; the description says who did it and when                              |
 | Declined      | Folded; the description says who declined it and that nothing changed                       |
+| Expired       | Folded; the description says no one acted in time and that nothing changed                  |
 | View only     | Folded; the description says why the person can't act. No buttons                           |
 
 - When the action fails, show a toast and leave the card as it was, so the person can try again ([Toast](../toast/toast.md)).
