@@ -19,6 +19,7 @@ import type {
 import { Toast as BaseToast } from "@base-ui/react/toast";
 import { CircleCheck, Info, TriangleAlert } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { hudTextAction } from "../../lib/hud-text-action";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -247,21 +248,15 @@ const defaultManagerTiming = {
   actionTimeout: DEFAULT_TOAST_ACTION_TIMEOUT_MS,
 };
 
-// A toast's action is a text action on the HUD: bold type that underlines on
-// hover (design/foundations/states.md#clickable-text), a pressed veil on a hit
-// area larger than the word, the HUD ink as its focus outline. It carries its
-// own content and loading slots (a button's would bring a button's fill and
-// focus ring onto the dark toast).
+// A toast's action is a text action on the HUD (hudTextAction, shared with
+// ModeBarAction). It carries its own content and loading slots (a button's
+// would bring a button's fill and focus ring onto the dark toast).
 const toastAction = tv({
   slots: {
     root: [
       "relative order-2 inline-flex shrink-0 items-center justify-center whitespace-nowrap select-none",
       "border-0 bg-transparent p-0",
-      "font-sans text-callout font-bold text-foreground-on-hud",
-      "decoration-[1.5px] underline-offset-[3px] not-disabled:not-aria-disabled:hover:underline",
-      "after:absolute after:-inset-x-2 after:-inset-y-3 after:rounded-control after:content-['']",
-      "active:after:bg-foreground-on-hud/15",
-      "outline-1 outline-offset-2 outline-transparent focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-foreground-on-hud",
+      ...hudTextAction,
       "disabled:pointer-events-none disabled:opacity-40 aria-disabled:cursor-not-allowed aria-disabled:opacity-40",
       "data-[loading=true]:cursor-wait data-[loading=true]:opacity-100",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 **:data-icon:size-[1em] [&_svg:not([class*='size-'])]:size-3",

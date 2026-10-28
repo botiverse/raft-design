@@ -13,7 +13,7 @@ Color in Raft works in two ways. Surfaces get less color from the outside in: th
 - **Yellow goes on the frame only.** The frame is on every screen but nobody reads it, so color there costs almost nothing. Everything people read (messages, lists, cards, the content of pushed pages) sits on paper. The frame is the desktop rail, the web top bar and the top bar of a phone's top-level pages; see [Page structure](../patterns/page-structure.md).
 - **Each color has one meaning.** Yellow is you, pink is to do, cyan is this item, orange interrupts, red is irreversible. Status colors are fixed too; see [Meanings of color](#meanings-of-color).
 - **A block of brand color is a sticker.** It has a 1.5px ink edge and ink type on it, in both modes; see [Stickers](#stickers).
-- **Notices are neutral.** Toasts and tooltips are dark gray (`layer-hud`), not a brand color, and no button is yellow. A notice is an aside: a yellow toast would compete with selection, and yellow means only "you" (where you are, what you selected, what calls you). That yellow stays yellow in every theme, Boring Gray included: it is information, so it has its own tokens, `you` and `selected` ([Themes](./themes.md#signals)).
+- **Notices are neutral.** Toasts and tooltips are dark gray (`layer-hud`), not a brand color, and no button is yellow. A notice is an aside: a yellow toast would compete with selection, and yellow means only "you" (where you are, what you selected, what calls you). A panel in a mode the person turned on, such as commenting, says so on the same dark gray, because a mode has no intent to tint ([ModeBar](../../packages/ui/src/components/mode-bar/mode-bar.md#why-it-is-dark)). That yellow stays yellow in every theme, Boring Gray included: it is information, so it has its own tokens, `you` and `selected` ([Themes](./themes.md#signals)).
 
 ## Tokens
 
@@ -34,7 +34,7 @@ layer
 | `layer-popover` | Popups: menus, drawers, bottom sheets, dialogs, profile cards |
 | `fill-muted` | Sunken fills: tracks, inline code, skeletons, neutral tiles, reactions, thread previews |
 | `layer-code` | Code blocks and command lines |
-| `layer-hud` | Toasts and tooltips; text on it is `foreground-on-hud` and `foreground-on-hud-muted` |
+| `layer-hud` | Toasts, tooltips and the strip of a panel in a mode ([ModeBar](../../packages/ui/src/components/mode-bar/mode-bar.md)); text on it is `foreground-on-hud` and `foreground-on-hud-muted` |
 | `layer-backdrop` | The scrim behind centered overlays, modal drawers, bottom sheets and the lightbox |
 | `layer-backdrop-nested` | The lighter scrim under a modal surface opened from another one ([Stacked overlays](./elevation.md#stacked-overlays)) |
 | `layer-veil` | The cover over something busy or loading in place: an image uploading or that failed to, a preview being prepared |
