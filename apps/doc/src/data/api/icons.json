@@ -1,5 +1,61 @@
 [
   {
+    "name": "FollowThreadIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Follow a thread: a plus inside ThreadIcon's front bubble.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "JoinChannelIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Join a public channel: Lucide's hash, cut short of a plus in the bottom-right corner.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "JoinJointChannelIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Join a joint channel: Lucide's git-branch, with a plus in its empty bottom-right corner.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "JoinPrivateChannelIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Join a private channel: Lucide's lock, its body cut short of a plus in the bottom-right corner.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "LeaveChannelIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Leave a public channel: the same cut hash, with a minus.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "LeaveJointChannelIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Leave a joint channel: Lucide's git-branch, with a minus.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "LeavePrivateChannelIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Leave a private channel: the same cut lock, with a minus.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "UnfollowThreadIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Unfollow a thread: a minus inside ThreadIcon's front bubble.",
+    "native": true,
+    "props": []
+  },
+  {
     "name": "ChatIcon",
     "entry": "@botiverse/raft-ui",
     "native": true,

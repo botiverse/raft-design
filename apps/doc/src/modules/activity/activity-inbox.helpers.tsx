@@ -1,7 +1,6 @@
 import {
   AtSign,
   Ban,
-  Bell,
   BellOff,
   Bookmark,
   Check,
@@ -28,6 +27,8 @@ import {
   ContextMenuItem,
   ContextMenuItemLabel,
   ContextMenuTrigger,
+  FollowThreadIcon,
+  UnfollowThreadIcon,
   InboxItem,
   InboxItemActions,
   InboxItemBody,
@@ -302,7 +303,7 @@ export function ActivityItem({
         ) : null}
         {item.kind === "thread" ? (
           <ContextMenuItem onClick={handleToggleFollowing}>
-            {item.following === false ? <Bell /> : <BellOff />}
+            {item.following === false ? <FollowThreadIcon /> : <UnfollowThreadIcon />}
             <ContextMenuItemLabel>
               {item.following === false ? "Follow thread" : "Unfollow thread"}
             </ContextMenuItemLabel>

@@ -469,12 +469,21 @@
   },
   "icons": {
     "names": [
+      "FollowThreadIcon",
+      "JoinChannelIcon",
+      "JoinJointChannelIcon",
+      "JoinPrivateChannelIcon",
+      "LeaveChannelIcon",
+      "LeaveJointChannelIcon",
+      "LeavePrivateChannelIcon",
+      "UnfollowThreadIcon",
       "ChatIcon",
       "DirectMessageIcon",
       "MessageIcon",
       "ThreadIcon"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "Follow a thread: a plus inside ThreadIcon's front bubble."
   },
   "inbox-item": {
     "names": [
