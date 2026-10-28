@@ -64,6 +64,29 @@ In a product where tasks come from conversations, a task is created from a messa
 - Show the number of messages in a task's discussion, in Space Mono, once it has any. Add the attention dot before it only for people who follow the task.
 - A task created before tasks had their own discussion, when the message was the task, gets one only when something is first written to it. Show an empty state in its place ("No discussion in this task yet", saying the earlier discussion is in the replies of its message) with the composer ready, not the message's replies; the first message starts the task's discussion.
 
+### Pulling the task head down
+
+On a phone, and on the web wherever the task details are full screen, the task's head (the title, the description, the properties and History) is the conversation's first row and scrolls away with it. Scrolling back up to read the status would lose the reader's place in the discussion, so the bar pulls the head down over the conversation instead.
+
+- Once the head has scrolled out of view, the bar collapses to one line: `Task #N`, the status chip and the assignee's avatar alone, then a small chevron. The avatar is named for screen readers; the name shows beside it only where the bar has room for it whole. Before the head has scrolled away, the bar keeps the task's reference.
+- A tap on the bar pulls the head down as a panel that hangs from under the bar across its whole width, over the conversation. It is the same head as the conversation's first row, editable the same way (Status, Assignee, Show More, Source, History). No scrim, and nothing under it moves.
+- Draw the panel on `layer-canvas` with `shadow-float` along its edge and no 1px divider: the shadow already parts it from the conversation, and a hairline on top of a shadow is a second edge saying the same thing ([Elevation](../foundations/elevation.md#tokens)). It is at most 70% of the screen tall; beyond that its own content scrolls.
+- It slides down from the bar and back up in 220ms with `ease-slide`, the shortest slide ([Motion](../foundations/motion.md#usage)), and the chevron turns with it. With reduced motion it appears and goes at once.
+- It closes on:
+  - a second tap on the bar;
+  - a tap outside it, including the composer and its buttons. The tap still lands where it was aimed. A menu the head opened (Status, Assignee) is inside the panel;
+  - focus moving outside it, such as into the composer;
+  - Back, the system back on a phone, and Esc. Back closes the panel before it leaves the page;
+  - an upward swipe of at least 40px on the panel once its content is scrolled to its end. Until then the swipe scrolls the panel's content;
+  - the reader starting to scroll the conversation. An arriving message does not close it;
+  - the head scrolling back into view.
+- The panel doesn't follow the finger: a swipe up past 40px closes it with the same slide, and a shorter one leaves it where it is. A panel that tracks the finger looks like a sheet that can be dragged to any height, which this panel can't. This holds on the web and on a phone (decided 2026-10-28).
+- Focus moves into the panel when it opens and back to the bar when it closes, except after a tap outside: that tap puts focus where the reader meant. The bar is a button with `aria-expanded` that controls the panel, named by what it shows ("Task #7, In Progress, Kirby"); the panel is a region named by the task ("Task #7").
+- Keep the conversation bottom-anchored, newest message on the composer, and let the head fold away only as far as the conversation fills the room it leaves. A short task keeps its head in view and shows no gap above "Beginning of conversation"; its bar never collapses, so there is nothing to pull down.
+- On a tablet or a wide window the head stays pinned above the conversation, so there is no collapsed bar and no panel.
+
+The web builds this as `TaskHeadPullDown` (slock `packages/web/src/components/task/TaskHeadPullDown.tsx`, slock #11722); the phone as `RaftPullDownPanel` (mobile #3884), with the fold limit that keeps a short task free of a gap in mobile #3899. It is not a [Popover](../../packages/ui/src/components/popover/popover.md) or a [Drawer](../../packages/ui/src/components/drawer/drawer.md): it is neither modal nor anchored to a point.
+
 ### Tasks beside a conversation
 
 A place's tasks open as a Tasks section beside its conversation ([Page structure](./page-structure.md#sidebar-and-side-panel)), so people see the work moving while they talk. People don't need to read every task there: the section answers what is moving and what waits for them.
