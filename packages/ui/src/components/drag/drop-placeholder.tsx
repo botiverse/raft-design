@@ -11,9 +11,10 @@ import { dragPointer } from "./drag-lift";
 
 export type DropPlaceholderProps = useRender.ComponentProps<"div"> & {
   /**
-   * Over live content (a panel, a column of a layout): an opaque
-   * `layer-canvas` under the `fill-subtle` wash, so the content under it
-   * never shows through.
+   * In a layout (the gap a column makes, a new column's strip): an opaque
+   * `layer-canvas` under the `fill-subtle` wash, so the column behind the gap
+   * doesn't show through while its sections reflow. Nothing is drawn over
+   * live content (design/patterns/drag-and-drop.md#where-it-will-land).
    */
   opaque?: boolean;
 };

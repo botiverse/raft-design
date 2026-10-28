@@ -17,7 +17,11 @@ const filterChip = tv({
       "[&>svg:not([class*='size-'])]:size-3.5 [&>svg:not([class*='stroke-'])]:stroke-2",
     ],
     label: ["min-w-0 truncate"],
-    remove: [...chipRemoveBase, "size-6"],
+    remove: [
+      ...chipRemoveBase,
+      "relative size-6",
+      "after:absolute after:content-[''] pointer-coarse:after:-inset-2.5",
+    ],
   },
 });
 

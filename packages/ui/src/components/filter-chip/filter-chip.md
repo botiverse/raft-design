@@ -10,7 +10,7 @@ related: [picker-trigger-button, dropdown-menu, select, combobox]
 
 # FilterChip
 
-FilterChip names the filter in effect beside a Filter button that always says Filter. It has the applied filter's look, an `info-soft` fill as high as the button, and an × that resets the filter to its default. It shows only while the filter differs from the default. Use it with the Filter button pattern ([Select › Filters](../select/select.md#filters)) for a filter that people change seldom and set by habit, such as Unread or Mentions in Activity.
+FilterChip names the filter in effect beside a Filter button that always says Filter. It has the applied filter's look, an `info-soft` fill as high as the button, and an × that resets the filter to its default. It shows only while the filter differs from the default. Use it with the Filter button pattern ([Select › Which filter button](../select/select.md#which-filter-button)) for a filter that people change seldom and set by habit, such as Unread or Mentions in Activity.
 
 ```example
 filter-chip/compositions/filter-button
@@ -43,7 +43,7 @@ Put the chip right after the Filter button, 8px from it, in the same row.
 
 - Render the chip only while the filter differs from its default. At the default, the Filter button stands alone.
 - Pressing × resets the filter to its default in one step, without opening the menu. The chip then goes away.
-- The chip is as high as the Filter button, 32px, on a phone too. The × is 24px, 4px from the chip's end. Its ink sits further in than the icon's at the start: like the × on a tag ([Alignment › Chips](../../../../../design/foundations/alignment.md#chips)), it keeps its inset rather than its ink distance.
+- The chip is as high as the Filter button, 32px, on a phone too. The × is 24px, 4px from the chip's end; on a touch screen its hit area reaches 44px, a transparent `::after` 10px past it on every side ([Accessibility › Hit targets](../../../../../design/foundations/accessibility.md#hit-targets)). That reaches 6px past the chip's end, so on a touch screen keep the next control at least 12px from the chip, or end the row with it. Its ink sits further in than the icon's at the start: like the × on a tag ([Alignment › Chips](../../../../../design/foundations/alignment.md#chips)), it keeps its inset rather than its ink distance.
 - When the row is narrow, the label truncates and the icon and × stay.
 
 ## Content
