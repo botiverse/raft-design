@@ -1,3 +1,10 @@
+## [0.47.0](https://github.com/botiverse/raft-design/compare/v0.46.0...v0.47.0) (2026-10-28)
+
+### Changed
+
+- **Badge.Experimental:** takes its label as children, so an app shows the word in its own language (`<Badge.Experimental>{t("experimental")}</Badge.Experimental>`); with no children it still reads Experimental. ([#871](https://github.com/botiverse/raft-design/pull/871))
+  - Docs: https://raft-design.botiverse.build/components/badge/
+
 ## [0.46.0](https://github.com/botiverse/raft-design/compare/v0.45.0...v0.46.0) (2026-10-28)
 
 ### Design System
