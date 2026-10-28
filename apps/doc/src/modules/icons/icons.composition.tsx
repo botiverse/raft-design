@@ -1,7 +1,10 @@
 import type { ReactNode } from "react";
 import {
+  ArtifactIcon,
   ChatIcon,
+  CommentIcon,
   DirectMessageIcon,
+  FeedbackIcon,
   MessageIcon,
   TaskStatusIcon,
   ThreadIcon,
@@ -32,6 +35,15 @@ export function IconsComposition() {
       </IconGridItem>
       <IconGridItem label="Thread">
         <ThreadIcon className="size-[18px] text-foreground" />
+      </IconGridItem>
+      <IconGridItem label="Comment">
+        <CommentIcon className="size-[18px] text-foreground" />
+      </IconGridItem>
+      <IconGridItem label="Feedback">
+        <FeedbackIcon className="size-[18px] text-foreground" />
+      </IconGridItem>
+      <IconGridItem label="Artifact">
+        <ArtifactIcon className="size-[18px] text-foreground" />
       </IconGridItem>
       <IconGridItem label="Todo">
         <TaskStatusIcon status="todo" className="size-[18px] text-foreground" />

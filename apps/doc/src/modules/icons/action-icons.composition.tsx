@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
 import {
+  AddCommentIcon,
+  CreateTaskIcon,
+  FollowArtifactIcon,
   FollowThreadIcon,
   JoinChannelIcon,
   JoinJointChannelIcon,
@@ -7,6 +10,8 @@ import {
   LeaveChannelIcon,
   LeaveJointChannelIcon,
   LeavePrivateChannelIcon,
+  ReopenTaskIcon,
+  UnfollowArtifactIcon,
   UnfollowThreadIcon,
 } from "@botiverse/raft-ui";
 
@@ -23,31 +28,50 @@ function IconGridItem({ label, children }: { label: string; children: ReactNode 
 
 export function ActionIconsComposition() {
   return (
-    <div className="grid w-full max-w-2xl grid-cols-2 border-t border-l border-line-hairline sm:grid-flow-col sm:grid-cols-4 sm:grid-rows-2">
-      <IconGridItem label="Follow thread">
-        <FollowThreadIcon className="size-4 text-foreground" />
-      </IconGridItem>
-      <IconGridItem label="Unfollow thread">
-        <UnfollowThreadIcon className="size-4 text-foreground" />
-      </IconGridItem>
-      <IconGridItem label="Join channel">
-        <JoinChannelIcon className="size-4 text-foreground" />
-      </IconGridItem>
-      <IconGridItem label="Leave channel">
-        <LeaveChannelIcon className="size-4 text-foreground" />
-      </IconGridItem>
-      <IconGridItem label="Join private channel">
-        <JoinPrivateChannelIcon className="size-4 text-foreground" />
-      </IconGridItem>
-      <IconGridItem label="Leave private channel">
-        <LeavePrivateChannelIcon className="size-4 text-foreground" />
-      </IconGridItem>
-      <IconGridItem label="Join joint channel">
-        <JoinJointChannelIcon className="size-4 text-foreground" />
-      </IconGridItem>
-      <IconGridItem label="Leave joint channel">
-        <LeaveJointChannelIcon className="size-4 text-foreground" />
-      </IconGridItem>
+    <div className="flex w-full max-w-3xl flex-col gap-6">
+      <div className="grid grid-cols-2 border-t border-l border-line-hairline sm:grid-flow-col sm:grid-cols-5 sm:grid-rows-2">
+        <IconGridItem label="Follow thread">
+          <FollowThreadIcon className="size-4 text-foreground" />
+        </IconGridItem>
+        <IconGridItem label="Unfollow thread">
+          <UnfollowThreadIcon className="size-4 text-foreground" />
+        </IconGridItem>
+        <IconGridItem label="Follow Artifact">
+          <FollowArtifactIcon className="size-4 text-foreground" />
+        </IconGridItem>
+        <IconGridItem label="Unfollow Artifact">
+          <UnfollowArtifactIcon className="size-4 text-foreground" />
+        </IconGridItem>
+        <IconGridItem label="Join channel">
+          <JoinChannelIcon className="size-4 text-foreground" />
+        </IconGridItem>
+        <IconGridItem label="Leave channel">
+          <LeaveChannelIcon className="size-4 text-foreground" />
+        </IconGridItem>
+        <IconGridItem label="Join private channel">
+          <JoinPrivateChannelIcon className="size-4 text-foreground" />
+        </IconGridItem>
+        <IconGridItem label="Leave private channel">
+          <LeavePrivateChannelIcon className="size-4 text-foreground" />
+        </IconGridItem>
+        <IconGridItem label="Join joint channel">
+          <JoinJointChannelIcon className="size-4 text-foreground" />
+        </IconGridItem>
+        <IconGridItem label="Leave joint channel">
+          <LeaveJointChannelIcon className="size-4 text-foreground" />
+        </IconGridItem>
+      </div>
+      <div className="grid grid-cols-3 border-t border-l border-line-hairline">
+        <IconGridItem label="Add comment">
+          <AddCommentIcon className="size-4 text-foreground" />
+        </IconGridItem>
+        <IconGridItem label="Create task">
+          <CreateTaskIcon className="size-4 text-foreground" />
+        </IconGridItem>
+        <IconGridItem label="Reopen task">
+          <ReopenTaskIcon className="size-4 text-foreground" />
+        </IconGridItem>
+      </div>
     </div>
   );
 }

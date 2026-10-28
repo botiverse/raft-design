@@ -1,5 +1,26 @@
 [
   {
+    "name": "AddCommentIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Add a comment: CommentIcon at 24, its bubble cut short of a plus in the bottom-right corner.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "CreateTaskIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Create a task: Lucide's list-todo, a plus in place of its last line.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "FollowArtifactIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Follow an Artifact: a plus inside ArtifactIcon's page, where its two lines of text were.",
+    "native": true,
+    "props": []
+  },
+  {
     "name": "FollowThreadIcon",
     "entry": "@botiverse/raft-ui",
     "description": "Follow a thread: a plus inside ThreadIcon's front bubble.",
@@ -49,6 +70,20 @@
     "props": []
   },
   {
+    "name": "ReopenTaskIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Reopen a task: a ticked box, broken open at the top by a counter-clockwise arrow (Lucide's rotate-ccw-square with a check).",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "UnfollowArtifactIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Unfollow an Artifact: a minus inside ArtifactIcon's page.",
+    "native": true,
+    "props": []
+  },
+  {
     "name": "UnfollowThreadIcon",
     "entry": "@botiverse/raft-ui",
     "description": "Unfollow a thread: a minus inside ThreadIcon's front bubble.",
@@ -62,8 +97,22 @@
     "props": []
   },
   {
+    "name": "CommentIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "A comment, said about a passage: MessageIcon's bubble with quote marks.",
+    "native": true,
+    "props": []
+  },
+  {
     "name": "DirectMessageIcon",
     "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "FeedbackIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "Feedback, sent to the people who make Raft: MessageIcon's bubble with an exclamation mark.",
     "native": true,
     "props": []
   },
@@ -76,6 +125,13 @@
   {
     "name": "ThreadIcon",
     "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "ArtifactIcon",
+    "entry": "@botiverse/raft-ui",
+    "description": "An Artifact, a page someone made: a page with no dog-ear, a header block and two lines of text.",
     "native": true,
     "props": []
   }
