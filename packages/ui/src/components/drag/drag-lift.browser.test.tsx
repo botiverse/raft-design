@@ -287,7 +287,7 @@ it("pointercancel cancels the drag", async () => {
   await mouse("mouseReleased", x + 10, y);
 });
 
-it("the place is a 1.5px dashed line-strong outline on fill-subtle; over live content it is opaque", () => {
+it("the place is a 1.5px dashed line-strong outline on fill-subtle; in a layout's gap it is opaque", () => {
   render(
     <div>
       <DropPlaceholder data-testid="list" style={LIST_PLACE} />

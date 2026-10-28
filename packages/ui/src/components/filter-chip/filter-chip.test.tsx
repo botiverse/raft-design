@@ -64,4 +64,12 @@ describe("FilterChip", () => {
     expect(remove.dataset.slot).toBe("filter-chip-remove");
     expect(remove.className).toContain("size-6");
   });
+
+  it("reaches a 44px hit area on a touch screen: a transparent ::after 10px past the 24px ×", () => {
+    renderChip();
+    const remove = screen.getByRole("button");
+    expect(remove.className).toContain("relative");
+    expect(remove.className).toContain("after:absolute");
+    expect(remove.className).toContain("pointer-coarse:after:-inset-2.5");
+  });
 });

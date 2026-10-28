@@ -42,7 +42,7 @@ drag/compositions/lists
 - `useDragSensors()`: the one sensor set for a `DndContext`. A mouse or a pen after 6px (`MOUSE_DRAG_DISTANCE_PX`); a finger after a 500ms hold and a 10px move (`useHoldThenMoveTouchSensor`); the keyboard on Space (`DRAG_KEYBOARD_CODES`), never Enter. Pass `coordinateGetter` (or only the getter, `useDragSensors(getter)`) for how the arrows move. Escape during a drag from any of them only puts the item back: it is taken in the capture phase on the window and stopped, so no app Escape handler (a panel, a dialog, a popover) hears it until the drag is over.
 - `DragLift`: the lifted copy, inside the `DndContext`. Its children are the copy: the item itself, or a compact proxy. It takes the control radius; pass the item's own in `className`. It also sets the grabbing cursor, cancels on window blur and a hidden tab, scrolls the area the pointer is near the edge of, and sets a keyboard drag's copy 6px off its place. Turn dnd-kit's own auto-scroll off (`autoScroll={false}`). The copy sits above every other layer (`DRAG_LIFT_Z_INDEX`, 999: over popovers, stacked dialogs and toasts). Pass `container` (`document.body`) when an ancestor has a transform, such as a drawer or a dialog: the copy keeps the theme scope it was rendered in.
 - `keepGrabInside(proxyWidth)`: a modifier for a compact proxy, so the hand stays on it when the item was grabbed far from its start. `LIFT_CLASS` is the lift look for a copy drawn without `DragLift`.
-- `DropPlaceholder`: where the item will land, at the item's size. `opaque` over live content.
+- `DropPlaceholder`: where the item will land, at the item's size. `opaque` in a layout's gap or new-column strip, so the column behind doesn't show through.
 - `DragRefusalHint`: the reason a place refuses the item, in a HUD chip by the pointer, with the not-allowed cursor. Render it only while the place under the hand refuses. The chip sits right of and below the pointer; near the window's right edge it goes left of the pointer and of the copy, near the bottom edge above the pointer. It never sits under the copy and always stays 8px inside the window. Its size is measured when its content changes, not every frame.
 - `DraggedSlot`: wraps each item's content in a list; pass `dragging={isDragging}` (it is `false` by default). The dragged item's own slot is at 40% (`ORIGIN_OPACITY`) while home and the place, with the item's `radius`, once it stands elsewhere.
 - `useDragLists`: items in one or more lists, reordered and moved between them, with refusals and announcements by name. It returns the `DndContext`'s handlers, collision detection and `accessibility`, and the `coordinateGetter` for `useDragSensors`. Render `DragRemeasure version={items}` inside the context.
@@ -54,13 +54,13 @@ drag/compositions/lists
 
 ## States
 
-| State                | Look                                                                                                                                   |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Lifted               | The copy: `layer-popover`, `shadow-float`, a `line-seam` ring; no scale, no tilt. The cursor is `grabbing` everywhere                  |
-| Home                 | The item stays in its place at 40%                                                                                                     |
-| Over a place         | `DropPlaceholder`: 1.5px dashed `line-strong` on `fill-subtle`, the item's radius and size; opaque on `layer-canvas` over live content |
-| Over a refused place | No placeholder; the `DragRefusalHint` chip by the pointer; the cursor is `not-allowed`                                                 |
-| Dropped or cancelled | The copy glides into the place, or home, in 160ms; then the item shows there                                                           |
+| State                | Look                                                                                                                                                       |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lifted               | The copy: `layer-popover`, `shadow-float`, a `line-seam` ring; no scale, no tilt. The cursor is `grabbing` everywhere                                      |
+| Home                 | The item stays in its place at 40%                                                                                                                         |
+| Over a place         | `DropPlaceholder`: 1.5px dashed `line-strong` on `fill-subtle`, the item's radius and size; opaque on `layer-canvas` in a layout's gap or new-column strip |
+| Over a refused place | No placeholder; the `DragRefusalHint` chip by the pointer; the cursor is `not-allowed`                                                                     |
+| Dropped or cancelled | The copy glides into the place, or home, in 160ms; then the item shows there                                                                               |
 
 ## Behavior
 

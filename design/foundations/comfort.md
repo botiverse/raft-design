@@ -15,7 +15,7 @@ People keep Raft open all day, so a screen has to be easy to read at a glance an
 - **Text on one baseline, marks centered; one start edge per column** ([Alignment](#alignment)).
 - **Density follows the input, never the content.** A row of a compact list stays at least 44px by touch and 36px with a mouse ([Density](#density-and-touch-targets)).
 - **Few levels of text, far apart.** Secondary text is muted, not small ([Hierarchy](#hierarchy-contrast)).
-- **A card is for an object that sits inside other content or beside another region.** Not for every group ([Surfaces](#surfaces)).
+- **A card is for an object that sits inside other content.** A region beside another region takes a seam, and a group takes space, not a card ([Surfaces](#surfaces)).
 
 ## Separators
 
@@ -23,7 +23,7 @@ A line separates siblings inside a container, so it spans what that container vi
 
 - **Inside a bordered box, run the line edge to edge, so it meets the border on both sides.** The box and its lines then make one set of cells. A line that stops short of the border leaves a gap at each end, and the box reads as a frame with scratches in it. The tasks under a message sit in such a box: their lines meet its border ([Tasks](../patterns/tasks.md#rows-in-a-compact-list)).
 - **Without a visible edge, inset the line at both ends to the content: from where the text starts to where the last mark ends.** With nothing to meet, a full-width line reads as the edge of a region, a seam, and cuts the page into strips. A line that starts and ends with the content belongs to the content. A list inside a larger card or a side section, and the phone page a side section becomes, have no edge of their own around the list, so their lines are inset: 20px from each side of a side section and 16px from each side of the phone screen.
-- **The container is the nearest one with a visible edge that holds only these siblings.** A box that holds nothing but the rows is the rows' container. A card that also holds a header, filters and group headings is not: there the list is one section among others, has no edge of its own, and its lines are inset like the card's content. This is why the Tasks section's lines stop 20px from its edges while the box under a message has lines that meet its border.
+- **The container is the nearest one with a visible edge that holds only these siblings.** A box that holds nothing but the rows is the rows' container. A card or side section that also holds a header, filters and group headings is not: there the list is one part among others, has no edge of its own, and its lines are inset like the rest of the content. This is why the Tasks section's lines stop 20px from its edges while the box under a message has lines that meet its border.
 - **Prefer space to a line where the grouping already reads.** A heading, a gap or a change of fill already separates groups, so put no line between a heading and its rows, above the first row or under the last, or between two groups that have their own headings. A line next to a border, a seam or another line is never needed: two 1px lines side by side read as one 2px line ([Page structure](../patterns/page-structure.md#one-line-between-two-regions)).
 - **Hover still fills the whole row.** An inset line is drawn on the row, not by narrowing it, so the row's target and its hover run edge to edge whatever the line does.
 
