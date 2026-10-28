@@ -25,6 +25,7 @@ The wider the scope of a message, the further out it goes; the full table is in 
 | One input is invalid                                                       | The input's error ([Field](../field/field.md)), not a banner                                             |
 | Something to know before acting in a dialog or a form                      | Banner, in the content                                                                                   |
 | Something in one panel failed: an agent won't start, a setting didn't save | `PanelNotice`, under the panel header ([Panel](../panel/panel.md))                                       |
+| The person turned on a mode in one panel, such as commenting               | [ModeBar](../mode-bar/mode-bar.md), under the panel header                                               |
 | The state of the whole server: a computer offline, a quota nearly full     | [NotificationCenter](../notification-center/notification-center.md), not a banner at the top of the page |
 | A signed-out visitor on a public page: sign up                             | The sign-up prompt, not a banner ([see below](#the-sign-up-prompt-on-a-public-page))                     |
 | A phone's own browser arrived on a message link: open the Raft app         | The open-in-app offer, not a banner ([see below](#the-open-in-app-offer-on-a-phone))                     |

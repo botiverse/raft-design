@@ -94,6 +94,7 @@ The scope of a message decides where it goes, and how long the situation lasts d
 | Something the person just did has a result | [Toast](../../packages/ui/src/components/toast/toast.md) | A few seconds |
 | They need to know it before acting | [Banner](../../packages/ui/src/components/banner/banner.md), inside a dialog or form | Always |
 | Something in one panel failed: an agent won't start, a setting of the conversation didn't save | A full-width notice under the panel header (`PanelNotice`, [Panel](../../packages/ui/src/components/panel/panel.md)) | Until it is fixed or dismissed |
+| The person turned on a mode in one panel, such as commenting on an Artifact | A dark strip under the panel header ([ModeBar](../../packages/ui/src/components/mode-bar/mode-bar.md)), with the action that ends the mode | Until they end it |
 | The state of the whole server: a computer offline, a quota nearly full, an update | The notification center ([NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)), with an attention dot on the bell | Until it changes |
 | Something happened elsewhere that the person should see | Activity ([ActivityInbox](../../packages/ui/src/components/activity-inbox/activity-inbox.md)); its entry point shows an attention dot or a count | Until it is read |
 | An agent needs approval | An action card in the conversation ([MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md)) | Until it is handled |

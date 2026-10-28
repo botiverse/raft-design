@@ -12,6 +12,10 @@ export * from "./components/announcement-dialog/index";
 
 export * from "./components/comment/index";
 
+// The dark strip under a panel head while the panel is in a mode (commenting
+// on an Artifact), until stdrc approves it.
+export * from "./components/mode-bar/index";
+
 // Messages an assistant sent for its owner (RFC 077), until stdrc approves
 // the parts: the "sent by" label, the face on the owner's avatar, and the
 // label in a quoted message.
