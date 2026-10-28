@@ -1,7 +1,7 @@
 ---
 title: 页面结构
 summary: 手机页面和桌面端屏幕由哪些区域组成，它们如何从外框往里分层，以及两个区域之间只有一条线的规则。
-sourceHash: e1606d89
+sourceHash: f638f072
 ---
 
 # 页面结构
@@ -76,9 +76,9 @@ app-shell/compositions/web-top-bar
 
 ### 折叠屏手机 {#foldable-phones}
 
-折叠屏手机（iPhone Duo）有两块屏幕。外屏横握时是一个手机页面，系统在一侧留出一个竖列，放状态栏、标签栏和页面的控件。内屏的宽度够用 App 的桌面模式。
+折叠屏手机（iPhone Duo）有两块屏幕。外屏（466 × 678pt，竖着拿，比普通 iPhone 更宽更矮）是一个手机页面，系统始终在一侧留出一个竖列，放状态栏、标签栏和页面的控件，不需要转横。内屏的宽度够用 App 的桌面模式。
 
-#### 外屏横握 {#the-outer-screen-in-landscape}
+#### 外屏 {#the-outer-screen-in-landscape}
 
 系统在摄像头那一侧留出一个竖列。哪一侧由硬件决定：Raft 不选，从右到左书写时也不镜像（[窗口安全区](#frame-insets)）。页面占满屏幕的其余部分，竖列里放的是竖着拿的手机放在顶栏和标签栏里的东西：
 
@@ -103,7 +103,7 @@ app-shell/compositions/web-top-bar
 
 - 导航条头部的工作空间图块是服务器切换器，而且是唯一的一个（[导航](./navigation.md#the-server-in-the-apps-desktop-mode)）：侧栏头部里没有。
 - 搜索是导航条上的一个目的地，铃铛放在导航条底部，和没有顶栏时的导航条一样（[AppRail](../../packages/ui/src/components/app-rail/app-rail.md)）。不要在某一栏上方放搜索框：它搜索的是所有东西，不只是那一栏。
-- 如果系统在内屏上也留出一个竖列，它和外屏一样放返回和页面操作，从不放目的地：目的地在导航条上。导航条挨着它时（从右到左书写时就是这样），两者之间只画一条线（[两个区域之间只有一条线](#one-line-between-two-regions)）。
+- 内屏横着拿时也有系统竖列，它和外屏一样放返回和页面操作，从不放目的地：目的地在导航条上。竖着拿时竖列消失，页面的控件回到横向的栏里。导航条挨着它时（从右到左书写时就是这样），两者之间只画一条线（[两个区域之间只有一条线](#one-line-between-two-regions)）。
 - 所有东西都不放在折痕上（[窗口安全区](#frame-insets)）。
 
 ## 规则 {#rules}

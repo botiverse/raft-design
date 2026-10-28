@@ -1,7 +1,7 @@
 ---
 title: MobileNav
 summary: 手机的标签栏：一级页面底部最多 5 个目的地，选中那一项的图标放在一张黄色贴纸里。
-sourceHash: f695f189
+sourceHash: 030a0c6b
 ---
 
 # MobileNav
@@ -64,7 +64,7 @@ mobile-nav/compositions/server-tab
 
 ## 竖排标签栏 {#the-vertical-tab-bar}
 
-在折叠屏手机横握的外屏上，标签栏立在系统竖列的底部，在屏幕的一侧（[页面结构](../../../../../design/patterns/page-structure.md#foldable-phones)）。iOS App 用的是系统自己的标签栏，由系统竖过来；这些规则适用于画在那里的任何标签栏。
+在折叠屏手机的外屏上，标签栏立在系统竖列的底部，在屏幕的一侧（[页面结构](../../../../../design/patterns/page-structure.md#foldable-phones)）。iOS App 用的是系统自己的标签栏，由系统竖过来；这些规则适用于画在那里的任何标签栏。
 
 - 顺序不变，第一个在最上面：在 Raft Chat 里是主页、动态、任务、搜索，然后是服务器。
 - 只显示图标：竖列里放不下标签文字。每个标签文字保留为该项的无障碍名称，服务器标签的服务器名称也一样，有圆点时连同圆点一起（“Raft HQ，其他服务器有未读”）。

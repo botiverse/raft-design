@@ -76,9 +76,9 @@ app-shell/compositions/web-top-bar
 
 ### Foldable phones
 
-A foldable phone (iPhone Duo) has two screens. Its outer screen, held sideways, is a phone page with a column the system keeps on one side for the status bar, the tab bar and the page's controls. Its inner screen is wide enough for the apps' desktop mode.
+A foldable phone (iPhone Duo) has two screens. Its outer screen (466 × 678pt, held upright, wider and shorter than an iPhone) is a phone page with a column the system always keeps on one side for the status bar, the tab bar and the page's controls; it doesn't need turning. Its inner screen is wide enough for the apps' desktop mode.
 
-#### The outer screen in landscape
+#### The outer screen {#the-outer-screen-in-landscape}
 
 The system reserves a vertical column on the side of the camera. The side is the hardware's: Raft doesn't choose it, and it doesn't mirror in right-to-left ([Frame insets](#frame-insets)). The page fills the rest of the screen, and the column holds what a phone held upright has in its top bar and its tab bar:
 
@@ -103,7 +103,7 @@ The inner screen is the apps' desktop mode ([Responsive layout](./responsive.md#
 
 - Make the rail header's workspace tile the server switcher, and the only one ([Navigation](./navigation.md#the-server-in-the-apps-desktop-mode)): there is none in the sidebar's header.
 - Make Search a destination on the rail and put the bell in the rail's footer, as the rail has them without the top bar ([AppRail](../../packages/ui/src/components/app-rail/app-rail.md)). Don't put a search field above a pane: it searches everything, not that pane.
-- Where the system reserves a column on the inner screen too, it holds Back and the page's actions as on the outer screen, never destinations: those are on the rail. When the rail stands next to it, which in right-to-left it does, draw one line between them ([One line between two regions](#one-line-between-two-regions)).
+- Held sideways, the inner screen also has the system's column; it holds Back and the page's actions as on the outer screen, never destinations: those are on the rail. Held upright, the column goes and the page's controls return to their horizontal bars. When the rail stands next to it, which in right-to-left it does, draw one line between them ([One line between two regions](#one-line-between-two-regions)).
 - Keep everything off the fold ([Frame insets](#frame-insets)).
 
 ## Rules

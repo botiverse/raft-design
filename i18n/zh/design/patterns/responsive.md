@@ -25,7 +25,7 @@ sourceHash: b1288adb
 
 移动 App 同样按窗口宽度切换，但用它们自己的断点：从 840dp 起，在开启 App 的桌面模式时，显示导航条和两栏而不是标签栏，横屏和平板都一样；从 1200dp 起，消息列放在对话旁边。导航条用 [AppRail](../../packages/ui/src/components/app-rail/app-rail.md) 绘制，保留手机上的目的地和顺序，服务器标签除外：在那里，服务器是导航条头部的工作空间图块，是切换服务器的唯一入口，和网页一样（[导航](./navigation.md#the-server-in-the-apps-desktop-mode)）。保留每个平台各自的断点（网页 768px，App 840dp），不要强行统一：断点是布局的搭建方式，而导航的结构在哪里都一样，见[导航](./navigation.md#principles)。
 
-折叠屏手机的外屏横握时保持手机布局，系统的竖列在它的一侧；它的内屏是桌面模式（[页面结构](./page-structure.md#foldable-phones)）。
+折叠屏手机的外屏保持手机布局，系统的竖列在它的一侧；它的内屏是桌面模式（[页面结构](./page-structure.md#foldable-phones)）。
 
 ```example
 app-shell/compositions/responsive

@@ -69,7 +69,7 @@ The popover's rows are the product's: the server list as the switcher has it ([S
 
 ## The vertical tab bar
 
-On a foldable phone's outer screen held sideways, the tab bar stands at the bottom of the system's column, on the side of the screen ([Page structure](../../../../../design/patterns/page-structure.md#foldable-phones)). The iOS app's is the system's own tab bar, turned upright by the system; these rules hold for any tab bar drawn there.
+On a foldable phone's outer screen, the tab bar stands at the bottom of the system's column, on the side of the screen ([Page structure](../../../../../design/patterns/page-structure.md#foldable-phones)). The iOS app's is the system's own tab bar, turned upright by the system; these rules hold for any tab bar drawn there.
 
 - Keep the order, first at the top: in Raft Chat, Home, Activity, Tasks, Search, then the server.
 - Show the icons only: the column has no room for labels. Keep each label as the item's accessible name, the server tab's server name included, with the dot when there is one ("Raft HQ, another server has unread items").
