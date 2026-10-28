@@ -118,4 +118,4 @@ A channel's own icon with a globe (readable on the public page) has no pair of i
 
 - Don't add drawn icons. New icons come from Lucide ([Iconography](../../../../../design/foundations/iconography.md#principles)); these twenty are the only drawn ones, each for a meaning Lucide has no icon for.
 - Use an action icon only for its action. `JoinChannelIcon` is not a channel's icon, and `AddCommentIcon` is not a comment's.
-- A plus badge on an icon means add, create or follow (join) this kind of thing; a minus means remove or unfollow (leave) it. Never use the badge for another meaning, such as "new" or "more".
+- A plus means add, create, follow or join this kind of thing, and a minus remove, unfollow or leave it: inside the thing for following, in the bottom-right corner for the rest. Never use either for another meaning, such as "new" or "more".
