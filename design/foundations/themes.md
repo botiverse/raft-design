@@ -54,7 +54,7 @@ Anything else stays the foundation's value. No theme changes `you` or `selected`
 
 A decorated theme draws its series' sprites, at 2× and 3× pixel scale, only where the frame is empty:
 
-- on the web top bar, right of the search field (`frame-decor-top`), only from 1024px wide, where the centered search field leaves room for it;
+- on the top bar, right of the search field (`frame-decor-top`), only from 1024px wide, where the centered search field leaves room for it. It ends 16px before the bar's trailing actions and clear of `--raft-frame-inset-end` (the desktop app's caption buttons); where the whole strip doesn't fit there, the bar drops it rather than showing part of it;
 - on the desktop rail, under its items (`frame-decor-rail`, drawn by AppRail's nav as its last item). It is laid out after the items, so it never sits behind one, and a rail with less room shows less of it.
 
 Never put a sprite where it could be mistaken for a control, an avatar or a status, and never behind text.
