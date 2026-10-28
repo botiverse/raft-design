@@ -204,7 +204,13 @@ message-translation/compositions/translation-showcase
 
 ### Toolbar for selected messages
 
-While messages are selected, a toolbar takes the composer's place at the bottom of the conversation: Select All, Cancel, Forward, Copy link, and a More menu with Generate image and Copy MD. Select Message in the message menu starts the selection; each message gets a checkbox ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)). It is a floating toolbar, 36px tall like the hover toolbar: its buttons are 28px, 4px inside it and 4px apart, and wear `radius-chip` ([Shape](../foundations/shape.md#inside-a-frame)).
+While messages are selected, a toolbar floats where the composer was, centred at the bottom of the conversation, in one row at any width: the count ("3 selected"), Copy Link, Forward, a More menu (Generate Image, Copy MD and, in a thread, Select All), then × to stop selecting (cindyz, 2026-10-28, task #173). Select Message in the message menu starts the selection; each message gets a checkbox ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)). It is a floating toolbar, 36px tall like the hover toolbar: its buttons are 28px, 4px inside it and 4px apart, and wear `radius-chip` ([Shape](../foundations/shape.md#inside-a-frame)).
+
+- The count leads, as the toolbar's label: it says what the actions act on. It is announced when it changes.
+- Forward is the one primary button: forwarding is why people select messages. Copy Link stays beside it; the rest is in More, so the row never wraps. When room runs out, Copy Link shows only its icon first, then moves into More; Forward and the count never give way.
+- × ends the selection, last, as a floating toolbar's close does; Escape does the same. Cancel is not an action on the messages, so it doesn't sit among them.
+- On a touch screen the buttons stay 28px and each takes a 44px tap, reaching only half the gap toward its neighbour, so a tap between two lands on the nearer ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)).
+- The conversation keeps its last message clear of the toolbar while it floats there.
 
 ```example
 message-item/compositions/selection-showcase
