@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 新手引导
 summary: 第一次运行：在品牌页面上创建账户和服务器，然后以一个五步的阻断式对话框完成服务器设置。
-sourceHash: b8ef1d5e
+sourceHash: de1b5c5e
 ---
 
 # Raft Chat — 新手引导
@@ -26,7 +26,7 @@ sourceHash: b8ef1d5e
 4. **选择显示风格**。
 5. **交接**：Agent 从这里接手。
 
-第 3 到 5 步共用一个外框，720px 宽、约 520px 高，所以对话框在这几步之间不会改变大小。这是展示外框，只有这几步和 Upgrade to Pro 对话框使用，不属于 Dialog 的四种尺寸（[Dialog](../../../packages/ui/src/components/dialog/dialog.md#variants)）。每一步都有：
+第 3 到 5 步共用一个外框，720px 宽、约 520px 高，所以对话框在这几步之间不会改变大小。这是展示外框，只有这几步、Upgrade to Pro 对话框和 Pro 的 Add seats 对话框使用，不属于 Dialog 的四种尺寸（[Dialog](../../../packages/ui/src/components/dialog/dialog.md#variants)）。每一步都有：
 
 - **标题区**：用 Space Mono 写的步骤标签 "Set up your server"，用 `text-title` 的标题，以及一行说明。
 - **内容区**，在外框内滚动。

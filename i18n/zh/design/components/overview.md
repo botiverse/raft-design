@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 85680365
+sourceHash: edda0bec
 ---
 
 # 组件
@@ -72,6 +72,7 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 | 是或否，保存时生效 | [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) |
 | 2 到 5 个选项中选一个，随表单提交 | [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md) |
 | 在任意数量的选项中选一个或几个，选择是对话框的主要内容 | 一个展开的行列表；要按名字找的东西，或选项有 6 个起，加一个筛选字段（[ChoiceList](../../packages/ui/src/components/choice-list/choice-list.md)；它的行遵循 [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md#content)） |
+| 在一个展开的列表里从很多项中选一个，选中一行就会开始工作（向服务器查询这一行） | 一个展开的列表，方向键只移动高亮，按 Enter 或点击才选中（带 `inline open` 的 [Combobox](../../packages/ui/src/components/combobox/combobox.md#inline-list)）。ChoiceList 会选中方向键经过的每一行 |
 | 同一内容的另一种视图 | [SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md) |
 | 同一个页面的另一种语言 | 一个列出各种语言的菜单，每种语言用它自己的名字（[DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)，选项都是链接） |
 | 同一页面的不同区块，各有自己的内容 | [Tabs](../../packages/ui/src/components/tabs/tabs.md) |
@@ -79,7 +80,7 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 | 很多值中选一个 | 一个可以输入文字来筛选列表的字段，手机上也一样（[ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md)）。如果人只选不输入，用 [Select](../../packages/ui/src/components/select/select.md)：ComboboxSelect 总会弹出手机键盘 |
 | 几个值中选几个 | 多选：每项前面有一个复选框，字段里显示已选的值（带 `multiple` 的 [Select](../../packages/ui/src/components/select/select.md)） |
 | 很多值中选几个（人、Agent、标签） | 带搜索的多选：已选的值在字段里变成标签片，可以接着在后面输入（带 `multiple` 的 [ComboboxSelect](../../packages/ui/src/components/combobox-select/combobox-select.md)，或带标签片的 [Combobox](../../packages/ui/src/components/combobox/combobox.md)） |
-| 筛选一个列表 | 筛选器：从 [PickerTriggerButton](../../packages/ui/src/components/picker-trigger-button/picker-trigger-button.md) 打开的下拉选择或组合框 |
+| 筛选一个列表 | 筛选器：从显示当前值的 [PickerTriggerButton](../../packages/ui/src/components/picker-trigger-button/picker-trigger-button.md) 打开的下拉选择或组合框。人很少设置、凭习惯设置的筛选，用一个始终写着「筛选」 的按钮，旁边放一个 [FilterChip](../../packages/ui/src/components/filter-chip/filter-chip.md)（[Select › 筛选器](../../packages/ui/src/components/select/select.md#which-filter-button)） |
 | 原地修改某一项的一个属性 | [DescriptionList](../../packages/ui/src/components/description-list/description-list.md) 里的值打开一个选择器 |
 
 SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控件用另一种方式显示同样的内容（Board 或 List），标签页切换到不同的内容。

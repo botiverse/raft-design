@@ -1,7 +1,7 @@
 ---
 title: ConversationPanel
 summary: 主区域里显示一个会话的面板：面板头部、可选的一排标签页、消息列表和消息输入框。
-sourceHash: f4ec29e6
+sourceHash: 507933ba
 ---
 
 # ConversationPanel
@@ -19,7 +19,7 @@ conversation-panel/compositions/conversation-panel
 | 主区域里的频道或私信 | ConversationPanel |
 | 会话旁边，某条消息的回复 | [ThreadPanel](../thread-panel/thread-panel.md) |
 | 会话旁边的个人资料 | 带 `edge="attached"` 的 [Panel](../panel/panel.md) |
-| 频道的任务和文件 | 面板里、头部下面的侧边卡片（[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)） |
+| 频道的任务和文件 | 整个面板（包括头部）右侧各列里的侧边分区（[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)） |
 | 主区域里的其他列 | [Panel](../panel/panel.md) |
 
 ## 结构 {#anatomy}

@@ -1,7 +1,7 @@
 ---
 title: Raft Chat
 summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、桌面端布局和侧栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层，以及它和通用模式不一致的地方。
-sourceHash: 9347bbd9
+sourceHash: 3c3b69b6
 ---
 
 # Raft Chat
@@ -11,8 +11,8 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 | 页面 | 内容 |
 | --- | --- |
 | [主页](./home.md) | 手机上的主页 |
-| [频道](./channel.md) | 一个频道：它的标题栏和详情，它的 Tasks 和 Files 卡片，它的消息输入框，在频道里建任务，消息列 |
-| [任务](./tasks.md) | 任务这个目的地，以及频道的 Tasks 卡片 |
+| [频道](./channel.md) | 一个频道：它的标题栏和详情，它的 Tasks 和 Files 分区，它的消息输入框，在频道里建任务，消息列 |
+| [任务](./tasks.md) | 任务这个目的地，以及频道的 Tasks 分区 |
 | [Agent 资料](./agent-profile.md) | 一个 Agent 的个人资料和它的页面 |
 | [设置](./settings.md) | 设置这个目的地和它的各个页面 |
 | [新手引导](./onboarding.md) | 服务器第一次运行时的设置 |
@@ -65,7 +65,7 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 
 ### 桌面端布局 {#the-desktop-layout}
 
-桌面端的一个频道，在网页顶栏下面，从左到右依次是：导航条；聊天侧栏；放频道的主区域（[频道](./channel.md)），打开时还有它的 Tasks 和 Files 卡片；打开消息列或个人资料时还有一个侧边面板。各区域和它们之间的线遵循[页面结构](../../patterns/page-structure.md#desktop)。
+桌面端的一个频道，在网页顶栏下面，从左到右依次是：导航条；聊天侧栏；放频道的主区域（[频道](./channel.md)），打开时还有它的 Tasks 和 Files 分区；打开消息列或个人资料时还有一个侧边面板。各区域和它们之间的线遵循[页面结构](../../patterns/page-structure.md#desktop)。
 
 ```example
 sidebar/sidebar

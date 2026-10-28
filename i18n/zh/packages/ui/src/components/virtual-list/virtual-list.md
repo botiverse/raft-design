@@ -1,7 +1,7 @@
 ---
 title: VirtualList
 summary: 用于长列表的滚动容器，各行高度不同、挂载后才知道；它只渲染视野内的行，在尺寸和行变化时让人正在读的内容保持不动。
-sourceHash: 8d01373d
+sourceHash: 646e7f3c
 ---
 
 # VirtualList
@@ -31,7 +31,7 @@ virtual-list/compositions/basic
   - `empty`：没有条目时代替撑高元素渲染，位于顶部；设置 `emptyAlign="center"` 时位于中间。
 - `componentRef`：`VirtualListApi`，提供 `scrollTo`、`getOffsetTopOfKey` 和滚动容器元素。
 
-`getKey` 给每个条目一个稳定的 key；所有测量结果都按 key 保存，所以重新排序和新增条目后仍然有效。每个测量过的行带有 `data-virtual-list-item-key`。列表在各行的容器元素上写入 `--virtual-list-transform-y`（各行的偏移），在滚动容器上写入 `--virtual-list-width`，供行内的吸顶内容读取。
+`getKey` 给每个条目一个稳定的 key；所有测量结果都按 key 保存，所以重新排序和新增条目后仍然有效。每个测量过的行带有 `data-virtual-list-item-key`。列表在滚动容器上写入 `--virtual-list-width`，供行内的吸顶内容读取。它不在各行的容器元素上写入任何 CSS 变量（每次滚动都在那里写一次，会让每一行重新计算样式）；必须跟随各行偏移的内容用 `onTransformChange`。
 
 它的样式是普通 CSS，即 `styles/virtual-list.css`，已包含在 `styles.css` 里：滚动容器是 `.r-virtual-list`，空状态节点是 `.r-virtual-list__empty`。这些样式在 `components` 层，所以 `className` 里的工具类可以覆盖它们。
 

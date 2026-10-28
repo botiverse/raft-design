@@ -1,7 +1,7 @@
 ---
 title: Field
 summary: 表单控件周围的标签、帮助文字和错误信息，并为辅助技术与控件关联起来。
-sourceHash: 04c4e8a1
+sourceHash: 84c751f3
 ---
 
 # Field
@@ -68,3 +68,4 @@ Field 包装 Base UI Field。它把标签、说明和错误信息关联到 Base 
 
 - 控件不是 Base UI 控件时（例如 [Textarea](../textarea/textarea.md)），给 `FieldLabel` 一个与控件 `id` 匹配的 `htmlFor`，并把 `aria-describedby` 指向说明。
 - `FieldError` 带有 `role="alert"`，所以错误出现时会被读出来。
+- 属于这个字段的操作，比如 Forgot Password，放在它标签行的末尾：在标记里放在控件之后，再用布局把它放到标签旁边。这样 Tab 和读屏软件会先到达字段，再到达它的操作：email、password、Forgot Password、Sign In。

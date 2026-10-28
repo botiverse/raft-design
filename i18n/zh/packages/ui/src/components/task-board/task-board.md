@@ -1,7 +1,7 @@
 ---
 title: TaskBoard
 summary: 任务的看板视图：每个状态一列，按状态顺序排列，卡片可以拖到另一列来改变状态。
-sourceHash: 2134d971
+sourceHash: 0510787a
 ---
 
 # TaskBoard
@@ -65,8 +65,8 @@ task-board/compositions/task-board-virtualization
 
 - 每一列是一个渲染为 `section` 的 Base UI `Collapsible`；它的触发按钮是一个带 `aria-expanded` 的按钮。
 - 给每一列一个无障碍名称：触发按钮里的状态名，或者 section 上的 `aria-label`。
-- 卡片可以用键盘移动：拖动部件使用 dnd-kit 的键盘传感器（Space 拿起，方向键移动，Space 放下，Escape 取消）。
-- 在一个 polite 实时区域里播报每次移动："Task #25 moved to In Review"。看板不会自己播报。
+- 卡片可以用键盘移动：空格拿起卡片，方向键移动它，空格放下，Escape 放回原处。Enter 打开卡片（[拖放](../../../../../design/patterns/drag-and-drop.md#keyboard)）。
+- 用名字播报每一步（"Picked up Task #25. Over Todo."、"Dropped Task #25 in In Review."）。把卡片和状态的名字传给 `TaskDndProvider` 的 `describe`；看板的组合示例展示了怎么做。看板不会自己播报，没有 `describe` 就什么都不播报。
 
 ## 规则 {#rules}
 

@@ -1,7 +1,7 @@
 ---
 title: Banner
 summary: 对话框或表单里一条浅色底的提示，让人在操作前先读到；作为 PanelNotice 时，是某个面板里出错时铺在面板标题栏下方的一整条。
-sourceHash: 662e3dae
+sourceHash: 790ec44f
 ---
 
 # Banner
@@ -22,6 +22,7 @@ banner/compositions/preview
 | 在对话框或表单里操作前需要知道的事                      | Banner，放在内容里                                                                                   |
 | 某个面板里出了错：Agent 启动不了、设置没保存上 | `PanelNotice`，放在面板标题栏下方（[Panel](../panel/panel.md)）                                       |
 | 整个服务器的状态：计算机离线、配额快满了     | [NotificationCenter](../notification-center/notification-center.md)，不要在页面顶部放横幅 |
+| 公开页面上未登录的访客：邀请注册     | 注册提示，不用横幅（[见下文](#the-sign-up-prompt-on-a-public-page)） |
 | 刚刚做完的操作的结果                                | [Toast](../toast/toast.md)                                                                               |
 | 必须马上做决定                                 | [Dialog](../dialog/dialog.md) 或 [AlertDialog](../alert-dialog/alert-dialog.md)                          |
 
@@ -114,3 +115,27 @@ banner/compositions/close
 - 在 `PanelNoticeContent` 里只写一条消息，最多 2 行（半粗体 `text-callout`）。
 - 把操作放在 `PanelNoticeActions` 里，位于右侧，对齐第一行文字的中线：一个小图标按钮（Copy Details）或一个文字按钮（View Logs）。32px 的按钮不会让这一条变高。
 - 需要修复的情况保留默认的 `status="warning"`；`destructive` 只用于无法撤销的情况。
+
+## 公开页面上的注册提示 {#the-sign-up-prompt-on-a-public-page}
+
+公开页面，比如共享的 Artifact 或公开频道，用一条提示邀请未登录的访客注册。它不是 `Banner`：横幅有一个按钮或一个 ×，从不两者都有，也没有居中的中性横条。用普通容器里的一个 `Button`（在手机上再加一个图标 `Button`）组合出来。上面的规则对横幅照旧：有按钮的横幅用幽灵按钮 Dismiss 关闭，从不用 ×。
+
+在桌面端（`sm` 及以上）：
+
+- 一条 48px 高的横条，横跨窗口的整个宽度，在页面标题栏上方。
+- `fill-subtle`，没有边框。
+- 那句话和一个 32px 的描边按钮（`variant="default" size="md"`）一起居中，相距 24px。从不用粉色按钮。
+- 不能关闭。
+
+在手机上：
+
+- 页面标题栏下方的一块，用 `info-soft` 底色，文字用 `info-strong`。
+- 那句话最多占 2 行，描边按钮放在它下面。
+- 右上角一个 ×，点击区域至少 44px。在这台设备上记住它被关闭过。
+
+规则：
+
+- 只对未登录的访客显示，并且只在公开页面上显示；登录后的应用里从不显示。
+- 一个页面上最多显示一条。
+- 从不在它的位置上放状态：关于这个页面本身的情况（加载失败、只读、有改动）放到[何时使用](#when-to-use)规定的位置。
+- 写一句话说明 Raft 能给访客带来什么，然后是操作："Make pages like this with Raft and your AI agents. Sign up now and start building." 按钮标签写 "Sign Up or Log In"。

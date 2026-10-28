@@ -1,7 +1,7 @@
 ---
 title: 交接与审批
 summary: 工作怎样在人和 Agent 之间流转：认领、交接、由 Agent 准备并由人确认的操作卡片、事后留下的记录，以及出故障时显示什么。
-sourceHash: ce382df7
+sourceHash: 99d1c276
 ---
 
 # 交接与审批
@@ -140,7 +140,7 @@ message-action-card/compositions/agent-request
 
 [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) 的组件文档里描述了几项 Raft Chat 还没提供的东西：
 
-- 确认按钮旁边的幽灵样式 Edit First 按钮，以及 Decline 按钮和对应的 Declined 状态。在产品里，创建类操作由确认按钮打开对话框，没人处理的卡片会一直处于等待中。
+- 确认按钮旁边的幽灵样式 Edit First 按钮，以及 Decline 按钮和对应的 Declined 状态。在产品里，创建类操作由确认按钮打开对话框，没人处理的卡片会一直处于等待中，只有人申请席位或升级的卡片例外，它会在 7 天后过期。
 - 等待中的卡片上带粉色像素的 "Needs an admin" 状态。产品在有变化之前不显示任何状态。
 - 动态里的等待中卡片列表。在产品里，等待中的卡片要到它所在的对话里找。
 - 操作失败时的轻提示。产品在卡片内的横幅里显示原因。

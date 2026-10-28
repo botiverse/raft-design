@@ -1,7 +1,7 @@
 ---
 title: Lightbox
 summary: 盖在遮罩上的全屏查看器，用于图片和附件预览，带上一个和下一个、缩略图，以及一个关闭按钮。
-sourceHash: befabc62
+sourceHash: d70dceb5
 ---
 
 # Lightbox
@@ -51,7 +51,7 @@ lightbox/compositions/attachment-preview-shell
 ## 状态 {#states}
 
 - **第一项和最后一项：**上一个或下一个禁用。它仍可获得焦点（`aria-disabled`），但忽略点击。
-- **缩略图：**当前显示的那项边缘为实色；其他项变暗，悬停时恢复。
+- **缩略图：**当前显示的那项边缘为实色；其他项用 `layer-backdrop-nested`（40%）调暗，悬停时 28%。缩略图条放在 `layer-backdrop` 上，两种模式下都是深色，所以嵌套遮罩在浅色和深色模式下调暗缩略图的效果一样（[表面](../../../../../design/foundations/color.md#surfaces)）。
 
 ## 行为 {#behavior}
 

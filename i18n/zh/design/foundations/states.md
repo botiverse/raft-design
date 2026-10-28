@@ -1,7 +1,7 @@
 ---
 title: 状态
 summary: 悬停、按下、焦点、选中、被定位、未读、禁用、错误、忙碌和自动填充的样子，所有组件通用。
-sourceHash: b8084839
+sourceHash: 41963c13
 ---
 
 # 状态
@@ -29,7 +29,8 @@ sourceHash: b8084839
 | 禁用 | 填充 `fill-muted`，边框 `line-hairline` 或 `foreground-disabled`，文字 `foreground-disabled`。按钮、带边框的图标按钮、输入框、选择框、复选框、单选框、开关、分段控件和标签页都一样。无边框的图标按钮和外框上的无边框按钮不加填充也不加边框：只把图标和文字变成 `foreground-disabled`。列表行保留填充：只把文字和图标变成 `foreground-disabled`。不响应悬停和按下 |
 | 仅展示 | 一行里只有控件可以交互（设置里带开关的行、侧栏里的这台计算机）时，这一行不是按钮：渲染为 `<div>`，行本身没有悬停和按下，焦点只落在控件上 |
 | 错误 | 输入框加 `danger-strong` 边框，并加一行文字说明怎么改。在对话框里用横幅。整个服务器的问题放进通知中心，见 [反馈](../patterns/feedback.md) |
-| 忙碌 | 按钮里放一个像素加载指示器，标签写明正在做什么。其他地方，加载指示器与它所替代的东西匹配：在一行文字里，保持这一行的高度；替代面板或列表的内容时，用 `md` 或 `lg`，配一行 `text-callout` 或 `text-body`、`foreground-muted` 的文字（[Spinner](../../packages/ui/src/components/spinner/spinner.md#size)） |
+| 忙碌 | 按钮里放一个像素加载指示器，标签写明正在做什么。其他地方，加载指示器与它所替代的东西匹配：在一行文字里，保持这一行的高度；替代面板或列表的内容时，用 `md` 或 `lg`，配一行 `text-callout` 或 `text-body`、`foreground-muted` 的文字（[Spinner](../../packages/ui/src/components/spinner/spinner.md#size)）。在原地忙碌的东西上，比如正在上传的图片或正在准备的预览，盖一层 `layer-veil` 覆盖层，加载指示器用默认颜色（[表面](./color.md#surfaces)） |
+| 变淡 | 已删除、离线或仍在等待：60%，`opacity-dimmed`。被拖动的项原来的位置是 40%（[变淡](#dimmed)） |
 
 ## 悬停与按下 {#hover-and-press}
 
@@ -53,6 +54,7 @@ sourceHash: b8084839
 - **黄色高亮是弹出层的光标，不是一种灰。** 它跟随指针，也跟随键盘。深色模式下是 20% 黄色：16% 时只有 5.0，比弹出层旁边按钮的悬停还弱。
 - **输入字段不做悬停。** 输入字段的状态是它的光标、焦点环和错误；悬停会对一个用来输入的东西说「点这里执行操作」。选择框的触发器和顶栏的搜索框画成输入字段的样子，所以也不做悬停；按下时仍叠加中档。
 - **只有一个信号。** 悬停从不在表面上再加第二种变化：除了叠加层，不改边框、阴影或填充。一个例外：无边框控件的图标或标签静止时是 `foreground-muted` 或 `foreground-hint`（输入字段的清除按钮和下拉箭头按钮、系统消息的展开按钮、图标按钮），悬停时这些内容随叠加层一起变成 `foreground`，就像可点击文字变成墨色一样；是内容在回应，表面并没有变化两次。
+- **媒体悬停用 `ink-8`。** 消息里的图片没有可以叠加档位的静止填充，打开它的按钮盖住整张图片（`MessageImageGalleryPreview`）：悬停时渐显 `bg-ink-8`（`transition-colors duration-75 hover:bg-ink-8`，不新增 token，按透明控件的规则）。浅色模式下墨色接近黑色，图片变暗；深色模式下墨色接近白色，图片变亮，和深色模式下其他所有悬停的方向一致。不要用 `brightness` 滤镜做媒体的悬停：它是相乘的，所以一张深色照片（深色页面上常见的那种）只变化了大约 255 级中的 1 级，完全看不出悬停。
 - **只在指针能悬停时生效。** 所有悬停都放在 `@media (hover: hover)` 下：Tailwind 的 `hover:` 已经这样做，CSS 文件里的 `:hover` 规则也包在同一个查询里。在触屏上，悬停会一直停留在最后点过的东西上。
 
 自身有填充的东西，用叠加层工具类（`overlay-subtle`、`overlay-medium`、`overlay-sticker-medium`、`overlay-frame-medium`）；透明的控件、填充用 `transition-colors` 渐显的，用颜色类（`bg-fill-subtle`、`bg-fill-medium`、`bg-fill-frame-medium`）。
@@ -89,9 +91,17 @@ sourceHash: b8084839
 - **它只是一种视觉。** 读屏软件看不到高亮，键盘用户也需要的不只是颜色。用键盘发起的跳转还要把焦点移到这一项上（`tabIndex={-1}`，滚动之后 `focus({ preventScroll: true })`），让键盘和读屏用户落在那里。用指针发起的跳转不移动焦点，比如焦点仍留在输入框里。
 - 用 raft-ui 的 `useLocated(request)` 驱动：每次跳转、这一项出现在屏幕上时传入一个新的 request（每次跳转都会变的计数或 token，字符串或数字；不要用这一项自己的 id，第二次跳到同一项时它不变），它返回 true 期间在这一项上设 `data-located`（MessageItem 用 `located`）；动画由 styles.css 负责。这个 hook 在 `LOCATED_MS` 之后关掉高亮，下一次跳转时重新开始，跳到同一项也一样：属性还在时再设一次不会让动画重来，只有先去掉一帧才会。属性一直留着会一直挡住悬停，所以不要手动设它，也不要自己写闪烁或计时。
 
+## 变淡 {#dimmed}
+
+存在但不活跃的东西，比如已删除 Agent 的头像、离线的槽位、仍在等待的消息或标签片、正在修改的任务，以 60% 绘制，用 `opacity-dimmed` 工具类（`opacity-dimmed` token，0.6）。
+
+- **两个数值，两种含义。** 60% 表示「在这里，但不活跃」。40% 表示「它原来在这里」：只有被拖动的项原来的位置用它（`data-drag-origin`，[拖放](../patterns/drag-and-drop.md#where-it-came-from)），所以两者永远不会被看成一样。不要给任何一种含义用别的数值，比如 30% 或 70%。
+- **已删除的人或 Agent 既变灰又变淡**（`grayscale` 加 `opacity-dimmed`）：他们的颜色就是他们的身份，灰色表示已经不在了。
+- **在原地加载的东西盖覆盖层，而不是变淡。** 正在上传的图片或正在准备的预览盖一层 `layer-veil` 覆盖层和一个加载指示器（[忙碌](#usage)），这样它读起来是「正在处理」，而不是「不活跃」。
+
 ## 可折叠的分组标题 {#collapsible-group-headings}
 
-用来折叠下面那组内容的标题，比如 Tasks 卡片里的状态标题（[任务](../patterns/tasks.md#rows-in-a-compact-list)），是[悬停与按下](#hover-and-press)和[可点击文字](#clickable-text)的一个具名例外：它有底框，但不铺叠加层；它的文字可以点，但不加下划线。
+用来折叠下面那组内容的标题，比如 Tasks 分区里的状态标题（[任务](../patterns/tasks.md#rows-in-a-compact-list)），是[悬停与按下](#hover-and-press)和[可点击文字](#clickable-text)的一个具名例外：它有底框，但不铺叠加层；它的文字可以点，但不加下划线。
 
 - 悬停时，它的文字和 V 形箭头从 `foreground-hint` 变成 `foreground`，不铺填充，也不加下划线。标题是行上方的标签，不是一行：填充会让它在列表里看起来像又一行，下划线会让分组的名字读起来像一个跳到别处的链接。
 - 按下时和悬停一样，没有按下的填充：按下的填充会让那多出来的一行闪一下。
@@ -125,7 +135,7 @@ raft-ui 用 `installInputModality()` 实现这条规则。[ThemeProvider](../abo
 - 在 500ms 到之前手指移动超过 10px（那是滚动），或第二根手指按下（那是捏合），就放开这个项。
 - 按住后不移动就抬起手指，菜单保持打开，什么都不移动。
 - 拖动开始时关闭这个项的菜单。由拥有菜单的组件关闭它：应用在可拖动的项上放了自己的菜单，就在拖动的 `onDragStart` 里关闭（`SortableTabsList` 会把它传下去）。
-- 所有能用触屏拖动的东西（侧栏的行、标签页、任务卡片、输入框里的附件）用同样的按住时长、距离和容差：raft-ui 的 `useHoldThenMoveTouchSensor` 承载这些值，旁边还有一个把手指交给它处理的指针传感器。鼠标或触控笔仍然在移动 5–6px 后开始拖动，不需要按住。
+- 所有能用触屏拖动的东西（侧栏的行、标签页、任务卡片、输入框里的附件）用同样的按住时长、距离和容差：raft-ui 的 `useDragSensors` 承载这些值（`useHoldThenMoveTouchSensor`，旁边还有一个把手指交给它处理的指针传感器）。鼠标或触控笔仍然在移动 6px 后开始拖动，不需要按住。拖动的其余部分，从提起的副本到放下，见[拖放](../patterns/drag-and-drop.md)。
 - 不要让按住的项选中文字或打开平台自带的标注菜单（`select-none`、`-webkit-touch-callout: none`），并保持它可以滚动（`touch-manipulation`，不是 `touch-none`）。
 
 ## 自动填充 {#autofill}
@@ -140,3 +150,4 @@ raft-ui 用 `installInputModality()` 实现这条规则。[ThemeProvider](../abo
 - [颜色](./color.md)：这里提到的 token。
 - [层级](./elevation.md)：焦点环。
 - [反馈](../patterns/feedback.md)：错误按范围放在哪里。
+- [拖放](../patterns/drag-and-drop.md)：整个拖动过程，从拿起到放下。

@@ -1,7 +1,7 @@
 ---
 title: 导航
 summary: 人如何到达各个目的地、看到自己在哪里、打开链接、返回、关闭界面、切换服务器，以及在同一个地方的几个视图之间切换。
-sourceHash: cfe74615
+sourceHash: 4deba0bf
 ---
 
 # 导航
@@ -199,12 +199,22 @@ message-reference/compositions/app-link-pending
 
 一个地方可以容纳几类内容，比如 Agent 的个人资料和它的动态，或者频道的聊天、任务和文件。
 
-- 人们在聊天时查看的内容，比如频道的任务和文件，显示为对话旁边的侧边卡片，而不是标签页，这样对话一直在视野里（[页面结构](./page-structure.md#sidebar-and-side-panel)）。卡片浮在消息上方或盖住面板、两张都打开时，它们一次显示一张，上面是一行 Tasks / Files 标签页（[响应式布局](./responsive.md#structure)）。
+- 人们在聊天时查看的内容，比如频道的任务和文件，显示为对话旁边的侧边分区，而不是标签页，这样对话一直在视野里（[页面结构](./page-structure.md#sidebar-and-side-panel)）。一列矮得放不下叠放的两个分区时，或者分区盖住面板时，它们一次显示一个，上面是一行 Tasks / Files 标签页（[频道的侧边列](./responsive.md#the-channels-side-columns)）。
 - 用面板头部下方的一行贴纸标签在其他视图之间切换（[Tabs](../../packages/ui/src/components/tabs/tabs.md#variants)，在 `ConversationPanelTabs` 里）。每个标签有一个图标和一个单词的标签文字，不带数量。
 - 让人可以拖动标签来调整顺序，并记住他们的顺序。按他们的顺序排在第一的标签，就是打开这个地方时显示的那个。
 - 一个地方只有一个视图时（比如消息列），隐藏这一行。
 - 在一个产品的每个地方都用同样的这一行，这样不管人在哪里打开，同一个视图都在同一个位置。Raft Chat 的频道视图见[频道](../products/raft-chat/channel.md#tasks-and-files)。
 - 同一个页面的另一种语言不是它的视图：用一个菜单切换过去，菜单里每种语言用它自己的名字（English、简体中文），即选项都是链接的 [DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)（`DropdownMenuLinkItem`），每一项都可以在新标签页打开、可以分享。在网页顶栏上放在最右端；手机顶栏放不下，就放进菜单里。
+
+### 手指抬起时切换 {#switching-on-finger-lift}
+
+在手机上，列表还在惯性滚动时落下的一次点按只会让滚动停下：浏览器不发送 click，所以在 click 时切换的控件要再点一次。导航控件改为在手指抬起时（`touchend`）切换，这样第一次点按既让列表停下，也完成切换（Artea，2026-10-27，在手机上测试之后）。
+
+- 一次触摸要算作点按，必须只有一根手指，离落点移动不超过 10px，在控件内抬起，并且持续不到 500ms。超过 10px 就是滚动（和触屏拖动的容差相同，[状态](../foundations/states.md#dragging-on-a-touch-screen)）；滑出控件是人取消的方式；到 500ms 时，长按会打开菜单或让拖动就绪，点按不能和它们抢。
+- 然后控件只激活一次：抬起会取消浏览器自己的 click，所以没有东西会激活两次，也不会有幽灵点击落到手指下面新出现的东西上。浏览器不允许取消这次抬起时，控件像以前一样等它的 click。
+- 鼠标、触控笔和键盘不变：它们在 click 时激活。禁用的控件什么都不做。
+- 适用于 [Tabs](../../packages/ui/src/components/tabs/tabs.md)、[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md)、[ToggleGroup](../../packages/ui/src/components/toggle-group/toggle-group.md)、[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md) 标签栏，以及 Back（[Panel](../../packages/ui/src/components/panel/panel.md) 里带 `activateOnTouchEnd` 的 `PanelAction`，`DialogSheetBack` 会设置它）。raft-ui 用 `useTapActivation`（`lib/tap-activation.ts`）实现。
+- 行、列表项和菜单项仍然在 click 时切换。它们就在滚动的列表里，手指在某一行上让列表停下时，会意外打开这一行。
 
 ## 相关 {#related}
 

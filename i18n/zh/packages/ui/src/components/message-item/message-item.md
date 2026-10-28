@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: 3c19a0ef
+sourceHash: 6b4da826
 ---
 
 # MessageItem
@@ -156,7 +156,7 @@ message-item/compositions/consecutive
 | 搜索命中 | 行里有 `MessageItemSearchMatch` 时，整行用 `info-soft` |
 | 多选中被选中 | 当 `MessageMultiSelectCheckbox` 勾选时，整行用 `info-soft` |
 | Agent 正在工作 | 头像上一盏静止的黄灯，加上行内状态（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md)） |
-| 发送者已离开、被移除或已删除 | `MessageItemSenderBadges` 里一个弱化的徽标；已删除 Agent 的头像变灰 |
+| 发送者已离开、被移除或已删除 | `MessageItemSenderBadges` 里一个弱化的徽标；已删除 Agent 的头像变灰并变淡（`grayscale`、`opacity-dimmed`） |
 | 由助理发送 | 发送者头像上有助理的脸，名字后面有 "sent by Friday"；接续行上只有文字 |
 | 回应失败 | 标签片用 `warning-soft`，由 `MessageReactionErrorIndicator` 播报原因 |
 

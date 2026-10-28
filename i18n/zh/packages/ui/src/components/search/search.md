@@ -1,7 +1,7 @@
 ---
 title: Search
 summary: 网页顶栏里的搜索入口，以及搜索结果的各个部分：地点和人的行、消息和消息列的命中项，按类型分组，匹配的词带标记。
-sourceHash: e935e3af
+sourceHash: 049a8562
 ---
 
 # Search
@@ -36,7 +36,7 @@ search/compositions/search-trigger
 - `SearchShellRoot`：搜索表面，包含 `SearchShellFilters`（筛选条件那一行）和 `SearchShellViewport`（可滚动的结果）。
 - `SearchResultsSummary`：关于结果的一行说明："Searching for “launch”…"。
 - `SearchResultsSection`：一类结果，包含 `SearchResultsSectionHeading`（Messages 13）和 `SearchResultsList`。
-- `SearchEntityResult`：一个频道、一个人或一个 Agent。布局和 [ListRow](../list-row/list-row.md) 一样：`SearchEntityResultLeading`（一个 `SearchEntityResultIcon` 或头像，可选带一盏 `SearchEntityResultActivity` 灯），以及包含 `SearchEntityResultHeader`、`SearchEntityResultTitle` 和 `SearchEntityResultDescription` 的 `SearchEntityResultContent`。
+- `SearchEntityResult`：一个频道、一个人或一个 Agent。布局和 [ListRow](../list-row/list-row.md) 一样：`SearchEntityResultLeading`（一个 `SearchEntityResultIcon` 或头像，可选带一盏 `SearchEntityResultActivity` 灯），以及包含 `SearchEntityResultHeader`、`SearchEntityResultTitle` 和 `SearchEntityResultDescription` 的 `SearchEntityResultContent`。在同一个 `SearchResultsList` 里跟在另一个结果后面时，它在自己上方画出 ListRow 的细线，从文字开始的地方画起。把结果的测试 id 和 data 属性放在 `SearchEntityResult` 本身上，让它做列表的直接子元素：给每个结果包一层，会让每个结果都成为它父元素的第一个子元素，细线就都没了。
 - `SearchMessageResult`：一条消息。`SearchMessageResultHeader` 包含 `SearchMessageResultSender`（谁）、`SearchMessageResultMeta`（在哪里）、`SearchMessageResultThreadMeta`（在消息列里）和 `SearchMessageResultTimestamp`（什么时候）；`SearchMessageResultBody` 放摘录，每处匹配放在 `SearchMessageResultMatch` 里。
 - `SearchThreadResult`：有多处命中的消息列：`SearchThreadResultHeader`（`SearchThreadResultMeta`、`SearchThreadResultTimestamp`、`SearchThreadResultTitle`）和 `SearchThreadResultMessages`，后者是一组 `SearchThreadMessageResult`。
 

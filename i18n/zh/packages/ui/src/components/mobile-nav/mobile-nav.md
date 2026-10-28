@@ -1,7 +1,7 @@
 ---
 title: MobileNav
 summary: 手机的标签栏：一级页面底部最多 5 个目的地，选中那一项的图标放在一张黄色贴纸里。
-sourceHash: efee0f71
+sourceHash: f8aa1794
 ---
 
 # MobileNav
@@ -67,6 +67,7 @@ mobile-nav/compositions/server-tab
 - 屏幕键盘打开时隐藏标签栏。如果把它钉在键盘上方，它会挡住正在输入的输入框和消息输入框。键盘收起时，用平台默认的过渡把标签栏带回来，不要瞬间跳出，这样人能看到导航回来了，而不会疑惑它去了哪里。
 - 只在一级页面上显示标签栏：带返回的页面从不显示它（[导航](../../../../../design/patterns/navigation.md#going-back)）。推入页面会盖住它；菜单、对话框和底部面板不动它。
 - 页面滚动时标签栏保持不动。不要在滚动时隐藏它：人靠它知道自己在哪里。
+- 一项在手指抬起时切换，所以页面还在惯性滚动时点一下，也会立刻切换标签页（[手指抬起时切换](../../../../../design/patterns/navigation.md#switching-on-finger-lift)）。
 - 点按已选中的项会把它的页面滚到顶部；在搜索上则聚焦输入框。打开另一个标签时，每个标签都保留它页面的滚动位置和筛选条件（[导航](../../../../../design/patterns/navigation.md#going-back)）。
 
 ## 状态 {#states}

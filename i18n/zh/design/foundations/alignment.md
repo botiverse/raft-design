@@ -1,7 +1,7 @@
 ---
 title: 对齐
 summary: 落在边距线或中线上的是什么：形状、字母还是图标框；以及标题栏两端的图标按钮放在哪里。
-sourceHash: 7ce568d3
+sourceHash: c25adec1
 ---
 
 # 对齐
@@ -50,7 +50,7 @@ raft-ui 在每个把控件放在标签旁的地方都这样处理，所以不要
 - **状态灯在任何文字旁都保持唯一的尺寸：10px，带 1.5px 墨色边。** 它在标签、面板头部和侧栏行里都是同一盏灯，所以在这些地方都是同样大小（[Status](../../packages/ui/src/components/status/status.md#sizes)）：10px 是 7px 颜色（多于区分绿、黄、橙所需的 6px），加上两条墨色边。它是偶数，因为它所在的每一行都是偶数，这样它以整像素居中；9px 的状态灯在 1x 和 3x 屏上方会比下方多一个设备像素（由 stdrc 于 2026-10-22 决定，取代 [#670](https://github.com/botiverse/raft-design/pull/670) 的 9px）。
 - **把字号设在行上，而不只是设在文字上。** 标记从继承的字体样式读取 `1lh`，所以容纳标记和文字的那一行要带上文字的字体样式，Banner 和 PanelNotice 就是这样做的。
 
-在 raft-ui 中，Banner、PanelNotice、ToastIcon 和 MessageActionCardNotice 会把放入其中的图标以第一行居中（Banner 也这样放置 `Spinner`，放在图标的那一列）；Badge 和 PanelActivity 对 `Status` 也这样做，并且不管给了什么尺寸都把它固定在 10px。你自己放置的标记用 `lead-icon` 和 `lead-dot` 工具类（`styles.css`），放在带有文字字体样式的行上；用 `lead-dot` 时，不要给 `Status` 传尺寸。
+在 raft-ui 中，Banner、PanelNotice、ToastIcon 和 MessageActionCardNotice 会把放入其中的图标以第一行居中（Banner 和 PanelNotice 也这样放置 `Spinner`，放在图标的那一列）；Badge 和 PanelActivity 对 `Status` 也这样做，并且不管给了什么尺寸都把它固定在 10px。你自己放置的标记用 `lead-icon` 和 `lead-dot` 工具类（`styles.css`），放在带有文字字体样式的行上；用 `lead-dot` 时，不要给 `Status` 传尺寸。
 
 ## 与纯文字并排的形状 {#a-shape-beside-plain-text}
 

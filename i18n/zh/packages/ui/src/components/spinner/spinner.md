@@ -1,7 +1,7 @@
 ---
 title: Spinner
 summary: 像素加载指示器，四个方形像素轮流亮起，用于时长未知、又没有布局可占的等待。
-sourceHash: c0296ae5
+sourceHash: 3aa3e239
 ---
 
 # Spinner
@@ -34,8 +34,9 @@ spinner/compositions/default
 | --- | --- | --- |
 | 一行文字里的图标：引用的图标、附件行的图标 | 图标的尺寸：14px 图标用 `xs`，16px 用 `sm`，18px 用 `md`，22px 用 `lg`，让像素覆盖原来图标笔画的范围。它位于文字的行框里，所以这一行保持文字的行高 | 没有，或用文字本身的样式 |
 | 面板或列表的内容：会话、个人资料、列表的下一页 | `md` 或 `lg`，居中放在内容将要填满的空间里 | `foreground-muted` 的 `text-callout` 或 `text-body`，不用 `text-caption` 或 `foreground-hint`：在内容到达之前，这一行就是内容 |
-| 媒体：正在加载的图片或视频 | `md`，在媒体的遮罩上用 `variant="inverse"` | 没有 |
+| 媒体：正在加载或上传的图片或预览 | `md`，用默认颜色，放在 `layer-veil` 上 | 没有 |
 
+- 在媒体上，加载指示器放在一层 `layer-veil` 覆盖层上，保持默认颜色：覆盖层是页面自己的颜色的 80%，所以在页面上看得清的墨色，在它上面也看得清，两种模式都一样（[表面](../../../../../design/foundations/color.md#surfaces)）。
 - 不要为了让等待显得不要紧而把占位做小：空面板中间一个 9.5px 的加载指示器加一行提示色的说明文字，看起来就是一个空面板，人在等，却不知道有东西正在发生。
 
 ## 加载页 {#loading-screen}
