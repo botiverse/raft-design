@@ -156,5 +156,6 @@ A phone's own browser (Safari, Chrome) that landed on a Raft message link offers
 
 Rules:
 
-- Show it only in a phone's own browser that arrived on a message link, while that conversation is on screen; never in Raft's apps, the web installed as an app, or a chat app's in-app browser, which gets its own guide to the system browser.
-- Show at most one: on a computer, the same arrival gets a `Banner` offering Raft Desktop instead, at the top of the conversation.
+- Show it only in a phone's own browser that arrived on a message link, while that conversation is on screen; never in Raft's apps, the web installed as an app, or a chat app's in-app browser, which can't hand a link to an app (it gets its own sheet pointing to the system browser, not specified here).
+- Show at most one on a page.
+- On a computer the same arrival offers Raft Desktop, and there it is a `Banner` (`status="info"`) at the top of the conversation, because it fits a banner's rules: Continue on Web is its Dismiss and Open in Desktop App its one button, on one line. A phone's 390px can't hold an offer's words beside a Dismiss and a button, which is why the phone offer has a shape of its own.
