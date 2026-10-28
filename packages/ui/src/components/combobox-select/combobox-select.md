@@ -66,6 +66,7 @@ combobox-select/compositions/async-search
 - A chip, the clear button and the toggle sit 6px inside the field's outer edge and 6px apart: 20px on a desktop and 32px on a phone, so the field keeps its height with chips in it. They wear `radius-chip`, like every control embedded in a frame; a chip's remove button wears `radius-sticker` 2px inside the chip, with its focus ring drawn inside it ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
 - With `maxTagCount`, chips beyond the count collapse into a count while the field is not focused. All of them come back on focus.
 - The list grows to 16rem (256px), its 4px padding above and below included: six 36px rows and part of a seventh, which shows there are more. Then it scrolls. `listMaxHeight` (a CSS length, or pixels, measured the same way) moves that cap, and `listMaxHeight="16rem"` is the same as leaving it out. Raise it where the field has a tall space of its own below it, such as a tall bottom [Drawer](../drawer/drawer.md); lower it when the list would cover something people need to see while they choose.
+- The list keeps clear of the frame insets: where a shell keeps part of the window for itself (`--raft-frame-inset-top`, `--raft-frame-inset-start`, `--raft-frame-inset-end`), it stops 8px from that part, not from the window's edge ([Page structure](../../../../../design/patterns/page-structure.md#frame-insets)). The web sets none.
 
 ### On a phone
 

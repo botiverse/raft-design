@@ -195,6 +195,14 @@
     "native": true,
     "props": [
       {
+        "name": "collisionPadding",
+        "type": "Padding",
+        "required": false,
+        "default": "8",
+        "description": "Additional space to maintain from the edge of the collision boundary: 8px from the window's edge, and 8px from a frame inset where a shell keeps one. A value you pass is kept as it is.",
+        "from": "raft-ui"
+      },
+      {
         "name": "portalProps",
         "type": "ContextMenuPortalProps",
         "required": false,
@@ -250,14 +258,6 @@
         "required": false,
         "default": "'clipping-ancestors'",
         "description": "An element or a rectangle that delimits the area that the popup is confined to.",
-        "from": "base-ui"
-      },
-      {
-        "name": "collisionPadding",
-        "type": "Padding",
-        "required": false,
-        "default": "8",
-        "description": "Additional space to maintain from the edge of the collision boundary.",
         "from": "base-ui"
       },
       {

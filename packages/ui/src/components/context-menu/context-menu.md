@@ -43,6 +43,7 @@ The highlight, the current value and disabled items are the same as in [Dropdown
 
 - The menu opens at the pointer, or at the finger after press and hold, with its top-left corner there.
 - When it would cross the window edge, it shifts to stay at least 8px inside the window instead of flipping.
+- Where a shell keeps part of the window for itself (`--raft-frame-inset-top`, `--raft-frame-inset-start`, `--raft-frame-inset-end`), it stays 8px inside that part instead of inside the window's edge ([Page structure](../../../../../design/patterns/page-structure.md#frame-insets)). The web sets none.
 - It stays where it opened while the page behind it scrolls.
 - Choosing an action closes the menu; Esc and a click outside close it too.
 - An item is as tall as its content, with constant padding, as in a [DropdownMenu](../dropdown-menu/dropdown-menu.md#behavior) ([Forms](../../../../../design/patterns/forms.md#option-height)).

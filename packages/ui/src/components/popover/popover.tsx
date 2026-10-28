@@ -1,5 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
+import { BASE_COLLISION_PADDING, usePopupCollisionPadding } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -67,6 +68,22 @@ export function PopoverPopup({ className, ...props }: PopoverPopupProps) {
   return <div data-slot="popover-content" className={content({ className })} {...props} />;
 }
 
+type PopoverFramePositionerProps = BasePopover.Positioner.Props & {
+  container?: PopoverPortalProps["container"];
+};
+
+// Inside the portal, so it mounts each time the popup opens and reads the
+// frame insets then: 8px from each inset, Base UI's own 5px from the window's
+// edge elsewhere.
+function PopoverFramePositioner({
+  collisionPadding,
+  container,
+  ...props
+}: PopoverFramePositionerProps) {
+  const padding = usePopupCollisionPadding(collisionPadding, BASE_COLLISION_PADDING, container);
+  return <BasePopover.Positioner collisionPadding={padding} {...props} />;
+}
+
 export type PopoverContentProps = StyledProps<BasePopover.Popup.Props> &
   Pick<
     BasePopover.Positioner.Props,
@@ -109,7 +126,7 @@ export function PopoverContent({
   const portalContainer = container !== undefined ? container : portalProps?.container;
   return (
     <PopoverPortal {...portalProps} container={portalContainer}>
-      <BasePopover.Positioner
+      <PopoverFramePositioner
         align={align}
         alignOffset={alignOffset}
         anchor={anchor}
@@ -117,6 +134,7 @@ export function PopoverContent({
         collisionAvoidance={collisionAvoidance}
         collisionBoundary={collisionBoundary}
         collisionPadding={collisionPadding}
+        container={portalContainer}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
@@ -129,7 +147,7 @@ export function PopoverContent({
           className={content({ className })}
           {...props}
         />
-      </BasePopover.Positioner>
+      </PopoverFramePositioner>
     </PopoverPortal>
   );
 }

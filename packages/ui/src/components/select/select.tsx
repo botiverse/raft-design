@@ -3,6 +3,7 @@ import type { ComponentPropsWithRef } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
 import type { DataAttributes } from "../../lib/data-attributes";
+import { usePopupCollisionPadding } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
@@ -234,6 +235,21 @@ export function SelectPopup({ className, ...props }: SelectPopupProps) {
   return <div data-slot="select-content" className={content({ className })} {...props} />;
 }
 
+type SelectFramePositionerProps = BaseSelect.Positioner.Props & {
+  container?: SelectPortalProps["container"];
+};
+
+// Inside the portal, so it mounts each time the popup opens and reads the
+// frame insets then: 8px from each inset, and from the window's edge elsewhere.
+function SelectFramePositioner({
+  collisionPadding,
+  container,
+  ...props
+}: SelectFramePositionerProps) {
+  const padding = usePopupCollisionPadding(collisionPadding, 8, container);
+  return <BaseSelect.Positioner collisionPadding={padding} {...props} />;
+}
+
 export type SelectContentProps = StyledProps<BaseSelect.Popup.Props> &
   Pick<
     BaseSelect.Positioner.Props,
@@ -244,13 +260,19 @@ export type SelectContentProps = StyledProps<BaseSelect.Popup.Props> &
     | "arrowPadding"
     | "collisionAvoidance"
     | "collisionBoundary"
-    | "collisionPadding"
     | "disableAnchorTracking"
     | "positionMethod"
     | "side"
     | "sideOffset"
     | "sticky"
   > & {
+    /**
+     * Additional space to maintain from the edge of the collision boundary: 8px
+     * from the window's edge, and 8px from a frame inset where a shell keeps one.
+     * A value you pass is kept as it is.
+     * @default 8
+     */
+    collisionPadding?: BaseSelect.Positioner.Props["collisionPadding"];
     portalProps?: SelectPortalProps;
   };
 
@@ -262,7 +284,7 @@ export function SelectContent({
   arrowPadding,
   collisionAvoidance,
   collisionBoundary,
-  collisionPadding = 8,
+  collisionPadding,
   disableAnchorTracking,
   positionMethod = "fixed",
   side = "bottom",
@@ -274,7 +296,7 @@ export function SelectContent({
 }: SelectContentProps) {
   const { positioner, content } = select();
   const positionerNode = (
-    <BaseSelect.Positioner
+    <SelectFramePositioner
       align={align}
       alignItemWithTrigger={alignItemWithTrigger}
       alignOffset={alignOffset}
@@ -283,6 +305,7 @@ export function SelectContent({
       collisionAvoidance={collisionAvoidance}
       collisionBoundary={collisionBoundary}
       collisionPadding={collisionPadding}
+      container={portalProps?.container}
       disableAnchorTracking={disableAnchorTracking}
       positionMethod={positionMethod}
       side={side}
@@ -291,7 +314,7 @@ export function SelectContent({
       className={positioner()}
     >
       <BaseSelect.Popup data-slot="select-content" className={content({ className })} {...props} />
-    </BaseSelect.Positioner>
+    </SelectFramePositioner>
   );
 
   return <SelectPortal {...portalProps}>{positionerNode}</SelectPortal>;

@@ -1,5 +1,6 @@
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
+import { BASE_COLLISION_PADDING, usePopupCollisionPadding } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import { Badge } from "../badge/index";
 import type { BadgeProps } from "../badge/index";
@@ -112,6 +113,22 @@ export function DropdownMenuPopup({ className, ...props }: DropdownMenuPopupProp
   return <div data-slot="dropdown-menu-content" className={content({ className })} {...props} />;
 }
 
+type DropdownMenuFramePositionerProps = BaseMenu.Positioner.Props & {
+  container?: DropdownMenuPortalProps["container"];
+};
+
+// Inside the portal, so it mounts each time the popup opens and reads the
+// frame insets then: 8px from each inset, Base UI's own 5px from the window's
+// edge elsewhere.
+function DropdownMenuFramePositioner({
+  collisionPadding,
+  container,
+  ...props
+}: DropdownMenuFramePositionerProps) {
+  const padding = usePopupCollisionPadding(collisionPadding, BASE_COLLISION_PADDING, container);
+  return <BaseMenu.Positioner collisionPadding={padding} {...props} />;
+}
+
 export type DropdownMenuContentProps = StyledProps<BaseMenu.Popup.Props> &
   Pick<
     BaseMenu.Positioner.Props,
@@ -152,7 +169,7 @@ export function DropdownMenuContent({
   const { positioner, content } = dropdownMenu();
   return (
     <DropdownMenuPortal {...portalProps}>
-      <BaseMenu.Positioner
+      <DropdownMenuFramePositioner
         align={align}
         alignOffset={alignOffset}
         anchor={anchor}
@@ -160,6 +177,7 @@ export function DropdownMenuContent({
         collisionAvoidance={collisionAvoidance}
         collisionBoundary={collisionBoundary}
         collisionPadding={collisionPadding}
+        container={portalProps?.container}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
@@ -172,7 +190,7 @@ export function DropdownMenuContent({
           className={content({ className })}
           {...props}
         />
-      </BaseMenu.Positioner>
+      </DropdownMenuFramePositioner>
     </DropdownMenuPortal>
   );
 }
