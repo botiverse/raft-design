@@ -1,3 +1,21 @@
+## [0.46.0](https://github.com/botiverse/raft-design/compare/v0.45.0...v0.46.0) (2026-10-28)
+
+### Design System
+
+- **Task head pull-down:** once a task's head scrolls away, the top bar collapses to the task's number, status and assignee; tapping it pulls the head down over the conversation (shadow only), and it closes on a tap outside, Back, Esc, or an upward swipe once its content is at its end; it doesn't follow the finger. ([#869](https://github.com/botiverse/raft-design/pull/869))
+  - Docs: https://raft-design.botiverse.build/patterns/tasks/
+- **Warnings in charts:** a warning mark in a chart (fill, stroke, marker, legend swatch) uses `warning-graphic`, at least 3:1 on every surface; text keeps `warning-strong`. ([#869](https://github.com/botiverse/raft-design/pull/869))
+  - Docs: https://raft-design.botiverse.build/foundations/color/
+
+### Added
+
+- **SelectActionItem:** an action row at the end of a Select's list ("Show All Runtimes"). It joins arrow keys and typeahead, runs `onAction`, and never becomes the value; the list stays open unless `closeOnAction`. ([#869](https://github.com/botiverse/raft-design/pull/869))
+- Token **`warning-graphic`** (light and dark). ([#869](https://github.com/botiverse/raft-design/pull/869))
+
+### Changed
+
+- **UnfollowArtifactIcon:** below 18px its minus is heavier and longer, so it reads at 16px; 20px and 24px are unchanged. ([#869](https://github.com/botiverse/raft-design/pull/869))
+
 ## [0.45.0](https://github.com/botiverse/raft-design/compare/v0.44.0...v0.45.0) (2026-10-28)
 
 ### Added
