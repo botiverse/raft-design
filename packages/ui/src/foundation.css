@@ -364,6 +364,10 @@
      colour badges, the selected segment on press): hover and press, 10% ink in
      both modes. */
   --sticker-medium: oklch(0.1813 0.005 17.62 / 0.1);
+  /* Hover tier medium on an ink sticker (the server tile in the rail or the
+     sidebar header): hover, press and open, 6% paper in both modes, since ink
+     laid over ink doesn't show. */
+  --sticker-ink-medium: oklch(1 0 0 / 0.06);
   --presence-online: oklch(0.8272 0.1354 130.07);
   /* Yellow for an agent at work, and for Status variant="primary". The value of
      brand in Raft Yellow, but its own, so a theme that grays the brand (Boring

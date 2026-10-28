@@ -305,6 +305,7 @@
   --color-sticker-paper: var(--sticker-paper);
   --color-sticker-edge: var(--sticker-edge);
   --color-sticker-medium: var(--sticker-medium);
+  --color-sticker-ink-medium: var(--sticker-ink-medium);
   --color-presence-online: var(--presence-online);
   --color-presence-busy: var(--presence-busy);
   --color-presence-busy-soft: var(--presence-busy-soft);
@@ -828,6 +829,10 @@ textarea:-webkit-autofill:disabled {
 
 @utility overlay-sticker-medium {
   background-image: linear-gradient(var(--sticker-medium), var(--sticker-medium));
+}
+
+@utility overlay-sticker-ink-medium {
+  background-image: linear-gradient(var(--sticker-ink-medium), var(--sticker-ink-medium));
 }
 
 @utility overlay-frame-medium {
