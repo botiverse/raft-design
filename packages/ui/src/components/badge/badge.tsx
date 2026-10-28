@@ -111,13 +111,14 @@ function BadgeRoot({ appearance, variant, className, render, ...props }: BadgePr
   });
 }
 
-// A fixed success "Experimental" label. The look lives in Badge, so every
+// The success "Experimental" label. The look lives in Badge, so every
 // experimental surface stays identical. Attached as a static because it only
-// presets props.
-function Experimental(props: Omit<BadgeProps, "appearance" | "variant">) {
+// presets props. The word is product copy: an app passes its translation as
+// children; without children it reads "Experimental".
+function Experimental({ children, ...props }: Omit<BadgeProps, "appearance" | "variant">) {
   return (
     <BadgeRoot variant="success" {...props}>
-      Experimental
+      {children ?? "Experimental"}
     </BadgeRoot>
   );
 }
