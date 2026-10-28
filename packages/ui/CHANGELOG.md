@@ -1,3 +1,10 @@
+## [0.45.0](https://github.com/botiverse/raft-design/compare/v0.44.0...v0.45.0) (2026-10-28)
+
+### Added
+
+- **ModeBar** (experimental, from `@botiverse/raft-ui/wip`): the dark strip under a panel header while the panel is in a mode the person turned on, such as commenting in batch: a title and a description in a status region, and one text action (Done). It mirrors in right-to-left. ([#867](https://github.com/botiverse/raft-design/pull/867))
+  - Docs: https://raft-design.botiverse.build/components/mode-bar/
+
 ## [0.44.0](https://github.com/botiverse/raft-design/compare/v0.43.0...v0.44.0) (2026-10-28)
 
 ### Design System
