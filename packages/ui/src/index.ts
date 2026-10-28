@@ -618,6 +618,7 @@ export type { PickerTriggerButtonProps } from "./components/picker-trigger-butto
 
 export {
   Select,
+  SelectActionItem,
   SelectArrow,
   SelectContent,
   SelectGroup,
@@ -639,6 +640,7 @@ export {
   SelectValue,
 } from "./components/select/index";
 export type {
+  SelectActionItemProps,
   SelectArrowProps,
   SelectContentProps,
   SelectGroupLabelProps,

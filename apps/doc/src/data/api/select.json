@@ -189,6 +189,65 @@
     ]
   },
   {
+    "name": "SelectActionItem",
+    "entry": "@botiverse/raft-ui",
+    "description": "An action row inside the list, placed last after a `SelectSeparator`, such as Show All. It is reached by the arrow keys and typeahead like an item, but pressing it runs `onAction` instead of choosing a value. Pass `aria-expanded` when it shows or hides more of the list.",
+    "native": true,
+    "props": [
+      {
+        "name": "closeOnAction",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether pressing the row closes the list. Off by default: a list action such as Show All changes what the list shows, so the list stays open.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "The text typeahead matches, when the row's content is not plain text.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onAction",
+        "type": "(event: Event) => void",
+        "required": false,
+        "description": "Runs when the row is pressed: clicked, or Enter or Space while it is highlighted. The row never becomes the Select's value and never calls `onValueChange`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `true` if the rendered element is a native button.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
     "name": "SelectArrow",
     "entry": "@botiverse/raft-ui",
     "native": true,

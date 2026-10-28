@@ -35,6 +35,7 @@ The full choice between pickers is in [Choosing a component](../../../../../desi
 - `SelectList`: the scrolling list of items.
 - `SelectItem`: one value, with `SelectItemText` and `SelectItemIndicator` (the check mark). `SelectItemLeading` holds an icon or avatar before the text. `SelectItemDescription` is an optional second line under the text.
 - `SelectGroup` and `SelectGroupLabel`: a group of values under a small heading. `SelectSeparator` is a hairline between groups.
+- `SelectActionItem`: an action row at the end of the list, after a `SelectSeparator`, such as Show All Runtimes. It is not a value; see [List actions](#list-actions).
 - `SelectLabel`: a label for the select when it is not in a [Field](../field/field.md).
 - `SelectScrollUpArrow`, `SelectScrollDownArrow`, `SelectPortal`, `SelectPopup`: lower-level parts for custom popups.
 
@@ -97,6 +98,20 @@ The Filter button and its chip:
 - With `multiple`, keep the list open when a value is chosen. Clicking outside or Esc closes it.
 - With `multiple`, put a box before each item (`CheckboxIndicator` in `SelectItemLeading`), ink when chosen ([Checkbox](../checkbox/checkbox.md)). The trigger shows the chosen values, or a count (3 selected) when they don't fit.
 
+### List actions
+
+A list action changes what the list shows, never the value. Show All Runtimes, at the end of a list that starts with the runtimes most people use, is one: it adds the rest to the same list.
+
+```example
+select/compositions/list-action
+```
+
+- Put it last, after a `SelectSeparator`, one per list. It is `foreground-muted`, so it reads as a step, not a choice, and highlights like an item, inset the same.
+- The arrow keys and typeahead reach it like an item. Enter, Space or a click runs `onAction`; the value, the check mark and `onValueChange` stay as they were.
+- The list stays open, since the action changes what it shows. Set `closeOnAction` only when the action leaves the list, such as opening a dialog to add a runtime.
+- When it shows or hides more of the list, give it `aria-expanded`, and remove it, or turn it into Show Fewer, once everything is shown.
+- An action that does something else (Manage Runtimes, Add) is not part of choosing a value: put it beside the select, or use a [DropdownMenu](../dropdown-menu/dropdown-menu.md).
+
 ## Content
 
 - Group values by kind (Agents, People) with `SelectGroupLabel`.
@@ -117,4 +132,5 @@ Select wraps Base UI Select: a button that opens a listbox, with typeahead and a
 
 - Name the select with a `FieldLabel` ([Field](../field/field.md)), a `SelectLabel`, or `aria-label` on the trigger.
 - In a multi-select, the box before each item is decorative; Base UI states the selection with `aria-selected`.
+- `SelectActionItem` is an option to assistive technology, as the arrow keys reach it, but it is never selected: `aria-selected` stays false, and `aria-expanded` says whether it has shown the rest of the list.
 - `SelectItemDescription` is the option's accessible description: the item is named by `SelectItemText` alone and points `aria-describedby` at the description, so a screen reader reads the label, then the description, each once.

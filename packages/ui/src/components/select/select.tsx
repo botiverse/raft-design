@@ -1,5 +1,14 @@
-import { createContext, useContext, useId, useLayoutEffect, useMemo, useState } from "react";
-import type { ComponentPropsWithRef } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import type { ComponentPropsWithRef, RefObject } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
 import type { DataAttributes } from "../../lib/data-attributes";
@@ -57,6 +66,17 @@ const select = tv({
       "[&>svg:not([class*='size-'])]:size-4",
       "[&>svg:not([class*='stroke-'])]:stroke-2",
     ],
+    actionItem: [
+      "flex w-full shrink-0 cursor-default select-none items-center gap-2.5 overflow-hidden",
+      "text-left outline-none transition-colors",
+      "min-h-option rounded-chip px-2.5 py-option-inset",
+      "text-callout font-medium text-foreground-muted",
+      "bg-transparent hover:bg-brand-soft data-highlighted:bg-brand-soft",
+      "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+      "[&>svg]:pointer-events-none [&>svg]:shrink-0",
+      "[&>svg:not([class*='size-'])]:size-4",
+      "[&>svg:not([class*='stroke-'])]:stroke-2",
+    ],
     itemLeading: [
       "flex shrink-0 items-center justify-center",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0",
@@ -107,6 +127,7 @@ const select = tv({
           "data-placeholder:font-field",
         ],
         item: ["text-field font-field", "**:data-[slot='select-item-text']:font-field"],
+        actionItem: ["text-field font-field"],
       },
     },
   },
@@ -148,13 +169,114 @@ export type SelectProps<
   chrome?: SelectChrome;
 };
 
+/**
+ * The value a `SelectActionItem` gives Base UI, so the row joins the list's
+ * navigation and typeahead like any item. The root recognises it and never lets
+ * it become the value: a list action changes what the list shows, never what is
+ * chosen.
+ */
+class SelectActionValue {
+  readonly onActionRef: RefObject<((event: Event) => void) | undefined>;
+  readonly closeOnActionRef: RefObject<boolean>;
+  constructor(
+    onActionRef: RefObject<((event: Event) => void) | undefined>,
+    closeOnActionRef: RefObject<boolean>,
+  ) {
+    this.onActionRef = onActionRef;
+    this.closeOnActionRef = closeOnActionRef;
+  }
+}
+
+function findActionValue(value: unknown): SelectActionValue | undefined {
+  if (value instanceof SelectActionValue) return value;
+  if (Array.isArray(value)) return value.find((entry) => entry instanceof SelectActionValue);
+  return undefined;
+}
+
+type RootChangeDetails = BaseSelect.Root.ChangeEventDetails;
+
 export function Select<Value, Multiple extends boolean | undefined = false>({
   chrome = "default",
+  onValueChange,
+  onOpenChange,
+  isItemEqualToValue,
+  itemToStringLabel,
+  itemToStringValue,
   ...props
 }: SelectProps<Value, Multiple>) {
+  // Whether the item press that just ran an action may close the list. Base UI
+  // commits a pressed item's value, then asks to close; the value is cancelled
+  // below and this decides the close that follows.
+  const pendingActionClose = useRef<boolean | undefined>(undefined);
+
+  const handleValueChange = useCallback(
+    (next: unknown, details: RootChangeDetails) => {
+      const action = findActionValue(next);
+      if (!action) {
+        pendingActionClose.current = undefined;
+        (onValueChange as ((v: unknown, d: RootChangeDetails) => void) | undefined)?.(
+          next,
+          details,
+        );
+        return;
+      }
+      details.cancel();
+      // Closed-trigger typeahead and autofill also commit a matched item's
+      // value; only a press on the row runs its action.
+      if (details.reason !== "item-press") return;
+      pendingActionClose.current = action.closeOnActionRef.current;
+      action.onActionRef.current?.(details.event);
+    },
+    [onValueChange],
+  );
+
+  const handleOpenChange = useCallback(
+    (open: boolean, details: RootChangeDetails) => {
+      const closeOnAction = pendingActionClose.current;
+      pendingActionClose.current = undefined;
+      if (!open && details.reason === "item-press" && closeOnAction === false) {
+        details.cancel();
+        return;
+      }
+      onOpenChange?.(open, details);
+    },
+    [onOpenChange],
+  );
+
+  const handleItemEquality = useMemo(
+    () =>
+      isItemEqualToValue &&
+      ((item: Value, value: Value) =>
+        item instanceof SelectActionValue || value instanceof SelectActionValue
+          ? Object.is(item, value)
+          : isItemEqualToValue(item, value)),
+    [isItemEqualToValue],
+  );
+  const handleStringLabel = useMemo(
+    () =>
+      itemToStringLabel &&
+      ((item: Value) => (item instanceof SelectActionValue ? "" : itemToStringLabel(item))),
+    [itemToStringLabel],
+  );
+  const handleStringValue = useMemo(
+    () =>
+      itemToStringValue &&
+      ((item: Value) => (item instanceof SelectActionValue ? "" : itemToStringValue(item))),
+    [itemToStringValue],
+  );
+
   return (
     <SelectChromeContext value={chrome}>
-      <BaseSelect.Root data-slot="select" data-chrome={chrome} {...props} />
+      <BaseSelect.Root
+        data-slot="select"
+        data-chrome={chrome}
+        onValueChange={handleValueChange as SelectProps<Value, Multiple>["onValueChange"]}
+        onOpenChange={handleOpenChange}
+        isItemEqualToValue={handleItemEquality}
+        itemToStringLabel={handleStringLabel}
+        itemToStringValue={handleStringValue}
+        {...props}
+      />
     </SelectChromeContext>
   );
 }
@@ -426,6 +548,58 @@ export function SelectItemDescription({ className, id, ...props }: SelectItemDes
       id={descriptionId}
       data-slot="select-item-description"
       className={itemDescription({ className })}
+      {...props}
+    />
+  );
+}
+
+export type SelectActionItemProps = StyledProps<
+  Omit<BaseSelect.Item.Props, "value" | "label" | "onClick">
+> & {
+  /**
+   * Runs when the row is pressed: clicked, or Enter or Space while it is
+   * highlighted. The row never becomes the Select's value and never calls
+   * `onValueChange`.
+   */
+  onAction?: (event: Event) => void;
+  /**
+   * Whether pressing the row closes the list. Off by default: a list action
+   * such as Show All changes what the list shows, so the list stays open.
+   * @default false
+   */
+  closeOnAction?: boolean;
+  /**
+   * The text typeahead matches, when the row's content is not plain text.
+   */
+  label?: string;
+};
+
+/**
+ * An action row inside the list, placed last after a `SelectSeparator`, such as
+ * Show All. It is reached by the arrow keys and typeahead like an item, but
+ * pressing it runs `onAction` instead of choosing a value. Pass `aria-expanded`
+ * when it shows or hides more of the list.
+ */
+export function SelectActionItem({
+  className,
+  onAction,
+  closeOnAction = false,
+  ...props
+}: SelectActionItemProps) {
+  const chrome = useSelectChrome();
+  const { actionItem } = select({ chrome });
+  const onActionRef = useRef(onAction);
+  const closeOnActionRef = useRef(closeOnAction);
+  useLayoutEffect(() => {
+    onActionRef.current = onAction;
+    closeOnActionRef.current = closeOnAction;
+  }, [onAction, closeOnAction]);
+  const [value] = useState(() => new SelectActionValue(onActionRef, closeOnActionRef));
+  return (
+    <BaseSelect.Item
+      data-slot="select-action-item"
+      className={actionItem({ className })}
+      value={value}
       {...props}
     />
   );
