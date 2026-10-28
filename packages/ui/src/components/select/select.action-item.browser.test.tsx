@@ -78,11 +78,7 @@ function Runtimes({
               {!expanded && (
                 <>
                   <SelectSeparator />
-                  <SelectActionItem
-                    data-testid="show-all"
-                    aria-expanded={expanded}
-                    onAction={handleAction}
-                  >
+                  <SelectActionItem data-testid="show-all" onAction={handleAction}>
                     Show All Runtimes
                   </SelectActionItem>
                 </>
@@ -140,4 +136,59 @@ it("the action's highlight is inset like an item's", async () => {
   expect(getComputedStyle(screen.getByTestId("show-all")).borderRadius).toBe(
     getComputedStyle(screen.getAllByRole("option")[0]!).borderRadius,
   );
+});
+
+// The row stays after it runs (Show All becomes Show Installed) and the items
+// it adds land above it. Base UI keeps the highlight by position, which would
+// then sit on another item while focus stays on the row.
+function Toggle() {
+  const [all, setAll] = useState(false);
+  const shown = all ? ALL : ALL.slice(0, 2);
+  const toggle = useCallback(() => setAll((current) => !current), []);
+  return (
+    <ThemeProvider>
+      <div style={{ width: 320 }}>
+        <Select defaultValue="Claude Code">
+          <SelectTrigger aria-label="Runtime" data-testid="trigger">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectList>
+              {shown.map((runtime) => (
+                <SelectItem key={runtime} value={runtime}>
+                  <SelectItemText>{runtime}</SelectItemText>
+                  <SelectItemIndicator />
+                </SelectItem>
+              ))}
+              <SelectSeparator />
+              <SelectActionItem data-testid="toggle" onAction={toggle}>
+                {all ? "Show Installed" : "Show All"}
+              </SelectActionItem>
+            </SelectList>
+          </SelectContent>
+        </Select>
+      </div>
+    </ThemeProvider>
+  );
+}
+
+it("items added above the action keep the highlight on the action", async () => {
+  render(<Toggle />);
+  screen.getByTestId("trigger").focus();
+  await keys("{Enter}");
+  await screen.findByRole("listbox");
+  await wait(100);
+  await keys("{ArrowDown}", "{ArrowDown}", "{ArrowDown}");
+  const row = screen.getByTestId("toggle");
+  expect(row.hasAttribute("data-highlighted")).toBe(true);
+  await keys("{Enter}");
+  await wait(150);
+  expect(row.textContent).toBe("Show Installed");
+  expect(row.hasAttribute("data-highlighted")).toBe(true);
+  expect(document.activeElement).toBe(row);
+  const highlighted = () =>
+    screen.getAllByRole("option").filter((option) => option.hasAttribute("data-highlighted"));
+  expect(highlighted()).toEqual([row]);
+  await keys("{ArrowUp}");
+  expect(highlighted().map((option) => option.textContent)).toEqual(["Kimi CLI"]);
 });
