@@ -26,7 +26,7 @@ Badge is a small label. Its main job is the unread count: a pink sticker that sa
 ## Anatomy
 
 - `Badge`: the label. It holds a number, a word, or an icon and a word.
-- `Badge.Experimental`: a preset that reads Experimental, so every experimental surface shows the same label.
+- `Badge.Experimental`: a preset with the experimental look, so every experimental surface shows the same label. It reads Experimental; an app that translates its interface passes the translated word as children (`<Badge.Experimental>{t("experimental")}</Badge.Experimental>`).
 
 ## Variants
 
