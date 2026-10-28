@@ -109,7 +109,7 @@ select/compositions/list-action
 - Put it last, after a `SelectSeparator`, one per list. It is `foreground-muted`, so it reads as a step, not a choice, and highlights like an item, inset the same.
 - The arrow keys and typeahead reach it like an item. Enter, Space or a click runs `onAction`; the value, the check mark and `onValueChange` stay as they were.
 - The list stays open, since the action changes what it shows. Set `closeOnAction` only when the action leaves the list, such as opening a dialog to add a runtime.
-- When it shows or hides more of the list, give it `aria-expanded`, and remove it, or turn it into Show Fewer, once everything is shown.
+- When it has shown everything, remove it, or turn it into Show Fewer. Items it adds above it keep the highlight on the row, so the next arrow key goes on from there.
 - An action that does something else (Manage Runtimes, Add) is not part of choosing a value: put it beside the select, or use a [DropdownMenu](../dropdown-menu/dropdown-menu.md).
 
 ## Content
@@ -132,5 +132,5 @@ Select wraps Base UI Select: a button that opens a listbox, with typeahead and a
 
 - Name the select with a `FieldLabel` ([Field](../field/field.md)), a `SelectLabel`, or `aria-label` on the trigger.
 - In a multi-select, the box before each item is decorative; Base UI states the selection with `aria-selected`.
-- `SelectActionItem` is an option to assistive technology, as the arrow keys reach it, but it is never selected: `aria-selected` stays false, and `aria-expanded` says whether it has shown the rest of the list.
+- `SelectActionItem` is an option to assistive technology, as the arrow keys reach it, but it is never selected: `aria-selected` stays false. It takes no `aria-expanded`, which ARIA does not allow on an option: its label says what it does, and the options it adds are counted in the list.
 - `SelectItemDescription` is the option's accessible description: the item is named by `SelectItemText` alone and points `aria-describedby` at the description, so a screen reader reads the label, then the description, each once.

@@ -92,7 +92,7 @@ const select = tv({
     itemText: ["min-w-0 flex-1 line-clamp-2 wrap-anywhere"],
     itemDescription: [
       "order-last min-w-0 basis-full wrap-anywhere",
-      "[[data-slot=select-item-leading]~&]:ps-[calc(--spacing(4)+--spacing(2.5))]",
+      "[[data-slot=select-item-leading]~&]:ps-[calc(--spacing(4)+(--spacing(2.5)))]",
       "font-sans text-caption font-normal text-foreground-hint",
     ],
     label: ["m-0", "font-sans text-footnote font-semibold text-foreground-muted"],
@@ -195,6 +195,26 @@ function findActionValue(value: unknown): SelectActionValue | undefined {
 
 type RootChangeDetails = BaseSelect.Root.ChangeEventDetails;
 
+/**
+ * Base UI keeps the highlight by position. When an action adds items above its
+ * row, the same position then holds another item while focus stays on the row,
+ * and the next arrow key starts from the wrong place. Once the list has
+ * re-rendered, focus the list and then the row again: the row's focus handler
+ * re-reads its position and moves the highlight back to it.
+ */
+function keepActionHighlighted(event: Event) {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+  const row = target.closest<HTMLElement>('[data-slot="select-action-item"]');
+  if (!row) return;
+  requestAnimationFrame(() => {
+    if (!row.isConnected || row.hasAttribute("data-highlighted")) return;
+    const list = row.closest<HTMLElement>('[role="listbox"]');
+    list?.focus({ preventScroll: true });
+    row.focus({ preventScroll: true });
+  });
+}
+
 export function Select<Value, Multiple extends boolean | undefined = false>({
   chrome = "default",
   onValueChange,
@@ -226,6 +246,7 @@ export function Select<Value, Multiple extends boolean | undefined = false>({
       if (details.reason !== "item-press") return;
       pendingActionClose.current = action.closeOnActionRef.current;
       action.onActionRef.current?.(details.event);
+      if (!action.closeOnActionRef.current) keepActionHighlighted(details.event);
     },
     [onValueChange],
   );
@@ -577,8 +598,9 @@ export type SelectActionItemProps = StyledProps<
 /**
  * An action row inside the list, placed last after a `SelectSeparator`, such as
  * Show All. It is reached by the arrow keys and typeahead like an item, but
- * pressing it runs `onAction` instead of choosing a value. Pass `aria-expanded`
- * when it shows or hides more of the list.
+ * pressing it runs `onAction` instead of choosing a value. It is an option to
+ * assistive technology, so it takes no `aria-expanded`: its label says what it
+ * does.
  */
 export function SelectActionItem({
   className,

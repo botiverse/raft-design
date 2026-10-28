@@ -53,12 +53,7 @@ function renderSelect(
             <SelectItemText>Beta</SelectItemText>
           </SelectItem>
           <SelectSeparator />
-          <SelectActionItem
-            data-testid="action"
-            aria-expanded={false}
-            onAction={onAction}
-            closeOnAction={closeOnAction}
-          >
+          <SelectActionItem data-testid="action" onAction={onAction} closeOnAction={closeOnAction}>
             Show All
           </SelectActionItem>
         </SelectList>
@@ -126,12 +121,11 @@ test("an ordinary item still chooses its value after the action ran", async () =
   expect(onValueChange).toHaveBeenCalledWith("b", expect.anything());
 });
 
-test("the action is an option in the listbox, with its aria-expanded and never selected", async () => {
+test("the action is an option in the listbox, never selected", async () => {
   renderSelect();
   const action = await screen.findByTestId("action");
   expect(action.getAttribute("role")).toBe("option");
   expect(action.getAttribute("aria-selected")).toBe("false");
-  expect(action.getAttribute("aria-expanded")).toBe("false");
   expect(action.getAttribute("data-slot")).toBe("select-action-item");
   expect(action.className).toContain("text-foreground-muted");
 });
