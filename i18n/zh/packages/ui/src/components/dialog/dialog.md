@@ -1,7 +1,7 @@
 ---
 title: Dialog
 summary: 遮罩上居中的浮层，用于人们必须先完成才能继续的一个决定或几个输入框；宽尺寸用于一次填完的大表单。
-sourceHash: 344dbef6
+sourceHash: 78390117
 ---
 
 # Dialog
@@ -42,7 +42,7 @@ dialog/compositions/create-channel
 - `DialogPortal` 和 `DialogOverlay`：更底层的部件。
 - `DialogSheetContent`（`@botiverse/raft-ui/wip`）：在手机上会变成底部面板的对话框所用的 `DialogContent`（[手机上](#on-a-phone)）。在桌面端和平板上它就是 `DialogContent`，标记完全相同。
 - `DialogCommit`（`@botiverse/raft-ui/wip`）：对话框唯一的提交按钮，是写在 `DialogFooter` 末尾的 `Button`。在手机上的底部面板里，它改为画在头部末尾。
-- `DialogSheetBack`（`@botiverse/raft-ui/wip`）：分步流程后面几步里，底部面板头部开头的返回（Back）。在底部面板之外它什么也不画。
+- `DialogSheetBack`（`@botiverse/raft-ui/wip`）：分步流程后面几步里，底部面板头部开头的返回（Back）。在底部面板之外它什么也不画。在触屏上，它在手指抬起时返回（[手指抬起时切换](../../../../../design/patterns/navigation.md#switching-on-finger-lift)）。
 
 ## 变体 {#variants}
 
@@ -61,7 +61,7 @@ dialog/compositions/create-channel
 - 只有下面这些浮层的宽度不属于四种尺寸，每种都由自己的规则决定。其他任何东西都不能再加：
   - 任务详情，960px：工作空间浮层（[任务](../../../../../design/patterns/tasks.md)）。
   - 搜索，720px，基于 `DialogSurface`，上边缘盖在顶栏的输入框上（[Search](../search/search.md)）。
-  - 展示框，宽 720px、高约 520px，由引导流程的第 3 到 5 步和 Upgrade to Pro 对话框共用，不用于其他地方（[引导](../../../../../design/products/raft-chat/onboarding.md)）。
+  - 展示框，宽 720px、高约 520px，由引导流程的第 3 到 5 步、Upgrade to Pro 对话框和 Pro 的 Add seats 对话框共用（cindyz，2026-10-26：增加席位是付费墙，和升级一样），不用于其他地方（[引导](../../../../../design/products/raft-chat/onboarding.md)）。
   - [AnnouncementDialog](../announcement-dialog/announcement-dialog.md)，576px：它的图片和一段文字在这个宽度下最好读；到 640px 时，每行文字会超过 80 个字符。
   - 附件预览，按文件需要的宽度，最宽 768px。
 - 在窄屏上，每种尺寸取自身宽度或窗口宽度减 32px 中的较小值，所以在 390px 的屏幕上每种都是 358px 宽。它的高度和宽对话框的分区见[行为](#behavior)。

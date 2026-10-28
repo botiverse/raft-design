@@ -1,7 +1,7 @@
 ---
 title: MessageActionCard
 summary: Agent 附在消息上的卡片，操作已经填好，等人确认；确认之后，它记录是谁、在什么时候做的。
-sourceHash: 4a611534
+sourceHash: 1484bd5c
 ---
 
 # MessageActionCard
@@ -54,6 +54,7 @@ message-action-card/compositions/integration-actions
 | 需再次确认 | 展开；Agent 准备好之后有东西变了，说明写明变了什么 |
 | 完成 | 折叠到只剩头部；描述说明是谁、在什么时候做的 |
 | 已拒绝 | 折叠；描述说明是谁拒绝的，并说明什么都没有改变 |
+| 已过期 | 折叠；描述说明没有人及时处理，并说明什么都没有改变 |
 | 仅查看 | 折叠；描述说明这个人为什么不能操作。没有按钮 |
 
 - 操作失败时，显示一条轻提示，卡片保持原样，让人可以再试一次（[Toast](../toast/toast.md)）。

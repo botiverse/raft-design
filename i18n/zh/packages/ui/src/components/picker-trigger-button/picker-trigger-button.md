@@ -1,7 +1,7 @@
 ---
 title: PickerTriggerButton
 summary: 紧凑的 32px 按钮，作为列表上方的筛选器打开 Select 或 Combobox；未应用筛选时是描边样式，应用后变为填充。
-sourceHash: d3505da2
+sourceHash: 1e438d38
 ---
 
 # PickerTriggerButton
@@ -17,6 +17,7 @@ picker-trigger-button/compositions/select-filter
 | 场景 | 使用 |
 | --- | --- |
 | 按一个或几个值筛选列表 | PickerTriggerButton，渲染为 `SelectTrigger` 或 `ComboboxTrigger` |
+| 人很少设置、凭习惯设置、按钮上不写出名字的筛选 | 始终写着「筛选」 的 PickerTriggerButton，渲染为 `DropdownMenuTrigger`，旁边放一个 [FilterChip](../filter-chip/filter-chip.md) |
 | 在表单里选一个值 | Select 自己的输入框（[Select](../select/select.md)） |
 | 一组操作 | 菜单（[DropdownMenu](../dropdown-menu/dropdown-menu.md)） |
 | 一行选项，每项各自开或关 | [ToggleGroup](../toggle-group/toggle-group.md) |
@@ -25,12 +26,12 @@ picker-trigger-button/compositions/select-filter
 
 ## 结构 {#anatomy}
 
-PickerTriggerButton 只有一个部件。把它作为 `render` 传给 `SelectTrigger` 或 `ComboboxTrigger`，在里面按以下顺序放触发按钮的常规部件：
+PickerTriggerButton 只有一个部件。把它作为 `render` 传给 `SelectTrigger` 或 `ComboboxTrigger`（Filter 按钮传给 `DropdownMenuTrigger`，见下文），在里面按以下顺序放触发按钮的常规部件：
 
 - 前置图标：可选，14px。
 - 值：`SelectValue`，或者 Combobox 选中项的标签。必需。
 - `ComboboxTriggerCount`：已应用的 Combobox 筛选器有多少个值。可选。
-- 指示器：`SelectIcon` 或 `ComboboxTriggerIndicator`，一个 `foreground-hint` 的 V 形箭头。
+- 指示器：`SelectIcon` 或 `ComboboxTriggerIndicator`，一个 `foreground-hint` 的 V 形箭头。在 `DropdownMenuTrigger` 里，把 V 形箭头包在一个带 `data-picker-trigger-indicator` 的 `span` 里。
 
 ```example
 picker-trigger-button/compositions/combobox-filter
@@ -55,6 +56,7 @@ picker-trigger-button/compositions/combobox-filter
 ## 内容 {#content}
 
 - 选了值之后，显示当前的值，而不是筛选器的名称：Relevance、#launch-week。在那之前，显示筛选器的名称：Channel、Assignee。
+- 例外是 Filter 按钮：人很少设置、凭习惯设置的筛选，按钮始终写着「筛选」，旁边的 [FilterChip](../filter-chip/filter-chip.md) 说出当前生效的筛选。一个筛选用这两种中的哪一种，见 [Select › 筛选器](../select/select.md#which-filter-button)。
 - 标签的一般规则见[写作](../../../../../design/content/writing.md#casing)。
 
 ## 无障碍 {#accessibility}
@@ -67,5 +69,5 @@ picker-trigger-button/compositions/combobox-filter
 ## 规则 {#rules}
 
 - PickerTriggerButton 只用于筛选器。表单里的选择器用 Select 自己带墨色边框的输入框，和周围的输入框一样高。
-- 不要用它打开操作菜单：它打开的永远是值的列表。
-- 不要自己给已应用的筛选器加样式。设置 `data-has-value`，让组件来填充。
+- 不要用它打开操作菜单：它打开的永远是值的列表。Filter 按钮的菜单里只有单选项，每个筛选一项。
+- 不要自己给已应用的筛选器加样式。设置 `data-has-value`，让组件来填充。Filter 按钮从不设置它：它旁边的标签片说明已应用了筛选。

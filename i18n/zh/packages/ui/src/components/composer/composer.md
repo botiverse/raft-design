@@ -1,7 +1,7 @@
 ---
 title: Composer
 summary: 对话底部的消息输入框：输入区、工具、附件、@ 建议和粉色发送按钮都在同一圈墨色边框里。
-sourceHash: 83bfcd9d
+sourceHash: 611739aa
 ---
 
 # Composer
@@ -26,7 +26,7 @@ chat-composer/compositions/composer-default
 
 - `ComposerRoot`：提交消息的 `<form>`。必需。
 - `Composer`：带墨色边框的那个框。必需。
-- `ComposerAttachments`，每个文件一个 `ComposerAttachment`：框内、输入区上方的 64px 缩略图。可选。`SortableComposerAttachments` 让人可以调整它们的顺序。
+- `ComposerAttachments`，每个文件一个 `ComposerAttachment`：框内、输入区上方的 64px 缩略图。可选。`SortableComposerAttachments`（换行排列）和 `SortableComposerAttachmentsScroll`（一行滚动），再在每个附件外面套一个 `SortableComposerAttachment`，让人可以调整它们的顺序。
 - `ComposerInput`：输入区，一个随内容变高的 `<textarea>`。必需。
 - `ComposerToolbar`：输入区下方的一行，包含：
   - `ComposerActions`：开头的工具，每个都是一个 `ComposerIconButton`（附加文件、添加图片）；
@@ -40,7 +40,8 @@ chat-composer/compositions/composer-default
 chat-composer/compositions/composer-attachment-states
 ```
 
-- **上传中**：缩略图在自己的轨道上显示青色进度，轨道从缩略图边缘向内缩进（[形状](../../../../../design/foundations/shape.md#nothing-on-the-edge-of-a-rounded-container)）；角上的 × 在上传过程中取消上传，上传完成后移除文件。文件卡片见 [MessageAttachment](../message-attachment/message-attachment.md)。
+- **上传中**：缩略图在自己的轨道上显示青色进度，轨道从缩略图边缘向内缩进（[形状](../../../../../design/foundations/shape.md#nothing-on-the-edge-of-a-rounded-container)）；角上的 × 在上传过程中取消上传，上传完成后移除文件。缩略图上盖着一层 `layer-veil` 覆盖层（`ComposerAttachmentUploadingOverlay`），上面是默认颜色的加载指示器。
+- **失败**：同样的 `layer-veil` 覆盖层，加 `danger-strong` 边框和一行说明上传失败的文字（`ComposerAttachmentFailedOverlay`）。两种覆盖层用的是同一层 veil（[表面](../../../../../design/foundations/color.md#surfaces)）。文件卡片见 [MessageAttachment](../message-attachment/message-attachment.md)。
 - **没有可发送的内容**：在有文字或附件之前，禁用 `ComposerSubmit`。
 - **焦点**：焦点环套在整个消息输入框上（[状态](../../../../../design/foundations/states.md#focus)）。
 
@@ -52,9 +53,10 @@ composer-suggestions/composer-suggestions
 
 - 输入 @ 会在消息输入框上方打开建议列表，宽度与消息输入框相同，位于它上方 8px。先列出这个对话的成员，再列出其他人，分组显示。每一行显示头像、名字，以及 `foreground-hint` 颜色的状态。
 - 允许把文件拖进消息输入框，但不允许拖文件夹。
+- 调整附件顺序和其他拖动一样（[拖放](../../../../../design/patterns/drag-and-drop.md)）：缩略图被提起的副本在两个方向上跟着手移动，它原来的缩略图在移走之前保持 40%，它的位置变成虚线的落点，放下或取消用 160ms 滑行到位。焦点在附件上时，空格拿起它，方向键移动它，空格放下。每一步都用附件的 `label` 和它的位置播报，从不用它的 ID；把你的翻译作为 `messages` 传入。提起的副本渲染在 `document.body` 里（用 `container` 改变位置），所以抽屉或对话框的 transform 不会让它偏移。
 - 输入区随内容变高，到最大高度后在内部滚动。
 - 在手机上，键盘弹出时让消息输入框保持在键盘上方。竖持手机时，回车键插入新行（[响应式布局](../../../../../design/patterns/responsive.md#phone)），所以发送要用发送按钮。
-- 它的按钮（包括发送按钮）是嵌在外框里的控件：使用 `radius-chip`，在底部和左右两侧距消息输入框外边缘 6px（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
+- 它的按钮（包括发送按钮）是嵌在外框里的控件：使用 `radius-chip`，在底部和左右两侧距消息输入框外边缘 6px，彼此间隔 6px（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
 - 消息输入框的边框对齐内容边距（[页面结构](../../../../../design/patterns/page-structure.md#one-edge-per-column)），下方留 16px 加安全区域。
 
 ```example

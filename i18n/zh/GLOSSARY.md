@@ -135,9 +135,16 @@
 | handle | 用户名（handle） | `@bugen` 这种 |
 | ghost button | 幽灵按钮 | |
 | chevron | V 形箭头 | |
-| grab handle | 拖动条 | 底部面板顶边、侧边卡片之间的那条短横 |
+| grab handle | 拖动条 | 底部面板顶边、侧边分区头部的那条短横 |
 | armed / disarmed（下拉刷新） | 就绪 / 解除 | 下拉超过 / 退回阈值 |
 | side panel | 侧面板 | |
+| side section / side column | 侧边分区 / 侧边列 | 频道右侧的任务、文件等分区，和它们所在的列 |
+| drag and drop | 拖放 | 页面名；动作本身写「拖动」 |
+| edges fade | 边缘渐隐 | |
+| dimmed | 变淡 | 状态名 |
+| inline list（Combobox） | 内嵌列表 | |
+| mask（CSS） | 蒙版 | 和 scrim 的「遮罩」区分 |
+| veil（`layer-veil`） | 覆盖层 | 盖在上传中图片、头像上的那层 |
 | joint channel | 联合频道 | |
 | Identity and presence | 身份与在线状态 | 页面名 |
 | Writing about agents | 描述 Agent 的用语 | 页面名 |

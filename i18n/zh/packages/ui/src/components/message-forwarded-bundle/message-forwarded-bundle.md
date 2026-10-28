@@ -1,7 +1,7 @@
 ---
 title: MessageForwardedBundle
 summary: 消息下方的一张卡片，装着从另一个对话转发来的一条或多条消息，带作者、时间和附件，内容太长时折叠。
-sourceHash: 00e21da7
+sourceHash: a8e71f66
 ---
 
 # MessageForwardedBundle
@@ -63,7 +63,7 @@ message-forwarded-bundle/compositions/forwarded-bundle-static-source
 ## 行为 {#behavior}
 
 - 卡片最宽 544px，栏更窄时随之变窄。
-- 默认由转发卡片自己折叠：所有条目的文字加起来超过 `foldLineLimit` 行（8 行）时，列表在这个高度截断，底部渐隐到 `layer-card`。
+- 默认由转发卡片自己折叠：所有条目的文字加起来超过 `foldLineLimit` 行（8 行）时，列表在这个高度截断，底部按内容渐隐的长度 48px 渐隐，用的是蒙版（`mask-fade-b`），所以行的底色也跟着渐隐；不到 60px 的折叠按边缘渐隐的长度 24px 渐隐，这样还能读到一行（[边缘渐隐](../../../../../design/foundations/spacing.md#edges-fade)）。
 - 底部栏只在列表折叠时出现。它的操作可以展开列表，也可以再次折叠；展开时用 `expandedContent` 作为它的标签。
 - 内容加载进来或宽度变化时，卡片会重新测量。人一旦手动折叠或展开过，就保持他留下的样子，除非内容已经不需要折叠。
 - 想自己控制折叠时，给 `MessageForwardedBundleItems` 传 `collapsed`，例如显示全部内容的详情视图。这时底部栏总是渲染，标签由你来写。

@@ -1,7 +1,7 @@
 ---
 title: Tabs
 summary: 一排标签页，对应同一页面的各个部分，每个部分有自己的内容；选中的标签页是一张黄色贴纸，标签页放不下时这一排可以滚动。
-sourceHash: e106ddb2
+sourceHash: 182905da
 ---
 
 # Tabs
@@ -21,7 +21,7 @@ tabs/compositions/placement
 | 一个流程中按顺序排列的步骤 | [Steps](../steps/steps.md) |
 | 产品的目的地 | [AppRail](../app-rail/app-rail.md)、[MobileNav](../mobile-nav/mobile-nav.md) |
 
-有多种内容的地方，比如一个 Agent，在头部下面用一排贴纸标签页展示它们（[导航](../../../../../design/patterns/navigation.md#several-views-of-one-place)）。频道的任务和文件不是标签页：它们是对话旁边的侧边卡片。只有在卡片浮在消息上方或盖住面板、两张都打开时，才用一行 Tasks / Files 标签页在它们之间切换（[响应式布局](../../../../../design/patterns/responsive.md#structure)）。
+有多种内容的地方，比如一个 Agent，在头部下面用一排贴纸标签页展示它们（[导航](../../../../../design/patterns/navigation.md#several-views-of-one-place)）。频道的任务和文件不是标签页：它们是对话旁边的侧边分区。只有在一列太矮、放不下上下叠放的两个分区，或者分区盖住面板时，才用一行 Tasks / Files 标签页在它们之间切换（[频道的侧边列](../../../../../design/patterns/responsive.md#the-channels-side-columns)）。
 
 ## 结构 {#anatomy}
 
@@ -44,8 +44,14 @@ tabs/compositions/placement
 
 - 标签页放不下时，这一排自己滚动。标签页从不换到第二行，也从不缩小文字。
 - 这一排不显示滚动条，竖向滚动鼠标滚轮会让它横向滚动。
-- 藏着标签页的那一侧在 32px 内渐隐。
+- 藏着标签页的那一侧按边缘渐隐的长度 24px 渐隐（`mask-fade-x`，[边缘渐隐](../../../../../design/foundations/spacing.md#edges-fade)）。以前是 32px；现在和所有横向滚动的条带一致。
 - 选中的标签页总是滚动到可见范围内。
+- 在触屏上，标签页在手指抬起时切换，所以让滚动中的列表停下的那一次点按，也会完成切换（[手指抬起时切换](../../../../../design/patterns/navigation.md#switching-on-finger-lift)）。
+- 在 `SortableTabsList` 里拖动标签页遵循[拖放](../../../../../design/patterns/drag-and-drop.md)：标签页被拿起的副本跟着手走，原位的标签页保持 40%，直到它移开，它的位置变成虚线标出的落点，其他标签页向两侧滑开，放下或取消时用 160ms 滑行到位。鼠标移动 6px 后拿起标签页；手指要先按住 500ms。拿起的副本渲染在 `document.body` 里（用 `container` 改变位置），所以抽屉或对话框的 transform 不会让它偏移。
+
+```example
+tabs/compositions/sortable
+```
 
 ## 标签页自己的控件 {#a-tabs-own-controls}
 
@@ -65,7 +71,8 @@ tabs/compositions/placement
 - `Tabs` 包装了 Base UI Tabs，后者提供标签列表、标签页和面板的语义以及方向键操作。
 - 用它所属的地方给 `TabsList` 命名：`aria-label="launch-week"`。
 - 每个只有图标的标签页都要有 `aria-label`。
-- 可排序的标签页用鼠标指针或触屏重新排序；不支持用键盘重新排序。
+- 可排序的标签页可以用鼠标指针、触屏或键盘重新排序：空格拿起获得焦点的标签页，ArrowLeft 和 ArrowRight（竖排时是 ArrowUp 和 ArrowDown）移动它，空格放下，Escape 放回原处。回车选中获得焦点的标签页；在可排序的一排里，空格不选中标签页，而是拿起它。标签页被拿起时，方向键移动的是它，而不是焦点（[拖放](../../../../../design/patterns/drag-and-drop.md#keyboard)）。
+- 拖动标签页的每一步都会播报，说的是标签页的名称（它的 `aria-label` 或文字）和它在这一排里的位置，这一排用 `TabsList` 的 `aria-label` 来称呼；从不说它的值。把你的翻译作为 `messages` 传入。
 
 ## 规则 {#rules}
 

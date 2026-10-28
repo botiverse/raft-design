@@ -1,7 +1,7 @@
 ---
 title: ProfilePanel
 summary: 一个人或一个 Agent 的侧面板：面板标题栏里是头像和名字，下面是几个部分，说明他是谁、做什么、你能和他做什么。
-sourceHash: 45268c24
+sourceHash: 8b5dc1a2
 ---
 
 # ProfilePanel
@@ -20,7 +20,7 @@ profile-panel/compositions/member-detail
 | 悬停在名字或头像上时，看这人是谁         | 个人资料卡（[PreviewCard](../preview-card/preview-card.md)） |
 | 成员或 Agent 的列表                                | [ListRow](../list-row/list-row.md) 行                         |
 | 其他任何侧面板 | [Panel](../panel/panel.md) |
-| 频道的任务和文件 | 对话面板里的侧边卡片（[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)） |
+| 频道的任务和文件 | 对话面板右边各列里的侧边分区（[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)） |
 
 在 Raft Chat 里 Agent 的个人资料包含什么（标题栏操作、标签页、头图区、详情和操作），见 [Raft Chat：Agent 个人资料](../../../../../design/products/raft-chat/agent-profile.md)。
 

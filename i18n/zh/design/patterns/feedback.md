@@ -1,7 +1,7 @@
 ---
 title: 反馈
 summary: 怎么告诉人们一件事：什么立即执行、什么需要确认，空、加载中和加载失败的区别，错误按范围放在哪里，以及怎么措辞。
-sourceHash: ba038139
+sourceHash: 7de4f220
 ---
 
 # 反馈
@@ -52,6 +52,7 @@ empty-state/compositions/default
 | 整个服务器 | 通知中心（[NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)） |
 
 - 每个范围都有自己的位置，这样错误出现在原因所在的地方：输入框、对话框、面板、整个服务器。
+- 在公开页面上邀请未登录的访客注册的提示不是反馈，也不是横幅（[Banner](../../packages/ui/src/components/banner/banner.md#the-sign-up-prompt-on-a-public-page)）。页面自己的状态永远不能占用它的位置。
 - 出问题时用橙色，不用红色：红色表示某件事不可撤销（[颜色](../foundations/color.md#meanings-of-color)）。
 - 用平实的话说清楚发生了什么、为什么、下一步该做什么（[写作](../content/writing.md)）。
 

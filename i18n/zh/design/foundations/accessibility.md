@@ -1,7 +1,7 @@
 ---
 title: 无障碍
 summary: 每个 Raft 产品都遵守的规则，让它在任何视力、键盘、读屏软件、触屏或动效设置下都能用：对比度、焦点、点击区域、动效、语义、触屏和语言，以及实现这些规则的组件。
-sourceHash: c4280eac
+sourceHash: 3866bc5f
 ---
 
 # 无障碍
@@ -38,7 +38,7 @@ token 的取值保证文字不必再逐个表面检查；见[颜色](./color.md#
 - 在模态浮层中锁定焦点，用 Esc 关闭，并把焦点还给触发它的元素：[Dialog](../../packages/ui/src/components/dialog/dialog.md) 和 [Drawer](../../packages/ui/src/components/drawer/drawer.md) 已经这样做。
 - 悬停时显示的东西，键盘聚焦时也要显示：消息工具栏（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）、工具提示、预览卡片（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)）、可编辑头像的浮层（[Avatar](../../packages/ui/src/components/avatar/avatar.md#accessibility)）。
 - 右键菜单的每个操作也要能从一个可见控件触发，比如 ⋯ 按钮：右键和长按无法用键盘完成（[ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md)）。
-- 给拖放提供键盘路径。任务卡片用空格拿起，用方向键移动，用空格放下，用 Escape 放回原处（[TaskDnd](../../packages/ui/src/components/task-dnd/task-dnd.md)、[TaskBoard](../../packages/ui/src/components/task-board/task-board.md)）。可排序的标签页目前还不能用键盘重新排序（[Tabs](../../packages/ui/src/components/tabs/tabs.md#accessibility)）。
+- 给每种拖动都提供键盘路径，而且处处相同：空格拿起，方向键每次移动一格，空格放下，Escape 放回原处。回车从不开始拖动，因为在一个也能打开的项上，回车是打开它。任务卡片、可排序的标签页和消息输入框里的附件都这样操作（[拖放](../patterns/drag-and-drop.md#keyboard)、[TaskDnd](../../packages/ui/src/components/task-dnd/task-dnd.md)、[Tabs](../../packages/ui/src/components/tabs/tabs.md#accessibility)）。
 - 如果一行里只有其中的控件可交互，把这一行渲染为 `<div>`，这样 Tab 会跳到控件上，而不是停在一个什么也不做的行上（[状态](./states.md#usage)）。
 - 在操作的工具提示或菜单项里用 [Kbd](../../packages/ui/src/components/kbd/kbd.md) 显示快捷键。快捷键用符号书写时（⌘K），给它一个用文字写的 `aria-label`：Command K。
 
@@ -90,6 +90,7 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 | 复制成功 | 复制按钮上的 `aria-live="polite"` | [CopyableCode](../../packages/ui/src/components/copyable-code/copyable-code.md) |
 | Agent 开始或停止工作 | 活动条上的 `aria-live="polite"` | [LiveAgentActivityBar](../../packages/ui/src/components/live-agent-activity-bar/live-agent-activity-bar.md) |
 | 回应失败 | 一个视觉上隐藏的 `role="status"` | [MessageItem](../../packages/ui/src/components/message-item/message-item.md) |
+| 一项被拿起、移动、放下或放回 | 礼貌的实时区域，说出这一项和位置的名称，从不说它们的 ID | [拖放](../patterns/drag-and-drop.md#screen-readers) |
 
 - 让轻提示或横幅的标题承载完整含义：它的图标是隐藏的。
 - 不要把人们绝不能错过的内容只放在轻提示里：它会消失（[反馈](../patterns/feedback.md)）。
@@ -101,8 +102,8 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 - 只在能悬停的设备上显示悬停样式。Tailwind 的 `hover:` 变体只在 `@media (hover: hover)` 下生效，所以用它，而不是裸写 `:hover`（[动效](./motion.md#usage)）。
 - 触屏上不显示消息的悬停工具栏；长按打开消息菜单（[响应式布局](../patterns/responsive.md)、[ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md)）。
 - 触屏上不要依赖工具提示。把说明写在界面里，或在长按时显示（[Tooltip](../../packages/ui/src/components/tooltip/tooltip.md#accessibility)）。预览卡片在触屏上不会打开，所以把它的触发器做成真正的链接（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)）。
-- 在触屏上，手指先静止按住 500ms、再移动，才开始拖拽，这样滚动列表时不会移动卡片、行或服务器，静止按住则打开菜单。所有能拖动的列表都用同一个按住时长，任务卡片也一样（[触屏上的拖动](./states.md#dragging-on-a-touch-screen)）。
-- 不要让滑动成为关闭某样东西的唯一方式：抽屉和面板保留 ×、返回或一个按钮，轻提示保留 `ToastClose`（[Drawer](../../packages/ui/src/components/drawer/drawer.md#accessibility)）。
+- 在触屏上，手指先静止按住 500ms、再移动，才开始拖拽，这样滚动列表时不会移动卡片、行或服务器，静止按住则打开菜单。所有能拖动的列表都用同一个按住时长，任务卡片也一样（[触屏上的拖动](./states.md#dragging-on-a-touch-screen)、[拖放](../patterns/drag-and-drop.md#starting-a-drag)）。
+- 不要让滑动成为关闭某样东西的唯一方式：抽屉和面板保留 ×、返回或一个按钮，轻提示会自己关闭，也能用 Esc 关闭（[Drawer](../../packages/ui/src/components/drawer/drawer.md#accessibility)、[Toast](../../packages/ui/src/components/toast/toast.md#behavior)）。
 - 让输入框保持在屏幕键盘上方；手机竖持时，让回车键插入新行（[Composer](../../packages/ui/src/components/composer/composer.md)）。
 
 ## 语言与大小写 {#language-and-casing}

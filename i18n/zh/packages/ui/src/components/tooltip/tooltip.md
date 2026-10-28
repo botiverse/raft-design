@@ -1,7 +1,7 @@
 ---
 title: Tooltip
 summary: 悬停或键盘聚焦时出现的一行文字，给没有可见标签的东西说明名称、后果或快捷键。
-sourceHash: 43b42bf9
+sourceHash: ff1bfe42
 ---
 
 # Tooltip
@@ -40,6 +40,7 @@ sourceHash: 43b42bf9
 - 写一个名称或一句短句，用 sentence case：Search、Runs on Martin's MacBook。
 - 工具提示里的用词与触发元素的 `aria-label` 相同。
 - 快捷键放在文字后面的 `Kbd` 里：Search ⌘K。
+- 禁用控件的工具提示还要说明它为什么不能用，并且第一行是控件的名字（触发元素上它的标签被截短了）时，把原因放在第二行，用 `foreground-on-hud-muted`，在名字下方 4px：先是名字，再是原因。只有原因时，它就是工具提示唯一的一行，用工具提示自己的文字颜色。
 
 ## 无障碍 {#accessibility}
 

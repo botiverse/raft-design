@@ -1,7 +1,7 @@
 ---
 title: ChoiceList
 summary: 始终展开的列表，在选择就是对话框的主要内容时，从中选一个或几个；带搜索框，每行末尾可以有一个自己的按钮。
-sourceHash: 84ba9990
+sourceHash: bf30bc8c
 ---
 
 # ChoiceList
@@ -23,6 +23,7 @@ choice-list/compositions/migration-target
 | 从 2 到 5 个答案里选一个，作为表单里与其他字段并列的一个字段 | [RadioGroup](../radio-group/radio-group.md) |
 | 从最多 10 个值里选一个，作为表单里的一个字段 | [Select](../select/select.md) |
 | 从很多值里选一个或几个，作为表单里的一个字段；或者值在人输入时从服务器获取 | [ComboboxSelect](../combobox-select/combobox-select.md) |
+| 从很多项里选一个，而选中一行有代价，比如要为它询问服务器 | 带 `inline open` 的 [Combobox](../combobox/combobox.md#inline-list)：方向键只移动高亮 |
 
 和其他字段并列的字段把选项收在一个控件后面，这样表单保持简短。当选择本身就是内容时，要打开一个字段才能看到选项，只会把人想比较的东西藏起来，所以不论多长，列表都保持展开。
 
@@ -94,7 +95,7 @@ choice-list/compositions/search
 
 ## 无障碍 {#accessibility}
 
-- 单选：Base UI 的 RadioGroup，经由 raft-ui 的 [RadioGroup](../radio-group/radio-group.md)。整组是一个 Tab 停靠点，落在选中的行上；方向键在已画出的行之间移动选择和焦点，从不移到被搜索隐藏的行。
+- 单选：Base UI 的 RadioGroup，经由 raft-ui 的 [RadioGroup](../radio-group/radio-group.md)。整组是一个 Tab 停靠点，落在选中的行上；方向键在已画出的行之间移动选择和焦点，从不移到被搜索隐藏的行。方向键到达的每一行都会被选中，所以选择会开始一件事（为那一行发出请求）的地方，用[内嵌的 Combobox](../combobox/combobox.md#inline-list)，它的方向键只移动高亮。
 - `multiple`：Base UI 的 CheckboxGroup，配合 raft-ui 的 [Checkbox](../checkbox/checkbox.md)，是一个由复选框组成的 `group`。每个复选框各是一个 Tab 停靠点，按空格键勾选：这是 WAI-ARIA 的复选框模式。多选的 listbox 会把每一行变成一个 option，而 option 里放不下它自己的按钮。
 - 用 `aria-label` 给列表命名，或用 `aria-labelledby` 指向对话框里的问题。每个单选按钮或复选框只由它那一行的 `label` 命名，并由说明行描述，所以读屏软件先读名称，再读额度，而不是把整行当作名称来读。
 - 行操作在组之外，也在各行的标签之外：它们从不被读进单选按钮的名称里，组的方向键也从不落到它们上面。

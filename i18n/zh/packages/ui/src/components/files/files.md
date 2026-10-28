@@ -1,12 +1,12 @@
 ---
 title: FilesPanel
 summary: 某个地方分享过的文件列表，每个文件一行，显示类型、名称、大小和时间；点击打开预览，并提供 Jump to Message 和 Download。
-sourceHash: 2ff9b267
+sourceHash: dacf3de0
 ---
 
 # FilesPanel
 
-文件面板列出某个地方（比如 #launch-week）分享过的文件，最新的在前。每一行显示文件的类型、名称、大小和分享时间；点击这一行会打开预览，两个图标按钮分别跳转到它所在的消息和下载它。它填满对话旁边的 Files 卡片，或者一个完整的 Files 视图。
+文件面板列出某个地方（比如 #launch-week）分享过的文件，最新的在前。每一行显示文件的类型、名称、大小和分享时间；点击这一行会打开预览，两个图标按钮分别跳转到它所在的消息和下载它。它填满对话旁边的 Files 分区，或者一个完整的 Files 视图。
 
 ```example
 files/compositions/default
@@ -21,9 +21,9 @@ files/compositions/default
 | 消息输入框里还没发出的文件 | [FilePreview](../file-preview/file-preview.md)，放在 [Composer](../composer/composer.md) 里 |
 | 从某一行打开的图片或视频 | [Lightbox](../lightbox/lightbox.md) |
 
-在对话旁边的 Files 卡片里，文件用 Tasks 卡片的那种紧凑行列出（[紧凑列表的行](../../../../../design/patterns/tasks.md#rows-in-a-compact-list)）：类型图标、名字和大小，然后是紧凑写法的时间（今天写 15:00，今年写 Oct 21，更早写 2025-10-21），右端是操作，在卡片默认的 360px 宽度下全在一行，行之间用细线，而不是每个文件一张卡片。Jump to Message 跳到那条消息，消息显示被定位的高亮（[被定位](../../../../../design/foundations/states.md#located)）。`FileRow` 是完整 Files 视图里的卡片行，还没有紧凑变体。
+在对话旁边的 Files 分区里，文件用 Tasks 分区的那种紧凑行列出（[紧凑列表的行](../../../../../design/patterns/tasks.md#rows-in-a-compact-list)）：类型图标、名字和大小，然后是紧凑写法的时间（今天写 15:00，今年写 Oct 21，更早写 2025-10-21），右端是操作，在侧边列默认的 360px 宽度下全在一行，行之间用细线，而不是每个文件一张卡片。Jump to Message 跳到那条消息，消息显示被定位的高亮（[被定位](../../../../../design/foundations/states.md#located)）。`FileRow` 是完整 Files 视图里的卡片行，还没有紧凑变体。
 
-一个地方的文件在界面上放在哪里（侧边卡片或频道详情），见[导航](../../../../../design/patterns/navigation.md#several-views-of-one-place)和[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)。
+一个地方的文件在界面上放在哪里（侧边分区或频道详情），见[导航](../../../../../design/patterns/navigation.md#several-views-of-one-place)和[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)。
 
 ## 结构 {#anatomy}
 

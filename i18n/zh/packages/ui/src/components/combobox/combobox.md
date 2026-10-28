@@ -1,7 +1,7 @@
 ---
 title: Combobox
 summary: 由部件组成、可以搜索的值列表，用于带搜索的筛选器，以及从许多值里选几个、显示成标签片。
-sourceHash: ff8b2a11
+sourceHash: 53220cb1
 ---
 
 # Combobox
@@ -21,12 +21,13 @@ combobox/compositions/tasks-channel-filter
 | 对值很多的列表做筛选，比如频道 | 带 `ComboboxTrigger` 和搜索行的 Combobox |
 | 从许多值（人、Agent、标签）里选几个，在输入框里显示成标签片 | 带 `ComboboxChips` 的 Combobox |
 | 在表单里从选项数组中选一个或几个 | [ComboboxSelect](../combobox-select/combobox-select.md) |
+| 一直打开的列表，选中一行有代价，比如要为它询问服务器 | 带 `inline open` 的 Combobox（[内嵌列表](#inline-list)） |
 | 从最多 10 个值里选一个 | [Select](../select/select.md) |
 
 ## 结构 {#anatomy}
 
 - `Combobox`：根部件。保存值、输入的文字和打开状态。必需。
-- 打开列表的部件，三选一：
+- 打开列表的部件，三选一（[内嵌列表](#inline-list)一直打开，它的 `ComboboxControl` 只是搜索框）：
   - `ComboboxTrigger`：筛选按钮，带图标、标签、`ComboboxTriggerCount` 和 `ComboboxTriggerIndicator`；
   - `ComboboxControl`：控件高度（手机上 44px，桌面端 32px）、带墨色边框的输入框，里面是 `ComboboxInput`、`ComboboxClear` 和 `ComboboxTriggerIndicator`；
   - `ComboboxChips`：至少为控件高度的输入框，每个已选的值一个 `ComboboxChip`，每个都带一个 `ComboboxChipRemove`，后面是 `ComboboxInput`。
@@ -44,10 +45,24 @@ combobox/compositions/tasks-channel-filter
 | 筛选器（`ComboboxTrigger`） | 筛选列表：筛选器的样子见 [Select › 筛选器](../select/select.md#filters) |
 | 输入框（`ComboboxControl`） | 在表单里输入以找到一个值 |
 | 标签片（带 `multiple` 的 `ComboboxChips`） | 从许多值里选几个，在输入框里显示成标签片 |
+| 内嵌列表（`inline open`） | 对话框里一直打开的列表，方向键移动高亮，回车或点击才选中 |
 
 ```example
 picker-trigger-button/compositions/combobox-filter
 ```
+
+### 内嵌列表 {#inline-list}
+
+内嵌列表一直打开，放在页面或对话框里，而不是在弹出层里：`<Combobox inline open>`，用一个 `ComboboxControl` 搜索，下面是一个 `ComboboxList`，没有 `ComboboxContent`。选中一行会开始一件事的地方用它，比如向服务器询问那个对话里谁看不到某个文件。方向键在各行之间移动高亮，焦点一直留在搜索框里，只有回车或点击才选中一行，所以那件事只做一次，只为选中的那一行。[ChoiceList](../choice-list/choice-list.md) 像单选组一样，方向键到达哪一行就选中哪一行，经过的每一行都会触发一次。
+
+```example
+combobox/compositions/inline-list
+```
+
+- `open` 和 `inline` 一起传：列表一直显示。在 Dialog 里，让 `open` 保持固定，不要绑定到对话框的打开状态：对话框关闭时会卸载列表。
+- 用 `ComboboxList` 上的 `aria-labelledby` 给列表命名，指向它上方的标题（Recent、Results）。
+- 用屏幕其他部分的方式显示选中了什么（提交按钮的标签、列表旁边的摘要）：`ComboboxItemIndicator` 和 `data-selected` 在列表里标出它。
+- 要用自己的搜索来筛选（排过序的、来自服务器的），传 `filter={null}`，把要显示的行作为 `items` 传入，并让 `inputValue` 受控。选中一行时，搜索文字保持原样。
 
 ## 状态 {#states}
 
@@ -71,6 +86,7 @@ picker-trigger-button/compositions/combobox-filter
 
 Combobox 封装了 Base UI Combobox：一个 `role="combobox"` 的文本输入框，控制一个列表框，支持方向键导航，并播报高亮的选项。
 
+- 在内嵌列表里，焦点留在搜索框里：高亮的行是它的 `aria-activedescendant`，选中的行带 `aria-selected="true"`。在高亮的行上按回车会选中它，不会提交外面的表单；没有高亮的行时，回车照常提交。Esc 会传到列表外面的对话框，把它关闭。
 - 给输入框命名：用 `FieldLabel`（[Field](../field/field.md)），或者在弹出层的搜索行上用 `aria-label`（Search Channels）。
 - 在标签片输入框里，每个标签片的移除按钮和输入框都能用键盘到达。按值给每个移除按钮命名（Remove Bugen）。
 - `ComboboxClear` 只显示图标时，给它一个说明清除什么的标签。

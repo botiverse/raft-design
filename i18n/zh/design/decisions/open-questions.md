@@ -1,7 +1,7 @@
 ---
 title: 待定问题
 summary: 系统里画了不止一个版本、还没选定的地方，每处当前的默认做法，以及产品已经定下来的问题。
-sourceHash: 62590d6d
+sourceHash: 12e033d8
 ---
 
 # 待定问题
@@ -22,7 +22,7 @@ sourceHash: 62590d6d
 | 手机上的服务器列表 | 一个锚定在顶栏下方的弹出层，距两侧各 8px，从主页的服务器切换器打开（[导航](../patterns/navigation.md#servers)） | `components/layout/Sidebar.tsx`、`components/ui/ServerSwitcherMenu.tsx` |
 | 桌面端导航条 | 只有图标，56px 加接缝线；名称放在工具提示里。左上角保持直角（[间距](../foundations/spacing.md#heights)） | `components/layout/LeftRail.tsx` |
 | 标签页 | 黄色贴纸。下划线样式保留为 [Tabs](../../packages/ui/src/components/tabs/tabs.md#variants) 的一个变体 | `components/message/ChatPanel.tsx`、`components/agent/AgentDetailPanel.tsx` |
-| Raft Chat 频道里的任务和文件 | 消息列表旁边的侧边卡片，从频道标题栏里的 Tasks 和 Files 开关打开（[频道](../products/raft-chat/channel.md#tasks-and-files)） | `components/message/ChatPanel.tsx`、`components/task/ChannelSideColumn.tsx` |
+| Raft Chat 频道里的任务和文件 | 对话面板右侧各列里的侧边分区，从频道标题栏里的 Tasks 和 Files 开关打开（[频道](../products/raft-chat/channel.md#tasks-and-files)、[频道的侧边列](../patterns/responsive.md#the-channels-side-columns)） | `components/message/ChatPanel.tsx`、`components/task/ChannelSideArea.tsx` |
 
 ## 相关 {#related}
 

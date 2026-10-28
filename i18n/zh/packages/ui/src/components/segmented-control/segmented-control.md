@@ -1,7 +1,7 @@
 ---
 title: SegmentedControl
 summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
-sourceHash: c3b1cfe3
+sourceHash: 9241ae84
 ---
 
 # SegmentedControl
@@ -55,6 +55,7 @@ segmented-control/compositions/disabled
 - 固定的宽度则是容器查询：用 `@container` 标记这一行，把 `iconsOnlyBelow` 设为一个行宽，低于它时分段只显示图标。它可以是 Tailwind 的容器尺寸 `xs`（20rem）、`sm`（24rem）、`md`（28rem）、`lg`（32rem）、`xl`（36rem）或 `2xl`（42rem），也可以是任意以 `px`、`rem` 或 `em` 为单位的长度（`"18.5rem"`、`"296px"`）。长度由脚本对照最近的 `@container` 来量（没有时对照控件的父元素）；尺寸则是 CSS 容器查询。按行的宽度来选，而不是按窗口：同一行会出现在不同宽度的列里，容器查询跟随的是列。
 - 只有当它是表单里唯一的选择时才拉伸它。这时让它单独占一行、用满宽度（`w-full`），不要和其他控件放在同一行，并让各分段平分宽度：在一行里，不能缩小的满宽轨道会挤到旁边的元素。
 - 在手机上，最多用 4 个分段，放不下时用 `iconsOnlyBelow="auto"` 只显示图标（[响应式布局](../../../../../design/patterns/responsive.md#phone)）。
+- 在触屏上，分段在手指抬起时切换，这样一次停下滚动列表的点按也能切换（[手指抬起时切换](../../../../../design/patterns/navigation.md#switching-on-finger-lift)）。
 
 ```example
 segmented-control/compositions/fit-row

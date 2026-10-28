@@ -1,7 +1,7 @@
 ---
 title: Avatar
 summary: 代表一个 Agent 或一个人的方形贴纸：Agent 是像素头像，人是照片或姓名首字母，可以带一个在线状态灯。
-sourceHash: 0ca537fe
+sourceHash: d0238d38
 ---
 
 # Avatar
@@ -18,6 +18,7 @@ avatar/compositions/preview
 | --- | --- |
 | 一个 Agent 或一个人 | Avatar |
 | 在很小的空间里放几个 Agent 或人：成员、关注者、多个负责人、谁在工作 | `AvatarGroup` |
+| 点开后列出其中有谁的头像叠：谁在查看、频道的成员 | `AvatarGroupButton` |
 | 频道或其他地方 | [IconTile](../icon-tile/icon-tile.md) |
 | 没有脸的东西：系统提示、文件、应用、计算机 | [IconTile](../icon-tile/icon-tile.md) |
 | 用文字写出 Agent 或人的状态 | 状态标签（[Status](../status/status.md)） |
@@ -30,6 +31,7 @@ avatar/compositions/preview
 - `AvatarBadge`：角上的东西：在线状态灯，或通过 `render` 画在那个位置的其他东西。可选。
 - `AvatarGroup`：互相重叠的一叠头像。
 - `AvatarGroupCount`：一叠头像末尾的 +N 标签片，`size` 与旁边的头像相同。
+- `AvatarGroupButton`：本身是按钮的 `AvatarGroup`，用于点开后列出其中有谁的头像叠（[点开列表的头像叠](#a-stack-that-opens-a-list)）。里面放同样的 `Avatar` 和 `AvatarGroupCount`。
 
 ## 变体 {#variants}
 
@@ -72,6 +74,19 @@ avatar/compositions/panel-header
 avatar/compositions/badge-presence
 ```
 
+### 点开列表的头像叠 {#a-stack-that-opens-a-list}
+
+头像叠代表读者可能想看到名字的人时，比如谁在查看一份文档、频道的成员，头像叠本身就是打开列表的按钮：`AvatarGroupButton`，通常作为 `PopoverTrigger` 的 `render`。它是小控件，所以悬停和按下都用中档（[状态](../../../../../design/foundations/states.md#hover-and-press)）。
+
+```example
+avatar/compositions/group-button
+```
+
+- 头像叠放在按钮内 4px，这样悬停填充显示在脸的周围，用 `radius-chip`。
+- 脸与脸之间的那一圈也带上悬停填充，叠在头像叠的表面色之上，这样整个头像叠作为一个控件一起变化，没有哪张脸还留着旧表面色的外圈。
+- 放在画布以外的表面上（卡片、标题栏）的头像叠，把 `--avatar-group-surface` 设为那个表面，和 `AvatarGroup` 一样。
+- 键盘焦点在按钮周围画出共用的焦点环（[状态](../../../../../design/foundations/states.md)）。
+
 ### 角落 {#the-corner}
 
 右下角一次只放一样东西：
@@ -90,7 +105,7 @@ avatar/compositions/badge-presence
 
 ## 状态 {#states}
 
-- **可编辑**（你自己的头像、你的服务器的头像、你管理的 Agent 的头像）：悬停、键盘聚焦和上传过程中，用 `layer-backdrop` 盖住整张贴纸，再放上操作的图标（上传或编辑）。所有操作都用这一个叠加层，并且聚焦时和悬停时一样显示，让键盘用户也能知道头像可以编辑。raft-ui 还没有这个部件；在 `Avatar` 外面自己组合。
+- **可编辑**（你自己的头像、你的服务器的头像、你管理的 Agent 的头像）：悬停、键盘聚焦和上传过程中，用 `layer-backdrop` 盖住整张贴纸，再放上操作的图标（上传或编辑）。所有操作都用这一个叠加层，并且聚焦时和悬停时一样显示，让键盘用户也能知道头像可以编辑。raft-ui 还没有这个部件；在 `Avatar` 外面自己组合。下一步是在 raft-ui 里加一个 `AvatarEditVeil` 部件，从应用里移过来。
 
 ## 行为 {#behavior}
 
@@ -113,6 +128,7 @@ avatar/compositions/badge-presence
 - 给 `AvatarImage` 一个 `alt`：头像单独出现时写名字；名字就在旁边时留空，避免读两遍。
 - 给在线状态灯加 `role="img"` 和说明状态的 `aria-label`（Online、Working、Error、Offline、External agent），除非旁边已经有这个词。
 - 给头像叠一个带完整人数的无障碍名称（"5 agents working"），因为 `AvatarGroupCount` 只显示 "+3"。
+- `AvatarGroupButton` 封装了 Base UI 的 Button：一个原生的 `<button type="button">`。它的脸不是文字，所以给它一个用文字说明谁在那里的 `aria-label`（"Bugen viewing, Wug writing, 3 read this version"）：这个标签代替了脸要表达的内容，所以必须说出头像叠代表的每一个人，包括 +N。放在 `PopoverTrigger` 里时，它带上 `aria-expanded`，并在列表关闭时把焦点交还给它。
 - 可编辑的头像做成 `<button>`，`aria-label` 写明操作（"Change avatar"），键盘聚焦时也显示叠加层：否则只有鼠标用户能发现它可以更改。
 
 ## 规则 {#rules}

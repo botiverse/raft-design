@@ -1,7 +1,7 @@
 ---
 title: 颜色
 summary: 表面、文字、线和角色的颜色，每种颜色的含义，以及它们保证的对比度。
-sourceHash: 920c65d6
+sourceHash: 89dd83c5
 ---
 
 # 颜色
@@ -37,6 +37,10 @@ layer
 | `layer-hud` | 轻提示和工具提示；上面的文字用 `foreground-on-hud` 和 `foreground-on-hud-muted` |
 | `layer-backdrop` | 居中浮层、模态抽屉、底部面板和图片查看器背后的遮罩 |
 | `layer-backdrop-nested` | 从一个模态表面里再打开另一个模态表面时，下面那层更浅的遮罩（[叠放的浮层](./elevation.md#stacked-overlays)） |
+| `layer-veil` | 盖在原地正忙或正在加载的东西上的覆盖层：正在上传或上传失败的图片、正在准备的预览 |
+
+- **有三个层按约定是半透明的。** `layer-backdrop` 和 `layer-backdrop-nested` 让模态表面下面的页面变暗；`layer-veil` 盖住一个正忙的东西，让它淡淡地透出来，上面是加载指示器或一行说明正在发生什么的文字。覆盖层是页面颜色的 80%（浅色模式下是白色，深色模式下是 `layer-canvas`），所以默认颜色的 [Spinner](../../packages/ui/src/components/spinner/spinner.md#size) 和 `foreground` 文字在两种模式下都看得清。它取代了以前加载遮盖用的 75%、80% 和 90% 的卡片色和画布色。其他所有层都是不透明的。
+- **遮罩上的缩略图用嵌套遮罩调暗。** 图片查看器的缩略图放在 `layer-backdrop` 上，两种模式下都是深色；没在显示的那些用 `layer-backdrop-nested`（40%）调暗，悬停时 28%（`/70`），从不直接用黑色（[Lightbox](../../packages/ui/src/components/lightbox/lightbox.md)）。
 
 填充铺在表面里面或上面：下沉填充和悬停叠加层（[悬停叠加层](#hover-overlays)）。
 

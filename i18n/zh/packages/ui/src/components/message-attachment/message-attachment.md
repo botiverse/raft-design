@@ -1,7 +1,7 @@
 ---
 title: MessageAttachment
 summary: 消息附带的文件、图片和视频：文件是一张卡片，带名称、大小和一个操作；图片和视频直接显示在消息里。
-sourceHash: b336b44b
+sourceHash: 402cef3f
 ---
 
 # MessageAttachment
@@ -82,7 +82,7 @@ message-media/compositions/image-gallery-triple
 | --- | --- |
 | 上传中 | 元信息行显示 "Uploading · 64%"，文件名下方有一条 4px 的进度轨道，位于卡片内部，与文字对齐（[形状](../../../../../design/foundations/shape.md#nothing-on-the-edge-of-a-rounded-container)） |
 | 打开或处理中 | 卡片上设置 `aria-busy`，操作的位置换成 [Spinner](../spinner/spinner.md) |
-| 待处理的图片 | 图片在 `MessageImageGalleryOverlay` 下变暗 |
+| 待处理的图片 | 图片在 `MessageImageGalleryOverlay` 下面，这是一层 `layer-veil` 覆盖层，上面是默认颜色的加载指示器 |
 | 失败 | `danger-strong` 边框，一行说明原因，以及 Remove 或 Retry |
 
 ```example
@@ -102,6 +102,7 @@ message-media/compositions/video-states
 - 整张卡片都可点击：文件名是链接，覆盖整张卡片。操作按钮位于其上方，各自独立工作。
 - 卡片是用来读的，所以悬停用浅档，和文件行或评论卡片一样，按下用中档；它的操作按钮悬停用中档（[悬停与按下](../../../../../design/foundations/states.md#hover-and-press)）。
 - 选中图片或文件会在文件查看器里打开它（[用现有部件组合](../../../../../design/components/overview.md#file-viewer)）。
+- 图片悬停时在整张图片上叠 `ink-8`，这是媒体的悬停（[悬停与按下](../../../../../design/foundations/states.md#hover-and-press)）。
 - 图集的操作按钮在悬停和键盘聚焦时显示。
 - 卡片或媒体角上的操作（文件卡片的 Download、视频或图片的操作）是嵌在外框里的控件：距角 6px，使用 `radius-chip`（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
 

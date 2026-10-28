@@ -1,7 +1,7 @@
 ---
 title: Comment
 summary: 文档旁的评论，类似 Google Docs：一栏评论卡片，每张都与它所讲的段落对齐；还有单个讨论的卡片、其中的评论，以及窄屏上代替评论栏的标记。
-sourceHash: e77afe89
+sourceHash: 9d52ed50
 ---
 
 # Comment
@@ -26,7 +26,7 @@ comment/compositions/margin
 - `CommentMargin`：文档旁边的一栏，`position: relative`，高度到最下面那张卡片为止。使用评论栏时必需。
   - `CommentMarginItem`：一张卡片的位置。`top` 是它锚点的位置，单位 px，从评论栏顶部算起；`active` 把它固定在那里。每张卡片必需。
 - `CommentCard`：一个讨论，放在 `layer-card` 上，带 `line-hairline` 边框和 `radius-container`。`active` 标记打开的那张。
-  - `CommentCardMeta`：一行 `text-caption`、`foreground-hint` 的文字，内容由调用方提供："2 replies"、"On the whole document"、"Position not found"。可选。
+  - `CommentCardMeta`：一行 `text-caption`、`foreground-hint` 的文字，内容由调用方提供："2 replies"、"On the whole document"、"Position not found"。可选。选中它会做某件事时，比如让这条讨论成为正在读的那条、让它的段落成为激活的高亮，把它渲染成按钮（`render={<button type="button" />}`）：它和可点击文字一样在悬停时显示下划线，并显示焦点环（[状态](../../../../../design/foundations/states.md#clickable-text)）。
   - `CommentEntry`：一条评论。至少一条。
     - `CommentEntryHeader`：作者的 [Avatar](../avatar/avatar.md)（`size="xs"`）、`CommentEntryAuthor`（`text-subhead`，粗体）和 `CommentEntryTime`（Space Mono，`text-mono-meta`，`foreground-hint`），后者是一个 `<time>`。
     - `CommentEntryBody`：正文，用 `text-callout`。`clamp` 把它截到 2 行。
@@ -63,6 +63,12 @@ comment/compositions/card-states
 - 评论栏用一个 `ResizeObserver` 测量所有卡片，所以一张卡片打开或有了新回复，下面的卡片会跟着移动。计算出的位置是该项的 `data-top`，以 `transform: translateY()` 应用，所以移动时评论栏不需要重新布局；第一次放置之后，移动用时 150ms，减弱动效时没有动画。transform 会让该项成为其内部所有 `position: fixed` 元素的包含块：卡片里的弹出层要用 portal 渲染到外面。
 - `top` 由调用方测量：段落第一个行盒的顶部（`range.getClientRects()[0].top`）减去评论栏的顶部。文档或评论栏改变尺寸时要重新测量，因为文字会重新换行。
 - 段落在文档里已经找不到的讨论，放在顶部，和针对整篇文档的评论放在一起，并在 `CommentCardMeta` 里说明；永远不要丢掉它（[评论](../../../../../design/patterns/comments.md#rules)）。
+- 回复就是它所回复的那条评论后面的又一个 `CommentEntry`，放在卡片自己的这一栏里：卡片就是这条讨论，所以回复没有自己的缩进、竖线或框。每个 `CommentEntry` 自己设定与前一条的间距，所以把各条直接放进卡片，不要另外包一层。
+- 卡片的 `CommentCardMeta` 写出它的段落、并且选中它会让这条讨论成为正在读的那条时，把它渲染成按钮。它在悬停时显示下划线，并显示焦点环；卡片显示 `active`。
+
+```example
+comment/compositions/passage-button
+```
 
 ### 宽屏与窄屏 {#wide-and-narrow}
 
