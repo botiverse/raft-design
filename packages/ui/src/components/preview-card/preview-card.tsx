@@ -1,5 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { PreviewCard as BasePreviewCard } from "@base-ui/react/preview-card";
+import { BASE_COLLISION_PADDING, usePopupCollisionPadding } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { resolveThemeScopeProps, useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -98,6 +99,22 @@ export function PreviewCardPopup({ className, ...props }: PreviewCardPopupProps)
   return <div data-slot="preview-card-content" {...scopeProps} />;
 }
 
+type PreviewCardFramePositionerProps = BasePreviewCard.Positioner.Props & {
+  container?: PreviewCardPortalProps["container"];
+};
+
+// Inside the portal, so it mounts each time the popup opens and reads the
+// frame insets then: 8px from each inset, Base UI's own 5px from the window's
+// edge elsewhere.
+function PreviewCardFramePositioner({
+  collisionPadding,
+  container,
+  ...props
+}: PreviewCardFramePositionerProps) {
+  const padding = usePopupCollisionPadding(collisionPadding, BASE_COLLISION_PADDING, container);
+  return <BasePreviewCard.Positioner collisionPadding={padding} {...props} />;
+}
+
 export type PreviewCardContentProps = StyledProps<BasePreviewCard.Popup.Props> &
   Pick<
     BasePreviewCard.Positioner.Props,
@@ -137,7 +154,7 @@ export function PreviewCardContent({
   const { positioner, popup } = previewCard();
   return (
     <PreviewCardPortal {...portalProps}>
-      <BasePreviewCard.Positioner
+      <PreviewCardFramePositioner
         align={align}
         alignOffset={alignOffset}
         anchor={anchor}
@@ -145,6 +162,7 @@ export function PreviewCardContent({
         collisionAvoidance={collisionAvoidance}
         collisionBoundary={collisionBoundary}
         collisionPadding={collisionPadding}
+        container={portalProps?.container}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
@@ -157,7 +175,7 @@ export function PreviewCardContent({
           className={popup({ className })}
           {...props}
         />
-      </BasePreviewCard.Positioner>
+      </PreviewCardFramePositioner>
     </PreviewCardPortal>
   );
 }

@@ -3,6 +3,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { AlertTriangle, Bell, CheckCircle2, Info } from "lucide-react";
 import { headEdgePull } from "../../lib/head-edges";
+import { BASE_COLLISION_PADDING, usePopupCollisionPadding } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import { EmptyState } from "../empty-state/empty-state";
@@ -164,6 +165,23 @@ function NotificationCenterPortal(props: NotificationCenterPortalProps) {
   return <BasePopover.Portal {...useThemeScopeProps(props)} />;
 }
 
+type NotificationCenterFramePositionerProps = BasePopover.Positioner.Props & {
+  container?: NotificationCenterPortalProps["container"];
+  defaultCollisionPadding: number;
+};
+
+// Inside the portal, so it mounts each time the popup opens and reads the
+// frame insets then: 8px from each inset, the viewport's padding elsewhere.
+function NotificationCenterFramePositioner({
+  collisionPadding,
+  container,
+  defaultCollisionPadding,
+  ...props
+}: NotificationCenterFramePositionerProps) {
+  const padding = usePopupCollisionPadding(collisionPadding, defaultCollisionPadding, container);
+  return <BasePopover.Positioner collisionPadding={padding} {...props} />;
+}
+
 export type NotificationCenterPopupProps = StyledProps<BasePopover.Popup.Props> &
   Pick<VariantProps<typeof notificationCenter>, "size" | "viewport"> &
   Pick<
@@ -208,14 +226,16 @@ export function NotificationCenterPopup({
 
   return (
     <NotificationCenterPortal {...portalProps}>
-      <BasePopover.Positioner
+      <NotificationCenterFramePositioner
         align={align}
         alignOffset={alignOffset}
         anchor={anchor}
         arrowPadding={arrowPadding}
         collisionAvoidance={collisionAvoidance}
         collisionBoundary={collisionBoundary}
-        collisionPadding={collisionPadding ?? (viewport === "mobile" ? PHONE_INSET : undefined)}
+        collisionPadding={collisionPadding}
+        container={portalProps?.container}
+        defaultCollisionPadding={viewport === "mobile" ? PHONE_INSET : BASE_COLLISION_PADDING}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
@@ -232,7 +252,7 @@ export function NotificationCenterPopup({
           className={popup({ className })}
           {...props}
         />
-      </BasePopover.Positioner>
+      </NotificationCenterFramePositioner>
     </NotificationCenterPortal>
   );
 }

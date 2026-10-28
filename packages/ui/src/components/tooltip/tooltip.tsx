@@ -1,6 +1,11 @@
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
-import { Children, Fragment, isValidElement, useMemo, useState } from "react";
+import { Children, Fragment, isValidElement, useMemo } from "react";
 import type { ComponentProps, ReactNode } from "react";
+import {
+  BASE_COLLISION_PADDING,
+  frameCollisionPadding,
+  useFrameInsets,
+} from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -194,58 +199,22 @@ const CONTENT_COLLISION_AVOIDANCE: BaseTooltip.Positioner.Props["collisionAvoida
   fallbackAxisSide: "none",
 };
 
-// Base UI's own collision padding, kept on every side the frame doesn't reserve.
-const DEFAULT_COLLISION_PADDING = 5;
+type TooltipPositionerProps = BaseTooltip.Positioner.Props & {
+  container?: TooltipPortalProps["container"];
+};
 
 /**
- * The window's top band a host shell reserves for its own chrome (the desktop
- * app's caption buttons, drawn over the top bar), as --raft-frame-inset-top on
- * the root element: 0 when no shell sets it, as on the web. Read as px, or
- * measured when it is any other CSS length (a calc() is kept as written in the
- * computed value of an unregistered custom property).
+ * Inside the portal, so it mounts each time the tooltip opens and reads the
+ * frame insets then (lib/frame-insets.ts): a tooltip that would open into
+ * one flips away from it, and one that would overlap it along its trigger
+ * shifts out of it. Its padding grows to the inset itself, not past it.
  */
-function readFrameInsetTop(): number {
-  if (typeof document === "undefined") return 0;
-  const root = document.documentElement;
-  const value = getComputedStyle(root).getPropertyValue("--raft-frame-inset-top").trim();
-  if (value === "") return 0;
-  if (/^-?(\d+\.?\d*|\.\d+)px$/.test(value)) return Math.max(0, Number.parseFloat(value));
-  const probe = document.createElement("div");
-  probe.style.cssText =
-    "position:fixed;top:0;left:0;width:0;visibility:hidden;pointer-events:none;height:var(--raft-frame-inset-top)";
-  root.append(probe);
-  const height = probe.getBoundingClientRect().height;
-  probe.remove();
-  return height;
-}
-
-/**
- * The collision padding with the frame's top band added: a tooltip that would
- * open into it flips below its trigger, and one beside its trigger shifts down
- * out of it.
- */
-function frameCollisionPadding(
-  padding: BaseTooltip.Positioner.Props["collisionPadding"],
-  insetTop: number,
-): BaseTooltip.Positioner.Props["collisionPadding"] {
-  if (insetTop <= 0) return padding;
-  const base = padding ?? DEFAULT_COLLISION_PADDING;
-  if (typeof base === "number") {
-    return { top: Math.max(base, insetTop), right: base, bottom: base, left: base };
-  }
-  return { ...base, top: Math.max(base.top ?? 0, insetTop) };
-}
-
-type TooltipPositionerProps = BaseTooltip.Positioner.Props;
-
-// Inside the portal, so it mounts each time the tooltip opens and reads the
-// frame's band then.
-function TooltipFramePositioner({ collisionPadding, ...props }: TooltipPositionerProps) {
-  const [insetTop] = useState(readFrameInsetTop);
+function TooltipFramePositioner({ collisionPadding, container, ...props }: TooltipPositionerProps) {
+  const insets = useFrameInsets(container);
   // Base UI rebuilds its positioning middleware when the padding's identity changes.
   const padding = useMemo(
-    () => frameCollisionPadding(collisionPadding, insetTop),
-    [collisionPadding, insetTop],
+    () => frameCollisionPadding(collisionPadding ?? BASE_COLLISION_PADDING, insets, 0),
+    [collisionPadding, insets],
   );
   return <BaseTooltip.Positioner collisionPadding={padding} {...props} />;
 }
@@ -282,6 +251,7 @@ export function TooltipContent({
         collisionAvoidance={collisionAvoidance}
         collisionBoundary={collisionBoundary}
         collisionPadding={collisionPadding}
+        container={portalContainer}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}

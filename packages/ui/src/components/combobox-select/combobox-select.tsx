@@ -2,6 +2,7 @@ import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, ChevronDown, LoaderCircle, Plus, X } from "lucide-react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
+import { usePopupCollisionPadding } from "../../lib/frame-insets";
 import { usePhoneMedia } from "../../lib/phone-media";
 import { useTheme } from "../../lib/theme/use-theme";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -136,6 +137,21 @@ function renderSelectedChip<Option>({
  * the same field open up one time and down the next.
  */
 const PHONE_LIST_COLLISION = { side: "none", align: "shift", fallbackAxisSide: "none" } as const;
+
+type ComboboxSelectFramePositionerProps = BaseCombobox.Positioner.Props & {
+  container?: BaseCombobox.Portal.Props["container"];
+};
+
+// Inside the portal, so it mounts each time the list opens and reads the frame
+// insets then: 8px from each inset, and from the window's edge elsewhere.
+function ComboboxSelectFramePositioner({
+  collisionPadding,
+  container,
+  ...props
+}: ComboboxSelectFramePositionerProps) {
+  const padding = usePopupCollisionPadding(collisionPadding, 8, container);
+  return <BaseCombobox.Positioner collisionPadding={padding} {...props} />;
+}
 
 /**
  * Keeps room for the list below the field on a phone: when fewer than three
@@ -620,12 +636,12 @@ export function ComboboxSelect<
         {actions}
       </BaseCombobox.InputGroup>
       <BaseCombobox.Portal {...scopedPortalProps}>
-        <BaseCombobox.Positioner
+        <ComboboxSelectFramePositioner
           sideOffset={4}
           align="start"
-          collisionPadding={8}
           {...(phone ? { side: "bottom", collisionAvoidance: PHONE_LIST_COLLISION } : null)}
           {...positionerProps}
+          container={portalProps?.container}
           className={positionerClassName}
         >
           <BaseCombobox.Popup
@@ -642,7 +658,7 @@ export function ComboboxSelect<
             </BaseCombobox.List>
             <BaseCombobox.Empty>{emptyMessage}</BaseCombobox.Empty>
           </BaseCombobox.Popup>
-        </BaseCombobox.Positioner>
+        </ComboboxSelectFramePositioner>
       </BaseCombobox.Portal>
     </BaseCombobox.Root>
   );

@@ -1,5 +1,6 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react";
 import type { ComponentPropsWithRef } from "react";
+import { usePopupCollisionPadding } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import { Kbd } from "../kbd/index";
 import type { KbdProps } from "../kbd/index";
@@ -95,6 +96,21 @@ export function ContextMenuPortal(props: ContextMenuPortalProps) {
   return <BaseContextMenu.Portal data-slot="context-menu-portal" {...useThemeScopeProps(props)} />;
 }
 
+type ContextMenuFramePositionerProps = BaseContextMenu.Positioner.Props & {
+  container?: ContextMenuPortalProps["container"];
+};
+
+// Inside the portal, so it mounts each time the popup opens and reads the
+// frame insets then: 8px from each inset, and from the window's edge elsewhere.
+function ContextMenuFramePositioner({
+  collisionPadding,
+  container,
+  ...props
+}: ContextMenuFramePositionerProps) {
+  const padding = usePopupCollisionPadding(collisionPadding, 8, container);
+  return <BaseContextMenu.Positioner collisionPadding={padding} {...props} />;
+}
+
 export type ContextMenuContentProps = StyledProps<BaseContextMenu.Popup.Props> &
   Partial<
     Pick<
@@ -105,7 +121,6 @@ export type ContextMenuContentProps = StyledProps<BaseContextMenu.Popup.Props> &
       | "arrowPadding"
       | "collisionAvoidance"
       | "collisionBoundary"
-      | "collisionPadding"
       | "disableAnchorTracking"
       | "positionMethod"
       | "side"
@@ -113,6 +128,13 @@ export type ContextMenuContentProps = StyledProps<BaseContextMenu.Popup.Props> &
       | "sticky"
     >
   > & {
+    /**
+     * Additional space to maintain from the edge of the collision boundary: 8px
+     * from the window's edge, and 8px from a frame inset where a shell keeps one.
+     * A value you pass is kept as it is.
+     * @default 8
+     */
+    collisionPadding?: BaseContextMenu.Positioner.Props["collisionPadding"];
     portalProps?: ContextMenuPortalProps;
   };
 
@@ -129,7 +151,7 @@ export function ContextMenuContent({
   arrowPadding,
   collisionAvoidance = CONTENT_COLLISION_AVOIDANCE,
   collisionBoundary,
-  collisionPadding = 8,
+  collisionPadding,
   disableAnchorTracking,
   positionMethod = "fixed",
   side = "right",
@@ -142,7 +164,7 @@ export function ContextMenuContent({
   const { positioner, content } = contextMenu();
   return (
     <ContextMenuPortal {...portalProps}>
-      <BaseContextMenu.Positioner
+      <ContextMenuFramePositioner
         align={align}
         alignOffset={alignOffset}
         anchor={anchor}
@@ -150,6 +172,7 @@ export function ContextMenuContent({
         collisionAvoidance={collisionAvoidance}
         collisionBoundary={collisionBoundary}
         collisionPadding={collisionPadding}
+        container={portalProps?.container}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
@@ -162,7 +185,7 @@ export function ContextMenuContent({
           className={content({ className })}
           {...props}
         />
-      </BaseContextMenu.Positioner>
+      </ContextMenuFramePositioner>
     </ContextMenuPortal>
   );
 }

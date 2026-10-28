@@ -3,6 +3,7 @@ import type { ComponentPropsWithRef } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
 import { chipRemoveBase } from "../../lib/chip-remove";
+import { usePopupCollisionPadding } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
@@ -385,6 +386,21 @@ export function ComboboxSeparator({ className, ...props }: ComboboxSeparatorProp
   );
 }
 
+type ComboboxFramePositionerProps = BaseCombobox.Positioner.Props & {
+  container?: ComboboxPortalProps["container"];
+};
+
+// Inside the portal, so it mounts each time the popup opens and reads the
+// frame insets then: 8px from each inset, and from the window's edge elsewhere.
+function ComboboxFramePositioner({
+  collisionPadding,
+  container,
+  ...props
+}: ComboboxFramePositionerProps) {
+  const padding = usePopupCollisionPadding(collisionPadding, 8, container);
+  return <BaseCombobox.Positioner collisionPadding={padding} {...props} />;
+}
+
 export type ComboboxContentProps = StyledProps<BaseCombobox.Popup.Props> &
   Pick<
     BaseCombobox.Positioner.Props,
@@ -394,13 +410,19 @@ export type ComboboxContentProps = StyledProps<BaseCombobox.Popup.Props> &
     | "arrowPadding"
     | "collisionAvoidance"
     | "collisionBoundary"
-    | "collisionPadding"
     | "disableAnchorTracking"
     | "positionMethod"
     | "side"
     | "sideOffset"
     | "sticky"
   > & {
+    /**
+     * Additional space to maintain from the edge of the collision boundary: 8px
+     * from the window's edge, and 8px from a frame inset where a shell keeps one.
+     * A value you pass is kept as it is.
+     * @default 8
+     */
+    collisionPadding?: BaseCombobox.Positioner.Props["collisionPadding"];
     portalProps?: ComboboxPortalProps;
   };
 
@@ -411,7 +433,7 @@ export function ComboboxContent({
   arrowPadding,
   collisionAvoidance,
   collisionBoundary,
-  collisionPadding = 8,
+  collisionPadding,
   disableAnchorTracking,
   positionMethod = "fixed",
   side = "bottom",
@@ -426,7 +448,7 @@ export function ComboboxContent({
   const { positioner, content } = combobox();
   return (
     <ComboboxPortal {...portalProps}>
-      <BaseCombobox.Positioner
+      <ComboboxFramePositioner
         align={align}
         alignOffset={alignOffset}
         anchor={anchor}
@@ -434,6 +456,7 @@ export function ComboboxContent({
         collisionAvoidance={collisionAvoidance}
         collisionBoundary={collisionBoundary}
         collisionPadding={collisionPadding}
+        container={portalProps?.container}
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
@@ -448,7 +471,7 @@ export function ComboboxContent({
           finalFocus={finalFocus}
           {...props}
         />
-      </BaseCombobox.Positioner>
+      </ComboboxFramePositioner>
     </ComboboxPortal>
   );
 }

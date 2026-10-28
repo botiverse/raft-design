@@ -84,6 +84,7 @@ combobox/compositions/inline-list
 - Put a chip's text in an element of its own (a `<span>`): a long value truncates there, at the width of the field, with its whole text as the chip's `title`, and the remove button stays visible ([Forms](../../../../../design/patterns/forms.md#long-values-in-fields)).
 - An item is as tall as its content: one line is 36px, and each further line adds only its own height, with the same space above and below the text ([Forms](../../../../../design/patterns/forms.md#option-height)).
 - A long item wraps onto as many lines as it needs. The list grows to fit it up to 24rem (or the field's width, when that is wider), never past the screen less 8px on each side.
+- The list keeps clear of the frame insets: where a shell keeps part of the window for itself (`--raft-frame-inset-top`, `--raft-frame-inset-start`, `--raft-frame-inset-end`), it stops 8px from that part, not from the window's edge ([Page structure](../../../../../design/patterns/page-structure.md#frame-insets)). The web sets none.
 - For results that come from a server, pass `filter={null}` so the list shows them as they are, and keep the typed text controlled.
 
 ## Accessibility

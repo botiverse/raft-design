@@ -73,6 +73,7 @@ preview-card/preview-card-app-prompt
 - The card opens almost as soon as the pointer rests on the trigger, and closes shortly after it leaves. The delays are shorter than Base UI's, so dense messages full of mentions don't feel slow.
 - It also opens when the trigger takes keyboard focus.
 - It opens under the trigger, aligned to its start edge, and moves or flips at the window edge ([Elevation](../../../../../design/foundations/elevation.md#popups)).
+- It keeps clear of the frame insets: where a shell keeps part of the window for itself (`--raft-frame-inset-top`, `--raft-frame-inset-start`, `--raft-frame-inset-end`), it stops 8px from that part, not from the window's edge ([Page structure](../../../../../design/patterns/page-structure.md#frame-insets)). The web sets none.
 
 ## Content
 

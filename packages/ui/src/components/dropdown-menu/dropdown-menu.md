@@ -56,6 +56,7 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 ## Behavior
 
 - The menu opens below its trigger, aligned to the trigger's start edge, and moves or flips when it meets the window edge ([Elevation](../../../../../design/foundations/elevation.md#popups)).
+- The menu keeps clear of the frame insets: where a shell keeps part of the window for itself (`--raft-frame-inset-top`, `--raft-frame-inset-start`, `--raft-frame-inset-end`), it stops 8px from that part, not from the window's edge ([Page structure](../../../../../design/patterns/page-structure.md#frame-insets)). The web sets none.
 - Choosing an action closes the menu. Choosing a radio or checkbox item leaves it open, so people can see the result.
 - Esc and a click outside close the menu.
 - An item is as tall as its content: one line is 36px, and a second line, such as a description under the label, adds only its own height, with the same space above and below the text ([Forms](../../../../../design/patterns/forms.md#option-height)). This holds for radio and checkbox items too.
