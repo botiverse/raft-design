@@ -469,6 +469,9 @@
   },
   "icons": {
     "names": [
+      "AddCommentIcon",
+      "CreateTaskIcon",
+      "FollowArtifactIcon",
       "FollowThreadIcon",
       "JoinChannelIcon",
       "JoinJointChannelIcon",
@@ -476,14 +479,19 @@
       "LeaveChannelIcon",
       "LeaveJointChannelIcon",
       "LeavePrivateChannelIcon",
+      "ReopenTaskIcon",
+      "UnfollowArtifactIcon",
       "UnfollowThreadIcon",
       "ChatIcon",
+      "CommentIcon",
       "DirectMessageIcon",
+      "FeedbackIcon",
       "MessageIcon",
-      "ThreadIcon"
+      "ThreadIcon",
+      "ArtifactIcon"
     ],
     "status": "stable",
-    "description": "Follow a thread: a plus inside ThreadIcon's front bubble."
+    "description": "Add a comment: CommentIcon at 24, its bubble cut short of a plus in the bottom-right corner."
   },
   "inbox-item": {
     "names": [
