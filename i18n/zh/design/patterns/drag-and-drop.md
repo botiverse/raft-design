@@ -54,7 +54,7 @@ task-dnd/compositions/task-dnd
 
 ## 它从哪里来 {#where-it-came-from}
 
-- 把这一项以 40% 的不透明度留在原处（`data-drag-origin`），直到别的东西占了它的位置。处处用同一个值，这样变淡的项读起来总是「它原来在这里」。
+- 把这一项以 40% 的不透明度留在原处（`data-drag-origin`），直到别的东西占了它的位置。处处用同一个值，这样留在原处的项读起来总是「它原来在这里」。
 
 ## 它将落在哪里 {#where-it-will-land}
 
@@ -77,7 +77,7 @@ task-dnd/compositions/task-dnd
 - 放下时，副本用 `motion-drag-settle-easing`（ease-out）在 160ms 内滑进那个位置，然后在那里显示这一项。在布局里，重新排列的动画也是同样的 160ms，与滑行同步（[动效](../foundations/motion.md#usage)）。
 - 遇到 Escape、`pointercancel`（系统接管了这次触摸）、窗口失去焦点、浏览器标签页被隐藏时，取消拖动：副本滑回这一项，移动过的一切都回到原处。dnd-kit 没有处理的那几种由 `DragLift` 处理，而且不用合成的 Escape：取消绝不能关掉拖动所在的对话框或面板。
 - 拖动中的 Escape 属于拖动，不管拖动是怎么开始的（鼠标指针、触屏还是键盘）：它把这一项放回原处，不会传到别的地方。`useDragSensors` 在 window 的捕获阶段接住它并阻止它继续传播，所以应用里那些按 Escape 关闭面板、对话框或弹出层的处理函数都收不到它。拖动结束后，Escape 又能传到应用里。
-- 开启减少动态效果时，副本和相邻项立即落定。
+- 开启减弱动态效果时，副本和相邻项立即落定。
 
 ## 键盘 {#keyboard}
 

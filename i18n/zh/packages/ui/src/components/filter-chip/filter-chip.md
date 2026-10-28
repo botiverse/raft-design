@@ -16,7 +16,7 @@ filter-chip/compositions/filter-button
 
 | 情况 | 使用 |
 | --- | --- |
-| 人们很少改动、凭个人习惯设置的筛选，按地方为他们记住 | FilterChip，放在始终写着 Filter 的 Filter 按钮旁边 |
+| 人们很少改动、凭个人习惯设置的筛选，按地方为他们记住 | FilterChip，放在始终写着「筛选」的 Filter 按钮旁边 |
 | 人们工作时经常改动的筛选，或者它的值就是这个视图要点的筛选（排序、频道、负责人） | 显示当前值的筛选按钮（[PickerTriggerButton](../picker-trigger-button/picker-trigger-button.md)） |
 | 能放多个值的输入框里选中的一个值（人、标签） | 组合框自己的标签片（[Combobox](../combobox/combobox.md)） |
 | 不能移除的标签 | [Badge](../badge/badge.md) |
@@ -56,6 +56,6 @@ filter-chip/compositions/filter-button
 
 ## 规则 {#rules}
 
-- 只在始终写着 Filter 的 Filter 按钮旁边用 FilterChip：显示值的筛选按钮已经写出了筛选，再加一个标签片就说了两遍。
+- 只在始终写着「筛选」的 Filter 按钮旁边用 FilterChip：显示值的筛选按钮已经写出了筛选，再加一个标签片就说了两遍。
 - 每个 Filter 按钮只显示一个标签片，对应它应用的那一个筛选。
 - 不要把标签片本身做成按钮。Filter 按钮改变筛选；× 只是把它恢复为默认值。

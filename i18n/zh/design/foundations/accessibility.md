@@ -57,7 +57,7 @@ token 的取值保证文字不必再逐个表面检查；见[颜色](./color.md#
 Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的内容上分心。动效用来确认一个操作或表明某样东西从哪来，任何事都不依赖于看到它（[动效](./motion.md)）。
 
 - 在 `prefers-reduced-motion: reduce` 下关闭所有动画和过渡。组件用 Tailwind 的 `motion-reduce:` 变体或 `@media (prefers-reduced-motion: reduce)` 块；新增动画要在同一次改动里加上它。
-- 减少动效时，[Spinner](../../packages/ui/src/components/spinner/spinner.md) 停止转动并保持第一个像素点亮着，[Skeleton](../../packages/ui/src/components/skeleton/skeleton.md) 停止闪烁。两者仍然表明正在加载。
+- 减弱动态效果时，[Spinner](../../packages/ui/src/components/spinner/spinner.md) 停止转动并保持第一个像素点亮着，[Skeleton](../../packages/ui/src/components/skeleton/skeleton.md) 停止闪烁。两者仍然表明正在加载。
 - 不要让状态循环播放。正在工作的 Agent 是一盏静止的黄灯，不是一闪一闪的。
 - 居中的浮层不带动画地出现，这样不会有东西在人们没要求的情况下滑进来（[动效](./motion.md#usage)）。
 
@@ -120,7 +120,7 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 
 - 只用键盘操作：Tab 能到达一切，用键盘移动时焦点始终可见，Esc 能关闭打开的东西。
 - 读无障碍树：每个控件都有角色、以可见文字开头的名称，以及它的状态。
-- 打开减少动效：什么都不动，加载仍然看得出是在加载。
+- 打开减弱动态效果：什么都不动，加载仍然看得出是在加载。
 - 在触屏或触屏模拟下试用：每个目标都是 44px，没有东西需要悬停。
 - 在深色模式下和 320px 宽度下看一看（[设计系统](../README.md)）。
 
