@@ -1,3 +1,14 @@
+## [0.44.0](https://github.com/botiverse/raft-design/compare/v0.43.0...v0.44.0) (2026-10-28)
+
+### Design System
+
+- **Foldable phones:** on the outer screen, a top-level page's name is a 56px header line on paper with a seam under it, and the system column keeps a top-level page's actions just above the tab bar, stacked bottom-up; a pushed page keeps Back at the top. ([#862](https://github.com/botiverse/raft-design/pull/862), [#864](https://github.com/botiverse/raft-design/pull/864))
+  - Docs: https://raft-design.botiverse.build/patterns/page-structure/#foldable-phones
+
+### Fixed
+
+- **Tap activation:** a control focused by a tap (MobileNavItem and every control using tap activation) no longer shows the keyboard focus ring; keyboard focus is unchanged. ([#865](https://github.com/botiverse/raft-design/pull/865))
+
 ## [0.43.0](https://github.com/botiverse/raft-design/compare/v0.42.0...v0.43.0) (2026-10-28)
 
 ### Design System
