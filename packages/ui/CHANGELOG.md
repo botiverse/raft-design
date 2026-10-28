@@ -1,3 +1,11 @@
+## [0.47.1](https://github.com/botiverse/raft-design/compare/v0.47.0...v0.47.1) (2026-10-28)
+
+### Fixed
+
+- **SelectActionItem:** when its action adds items above the row and the list stays open, the row keeps the highlight, so the next arrow key goes on from the row instead of from whatever item now sits at its old position. ([#873](https://github.com/botiverse/raft-design/pull/873))
+- **SelectActionItem:** the docs no longer ask for `aria-expanded`, which ARIA does not allow on an option; remove it where you added it. ([#873](https://github.com/botiverse/raft-design/pull/873))
+  - Docs: https://raft-design.botiverse.build/components/select/
+
 ## [0.47.0](https://github.com/botiverse/raft-design/compare/v0.46.0...v0.47.0) (2026-10-28)
 
 ### Changed
