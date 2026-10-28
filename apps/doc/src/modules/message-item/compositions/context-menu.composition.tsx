@@ -7,12 +7,13 @@ import {
   ClipboardCheck,
   Copy,
   Link as LinkIcon,
-  MessageSquare,
   RotateCcw,
   SmilePlus,
 } from "lucide-react";
 import {
+  FollowThreadIcon,
   ThreadIcon,
+  UnfollowThreadIcon,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuLabel,
@@ -144,7 +145,7 @@ export function MessageContextMenuComposition({
       ) : null}
       {onFollowChange ? (
         <ContextMenuItem onClick={handleFollowToggle}>
-          <MessageSquare />
+          {followed ? <UnfollowThreadIcon /> : <FollowThreadIcon />}
           {followed ? "Unfollow Thread" : "Follow Thread"}
         </ContextMenuItem>
       ) : null}
