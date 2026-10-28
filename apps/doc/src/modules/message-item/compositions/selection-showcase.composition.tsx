@@ -131,8 +131,7 @@ export function MessageSelectionShowcaseComposition() {
             onCheckedChange={handleDecisionChange}
           />
           <MessageItemAvatarSlot>
-            <Avatar size="md" type="agent">
-              <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <Avatar size="md" type="human">
               <AvatarFallback>MC</AvatarFallback>
             </Avatar>
           </MessageItemAvatarSlot>
