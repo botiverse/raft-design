@@ -1,5 +1,5 @@
 import { Meter as BaseMeter } from "@base-ui/react/meter";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
@@ -14,6 +14,7 @@ const meter = tv({
       "[--meter-track-edge:transparent]",
       "[--meter-value:var(--foreground-muted)]",
       "font-sans",
+      "has-[>[data-slot=meter-ring]]:inline-flex has-[>[data-slot=meter-ring]]:w-auto has-[>[data-slot=meter-ring]]:items-center",
     ],
     header: ["flex min-w-0 flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5"],
     label: ["min-w-0 truncate", "text-footnote font-semibold text-foreground"],
@@ -55,7 +56,9 @@ const meter = tv({
   },
 });
 
-const MeterTextContext = createContext<string>("");
+type MeterContextValue = { valueText: string; left: number; max: number };
+
+const MeterContext = createContext<MeterContextValue>({ valueText: "", left: 0, max: 100 });
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, Number.isNaN(value) ? min : value));
@@ -109,9 +112,10 @@ export function Meter({
   const lowAt = clamp(low ?? max * 0.2, 0, max);
   const level = left <= 0 ? "empty" : left <= lowAt ? "low" : "plenty";
   const { root } = meter({ size, level });
+  const context = useMemo(() => ({ valueText, left, max }), [valueText, left, max]);
 
   return (
-    <MeterTextContext.Provider value={valueText}>
+    <MeterContext.Provider value={context}>
       <BaseMeter.Root
         data-slot="meter"
         data-size={size}
@@ -123,7 +127,7 @@ export function Meter({
         className={root({ className })}
         {...props}
       />
-    </MeterTextContext.Provider>
+    </MeterContext.Provider>
   );
 }
 
@@ -143,10 +147,10 @@ export function MeterLabel({ className, ...props }: MeterLabelProps) {
 
 export type MeterValueProps = Omit<StyledProps<BaseMeter.Value.Props>, "children">;
 
-/** Shows the meter's `valueText`, at the end of `MeterHeader`. */
+/** Shows the meter's `valueText`, at the end of `MeterHeader`, or beside a `MeterRing`. */
 export function MeterValue({ className, ...props }: MeterValueProps) {
   const { value } = meter();
-  const valueText = useContext(MeterTextContext);
+  const { valueText } = useContext(MeterContext);
   return (
     <BaseMeter.Value data-slot="meter-value" className={value({ className })} {...props}>
       {() => valueText}
@@ -171,5 +175,121 @@ export function MeterIndicator({ className, ...props }: MeterIndicatorProps) {
       className={indicator({ className })}
       {...props}
     />
+  );
+}
+
+/**
+ * The ring's geometry by size: the box matches an icon (16, 20 or 24px) and
+ * the band is an eighth of it (2, 2.5 or 3px). An icon at the centre is drawn
+ * at 9, 11 or 14px, which leaves the band a clear gap (`meterRing`'s `centre`).
+ */
+const RING_SIZES = {
+  sm: { box: 16, band: 2 },
+  md: { box: 20, band: 2.5 },
+  lg: { box: 24, band: 3 },
+} as const;
+
+const meterRing = tv({
+  slots: {
+    ring: ["relative inline-grid shrink-0 place-items-center"],
+    shape: ["absolute inset-0 size-full -rotate-90"],
+    track: ["fill-none stroke-(--meter-track)"],
+    edge: ["fill-none stroke-(--meter-track-edge)"],
+    indicator: [
+      "fill-none stroke-(--meter-indicator)",
+      "transition-[stroke-dasharray,stroke] duration-200 ease-out",
+    ],
+    centre: [
+      "relative grid place-items-center",
+      "text-foreground",
+      "[&>img]:size-full [&>svg]:size-full",
+    ],
+  },
+  variants: {
+    size: {
+      sm: { ring: "size-4", centre: "size-[9px]" },
+      md: { ring: "size-5", centre: "size-[11px]" },
+      lg: { ring: "size-6", centre: "size-3.5" },
+    },
+  },
+  defaultVariants: {
+    size: "md",
+  },
+});
+
+/** The 1px warning edge of a used-up track, as on the bar. */
+const RING_EDGE = 1;
+
+export type MeterRingSize = keyof typeof RING_SIZES;
+
+export type MeterRingProps = ComponentPropsWithRef<"span"> & {
+  /**
+   * The ring's box, matched to an icon: `sm` 16px, `md` 20px, `lg` 24px.
+   * @default "md"
+   */
+  size?: MeterRingSize;
+};
+
+/**
+ * What is left, drawn as a ring in place of `MeterTrack` and `MeterIndicator`,
+ * for meters side by side in a dense row. The arc runs clockwise from the top
+ * and is a full circle to start; it shortens as the allowance is used. The
+ * colors are the bar's. A child, such as an icon, sits at its centre.
+ */
+export function MeterRing({ size = "md", className, children, ...props }: MeterRingProps) {
+  const { left, max } = useContext(MeterContext);
+  const { box, band } = RING_SIZES[size];
+  const { ring, shape, track, edge, indicator, centre: centreSlot } = meterRing({ size });
+  const centre = box / 2;
+  const radius = (box - band) / 2;
+  const percent = max > 0 ? (left / max) * 100 : 0;
+
+  return (
+    <span data-slot="meter-ring" data-size={size} className={ring({ className })} {...props}>
+      <svg
+        aria-hidden
+        data-slot="meter-ring-shape"
+        viewBox={`0 0 ${box} ${box}`}
+        className={shape()}
+      >
+        <circle
+          data-slot="meter-ring-track"
+          cx={centre}
+          cy={centre}
+          r={radius}
+          strokeWidth={band}
+          className={track()}
+        />
+        <circle
+          cx={centre}
+          cy={centre}
+          r={centre - RING_EDGE / 2}
+          strokeWidth={RING_EDGE}
+          className={edge()}
+        />
+        <circle
+          cx={centre}
+          cy={centre}
+          r={centre - band + RING_EDGE / 2}
+          strokeWidth={RING_EDGE}
+          className={edge()}
+        />
+        <circle
+          data-slot="meter-ring-indicator"
+          cx={centre}
+          cy={centre}
+          r={radius}
+          strokeWidth={band}
+          pathLength={100}
+          strokeDasharray={`${percent} 100`}
+          className={indicator()}
+        />
+      </svg>
+      {children ? (
+        <span data-slot="meter-ring-centre" className={centreSlot()}>
+          {children}
+        </span>
+      ) : null}
+    </span>
   );
 }

@@ -877,6 +877,7 @@
       "MeterHeader",
       "MeterIndicator",
       "MeterLabel",
+      "MeterRing",
       "MeterTrack",
       "MeterValue"
     ],

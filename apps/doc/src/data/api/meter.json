@@ -86,6 +86,22 @@
     ]
   },
   {
+    "name": "MeterRing",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "What is left, drawn as a ring in place of `MeterTrack` and `MeterIndicator`, for meters side by side in a dense row. The arc runs clockwise from the top and is a full circle to start; it shortens as the allowance is used. The colors are the bar's. A child, such as an icon, sits at its centre.",
+    "native": true,
+    "props": [
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "default": "\"md\"",
+        "description": "The ring's box, matched to an icon: `sm` 16px, `md` 20px, `lg` 24px.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
     "name": "MeterTrack",
     "entry": "@botiverse/raft-ui/wip",
     "native": true,
@@ -102,7 +118,7 @@
   {
     "name": "MeterValue",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "Shows the meter's `valueText`, at the end of `MeterHeader`.",
+    "description": "Shows the meter's `valueText`, at the end of `MeterHeader`, or beside a `MeterRing`.",
     "native": true,
     "props": [
       {

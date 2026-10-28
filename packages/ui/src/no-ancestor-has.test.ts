@@ -112,6 +112,9 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/inbox-item/inbox-item.recipe.ts": 14,
   "components/input-group/input-group.tsx": 7,
   "components/message-attachment/message-image-gallery.recipe.ts": 0,
+  // A meter holding a MeterRing lays out in a row, the ring beside its value
+  // (self-subject, 3).
+  "components/meter/meter.tsx": 3,
   // The row sets its jumped-to / selected fill as --mi-row-fill on itself
   // (self-subject, 4), and with a "sent by" label the header aligns on the
   // baseline and floors the owner (3), and the label caps at 45% only when

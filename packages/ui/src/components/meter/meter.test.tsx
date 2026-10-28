@@ -3,7 +3,15 @@
  */
 import { afterEach, describe, expect, it } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
-import { Meter, MeterHeader, MeterIndicator, MeterLabel, MeterTrack, MeterValue } from "./meter";
+import {
+  Meter,
+  MeterHeader,
+  MeterIndicator,
+  MeterLabel,
+  MeterRing,
+  MeterTrack,
+  MeterValue,
+} from "./meter";
 import type { MeterProps } from "./meter";
 
 afterEach(() => {
@@ -96,6 +104,73 @@ describe("Meter", () => {
     for (const used of [0, 90, 100]) {
       const meter = renderMeter({ used, valueText: "x" });
       expect(meter.className).not.toContain("var(--color-");
+      cleanup();
+    }
+  });
+});
+
+function renderRing(props: Omit<MeterProps, "children">, ring?: { size?: "sm" | "md" | "lg" }) {
+  render(
+    <Meter aria-label="Weekly limit" {...props}>
+      <MeterRing size={ring?.size}>
+        <svg data-testid="icon" />
+      </MeterRing>
+      <MeterValue />
+    </Meter>,
+  );
+  return screen.getByRole("meter", { name: "Weekly limit" });
+}
+
+describe("MeterRing", () => {
+  it("is the same meter as the bar: what is left, and the valueText spoken and shown", () => {
+    const meter = renderRing({ used: 37, valueText: "Weekly · 63% left" });
+    expect(meter.getAttribute("aria-valuenow")).toBe("63");
+    expect(meter.getAttribute("aria-valuetext")).toBe("Weekly · 63% left");
+    expect(meter.querySelector('[data-slot="meter-value"]')!.textContent).toBe("Weekly · 63% left");
+    expect(meter.querySelector('[data-slot="meter-ring-shape"]')!.getAttribute("aria-hidden")).toBe(
+      "true",
+    );
+  });
+
+  it("draws what is left as the share of the circle", () => {
+    const arc = (used: number) => {
+      const meter = renderRing({ used, valueText: "x" });
+      const value = meter
+        .querySelector('[data-slot="meter-ring-indicator"]')!
+        .getAttribute("stroke-dasharray");
+      cleanup();
+      return value;
+    };
+    expect(arc(0)).toBe("100 100");
+    expect(arc(37)).toBe("63 100");
+    expect(arc(100)).toBe("0 100");
+  });
+
+  it("takes the bar's levels and colors", () => {
+    const low = renderRing({ used: 85, valueText: "15% left" });
+    expect(low.getAttribute("data-level")).toBe("low");
+    expect(low.className).toContain("[--meter-indicator:var(--warning)]");
+    cleanup();
+    const empty = renderRing({ used: 100, valueText: "Used up" });
+    expect(empty.getAttribute("data-level")).toBe("empty");
+    expect(empty.className).toContain("[--meter-track-edge:var(--warning)]");
+  });
+
+  it("holds a child at its centre", () => {
+    const meter = renderRing({ used: 37, valueText: "x" });
+    const centre = meter.querySelector('[data-slot="meter-ring-centre"]')!;
+    expect(centre.contains(screen.getByTestId("icon"))).toBe(true);
+  });
+
+  it("matches the icon sizes", () => {
+    for (const [size, box] of [
+      ["sm", "16"],
+      ["md", "20"],
+      ["lg", "24"],
+    ] as const) {
+      const meter = renderRing({ used: 0, valueText: "x" }, { size });
+      const shape = meter.querySelector('[data-slot="meter-ring-shape"]')!;
+      expect(shape.getAttribute("viewBox")).toBe(`0 0 ${box} ${box}`);
       cleanup();
     }
   });

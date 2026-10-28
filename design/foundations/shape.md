@@ -13,6 +13,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 - **Identities and dots are square.** Avatars, workspace tiles, channel tiles, presence lights, attention dots and pixel spinners all use square pixels. A round dot or a ring spinner would be the one round mark among square pixels; the square pixel is the brand's own shape ([Principles](../principles/principles.md#6-square-is-raft)).
 - **Round only for switches, radios and grab handles.** Nothing else uses a full radius. A grab handle (the bar at a bottom sheet's top edge, the grip bar on a side section's head) is something to take hold of, and every platform draws it with round ends (the iOS sheet grabber, Material's drag handle). Square ends on a 4px bar read as a cut edge, not a handle.
 - **Pull to refresh on Android web is a round disc, Android's own** (stdrc, 2026-10-23): Material's refresh indicator, so a pull feels like the platform's ([PullToRefresh](../../packages/ui/src/components/pull-to-refresh/pull-to-refresh.md#on-android)). It is the one round surface besides those above.
+- **A meter's ring is round** (xxchan, 2026-10-28): [MeterRing](../../packages/ui/src/components/meter/meter.md#the-ring) draws what is left of an allowance as an arc around a circle, for several meters side by side in a dense row. A share of a whole reads as an arc because every point on a circle is as far from the centre as the next; around a square, the arc would turn a corner at 12.5%, 37.5%, 62.5% and 87.5% and the same amount would look different depending on where it ends. It is a measure, not a dot or a spinner: those stay square pixels.
 - **Two stroke widths.** 1px for lines, 1.5px for every control, field and sticker.
 
 ## Radii
@@ -60,6 +61,7 @@ The radius belongs to the element; the space around it adapts to the frame it si
 - Draw the presence light on a 99px avatar with a 2px edge, scaled up with the avatar.
 - The 2px bar before a quote is a mark, not a line.
 - A 3px to 4px progress bar is a line in itself: it has no border.
+- A meter's ring is a line in itself too: its band, an eighth of its size (2px to 3px), has no ink edge. At 16px to 24px a 1.5px ink edge on each side left a stripe of color narrower than the ink, and the ring read as a dark circle in any state.
 
 ## Nothing on the edge of a rounded container
 
