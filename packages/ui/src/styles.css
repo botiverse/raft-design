@@ -666,6 +666,24 @@ textarea:-webkit-autofill:disabled {
   }
 }
 
+/* An icon drawn twice: a drawn icon whose mark gets lost at 16px carries a
+   second mark for small sizes (design/foundations/iconography.md). The svg is
+   its own size container; below 18px the small mark replaces the default one.
+   Without this stylesheet, the small mark's display="none" keeps the default. */
+[data-icon-sizes] {
+  container-type: inline-size;
+}
+
+@container (width < 18px) {
+  [data-icon-mark="default"] {
+    display: none;
+  }
+
+  [data-icon-mark="small"] {
+    display: inline;
+  }
+}
+
 /* Dimmed: something present but not active, deleted, offline or still
    pending, at 60% (design/foundations/states.md#dimmed). Lighter than the 40%
    of a drag origin, which says "it was here", not "it is here, inactive". */

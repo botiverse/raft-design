@@ -79,7 +79,7 @@
   {
     "name": "UnfollowArtifactIcon",
     "entry": "@botiverse/raft-ui",
-    "description": "Unfollow an Artifact: a minus inside ArtifactIcon's page.",
+    "description": "Unfollow an Artifact: a minus inside ArtifactIcon's page. Below 18px the minus is drawn heavier and a little longer (stroke 3, 6 long, on whole pixels at 16px), so it reads as a mark rather than one more line of the page's text; at 20 and 24 it is the plain minus.",
     "native": true,
     "props": []
   },

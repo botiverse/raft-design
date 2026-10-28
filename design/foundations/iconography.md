@@ -26,6 +26,10 @@ Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon in
 | 14px | Chips, reference chips, filters, value chips |
 | 11px to 12px | Small channel tiles, event lines, badges, the arrow inside a status chip |
 
+### A mark at small sizes
+
+One drawing serves every size: Lucide draws none twice. A drawn icon whose mark gets lost at 16px and under may carry a second mark for small sizes, drawn on the same grid and swapped in below 18px by a container query on the icon (`data-icon-sizes`, in raft-ui's stylesheet). The rest of the drawing doesn't change, and from 18px up the icon is the one drawing. Only `UnfollowArtifactIcon` has one: at 16px its minus is heavier and longer, so it reads as a mark rather than one more line of the page's text ([Icons](../../packages/ui/src/components/icons/icons.md#action-icons)). Add one only when a mark is lost at the size the icon is used, not to tune an icon that reads.
+
 ## Related
 
 - [Button](../../packages/ui/src/components/button/button.md): icon buttons and their sizes.
