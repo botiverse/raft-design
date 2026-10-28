@@ -1,7 +1,7 @@
 ---
 title: 页面结构
 summary: 手机页面和桌面端屏幕由哪些区域组成，它们如何从外框往里分层，以及两个区域之间只有一条线的规则。
-sourceHash: ec4e98ce
+sourceHash: e046fe9a
 ---
 
 # 页面结构
@@ -66,6 +66,7 @@ app-shell/compositions/web-top-bar
 - 左边放工作空间按钮和工作空间横条，中间放搜索框，右边放正在工作的成员和铃铛。不管两侧放了什么，搜索框都在窗口中居中。
 - 里面的每个控件都是 36px 的外框项，距上下各 6px。工作空间按钮与导航条的按钮对齐，和导航条一样距左边缘 8px。右侧最后一个图标（铃铛）的图标框结束在距右边缘 20px 处，和下方头部最后一个图标在同一条线上；它的按钮超出这条线 8px（[对齐](../foundations/alignment.md#the-ends-of-a-header)）。
 - 在桌面应用里，把后退、前进和历史记录放在工作空间横条后面，把更新标签放在正在工作的成员前面。给窗口自己的按钮留出空间（左边是 macOS 的红绿灯按钮，右边是 Windows 的标题栏按钮），并让搜索框在整个窗口中居中，而不是在两者之间剩下的空间里居中。
+- 用窗口安全区变量给窗口自己的按钮留位置，不写死数值。在页面上方画了系统按钮的外壳，会在根元素上设置：`--raft-frame-inset-start`（macOS 红绿灯那个角）、`--raft-frame-inset-end`（Windows 标题栏按钮那个角，取自 Window Controls Overlay 的尺寸）和 `--raft-frame-inset-top`（这些按钮盖住的那条带的高度）。只有真的画了这些按钮的平台才设置，全屏时不设；网页一个都不设，读出来是 0。顶栏两端按它们留白；页面里的任何东西都不画进、不放进、不弹进这些区域：主题像素画不进 `--raft-frame-inset-end`，提示碰到 `--raft-frame-inset-top` 就往反方向弹（[Tooltip](../../../packages/ui/src/components/tooltip/tooltip.md)）。
 - 有顶栏时，导航条和侧栏都没有头部：导航条的第一个目的地和侧栏的第一行，都在顶栏接缝线下方 8px。
 
 #### 头部 {#headers}
