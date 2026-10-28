@@ -229,6 +229,17 @@ test("focus on the page or another control still moves to the tapped control", (
   expect(document.activeElement).toBe(button);
 });
 
+// Artea (Raft #triage:44fb52a3): the cancelled touchend skips the browser's own
+// tap focus, so Chrome took the script focus for keyboard focus and drew the
+// focus ring around every tapped tab. Measured in Chromium: focus-visible
+// matched after a tap with plain focus(), not with focusVisible: false.
+test("the tap's focus is not keyboard focus (no focus ring)", () => {
+  const focus = vi.spyOn(button, "focus");
+  start({ x: 50, y: 20 });
+  end({ x: 50, y: 20 });
+  expect(focus).toHaveBeenCalledWith({ preventScroll: true, focusVisible: false });
+});
+
 test("detaching removes the behavior", () => {
   detach();
   start({ x: 50, y: 20 });

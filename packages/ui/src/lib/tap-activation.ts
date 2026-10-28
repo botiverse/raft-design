@@ -150,9 +150,13 @@ export function attachTapActivation(element: HTMLElement): () => void {
     // After the click, so a control that selects on focus does not select twice.
     // Leave focus alone if the click moved it (a tab that opens a search field),
     // or if it is in a text field: taking it would close the keyboard.
+    // `focusVisible: false`: this is a tap, not the keyboard. Cancelling the
+    // touchend skips the browser's own tap focus, so Chrome reads this script
+    // focus as keyboard focus and drew the focus ring on every tapped tab.
+    // Browsers without the option keep their old heuristic.
     const focusedAfter = element.ownerDocument.activeElement;
     if (focusedAfter === focusedBefore && !isTextEntry(focusedAfter))
-      element.focus({ preventScroll: true });
+      element.focus({ preventScroll: true, focusVisible: false });
   };
 
   // Only a touch's own click is an echo: a key press or a mouse or pen press
