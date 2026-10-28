@@ -149,7 +149,7 @@ Rules:
 
 A phone's own browser (Safari, Chrome) that landed on a Raft message link offers the Raft app in one row, so the person can go on where replies and notifications already are. Like the sign-up prompt, it is an offer, not a notice, so it is not a `Banner`: compose it from an `IconTile`, a `Button` and an icon `Button` in a plain container.
 
-- One row under the conversation's header, across its full width, on `info-soft`, with a `line-seam` under it.
+- One row under the conversation's header, across its full width, on `info-soft`, with a `line-seam` under it; its tile starts on the page's 16px margin.
 - From the start: Raft's `IconTile` (`sm`) with the logo; a title, "Open in the Raft app", in semibold `text-callout` with `foreground`, and one line under it in `text-caption` with `foreground-muted` ("Go straight to this message"), each on one line, truncated; then one 32px outlined button (`variant="default" size="md"`), Open, and an × at the end with a target of at least 44px. Never a pink button: the conversation is still the page.
 - Open is a real link to the same address on the host the apps claim (`open.raft.build`), so the system hands it to the app; the page never launches anything by itself. When no app takes it, that host sends the person back with a marker, and the page offers the download in a bottom sheet (the tile, "The Raft app isn't installed yet", one line, then Download Raft App and Keep Using the Web) instead of the row.
 - × and Keep Using the Web put it away for the browser session. Nothing tries to tell whether the app is installed.
