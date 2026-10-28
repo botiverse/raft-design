@@ -66,13 +66,45 @@ app-shell/compositions/web-top-bar
 - Put the workspace button and the workspace strip on the left, the search field in the center, and who is working and the bell on the right. Keep the search field centered on the window, whatever the two sides hold.
 - Make every control in it a 36px frame item, 6px from the top and bottom. Align the workspace button with the rail's buttons, 8px from the left edge as on the rail. End the icon box of the last icon on the right, the bell's, 20px from the right edge, on the same line as the last icon of the header under it; its button hangs 8px past that line ([Alignment](../foundations/alignment.md#the-ends-of-a-header)).
 - In the desktop app, put Back, Forward and History after the workspace strip, and the update chip before who is working. Leave room for the window's own buttons (the macOS traffic lights on the left, the Windows caption buttons on the right), and keep the search field centered on the window, not on what is left between them.
-- Reserve the window's own controls through the frame insets, never with a fixed number. A shell that draws native controls over the page publishes them on the root element: `--raft-frame-inset-start` (the macOS traffic-light corner), `--raft-frame-inset-end` (the Windows caption buttons' corner, from the Window Controls Overlay geometry) and `--raft-frame-inset-top` (the height of the band those buttons cover). Only a platform that draws them sets them, and not in full screen; the web sets none, so they read 0. The bar pads its ends by them; nothing in the page is drawn, positioned or opened into them: the theme strip stays clear of `--raft-frame-inset-end` and a tooltip flips away from `--raft-frame-inset-top` ([Tooltip](../../packages/ui/src/components/tooltip/tooltip.md)).
+- Reserve the window's own controls through the frame insets, never with a fixed number. A shell that draws native controls over the page publishes them on the root element: `--raft-frame-inset-start` (the macOS traffic-light corner), `--raft-frame-inset-end` (the Windows caption buttons' corner, from the Window Controls Overlay geometry) and `--raft-frame-inset-top` (the height of the band those buttons cover). Only a platform that draws them sets them, and not in full screen; the web sets none, so they read 0. The bar pads its ends by them; nothing in the page is drawn, positioned or opened into them: the theme strip stays clear of `--raft-frame-inset-end` and a tooltip flips away from `--raft-frame-inset-top` ([Tooltip](../../packages/ui/src/components/tooltip/tooltip.md)). The insets are logical, and everything that keeps clear of them is in [Frame insets](#frame-insets).
 - With the top bar, the rail has no header and the sidebar has no header: the rail's first destination and the sidebar's first row are 8px below the top bar's seam.
 
 #### Headers
 
 - Make every header under the top bar (the panel header, a side panel's header, a drawer's header) 56px high, so their bottom seams line up across the screen. Heights are in [Spacing](../foundations/spacing.md#heights).
 - Without the top bar (an older desktop build, the public page of a server), the rail header and the sidebar header are 56px too, and the rail header is a square ([Spacing](../foundations/spacing.md#heights)).
+
+### Foldable phones
+
+A foldable phone (iPhone Duo) has two screens. Its outer screen, held sideways, is a phone page with a column the system keeps on one side for the status bar, the tab bar and the page's controls. Its inner screen is wide enough for the apps' desktop mode.
+
+#### The outer screen in landscape
+
+The system reserves a vertical column on the side of the camera. The side is the hardware's: Raft doesn't choose it, and it doesn't mirror in right-to-left ([Frame insets](#frame-insets)). The page fills the rest of the screen, and the column holds what a phone held upright has in its top bar and its tab bar:
+
+| Page | The column, from the top | The page |
+| --- | --- | --- |
+| Top-level page | The page's actions, at most 2, then an overflow button for the rest; the tab bar at the bottom, icons only ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-vertical-tab-bar)). No Back | The page's name as its first header line, on paper; on Home, the server switcher in its place. The filter row under it. No 56px yellow navigation row |
+| Pushed page | Back first, then the page's actions, at most 2, then the overflow button. No tab bar | The white 56px page header with the title and the subtitle, without Back and without icon buttons: they are in the column |
+
+- Show Back or the tab bar in the column, never both, as on any page ([Navigation](./navigation.md#going-back)).
+- Put Back (`arrow-left`, a 44pt target) first in the column. The system's edge swipe still goes back, and stays the main way back: don't let anything in the page take a drag that starts at the screen's edge.
+- Put at most 2 of the page's actions in the column, and the rest in its overflow menu.
+- Draw the column's Back, actions and overflow with a component of their own, not with the [AppRail](../../packages/ui/src/components/app-rail/app-rail.md): the rail holds destinations on the frame, the column holds this page's controls. The column is not the frame, so it is not yellow. The tab bar in it is the platform's own ([Navigation](./navigation.md#what-each-platform-draws)).
+- Drop the 56px yellow navigation row from top-level pages, and make the page's name the first header line of the page (artin, 2026-10-28, #wg-mobile). On Home, the server switcher (the workspace button: avatar, name, chevron) is that line, so the server's name stays on screen when the server tab shows only its avatar. On Search, the search field is that line.
+- With no yellow top, the top's color no longer says which kind of page it is; the column says it, with the tab bar on a top-level page and Back on a pushed page. The yellow stays in the selected tab's sticker.
+- Put the bell in the column on Home, as Home's page action, and on no other page. Search stays a tab.
+- End the content and the composer at the column's inner edge, measuring their margin from it ([One edge per column](#one-edge-per-column)): the send button never sits under the column.
+- When the keyboard opens, the tab bar hides, as on any phone ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#behavior)); a pushed page has none to hide.
+
+#### The inner screen
+
+The inner screen is the apps' desktop mode ([Responsive layout](./responsive.md#structure)): the rail without the top bar, then the sidebar and the main area.
+
+- Make the rail header's workspace tile the server switcher, and the only one ([Navigation](./navigation.md#the-server-in-the-apps-desktop-mode)): there is none in the sidebar's header.
+- Make Search a destination on the rail and put the bell in the rail's footer, as the rail has them without the top bar ([AppRail](../../packages/ui/src/components/app-rail/app-rail.md)). Don't put a search field above a pane: it searches everything, not that pane.
+- Where the system reserves a column on the inner screen too, it holds Back and the page's actions as on the outer screen, never destinations: those are on the rail. When the rail stands next to it, which in right-to-left it does, draw one line between them ([One line between two regions](#one-line-between-two-regions)).
+- Keep everything off the fold ([Frame insets](#frame-insets)).
 
 ## Rules
 
@@ -85,6 +117,22 @@ Yellow (the frame), then cream (the sidebar), then white (content), then white c
 - Draw exactly one line between two regions, never two side by side: two 1px lines next to each other read as one 2px line.
 - Let the region drawn first own the line. The rail and the sidebar draw their right edges, so the conversation or Activity next to them draws no left edge. A side panel attached next to a conversation draws its own left edge.
 - Use `line-seam` between regions and `line-hairline` inside content ([Color](../foundations/color.md#lines)).
+
+### Frame insets
+
+A frame inset is part of the screen the shell keeps for itself: the window's own controls on desktop ([The web top bar](#the-web-top-bar)); the system column, the camera and the fold on a foldable phone ([Foldable phones](#foldable-phones)). The shell publishes them on the root element as `--raft-frame-inset-start`, `--raft-frame-inset-end` and `--raft-frame-inset-top`, only where it keeps something and not in full screen; the web sets none, so they read 0.
+
+- Treat the reserved region as physical and the variable as logical. The region is fixed to the hardware (the camera's side, the fold, the caption buttons' corner) and doesn't move with the writing direction. The variables follow the direction, so the shell reports a region through the one that matches its side in the current direction, and content laid out with start and end keeps clear of it in both:
+
+| Direction | A region on the right | A region on the left |
+| --- | --- | --- |
+| Left to right | `--raft-frame-inset-end` | `--raft-frame-inset-start` |
+| Right to left | `--raft-frame-inset-start` | `--raft-frame-inset-end` |
+
+- Draw, position and open nothing into an inset. The content and the composer end at it, with their margin measured from its edge.
+- Keep a popover, a menu or a toast 8px from the inset, not from the screen's edge ([Elevation](../foundations/elevation.md#popups)).
+- Let a tooltip flip away from `--raft-frame-inset-start` and `--raft-frame-inset-end` as it does from `--raft-frame-inset-top`, so one on an item in a side column opens toward the content ([Tooltip](../../packages/ui/src/components/tooltip/tooltip.md)).
+- Lay nothing across a fold or a hinge. Where the OS reports one, the shell reports it as an inset too, and the panes lie on either side of it.
 
 ### One edge per column
 

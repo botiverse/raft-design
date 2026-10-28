@@ -24,6 +24,8 @@ Every screen. The regions themselves are in [Page structure](./page-structure.md
 
 The mobile apps switch by the window's width too, at their own breakpoint: from 840dp, with the app's desktop mode on, they show the rail and two panes instead of the tab bar, in landscape and on tablets alike, and a thread sits beside the conversation from 1200dp. The rail is drawn as the [AppRail](../../packages/ui/src/components/app-rail/app-rail.md) and keeps the phone's destinations in the phone's order, except the server tab: there the server is the workspace tile in the rail's header, the one way to switch servers, as the web has one ([Navigation](./navigation.md#the-server-in-the-apps-desktop-mode)). Keep each platform's breakpoint (768px on the web, 840dp in the apps) rather than forcing one: a breakpoint is how a layout is built, while the navigation's structure, which is the same everywhere, is in [Navigation](./navigation.md#principles).
 
+A foldable phone's outer screen held sideways keeps the phone layout, with the system's column at its side; its inner screen is the desktop mode ([Page structure](./page-structure.md#foldable-phones)).
+
 ```example
 app-shell/compositions/responsive
 ```

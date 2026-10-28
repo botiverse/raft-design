@@ -67,6 +67,17 @@ The popover's rows are the product's: the server list as the switcher has it ([S
 - Esc, a press outside the popover and choosing a row close it; focus goes back to the tab. When a row opens a pushed page, the product gives focus back to the tab when people come back from it, as the example does.
 - It is a popover (a `dialog`), not an ARIA menu: its rows are buttons, reached with Tab, without arrow-key navigation.
 
+## The vertical tab bar
+
+On a foldable phone's outer screen held sideways, the tab bar stands at the bottom of the system's column, on the side of the screen ([Page structure](../../../../../design/patterns/page-structure.md#foldable-phones)). The iOS app's is the system's own tab bar, turned upright by the system; these rules hold for any tab bar drawn there.
+
+- Keep the order, first at the top: in Raft Chat, Home, Activity, Tasks, Search, then the server.
+- Show the icons only: the column has no room for labels. Keep each label as the item's accessible name, the server tab's server name included, with the dot when there is one ("Raft HQ, another server has unread items").
+- Wrap only the icon in the selected sticker, as in the bar ([States](#states)).
+- Make every target at least 44×44pt, with the hit area rather than a bigger icon, counting the space between stacked icons.
+- Open the server tab's popover beside the tab, toward the content: its bottom edge level with the tab's, 8px from the column's inner edge, at most 60% of the screen's height. There is no room above the tab in a column.
+- Show it on top-level pages only; a pushed page's column has Back instead. It hides while the keyboard is open, as below.
+
 ## Behavior
 
 - Hide the bar while the on-screen keyboard is open. Pinned above the keyboard, it would cover the field being typed in and the composer. When the keyboard closes, bring the bar back with the platform's default transition, not an instant jump, so people can see the navigation return rather than wonder where it went.
