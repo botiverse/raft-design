@@ -1,3 +1,15 @@
+## [0.42.0](https://github.com/botiverse/raft-design/compare/v0.41.0...v0.42.0) (2026-10-28)
+
+### Design System
+
+- **Frame insets:** a host shell that draws native window controls over the page (the desktop app's macOS traffic lights, Windows' caption buttons) publishes them on the root element as `--raft-frame-inset-start`, `--raft-frame-inset-end` and `--raft-frame-inset-top`; the web sets none. ([#856](https://github.com/botiverse/raft-design/pull/856))
+  - Docs: https://raft-design.botiverse.build/components/tooltip/
+
+### Changed
+
+- **Tooltip:** one that would open into `--raft-frame-inset-top` flips below its trigger; one beside its trigger moves down out of it. ([#856](https://github.com/botiverse/raft-design/pull/856))
+- **frame-decor-top** (the top bar's theme strip) is placed from the bar's end plus `--raft-frame-inset-end`, and a bar drops it when the whole strip can't fit clear of its trailing actions. ([#856](https://github.com/botiverse/raft-design/pull/856))
+
 ## [0.41.0](https://github.com/botiverse/raft-design/compare/v0.40.0...v0.41.0) (2026-10-28)
 
 ### Design System
