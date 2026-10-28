@@ -272,6 +272,7 @@
   --color-warning-strong: var(--warning-strong);
   --color-warning-muted: var(--warning-muted);
   --color-warning-soft: var(--warning-soft);
+  --color-warning-graphic: var(--warning-graphic);
   --color-warning-hover: var(--warning-hover);
   --color-warning-active: var(--warning-active);
 

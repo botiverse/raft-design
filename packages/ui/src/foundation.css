@@ -274,6 +274,12 @@
   --warning-strong: var(--palette-orange-800);
   --warning-muted: var(--palette-orange-200);
   --warning-soft: oklch(0.9413 0.0275 40.2);
+  /* A failure or warning drawn as a graphic in data visualisation: the fill or
+     stroke of a chart mark, such as a failed route in a migration chart. The
+     warning orange, deep enough in light mode and bright in dark mode to stand
+     at least 3:1 against the canvas, sidebar, card and popover (WCAG 1.4.11).
+     Never text: warning text takes warning-strong. */
+  --warning-graphic: oklch(0.64 0.16 50);
   --warning-hover: color-mix(in srgb, var(--warning) 90%, var(--sticker-ink));
   --warning-active: var(--warning-hover);
   /* danger = the destructive sticker (red fill, ink type); danger-strong is the
@@ -434,6 +440,7 @@
   --warning-strong: oklch(0.82 0.12 55);
   --warning-muted: oklch(0.55 0.13 50 / 0.28);
   --warning-soft: oklch(0.5204 0.1197 50.16 / 0.18);
+  --warning-graphic: oklch(0.77 0.135 50);
   --danger-strong: oklch(0.7996 0.1009 24.79);
   --danger-muted: oklch(0.58 0.19 29 / 0.3);
   --danger-soft: oklch(0.5509 0.1903 29.01 / 0.18);
@@ -520,6 +527,7 @@
     --warning-strong: oklch(0.82 0.12 55);
     --warning-muted: oklch(0.55 0.13 50 / 0.28);
     --warning-soft: oklch(0.5204 0.1197 50.16 / 0.18);
+    --warning-graphic: oklch(0.77 0.135 50);
     --danger-strong: oklch(0.7996 0.1009 24.79);
     --danger-muted: oklch(0.58 0.19 29 / 0.3);
     --danger-soft: oklch(0.5509 0.1903 29.01 / 0.18);
