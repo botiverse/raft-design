@@ -105,7 +105,7 @@ avatar/compositions/group-button
 
 ## 状态 {#states}
 
-- **可编辑**（你自己的头像、你的服务器的头像、你管理的 Agent 的头像）：悬停、键盘聚焦和上传过程中，用 `layer-backdrop` 盖住整张贴纸，再放上操作的图标（上传或编辑）。所有操作都用这一个叠加层，并且聚焦时和悬停时一样显示，让键盘用户也能知道头像可以编辑。raft-ui 还没有这个部件；在 `Avatar` 外面自己组合。下一步是在 raft-ui 里加一个 `AvatarEditVeil` 部件，从应用里移过来。
+- **可编辑**（你自己的头像、你的服务器的头像、你管理的 Agent 的头像）：悬停、键盘聚焦和上传过程中，用 `layer-backdrop` 盖住整张贴纸，再放上操作的图标（上传或编辑）。所有操作都用这一个覆盖层，并且聚焦时和悬停时一样显示，让键盘用户也能知道头像可以编辑。raft-ui 还没有这个部件；在 `Avatar` 外面自己组合。下一步是在 raft-ui 里加一个 `AvatarEditVeil` 部件，从应用里移过来。
 
 ## 行为 {#behavior}
 
@@ -129,7 +129,7 @@ avatar/compositions/group-button
 - 给在线状态灯加 `role="img"` 和说明状态的 `aria-label`（Online、Working、Error、Offline、External agent），除非旁边已经有这个词。
 - 给头像叠一个带完整人数的无障碍名称（"5 agents working"），因为 `AvatarGroupCount` 只显示 "+3"。
 - `AvatarGroupButton` 封装了 Base UI 的 Button：一个原生的 `<button type="button">`。它的脸不是文字，所以给它一个用文字说明谁在那里的 `aria-label`（"Bugen viewing, Wug writing, 3 read this version"）：这个标签代替了脸要表达的内容，所以必须说出头像叠代表的每一个人，包括 +N。放在 `PopoverTrigger` 里时，它带上 `aria-expanded`，并在列表关闭时把焦点交还给它。
-- 可编辑的头像做成 `<button>`，`aria-label` 写明操作（"Change avatar"），键盘聚焦时也显示叠加层：否则只有鼠标用户能发现它可以更改。
+- 可编辑的头像做成 `<button>`，`aria-label` 写明操作（"Change avatar"），键盘聚焦时也显示覆盖层：否则只有鼠标用户能发现它可以更改。
 
 ## 规则 {#rules}
 

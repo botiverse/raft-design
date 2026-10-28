@@ -145,6 +145,8 @@
 | inline list（Combobox） | 内嵌列表 | |
 | mask（CSS） | 蒙版 | 和 scrim 的「遮罩」区分 |
 | veil（`layer-veil`） | 覆盖层 | 盖在上传中图片、头像上的那层 |
+| reduced motion | 减弱动态效果 | 跟系统设置的叫法一致 |
+| lifted copy（拖动时） | 拿起的副本 | 不写「提起」 |
 | joint channel | 联合频道 | |
 | Identity and presence | 身份与在线状态 | 页面名 |
 | Writing about agents | 描述 Agent 的用语 | 页面名 |

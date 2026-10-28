@@ -62,7 +62,7 @@ picker-trigger-button/compositions/select-filter
 | 筛选 | 使用 |
 | --- | --- |
 | 人在工作时经常改它，或者它的值就是这个视图讲的东西：排序、频道、负责人、任务列表的筛选 | 显示当前值的按钮（Relevance、#launch-week），应用后用 `info-soft` 填充。值始终看得见，看一眼就知道自己在哪个视图里 |
-| 人很少改它，凭个人习惯设置，并且总是回到同一个选择：动态里的「未读」或「提及」 | 始终写着「筛选」 的按钮，旁边放一个说出当前筛选的 [FilterChip](../filter-chip/filter-chip.md)。× 把它重置为默认值 |
+| 人很少改它，凭个人习惯设置，并且总是回到同一个选择：动态里的「未读」或「提及」 | 始终写着「筛选」的按钮，旁边放一个说出当前筛选的 [FilterChip](../filter-chip/filter-chip.md)。× 把它重置为默认值 |
 
 ```example
 filter-chip/compositions/filter-button

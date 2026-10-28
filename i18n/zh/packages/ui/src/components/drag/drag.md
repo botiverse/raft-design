@@ -34,7 +34,7 @@ drag/compositions/lists
 - `useDragLists`：一个或多个列表里的项，可以重新排序、在列表之间移动，带拒绝和按名称的播报。它返回 `DndContext` 的处理函数、碰撞检测和 `accessibility`，以及给 `useDragSensors` 的 `coordinateGetter`。在这个 context 里渲染 `DragRemeasure version={items}`。
 - `useDragAcrossLists`、`listKeyboardCoordinates` 和 `DragRemeasure`：`useDragLists` 所基于的键盘修正，给有自己列表的表面用。
 - `createDragAnnouncements`、`dragInstructions`、`DEFAULT_DRAG_MESSAGES`：给 dnd-kit 的 `accessibility` 用的播报和操作说明，按名称，用你的语言。`name` 为空的拖动源什么都不说。`useDragAnnouncer` 和 `DragLiveRegion` 给自己播报的表面用。
-- `useDragSiblingTransition()`（或 `DRAG_SIBLING_TRANSITION`）：给 `useSortable({ transition })` 用的 160ms 滑动，开启减少动态效果时没有。`DROP_GLIDE` 是 `DragLift` 用的滑行，`DRAG_SETTLE` 是它的时长和缓动。
+- `useDragSiblingTransition()`（或 `DRAG_SIBLING_TRANSITION`）：给 `useSortable({ transition })` 用的 160ms 滑动，开启减弱动态效果时没有。`DROP_GLIDE` 是 `DragLift` 用的滑行，`DRAG_SETTLE` 是它的时长和缓动。
 - `cancelDrag()`：取消正在进行的拖动，不管它在哪个传感器手里。它给 window 发一个 `resize`（每个 dnd-kit 传感器收到它都会取消），从不发合成的 Escape，所以按 Escape 关闭的对话框、面板或弹出层都收不到。
 - 样式表读取的 data 属性：拖动来源的那一项上的 `data-drag-origin`（40%），这一项进入的容器上的 `data-drag-into`（`fill-subtle`）。
 
