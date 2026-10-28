@@ -40,6 +40,7 @@ Hover says "the pointer is here, and this is what a click acts on"; press confir
 | **Subtle** | Hover on large things people read: a row, a message, a readable card (comment, attachment, replies bar, task card), and a row whose menu is open | `fill-subtle` (`overlay-subtle`) | 4% ink | 3% paper | 2.5 to 3 |
 | **Medium** | Hover on small controls: buttons, icon buttons, chips, badges, tabs, segment items, navigation items. Press on anything clickable | `fill-medium` (`overlay-medium`) | 7.8% ink | 6.5% paper | 5 to 6.5 |
 | Medium on a color sticker | Primary, warning and danger buttons, color badges, a selected segment pressed | `sticker-medium` (`overlay-sticker-medium`) | 10% ink | 10% ink | 5.5 to 6 |
+| Medium on an ink sticker | The server tile, in the rail header or the sidebar header: hover, press and while its list is open | `sticker-ink-medium` (`overlay-sticker-ink-medium`) | 6% paper | 6% paper | about 6.2 |
 | Medium on the frame | Rail items, on-frame buttons, the workspace button, the notification trigger | `fill-frame-medium` (`overlay-frame-medium`, `bg-fill-frame-medium`) | 10% ink | 6% paper | about 6.4 |
 | **Yellow highlight** | The current item in a popup, by pointer and keyboard: menu items, options, suggestions, quick reactions | `brand-soft` | opaque | 20% yellow | 8.1 / 5.9 |
 | **None** | Selected items: a selected segment or toggle, the active sidebar item, the selected tab, a selected row. Fields: inputs, the select trigger, the search box | — | — | — | — |
