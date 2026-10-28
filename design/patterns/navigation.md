@@ -133,7 +133,7 @@ A control that takes someone to another site ends in ↗, so they know before th
 - Show either Back or the tab bar, never both (principle 2). A page with Back at its top was entered from somewhere, so it covers the tab bar; a page without Back is a tab's top-level page, so it shows the tab bar. The mobile app and the phone web follow this one test on every page.
 - Make every page a top-level page or a pushed page; there is no third kind. Which pages are which is in [Page structure](./page-structure.md#phone).
 - Give every pushed page Back, including a gate page in front of a feature, a page while it loads and a page that failed to load: without it a page covered by nothing but itself is a dead end.
-- Put Back (`arrow-left`) at the top left of every pushed page.
+- Put Back (`arrow-left`) at the top left of every pushed page. On a foldable phone's outer screen, it is first in the system column instead, and the edge swipe still goes back ([Page structure](./page-structure.md#foldable-phones)).
 - Treat the iOS edge swipe and the Android system Back button as a press on Back. On Android, system Back on a pushed page returns to the page before it; on a top-level page other than the first, it opens the first top-level page; on the first, it leaves the app.
 - On the web, the browser's Back follows the browser's history, on top-level pages too; it doesn't go to the first top-level page the way Android's does. The browser's Back is the web's system Back, which belongs to each platform (principle 1).
 - A link opened directly goes back one level at a time, up to the top-level page, so a shared link never leaves the person without a way out.

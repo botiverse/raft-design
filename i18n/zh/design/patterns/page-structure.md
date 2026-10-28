@@ -1,7 +1,7 @@
 ---
 title: 页面结构
 summary: 手机页面和桌面端屏幕由哪些区域组成，它们如何从外框往里分层，以及两个区域之间只有一条线的规则。
-sourceHash: e046fe9a
+sourceHash: f638f072
 ---
 
 # 页面结构
@@ -66,13 +66,45 @@ app-shell/compositions/web-top-bar
 - 左边放工作空间按钮和工作空间横条，中间放搜索框，右边放正在工作的成员和铃铛。不管两侧放了什么，搜索框都在窗口中居中。
 - 里面的每个控件都是 36px 的外框项，距上下各 6px。工作空间按钮与导航条的按钮对齐，和导航条一样距左边缘 8px。右侧最后一个图标（铃铛）的图标框结束在距右边缘 20px 处，和下方头部最后一个图标在同一条线上；它的按钮超出这条线 8px（[对齐](../foundations/alignment.md#the-ends-of-a-header)）。
 - 在桌面应用里，把后退、前进和历史记录放在工作空间横条后面，把更新标签放在正在工作的成员前面。给窗口自己的按钮留出空间（左边是 macOS 的红绿灯按钮，右边是 Windows 的标题栏按钮），并让搜索框在整个窗口中居中，而不是在两者之间剩下的空间里居中。
-- 用窗口安全区变量给窗口自己的按钮留位置，不写死数值。在页面上方画了系统按钮的外壳，会在根元素上设置：`--raft-frame-inset-start`（macOS 红绿灯那个角）、`--raft-frame-inset-end`（Windows 标题栏按钮那个角，取自 Window Controls Overlay 的尺寸）和 `--raft-frame-inset-top`（这些按钮盖住的那条带的高度）。只有真的画了这些按钮的平台才设置，全屏时不设；网页一个都不设，读出来是 0。顶栏两端按它们留白；页面里的任何东西都不画进、不放进、不弹进这些区域：主题像素画不进 `--raft-frame-inset-end`，提示碰到 `--raft-frame-inset-top` 就往反方向弹（[Tooltip](../../../packages/ui/src/components/tooltip/tooltip.md)）。
+- 用窗口安全区变量给窗口自己的按钮留位置，不写死数值。在页面上方画了系统按钮的外壳，会在根元素上设置：`--raft-frame-inset-start`（macOS 红绿灯那个角）、`--raft-frame-inset-end`（Windows 标题栏按钮那个角，取自 Window Controls Overlay 的尺寸）和 `--raft-frame-inset-top`（这些按钮盖住的那条带的高度）。只有真的画了这些按钮的平台才设置，全屏时不设；网页一个都不设，读出来是 0。顶栏两端按它们留白；页面里的任何东西都不画进、不放进、不弹进这些区域：主题像素画不进 `--raft-frame-inset-end`，提示碰到 `--raft-frame-inset-top` 就往反方向弹（[Tooltip](../../../packages/ui/src/components/tooltip/tooltip.md)）。这些变量是逻辑方向的，所有要避开它们的东西见[窗口安全区](#frame-insets)。
 - 有顶栏时，导航条和侧栏都没有头部：导航条的第一个目的地和侧栏的第一行，都在顶栏接缝线下方 8px。
 
 #### 头部 {#headers}
 
 - 顶栏下面的每个头部（面板头部、侧面板头部、抽屉头部）都高 56px，这样它们底部的接缝线在整个屏幕上对齐。高度见[间距](../foundations/spacing.md#heights)。
 - 没有顶栏时（较早的桌面版本、服务器的公开页面），导航条头部和侧栏头部也是 56px，导航条头部是正方形（[间距](../foundations/spacing.md#heights)）。
+
+### 折叠屏手机 {#foldable-phones}
+
+折叠屏手机（iPhone Duo）有两块屏幕。外屏（466 × 678pt，竖着拿，比普通 iPhone 更宽更矮）是一个手机页面，系统始终在一侧留出一个竖列，放状态栏、标签栏和页面的控件，不需要转横。内屏的宽度够用 App 的桌面模式。
+
+#### 外屏 {#the-outer-screen-in-landscape}
+
+系统在摄像头那一侧留出一个竖列。哪一侧由硬件决定：Raft 不选，从右到左书写时也不镜像（[窗口安全区](#frame-insets)）。页面占满屏幕的其余部分，竖列里放的是竖着拿的手机放在顶栏和标签栏里的东西：
+
+| 页面 | 竖列，从上往下 | 页面 |
+| --- | --- | --- |
+| 一级页面 | 页面操作，最多 2 个，其余放进一个溢出按钮；底部是标签栏，只有图标（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-vertical-tab-bar)）。没有返回 | 页面名称是页面的第一行标题，在纸面上；在主页上，这里换成服务器切换器。筛选行在它下面。没有 56px 的黄色导航行 |
+| 推入页面 | 先是返回，然后是页面操作，最多 2 个，再是溢出按钮。没有标签栏 | 白色的 56px 页面头部，有标题和副标题，但没有返回，也没有图标按钮：它们在竖列里 |
+
+- 竖列里显示返回或标签栏，不会两个都有，和所有页面一样（[导航](./navigation.md#going-back)）。
+- 返回（`arrow-left`，44pt 点击区域）放在竖列的第一个。系统的边缘轻扫仍然能返回，而且仍是主要的返回方式：页面里的任何东西都不要接管从屏幕边缘开始的拖动。
+- 竖列里最多放 2 个页面操作，其余放进它的溢出菜单。
+- 竖列里的返回、操作和溢出用一个单独的组件绘制，不用 [AppRail](../../packages/ui/src/components/app-rail/app-rail.md)：导航条在外框上放目的地，竖列放的是这个页面的控件。竖列不是外框，所以不是黄色。里面的标签栏是平台自己的（[导航](./navigation.md#what-each-platform-draws)）。
+- 一级页面去掉 56px 的黄色导航行，页面名称成为页面的第一行标题（artin，2026-10-28，#wg-mobile）。在主页上，这一行是服务器切换器（工作空间按钮：头像、名称、V 形箭头），这样服务器标签只显示头像时，服务器的名称仍在屏幕上。在搜索页上，这一行是搜索框。
+- 没有了黄色的顶部，顶部的颜色不再说明页面的种类；由竖列来说明：一级页面有标签栏，推入页面有返回。黄色留在选中标签的贴纸里。
+- 铃铛放在主页的竖列里，作为主页的页面操作，其他页面都不放。搜索仍是一个标签。
+- 内容和消息输入框结束在竖列的内缘，边距从它量起（[每一栏只有一条边](#one-edge-per-column)）：发送按钮永远不在竖列下面。
+- 键盘打开时，标签栏隐藏，和所有手机一样（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#behavior)）；推入页面没有标签栏可隐藏。
+
+#### 内屏 {#the-inner-screen}
+
+内屏是 App 的桌面模式（[响应式布局](./responsive.md#structure)）：没有顶栏的导航条，然后是侧栏和主区域。
+
+- 导航条头部的工作空间图块是服务器切换器，而且是唯一的一个（[导航](./navigation.md#the-server-in-the-apps-desktop-mode)）：侧栏头部里没有。
+- 搜索是导航条上的一个目的地，铃铛放在导航条底部，和没有顶栏时的导航条一样（[AppRail](../../packages/ui/src/components/app-rail/app-rail.md)）。不要在某一栏上方放搜索框：它搜索的是所有东西，不只是那一栏。
+- 内屏横着拿时也有系统竖列，它和外屏一样放返回和页面操作，从不放目的地：目的地在导航条上。竖着拿时竖列消失，页面的控件回到横向的栏里。导航条挨着它时（从右到左书写时就是这样），两者之间只画一条线（[两个区域之间只有一条线](#one-line-between-two-regions)）。
+- 所有东西都不放在折痕上（[窗口安全区](#frame-insets)）。
 
 ## 规则 {#rules}
 
@@ -85,6 +117,22 @@ app-shell/compositions/web-top-bar
 - 两个区域之间只画一条线，不要两条并排：两条挨着的 1px 线看起来像一条 2px 的线。
 - 线归先画的那个区域。导航条和侧栏画自己的右边缘，所以旁边的会话或动态不画左边缘。贴在会话旁边的侧面板画自己的左边缘。
 - 区域之间用 `line-seam`，内容里面用 `line-hairline`（[颜色](../foundations/color.md#lines)）。
+
+### 窗口安全区 {#frame-insets}
+
+窗口安全区是外壳留给自己的那部分屏幕：桌面端窗口自己的控件（[网页顶栏](#the-web-top-bar)）；折叠屏手机上的系统竖列、摄像头和折痕（[折叠屏手机](#foldable-phones)）。外壳在根元素上把它们设为 `--raft-frame-inset-start`、`--raft-frame-inset-end` 和 `--raft-frame-inset-top`，只在真的留了东西的地方设置，全屏时不设；网页一个都不设，读出来是 0。
+
+- 留出的区域是物理的，变量是逻辑的。区域固定在硬件上（摄像头那一侧、折痕、标题栏按钮那个角），不随书写方向移动。变量跟着书写方向走，所以外壳用当前方向下与区域所在一侧对应的那个变量来报告它，按 start 和 end 排的内容在两种方向下都能避开它：
+
+| 方向 | 右侧的区域 | 左侧的区域 |
+| --- | --- | --- |
+| 从左到右 | `--raft-frame-inset-end` | `--raft-frame-inset-start` |
+| 从右到左 | `--raft-frame-inset-start` | `--raft-frame-inset-end` |
+
+- 不往安全区里画、放或弹出任何东西。内容和消息输入框结束在它那里，边距从它的边缘量起。
+- 弹出层、菜单和 toast 离安全区 8px，而不是离屏幕边缘（[层级](../foundations/elevation.md#popups)）。
+- 提示碰到 `--raft-frame-inset-start` 和 `--raft-frame-inset-end` 时往反方向弹，和碰到 `--raft-frame-inset-top` 一样，所以侧边竖列里某一项的提示朝内容打开（[Tooltip](../../packages/ui/src/components/tooltip/tooltip.md)）。
+- 不让任何东西跨过折痕或铰链。系统报告了折痕时，外壳也把它报告成安全区，各栏分在它的两边。
 
 ### 每一栏只有一条边 {#one-edge-per-column}
 
