@@ -1,3 +1,14 @@
+## [0.48.0](https://github.com/botiverse/raft-design/compare/v0.47.1...v0.48.0) (2026-10-28)
+
+### Design System
+
+- **Hover and press on an ink sticker:** the server tile (rail header, sidebar header) is ink, and ink over ink doesn't show, so it hovers, presses and shows its open list with 6% paper, in light and dark. ([#875](https://github.com/botiverse/raft-design/pull/875))
+  - Docs: https://raft-design.botiverse.build/foundations/states/
+
+### Added
+
+- Token **`sticker-ink-medium`** (6% paper in both modes) and the utility `overlay-sticker-ink-medium`. ([#875](https://github.com/botiverse/raft-design/pull/875))
+
 ## [0.47.1](https://github.com/botiverse/raft-design/compare/v0.47.0...v0.47.1) (2026-10-28)
 
 ### Fixed
