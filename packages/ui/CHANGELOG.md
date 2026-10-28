@@ -1,3 +1,16 @@
+## [0.43.0](https://github.com/botiverse/raft-design/compare/v0.42.0...v0.43.0) (2026-10-28)
+
+### Design System
+
+- **Frame insets:** tooltips flip away from every frame inset (`--raft-frame-inset-top`, `-start`, `-end`), and popups stay 8px clear of one. Start and end follow the popup's text direction. With no inset set, which is every web page, nothing moves. ([#860](https://github.com/botiverse/raft-design/pull/860))
+  - Docs: https://raft-design.botiverse.build/patterns/page-structure/#frame-insets
+
+### Changed
+
+- **Tooltip:** keeps at least 5px, or the inset, from the top, left and right. ([#860](https://github.com/botiverse/raft-design/pull/860))
+- **Popover, DropdownMenu, PreviewCard:** keep the inset plus 8px from each side that has an inset. ([#860](https://github.com/botiverse/raft-design/pull/860))
+- **ContextMenu, Select, Combobox, ComboboxSelect, NotificationCenter:** keep the larger of their default and the inset plus 8px. A `collisionPadding` you pass still wins. ([#860](https://github.com/botiverse/raft-design/pull/860))
+
 ## [0.42.0](https://github.com/botiverse/raft-design/compare/v0.41.0...v0.42.0) (2026-10-28)
 
 ### Design System
