@@ -100,7 +100,12 @@ Pick the channel icon by the kind of channel the action is on, the same kind its
 They are drawn on Lucide's grid: a 24px `svg`, lines of 2, round ends and joins, in `currentColor`. A pair shares one drawing and swaps only its mark, a plus to follow or join and a minus to unfollow or leave, so the two read as one command and its opposite:
 
 - The thread pair is `ThreadIcon` at 24px, the mark inside the front bubble, as Lucide's `message-circle-plus` puts it.
-- The Artifact pair is `ArtifactIcon`, the mark inside the page where its two lines of text were, as the thread pair puts it inside the bubble. Following is a mark inside the thing; the corner is for joining, leaving, adding and creating.
+- The Artifact pair is `ArtifactIcon`, the mark inside the page where its two lines of text were, as the thread pair puts it inside the bubble. Following is a mark inside the thing; the corner is for joining, leaving, adding and creating. At 16px and under, the minus of `UnfollowArtifactIcon` is drawn heavier, a line of 3 rather than 2, and 6 long rather than 5, on whole pixels: the plain minus, one line inside a page, read as one more line of its text and was easy to miss in a menu (Artea, 2026-10-28). From 18px up it is the plain minus, the same weight as the plus of `FollowArtifactIcon` ([A mark at small sizes](../../../../../design/foundations/iconography.md#a-mark-at-small-sizes)).
+
+```example
+icons/unfollow-artifact-sizes
+```
+
 - The channel pairs are Lucide's `hash`, `lock` and `git-branch`, full size and in place, the mark in the bottom-right corner (16 to 22). Where the glyph reaches that corner its strokes stop about a line's width short of the mark, as Lucide's `calendar-plus` cuts its corner. Every pair keeps the same gap, so the eight read as one set (Artea, 2026-10-28). `git-branch` leaves the corner empty and needs no cut.
 
 `AddCommentIcon` and `CreateTaskIcon` put a plus in the same corner, with the same gap: `AddCommentIcon` is `CommentIcon` at 24px, its bubble cut short of the plus; `CreateTaskIcon` is Lucide's `list-todo` with the plus in place of its last line. They have no minus pair.

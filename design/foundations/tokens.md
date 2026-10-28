@@ -91,6 +91,7 @@ The purpose says where the token is used: `frame`, `sidebar`, `canvas`, `card`, 
 | `-strong` | A deep shade, readable as text |
 | `-muted` | A strong tint |
 | `-soft` | A pale tint, without a border; see [Soft tints](./color.md#soft-tints) |
+| `-graphic` | A chart mark's fill or stroke, 3:1 against the surfaces. Only `warning` has one; see [Warnings in charts](./color.md#warnings-in-charts) |
 | `-foreground` | Text on the solid color, where a family has its own |
 | `-hover`, `-active` | The pair a solid fill takes on hover and press. A family has both or neither |
 | `-50` to `-950` | The numbered ramp. Only `brand` and `attention` have one |

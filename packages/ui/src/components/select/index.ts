@@ -1,5 +1,6 @@
 export {
   Select,
+  SelectActionItem,
   SelectArrow,
   SelectContent,
   SelectGroup,
@@ -21,6 +22,7 @@ export {
   SelectValue,
 } from "./select";
 export type {
+  SelectActionItemProps,
   SelectArrowProps,
   SelectContentProps,
   SelectGroupLabelProps,

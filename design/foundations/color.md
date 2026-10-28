@@ -138,6 +138,19 @@ inactive
 - Use blue (`foreground-link`) only for links in running text. It is a deep, quiet blue, close to the link blue of Claude's apps and docs: in light mode it has about half the chroma of a bright link blue, so it sits beside black ink and yellow without being the loudest thing on a page full of links, and it still reads as a link at a glance. Dark mode uses the same blue, lightened to read on the dark canvas.
 - Lime, lavender and stone only mark a status. Don't use them for anything else.
 
+### Warnings in charts
+
+A failure or warning drawn as a graphic, such as a failed route in a migration chart or a failed bar, is filled or stroked with `warning-graphic`. A chart mark is read by its shape and color alone, with no ink edge, so it needs the 3:1 against what it sits on that [WCAG 1.4.11](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html) asks of graphics. The `warning` sticker orange is 2.04:1 on white: enough with a sticker's edge, too faint for a bare mark.
+
+| Mode | `warning-graphic` | Canvas | Sidebar | Card | Popover |
+| --- | --- | --- | --- | --- | --- |
+| Light | `oklch(0.64 0.16 50)` | 3.56:1 | 3.42:1 | 3.56:1 | 3.56:1 |
+| Dark | `oklch(0.77 0.135 50)` | 7.98:1 | 9.00:1 | 7.20:1 | 6.75:1 |
+
+- Keep the warning hue (50) and change only lightness and chroma, so the mark reads as the same orange as the warning around it.
+- Use it for graphics only: a fill, a stroke, a marker, a legend swatch. Text about the failure, a value label or a legend entry's words take `warning-strong`, which is deep enough for text; `warning-graphic` is 3.56:1, under the 4.5:1 text needs.
+- A failure in a chart is `warning-graphic`, not `danger`: red is only for what cannot be undone.
+
 ### Statuses
 
 Tasks and presence each have five colors, and they never change meaning. Task statuses are spelled Todo, In Progress, In Review, Done and Closed.

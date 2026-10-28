@@ -272,6 +272,7 @@
   --color-warning-strong: var(--warning-strong);
   --color-warning-muted: var(--warning-muted);
   --color-warning-soft: var(--warning-soft);
+  --color-warning-graphic: var(--warning-graphic);
   --color-warning-hover: var(--warning-hover);
   --color-warning-active: var(--warning-active);
 
@@ -662,6 +663,24 @@ textarea:-webkit-autofill:disabled {
 @media (prefers-reduced-motion: reduce) {
   [data-located] {
     --located-animation: raft-located-still;
+  }
+}
+
+/* An icon drawn twice: a drawn icon whose mark gets lost at 16px carries a
+   second mark for small sizes (design/foundations/iconography.md). The svg is
+   its own size container; below 18px the small mark replaces the default one.
+   Without this stylesheet, the small mark's display="none" keeps the default. */
+[data-icon-sizes] {
+  container-type: inline-size;
+}
+
+@container (width < 18px) {
+  [data-icon-mark="default"] {
+    display: none;
+  }
+
+  [data-icon-mark="small"] {
+    display: inline;
   }
 }
 

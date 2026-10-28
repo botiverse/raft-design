@@ -240,10 +240,15 @@ export function FollowArtifactIcon(props: ActionIconProps) {
   );
 }
 
-/** Unfollow an Artifact: a minus inside ArtifactIcon's page. */
+/**
+ * Unfollow an Artifact: a minus inside ArtifactIcon's page. Below 18px the minus is drawn
+ * heavier and a little longer (stroke 3, 6 long, on whole pixels at 16px), so it reads as a
+ * mark rather than one more line of the page's text; at 20 and 24 it is the plain minus.
+ */
 export function UnfollowArtifactIcon(props: ActionIconProps) {
   return (
     <svg
+      data-icon-sizes=""
       xmlns="http://www.w3.org/2000/svg"
       width={24}
       height={24}
@@ -259,7 +264,8 @@ export function UnfollowArtifactIcon(props: ActionIconProps) {
     >
       <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z" />
       <path d="M9 6h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" />
-      <path d="M9.5 16h5" />
+      <path data-icon-mark="default" d="M9.5 16h5" />
+      <path data-icon-mark="small" display="none" strokeWidth={3} d="M9 16.5h6" />
     </svg>
   );
 }
