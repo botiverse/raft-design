@@ -27,6 +27,7 @@ The wider the scope of a message, the further out it goes; the full table is in 
 | Something in one panel failed: an agent won't start, a setting didn't save | `PanelNotice`, under the panel header ([Panel](../panel/panel.md))                                       |
 | The state of the whole server: a computer offline, a quota nearly full     | [NotificationCenter](../notification-center/notification-center.md), not a banner at the top of the page |
 | A signed-out visitor on a public page: sign up                             | The sign-up prompt, not a banner ([see below](#the-sign-up-prompt-on-a-public-page))                     |
+| A phone's own browser arrived on a message link: open the Raft app         | The open-in-app offer, not a banner ([see below](#the-open-in-app-offer-on-a-phone))                     |
 | The result of something the person just did                                | [Toast](../toast/toast.md)                                                                               |
 | The person must decide now                                                 | [Dialog](../dialog/dialog.md) or [AlertDialog](../alert-dialog/alert-dialog.md)                          |
 
@@ -143,3 +144,17 @@ Rules:
 - Show at most one on a page.
 - Never put a status in its place: what is true of this page (it failed to load, it is read-only, it changed) goes where [When to use](#when-to-use) puts it.
 - Write one sentence that says what Raft gets the visitor, then the action: "Make pages like this with Raft and your AI agents. Sign up now and start building." Label the button "Sign Up or Log In".
+
+## The open-in-app offer on a phone
+
+A phone's own browser (Safari, Chrome) that landed on a Raft message link offers the Raft app in one row, so the person can go on where replies and notifications already are. Like the sign-up prompt, it is an offer, not a notice, so it is not a `Banner`: compose it from an `IconTile`, a `Button` and an icon `Button` in a plain container.
+
+- One row under the conversation's header, across its full width, on `info-soft`, with a `line-seam` under it.
+- From the start: Raft's `IconTile` (`sm`) with the logo; a title, "Open in the Raft app", in semibold `text-callout` with `foreground`, and one line under it in `text-caption` with `foreground-muted` ("Go straight to this message"), each on one line, truncated; then one 32px outlined button (`variant="default" size="md"`), Open, and an × at the end with a target of at least 44px. Never a pink button: the conversation is still the page.
+- Open is a real link to the same address on the host the apps claim (`open.raft.build`), so the system hands it to the app; the page never launches anything by itself. When no app takes it, that host sends the person back with a marker, and the page offers the download in a bottom sheet (the tile, "The Raft app isn't installed yet", one line, then Download Raft App and Keep Using the Web) instead of the row.
+- × and Keep Using the Web put it away for the browser session. Nothing tries to tell whether the app is installed.
+
+Rules:
+
+- Show it only in a phone's own browser that arrived on a message link, while that conversation is on screen; never in Raft's apps, the web installed as an app, or a chat app's in-app browser, which gets its own guide to the system browser.
+- Show at most one: on a computer, the same arrival gets a `Banner` offering Raft Desktop instead, at the top of the conversation.
