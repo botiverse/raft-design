@@ -771,12 +771,20 @@ textarea:-webkit-autofill:disabled {
    in with transition-colors. */
 /* Theme decorations on the frame (themes.css): the theme's sprites on the top
    bar's right and above the rail's foot; none without a decorated theme. */
-/* The top bar's strip (190px) sits 72px from its right end, clear of the
-   right-hand controls; only from 1024px, where the centered search field
-   (at most min(32vw, 420px)) leaves it room. */
+/* The top bar's strip (190px) ends --frame-decor-top-end (72px if unset)
+   left of the bar's right-hand controls' safe area, --raft-frame-inset-end
+   (the window's caption buttons on a desktop shell; 0 on the web). The bar
+   must reach the window's right edge: the position counts from its padding
+   box, so padding that reserves the same corner is not counted twice. The
+   consumer sets --frame-decor-top-end to its trailing actions' width plus
+   16px, measured from inside the safe area, and sets --frame-decor-top: none
+   on the bar when the room between the search field and those actions can't
+   hold the whole strip with 16px on each side; never half a strip. Only from
+   1024px, where the centred search field leaves room for it. */
 @utility frame-decor-top {
   background-repeat: no-repeat;
-  background-position: right 72px center;
+  background-position: right
+    calc(var(--frame-decor-top-end, 72px) + var(--raft-frame-inset-end, 0px)) center;
   @media (width >= 1024px) {
     background-image: var(--frame-decor-top, none);
   }
