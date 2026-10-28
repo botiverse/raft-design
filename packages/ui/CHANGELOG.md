@@ -1,3 +1,23 @@
+## [0.41.0](https://github.com/botiverse/raft-design/compare/v0.40.0...v0.41.0) (2026-10-28)
+
+### Design System
+
+- **Icons:** Raft draws its own icons where Lucide has none, on Lucide's grid. A plus means add, create, follow or join this kind of thing, and a minus remove, unfollow or leave it: inside the thing for following, in the bottom-right corner for the rest; never another meaning. ([#851](https://github.com/botiverse/raft-design/pull/851), [#854](https://github.com/botiverse/raft-design/pull/854))
+  - Docs: https://raft-design.botiverse.build/foundations/iconography/
+- **Swipeable rows:** unfollow waits for its undo toast, like Done; the right swipe's armed cue, and the rows without one; swipeable rows own sideways drags. ([#848](https://github.com/botiverse/raft-design/pull/848), [#849](https://github.com/botiverse/raft-design/pull/849), [#850](https://github.com/botiverse/raft-design/pull/850))
+- **Banner:** the open-in-app offer on a phone browser. ([#848](https://github.com/botiverse/raft-design/pull/848))
+- **Card versus seam**, and DropPlaceholder in a layout's gap. ([#842](https://github.com/botiverse/raft-design/pull/842))
+
+### Added
+
+- Action icons: `FollowThreadIcon` / `UnfollowThreadIcon`, `JoinChannelIcon` / `LeaveChannelIcon` and their private and joint pairs. ([#851](https://github.com/botiverse/raft-design/pull/851))
+- `CommentIcon`, `AddCommentIcon`, `FeedbackIcon`, `CreateTaskIcon`, `ReopenTaskIcon`, `ArtifactIcon`, `FollowArtifactIcon` / `UnfollowArtifactIcon`. ([#854](https://github.com/botiverse/raft-design/pull/854))
+
+### Fixed
+
+- **DropPlaceholder** is opaque in a layout's gap. ([#842](https://github.com/botiverse/raft-design/pull/842))
+- **FilterChip:** its × reaches 44px on touch. ([#842](https://github.com/botiverse/raft-design/pull/842))
+
 ## [0.40.0](https://github.com/botiverse/raft-design/compare/v0.39.0...v0.40.0) (2026-10-28)
 
 ### Design System
