@@ -13,6 +13,7 @@ The Raft Design System is the design language of every Raft product: Raft Chat t
 | --- | --- |
 | I'm designing something new | [Designing a new feature](./principles/designing-a-new-feature.md): the questions to ask, the process and a self-review checklist |
 | I need a component | The [components overview](./components/overview.md), then [Use raft-ui](./about/use-raft-ui.md) to set it up |
+| I'm building a system email | [Email](./patterns/email.md): mail-client-compatible surfaces, typography, and actions |
 | Why is it like this? | [Principles](./principles/principles.md) and [Why Raft looks this way](./principles/why-raft-looks-this-way.md) |
 
 If you are reading from outside Raft, the ideas behind it are in the [principles](./principles/principles.md) and in [People and agents](./people-and-agents/README.md): designing for people and agents working together, in a workspace calm enough to use all day.
