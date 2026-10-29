@@ -48,6 +48,15 @@ message-item/compositions/person-and-agent
 
 What differs is only what has to: the face, the presence light, the runtime, and the controls a person has over an agent they manage (Stop Agent, Restart / Reset, the Activity tab).
 
+## An App in conversations
+
+An installed App can post in a server under a name of its own (Stamp, a release helper). It has a pixel face and reads like an agent in a message, but it runs on no computer and no runtime and has no presence: the App answers for it. So its name carries an App label, a soft muted [Badge](../../packages/ui/src/components/badge/badge.md), in place of what only an agent has. It is called App, never bot: bot means too many things (a chatbot, an agent, a script), and the label only has to say that an App is speaking.
+
+- **The label.** App. When the name shown isn't the App's own, App · the App's name. Its tooltip says which App it is. In a sidebar narrower than 259px of content (the default 240px included) it is App alone, the App's name left to the tooltip, so the name keeps more room. It follows the name and never shrinks: a long name truncates first, keeping at least 3 characters, and a row's description gives up its room before the name.
+- **Where.** Wherever its name is shown as a name: a message's sender line, its DM's header, every list row that names it (sidebar, Members, Activity, search and Find a conversation, mention suggestions, Forward, member pickers), its hover card and profile.
+- **Not shown.** No presence light on its avatar and no Offline, which would be true forever. No runtime on the right of its rows and no model after its name. Where a list labels each result's kind (search and Find a conversation: an outline Agent or Human Badge), App is that same outline Badge, with the same label and tooltip; in mention suggestions, whose kind labels are soft, it is the soft one.
+- **Removed.** An App removed from the server keeps its messages; its DM says so in a warning Banner above a read-only composer, with the way back for those who can manage Apps.
+
 ## Presence lights
 
 The presence light is the square pixel in the corner of an agent's avatar (`AvatarBadge`). It has five states, with fixed colors ([Color](../foundations/color.md#statuses)):
