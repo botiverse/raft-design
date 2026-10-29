@@ -15,7 +15,7 @@ Use this pattern for account verification, password recovery, invitations, secur
 
 | Message | Structure |
 | --- | --- |
-| Account, invitation, security, or lifecycle notification | Small brand lockup above a white reading card, heading, body, at most 1 primary action, required footer |
+| Account, invitation, security, or lifecycle notification | Small centered brand lockup on a column-wide yellow area, unboxed heading and body, at most 1 primary action, required footer |
 | Personal onboarding letter | Greeting, paragraphs, signature, required footer; no decorative card or added action button |
 
 Use the roles from [Color](../foundations/color.md), [Typography](../foundations/typography.md), [Shape](../foundations/shape.md), and [Button](../../packages/ui/src/components/button/button.md). The brand lockup identifies the sender; it is not a large promotional hero.
@@ -23,9 +23,9 @@ Use the roles from [Color](../foundations/color.md), [Typography](../foundations
 ## Rules
 
 - Resolve semantic tokens into inline sRGB colors and pixel dimensions for clients that strip custom properties or stylesheets. Keep the mapping documented beside the email renderer.
-- Use `attention-strong` for underlined body links. This email-specific pink-link choice was requested by Cindy on October 29, 2026; in-app links continue to follow `foreground-link`.
+- Use `attention-400` for underlined body links, matching the primary action fill in both light and supported dark mode. Cindy selected this light-pink treatment on October 29, 2026; in-app links continue to follow `foreground-link`.
 - Use `attention-400` with `sticker-ink` for the primary action, the control radius, and an ink border. Keep the action readable when images and web fonts are disabled.
-- Use the container radius and a hairline for the reading card. Follow [Elevation](../foundations/elevation.md): no hard shadows on cards or buttons.
+- Keep body content directly on the page surface, without a reading card, border, radius, or shadow. Cindy selected the centered logo on a yellow brand area and removed the body card on October 29, 2026. Keep the brand area small, with the control radius; follow [Elevation](../foundations/elevation.md) for actions without hard shadows.
 - Use a 16px body with 24px line height and a footer of at least 12px. Email readers frequently view the same message on a phone, so do not shrink the reading size for desktop.
 - Keep Space Grotesk first in the human-text font stack, followed by system fonts. Do not depend on a remote font loading for the layout to work.
 - Preserve the message's existing action destination, sender, reply address, expiry explanation, and required unsubscribe or legal footer. A visual revision does not change delivery policy.
@@ -41,6 +41,7 @@ Use the roles from [Color](../foundations/color.md), [Typography](../foundations
 
 - Give layout tables `role="presentation"`, use headings for message structure, and provide the brand name as the image's alternative text.
 - Render actions as named links that work without JavaScript. Underline body links so color is not the only cue.
+- The selected light-pink body text on white falls below normal-text contrast requirements. Record that limitation; it is not an accessibility pass. Required unsubscribe links keep independent neutral colors and must pass their contrast check.
 - Keep security instructions and expiry information as text, not images.
 
 ## Related
