@@ -1,3 +1,19 @@
+## [0.49.0](https://github.com/botiverse/raft-design/compare/v0.48.0...v0.49.0) (2026-10-29)
+
+### Design System
+
+- **List cells:** a list's rows draw no line between them. Every state (hover, press, menu open, selected, located, keyboard focus) is one rounded shape inset 8px from the list's sides, with the row's content 12px inside it. The list spaces its rows 2px apart with `gap` and pads 8px at its ends. A column of list cells starts its title, toolbar and content on one 20px edge, on a phone too (`--column-margin`). Settings cards keep their hairlines. ([#815](https://github.com/botiverse/raft-design/pull/815))
+  - Docs: https://raft-design.botiverse.build/patterns/lists/
+
+### Added
+
+- `lib/list-cell` recipe fragments (`listCell`, `listCellStates`, `listCellFocus`) shared by the row components; `ListRow` takes `cell` to become a list cell (off by default).
+- Tokens **`fill-cell-hover`**, **`fill-cell-press`**, **`fill-cell-selected`**; the variable `--column-margin`. ([#815](https://github.com/botiverse/raft-design/pull/815))
+
+### Changed
+
+- **SidebarItem, InboxItem, SearchEntity/SearchHit rows:** list cells, no dividers; their lists (`SidebarList`, `SearchResultsList`, `ActivityInboxViewport`, `InboxItemSkeletonList`, `DialogNav`) space rows with `gap-0.5 py-2`. An app that drew its own row padding or right inset on these rows should remove it. ([#815](https://github.com/botiverse/raft-design/pull/815))
+
 ## [0.48.0](https://github.com/botiverse/raft-design/compare/v0.47.1...v0.48.0) (2026-10-28)
 
 ### Design System
