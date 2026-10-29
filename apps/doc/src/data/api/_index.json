@@ -929,7 +929,7 @@
       "ModeBarDescription",
       "ModeBarTitle"
     ],
-    "status": "experimental",
+    "status": "stable",
     "description": "The strip. Put `ModeBarContent` in it, then the `ModeBarAction` that ends the mode."
   },
   "notification-center": {
