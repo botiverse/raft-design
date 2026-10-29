@@ -1,3 +1,9 @@
+## [0.52.2](https://github.com/botiverse/raft-design/compare/v0.52.1...v0.52.2) (2026-10-29)
+
+### Fixed
+
+- **A Badge rendered as a button keeps a 44px touch target:** on a touch screen its transparent hit area reaches 44px (and at least the badge's width) through CSS anchor positioning, so the badge's own clip doesn't cut it. The look, long-label truncation and desktop are unchanged; browsers without `anchor-scope` keep today's behaviour. A badge the consumer positions (`relative`) gets no extension. ([#892](https://github.com/botiverse/raft-design/pull/892))
+
 ## [0.52.1](https://github.com/botiverse/raft-design/compare/v0.52.0...v0.52.1) (2026-10-29)
 
 ### Fixed
