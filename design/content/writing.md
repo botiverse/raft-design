@@ -16,7 +16,8 @@ These rules are for the words inside the product: labels, titles, messages, empt
 
 ## Casing
 
-- Use Title Case for anything clickable, text links included: Create Task, Mark All Read, Create Task from Message, Sign Out. A link inside a sentence takes the sentence's case.
+- Use Title Case for anything clickable that names an action, text links included: Create Task, Mark All Read, Create Task from Message, Sign Out, View in Channel. A link inside a sentence takes the sentence's case.
+- A link that describes where something is or how many there are, rather than what it does, is a phrase and takes sentence case: From a message in #general, 3 replies, Edited by Remy. Title Case tells the reader "this is a command"; on a description it only makes the phrase look like a heading (design review, 2026-10-29).
 - In Title Case, keep these short words lowercase: a, an, the, to, in, on, of, for, as, and, or, with, from, by, at. Short connecting words read as joints between the words that carry meaning: Continue with Google, Remove from Saved, Sort by Newest. Capitalize them when they come first or last, or when they belong to the verb: Sign In, Sign Out, Turn On, Back to Sign In, so a pair like Sign In and Sign Out stays alike.
 - Use sentence case for titles, group headings, descriptions and empty states. A dialog or sheet title that repeats the label of the button that opened it keeps that label's Title Case: Create Channel; see [Actions and their dialogs](#actions-and-their-dialogs).
 - Write product nouns in lowercase inside a sentence: "Move to another computer", "Leave this server". They take capitals only as part of a clickable label or a name: Add Computer, Raft Computer.
