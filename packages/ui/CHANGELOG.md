@@ -1,3 +1,22 @@
+## [0.50.0](https://github.com/botiverse/raft-design/compare/v0.49.0...v0.50.0) (2026-10-29)
+
+### Design System
+
+- **Usage shows what is used:** a Meter fills with what is used, not what is left, and its text always says it ("62% used · resets in 3h", never a bare "62%"). It turns `warning` from 80% used, the same point as 20% left before, so the same data keeps its colour; used up is a full `warning` bar with "Used up". A remaining amount can go in a tooltip ("378 GB free of 994 GB"). Decided on 2026-10-29 (stdrc). ([#879](https://github.com/botiverse/raft-design/pull/879))
+  - Docs: https://raft-design.botiverse.build/components/meter/
+
+### Added
+
+- **Meter `warnAt`:** the share used (0–1, default 0.8) from which it warns. ([#879](https://github.com/botiverse/raft-design/pull/879))
+
+### Changed
+
+- **Meter** draws `used` of `max`; `aria-valuenow` is `used`. `low` (amount left) is deprecated but still honoured: `low={n}` is `warnAt={1 - n / max}`. ([#879](https://github.com/botiverse/raft-design/pull/879))
+
+### Breaking
+
+- **Meter `data-level`** is `normal` / `high` / `full` (was `plenty` / `low` / `empty`). Update selectors and tests that read it. ([#879](https://github.com/botiverse/raft-design/pull/879))
+
 ## [0.49.0](https://github.com/botiverse/raft-design/compare/v0.48.0...v0.49.0) (2026-10-29)
 
 ### Design System
