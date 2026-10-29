@@ -74,11 +74,20 @@ function renderHead(mode: (typeof MODES)[number]) {
 
 const height = (element: Element) => element.getBoundingClientRect().height;
 
-/** The height of the button's ::after hit area. */
+/**
+ * The height of the button's ::after hit area, placed from inside the button's
+ * border. Chromium draws the 1.5px border as 1px at 1x, so it is at least, not
+ * exactly, the target (as Button's).
+ */
 function hitHeight(button: HTMLElement) {
   const after = getComputedStyle(button, "::after");
   if (after.position !== "absolute") return height(button);
-  return height(button) - Number.parseFloat(after.top) - Number.parseFloat(after.bottom);
+  const own = getComputedStyle(button);
+  const inside =
+    height(button) -
+    Number.parseFloat(own.borderTopWidth) -
+    Number.parseFloat(own.borderBottomWidth);
+  return inside - Number.parseFloat(after.top) - Number.parseFloat(after.bottom);
 }
 
 /** How far the last icon box ends from the head's right edge. */
@@ -99,7 +108,7 @@ for (const s of SCREENS) {
       const { action, icon } = renderHead(mode);
       expect(height(action)).toBe(s.size);
       expect(action.getBoundingClientRect().width).toBe(s.size);
-      expect(hitHeight(action)).toBe(s.hit);
+      expect(hitHeight(action)).toBeGreaterThanOrEqual(s.hit);
       expect(height(icon)).toBe(s.icon);
     });
 

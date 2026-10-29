@@ -11,9 +11,10 @@ const panelActionBase = tv({
     // The control metrics: on a desktop (from 768px with a mouse or
     // trackpad) the DS small icon button, 32 with an 18px glyph, keeping a
     // 44px hit area through the overhang; on a phone and on a touch screen
-    // the 44px button, its tap target, with no overhang.
+    // the 44px button, its tap target, with no overhang. The ::after is
+    // placed from inside the 1.5px border, so it reaches that far too.
     "px-2 md:pointer-fine:px-[5px]",
-    "after:absolute after:-inset-control-hit",
+    "after:absolute after:-inset-[calc(var(--spacing-control-hit)+1.5px)]",
     "text-foreground",
     "hover:bg-fill-medium active:bg-fill-medium",
     "focus-visible:shadow-focus",
