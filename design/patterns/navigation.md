@@ -188,11 +188,12 @@ Decided on 2026-10-22 by stdrc (D1a, task #152).
 
 #### The server in the apps' desktop mode
 
-Decided on 2026-10-23 by Jasper, on sindresorhus's proposal (task #8).
+Decided on 2026-10-23 by Jasper, on sindresorhus's proposal (task #8). The row of the server's pages was dropped on 2026-10-29 by artin (mobile #3975).
 
 - From 840dp, where the apps show the rail ([Responsive layout](./responsive.md#structure)), the server is the workspace tile in the rail's header and nowhere else: the rail has no server tab. Two entries to the same server side by side make people wonder whether they do different things. The web has one, the workspace button at the top left.
-- The tile opens the server tab's popover next to it: the server list, the footer actions, then the server's pages. The apps' rail keeps the phone's destinations, so Members and Computers have no item on it, and the popover is where they live, as on a phone.
-- Leave Settings out of the popover's row there: it is already at the bottom of the rail, as on the web, and one place has one button. The row holds Members and Computers, and a feedback reply's dot stays on the rail's Settings. A guest has neither, so for a guest the popover has no row of pages at all, rather than an empty one.
+- The tile opens the server tab's popover next to it: the server list and the footer actions, without the row of the server's pages. Every one of those pages already has a way in that stays on screen: Members is on the rail, Settings at the rail's bottom, and Computers in Settings. One place has one button, so a second copy in the popover would only make people wonder whether it leads somewhere else.
+- Put the attention dots where those pages live: a feedback reply's on the rail's Settings, a computer that needs attention on Settings too, since Computers is reached from there.
+- On a phone the popover keeps its row ([The server tab on a phone](#the-server-tab-on-a-phone)): the tab bar has no room for Members, Computers or Settings, so the popover is their only way in.
 - Show the attention dot on the tile's avatar only when another server has unread items, the same rule as the server tab's.
 
 ### Several views of one place
