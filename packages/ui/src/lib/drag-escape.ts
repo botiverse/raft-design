@@ -36,7 +36,10 @@ function guard(win: Window) {
 }
 
 // Installed as soon as raft-ui's drag parts load, so it runs before the
-// capture-phase Escape listeners an app adds on the window later.
+// capture-phase Escape listeners an app adds on the window later. The package
+// is `"sideEffects": ["**/*.css"]`: a bundler drops this module when nothing
+// imports holdEscape (no drag parts, nothing to guard), and keeps this line
+// whenever the drag parts are in the bundle, since they import from here.
 if (typeof window !== "undefined") guard(window);
 
 /** A sensor's drag has started: Escape now cancels it, and only it. */
