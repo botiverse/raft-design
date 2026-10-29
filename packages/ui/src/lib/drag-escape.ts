@@ -35,8 +35,13 @@ function guard(win: Window) {
   return drags;
 }
 
-// Installed as soon as raft-ui's drag parts load, so it runs before the
-// capture-phase Escape listeners an app adds on the window later.
+// Installed when raft-ui loads, so it runs before the capture-phase Escape
+// listeners an app adds on the window later, even when the drag parts load
+// later (lazily). Every entry (index.ts, wip.ts) imports this module for its
+// side effect, and package.json "sideEffects" lists it and the entries so a
+// tree-shaking bundler keeps the import (drag-escape.entries.test.ts,
+// drag-escape.browser.test.ts). The drag parts (drag-sensors.ts) and the touch
+// drag (touch-drag.ts: pull-to-refresh, MobileNav servers) import it as well.
 if (typeof window !== "undefined") guard(window);
 
 /** A sensor's drag has started: Escape now cancels it, and only it. */

@@ -26,6 +26,13 @@
     "skills"
   ],
   "type": "module",
+  "sideEffects": [
+    "**/*.css",
+    "./dist/index.mjs",
+    "./dist/wip.mjs",
+    "./dist/lib/drag-escape.mjs",
+    "./src/lib/drag-escape.ts"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",

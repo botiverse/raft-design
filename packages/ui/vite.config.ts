@@ -15,6 +15,23 @@ export default defineConfig({
     },
   },
   pack: {
+    // Emit one ESM module per source module (mirrors src/) instead of one
+    // ~620 KB index.mjs, so consumers' bundlers can drop unused components.
+    // Paired with "sideEffects" in package.json.
+    unbundle: true,
+    plugins: [
+      {
+        // Component CSS ships through styles.css (copied below), never through
+        // the JS, so drop the relative `import "./x.css"` lines a component
+        // keeps for dev and tests; a bare package CSS import is left alone. Without this, unbundle emits a CSS chunk per
+        // component and renames its JS (timeline.mjs -> timeline2.mjs).
+        name: "raft-ui:drop-component-css",
+        resolveId(source: string) {
+          if (/^\.\.?\//.test(source) && source.endsWith(".css"))
+            return { id: source, external: true, moduleSideEffects: false };
+        },
+      },
+    ],
     deps: {
       // tsdown <0.23 compatibility: resolve external dependency subpaths.
       // Remove to preserve subpath imports as written (the new default).
