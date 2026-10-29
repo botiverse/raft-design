@@ -3,7 +3,7 @@ const SHOW_TEXT = 4;
 
 type RectLike = { top: number; right: number; bottom: number; left: number };
 
-export type MessageTextSelectionAnchor = {
+export type TextSelectionAnchor = {
   contextElement?: Element;
   getBoundingClientRect: () => DOMRect;
   getClientRects: () => DOMRect[];
@@ -109,10 +109,10 @@ function isBackward(selection: Selection) {
  * follows the text when it scrolls. Pass it to `PopoverContent`'s `anchor`.
  * Returns `null` when nothing is selected.
  */
-export function createMessageTextSelectionAnchor(
+export function createTextSelectionAnchor(
   selection: Selection,
   contextElement?: Element,
-): MessageTextSelectionAnchor | null {
+): TextSelectionAnchor | null {
   if (selection.isCollapsed || selection.rangeCount === 0) return null;
 
   const range = selection.getRangeAt(0).cloneRange();

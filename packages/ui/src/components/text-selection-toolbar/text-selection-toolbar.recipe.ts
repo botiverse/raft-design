@@ -1,6 +1,6 @@
 import { tv } from "../../lib/tv";
 
-export const messageTextSelectionToolbar = tv({
+export const textSelectionToolbar = tv({
   slots: {
     toolbar: [
       "flex min-w-0 items-center select-none",

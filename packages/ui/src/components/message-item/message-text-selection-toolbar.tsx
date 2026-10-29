@@ -1,55 +1,38 @@
-import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
-import type { StyledProps } from "../../lib/styled-props";
-import { messageTextSelectionToolbar } from "./message-text-selection-toolbar.recipe";
+import type { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
+import {
+  TextSelectionToolbar,
+  TextSelectionToolbarButton,
+  TextSelectionToolbarSeparator,
+} from "../text-selection-toolbar/text-selection-toolbar";
+import type {
+  TextSelectionToolbarButtonProps,
+  TextSelectionToolbarProps,
+  TextSelectionToolbarSeparatorProps,
+} from "../text-selection-toolbar/text-selection-toolbar";
+import { createTextSelectionAnchor } from "../text-selection-toolbar/text-selection-anchor";
+import type { TextSelectionAnchor } from "../text-selection-toolbar/text-selection-anchor";
 
-export type MessageTextSelectionToolbarProps = StyledProps<BaseToolbar.Root.Props>;
+// The toolbar over selected text is not a message's own part: an Artifact
+// selects text too. These names stay until apps move to TextSelectionToolbar.
 
-export function MessageTextSelectionToolbar({
-  className,
-  ...props
-}: MessageTextSelectionToolbarProps) {
-  const { toolbar } = messageTextSelectionToolbar();
+/** @deprecated Use `TextSelectionToolbar`. */
+export const MessageTextSelectionToolbar = TextSelectionToolbar;
+/** @deprecated Use `TextSelectionToolbarButton`. */
+export const MessageTextSelectionToolbarButton = TextSelectionToolbarButton;
+/** @deprecated Use `TextSelectionToolbarSeparator`. */
+export const MessageTextSelectionToolbarSeparator = TextSelectionToolbarSeparator;
+/** @deprecated Use `createTextSelectionAnchor`. */
+export const createMessageTextSelectionAnchor = createTextSelectionAnchor;
 
-  return (
-    <BaseToolbar.Root
-      data-slot="message-text-selection-toolbar"
-      className={toolbar({ className })}
-      {...props}
-    />
-  );
-}
-
-export type MessageTextSelectionToolbarButtonProps = StyledProps<BaseToolbar.Button.Props>;
-
-export function MessageTextSelectionToolbarButton({
-  className,
-  ...props
-}: MessageTextSelectionToolbarButtonProps) {
-  const { button } = messageTextSelectionToolbar();
-
-  return (
-    <BaseToolbar.Button
-      data-slot="message-text-selection-toolbar-button"
-      type="button"
-      className={button({ className })}
-      {...props}
-    />
-  );
-}
-
-export type MessageTextSelectionToolbarSeparatorProps = StyledProps<BaseToolbar.Separator.Props>;
-
-export function MessageTextSelectionToolbarSeparator({
-  className,
-  ...props
-}: MessageTextSelectionToolbarSeparatorProps) {
-  const { separator } = messageTextSelectionToolbar();
-
-  return (
-    <BaseToolbar.Separator
-      data-slot="message-text-selection-toolbar-separator"
-      className={separator({ className })}
-      {...props}
-    />
-  );
-}
+/**
+ * @deprecated Use `TextSelectionToolbarProps`. Base UI's Toolbar is in
+ * scope here so the generated API names its types as the new part's do.
+ */
+export type MessageTextSelectionToolbarProps = TextSelectionToolbarProps &
+  Pick<BaseToolbar.Root.Props, "orientation">;
+/** @deprecated Use `TextSelectionToolbarButtonProps`. */
+export type MessageTextSelectionToolbarButtonProps = TextSelectionToolbarButtonProps;
+/** @deprecated Use `TextSelectionToolbarSeparatorProps`. */
+export type MessageTextSelectionToolbarSeparatorProps = TextSelectionToolbarSeparatorProps;
+/** @deprecated Use `TextSelectionAnchor`. */
+export type MessageTextSelectionAnchor = TextSelectionAnchor;

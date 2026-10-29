@@ -57,7 +57,7 @@ message-item/compositions/item-preview
 - `MessageItemFooter`: one row: the reactions (`MessageReactionChip`, with `MessageReactionAddButton` last), then the saved and read markers (`MessageItemSavedIndicator`, `MessageItemReadReceipt`). The tasks created from the message are not in it: they are a list above it ([Tasks in a conversation](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)).
 - `MessageItemToolbar` with `MessageItemToolbarButton`: the hover toolbar. It sets `--mi-toolbar-width` on its row as it shows, which the header's fade under it reads. Earlier versions read a `--mi-toolbar-reserve` from the app to keep room in the header; it is now ignored, so remove it where you set it.
 - `MessageMultiSelectCheckbox` and `MessageMultiSelectToolbar`, with its actions in `MessageMultiSelectToolbarActions` (28px buttons 4px apart; on a touch screen each takes a 44px tap, and reaches only half the gap toward its neighbour, so a tap between two lands on the nearer): selecting several messages ([Built from existing parts](../../../../../design/components/overview.md#toolbar-for-selected-messages)).
-- `MessageTextSelectionToolbar` with `MessageTextSelectionToolbarButton` and `MessageTextSelectionToolbarSeparator`: actions on selected text ([Toolbar for selected text](#toolbar-for-selected-text)); `createMessageTextSelectionAnchor` places it.
+- A [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md): actions on selected text ([Toolbar for selected text](#toolbar-for-selected-text)). `MessageTextSelectionToolbar` and its parts are deprecated aliases of it.
 
 ### In the body
 
@@ -245,14 +245,7 @@ message-item/compositions/reactions
 
 ### Toolbar for selected text
 
-`MessageTextSelectionToolbar` floats over text the person selects in a message, with actions such as Quote and Copy. It looks exactly like the hover toolbar, so the two read as one kind of thing:
-
-- It is 36px high: `radius-container` with its hairline drawn inside (`ring-inset`), around 28px buttons with `radius-chip`, 4px from the frame and 4px apart.
-- Its buttons have text labels after 16px icons in `foreground-muted`. On hover they take the medium tier, `fill-medium`, not the `brand-soft` of a menu row: a toolbar's actions are buttons, not menu rows ([States](../../../../../design/foundations/states.md)).
-- `MessageTextSelectionToolbarSeparator` is 20px high, with the toolbar's 4px on each side.
-- Write labels in Title Case. They never wrap: Chinese text can break between any two characters, so a toolbar squeezed at the edge of the window broke a two-character label onto two lines.
-- It anchors to the line where the selection's focus end is, where the person let go, not to the whole range: a whole-line or multi-paragraph selection spans the row, and the middle of that is nowhere near the pointer. Build the anchor with `createMessageTextSelectionAnchor(selection)` and pass it to `PopoverContent`'s `anchor`.
-- It stays inside the viewport: above the line by default, it flips below when there is no room and shifts along the line near a side edge.
+Text the person selects in a message gets a [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md), with actions such as Quote and Copy. It looks exactly like the hover toolbar, so the two read as one kind of thing; its look, its placement on the selection's focus line and its labels are in its own doc.
 
 ## Content
 
@@ -270,7 +263,7 @@ message-item/compositions/reactions
 - Give every `MessageItemToolbarButton` an `aria-label` in Title Case: Reply in Thread, Add Reaction, Save. The toolbar shows on keyboard focus, so Tab reaches it.
 - `MessageReactionChip` wraps Base UI `Toggle`: `aria-pressed` says whether the person reacted. Give it an `aria-label`; the drawn reaction inside is hidden ([Brand](../../../../../design/foundations/brand.md#reactions)).
 - Put the reason a reaction failed in `MessageReactionErrorIndicator`, a visually hidden `role="status"`.
-- `MessageTextSelectionToolbar` wraps Base UI `Toolbar`; give it an `aria-label`.
+- Give the toolbar over selected text an `aria-label` ([TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md#accessibility)).
 - Give `MessageMultiSelectCheckbox` a label that names the message, such as "Select message from Bugen".
 - Render a reference chip that opens something as a link, through `render`; the chip is a `span` by default. An app link opens in a new tab, with `rel="noopener noreferrer"`.
 - Give an app's icon in `MessageReferenceIcon` an empty `alt`: the title beside it names the link.

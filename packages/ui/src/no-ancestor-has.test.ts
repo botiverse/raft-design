@@ -124,6 +124,9 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/message-replies/message-replies.recipe.ts": 1,
   "components/notification-center/notification-center.tsx": 1,
   "components/panel/panel-header.recipe.ts": 0,
+  // A split action's root tints its main part while its menu is open, read
+  // from its own child (self-subject, a custom property the part reads).
+  "components/panel/panel-split-action.recipe.ts": 1,
   "components/picker-trigger-button/picker-trigger-button.tsx": 2,
   "components/sidebar/sidebar-item.recipe.ts": 2,
   "components/sidebar/sidebar-section.recipe.ts": 1,

@@ -193,3 +193,19 @@ export * from "./components/choice-list/index";
 // opens a list". Until the Artifacts viewer's presence has settled on it.
 export { AvatarGroupButton } from "./components/avatar/index";
 export type { AvatarGroupButtonProps } from "./components/avatar/index";
+
+// A header action with a menu beside it, read as one control (Comment and its
+// ▾ in the Artifact viewer): panel.md, "Split actions". Until stdrc approves
+// the parts.
+export {
+  PanelSplitAction,
+  PanelSplitActionMain,
+  PanelSplitActionMenu,
+  PanelSplitActionToggle,
+} from "./components/panel/index";
+export type {
+  PanelSplitActionMainProps,
+  PanelSplitActionMenuProps,
+  PanelSplitActionProps,
+  PanelSplitActionToggleProps,
+} from "./components/panel/index";

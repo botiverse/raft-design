@@ -6,9 +6,9 @@ import { Button } from "../button/button";
 import { MessageItem } from "../message-item/message-item-root";
 import { MessageItemToolbar, MessageItemToolbarButton } from "../message-item/message-item-toolbar";
 import {
-  MessageTextSelectionToolbar,
-  MessageTextSelectionToolbarButton,
-} from "../message-item/message-text-selection-toolbar";
+  TextSelectionToolbar,
+  TextSelectionToolbarButton,
+} from "../text-selection-toolbar/text-selection-toolbar";
 import { MessageListJumpPill } from "./message-list-jump";
 
 // The controls that float in a conversation, side by side with an ordinary
@@ -54,12 +54,12 @@ function Family({ mode }: { mode: "light" | "dark" }) {
           </MessageListJumpPill>
         </div>
         <div style={{ position: "relative", paddingTop: 24 }}>
-          <MessageTextSelectionToolbar aria-label="Selected text" data-testid="selection">
-            <MessageTextSelectionToolbarButton data-testid="selection-button">
+          <TextSelectionToolbar aria-label="Selected text" data-testid="selection">
+            <TextSelectionToolbarButton data-testid="selection-button">
               <Icon testId="selection-icon" />
               Quote
-            </MessageTextSelectionToolbarButton>
-          </MessageTextSelectionToolbar>
+            </TextSelectionToolbarButton>
+          </TextSelectionToolbar>
         </div>
         <div style={{ paddingTop: 24 }}>
           <MessageItem>

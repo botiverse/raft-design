@@ -1193,6 +1193,7 @@
   {
     "name": "MessageTextSelectionToolbar",
     "entry": "@botiverse/raft-ui",
+    "deprecated": "Use `TextSelectionToolbar`.",
     "native": true,
     "props": [
       {
@@ -1229,6 +1230,7 @@
   {
     "name": "MessageTextSelectionToolbarButton",
     "entry": "@botiverse/raft-ui",
+    "deprecated": "Use `TextSelectionToolbarButton`.",
     "native": true,
     "props": [
       {
@@ -1267,6 +1269,7 @@
   {
     "name": "MessageTextSelectionToolbarSeparator",
     "entry": "@botiverse/raft-ui",
+    "deprecated": "Use `TextSelectionToolbarSeparator`.",
     "native": true,
     "props": [
       {

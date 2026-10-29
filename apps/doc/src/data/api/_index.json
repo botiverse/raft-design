@@ -977,7 +977,11 @@
       "PanelSectionHeader",
       "PanelStatus",
       "PanelTitle",
-      "PanelToggleAction"
+      "PanelToggleAction",
+      "PanelSplitAction",
+      "PanelSplitActionMain",
+      "PanelSplitActionMenu",
+      "PanelSplitActionToggle"
     ],
     "status": "stable",
     "description": "Live status readout in a panel header, such as agent activity or presence. Wraps a `Status` and supplies header-appropriate spacing and typography; use `PanelStatus` for a standalone attribute badge."
@@ -1384,6 +1388,15 @@
     ],
     "status": "stable",
     "description": "The ↗ after a link that leaves Raft (design/patterns/navigation.md#links-that-leave-raft): 0.857em (12px at 14px text, as the icons in a reference chip), 2px after the text, centred on the letters' cap height at every text size (0.7em/2 above the baseline; design/foundations/alignment.md#a-mark-that-leads-text). It sits in an inline-flex box, so the link's underline stops at the text and never runs under the arrow."
+  },
+  "text-selection-toolbar": {
+    "names": [
+      "TextSelectionToolbar",
+      "TextSelectionToolbarButton",
+      "TextSelectionToolbarSeparator"
+    ],
+    "status": "stable",
+    "description": "The toolbar that floats over selected text, with actions such as Quote, Copy and Comment: in a message, in an Artifact, anywhere text can be selected. Place it with `createTextSelectionAnchor` in a Popover."
   },
   "textarea": {
     "names": [
