@@ -45,6 +45,7 @@ Badge is a small label. Its main job is the unread count: a pink sticker that sa
 ## States
 
 - A Badge rendered as a button (`render={<button />}`) shows the medium tier on hover and press (`sticker-medium` on a colour badge), and the shared disabled look ([States](../../../../../design/foundations/states.md)).
+- A Badge rendered as a button keeps a 44px touch target on a touch screen: a transparent `::after`, anchored to the badge so its label clip doesn't cut it, reaches 44px high and at least 44px wide ([Accessibility](../../../../../design/foundations/accessibility.md)).
 - The selected row never shows a count or an @ marker ([States](../../../../../design/foundations/states.md#usage)).
 
 ## Content
