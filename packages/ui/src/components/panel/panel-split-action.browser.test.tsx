@@ -142,6 +142,11 @@ it("on a touch screen the main part is 44px and the menu part a 24px drawing wit
   const after = getComputedStyle(menu, "::after");
   const reach = -parseFloat(after.right) - 1.5;
   expect(menuBox.width + reach).toBe(44);
+  // And the 44px button's full height where it reaches past it.
+  const own = getComputedStyle(menu);
+  const inside =
+    menuBox.height - parseFloat(own.borderTopWidth) - parseFloat(own.borderBottomWidth);
+  expect(inside - parseFloat(after.top) - parseFloat(after.bottom)).toBeGreaterThanOrEqual(44);
   expect(parseFloat(getComputedStyle(menu).marginInlineEnd)).toBeGreaterThanOrEqual(reach);
 });
 
