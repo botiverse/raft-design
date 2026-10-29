@@ -1,12 +1,12 @@
 ---
 title: Forms and settings
-summary: Settings that apply at once, groups of fields saved together, forms in dialogs, the large one-pass form dialog, validation, long values in fields, option height and the danger zone.
+summary: When a change takes effect (at once, on Save or through a button that names it), settings that apply at once, groups of fields saved together, forms in dialogs, the large one-pass form dialog, validation, long values in fields, option height and the danger zone.
 redirectFrom: [decisions/0029-large-form-dialog]
 ---
 
 # Forms and settings
 
-A control that applies at once has no Save button. Fields that are edited together (a profile, a server's name and description) have their own Save at the end of their group. A form in a dialog has Cancel and the submit button in its footer. A large form filled in one pass, such as registering an app, opens as a wide dialog with a section list.
+What a change is decides when it takes effect: a choice applies the moment it is made, text waits for Save, values that only work together share one Save, and a side effect that can't be taken back is a button that names it. A form in a dialog has Cancel and the submit button in its footer. A large form filled in one pass, such as registering an app, opens as a wide dialog with a section list.
 
 ## When it applies
 
@@ -26,19 +26,36 @@ Settings pages, forms in dialogs and drawers, and large configuration forms. Whi
 field/compositions/preview
 ```
 
+### When a change takes effect
+
+Ask these in order; the first yes decides (stdrc, 2026-10-29). Each kind of change gets the commit it needs: a choice is complete when it is made, text only when people stop typing, grouped values are invalid halfway, and a side effect can't be taken back.
+
+| If the change | It takes effect |
+| --- | --- |
+| Has a side effect that can't be taken back: it charges money, sends an email or a message, signs someone out, restarts or disconnects something, or makes an old link or key stop working | When people press a button that names the action: Upgrade, Send Invite, Restart, Rotate Secret. Not a switch and not Save |
+| Is text: a name, a description, an address, a key | On Save, or Enter in a one-line field. Saving while people type would store a half-written value |
+| Is one of several values that are only valid together: a new password and its confirmation, sending events and the address they go to | On one Save for the group ([Settings saved together](#settings-saved-together)). Creating something (a channel, an agent, a task) is this case: the dialog's submit button |
+| Is anything else: a yes or no, or a choice, that stands alone | At once ([Settings that apply at once](#settings-that-apply-at-once)). Choosing a file, such as an avatar, is this case |
+
+- Let how far a change reaches decide whether it is confirmed or can be undone, never whether it needs Save ([Feedback](./feedback.md#confirming)): Save explains nothing about what follows, a confirmation does. A checkbox and Save is not a confirmation.
+- Apply filters, sorting and view switches at once, with no Apply button: they change only what the person sees.
+
 ### Settings that apply at once
 
-- Use a switch, a segmented control or a picker for a setting that stands alone (the appearance, the font size, whether the public page is on), and apply each change as it happens. Don't add a Save button: the change already shows.
+- Use a switch, a segmented control or a select for a setting that stands alone (the appearance, the time zone, muting a server, whether the public page is on), and apply each change as it happens. Don't add a Save button: on one choice it adds a step and checks nothing. This holds when several such settings share a card: each one saves itself, and the card has no Save.
+- Show the result beside the setting: "Saved" for a moment once it is stored. When it fails, put the control back to its old value and say what failed in the same place, so a control never shows a value that isn't true.
 
 ### Settings saved together
 
-- Put fields that are edited together in one card, with Save at its end: a profile, a password, a server's name and description. Save applies only that card, so a half-edited card never saves another one.
+- Put fields that are edited together in one card: a profile, a password, a server's name and description. Put Save under the fields, at the start of the line, before any other button of the card. Save applies only that card, so a half-edited card never saves another one.
 - After a save, change the button to "Saved" with a check for a moment.
-- Use a checkbox, not a switch, for a yes or no that is saved with its card, such as muting a server: a switch looks as if it already applied.
+- Turn on a feature that needs its configuration before it can be on (sending events to an app, which needs an address; asking new members to accept an agreement, which needs its text) with a checkbox, its fields under it and one Save for the group. Don't use a switch that only reveals the fields: a switch that shows on while nothing is on says something untrue.
 
 ### Forms in a dialog
 
 - Put Cancel and the submit button at the bottom of a form in a dialog. Cancel is a ghost button there, framed when the buttons stack full width ([Dialog](../../packages/ui/src/components/dialog/dialog.md#the-footer)), and takes an ink border on a page ([Button](../../packages/ui/src/components/button/button.md#which-color)). Cancel comes first; the submit button is the screen's pink button and names the action it performs, usually the title's verb: Create in Create Channel; an Edit title's button is Save ([Writing](../content/writing.md#actions-and-their-dialogs)). Both are `size="lg"`, the height of the fields above them ([Spacing](../foundations/spacing.md#heights)).
+- Offer public or private, and any other answer whose result needs saying, as a radio group with one line under each answer: "Anyone in the server can find and join it", "Only people invited can see it". The line puts the result next to the choice, which a segmented control has no room for ([RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md)).
+- When one section of a dialog or a drawer saves on its own, because the rest applies at once (a channel's name and description among its switches), put its Save under the section's fields at the start of the line, Save first, as on a settings page. At the end of the footer it would read as saving the whole dialog.
 - Make a form with a few fields a small dialog, the default `size="md"`, 448px wide: creating a channel, an agent or a task. A form whose content needs more width, such as key-value rows or a command, takes `size="lg"`, 640px ([Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)).
 
 ### The large form dialog

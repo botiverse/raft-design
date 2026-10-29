@@ -26,14 +26,14 @@ sidebar/compositions/settings-list
 
 ### A settings page
 
-- Build each page from the cards in [Forms](../../patterns/forms.md). Language & Region is one card with its own Save.
+- Build each page from the cards in [Forms](../../patterns/forms.md). Language & Region has no Save: each value applies when it is chosen ([Forms](../../patterns/forms.md#settings-that-apply-at-once)).
 
 ### Notifications
 
 The page has:
 
 - an Add Raft to Home Screen card, with Add, on a phone that can install Raft and hasn't yet;
-- a Push Notifications card that says what it delivers (direct messages, direct mentions and replies in followed threads) and its state, with Enable Push Notifications, or Disable and Send Test Push once it is on. It ends with a Mute this server checkbox, with Save.
+- a Push Notifications card that says what it delivers (direct messages, direct mentions and replies in followed threads) and its state, with Enable Push Notifications, or Disable and Send Test Push once it is on. It ends with a Mute this server switch, which applies at once.
 
 In the desktop app the page is one Desktop notifications card saying that the system manages notifications, with Send a test notification.
 

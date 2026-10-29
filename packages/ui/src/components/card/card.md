@@ -18,16 +18,16 @@ card/compositions/project-summary
 
 ## When to use
 
-| Situation                                                            | Use                                                                                                                                                     |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| One subject on a page, with a title and its own content or controls  | Card                                                                                                                                                    |
-| A setting that turns a feature on, with its configuration under it   | Card with `variant="inset"`                                                                                                                             |
-| A choice among a few options in a form, where each option is a block | Card with `variant="option"`, holding a [Checkbox](../checkbox/checkbox.md) or a radio                                                                  |
-| A group of rows: settings, members, agents                           | `ListRowGroup` ([ListRow](../list-row/list-row.md))                                                                                                     |
-| Properties of one item, label and value                              | [DescriptionList](../description-list/description-list.md)                                                                                              |
-| A part of a large form                                               | [FormSection](../form-section/form-section.md)                                                                                                          |
-| A column of the main area                                            | [Panel](../panel/panel.md)                                                                                                                              |
-| A task, a file on a message, a person or an app's item on hover      | [TaskCard](../task-card/task-card.md), [MessageAttachment](../message-attachment/message-attachment.md), [PreviewCard](../preview-card/preview-card.md) |
+| Situation                                                            | Use                                                                                                                                                                                                    |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| One subject on a page, with a title and its own content or controls  | Card                                                                                                                                                                                                   |
+| A setting that turns a feature on, with its configuration under it   | Card with `variant="inset"`: a switch when the feature works without the fields, a checkbox and one Save when it needs them ([Forms](../../../../../design/patterns/forms.md#settings-saved-together)) |
+| A choice among a few options in a form, where each option is a block | Card with `variant="option"`, holding a [Checkbox](../checkbox/checkbox.md) or a radio                                                                                                                 |
+| A group of rows: settings, members, agents                           | `ListRowGroup` ([ListRow](../list-row/list-row.md))                                                                                                                                                    |
+| Properties of one item, label and value                              | [DescriptionList](../description-list/description-list.md)                                                                                                                                             |
+| A part of a large form                                               | [FormSection](../form-section/form-section.md)                                                                                                                                                         |
+| A column of the main area                                            | [Panel](../panel/panel.md)                                                                                                                                                                             |
+| A task, a file on a message, a person or an app's item on hover      | [TaskCard](../task-card/task-card.md), [MessageAttachment](../message-attachment/message-attachment.md), [PreviewCard](../preview-card/preview-card.md)                                                |
 
 ## Anatomy
 

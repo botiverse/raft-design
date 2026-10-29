@@ -21,7 +21,7 @@ radio-group/compositions/reset-mode
 
 | Situation                                                         | Use                                                           |
 | ----------------------------------------------------------------- | ------------------------------------------------------------- |
-| One of 2 to 5 answers, each worth a sentence                      | RadioGroup                                                    |
+| One of 2 to 5 answers, each worth a sentence: public or private   | RadioGroup                                                    |
 | Any number of choices, when choosing is the dialog's main content | [ChoiceList](../choice-list/choice-list.md)                   |
 | Another view of the same content, switched in place               | [SegmentedControl](../segmented-control/segmented-control.md) |
 | One of many values, or values people search                       | [Select](../select/select.md)                                 |

@@ -1,6 +1,6 @@
 ---
 title: Feedback
-summary: How to tell people something — what acts at once and what is confirmed, empty versus loading versus failed, where errors go by scope, and how they are worded.
+summary: How to tell people something — what acts at once, what offers Undo and what is confirmed, empty versus loading versus failed, where errors go by scope, and how they are worded.
 redirectFrom: [decisions/0037-panel-notice]
 ---
 
@@ -16,10 +16,22 @@ Every result, problem, empty view and wait that people need to know about.
 
 ### Confirming
 
-- Act at once, without a dialog or a toast, when the person can reverse the action in the same place: Follow Thread (Unfollow Thread), Save Message (Remove from Saved). A question before an action that is one click to undo only slows people down.
+How far an action reaches decides whether it is confirmed, offered with Undo or neither (stdrc, 2026-10-29). Whether it waits for Save is a different question, decided by what the change is ([Forms](./forms.md#when-a-change-takes-effect)).
+
+| The action | Do |
+| --- | --- |
+| Affects only the person, and its way back stays in place: Follow Thread, Save Message | Act at once, with no dialog and no toast |
+| Affects only the person, and takes an item out of the list: Done, Unfollow, Close | Act, and show a toast with Undo |
+| Affects others and can be changed back: a member's role, an agent removed from a thread's followers | Act, and show a toast with Undo |
+| Shows something to a wider audience: making an Artifact or a server public | Confirm |
+| Stops work, takes someone out of a place or narrows who can see something, makes a link or key others hold stop working, archives or deletes | Confirm |
+
+- Act at once when the person can reverse the action in the same place: Follow Thread (Unfollow Thread), Save Message (Remove from Saved). A question before an action that is one click to undo only slows people down.
+- Offer Undo on every route to an action that takes an item out of the list: the menu, the button on the row and the swipe alike ([Toast](../../packages/ui/src/components/toast/toast.md)). Once the row is gone its way back is gone too, and an action that can be undone from one route and not from another can't be trusted from either.
+- Apply a change to others that can be changed back, such as a role, when it is picked, and offer Undo. Confirm it only when people demote themselves, since they may lose the right to change it back, or turn off something others depend on, such as an AI provider their agents use; the dialog lists who is affected.
+- Confirm before showing something to a wider audience, and say who will see it: "Anyone with the link can view it." Widening within the same server applies at once. Narrowing who can see something and unpublishing it share one confirmation, which lists who loses access, whichever route starts it.
 - Confirm with a dialog any action that stops an agent's work, takes someone out of a place, or archives or deletes something, because none of these can be put back from where it happened: Stop Agent, Restart or Reset, Archive Agent, Leave Channel, Remove Member, Delete Server ([Dialog](../../packages/ui/src/components/dialog/dialog.md)). The confirm button says the action's verb, and keeps the object when it can't be undone: Stop, Delete Server ([Writing](../content/writing.md#actions-and-their-dialogs)).
 - In a dialog that confirms something that cannot be undone, put the message in a red banner and make the confirm button red. Don't color the action in the menu that opens it: the warning belongs where the person commits, not in a list of choices.
-- When an action has a natural way back in the same moment, act and show a toast with Undo instead of a dialog ([Toast](../../packages/ui/src/components/toast/toast.md)). For example, Raft Chat does this when someone removes an agent from a thread's followers; the toast stays 5 seconds.
 
 ### Empty, loading and failed
 
