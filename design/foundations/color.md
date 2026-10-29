@@ -202,7 +202,7 @@ A soft tint (`*-soft`) is a highlight, never a sticker: it has no border.
 | `task-status-in-review-soft` | The In Review chip |
 | `task-status-closed-soft` | The Closed chip |
 
-- Draw a used-up usage meter's track in `warning-muted` with a 1px `warning` edge, not `warning-soft`: on the dark canvas `warning-soft` is 1.16:1, fainter than an empty track, and a soft tint can't take an edge ([Meter](../../packages/ui/src/components/meter/meter.md)).
+- Draw a usage meter `warning` from 80% used, and keep a used-up one a full `warning` bar, not `danger`: an allowance comes back at its reset, so running out interrupts work but isn't irreversible ([Meter](../../packages/ui/src/components/meter/meter.md)).
 
 ### Text selection
 

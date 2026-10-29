@@ -73,6 +73,7 @@ These rules are for the words inside the product: labels, titles, messages, empt
 - Give sibling views the same form: the filters of one list (All, Unread, Mentions) differ only in their noun, so a person switching between them reads one sentence changing, not three voices.
 - Chinese follows the same forms ([Writing in Chinese](./voice-and-tone.md#writing-in-chinese)).
 - Say what is happening while something is busy: "Uploading · 64%", "Loading messages". Never "Processing…" or a bare "Loading…".
+- Say how much of a limit or a capacity is used, with the word, and keep its reset time beside it: "62% used · resets in 3h". Never a bare "62%", which could mean used or left, and never what is left in its place; an amount free may go in a tooltip: "378 GB free of 994 GB" ([Meter](../../packages/ui/src/components/meter/meter.md#content)).
 - Where each kind of problem is shown (inline, banner, toast or notification center) is in [Feedback](../patterns/feedback.md).
 
 ## Times
