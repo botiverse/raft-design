@@ -95,7 +95,11 @@ const cases: {
     id: "list-row",
     tier: "cell",
     read: "before",
-    element: <ListRow data-testid="list-row">Wug</ListRow>,
+    element: (
+      <ListRow cell data-testid="list-row">
+        Wug
+      </ListRow>
+    ),
   },
   {
     id: "comment",
