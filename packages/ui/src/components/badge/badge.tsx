@@ -12,6 +12,9 @@ export const badge = tv({
       "[&_svg]:size-3.5 [&_svg]:shrink-0 [&_[data-slot='spinner']]:size-3 [&_[data-slot='spinner']]:text-xs",
       "*:data-[slot=status]:lead-dot",
       "disabled:cursor-not-allowed disabled:bg-fill-muted disabled:text-foreground-disabled disabled:opacity-100 disabled:inset-ring-0",
+      "pointer-coarse:enabled:[anchor-name:--badge] pointer-coarse:enabled:[anchor-scope:--badge]",
+      "pointer-coarse:enabled:after:absolute pointer-coarse:enabled:after:content-[''] pointer-coarse:enabled:after:[position-anchor:--badge]",
+      "pointer-coarse:enabled:after:inset-y-[calc(anchor(center)-22px)] pointer-coarse:enabled:after:inset-x-[min(anchor(inside),anchor(center)-22px)]",
     ],
   },
   variants: {
