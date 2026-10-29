@@ -205,7 +205,14 @@ message-translation/compositions/translation-showcase
 
 ### Toolbar for selected messages
 
-While messages are selected, a toolbar takes the composer's place at the bottom of the conversation: Select All, Cancel, Forward, Copy link, and a More menu with Generate image and Copy MD. Select Message in the message menu starts the selection; each message gets a checkbox ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)). It is a floating toolbar, 36px tall like the hover toolbar: its buttons are 28px, 4px inside it and 4px apart, and wear `radius-chip` ([Shape](../foundations/shape.md#inside-a-frame)).
+While messages are selected, a toolbar floats where the composer was, centred at the bottom of the conversation, in one row at any width: the count ("3 selected"), Copy Link, Forward, a More menu (Generate Image, Copy MD and, in a thread, Select All), then × to stop selecting (cindyz, 2026-10-28, task #173). Select Message in the message menu starts the selection; each message gets a checkbox ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)). It is a floating toolbar, 36px tall like the hover toolbar: its buttons are 28px, 4px inside it and 4px apart, and wear `radius-chip` ([Shape](../foundations/shape.md#inside-a-frame)).
+
+- It keeps the composer's edge from the conversation's sides, so it is never wider than the composer it replaces: 20px on desktop and on a phone, where a message column and its composer keep 20px ([Page structure](../patterns/page-structure.md#one-edge-per-column)). It floats 12px above the bottom.
+- The count leads: it says what the actions act on, and it is announced when it changes. The toolbar's accessible name stays fixed ("Selected message actions").
+- Forward is the one primary button: forwarding is why people select messages. Copy Link stays beside it; the rest is in More, so the row never wraps. Copy Link shows its label only when it fits; otherwise only its icon; if there is still no room, it moves into More. Only where even that can't fit (a long count in a long language on the narrowest phone) does Forward show only its icon. The count never gives way.
+- × ends the selection, last, as a floating toolbar's close does; Escape does the same. Cancel is not an action on the messages, so it doesn't sit among them. Focus then goes back into the conversation: to the composer, or where there is none, to the message the selection started on.
+- On a touch screen the buttons stay 28px and each takes a 44px tap, reaching only half the gap toward its neighbour, so a tap between two lands on the nearer ([MessageItem](../../packages/ui/src/components/message-item/message-item.md)).
+- The conversation keeps its last message clear of the toolbar while it floats there.
 
 ```example
 message-item/compositions/selection-showcase
