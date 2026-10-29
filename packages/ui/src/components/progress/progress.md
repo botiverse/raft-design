@@ -23,9 +23,9 @@ progress/compositions/preview
 | The percentage is known                | Progress                                             |
 | The duration is unknown                | [Spinner](../spinner/spinner.md), not a progress bar |
 | The layout of what is loading is known | [Skeleton](../skeleton/skeleton.md)                  |
-| How much of a usage limit is left      | [Meter](../meter/meter.md)                           |
+| How much of a usage limit is used      | [Meter](../meter/meter.md)                           |
 
-Meter vs Progress: a progress bar is a task that only moves forward and is done at 100%, so the fill turns `success` when it gets there; a meter is a quantity within a range that rises and falls, such as an allowance that is used up and comes back. Don't draw usage as progress: an untouched allowance would read as finished.
+Meter vs Progress: a progress bar is a task that only moves forward and is done at 100%, so the fill turns `success` when it gets there; a meter is a quantity within a range that rises and falls, such as an allowance that is used up and comes back. Don't draw usage as progress: a used-up allowance would turn `success` and read as finished.
 
 ## Anatomy
 

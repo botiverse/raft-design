@@ -25,68 +25,109 @@ function renderMeter(props: Omit<MeterProps, "children">) {
   return screen.getByRole("meter");
 }
 
+function indicatorWidth(meter: HTMLElement) {
+  return meter.querySelector<HTMLElement>('[data-slot="meter-indicator"]')!.style.width;
+}
+
 const WARNING = "var(--warning";
 
 describe("Meter", () => {
-  it("is a meter named by its label, whose value is what is left", () => {
-    const meter = renderMeter({ used: 62, valueText: "38% left · resets in 3h" });
+  it("is a meter named by its label, whose value is what is used", () => {
+    const meter = renderMeter({ used: 62, valueText: "62% used · resets in 3h" });
     expect(meter.getAttribute("role")).toBe("meter");
-    expect(meter.getAttribute("aria-valuenow")).toBe("38");
+    expect(meter.getAttribute("aria-valuenow")).toBe("62");
     expect(meter.getAttribute("aria-valuemax")).toBe("100");
     expect(screen.getByRole("meter", { name: "5-hour limit" })).toBe(meter);
   });
 
-  it("speaks and shows the same valueText", () => {
-    const meter = renderMeter({ used: 62, valueText: "38% left · resets in 3h" });
-    expect(meter.getAttribute("aria-valuetext")).toBe("38% left · resets in 3h");
-    const value = meter.querySelector('[data-slot="meter-value"]')!;
-    expect(value.textContent).toBe("38% left · resets in 3h");
+  it("fills with what is used", () => {
+    expect(indicatorWidth(renderMeter({ used: 62, valueText: "62% used" }))).toBe("62%");
   });
 
-  it("stays info when nothing is used: the bar is full, with no warning and no complete color", () => {
-    const meter = renderMeter({ used: 0, valueText: "100% left" });
-    expect(meter.getAttribute("data-level")).toBe("plenty");
+  it("speaks and shows the same valueText", () => {
+    const meter = renderMeter({ used: 62, valueText: "62% used · resets in 3h" });
+    expect(meter.getAttribute("aria-valuetext")).toBe("62% used · resets in 3h");
+    const value = meter.querySelector('[data-slot="meter-value"]')!;
+    expect(value.textContent).toBe("62% used · resets in 3h");
+  });
+
+  it("is empty and info when nothing is used, with no warning and no complete color", () => {
+    const meter = renderMeter({ used: 0, valueText: "0% used" });
+    expect(meter.getAttribute("data-level")).toBe("normal");
     expect(meter.className).toContain("[--meter-indicator:var(--info)]");
     expect(meter.className).not.toContain(WARNING);
     expect(meter.className).not.toContain("success");
-    const indicator = meter.querySelector<HTMLElement>('[data-slot="meter-indicator"]')!;
-    expect(indicator.style.width).toBe("100%");
+    expect(indicatorWidth(meter)).toBe("0%");
   });
 
-  it("takes the warning color when what is left is at or below low", () => {
-    const meter = renderMeter({ used: 80, low: 20, valueText: "20% left · resets in 3h" });
-    expect(meter.getAttribute("data-level")).toBe("low");
+  it("takes the warning color at 80% used by default", () => {
+    const meter = renderMeter({ used: 80, valueText: "80% used · resets in 3h" });
+    expect(meter.getAttribute("data-level")).toBe("high");
     expect(meter.className).toContain("[--meter-indicator:var(--warning)]");
+    expect(meter.className).toContain("[--meter-value:var(--warning-strong)]");
   });
 
-  it("stays info just above low", () => {
-    const meter = renderMeter({ used: 79, low: 20, valueText: "21% left · resets in 3h" });
-    expect(meter.getAttribute("data-level")).toBe("plenty");
+  it("stays info just below warnAt", () => {
+    const meter = renderMeter({ used: 79, valueText: "79% used · resets in 3h" });
+    expect(meter.getAttribute("data-level")).toBe("normal");
     expect(meter.className).not.toContain(WARNING);
   });
 
-  it("is used up at max: an empty bar on a warning track with a warning edge", () => {
-    const meter = renderMeter({ used: 100, valueText: "Used up · resets in 3h" });
-    expect(meter.getAttribute("data-level")).toBe("empty");
-    expect(meter.getAttribute("aria-valuenow")).toBe("0");
-    expect(meter.className).toContain("[--meter-track-edge:var(--warning)]");
-    const indicator = meter.querySelector<HTMLElement>('[data-slot="meter-indicator"]')!;
-    expect(indicator.style.width).toBe("0%");
+  it("takes warnAt as the share used", () => {
+    expect(renderMeter({ used: 49, warnAt: 0.5, valueText: "x" }).getAttribute("data-level")).toBe(
+      "normal",
+    );
+    cleanup();
+    expect(renderMeter({ used: 50, warnAt: 0.5, valueText: "x" }).getAttribute("data-level")).toBe(
+      "high",
+    );
   });
 
-  it("clamps used and low to the range", () => {
-    const over = renderMeter({ used: 140, max: 100, valueText: "Used up" });
-    expect(over.getAttribute("aria-valuenow")).toBe("0");
-    expect(over.getAttribute("data-level")).toBe("empty");
+  it("still takes the deprecated low, the amount left, with the same colors as before", () => {
+    expect(renderMeter({ used: 79, low: 20, valueText: "x" }).getAttribute("data-level")).toBe(
+      "normal",
+    );
     cleanup();
-    const lowAboveMax = renderMeter({ used: 0, max: 100, low: 500, valueText: "100% left" });
-    expect(lowAboveMax.getAttribute("data-level")).toBe("low");
+    expect(renderMeter({ used: 80, low: 20, valueText: "x" }).getAttribute("data-level")).toBe(
+      "high",
+    );
+    cleanup();
+    expect(renderMeter({ used: 60, low: 50, valueText: "x" }).getAttribute("data-level")).toBe(
+      "high",
+    );
+    cleanup();
+    // warnAt wins over low.
+    expect(
+      renderMeter({ used: 60, low: 50, warnAt: 0.9, valueText: "x" }).getAttribute("data-level"),
+    ).toBe("normal");
+  });
+
+  it("is used up at max: a full warning bar", () => {
+    const meter = renderMeter({ used: 100, valueText: "Used up · resets in 3h" });
+    expect(meter.getAttribute("data-level")).toBe("full");
+    expect(meter.getAttribute("aria-valuenow")).toBe("100");
+    expect(meter.className).toContain("[--meter-indicator:var(--warning)]");
+    expect(meter.className).not.toContain("danger");
+    expect(indicatorWidth(meter)).toBe("100%");
+  });
+
+  it("clamps used and warnAt to the range", () => {
+    const over = renderMeter({ used: 140, max: 100, valueText: "Used up" });
+    expect(over.getAttribute("aria-valuenow")).toBe("100");
+    expect(over.getAttribute("data-level")).toBe("full");
+    cleanup();
+    const under = renderMeter({ used: -5, max: 100, valueText: "0% used" });
+    expect(under.getAttribute("aria-valuenow")).toBe("0");
+    cleanup();
+    const warnBelowZero = renderMeter({ used: 0, warnAt: -1, valueText: "0% used" });
+    expect(warnBelowZero.getAttribute("data-level")).toBe("high");
   });
 
   it("works in the units of max", () => {
-    const meter = renderMeter({ used: 4, max: 5, valueText: "1 hour left" });
-    expect(meter.getAttribute("aria-valuenow")).toBe("1");
-    expect(meter.getAttribute("data-level")).toBe("low");
+    const meter = renderMeter({ used: 4, max: 5, valueText: "4 of 5 hours used" });
+    expect(meter.getAttribute("aria-valuenow")).toBe("4");
+    expect(meter.getAttribute("data-level")).toBe("high");
+    expect(indicatorWidth(meter)).toBe("80%");
   });
 
   // Tailwind's --color-* aliases are computed once on :root, so a meter inside
@@ -96,6 +137,8 @@ describe("Meter", () => {
     for (const used of [0, 90, 100]) {
       const meter = renderMeter({ used, valueText: "x" });
       expect(meter.className).not.toContain("var(--color-");
+      const track = meter.querySelector('[data-slot="meter-track"]')!;
+      expect(track.className).not.toContain("var(--color-");
       cleanup();
     }
   });

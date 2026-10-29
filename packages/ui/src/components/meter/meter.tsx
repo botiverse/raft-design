@@ -10,8 +10,6 @@ const meter = tv({
     root: [
       "group/meter grid w-full min-w-0 gap-1.5",
       "[--meter-indicator:var(--info)]",
-      "[--meter-track:var(--fill-muted)]",
-      "[--meter-track-edge:transparent]",
       "[--meter-value:var(--foreground-muted)]",
       "font-sans",
     ],
@@ -19,8 +17,7 @@ const meter = tv({
     label: ["min-w-0 truncate", "text-footnote font-semibold text-foreground"],
     value: ["shrink-0 text-right tabular-nums", "text-footnote text-(--meter-value)"],
     track: [
-      "relative w-full overflow-hidden bg-(--meter-track)",
-      "inset-ring-1 inset-ring-(--meter-track-edge)",
+      "relative w-full overflow-hidden bg-(--fill-muted)",
       "h-2 group-data-[size=sm]/meter:h-1.5",
       "rounded-sticker",
     ],
@@ -31,17 +28,9 @@ const meter = tv({
     ],
   },
   variants: {
-    level: {
-      plenty: {},
-      low: {
+    warning: {
+      true: {
         root: ["[--meter-indicator:var(--warning)]", "[--meter-value:var(--warning-strong)]"],
-      },
-      empty: {
-        root: [
-          "[--meter-track:var(--warning-muted)]",
-          "[--meter-track-edge:var(--warning)]",
-          "[--meter-value:var(--warning-strong)]",
-        ],
       },
     },
     size: {
@@ -50,7 +39,7 @@ const meter = tv({
     },
   },
   defaultVariants: {
-    level: "plenty",
+    warning: false,
     size: "md",
   },
 });
@@ -68,7 +57,7 @@ export type MeterProps = Omit<
   Pick<VariantProps<typeof meter>, "size"> & {
     /**
      * How much of the allowance is used, as the provider reports it, from 0 to
-     * `max`. The meter draws and announces what is left: `max - used`.
+     * `max`. The bar fills with it, and it is the meter's `aria-valuenow`.
      */
     used: number;
     /**
@@ -77,38 +66,51 @@ export type MeterProps = Omit<
      */
     max?: number;
     /**
-     * When as much as this is left, or less, the meter is low and takes the
-     * warning color ("at or below", unlike HTML's `<meter low>`, which is
-     * strictly below). In the units of `max`, clamped to 0 to `max`.
-     * @default 20% of `max`
+     * The share of `max` used, from 0 to 1, at which the meter takes the
+     * warning color: at or above it. Clamped to 0 to 1.
+     * @default 0.8
+     */
+    warnAt?: number;
+    /**
+     * @deprecated Use `warnAt`, the share used: `low={20}` of 100 is
+     * `warnAt={0.8}`. The amount left, in the units of `max`, at or below
+     * which the meter warns. Ignored when `warnAt` is set.
      */
     low?: number;
     /**
-     * What is left, in words: "38% left · resets in 3h". `MeterValue` shows it,
-     * and it is the meter's `aria-valuetext`, so the caller writes it once.
+     * What is used, in words, with the word: "62% used · resets in 3h".
+     * `MeterValue` shows it, and it is the meter's `aria-valuetext`, so the
+     * caller writes it once.
      */
     valueText: string;
   };
 
 /**
- * How much of an allowance is left, such as a usage limit that resets. Takes
- * what is `used`; the bar shows what is left, full to start and draining.
- * The info fill, like Progress, until `low` or less is left, then the warning
- * color; never danger, and no success color at full.
+ * How much of an allowance is used, such as a usage limit that resets. The bar
+ * fills as it is used: the info fill, like Progress, until `warnAt` of `max`
+ * is used (80% unless set), then the warning color, and a full warning bar
+ * when used up; never danger, and no success color.
  */
 export function Meter({
   size = "md",
   used,
   max = 100,
+  warnAt,
   low,
   valueText,
   className,
   ...props
 }: MeterProps) {
-  const left = max - clamp(used, 0, max);
-  const lowAt = clamp(low ?? max * 0.2, 0, max);
-  const level = left <= 0 ? "empty" : left <= lowAt ? "low" : "plenty";
-  const { root } = meter({ size, level });
+  const value = clamp(used, 0, max);
+  const share = max > 0 ? value / max : 1;
+  const warnFrom =
+    warnAt !== undefined
+      ? clamp(warnAt, 0, 1)
+      : low !== undefined && max > 0
+        ? 1 - clamp(low, 0, max) / max
+        : 0.8;
+  const level = share >= 1 ? "full" : share >= warnFrom ? "high" : "normal";
+  const { root } = meter({ size, warning: level !== "normal" });
 
   return (
     <MeterTextContext.Provider value={valueText}>
@@ -118,7 +120,7 @@ export function Meter({
         data-level={level}
         min={0}
         max={max}
-        value={left}
+        value={value}
         aria-valuetext={valueText}
         className={root({ className })}
         {...props}

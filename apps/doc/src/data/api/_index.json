@@ -899,7 +899,7 @@
       "MeterValue"
     ],
     "status": "experimental",
-    "description": "How much of an allowance is left, such as a usage limit that resets. Takes what is `used`; the bar shows what is left, full to start and draining. The info fill, like Progress, until `low` or less is left, then the warning color; never danger, and no success color at full."
+    "description": "How much of an allowance is used, such as a usage limit that resets. The bar fills as it is used: the info fill, like Progress, until `warnAt` of `max` is used (80% unless set), then the warning color, and a full warning bar when used up; never danger, and no success color."
   },
   "mobile-nav": {
     "names": [

@@ -2,15 +2,14 @@
   {
     "name": "Meter",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "How much of an allowance is left, such as a usage limit that resets. Takes what is `used`; the bar shows what is left, full to start and draining. The info fill, like Progress, until `low` or less is left, then the warning color; never danger, and no success color at full.",
+    "description": "How much of an allowance is used, such as a usage limit that resets. The bar fills as it is used: the info fill, like Progress, until `warnAt` of `max` is used (80% unless set), then the warning color, and a full warning bar when used up; never danger, and no success color.",
     "native": true,
     "props": [
       {
         "name": "low",
         "type": "number",
         "required": false,
-        "default": "20% of `max`",
-        "description": "When as much as this is left, or less, the meter is low and takes the warning color (\"at or below\", unlike HTML's `<meter low>`, which is strictly below). In the units of `max`, clamped to 0 to `max`.",
+        "deprecated": "Use `warnAt`, the share used: `low={20}` of 100 is\n`warnAt={0.8}`. The amount left, in the units of `max`, at or below\nwhich the meter warns. Ignored when `warnAt` is set.",
         "from": "raft-ui"
       },
       {
@@ -32,14 +31,22 @@
         "name": "used",
         "type": "number",
         "required": true,
-        "description": "How much of the allowance is used, as the provider reports it, from 0 to `max`. The meter draws and announces what is left: `max - used`.",
+        "description": "How much of the allowance is used, as the provider reports it, from 0 to `max`. The bar fills with it, and it is the meter's `aria-valuenow`.",
         "from": "raft-ui"
       },
       {
         "name": "valueText",
         "type": "string",
         "required": true,
-        "description": "What is left, in words: \"38% left · resets in 3h\". `MeterValue` shows it, and it is the meter's `aria-valuetext`, so the caller writes it once.",
+        "description": "What is used, in words, with the word: \"62% used · resets in 3h\". `MeterValue` shows it, and it is the meter's `aria-valuetext`, so the caller writes it once.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "warnAt",
+        "type": "number",
+        "required": false,
+        "default": "0.8",
+        "description": "The share of `max` used, from 0 to 1, at which the meter takes the warning color: at or above it. Clamped to 0 to 1.",
         "from": "raft-ui"
       },
       {

@@ -81,8 +81,8 @@ export type {
 export { ListRowSkeleton } from "./components/list-row/list-row-skeleton";
 export type { ListRowSkeletonProps } from "./components/list-row/list-row-skeleton";
 
-// How much of an allowance is left, such as a usage limit that resets: full
-// to start, draining as it is used, orange when low (meter.md). Until the
+// How much of an allowance is used, such as a usage limit that resets: empty
+// to start, filling as it is used, orange from 80% used (meter.md). Until the
 // API settles.
 export * from "./components/meter/index";
 
