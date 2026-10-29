@@ -1193,6 +1193,7 @@
   {
     "name": "MessageTextSelectionToolbar",
     "entry": "@botiverse/raft-ui",
+    "deprecated": "Use `TextSelectionToolbar`.",
     "native": true,
     "props": [
       {
@@ -1211,7 +1212,7 @@
       },
       {
         "name": "orientation",
-        "type": "BaseToolbar.Orientation",
+        "type": "Orientation",
         "required": false,
         "default": "'horizontal'",
         "description": "The orientation of the toolbar.",
@@ -1229,6 +1230,7 @@
   {
     "name": "MessageTextSelectionToolbarButton",
     "entry": "@botiverse/raft-ui",
+    "deprecated": "Use `TextSelectionToolbarButton`.",
     "native": true,
     "props": [
       {
@@ -1267,11 +1269,12 @@
   {
     "name": "MessageTextSelectionToolbarSeparator",
     "entry": "@botiverse/raft-ui",
+    "deprecated": "Use `TextSelectionToolbarSeparator`.",
     "native": true,
     "props": [
       {
         "name": "orientation",
-        "type": "BaseToolbar.Orientation",
+        "type": "Orientation",
         "required": false,
         "default": "'horizontal'",
         "description": "The orientation of the separator. Defaults to the opposite of the toolbar's orientation, so a horizontal toolbar renders vertical separators.",

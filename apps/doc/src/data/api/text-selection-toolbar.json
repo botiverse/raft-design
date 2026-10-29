@@ -1,0 +1,99 @@
+[
+  {
+    "name": "TextSelectionToolbar",
+    "entry": "@botiverse/raft-ui",
+    "description": "The toolbar that floats over selected text, with actions such as Quote, Copy and Comment: in a message, in an Artifact, anywhere text can be selected. Place it with `createTextSelectionAnchor` in a Popover.",
+    "native": true,
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "from": "base-ui"
+      },
+      {
+        "name": "loopFocus",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "If `true`, using keyboard navigation will wrap focus to the other end of the toolbar once the end is reached.",
+        "from": "base-ui"
+      },
+      {
+        "name": "orientation",
+        "type": "BaseToolbar.Orientation",
+        "required": false,
+        "default": "'horizontal'",
+        "description": "The orientation of the toolbar.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "TextSelectionToolbarButton",
+    "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "When `true` the item is disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "When `true` the item remains focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "TextSelectionToolbarSeparator",
+    "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "orientation",
+        "type": "BaseToolbar.Orientation",
+        "required": false,
+        "default": "'horizontal'",
+        "description": "The orientation of the separator. Defaults to the opposite of the toolbar's orientation, so a horizontal toolbar renders vertical separators.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

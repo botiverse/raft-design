@@ -101,7 +101,7 @@ Every place has one answer. Where a part of the container sets the place, follow
 
 #### Inside a floating toolbar
 
-A toolbar that floats over content shows on every message under the pointer, so it is more compact than the page. The message hover toolbar and the text-selection toolbar are 36px high, with 28px buttons 4px from the frame and 4px apart, at `radius-chip`. The container sizes them: `MessageItemToolbarButton` and `MessageTextSelectionToolbarButton` are the toolbars' own parts, and `MessageMultiSelectToolbarActions` brings a `md` Button in it to 28px ([MessageItem](../message-item/message-item.md)). The only other 28px button is `SidebarSectionControl` on a sidebar section's 16px header line. 28px is not a Button size, so don't make a Button 28px yourself.
+A toolbar that floats over content shows on every message under the pointer, so it is more compact than the page. The message hover toolbar and the text-selection toolbar are 36px high, with 28px buttons 4px from the frame and 4px apart, at `radius-chip`. The container sizes them: `MessageItemToolbarButton` and `TextSelectionToolbarButton` are the toolbars' own parts, and `MessageMultiSelectToolbarActions` brings a `md` Button in it to 28px ([MessageItem](../message-item/message-item.md)). The only other 28px button is `SidebarSectionControl` on a sidebar section's 16px header line. 28px is not a Button size, so don't make a Button 28px yourself.
 
 ### Icon buttons
 

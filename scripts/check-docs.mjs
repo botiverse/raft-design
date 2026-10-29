@@ -96,6 +96,13 @@ const deprecatedIn = (dir) =>
       !/\.test\.tsx?$/.test(file) &&
       readFileSync(file, "utf8").includes("@deprecated"),
   );
+// The component itself is deprecated when its own file says so; a deprecated
+// alias or prop elsewhere in the folder (an old name kept for apps) is not.
+const componentDeprecated = (dir) =>
+  [".tsx", ".ts"].some((extension) => {
+    const file = path.join(componentsDir, dir, `${dir}${extension}`);
+    return existsSync(file) && readFileSync(file, "utf8").includes("@deprecated");
+  });
 
 function frontMatter(file, source) {
   const match = source.match(/^---\n([\s\S]*?)\n---\n/);
@@ -244,7 +251,7 @@ for (const absolute of componentDocs) {
     fail(file, "status is experimental, but @botiverse/raft-ui/wip does not export it");
   if (data.status === "deprecated" && !deprecatedIn(dir))
     fail(file, "status is deprecated, but the code has no @deprecated");
-  if (data.status !== "deprecated" && deprecatedIn(dir) && stable)
+  if (data.status !== "deprecated" && componentDeprecated(dir) && stable)
     warn(file, "the code is @deprecated; set status: deprecated");
   checkBody(file, source, absolute);
 }

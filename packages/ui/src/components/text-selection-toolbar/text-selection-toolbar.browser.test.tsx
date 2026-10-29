@@ -1,4 +1,4 @@
-import "./message-item.avatar-align.test.css";
+import "./text-selection-toolbar.test.css";
 /**
  * The toolbar over selected text, in real layout (#98).
  *
@@ -15,12 +15,12 @@ import type { ReactNode } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Popover, PopoverContent } from "../popover/popover";
 import {
-  MessageTextSelectionToolbar,
-  MessageTextSelectionToolbarButton,
-  MessageTextSelectionToolbarSeparator,
-} from "./message-text-selection-toolbar";
-import { createMessageTextSelectionAnchor } from "./message-text-selection-anchor";
-import type { MessageTextSelectionAnchor } from "./message-text-selection-anchor";
+  TextSelectionToolbar,
+  TextSelectionToolbarButton,
+  TextSelectionToolbarSeparator,
+} from "./text-selection-toolbar";
+import { createTextSelectionAnchor } from "./text-selection-anchor";
+import type { TextSelectionAnchor } from "./text-selection-anchor";
 
 const it = test.skipIf(typeof window === "undefined");
 afterEach(() => {
@@ -44,15 +44,15 @@ function Icon() {
 function Toolbar({ quote, copy }: { quote: string; copy: string }) {
   return (
     <>
-      <MessageTextSelectionToolbarButton data-testid="quote">
+      <TextSelectionToolbarButton data-testid="quote">
         <Icon />
         {quote}
-      </MessageTextSelectionToolbarButton>
-      <MessageTextSelectionToolbarSeparator />
-      <MessageTextSelectionToolbarButton data-testid="copy">
+      </TextSelectionToolbarButton>
+      <TextSelectionToolbarSeparator />
+      <TextSelectionToolbarButton data-testid="copy">
         <Icon />
         {copy}
-      </MessageTextSelectionToolbarButton>
+      </TextSelectionToolbarButton>
     </>
   );
 }
@@ -62,7 +62,7 @@ function Harness({
   style,
   children,
 }: {
-  anchor: MessageTextSelectionAnchor | null;
+  anchor: TextSelectionAnchor | null;
   style: React.CSSProperties;
   children?: ReactNode;
 }) {
@@ -78,7 +78,7 @@ function Harness({
       </div>
       <Popover open={Boolean(anchor)}>
         {anchor ? (
-          <MessageTextSelectionToolbar
+          <TextSelectionToolbar
             data-testid="toolbar"
             aria-label="Text selection actions"
             render={
@@ -95,7 +95,7 @@ function Harness({
             }
           >
             {children}
-          </MessageTextSelectionToolbar>
+          </TextSelectionToolbar>
         ) : null}
       </Popover>
     </ThemeProvider>
@@ -120,7 +120,7 @@ function lastLineOf(element: HTMLElement) {
 async function mount(style: React.CSSProperties) {
   const view = render(<Harness anchor={null} style={style} />);
   const selection = selectWholeParagraph();
-  const anchor = createMessageTextSelectionAnchor(selection);
+  const anchor = createTextSelectionAnchor(selection);
   view.rerender(
     <Harness anchor={anchor} style={style}>
       <Toolbar quote="Quote" copy="Copy" />
@@ -176,9 +176,9 @@ it("Chinese labels stay on one line and the toolbar matches the hover toolbar's 
   const { getByTestId } = render(
     <ThemeProvider>
       <div style={{ width: 1 }}>
-        <MessageTextSelectionToolbar data-testid="toolbar" aria-label="文本操作">
+        <TextSelectionToolbar data-testid="toolbar" aria-label="文本操作">
           <Toolbar quote="引用" copy="复制" />
-        </MessageTextSelectionToolbar>
+        </TextSelectionToolbar>
       </div>
     </ThemeProvider>,
   );
@@ -189,5 +189,5 @@ it("Chinese labels stay on one line and the toolbar matches the hover toolbar's 
     expect(button.getBoundingClientRect().height).toBe(28);
     expect(button.querySelector("svg")!.getBoundingClientRect().width).toBe(16);
   }
-  expect(getByTestId("toolbar").getBoundingClientRect().height).toBe(32);
+  expect(getByTestId("toolbar").getBoundingClientRect().height).toBe(36);
 });

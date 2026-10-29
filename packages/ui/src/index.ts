@@ -97,6 +97,19 @@ export type { ButtonProps, ButtonSize, DeprecatedButtonSize } from "./components
 
 export { TextLink, TextLinkExternalIcon, textLinkVariants } from "./components/text-link/index";
 export type { TextLinkExternalIconProps, TextLinkProps } from "./components/text-link/index";
+export {
+  TextSelectionToolbar,
+  TextSelectionToolbarButton,
+  TextSelectionToolbarSeparator,
+  createTextSelectionAnchor,
+  getTextSelectionFocusRect,
+} from "./components/text-selection-toolbar/index";
+export type {
+  TextSelectionAnchor,
+  TextSelectionToolbarButtonProps,
+  TextSelectionToolbarProps,
+  TextSelectionToolbarSeparatorProps,
+} from "./components/text-selection-toolbar/index";
 
 export { FloatButton, FloatButtonGroup } from "./components/float-button/index";
 export type {
@@ -872,7 +885,6 @@ export {
   MessageTextSelectionToolbarButton,
   MessageTextSelectionToolbarSeparator,
   createMessageTextSelectionAnchor,
-  getTextSelectionFocusRect,
 } from "./components/message-item/index";
 export type {
   MessageItemAttachmentsProps,
