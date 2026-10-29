@@ -12,8 +12,8 @@ export * from "./components/announcement-dialog/index";
 
 export * from "./components/comment/index";
 
-// The dark strip under a panel head while the panel is in a mode (commenting
-// on an Artifact), until stdrc approves it.
+// ModeBar is stable (stdrc, 2026-10-29) and exported from the package root;
+// this re-export stays until apps import it from there.
 export * from "./components/mode-bar/index";
 
 // Messages an assistant sent for its owner (RFC 077), until stdrc approves

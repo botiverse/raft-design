@@ -1,7 +1,7 @@
 [
   {
     "name": "ModeBar",
-    "entry": "@botiverse/raft-ui/wip",
+    "entry": "@botiverse/raft-ui",
     "description": "The strip. Put `ModeBarContent` in it, then the `ModeBarAction` that ends the mode.",
     "native": true,
     "props": [
@@ -16,7 +16,7 @@
   },
   {
     "name": "ModeBarAction",
-    "entry": "@botiverse/raft-ui/wip",
+    "entry": "@botiverse/raft-ui",
     "description": "The text action that ends the mode (Done), at the end of the first line. A real `button`; on the HUD it is a text action, like a toast's, never a Button.",
     "native": true,
     "props": [
@@ -31,7 +31,7 @@
   },
   {
     "name": "ModeBarContent",
-    "entry": "@botiverse/raft-ui/wip",
+    "entry": "@botiverse/raft-ui",
     "description": "The words: `ModeBarTitle`, then `ModeBarDescription`, on one line that wraps. A polite live region, so a change to the title (a draft count) is read out; the action stays outside it.",
     "native": true,
     "props": [
@@ -46,7 +46,7 @@
   },
   {
     "name": "ModeBarDescription",
-    "entry": "@botiverse/raft-ui/wip",
+    "entry": "@botiverse/raft-ui",
     "description": "What to do in the mode, in the muted HUD ink, after the title on the same line. It brings the space before it, so the two read and copy as one sentence.",
     "native": true,
     "props": [
@@ -61,7 +61,7 @@
   },
   {
     "name": "ModeBarTitle",
-    "entry": "@botiverse/raft-ui/wip",
+    "entry": "@botiverse/raft-ui",
     "description": "The mode and its state, bold in the HUD ink: \"Commenting · 1 draft.\"",
     "native": true,
     "props": [

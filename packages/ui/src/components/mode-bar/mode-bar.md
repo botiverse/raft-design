@@ -1,7 +1,7 @@
 ---
 title: ModeBar
 summary: A dark strip across a panel, under its header, while the panel is in a mode people entered on purpose, such as commenting on an Artifact, with the action that ends it.
-status: experimental
+status: stable
 aliases: [Mode strip, Mode bar, Commenting bar]
 layer: core
 category: feedback
