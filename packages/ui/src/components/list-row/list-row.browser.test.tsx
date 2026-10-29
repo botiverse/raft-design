@@ -107,3 +107,37 @@ it("a selected or a disabled row does not react to hover; an enabled one does", 
     expect(await settled(() => overlay(id)), `${id} must not react to hover`).toBe("none");
   }
 });
+
+it("a cell list draws no line, its shapes inset 8px at the sides, 2px apart and 8px from the list's ends", async () => {
+  const { getByTestId } = render(
+    <ThemeProvider>
+      <div data-testid="list" className="flex flex-col gap-0.5 py-2">
+        <ListRow cell data-testid="cell-1">
+          Wug
+        </ListRow>
+        <ListRow cell data-testid="cell-2">
+          Martin
+        </ListRow>
+      </div>
+    </ThemeProvider>,
+  );
+  const first = getByTestId("cell-1");
+  expect(await settled(() => getComputedStyle(first, "::before").left)).toBe("8px");
+  for (const id of ["cell-1", "cell-2"]) {
+    const row = getByTestId(id);
+    expect(drawsRule(row), `${id} draws no line`).toBe(false);
+    const shape = getComputedStyle(row, "::before");
+    expect([shape.top, shape.right, shape.bottom, shape.left], id).toEqual([
+      "0px",
+      "8px",
+      "0px",
+      "8px",
+    ]);
+  }
+  const list = getByTestId("list").getBoundingClientRect();
+  const a = first.getBoundingClientRect();
+  const b = getByTestId("cell-2").getBoundingClientRect();
+  expect(b.top - a.bottom).toBe(2);
+  expect(a.top - list.top).toBe(8);
+  expect(list.bottom - b.bottom).toBe(8);
+});

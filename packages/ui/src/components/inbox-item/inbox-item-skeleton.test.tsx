@@ -70,8 +70,12 @@ test("the list is flat and renders count rows of one shape", () => {
   );
   const list = screen.getByTestId("list");
   expect(list.getAttribute("data-slot")).toBe("inbox-item-skeleton-list");
-  // No chrome the loaded list doesn't have: no gap, border, or card between rows.
-  expect(list.className).not.toMatch(/\b(gap-|border|rounded|shadow|bg-|p-|py-)/);
+  // No chrome the loaded list doesn't have: no border or card, and only the
+  // list's own 2px gap between rows.
+  expect(list.className.split(/\s+/)).toContain("gap-0.5");
+  expect(list.className.replace(/(^|\s)gap-0\.5(?=\s|$)/, " ")).not.toMatch(
+    /\b(gap-|border|rounded|shadow|bg-|p-|py-)/,
+  );
   const rows = list.querySelectorAll(":scope > [data-slot=inbox-item]");
   expect(rows).toHaveLength(4);
   for (const row of rows) {

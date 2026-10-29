@@ -14,7 +14,7 @@ export const panel = tv({
     footer: [
       "relative flex shrink-0 items-center pt-3",
       "bg-layer-canvas",
-      "px-5 max-md:px-4",
+      "px-(--column-margin)",
       "pb-[calc(env(safe-area-inset-bottom)+1rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+0.5rem)]",
     ],
   },

@@ -266,7 +266,7 @@ export function SiteNav() {
     <SidebarRoot aria-label={messages.documentation}>
       <SidebarBody>
         <SidebarContent>
-          <div className="flex flex-col gap-0.5 pb-2">
+          <div className="flex flex-col gap-0.5 py-2">
             <SidebarItem active={path === "/"} render={<Link to="/" />}>
               <SidebarItemContent>
                 <SidebarItemTitle>{messages.overview}</SidebarItemTitle>

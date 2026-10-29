@@ -10,7 +10,7 @@ Align what the eye sees, not the box. Each kind of element has one point that la
 
 ## Principles
 
-- **One edge per column.** Everything in a column of content starts on the same margin: 16px on a phone, 20px on desktop ([Spacing](./spacing.md#layout-widths)).
+- **One edge per column.** Everything in a column of content starts on the same margin: 16px on a phone, 20px on desktop ([Spacing](./spacing.md#layout-widths)). A column of list cells (Activity, the sidebar and the phone's Home, search results) keeps 20px on a phone too, where its rows' content starts ([Lists](../patterns/lists.md#one-edge)). In raft-ui the margin is `--column-margin`, which heads, notices and footers pad by.
 - **Align the visible thing.** A shape aligns by its edge, text by its letters, a frameless icon button by its icon box.
 
 ## Usage

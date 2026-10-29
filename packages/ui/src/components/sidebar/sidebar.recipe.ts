@@ -1,10 +1,11 @@
-import { headEdgePull } from "../../lib/head-edges";
+import { headEdgePull, listColumnMargin } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 
 export const sidebarRecipe = tv({
   slots: {
     sidebarRoot: [
       "relative flex size-full min-h-0  select-none flex-col",
+      listColumnMargin,
       "has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:overflow-clip",
       "bg-layer-sidebar text-foreground max-md:bg-layer-canvas",
       "border-line-seam md:border-r",
@@ -12,9 +13,9 @@ export const sidebarRecipe = tv({
     ],
     sidebarHeader: [
       "flex items-center",
-      "h-(--shell-header-height,56px) shrink-0 gap-2 border-b border-line-seam px-5",
+      "h-(--shell-header-height,56px) shrink-0 gap-2 border-b border-line-seam px-(--column-margin)",
       "bg-layer-sidebar text-foreground",
-      "max-md:bg-layer-frame max-md:px-4 max-md:text-foreground-on-frame",
+      "max-md:bg-layer-frame max-md:text-foreground-on-frame",
       headEdgePull,
       "[@media(max-height:600px)]:h-12",
     ],
@@ -25,7 +26,7 @@ export const sidebarRecipe = tv({
       "font-sans text-headline text-foreground max-md:text-foreground-on-frame",
     ],
     sidebarGroupLabel: [
-      "px-2 pt-4 pb-1.5",
+      "px-5 pt-4 pb-0",
       "font-sans text-footnote font-bold normal-case tracking-normal text-foreground-hint",
     ],
     sidebarBody: [
@@ -34,10 +35,7 @@ export const sidebarRecipe = tv({
     ],
     sidebarContent: ["relative flex min-h-0 min-w-0 flex-1"],
     sidebarViewport: ["size-full min-h-0  flex-1 overflow-x-hidden overflow-y-auto"],
-    sidebarContentInner: [
-      "min-h-full min-w-0 w-full px-2",
-      "pt-2 pb-(--sidebar-content-bottom,8px)",
-    ],
+    sidebarContentInner: ["min-h-full min-w-0 w-full", "pt-2 pb-(--sidebar-content-bottom,8px)"],
     sidebarScrollbar: [
       "z-30 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
       "pointer-events-none",

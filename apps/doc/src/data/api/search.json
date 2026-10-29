@@ -29,6 +29,7 @@
   {
     "name": "SearchShellViewport",
     "entry": "@botiverse/raft-ui",
+    "description": "The results' scroller. It publishes its scrollbar's width for the result cells (useScrollbarSize), so their fills sit 8px from both edges.",
     "native": true,
     "props": []
   },

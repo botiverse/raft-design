@@ -109,7 +109,7 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/card/card.recipe.ts": 7,
   "components/composer/composer-attachment.recipe.ts": 7,
   "components/files/files.recipe.ts": 7,
-  "components/inbox-item/inbox-item.recipe.ts": 14,
+  "components/inbox-item/inbox-item.recipe.ts": 11,
   "components/input-group/input-group.tsx": 7,
   "components/message-attachment/message-image-gallery.recipe.ts": 0,
   // The row sets its jumped-to / selected fill as --mi-row-fill on itself

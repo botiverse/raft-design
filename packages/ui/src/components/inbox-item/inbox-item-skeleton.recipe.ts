@@ -8,7 +8,7 @@ import { tv } from "../../lib/tv";
 // them doesn't read as a striped block.
 export const inboxItemSkeleton = tv({
   slots: {
-    list: ["flex min-w-0 flex-col"],
+    list: ["flex min-w-0 flex-col gap-0.5"],
     row: [
       "[--inbox-item-skeleton-context:5rem] [--inbox-item-skeleton-title:60%] [--inbox-item-skeleton-body:80%]",
       "nth-[3n+2]:[--inbox-item-skeleton-context:4rem] nth-[3n+2]:[--inbox-item-skeleton-title:45%] nth-[3n+2]:[--inbox-item-skeleton-body:70%]",

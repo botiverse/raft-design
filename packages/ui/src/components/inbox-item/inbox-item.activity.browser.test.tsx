@@ -164,7 +164,7 @@ it("leaves actions without reveal visible at rest", async () => {
 
 function ListRow() {
   return (
-    <div className="w-[440px]">
+    <div className="flex w-[440px] flex-col gap-0.5">
       {[1, 2].map((n) => (
         <InboxItem key={n} density="compact" data-testid={`row-${n}`}>
           <InboxItemTrigger aria-label={`Open ${n}`} />
@@ -187,16 +187,22 @@ function ListRow() {
   );
 }
 
-it("starts the divider after the leading visual", async () => {
+it("draws no divider; the leading visual and text keep their places inside the inset shape", async () => {
   render(<ListRow />);
   const row = screen.getByTestId("row-2");
   const rowLeft = row.getBoundingClientRect().left;
-  expect(getComputedStyle(row, "::before").display).toBe("block");
-  expect(getComputedStyle(row, "::before").left).toBe("64px");
+  const shape = getComputedStyle(row, "::before");
+  expect(shape.borderTopWidth).toBe("0px");
+  expect([shape.top, shape.right, shape.bottom, shape.left]).toEqual(["0px", "8px", "0px", "8px"]);
+  // The list spaces the rows 2px apart; the shape is as tall as the row.
+  expect(
+    row.getBoundingClientRect().top - screen.getByTestId("row-1").getBoundingClientRect().bottom,
+  ).toBe(2);
   const leading = screen.getByTestId("leading-2").getBoundingClientRect();
-  expect(leading.left - rowLeft).toBe(16);
+  // The content is padded from the shape: 8px inset + 12px inside it.
+  expect(leading.left - rowLeft).toBe(20);
   expect(leading.width).toBe(36);
-  expect(screen.getByTestId("content-2").getBoundingClientRect().left - rowLeft).toBe(64);
+  expect(screen.getByTestId("content-2").getBoundingClientRect().left - rowLeft).toBe(68);
 });
 
 it("sets a compact row on one line each for the title and the excerpt", async () => {

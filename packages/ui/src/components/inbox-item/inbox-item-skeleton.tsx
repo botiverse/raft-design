@@ -98,7 +98,8 @@ export type InboxItemSkeletonListProps = useRender.ComponentProps<"div"> &
 /**
  * The list of `InboxItemSkeleton` rows that stands in for a list of
  * `InboxItem` rows while it loads, with nothing between or around the rows
- * that the loaded list doesn't have (no gap, no border, no card). Renders
+ * that the loaded list doesn't have (no border, no card): only the list's
+ * 2px gap, which the loaded list has too (design/patterns/lists.md). Renders
  * `count` rows of the given shape, or its children, once `delay` (1 second by
  * default) has passed. It isn't `aria-busy` itself: it goes away when the
  * content arrives, so mark the region that stays, such as the list's panel or

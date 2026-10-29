@@ -22,14 +22,14 @@ if (typeof window.matchMedia !== "function") {
 
 afterEach(cleanup);
 
-// Every head pads both sides by the content margin (20, 16 on a phone) and
+// Every head pads both sides by its column's margin (--column-margin: 20, 16
+// on a phone, 20 in a column of list cells) and
 // pulls its first and last frameless icon button out by its icon inset, so the
 // icon box lands on the margin and the two ends mirror. A filled thing declares
 // no inset and puts its shape on the margin. Positions are measured in
 // head-edges.browser.test.tsx; these pin the shared tokens.
 const EDGES = [
-  "px-5",
-  "max-md:px-4",
+  "px-(--column-margin)",
   "[&>[data-icon-inset]:first-child]:-ml-icon-inset",
   "[&>[data-icon-inset]:last-child]:-mr-icon-inset",
 ];

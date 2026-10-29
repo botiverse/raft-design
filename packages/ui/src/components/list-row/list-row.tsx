@@ -36,6 +36,12 @@ export type ListRowProps = useRender.ComponentProps<"button"> &
     /** `false` renders a display-only row: a `div` with no hover or press,
      *  for a row whose controls (a switch, a button) are its only targets. */
     interactive?: boolean;
+    /** Draw the row as a list cell (design/patterns/lists.md): no line between
+     *  rows, and hover, press, selection and focus on one shape inset 8px at
+     *  the sides. For a list of places or people on a phone; put the rows in a
+     *  `flex flex-col gap-0.5 py-2` column. A settings card keeps the default
+     *  look, with its lines. */
+    cell?: boolean;
   };
 
 /**
@@ -49,11 +55,12 @@ export function ListRow({
   tone = "default",
   selected = false,
   interactive = true,
+  cell = false,
   className,
   render,
   ...props
 }: ListRowProps) {
-  const { root } = listRow({ variant, interactive });
+  const { root } = listRow({ variant, interactive, cell });
   const defaultProps: SlotElementProps<"button"> = {
     "data-slot": "list-row",
     "data-variant": variant,

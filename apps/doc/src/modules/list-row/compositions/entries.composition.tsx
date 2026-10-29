@@ -17,8 +17,9 @@ export function ListRowEntriesComposition() {
   }, []);
 
   return (
-    <div className="w-full max-w-sm">
+    <div className="flex w-full max-w-sm flex-col gap-0.5 py-2">
       <ListRow
+        cell
         variant="entry"
         value="search"
         selected={open === "search"}
@@ -33,6 +34,7 @@ export function ListRowEntriesComposition() {
         </ListRowBody>
       </ListRow>
       <ListRow
+        cell
         variant="entry"
         value="activity"
         selected={open === "activity"}
@@ -50,6 +52,7 @@ export function ListRowEntriesComposition() {
         </Badge>
       </ListRow>
       <ListRow
+        cell
         variant="entry"
         value="saved"
         selected={open === "saved"}

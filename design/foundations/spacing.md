@@ -67,7 +67,7 @@ Where content is cut, by a fold or by the edge of a strip that scrolls, its edge
   - Each row spans the whole width of the popup, so a tap a few pixels off still lands on a row.
   - A tap on the wrong row only moves the highlight or chooses the neighbor, which people see and can change. It never does anything that can't be put back: a menu item that deletes, stops or removes something opens a confirmation first ([Feedback](../patterns/feedback.md#confirming)). Keep such an item apart from the others, after a separator.
   - 36px rows keep more of the list in view.
-- Desktop controls used only with a pointer may be smaller: sidebar rows 36px, rail items 40px, the hover toolbar 36px high with 28px buttons ([Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)).
+- Desktop controls used only with a pointer may be smaller: sidebar rows 38px (2px apart, their state shape as tall as the row, [Lists](../patterns/lists.md)), rail items 40px, the hover toolbar 36px high with 28px buttons ([Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)).
 - On a desktop, a default control is 32px, Feishu's PC default, read with a pointer from further away. A desktop here is a screen from 768px (where the desktop layout begins) whose main pointer is a mouse or a trackpad, `(width >= 48rem) and (pointer: fine)`: density follows the input, not the width. A tablet used by touch keeps the phone's 44px controls and 16px field text, which also keeps iOS and iPadOS from zooming into a field on focus; an iPad with a trackpad reports a fine pointer and gets the desktop sizes. A button at 32px still overhangs to a 44px hit area (`after:-inset-y-control-hit`, plus its 1.5px border, because an overhanging `::after` is measured from inside the border), because a laptop can have a touch screen too; a field doesn't, since it is wide and its height is the target.
 
 ## The same kind, the same size
@@ -112,7 +112,7 @@ Avatars come in 19px, 27px, 35px, 51px and 99px: a multiple of 8 plus two 1.5px 
 
 | Region | Width |
 | --- | --- |
-| Phone content margin | 16px on each side |
+| Phone content margin | 16px on each side; 20px in a column of list cells ([Lists](../patterns/lists.md#one-edge)) |
 | Desktop main area, panel header, sidebar header, drawer margin | 20px on each side |
 | Rail | 56px, plus a 1px seam; the labeled rail is 68px, plus a 1px seam |
 | Sidebar (every page that has one: Chat, Members, Computers, Settings, a server's public page) | 240px, resizable from 200px to 400px |

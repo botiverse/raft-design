@@ -200,6 +200,20 @@
      the yellow and on the near-black frame: 10% on the yellow and 6% on the dark
      frame land on the medium step, about 6 OKLab dE. */
   --fill-frame-medium: oklch(0.1813 0.005 17.62 / 0.1);
+  /* A list cell's hover and its menu-open fill (lib/list-cell.ts), drawn on the
+     cell's inset shape. fill-subtle in light. In dark it steps up to 7.5% ink,
+     so the rounded shape reads on a dark surface, where fill-subtle's 3% barely
+     shows. Rows only: the global tiers don't change. */
+  --fill-cell-hover: var(--fill-subtle);
+  /* A list cell's press fill, the same with a mouse and on a touch screen.
+     fill-medium in light. In dark 12% ink, a clear step over the cell's dark
+     hover. */
+  --fill-cell-press: var(--fill-medium);
+  /* A list cell that is selected or open beside its list (an active InboxItem, a
+     selected ListRow), and the located highlight on a cell. info-soft in light.
+     In dark the cyan at 38% instead of 18%, so a selected cell stands out from a
+     hovered one. */
+  --fill-cell-selected: var(--info-soft);
   --line-strong: oklch(0.1813 0.005 17.62);
   --line-seam: oklch(0.1813 0.005 17.62 / 0.451);
   --line-hairline: oklch(0.1813 0.005 17.62 / 0.149);
@@ -418,6 +432,9 @@
   --fill-subtle: oklch(0.9843 0.004 106.47 / 0.03);
   --fill-medium: oklch(0.9843 0.004 106.47 / 0.065);
   --fill-frame-medium: oklch(0.9843 0.004 106.47 / 0.06);
+  --fill-cell-hover: oklch(0.9843 0.004 106.47 / 0.075);
+  --fill-cell-press: oklch(0.9843 0.004 106.47 / 0.12);
+  --fill-cell-selected: oklch(0.452 0.0862 225.67 / 0.38);
   --line-strong: oklch(0.9211 0.004 106.48);
   --line-seam: oklch(0.9843 0.004 106.47 / 0.259);
   --line-hairline: oklch(0.9843 0.004 106.47 / 0.102);
@@ -505,6 +522,9 @@
     --fill-subtle: oklch(0.9843 0.004 106.47 / 0.03);
     --fill-medium: oklch(0.9843 0.004 106.47 / 0.065);
     --fill-frame-medium: oklch(0.9843 0.004 106.47 / 0.06);
+    --fill-cell-hover: oklch(0.9843 0.004 106.47 / 0.075);
+    --fill-cell-press: oklch(0.9843 0.004 106.47 / 0.12);
+    --fill-cell-selected: oklch(0.452 0.0862 225.67 / 0.38);
     --line-strong: oklch(0.9211 0.004 106.48);
     --line-seam: oklch(0.9843 0.004 106.47 / 0.259);
     --line-hairline: oklch(0.9843 0.004 106.47 / 0.102);

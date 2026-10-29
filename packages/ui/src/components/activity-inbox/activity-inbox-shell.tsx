@@ -1,4 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
+import { useMergedRef } from "../../lib/use-merged-ref";
+import { useScrollbarSize } from "../../lib/use-scrollbar-size";
 import { Panel } from "../panel/panel";
 import { activityInboxShell } from "./activity-inbox-shell.recipe";
 
@@ -19,9 +21,20 @@ export function ActivityInboxPanel({ className, ...props }: ActivityInboxPanelPr
 
 export type ActivityInboxViewportProps = ComponentPropsWithRef<"div">;
 
-export function ActivityInboxViewport({ className, ...props }: ActivityInboxViewportProps) {
+/** The list's scroller. It publishes its scrollbar's width for the item
+ *  cells (useScrollbarSize), so their fills sit 8px from both edges. */
+export function ActivityInboxViewport({ className, ref, ...props }: ActivityInboxViewportProps) {
   const { viewport } = activityInboxShell();
-  return <div data-slot="activity-inbox-viewport" className={viewport({ className })} {...props} />;
+  const scrollbarRef = useScrollbarSize<HTMLDivElement>();
+  const [setRef] = useMergedRef<HTMLDivElement>(ref, scrollbarRef);
+  return (
+    <div
+      data-slot="activity-inbox-viewport"
+      className={viewport({ className })}
+      {...props}
+      ref={setRef}
+    />
+  );
 }
 
 export type ActivityInboxLoadingMoreProps = ComponentPropsWithRef<"div">;

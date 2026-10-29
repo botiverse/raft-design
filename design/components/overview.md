@@ -144,7 +144,7 @@ The more you know about a wait, the more specific its indicator. A known layout 
 
 ### Rows
 
-A row follows what it stands for, not where it appears: a place looks the same in the sidebar and in a phone list of places, and each other kind of row carries what its subject needs (the attention dot of something to see, the status chip of a task). Rows of the same kind are also the same size across an app's tabs ([The same kind, the same size](../foundations/spacing.md#the-same-kind-the-same-size)).
+A row follows what it stands for, not where it appears: a place looks the same in the sidebar and in a phone list of places, and each other kind of row carries what its subject needs (the attention dot of something to see, the status chip of a task). Rows of the same kind are also the same size across an app's tabs ([The same kind, the same size](../foundations/spacing.md#the-same-kind-the-same-size)). Every row below except the task card and a ListRow in an inset group (settings, agents and people on a detail page) is a list cell: no dividers, the whole row the target, and its states on one inset rounded shape ([Lists](../patterns/lists.md)).
 
 | Where | Use |
 | --- | --- |

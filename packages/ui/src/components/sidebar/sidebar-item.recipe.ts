@@ -1,24 +1,32 @@
+import { listCell, listCellStates } from "../../lib/list-cell";
 import { tv } from "../../lib/tv";
 
 export const sidebarItemRecipe = tv({
   slots: {
     // The tone sets the name's ink, which the title inherits: muted is ink-2,
     // away (offline, not joined) ink-3. The yellow sticker keeps its own ink.
+    // The row is a list cell (lib/list-cell.ts): it runs the sidebar's full
+    // width, 38px tall, and its states are drawn on the inset shape, as tall
+    // as the row. SidebarList spaces the rows 2px apart and pads its ends by 8px.
+    // The content sits 12px inside the shape on both sides (--cell-pad-x,
+    // 20px from the row's edges): the icon or avatar and the count, @ sticker
+    // or time never touch the shape. A sticker's 1.5px outer edge leaves
+    // 10.5px of the shape around its ink.
     // Below md the row is a phone list of places (Home, Members, Settings):
     // at least 44px for a finger, in the ListRow title type (16/24 600).
-    // 8.5px inside the 1.5px edge centres one 24px line in 44, so a wrapping
-    // row starts its first line where a one-line row's sits.
+    // 10px top and bottom centres one 24px line in 44, so a wrapping row
+    // starts its first line where a one-line row's sits.
     sidebarItem: [
-      "group/sidebar-item flex w-full items-center px-2 text-left",
-      "transition-colors",
-      "my-px h-9 gap-2 rounded-control border-[1.5px] border-transparent py-0 pr-2.5 pl-2",
+      "group/sidebar-item flex w-full items-center text-left",
+      listCell,
+      "h-[38px] gap-2 rounded-none border-0 py-0",
       "md:py-0 md:[@media(max-height:600px)]:py-0",
-      "max-md:h-auto max-md:min-h-11 max-md:py-[8.5px]",
+      "max-md:h-auto max-md:min-h-11 max-md:py-2.5",
       "font-sans text-subhead font-medium text-foreground",
       "max-md:text-body max-md:font-semibold",
-      "data-active:border-sticker-ink data-active:bg-selected data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",
+      "data-active:font-bold data-active:text-sticker-ink",
+      "data-active:before:bg-selected data-active:before:inset-ring-[1.5px] data-active:before:inset-ring-sticker-ink data-active:before:ring-[1.5px] data-active:before:ring-sticker-edge",
       "not-data-active:data-[tone=muted]:text-foreground-muted not-data-active:data-[tone=away]:text-foreground-hint",
-      "outline-none",
     ],
     sidebarItemIcon: [
       "flex shrink-0 items-center justify-center",
@@ -53,7 +61,7 @@ export const sidebarItemRecipe = tv({
     sidebarItemStatus: ["shrink-0", "inline-flex items-center"],
     sidebarItemIndicator: [
       "shrink-0 items-center justify-center gap-0",
-      "[&:has(svg)]:px-0",
+      "has-[svg]:px-0",
       "[&_svg]:shrink-0 [&_svg]:translate-y-0",
       "size-5 min-w-5 rounded-sticker border-0 p-0",
       "bg-you text-sticker-ink inset-ring-[1.5px] inset-ring-sticker-ink ring-[1.5px] ring-sticker-edge",
@@ -81,13 +89,16 @@ export const sidebarItemRecipe = tv({
   },
   variants: {
     // A display-only row (this computer, whose action is a button inside it)
-    // is no target: no hover, press or focus ring.
+    // is no target: no hover, press or focus ring. Keyboard focus is the 2px
+    // inset ring on the shape; on the selected sticker it sits inside the
+    // sticker's ink edge.
     interactive: {
       true: {
         sidebarItem: [
-          "hover:bg-fill-subtle active:bg-fill-medium not-data-active:data-popup-open:bg-fill-subtle",
-          "data-active:active:overlay-sticker-medium",
-          "focus-visible:shadow-focus",
+          listCellStates,
+          "data-active:active:before:overlay-sticker-medium",
+          "not-data-active:focus-visible:keyboard:before:inset-ring-2 not-data-active:focus-visible:keyboard:before:inset-ring-foreground",
+          "data-active:focus-visible:keyboard:before:shadow-[inset_0_0_0_3.5px_var(--foreground)]",
         ],
       },
       false: { sidebarItem: "cursor-default" },
@@ -101,7 +112,7 @@ export const sidebarItemRecipe = tv({
       true: {
         sidebarItem: [
           "h-auto items-start whitespace-normal",
-          "min-h-9 py-[6.5px] md:py-[6.5px] md:[@media(max-height:600px)]:py-[6.5px]",
+          "min-h-[38px] py-[9px] md:py-[9px] md:[@media(max-height:600px)]:py-[9px]",
           "**:data-[slot=sidebar-item-channel-icon]:h-lh **:data-[slot=sidebar-item-icon]:h-lh",
           "**:data-[slot=sidebar-item-meta-icon]:h-lh",
           // The 19px avatar (DS xs) centres on the first line the same way.

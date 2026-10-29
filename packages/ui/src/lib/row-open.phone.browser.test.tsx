@@ -43,12 +43,15 @@ async function longPress(element: Element) {
 // A row with its menu open (states.md#hover-and-press): on a phone there is
 // no hover, so the row's fill is the only sign of which row the menu acts on.
 // Every row takes fill-subtle, a visible step (2 or more) off its surface,
-// still under info-soft and brand-soft so it never reads as selected.
+// still under info-soft and brand-soft so it never reads as selected. A list
+// cell (lib/list-cell.ts) takes it on its inset shape as fill-cell-hover: the
+// same in light, a stronger step in dark, under the cell's selected tint.
 const rows = [
   {
     name: "message",
     surface: "layer-canvas",
     backdrop: "bg-layer-canvas p-2",
+    cell: false,
     trigger: <MessageItem data-testid="row" />,
     content: (
       <MessageItemContent>
@@ -60,6 +63,7 @@ const rows = [
     name: "sidebar item",
     surface: "layer-sidebar",
     backdrop: "bg-layer-sidebar p-2",
+    cell: true,
     trigger: <SidebarItem data-testid="row" />,
     content: <SidebarItemTitle>launch-week</SidebarItemTitle>,
   },
@@ -88,14 +92,18 @@ for (const mode of ["light", "dark"] as const) {
       expect(getComputedStyle(el).backgroundColor).toBe("rgba(0, 0, 0, 0)");
       await longPress(el);
       expect(el.hasAttribute("data-popup-open"), "the long press opened the menu").toBe(true);
-      const fill = await settled(() => getComputedStyle(el).backgroundColor);
-      expect(fill, `${mode}: the open ${row.name}'s fill`).toBe(token(scope, "fill-subtle"));
+      const fill = await settled(
+        () => getComputedStyle(el, row.cell ? "::before" : null).backgroundColor,
+      );
+      expect(fill, `${mode}: the open ${row.name}'s fill`).toBe(
+        token(scope, row.cell ? "fill-cell-hover" : "fill-subtle"),
+      );
 
       const surface = parseOklch(token(scope, row.surface));
       const open = over(parseOklch(fill), surface);
       const step = deltaE(open, surface);
       expect(step, `${mode}: ${step.toFixed(2)} off ${row.surface}`).toBeGreaterThanOrEqual(2);
-      for (const selection of ["info-soft", "brand-soft"]) {
+      for (const selection of [row.cell ? "fill-cell-selected" : "info-soft", "brand-soft"]) {
         const selected = deltaE(over(parseOklch(token(scope, selection)), surface), surface);
         expect(step, `${mode}: under ${selection} (${selected.toFixed(2)})`).toBeLessThan(selected);
       }

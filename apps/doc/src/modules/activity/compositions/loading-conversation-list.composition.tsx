@@ -6,7 +6,7 @@ import { InboxItemSkeletonList } from "@botiverse/raft-ui/wip";
  */
 export function LoadingConversationListComposition() {
   return (
-    <div className="w-full max-w-md" aria-busy="true">
+    <div className="w-full max-w-md py-2" aria-busy="true">
       <InboxItemSkeletonList count={4} density="compact" leading />
     </div>
   );

@@ -6,6 +6,14 @@
     "native": true,
     "props": [
       {
+        "name": "cell",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Draw the row as a list cell (design/patterns/lists.md): no line between rows, and hover, press, selection and focus on one shape inset 8px at the sides. For a list of places or people on a phone; put the rows in a `flex flex-col gap-0.5 py-2` column. A settings card keeps the default look, with its lines.",
+        "from": "raft-ui"
+      },
+      {
         "name": "interactive",
         "type": "boolean",
         "required": false,
@@ -209,6 +217,14 @@
     "description": "A placeholder for one `ListRow` while the list loads. It is a display-only `ListRow` of the same `variant`, with a bar in its title, its time and its description, so it is the loaded row's size and its divider sits in the same place. Hidden from assistive technology: mark the region that stays while the list loads, such as its `ListRowGroup`, `aria-busy`.",
     "native": true,
     "props": [
+      {
+        "name": "cell",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Draw the row as a list cell (design/patterns/lists.md): no line between rows, and hover, press, selection and focus on one shape inset 8px at the sides. For a list of places or people on a phone; put the rows in a `flex flex-col gap-0.5 py-2` column. A settings card keeps the default look, with its lines.",
+        "from": "raft-ui"
+      },
       {
         "name": "description",
         "type": "boolean",

@@ -1726,6 +1726,7 @@ export * from "./components/search/index";
 export { cn } from "./lib/cn";
 export { LOCATED_MS, useLocated } from "./lib/located";
 export type { LocatedRequest } from "./lib/located";
+export { useScrollbarSize } from "./lib/use-scrollbar-size";
 export { ThemeProvider } from "./lib/theme/theme-provider";
 export type { ThemeProviderProps } from "./lib/theme/theme-provider";
 export { useTheme } from "./lib/theme/use-theme";

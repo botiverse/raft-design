@@ -22,8 +22,9 @@ export function ListRowConversationsComposition() {
   }, []);
 
   return (
-    <div className="w-full max-w-sm">
+    <div className="flex w-full max-w-sm flex-col gap-0.5 py-2">
       <ListRow
+        cell
         value="wug"
         tone="unread"
         selected={open === "wug"}
@@ -48,6 +49,7 @@ export function ListRowConversationsComposition() {
         </ListRowBody>
       </ListRow>
       <ListRow
+        cell
         value="martin"
         tone="unread"
         selected={open === "martin"}
@@ -71,6 +73,7 @@ export function ListRowConversationsComposition() {
         </ListRowBody>
       </ListRow>
       <ListRow
+        cell
         value="mia"
         selected={open === "mia"}
         aria-current={open === "mia"}

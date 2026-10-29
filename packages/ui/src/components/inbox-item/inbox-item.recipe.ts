@@ -1,23 +1,19 @@
+import { listCell, listCellStates } from "../../lib/list-cell";
 import { tv } from "../../lib/tv";
 
 export const inboxItem = tv({
   slots: {
     item: [
-      "relative grid w-full grid-cols-[minmax(0,1fr)_auto] items-start gap-3 p-3 text-left",
+      "relative grid w-full grid-cols-[minmax(0,1fr)_auto] items-start gap-3 text-left",
       "has-data-[slot=inbox-item-selection]:grid-cols-[auto_minmax(0,1fr)_auto]",
       "has-data-[slot=inbox-item-leading]:grid-cols-[auto_minmax(0,1fr)_auto]",
       "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
-      "transition-colors",
-      "gap-x-3 gap-y-0 rounded-none border-0 bg-transparent px-4 py-3 shadow-none",
-      "before:pointer-events-none before:absolute before:top-0 before:right-0 before:left-4 before:hidden before:border-t before:border-line-hairline",
-      "[[data-slot=inbox-item]+&]:before:block has-data-[slot=inbox-item-selection]:before:left-11",
-      "has-data-[slot=inbox-item-leading]:before:left-16",
-      "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:before:left-23",
-      "hover:bg-fill-subtle not-data-[active=true]:active:bg-fill-medium",
-      "not-data-[active=true]:data-popup-open:bg-fill-subtle not-data-[active=true]:has-data-popup-open:bg-fill-subtle",
-      "data-[active=true]:bg-info-soft data-[active=true]:hover:bg-info-soft",
-      "data-disabled:pointer-events-none data-disabled:hover:bg-transparent",
-      "has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:inset-ring-2 has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:inset-ring-foreground",
+      "gap-x-3 gap-y-0 rounded-none border-0 py-3",
+      listCell,
+      listCellStates,
+      "data-[active=true]:before:bg-fill-cell-selected",
+      "data-disabled:pointer-events-none",
+      "has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:before:inset-ring-2 has-[[data-slot=inbox-item-open]:focus-visible]:keyboard:before:inset-ring-foreground",
       "not-data-[density=compact]:has-data-[slot=inbox-item-trailing]:[--inbox-item-content-display:grid] not-data-[density=compact]:has-data-[slot=inbox-item-trailing]:[--inbox-item-content-end:-1]",
     ],
     itemTrigger: ["absolute inset-0 z-0 outline-none"],
@@ -33,7 +29,9 @@ export const inboxItem = tv({
       "bg-layer-canvas bg-[linear-gradient(var(--info-soft),var(--info-soft))] text-foreground",
       "[&_svg]:size-2.5 [&_svg]:shrink-0",
     ],
-    itemSelection: ["relative z-10 mt-0.5 flex size-4 shrink-0 items-center justify-center"],
+    // As wide as its 20px checkbox, so the box doesn't overhang the slot
+    // into the shape's padding; centred on the first line as the 16px slot was.
+    itemSelection: ["relative z-10 flex size-5 shrink-0 items-center justify-center"],
     itemContent: [
       "pointer-events-none relative z-10 min-w-0 flex-1 text-left",
       "-col-start-3 col-end-(--inbox-item-content-end) row-start-1",

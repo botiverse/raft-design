@@ -102,7 +102,7 @@ export function ActivityConversationListComposition() {
   }
 
   return (
-    <div className="flex w-full max-w-md flex-col">
+    <div className="flex w-full max-w-md flex-col gap-0.5 py-2">
       {conversations.map((conversation) => (
         <ConversationRow
           key={conversation.id}

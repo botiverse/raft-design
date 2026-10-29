@@ -3,11 +3,10 @@ import { tv } from "../../lib/tv";
 export const searchThread = tv({
   slots: {
     thread: [
-      "overflow-hidden transition-colors",
+      "overflow-hidden",
       "relative rounded-none border-0 bg-transparent text-foreground shadow-none",
-      "not-first:before:absolute not-first:before:top-0 not-first:before:right-0 not-first:before:left-4 not-first:before:border-t not-first:before:border-line-hairline",
     ],
-    threadHeader: ["py-2", "px-4 pt-3 pb-1"],
+    threadHeader: ["py-2", "px-5 pt-3 pb-0"],
     threadMeta: [
       "flex flex-wrap items-center",
       "mb-0.5 gap-1.5",
@@ -15,6 +14,6 @@ export const searchThread = tv({
     ],
     threadTimestamp: ["normal-case", "ml-auto"],
     threadTitle: ["font-sans text-callout font-semibold text-foreground"],
-    threadMessages: ["flex flex-col", "border-t-0 bg-transparent"],
+    threadMessages: ["flex flex-col gap-0.5 py-2", "border-t-0 bg-transparent"],
   },
 });

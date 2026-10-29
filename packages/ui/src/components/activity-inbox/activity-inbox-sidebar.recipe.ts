@@ -10,10 +10,10 @@ export const activityInboxSidebar = tv({
     ],
     sidebarBody: ["bg-layer-canvas"],
     sidebarContent: [
-      "p-3",
-      "[&_[data-slot=sidebar-group-label]]:mt-5 [&_[data-slot=sidebar-group-label]]:mb-1",
+      "py-0",
+      "[&_[data-slot=sidebar-group-label]]:mt-3 [&_[data-slot=sidebar-group-label]]:mb-0",
       "**:data-[slot=sidebar-group-label]:flex **:data-[slot=sidebar-group-label]:items-center [&_[data-slot=sidebar-group-label]]:gap-2",
-      "[&_[data-slot=sidebar-group-label]]:px-2 [&_[data-slot=sidebar-group-label]]:py-0",
+      "[&_[data-slot=sidebar-group-label]]:px-5 [&_[data-slot=sidebar-group-label]]:py-0",
       "**:data-[slot=sidebar-group-label]:font-sans **:data-[slot=sidebar-group-label]:text-footnote [&_[data-slot=sidebar-group-label]]:font-bold",
       "**:data-[slot=sidebar-group-label]:text-foreground-hint **:data-[slot=sidebar-group-label]:normal-case [&_[data-slot=sidebar-group-label]]:tracking-normal",
       "**:data-activity-inbox-show-all:whitespace-nowrap",

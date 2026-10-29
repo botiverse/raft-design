@@ -228,3 +228,44 @@ describe("ListRow", () => {
     );
   });
 });
+
+// A list of places or people on a phone opts in to the list cell
+// (design/patterns/lists.md); a settings card keeps the default look above.
+describe("ListRow cell", () => {
+  test("draws no line in any variant, and every state on the inset shape", () => {
+    for (const variant of ["default", "plain", "entry"] as const) {
+      const { unmount } = render(<ListRow cell data-testid="row" variant={variant} />);
+      const rowClasses = classes(screen.getByTestId("row"));
+      expect(rowClasses.join(" "), variant).not.toContain("border-t");
+      expect(rowClasses, variant).toContain("list-cell");
+      expect(rowClasses, variant).toContain("before:left-(--cell-inset-x)");
+      expect(
+        rowClasses.some((name) => /(?:^|:)overlay-/.test(name)),
+        variant,
+      ).toBe(false);
+      expect(rowClasses, variant).not.toContain("data-selected:bg-info-soft");
+      expect(rowClasses, variant).not.toContain("focus-visible:keyboard:inset-ring-2");
+      expect(rowClasses, variant).toContain("focus-visible:keyboard:before:inset-ring-2");
+      expect(rowClasses, variant).toContain(
+        "not-data-active:not-data-selected:not-data-disabled:not-disabled:not-aria-disabled:hover:before:bg-fill-cell-hover",
+      );
+      unmount();
+    }
+  });
+
+  test("a selected cell takes the cell's selected tint on its shape", () => {
+    render(
+      <ListRow cell selected>
+        release-review
+      </ListRow>,
+    );
+    expect(classes(screen.getByRole("button"))).toContain(
+      "data-selected:before:bg-fill-cell-selected",
+    );
+  });
+
+  test("a display-only cell has no hover or press", () => {
+    render(<ListRow cell interactive={false} data-testid="row" />);
+    expect(screen.getByTestId("row").className).not.toContain("bg-fill-cell-hover");
+  });
+});

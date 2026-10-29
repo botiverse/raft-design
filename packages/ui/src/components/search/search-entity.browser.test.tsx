@@ -1,11 +1,9 @@
 import "./search-trigger.test.css";
 /**
- * SearchEntityResult draws the ListRow hairline above itself, from where the
- * text starts, when it follows another result in the list (search.md,
- * Results). A wrapper around each result makes every one the first of its
- * parent, and the hairlines are gone: the reason to put a result's data
- * attributes on SearchEntityResult itself. Real paint: only a browser
- * computes ::before.
+ * SearchEntityResult is a list cell (search.md, Results; design/patterns/
+ * lists.md): no hairline between results, its states on an ::before shape
+ * inset 8px from the list's sides, its content 12px inside the shape. Real
+ * paint: only a browser computes ::before.
  *
  * Run: `pnpm exec vp test --run --browser.enabled --browser.headless src/components/search/search-entity.browser.test.tsx`
  */
@@ -37,12 +35,17 @@ function Result({ name }: { name: string }) {
   );
 }
 
-function hairline(el: HTMLElement) {
+function shape(el: HTMLElement) {
   const before = getComputedStyle(el, "::before");
-  return { width: before.borderTopWidth, style: before.borderTopStyle, left: before.left };
+  return {
+    borderTop: before.borderTopWidth,
+    borderBottom: before.borderBottomWidth,
+    left: Number.parseFloat(before.left),
+    right: Number.parseFloat(before.right),
+  };
 }
 
-it("a result after another draws the hairline from where the text starts; the first draws none", () => {
+it("results draw no hairline; the shape is inset 8px and the content 12px inside it", () => {
   render(
     <ThemeProvider>
       <SearchResultsList className="w-96">
@@ -51,27 +54,15 @@ it("a result after another draws the hairline from where the text starts; the fi
       </SearchResultsList>
     </ThemeProvider>,
   );
-  expect(hairline(screen.getByTestId("design")).width).toBe("0px");
-  const line = hairline(screen.getByTestId("dev"));
-  expect(line.width).toBe("1px");
-  expect(line.style).toBe("solid");
-  const row = screen.getByTestId("dev").getBoundingClientRect();
-  const title = screen.getByTestId("dev-title").getBoundingClientRect();
-  expect(row.left + Number.parseFloat(line.left)).toBeCloseTo(title.left, 0);
-});
-
-it("a wrapper around each result hides the hairlines", () => {
-  render(
-    <ThemeProvider>
-      <SearchResultsList className="w-96">
-        <div>
-          <Result name="design" />
-        </div>
-        <div>
-          <Result name="dev" />
-        </div>
-      </SearchResultsList>
-    </ThemeProvider>,
-  );
-  expect(hairline(screen.getByTestId("dev")).width).toBe("0px");
+  for (const name of ["design", "dev"]) {
+    const row = screen.getByTestId(name);
+    const cell = shape(row);
+    expect(cell.borderTop, name).toBe("0px");
+    expect(cell.borderBottom, name).toBe("0px");
+    expect(cell.left, name).toBe(8);
+    expect(cell.right, name).toBe(8);
+    expect(getComputedStyle(row).borderTopWidth, name).toBe("0px");
+    expect(getComputedStyle(row).borderBottomWidth, name).toBe("0px");
+    expect(Number.parseFloat(getComputedStyle(row).paddingLeft), name).toBe(20);
+  }
 });

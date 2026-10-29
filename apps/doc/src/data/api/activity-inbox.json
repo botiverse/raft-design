@@ -22,6 +22,7 @@
   {
     "name": "ActivityInboxViewport",
     "entry": "@botiverse/raft-ui",
+    "description": "The list's scroller. It publishes its scrollbar's width for the item cells (useScrollbarSize), so their fills sit 8px from both edges.",
     "native": true,
     "props": []
   },

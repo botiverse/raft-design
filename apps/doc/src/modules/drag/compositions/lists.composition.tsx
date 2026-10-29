@@ -79,7 +79,7 @@ export function ListsContent() {
   const into = lists.activeId ? lists.listOf(items, lists.activeId) : null;
 
   return (
-    <SidebarRoot className="w-64 px-2 py-1">
+    <SidebarRoot className="w-64 py-1">
       <DndContext
         sensors={sensors}
         collisionDetection={lists.collisionDetection}
