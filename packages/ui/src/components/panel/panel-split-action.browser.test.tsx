@@ -1,9 +1,14 @@
 import "./panel-header.test.css";
-import { afterEach, beforeAll, expect, test } from "vite-plus/test";
+import { afterAll, afterEach, beforeAll, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { DropdownMenu, DropdownMenuTrigger } from "../dropdown-menu/dropdown-menu";
-import { PanelSplitAction, PanelSplitActionMain, PanelSplitActionMenu } from "./panel-split-action";
+import {
+  PanelSplitAction,
+  PanelSplitActionMain,
+  PanelSplitActionMenu,
+  PanelSplitActionToggle,
+} from "./panel-split-action";
 
 // A split action reads as one control: the part under the pointer takes the
 // medium tier (fill-medium), the other part the subtle tier (fill-subtle), and
@@ -25,21 +30,27 @@ afterEach(cleanup);
 
 const noop = () => {};
 
-function renderSplit(mode: (typeof MODES)[number], pressed = false) {
+function renderSplit(mode: (typeof MODES)[number], toggle = false, pressed = false) {
   render(
     <ThemeProvider mode={mode}>
       <div data-testid="stage" className="flex gap-8 bg-layer-canvas p-8 text-foreground">
         <span data-testid="subtle" className="size-4 bg-fill-subtle" />
         <span data-testid="medium" className="size-4 bg-fill-medium" />
         <PanelSplitAction>
-          <PanelSplitActionMain
-            data-testid="main"
-            aria-label="Comment"
-            pressed={pressed}
-            onPressedChange={noop}
-          >
-            <svg viewBox="0 0 24 24" />
-          </PanelSplitActionMain>
+          {toggle ? (
+            <PanelSplitActionToggle
+              data-testid="main"
+              aria-label="Comment"
+              pressed={pressed}
+              onPressedChange={noop}
+            >
+              <svg viewBox="0 0 24 24" />
+            </PanelSplitActionToggle>
+          ) : (
+            <PanelSplitActionMain data-testid="main" aria-label="Comment">
+              <svg viewBox="0 0 24 24" />
+            </PanelSplitActionMain>
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger
               render={<PanelSplitActionMenu data-testid="menu" aria-label="Comments" />}
@@ -91,7 +102,7 @@ for (const mode of MODES) {
   });
 
   it(`${mode}: while the main part is pressed the menu part keeps the lighter tint`, async () => {
-    const { main, menu, subtle, medium } = renderSplit(mode, true);
+    const { main, menu, subtle, medium } = renderSplit(mode, true, true);
     await hover("stage");
     expect(await settle(menu, subtle)).toBe(subtle);
     expect(bg(main)).not.toBe(subtle);
@@ -108,4 +119,36 @@ it("the menu part is narrower than the main part and as tall", () => {
   expect(menuBox.width).toBeLessThan(mainBox.width);
   expect(menuBox.height).toBe(mainBox.height);
   expect(menuBox.left).toBe(mainBox.right);
+});
+
+// Touch runs last: turning touch emulation off again leaves Chromium
+// reporting `pointer: none`, not `fine` (panel-action.browser.test.tsx).
+it("on a touch screen the main part is 44px and the menu part a 24px drawing with a 44px target", async () => {
+  const { cdp, page } = await import("vite-plus/test/browser/context");
+  await page.viewport(1280, 800);
+  await cdp().send("Emulation.setEmulatedMedia", {
+    features: [{ name: "pointer", value: "coarse" }],
+  });
+  await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: true, maxTouchPoints: 1 });
+  const { main, menu } = renderSplit("light");
+  const mainBox = main.getBoundingClientRect();
+  const menuBox = menu.getBoundingClientRect();
+  expect(mainBox.width).toBe(44);
+  expect(mainBox.height).toBe(44);
+  expect(menuBox.width).toBe(24);
+  expect(menuBox.height).toBe(44);
+  // The ::after reaches past the menu part's end (measured from inside its
+  // 1.5px border) to a 44px target, into space the part keeps free.
+  const after = getComputedStyle(menu, "::after");
+  const reach = -parseFloat(after.right) - 1.5;
+  expect(menuBox.width + reach).toBe(44);
+  expect(parseFloat(getComputedStyle(menu).marginInlineEnd)).toBeGreaterThanOrEqual(reach);
+});
+
+afterAll(async () => {
+  if (typeof window === "undefined") return;
+  const { cdp, page } = await import("vite-plus/test/browser/context");
+  await cdp().send("Emulation.setEmulatedMedia", { features: [{ name: "pointer", value: "" }] });
+  await cdp().send("Emulation.setTouchEmulationEnabled", { enabled: false, maxTouchPoints: 1 });
+  await page.viewport(414, 896);
 });

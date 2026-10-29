@@ -8,7 +8,7 @@ import { panelAction, panelToggleAction } from "./panel-action.recipe";
  * `group-hover` on the root, which only hovers through a part (the root lets
  * the pointer through, so a disabled part, which takes no pointer, hovers
  * nothing). A part's resting fill is a custom property: the menu reads the
- * main part's pressed state through a sibling selector, the main part reads
+ * main part's (or the toggle's) pressed state through a sibling selector, the main part reads
  * the open menu through a has-selector on the root itself (packages/ui/CLAUDE.md,
  * Selector Cost), so a hover, a press, a selection or a disabled state on the
  * part itself always wins over the tint.
@@ -24,7 +24,10 @@ export const panelSplitAction = tv({
 const splitActionMainParts = [
   "pointer-events-auto rounded-e-none",
   "after:end-0",
-  "bg-(--split-action-main-tint,transparent) group-hover/split-action:bg-fill-subtle hover:bg-fill-medium active:bg-fill-medium",
+  "focus-visible:z-1 aria-pressed:z-1 data-pressed:z-1",
+  "bg-(--split-action-main-tint,transparent)",
+  "group-hover/split-action:bg-fill-subtle",
+  "hover:bg-fill-medium active:bg-fill-medium",
 ];
 
 export const panelSplitActionMain = tv({
@@ -32,7 +35,7 @@ export const panelSplitActionMain = tv({
   base: splitActionMainParts,
 });
 
-export const panelSplitActionToggleMain = tv({
+export const panelSplitActionToggle = tv({
   extend: panelToggleAction,
   base: splitActionMainParts,
 });
@@ -43,9 +46,12 @@ export const panelSplitActionMenu = tv({
     "pointer-events-auto min-w-0 rounded-s-none px-0",
     "w-6 me-5 md:pointer-fine:w-5 md:pointer-fine:me-0",
     "after:start-0 after:inset-e-[-21.5px] md:pointer-fine:after:-end-control-hit",
-    "[[data-slot=panel-split-action-main][data-pressed]~&]:[--split-action-menu-tint:var(--fill-subtle)]",
-    "[[data-slot=panel-split-action-main][aria-pressed=true]~&]:[--split-action-menu-tint:var(--fill-subtle)]",
-    "bg-(--split-action-menu-tint,transparent) group-hover/split-action:bg-fill-subtle hover:bg-fill-medium active:bg-fill-medium data-popup-open:bg-fill-medium",
+    "focus-visible:z-1",
+    "[[data-split-action-main][data-pressed]~&]:[--split-action-menu-tint:var(--fill-subtle)]",
+    "[[data-split-action-main][aria-pressed=true]~&]:[--split-action-menu-tint:var(--fill-subtle)]",
+    "bg-(--split-action-menu-tint,transparent)",
+    "group-hover/split-action:bg-fill-subtle",
+    "hover:bg-fill-medium active:bg-fill-medium data-popup-open:bg-fill-medium",
     "[&>svg]:size-4",
   ],
 });

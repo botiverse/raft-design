@@ -201,9 +201,11 @@ export {
   PanelSplitAction,
   PanelSplitActionMain,
   PanelSplitActionMenu,
+  PanelSplitActionToggle,
 } from "./components/panel/index";
 export type {
   PanelSplitActionMainProps,
   PanelSplitActionMenuProps,
   PanelSplitActionProps,
+  PanelSplitActionToggleProps,
 } from "./components/panel/index";

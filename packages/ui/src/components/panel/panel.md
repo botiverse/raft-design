@@ -40,7 +40,7 @@ How the regions of a screen are arranged, and when a side panel sits beside the 
   - `PanelHeading`: the `PanelTitle`, followed by any `PanelStatus` (a tag such as Archived) or `PanelActivity` (a live status, wrapping a [Status](../status/status.md)).
   - `PanelMeta`: one line of description under the title.
   - `PanelActions`: the trailing `PanelAction` and `PanelToggleAction` buttons, and any `PanelSplitAction`.
-- `PanelSplitAction`, with `PanelSplitActionMain` and `PanelSplitActionMenu`: one header action with a menu beside it, such as Comment and its ▾ ([Split actions](#split-actions)). Work in progress: import it from `@botiverse/raft-ui/wip`.
+- `PanelSplitAction`, with `PanelSplitActionMain` (or `PanelSplitActionToggle`) and `PanelSplitActionMenu`: one header action with a menu beside it, such as Comment and its ▾ ([Split actions](#split-actions)). Work in progress: import it from `@botiverse/raft-ui/wip`.
 - `PanelSectionHeader`: the same bar for a section-level view. On a phone it sits on the frame.
 - `PanelHeaderRoot`: the bare 56px bar both headers are built on, for a header with its own layout.
 - `PanelNotice`, with `PanelNoticeContent` and `PanelNoticeActions`: a full-width strip under the header for a problem in this panel. When to use it instead of a banner is in [Banner](../banner/banner.md). The intent's icon placed before `PanelNoticeContent` leads its first line; while something is still pending, a `Spinner` in a `status="info"` notice takes the icon's place, centred on the first line in the icon's 16px column, as in [Banner](../banner/banner.md); never a status light to say what kind of notice it is, since a status light keeps its own meanings ([Status](../status/status.md#sizes)) ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
@@ -77,21 +77,21 @@ A phone's pushed page has a white top bar, and its location tile stays a yellow 
 
 ### Split actions
 
-An action that also has a short menu of related choices, such as Comment and its ▾ (Show All Comments), is one control in two parts: `PanelSplitAction` holds a `PanelSplitActionMain`, the action, and a `PanelSplitActionMenu`, the narrow chevron that opens the menu. Render the menu part as the trigger of a DropdownMenu or a Popover: `<DropdownMenuTrigger render={<PanelSplitActionMenu aria-label="Comments" />} />`.
+An action that also has a short menu of related choices, such as Comment and its ▾ (Show All Comments), is one control in two parts: `PanelSplitAction` holds the action, a `PanelSplitActionMain` (a button) or a `PanelSplitActionToggle` (an action that stays on, such as commenting), and a `PanelSplitActionMenu`, the narrow chevron that opens the menu. Render the menu part as the trigger of a DropdownMenu or a Popover: `<DropdownMenuTrigger render={<PanelSplitActionMenu aria-label="Comment Options" />} />`.
 
 ```example
 panel/compositions/panel-split-action
 ```
 
 - **One shape.** The two parts touch, with no gap and no divider, and together are one `radius-control` shape: the main part is a panel action's square, rounded only on its start side; the menu part is 20px wide on a desktop (with a 16px chevron), rounded only on its end side, as tall as the main part. Two separate buttons, each with its own square hover, read as two unrelated actions.
-- **One hover, two tiers.** The part under the pointer takes the medium tier, `fill-medium`, as every small control does; the other part takes the subtle tier, `fill-subtle`, one step lighter, so the whole shape lights up and the darker half says which part a click acts on ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). The tint replaces a divider: a hairline would be a second signal on the same surface, and at rest both parts are frameless, so the icon and the chevron side by side already read as one control.
+- **One hover, two tiers.** The part under the pointer takes the medium tier, `fill-medium`, as every small control does; the other part takes the subtle tier, `fill-subtle`, one step lighter, so the whole shape lights up and the darker half says which part a click acts on ([Joined parts hover as one control](../../../../../design/foundations/states.md#hover-and-press)). The tint replaces a divider: a hairline would be a second signal on the same surface, and at rest both parts are frameless, so the icon and the chevron side by side already read as one control.
 - **Press** lays `fill-medium` on the pressed part.
-- **Pressed toggle.** Given `pressed` (or `defaultPressed`, or `onPressedChange`), `PanelSplitActionMain` is a Base UI Toggle and takes the yellow sticker of a pressed `PanelToggleAction`; without them it is a plain button. While it is pressed the menu part keeps `fill-subtle`, so the sticker and the chevron still read as one control. Like every selected item, the pressed main part doesn't answer hover.
+- **Pressed toggle.** `PanelSplitActionToggle` is a Base UI Toggle and takes the yellow sticker of a pressed `PanelToggleAction`. While it is pressed the menu part keeps `fill-subtle`, so the sticker and the chevron still read as one control. Like every selected item, the pressed main part doesn't answer hover.
 - **Menu open.** The menu part keeps `fill-medium` while its menu is open (`data-popup-open`), and the main part `fill-subtle`, the way a row with its menu open keeps its hover ([States](../../../../../design/foundations/states.md#hover-and-press)).
-- **Focus.** Each part is its own button with its own focus ring: Tab reaches the main part, then the menu part.
+- **Focus.** Each part is its own button with its own focus ring, drawn above its neighbour: Tab reaches the main part, then the menu part.
 - **Disabled.** Either part can be disabled on its own: it turns `foreground-disabled` and neither hovers nor tints the other part.
 - **Touch.** On a phone and on a touch screen the main part is the 44px button and the menu part is drawn 24px wide; its hit area extends 20px past its end, and the part keeps that space free, so it is 44px by 44px without overlapping the next action ([Hit targets](../../../../../design/foundations/spacing.md#hit-targets)). On a desktop its hit area overhangs toward the next action by the control's overhang, as a panel action's does.
-- Name the group (`aria-label` on `PanelSplitAction`, which is `role="group"`) and each part: "Comment" and "Comments".
+- Name the group (`aria-label` on `PanelSplitAction`, which is `role="group"`) and each part, and don't give the group its main part's name: the group "Comments", the main part "Comment", the menu part "Comment Options".
 - Don't put a split action at the end of `PanelActions`: it declares no icon inset, so it ends on the margin by its shape instead of by its icon box. Keep a panel action (Close) after it.
 
 ### Phone top bars

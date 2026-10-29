@@ -10,14 +10,14 @@ import {
   panelSplitAction,
   panelSplitActionMain,
   panelSplitActionMenu,
-  panelSplitActionToggleMain,
+  panelSplitActionToggle,
 } from "./panel-split-action.recipe";
 
 export type PanelSplitActionProps = ComponentProps<"div"> & DataAttributes;
 
 /**
  * One header action with a menu beside it, such as Comment and its ▾: a
- * `PanelSplitActionMain`, then a `PanelSplitActionMenu` as the trigger of a
+ * `PanelSplitActionMain` (or `PanelSplitActionToggle`), then a `PanelSplitActionMenu` as the trigger of a
  * DropdownMenu or a Popover. The two parts read as one control.
  */
 export function PanelSplitAction({ className, ...props }: PanelSplitActionProps) {
@@ -31,49 +31,55 @@ export function PanelSplitAction({ className, ...props }: PanelSplitActionProps)
   );
 }
 
-export type PanelSplitActionMainProps = Omit<StyledProps<BaseToggle.Props>, "type"> &
+export type PanelSplitActionMainProps = Omit<StyledProps<BaseButton.Props>, "type"> &
   DataAttributes;
 
 /**
- * The primary action of a split action, a panel action's square. Given
- * `pressed`, `defaultPressed` or `onPressedChange` it is a Base UI Toggle
- * (`aria-pressed`, the yellow sticker when pressed, like PanelToggleAction);
- * otherwise a plain Base UI Button.
+ * The primary action of a split action, a panel action's square: a Base UI
+ * Button. For an action that stays on, use `PanelSplitActionToggle`.
  */
 export function PanelSplitActionMain({
   className,
-  pressed,
-  defaultPressed,
-  onPressedChange,
-  value,
   render,
   nativeButton,
   ...props
 }: PanelSplitActionMainProps) {
-  if (pressed !== undefined || defaultPressed !== undefined || onPressedChange) {
-    return (
-      <BaseToggle
-        {...props}
-        pressed={pressed}
-        defaultPressed={defaultPressed}
-        onPressedChange={onPressedChange}
-        value={value}
-        render={render}
-        nativeButton={nativeButton}
-        type="button"
-        data-slot="panel-split-action-main"
-        className={panelSplitActionToggleMain({ className })}
-      />
-    );
-  }
   return (
     <BaseButton
-      {...(props as StyledProps<BaseButton.Props>)}
-      render={render as BaseButton.Props["render"]}
+      {...props}
+      render={render}
       nativeButton={nativeButton ?? defaultNativeButton(render)}
       type="button"
       data-slot="panel-split-action-main"
+      data-split-action-main=""
       className={panelSplitActionMain({ className })}
+    />
+  );
+}
+
+export type PanelSplitActionToggleProps = Omit<StyledProps<BaseToggle.Props>, "type"> &
+  DataAttributes;
+
+/**
+ * The primary action of a split action when it turns something on, such as
+ * commenting: a Base UI Toggle (`aria-pressed`), the yellow sticker while
+ * pressed, like PanelToggleAction.
+ */
+export function PanelSplitActionToggle({
+  className,
+  render,
+  nativeButton,
+  ...props
+}: PanelSplitActionToggleProps) {
+  return (
+    <BaseToggle
+      {...props}
+      render={render}
+      nativeButton={nativeButton ?? defaultNativeButton(render)}
+      type="button"
+      data-slot="panel-split-action-toggle"
+      data-split-action-main=""
+      className={panelSplitActionToggle({ className })}
     />
   );
 }

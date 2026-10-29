@@ -10,25 +10,30 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../dropdown-menu/dropdown-menu";
-import { PanelSplitAction, PanelSplitActionMain, PanelSplitActionMenu } from "./panel-split-action";
+import {
+  PanelSplitAction,
+  PanelSplitActionMain,
+  PanelSplitActionMenu,
+  PanelSplitActionToggle,
+} from "./panel-split-action";
 
 afterEach(cleanup);
 
 function Split({ toggle = false }: { toggle?: boolean }) {
   const [pressed, setPressed] = useState(false);
   return (
-    <PanelSplitAction aria-label="Comment">
+    <PanelSplitAction aria-label="Comments">
       {toggle ? (
-        <PanelSplitActionMain aria-label="Comment" pressed={pressed} onPressedChange={setPressed}>
+        <PanelSplitActionToggle aria-label="Comment" pressed={pressed} onPressedChange={setPressed}>
           <svg />
-        </PanelSplitActionMain>
+        </PanelSplitActionToggle>
       ) : (
         <PanelSplitActionMain aria-label="Comment">
           <svg />
         </PanelSplitActionMain>
       )}
       <DropdownMenu>
-        <DropdownMenuTrigger render={<PanelSplitActionMenu aria-label="Comments" />} />
+        <DropdownMenuTrigger render={<PanelSplitActionMenu aria-label="Comment Options" />} />
         <DropdownMenuContent>
           <DropdownMenuItem>Show All Comments</DropdownMenuItem>
         </DropdownMenuContent>
@@ -39,11 +44,11 @@ function Split({ toggle = false }: { toggle?: boolean }) {
 
 test("a split action is a named group of two buttons, main first", () => {
   render(<Split />);
-  const group = screen.getByRole("group", { name: "Comment" });
+  const group = screen.getByRole("group", { name: "Comments" });
   const buttons = Array.from(group.querySelectorAll("button"));
   expect(buttons.map((button) => button.getAttribute("aria-label"))).toEqual([
     "Comment",
-    "Comments",
+    "Comment Options",
   ]);
   expect(buttons.every((button) => button.type === "button")).toBe(true);
   expect(group.dataset.slot).toBe("panel-split-action");
@@ -51,7 +56,7 @@ test("a split action is a named group of two buttons, main first", () => {
 
 test("the menu part is the menu's trigger, with a chevron", () => {
   render(<Split />);
-  const menu = screen.getByRole("button", { name: "Comments" });
+  const menu = screen.getByRole("button", { name: "Comment Options" });
   expect(menu.dataset.slot).toBe("panel-split-action-menu");
   expect(menu.getAttribute("aria-haspopup")).toBe("menu");
   expect(menu.getAttribute("aria-expanded")).toBe("false");
@@ -65,11 +70,12 @@ test("a plain main part is a button without aria-pressed", () => {
   expect(main.hasAttribute("aria-pressed")).toBe(false);
 });
 
-test("a main part with pressed is a toggle", () => {
+test("PanelSplitActionToggle is a toggle", () => {
   render(<Split toggle />);
   const main = screen.getByRole("button", { name: "Comment" });
   expect(main.getAttribute("aria-pressed")).toBe("false");
   fireEvent.click(main);
   expect(main.getAttribute("aria-pressed")).toBe("true");
   expect(main.hasAttribute("data-pressed")).toBe(true);
+  expect(main.dataset.slot).toBe("panel-split-action-toggle");
 });

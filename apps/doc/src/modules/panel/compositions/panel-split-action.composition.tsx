@@ -14,13 +14,13 @@ import {
 } from "@botiverse/raft-ui";
 import {
   PanelSplitAction,
-  PanelSplitActionMain,
   PanelSplitActionMenu,
+  PanelSplitActionToggle,
 } from "@botiverse/raft-ui/wip";
 import { MessageSquare, X } from "lucide-react";
 import { useCallback, useState } from "react";
 
-const MENU_TRIGGER = <PanelSplitActionMenu aria-label="Comments" />;
+const MENU_TRIGGER = <PanelSplitActionMenu aria-label="Comment Options" />;
 
 export function PanelSplitActionContent() {
   const [commenting, setCommenting] = useState(false);
@@ -38,17 +38,17 @@ export function PanelSplitActionContent() {
           <PanelMeta>{showingAll ? "Showing all 3 comments" : "Artifact · #launch"}</PanelMeta>
         </PanelHeaderContent>
         <PanelActions>
-          <PanelSplitAction aria-label="Comment">
-            <PanelSplitActionMain
+          <PanelSplitAction aria-label="Comments">
+            <PanelSplitActionToggle
               aria-label="Comment"
               pressed={commenting}
               onPressedChange={setCommenting}
             >
               <AddCommentIcon />
-            </PanelSplitActionMain>
+            </PanelSplitActionToggle>
             <DropdownMenu>
               <DropdownMenuTrigger render={MENU_TRIGGER} />
-              <DropdownMenuContent side="bottom" align="end" aria-label="Comments">
+              <DropdownMenuContent side="bottom" align="end" aria-label="Comment Options">
                 <DropdownMenuItem onClick={showAll}>
                   <MessageSquare />
                   Show All Comments (3)

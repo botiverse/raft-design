@@ -405,14 +405,76 @@
   {
     "name": "PanelSplitAction",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "One header action with a menu beside it, such as Comment and its ▾: a `PanelSplitActionMain`, then a `PanelSplitActionMenu` as the trigger of a DropdownMenu or a Popover. The two parts read as one control.",
+    "description": "One header action with a menu beside it, such as Comment and its ▾: a `PanelSplitActionMain` (or `PanelSplitActionToggle`), then a `PanelSplitActionMenu` as the trigger of a DropdownMenu or a Popover. The two parts read as one control.",
     "native": true,
     "props": []
   },
   {
     "name": "PanelSplitActionMain",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The primary action of a split action, a panel action's square. Given `pressed`, `defaultPressed` or `onPressedChange` it is a Base UI Toggle (`aria-pressed`, the yellow sticker when pressed, like PanelToggleAction); otherwise a plain Base UI Button.",
+    "description": "The primary action of a split action, a panel action's square: a Base UI Button. For an action that stays on, use `PanelSplitActionToggle`.",
+    "native": true,
+    "props": [
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "PanelSplitActionMenu",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The narrow part of a split action that opens its menu, with a chevron by default. Render it as the trigger of a DropdownMenu or a Popover: `<DropdownMenuTrigger render={<PanelSplitActionMenu aria-label=\"Comments\" />} />`.",
+    "native": true,
+    "props": [
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "PanelSplitActionToggle",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The primary action of a split action when it turns something on, such as commenting: a Base UI Toggle (`aria-pressed`), the yellow sticker while pressed, like PanelToggleAction.",
     "native": true,
     "props": [
       {
@@ -465,37 +527,6 @@
         "type": "string",
         "required": false,
         "description": "A unique string that identifies the toggle when used inside a toggle group.",
-        "from": "base-ui"
-      }
-    ]
-  },
-  {
-    "name": "PanelSplitActionMenu",
-    "entry": "@botiverse/raft-ui/wip",
-    "description": "The narrow part of a split action that opens its menu, with a chevron by default. Render it as the trigger of a DropdownMenu or a Popover: `<DropdownMenuTrigger render={<PanelSplitActionMenu aria-label=\"Comments\" />} />`.",
-    "native": true,
-    "props": [
-      {
-        "name": "focusableWhenDisabled",
-        "type": "boolean",
-        "required": false,
-        "default": "false",
-        "description": "Whether the button should be focusable when disabled.",
-        "from": "base-ui"
-      },
-      {
-        "name": "nativeButton",
-        "type": "boolean",
-        "required": false,
-        "default": "true",
-        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
-        "from": "base-ui"
-      },
-      {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
-        "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
         "from": "base-ui"
       }
     ]
