@@ -23,7 +23,7 @@ segmented-control/compositions/view-mode
 | --------------------------------------------------------------------- | ------------------------------------------- |
 | Another view of the same content: Board / List, Light / Dark / System | SegmentedControl                            |
 | Sections of one page, each with its own content                       | [Tabs](../tabs/tabs.md)                     |
-| An answer submitted with a form                                       | [RadioGroup](../radio-group/radio-group.md) |
+| An answer submitted with a form, such as public or private            | [RadioGroup](../radio-group/radio-group.md) |
 | More options than fit as segments                                     | [Select](../select/select.md)               |
 
 The full table is in [Choosing a component](../../../../../design/components/overview.md#picking-something). Where Board / List goes on a task list is in [Tasks](../../../../../design/patterns/tasks.md).

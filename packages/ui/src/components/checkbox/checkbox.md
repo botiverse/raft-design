@@ -18,13 +18,14 @@ checkbox/compositions/preview
 
 ## When to use
 
-| Situation                                                                     | Use                                                                                            |
-| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| A yes or no in a form that is saved: a dialog, a drawer, the wide form dialog | Checkbox                                                                                       |
-| An option attached to an action, next to the button that runs it              | Checkbox in the action's toolbar (`ComposerToolbarLabel`, [Composer](../composer/composer.md)) |
-| Choosing several items in a list or a multi-select                            | Checkbox, or `CheckboxIndicator` in a row that owns the semantics                              |
-| A yes or no that applies at once                                              | [Switch](../switch/switch.md)                                                                  |
-| One of several answers                                                        | [RadioGroup](../radio-group/radio-group.md)                                                    |
+| Situation                                                                     | Use                                                                                                                   |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| A yes or no in a form that is saved: a dialog, a drawer, the wide form dialog | Checkbox                                                                                                              |
+| A feature that can't be on until fields are filled: an address, a text        | Checkbox, its fields under it and one Save ([Forms](../../../../../design/patterns/forms.md#settings-saved-together)) |
+| An option attached to an action, next to the button that runs it              | Checkbox in the action's toolbar (`ComposerToolbarLabel`, [Composer](../composer/composer.md))                        |
+| Choosing several items in a list or a multi-select                            | Checkbox, or `CheckboxIndicator` in a row that owns the semantics                                                     |
+| A yes or no that applies at once                                              | [Switch](../switch/switch.md)                                                                                         |
+| One of several answers                                                        | [RadioGroup](../radio-group/radio-group.md)                                                                           |
 
 Which controls apply at once and which are saved is in [Forms](../../../../../design/patterns/forms.md).
 

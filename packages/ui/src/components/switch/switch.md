@@ -19,11 +19,12 @@ list-row/compositions/settings
 
 ## When to use
 
-| Situation                                       | Use                                         |
-| ----------------------------------------------- | ------------------------------------------- |
-| A setting row that applies when flipped         | Switch                                      |
-| A yes or no that applies when the form is saved | [Checkbox](../checkbox/checkbox.md)         |
-| One of several answers                          | [RadioGroup](../radio-group/radio-group.md) |
+| Situation                                          | Use                                                               |
+| -------------------------------------------------- | ----------------------------------------------------------------- |
+| A setting row that applies when flipped            | Switch                                                            |
+| A yes or no that applies when the form is saved    | [Checkbox](../checkbox/checkbox.md)                               |
+| A feature that can't be on until fields are filled | [Checkbox](../checkbox/checkbox.md), with the fields and one Save |
+| One of several answers                             | [RadioGroup](../radio-group/radio-group.md)                       |
 
 Which controls apply at once and which are saved is in [Forms](../../../../../design/patterns/forms.md).
 
@@ -41,6 +42,7 @@ Which controls apply at once and which are saved is in [Forms](../../../../../de
 ## Behavior
 
 - Slide the knob over 220ms with `ease-slide` ([Motion](../../../../../design/foundations/motion.md)).
+- Apply the change when the switch is flipped, with no Save. When it fails, flip the switch back and say what failed beside it ([Forms](../../../../../design/patterns/forms.md#settings-that-apply-at-once)).
 - Put the switch at the end of a settings row ([ListRow](../list-row/list-row.md) with `interactive={false}`). The row itself is not a button and doesn't react to hover or press; focus goes only to the switch.
 
 ## Content
