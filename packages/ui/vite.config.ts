@@ -22,12 +22,12 @@ export default defineConfig({
     plugins: [
       {
         // Component CSS ships through styles.css (copied below), never through
-        // the JS, so drop the `import "./x.css"` lines a component keeps for
-        // dev and tests. Without this, unbundle emits a CSS chunk per
+        // the JS, so drop the relative `import "./x.css"` lines a component
+        // keeps for dev and tests; a bare package CSS import is left alone. Without this, unbundle emits a CSS chunk per
         // component and renames its JS (timeline.mjs -> timeline2.mjs).
         name: "raft-ui:drop-component-css",
         resolveId(source: string) {
-          if (source.endsWith(".css"))
+          if (/^\.\.?\//.test(source) && source.endsWith(".css"))
             return { id: source, external: true, moduleSideEffects: false };
         },
       },

@@ -27,7 +27,11 @@
   ],
   "type": "module",
   "sideEffects": [
-    "**/*.css"
+    "**/*.css",
+    "./dist/index.mjs",
+    "./dist/wip.mjs",
+    "./dist/lib/drag-escape.mjs",
+    "./src/lib/drag-escape.ts"
   ],
   "exports": {
     ".": {
