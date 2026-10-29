@@ -977,7 +977,10 @@
       "PanelSectionHeader",
       "PanelStatus",
       "PanelTitle",
-      "PanelToggleAction"
+      "PanelToggleAction",
+      "PanelSplitAction",
+      "PanelSplitActionMain",
+      "PanelSplitActionMenu"
     ],
     "status": "stable",
     "description": "Live status readout in a panel header, such as agent activity or presence. Wraps a `Status` and supplies header-appropriate spacing and typography; use `PanelStatus` for a standalone attribute badge."

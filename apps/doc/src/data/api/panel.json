@@ -401,5 +401,103 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "PanelSplitAction",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One header action with a menu beside it, such as Comment and its ▾: a `PanelSplitActionMain`, then a `PanelSplitActionMenu` as the trigger of a DropdownMenu or a Popover. The two parts read as one control.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "PanelSplitActionMain",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The primary action of a split action, a panel action's square. Given `pressed`, `defaultPressed` or `onPressedChange` it is a Base UI Toggle (`aria-pressed`, the yellow sticker when pressed, like PanelToggleAction); otherwise a plain Base UI Button.",
+    "native": true,
+    "props": [
+      {
+        "name": "defaultPressed",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the toggle button is currently pressed. This is the uncontrolled counterpart of `pressed`.",
+        "from": "base-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "onPressedChange",
+        "type": "(pressed: boolean, eventDetails: BaseToggle.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Callback fired when the pressed state is changed.",
+        "from": "base-ui"
+      },
+      {
+        "name": "pressed",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the toggle button is currently pressed. This is the controlled counterpart of `defaultPressed`.",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "A unique string that identifies the toggle when used inside a toggle group.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "PanelSplitActionMenu",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The narrow part of a split action that opens its menu, with a chevron by default. Render it as the trigger of a DropdownMenu or a Popover: `<DropdownMenuTrigger render={<PanelSplitActionMenu aria-label=\"Comments\" />} />`.",
+    "native": true,
+    "props": [
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
   }
 ]

@@ -52,3 +52,9 @@ export type {
   PanelNoticeProps,
   PanelNoticeStatus,
 } from "./panel-notice";
+export { PanelSplitAction, PanelSplitActionMain, PanelSplitActionMenu } from "./panel-split-action";
+export type {
+  PanelSplitActionMainProps,
+  PanelSplitActionMenuProps,
+  PanelSplitActionProps,
+} from "./panel-split-action";
