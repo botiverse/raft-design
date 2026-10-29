@@ -130,6 +130,16 @@ raft-ui implements the rule with `installInputModality()`. [ThemeProvider](../ab
 - Draw a focus indicator with `focus-visible:shadow-focus` (`has-focus-visible:shadow-focus` on a group), never `focus:` or `focus-within:`.
 - Stack the `keyboard:` variant on any indicator not drawn with `focus-ring`, such as an outline or the inset ring: `focus-visible:keyboard:outline-2 focus-visible:keyboard:outline-line-strong`. It matches unless the last input was a pointer.
 
+## Taps on a touch screen
+
+A touch screen has three gestures on one item: tap, double tap, press and hold. Each means one thing everywhere, so a person learns them once.
+
+- **Tap** does what a click does: open the item, or run its control.
+- **Double tap** only opens a bar of quick choices, never acts by itself, so a stray double tap changes nothing. Give an item a double tap only when it has such a bar; then its tap waits about 250ms for the second one, and the item shows its press state at once so the wait doesn't read as no response.
+- **Press and hold** opens the item's menu ([Dragging on a touch screen](#dragging-on-a-touch-screen) for items that move).
+- A touch is not a tap when it moves more than 10px (a scroll), when it stops a list that is still scrolling (it only stops it), or when it lands on a control inside the item (a link, a button, an image, a reaction): that control takes it.
+- Screen readers activate with a double tap and have no hold, so every gesture is also an accessibility action on the item, and the menu is reachable from a visible control.
+
 ## Dragging on a touch screen
 
 On a touch screen one long press can mean two things on an item that can be moved: its menu, or picking it up. Holding still is the menu; holding and then moving is the drag. This is how iOS separates them, and it means the menu and the drag never fight over the same moment.
