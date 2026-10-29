@@ -1,3 +1,15 @@
+## [0.51.0](https://github.com/botiverse/raft-design/compare/v0.50.0...v0.51.0) (2026-10-29)
+
+### Changed
+
+- **DropdownMenuRadioItem, ContextMenuRadioItem:** choosing a radio item closes the menu (`closeOnClick` defaults to `true`): one pick completes the choice, and an open menu covers its result. Pass `closeOnClick={false}` only for a menu that shows the result itself. Checkbox items still keep it open. ([#883](https://github.com/botiverse/raft-design/pull/883))
+- **ModeBar** is stable: export it from `@botiverse/raft-ui`. The `/wip` export stays until apps switch. ([#882](https://github.com/botiverse/raft-design/pull/882))
+
+### Design System
+
+- **When a change takes effect:** a standalone choice applies at once, text and grouped values on Save, an irreversible side effect through a button that names it; how far a change reaches decides confirm or Undo, never Save. ([#881](https://github.com/botiverse/raft-design/pull/881))
+  - Docs: https://raft-design.botiverse.build/patterns/forms/
+
 ## [0.50.0](https://github.com/botiverse/raft-design/compare/v0.49.0...v0.50.0) (2026-10-29)
 
 ### Design System
