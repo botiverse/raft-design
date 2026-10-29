@@ -1,3 +1,23 @@
+## [0.52.0](https://github.com/botiverse/raft-design/compare/v0.51.0...v0.52.0) (2026-10-29)
+
+### Added
+
+- **PanelSplitAction** (wip): an action and its menu drawn as one control (`PanelSplitActionMain`, `PanelSplitActionToggle`, `PanelSplitActionMenu`), e.g. Comment and its ▾. The menu part is narrow and gets a 44×44 target on touch. ([#885](https://github.com/botiverse/raft-design/pull/885))
+- **TextSelectionToolbar** (+ `TextSelectionToolbarButton`, `TextSelectionToolbarSeparator`, `createTextSelectionAnchor`): the generic name for the toolbar on selected text. The `MessageTextSelectionToolbar*` names stay as deprecated aliases. ([#885](https://github.com/botiverse/raft-design/pull/885))
+
+### Changed
+
+- **Tree-shakable build:** raft-ui ships one ESM module per source file and declares `sideEffects` (CSS, the entries, and the drag Escape guard, which now installs when raft-ui loads). Unused components drop out of consumers' bundles: a Button-only app went from 131.6 KB to 91.0 KB gzip. Entry points and exports are unchanged. ([#886](https://github.com/botiverse/raft-design/pull/886))
+
+### Design System
+
+- **Joined parts hover as one control:** the part under the pointer gets `fill-medium`, its joined neighbour `fill-subtle`. ([#885](https://github.com/botiverse/raft-design/pull/885))
+  - Docs: https://raft-design.botiverse.build/foundations/states/
+- **Descriptive links take sentence case:** Title Case is for labels that name an action; "From a message in #general" is a phrase. ([#887](https://github.com/botiverse/raft-design/pull/887))
+  - Docs: https://raft-design.botiverse.build/content/writing/
+- **Entry points on an edge take a band:** an always-present entry on a region's edge gets its own full-width band; the content never narrows around it and is never covered. ([#887](https://github.com/botiverse/raft-design/pull/887))
+  - Docs: https://raft-design.botiverse.build/foundations/elevation/
+
 ## [0.51.0](https://github.com/botiverse/raft-design/compare/v0.50.0...v0.51.0) (2026-10-29)
 
 ### Changed
