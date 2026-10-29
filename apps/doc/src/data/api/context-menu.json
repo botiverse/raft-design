@@ -492,7 +492,7 @@
         "name": "closeOnClick",
         "type": "boolean",
         "required": false,
-        "default": "false",
+        "default": "true",
         "description": "Whether to close the menu when the item is clicked.",
         "from": "base-ui"
       },

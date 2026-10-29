@@ -319,12 +319,19 @@ export function ContextMenuRadioGroup({ ...props }: ContextMenuRadioGroupProps) 
 
 export type ContextMenuRadioItemProps = StyledProps<BaseContextMenu.RadioItem.Props>;
 
-export function ContextMenuRadioItem({ className, children, ...props }: ContextMenuRadioItemProps) {
+// Choosing a radio item closes the menu, as in DropdownMenuRadioItem.
+export function ContextMenuRadioItem({
+  className,
+  children,
+  closeOnClick = true,
+  ...props
+}: ContextMenuRadioItemProps) {
   const { radioItem, indicator } = contextMenu();
   return (
     <BaseContextMenu.RadioItem
       data-slot="context-menu-radio-item"
       className={radioItem({ className })}
+      closeOnClick={closeOnClick}
       {...props}
     >
       {children}

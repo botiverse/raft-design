@@ -322,9 +322,13 @@ export function DropdownMenuRadioGroup({ ...props }: DropdownMenuRadioGroupProps
 
 export type DropdownMenuRadioItemProps = StyledProps<BaseMenu.RadioItem.Props>;
 
+// Choosing a radio item closes the menu (`closeOnClick` defaults to true,
+// unlike Base UI): a one-value choice is complete in one pick, and the open
+// menu would cover its result. dropdown-menu.md › Behavior has the exception.
 export function DropdownMenuRadioItem({
   className,
   children,
+  closeOnClick = true,
   ...props
 }: DropdownMenuRadioItemProps) {
   const { radioItem, radioLabel, indicator } = dropdownMenu();
@@ -332,6 +336,7 @@ export function DropdownMenuRadioItem({
     <BaseMenu.RadioItem
       data-slot="dropdown-menu-radio-item"
       className={radioItem({ className })}
+      closeOnClick={closeOnClick}
       {...props}
     >
       {renderRadioItemChildren(children, radioLabel())}
