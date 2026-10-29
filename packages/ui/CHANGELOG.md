@@ -1,3 +1,9 @@
+## [0.52.1](https://github.com/botiverse/raft-design/compare/v0.52.0...v0.52.1) (2026-10-29)
+
+### Fixed
+
+- **PanelAction hit area reaches 44px:** the ::after target is placed from inside the 1.5px border, so it was 41–42px tall; it now reaches past the border, as Button's does. This also fixes PanelSplitActionMenu's touch extension (42px). ([#889](https://github.com/botiverse/raft-design/pull/889))
+
 ## [0.52.0](https://github.com/botiverse/raft-design/compare/v0.51.0...v0.52.0) (2026-10-29)
 
 ### Added
