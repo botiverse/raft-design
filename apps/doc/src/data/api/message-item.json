@@ -1212,7 +1212,7 @@
       },
       {
         "name": "orientation",
-        "type": "Orientation",
+        "type": "BaseToolbar.Orientation",
         "required": false,
         "default": "'horizontal'",
         "description": "The orientation of the toolbar.",
@@ -1274,7 +1274,7 @@
     "props": [
       {
         "name": "orientation",
-        "type": "Orientation",
+        "type": "BaseToolbar.Orientation",
         "required": false,
         "default": "'horizontal'",
         "description": "The orientation of the separator. Defaults to the opposite of the toolbar's orientation, so a horizontal toolbar renders vertical separators.",

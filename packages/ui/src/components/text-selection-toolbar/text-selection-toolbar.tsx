@@ -23,6 +23,10 @@ export function TextSelectionToolbar({ className, ...props }: TextSelectionToolb
 
 export type TextSelectionToolbarButtonProps = StyledProps<BaseToolbar.Button.Props>;
 
+/**
+ * One action on the selected text: a 28px button with a 16px icon and a
+ * Title Case label that never wraps.
+ */
 export function TextSelectionToolbarButton({
   className,
   ...props
@@ -41,6 +45,7 @@ export function TextSelectionToolbarButton({
 
 export type TextSelectionToolbarSeparatorProps = StyledProps<BaseToolbar.Separator.Props>;
 
+/** A 20px line between groups of actions in the toolbar. */
 export function TextSelectionToolbarSeparator({
   className,
   ...props

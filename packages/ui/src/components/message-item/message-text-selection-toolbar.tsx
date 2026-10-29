@@ -1,3 +1,4 @@
+import type { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import {
   TextSelectionToolbar,
   TextSelectionToolbarButton,
@@ -23,8 +24,12 @@ export const MessageTextSelectionToolbarSeparator = TextSelectionToolbarSeparato
 /** @deprecated Use `createTextSelectionAnchor`. */
 export const createMessageTextSelectionAnchor = createTextSelectionAnchor;
 
-/** @deprecated Use `TextSelectionToolbarProps`. */
-export type MessageTextSelectionToolbarProps = TextSelectionToolbarProps;
+/**
+ * @deprecated Use `TextSelectionToolbarProps`. Base UI's Toolbar is in
+ * scope here so the generated API names its types as the new part's do.
+ */
+export type MessageTextSelectionToolbarProps = TextSelectionToolbarProps &
+  Pick<BaseToolbar.Root.Props, "orientation">;
 /** @deprecated Use `TextSelectionToolbarButtonProps`. */
 export type MessageTextSelectionToolbarButtonProps = TextSelectionToolbarButtonProps;
 /** @deprecated Use `TextSelectionToolbarSeparatorProps`. */
