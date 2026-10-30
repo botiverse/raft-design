@@ -1,5 +1,5 @@
 /**
- * Conversation icons — Message / Chat / DM / Thread / Comment / Feedback.
+ * Conversation icons — Message (also exported as Chat) / DM / Thread / Comment / Feedback.
  *
  * Package-owned source of truth: the docs site renders these same exports
  * (see /components/icons), never a local copy.
@@ -29,29 +29,11 @@ export function MessageIcon(props: ConversationIconProps) {
   );
 }
 
-export function ChatIcon(props: ConversationIconProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={18}
-      height={18}
-      viewBox="0 0 18 18"
-      aria-hidden="true"
-      focusable="false"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.5}
-      {...props}
-    >
-      <path d="M14.25 2.25H3.75C2.65 2.25 1.75 3.15 1.75 4.25V11.25C1.75 12.35 2.65 13.25 3.75 13.25H5.75V16.25L9.5 13.25H14.25C15.35 13.25 16.25 12.35 16.25 11.25V4.25C16.25 3.15 15.35 2.25 14.25 2.25Z" />
-      <circle cx={6.5} cy={7.75} r={0.75} fill="currentColor" stroke="none" />
-      <circle cx={9} cy={7.75} r={0.75} fill="currentColor" stroke="none" />
-      <circle cx={11.5} cy={7.75} r={0.75} fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
+/**
+ * A chat: the same plain speech bubble as MessageIcon. Raft draws no
+ * difference between a message and a chat (stdrc and Artea, 2026-10-30).
+ */
+export const ChatIcon = MessageIcon;
 
 export function DirectMessageIcon(props: ConversationIconProps) {
   return (
