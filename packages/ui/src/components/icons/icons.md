@@ -1,6 +1,6 @@
 ---
 title: Icons
-summary: The icons raft-ui draws itself — six for kinds of conversation, one for an Artifact and thirteen for following, joining, adding, creating and reopening; every other icon comes from Lucide.
+summary: The icons raft-ui draws itself — five for kinds of conversation, one for an Artifact and thirteen for following, joining, adding, creating and reopening; every other icon comes from Lucide.
 status: stable
 aliases:
   [
@@ -34,7 +34,7 @@ related: [sidebar, message-quoted-preview, tasks, icon-tile]
 
 # Icons
 
-raft-ui exports a few icons of its own, for meanings no Lucide icon carries. Six stand for kinds of conversation: `MessageIcon`, `ChatIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ArtifactIcon` stands for an Artifact. Thirteen label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment, creating a task and reopening one ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../../../design/foundations/iconography.md).
+raft-ui exports a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact. Thirteen label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment, creating a task and reopening one ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../../../design/foundations/iconography.md).
 
 ```example
 icons/icons
@@ -48,7 +48,8 @@ icons/action-icons
 
 | Situation                                                                                                       | Use                                                                                                       |
 | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| A message, a chat, a direct message or a thread, as an icon                                                     | `MessageIcon`, `ChatIcon`, `DirectMessageIcon`, `ThreadIcon`                                              |
+| A message or a chat, as an icon                                                                                 | `MessageIcon` (`ChatIcon` is the same icon)                                                               |
+| A direct message or a thread, as an icon                                                                        | `DirectMessageIcon`, `ThreadIcon`                                                                         |
 | A comment: the comments toggle, a comment count, no comments yet                                                | `CommentIcon`                                                                                             |
 | Feedback to the Raft team: the Feedback menu item, a reply to it                                                | `FeedbackIcon`                                                                                            |
 | An Artifact: Save as Artifact, the Artifacts page, an Artifact card in a side panel                             | `ArtifactIcon`                                                                                            |
@@ -61,13 +62,13 @@ icons/action-icons
 ## Anatomy
 
 - `MessageIcon`: a speech bubble.
-- `ChatIcon`: a speech bubble with three dots.
+- `ChatIcon`: the same icon as `MessageIcon`, exported under a second name.
 - `DirectMessageIcon`: a speech bubble with a person.
 - `CommentIcon`: a speech bubble with quote marks. A comment is said about a passage, so it carries the passage's quote marks.
 - `FeedbackIcon`: a speech bubble with an exclamation mark, the mark most apps give feedback: a thought or a problem, told to the Raft team.
 - `ThreadIcon`: two overlapping speech bubbles, both outlined. Every icon in Raft is a line drawing at one weight; a filled bubble read heavier than every Lucide icon beside it in a menu or a toolbar (stdrc, 2026-10-23). The back bubble stops a stroke's width short of the front one on both sides, so the overlap reads as a gap, not a join, and both stay inside the 18px box with their stroke.
 
-The bubble is the same in `MessageIcon`, `ChatIcon`, `DirectMessageIcon`, `CommentIcon` and `FeedbackIcon`; only the mark inside it changes, so each kind of conversation has one icon and no two share one (Artea, 2026-10-28).
+The bubble is the same in `MessageIcon`, `DirectMessageIcon`, `CommentIcon` and `FeedbackIcon`; only the mark inside it changes. A message and a chat share the plain bubble, with no mark: Raft draws no difference between them, so `ChatIcon` is `MessageIcon` (stdrc and Artea, 2026-10-30). A direct message, a comment, feedback and a thread each keep their own icon, so those kinds never share one.
 
 Each one is an 18px `svg` drawn in `currentColor`, so it takes the color of the text around it. Size it with a class, by the context it is in ([Iconography](../../../../../design/foundations/iconography.md#sizes)).
 

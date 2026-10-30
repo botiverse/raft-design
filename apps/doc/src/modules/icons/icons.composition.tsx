@@ -27,7 +27,7 @@ export function IconsComposition() {
       <IconGridItem label="Message">
         <MessageIcon className="size-[18px] text-foreground" />
       </IconGridItem>
-      <IconGridItem label="Chat">
+      <IconGridItem label="Chat (same as Message)">
         <ChatIcon className="size-[18px] text-foreground" />
       </IconGridItem>
       <IconGridItem label="DM">
