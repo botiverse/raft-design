@@ -1,3 +1,9 @@
+## [0.52.4](https://github.com/botiverse/raft-design/compare/v0.52.3...v0.52.4) (2026-10-30)
+
+### Fixed
+
+- **0.52.3 carried unrelated class rewrites by accident; they are undone:** 33 components had their classes rewritten into canonical Tailwind forms along with the disabled Select fix (for example the task chip's `text-[12px] leading-4` became `text-[12px]/4`). Those files are back to 0.52.2 exactly; only the disabled Select fix from 0.52.3 remains. Skip 0.52.3 and upgrade to 0.52.4. ([#897](https://github.com/botiverse/raft-design/pull/897))
+
 ## [0.52.3](https://github.com/botiverse/raft-design/compare/v0.52.2...v0.52.3) (2026-10-30)
 
 ### Fixed
