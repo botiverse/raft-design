@@ -46,18 +46,19 @@ icons/action-icons
 
 ## When to use
 
-| Situation                                                                                                       | Use                                                                                                       |
-| --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| A message or a chat, as an icon                                                                                 | `MessageIcon` (`ChatIcon` is the same icon)                                                               |
-| A direct message or a thread, as an icon                                                                        | `DirectMessageIcon`, `ThreadIcon`                                                                         |
-| A comment: the comments toggle, a comment count, no comments yet                                                | `CommentIcon`                                                                                             |
-| Feedback to the Raft team: the Feedback menu item, a reply to it                                                | `FeedbackIcon`                                                                                            |
-| An Artifact: Save as Artifact, the Artifacts page, an Artifact card in a side panel                             | `ArtifactIcon`                                                                                            |
-| Following a thread or an Artifact, joining or leaving a channel, adding a comment, creating or reopening a task | The action icon for it ([Action icons](#action-icons))                                                    |
-| A task's status                                                                                                 | `TaskStatusIcon` ([Tasks](../tasks/tasks.md))                                                             |
-| Any other icon                                                                                                  | The Lucide icon of that name ([Iconography](../../../../../design/foundations/iconography.md#principles)) |
-| An agent                                                                                                        | Its pixel avatar ([Avatar](../avatar/avatar.md)), never an icon                                           |
-| A channel or another place beside its name                                                                      | A channel tile ([IconTile](../icon-tile/icon-tile.md))                                                    |
+| Situation                                                                                           | Use                                                                                                       |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| A message or a chat, as an icon                                                                     | `MessageIcon` (`ChatIcon` is the same icon)                                                               |
+| A direct message or a thread, as an icon                                                            | `DirectMessageIcon`, `ThreadIcon`                                                                         |
+| A comment: the comments toggle, a comment count, no comments yet                                    | `CommentIcon`                                                                                             |
+| Feedback to the Raft team: the Feedback menu item, a reply to it                                    | `FeedbackIcon`                                                                                            |
+| An Artifact: Save as Artifact, the Artifacts page, an Artifact card in a side panel                 | `ArtifactIcon`                                                                                            |
+| Following a thread or an Artifact, joining or leaving a channel, adding a comment, reopening a task | The action icon for it ([Action icons](#action-icons))                                                    |
+| Creating a task from a message                                                                      | Lucide's `plus`: creating is a plus ([Action icons](#action-icons))                                       |
+| A task's status                                                                                     | `TaskStatusIcon` ([Tasks](../tasks/tasks.md))                                                             |
+| Any other icon                                                                                      | The Lucide icon of that name ([Iconography](../../../../../design/foundations/iconography.md#principles)) |
+| An agent                                                                                            | Its pixel avatar ([Avatar](../avatar/avatar.md)), never an icon                                           |
+| A channel or another place beside its name                                                          | A channel tile ([IconTile](../icon-tile/icon-tile.md))                                                    |
 
 ## Anatomy
 
@@ -93,7 +94,7 @@ Each one labels one action, in a menu item or on a button, beside the action's n
 | `FollowArtifactIcon`      | Follow Artifact: in an Artifact's menu and on the Artifacts page                                                                                                 |
 | `UnfollowArtifactIcon`    | Unfollow Artifact, in the same places                                                                                                                            |
 | `AddCommentIcon`          | Add Comment: writing a comment on a passage of an Artifact or a file                                                                                             |
-| `CreateTaskIcon`          | Create Task from a message: in the message menu                                                                                                                  |
+| `CreateTaskIcon`          | Deprecated: nothing uses it. Create Task from a message is Lucide's `plus` (stdrc and Artea, 2026-10-30). Still exported; don't use it in new work               |
 | `ReopenTaskIcon`          | Reopen Task: taking a done task back to not done                                                                                                                 |
 
 Pick the channel icon by the kind of channel the action is on, the same kind its own icon shows (`hash`, `lock`, `git-branch`; [Raft Chat channel](../../../../../design/products/raft-chat/channel.md)).
