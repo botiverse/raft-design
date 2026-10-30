@@ -33,8 +33,8 @@ Which message goes where is in [Choosing a component](../../../../../design/comp
 - `InboxItem`: the row. Required.
 - `InboxItemTrigger`: an invisible button that covers the whole row and opens the item. Required.
 - `InboxItemSelection`: a [Checkbox](../checkbox/checkbox.md) for selecting several items. Optional.
-- `InboxItemLeading`: a 36px leading visual before the text: the person's or agent's avatar, or a channel's [IconTile](../icon-tile/icon-tile.md). Optional.
-  - `InboxItemLeadingBadge`: the thread badge, in the bottom-right corner of the avatar or tile, holding one icon, `ThreadIcon` ([Icons](../icons/icons.md)). Only on a thread row ([The leading image](#the-leading-image)). Optional; experimental, from `@botiverse/raft-ui/wip`.
+- `InboxItemLeading`: a 36px leading visual before the text: the person's or agent's avatar, or an [IconTile](../icon-tile/icon-tile.md) holding a channel's icon or a thread's or task's mark. Optional.
+  - `InboxItemLeadingBadge`: the badge in the bottom-right corner of the avatar or tile, holding one icon: on a thread or task in a channel, the channel's own icon; on a thread in a direct message, `ThreadIcon` ([Icons](../icons/icons.md)), or Lucide's `list-todo` on a task. Only on a thread or task row ([The leading image](#the-leading-image)). Optional; experimental, from `@botiverse/raft-ui/wip`.
 - `InboxItemContent`: the text column. Required.
   - `InboxItemContext`: where it happened: a channel, a task, a computer.
   - `InboxItemHeading` with `InboxItemTitle`: what happened, with an optional 14px icon before it.
@@ -48,26 +48,28 @@ Which message goes where is in [Choosing a component](../../../../../design/comp
 
 ### The leading image
 
-The leading image shows the conversation the item lives in. A thread is not a conversation of its own, so its row shows the conversation the thread lives in, with the thread badge in the corner:
+The leading image shows what the row is. A channel or a direct message leads with itself. A thread or a task in a channel leads with its own mark, and the channel it lives in moves to the corner badge: the row reads as a thread or a task first, and still says what kind of channel it is in. A thread in a direct message keeps the other side's face, with the thread mark in the corner (cindyz, stdrc, 2026-10-30; the same on web and in the app):
 
-| Row                          | Leading image                                                                     | Second line                      |
-| ---------------------------- | --------------------------------------------------------------------------------- | -------------------------------- |
-| A channel                    | The channel's IconTile, with the channel's own icon                               | The latest message: "Avery: …"   |
-| A direct message             | The other person's or agent's avatar; an agent's with its presence light          | The latest message               |
-| A thread in a channel        | The channel's IconTile, with the thread badge                                     | "#launch-week · Mira: …"         |
-| A thread in a direct message | The other person's or agent's avatar, with the thread badge and no presence light | "Lagoon: …", without "@Lagoon ·" |
+| Row                          | Leading image                                                            | Badge                              | Second line                      |
+| ---------------------------- | ------------------------------------------------------------------------ | ---------------------------------- | -------------------------------- |
+| A channel                    | The channel's IconTile, with the channel's own icon                      | None                               | The latest message: "Avery: …"   |
+| A direct message             | The other person's or agent's avatar; an agent's with its presence light | None                               | The latest message               |
+| A thread in a channel        | An IconTile with `ThreadIcon`                                            | The channel's own icon             | "#launch-week · Mira: …"         |
+| A task in a channel          | An IconTile with Lucide's `list-todo`                                    | The channel's own icon             | "#launch-week:#46 · Mira: …"     |
+| A thread in a direct message | The other person's or agent's avatar, with no presence light             | `ThreadIcon` (a task: `list-todo`) | "Lagoon: …", without "@Lagoon ·" |
 
 ```example
 inbox-item/compositions/thread-rows
 ```
 
-- **A channel's tile shows that channel's own icon**, the same as in the sidebar and the channel header: `hash` for a channel, `lock` for a private one, `git-branch` for a joint channel, a hash with a globe for one readable on the public page ([Raft Chat channel](../../../../../design/products/raft-chat/channel.md)). A bare `#` on a joint or private channel says it is an ordinary one, on its own row and on its threads' rows alike.
-- **Show the conversation, not a channel shape.** A `#` tile on a thread in a direct message would say the thread lives in a channel. The avatar says who the conversation is with, and it is the face the person already knows from that direct message.
-- **The badge is the same on a tile and on an avatar**: the same size, in the same corner, so "this is a thread" reads the same in both columns of the list.
+- **A channel shows its own icon**, the same as in the sidebar and the channel header: `hash` for a channel, `lock` for a private one, `git-branch` for a joint channel, a hash with a globe for one readable on the public page ([Raft Chat channel](../../../../../design/products/raft-chat/channel.md)). It is on the tile of the channel's own row and in the badge of its threads' and tasks' rows. A bare `#` on a joint or private channel says it is an ordinary one, on its own row and on its threads' and tasks' rows alike.
+- **A thread or a task in a channel leads with its own mark**: `ThreadIcon` or Lucide's `list-todo`, the same marks the rest of the product uses for a thread and a task, in the same IconTile a channel's row uses. The channel's icon goes to the badge, at the badge's size; swap the two, never add a third mark or a new size.
+- **In a direct message, show the face, not a channel shape.** A `#` anywhere on a thread in a direct message would say the thread lives in a channel. The avatar says who the conversation is with, and it is the face the person already knows from that direct message, so it stays the leading image and the thread mark goes to the badge.
+- **The badge is the same on a tile and on an avatar**: the same size, in the same corner; only its icon changes.
 - **On an avatar, the badge takes the presence light's corner.** One corner holds one mark ([Avatar](../avatar/avatar.md#the-corner)). The row is about the thread, not about how the agent is doing now, so the badge wins and the thread row shows no presence light. The light stays on the direct message's own row.
 - **The second line doesn't repeat the leading image.** In a direct message the avatar already names the other side, so "@Lagoon · Lagoon: …" says the name twice; the line starts with the latest message. A tile doesn't name its channel, so a channel thread keeps "#channel ·" before it.
 - **A screen reader still hears where the thread is.** The row's trigger `aria-label` keeps the conversation's name ("Thread in a direct message with Lagoon: …") even though "@Lagoon ·" is no longer on screen, so someone who doesn't see the avatar still knows which direct message the thread belongs to.
-- **Until the direct message has loaded, lead with an `IconTile` holding `DirectMessageIcon`**, never a `#` tile: the row must not claim a channel it isn't in, even for a moment.
+- **Until the direct message has loaded, lead with an `IconTile` holding `DirectMessageIcon`, with `ThreadIcon` in the badge**, never a `#` tile or a `#` badge: the row must not claim a channel it isn't in, even for a moment.
 - **The thread follows its conversation's settings.** A thread in a muted direct message is muted too, the same as a thread in a muted channel.
 
 ## Variants
@@ -130,7 +132,7 @@ activity/compositions/activity-hover-actions
 - Write the context line as where it happened: #launch-week · task #25.
 - Write the title as who did what, with a teammate verb: "Martin needs your OK", "Bugen handed off #25" ([Writing](../../../../../design/content/writing.md#voice)).
 - Keep the excerpt to at most 2 lines.
-- On a thread row, start the second line with the channel only when the leading image is a channel's tile: "#launch-week · Mira: …". In a direct message, start it with the latest message: "Lagoon: …" ([The leading image](#the-leading-image)).
+- On a thread or task row in a channel, start the second line with the channel, or the task's address: "#launch-week · Mira: …". The badge says the channel's kind, not its name. In a direct message, start it with the latest message: "Lagoon: …" ([The leading image](#the-leading-image)).
 
 ## Accessibility
 
@@ -140,12 +142,12 @@ activity/compositions/activity-hover-actions
 - Actions with `reveal="hover"` stay in the tab order while hidden, and show as soon as focus reaches the row or them.
 - When a jump started from the keyboard lands on an item, such as Back to the list the item was opened from, move focus to its `InboxItemTrigger`, not to the row ([Located](../../../../../design/foundations/states.md#located)): the trigger is already a focusable button with the item's name, and the row draws the inset ring around it, so the row needs no `tabIndex` of its own.
 - The attention dot is drawn in CSS and isn't announced. Say "unread" in the trigger's name, or add a visually hidden word.
-- `InboxItemLeadingBadge` is hidden from assistive technology. Say "thread" in the trigger's name: `aria-label="Open thread with Lagoon"`.
+- `InboxItemLeadingBadge` is hidden from assistive technology, and so is the tile's icon. Say "thread" or "task" and where it is in the trigger's name: `aria-label="Open thread in #launch-week"`, `aria-label="Open thread with Lagoon"`.
 - `InboxItemSkeleton` is hidden from assistive technology. `InboxItemSkeletonList` isn't `aria-busy`: it goes away when the items arrive, so a screen reader would never hear it finish. Put `aria-busy` on the container that stays, such as `ActivityInboxPanel`, while the list loads.
 
 ## Rules
 
 - Use ink-outline small buttons for actions in the row, never pink: a list can hold several items that wait for the person at once ([Button](../button/button.md)).
 - Lead with who, when there is a who: the person's or agent's avatar. A notice from the system has no who; see [NotificationCenter](../notification-center/notification-center.md#anatomy).
-- Lead a thread row with the conversation it lives in: the channel's tile, or in a direct message the other side's avatar, each with the thread badge in its corner. Never give a thread in a direct message a `#` tile, and never show a presence light on a thread row ([The leading image](#the-leading-image)).
+- Lead a thread or task row in a channel with the thread's or task's own mark in an IconTile, with the channel's own icon in the badge. Lead a thread or task in a direct message with the other side's avatar, with the thread's or task's mark in the badge. Never give a thread in a direct message a `#` tile or badge, and never show a presence light on a thread or task row ([The leading image](#the-leading-image)).
 - Load a list of items as flat `InboxItemSkeleton` rows, never as cards: no border, card or gap the loaded list doesn't have ([Loading](#loading)).

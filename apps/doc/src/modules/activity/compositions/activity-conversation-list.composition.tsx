@@ -1,4 +1,4 @@
-import { AtSign, BellOff, Check, Hash, MessageSquare, Pencil } from "lucide-react";
+import { AtSign, BellOff, Check, Hash, Pencil } from "lucide-react";
 import {
   Avatar,
   AvatarBadge,
@@ -21,16 +21,20 @@ import {
   InboxItemTrigger,
   SidebarItemCount,
   SidebarItemIndicator,
+  ThreadIcon,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@botiverse/raft-ui";
+import { InboxItemLeadingBadge } from "@botiverse/raft-ui/wip";
 import { useCallback, useState } from "react";
 
 type Conversation = {
   id: string;
   kind: "dm" | "channel" | "thread";
   title: string;
+  /** A thread's channel, named before the message: "#design · Mira: …". */
+  channel?: string;
   initials?: string;
   sender?: string;
   preview: string;
@@ -56,6 +60,7 @@ const CONVERSATIONS: readonly Conversation[] = [
     id: "thread:design",
     kind: "thread",
     title: "The activity card spacing is ready for a source-parity pass.",
+    channel: "design",
     sender: "Mira",
     preview: "I kept the original border, spacing, and selected treatment.",
     timestamp: "14m",
@@ -137,7 +142,11 @@ function ConversationRow({
     >
       <InboxItemTrigger
         aria-current={active || undefined}
-        aria-label={`Open ${conversation.title}`}
+        aria-label={
+          conversation.channel
+            ? `Open thread in #${conversation.channel}: ${conversation.title}`
+            : `Open ${conversation.title}`
+        }
         onClick={handleOpen}
       />
       <InboxItemLeading>
@@ -146,8 +155,19 @@ function ConversationRow({
             <AvatarFallback>{conversation.initials}</AvatarFallback>
             <AvatarBadge role="img" aria-label="Online" />
           </Avatar>
+        ) : conversation.kind === "thread" ? (
+          <>
+            <IconTile>
+              <ThreadIcon />
+            </IconTile>
+            <InboxItemLeadingBadge>
+              <Hash />
+            </InboxItemLeadingBadge>
+          </>
         ) : (
-          <IconTile>{conversation.kind === "thread" ? <MessageSquare /> : <Hash />}</IconTile>
+          <IconTile>
+            <Hash />
+          </IconTile>
         )}
       </InboxItemLeading>
       <InboxItemContent>
@@ -156,6 +176,7 @@ function ConversationRow({
           {conversation.task ? <Badge variant="warning">#{conversation.task}</Badge> : null}
         </InboxItemHeading>
         <InboxItemBody>
+          {conversation.channel ? `#${conversation.channel} · ` : null}
           {conversation.sender ? <InboxItemSender>{conversation.sender}: </InboxItemSender> : null}
           {conversation.preview}
         </InboxItemBody>
