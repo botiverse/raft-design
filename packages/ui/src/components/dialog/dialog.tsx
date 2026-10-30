@@ -92,15 +92,12 @@ const dialog = tv({
       true: {
         header: [
           "flex h-14 shrink-0 items-center gap-2 border-b px-5 py-0",
-          "border-line-seam pt-0 [&>[data-slot=dialog-close]]:my-0",
+          "border-line-seam pt-0 *:data-[slot=dialog-close]:my-0",
         ],
-        body: [
-          "flex min-h-0 flex-1 overflow-hidden p-0",
-          "px-0 pt-0 pb-0 first:pt-0 text-foreground",
-        ],
+        body: ["flex min-h-0 flex-1 overflow-hidden p-0", "p-0   first:pt-0 text-foreground"],
         footer: [
           "shrink-0 border-t px-5 py-3",
-          "border-line-seam pt-3 pb-3 first:pt-3 [[data-slot=dialog-header]+&]:pt-3",
+          "border-line-seam py-3  first:pt-3 [[data-slot=dialog-header]+&]:pt-3",
         ],
       },
     },

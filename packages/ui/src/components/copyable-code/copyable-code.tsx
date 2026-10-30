@@ -21,7 +21,7 @@ const copyableCode = tv({
     action: [
       "shrink-0",
       "**:data-[slot=button]:transition-[color,background-color,box-shadow]",
-      "**:data-[slot=button]:duration-150 [&_[data-slot=button]]:ease-out",
+      "**:data-[slot=button]:duration-150 **:data-[slot=button]:ease-out",
     ],
     iconSwap: [
       "relative inline-grid",

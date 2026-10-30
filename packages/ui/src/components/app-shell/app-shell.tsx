@@ -280,7 +280,7 @@ export function AppShellMainSlot({
       className: cn(
         className,
         collapsible && [
-          "absolute inset-y-0 right-0 left-0",
+          "absolute inset-0  ",
           "group-data-[state=collapsed]/app-shell:-left-(--app-shell-sidebar-width)",
         ],
       ),

@@ -33,6 +33,8 @@ const select = tv({
       "hover:bg-none",
       "text-subhead font-semibold text-foreground",
       "data-placeholder:font-medium data-placeholder:text-foreground-hint",
+      "data-disabled:data-placeholder:text-foreground-disabled disabled:data-placeholder:text-foreground-disabled",
+      "data-disabled:**:data-[slot='select-icon']:text-foreground-disabled disabled:**:data-[slot='select-icon']:text-foreground-disabled",
       "data-invalid:border-danger-strong data-invalid:hover:border-danger-strong",
       "data-invalid:focus-visible:border-danger-strong data-invalid:focus-visible:ring-0",
       "[&_[data-slot='select-trigger-content']_svg:not([class*='size-'])]:size-4",

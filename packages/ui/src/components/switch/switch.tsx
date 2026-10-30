@@ -23,7 +23,7 @@ const switchRecipe = tv({
       "pointer-events-none block",
       "transition-transform ease-out",
       "motion-reduce:transition-none",
-      "size-[22px] rounded-full bg-layer-card shadow-[0_0_0_1.5px_var(--line-strong)] data-[checked]:translate-x-5",
+      "size-[22px] rounded-full bg-layer-card shadow-[0_0_0_1.5px_var(--line-strong)] data-checked:translate-x-5",
       "duration-220 ease-slide",
       "data-checked:bg-sticker-paper data-checked:shadow-[0_0_0_1.5px_var(--sticker-ink)]",
       "data-disabled:bg-fill-muted data-disabled:shadow-[0_0_0_1.5px_var(--foreground-disabled)]",

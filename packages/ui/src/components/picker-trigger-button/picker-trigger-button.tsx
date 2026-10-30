@@ -23,6 +23,7 @@ const pickerTriggerButton = tv({
     "disabled:bg-fill-muted disabled:text-foreground-disabled disabled:opacity-100 disabled:inset-ring-0",
     "[&_svg:not([class*='size-'])]:size-3.5 [&_svg:not([class*='stroke-'])]:stroke-2",
     "**:data-picker-trigger-indicator:text-foreground-hint **:data-picker-trigger-indicator:opacity-100",
+    "disabled:**:data-picker-trigger-indicator:text-foreground-disabled data-disabled:**:data-picker-trigger-indicator:text-foreground-disabled",
     "[&_[data-picker-trigger-indicator]>svg]:size-3.5 [&_[data-picker-trigger-indicator]>svg]:stroke-2 [&_[data-picker-trigger-indicator]>svg_*]:stroke-2",
   ],
 });

@@ -40,7 +40,7 @@ export const messageReaction = tv({
     quickRow: [
       "flex shrink-0 items-center",
       "justify-between gap-0.5 bg-layer-popover px-0.75 py-0",
-      "[&>[role=menuitem]]:size-9 [&>[role=menuitem]]:p-0 *:[[role=menuitem]]:justify-center",
+      "*:[[role=menuitem]]:size-9 *:[[role=menuitem]]:p-0 *:[[role=menuitem]]:justify-center",
     ],
     quickButton: [
       "flex items-center justify-center",
@@ -52,7 +52,7 @@ export const messageReaction = tv({
     pickerContent: [
       "inline-flex items-center",
       "min-w-0 flex-row gap-0.5 p-1",
-      "[&>[role=menuitem]]:size-9 [&>[role=menuitem]]:p-0",
+      "*:[[role=menuitem]]:size-9 *:[[role=menuitem]]:p-0",
     ],
     pickerStatic: [
       "inline-flex items-center",

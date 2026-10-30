@@ -116,10 +116,10 @@ export const messageForwardedBundleGallery = tv({
       // Heights ride the grid rows (auto-rows), so a row that wraps into two
       // columns in a narrow bundle keeps per-image heights (same fix as the
       // message gallery rows).
-      1: { row: "grid-cols-1 auto-rows-[8rem] @min-[360px]/bundle:auto-rows-[9rem]" },
-      2: { row: "grid-cols-2 auto-rows-[8rem] @min-[360px]/bundle:auto-rows-[9rem]" },
+      1: { row: "grid-cols-1 auto-rows-32 @min-[360px]/bundle:auto-rows-36" },
+      2: { row: "grid-cols-2 auto-rows-32 @min-[360px]/bundle:auto-rows-36" },
       3: {
-        row: "grid-cols-2 auto-rows-[7rem] @min-[360px]/bundle:auto-rows-[8rem] @min-[360px]/bundle:grid-cols-3",
+        row: "grid-cols-2 auto-rows-28 @min-[360px]/bundle:auto-rows-32 @min-[360px]/bundle:grid-cols-3",
       },
     },
   },

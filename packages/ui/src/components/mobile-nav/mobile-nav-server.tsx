@@ -44,7 +44,7 @@ const mobileNavServer = tv({
       "min-h-option gap-2.5 rounded-chip px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft active:bg-brand-soft focus-visible:bg-brand-soft",
-      "aria-[current=true]:font-bold",
+      "aria-current:font-bold",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
       "[&>svg]:text-foreground-muted",
       "*:data-[slot=avatar]:size-5 *:data-[slot=avatar]:shrink-0",
