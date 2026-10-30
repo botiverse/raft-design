@@ -55,6 +55,7 @@ radio-group/compositions/reset-mode-restored
 
 - Make each answer a row at least 44px high, and make the whole row clickable. In its row the circle's hit area reaches 4px past its line, half the 8px gap between answers, so a tap between two lands on the nearer; the label is the target for the rest.
 - Always have one answer chosen. Choose the most common and safest answer by default.
+- Exception: when the pick is consent. Leave nothing chosen when choosing is what authorizes the action, such as giving access, adding something to a place, or acting as someone: a default would let one click approve a target the person never chose. Keep the confirm button disabled until they choose, and say why in the hint under the label. This holds even with one answer. A [ChoiceList](../choice-list/choice-list.md) starts with `value` `null` for this.
 
 ## Content
 
