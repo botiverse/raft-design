@@ -214,3 +214,9 @@ export type {
   PanelSplitActionProps,
   PanelSplitActionToggleProps,
 } from "./components/panel/index";
+
+// The line under a setting that applies at once, "Saved" or what failed,
+// always reserved so its result never moves the card (forms.md, "Settings
+// that apply at once"; stdrc, 2026-10-30). Until slock's settings have moved
+// onto it.
+export * from "./components/save-status/index";
