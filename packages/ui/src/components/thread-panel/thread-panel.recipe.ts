@@ -24,7 +24,7 @@ export const threadPanel = tv({
     actions: panelHeadActions,
     search: [
       "relative z-20 flex shrink-0 items-center gap-1.5 py-2",
-      "*:data-[slot=input-group]:min-w-0 *:data-[slot=input-group]:flex-1",
+      "[&>[data-slot=input-group]]:min-w-0 *:data-[slot=input-group]:flex-1",
       "border-b border-line-hairline bg-layer-canvas px-5",
     ],
     searchTrailing: ["ml-auto flex shrink-0 items-center gap-1.5"],

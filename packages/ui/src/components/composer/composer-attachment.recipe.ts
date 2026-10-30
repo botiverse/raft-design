@@ -7,12 +7,12 @@ export const composerAttachment = tv({
       // Scroll / sortable roots own the item flex row — avoid nesting flex + DnD a11y siblings.
       "has-data-[slot=composer-attachments-scroll-area]:relative",
       "has-data-[slot=composer-attachments-scroll-area]:block",
-      "has-data-[slot=composer-attachments-scroll-area]:min-w-0",
+      "has-[[data-slot=composer-attachments-scroll-area]]:min-w-0",
       "has-data-[slot=sortable-composer-attachments-list]:block",
-      "has-data-[slot=sortable-composer-attachments-list]:min-w-0",
+      "has-[[data-slot=sortable-composer-attachments-list]]:min-w-0",
       "pt-1.5 pe-1.5",
-      "has-data-[slot=composer-attachments-scroll-area]:p-0",
-      "has-data-[slot=sortable-composer-attachments-list]:pt-0",
+      "has-[[data-slot=composer-attachments-scroll-area]]:p-0",
+      "has-[[data-slot=sortable-composer-attachments-list]]:pt-0",
     ],
     attachmentsScrollArea: ["relative w-full min-w-0"],
     attachmentsViewport: [
@@ -54,7 +54,7 @@ export const composerAttachment = tv({
     ],
     attachmentUploadProgressBar: [
       "absolute z-20 h-1 overflow-hidden",
-      "inset-x-1.5 bottom-1.5  w-auto rounded-[2px]",
+      "right-1.5 bottom-1.5 left-1.5 w-auto rounded-[2px]",
       "bg-layer-card",
     ],
     attachmentUploadProgressBarIndicator: ["block h-full", "rounded-[inherit] bg-info"],

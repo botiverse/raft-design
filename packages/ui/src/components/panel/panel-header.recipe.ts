@@ -75,7 +75,7 @@ export const panelHeader = tv({
       slots: ["sectionHeader"],
       class: [
         "max-md:bg-layer-frame max-md:text-foreground-on-frame",
-        "max-md:*:data-[slot=panel-header-icon]:hidden",
+        "max-md:[&>[data-slot=panel-header-icon]]:hidden",
         "max-md:**:data-[slot=panel-title]:text-foreground-on-frame",
         "max-md:**:data-[slot=panel-meta]:text-foreground-on-frame-muted",
         "max-md:**:data-[slot=panel-action]:text-foreground-on-frame",

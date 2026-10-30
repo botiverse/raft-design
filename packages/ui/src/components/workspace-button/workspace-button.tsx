@@ -25,7 +25,7 @@ export function WorkspaceButton({ className, children, ...props }: WorkspaceButt
       data-slot="workspace-button"
       className={cn(
         "max-w-full min-w-0 shrink justify-start gap-2",
-        "*:data-[slot=button-content]:max-w-full *:data-[slot=button-content]:min-w-0",
+        "*:data-[slot=button-content]:max-w-full [&>[data-slot=button-content]]:min-w-0",
         className,
       )}
     >

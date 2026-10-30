@@ -19,12 +19,12 @@ const heading = tv({
   base: ["m-0 font-heading font-medium text-foreground"],
   variants: {
     level: {
-      1: ["text-[56px]/16 tracking-[-0.01em] "],
-      2: ["text-5xl/14 tracking-[-0.01em] "],
-      3: ["text-[40px]/12 tracking-[-0.01em] "],
-      4: ["text-[32px]/10 tracking-[-0.005em] "],
-      5: ["text-2xl/8 "],
-      6: ["text-xl/7 "],
+      1: ["text-[56px] tracking-[-0.01em] leading-16"],
+      2: ["text-5xl tracking-[-0.01em] leading-14"],
+      3: ["text-[40px] tracking-[-0.01em] leading-12"],
+      4: ["text-[32px] tracking-[-0.005em] leading-10"],
+      5: ["text-2xl leading-8"],
+      6: ["text-xl leading-7"],
     },
     variant: textColorVariants,
   },
@@ -37,10 +37,10 @@ const sans = tv({
   base: ["m-0 font-sans font-normal"],
   variants: {
     size: {
-      large: ["text-lg/7  text-foreground"],
-      body: ["text-base/6  text-foreground"],
-      small: ["text-sm/5  text-foreground-muted"],
-      caption: ["text-xs/4  text-foreground-muted"],
+      large: ["text-lg leading-7 text-foreground"],
+      body: ["text-base leading-6 text-foreground"],
+      small: ["text-sm leading-5 text-foreground-muted"],
+      caption: ["text-xs leading-4 text-foreground-muted"],
       group: ["text-footnote font-bold text-foreground-hint"],
     },
     variant: textColorVariants,
@@ -54,9 +54,9 @@ const mono = tv({
   base: ["m-0 font-mono font-normal"],
   variants: {
     size: {
-      code: ["text-sm/5  text-foreground"],
-      meta: ["text-xs/4  text-foreground-muted"],
-      tabular: ["text-sm/5 tabular-nums  text-foreground"],
+      code: ["text-sm leading-5 text-foreground"],
+      meta: ["text-xs leading-4 text-foreground-muted"],
+      tabular: ["text-sm tabular-nums leading-5 text-foreground"],
     },
     variant: textColorVariants,
   },
