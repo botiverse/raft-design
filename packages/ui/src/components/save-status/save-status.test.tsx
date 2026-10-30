@@ -19,6 +19,15 @@ test("the empty saved region is a polite live region with no check", () => {
   expect(container.querySelector("svg")).toBeNull();
 });
 
+test("an empty string draws no check", () => {
+  const { container } = render(
+    <SaveStatus>
+      <SaveStatusSaved>{""}</SaveStatusSaved>
+    </SaveStatus>,
+  );
+  expect(container.querySelector("svg")).toBeNull();
+});
+
 test("the saved words come with a hidden check", () => {
   render(
     <SaveStatus>

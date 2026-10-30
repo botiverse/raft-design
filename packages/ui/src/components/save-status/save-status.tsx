@@ -26,15 +26,16 @@ const saveStatus = tv({
   },
 });
 
-export type SaveStatusProps = ComponentPropsWithRef<"div">;
+export type SaveStatusProps = ComponentPropsWithRef<"span">;
 
 /**
  * The reserved line itself. Render it whatever the setting's state, and put
- * `SaveStatusSaved` or `SaveStatusError` inside.
+ * `SaveStatusSaved` or `SaveStatusError` inside. A `span` (shown as a block),
+ * like every ListRow part, so it stays valid inside a row's body.
  */
 export function SaveStatus({ className, ...props }: SaveStatusProps) {
   const { root } = saveStatus();
-  return <div data-slot="save-status" className={root({ className })} {...props} />;
+  return <span data-slot="save-status" className={root({ className })} {...props} />;
 }
 
 export type SaveStatusSavedProps = ComponentPropsWithRef<"span">;
@@ -46,7 +47,8 @@ export type SaveStatusSavedProps = ComponentPropsWithRef<"span">;
  */
 export function SaveStatusSaved({ className, children, ...props }: SaveStatusSavedProps) {
   const { saved } = saveStatus();
-  const hasContent = children !== null && children !== undefined && children !== false;
+  const hasContent =
+    children !== null && children !== undefined && children !== false && children !== "";
   return (
     <span
       data-slot="save-status-saved"

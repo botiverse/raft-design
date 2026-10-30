@@ -35,17 +35,21 @@ const TIME_ZONES = [
   { value: "Asia/Shanghai", label: "UTC+08:00 Shanghai" },
 ];
 
-// "Saved" for two seconds after each change.
+// Each change empties the line while it saves, so every "Saved" is announced,
+// then shows "Saved" for two seconds once the (mock) request is done.
 function useSaved() {
   const [saved, setSaved] = useState(false);
   const timer = useRef<number | undefined>(undefined);
   useEffect(() => () => window.clearTimeout(timer.current), []);
-  const markSaved = useCallback(() => {
+  const save = useCallback(() => {
     window.clearTimeout(timer.current);
-    setSaved(true);
-    timer.current = window.setTimeout(() => setSaved(false), 2000);
+    setSaved(false);
+    timer.current = window.setTimeout(() => {
+      setSaved(true);
+      timer.current = window.setTimeout(() => setSaved(false), 2000);
+    }, 300);
   }, []);
-  return [saved, markSaved] as const;
+  return [saved, save] as const;
 }
 
 export function SaveStatusPreviewContent() {

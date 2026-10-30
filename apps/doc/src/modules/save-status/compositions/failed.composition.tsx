@@ -41,7 +41,7 @@ export function SaveStatusFailedContent() {
           </ListRowDescription>
           <SaveStatus id="public-page-status">
             {failed ? (
-              <SaveStatusError>Couldn&apos;t turn it on. Try again.</SaveStatusError>
+              <SaveStatusError>Couldn&apos;t publish. Try again.</SaveStatusError>
             ) : (
               <SaveStatusSaved />
             )}

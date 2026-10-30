@@ -2,7 +2,7 @@
   {
     "name": "SaveStatus",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The reserved line itself. Render it whatever the setting's state, and put `SaveStatusSaved` or `SaveStatusError` inside.",
+    "description": "The reserved line itself. Render it whatever the setting's state, and put `SaveStatusSaved` or `SaveStatusError` inside. A `span` (shown as a block), like every ListRow part, so it stays valid inside a row's body.",
     "native": true,
     "props": []
   },

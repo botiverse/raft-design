@@ -42,6 +42,8 @@ export const listRow = tv({
       "flex shrink-0 items-center justify-center",
       "text-(--list-row-ink-3) [&>svg]:size-5 [&>svg]:shrink-0",
     ],
+    // SaveStatus makes up this 2px to sit 4px under the description
+    // (save-status.tsx): change both together.
     body: ["flex min-w-0 flex-1 flex-col gap-0.5"],
     line: ["flex min-w-0 items-center gap-2"],
     title: [

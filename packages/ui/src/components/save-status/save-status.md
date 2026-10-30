@@ -23,14 +23,14 @@ save-status/compositions/preview
 | The result of a setting that applies at once                        | SaveStatus                                                                                                                                |
 | A value that is wrong before it is saved: a missing name, a bad URL | `FieldError` ([Field](../field/field.md))                                                                                                 |
 | The result of a card saved with Save                                | The Save button, which reads "Saved" with a check for a moment ([Forms](../../../../../design/patterns/forms.md#settings-saved-together)) |
-| A failure that is about more than one setting, or the whole page    | A [Banner](../banner/banner.md) at the top of what failed ([Feedback](../../../../../design/patterns/feedback.md))                        |
+| A failure that is about more than one setting                       | Where its scope puts it ([Feedback](../../../../../design/patterns/feedback.md#errors-by-scope))                                          |
 
 Which settings apply at once is in [Forms](../../../../../design/patterns/forms.md#when-a-change-takes-effect).
 
 ## Anatomy
 
-- `SaveStatus`: the line, one line of footnote text tall (18px) whether or not it says anything. Put it right after the control: after the select or the segmented control in a `Field`, or after the description in a settings row's `ListRowBody`. Required.
-- `SaveStatusSaved`: a check and "Saved", in `foreground-muted`. It is the polite live region, so render it empty while nothing has happened and put the words in when the change is stored; the check shows only with them.
+- `SaveStatus`: the line, one line of footnote text tall (18px) whether or not it says anything. Put it right after the control: after the select or the segmented control in a `Field`, before any `FieldDescription`, or after the description in a settings row's `ListRowBody`. Required.
+- `SaveStatusSaved`: a check and "Saved", in `foreground-muted`; the check is the one the Save button shows when it reads "Saved" ([Forms](../../../../../design/patterns/forms.md#settings-saved-together)). It is the polite live region, so render it empty while nothing has happened and put the words in when the change is stored; the check shows only with them.
 - `SaveStatusError`: what failed, in `danger-strong`, in place of `SaveStatusSaved`.
 
 ## States
@@ -57,5 +57,6 @@ save-status/compositions/failed
 ## Accessibility
 
 - `SaveStatusSaved` has `role="status"` and `aria-live="polite"`. Keep it mounted while nothing has happened, so it exists before "Saved" arrives: a live region inserted together with its words is often not announced.
+- Empty `SaveStatusSaved` when a new save starts, so each "Saved" is a change and is announced again.
 - `SaveStatusError` has `role="alert"`, so the failure is announced when it appears. Render it in place of `SaveStatusSaved`, never inside it.
 - Point the control's `aria-describedby` at the line's `id` (on `SaveStatus`), beside any description, so the result is read with the control.
