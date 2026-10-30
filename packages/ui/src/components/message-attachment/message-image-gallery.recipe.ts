@@ -43,17 +43,17 @@ export const messageImageGallery = tv({
     {
       count: 1,
       single: false,
-      class: { row: "auto-rows-[8rem] @min-[360px]/gallery:auto-rows-[9rem]" },
+      class: { row: "auto-rows-32 @min-[360px]/gallery:auto-rows-36" },
     },
     {
       count: 2,
       single: false,
-      class: { row: "auto-rows-[8rem] @min-[360px]/gallery:auto-rows-[9rem]" },
+      class: { row: "auto-rows-32 @min-[360px]/gallery:auto-rows-36" },
     },
     {
       count: 3,
       single: false,
-      class: { row: "auto-rows-[7rem] @min-[360px]/gallery:auto-rows-[8rem]" },
+      class: { row: "auto-rows-28 @min-[360px]/gallery:auto-rows-32" },
     },
   ],
   variants: {
@@ -66,7 +66,7 @@ export const messageImageGallery = tv({
     },
     /** A single-image gallery keeps the image's proportions instead of a row height. */
     single: {
-      true: { item: ["inline-block w-fit max-w-[26rem] justify-self-start", "rounded-container"] },
+      true: { item: ["inline-block w-fit max-w-104 justify-self-start", "rounded-container"] },
     },
     /** Set from an item layout: the cell owns its media sizing. */
     laidOut: {

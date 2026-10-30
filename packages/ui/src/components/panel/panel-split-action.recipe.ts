@@ -45,7 +45,7 @@ export const panelSplitActionMenu = tv({
   base: [
     "pointer-events-auto min-w-0 rounded-s-none px-0",
     "w-6 me-5 md:pointer-fine:w-5 md:pointer-fine:me-0",
-    "after:start-0 after:inset-e-[-21.5px] md:pointer-fine:after:-end-[calc(var(--spacing-control-hit)+1.5px)]",
+    "after:inset-s-0 after:inset-e-[-21.5px] md:pointer-fine:after:-inset-e-[calc(var(--spacing-control-hit)+1.5px)]",
     "focus-visible:z-1",
     "[[data-split-action-main][data-pressed]~&]:[--split-action-menu-tint:var(--fill-subtle)]",
     "[[data-split-action-main][aria-pressed=true]~&]:[--split-action-menu-tint:var(--fill-subtle)]",

@@ -33,7 +33,8 @@ const select = tv({
       "hover:bg-none",
       "text-subhead font-semibold text-foreground",
       "data-placeholder:font-medium data-placeholder:text-foreground-hint",
-      "data-disabled:data-placeholder:text-foreground-disabled",
+      "data-disabled:data-placeholder:text-foreground-disabled disabled:data-placeholder:text-foreground-disabled",
+      "data-disabled:**:data-[slot='select-icon']:text-foreground-disabled disabled:**:data-[slot='select-icon']:text-foreground-disabled",
       "data-invalid:border-danger-strong data-invalid:hover:border-danger-strong",
       "data-invalid:focus-visible:border-danger-strong data-invalid:focus-visible:ring-0",
       "[&_[data-slot='select-trigger-content']_svg:not([class*='size-'])]:size-4",
@@ -42,7 +43,7 @@ const select = tv({
     icon: [
       "ml-auto flex shrink-0 items-center justify-center transition-transform",
       "[&>svg]:shrink-0",
-      "text-foreground-hint opacity-100 in-data-disabled:text-foreground-disabled",
+      "text-foreground-hint opacity-100",
       "[&>svg]:size-4 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
     ],
     value: ["flex min-w-0 flex-1 truncate text-left"],

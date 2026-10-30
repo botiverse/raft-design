@@ -77,7 +77,7 @@ const banner = tv({
     {
       size: "sm",
       class: {
-        root: "has-[>[data-slot=banner-action],>[data-banner-close]]:py-[calc((--spacing(8)-1lh)/2+--spacing(1))]",
+        root: "has-[>[data-slot=banner-action],>[data-banner-close]]:py-[calc((--spacing(8)-1lh)/2+(--spacing(1)))]",
       },
     },
   ],

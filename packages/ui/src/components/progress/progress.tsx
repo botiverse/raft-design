@@ -54,7 +54,7 @@ const progress = tv({
     indicator: [
       "block h-full bg-(--progress-indicator)",
       "transition-[width,background-color] duration-200 ease-out",
-      "data-indeterminate:absolute data-[indeterminate]:inset-y-0 data-indeterminate:w-1/2",
+      "data-indeterminate:absolute data-indeterminate:inset-y-0 data-indeterminate:w-1/2",
       "data-indeterminate:origin-left data-indeterminate:animate-[raft-progress-indeterminate_1.4s_ease-in-out_infinite]",
       "rounded-[inherit] inset-ring-[1.5px] inset-ring-sticker-ink",
     ],

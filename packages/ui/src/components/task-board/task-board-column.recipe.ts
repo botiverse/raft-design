@@ -11,7 +11,7 @@ export const taskBoardColumn = tv({
       "group flex w-full touch-manipulation items-center justify-between text-left outline-none",
       "min-h-8 gap-2 rounded-control",
       "font-sans text-footnote font-bold text-foreground-muted",
-      "data-[panel-open]:mb-2",
+      "data-panel-open:mb-2",
       "focus-visible:shadow-focus",
     ],
     heading: ["flex min-w-0 items-center", "gap-2"],
