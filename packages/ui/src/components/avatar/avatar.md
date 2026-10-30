@@ -105,7 +105,7 @@ The bottom-right corner holds one thing at a time:
 
 - The assistant's face takes the presence light's place and sticks out as far: the same visible 2.5px past the avatar's edge on `md`, so the two read as the same kind of mark.
 - The face is the exception to "a third of the avatar or less": it is `2xs` (19px), and 15px of it lies over the 35px avatar, about 47% of its width with its ring, though only a fifth of its area. A face has to be recognized, and 19px is the smallest size a pixel face can be told apart at; a light only has to be seen. The person's initials or photo stay readable above and to the left of it. Decided by stdrc on 2026-10-21 (RFC 077).
-- On a thread row in Activity the thread badge takes the presence light's corner, the same size of badge as on a channel thread's tile: the row is about the thread, not about how the agent is doing now ([InboxItem](../inbox-item/inbox-item.md#the-leading-image)).
+- On a thread row in Activity the thread badge takes the presence light's corner, the same badge, at the same size, as on a thread or task row in a channel: the row is about the thread, not about how the agent is doing now ([InboxItem](../inbox-item/inbox-item.md#the-leading-image)).
 - Never put a face on an agent's avatar: its corner is its presence light, and a face there would hide whether the agent is working ([Identity and presence](../../../../../design/people-and-agents/identity-and-presence.md#sent-by-an-assistant)).
 
 ## States

@@ -33,6 +33,8 @@ type Conversation = {
   id: string;
   kind: "dm" | "channel" | "thread";
   title: string;
+  /** A thread's channel, named before the message: "#design · Mira: …". */
+  channel?: string;
   initials?: string;
   sender?: string;
   preview: string;
@@ -58,6 +60,7 @@ const CONVERSATIONS: readonly Conversation[] = [
     id: "thread:design",
     kind: "thread",
     title: "The activity card spacing is ready for a source-parity pass.",
+    channel: "design",
     sender: "Mira",
     preview: "I kept the original border, spacing, and selected treatment.",
     timestamp: "14m",
@@ -139,7 +142,11 @@ function ConversationRow({
     >
       <InboxItemTrigger
         aria-current={active || undefined}
-        aria-label={`Open ${conversation.title}`}
+        aria-label={
+          conversation.channel
+            ? `Open thread in #${conversation.channel}: ${conversation.title}`
+            : `Open ${conversation.title}`
+        }
         onClick={handleOpen}
       />
       <InboxItemLeading>
@@ -169,6 +176,7 @@ function ConversationRow({
           {conversation.task ? <Badge variant="warning">#{conversation.task}</Badge> : null}
         </InboxItemHeading>
         <InboxItemBody>
+          {conversation.channel ? `#${conversation.channel} · ` : null}
           {conversation.sender ? <InboxItemSender>{conversation.sender}: </InboxItemSender> : null}
           {conversation.preview}
         </InboxItemBody>

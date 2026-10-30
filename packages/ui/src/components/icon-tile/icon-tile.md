@@ -30,15 +30,15 @@ icon-tile/compositions/sizes
 
 ## Anatomy
 
-- `IconTile`: the square. It holds one Lucide icon and sizes the icon to fit ([Iconography](../../../../../design/foundations/iconography.md#sizes)).
+- `IconTile`: the square. It holds one icon, Lucide's or one of raft-ui's own such as `ThreadIcon` ([Icons](../icons/icons.md)), and sizes the icon to fit ([Iconography](../../../../../design/foundations/iconography.md#sizes)).
 
 ## Variants
 
-| Variant                 | Use for                                                                                                                   |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `variant="default"`     | Everything: channels, files, apps, computers, notices. A `fill-muted` square with a `foreground-muted` icon and no border |
-| `variant="warning"`     | An error or a warning in the notification center: `warning-soft`, with an ink icon                                        |
-| `variant="information"` | A message in the notification center: `info-soft`, with an ink icon                                                       |
+| Variant                 | Use for                                                                                                                                   |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant="default"`     | Everything: channels, threads, tasks, files, apps, computers, notices. A `fill-muted` square with a `foreground-muted` icon and no border |
+| `variant="warning"`     | An error or a warning in the notification center: `warning-soft`, with an ink icon                                                        |
+| `variant="information"` | A message in the notification center: `info-soft`, with an ink icon                                                                       |
 
 ```example
 icon-tile/compositions/variants
