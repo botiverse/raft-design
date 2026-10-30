@@ -1078,6 +1078,15 @@
     ],
     "status": "stable"
   },
+  "save-status": {
+    "names": [
+      "SaveStatus",
+      "SaveStatusError",
+      "SaveStatusSaved"
+    ],
+    "status": "experimental",
+    "description": "The reserved line itself. Render it whatever the setting's state, and put `SaveStatusSaved` or `SaveStatusError` inside."
+  },
   "scroll-area": {
     "names": [
       "ScrollArea",

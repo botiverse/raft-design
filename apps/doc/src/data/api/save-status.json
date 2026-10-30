@@ -1,0 +1,23 @@
+[
+  {
+    "name": "SaveStatus",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The reserved line itself. Render it whatever the setting's state, and put `SaveStatusSaved` or `SaveStatusError` inside.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "SaveStatusError",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "What failed, in place of `SaveStatusSaved`. It is an alert, announced when it appears, and stays until the next change.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "SaveStatusSaved",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The polite live region that says the change is stored. Keep it mounted, empty, while nothing has happened, so a screen reader announces the words when they arrive; the check shows only with them.",
+    "native": true,
+    "props": []
+  }
+]

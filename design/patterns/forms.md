@@ -44,6 +44,11 @@ Ask these in order; the first yes decides (stdrc, 2026-10-29). Each kind of chan
 
 - Use a switch, a segmented control or a select for a setting that stands alone (the appearance, the time zone, muting a server, whether the public page is on), and apply each change as it happens. Don't add a Save button: on one choice it adds a step and checks nothing. This holds when several such settings share a card: each one saves itself, and the card has no Save.
 - Show the result beside the setting: "Saved" for a moment once it is stored. When it fails, put the control back to its old value and say what failed in the same place, so a control never shows a value that isn't true.
+- Put the result on a line of its own 4px under the control, the same for a select, a segmented control and a settings row with a switch, where it goes under the description. Keep the line's height when it is empty, so the card doesn't grow when "Saved" appears and shrink when it goes, and a switch centered on its row doesn't move (stdrc, 2026-10-30). raft-ui draws this line ([SaveStatus](../../packages/ui/src/components/save-status/save-status.md)).
+
+```example
+save-status/compositions/preview
+```
 
 ### Settings saved together
 
