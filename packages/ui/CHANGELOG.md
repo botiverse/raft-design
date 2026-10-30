@@ -1,3 +1,17 @@
+## [0.53.0](https://github.com/botiverse/raft-design/compare/v0.52.4...v0.53.0) (2026-10-30)
+
+### Changed
+
+- **`ChatIcon` is `MessageIcon`'s plain bubble:** the three dots inside are gone, so a message and a chat share one icon. `ChatIcon` stays exported as an alias; `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon` keep their marks. ([#901](https://github.com/botiverse/raft-design/pull/901))
+
+### Design System
+
+- **A message and a chat share one icon:** the plain bubble; the other kinds of conversation keep their own mark. ([#901](https://github.com/botiverse/raft-design/pull/901))
+  - Docs: https://raft-design.botiverse.build/components/icons/
+- **RadioGroup: nothing chosen when the pick is consent:** leave the group empty when choosing an option grants something, so nobody consents by default. ([#900](https://github.com/botiverse/raft-design/pull/900))
+  - Docs: https://raft-design.botiverse.build/components/radio-group/
+- **"Entry points on an edge take a band" is withdrawn** until the Assistant's form settles. ([#899](https://github.com/botiverse/raft-design/pull/899))
+
 ## [0.52.4](https://github.com/botiverse/raft-design/compare/v0.52.3...v0.52.4) (2026-10-30)
 
 ### Fixed
