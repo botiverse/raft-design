@@ -1,3 +1,9 @@
+## [0.52.3](https://github.com/botiverse/raft-design/compare/v0.52.2...v0.52.3) (2026-10-30)
+
+### Fixed
+
+- **A disabled Select greys its placeholder and chevron:** they now take `foreground-disabled` like the rest of a disabled field, whether the Select, its trigger, a Field or a native `<fieldset>` disables it, and also when the trigger is a PickerTriggerButton. Before, they kept the darker hint ink. ([#895](https://github.com/botiverse/raft-design/pull/895))
+
 ## [0.52.2](https://github.com/botiverse/raft-design/compare/v0.52.1...v0.52.2) (2026-10-29)
 
 ### Fixed
