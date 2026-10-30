@@ -42,7 +42,7 @@ const taskChip = tv({
       default: {
         root: [
           "h-[22px] items-baseline gap-1.5 rounded-chip px-[7px] py-[3px] [&>svg]:self-center",
-          "text-[12px]/4 ",
+          "text-[12px] leading-4",
         ],
       },
       inline: {},

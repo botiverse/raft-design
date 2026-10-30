@@ -209,7 +209,7 @@ it("measures again when a web font finishes loading, though no box changed size"
     <Frame>
       <div
         style={{ width }}
-        className="text-[16px]/6  font-[EllipsisLateMono,serif] [font-display:swap]"
+        className="text-[16px] leading-6 font-[EllipsisLateMono,serif] [font-display:swap]"
       >
         <Ellipsis data-testid="cut" lines={2} tooltip={false}>
           {words}

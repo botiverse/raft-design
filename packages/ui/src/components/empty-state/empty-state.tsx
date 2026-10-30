@@ -12,8 +12,8 @@ const emptyState = tv({
     root: ["flex w-full min-w-0 flex-col items-center justify-center px-6 py-12 text-center"],
     content: [
       "flex w-full max-w-sm min-w-0 flex-col items-center gap-2 text-center",
-      "*:data-[slot=empty-state-icon]:mb-0",
-      "*:data-[slot=empty-state-title]:mb-0",
+      "[&>[data-slot=empty-state-icon]]:mb-0",
+      "[&>[data-slot=empty-state-title]]:mb-0",
     ],
     icon: [
       "mb-4 inline-flex items-center justify-center [&_svg]:shrink-0",

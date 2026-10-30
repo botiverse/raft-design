@@ -2,7 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const filePreview = tv({
   slots: {
-    root: ["relative flex size-10  shrink-0 items-center justify-center"],
+    root: ["relative flex h-10 w-10 shrink-0 items-center justify-center"],
     document: [
       "relative h-10 w-8 stack-y-1.5 rounded-md rounded-tr-[15%] p-1.5 ring-1",
       "bg-layer-card shadow-none ring-line-hairline",
@@ -48,7 +48,7 @@ export const filePreview = tv({
     placement: {
       corner: { badge: "absolute -right-1.5 bottom-0.5 z-10" },
       inline: {
-        badge: "inline-flex h-3.5 w-7 shrink-0 items-center justify-center p-0 ",
+        badge: "inline-flex h-3.5 w-7 shrink-0 items-center justify-center px-0 py-0",
       },
     },
   },

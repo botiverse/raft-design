@@ -26,7 +26,7 @@ export const files = tv({
       "[&_svg]:size-4.5 [&_svg]:shrink-0",
       "has-data-[slot=file-preview]:overflow-visible has-data-[slot=file-preview]:border-0 has-data-[slot=file-preview]:bg-transparent",
       "size-9 rounded-chip border-0 bg-fill-muted text-foreground-muted",
-      "has-data-[slot=file-preview]:size-9",
+      "has-[[data-slot=file-preview]]:size-9",
     ],
     image: [
       "block size-full",
