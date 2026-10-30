@@ -48,14 +48,6 @@ The jump pills of a conversation, Back to Bottom, "3 New Messages" and "Next Unr
 - Don't give it the soft shadow. The shadow says "this is above the page for a moment and goes away when you are done with it": a menu, a popup, a toolbar over the message it acts on. A jump pill belongs to the conversation, stays in one place while the list scrolls under it, and goes away by itself when there is nowhere to jump; a shadow would make the conversation look as if a popup were open.
 - Don't use a floating control for an action on the page. It is only for moving through the list it floats over; an action belongs in the header or a toolbar ([FloatButton](../../packages/ui/src/components/float-button/float-button.md)).
 
-## Entry points on an edge
-
-An always-present entry point may sit on the edge of the region it acts on, such as the Assistant's entry on the top edge of a composer. It is part of the layout, not a layer above it.
-
-- Give it a band of its own: the region next to it gives way by the entry's full height or width, so the entry covers no content. In a scrolling list, the list's end gains the band; the content's width never changes.
-- Don't make room by narrowing only the lines beside it. In a list that scrolls, every line would re-wrap as it passes the entry, and the list's last line would change height under the reader (design review, 2026-10-29).
-- What opens from it follows the rules for popups: a Popover beside it, a sheet on a phone.
-
 ## Stacked overlays
 
 A modal surface (a dialog, an alert dialog, a modal sheet) dims everything under it with a scrim, so the one thing that can be used is the one on top. When one opens from another, the same must stay true: the surface below has to step back, or a white dialog sits on a white sheet with nothing to say which of the two is live.
