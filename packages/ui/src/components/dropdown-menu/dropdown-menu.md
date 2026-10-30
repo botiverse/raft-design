@@ -10,7 +10,7 @@ related: [context-menu, select, popover, alert-dialog, drawer]
 
 # DropdownMenu
 
-A dropdown menu is a list of actions on one thing (a message, a channel, a task, an agent), opened from a button such as ⋯. It can also hold a setting-style choice, such as sort order or status, with a check mark on the current value. Right-click on desktop and press and hold on a phone open the same menu as a [ContextMenu](../context-menu/context-menu.md).
+A dropdown menu is a list of actions on one thing (a message, a channel, a task, an agent), opened from a More button (⋮ for one thing's menu, ⋯ at the end of a row of actions; [Iconography](../../../../../design/foundations/iconography.md#meanings)). It can also hold a setting-style choice, such as sort order or status, with a check mark on the current value. Right-click on desktop and press and hold on a phone open the same menu as a [ContextMenu](../context-menu/context-menu.md).
 
 ```example
 dropdown-menu/compositions/sidebar-section-header-menu
@@ -71,7 +71,7 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 
 - DropdownMenu wraps the Base UI Menu. It provides the `menu` role, the item roles, arrow-key movement, typeahead, Esc, and focus return to the trigger.
 - Name the menu after the thing it acts on: put `aria-label` on `DropdownMenuContent` ("Message from Wug").
-- Give an icon-only trigger, such as ⋯, an `aria-label` ("More Actions").
+- Give an icon-only trigger, such as More, an `aria-label` ("More Actions").
 - Make every row in the menu a menu item, so arrow keys reach it. This includes each quick reaction: give it an `aria-label` ("React with thumbs up") and hide the drawing from assistive technology.
 - Leave item icons decorative; the label names the action.
 

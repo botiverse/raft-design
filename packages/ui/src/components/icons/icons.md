@@ -1,6 +1,6 @@
 ---
 title: Icons
-summary: The icons raft-ui draws itself — five for kinds of conversation, one for an Artifact and thirteen for following, joining, adding, creating and reopening; every other icon comes from Lucide.
+summary: The icons raft-ui draws itself — five for kinds of conversation, one for an Artifact and thirteen for following, joining, adding, creating (deprecated) and reopening; every other icon comes from Lucide.
 status: stable
 aliases:
   [
@@ -34,7 +34,7 @@ related: [sidebar, message-quoted-preview, tasks, icon-tile]
 
 # Icons
 
-raft-ui exports a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact. Thirteen label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment, creating a task and reopening one ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../../../design/foundations/iconography.md).
+raft-ui exports a few icons of its own, for meanings no Lucide icon carries. Five stand for kinds of conversation: `MessageIcon`, `DirectMessageIcon`, `ThreadIcon`, `CommentIcon` and `FeedbackIcon`. `ChatIcon` is `MessageIcon` under a second name: a message and a chat share one icon. `ArtifactIcon` stands for an Artifact. Thirteen label actions: following a thread or an Artifact, joining or leaving a channel, adding a comment, creating a task (deprecated: Lucide's `plus` does it now) and reopening one ([Action icons](#action-icons)). Every other icon in Raft comes from Lucide. The rules for all icons (the set, the stroke, the color and the size by context) are in [Iconography](../../../../../design/foundations/iconography.md).
 
 ```example
 icons/icons
