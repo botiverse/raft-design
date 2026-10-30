@@ -1,4 +1,4 @@
-import { AtSign, BellOff, Check, Hash, MessageSquare, Pencil } from "lucide-react";
+import { AtSign, BellOff, Check, Hash, Pencil } from "lucide-react";
 import {
   Avatar,
   AvatarBadge,
@@ -21,10 +21,12 @@ import {
   InboxItemTrigger,
   SidebarItemCount,
   SidebarItemIndicator,
+  ThreadIcon,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@botiverse/raft-ui";
+import { InboxItemLeadingBadge } from "@botiverse/raft-ui/wip";
 import { useCallback, useState } from "react";
 
 type Conversation = {
@@ -146,8 +148,19 @@ function ConversationRow({
             <AvatarFallback>{conversation.initials}</AvatarFallback>
             <AvatarBadge role="img" aria-label="Online" />
           </Avatar>
+        ) : conversation.kind === "thread" ? (
+          <>
+            <IconTile>
+              <ThreadIcon />
+            </IconTile>
+            <InboxItemLeadingBadge>
+              <Hash />
+            </InboxItemLeadingBadge>
+          </>
         ) : (
-          <IconTile>{conversation.kind === "thread" ? <MessageSquare /> : <Hash />}</IconTile>
+          <IconTile>
+            <Hash />
+          </IconTile>
         )}
       </InboxItemLeading>
       <InboxItemContent>

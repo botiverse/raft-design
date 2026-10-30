@@ -8,8 +8,9 @@ export type InboxItemLeadingBadgeProps = useRender.ComponentProps<"span">;
 
 /**
  * A small badge in the bottom-right corner of `InboxItemLeading`, the corner a
- * presence light takes: on a thread row, the thread mark, on the channel's
- * `IconTile` or on the direct message's `Avatar` alike. Put it inside
+ * presence light takes, holding one icon: on a thread or task row in a
+ * channel, the channel's own icon on the thread's or task's `IconTile`; in a
+ * direct message, the thread mark on the other side's `Avatar`. Put it inside
  * `InboxItemLeading`, after the tile or avatar, with one icon as its child;
  * leave the avatar's `AvatarBadge` out, since the corner holds one mark. It
  * is hidden from assistive technology unless given a `role`.
