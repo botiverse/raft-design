@@ -1,3 +1,18 @@
+## [0.54.0](https://github.com/botiverse/raft-design/compare/v0.53.0...v0.54.0) (2026-10-30)
+
+### Added
+
+- **SaveStatus** (wip, + `SaveStatusSaved`, `SaveStatusError`): the result line under a setting that applies at once. It always keeps one footnote line of height, so "Saved" appearing or going never resizes the card or moves a switch, and it sits 4px under a select, a segmented control or a settings row's description alike. ([#906](https://github.com/botiverse/raft-design/pull/906))
+
+### Design System
+
+- **A setting that applies at once shows its result on a reserved line 4px under the control** (stdrc, 2026-10-30). ([#906](https://github.com/botiverse/raft-design/pull/906))
+  - Docs: https://raft-design.botiverse.build/patterns/forms/
+- **Activity thread and task rows lead with their own mark; the channel's icon goes in the corner badge** (cindyz, stdrc, 2026-10-30). `InboxItemLeadingBadge` holds any one icon. ([#905](https://github.com/botiverse/raft-design/pull/905))
+  - Docs: https://raft-design.botiverse.build/components/inbox-item/
+- **Icon meanings:** one meaning per icon on a screen, one Lucide drawing per concept, More is ⋯ in a row of actions and ⋮ for one object's menu, Back is an arrow, success `circle-check` and error `triangle-alert`, Reopen is not restart, outline only. `CreateTaskIcon` is deprecated. ([#903](https://github.com/botiverse/raft-design/pull/903))
+  - Docs: https://raft-design.botiverse.build/foundations/iconography/
+
 ## [0.53.0](https://github.com/botiverse/raft-design/compare/v0.52.4...v0.53.0) (2026-10-30)
 
 ### Changed
