@@ -25,7 +25,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | --- | --- |
 | Phone tab bar | Home (`house`), Activity (`activity`, as on the desktop rail), Tasks (`square-check-big`), Search (`search`), and the current server, its avatar and its name, on the edge bar ([MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-the-server-tab)). The order is fixed. Search is a tab, the only way in to searching everything: no Back on its page, the bar stays with Search selected, and it keeps its query, filters, results and scroll position across tabs ([Navigation](../../patterns/navigation.md#search-on-a-phone)). The same in the mobile app and on the phone web |
 | Phone server tab | Opens a popover, not a page: the server list, then Join Community, Switch or Create Server and Invite Human, then, at the bottom, Members, Computers and [Settings](./settings.md) in one row. Each of the server's pages opens a pushed page, with Back. Switching keeps the current tab ([Navigation](../../patterns/navigation.md#the-server-tab-on-a-phone)). Guests don't have Members or Computers, so their row has Settings alone. In the apps' desktop mode (from 840dp) there is no server tab: the rail header's workspace tile opens this popover without the row of pages, since Members is on the rail, Settings at its bottom and Computers in Settings ([Navigation](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)) |
-| The first row of phone Home | Saved (with a gray count), its only entry point; see [Home](./home.md) |
+| The first rows of phone Home | Saved, then Drafts, each with a gray count and its only entry point on a phone; see [Home](./home.md) |
 | Web top bar (from 768px, and the desktop app's title bar) | As in [Page structure](../../patterns/page-structure.md#the-web-top-bar); the search field opens search |
 | Desktop rail | Chat, Activity, Tasks, Members, Computers; at the bottom Help (`circle-help`) and Settings. Guests don't have Members or Computers |
 | Only in [Settings](./settings.md) | Sign Out, at the end of Account |
@@ -75,7 +75,7 @@ sidebar/sidebar
 
 | Destination | The sidebar lists |
 | --- | --- |
-| Chat | Saved, then the sections Pinned, the person's own sections, Joint Channels, Channels and Direct Messages. People can reorder the sections by dragging. Agents are listed among the direct messages |
+| Chat | Saved and Drafts, then the sections Pinned, the person's own sections, Joint Channels, Channels and Direct Messages. People can reorder the sections by dragging. Agents are listed among the direct messages |
 | Members | Graph, then Agents (grouped by computer) and Humans, each with a count and an add button |
 | Computers | The computers, with an add button |
 | Settings | The settings groups ([Settings](./settings.md)) |

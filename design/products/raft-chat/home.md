@@ -1,6 +1,6 @@
 ---
 title: Raft Chat — Home
-summary: The phone's Home screen — the server switcher, who is working and the bell on the frame, the Saved row, and the channel and direct message sections.
+summary: The phone's Home screen — the server switcher, who is working and the bell on the frame, the Saved and Drafts rows, and the channel and direct message sections.
 ---
 
 # Raft Chat — Home
@@ -15,8 +15,8 @@ From top to bottom:
    - The server switcher is the workspace button ([WorkspaceButton](../../../packages/ui/src/components/workspace-button/workspace-button.md)): the server's avatar, its name and a chevron, the same on the phone web and in the mobile app. It opens the server list as a popover ([Built from existing parts](../../components/overview.md#switching-servers)).
    - The working summary is an avatar stack and a count; it opens Working now ([Working agents](../../people-and-agents/working-agents.md#where-working-shows)) and is hidden when no one is working.
    - The bell, a 20px icon with a 44px target, opens the notification center ([Raft Chat](./README.md#the-bell-and-activity)) and shows a pink pixel when there is something new. Home is the only top-level page with the bell and the working summary.
-2. **The Saved row**, with a gray count in Space Mono: Saved's only entry point on a phone. Search and Activity are on the tab bar, so Home has no rows for them.
-3. **Sections**: the sections of the Chat sidebar, without Saved, in the person's order.
+2. **The Saved and Drafts rows**, each with a gray count in Space Mono: their only entry points on a phone. Drafts lists every message started and not sent, in any conversation, and opens it where it was typed with the text still in the composer; it counts only drafts on this device. Search and Activity are on the tab bar, so Home has no rows for them.
+3. **Sections**: the sections of the Chat sidebar, without Saved and Drafts, in the person's order.
 4. **The tab bar**, with Home selected. Nothing is attached above the tab bar.
 
 ```example
@@ -29,6 +29,6 @@ The rows are sidebar rows, which are 44px below `md` on their own ([Sidebar](../
 
 - Show the server switcher only on Home. Draw it with the workspace button: the server's avatar, its name (at most 200px, then an ellipsis) and a chevron. Add the globe when the server's public page is on. It looks the same at every window height.
 - Put the list straight on paper, not in cards.
-- Draw the rows with the sidebar row ([Sidebar](../../../packages/ui/src/components/sidebar/sidebar.md)), 44px high in `text-body`. The Saved row is never selected.
+- Draw the rows with the sidebar row ([Sidebar](../../../packages/ui/src/components/sidebar/sidebar.md)), 44px high in `text-body`. The Saved and Drafts rows are never selected.
 - Don't put a pink button on Home. Creating is the + buttons in the section headers ([Raft Chat](./README.md#the-desktop-sidebar)).
 - Open every row as a pushed page.
