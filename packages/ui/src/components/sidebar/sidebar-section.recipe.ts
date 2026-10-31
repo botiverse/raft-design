@@ -8,7 +8,10 @@ export const sidebarSectionRecipe = tv({
     sidebarSectionHeader: [
       "flex items-center justify-between",
       "group/section-header",
-      "my-0  h-auto gap-2 px-5 pt-4 pb-0",
+      "my-0 h-auto gap-2 px-5 pt-4 pb-0",
+      // On a touch screen the controls' 44px hit area hangs 14px under the
+      // 16px line: 6px more here plus the list's 8px keep it off the first row.
+      "not-pointer-fine:pb-1.5",
     ],
     sidebarSectionDisclosure: [
       "flex min-w-0 flex-1 items-center",
@@ -36,7 +39,8 @@ export const sidebarSectionRecipe = tv({
     ],
     sidebarSectionTrailing: ["relative flex min-w-4.5 shrink-0 items-center justify-end"],
     sidebarSectionControls: [
-      "flex shrink-0 items-center gap-1",
+      // 20px apart on a touch screen, so two 44px hit areas meet without overlapping.
+      "flex shrink-0 items-center gap-1 not-pointer-fine:gap-5",
       "pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 opacity-0",
       // Shown at rest where there is no hover (a touch screen, a tablet at any
       // width), on hover with a mouse: decided by the input, not the width
@@ -50,8 +54,11 @@ export const sidebarSectionRecipe = tv({
     // beside, so the header still reads as a title and not as a row of
     // buttons; it overhangs the 16px header line instead of making it taller.
     sidebarSectionControl: [
-      "flex h-6 w-auto min-w-6 shrink-0 items-center justify-center p-0 -my-1",
+      "relative flex h-6 w-auto min-w-6 shrink-0 items-center justify-center p-0 -my-1",
       "[&>svg]:shrink-0 [&>svg:not([class*='size-'])]:size-3.5",
+      // A touch screen shows the controls at rest: a transparent ::after takes
+      // the 24px drawing to a 44px hit area (accessibility.md, Touch targets).
+      "not-pointer-fine:after:absolute not-pointer-fine:after:-inset-2.5 not-pointer-fine:after:content-['']",
     ],
   },
 });
