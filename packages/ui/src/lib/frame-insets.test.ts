@@ -7,6 +7,7 @@
  * an inset. A popup keeps out of them by its collision boundary, not by its
  * padding, which Base UI also sizes its shift limiter from.
  */
+import { renderHook } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vite-plus/test";
 import {
   NO_FRAME_INSETS,
@@ -14,6 +15,7 @@ import {
   frameCollisionPadding,
   frameInsetsFrom,
   readFrameInsets,
+  usePopupCollision,
 } from "./frame-insets";
 
 const root = document.documentElement;
@@ -158,4 +160,61 @@ test("keeps the padding path with no inset, or with a boundary of the caller's o
     collisionPadding: { top: 40, right: 148, bottom: 5, left: 5 },
     collisionBoundary: own,
   });
+});
+
+// A dialog's scrolling body: a popup portaled into it is clipped by it, so it
+// keeps Base UI's default boundary (the clipping ancestors) and the insets go
+// into its padding, as before.
+function containerInScroller() {
+  const scroller = document.createElement("div");
+  scroller.style.overflow = "auto";
+  const container = document.createElement("div");
+  scroller.append(container);
+  document.body.append(scroller);
+  return container;
+}
+
+test("keeps the padding path for a popup portaled into a container inside a scroller", () => {
+  const insets = { top: 40, right: 136, bottom: 0, left: 70 };
+  const container = containerInScroller();
+  const padded = { top: 48, right: 144, bottom: 8, left: 78 };
+  expect(frameCollision(8, undefined, insets, 8, container)).toEqual({
+    collisionPadding: padded,
+    collisionBoundary: undefined,
+  });
+  expect(frameCollision(8, undefined, insets, 8, { current: container })).toEqual({
+    collisionPadding: padded,
+    collisionBoundary: undefined,
+  });
+  const host = document.createElement("div");
+  container.append(host);
+  expect(
+    frameCollision(8, undefined, insets, 8, host.attachShadow({ mode: "open" })).collisionBoundary,
+  ).toBeUndefined();
+});
+
+test("takes the boundary for a popup portaled to the body or the root element", () => {
+  const insets = { top: 40, right: 136, bottom: 0, left: 70 };
+  for (const container of [
+    undefined,
+    null,
+    document.body,
+    document.documentElement,
+    { current: null },
+  ]) {
+    expect(frameCollision(8, undefined, insets, 8, container).collisionBoundary).toBeDefined();
+  }
+});
+
+test("passes the popup's container through usePopupCollision", () => {
+  setInsets({ top: "40px", start: "70px", end: "136px" });
+  const container = containerInScroller();
+  const inScroller = renderHook(() => usePopupCollision(undefined, undefined, 8, container));
+  expect(inScroller.result.current).toEqual({
+    collisionPadding: { top: 48, right: 144, bottom: 8, left: 78 },
+    collisionBoundary: undefined,
+  });
+  const inBody = renderHook(() => usePopupCollision(undefined, undefined, 8));
+  expect(inBody.result.current.collisionBoundary).toBeDefined();
+  expect(inBody.result.current.collisionPadding).toEqual({ top: 8, right: 8, bottom: 8, left: 8 });
 });

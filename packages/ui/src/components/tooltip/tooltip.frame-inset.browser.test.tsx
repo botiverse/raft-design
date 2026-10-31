@@ -125,7 +125,7 @@ function renderOnTopBarIcon(left: number) {
   render(
     <div style={{ position: "fixed", top: 4, left }}>
       <Tooltip open>
-        <TooltipTrigger style={TOP_BAR_ICON}>R</TooltipTrigger>
+        <TooltipTrigger style={TOP_BAR_ICON}>Trigger</TooltipTrigger>
         <TooltipContent>Raft</TooltipContent>
       </Tooltip>
     </div>,

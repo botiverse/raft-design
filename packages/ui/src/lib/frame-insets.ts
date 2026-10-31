@@ -177,6 +177,13 @@ function hasInset(insets: FrameInsets) {
   return insets.top !== 0 || insets.right !== 0 || insets.bottom !== 0 || insets.left !== 0;
 }
 
+/** Whether a popup's portal container is the document's own: none, the body or the root. */
+function portalsToBody(container: FrameInsetsContainer): boolean {
+  const node = container && "current" in container ? container.current : container;
+  const element = node && !(node instanceof Element) && "host" in node ? node.host : node;
+  return element == null || element === document.body || element === document.documentElement;
+}
+
 /**
  * The window inset by the frame insets, as a collision boundary rect. Its size
  * is read each time Base UI places the popup (it copies the rect's fields), so
@@ -209,17 +216,30 @@ export function frameCollisionBoundary(insets: FrameInsets): CollisionBoundary {
  * with an arrow up to that half-sum off its trigger with nothing in the way.
  * The area the popup is kept in is the same either way.
  *
- * With no inset, or a `boundary` of the caller's own (it bounds the popup as
- * it is, so the insets go into the padding), this is frameCollisionPadding.
+ * Only a popup portaled to the body (no `container`, or the body or the root
+ * element) takes the boundary. One portaled into a container of its own may
+ * sit inside an element that clips it (a dialog's scrolling body), and an
+ * explicit boundary would replace Base UI's default, the clipping ancestors,
+ * so it would flip and size against the window and be cut off.
+ *
+ * With no inset, a `boundary` of the caller's own (it bounds the popup as it
+ * is, so the insets go into the padding), or a container of its own, this is
+ * frameCollisionPadding.
  */
 export function frameCollision(
   padding: CollisionPadding,
   boundary: CollisionBoundary | undefined,
   insets: FrameInsets,
   gap: number,
+  container?: FrameInsetsContainer,
 ): FrameCollision {
   const padded = frameCollisionPadding(padding, insets, gap);
-  if (!hasInset(insets) || boundary !== undefined || typeof document === "undefined") {
+  if (
+    !hasInset(insets) ||
+    boundary !== undefined ||
+    typeof document === "undefined" ||
+    !portalsToBody(container)
+  ) {
     return { collisionPadding: padded, collisionBoundary: boundary };
   }
   const full = padded as Required<Exclude<CollisionPadding, number>>;
@@ -256,8 +276,8 @@ export function usePopupCollision(
   return useMemo(
     () =>
       collisionPadding === undefined
-        ? frameCollision(defaultPadding, collisionBoundary, insets, gap)
+        ? frameCollision(defaultPadding, collisionBoundary, insets, gap, container)
         : { collisionPadding, collisionBoundary },
-    [collisionPadding, collisionBoundary, defaultPadding, insets, gap],
+    [collisionPadding, collisionBoundary, defaultPadding, insets, gap, container],
   );
 }

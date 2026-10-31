@@ -132,6 +132,7 @@ A frame inset is part of the screen the shell keeps for itself: the window's own
 
 - Draw, position and open nothing into an inset. The content and the composer end at it, with their margin measured from its edge.
 - Keep a popover, a menu or a toast 8px from the inset, not from the screen's edge ([Elevation](../foundations/elevation.md#popups)).
+- Keep a popup portaled to the body out of the window-control insets through its collision boundary, not its padding: Base UI limits how far a popup with an arrow may slide along its trigger by its padding, so insets in the padding move it off its trigger even with nothing in the way. A popup portaled into a container of its own keeps Base UI's boundary, the elements that clip it, and takes the insets in its padding.
 - Let a tooltip flip away from `--raft-frame-inset-start` and `--raft-frame-inset-end` as it does from `--raft-frame-inset-top`, so one on an item in a side column opens toward the content ([Tooltip](../../packages/ui/src/components/tooltip/tooltip.md)).
 - Lay nothing across a fold or a hinge. Where the OS reports one, the shell reports it as an inset too, and the panes lie on either side of it.
 
