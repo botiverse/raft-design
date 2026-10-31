@@ -74,7 +74,7 @@ sourceHash: 23bf5abb
 - 同级视图用同一种形式：同一个列表的几个筛选（All、Unread、Mentions）只有名词不同，这样人在它们之间切换时，读到的是同一句话在变化，而不是三种声音。
 - 中文遵循同样的形式（[中文界面怎么写](./voice-and-tone.md#writing-in-chinese)）。
 - 正忙的时候，说出正在发生什么："Uploading · 64%"、"Loading messages"。永远不写 "Processing…" 或光秃秃的 "Loading…"。
-- 说出一个上限或容量用了多少，写出「used」这个词，并把重置时间放在旁边："62% used · resets in 3h"。永远不写光秃秃的 "62%"，它既可能是已用也可能是剩余；也永远不用剩下的量代替已用的量。空闲的量可以放在工具提示里："378 GB free of 994 GB"（[Meter](../../packages/ui/src/components/meter/meter.md#content)）。
+- 说出一个上限或容量用了多少，写出 "used" 这个词，并把重置时间放在旁边："62% used · resets in 3h"。永远不写光秃秃的 "62%"，它既可能是已用也可能是剩余；也永远不用剩下的量代替已用的量。空闲的量可以放在工具提示里："378 GB free of 994 GB"（[Meter](../../packages/ui/src/components/meter/meter.md#content)）。
 - 每种问题显示在哪里（行内、横幅、轻提示或通知中心），见[反馈](../patterns/feedback.md)。
 
 ## 时间 {#times}

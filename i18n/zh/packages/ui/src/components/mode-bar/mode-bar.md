@@ -26,8 +26,8 @@ mode-bar/compositions/preview
 
 - `ModeBar`：这一条。必需。把它直接放在面板标题栏下方，横跨面板的整个宽度。
 - `ModeBarContent`：文字，占据剩下的宽度，可以换行。必需。它是一个 polite 实时区域。
-  - `ModeBarTitle`：模式和它的状态，粗体：「Commenting · 1 draft.」
-  - `ModeBarDescription`：在模式里该做什么，用 HUD 上弱化的墨色，和标题在同一行、跟在标题后面：「Select text to comment on it.」它自己带上前面的空格。
+  - `ModeBarTitle`：模式和它的状态，粗体："Commenting · 1 draft."
+  - `ModeBarDescription`：在模式里该做什么，用 HUD 上弱化的墨色，和标题在同一行、跟在标题后面："Select text to comment on it." 它自己带上前面的空格。
 - `ModeBarAction`：结束模式的文字操作，在第一行的末尾。必需。
 
 ## 为什么是深色的 {#why-it-is-dark}
@@ -49,13 +49,13 @@ mode-bar/compositions/narrow
 
 ## 内容 {#content}
 
-- 在标题里写出模式和它的状态，带句号：「Commenting · 1 draft.」把数量放在标题里，让人看到这一批草稿在增加。
-- 在描述里用一句短句说明在模式里怎么做：「Select text to comment on it.」
+- 在标题里写出模式和它的状态，带句号："Commenting · 1 draft." 把数量放在标题里，让人看到这一批草稿在增加。
+- 在描述里用一句短句说明在模式里怎么做："Select text to comment on it."
 - 操作的标签写模式的结束，一个词：Done。绝不用 Cancel 或 ×：结束模式会保留在模式里做的事（草稿还在）。
 
 ## 无障碍 {#accessibility}
 
-- `ModeBarContent` 有 `role="status"`，所以文字的变化（比如草稿数量）会以 polite 方式读出。`ModeBarAction` 放在实时区域之外，所以不会每次变化都读出「Done」。
+- `ModeBarContent` 有 `role="status"`，所以文字的变化（比如草稿数量）会以 polite 方式读出。`ModeBarAction` 放在实时区域之外，所以不会每次变化都读出 "Done"。
 - `ModeBarAction` 渲染一个 `type="button"` 的 `button`，在文字之后用 Tab 到达。给开启这个模式的控件设置按下状态（`PanelToggleAction`），这样进入和离开模式由它来播报。
 - 这一条用 `start` 和 `end` 排版，所以在从右到左书写的语言里会镜像。
 

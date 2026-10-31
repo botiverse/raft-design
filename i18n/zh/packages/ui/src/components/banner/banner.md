@@ -155,4 +155,4 @@ banner/compositions/close
 
 - 只在通过消息链接来到这里的手机自带浏览器里显示，并且只在那段对话还在屏幕上时显示；从不在 Raft 的各个应用、安装成应用的网页，或聊天应用的内置浏览器里显示，内置浏览器没法把链接交给应用（它有自己的底部面板，指向系统浏览器，不在这里规定）。
 - 一个页面上最多显示一条。
-- 在电脑上，同样的到达会提议 Raft Desktop，在那里它是对话顶部的一个 `Banner`（`status="info"`），因为它符合横幅的规则：Continue on Web 是它的 Dismiss，Open in Desktop App 是它唯一的按钮，在同一行上。手机的 390px 放不下提议的文字再加上一个 Dismiss 和一个按钮，所以手机上的提议有自己的形状。
+- 在桌面端，同样的到达会提议 Raft Desktop，在那里它是对话顶部的一个 `Banner`（`status="info"`），因为它符合横幅的规则：Continue on Web 是它的 Dismiss，Open in Desktop App 是它唯一的按钮，在同一行上。手机的 390px 放不下提议的文字再加上一个 Dismiss 和一个按钮，所以手机上的提议有自己的形状。
