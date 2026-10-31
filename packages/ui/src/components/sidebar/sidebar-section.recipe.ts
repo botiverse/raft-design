@@ -50,15 +50,19 @@ export const sidebarSectionRecipe = tv({
       "pointer-fine:focus-within:pointer-events-auto pointer-fine:focus-within:opacity-100",
       "pointer-fine:has-data-popup-open:pointer-events-auto pointer-fine:has-data-popup-open:opacity-100",
     ],
-    // 24px with a 14px icon, a step under the 13px bold title it sits
+    // 24px with a 14px icon, a step above the 12px bold title it sits
     // beside, so the header still reads as a title and not as a row of
     // buttons; it overhangs the 16px header line instead of making it taller.
     sidebarSectionControl: [
       "relative flex h-6 w-auto min-w-6 shrink-0 items-center justify-center p-0 -my-1",
-      "[&>svg]:shrink-0 [&>svg:not([class*='size-'])]:size-3.5",
+      // Button wraps its children in a content span, so the glyph is reached
+      // as a descendant; the same selector as Button's 18px icon size, so
+      // tailwind-merge lets this one replace it.
+      "[&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
       // A touch screen shows the controls at rest: a transparent ::after takes
       // the 24px drawing to a 44px hit area (accessibility.md, Touch targets).
-      "not-pointer-fine:after:absolute not-pointer-fine:after:-inset-2.5 not-pointer-fine:after:content-['']",
+      // It is placed from inside the 1px border, so 11px each side, not 10.
+      "not-pointer-fine:after:absolute not-pointer-fine:after:inset-[-11px] not-pointer-fine:after:content-['']",
     ],
   },
 });
