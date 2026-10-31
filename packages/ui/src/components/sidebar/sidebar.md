@@ -66,7 +66,7 @@ sidebar-item/compositions/tones-item
 
 - The sidebar is 240px wide and can be dragged between 200px and 400px; it keeps one width on every page that has it ([Spacing](../../../../../design/foundations/spacing.md#layout-widths)).
 - A name stays on one line and ends with an ellipsis. A description after it gives up its room first; the name truncates only once the description is gone.
-- A row whose content is 2 lines (a computer's name and whether it runs agents) uses `wrap` with `SidebarItemContent stacked`: it grows from 38px, its text stays 9px from the row's top and bottom, and so 9px inside the shape, which is as tall as the row, and its icon lines up with the first line. The name still stays on one line.
+- A row whose content is 2 lines (a computer's name and whether it runs agents) uses `wrap` with `SidebarItemContent stacked`: it grows from 38px, and its icon lines up with the first line. Its text stays 9px from the row's top and bottom. The shape is as tall as the row, so that is 9px inside the shape too. The name still stays on one line.
 - A collapsed group shows how many rows it holds in `SidebarSectionCount`.
 - While an agent works, what it is doing replaces its runtime ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)), in `text-footnote` and `foreground-muted`, and takes at most 58% of the row.
 

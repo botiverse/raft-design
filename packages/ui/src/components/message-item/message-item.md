@@ -245,7 +245,7 @@ message-item/compositions/reactions
 
 ### Toolbar for selected text
 
-Text the person selects in a message gets a [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md), with actions such as Quote and Copy. It is built like the hover toolbar, with text labels on its buttons, so the two read as one kind of thing; its look, its placement on the selection's focus line and its labels are in its own doc.
+Text the person selects in a message gets a [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md), with actions such as Quote and Copy. It is built like the hover toolbar, so the two read as one kind of thing; the one difference is that its buttons have text labels. Its look, its placement on the selection's focus line and its labels are in its own doc.
 
 ## Content
 

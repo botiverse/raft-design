@@ -56,7 +56,7 @@ Where content is cut, by a fold or by the edge of a strip that scrolls, its edge
 - **A fade is a mask, never a color gradient.** The utilities fade the content itself (`mask-image`), so whatever lies behind it, a row's hover or located fill, a card, a tint, shows through the fade unchanged. A gradient from the surface's color to transparent only matches one background, and bands over every other.
 - **`mask-fade-x` fades only the side that hides something.** It reads `data-overflow` on the same element, `start`, `end` or `both`, and draws no mask without it, so a strip that fits has no fade. The component that scrolls sets the attribute (Tabs does).
 - **Put the mask on the box that is cut.** `mask-fade-b` goes on the element with the fold's `max-height` and `overflow-clip`, not on a layer laid over it.
-- One exception: the end of a message list fades with `MessageListEndFade`, a layer of the panel's color over the list's bottom edge ([Timeline rhythm](#timeline-rhythm)). It lies beside the scrolling list, on the panel's own colour, under the jump controls, and a mask on the list's viewport would fade its scrollbar too.
+- One exception: the end of a message list fades with `MessageListEndFade`, a layer of the panel's color over the list's bottom edge ([Timeline rhythm](#timeline-rhythm)). It lies beside the scrolling list, on the panel's own color, under the jump controls, and a mask on the list's viewport would fade its scrollbar too.
 
 ## Hit targets
 
