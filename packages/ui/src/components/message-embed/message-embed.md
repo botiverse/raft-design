@@ -20,6 +20,10 @@ related:
 
 The card for something embedded in a message: a link card, or the base that other embedded cards build on. It has the structure of a file card ([MessageAttachment](../message-attachment/message-attachment.md)) with the header of a message ([MessageItem](../message-item/message-item.md)), and sits in `MessageItemEmbedded`, under the message body. [MessageForwardedBundle](../message-forwarded-bundle/message-forwarded-bundle.md) and [MessageActionCard](../message-action-card/message-action-card.md) render on it, and [MessageReplies](../message-replies/message-replies.md) uses its container.
 
+```example
+message-embed/compositions/link-cards
+```
+
 ## When to use
 
 | Situation                                           | Use                                                                                                                                                                     |
@@ -46,6 +50,7 @@ Only `MessageEmbed` is required; use the parts the content needs.
 ## Behavior
 
 - The card and its parts can shrink below the width of their content, so long content wraps or truncates inside the card instead of widening the message.
+- A card that opens something as a whole, such as an Artifact card whose title link covers it, takes `interactive`: it hovers with the subtle tier and presses with the medium tier, like a file card ([MessageAttachment](../message-attachment/message-attachment.md#behavior), [Hover and press](../../../../../design/foundations/states.md#hover-and-press)). Without it, a card that opens looked the same as one that doesn't. A card that only shows content, such as a link preview, an action card or a forwarded bundle, keeps `interactive` off: it opens nothing as a whole, so it doesn't hover. The tier is laid under the content, so a cover image hides it and only the card's rows show it.
 - A card rendered as a link shows the focus ring on keyboard focus ([States](../../../../../design/foundations/states.md#focus)).
 
 ## Accessibility

@@ -5,6 +5,14 @@
     "native": true,
     "props": [
       {
+        "name": "interactive",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The whole card opens something (a link or a button in it covers the card): it hovers with the subtle tier and presses with the medium tier, like a file card. Off for a card that only shows content.",
+        "from": "raft-ui"
+      },
+      {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
