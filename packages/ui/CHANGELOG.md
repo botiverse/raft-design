@@ -1,3 +1,20 @@
+## [0.55.0](https://github.com/botiverse/raft-design/compare/v0.54.0...v0.55.0) (2026-10-31)
+
+### Added
+
+- **MessageEmbed `interactive`:** a card that opens something as a whole (an Artifact card whose title link covers it) hovers with the subtle tier and presses with the medium tier, like a file card. Off by default, so action cards, forwarded bundles and quoted previews built on `MessageEmbed` don't change. ([#915](https://github.com/botiverse/raft-design/pull/915))
+
+### Fixed
+
+- **Sidebar section controls are 24px with a 14px icon again** (they had grown to 28px with an 18px icon on 2026-10-18), and reach a 44px hit area on a touch screen through a transparent `::after`. ([#916](https://github.com/botiverse/raft-design/pull/916))
+- **SaveStatus** draws its tick as `circle-check` at 12px, the success icon and size the icon rules give. ([#914](https://github.com/botiverse/raft-design/pull/914))
+
+### Design System
+
+- **Expand-type actions (Expand, Focus Mode, Open in New Page) are their own header buttons, left of ⋯, never in it** (stdrc, 2026-10-31). ([#917](https://github.com/botiverse/raft-design/pull/917), [#918](https://github.com/botiverse/raft-design/pull/918))
+  - Docs: https://raft-design.botiverse.build/components/panel/
+- **Raft Chat:** Drafts after Saved in the sidebar and on phone Home ([#904](https://github.com/botiverse/raft-design/pull/904)); Mark Thread as Unread in the thread's menus ([#853](https://github.com/botiverse/raft-design/pull/853)); English fixes and their zh sync ([#910](https://github.com/botiverse/raft-design/pull/910), [#912](https://github.com/botiverse/raft-design/pull/912)).
+
 ## [0.54.0](https://github.com/botiverse/raft-design/compare/v0.53.0...v0.54.0) (2026-10-30)
 
 ### Added
