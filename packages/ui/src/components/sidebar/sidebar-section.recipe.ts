@@ -46,11 +46,12 @@ export const sidebarSectionRecipe = tv({
       "pointer-fine:focus-within:pointer-events-auto pointer-fine:focus-within:opacity-100",
       "pointer-fine:has-data-popup-open:pointer-events-auto pointer-fine:has-data-popup-open:opacity-100",
     ],
-    // 28px tall in a 16px header line: it overhangs the line instead of
-    // making the header taller.
+    // 24px with a 14px icon, a step under the 13px bold title it sits
+    // beside, so the header still reads as a title and not as a row of
+    // buttons; it overhangs the 16px header line instead of making it taller.
     sidebarSectionControl: [
-      "flex h-7 w-auto min-w-7 shrink-0 items-center justify-center p-0 -my-1.5",
-      "[&>svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
+      "flex h-6 w-auto min-w-6 shrink-0 items-center justify-center p-0 -my-1",
+      "[&>svg]:shrink-0 [&>svg:not([class*='size-'])]:size-3.5",
     ],
   },
 });
