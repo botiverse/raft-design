@@ -9,15 +9,16 @@ import {
 import type { TaskStatusId } from "@botiverse/raft-ui";
 
 /**
- * The task-status contract, laid out as one table: five states (rows) × four
+ * The task-status contract, laid out as one table: six states (rows) × four
  * parts (columns) — the bare icon, the badge, the chip, and the Timeline dot —
  * so a reviewer can see that every part of one status resolves to the same
- * colour family.
+ * colour family. Backlog has no colour: its pixel, chip and dot are hollow.
  *
  * This is the surface the before/after comparison is captured from.
  */
 
 const STATUS_LABEL: Record<string, string> = {
+  backlog: "Backlog",
   todo: "Todo",
   "in-progress": "In Progress",
   "in-review": "In Review",
@@ -26,6 +27,7 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 const TASK_STATUS_IDS: readonly TaskStatusId[] = [
+  "backlog",
   "todo",
   "in-progress",
   "in-review",

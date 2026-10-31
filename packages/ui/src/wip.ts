@@ -220,3 +220,9 @@ export type {
 // that apply at once"; stdrc, 2026-10-30). Until slock's settings have moved
 // onto it.
 export * from "./components/save-status/index";
+
+// A task's completion control: the round check that leads every task row and
+// card and marks the task Done in one press (design/patterns/tasks.md,
+// "Completing a task"; task-completion-control.md). Until slock's task rows
+// and cards have moved onto it.
+export * from "./components/task-completion-control/index";

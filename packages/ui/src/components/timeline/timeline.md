@@ -42,7 +42,7 @@ A long title and a long time still compete on the first line, because a time doe
 
 | Variant                                           | Use for                                                                                                                                                       |
 | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Task history: `taskStatus` on each item           | The pixel is the task's status after that step, in its `task-status-*` color                                                                                  |
+| Task history: `taskStatus` on each item           | The pixel is the task's status after that step, in its `task-status-*` color; Backlog's is hollow, as its status pixel is                                     |
 | Activity log: `color` (or `variant`) on each item | The pixel takes the colors of the presence lights: `presence-busy` (yellow) while working, `presence-error` (orange) for an error, lime (`success`) when done |
 | `icon` on an item                                 | An icon in place of the pixel, in the item's color, for a step that needs one                                                                                 |
 | `itemPlacement="right"`                           | Markers on the right, text aligned to them                                                                                                                    |
