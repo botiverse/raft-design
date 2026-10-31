@@ -30,6 +30,8 @@ It is a hook, `usePullToRefresh`, on the page's existing scroll container, and a
 
 Never put pull to refresh on a realtime page: a page that needs a pull to show what is new tells people it may be out of date, and then they pull every page to be sure. A realtime page has to be current without one, and when it isn't, that is a bug to fix in its updates, not something for people to work around.
 
+The iOS and Android apps are a deliberate exception for now: there a realtime page keeps its pull to refresh until its realtime updates are reliable enough to do without it ([Navigation](../../../../../design/patterns/navigation.md#refreshing)). This component is for phone web, which follows the rule above.
+
 ## Anatomy
 
 - `usePullToRefresh(scrollRef, { onRefresh, disabled })`: required. The gesture on the scroll container `scrollRef` points at. It returns the pull: its state (`idle`, `pulling`, `refreshing`), its distance, its progress towards the threshold, and the platform whose shape it takes (`default` or `android`).
