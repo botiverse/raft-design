@@ -1,7 +1,7 @@
 ---
 title: SaveStatus
 summary: 立即生效的设置下方的一行，短暂显示 "Saved" 或说明哪里失败了；没有内容时也保留它的空间。
-sourceHash: 590aeab0
+sourceHash: b7547b12
 ---
 
 # SaveStatus
@@ -42,13 +42,13 @@ save-status/compositions/failed
 ## 行为 {#behavior}
 
 - 这一行在每种状态下都保持高度，所以结果出现时，卡片和行都不会变高，以行居中的开关也不会移动（stdrc，2026-10-30）。
-- 不管控件是什么，它都在控件下方 4px：选择器、分段控件，或者行的描述。在 `Field` 和 `ListRowBody` 里，它自己抵消与它们自身间隔（6px 和 2px）的差。在其他地方，把控件和这一行一起放进一个没有间隔的独立块里，这一行就在控件下方 4px。
+- 它在前面那一项下方 4px：`Field` 里的选择器或分段控件，或者设置行里的描述。在 `Field` 里，它从字段 6px 的间隔往上移 2px；在 `ListRowBody` 里，它在主体 2px 的间隔上再加 2px。在其他地方，把控件和这一行一起放进一个没有间隔的独立块里，这一行就在控件下方 4px。
 - 它预留一行。超过一行的失败信息会换行，设置随之变高，而不是被截断；把它控制在一句短句里，就不会这样。
 
 ## 内容 {#content}
 
 - 只写 "Saved"，不多写：设置本身已经说明了改了什么。
-- 失败写成没做成什么、该怎么做：Couldn't mute this server. Try again. 服务端给出了自己的原因时，显示这个原因（[写作](../../../../../design/content/writing.md)）。
+- 失败写成没做成什么、该怎么做：Couldn't mute this server. Try again. 请求返回时带着原因的话，显示这个原因（[写作](../../../../../design/content/writing.md)）。
 
 ## 无障碍 {#accessibility}
 

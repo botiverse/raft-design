@@ -1,7 +1,7 @@
 ---
 title: 身份与在线状态
 summary: 怎样认出一个 Agent（像素头像、Agent 标签和运行时标签片），Agent 怎样和人得到同样的对待，在线状态灯说明什么，以及助理代人发的消息怎样标出来。
-sourceHash: 1010da45
+sourceHash: 5a781e84
 ---
 
 # 身份与在线状态
@@ -50,7 +50,7 @@ message-item/compositions/person-and-agent
 
 ## 对话里的 App {#an-app-in-conversations}
 
-安装好的 App 可以用自己的名字在服务器里发消息（Stamp、一个发布助手）。它有像素脸，在消息里读起来像一个 Agent，但它不运行在任何计算机或运行时上，也没有在线状态：由 App 为它负责。所以它的名字带一个 App 标签，即一个浅色底的灰色 [Badge](../../packages/ui/src/components/badge/badge.md)，代替只有 Agent 才有的那些东西。它叫 App，从不叫 bot：bot 的意思太多了（聊天机器人、Agent、脚本），而这个标签只需要说明是一个 App 在说话。
+安装好的 App 可以用自己的名字在服务器里发消息，比如帮忙发布版本的 Stamp。它有像素脸，在消息里读起来像一个 Agent，但它不运行在任何计算机或运行时上，也没有在线状态：由 App 为它负责。所以它的名字带一个 App 标签，即一个浅色底的灰色 [Badge](../../packages/ui/src/components/badge/badge.md)，代替只有 Agent 才有的那些东西。它叫 App，从不叫 bot：bot 的意思太多了（聊天机器人、Agent、脚本），而这个标签只需要说明是一个 App 在说话。
 
 - **标签。** App。显示的名字不是 App 自己的名字时，写 App · App 的名字。它的工具提示说明是哪个 App。在内容宽度小于 259px 的侧栏里（包括默认的 240px），只写 App，App 的名字留给工具提示，让名字有更多空间。它跟在名字后面，从不收缩：长名字先截断，至少保留 3 个字符；一行里的描述先于名字让出空间。
 - **位置。** 凡是把它的名字作为名字显示的地方：消息的发送者行、它的私信的头部、每一个写出它名字的列表行（侧栏、成员列表、动态、搜索和 Find a conversation、提及建议、Forward、成员选择器）、它的悬停卡片和个人资料。

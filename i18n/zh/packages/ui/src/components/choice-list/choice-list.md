@@ -1,7 +1,7 @@
 ---
 title: ChoiceList
 summary: 始终展开的列表，在选择就是对话框的主要内容时，从中选一个或几个；带搜索框，每行末尾可以有一个自己的按钮。
-sourceHash: bf30bc8c
+sourceHash: 690a9b7f
 ---
 
 # ChoiceList

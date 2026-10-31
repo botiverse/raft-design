@@ -1,7 +1,7 @@
 ---
 title: Banner
 summary: 对话框或表单里一条浅色底的提示，让人在操作前先读到；作为 PanelNotice 时，是某个面板里出错时铺在面板标题栏下方的一整条。
-sourceHash: e2daddd0
+sourceHash: 63d0c832
 ---
 
 # Banner

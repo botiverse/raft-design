@@ -1,7 +1,7 @@
 ---
 title: Icons
 summary: raft-ui 自己绘制的图标：五个表示对话类型，一个表示 Artifact，十三个用于关注、加入、添加、创建（已弃用）和重新打开；其他图标都来自 Lucide。
-sourceHash: fcad34cf
+sourceHash: 3fd3e1a5
 ---
 
 # Icons
@@ -80,7 +80,7 @@ icons/action-icons
 icons/unfollow-artifact-sizes
 ```
 
-- 频道这几对是 Lucide 的 `hash`、`lock` 和 `git-branch`，保持原来的大小和位置，标记在右下角（16 到 22）。字形伸到那个角落的地方，它的笔画停在离标记大约一个线宽的地方，和 Lucide 的 `calendar-plus` 切掉角落的做法一样。每一对都保持同样的间隙，所以这八个读起来是一套（Artea，2026-10-28）。`git-branch` 的那个角落本来就空着，不需要切。
+- 频道这几对是 Lucide 的 `hash`、`lock` 和 `git-branch`，保持原来的大小和位置，标记在右下角（16 到 22）。字形伸到那个角落的地方，它的笔画停在离标记大约一个线宽的地方，和 Lucide 的 `calendar-plus` 切掉角落的做法一样。每一对都保持同样的间隙，所以这六个读起来是一套（Artea，2026-10-28）。`git-branch` 的那个角落本来就空着，不需要切。
 
 `AddCommentIcon` 和 `CreateTaskIcon` 把加号放在同一个角落，间隙也一样：`AddCommentIcon` 是 24px 的 `CommentIcon`，气泡在加号前截断；`CreateTaskIcon` 是 Lucide 的 `list-todo`，用加号代替它的最后一行。它们没有对应的减号图标。
 
@@ -95,6 +95,6 @@ icons/unfollow-artifact-sizes
 
 ## 规则 {#rules}
 
-- 不要添加自己绘制的图标。新图标都来自 Lucide（[图标](../../../../../design/foundations/iconography.md#principles)）；只有这二十个是自己绘制的，每个都用于一个 Lucide 没有图标的含义。
+- 不要添加自己绘制的图标。新图标都来自 Lucide（[图标](../../../../../design/foundations/iconography.md#principles)）；只有这十九个是自己绘制的（`ChatIcon` 是 `MessageIcon` 的另一个名字，不是单独的一个图形），每个都用于一个 Lucide 没有图标的含义。
 - 操作图标只用于它的操作。`JoinChannelIcon` 不是频道的图标，`AddCommentIcon` 也不是评论的图标。
 - 加号表示添加、创建、关注或加入这一类东西，减号表示移除、取消关注或离开它：关注时标记在东西里面，其余的在右下角。永远不要把它们用于别的含义，比如「新」或「更多」。

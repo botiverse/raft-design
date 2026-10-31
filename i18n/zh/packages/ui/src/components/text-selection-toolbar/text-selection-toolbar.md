@@ -1,7 +1,7 @@
 ---
 title: TextSelectionToolbar
 summary: 浮在人选中的文字上方的工具栏，提供 Quote、Copy、Comment 这类针对这段文字的操作，用在消息、Artifact 或其他任何供人阅读的文字里。
-sourceHash: ac54e8c8
+sourceHash: b83e105a
 ---
 
 # TextSelectionToolbar
@@ -32,7 +32,7 @@ text-selection-toolbar/text-selection-toolbar
 
 ## 外观 {#look}
 
-它和消息的悬停工具栏长得完全一样，所以两者看起来是同一类东西：
+它的构造和消息的悬停工具栏一样，所以两者看起来是同一类东西。唯一的区别是它的按钮带文字标签，而悬停工具栏的按钮只有图标：
 
 - 高 36px：`radius-container`，细线画在内部（`ring-inset`），围着 28px 的 `radius-chip` 按钮，距外框 4px，按钮之间间隔 4px。
 - 按钮在 16px 的 `foreground-muted` 图标后面带文字标签。悬停时用中档 `fill-medium`，而不是菜单行的 `brand-soft`：工具栏里的操作是按钮，不是菜单行（[状态](../../../../../design/foundations/states.md)）。

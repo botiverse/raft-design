@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带 56px 的面板标题栏和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: 2699def9
+sourceHash: bbdf9a72
 ---
 
 # Panel

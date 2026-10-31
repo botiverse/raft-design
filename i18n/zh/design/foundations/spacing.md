@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: ea725545
+sourceHash: 7a7306d6
 ---
 
 # 间距与尺寸

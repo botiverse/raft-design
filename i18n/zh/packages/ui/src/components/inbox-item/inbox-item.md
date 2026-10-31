@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: 0864ff80
+sourceHash: 54bfbc56
 ---
 
 # InboxItem
