@@ -35,6 +35,7 @@ import {
   SidebarSectionAttention,
   SidebarSectionDisclosure,
   SidebarSectionChevron,
+  SidebarSectionCount,
   SidebarSectionHeader,
   SidebarSectionTitle,
   SidebarSectionTrailing,
@@ -145,8 +146,9 @@ export function SidebarComposition({
             <SidebarSection>
               <SidebarSectionHeaderMenu menu="sort">
                 <SidebarSectionDisclosure type="button">
-                  <SidebarSectionTitle>Pinned</SidebarSectionTitle>
                   <SidebarSectionChevron />
+                  <SidebarSectionTitle>Pinned</SidebarSectionTitle>
+                  <SidebarSectionCount>{isEmpty ? 0 : 3}</SidebarSectionCount>
                 </SidebarSectionDisclosure>
                 <SidebarSectionTrailing>
                   <SidebarSectionControls>
@@ -222,8 +224,9 @@ export function SidebarComposition({
                 createDisabled
               >
                 <SidebarSectionDisclosure type="button">
-                  <SidebarSectionTitle>Joint Channels</SidebarSectionTitle>
                   <SidebarSectionChevron />
+                  <SidebarSectionTitle>Joint Channels</SidebarSectionTitle>
+                  <SidebarSectionCount>0</SidebarSectionCount>
                 </SidebarSectionDisclosure>
                 <SidebarSectionTrailing>
                   <SidebarSectionAttention />
@@ -253,8 +256,9 @@ export function SidebarComposition({
                 createDisabled
               >
                 <SidebarSectionDisclosure type="button">
-                  <SidebarSectionTitle>Channels</SidebarSectionTitle>
                   <SidebarSectionChevron />
+                  <SidebarSectionTitle>Channels</SidebarSectionTitle>
+                  <SidebarSectionCount>{isEmpty ? 0 : 2}</SidebarSectionCount>
                 </SidebarSectionDisclosure>
                 <SidebarSectionTrailing>
                   <SidebarSectionControls>
@@ -323,8 +327,9 @@ export function SidebarComposition({
             <SidebarSection>
               <SidebarSectionHeaderMenu menu="sort">
                 <SidebarSectionDisclosure type="button">
-                  <SidebarSectionTitle>Direct Messages</SidebarSectionTitle>
                   <SidebarSectionChevron />
+                  <SidebarSectionTitle>Direct Messages</SidebarSectionTitle>
+                  <SidebarSectionCount>{isEmpty ? 0 : 2}</SidebarSectionCount>
                 </SidebarSectionDisclosure>
                 <SidebarSectionTrailing>
                   <SidebarSectionControls>

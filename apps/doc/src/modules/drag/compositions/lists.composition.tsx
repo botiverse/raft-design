@@ -21,6 +21,7 @@ import {
   SidebarRoot,
   SidebarSection,
   SidebarSectionChevron,
+  SidebarSectionCount,
   SidebarSectionDisclosure,
   SidebarSectionHeader,
   SidebarSectionTitle,
@@ -134,8 +135,9 @@ function ChannelSection({
     <SidebarSection>
       <SidebarSectionHeader>
         <SidebarSectionDisclosure type="button">
-          <SidebarSectionTitle>{SECTION_NAME[section]}</SidebarSectionTitle>
           <SidebarSectionChevron />
+          <SidebarSectionTitle>{SECTION_NAME[section]}</SidebarSectionTitle>
+          <SidebarSectionCount>{ids.length}</SidebarSectionCount>
         </SidebarSectionDisclosure>
       </SidebarSectionHeader>
       <SidebarList>

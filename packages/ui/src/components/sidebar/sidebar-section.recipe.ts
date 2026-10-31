@@ -8,7 +8,13 @@ export const sidebarSectionRecipe = tv({
     sidebarSectionHeader: [
       "flex items-center justify-between",
       "group/section-header",
-      "my-0 h-auto gap-2 px-5 pt-4 pb-0",
+      "my-0 h-auto gap-2 pt-4 pb-0 pl-5",
+      // A scroller that shows a classic scrollbar publishes its width as
+      // --scrollbar-size (useScrollbarSize), and the rows give it back from
+      // their end inset (lib/list-cell.ts). The header gives back the same, so
+      // its controls end on the rows' content edge, 20px from the sidebar's
+      // outer edge, and don't move left when the scrollbar appears.
+      "pr-[calc(max(0px,calc(8px-var(--scrollbar-size,0px)))+12px)]",
       // On a touch screen the controls' 44px hit area hangs 14px under the
       // 16px line: 6px more here plus the list's 8px keep it off the first row.
       "not-pointer-fine:pb-1.5",
@@ -49,6 +55,10 @@ export const sidebarSectionRecipe = tv({
       "pointer-fine:group-hover/section-header:pointer-events-auto pointer-fine:group-hover/section-header:opacity-100",
       "pointer-fine:focus-within:pointer-events-auto pointer-fine:focus-within:opacity-100",
       "pointer-fine:has-data-popup-open:pointer-events-auto pointer-fine:has-data-popup-open:opacity-100",
+      // The ends of a header (design/foundations/alignment.md): the last
+      // control's icon box, not its button, ends on the header's line, and its
+      // empty 5px hangs outward, mirroring the chevron at the start.
+      "[&>[data-icon-inset]:last-child]:-mr-icon-inset",
     ],
     // 24px with a 14px icon, a step above the 12px bold title it sits
     // beside, so the header still reads as a title and not as a row of
@@ -59,6 +69,14 @@ export const sidebarSectionRecipe = tv({
       // as a descendant; the same selector as Button's 18px icon size, so
       // tailwind-merge lets this one replace it.
       "[&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
+      "[--icon-inset:calc((--spacing(6)-14px)/2)]",
+      // A label's control, not a toolbar's: at rest in the title's hint
+      // color, so the header reads as one label; the control under the
+      // pointer, in keyboard focus or with its menu open turns body color on
+      // the ghost fill, so you see which one you are about to use.
+      "text-foreground-hint",
+      "hover:text-foreground active:text-foreground focus-visible:text-foreground",
+      "data-popup-open:bg-fill-medium data-popup-open:text-foreground",
       // A touch screen shows the controls at rest: a transparent ::after takes
       // the 24px drawing to a 44px hit area (accessibility.md, Touch targets).
       // It is placed from inside the 1px border, so 11px each side, not 10.
