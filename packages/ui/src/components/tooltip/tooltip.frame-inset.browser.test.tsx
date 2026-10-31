@@ -113,3 +113,45 @@ it("ignores --raft-frame-inset-end on the left side in right to left", async () 
   const { side } = await openedSide();
   expect(side).toBe("right");
 });
+
+// A short tooltip on a top-bar icon, as under the macOS window controls
+// overlay: the traffic lights at the left, the browser's controls at the
+// right, the title-bar band on top. The insets bound the tooltip; Base UI also
+// sizes its shift limiter from the collision padding, so when they were added
+// to the padding the tooltip opened ~69px right of its icon.
+const TOP_BAR_ICON = { width: 32, height: 32, padding: 0 };
+
+function renderOnTopBarIcon(left: number) {
+  render(
+    <div style={{ position: "fixed", top: 4, left }}>
+      <Tooltip open>
+        <TooltipTrigger style={TOP_BAR_ICON}>Trigger</TooltipTrigger>
+        <TooltipContent>Raft</TooltipContent>
+      </Tooltip>
+    </div>,
+  );
+}
+
+function setWindowControlsOverlay() {
+  const style = document.documentElement.style;
+  style.setProperty("--raft-frame-inset-start", "70px");
+  style.setProperty("--raft-frame-inset-end", "136px");
+  style.setProperty("--raft-frame-inset-top", "40px");
+}
+
+it("stays centered on a top-bar icon under the window controls", async () => {
+  setWindowControlsOverlay();
+  renderOnTopBarIcon(200);
+  const { side, box, trigger } = await openedSide();
+  expect(side).toBe("bottom");
+  const offset = box.left + box.width / 2 - (trigger.left + trigger.width / 2);
+  expect(Math.abs(offset)).toBeLessThanOrEqual(1);
+});
+
+it("shifts clear of the start inset when its icon sits against it", async () => {
+  setWindowControlsOverlay();
+  renderOnTopBarIcon(72);
+  const { box, trigger } = await openedSide();
+  expect(box.left).toBeGreaterThanOrEqual(70);
+  expect(box.left).toBeLessThan(trigger.right);
+});

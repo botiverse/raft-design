@@ -160,20 +160,131 @@ export function useFrameInsets(container?: FrameInsetsContainer): FrameInsets {
   return insets;
 }
 
+/** Base UI's collision boundary: the clipping ancestors, an element or elements, or a rect. */
+export type CollisionBoundary =
+  | "clipping-ancestors"
+  | Element
+  | Element[]
+  | { x: number; y: number; width: number; height: number };
+
+/** What a popup's positioner takes to keep out of the insets. */
+export interface FrameCollision {
+  collisionPadding: CollisionPadding;
+  collisionBoundary: CollisionBoundary | undefined;
+}
+
+function hasInset(insets: FrameInsets) {
+  return insets.top !== 0 || insets.right !== 0 || insets.bottom !== 0 || insets.left !== 0;
+}
+
 /**
- * A popup's collision padding (a popover, a menu, a select or combobox list,
- * a preview card): `defaultPadding` where there is no inset, and 8px inside
- * each inset. A `collisionPadding` the caller passes wins as it is.
+ * Whether a popup's portal container is the document's own: none, the body or the root.
+ * A ref counts as a container of its own whatever it holds now: the caller memoizes on
+ * the ref object, which never changes, so reading `.current` here would take an empty
+ * ref (a first render, a keepMounted popup) for the body for good. Erring this way only
+ * keeps the padding, never clips the popup.
  */
-export function usePopupCollisionPadding(
+function portalsToBody(container: FrameInsetsContainer): boolean {
+  if (container && "current" in container) return false;
+  const node = container;
+  const element = node && !(node instanceof Element) && "host" in node ? node.host : node;
+  return element == null || element === document.body || element === document.documentElement;
+}
+
+/**
+ * The window inset by the frame insets, as a collision boundary rect. Its size
+ * is read each time Base UI places the popup (it copies the rect's fields), so
+ * it follows the window when it resizes while the popup is open.
+ */
+export function frameCollisionBoundary(insets: FrameInsets): CollisionBoundary {
+  const root = () => document.documentElement;
+  return {
+    x: insets.left,
+    y: insets.top,
+    get width() {
+      return Math.max(0, root().clientWidth - insets.left - insets.right);
+    },
+    get height() {
+      return Math.max(0, root().clientHeight - insets.top - insets.bottom);
+    },
+  };
+}
+
+/**
+ * How a popup keeps out of the frame insets: `padding` from the window's edge,
+ * and on each side with an inset, at least the inset plus `gap`
+ * (frameCollisionPadding).
+ *
+ * The insets bound the collision area (frameCollisionBoundary) and the padding
+ * keeps only what is left past them. They are not added to the padding,
+ * because Base UI also sizes its shift limiter from the padding (limitShift
+ * offset = arrow / 2 + (left + right) / 2, or top + bottom beside the trigger):
+ * a padding that carried a 70px window-controls inset pushed a short tooltip
+ * with an arrow up to that half-sum off its trigger with nothing in the way.
+ * The area the popup is kept in is the same either way.
+ *
+ * Only a popup portaled to the body (no `container`, or the body or the root
+ * element) takes the boundary. One portaled into a container of its own may
+ * sit inside an element that clips it (a dialog's scrolling body), and an
+ * explicit boundary would replace Base UI's default, the clipping ancestors,
+ * so it would flip and size against the window and be cut off.
+ *
+ * With no inset, a `boundary` of the caller's own (it bounds the popup as it
+ * is, so the insets go into the padding), or a container of its own, this is
+ * frameCollisionPadding.
+ */
+export function frameCollision(
+  padding: CollisionPadding,
+  boundary: CollisionBoundary | undefined,
+  insets: FrameInsets,
+  gap: number,
+  container?: FrameInsetsContainer,
+): FrameCollision {
+  const padded = frameCollisionPadding(padding, insets, gap);
+  if (
+    !hasInset(insets) ||
+    boundary !== undefined ||
+    typeof document === "undefined" ||
+    !portalsToBody(container)
+  ) {
+    return { collisionPadding: padded, collisionBoundary: boundary };
+  }
+  const full = padded as Required<Exclude<CollisionPadding, number>>;
+  const side = (key: keyof FrameInsets) => Math.max(0, full[key] - insets[key]);
+  return {
+    collisionPadding: {
+      top: side("top"),
+      right: side("right"),
+      bottom: side("bottom"),
+      left: side("left"),
+    },
+    collisionBoundary: frameCollisionBoundary(insets),
+  };
+}
+
+/**
+ * A popup's collision padding and boundary (a tooltip, a popover, a menu, a
+ * select or combobox list, a preview card): `defaultPadding` where there is no
+ * inset, and `gap` (8px) inside each inset, the insets as the boundary
+ * (frameCollision). A `collisionPadding` the caller passes wins as it is, and
+ * a `collisionBoundary` the caller passes is kept. Call it from a part inside
+ * the popup's portal, which mounts each time the popup opens.
+ */
+export function usePopupCollision(
   collisionPadding: CollisionPadding | undefined,
+  collisionBoundary: CollisionBoundary | undefined,
   defaultPadding: CollisionPadding,
   container?: FrameInsetsContainer,
-): CollisionPadding {
+  gap: number = POPUP_FRAME_GAP,
+): FrameCollision {
   const insets = useFrameInsets(container);
-  // Base UI rebuilds its positioning middleware when the padding's identity changes.
+  // Base UI rebuilds its positioning middleware when the padding's or the
+  // boundary's identity changes.
   return useMemo(
-    () => collisionPadding ?? frameCollisionPadding(defaultPadding, insets, POPUP_FRAME_GAP),
-    [collisionPadding, defaultPadding, insets],
+    () =>
+      collisionPadding === undefined
+        ? frameCollision(defaultPadding, collisionBoundary, insets, gap, container)
+        : { collisionPadding, collisionBoundary },
+    [collisionPadding, collisionBoundary, defaultPadding, insets, gap, container],
   );
 }

@@ -12,7 +12,7 @@ import type { ComponentPropsWithRef, RefObject } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
 import type { DataAttributes } from "../../lib/data-attributes";
-import { usePopupCollisionPadding } from "../../lib/frame-insets";
+import { usePopupCollision } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
@@ -387,12 +387,13 @@ type SelectFramePositionerProps = BaseSelect.Positioner.Props & {
 // Inside the portal, so it mounts each time the popup opens and reads the
 // frame insets then: 8px from each inset, and from the window's edge elsewhere.
 function SelectFramePositioner({
+  collisionBoundary,
   collisionPadding,
   container,
   ...props
 }: SelectFramePositionerProps) {
-  const padding = usePopupCollisionPadding(collisionPadding, 8, container);
-  return <BaseSelect.Positioner collisionPadding={padding} {...props} />;
+  const collision = usePopupCollision(collisionPadding, collisionBoundary, 8, container);
+  return <BaseSelect.Positioner {...collision} {...props} />;
 }
 
 export type SelectContentProps = StyledProps<BaseSelect.Popup.Props> &

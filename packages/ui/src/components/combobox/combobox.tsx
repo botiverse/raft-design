@@ -3,7 +3,7 @@ import type { ComponentPropsWithRef } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
 import { chipRemoveBase } from "../../lib/chip-remove";
-import { usePopupCollisionPadding } from "../../lib/frame-insets";
+import { usePopupCollision } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import { useOverflowTitle } from "../../lib/use-overflow-title";
 import type { StyledProps } from "../../lib/styled-props";
@@ -393,12 +393,13 @@ type ComboboxFramePositionerProps = BaseCombobox.Positioner.Props & {
 // Inside the portal, so it mounts each time the popup opens and reads the
 // frame insets then: 8px from each inset, and from the window's edge elsewhere.
 function ComboboxFramePositioner({
+  collisionBoundary,
   collisionPadding,
   container,
   ...props
 }: ComboboxFramePositionerProps) {
-  const padding = usePopupCollisionPadding(collisionPadding, 8, container);
-  return <BaseCombobox.Positioner collisionPadding={padding} {...props} />;
+  const collision = usePopupCollision(collisionPadding, collisionBoundary, 8, container);
+  return <BaseCombobox.Positioner {...collision} {...props} />;
 }
 
 export type ComboboxContentProps = StyledProps<BaseCombobox.Popup.Props> &
