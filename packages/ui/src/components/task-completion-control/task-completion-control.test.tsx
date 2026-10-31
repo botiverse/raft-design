@@ -105,23 +105,37 @@ describe("TaskCompletionControl", () => {
     expect(onRowKeyDown, "arrow keys still reach the list").toHaveBeenCalledTimes(1);
   });
 
-  test("disabled: disabled and aria-disabled, no preview, no change", () => {
+  test("disabled: aria-disabled only, still focusable, a press does nothing", () => {
     const onCheckedChange = vi.fn();
+    const onClick = vi.fn();
+    const onRowClick = vi.fn();
     render(
-      <TaskCompletionControl
-        checked={false}
-        disabled
-        onCheckedChange={onCheckedChange}
-        aria-label="#25 Fix onboarding copy"
-      />,
+      <div onClick={onRowClick}>
+        <TaskCompletionControl
+          checked={false}
+          disabled
+          onClick={onClick}
+          onCheckedChange={onCheckedChange}
+          aria-label="#25 Fix onboarding copy"
+        />
+      </div>,
     );
     const control = screen.getByRole("checkbox") as HTMLButtonElement;
-    expect(control.disabled).toBe(true);
+    expect(control.disabled, "never the native disabled").toBe(false);
+    expect(control.hasAttribute("disabled")).toBe(false);
     expect(control.getAttribute("aria-disabled")).toBe("true");
+    expect(control.hasAttribute("data-disabled")).toBe(true);
+    control.focus();
+    expect(document.activeElement, "it keeps its focus").toBe(control);
     expect(control.className).not.toContain("hover:");
     expect(control.querySelector("svg"), "no check to preview").toBeNull();
+
     fireEvent.click(control);
+    const space = fireEvent.keyDown(control, { key: " " });
+    expect(space, "Space's default is prevented").toBe(false);
     expect(onCheckedChange).not.toHaveBeenCalled();
+    expect(onClick).not.toHaveBeenCalled();
+    expect(onRowClick, "a press on it still doesn't open the row").not.toHaveBeenCalled();
   });
 
   test("previews the check on its own hover, never on an ancestor group's", () => {

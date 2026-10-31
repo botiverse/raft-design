@@ -360,6 +360,12 @@ for (const mode of MODES) {
             <TimelineItem taskStatus="backlog" data-testid="backlog-timeline">
               <TimelineTitle>Backlog</TimelineTitle>
             </TimelineItem>
+            <TimelineItem
+              taskStatus="backlog"
+              icon={<span data-testid="backlog-timeline-icon">!</span>}
+            >
+              <TimelineTitle>Backlog, with an icon</TimelineTitle>
+            </TimelineItem>
           </Timeline>
         </div>
       </ThemeProvider>,
@@ -387,6 +393,9 @@ for (const mode of MODES) {
         composite(stickerInk, scopeBg),
       );
     }
+    // 1.5:1, not the 3:1 of a graphic that carries meaning on its own: the
+    // pixel is never alone, the status's name or the task always labels it
+    // beside it, so the edge only has to show, not to be read.
     expect(
       contrastRatio(edge, scopeBg),
       `${key}: the hollow pixel's edge stands out from the canvas`,
@@ -410,5 +419,11 @@ for (const mode of MODES) {
     expect(composite(parseColor(markerStyle.borderTopColor), scopeBg)).toEqual(
       composite(lineStrong, scopeBg),
     );
+    // An icon in place of the pixel is drawn in the item colour, so it must
+    // be a real ink: `line-strong`, never transparent.
+    const iconBox = screen.getByTestId("backlog-timeline-icon").parentElement!;
+    const iconColor = parseColor(getComputedStyle(iconBox).color);
+    expect(iconColor.alpha, `${key}: the icon is visible`).toBeGreaterThan(0);
+    expect(composite(iconColor, scopeBg)).toEqual(composite(lineStrong, scopeBg));
   });
 }

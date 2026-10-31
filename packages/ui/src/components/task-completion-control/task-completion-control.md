@@ -38,14 +38,14 @@ task-completion-control/compositions/states
 - **Unchecked:** an empty circle with an ink edge, on every status but Done: Backlog and Closed included.
 - **Hover:** while unchecked, a faint check shows when the pointer is over the control itself. A hover elsewhere on the row is a hover on the row and previews nothing, even when the row or a column around it is a Tailwind `group`.
 - **Checked:** an ink circle with the check knocked out, on a Done task only.
-- **Disabled:** for a person who can't change the task: the disabled look, `disabled` and `aria-disabled`, and no preview.
+- **Disabled:** for a person who can't change the task: the disabled look, `aria-disabled` and no preview. It doesn't set the native `disabled`, which would take the button out of the keyboard's reach: focus moving through a list of tasks couldn't stop on it, a screen reader would never hear that it is locked, and its tooltip couldn't open. It keeps its focus, and a press or Space does nothing.
 
 ## Behavior
 
 - Pass `checked` from the task's status and change the task in `onCheckedChange`: it is called with `true` to complete the task and `false` to reopen it. The control keeps no state of its own; what completing does (the Toast, the pause before the task moves to Done, Undo) is the caller's ([Tasks](../../../../../design/patterns/tasks.md)).
 - A press stops at the control: its click, Space and Enter never reach the row or card it sits on, so it never also opens the task, and on a [TaskBoard](../task-board/task-board.md) card Space completes the task instead of picking the card up. Arrow keys still reach the list, for moving between rows.
 - An `onClick` that calls `event.preventDefault()` keeps `onCheckedChange` from being called.
-- Its hit area reaches 8px past the 20px circle with a mouse (36px) and 12px on a touch screen (44px), as a Checkbox's does ([Accessibility](../../../../../design/foundations/accessibility.md#hit-targets)).
+- Its hit area reaches 8px past the 20px circle with a mouse (36px) and 12px on a touch screen (44px) ([Accessibility](../../../../../design/foundations/accessibility.md#hit-targets)). With a mouse it reaches less far sideways than a Checkbox's 12px, which would cover the task number beside it.
 
 ## Content
 
@@ -54,7 +54,7 @@ task-completion-control/compositions/states
 
 ## Accessibility
 
-TaskCompletionControl renders a native `button` with `role="checkbox"` and wraps no Base UI primitive. `aria-checked` is true only on a done task.
+TaskCompletionControl renders a native `button` with `role="checkbox"` and wraps no Base UI primitive. `aria-checked` is true only on a done task. It isn't Base UI's Checkbox because it needs none of that checkbox's hidden input (a task's state isn't a form value), Enter must never toggle it, and a click must stay on this button rather than reach the row or card under it.
 
 - Give it `aria-label` (or `aria-labelledby`) with the task; the type requires one. Keep the same name when the state changes: the checked state already says whether the task is done, so a name that says what a press does ("Reopen #25") would be read as "Reopen #25, checkbox, checked".
 - Space toggles it. Enter doesn't, as on any checkbox, so it isn't taken for the row's Enter, which opens the task.
