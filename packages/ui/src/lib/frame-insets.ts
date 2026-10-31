@@ -177,9 +177,16 @@ function hasInset(insets: FrameInsets) {
   return insets.top !== 0 || insets.right !== 0 || insets.bottom !== 0 || insets.left !== 0;
 }
 
-/** Whether a popup's portal container is the document's own: none, the body or the root. */
+/**
+ * Whether a popup's portal container is the document's own: none, the body or the root.
+ * A ref counts as a container of its own whatever it holds now: the caller memoizes on
+ * the ref object, which never changes, so reading `.current` here would take an empty
+ * ref (a first render, a keepMounted popup) for the body for good. Erring this way only
+ * keeps the padding, never clips the popup.
+ */
 function portalsToBody(container: FrameInsetsContainer): boolean {
-  const node = container && "current" in container ? container.current : container;
+  if (container && "current" in container) return false;
+  const node = container;
   const element = node && !(node instanceof Element) && "host" in node ? node.host : node;
   return element == null || element === document.body || element === document.documentElement;
 }

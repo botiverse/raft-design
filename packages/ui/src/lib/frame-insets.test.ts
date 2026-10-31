@@ -195,14 +195,15 @@ test("keeps the padding path for a popup portaled into a container inside a scro
 
 test("takes the boundary for a popup portaled to the body or the root element", () => {
   const insets = { top: 40, right: 136, bottom: 0, left: 70 };
-  for (const container of [
-    undefined,
-    null,
-    document.body,
-    document.documentElement,
-    { current: null },
-  ]) {
+  for (const container of [undefined, null, document.body, document.documentElement]) {
     expect(frameCollision(8, undefined, insets, 8, container).collisionBoundary).toBeDefined();
+  }
+});
+
+test("keeps the padding for any ref, even one still empty", () => {
+  const insets = { top: 40, right: 136, bottom: 0, left: 70 };
+  for (const container of [{ current: null }, { current: document.body }]) {
+    expect(frameCollision(8, undefined, insets, 8, container).collisionBoundary).toBeUndefined();
   }
 });
 
