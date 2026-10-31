@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: fa2341db
+sourceHash: ca5318c2
 ---
 
 # MessageItem
@@ -269,3 +269,4 @@ message-item/compositions/reactions
 - 让标签片的墨色离左边缘和离右边缘一样远（[对齐](../../../../../design/foundations/alignment.md#chips)）。带图标的引用标签片和回应把内边距平均分配，两端各 4.5px 和 7px，总量和宽度与以前相同：Lucide 图标在它的方框里留出的空白和旁边的字母差不多，而表情或应用图标画满到边缘。收藏标记在书签图标前留 5.5px（书签画在方框内 2.3px 处），在文字后留 6.5px。
 - 引用标签片标签后面的注记放在 `MessageReferenceSuffix` 里，不要放在自己写的 span 里。它在布局中保持在标签的基线上，绘制时上移字号差的四分之一，让两者 x 高度的中线对齐；标签保持在句子的基线上。
 - 回应标签片高 24px，点击区域 44px（[间距](../../../../../design/foundations/spacing.md#hit-targets)）。
+- 已保存标记和回应一样高，24px，用页脚的字号 `text-footnote` 粗体（桌面上 13px），`fill-muted` 底、次要色文字。它和回应在同一行，下面的回复区也是同一种底色；之前它是 22px、12px 半粗，颜色明明一样，看上去却更浅（stdrc，2026-10-31）。
