@@ -1,7 +1,7 @@
 ---
 title: Button
 summary: 执行操作的按钮，可以带标签也可以不带；颜色说明它是哪一类操作，尺寸由它所在的位置决定。
-sourceHash: 83f056a4
+sourceHash: 01f772d3
 ---
 
 # Button
@@ -96,7 +96,7 @@ button/compositions/on-frame
 
 #### 浮动工具栏里 {#inside-a-floating-toolbar}
 
-浮在内容上方的工具栏会出现在鼠标指针下的每条消息上，所以它比页面更紧凑。消息悬停工具栏和文字选择工具栏高 36px，按钮 28px，距外框 4px，彼此间隔 4px，圆角为 `radius-chip`。尺寸由容器决定：`MessageItemToolbarButton` 和 `MessageTextSelectionToolbarButton` 是工具栏自己的部件，`MessageMultiSelectToolbarActions` 会把放进去的 `md` Button 变成 28px（[MessageItem](../message-item/message-item.md)）。唯一的另一个 28px 按钮是侧栏分节 16px 标题行上的 `SidebarSectionControl`。28px 不是 Button 的尺寸，所以不要自己把 Button 做成 28px。
+浮在内容上方的工具栏会出现在鼠标指针下的每条消息上，所以它比页面更紧凑。消息悬停工具栏和文字选择工具栏高 36px，按钮 28px，距外框 4px，彼此间隔 4px，圆角为 `radius-chip`。尺寸由容器决定：`MessageItemToolbarButton` 和 `TextSelectionToolbarButton` 是工具栏自己的部件，`MessageMultiSelectToolbarActions` 会把放进去的 `md` Button 变成 28px（[MessageItem](../message-item/message-item.md)）。唯一的另一个 28px 按钮是侧栏分节 16px 标题行上的 `SidebarSectionControl`。28px 不是 Button 的尺寸，所以不要自己把 Button 做成 28px。
 
 ### 图标按钮 {#icon-buttons}
 

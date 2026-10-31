@@ -1,12 +1,12 @@
 ---
 title: DropdownMenu
 summary: 从按钮打开的一列操作，作用于同一个东西；也可以放一个设置式的选择，在当前值旁打勾。
-sourceHash: f94546dd
+sourceHash: b3ae9c9f
 ---
 
 # DropdownMenu
 
-下拉菜单是作用于同一个东西（一条消息、一个频道、一个任务、一个 Agent）的一列操作，从 ⋯ 这样的按钮打开。它也可以放一个设置式的选择，比如排序方式或状态，在当前值旁打勾。在桌面端右键、在手机上长按，打开的是同一个菜单，即 [ContextMenu](../context-menu/context-menu.md)。
+下拉菜单是作用于同一个东西（一条消息、一个频道、一个任务、一个 Agent）的一列操作，从一个 More 按钮打开（一个对象的菜单用 ⋮，一排操作的末尾用 ⋯；[图标](../../../../../design/foundations/iconography.md#meanings)）。它也可以放一个设置式的选择，比如排序方式或状态，在当前值旁打勾。在桌面端右键、在手机上长按，打开的是同一个菜单，即 [ContextMenu](../context-menu/context-menu.md)。
 
 ```example
 dropdown-menu/compositions/sidebar-section-header-menu
@@ -52,7 +52,9 @@ dropdown-menu/compositions/sidebar-section-header-menu
 ## 行为 {#behavior}
 
 - 菜单在触发按钮下方打开，与触发按钮的起始边对齐，碰到窗口边缘时会移动或翻转（[层级](../../../../../design/foundations/elevation.md#popups)）。
-- 选择一个操作会关闭菜单。选择单选项或复选项时菜单保持打开，让人能看到结果。
+- 菜单避开窗口安全区：外壳给自己留了一部分窗口的地方（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`），菜单停在离那部分 8px 处，而不是离窗口边缘 8px 处（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
+- 选择一个操作或单选项会关闭菜单。单选项是一组值中的一个，选一次就完成了选择，菜单开着只会挡住它改变的东西。下次打开菜单时，勾号会显示当前值。只有菜单本身会显示结果时（比如新值下面出现一条警告），才在选择单选项后让菜单保持打开（`closeOnClick={false}`）。
+- 选择复选项时菜单保持打开：每一项打开或关闭一样东西，人常常一次改好几项。
 - 按 Esc 或点击菜单外部会关闭菜单。
 - 菜单项的高度由内容决定：一行是 36px；第二行（比如标签下面的描述）只增加它自己的高度，文字上下的空间不变（[表单和设置](../../../../../design/patterns/forms.md#option-height)）。单选项和复选项也是如此。
 
@@ -65,7 +67,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 
 - DropdownMenu 封装了 Base UI 的 Menu。它提供 `menu` 角色、菜单项角色、方向键移动、输入跳转、Esc，以及关闭后焦点回到触发按钮。
 - 按菜单作用的对象给菜单命名：在 `DropdownMenuContent` 上加 `aria-label`（"Message from Wug"）。
-- 只有图标的触发按钮（比如 ⋯）要加 `aria-label`（"More Actions"）。
+- 只有图标的触发按钮（比如 More）要加 `aria-label`（"More Actions"）。
 - 菜单里的每一行都做成菜单项，让方向键能到达。快捷回应也一样：每个都加 `aria-label`（"React with thumbs up"），并对辅助技术隐藏图形。
 - 菜单项的图标只作装饰；由标签说明操作是什么。
 

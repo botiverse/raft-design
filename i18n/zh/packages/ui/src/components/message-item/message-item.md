@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: 6b4da826
+sourceHash: b27267e1
 ---
 
 # MessageItem
@@ -44,7 +44,7 @@ message-item/compositions/item-preview
 - `MessageItemFooter`：一行：先是回应（`MessageReactionChip`，最后是 `MessageReactionAddButton`），再是收藏和已读标记（`MessageItemSavedIndicator`、`MessageItemReadReceipt`）。从这条消息创建的任务不在这一行里：它们是这一行上面的一个列表（[对话中的任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)）。
 - `MessageItemToolbar` 加 `MessageItemToolbarButton`：悬停工具栏。它在显示时在自己所在的行上设置 `--mi-toolbar-width`，标题栏在它下面淡出时读这个值。以前的版本从 app 读 `--mi-toolbar-reserve` 来在标题栏里留位置；现在不再读它，设置它的地方可以删掉。
 - `MessageMultiSelectCheckbox` 和 `MessageMultiSelectToolbar`，操作放在 `MessageMultiSelectToolbarActions` 里（28px 的按钮，间隔 4px；在触屏上每个按钮的点击区域是 44px，向相邻按钮只延伸到间隔的一半，所以点在两者之间会落到较近的那个上）：用于选择多条消息（[由现有部件组成](../../../../../design/components/overview.md#toolbar-for-selected-messages)）。
-- `MessageTextSelectionToolbar` 加 `MessageTextSelectionToolbarButton` 和 `MessageTextSelectionToolbarSeparator`：对选中文字的操作（[选中文字的工具栏](#toolbar-for-selected-text)）；用 `createMessageTextSelectionAnchor` 定位。
+- 一个 [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md)：对选中文字的操作（[选中文字的工具栏](#toolbar-for-selected-text)）。`MessageTextSelectionToolbar` 和它的各部件是它的已弃用别名。
 
 ### 正文里的元素 {#in-the-body}
 
@@ -232,14 +232,7 @@ message-item/compositions/reactions
 
 ### 选中文字的工具栏 {#toolbar-for-selected-text}
 
-`MessageTextSelectionToolbar` 浮在人在消息里选中的文字上方，提供 Quote、Copy 这类操作。它和悬停工具栏长得完全一样，所以两者看起来是同一类东西：
-
-- 高 36px：`radius-container`，细线画在内部（`ring-inset`），围着 28px 的 `radius-chip` 按钮，距外框 4px，按钮之间间隔 4px。
-- 按钮在 16px 的 `foreground-muted` 图标后面带文字标签。悬停时用中度一级 `fill-medium`，而不是菜单行的 `brand-soft`：工具栏里的操作是按钮，不是菜单行（[状态](../../../../../design/foundations/states.md)）。
-- `MessageTextSelectionToolbarSeparator` 高 20px，两侧各留工具栏的 4px。
-- 标签用 Title Case（每个单词首字母大写）。标签从不换行：中文可以在任意两个字之间断开，所以挤在窗口边缘的工具栏曾把两个字的标签断成了两行。
-- 它锚定在选区焦点端所在的那一行，也就是人松手的地方，而不是整个选区：整行或跨多段的选区横跨整行，它的中间离鼠标指针很远。用 `createMessageTextSelectionAnchor(selection)` 生成锚点，传给 `PopoverContent` 的 `anchor`。
-- 它始终留在视口内：默认在那一行上方，没有空间时翻到下方，靠近左右边缘时沿着那一行平移。
+人在消息里选中的文字会带出一个 [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md)，提供 Quote、Copy 这类操作。它和悬停工具栏长得完全一样，所以两者看起来是同一类东西；它的外观、它在选区焦点那一行上的位置和它的标签，见它自己的文档。
 
 ## 内容 {#content}
 
@@ -257,7 +250,7 @@ message-item/compositions/reactions
 - 给每个 `MessageItemToolbarButton` 一个 Title Case 的 `aria-label`：Reply in Thread、Add Reaction、Save。工具栏在键盘焦点进入时显示，所以按 Tab 能到达它。
 - `MessageReactionChip` 封装了 Base UI `Toggle`：`aria-pressed` 表示这个人是否回应了。给它一个 `aria-label`；里面画出来的回应是隐藏的（[品牌](../../../../../design/foundations/brand.md#reactions)）。
 - 回应失败的原因放在 `MessageReactionErrorIndicator` 里，它是一个视觉上隐藏的 `role="status"`。
-- `MessageTextSelectionToolbar` 封装了 Base UI `Toolbar`；给它一个 `aria-label`。
+- 给选中文字上方的工具栏一个 `aria-label`（[TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md#accessibility)）。
 - 给 `MessageMultiSelectCheckbox` 一个指明是哪条消息的标签，比如 "Select message from Bugen"。
 - 能打开某个东西的引用标签片，通过 `render` 渲染成链接；标签片默认是 `span`。应用链接在新标签页打开，带 `rel="noopener noreferrer"`。
 - 给 `MessageReferenceIcon` 里的应用图标一个空的 `alt`：旁边的标题已经说明了这个链接。

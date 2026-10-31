@@ -1,7 +1,7 @@
 ---
 title: Combobox
 summary: 由部件组成、可以搜索的值列表，用于带搜索的筛选器，以及从许多值里选几个、显示成标签片。
-sourceHash: 53220cb1
+sourceHash: 4eafbb67
 ---
 
 # Combobox
@@ -80,6 +80,7 @@ combobox/compositions/inline-list
 - 把标签片的文字放在单独的元素里（一个 `<span>`）：值太长时在那里截断，宽度不超过输入框，完整文字作为标签片的 `title`，移除按钮保持可见（[表单](../../../../../design/patterns/forms.md#long-values-in-fields)）。
 - 选项的高度随内容：一行是 36px，每多一行只增加那一行自身的高度，文字上下的空间不变（[表单](../../../../../design/patterns/forms.md#option-height)）。
 - 长选项按需要换成多行。列表随之变宽，最宽 24rem（如果输入框更宽，就到输入框的宽度），永远不超过屏幕宽度减去两边各 8px。
+- 列表避开窗口安全区：外壳给自己留了一部分窗口（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`）时，列表停在离那部分 8px 的地方，而不是离窗口边缘 8px（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 - 结果来自服务器时，传 `filter={null}`，让列表原样显示结果，并让输入的文字保持受控。
 
 ## 无障碍 {#accessibility}

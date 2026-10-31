@@ -1,7 +1,7 @@
 ---
 title: 形状
 summary: 五种圆角、两种描边宽度，以及为什么圆角容器的边缘上不贴任何东西。
-sourceHash: 75d9a77a
+sourceHash: 252dc7c5
 ---
 
 # 形状
@@ -26,6 +26,7 @@ sourceHash: 75d9a77a
 | `radius-dialog` | 对话框，以及底部面板的上两个角 |
 | `rounded-full` | 开关、单选框和拖动条；Android 下拉刷新的圆盘 |
 
+- 列表行（动态项、侧栏行、搜索结果、带 `cell` 的 ListRow）的状态形状用 `radius-control`：它的悬停、按下、选中和焦点填充一个和行一样高、两侧各内缩 8px 的圆角形状，从不填满整行宽度的直角（[列表](../patterns/lists.md)）。
 - 状态灯和提醒圆点（文字旁 10px，头像角上 6px 到 20px），以及 9px 到 11px 头像里的图片，用 2px 圆角：它们太小，用不了 `radius-sticker`。
 
 ## 外框之内 {#inside-a-frame}

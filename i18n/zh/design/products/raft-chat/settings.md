@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 设置
 summary: 设置这个目的地：Personal、Workspace 和 Resources 三组，它们打开的页面，通知，Sign Out 和危险区。
-sourceHash: 8b7fb292
+sourceHash: 1cdc4b7d
 ---
 
 # Raft Chat — 设置
@@ -27,14 +27,14 @@ sidebar/compositions/settings-list
 
 ### 设置页面 {#a-settings-page}
 
-- 每个页面都用[表单](../../patterns/forms.md)里的卡片搭建。Language & Region 是一张卡片，有自己的 Save。
+- 每个页面都用[表单](../../patterns/forms.md)里的卡片搭建。Language & Region 没有 Save：每个值选中时就生效（[表单](../../patterns/forms.md#settings-that-apply-at-once)）。
 
 ### 通知 {#notifications}
 
 这个页面包括：
 
 - 一张 Add Raft to Home Screen 卡片，带 Add 按钮，出现在能安装 Raft 但还没安装的手机上；
-- 一张 Push Notifications 卡片，说明它推送什么（私信、直接提及和关注的消息列里的回复）以及当前状态，带 Enable Push Notifications，开启后变成 Disable 和 Send Test Push。卡片最后是一个 Mute this server 复选框，带 Save。
+- 一张 Push Notifications 卡片，说明它推送什么（私信、直接提及和关注的消息列里的回复）以及当前状态，带 Enable Push Notifications，开启后变成 Disable 和 Send Test Push。卡片最后是一个 Mute this server 开关，立即生效。
 
 在桌面应用里，这个页面只有一张 Desktop notifications 卡片，说明通知由系统管理，带 Send a test notification。
 

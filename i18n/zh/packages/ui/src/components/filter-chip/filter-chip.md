@@ -1,12 +1,12 @@
 ---
 title: FilterChip
 summary: 生效中的筛选，显示为一个 info-soft 标签片，放在始终写着「筛选」的 Filter 按钮旁边，带一个把筛选恢复为默认值的 ×。
-sourceHash: 595af2f8
+sourceHash: ba10aac2
 ---
 
 # FilterChip
 
-FilterChip 放在始终写着「筛选」的 Filter 按钮旁边，写出生效中的筛选。它是已应用筛选的样子：和按钮一样高的 `info-soft` 填充，以及一个把筛选恢复为默认值的 ×。只有筛选不同于默认值时它才显示。人们很少改动、凭习惯设置的筛选，比如动态里的「未读」或「提及」，就把它和 Filter 按钮的模式（[Select › 筛选器](../select/select.md#filters)）一起使用。
+FilterChip 放在始终写着「筛选」的 Filter 按钮旁边，写出生效中的筛选。它是已应用筛选的样子：和按钮一样高的 `info-soft` 填充，以及一个把筛选恢复为默认值的 ×。只有筛选不同于默认值时它才显示。人们很少改动、凭习惯设置的筛选，比如动态里的「未读」或「提及」，就把它和 Filter 按钮的模式（[Select › 用哪种筛选按钮](../select/select.md#which-filter-button)）一起使用。
 
 ```example
 filter-chip/compositions/filter-button
@@ -39,7 +39,7 @@ filter-chip/compositions/filter-button
 
 - 只在筛选不同于默认值时渲染标签片。是默认值时，Filter 按钮单独放着。
 - 按 × 一步把筛选恢复为默认值，不打开菜单。然后标签片消失。
-- 标签片和 Filter 按钮一样高，32px，在手机上也是。× 是 24px，离标签片末端 4px。它的墨色比开头图标的墨色离边缘更远：和标签上的 × 一样（[对齐 › 标签片](../../../../../design/foundations/alignment.md#chips)），它保持自己的内缩距离，而不是去对齐墨色到边缘的距离。
+- 标签片和 Filter 按钮一样高，32px，在手机上也是。× 是 24px，离标签片末端 4px；在触屏上，它的点击区域扩大到 44px，是一个向四周各伸出 10px 的透明 `::after`（[无障碍 › 点击区域](../../../../../design/foundations/accessibility.md#hit-targets)）。这会伸出标签片末端 6px，所以在触屏上，下一个控件离标签片至少 12px，或者让标签片排在这一行的最后。它的墨色比开头图标的墨色离边缘更远：和标签上的 × 一样（[对齐 › 标签片](../../../../../design/foundations/alignment.md#chips)），它保持自己的内缩距离，而不是去对齐墨色到边缘的距离。
 - 一行太窄时，标签截断，图标和 × 保留。
 
 ## 内容 {#content}

@@ -1,7 +1,7 @@
 ---
 title: Switch
 summary: 圆形的开关控件，用于拨动后立即生效的设置。
-sourceHash: 33ed7311
+sourceHash: 3795090b
 ---
 
 # Switch
@@ -18,6 +18,7 @@ list-row/compositions/settings
 | ----------------------------------------------- | ------------------------------------------- |
 | 拨动后立即生效的设置行 | Switch |
 | 保存表单时才生效的是或否 | [Checkbox](../checkbox/checkbox.md) |
+| 要先填好字段才能开启的功能 | [Checkbox](../checkbox/checkbox.md)，配上那些字段和一个 Save |
 | 几个答案中的一个 | [RadioGroup](../radio-group/radio-group.md) |
 
 哪些控件立即生效、哪些需要保存，见[表单](../../../../../design/patterns/forms.md)。
@@ -36,6 +37,7 @@ list-row/compositions/settings
 ## 行为 {#behavior}
 
 - 圆钮用 `ease-slide` 在 220ms 内滑过去（[动效](../../../../../design/foundations/motion.md)）。
+- 拨动开关时就应用改动，没有 Save。失败时，把开关拨回去，并在它旁边说明什么失败了（[表单](../../../../../design/patterns/forms.md#settings-that-apply-at-once)）。
 - 把开关放在设置行的末尾（[ListRow](../list-row/list-row.md) 加 `interactive={false}`）。行本身不是按钮，对悬停和按下没有反应；焦点只落在开关上。
 
 ## 内容 {#content}

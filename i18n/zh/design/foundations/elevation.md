@@ -1,7 +1,7 @@
 ---
 title: 层级
 summary: 哪些东西会浮起并投下阴影，哪些控件浮在对话之上却不带阴影，弹出层如何定位，以及焦点环。
-sourceHash: 98bc4753
+sourceHash: 61b8900b
 ---
 
 # 层级
@@ -10,7 +10,7 @@ sourceHash: 98bc4753
 
 ## 原则 {#principles}
 
-- **控件和卡片不加阴影。** 控件靠墨色边框来标记，不靠阴影，即使它浮在内容之上也是如此。有两个例外，都是暂时离开原位的东西：任何被拖动的东西被提起的那份副本，以及展开的评论卡片。
+- **控件和卡片不加阴影。** 控件靠墨色边框来标记，不靠阴影，即使它浮在内容之上也是如此。有两个例外，都是暂时离开原位的东西：拖动任何东西时拿起的副本，以及展开的评论卡片。
 - **所有浮起的东西用同一种柔和阴影。**
 - **硬朗的贴纸阴影只用于品牌插画。**
 
@@ -26,7 +26,7 @@ focus
 
 | Token（工具类） | 用于 |
 | --- | --- |
-| `elevation-float`（`shadow-float`） | 菜单、下拉选择列表、抽屉、底部面板、对话框、个人资料卡、工具提示、轻提示、消息的悬停工具栏和选中文字的工具栏（浮在所操作消息之上的弹出层）、任何被拖动的东西被提起的那份副本，无论是一行、一个标签页、一张卡片还是一个分区的头部，放在 `layer-popover` 表面上，带 `line-seam` 外圈，不缩放也不倾斜（它被从所在的列表中提起；留在原处、显示为 40% 的那一项不投阴影；[拖放](../patterns/drag-and-drop.md#what-follows-the-hand)）、浮在频道消息上方时的侧边列（[频道的侧边列](../patterns/responsive.md#the-channels-side-columns)），以及文档边栏中展开的评论卡片（它被从卡片列中提起，其他卡片为它让开位置；[评论](../patterns/comments.md)） |
+| `elevation-float`（`shadow-float`） | 菜单、下拉选择列表、抽屉、底部面板、对话框、个人资料卡、工具提示、轻提示、消息的悬停工具栏和选中文字的工具栏（浮在所操作消息之上的弹出层）、拖动任何东西时拿起的副本，无论是一行、一个标签页、一张卡片还是一个分区的头部，放在 `layer-popover` 表面上，带 `line-seam` 外圈，不缩放也不倾斜（它被从所在的列表中拿起；留在原处、显示为 40% 的那一项不投阴影；[拖放](../patterns/drag-and-drop.md#what-follows-the-hand)）、浮在频道消息上方时的侧边列（[频道的侧边列](../patterns/responsive.md#the-channels-side-columns)）、从栏上拉下来盖在对话上的任务头部，它下面没有分隔线（[任务](../patterns/tasks.md#pulling-the-task-head-down)），以及文档边栏中展开的评论卡片（它被从卡片列中拿起，其他卡片为它让开位置；[评论](../patterns/comments.md)） |
 | `elevation-sticker`（`shadow-sticker`） | 仅限品牌插画：个人资料上和初始设置最后一步的 99px 头像，以及创建服务器页面上新服务器的预览（[品牌](./brand.md#how-much-brand)）。其他地方都不用 |
 | `focus-ring`（`shadow-focus`） | 所有能用键盘到达的元素，在键盘到达它时 |
 
@@ -80,7 +80,7 @@ raft-ui 会自动处理这件事。模态的 `Dialog`、`AlertDialog` 或 `Drawe
 ## 相关 {#related}
 
 - [状态](./states.md)：悬停、按下和焦点。
-- [拖放](../patterns/drag-and-drop.md)：被拖动的项提起后的样子。
+- [拖放](../patterns/drag-and-drop.md)：被拖动的项拿起后的样子。
 - [视觉舒适度](./comfort.md#surfaces)：内容什么时候才需要卡片或边框。
 - [品牌](./brand.md)：贴纸阴影可以出现在哪里。
 - [选择组件](../components/overview.md#how-to-choose-a-component)：该用哪种弹出层。

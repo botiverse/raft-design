@@ -1,7 +1,7 @@
 ---
 title: Popover
 summary: 在人点击的元素旁边打开的小面板，用于少量输入，比如一个选项、一个输入框和一个按钮。
-sourceHash: a4a86d8f
+sourceHash: fd28bd82
 ---
 
 # Popover
@@ -39,6 +39,7 @@ sourceHash: a4a86d8f
 ## 行为 {#behavior}
 
 - 弹出层在触发元素下方打开，与它的起始边对齐，碰到窗口边缘时会移动或翻转（[层级](../../../../../design/foundations/elevation.md#popups)）。
+- 弹出层避开窗口安全区：外壳为自己保留了窗口的一部分时（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`），它停在离那一部分 8px 的地方，而不是离窗口边缘 8px（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 - 点击外部和按 Esc 都会关闭它。Cancel 按钮也会关闭它。
 - 它没有遮罩；背后的页面保持原样。
 

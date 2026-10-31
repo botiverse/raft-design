@@ -1,7 +1,7 @@
 ---
 title: Raft Chat
 summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、桌面端布局和侧栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层，以及它和通用模式不一致的地方。
-sourceHash: 3c3b69b6
+sourceHash: dc6b3748
 ---
 
 # Raft Chat
@@ -24,7 +24,7 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 | 位置 | 目的地 |
 | --- | --- |
 | 手机标签栏 | 主页（`house`）、动态（`activity`，和桌面端导航条一样）、任务（`square-check-big`）、搜索（`search`），以及当前服务器（它的头像和名称），在贴边的标签栏上（[MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-the-server-tab)）。顺序固定。搜索是一个标签，也是搜索全部内容的唯一入口：它的页面没有返回，标签栏保持搜索选中，切换标签后它的查询、筛选、结果和滚动位置都保留（[导航](../../patterns/navigation.md#search-on-a-phone)）。移动应用和手机网页上都一样 |
-| 手机上的服务器标签 | 打开一个弹出层而不是页面：先是服务器列表，然后是 Join Community、Switch or Create Server 和 Invite Human，最底部是并排一行的成员、计算机和[设置](./settings.md)。服务器自己的每个页面打开一个推入页面，带返回。切换服务器时停在当前标签（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)）。访客没有成员和计算机，所以他们的那一行只有设置。在应用的桌面模式下（840dp 起）没有服务器标签：导航条头部的工作空间图块打开这个弹出层，里面没有设置，设置在导航条底部（[导航](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)） |
+| 手机上的服务器标签 | 打开一个弹出层而不是页面：先是服务器列表，然后是 Join Community、Switch or Create Server 和 Invite Human，最底部是并排一行的成员、计算机和[设置](./settings.md)。服务器自己的每个页面打开一个推入页面，带返回。切换服务器时停在当前标签（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)）。访客没有成员和计算机，所以他们的那一行只有设置。在应用的桌面模式下（840dp 起）没有服务器标签：导航条头部的工作空间图块打开这个弹出层，里面没有那一行页面，因为成员在导航条上，设置在导航条底部，计算机在设置里（[导航](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)） |
 | 手机主页的第一行 | 收藏（带灰色计数），这是它唯一的入口；见[主页](./home.md) |
 | 网页顶栏（768px 起，以及桌面应用的标题栏） | 同[页面结构](../../patterns/page-structure.md#the-web-top-bar)；搜索框打开搜索 |
 | 桌面端导航条 | 聊天、动态、任务、成员、计算机；底部是帮助（`circle-help`）和设置。访客没有成员和计算机 |
@@ -141,3 +141,6 @@ Raft Chat 目前在以下几处偏离了这些模式。每一行写的是产品�
 | 提及标记取代未读计数（[状态](../../foundations/states.md)） | 频道行在粉色计数前显示 @ 标记 |
 | 每个推入页面都有返回（[导航](../../patterns/navigation.md#going-back)） | 在手机网页上，RaftBench 的入口页面，以及加载中的 Assistant 页面，既没有返回也没有标签栏 |
 | 加载失败时不显示空状态（[反馈](../../patterns/feedback.md#empty-loading-and-failed)） | 动态或收藏的列表加载失败时，显示它的空状态 |
+| 独立的设置立即生效（[表单](../../patterns/forms.md#settings-that-apply-at-once)） | Language & Region、Mute this server、新手引导、Hide #all、隐藏人类成员和服务器翻译的设置，以及成员的服务器角色，都要等 Save |
+| 需要先配置的功能用一个复选框加一个 Save（[表单](../../patterns/forms.md#settings-saved-together)） | App event notifications 是一个开关，只是把地址输入框显示出来 |
+| 每种途径都能撤销，公开之前先确认（[反馈](../../patterns/feedback.md#confirming)） | 动态里的 Done 和 Unfollow 只有滑动时才提供 Undo；Artifact 公开，以及在它所在的对话之外取消发布，都不经过确认；重启或升级计算机、轮换 webhook 密钥、更新邀请链接都不经过确认 |

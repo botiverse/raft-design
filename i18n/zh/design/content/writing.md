@@ -1,7 +1,7 @@
 ---
 title: 写作
 summary: Raft 产品里文字的规则：大小写、语气、名称，以及按钮、它打开的对话框和确认按钮各写什么。
-sourceHash: 6bcf9bbd
+sourceHash: 23bf5abb
 ---
 
 # 写作
@@ -16,7 +16,8 @@ sourceHash: 6bcf9bbd
 
 ## 大小写 {#casing}
 
-- 所有可点击的东西都用 Title Case，文字链接也一样：Create Task、Mark All Read、Create Task from Message、Sign Out。句子里的链接跟随句子的大小写。
+- 所有说出一个操作的可点击的东西都用 Title Case，文字链接也一样：Create Task、Mark All Read、Create Task from Message、Sign Out、View in Channel。句子里的链接跟随句子的大小写。
+- 说明东西在哪里或有多少、而不是说明它做什么的链接，是一个短语，用 sentence case：From a message in #general、3 replies、Edited by Remy。Title Case 告诉读者「这是一个命令」；用在描述上，它只会让短语看起来像标题（设计评审，2026-10-29）。
 - 在 Title Case 里，这些短词保持小写：a、an、the、to、in、on、of、for、as、and、or、with、from、by、at。起连接作用的短词读起来像承载意思的词之间的关节：Continue with Google、Remove from Saved、Sort by Newest。它们在开头或结尾、或者属于动词的一部分时，首字母大写：Sign In、Sign Out、Turn On、Back to Sign In，这样 Sign In 和 Sign Out 这样成对的词才保持一致。
 - 标题、分组标题、描述和空状态用 sentence case。对话框或底部面板的标题如果重复打开它的按钮的标签，就保留那个标签的 Title Case：Create Channel；见[操作和它的对话框](#actions-and-their-dialogs)。
 - 产品名词在句子里写成小写："Move to another computer"、"Leave this server"。只有作为可点击标签或名称的一部分时才大写：Add Computer、Raft Computer。
@@ -73,6 +74,7 @@ sourceHash: 6bcf9bbd
 - 同级视图用同一种形式：同一个列表的几个筛选（All、Unread、Mentions）只有名词不同，这样人在它们之间切换时，读到的是同一句话在变化，而不是三种声音。
 - 中文遵循同样的形式（[中文界面怎么写](./voice-and-tone.md#writing-in-chinese)）。
 - 正忙的时候，说出正在发生什么："Uploading · 64%"、"Loading messages"。永远不写 "Processing…" 或光秃秃的 "Loading…"。
+- 说出一个上限或容量用了多少，写出「used」这个词，并把重置时间放在旁边："62% used · resets in 3h"。永远不写光秃秃的 "62%"，它既可能是已用也可能是剩余；也永远不用剩下的量代替已用的量。空闲的量可以放在工具提示里："378 GB free of 994 GB"（[Meter](../../packages/ui/src/components/meter/meter.md#content)）。
 - 每种问题显示在哪里（行内、横幅、轻提示或通知中心），见[反馈](../patterns/feedback.md)。
 
 ## 时间 {#times}

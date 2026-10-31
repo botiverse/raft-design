@@ -1,7 +1,7 @@
 ---
 title: Separator
 summary: 同一区域内各组内容之间的 1px 细线，可横可竖；横向的中间可以放一个词。
-sourceHash: 6a69ab96
+sourceHash: d3646557
 ---
 
 # Separator
@@ -20,7 +20,7 @@ separator/compositions/horizontal
 | 固定高度的一行里的两组控件 | `orientation="vertical"` 的 Separator |
 | 一组内容前带名称的分隔 | 带一个词的 Separator：Actions |
 | 菜单、选择列表或弹出层的分节 | 组件自带的分隔线：`DropdownMenuSeparator`、`SelectSeparator`、`PopoverSeparator` |
-| 列表的各行 | 列表自带的分割线（[ListRow](../list-row/list-row.md)） |
+| 列表的各行 | 什么都不用：列表的行之间没有分隔线（[列表](../../../../../design/patterns/lists.md)） |
 | 标题栏和内容、导航条和侧栏、两栏之间 | 区域自己画的 `line-seam`（[颜色](../../../../../design/foundations/color.md#lines)） |
 | 大型表单的各节 | [FormSection](../form-section/form-section.md)，它自己画细线 |
 

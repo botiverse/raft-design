@@ -1,7 +1,7 @@
 ---
 title: NotificationCenter
 summary: 从铃铛打开的列表，保存整个服务器的状态（计算机离线、配额快满、有更新），直到状态改变。
-sourceHash: f15eef2e
+sourceHash: e3316067
 ---
 
 # NotificationCenter
@@ -55,6 +55,7 @@ NotificationCenter 是从铃铛打开的列表。它保存整个服务器的状�
 - 只在有未读提示时显示铃铛上的提醒圆点。默认的触发按钮总是画出圆点，所以没有未读时，只把铃铛作为触发按钮的 children 传入。
 - 弹出层浮在铃铛旁边，不占布局空间（[层级](../../../../../design/foundations/elevation.md#popups)）。
 - 在手机上（`viewport="mobile"`），弹出层离屏幕两侧边缘各 8px，和同一个顶栏下的服务器列表一样：它和定位元素的 `--available-width` 一样宽（屏幕减去两侧各 8px 的内边距），最宽 480px，只有横过来的手机才会达到；它的碰撞内边距是 8px，所以虽然它挂在右边的铃铛下，仍然离两侧边缘各 8px（[层级](../../../../../design/foundations/elevation.md#popups)）。要改这个值，传 `collisionPadding`。在桌面端它是 380px，用 Base UI 默认的碰撞内边距。
+- 外壳给自己留了一部分窗口时（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`），比如折叠屏手机的系统竖列，弹出层离那部分保持 8px，而不是离屏幕边缘，宽度也相应变窄（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 
 ## 内容 {#content}
 

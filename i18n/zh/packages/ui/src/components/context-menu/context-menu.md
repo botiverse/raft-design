@@ -1,7 +1,7 @@
 ---
 title: ContextMenu
 summary: 针对某一个东西的操作菜单，在桌面端右键时于指针处打开，在触屏上长按时打开。
-sourceHash: d2bec878
+sourceHash: 5fe6437a
 ---
 
 # ContextMenu
@@ -39,8 +39,9 @@ ContextMenu 的各部分与 DropdownMenu 相同，只是前缀换成 `ContextMen
 
 - 菜单在指针处打开，或在长按后的手指处打开，左上角对准那个位置。
 - 如果菜单会超出窗口边缘，就平移到距窗口边缘至少 8px 以内，而不是翻转方向。
+- 外壳给自己留了一部分窗口的地方（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`）时，菜单与那部分保持 8px 的距离，而不是与窗口边缘保持 8px（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 - 背后的页面滚动时，菜单停在打开的位置不动。
-- 选择一个操作会关闭菜单；按 Esc 或点击菜单外部也会关闭。
+- 选择一个操作或单选项会关闭菜单，选择复选项时菜单保持打开，与 [DropdownMenu](../dropdown-menu/dropdown-menu.md#behavior) 相同。按 Esc 或点击菜单外部也会关闭。
 - 菜单项的高度由内容决定，内边距固定，与 [DropdownMenu](../dropdown-menu/dropdown-menu.md#behavior) 相同（[表单](../../../../../design/patterns/forms.md#option-height)）。
 
 ## 内容 {#content}

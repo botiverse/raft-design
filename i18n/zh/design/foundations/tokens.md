@@ -1,7 +1,7 @@
 ---
 title: Token
 summary: 每组 token 及其在两种模式下的值，token 名怎么构成，tokens.json 放在哪里、foundation.css 如何由它生成，以及如何迁移弃用的名称。
-sourceHash: b2f51149
+sourceHash: c13f6de3
 ---
 
 # Token
@@ -92,6 +92,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 | `-strong` | 深色阶，可作为文字阅读 |
 | `-muted` | 较浓的淡色 |
 | `-soft` | 很淡的淡色，不带边框；见[柔和淡色](./color.md#soft-tints) |
+| `-graphic` | 图表标记的填充或描边，和各个表面的对比度为 3:1。只有 `warning` 有；见[图表里的警告](./color.md#warnings-in-charts) |
 | `-foreground` | 实色上的文字，仅限有自己文字色的色系 |
 | `-hover`、`-active` | 实色填充在悬停和按下时用的一对值。一个色系要么两个都有，要么都没有 |
 | `-50` 到 `-950` | 带编号的色阶。只有 `brand` 和 `attention` 有 |
