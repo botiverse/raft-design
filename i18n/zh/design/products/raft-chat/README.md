@@ -1,7 +1,7 @@
 ---
 title: Raft Chat
 summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、桌面端布局和侧栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层，以及它和通用模式不一致的地方。
-sourceHash: 09f6dcf9
+sourceHash: 823b5337
 ---
 
 # Raft Chat
@@ -141,6 +141,6 @@ Raft Chat 目前在以下几处偏离了这些模式。每一行写的是产品�
 | 提及标记取代未读计数（[状态](../../foundations/states.md)） | 频道行在粉色计数前显示 @ 标记 |
 | 每个推入页面都有返回（[导航](../../patterns/navigation.md#going-back)） | 在手机网页上，RaftBench 的入口页面，以及加载中的 Assistant 页面，既没有返回也没有标签栏 |
 | 加载失败时不显示空状态（[反馈](../../patterns/feedback.md#empty-loading-and-failed)） | 动态或收藏的列表加载失败时，显示它的空状态 |
-| 独立的设置立即生效（[表单](../../patterns/forms.md#settings-that-apply-at-once)） | Language & Region、Mute this server、新手引导、Hide #all、对成员隐藏人类、为服务器开启翻译，以及成员的服务器角色，都要等 Save |
+| 独立的设置立即生效（[表单](../../patterns/forms.md#settings-that-apply-at-once)） | Language & Region、Mute this server、新手引导、Hide #all、对成员隐藏人类名录和数量、为服务器开启翻译，以及成员的服务器角色，都要等 Save |
 | 需要先配置的功能用一个复选框加一个 Save（[表单](../../patterns/forms.md#settings-saved-together)） | App event notifications 是一个开关，只是把地址输入框显示出来 |
 | 每种途径都能撤销，公开之前先确认（[反馈](../../patterns/feedback.md#confirming)） | 动态里的 Done 和 Unfollow 只有滑动时才提供 Undo；Artifact 公开，以及在它所在的对话之外取消发布，都不经过确认；重启或升级计算机、轮换 webhook 密钥、更新邀请链接都不经过确认 |
