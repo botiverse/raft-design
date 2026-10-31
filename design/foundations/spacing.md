@@ -115,10 +115,10 @@ Avatars come in 19px, 27px, 35px, 51px and 99px: a multiple of 8 plus two 1.5px 
 | Phone content margin | 16px on each side; 20px in a column of list cells ([Lists](../patterns/lists.md#one-edge)) |
 | Desktop main area, panel header, sidebar header, drawer margin | 20px on each side |
 | Rail | 56px, plus a 1px seam; the labeled rail is 68px, plus a 1px seam |
-| Sidebar (every page that has one: Chat, Members, Computers, Settings, a server's public page) | 240px, resizable from 200px to 400px |
+| Sidebar (every page that has one: Chat, Members, Settings, a server's public page) | 240px, resizable from 200px to 400px |
 | The Activity and Search results list, beside the item picked from it | 380px, resizable from 320px to 640px |
 | Thread panel | 400px, resizable from 360px until the conversation beside it is down to its 360px |
-| Profile and task side panel | 400px, resizable from 320px until the main area beside it is down to its 360px |
+| Profile (a person, an agent, a computer) and task side panel | 400px, resizable from 320px until the main area beside it is down to its 360px |
 | An agent's file tree | 256px, resizable from 180px to 480px |
 | Main area, between the columns | At least 360px |
 | Comment margin beside a document | 280px, 24px from the document ([Comments](../patterns/comments.md#wide-and-narrow)) |
@@ -132,7 +132,7 @@ On a desktop every column with a range above can be dragged on its seam, within 
 
 A panel on the right of the main area (a thread, a profile or task side panel, a channel's side column) has no width of its own at which it stops: it grows until the area left of it is down to that area's 360px minimum. What it holds, a conversation or a task, reads better the wider it is, and a fixed maximum (640px, 720px) stopped it at about half of a 1280px to 1440px window, though people wanted it to take three quarters while they worked in it (2026-10-23). The 360px it leaves is the same minimum the main area keeps when the window narrows, so a drag never takes the conversation below the width at which it still works.
 
-- Remember each width in each browser, not per server or account, except a channel's side sections: where each section stands and the width of each column without the Thread are kept for the person in each server, so they follow them to another browser. The Thread's column keeps the thread panel's width. The sidebar is one width on every page that has one, so it doesn't jump when people move between Chat, Members, Computers and Settings. The profile panel and the task side panel share one width too.
+- Remember each width in each browser, not per server or account, except a channel's side sections: where each section stands and the width of each column without the Thread are kept for the person in each server, so they follow them to another browser. The Thread's column keeps the thread panel's width. The sidebar is one width on every page that has one, so it doesn't jump when people move between Chat, Members and Settings. The profile panel and the task side panel share one width too.
 - When the window is too narrow for the remembered widths, draw the columns narrower, starting with the rightmost (a channel's side columns in their own order, [The channel's side columns](../patterns/responsive.md#the-channels-side-columns)), down to their minimums, and keep the main area at least 360px; a side panel that still doesn't fit covers the main area ([Responsive layout](../patterns/responsive.md)). The remembered widths don't change, so a wider window brings them back. A column left of the main area narrows for a side panel only while that still puts the panel beside the main area; when it can't, the column keeps its width and the panel covers the main area.
 - Draw a remembered width outside a column's range at the nearest end of the range; don't reset it, so a change to a range doesn't throw away a person's choice.
 

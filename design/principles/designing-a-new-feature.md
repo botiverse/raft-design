@@ -82,6 +82,9 @@ Go through this list before you ask for review. Each item is something a reviewe
 - [ ] Everything fits at 320px wide, and touch targets are at least 44px.
 - [ ] Everything works with the keyboard alone and shows the focus ring. Anything clickable is a `<button>` or an `<a>` with an `href`, and every icon-only button has an `aria-label`.
 - [ ] Every piece that raft-ui has comes from raft-ui; anything hand-built is named in the pull request.
+- [ ] Which existing screen does this behave like? It opens, selects and closes the same way ([Principles](./principles.md#8-familiar-over-new-the-same-job-the-same-form-a-different-meaning-a-different-form)).
+- [ ] Every form reused here (a color, a light, an icon) means here what it means everywhere else; a new meaning has a form of its own.
+- [ ] Am I adding a component or pattern the system doesn't have? Then its rule, saying why the existing ones don't fit, comes first ([Principles](./principles.md#9-existing-parts-and-patterns-first)).
 - [ ] Every value is a semantic token.
 - [ ] Every new rule is written in the foundation, pattern, component doc or product page where it belongs.
 
