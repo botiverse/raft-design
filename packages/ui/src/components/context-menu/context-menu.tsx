@@ -1,6 +1,6 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react";
 import type { ComponentPropsWithRef } from "react";
-import { usePopupCollisionPadding } from "../../lib/frame-insets";
+import { usePopupCollision } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import { Kbd } from "../kbd/index";
 import type { KbdProps } from "../kbd/index";
@@ -103,12 +103,13 @@ type ContextMenuFramePositionerProps = BaseContextMenu.Positioner.Props & {
 // Inside the portal, so it mounts each time the popup opens and reads the
 // frame insets then: 8px from each inset, and from the window's edge elsewhere.
 function ContextMenuFramePositioner({
+  collisionBoundary,
   collisionPadding,
   container,
   ...props
 }: ContextMenuFramePositionerProps) {
-  const padding = usePopupCollisionPadding(collisionPadding, 8, container);
-  return <BaseContextMenu.Positioner collisionPadding={padding} {...props} />;
+  const collision = usePopupCollision(collisionPadding, collisionBoundary, 8, container);
+  return <BaseContextMenu.Positioner {...collision} {...props} />;
 }
 
 export type ContextMenuContentProps = StyledProps<BaseContextMenu.Popup.Props> &

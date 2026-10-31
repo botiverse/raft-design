@@ -1,11 +1,7 @@
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
-import { Children, Fragment, isValidElement, useMemo } from "react";
+import { Children, Fragment, isValidElement } from "react";
 import type { ComponentProps, ReactNode } from "react";
-import {
-  BASE_COLLISION_PADDING,
-  frameCollisionPadding,
-  useFrameInsets,
-} from "../../lib/frame-insets";
+import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -207,16 +203,28 @@ type TooltipPositionerProps = BaseTooltip.Positioner.Props & {
  * Inside the portal, so it mounts each time the tooltip opens and reads the
  * frame insets then (lib/frame-insets.ts): a tooltip that would open into
  * one flips away from it, and one that would overlap it along its trigger
- * shifts out of it. Its padding grows to the inset itself, not past it.
+ * shifts out of it. It keeps to the inset itself, not past it.
+ *
+ * The insets are its collision boundary, not its padding (frameCollision):
+ * Base UI sizes the shift limiter from the padding, so a padding carrying a
+ * window-controls inset pushed every short tooltip off its trigger, its arrow
+ * off center, by up to half the left and right insets.
  */
-function TooltipFramePositioner({ collisionPadding, container, ...props }: TooltipPositionerProps) {
-  const insets = useFrameInsets(container);
-  // Base UI rebuilds its positioning middleware when the padding's identity changes.
-  const padding = useMemo(
-    () => frameCollisionPadding(collisionPadding ?? BASE_COLLISION_PADDING, insets, 0),
-    [collisionPadding, insets],
+function TooltipFramePositioner({
+  collisionBoundary,
+  collisionPadding,
+  container,
+  ...props
+}: TooltipPositionerProps) {
+  // The padding a caller passes keeps clear of the insets too, with no gap.
+  const collision = usePopupCollision(
+    undefined,
+    collisionBoundary,
+    collisionPadding ?? BASE_COLLISION_PADDING,
+    container,
+    0,
   );
-  return <BaseTooltip.Positioner collisionPadding={padding} {...props} />;
+  return <BaseTooltip.Positioner {...collision} {...props} />;
 }
 
 export function TooltipContent({

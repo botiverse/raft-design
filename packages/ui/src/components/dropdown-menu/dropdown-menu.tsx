@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
-import { BASE_COLLISION_PADDING, usePopupCollisionPadding } from "../../lib/frame-insets";
+import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import { Badge } from "../badge/index";
 import type { BadgeProps } from "../badge/index";
@@ -121,12 +121,18 @@ type DropdownMenuFramePositionerProps = BaseMenu.Positioner.Props & {
 // frame insets then: 8px from each inset, Base UI's own 5px from the window's
 // edge elsewhere.
 function DropdownMenuFramePositioner({
+  collisionBoundary,
   collisionPadding,
   container,
   ...props
 }: DropdownMenuFramePositionerProps) {
-  const padding = usePopupCollisionPadding(collisionPadding, BASE_COLLISION_PADDING, container);
-  return <BaseMenu.Positioner collisionPadding={padding} {...props} />;
+  const collision = usePopupCollision(
+    collisionPadding,
+    collisionBoundary,
+    BASE_COLLISION_PADDING,
+    container,
+  );
+  return <BaseMenu.Positioner {...collision} {...props} />;
 }
 
 export type DropdownMenuContentProps = StyledProps<BaseMenu.Popup.Props> &

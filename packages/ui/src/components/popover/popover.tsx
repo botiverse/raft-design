@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { Popover as BasePopover } from "@base-ui/react/popover";
-import { BASE_COLLISION_PADDING, usePopupCollisionPadding } from "../../lib/frame-insets";
+import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -76,12 +76,18 @@ type PopoverFramePositionerProps = BasePopover.Positioner.Props & {
 // frame insets then: 8px from each inset, Base UI's own 5px from the window's
 // edge elsewhere.
 function PopoverFramePositioner({
+  collisionBoundary,
   collisionPadding,
   container,
   ...props
 }: PopoverFramePositionerProps) {
-  const padding = usePopupCollisionPadding(collisionPadding, BASE_COLLISION_PADDING, container);
-  return <BasePopover.Positioner collisionPadding={padding} {...props} />;
+  const collision = usePopupCollision(
+    collisionPadding,
+    collisionBoundary,
+    BASE_COLLISION_PADDING,
+    container,
+  );
+  return <BasePopover.Positioner {...collision} {...props} />;
 }
 
 export type PopoverContentProps = StyledProps<BasePopover.Popup.Props> &

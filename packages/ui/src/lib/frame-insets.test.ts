@@ -4,11 +4,13 @@
  * The frame insets (design/patterns/page-structure.md#frame-insets) read as
  * physical px: unset is 0, -start and -end swap in right to left, any other
  * CSS length is measured, and the collision padding only grows where there is
- * an inset.
+ * an inset. A popup keeps out of them by its collision boundary, not by its
+ * padding, which Base UI also sizes its shift limiter from.
  */
 import { afterEach, expect, test, vi } from "vite-plus/test";
 import {
   NO_FRAME_INSETS,
+  frameCollision,
   frameCollisionPadding,
   frameInsetsFrom,
   readFrameInsets,
@@ -106,5 +108,54 @@ test("never lowers a padding larger than the inset and its gap", () => {
     right: 20,
     bottom: 0,
     left: 0,
+  });
+});
+
+test("bounds the popup by the window inset by the insets, and pads only past them", () => {
+  const insets = { top: 40, right: 136, bottom: 0, left: 70 };
+  const width = vi.spyOn(root, "clientWidth", "get").mockReturnValue(1280);
+  const height = vi.spyOn(root, "clientHeight", "get").mockReturnValue(800);
+  const { collisionPadding, collisionBoundary } = frameCollision(5, undefined, insets, 8);
+  expect(collisionPadding).toEqual({ top: 8, right: 8, bottom: 5, left: 8 });
+  expect(collisionBoundary).toEqual({
+    x: 70,
+    y: 40,
+    width: 1280 - 70 - 136,
+    height: 800 - 40,
+  });
+  width.mockRestore();
+  height.mockRestore();
+  expect(frameCollision({ left: 100 }, undefined, insets, 0).collisionPadding).toEqual({
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 30,
+  });
+});
+
+test("reads the boundary's size from the window each time", () => {
+  const { collisionBoundary } = frameCollision(
+    5,
+    undefined,
+    { top: 40, right: 0, bottom: 0, left: 0 },
+    8,
+  );
+  const width = vi.spyOn(root, "clientWidth", "get").mockReturnValue(1000);
+  expect((collisionBoundary as { width: number }).width).toBe(1000);
+  width.mockReturnValue(600);
+  expect((collisionBoundary as { width: number }).width).toBe(600);
+  width.mockRestore();
+});
+
+test("keeps the padding path with no inset, or with a boundary of the caller's own", () => {
+  expect(frameCollision(5, undefined, NO_FRAME_INSETS, 8)).toEqual({
+    collisionPadding: 5,
+    collisionBoundary: undefined,
+  });
+  const own = document.createElement("div");
+  const insets = { top: 32, right: 140, bottom: 0, left: 0 };
+  expect(frameCollision(5, own, insets, 8)).toEqual({
+    collisionPadding: { top: 40, right: 148, bottom: 5, left: 5 },
+    collisionBoundary: own,
   });
 });

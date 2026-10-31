@@ -2,7 +2,7 @@ import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, ChevronDown, LoaderCircle, Plus, X } from "lucide-react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
-import { usePopupCollisionPadding } from "../../lib/frame-insets";
+import { usePopupCollision } from "../../lib/frame-insets";
 import { usePhoneMedia } from "../../lib/phone-media";
 import { useTheme } from "../../lib/theme/use-theme";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -145,12 +145,13 @@ type ComboboxSelectFramePositionerProps = BaseCombobox.Positioner.Props & {
 // Inside the portal, so it mounts each time the list opens and reads the frame
 // insets then: 8px from each inset, and from the window's edge elsewhere.
 function ComboboxSelectFramePositioner({
+  collisionBoundary,
   collisionPadding,
   container,
   ...props
 }: ComboboxSelectFramePositionerProps) {
-  const padding = usePopupCollisionPadding(collisionPadding, 8, container);
-  return <BaseCombobox.Positioner collisionPadding={padding} {...props} />;
+  const collision = usePopupCollision(collisionPadding, collisionBoundary, 8, container);
+  return <BaseCombobox.Positioner {...collision} {...props} />;
 }
 
 /**

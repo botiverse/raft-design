@@ -3,7 +3,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { AlertTriangle, Bell, CheckCircle2, Info } from "lucide-react";
 import { headEdgePull } from "../../lib/head-edges";
-import { BASE_COLLISION_PADDING, usePopupCollisionPadding } from "../../lib/frame-insets";
+import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import { EmptyState } from "../empty-state/empty-state";
@@ -173,13 +173,19 @@ type NotificationCenterFramePositionerProps = BasePopover.Positioner.Props & {
 // Inside the portal, so it mounts each time the popup opens and reads the
 // frame insets then: 8px from each inset, the viewport's padding elsewhere.
 function NotificationCenterFramePositioner({
+  collisionBoundary,
   collisionPadding,
   container,
   defaultCollisionPadding,
   ...props
 }: NotificationCenterFramePositionerProps) {
-  const padding = usePopupCollisionPadding(collisionPadding, defaultCollisionPadding, container);
-  return <BasePopover.Positioner collisionPadding={padding} {...props} />;
+  const collision = usePopupCollision(
+    collisionPadding,
+    collisionBoundary,
+    defaultCollisionPadding,
+    container,
+  );
+  return <BasePopover.Positioner {...collision} {...props} />;
 }
 
 export type NotificationCenterPopupProps = StyledProps<BasePopover.Popup.Props> &

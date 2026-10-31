@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { PreviewCard as BasePreviewCard } from "@base-ui/react/preview-card";
-import { BASE_COLLISION_PADDING, usePopupCollisionPadding } from "../../lib/frame-insets";
+import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-insets";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { resolveThemeScopeProps, useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -107,12 +107,18 @@ type PreviewCardFramePositionerProps = BasePreviewCard.Positioner.Props & {
 // frame insets then: 8px from each inset, Base UI's own 5px from the window's
 // edge elsewhere.
 function PreviewCardFramePositioner({
+  collisionBoundary,
   collisionPadding,
   container,
   ...props
 }: PreviewCardFramePositionerProps) {
-  const padding = usePopupCollisionPadding(collisionPadding, BASE_COLLISION_PADDING, container);
-  return <BasePreviewCard.Positioner collisionPadding={padding} {...props} />;
+  const collision = usePopupCollision(
+    collisionPadding,
+    collisionBoundary,
+    BASE_COLLISION_PADDING,
+    container,
+  );
+  return <BasePreviewCard.Positioner {...collision} {...props} />;
 }
 
 export type PreviewCardContentProps = StyledProps<BasePreviewCard.Popup.Props> &
