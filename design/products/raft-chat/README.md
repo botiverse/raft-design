@@ -1,6 +1,6 @@
 ---
 title: Raft Chat
-summary: Raft Chat's own structure — its destinations, attention dots, the bell and Activity, the desktop layout and sidebar, the desktop app, where working agents appear, its overlays, and where it differs from the patterns.
+summary: Raft Chat's own structure — its destinations, attention dots, the bell and Activity, Activity's swipes, the server tab, the desktop layout and sidebar, the desktop app, where working agents appear, its overlays, pull to refresh, lists of places, and where it differs from the patterns.
 redirectFrom: [products/raft-chat/desktop]
 ---
 
@@ -24,7 +24,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | Where | Destinations |
 | --- | --- |
 | Phone tab bar | Home (`house`), Activity (`activity`, as on the desktop rail), Tasks (`square-check-big`), Search (`search`), and the current server, its avatar and its name, on the edge bar ([MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-the-server-tab)). The order is fixed. Search is a tab, the only way in to searching everything: no Back on its page, the bar stays with Search selected, and it keeps its query, filters, results and scroll position across tabs ([Navigation](../../patterns/navigation.md#search-on-a-phone)). The same in the mobile app and on the phone web |
-| Phone server tab | Opens a popover, not a page: the server list, then Join Community, Switch or Create Server and Invite Human, then, at the bottom, Members, Computers and [Settings](./settings.md) in one row. Each of the server's pages opens a pushed page, with Back. Switching keeps the current tab ([Navigation](../../patterns/navigation.md#the-server-tab-on-a-phone)). Guests don't have Members or Computers, so their row has Settings alone. In the apps' desktop mode (from 840dp) there is no server tab: the rail header's workspace tile opens this popover without the row of pages, since Members is on the rail, Settings at its bottom and Computers in Settings ([Navigation](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)) |
+| Phone server tab | Opens a popover, not a page: the server list, its footer actions and, at the bottom, a row of the server's pages ([The server tab](#the-server-tab)). Each of the server's pages opens a pushed page, with Back. Switching keeps the current tab ([Navigation](../../patterns/navigation.md#the-server-tab-on-a-phone)) |
 | The first rows of phone Home | Saved, then Drafts, each with a gray count and its only entry point on a phone; see [Home](./home.md) |
 | Web top bar (from 768px, and the desktop app's title bar) | As in [Page structure](../../patterns/page-structure.md#the-web-top-bar); the search field opens search |
 | Desktop rail | Chat, Activity, Tasks, Members, Computers; at the bottom Help (`circle-help`) and Settings. Guests don't have Members or Computers |
@@ -50,7 +50,27 @@ A computer's dot marks a change you haven't seen, not a state that lasts. On the
 ### The bell and Activity
 
 - The bell opens the notification center: the state of the whole server. It lists joint-channel invites, a provider's usage limit, a plan change, computers that need attention, are offline or low on disk, installing Raft on this device, and new replies to feedback. Each entry has its actions and Dismiss.
-- Activity lists the conversations that wait for the person: channels, direct messages and followed threads with unread messages or mentions. It filters by All, Unread and Mentions, has Mark all read and no search field, and each row has a Mark as Done check, which on a phone is a left swipe and an item of the row's press-and-hold menu instead ([Touch screens](../../patterns/responsive.md#touch-screens)). Approvals and tasks don't appear in it as their own rows. On a phone the left swipe uncovers the row's buttons: Done, then Unfollow on a followed thread and Mute on a joined channel whose activity isn't muted, each where it applies; a pull past 60% applies Done. The toast says what happened ("Unfollowed …", "Muted activity in #…") with an Undo, and the same actions are in the press-and-hold menu. A right swipe marks the row read, or unread when it is already read, and keeps it in place, with no toast. Tapping Activity again on the tab bar, or its title bar, goes to the next unread conversation below and then back to the top, in a cycle ([Navigation](../../patterns/navigation.md#going-back)).
+- Activity lists the conversations that wait for the person: channels, direct messages and followed threads with unread messages or mentions. It filters by All, Unread and Mentions, has Mark all read and no search field, and each row has a Mark as Done check, which on a phone is a left swipe and an item of the row's press-and-hold menu instead ([Activity on a phone](#activity-on-a-phone)). Approvals and tasks don't appear in it as their own rows.
+- Activity is the one exception to what tapping the selected tab does ([Navigation](../../patterns/navigation.md#going-back); artin, 2026-10-21): it is the list people work through, so tapping Activity again, or its title bar, goes to the next unread item below the current position, scrolls it to the top of the list and marks it as located ([Located](../../foundations/states.md#located)). After the last unread item the next tap goes back to the top, and the cycle starts again; with no unread item it goes to the top. It moves only within the current filter and marks nothing as read.
+
+### Activity on a phone
+
+The swipe itself, its distances, its buttons and its Undo toast follow [Touch screens](../../patterns/responsive.md#touch-screens). In Activity:
+
+- With a mouse, Mark as Done stays hover-only, as every row action. On a phone it is the exception: it is reached by swiping the row left and from its press-and-hold menu, with no button at rest (stdrc, 2026-10-23). A list that is mostly rows to clear reads as a column of buttons with one on every row, and on a phone swiping a row away is how people already clear a list (Mail, Messages). A tablet or a desktop keeps the button: there the row is wider and the swipe is not the habit.
+- The left swipe uncovers the row's buttons: Done, then Unfollow on a followed thread and Mute on a joined channel whose activity isn't muted, each where it applies; a pull past 60% applies Done. The toast says what happened ("Unfollowed …", "Muted activity in #…") with an Undo, and the same actions are in the press-and-hold menu.
+- Done has no exact opposite, and nor has Unfollow: unfollowing a thread also marks it read, and following it again can't make it unread (Jasper and Tenny, 2026-10-27). So both wait for the toast before they apply. A Done is dropped if new activity arrives in that row meanwhile; an Unfollow still applies, since the person stops following whatever the thread says next. Mute keeps the row in the list, marked muted, with the same toast and Undo; a muted row's buttons have no Mute.
+- A right swipe marks the row read, or unread when it is already read, and keeps it in place, with no toast. Under the Unread or Mentions filter a row just marked read still stays, until the person leaves the list or changes the filter, as in a mail client, so the swipe back always has a row to swipe.
+- These rows have no right swipe, since the swipe can't change their read state on screen: a muted conversation's row (drawn read whatever it holds), a direct mention's row (marking it read changes nothing), and an Artifact's row (it can be read, never marked unread again).
+
+### The server tab
+
+The server tab and the workspace tile follow [Navigation](../../patterns/navigation.md#the-server-tab-on-a-phone). In Raft Chat (the phone decided on 2026-10-22 by stdrc, D1a, task #152):
+
+- The server tab takes the slot More had, so the bar keeps 5 tabs.
+- The popover's footer actions are Join Community (until the person has joined it), Switch or Create Server and Invite Human. Invite Human stays here and not in the row of pages: it opens a dialog rather than a place.
+- The row at the very bottom holds the server's own pages, which More held: Members, Computers and [Settings](./settings.md). They are three places in the same server, so one row costs one line instead of three; at the bottom they are nearest the thumb and the tab bar, where More was. A guest, who has no Members or Computers, gets the row with Settings alone: Settings holds their account and Sign Out, and on a phone the popover is its only way in.
+- In the apps' desktop mode (from 840dp; Jasper, 2026-10-23, task #8; the row dropped by artin, 2026-10-29) there is no server tab: the rail header's workspace tile opens the popover without the row of pages ([Navigation](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)). Every one of those pages already has a way in that stays on screen: Members is on the rail, Settings at the rail's bottom, and Computers in Settings. The attention dots go where those pages live: a feedback reply's on the rail's Settings, a computer that needs attention on Settings too, since Computers is reached from there.
 
 ### The tops of the phone's top-level pages
 
@@ -115,6 +135,7 @@ The shared rules are in [Working agents](../../people-and-agents/working-agents.
 | Drawer from the right, at most 420px (full width on a phone) | Channel details and settings, with its member list as a page inside it ([Channel](./channel.md#the-channel-details)) |
 | Popover | Working now, the notifications, the server list, Help & resources (opened on hover from the rail) |
 | Bottom sheet with a short explanation (phone) | Add Raft to your Home Screen, opened from the notification center's Install Raft or the Add button in Settings › Notifications (button: Got it) |
+| Confirmation ([Overlays](../../components/overview.md#overlays)) | A Dialog, except two that use [AlertDialog](../../../packages/ui/src/components/alert-dialog/alert-dialog.md): discarding unsaved edits to an agent's profile, and opening a link that hands off to another app |
 | Small form dialog ([Forms](../../patterns/forms.md#forms-in-a-dialog)) | Create Channel, Create Task, Create Agent |
 | Wide form dialog ([Forms](../../patterns/forms.md#the-large-form-dialog)) | Register App, editing an app (Edit Release Bot) |
 | Profile card on a person or agent, on hover | A 51px avatar; the name with the light and what it is doing; the handle; Computer, Runtime, Model and Reasoning; the description on one line; for people who manage the agent, its recent activity. It has no buttons |
@@ -132,6 +153,17 @@ These add to the shared breakpoints in [Responsive layout](../../patterns/respon
 | Below 768px | Don't open the first channel automatically: Home comes first. From 768px, the root of a server opens its first channel |
 | The Search and Activity results list | 380px, resizable from 320px to 640px, one width at every desktop width ([Spacing](../../foundations/spacing.md#resizing-columns)) |
 
+### Pull to refresh
+
+Pull to refresh follows [Navigation](../../patterns/navigation.md#refreshing): only on pages that load a snapshot.
+
+- The pages that load a snapshot, and so have pull to refresh on a phone, are Saved, search results (once a search is showing), a channel's or a thread's files, and the lists in Settings: invites, join links, apps and billing.
+- The pages fed by realtime updates, which never have it, are messages, threads, direct messages, Home's conversation list, Activity, Tasks, Members, Computers and a computer's page, and a channel's members.
+
+### Lists of places
+
+Sizes follow [The same kind, the same size](../../foundations/spacing.md#the-same-kind-the-same-size). On a phone, Home's channels and direct messages, Members and the Settings list are all a list of places, drawn with the same sidebar row: 44px, a 16px name at 600 and a 16px icon. Change one and you change them all. The test that pins it fails when Home's rows and the Settings list drift apart.
+
 ## Differences from the shared patterns
 
 Raft Chat departs from these patterns today. Each line is the product's side; the rule is on the linked page.
@@ -140,6 +172,7 @@ Raft Chat departs from these patterns today. Each line is the product's side; th
 | --- | --- |
 | A mention marker replaces the unread count ([States](../../foundations/states.md)) | A channel's row shows the @ marker before the pink count |
 | Every pushed page has Back ([Navigation](../../patterns/navigation.md#going-back)) | On the phone web, the RaftBench gate page and the Assistant page while it loads have neither Back nor the tab bar |
+| A known layout waits in a skeleton ([Waiting](../../components/overview.md#waiting)) | The conversation timeline and the profile panel show the word "Loading…" while they wait |
 | No empty state when loading failed ([Feedback](../../patterns/feedback.md#empty-loading-and-failed)) | When the list of Activity or Saved fails to load, it shows its empty state |
 | A setting that stands alone applies at once ([Forms](../../patterns/forms.md#settings-that-apply-at-once)) | Language & Region, Mute this server, the onboarding, Hide #all, hiding the human directory and counts from members, turning on translation for the server, and a member's server role wait for Save |
 | A feature that needs its configuration is a checkbox with one Save ([Forms](../../patterns/forms.md#settings-saved-together)) | App event notifications is a switch that only reveals the address field |
