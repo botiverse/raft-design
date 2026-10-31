@@ -1332,6 +1332,13 @@
     ],
     "status": "stable"
   },
+  "task-completion-control": {
+    "names": [
+      "TaskCompletionControl"
+    ],
+    "status": "experimental",
+    "description": "The round control that marks a task Done in one press, or reopens a done one. Controlled: pass `checked` from the task's status and change the task in `onCheckedChange`."
+  },
   "task-dnd": {
     "names": [
       "TaskDndProvider",
@@ -1372,6 +1379,7 @@
       "TaskLoadingList",
       "TaskLoadingRow",
       "TaskChip",
+      "TaskBacklogIcon",
       "TaskClosedIcon",
       "TaskDoneIcon",
       "TaskInProgressIcon",

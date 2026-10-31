@@ -14,7 +14,7 @@ const it = test.skipIf(typeof window === "undefined");
 
 afterEach(cleanup);
 
-const STATUSES: TaskStatusId[] = ["todo", "in-progress", "in-review", "done", "closed"];
+const STATUSES: TaskStatusId[] = ["backlog", "todo", "in-progress", "in-review", "done", "closed"];
 
 for (const mode of ["light", "dark"] as const) {
   it(`${mode}: the inline chip's text colour is the task chip's`, () => {

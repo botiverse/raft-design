@@ -31,7 +31,7 @@ Not yet implemented: the examples on this page show the card before [0042](../..
 
 - `TaskCard`: the card. Pass `onClick` to make it open the task's details.
 - `TaskCardRow` and `TaskCardBody`: the layout around the text.
-- `TaskCardMeta`: the first line. It starts with the completion control ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)). Not yet implemented: TaskCard has no part for it; until raft-ui adds one, draw it by hand.
+- `TaskCardMeta`: the first line. It starts with the completion control: put a [TaskCompletionControl](../task-completion-control/task-completion-control.md) first in it ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).
   - `TaskCardChannel`: the place the task belongs to (#launch-week). Optional; see [Content](#content).
   - `TaskCardStatus`: the status chip. Required.
   - `TaskCardNumber`: the task number (#25). Required.

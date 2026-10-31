@@ -5,8 +5,14 @@ import type { TaskStatusId } from "./task-status.recipe";
  *  with a 1.5px sticker-ink edge (2px outer radius), the size of every status
  *  light beside text (status.md#sizes). The square keeps its size
  *  and sits centred in whatever box the context gives the icon, so an icon
- *  slot sized for a glyph still shows the same pixel. */
+ *  slot sized for a glyph still shows the same pixel.
+ *
+ *  Backlog's pixel is hollow: the same square and edge with nothing inside,
+ *  since Backlog has no colour. Its edge is `line-strong`, not sticker-ink:
+ *  sticker-ink is dark in dark mode and, with no fill inside it, would vanish
+ *  on the dark canvas (design/foundations/color.md#statuses). */
 const TASK_STATUS_PIXEL_STYLE: Record<TaskStatusId, CSSProperties> = {
+  backlog: { fill: "none", stroke: "var(--line-strong)" },
   todo: { fill: "var(--task-status-todo)", stroke: "var(--sticker-ink)" },
   "in-progress": { fill: "var(--task-status-in-progress)", stroke: "var(--sticker-ink)" },
   "in-review": { fill: "var(--task-status-in-review)", stroke: "var(--sticker-ink)" },
@@ -42,6 +48,10 @@ function TaskStatusPixel({
       />
     </svg>
   );
+}
+
+export function TaskBacklogIcon(props: SVGProps<SVGSVGElement>) {
+  return <TaskStatusPixel status="backlog" {...props} />;
 }
 
 export function TaskTodoIcon(props: SVGProps<SVGSVGElement>) {

@@ -20,13 +20,22 @@ const MODES = ["light", "dark"] as const satisfies readonly ThemeMode[];
  * green, plus `closed` which is intentionally NEUTRAL (so it is checked by
  * chroma, not hue — comparing the hue of a grey would pass or fail at random).
  */
-const HUE_ANCHORS: Record<TaskStatusId, { hue?: number; maxChroma?: number }> = {
+const HUE_ANCHORS: Record<
+  Exclude<TaskStatusId, "backlog">,
+  { hue?: number; maxChroma?: number }
+> = {
   todo: { hue: 45 },
   "in-progress": { hue: 220 },
   "in-review": { hue: 294 },
   done: { hue: 153 },
   closed: { maxChroma: 0.05 },
 };
+
+/** The statuses with a colour: all but Backlog, which has none and no token
+ *  (design/foundations/color.md#statuses). */
+const COLORED_STATUS_IDS = TASK_STATUS_IDS.filter(
+  (status): status is Exclude<TaskStatusId, "backlog"> => status !== "backlog",
+);
 
 /** Max hue separation still counted as one family — sized to admit the real
  *  light↔dark pairs (the widest is green: lime 130 in light vs 153 in dark)
@@ -170,7 +179,7 @@ it("each status renders its own pixel — a swap cannot pass", () => {
   // Every task-status icon is the status pixel: a square filled with its own
   // status token. Pin the token per status so an accidental swap (e.g.
   // in-review pointed at the todo colour) fails here.
-  for (const status of TASK_STATUS_IDS) {
+  for (const status of COLORED_STATUS_IDS) {
     const icon = screen.getByTestId(`icon-${status}`);
     expect(icon.getAttribute("data-slot")).toBe("task-status-icon");
     expect(icon.getAttribute("data-status")).toBe(status);
@@ -247,7 +256,7 @@ for (const mode of MODES) {
     );
     const scope = screen.getByTestId("status-scope");
     const scopeBg = scopeBackground(scope);
-    for (const status of TASK_STATUS_IDS) {
+    for (const status of COLORED_STATUS_IDS) {
       const anchor = HUE_ANCHORS[status];
       // Read the ACTUAL rendered badge fill (composited over the scope), not the
       // raw token string — soft fills are translucent in dark.
@@ -277,7 +286,7 @@ for (const mode of MODES) {
     );
     const scope = screen.getByTestId("status-scope");
     const scopeBg = scopeBackground(scope);
-    for (const status of TASK_STATUS_IDS) {
+    for (const status of COLORED_STATUS_IDS) {
       // The one token, resolved once, is the reference value.
       const token = parseColor(
         getComputedStyle(scope).getPropertyValue(`--task-status-${status}`).trim(),
@@ -325,7 +334,8 @@ for (const mode of MODES) {
     );
     const scopeBg = scopeBackground(screen.getByTestId("status-scope"));
     for (const status of TASK_STATUS_IDS) {
-      // Every status, Closed included, sets ink text on its own wash.
+      // Every status, Closed included, sets ink text on its own wash; Backlog
+      // sets it on the page, with no wash.
       const badge = screen.getByTestId(`badge-${status}`);
       const style = getComputedStyle(badge);
       const fg = parseColor(style.color);
@@ -336,5 +346,84 @@ for (const mode of MODES) {
         `${key}/${status}: rendered text contrast ${ratio.toFixed(2)}`,
       ).toBeGreaterThanOrEqual(4.5);
     }
+  });
+
+  it(`Backlog is hollow and outlined, and visible on the canvas — ${key}`, () => {
+    render(
+      <ThemeProvider mode={mode}>
+        <div data-testid="backlog-scope" className="bg-layer-canvas">
+          <TaskStatusIcon status="backlog" data-testid="backlog-icon" />
+          <TaskStatusBadge status="backlog" data-testid="backlog-badge">
+            Backlog
+          </TaskStatusBadge>
+          <Timeline>
+            <TimelineItem taskStatus="backlog" data-testid="backlog-timeline">
+              <TimelineTitle>Backlog</TimelineTitle>
+            </TimelineItem>
+            <TimelineItem
+              taskStatus="backlog"
+              icon={<span data-testid="backlog-timeline-icon">!</span>}
+            >
+              <TimelineTitle>Backlog, with an icon</TimelineTitle>
+            </TimelineItem>
+          </Timeline>
+        </div>
+      </ThemeProvider>,
+    );
+    const scope = screen.getByTestId("backlog-scope");
+    const scopeBg = scopeBackground(scope);
+    const lineStrong = parseColor(getComputedStyle(scope).getPropertyValue("--line-strong").trim());
+    const stickerInk = parseColor(getComputedStyle(scope).getPropertyValue("--sticker-ink").trim());
+
+    // The pixel: the same 10px square and 1.5px edge, nothing inside, and the
+    // edge `line-strong`, not sticker-ink (dark in dark mode, so a hollow
+    // sticker-ink square would vanish on the dark canvas).
+    const icon = screen.getByTestId("backlog-icon");
+    expect(icon.getAttribute("data-status")).toBe("backlog");
+    expect(icon.getBoundingClientRect().width).toBe(10);
+    const pixel = icon.querySelector("rect")!;
+    const pixelStyle = getComputedStyle(pixel);
+    expect(pixelStyle.fill, `${key}: the pixel is hollow`).toBe("none");
+    expect(parseFloat(pixelStyle.strokeWidth)).toBe(1.5);
+    const edge = composite(parseColor(pixelStyle.stroke), scopeBg);
+    expect(edge, `${key}: the edge is line-strong`).toEqual(composite(lineStrong, scopeBg));
+    // In light the two tokens are one ink; in dark sticker-ink stays dark.
+    if (mode === "dark") {
+      expect(edge, `${key}: the edge is not sticker-ink`).not.toEqual(
+        composite(stickerInk, scopeBg),
+      );
+    }
+    // 1.5:1, not the 3:1 of a graphic that carries meaning on its own: the
+    // pixel is never alone, the status's name or the task always labels it
+    // beside it, so the edge only has to show, not to be read.
+    expect(
+      contrastRatio(edge, scopeBg),
+      `${key}: the hollow pixel's edge stands out from the canvas`,
+    ).toBeGreaterThanOrEqual(1.5);
+
+    // The chip: no tint, a hairline outline, words in foreground.
+    const badge = screen.getByTestId("backlog-badge");
+    const badgeStyle = getComputedStyle(badge);
+    expect(parseColor(badgeStyle.backgroundColor).alpha, `${key}: no tint`).toBe(0);
+    expect(badgeStyle.boxShadow, `${key}: an outline in place of the tint`).toContain("inset");
+    expect(badgeStyle.color).toBe(getComputedStyle(scope).color);
+    // Unlike the outlined chip of a task that isn't loaded yet, it has a pixel.
+    expect(badge.querySelector("[data-slot=task-status-icon]")).not.toBeNull();
+
+    // The Timeline marker is the hollow pixel too.
+    const marker = screen
+      .getByTestId("backlog-timeline")
+      .querySelector<HTMLElement>(".r-timeline-item__marker")!;
+    const markerStyle = getComputedStyle(marker);
+    expect(parseColor(markerStyle.backgroundColor).alpha, `${key}: hollow marker`).toBe(0);
+    expect(composite(parseColor(markerStyle.borderTopColor), scopeBg)).toEqual(
+      composite(lineStrong, scopeBg),
+    );
+    // An icon in place of the pixel is drawn in the item colour, so it must
+    // be a real ink: `line-strong`, never transparent.
+    const iconBox = screen.getByTestId("backlog-timeline-icon").parentElement!;
+    const iconColor = parseColor(getComputedStyle(iconBox).color);
+    expect(iconColor.alpha, `${key}: the icon is visible`).toBeGreaterThan(0);
+    expect(composite(iconColor, scopeBg)).toEqual(composite(lineStrong, scopeBg));
   });
 }

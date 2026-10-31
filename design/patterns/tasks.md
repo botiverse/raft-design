@@ -67,17 +67,15 @@ A list of tasks (the rows beside a conversation and under a message, the cards o
 
 The completion control is how a to-do list is worked through: one click and the task is done. It leads every task row and card, beside a conversation, under a message, on the board and in the list.
 
-Not yet implemented in raft-ui: there is no part for the completion control. Until raft-ui adds it, draw it by hand as below.
-
-- Draw it as a round `CheckboxIndicator` (`shape="circle"`) inside a `button` with `role="checkbox"`, `aria-checked` true only on a done task. It is round, not the square of a [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md), for the reason in [Shape](../foundations/shape.md#principles).
+- Use [TaskCompletionControl](../../packages/ui/src/components/task-completion-control/task-completion-control.md): a round `CheckboxIndicator` (`shape="circle"`) inside a `button` with `role="checkbox"`, `aria-checked` true only on a done task. It is round, not the square of a [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md), for the reason in [Shape](../foundations/shape.md#principles).
 - Name it by the task, and keep the name when the state changes: "#25 Fix onboarding copy". The checked state already says whether it is done, so a name that says what a click does ("Reopen #25") would be read as "Reopen #25, checkbox, checked". Its tooltip may say the action: Complete, Accept and Complete on an In Review task, Reopen on a done one.
 - Show it checked only on a done task. On every other status, Backlog and Closed included, it is unchecked, and a click marks the task Done, as any change of status does.
-- While unchecked, preview the check when the pointer is over the control itself (`previewOnHover`, with the `group` class on the control's button, never on the row): hovering elsewhere on the row is a hover on the row, not on the control ([Hover and press](../foundations/states.md#hover-and-press)).
+- While unchecked, preview the check when the pointer is over the control itself, never over the rest of the row: hovering elsewhere on the row is a hover on the row, not on the control ([Hover and press](../foundations/states.md#hover-and-press)). TaskCompletionControl does this even when the row or a board column around it is a Tailwind `group`.
 - Let one click mark the task Done from any status. On an In Review task it accepts the work.
 - Show the result in place, then move the task: the title is struck through in `foreground-hint`, a Toast says "Completed #25" with Undo ([Toast](../../packages/ui/src/components/toast/toast.md)), and the task stays in its group, struck through, for 650ms before it moves into the collapsed Done group; with reduced motion it moves at once ([Motion](../foundations/motion.md#usage)). Undo puts it back in the status it came from. A task that jumps away at the click reads as lost; the pause and the Toast say where it went.
 - Let a click on a done task's control reopen it to Todo.
 - Make the control its own button on top of the row or card. Its hit area reaches 8px past its 20px circle with a mouse (36px) and 12px on a touch screen (44px) ([Hit targets](../foundations/accessibility.md#hit-targets)). With a mouse it reaches 8px, not 12px, so it never covers the task's number beside it. Selecting the rest of the row or card still opens the task.
-- For a person who can't change the task, show the control disabled with `aria-disabled` only, never the native `disabled`: the button keeps keyboard focus, so moving through the grid still stops on it, a screen reader says it is unavailable and its tooltip can explain why. Pressing it or Space does nothing. Style it from `data-disabled`.
+- For a person who can't change the task, show the control disabled with `aria-disabled` only, never the native `disabled`: the button keeps keyboard focus, so moving through the grid still stops on it, a screen reader says it is unavailable and its tooltip can explain why. Pressing it or Space does nothing. Style it from `data-disabled`. TaskCompletionControl's `disabled` does all of this.
 
 ### Where tasks are created
 
@@ -196,5 +194,6 @@ Which filters a product offers is on its own page. Every filter follows the same
 - [Hand-offs and approvals](../people-and-agents/handoffs-and-approvals.md#handing-off): claims and hand-offs.
 - [Color](../foundations/color.md#statuses): the status colors.
 - [Tasks components](../../packages/ui/src/components/tasks/tasks.md): `TaskChip` and `TaskStatusBadge`.
+- [TaskCompletionControl](../../packages/ui/src/components/task-completion-control/task-completion-control.md): the completion control.
 - [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md): `CheckboxIndicator`, drawn round in the completion control.
 - [0042](../decisions/0042-tasks-as-a-to-do-list.md): why tasks work as a to-do list, with Backlog and no transition limits.
