@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 import type { ComponentPropsWithRef } from "react";
 import { tv } from "../../lib/tv";
 
@@ -20,7 +20,7 @@ const saveStatus = tv({
     saved: [
       "flex min-w-0 items-center gap-1",
       "text-foreground-muted",
-      "[&>svg]:size-3.5 [&>svg]:shrink-0",
+      "[&>svg]:size-3 [&>svg]:shrink-0",
     ],
     error: ["block wrap-anywhere", "text-danger-strong"],
   },
@@ -57,7 +57,7 @@ export function SaveStatusSaved({ className, children, ...props }: SaveStatusSav
       className={saved({ className })}
       {...props}
     >
-      {hasContent ? <Check aria-hidden="true" data-slot="save-status-icon" /> : null}
+      {hasContent ? <CircleCheck aria-hidden="true" data-slot="save-status-icon" /> : null}
       {children}
     </span>
   );

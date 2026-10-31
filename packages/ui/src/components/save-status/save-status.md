@@ -30,7 +30,7 @@ Which settings apply at once is in [Forms](../../../../../design/patterns/forms.
 ## Anatomy
 
 - `SaveStatus`: the line, one line of footnote text tall (18px) whether or not it says anything. Put it right after the control: after the select or the segmented control in a `Field`, before any `FieldDescription`, or after the description in a settings row's `ListRowBody`. Required.
-- `SaveStatusSaved`: a check and "Saved", in `foreground-muted`; the check is the one the Save button shows when it reads "Saved" ([Forms](../../../../../design/patterns/forms.md#settings-saved-together)). It is the polite live region, so render it empty while nothing has happened and put the words in when the change is stored; the check shows only with them.
+- `SaveStatusSaved`: a check and "Saved", in `foreground-muted`. The check is `circle-check` at 12px, 4px before the words: success is `circle-check`, and an icon beside 12px text takes the 11px to 12px size, as an event line's or a badge's does ([Iconography](../../../../../design/foundations/iconography.md#meanings)). It is the polite live region, so render it empty while nothing has happened and put the words in when the change is stored; the check shows only with them.
 - `SaveStatusError`: what failed, in `danger-strong`, in place of `SaveStatusSaved`.
 
 ## States
