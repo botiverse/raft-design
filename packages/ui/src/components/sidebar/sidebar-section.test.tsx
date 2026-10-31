@@ -170,16 +170,15 @@ test("a control rests in the hint color and turns body color when it is the one 
 });
 
 /**
- * Shown with a mouse, the controls are in the row's flow, not laid over it:
- * absolute, they covered the count of a long custom section's title by 21px
- * (slock, 2026-10-31). Static, the title's disclosure (flex-1, min-w-0)
- * shrinks and the title truncates before them.
+ * The controls hold their place in the row even while hidden: laid over the
+ * row (absolute) they covered a long custom section title's count by 21px,
+ * and taken into it only on hover they made the title jump (slock #12251,
+ * 2026-10-31). Hidden is opacity and pointer-events only.
  */
-test("shown controls take their place in the row instead of covering the title", () => {
-  const cls = renderControls().classes("sidebar-section-controls");
-  for (const state of ["group-hover/section-header", "focus-within", "has-data-popup-open"]) {
-    expect(cls).toContain(`pointer-fine:${state}:static`);
-    expect(cls).toContain(`pointer-fine:${state}:translate-y-0`);
-  }
-  expect(cls).toContain("absolute");
+test("the controls keep their place in the row, hidden or shown", () => {
+  const { classes } = renderControls();
+  const cls = classes("sidebar-section-controls");
+  expect(cls).toContain("opacity-0");
+  expect(cls).toContain("pointer-fine:group-hover/section-header:opacity-100");
+  for (const name of cls) expect(name).not.toMatch(/(^|:)(absolute|static)$/);
 });
