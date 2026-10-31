@@ -43,3 +43,34 @@ jobs:
 
       - name: Pack package
         run: vp pm pack --filter @botiverse/raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"
+
+  docs-build:
+    # The docs site deploys through Cloudflare Workers Builds, whose log only the
+    # Cloudflare dashboard shows. Build it here too, so a broken site build fails
+    # a PR where everyone can read why, and record how much memory it takes.
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Vite+
+        uses: voidzero-dev/setup-vp@v1.21.1
+        with:
+          node-version: "26"
+          cache: true
+
+      - name: Install dependencies
+        run: vp install
+
+      - name: Build package
+        run: vp run @botiverse/raft-ui#build
+
+      - name: Build docs site
+        working-directory: apps/doc
+        run: /usr/bin/time -v pnpm run build 2>&1 | tee "$RUNNER_TEMP/docs-build.log"; exit "${PIPESTATUS[0]}"
+        shell: bash
+
+      - name: Peak memory
+        if: always()
+        run: grep -E "Maximum resident set size|Exit status|Elapsed" "$RUNNER_TEMP/docs-build.log" || true
