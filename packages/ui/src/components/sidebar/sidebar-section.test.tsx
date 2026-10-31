@@ -168,3 +168,18 @@ test("a control rests in the hint color and turns body color when it is the one 
     expect(cls).toContain(token);
   }
 });
+
+/**
+ * Shown with a mouse, the controls are in the row's flow, not laid over it:
+ * absolute, they covered the count of a long custom section's title by 21px
+ * (slock, 2026-10-31). Static, the title's disclosure (flex-1, min-w-0)
+ * shrinks and the title truncates before them.
+ */
+test("shown controls take their place in the row instead of covering the title", () => {
+  const cls = renderControls().classes("sidebar-section-controls");
+  for (const state of ["group-hover/section-header", "focus-within", "has-data-popup-open"]) {
+    expect(cls).toContain(`pointer-fine:${state}:static`);
+    expect(cls).toContain(`pointer-fine:${state}:translate-y-0`);
+  }
+  expect(cls).toContain("absolute");
+});

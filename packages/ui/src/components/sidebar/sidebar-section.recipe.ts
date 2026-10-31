@@ -52,9 +52,11 @@ export const sidebarSectionRecipe = tv({
       // width), on hover with a mouse: decided by the input, not the width
       // (design/patterns/responsive.md#touch-screens).
       "not-pointer-fine:static not-pointer-fine:pointer-events-auto not-pointer-fine:translate-y-0 not-pointer-fine:opacity-100",
-      "pointer-fine:group-hover/section-header:pointer-events-auto pointer-fine:group-hover/section-header:opacity-100",
-      "pointer-fine:focus-within:pointer-events-auto pointer-fine:focus-within:opacity-100",
-      "pointer-fine:has-data-popup-open:pointer-events-auto pointer-fine:has-data-popup-open:opacity-100",
+      // Shown, they take their place in the row, so a long title truncates
+      // before them instead of running under them with its count.
+      "pointer-fine:group-hover/section-header:pointer-events-auto pointer-fine:group-hover/section-header:opacity-100 pointer-fine:group-hover/section-header:static pointer-fine:group-hover/section-header:translate-y-0",
+      "pointer-fine:focus-within:pointer-events-auto pointer-fine:focus-within:opacity-100 pointer-fine:focus-within:static pointer-fine:focus-within:translate-y-0",
+      "pointer-fine:has-data-popup-open:pointer-events-auto pointer-fine:has-data-popup-open:opacity-100 pointer-fine:has-data-popup-open:static pointer-fine:has-data-popup-open:translate-y-0",
       // The ends of a header (design/foundations/alignment.md): the last
       // control's icon box, not its button, ends on the header's line, and its
       // empty 5px hangs outward, mirroring the chevron at the start.
