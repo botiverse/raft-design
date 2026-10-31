@@ -1,3 +1,20 @@
+## [0.56.0](https://github.com/botiverse/raft-design/compare/v0.55.0...v0.56.0) (2026-10-31)
+
+### Changed
+
+- **Sidebar section header:** its controls rest in the title's hint color and turn body color only on hover, focus or with their menu open; the controls end on the header's line, and the title starts where the rows' content starts (stdrc, 2026-10-31). ([#922](https://github.com/botiverse/raft-design/pull/922))
+
+### Fixed
+
+- **Popups under window controls stay on their trigger.** The frame insets (macOS traffic lights, caption buttons) are now a collision boundary instead of collision padding, so Base UI's shift limiter no longer pushes a popup with an arrow off its trigger: a top-bar tooltip in the installed web app on macOS sat about 69px right of its icon, 38px on Windows and Linux desktop. Popups portaled into a container of their own keep their padding and their clipping ancestors. Tooltip, Popover, PreviewCard, Select, menus, Combobox and NotificationCenter share one hook. ([#927](https://github.com/botiverse/raft-design/pull/927))
+- **MessageItem's Saved marker** is 24px with footnote text, like the reactions and badges beside it, so it no longer reads as a lighter grey. ([#923](https://github.com/botiverse/raft-design/pull/923))
+
+### Design System
+
+- **Window-control insets bound a popup; they don't pad it** (Page Structure › Frame insets). ([#927](https://github.com/botiverse/raft-design/pull/927))
+  - Docs: https://raft-design.botiverse.build/patterns/page-structure/
+- **Panel header actions:** shown buttons, then ⋯, then Close ([#920](https://github.com/botiverse/raft-design/pull/920)); **Navigation:** a listed item opens in the side panel, Raft has no breadcrumbs ([#921](https://github.com/botiverse/raft-design/pull/921)).
+
 ## [0.55.0](https://github.com/botiverse/raft-design/compare/v0.54.0...v0.55.0) (2026-10-31)
 
 ### Added
