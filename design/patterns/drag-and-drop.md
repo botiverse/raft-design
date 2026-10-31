@@ -23,7 +23,7 @@ Two lists, as a sidebar's Pinned and Channels sections. Drag a channel within a 
 drag/compositions/lists
 ```
 
-A board, where a column can refuse a card (Closed refuses every card here):
+A board, where a column can refuse a card. Any status can be set from any status, so a refusal is about permission, not about the status: here the person may not change #137's status, so every column but its own refuses it:
 
 ```example
 task-dnd/compositions/task-dnd
@@ -66,7 +66,7 @@ One placeholder for every place: a 1.5px dashed `line-strong` outline on `fill-s
 
 ## Refused places
 
-- Show no placeholder over a place that won't take the item, set the `not-allowed` cursor, and say why in a HUD chip by the pointer (by the copy, in a keyboard drag): "Cannot move to Closed", "The window is too narrow for another column". `DragRefusalHint` does all three.
+- Show no placeholder over a place that won't take the item, set the `not-allowed` cursor, and say why in a HUD chip by the pointer (by the copy, in a keyboard drag): "You can't change the status of #137", "The window is too narrow for another column". `DragRefusalHint` does all three.
 - Keep the chip in the window and clear of the copy. It sits right of and below the pointer; where the window's right edge would cut it, it goes left of the pointer and of the copy (a compact proxy held near its end reaches left of the pointer); where the bottom edge would, above the pointer. It never sits under the copy, which is drawn over it, and always stays at least 8px inside the window. `DragRefusalHint` places it so.
 - Say the reason in the announcement too: the chip is not read out.
 - A drop on a refused place is a cancel: the copy glides home and nothing moves.

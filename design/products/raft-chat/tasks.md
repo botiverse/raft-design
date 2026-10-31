@@ -1,6 +1,6 @@
 ---
 title: Raft Chat — Tasks
-summary: The Tasks destination — its title and count, the Channel, Creator and Assignee filters, what it leaves out, a channel's Tasks section with its quick add and Create Task, and their empty states.
+summary: The Tasks destination — its title and count, the Channel, Creator and Assignee filters, what it leaves out, a channel's Tasks section and their empty states.
 ---
 
 # Raft Chat — Tasks
@@ -19,6 +19,8 @@ From top to bottom:
 tasks/compositions/tasks-panel
 ```
 
+Not yet implemented in raft-ui: this example shows the tasks before [0042](../../decisions/0042-tasks-as-a-to-do-list.md), with five statuses and no completion control.
+
 ## Rules
 
 - Offer three filters: Channel, Creator and Assignee. Creator and Assignee share one list of the server's people and agents.
@@ -30,9 +32,8 @@ tasks/compositions/tasks-panel
 
 The section follows [Tasks beside a conversation](../../patterns/tasks.md#tasks-beside-a-conversation). In Raft Chat:
 
-- Count the active tasks (Todo, In Progress, In Review) on All, and the active tasks assigned to the person on For Me. Backlog, Done and Closed are not counted. The header carries no count of its own.
-- Put the quick add, "Add a task", under All / For Me. Enter creates a Todo task in the channel, assigned to the person in For Me and unassigned in All ([Where tasks are created](../../patterns/tasks.md#where-tasks-are-created)).
-- Put a ghost Create Task icon button (`plus`) before ×. It opens Create Task, a small dialog with the channel under its title in Space Mono ("In #launch-week"), one title row per task and Add Another, Description while there is one title, then Status (Backlog, Todo or In Progress) and Assignee, which apply to every title ([Where tasks are created](../../patterns/tasks.md#where-tasks-are-created)).
+- Count the active tasks (Todo, In Progress, In Review) on All, and the active tasks assigned to the person on For Me. The header carries no count of its own.
+- Put a ghost Create Task icon button (`plus`) before ×. It opens Create Task ([Where tasks are created](../../patterns/tasks.md#where-tasks-are-created)), with the channel under its title in Space Mono: "In #launch-week".
 - Within a status group, list the newest task first: the section is read while people talk, so a task just created from the conversation shows at the top of its group, where they look for it.
 
 ### Empty states

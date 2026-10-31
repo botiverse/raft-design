@@ -33,6 +33,7 @@ motion
 | A drag settling: the lifted copy gliding into its place on a drop, or back home on a cancel; siblings sliding apart to open the place; a layout reflowing on a drop, in step with the glide ([Drag and drop](../patterns/drag-and-drop.md#drop-and-cancel)) | `motion-drag-settle-easing` | `motion-drag-settle-duration`, 160ms |
 | Someone joins or leaves an avatar stack | The faces slide apart and fade in or out, with `ease-slide` | 180ms to 220ms |
 | The item a jump lands on (located) | `info-soft` at once, held 1.2s, then faded out with `ease-out`; with reduced motion held still for 2s and then off ([Located](./states.md#located)) | 2s in all |
+| A completed task leaving its group: it stays in place, struck through, then moves into the collapsed Done group ([Completing a task](../patterns/tasks.md#completing-a-task)) | Held still, then moved with no transition; with reduced motion it moves at once | 650ms |
 | Text and numbers that change | Replace the text. Don't roll the digits | None |
 | Brand moments (setup only) | Once, never looping: on the last setup step the agent's avatar hops in and two square marks pop beside it and fade; on the page that creates a server, the workspace button in the preview pops when its name changes | 580ms; 180ms |
 

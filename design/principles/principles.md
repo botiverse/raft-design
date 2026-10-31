@@ -57,7 +57,7 @@ Applied in: [Color](../foundations/color.md#meanings-of-color), [States](../foun
 
 ## 5. Status colors have fixed meanings
 
-Six task statuses and five presence lights, none of them blinking. Each light and five of the statuses have one color; Backlog, the sixth status ("not now"), has none: its pixel is hollow, so it spends no hue that already means something. Something going wrong is orange; red is only for consequences that cannot be undone.
+Six task statuses and five presence lights, none of them blinking. Each light and five of the statuses have one color; Backlog, the sixth status ("not now"), has none, so it spends no hue that already means something ([Color](../foundations/color.md#statuses)). Something going wrong is orange; red is only for consequences that cannot be undone.
 
 **Why.** Statuses are read at a glance, across many rows, screens and products, so their colors have to mean the same thing everywhere and stay the same over time; `presence-busy` even has its own value, so that a change of brand color doesn't change what busy looks like. Red is kept for what cannot be undone so that it still stops people at a delete button; if every error were red, the one irreversible action would look like everything else, so recoverable problems, warnings and actions that stop or reset are orange. Status never moves on its own: a looping animation makes the page render at the screen's refresh rate (144fps and 80% GPU against 2fps and 3% once stopped), and a dozen pulsing avatars get in the way of reading ([0006](../decisions/0006-working-agents-in-place.md)). A working agent is a still yellow light and a sentence about what it is doing.
 

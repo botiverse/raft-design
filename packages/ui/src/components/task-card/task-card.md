@@ -16,6 +16,8 @@ A TaskCard shows one task: a round completion control, its number, its title and
 task-card/compositions/task-card-state-matrix
 ```
 
+Not yet implemented: the examples on this page show the card before [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md), with no completion control and a menu of five statuses.
+
 ## When to use
 
 | Situation                                                     | Use                                                                                                                                              |
@@ -29,7 +31,7 @@ task-card/compositions/task-card-state-matrix
 
 - `TaskCard`: the card. Pass `onClick` to make it open the task's details.
 - `TaskCardRow` and `TaskCardBody`: the layout around the text.
-- `TaskCardMeta`: the first line. It starts with the completion control, which raft-ui has no part for: the caller puts a round `CheckboxIndicator` in a button there ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).
+- `TaskCardMeta`: the first line. It starts with the completion control ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)). Not yet implemented: TaskCard has no part for it; until raft-ui adds one, draw it by hand.
   - `TaskCardChannel`: the place the task belongs to (#launch-week). Optional; see [Content](#content).
   - `TaskCardStatus`: the status chip. Required.
   - `TaskCardNumber`: the task number (#25). Required.
@@ -53,7 +55,7 @@ task-card/compositions/task-card-state-matrix
 
 - A card with an `onClick` hovers with the subtle tier, like the other cards people read, and presses with the medium tier; its status chip hovers medium ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
 - Pressing the status chip opens a list of all six statuses, from any status, with a check on the current one ([Select](../select/select.md)). Choosing one changes the status at once.
-- Pressing the completion control marks the task Done, or reopens a done task to Todo. A done task's title is struck through in `foreground-hint` ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).
+- Pressing the completion control completes or reopens the task ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).
 - Pressing the chip or the completion control doesn't open the card: stop the click from reaching `TaskCard`.
 
 ```example
@@ -71,8 +73,7 @@ task-card/compositions/task-status-select
 
 - `TaskCard` uses Base UI's `useRender` and renders an `article`. With `onClick` it is clickable but not a button: give the keyboard a way to open the task, such as a link or button on the title.
 - `TaskCardStatus` is a native `button` and the trigger of the status [Select](../select/select.md). Give it an accessible name that includes the task: `aria-label="Change status for task #25"`.
-- Make the completion control a `button` with `role="checkbox"` and `aria-checked`, named by what a press does: "Complete #25", "Accept and complete #25" on an In Review task, "Reopen #25" on a done one.
-- In a list, ↑ and ↓ move between cards, Enter opens the focused card and Space completes it ([Tasks](../../../../../design/patterns/tasks.md#rules)). On a board, Space picks the card up instead ([TaskBoard](../task-board/task-board.md#accessibility)).
+- The completion control's semantics are in [Completing a task](../../../../../design/patterns/tasks.md#completing-a-task), and the keys of a list of cards in [Keyboard in a list of tasks](../../../../../design/patterns/tasks.md#keyboard-in-a-list-of-tasks).
 - `busy` sets `aria-busy`; `disabled` sets `aria-disabled` on the card.
 
 ## Rules

@@ -16,6 +16,8 @@ A TaskBoard shows tasks in one column per status, from Backlog to Closed. Draggi
 task-board/compositions/task-board
 ```
 
+Not yet implemented: this example shows the board before [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md), with five columns and no completion control on the cards.
+
 ## When to use
 
 | Situation                                  | Use                                   |
@@ -52,7 +54,7 @@ task-board/compositions/task-board-empty-columns
 ## Behavior
 
 - Order the columns Backlog, Todo, In Progress, In Review, Done, Closed, and start Backlog, Done and Closed collapsed ([Tasks](../../../../../design/patterns/tasks.md#rules)).
-- Take a card in every column: any status can be set from any status, so no column refuses a drop.
+- Don't refuse a drop because of the status a card has or would get: any status can be set from any status ([Tasks](../../../../../design/patterns/tasks.md#rules)). A column refuses a card only for a reason outside the statuses, such as a task the person may not change.
 - Switch between the board and the list with Board / List at the right end of the filter bar ([Tasks](../../../../../design/patterns/tasks.md#structure)), and remember the person's choice.
 - Scroll the whole board in one viewport, both ways. Columns keep their width and never scroll on their own.
 - Mount only the visible cards of a tall column with a virtualizer of your own that reads the board's scroll position, as below.
@@ -64,7 +66,7 @@ task-board/compositions/task-board-virtualization
 ## Content
 
 - Write the empty text the same way as an empty group in a list ([TaskList](../task-list/task-list.md#content)).
-- While a card is dragged over an empty column, name the status it would get. `TaskBoardColumnEmptyBlocked` is for a board whose product limits moves; Raft's task boards don't.
+- While a card is dragged over an empty column, name the status it would get, or, when the column refuses it, why ("You can't change this task's status").
 
 ## Accessibility
 
