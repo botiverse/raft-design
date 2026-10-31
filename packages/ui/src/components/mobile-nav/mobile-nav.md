@@ -60,7 +60,7 @@ mobile-nav/compositions/server-tab
 - `MobileNavServerPopoverDestinations` and `MobileNavServerPopoverDestination`: the server's own pages in one row of equal buttons, each a 20px icon over its label in a `span`. The row is a `group`; name it with `aria-label`, such as the server's name.
 - `MobileNavServerPopoverGroup`: rows that always stay in view, such as the footer actions.
 
-The popover's rows are the product's: the server list as the switcher has it ([Switching servers](../../../../../design/components/overview.md#switching-servers)), then the switcher's footer actions, then the server's own pages in a `MobileNavServerPopoverDestinations` row at the very bottom, nearest the tab bar. Raft Chat's are in [Navigation](../../../../../design/patterns/navigation.md#the-server-tab-on-a-phone).
+The popover's rows are the product's: the server list as the switcher has it ([Switching servers](../../../../../design/components/overview.md#switching-servers)), then the switcher's footer actions, then the server's own pages in a `MobileNavServerPopoverDestinations` row at the very bottom, nearest the tab bar. Raft Chat's are in [Raft Chat](../../../../../design/products/raft-chat/README.md#the-server-tab).
 
 - A press opens the popover, and a second press closes it.
 - A long press, 500ms holding still, opens it too, the same moment raft-ui's other long-press menus open ([States](../../../../../design/foundations/states.md)). Lifting the finger leaves it open, and a long press while it is open leaves it as it is. A finger that moves more than 10px is a scroll, not a hold. The tab blocks the system's own long-press popover and text selection.
