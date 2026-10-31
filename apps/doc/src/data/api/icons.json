@@ -7,13 +7,6 @@
     "props": []
   },
   {
-    "name": "CreateTaskIcon",
-    "entry": "@botiverse/raft-ui",
-    "description": "Create a task: Lucide's list-todo, a plus in place of its last line.",
-    "native": true,
-    "props": []
-  },
-  {
     "name": "FollowArtifactIcon",
     "entry": "@botiverse/raft-ui",
     "description": "Follow an Artifact: a plus inside ArtifactIcon's page, where its two lines of text were.",

@@ -1,6 +1,5 @@
 export {
   SidebarBody,
-  SidebarLiveActivity,
   SidebarContent,
   SidebarGroupLabel,
   SidebarHeader,
@@ -9,7 +8,6 @@ export {
 } from "./sidebar";
 export type {
   SidebarBodyProps,
-  SidebarLiveActivityProps,
   SidebarContentProps,
   SidebarGroupLabelProps,
   SidebarHeaderProps,

@@ -23,7 +23,6 @@ aliases:
     FollowArtifactIcon,
     UnfollowArtifactIcon,
     AddCommentIcon,
-    CreateTaskIcon,
     ReopenTaskIcon,
     Action icons,
   ]
@@ -94,7 +93,6 @@ Each one labels one action, in a menu item or on a button, beside the action's n
 | `FollowArtifactIcon`      | Follow Artifact: in an Artifact's menu and on the Artifacts page                                                                                                 |
 | `UnfollowArtifactIcon`    | Unfollow Artifact, in the same places                                                                                                                            |
 | `AddCommentIcon`          | Add Comment: writing a comment on a passage of an Artifact or a file                                                                                             |
-| `CreateTaskIcon`          | Deprecated: nothing uses it. Create Task from a message is Lucide's `plus` (stdrc and Artea, 2026-10-30). Still exported; don't use it in new work               |
 | `ReopenTaskIcon`          | Reopen Task: taking a done task back to not done                                                                                                                 |
 
 Pick the channel icon by the kind of channel the action is on, the same kind its own icon shows (`hash`, `lock`, `git-branch`; [Raft Chat channel](../../../../../design/products/raft-chat/channel.md)).
@@ -110,7 +108,7 @@ icons/unfollow-artifact-sizes
 
 - The channel pairs are Lucide's `hash`, `lock` and `git-branch`, full size and in place, the mark in the bottom-right corner (16 to 22). Where the glyph reaches that corner its strokes stop about a line's width short of the mark, as Lucide's `calendar-plus` cuts its corner. Every pair keeps the same gap, so the six read as one set (Artea, 2026-10-28). `git-branch` leaves the corner empty and needs no cut.
 
-`AddCommentIcon` and `CreateTaskIcon` put a plus in the same corner, with the same gap: `AddCommentIcon` is `CommentIcon` at 24px, its bubble cut short of the plus; `CreateTaskIcon` is Lucide's `list-todo` with the plus in place of its last line. They have no minus pair.
+`AddCommentIcon` puts a plus in the same corner, with the same gap: it is `CommentIcon` at 24px, its bubble cut short of the plus. It has no minus pair.
 
 `ReopenTaskIcon` has no badge. It is a ticked box broken open at the top by a counter-clockwise arrow (Lucide's `rotate-ccw-square` with a check): a done task, opened again. Lucide's `rotate-ccw` already means restart and `refresh-cw` retry, so a reopen drawn as a bare circle arrow would read as one of them.
 

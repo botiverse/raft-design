@@ -43,7 +43,7 @@ const SNAP_BACK = [
 
 const pullToRefreshIndicator = tv({
   slots: {
-    root: ["flex w-full shrink-0 justify-center", "text-foreground-icon"],
+    root: ["flex w-full shrink-0 justify-center", "text-foreground-muted"],
     surface: ["flex items-center justify-center"],
     spinner: [
       "transition-opacity duration-300 ease-slide motion-reduce:transition-none",

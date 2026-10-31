@@ -70,13 +70,6 @@ export {
   MessageMultiSelectToolbar,
   MessageMultiSelectToolbarActions,
 } from "./message-multi-select";
-export {
-  MessageTextSelectionToolbar,
-  MessageTextSelectionToolbarButton,
-  MessageTextSelectionToolbarSeparator,
-  createMessageTextSelectionAnchor,
-} from "./message-text-selection-toolbar";
-export type { MessageTextSelectionAnchor } from "./message-text-selection-toolbar";
 export type { MessageItemProps } from "./message-item-root";
 export type {
   MessageItemAvatarSlotProps,
@@ -155,8 +148,3 @@ export type {
   MessageMultiSelectToolbarActionsProps,
   MessageMultiSelectToolbarProps,
 } from "./message-multi-select";
-export type {
-  MessageTextSelectionToolbarButtonProps,
-  MessageTextSelectionToolbarProps,
-  MessageTextSelectionToolbarSeparatorProps,
-} from "./message-text-selection-toolbar";

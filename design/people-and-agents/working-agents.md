@@ -79,7 +79,7 @@ Raft Chat used to show a live strip of working agents above the phone tab bar an
 - Its content changed all the time.
 - It was usually about something other than the page being read.
 
-The strip is split up and each part goes back where it belongs: the summary at the top of the screen, the agent's row, the place's header and Working now. `LiveAgentActivityBar` is deprecated in raft-ui and is removed in 1.0 ([LiveAgentActivityBar](../../packages/ui/src/components/live-agent-activity-bar/live-agent-activity-bar.md)).
+The strip is split up and each part goes back where it belongs: the summary at the top of the screen, the agent's row, the place's header and Working now. `LiveAgentActivityBar` was removed from raft-ui after 0.55.
 
 - Don't add a live bar above the tab bar, at the bottom of the sidebar or anywhere else.
 

@@ -57,7 +57,7 @@ message-item/compositions/item-preview
 - `MessageItemFooter`: one row: the reactions (`MessageReactionChip`, with `MessageReactionAddButton` last), then the saved and read markers (`MessageItemSavedIndicator`, `MessageItemReadReceipt`). The tasks created from the message are not in it: they are a list above it ([Tasks in a conversation](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)).
 - `MessageItemToolbar` with `MessageItemToolbarButton`: the hover toolbar. It sets `--mi-toolbar-width` on its row as it shows, which the header's fade under it reads. Earlier versions read a `--mi-toolbar-reserve` from the app to keep room in the header; it is now ignored, so remove it where you set it.
 - `MessageMultiSelectCheckbox` and `MessageMultiSelectToolbar`, with its actions in `MessageMultiSelectToolbarActions` (28px buttons 4px apart; on a touch screen each takes a 44px tap, and reaches only half the gap toward its neighbour, so a tap between two lands on the nearer): selecting several messages ([Built from existing parts](../../../../../design/components/overview.md#toolbar-for-selected-messages)).
-- A [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md): actions on selected text ([Toolbar for selected text](#toolbar-for-selected-text)). `MessageTextSelectionToolbar` and its parts are deprecated aliases of it.
+- A [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md): actions on selected text ([Toolbar for selected text](#toolbar-for-selected-text)).
 
 ### In the body
 

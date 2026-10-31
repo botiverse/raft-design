@@ -83,25 +83,6 @@ describe("Meter", () => {
     );
   });
 
-  it("still takes the deprecated low, the amount left, with the same colors as before", () => {
-    expect(renderMeter({ used: 79, low: 20, valueText: "x" }).getAttribute("data-level")).toBe(
-      "normal",
-    );
-    cleanup();
-    expect(renderMeter({ used: 80, low: 20, valueText: "x" }).getAttribute("data-level")).toBe(
-      "high",
-    );
-    cleanup();
-    expect(renderMeter({ used: 60, low: 50, valueText: "x" }).getAttribute("data-level")).toBe(
-      "high",
-    );
-    cleanup();
-    // warnAt wins over low.
-    expect(
-      renderMeter({ used: 60, low: 50, warnAt: 0.9, valueText: "x" }).getAttribute("data-level"),
-    ).toBe("normal");
-  });
-
   it("is used up at max: a full warning bar", () => {
     const meter = renderMeter({ used: 100, valueText: "Used up · resets in 3h" });
     expect(meter.getAttribute("data-level")).toBe("full");
