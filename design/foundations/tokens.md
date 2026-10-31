@@ -266,7 +266,7 @@ These are Tailwind theme values in `styles.css`, not entries in `tokens.json`, s
 
 ## Former names
 
-The names tokens had before the current ones were deprecated aliases up to raft-ui 0.55 and are removed after it. The codemod below still rewrites them, so code written against an older raft-ui can move in one step. The renames follow a few patterns:
+The names tokens had before the current ones were deprecated aliases up to raft-ui 0.56 and are removed after it. The codemod below still rewrites them, so code written against an older raft-ui can move in one step. The renames follow a few patterns:
 
 ```text
 primary-*                  ->  brand-*

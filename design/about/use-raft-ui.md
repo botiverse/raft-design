@@ -134,7 +134,7 @@ pnpm remove raft-ui
 ```
 
 - `package-name.mjs` rewrites imports, CSS `@import` and `@source` paths and the dependency. It lists any bare `"raft-ui"` strings (bundler aliases, path mappings) for you to change by hand.
-- `token-names.mjs` rewrites Tailwind utilities and `var(--…)` references from the former token names to the current ones. The former names were deprecated aliases up to 0.55 and are removed after it, so run it before upgrading past 0.55.
+- `token-names.mjs` rewrites Tailwind utilities and `var(--…)` references from the former token names to the current ones. The former names were deprecated aliases up to 0.56 and are removed after it, so run it before upgrading past 0.56.
 
 After `token-names.mjs`, review two kinds of code by hand:
 
