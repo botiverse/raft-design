@@ -76,7 +76,7 @@ meter/compositions/states
 Meter 封装了 Base UI 的 Meter，它提供 `role="meter"`。它的 `aria-valuenow` 是已用量，`aria-valuetext` 是 `valueText`。
 
 - `MeterLabel` 给计量条提供无障碍名称。没有可见的标签时，给 `Meter` 传 `aria-label`。
-- `valueText` 是必需的，也是设置朗读数值的唯一方式。所以读屏软件读出的（"62% used · resets in 3h"）永远就是界面上显示的，不会只读一个光秃秃的「62%」。
+- `valueText` 是必需的，也是设置朗读数值的唯一方式。所以读屏软件读出的（"62% used · resets in 3h"）永远就是界面上显示的，不会只读一个光秃秃的 "62%"。
 
 ## 规则 {#rules}
 
