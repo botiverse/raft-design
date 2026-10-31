@@ -25,7 +25,7 @@ checkbox/compositions/preview
 | An option attached to an action, next to the button that runs it              | Checkbox in the action's toolbar (`ComposerToolbarLabel`, [Composer](../composer/composer.md))                        |
 | Choosing several items in a list or a multi-select                            | Checkbox, or `CheckboxIndicator` in a row that owns the semantics                                                     |
 | A yes or no that applies at once                                              | [Switch](../switch/switch.md)                                                                                         |
-| Marking a task done, at the start of its row or card                          | The completion control ([Tasks](../../../../../design/patterns/tasks.md#completing-a-task))                           |
+| Marking a task done, at the start of its row or card                          | [TaskCompletionControl](../task-completion-control/task-completion-control.md)                                        |
 | One of several answers                                                        | [RadioGroup](../radio-group/radio-group.md)                                                                           |
 
 Which controls apply at once and which are saved is in [Forms](../../../../../design/patterns/forms.md).
