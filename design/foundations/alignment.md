@@ -107,7 +107,7 @@ Run it against the docs (`pnpm dev`) with `node scripts/align-audit.mjs --base <
 
 ## The ends of a header
 
-Every header puts the icon buttons at its two ends the same way: a panel header, a thread, profile or task panel's header, a phone's top bar, a drawer's or a sheet's header, a dialog's ×, the sidebar header and the right end of the web top bar.
+Every header puts the icon buttons at its two ends the same way: a panel header, a thread, profile or task panel's header, a phone's top bar, a drawer's or a sheet's header, a dialog's ×, the sidebar header, a sidebar section's header (its chevron and its last control, [Sidebar](../../packages/ui/src/components/sidebar/sidebar.md#rules)) and the right end of the web top bar.
 
 - **Put the icon box on the content margin.** The first icon box starts and the last one ends on the margin of the column the header sits over, the line the content below starts on: 16px on a phone, 20px on a desktop and in a dialog ([Spacing](./spacing.md#layout-widths)).
 - **Let the hit area hang outward.** The rest of the button is empty, so it reaches past the line toward the edge, never inward: a 44px button with a 22px icon overhangs by 11px, a 32px one with an 18px icon by 7px. It stops at the edge of the screen or the panel; every header margin is wider than the largest overhang, so none is cut today.

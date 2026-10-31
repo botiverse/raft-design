@@ -1,6 +1,6 @@
 import {
   ArrowDownAZ,
-  ArrowUpDown,
+  ArrowDownUp,
   Clock,
   EllipsisVertical,
   GitBranch,
@@ -301,7 +301,7 @@ export function SidebarSectionSortMenu({
       <DropdownMenuTrigger
         render={
           <SidebarControl type="button" aria-label={ariaLabel}>
-            <ArrowUpDown />
+            <ArrowDownUp />
           </SidebarControl>
         }
       />

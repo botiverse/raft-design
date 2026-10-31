@@ -50,6 +50,7 @@ raft-ui implements the Raft Design System, and `design/` is the system itself: s
 
 - `design/` is the source. A change that alters how something looks updates the rule it follows, and the reason next to it, in the same PR. Add a record in `design/decisions/` only for a major, cross-cutting choice whose alternatives need writing down, or to override one of the records kept there (mark that one `superseded`). See `design/authoring/README.md`.
 - When raft-ui and the DS disagree, one of them is wrong: fix the code or the rule, never leave them apart.
+- A change to how a shared component looks, or an icon swapped in many places, shows before and after screenshots of every place it appears in its PR, not only the one being designed. A sidebar section's controls changed size on 2026-10-18 and their sort icon on 2026-10-30, and neither PR showed the sidebar, so nobody saw either until the design lead found them in the app.
 - Writing or moving docs follows `design/authoring/README.md`: where each page lives, the templates and the writing guide. Run `pnpm check:docs` before opening a PR.
 
 # Component Architecture Ownership
