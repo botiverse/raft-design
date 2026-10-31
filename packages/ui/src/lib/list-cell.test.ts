@@ -70,8 +70,12 @@ test("a heading over a list of cells starts where the cells' content starts, 20p
     "search-results-section-heading": search().sectionHeading(),
     "search-thread-header": searchThread().threadHeader(),
   };
+  // Only the start edge is the rule; a header with controls at its end (sidebar #922) pads its end on its own.
   for (const [name, value] of Object.entries(headings)) {
-    expect(classesOf(value), name).toContain("px-5");
+    expect(
+      classesOf(value).some((cls) => cls === "px-5" || cls === "pl-5"),
+      name,
+    ).toBe(true);
   }
 });
 
