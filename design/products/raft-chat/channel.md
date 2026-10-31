@@ -58,7 +58,8 @@ Tasks in the timeline follow [Tasks](../../patterns/tasks.md#tasks-in-a-conversa
 
 ### Threads
 
-- Put "2 Agents following" beside the followers' avatar stack, then a menu (Focus mode, Search in thread, View in channel, Follow Thread) at the right of the thread's header, then × on wide screens.
+- Put "2 Agents following" beside the followers' avatar stack, then a menu (Focus mode, Search in thread, View in channel, Mark as Unread, Follow Thread) at the right of the thread's header, then × on wide screens.
+- Inside the thread, every message's menu has Mark Thread as Unread, after Unfollow Thread: it says "Thread" because the menu is a message's, and it marks the whole thread, not from that message. Both items are the action of the thread's Activity row, with its `message-square-dot` icon: the thread shows unread in its channel and in Activity. The person is still in the thread, so it stays open and stays unread until they leave it, as a channel marked unread does while they are in it. A thread the person doesn't follow has neither item, as its Activity row has none: unfollowing a thread clears its unread at once.
 
 ### History behind the plan's window
 
