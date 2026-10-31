@@ -71,6 +71,11 @@ test("attention hides via data attributes, not an ancestor :has()", () => {
       "items-center",
       "justify-center",
       "min-w-4.5",
+      // With a mouse it sits over the controls' reserved place (#931).
+      "pointer-fine:-translate-y-1/2",
+      "pointer-fine:absolute",
+      "pointer-fine:right-0",
+      "pointer-fine:top-1/2",
       "shrink-0",
     ].toSorted(),
   );
