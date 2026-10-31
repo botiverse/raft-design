@@ -1,3 +1,9 @@
+## [0.56.1](https://github.com/botiverse/raft-design/compare/v0.56.0...v0.56.1) (2026-10-31)
+
+### Fixed
+
+- **Sidebar section controls hold their place in the row while hidden**, so a long section title truncates before them at rest and its count stays visible; with a mouse they only fade in on hover, focus or with their menu open, and nothing in the row moves. The attention mark sits over that reserved place and hides when the controls show; on a touch screen both show at rest, side by side. ([#931](https://github.com/botiverse/raft-design/pull/931))
+
 ## [0.56.0](https://github.com/botiverse/raft-design/compare/v0.55.0...v0.56.0) (2026-10-31)
 
 ### Changed
