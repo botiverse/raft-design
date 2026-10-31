@@ -76,8 +76,8 @@ Not yet implemented in raft-ui: there is no part for the completion control. Unt
 - Let one click mark the task Done from any status. On an In Review task it accepts the work.
 - Show the result in place, then move the task: the title is struck through in `foreground-hint`, a Toast says "Completed #25" with Undo ([Toast](../../packages/ui/src/components/toast/toast.md)), and the task stays in its group, struck through, for 650ms before it moves into the collapsed Done group; with reduced motion it moves at once ([Motion](../foundations/motion.md#usage)). Undo puts it back in the status it came from. A task that jumps away at the click reads as lost; the pause and the Toast say where it went.
 - Let a click on a done task's control reopen it to Todo.
-- Make the control its own button on top of the row or card. Its hit area reaches 8px past its 20px circle with a mouse (36px) and 12px on a touch screen (44px), as a Checkbox's does ([Hit targets](../foundations/accessibility.md#hit-targets)). Selecting the rest of the row or card still opens the task.
-- For a person who can't change the task, show the control disabled: the disabled look, `disabled` and `aria-disabled`.
+- Make the control its own button on top of the row or card. Its hit area reaches 8px past its 20px circle with a mouse (36px) and 12px on a touch screen (44px) ([Hit targets](../foundations/accessibility.md#hit-targets)). With a mouse it reaches 8px, not 12px, so it never covers the task's number beside it. Selecting the rest of the row or card still opens the task.
+- For a person who can't change the task, show the control disabled with `aria-disabled` only, never the native `disabled`: the button keeps keyboard focus, so moving through the grid still stops on it, a screen reader says it is unavailable and its tooltip can explain why. Pressing it or Space does nothing. Style it from `data-disabled`.
 
 ### Where tasks are created
 

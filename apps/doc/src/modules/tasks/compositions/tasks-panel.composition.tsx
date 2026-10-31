@@ -34,7 +34,6 @@ export type TasksPanelCompositionProps = {
   onViewChange?: (view: TaskView) => void;
   onTasksChange?: (tasks: readonly TaskFixture[]) => void;
   onOpenTask?: (task: TaskFixture) => void;
-  blockedDropStatus?: TaskStatus;
   showChannelName?: boolean;
   /** When false, hide the toolbar Board/List control (e.g. mobile page header owns it). */
   showToolbarView?: boolean;
@@ -49,7 +48,6 @@ export function TasksPanelComposition({
   onViewChange,
   onTasksChange,
   onOpenTask,
-  blockedDropStatus,
   showChannelName = false,
   showToolbarView = true,
 }: TasksPanelCompositionProps) {
@@ -156,7 +154,6 @@ export function TasksPanelComposition({
               onStatusChange={updateStatus}
               onMoveTask={moveTask}
               portalRef={portalRef}
-              blockedDropStatus={blockedDropStatus}
               showChannelName={showChannelName}
             />
           ) : (
