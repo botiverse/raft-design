@@ -1,12 +1,12 @@
 ---
 title: Principles
-summary: The seven rules every Raft screen follows, each with the reasoning that lets you apply it to a case the docs don't cover.
+summary: The nine rules every Raft screen follows, each with the reasoning that lets you apply it to a case the docs don't cover.
 order: 2
 ---
 
 # Principles
 
-Seven rules hold on every screen of every Raft product. Each one is short enough to check in review, and each comes with its reason, because a rule without a reason gets broken the first time it is inconvenient. When a case isn't covered anywhere in the docs, the reasons decide it. Where the look comes from is in [Why Raft looks this way](./why-raft-looks-this-way.md); how to use these rules on new work is in [Designing a new feature](./designing-a-new-feature.md).
+Nine rules hold on every screen of every Raft product. Each one is short enough to check in review, and each comes with its reason, because a rule without a reason gets broken the first time it is inconvenient. When a case isn't covered anywhere in the docs, the reasons decide it. Where the look comes from is in [Why Raft looks this way](./why-raft-looks-this-way.md); how to use these rules on new work is in [Designing a new feature](./designing-a-new-feature.md).
 
 The numbers are stable: other pages refer to a principle by its number.
 
@@ -84,6 +84,26 @@ Clickable text is Title Case, everything else is sentence case, and hierarchy co
 To apply it, set anything a machine produced in Space Mono, anything clickable in Title Case and everything else in sentence case, and make a heading stand out by size or weight, never by capitals.
 
 Applied in: [Typography](../foundations/typography.md#casing), [Writing](../content/writing.md#casing).
+
+## 8. Familiar over new: the same job, the same form; a different meaning, a different form
+
+Something that does the same job as an existing thing behaves the same way. A form that already means something never takes a second meaning.
+
+**Why.** A computer, like an agent or a person, is picked from a list and read beside it, so it opens in the same side panel, selected in the list, with × to close ([Navigation](../patterns/navigation.md#opening-an-item)). People already know how that panel opens, swaps and closes, so a computer costs them nothing new to learn; a page of its own with a trail back would be a second way to do one job. Common conventions win over inventions for the same reason: people spend most of their time in other apps and bring those habits to this one (Jakob's law), and a tool used all day is calm when nothing in it has to be relearned. The reverse holds as firmly. The status light says what an agent is doing now, so a read mark can't borrow it: one green dot would then mean two things, and people could no longer trust either, as with one meaning per icon ([Iconography](../foundations/iconography.md#meanings)). Familiarity helps only when what looks the same also means the same.
+
+To apply it, name the existing screen the new thing behaves like, and check that it opens, selects and closes the same way. Then name what each form you reuse already means; if the new use means something else, give it another form.
+
+Applied in: [Navigation](../patterns/navigation.md#opening-an-item), [Iconography](../foundations/iconography.md#meanings), [States](../foundations/states.md#usage).
+
+## 9. Existing parts and patterns first
+
+Build a new screen from raft-ui components and the patterns these docs describe. A component or pattern Raft doesn't have yet needs a rule here before it ships, saying why the existing ones don't fit.
+
+**Why.** Each part and pattern carries decisions already made and tested: its states, its sizes, its dark mode, its keyboard behavior, its place on a phone. A hand-built piece starts without them and drifts from the original the first time either changes. A new kind of thing also asks people to learn it (principle 8). The breadcrumb on a computer's page was one: raft-ui had none and no rule described one, so it shipped as a local invention, put a second "where am I" on a page that already had one, and pushed the computer's icon away from its name; the side panel every profile already used did the job ([Navigation](../patterns/navigation.md#opening-an-item)). Writing the rule first makes the case for the new piece in the open, where it can be weighed against the parts that exist.
+
+To apply it, find the closest pattern and the components for it before you design ([Designing a new feature](./designing-a-new-feature.md#the-process)). If nothing fits, write the rule for the new piece, with its reason, in the same pull request as the work, and propose the piece to raft-ui.
+
+Applied in: [Designing a new feature](./designing-a-new-feature.md#2-choose-the-components), [Components overview](../components/overview.md).
 
 ## When principles pull apart
 

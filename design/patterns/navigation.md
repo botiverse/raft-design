@@ -28,6 +28,7 @@ Every Raft product. Which destinations a product has and in which order is on it
 | Server | The last tab of the tab bar is the current server; it opens the server list and the server's own pages as a popover above the bar. The first top-level page's top bar has the server switcher too ([Servers](#servers)) | The workspace button and the strip of server avatars at the left of the web top bar ([Page structure](./page-structure.md#the-web-top-bar)) |
 | Search | The Search tab on the tab bar, a top-level page like the others (no Back, the bar stays). It is the only way in to searching everything ([Search on a phone](#search-on-a-phone)) | The search field in the center of the web top bar |
 | Notifications | The bell at the right of the first top-level page's top bar, and on no other top-level page | The bell at the right of the web top bar; without the top bar, at the bottom of the rail, above Help |
+| Open an item from a destination's list (an agent, a person, a computer) | A pushed page with Back | The side panel beside the list, the item selected in the list ([Opening an item](#opening-an-item)) |
 | Close a side panel (a thread, a profile) | Back: on a phone a thread is a pushed page, and a profile covers the page like one | × beside the main area, Back when it covers it ([Closing](#closing)) |
 
 In Raft Chat the first top-level page is Home ([Raft Chat — Home](../products/raft-chat/home.md)).
@@ -127,6 +128,14 @@ A control that takes someone to another site ends in ↗, so they know before th
   - downloads: they take the download icon and don't leave the page;
   - links people write in messages: they are already visibly links, show their address on hover, and an arrow on every one would be noise (app link chips follow [MessageItem](../../packages/ui/src/components/message-item/message-item.md#app-links));
   - anything inside Raft. To open a Raft place in a new tab, people use the browser's own gestures; never mark an internal link with ↗.
+
+### Opening an item
+
+- Open an item listed on a destination's page (an agent, a person, a computer) in the side panel beside the list, as a profile opens: the item's icon or avatar and its name in the panel's header, and × to close it ([Closing](#closing)). Opening another item swaps the panel.
+- Keep the list, with the open item selected (`info-soft`: [Selected: content](../foundations/states.md#usage)), so people see where they are and open the next one without going back.
+- Where the panel covers the page (a phone, a narrow window), give it Back, as a pushed page has.
+- Give the open item an address, so a link to it opens the list with the item open beside it.
+- Don't use breadcrumbs: Raft has none. A page is at most two levels deep, a destination and an item in it: the rail says the first and the selected item says the second, so a trail would be a third "where am I" (principle 2).
 
 ### Going back
 
