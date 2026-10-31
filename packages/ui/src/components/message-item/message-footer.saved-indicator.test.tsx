@@ -43,7 +43,10 @@ describe("MessageItemSavedIndicator default", () => {
   test("renders the flat state-marker chip with no shadow", () => {
     const node = renderIndicator();
     const classes = node.className.split(/\s+/);
-    expect(classes).toContain("h-[22px]");
+    // The reactions' height and the footer badges' type: one row, one weight.
+    expect(classes).toContain("h-6");
+    expect(classes).toContain("text-footnote");
+    expect(classes).toContain("font-bold");
     expect(classes).toContain("rounded-chip");
     expect(classes).toContain("bg-fill-muted");
     expect(classes.filter((name) => name.startsWith("shadow-"))).toEqual([]);
@@ -67,7 +70,7 @@ describe("MessageItemSavedIndicator iconOnly prop", () => {
       expect(classes).toContain(name);
     }
     // The chip shell is replaced, not merely accompanied.
-    for (const name of ["h-[22px]", "rounded-chip", "bg-fill-muted", "[&_svg]:size-3.5"]) {
+    for (const name of ["h-6", "rounded-chip", "bg-fill-muted", "[&_svg]:size-3.5"]) {
       expect(classes).not.toContain(name);
     }
   });
