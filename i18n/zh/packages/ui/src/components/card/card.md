@@ -1,7 +1,7 @@
 ---
 title: Card
 summary: 带细线轮廓的白色容器，在页面上把一个主题归在一起（标题栏里有标题和描述，下面是内容和页脚），或在表单里做成一个可选的选项。
-sourceHash: e2ab8280
+sourceHash: 29400bc5
 ---
 
 # Card
@@ -17,7 +17,7 @@ card/compositions/project-summary
 | 场景 | 使用 |
 | --- | --- |
 | 页面上的一个主题，有标题和自己的内容或控件 | Card |
-| 一个开启某项功能的设置，下面是它的配置 | Card，`variant="inset"` |
+| 一个开启某项功能的设置，下面是它的配置 | Card，`variant="inset"`：功能不填这些字段也能用时用开关，需要这些字段时用复选框和一个 Save（[表单](../../../../../design/patterns/forms.md#settings-saved-together)） |
 | 表单里从几个选项中选择，每个选项是一块 | Card，`variant="option"`，里面放一个 [Checkbox](../checkbox/checkbox.md) 或单选按钮 |
 | 一组行：设置、成员、Agent | `ListRowGroup`（[ListRow](../list-row/list-row.md)） |
 | 一个项目的属性，标签和值 | [DescriptionList](../description-list/description-list.md) |

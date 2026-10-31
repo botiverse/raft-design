@@ -1,7 +1,7 @@
 ---
 title: Progress
 summary: 显示一项可计量的任务进行了多少的进度条，比如上传或转换，带标签和数值。
-sourceHash: 1b884554
+sourceHash: e8ae444d
 ---
 
 # Progress
@@ -19,9 +19,9 @@ progress/compositions/preview
 | 知道百分比 | Progress |
 | 不知道要多久 | [Spinner](../spinner/spinner.md)，不用进度条 |
 | 知道加载内容的布局 | [Skeleton](../skeleton/skeleton.md) |
-| 用量上限还剩多少 | [Meter](../meter/meter.md) |
+| 用量上限用了多少 | [Meter](../meter/meter.md) |
 
-Meter 与 Progress：进度条是一项只会往前走、到 100% 就完成的任务，所以到那里时填充会变成 `success`；计量条是一个范围内会升也会降的量，比如会用完、之后又会恢复的额度。不要把用量画成进度条：一份还没动过的额度会看起来像已经完成。
+Meter 与 Progress：进度条是一项只会往前走、到 100% 就完成的任务，所以到那里时填充会变成 `success`；计量条是一个范围内会升也会降的量，比如会用完、之后又会恢复的额度。不要把用量画成进度条：一份用完的额度会变成 `success`，看起来像已经完成。
 
 ## 结构 {#anatomy}
 

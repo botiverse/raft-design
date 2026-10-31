@@ -1,7 +1,7 @@
 ---
 title: 任务
 summary: 五种任务状态，任务列表和看板，任务详情，从消息创建、列在对话旁边的任务，状态怎么改，以及任务怎么筛选。
-sourceHash: 103219d0
+sourceHash: 4c439253
 ---
 
 # 任务
@@ -65,19 +65,42 @@ tasks/compositions/tasks-panel
 - 任务的讨论一有消息，就用 Space Mono 显示消息数。只对关注这个任务的人，在数字前加提醒圆点。
 - 在任务有自己的讨论之前、消息就是任务时创建的任务，只有第一次有内容写进去时才有讨论。在讨论的位置显示空状态（"No discussion in this task yet"，说明之前的讨论在它的消息的回复里），消息输入框随时可用，而不是显示消息的回复；第一条消息开始任务的讨论。
 
+### 把任务头部拉下来 {#pulling-the-task-head-down}
+
+在手机上，以及在网页上任务详情全屏显示的地方，任务的头部（标题、描述、属性和历史）是对话的第一行，会随对话一起滚走。为了看状态再滚回上面，读者会丢掉自己在讨论里读到的位置，所以改由栏把头部拉下来，盖在对话上。
+
+- 头部滚出视野后，栏收成一行：`Task #N`、状态标签和只显示头像的负责人，然后是一个小的 V 形箭头。头像带有给读屏软件读的名字；只有栏里放得下完整的名字时，名字才显示在头像旁边。头部滚走之前，栏仍然显示任务的引用。
+- 点一下栏，头部就作为一个面板被拉下来，从栏下面垂下，横跨栏的整个宽度，盖在对话上。它和对话第一行的头部是同一个头部，编辑方式也一样（Status、Assignee、Show More、Source、History）。没有遮罩，它下面的东西也都不动。
+- 面板画在 `layer-canvas` 上，沿边缘带 `shadow-float`，没有 1px 的分隔线：阴影已经把它和对话分开了，阴影上再加一条细线，就是第二条边在说同一件事（[层级](../foundations/elevation.md#tokens)）。它最高占屏幕的 70%；超出时，它自己的内容滚动。
+- 它用 `ease-slide` 在 220ms 内从栏往下滑出、再往上收回，这是最短的滑动（[动效](../foundations/motion.md#usage)），V 形箭头随之转动。开启减弱动态效果时，它直接出现、直接消失。
+- 以下情况会关闭它：
+  - 再点一下栏；
+  - 点它外面，包括消息输入框和它的按钮。这一下仍然落在点的地方。头部打开的菜单（Status、Assignee）算在面板里面；
+  - 焦点移到它外面，比如移进消息输入框；
+  - Back、手机的系统返回和 Esc。Back 先关闭面板，再离开页面；
+  - 面板的内容滚到底以后，在面板上上滑至少 40px。在那之前，上滑滚动的是面板的内容；
+  - 读者开始滚动对话。新到的消息不会关闭它；
+  - 头部滚回视野。
+- 面板不跟手：上滑超过 40px 时，它用同样的滑动关闭，更短的上滑让它留在原处。跟手的面板看起来像一个可以拖到任意高度的 Sheet，而这个面板不能。网页和手机都是这样（2026-10-28 决定）。
+- 面板打开时焦点移进面板，关闭时回到栏上，但点外面关闭时除外：那一下把焦点放到读者想放的地方。栏是一个带 `aria-expanded`、控制面板的按钮，名字就是它显示的内容（"Task #7, In Progress, Kirby"）；面板是一个以任务命名的区域（"Task #7"）。
+- 对话保持底部锚定，最新的消息贴着消息输入框；头部折起多少，以对话能填满它让出的空间为限。短任务的头部一直在视野里，"Beginning of conversation" 上方不留空隙；它的栏从不收起，所以没有东西可以拉下来。
+- 在平板或宽窗口上，头部固定在对话上方，所以没有收起的栏，也没有面板。
+
+网页上的实现是 `TaskHeadPullDown`（slock `packages/web/src/components/task/TaskHeadPullDown.tsx`，slock #11722）；手机上是 `RaftPullDownPanel`（mobile #3884），让短任务不留空隙的折叠限制在 mobile #3899。它不是 [Popover](../../packages/ui/src/components/popover/popover.md)，也不是 [Drawer](../../packages/ui/src/components/drawer/drawer.md)：它既不是模态的，也不锚定在某一点上。
+
 ### 对话旁边的任务 {#tasks-beside-a-conversation}
 
 一个地方的任务以 Tasks 分区的形式打开在它的对话旁边（[页面结构](./page-structure.md#sidebar-and-side-panel)），让人们在聊天时看到工作的进展。人们不需要在那里读完每个任务：这个分区回答的是什么在推进、什么在等他们。
 
 - 分区的头部里放标题 Tasks，然后是创建按钮和 ×。头部里没有计数：紧接在它下面的 All 和 For Me 筛选已经带着数字。在手机上，分区盖住这个地方标题栏下面的对话，用标题栏的 Back 关闭：分区自己不画 Back 或 ×，所以屏幕上只有一个 Back。
 - 头部下面放 All / For Me（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md)），每项带它未完成任务的数量。For Me 列出指派给这个人的任务。
-- 任务按状态分组，顺序是 In Progress、In Review、Todo、Done、Closed：在窄的分区里，正在推进的工作排在前面。每组有一个可折叠的灰色标题，带状态像素点和计数，Done 和 Closed 默认收起。每个标题采用 [Sidebar](../../packages/ui/src/components/sidebar/sidebar.md) 分区标题的间距，文字上方 16px、下方 6px，放在一个 40px 的框里，各组之间不另加间隔，所以标题贴着它自己的行，离上一组（大约 25px）明显比离它的第一行（16px）更远（[间距节奏](../foundations/comfort.md#spacing-rhythm)）。触屏时它的目标区域向上延伸 4px，到 44px。
+- 任务按状态分组，顺序是 In Progress、In Review、Todo、Done、Closed：在窄的分区里，正在推进的工作排在前面。每组有一个可折叠的灰色标题，带状态像素点和计数，Done 和 Closed 默认收起。每个标题文字上方 16px、下方 6px，放在一个 40px 的框里（这是 [Sidebar](../../packages/ui/src/components/sidebar/sidebar.md) 分区标题以前的间距，后来它下面的 8px 归给了它的列表），各组之间不另加间隔，所以标题贴着它自己的行，离上一组（大约 25px）明显比离它的第一行（16px）更远（[间距节奏](../foundations/comfort.md#spacing-rhythm)）。触屏时它的目标区域向上延伸 4px，到 44px。
 - 每个任务一个紧凑行：编号，一行标题（截断时以省略号结尾），标题后面紧跟它讨论里的消息数，然后右端是负责人（头像和名字；Agent 的头像带在线状态灯，对本人显示 "You"）和一个 V 形箭头。行里不放状态标签：分组已经写明了状态。分区太窄时，负责人换到第二行，仍然靠右，和消息下面的列表一样。这些行和消息下面、Files 分区里的紧凑行相同（[紧凑列表的行](#rows-in-a-compact-list)）。
 - 从行打开任务详情。
 
 ### 紧凑列表的行 {#rows-in-a-compact-list}
 
-消息下面的任务、Tasks 分区和 Files 分区是同一种列表，用同一种行。和 [ListRow](../../packages/ui/src/components/list-row/list-row.md) 列表一样，它是内容：行与行之间用细线，整行都是点击目标，每行没有单独的卡片。一行读起来就是一行：左边是它是什么，右边是谁负责、进展到哪。
+消息下面的任务、Tasks 分区和 Files 分区是同一种列表，用同一种行。它是内容：行与行之间用细线，整行都是点击目标，每行没有单独的卡片。这些紧凑行暂时保留它们的线；其他由行组成的列表（动态、搜索、侧栏、手机上由 ListRow 单元格组成的列表）没有线，把状态画在一个内缩的形状上（[列表](./lists.md)）。一行读起来就是一行：左边是它是什么，右边是谁负责、进展到哪。
 
 | 部分 | 规格 |
 | --- | --- |

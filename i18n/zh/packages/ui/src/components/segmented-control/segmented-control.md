@@ -1,7 +1,7 @@
 ---
 title: SegmentedControl
 summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
-sourceHash: 9241ae84
+sourceHash: d7cd04fe
 ---
 
 # SegmentedControl
@@ -18,7 +18,7 @@ segmented-control/compositions/view-mode
 | --- | --- |
 | 同一内容的另一种视图：Board / List、Light / Dark / System | SegmentedControl |
 | 一个页面的几个部分，各有各的内容 | [Tabs](../tabs/tabs.md) |
-| 随表单提交的答案 | [RadioGroup](../radio-group/radio-group.md) |
+| 随表单提交的答案，比如公开还是私密 | [RadioGroup](../radio-group/radio-group.md) |
 | 选项多到放不进分段 | [Select](../select/select.md) |
 
 完整的表格见[选择组件](../../../../../design/components/overview.md#picking-something)。Board / List 在任务列表里放在哪里，见[任务](../../../../../design/patterns/tasks.md)。

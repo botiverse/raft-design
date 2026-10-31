@@ -1,7 +1,7 @@
 ---
 title: IconTile
 summary: 一个放图标的中性方块，尺寸与头像相同，用于没有面孔的地方或东西：频道、系统提示、文件、应用、计算机。
-sourceHash: 01979617
+sourceHash: ee2674cd
 ---
 
 # IconTile
@@ -17,7 +17,7 @@ icon-tile/compositions/sizes
 | 情况 | 用 |
 | --- | --- |
 | 列表、搜索结果或引用里的频道 | 带 `hash` 图标的 IconTile |
-| 频道里的消息列，作为动态里一行的开头 | 带 `hash` 图标和消息列徽标的 IconTile（[InboxItem](../inbox-item/inbox-item.md#the-leading-image)）；私信里的消息列改用头像开头 |
+| 频道里的消息列或任务，作为动态里一行的开头 | 带 `ThreadIcon` 或 Lucide 的 `list-todo` 的 IconTile，徽标里放频道自己的图标（[InboxItem](../inbox-item/inbox-item.md#the-leading-image)）；私信里的消息列改用头像开头 |
 | 系统提示、文件、应用、计算机、某一类搜索结果 | 带对应图标的 IconTile |
 | 通知中心里的错误、警告或消息 | 带 `variant="warning"` 或 `variant="information"` 的 IconTile |
 | 人所在的地方，放在它的标题旁边 | 黄色的位置图块 `PanelHeaderIcon`（[Panel](../panel/panel.md)） |
@@ -26,13 +26,13 @@ icon-tile/compositions/sizes
 
 ## 结构 {#anatomy}
 
-- `IconTile`：方块本身。里面放一个 Lucide 图标，并把图标调整到合适的尺寸（[图标](../../../../../design/foundations/iconography.md#sizes)）。
+- `IconTile`：方块本身。里面放一个图标，可以是 Lucide 的，也可以是 raft-ui 自己的图标，比如 `ThreadIcon`（[Icons](../icons/icons.md)），并把图标调整到合适的尺寸（[图标](../../../../../design/foundations/iconography.md#sizes)）。
 
 ## 变体 {#variants}
 
 | 变体 | 用于 |
 | --- | --- |
-| `variant="default"` | 所有情况：频道、文件、应用、计算机、提示。`fill-muted` 方块，`foreground-muted` 图标，没有边框 |
+| `variant="default"` | 所有情况：频道、消息列、任务、文件、应用、计算机、提示。`fill-muted` 方块，`foreground-muted` 图标，没有边框 |
 | `variant="warning"` | 通知中心里的错误或警告：`warning-soft`，墨色图标 |
 | `variant="information"` | 通知中心里的消息：`info-soft`，墨色图标 |
 

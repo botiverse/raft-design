@@ -1,7 +1,7 @@
 ---
 title: Checkbox
 summary: 一个方形的框，表示随表单一起保存的是或否，或附加在某个操作上的选项。
-sourceHash: 59982557
+sourceHash: 3c3c7698
 ---
 
 # Checkbox
@@ -17,6 +17,7 @@ checkbox/compositions/preview
 | 场景 | 使用 |
 | --- | --- |
 | 需要保存的表单里的是或否：对话框、抽屉、宽表单对话框 | Checkbox |
+| 要等几个输入框填好才能开启的功能：一个地址、一段文字 | Checkbox，它的输入框放在它下面，再加一个 Save（[表单](../../../../../design/patterns/forms.md#settings-saved-together)） |
 | 附加在某个操作上的选项，放在执行它的按钮旁边 | 放在该操作工具栏里的 Checkbox（`ComposerToolbarLabel`，[Composer](../composer/composer.md)） |
 | 在列表或多选中选择多项 | Checkbox，或在自带语义的行里用 `CheckboxIndicator` |
 | 立即生效的是或否 | [Switch](../switch/switch.md) |

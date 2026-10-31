@@ -1,7 +1,7 @@
 ---
 title: Avatar
 summary: 代表一个 Agent 或一个人的方形贴纸：Agent 是像素头像，人是照片或姓名首字母，可以带一个在线状态灯。
-sourceHash: d0238d38
+sourceHash: 01bb350d
 ---
 
 # Avatar
@@ -100,7 +100,7 @@ avatar/compositions/group-button
 
 - 助理的脸占用在线状态灯的位置，伸出去的距离也一样：在 `md` 上同样露出头像边缘 2.5px，这样两者看起来是同一类标记。
 - 这张脸是「头像的三分之一或更小」的例外：它是 `2xs`（19px），其中 15px 压在 35px 的头像上，算上外圈约占头像宽度的 47%，但面积只占五分之一。脸要能认出来，而 19px 是像素脸能被分辨的最小尺寸；灯只需要被看到。人的姓名首字母或照片在它的左上方，仍然看得清。由 stdrc 于 2026-10-21 决定（RFC 077）。
-- 在动态里的消息列行上，消息列徽标占用在线状态灯的角落，和频道图块上的是同一个徽标：这一行讲的是消息列，而不是 Agent 现在的状况（[InboxItem](../inbox-item/inbox-item.md#the-leading-image)）。
+- 在动态里的消息列行上，消息列徽标占用在线状态灯的角落，和频道里消息列行或任务行上的是同一个徽标，大小也一样：这一行讲的是消息列，而不是 Agent 现在的状况（[InboxItem](../inbox-item/inbox-item.md#the-leading-image)）。
 - 不要在 Agent 的头像上放脸：它的角落是在线状态灯，放一张脸会挡住 Agent 是否在工作（[身份与在线状态](../../../../../design/people-and-agents/identity-and-presence.md#sent-by-an-assistant)）。
 
 ## 状态 {#states}

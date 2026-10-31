@@ -1,7 +1,7 @@
 ---
 title: 对齐
 summary: 落在边距线或中线上的是什么：形状、字母还是图标框；以及标题栏两端的图标按钮放在哪里。
-sourceHash: c25adec1
+sourceHash: f70acbc7
 ---
 
 # 对齐
@@ -10,7 +10,7 @@ sourceHash: c25adec1
 
 ## 原则 {#principles}
 
-- **每列一条边。** 一列内容里的所有东西都从同一条边距开始：手机上 16px，桌面端 20px（[间距](./spacing.md#layout-widths)）。
+- **每列一条边。** 一列内容里的所有东西都从同一条边距开始：手机上 16px，桌面端 20px（[间距](./spacing.md#layout-widths)）。由列表单元格组成的一列（动态、侧栏和手机上的主页、搜索结果）在手机上也保持 20px，也就是它的行的内容开始的地方（[列表](../patterns/lists.md#one-edge)）。在 raft-ui 里，这条边距是 `--column-margin`，头部、提示和底部都按它留内边距。
 - **对齐看得见的东西。** 形状按边缘对齐，文字按字母对齐，无框图标按钮按图标框对齐。
 
 ## 用法 {#usage}

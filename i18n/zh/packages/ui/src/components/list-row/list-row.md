@@ -1,7 +1,7 @@
 ---
 title: ListRow
 summary: 用于详情页上的人和 Agent、设置和快捷入口的行：前导块、标题和预览、时间和一个徽标。
-sourceHash: 84bfec76
+sourceHash: df2d9bde
 ---
 
 # ListRow
@@ -80,6 +80,8 @@ list-row/compositions/loading
 
 - 行与行之间用 `line-hairline` 分隔。默认变体里，线从文字开始的地方起；设置列表里，线从行的边缘（16px）起；入口行之间没有线，因为它们是一组按钮，不是内容列表。
 - 整行都是点击目标：悬停时整行盖上浅一级的 `fill-subtle`，按下时盖上中档（[悬停和按下](../../../../../design/foundations/states.md#hover-and-press)）。行打开的菜单还在时（`data-popup-open`：右键菜单，或手机上的长按），无论是否悬停，也盖上 `fill-subtle`；选中的行保持选中样式。
+- 手机上的地点和人的列表（对话、成员、进入其他页面的入口）传 `cell`：每一行都是一个列表单元格（[列表](../../../../../design/patterns/lists.md)）。它不画线，悬停（`fill-cell-hover`）、按下（`fill-cell-press`）、选中（`fill-cell-selected`）、菜单打开和键盘焦点都画在同一个圆角形状上，和行一样高，两侧各内缩 8px。把这些行放在一个 `flex flex-col gap-0.5 py-2` 的列里，让它们相隔 2px，第一个和最后一个形状离列表两端 8px。单元格的内容从它的形状算内边距，而不是从列表算：开头和末尾都在形状内 12px（离列表边缘 20px），所以图标、头像、时间和徽标都不会碰到形状（[列表](../../../../../design/patterns/lists.md#rules)）。设置行（没有 `cell`）保持离卡片边缘 16px。你自己做的一列 `cell` 行，在根元素上设 `[--column-margin:20px]`，让它的头部和工具栏在手机上也从各行内容的那条线开始（[列表](../../../../../design/patterns/lists.md#one-edge)）。
+- 设置卡片（`ListRowGroup`，`variant="plain"`）保持上面的样子：行之间有线，填充横跨整行。它的行是作为一张卡片来读的固定表单，线把每个设置和下一个连起来；在卡片自己的边框里再放一个内缩的形状，会多画出第三条边。
 - 如果一行的点击目标只有它自己的控件（比如带开关的设置项），就设置 `interactive={false}`：它渲染为普通元素，没有悬停或按下效果。见[状态](../../../../../design/foundations/states.md)。
 
 ## 内容 {#content}

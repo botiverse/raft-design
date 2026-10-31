@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: edda0bec
+sourceHash: 3eef0a53
 ---
 
 # 组件
@@ -63,13 +63,13 @@ raft-ui 的组件分两层。**核心（Core）**是任何应用都需要的部�
 
 ### 选择 {#picking-something}
 
-选择器由两个问题决定：选择何时生效，以及有多少个值。立即生效的控件（Switch、菜单）必须能放心切换，不需要保存；随表单保存的控件（Checkbox、RadioGroup、Select）可以等人检查一遍（[表单](../patterns/forms.md)）。单选按钮把每个选项都显示出来，所以只适合少数几个；下拉选择把值收在一个字段后面，所以能容纳更多；再多的话，人就需要搜索了。这个数量适用于表单里与其他字段并列的一个字段。如果对话框本身就是用来做选择的（把 Agent 移到哪里、添加谁），不论有多少个选项，都把它们展开成一个列表，让人不用打开任何东西就能比较：选一个时每行前面是一个单选圆圈，选几个时是一个复选框；如果人要找的是叫得出名字的东西（人总是如此，因为不论有多少个，输入名字都最快），或者要靠比较来选、而列表长到一眼看不完（6 个选项起），就在列表上方放一个筛选字段；再多就让列表滚动。
+选择器由两个问题决定：选择何时生效，以及有多少个值。单独存在的选择立即生效（Switch、SegmentedControl、设置行里的 Select、菜单）；属于表单的选择，或打开一个有字段要填的功能的选择，等保存时才生效（Checkbox、RadioGroup、与其他字段并列的 Select）（[表单](../patterns/forms.md#when-a-change-takes-effect)）。单选按钮把每个选项都显示出来，所以只适合少数几个；下拉选择把值收在一个字段后面，所以能容纳更多；再多的话，人就需要搜索了。这个数量适用于表单里与其他字段并列的一个字段。如果对话框本身就是用来做选择的（把 Agent 移到哪里、添加谁），不论有多少个选项，都把它们展开成一个列表，让人不用打开任何东西就能比较：选一个时每行前面是一个单选圆圈，选几个时是一个复选框；如果人要找的是叫得出名字的东西（人总是如此，因为不论有多少个，输入名字都最快），或者要靠比较来选、而列表长到一眼看不完（6 个选项起），就在列表上方放一个筛选字段；再多就让列表滚动。
 
 | 你需要 | 使用 |
 | --- | --- |
 | 对一样东西执行操作 | 菜单（[DropdownMenu](../../packages/ui/src/components/dropdown-menu/dropdown-menu.md)）；在手机上长按会打开同一个菜单（[ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md)） |
 | 是或否，立即生效 | [Switch](../../packages/ui/src/components/switch/switch.md) |
-| 是或否，保存时生效 | [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) |
+| 是或否，随表单保存；或者打开一个功能，它的字段随它一起保存 | [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) |
 | 2 到 5 个选项中选一个，随表单提交 | [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md) |
 | 在任意数量的选项中选一个或几个，选择是对话框的主要内容 | 一个展开的行列表；要按名字找的东西，或选项有 6 个起，加一个筛选字段（[ChoiceList](../../packages/ui/src/components/choice-list/choice-list.md)；它的行遵循 [RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md#content)） |
 | 在一个展开的列表里从很多项中选一个，选中一行就会开始工作（向服务器查询这一行） | 一个展开的列表，方向键只移动高亮，按 Enter 或点击才选中（带 `inline open` 的 [Combobox](../../packages/ui/src/components/combobox/combobox.md#inline-list)）。ChoiceList 会选中方向键经过的每一行 |
@@ -94,6 +94,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | 这个人刚做的事有了结果 | [Toast](../../packages/ui/src/components/toast/toast.md) | 几秒 |
 | 他们需要在操作前知道 | [Banner](../../packages/ui/src/components/banner/banner.md)，放在对话框或表单里 | 一直显示 |
 | 某个面板里有东西失败了：Agent 无法启动，会话的某项设置没保存上 | 面板头部下方的通栏提示（`PanelNotice`，[Panel](../../packages/ui/src/components/panel/panel.md)） | 直到问题解决或被关闭 |
+| 这个人在某个面板里打开了一种模式，比如在 Artifact 上评论 | 面板头部下方的一条深色条（[ModeBar](../../packages/ui/src/components/mode-bar/mode-bar.md)），带有结束这种模式的操作 | 直到他们结束它 |
 | 整个服务器的状态：计算机离线、配额快满、有更新 | 通知中心（[NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)），铃铛上显示提醒圆点 | 直到状态改变 |
 | 别处发生了这个人应该看到的事 | 动态（[ActivityInbox](../../packages/ui/src/components/activity-inbox/activity-inbox.md)）；它的入口显示提醒圆点或数字 | 直到被读过 |
 | Agent 需要审批 | 会话里的操作卡片（[MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md)） | 直到被处理 |
@@ -138,12 +139,12 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | 由按钮发起的等待 | 按钮的加载状态（[Button](../../packages/ui/src/components/button/button.md)） |
 
 - 这些都不要用粉色。它们是被动的，而粉色表示有东西在等这个人处理。
-- 用量上限不是等待：用 [Meter](../../packages/ui/src/components/meter/meter.md) 显示它还剩多少，计量条会逐渐变空，不用会逐渐填满的进度条。
+- 用量上限不是等待：用 [Meter](../../packages/ui/src/components/meter/meter.md) 显示已经用了多少，不用进度条，进度条满了会变成 `success`。每个用量条都按已用的量填充，从不按剩下的量（stdrc，2026-10-29）。
 - Raft Chat 还有两处没遵守骨架屏的规则：会话时间线和个人资料面板在等待时显示文字 "Loading…"。
 
 ### 行 {#rows}
 
-行跟随它所代表的东西，而不是它出现的位置：一个地方在侧栏里和在手机的地方列表里看起来一样，其他各类行则带上各自主体需要的东西（待查看事项的提醒圆点、任务的状态标签）。同一类行在应用的各个标签页里也是同样大小（[同一类，同样大小](../foundations/spacing.md#the-same-kind-the-same-size)）。
+行跟随它所代表的东西，而不是它出现的位置：一个地方在侧栏里和在手机的地方列表里看起来一样，其他各类行则带上各自主体需要的东西（待查看事项的提醒圆点、任务的状态标签）。同一类行在应用的各个标签页里也是同样大小（[同一类，同样大小](../foundations/spacing.md#the-same-kind-the-same-size)）。下表中除了任务卡片和内嵌分组里的 ListRow（设置，详情页上的 Agent 和人），每一种行都是列表单元格：没有分隔线，整行都是点击目标，各种状态画在同一个内缩的圆角形状上（[列表](../patterns/lists.md)）。
 
 | 位置 | 使用 |
 | --- | --- |
@@ -204,7 +205,14 @@ message-translation/compositions/translation-showcase
 
 ### 选中消息时的工具栏 {#toolbar-for-selected-messages}
 
-选中消息时，一个工具栏在会话底部取代消息输入框的位置：Select All、Cancel、Forward、Copy link，以及一个包含 Generate image 和 Copy MD 的 More 菜单。消息菜单里的 Select Message 开始选择；每条消息会出现一个复选框（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。它是一个浮动工具栏，和悬停工具栏一样高 36px：里面的按钮 28px，距工具栏边缘 4px，按钮之间间隔 4px，使用 `radius-chip`（[形状](../foundations/shape.md#inside-a-frame)）。
+选中消息时，一个工具栏浮在原来消息输入框的位置，在会话底部居中，不论多宽都排成一行：数量（"3 selected"）、Copy Link、Forward、一个 More 菜单（Generate Image、Copy MD，在消息列里还有 Select All），最后是结束选择的 ×（cindyz，2026-10-28，任务 #173）。消息菜单里的 Select Message 开始选择；每条消息会出现一个复选框（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。它是一个浮动工具栏，和悬停工具栏一样高 36px：里面的按钮 28px，距工具栏边缘 4px，按钮之间间隔 4px，使用 `radius-chip`（[形状](../foundations/shape.md#inside-a-frame)）。
+
+- 它和会话两侧的距离与消息输入框相同，所以从不比它取代的消息输入框更宽：桌面端和手机上都是 20px，因为在手机上，消息那一栏和它的消息输入框也保持 20px（[页面结构](../patterns/page-structure.md#one-edge-per-column)）。它浮在距底部 12px 的地方。
+- 数量排在最前：它说明这些操作作用于什么，数量变化时会被读出。工具栏的无障碍名称保持不变（"Selected message actions"）。
+- Forward 是唯一的主按钮：人选中消息就是为了转发。Copy Link 留在它旁边；其余的都在 More 里，所以这一行从不换行。Copy Link 放得下时才显示标签，否则只显示图标；还是没有空间，就移进 More。只有连这样都放不下时（在最窄的手机上，用一种文字较长的语言显示一个较长的数量），Forward 才只显示图标。数量从不让位。
+- × 结束选择，放在最后，和浮动工具栏的关闭按钮一样；Escape 的作用相同。Cancel 不是对消息的操作，所以不和这些操作放在一起。之后焦点回到会话里：回到消息输入框；没有消息输入框的地方，回到开始选择的那条消息。
+- 在触屏上，按钮仍是 28px，每个按钮的点击区域是 44px，朝相邻按钮只伸出间隔的一半，所以点在两个按钮之间会落到较近的那个上（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。
+- 工具栏浮在那里时，会话让最后一条消息不被它挡住。
 
 ```example
 message-item/compositions/selection-showcase

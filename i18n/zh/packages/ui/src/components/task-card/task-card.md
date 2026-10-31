@@ -39,7 +39,7 @@ task-card/compositions/task-card-state-matrix
 | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `TaskCard` 或 `TaskCardStatus` 上的 `busy` | 正在保存状态更改；完成之前状态标签不能按 |
 | `disabled` | 不能打开或更改的任务：`fill-muted` 卡片，文字用 `foreground-disabled` |
-| 拖动中 | 在看板上，只有被提起的那份卡片副本带 `shadow-float`；卡片本身以 40% 留在它的列里（[TaskDnd](../task-dnd/task-dnd.md#states)） |
+| 拖动中 | 在看板上，只有拿起的卡片副本带 `shadow-float`；卡片本身以 40% 留在它的列里（[TaskDnd](../task-dnd/task-dnd.md#states)） |
 
 ```example
 task-card/compositions/task-card-state-matrix

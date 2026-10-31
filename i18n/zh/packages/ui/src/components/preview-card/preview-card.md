@@ -1,7 +1,7 @@
 ---
 title: PreviewCard
 summary: 人悬停或聚焦到提及、名字或应用链接上时出现的只读卡片，说明某人是谁或应用的某个条目是什么，最多带两个小按钮。
-sourceHash: 88026c56
+sourceHash: b11a3414
 ---
 
 # PreviewCard
@@ -69,6 +69,7 @@ preview-card/preview-card-app-prompt
 - 鼠标指针停在触发元素上，卡片几乎立刻打开；离开后很快关闭。延迟比 Base UI 默认的短，这样满是提及的密集消息不会显得迟钝。
 - 触发元素获得键盘焦点时也会打开。
 - 卡片在触发元素下方打开，与其起始边对齐，到了窗口边缘会移动或翻转（[层级](../../../../../design/foundations/elevation.md#popups)）。
+- 它避开窗口安全区：外壳给自己留了一部分窗口（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`）时，它停在离那部分 8px 的地方，而不是离窗口边缘 8px（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 
 ## 内容 {#content}
 

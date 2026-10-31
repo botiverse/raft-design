@@ -1,7 +1,7 @@
 ---
 title: RadioGroup
 summary: 一组圆形选项，用来从 2 到 5 个答案里选一个、随表单提交，每个选项都有写一句话的空间。
-sourceHash: fab8a9ab
+sourceHash: 8565db1f
 ---
 
 # RadioGroup
@@ -16,7 +16,7 @@ radio-group/compositions/reset-mode
 
 | 情况 | 使用 |
 | --- | --- |
-| 从 2 到 5 个答案里选一个，每个都值得写一句话 | RadioGroup |
+| 从 2 到 5 个答案里选一个，每个都值得写一句话：公开或私有 | RadioGroup |
 | 任意数量的选项，且选择是对话框的主要内容 | [ChoiceList](../choice-list/choice-list.md) |
 | 原地切换同一内容的另一个视图 | [SegmentedControl](../segmented-control/segmented-control.md) |
 | 从许多值里选一个，或者需要搜索的值 | [Select](../select/select.md) |

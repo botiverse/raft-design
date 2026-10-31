@@ -1,7 +1,7 @@
 ---
 title: Badge
 summary: 小标签：最主要的是粉色的未读数和黄色的 @ 标记，另外还有浅色底标签和细线标签。
-sourceHash: c20b70cb
+sourceHash: 3dd3fb2c
 ---
 
 # Badge
@@ -22,7 +22,7 @@ Badge 是一个小标签。它的主要用途是未读数：一张粉色贴纸�
 ## 结构 {#anatomy}
 
 - `Badge`：标签本身。里面放一个数字、一个词，或一个图标加一个词。
-- `Badge.Experimental`：预设，文字为 Experimental，让每个实验性界面显示同一个标签。
+- `Badge.Experimental`：带实验性外观的预设，让每个实验性界面显示同一个标签。它的文字是 Experimental；界面需要翻译的应用把翻译后的词作为 children 传入（`<Badge.Experimental>{t("experimental")}</Badge.Experimental>`）。
 
 ## 变体 {#variants}
 
@@ -41,6 +41,7 @@ Badge 是一个小标签。它的主要用途是未读数：一张粉色贴纸�
 ## 状态 {#states}
 
 - 渲染成按钮的 Badge（`render={<button />}`）在悬停和按下时显示中档（彩色徽标上是 `sticker-medium`），禁用时用统一的禁用样式（[状态](../../../../../design/foundations/states.md)）。
+- 渲染成按钮的 Badge 在触屏上保留 44px 的点击区域：一个透明的 `::after` 锚定在徽标上，这样标签的裁剪不会切掉它，它高 44px、宽至少 44px（[无障碍](../../../../../design/foundations/accessibility.md)）。
 - 选中的行不显示计数，也不显示 @ 标记（[状态](../../../../../design/foundations/states.md#usage)）。
 
 ## 内容 {#content}

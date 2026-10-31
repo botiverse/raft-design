@@ -1,7 +1,7 @@
 ---
 title: Drag
 summary: Raft 里每一种拖动都由这些部件搭成：一套传感器、跟着手走的被拿起的副本、标出一项将落在哪里的虚线位置、某个位置拒绝它的原因，以及按名称的播报。
-sourceHash: 235559b8
+sourceHash: 3762979d
 ---
 
 # Drag
@@ -28,7 +28,7 @@ drag/compositions/lists
 - `useDragSensors()`：`DndContext` 唯一的一套传感器。鼠标或触控笔移动 6px 后开始（`MOUSE_DRAG_DISTANCE_PX`）；手指按住 500ms、再移动 10px 后开始（`useHoldThenMoveTouchSensor`）；键盘按 Space 开始（`DRAG_KEYBOARD_CODES`），从不是 Enter。传入 `coordinateGetter`（或者只传这个 getter：`useDragSensors(getter)`），决定方向键怎么移动。不管拖动来自哪一种传感器，拖动中的 Escape 都只把这一项放回原处：它在 window 的捕获阶段被接住并阻止传播，所以拖动结束之前，应用里任何 Escape 处理函数（面板、对话框、弹出层的）都收不到它。
 - `DragLift`：被拿起的副本，放在 `DndContext` 里面。它的子元素就是副本：这一项本身，或一个紧凑替身。它默认用控件的圆角；在 `className` 里传入这一项自己的圆角。它还会设置 grabbing 光标，在窗口失去焦点和浏览器标签页被隐藏时取消拖动，滚动指针靠近其边缘的区域，并让键盘拖动时的副本偏离它的位置 6px。把 dnd-kit 自带的自动滚动关掉（`autoScroll={false}`）。副本在所有其他层之上（`DRAG_LIFT_Z_INDEX`，999：高于弹出层、叠加的对话框和轻提示）。祖先元素带 transform 时（比如抽屉或对话框），传入 `container`（`document.body`）：副本保留它渲染时所在的主题作用域。
 - `keepGrabInside(proxyWidth)`：给紧凑替身用的修饰器（modifier），这样在离这一项开头很远的地方抓住它时，手仍然停在替身上。`LIFT_CLASS` 是不用 `DragLift` 绘制的副本所用的拿起样式。
-- `DropPlaceholder`：这一项将落下的位置，大小与这一项相同。在实时内容上方时用 `opaque`。
+- `DropPlaceholder`：这一项将落下的位置，大小与这一项相同。在布局的空隙里或新一列的虚线条里时用 `opaque`，让后面那一列不会透出来。
 - `DragRefusalHint`：某个位置拒绝这一项的原因，显示在指针旁边的 HUD 标签片里，并配上 not-allowed 光标。只在手下面的位置拒绝时渲染它。标签片在指针的右下方；靠近窗口右边缘时移到指针和副本的左边，靠近下边缘时移到指针上方。它从不在副本下面，并且始终留在窗口边缘以内 8px。它的尺寸在内容变化时测量，而不是每一帧都测。
 - `DraggedSlot`：包住列表里每一项的内容；传入 `dragging={isDragging}`（默认是 `false`）。被拖动的项自己的槽位，在这一项还在原处时是 40% 的不透明度（`ORIGIN_OPACITY`），这一项移到别处后就成为那个位置，带这一项的 `radius`。
 - `useDragLists`：一个或多个列表里的项，可以重新排序、在列表之间移动，带拒绝和按名称的播报。它返回 `DndContext` 的处理函数、碰撞检测和 `accessibility`，以及给 `useDragSensors` 的 `coordinateGetter`。在这个 context 里渲染 `DragRemeasure version={items}`。
@@ -44,7 +44,7 @@ drag/compositions/lists
 | --- | --- |
 | 已拿起 | 副本：`layer-popover`、`shadow-float`、一圈 `line-seam` 环；不缩放，不倾斜。光标处处是 `grabbing` |
 | 在原处 | 这一项以 40% 的不透明度留在原处 |
-| 在某个位置上方 | `DropPlaceholder`：`fill-subtle` 底上 1.5px 的 `line-strong` 虚线，圆角和大小与这一项相同；在实时内容上方时不透明，底是 `layer-canvas` |
+| 在某个位置上方 | `DropPlaceholder`：`fill-subtle` 底上 1.5px 的 `line-strong` 虚线，圆角和大小与这一项相同；在布局的空隙里或新一列的虚线条里时不透明，底是 `layer-canvas` |
 | 在拒绝放下的位置上方 | 没有占位框；指针旁边是 `DragRefusalHint` 标签片；光标是 `not-allowed` |
 | 已放下或已取消 | 副本在 160ms 内滑进那个位置，或滑回原处；然后这一项显示在那里 |
 

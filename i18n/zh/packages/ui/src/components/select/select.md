@@ -1,7 +1,7 @@
 ---
 title: Select
 summary: 打开一列值并显示选中值的字段，用于从最多 10 个值里选一个，或从若干值里选几个。
-sourceHash: 1829483c
+sourceHash: 6c60eecf
 ---
 
 # Select
@@ -31,6 +31,7 @@ sourceHash: 1829483c
 - `SelectList`：可滚动的选项列表。
 - `SelectItem`：一个值，包含 `SelectItemText` 和 `SelectItemIndicator`（勾号）。`SelectItemLeading` 放文字前面的图标或头像。`SelectItemDescription` 是文字下方可选的第二行。
 - `SelectGroup` 和 `SelectGroupLabel`：小标题下的一组值。`SelectSeparator` 是分组之间的细线。
+- `SelectActionItem`：列表末尾、在一个 `SelectSeparator` 之后的操作行，比如 Show All Runtimes。它不是一个值；见[列表操作](#list-actions)。
 - `SelectLabel`：选择框不在 [Field](../field/field.md) 里时用的标签。
 - `SelectScrollUpArrow`、`SelectScrollDownArrow`、`SelectPortal`、`SelectPopup`：用于自定义弹出层的底层部件。
 
@@ -88,9 +89,24 @@ Filter 按钮和它的标签片：
 - 列表和字段一样宽，至少 220px。选项更长时列表会变宽，最多到 24rem，且不超过屏幕宽度减去两侧各 8px；再长就折成两行并截断（[表单和设置](../../../../../design/patterns/forms.md#long-values-in-fields)）。
 - 触发按钮里的选中值保持一行并截断；被截断时，完整文字放在 `title` 里。
 - 筛选器的列表与筛选器的左边缘对齐，空间不够时与右边缘对齐。所有弹出层怎么定位，见[层级](../../../../../design/foundations/elevation.md#popups)。
+- 列表避开窗口安全区：外壳给自己留了一部分窗口的地方（`--raft-frame-inset-top`、`--raft-frame-inset-start`、`--raft-frame-inset-end`）时，列表停在离那部分 8px 处，而不是离窗口边缘 8px 处（[页面结构](../../../../../design/patterns/page-structure.md#frame-insets)）。网页一个都不设。
 - 在手机上也打开同样的列表。不要换成底部面板：底部面板用于去往某个地方（[选择组件](../../../../../design/components/overview.md#overlays)）。
 - 使用 `multiple` 时，选中一个值后列表保持打开。点击外部或按 Esc 关闭。
 - 使用 `multiple` 时，每个选项前面放一个方框（`SelectItemLeading` 里的 `CheckboxIndicator`），选中时为墨色（[Checkbox](../checkbox/checkbox.md)）。触发按钮显示选中的值，放不下时显示计数（3 selected）。
+
+### 列表操作 {#list-actions}
+
+列表操作改变列表显示什么，从不改变值。Show All Runtimes 就是一个：列表开头是大多数人用的运行时，它放在列表末尾，把其余的运行时加进同一个列表。
+
+```example
+select/compositions/list-action
+```
+
+- 把它放在最后，在一个 `SelectSeparator` 之后，每个列表一个。它用 `foreground-muted`，读起来是一个步骤而不是一个选项；它像选项一样高亮，内缩也一样。
+- 方向键和输入跳转能像到达选项一样到达它。按 Enter、Space 或点击会执行 `onAction`；值、勾号和 `onValueChange` 保持不变。
+- 列表保持打开，因为这个操作改变的是列表显示的内容。只有操作会离开列表时（比如打开一个添加运行时的对话框），才设 `closeOnAction`。
+- 全部显示出来后，去掉它，或者把它变成 Show Fewer。它在自己上方加入选项时，高亮仍留在这一行上，所以下一次按方向键会从那里接着走。
+- 做别的事的操作（Manage Runtimes、Add）不属于选择一个值：把它放在选择框旁边，或者用 [DropdownMenu](../dropdown-menu/dropdown-menu.md)。
 
 ## 内容 {#content}
 
@@ -112,4 +128,5 @@ Select 封装了 Base UI 的 Select：一个打开 listbox 的按钮，支持输
 
 - 用 `FieldLabel`（[Field](../field/field.md)）、`SelectLabel` 或触发按钮上的 `aria-label` 给选择框命名。
 - 多选时，每个选项前的方框只是装饰；Base UI 用 `aria-selected` 表示选中状态。
+- 对辅助技术来说，`SelectActionItem` 是一个选项，因为方向键能到达它，但它从不被选中：`aria-selected` 始终为 false。它不带 `aria-expanded`，ARIA 不允许选项带这个属性：它的标签说明它做什么，它加入的选项会计入列表。
 - `SelectItemDescription` 是选项的无障碍描述：选项只由 `SelectItemText` 命名，并通过 `aria-describedby` 指向描述，所以读屏软件会先读标签，再读描述，各读一次。

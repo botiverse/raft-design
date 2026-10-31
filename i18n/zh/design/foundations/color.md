@@ -1,7 +1,7 @@
 ---
 title: 颜色
 summary: 表面、文字、线和角色的颜色，每种颜色的含义，以及它们保证的对比度。
-sourceHash: 89dd83c5
+sourceHash: 022378b3
 ---
 
 # 颜色
@@ -13,7 +13,7 @@ Raft 里的颜色有两层作用。第一层，表面从外到内颜色越来越
 - **黄色只用在外框上。** 外框出现在每个屏幕上，但没人去读它，所以在那里用颜色几乎没有代价。人要读的所有东西（消息、列表、卡片、推入页面的内容）都放在纸面上。外框指桌面端的导航条、网页的顶栏和手机一级页面的顶栏；见[页面结构](../patterns/page-structure.md)。
 - **每种颜色只有一个含义。** 黄色是你，粉色是待办，青色是这一项，橙色是打断，红色是不可撤销。状态颜色也是固定的；见[颜色的含义](#meanings-of-color)。
 - **一块品牌色就是一张贴纸。** 它有 1.5px 的墨色边，上面是墨色文字，两种模式下都一样；见[贴纸](#stickers)。
-- **提示是中性色。** 轻提示（Toast）和工具提示（Tooltip）用深灰色（`layer-hud`），不用品牌色，也没有黄色按钮。提示只是附带的信息：黄色的轻提示会和选中状态抢注意力，而黄色只表示「你」（你在哪里、你选了什么、什么在叫你）。这个黄色在每套主题里都保持黄色，无聊灰也不例外：它是信息，所以有自己的 token，即 `you` 和 `selected`（[主题](./themes.md#signals)）。
+- **提示是中性色。** 轻提示（Toast）和工具提示（Tooltip）用深灰色（`layer-hud`），不用品牌色，也没有黄色按钮。提示只是附带的信息：黄色的轻提示会和选中状态抢注意力，而黄色只表示「你」（你在哪里、你选了什么、什么在叫你）。面板处在这个人自己打开的某种模式里时（比如评论），也用同样的深灰色来说明，因为模式没有可以用来着色的意图（[ModeBar](../../packages/ui/src/components/mode-bar/mode-bar.md#why-it-is-dark)）。这个黄色在每套主题里都保持黄色，无聊灰也不例外：它是信息，所以有自己的 token，即 `you` 和 `selected`（[主题](./themes.md#signals)）。
 
 ## Token {#tokens}
 
@@ -34,7 +34,7 @@ layer
 | `layer-popover` | 弹出层：菜单、抽屉、底部面板、对话框、个人资料卡 |
 | `fill-muted` | 下沉填充：轨道、行内代码、骨架屏、中性图块、回应、消息列预览 |
 | `layer-code` | 代码块和命令行 |
-| `layer-hud` | 轻提示和工具提示；上面的文字用 `foreground-on-hud` 和 `foreground-on-hud-muted` |
+| `layer-hud` | 轻提示、工具提示，以及处在某种模式里的面板上的那条深色条（[ModeBar](../../packages/ui/src/components/mode-bar/mode-bar.md)）；上面的文字用 `foreground-on-hud` 和 `foreground-on-hud-muted` |
 | `layer-backdrop` | 居中浮层、模态抽屉、底部面板和图片查看器背后的遮罩 |
 | `layer-backdrop-nested` | 从一个模态表面里再打开另一个模态表面时，下面那层更浅的遮罩（[叠放的浮层](./elevation.md#stacked-overlays)） |
 | `layer-veil` | 盖在原地正忙或正在加载的东西上的覆盖层：正在上传或上传失败的图片、正在准备的预览 |
@@ -138,6 +138,19 @@ inactive
 - 蓝色（`foreground-link`）只用于正文中的链接。它是一种深而安静的蓝，接近 Claude 应用和文档里的链接蓝：浅色模式下，它的饱和度约为鲜亮链接蓝的一半，放在黑色墨色和黄色旁边，即使一页满是链接也不会成为最抢眼的东西，同时一眼仍能认出是链接。深色模式用的是同一种蓝，调亮后才能在深色底上看清。
 - 青柠色、薰衣草紫和石灰色只用来标记状态，不要用在别处。
 
+### 图表里的警告 {#warnings-in-charts}
+
+以图形画出的失败或警告，比如迁移图表里一条失败的路线、一根失败的柱子，用 `warning-graphic` 填充或描边。图表里的标记只靠形状和颜色来读，没有墨色边，所以它和所在的背景之间需要达到 [WCAG 1.4.11](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html) 对图形要求的 3:1。`warning` 贴纸的橙色在白色上是 2.04:1：有贴纸的边时够用，作为不带边的标记就太淡了。
+
+| 模式 | `warning-graphic` | 画布 | 侧栏 | 卡片 | 弹出层 |
+| --- | --- | --- | --- | --- | --- |
+| 浅色 | `oklch(0.64 0.16 50)` | 3.56:1 | 3.42:1 | 3.56:1 | 3.56:1 |
+| 深色 | `oklch(0.77 0.135 50)` | 7.98:1 | 9.00:1 | 7.20:1 | 6.75:1 |
+
+- 保持警告的色相（50），只改明度和饱和度，让这个标记读起来和它周围的警告是同一种橙色。
+- 只用于图形：填充、描边、标记点、图例色块。说明这次失败的文字、数值标签和图例项的文字用 `warning-strong`，它够深，可以用于文字；`warning-graphic` 是 3.56:1，低于文字需要的 4.5:1。
+- 图表里的失败用 `warning-graphic`，不用 `danger`：红色只用于无法撤销的事。
+
 ### 状态 {#statuses}
 
 任务和在线状态各有五种颜色，含义永远不变。任务状态的英文写法是 Todo、In Progress、In Review、Done 和 Closed（中文界面为待办、进行中、待确认、完成、已关闭）。
@@ -189,7 +202,7 @@ read-mark
 | `task-status-in-review-soft` | 待确认标签片 |
 | `task-status-closed-soft` | 已关闭标签片 |
 
-- 用量计量条用完时，轨道用 `warning-muted` 加 1px 的 `warning` 边，不用 `warning-soft`：在深色画布上 `warning-soft` 只有 1.16:1，比空轨道还淡，而浅色底不能加边（[Meter](../../packages/ui/src/components/meter/meter.md)）。
+- 用量计量条从用了 80% 起画成 `warning`，用完时仍是一整条 `warning`，不用 `danger`：额度到重置时间就会回来，所以用完会打断工作，但不是不可撤销的（[Meter](../../packages/ui/src/components/meter/meter.md)）。
 
 ### 文本选区 {#text-selection}
 
@@ -212,6 +225,7 @@ read-mark
 | `fill-subtle` | 轻 | 悬停在行、消息或可阅读的卡片上（评论卡片、附件卡片、任务卡片、回复栏），以及菜单打开着的行 |
 | `fill-medium` | 中 | 悬停在纸面色的控件上（按钮、图标按钮、标签片、标签页、分段），以及按下任何东西 |
 | `sticker-medium` | 中 | 悬停和按下彩色贴纸 |
+| `sticker-ink-medium` | 中 | 墨色贴纸（服务器图块）的悬停、按下和打开状态：墨色叠在墨色上看不出来，所以叠的是纸面色 |
 | `fill-frame-medium` | 中 | 悬停和按下外框上的任何东西 |
 
 `fill-subtle` 比每种选中色调都浅，所以悬停的行永远不会看起来像被选中，文字也保持原有的对比度。这些 token 在分成两档之前的旧名称作为已弃用的别名继续可用，直到 raft-ui 1.0；`codemods/token-names.mjs` 会把它们改成新名称。

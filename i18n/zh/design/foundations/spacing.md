@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: 9c95adf9
+sourceHash: ea725545
 ---
 
 # 间距与尺寸
@@ -67,7 +67,7 @@ timeline
   - 每一行横跨弹出层的整个宽度，所以点偏几个像素，仍然落在某一行上。
   - 点错一行只会移动高亮，或者选中相邻的一项，人能看到，也能改回来。它从不触发无法挽回的操作：删除、停止或移除某样东西的菜单项会先弹出确认（[反馈](../patterns/feedback.md#confirming)）。把这样的菜单项和其他项分开，放在分隔线之后。
   - 36px 的行能让列表中更多的选项留在视野里。
-- 只用鼠标指针操作的桌面端控件可以更小：侧栏行 36px，导航条项 40px，悬停工具栏高 36px、其中的按钮 28px（[Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)）。
+- 只用鼠标指针操作的桌面端控件可以更小：侧栏行 38px（行与行相隔 2px，状态形状和行一样高，[列表](../patterns/lists.md)），导航条项 40px，悬停工具栏高 36px、其中的按钮 28px（[Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)）。
 - 桌面端的默认控件是 32px，即飞书 PC 端的默认值，因为桌面端用鼠标指针操作，观看距离也更远。这里的桌面端指宽度 768px 起（桌面布局从这里开始）、主要指针是鼠标或触控板的屏幕，即 `(width >= 48rem) and (pointer: fine)`：密度跟随输入方式，而不是宽度。用触屏操作的平板保持手机的 44px 控件和 16px 字段文字，这也能防止 iOS 和 iPadOS 在聚焦字段时放大页面；连接触控板的 iPad 报告精确指针，使用桌面端尺寸。32px 的按钮仍向外扩展出 44px 的点击区域（`after:-inset-y-control-hit`，再加上 1.5px 的边框，因为向外扩展的 `::after` 是从边框内侧量起的），因为笔记本电脑也可能有触屏；字段不扩展，因为它很宽，它的高度本身就是目标。
 
 ## 同类元素，同样尺寸 {#the-same-kind-the-same-size}
@@ -112,7 +112,7 @@ control
 
 | 区域 | 宽度 |
 | --- | --- |
-| 手机内容边距 | 每侧 16px |
+| 手机内容边距 | 每侧 16px；在由列表单元格组成的一栏里是 20px（[列表](../patterns/lists.md#one-edge)） |
 | 桌面端主区域、面板头部、侧栏头部、抽屉边距 | 每侧 20px |
 | 导航条 | 56px，加 1px 接缝线；带文字的导航条 68px，加 1px 接缝线 |
 | 侧栏（所有带侧栏的页面：Chat、成员、Computers、设置、服务器的公开页面） | 240px，可在 200px 到 400px 之间调整 |
