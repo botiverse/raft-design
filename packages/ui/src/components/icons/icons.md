@@ -108,7 +108,7 @@ They are drawn on Lucide's grid: a 24px `svg`, lines of 2, round ends and joins,
 icons/unfollow-artifact-sizes
 ```
 
-- The channel pairs are Lucide's `hash`, `lock` and `git-branch`, full size and in place, the mark in the bottom-right corner (16 to 22). Where the glyph reaches that corner its strokes stop about a line's width short of the mark, as Lucide's `calendar-plus` cuts its corner. Every pair keeps the same gap, so the eight read as one set (Artea, 2026-10-28). `git-branch` leaves the corner empty and needs no cut.
+- The channel pairs are Lucide's `hash`, `lock` and `git-branch`, full size and in place, the mark in the bottom-right corner (16 to 22). Where the glyph reaches that corner its strokes stop about a line's width short of the mark, as Lucide's `calendar-plus` cuts its corner. Every pair keeps the same gap, so the six read as one set (Artea, 2026-10-28). `git-branch` leaves the corner empty and needs no cut.
 
 `AddCommentIcon` and `CreateTaskIcon` put a plus in the same corner, with the same gap: `AddCommentIcon` is `CommentIcon` at 24px, its bubble cut short of the plus; `CreateTaskIcon` is Lucide's `list-todo` with the plus in place of its last line. They have no minus pair.
 
@@ -123,6 +123,6 @@ A channel's own icon with a globe (readable on the public page) has no pair of i
 
 ## Rules
 
-- Don't add drawn icons. New icons come from Lucide ([Iconography](../../../../../design/foundations/iconography.md#principles)); these twenty are the only drawn ones, each for a meaning Lucide has no icon for.
+- Don't add drawn icons. New icons come from Lucide ([Iconography](../../../../../design/foundations/iconography.md#principles)); these nineteen are the only drawn ones (`ChatIcon` is a second name for `MessageIcon`, not a drawing of its own), each for a meaning Lucide has no icon for.
 - Use an action icon only for its action. `JoinChannelIcon` is not a channel's icon, and `AddCommentIcon` is not a comment's.
 - A plus means add, create, follow or join this kind of thing, and a minus remove, unfollow or leave it: inside the thing for following, in the bottom-right corner for the rest. Never use either for another meaning, such as "new" or "more".

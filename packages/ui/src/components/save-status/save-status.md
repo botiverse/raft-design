@@ -46,13 +46,13 @@ save-status/compositions/failed
 ## Behavior
 
 - The line keeps its height in every state, so neither the card nor the row grows when the result appears, and a switch centered on its row doesn't move (stdrc, 2026-10-30).
-- It sits 4px under the control, whatever the control is: a select, a segmented control or a row's description. In a `Field` and in a `ListRowBody` it makes up the difference from their own gaps (6px and 2px). Anywhere else, put the control and the line together in a block of their own with no gap, and the line is 4px under it.
+- It sits 4px under what comes before it: the select or the segmented control in a `Field`, or the description in a settings row. In a `Field` it moves up 2px from the field's 6px gap; in a `ListRowBody` it adds 2px to the body's 2px gap. Anywhere else, put the control and the line together in a block of their own with no gap, and the line is 4px under it.
 - It reserves one line. A failure longer than one line wraps and the setting grows, rather than being cut off; keep it to one short sentence so that doesn't happen.
 
 ## Content
 
 - Write "Saved", no more: the setting already says what changed.
-- Write a failure as what didn't happen and what to do: Couldn't mute this server. Try again. Show the server's own reason when it gives one ([Writing](../../../../../design/content/writing.md)).
+- Write a failure as what didn't happen and what to do: Couldn't mute this server. Try again. When the request comes back with a reason, show that reason ([Writing](../../../../../design/content/writing.md)).
 
 ## Accessibility
 

@@ -36,8 +36,8 @@ A field among other fields keeps the choice behind one control, so the form stay
 ChoiceList is one component driven by an `items` array; it draws the parts below from it.
 
 - The search box: an [InputGroup](../input-group/input-group.md) with a search icon and, once there is text, a 32px clear button. Always with `search="always"`; above 5 items with `search="auto"`.
-- The frame: a card-coloured box with a hairline border around the rows, which scroll inside it at a fixed height once the search box shows.
-- A group heading, one per group in `groups`: a small heading over the rows of one kind (Agents, People), in the size and colour of a [Select](../select/select.md) group label.
+- The frame: a card-colored box with a hairline border around the rows, which scroll inside it at a fixed height once the search box shows.
+- A group heading, one per group in `groups`: a small heading over the rows of one kind (Agents, People), in the size and color of a [Select](../select/select.md) group label.
 - A row, one per item: the radio circle or checkbox, the item's `media` (an avatar, an icon), its `label` and up to two `description` lines. The whole row is a `<label>`.
 - A row's `action`: a button at the end of the row, beside it but outside its `<label>`.
 - A note: the caller's `noMatchLabel` under the chosen rows when the search matches nothing else, or its `empty` line when there are no items.
@@ -83,7 +83,7 @@ choice-list/compositions/no-match
 - **Groups.** With `groups`, each item names its group, and the rows come under their group's heading in the groups' order; items of no known group follow, with no heading. A group with nothing to show, before or during a search, draws no heading. While searching, the chosen rows come first in their own group, so a person never moves out of the People heading.
 - **A way out under the list.** When the item may not be there, put the way to make it in `footer`, such as "Create an agent": it stays under the rows as they scroll. To name it after what people typed ("Create an agent named “Mia”"), pass `searchValue` and `onSearchValueChange`; the caller then owns the search text and can quote it in the footer or in `noMatchLabel`.
 - **Filling a sheet.** With `fill`, the list takes the height it is given, such as the rest of a phone sheet, and its rows scroll inside it instead of stopping at 288px.
-- **Row actions.** An `action` sits at the end of its row, centred on the name's line. It is laid in a second grid column on the same rows but comes after the whole group in the DOM, so clicking it chooses nothing and Tab reaches it after the group, in row order. Open details in a [Popover](../popover/popover.md), which a tap opens too.
+- **Row actions.** An `action` sits at the end of its row, centered on the name's line. It is laid in a second grid column on the same rows but comes after the whole group in the DOM, so clicking it chooses nothing and Tab reaches it after the group, in row order. Open details in a [Popover](../popover/popover.md), which a tap opens too.
 
 ```example
 choice-list/compositions/search

@@ -98,7 +98,7 @@ banner/compositions/close
 
 - `Banner` renders a `div` with `role="alert"` for `status="destructive"` and `role="status"` for the other intents, so a notice that isn't urgent doesn't interrupt a screen reader.
 - The icon repeats the intent and is decorative. The title and description must say the intent in words.
-- `BannerClose` is labelled "Dismiss"; pass an `aria-label` that names the notice when a page has more than one thing to dismiss.
+- `BannerClose` is labeled "Dismiss"; pass an `aria-label` that names the notice when a page has more than one thing to dismiss.
 - `BannerClose` doesn't move focus. When the banner goes, the app moves focus to the next element after where the banner was, or to the page's heading when there is none; never leave it on the document.
 - Keep the parts in reading order: the icon, the title, the description with its link, then `BannerAction` (Dismiss, then the button) or `BannerClose`. Tab reaches them in that order.
 
