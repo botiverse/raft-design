@@ -1,7 +1,7 @@
 ---
 title: Badge
 summary: 小标签：最主要的是粉色的未读数和黄色的 @ 标记，另外还有浅色底标签和细线标签。
-sourceHash: 3dd3fb2c
+sourceHash: 037d4755
 ---
 
 # Badge

@@ -1,7 +1,7 @@
 ---
 title: 响应式布局
 summary: 断点，每种宽度显示什么，矮的桌面窗口怎么收缩，为什么布局按它所在那一块的宽度切换，一行放不下时怎么让位，为什么第一帧就是稳定下来的样子，触屏上用什么代替悬停，以及手机布局怎么在 320px 下保持完整。
-sourceHash: e00d971d
+sourceHash: 21bd995b
 ---
 
 # 响应式布局
@@ -23,7 +23,7 @@ sourceHash: e00d971d
 | 对话旁边的侧边列 | Thread、Tasks 和 Files 是分区，放在整个对话面板（包括标题栏）右侧的列里，每一列是人自己排列的一摞分区（[拖放](./drag-and-drop.md#where-it-will-land)）。每一列在这一行里占满高度，用自己的宽度，最窄到它的最小宽度，同时对话保留 360px。再窄下去，打开了消息列时，Thread 所在的列盖住对话；没有打开消息列时，其他列浮在消息上面（[频道的侧边列](#the-channels-side-columns)） |
 | 高度不到 600px 的桌面窗口 | 标题栏从 56px 收缩到 48px；导航条随之从 57px 宽收缩到 49px 宽；导航条的项从 40px 收缩到 36px。网页顶栏保持 48px |
 
-移动 App 同样按窗口宽度切换，但用它们自己的断点：从 840dp 起，在开启 App 的桌面模式时，显示导航条和两栏而不是标签栏，横屏和平板都一样；从 1200dp 起，消息列放在对话旁边。导航条用 [AppRail](../../packages/ui/src/components/app-rail/app-rail.md) 绘制，保留手机上的目的地和顺序，服务器标签除外：在那里，服务器是导航条头部的工作空间图块，是切换服务器的唯一入口，和网页一样（[导航](./navigation.md#the-server-in-the-apps-desktop-mode)）。保留每个平台各自的断点（网页 768px，App 840dp），不要强行统一：断点是布局的搭建方式，而导航的结构在哪里都一样，见[导航](./navigation.md#principles)。
+移动 App 同样按窗口宽度切换，但用它们自己的断点：从 840dp 起，在开启 App 的桌面模式时，显示导航条和两栏而不是标签栏，横屏和平板都一样；从 1200dp 起，消息列放在对话旁边。导航条用 [AppRail](../../packages/ui/src/components/app-rail/app-rail.md) 绘制，保留手机上的目的地和顺序，服务器标签除外：在那里，服务器是导航条头部的工作空间图块，是切换服务器的唯一入口，和网页一样。手机上从服务器标签进入的那些服务器页面，在这里各有自己的入口：Members 在导航条上，Settings 在导航条底部，Computers 在 Settings 里（[导航](./navigation.md#the-server-in-the-apps-desktop-mode)）。保留每个平台各自的断点（网页 768px，App 840dp），不要强行统一：断点是布局的搭建方式，而导航的结构在哪里都一样，见[导航](./navigation.md#principles)。
 
 折叠屏手机的外屏保持手机布局，系统的竖列在它的一侧；它的内屏是桌面模式（[页面结构](./page-structure.md#foldable-phones)）。
 

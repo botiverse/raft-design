@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的 Tasks 和 Files 分区，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: 1665692e
+sourceHash: 54c6aeec
 ---
 
 # Raft Chat — 频道
@@ -59,7 +59,8 @@ conversation-panel/compositions/conversation-panel
 
 ### 消息列 {#threads}
 
-- 在消息列标题栏的右侧，先在关注者的头像堆旁边放 "2 Agents following"，然后是一个菜单（Focus mode、Search in thread、View in channel、Follow Thread），宽屏上最后还有 ×。
+- 在消息列标题栏的右侧，先在关注者的头像堆旁边放 "2 Agents following"，然后是一个菜单（Focus Mode、Search in Thread、View in Channel、Mark as Unread、Unfollow Thread；人没有关注的消息列是 Follow Thread，没有 Mark as Unread），宽屏上最后还有 ×。
+- 在消息列里，每条消息的菜单都有 Mark Thread as Unread，排在 Unfollow Thread 后面：它写 "Thread"，是因为这是一条消息的菜单，而它标记的是整个消息列，不是从这条消息开始。这两项都是消息列在动态里那一行的操作，用同一个 `message-square-dot` 图标：消息列在它的频道里和动态里都显示为未读。人还在这个消息列里，所以它保持打开，一直是未读，直到人离开它，和人在一个标为未读的频道里时一样。在动态的详情栏里，在消息列里做操作就会把它标为已读，和点选它的行一样。人没有关注的消息列两项都没有，和它在动态里的行一样：取消关注一个消息列会立即清掉它的未读。
 
 ### 套餐时间范围之外的历史 {#history-behind-the-plans-window}
 

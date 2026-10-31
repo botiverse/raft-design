@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: b27267e1
+sourceHash: fa2341db
 ---
 
 # MessageItem
@@ -232,7 +232,7 @@ message-item/compositions/reactions
 
 ### 选中文字的工具栏 {#toolbar-for-selected-text}
 
-人在消息里选中的文字会带出一个 [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md)，提供 Quote、Copy 这类操作。它和悬停工具栏长得完全一样，所以两者看起来是同一类东西；它的外观、它在选区焦点那一行上的位置和它的标签，见它自己的文档。
+人在消息里选中的文字会带出一个 [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md)，提供 Quote、Copy 这类操作。它的构造和悬停工具栏一样，所以两者看起来是同一类东西；唯一的不同是它的按钮带文字标签。它的外观、它在选区焦点那一行上的位置和它的标签，见它自己的文档。
 
 ## 内容 {#content}
 
