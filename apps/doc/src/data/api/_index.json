@@ -447,13 +447,6 @@
     "status": "experimental",
     "description": "The filter in effect, beside the filter button that chose it: an `info-soft` chip as high as the button, with an optional 14px icon, a `FilterChipLabel` and a `FilterChipRemove` × that resets the filter."
   },
-  "float-button": {
-    "names": [
-      "FloatButton",
-      "FloatButtonGroup"
-    ],
-    "status": "deprecated"
-  },
   "form-section": {
     "names": [
       "FormSection"
@@ -471,7 +464,6 @@
   "icons": {
     "names": [
       "AddCommentIcon",
-      "CreateTaskIcon",
       "FollowArtifactIcon",
       "FollowThreadIcon",
       "JoinChannelIcon",
@@ -557,28 +549,6 @@
     ],
     "status": "stable"
   },
-  "legacy-task-panel": {
-    "names": [
-      "LegacyTaskPanelActions",
-      "LegacyTaskPanelBody",
-      "LegacyTaskPanelField",
-      "LegacyTaskPanelFieldLabel",
-      "LegacyTaskPanelFieldText",
-      "LegacyTaskPanelFieldTitle",
-      "LegacyTaskPanelHeader",
-      "LegacyTaskPanelIcon",
-      "LegacyTaskPanelMeta",
-      "LegacyTaskPanelMetaLabel",
-      "LegacyTaskPanelMetaRow",
-      "LegacyTaskPanelMetaValue",
-      "LegacyTaskPanelRoot",
-      "LegacyTaskPanelStatus",
-      "LegacyTaskPanelSection",
-      "LegacyTaskPanelTitle",
-      "LegacyTaskPanelTitleMeta"
-    ],
-    "status": "deprecated"
-  },
   "lightbox": {
     "names": [
       "Lightbox",
@@ -621,17 +591,6 @@
     ],
     "status": "stable",
     "description": "One row of a list. It renders a `button` by default; pass `render={<a />}` (or a router link) for a row that goes somewhere. Children are the leading block (an avatar, a channel or icon tile, `ListRowIcon`), `ListRowBody`, and anything trailing (a value, a badge, a switch, `ListRowChevron`)."
-  },
-  "live-agent-activity-bar": {
-    "names": [
-      "LiveAgentActivityBar",
-      "LiveAgentActivityBarAvatar",
-      "LiveAgentActivityBarContent",
-      "LiveAgentActivityBarRow",
-      "LiveAgentActivityBarStatus",
-      "LiveAgentActivityBarText"
-    ],
-    "status": "deprecated"
   },
   "logo": {
     "names": [
@@ -817,9 +776,6 @@
       "MessageReactionTooltipNames",
       "MessageReactionTooltipNameText",
       "MessageReactionTooltipSeparator",
-      "MessageTextSelectionToolbar",
-      "MessageTextSelectionToolbarButton",
-      "MessageTextSelectionToolbarSeparator",
       "MessageItemDelegatedAvatar",
       "MessageItemDelegatedBy",
       "MessageItemDelegatedByButton",
@@ -1182,7 +1138,6 @@
   "sidebar": {
     "names": [
       "SidebarBody",
-      "SidebarLiveActivity",
       "SidebarContent",
       "SidebarGroupLabel",
       "SidebarHeader",

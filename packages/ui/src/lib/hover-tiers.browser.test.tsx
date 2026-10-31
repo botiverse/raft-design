@@ -348,7 +348,7 @@ for (const mode of ["light", "dark"] as const) {
 
 // Every :hover rule sits under @media (hover: hover): on a touch screen a
 // hover would stay on the last thing tapped. Tailwind's hover: does this; the
-// plain CSS files (ComboboxSelect, FloatButton, Steps) must do it too.
+// plain CSS files (ComboboxSelect, Steps) must do it too.
 it("every :hover rule in the stylesheet is gated by (hover: hover)", () => {
   const ungated: string[] = [];
   const walk = (rules: CSSRuleList, gated: boolean, parent: string) => {

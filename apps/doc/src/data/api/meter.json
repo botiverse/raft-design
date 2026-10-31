@@ -6,13 +6,6 @@
     "native": true,
     "props": [
       {
-        "name": "low",
-        "type": "number",
-        "required": false,
-        "deprecated": "Use `warnAt`, the share used: `low={20}` of 100 is\n`warnAt={0.8}`. The amount left, in the units of `max`, at or below\nwhich the meter warns. Ignored when `warnAt` is set.",
-        "from": "raft-ui"
-      },
-      {
         "name": "max",
         "type": "number",
         "required": false,

@@ -166,25 +166,3 @@ export function SidebarContent({ children, className, render, ...props }: Sideba
     </ScrollArea>
   );
 }
-
-export type SidebarLiveActivityProps = useRender.ComponentProps<"div">;
-
-export function SidebarLiveActivity({
-  children,
-  className,
-  render,
-  ...props
-}: SidebarLiveActivityProps) {
-  const { sidebarLiveActivity } = sidebarRecipe();
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "sidebar-live-activity",
-    className: sidebarLiveActivity({ className }),
-    children,
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}

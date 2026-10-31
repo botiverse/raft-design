@@ -23,8 +23,8 @@ describe("generated API", () => {
     expect(JSON.stringify(button)).not.toContain("/Users/");
   });
 
-  it("marks deprecated exports and their folder", () => {
-    expect(API_INDEX["float-button"]?.status).toBe("deprecated");
+  it("marks a folder by the entry it is exported from", () => {
+    expect(API_INDEX["save-status"]?.status).toBe("experimental");
     expect(API_INDEX.button?.status).toBe("stable");
   });
 

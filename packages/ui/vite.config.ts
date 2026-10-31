@@ -50,11 +50,6 @@ export default defineConfig({
       { from: "src/styles.css", to: "dist", rename: "styles.css" },
       { from: "src/fonts.css", to: "dist", rename: "fonts.css" },
       {
-        from: "src/components/float-button/float-button.css",
-        to: "dist/components/float-button",
-        rename: "float-button.css",
-      },
-      {
         from: "src/components/timeline/timeline.css",
         to: "dist/components/timeline",
         rename: "timeline.css",

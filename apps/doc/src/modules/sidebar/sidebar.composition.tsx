@@ -6,7 +6,6 @@ import {
   AvatarFallback,
   AvatarGroup,
   Status,
-  SidebarLiveActivity,
   SidebarContent,
   SidebarItemAside,
   SidebarItemCount,
@@ -48,20 +47,11 @@ import {
   SidebarSectionHeaderMenu,
   SidebarSectionSortMenu,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
-import { LiveAgentActivityBarComposition } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
-import type { LiveAgentActivityBarItem } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
 
 export type SidebarContentState = "populated" | "empty";
-export type SidebarLiveActivityState = "none" | "active";
 
 export type SidebarCompositionProps = {
   contentState?: SidebarContentState;
-  liveActivityState?: SidebarLiveActivityState;
-};
-
-const LIVE_ACTIVITY: Record<SidebarLiveActivityState, LiveAgentActivityBarItem | null> = {
-  none: null,
-  active: { text: "Preparing the next release candidate" },
 };
 
 function SidebarDestinationItem({
@@ -84,10 +74,7 @@ function SidebarDestinationItem({
   );
 }
 
-export function SidebarComposition({
-  contentState = "populated",
-  liveActivityState = "none",
-}: SidebarCompositionProps) {
+export function SidebarComposition({ contentState = "populated" }: SidebarCompositionProps) {
   const [selectedItem, setSelectedItem] = useState("launch-week");
   const [announcement, setAnnouncement] = useState({ message: "Opened launch-week", sequence: 0 });
   const isEmpty = contentState === "empty";
@@ -386,9 +373,6 @@ export function SidebarComposition({
           </div>
         </SidebarContent>
       </SidebarBody>
-      <SidebarLiveActivity>
-        <LiveAgentActivityBarComposition latest={LIVE_ACTIVITY[liveActivityState]} />
-      </SidebarLiveActivity>
     </SidebarRoot>
   );
 }

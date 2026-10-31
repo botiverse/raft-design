@@ -66,7 +66,7 @@ export function AboveComposerComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
   return (
-    <div ref={setPortalContainer} className="relative h-64 w-full overflow-hidden bg-layer-panel">
+    <div ref={setPortalContainer} className="relative h-64 w-full overflow-hidden bg-layer-canvas">
       <div className="absolute inset-x-0 top-6 z-10 flex justify-center">
         {portalContainer ? <AboveComposerContent portalContainer={portalContainer} /> : null}
       </div>

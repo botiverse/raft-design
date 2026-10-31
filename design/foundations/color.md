@@ -228,7 +228,7 @@ Hover and press lay a translucent overlay over a control instead of changing its
 | `sticker-ink-medium` | Medium | Hover, press and open on an ink sticker (the server tile): ink over ink doesn't show, so it lays paper |
 | `fill-frame-medium` | Medium | Hover and press on anything on the frame |
 
-`fill-subtle` is lighter than every selection tint, so a hovered row never looks selected and its text keeps its contrast. The names these tokens had before the two tiers keep working as deprecated aliases until raft-ui 1.0; `codemods/token-names.mjs` renames them.
+`fill-subtle` is lighter than every selection tint, so a hovered row never looks selected and its text keeps its contrast. The names these tokens had before the two tiers are removed; `codemods/token-names.mjs` renames them ([Tokens](./tokens.md#former-names)).
 
 ## Stickers
 
