@@ -93,6 +93,6 @@ Until 2026-10-29 the meter drew what was left. The props are the same; what chan
 
 - `used` and `max` are unchanged. The bar now fills with `used`, and `aria-valuenow` is `used`, not `max - used`.
 - Rewrite `valueText` from left to used: "38% left · resets in 3h" becomes "62% used · resets in 3h". "Used up" stays.
-- `low`, the amount left at which the meter warned, is deprecated and still works. Replace it with `warnAt`, the share used: `low={20}` of 100 is `warnAt={0.8}`, the default, so most callers drop it. `warnAt` wins when both are set.
+- `low`, the amount left at which the meter warned, is removed. Replace it with `warnAt`, the share used: `low={20}` of 100 is `warnAt={0.8}`, the default, so most callers drop it.
 - `data-level` is now `normal`, `high` or `full`, not `plenty`, `low` or `empty`.
 - A used-up meter is a full warning bar; the empty `warning-muted` track with a `warning` edge is gone.

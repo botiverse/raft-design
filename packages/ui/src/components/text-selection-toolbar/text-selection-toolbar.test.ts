@@ -45,12 +45,3 @@ test("the divider is 20px high, the toolbar's 4px gap on each side", () => {
   expect(separator).toEqual(expect.arrayContaining(["w-px", "h-5", "bg-line-hairline"]));
   expect(separator.some((cls) => cls.startsWith("mx-"))).toBe(false);
 });
-
-test("the message-named parts stay as deprecated aliases of the generic ones", async () => {
-  const message = await import("../message-item/index");
-  const generic = await import("./index");
-  expect(message.MessageTextSelectionToolbar).toBe(generic.TextSelectionToolbar);
-  expect(message.MessageTextSelectionToolbarButton).toBe(generic.TextSelectionToolbarButton);
-  expect(message.MessageTextSelectionToolbarSeparator).toBe(generic.TextSelectionToolbarSeparator);
-  expect(message.createMessageTextSelectionAnchor).toBe(generic.createTextSelectionAnchor);
-});

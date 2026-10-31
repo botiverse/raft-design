@@ -1,6 +1,5 @@
 export {
   AddCommentIcon,
-  CreateTaskIcon,
   FollowArtifactIcon,
   FollowThreadIcon,
   JoinChannelIcon,

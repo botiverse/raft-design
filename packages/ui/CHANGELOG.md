@@ -1,3 +1,18 @@
+## Unreleased
+
+### Removed
+
+Breaking: these were deprecated and nothing in Raft's apps uses them. Run `codemods/token-names.mjs` before upgrading if your code still uses a former token name.
+
+- **The 165 deprecated tokens** (the `deprecated` group of `tokens.json` and their `foundation.css` declarations): `primary-*`, `accent-*`, `secondary-*`, `color-brutal-*-{n}`, `theme-shadow-*`, `theme-focus-ring`, `layer-panel`, `layer-inset`, `layer-canvas-muted`, `layer-hud-foreground`, `foreground-strong`, `foreground-icon`, `foreground-placeholder`, `line`, `line-muted`, `fill-pressed`, `fill-frame-pressed`, `fill-row-hover`, `fill-row-open`, `fill-message-hover`, `sticker-pressed`. Use the name each pointed at ([Tokens](https://raft-design.botiverse.build/foundations/tokens/#former-names)).
+- **The deprecated utilities built on them:** `bg-primary-*`, `bg-accent-*`, `bg-secondary-*`, `bg-brutal-*`, `bg-soft-signal` and the other color utilities of the names above, `shadow-raft-*`, `press-overlay`, `press-overlay-sticker`, `row-hover-overlay`, `row-open-overlay`. `bg-fill-row-hover` stays for now (an app still uses it); use `bg-fill-subtle`.
+- **`FloatButton`, `FloatButtonGroup`** and their types, and `components/float-button/float-button.css`.
+- **`LiveAgentActivityBar`** and its parts (`LiveAgentActivityBarAvatar`, `LiveAgentActivityBarContent`, `LiveAgentActivityBarRow`, `LiveAgentActivityBarStatus`, `LiveAgentActivityBarText`), and `SidebarLiveActivity`, the sidebar part that held it.
+- **`LegacyTaskPanel*`**: the 17 parts (`LegacyTaskPanelRoot`, `LegacyTaskPanelHeader`, ...) and their types.
+- **`MessageTextSelectionToolbar`, `MessageTextSelectionToolbarButton`, `MessageTextSelectionToolbarSeparator`, `createMessageTextSelectionAnchor`** and their 4 types. Use `TextSelectionToolbar`, `TextSelectionToolbarButton`, `TextSelectionToolbarSeparator`, `createTextSelectionAnchor`.
+- **`CreateTaskIcon`**. Create Task is Lucide's `plus`.
+- **Meter `low`**. Use `warnAt`: `low={20}` of 100 is `warnAt={0.8}`, the default.
+
 ## [0.56.1](https://github.com/botiverse/raft-design/compare/v0.56.0...v0.56.1) (2026-10-31)
 
 ### Fixed

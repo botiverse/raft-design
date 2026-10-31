@@ -69,14 +69,6 @@ test("the Tailwind entry includes the shared foundation and still generates sema
           base: sourceDirectory,
         };
       }
-      if (id === "./components/float-button/float-button.css") {
-        const floatButtonPath = join(sourceDirectory, "components/float-button/float-button.css");
-        return {
-          content: readFileSync(floatButtonPath, "utf8"),
-          path: floatButtonPath,
-          base: sourceDirectory,
-        };
-      }
       if (id === "./components/combobox-select/combobox-select.css") {
         const comboboxSelectPath = join(
           sourceDirectory,
@@ -129,7 +121,7 @@ test("the Tailwind entry includes the shared foundation and still generates sema
   const css = compiler.build([
     "bg-layer-canvas",
     "text-foreground",
-    "shadow-raft-md",
+    "shadow-float",
     "bg-you",
     "bg-selected",
     "border-selected",
@@ -139,10 +131,9 @@ test("the Tailwind entry includes the shared foundation and still generates sema
   expect(css).toContain("background-color: var(--selected)");
   expect(css).toContain("border-color: var(--selected)");
   expect(css).toContain("color: var(--foreground)");
-  expect(css).toContain("var(--theme-shadow-md)");
+  expect(css).toContain("var(--elevation-float)");
   expect(css).toMatch(/^\.dark \{$/m);
   expect(css).not.toContain("data-theme");
   expect(css).toContain("--palette-yellow-400:");
   expect(css).not.toContain('@import "./foundation.css"');
-  expect(css).not.toContain('@import "./components/float-button/float-button.css"');
 });

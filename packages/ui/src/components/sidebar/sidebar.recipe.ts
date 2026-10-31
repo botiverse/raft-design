@@ -6,10 +6,8 @@ export const sidebarRecipe = tv({
     sidebarRoot: [
       "relative flex size-full min-h-0  select-none flex-col",
       listColumnMargin,
-      "has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:overflow-clip",
       "bg-layer-sidebar text-foreground max-md:bg-layer-canvas",
       "border-line-seam md:border-r",
-      "md:has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--sidebar-content-bottom:52px]",
     ],
     sidebarHeader: [
       "flex items-center",
@@ -41,6 +39,5 @@ export const sidebarRecipe = tv({
       "pointer-events-none",
       "data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0",
     ],
-    sidebarLiveActivity: ["pointer-events-none absolute inset-x-0 max-md:hidden", "bottom-0 z-40"],
   },
 });

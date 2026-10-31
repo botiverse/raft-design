@@ -46,7 +46,7 @@ The jump pills of a conversation, Back to Bottom, "3 New Messages" and "Next Unr
 
 - Draw a floating control as the control it is: a Button at `outline`, with its ink edge on the opaque `layer-card`. The opaque card keeps it readable over the messages that pass under it, and the ink edge marks it as a control, as everywhere else.
 - Don't give it the soft shadow. The shadow says "this is above the page for a moment and goes away when you are done with it": a menu, a popup, a toolbar over the message it acts on. A jump pill belongs to the conversation, stays in one place while the list scrolls under it, and goes away by itself when there is nowhere to jump; a shadow would make the conversation look as if a popup were open.
-- Don't use a floating control for an action on the page. It is only for moving through the list it floats over; an action belongs in the header or a toolbar ([FloatButton](../../packages/ui/src/components/float-button/float-button.md)).
+- Don't use a floating control for an action on the page. It is only for moving through the list it floats over; an action belongs in the header or a toolbar.
 
 ## Stacked overlays
 

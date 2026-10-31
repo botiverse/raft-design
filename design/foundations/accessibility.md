@@ -87,7 +87,6 @@ Announce a change only as urgently as it deserves. A destructive problem interru
 | A field error appears | `role="alert"` on `FieldError` | [Field](../../packages/ui/src/components/field/field.md) |
 | Something starts loading | `role="status"` on the spinner, named "Loading" unless you name what loads | [Spinner](../../packages/ui/src/components/spinner/spinner.md) |
 | A copy succeeds | `aria-live="polite"` on the copy button | [CopyableCode](../../packages/ui/src/components/copyable-code/copyable-code.md) |
-| Agents start or stop working | `aria-live="polite"` on the bar | [LiveAgentActivityBar](../../packages/ui/src/components/live-agent-activity-bar/live-agent-activity-bar.md) |
 | A reaction fails | A visually hidden `role="status"` | [MessageItem](../../packages/ui/src/components/message-item/message-item.md) |
 | An item is picked up, moved, dropped or put back | A polite live region, by the item's and the place's names, never their ids | [Drag and drop](../patterns/drag-and-drop.md#screen-readers) |
 

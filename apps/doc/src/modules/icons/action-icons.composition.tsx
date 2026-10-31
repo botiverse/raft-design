@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import {
   AddCommentIcon,
-  CreateTaskIcon,
   FollowArtifactIcon,
   FollowThreadIcon,
   JoinChannelIcon,
@@ -61,12 +60,9 @@ export function ActionIconsComposition() {
           <LeaveJointChannelIcon className="size-4 text-foreground" />
         </IconGridItem>
       </div>
-      <div className="grid grid-cols-3 border-t border-l border-line-hairline">
+      <div className="grid grid-cols-2 border-t border-l border-line-hairline">
         <IconGridItem label="Add comment">
           <AddCommentIcon className="size-4 text-foreground" />
-        </IconGridItem>
-        <IconGridItem label="Create task">
-          <CreateTaskIcon className="size-4 text-foreground" />
         </IconGridItem>
         <IconGridItem label="Reopen task">
           <ReopenTaskIcon className="size-4 text-foreground" />

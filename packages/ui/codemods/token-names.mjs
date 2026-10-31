@@ -5,8 +5,8 @@
 //
 // Rewrites Tailwind utilities (`bg-layer-panel`, `hover:border-line-muted/50`)
 // and CSS custom properties (`var(--primary-soft)`) in .ts, .tsx, .js, .jsx,
-// .mjs, .css and .html files. The old names keep working as deprecated aliases
-// until raft-ui 1.0, so the rewrite can land at any time after upgrading.
+// .mjs, .css and .html files. The old names were deprecated aliases up to
+// raft-ui 0.55 and are removed after it: run this before upgrading past 0.55.
 //
 // Review by hand afterwards: a guard that forbids a former name (a lint rule,
 // a test's doesNotMatch, an allowlist) now forbids the current one, and a
