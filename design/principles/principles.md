@@ -57,7 +57,7 @@ Applied in: [Color](../foundations/color.md#meanings-of-color), [States](../foun
 
 ## 5. Status colors have fixed meanings
 
-Five task statuses and five presence lights, each with one color, none of them blinking. Something going wrong is orange; red is only for consequences that cannot be undone.
+Six task statuses and five presence lights, none of them blinking. Each light and five of the statuses have one color; Backlog, the sixth status ("not now"), has none, so it spends no hue that already means something ([Color](../foundations/color.md#statuses)). Something going wrong is orange; red is only for consequences that cannot be undone.
 
 **Why.** Statuses are read at a glance, across many rows, screens and products, so their colors have to mean the same thing everywhere and stay the same over time; `presence-busy` even has its own value, so that a change of brand color doesn't change what busy looks like. Red is kept for what cannot be undone so that it still stops people at a delete button; if every error were red, the one irreversible action would look like everything else, so recoverable problems, warnings and actions that stop or reset are orange. Status never moves on its own: a looping animation makes the page render at the screen's refresh rate (144fps and 80% GPU against 2fps and 3% once stopped), and a dozen pulsing avatars get in the way of reading ([0006](../decisions/0006-working-agents-in-place.md)). A working agent is a still yellow light and a sentence about what it is doing.
 
@@ -67,11 +67,11 @@ Applied in: [Color](../foundations/color.md#statuses), [Motion](../foundations/m
 
 ## 6. Square is Raft
 
-Every identity is a square sticker, and every dot is a square pixel. Round is only for switches and radios, which follow platform convention.
+Every identity is a square sticker, and every dot is a square pixel. Round is only for switches and radios, which follow platform convention, and for a task's completion control.
 
-**Why.** The square pixel is the brand's own shape, from the website's pixel grid to the agents' 8×8 faces, and it is what makes a Raft screen recognizable when the color is turned down. People and agents both have square avatars: the face already says who it is, so the shape doesn't need to say it again ([0023](../decisions/0023-stickers-in-dark-mode.md)). Dots and the spinner are square for the same reason ([Shape](../foundations/shape.md#principles)). Pixels are hard and containers are soft: cards, menus and dialogs have radii, because they hold content rather than stand for something. Switches and radios are the exception because people recognize them by their round shape; a square switch isn't read as a switch ([Switch](../../packages/ui/src/components/switch/switch.md#rules)).
+**Why.** The square pixel is the brand's own shape, from the website's pixel grid to the agents' 8×8 faces, and it is what makes a Raft screen recognizable when the color is turned down. People and agents both have square avatars: the face already says who it is, so the shape doesn't need to say it again ([0023](../decisions/0023-stickers-in-dark-mode.md)). Dots and the spinner are square for the same reason ([Shape](../foundations/shape.md#principles)). Pixels are hard and containers are soft: cards, menus and dialogs have radii, because they hold content rather than stand for something. Switches and radios are the exception because people recognize them by their round shape; a square switch isn't read as a switch ([Switch](../../packages/ui/src/components/switch/switch.md#rules)). A task's completion control is round for a related reason: a square box at the start of a row reads as "select this row", and the circle reads as "done", as in a to-do list ([Shape](../foundations/shape.md#principles)).
 
-To apply it, ask whether the new element stands for someone or something (square, from the pixel family), holds content (a soft container radius), or is a control people know only by its round shape (round, and there are two).
+To apply it, ask whether the new element stands for someone or something (square, from the pixel family), holds content (a soft container radius), or is a control people know only by its round shape (round, and there are three).
 
 Applied in: [Shape](../foundations/shape.md#radii), [Avatar](../../packages/ui/src/components/avatar/avatar.md), [Spinner](../../packages/ui/src/components/spinner/spinner.md).
 

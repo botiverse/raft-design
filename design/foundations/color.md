@@ -153,7 +153,7 @@ A failure or warning drawn as a graphic, such as a failed route in a migration c
 
 ### Statuses
 
-Tasks and presence each have five colors, and they never change meaning. Task statuses are spelled Todo, In Progress, In Review, Done and Closed.
+Tasks have six statuses and presence has five lights. Five of the task statuses and all five lights have a color, and they never change meaning; the sixth status, Backlog, has none. Task statuses are spelled Backlog, Todo, In Progress, In Review, Done and Closed.
 
 ```tokens
 task-status
@@ -173,7 +173,9 @@ presence
 
 The sixth presence swatch, `presence-busy-soft`, is not a light: it is the tint of the Working chip ([Soft tints](#soft-tints)).
 
-- Put a status chip on its `task-status-*-soft` tint.
+- Put a status chip on its `task-status-*-soft` tint, except Backlog's, which has none.
+- Give Backlog ("not now") no hue: every hue already has a meaning, and gray is Closed's. Its pixel is hollow: the same 10px square with a 1.5px edge and nothing inside. The edge is `line-strong`, not the `sticker-ink` edge of the filled pixels, which is dark in dark mode and would vanish on the dark canvas without a fill inside it. Its chip is outlined, a `line-hairline` border with no tint, around the hollow pixel and the word in `foreground`. It differs from the outlined chip of a task reference that isn't loaded yet, which has no pixel and `foreground-muted` words ([Referring to a task](../patterns/tasks.md#referring-to-a-task)).
+- Not yet implemented in raft-ui: `TASK_STATUS_IDS`, `TaskStatusIcon` and `TaskChip` know only the five other statuses ([Tasks components](../../packages/ui/src/components/tasks/tasks.md)). Until raft-ui adds Backlog, draw its pixel and chip by hand.
 - `presence-busy` has its own value instead of pointing at `brand`, so that a change of brand color doesn't change what busy looks like, and neither does a theme: Boring Gray grays `brand`, and a working agent stays yellow ([Themes](./themes.md#signals)). The Working chip's tint, `presence-busy-soft`, is its own copy of `brand-soft` for the same reason.
 - `presence-offline` is stone from the palette, not a default gray: raft-ui doesn't use Tailwind's default palette, so every presence light comes from the same palette.
 - Presence lights never blink; see [Motion](./motion.md).

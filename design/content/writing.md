@@ -28,7 +28,7 @@ These rules are for the words inside the product: labels, titles, messages, empt
 - Keep humor to onboarding and success messages. Write errors and empty states plainly, so people can act on them; see [Voice and tone](./voice-and-tone.md#tone-by-moment).
 - Address the person as "you". Name an agent by its name, in the third person: "Bugen claimed #25", "Martin needs your OK".
 - Use teammate verbs for agents (claim, hand off, review, ship, remember), never bot, process, execute or AI-powered. The full rules are in [Writing about agents](../people-and-agents/writing-about-agents.md).
-- Spell task statuses Todo, In Progress, In Review, Done and Closed.
+- Spell task statuses Backlog, Todo, In Progress, In Review, Done and Closed.
 - Use display names, not handles.
 - Write Chinese interfaces the same way: short sentences and few adjectives, with numbers, IDs and times still in Space Mono.
 

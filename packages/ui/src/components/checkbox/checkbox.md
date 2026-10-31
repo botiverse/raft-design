@@ -25,6 +25,7 @@ checkbox/compositions/preview
 | An option attached to an action, next to the button that runs it              | Checkbox in the action's toolbar (`ComposerToolbarLabel`, [Composer](../composer/composer.md))                        |
 | Choosing several items in a list or a multi-select                            | Checkbox, or `CheckboxIndicator` in a row that owns the semantics                                                     |
 | A yes or no that applies at once                                              | [Switch](../switch/switch.md)                                                                                         |
+| Marking a task done, at the start of its row or card                          | The completion control ([Tasks](../../../../../design/patterns/tasks.md#completing-a-task))                           |
 | One of several answers                                                        | [RadioGroup](../radio-group/radio-group.md)                                                                           |
 
 Which controls apply at once and which are saved is in [Forms](../../../../../design/patterns/forms.md).
@@ -69,4 +70,4 @@ Checkbox wraps Base UI Checkbox. Its hidden native input drives the checked, dis
 
 ## Rules
 
-- Keep the box square. Don't use `shape="circle"`: round is only for switches and radios ([Shape](../../../../../design/foundations/shape.md)).
+- Keep the box square. Don't use `shape="circle"`: round is only for switches and radios ([Shape](../../../../../design/foundations/shape.md)). The one exception is a task's completion control, which is round ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).

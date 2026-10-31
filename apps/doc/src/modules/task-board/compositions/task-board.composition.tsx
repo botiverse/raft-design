@@ -58,7 +58,12 @@ const EXPANDED: Record<TaskStatus, boolean> = {
 
 export type TaskBoardCompositionProps = {
   tasks?: readonly TaskFixture[];
-  blockedDropStatus?: TaskStatus;
+  /**
+   * Tasks whose status the person may not change (a permission, not a rule
+   * between statuses): they still reorder in their own column, and every
+   * other column refuses them.
+   */
+  statusLockedTaskIds?: readonly string[];
   showChannelName?: boolean;
   /** When true, every status column starts expanded (useful for empty-column demos). */
   expandAll?: boolean;
@@ -128,7 +133,7 @@ function TaskBoardDraggableItem({
 
 export function TaskBoardComposition({
   tasks: controlledTasks,
-  blockedDropStatus,
+  statusLockedTaskIds,
   showChannelName = false,
   expandAll = false,
 }: TaskBoardCompositionProps) {
@@ -155,9 +160,10 @@ export function TaskBoardComposition({
       overData: Record<string, unknown> | undefined,
     ) =>
       isTaskDropTarget(overData) &&
-      overData.status !== blockedDropStatus &&
-      draggableTaskIds.has(String(activeId)),
-    [blockedDropStatus, draggableTaskIds],
+      draggableTaskIds.has(String(activeId)) &&
+      (!statusLockedTaskIds?.includes(String(activeId)) ||
+        tasks.find((task) => task.id === String(activeId))?.status === overData.status),
+    [draggableTaskIds, statusLockedTaskIds, tasks],
   );
   const updateStatus = useCallback(
     (taskId: string, status: TaskStatus) => {
@@ -192,11 +198,11 @@ export function TaskBoardComposition({
       const overData = over?.data.current;
       setRefusal(
         over && isTaskDropTarget(overData) && !isDropAllowed(active.id, over.id, overData)
-          ? `Cannot move to ${getTaskStatusLabel(overData.status)}`
+          ? `You can't change the status of #${tasks.find((task) => task.id === String(active.id))?.taskNumber ?? ""}`
           : null,
       );
     },
-    [isDropAllowed],
+    [isDropAllowed, tasks],
   );
   // Screen readers hear the task and the status by name, never an id.
   const describe = useMemo<DragAnnouncementSource>(
@@ -212,7 +218,7 @@ export function TaskBoardComposition({
       refusal: (id, overId) => {
         const status = statusOfDropId(tasks, String(overId));
         return status && !isDropAllowed(id, overId, { status })
-          ? { place: getTaskStatusLabel(status), reason: "Cannot move there." }
+          ? { place: getTaskStatusLabel(status), reason: "You can't change this task's status." }
           : null;
       },
     }),
@@ -288,7 +294,7 @@ export function TaskBoardComposition({
                                 Drop to set {status.label}
                               </TaskBoardColumnEmptyAllowed>
                               <TaskBoardColumnEmptyBlocked>
-                                Cannot move to {status.label}
+                                You can't change this task's status
                               </TaskBoardColumnEmptyBlocked>
                             </TaskBoardColumnEmpty>
                             <TaskDropPlaceholder id={columnDropId} />

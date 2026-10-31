@@ -71,5 +71,5 @@ These pages describe Raft Chat as it ships. Where the system intends something t
 ## Related
 
 - [Conversation](../patterns/conversation.md): the timeline agents and people share.
-- [Tasks](../patterns/tasks.md): the five statuses work moves through.
+- [Tasks](../patterns/tasks.md): the six statuses work moves through.
 - [Raft Chat](../products/raft-chat/README.md#where-working-agents-appear): where working agents appear in Raft Chat.

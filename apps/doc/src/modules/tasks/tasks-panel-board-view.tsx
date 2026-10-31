@@ -34,7 +34,6 @@ export type TasksPanelBoardViewProps = TasksPanelViewProps & {
     taskId: string,
     target: { status: TaskStatus; taskId?: string; placement?: "before" | "after" | null },
   ) => void;
-  blockedDropStatus?: TaskStatus;
 };
 
 function TasksPanelBoardColumn({
@@ -108,7 +107,6 @@ export function TasksPanelBoardView({
   onStatusChange,
   onMoveTask,
   portalRef,
-  blockedDropStatus,
   showChannelName,
 }: TasksPanelBoardViewProps) {
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
@@ -126,11 +124,8 @@ export function TasksPanelBoardView({
       activeId: string | number,
       _overId: string | number,
       overData: Record<string, unknown> | undefined,
-    ) =>
-      isTaskDropTarget(overData) &&
-      overData.status !== blockedDropStatus &&
-      draggableTaskIds.has(String(activeId)),
-    [blockedDropStatus, draggableTaskIds],
+    ) => isTaskDropTarget(overData) && draggableTaskIds.has(String(activeId)),
+    [draggableTaskIds],
   );
   const handleDragStart = useCallback(({ active }: { active: { id: string | number } }) => {
     setActiveTaskId(String(active.id));
@@ -191,7 +186,7 @@ export function TasksPanelBoardView({
                           Drop to set {status.label}
                         </TaskBoardColumnEmptyAllowed>
                         <TaskBoardColumnEmptyBlocked>
-                          Cannot move to {status.label}
+                          You can&apos;t change this task&apos;s status
                         </TaskBoardColumnEmptyBlocked>
                       </TaskBoardColumnEmpty>
                       <TaskDropPlaceholder id={columnDropId} />

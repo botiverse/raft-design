@@ -65,5 +65,5 @@ task-dnd/compositions/task-dnd
 ## Rules
 
 - Decide in `isDropAllowed` which drops are allowed, so the target says while the card is over it that it can't move there ([TaskBoard](../task-board/task-board.md#content)).
-- Offer another way to change a status: dragging is one of three ([Tasks](../../../../../design/patterns/tasks.md#rules)).
+- Offer another way to change a status: dragging is one of four ([Tasks](../../../../../design/patterns/tasks.md#rules)).
 - Put the dragged card's own `TaskCard` in `TaskDragOverlay`, so the card under the pointer reads the same as the one in the column.

@@ -1,6 +1,6 @@
 ---
 title: TaskCard
-summary: The card that shows one task — its number, title and a status chip that changes the status — on a task board and in a task list.
+summary: The card that shows one task — its completion control, number, title and a status chip that changes the status — on a task board and in a task list.
 status: stable
 aliases: []
 layer: collaboration
@@ -10,11 +10,13 @@ related: [task-board, task-list, tasks, select, description-list]
 
 # TaskCard
 
-A TaskCard shows one task: its number, its title and a status chip people can change. A board and a list use the same card. How tasks are shown, filtered and opened is in [Tasks](../../../../../design/patterns/tasks.md).
+A TaskCard shows one task: a round completion control, its number, its title and a status chip people can change. A board and a list use the same card. How tasks are shown, filtered and opened is in [Tasks](../../../../../design/patterns/tasks.md).
 
 ```example
 task-card/compositions/task-card-state-matrix
 ```
+
+Not yet implemented: the examples on this page show the card before [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md), with no completion control and a menu of five statuses.
 
 ## When to use
 
@@ -29,7 +31,7 @@ task-card/compositions/task-card-state-matrix
 
 - `TaskCard`: the card. Pass `onClick` to make it open the task's details.
 - `TaskCardRow` and `TaskCardBody`: the layout around the text.
-- `TaskCardMeta`: the first line.
+- `TaskCardMeta`: the first line. It starts with the completion control ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)). Not yet implemented: TaskCard has no part for it; until raft-ui adds one, draw it by hand.
   - `TaskCardChannel`: the place the task belongs to (#launch-week). Optional; see [Content](#content).
   - `TaskCardStatus`: the status chip. Required.
   - `TaskCardNumber`: the task number (#25). Required.
@@ -52,8 +54,9 @@ task-card/compositions/task-card-state-matrix
 ## Behavior
 
 - A card with an `onClick` hovers with the subtle tier, like the other cards people read, and presses with the medium tier; its status chip hovers medium ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
-- Pressing the status chip opens a list of the five statuses, with a check on the current one ([Select](../select/select.md)). Choosing one changes the status at once.
-- Pressing the chip doesn't open the card: stop the click from reaching `TaskCard`.
+- Pressing the status chip opens a list of all six statuses, from any status, with a check on the current one ([Select](../select/select.md)). Choosing one changes the status at once.
+- Pressing the completion control completes or reopens the task ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).
+- Pressing the chip or the completion control doesn't open the card: stop the click from reaching `TaskCard`.
 
 ```example
 task-card/compositions/task-status-select
@@ -64,15 +67,16 @@ task-card/compositions/task-status-select
 - Write the title in sentence case, as a verb and its object: "Polish the onboarding flow".
 - Show the channel only where tasks from several places are listed together, such as a product's task page. In a place's own Tasks view every task belongs to that place, so leave it out.
 - Set the channel and the number in Space Mono; the parts do this.
-- Spell the statuses Todo, In Progress, In Review, Done and Closed ([Writing](../../../../../design/content/writing.md#voice)).
+- Spell the statuses Backlog, Todo, In Progress, In Review, Done and Closed ([Writing](../../../../../design/content/writing.md#voice)).
 
 ## Accessibility
 
 - `TaskCard` uses Base UI's `useRender` and renders an `article`. With `onClick` it is clickable but not a button: give the keyboard a way to open the task, such as a link or button on the title.
 - `TaskCardStatus` is a native `button` and the trigger of the status [Select](../select/select.md). Give it an accessible name that includes the task: `aria-label="Change status for task #25"`.
+- The completion control's semantics are in [Completing a task](../../../../../design/patterns/tasks.md#completing-a-task), and the keys of a list of cards in [Keyboard in a list of tasks](../../../../../design/patterns/tasks.md#keyboard-in-a-list-of-tasks).
 - `busy` sets `aria-busy`; `disabled` sets `aria-disabled` on the card.
 
 ## Rules
 
-- Make the status chip the only thing that can be changed on the card. Assignee and creator are changed in the task's details.
+- Make the completion control and the status chip the only things that can be changed on the card. Assignee and creator are changed in the task's details.
 - Don't add a shadow, a colored band or an accent border to the card: it is a white card with a hairline ([Shape](../../../../../design/foundations/shape.md#nothing-on-the-edge-of-a-rounded-container)).
