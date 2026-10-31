@@ -5,8 +5,14 @@ import { CheckboxIndicator } from "../checkbox/checkbox-indicator";
 // A task's completion control: the round check that leads every task row and
 // card (design/patterns/tasks.md#completing-a-task). A native button with
 // checkbox semantics, since it applies at once, as a to-do list's does. Its
-// hit area reaches 8px past the 20px circle with a mouse (36px) and 12px on
-// a touch screen (44px).
+// hit area reaches 8px past the 20px circle with a mouse (36px), not a
+// Checkbox's 12px sideways, which would cover the task number beside it, and
+// 12px on a touch screen (44px).
+//
+// Disabled is `aria-disabled` only, never the native `disabled`: a disabled
+// button can't take focus, so a list's roving focus would skip the cell, a
+// screen reader would never hear that the task is locked, and its tooltip
+// couldn't open. The button stays focusable and a press does nothing.
 //
 // Hovering the control itself previews the check. CheckboxIndicator's own
 // preview (`previewOnHover`) answers to any `.group` ancestor, and the rows
@@ -17,7 +23,7 @@ const taskCompletionControl = tv({
   slots: {
     root: [
       "relative inline-flex size-5 shrink-0 touch-manipulation items-center justify-center outline-none",
-      "cursor-pointer rounded-full disabled:cursor-not-allowed",
+      "cursor-pointer rounded-full data-disabled:cursor-not-allowed",
       "after:absolute after:-inset-2 after:content-[''] pointer-coarse:after:-inset-3",
       "focus-visible:shadow-focus",
     ],
@@ -56,9 +62,15 @@ export type TaskCompletionControlProps = Omit<
      *  status, Backlog and Closed included, is unchecked. */
     checked: boolean;
     /** Called with the state a press asks for: `true` to complete the task,
-     *  `false` to reopen it. The caller changes the task. */
+     *  `false` to reopen it. The caller changes the task.
+     *
+     *  Its second argument is the click's `MouseEvent`, not the
+     *  `eventDetails` Base UI's controls pass. Acceptable while the control
+     *  is wip; unify it with Base UI's signature before it is stable. */
     onCheckedChange?: (checked: boolean, event: MouseEvent<HTMLButtonElement>) => void;
-    /** For a person who can't change the task. */
+    /** For a person who can't change the task. Sets `aria-disabled`, not the
+     *  native `disabled`: the control stays focusable and a press does
+     *  nothing. */
     disabled?: boolean;
   };
 
@@ -91,13 +103,16 @@ export function TaskCompletionControl({
       role="checkbox"
       aria-checked={checked}
       aria-disabled={disabled || undefined}
-      disabled={disabled}
       data-slot="task-completion-control"
       data-checked={checked ? "" : undefined}
       data-disabled={disabled ? "" : undefined}
       className={root({ className })}
       onClick={(event: MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
+        if (disabled) {
+          event.preventDefault();
+          return;
+        }
         onClick?.(event);
         if (event.defaultPrevented) return;
         onCheckedChange?.(!checked, event);
@@ -105,8 +120,9 @@ export function TaskCompletionControl({
       onKeyDown={(event: KeyboardEvent<HTMLButtonElement>) => {
         // Space toggles it, as any checkbox; Enter doesn't, so it can't be
         // taken for the row's "open the task".
+        // Disabled, Space does nothing either.
         if (event.key === " " || event.key === "Enter") event.stopPropagation();
-        if (event.key === "Enter") event.preventDefault();
+        if (event.key === "Enter" || (disabled && event.key === " ")) event.preventDefault();
         onKeyDown?.(event);
       }}
     >

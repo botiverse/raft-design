@@ -32,7 +32,7 @@ export interface TimelineProps extends ComponentPropsWithRef<"ol"> {
  *  paint with — the SAME token the icon/chip/badge read, so a task status can
  *  never look different on the Timeline than everywhere else. */
 function taskStatusMarkerColor(status: TaskStatusId): string {
-  return status === "backlog" ? "transparent" : `var(--task-status-${status})`;
+  return status === "backlog" ? "var(--line-strong)" : `var(--task-status-${status})`;
 }
 
 export interface TimelineItemProps extends ComponentPropsWithRef<"li"> {
@@ -104,7 +104,11 @@ export function TimelineItem({
   // still wins, and omitting both keeps the variant behaviour unchanged.
   const resolvedColor = color ?? (taskStatus ? taskStatusMarkerColor(taskStatus) : undefined);
   // Backlog has no colour and no token: its marker is the hollow pixel, an
-  // empty square with a `line-strong` edge, as TaskStatusIcon draws it.
+  // empty square with a `line-strong` edge, as TaskStatusIcon draws it. Its
+  // item colour is `line-strong`, so an `icon` in place of the pixel shows in
+  // it; the marker takes none of it as fill, and its edge takes it instead of
+  // the sticker-ink every other pixel's edge is (`.r-timeline` sets that one,
+  // so it would win over the item colour).
   const hollow = color === undefined && taskStatus === "backlog";
   const mergedStyle =
     resolvedColor === undefined
@@ -112,7 +116,10 @@ export function TimelineItem({
       : ({
           ...style,
           "--r-timeline-custom-color": resolvedColor,
-          ...(hollow && { "--r-timeline-marker-border-color": "var(--line-strong)" }),
+          ...(hollow && {
+            "--r-timeline-marker-fill": "0%",
+            "--r-timeline-marker-border-color": "var(--r-timeline-item-color)",
+          }),
         } as CSSProperties);
 
   return (

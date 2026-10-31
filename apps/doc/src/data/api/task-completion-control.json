@@ -31,7 +31,7 @@
         "type": "boolean",
         "required": false,
         "default": "false",
-        "description": "For a person who can't change the task.",
+        "description": "For a person who can't change the task. Sets `aria-disabled`, not the native `disabled`: the control stays focusable and a press does nothing.",
         "from": "raft-ui"
       },
       {
