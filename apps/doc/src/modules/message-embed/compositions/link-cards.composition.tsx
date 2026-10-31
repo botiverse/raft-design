@@ -50,15 +50,13 @@ export function MessageEmbedLinkCardsComposition() {
         </MessageEmbedFooter>
       </MessageEmbed>
 
-      {/* Shows content only, such as a link preview: not interactive, so it doesn't hover. */}
+      {/* Shows content only, such as a forwarded bundle: it opens nothing as a whole, so it doesn't hover. */}
       <MessageEmbed>
         <MessageEmbedHeader className="grid min-w-0 gap-0.5">
           <span className="truncate text-subhead font-bold text-foreground">
-            Design review notes
+            Forwarded from #design-review
           </span>
-          <span className="truncate text-footnote text-foreground-muted">
-            raft.build · 4 min read
-          </span>
+          <span className="truncate text-footnote text-foreground-muted">3 messages</span>
         </MessageEmbedHeader>
       </MessageEmbed>
     </div>
