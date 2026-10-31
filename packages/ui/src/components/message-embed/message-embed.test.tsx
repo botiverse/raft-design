@@ -12,7 +12,7 @@ afterEach(cleanup);
 // #proj-raft-ui:#177 (stdrc): an Artifact card, which opens as a whole, didn't
 // react to the pointer while a file card did. A card that opens something
 // hovers with the subtle tier and presses with the medium tier; a card that
-// only shows content (a link preview, an action card) doesn't.
+// only shows content (an action card, a forwarded bundle) doesn't.
 describe("MessageEmbed interactive", () => {
   it("marks a card that opens something, and only that card", () => {
     render(
