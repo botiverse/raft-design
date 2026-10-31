@@ -71,6 +71,11 @@ test("attention hides via data attributes, not an ancestor :has()", () => {
       "items-center",
       "justify-center",
       "min-w-4.5",
+      // With a mouse it sits over the controls' reserved place (#931).
+      "pointer-fine:-translate-y-1/2",
+      "pointer-fine:absolute",
+      "pointer-fine:right-0",
+      "pointer-fine:top-1/2",
       "shrink-0",
     ].toSorted(),
   );
@@ -167,4 +172,18 @@ test("a control rests in the hint color and turns body color when it is the one 
   ]) {
     expect(cls).toContain(token);
   }
+});
+
+/**
+ * The controls hold their place in the row even while hidden: laid over the
+ * row (absolute) they covered a long custom section title's count by 21px,
+ * and taken into it only on hover they made the title jump (slock #12251,
+ * 2026-10-31). Hidden is opacity and pointer-events only.
+ */
+test("the controls keep their place in the row, hidden or shown", () => {
+  const { classes } = renderControls();
+  const cls = classes("sidebar-section-controls");
+  expect(cls).toContain("opacity-0");
+  expect(cls).toContain("pointer-fine:group-hover/section-header:opacity-100");
+  for (const name of cls) expect(name).not.toMatch(/(^|:)(absolute|static)$/);
 });

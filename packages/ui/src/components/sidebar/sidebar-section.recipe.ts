@@ -32,6 +32,10 @@ export const sidebarSectionRecipe = tv({
     sidebarSectionCount: ["font-mono text-mono-meta font-normal tabular-nums text-foreground-hint"],
     sidebarSectionAttention: [
       "inline-flex min-w-4.5 shrink-0 items-center justify-center",
+      // With a mouse the hidden controls hold the end of the row, so the mark
+      // sits over that end; it hides whenever they show. On a touch screen
+      // both show at rest, side by side.
+      "pointer-fine:absolute pointer-fine:top-1/2 pointer-fine:right-0 pointer-fine:-translate-y-1/2",
       // Two of these used to style descendants off an ancestor's `:has()`.
       // That shape makes Chromium fall back to recalculating the whole page on
       // unrelated mutations (measured on the app: ~55ms per text-node change in
@@ -47,11 +51,15 @@ export const sidebarSectionRecipe = tv({
     sidebarSectionControls: [
       // 20px apart on a touch screen, so two 44px hit areas meet without overlapping.
       "flex shrink-0 items-center gap-1 not-pointer-fine:gap-5",
-      "pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 opacity-0",
+      // They keep their place in the row even while hidden, so a long title
+      // truncates before them at rest and nothing moves when they show: laid
+      // over the row they covered a long title's count, and taken into it
+      // only on hover they made the title jump (slock #12251, 2026-10-31).
+      "pointer-events-none opacity-0",
       // Shown at rest where there is no hover (a touch screen, a tablet at any
       // width), on hover with a mouse: decided by the input, not the width
       // (design/patterns/responsive.md#touch-screens).
-      "not-pointer-fine:static not-pointer-fine:pointer-events-auto not-pointer-fine:translate-y-0 not-pointer-fine:opacity-100",
+      "not-pointer-fine:pointer-events-auto not-pointer-fine:opacity-100",
       "pointer-fine:group-hover/section-header:pointer-events-auto pointer-fine:group-hover/section-header:opacity-100",
       "pointer-fine:focus-within:pointer-events-auto pointer-fine:focus-within:opacity-100",
       "pointer-fine:has-data-popup-open:pointer-events-auto pointer-fine:has-data-popup-open:opacity-100",
