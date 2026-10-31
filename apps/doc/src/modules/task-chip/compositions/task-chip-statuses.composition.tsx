@@ -1,4 +1,5 @@
 import {
+  TaskBacklogIcon,
   TaskChip,
   TaskClosedIcon,
   TaskDoneIcon,
@@ -12,6 +13,15 @@ export function TaskChipStatusesComposition() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-4">
       {/* @docs-source-strip-start */}
+      <div className="flex flex-col items-center gap-3">
+        {/* @docs-source-strip-end */}
+        <TaskChip status="backlog" render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}>
+          <TaskBacklogIcon />
+          #9
+        </TaskChip>
+        {/* @docs-source-strip-start */}
+        <span className="text-[12px] leading-[1.4] text-foreground-muted">Backlog</span>
+      </div>
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
         <TaskChip status="todo" render={<a href={MESSAGE_EXAMPLE_HREFS.stateModelTask} />}>

@@ -26,6 +26,11 @@ const taskChip = tv({
   },
   variants: {
     status: {
+      // Backlog has no tint, since it has no colour: the outline stands in for
+      // it, around the hollow pixel and the words in `foreground`. The
+      // outlined chip of a task that isn't loaded yet has no pixel and
+      // `foreground-muted` words (design/foundations/color.md#statuses).
+      backlog: { root: ["bg-transparent inset-ring inset-ring-line-hairline"] },
       todo: { root: ["bg-task-status-todo-soft"] },
       "in-progress": { root: ["bg-task-status-in-progress-soft"] },
       "in-review": { root: ["bg-task-status-in-review-soft"] },
@@ -65,7 +70,7 @@ const taskChip = tv({
     // chip's own: the per-status tint above applies.
     {
       variant: "inline",
-      status: ["todo", "in-progress", "in-review", "done", "closed"],
+      status: ["backlog", "todo", "in-progress", "in-review", "done", "closed"],
       class: {
         root: [
           ...inlineChip,
