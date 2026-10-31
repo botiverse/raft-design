@@ -10,7 +10,7 @@ related: [task-card, task-list, tasks, segmented-control]
 
 # TaskBoard
 
-A TaskBoard shows tasks in one column per status, from Todo to Closed. Dragging a card to another column changes its status. It is one of the two views of a set of tasks; the other is the [TaskList](../task-list/task-list.md). When to show which is in [Tasks](../../../../../design/patterns/tasks.md).
+A TaskBoard shows tasks in one column per status, from Backlog to Closed. Dragging a card to another column changes its status. It is one of the two views of a set of tasks; the other is the [TaskList](../task-list/task-list.md). When to show which is in [Tasks](../../../../../design/patterns/tasks.md).
 
 ```example
 task-board/compositions/task-board
@@ -18,11 +18,11 @@ task-board/compositions/task-board
 
 ## When to use
 
-| Situation                                   | Use                                   |
-| ------------------------------------------- | ------------------------------------- |
-| Tasks by status, with room for five columns | TaskBoard                             |
-| Tasks on a phone, or in a narrow panel      | [TaskList](../task-list/task-list.md) |
-| One task                                    | [TaskCard](../task-card/task-card.md) |
+| Situation                                  | Use                                   |
+| ------------------------------------------ | ------------------------------------- |
+| Tasks by status, with room for six columns | TaskBoard                             |
+| Tasks on a phone, or in a narrow panel     | [TaskList](../task-list/task-list.md) |
+| One task                                   | [TaskCard](../task-card/task-card.md) |
 
 ## Anatomy
 
@@ -51,7 +51,8 @@ task-board/compositions/task-board-empty-columns
 
 ## Behavior
 
-- Order the columns Todo, In Progress, In Review, Done, Closed.
+- Order the columns Backlog, Todo, In Progress, In Review, Done, Closed, and start Backlog, Done and Closed collapsed ([Tasks](../../../../../design/patterns/tasks.md#rules)).
+- Take a card in every column: any status can be set from any status, so no column refuses a drop.
 - Switch between the board and the list with Board / List at the right end of the filter bar ([Tasks](../../../../../design/patterns/tasks.md#structure)), and remember the person's choice.
 - Scroll the whole board in one viewport, both ways. Columns keep their width and never scroll on their own.
 - Mount only the visible cards of a tall column with a virtualizer of your own that reads the board's scroll position, as below.
@@ -63,7 +64,7 @@ task-board/compositions/task-board-virtualization
 ## Content
 
 - Write the empty text the same way as an empty group in a list ([TaskList](../task-list/task-list.md#content)).
-- While a card is dragged over an empty column, name the status it would get, or say that it can't move there.
+- While a card is dragged over an empty column, name the status it would get. `TaskBoardColumnEmptyBlocked` is for a board whose product limits moves; Raft's task boards don't.
 
 ## Accessibility
 

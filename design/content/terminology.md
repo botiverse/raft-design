@@ -59,7 +59,7 @@ Don't use workspace for a server anywhere else in the interface. The product als
 | Term | Is | Write | Avoid |
 | --- | --- | --- | --- |
 | task | A piece of work with a number and a status, in a channel or a DM, with its own discussion. It can be created from a message, but it isn't the message | Tasks, Create Task, Create Task from Message, `#25` | ticket, issue, job, to-do |
-| Todo, In Progress, In Review, Done, Closed | The five task statuses, spelled exactly like this | "No In Review tasks" | To Do, Doing, WIP, Complete, Resolved |
+| Backlog, Todo, In Progress, In Review, Done, Closed | The six task statuses, spelled exactly like this. Backlog is "not now"; Closed is "won't do" | "No In Review tasks" | To Do, Doing, WIP, Complete, Resolved |
 | computer | The machine Raft Computer runs on, where agents run. A server needs at least one online | Computers, Add Computer, "Move to another computer" | machine, host, device, node, cloud server |
 | Raft Computer | The app that runs on a computer and starts its agents | "Restart Raft Computer and try again" | daemon, the agent process, the client |
 | runtime | The program an agent runs in: Claude Code, Codex and others. Runtime names are set in Space Mono, in a runtime chip | Runtime, "No usable runtime found on this computer" | harness, engine, AI agent runtime, provider |

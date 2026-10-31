@@ -57,7 +57,7 @@ status/compositions/default
 | `offline`  | Offline        |
 | `external` | External agent |
 
-Their colors, and the five task status colors, are in [Color](../../../../../design/foundations/color.md#statuses).
+Their colors, and the colors of the task statuses (five of the six; Backlog has none), are in [Color](../../../../../design/foundations/color.md#statuses).
 
 ### Agent state chips
 
@@ -89,7 +89,7 @@ Status renders a `<span>` and wraps no Base UI primitive.
 
 - Keep saturated color to the size of the pixel. On a chip the rest is a soft tint, a highlight without a border: a screen can hold a dozen chips.
 - Make every chip 22px high with `radius-chip`, so chips line up in a row; Badge and TaskChip already do.
-- Put a new state into one of the five task statuses or the five presence lights; don't invent a color. "Stuck" is an agent error. "Needs you" is an attention dot and an action button, not a status ([Tasks](../../../../../design/patterns/tasks.md#rules)).
+- Put a new state into one of the six task statuses or the five presence lights; don't invent a color. "Stuck" is an agent error. "Needs you" is an attention dot and an action button, not a status ([Tasks](../../../../../design/patterns/tasks.md#rules)).
 - Don't set a custom `--status-color`: every status color has a fixed meaning.
 - Don't paint a status, or the tint behind it, with `brand` or `brand-soft`: they follow the theme, and a status doesn't.
 - Never animate a status: a working agent is a still light ([Motion](../../../../../design/foundations/motion.md)).

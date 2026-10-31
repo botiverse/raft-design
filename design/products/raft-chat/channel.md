@@ -52,9 +52,9 @@ conversation-panel/compositions/conversation-panel
 
 Tasks in the timeline follow [Tasks](../../patterns/tasks.md#tasks-in-a-conversation).
 
-- Create a task with + in the Tasks section, for a task of the channel with no message, or with Create Task from Message in the message menu. Create Task from Message opens Create Task with the message quoted and its text as the first title; every task created there is linked to the message, and a message can have several.
+- Create a task with the quick add ("Add a task") or + in the Tasks section, for a task of the channel with no message, or with Create Task from Message in the message menu. Create Task from Message opens Create Task with the message quoted and its text as the first title; every task created there is linked to the message, and a message can have several.
 - Show the tasks created from a message under it, and under the message at the top of its thread.
-- Change a task's status in its details or on the Tasks page, not from the message menu.
+- Change a task's status in its details or on the Tasks page, or complete it with the completion control on its row under the message; not from the message menu.
 
 ### Threads
 

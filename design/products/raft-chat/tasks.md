@@ -1,11 +1,11 @@
 ---
 title: Raft Chat — Tasks
-summary: The Tasks destination — its title and count, the Channel, Creator and Assignee filters, what it leaves out, a channel's Tasks section and their empty states.
+summary: The Tasks destination — its title and count, the Channel, Creator and Assignee filters, what it leaves out, a channel's Tasks section with its quick add and Create Task, and their empty states.
 ---
 
 # Raft Chat — Tasks
 
-Tasks is the top-level page that lists every channel task in the server. A channel's own tasks are in its Tasks section, beside its conversation. Statuses, the board and the list, the section beside a conversation, task details, changing status and how filters behave follow [Tasks](../../patterns/tasks.md); this page holds only Raft Chat's choices.
+Tasks is the top-level page that lists every channel task in the server. A channel's own tasks are in its Tasks section, beside its conversation. Statuses, the board and the list, the section beside a conversation, task details, completing, adding and editing tasks, changing status and how filters behave follow [Tasks](../../patterns/tasks.md); this page holds only Raft Chat's choices.
 
 ## Structure
 
@@ -22,16 +22,17 @@ tasks/compositions/tasks-panel
 ## Rules
 
 - Offer three filters: Channel, Creator and Assignee. Creator and Assignee share one list of the server's people and agents.
-- Don't put a create action on this page. A task always belongs to a channel, so it is created there ([Channel](./channel.md#tasks-in-the-conversation)).
+- Don't put a create action or a quick add on this page. A task always belongs to a channel, so it is created there ([Channel](./channel.md#tasks-in-the-conversation)).
 - Leave tasks of direct messages and agents out of this page, and say so when it is empty.
-- Load only the active statuses first: Done and Closed load when their group is opened. Page any group that has more tasks with Load more. A channel's Tasks section loads all its tasks at once.
+- Load only the active statuses first: Backlog, Done and Closed load when their group is opened. Page any group that has more tasks with Load more. A channel's Tasks section loads all its tasks at once.
 
 ### A channel's Tasks section
 
 The section follows [Tasks beside a conversation](../../patterns/tasks.md#tasks-beside-a-conversation). In Raft Chat:
 
-- Count the active tasks (Todo, In Progress, In Review) on All, and the active tasks assigned to the person on For Me. The header carries no count of its own.
-- Put a ghost Create Task icon button (`plus`) before ×. It opens Create Task, a small dialog with one row per task and Add Another.
+- Count the active tasks (Todo, In Progress, In Review) on All, and the active tasks assigned to the person on For Me. Backlog, Done and Closed are not counted. The header carries no count of its own.
+- Put the quick add, "Add a task", under All / For Me. Enter creates a Todo task in the channel, assigned to the person in For Me and unassigned in All ([Where tasks are created](../../patterns/tasks.md#where-tasks-are-created)).
+- Put a ghost Create Task icon button (`plus`) before ×. It opens Create Task, a small dialog with the channel under its title in Space Mono ("In #launch-week"), one title row per task and Add Another, Description while there is one title, then Status (Backlog, Todo or In Progress) and Assignee, which apply to every title ([Where tasks are created](../../patterns/tasks.md#where-tasks-are-created)).
 - Within a status group, list the newest task first: the section is read while people talk, so a task just created from the conversation shows at the top of its group, where they look for it.
 
 ### Empty states

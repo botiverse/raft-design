@@ -6,12 +6,13 @@ redirectFrom: [decisions/0021-square-dots-and-spinner, decisions/0026-upload-pro
 
 # Shape
 
-Square is Raft. Every identity is a square sticker and every dot is a square pixel; pixels are hard and containers are soft. Round is only for switches, radios and grab handles, which follow platform convention.
+Square is Raft. Every identity is a square sticker and every dot is a square pixel; pixels are hard and containers are soft. Round is only for switches, radios and grab handles, which follow platform convention, and for a task's completion control.
 
 ## Principles
 
 - **Identities and dots are square.** Avatars, workspace tiles, channel tiles, presence lights, attention dots and pixel spinners all use square pixels. A round dot or a ring spinner would be the one round mark among square pixels; the square pixel is the brand's own shape ([Principles](../principles/principles.md#6-square-is-raft)).
-- **Round only for switches, radios and grab handles.** Nothing else uses a full radius. A grab handle (the bar at a bottom sheet's top edge, the grip bar on a side section's head) is something to take hold of, and every platform draws it with round ends (the iOS sheet grabber, Material's drag handle). Square ends on a 4px bar read as a cut edge, not a handle.
+- **Round only for switches, radios, grab handles and a task's completion control.** Nothing else uses a full radius. A grab handle (the bar at a bottom sheet's top edge, the grip bar on a side section's head) is something to take hold of, and every platform draws it with round ends (the iOS sheet grabber, Material's drag handle). Square ends on a 4px bar read as a cut edge, not a handle.
+- **A task's completion control is round.** It leads every task row and card and marks the task Done in one click. A square box at the start of a row reads as "select this row", which is what a [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) there means; the circle reads as "done", as in a to-do list ([Completing a task](../patterns/tasks.md#completing-a-task)).
 - **Pull to refresh on Android web is a round disc, Android's own** (stdrc, 2026-10-23): Material's refresh indicator, so a pull feels like the platform's ([PullToRefresh](../../packages/ui/src/components/pull-to-refresh/pull-to-refresh.md#on-android)). It is the one round surface besides those above.
 - **Two stroke widths.** 1px for lines, 1.5px for every control, field and sticker.
 
@@ -24,7 +25,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 | `radius-control` | Controls and selection stickers that stand on their own: buttons, inputs, selects, filters, segmented controls, tabs, sidebar rows, rail items, the tab bar's icon sticker, the workspace button |
 | `radius-container` | Containers: cards, inset groups, the composer, banners, menus, toasts, profile cards, file cards, the box of tasks under a message |
 | `radius-dialog` | Dialogs, and the top corners of bottom sheets |
-| `rounded-full` | Switches, radios and grab handles; the Android pull-to-refresh disc |
+| `rounded-full` | Switches, radios and grab handles; a task's completion control; the Android pull-to-refresh disc |
 
 - Give the state shape of a list row (Activity items, sidebar rows, search results, ListRow with `cell`) `radius-control`: its hover, press, selection and focus fill a rounded shape as tall as the row and inset 8px from each side, never the row's square full width ([Lists](../patterns/lists.md)).
 - Use a 2px radius for status lights and attention dots (10px beside text, 6px to 20px on an avatar's corner) and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.

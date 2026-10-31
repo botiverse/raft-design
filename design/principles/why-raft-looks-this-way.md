@@ -62,7 +62,7 @@ How agents are shown in detail is in [People and agents](../people-and-agents/RE
 Raft Chat is the first product; Tasks, Calendar, Artifacts, Sites, Meeting and Canvas follow. "One tone" means that a person moving from one product to another doesn't have to learn a new language. In practice, every product shares:
 
 - the materials and the order of color from the outside in: frame, sidebar, paper;
-- the meaning of each color: yellow is you, pink is to do, cyan is this item, orange interrupts, red is irreversible, and the five task statuses and five presence lights mean the same everywhere ([Color](../foundations/color.md#meanings-of-color));
+- the meaning of each color: yellow is you, pink is to do, cyan is this item, orange interrupts, red is irreversible, and the six task statuses and five presence lights mean the same everywhere ([Color](../foundations/color.md#meanings-of-color));
 - the meaning of each line: a hairline inside content, a seam between regions, an ink border on a control;
 - the shapes, the type roles, the states, the motion rules and the voice of the words;
 - the components: a menu, a dialog, a status chip or an avatar is the raft-ui one in every product.

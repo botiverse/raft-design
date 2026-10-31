@@ -18,14 +18,15 @@ checkbox/compositions/preview
 
 ## When to use
 
-| Situation                                                                     | Use                                                                                                                   |
-| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| A yes or no in a form that is saved: a dialog, a drawer, the wide form dialog | Checkbox                                                                                                              |
-| A feature that can't be on until fields are filled: an address, a text        | Checkbox, its fields under it and one Save ([Forms](../../../../../design/patterns/forms.md#settings-saved-together)) |
-| An option attached to an action, next to the button that runs it              | Checkbox in the action's toolbar (`ComposerToolbarLabel`, [Composer](../composer/composer.md))                        |
-| Choosing several items in a list or a multi-select                            | Checkbox, or `CheckboxIndicator` in a row that owns the semantics                                                     |
-| A yes or no that applies at once                                              | [Switch](../switch/switch.md)                                                                                         |
-| One of several answers                                                        | [RadioGroup](../radio-group/radio-group.md)                                                                           |
+| Situation                                                                     | Use                                                                                                                                  |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| A yes or no in a form that is saved: a dialog, a drawer, the wide form dialog | Checkbox                                                                                                                             |
+| A feature that can't be on until fields are filled: an address, a text        | Checkbox, its fields under it and one Save ([Forms](../../../../../design/patterns/forms.md#settings-saved-together))                |
+| An option attached to an action, next to the button that runs it              | Checkbox in the action's toolbar (`ComposerToolbarLabel`, [Composer](../composer/composer.md))                                       |
+| Choosing several items in a list or a multi-select                            | Checkbox, or `CheckboxIndicator` in a row that owns the semantics                                                                    |
+| A yes or no that applies at once                                              | [Switch](../switch/switch.md)                                                                                                        |
+| Marking a task done, at the start of its row or card                          | A round `CheckboxIndicator` in a button, the completion control ([Tasks](../../../../../design/patterns/tasks.md#completing-a-task)) |
+| One of several answers                                                        | [RadioGroup](../radio-group/radio-group.md)                                                                                          |
 
 Which controls apply at once and which are saved is in [Forms](../../../../../design/patterns/forms.md).
 
@@ -69,4 +70,4 @@ Checkbox wraps Base UI Checkbox. Its hidden native input drives the checked, dis
 
 ## Rules
 
-- Keep the box square. Don't use `shape="circle"`: round is only for switches and radios ([Shape](../../../../../design/foundations/shape.md)).
+- Keep the box square. Don't use `shape="circle"`: round is only for switches and radios ([Shape](../../../../../design/foundations/shape.md)). The one exception is a task's completion control: a round `CheckboxIndicator` (`shape="circle"`, `previewOnHover` while unchecked) inside a button with `role="checkbox"` that marks the task Done at once. It is round so that "done" doesn't read as "select this row", which a square box at the start of a row does ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).

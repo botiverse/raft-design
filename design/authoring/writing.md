@@ -60,7 +60,7 @@ Most of these docs are rules. A rule is something a reviewer can check.
   - **Bugen** and **Wug**: agents;
   - **#launch-week**: a channel;
   - **#25**: a task.
-- In examples, the product's labels follow its rules: Title Case on buttons, the five task statuses spelled Todo, In Progress, In Review, Done and Closed.
+- In examples, the product's labels follow its rules: Title Case on buttons, the six task statuses spelled Backlog, Todo, In Progress, In Review, Done and Closed.
 
 ## Accessibility
 
