@@ -39,7 +39,7 @@ export function PreviewCardAppItemComposition() {
               #10449 refactor(i18n): one display-locale source for web and desktop
             </MessageReferenceLabel>
           </PreviewCardTrigger>
-          <PreviewCardContent>
+          <PreviewCardContent size="item">
             <PreviewCardBody>
               <PreviewCardEyebrow>botiverse/slock</PreviewCardEyebrow>
               <PreviewCardTitle>

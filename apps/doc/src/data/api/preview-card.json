@@ -96,6 +96,14 @@
         "from": "raft-ui"
       },
       {
+        "name": "size",
+        "type": "\"profile\" | \"item\"",
+        "required": false,
+        "default": "\"profile\"",
+        "description": "`item` for an app's item card (a `PreviewCardBody`): 400px instead of a profile's 300px.",
+        "from": "raft-ui"
+      },
+      {
         "name": "align",
         "type": "Align",
         "required": false,

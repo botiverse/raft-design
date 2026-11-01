@@ -18,8 +18,7 @@ const previewCard = tv({
       "data-starting-style:scale-[0.97] data-starting-style:opacity-0",
       "data-ending-style:scale-[0.99] data-ending-style:opacity-0 data-ending-style:duration-150",
       "data-instant:transition-none motion-reduce:transition-none",
-      "w-[300px] rounded-container bg-layer-popover text-foreground",
-      "has-data-[slot=preview-card-body]:w-[400px]",
+      "rounded-container bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",
     ],
     header: ["flex items-start gap-3", "px-4 pt-4 pb-3 last:pb-4"],
@@ -51,6 +50,15 @@ const previewCard = tv({
       "font-sans text-caption text-foreground-muted",
     ],
   },
+  variants: {
+    // A profile card (a person or an agent) is 300px; an app's item card,
+    // with a title, a state and buttons to fit, is 400px.
+    size: {
+      profile: { popup: "w-[300px]" },
+      item: { popup: "w-[400px]" },
+    },
+  },
+  defaultVariants: { size: "profile" },
 });
 
 export type PreviewCardProps = BasePreviewCard.Root.Props;
@@ -122,7 +130,10 @@ function PreviewCardFramePositioner({
   return <BasePreviewCard.Positioner {...collision} {...props} />;
 }
 
-export type PreviewCardContentProps = StyledProps<BasePreviewCard.Popup.Props> &
+export type PreviewCardContentProps = StyledProps<BasePreviewCard.Popup.Props> & {
+  /** `item` for an app's item card (a `PreviewCardBody`): 400px instead of a profile's 300px. */
+  size?: "profile" | "item";
+} &
   Pick<
     BasePreviewCard.Positioner.Props,
     | "align"
@@ -155,10 +166,11 @@ export function PreviewCardContent({
   sideOffset = 6,
   sticky,
   portalProps,
+  size = "profile",
   className,
   ...props
 }: PreviewCardContentProps) {
-  const { positioner, popup } = previewCard();
+  const { positioner, popup } = previewCard({ size });
   return (
     <PreviewCardPortal {...portalProps}>
       <PreviewCardFramePositioner
@@ -179,6 +191,7 @@ export function PreviewCardContent({
       >
         <BasePreviewCard.Popup
           data-slot="preview-card-content"
+          data-size={size}
           className={popup({ className })}
           {...props}
         />

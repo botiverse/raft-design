@@ -2,9 +2,10 @@
 
 ### Changed
 
-- **PreviewCard (item card)**: an item card is 400px wide, its title up to 2 lines, and its buttons sit at the card's end; a profile card stays 300px.
+- **PreviewCard (item card)**: an item card (`size="item"`) is 400px wide, its title up to 2 lines, and its buttons sit at the card's end; a profile card stays 300px.
   - Why: an app's item title, its state and two buttons didn't fit in 300px; titles broke over three lines and the buttons sat apart from where a Popover puts them.
-  - Affects: `PreviewCardContent` width 300px → 400px when it holds a `PreviewCardBody`; `PreviewCardTitle` in the body `line-clamp-3` → `line-clamp-2`; `PreviewCardActions` `justify-end`.
+  - Affects: new `PreviewCardContent` `size` (`"profile"` 300px, the default; `"item"` 400px); `PreviewCardTitle` in the body `line-clamp-3` → `line-clamp-2`; `PreviewCardActions` `justify-end`.
+  - Migrate: pass `size="item"` on the `PreviewCardContent` of an item card; profile cards need nothing.
   - Docs: https://raft-design.botiverse.build/components/preview-card/
 
 ## [0.57.2](https://github.com/botiverse/raft-design/compare/v0.57.1...v0.57.2) (2026-11-02)
