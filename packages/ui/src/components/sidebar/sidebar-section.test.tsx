@@ -187,3 +187,20 @@ test("the controls keep their place in the row, hidden or shown", () => {
   expect(cls).toContain("pointer-fine:group-hover/section-header:opacity-100");
   for (const name of cls) expect(name).not.toMatch(/(^|:)(absolute|static)$/);
 });
+
+/**
+ * On a touch screen the controls keep the 4px gap they have with a mouse (a
+ * 20px gap read as two separate buttons, stdrc 2026-11-01). Their 44px-high
+ * hit areas stop in the middle of that gap, so neighbours meet without
+ * overlapping.
+ */
+test("touch controls stay 4px apart and their hit areas meet in the gap", () => {
+  const { classes, control } = renderControls();
+  const controls = classes("sidebar-section-controls");
+  expect(controls).toContain("gap-1");
+  expect(controls.some((name) => name.startsWith("not-pointer-fine:gap-"))).toBe(false);
+  const own = control.className.split(/\s+/);
+  expect(own).toContain("not-pointer-fine:after:inset-[-11px]");
+  expect(own).toContain("not-pointer-fine:not-first:after:left-[-3px]");
+  expect(own).toContain("not-pointer-fine:not-last:after:right-[-3px]");
+});
