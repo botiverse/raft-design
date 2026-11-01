@@ -49,8 +49,10 @@ export const sidebarSectionRecipe = tv({
     ],
     sidebarSectionTrailing: ["relative flex min-w-4.5 shrink-0 items-center justify-end"],
     sidebarSectionControls: [
-      // 20px apart on a touch screen, so two 44px hit areas meet without overlapping.
-      "flex shrink-0 items-center gap-1 not-pointer-fine:gap-5",
+      // 4px apart at every input, as they were before 2026-10-31: on a touch
+      // screen a 20px gap read as two separate buttons (stdrc). Their hit
+      // areas meet in the middle of the gap instead (sidebarSectionControl).
+      "flex shrink-0 items-center gap-1",
       // They keep their place in the row even while hidden, so a long title
       // truncates before them at rest and nothing moves when they show: laid
       // over the row they covered a long title's count, and taken into it
@@ -86,9 +88,13 @@ export const sidebarSectionRecipe = tv({
       "hover:text-foreground active:text-foreground focus-visible:text-foreground",
       "data-popup-open:bg-fill-medium data-popup-open:text-foreground",
       // A touch screen shows the controls at rest: a transparent ::after takes
-      // the 24px drawing to a 44px hit area (accessibility.md, Touch targets).
-      // It is placed from inside the 1px border, so 11px each side, not 10.
+      // the 24px drawing to 44px high and 10px further out at the row's ends
+      // (accessibility.md, Touch targets). Between two controls it reaches
+      // only the middle of their 4px gap, so the areas meet without
+      // overlapping and a tap there has one owner. It is placed from inside
+      // the 1px border, so 11px, not 10, and 3px into the gap.
       "not-pointer-fine:after:absolute not-pointer-fine:after:inset-[-11px] not-pointer-fine:after:content-['']",
+      "not-pointer-fine:not-first:after:left-[-3px] not-pointer-fine:not-last:after:right-[-3px]",
     ],
   },
 });
