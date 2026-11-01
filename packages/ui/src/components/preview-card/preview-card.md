@@ -32,7 +32,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 - `PreviewCard`: the root. Required.
 - `PreviewCardTrigger`: the mention, name or chip that opens the card, usually a link to what it names. Required.
-- `PreviewCardContent`: the card, portaled and positioned under the trigger: 300px wide for a profile, and 400px with `size="item"` for an item card, which has a title, a state and buttons to fit. Required.
+- `PreviewCardContent`: the card, portaled and positioned under the trigger: 300px wide for a profile, and 400px with `size="item"` for an item card, which has a title, a state and buttons to fit. Pass `size="item"` whenever the card has a `PreviewCardBody`, and only then: a card with a sentence and a button stays 300px. Required.
 - `PreviewCardHeader`: the large [Avatar](../avatar/avatar.md) and, beside it, the name and the line under it.
 - `PreviewCardTitle`: the name, on one line; in `PreviewCardBody`, an item's title, which wraps.
 - `PreviewCardSeparator`: the hairline under the header.
