@@ -1,6 +1,6 @@
 ---
 title: Tokens
-summary: Every token group with its values in both modes, how token names are built, where tokens.json lives and how foundation.css is generated from it, and how to move off the deprecated names.
+summary: Every token group with its values in both modes, how token names are built, where tokens.json lives and how foundation.css is generated from it, and how to move off the former names.
 ---
 
 # Tokens
@@ -45,7 +45,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 | `scope: "root"` | A value that doesn't change with the mode, such as the palette: declared once on `:root` |
 | `scope: "every-mode"` | An alias of a token that changes with the mode: declared again in each mode scope, so it resolves against that mode's value |
 | `css: true` | A value kept as a CSS expression that the format has no type for: `color-mix()`, a shadow with several layers |
-| `static: true` | A deprecated alias of a value that doesn't change with the mode |
+| `static: true` | A deprecated alias (in the `deprecated` group) of a value that doesn't change with the mode |
 
 The generated file has, in order:
 
@@ -264,15 +264,9 @@ These are Tailwind theme values in `styles.css`, not entries in `tokens.json`, s
 | `spacing-timeline-message`, `spacing-timeline-section`, `spacing-timeline-row` (the timeline tokens as spacing utilities) and `spacing-timeline-turn`, `spacing-timeline-lead`, `spacing-timeline-start`, `spacing-timeline-end`, derived from them. Products use only `timeline-start` and `timeline-end` | [Spacing](./spacing.md#timeline-rhythm) |
 | `font-sans`, `font-heading`, `font-mono` | [Typography](./typography.md#font-families) |
 
-## Deprecated names
+## Former names
 
-Earlier names are kept as aliases until raft-ui 1.0, in the `deprecated` group of `tokens.json`. Each one points at the token to use instead, so old code keeps working while it moves.
-
-```tokens
-deprecated
-```
-
-The renames follow a few patterns:
+The names tokens had before the current ones were deprecated aliases up to raft-ui 0.56 and are removed after it. The codemod below still rewrites them, so code written against an older raft-ui can move in one step. The renames follow a few patterns:
 
 ```text
 primary-*                  ->  brand-*
@@ -294,6 +288,8 @@ theme-focus-ring           ->  focus-ring            (utility: shadow-focus)
 theme-shadow-xs/sm/md      ->  none: controls cast no shadow, drop the class
 ```
 
+One former utility name is still declared because an app uses it: `bg-fill-row-hover`, which paints `fill-subtle`. Use `bg-fill-subtle`.
+
 ### The codemod
 
 raft-ui ships a codemod that rewrites the old names in Tailwind utilities (`bg-…`, `hover:border-…/50`) and in CSS custom properties (`var(--…)`):
@@ -305,13 +301,13 @@ node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <dir-or-file>... [
 - It rewrites `.ts`, `.tsx`, `.js`, `.jsx`, `.mjs`, `.cjs`, `.css` and `.html` files, and skips `node_modules`, `dist` and `build`. `--dry` lists the files it would change.
 - It renames references and leaves declarations alone, so running it twice is safe.
 - Review the result by hand. A guard that forbade an old name (a lint rule, a test, an allowlist) now forbids the new one, and a pattern built from parts, such as a regular expression over class names, keeps the old name.
-- The docs never use a deprecated name: `scripts/check-docs.mjs` fails a page that does.
+- The docs never use a deprecated name: `scripts/check-docs.mjs` fails a page that names a token in the `deprecated` group.
 
 ## Changing a token
 
 - Add or change a value only in `tokens.json`, then regenerate `foundation.css` in the same change.
 - Give a new token a name that follows the grammar above, and add its utility to `styles.css` if components need one.
-- Rename a token by keeping the old name in the `deprecated` group, pointing at the new one, and adding the rename to the codemod. Remove aliases only in a major version.
+- Rename a token by keeping the old name in the `deprecated` group, pointing at the new one, and adding the rename to the codemod. Remove aliases only in a release that lists breaking changes (before 1.0, a minor version), once no app uses them.
 - When a text, surface or tint value changes, recheck the contrast guarantees in [Color](./color.md#contrast) for both modes.
 - Update the foundation page that owns the token in the same pull request ([Authoring](../authoring/README.md#changing-the-system)).
 

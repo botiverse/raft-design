@@ -2,7 +2,7 @@
 title: TextSelectionToolbar
 summary: The toolbar that floats over text someone selects, with actions on that text such as Quote, Copy and Comment, in a message, an Artifact or any other readable text.
 status: stable
-aliases: [Selection toolbar, MessageTextSelectionToolbar]
+aliases: [Selection toolbar]
 layer: core
 category: overlays
 related: [message-item, popover, mode-bar]
@@ -31,8 +31,6 @@ text-selection-toolbar/text-selection-toolbar
 - `TextSelectionToolbarButton`: one action, an icon and a label.
 - `TextSelectionToolbarSeparator`: a line between groups of actions.
 - `createTextSelectionAnchor(selection)`: the anchor that places the toolbar on the selected text, for `PopoverContent`'s `anchor`.
-
-The message-named parts (`MessageTextSelectionToolbar`, `MessageTextSelectionToolbarButton`, `MessageTextSelectionToolbarSeparator`, `createMessageTextSelectionAnchor`) are deprecated aliases of these, kept until apps move to the generic names.
 
 ## Look
 

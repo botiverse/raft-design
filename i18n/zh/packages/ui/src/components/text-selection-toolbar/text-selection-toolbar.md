@@ -1,7 +1,7 @@
 ---
 title: TextSelectionToolbar
 summary: 浮在人选中的文字上方的工具栏，提供 Quote、Copy、Comment 这类针对这段文字的操作，用在消息、Artifact 或其他任何供人阅读的文字里。
-sourceHash: b83e105a
+sourceHash: 823ab6f1
 ---
 
 # TextSelectionToolbar
@@ -27,8 +27,6 @@ text-selection-toolbar/text-selection-toolbar
 - `TextSelectionToolbarButton`：一个操作，一个图标加一个标签。
 - `TextSelectionToolbarSeparator`：各组操作之间的一条线。
 - `createTextSelectionAnchor(selection)`：把工具栏放到选中文字上的锚点，传给 `PopoverContent` 的 `anchor`。
-
-以消息命名的部件（`MessageTextSelectionToolbar`、`MessageTextSelectionToolbarButton`、`MessageTextSelectionToolbarSeparator`、`createMessageTextSelectionAnchor`）是这些部件已弃用的别名，保留到各应用改用通用名称为止。
 
 ## 外观 {#look}
 

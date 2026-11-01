@@ -116,19 +116,6 @@ export type {
   TextSelectionToolbarSeparatorProps,
 } from "./components/text-selection-toolbar/index";
 
-export { FloatButton, FloatButtonGroup } from "./components/float-button/index";
-export type {
-  FloatButtonProps,
-  FloatButtonGroupProps,
-  FloatButtonPosition,
-  FloatButtonSide,
-  FloatButtonOffset,
-  FloatButtonVariant,
-  FloatButtonShape,
-  FloatButtonSize,
-  FloatButtonGroupDirection,
-} from "./components/float-button/index";
-
 export {
   Card,
   CardContent,
@@ -219,7 +206,6 @@ export type { CheckboxIndicatorProps, CheckboxProps } from "./components/checkbo
 
 export {
   SidebarBody,
-  SidebarLiveActivity,
   SidebarContent,
   SidebarGroupLabel,
   SidebarHeader,
@@ -281,7 +267,6 @@ export type {
 } from "./components/conversation-panel/index";
 export type {
   SidebarBodyProps,
-  SidebarLiveActivityProps,
   SidebarContentProps,
   SidebarGroupLabelProps,
   SidebarHeaderProps,
@@ -886,10 +871,6 @@ export {
   MessageReactionTooltipNames,
   MessageReactionTooltipNameText,
   MessageReactionTooltipSeparator,
-  MessageTextSelectionToolbar,
-  MessageTextSelectionToolbarButton,
-  MessageTextSelectionToolbarSeparator,
-  createMessageTextSelectionAnchor,
 } from "./components/message-item/index";
 export type {
   MessageItemAttachmentsProps,
@@ -937,10 +918,6 @@ export type {
   MessageReactionTooltipNamesProps,
   MessageReactionTooltipNameTextProps,
   MessageReactionTooltipSeparatorProps,
-  MessageTextSelectionToolbarButtonProps,
-  MessageTextSelectionToolbarProps,
-  MessageTextSelectionToolbarSeparatorProps,
-  MessageTextSelectionAnchor,
 } from "./components/message-item/index";
 
 export {
@@ -1710,23 +1687,6 @@ export type {
   ThreadPanelTitleProps,
 } from "./components/thread-panel/index";
 
-export {
-  LiveAgentActivityBar,
-  LiveAgentActivityBarAvatar,
-  LiveAgentActivityBarContent,
-  LiveAgentActivityBarRow,
-  LiveAgentActivityBarStatus,
-  LiveAgentActivityBarText,
-} from "./components/live-agent-activity-bar/index";
-export type {
-  LiveAgentActivityBarAvatarProps,
-  LiveAgentActivityBarContentProps,
-  LiveAgentActivityBarProps,
-  LiveAgentActivityBarRowProps,
-  LiveAgentActivityBarStatusProps,
-  LiveAgentActivityBarTextProps,
-} from "./components/live-agent-activity-bar/index";
-
 export * from "./components/task-board/index";
 export * from "./components/task-card/index";
 export * from "./components/task-dnd/index";
@@ -1734,7 +1694,6 @@ export * from "./components/task-list/index";
 export * from "./components/virtual-list/index";
 export * from "./components/icons/index";
 export * from "./components/tasks/index";
-export * from "./components/legacy-task-panel/index";
 
 export * from "./components/activity-inbox/index";
 export * from "./components/inbox-item/index";

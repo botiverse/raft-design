@@ -1,7 +1,7 @@
 ---
 title: Icons
 summary: raft-ui 自己绘制的图标：五个表示对话类型，一个表示 Artifact，十三个用于关注、加入、添加、创建（已弃用）和重新打开；其他图标都来自 Lucide。
-sourceHash: 3fd3e1a5
+sourceHash: 335c1919
 ---
 
 # Icons
@@ -66,7 +66,6 @@ icons/action-icons
 | `FollowArtifactIcon` | Follow Artifact：在 Artifact 的菜单里和 Artifacts 页面上 |
 | `UnfollowArtifactIcon` | Unfollow Artifact，位置相同 |
 | `AddCommentIcon` | Add Comment：对 Artifact 或文件里的一段文字写评论 |
-| `CreateTaskIcon` | 已弃用：没有地方在用。从消息 Create Task 用的是 Lucide 的 `plus`（stdrc 和 Artea，2026-10-30）。仍然导出；新的工作里不要用它 |
 | `ReopenTaskIcon` | Reopen Task：把完成的任务改回未完成 |
 
 按操作所在频道的类型选频道图标，也就是频道自己的图标显示的那种类型（`hash`、`lock`、`git-branch`；[Raft Chat 频道](../../../../../design/products/raft-chat/channel.md)）。
@@ -82,7 +81,7 @@ icons/unfollow-artifact-sizes
 
 - 频道这几对是 Lucide 的 `hash`、`lock` 和 `git-branch`，保持原来的大小和位置，标记在右下角（16 到 22）。字形伸到那个角落的地方，它的笔画停在离标记大约一个线宽的地方，和 Lucide 的 `calendar-plus` 切掉角落的做法一样。每一对都保持同样的间隙，所以这六个读起来是一套（Artea，2026-10-28）。`git-branch` 的那个角落本来就空着，不需要切。
 
-`AddCommentIcon` 和 `CreateTaskIcon` 把加号放在同一个角落，间隙也一样：`AddCommentIcon` 是 24px 的 `CommentIcon`，气泡在加号前截断；`CreateTaskIcon` 是 Lucide 的 `list-todo`，用加号代替它的最后一行。它们没有对应的减号图标。
+`AddCommentIcon` 把加号放在同一个角落，间隙也一样：它是 24px 的 `CommentIcon`，气泡在加号前截断。它没有对应的减号图标。
 
 `ReopenTaskIcon` 没有角标。它是一个打了勾的方框，顶部被一个逆时针箭头断开（Lucide 的 `rotate-ccw-square` 加一个勾）：一个完成的任务，又被打开了。Lucide 的 `rotate-ccw` 已经表示重新开始，`refresh-cw` 表示重试，所以把重新打开画成单纯的圆形箭头，会被读成它们中的一个。
 

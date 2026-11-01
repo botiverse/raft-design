@@ -113,7 +113,7 @@ replacedBy: drawer            # Only when status is deprecated
 | --- | --- | --- |
 | `experimental` | `@botiverse/raft-ui/wip` | The API can change in any release. |
 | `stable` | `raft-ui` | Breaking changes follow the package's versioning policy. |
-| `deprecated` | `raft-ui`, with `@deprecated` in its JSDoc | Still works. `replacedBy` names what to use instead. It is removed in the next major version. |
+| `deprecated` | `raft-ui`, with `@deprecated` in its JSDoc | Still works. `replacedBy` names what to use instead. It is removed in a later release that lists breaking changes (before 1.0, a minor version). |
 
 Any page may also carry:
 

@@ -120,7 +120,7 @@ A component's status follows where it is exported:
 | --- | --- | --- |
 | Stable | `@botiverse/raft-ui` | Breaking changes follow the versioning above |
 | Experimental | `@botiverse/raft-ui/wip` | The API can change in any release |
-| Deprecated | `@botiverse/raft-ui`, marked `@deprecated` | Still works; its page names the replacement. Removed in the next major version |
+| Deprecated | `@botiverse/raft-ui`, marked `@deprecated` | Still works; its page names the replacement. Removed in a later release that lists breaking changes (before 1.0, a minor version) |
 
 ### Codemods
 
@@ -134,7 +134,7 @@ pnpm remove raft-ui
 ```
 
 - `package-name.mjs` rewrites imports, CSS `@import` and `@source` paths and the dependency. It lists any bare `"raft-ui"` strings (bundler aliases, path mappings) for you to change by hand.
-- `token-names.mjs` rewrites Tailwind utilities and `var(--…)` references from the former token names to the current ones. The former names keep working as deprecated aliases until 1.0.
+- `token-names.mjs` rewrites Tailwind utilities and `var(--…)` references from the former token names to the current ones. The former names were deprecated aliases up to 0.56 and are removed after it, so run it before upgrading past 0.56.
 
 After `token-names.mjs`, review two kinds of code by hand:
 

@@ -28,7 +28,7 @@ const status = tv({
         root: "[--status-color:var(--info)]",
       },
       muted: {
-        root: "[--status-color:var(--secondary-400)]",
+        root: "[--status-color:var(--palette-stone-400)]",
       },
       accent: {
         root: "[--status-color:var(--attention-400)]",

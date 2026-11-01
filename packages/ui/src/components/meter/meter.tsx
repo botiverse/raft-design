@@ -72,12 +72,6 @@ export type MeterProps = Omit<
      */
     warnAt?: number;
     /**
-     * @deprecated Use `warnAt`, the share used: `low={20}` of 100 is
-     * `warnAt={0.8}`. The amount left, in the units of `max`, at or below
-     * which the meter warns. Ignored when `warnAt` is set.
-     */
-    low?: number;
-    /**
      * What is used, in words, with the word: "62% used · resets in 3h".
      * `MeterValue` shows it, and it is the meter's `aria-valuetext`, so the
      * caller writes it once.
@@ -96,19 +90,13 @@ export function Meter({
   used,
   max = 100,
   warnAt,
-  low,
   valueText,
   className,
   ...props
 }: MeterProps) {
   const value = clamp(used, 0, max);
   const share = max > 0 ? value / max : 1;
-  const warnFrom =
-    warnAt !== undefined
-      ? clamp(warnAt, 0, 1)
-      : low !== undefined && max > 0
-        ? 1 - clamp(low, 0, max) / max
-        : 0.8;
+  const warnFrom = warnAt !== undefined ? clamp(warnAt, 0, 1) : 0.8;
   const level = share >= 1 ? "full" : share >= warnFrom ? "high" : "normal";
   const { root } = meter({ size, warning: level !== "normal" });
 

@@ -1,6 +1,5 @@
 @import "./components/combobox-select/combobox-select.css";
 @import "./foundation.css";
-@import "./components/float-button/float-button.css";
 @import "./components/timeline/timeline.css";
 @import "./components/steps/steps.css";
 @import "./components/steps/otter-indicator.css";
@@ -122,18 +121,6 @@
      desktop it is 14px, where footnote drops to 12. */
   --text-control: 13px;
   --text-control--line-height: 18px;
-
-  /* Deprecated utility names, kept until raft-ui 1.0 (see codemods/token-names.mjs). */
-  --color-brutal-yellow: var(--palette-yellow-400);
-  --color-soft-signal: var(--palette-yellow-400);
-  --color-brutal-lavender: var(--palette-lavender-400);
-  --color-brutal-pink: var(--palette-pink-400);
-  --color-brutal-cyan: var(--palette-cyan-400);
-  --color-brutal-orange: var(--palette-orange-400);
-  --color-brutal-lime: var(--palette-lime-400);
-  --color-brutal-red: var(--palette-red-400);
-  --color-brutal-stone: var(--palette-stone-400);
-  --color-brutal-cream: var(--palette-cream-200);
 }
 
 /* A column's content margin (design/foundations/alignment.md#usage): 16px on a
@@ -468,74 +455,8 @@
      declares nothing and stays on the margin. */
   --spacing-icon-inset: var(--icon-inset);
 
-  /* Deprecated utility names, kept until raft-ui 1.0 (see codemods/token-names.mjs). */
-  --color-fill-pressed: var(--fill-medium);
-  --color-fill-frame-pressed: var(--fill-frame-medium);
+  /* A former utility name, still used outside raft-ui: use `bg-fill-subtle`. */
   --color-fill-row-hover: var(--fill-subtle);
-  --color-fill-row-open: var(--fill-subtle);
-  --color-fill-message-hover: var(--fill-subtle);
-  --color-sticker-pressed: var(--sticker-medium);
-  --color-foreground-strong: var(--foreground);
-  --color-foreground-icon: var(--foreground-muted);
-  --color-foreground-placeholder: var(--foreground-hint);
-  --color-layer-canvas-muted: var(--layer-sidebar);
-  --color-layer-panel: var(--layer-canvas);
-  --color-layer-inset: var(--fill-muted);
-  --color-layer-hud-foreground: var(--foreground-on-hud);
-  --color-line: var(--line-seam);
-  --color-line-muted: var(--line-hairline);
-  --color-primary: var(--brand-400);
-  --color-primary-50: var(--brand-50);
-  --color-primary-100: var(--brand-100);
-  --color-primary-200: var(--brand-200);
-  --color-primary-300: var(--brand-300);
-  --color-primary-400: var(--brand-400);
-  --color-primary-500: var(--brand-500);
-  --color-primary-600: var(--brand-600);
-  --color-primary-700: var(--brand-700);
-  --color-primary-800: var(--brand-800);
-  --color-primary-900: var(--brand-900);
-  --color-primary-950: var(--brand-950);
-  --color-primary-strong: var(--brand-strong);
-  --color-primary-soft: var(--brand-soft);
-  --color-primary-hover: var(--brand-hover);
-  --color-primary-active: var(--brand-active);
-  --color-accent: var(--attention-400);
-  --color-accent-50: var(--attention-50);
-  --color-accent-100: var(--attention-100);
-  --color-accent-200: var(--attention-200);
-  --color-accent-300: var(--attention-300);
-  --color-accent-400: var(--attention-400);
-  --color-accent-500: var(--attention-500);
-  --color-accent-600: var(--attention-600);
-  --color-accent-700: var(--attention-700);
-  --color-accent-800: var(--attention-800);
-  --color-accent-900: var(--attention-900);
-  --color-accent-950: var(--attention-950);
-  --color-accent-strong: var(--attention-strong);
-  --color-accent-soft: var(--attention-soft);
-  --color-accent-hover: var(--attention-hover);
-  --color-accent-active: var(--attention-active);
-  --color-secondary: var(--secondary-400);
-  --color-secondary-50: var(--secondary-50);
-  --color-secondary-100: var(--secondary-100);
-  --color-secondary-200: var(--secondary-200);
-  --color-secondary-300: var(--secondary-300);
-  --color-secondary-400: var(--secondary-400);
-  --color-secondary-500: var(--secondary-500);
-  --color-secondary-600: var(--secondary-600);
-  --color-secondary-700: var(--secondary-700);
-  --color-secondary-800: var(--secondary-800);
-  --color-secondary-900: var(--secondary-900);
-  --color-secondary-950: var(--secondary-950);
-  --shadow-raft-xs: var(--theme-shadow-xs);
-  --shadow-raft-sm: var(--theme-shadow-sm);
-  --shadow-raft-md: var(--theme-shadow-md);
-  --shadow-raft-lg: var(--elevation-float);
-  --shadow-raft-xl: var(--elevation-float);
-  --shadow-raft-float: var(--elevation-float);
-  --shadow-raft-sticker: var(--elevation-sticker);
-  --shadow-raft-focus: var(--focus-ring);
 }
 
 /* Not inherited, so a wrapper never takes its button's inset: only the element
@@ -883,11 +804,6 @@ textarea:-webkit-autofill:disabled {
   background-image: linear-gradient(var(--fill-frame-medium), var(--fill-frame-medium));
 }
 
-/* Deprecated overlay names, kept until raft-ui 1.0 (see codemods/token-names.mjs). */
-@utility press-overlay {
-  background-image: linear-gradient(var(--fill-medium), var(--fill-medium));
-}
-
 /* A mark that leads a line of text: the icon at the start of a banner, a
    toast or a panel notice, or the status light of a chip, sits on the first
    line of its text, centred on it, and stays there when the text wraps
@@ -920,18 +836,6 @@ textarea:-webkit-autofill:disabled {
   height: var(--lead-dot);
   border-width: 1.5px;
   margin-block: calc((1lh - var(--lead-dot)) / 2);
-}
-
-@utility press-overlay-sticker {
-  background-image: linear-gradient(var(--sticker-medium), var(--sticker-medium));
-}
-
-@utility row-hover-overlay {
-  background-image: linear-gradient(var(--fill-subtle), var(--fill-subtle));
-}
-
-@utility row-open-overlay {
-  background-image: linear-gradient(var(--fill-subtle), var(--fill-subtle));
 }
 
 /* The marker of a list cell (lib/list-cell.ts), read by the located rules

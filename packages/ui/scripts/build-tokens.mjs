@@ -177,22 +177,30 @@ ${block(dark, "    ")}
 .light,
 .dark {
 ${block(current, "  ")}
+${renderDeprecated(deprecated)}}
+${renderStaticDeprecated(staticDeprecated.map((entry) => entry.line))}${renderDesktop(desktopRoot, desktopLight)}`;
+}
 
-  /* Deprecated names, kept until raft-ui 1.0. Run
+/* Former names (the \`deprecated\` group), declared only while there are any. */
+function renderDeprecated(lines) {
+  if (lines.length === 0) return "";
+  return `
+  /* Deprecated names. Run
      \`node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <src>\` to move to the
      current names. */
-${block(deprecated, "  ")}
+${lines.map((line) => fit(line, "  ")).join("\n")}
+`;
 }
 
-/* Deprecated palette names (the \`brutal\` theme family no longer exists) and the
-   \`secondary\` ramp, kept until raft-ui 1.0. */
+/* Former names of values that don't change with the mode (\`static: true\`). */
+function renderStaticDeprecated(lines) {
+  if (lines.length === 0) return "";
+  return `
+/* Deprecated names of values that don't change with the mode. */
 :where(:root) {
-${block(
-  staticDeprecated.map((entry) => entry.line),
-  "  ",
-)}
+${lines.map((line) => fit(line, "  ")).join("\n")}
 }
-${renderDesktop(desktopRoot, desktopLight)}`;
+`;
 }
 
 /* Desktop values, declared again in the scope the phone value lives in (a
