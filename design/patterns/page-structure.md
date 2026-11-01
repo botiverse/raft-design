@@ -80,7 +80,7 @@ A foldable phone (iPhone Duo) has two screens. Its outer screen (466 × 678pt, h
 
 #### The outer screen {#the-outer-screen-in-landscape}
 
-The system reserves a vertical column on the side of the camera. The side is the hardware's: Raft doesn't choose it, and it doesn't mirror in right-to-left ([Frame insets](#frame-insets)). The page fills the rest of the screen, and the column holds what a phone held upright has in its top bar and its tab bar:
+The system reserves a vertical column on the side of the camera. The side is the hardware's: Raft doesn't choose it, and it doesn't mirror in right-to-left ([Frame insets](#frame-insets)). The page fills the rest of the screen, its top 12pt below the screen's edge to clear the rounded corner ([Frame insets](#frame-insets)), and the column holds what a phone held upright has in its top bar and its tab bar:
 
 | Page | The column | The page |
 | --- | --- | --- |
@@ -106,6 +106,7 @@ The inner screen is the apps' desktop mode ([Responsive layout](./responsive.md#
 - Make Search a destination on the rail and put the bell in the rail's footer, as the rail has them without the top bar ([AppRail](../../packages/ui/src/components/app-rail/app-rail.md)). Don't put a search field above a pane: it searches everything, not that pane.
 - Held sideways, the inner screen also has the system's column; it holds Back and the page's actions as on the outer screen, never destinations: those are on the rail. Held upright, the column goes and the page's controls return to their horizontal bars. When the rail stands next to it, which in right-to-left it does, draw one line between them ([One line between two regions](#one-line-between-two-regions)).
 - Keep everything off the fold ([Frame insets](#frame-insets)).
+- Held sideways, give the top edge the frame's 12pt top inset, so the header, the rail and the sidebar clear the screen's top corner, as on the outer screen ([Frame insets](#frame-insets)). Held upright, the status bar is the top's inset.
 
 ## Rules
 
@@ -135,6 +136,7 @@ A frame inset is part of the screen the shell keeps for itself: the window's own
 - Keep a popup portaled to the body out of the window-control insets through its collision boundary, not its padding: Base UI limits how far a popup with an arrow may slide along its trigger by its padding, so insets in the padding move it off its trigger even with nothing in the way. A popup portaled into a container of its own keeps Base UI's boundary, the elements that clip it, and takes the insets in its padding.
 - Let a tooltip flip away from `--raft-frame-inset-start` and `--raft-frame-inset-end` as it does from `--raft-frame-inset-top`, so one on an item in a side column opens toward the content ([Tooltip](../../packages/ui/src/components/tooltip/tooltip.md)).
 - Lay nothing across a fold or a hinge. Where the OS reports one, the shell reports it as an inset too, and the panes lie on either side of it.
+- Keep a page's top out of the screen's rounded corner where nothing else does. Wherever the system column holds the status bar, the top has no status bar (the outer screen, and the inner screen held sideways), so the shell sets `--raft-frame-inset-top` to a fixed 12pt there, and only there. The OS reports no corner radius, and 12pt takes a header's first control, 20pt in, out of the corner's curve. It moves the whole top edge (the rail's server tile, the sidebar's top, the page header) by the same amount, the gap filled with the background of what is under it; the 56pt header and its seam keep their shape below it.
 
 ### One edge per column
 
