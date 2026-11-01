@@ -133,8 +133,7 @@ function PreviewCardFramePositioner({
 export type PreviewCardContentProps = StyledProps<BasePreviewCard.Popup.Props> & {
   /** `item` for an app's item card (a `PreviewCardBody`): 400px instead of a profile's 300px. */
   size?: "profile" | "item";
-} &
-  Pick<
+} & Pick<
     BasePreviewCard.Positioner.Props,
     | "align"
     | "alignOffset"
