@@ -88,4 +88,3 @@ sidebar-item/compositions/tones-item
 - 键盘焦点是形状上 2px 的内缩焦点环。在 `active` 的行上，它在贴纸的墨色边里面。
 - 桌面端每一行高 38px（形状一样高），用 `text-subhead`。低于 `md` 时，行会自动长到至少 44px，用 `text-body`、字重 600：这时它是手机上的地点列表（Home、Members、Settings 列表），需要手指能点中。不要在调用处另加手机尺寸。Settings 列表在手机上曾经是 36px，因为尺寸写在一个产品类里，而只有 Home 的行用了这个类。
 - 不要把服务器切换器放在侧栏头部。它在网页顶栏里；没有顶栏时，在导航条顶部。
-- 不要用 `SidebarLiveActivity` 在侧栏底部做实时条。工作中的 Agent 改为显示在头部的工作摘要和它们自己的行里（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。
