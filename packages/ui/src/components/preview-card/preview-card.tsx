@@ -19,6 +19,7 @@ const previewCard = tv({
       "data-ending-style:scale-[0.99] data-ending-style:opacity-0 data-ending-style:duration-150",
       "data-instant:transition-none motion-reduce:transition-none",
       "w-[300px] rounded-container bg-layer-popover text-foreground",
+      "has-data-[slot=preview-card-body]:w-[400px]",
       "shadow-float ring-1 ring-line-seam",
     ],
     header: ["flex items-start gap-3", "px-4 pt-4 pb-3 last:pb-4"],
@@ -30,20 +31,20 @@ const previewCard = tv({
     ],
     arrow: ["size-2 rotate-45", "border-l border-t border-line-seam bg-layer-popover"],
     // The item card: an id line, the title, a row of state and details, then
-    // actions and a footer. In the body the title wraps, up to 3 lines: an
-    // item's title is what the card is for, and a cut-off one says less than
-    // the chip it came from.
+    // actions and a footer, on a 400px card. In the body the title wraps, up
+    // to 2 lines: an item's title is what the card is for, and a cut-off one
+    // says less than the chip it came from.
     body: [
       "flex min-w-0 flex-col gap-1.5",
       "px-4 pt-4 pb-3 last:pb-4",
-      "*:data-[slot=preview-card-title]:line-clamp-3 *:data-[slot=preview-card-title]:whitespace-normal",
+      "*:data-[slot=preview-card-title]:line-clamp-2 *:data-[slot=preview-card-title]:whitespace-normal",
     ],
     eyebrow: ["m-0 truncate", "font-mono text-mono-meta text-foreground-muted"],
     meta: [
       "flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1",
       "m-0 font-sans text-callout text-foreground-muted",
     ],
-    actions: ["flex flex-wrap items-center gap-2", "px-4 pb-3 last:pb-4"],
+    actions: ["flex flex-wrap items-center justify-end gap-2", "px-4 pb-3 last:pb-4"],
     footer: [
       "m-0 truncate",
       "border-t border-line-hairline px-4 py-2",

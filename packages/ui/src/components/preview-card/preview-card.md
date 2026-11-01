@@ -32,7 +32,7 @@ Which overlay fits which job is in [Choosing a component](../../../../../design/
 
 - `PreviewCard`: the root. Required.
 - `PreviewCardTrigger`: the mention, name or chip that opens the card, usually a link to what it names. Required.
-- `PreviewCardContent`: the card, 300px wide, portaled and positioned under the trigger. Required.
+- `PreviewCardContent`: the card, portaled and positioned under the trigger: 300px wide for a profile, 400px for an item card (one with a `PreviewCardBody`), which has a title, a state and buttons to fit. Required.
 - `PreviewCardHeader`: the large [Avatar](../avatar/avatar.md) and, beside it, the name and the line under it.
 - `PreviewCardTitle`: the name, on one line; in `PreviewCardBody`, an item's title, which wraps.
 - `PreviewCardSeparator`: the hairline under the header.
@@ -45,7 +45,7 @@ The item card adds these parts, experimental and exported from `@botiverse/raft-
 - `PreviewCardBody`: the block with the id line, the title and the details row, 16px from the card's edges.
 - `PreviewCardEyebrow`: the id line above the title, in `foreground-muted` Space Mono, one line, truncated.
 - `PreviewCardMeta`: the row under the title: the state, in a neutral Badge, then a muted line of details. It wraps when it runs out of room.
-- `PreviewCardActions`: the row of up to two buttons.
+- `PreviewCardActions`: the row of up to two buttons, at the card's end, as in a [Popover](../popover/popover.md): the confirm button last.
 - `PreviewCardFooter`: a caption under a hairline at the bottom: the app and the host.
 
 ## Item card
@@ -53,7 +53,7 @@ The item card adds these parts, experimental and exported from `@botiverse/raft-
 The card an app link opens on hover ([App links](../../../../../design/patterns/navigation.md#app-links)). The app supplies its words and which details it has; Raft sets their order and their colors. Its parts follow the questions a reader asks, in order:
 
 1. **Which item is it?** `PreviewCardEyebrow`: the app's id for it, such as `botiverse/slock#10449`. Optional.
-2. **What is it about?** `PreviewCardTitle`: the app's title in ink, up to 3 lines. Not in `foreground-link`: the card is not a link itself, its buttons and the chip are.
+2. **What is it about?** `PreviewCardTitle`: the app's title in ink, up to 2 lines, cut off with an ellipsis. Not in `foreground-link`: the card is not a link itself, its buttons and the chip are.
 3. **Where does it stand?** `PreviewCardMeta`: one state chip in the app's words, such as Merged, then one muted line of details, such as "Martin · +803 −498".
 4. **What can I do?** `PreviewCardActions`: up to two buttons the app provides, such as Open in Stamp.
 5. **Who says so?** `PreviewCardFooter`: the app's name and the link's host, "Stamp · stamp.build".

@@ -49,6 +49,11 @@ test("each part renders its slot and the product's words", () => {
   expect(screen.getByTestId("footer").textContent).toBe("Stamp · stamp.build");
 });
 
+test("the buttons sit at the card's end, as in a Popover", () => {
+  render(<PreviewCardActions data-testid="actions" />);
+  expect(tokens(screen.getByTestId("actions"))).toContain("justify-end");
+});
+
 test("the footer is a caption under a hairline", () => {
   render(<PreviewCardFooter data-testid="footer">Stamp · stamp.build</PreviewCardFooter>);
   const classes = tokens(screen.getByTestId("footer"));
@@ -57,7 +62,7 @@ test("the footer is a caption under a hairline", () => {
   expect(classes).toContain("text-caption");
 });
 
-test("in the body the title wraps, up to 3 lines; the profile card's title is untouched", () => {
+test("in the body the title wraps, up to 2 lines; the profile card's title is untouched", () => {
   render(
     <>
       <PreviewCardBody data-testid="body">
@@ -67,7 +72,7 @@ test("in the body the title wraps, up to 3 lines; the profile card's title is un
   );
   const body = tokens(screen.getByTestId("body"));
   expect(body).toContain("*:data-[slot=preview-card-title]:whitespace-normal");
-  expect(body).toContain("*:data-[slot=preview-card-title]:line-clamp-3");
+  expect(body).toContain("*:data-[slot=preview-card-title]:line-clamp-2");
   const title = tokens(screen.getByTestId("title"));
   expect(title).toContain("truncate");
   expect(title).not.toContain("whitespace-normal");
