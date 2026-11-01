@@ -1,17 +1,48 @@
-## Unreleased
+## [0.57.0](https://github.com/botiverse/raft-design/compare/v0.56.1...v0.57.0) (2026-11-01)
 
-### Removed
+### Breaking Changes
 
-Breaking: these were deprecated and nothing in Raft's apps uses them. Run `codemods/token-names.mjs` before upgrading if your code still uses a former token name.
+- **Deprecated tokens removed**: the 165 tokens of the `deprecated` group of `tokens.json` and their `foundation.css` declarations are gone. ([#930](https://github.com/botiverse/raft-design/pull/930))
+  - Why: the aliases doubled the token list and let old names keep spreading; nothing in Raft's apps used them any more.
+  - Affects: `primary-*`, `accent-*`, `secondary-*`, `color-brutal-*-{n}`, `theme-shadow-*`, `theme-focus-ring`, `layer-panel`, `layer-inset`, `layer-canvas-muted`, `layer-hud-foreground`, `foreground-strong`, `foreground-icon`, `foreground-placeholder`, `line`, `line-muted`, `fill-pressed`, `fill-frame-pressed`, `fill-row-hover`, `fill-row-open`, `fill-message-hover`, `sticker-pressed`.
+  - Migrate: run `node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <dir>` before upgrading; it rewrites each former name to the token it pointed at.
+  - Docs: https://raft-design.botiverse.build/foundations/tokens/#former-names
+- **Deprecated utilities removed**: the color, shadow and overlay utilities built on those tokens. ([#930](https://github.com/botiverse/raft-design/pull/930))
+  - Why: same as above; they only existed as aliases.
+  - Affects: `bg-primary-*`, `bg-accent-*`, `bg-secondary-*`, `bg-brutal-*`, `bg-soft-signal` and the other color utilities of the removed names, `shadow-raft-*`, `press-overlay`, `press-overlay-sticker`, `row-hover-overlay`, `row-open-overlay`. `bg-fill-row-hover` stays for now.
+  - Migrate: run the codemod above; use `bg-fill-subtle` for `bg-fill-row-hover`.
+  - Docs: https://raft-design.botiverse.build/foundations/tokens/#former-names
+- **FloatButton, FloatButtonGroup** removed, with their types and `components/float-button/float-button.css`. ([#930](https://github.com/botiverse/raft-design/pull/930))
+  - Why: deprecated and unused; a floating control is only for moving through a list, and page actions belong in a header or toolbar.
+  - Migrate: put the action in the header or a toolbar.
+  - Docs: https://raft-design.botiverse.build/foundations/elevation/
+- **LiveAgentActivityBar** and its parts (`LiveAgentActivityBarAvatar`, `LiveAgentActivityBarContent`, `LiveAgentActivityBarRow`, `LiveAgentActivityBarStatus`, `LiveAgentActivityBarText`) removed, with **SidebarLiveActivity**, the sidebar part that held it. ([#930](https://github.com/botiverse/raft-design/pull/930))
+  - Why: a live strip at the bottom of the sidebar or above the tab bar showed changing content unrelated to the page; working agents show in the header summary and in their own rows.
+  - Migrate: show working agents in place.
+  - Docs: https://raft-design.botiverse.build/people-and-agents/working-agents/
+- **LegacyTaskPanel*** removed: the 17 parts and their types. ([#930](https://github.com/botiverse/raft-design/pull/930))
+  - Why: deprecated and unused.
+  - Migrate: use the Tasks components.
+  - Docs: https://raft-design.botiverse.build/components/tasks/
+- **MessageTextSelectionToolbar, MessageTextSelectionToolbarButton, MessageTextSelectionToolbarSeparator, createMessageTextSelectionAnchor** and their 4 types removed. ([#930](https://github.com/botiverse/raft-design/pull/930))
+  - Why: they were message-named aliases of the generic toolbar.
+  - Migrate: use `TextSelectionToolbar`, `TextSelectionToolbarButton`, `TextSelectionToolbarSeparator`, `createTextSelectionAnchor`.
+  - Docs: https://raft-design.botiverse.build/components/text-selection-toolbar/
+- **CreateTaskIcon** removed. ([#930](https://github.com/botiverse/raft-design/pull/930))
+  - Why: unused; Create Task uses Lucide's `plus`.
+  - Migrate: use Lucide's `plus`.
+  - Docs: https://raft-design.botiverse.build/components/icons/
+- **Meter `low`** removed. ([#930](https://github.com/botiverse/raft-design/pull/930))
+  - Why: `warnAt` replaced it.
+  - Migrate: `low={20}` of 100 is `warnAt={0.8}`, the default.
+  - Docs: https://raft-design.botiverse.build/components/meter/
 
-- **The 165 deprecated tokens** (the `deprecated` group of `tokens.json` and their `foundation.css` declarations): `primary-*`, `accent-*`, `secondary-*`, `color-brutal-*-{n}`, `theme-shadow-*`, `theme-focus-ring`, `layer-panel`, `layer-inset`, `layer-canvas-muted`, `layer-hud-foreground`, `foreground-strong`, `foreground-icon`, `foreground-placeholder`, `line`, `line-muted`, `fill-pressed`, `fill-frame-pressed`, `fill-row-hover`, `fill-row-open`, `fill-message-hover`, `sticker-pressed`. Use the name each pointed at ([Tokens](https://raft-design.botiverse.build/foundations/tokens/#former-names)).
-- **The deprecated utilities built on them:** `bg-primary-*`, `bg-accent-*`, `bg-secondary-*`, `bg-brutal-*`, `bg-soft-signal` and the other color utilities of the names above, `shadow-raft-*`, `press-overlay`, `press-overlay-sticker`, `row-hover-overlay`, `row-open-overlay`. `bg-fill-row-hover` stays for now (an app still uses it); use `bg-fill-subtle`.
-- **`FloatButton`, `FloatButtonGroup`** and their types, and `components/float-button/float-button.css`.
-- **`LiveAgentActivityBar`** and its parts (`LiveAgentActivityBarAvatar`, `LiveAgentActivityBarContent`, `LiveAgentActivityBarRow`, `LiveAgentActivityBarStatus`, `LiveAgentActivityBarText`), and `SidebarLiveActivity`, the sidebar part that held it.
-- **`LegacyTaskPanel*`**: the 17 parts (`LegacyTaskPanelRoot`, `LegacyTaskPanelHeader`, ...) and their types.
-- **`MessageTextSelectionToolbar`, `MessageTextSelectionToolbarButton`, `MessageTextSelectionToolbarSeparator`, `createMessageTextSelectionAnchor`** and their 4 types. Use `TextSelectionToolbar`, `TextSelectionToolbarButton`, `TextSelectionToolbarSeparator`, `createTextSelectionAnchor`.
-- **`CreateTaskIcon`**. Create Task is Lucide's `plus`.
-- **Meter `low`**. Use `warnAt`: `low={20}` of 100 is `warnAt={0.8}`, the default.
+### Fixed
+
+- **SidebarSectionControl**: on a touch screen the section controls stay 4px apart, as with a mouse. ([#935](https://github.com/botiverse/raft-design/pull/935))
+  - Why: a 20px gap made the two controls read as separate buttons; their 44px-high hit areas now meet in the middle of the 4px gap instead, with no overlap and no dead strip.
+  - Affects: touch gap 20px → 4px (`gap-1`); each hit area reaches 2px into the gap.
+  - Docs: https://raft-design.botiverse.build/components/sidebar/
 
 ## [0.56.1](https://github.com/botiverse/raft-design/compare/v0.56.0...v0.56.1) (2026-10-31)
 
