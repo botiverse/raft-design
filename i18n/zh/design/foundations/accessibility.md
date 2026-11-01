@@ -1,7 +1,7 @@
 ---
 title: 无障碍
 summary: 每个 Raft 产品都遵守的规则，让它在任何视力、键盘、读屏软件、触屏或动效设置下都能用：对比度、焦点、点击区域、动效、语义、触屏和语言，以及实现这些规则的组件。
-sourceHash: bf0a38e1
+sourceHash: 2bb92be9
 ---
 
 # 无障碍
@@ -88,7 +88,6 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 | 出现字段错误 | `FieldError` 上的 `role="alert"` | [Field](../../packages/ui/src/components/field/field.md) |
 | 开始加载 | 加载指示器上的 `role="status"`，名称为 "Loading"，除非你说明加载的是什么 | [Spinner](../../packages/ui/src/components/spinner/spinner.md) |
 | 复制成功 | 复制按钮上的 `aria-live="polite"` | [CopyableCode](../../packages/ui/src/components/copyable-code/copyable-code.md) |
-| Agent 开始或停止工作 | 活动条上的 `aria-live="polite"` | [LiveAgentActivityBar](../../packages/ui/src/components/live-agent-activity-bar/live-agent-activity-bar.md) |
 | 回应失败 | 一个视觉上隐藏的 `role="status"` | [MessageItem](../../packages/ui/src/components/message-item/message-item.md) |
 | 一项被拿起、移动、放下或放回 | 礼貌的实时区域，说出这一项和位置的名称，从不说它们的 ID | [拖放](../patterns/drag-and-drop.md#screen-readers) |
 

@@ -1,7 +1,7 @@
 ---
 title: Token
-summary: 每组 token 及其在两种模式下的值，token 名怎么构成，tokens.json 放在哪里、foundation.css 如何由它生成，以及如何迁移弃用的名称。
-sourceHash: c13f6de3
+summary: 每组 token 及其在两种模式下的值，token 名怎么构成，tokens.json 放在哪里、foundation.css 如何由它生成，以及如何迁移以前的名称。
+sourceHash: 7d43ddb6
 ---
 
 # Token
@@ -46,7 +46,7 @@ node packages/ui/scripts/build-tokens.mjs --check   # exit 1 if it is out of dat
 | `scope: "root"` | 不随模式变化的值，比如调色板：只在 `:root` 上声明一次 |
 | `scope: "every-mode"` | 随模式变化的 token 的别名：在每个模式的作用域里再声明一次，这样它解析的是该模式下的值 |
 | `css: true` | 保留为 CSS 表达式的值，格式中没有对应的类型：`color-mix()`、多层阴影 |
-| `static: true` | 不随模式变化的值的弃用别名 |
+| `static: true` | 不随模式变化的值的弃用别名（在 `deprecated` 分组里） |
 
 生成的文件依次包含：
 
@@ -265,15 +265,9 @@ opacity
 | `spacing-timeline-message`、`spacing-timeline-section`、`spacing-timeline-row`（时间线 token 对应的间距工具类），以及由它们推出的 `spacing-timeline-turn`、`spacing-timeline-lead`、`spacing-timeline-start`、`spacing-timeline-end`。产品只用 `timeline-start` 和 `timeline-end` | [间距](./spacing.md#timeline-rhythm) |
 | `font-sans`、`font-heading`、`font-mono` | [字体排印](./typography.md#font-families) |
 
-## 弃用的名称 {#deprecated-names}
+## 以前的名称 {#former-names}
 
-旧名称作为别名保留到 raft-ui 1.0，放在 `tokens.json` 的 `deprecated` 分组里。每个别名都指向应改用的 token，这样旧代码在迁移期间仍能正常工作。
-
-```tokens
-deprecated
-```
-
-重命名遵循几种模式：
+token 现在的名称之前用过的名称，在 raft-ui 0.56 及以前是弃用的别名，之后已移除。下面的 codemod 仍会改写它们，所以按旧版 raft-ui 写的代码可以一步迁移过来。重命名遵循几种模式：
 
 ```text
 primary-*                  ->  brand-*
@@ -295,6 +289,8 @@ theme-focus-ring           ->  focus-ring            (utility: shadow-focus)
 theme-shadow-xs/sm/md      ->  none: controls cast no shadow, drop the class
 ```
 
+有一个以前的工具类名称仍然保留，因为还有应用在用：`bg-fill-row-hover`，画的是 `fill-subtle`。请改用 `bg-fill-subtle`。
+
 ### Codemod {#the-codemod}
 
 raft-ui 附带一个 codemod，可以改写 Tailwind 工具类（`bg-…`、`hover:border-…/50`）和 CSS 自定义属性（`var(--…)`）中的旧名称：
@@ -306,13 +302,13 @@ node node_modules/@botiverse/raft-ui/codemods/token-names.mjs <dir-or-file>... [
 - 它改写 `.ts`、`.tsx`、`.js`、`.jsx`、`.mjs`、`.cjs`、`.css` 和 `.html` 文件，跳过 `node_modules`、`dist` 和 `build`。`--dry` 列出它会修改的文件。
 - 它只重命名引用，不动声明，所以运行两次也是安全的。
 - 人工检查结果。原本禁止旧名称的防护（lint 规则、测试、允许列表）现在会禁止新名称；由片段拼出的模式，比如针对 class 名的正则表达式，仍保留旧名称。
-- 文档从不使用弃用的名称：页面中出现时，`scripts/check-docs.mjs` 会报错。
+- 文档从不使用弃用的名称：页面中出现 `deprecated` 分组里的 token 时，`scripts/check-docs.mjs` 会报错。
 
 ## 修改 token {#changing-a-token}
 
 - 只在 `tokens.json` 里添加或修改值，并在同一次改动中重新生成 `foundation.css`。
 - 新 token 的名字要遵循上面的命名规则；如果组件需要，在 `styles.css` 里加上它的工具类。
-- 重命名 token 时，把旧名称保留在 `deprecated` 分组里并指向新名称，同时把这次重命名加进 codemod。只在大版本中删除别名。
+- 重命名 token 时，把旧名称保留在 `deprecated` 分组里并指向新名称，同时把这次重命名加进 codemod。只在列出破坏性改动的版本中删除别名（1.0 之前就是次版本号），并且要等没有应用再用它们。
 - 文字、表面或淡色的值变化时，在两种模式下重新核对[颜色](./color.md#contrast)中的对比度保证。
 - 在同一个 pull request 里更新这个 token 所属的基础页面（[编写指南](../authoring/README.md#changing-the-system)）。
 

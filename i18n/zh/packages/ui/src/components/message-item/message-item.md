@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: ca5318c2
+sourceHash: 3a5a5dcf
 ---
 
 # MessageItem
@@ -44,7 +44,7 @@ message-item/compositions/item-preview
 - `MessageItemFooter`：一行：先是回应（`MessageReactionChip`，最后是 `MessageReactionAddButton`），再是收藏和已读标记（`MessageItemSavedIndicator`、`MessageItemReadReceipt`）。从这条消息创建的任务不在这一行里：它们是这一行上面的一个列表（[对话中的任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)）。
 - `MessageItemToolbar` 加 `MessageItemToolbarButton`：悬停工具栏。它在显示时在自己所在的行上设置 `--mi-toolbar-width`，标题栏在它下面淡出时读这个值。以前的版本从 app 读 `--mi-toolbar-reserve` 来在标题栏里留位置；现在不再读它，设置它的地方可以删掉。
 - `MessageMultiSelectCheckbox` 和 `MessageMultiSelectToolbar`，操作放在 `MessageMultiSelectToolbarActions` 里（28px 的按钮，间隔 4px；在触屏上每个按钮的点击区域是 44px，向相邻按钮只延伸到间隔的一半，所以点在两者之间会落到较近的那个上）：用于选择多条消息（[由现有部件组成](../../../../../design/components/overview.md#toolbar-for-selected-messages)）。
-- 一个 [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md)：对选中文字的操作（[选中文字的工具栏](#toolbar-for-selected-text)）。`MessageTextSelectionToolbar` 和它的各部件是它的已弃用别名。
+- 一个 [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md)：对选中文字的操作（[选中文字的工具栏](#toolbar-for-selected-text)）。
 
 ### 正文里的元素 {#in-the-body}
 

@@ -1,7 +1,7 @@
 ---
 title: 正在工作的 Agent 显示在它们出现的地方，而不是实时条里
 summary: Agent 在做什么，写在它们本来就出现的地方，而不是放在标签栏上方或侧栏底部的实时条里。
-sourceHash: adbefafc
+sourceHash: 8cf90ba4
 ---
 
 # 0006. 正在工作的 Agent 显示在它们出现的地方，而不是实时条里
@@ -20,7 +20,7 @@ sourceHash: adbefafc
 
 这条记录最初还写了「没有正在输入提示」。这句话在 2026-10-20 删除了：产品是否显示 Agent 正在输入，是产品决定，不是设计规则。保留的是视觉规则：表示 Agent 在工作的任何东西都不闪烁、不循环。
 
-`LiveAgentActivityBar` 在 raft-ui 中已弃用，将在 raft-ui 1.0 中移除。
+`LiveAgentActivityBar` 曾在 raft-ui 中弃用，0.56 之后已移除。
 
 ## 相关 {#related}
 

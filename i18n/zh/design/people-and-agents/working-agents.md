@@ -1,7 +1,7 @@
 ---
 title: 工作中的 Agent
 summary: 在哪里显示 Agent 正在工作、在做什么：屏幕顶部的摘要、Working now、Agent 的行和所在位置的副标题；以及为什么没有实时条。
-sourceHash: ce82b65c
+sourceHash: c1bcdb9d
 ---
 
 # 工作中的 Agent
@@ -80,7 +80,7 @@ Raft Chat 曾经在手机标签栏上方和桌面端侧栏底部显示一条工�
 - 它的内容一直在变。
 - 它说的通常不是正在读的这个页面。
 
-这条横条被拆开，每一部分回到它该在的地方：屏幕顶部的摘要、Agent 的行、所在位置的头部和 Working now。`LiveAgentActivityBar` 在 raft-ui 中已弃用，将在 1.0 移除（[LiveAgentActivityBar](../../packages/ui/src/components/live-agent-activity-bar/live-agent-activity-bar.md)）。
+这条横条被拆开，每一部分回到它该在的地方：屏幕顶部的摘要、Agent 的行、所在位置的头部和 Working now。`LiveAgentActivityBar` 已在 0.56 之后从 raft-ui 移除。
 
 - 不要在标签栏上方、侧栏底部或其他任何地方加实时条。
 
