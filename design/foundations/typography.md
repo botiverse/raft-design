@@ -94,12 +94,12 @@ The desktop scale is Feishu's (Lark's) for PC: 16/24 for titles, 14/22 for every
 
 ## Color tiers
 
-Text has three tiers. The tokens and their contrast are in [Color](./color.md#text-and-icons).
+Text has three tiers. The tokens and their contrast are in [Color](./color.md#text-and-icons). An icon follows the tier of its label ([Iconography](./iconography.md#icon-color)).
 
 | Tier | Token | Used for |
 | --- | --- | --- |
 | Base | `foreground` | Titles (panel, sidebar, thread, dialog), senders and message text, values, names in list rows, menu items, the selected underline tab, ghost buttons |
-| Muted | `foreground-muted` | Descriptions (dialog, card, popover), field labels, unselected tabs, the text of a quoted message, sidebar subtitles, icons |
+| Muted | `foreground-muted` | Descriptions (dialog, card, popover), field labels, unselected tabs, the text of a quoted message, sidebar subtitles |
 | Hint | `foreground-hint` | Notes: times, the model, an inline status, description-list terms, group headings, counts, list metadata, placeholders, empty values |
 
 - Read titles, the top of the sidebar, senders and names in list rows at the base tier. Let weight make the difference between them: titles and senders at 700, list rows at 600.

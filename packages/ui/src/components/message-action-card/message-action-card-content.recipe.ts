@@ -61,7 +61,7 @@ export const messageActionCardContent = tv({
     ],
     completion: [
       "inline-flex items-center gap-1.5 text-footnote text-foreground-muted",
-      "[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-foreground",
+      "[&>svg]:size-4 [&>svg]:shrink-0",
     ],
     // Actions sit bottom-right; an optional note (state, who resolved it)
     // takes the space on the left.

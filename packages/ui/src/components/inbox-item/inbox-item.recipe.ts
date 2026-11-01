@@ -55,7 +55,7 @@ export const inboxItem = tv({
       "[&>svg]:absolute [&>svg]:top-[calc((1lh-14px)/2)] [&>svg]:left-0 [&>svg]:size-3.5",
       "font-sans text-subhead font-semibold text-foreground-muted",
       "group-data-[unread=true]/inbox-item:font-bold group-data-[unread=true]/inbox-item:text-foreground",
-      "[&>svg]:text-foreground-hint",
+      "[&>svg]:text-foreground-muted",
     ],
     itemTrailing: [
       "pointer-events-none relative z-10 col-[-2/-1] row-start-1",

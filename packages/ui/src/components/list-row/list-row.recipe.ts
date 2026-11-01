@@ -23,13 +23,17 @@ export const listRow = tv({
     ],
     // The row owns its three inks and the parts read them, so the tone and the
     // disabled state are decided once, on the row: a tone never applies to a
-    // disabled row, which greys everything.
+    // disabled row, which greys everything. The leading icon reads ink-2, one
+    // step under the title, except on an unread row, where ink-2 turns to ink
+    // for the preview and the icon stays muted (iconography.md#icon-color).
     root: [
       "group/list-row flex w-full min-w-0 items-center gap-3 py-3 text-left",
       "font-sans no-underline",
       "[--list-row-ink:var(--foreground)] [--list-row-ink-2:var(--foreground-muted)] [--list-row-ink-3:var(--foreground-hint)]",
       "text-(--list-row-ink)",
+      "[--list-row-ink-icon:var(--list-row-ink-2)]",
       "not-disabled:not-aria-disabled:data-[tone=unread]:[--list-row-ink-2:var(--foreground)]",
+      "not-disabled:not-aria-disabled:data-[tone=unread]:[--list-row-ink-icon:var(--foreground-muted)]",
       "not-disabled:not-aria-disabled:data-[tone=muted]:[--list-row-ink:var(--foreground-muted)]",
       "not-disabled:not-aria-disabled:data-[tone=away]:[--list-row-ink:var(--foreground-hint)]",
       "not-disabled:not-aria-disabled:data-[tone=away]:[--list-row-ink-2:var(--foreground-hint)]",
@@ -40,7 +44,7 @@ export const listRow = tv({
     ],
     icon: [
       "flex shrink-0 items-center justify-center",
-      "text-(--list-row-ink-3) [&>svg]:size-5 [&>svg]:shrink-0",
+      "text-(--list-row-ink-icon) [&>svg]:size-5 [&>svg]:shrink-0",
     ],
     // SaveStatus makes up this 2px to sit 4px under the description
     // (save-status.tsx): change both together.

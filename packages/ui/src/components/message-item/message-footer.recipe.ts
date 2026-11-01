@@ -10,7 +10,7 @@ export const messageFooter = tv({
       "text-footnote font-bold text-foreground-muted",
       "bg-fill-muted hover:overlay-medium active:overlay-medium",
       "outline-none focus-visible:shadow-focus",
-      "[&_svg]:size-3.5 [&_svg]:text-foreground",
+      "[&_svg]:size-3.5",
     ],
     readReceipt: [
       "ml-auto inline-flex shrink-0 items-center gap-1 whitespace-nowrap",
