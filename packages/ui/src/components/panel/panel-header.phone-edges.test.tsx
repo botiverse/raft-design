@@ -30,8 +30,8 @@ afterEach(cleanup);
 // head-edges.browser.test.tsx; these pin the shared tokens.
 const EDGES = [
   "px-(--column-margin)",
-  "[&>[data-icon-inset]:first-child]:-ml-icon-inset",
-  "[&>[data-icon-inset]:last-child]:-mr-icon-inset",
+  "[&>[data-icon-inset]:nth-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-ml-icon-inset",
+  "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-mr-icon-inset",
 ];
 
 test("a raft head pads by the content margin and pulls both edge buttons by their inset", () => {

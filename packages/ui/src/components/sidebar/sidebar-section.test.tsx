@@ -64,18 +64,13 @@ test("attention hides via data attributes, not an ancestor :has()", () => {
   const { attention } = renderSection();
   expect(attention.className.split(/\s+/).toSorted()).toEqual(
     [
+      // Only an open section hides it: the controls are always shown beside
+      // it now, so hiding it on hover or with a menu open moved them.
       "group-data-open/section:hidden",
-      "group-data-popup-open/section-header:hidden",
-      "group-hover/section-header:hidden",
       "inline-flex",
       "items-center",
       "justify-center",
       "min-w-4.5",
-      // With a mouse it sits over the controls' reserved place (#931).
-      "pointer-fine:-translate-y-1/2",
-      "pointer-fine:absolute",
-      "pointer-fine:right-0",
-      "pointer-fine:top-1/2",
       "shrink-0",
     ].toSorted(),
   );
@@ -146,7 +141,7 @@ test("the header's end padding gives back the scrollbar, as the rows do", () => 
 test("the last control is pulled out by its own 5px icon inset", () => {
   const { classes, control } = renderControls();
   expect(classes("sidebar-section-controls")).toContain(
-    "[&>[data-icon-inset]:last-child]:-mr-icon-inset",
+    "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-mr-icon-inset",
   );
   expect(control.hasAttribute("data-icon-inset")).toBe(true);
   const own = control.className.split(/\s+/).filter((c) => c.startsWith("[--icon-inset:"));
@@ -175,17 +170,30 @@ test("a control rests in the hint color and turns body color when it is the one 
 });
 
 /**
- * The controls hold their place in the row even while hidden: laid over the
- * row (absolute) they covered a long custom section title's count by 21px,
- * and taken into it only on hover they made the title jump (slock #12251,
- * 2026-10-31). Hidden is opacity and pointer-events only.
+ * The controls are always shown, with a mouse too (stdrc, 2026-11-02): no
+ * opacity or pointer-events switching, and never laid over the row.
  */
-test("the controls keep their place in the row, hidden or shown", () => {
+test("the controls are always shown, in the row", () => {
   const { classes } = renderControls();
   const cls = classes("sidebar-section-controls");
-  expect(cls).toContain("opacity-0");
-  expect(cls).toContain("pointer-fine:group-hover/section-header:opacity-100");
-  for (const name of cls) expect(name).not.toMatch(/(^|:)(absolute|static)$/);
+  for (const name of cls) {
+    expect(name).not.toMatch(/(^|:)(opacity-0|pointer-events-none|absolute)$/);
+  }
+});
+
+/**
+ * An open menu's trigger gets Base UI's focus guards and its portal's hidden
+ * `aria-owns` span beside it, so the plain
+ * :last-child stopped matching the last control and dropped its 5px pull: the
+ * trigger moved left while its menu was open (stdrc, 2026-11-02). The pull
+ * skips the guards.
+ */
+test("the last control keeps its pull while its menu is open", () => {
+  const cls = renderControls().classes("sidebar-section-controls");
+  expect(cls).toContain(
+    "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-mr-icon-inset",
+  );
+  expect(cls.some((name) => name.includes(":last-child]"))).toBe(false);
 });
 
 /**

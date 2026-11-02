@@ -53,7 +53,7 @@ const lightbox = tv({
     actions: [
       "flex shrink-0 items-center",
       "gap-1",
-      "[&>[data-icon-inset]:last-child]:-mr-icon-inset",
+      "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-mr-icon-inset",
     ],
     stage: [
       "pointer-events-none relative flex min-h-0 flex-1 items-center justify-center overflow-hidden",
