@@ -1,3 +1,16 @@
+## [0.57.1](https://github.com/botiverse/raft-design/compare/v0.57.0...v0.57.1) (2026-11-02)
+
+### Fixed
+
+- **SidebarSectionControls**: a section's controls are always shown, with a mouse as on a touch screen. ([#942](https://github.com/botiverse/raft-design/pull/942))
+  - Why: shown only on hover, they hid what the header can do, and a long title's room changed as the pointer passed (stdrc).
+  - Affects: the controls are no longer hidden at rest with a mouse; a collapsed section's attention mark sits before them in the row and hides only while the section is open.
+  - Docs: https://raft-design.botiverse.build/components/sidebar/
+- **Edge pull of a header's first and last control** (sidebar section controls, panel and dialog heads, Lightbox actions): it holds while that control's menu is open. ([#942](https://github.com/botiverse/raft-design/pull/942))
+  - Why: an open menu puts Base UI focus guards and a hidden portal span beside its trigger, so the trigger stopped being the last child, lost its 5px pull and moved left.
+  - Affects: the pull now skips `[data-base-ui-focus-guard]` and `[aria-owns]` siblings.
+  - Docs: https://raft-design.botiverse.build/foundations/alignment/
+
 ## [0.57.0](https://github.com/botiverse/raft-design/compare/v0.56.1...v0.57.0) (2026-11-01)
 
 ### Breaking Changes
