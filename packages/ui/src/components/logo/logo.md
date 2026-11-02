@@ -33,7 +33,7 @@ Where the logo may appear is in [Brand](../../../../../design/foundations/brand.
 - `RaftWordmark`: the letters alone.
 - `RaftLogoLockup`: the mark, then the letters.
 
-Each one is an `svg` that keeps its proportions. Set its height with a class and leave the width `auto`. The exports draw the light-background colors of `raft-logo.svg`: an ink outline with a cream inside. raft-ui has no export of the yellow version for dark backgrounds.
+Each one is an `svg` that keeps its proportions. Set its height with a class and leave the width `auto`. The exports draw the light-background colors of `raft-logo.svg`: an ink outline with a cream inside. In dark mode they switch to the yellow outline of `raft-logo-yellow.svg` on their own, with an ink inside; inside a `.light` island they keep the light artwork.
 
 ## Accessibility
 

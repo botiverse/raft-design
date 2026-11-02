@@ -1,7 +1,7 @@
 ---
 title: RaftLogo
 summary: 以内联 SVG 提供的 Raft 图形标志、文字标志和组合标志，用于登录、创建账户或服务器、加载屏幕这类品牌页面。
-sourceHash: f01d872e
+sourceHash: f43c859d
 ---
 
 # RaftLogo
@@ -29,7 +29,7 @@ logo/logo
 - `RaftWordmark`：只有字母。
 - `RaftLogoLockup`：图形标志，后面跟着字母。
 
-每个都是保持比例的 `svg`。用 class 设置高度，宽度保留 `auto`。这些导出项绘制的是 `raft-logo.svg` 的浅色背景配色：墨色轮廓，里面是奶油色。raft-ui 没有导出用于深色背景的黄色版本。
+每个都是保持比例的 `svg`。用 class 设置高度，宽度保留 `auto`。这些导出项绘制的是 `raft-logo.svg` 的浅色背景配色：墨色轮廓，里面是奶油色。在深色模式下，它们会自己换成 `raft-logo-yellow.svg` 的黄色轮廓，里面是墨色；在 `.light` 区域里仍保持浅色配色。
 
 ## 无障碍 {#accessibility}
 

@@ -236,7 +236,7 @@ export function PixelLoaderComposition() {
                 </div>
               ) : (
                 <div
-                  className="grid size-8 place-items-center"
+                  className="light grid size-8 place-items-center"
                   style={{ backgroundColor: item.background }}
                 >
                   <RaftLogo className="h-5 w-auto" />

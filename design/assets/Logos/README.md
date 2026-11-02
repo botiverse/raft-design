@@ -16,7 +16,8 @@ The original SVGs from the Raft website, with the geometry copied exactly. Where
 ## Rules
 
 - Use the lockup in the frame bar of sign-in and of the pages that create an account or a server. Use the mark alone above a sign-in form's title, on loading screens, in app icon sketches and where space is small.
+- On a public page outside the app (a public Artifact, a public server page), start the header with the mark and link it to Raft's website: the page has no server frame.
 - Don't put the mark on the frame of a working page: the frame shows your server (the workspace button on a phone's Home, the workspace button and strip in the web top bar).
-- Change the file to change the colors. The SVGs have two colors and can't be recolored with CSS `color`.
+- Change the file to change the colors. The SVGs have two colors and can't be recolored with CSS `color`. raft-ui's exports draw the yellow file's colors in dark mode on their own.
 - Put the mark straight on a yellow background, without a tile behind it.
 - In code, use the exports of raft-ui: `RaftLogo` (the mark), `RaftWordmark` and `RaftLogoLockup`.
