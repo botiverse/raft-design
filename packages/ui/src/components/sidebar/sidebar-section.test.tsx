@@ -141,7 +141,7 @@ test("the header's end padding gives back the scrollbar, as the rows do", () => 
 test("the last control is pulled out by its own 5px icon inset", () => {
   const { classes, control } = renderControls();
   expect(classes("sidebar-section-controls")).toContain(
-    "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard]))]:-mr-icon-inset",
+    "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-mr-icon-inset",
   );
   expect(control.hasAttribute("data-icon-inset")).toBe(true);
   const own = control.className.split(/\s+/).filter((c) => c.startsWith("[--icon-inset:"));
@@ -182,7 +182,8 @@ test("the controls are always shown, in the row", () => {
 });
 
 /**
- * An open menu's trigger gets a Base UI focus guard on each side, so the plain
+ * An open menu's trigger gets Base UI's focus guards and its portal's hidden
+ * `aria-owns` span beside it, so the plain
  * :last-child stopped matching the last control and dropped its 5px pull: the
  * trigger moved left while its menu was open (stdrc, 2026-11-02). The pull
  * skips the guards.
@@ -190,7 +191,7 @@ test("the controls are always shown, in the row", () => {
 test("the last control keeps its pull while its menu is open", () => {
   const cls = renderControls().classes("sidebar-section-controls");
   expect(cls).toContain(
-    "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard]))]:-mr-icon-inset",
+    "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-mr-icon-inset",
   );
   expect(cls.some((name) => name.includes(":last-child]"))).toBe(false);
 });

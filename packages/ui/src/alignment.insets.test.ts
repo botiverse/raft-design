@@ -29,8 +29,8 @@ const HEAD_INSETS = [
   "px-(--column-margin)",
   "gap-3",
   "max-md:gap-2",
-  "[&>[data-icon-inset]:nth-child(1_of_:not([data-base-ui-focus-guard]))]:-ml-icon-inset",
-  "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard]))]:-mr-icon-inset",
+  "[&>[data-icon-inset]:nth-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-ml-icon-inset",
+  "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-mr-icon-inset",
 ];
 
 test("panel header: box line 20, gap 12 (md+)", () => {

@@ -56,10 +56,11 @@ export const sidebarSectionRecipe = tv({
       // The ends of a header (design/foundations/alignment.md): the last
       // control's icon box, not its button, ends on the header's line, and its
       // empty 5px hangs outward, mirroring the chevron at the start. "Last"
-      // skips Base UI's focus guards: an open menu's trigger gets one on each
-      // side, and the plain :last-child dropped the pull and moved the trigger
-      // 5px left while its menu was open (stdrc, 2026-11-02).
-      "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard]))]:-mr-icon-inset",
+      // skips what Base UI inserts beside an open menu's trigger, its focus
+      // guards and its portal's hidden `aria-owns` span: with them the plain
+      // :last-child dropped the pull and moved the trigger 5px left while its
+      // menu was open (stdrc, 2026-11-02; measured 305 to 300px).
+      "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-mr-icon-inset",
     ],
     // 24px with a 14px icon, a step above the 12px bold title it sits
     // beside, so the header still reads as a title and not as a row of
