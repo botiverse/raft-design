@@ -196,8 +196,9 @@ export const drawer = tv({
   },
   compoundVariants: [
     {
+      // The grab handle sits above every bottom sheet's header, so the header
+      // starts closer to it, with or without snap points.
       side: "down",
-      snapPoints: true,
       class: {
         header: ["pt-2"],
       },

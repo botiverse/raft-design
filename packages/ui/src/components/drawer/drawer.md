@@ -47,11 +47,15 @@ drawer/compositions/responsive-placement
 
 ## Variants
 
-| Variant                           | Use for                                                                                         |
-| --------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `swipeDirection="right"`          | The drawer: details and settings on desktop, at most 420px wide and the full window height      |
-| `swipeDirection="down"` (default) | The bottom sheet, on a phone                                                                    |
-| `snapPoints`                      | A bottom sheet that opens to a summary and expands to its full height. It shows the grab handle |
+| Variant                           | Use for                                                                                    |
+| --------------------------------- | ------------------------------------------------------------------------------------------ |
+| `swipeDirection="right"`          | The drawer: details and settings on desktop, at most 420px wide and the full window height |
+| `swipeDirection="down"` (default) | The bottom sheet, on a phone                                                               |
+| `snapPoints`                      | A bottom sheet that opens to a summary and expands to its full height                      |
+
+```example
+drawer/compositions/bottom-sheet
+```
 
 ```example
 drawer/compositions/snap-points
@@ -89,5 +93,5 @@ drawer/compositions/nested-close-callback
 - Put the buttons in the footer, never in the header. They are `size="lg"` (44px on a phone, 32px on a desktop): Cancel first, Save last ([Forms](../../../../../design/patterns/forms.md#forms-in-a-dialog)).
 - Split a long form in a drawer into [FormSection](../form-section/form-section.md) parts, the same sections as in the wide dialog, and save them all together with the footer's Save.
 - Under each yes-or-no checkbox in a drawer form, add a line that says what happens when it is unchecked. It is a checkbox, not a switch, because the form is saved ([Forms](../../../../../design/patterns/forms.md#forms-in-a-dialog)).
-- Give every bottom sheet a grab handle at its top edge: a 36 × 4px bar in `line-seam` with round ends, as every platform draws one ([Shape](../../../../../design/foundations/shape.md#principles)).
+- Give every bottom sheet a grab handle at its top edge: a 36 × 4px bar in `line-seam` with round ends, as every platform draws one. `DrawerContent` draws it on every `swipeDirection="down"` sheet, content-sized or with snap points, so don't draw one of your own; before 2026-11-02 it drew it only with snap points, and a content-sized sheet had none (Ferry, onboarding v3) ([Shape](../../../../../design/foundations/shape.md#principles)).
 - In a bottom sheet list, make each row 52px tall, with a 20px icon and the label in `text-body`, medium. Mark the current row with a check mark and bold text.
