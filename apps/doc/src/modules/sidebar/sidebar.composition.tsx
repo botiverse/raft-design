@@ -43,7 +43,6 @@ import {
 
 import {
   SidebarSectionAddButton,
-  SidebarSectionChannelsMenu,
   SidebarSectionHeaderMenu,
   SidebarSectionSortMenu,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
@@ -218,15 +217,8 @@ export function SidebarComposition({ contentState = "populated" }: SidebarCompos
                 <SidebarSectionTrailing>
                   <SidebarSectionAttention />
                   <SidebarSectionControls>
+                    <SidebarSectionSortMenu aria-label="Sort joint channels" />
                     <SidebarSectionAddButton aria-label="Create joint channel" disabled />
-                    <SidebarSectionChannelsMenu
-                      aria-label="Joint channels menu"
-                      count={1}
-                      countLabel="channels"
-                      createLabel="Create Joint Channel"
-                      createIcon="joint"
-                      createDisabled
-                    />
                   </SidebarSectionControls>
                 </SidebarSectionTrailing>
               </SidebarSectionHeaderMenu>
@@ -249,15 +241,8 @@ export function SidebarComposition({ contentState = "populated" }: SidebarCompos
                 </SidebarSectionDisclosure>
                 <SidebarSectionTrailing>
                   <SidebarSectionControls>
+                    <SidebarSectionSortMenu aria-label="Sort channels" />
                     <SidebarSectionAddButton aria-label="Create channel" disabled />
-                    <SidebarSectionChannelsMenu
-                      aria-label="Channels menu"
-                      count={isEmpty ? 0 : 2}
-                      countLabel="channels"
-                      createLabel="Create Channel"
-                      createIcon="channel"
-                      createDisabled
-                    />
                   </SidebarSectionControls>
                 </SidebarSectionTrailing>
               </SidebarSectionHeaderMenu>
