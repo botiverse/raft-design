@@ -32,10 +32,6 @@ export const sidebarSectionRecipe = tv({
     sidebarSectionCount: ["font-mono text-mono-meta font-normal tabular-nums text-foreground-hint"],
     sidebarSectionAttention: [
       "inline-flex min-w-4.5 shrink-0 items-center justify-center",
-      // With a mouse the hidden controls hold the end of the row, so the mark
-      // sits over that end; it hides whenever they show. On a touch screen
-      // both show at rest, side by side.
-      "pointer-fine:absolute pointer-fine:top-1/2 pointer-fine:right-0 pointer-fine:-translate-y-1/2",
       // Two of these used to style descendants off an ancestor's `:has()`.
       // That shape makes Chromium fall back to recalculating the whole page on
       // unrelated mutations (measured on the app: ~55ms per text-node change in
@@ -43,9 +39,10 @@ export const sidebarSectionRecipe = tv({
       // attributes instead: the root carries `data-open` from Base UI
       // Collapsible, and a header that hosts a popup mirrors `data-popup-open`
       // onto itself while it is open.
+      // A collapsed section shows it beside its controls, which are always
+      // shown, so it no longer hides on hover or while a menu is open: that
+      // moved the controls sideways.
       "group-data-open/section:hidden",
-      "group-data-popup-open/section-header:hidden",
-      "group-hover/section-header:hidden",
     ],
     sidebarSectionTrailing: ["relative flex min-w-4.5 shrink-0 items-center justify-end"],
     sidebarSectionControls: [
@@ -53,22 +50,16 @@ export const sidebarSectionRecipe = tv({
       // screen a 20px gap read as two separate buttons (stdrc). Their hit
       // areas meet in the middle of the gap instead (sidebarSectionControl).
       "flex shrink-0 items-center gap-1",
-      // They keep their place in the row even while hidden, so a long title
-      // truncates before them at rest and nothing moves when they show: laid
-      // over the row they covered a long title's count, and taken into it
-      // only on hover they made the title jump (slock #12251, 2026-10-31).
-      "pointer-events-none opacity-0",
-      // Shown at rest where there is no hover (a touch screen, a tablet at any
-      // width), on hover with a mouse: decided by the input, not the width
-      // (design/patterns/responsive.md#touch-screens).
-      "not-pointer-fine:pointer-events-auto not-pointer-fine:opacity-100",
-      "pointer-fine:group-hover/section-header:pointer-events-auto pointer-fine:group-hover/section-header:opacity-100",
-      "pointer-fine:focus-within:pointer-events-auto pointer-fine:focus-within:opacity-100",
-      "pointer-fine:has-data-popup-open:pointer-events-auto pointer-fine:has-data-popup-open:opacity-100",
+      // Always shown, with a mouse too: stdrc asked for their color and size,
+      // and showing them only on hover (2026-10-31) hid what the header can
+      // do and moved the title's room around (stdrc, 2026-11-02).
       // The ends of a header (design/foundations/alignment.md): the last
       // control's icon box, not its button, ends on the header's line, and its
-      // empty 5px hangs outward, mirroring the chevron at the start.
-      "[&>[data-icon-inset]:last-child]:-mr-icon-inset",
+      // empty 5px hangs outward, mirroring the chevron at the start. "Last"
+      // skips Base UI's focus guards: an open menu's trigger gets one on each
+      // side, and the plain :last-child dropped the pull and moved the trigger
+      // 5px left while its menu was open (stdrc, 2026-11-02).
+      "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard]))]:-mr-icon-inset",
     ],
     // 24px with a 14px icon, a step above the 12px bold title it sits
     // beside, so the header still reads as a title and not as a row of

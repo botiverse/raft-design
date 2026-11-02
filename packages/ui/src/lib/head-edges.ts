@@ -20,8 +20,8 @@
 
 /** The pull alone, for a head whose padding is already its margin (a dialog's 20px). */
 export const headEdgePull = [
-  "[&>[data-icon-inset]:first-child]:-ml-icon-inset",
-  "[&>[data-icon-inset]:last-child]:-mr-icon-inset",
+  "[&>[data-icon-inset]:nth-child(1_of_:not([data-base-ui-focus-guard]))]:-ml-icon-inset",
+  "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard]))]:-mr-icon-inset",
 ];
 
 /**
