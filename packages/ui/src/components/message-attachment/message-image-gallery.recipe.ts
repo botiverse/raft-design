@@ -35,9 +35,8 @@ export const messageImageGallery = tv({
   compoundVariants: [
     // Row heights only exist for multi-image rows; a lone image sizes itself
     // through its own reserved box instead (see the single variant below).
-    // The height goes on the grid rows (not the row box), so a row that wraps
-    // into two columns in a narrow gallery keeps per-image heights instead of
-    // squeezing both grid rows into one fixed height. A gallery at its full
+    // The height goes on the grid rows (not the row box), so it is each
+    // image's height whatever the row holds. A gallery at its full
     // 360px takes the taller rows: px, not rem, so it matches the cap above
     // whatever the root font size.
     {
@@ -60,9 +59,9 @@ export const messageImageGallery = tv({
     count: {
       1: { row: "grid-cols-1" },
       2: { row: "grid-cols-2" },
-      // Three images: two across and one under them, at every width (the
-      // look used to reach this by overriding a three-across md: row).
-      3: { row: "grid-cols-2" },
+      // Three images sit three across, at every width: two over one turned a
+      // row into an F, and six images into 2, 1, 2, 1 (xxchan, 2026-11-02).
+      3: { row: "grid-cols-3" },
     },
     /** A single-image gallery keeps the image's proportions instead of a row height. */
     single: {

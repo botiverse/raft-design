@@ -124,4 +124,4 @@ message-media/compositions/video-states
 ## 规则 {#rules}
 
 - 文件卡片最宽 360px。
-- 图片最宽 360px 显示，使用 `radius-container` 和 `line-hairline` 边框，并且从不比栏宽：图库和视频的宽度是栏的 `min(360px, 100%)`，而不是窗口减去对外框的估计。图库的行高按图库自身的宽度定：不到满宽 360px 时 8rem（三张图时 7rem），满宽时 9rem（8rem），所以对话旁的 thread 和手机排得一样（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）。把它放进宽度确定的父元素里（块级元素、被拉伸的 flex 或 grid 子项，或设了宽度的元素），不要放进按内容收缩的父元素（`inline-block`、`w-fit`、没设宽度的绝对定位框或浮层、`flex-basis: auto` 又没设宽度的 flex 子项）：它是自己的容器，不从内容取宽度，在那里会缩成零宽。
+- 图片最宽 360px 显示，使用 `radius-container` 和 `line-hairline` 边框，并且从不比栏宽：图库和视频的宽度是栏的 `min(360px, 100%)`，而不是窗口减去对外框的估计。图库的行高按图库自身的宽度定：不到满宽 360px 时 8rem（三张图时 7rem），满宽时 9rem（8rem），所以对话旁的 thread 和手机排得一样（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）。三张图的一行在任何宽度下都三张并排，不排成上二下一：上二下一会把六张图排成 2、1、2、1，看起来像个 F，而不是一组图。把它放进宽度确定的父元素里（块级元素、被拉伸的 flex 或 grid 子项，或设了宽度的元素），不要放进按内容收缩的父元素（`inline-block`、`w-fit`、没设宽度的绝对定位框或浮层、`flex-basis: auto` 又没设宽度的 flex 子项）：它是自己的容器，不从内容取宽度，在那里会缩成零宽。
