@@ -2,41 +2,33 @@ import {
   MessageImageGallery,
   MessageImageGalleryItem,
   MessageImageGalleryMedia,
+  MessageImageGalleryRow,
+  buildMessageImageGalleryRows,
 } from "@botiverse/raft-ui";
 import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
+// Three ordinary images make one row, three across, on the row's own grid.
+const IMAGES = [
+  { alt: "release poster first crop", width: 320, height: 240 },
+  { alt: "release poster second crop", width: 320, height: 240 },
+  { alt: "release poster third crop", width: 320, height: 240 },
+];
+
 export function MessageImageGalleryTripleComposition() {
+  const rows = buildMessageImageGalleryRows(IMAGES);
   return (
     <MessageImageGallery>
-      <div className="grid grid-cols-2 gap-2">
-        <MessageImageGalleryItem className="h-[112px] @min-[22.5rem]/gallery:h-[128px]">
-          <MessageImageGalleryMedia>
-            <img
-              src={MESSAGE_FIXTURE_IMAGE_SRC}
-              alt="release poster first crop"
-              className="block size-full  object-cover"
-            />
-          </MessageImageGalleryMedia>
-        </MessageImageGalleryItem>
-        <MessageImageGalleryItem className="h-[112px] @min-[22.5rem]/gallery:h-[128px]">
-          <MessageImageGalleryMedia>
-            <img
-              src={MESSAGE_FIXTURE_IMAGE_SRC}
-              alt="release poster second crop"
-              className="block size-full  object-cover"
-            />
-          </MessageImageGalleryMedia>
-        </MessageImageGalleryItem>
-        <MessageImageGalleryItem className="h-[112px] @min-[22.5rem]/gallery:h-[128px]">
-          <MessageImageGalleryMedia>
-            <img
-              src={MESSAGE_FIXTURE_IMAGE_SRC}
-              alt="release poster third crop"
-              className="block size-full  object-cover"
-            />
-          </MessageImageGalleryMedia>
-        </MessageImageGalleryItem>
-      </div>
+      {rows.map((row, rowIndex) => (
+        <MessageImageGalleryRow key={rowIndex} row={row}>
+          {row.items.map((item) => (
+            <MessageImageGalleryItem key={item.index} layout={item}>
+              <MessageImageGalleryMedia>
+                <img src={MESSAGE_FIXTURE_IMAGE_SRC} alt={IMAGES[item.index].alt} />
+              </MessageImageGalleryMedia>
+            </MessageImageGalleryItem>
+          ))}
+        </MessageImageGalleryRow>
+      ))}
     </MessageImageGallery>
   );
 }
