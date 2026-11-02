@@ -1,11 +1,11 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  // Must match the Cloudflare service this deploys to. The service is "rui"
-  // (raft-design.botiverse.build; the old rui.botiverse.build domain is
-  // retired). "raft-design-system" is the superseded worker, whose old
-  // *.workers.dev URL still serves a stale build. Wrangler validates this
-  // against the connected service, and the dashboard flags the mismatch.
-  "name": "rui",
+  // Must match the Cloudflare Worker this deploys to: "raft-design", which
+  // serves raft-design.botiverse.build and is the Worker Workers Builds is
+  // connected to (its check is "Workers Builds: raft-design"). The Worker was
+  // renamed from "rui" on 2026-10-26; the old rui.botiverse.build domain is
+  // gone. Wrangler refuses a deploy whose name differs from the connected Worker.
+  "name": "raft-design",
   "compatibility_date": "2026-06-05",
   "compatibility_flags": ["nodejs_compat"],
   "main": "@tanstack/react-start/server-entry",
