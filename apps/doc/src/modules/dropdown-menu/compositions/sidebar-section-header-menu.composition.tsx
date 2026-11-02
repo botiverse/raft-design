@@ -1,12 +1,4 @@
-import {
-  ArrowDownAZ,
-  ArrowDownUp,
-  Clock,
-  EllipsisVertical,
-  GitBranch,
-  GripVertical,
-  Plus,
-} from "lucide-react";
+import { ArrowDownAZ, ArrowDownUp, Clock, GitBranch, GripVertical, Plus } from "lucide-react";
 import { createContext, useCallback, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import {
@@ -22,12 +14,10 @@ import {
   ContextMenuTrigger,
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuFooter,
   DropdownMenuItem,
   DropdownMenuItemLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
   SidebarControl,
   SidebarSectionHeader,
@@ -143,48 +133,6 @@ export function SidebarSectionSortContextContent(props: SidebarSortItemsProps = 
     <ContextMenuContent className={SORT_MENU_CLASS}>
       <SidebarContextSortItems {...props} />
     </ContextMenuContent>
-  );
-}
-
-export function SidebarSectionChannelsDropdownContent({
-  count,
-  countLabel = "channels",
-  createLabel = "Create Channel",
-  createIcon = "channel",
-  createDisabled = false,
-  onCreate,
-  sortValue,
-  onSortValueChange,
-}: {
-  count: number;
-  countLabel?: string;
-  createLabel?: string;
-  createIcon?: "channel" | "joint";
-  createDisabled?: boolean;
-  onCreate?: () => void;
-  sortValue?: SidebarSortValue;
-  onSortValueChange?: (value: SidebarSortValue) => void;
-}) {
-  const CreateIcon = createIcon === "joint" ? GitBranch : Plus;
-  return (
-    <DropdownMenuContent align="end" className={CHANNELS_MENU_CLASS}>
-      <DropdownMenuItem disabled={createDisabled} onClick={createDisabled ? undefined : onCreate}>
-        <CreateIcon />
-        <DropdownMenuItemLabel>{createLabel}</DropdownMenuItemLabel>
-      </DropdownMenuItem>
-      {createIcon === "channel" ? (
-        <DropdownMenuItem disabled={createDisabled}>
-          <GitBranch />
-          <DropdownMenuItemLabel>Create Joint Channel</DropdownMenuItemLabel>
-        </DropdownMenuItem>
-      ) : null}
-      <DropdownMenuSeparator />
-      <SidebarDropdownSortItems value={sortValue} onValueChange={onSortValueChange} />
-      <DropdownMenuSeparator />
-      <DropdownMenuFooter>
-        <ChannelsMenuFooterText count={count} label={countLabel} />
-      </DropdownMenuFooter>
-    </DropdownMenuContent>
   );
 }
 
@@ -329,52 +277,6 @@ export function SidebarSectionAddButton({
     >
       <Plus />
     </SidebarControl>
-  );
-}
-
-/** Channels / Joint section menu: create + sort + count footer. */
-export function SidebarSectionChannelsMenu({
-  "aria-label": ariaLabel = "Section menu",
-  count,
-  countLabel,
-  createLabel,
-  createIcon,
-  createDisabled = false,
-  onCreate,
-  sortValue,
-  onSortValueChange,
-}: {
-  "aria-label"?: string;
-  count: number;
-  countLabel?: string;
-  createLabel?: string;
-  createIcon?: "channel" | "joint";
-  createDisabled?: boolean;
-  onCreate?: () => void;
-  sortValue?: SidebarSortValue;
-  onSortValueChange?: (value: SidebarSortValue) => void;
-}) {
-  const reportPopupOpen = useContext(SectionPopupOpenContext);
-  return (
-    <DropdownMenu onOpenChange={reportPopupOpen ?? undefined}>
-      <DropdownMenuTrigger
-        render={
-          <SidebarControl type="button" aria-label={ariaLabel}>
-            <EllipsisVertical />
-          </SidebarControl>
-        }
-      />
-      <SidebarSectionChannelsDropdownContent
-        count={count}
-        countLabel={countLabel}
-        createLabel={createLabel}
-        createIcon={createIcon}
-        createDisabled={createDisabled}
-        onCreate={onCreate}
-        sortValue={sortValue}
-        onSortValueChange={onSortValueChange}
-      />
-    </DropdownMenu>
   );
 }
 
