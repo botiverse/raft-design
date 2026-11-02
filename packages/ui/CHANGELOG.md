@@ -1,3 +1,12 @@
+## [0.57.2](https://github.com/botiverse/raft-design/compare/v0.57.1...v0.57.2) (2026-11-02)
+
+### Fixed
+
+- **DrawerContent**: every bottom sheet (`swipeDirection="down"`, the default) draws the grab handle, not only one with `snapPoints`. ([#944](https://github.com/botiverse/raft-design/pull/944))
+  - Why: the rule is a grab handle on every bottom sheet; a content-sized sheet had none.
+  - Affects: content-sized bottom sheets gain the handle and are 8px taller (the header's `pt-2` under the handle); drawers from other edges without snap points are unchanged. The handle stays `aria-hidden`.
+  - Docs: https://raft-design.botiverse.build/components/drawer/
+
 ## [0.57.1](https://github.com/botiverse/raft-design/compare/v0.57.0...v0.57.1) (2026-11-02)
 
 ### Fixed
