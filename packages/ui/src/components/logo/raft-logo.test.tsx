@@ -8,7 +8,7 @@ import { RaftLogo, RaftLogoLockup, RaftWordmark } from "./raft-logo";
 
 afterEach(cleanup);
 
-const YELLOW = "dark:fill-[oklch(0.8829_0.1623_91.9)]";
+const WHITE = "dark:fill-[oklch(1_0_0)]";
 const INK = "dark:fill-[oklch(0.1813_0.005_17.62)]";
 
 const paths = (ui: ReactElement) =>
@@ -17,12 +17,12 @@ const paths = (ui: ReactElement) =>
     className: path.getAttribute("class"),
   }));
 
-test("in dark mode the ink outline turns yellow and the cream inside turns ink", () => {
+test("in dark mode the ink outline turns white and the cream inside turns ink", () => {
   for (const Artwork of [RaftLogo, RaftWordmark, RaftLogoLockup]) {
     const drawn = paths(<Artwork />);
     expect(drawn.length).toBeGreaterThan(0);
     for (const { fill, className } of drawn) {
-      expect(className).toBe(fill === "#141111" ? YELLOW : INK);
+      expect(className).toBe(fill === "#141111" ? WHITE : INK);
     }
     cleanup();
   }

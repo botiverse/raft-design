@@ -41,7 +41,7 @@ The further down the table, the closer to the website. Nothing from the last thr
 
 The files are in [`design/assets/Logos`](../assets/Logos/). raft-ui exports the mark as `RaftLogo`, the wordmark as `RaftWordmark` and the two together as `RaftLogoLockup`.
 
-- Use the ink outline on light backgrounds and the yellow outline on dark ones. The logo is two-color artwork: change the file, not its CSS `color`. raft-ui's exports switch to the yellow outline in dark mode on their own.
+- Use the ink outline on light backgrounds and the white outline on dark ones. The logo is two-color artwork: change the file, not its CSS `color`. raft-ui's exports switch to the white outline in dark mode on their own. The yellow outline is the website footer's version, not the product's.
 - Put the mark straight on a yellow background, without a tile behind it.
 - Show the logo only on brand pages (sign-in, sign-up, the pages that create an account or a server, and loading screens) and on public pages outside the app, such as a public Artifact or a public server page. A public page has no server frame, so the mark starts its header and links to Raft's website for a visitor.
 - Don't put the mark on the frame of a working page.

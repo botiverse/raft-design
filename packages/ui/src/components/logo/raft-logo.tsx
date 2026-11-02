@@ -31,11 +31,11 @@ export function RaftLogoLockup(props: RaftLogoLockupProps) {
   );
 }
 
-/* The dark-background artwork (design/assets/Logos/raft-*-yellow.svg): the
-   same paths, the ink outline turns Raft yellow (#FFD440) and the cream inside
-   turns ink (#141111). Fixed brand colours, not theme tokens, so a theme that
-   grays the brand still draws the yellow mark. */
-const OUTLINE_DARK = "dark:fill-[oklch(0.8829_0.1623_91.9)]";
+/* The dark-mode artwork (design/assets/Logos/raft-*-white.svg): the same
+   paths, the ink outline turns white (#FFFFFF) and the cream inside turns ink
+   (#141111). Fixed colours, not theme tokens. The yellow files are the
+   website footer's version, not the product's. */
+const OUTLINE_DARK = "dark:fill-[oklch(1_0_0)]";
 const INNER_DARK = "dark:fill-[oklch(0.1813_0.005_17.62)]";
 
 function RaftMarkArtwork() {
