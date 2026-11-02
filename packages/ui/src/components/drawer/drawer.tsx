@@ -122,7 +122,10 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
         className={cn(viewport(), modal === true && "pointer-events-auto")}
       >
         <DrawerPrimitive.Popup data-slot="drawer-popup" className={popup({ className })} {...props}>
-          {hasSnapPoints ? <DrawerSwipeHandle /> : null}
+          {/* Every bottom sheet has a grab handle (Rules), not only one with
+              snap points: a content-sized sheet keeps its height and draws
+              the handle above its header. Other edges show it with snap points. */}
+          {hasSnapPoints || swipeDirection === "down" ? <DrawerSwipeHandle /> : null}
           <DrawerPrimitive.Content data-slot="drawer-content" className={content()}>
             <DialogSheetReset>{children}</DialogSheetReset>
           </DrawerPrimitive.Content>
