@@ -9,7 +9,7 @@ import { localizePath } from "#/lib/i18n/locales.ts";
 import { useLocale } from "#/lib/i18n/use-locale.ts";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import type { MarkdownProps } from "#/lib/markdown/markdown.tsx";
-import { MarkdownCodeFence } from "#/lib/markdown/markdown-code-fence.tsx";
+import { DocCodeFence } from "#/lib/markdown/markdown-code-fence.tsx";
 
 import { ExampleBlock } from "./example-block.tsx";
 import { TokensBlock } from "./tokens-block.tsx";
@@ -91,7 +91,7 @@ export function DocMarkdownLink({ href = "", ...props }: ComponentProps<"a">) {
 }
 
 // `Components["pre"]` also admits an intrinsic tag name; this one is a function.
-const CodeFence = MarkdownCodeFence as ComponentType<ComponentProps<"pre">>;
+const CodeFence = DocCodeFence as ComponentType<ComponentProps<"pre">>;
 
 const components: MarkdownProps["components"] = {
   a: ({ node: _node, ...props }) => <DocMarkdownLink {...props} />,

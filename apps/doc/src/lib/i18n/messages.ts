@@ -43,6 +43,7 @@ const en = {
   viewSource: "View Source",
   copyCode: "Copy code",
   copiedCode: "Copied code",
+  dontWrapLines: "Don't Wrap Lines",
   codeLabel: (language: string | null | undefined) => (language ? `${language} code` : "Code"),
   englishTitle: (title: string) => `In English: ${title}`,
 
@@ -195,6 +196,7 @@ const zh: Messages = {
   viewSource: "查看源文件",
   copyCode: "复制代码",
   copiedCode: "已复制代码",
+  dontWrapLines: "不自动换行",
   codeLabel: (language) => (language ? `${language} 代码` : "代码"),
   englishTitle: (title) => `英文：${title}`,
 

@@ -6,6 +6,7 @@ export {
   CodeBlockHeader,
   CodeBlockPre,
   CodeBlockTitle,
+  CodeBlockWrapToggle,
 } from "./code-block";
 export type {
   CodeBlockActionProps,
@@ -15,4 +16,5 @@ export type {
   CodeBlockPreProps,
   CodeBlockProps,
   CodeBlockTitleProps,
+  CodeBlockWrapToggleProps,
 } from "./code-block";

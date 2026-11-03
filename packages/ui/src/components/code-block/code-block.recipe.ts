@@ -43,5 +43,17 @@ export const codeBlock = tv({
       "focus-visible:ring-0 focus-visible:shadow-focus",
       "[&_svg:not([class*='size-'])]:size-4.5",
     ],
+    wrapToggle: [
+      "inline-flex shrink-0 items-center justify-center",
+      "transition-[color,background-color,opacity]",
+      "focus-visible:outline-none",
+      "size-8 rounded-chip border-[1.5px] border-transparent text-foreground",
+      "hover:bg-fill-medium active:bg-fill-medium",
+      "data-pressed:border-sticker-ink data-pressed:bg-selected data-pressed:text-sticker-ink data-pressed:ring-[1.5px] data-pressed:ring-sticker-edge",
+      "data-pressed:hover:bg-selected data-pressed:active:bg-selected data-pressed:active:overlay-sticker-medium",
+      "focus-visible:shadow-focus",
+      "[&_svg:not([class*='size-'])]:size-4.5",
+    ],
+    preWrap: ["whitespace-pre-wrap wrap-anywhere"],
   },
 });

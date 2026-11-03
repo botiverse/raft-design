@@ -74,5 +74,5 @@ Each part renders the element of the same name.
 
 - Escape or sanitize HTML in the source before rendering: Markdown people write must not inject markup.
 - Wrap every `MarkdownTable` in `MarkdownTableScroll`, so a wide table scrolls instead of overflowing the message.
-- Render fenced code as a [CodeBlock](../code-block/code-block.md), not as a styled `pre`.
+- Render fenced code as a [CodeBlock](../code-block/code-block.md), not as a styled `pre`. In a message, give it `defaultWrap` and a `CodeBlockWrapToggle` before Copy: a chat column is narrow, and scrolling sideways hides the end of a command or a log line ([CodeBlock](../code-block/code-block.md#behavior)).
 - Mark a search hit with `MarkdownMark`, not with bold or a color of your own: a hit looks the same in message text, Markdown and search results ([Color](../../../../../design/foundations/color.md#meanings-of-color)).
