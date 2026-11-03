@@ -317,14 +317,14 @@
         "name": "wrapperClassName",
         "type": "string",
         "required": false,
-        "description": "Class of the wrapper that holds the textarea and its scrollbar.",
+        "description": "Class of the root that holds the textarea and its scrollbar.",
         "from": "raft-ui"
       },
       {
         "name": "wrapperStyle",
         "type": "CSSProperties",
         "required": false,
-        "description": "Style of the wrapper; size the textarea itself with `className` / `style`.",
+        "description": "Style of the root; size the textarea itself with `className` / `style`.",
         "from": "raft-ui"
       }
     ]

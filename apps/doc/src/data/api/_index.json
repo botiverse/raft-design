@@ -1046,10 +1046,11 @@
   "scroll-area": {
     "names": [
       "ScrollArea",
+      "ScrollAreaContent",
       "ScrollAreaTextarea"
     ],
     "status": "stable",
-    "description": "A scrolling box with thin overlay scrollbars that look the same on every platform and theme. Scrolling itself stays native (wheel, touch, keyboard); the scrollbars can also be dragged, and a press on the rail pages. The element is the scroll container, so `ref` and `onScroll` work on it directly; `actionsRef` adds `scrollToElement`."
+    "description": "A scrolling box with thin overlay scrollbars that look the same on every platform and theme. Scrolling itself stays native (wheel, touch, keyboard); the scrollbars can also be dragged, and a press on a gutter pages."
   },
   "search": {
     "names": [

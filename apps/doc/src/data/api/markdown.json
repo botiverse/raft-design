@@ -249,28 +249,49 @@
         "name": "actionsRef",
         "type": "((instance: ScrollAreaActions | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<ScrollAreaActions | null>",
         "required": false,
-        "description": "Methods to scroll from code that the scroll element doesn't have natively.",
+        "description": "Methods to scroll from code that the container doesn't have natively.",
         "from": "raft-ui"
       },
       {
         "name": "children",
         "type": "ReactNode",
         "required": false,
-        "description": "The scrolling content.",
+        "description": "The scrolling content, in ScrollArea's own container. Not read with `renderContainer`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "containerClassName",
+        "type": "string",
+        "required": false,
+        "description": "Class of ScrollArea's own container; with `sticky` the same element as the root.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "containerStyle",
+        "type": "CSSProperties",
+        "required": false,
+        "description": "Style of ScrollArea's own container.",
         "from": "raft-ui"
       },
       {
         "name": "contentClassName",
         "type": "string",
         "required": false,
-        "description": "Class of the element that wraps `children`. Put padding here, not on the scroll area.",
+        "description": "Class of a content element around `children`, inside the container: put padding here, so the scrollbars stay at the edges. Only with it, `contentStyle` or `fade` (sticky) is there one.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "contentRef",
+        "type": "RefObject<HTMLElement | null>",
+        "required": false,
+        "description": "An element whose size is the content's, watched for size changes (such as a hidden mirror of a textarea's text). Without it each element child of the container is watched, and children added or removed.",
         "from": "raft-ui"
       },
       {
         "name": "contentStyle",
         "type": "CSSProperties",
         "required": false,
-        "description": "Style of the element that wraps `children`.",
+        "description": "Style of the content element; renders it, as `contentClassName` does.",
         "from": "raft-ui"
       },
       {
@@ -278,6 +299,13 @@
         "type": "boolean",
         "required": false,
         "description": "Fade the content out toward an edge that has more past it. The scrollbars don't fade.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "guttersPosition",
+        "type": "ScrollAreaGuttersPosition",
+        "required": false,
+        "description": "Where the gutters go: inside the container (`sticky`, the default) or beside it in a frame (`absolute`).",
         "from": "raft-ui"
       },
       {
@@ -295,17 +323,38 @@
         "from": "raft-ui"
       },
       {
+        "name": "onScroll",
+        "type": "UIEventHandler<HTMLDivElement>",
+        "required": false,
+        "description": "The container's scroll events.",
+        "from": "raft-ui"
+      },
+      {
         "name": "overscroll",
         "type": "ScrollAreaOverscroll",
         "required": false,
-        "description": "What a scroll that reaches the end does: stop there with no bounce (`none`, the default), stop there but let Mac trackpads and iOS bounce the area (`contain`), or carry on to the page behind (`auto`). Only in the directions the area overflows right now.",
+        "description": "What a scroll that reaches the end does: stop there with no bounce (`none`, the default), stop there but let Mac trackpads and iOS bounce the area (`contain`), or carry on to the page behind (`auto`, which leaves the container's own `overscroll-behavior` alone). Only in the directions the area overflows right now.",
         "from": "raft-ui"
       },
       {
         "name": "railInset",
         "type": "ScrollAreaRailInset",
         "required": false,
-        "description": "Room in px the scrollbars keep clear at each end, such as a sticky header's height, so they don't run over it. Also settable in CSS, on the area itself: `--r-scroll-area-rail-inset-{top,bottom,left,right}`, which don't inherit.",
+        "description": "Room in px the scrollbars keep clear at each end, such as a sticky header's height, so they don't run over it. Also settable in CSS, on the root: `--r-scroll-area-rail-inset-{top,bottom,left,right}`, which don't inherit.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "renderContainer",
+        "type": "(container: ScrollAreaRenderContainerBinding) => ReactNode",
+        "required": false,
+        "description": "Renders the container yourself, in place of ScrollArea's `<div>`: a `<textarea>`, a list, another component's own scroller (VirtualList's `domRef`). Put the binding on the element that scrolls and `<ScrollAreaGutters />` where `guttersPosition` says: as its first child (`sticky`) or right after it (`absolute`, inside the frame ScrollArea renders around what this returns). ScrollArea listens to the container's scroll itself. The demo's `useContainer`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "rootRef",
+        "type": "((instance: HTMLDivElement | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<HTMLDivElement | null>",
+        "required": false,
+        "description": "The root: the container itself (`sticky`) or the frame (`absolute`).",
         "from": "raft-ui"
       },
       {
@@ -313,6 +362,13 @@
         "type": "ScrollAreaSize",
         "required": false,
         "description": "Thumb thickness: `small` is 5px, `medium` 7px; both grow while pointed at or dragged.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "tabIndex",
+        "type": "number",
+        "required": false,
+        "description": "The container's: by default `0` while there is something to scroll.",
         "from": "raft-ui"
       },
       {

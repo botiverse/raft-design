@@ -75,8 +75,10 @@ test("is a ScrollAreaTextarea: the textarea keeps the ref and props, a frame hol
   expect(frame.classList).toContain("frame");
   // It doesn't resize, so the scrollbar keeps no room for a grip.
   expect(frame.classList).toContain("[--r-scroll-area-resize-grip-size:0px]");
-  expect(frame.querySelector(":scope > .r-scroll-area__rails")?.getAttribute("aria-hidden")).toBe(
-    "true",
-  );
+  // Absolute gutters: the textarea is the container, the gutters lie beside it in the frame.
+  expect(frame.classList).toContain("r-scroll-area--absolute-gutters");
+  expect(input.classList).toContain("r-scroll-area__container");
+  expect(input.nextElementSibling?.className).toBe("r-scroll-area__gutters");
+  expect(input.nextElementSibling?.getAttribute("aria-hidden")).toBe("true");
   expect(frame.parentElement?.dataset.slot).toBe("composer");
 });

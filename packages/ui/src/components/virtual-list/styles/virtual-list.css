@@ -12,10 +12,6 @@
  * In the `components` layer, so a utility in the consumer's `className` (`h-*`, `max-h-*`, `overflow-*`)
  * overrides these rules.
  *
- * With `scrollbar`, `useScrollAreaRails` adds ScrollArea's block classes (`r-scroll-area
- * r-scroll-area--external ...`, scroll-area.css) and its rails layer as the first child; they leave
- * the list's overflow, focus and overscroll alone.
- *
  * CSS variable the list writes as an inline style, for sticky children to read:
  *   --virtual-list-width   on `.r-virtual-list`: the list's offsetWidth
  * The rows' element carries no CSS variable: custom properties inherit, so one written there on every

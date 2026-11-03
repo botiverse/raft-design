@@ -1232,17 +1232,27 @@ export { Status } from "./components/status/index";
 export type { StatusProps } from "./components/status/index";
 export type { Presence } from "./lib/presence";
 
-export { ScrollArea, ScrollAreaTextarea, useScrollAreaRails } from "./components/scroll-area/index";
+export {
+  ScrollArea,
+  ScrollAreaContent,
+  ScrollAreaGutters,
+  ScrollAreaTextarea,
+  scrollAreaContainerClassName,
+  useScrollAreaContainer,
+} from "./components/scroll-area/index";
 export type {
   ScrollAreaActions,
+  ScrollAreaContainerBinding,
+  ScrollAreaContentProps,
   ScrollAreaEdges,
+  ScrollAreaGuttersPosition,
+  ScrollAreaOptions,
   ScrollAreaOrientation,
   ScrollAreaOverscroll,
   ScrollAreaOwnProps,
   ScrollAreaProps,
   ScrollAreaRailInset,
-  ScrollAreaRailsOptions,
-  ScrollAreaRailsResult,
+  ScrollAreaRenderContainerBinding,
   ScrollAreaScrollToElementOptions,
   ScrollAreaSize,
   ScrollAreaTextareaOwnProps,

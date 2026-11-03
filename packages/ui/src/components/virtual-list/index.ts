@@ -14,5 +14,4 @@ export type {
   VirtualListApi,
   VirtualListProps,
   VirtualListScrollToOptions,
-  VirtualListScrollbarOptions,
 } from "./public-types";

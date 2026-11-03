@@ -33,5 +33,7 @@ test("a wide table scrolls sideways in a horizontal ScrollArea that keeps its ow
   expect(scroll.classList).not.toContain("overflow-x-auto");
   // Only the horizontal axis can hold back a scroll, so the page still scrolls down past the table.
   expect(scroll.className).not.toMatch(/overscroll-y/);
-  expect(scroll.querySelector(":scope > .r-scroll-area__content > table")).not.toBeNull();
+  // Sticky gutters: their layer is the scroller's first child, the table the scroller's own child after it.
+  expect(scroll.classList).toContain("r-scroll-area--sticky-gutters");
+  expect(scroll.querySelector(":scope > .r-scroll-area__gutters + table")).not.toBeNull();
 });

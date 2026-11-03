@@ -9,12 +9,14 @@
 /* oxlint-disable react-perf/jsx-no-new-function-as-prop, react-perf/jsx-no-new-object-as-prop --
    each scene renders once; a row's style is new whenever it renders, which is what is counted. */
 import { useState } from "react";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, expect, test } from "vite-plus/test";
 
 import { VirtualList } from "../index";
 import type { VirtualListApi, VirtualListItemRenderProps } from "../index";
+import { ScrollArea, ScrollAreaGutters } from "../../scroll-area/index";
+import type { ScrollAreaRenderContainerBinding } from "../../scroll-area/index";
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -76,44 +78,59 @@ afterEach(() => {
   mounts = new Map();
 });
 
-// With `scrollbar` too: the overlay scrollbar re-renders the list when scrolling starts and stops, which
-// must not render the rows again.
+/** The list under ScrollArea, sticky gutters in its header, as a consumer composes it: the list's scroller is the container. */
+function WithScrollbar({
+  children,
+}: {
+  children: (container: ScrollAreaRenderContainerBinding) => ReactNode;
+}) {
+  return <ScrollArea renderContainer={children} overscroll="auto" />;
+}
+
+// With ScrollArea's sticky gutters too (in the list's header): the overlay scrollbar re-renders when a
+// gutter comes or goes, and writes its classes on the list while it scrolls, which must not render the rows again.
 it.each([false, true])(
   "scrolling end to end and back moves the rows' offset in batches, mounts and renders each row once a pass (scrollbar: %s)",
   async (scrollbar) => {
     let transformChanges = 0;
     const api: { current: VirtualListApi | null } = { current: null };
+    const list = (container?: ScrollAreaRenderContainerBinding) => (
+      <VirtualList
+        componentRef={api}
+        domRef={container?.ref}
+        className={container?.className}
+        style={container?.style}
+        header={container ? <ScrollAreaGutters /> : undefined}
+        items={ROWS}
+        getKey={getKey}
+        itemResizable
+        itemEstimatedSize={72}
+        itemMinSize={20}
+        onTransformChange={() => {
+          transformChanges += 1;
+        }}
+      >
+        {({ item, domRef: rowRef, style }: VirtualListItemRenderProps<Row>) => (
+          <CountedRow key={item.key} item={item} domRef={rowRef} style={style} />
+        )}
+      </VirtualList>
+    );
     render(
       <div style={FRAME_STYLE}>
-        <VirtualList
-          componentRef={api}
-          items={ROWS}
-          getKey={getKey}
-          itemResizable
-          itemEstimatedSize={72}
-          itemMinSize={20}
-          scrollbar={scrollbar}
-          onTransformChange={() => {
-            transformChanges += 1;
-          }}
-        >
-          {({ item, domRef, style }: VirtualListItemRenderProps<Row>) => (
-            <CountedRow key={item.key} item={item} domRef={domRef} style={style} />
-          )}
-        </VirtualList>
+        {scrollbar ? <WithScrollbar>{(container) => list(container)}</WithScrollbar> : list()}
       </div>,
     );
     await nextFrame();
     await nextFrame();
-    const list = api.current!.listElRef.current!;
+    const listEl = api.current!.listElRef.current!;
     // The rows' height in viewports, the same as a plain list's (300 rows, 43,836px).
-    const viewports = ROWS.reduce((sum, row) => sum + row.height, 0) / list.clientHeight;
+    const viewports = ROWS.reduce((sum, row) => sum + row.height, 0) / listEl.clientHeight;
 
     for (const step of [STEP, -STEP]) {
       transformChanges = 0;
       renders = new Map();
       mounts = new Map();
-      await scrollThrough(list, step);
+      await scrollThrough(listEl, step);
       // Without batches it changes whenever a row crosses the view's top: 300 times a pass (about four
       // times a viewport here).
       expect(transformChanges).toBeLessThanOrEqual(viewports);

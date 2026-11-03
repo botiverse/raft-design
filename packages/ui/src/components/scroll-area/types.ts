@@ -4,7 +4,7 @@ import type {
   ReactNode,
   Ref,
   RefObject,
-  UIEvent,
+  UIEventHandler,
 } from "react";
 
 /**
@@ -54,19 +54,16 @@ export type ScrollAreaScrollToElementOptions = {
 
 /** Methods on `actionsRef`. */
 export type ScrollAreaActions = {
-  /** Scrolls the area, and only the area (never the page), so that `element` inside it is in view. */
+  /** Scrolls the container, and only the container (never the page), so that `element` inside it is in view. */
   scrollToElement: (element: Element, options?: ScrollAreaScrollToElementOptions) => void;
+  /** Measures the container again now, for a size change nothing observed reports. */
+  measure: () => void;
 };
 
-export type ScrollAreaOwnProps = {
-  /** Methods to scroll from code that the scroll element doesn't have natively. */
+/** What every ScrollArea part shares: how the scrollbars look and behave. Set on `ScrollAreaRoot` (or `ScrollArea`). */
+export type ScrollAreaOptions = {
+  /** Methods to scroll from code that the container doesn't have natively. */
   actionsRef?: Ref<ScrollAreaActions>;
-  /** The scrolling content. */
-  children?: ReactNode;
-  /** Class of the element that wraps `children`. Put padding here, not on the scroll area. */
-  contentClassName?: string;
-  /** Style of the element that wraps `children`. */
-  contentStyle?: CSSProperties;
   /** Fade the content out toward an edge that has more past it. The scrollbars don't fade. */
   fade?: boolean;
   /** How long the scrollbars stay after scrolling stops, in ms. At least 100 with `trigger="scroll"`. */
@@ -76,12 +73,13 @@ export type ScrollAreaOwnProps = {
   /**
    * What a scroll that reaches the end does: stop there with no bounce (`none`, the default), stop
    * there but let Mac trackpads and iOS bounce the area (`contain`), or carry on to the page behind
-   * (`auto`). Only in the directions the area overflows right now.
+   * (`auto`, which leaves the container's own `overscroll-behavior` alone). Only in the directions
+   * the area overflows right now.
    */
   overscroll?: ScrollAreaOverscroll;
   /**
    * Room in px the scrollbars keep clear at each end, such as a sticky header's height, so
-   * they don't run over it. Also settable in CSS, on the area itself:
+   * they don't run over it. Also settable in CSS, on the root:
    * `--r-scroll-area-rail-inset-{top,bottom,left,right}`, which don't inherit.
    */
   railInset?: ScrollAreaRailInset;
@@ -94,11 +92,94 @@ export type ScrollAreaOwnProps = {
 };
 
 /**
- * The scroll area is the scrolling element itself, so `ref` points at it:
- * call `scrollTo` / `scrollBy` on it, and `onScroll` receives its events.
+ * Where the gutters (the scrollbars) go. `sticky`: inside the container, as its first child, a
+ * zero-height layer stuck to the top of the viewport; the container is the root, with no frame
+ * around it. `absolute`: beside the container, a layer laid over a positioned frame (the root)
+ * that holds both; for a container that can't hold children (a textarea).
+ */
+export type ScrollAreaGuttersPosition = "sticky" | "absolute";
+
+/**
+ * What `renderContainer` gets, and `useScrollAreaContainer` returns: what to put on the element
+ * that scrolls (the container) so that ScrollArea measures it and its gutters follow it.
+ */
+export type ScrollAreaContainerBinding<E extends HTMLElement = HTMLElement> = {
+  /** Put it (merged with yours) on the element that scrolls. */
+  ref: RefObject<E | null>;
+  /**
+   * For the container, before your own classes. With sticky gutters the container is the root, so
+   * these are the root's classes and modifiers too.
+   */
+  className: string;
+  /** For the container, merged with your style: with sticky gutters, the root's variables (`railInset`, the timelines). */
+  style: CSSProperties | undefined;
+  /** `0` while there is something to scroll, so the container is a tab stop; else `undefined`. */
+  tabIndex: 0 | undefined;
+  /** Measures again now, for a size change nothing observed reports (a textarea's input). */
+  measure: () => void;
+  /** Where to put `<ScrollAreaGutters />`: the container's first child (`sticky`) or right after it (`absolute`). */
+  guttersPosition: ScrollAreaGuttersPosition;
+};
+
+/**
+ * The binding `renderContainer` gets: its `ref` fits any element's `ref` (a `<ul>`, a `<textarea>`,
+ * VirtualList's `domRef`), as the demo's `containerDomRef: RefObject<any>` does.
+ */
+// oxlint-disable-next-line typescript/no-explicit-any -- the container is whatever element the caller renders.
+export type ScrollAreaRenderContainerBinding = ScrollAreaContainerBinding<any>;
+
+export type ScrollAreaOwnProps = ScrollAreaOptions & {
+  /** The scrolling content, in ScrollArea's own container. Not read with `renderContainer`. */
+  children?: ReactNode;
+  /** Where the gutters go: inside the container (`sticky`, the default) or beside it in a frame (`absolute`). */
+  guttersPosition?: ScrollAreaGuttersPosition;
+  /**
+   * Renders the container yourself, in place of ScrollArea's `<div>`: a `<textarea>`, a list, another
+   * component's own scroller (VirtualList's `domRef`). Put the binding on the element that scrolls
+   * and `<ScrollAreaGutters />` where `guttersPosition` says: as its first child (`sticky`) or
+   * right after it (`absolute`, inside the frame ScrollArea renders around what this returns).
+   * ScrollArea listens to the container's scroll itself. The demo's `useContainer`.
+   */
+  renderContainer?: (container: ScrollAreaRenderContainerBinding) => ReactNode;
+  /**
+   * An element whose size is the content's, watched for size changes (such as a hidden mirror of a
+   * textarea's text). Without it each element child of the container is watched, and children
+   * added or removed.
+   */
+  contentRef?: RefObject<HTMLElement | null>;
+  /** Class of the root: the container (`sticky`) or the frame (`absolute`). Size and frame the area here. */
+  className?: string;
+  /** Style of the root. */
+  style?: CSSProperties;
+  /** The root: the container itself (`sticky`) or the frame (`absolute`). */
+  rootRef?: Ref<HTMLDivElement>;
+  /** Class of ScrollArea's own container; with `sticky` the same element as the root. */
+  containerClassName?: string;
+  /** Style of ScrollArea's own container. */
+  containerStyle?: CSSProperties;
+  /**
+   * Class of a content element around `children`, inside the container: put padding here, so the
+   * scrollbars stay at the edges. Only with it, `contentStyle` or `fade` (sticky) is there one.
+   */
+  contentClassName?: string;
+  /** Style of the content element; renders it, as `contentClassName` does. */
+  contentStyle?: CSSProperties;
+  /** The container's scroll events. */
+  onScroll?: UIEventHandler<HTMLDivElement>;
+  /** The container's: by default `0` while there is something to scroll. */
+  tabIndex?: number;
+};
+
+/**
+ * `ref` and the native props go to ScrollArea's own container, the element that scrolls (with
+ * `sticky` gutters, the default, it is the root too); `className` and `style` to the root. With
+ * `renderContainer`, the native props go to the frame (`absolute`) and are not read (`sticky`).
  */
 export type ScrollAreaProps = ScrollAreaOwnProps &
   Omit<ComponentPropsWithRef<"div">, keyof ScrollAreaOwnProps>;
+
+/** An optional box around the content, inside the container: native div props and `ref`. */
+export type ScrollAreaContentProps = ComponentPropsWithRef<"div">;
 
 export type ScrollAreaTextareaOwnProps = {
   /** How long the scrollbar stays after scrolling stops, as on ScrollArea. */
@@ -109,67 +190,12 @@ export type ScrollAreaTextareaOwnProps = {
   size?: ScrollAreaSize;
   /** When the scrollbar shows, as on ScrollArea. */
   trigger?: ScrollAreaTrigger;
-  /** Class of the wrapper that holds the textarea and its scrollbar. */
+  /** Class of the root that holds the textarea and its scrollbar. */
   wrapperClassName?: string;
-  /** Style of the wrapper; size the textarea itself with `className` / `style`. */
+  /** Style of the root; size the textarea itself with `className` / `style`. */
   wrapperStyle?: CSSProperties;
 };
 
 /** Native textarea props; `ref`, `className`, `style` and `onScroll` go to the textarea. */
 export type ScrollAreaTextareaProps = ScrollAreaTextareaOwnProps &
   Omit<ComponentPropsWithRef<"textarea">, keyof ScrollAreaTextareaOwnProps>;
-
-/** Options of `useScrollAreaRails`: ScrollArea's scrollbar props, for an element that scrolls itself. */
-export type ScrollAreaRailsOptions<E extends HTMLElement = HTMLElement> = {
-  /** The directions the element scrolls in, each with its own scrollbar. */
-  orientation?: ScrollAreaOrientation;
-  /** When the scrollbars show, as on ScrollArea. */
-  trigger?: ScrollAreaTrigger;
-  /** Thumb thickness, as on ScrollArea. */
-  size?: ScrollAreaSize;
-  /** How long the scrollbars stay after scrolling stops, as on ScrollArea. */
-  hideDelay?: number;
-  /**
-   * What a scroll that reaches the end does, as on ScrollArea (`none` by default). `auto` adds no
-   * `overscroll-behavior`, so the element keeps its own.
-   */
-  overscroll?: ScrollAreaOverscroll;
-  /** Room in px the scrollbars keep clear at each end, as on ScrollArea. */
-  railInset?: ScrollAreaRailInset;
-  /** Called when the element reaches or leaves an edge, as on ScrollArea. */
-  onEdgeChange?: (edges: ScrollAreaEdges) => void;
-  /** Called from the returned `onScroll`, after the scrollbars have followed. */
-  onScroll?: (event: UIEvent<E>) => void;
-  /**
-   * The element that holds the rails when the scroller can't (a `<textarea>`): a wrapper whose
-   * direct child is the scroller, filling it. Without it the scroller holds them.
-   */
-  wrapperRef?: RefObject<HTMLElement | null>;
-  /** The scroller's content, watched for size changes; the scroller itself when absent. */
-  contentRef?: RefObject<HTMLElement | null>;
-  /**
-   * Also watch every element child of the scroller for size changes, and children added or
-   * removed: for a scroller whose content isn't one element, such as a list with a header.
-   */
-  observeChildren?: boolean;
-  /** Off: no scrollbars, nothing measured or written; `onScroll` only calls the option's. Default on. */
-  enabled?: boolean;
-};
-
-/** What `useScrollAreaRails` hands back to put on the scroller (or the wrapper). */
-export type ScrollAreaRailsResult<E extends HTMLElement = HTMLElement> = {
-  /** For the element that holds the rails (the scroller, or `wrapperRef`'s): the block and its modifiers. */
-  className: string | undefined;
-  /** For the same element: `railInset` as CSS variables. Merge it with your own style. */
-  style: CSSProperties | undefined;
-  /** With `wrapperRef`: for the scroller, which hides its native scrollbar and takes `overscroll`. */
-  scrollerClassName: string | undefined;
-  /** Call it from the scroller's scroll handler (or pass it as `onScroll`). */
-  onScroll: (event: UIEvent<E>) => void;
-  /** The scrollbars: the first child of the scroller, or a child of the wrapper. `null` when off. */
-  rails: ReactNode;
-  /** Measures again now, for a size change nothing observed reports. */
-  measure: () => void;
-  /** Whether there is something to scroll, so the element should be a tab stop. */
-  scrollable: boolean;
-};

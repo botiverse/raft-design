@@ -1,6 +1,6 @@
 /** @vitest-environment jsdom */
 import { createRef, StrictMode, useLayoutEffect, useRef } from "react";
-import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react";
+import { cleanup, render, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
 import { VirtualList } from "../index";
@@ -243,123 +243,6 @@ describe("VirtualList", () => {
     rerender(list(true));
     expect(wheelListeners()).toBe(1);
     added.mockRestore();
-  });
-});
-
-const SCROLLBAR_OPTIONS = { railInset: { top: 32 }, trigger: "scroll" } as const;
-const ONE_COLUMN = [{ width: 300 }];
-const renderNoCol = () => null;
-
-describe("VirtualList scrollbar", () => {
-  /** jsdom lays nothing out: the list is 100px high with 400px to scroll. */
-  const stubListGeometry = () => {
-    const sizes: Record<string, number> = {
-      clientHeight: 100,
-      clientWidth: 200,
-      scrollHeight: 400,
-      scrollWidth: 200,
-    };
-    for (const [key, value] of Object.entries(sizes)) {
-      vi.spyOn(HTMLElement.prototype, key as "clientHeight", "get").mockImplementation(function (
-        this: HTMLElement,
-      ) {
-        if (this.classList.contains("r-virtual-list")) return value;
-        // The rail: as long as the list is high.
-        return this.classList.contains("r-scroll-area__rail") ? value : 0;
-      });
-    }
-  };
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it("draws no overlay scrollbar by default: the list's children are its own", () => {
-    const { container } = render(
-      <VirtualList items={items} getKey={getKey} itemEstimatedSize={40} itemMinSize={20}>
-        {renderRow}
-      </VirtualList>,
-    );
-    const list = container.firstElementChild as HTMLElement;
-    expect(list.querySelector(".r-scroll-area__rails")).toBeNull();
-    expect(list.className).not.toContain("r-scroll-area");
-    expect((list.children[0] as HTMLElement).dataset.slot).toBe("virtual-list-items");
-  });
-
-  it("lays ScrollArea's rails over its own scroller with scrollbar, following its scroll", () => {
-    stubListGeometry();
-    // jsdom's CSS.supports says yes to scroll-driven animations: the script draws the thumb here.
-    vi.stubGlobal("CSS", { supports: () => false });
-    const onScroll = vi.fn();
-    const { container } = render(
-      <VirtualList
-        items={items}
-        getKey={getKey}
-        itemEstimatedSize={40}
-        itemMinSize={20}
-        onScroll={onScroll}
-        scrollbar={SCROLLBAR_OPTIONS}
-        style={ZERO_HEIGHT}
-      >
-        {renderRow}
-      </VirtualList>,
-    );
-    const list = container.firstElementChild as HTMLElement;
-    // The list is still the scroller (no wrapper, no nested scroller); the rails are its first child.
-    expect(list.dataset.slot).toBe("virtual-list");
-    expect(list.classList).toContain("r-virtual-list");
-    expect(list.classList).toContain("r-scroll-area");
-    expect(list.classList).toContain("r-scroll-area--external");
-    expect(list.classList).toContain("r-scroll-area--scroll-trigger");
-    expect(list.classList).not.toContain("r-scroll-area--wrapper");
-    // overscroll="auto": the list keeps its own overscroll-behavior.
-    expect(list.className).not.toMatch(/overscroll/);
-    const rails = list.children[0] as HTMLElement;
-    expect(rails.className).toBe("r-scroll-area__rails");
-    expect(rails.getAttribute("aria-hidden")).toBe("true");
-    expect((list.children[1] as HTMLElement).dataset.slot).toBe("virtual-list-items");
-    expect(list.style.height).toBe("0px");
-    expect(list.style.getPropertyValue("--r-scroll-area-rail-inset-top")).toBe("32px");
-    expect(list.style.getPropertyValue("--r-scroll-area-viewport-height")).toBe("100px");
-    const thumb = list.querySelector<HTMLElement>(".r-scroll-area__thumb")!;
-    // A quarter of the 100px rail, at its start.
-    expect(thumb.style.getPropertyValue("--r-scroll-area-thumb-length")).toBe("25px");
-    expect(thumb.style.getPropertyValue("transform")).toBe("translate3d(0px, 0px, 0px)");
-
-    const frames: FrameRequestCallback[] = [];
-    vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) =>
-      frames.push(callback),
-    );
-    list.scrollTop = 150;
-    fireEvent.scroll(list);
-    expect(onScroll).toHaveBeenCalledTimes(1);
-    // The thumb follows in the next frame: halfway along the 75px it travels.
-    act(() => {
-      for (const frame of frames.splice(0)) frame(0);
-    });
-    expect(list.classList).toContain("r-scroll-area--scrolling");
-    expect(thumb.style.getPropertyValue("transform")).toBe("translate3d(0px, 38px, 0px)");
-    vi.unstubAllGlobals();
-    // The list stays focusable as before, whatever the scrollbar says.
-    expect(list.tabIndex).toBe(0);
-  });
-
-  it("scrolls both ways with columns", () => {
-    const { container } = render(
-      <VirtualList
-        items={items}
-        getKey={getKey}
-        itemEstimatedSize={40}
-        itemMinSize={20}
-        columns={ONE_COLUMN}
-        renderCol={renderNoCol}
-        scrollbar
-      >
-        {renderRow}
-      </VirtualList>,
-    );
-    const list = container.firstElementChild as HTMLElement;
-    expect(list.classList).toContain("r-scroll-area--both-orientation");
-    expect(list.classList).toContain("r-virtual-list--x-scrollable");
   });
 });
 

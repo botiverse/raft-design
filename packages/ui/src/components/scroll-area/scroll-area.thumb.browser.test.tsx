@@ -1,10 +1,11 @@
 // The overlay thumb in real layout, like a native scrollbar: its length and place follow the
 // current scroll and content size within a frame, it is moved by a transform (a scroll-driven
-// animation on the scroller's own timeline where the browser has them), and it doesn't jump back
-// against the direction of travel when the content grows mid-scroll.
+// animation on the container's own timeline where the browser has them: seen from inside with
+// sticky gutters, hoisted by the frame with absolute ones), and it doesn't jump back against the
+// direction of travel when the content grows mid-scroll.
 /* oxlint-disable react-perf/jsx-no-new-object-as-prop -- each scene renders once. */
 import { cleanup, render } from "@testing-library/react";
-import { afterEach, expect, test } from "vite-plus/test";
+import { afterEach, describe, expect, test } from "vite-plus/test";
 
 import { ScrollArea, ScrollAreaTextarea } from "./index";
 import { scrollTimelineCondition } from "./use-scrollbars";
@@ -20,11 +21,27 @@ afterEach(cleanup);
 const frameThenTask = () =>
   new Promise<void>((resolve) => requestAnimationFrame(() => setTimeout(resolve)));
 
-const verticalThumb = (root: ParentNode) =>
-  root.querySelector<HTMLElement>(".r-scroll-area__rail--vertical > .r-scroll-area__thumb")!;
+/** The vertical thumb of the root `root`, not of an area nested inside it. */
+const verticalThumb = (root: Element) =>
+  root.querySelector<HTMLElement>(
+    ":scope > .r-scroll-area__gutters > .r-scroll-area__gutter--vertical > .r-scroll-area__thumb",
+  )!;
+
+/** The root and the element that scrolls: the same element (sticky), or the frame and its container (absolute). */
+function parts(container: HTMLElement, selector = ".r-scroll-area") {
+  const found = container.querySelector<HTMLElement>(selector)!;
+  // A test id lands on the container; with absolute gutters the root is its frame.
+  const root = found.classList.contains("r-scroll-area")
+    ? found
+    : found.closest<HTMLElement>(".r-scroll-area")!;
+  const scroller = root.classList.contains("r-scroll-area--absolute-gutters")
+    ? root.querySelector<HTMLElement>(":scope > .r-scroll-area__container")!
+    : root;
+  return { root, scroller };
+}
 
 /** Where the vertical thumb is drawn, read from its transform, and where the scroll says it belongs. */
-function thumbState(scroller: HTMLElement, root: ParentNode = scroller) {
+function thumbState(scroller: HTMLElement, root: Element = scroller) {
   const thumb = verticalThumb(root);
   const rail = thumb.parentElement!;
   const transform = getComputedStyle(thumb).transform;
@@ -46,28 +63,37 @@ function thumbState(scroller: HTMLElement, root: ParentNode = scroller) {
   };
 }
 
-it("follows the scroll with its transform, one frame after each scroll", async () => {
-  const { container } = render(
-    <ScrollArea style={{ height: 300, width: 200 }} trigger="none">
-      <div style={{ height: 3000 }} />
-    </ScrollArea>,
-  );
-  const area = container.querySelector<HTMLElement>(".r-scroll-area")!;
-  await frameThenTask();
-  // 300 of 3,000px in view: a tenth of the 294px rail.
-  expect(thumbState(area).length).toBeCloseTo(29, 0);
-
-  let furthest = 0;
-  for (let step = 1; step <= 40; step += 1) {
-    area.scrollTop = step * 37;
+describe.each(["sticky", "absolute"] as const)("with %s gutters", (position) => {
+  it("follows the scroll with its transform, one frame after each scroll, the gutter at the edges", async () => {
+    const { container } = render(
+      <ScrollArea guttersPosition={position} style={{ height: 300, width: 200 }} trigger="none">
+        <div style={{ height: 3000 }} />
+      </ScrollArea>,
+    );
+    const { root, scroller: area } = parts(container);
     await frameThenTask();
-    const { expected, rail, rect, top } = thumbState(area);
-    expect(Math.abs(top - expected)).toBeLessThanOrEqual(1);
-    // Drawn where the transform says, so a press on the rail pages from the thumb's real place.
-    expect(Math.abs(rect.top - rail.top - top)).toBeLessThanOrEqual(1);
-    furthest = Math.max(furthest, top);
-  }
-  expect(furthest).toBeGreaterThan(100);
+    // 300 of 3,000px in view: a tenth of the 294px gutter.
+    expect(thumbState(area, root).length).toBeCloseTo(29, 0);
+    const rootRect = root.getBoundingClientRect();
+    const gutter = thumbState(area, root).rail;
+    expect(gutter.top - rootRect.top).toBeCloseTo(3, 0);
+    expect(rootRect.bottom - gutter.bottom).toBeCloseTo(3, 0);
+    expect(rootRect.right - gutter.right).toBeCloseTo(0, 0);
+
+    let furthest = 0;
+    for (let step = 1; step <= 40; step += 1) {
+      area.scrollTop = step * 37;
+      await frameThenTask();
+      const { expected, rail, rect, top } = thumbState(area, root);
+      expect(Math.abs(top - expected)).toBeLessThanOrEqual(1);
+      // Drawn where the transform says, so a press on the gutter pages from the thumb's real place.
+      expect(Math.abs(rect.top - rail.top - top)).toBeLessThanOrEqual(1);
+      // A sticky gutter stays in the viewport as the content scrolls under it.
+      expect(rail.top - root.getBoundingClientRect().top).toBeCloseTo(3, 0);
+      furthest = Math.max(furthest, top);
+    }
+    expect(furthest).toBeGreaterThan(100);
+  });
 });
 
 it("keeps railInset clear: the thumb travels from below the top room to above the bottom room", async () => {
@@ -80,9 +106,9 @@ it("keeps railInset clear: the thumb travels from below the top room to above th
       <div style={{ height: 3000 }} />
     </ScrollArea>,
   );
-  const area = container.querySelector<HTMLElement>(".r-scroll-area")!;
+  const { root, scroller: area } = parts(container);
   await frameThenTask();
-  const areaRect = area.getBoundingClientRect();
+  const areaRect = root.getBoundingClientRect();
   expect(thumbState(area).rect.top - areaRect.top).toBeCloseTo(3 + 32, 0);
   area.scrollTop = area.scrollHeight;
   await frameThenTask();
@@ -97,7 +123,7 @@ it("takes the length the content's size calls for within a frame, idle and while
       <div data-testid="content" style={{ height: 900 }} />
     </ScrollArea>,
   );
-  const area = container.querySelector<HTMLElement>(".r-scroll-area")!;
+  const { root, scroller: area } = parts(container);
   const content = container.querySelector<HTMLElement>('[data-testid="content"]')!;
   await frameThenTask();
   let state = thumbState(area);
@@ -122,7 +148,7 @@ it("takes the length the content's size calls for within a frame, idle and while
     area.scrollTop = step * 20;
     await frameThenTask();
     state = thumbState(area);
-    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(root.classList.contains("r-scroll-area--scrolling")).toBe(true);
     expect(Math.abs(state.length - state.expectedLength)).toBeLessThanOrEqual(1);
     expect(Math.abs(state.top - state.expected)).toBeLessThanOrEqual(1);
   }
@@ -131,12 +157,16 @@ it("takes the length the content's size calls for within a frame, idle and while
 it("doesn't jump back, at either end, when the content above the view grows mid-scroll", async () => {
   const { container } = render(
     // No scroll anchoring: the test keeps the view in place itself, as a list does.
-    <ScrollArea style={{ height: 300, overflowAnchor: "none", width: 200 }} trigger="none">
+    <ScrollArea
+      containerStyle={{ overflowAnchor: "none" }}
+      style={{ height: 300, width: 200 }}
+      trigger="none"
+    >
       <div data-testid="above" style={{ height: 300 }} />
       <div style={{ height: 600 }} />
     </ScrollArea>,
   );
-  const area = container.querySelector<HTMLElement>(".r-scroll-area")!;
+  const { scroller: area } = parts(container);
   const above = container.querySelector<HTMLElement>('[data-testid="above"]')!;
   area.scrollTop = 320;
   await frameThenTask();
@@ -163,11 +193,19 @@ it("doesn't jump back, at either end, when the content above the view grows mid-
 });
 
 timelineIt(
-  "is moved by a scroll-driven animation on its own scroller's timeline, a textarea's too",
+  "is moved by a scroll-driven animation on its own container's timeline: sticky, absolute, a textarea's",
   async () => {
     const { container } = render(
       <>
         <ScrollArea data-testid="area" style={{ height: 300, width: 200 }} trigger="none">
+          <div style={{ height: 3000 }} />
+        </ScrollArea>
+        <ScrollArea
+          data-testid="framed"
+          guttersPosition="absolute"
+          style={{ height: 300, width: 200 }}
+          trigger="none"
+        >
           <div style={{ height: 3000 }} />
         </ScrollArea>
         <ScrollAreaTextarea
@@ -179,19 +217,21 @@ timelineIt(
         />
       </>,
     );
-    const area = container.querySelector<HTMLElement>('[data-testid="area"]')!;
+    const area = parts(container, '[data-testid="area"]');
+    const framed = parts(container, '[data-testid="framed"]');
     const textarea = container.querySelector("textarea")!;
     await frameThenTask();
     for (const [scroller, root] of [
-      [area, area],
+      [area.scroller, area.root],
+      [framed.scroller, framed.root],
       [textarea, container.querySelector(".textarea-wrapper")!],
     ] as const) {
       const animations = verticalThumb(root).getAnimations();
       expect(animations).toHaveLength(1);
       const timeline = animations[0]!.timeline;
-      // A ScrollTimeline (not in TypeScript's DOM types yet), from the scroller named below.
+      // A ScrollTimeline (not in TypeScript's DOM types yet), from the container named below.
       expect(timeline?.constructor.name).toBe("ScrollTimeline");
-      // The scroller it belongs to, not the page or a sibling: the wrapper hoists the textarea's.
+      // The container it belongs to, not the page or a sibling: the root hoists its timeline.
       expect((timeline as unknown as { source: Element | null }).source).toBe(scroller);
     }
 
@@ -205,3 +245,69 @@ timelineIt(
     expect(Math.abs(top - expected)).toBeLessThanOrEqual(1);
   },
 );
+
+timelineIt.each([
+  ["sticky", "sticky"],
+  ["sticky", "absolute"],
+  ["absolute", "sticky"],
+  ["absolute", "absolute"],
+] as const)(
+  "takes its own container's timeline when nested in another area's container (%s in %s)",
+  async (innerPosition, outerPosition) => {
+    const { container } = render(
+      <ScrollArea
+        data-testid="outer"
+        guttersPosition={outerPosition}
+        style={{ height: 300, width: 300 }}
+        trigger="none"
+      >
+        <ScrollArea
+          data-testid="inner"
+          guttersPosition={innerPosition}
+          style={{ height: 120, width: 200 }}
+          trigger="none"
+        >
+          <div style={{ height: 1200 }} />
+        </ScrollArea>
+        <div style={{ height: 3000 }} />
+      </ScrollArea>,
+    );
+    await frameThenTask();
+    for (const testId of ["outer", "inner"]) {
+      const { root, scroller } = parts(container, `[data-testid="${testId}"]`);
+      const [animation] = verticalThumb(root).getAnimations();
+      expect((animation!.timeline as unknown as { source: Element | null }).source).toBe(scroller);
+    }
+    // The inner area scrolled to its end: its thumb is at the end of its gutter, the outer one hasn't moved.
+    const inner = parts(container, '[data-testid="inner"]');
+    inner.scroller.scrollTop = inner.scroller.scrollHeight;
+    await frameThenTask();
+    const innerState = thumbState(inner.scroller, inner.root);
+    expect(Math.abs(innerState.top - innerState.expected)).toBeLessThanOrEqual(1);
+    expect(innerState.top).toBeGreaterThan(50);
+    const outer = parts(container, '[data-testid="outer"]');
+    expect(thumbState(outer.scroller, outer.root).top).toBe(0);
+  },
+);
+
+it("absolute: bounds the container by a max-height on the frame, the gutters inside a bordered frame", async () => {
+  const { container } = render(
+    <ScrollArea
+      guttersPosition="absolute"
+      style={{ border: "4px solid", maxHeight: 200, width: 200 }}
+      trigger="none"
+    >
+      <div style={{ height: 3000 }} />
+    </ScrollArea>,
+  );
+  const { root, scroller } = parts(container);
+  await frameThenTask();
+  expect(scroller.clientHeight).toBe(200 - 8);
+  expect(scroller.scrollHeight).toBe(3000);
+  const rootRect = root.getBoundingClientRect();
+  const { rail } = thumbState(scroller, root);
+  // Inside the border, the gap off the padding box's edges.
+  expect(rootRect.right - 4 - rail.right).toBeCloseTo(0, 0);
+  expect(rail.top - (rootRect.top + 4)).toBeCloseTo(3, 0);
+  expect(rootRect.bottom - 4 - rail.bottom).toBeCloseTo(3, 0);
+});

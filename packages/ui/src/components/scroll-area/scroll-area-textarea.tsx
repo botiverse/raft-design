@@ -1,44 +1,29 @@
-import { useLayoutEffect, useRef } from "react";
+import { useCallback, useLayoutEffect } from "react";
 import type { InputEvent } from "react";
 import { cn } from "../../lib/cn";
 import { useMergedRef } from "../../lib/use-merged-ref";
-import type { ScrollAreaTextareaProps } from "./types";
-import { useScrollAreaRails } from "./use-scroll-area-rails";
+import { ScrollArea } from "./scroll-area";
+import { ScrollAreaGutters } from "./scroll-area-gutters";
+import type {
+  ScrollAreaRenderContainerBinding,
+  ScrollAreaTextareaOwnProps,
+  ScrollAreaTextareaProps,
+} from "./types";
 
-/**
- * A native `<textarea>` with ScrollArea's overlay scrollbar. The textarea
- * scrolls itself (it can't hold the rails), so a wrapper holds both and the
- * rails lie over the textarea's box (`useScrollAreaRails` with a wrapper).
- * Its own `scrollHeight` is the content size: it is measured on every input
- * and render, and when the box resizes. Native props, `ref` and `onScroll`
- * go to the textarea.
- */
-export function ScrollAreaTextarea({
+type TextareaContainerProps = Omit<ScrollAreaTextareaProps, keyof ScrollAreaTextareaOwnProps> & {
+  container: ScrollAreaRenderContainerBinding;
+};
+
+/** The textarea, as the container. It is focusable itself, so it takes no `tabIndex`. */
+function TextareaContainer({
   className,
-  hideDelay = 600,
+  container,
   onInput,
-  onScroll,
-  overscroll = "none",
   ref,
-  size = "medium",
-  style,
-  trigger = "hover",
-  wrapperClassName,
-  wrapperStyle,
   ...props
-}: ScrollAreaTextareaProps) {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [setRef] = useMergedRef(textareaRef, ref);
-  const bars = useScrollAreaRails(textareaRef, {
-    hideDelay,
-    onScroll,
-    overscroll,
-    size,
-    trigger,
-    wrapperRef,
-  });
-  const { measure } = bars;
+}: TextareaContainerProps) {
+  const [setRef] = useMergedRef<HTMLTextAreaElement>(container.ref, ref);
+  const { measure } = container;
 
   // A controlled `value` can change without an input event; re-measuring is cheap and bails out when nothing moved.
   useLayoutEffect(() => measure());
@@ -49,21 +34,53 @@ export function ScrollAreaTextarea({
   };
 
   return (
-    <div
+    <textarea
+      {...props}
+      className={cn(container.className, "r-scroll-area__textarea", className)}
+      ref={setRef}
+      onInput={handleInput}
+    />
+  );
+}
+
+/**
+ * A native `<textarea>` with ScrollArea's overlay scrollbar: ScrollArea with
+ * `guttersPosition="absolute"` and the textarea as its container (it can't
+ * hold children), the gutters beside it in the frame, as in the demo's
+ * textarea example. Its own `scrollHeight` is the content size: it is
+ * measured on every input and render, and when the box resizes. Native
+ * props, `ref`, `className`, `style` and `onScroll` go to the textarea;
+ * `wrapperClassName` and `wrapperStyle` to the frame.
+ */
+export function ScrollAreaTextarea({
+  hideDelay = 600,
+  overscroll = "none",
+  size = "medium",
+  trigger = "hover",
+  wrapperClassName,
+  wrapperStyle,
+  ...props
+}: ScrollAreaTextareaProps) {
+  const renderContainer = useCallback(
+    (container: ScrollAreaRenderContainerBinding) => (
+      <>
+        <TextareaContainer {...props} container={container} />
+        <ScrollAreaGutters />
+      </>
+    ),
+    [props],
+  );
+  return (
+    <ScrollArea
       data-slot="scroll-area-textarea"
-      className={cn(bars.className, "r-scroll-area--textarea", wrapperClassName)}
-      ref={wrapperRef}
+      className={cn("r-scroll-area--textarea", wrapperClassName)}
+      guttersPosition="absolute"
+      hideDelay={hideDelay}
+      overscroll={overscroll}
+      size={size}
       style={wrapperStyle}
-    >
-      <textarea
-        {...props}
-        className={cn(bars.scrollerClassName, "r-scroll-area__textarea", className)}
-        ref={setRef}
-        style={style}
-        onInput={handleInput}
-        onScroll={bars.onScroll}
-      />
-      {bars.rails}
-    </div>
+      trigger={trigger}
+      renderContainer={renderContainer}
+    />
   );
 }
