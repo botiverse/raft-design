@@ -226,3 +226,9 @@ export * from "./components/save-status/index";
 // "Completing a task"; task-completion-control.md). Until slock's task rows
 // and cards have moved onto it.
 export * from "./components/task-completion-control/index";
+
+// A column heading that sorts the rows: a button filling the heading cell,
+// `aria-sort` on the cell and one arrow on the sorted column (table.md,
+// "Sorting"). Until a product list has moved its sorting onto it.
+export { TableSortableHead } from "./components/table/index";
+export type { TableSort, TableSortableHeadProps } from "./components/table/index";

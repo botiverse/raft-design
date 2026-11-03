@@ -40,5 +40,31 @@ export const table = tv({
     colgroup: [],
     column: [],
     caption: ["pt-2 text-caption text-foreground-hint"],
+    // A heading that sorts (table.md, "Sorting") is a `head` whose padding
+    // moves onto its button, so the button fills the cell and the row keeps
+    // TableHead's height.
+    sortableHead: ["p-0"],
+    sortButton: [
+      "relative flex w-full items-center gap-1",
+      "border-0 bg-transparent px-3 py-2 [font:inherit]",
+      "cursor-pointer rounded-sticker",
+      "text-foreground-hint hover:text-foreground",
+      "outline-none focus-visible:shadow-focus",
+      // On a touch screen a transparent ::after takes the 34px heading to a
+      // 44px-high hit area, centred on it (accessibility.md, Hit targets).
+      "not-pointer-fine:after:absolute not-pointer-fine:after:inset-x-0 not-pointer-fine:after:content-['']",
+      "not-pointer-fine:after:top-1/2 not-pointer-fine:after:h-11 not-pointer-fine:after:-translate-y-1/2",
+    ],
+    sortArrow: ["size-3 shrink-0"],
+  },
+  variants: {
+    align: {
+      left: {},
+      right: { sortButton: "justify-end" },
+    },
+    sorted: {
+      true: { sortButton: "text-foreground" },
+      false: {},
+    },
   },
 });

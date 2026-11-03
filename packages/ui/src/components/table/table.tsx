@@ -1,5 +1,6 @@
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import type { StyledProps } from "../../lib/styled-props";
 import { table } from "./table.recipe";
 
@@ -9,6 +10,29 @@ type TableBodyProps = StyledProps<useRender.ComponentProps<"tbody">>;
 type TableRowProps = StyledProps<useRender.ComponentProps<"tr">>;
 type TableHeadProps = StyledProps<useRender.ComponentProps<"th">>;
 type TableCellProps = StyledProps<useRender.ComponentProps<"td">>;
+type TableSort = "ascending" | "descending";
+type TableSortableHeadProps = Omit<
+  StyledProps<useRender.ComponentProps<"th">>,
+  "align" | "aria-sort"
+> & {
+  /**
+   * The column's current sort, or undefined when the rows aren't sorted by
+   * it. Sets `aria-sort` on the heading cell and draws the arrow.
+   */
+  sort?: TableSort;
+  /**
+   * The direction of a first click, when the rows aren't sorted by this
+   * column: `"descending"` for numbers and dates, `"ascending"` for text.
+   */
+  firstSort?: TableSort;
+  /** Called with the next direction: the reverse of `sort`, or `firstSort`. */
+  onSortChange?: (sort: TableSort) => void;
+  /**
+   * `"right"` for a right-aligned column, such as numbers: the label ends on
+   * the column's right edge and the arrow goes before it.
+   */
+  align?: "left" | "right";
+};
 type TableColgroupProps = StyledProps<useRender.ComponentProps<"colgroup">>;
 type TableColumnProps = StyledProps<useRender.ComponentProps<"col">>;
 type TableCaptionProps = StyledProps<useRender.ComponentProps<"caption">>;
@@ -70,6 +94,64 @@ export function TableHead({ className, render, scope = "col", ...props }: TableH
   });
 }
 
+/**
+ * A column heading that sorts the rows (table.md, "Sorting"): a `TableHead`
+ * whose label is a button filling the cell, with `aria-sort` on the cell and
+ * a 12px arrow on the sorted column only. Which column is sorted is the
+ * caller's: pass `sort` and update it from `onSortChange`. In a header row
+ * drawn without `Table`, pass `render={<div role="columnheader" />}`.
+ */
+export function TableSortableHead({
+  className,
+  render,
+  scope = "col",
+  sort,
+  firstSort = "ascending",
+  onSortChange,
+  align = "left",
+  children,
+  ...props
+}: TableSortableHeadProps) {
+  const { head, sortableHead, sortButton, sortArrow } = table({
+    align,
+    sorted: sort !== undefined,
+  });
+  const Arrow = sort === "descending" ? ArrowDown : ArrowUp;
+  const arrow = sort ? (
+    <Arrow aria-hidden data-slot="table-sort-arrow" className={sortArrow()} />
+  ) : null;
+  const button = (
+    <button
+      type="button"
+      data-slot="table-sort-button"
+      className={sortButton()}
+      onClick={() => onSortChange?.(sort ? reverseSort(sort) : firstSort)}
+    >
+      {align === "right" ? arrow : null}
+      {children}
+      {align === "right" ? null : arrow}
+    </button>
+  );
+  return useRender({
+    defaultTagName: "th",
+    render,
+    props: mergeProps<"th">(
+      {
+        scope,
+        "aria-sort": sort,
+        className: head({ className: sortableHead({ className }) }),
+        children: button,
+      },
+      props,
+    ),
+    state: { slot: "table-sortable-head" },
+  });
+}
+
+function reverseSort(sort: TableSort): TableSort {
+  return sort === "ascending" ? "descending" : "ascending";
+}
+
 export function TableCell({ className, render, ...props }: TableCellProps) {
   const { cell } = table();
   return useRender({
@@ -125,4 +207,6 @@ export type {
   TableHeaderProps,
   TableProps,
   TableRowProps,
+  TableSort,
+  TableSortableHeadProps,
 };
