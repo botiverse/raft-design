@@ -223,9 +223,12 @@
   /*
    * Absolute gutters: the root is the frame the gutters are positioned in,
    * and a column the container fills, so a height or a `max-height` on the
-   * root bounds the container, which then scrolls.
+   * root bounds the container, which then scrolls. The frame is what callers
+   * border and size, so its size includes its border whatever the page's
+   * preflight says (Tailwind's already does this).
    */
   .r-scroll-area.r-scroll-area--absolute-gutters {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     position: relative;

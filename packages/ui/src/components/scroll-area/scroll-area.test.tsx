@@ -1074,7 +1074,11 @@ describe("ScrollArea renderContainer (the demo's useContainer)", () => {
 describe("ScrollArea CSS", () => {
   it("puts the container rules on the root (sticky) or the frame's container (absolute)", () => {
     expect(rule(`${sticky}, ${absolute} > ${block}__container`)).toBe("scrollbar-width: none;");
-    expect(rule(absolute)).toBe("display: flex; flex-direction: column; position: relative;");
+    expect(rule(absolute)).toBe(
+      "box-sizing: border-box; display: flex; flex-direction: column; position: relative;",
+    );
+    // The sticky root is the caller's scroller: its box-sizing stays the caller's.
+    expect(flatCss).not.toMatch(/\.r-scroll-area\.r-scroll-area--sticky-gutters \{[^}]*box-sizing/);
     expect(rule(`${sticky}${block}__viewport`)).toBe("overflow: hidden auto; position: relative;");
     expect(rule(`${absolute} > ${block}__viewport`)).toContain(
       "flex: 1 1 auto; min-block-size: 0;",
