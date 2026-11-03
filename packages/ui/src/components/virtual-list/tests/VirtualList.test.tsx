@@ -287,6 +287,8 @@ describe("VirtualList scrollbar", () => {
 
   it("lays ScrollArea's rails over its own scroller with scrollbar, following its scroll", () => {
     stubListGeometry();
+    // jsdom's CSS.supports says yes to scroll-driven animations: the script draws the thumb here.
+    vi.stubGlobal("CSS", { supports: () => false });
     const onScroll = vi.fn();
     const { container } = render(
       <VirtualList

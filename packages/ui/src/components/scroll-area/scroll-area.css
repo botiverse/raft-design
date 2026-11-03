@@ -34,15 +34,18 @@
  * What the script writes as inline styles (React never renders them):
  *   --r-scroll-area-viewport-{height,width}   on the area: its client size
  *   --r-scroll-area-thumb-length              on each thumb: its length, px
- *   transform                                 on each thumb: where it is
- *                                             along its rail, a translate
+ *   --r-scroll-area-thumb-travel              on each thumb, with scroll-driven
+ *                                             animations: rail minus length
+ *                                             (negative inline in RTL)
+ *   transform                                 on each thumb, without them:
+ *                                             where it is along its rail
  *   --r-scroll-area-overflow-{y,x}-{start,end}  on the content, with `fade`
  *                                             only: px left past each edge
- * So a scrolled frame changes only the thumbs' transforms, which the
- * compositor moves without a layout (and the content with `fade`), never
- * the area, whose variables everything inside would inherit. Both are
- * rounded to device pixels and written in the same frame. The length is
- * held while scrolling and changes, with no transition, when it stops.
+ * Where scroll-driven animations work, the thumb is moved by one, on a named
+ * scroll timeline of the scroller (below), and the script writes only when a
+ * size changes. Elsewhere a scrolled frame changes the thumbs' transforms,
+ * and the length with them when the content's size changed. Never the area,
+ * whose variables everything inside would inherit.
  *
  * The thumb is the label colour (`foreground`) made translucent, dark on
  * light pages and light on dark ones, so it sits on any content; there is no
@@ -100,6 +103,24 @@
   syntax: "<length>";
   inherits: false;
   initial-value: 0px;
+}
+
+/* Along the rail: from its start to `travel` px down (or along) it, driven by the scroll. */
+@keyframes r-scroll-area-thumb-y {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, var(--r-scroll-area-thumb-travel), 0);
+  }
+}
+@keyframes r-scroll-area-thumb-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(var(--r-scroll-area-thumb-travel), 0, 0);
+  }
 }
 
 @layer components {
@@ -416,10 +437,12 @@
   /*
    * The thumb sits at the start of its rail and is moved along it by a
    * transform (`translate3d`, its own compositor layer), so a scrolled frame
-   * moves it without a layout. Its length, in px, is written by the script
-   * (at least --r-scroll-area-thumb-min-length). Only the thickness and the
-   * colour transition, on hover; the length and the place never do, so its
-   * two ends always move together.
+   * moves it without a layout: a scroll-driven animation where the browser
+   * has them (below), the script's transform elsewhere. Its length, in px, is
+   * written by the script (at least --r-scroll-area-thumb-min-length). Only
+   * the thickness and the colour transition, on hover; the length and the
+   * place never do, so like a native scrollbar it always shows the current
+   * size.
    */
   .r-scroll-area > .r-scroll-area__rails > .r-scroll-area__rail > .r-scroll-area__thumb {
     background: var(--r-scroll-area-thumb-color);
@@ -501,6 +524,40 @@
     > .r-scroll-area__thumb {
     background: var(--r-scroll-area-thumb-color-hover);
     block-size: var(--r-scroll-area-thumb-size-hover);
+  }
+
+  /*
+   * Scroll-driven thumbs: the browser moves each thumb from the scroll itself,
+   * on the compositor, with no script per scroll. The scroller names its
+   * timelines; a thumb takes the nearest one of that name, so a nested area's
+   * thumbs take their own. A `--wrapper`'s scroller is a sibling of the
+   * rails, so the wrapper hoists the names to itself (`timeline-scope`).
+   * `use-scrollbars.ts` checks the same condition (`scrollTimelineCondition`).
+   */
+  @supports (animation-timeline: scroll()) and (timeline-scope: none) {
+    .r-scroll-area:not(.r-scroll-area--wrapper),
+    .r-scroll-area.r-scroll-area--wrapper > .r-scroll-area__scroller {
+      scroll-timeline:
+        --r-scroll-area-y block,
+        --r-scroll-area-x inline;
+    }
+    .r-scroll-area.r-scroll-area--wrapper {
+      timeline-scope: --r-scroll-area-y, --r-scroll-area-x;
+    }
+    .r-scroll-area
+      > .r-scroll-area__rails
+      > .r-scroll-area__rail--vertical
+      > .r-scroll-area__thumb {
+      animation: r-scroll-area-thumb-y linear both;
+      animation-timeline: --r-scroll-area-y;
+    }
+    .r-scroll-area
+      > .r-scroll-area__rails
+      > .r-scroll-area__rail--horizontal
+      > .r-scroll-area__thumb {
+      animation: r-scroll-area-thumb-x linear both;
+      animation-timeline: --r-scroll-area-x;
+    }
   }
 
   @media print {

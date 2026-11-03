@@ -9,8 +9,12 @@ import { afterEach, expect, test } from "vite-plus/test";
 import "./virtual-list.test.css";
 import { VirtualList } from "../index";
 import type { VirtualListApi, VirtualListItemRenderProps } from "../index";
+import { scrollTimelineCondition } from "../../scroll-area/use-scrollbars";
 
 const it = test.skipIf(typeof window === "undefined");
+const timelineIt = test.skipIf(
+  typeof window === "undefined" || !CSS.supports(scrollTimelineCondition),
+);
 
 type Row = { key: string };
 const ROWS: Row[] = Array.from({ length: 200 }, (_, index) => ({ key: `row-${index}` }));
@@ -155,4 +159,22 @@ it("moves the thumb by a transform to where the list's scroll says, and not back
     previous = top;
   }
   expect(list.scrollHeight).toBe(400 * 40);
+});
+
+timelineIt("moves the thumb by a scroll-driven animation on the list's own timeline", async () => {
+  const list = await mount(ROWS, true);
+  const thumb = list.querySelector<HTMLElement>(".r-scroll-area__thumb")!;
+  const animations = thumb.getAnimations();
+  expect(animations).toHaveLength(1);
+  const timeline = animations[0]!.timeline;
+  // A ScrollTimeline (not in TypeScript's DOM types yet), from the scroller named below.
+  expect(timeline?.constructor.name).toBe("ScrollTimeline");
+  expect((timeline as unknown as { source: Element | null }).source).toBe(list);
+  list.scrollTop = 3000;
+  await frameThenTask();
+  // The animation places it: the script writes no transform, and it is where the scroll says.
+  expect(thumb.style.transform).toBe("");
+  const { expected, top } = thumbState(list);
+  expect(top).toBeGreaterThan(0);
+  expect(Math.abs(top - expected)).toBeLessThanOrEqual(1);
 });

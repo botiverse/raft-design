@@ -4,9 +4,8 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createRef, Profiler, useImperativeHandle, useRef } from "react";
-import type { ReactNode, Ref, UIEvent } from "react";
-import { clsx } from "cnfast";
+import { createRef, Profiler, useRef } from "react";
+import type { ReactNode, UIEvent } from "react";
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
@@ -14,6 +13,7 @@ import { ScrollArea, ScrollAreaTextarea, useScrollAreaRails } from "./index";
 import type { ScrollAreaActions, ScrollAreaProps, ScrollAreaRailsOptions } from "./index";
 import { alignedScrollOffset } from "./scroll-to-element";
 import { pageDirection, pageDistance, scrollOverflow, thumbPlacement } from "./scroll-geometry";
+import { scrollTimelineCondition } from "./use-scrollbars";
 
 const paddedContentStyle = { padding: 8 };
 const headerFooterInset = { bottom: 40, top: 32 };
@@ -74,6 +74,9 @@ beforeEach(() => {
   requestFrame.mockClear();
   vi.stubGlobal("requestAnimationFrame", requestFrame);
   vi.stubGlobal("cancelAnimationFrame", () => {});
+  // jsdom's CSS.supports says yes to scroll-driven animations it doesn't run: the script draws
+  // the thumbs itself unless a test says otherwise.
+  vi.stubGlobal("CSS", { supports: () => false });
   // jsdom lacks pointer capture, scrollBy and scrollTo.
   Element.prototype.setPointerCapture = () => {};
   scrollBy.mockClear();
@@ -204,7 +207,7 @@ describe("ScrollArea", () => {
     expect(area.classList.contains("r-scroll-area--scrolling")).toBe(false);
   });
 
-  it("draws once a frame from cached sizes, as a transform, with no React render while scrolling", () => {
+  it("draws once a frame, as a transform, with no React render while scrolling", () => {
     fakeTimers();
     layout = tallLayout;
     const onScroll = vi.fn();
@@ -235,12 +238,16 @@ describe("ScrollArea", () => {
     expect(writes("transform")).toBe(0);
     expect(area.classList.contains("r-scroll-area--scrolling")).toBe(false);
 
-    // The frame draws the last offset once, from the sizes cached when the area was measured.
+    // The frame draws the last offset once. It reads the scroll size once (free after the
+    // offset), and no client size or rail, which only the layout path reads.
     frame();
     expect(writes("transform")).toBe(1);
     expect(thumbTop(thumb)).toBe("36");
     expect(writes("--r-scroll-area-thumb-length")).toBe(0);
-    for (const key of layoutKeys) expect(getters[key]).not.toHaveBeenCalled();
+    expect(getters.scrollHeight).toHaveBeenCalledTimes(1);
+    for (const key of ["clientHeight", "clientWidth", "offsetHeight", "offsetWidth"] as const) {
+      expect(getters[key]).not.toHaveBeenCalled();
+    }
     // Scrolling started and the top edge flipped, set on the element and reported without a render.
     expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
     expect(area.classList.contains("r-scroll-area--overflow-y-start")).toBe(true);
@@ -265,51 +272,106 @@ describe("ScrollArea", () => {
     expect(onRender).not.toHaveBeenCalled();
   });
 
-  it("holds the thumb length while scrolling and applies a new one, with its offset, when scrolling stops", () => {
+  it("updates the thumb length in the same frame as the content's size, idle and while scrolling", () => {
     fakeTimers();
+    const observers: { callback: ResizeObserverCallback }[] = [];
+    vi.stubGlobal(
+      "ResizeObserver",
+      class {
+        callback: ResizeObserverCallback;
+        constructor(callback: ResizeObserverCallback) {
+          this.callback = callback;
+          observers.push(this);
+        }
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      },
+    );
+    /** The content resizes and the observer reports it, before the frame is painted. */
+    const resize = (scrollHeight: number) => {
+      layout["r-scroll-area"] = {
+        clientHeight: 100,
+        clientWidth: 200,
+        scrollHeight,
+        scrollWidth: 200,
+      };
+      act(() => {
+        for (const { callback } of observers) callback([], {} as ResizeObserver);
+      });
+    };
     layout = {
-      "own-list": { clientHeight: 100, clientWidth: 200, scrollHeight: 200, scrollWidth: 200 },
+      "r-scroll-area": { clientHeight: 100, clientWidth: 200, scrollHeight: 200, scrollWidth: 200 },
       "r-scroll-area__rail": { clientHeight: 100, clientWidth: 200 },
     };
-    const ref = createRef<{ measure: () => void }>();
-    const { container } = render(
-      <MeasuredScroller measureRef={ref}>
-        <p>Rows</p>
-      </MeasuredScroller>,
-    );
-    const list = container.querySelector<HTMLElement>(".own-list")!;
+    const { container } = render(<ScrollArea>long</ScrollArea>);
+    const area = root(container);
     const [thumb] = thumbs(container);
     expect(thumbLength(thumb)).toBe("50px");
 
-    list.scrollTop = 50;
-    fireEvent.scroll(list);
-    frame();
-    expect(thumbTop(thumb)).toBe("25");
+    // Idle: the length and its place follow at once.
+    resize(400);
+    expect(thumbLength(thumb)).toBe("25px");
 
-    // The content doubles mid-scroll (measured, as a resize would): the length stays, the offset
-    // follows the new size along the travel the held length leaves.
-    layout["own-list"] = {
+    // While scrolling, too: no length is held for later.
+    area.scrollTop = 150;
+    fireEvent.scroll(area);
+    frame();
+    expect(thumbTop(thumb)).toBe("38");
+    resize(250);
+    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(thumbLength(thumb)).toBe("40px");
+    expect(thumbTop(thumb)).toBe("60");
+
+    // Content that grows with nothing observed resizing (rows translated past a list's spacer):
+    // the next scrolled frame reads the new size and draws the length for it.
+    layout["r-scroll-area"] = {
       clientHeight: 100,
       clientWidth: 200,
-      scrollHeight: 400,
+      scrollHeight: 500,
       scrollWidth: 200,
     };
-    act(() => ref.current!.measure());
-    expect(thumbLength(thumb)).toBe("50px");
-    expect(thumbTop(thumb)).toBe(String(Math.round((50 / 300) * 50)));
-    list.scrollTop = 60;
-    fireEvent.scroll(list);
+    area.scrollTop = 200;
+    fireEvent.scroll(area);
     frame();
-    expect(thumbLength(thumb)).toBe("50px");
-    expect(thumbTop(thumb)).toBe("10");
+    expect(thumbLength(thumb)).toBe("24px");
+    expect(thumbTop(thumb)).toBe("38");
+  });
 
-    // Scrolling stops: the new length (a quarter of the rail) and its offset, in the same frame.
-    act(() => {
-      vi.advanceTimersByTime(600);
+  it("with scroll-driven animations, writes the travel instead of a transform, and nothing per scroll", () => {
+    vi.stubGlobal("CSS", {
+      supports: (condition: string) => condition === scrollTimelineCondition,
     });
+    layout = {
+      "r-scroll-area": { clientHeight: 100, clientWidth: 200, scrollHeight: 400, scrollWidth: 200 },
+      "r-scroll-area__rail": { clientHeight: 96, clientWidth: 196 },
+    };
+    const { container } = render(<ScrollArea>long</ScrollArea>);
+    const area = root(container);
+    const [thumb] = thumbs(container);
+    expect(thumbLength(thumb)).toBe("24px");
+    expect(thumb!.style.getPropertyValue("--r-scroll-area-thumb-travel")).toBe("72px");
+    const thumbStyle = thumb!.getAttribute("style");
+    area.scrollTop = 150;
+    fireEvent.scroll(area);
     frame();
-    expect(thumbLength(thumb)).toBe("25px");
-    expect(thumbTop(thumb)).toBe("15");
+    // The browser moves the thumb from the scroll: the script writes nothing on it.
+    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(thumb!.getAttribute("style")).toBe(thumbStyle);
+    expect(thumb!.style.getPropertyValue("transform")).toBe("");
+
+    // The CSS animates under the same condition, on named timelines a wrapper hoists.
+    expect(scrollAreaCss).toContain(`@supports ${scrollTimelineCondition} {`);
+    expect(rule(`${rails} > ${block}__rail--vertical > ${block}__thumb`)).not.toContain(
+      "animation",
+    );
+    expect(flatCss).toMatch(
+      /animation: r-scroll-area-thumb-y linear both; animation-timeline: --r-scroll-area-y;/,
+    );
+    expect(flatCss).toMatch(/timeline-scope: --r-scroll-area-y, --r-scroll-area-x;/);
+    expect(flatCss).toMatch(
+      /to \{ transform: translate3d\(0, var\(--r-scroll-area-thumb-travel\), 0\); \}/,
+    );
   });
 
   it("moves the thumb by a transform from the top of its rail, and transitions neither its length nor its place", () => {
@@ -991,25 +1053,6 @@ const ownLayout = {
   "own-list": { clientHeight: 100, clientWidth: 200, scrollHeight: 400, scrollWidth: 200 },
   "r-scroll-area__rail": { clientHeight: 100, clientWidth: 200 },
 };
-
-/** An OwnScroller whose `measure` a test can call, as a list does for a size change it makes. */
-function MeasuredScroller({
-  children,
-  measureRef,
-}: {
-  children?: ReactNode;
-  measureRef: Ref<{ measure: () => void }>;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const bars = useScrollAreaRails(ref);
-  useImperativeHandle(measureRef, () => ({ measure: bars.measure }), [bars.measure]);
-  return (
-    <div className={clsx("own-list", bars.className)} ref={ref} onScroll={bars.onScroll}>
-      {bars.rails}
-      {children}
-    </div>
-  );
-}
 
 describe("useScrollAreaRails", () => {
   it("lays the rails over an element that scrolls itself, as its first child, with no wrapper", () => {

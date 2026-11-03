@@ -9,7 +9,7 @@ import {
   thumbOffset,
   thumbPlacement,
 } from "./scroll-geometry";
-import type { ScrollAxis, ScrollMetrics } from "./scroll-geometry";
+import type { ScrollMetrics } from "./scroll-geometry";
 
 /** What React renders from: whether each rail exists. Nothing else about the scrollbars renders. */
 export type ScrollRails = {
@@ -45,6 +45,21 @@ const px = (value: number) => `${value}px`;
 function snap(value: number): number {
   const ratio = (typeof window !== "undefined" && window.devicePixelRatio) || 1;
   return Math.round(value * ratio) / ratio;
+}
+
+/**
+ * Scroll-driven animations, and `timeline-scope` for a wrapper whose scroller is a sibling of the
+ * rails. The same condition gates the `@supports` block in scroll-area.css that animates the thumbs.
+ */
+export const scrollTimelineCondition = "(animation-timeline: scroll()) and (timeline-scope: none)";
+
+/** Whether the browser moves the thumbs itself, from the scroll (scroll-area.css), so the script only sizes them. */
+export function supportsScrollTimeline(): boolean {
+  return (
+    typeof CSS !== "undefined" &&
+    typeof CSS.supports === "function" &&
+    CSS.supports(scrollTimelineCondition)
+  );
 }
 
 /** `--r-scroll-area-thumb-min-length` when the CSS isn't loaded (or isn't a px length). */
@@ -95,18 +110,23 @@ type Layout = Omit<ScrollMetrics, "scrollLeft" | "scrollTop"> & {
  * Two paths. The layout path (mounting, a ResizeObserver or MutationObserver
  * notification, `measure()`) reads the container's client and scroll sizes,
  * the rails' lengths and the writing direction, caches them and draws. The
- * scroll path only asks for one animation frame; that frame reads the offset
- * once (`scrollTop` / `scrollLeft`) and draws from the
- * cache: no size is read while scrolling.
+ * scroll path only asks for one animation frame, however many scroll events
+ * come; that frame reads the offset and the scroll size, right after the
+ * offset forced the layout (so it costs nothing more), and draws. The scroll
+ * size is read there because the content can grow with nothing observed
+ * resizing (a list's rows translated past its spacer), and a stale size
+ * leaves the thumb's length behind.
  *
- * Drawing writes each thumb's length (`--r-scroll-area-thumb-length`, px)
- * and its place as a `transform`, both rounded to device pixels and written
- * together, so they never disagree and the compositor moves the thumb
- * without a layout. While scrolling (or dragging) the length is held, and a
- * length the content's new size calls for is applied once scrolling stops;
- * the place always follows the current size. It also writes the viewport
- * size on the block (only from the layout path) and, with `fade`, the px left
- * past each edge on the content.
+ * Drawing works like a native scrollbar: each thumb's length and place come
+ * from the current sizes, every frame, with no transition. The length is
+ * written as `--r-scroll-area-thumb-length` (px, rounded to device pixels).
+ * Where the browser has scroll-driven animations the thumb is moved by one
+ * (scroll-area.css), on the compositor, from the scroll itself: the script
+ * writes only `--r-scroll-area-thumb-travel` (rail minus length), and only
+ * when a size changes. Elsewhere the script writes the place as a
+ * `translate3d`, in the same frame as the length. It also writes the
+ * viewport size on the block (only from the layout path) and, with `fade`,
+ * the px left past each edge on the content.
  *
  * Scrolling renders nothing: `--scrolling`, `--dragging`, `--rtl` and the
  * `--overflow-*` edge classes are set on the block with `classList` (and set
@@ -140,8 +160,6 @@ export function useScrollbars<E extends HTMLElement>({
     edges: noEdges,
     /** The pending animation frame, 0 when none. */
     frame: 0,
-    /** The thumb lengths drawn last, held while scrolling; `null` before a thumb is drawn. */
-    held: { x: null, y: null } as Record<ScrollAxis, number | null>,
     idleTimer: undefined as ReturnType<typeof setTimeout> | undefined,
     layout: {
       clientHeight: 0,
@@ -156,6 +174,8 @@ export function useScrollbars<E extends HTMLElement>({
     rails: noRails,
     rtl: false,
     scrolling: false,
+    /** `supportsScrollTimeline()`, read with the layout. */
+    timeline: false,
   });
 
   /** The block's classes that change while scrolling: written here, never rendered. */
@@ -181,38 +201,34 @@ export function useScrollbars<E extends HTMLElement>({
     const current = state.current;
     const { fade: fadeContent, onEdgeChange: notify } = latest.current;
     const { layout } = current;
-    // The only read while scrolling: where the content is scrolled to.
-    const metrics: ScrollMetrics = {
-      ...layout,
-      scrollLeft: Math.abs(container.scrollLeft),
-      scrollTop: container.scrollTop,
-    };
-    const hold = current.scrolling || current.dragging;
+    // The offset first: it brings the layout up to date, so the scroll sizes after it are free.
+    const scrollTop = container.scrollTop;
+    const scrollLeft = Math.abs(container.scrollLeft);
+    layout.scrollHeight = container.scrollHeight;
+    layout.scrollWidth = container.scrollWidth;
+    const metrics: ScrollMetrics = { ...layout, scrollLeft, scrollTop };
+    const { timeline } = current;
 
     for (const axis of ["y", "x"] as const) {
       const element = axis === "y" ? yThumbRef.current : xThumbRef.current;
       const placement = current.rails[axis === "y" ? "yRail" : "xRail"]
         ? thumbPlacement(metrics, axis)
         : null;
-      if (!element || !placement) {
-        current.held[axis] = null;
+      if (!element || !placement) continue;
+      const rail = axis === "y" ? layout.railY : layout.railX;
+      const length = snap(thumbLength(placement.ratio, rail, layout.minLength));
+      // Inline travel is toward the inline end: the left in right-to-left layouts.
+      const sign = axis === "x" && current.rtl ? -1 : 1;
+      writeVar(element, "--r-scroll-area-thumb-length", px(length));
+      if (timeline) {
+        writeVar(element, "--r-scroll-area-thumb-travel", px(sign * Math.max(0, rail - length)));
         continue;
       }
-      const rail = axis === "y" ? layout.railY : layout.railX;
-      const held = current.held[axis];
-      const length =
-        hold && held !== null
-          ? Math.min(held, rail)
-          : snap(thumbLength(placement.ratio, rail, layout.minLength));
-      current.held[axis] = length;
-      const at = snap(thumbOffset(placement.progress, rail, length));
-      writeVar(element, "--r-scroll-area-thumb-length", px(length));
+      const at = sign * snap(thumbOffset(placement.progress, rail, length));
       writeVar(
         element,
         "transform",
-        axis === "y"
-          ? `translate3d(0px, ${px(at)}, 0px)`
-          : `translate3d(${px(current.rtl ? -at : at)}, 0px, 0px)`,
+        axis === "y" ? `translate3d(0px, ${px(at)}, 0px)` : `translate3d(${px(at)}, 0px, 0px)`,
       );
     }
 
@@ -286,6 +302,7 @@ export function useScrollbars<E extends HTMLElement>({
       const current = state.current;
       const axes = latest.current.orientation;
       if (layout) {
+        current.timeline = supportsScrollTimeline();
         current.rtl = axes !== "vertical" && getComputedStyle(container).direction === "rtl";
         const min = Number.parseFloat(
           getComputedStyle(root).getPropertyValue("--r-scroll-area-thumb-min-length"),
@@ -331,9 +348,7 @@ export function useScrollbars<E extends HTMLElement>({
     clearTimeout(current.idleTimer);
     current.idleTimer = setTimeout(() => {
       current.scrolling = false;
-      // Hides the scrollbars now, and draws the length the content's size calls for in the next frame.
       applyClasses();
-      scheduleDraw();
     }, latest.current.hideDelay);
     onScroll?.(event);
   };
@@ -342,9 +357,8 @@ export function useScrollbars<E extends HTMLElement>({
     (dragging: boolean) => {
       state.current.dragging = dragging;
       applyClasses();
-      scheduleDraw();
     },
-    [applyClasses, scheduleDraw],
+    [applyClasses],
   );
 
   // Measured after mounting, when the orientation changes, and whenever the container, its content or a rail resizes.
