@@ -1,7 +1,7 @@
 ---
 title: Table
 summary: 用原生表格元素排列的行列数据，用于少数需要分列的地方，比如用量、账单和权限。
-sourceHash: 68662065
+sourceHash: 71a0f364
 ---
 
 # Table
