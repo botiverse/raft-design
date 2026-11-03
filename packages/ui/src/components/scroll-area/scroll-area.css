@@ -435,6 +435,25 @@
     position: sticky;
     translate: 0 calc(-1 * var(--r-scroll-area-padding-top));
   }
+  /*
+   * Scrolling sideways, it also sticks the inline-start padding in from that
+   * edge, and the translate lifts it back across (the other way right to left).
+   */
+  .r-scroll-area.r-scroll-area--sticky-gutters:is(
+      .r-scroll-area--horizontal-orientation,
+      .r-scroll-area--both-orientation
+    )
+    > .r-scroll-area__gutters {
+    translate: calc(-1 * var(--r-scroll-area-padding-left))
+      calc(-1 * var(--r-scroll-area-padding-top));
+  }
+  .r-scroll-area.r-scroll-area--sticky-gutters.r-scroll-area--rtl:is(
+      .r-scroll-area--horizontal-orientation,
+      .r-scroll-area--both-orientation
+    )
+    > .r-scroll-area__gutters {
+    translate: var(--r-scroll-area-padding-right) calc(-1 * var(--r-scroll-area-padding-top));
+  }
   /* Absolute: a layer over the frame's padding box, after the container. */
   .r-scroll-area.r-scroll-area--absolute-gutters > .r-scroll-area__gutters {
     border-radius: inherit;

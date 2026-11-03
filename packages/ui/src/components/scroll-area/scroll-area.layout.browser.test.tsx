@@ -131,6 +131,48 @@ it("keeps the scrollbar at the edges of a padded sticky container, and adds no o
   expect(gutterOf(root, "vertical")).toBeNull();
 });
 
+it.each([
+  ["horizontal", "ltr"],
+  ["both", "ltr"],
+  ["horizontal", "rtl"],
+] as const)(
+  "keeps the scrollbars at the edges of a %s %s sticky container padded on every side, wherever it scrolls",
+  async (orientation, dir) => {
+    const { container } = render(
+      <ScrollArea
+        dir={dir}
+        orientation={orientation}
+        style={{ boxSizing: "border-box", height: 200, padding: "16px 20px 16px 12px", width: 200 }}
+        trigger="none"
+      >
+        <div style={{ height: orientation === "both" ? 3000 : 100, width: 3000 }} />
+      </ScrollArea>,
+    );
+    const root = container.querySelector<HTMLElement>(".r-scroll-area")!;
+    await frameThenTask();
+    for (const scrollLeft of [0, 8, 400, 2000]) {
+      root.scrollLeft = dir === "rtl" ? -scrollLeft : scrollLeft;
+      if (orientation === "both") root.scrollTop = scrollLeft;
+      await frameThenTask();
+      const box = rectOf(root);
+      const horizontal = rectOf(gutterOf(root, "horizontal")!);
+      expect(box.bottom - horizontal.bottom).toBeCloseTo(0, 0);
+      if (dir === "rtl") {
+        expect(box.right - horizontal.right).toBeCloseTo(3, 0);
+        expect(horizontal.left).toBeGreaterThanOrEqual(box.left - 0.5);
+      } else {
+        expect(horizontal.left - box.left).toBeCloseTo(3, 0);
+        expect(horizontal.right).toBeLessThanOrEqual(box.right + 0.5);
+      }
+      if (orientation === "both") {
+        const vertical = rectOf(gutterOf(root, "vertical")!);
+        expect(box.right - vertical.right).toBeCloseTo(0, 0);
+        expect(vertical.top - box.top).toBeCloseTo(3, 0);
+      }
+    }
+  },
+);
+
 // Revert to fail: use-scrollbars.ts, `warnStickyLayout(container, style);` in `measure`.
 describe("a sticky container that lays out its own children", () => {
   it.each([

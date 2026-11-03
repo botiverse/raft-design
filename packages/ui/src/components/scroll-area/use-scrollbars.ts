@@ -145,7 +145,7 @@ function warnStickyLayout(container: HTMLElement, style: CSSStyleDeclaration) {
   if (problem === null) return;
   warnedContainers.add(container);
   console.warn(
-    `raft-ui: a ScrollArea container with sticky gutters ${problem}. The gutters layer is the container's first child, in flow: lay the content out in one wrapper inside it (ScrollArea's contentClassName), or use guttersPosition="absolute".`,
+    `raft-ui: a ScrollArea container with sticky gutters ${problem}. The gutters layer is the container's first child, in flow: lay the content out in one wrapper inside it (ScrollArea's contentClassName), or bind the container with useScrollAreaContainer({ guttersPosition: "absolute" }).`,
     container,
   );
 }
