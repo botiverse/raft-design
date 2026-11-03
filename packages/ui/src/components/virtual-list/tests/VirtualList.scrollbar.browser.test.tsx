@@ -18,6 +18,13 @@ const FEW: Row[] = ROWS.slice(0, 3);
 const getKey = (row: Row) => row.key;
 const FRAME_STYLE: CSSProperties = { width: 320, height: 400 };
 const nextFrame = () => new Promise<number>((resolve) => requestAnimationFrame(resolve));
+/**
+ * One frame, then a task. The scroll event asks for the scrollbars' frame during this frame's scroll
+ * steps, after a callback asked for here, so only the task after it sees the thumb drawn (still
+ * before the frame is painted).
+ */
+const frameThenTask = () =>
+  new Promise<void>((resolve) => requestAnimationFrame(() => setTimeout(resolve)));
 const renderRow = ({ item, domRef, style }: VirtualListItemRenderProps<Row>) => (
   <div ref={domRef} style={{ ...style, height: 40 }}>
     {item.key}
@@ -75,7 +82,7 @@ it("draws the thumb at the list's right edge, sized and moved by the list's own 
   expect(rect.height).toBeCloseTo(Math.max(24, (400 - 6) * (400 / 8000)), 0);
 
   list.scrollTop = list.scrollHeight;
-  await nextFrame();
+  await frameThenTask();
   rect = thumb.getBoundingClientRect();
   expect(listRect.bottom - rect.bottom).toBeCloseTo(3, 0);
 });
@@ -90,10 +97,6 @@ it("leaves a short list resting on the bottom of a flex column (mt-auto on the i
   // Nothing to scroll: no scrollbar.
   expect(list.querySelector(".r-scroll-area__thumb")).toBeNull();
 });
-
-/** One frame, then a task: the scrollbars' own frame callback (asked for by the scroll event) has run. */
-const frameThenTask = () =>
-  new Promise<void>((resolve) => requestAnimationFrame(() => setTimeout(resolve)));
 
 /** Where the thumb is drawn, read from its transform, and where the list's scroll says it belongs. */
 function thumbState(list: HTMLElement) {
