@@ -74,6 +74,11 @@ export default defineConfig({
         to: "dist/components/virtual-list/styles",
         rename: "virtual-list.css",
       },
+      {
+        from: "src/components/scroll-area/scroll-area.css",
+        to: "dist/components/scroll-area",
+        rename: "scroll-area.css",
+      },
     ],
     dts: {
       generator: "tsgo",

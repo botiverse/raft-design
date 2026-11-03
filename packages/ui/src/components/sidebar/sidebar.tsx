@@ -1,14 +1,9 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import type { ComponentPropsWithRef } from "react";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import {
-  ScrollArea,
-  ScrollAreaContent,
-  ScrollAreaScrollbar,
-  ScrollAreaThumb,
-  ScrollAreaViewport,
-} from "../scroll-area";
+import { ScrollArea } from "../scroll-area";
 import { sidebarRecipe } from "./sidebar.recipe";
 
 export type SidebarRootProps = useRender.ComponentProps<"div">;
@@ -113,56 +108,42 @@ export function SidebarBody({ className, render, ...props }: SidebarBodyProps) {
   });
 }
 
-export type SidebarContentProps = useRender.ComponentProps<"div">;
+export type SidebarContentProps = ComponentPropsWithRef<"div">;
 
 const SIDEBAR_CONTENT_INNER_STYLE = { minWidth: 0, width: "100%" };
 
-export function SidebarContent({ children, className, render, ...props }: SidebarContentProps) {
+export function SidebarContent({ children, className, ...props }: SidebarContentProps) {
   const isMobile = useMobileViewport();
-  const { sidebarContent, sidebarContentInner, sidebarScrollbar, sidebarViewport } =
-    sidebarRecipe();
-
-  const nativeViewportProps: SlotElementProps<"div"> = {
-    "data-slot": "sidebar-content",
-    className: sidebarViewport(),
-    children: (
-      <div className={sidebarContentInner({ className })} style={SIDEBAR_CONTENT_INNER_STYLE}>
-        {children}
-      </div>
-    ),
-  };
-  const nativeViewport = useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(nativeViewportProps, props),
-  });
+  const { sidebarContent, sidebarContentInner, sidebarViewport } = sidebarRecipe();
 
   if (isMobile) {
     return (
       <div data-slot="sidebar-native-scroll-area" className={sidebarContent()}>
-        {nativeViewport}
+        <div {...props} data-slot="sidebar-content" className={sidebarViewport()}>
+          <div className={sidebarContentInner({ className })} style={SIDEBAR_CONTENT_INNER_STYLE}>
+            {children}
+          </div>
+        </div>
       </div>
     );
   }
 
+  // The ScrollArea is the scrolling element itself (`sidebar-content`), with
+  // its overlay scrollbar showing only while the list scrolls; a scroll that
+  // reaches the end stops there instead of carrying on to the page.
   return (
-    <ScrollArea data-slot="sidebar-scroll-area" className={sidebarContent()}>
-      <ScrollAreaViewport
+    <div data-slot="sidebar-scroll-area" className={sidebarContent()}>
+      <ScrollArea
         {...props}
-        render={render}
         data-slot="sidebar-content"
+        trigger="scroll"
+        overscroll="contain"
         className={sidebarViewport()}
+        contentClassName={sidebarContentInner({ className })}
+        contentStyle={SIDEBAR_CONTENT_INNER_STYLE}
       >
-        <ScrollAreaContent
-          className={sidebarContentInner({ className })}
-          style={SIDEBAR_CONTENT_INNER_STYLE}
-        >
-          {children}
-        </ScrollAreaContent>
-      </ScrollAreaViewport>
-      <ScrollAreaScrollbar className={sidebarScrollbar()}>
-        <ScrollAreaThumb />
-      </ScrollAreaScrollbar>
-    </ScrollArea>
+        {children}
+      </ScrollArea>
+    </div>
   );
 }

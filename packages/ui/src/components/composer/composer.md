@@ -30,7 +30,7 @@ Where the composer sits in a conversation is in [Conversation](../../../../../de
 
 - `ComposerRoot`: the `<form>` that submits the message. Required.
 - `Composer`: the box with the ink border. Required.
-- `ComposerAttachments` with one `ComposerAttachment` per file: 64px thumbnails inside the box, above the input. Optional. `SortableComposerAttachments` (wrapping) and `SortableComposerAttachmentsScroll` (one scrolling row), with a `SortableComposerAttachment` around each, let people reorder them.
+- `ComposerAttachments` with one `ComposerAttachment` per file: 64px thumbnails inside the box, above the input. Optional. `SortableComposerAttachments` (wrapping) and `SortableComposerAttachmentsScroll` (one scrolling row), with a `SortableComposerAttachment` around each, let people reorder them. The row is `ComposerAttachmentsScrollArea`: a horizontal [ScrollArea](../scroll-area/scroll-area.md) whose thin scrollbar shows only while it scrolls, with an arrow on each side that has more attachments past it.
 - `ComposerInput`: the input, a `<textarea>` that grows with its content. Required.
 - `ComposerToolbar`: the row under the input, with:
   - `ComposerActions`: the tools at the start, each a `ComposerIconButton` (attach a file, add an image);

@@ -2,11 +2,6 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import {
   ScrollArea,
-  ScrollAreaContent,
-  ScrollAreaCorner,
-  ScrollAreaScrollbar,
-  ScrollAreaThumb,
-  ScrollAreaViewport,
   TaskBoardColumn,
   TaskBoardColumnBadge,
   TaskBoardColumnChevron,
@@ -246,105 +241,99 @@ export function TaskBoardComposition({
     activeTaskId == null ? undefined : tasks.find((task) => task.id === activeTaskId);
 
   return (
-    <ScrollArea ref={portalRef} className="relative size-full min-h-0  min-w-0">
-      <ScrollAreaViewport className="p-4">
-        <ScrollAreaContent className="min-w-max">
-          <TaskDndProvider
-            describe={describe}
-            isDropAllowed={isDropAllowed}
-            onDragStart={handleDragStart}
-            onDragOver={handleDragOver}
-            onDragCancel={clearActiveTask}
-            onDragEnd={clearActiveTask}
-            onMove={handleMove}
-          >
-            <TaskBoardRoot>
-              {TASK_STATUSES.map((status) => {
-                const statusTasks = tasks.filter((task) => task.status === status.id);
-                const columnDropId = `task-status:${status.id}`;
-                return (
-                  <TaskBoardStatusColumn
-                    key={status.id}
-                    status={status.id}
-                    dropId={columnDropId}
-                    collapsed={collapsed[status.id]}
-                    dropDisabled={!collapsed[status.id] && statusTasks.length > 0}
-                    onCollapsedChange={handleCollapsedChange}
-                  >
-                    <TaskBoardColumnTrigger>
-                      <TaskBoardColumnHeading>
-                        <TaskBoardColumnBadge status={status.id}>
-                          {status.label}
-                        </TaskBoardColumnBadge>
-                        <TaskBoardColumnCount>{statusTasks.length}</TaskBoardColumnCount>
-                      </TaskBoardColumnHeading>
-                      <TaskBoardColumnChevron>
-                        <ChevronDown aria-hidden />
-                      </TaskBoardColumnChevron>
-                    </TaskBoardColumnTrigger>
-                    <TaskBoardColumnPanel>
-                      <TaskBoardColumnItems>
-                        {statusTasks.length === 0 ? (
-                          <>
-                            <TaskBoardColumnEmpty>
-                              <TaskBoardColumnEmptyIdle>
-                                No {status.label.toLowerCase()} tasks.
-                              </TaskBoardColumnEmptyIdle>
-                              <TaskBoardColumnEmptyAllowed>
-                                Drop to set {status.label}
-                              </TaskBoardColumnEmptyAllowed>
-                              <TaskBoardColumnEmptyBlocked>
-                                You can't change this task's status
-                              </TaskBoardColumnEmptyBlocked>
-                            </TaskBoardColumnEmpty>
-                            <TaskDropPlaceholder id={columnDropId} />
-                          </>
-                        ) : (
-                          <>
-                            {statusTasks.map((task) => (
-                              <TaskBoardDraggableItem key={task.id} status={status.id} task={task}>
-                                <TaskCardComposition
-                                  task={task}
-                                  onOpen={openTask}
-                                  onStatusChange={updateStatus}
-                                  portalRef={portalRef}
-                                  showChannelName={showChannelName}
-                                />
-                              </TaskBoardDraggableItem>
-                            ))}
-                          </>
-                        )}
-                      </TaskBoardColumnItems>
-                    </TaskBoardColumnPanel>
-                  </TaskBoardStatusColumn>
-                );
-              })}
-            </TaskBoardRoot>
-            <TaskDragOverlay>
-              {activeTask == null ? null : (
-                <TaskCardComposition
-                  task={activeTask}
-                  onStatusChange={updateStatus}
-                  portalRef={portalRef}
-                  showChannelName={showChannelName}
-                />
-              )}
-            </TaskDragOverlay>
-            {refusal ? <DragRefusalHint>{refusal}</DragRefusalHint> : null}
-          </TaskDndProvider>
-          <span className="sr-only" aria-live="polite">
-            {announcement}
-          </span>
-        </ScrollAreaContent>
-      </ScrollAreaViewport>
-      <ScrollAreaScrollbar>
-        <ScrollAreaThumb />
-      </ScrollAreaScrollbar>
-      <ScrollAreaScrollbar orientation="horizontal">
-        <ScrollAreaThumb />
-      </ScrollAreaScrollbar>
-      <ScrollAreaCorner />
-    </ScrollArea>
+    <div ref={portalRef} className="relative size-full min-h-0 min-w-0">
+      <ScrollArea
+        aria-label="Task board"
+        orientation="both"
+        className="size-full"
+        contentClassName="min-w-max p-4"
+      >
+        <TaskDndProvider
+          describe={describe}
+          isDropAllowed={isDropAllowed}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragCancel={clearActiveTask}
+          onDragEnd={clearActiveTask}
+          onMove={handleMove}
+        >
+          <TaskBoardRoot>
+            {TASK_STATUSES.map((status) => {
+              const statusTasks = tasks.filter((task) => task.status === status.id);
+              const columnDropId = `task-status:${status.id}`;
+              return (
+                <TaskBoardStatusColumn
+                  key={status.id}
+                  status={status.id}
+                  dropId={columnDropId}
+                  collapsed={collapsed[status.id]}
+                  dropDisabled={!collapsed[status.id] && statusTasks.length > 0}
+                  onCollapsedChange={handleCollapsedChange}
+                >
+                  <TaskBoardColumnTrigger>
+                    <TaskBoardColumnHeading>
+                      <TaskBoardColumnBadge status={status.id}>{status.label}</TaskBoardColumnBadge>
+                      <TaskBoardColumnCount>{statusTasks.length}</TaskBoardColumnCount>
+                    </TaskBoardColumnHeading>
+                    <TaskBoardColumnChevron>
+                      <ChevronDown aria-hidden />
+                    </TaskBoardColumnChevron>
+                  </TaskBoardColumnTrigger>
+                  <TaskBoardColumnPanel>
+                    <TaskBoardColumnItems>
+                      {statusTasks.length === 0 ? (
+                        <>
+                          <TaskBoardColumnEmpty>
+                            <TaskBoardColumnEmptyIdle>
+                              No {status.label.toLowerCase()} tasks.
+                            </TaskBoardColumnEmptyIdle>
+                            <TaskBoardColumnEmptyAllowed>
+                              Drop to set {status.label}
+                            </TaskBoardColumnEmptyAllowed>
+                            <TaskBoardColumnEmptyBlocked>
+                              You can't change this task's status
+                            </TaskBoardColumnEmptyBlocked>
+                          </TaskBoardColumnEmpty>
+                          <TaskDropPlaceholder id={columnDropId} />
+                        </>
+                      ) : (
+                        <>
+                          {statusTasks.map((task) => (
+                            <TaskBoardDraggableItem key={task.id} status={status.id} task={task}>
+                              <TaskCardComposition
+                                task={task}
+                                onOpen={openTask}
+                                onStatusChange={updateStatus}
+                                portalRef={portalRef}
+                                showChannelName={showChannelName}
+                              />
+                            </TaskBoardDraggableItem>
+                          ))}
+                        </>
+                      )}
+                    </TaskBoardColumnItems>
+                  </TaskBoardColumnPanel>
+                </TaskBoardStatusColumn>
+              );
+            })}
+          </TaskBoardRoot>
+          <TaskDragOverlay>
+            {activeTask == null ? null : (
+              <TaskCardComposition
+                task={activeTask}
+                onStatusChange={updateStatus}
+                portalRef={portalRef}
+                showChannelName={showChannelName}
+              />
+            )}
+          </TaskDragOverlay>
+          {refusal ? <DragRefusalHint>{refusal}</DragRefusalHint> : null}
+        </TaskDndProvider>
+        <span className="sr-only" aria-live="polite">
+          {announcement}
+        </span>
+      </ScrollArea>
+    </div>
   );
 }
 

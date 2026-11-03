@@ -2,11 +2,6 @@ import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
   ScrollArea,
-  ScrollAreaContent,
-  ScrollAreaCorner,
-  ScrollAreaScrollbar,
-  ScrollAreaThumb,
-  ScrollAreaViewport,
   TaskBoardColumn,
   TaskBoardColumnBadge,
   TaskBoardColumnCount,
@@ -92,49 +87,46 @@ export function TaskBoardVirtualizationComposition() {
           Mounted {virtualItems.length} / {tasks.length}
         </p>
       </div>
-      <ScrollArea className="relative min-h-0 w-full flex-1">
-        <ScrollAreaViewport ref={viewportRef} className="p-4">
-          <ScrollAreaContent>
-            <TaskBoardRoot>
-              <TaskBoardColumn defaultOpen>
-                <TaskBoardColumnTrigger>
-                  <TaskBoardColumnHeading>
-                    <TaskBoardColumnBadge status="todo">Todo</TaskBoardColumnBadge>
-                    <TaskBoardColumnCount>{tasks.length}</TaskBoardColumnCount>
-                  </TaskBoardColumnHeading>
-                </TaskBoardColumnTrigger>
-                <TaskBoardColumnPanel>
-                  <TaskBoardColumnItems>
-                    <div
-                      ref={itemsRef}
-                      className="relative w-full"
-                      style={{ height: virtualizer.getTotalSize() }}
-                    >
-                      {virtualItems.map((row) => {
-                        const task = tasks[row.index]!;
-                        return (
-                          <div
-                            key={row.key}
-                            ref={virtualizer.measureElement}
-                            data-index={row.index}
-                            className="absolute inset-x-0 top-0"
-                            style={{ transform: `translateY(${row.start - scrollMargin}px)` }}
-                          >
-                            <TaskCardComposition task={task} readOnly />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </TaskBoardColumnItems>
-                </TaskBoardColumnPanel>
-              </TaskBoardColumn>
-            </TaskBoardRoot>
-          </ScrollAreaContent>
-        </ScrollAreaViewport>
-        <ScrollAreaScrollbar>
-          <ScrollAreaThumb />
-        </ScrollAreaScrollbar>
-        <ScrollAreaCorner />
+      <ScrollArea
+        ref={viewportRef}
+        aria-label="Todo tasks"
+        className="min-h-0 w-full flex-1"
+        contentClassName="p-4"
+      >
+        <TaskBoardRoot>
+          <TaskBoardColumn defaultOpen>
+            <TaskBoardColumnTrigger>
+              <TaskBoardColumnHeading>
+                <TaskBoardColumnBadge status="todo">Todo</TaskBoardColumnBadge>
+                <TaskBoardColumnCount>{tasks.length}</TaskBoardColumnCount>
+              </TaskBoardColumnHeading>
+            </TaskBoardColumnTrigger>
+            <TaskBoardColumnPanel>
+              <TaskBoardColumnItems>
+                <div
+                  ref={itemsRef}
+                  className="relative w-full"
+                  style={{ height: virtualizer.getTotalSize() }}
+                >
+                  {virtualItems.map((row) => {
+                    const task = tasks[row.index]!;
+                    return (
+                      <div
+                        key={row.key}
+                        ref={virtualizer.measureElement}
+                        data-index={row.index}
+                        className="absolute inset-x-0 top-0"
+                        style={{ transform: `translateY(${row.start - scrollMargin}px)` }}
+                      >
+                        <TaskCardComposition task={task} readOnly />
+                      </div>
+                    );
+                  })}
+                </div>
+              </TaskBoardColumnItems>
+            </TaskBoardColumnPanel>
+          </TaskBoardColumn>
+        </TaskBoardRoot>
       </ScrollArea>
     </div>
   );

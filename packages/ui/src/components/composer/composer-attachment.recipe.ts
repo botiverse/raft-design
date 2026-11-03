@@ -15,9 +15,8 @@ export const composerAttachment = tv({
       "has-[[data-slot=sortable-composer-attachments-list]]:pt-0",
     ],
     attachmentsScrollArea: ["relative w-full min-w-0"],
-    attachmentsViewport: [
-      "flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden overscroll-x-contain py-1.5",
-      "scrollbar-none [&::-webkit-scrollbar]:hidden",
+    attachmentsRow: [
+      "flex flex-nowrap gap-2 py-1.5",
       "**:data-[slot=composer-attachment]:shrink-0",
       "pe-1.5",
     ],

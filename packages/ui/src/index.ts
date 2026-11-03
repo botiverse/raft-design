@@ -1232,21 +1232,20 @@ export { Status } from "./components/status/index";
 export type { StatusProps } from "./components/status/index";
 export type { Presence } from "./lib/presence";
 
-export {
-  ScrollArea,
-  ScrollAreaContent,
-  ScrollAreaCorner,
-  ScrollAreaScrollbar,
-  ScrollAreaThumb,
-  ScrollAreaViewport,
-} from "./components/scroll-area/index";
+export { ScrollArea, ScrollAreaTextarea } from "./components/scroll-area/index";
 export type {
-  ScrollAreaContentProps,
-  ScrollAreaCornerProps,
+  ScrollAreaActions,
+  ScrollAreaEdges,
+  ScrollAreaOrientation,
+  ScrollAreaOverscroll,
+  ScrollAreaOwnProps,
   ScrollAreaProps,
-  ScrollAreaScrollbarProps,
-  ScrollAreaThumbProps,
-  ScrollAreaViewportProps,
+  ScrollAreaRailInset,
+  ScrollAreaScrollToElementOptions,
+  ScrollAreaSize,
+  ScrollAreaTextareaOwnProps,
+  ScrollAreaTextareaProps,
+  ScrollAreaTrigger,
 } from "./components/scroll-area/index";
 
 export {

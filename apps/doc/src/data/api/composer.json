@@ -142,6 +142,7 @@
   {
     "name": "ComposerAttachmentsScrollArea",
     "entry": "@botiverse/raft-ui",
+    "description": "One scrolling row of attachments: a horizontal ScrollArea (its thin scrollbar shows only while the row scrolls), with an arrow on each side that has more attachments past it. The ScrollArea reports the edges, so the arrows follow scrolling, resizing and attachments coming and going.",
     "native": true,
     "props": []
   },

@@ -1,0 +1,470 @@
+/*
+ * ScrollArea. The area is the scroll container itself: native scrolling, the
+ * native scrollbars hidden, and thin overlay scrollbars drawn over it. Plain
+ * CSS: every selector is written out.
+ *
+ * Classes: `.r-scroll-area` (the scroll container) with the modifiers
+ * `--small` / `--medium`, `--{hover,scroll,none}-trigger`,
+ * `--{vertical,horizontal,both}-orientation`, `--{none,contain}-overscroll-{y,x}`,
+ * `--fade`, `--rtl`, `--overflow-{y,x}-{start,end}` (more content past that
+ * edge; `x` is inline), `--scrolling` (from the first scroll until `hideDelay`
+ * after the last), `--dragging` and `--textarea`; `__rails` (a zero-height
+ * layer stuck to the top of the viewport), `__rail` (`--vertical`,
+ * `--horizontal`, `--shortened`, `--dragging`), `__thumb`, `__content` and
+ * `__textarea`.
+ *
+ * In the `components` layer, so a utility in the caller's `className`
+ * (`h-*`, `max-h-*`, `absolute`) overrides these rules.
+ *
+ * Knobs, set on the area (or by a utility on it):
+ *   --r-scroll-area-thumb-size-{small,medium}        thumb thickness at rest
+ *   --r-scroll-area-thumb-size-hover-{small,medium}  while pointed at or dragged
+ *   --r-scroll-area-thumb-min-length
+ *   --r-scroll-area-thumb-color / -color-hover
+ *   --r-scroll-area-rail-gap                         thumb to the area's edge
+ *   --r-scroll-area-rail-inset-{top,bottom,left,right}  room kept clear at the
+ *                                                    ends (`railInset`); they
+ *                                                    don't inherit
+ *   --r-scroll-area-fade-size                        how far `fade` fades
+ *
+ * CSS variables the script writes as inline styles (React never renders them):
+ *   --r-scroll-area-viewport-{height,width}   on the area: its client size
+ *   --r-scroll-area-thumb-{ratio,progress}    on each thumb: its share of the
+ *                                             rail and 0..1 along it
+ *   --r-scroll-area-overflow-{y,x}-{start,end}  on the content, with `fade`
+ *                                             only: px left past each edge
+ * So a scrolled frame restyles the thumbs (and the content with `fade`),
+ * never the area, whose variables everything inside would inherit.
+ *
+ * The thumb is the label colour (`foreground`) made translucent, dark on
+ * light pages and light on dark ones, so it sits on any content; there is no
+ * visible track: pointing at the scrollbar only thickens the thumb. One look
+ * in every theme.
+ */
+
+/*
+ * The px left past each edge change on every scrolled frame. Only `fade`
+ * reads them, on the content, and they don't inherit: a change restyles the
+ * content element, not everything inside it.
+ */
+@property --r-scroll-area-overflow-y-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --r-scroll-area-overflow-y-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --r-scroll-area-overflow-x-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --r-scroll-area-overflow-x-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+/*
+ * Room kept clear at each end of the scrollbars, such as for a sticky header
+ * or footer inside the area (`railInset`). Set on the area itself; they don't
+ * inherit, so a scroll area nested inside doesn't take them.
+ */
+@property --r-scroll-area-rail-inset-top {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --r-scroll-area-rail-inset-bottom {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --r-scroll-area-rail-inset-left {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --r-scroll-area-rail-inset-right {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@layer components {
+  .r-scroll-area {
+    --r-scroll-area-thumb-size-small: 5px;
+    --r-scroll-area-thumb-size-hover-small: 8px;
+    --r-scroll-area-thumb-size-medium: 7px;
+    --r-scroll-area-thumb-size-hover-medium: 10px;
+    --r-scroll-area-thumb-min-length: 24px;
+    --r-scroll-area-thumb-color: color-mix(in oklab, var(--foreground) 42%, transparent);
+    --r-scroll-area-thumb-color-hover: color-mix(in oklab, var(--foreground) 58%, transparent);
+    --r-scroll-area-rail-gap: 3px;
+    /* Room left for a textarea's resize grip in the bottom corner. */
+    --r-scroll-area-resize-grip-size: 16px;
+    --r-scroll-area-fade-size: 24px;
+    --r-scroll-area-duration-fade-in: 120ms;
+    --r-scroll-area-duration-fade-out: 400ms;
+    --r-scroll-area-duration: 150ms;
+    --r-scroll-area-easing: ease-out;
+
+    --r-scroll-area-thumb-size: var(--r-scroll-area-thumb-size-medium);
+    --r-scroll-area-thumb-size-hover: var(--r-scroll-area-thumb-size-hover-medium);
+    /*
+     * Until the first measurement, and again for a nested scroll area, which
+     * would otherwise inherit its parent's.
+     */
+    --r-scroll-area-viewport-height: 100%;
+    --r-scroll-area-viewport-width: 100%;
+    /* The rail is as thick as the hovered thumb plus the gap on both sides. */
+    --r-scroll-area-rail-size: calc(
+      var(--r-scroll-area-thumb-size-hover) + 2 * var(--r-scroll-area-rail-gap)
+    );
+    /*
+     * Where each rail starts and ends: the gap plus the room kept clear at
+     * that end. Read on the area, where the room is set (it doesn't inherit).
+     */
+    --r-scroll-area-rail-top: calc(
+      var(--r-scroll-area-rail-gap) + var(--r-scroll-area-rail-inset-top)
+    );
+    --r-scroll-area-rail-bottom: calc(
+      var(--r-scroll-area-rail-gap) + var(--r-scroll-area-rail-inset-bottom)
+    );
+    --r-scroll-area-rail-left: calc(
+      var(--r-scroll-area-rail-gap) + var(--r-scroll-area-rail-inset-left)
+    );
+    --r-scroll-area-rail-right: calc(
+      var(--r-scroll-area-rail-gap) + var(--r-scroll-area-rail-inset-right)
+    );
+    /* With both rails, the end at the corner: the other rail plus the room kept clear there. */
+    --r-scroll-area-rail-bottom-shortened: calc(
+      var(--r-scroll-area-rail-size) + var(--r-scroll-area-rail-inset-bottom)
+    );
+    --r-scroll-area-rail-left-shortened: calc(
+      var(--r-scroll-area-rail-size) + var(--r-scroll-area-rail-inset-left)
+    );
+    --r-scroll-area-rail-right-shortened: calc(
+      var(--r-scroll-area-rail-size) + var(--r-scroll-area-rail-inset-right)
+    );
+
+    overflow: hidden auto;
+    position: relative;
+    scrollbar-width: none;
+  }
+  .r-scroll-area::-webkit-scrollbar {
+    display: none;
+  }
+  .r-scroll-area.r-scroll-area--small {
+    --r-scroll-area-thumb-size: var(--r-scroll-area-thumb-size-small);
+    --r-scroll-area-thumb-size-hover: var(--r-scroll-area-thumb-size-hover-small);
+  }
+  .r-scroll-area.r-scroll-area--horizontal-orientation {
+    overflow: auto hidden;
+  }
+  .r-scroll-area.r-scroll-area--both-orientation {
+    overflow: auto;
+  }
+
+  /*
+   * A scroll that reaches the end stops there instead of scrolling the page:
+   * `none` also keeps Mac trackpads and iOS from bouncing the area (and its
+   * sticky parts) at the edge; `contain` lets them bounce it. Only on the axes
+   * that really scroll right now (the script adds each modifier while that
+   * axis has a rail), so a strip that only overflows sideways never holds back
+   * the page's vertical scroll. Each sets one axis only and never `auto`, so it
+   * doesn't override a caller's own `overscroll-behavior` on the other axis.
+   */
+  .r-scroll-area.r-scroll-area--contain-overscroll-y {
+    overscroll-behavior-y: contain;
+  }
+  .r-scroll-area.r-scroll-area--contain-overscroll-x {
+    overscroll-behavior-x: contain;
+  }
+  .r-scroll-area.r-scroll-area--none-overscroll-y {
+    overscroll-behavior-y: none;
+  }
+  .r-scroll-area.r-scroll-area--none-overscroll-x {
+    overscroll-behavior-x: none;
+  }
+
+  /* Keyboard focus only: --focus-ring is empty after a click or a tap (styles.css). */
+  .r-scroll-area:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+  }
+
+  /* Wide content widens the scrolled area instead of wrapping to it. */
+  .r-scroll-area.r-scroll-area--horizontal-orientation > .r-scroll-area__content,
+  .r-scroll-area.r-scroll-area--both-orientation > .r-scroll-area__content {
+    inline-size: fit-content;
+    min-inline-size: 100%;
+  }
+
+  /*
+   * `fade`: the content fades out toward each edge with more past it, over
+   * the px left (at most --r-scroll-area-fade-size), so it fades in as it
+   * leaves an edge. The mask is on the content, not the scroll container, so
+   * the rails (inside the container) don't fade. The content scrolls, so the
+   * mask is one viewport large and moved to where the viewport is. A mask
+   * reads only alpha: `black` is opaque here, not a colour.
+   *
+   * The mask repaints the content layer on every scrolled frame, so `fade` is
+   * meant for short areas, not long lists.
+   */
+  .r-scroll-area.r-scroll-area--fade > .r-scroll-area__content {
+    --r-scroll-area-overflow-left: var(--r-scroll-area-overflow-x-start);
+    --r-scroll-area-overflow-right: var(--r-scroll-area-overflow-x-end);
+    --r-scroll-area-fade-top: min(
+      var(--r-scroll-area-overflow-y-start),
+      var(--r-scroll-area-fade-size)
+    );
+    --r-scroll-area-fade-bottom: min(
+      var(--r-scroll-area-overflow-y-end),
+      var(--r-scroll-area-fade-size)
+    );
+    --r-scroll-area-fade-left: min(
+      var(--r-scroll-area-overflow-left),
+      var(--r-scroll-area-fade-size)
+    );
+    --r-scroll-area-fade-right: min(
+      var(--r-scroll-area-overflow-right),
+      var(--r-scroll-area-fade-size)
+    );
+    --r-scroll-area-fade-y: linear-gradient(
+      to bottom,
+      transparent,
+      black var(--r-scroll-area-fade-top),
+      black calc(100% - var(--r-scroll-area-fade-bottom)),
+      transparent
+    );
+    --r-scroll-area-fade-x: linear-gradient(
+      to right,
+      transparent,
+      black var(--r-scroll-area-fade-left),
+      black calc(100% - var(--r-scroll-area-fade-right)),
+      transparent
+    );
+
+    mask-position: var(--r-scroll-area-overflow-left) var(--r-scroll-area-overflow-y-start);
+    mask-repeat: no-repeat;
+    mask-size: var(--r-scroll-area-viewport-width) var(--r-scroll-area-viewport-height);
+  }
+  /* In right-to-left layouts the inline start is the right edge. */
+  .r-scroll-area.r-scroll-area--fade.r-scroll-area--rtl > .r-scroll-area__content {
+    --r-scroll-area-overflow-left: var(--r-scroll-area-overflow-x-end);
+    --r-scroll-area-overflow-right: var(--r-scroll-area-overflow-x-start);
+  }
+  .r-scroll-area.r-scroll-area--fade.r-scroll-area--vertical-orientation > .r-scroll-area__content {
+    mask-image: var(--r-scroll-area-fade-y);
+  }
+  .r-scroll-area.r-scroll-area--fade.r-scroll-area--horizontal-orientation
+    > .r-scroll-area__content {
+    mask-image: var(--r-scroll-area-fade-x);
+  }
+  .r-scroll-area.r-scroll-area--fade.r-scroll-area--both-orientation > .r-scroll-area__content {
+    mask-composite: intersect;
+    mask-image: var(--r-scroll-area-fade-y), var(--r-scroll-area-fade-x);
+  }
+
+  /*
+   * A textarea scrolls itself and can't hold the rails, so the block is a
+   * wrapper around it: the textarea fills it, hides its native scrollbar, and
+   * the rails layer is pinned to the wrapper's top instead of stuck. The rails
+   * lie over the wrapper's padding box, so frame the wrapper (border,
+   * background) and pad the textarea.
+   */
+  .r-scroll-area.r-scroll-area--textarea {
+    display: grid;
+    overflow: visible;
+  }
+  .r-scroll-area.r-scroll-area--textarea > .r-scroll-area__textarea {
+    box-sizing: border-box;
+    min-block-size: 0;
+    /* Drag the corner to make it taller; widening would outgrow the frame. */
+    resize: vertical;
+    scrollbar-width: none;
+  }
+  .r-scroll-area.r-scroll-area--textarea > .r-scroll-area__textarea::-webkit-scrollbar {
+    display: none;
+  }
+  .r-scroll-area.r-scroll-area--textarea.r-scroll-area--contain-overscroll-y
+    > .r-scroll-area__textarea {
+    overscroll-behavior-y: contain;
+  }
+  .r-scroll-area.r-scroll-area--textarea.r-scroll-area--none-overscroll-y
+    > .r-scroll-area__textarea {
+    overscroll-behavior-y: none;
+  }
+
+  .r-scroll-area > .r-scroll-area__rails {
+    block-size: 0;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    pointer-events: none;
+    position: sticky;
+    user-select: none;
+    z-index: 1;
+  }
+  .r-scroll-area.r-scroll-area--textarea > .r-scroll-area__rails {
+    inset-inline-end: 0;
+    position: absolute;
+  }
+
+  /*
+   * A rail is the thumb's travel, and the invisible target for hover and
+   * paging: it stops the gap short of both ends, plus any room kept clear
+   * there. Top and bottom room shortens the vertical rail, left and right the
+   * horizontal one.
+   */
+  .r-scroll-area > .r-scroll-area__rails > .r-scroll-area__rail {
+    opacity: 0;
+    pointer-events: auto;
+    position: absolute;
+    transition: opacity var(--r-scroll-area-duration-fade-out) var(--r-scroll-area-easing);
+  }
+  .r-scroll-area > .r-scroll-area__rails > .r-scroll-area__rail--vertical {
+    block-size: calc(
+      var(--r-scroll-area-viewport-height) - var(--r-scroll-area-rail-top) -
+        var(--r-scroll-area-rail-bottom)
+    );
+    inline-size: var(--r-scroll-area-rail-size);
+    inset-block-start: var(--r-scroll-area-rail-top);
+    inset-inline-end: 0;
+  }
+  .r-scroll-area > .r-scroll-area__rails > .r-scroll-area__rail--horizontal {
+    inset-block-start: calc(var(--r-scroll-area-viewport-height) - var(--r-scroll-area-rail-size));
+    block-size: var(--r-scroll-area-rail-size);
+    left: var(--r-scroll-area-rail-left);
+    right: var(--r-scroll-area-rail-right);
+  }
+  /* The vertical rail stops above the textarea's resize grip so the grip can be dragged. */
+  .r-scroll-area.r-scroll-area--textarea > .r-scroll-area__rails > .r-scroll-area__rail--vertical {
+    block-size: calc(
+      var(--r-scroll-area-viewport-height) - var(--r-scroll-area-rail-top) -
+        var(--r-scroll-area-resize-grip-size)
+    );
+  }
+
+  /*
+   * With both rails, each stops short of the other, like native scrollbars;
+   * room kept clear past the corner adds to it. The corner is at the inline
+   * end: the right, or the left in right-to-left layouts.
+   */
+  .r-scroll-area
+    > .r-scroll-area__rails
+    > .r-scroll-area__rail--vertical.r-scroll-area__rail--shortened {
+    block-size: calc(
+      var(--r-scroll-area-viewport-height) - var(--r-scroll-area-rail-top) -
+        var(--r-scroll-area-rail-bottom-shortened)
+    );
+  }
+  .r-scroll-area
+    > .r-scroll-area__rails
+    > .r-scroll-area__rail--horizontal.r-scroll-area__rail--shortened {
+    right: var(--r-scroll-area-rail-right-shortened);
+  }
+  .r-scroll-area.r-scroll-area--rtl
+    > .r-scroll-area__rails
+    > .r-scroll-area__rail--horizontal.r-scroll-area__rail--shortened {
+    left: var(--r-scroll-area-rail-left-shortened);
+    right: var(--r-scroll-area-rail-right);
+  }
+
+  .r-scroll-area > .r-scroll-area__rails > .r-scroll-area__rail > .r-scroll-area__thumb {
+    --r-scroll-area-thumb-length: max(
+      var(--r-scroll-area-thumb-min-length),
+      var(--r-scroll-area-thumb-ratio) * 100%
+    );
+    --r-scroll-area-thumb-offset: calc(
+      (100% - var(--r-scroll-area-thumb-length)) * var(--r-scroll-area-thumb-progress)
+    );
+
+    background: var(--r-scroll-area-thumb-color);
+    border-radius: calc(var(--r-scroll-area-thumb-size-hover) / 2);
+    position: absolute;
+    touch-action: none;
+    transition:
+      background-color var(--r-scroll-area-duration) var(--r-scroll-area-easing),
+      block-size var(--r-scroll-area-duration) var(--r-scroll-area-easing),
+      inline-size var(--r-scroll-area-duration) var(--r-scroll-area-easing);
+  }
+  .r-scroll-area > .r-scroll-area__rails > .r-scroll-area__rail--vertical > .r-scroll-area__thumb {
+    block-size: var(--r-scroll-area-thumb-length);
+    inline-size: var(--r-scroll-area-thumb-size);
+    inset-block-start: var(--r-scroll-area-thumb-offset);
+    inset-inline-end: var(--r-scroll-area-rail-gap);
+  }
+  .r-scroll-area
+    > .r-scroll-area__rails
+    > .r-scroll-area__rail--horizontal
+    > .r-scroll-area__thumb {
+    block-size: var(--r-scroll-area-thumb-size);
+    inline-size: var(--r-scroll-area-thumb-length);
+    inset-block-end: var(--r-scroll-area-rail-gap);
+    inset-inline-start: var(--r-scroll-area-thumb-offset);
+  }
+
+  /* Shown while hovered (trigger="hover"), always (trigger="none"), and while scrolling or dragging (every trigger). */
+  .r-scroll-area.r-scroll-area--hover-trigger:hover > .r-scroll-area__rails > .r-scroll-area__rail,
+  .r-scroll-area.r-scroll-area--none-trigger > .r-scroll-area__rails > .r-scroll-area__rail,
+  .r-scroll-area.r-scroll-area--scrolling > .r-scroll-area__rails > .r-scroll-area__rail,
+  .r-scroll-area.r-scroll-area--dragging > .r-scroll-area__rails > .r-scroll-area__rail {
+    opacity: 1;
+    transition-duration: var(--r-scroll-area-duration-fade-in);
+  }
+
+  /*
+   * trigger="scroll": a hidden rail doesn't catch presses meant for the
+   * content under it. A rail the pointer is already on (it was shown by
+   * scrolling) stays visible and usable after `hideDelay`, until the pointer
+   * leaves it; a hidden rail can't become hovered, so it never shows on hover.
+   */
+  .r-scroll-area.r-scroll-area--scroll-trigger
+    > .r-scroll-area__rails
+    > .r-scroll-area__rail:hover {
+    opacity: 1;
+    transition-duration: var(--r-scroll-area-duration-fade-in);
+  }
+  .r-scroll-area.r-scroll-area--scroll-trigger:not(.r-scroll-area--scrolling):not(
+      .r-scroll-area--dragging
+    )
+    > .r-scroll-area__rails
+    > .r-scroll-area__rail:not(:hover) {
+    pointer-events: none;
+  }
+
+  /* Pointed at, or while dragged: the thumb thickens and darkens. */
+  .r-scroll-area
+    > .r-scroll-area__rails
+    > .r-scroll-area__rail--vertical:hover
+    > .r-scroll-area__thumb,
+  .r-scroll-area
+    > .r-scroll-area__rails
+    > .r-scroll-area__rail--vertical.r-scroll-area__rail--dragging
+    > .r-scroll-area__thumb {
+    background: var(--r-scroll-area-thumb-color-hover);
+    inline-size: var(--r-scroll-area-thumb-size-hover);
+  }
+  .r-scroll-area
+    > .r-scroll-area__rails
+    > .r-scroll-area__rail--horizontal:hover
+    > .r-scroll-area__thumb,
+  .r-scroll-area
+    > .r-scroll-area__rails
+    > .r-scroll-area__rail--horizontal.r-scroll-area__rail--dragging
+    > .r-scroll-area__thumb {
+    background: var(--r-scroll-area-thumb-color-hover);
+    block-size: var(--r-scroll-area-thumb-size-hover);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .r-scroll-area > .r-scroll-area__rails > .r-scroll-area__rail,
+    .r-scroll-area > .r-scroll-area__rails > .r-scroll-area__rail > .r-scroll-area__thumb {
+      transition: none;
+    }
+  }
+}

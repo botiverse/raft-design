@@ -1,16 +1,16 @@
-export {
-  ScrollArea,
-  ScrollAreaContent,
-  ScrollAreaCorner,
-  ScrollAreaScrollbar,
-  ScrollAreaThumb,
-  ScrollAreaViewport,
-} from "./scroll-area";
+export { ScrollArea } from "./scroll-area";
+export { ScrollAreaTextarea } from "./scroll-area-textarea";
 export type {
-  ScrollAreaContentProps,
-  ScrollAreaCornerProps,
+  ScrollAreaActions,
+  ScrollAreaEdges,
+  ScrollAreaOrientation,
+  ScrollAreaOverscroll,
+  ScrollAreaOwnProps,
   ScrollAreaProps,
-  ScrollAreaScrollbarProps,
-  ScrollAreaThumbProps,
-  ScrollAreaViewportProps,
-} from "./scroll-area";
+  ScrollAreaRailInset,
+  ScrollAreaScrollToElementOptions,
+  ScrollAreaSize,
+  ScrollAreaTextareaOwnProps,
+  ScrollAreaTextareaProps,
+  ScrollAreaTrigger,
+} from "./types";
