@@ -20,7 +20,7 @@
   gap: var(--control-embedded-inset);
   padding: 0 calc(var(--control-embedded-inset) - 1px) 0 12px;
   border: 1.5px solid var(--line-field);
-  border-radius: var(--radius-control);
+  border-radius: var(--control-radius);
   outline: 0;
   background: var(--layer-card);
   color: var(--foreground);

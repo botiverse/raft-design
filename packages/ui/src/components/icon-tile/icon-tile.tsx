@@ -7,9 +7,9 @@ import type { VariantProps } from "../../lib/tv";
 // Raft Design System › the neutral icon tile (`rf-tile`): what has no face (a
 // system notice, a file, an app, a computer, a kind of search result) sits in
 // the same neutral square as a channel, with an icon. It follows the avatar
-// sizes so it lines up wherever an avatar would sit; on a desktop it takes its
-// corner by size (19 sticker, 27 chip, 35 control, 51 container). An avatar
-// stays a sticker (radius-sticker) at every size.
+// sizes so it lines up wherever an avatar would sit; it takes its corner by
+// size (19 sticker, 27 chip, 35 control, 51 container). An avatar stays a
+// sticker (radius-sticker) at every size.
 const iconTile = tv({
   slots: {
     root: ["inline-flex shrink-0 items-center justify-center", "rounded-sticker [&_svg]:shrink-0"],
@@ -24,13 +24,13 @@ const iconTile = tv({
     size: {
       xs: { root: "size-[19px] [&_svg:not([class*='size-'])]:size-[11px]" },
       sm: {
-        root: "size-[27px] md:pointer-fine:rounded-chip [&_svg:not([class*='size-'])]:size-3.5",
+        root: "size-[27px] rounded-chip [&_svg:not([class*='size-'])]:size-3.5",
       },
       md: {
-        root: "size-[35px] md:pointer-fine:rounded-control [&_svg:not([class*='size-'])]:size-[18px]",
+        root: "size-[35px] rounded-control [&_svg:not([class*='size-'])]:size-[18px]",
       },
       lg: {
-        root: "size-[51px] md:pointer-fine:rounded-container [&_svg:not([class*='size-'])]:size-[22px]",
+        root: "size-[51px] rounded-container [&_svg:not([class*='size-'])]:size-[22px]",
       },
     },
   },

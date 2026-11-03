@@ -70,7 +70,9 @@ export const listRow = tv({
     variant: {
       // A conversation, a person, an agent: a 35px leading block, a title and
       // a preview, the time and a badge. The line starts at the text, 16 + 35 + 12.
-      default: { root: "min-h-16 [--list-row-rule-start:63px]" },
+      default: {
+        root: "min-h-16 pointer-coarse:min-h-14 pointer-coarse:py-2 [--list-row-rule-start:63px]",
+      },
       // A setting: a title (and its consequence), the current value and a
       // chevron, or a switch; 12px (`settings-row-inset`) above and below its
       // tallest part: 46 with one line and a switch with a mouse, 54 by touch. The line starts at the

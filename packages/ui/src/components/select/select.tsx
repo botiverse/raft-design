@@ -125,7 +125,7 @@ const select = tv({
         trigger: [
           "px-3 text-field font-field",
           "**:data-[slot='button-content']:font-field **:data-[slot='select-value']:font-field",
-          "h-control py-0",
+          "h-control rounded-(--control-radius) py-0",
           "data-placeholder:font-field",
         ],
         item: ["text-field font-field", "**:data-[slot='select-item-text']:font-field"],
