@@ -93,6 +93,11 @@ describe("TableSortableHead", () => {
   it("draws an arrow, hidden from assistive technology, only on the sorted column", () => {
     const unsorted = renderHead({});
     expect(unsorted.button.querySelector("svg")).toBeNull();
+    // The arrow's room stays, empty, so the column keeps its width when the
+    // sort moves to another column.
+    const space = unsorted.button.querySelector('[data-slot="table-sort-arrow-space"]');
+    expect(space?.getAttribute("aria-hidden")).toBe("true");
+    expect(space?.getAttribute("class")).toContain("size-3");
     cleanup();
     const glyphs = {
       ascending: render(<ArrowUp />).container.querySelector("svg")!.innerHTML,

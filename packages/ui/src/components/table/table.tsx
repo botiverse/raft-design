@@ -117,9 +117,14 @@ export function TableSortableHead({
     sorted: sort !== undefined,
   });
   const Arrow = sort === "descending" ? ArrowDown : ArrowUp;
+  // An unsorted heading keeps the arrow's room, empty, so the columns don't
+  // move when the sort moves to another column (auto table layout sizes each
+  // column to its widest content, the heading included).
   const arrow = sort ? (
     <Arrow aria-hidden data-slot="table-sort-arrow" className={sortArrow()} />
-  ) : null;
+  ) : (
+    <span aria-hidden data-slot="table-sort-arrow-space" className={sortArrow()} />
+  );
   const button = (
     <button
       type="button"
