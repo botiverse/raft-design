@@ -1,3 +1,12 @@
+## [0.59.2](https://github.com/botiverse/raft-design/compare/v0.59.1...v0.59.2) (2026-11-03)
+
+### Fixed
+
+- **Button**: a Button narrower than its content truncates the content instead of overflowing its border. Its content wrapper (`data-slot="button-content"`) can now shrink to the Button, so a label with `truncate` truncates and icons keep their size. ([#967](https://github.com/botiverse/raft-design/pull/967))
+  - Why: a Button given `min-w-0 max-w-full` in a card or a row, holding a long label and an end icon, spilled its content out of its border on both sides, because the content wrapper kept its full width; the wrapper now has `min-w-0 max-w-full`.
+  - Affects: only Buttons whose width is constrained below their content; a Button that sizes to its content renders as before.
+  - Docs: https://raft-design.botiverse.build/components/button/#content
+
 ## [0.59.0](https://github.com/botiverse/raft-design/compare/v0.58.1...v0.59.0) (2026-11-03)
 
 ### Breaking Changes
