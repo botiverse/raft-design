@@ -1,4 +1,4 @@
-import { TextWrap } from "lucide-react";
+import { MoveHorizontal } from "lucide-react";
 import {
   CodeBlock,
   CodeBlockActions,
@@ -21,7 +21,7 @@ export function WrapCodeBlockComposition() {
           <CodeBlockTitle>bash</CodeBlockTitle>
           <CodeBlockActions>
             <CodeBlockWrapToggle title="Don't Wrap Lines" aria-label="Don't Wrap Lines">
-              <TextWrap className="size-3.5" aria-hidden />
+              <MoveHorizontal className="size-3.5" aria-hidden />
             </CodeBlockWrapToggle>
             <CodeCopyAction code={CODE} />
           </CodeBlockActions>

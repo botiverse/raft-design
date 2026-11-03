@@ -86,4 +86,4 @@ code-block/compositions/animated-copy
 - 操作距代码块的角 6px，彼此相隔 4px。没有头部时，它们在代码旁边自成一列，宽度与操作相同，所以无论有几个操作，都不会有代码行从它们下面穿过，而且代码块至少高到让它们下面留出 6px。在头部里时，它们在 40px 的头部里垂直居中，距头部末端 6px（[形状](../../../../../design/foundations/shape.md#inside-a-frame)）。
 - 消息里的代码自动换行，并给它换行开关。被当作代码读的代码（diff、完整的代码视图）保持横向滚动，不加开关。
 - 换行开关紧挨在 Copy 前面，这样 Copy 留在人们伸手去找的那个角上。
-- 换行开关用 Lucide 的 `text-wrap`（`TextWrap`；`WrapText` 是同一个图形），两种状态用同一个图标。它是一个按下的开关，所以由黄色贴纸表示按下，和 `PanelToggleAction` 一样；不要把图标填实，也不要换成第二个图形（[图标](../../../../../design/foundations/iconography.md#meanings)：一个概念一个图标，只用线框）。
+- 换行开关用 Lucide 的 `move-horizontal`，两种状态用同一个图标：按下以后长行改为横向滚动，所以图标画的是横向滚动，不是换行。用 `text-wrap` 的话，按下亮起时恰恰不换行，读起来是反的。它是一个按下的开关，所以由黄色贴纸表示按下，和 `PanelToggleAction` 一样；不要把图标填实，也不要换成第二个图形（[图标](../../../../../design/foundations/iconography.md#meanings)：一个概念一个图标，只用线框）。

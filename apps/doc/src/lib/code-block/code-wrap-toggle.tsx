@@ -1,6 +1,6 @@
 "use client";
 
-import { TextWrap } from "lucide-react";
+import { MoveHorizontal } from "lucide-react";
 import { CodeBlockWrapToggle } from "@botiverse/raft-ui/wip";
 
 import { useMessages } from "#/lib/i18n/use-locale.ts";
@@ -15,7 +15,7 @@ export function CodeWrapToggle() {
 
   return (
     <CodeBlockWrapToggle title={messages.dontWrapLines} aria-label={messages.dontWrapLines}>
-      <TextWrap className="size-3.5" aria-hidden />
+      <MoveHorizontal className="size-3.5" aria-hidden />
     </CodeBlockWrapToggle>
   );
 }
