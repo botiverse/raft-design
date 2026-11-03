@@ -237,3 +237,10 @@ export type {
   TableSortableHeadProps,
   TableSortButtonProps,
 } from "./components/table/index";
+
+// A shortcut from key names, one cap per key, drawn for the platform: icons
+// on a Mac, words elsewhere, and the shortcut in words for a screen reader
+// (kbd.md, "Shortcuts from key names"). useKeyboardPlatform is its platform check.
+// Until the shortcuts panel and the tooltips have moved onto it.
+export { KbdShortcut, useKeyboardPlatform } from "./components/kbd/index";
+export type { KbdKeyName, KbdShortcutProps, KeyboardPlatform } from "./components/kbd/index";

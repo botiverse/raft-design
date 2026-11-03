@@ -2,13 +2,61 @@
   {
     "name": "Kbd",
     "entry": "@botiverse/raft-ui",
+    "description": "One keyboard key in a cap, a native `kbd`: at `sm`, the default, a hint beside a menu item, a tooltip's text or a field; at `md`, a key that is the content, as in a list of shortcuts. One key per cap: write a shortcut as a KbdGroup of Kbd, or from key names with KbdShortcut.",
     "native": true,
-    "props": []
+    "props": [
+      {
+        "name": "size",
+        "type": "KbdSize",
+        "required": false,
+        "default": "\"sm\"",
+        "description": "`sm` (the default) is a hint beside something else: a menu item, a tooltip, the search trigger, an input. `md` is a key that is the content, in a list of shortcuts.",
+        "from": "raft-ui"
+      }
+    ]
   },
   {
     "name": "KbdGroup",
     "entry": "@botiverse/raft-ui",
+    "description": "Caps of one shortcut, 4px apart.",
     "native": true,
     "props": []
+  },
+  {
+    "name": "KbdShortcut",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One shortcut from key names: a cap per key, with the platform's drawings (icons on a Mac, words elsewhere), and the shortcut in words for a screen reader. Alternatives (\"⌘↑ / ⌘↓\") are two KbdShortcut with a separator between them, written by the caller.",
+    "native": true,
+    "props": [
+      {
+        "name": "keys",
+        "type": "readonly KbdKeyName[]",
+        "required": true,
+        "description": "The keys, by name, case-insensitive, in any order: `[\"mod\", \"shift\", \"enter\"]`. `KeyboardEvent.key` values work too (`ArrowUp`, `Meta`). Modifiers are drawn first, in the platform's order; the other keys follow in the order written.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "What a screen reader says instead of the key names, which are English: pass the product's own words for another language (\"Shift Command 回车\").",
+        "from": "raft-ui"
+      },
+      {
+        "name": "platform",
+        "type": "KeyboardPlatform",
+        "required": false,
+        "description": "The keyboard to draw for. Without it, the platform the page runs on, detected once on the client (`other` on the server and while hydrating).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "KbdSize",
+        "required": false,
+        "default": "\"sm\"",
+        "description": "The size of every cap, as `Kbd`'s.",
+        "from": "raft-ui"
+      }
+    ]
   }
 ]

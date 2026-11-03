@@ -1,7 +1,7 @@
 ---
 title: 导航
 summary: 人如何到达各个目的地、看到自己在哪里、打开链接、返回、关闭界面、切换服务器，以及在同一个地方的几个视图之间切换。
-sourceHash: 1d83534f
+sourceHash: d79fa000
 ---
 
 # 导航
@@ -78,7 +78,7 @@ sourceHash: 1d83534f
 
 - 把开关放在导航条上，作为底部区域的第一项，在帮助和设置上方。它属于外框而不属于某个页面，所以不管主区域显示什么，它都待在同一个位置（[AppShell](../../packages/ui/src/components/app-shell/app-shell.md#variants)）。
 - 侧栏显示时用 `panel-left-close`，隐藏时用 `panel-left-open`：图标表示按下后会发生什么。
-- 和每个导航条项一样，在右侧的工具提示里写出它的名称：Collapse Sidebar 或 Expand Sidebar（收起侧栏 / 展开侧栏），后面是放在 [Kbd](../../packages/ui/src/components/kbd/kbd.md) 里的快捷键：macOS 上是 ⌘\，其他系统是 Ctrl+\。快捷键在应用里任何地方都有效，焦点在文本框里时也有效。
+- 和每个导航条项一样，在右侧的工具提示里写出它的名称：Collapse Sidebar 或 Expand Sidebar（收起侧栏 / 展开侧栏），后面是键名为 `mod` 和 `\` 的 `KbdShortcut`（[Kbd](../../packages/ui/src/components/kbd/kbd.md)）：两个键帽，macOS 上是 ⌘ \，其他系统是 Ctrl \，从不把 Ctrl+\ 放进一个键帽。快捷键在应用里任何地方都有效，焦点在文本框里时也有效。
 - 和侧栏的宽度一样，把状态记在设备上：侧栏会恢复成离开时的样子，刷新后也一样。
 - 只在侧栏是主区域旁边的导航栏时，才显示开关、响应快捷键。手机上主区域旁边没有侧栏；没有侧栏的页面也没有东西可隐藏，记住的状态留到下一个有侧栏的页面再用。
 

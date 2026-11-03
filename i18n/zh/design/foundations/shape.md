@@ -1,7 +1,7 @@
 ---
 title: 形状
 summary: 五种圆角、两种描边宽度，以及为什么圆角容器的边缘上不贴任何东西。
-sourceHash: 6d9baf04
+sourceHash: cb6edb7e
 ---
 
 # 形状
@@ -20,7 +20,7 @@ sourceHash: 6d9baf04
 
 | Token | 用于 |
 | --- | --- |
-| `radius-sticker` | 像素家族：头像、工作空间图块、频道图块、复选框、徽标、步骤、骨架屏；正文中的行内标记（行内代码、提及你的地方、搜索命中、引用标签） |
+| `radius-sticker` | 像素家族：头像、工作空间图块、频道图块、复选框、徽标、步骤、骨架屏；正文中的行内标记（行内代码、提及你的地方、搜索命中、引用标签）；快捷键列表里 24px 的键帽（`md` 的 [Kbd](../../packages/ui/src/components/kbd/kbd.md)） |
 | `radius-chip` | 标签（值标签、输入框里的标签、任务状态标签、回应）、工具提示、弹出层中高亮的项，以及所有嵌在其他组件外框里的控件（[外框之内](#inside-a-frame)） |
 | `radius-control` | 独立存在的控件和选中贴纸：按钮、输入框、下拉选择、筛选、分段控件、选项卡、侧栏行、导航条项、标签栏的图标贴纸、工作空间按钮 |
 | `radius-container` | 容器：卡片、内嵌分组、消息输入框、横幅、菜单、轻提示、个人资料卡、文件卡片、消息下面装任务的框 |
@@ -28,6 +28,7 @@ sourceHash: 6d9baf04
 | `rounded-full` | 开关、单选按钮和拖动条；任务的完成控件；Android 下拉刷新的圆盘 |
 
 - 列表行（动态项、侧栏行、搜索结果、带 `cell` 的 ListRow）的状态形状用 `radius-control`：它的悬停、按下、选中和焦点填充一个和行一样高、两侧各内缩 8px 的圆角形状，从不填满整行宽度的直角（[列表](../patterns/lists.md)）。
+- `sm` 的 [Kbd](../../packages/ui/src/components/kbd/kbd.md)，即菜单、工具提示和搜索里 16px 的提示，用 3px 圆角，和它一直以来的一样，所以这些提示的样子不变。
 - 状态灯和提醒圆点（文字旁 10px，头像角上 6px 到 20px），以及 9px 到 11px 头像里的图片，用 2px 圆角：它们太小，用不了 `radius-sticker`。
 
 ## 外框之内 {#inside-a-frame}

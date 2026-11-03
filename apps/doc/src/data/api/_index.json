@@ -536,9 +536,11 @@
   "kbd": {
     "names": [
       "Kbd",
-      "KbdGroup"
+      "KbdGroup",
+      "KbdShortcut"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "One keyboard key in a cap, a native `kbd`: at `sm`, the default, a hint beside a menu item, a tooltip's text or a field; at `md`, a key that is the content, as in a list of shortcuts. One key per cap: write a shortcut as a KbdGroup of Kbd, or from key names with KbdShortcut."
   },
   "label": {
     "names": [

@@ -3,6 +3,10 @@
  */
 import { afterEach, describe, expect, it } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
+import { Search } from "lucide-react";
+import { Kbd, KbdGroup } from "../kbd/kbd";
+import { KbdShortcut } from "../kbd/kbd-shortcut";
+import type { KbdKeyName } from "../kbd/kbd-keys";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./tooltip";
 
 afterEach(cleanup);
@@ -100,5 +104,67 @@ describe("Tooltip defaults and behaviors", () => {
       const element = document.querySelector('[data-slot="copyable-code-action"]');
       expect(element).not.toBeNull();
     });
+  });
+});
+
+const MOD_K: KbdKeyName[] = ["mod", "k"];
+
+describe("Kbd in a tooltip", () => {
+  const body = () => document.querySelector('[data-slot="tooltip-body"]')!;
+
+  it("puts the 6px gap before a group, not before each cap in it", () => {
+    render(
+      <Tooltip open>
+        <TooltipTrigger>Trigger</TooltipTrigger>
+        <TooltipContent>
+          Search <KbdShortcut keys={MOD_K} platform="other" />
+        </TooltipContent>
+      </Tooltip>,
+    );
+    const list = body().className.split(/\s+/);
+    expect(list).toEqual(
+      expect.arrayContaining([
+        "**:data-[slot=kbd]:ml-1.5",
+        "**:data-[slot=kbd-group]:ml-1.5",
+        "[&_[data-slot=kbd-group]_[data-slot=kbd]]:ml-0",
+        "[&_[data-slot=kbd][data-glyph=icon]]:px-0",
+      ]),
+    );
+    // The caps sit in a group, which those rules target.
+    const caps = body().querySelectorAll('[data-slot="kbd-group"] > [data-slot="kbd"]');
+    expect(caps).toHaveLength(2);
+  });
+
+  it("never takes a leading Kbd, KbdGroup or KbdShortcut for the leading icon", () => {
+    for (const lead of [
+      <Kbd key="kbd">Esc</Kbd>,
+      <KbdGroup key="group">
+        <Kbd>Ctrl</Kbd>
+        <Kbd>K</Kbd>
+      </KbdGroup>,
+      <KbdShortcut key="shortcut" keys={MOD_K} platform="mac" />,
+    ]) {
+      render(
+        <Tooltip open>
+          <TooltipTrigger>Trigger</TooltipTrigger>
+          <TooltipContent>{lead} to search</TooltipContent>
+        </Tooltip>,
+      );
+      expect(document.querySelector('[data-slot="tooltip-body-icon"]')).toBeNull();
+      cleanup();
+    }
+  });
+
+  it("still takes a leading icon component for the leading icon", () => {
+    render(
+      <Tooltip open>
+        <TooltipTrigger>Trigger</TooltipTrigger>
+        <TooltipContent>
+          <Search />
+          Search
+        </TooltipContent>
+      </Tooltip>,
+    );
+    expect(document.querySelector('[data-slot="tooltip-body-icon"]')).not.toBeNull();
   });
 });

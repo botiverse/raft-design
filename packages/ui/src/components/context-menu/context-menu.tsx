@@ -260,7 +260,8 @@ export function ContextMenuLabel({ className, ...props }: ContextMenuLabelProps)
   return <div data-slot="context-menu-label" className={label({ className })} {...props} />;
 }
 
-export type ContextMenuShortcutProps = KbdProps;
+// A menu draws its shortcut bare, at the hint size (kbd.md, "Menus").
+export type ContextMenuShortcutProps = Omit<KbdProps, "size">;
 
 export function ContextMenuShortcut({ className, ...props }: ContextMenuShortcutProps) {
   const { shortcut } = contextMenu();
