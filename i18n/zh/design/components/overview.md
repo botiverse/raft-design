@@ -204,7 +204,7 @@ message-translation/compositions/translation-showcase
 
 ### 选中消息时的工具栏 {#toolbar-for-selected-messages}
 
-选中消息时，一个工具栏浮在原来消息输入框的位置，在会话底部居中，不论多宽都排成一行：数量（"3 selected"）、Copy Link、Forward、一个 More 菜单（Generate Image、Copy MD，在消息列里还有 Select All），最后是结束选择的 ×（cindyz，2026-10-28，任务 #173）。消息菜单里的 Select Message 开始选择；每条消息会出现一个复选框（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。它是一个浮动工具栏，和悬停工具栏一样高 36px：里面的按钮 28px，距工具栏边缘 4px，按钮之间间隔 4px，使用 `radius-chip`（[形状](../foundations/shape.md#inside-a-frame)）。
+选中消息时，一个工具栏浮在原来消息输入框的位置，在会话底部居中，不论多宽都排成一行：数量（"3 selected"）、Copy Link、Forward、一个 More 菜单（Generate Image、Copy MD），最后是结束选择的 ×（cindyz，2026-10-28，任务 #173）。在 thread 里，数量前面有一个全选复选框，数量的文字写明它的状态：部分选中时是「−」和「3 selected」，一条都没选时是空框和「0 selected」，全部选中时是「✓」和「All 169 selected」。一条都没选时点它会全选；部分选中或全部选中时点它会清空。所以它不会在部分选中时突然换成全部选中。清空到 0 条以后工具栏仍然留着，Copy Link 和 Forward 变成不可用，直到点 × 结束选择（cindyz，2026-11-03，#triage:#175）。只有 thread 里有：在 thread 里，人们常常要把整段讨论都选上；频道太长，「全部」没有意义。复选框要配着旁边的数量文字一起读，文字说明框里显示的状态。因为在浮动工具栏里，它下面没有一列消息的复选框可以说明它的作用，这一点和列表表头里的全选框不同。消息菜单里的 Select Message 开始选择；每条消息会出现一个复选框（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。它是一个浮动工具栏，和悬停工具栏一样高 36px：里面的按钮 28px，距工具栏边缘 4px，按钮之间间隔 4px，使用 `radius-chip`（[形状](../foundations/shape.md#inside-a-frame)）。
 
 - 它和会话两侧的距离与消息输入框相同，所以从不比它取代的消息输入框更宽：桌面端和手机上都是 20px，因为在手机上，消息那一栏和它的消息输入框也保持 20px（[页面结构](../patterns/page-structure.md#one-edge-per-column)）。它浮在距底部 12px 的地方。
 - 数量排在最前：它说明这些操作作用于什么，数量变化时会被读出。工具栏的无障碍名称保持不变（"Selected message actions"）。
