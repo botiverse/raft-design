@@ -3,18 +3,21 @@
  *
  * Pins the item card's parts (preview-card.md, Item card): each renders its
  * slot with the product's words, the footer sits under a hairline, and in
- * `PreviewCardBody` the title wraps (up to 3 lines) instead of truncating as
+ * `PreviewCardBody` the title wraps (up to 2 lines) instead of truncating as
  * it does in the profile card's header.
  */
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import {
+  PreviewCard,
   PreviewCardActions,
+  PreviewCardContent,
   PreviewCardBody,
   PreviewCardEyebrow,
   PreviewCardFooter,
   PreviewCardMeta,
   PreviewCardTitle,
+  PreviewCardTrigger,
 } from "./preview-card";
 
 afterEach(cleanup);
@@ -76,4 +79,24 @@ test("in the body the title wraps, up to 2 lines; the profile card's title is un
   const title = tokens(screen.getByTestId("title"));
   expect(title).toContain("truncate");
   expect(title).not.toContain("whitespace-normal");
+});
+
+test("an item card is 400px wide; a profile card keeps 300px", () => {
+  render(
+    <>
+      <PreviewCard open>
+        <PreviewCardTrigger href="#item">item</PreviewCardTrigger>
+        <PreviewCardContent size="item" data-testid="item-card">
+          Item
+        </PreviewCardContent>
+      </PreviewCard>
+      <PreviewCard open>
+        <PreviewCardTrigger href="#profile">profile</PreviewCardTrigger>
+        <PreviewCardContent data-testid="profile-card">Profile</PreviewCardContent>
+      </PreviewCard>
+    </>,
+  );
+  expect(tokens(screen.getByTestId("item-card"))).toContain("w-[400px]");
+  expect(tokens(screen.getByTestId("item-card"))).not.toContain("w-[300px]");
+  expect(tokens(screen.getByTestId("profile-card"))).toContain("w-[300px]");
 });

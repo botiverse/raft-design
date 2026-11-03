@@ -53,7 +53,7 @@ The item card adds these parts, experimental and exported from `@botiverse/raft-
 The card an app link opens on hover ([App links](../../../../../design/patterns/navigation.md#app-links)). The app supplies its words and which details it has; Raft sets their order and their colors. Its parts follow the questions a reader asks, in order:
 
 1. **Which item is it?** `PreviewCardEyebrow`: the app's id for it, such as `botiverse/slock#10449`. Optional.
-2. **What is it about?** `PreviewCardTitle`: the app's title in ink, up to 2 lines, cut off with an ellipsis; only when it is cut off, a [Tooltip](../tooltip/tooltip.md) on hover shows it whole (not a native `title`). Not in `foreground-link`: the card is not a link itself, its buttons and the chip are.
+2. **What is it about?** `PreviewCardTitle`: the app's title in ink, up to 2 lines, cut off with an ellipsis; only when it is cut off, the app wraps it in a [Tooltip](../tooltip/tooltip.md) that shows it whole on hover (not a native `title`); `PreviewCardTitle` doesn't add one itself. Not in `foreground-link`: the card is not a link itself, its buttons and the chip are.
 3. **Where does it stand?** `PreviewCardMeta`: one state chip in the app's words, such as Merged, then one muted line of details, such as "Martin · +803 −498". Separate the details on one line with "·", but put none next to the state chip: the chip is set apart by its own fill.
 4. **What can I do?** `PreviewCardActions`: up to two buttons the app provides, on one line at the card's end:
    - The app's action buttons (Approve), the first two in the app's order. With none, the first link (Open in Stamp ↗) takes the row instead.
