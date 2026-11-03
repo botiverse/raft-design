@@ -30,7 +30,8 @@ conversation-panel/compositions/conversation-panel
 ### The channel details
 
 - Open the details from the Settings button as a drawer from the right ([Raft Chat](./README.md#overlays)). It closes as in [Navigation](../../patterns/navigation.md#closing).
-- Put the channel's name, its visibility (Public, Private or Joint) and its description at the top. Then the members as a row of avatars with an add tile, which opens the member list inside the drawer; then the channel's settings, its preferences (mute, collapse long messages), Stop All Agents and Leave Channel.
+- Give the drawer a one-line head: the channel's name and its visibility (Public, Private or Joint) on desktop, and "Settings · #launch-week" on a phone, the name in muted Space Mono. The description is not in the head: the drawer edits it, so the head would only repeat it (stdrc, 2026-11-03). Put the description in the channel info under the members, as a field for people who can edit the channel and as plain text for everyone else ([Drawer](../../../packages/ui/src/components/drawer/drawer.md#rules)).
+- Under the head, put the members as a row of avatars with an add tile, which opens the member list inside the drawer; then the channel's settings, its preferences (mute, collapse long messages), Stop All Agents and Leave Channel.
 - When someone closes the drawer with unsaved edits, ask whether to save or discard them.
 
 ### Tasks and files
