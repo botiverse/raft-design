@@ -8,9 +8,11 @@ export const searchEntity = tv({
       "rounded-none border-0 py-3 text-foreground",
       // With a mouse 8px above and below, as an Activity item (stdrc, 2026-11-04).
       "md:pointer-fine:py-2",
-      // A finger's row: 64px on a touch screen at any width, by the input,
-      // not the width (design/patterns/responsive.md#touch-screens).
-      "pointer-coarse:min-h-16",
+      // A finger's row on a touch screen at any width, by the input, not the
+      // width (design/patterns/responsive.md#touch-screens): a person or a
+      // conversation, so ListRow's rich row, at least 56px with 8px above
+      // and below its content.
+      "pointer-coarse:min-h-14 pointer-coarse:py-2",
       listCell,
       listCellStates,
       "disabled:cursor-default",
