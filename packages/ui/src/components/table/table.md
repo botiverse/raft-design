@@ -45,6 +45,19 @@ The header type, the lines between rows and how numbers are set are in [Built fr
 - Text in a cell wraps at any character, so an ID or a name without spaces breaks inside its column instead of pushing the table past its container.
 - Cells align their content to the top, so a row with a 2-line description keeps its other values on the first line.
 
+## Sorting
+
+A column whose order someone would want to change, such as usage, a date or a name, sorts the rows when its heading is clicked. The rule is the same for any row of column headings, including a list that draws its own header row instead of using `Table`, and on the web and in the app.
+
+- Make the heading's label a button that fills the heading cell. Put `aria-sort` on the heading cell, not on the button: `ascending` or `descending` on the column the rows are sorted by, nothing on the others. Screen readers then read the direction with the column's name, so the label stays the column's name: "Memory", not "Sort by memory". A header row drawn without `Table` gives each heading cell `role="columnheader"`, inside a `role="row"` in a `role="table"` or `role="grid"`: screen readers read `aria-sort` on nothing else.
+- At rest a heading that sorts looks like any other, in `foreground-hint`. Under the pointer it turns `foreground`, with no fill, so the header row still reads as a row of labels.
+- The column the rows are sorted by has its heading in `foreground` and a 12px `arrow-down` (descending: the values get smaller down the column) or `arrow-up` (ascending) 4px from its label. No other heading shows an arrow, not even under the pointer, so the one arrow on screen always says what the order is.
+- The arrow goes after the label, except in a right-aligned column, such as numbers, where it goes before it: the label stays over its numbers' right edge.
+- Clicking the sorted column reverses it. Clicking another column sorts by that column in its first direction: largest or newest first for numbers and dates, A to Z for text. There are two directions and no third click back to unsorted: a click that removes the arrow looks like a click that did nothing.
+- One column sorts at a time. Rows with the same value keep their order from before, and rows with no value (`—`, such as an offline computer's usage) go last in both directions: a missing value is not the smallest one.
+- When the rows start in an order no column gives, such as the order they were added, no heading shows an arrow until one is clicked. If that order is worth going back to, make it a column, such as Added, rather than a third click. Remember the chosen sort for that list on that device, so coming back to the page doesn't reset it.
+- On a touch screen the heading's button has a 44px-high hit area, as every control does ([Accessibility](../../../../../design/foundations/accessibility.md#hit-targets)).
+
 ## Content
 
 - Write column headings in sentence case: Resource, Access, Last run ([Writing](../../../../../design/content/writing.md#casing)).
