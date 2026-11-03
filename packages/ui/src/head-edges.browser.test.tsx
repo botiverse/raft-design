@@ -47,6 +47,7 @@ import {
   PanelTitle,
 } from "./components/panel/panel-header";
 import { SidebarHeader, SidebarHeaderTitle } from "./components/sidebar/sidebar";
+import { AppRailHeader, AppRailRoot } from "./components/app-rail";
 import {
   ThreadPanelActions,
   ThreadPanelHeader,
@@ -325,6 +326,37 @@ function shown(...ids: string[]) {
 }
 
 for (const s of SCREENS) {
+  // Every head of a screen is one height, so the seams under them line up:
+  // in a window shorter than 600px too, where the rail head reads the short
+  // header token directly (40px with a mouse, 48px on a touch screen).
+  it(`${s.name}: the panel, section, sidebar and rail heads are one height`, async () => {
+    await setScreen(s);
+    render(
+      <ThemeProvider mode="light">
+        <PanelHeader data-testid="panel">
+          <PanelHeaderContent>
+            <PanelTitle>Panel</PanelTitle>
+          </PanelHeaderContent>
+        </PanelHeader>
+        <PanelSectionHeader data-testid="section">
+          <PanelHeaderContent>
+            <PanelTitle>Section</PanelTitle>
+          </PanelHeaderContent>
+        </PanelSectionHeader>
+        <SidebarHeader data-testid="sidebar">
+          <SidebarHeaderTitle>Chat</SidebarHeaderTitle>
+        </SidebarHeader>
+        <AppRailRoot>
+          <AppRailHeader data-testid="rail" />
+        </AppRailRoot>
+      </ThemeProvider>,
+    );
+    const heights = ["panel", "section", "sidebar", "rail"].map(
+      (id) => screen.getByTestId(id).getBoundingClientRect().height,
+    );
+    expect(new Set(heights).size, heights.join(" / ")).toBe(1);
+  });
+
   for (const head of HEADS) {
     it(`${s.name}: the ${head.name}'s edge icon boxes sit on the margin and mirror`, async () => {
       await setScreen(s);

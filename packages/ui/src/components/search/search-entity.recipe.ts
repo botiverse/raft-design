@@ -18,7 +18,7 @@ export const searchEntity = tv({
     entityLeading: ["relative flex shrink-0"],
     entityIcon: [
       "flex items-center justify-center overflow-hidden",
-      "size-[27px] rounded-sticker bg-fill-muted text-foreground-muted",
+      "size-[27px] rounded-sticker md:pointer-fine:rounded-chip bg-fill-muted text-foreground-muted",
       "[&_svg]:size-3.5",
     ],
     entityActivity: [

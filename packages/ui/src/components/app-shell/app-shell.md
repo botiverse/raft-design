@@ -64,7 +64,7 @@ app-shell/compositions/rail-trigger
 app-shell/compositions/mobile-root
 ```
 
-- The root sets the header height for the regions inside it: 56px, and 48px in a window shorter than 600px ([Spacing](../../../../../design/foundations/spacing.md#heights)).
+- The root sets the header height for the regions inside it: `header-height` (44px with a mouse, 56px on a touch screen), and `header-height-short` in a window shorter than 600px (40px with a mouse, 48px on a touch screen) ([Spacing](../../../../../design/foundations/spacing.md#heights)).
 - The root clips what overflows it instead of scrolling, so moving focus never shifts the whole app sideways.
 - On a phone the root pads its top for the status bar's safe area.
 - Collapsing and expanding the sidebar switch at once, with no slide or fade, whether by the toggle or by dragging past the end ([Motion](../../../../../design/foundations/motion.md#usage)).

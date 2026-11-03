@@ -30,7 +30,7 @@ function renderRow(wrap: boolean) {
   return screen.getByTestId("row");
 }
 
-test("a fixed raft row is 38 tall, centred, with no padding at md and no margin", () => {
+test("a fixed raft row is the row height tall, centred, with no padding at md and no margin", () => {
   const row = renderRow(false);
   expect(row.className).toMatch(/(?:^|\s)h-\(--row-height\)(?:\s|$)/);
   // Rows touch: the gap between two fills is the shape's inset, not a margin.

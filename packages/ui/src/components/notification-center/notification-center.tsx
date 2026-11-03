@@ -49,7 +49,7 @@ const notificationCenter = tv({
     itemRow: ["flex items-start", "gap-3"],
     itemIcon: [
       "flex shrink-0 items-center justify-center",
-      "mt-0 size-[35px] rounded-sticker bg-fill-muted text-foreground-muted",
+      "mt-0 size-[35px] rounded-sticker md:pointer-fine:rounded-control bg-fill-muted text-foreground-muted",
       "[&_svg]:size-[18px]",
     ],
     itemContent: ["min-w-0 flex-1"],

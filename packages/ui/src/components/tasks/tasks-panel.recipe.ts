@@ -14,10 +14,11 @@ export const tasksPanel = tv({
       // 16px sides in a narrow panel, 20px in a wide one: by the panel's
       // width like its layout, not the window's.
       "min-h-(--header-height) border-b border-line-seam bg-layer-canvas px-5 py-3",
-      // On a desktop, in one row (a wide panel), the row is a header: the 38px
-      // segmented track and the seam fill 44. A narrow panel stacks two rows
-      // and keeps its 12px.
-      "md:pointer-fine:@min-md/tasks:py-[2.5px]",
+      // On a desktop, once the panel is wide enough for every part on one
+      // row (40rem: New Task, the filters and Board / List), the row is a
+      // header: the 38px segmented track and the seam fill 44. Narrower, it
+      // stacks or can wrap onto two rows, so it keeps its 12px.
+      "md:pointer-fine:@min-[40rem]/tasks:py-[2.5px]",
       "@max-md/tasks:px-4",
     ],
     toolbarGroup: ["flex flex-wrap items-center gap-2"],
