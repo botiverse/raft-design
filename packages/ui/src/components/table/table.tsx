@@ -186,8 +186,12 @@ export function TableSortableHead({
  * `role="columnheader"` inside a `role="row"` in a `role="table"` or
  * `role="grid"`. Native props, `className` and the ref go to the button.
  */
-export function TableSortButton(props: TableSortButtonProps) {
-  return useSortButton(props, "sortButton");
+export function TableSortButton({
+  firstSort = "ascending",
+  align = "left",
+  ...props
+}: TableSortButtonProps) {
+  return useSortButton({ ...props, firstSort, align }, "sortButton");
 }
 
 function useSortButton(
