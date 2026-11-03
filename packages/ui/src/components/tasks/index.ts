@@ -25,6 +25,7 @@ export type { TaskLoadingListProps, TaskLoadingRowProps } from "./task-loading";
 export { TaskChip } from "./task-chip";
 export type { TaskChipProps, TaskChipSize, TaskChipVariant } from "./task-chip";
 export {
+  TaskBacklogIcon,
   TaskClosedIcon,
   TaskDoneIcon,
   TaskInProgressIcon,

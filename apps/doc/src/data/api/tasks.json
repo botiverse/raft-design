@@ -196,6 +196,12 @@
     ]
   },
   {
+    "name": "TaskBacklogIcon",
+    "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": []
+  },
+  {
     "name": "TaskClosedIcon",
     "entry": "@botiverse/raft-ui",
     "native": true,

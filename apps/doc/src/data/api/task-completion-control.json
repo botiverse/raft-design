@@ -1,0 +1,46 @@
+[
+  {
+    "name": "TaskCompletionControl",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The round control that marks a task Done in one press, or reopens a done one. Controlled: pass `checked` from the task's status and change the task in `onCheckedChange`.",
+    "native": true,
+    "props": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "The task, by number and title: \"#25 Fix onboarding copy\". It stays the same when the task is completed or reopened.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "required": false,
+        "description": "The id of the element that names the task, such as its title.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": true,
+        "description": "Whether the task is done. Only a Done task is checked; every other status, Backlog and Closed included, is unchecked.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "For a person who can't change the task. Sets `aria-disabled`, not the native `disabled`: the control stays focusable and a press does nothing.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onCheckedChange",
+        "type": "(checked: boolean, event: MouseEvent<HTMLButtonElement>) => void",
+        "required": false,
+        "description": "Called with the state a press asks for: `true` to complete the task, `false` to reopen it. The caller changes the task.",
+        "from": "raft-ui"
+      }
+    ]
+  }
+]

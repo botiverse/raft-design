@@ -99,4 +99,42 @@ describe("Timeline", () => {
     expect(screen.getByTestId("icon").parentElement?.className).toBe("r-timeline-item__icon");
     expect(item.querySelector(".r-timeline-item__marker")).toBeNull();
   });
+
+  test("a Backlog item is hollow, and an icon in it keeps a visible colour", () => {
+    render(
+      <Timeline>
+        <TimelineItem taskStatus="backlog">Parked</TimelineItem>
+        <TimelineItem taskStatus="backlog" icon={markerIcon}>
+          Parked, with an icon
+        </TimelineItem>
+      </Timeline>,
+    );
+    const [pixel, withIcon] = screen.getAllByRole("listitem");
+    for (const item of [pixel!, withIcon!]) {
+      expect(item.getAttribute("data-task-status")).toBe("backlog");
+      expect(item.className).toContain("r-timeline-item--color");
+      // The item colour is a real ink, never `transparent`: the icon is drawn
+      // in it (timeline.css, .r-timeline-item__icon).
+      expect(item.style.getPropertyValue("--r-timeline-custom-color")).toBe("var(--line-strong)");
+      // The marker takes none of it as fill, and its edge takes it.
+      expect(item.style.getPropertyValue("--r-timeline-marker-fill")).toBe("0%");
+      expect(item.style.getPropertyValue("--r-timeline-marker-border-color")).toBe(
+        "var(--r-timeline-item-color)",
+      );
+    }
+    expect(screen.getByTestId("icon").parentElement?.className).toBe("r-timeline-item__icon");
+  });
+
+  test("an explicit color on a Backlog item wins, with the default marker", () => {
+    render(
+      <Timeline>
+        <TimelineItem taskStatus="backlog" color="red">
+          Parked
+        </TimelineItem>
+      </Timeline>,
+    );
+    const item = screen.getByRole("listitem");
+    expect(item.style.getPropertyValue("--r-timeline-custom-color")).toBe("red");
+    expect(item.style.getPropertyValue("--r-timeline-marker-fill")).toBe("");
+  });
 });
