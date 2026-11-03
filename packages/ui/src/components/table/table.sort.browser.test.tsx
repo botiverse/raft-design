@@ -244,11 +244,13 @@ it("a TableSortButton fills its plain div cell, its label on the values' edge", 
       expect(Math.abs(target[side] - box[side]), `${id} button ${side}`).toBeLessThanOrEqual(0.5);
     }
     // A click anywhere on the cell, its corners included, lands on the button.
+    // 2px in on both axes: the button's 4px radius leaves the outermost pixel
+    // of each corner outside it (1px in is ~4.24px from the arc's centre).
     for (const [x, y] of [
-      [box.left + 1, box.top + 1],
-      [box.right - 1, box.top + 1],
-      [box.left + 1, box.bottom - 1],
-      [box.right - 1, box.bottom - 1],
+      [box.left + 2, box.top + 2],
+      [box.right - 2, box.top + 2],
+      [box.left + 2, box.bottom - 2],
+      [box.right - 2, box.bottom - 2],
     ] as const) {
       expect(button.contains(document.elementFromPoint(x, y)), `${id} at ${x},${y}`).toBe(true);
     }

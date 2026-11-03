@@ -68,7 +68,7 @@ table/compositions/sortable
 
 `TableSortableHead` 根据 `sort` 设置 `aria-sort`，给文字上色，画箭头，并提供触屏点击区域。点击时它用下一个方向调用 `onSortChange`：`sort` 的反方向；行不按这一列排时，是 `firstSort`。`firstSort` 不设时是 `"ascending"`；数字和日期传 `"descending"`。右对齐的列传 `align="right"`，和它的单元格一样，箭头就放在文字前面。原生属性、`className` 和 `ref` 落在标题单元格上，不在按钮上。给行本身排序（没有值的排在最后）和记住排序由你来做：这个部件看不到行。
 
-不用 `Table` 自己画的表头行（比如列表里用 `div` 画的网格）用它所在列表的字体，比如列表元信息用的 `text-mono-meta`（[字体排印](../../../../../design/foundations/typography.md#sizes-by-use)），也有自己的高度和线。在每个能排序的标题单元格里放一个 `TableSortButton`。它是同一个按钮，文字颜色、箭头、箭头的位置、触屏点击区域，以及 `sort`、`firstSort`、`onSortChange` 和 `align` 都一样，只是没有内边距、没有边框，字体继承单元格的。它铺满单元格，所以整个单元格都能点，焦点环也围着整个单元格：单元格不加内边距，让它撑满行高（行上不要设 `items-center`，按钮自己会把文字垂直居中），再用 `className` 给按钮加上这一行的水平内边距，比如 `px-2`，这样文字的起止和数值对齐。`aria-sort={sort}` 由你设在单元格上，并给单元格 `role="columnheader"`，外面一层是 `role="row"`，再外面是 `role="table"` 或 `role="grid"`。在开发环境里，外面没有这样的单元格，或单元格的 `aria-sort` 和按钮的 `sort` 不一致时，按钮会发出警告。原生属性、`className` 和 `ref` 落在按钮上。
+不用 `Table` 自己画的表头行（比如列表里用 `div` 画的网格）用它所在列表的字体，比如列表元信息用的 `text-mono-meta`（[字体排印](../../../../../design/foundations/typography.md#sizes-by-use)），也有自己的高度和线。在每个能排序的标题单元格里放一个 `TableSortButton`。它是同一个按钮，文字颜色、箭头、箭头的位置、触屏点击区域，以及 `sort`、`firstSort`、`onSortChange` 和 `align` 都一样，只是没有内边距、没有边框，字体继承单元格的。它铺满单元格，所以整个单元格都能点，焦点环也围着整个单元格：单元格不加内边距，让它撑满行高（行上不要设 `items-center`，按钮自己会把文字垂直居中），再用 `className` 给按钮加上这一行的水平内边距，比如 `px-2`，这样文字的起止和数值对齐。不要在按钮外面再包一层，也不要给单元格设一个按钮撑不满的高度，否则能点的区域又会缩回到文字那么大。`aria-sort={sort}` 由你设在单元格上，并给单元格 `role="columnheader"`，外面一层是 `role="row"`，再外面是 `role="table"` 或 `role="grid"`。在开发环境里，外面没有这样的单元格，或单元格的 `aria-sort` 和按钮的 `sort` 不一致时，按钮会发出警告。原生属性、`className` 和 `ref` 落在按钮上。
 
 ```example
 table/compositions/drawn-header
