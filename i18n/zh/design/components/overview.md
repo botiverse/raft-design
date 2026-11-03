@@ -229,6 +229,7 @@ message-item/compositions/selection-showcase
 - 表头用 `text-footnote`、`foreground-hint`。
 - 行之间用 `line-hairline` 分隔。
 - 数字用 Space Mono，右对齐。
+- 有人会想换顺序的列，从列标题给行排序（[Table › 排序](../../packages/ui/src/components/table/table.md#sorting)）。
 
 ### 选择日期 {#picking-a-date}
 

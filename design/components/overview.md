@@ -228,6 +228,7 @@ Prefer a [DescriptionList](../../packages/ui/src/components/description-list/des
 - Set the header in `text-footnote`, `foreground-hint`.
 - Divide rows with `line-hairline`.
 - Set numbers in Space Mono, right-aligned.
+- Let a column that people would reorder sort the rows from its heading ([Table › Sorting](../../packages/ui/src/components/table/table.md#sorting)).
 
 ### Picking a date
 
