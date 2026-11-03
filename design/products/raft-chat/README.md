@@ -27,7 +27,8 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | Phone server tab | Opens a popover, not a page: the server list, its footer actions and, at the bottom, a row of the server's pages ([The server tab](#the-server-tab)). Each of the server's pages opens a pushed page, with Back. Switching keeps the current tab ([Navigation](../../patterns/navigation.md#the-server-tab-on-a-phone)) |
 | The first rows of phone Home | Saved, then Drafts, each with a gray count and its only entry point on a phone; see [Home](./home.md) |
 | Web top bar (from 768px, and the desktop app's title bar) | As in [Page structure](../../patterns/page-structure.md#the-web-top-bar); the search field opens search |
-| Desktop rail | Chat, Activity, Tasks, Members, Computers; at the bottom Help (`circle-help`) and Settings. Guests don't have Members or Computers |
+| Desktop rail (the web and the desktop app) | Chat, Activity, Tasks, Members, Computers; at the bottom Help (`circle-help`) and Settings. Guests don't have Members or Computers |
+| The apps' rail in desktop mode (from 840dp) | Computers isn't on it: it is in Settings ([The server tab](#the-server-tab)) |
 | Only in [Settings](./settings.md) | Sign Out, at the end of Account |
 
 Without the web top bar (an older desktop build, a server's public page), the rail shows the workspace tile at its top, Search before Chat, and the bell above Help.
@@ -36,7 +37,8 @@ Without the web top bar (an older desktop build, a server's public page), the ra
 
 Attention dots follow [Navigation](../../patterns/navigation.md#where-you-are). In Raft Chat they mark:
 
-- on the rail: Chat when there are unread messages, Activity when there is unread activity, Computers when a computer needs attention, Settings when feedback has a new reply, and Help once, to announce the mobile app, until its mobile-app item is opened;
+- on the rail of the web and the desktop app: Chat when there are unread messages, Activity when there is unread activity, Computers when a computer needs attention, Settings when feedback has a new reply, and Help once, to announce the mobile app, until its mobile-app item is opened;
+- on the apps' rail in desktop mode (from 840dp), which has no Computers button: a computer that needs attention marks Settings instead, since Computers is in Settings there ([The server tab](#the-server-tab));
 - on the phone tab bar: Activity when there is unread activity, and the server tab's avatar when another server has unread items, as on Home's workspace button. Search never has one.
 
 None of them shows while its destination is selected, Settings and Help included, and each is always a dot, never a count ([Navigation](../../patterns/navigation.md#where-you-are)). Another server's unread items show as a count on its row in the server tab's popover. A feedback reply and a computer that needs attention are not on the server tab: each has a dot on its own button in the popover, Settings (and Feedback inside it) and Computers (on a phone, the only place they show). Everything else new shows inside the pages; unread counts are inside Activity.
@@ -70,7 +72,7 @@ The server tab and the workspace tile follow [Navigation](../../patterns/navigat
 - The server tab takes the slot More had, so the bar keeps 5 tabs.
 - The popover's footer actions are Join Community (until the person has joined it), Switch or Create Server and Invite Human. Invite Human stays here and not in the row of pages: it opens a dialog rather than a place.
 - The row at the very bottom holds the server's own pages, which More held: Members, Computers and [Settings](./settings.md). They are three places in the same server, so one row costs one line instead of three; at the bottom they are nearest the thumb and the tab bar, where More was. A guest, who has no Members or Computers, gets the row with Settings alone: Settings holds their account and Sign Out, and on a phone the popover is its only way in.
-- In the apps' desktop mode (from 840dp; Jasper, 2026-10-23, task #8; the row dropped by artin, 2026-10-29) there is no server tab: the rail header's workspace tile opens the popover without the row of pages ([Navigation](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)). Every one of those pages already has a way in that stays on screen: Members is on the rail, Settings at the rail's bottom, and Computers in Settings. The attention dots go where those pages live: a feedback reply's on the rail's Settings, a computer that needs attention on Settings too, since Computers is reached from there.
+- In the apps' desktop mode (from 840dp; Jasper, 2026-10-23, task #8; the row dropped by artin, 2026-10-29) there is no server tab: the rail header's workspace tile opens the popover without the row of pages ([Navigation](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)). Every one of those pages already has a way in that stays on screen: Members is on the rail, Settings at the rail's bottom, and Computers in Settings. Unlike the web's rail, this rail has no Computers button, so both dots are on the rail's Settings: a feedback reply's, and a computer's that needs attention, since Computers is reached from there.
 
 ### The tops of the phone's top-level pages
 

@@ -192,7 +192,7 @@ Decided on 2026-10-22 by stdrc (D1a, task #152).
 - Open each of the server's pages as a pushed page, with Back ([Going back](#going-back)).
 - Keep the current tab when people switch servers: switching from Activity shows the new server's Activity. People switch to do the same thing in another server, and taking them Home would make them find their way back.
 - Show the attention dot on the server tab's avatar only when another server has unread items, as on Home's workspace button. One mark has one meaning: the same avatar with the same dot can't mean more on the tab bar than in the top bar. The server tab is on every top-level page, so news in another server is seen from anywhere, not only from Home. In the popover, each server's row shows its unread count, as the switcher's list does.
-- Mark something new on one of the server's own pages (a feedback reply, a computer that needs attention) with an attention dot on that page's button in the popover (Settings, Computers), never on the avatar.
+- Mark something new on one of the server's own pages (a feedback reply, a computer that needs attention) with an attention dot on that page's button in the popover, never on the avatar. Raft Chat's are in [Raft Chat](../products/raft-chat/README.md#attention-dots).
 - When people come back from one of the server's pages, give focus back to the server tab, so a keyboard or a screen reader picks up where it left off.
 - Keep the workspace button in Home's top bar. It opens the same server list and footer actions, without the server's pages, as a popover anchored under the top bar, 8px from each side. It names the server at the top of the page people land on, so one switcher appears in two places, with one list.
 
@@ -202,7 +202,7 @@ Decided on 2026-10-23 by Jasper, on sindresorhus's proposal (task #8). The row o
 
 - From 840dp, where the apps show the rail ([Responsive layout](./responsive.md#structure)), the server is the workspace tile in the rail's header and nowhere else: the rail has no server tab. Two entries to the same server side by side make people wonder whether they do different things. The web has one, the workspace button at the top left.
 - The tile opens the server tab's popover next to it: the server list and the footer actions, without the row of the server's pages. Every one of those pages already has a way in that stays on screen ([Raft Chat](../products/raft-chat/README.md#the-server-tab)). One place has one button, so a second copy in the popover would only make people wonder whether it leads somewhere else.
-- Put the attention dots where those pages live.
+- Put each page's attention dot on the rail button that leads to it: the page's own button, or, for a page reached from inside another page, the button of the page that holds it. In Raft Chat, Computers is reached from Settings, so a computer that needs attention marks Settings ([Raft Chat](../products/raft-chat/README.md#the-server-tab)).
 - On a phone the popover keeps its row ([The server tab on a phone](#the-server-tab-on-a-phone)): the tab bar has no room for the server's pages, so the popover is their only way in.
 - Show the attention dot on the tile's avatar only when another server has unread items, the same rule as the server tab's.
 

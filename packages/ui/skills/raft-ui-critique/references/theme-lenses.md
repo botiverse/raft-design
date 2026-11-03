@@ -33,7 +33,7 @@ Judge whether the surface speaks Raft's material language:
 - Every color block is a sticker: an ink edge and ink type on the color. Flag colored fills without the edge, light type on a sticker, and edges that double up with an adjacent border.
 - Lines carry roles: ink lines say "control", seams split regions, hairlines sit inside content. Flag a hairline used as a control edge or an ink line used as a region divider.
 - Controls cast no shadow; only overlays float, and `--elevation-sticker` is a hard offset under a sticker. Flag soft shadows on controls, cards, or rows, and floating surfaces without the overlay shadow.
-- Corners follow the shape scale in `styles.css`: sticker, chip, control, container, dialog; fully round only for switches and radios. Flag corners off the scale or mixed within one group.
+- Corners follow the shape scale in `styles.css`: sticker, chip, control, container, dialog; fully round only for switches, radios and grab handles, and for two exceptions, a task's completion control and the Android pull-to-refresh disc. Flag corners off the scale or mixed within one group.
 - Space Grotesk is what people say; Space Mono is what machines write (ids, times, counts, events, code). Flag machine output set in sans and prose set in mono.
 - Yellow and pink must carry semantic roles. Flag decorative yellow/pink fields that compete with primary actions or status.
 - Hover and pressed keep a control's resting color under an ink wash; focus-visible is the ink ring, shown only after keyboard navigation. Flag a state that swaps a sticker's color or that is indistinguishable from rest, and a ring that appears after a click or a tap.

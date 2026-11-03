@@ -16,7 +16,7 @@ A TaskCard shows one task: a round completion control, its number, its title and
 task-card/compositions/task-card-state-matrix
 ```
 
-Not yet implemented: the examples on this page show the card before [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md), with no completion control and a menu of five statuses.
+Not yet implemented in raft-ui: the examples on this page show the card before [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md), with no completion control and a menu of five statuses.
 
 ## When to use
 
@@ -31,7 +31,7 @@ Not yet implemented: the examples on this page show the card before [0042](../..
 
 - `TaskCard`: the card. Pass `onClick` to make it open the task's details.
 - `TaskCardRow` and `TaskCardBody`: the layout around the text.
-- `TaskCardMeta`: the first line. It starts with the completion control ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)). Not yet implemented: TaskCard has no part for it; until raft-ui adds one, draw it by hand.
+- `TaskCardMeta`: the first line. It starts with the completion control ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)). Not yet implemented in raft-ui: TaskCard has no part for it; until raft-ui adds one, draw it by hand.
   - `TaskCardChannel`: the place the task belongs to (#launch-week). Optional; see [Content](#content).
   - `TaskCardStatus`: the status chip. Required.
   - `TaskCardNumber`: the task number (#25). Required.
