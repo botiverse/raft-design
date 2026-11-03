@@ -1,3 +1,16 @@
+## [0.58.1](https://github.com/botiverse/raft-design/compare/v0.58.0...v0.58.1) (2026-11-03)
+
+### Fixed
+
+- **Button**: a `loading` button keeps keyboard focus. It is `aria-disabled` and stays in the tab order instead of becoming natively `disabled`; click, Enter, Space and form submit are blocked while it runs. A `disabled` button stays natively disabled. ([#956](https://github.com/botiverse/raft-design/pull/956))
+  - Why: pressing a button that then turned busy dropped focus to the page, and it didn't come back when the request failed.
+  - Affects: every component that passes `loading` to Button (DialogCommit, AlertDialog, Dialog, Drawer, Banner, SidebarSectionControl and others). A busy button now receives pointer events: the wait cursor shows, and a wrapping Tooltip opens on hover. Its look is unchanged.
+  - Docs: https://raft-design.botiverse.build/components/button/
+
+### Docs
+
+- **Table**: a Sorting section on sorting rows from a column heading. ([#954](https://github.com/botiverse/raft-design/pull/954))
+
 ## [0.58.0](https://github.com/botiverse/raft-design/compare/v0.57.2...v0.58.0) (2026-11-03)
 
 ### Added
