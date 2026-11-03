@@ -427,7 +427,7 @@
     align-self: stretch;
     block-size: 0;
     flex-shrink: 0;
-    inset-block-start: var(--r-scroll-area-padding-top);
+    inset-block-start: 0;
     inset-inline-start: 0;
     margin-left: calc(-1 * var(--r-scroll-area-padding-left));
     margin-right: calc(-1 * var(--r-scroll-area-padding-right));
