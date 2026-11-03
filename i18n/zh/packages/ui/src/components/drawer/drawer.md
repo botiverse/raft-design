@@ -1,7 +1,7 @@
 ---
 title: Drawer
 summary: 从右侧滑入的面板，放人要看一阵子的详情和设置；在手机上则是底部面板，用来选择去哪里，或读一段简短的说明。
-sourceHash: 89e2a7b7
+sourceHash: 37a67898
 ---
 
 # Drawer
@@ -85,6 +85,7 @@ drawer/compositions/nested-close-callback
 
 - 抽屉最宽 420px。需要更多空间的表单用宽版 [Dialog](../dialog/dialog.md)。
 - × 用和面板标题栏里一样的图标按钮、一样的图标尺寸，放在 `DrawerHeader` 的最后：它的图标框止于边距线；在手机上取代它的返回按钮则从边距线开始（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。
+- 抽屉的标题栏只有一行：标题，加上同一行里最多一个附属项，比如一个标签（Public），或者它所属的地方（“Settings · #launch-week”，引用用弱化的 Space Mono，比标题先截断）。不要在标题下面再放一行：本来要放在那里的内容在正文里，人们在那里阅读或编辑，所以抽屉的标题栏保持一行（stdrc，2026-11-03）。
 - 按钮放在底栏，不要放在标题栏。按钮用 `size="lg"`（手机上 44px，桌面端 32px）：Cancel 在前，Save 在后（[表单](../../../../../design/patterns/forms.md#forms-in-a-dialog)）。
 - 抽屉里的长表单拆成几个 [FormSection](../form-section/form-section.md)，分区和宽版对话框里的一样，用底栏的 Save 一起保存。
 - 抽屉表单里每个「是或否」的复选框下面，加一行说明不勾选时会怎样。这里用复选框而不用开关，因为表单是要保存的（[表单](../../../../../design/patterns/forms.md#forms-in-a-dialog)）。
