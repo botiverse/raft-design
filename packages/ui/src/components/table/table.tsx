@@ -1,5 +1,7 @@
 import { useRender } from "@base-ui/react/use-render";
 import { mergeProps } from "@base-ui/react/merge-props";
+import { useEffect, useRef } from "react";
+import type { Ref } from "react";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import type { StyledProps } from "../../lib/styled-props";
@@ -28,7 +30,8 @@ type TableSortButtonProps = Omit<StyledProps<useRender.ComponentProps<"button">>
   /**
    * The column's current sort, or undefined when the rows aren't sorted by
    * it. Draws the arrow and colors the label; set the same value as
-   * `aria-sort` on the heading cell around the button.
+   * `aria-sort` on the heading cell around the button (in development, a
+   * warning says when they differ).
    */
   sort?: TableSort;
   /**
@@ -180,18 +183,51 @@ export function TableSortableHead({
  * The button of a heading that sorts, on its own, for a header row drawn
  * without `Table` (table.md, "Sorting"): the label, the 12px arrow on the
  * sorted column (its room kept, empty, on the others), the label's color, the
- * touch hit area and the sort cycle. It has no padding and no border and
- * inherits the font, so the heading cell around it sets the type, padding,
- * line and alignment. Set `aria-sort` on that cell, which needs
- * `role="columnheader"` inside a `role="row"` in a `role="table"` or
- * `role="grid"`. Native props, `className` and the ref go to the button.
+ * touch hit area and the sort cycle. It fills the heading cell around it, so
+ * the whole cell is the target. It has no padding and no border and inherits
+ * the font: the cell sets the type, height and line and has no padding, and
+ * the row's horizontal padding goes on the button through `className`. Set
+ * `aria-sort` on that cell, which needs `role="columnheader"` inside a
+ * `role="row"` in a `role="table"` or `role="grid"`; in development a warning
+ * says when there is no such cell or its `aria-sort` isn't `sort`. Native
+ * props, `className` and the ref go to the button.
  */
 export function TableSortButton({
   firstSort = "ascending",
   align = "left",
+  ref,
   ...props
 }: TableSortButtonProps) {
-  return useSortButton({ ...props, firstSort, align }, "sortButton");
+  const element = useRef<HTMLButtonElement>(null);
+  const { sort } = props;
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+    warnOnSortCell(element.current, sort);
+  }, [sort]);
+  return useSortButton(
+    { ...props, firstSort, align },
+    "sortButton",
+    ref ? [ref, element] : element,
+  );
+}
+
+// The button can't carry `aria-sort`, so screen readers hear the sort only
+// from the heading cell around it, which the caller draws.
+function warnOnSortCell(button: Element | null, sort: TableSort | undefined) {
+  if (!button) return;
+  const cell = button.closest('[role="columnheader"], th');
+  if (!cell) {
+    console.warn(
+      'raft-ui: a TableSortButton is not inside a heading cell, so screen readers never hear the sort of its column. Put it in a `th`, or in an element with role="columnheader" inside a role="row", and set aria-sort on that cell from the same `sort`.',
+    );
+    return;
+  }
+  const ariaSort = cell.getAttribute("aria-sort");
+  const cellSort = ariaSort === null || ariaSort === "none" ? undefined : ariaSort;
+  if (cellSort === sort) return;
+  console.warn(
+    `raft-ui: a TableSortButton has sort=${sort === undefined ? "undefined" : `"${sort}"`} but its heading cell has ${ariaSort === null ? "no aria-sort" : `aria-sort="${ariaSort}"`}, so screen readers hear a different sort from the one its arrow shows. Set aria-sort={sort} on the cell.`,
+  );
 }
 
 function useSortButton(
@@ -199,13 +235,17 @@ function useSortButton(
     className,
     render,
     sort,
-    firstSort = "ascending",
+    firstSort,
     onSortChange,
-    align = "left",
+    align,
     children,
     ...props
-  }: TableSortButtonProps,
+  }: Omit<TableSortButtonProps, "firstSort" | "align" | "ref"> & {
+    firstSort: TableSort;
+    align: "left" | "right";
+  },
   slot: "sortButton" | "headSortButton",
+  ref?: Ref<HTMLButtonElement> | Ref<HTMLButtonElement>[],
 ) {
   const classes = table({ align, sorted: sort !== undefined });
   const Arrow = sort === "descending" ? ArrowDown : ArrowUp;
@@ -217,6 +257,9 @@ function useSortButton(
   ) : (
     <span aria-hidden data-slot="table-sort-arrow-space" className={classes.sortArrow()} />
   );
+  // `data-slot` is set here rather than through useRender's `state`, as the
+  // other parts do, so the button keeps the attributes, in their order, that
+  // TableSortableHead shipped with (pinned in table.sort.test.tsx).
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "table-sort-button",
@@ -233,6 +276,7 @@ function useSortButton(
   return useRender({
     defaultTagName: "button",
     render,
+    ref,
     props: mergeProps<"button">(defaultProps, props),
   });
 }

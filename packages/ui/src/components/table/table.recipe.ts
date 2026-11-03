@@ -1,15 +1,15 @@
 import { tv } from "../../lib/tv";
 
-// A sort button's classes before and after its padding, shared by
+// A sort button's classes after its layout and padding, shared by
 // TableSortButton and TableSortableHead's button (table.md, "Sorting").
-const sortButtonLayout = "relative flex w-full items-center gap-1";
 const sortButtonInteraction = [
   "cursor-pointer rounded-sticker",
   "hover:text-foreground",
   "outline-none focus-visible:shadow-focus",
   // On a touch screen a transparent ::after takes the button to a 44px hit
   // area (accessibility.md, Hit targets). It grows upward only, past the top of
-  // the header row, so it never takes a tap from the first row.
+  // the header row, so it never takes a tap from the first row. The button
+  // fills its cell, so above a 28px row it reaches 16px.
   "pointer-coarse:after:absolute pointer-coarse:after:inset-x-0 pointer-coarse:after:bottom-0 pointer-coarse:after:content-['']",
   "pointer-coarse:after:-top-[calc(--spacing(11)-100%)]",
 ];
@@ -58,16 +58,21 @@ export const table = tv({
     // moves onto its button, so the button fills the cell and the row keeps
     // TableHead's height.
     sortableHead: ["p-0"],
-    // TableSortButton on its own: no padding and no border, and the font
-    // inherited, so the caller's cell sets the type, padding and line.
+    // TableSortButton on its own: it fills the caller's cell, so the whole
+    // cell is the target, with no padding, no border and the font inherited.
+    // The cell sets the type, height and line, and the caller gives the button
+    // the row's horizontal padding through `className`.
     sortButton: [
-      sortButtonLayout,
+      "relative flex h-full w-full items-center gap-1",
       "border-0 bg-transparent [font:inherit]",
       ...sortButtonInteraction,
     ],
-    // The same button in TableSortableHead, with the cell's padding.
+    // The same button in TableSortableHead, with the cell's padding. Its own
+    // slot, entries in this order, rather than sortButton plus an appended
+    // padding class: TableSortableHead's class order is pinned
+    // (table.sort.test.tsx) and has to stay as it shipped.
     headSortButton: [
-      sortButtonLayout,
+      "relative flex w-full items-center gap-1",
       "border-0 bg-transparent px-3 py-2 [font:inherit]",
       ...sortButtonInteraction,
     ],

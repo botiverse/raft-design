@@ -28,7 +28,7 @@ A table lays out data in rows and columns, with a header row and a hairline betw
 - `TableColgroup` and `TableColumn`: optional column widths.
 - `TableHeader`, with one `TableRow` of `TableHead` cells: the column headings. Required.
 - `TableSortableHead` (`@botiverse/raft-ui/wip`): a `TableHead` that sorts the rows, in place of `TableHead` for a column that sorts ([Sorting](#sorting)). Its label is a `TableSortButton` filling the cell.
-- `TableSortButton` (`@botiverse/raft-ui/wip`): the button of a heading that sorts, on its own, for a header row drawn without `Table`. It has no padding, no border and no type of its own: the heading cell around it sets them ([Sorting](#sorting)).
+- `TableSortButton` (`@botiverse/raft-ui/wip`): the button of a heading that sorts, on its own, for a header row drawn without `Table`. It fills the heading cell around it and has no padding, no border and no type of its own: the cell sets the type, height and line, and you give the button the row's horizontal padding ([Sorting](#sorting)).
 - `TableBody`, with a `TableRow` of `TableCell`s per row. Required.
 
 The header type, the lines between rows and how numbers are set are in [Built from existing parts › Tables](../../../../../design/components/overview.md#tables). `Table` draws the header and the lines; the last row has none under it.
@@ -61,29 +61,21 @@ A column whose order someone would want to change, such as usage, a date or a na
 table/compositions/sortable
 ```
 
-- Make the heading's label a button that fills the heading cell. Put `aria-sort` on the heading cell, not on the button: `ascending` or `descending` on the column the rows are sorted by, nothing on the others. Screen readers then read the direction with the column's name, so the label stays the column's name: "Memory", not "Sort by memory". A header row drawn without `Table` gives each heading cell `role="columnheader"`, inside a `role="row"` in a `role="table"` or `role="grid"`: screen readers read `aria-sort` on nothing else.
+- Make the heading's label a button that fills the heading cell, so a click anywhere on the heading sorts. Put `aria-sort` on the heading cell, not on the button: `ascending` or `descending` on the column the rows are sorted by, nothing on the others. Screen readers then read the direction with the column's name, so the label stays the column's name: "Memory", not "Sort by memory". A header row drawn without `Table` gives each heading cell `role="columnheader"`, inside a `role="row"` in a `role="table"` or `role="grid"`: screen readers read `aria-sort` on nothing else.
 - At rest a heading that sorts looks like any other, in `foreground-hint`. Under the pointer it turns `foreground`, with no fill, so the header row still reads as a row of labels.
 - The column the rows are sorted by has its heading in `foreground` and a 12px `arrow-down` (descending: the values get smaller down the column) or `arrow-up` (ascending) 4px from its label. No other heading shows an arrow, not even under the pointer, so the one arrow on screen always says what the order is. Every heading that sorts keeps the arrow's room, empty when it isn't sorted: a column sizes to its widest content, its heading included, so without it the columns move sideways each time the sort moves to another one.
 - The arrow goes after the label, except in a right-aligned column, such as numbers, where it goes before it: the label stays over its numbers' right edge.
 - Clicking the sorted column reverses it. Clicking another column sorts by that column in its first direction: largest or newest first for numbers and dates, A to Z for text. There are two directions and no third click back to unsorted: a click that removes the arrow looks like a click that did nothing.
 - One column sorts at a time. Rows with the same value keep their order from before, and rows with no value (`—`, such as an offline computer's usage) go last in both directions: a missing value is not the smallest one.
 - When the rows start in an order no column gives, such as the order they were added, no heading shows an arrow until one is clicked. If that order is worth going back to, make it a column, such as Added, rather than a third click. Remember the chosen sort for that list on that device, so coming back to the page doesn't reset it.
-- On a touch screen the heading's button has a 44px-high hit area, as every control does ([Accessibility](../../../../../design/foundations/accessibility.md#hit-targets)).
+- On a touch screen the heading's button has a 44px-high hit area, as every control does ([Accessibility](../../../../../design/foundations/accessibility.md#hit-targets)). It grows upward only, so it never takes a tap from the first row: above a header row lower than 44px it reaches into what sits over the row, by 44px minus the row's height (16px over a 28px row). Leave that space free of controls, or give the controls there a stacking context of their own (`relative z-10`), so they keep their taps.
 
 `TableSortableHead` sets `aria-sort` from `sort`, colors the label, draws the arrow and gives the touch hit area. A click calls `onSortChange` with the next direction: the reverse of `sort`, or `firstSort` on a column the rows aren't sorted by. `firstSort` is `"ascending"` unless set; pass `"descending"` for numbers and dates. Pass `align="right"` in a right-aligned column, as on its cells, so the arrow goes before the label. Native props, `className` and `ref` go to the heading cell, not to the button. Sorting the rows themselves, with the missing values last, and remembering the sort are yours: the part never sees the rows.
 
-A header row drawn without `Table`, such as a list's grid of `div`s, has its own type, padding, height and line. Put a `TableSortButton` in each heading cell that sorts. It is the same button, with the same label color, arrow, arrow room, touch hit area and `sort`, `firstSort`, `onSortChange` and `align`, but with no padding and no border, and it inherits the cell's font, so it is one line high and its label starts where the cell's content starts. Set `aria-sort={sort}` on the cell yourself, and give the cell `role="columnheader"` inside a `role="row"` in a `role="table"` or `role="grid"`. Native props, `className` and `ref` go to the button.
+A header row drawn without `Table`, such as a list's grid of `div`s, has the type of the list it heads, such as `text-mono-meta` for list metadata ([Typography](../../../../../design/foundations/typography.md#sizes-by-use)), and its own height and line. Put a `TableSortButton` in each heading cell that sorts. It is the same button, with the same label color, arrow, arrow room, touch hit area and `sort`, `firstSort`, `onSortChange` and `align`, but with no padding and no border, and it inherits the cell's font. It fills the cell, so the whole cell is the target and the focus ring goes around it: give the cell no padding and let it stretch to the row's height (don't set `items-center` on the row; the button centers its label), and give the button the row's horizontal padding with `className`, such as `px-2`, so its label starts and ends where the values do. Set `aria-sort={sort}` on the cell yourself, and give the cell `role="columnheader"` inside a `role="row"` in a `role="table"` or `role="grid"`. In development the button warns when it has no such cell around it or the cell's `aria-sort` isn't its `sort`. Native props, `className` and `ref` go to the button.
 
-```tsx
-<div role="table" aria-label="Computers">
-  <div role="row" className="grid h-7 items-center font-mono text-mono-meta">
-    <div role="columnheader" aria-sort={sort} className="px-2">
-      <TableSortButton sort={sort} firstSort="descending" onSortChange={setSort}>
-        Memory
-      </TableSortButton>
-    </div>
-  </div>
-</div>
+```example
+table/compositions/drawn-header
 ```
 
 `TableSortableHead` also takes `render`, such as `render={<div role="columnheader" />}`, for a cell that should look like a `TableHead`: the header type, the line under it and the cell's padding.
@@ -99,7 +91,7 @@ A header row drawn without `Table`, such as a list's grid of `div`s, has its own
 - The parts render native `table`, `caption`, `thead`, `tbody`, `tr`, `th` and `td` elements, so screen readers can move by row and column.
 - `TableHead` sets `scope="col"`. Row headings (`scope="row"`) work but have no style of their own.
 - `TableSortableHead` sets `scope="col"` too, but none with `render`, since only a `th` takes `scope`. It sets `aria-sort` on the heading cell only while the rows are sorted by its column. Its label is a native `button` named by the column's name alone; the arrow is `aria-hidden`, so the direction is read from `aria-sort`. With `render`, the element it renders keeps `aria-sort`, so give it `role="columnheader"` ([Sorting](#sorting)).
-- `TableSortButton` sets no `aria-sort`: a button can't carry it. Set it on the heading cell around the button, a `role="columnheader"` in a `role="row"` in a `role="table"` or `role="grid"`, from the same `sort`.
+- `TableSortButton` sets no `aria-sort`: a button can't carry it. Set it on the heading cell around the button, a `role="columnheader"` in a `role="row"` in a `role="table"` or `role="grid"`, from the same `sort`. In development it warns in the console when there is no such cell or the two differ.
 - Name every table with a `TableCaption`, visible or `sr-only`. Use `aria-label` on `Table` only when there can be no caption.
 - Give a control in a cell a name that includes its row: "Access for Messages".
 

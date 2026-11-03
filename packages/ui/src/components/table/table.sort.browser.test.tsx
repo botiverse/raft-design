@@ -191,23 +191,28 @@ function textLeft(el: Element) {
 }
 
 // A header row drawn without Table (a div grid, like a product list's): the
-// cells set the type (mono meta), the padding, the 28px row and its line, and
-// TableSortButton adds none of its own. With TableSortableHead's padding the
-// heading was taller than the row and its label sat 12px right of the values.
-it("a TableSortButton in a plain div cell is one line high, its label on the values' edge", async () => {
+// row sets the type (mono meta), the 28px height and the line; its heading
+// cells have no padding, and the caller gives each TableSortButton the row's
+// padding (`px-2`). The button fills its cell, so the whole cell is the
+// target. One line high, as at f49d8357, its bottom stopped 10-12px above the
+// cell's and a click there missed it; with TableSortableHead's padding the
+// label sat 4px right of the values.
+it("a TableSortButton fills its plain div cell, its label on the values' edge", async () => {
   const grid = "grid grid-cols-[12rem_8rem]";
   render(
     <div role="table" aria-label="Computers" className="font-mono text-mono-meta">
       <div
         role="row"
         data-testid="drawn-row"
-        className={`${grid} h-7 items-center border-b border-line-hairline`}
+        className={`${grid} h-7 border-b border-line-hairline`}
       >
-        <div role="columnheader" aria-sort="descending" data-testid="drawn-head" className="px-2">
-          <TableSortButton sort="descending">Name</TableSortButton>
+        <div role="columnheader" aria-sort="descending" data-testid="drawn-head">
+          <TableSortButton className="px-2" sort="descending">
+            Name
+          </TableSortButton>
         </div>
-        <div role="columnheader" data-testid="drawn-head-right" className="px-2">
-          <TableSortButton align="right" firstSort="descending">
+        <div role="columnheader" data-testid="drawn-head-right">
+          <TableSortButton className="px-2" align="right" firstSort="descending">
             Memory
           </TableSortButton>
         </div>
@@ -224,20 +229,38 @@ it("a TableSortButton in a plain div cell is one line high, its label on the val
     { wrapper: Light },
   );
   await document.fonts.ready;
-  expect(screen.getByTestId("drawn-row").getBoundingClientRect().height).toBeCloseTo(28, 1);
+  const rowElement = screen.getByTestId("drawn-row");
+  const row = rowElement.getBoundingClientRect();
+  const rowBottom = row.bottom - Number.parseFloat(getComputedStyle(rowElement).borderBottomWidth);
   for (const id of ["drawn-head", "drawn-head-right"]) {
     const cell = screen.getByTestId(id);
-    const button = cell.querySelector('[data-slot="table-sort-button"]')!;
+    const button = cell.querySelector<HTMLElement>('[data-slot="table-sort-button"]')!;
+    const box = cell.getBoundingClientRect();
+    const target = button.getBoundingClientRect();
+    // The cell takes the row's height above its line, and the button the cell's box.
+    expect(Math.abs(box.top - row.top), `${id} cell top`).toBeLessThanOrEqual(0.5);
+    expect(Math.abs(box.bottom - rowBottom), `${id} cell bottom`).toBeLessThanOrEqual(0.5);
+    for (const side of ["top", "right", "bottom", "left"] as const) {
+      expect(Math.abs(target[side] - box[side]), `${id} button ${side}`).toBeLessThanOrEqual(0.5);
+    }
+    // A click anywhere on the cell, its corners included, lands on the button.
+    for (const [x, y] of [
+      [box.left + 1, box.top + 1],
+      [box.right - 1, box.top + 1],
+      [box.left + 1, box.bottom - 1],
+      [box.right - 1, box.bottom - 1],
+    ] as const) {
+      expect(button.contains(document.elementFromPoint(x, y)), `${id} at ${x},${y}`).toBe(true);
+    }
     const cellStyle = getComputedStyle(cell);
     const style = getComputedStyle(button);
-    const lineHeight = Number.parseFloat(cellStyle.lineHeight);
-    expect(lineHeight).toBeGreaterThan(12);
-    expect(button.getBoundingClientRect().height, id).toBeCloseTo(lineHeight, 1);
     expect(style.fontFamily, id).toBe(cellStyle.fontFamily);
     expect(style.fontSize, id).toBe(cellStyle.fontSize);
     expect(style.fontWeight, id).toBe(cellStyle.fontWeight);
     for (const side of ["top", "right", "bottom", "left"]) {
-      expect(style.getPropertyValue(`padding-${side}`), `${id} padding-${side}`).toBe("0px");
+      expect(cellStyle.getPropertyValue(`padding-${side}`), `${id} cell padding-${side}`).toBe(
+        "0px",
+      );
       expect(style.getPropertyValue(`border-${side}-width`), `${id} border-${side}`).toBe("0px");
     }
   }

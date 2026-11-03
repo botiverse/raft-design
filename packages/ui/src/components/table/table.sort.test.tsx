@@ -1,6 +1,7 @@
 /**
  * @vitest-environment jsdom
  */
+import { createRef } from "react";
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import {
@@ -241,16 +242,28 @@ const HEAD_RIGHT =
 const BUTTON_TOUCH =
   "pointer-coarse:after:absolute pointer-coarse:after:inset-x-0 pointer-coarse:after:bottom-0 pointer-coarse:after:content-[''] pointer-coarse:after:-top-[calc(--spacing(11)-100%)]";
 const HEAD_BUTTON = `relative flex w-full items-center gap-1 border-0 bg-transparent px-3 py-2 [font:inherit] cursor-pointer rounded-sticker hover:text-foreground outline-none focus-visible:shadow-focus ${BUTTON_TOUCH}`;
-const BARE_BUTTON = `relative flex w-full items-center gap-1 border-0 bg-transparent [font:inherit] cursor-pointer rounded-sticker hover:text-foreground outline-none focus-visible:shadow-focus ${BUTTON_TOUCH}`;
+const BARE_BUTTON = `relative flex h-full w-full items-center gap-1 border-0 bg-transparent [font:inherit] cursor-pointer rounded-sticker hover:text-foreground outline-none focus-visible:shadow-focus ${BUTTON_TOUCH}`;
 
 describe("TableSortableHead's classes", () => {
   it("are unchanged on an unsorted left-aligned heading", () => {
     const { head, button } = renderHead({});
     expect(head.className).toBe(HEAD_LEFT);
     expect(button.className).toBe(`${HEAD_BUTTON} text-foreground-hint`);
-    expect(button.outerHTML).toBe(
-      `<button type="button" data-slot="table-sort-button" class="${HEAD_BUTTON} text-foreground-hint">Memory<span aria-hidden="true" data-slot="table-sort-arrow-space" class="size-3 shrink-0"></span></button>`,
-    );
+    const buttonHTML = `<button type="button" data-slot="table-sort-button" class="${HEAD_BUTTON} text-foreground-hint">Memory<span aria-hidden="true" data-slot="table-sort-arrow-space" class="size-3 shrink-0"></span></button>`;
+    expect(button.outerHTML).toBe(buttonHTML);
+    // The whole heading cell: its attributes (whatever their order) and, as
+    // its only content, that button.
+    expect(
+      Array.from(head.attributes, (attribute) => [attribute.name, attribute.value]).sort(
+        ([a], [b]) => a!.localeCompare(b!),
+      ),
+    ).toEqual([
+      ["class", HEAD_LEFT],
+      ["data-slot", "table-sortable-head"],
+      ["data-testid", "head"],
+      ["scope", "col"],
+    ]);
+    expect(head.innerHTML).toBe(buttonHTML);
   });
 
   it("are unchanged on a sorted right-aligned heading", () => {
@@ -359,11 +372,16 @@ describe("TableSortButton", () => {
     expect(button.className).toBe(`${BARE_BUTTON} text-foreground-hint`);
   });
 
-  it("is TableSortableHead's button without its padding", () => {
+  it("is TableSortableHead's button without its padding, filling its cell", () => {
     const bare = renderButton({ sort: "descending", align: "right" }).button.className;
     cleanup();
     const head = renderHead({ sort: "descending", align: "right" }).button.className;
-    expect(bare.split(" ")).toEqual(head.split(" ").filter((name) => !/^p[xy]-/.test(name)));
+    expect(bare.split(" ")).toContain("h-full");
+    expect(bare.split(" ")).toContain("w-full");
+    expect(head.split(" ")).not.toContain("h-full");
+    expect(bare.split(" ").filter((name) => name !== "h-full")).toEqual(
+      head.split(" ").filter((name) => !/^p[xy]-/.test(name)),
+    );
   });
 
   it("marks only the sorted column's label in foreground", () => {
@@ -381,5 +399,112 @@ describe("TableSortButton", () => {
     const classes = button.className.split(" ");
     expect(classes).toContain("w-auto");
     expect(classes).not.toContain("w-full");
+  });
+
+  it("takes the row's horizontal padding from the caller", () => {
+    const { button } = renderButton({ className: "px-2" });
+    expect(button.className).toBe(`${BARE_BUTTON} text-foreground-hint px-2`);
+  });
+
+  it("gives the ref to the button", () => {
+    const ref = createRef<HTMLButtonElement>();
+    render(
+      <div role="table" aria-label="Computers">
+        <div role="row">
+          <div role="columnheader">
+            <TableSortButton ref={ref}>Memory</TableSortButton>
+          </div>
+        </div>
+      </div>,
+    );
+    expect(ref.current).toBe(screen.getByRole("button", { name: "Memory" }));
+  });
+});
+
+// The button can't carry aria-sort, so a header row that forgets it on the
+// cell, or forgets the columnheader, tells screen readers nothing of the sort.
+describe("TableSortButton's development warning", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  function quietWarn() {
+    return vi.spyOn(console, "warn").mockImplementation(() => {});
+  }
+
+  it("warns when no heading cell is around it", () => {
+    const warn = quietWarn();
+    render(
+      <div>
+        <TableSortButton sort="ascending">Memory</TableSortButton>
+      </div>,
+    );
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(String(warn.mock.calls[0]![0])).toContain("not inside a heading cell");
+  });
+
+  it("warns when the cell's aria-sort is missing or isn't sort", () => {
+    const warn = quietWarn();
+    render(
+      <div role="table" aria-label="Computers">
+        <div role="row">
+          <div role="columnheader">
+            <TableSortButton sort="descending">Memory</TableSortButton>
+          </div>
+        </div>
+      </div>,
+    );
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(String(warn.mock.calls[0]![0])).toContain("no aria-sort");
+    cleanup();
+    warn.mockClear();
+    render(
+      <div role="table" aria-label="Computers">
+        <div role="row">
+          <div role="columnheader" aria-sort="ascending">
+            <TableSortButton>Memory</TableSortButton>
+          </div>
+        </div>
+      </div>,
+    );
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(String(warn.mock.calls[0]![0])).toContain('aria-sort="ascending"');
+  });
+
+  it("is quiet when the cell's aria-sort is sort, in a th or a columnheader", () => {
+    const warn = quietWarn();
+    function Drawn({ sort }: { sort?: TableSort }) {
+      return (
+        <div role="table" aria-label="Computers">
+          <div role="row">
+            <div role="columnheader" aria-sort={sort ?? "none"}>
+              <TableSortButton sort={sort}>Memory</TableSortButton>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    const { rerender } = render(<Drawn />);
+    rerender(<Drawn sort="ascending" />);
+    rerender(<Drawn sort="descending" />);
+    cleanup();
+    render(
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <th aria-sort="descending">
+              <TableSortButton sort="descending">Memory</TableSortButton>
+            </th>
+          </TableRow>
+        </TableHeader>
+      </Table>,
+    );
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("never runs for TableSortableHead, which sets aria-sort itself", () => {
+    const warn = quietWarn();
+    renderHead({ sort: "descending" });
+    expect(warn).not.toHaveBeenCalled();
   });
 });
