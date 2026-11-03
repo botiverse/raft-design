@@ -37,6 +37,7 @@ export function ScrollAreaScrollToElementContent() {
       <ScrollArea
         ref={areaRef}
         actionsRef={actions}
+        role="region"
         aria-label="Handbook"
         railInset={HEADER_INSET}
         className="h-56 w-full rounded-container border border-line-hairline bg-layer-canvas"

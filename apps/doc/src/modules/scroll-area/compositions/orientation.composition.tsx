@@ -11,6 +11,7 @@ export function ScrollAreaOrientationContent() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-4">
       <ScrollArea
+        role="region"
         aria-label="Days"
         orientation="horizontal"
         className="w-full rounded-container border border-line-hairline bg-layer-canvas"
@@ -27,6 +28,7 @@ export function ScrollAreaOrientationContent() {
         </div>
       </ScrollArea>
       <ScrollArea
+        role="region"
         aria-label="Schedule"
         orientation="both"
         className="h-56 w-full rounded-container border border-line-hairline bg-layer-canvas"

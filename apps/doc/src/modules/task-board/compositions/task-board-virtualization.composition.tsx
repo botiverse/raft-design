@@ -89,6 +89,7 @@ export function TaskBoardVirtualizationComposition() {
       </div>
       <ScrollArea
         ref={viewportRef}
+        role="region"
         aria-label="Todo tasks"
         className="min-h-0 w-full flex-1"
         contentClassName="p-4"

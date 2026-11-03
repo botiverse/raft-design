@@ -1,17 +1,18 @@
 import { useCallback, useId, useImperativeHandle, useLayoutEffect, useMemo, useRef } from "react";
-import type { CSSProperties, RefObject } from "react";
+import type { CSSProperties } from "react";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import "./scroll-area.css";
 import { scrollAreaClassNames } from "./class-names";
+import type { GuttersBinding } from "./gutters-binding";
 import { scrollToElement as scrollContainerToElement } from "./scroll-to-element";
 import type {
   ScrollAreaContainer,
   ScrollAreaContainerOptions,
   ScrollAreaContainerProps,
   ScrollAreaFrameProps,
+  ScrollAreaGuttersBinding,
   ScrollAreaGuttersProps,
   ScrollAreaOrientation,
-  ScrollAreaRailInset,
   ScrollAreaScrollToElementOptions,
 } from "./types";
 import { effectiveHideDelay, scrollAreaContainerClassName, useScrollbars } from "./use-scrollbars";
@@ -23,13 +24,16 @@ const railInsetEdges = ["top", "bottom", "left", "right"] as const;
  * to this area, so that an area nested in another's container never takes the outer one's
  * timeline (or makes it ambiguous).
  */
-function rootStyle(timelines: string, railInset: ScrollAreaRailInset | undefined): CSSProperties {
+function rootStyle(
+  timelines: string,
+  railInset: Partial<Record<(typeof railInsetEdges)[number], number | undefined>>,
+): CSSProperties {
   const vars: Record<string, string> = {
     "--r-scroll-area-timeline-x": `--r-scroll-area-x-${timelines}`,
     "--r-scroll-area-timeline-y": `--r-scroll-area-y-${timelines}`,
   };
   for (const edge of railInsetEdges) {
-    const value = railInset?.[edge];
+    const value = railInset[edge];
     if (value !== undefined) vars[`--r-scroll-area-rail-inset-${edge}`] = `${value}px`;
   }
   return vars;
@@ -126,7 +130,21 @@ export function useScrollAreaContainer<E extends HTMLElement = HTMLElement>({
 
   // useId's characters (`«r1»`, `:r1:`, `_r_1_`) aren't all allowed in a CSS name.
   const timelines = useId().replace(/[^\w-]/g, "");
-  const blockStyle = useMemo(() => rootStyle(timelines, railInset), [timelines, railInset]);
+  // Keyed on the four numbers, not the object: an inline `railInset={{ top: 40 }}` keeps the props stable.
+  const insetTop = railInset?.top;
+  const insetBottom = railInset?.bottom;
+  const insetLeft = railInset?.left;
+  const insetRight = railInset?.right;
+  const blockStyle = useMemo(
+    () =>
+      rootStyle(timelines, {
+        bottom: insetBottom,
+        left: insetLeft,
+        right: insetRight,
+        top: insetTop,
+      }),
+    [timelines, insetTop, insetBottom, insetLeft, insetRight],
+  );
   const blockClassName = scrollAreaClassNames({
     fade,
     guttersPosition,
@@ -153,12 +171,15 @@ export function useScrollAreaContainer<E extends HTMLElement = HTMLElement>({
   );
   const guttersProps = useMemo<ScrollAreaGuttersProps>(
     () => ({
-      containerRef: containerRef as RefObject<HTMLElement | null>,
-      guttersRef,
-      onDraggingChange: setDragging,
-      rails,
-      xThumbRef,
-      yThumbRef,
+      // Opaque to callers: only ScrollAreaGutters reads it (fromGuttersBinding).
+      binding: {
+        containerRef,
+        guttersRef,
+        onDraggingChange: setDragging,
+        rails,
+        xThumbRef,
+        yThumbRef,
+      } satisfies GuttersBinding as unknown as ScrollAreaGuttersBinding,
     }),
     [rails, setDragging, xThumbRef, yThumbRef],
   );

@@ -243,6 +243,7 @@ export function TaskBoardComposition({
   return (
     <div ref={portalRef} className="relative size-full min-h-0 min-w-0">
       <ScrollArea
+        role="region"
         aria-label="Task board"
         orientation="both"
         className="size-full"

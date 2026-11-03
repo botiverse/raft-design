@@ -106,7 +106,7 @@ export function TaskListComposition({
 
   return (
     <div ref={portalRef} className="relative size-full min-h-0 min-w-0">
-      <ScrollArea aria-label="Tasks" className="size-full" contentClassName="p-4">
+      <ScrollArea role="region" aria-label="Tasks" className="size-full" contentClassName="p-4">
         <TaskListRoot>
           {TASK_STATUSES.map((status) => {
             const statusTasks = sortedTasks.filter((task) => task.status === status.id);

@@ -21,6 +21,7 @@ export function ScrollAreaEdgeStateContent() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-2">
       <ScrollArea
+        role="region"
         aria-label="Files"
         railInset={HEADER_FOOTER_INSET}
         onEdgeChange={handleEdgeChange}

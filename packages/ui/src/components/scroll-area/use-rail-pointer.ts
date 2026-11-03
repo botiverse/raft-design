@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import type { PointerEvent, RefObject } from "react";
 
 import { pageDirection, pageDistance } from "./scroll-geometry";
@@ -6,6 +6,8 @@ import type { ScrollAxis } from "./scroll-geometry";
 
 type Drag = {
   pointerId: number;
+  /** The thumb that captured the pointer. */
+  thumb: HTMLElement;
   /** Pointer position on the axis when the drag started. */
   start: number;
   /** `scrollTop` / `scrollLeft` when the drag started. */
@@ -39,6 +41,29 @@ export function useRailPointer({ axis, containerRef, onDraggingChange }: RailPoi
     setDragging(next);
     onDraggingChange(next);
   };
+  // The latest callback, for the unmount below.
+  const notifyRef = useRef(onDraggingChange);
+  useLayoutEffect(() => {
+    notifyRef.current = onDraggingChange;
+  });
+  // A gutter that unmounts mid-drag (the content shrank to fit, so its axis has nothing to scroll)
+  // never sees the pointer go up: end the drag here, so the area isn't left dragging.
+  useLayoutEffect(
+    () => () => {
+      const current = drag.current;
+      if (!current) return;
+      drag.current = null;
+      try {
+        if (current.thumb.hasPointerCapture(current.pointerId)) {
+          current.thumb.releasePointerCapture(current.pointerId);
+        }
+      } catch {
+        // Already released with the element.
+      }
+      notifyRef.current(false);
+    },
+    [],
+  );
   const vertical = axis === "y";
   const along = (event: PointerEvent) => (vertical ? event.clientY : event.clientX);
 
@@ -75,6 +100,7 @@ export function useRailPointer({ axis, containerRef, onDraggingChange }: RailPoi
       : container.scrollWidth - container.clientWidth;
     drag.current = {
       pointerId: event.pointerId,
+      thumb,
       scale: travel > 0 ? overflow / travel : 0,
       scrollStart: vertical ? container.scrollTop : container.scrollLeft,
       start: along(event),

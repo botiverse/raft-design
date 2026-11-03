@@ -40,6 +40,7 @@ export function ScrollAreaScrollToContent() {
       </div>
       <ScrollArea
         ref={ref}
+        role="region"
         aria-label="Weekly notes"
         onScroll={trackTop}
         className="h-56 w-full rounded-container border border-line-hairline bg-layer-canvas"

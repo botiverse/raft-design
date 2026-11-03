@@ -31,7 +31,8 @@ export function ScrollAreaSizeContent() {
         <p className="font-mono text-mono-meta text-foreground-muted">{'size="small"'}</p>
         {/* @docs-source-strip-end */}
         <ScrollArea
-          aria-label="Channels"
+          role="region"
+          aria-label="Channels, small thumb"
           size="small"
           trigger="none"
           className="h-48 rounded-container border border-line-hairline bg-layer-canvas"
@@ -49,7 +50,8 @@ export function ScrollAreaSizeContent() {
         <p className="font-mono text-mono-meta text-foreground-muted">{'size="medium"'}</p>
         {/* @docs-source-strip-end */}
         <ScrollArea
-          aria-label="Channels"
+          role="region"
+          aria-label="Channels, medium thumb"
           size="medium"
           trigger="none"
           className="h-48 rounded-container border border-line-hairline bg-layer-canvas"

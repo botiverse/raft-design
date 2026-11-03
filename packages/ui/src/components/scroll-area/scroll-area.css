@@ -21,12 +21,13 @@
  * `--{vertical,horizontal,both}-orientation`, `--{sticky,absolute}-gutters`,
  * `--{none,contain}-overscroll-{y,x}`, `--fade`, `--rtl`,
  * `--overflow-{y,x}-{start,end}` (more content past that edge; `x` is
- * inline), `--scrolling` (from the first scroll until `hideDelay` after the
- * last), `--dragging` (these last four are set by the script with
- * `classList`, never rendered) and `--textarea`; `__container` (with
- * absolute gutters, the container: `scrollAreaContainerClassName`),
- * `__viewport` (ScrollArea's own `<div>` container: its overflow),
- * `__content`, `__textarea`, `__gutters`, `__gutter` (`--vertical`,
+ * inline; these and `--rtl` are set by the script with `classList`, never
+ * rendered) and `--textarea`; `__container` (with absolute gutters, the
+ * container), `__viewport` (ScrollArea's own `<div>` container: its
+ * overflow), `__content`, `__textarea`, `__gutters` (with `--scrolling`,
+ * from the first scroll until `hideDelay` after the last, and `--dragging`,
+ * both set by the script: on the layer, so toggling them restyles only the
+ * gutters, not the content under the root), `__gutter` (`--vertical`,
  * `--horizontal`, `--shortened`, `--dragging`) and `__thumb`.
  *
  * In the `components` layer, so a utility in the caller's `className`
@@ -49,6 +50,9 @@
  * What the script writes as inline styles (React never renders them):
  *   --r-scroll-area-viewport-{height,width}   on the root: the container's
  *                                             client size (layout path only)
+ *   --r-scroll-area-padding-{top,left,right}  on a sticky root: its padding,
+ *                                             which the gutters layer
+ *                                             reaches over (layout path only)
  *   --r-scroll-area-thumb-length              on each thumb: its length, px
  *   --r-scroll-area-thumb-travel              on each thumb, with scroll-driven
  *                                             animations: gutter minus length
@@ -171,6 +175,9 @@
      */
     --r-scroll-area-viewport-height: 100%;
     --r-scroll-area-viewport-width: 100%;
+    --r-scroll-area-padding-top: 0px;
+    --r-scroll-area-padding-left: 0px;
+    --r-scroll-area-padding-right: 0px;
     /* The gutter is as thick as the hovered thumb plus the gap on both sides. */
     --r-scroll-area-rail-size: calc(
       var(--r-scroll-area-thumb-size-hover) + 2 * var(--r-scroll-area-rail-gap)
@@ -234,7 +241,7 @@
     position: relative;
   }
 
-  /* ScrollArea's own `<div>` container scrolls in the orientation. */
+  /* ScrollArea's own `<div>` container (always sticky) scrolls in the orientation. */
   .r-scroll-area.r-scroll-area--sticky-gutters.r-scroll-area__viewport {
     overflow: hidden auto;
     position: relative;
@@ -243,22 +250,6 @@
     overflow: auto hidden;
   }
   .r-scroll-area.r-scroll-area--sticky-gutters.r-scroll-area--both-orientation.r-scroll-area__viewport {
-    overflow: auto;
-  }
-  .r-scroll-area.r-scroll-area--absolute-gutters > .r-scroll-area__viewport {
-    /* A framed root's rounded corners clip what scrolls under them. */
-    border-radius: inherit;
-    flex: 1 1 auto;
-    min-block-size: 0;
-    min-inline-size: 0;
-    overflow: hidden auto;
-  }
-  .r-scroll-area.r-scroll-area--absolute-gutters.r-scroll-area--horizontal-orientation
-    > .r-scroll-area__viewport {
-    overflow: auto hidden;
-  }
-  .r-scroll-area.r-scroll-area--absolute-gutters.r-scroll-area--both-orientation
-    > .r-scroll-area__viewport {
     overflow: auto;
   }
 
@@ -295,21 +286,12 @@
 
   /*
    * Keyboard focus only (--focus-ring is empty after a click or a tap,
-   * styles.css), on ScrollArea's own container. With absolute gutters the
-   * ring goes around the frame, drawn by the gutters layer that covers it,
-   * so a `fade` mask on the container doesn't cut it off.
+   * styles.css), on ScrollArea's own container. A frame with absolute
+   * gutters is the caller's, and so is its focus ring (`has-focus-visible:`).
    */
   .r-scroll-area.r-scroll-area--sticky-gutters.r-scroll-area__viewport:focus-visible {
     box-shadow: var(--focus-ring);
     outline: none;
-  }
-  .r-scroll-area.r-scroll-area--absolute-gutters > .r-scroll-area__viewport:focus-visible {
-    outline: none;
-  }
-  .r-scroll-area.r-scroll-area--absolute-gutters
-    > .r-scroll-area__viewport:focus-visible
-    ~ .r-scroll-area__gutters {
-    box-shadow: var(--focus-ring);
   }
 
   /* Wide content widens the content box instead of wrapping to it. */
@@ -318,10 +300,10 @@
   .r-scroll-area.r-scroll-area--sticky-gutters.r-scroll-area--both-orientation
     > .r-scroll-area__content,
   .r-scroll-area.r-scroll-area--absolute-gutters.r-scroll-area--horizontal-orientation
-    > .r-scroll-area__viewport
+    > .r-scroll-area__container
     > .r-scroll-area__content,
   .r-scroll-area.r-scroll-area--absolute-gutters.r-scroll-area--both-orientation
-    > .r-scroll-area__viewport
+    > .r-scroll-area__container
     > .r-scroll-area__content {
     inline-size: fit-content;
     min-inline-size: 100%;
@@ -428,16 +410,29 @@
   }
   /*
    * Sticky: a zero-height layer at the top of the viewport, the container's
-   * first child. In a container that lays its children out as a flex column
-   * it stays a zero-height row of the full width.
+   * first child. In a container that lays its children out as a block or a
+   * flex column it stays a zero-height row of the full width, and nothing
+   * after it moves. It is in flow (a sticky box always is), so a grid, a flex
+   * row, `gap` and sibling selectors (`stack-y-*`, `rule-y`, `first:`) count
+   * it: lay the content out in a wrapper inside the container instead.
+   *
+   * It reaches over the container's padding, so the gutters are at the
+   * padding box's edges, not the content's: the negative inline margins
+   * widen it to the padding box, and it sticks `padding-top` below the top
+   * of the viewport, where a translate lifts it back to the top. The
+   * translate moves nothing in flow, so the content stays where its padding
+   * puts it.
    */
   .r-scroll-area.r-scroll-area--sticky-gutters > .r-scroll-area__gutters {
     align-self: stretch;
     block-size: 0;
     flex-shrink: 0;
-    inset-block-start: 0;
+    inset-block-start: var(--r-scroll-area-padding-top);
     inset-inline-start: 0;
+    margin-left: calc(-1 * var(--r-scroll-area-padding-left));
+    margin-right: calc(-1 * var(--r-scroll-area-padding-right));
     position: sticky;
+    translate: 0 calc(-1 * var(--r-scroll-area-padding-top));
   }
   /* Absolute: a layer over the frame's padding box, after the container. */
   .r-scroll-area.r-scroll-area--absolute-gutters > .r-scroll-area__gutters {
@@ -577,8 +572,12 @@
     > .r-scroll-area__gutters
     > .r-scroll-area__gutter,
   .r-scroll-area.r-scroll-area--none-trigger > .r-scroll-area__gutters > .r-scroll-area__gutter,
-  .r-scroll-area.r-scroll-area--scrolling > .r-scroll-area__gutters > .r-scroll-area__gutter,
-  .r-scroll-area.r-scroll-area--dragging > .r-scroll-area__gutters > .r-scroll-area__gutter {
+  .r-scroll-area
+    > .r-scroll-area__gutters.r-scroll-area__gutters--scrolling
+    > .r-scroll-area__gutter,
+  .r-scroll-area
+    > .r-scroll-area__gutters.r-scroll-area__gutters--dragging
+    > .r-scroll-area__gutter {
     opacity: 1;
     transition-duration: var(--r-scroll-area-duration-fade-in);
   }
@@ -595,10 +594,10 @@
     opacity: 1;
     transition-duration: var(--r-scroll-area-duration-fade-in);
   }
-  .r-scroll-area.r-scroll-area--scroll-trigger:not(.r-scroll-area--scrolling):not(
-      .r-scroll-area--dragging
+  .r-scroll-area.r-scroll-area--scroll-trigger
+    > .r-scroll-area__gutters:not(.r-scroll-area__gutters--scrolling):not(
+      .r-scroll-area__gutters--dragging
     )
-    > .r-scroll-area__gutters
     > .r-scroll-area__gutter:not(:hover) {
     pointer-events: none;
   }
@@ -631,29 +630,21 @@
    * Scroll-driven thumbs: the browser moves each thumb from the scroll itself,
    * on the compositor, with no script per scroll. The container names its
    * timelines with the ScrollArea's unique names. Sticky gutters are inside
-   * the container and see them; absolute gutters are its siblings, so the
-   * frame hoists the names to itself (`timeline-scope`), and only gutters
-   * after a container are animated (`~`). `use-scrollbars.ts` checks the same
-   * condition (`scrollTimelineCondition`) and the same arrangement; for any
-   * other the script moves the thumbs.
+   * the container and see them, so they need only `animation-timeline`;
+   * absolute gutters are its siblings, so the frame hoists the names to
+   * itself (`timeline-scope`), and only gutters after a container are
+   * animated (`~`). `use-scrollbars.ts` checks the same conditions
+   * (`stickyScrollTimelineCondition`, `scrollTimelineCondition`) and the
+   * same arrangement; for any other the script moves the thumbs.
    */
-  @supports (animation-timeline: scroll()) and (timeline-scope: none) {
-    .r-scroll-area.r-scroll-area--sticky-gutters,
-    .r-scroll-area.r-scroll-area--absolute-gutters > .r-scroll-area__container {
+  @supports (animation-timeline: scroll()) {
+    .r-scroll-area.r-scroll-area--sticky-gutters {
       scroll-timeline:
         var(--r-scroll-area-timeline-y) block,
         var(--r-scroll-area-timeline-x) inline;
     }
-    .r-scroll-area.r-scroll-area--absolute-gutters {
-      timeline-scope: var(--r-scroll-area-timeline-y), var(--r-scroll-area-timeline-x);
-    }
     .r-scroll-area.r-scroll-area--sticky-gutters
       > .r-scroll-area__gutters
-      > .r-scroll-area__gutter--vertical
-      > .r-scroll-area__thumb,
-    .r-scroll-area.r-scroll-area--absolute-gutters
-      > .r-scroll-area__container
-      ~ .r-scroll-area__gutters
       > .r-scroll-area__gutter--vertical
       > .r-scroll-area__thumb {
       animation: r-scroll-area-thumb-y linear both;
@@ -662,7 +653,28 @@
     .r-scroll-area.r-scroll-area--sticky-gutters
       > .r-scroll-area__gutters
       > .r-scroll-area__gutter--horizontal
-      > .r-scroll-area__thumb,
+      > .r-scroll-area__thumb {
+      animation: r-scroll-area-thumb-x linear both;
+      animation-timeline: var(--r-scroll-area-timeline-x);
+    }
+  }
+  @supports (animation-timeline: scroll()) and (timeline-scope: none) {
+    .r-scroll-area.r-scroll-area--absolute-gutters > .r-scroll-area__container {
+      scroll-timeline:
+        var(--r-scroll-area-timeline-y) block,
+        var(--r-scroll-area-timeline-x) inline;
+    }
+    .r-scroll-area.r-scroll-area--absolute-gutters {
+      timeline-scope: var(--r-scroll-area-timeline-y), var(--r-scroll-area-timeline-x);
+    }
+    .r-scroll-area.r-scroll-area--absolute-gutters
+      > .r-scroll-area__container
+      ~ .r-scroll-area__gutters
+      > .r-scroll-area__gutter--vertical
+      > .r-scroll-area__thumb {
+      animation: r-scroll-area-thumb-y linear both;
+      animation-timeline: var(--r-scroll-area-timeline-y);
+    }
     .r-scroll-area.r-scroll-area--absolute-gutters
       > .r-scroll-area__container
       ~ .r-scroll-area__gutters

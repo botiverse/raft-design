@@ -17,7 +17,15 @@
     "name": "SidebarContent",
     "entry": "@botiverse/raft-ui",
     "native": true,
-    "props": []
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
   },
   {
     "name": "SidebarGroupLabel",

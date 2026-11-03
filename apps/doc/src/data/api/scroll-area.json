@@ -20,24 +20,10 @@
         "from": "raft-ui"
       },
       {
-        "name": "containerClassName",
-        "type": "string",
-        "required": false,
-        "description": "Class of ScrollArea's own container; with `sticky` the same element as the root.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "containerStyle",
-        "type": "CSSProperties",
-        "required": false,
-        "description": "Style of ScrollArea's own container.",
-        "from": "raft-ui"
-      },
-      {
         "name": "contentClassName",
         "type": "string",
         "required": false,
-        "description": "Class of a content element around `children`, inside the container: put padding here, so the scrollbars stay at the edges. Only with it, `contentStyle` or `fade` (sticky) is there one.",
+        "description": "Class of a content element around `children`, inside the container: put padding and the content's own layout (grid, flex, `gap`, `stack-y-*`) here, so the scrollbars stay at the edges and the gutters layer is never one of the laid-out children. Only with it, `contentStyle` or `fade` is there one.",
         "from": "raft-ui"
       },
       {
@@ -60,14 +46,6 @@
         "required": false,
         "default": "false",
         "description": "Fade the content out toward an edge that has more past it. The scrollbars don't fade.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "guttersPosition",
-        "type": "ScrollAreaGuttersPosition",
-        "required": false,
-        "default": "\"sticky\"",
-        "description": "Where the gutters go: inside the container (`sticky`, the default) or beside it in a frame (`absolute`).",
         "from": "raft-ui"
       },
       {
@@ -113,10 +91,10 @@
         "from": "raft-ui"
       },
       {
-        "name": "rootRef",
-        "type": "((instance: HTMLDivElement | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<HTMLDivElement | null>",
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
-        "description": "The root: the container itself (`sticky`) or the frame (`absolute`).",
+        "description": "Another element in place of ScrollArea's own `<div>`, as the container (an element or a function that gets the props). It must hold children: the gutters are its first child.",
         "from": "raft-ui"
       },
       {
@@ -152,49 +130,14 @@
   {
     "name": "ScrollAreaGutters",
     "entry": "@botiverse/raft-ui",
-    "description": "The scrollbars of a container bound with `useScrollAreaContainer`: spread its `guttersProps` here, and render it where `guttersPosition` says (as in the demo). `sticky` gutters: the container's first child, a zero-height layer stuck to the top of the viewport. `absolute` gutters: right after the container, a layer laid over the frame. A gutter appears for each axis with something to scroll. Hidden from assistive technology, which uses the native scrolling.",
+    "description": "The scrollbars of a container bound with `useScrollAreaContainer`: spread its `guttersProps` here, and render it where `guttersPosition` says (as in the demo). `sticky` gutters: the container's first child, a zero-height layer stuck to the top of the viewport, laid over its padding box. It is in flow, so it is one of the container's children for a grid, a flex row, `gap` and sibling selectors: lay the content out in a wrapper inside. `absolute` gutters: right after the container, a layer laid over the frame. A gutter appears for each axis with something to scroll. Hidden from assistive technology, which uses the native scrolling.",
     "native": false,
     "props": [
       {
-        "name": "containerRef",
-        "type": "RefObject<HTMLElement | null>",
+        "name": "binding",
+        "type": "ScrollAreaGuttersBinding",
         "required": true,
-        "description": "The container the gutters scroll.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "guttersRef",
-        "type": "RefObject<HTMLDivElement | null>",
-        "required": true,
-        "description": "The gutters layer.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "onDraggingChange",
-        "type": "(dragging: boolean) => void",
-        "required": true,
-        "description": "Called when a thumb drag starts and ends.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "rails",
-        "type": "{ xRail: boolean; yRail: boolean; }",
-        "required": true,
-        "description": "Which axes have a gutter now: one with something to scroll.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "xThumbRef",
-        "type": "RefObject<HTMLDivElement | null>",
-        "required": true,
-        "description": "The horizontal thumb.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "yThumbRef",
-        "type": "RefObject<HTMLDivElement | null>",
-        "required": true,
-        "description": "The vertical thumb, which the area sizes and moves.",
+        "description": "The binding to its container, from `useScrollAreaContainer`.",
         "from": "raft-ui"
       }
     ]

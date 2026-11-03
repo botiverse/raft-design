@@ -1,3 +1,4 @@
+import type { useRender } from "@base-ui/react/use-render";
 import type {
   ComponentPropsWithRef,
   CSSProperties,
@@ -153,20 +154,18 @@ export type ScrollAreaFrameProps = {
   style: CSSProperties;
 };
 
-/** What `<ScrollAreaGutters />` draws from: spread `useScrollAreaContainer`'s `guttersProps`, never built by hand. */
+declare const guttersBinding: unique symbol;
+
+/**
+ * How `<ScrollAreaGutters />` is wired to its container: opaque, made only by
+ * `useScrollAreaContainer`, so how the gutters are wired can change without breaking a caller.
+ */
+export type ScrollAreaGuttersBinding = { readonly [guttersBinding]: true };
+
+/** What `<ScrollAreaGutters />` takes: spread `useScrollAreaContainer`'s `guttersProps`, never built by hand. */
 export type ScrollAreaGuttersProps = {
-  /** The container the gutters scroll. */
-  containerRef: RefObject<HTMLElement | null>;
-  /** The gutters layer. */
-  guttersRef: RefObject<HTMLDivElement | null>;
-  /** Which axes have a gutter now: one with something to scroll. */
-  rails: { xRail: boolean; yRail: boolean };
-  /** The vertical thumb, which the area sizes and moves. */
-  yThumbRef: RefObject<HTMLDivElement | null>;
-  /** The horizontal thumb. */
-  xThumbRef: RefObject<HTMLDivElement | null>;
-  /** Called when a thumb drag starts and ends. */
-  onDraggingChange: (dragging: boolean) => void;
+  /** The binding to its container, from `useScrollAreaContainer`. */
+  binding: ScrollAreaGuttersBinding;
 };
 
 /**
@@ -193,27 +192,21 @@ export type ScrollAreaContainer<E extends HTMLElement = HTMLElement> = {
 export type ScrollAreaOwnProps = ScrollAreaOptions & {
   /** The scrolling content, in ScrollArea's own container. */
   children?: ReactNode;
-  /** Where the gutters go: inside the container (`sticky`, the default) or beside it in a frame (`absolute`). */
-  guttersPosition?: ScrollAreaGuttersPosition;
   /**
    * An element whose size is the content's, watched for size changes (such as a hidden mirror of a
    * textarea's text). Without it each element child of the container is watched, and children
    * added or removed.
    */
   contentRef?: RefObject<HTMLElement | null>;
-  /** Class of the root: the container (`sticky`) or the frame (`absolute`). Size and frame the area here. */
+  /** Class of the area, the element that scrolls: size and frame it here. */
   className?: string;
-  /** Style of the root. */
+  /** Style of the area. */
   style?: CSSProperties;
-  /** The root: the container itself (`sticky`) or the frame (`absolute`). */
-  rootRef?: Ref<HTMLDivElement>;
-  /** Class of ScrollArea's own container; with `sticky` the same element as the root. */
-  containerClassName?: string;
-  /** Style of ScrollArea's own container. */
-  containerStyle?: CSSProperties;
   /**
-   * Class of a content element around `children`, inside the container: put padding here, so the
-   * scrollbars stay at the edges. Only with it, `contentStyle` or `fade` (sticky) is there one.
+   * Class of a content element around `children`, inside the container: put padding and the
+   * content's own layout (grid, flex, `gap`, `stack-y-*`) here, so the scrollbars stay at the edges
+   * and the gutters layer is never one of the laid-out children. Only with it, `contentStyle` or
+   * `fade` is there one.
    */
   contentClassName?: string;
   /** Style of the content element; renders it, as `contentClassName` does. */
@@ -222,11 +215,16 @@ export type ScrollAreaOwnProps = ScrollAreaOptions & {
   onScroll?: UIEventHandler<HTMLDivElement>;
   /** The container's: by default `0` while there is something to scroll. */
   tabIndex?: number;
+  /**
+   * Another element in place of ScrollArea's own `<div>`, as the container (an element or a
+   * function that gets the props). It must hold children: the gutters are its first child.
+   */
+  render?: useRender.RenderProp | undefined;
 };
 
 /**
- * `ref` and the native props go to ScrollArea's own container, the element that scrolls (with
- * `sticky` gutters, the default, it is the root too); `className` and `style` to the root.
+ * `ref`, `className`, `style` and the native props go to the area: one element, the container,
+ * the element that scrolls, with the scrollbars inside it (sticky gutters).
  */
 export type ScrollAreaProps = ScrollAreaOwnProps &
   Omit<ComponentPropsWithRef<"div">, keyof ScrollAreaOwnProps>;

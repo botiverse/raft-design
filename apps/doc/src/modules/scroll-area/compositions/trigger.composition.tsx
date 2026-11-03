@@ -31,7 +31,8 @@ export function ScrollAreaTriggerContent() {
         <p className="font-mono text-mono-meta text-foreground-muted">{'trigger="hover"'}</p>
         {/* @docs-source-strip-end */}
         <ScrollArea
-          aria-label="Channels"
+          role="region"
+          aria-label="Channels, shown on hover"
           className="h-48 rounded-container border border-line-hairline bg-layer-canvas"
           contentClassName="px-4 py-1"
         >
@@ -49,7 +50,8 @@ export function ScrollAreaTriggerContent() {
         </p>
         {/* @docs-source-strip-end */}
         <ScrollArea
-          aria-label="Channels"
+          role="region"
+          aria-label="Channels, shown while scrolling"
           trigger="scroll"
           hideDelay={1500}
           className="h-48 rounded-container border border-line-hairline bg-layer-canvas"
@@ -67,7 +69,8 @@ export function ScrollAreaTriggerContent() {
         <p className="font-mono text-mono-meta text-foreground-muted">{'trigger="none"'}</p>
         {/* @docs-source-strip-end */}
         <ScrollArea
-          aria-label="Channels"
+          role="region"
+          aria-label="Channels, always shown"
           trigger="none"
           className="h-48 rounded-container border border-line-hairline bg-layer-canvas"
           contentClassName="px-4 py-1"

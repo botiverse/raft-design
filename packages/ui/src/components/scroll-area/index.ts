@@ -2,7 +2,6 @@ export { ScrollArea, ScrollAreaContent } from "./scroll-area";
 export { ScrollAreaGutters } from "./scroll-area-gutters";
 export { ScrollAreaTextarea } from "./scroll-area-textarea";
 export { useScrollAreaContainer } from "./use-scroll-area-container";
-export { scrollAreaContainerClassName } from "./use-scrollbars";
 export type {
   ScrollAreaActions,
   ScrollAreaContainer,
@@ -11,6 +10,7 @@ export type {
   ScrollAreaContentProps,
   ScrollAreaEdges,
   ScrollAreaFrameProps,
+  ScrollAreaGuttersBinding,
   ScrollAreaGuttersPosition,
   ScrollAreaGuttersProps,
   ScrollAreaOptions,

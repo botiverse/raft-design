@@ -2,6 +2,7 @@ import type { RefObject } from "react";
 import { clsx } from "cnfast";
 
 import type { ScrollAxis } from "./scroll-geometry";
+import { fromGuttersBinding } from "./gutters-binding";
 import type { ScrollAreaGuttersProps } from "./types";
 import { useRailPointer } from "./use-rail-pointer";
 
@@ -32,6 +33,8 @@ function ScrollAreaGutter({
   return (
     <div
       {...railHandlers}
+      data-slot="scroll-area-scrollbar"
+      data-orientation={axis === "y" ? "vertical" : "horizontal"}
       className={clsx(
         "r-scroll-area__gutter",
         axis === "y" ? "r-scroll-area__gutter--vertical" : "r-scroll-area__gutter--horizontal",
@@ -39,7 +42,12 @@ function ScrollAreaGutter({
         shortened && "r-scroll-area__gutter--shortened",
       )}
     >
-      <div {...thumbHandlers} className="r-scroll-area__thumb" ref={thumbRef} />
+      <div
+        {...thumbHandlers}
+        data-slot="scroll-area-thumb"
+        className="r-scroll-area__thumb"
+        ref={thumbRef}
+      />
     </div>
   );
 }
@@ -48,21 +56,23 @@ function ScrollAreaGutter({
  * The scrollbars of a container bound with `useScrollAreaContainer`: spread
  * its `guttersProps` here, and render it where `guttersPosition` says (as in
  * the demo). `sticky` gutters: the container's first child, a zero-height
- * layer stuck to the top of the viewport. `absolute` gutters: right after the
+ * layer stuck to the top of the viewport, laid over its padding box. It is in
+ * flow, so it is one of the container's children for a grid, a flex row,
+ * `gap` and sibling selectors: lay the content out in a wrapper inside. `absolute` gutters: right after the
  * container, a layer laid over the frame. A gutter appears for each axis with
  * something to scroll. Hidden from assistive technology, which uses the
  * native scrolling.
  */
-export function ScrollAreaGutters({
-  containerRef,
-  guttersRef,
-  onDraggingChange,
-  rails,
-  xThumbRef,
-  yThumbRef,
-}: ScrollAreaGuttersProps) {
+export function ScrollAreaGutters({ binding }: ScrollAreaGuttersProps) {
+  const { containerRef, guttersRef, onDraggingChange, rails, xThumbRef, yThumbRef } =
+    fromGuttersBinding(binding);
   return (
-    <div aria-hidden="true" className="r-scroll-area__gutters" ref={guttersRef}>
+    <div
+      aria-hidden="true"
+      data-slot="scroll-area-gutters"
+      className="r-scroll-area__gutters"
+      ref={guttersRef}
+    >
       {rails.yRail ? (
         <ScrollAreaGutter
           axis="y"

@@ -12,6 +12,7 @@ const releases = Array.from({ length: 24 }, (_, index) => ({
 export function ScrollAreaBasicContent() {
   return (
     <ScrollArea
+      role="region"
       aria-label="Releases"
       className="h-56 w-full max-w-sm rounded-container border border-line-hairline bg-layer-canvas"
       contentClassName="px-4"

@@ -53,17 +53,27 @@ function snap(value: number): number {
 }
 
 /**
- * Scroll-driven animations, and `timeline-scope` for the root, whose container is a sibling of the
- * gutters. The same condition gates the `@supports` block in scroll-area.css that animates the thumbs.
+ * Scroll-driven animations: all sticky gutters need, as they are inside the container that names
+ * the timelines. The same condition gates the sticky `@supports` block in scroll-area.css.
+ */
+export const stickyScrollTimelineCondition = "(animation-timeline: scroll())";
+
+/**
+ * Scroll-driven animations, and `timeline-scope` for the frame, whose container is a sibling of
+ * the absolute gutters. The same condition gates the absolute `@supports` block in scroll-area.css.
  */
 export const scrollTimelineCondition = "(animation-timeline: scroll()) and (timeline-scope: none)";
 
-/** Whether the browser moves the thumbs itself, from the scroll (scroll-area.css), so the script only sizes them. */
-export function supportsScrollTimeline(): boolean {
+/**
+ * Whether the browser moves the thumbs itself, from the scroll (scroll-area.css), so the script
+ * only sizes them. Sticky gutters don't need `timeline-scope`, so a browser without it still
+ * animates them.
+ */
+export function supportsScrollTimeline(position: ScrollAreaGuttersPosition = "absolute"): boolean {
   return (
     typeof CSS !== "undefined" &&
     typeof CSS.supports === "function" &&
-    CSS.supports(scrollTimelineCondition)
+    CSS.supports(position === "sticky" ? stickyScrollTimelineCondition : scrollTimelineCondition)
   );
 }
 
@@ -89,7 +99,7 @@ function timelineDrives(
   gutters: HTMLElement | null,
   position: ScrollAreaGuttersPosition,
 ) {
-  if (!supportsScrollTimeline() || gutters === null) return false;
+  if (!supportsScrollTimeline(position) || gutters === null) return false;
   if (position === "sticky") {
     return (
       container === root &&
@@ -103,6 +113,40 @@ function timelineDrives(
     container.classList.contains(scrollAreaContainerClassName) &&
     gutters.parentElement === root &&
     (container.compareDocumentPosition(gutters) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0
+  );
+}
+
+/**
+ * Why a sticky container's own layout would count the gutters layer, its first child, as one of
+ * its items, or `null` when it lays its children out as a block or a gapless flex column.
+ */
+export function stickyLayoutProblem(style: CSSStyleDeclaration): string | null {
+  const display = style.display;
+  if (display === "grid" || display === "inline-grid") {
+    return "is a grid, so the gutters layer takes its first cell";
+  }
+  if (display !== "flex" && display !== "inline-flex") return null;
+  const row = !style.flexDirection.startsWith("column");
+  if (row)
+    return "is a flex row, so the gutters layer is a zero-width item and the gutters collapse";
+  const gap = Number.parseFloat(style.rowGap);
+  if (Number.isFinite(gap) && gap > 0) {
+    return "is a flex column with a gap, so the gutters layer adds a gap before the first item";
+  }
+  return null;
+}
+
+/** Each sticky container warned about once, in development. */
+const warnedContainers = new WeakSet<Element>();
+
+function warnStickyLayout(container: HTMLElement, style: CSSStyleDeclaration) {
+  if (process.env.NODE_ENV === "production" || warnedContainers.has(container)) return;
+  const problem = stickyLayoutProblem(style);
+  if (problem === null) return;
+  warnedContainers.add(container);
+  console.warn(
+    `raft-ui: a ScrollArea container with sticky gutters ${problem}. The gutters layer is the container's first child, in flow: lay the content out in one wrapper inside it (ScrollArea's contentClassName), or use guttersPosition="absolute".`,
+    container,
   );
 }
 
@@ -235,7 +279,12 @@ export function useScrollbars({
     timeline: false,
   });
 
-  /** The block's classes that change while scrolling: written here, never rendered. */
+  /**
+   * The classes that change while scrolling: written here, never rendered. The edges and the
+   * direction on the root (callers style from them); scrolling and dragging on the gutters layer,
+   * so toggling them at each scroll's start and end restyles only the gutters, never the whole
+   * content (a long list) under the root.
+   */
   const applyClasses = useCallback(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -246,9 +295,13 @@ export function useScrollbars({
     list.toggle("r-scroll-area--overflow-y-end", edges.yEnd);
     list.toggle("r-scroll-area--overflow-x-start", edges.xStart);
     list.toggle("r-scroll-area--overflow-x-end", edges.xEnd);
-    list.toggle("r-scroll-area--scrolling", scrolling);
-    list.toggle("r-scroll-area--dragging", dragging);
-  }, [rootRef]);
+    const gutters = guttersRef.current?.classList;
+    gutters?.toggle("r-scroll-area__gutters--scrolling", scrolling);
+    gutters?.toggle("r-scroll-area__gutters--dragging", dragging);
+  }, [guttersRef, rootRef]);
+
+  /** `measure`, for `draw`, which is declared before it. */
+  const remeasure = useRef<() => void>(() => {});
 
   /** Reads the offset once and draws everything that follows from it and the cached sizes. */
   const draw = useCallback(() => {
@@ -265,6 +318,16 @@ export function useScrollbars({
     layout.scrollWidth = container.scrollWidth;
     const metrics: ScrollMetrics = { ...layout, scrollLeft, scrollTop };
     const { timeline } = current;
+    // The scroll size crossed the overflow threshold with nothing observed resizing (text written
+    // into a textarea at its max height without an input event): a gutter comes or goes.
+    const axes = latest.current.orientation;
+    if (
+      (axes !== "horizontal" && (thumbPlacement(metrics, "y") !== null) !== current.rails.yRail) ||
+      (axes !== "vertical" && (thumbPlacement(metrics, "x") !== null) !== current.rails.xRail)
+    ) {
+      remeasure.current();
+      return;
+    }
 
     for (const axis of ["y", "x"] as const) {
       const element = axis === "y" ? yThumbRef.current : xThumbRef.current;
@@ -365,13 +428,17 @@ export function useScrollbars({
       const current = state.current;
       const axes = latest.current.orientation;
       if (layout) {
-        current.timeline = timelineDrives(
-          container,
-          root,
-          guttersRef.current,
-          latest.current.guttersPosition,
-        );
-        current.rtl = axes !== "vertical" && getComputedStyle(container).direction === "rtl";
+        const position = latest.current.guttersPosition;
+        current.timeline = timelineDrives(container, root, guttersRef.current, position);
+        const style = getComputedStyle(container);
+        current.rtl = axes !== "vertical" && style.direction === "rtl";
+        if (position === "sticky") {
+          // The gutters layer starts at the content box: these lay it over the padding box.
+          writeVar(root, "--r-scroll-area-padding-top", style.paddingTop || "0px");
+          writeVar(root, "--r-scroll-area-padding-left", style.paddingLeft || "0px");
+          writeVar(root, "--r-scroll-area-padding-right", style.paddingRight || "0px");
+          warnStickyLayout(container, style);
+        }
         const min = Number.parseFloat(
           getComputedStyle(root).getPropertyValue("--r-scroll-area-thumb-min-length"),
         );
@@ -405,6 +472,9 @@ export function useScrollbars({
     },
     [applyClasses, containerRef, draw, guttersRef, rootRef],
   );
+  useLayoutEffect(() => {
+    remeasure.current = () => measure(true);
+  }, [measure]);
 
   /** The container's `scroll` listener: marks it scrolling until `hideDelay` after the last one, and asks for a frame. */
   const handleScroll = useCallback(() => {

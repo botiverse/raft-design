@@ -15,6 +15,7 @@ export function ScrollAreaFadeContent() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-4">
       <ScrollArea
+        role="region"
         aria-label="Messages"
         fade
         className="h-56 w-full rounded-container border border-line-hairline bg-layer-canvas"
@@ -28,6 +29,7 @@ export function ScrollAreaFadeContent() {
         ))}
       </ScrollArea>
       <ScrollArea
+        role="region"
         aria-label="Days"
         fade
         orientation="horizontal"

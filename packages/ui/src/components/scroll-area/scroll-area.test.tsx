@@ -7,21 +7,26 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRef, Profiler, StrictMode, useState } from "react";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
 import { ScrollArea, ScrollAreaGutters, ScrollAreaTextarea, useScrollAreaContainer } from "./index";
+import { FramedScrollArea } from "./test-scenes";
+import type { FramedScrollAreaProps } from "./test-scenes";
 import type {
   ScrollAreaActions,
   ScrollAreaContainerOptions,
   ScrollAreaContainerProps,
   ScrollAreaGuttersPosition,
-  ScrollAreaProps,
 } from "./index";
 import { alignedScrollOffset } from "./scroll-to-element";
 import { pageDirection, pageDistance, scrollOverflow, thumbPlacement } from "./scroll-geometry";
-import { scrollTimelineCondition } from "./use-scrollbars";
+import {
+  scrollTimelineCondition,
+  stickyLayoutProblem,
+  stickyScrollTimelineCondition,
+} from "./use-scrollbars";
 
 const paddedContentStyle = { padding: 8 };
 const headerFooterInset = { bottom: 40, top: 32 };
@@ -160,17 +165,25 @@ const thumbTop = (thumb: HTMLElement | undefined) =>
 
 const positions: ScrollAreaGuttersPosition[] = ["sticky", "absolute"];
 
+/** The gutters layer of the root `area`, which carries the scrolling and dragging classes. */
+const layerOf = (area: Element) => area.querySelector(":scope > .r-scroll-area__gutters")!;
+/** Whether the area shows its scrollbars for a scroll: `--scrolling`, on the gutters layer. */
+const scrolling = (area: Element) =>
+  layerOf(area).classList.contains("r-scroll-area__gutters--scrolling");
+/** Whether a thumb is being dragged: `--dragging`, on the gutters layer. */
+const dragging = (area: Element) =>
+  layerOf(area).classList.contains("r-scroll-area__gutters--dragging");
+
 describe("ScrollArea with sticky gutters (the default)", () => {
   it("is one element, the container: ref, className and the native props on it, the gutters its first child", () => {
     const ref = createRef<HTMLDivElement>();
-    const rootRef = createRef<HTMLDivElement>();
     const { container, getByText } = render(
       <ScrollArea
         aria-label="Notes"
         className="notes"
         data-testid="notes"
         ref={ref}
-        rootRef={rootRef}
+        role="region"
         style={redStyle}
       >
         <p>Hello</p>
@@ -178,11 +191,11 @@ describe("ScrollArea with sticky gutters (the default)", () => {
     );
     const area = root(container);
     expect(ref.current).toBe(area);
-    expect(rootRef.current).toBe(area);
     expect(scroller(container)).toBe(area);
     expect(area.className).toBe(
-      "r-scroll-area r-scroll-area--medium r-scroll-area--hover-trigger r-scroll-area--vertical-orientation r-scroll-area--sticky-gutters notes r-scroll-area__viewport",
+      "r-scroll-area r-scroll-area--medium r-scroll-area--hover-trigger r-scroll-area--vertical-orientation r-scroll-area--sticky-gutters r-scroll-area__viewport notes",
     );
+    expect(area.getAttribute("role")).toBe("region");
     expect(area.dataset.slot).toBe("scroll-area");
     expect(area.getAttribute("aria-label")).toBe("Notes");
     expect(area.dataset.testid).toBe("notes");
@@ -190,6 +203,7 @@ describe("ScrollArea with sticky gutters (the default)", () => {
     // The gutters layer first, then the children themselves: no content element, no frame.
     expect(area.children[0]?.className).toBe("r-scroll-area__gutters");
     expect(area.children[0]?.getAttribute("aria-hidden")).toBe("true");
+    expect((area.children[0] as HTMLElement).dataset.slot).toBe("scroll-area-gutters");
     expect(getByText("Hello").parentElement).toBe(area);
     expect(area.parentElement).toBe(container);
     // Nothing overflows: no gutter and no extra tab stop.
@@ -216,28 +230,40 @@ describe("ScrollArea with sticky gutters (the default)", () => {
     content = getByText("Hello").parentElement!;
     expect(content.className).toBe("r-scroll-area__content");
   });
+
+  it("renders another element in its place with render, keeping its props, ref and gutters", () => {
+    // The ref is the element rendered, whatever its tag.
+    const ref = createRef<HTMLDivElement>();
+    const { container } = render(
+      <ScrollArea aria-label="Members" className="members" ref={ref} render={<section />}>
+        <p>Hello</p>
+      </ScrollArea>,
+    );
+    const area = root(container);
+    expect(area.tagName).toBe("SECTION");
+    expect(ref.current).toBe(area);
+    expect(area.classList.contains("members")).toBe(true);
+    expect(area.dataset.slot).toBe("scroll-area");
+    expect(area.children[0]?.className).toBe("r-scroll-area__gutters");
+  });
 });
 
-describe("ScrollArea with absolute gutters", () => {
+describe("absolute gutters in a frame of one's own (the hook)", () => {
   it("is a frame with the container and the gutters as siblings: className on the frame, ref and the native props on the container", () => {
     const ref = createRef<HTMLDivElement>();
-    const rootRef = createRef<HTMLDivElement>();
     const { container, getByText } = render(
-      <ScrollArea
+      <FramedScrollArea
         aria-label="Notes"
         className="notes"
         containerClassName="notes__scroller"
         data-testid="notes"
-        guttersPosition="absolute"
         ref={ref}
-        rootRef={rootRef}
         style={redStyle}
       >
         <p>Hello</p>
-      </ScrollArea>,
+      </FramedScrollArea>,
     );
     const frameEl = root(container);
-    expect(rootRef.current).toBe(frameEl);
     expect(frameEl.className).toBe(
       "r-scroll-area r-scroll-area--medium r-scroll-area--hover-trigger r-scroll-area--vertical-orientation r-scroll-area--absolute-gutters notes",
     );
@@ -258,7 +284,13 @@ describe("ScrollArea with absolute gutters", () => {
 });
 
 describe.each(positions)("ScrollArea, %s gutters", (position) => {
-  const Area = (props: ScrollAreaProps) => <ScrollArea guttersPosition={position} {...props} />;
+  /** ScrollArea (sticky), or the same through the hook in a frame of one's own (absolute). */
+  const Area = ({ containerStyle, style, ...props }: FramedScrollAreaProps) =>
+    position === "sticky" ? (
+      <ScrollArea {...props} style={{ ...style, ...containerStyle }} />
+    ) : (
+      <FramedScrollArea {...props} containerStyle={containerStyle} style={style} />
+    );
 
   it("shows a vertical thumb for overflowing content and follows the container's scrolling", () => {
     fakeTimers();
@@ -287,7 +319,7 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     frame();
     // Halfway along the 72px it travels.
     expect(thumbTop(thumbs(container)[0])).toBe("36");
-    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(scrolling(area)).toBe(true);
 
     // The scrollbars stay for `hideDelay` (600ms) after the last scroll, then fade.
     act(() => {
@@ -298,11 +330,11 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     act(() => {
       vi.advanceTimersByTime(500);
     });
-    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(scrolling(area)).toBe(true);
     act(() => {
       vi.advanceTimersByTime(100);
     });
-    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(false);
+    expect(scrolling(area)).toBe(false);
   });
 
   it("draws once a frame, as a transform, with no React render while scrolling", () => {
@@ -335,7 +367,7 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     expect(onScroll).toHaveBeenCalledTimes(3);
     expect(requestFrame).toHaveBeenCalledTimes(1);
     expect(writes("transform")).toBe(0);
-    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(false);
+    expect(scrolling(area)).toBe(false);
 
     // The frame draws the last offset once. It reads the scroll size once (free after the
     // offset), and no client size or gutter, which only the layout path reads.
@@ -349,7 +381,7 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
       expect(getters[key]).not.toHaveBeenCalled();
     }
     // Scrolling started and the top edge flipped, set on the root and reported without a render.
-    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(scrolling(area)).toBe(true);
     expect(area.classList.contains("r-scroll-area--overflow-y-start")).toBe(true);
     expect(onEdgeChange).toHaveBeenLastCalledWith({
       bottom: false,
@@ -368,7 +400,7 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
       vi.advanceTimersByTime(600);
     });
     frame();
-    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(false);
+    expect(scrolling(area)).toBe(false);
     expect(onRender).not.toHaveBeenCalled();
   });
 
@@ -444,7 +476,7 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     frame();
     expect(thumbTop(thumb)).toBe("38");
     resize({ scrollHeight: 250 });
-    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(scrolling(area)).toBe(true);
     expect(thumbLength(thumb)).toBe("40px");
     expect(thumbTop(thumb)).toBe("60");
 
@@ -465,7 +497,7 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
 
   it("with scroll-driven animations, writes the travel instead of a transform, and nothing per scroll", () => {
     vi.stubGlobal("CSS", {
-      supports: (condition: string) => condition === scrollTimelineCondition,
+      supports: (condition: string) => condition.includes("animation-timeline"),
     });
     layout = tallLayout;
     const { container } = render(<Area>long</Area>);
@@ -479,7 +511,7 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     fireEvent.scroll(scrollEl);
     frame();
     // The browser moves the thumb from the scroll: the script writes nothing on it.
-    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(scrolling(area)).toBe(true);
     expect(thumb!.getAttribute("style")).toBe(thumbStyle);
     expect(thumb!.style.getPropertyValue("transform")).toBe("");
   });
@@ -622,18 +654,18 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     const area = root(container);
     const scrollEl = scroller(container);
     expect(area.classList.contains("r-scroll-area--scroll-trigger")).toBe(true);
-    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(false);
+    expect(scrolling(area)).toBe(false);
     scrollEl.scrollTop = 50;
     fireEvent.scroll(scrollEl);
     frame();
     act(() => {
       vi.advanceTimersByTime(99);
     });
-    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(scrolling(area)).toBe(true);
     act(() => {
       vi.advanceTimersByTime(1);
     });
-    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(false);
+    expect(scrolling(area)).toBe(false);
   });
 
   it("scrolls in the directions orientation gives, and shortens both gutters when both overflow", () => {
@@ -766,7 +798,7 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     const gutter = thumb!.parentElement!;
 
     fireEvent.pointerDown(thumb!, { button: 0, clientY: 10, pointerId: 1 });
-    expect(area.classList.contains("r-scroll-area--dragging")).toBe(true);
+    expect(dragging(area)).toBe(true);
     expect(gutter.classList.contains("r-scroll-area__gutter--dragging")).toBe(true);
     // 70px of thumb travel covers 300px of content.
     fireEvent.pointerMove(thumb!, { clientY: 45, pointerId: 1 });
@@ -775,8 +807,38 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     fireEvent.pointerMove(thumb!, { clientY: 80, pointerId: 2 });
     expect(scrollEl.scrollTop).toBe(150);
     fireEvent.pointerUp(thumb!, { pointerId: 1 });
-    expect(area.classList.contains("r-scroll-area--dragging")).toBe(false);
+    expect(dragging(area)).toBe(false);
     expect(scrollBy).not.toHaveBeenCalled();
+  });
+
+  it("ends a drag whose gutter goes away mid-drag: the content shrank to fit", () => {
+    const release = vi.fn();
+    Element.prototype.hasPointerCapture = () => true;
+    Element.prototype.releasePointerCapture = release;
+    layout = tallLayout;
+    const actions = createRef<ScrollAreaActions>();
+    const { container } = render(<Area actionsRef={actions}>long</Area>);
+    const area = root(container);
+    const [thumb] = thumbs(container);
+    fireEvent.pointerDown(thumb!, { button: 0, clientY: 10, pointerId: 7 });
+    expect(dragging(area)).toBe(true);
+
+    // A filter narrows the list: nothing to scroll, so the gutter unmounts before the pointer is up.
+    layout = containerLayout({ clientHeight: 100, clientWidth: 200, scrollHeight: 100 });
+    act(() => actions.current!.measure());
+    expect(thumbs(container)).toHaveLength(0);
+    expect(dragging(area)).toBe(false);
+    expect(release).toHaveBeenCalledWith(7);
+
+    // When it overflows again, the scrollbars show by the trigger, not stuck on as if dragged.
+    layout = tallLayout;
+    act(() => actions.current!.measure());
+    expect(thumbs(container)).toHaveLength(1);
+    expect(dragging(area)).toBe(false);
+    // @ts-expect-error -- jsdom has neither; this test added them.
+    delete Element.prototype.hasPointerCapture;
+    // @ts-expect-error -- as above.
+    delete Element.prototype.releasePointerCapture;
   });
 
   it("pages the container toward a press on the gutter", () => {
@@ -805,8 +867,10 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     );
     expect(scroller(container).tabIndex).toBe(-1);
     // After the rendered modifiers (the overscroll one included); the ones set while scrolling come later.
-    expect(root(container).className).toContain(
-      `r-scroll-area--${position}-gutters r-scroll-area--none-overscroll-y size-full min-h-0`,
+    expect(root(container).className).toMatch(
+      new RegExp(
+        `r-scroll-area--${position}-gutters r-scroll-area--none-overscroll-y( r-scroll-area__viewport)? size-full min-h-0`,
+      ),
     );
   });
 
@@ -937,7 +1001,7 @@ describe("useScrollAreaContainer (the demo's useContainer)", () => {
     list.scrollTop = 300;
     fireEvent.scroll(list);
     frame();
-    expect(list.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(scrolling(list)).toBe(true);
     // At the end of the 75px a 25px thumb travels.
     expect(thumbTop(thumbs(container)[0])).toBe("75");
   });
@@ -949,13 +1013,13 @@ describe("useScrollAreaContainer (the demo's useContainer)", () => {
     list.scrollTop = 300;
     fireEvent.scroll(list);
     frame();
-    expect(list.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(scrolling(list)).toBe(true);
     // The list renders alone (a state of its own): React writes its className again…
     fireEvent.click(list);
     expect(list.dataset.own).toBe("1");
     // …and the classes written while scrolling are back before anything paints (a microtask).
     await Promise.resolve();
-    expect(list.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(scrolling(list)).toBe(true);
     expect(list.classList.contains("r-scroll-area--overflow-y-start")).toBe(true);
   });
 
@@ -979,13 +1043,13 @@ describe("useScrollAreaContainer (the demo's useContainer)", () => {
     list.scrollTop = 300;
     fireEvent.scroll(list);
     frame();
-    expect(frameEl.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(scrolling(frameEl)).toBe(true);
     expect(thumbTop(thumbs(container)[0])).toBe("75");
   });
 
   it("moves the thumbs by script when the CSS can't animate them: gutters before the container, or no container class", () => {
     vi.stubGlobal("CSS", {
-      supports: (condition: string) => condition === scrollTimelineCondition,
+      supports: (condition: string) => condition.includes("animation-timeline"),
     });
     layout = ownLayout;
     function GuttersFirst() {
@@ -1058,7 +1122,7 @@ describe("useScrollAreaContainer (the demo's useContainer)", () => {
     second.scrollTop = 300;
     fireEvent.scroll(second);
     frame();
-    expect(second.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(scrolling(second)).toBe(true);
     expect(thumbTop(thumbs(container)[0])).toBe("75");
   });
 
@@ -1091,6 +1155,93 @@ describe("useScrollAreaContainer (the demo's useContainer)", () => {
   });
 });
 
+describe("sticky containers", () => {
+  it("shows a gutter once a scroll finds the content overflowing, with nothing observed resizing", () => {
+    // No overflow when it mounts…
+    layout = containerLayout({ clientHeight: 100, clientWidth: 200, scrollHeight: 100 });
+    const { container } = render(<ScrollArea>text</ScrollArea>);
+    const area = root(container);
+    expect(thumbs(container)).toHaveLength(0);
+    // …then text written without an input event or a render (`setRangeText`), and a scroll.
+    layout = tallLayout;
+    area.scrollTop = 50;
+    fireEvent.scroll(area);
+    frame();
+    expect(thumbs(container)).toHaveLength(1);
+    expect(area.tabIndex).toBe(0);
+  });
+
+  it("keeps containerProps the same object for an inline railInset with the same numbers", () => {
+    const seen: ScrollAreaContainerProps[] = [];
+    function Probe({ label }: { label: string }) {
+      const { containerProps, guttersProps } = useScrollAreaContainer({ railInset: { top: 40 } });
+      seen.push(containerProps);
+      return (
+        <OwnList containerProps={containerProps} header={<ScrollAreaGutters {...guttersProps} />}>
+          <p>{label}</p>
+        </OwnList>
+      );
+    }
+    const { rerender } = render(<Probe label="a" />);
+    rerender(<Probe label="b" />);
+    expect(seen.at(-1)).toBe(seen.at(-2));
+    expect(seen.at(-1)!.style?.["--r-scroll-area-rail-inset-top" as keyof CSSProperties]).toBe(
+      "40px",
+    );
+  });
+
+  it("writes the container's padding, which the gutters layer reaches over", () => {
+    layout = tallLayout;
+    const { container } = render(
+      <ScrollArea style={{ padding: "4px 16px 4px 12px" }}>long</ScrollArea>,
+    );
+    const area = root(container);
+    expect(area.style.getPropertyValue("--r-scroll-area-padding-top")).toBe("4px");
+    expect(area.style.getPropertyValue("--r-scroll-area-padding-left")).toBe("12px");
+    expect(area.style.getPropertyValue("--r-scroll-area-padding-right")).toBe("16px");
+  });
+
+  it("warns once in development when a sticky container is a grid, whose first cell the gutters take", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    layout = tallLayout;
+    const actions = createRef<ScrollAreaActions>();
+    render(
+      <ScrollArea actionsRef={actions} style={{ display: "grid" }}>
+        <p>a</p>
+      </ScrollArea>,
+    );
+    act(() => actions.current!.measure());
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0]![0]).toMatch(/is a grid.*contentClassName/);
+    cleanup();
+    warn.mockClear();
+    // A block, or the layout on a content element inside: nothing to warn about.
+    render(
+      <ScrollArea contentClassName="grid">
+        <p>a</p>
+      </ScrollArea>,
+    );
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("names what a sticky container's layout does to the gutters layer", () => {
+    const style = (props: Partial<Record<"display" | "flexDirection" | "rowGap", string>>) =>
+      ({
+        display: "block",
+        flexDirection: "row",
+        rowGap: "normal",
+        ...props,
+      }) as CSSStyleDeclaration;
+    expect(stickyLayoutProblem(style({}))).toBeNull();
+    expect(stickyLayoutProblem(style({ display: "flex", flexDirection: "column" }))).toBeNull();
+    expect(
+      stickyLayoutProblem(style({ display: "flex", flexDirection: "column", rowGap: "8px" })),
+    ).toMatch(/gap/);
+    expect(stickyLayoutProblem(style({ display: "inline-flex" }))).toMatch(/flex row/);
+    expect(stickyLayoutProblem(style({ display: "grid" }))).toMatch(/grid/);
+  });
+});
+
 describe("ScrollArea CSS", () => {
   it("puts the container rules on the root (sticky) or the frame's container (absolute)", () => {
     expect(rule(`${sticky}, ${absolute} > ${block}__container`)).toBe("scrollbar-width: none;");
@@ -1100,9 +1251,8 @@ describe("ScrollArea CSS", () => {
     // The sticky root is the caller's scroller: its box-sizing stays the caller's.
     expect(flatCss).not.toMatch(/\.r-scroll-area\.r-scroll-area--sticky-gutters \{[^}]*box-sizing/);
     expect(rule(`${sticky}${block}__viewport`)).toBe("overflow: hidden auto; position: relative;");
-    expect(rule(`${absolute} > ${block}__viewport`)).toContain(
-      "flex: 1 1 auto; min-block-size: 0;",
-    );
+    // ScrollArea's own `<div>` is always sticky: an absolute container is the caller's to size.
+    expect(flatCss).not.toContain(`${absolute} > ${block}__viewport`);
     // Each overscroll modifier sets its own axis only, so it never overrides a caller's other axis.
     expect(
       rule(
@@ -1114,8 +1264,10 @@ describe("ScrollArea CSS", () => {
   });
 
   it("lays the gutters as a zero-height sticky first child, or over the frame", () => {
+    // Over the padding box: widened by the inline padding, stuck below the top padding and lifted
+    // back by a translate, which moves nothing in flow.
     expect(rule(`${sticky} > ${block}__gutters`)).toBe(
-      "align-self: stretch; block-size: 0; flex-shrink: 0; inset-block-start: 0; inset-inline-start: 0; position: sticky;",
+      "align-self: stretch; block-size: 0; flex-shrink: 0; inset-block-start: var(--r-scroll-area-padding-top); inset-inline-start: 0; margin-left: calc(-1 * var(--r-scroll-area-padding-left)); margin-right: calc(-1 * var(--r-scroll-area-padding-right)); position: sticky; translate: 0 calc(-1 * var(--r-scroll-area-padding-top));",
     );
     expect(rule(`${absolute} > ${block}__gutters`)).toBe(
       "border-radius: inherit; inset: 0; position: absolute;",
@@ -1150,19 +1302,29 @@ describe("ScrollArea CSS", () => {
   });
 
   it("animates the thumbs on the container's named timeline: seen from inside (sticky), hoisted by the frame (absolute)", () => {
+    // Sticky gutters need no timeline-scope, so a browser without it still animates them.
+    expect(scrollAreaCss).toContain(`@supports ${stickyScrollTimelineCondition} {`);
     expect(scrollAreaCss).toContain(`@supports ${scrollTimelineCondition} {`);
     expect(rule(`${gutters} > ${block}__gutter--vertical > ${block}__thumb`)).not.toContain(
       "animation",
     );
     expect(flatCss).toContain(
-      `${sticky}, ${absolute} > ${block}__container { scroll-timeline: var(--r-scroll-area-timeline-y) block, var(--r-scroll-area-timeline-x) inline; }`,
+      `@supports ${stickyScrollTimelineCondition} { ${sticky} { scroll-timeline: var(--r-scroll-area-timeline-y) block, var(--r-scroll-area-timeline-x) inline; }`,
+    );
+    expect(flatCss).toContain(
+      `@supports ${scrollTimelineCondition} { ${absolute} > ${block}__container { scroll-timeline: var(--r-scroll-area-timeline-y) block, var(--r-scroll-area-timeline-x) inline; }`,
     );
     expect(flatCss).toContain(
       `${absolute} { timeline-scope: var(--r-scroll-area-timeline-y), var(--r-scroll-area-timeline-x); }`,
     );
-    expect(flatCss).toContain(
-      `${sticky} > ${block}__gutters > ${block}__gutter--vertical > ${block}__thumb, ${absolute} > ${block}__container ~ ${block}__gutters > ${block}__gutter--vertical > ${block}__thumb { animation: r-scroll-area-thumb-y linear both; animation-timeline: var(--r-scroll-area-timeline-y); }`,
-    );
+    for (const thumb of [
+      `${sticky} > ${block}__gutters > ${block}__gutter--vertical > ${block}__thumb`,
+      `${absolute} > ${block}__container ~ ${block}__gutters > ${block}__gutter--vertical > ${block}__thumb`,
+    ]) {
+      expect(flatCss).toContain(
+        `${thumb} { animation: r-scroll-area-thumb-y linear both; animation-timeline: var(--r-scroll-area-timeline-y); }`,
+      );
+    }
     expect(flatCss).toMatch(
       /to \{ transform: translate3d\(0, var\(--r-scroll-area-thumb-travel\), 0\); \}/,
     );
@@ -1195,17 +1357,22 @@ describe("ScrollArea CSS", () => {
     ).toMatch(/^opacity: 1;/);
     expect(
       rule(
-        `${block}${block}--scroll-trigger:not(${block}--scrolling):not(${block}--dragging) > ${block}__gutters > ${block}__gutter:not(:hover)`,
+        `${block}${block}--scroll-trigger > ${block}__gutters:not(${block}__gutters--scrolling):not(${block}__gutters--dragging) > ${block}__gutter:not(:hover)`,
       ),
     ).toBe("pointer-events: none;");
   });
 
-  it("draws the keyboard focus ring on the container (sticky) or around the frame from the gutters (absolute)", () => {
+  it("draws the keyboard focus ring on ScrollArea's own container; an absolute frame's is the caller's", () => {
     expect(rule(`${sticky}${block}__viewport:focus-visible`)).toBe(
       "box-shadow: var(--focus-ring); outline: none;",
     );
-    expect(rule(`${absolute} > ${block}__viewport:focus-visible ~ ${block}__gutters`)).toBe(
-      "box-shadow: var(--focus-ring);",
+    expect(flatCss).not.toMatch(/focus-visible ~/);
+  });
+
+  it("shows the scrollbars from the gutters layer's own scrolling and dragging classes, not the root's", () => {
+    expect(flatCss).not.toMatch(/r-scroll-area--scrolling|r-scroll-area--dragging/);
+    expect(flatCss).toContain(
+      `${gutters}${block}__gutters--scrolling > ${block}__gutter, ${gutters}${block}__gutters--dragging > ${block}__gutter {`,
     );
   });
 });
@@ -1372,13 +1539,13 @@ describe("ScrollAreaTextarea", () => {
     fireEvent.scroll(textarea);
     expect(onScroll).toHaveBeenCalledTimes(1);
     frame();
-    expect(wrapper.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(scrolling(wrapper)).toBe(true);
     // Halfway along the 60px a 30px thumb travels.
     expect(thumbTop(thumbs(container)[0])).toBe("30");
     act(() => {
       vi.advanceTimersByTime(200);
     });
-    expect(wrapper.classList.contains("r-scroll-area--scrolling")).toBe(false);
+    expect(scrolling(wrapper)).toBe(false);
     // The gutter stops above the resize grip.
     expect(
       rule(

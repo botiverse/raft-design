@@ -10,6 +10,8 @@ import { afterEach, describe, expect, test } from "vite-plus/test";
 
 import { ScrollArea, ScrollAreaGutters, ScrollAreaTextarea, useScrollAreaContainer } from "./index";
 import type { ScrollAreaGuttersPosition } from "./index";
+import { FramedScrollArea } from "./test-scenes";
+import type { FramedScrollAreaProps } from "./test-scenes";
 import { scrollTimelineCondition } from "./use-scrollbars";
 
 const it = test.skipIf(typeof window === "undefined");
@@ -42,6 +44,14 @@ function parts(container: HTMLElement, selector = ".r-scroll-area") {
   return { root, scroller };
 }
 
+/** ScrollArea (sticky), or the same through the hook in a frame of one's own (absolute). */
+function Area({
+  position,
+  ...props
+}: FramedScrollAreaProps & { position: ScrollAreaGuttersPosition }) {
+  return position === "sticky" ? <ScrollArea {...props} /> : <FramedScrollArea {...props} />;
+}
+
 /** Where the vertical thumb is drawn, read from its transform, and where the scroll says it belongs. */
 function thumbState(scroller: HTMLElement, root: Element = scroller) {
   const thumb = verticalThumb(root);
@@ -68,9 +78,9 @@ function thumbState(scroller: HTMLElement, root: Element = scroller) {
 describe.each(["sticky", "absolute"] as const)("with %s gutters", (position) => {
   it("follows the scroll with its transform, one frame after each scroll, the gutter at the edges", async () => {
     const { container } = render(
-      <ScrollArea guttersPosition={position} style={{ height: 300, width: 200 }} trigger="none">
+      <Area position={position} style={{ height: 300, width: 200 }} trigger="none">
         <div style={{ height: 3000 }} />
-      </ScrollArea>,
+      </Area>,
     );
     const { root, scroller: area } = parts(container);
     await frameThenTask();
@@ -150,7 +160,11 @@ it("takes the length the content's size calls for within a frame, idle and while
     area.scrollTop = step * 20;
     await frameThenTask();
     state = thumbState(area);
-    expect(root.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(
+      root
+        .querySelector(":scope > .r-scroll-area__gutters")!
+        .classList.contains("r-scroll-area__gutters--scrolling"),
+    ).toBe(true);
     expect(Math.abs(state.length - state.expectedLength)).toBeLessThanOrEqual(1);
     expect(Math.abs(state.top - state.expected)).toBeLessThanOrEqual(1);
   }
@@ -159,11 +173,7 @@ it("takes the length the content's size calls for within a frame, idle and while
 it("doesn't jump back, at either end, when the content above the view grows mid-scroll", async () => {
   const { container } = render(
     // No scroll anchoring: the test keeps the view in place itself, as a list does.
-    <ScrollArea
-      containerStyle={{ overflowAnchor: "none" }}
-      style={{ height: 300, width: 200 }}
-      trigger="none"
-    >
+    <ScrollArea style={{ height: 300, overflowAnchor: "none", width: 200 }} trigger="none">
       <div data-testid="above" style={{ height: 300 }} />
       <div style={{ height: 600 }} />
     </ScrollArea>,
@@ -202,14 +212,9 @@ timelineIt(
         <ScrollArea data-testid="area" style={{ height: 300, width: 200 }} trigger="none">
           <div style={{ height: 3000 }} />
         </ScrollArea>
-        <ScrollArea
-          data-testid="framed"
-          guttersPosition="absolute"
-          style={{ height: 300, width: 200 }}
-          trigger="none"
-        >
+        <FramedScrollArea data-testid="framed" style={{ height: 300, width: 200 }} trigger="none">
           <div style={{ height: 3000 }} />
-        </ScrollArea>
+        </FramedScrollArea>
         <ScrollAreaTextarea
           aria-label="Notes"
           defaultValue={"line\n".repeat(200)}
@@ -257,22 +262,22 @@ timelineIt.each([
   "takes its own container's timeline when nested in another area's container (%s in %s)",
   async (innerPosition, outerPosition) => {
     const { container } = render(
-      <ScrollArea
+      <Area
         data-testid="outer"
-        guttersPosition={outerPosition}
+        position={outerPosition}
         style={{ height: 300, width: 300 }}
         trigger="none"
       >
-        <ScrollArea
+        <Area
           data-testid="inner"
-          guttersPosition={innerPosition}
+          position={innerPosition}
           style={{ height: 120, width: 200 }}
           trigger="none"
         >
           <div style={{ height: 1200 }} />
-        </ScrollArea>
+        </Area>
         <div style={{ height: 3000 }} />
-      </ScrollArea>,
+      </Area>,
     );
     await frameThenTask();
     for (const testId of ["outer", "inner"]) {
@@ -294,13 +299,9 @@ timelineIt.each([
 
 it("absolute: bounds the container by a max-height on the frame, the gutters inside a bordered frame", async () => {
   const { container } = render(
-    <ScrollArea
-      guttersPosition="absolute"
-      style={{ border: "4px solid", maxHeight: 200, width: 200 }}
-      trigger="none"
-    >
+    <FramedScrollArea style={{ border: "4px solid", maxHeight: 200, width: 200 }} trigger="none">
       <div style={{ height: 3000 }} />
-    </ScrollArea>,
+    </FramedScrollArea>,
   );
   const { root, scroller } = parts(container);
   await frameThenTask();

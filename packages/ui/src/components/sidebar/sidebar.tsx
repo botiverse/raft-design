@@ -1,6 +1,5 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import type { ComponentPropsWithRef } from "react";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { ScrollArea } from "../scroll-area";
@@ -108,9 +107,28 @@ export function SidebarBody({ className, render, ...props }: SidebarBodyProps) {
   });
 }
 
-export type SidebarContentProps = ComponentPropsWithRef<"div">;
+export type SidebarContentProps = useRender.ComponentProps<"div">;
 
 const SIDEBAR_CONTENT_INNER_STYLE = { minWidth: 0, width: "100%" };
+
+/** The mobile path's native scroller, with `render` substitution like the desktop ScrollArea's. */
+function SidebarNativeViewport({ children, className, render, ...props }: SidebarContentProps) {
+  const { sidebarContentInner, sidebarViewport } = sidebarRecipe();
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "sidebar-content",
+    className: sidebarViewport(),
+    children: (
+      <div className={sidebarContentInner({ className })} style={SIDEBAR_CONTENT_INNER_STYLE}>
+        {children}
+      </div>
+    ),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
 
 export function SidebarContent({ children, className, ...props }: SidebarContentProps) {
   const isMobile = useMobileViewport();
@@ -119,11 +137,9 @@ export function SidebarContent({ children, className, ...props }: SidebarContent
   if (isMobile) {
     return (
       <div data-slot="sidebar-native-scroll-area" className={sidebarContent()}>
-        <div {...props} data-slot="sidebar-content" className={sidebarViewport()}>
-          <div className={sidebarContentInner({ className })} style={SIDEBAR_CONTENT_INNER_STYLE}>
-            {children}
-          </div>
-        </div>
+        <SidebarNativeViewport {...props} className={className}>
+          {children}
+        </SidebarNativeViewport>
       </div>
     );
   }

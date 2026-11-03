@@ -260,24 +260,10 @@
         "from": "raft-ui"
       },
       {
-        "name": "containerClassName",
-        "type": "string",
-        "required": false,
-        "description": "Class of ScrollArea's own container; with `sticky` the same element as the root.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "containerStyle",
-        "type": "CSSProperties",
-        "required": false,
-        "description": "Style of ScrollArea's own container.",
-        "from": "raft-ui"
-      },
-      {
         "name": "contentClassName",
         "type": "string",
         "required": false,
-        "description": "Class of a content element around `children`, inside the container: put padding here, so the scrollbars stay at the edges. Only with it, `contentStyle` or `fade` (sticky) is there one.",
+        "description": "Class of a content element around `children`, inside the container: put padding and the content's own layout (grid, flex, `gap`, `stack-y-*`) here, so the scrollbars stay at the edges and the gutters layer is never one of the laid-out children. Only with it, `contentStyle` or `fade` is there one.",
         "from": "raft-ui"
       },
       {
@@ -299,13 +285,6 @@
         "type": "boolean",
         "required": false,
         "description": "Fade the content out toward an edge that has more past it. The scrollbars don't fade.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "guttersPosition",
-        "type": "ScrollAreaGuttersPosition",
-        "required": false,
-        "description": "Where the gutters go: inside the container (`sticky`, the default) or beside it in a frame (`absolute`).",
         "from": "raft-ui"
       },
       {
@@ -344,10 +323,10 @@
         "from": "raft-ui"
       },
       {
-        "name": "rootRef",
-        "type": "((instance: HTMLDivElement | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<HTMLDivElement | null>",
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
-        "description": "The root: the container itself (`sticky`) or the frame (`absolute`).",
+        "description": "Another element in place of ScrollArea's own `<div>`, as the container (an element or a function that gets the props). It must hold children: the gutters are its first child.",
         "from": "raft-ui"
       },
       {

@@ -39,7 +39,22 @@ function detach<E>(entry: AttachedRef<E>) {
  * between renders is swapped there (the old one detached, the new one attached to the element).
  * Nothing runs while rendering, so a render that never commits, such as a transition that
  * suspends and is abandoned, calls no ref. Callers' layout effects that read what a ref wrote
- * must come after this hook (they run in order). As in React 19, a ref callback may return a
+ * must come after this hook (they run in order).
+ *
+ * So on mount a merged ref is set later than a native one, which reaches its ref while React
+ * attaches refs, before any layout effect:
+ *
+ * - Anything that reads a merged ref from the element's own ref callback, or from a side channel
+ *   that callback calls synchronously (an `onRefUpdate`-style callback), sees `null` on mount. Read
+ *   the element the callback was given instead.
+ * - Each hop adds a layout effect: a ref merged by a component, passed to another that merges it
+ *   again (ScrollArea's `ref`, merged by `useScrollAreaContainer`), is set in the inner
+ *   component's layout effect, before the outer one's. Layout effects of a component between the
+ *   two hops, or of a child of the element, run before it is set.
+ * - An ancestor's layout effects still see every hop set: they run after the descendants' in the
+ *   same commit.
+ *
+ * As in React 19, a ref callback may return a
  * cleanup, which runs on detach instead of the callback getting `null`; an object ref gets `null`
  * on detach.
  */

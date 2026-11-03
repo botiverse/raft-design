@@ -31,7 +31,8 @@ export function ScrollAreaOverscrollContent() {
         <p className="font-mono text-mono-meta text-foreground-muted">{'overscroll="none"'}</p>
         {/* @docs-source-strip-end */}
         <ScrollArea
-          aria-label="Channels"
+          role="region"
+          aria-label="Channels, overscroll none"
           overscroll="none"
           className="h-48 rounded-container border border-line-hairline bg-layer-canvas"
           contentClassName="px-4 py-1"
@@ -48,7 +49,8 @@ export function ScrollAreaOverscrollContent() {
         <p className="font-mono text-mono-meta text-foreground-muted">{'overscroll="contain"'}</p>
         {/* @docs-source-strip-end */}
         <ScrollArea
-          aria-label="Channels"
+          role="region"
+          aria-label="Channels, overscroll contain"
           overscroll="contain"
           className="h-48 rounded-container border border-line-hairline bg-layer-canvas"
           contentClassName="px-4 py-1"
@@ -65,7 +67,8 @@ export function ScrollAreaOverscrollContent() {
         <p className="font-mono text-mono-meta text-foreground-muted">{'overscroll="auto"'}</p>
         {/* @docs-source-strip-end */}
         <ScrollArea
-          aria-label="Channels"
+          role="region"
+          aria-label="Channels, overscroll auto"
           overscroll="auto"
           className="h-48 rounded-container border border-line-hairline bg-layer-canvas"
           contentClassName="px-4 py-1"

@@ -1237,7 +1237,6 @@ export {
   ScrollAreaContent,
   ScrollAreaGutters,
   ScrollAreaTextarea,
-  scrollAreaContainerClassName,
   useScrollAreaContainer,
 } from "./components/scroll-area/index";
 export type {
@@ -1248,6 +1247,7 @@ export type {
   ScrollAreaContentProps,
   ScrollAreaEdges,
   ScrollAreaFrameProps,
+  ScrollAreaGuttersBinding,
   ScrollAreaGuttersPosition,
   ScrollAreaGuttersProps,
   ScrollAreaOptions,
