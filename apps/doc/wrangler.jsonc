@@ -7,13 +7,14 @@
   // gone. Wrangler refuses a deploy whose name differs from the connected Worker.
   // Workers Builds settings (Cloudflare dashboard, Worker raft-design → Settings
   // → Build): build command empty; deploy command `pnpm --filter doc run deploy`
-  // (main); non-production branch deploy command `pnpm --filter doc run upload`
-  // (PRs: a preview version, not live). Both scripts build raft-ui and the
-  // site first; a bare `npx wrangler deploy` / `wrangler preview` would skip it.
+  // (main); Preview command `pnpm --filter doc run preview:deploy` (PRs).
+  // Wrangler requires an explicit `previews` block even when the Preview has no
+  // separate bindings or variables. Both commands build raft-ui and the site first.
   "name": "raft-design",
   "compatibility_date": "2026-06-05",
   "compatibility_flags": ["nodejs_compat"],
   "main": "@tanstack/react-start/server-entry",
+  "previews": {},
   "observability": {
     "enabled": true,
   },
