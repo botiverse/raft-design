@@ -240,7 +240,7 @@ export type {
 
 // A shortcut from key names, one cap per key, drawn for the platform: icons
 // on a Mac, words elsewhere, and the shortcut in words for a screen reader
-// (kbd.md, "Shortcuts from key names"). usePlatform is its platform check.
+// (kbd.md, "Shortcuts from key names"). useKeyboardPlatform is its platform check.
 // Until the shortcuts panel and the tooltips have moved onto it.
-export { KbdShortcut, usePlatform } from "./components/kbd/index";
+export { KbdShortcut, useKeyboardPlatform } from "./components/kbd/index";
 export type { KbdKeyName, KbdShortcutProps, KeyboardPlatform } from "./components/kbd/index";

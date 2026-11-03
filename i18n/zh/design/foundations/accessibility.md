@@ -1,7 +1,7 @@
 ---
 title: 无障碍
 summary: 每个 Raft 产品都遵守的规则，让它在任何视力、键盘、读屏软件、触屏或动效设置下都能用：对比度、焦点、点击区域、动效、语义、触屏和语言，以及实现这些规则的组件。
-sourceHash: 2bb92be9
+sourceHash: a6381246
 ---
 
 # 无障碍
@@ -40,7 +40,7 @@ token 的取值保证文字不必再逐个表面检查；见[颜色](./color.md#
 - 右键菜单的每个操作也要能从一个可见控件触发，比如 ⋯ 按钮：右键和长按无法用键盘完成（[ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md)）。
 - 给每种拖动都提供键盘路径，而且处处相同：空格拿起，方向键每次移动一格，空格放下，Escape 放回原处。回车从不开始拖动，因为在一个也能打开的项上，回车是打开它。任务卡片、可排序的标签页和消息输入框里的附件都这样操作（[拖放](../patterns/drag-and-drop.md#keyboard)、[TaskDnd](../../packages/ui/src/components/task-dnd/task-dnd.md)、[Tabs](../../packages/ui/src/components/tabs/tabs.md#accessibility)）。
 - 如果一行里只有其中的控件可交互，把这一行渲染为 `<div>`，这样 Tab 会跳到控件上，而不是停在一个什么也不做的行上（[状态](./states.md#usage)）。
-- 在操作的工具提示或菜单项里用 [Kbd](../../packages/ui/src/components/kbd/kbd.md) 显示快捷键。快捷键用符号书写时（⌘K），给它一个用文字写的 `aria-label`：Command K。
+- 在操作的工具提示或菜单项里用 [Kbd](../../packages/ui/src/components/kbd/kbd.md) 显示快捷键。快捷键用符号书写时（⌘K），像 `KbdShortcut` 那样，用视觉隐藏的文字把它说出来：Command K。不要用 `kbd` 或 `span` 上的 `aria-label`：它们没有角色，读屏软件会忽略这个名称。
 
 ## 点击区域 {#hit-targets}
 

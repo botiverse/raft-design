@@ -3,5 +3,5 @@ export type { KbdGroupProps, KbdProps, KbdSize } from "./kbd";
 export { KbdShortcut } from "./kbd-shortcut";
 export type { KbdShortcutProps } from "./kbd-shortcut";
 export type { KbdKeyName } from "./kbd-keys";
-export { usePlatform } from "../../lib/use-platform";
+export { useKeyboardPlatform } from "../../lib/use-platform";
 export type { KeyboardPlatform } from "../../lib/use-platform";

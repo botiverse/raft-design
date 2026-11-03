@@ -16,14 +16,15 @@ const APPLE = /mac|iphone|ipad|ipod/i;
 /**
  * The platform of a navigator: Client Hints first (`userAgentData.platform`,
  * "macOS"), then the deprecated `navigator.platform` ("MacIntel", "iPhone",
- * "iPad"), which Safari and Firefox still fill in. Without a navigator (on the
- * server) it is `other`.
+ * "iPad"), which Safari and Firefox still fill in. Called without a navigator
+ * outside a browser it is `other`, even where the runtime has a global
+ * `navigator` (Node 21 and later reports the host's platform there).
  */
-export function detectKeyboardPlatform(
-  nav: NavigatorWithHints | undefined = typeof navigator === "undefined" ? undefined : navigator,
-): KeyboardPlatform {
-  if (!nav) return "other";
-  const platform = nav.userAgentData?.platform || nav.platform || "";
+export function detectKeyboardPlatform(nav?: NavigatorWithHints): KeyboardPlatform {
+  const source =
+    nav ?? (typeof window === "undefined" ? undefined : (window.navigator as NavigatorWithHints));
+  if (!source) return "other";
+  const platform = source.userAgentData?.platform || source.platform || "";
   return APPLE.test(platform) ? "mac" : "other";
 }
 
@@ -39,7 +40,7 @@ const serverSnapshot = (): KeyboardPlatform => "other";
  * The platform the page runs on. The server render and hydration use `other`,
  * so the markup matches; the client then renders with the detected platform.
  */
-export function usePlatform(): KeyboardPlatform {
+export function useKeyboardPlatform(): KeyboardPlatform {
   return useSyncExternalStore(subscribeNever, clientSnapshot, serverSnapshot);
 }
 

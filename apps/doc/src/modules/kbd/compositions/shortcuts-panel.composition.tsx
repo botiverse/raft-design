@@ -16,21 +16,21 @@ export function KbdShortcutsPanelContent() {
           <Text.Sans>Search</Text.Sans>
           <Text.Sans size="small">Anywhere, even while typing</Text.Sans>
         </div>
-        <KbdShortcut keys={SEARCH} size="md" />
+        <KbdShortcut keys={SEARCH} size="md" platform="mac" />
       </div>
       <div className="flex items-center justify-between gap-4">
         <div className="min-w-0">
           <Text.Sans>New line</Text.Sans>
           <Text.Sans size="small">Enter alone sends</Text.Sans>
         </div>
-        <KbdShortcut keys={NEW_LINE} size="md" />
+        <KbdShortcut keys={NEW_LINE} size="md" platform="mac" />
       </div>
       <div className="flex items-center justify-between gap-4">
         <div className="min-w-0">
           <Text.Sans>Send as task</Text.Sans>
           <Text.Sans size="small">In #launch-week</Text.Sans>
         </div>
-        <KbdShortcut keys={SEND_AS_TASK} size="md" />
+        <KbdShortcut keys={SEND_AS_TASK} size="md" platform="mac" />
       </div>
       <div className="flex items-center justify-between gap-4">
         <div className="min-w-0">
@@ -38,12 +38,12 @@ export function KbdShortcutsPanelContent() {
           <Text.Sans size="small">With the message list focused</Text.Sans>
         </div>
         <span className="inline-flex shrink-0 items-center gap-1.5">
-          <KbdShortcut keys={FIRST_MESSAGE} size="md" />
+          <KbdShortcut keys={FIRST_MESSAGE} size="md" platform="mac" />
           <Text.Sans render={<span aria-hidden="true" />} size="caption" variant="placeholder">
             /
           </Text.Sans>
           <span className="sr-only">or</span>
-          <KbdShortcut keys={LAST_MESSAGE} size="md" />
+          <KbdShortcut keys={LAST_MESSAGE} size="md" platform="mac" />
         </span>
       </div>
     </div>

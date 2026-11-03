@@ -5,7 +5,7 @@ import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-inset
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { Kbd, KbdGroup, KbdShortcut } from "../kbd/index";
+import { isInlinePart } from "../../lib/inline-part";
 
 const tooltip = tv({
   slots: {
@@ -118,12 +118,8 @@ function isTooltipLeadingIcon(child: ReactNode) {
     return false;
   }
 
-  if (
-    child.props["data-slot"] === "kbd" ||
-    child.type === Kbd ||
-    child.type === KbdGroup ||
-    child.type === KbdShortcut
-  ) {
+  // A key or a shortcut follows the text; it is never the leading icon.
+  if (child.props["data-slot"] === "kbd" || isInlinePart(child.type)) {
     return false;
   }
 

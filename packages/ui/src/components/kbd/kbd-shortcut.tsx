@@ -12,8 +12,9 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { ComponentPropsWithRef } from "react";
+import { markInlinePart } from "../../lib/inline-part";
 import { tv } from "../../lib/tv";
-import { usePlatform } from "../../lib/use-platform";
+import { useKeyboardPlatform } from "../../lib/use-platform";
 import type { KeyboardPlatform } from "../../lib/use-platform";
 import { Kbd, KbdGroup } from "./kbd";
 import type { KbdSize } from "./kbd";
@@ -36,7 +37,7 @@ const ICONS: Record<KbdKeyIcon, LucideIcon> = {
 const kbdShortcut = tv({
   slots: {
     root: ["inline-flex shrink-0 items-center"],
-    cap: [],
+    cap: ["data-[glyph=icon]:px-0"],
     text: ["block leading-none [text-box:trim-both_cap_alphabetic]"],
     icon: ["block shrink-0"],
     label: ["sr-only"],
@@ -44,33 +45,34 @@ const kbdShortcut = tv({
   variants: {
     size: {
       sm: { cap: ["h-4"] },
-      md: { cap: [] },
-    },
-    glyph: {
-      icon: { cap: ["px-0"] },
-      text: { cap: [] },
+      md: {},
     },
   },
   defaultVariants: {
     size: "sm",
-    glyph: "text",
   },
 });
 
 export type KbdShortcutProps = Omit<ComponentPropsWithRef<"span">, "children"> & {
   /**
-   * The keys, by name, in any order: `["mod", "shift", "enter"]`. Modifiers
-   * are drawn first, in the platform's order; the other keys follow in the
-   * order written.
+   * The keys, by name, case-insensitive, in any order: `["mod", "shift",
+   * "enter"]`. `KeyboardEvent.key` values work too (`ArrowUp`, `Meta`).
+   * Modifiers are drawn first, in the platform's order; the other keys
+   * follow in the order written.
    */
   keys: readonly KbdKeyName[];
   /** The size of every cap, as `Kbd`'s. */
   size?: KbdSize;
   /**
    * The keyboard to draw for. Without it, the platform the page runs on,
-   * detected once on the client (`other` on the server).
+   * detected once on the client (`other` on the server and while hydrating).
    */
   platform?: KeyboardPlatform;
+  /**
+   * What a screen reader says instead of the key names, which are English:
+   * pass the product's own words for another language ("Shift Command 回车").
+   */
+  label?: string;
 };
 
 /**
@@ -83,10 +85,11 @@ export function KbdShortcut({
   keys,
   size = "sm",
   platform: platformProp,
+  label,
   className,
   ...props
 }: KbdShortcutProps) {
-  const detected = usePlatform();
+  const detected = useKeyboardPlatform();
   const platform = platformProp ?? detected;
   const resolved = resolveKbdKeys(keys, platform);
   const slots = kbdShortcut({ size });
@@ -106,7 +109,7 @@ export function KbdShortcut({
               key={`${index}-${key.name}`}
               size={size}
               data-glyph={Icon ? "icon" : "text"}
-              className={slots.cap({ glyph: Icon ? "icon" : "text" })}
+              className={slots.cap()}
             >
               {Icon ? (
                 <Icon data-slot="kbd-icon" className={slots.icon()} aria-hidden="true" />
@@ -120,8 +123,10 @@ export function KbdShortcut({
         })}
       </KbdGroup>
       <span data-slot="kbd-shortcut-label" className={slots.label()}>
-        {resolved.map((key) => key.label).join(" ")}
+        {label ?? resolved.map((key) => key.label).join(" ")}
       </span>
     </span>
   );
 }
+
+markInlinePart(KbdShortcut);

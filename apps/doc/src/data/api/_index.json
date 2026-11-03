@@ -540,7 +540,7 @@
       "KbdShortcut"
     ],
     "status": "stable",
-    "description": "One shortcut from key names: a cap per key, with the platform's drawings (icons on a Mac, words elsewhere), and the shortcut in words for a screen reader. Alternatives (\"⌘↑ / ⌘↓\") are two KbdShortcut with a separator between them, written by the caller."
+    "description": "One keyboard key in a cap, a native `kbd`: at `sm`, the default, a hint beside a menu item, a tooltip's text or a field; at `md`, a key that is the content, as in a list of shortcuts. One key per cap: write a shortcut as a KbdGroup of Kbd, or from key names with KbdShortcut."
   },
   "label": {
     "names": [

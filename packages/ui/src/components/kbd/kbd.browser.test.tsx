@@ -5,8 +5,10 @@ import { KbdShortcut } from "./kbd-shortcut";
 import type { KbdKeyName } from "./kbd-keys";
 
 // md caps of a KbdShortcut, under real layout: every cap one height, a
-// single key square, and the text in a cap (trimmed to cap height) centred on
-// the same line as the icons in its neighbours. jsdom has no boxes.
+// single key square, and the text in a cap trimmed to cap height
+// (text-box: trim-both cap alphabetic) so its ink centres on the same line as
+// the icons in its neighbours. jsdom has no boxes. Chromium only: Firefox has
+// no text-box, where the text centres on its line box instead.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -29,17 +31,6 @@ const caps = (testId: string) =>
   [...screen.getByTestId(testId).querySelectorAll<HTMLElement>('[data-slot="kbd"]')].map((cap) =>
     cap.getBoundingClientRect(),
   );
-
-/** The vertical centre of what each cap draws: its icon or its trimmed text. */
-const inkCentres = (testId: string) =>
-  [
-    ...screen
-      .getByTestId(testId)
-      .querySelectorAll<Element>('[data-slot="kbd-icon"], [data-slot="kbd-text"]'),
-  ].map((ink) => {
-    const box = ink.getBoundingClientRect();
-    return box.top + box.height / 2;
-  });
 
 function renderShortcuts() {
   render(
@@ -65,19 +56,45 @@ describe("KbdShortcut md", () => {
     }
   });
 
-  it("centres icons and text on one line, within 1px", () => {
+  it("trims text to cap height and centres it on the icons' line, within 1px", () => {
     renderShortcuts();
-    for (const id of ["mac-letter", "other-arrow"]) {
-      const centres = inkCentres(id);
-      expect(centres.length, id).toBeGreaterThan(1);
-      const capBox = caps(id)[0]!;
-      const capCentre = capBox.top + capBox.height / 2;
-      for (const centre of centres) expect(Math.abs(centre - capCentre), id).toBeLessThanOrEqual(1);
+    // Space Mono's cap height at the cap's font size, from the font itself.
+    const sample = screen
+      .getByTestId("letter")
+      .querySelector<HTMLElement>('[data-slot="kbd-text"]')!;
+    const style = getComputedStyle(sample);
+    const fontSize = parseFloat(style.fontSize);
+    const context = document.createElement("canvas").getContext("2d")!;
+    context.font = `${style.fontSize} ${style.fontFamily}`;
+    const capHeight = context.measureText("H").actualBoundingBoxAscent;
+    expect(fontSize).toBe(13);
+    expect(capHeight).toBeGreaterThan(fontSize * 0.5);
+    expect(capHeight).toBeLessThan(fontSize * 0.8);
+
+    for (const id of ["mac-letter", "other-arrow", "letter", "esc"]) {
+      for (const text of screen
+        .getByTestId(id)
+        .querySelectorAll<HTMLElement>('[data-slot="kbd-text"]')) {
+        // Untrimmed, the text's box is its 13px line box (leading-none); trimmed,
+        // it is the cap height, so its box is the letters' ink.
+        const box = text.getBoundingClientRect();
+        expect(Math.abs(box.height - capHeight), `${id} "${text.textContent}"`).toBeLessThanOrEqual(
+          1,
+        );
+        expect(box.height).toBeLessThan(fontSize * 0.8);
+      }
     }
-    // Across shortcuts too: a letter cap and an icon cap on the same row line up.
-    const letter = inkCentres("letter")[0]! - caps("letter")[0]!.top;
-    const icon = inkCentres("icon")[0]! - caps("icon")[0]!.top;
-    expect(Math.abs(letter - icon)).toBeLessThanOrEqual(1);
+
+    // The letters' ink and the icons centre on the same line, within 1px.
+    for (const id of ["mac-letter", "other-arrow"]) {
+      const root = screen.getByTestId(id);
+      const icon = root.querySelector('[data-slot="kbd-icon"]')!.getBoundingClientRect();
+      const iconCentre = icon.top + icon.height / 2;
+      for (const text of root.querySelectorAll('[data-slot="kbd-text"]')) {
+        const box = text.getBoundingClientRect();
+        expect(Math.abs(box.top + box.height / 2 - iconCentre), id).toBeLessThanOrEqual(1);
+      }
+    }
   });
 
   it("draws a single key square", () => {

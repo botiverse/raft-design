@@ -4,7 +4,7 @@
 import { afterEach, describe, expect, test, vi } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { renderToString } from "react-dom/server";
-import { detectKeyboardPlatform, resetDetectedPlatform, usePlatform } from "./use-platform";
+import { detectKeyboardPlatform, resetDetectedPlatform, useKeyboardPlatform } from "./use-platform";
 
 afterEach(() => {
   cleanup();
@@ -37,16 +37,24 @@ describe("detectKeyboardPlatform", () => {
     );
   });
 
-  test("without a navigator it is other", () => {
-    expect(detectKeyboardPlatform(undefined)).toBe("other");
+  test("outside a browser it is other, even with a global navigator on a Mac host", () => {
+    // Node 21 and later has a global navigator whose platform is the host's.
+    vi.spyOn(navigator, "platform", "get").mockReturnValue("MacIntel");
+    vi.stubGlobal("window", undefined);
+    try {
+      expect(detectKeyboardPlatform()).toBe("other");
+    } finally {
+      vi.unstubAllGlobals();
+    }
+    expect(detectKeyboardPlatform()).toBe("mac");
   });
 });
 
 function Probe() {
-  return <span data-testid="p">{usePlatform()}</span>;
+  return <span data-testid="p">{useKeyboardPlatform()}</span>;
 }
 
-describe("usePlatform", () => {
+describe("useKeyboardPlatform", () => {
   test("reads the navigator on the client", () => {
     vi.spyOn(navigator, "platform", "get").mockReturnValue("MacIntel");
     render(<Probe />);

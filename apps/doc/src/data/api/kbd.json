@@ -2,6 +2,7 @@
   {
     "name": "Kbd",
     "entry": "@botiverse/raft-ui",
+    "description": "One keyboard key in a cap, a native `kbd`: at `sm`, the default, a hint beside a menu item, a tooltip's text or a field; at `md`, a key that is the content, as in a list of shortcuts. One key per cap: write a shortcut as a KbdGroup of Kbd, or from key names with KbdShortcut.",
     "native": true,
     "props": [
       {
@@ -17,6 +18,7 @@
   {
     "name": "KbdGroup",
     "entry": "@botiverse/raft-ui",
+    "description": "Caps of one shortcut, 4px apart.",
     "native": true,
     "props": []
   },
@@ -30,14 +32,21 @@
         "name": "keys",
         "type": "readonly KbdKeyName[]",
         "required": true,
-        "description": "The keys, by name, in any order: `[\"mod\", \"shift\", \"enter\"]`. Modifiers are drawn first, in the platform's order; the other keys follow in the order written.",
+        "description": "The keys, by name, case-insensitive, in any order: `[\"mod\", \"shift\", \"enter\"]`. `KeyboardEvent.key` values work too (`ArrowUp`, `Meta`). Modifiers are drawn first, in the platform's order; the other keys follow in the order written.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "What a screen reader says instead of the key names, which are English: pass the product's own words for another language (\"Shift Command 回车\").",
         "from": "raft-ui"
       },
       {
         "name": "platform",
         "type": "KeyboardPlatform",
         "required": false,
-        "description": "The keyboard to draw for. Without it, the platform the page runs on, detected once on the client (`other` on the server).",
+        "description": "The keyboard to draw for. Without it, the platform the page runs on, detected once on the client (`other` on the server and while hydrating).",
         "from": "raft-ui"
       },
       {

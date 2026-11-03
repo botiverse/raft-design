@@ -1,14 +1,19 @@
 /**
  * @vitest-environment jsdom
  */
-import { afterEach, describe, expect, test } from "vite-plus/test";
+import { afterEach, describe, expect, test, vi } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { Kbd, KbdGroup } from "./kbd";
 import { KbdShortcut } from "./kbd-shortcut";
 import { resolveKbdKeys } from "./kbd-keys";
 import type { KbdKeyName } from "./kbd-keys";
+import { resetDetectedPlatform } from "../../lib/use-platform";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+  resetDetectedPlatform();
+});
 
 const MOD_SHIFT_ENTER: KbdKeyName[] = ["mod", "shift", "enter"];
 const ESCAPE: KbdKeyName[] = ["escape"];
@@ -21,8 +26,8 @@ const classes = (element: Element) => element.getAttribute("class")!.split(/\s+/
 const drawn = (keys: KbdKeyName[], platform: "mac" | "other") =>
   resolveKbdKeys(keys, platform).map((key) => key.icon ?? key.text);
 
-// The classes of Kbd before sizes existed (origin/main, v0.59.2), less the
-// off-token rounded-[3px] that radius-sticker replaces.
+// The classes of Kbd before sizes existed (origin/main, v0.59.2), exactly:
+// sm changes nothing for existing callers, its 3px radius included.
 const HINT_CLASSES = [
   "pointer-events-none",
   "inline-flex",
@@ -45,11 +50,11 @@ const HINT_CLASSES = [
   "inset-ring-line-hairline",
   "in-data-[slot=tooltip-content]:text-foreground-on-hud/70",
   "in-data-[slot=tooltip-content]:shadow-[inset_0_0_0_1px_color-mix(in_oklch,var(--foreground-on-hud)_70%,transparent)]",
-  "rounded-sticker",
+  "rounded-[3px]",
 ];
 
 describe("Kbd sizes", () => {
-  test("the default is sm, today's hint, with radius-sticker for rounded-[3px]", () => {
+  test("the default is sm, today's hint, class for class", () => {
     render(<Kbd data-testid="kbd">Esc</Kbd>);
     const kbd = screen.getByTestId("kbd");
     expect(kbd.tagName).toBe("KBD");
@@ -89,7 +94,8 @@ describe("Kbd sizes", () => {
         "[&_svg:not([class*='size-'])]:size-3.5",
       ]),
     );
-    // The hint's ink, size and the tooltip's on-hud colors are sm only.
+    // The hint's ink, size, 3px radius and the tooltip's on-hud colors are sm only.
+    expect(list).not.toContain("rounded-[3px]");
     expect(list).not.toContain("text-foreground-hint");
     expect(list).not.toContain("text-mono-meta");
     expect(list).not.toContain("min-w-4");
@@ -104,7 +110,7 @@ describe("Kbd sizes", () => {
     );
     const list = classes(screen.getByTestId("kbd"));
     expect(list).toContain("rounded-none");
-    expect(list).not.toContain("rounded-sticker");
+    expect(list).not.toContain("rounded-[3px]");
     expect(list).not.toContain("px-1");
   });
 
@@ -186,8 +192,6 @@ describe("key names on Windows and Linux", () => {
   test("modifiers are drawn Ctrl, Alt, Shift, each once", () => {
     expect(drawn(["shift", "mod", "enter"], "other")).toEqual(["Ctrl", "Shift", "Enter"]);
     expect(drawn(["shift", "alt", "mod", "m"], "other")).toEqual(["Ctrl", "Alt", "Shift", "M"]);
-    // mod and ctrl are the same key here.
-    expect(drawn(["mod", "ctrl", "k"], "other")).toEqual(["Ctrl", "K"]);
   });
 });
 
@@ -292,23 +296,158 @@ describe("KbdShortcut", () => {
   });
 
   test("an icon cap has no side padding, so a single icon key is square", () => {
-    render(<KbdShortcut data-testid="s" keys={MOD_K} platform="mac" size="md" />);
-    const [icon, text] = screen.getByTestId("s").querySelectorAll('[data-slot="kbd"]');
-    expect(icon!.getAttribute("data-glyph")).toBe("icon");
-    expect(classes(icon!)).toContain("px-0");
-    expect(classes(icon!)).not.toContain("px-1.5");
-    expect(text!.getAttribute("data-glyph")).toBe("text");
-    expect(classes(text!)).toContain("px-1.5");
+    for (const size of ["sm", "md"] as const) {
+      render(<KbdShortcut data-testid={size} keys={MOD_K} platform="mac" size={size} />);
+      const [icon, text] = screen.getByTestId(size).querySelectorAll('[data-slot="kbd"]');
+      expect(icon!.getAttribute("data-glyph")).toBe("icon");
+      expect(text!.getAttribute("data-glyph")).toBe("text");
+      // The padding drops on data-glyph="icon" only, above the size's own px.
+      expect(classes(icon!)).toContain("data-[glyph=icon]:px-0");
+      expect(classes(icon!)).toContain(size === "md" ? "px-1.5" : "px-1");
+    }
   });
 
-  test("without a platform prop it uses the detected platform", () => {
-    render(<KbdShortcut data-testid="s" keys={MOD_K} />);
-    const root = screen.getByTestId("s");
-    // jsdom's navigator.platform is "" (or the host's), so read what was used.
-    const platform = root.getAttribute("data-platform");
-    expect(["mac", "other"]).toContain(platform);
-    expect(root.querySelector('[data-slot="kbd-shortcut-label"]')!.textContent).toBe(
-      platform === "mac" ? "Command K" : "Control K",
+  test("label replaces the spoken words, for a language other than English", () => {
+    render(
+      <KbdShortcut
+        data-testid="s"
+        keys={MOD_SHIFT_ENTER}
+        platform="mac"
+        label="Shift Command 回车"
+      />,
     );
+    const root = screen.getByTestId("s");
+    expect(root.querySelector('[data-slot="kbd-shortcut-label"]')!.textContent).toBe(
+      "Shift Command 回车",
+    );
+    // The caps are still drawn from the key names.
+    expect(root.querySelectorAll('[data-slot="kbd-icon"]')).toHaveLength(3);
+  });
+});
+
+describe("KbdShortcut without a platform prop", () => {
+  const spoken = () =>
+    screen.getByTestId("s").querySelector('[data-slot="kbd-shortcut-label"]')!.textContent;
+
+  test("navigator.platform MacIntel draws a Mac shortcut", () => {
+    vi.spyOn(navigator, "platform", "get").mockReturnValue("MacIntel");
+    render(<KbdShortcut data-testid="s" keys={MOD_K} />);
+    expect(screen.getByTestId("s").getAttribute("data-platform")).toBe("mac");
+    expect(spoken()).toBe("Command K");
+  });
+
+  test("navigator.platform Win32 draws Ctrl", () => {
+    vi.spyOn(navigator, "platform", "get").mockReturnValue("Win32");
+    render(<KbdShortcut data-testid="s" keys={MOD_K} />);
+    expect(screen.getByTestId("s").getAttribute("data-platform")).toBe("other");
+    expect(spoken()).toBe("Control K");
+  });
+
+  test("Client Hints win over navigator.platform", () => {
+    vi.spyOn(navigator, "platform", "get").mockReturnValue("Win32");
+    Object.defineProperty(navigator, "userAgentData", {
+      configurable: true,
+      value: { platform: "macOS" },
+    });
+    try {
+      render(<KbdShortcut data-testid="s" keys={MOD_K} />);
+      expect(spoken()).toBe("Command K");
+    } finally {
+      delete (navigator as { userAgentData?: unknown }).userAgentData;
+    }
+  });
+});
+
+describe("key aliases and KeyboardEvent.key values", () => {
+  test("names are case-insensitive and aliases sort as modifiers", () => {
+    expect(drawn(["shift", "cmd", "k"], "mac")).toEqual(["arrow-big-up", "command", "K"]);
+    expect(drawn(["Control", "Shift", "ArrowUp"], "mac")).toEqual([
+      "chevron-up",
+      "arrow-big-up",
+      "arrow-up",
+    ]);
+    expect(drawn(["Shift", "Control", "ArrowUp"], "other")).toEqual(["Ctrl", "Shift", "arrow-up"]);
+    expect(drawn(["SHIFT", "Opt", "MOD", "k"], "mac")).toEqual([
+      "option",
+      "arrow-big-up",
+      "command",
+      "K",
+    ]);
+  });
+
+  test("every alias resolves to its key", () => {
+    const one = (key: string, platform: "mac" | "other") => drawn([key], platform)[0];
+    expect(one("control", "other")).toBe("Ctrl");
+    expect(one("opt", "other")).toBe("Alt");
+    expect(one("option", "mac")).toBe("option");
+    expect(one("Alt", "other")).toBe("Alt");
+    expect(one("return", "other")).toBe("Enter");
+    expect(one("Enter", "mac")).toBe("corner-down-left");
+    expect(one("esc", "mac")).toBe("Esc");
+    expect(one("Escape", "other")).toBe("Esc");
+    expect(one(" ", "other")).toBe("Space");
+    expect(one("Backspace", "other")).toBe("Backspace");
+    expect(one("Tab", "mac")).toBe("Tab");
+    expect(one("del", "other")).toBe("Del");
+    expect(one("ArrowDown", "other")).toBe("arrow-down");
+    expect(one("ARROWLEFT", "mac")).toBe("arrow-left");
+    expect(one("ArrowRight", "mac")).toBe("arrow-right");
+  });
+
+  test("meta is Command on a Mac and the Windows key elsewhere; mod is Command or Ctrl", () => {
+    for (const name of ["meta", "Meta", "cmd", "command"]) {
+      expect(drawn([name], "mac")).toEqual(["command"]);
+      expect(drawn([name], "other")).toEqual(["Win"]);
+    }
+    expect(resolveKbdKeys(["meta"], "other")[0]!.label).toBe("Windows");
+    // The Windows key comes after Ctrl, Alt and Shift.
+    expect(drawn(["meta", "shift", "s"], "other")).toEqual(["Shift", "Win", "S"]);
+    expect(drawn(["meta", "mod", "d"], "other")).toEqual(["Ctrl", "Win", "D"]);
+  });
+});
+
+describe("edge cases", () => {
+  test("F-keys are uppercase", () => {
+    expect(drawn(["f5"], "other")).toEqual(["F5"]);
+    expect(drawn(["F12"], "mac")).toEqual(["F12"]);
+    expect(drawn(["mod", "f1"], "mac")).toEqual(["command", "F1"]);
+  });
+
+  test("only ASCII letters are uppercased", () => {
+    expect(drawn(["ß"], "other")).toEqual(["ß"]);
+    expect(drawn(["é"], "mac")).toEqual(["é"]);
+    expect(drawn(["a"], "mac")).toEqual(["A"]);
+  });
+
+  test("an empty key is skipped, with a warning", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    expect(drawn(["mod", "", "j"], "mac")).toEqual(["command", "J"]);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(String(warn.mock.calls[0]![0])).toContain("empty key name");
+  });
+
+  test("two names that press one key are drawn once, with a warning", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    expect(drawn(["mod", "ctrl", "y"], "other")).toEqual(["Ctrl", "Y"]);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(String(warn.mock.calls[0]![0])).toContain('"mod" and "ctrl" are the same key');
+    // On a Mac they are two keys: no warning.
+    warn.mockClear();
+    expect(drawn(["mod", "ctrl", "y"], "mac")).toEqual(["chevron-up", "command", "Y"]);
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  test("punctuation has spoken names", () => {
+    const word = (key: string) => resolveKbdKeys([key], "mac")[0]!.label;
+    expect(word("!")).toBe("Exclamation Mark");
+    expect(word("@")).toBe("At");
+    expect(word("#")).toBe("Number Sign");
+    expect(word("*")).toBe("Asterisk");
+    expect(word("<")).toBe("Less Than");
+    expect(word(">")).toBe("Greater Than");
+    expect(word("~")).toBe("Tilde");
+    expect(word("&")).toBe("Ampersand");
+    expect(word("|")).toBe("Vertical Bar");
+    expect(word("/")).toBe("Slash");
   });
 });
