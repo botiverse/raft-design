@@ -8,8 +8,20 @@ type TableProps = StyledProps<useRender.ComponentProps<"table">>;
 type TableHeaderProps = StyledProps<useRender.ComponentProps<"thead">>;
 type TableBodyProps = StyledProps<useRender.ComponentProps<"tbody">>;
 type TableRowProps = StyledProps<useRender.ComponentProps<"tr">>;
-type TableHeadProps = StyledProps<useRender.ComponentProps<"th">>;
-type TableCellProps = StyledProps<useRender.ComponentProps<"td">>;
+type TableHeadProps = Omit<StyledProps<useRender.ComponentProps<"th">>, "align"> & {
+  /**
+   * `"right"` for a right-aligned column, such as numbers. Pass the same
+   * value to the column's cells, so the heading sits over its values.
+   */
+  align?: "left" | "right";
+};
+type TableCellProps = Omit<StyledProps<useRender.ComponentProps<"td">>, "align"> & {
+  /**
+   * `"right"` for a right-aligned column, such as numbers. Pass the same
+   * value to the column's heading, so the heading sits over its values.
+   */
+  align?: "left" | "right";
+};
 type TableSort = "ascending" | "descending";
 type TableSortableHeadProps = Omit<
   StyledProps<useRender.ComponentProps<"th">>,
@@ -29,7 +41,8 @@ type TableSortableHeadProps = Omit<
   onSortChange?: (sort: TableSort) => void;
   /**
    * `"right"` for a right-aligned column, such as numbers: the label ends on
-   * the column's right edge and the arrow goes before it.
+   * the column's right edge and the arrow goes before it. Pass the same value
+   * to the column's cells.
    */
   align?: "left" | "right";
 };
@@ -84,8 +97,14 @@ export function TableRow({ className, render, ...props }: TableRowProps) {
   });
 }
 
-export function TableHead({ className, render, scope = "col", ...props }: TableHeadProps) {
-  const { head } = table();
+export function TableHead({
+  className,
+  render,
+  scope = "col",
+  align = "left",
+  ...props
+}: TableHeadProps) {
+  const { head } = table({ align });
   return useRender({
     defaultTagName: "th",
     render,
@@ -99,12 +118,14 @@ export function TableHead({ className, render, scope = "col", ...props }: TableH
  * whose label is a button filling the cell, with `aria-sort` on the cell and
  * a 12px arrow on the sorted column only. Which column is sorted is the
  * caller's: pass `sort` and update it from `onSortChange`. In a header row
- * drawn without `Table`, pass `render={<div role="columnheader" />}`.
+ * drawn without `Table`, pass `render={<div role="columnheader" />}`; with
+ * `render` it sets no `scope`, which only a `th` takes. Native props,
+ * `className` and the ref go to the heading cell, not the button.
  */
 export function TableSortableHead({
   className,
   render,
-  scope = "col",
+  scope,
   sort,
   firstSort = "ascending",
   onSortChange,
@@ -142,7 +163,7 @@ export function TableSortableHead({
     render,
     props: mergeProps<"th">(
       {
-        scope,
+        scope: scope ?? (render === undefined ? "col" : undefined),
         "aria-sort": sort,
         className: head({ className: sortableHead({ className }) }),
         children: button,
@@ -157,8 +178,8 @@ function reverseSort(sort: TableSort): TableSort {
   return sort === "ascending" ? "descending" : "ascending";
 }
 
-export function TableCell({ className, render, ...props }: TableCellProps) {
-  const { cell } = table();
+export function TableCell({ className, render, align = "left", ...props }: TableCellProps) {
+  const { cell } = table({ align });
   return useRender({
     defaultTagName: "td",
     render,

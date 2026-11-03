@@ -85,7 +85,9 @@ export function TableSortableContent() {
         {rows.map((row) => (
           <TableRow key={row.id}>
             <TableCell>{row.name}</TableCell>
-            <TableCell className="text-right font-mono">{row.runs ?? "—"}</TableCell>
+            <TableCell align="right" className="font-mono">
+              {row.runs ?? "—"}
+            </TableCell>
             <TableCell className="font-mono">
               {row.lastRun ? DAY.format(new Date(row.lastRun)) : "—"}
             </TableCell>

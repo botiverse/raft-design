@@ -32,6 +32,10 @@ A table lays out data in rows and columns, with a header row and a hairline betw
 
 The header type, the lines between rows and how numbers are set are in [Built from existing parts › Tables](../../../../../design/components/overview.md#tables). `Table` draws the header and the lines; the last row has none under it.
 
+```example
+table/compositions/basic
+```
+
 ## States
 
 | State                                                              | Look                                                                                                                                                                                                            |
@@ -65,7 +69,7 @@ table/compositions/sortable
 - When the rows start in an order no column gives, such as the order they were added, no heading shows an arrow until one is clicked. If that order is worth going back to, make it a column, such as Added, rather than a third click. Remember the chosen sort for that list on that device, so coming back to the page doesn't reset it.
 - On a touch screen the heading's button has a 44px-high hit area, as every control does ([Accessibility](../../../../../design/foundations/accessibility.md#hit-targets)).
 
-`TableSortableHead` sets `aria-sort` from `sort`, colors the label, draws the arrow and gives the touch hit area. A click calls `onSortChange` with the next direction: the reverse of `sort`, or `firstSort` on a column the rows aren't sorted by. `firstSort` is `"ascending"` unless set; pass `"descending"` for numbers and dates. Pass `align="right"` in a right-aligned column, so the arrow goes before the label. Sorting the rows themselves, with the missing values last, and remembering the sort are yours: the part never sees the rows.
+`TableSortableHead` sets `aria-sort` from `sort`, colors the label, draws the arrow and gives the touch hit area. A click calls `onSortChange` with the next direction: the reverse of `sort`, or `firstSort` on a column the rows aren't sorted by. `firstSort` is `"ascending"` unless set; pass `"descending"` for numbers and dates. Pass `align="right"` in a right-aligned column, as on its cells, so the arrow goes before the label. Native props, `className` and `ref` go to the heading cell, not to the button. Sorting the rows themselves, with the missing values last, and remembering the sort are yours: the part never sees the rows.
 
 In a header row drawn without `Table`, render each heading as a `columnheader` inside a `row`:
 
@@ -82,14 +86,14 @@ In a header row drawn without `Table`, render each heading as a `columnheader` i
 ## Content
 
 - Write column headings in sentence case: Resource, Access, Last run ([Writing](../../../../../design/content/writing.md#casing)).
-- `TableCell` doesn't set numbers in Space Mono or align them: set both on the cell and on its `TableHead`, so the heading sits over its numbers. A `TableSortableHead` takes `align="right"` instead of a class, because the side its arrow goes on depends on it.
+- `TableCell` doesn't set numbers in Space Mono or align them. Set Space Mono on the cell (`font-mono`), and pass `align="right"` to the cell and to its column's heading, `TableHead` or `TableSortableHead`, so the heading sits over its numbers. The heading keeps the header type, not Space Mono. Don't align with a class: on a `TableSortableHead` it does nothing, because the label is a button filling the cell.
 - Write a caption in sentence case that names what the rows are: Recent builds.
 
 ## Accessibility
 
 - The parts render native `table`, `caption`, `thead`, `tbody`, `tr`, `th` and `td` elements, so screen readers can move by row and column.
 - `TableHead` sets `scope="col"`. Row headings (`scope="row"`) work but have no style of their own.
-- `TableSortableHead` sets `scope="col"` too, and `aria-sort` on the heading cell only while the rows are sorted by its column. Its label is a native `button` named by the column's name alone; the arrow is `aria-hidden`, so the direction is read from `aria-sort`. With `render`, the element it renders keeps `aria-sort`, so give it `role="columnheader"` ([Sorting](#sorting)).
+- `TableSortableHead` sets `scope="col"` too, but none with `render`, since only a `th` takes `scope`. It sets `aria-sort` on the heading cell only while the rows are sorted by its column. Its label is a native `button` named by the column's name alone; the arrow is `aria-hidden`, so the direction is read from `aria-sort`. With `render`, the element it renders keeps `aria-sort`, so give it `role="columnheader"` ([Sorting](#sorting)).
 - Name every table with a `TableCaption`, visible or `sr-only`. Use `aria-label` on `Table` only when there can be no caption.
 - Give a control in a cell a name that includes its row: "Access for Messages".
 

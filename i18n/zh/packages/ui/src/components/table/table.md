@@ -28,6 +28,10 @@ sourceHash: 71a0f364
 
 表头的字体、行间的线以及数字的排法见[用现有部件搭建 › 表格](../../../../../design/components/overview.md#tables)。`Table` 负责画表头和线；最后一行下面没有线。
 
+```example
+table/compositions/basic
+```
+
 ## 状态 {#states}
 
 | 状态 | 外观 |
@@ -61,7 +65,7 @@ table/compositions/sortable
 - 如果行一开始的顺序不是由任何一列决定的，比如按添加的先后，那么在有人点之前，哪个标题都不显示箭头。如果这个原始顺序值得回去，就把它做成一列，比如「添加时间」，而不是靠第三次点击。选好的排序在这台设备上按列表记住，回到这个页面时不会被重置。
 - 在触屏上，标题按钮的点击区域高 44px，和所有控件一样（[无障碍](../../../../../design/foundations/accessibility.md#hit-targets)）。
 
-`TableSortableHead` 根据 `sort` 设置 `aria-sort`，给文字上色，画箭头，并提供触屏点击区域。点击时它用下一个方向调用 `onSortChange`：`sort` 的反方向；行不按这一列排时，是 `firstSort`。`firstSort` 不设时是 `"ascending"`；数字和日期传 `"descending"`。右对齐的列传 `align="right"`，箭头就放在文字前面。给行本身排序（没有值的排在最后）和记住排序由你来做：这个部件看不到行。
+`TableSortableHead` 根据 `sort` 设置 `aria-sort`，给文字上色，画箭头，并提供触屏点击区域。点击时它用下一个方向调用 `onSortChange`：`sort` 的反方向；行不按这一列排时，是 `firstSort`。`firstSort` 不设时是 `"ascending"`；数字和日期传 `"descending"`。右对齐的列传 `align="right"`，和它的单元格一样，箭头就放在文字前面。原生属性、`className` 和 `ref` 落在标题单元格上，不在按钮上。给行本身排序（没有值的排在最后）和记住排序由你来做：这个部件看不到行。
 
 不用 `Table` 自己画的表头行，把每个标题渲染成 `row` 里的 `columnheader`：
 
@@ -78,14 +82,14 @@ table/compositions/sortable
 ## 内容 {#content}
 
 - 列标题用 sentence case：Resource、Access、Last run（[写作](../../../../../design/content/writing.md#casing)）。
-- `TableCell` 不会把数字设成 Space Mono，也不会对齐数字：在单元格和对应的 `TableHead` 上都设置，让标题对齐在数字上方。`TableSortableHead` 不用类名，改传 `align="right"`，因为箭头放在哪一边取决于它。
+- `TableCell` 不会把数字设成 Space Mono，也不会对齐数字。在单元格上设 Space Mono（`font-mono`），并给单元格和这一列的标题（`TableHead` 或 `TableSortableHead`）都传 `align="right"`，让标题对齐在数字上方。标题保持表头的字体，不用 Space Mono。不要用类名对齐：在 `TableSortableHead` 上类名不起作用，因为文字是铺满单元格的按钮。
 - 表格说明用 sentence case，写出这些行是什么：Recent builds。
 
 ## 无障碍 {#accessibility}
 
 - 这些部件渲染原生的 `table`、`caption`、`thead`、`tbody`、`tr`、`th` 和 `td` 元素，读屏软件可以按行和列移动。
 - `TableHead` 会设置 `scope="col"`。行标题（`scope="row"`）可以用，但没有专门的样式。
-- `TableSortableHead` 也设置 `scope="col"`，只在行按它这一列排序时，才在标题单元格上设置 `aria-sort`。它的文字是一个原生 `button`，名称只是列名；箭头是 `aria-hidden`，方向从 `aria-sort` 读出。用 `render` 时，渲染出来的元素保留 `aria-sort`，所以要给它 `role="columnheader"`（[排序](#sorting)）。
+- `TableSortableHead` 也设置 `scope="col"`，但用 `render` 时不设，因为只有 `th` 接受 `scope`。只在行按它这一列排序时，才在标题单元格上设置 `aria-sort`。它的文字是一个原生 `button`，名称只是列名；箭头是 `aria-hidden`，方向从 `aria-sort` 读出。用 `render` 时，渲染出来的元素保留 `aria-sort`，所以要给它 `role="columnheader"`（[排序](#sorting)）。
 - 每个表格都用 `TableCaption` 命名，可见或 `sr-only` 都行。只有在不能有说明时，才在 `Table` 上用 `aria-label`。
 - 单元格里控件的名称要包含它所在的行："Access for Messages"。
 

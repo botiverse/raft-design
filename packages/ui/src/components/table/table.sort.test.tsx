@@ -3,8 +3,15 @@
  */
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { ArrowDown, ArrowUp } from "lucide-react";
-import { Table, TableHeader, TableRow, TableSortableHead } from "./table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableSortableHead,
+} from "./table";
 import type { TableSort } from "./table";
 
 afterEach(() => {
@@ -99,11 +106,7 @@ describe("TableSortableHead", () => {
     expect(space?.getAttribute("aria-hidden")).toBe("true");
     expect(space?.getAttribute("class")).toContain("size-3");
     cleanup();
-    const glyphs = {
-      ascending: render(<ArrowUp />).container.querySelector("svg")!.innerHTML,
-      descending: render(<ArrowDown />).container.querySelector("svg")!.innerHTML,
-    };
-    cleanup();
+    const glyphs = { ascending: "lucide-arrow-up", descending: "lucide-arrow-down" } as const;
     for (const sort of ["ascending", "descending"] as const) {
       const { button } = renderHead({ sort });
       const arrows = button.querySelectorAll("svg");
@@ -113,7 +116,10 @@ describe("TableSortableHead", () => {
       expect(arrow.getAttribute("data-slot")).toBe("table-sort-arrow");
       expect(arrow.getAttribute("class")).toContain("size-3");
       // arrow-up when ascending, arrow-down when descending.
-      expect(arrow.innerHTML).toBe(glyphs[sort]);
+      expect(arrow.classList.contains(glyphs[sort])).toBe(true);
+      expect(
+        arrow.classList.contains(glyphs[sort === "ascending" ? "descending" : "ascending"]),
+      ).toBe(false);
       cleanup();
     }
   });
@@ -158,9 +164,67 @@ describe("TableSortableHead", () => {
     const header = screen.getByRole("columnheader", { name: "Memory" });
     expect(header.tagName).toBe("DIV");
     expect(header.getAttribute("aria-sort")).toBe("descending");
+    // `scope` belongs to a `th`; a rendered div gets none.
+    expect(header.hasAttribute("scope")).toBe(false);
     const button = screen.getByRole("button", { name: "Memory" });
     expect(button.parentElement).toBe(header);
     fireEvent.click(button);
     expect(onSortChange).toHaveBeenCalledWith("ascending");
+  });
+});
+
+describe("align", () => {
+  function renderColumn(align?: "left" | "right") {
+    render(
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead data-testid="head" align={align}>
+              Runs
+            </TableHead>
+            <TableSortableHead data-testid="sortable" align={align}>
+              Runs
+            </TableSortableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell data-testid="cell" align={align}>
+              412
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>,
+    );
+    const classes = (id: string) => screen.getByTestId(id).className.split(" ").sort();
+    const head = screen.getByTestId("head");
+    const cell = screen.getByTestId("cell");
+    return { head, cell, headClasses: classes("head"), cellClasses: classes("cell") };
+  }
+
+  it("leaves TableHead and TableCell as they were when unset or left", () => {
+    const unset = renderColumn();
+    expect(unset.head.hasAttribute("align")).toBe(false);
+    expect(unset.cell.hasAttribute("align")).toBe(false);
+    expect(unset.headClasses).toContain("text-left");
+    expect(unset.cellClasses).not.toContain("text-right");
+    cleanup();
+    const left = renderColumn("left");
+    expect(left.headClasses).toEqual(unset.headClasses);
+    expect(left.cellClasses).toEqual(unset.cellClasses);
+  });
+
+  it("right-aligns a heading and its cells with the same prop", () => {
+    const unset = renderColumn();
+    cleanup();
+    const right = renderColumn("right");
+    // A class, not the obsolete `align` attribute.
+    expect(right.head.hasAttribute("align")).toBe(false);
+    expect(right.cell.hasAttribute("align")).toBe(false);
+    expect(right.headClasses).toEqual(
+      [...unset.headClasses.filter((name) => name !== "text-left"), "text-right"].sort(),
+    );
+    expect(right.cellClasses).toEqual([...unset.cellClasses, "text-right"].sort());
+    expect(screen.getByRole("button").className).toContain("justify-end");
   });
 });
