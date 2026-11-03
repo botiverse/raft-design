@@ -3,12 +3,51 @@
     "name": "Kbd",
     "entry": "@botiverse/raft-ui",
     "native": true,
-    "props": []
+    "props": [
+      {
+        "name": "size",
+        "type": "KbdSize",
+        "required": false,
+        "default": "\"sm\"",
+        "description": "`sm` (the default) is a hint beside something else: a menu item, a tooltip, the search trigger, an input. `md` is a key that is the content, in a list of shortcuts.",
+        "from": "raft-ui"
+      }
+    ]
   },
   {
     "name": "KbdGroup",
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": []
+  },
+  {
+    "name": "KbdShortcut",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One shortcut from key names: a cap per key, with the platform's drawings (icons on a Mac, words elsewhere), and the shortcut in words for a screen reader. Alternatives (\"⌘↑ / ⌘↓\") are two KbdShortcut with a separator between them, written by the caller.",
+    "native": true,
+    "props": [
+      {
+        "name": "keys",
+        "type": "readonly KbdKeyName[]",
+        "required": true,
+        "description": "The keys, by name, in any order: `[\"mod\", \"shift\", \"enter\"]`. Modifiers are drawn first, in the platform's order; the other keys follow in the order written.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "platform",
+        "type": "KeyboardPlatform",
+        "required": false,
+        "description": "The keyboard to draw for. Without it, the platform the page runs on, detected once on the client (`other` on the server).",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "KbdSize",
+        "required": false,
+        "default": "\"sm\"",
+        "description": "The size of every cap, as `Kbd`'s.",
+        "from": "raft-ui"
+      }
+    ]
   }
 ]

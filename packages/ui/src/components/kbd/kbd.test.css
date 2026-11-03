@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@import "../../styles.css";
+
+/* Space Mono from the repository, so the caps' text is measured in the face
+   people see (fonts.css fetches it from Google Fonts instead). */
+@font-face {
+  font-family: "Space Mono";
+  src: url("../../../../../design/fonts/SpaceMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+:root {
+  --mono-font: "Space Mono", ui-monospace, monospace;
+}

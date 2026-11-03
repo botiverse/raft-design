@@ -1220,7 +1220,7 @@ export type {
 } from "./components/message-list/index";
 
 export { Kbd, KbdGroup } from "./components/kbd/index";
-export type { KbdGroupProps, KbdProps } from "./components/kbd/index";
+export type { KbdGroupProps, KbdProps, KbdSize } from "./components/kbd/index";
 
 export { IconTile } from "./components/icon-tile/index";
 export type { IconTileProps } from "./components/icon-tile/index";

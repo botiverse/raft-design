@@ -536,9 +536,11 @@
   "kbd": {
     "names": [
       "Kbd",
-      "KbdGroup"
+      "KbdGroup",
+      "KbdShortcut"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "One shortcut from key names: a cap per key, with the platform's drawings (icons on a Mac, words elsewhere), and the shortcut in words for a screen reader. Alternatives (\"⌘↑ / ⌘↓\") are two KbdShortcut with a separator between them, written by the caller."
   },
   "label": {
     "names": [

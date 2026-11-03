@@ -26,7 +26,7 @@ const dropdownMenu = tv({
       "min-h-option gap-2.5 rounded-chip px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft",
-      "data-checked:font-bold data-[selected]:font-bold data-[emphasis=strong]:font-bold",
+      "data-checked:font-bold data-selected:font-bold data-[emphasis=strong]:font-bold",
       "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
       "[&>svg]:text-foreground-muted data-disabled:[&>svg]:text-foreground-disabled",
@@ -259,7 +259,8 @@ export function DropdownMenuLabel({ className, ...props }: DropdownMenuLabelProp
   return <div data-slot="dropdown-menu-label" className={label({ className })} {...props} />;
 }
 
-export type DropdownMenuShortcutProps = KbdProps;
+// A menu draws its shortcut bare, at the hint size (kbd.md, "Menus").
+export type DropdownMenuShortcutProps = Omit<KbdProps, "size">;
 
 export function DropdownMenuShortcut({ className, ...props }: DropdownMenuShortcutProps) {
   const { shortcut } = dropdownMenu();

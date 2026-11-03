@@ -64,7 +64,8 @@ export function SearchTriggerLabel({ className, render, ...props }: SearchTrigge
   });
 }
 
-export type SearchTriggerShortcutProps = KbdProps;
+// The trigger keeps the hint size (kbd.md, "Sizes").
+export type SearchTriggerShortcutProps = Omit<KbdProps, "size">;
 
 /** The shortcut that opens search, at the right end. */
 export function SearchTriggerShortcut({ className, ...props }: SearchTriggerShortcutProps) {
