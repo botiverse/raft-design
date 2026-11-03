@@ -9,6 +9,7 @@ import type {
   RefObject,
 } from "react";
 
+import type { ScrollAreaRailInset, ScrollAreaSize, ScrollAreaTrigger } from "../scroll-area/types";
 import type { ObservedResizeEntry } from "./resize-observer/resize-observer-delegate";
 import type { MeasuredRef } from "./resize-observer/ResizeObserverWrapper";
 
@@ -146,6 +147,22 @@ export interface RenderAnomaly {
 
 export type FooterRender = (props: { domRef: MeasuredRef }) => ReactNode;
 
+/** How `scrollbar` draws ScrollArea's overlay scrollbar over the list; each as on ScrollArea. */
+export interface VirtualListScrollbarOptions {
+  /**
+   * When the scrollbar shows: while the pointer is over the list or it scrolls (`hover`), only
+   * while it scrolls (`scroll`), or always (`none`).
+   * @default "hover"
+   */
+  trigger?: ScrollAreaTrigger | undefined;
+  /** Thumb thickness. @default "medium" */
+  size?: ScrollAreaSize | undefined;
+  /** How long the scrollbar stays after scrolling stops, in ms. @default 600 */
+  hideDelay?: number | undefined;
+  /** Room in px kept clear at the ends, such as for a sticky header in `header`. */
+  railInset?: ScrollAreaRailInset | undefined;
+}
+
 /**
  * The scroll container's own attributes passed through to it (`id`, `role`, `aria-*`, `data-*`,
  * handlers such as `onKeyDown`); `onScroll`, `onWheel`, `onResize` and `children` are VirtualList's own
@@ -175,10 +192,17 @@ export interface VirtualListProps<T> extends VirtualListNativeProps {
    */
   sessionId?: string | undefined;
   /**
-   * Show the scroller's native scrollbar (hidden by default).
+   * Show the scroller's native scrollbar (hidden by default). `scrollbar` replaces it.
    * @default false
    */
   showScrollbar?: boolean | undefined;
+  /**
+   * Draw ScrollArea's thin overlay scrollbar over the list (`true`, or its options), over the list's
+   * own scroll container: the list still scrolls, anchors, pages and jumps itself, and its native
+   * scrollbar stays hidden. Vertical, and horizontal too with `columns`.
+   * @default false
+   */
+  scrollbar?: boolean | VirtualListScrollbarOptions | undefined;
   /**
    * Columns for a list that also scrolls sideways: only the columns in view are rendered, through
    * `renderCol` or `renderItemWithCols`. Each column's `width` is read.

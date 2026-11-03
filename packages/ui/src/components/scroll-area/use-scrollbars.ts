@@ -76,6 +76,13 @@ export type ScrollbarsOptions<E extends HTMLElement> = {
   fade?: boolean;
   onScroll: ((event: UIEvent<E>) => void) | undefined;
   onEdgeChange?: ((edges: ScrollAreaEdges) => void) | undefined;
+  /** Off: nothing is measured, observed or written, and scrolling only calls `onScroll`. Default on. */
+  enabled?: boolean;
+  /**
+   * Also watch every element child of the container for size changes (and children added or
+   * removed), for a container whose content isn't one element, such as a list with a header.
+   */
+  observeChildren?: boolean;
 };
 
 /**
@@ -100,6 +107,8 @@ export function useScrollbars<E extends HTMLElement>({
   fade = false,
   onScroll,
   onEdgeChange,
+  enabled = true,
+  observeChildren = false,
 }: ScrollbarsOptions<E>) {
   const [view, setView] = useState(initialView);
   const [scrolling, setScrolling] = useState(false);
@@ -109,9 +118,9 @@ export function useScrollbars<E extends HTMLElement>({
 
   // The measuring callbacks stay stable and read the latest props from here.
   // Updated after each commit (not during render), before the measuring effect below runs.
-  const latest = useRef({ fade, hideDelay, onEdgeChange, orientation });
+  const latest = useRef({ enabled, fade, hideDelay, onEdgeChange, orientation });
   useLayoutEffect(() => {
-    latest.current = { fade, hideDelay, onEdgeChange, orientation };
+    latest.current = { enabled, fade, hideDelay, onEdgeChange, orientation };
   });
   const state = useRef({
     idleTimer: undefined as ReturnType<typeof setTimeout> | undefined,
@@ -142,7 +151,7 @@ export function useScrollbars<E extends HTMLElement>({
     (layout = false) => {
       const container = containerRef.current;
       const root = rootRef.current;
-      if (!container || !root) return;
+      if (!container || !root || !latest.current.enabled) return;
       const current = state.current;
       const { fade: fadeContent, onEdgeChange: notify, orientation: axes } = latest.current;
       if (layout) {
@@ -195,6 +204,10 @@ export function useScrollbars<E extends HTMLElement>({
   );
 
   const handleScroll = (event: UIEvent<E>) => {
+    if (!latest.current.enabled) {
+      onScroll?.(event);
+      return;
+    }
     const current = state.current;
     measure();
     if (!current.scrolling) {
@@ -211,14 +224,44 @@ export function useScrollbars<E extends HTMLElement>({
 
   // Measured after mounting, when the orientation changes, and whenever the container or its content resizes.
   useLayoutEffect(() => {
+    if (!enabled) return undefined;
     measure(true);
     if (typeof ResizeObserver === "undefined") return undefined;
     const observer = new ResizeObserver(() => measure(true));
-    for (const element of [containerRef.current, contentRef.current]) {
+    const container = containerRef.current;
+    for (const element of [container, contentRef.current]) {
       if (element) observer.observe(element);
     }
-    return () => observer.disconnect();
-  }, [containerRef, contentRef, measure, orientation, fade]);
+    if (!observeChildren || !container) return () => observer.disconnect();
+    // A child added later (rows replacing an empty state) is observed too.
+    const observed = new Set<Element>();
+    const observeChildElements = () => {
+      for (const child of observed) {
+        if (child.parentNode === container) continue;
+        observed.delete(child);
+        observer.unobserve(child);
+      }
+      for (const child of container.children) {
+        if (observed.has(child)) continue;
+        observed.add(child);
+        observer.observe(child);
+      }
+    };
+    observeChildElements();
+    // A child removed resizes nothing that is observed, so the change is measured here.
+    const mutations =
+      typeof MutationObserver === "undefined"
+        ? null
+        : new MutationObserver(() => {
+            observeChildElements();
+            measure(true);
+          });
+    mutations?.observe(container, { childList: true });
+    return () => {
+      mutations?.disconnect();
+      observer.disconnect();
+    };
+  }, [containerRef, contentRef, measure, orientation, fade, enabled, observeChildren]);
 
   // A thumb that has just mounted takes the placement measured before it existed.
   useLayoutEffect(() => writeThumbs(), [view.xRail, view.yRail, writeThumbs]);

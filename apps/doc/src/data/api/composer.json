@@ -286,11 +286,46 @@
     "native": true,
     "props": [
       {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
+        "name": "hideDelay",
+        "type": "number",
         "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
+        "description": "How long the scrollbar stays after scrolling stops, as on ScrollArea.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "overscroll",
+        "type": "ScrollAreaOverscroll",
+        "required": false,
+        "description": "Whether a scroll that reaches the end carries on to the page, as on ScrollArea.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "ScrollAreaSize",
+        "required": false,
+        "description": "Thumb thickness, as on ScrollArea.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "trigger",
+        "type": "ScrollAreaTrigger",
+        "required": false,
+        "description": "When the scrollbar shows, as on ScrollArea.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "wrapperClassName",
+        "type": "string",
+        "required": false,
+        "description": "Class of the wrapper that holds the textarea and its scrollbar.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "wrapperStyle",
+        "type": "CSSProperties",
+        "required": false,
+        "description": "Style of the wrapper; size the textarea itself with `className` / `style`.",
+        "from": "raft-ui"
       }
     ]
   },

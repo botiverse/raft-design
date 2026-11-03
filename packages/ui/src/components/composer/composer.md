@@ -31,7 +31,7 @@ Where the composer sits in a conversation is in [Conversation](../../../../../de
 - `ComposerRoot`: the `<form>` that submits the message. Required.
 - `Composer`: the box with the ink border. Required.
 - `ComposerAttachments` with one `ComposerAttachment` per file: 64px thumbnails inside the box, above the input. Optional. `SortableComposerAttachments` (wrapping) and `SortableComposerAttachmentsScroll` (one scrolling row), with a `SortableComposerAttachment` around each, let people reorder them. The row is `ComposerAttachmentsScrollArea`: a horizontal [ScrollArea](../scroll-area/scroll-area.md) whose thin scrollbar shows only while it scrolls, with an arrow on each side that has more attachments past it.
-- `ComposerInput`: the input, a `<textarea>` that grows with its content. Required.
+- `ComposerInput`: the input, a `<textarea>` that grows with its content. Required. It is a `ScrollAreaTextarea` ([ScrollArea](../scroll-area/scroll-area.md#textarea)): past its maximum height it scrolls with the same thin overlay scrollbar as the attachments row and the message list, shown while the pointer is over it or it scrolls. `ref`, `className` and the native props go to the textarea; `wrapperClassName` to the frame that holds it and the scrollbar.
 - `ComposerToolbar`: the row under the input, with:
   - `ComposerActions`: the tools at the start, each a `ComposerIconButton` (attach a file, add an image);
   - `ComposerMeta`: at the end, an option attached to sending (`ComposerToolbarLabel` with a [Checkbox](../checkbox/checkbox.md)) and `ComposerSubmit`, the send button.
@@ -58,7 +58,7 @@ composer-suggestions/composer-suggestions
 - Typing @ opens the suggestion list above the composer, as wide as the composer and 8px above it. Group it with members of this conversation first, then the others. Each row shows the avatar, the name and the status in `foreground-hint`.
 - Let people drag files into the composer, but not folders.
 - Reordering attachments is a drag like any other ([Drag and drop](../../../../../design/patterns/drag-and-drop.md)): a lifted copy of the thumbnail follows the hand on both axes, the thumbnail it came from stays at 40% until it moves, its slot becomes the dashed place, and a drop or a cancel glides in 160ms. Space on a focused attachment picks it up, the arrow keys move it and Space drops it. Each step is announced by the attachment's `label` and its position, never its id; pass your translations as `messages`. The lifted copy renders in `document.body` (`container` to change it), so a drawer's or a dialog's transform doesn't offset it.
-- Grow the input with its content up to a maximum height, then scroll inside it.
+- Grow the input with its content up to a maximum height (128px), then scroll inside it. A scroll that reaches the end of the draft stops there: it doesn't carry on to the page.
 - On a phone, keep the composer on top of the keyboard when the keyboard opens. Return inserts a new line on a phone held upright ([Responsive layout](../../../../../design/patterns/responsive.md#phone)), so sending uses the send button.
 - Its buttons, the send button included, are controls embedded in its frame: they wear `radius-chip` and sit 6px from the composer's outer edge at the bottom and at each side, and 6px apart ([Shape](../../../../../design/foundations/shape.md#inside-a-frame)).
 - Put the composer's border on the content margin ([Page structure](../../../../../design/patterns/page-structure.md#one-edge-per-column)), with 16px plus the safe area below it.

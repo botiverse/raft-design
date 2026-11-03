@@ -4,12 +4,13 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createRef, Profiler } from "react";
+import { createRef, Profiler, useRef } from "react";
+import type { ReactNode, UIEvent } from "react";
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
-import { ScrollArea, ScrollAreaTextarea } from "./index";
-import type { ScrollAreaActions, ScrollAreaProps } from "./index";
+import { ScrollArea, ScrollAreaTextarea, useScrollAreaRails } from "./index";
+import type { ScrollAreaActions, ScrollAreaProps, ScrollAreaRailsOptions } from "./index";
 import { alignedScrollOffset } from "./scroll-to-element";
 import { pageDirection, pageDistance, scrollOverflow, thumbPlacement } from "./scroll-geometry";
 
@@ -746,9 +747,9 @@ describe("ScrollAreaTextarea", () => {
     const textarea = container.querySelector("textarea")!;
     expect(ref.current).toBe(textarea);
     expect(wrapper.className).toBe(
-      "r-scroll-area r-scroll-area--medium r-scroll-area--hover-trigger r-scroll-area--vertical-orientation r-scroll-area--textarea field",
+      "r-scroll-area r-scroll-area--medium r-scroll-area--hover-trigger r-scroll-area--vertical-orientation r-scroll-area--external r-scroll-area--wrapper r-scroll-area--textarea field",
     );
-    expect(textarea.className).toBe("r-scroll-area__textarea notes");
+    expect(textarea.className).toBe("r-scroll-area__scroller r-scroll-area__textarea notes");
     expect(textarea.getAttribute("aria-label")).toBe("Notes");
     expect(
       wrapper.querySelector(":scope > .r-scroll-area__rails")?.getAttribute("aria-hidden"),
@@ -827,5 +828,118 @@ describe("ScrollAreaTextarea", () => {
       vi.advanceTimersByTime(200);
     });
     expect(wrapper.classList.contains("r-scroll-area--scrolling")).toBe(false);
+  });
+});
+
+/** A list that scrolls itself and takes the rails, the way VirtualList does. */
+function OwnScroller({
+  children,
+  onOwnScroll,
+  ...options
+}: ScrollAreaRailsOptions<HTMLDivElement> & {
+  children?: ReactNode;
+  onOwnScroll?: (event: UIEvent<HTMLDivElement>) => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const bars = useScrollAreaRails(ref, options);
+  return (
+    <div
+      className={["own-list", bars.className].filter(Boolean).join(" ")}
+      ref={ref}
+      style={bars.style}
+      onScroll={(event) => {
+        onOwnScroll?.(event);
+        bars.onScroll(event);
+      }}
+    >
+      {bars.rails}
+      {children}
+    </div>
+  );
+}
+
+const ownInset = { top: 24 };
+const ownLayout = {
+  "own-list": { clientHeight: 100, clientWidth: 200, scrollHeight: 400, scrollWidth: 200 },
+};
+
+describe("useScrollAreaRails", () => {
+  it("lays the rails over an element that scrolls itself, as its first child, with no wrapper", () => {
+    layout = ownLayout;
+    const onScroll = vi.fn();
+    const onEdgeChange = vi.fn();
+    const { container } = render(
+      <OwnScroller
+        railInset={ownInset}
+        size="small"
+        onEdgeChange={onEdgeChange}
+        onScroll={onScroll}
+      >
+        <p>Rows</p>
+      </OwnScroller>,
+    );
+    const list = container.querySelector<HTMLElement>(".own-list")!;
+    expect(list.className).toBe(
+      "own-list r-scroll-area r-scroll-area--small r-scroll-area--hover-trigger r-scroll-area--vertical-orientation r-scroll-area--none-overscroll-y r-scroll-area--overflow-y-end r-scroll-area--external",
+    );
+    expect(list.children[0]?.className).toBe("r-scroll-area__rails");
+    expect(list.children[1]?.tagName).toBe("P");
+    expect(list.querySelector(".r-scroll-area__content")).toBeNull();
+    expect(list.style.getPropertyValue("--r-scroll-area-rail-inset-top")).toBe("24px");
+    expect(onEdgeChange).toHaveBeenLastCalledWith({
+      bottom: false,
+      left: true,
+      right: true,
+      top: true,
+    });
+
+    list.scrollTop = 300;
+    fireEvent.scroll(list);
+    expect(onScroll).toHaveBeenCalledTimes(1);
+    expect(list.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(thumbs(container)[0]?.style.getPropertyValue("--r-scroll-area-thumb-progress")).toBe(
+      "1",
+    );
+    expect(onEdgeChange).toHaveBeenLastCalledWith({
+      bottom: true,
+      left: true,
+      right: true,
+      top: false,
+    });
+  });
+
+  it("does nothing while off: no class, no rails, nothing written, onScroll still called", () => {
+    layout = ownLayout;
+    const onScroll = vi.fn();
+    const { container } = render(
+      <OwnScroller enabled={false} railInset={ownInset} onScroll={onScroll}>
+        <p>Rows</p>
+      </OwnScroller>,
+    );
+    const list = container.querySelector<HTMLElement>(".own-list")!;
+    expect(list.className).toBe("own-list");
+    expect(list.children).toHaveLength(1);
+    expect(list.getAttribute("style")).toBeNull();
+    fireEvent.scroll(list);
+    expect(onScroll).toHaveBeenCalledTimes(1);
+    expect(list.getAttribute("style")).toBeNull();
+  });
+
+  it("keeps an external block's own overflow, focus and native-scrollbar styles apart from ScrollArea's", () => {
+    // A ScrollArea is the scroll container; an external block keeps the element's own overflow.
+    expect(rule(`${block}:not(${block}--external)`)).toBe(
+      "overflow: hidden auto; position: relative; scrollbar-width: none;",
+    );
+    expect(rule(`${block}:not(${block}--external):focus-visible`)).toContain("box-shadow");
+    expect(flatCss).not.toMatch(/ \.r-scroll-area \{[^}]*overflow/);
+    // Its native scrollbar is hidden: the overlay replaces it.
+    expect(
+      rule(
+        `${block}${block}--external:not(${block}--wrapper), ${block}${block}--wrapper > ${block}__scroller`,
+      ),
+    ).toBe("scrollbar-width: none;");
+    expect(rule(`${block}${block}--wrapper > .r-scroll-area__rails`)).toBe(
+      "inset-inline-end: 0; position: absolute;",
+    );
   });
 });

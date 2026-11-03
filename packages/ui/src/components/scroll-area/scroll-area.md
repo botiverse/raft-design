@@ -10,7 +10,7 @@ related: [message-list, panel, sidebar, composer]
 
 # ScrollArea
 
-ScrollArea scrolls its content natively and draws thin overlay scrollbars in the style of macOS: a rounded thumb in the label colour made translucent, with no visible track, that fades in while the area scrolls or is pointed at, thickens when you point at it, and fades out shortly after. The scrollbars take no room from the layout and look the same in every theme and on every platform: a translucent label colour is dark on a light page and light on a dark one, so the thumb reads on any content without a track behind it. The wheel, trackpad, touch and keyboard scroll as usual; the thumb can also be dragged, and a press on the empty rail beside it pages. raft-ui uses it for the desktop message list, the sidebar and the composer's row of attachments.
+ScrollArea scrolls its content natively and draws thin overlay scrollbars in the style of macOS: a rounded thumb in the label colour made translucent, with no visible track, that fades in while the area scrolls or is pointed at, thickens when you point at it, and fades out shortly after. The scrollbars take no room from the layout and look the same in every theme and on every platform: a translucent label colour is dark on a light page and light on a dark one, so the thumb reads on any content without a track behind it. The wheel, trackpad, touch and keyboard scroll as usual; the thumb can also be dragged, and a press on the empty rail beside it pages. raft-ui uses it for the desktop message list, the sidebar, the composer's input and row of attachments, wide Markdown tables and, as an option, VirtualList.
 
 ScrollArea is one element: the area itself is the scroll container, so a `ref` gets the native `scrollTo` and `scrollBy`, and `onScroll` receives its scroll events.
 
@@ -24,6 +24,7 @@ scroll-area/compositions/basic
 | ------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | A list, strip or pane that scrolls inside a fixed frame | ScrollArea                                                                   |
 | A `<textarea>` that should show the same scrollbar      | `ScrollAreaTextarea`                                                         |
+| An element that scrolls itself and can't become one     | `useScrollAreaRails`                                                         |
 | The content of a panel under its header                 | `PanelScrollViewport` ([Panel](../panel/panel.md#anatomy))                   |
 | The messages of a conversation or a thread              | [MessageList](../message-list/message-list.md), which is built on ScrollArea |
 | A list long enough that rendering every row is too slow | [VirtualList](../virtual-list/virtual-list.md)                               |
@@ -35,6 +36,7 @@ scroll-area/compositions/basic
 - `ScrollArea`: the scroll container. Give it the size of the region (a height, a `max-height`, or a flex item's share). Its children go in a content element inside it: put padding there with `contentClassName` or `contentStyle`, not on the area itself, so the scrollbars stay at the edges.
 - The scrollbars: drawn by ScrollArea over the right edge (vertical) and the bottom edge (horizontal), hidden from assistive technology. There are no parts to add.
 - `ScrollAreaTextarea`: a native `<textarea>` with the same scrollbar, in a wrapper that holds both.
+- `useScrollAreaRails`: the same scrollbars over an element that scrolls itself.
 
 ## Variants
 
@@ -117,9 +119,20 @@ A `<textarea>` scrolls itself and can't hold the scrollbar, so `ScrollAreaTextar
 scroll-area/compositions/textarea
 ```
 
+### Over an element that scrolls itself
+
+Some elements scroll themselves and can't become a ScrollArea: a list that measures and scrolls its own container ([VirtualList](../virtual-list/virtual-list.md) with `scrollbar`), or a `<textarea>`. `useScrollAreaRails(scrollerRef, options)` lays the same scrollbars over such an element without wrapping its content or adding a scroll container. It takes `orientation`, `trigger`, `size`, `hideDelay`, `overscroll`, `railInset`, `onEdgeChange` and `onScroll` as ScrollArea does, and returns:
+
+- `className` and `style`, for the scroller: the block's classes and `railInset`. They leave its overflow, focus and layout alone, and hide its native scrollbar.
+- `rails`, the scrollbars: render them as the scroller's first child, a layer with no height that takes no room.
+- `onScroll`, to call from the scroller's scroll handler, and `measure`, for a size change nothing observed reports. It watches the scroller and `contentRef`, or with `observeChildren` each of the scroller's children (a list with a header and a footer).
+- `scrollable`, whether there is something to scroll, for the scroller's `tabIndex`.
+
+An element that can't hold children, such as a `<textarea>`, goes in a wrapper: pass the wrapper as `wrapperRef`, put `className`, `style` and `rails` on it, and `scrollerClassName` on the scroller, its child, which fills it. `enabled={false}` turns the scrollbars off with nothing measured or written. With `overscroll="auto"` the element keeps its own `overscroll-behavior`.
+
 ## Styling
 
-ScrollArea is plain CSS (`scroll-area.css`, in the `components` layer, shipped in `styles.css`), so a utility in its `className` overrides it. Its classes are `r-scroll-area` with the modifiers above, and `__content` for the element around the children. The look is set by variables on the area: `--r-scroll-area-thumb-size-{small,medium}` and `-thumb-size-hover-{small,medium}`, `--r-scroll-area-thumb-color` and `-thumb-color-hover`, `--r-scroll-area-rail-gap` (3px, between the thumb and the edge) and `--r-scroll-area-fade-size`.
+ScrollArea is plain CSS (`scroll-area.css`, in the `components` layer, shipped in `styles.css`), so a utility in its `className` overrides it. Its classes are `r-scroll-area` with the modifiers above, and `__content` for the element around the children; `useScrollAreaRails` adds `--external` (and `--wrapper`, with `__scroller` on the scroller). The look is set by variables on the area: `--r-scroll-area-thumb-size-{small,medium}` and `-thumb-size-hover-{small,medium}`, `--r-scroll-area-thumb-color` and `-thumb-color-hover`, `--r-scroll-area-rail-gap` (3px, between the thumb and the edge) and `--r-scroll-area-fade-size`.
 
 ## Accessibility
 

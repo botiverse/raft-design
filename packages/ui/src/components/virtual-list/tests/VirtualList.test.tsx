@@ -1,6 +1,6 @@
 /** @vitest-environment jsdom */
 import { createRef, StrictMode, useLayoutEffect, useRef } from "react";
-import { cleanup, render, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
 import { VirtualList } from "../index";
@@ -243,6 +243,108 @@ describe("VirtualList", () => {
     rerender(list(true));
     expect(wheelListeners()).toBe(1);
     added.mockRestore();
+  });
+});
+
+const SCROLLBAR_OPTIONS = { railInset: { top: 32 }, trigger: "scroll" } as const;
+const ONE_COLUMN = [{ width: 300 }];
+const renderNoCol = () => null;
+
+describe("VirtualList scrollbar", () => {
+  /** jsdom lays nothing out: the list is 100px high with 400px to scroll. */
+  const stubListGeometry = () => {
+    const sizes: Record<string, number> = {
+      clientHeight: 100,
+      clientWidth: 200,
+      scrollHeight: 400,
+      scrollWidth: 200,
+    };
+    for (const [key, value] of Object.entries(sizes)) {
+      vi.spyOn(HTMLElement.prototype, key as "clientHeight", "get").mockImplementation(function (
+        this: HTMLElement,
+      ) {
+        return this.classList.contains("r-virtual-list") ? value : 0;
+      });
+    }
+  };
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("draws no overlay scrollbar by default: the list's children are its own", () => {
+    const { container } = render(
+      <VirtualList items={items} getKey={getKey} itemEstimatedSize={40} itemMinSize={20}>
+        {renderRow}
+      </VirtualList>,
+    );
+    const list = container.firstElementChild as HTMLElement;
+    expect(list.querySelector(".r-scroll-area__rails")).toBeNull();
+    expect(list.className).not.toContain("r-scroll-area");
+    expect((list.children[0] as HTMLElement).dataset.slot).toBe("virtual-list-items");
+  });
+
+  it("lays ScrollArea's rails over its own scroller with scrollbar, following its scroll", () => {
+    stubListGeometry();
+    const onScroll = vi.fn();
+    const { container } = render(
+      <VirtualList
+        items={items}
+        getKey={getKey}
+        itemEstimatedSize={40}
+        itemMinSize={20}
+        onScroll={onScroll}
+        scrollbar={SCROLLBAR_OPTIONS}
+        style={ZERO_HEIGHT}
+      >
+        {renderRow}
+      </VirtualList>,
+    );
+    const list = container.firstElementChild as HTMLElement;
+    // The list is still the scroller (no wrapper, no nested scroller); the rails are its first child.
+    expect(list.dataset.slot).toBe("virtual-list");
+    expect(list.classList).toContain("r-virtual-list");
+    expect(list.classList).toContain("r-scroll-area");
+    expect(list.classList).toContain("r-scroll-area--external");
+    expect(list.classList).toContain("r-scroll-area--scroll-trigger");
+    expect(list.classList).not.toContain("r-scroll-area--wrapper");
+    // overscroll="auto": the list keeps its own overscroll-behavior.
+    expect(list.className).not.toMatch(/overscroll/);
+    const rails = list.children[0] as HTMLElement;
+    expect(rails.className).toBe("r-scroll-area__rails");
+    expect(rails.getAttribute("aria-hidden")).toBe("true");
+    expect((list.children[1] as HTMLElement).dataset.slot).toBe("virtual-list-items");
+    expect(list.style.height).toBe("0px");
+    expect(list.style.getPropertyValue("--r-scroll-area-rail-inset-top")).toBe("32px");
+    expect(list.style.getPropertyValue("--r-scroll-area-viewport-height")).toBe("100px");
+    const thumb = list.querySelector<HTMLElement>(".r-scroll-area__thumb")!;
+    expect(thumb.style.getPropertyValue("--r-scroll-area-thumb-ratio")).toBe("0.25");
+
+    list.scrollTop = 150;
+    fireEvent.scroll(list);
+    expect(onScroll).toHaveBeenCalledTimes(1);
+    expect(list.classList).toContain("r-scroll-area--scrolling");
+    expect(thumb.style.getPropertyValue("--r-scroll-area-thumb-progress")).toBe("0.5");
+    // The list stays focusable as before, whatever the scrollbar says.
+    expect(list.tabIndex).toBe(0);
+  });
+
+  it("scrolls both ways with columns", () => {
+    const { container } = render(
+      <VirtualList
+        items={items}
+        getKey={getKey}
+        itemEstimatedSize={40}
+        itemMinSize={20}
+        columns={ONE_COLUMN}
+        renderCol={renderNoCol}
+        scrollbar
+      >
+        {renderRow}
+      </VirtualList>,
+    );
+    const list = container.firstElementChild as HTMLElement;
+    expect(list.classList).toContain("r-scroll-area--both-orientation");
+    expect(list.classList).toContain("r-virtual-list--x-scrollable");
   });
 });
 

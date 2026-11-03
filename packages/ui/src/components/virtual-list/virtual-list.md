@@ -28,6 +28,7 @@ virtual-list/compositions/basic
 ## Anatomy
 
 - `VirtualList`: the scroll container. It is its own native scroller (`overflow-y: auto`), not a ScrollArea, and hides the native scrollbar unless `showScrollbar`. `data-slot="virtual-list"`.
+  - The scrollbar, with `scrollbar`: [ScrollArea](../scroll-area/scroll-area.md)'s thin overlay scrollbar, drawn over the scroller by `useScrollAreaRails` ([Over an element that scrolls itself](../scroll-area/scroll-area.md#over-an-element-that-scrolls-itself)). Its layer is the scroller's first child, zero high, so it takes no room and the rows are where they are without it.
   - `header`: optional, above the rows, inside the scroller.
   - The spacer, `data-slot="virtual-list-items"`: as tall as every row together, with `paddingTop` above the first row.
   - The rows, in `data-slot="virtual-list-visible-items"`: what `children` (a function) or `ItemComponent` renders for each item in view. Put `domRef` on the row's root element and spread `style` on it; `style` is set only for a row kept mounted outside the view.
@@ -87,6 +88,7 @@ virtual-list/compositions/chat
 - The row that holds focus stays mounted, at its place, when it scrolls out of view: by End or Page Down, which the browser handles by scrolling the list, by the wheel or by the scrollbar. Unmounting it would drop focus to the page, and the next Tab would start from the top. Once focus leaves the row, it unmounts when it is out of view. Switching to another window or tab doesn't count: the row keeps focus, and is still there when the person comes back. This needs `itemResizable`, which marks each row with its key.
 - `virtual={false}` renders every row in flow. With `itemResizable`, the row at the top of the view keeps its place when virtualization is switched off; switching it back on keeps the measurements, not the position.
 - `columns` with `renderCol` or `renderItemWithCols` scrolls sideways too and renders only the columns in view.
+- `scrollbar` (`true`, or `{ trigger, size, hideDelay, railInset }`, each as on ScrollArea; off by default) draws ScrollArea's overlay scrollbar over the list: horizontal too with `columns`, with the native scrollbar hidden even with `showScrollbar`. It only follows the list: scrolling, anchoring, the keys, jumps and `onScroll` are the list's own, as without it, and the list keeps its own `overscroll-behavior`. The thumb can be dragged and a press on the rail pages, both by scrolling the list. Give a sticky `header` its height in `railInset`. The list renders again only when scrolling starts or stops or an edge flips, and rows that stay in view are not rendered again.
 - On iOS, size changes above the view during a fling are applied as a transform and written to the scroll position after it, because writing it stops the fling.
 - A new `sessionId` resets the list: scroll position, measurements and rows.
 

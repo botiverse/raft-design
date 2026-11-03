@@ -1,29 +1,13 @@
 import { useImperativeHandle, useLayoutEffect, useRef } from "react";
-import type { CSSProperties } from "react";
 import { cn } from "../../lib/cn";
 import { useMergedRef } from "../../lib/use-merged-ref";
 import "./scroll-area.css";
 import { scrollAreaClassNames } from "./class-names";
 import { ScrollAreaRails } from "./scroll-area-rails";
 import { scrollToElement } from "./scroll-to-element";
-import type { ScrollAreaOrientation, ScrollAreaProps, ScrollAreaRailInset } from "./types";
+import type { ScrollAreaOrientation, ScrollAreaProps } from "./types";
+import { railInsetStyle } from "./use-scroll-area-rails";
 import { effectiveHideDelay, useScrollbars } from "./use-scrollbars";
-
-const railInsetEdges = ["top", "bottom", "left", "right"] as const;
-
-/** `railInset` as the CSS variables the rails read, on top of the caller's `style`. */
-function railInsetStyle(
-  railInset: ScrollAreaRailInset | undefined,
-  style: CSSProperties | undefined,
-): CSSProperties | undefined {
-  if (!railInset) return style;
-  const vars: Record<string, string> = {};
-  for (const edge of railInsetEdges) {
-    const value = railInset[edge];
-    if (value !== undefined) vars[`--r-scroll-area-rail-inset-${edge}`] = `${value}px`;
-  }
-  return { ...style, ...vars };
-}
 
 /**
  * A scrolling box with thin overlay scrollbars that look the same on every

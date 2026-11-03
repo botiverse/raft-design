@@ -266,6 +266,14 @@
         "from": "raft-ui"
       },
       {
+        "name": "scrollbar",
+        "type": "boolean | VirtualListScrollbarOptions",
+        "required": false,
+        "default": "false",
+        "description": "Draw ScrollArea's thin overlay scrollbar over the list (`true`, or its options), over the list's own scroll container: the list still scrolls, anchors, pages and jumps itself, and its native scrollbar stays hidden. Vertical, and horizontal too with `columns`.",
+        "from": "raft-ui"
+      },
+      {
         "name": "sessionId",
         "type": "string",
         "required": false,
@@ -277,7 +285,7 @@
         "type": "boolean",
         "required": false,
         "default": "false",
-        "description": "Show the scroller's native scrollbar (hidden by default).",
+        "description": "Show the scroller's native scrollbar (hidden by default). `scrollbar` replaces it.",
         "from": "raft-ui"
       },
       {

@@ -18,7 +18,6 @@ export const markdown = tv({
     blockquote: ["my-1 border-l-2 border-line-seam pl-2.5", "text-foreground-muted not-italic"],
     rule: ["my-3 border-0 border-t border-line-hairline"],
     tableScroll: [
-      "overflow-x-auto",
       "my-2 w-fit max-w-full",
       "rounded-container border border-line-hairline bg-layer-card",
     ],

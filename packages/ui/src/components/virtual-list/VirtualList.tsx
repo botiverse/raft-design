@@ -3,6 +3,8 @@
  *
  * DOM:
  *   div[data-slot=virtual-list]              the scroll container (overflow-anchor: none)
+ *     div.r-scroll-area__rails                with `scrollbar` only: ScrollArea's overlay scrollbars
+ *                                            (`useScrollAreaRails`), a zero-height sticky layer
  *     header
  *     div[data-slot=virtual-list-items]      height = sum of all item sizes (min-height with
  *                                            itemResizable), padding-top = paddingTop
@@ -57,6 +59,7 @@ import type {
   Column,
   ScrollAlign,
   VirtualListScrollToOptions,
+  VirtualListScrollbarOptions,
   VirtualListApi,
   VirtualListProps,
   ItemRenderProps,
@@ -78,6 +81,7 @@ import { ResizeObserverWrapper } from "./resize-observer/ResizeObserverWrapper";
 import { getResizeObserverDelegate } from "./resize-observer/resize-observer-delegate";
 import { useIosMomentumCompensation } from "./hooks/use-ios-momentum-compensation";
 import { useKeyboardScroll } from "./hooks/use-keyboard-scroll";
+import { useScrollAreaRails } from "../scroll-area/use-scroll-area-rails";
 import { useNonVirtualContentResize } from "./hooks/use-non-virtual-content-resize";
 import { useScrollAnchor } from "./hooks/use-scroll-anchor";
 import { VirtualListContext } from "./VirtualListContext";
@@ -129,6 +133,8 @@ interface FlowRow {
   index: number;
 }
 
+const EMPTY_SCROLLBAR_OPTIONS: VirtualListScrollbarOptions = {};
+
 type RenderState = [reason: RenderReason | null, callback: (() => void) | null, version: number];
 
 /** React's onScroll of the list element (scroll events do not bubble), read as `event.target.scrollTop`. */
@@ -139,6 +145,7 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     virtual = true,
     sessionId,
     showScrollbar = false,
+    scrollbar = false,
     columns = EMPTY_ARRAY,
     renderCol,
     renderItemWithCols,
@@ -187,6 +194,22 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
   const listElRef = useRef<HTMLDivElement | null>(null);
   const [mergedListRefSetter] = useMergedRef(domRef, listElRef);
   const itemsElRef = useRef<HTMLDivElement | null>(null);
+  const scrollbarOptions = scrollbar === true ? EMPTY_SCROLLBAR_OPTIONS : scrollbar || null;
+  /*
+   * ScrollArea's overlay scrollbars, over the list's own scroll container: they only read it (each
+   * scroll event, and its children's resizes) and never scroll it but from a drag or a press on a
+   * rail. `overscroll="auto"` keeps the list's own `overscroll-behavior`.
+   */
+  const scrollbars = useScrollAreaRails(listElRef, {
+    enabled: scrollbarOptions !== null,
+    hideDelay: scrollbarOptions?.hideDelay,
+    observeChildren: true,
+    orientation: columns.length !== 0 ? "both" : "vertical",
+    overscroll: "auto",
+    railInset: scrollbarOptions?.railInset,
+    size: scrollbarOptions?.size,
+    trigger: scrollbarOptions?.trigger,
+  });
   const getVisibleItemsEl = useCallback(() => itemsElRef.current?.children[0] || null, []);
   const [[renderReason, renderCallback, renderVersion], setRenderState] = useState<RenderState>([
     null,
@@ -1464,6 +1487,8 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
       }
       onScroll?.(event.nativeEvent);
     }
+    // The scrollbars follow every scroll, the suppressed ones too: the list did move.
+    scrollbars.onScroll(event);
   });
   /**
    * With `catchWheel` (and a fine pointer): scrolls by the wheel itself (`preventDefault`, then
@@ -1934,7 +1959,13 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     printable === true && "r-virtual-list--printable",
     emptyCentered && "r-virtual-list--empty-centered",
     iosCompensationEnabled && "r-virtual-list--ios-compensation-enabled",
+    scrollbars.className,
     className,
+  );
+  const scrollbarsStyle = scrollbars.style;
+  const rootStyle = useMemo(
+    () => (scrollbarsStyle ? { ...style, ...scrollbarsStyle } : style),
+    [style, scrollbarsStyle],
   );
   return (
     <ResizeObserverWrapper
@@ -1947,12 +1978,13 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
           {...nativeProps}
           data-slot="virtual-list"
           className={rootClassName}
-          style={style}
+          style={rootStyle}
           onScroll={handleListScroll}
           ref={ref}
           onKeyDown={onKeyDown}
           tabIndex={focusable ? 0 : -1}
         >
+          {scrollbars.rails}
           {header}
           {hasItems ? (
             <div

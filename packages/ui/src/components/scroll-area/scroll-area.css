@@ -8,10 +8,13 @@
  * `--{vertical,horizontal,both}-orientation`, `--{none,contain}-overscroll-{y,x}`,
  * `--fade`, `--rtl`, `--overflow-{y,x}-{start,end}` (more content past that
  * edge; `x` is inline), `--scrolling` (from the first scroll until `hideDelay`
- * after the last), `--dragging` and `--textarea`; `__rails` (a zero-height
- * layer stuck to the top of the viewport), `__rail` (`--vertical`,
- * `--horizontal`, `--shortened`, `--dragging`), `__thumb`, `__content` and
- * `__textarea`.
+ * after the last), `--dragging`, `--external` (the block is an element that
+ * scrolls itself and only takes the rails: `useScrollAreaRails`), `--wrapper`
+ * (the block wraps the scroller, which can't hold the rails) and `--textarea`;
+ * `__rails` (a zero-height layer stuck to the top of the viewport, or pinned
+ * to the wrapper's top), `__rail` (`--vertical`, `--horizontal`, `--shortened`,
+ * `--dragging`), `__thumb`, `__content`, `__scroller` (the scroller inside a
+ * `--wrapper`) and `__textarea`.
  *
  * In the `components` layer, so a utility in the caller's `className`
  * (`h-*`, `max-h-*`, `absolute`) overrides these rules.
@@ -150,22 +153,40 @@
     --r-scroll-area-rail-right-shortened: calc(
       var(--r-scroll-area-rail-size) + var(--r-scroll-area-rail-inset-right)
     );
-
+  }
+  /*
+   * A ScrollArea is the scroll container. An `--external` block is not: it is
+   * an element that scrolls itself (its own overflow, layout and focus), or a
+   * wrapper around one, and only takes the rails and their variables.
+   */
+  .r-scroll-area:not(.r-scroll-area--external) {
     overflow: hidden auto;
     position: relative;
     scrollbar-width: none;
   }
-  .r-scroll-area::-webkit-scrollbar {
+  .r-scroll-area:not(.r-scroll-area--external)::-webkit-scrollbar {
     display: none;
+  }
+  /* The overlay scrollbars replace the native ones of the element that scrolls. */
+  .r-scroll-area.r-scroll-area--external:not(.r-scroll-area--wrapper),
+  .r-scroll-area.r-scroll-area--wrapper > .r-scroll-area__scroller {
+    scrollbar-width: none;
+  }
+  .r-scroll-area.r-scroll-area--external:not(.r-scroll-area--wrapper)::-webkit-scrollbar,
+  .r-scroll-area.r-scroll-area--wrapper > .r-scroll-area__scroller::-webkit-scrollbar {
+    display: none;
+  }
+  .r-scroll-area.r-scroll-area--wrapper {
+    position: relative;
   }
   .r-scroll-area.r-scroll-area--small {
     --r-scroll-area-thumb-size: var(--r-scroll-area-thumb-size-small);
     --r-scroll-area-thumb-size-hover: var(--r-scroll-area-thumb-size-hover-small);
   }
-  .r-scroll-area.r-scroll-area--horizontal-orientation {
+  .r-scroll-area.r-scroll-area--horizontal-orientation:not(.r-scroll-area--external) {
     overflow: auto hidden;
   }
-  .r-scroll-area.r-scroll-area--both-orientation {
+  .r-scroll-area.r-scroll-area--both-orientation:not(.r-scroll-area--external) {
     overflow: auto;
   }
 
@@ -177,6 +198,7 @@
    * axis has a rail), so a strip that only overflows sideways never holds back
    * the page's vertical scroll. Each sets one axis only and never `auto`, so it
    * doesn't override a caller's own `overscroll-behavior` on the other axis.
+   * In a `--wrapper` the scroller takes them (below).
    */
   .r-scroll-area.r-scroll-area--contain-overscroll-y {
     overscroll-behavior-y: contain;
@@ -192,7 +214,7 @@
   }
 
   /* Keyboard focus only: --focus-ring is empty after a click or a tap (styles.css). */
-  .r-scroll-area:focus-visible {
+  .r-scroll-area:not(.r-scroll-area--external):focus-visible {
     box-shadow: var(--focus-ring);
     outline: none;
   }
@@ -271,33 +293,36 @@
   }
 
   /*
-   * A textarea scrolls itself and can't hold the rails, so the block is a
-   * wrapper around it: the textarea fills it, hides its native scrollbar, and
-   * the rails layer is pinned to the wrapper's top instead of stuck. The rails
+   * An element that can't hold the rails (a textarea) sits in a `--wrapper`
+   * block: the scroller fills it and hides its native scrollbar, and the
+   * rails layer is pinned to the wrapper's top instead of stuck. The rails
    * lie over the wrapper's padding box, so frame the wrapper (border,
-   * background) and pad the textarea.
+   * background) and pad the scroller.
    */
+  .r-scroll-area.r-scroll-area--wrapper.r-scroll-area--contain-overscroll-y
+    > .r-scroll-area__scroller {
+    overscroll-behavior-y: contain;
+  }
+  .r-scroll-area.r-scroll-area--wrapper.r-scroll-area--contain-overscroll-x
+    > .r-scroll-area__scroller {
+    overscroll-behavior-x: contain;
+  }
+  .r-scroll-area.r-scroll-area--wrapper.r-scroll-area--none-overscroll-y
+    > .r-scroll-area__scroller {
+    overscroll-behavior-y: none;
+  }
+  .r-scroll-area.r-scroll-area--wrapper.r-scroll-area--none-overscroll-x
+    > .r-scroll-area__scroller {
+    overscroll-behavior-x: none;
+  }
   .r-scroll-area.r-scroll-area--textarea {
     display: grid;
-    overflow: visible;
   }
   .r-scroll-area.r-scroll-area--textarea > .r-scroll-area__textarea {
     box-sizing: border-box;
     min-block-size: 0;
     /* Drag the corner to make it taller; widening would outgrow the frame. */
     resize: vertical;
-    scrollbar-width: none;
-  }
-  .r-scroll-area.r-scroll-area--textarea > .r-scroll-area__textarea::-webkit-scrollbar {
-    display: none;
-  }
-  .r-scroll-area.r-scroll-area--textarea.r-scroll-area--contain-overscroll-y
-    > .r-scroll-area__textarea {
-    overscroll-behavior-y: contain;
-  }
-  .r-scroll-area.r-scroll-area--textarea.r-scroll-area--none-overscroll-y
-    > .r-scroll-area__textarea {
-    overscroll-behavior-y: none;
   }
 
   .r-scroll-area > .r-scroll-area__rails {
@@ -309,9 +334,18 @@
     user-select: none;
     z-index: 1;
   }
-  .r-scroll-area.r-scroll-area--textarea > .r-scroll-area__rails {
+  .r-scroll-area.r-scroll-area--wrapper > .r-scroll-area__rails {
     inset-inline-end: 0;
     position: absolute;
+  }
+  /*
+   * In an element that scrolls itself the layer is its first child, so it
+   * stays a zero-height row of the full width when that element lays its
+   * children out as a flex column too.
+   */
+  .r-scroll-area.r-scroll-area--external:not(.r-scroll-area--wrapper) > .r-scroll-area__rails {
+    align-self: stretch;
+    flex-shrink: 0;
   }
 
   /*
@@ -459,6 +493,12 @@
     > .r-scroll-area__thumb {
     background: var(--r-scroll-area-thumb-color-hover);
     block-size: var(--r-scroll-area-thumb-size-hover);
+  }
+
+  @media print {
+    .r-scroll-area > .r-scroll-area__rails {
+      display: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

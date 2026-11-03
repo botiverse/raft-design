@@ -100,7 +100,7 @@
   {
     "name": "ScrollAreaTextarea",
     "entry": "@botiverse/raft-ui",
-    "description": "A native `<textarea>` with ScrollArea's overlay scrollbar. The textarea scrolls itself (it can't hold the rails), so a wrapper holds both and the rails lie over the textarea's box. Its own `scrollHeight` is the content size: it is measured on every input and render, and when the box resizes. Native props, `ref` and `onScroll` go to the textarea.",
+    "description": "A native `<textarea>` with ScrollArea's overlay scrollbar. The textarea scrolls itself (it can't hold the rails), so a wrapper holds both and the rails lie over the textarea's box (`useScrollAreaRails` with a wrapper). Its own `scrollHeight` is the content size: it is measured on every input and render, and when the box resizes. Native props, `ref` and `onScroll` go to the textarea.",
     "native": true,
     "props": [
       {

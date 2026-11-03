@@ -1,4 +1,11 @@
-import type { ComponentPropsWithRef, CSSProperties, ReactNode, Ref } from "react";
+import type {
+  ComponentPropsWithRef,
+  CSSProperties,
+  ReactNode,
+  Ref,
+  RefObject,
+  UIEvent,
+} from "react";
 
 /**
  * `hover` shows the scrollbars while the pointer is over the area or it
@@ -111,3 +118,58 @@ export type ScrollAreaTextareaOwnProps = {
 /** Native textarea props; `ref`, `className`, `style` and `onScroll` go to the textarea. */
 export type ScrollAreaTextareaProps = ScrollAreaTextareaOwnProps &
   Omit<ComponentPropsWithRef<"textarea">, keyof ScrollAreaTextareaOwnProps>;
+
+/** Options of `useScrollAreaRails`: ScrollArea's scrollbar props, for an element that scrolls itself. */
+export type ScrollAreaRailsOptions<E extends HTMLElement = HTMLElement> = {
+  /** The directions the element scrolls in, each with its own scrollbar. */
+  orientation?: ScrollAreaOrientation;
+  /** When the scrollbars show, as on ScrollArea. */
+  trigger?: ScrollAreaTrigger;
+  /** Thumb thickness, as on ScrollArea. */
+  size?: ScrollAreaSize;
+  /** How long the scrollbars stay after scrolling stops, as on ScrollArea. */
+  hideDelay?: number;
+  /**
+   * What a scroll that reaches the end does, as on ScrollArea (`none` by default). `auto` adds no
+   * `overscroll-behavior`, so the element keeps its own.
+   */
+  overscroll?: ScrollAreaOverscroll;
+  /** Room in px the scrollbars keep clear at each end, as on ScrollArea. */
+  railInset?: ScrollAreaRailInset;
+  /** Called when the element reaches or leaves an edge, as on ScrollArea. */
+  onEdgeChange?: (edges: ScrollAreaEdges) => void;
+  /** Called from the returned `onScroll`, after the scrollbars have followed. */
+  onScroll?: (event: UIEvent<E>) => void;
+  /**
+   * The element that holds the rails when the scroller can't (a `<textarea>`): a wrapper whose
+   * direct child is the scroller, filling it. Without it the scroller holds them.
+   */
+  wrapperRef?: RefObject<HTMLElement | null>;
+  /** The scroller's content, watched for size changes; the scroller itself when absent. */
+  contentRef?: RefObject<HTMLElement | null>;
+  /**
+   * Also watch every element child of the scroller for size changes, and children added or
+   * removed: for a scroller whose content isn't one element, such as a list with a header.
+   */
+  observeChildren?: boolean;
+  /** Off: no scrollbars, nothing measured or written; `onScroll` only calls the option's. Default on. */
+  enabled?: boolean;
+};
+
+/** What `useScrollAreaRails` hands back to put on the scroller (or the wrapper). */
+export type ScrollAreaRailsResult<E extends HTMLElement = HTMLElement> = {
+  /** For the element that holds the rails (the scroller, or `wrapperRef`'s): the block and its modifiers. */
+  className: string | undefined;
+  /** For the same element: `railInset` as CSS variables. Merge it with your own style. */
+  style: CSSProperties | undefined;
+  /** With `wrapperRef`: for the scroller, which hides its native scrollbar and takes `overscroll`. */
+  scrollerClassName: string | undefined;
+  /** Call it from the scroller's scroll handler (or pass it as `onScroll`). */
+  onScroll: (event: UIEvent<E>) => void;
+  /** The scrollbars: the first child of the scroller, or a child of the wrapper. `null` when off. */
+  rails: ReactNode;
+  /** Measures again now, for a size change nothing observed reports. */
+  measure: () => void;
+  /** Whether there is something to scroll, so the element should be a tab stop. */
+  scrollable: boolean;
+};

@@ -2,6 +2,7 @@
  * @vitest-environment jsdom
  */
 import { afterEach, expect, test } from "vite-plus/test";
+import { createRef } from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Composer, ComposerInput } from "./composer";
@@ -53,4 +54,29 @@ test("consumers that already opt in merge cleanly and can still retune the cap",
   expect(classes.filter((name) => name === "field-sizing-content")).toHaveLength(1);
   expect(classes).toContain("max-h-60");
   expect(classes).not.toContain("max-h-32");
+});
+
+test("is a ScrollAreaTextarea: the textarea keeps the ref and props, a frame holds it and the scrollbar", () => {
+  const ref = createRef<HTMLTextAreaElement>();
+  render(
+    <ThemeProvider>
+      <Composer>
+        <ComposerInput aria-label="Message #design" ref={ref} wrapperClassName="frame" />
+      </Composer>
+    </ThemeProvider>,
+  );
+  const input = screen.getByRole("textbox", { name: "Message #design" });
+  expect(ref.current).toBe(input);
+  expect(input.dataset.slot).toBe("composer-input");
+  expect(input.classList).toContain("r-scroll-area__textarea");
+  const frame = input.parentElement!;
+  expect(frame.dataset.slot).toBe("scroll-area-textarea");
+  expect(frame.classList).toContain("r-scroll-area--textarea");
+  expect(frame.classList).toContain("frame");
+  // It doesn't resize, so the scrollbar keeps no room for a grip.
+  expect(frame.classList).toContain("[--r-scroll-area-resize-grip-size:0px]");
+  expect(frame.querySelector(":scope > .r-scroll-area__rails")?.getAttribute("aria-hidden")).toBe(
+    "true",
+  );
+  expect(frame.parentElement?.dataset.slot).toBe("composer");
 });

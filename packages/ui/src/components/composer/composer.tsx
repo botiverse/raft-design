@@ -2,6 +2,8 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { Button } from "../button/button";
+import { ScrollAreaTextarea } from "../scroll-area/scroll-area-textarea";
+import type { ScrollAreaTextareaProps } from "../scroll-area/types";
 import type { ButtonProps } from "../button/button";
 import { composer as composerRecipe } from "./composer.recipe";
 
@@ -21,21 +23,25 @@ export function Composer({ className, render, ...props }: ComposerProps) {
   });
 }
 
-export type ComposerInputProps = useRender.ComponentProps<"textarea">;
+/**
+ * A native `<textarea>` with ScrollArea's overlay scrollbar (`ScrollAreaTextarea`): `ref`,
+ * `className` and the native props go to the textarea; `wrapperClassName` to the element that holds
+ * it and the scrollbar; `trigger`, `size`, `hideDelay` and `overscroll` as on ScrollArea.
+ */
+export type ComposerInputProps = ScrollAreaTextareaProps;
 
-export function ComposerInput({ className, render, ...props }: ComposerInputProps) {
-  const { input } = composerRecipe();
-  const defaultProps: SlotElementProps<"textarea"> = {
-    rows: 1,
-    "data-slot": "composer-input",
-    className: input({ className }),
-  };
+export function ComposerInput({ className, wrapperClassName, ...props }: ComposerInputProps) {
+  const { input, inputFrame } = composerRecipe();
 
-  return useRender({
-    defaultTagName: "textarea",
-    render,
-    props: mergeProps<"textarea">(defaultProps, props),
-  });
+  return (
+    <ScrollAreaTextarea
+      rows={1}
+      data-slot="composer-input"
+      {...props}
+      className={input({ className })}
+      wrapperClassName={inputFrame({ className: wrapperClassName })}
+    />
+  );
 }
 
 export type ComposerToolbarProps = useRender.ComponentProps<"div">;
