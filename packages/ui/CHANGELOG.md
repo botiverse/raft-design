@@ -1,3 +1,41 @@
+## [0.60.0](https://github.com/botiverse/raft-design/compare/v0.59.2...v0.60.0) (2026-11-03)
+
+### Breaking Changes
+
+- **ScrollArea**: rebuilt on native scrolling. ScrollArea is now one element, the container that scrolls, with thin overlay scrollbars drawn over it the same way on every platform; wheel, trackpad, touch and keyboard scrolling stay the browser's own, the thumb can be dragged, and a press on the rail pages. ([#952](https://github.com/botiverse/raft-design/pull/952), [#971](https://github.com/botiverse/raft-design/pull/971))
+  - Why: the Base UI parts split one scroller across a root, a viewport and scrollbar elements, so a list that owned its own scroller (a virtual list, a textarea) could not have the same scrollbar; the scrollbars are now a layer any scroller can bind.
+  - Affects: `ref`, `className`, `style`, `onScroll`, `render` and the native props go on the element that scrolls. Options: `orientation`, `trigger` (`hover` / `scroll` / `none`), `size`, `fade`, `overscroll`, `railInset`, `hideDelay`, `onEdgeChange`, `actionsRef` (`scrollToElement`, `measure`), `contentRef`, `contentClassName` / `contentStyle`. Thumb thickness, colour, minimum length and the gap to the edge are `--r-scroll-area-*` variables. The styles ship in `styles.css`.
+  - Migrate: remove `ScrollAreaViewport`, `ScrollAreaScrollbar`, `ScrollAreaThumb`, `ScrollAreaCorner` and their props types; put what you passed to the viewport on `ScrollArea` itself. A container laid out as a grid, a flex row or a flex column with `gap` puts that layout on a wrapper (`contentClassName`), or binds the container with `useScrollAreaContainer({ guttersPosition: "absolute" })`.
+  - Docs: https://raft-design.botiverse.build/components/scroll-area/
+- **ComposerInput**: the textarea gets ScrollArea's overlay scrollbar and is wrapped in a frame that holds it; it no longer takes `render`. ([#952](https://github.com/botiverse/raft-design/pull/952))
+  - Why: past its maximum height the composer showed the platform's own scrollbar, unlike every other scroller.
+  - Affects: `ref`, `className` and the native props still go to the `textarea`; `wrapperClassName` styles the frame; `trigger`, `size`, `hideDelay` and `overscroll` work as on ScrollArea.
+  - Migrate: drop `render`; a style meant for the box around the textarea moves to `wrapperClassName`.
+  - Docs: https://raft-design.botiverse.build/components/composer/
+
+### Added
+
+- **useScrollAreaContainer** and **ScrollAreaGutters** (+ types `ScrollAreaContainer`, `ScrollAreaContainerOptions`, `ScrollAreaGuttersProps` and the option types): ScrollArea's scrollbars for an element you render yourself, such as a list's own scroller. The hook returns `containerProps` to spread on your element, `guttersProps` for `<ScrollAreaGutters>`, `frameProps` with absolute gutters, and `measure` / `scrollToElement` / `scrollable`. **ScrollAreaTextarea**: a `textarea` with the same scrollbar. ([#952](https://github.com/botiverse/raft-design/pull/952))
+  - Why: a virtual list or a textarea scrolls an element it renders itself, which a wrapping component can't replace.
+  - Affects: sticky gutters (the default) are a zero-height first child of the container; absolute gutters lie over a frame you render around it.
+  - Docs: https://raft-design.botiverse.build/components/scroll-area/
+- **Kbd**: a `size` prop, `sm` (the default, unchanged) or `md`, a 24px cap on a muted fill for a key that is the content, as in a list of shortcuts (+ type `KbdSize`). ([#969](https://github.com/botiverse/raft-design/pull/969))
+  - Why: a shortcuts list drew its keys at the hint size, too small to read as the content of the row.
+  - Affects: `md` is 24px high, at least 24px wide, `rounded-sticker`, `bg-fill-muted`, `text-mono-code`. Menu and search-trigger shortcuts keep `sm` (their props omit `size`).
+  - Docs: https://raft-design.botiverse.build/components/kbd/
+
+### Changed
+
+- **MessageList**, **SidebarContent**, **MarkdownTableScroll** and the composer's attachment row: built on the new ScrollArea, so they show the same thin overlay scrollbar. `MarkdownTableScroll` takes ScrollArea's props except `orientation`. ([#952](https://github.com/botiverse/raft-design/pull/952))
+  - Why: each had its own scroller and scrollbar, so the same list looked different from one place to the next.
+  - Docs: https://raft-design.botiverse.build/components/scroll-area/
+
+### Fixed
+
+- **Tooltip**: a shortcut written as a `KbdGroup` sits 6px after the text like a single `Kbd`, and its caps are no longer taken for the tooltip's leading icon. ([#969](https://github.com/botiverse/raft-design/pull/969))
+  - Why: a multi-key shortcut in a tooltip was spaced differently from a single key.
+  - Docs: https://raft-design.botiverse.build/components/tooltip/
+
 ## [0.59.2](https://github.com/botiverse/raft-design/compare/v0.59.1...v0.59.2) (2026-11-03)
 
 ### Fixed
