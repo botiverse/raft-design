@@ -66,9 +66,9 @@ const it = test.skipIf(typeof window === "undefined");
 // Turning touch emulation off again leaves Chromium reporting `pointer: none`,
 // not `fine`, so every mouse screen runs first, before the first finger.
 const SCREENS = [
-  { name: "desktop 1280x800", width: 1280, height: 800, pointer: "fine", size: 32, icon: 18 },
-  { name: "desktop 1440x900", width: 1440, height: 900, pointer: "fine", size: 32, icon: 18 },
-  { name: "short desktop 1280x560", width: 1280, height: 560, pointer: "fine", size: 32, icon: 18 },
+  { name: "desktop 1280x800", width: 1280, height: 800, pointer: "fine", size: 28, icon: 18 },
+  { name: "desktop 1440x900", width: 1440, height: 900, pointer: "fine", size: 28, icon: 18 },
+  { name: "short desktop 1280x560", width: 1280, height: 560, pointer: "fine", size: 28, icon: 18 },
   {
     name: "touch tablet 768x1024",
     width: 768,
@@ -208,9 +208,11 @@ const HEADS: Head[] = [
         <div className="min-w-0 flex-1">
           <SidebarHeaderTitle>Chat</SidebarHeaderTitle>
         </div>
-        <Button variant="ghost" size="icon-lg" aria-label="Notifications" data-testid="end">
-          <Icon id="end-icon" />
-        </Button>
+        <PanelActions>
+          <PanelAction aria-label="Notifications" data-testid="end">
+            <Icon id="end-icon" />
+          </PanelAction>
+        </PanelActions>
       </SidebarHeader>
     ),
   },

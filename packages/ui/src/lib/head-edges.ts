@@ -74,10 +74,10 @@ export const barButton = [
 /**
  * The same from 768px with a mouse or trackpad only, for a bar button that is
  * a 32px `icon-md` on a phone (a dialog's x, the composer's icons): its size,
- * hit area and inset; the corner stays the caller's.
+ * corner, hit area and inset.
  */
 export const barButtonDesktop = [
-  "md:pointer-fine:size-(--bar-button-size)",
+  "md:pointer-fine:size-(--bar-button-size) md:pointer-fine:rounded-(--bar-button-radius)",
   "md:pointer-fine:after:-inset-[calc((var(--control-height)+2*var(--control-hit-inset)-var(--bar-button-size))/2+1.5px)]",
   "md:pointer-fine:[--icon-inset:calc((var(--bar-button-size)-var(--control-icon-size))/2)]",
 ];

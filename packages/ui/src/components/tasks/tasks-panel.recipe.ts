@@ -14,6 +14,8 @@ export const tasksPanel = tv({
       // 16px sides in a narrow panel, 20px in a wide one: by the panel's
       // width like its layout, not the window's.
       "min-h-(--header-height) border-b border-line-seam bg-layer-canvas px-5 py-3",
+      // On a desktop the row is a header: the 38px segmented track and the seam fill 44.
+      "md:pointer-fine:py-[2.5px]",
       "@max-md/tasks:px-4",
     ],
     toolbarGroup: ["flex flex-wrap items-center gap-2"],

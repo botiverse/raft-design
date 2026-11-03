@@ -62,7 +62,7 @@ The web app adds a frame-colored top bar above the rail from 768px, with search 
 app-shell/compositions/web-top-bar
 ```
 
-- Make it 48px high, `layer-frame`, with a `line-seam` along its bottom edge. It keeps 48px in short windows.
+- Make it 44px high, the desktop header: 32px items with 6px above and below, `layer-frame`, with a `line-seam` along its bottom edge. It keeps 44px in short windows.
 - Put the workspace button and the workspace strip on the left, the search field in the center, and who is working and the bell on the right. Keep the search field centered on the window, whatever the two sides hold.
 - Make every control in it a 36px frame item, 6px from the top and bottom. Align the workspace button with the rail's buttons, 8px from the left edge as on the rail. End the icon box of the last icon on the right, the bell's, 20px from the right edge, on the same line as the last icon of the header under it; its button hangs 8px past that line ([Alignment](../foundations/alignment.md#the-ends-of-a-header)).
 - In the desktop app, put Back, Forward and History after the workspace strip, and the update chip before who is working. Leave room for the window's own buttons (the macOS traffic lights on the left, the Windows caption buttons on the right), and keep the search field centered on the window, not on what is left between them.
@@ -71,7 +71,7 @@ app-shell/compositions/web-top-bar
 
 #### Headers
 
-- Make every header under the top bar (the panel header, a side panel's header, a drawer's header) 56px high, so their bottom seams line up across the screen. Heights are in [Spacing](../foundations/spacing.md#heights).
+- Make every header under the top bar (the panel header, a side panel's header, a drawer's header) the header height, 44px on a desktop, so their bottom seams line up across the screen. Heights are in [Spacing](../foundations/spacing.md#heights).
 - Without the top bar (an older desktop build, the public page of a server), the rail header and the sidebar header are 56px too, and the rail header is a square ([Spacing](../foundations/spacing.md#heights)).
 
 ### Foldable phones

@@ -36,7 +36,7 @@ drawer/compositions/responsive-placement
 - `Drawer`: the root. Its `swipeDirection` sets the edge it comes from. Required.
 - `DrawerTrigger`: the button that opens it.
 - `DrawerContent`: the surface, portaled, with the scrim (`DrawerOverlay`) behind it when the drawer is modal. Required. It is `layer-popover` with a `line-seam` edge and `shadow-float`, like every other popup, not an ink border and a hard shadow: every floating surface uses the same shadow ([Elevation](../../../../../design/foundations/elevation.md)).
-- `DrawerHeader`: the title row. In a drawer from the right it is 56px tall, with a `line-seam` under it and `DrawerClose` at its end.
+- `DrawerHeader`: the title row. In a drawer from the right it is the header height (44px on a desktop, 56px on a phone), with a `line-seam` under it and `DrawerClose` at its end.
 - `DrawerTitle`: the title. Required, unless the content has an `aria-label`.
 - `DrawerDescription`: a sentence under the title.
 - `DrawerBody`: the content. It scrolls.

@@ -13,7 +13,9 @@ const panelActionBase = tv({
     // 44px hit area through the overhang; on a phone and on a touch screen
     // the 44px button, its tap target, with no overhang. The ::after is
     // placed from inside the 1.5px border, so it reaches that far too.
-    "px-2 md:pointer-fine:px-[5px]",
+    // On a desktop the padding is what the bar button leaves around its icon
+    // inside the 1.5px border, so an icon-only action is the bar button's size.
+    "px-2 md:pointer-fine:px-[calc((var(--bar-button-size)-var(--control-icon-size)-3px)/2)]",
     barButtonHit,
     "text-foreground",
     "hover:bg-fill-medium active:bg-fill-medium",

@@ -369,40 +369,53 @@
      drawer's head, a rail head. The control height with the header air above and
      below, so the seams of a screen line up. */
   --header-height: calc(var(--control-height) + 2 * var(--header-air));
-  /* The air above and below the control in a header: one control air on a phone
-     and a touch screen (44 + 2 x 6 = 56). */
+  /* The air above and below the control in a header: one control air, so a
+     header is the control height plus 12px (44 + 12 = 56 on a phone and a touch
+     screen, 32 + 12 = 44 on a desktop). */
   --header-air: 6px;
-  /* Every header in a window shorter than 600px. */
+  /* Every header in a window shorter than 600px. On a desktop, a bar button with
+     one air above and below (28 + 12 = 40). */
   --header-height-short: 48px;
   /* An icon button in a bar: a head's actions and its x, the composer's icons, a
-     row's actions. Its hit area still reaches 44px. */
+     row's actions. The control height on a phone and a touch screen; 28px on a
+     desktop, the size of the header's icon tile, so a head's tile and buttons
+     share one size and one centre line. Its hit area still reaches 44px. */
   --bar-button-size: var(--control-height);
-  /* The corner of a bar button, about a quarter of its height. */
+  /* The corner of a bar button, about a quarter of its height: 8px at 44, 6px at
+     28 (the hover toolbar's). */
   --bar-button-radius: 8px;
   /* An item on the frame: the top bar's and the title bar's buttons, the
-     workspace button and the search box. */
+     workspace button and the search box. 36px on a phone and a touch screen; the
+     control height on a desktop, so the top bar is a header (32 + 2 x 6 = 44). */
   --frame-item-height: 36px;
-  /* The switch's track. Its knob is the track height less 8px (a 1.5px border
-     and 2.5px of padding each side) and travels the width less the height. */
+  /* The switch's track: 50 x 30 on a phone and a touch screen, macOS's regular
+     38 x 22 on a desktop. Its knob is the track height less 8px (a 1.5px border
+     and 2.5px of padding each side, so the 1px of track between the knob's ring
+     and the border stays) and travels the width less the height. */
   --switch-width: 50px;
   /* The switch's track height. */
   --switch-height: 30px;
-  /* A sidebar row from 768px, 2px apart; its highlight fills the row. A phone
-     list of places keeps 44px. */
+  /* A sidebar row from 768px, 2px apart; its highlight fills the row. 34px on a
+     desktop, the one desktop row height (menu options too). A phone list of
+     places keeps 44px. */
   --row-height: 38px;
-  /* An option of a popup list or a menu item with one line. */
+  /* An option of a popup list or a menu item with one line: 36px on a phone and
+     a touch screen, the row height (34px) on a desktop. */
   --option-height: 2.25rem;
   /* Above and below the tallest part of a settings row (ListRow plain): two
      airs. */
   --settings-row-inset: calc(2 * var(--control-air));
   /* Between two sections of a form (FormSection), half above and half below the
-     hairline between them. */
+     hairline between them: 32px on a phone and a touch screen, two field gaps
+     (24px) on a desktop. */
   --section-gap: 32px;
-  /* The block inset of a settings page, a drawer's body and a dialog's form. */
+  /* The block inset of a settings page, a drawer's body and a dialog's form:
+     16px on a phone and a touch screen, 20px on a desktop, as its inline inset. */
   --page-inset: 16px;
-  /* The rail, its 1px seam included. Its own size, not the header's. */
+  /* The rail, its 1px seam included: 57px on a touch screen, 49px on a desktop
+     (48 + 1, the short window's rail). Its own size, not the header's. */
   --rail-width: 57px;
-  /* A rail item. */
+  /* A rail item: 40px on a touch screen, 36px on a desktop. */
   --rail-item: 40px;
   /* The message step of a timeline: from the last line of one turn to the first
      line of the next (a sender line, an event line). Every row keeps the row
@@ -656,6 +669,18 @@
     --control-icon-size: 18px;
     --control-hit-inset: 6px;
     --control-embedded-size: 20px;
-    --header-air: 12px;
+    --header-air: var(--control-air);
+    --header-height-short: calc(var(--bar-button-size) + 2 * var(--control-air));
+    --bar-button-size: 28px;
+    --bar-button-radius: 6px;
+    --frame-item-height: var(--control-height);
+    --switch-width: 38px;
+    --switch-height: 22px;
+    --row-height: 34px;
+    --option-height: var(--row-height);
+    --section-gap: calc(2 * var(--field-gap));
+    --page-inset: 20px;
+    --rail-width: 49px;
+    --rail-item: 36px;
   }
 }

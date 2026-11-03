@@ -1,6 +1,6 @@
 ---
 title: Panel
-summary: A column of the desktop main area with a 56px panel header and its own scrolling content; its header is also the top bar of a phone's pushed pages.
+summary: A column of the desktop main area with a panel header (44px on a desktop, 56px on a phone) and its own scrolling content; its header is also the top bar of a phone's pushed pages.
 status: stable
 aliases: [NavBar, Top bar, Panel header]
 layer: core
@@ -34,7 +34,7 @@ How the regions of a screen are arranged, and when a side panel sits beside the 
 ## Anatomy
 
 - `Panel`: the column. `edge="attached"` draws a `line-seam` on its left edge, for a side panel next to a conversation; `edge="inset"` draws none.
-- `PanelHeader`: the 56px header with a `line-seam` under it. Required.
+- `PanelHeader`: the header, 44px on a desktop and 56px on a phone, with a `line-seam` under it. Required. On a desktop it is one line: a `PanelMeta` follows the title on its line and gives up its room first; the icon tile and the actions are 28px (`bar-button-size`) at `radius-chip`.
   - `PanelHeaderIcon`: the location tile of a place, or the avatar of a person. Optional.
   - `PanelHeaderContent`: holds `PanelHeading` and `PanelMeta`.
   - `PanelHeading`: the `PanelTitle`, followed by any `PanelStatus` (a tag such as Archived) or `PanelActivity` (a live status, wrapping a [Status](../status/status.md)).
@@ -42,7 +42,7 @@ How the regions of a screen are arranged, and when a side panel sits beside the 
   - `PanelActions`: the trailing `PanelAction` and `PanelToggleAction` buttons, and any `PanelSplitAction`.
 - `PanelSplitAction`, with `PanelSplitActionMain` (or `PanelSplitActionToggle`) and `PanelSplitActionMenu`: one header action with a menu beside it, such as Comment and its ▾ ([Split actions](#split-actions)). Work in progress: import it from `@botiverse/raft-ui/wip`.
 - `PanelSectionHeader`: the same bar for a section-level view. On a phone it sits on the frame.
-- `PanelHeaderRoot`: the bare 56px bar both headers are built on, for a header with its own layout.
+- `PanelHeaderRoot`: the bare header-height bar both headers are built on, for a header with its own layout.
 - `PanelNotice`, with `PanelNoticeContent` and `PanelNoticeActions`: a full-width strip under the header for a problem in this panel. When to use it instead of a banner is in [Banner](../banner/banner.md). The intent's icon placed before `PanelNoticeContent` leads its first line; while something is still pending, a `Spinner` in a `status="info"` notice takes the icon's place, centered on the first line in the icon's 16px column, as in [Banner](../banner/banner.md); never a status light to say what kind of notice it is, since a status light keeps its own meanings ([Status](../status/status.md#sizes)) ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
 - A panel in a mode the person turned on, such as commenting, shows a [ModeBar](../mode-bar/mode-bar.md) in the same place, dark, instead of a `PanelNotice`.
 - `PanelBody`, `PanelScrollViewport` and `PanelScrollContent`: the content and its single scroll container.

@@ -246,7 +246,11 @@ for (const s of SCREENS) {
     expect(button.radius).toBe("6px");
   });
 
-  it(`${s.name}: the composer's buttons sit 6px inside its frame`, async () => {
+  // On a desktop the composer's icons, the send button among them, are 28px
+  // bar buttons whose glyphs keep the 32px buttons' place across the row, so
+  // each sits 2px further in from the sides (8px); they stay on the toolbar's
+  // bottom line, 6px above the frame.
+  it(`${s.name}: the composer's buttons sit 6px inside its frame (its 28px icons 8px from the sides on a desktop)`, async () => {
     await setScreen(s);
     show(
       <Composer data-testid="composer">
@@ -268,9 +272,10 @@ for (const s of SCREENS) {
     const composer = screen.getByTestId("composer");
     const attach = inset(composer, screen.getByTestId("attach"));
     const send = inset(composer, screen.getByTestId("send"));
-    near(attach.left, 6);
+    const iconInset = s.touch ? 6 : 8;
+    near(attach.left, iconInset);
     near(attach.bottom, 6);
-    near(send.right, 6);
+    near(send.right, iconInset);
     near(send.bottom, 6);
     expect(attach.radius).toBe("6px");
     expect(send.radius).toBe("6px");

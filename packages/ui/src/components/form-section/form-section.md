@@ -34,7 +34,7 @@ FormSection is one part. It renders, in order:
 ## Behavior
 
 - Fields in a section are 12px apart.
-- Sections are 16px apart, with a `line-hairline` between two sections. The first section starts flush with the top of the body.
+- Sections are `section-gap` apart (32px on a phone, 24px on a desktop, half on each side), with a `line-hairline` between two sections. The first section starts flush with the top of the body.
 
 ## Content
 

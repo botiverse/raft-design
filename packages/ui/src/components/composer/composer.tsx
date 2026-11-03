@@ -113,6 +113,6 @@ export function ComposerIconButton({ className, ...props }: ComposerIconButtonPr
 export type ComposerSubmitProps = Omit<ButtonProps, "variant">;
 
 export function ComposerSubmit({ type = "submit", className, ...props }: ComposerSubmitProps) {
-  const { submit } = composerRecipe();
+  const { submit } = composerRecipe({ icon: props.size?.startsWith("icon") ?? false });
   return <Button {...props} className={submit({ className })} type={type} variant="accent" />;
 }

@@ -38,7 +38,7 @@ The four row components share one recipe fragment, `listCell` (`packages/ui/src/
 
 | Part | Value |
 | --- | --- |
-| Row | Full width, no margin, no border, transparent. The whole row is the target. Its height doesn't change: a sidebar row is 38px (44px on a phone). |
+| Row | Full width, no margin, no border, transparent. The whole row is the target. Its height doesn't change: a sidebar row is `row-height`, 34px on a desktop (38px on a touch screen from 768px, 44px on a phone). |
 | State shape | The row's `::before`: as tall as the row, 8px from the start and end, `radius-control` (8px), under the row's content |
 | Gap between two rows | 2px, the list's `gap` (`gap-0.5`), never a margin or an inset of the shape. At 4px the gap between two conversation rows read too big (design review, 2026-10-26). |
 | The list's ends | 8px of padding at the top and bottom (`py-2`), so the first shape sits 8px below the list's top edge and the last 8px above its bottom, as far as every shape sits from the sides: a rounded shape is measured on all four sides, not only left and right (design review, 2026-10-26). |

@@ -29,7 +29,7 @@ Which destinations a product has, and in which order, is on its own page ([Raft 
 ## Anatomy
 
 - `AppRailRoot`: the column, on `layer-frame`, with a `line-seam` along its right edge.
-- `AppRailHeader`: the 56px square at the top, holding the workspace tile. Its seam lines up with the sidebar's and the panel's ([Page structure](../../../../../design/patterns/page-structure.md#headers)). It is left out when the web top bar is shown.
+- `AppRailHeader`: the header-height row at the top, holding the workspace tile. Its seam lines up with the sidebar's and the panel's ([Page structure](../../../../../design/patterns/page-structure.md#headers)). It is left out when the web top bar is shown.
 - `AppRailNav`: the destinations.
 - `AppRailItem`: one destination: an `AppRailItemIcon` with a 20px icon, and an `AppRailItemLabel` with its name.
 - `AppRailItemAttention`: the pink pixel on an item, with text for assistive technology. It is built on `AppRailItemIndicator`.
@@ -46,7 +46,7 @@ app-rail/compositions/without-top-bar
 
 | Variant              | Use for                                                                                                                                                                                                                                                |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Icons only (default) | Every product today. 56px wide plus the seam; each item is 40px square, and its name appears in a tooltip to the right                                                                                                                                 |
+| Icons only (default) | Every product today. 48px wide plus the seam with 36px items on a desktop, 56px plus the seam with 40px items on a touch screen, and its name appears in a tooltip to the right                                                                        |
 | Icons with labels    | Names under the icons, in `text-label` (bold when selected). 68px wide plus the seam; each item is 60×52px, and the selected sticker wraps the icon and the label. The footer tools keep icons only, because "Notifications" doesn't fit under an icon |
 
 The product ships the icons-only rail, and raft-ui implements only that one ([Open questions](../../../../../design/decisions/open-questions.md#settled-by-the-product)). A labeled rail can't keep a square top-left corner (it is 68×56px), and the product pins that square with a UI test (`leftrail-square-slot`).

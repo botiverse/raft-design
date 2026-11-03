@@ -63,11 +63,11 @@ Where content is cut, by a fold, by the edge of a strip that scrolls or by a col
 - Make every touch target at least 44px in both directions.
 - Extend a control that looks smaller than 44px, and a text button, with a transparent pseudo-element to 44px.
 - Don't extend inline links and reference chips in running text: they follow the line of text.
-- The rows of a popup list are the one exception: an option of a Select, a Combobox or a ComboboxSelect, an item of a DropdownMenu or a ContextMenu, and a row of the server tab's popover on a phone ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)) are 36px with one line, on a touch screen as well as with a mouse ([Forms](../patterns/forms.md#option-height)). They touch each other edge to edge, so their hit area can't reach past the row to 44px. They stay 36px because:
+- The rows of a popup list are the one exception: an option of a Select, a Combobox or a ComboboxSelect, an item of a DropdownMenu or a ContextMenu, and a row of the server tab's popover on a phone ([MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)) are 36px with one line on a touch screen and 34px with a mouse, the desktop row height ([Forms](../patterns/forms.md#option-height)). They touch each other edge to edge, so their hit area can't reach past the row to 44px. They stay 36px because:
   - Each row spans the whole width of the popup, so a tap a few pixels off still lands on a row.
   - A tap on the wrong row only moves the highlight or chooses the neighbor, which people see and can change. It never does anything that can't be put back: a menu item that deletes, stops or removes something opens a confirmation first ([Feedback](../patterns/feedback.md#confirming)). Keep such an item apart from the others, after a separator.
-  - 36px rows keep more of the list in view.
-- Desktop controls used only with a pointer may be smaller: sidebar rows 38px (2px apart, their state shape as tall as the row, [Lists](../patterns/lists.md)), rail items 40px, the hover toolbar 36px high with 28px buttons ([Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)).
+  - Rows of 36px (34px on a desktop) keep more of the list in view.
+- Desktop controls used only with a pointer may be smaller. A desktop has one row height, 34px (`row-height`): sidebar rows 2px apart, their state shape as tall as the row ([Lists](../patterns/lists.md)), menu options and compact task and file rows. Rail items are 36px, the hover toolbar 36px high with 28px buttons ([Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)), and an icon button in a bar 28px (`bar-button-size`: a head's actions and its ×, the composer's icons, a row's actions), the size of the header's icon tile, so a head's tile and buttons share one size and one centre line. Their hit area still reaches 44px.
 - On a desktop, a default control is 32px, Feishu's PC default, read with a pointer from further away. A desktop here is a screen from 768px (where the desktop layout begins) whose main pointer is a mouse or a trackpad, `(width >= 48rem) and (pointer: fine)`: density follows the input, not the width. A tablet used by touch keeps the phone's 44px controls and 16px field text, which also keeps iOS and iPadOS from zooming into a field on focus; an iPad with a trackpad reports a fine pointer and gets the desktop sizes. A button at 32px still overhangs to a 44px hit area (`after:-inset-y-control-hit`, plus its 1.5px border, because an overhanging `::after` is measured from inside the border), because a laptop can have a touch screen too; a field doesn't, since it is wide and its height is the target.
 
 ## The same kind, the same size
@@ -88,12 +88,12 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 | Full-width call to action (`control-height-cta`, Button at `xl`) | 52px on a phone and a touch screen, 40px on a desktop |
 | Phone list of places (Home, Members, the Settings list): the sidebar row | 44px |
 | Row with an avatar and a preview: a conversation, a person, an agent ([ListRow](../../packages/ui/src/components/list-row/list-row.md)) | At least 64px |
-| Settings row inside a settings page ([ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`) | 48px with one line |
+| Settings row inside a settings page ([ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`) | 12px (`settings-row-inset`) above and below its tallest part: 46px with one line and a switch on a desktop, 54px on a phone |
 | Radio row | At least 44px |
-| Selection control: a switch; a checkbox and a radio | 50 × 30px; 20px. The same on a phone and a desktop. On its own, a checkbox's or radio's hit area is 44px tall on a touch screen; in a `<label>` row it reaches half the gap to the next option, and the label is the target. Centered on the label's first line; at the end of a settings row, on the whole row ([Alignment](./alignment.md#a-control-and-its-label)) |
-| Option in a popup list, menu item | 36px with one line, with a mouse and on a touch screen ([Hit targets](#hit-targets)); taller with more, at the same padding ([Forms](../patterns/forms.md#option-height)) |
-| Phone top bar row, panel header, sidebar header, rail header, drawer header, a side section's head (also when the section is folded to it) | 56px |
-| Web top bar, desktop app title bar | 48px |
+| Selection control: a switch; a checkbox and a radio | A switch is 50 × 30px on a phone and a touch screen and 38 × 22px on a desktop, macOS's regular switch (`switch-width`, `switch-height`); its strokes and the 1px of track around its knob are the same at both sizes. A checkbox and a radio are 20px everywhere. On its own, a checkbox's or radio's hit area is 44px tall on a touch screen; in a `<label>` row it reaches half the gap to the next option, and the label is the target. Centered on the label's first line; at the end of a settings row, on the whole row ([Alignment](./alignment.md#a-control-and-its-label)) |
+| Option in a popup list, menu item (`option-height`) | 36px with one line on a touch screen, 34px with a mouse ([Hit targets](#hit-targets)); taller with more, at the same padding ([Forms](../patterns/forms.md#option-height)) |
+| Header (`header-height`): the phone top bar row, panel header, sidebar header, rail header, drawer header, a dialog's bar, a side section's head (also when the section is folded to it), the Tasks filter row | The control height plus 6px above and below: 56px on a phone and a touch screen, 44px on a desktop, one line (a title and at most one item beside it) |
+| Web top bar, desktop app title bar | 44px, the desktop header: 32px items (`frame-item-height`, the control height) with 6px above and below |
 
 - Size a default control with the control tokens (`h-control`, `size-control`, `size-control-icon` for its icon), never with a breakpoint of its own: they switch once, in the token layer. A metric that follows the control and has no token, such as its padding or the margin that puts its glyph on an edge, switches on the same query, `md:pointer-fine:`, never on `md:` alone: `md:` would give a touch screen from 768px the desktop's 32px.
 
@@ -102,8 +102,8 @@ control
 ```
 
 
-- Make the rail header a 56px square. It holds the workspace tile, and the top-left corner stays square whatever else changes. So the rail is 56px wide plus its seam and shows icons only: a labeled rail needs 68px to fit names such as Computers, and its corner would no longer be square.
-- When the desktop window is shorter than 600px (`@media (max-height: 600px)`), shrink every 56px header to 48px together. The rail shrinks with them, its header stays square, and rail items shrink from 40px to 36px; see [Responsive layout](../patterns/responsive.md).
+- The rail has its own width (`rail-width`), not the header's: 49px with a 1px seam and 36px items on a desktop, 57px with 40px items on a touch screen. It shows icons only: a labeled rail needs 68px to fit names such as Computers. Under the top bar the rail has no head; without it, the rail header is as tall as every other header.
+- When the desktop window is shorter than 600px (`@media (max-height: 600px)`), every header shrinks together, to 40px on a desktop (a 28px bar button with 6px above and below, `header-height-short`) and to 48px on a touch screen. The rail is already 49px wide with 36px items on a desktop; on a touch screen it shrinks to that size; see [Responsive layout](../patterns/responsive.md).
 
 ### The size chain
 
@@ -143,8 +143,8 @@ Avatars come in 19px, 27px, 35px, 51px and 99px: a multiple of 8 plus two 1.5px 
 | Region | Width |
 | --- | --- |
 | Phone content margin | 16px on each side; 20px in a column of list cells ([Lists](../patterns/lists.md#one-edge)) |
-| Desktop main area, panel header, sidebar header, drawer margin | 20px on each side |
-| Rail | 56px, plus a 1px seam; the labeled rail is 68px, plus a 1px seam |
+| Desktop main area, panel header, sidebar header, drawer margin, settings page | 20px on each side, above and below as well (`page-inset`) |
+| Rail | 48px plus a 1px seam on a desktop, 56px plus the seam on a touch screen; the labeled rail is 68px, plus a 1px seam |
 | Sidebar (every page that has one: Chat, Members, Settings, a server's public page) | 240px, resizable from 200px to 400px |
 | The Activity and Search results list, beside the item picked from it | 380px, resizable from 320px to 640px |
 | Thread panel | 400px, resizable from 160px, its content kept at 360px and clipped under it. In a conversation's row it is one of the row's columns (below); elsewhere it grows until the conversation beside it is down to its 360px |
