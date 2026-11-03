@@ -2,108 +2,197 @@
   {
     "name": "ScrollArea",
     "entry": "@botiverse/raft-ui",
+    "description": "A scrolling box with thin overlay scrollbars that look the same on every platform and theme. Scrolling itself stays native (wheel, touch, keyboard); the scrollbars can also be dragged, and a press on a gutter pages.",
     "native": true,
     "props": [
       {
-        "name": "overflowEdgeThreshold",
-        "type": "number | Partial<{ xStart: number; xEnd: number; yStart: number; yEnd: number; }>",
+        "name": "actionsRef",
+        "type": "((instance: ScrollAreaActions | null) => void | (() => void | { [UNDEFINED_VOID_ONLY]: never; }) | DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES[keyof DO_NOT_USE_OR_YOU_WILL_BE_FIRED_CALLBACK_REF_RETURN_VALUES]) | RefObject<ScrollAreaActions | null>",
         "required": false,
-        "default": "0",
-        "description": "The threshold in pixels that must be passed before the overflow edge attributes are applied. Accepts a single number for all edges or an object to configure them individually.",
-        "from": "base-ui"
+        "description": "Methods to scroll from code that the container doesn't have natively.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "description": "The scrolling content, in ScrollArea's own container.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "contentClassName",
+        "type": "string",
+        "required": false,
+        "description": "Class of a content element around `children`, inside the container: put padding and the content's own layout (grid, flex, `gap`, `stack-y-*`) here, so the scrollbars stay at the edges and the gutters layer is never one of the laid-out children. Only with it, `contentStyle` or `fade` is there one.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "contentRef",
+        "type": "RefObject<HTMLElement | null>",
+        "required": false,
+        "description": "An element whose size is the content's, watched for size changes (such as a hidden mirror of a textarea's text). Without it each element child of the container is watched, and children added or removed.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "contentStyle",
+        "type": "CSSProperties",
+        "required": false,
+        "description": "Style of the content element; renders it, as `contentClassName` does.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "fade",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Fade the content out toward an edge that has more past it. The scrollbars don't fade.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "hideDelay",
+        "type": "number",
+        "required": false,
+        "description": "How long the scrollbars stay after scrolling stops, in ms. At least 100 with `trigger=\"scroll\"`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onEdgeChange",
+        "type": "(edges: ScrollAreaEdges) => void",
+        "required": false,
+        "description": "Called when the area reaches or leaves an edge, and after mounting when the content overflows.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onScroll",
+        "type": "UIEventHandler<HTMLDivElement>",
+        "required": false,
+        "description": "The container's scroll events.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "orientation",
+        "type": "ScrollAreaOrientation",
+        "required": false,
+        "description": "The directions the area scrolls in. Content too wide for a vertical area is cut off.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "overscroll",
+        "type": "ScrollAreaOverscroll",
+        "required": false,
+        "description": "What a scroll that reaches the end does: stop there with no bounce (`none`, the default), stop there but let Mac trackpads and iOS bounce the area (`contain`), or carry on to the page behind (`auto`, which leaves the container's own `overscroll-behavior` alone). Only in the directions the area overflows right now.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "railInset",
+        "type": "ScrollAreaRailInset",
+        "required": false,
+        "description": "Room in px the scrollbars keep clear at each end, such as a sticky header's height, so they don't run over it. Also settable in CSS, on the root: `--r-scroll-area-rail-inset-{top,bottom,left,right}`, which don't inherit.",
+        "from": "raft-ui"
       },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
+        "description": "Another element in place of ScrollArea's own `<div>`, as the container (an element or a function that gets the props). It must hold children: the gutters are its first child.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "ScrollAreaSize",
+        "required": false,
+        "description": "Thumb thickness: `small` is 5px, `medium` 7px; both grow while pointed at or dragged.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "tabIndex",
+        "type": "number",
+        "required": false,
+        "description": "The container's: by default `0` while there is something to scroll.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "trigger",
+        "type": "ScrollAreaTrigger",
+        "required": false,
+        "description": "When the scrollbars show. They always show while scrolling or dragging.",
+        "from": "raft-ui"
       }
     ]
   },
   {
     "name": "ScrollAreaContent",
     "entry": "@botiverse/raft-ui",
+    "description": "An optional box around the content, inside the container (the demo's `ScrollAreaResizableContent`): for padding, so the scrollbars stay at the edges, or a layout of the content's own. In a horizontal (or `both`) area it is as wide as its widest child. It is watched for size changes like any child of the container.",
     "native": true,
+    "props": []
+  },
+  {
+    "name": "ScrollAreaGutters",
+    "entry": "@botiverse/raft-ui",
+    "description": "The scrollbars of a container bound with `useScrollAreaContainer`: spread its `guttersProps` here, and render it where `guttersPosition` says (as in the demo). `sticky` gutters: the container's first child, a zero-height layer stuck to the top of the viewport, laid over its padding box. It is in flow, so it is one of the container's children for a grid, a flex row, `gap` and sibling selectors: lay the content out in a wrapper inside. `absolute` gutters: right after the container, a layer laid over the frame. A gutter appears for each axis with something to scroll. Hidden from assistive technology, which uses the native scrolling.",
+    "native": false,
     "props": [
       {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
-        "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
+        "name": "binding",
+        "type": "ScrollAreaGuttersBinding",
+        "required": true,
+        "description": "The binding to its container, from `useScrollAreaContainer`.",
+        "from": "raft-ui"
       }
     ]
   },
   {
-    "name": "ScrollAreaCorner",
+    "name": "ScrollAreaTextarea",
     "entry": "@botiverse/raft-ui",
+    "description": "A native `<textarea>` with ScrollArea's overlay scrollbar: `useScrollAreaContainer` with `guttersPosition=\"absolute\"` and the textarea as its container (it can't hold children), the gutters beside it in the frame, as in the demo's textarea example. Its own `scrollHeight` is the content size: it is measured on every input and render, and when the box resizes. Native props, `ref`, `className`, `style` and `onScroll` go to the textarea; `wrapperClassName` and `wrapperStyle` to the frame. It is focusable itself, so it takes no `tabIndex` from the area.",
     "native": true,
     "props": [
       {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
+        "name": "hideDelay",
+        "type": "number",
         "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      }
-    ]
-  },
-  {
-    "name": "ScrollAreaScrollbar",
-    "entry": "@botiverse/raft-ui",
-    "native": true,
-    "props": [
-      {
-        "name": "keepMounted",
-        "type": "boolean",
-        "required": false,
-        "default": "false",
-        "description": "Whether to keep the HTML element in the DOM when the viewport isn't scrollable.",
-        "from": "base-ui"
+        "default": "600",
+        "description": "How long the scrollbar stays after scrolling stops, as on ScrollArea.",
+        "from": "raft-ui"
       },
       {
-        "name": "orientation",
-        "type": "\"horizontal\" | \"vertical\"",
+        "name": "overscroll",
+        "type": "ScrollAreaOverscroll",
         "required": false,
-        "default": "\"vertical\"",
-        "description": "Whether the scrollbar controls vertical or horizontal scroll.",
-        "from": "base-ui"
+        "default": "\"none\"",
+        "description": "Whether a scroll that reaches the end carries on to the page, as on ScrollArea.",
+        "from": "raft-ui"
       },
       {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
+        "name": "size",
+        "type": "ScrollAreaSize",
         "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      }
-    ]
-  },
-  {
-    "name": "ScrollAreaThumb",
-    "entry": "@botiverse/raft-ui",
-    "native": true,
-    "props": [
+        "default": "\"medium\"",
+        "description": "Thumb thickness, as on ScrollArea.",
+        "from": "raft-ui"
+      },
       {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
+        "name": "trigger",
+        "type": "ScrollAreaTrigger",
         "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      }
-    ]
-  },
-  {
-    "name": "ScrollAreaViewport",
-    "entry": "@botiverse/raft-ui",
-    "native": true,
-    "props": [
+        "default": "\"hover\"",
+        "description": "When the scrollbar shows, as on ScrollArea.",
+        "from": "raft-ui"
+      },
       {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
+        "name": "wrapperClassName",
+        "type": "string",
         "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
+        "description": "Class of the root that holds the textarea and its scrollbar.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "wrapperStyle",
+        "type": "CSSProperties",
+        "required": false,
+        "description": "Style of the root; size the textarea itself with `className` / `style`.",
+        "from": "raft-ui"
       }
     ]
   }

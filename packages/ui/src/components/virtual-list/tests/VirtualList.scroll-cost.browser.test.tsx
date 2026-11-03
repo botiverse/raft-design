@@ -9,12 +9,14 @@
 /* oxlint-disable react-perf/jsx-no-new-function-as-prop, react-perf/jsx-no-new-object-as-prop --
    each scene renders once; a row's style is new whenever it renders, which is what is counted. */
 import { useState } from "react";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, expect, test } from "vite-plus/test";
 
 import { VirtualList } from "../index";
 import type { VirtualListApi, VirtualListItemRenderProps } from "../index";
+import { ScrollAreaGutters, useScrollAreaContainer } from "../../scroll-area/index";
+import type { ScrollAreaContainer } from "../../scroll-area/index";
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -76,13 +78,29 @@ afterEach(() => {
   mounts = new Map();
 });
 
-it("scrolling end to end and back moves the rows' offset in batches, mounts and renders each row once a pass", async () => {
-  let transformChanges = 0;
-  const api: { current: VirtualListApi | null } = { current: null };
-  render(
-    <div style={FRAME_STYLE}>
+/** The list's scroller as a scroll area's container, sticky gutters in its header, as a consumer composes it. */
+function WithScrollbar({
+  children,
+}: {
+  children: (area: ScrollAreaContainer<HTMLDivElement>) => ReactNode;
+}) {
+  return children(useScrollAreaContainer<HTMLDivElement>({ overscroll: "auto" }));
+}
+
+// With ScrollArea's sticky gutters too (in the list's header): the overlay scrollbar re-renders when a
+// gutter comes or goes, and writes its classes on the list while it scrolls, which must not render the rows again.
+it.each([false, true])(
+  "scrolling end to end and back moves the rows' offset in batches, mounts and renders each row once a pass (scrollbar: %s)",
+  async (scrollbar) => {
+    let transformChanges = 0;
+    const api: { current: VirtualListApi | null } = { current: null };
+    const list = (area?: ScrollAreaContainer<HTMLDivElement>) => (
       <VirtualList
         componentRef={api}
+        domRef={area?.containerProps.ref}
+        className={area?.containerProps.className}
+        style={area?.containerProps.style}
+        header={area ? <ScrollAreaGutters {...area.guttersProps} /> : undefined}
         items={ROWS}
         getKey={getKey}
         itemResizable
@@ -92,33 +110,39 @@ it("scrolling end to end and back moves the rows' offset in batches, mounts and 
           transformChanges += 1;
         }}
       >
-        {({ item, domRef, style }: VirtualListItemRenderProps<Row>) => (
-          <CountedRow key={item.key} item={item} domRef={domRef} style={style} />
+        {({ item, domRef: rowRef, style }: VirtualListItemRenderProps<Row>) => (
+          <CountedRow key={item.key} item={item} domRef={rowRef} style={style} />
         )}
       </VirtualList>
-    </div>,
-  );
-  await nextFrame();
-  await nextFrame();
-  const list = api.current!.listElRef.current!;
-  // The rows' height in viewports, the same as a plain list's (300 rows, 43,836px).
-  const viewports = ROWS.reduce((sum, row) => sum + row.height, 0) / list.clientHeight;
+    );
+    render(
+      <div style={FRAME_STYLE}>
+        {scrollbar ? <WithScrollbar>{(area) => list(area)}</WithScrollbar> : list()}
+      </div>,
+    );
+    await nextFrame();
+    await nextFrame();
+    const listEl = api.current!.listElRef.current!;
+    // The rows' height in viewports, the same as a plain list's (300 rows, 43,836px).
+    const viewports = ROWS.reduce((sum, row) => sum + row.height, 0) / listEl.clientHeight;
 
-  for (const step of [STEP, -STEP]) {
-    transformChanges = 0;
-    renders = new Map();
-    mounts = new Map();
-    await scrollThrough(list, step);
-    // Without batches it changes whenever a row crosses the view's top: 300 times a pass (about four
-    // times a viewport here).
-    expect(transformChanges).toBeLessThanOrEqual(viewports);
-    // Every row mounts once a pass, none is unmounted right after it mounted.
-    expect(Math.max(...mounts.values())).toBe(1);
-    // A row that stays mounted is not rendered again when the range moves (once to mount, and at most
-    // once more when it goes from in flow to kept, or back).
-    expect(Math.max(...renders.values())).toBeLessThanOrEqual(2);
-  }
-}, 60_000);
+    for (const step of [STEP, -STEP]) {
+      transformChanges = 0;
+      renders = new Map();
+      mounts = new Map();
+      await scrollThrough(listEl, step);
+      // Without batches it changes whenever a row crosses the view's top: 300 times a pass (about four
+      // times a viewport here).
+      expect(transformChanges).toBeLessThanOrEqual(viewports);
+      // Every row mounts once a pass, none is unmounted right after it mounted.
+      expect(Math.max(...mounts.values())).toBe(1);
+      // A row that stays mounted is not rendered again when the range moves (once to mount, and at most
+      // once more when it goes from in flow to kept, or back).
+      expect(Math.max(...renders.values())).toBeLessThanOrEqual(2);
+    }
+  },
+  60_000,
+);
 
 it("has no more frames over 50ms than a plain list of the same rows, scrolled the same way", async () => {
   const api: { current: VirtualListApi | null } = { current: null };

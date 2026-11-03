@@ -40,7 +40,7 @@ Each part renders the element of the same name.
 - `MarkdownRule`: a thematic break.
 - `MarkdownImage`: an image, on a transparency checkerboard.
 - `MarkdownInlineCode`: code inside a sentence ([InlineCode](../inline-code/inline-code.md)), at the size of the text around it.
-- `MarkdownTableScroll`, `MarkdownTable`, `MarkdownTableRow`, `MarkdownHeaderCell` and `MarkdownCell`: a table. `MarkdownTableScroll` is the container and scrolls sideways when the table is wider than the text.
+- `MarkdownTableScroll`, `MarkdownTable`, `MarkdownTableRow`, `MarkdownHeaderCell` and `MarkdownCell`: a table. `MarkdownTableScroll` is the container: a horizontal [ScrollArea](../scroll-area/scroll-area.md) that scrolls sideways when the table is wider than the text, with the thin overlay scrollbar shown while the pointer is over it. It takes ScrollArea's props but `orientation`.
 
 | Element         | Looks                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -56,6 +56,7 @@ Each part renders the element of the same name.
 ## Behavior
 
 - The parts add no width of their own: text wraps to its container, and a long table scrolls inside `MarkdownTableScroll` instead of widening the message.
+- A wide table scrolls sideways only: a scroll that reaches its side stops there (no swipe back through history), and scrolling down over it scrolls the message list as usual. While it has something to scroll it is a tab stop, so the keyboard can scroll it too.
 - A task-list checkbox shows the state written in the source. People can't change it from the rendered text.
 
 ## Content

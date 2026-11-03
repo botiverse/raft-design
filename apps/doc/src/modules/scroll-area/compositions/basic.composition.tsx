@@ -1,36 +1,38 @@
-import {
-  ScrollArea,
-  ScrollAreaContent,
-  ScrollAreaScrollbar,
-  ScrollAreaThumb,
-  ScrollAreaViewport,
-  Text,
-} from "@botiverse/raft-ui";
+import { ScrollArea } from "@botiverse/raft-ui";
 
-export function ScrollAreaBasicComposition() {
+// @docs-source-strip-start
+import { CompositionPreview } from "#/components/composition-preview.tsx";
+// @docs-source-strip-end
+
+const releases = Array.from({ length: 24 }, (_, index) => ({
+  title: `Release 1.${24 - index}.0`,
+  note: index % 3 === 0 ? "New components and fixes" : "Bug fixes and small improvements",
+}));
+
+export function ScrollAreaBasicContent() {
   return (
-    <ScrollArea className="h-56 w-72 border border-line-hairline bg-layer-canvas">
-      <ScrollAreaViewport>
-        <ScrollAreaContent className="p-4">
-          <Text.Sans size="small">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-            mollit anim id est laborum. Curabitur pretium tincidunt lacus. Nulla gravida orci a
-            odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus
-            magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac
-            tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut
-            ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus
-            a quam. Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a
-            mi. Duis sapien sem, aliquet nec, commodo eget, consequat quis, neque.
-          </Text.Sans>
-        </ScrollAreaContent>
-      </ScrollAreaViewport>
-      <ScrollAreaScrollbar>
-        <ScrollAreaThumb />
-      </ScrollAreaScrollbar>
+    <ScrollArea
+      role="region"
+      aria-label="Releases"
+      className="h-56 w-full max-w-sm rounded-container border border-line-hairline bg-layer-canvas"
+      contentClassName="px-4"
+    >
+      {releases.map((release) => (
+        <div key={release.title} className="border-b border-line-hairline py-2.5 last:border-b-0">
+          <p className="text-sm font-bold text-foreground">{release.title}</p>
+          <p className="text-sm text-foreground-muted">{release.note}</p>
+        </div>
+      ))}
     </ScrollArea>
   );
 }
+
+// @docs-source-strip-start
+export function ScrollAreaBasicComposition({ className }: { className?: string }) {
+  return (
+    <CompositionPreview className={className}>
+      <ScrollAreaBasicContent />
+    </CompositionPreview>
+  );
+}
+// @docs-source-strip-end

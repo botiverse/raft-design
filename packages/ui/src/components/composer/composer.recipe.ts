@@ -8,6 +8,7 @@ export const composer = tv({
       "border-line-field bg-layer-card text-foreground shadow-none",
       "has-focus-visible:shadow-focus",
     ],
+    inputFrame: ["w-full min-w-0", "[--r-scroll-area-resize-grip-size:0px]"],
     input: [
       "max-h-32 w-full resize-none bg-transparent outline-none",
       "field-sizing-content overflow-y-auto",

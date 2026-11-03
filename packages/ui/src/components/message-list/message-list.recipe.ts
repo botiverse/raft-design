@@ -13,7 +13,7 @@ import { tv } from "../../lib/tv";
 export const messageList = tv({
   slots: {
     root: ["relative h-full min-h-0"],
-    viewport: ["min-w-0 overscroll-none"],
+    viewport: ["size-full min-h-0 min-w-0 overscroll-none"],
     content: ["flex min-h-full w-full min-w-0 flex-col"],
     dateDividerRoot: [
       "flex select-none items-center",
