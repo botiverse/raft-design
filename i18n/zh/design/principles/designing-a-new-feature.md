@@ -1,7 +1,7 @@
 ---
 title: 设计新功能
 summary: 动手做新东西之前要回答的问题，从最接近的模式到组件的流程，一份自查清单，以及什么时候该改设计系统本身。
-sourceHash: e2938a19
+sourceHash: b97c3a2b
 ---
 
 # 设计新功能
@@ -82,6 +82,9 @@ raft-ui 的安装和配置见[使用 raft-ui](../about/use-raft-ui.md)。
 - [ ] 所有东西在 320px 宽度下都放得下，触控目标至少 44px。
 - [ ] 只用键盘就能完成所有操作，并且都显示焦点环。可点击的东西都是 `<button>` 或带 `href` 的 `<a>`，每个纯图标按钮都有 `aria-label`。
 - [ ] raft-ui 里有的部件都来自 raft-ui；手写的部件都在 pull request 里列出。
+- [ ] 它的行为像哪个现有的界面？打开、选中和关闭的方式都和那个界面一样（[原则](./principles.md#8-familiar-over-new-the-same-job-the-same-form-a-different-meaning-a-different-form)）。
+- [ ] 这里重用的每种形式（一种颜色、一个状态灯、一个图标）在这里的含义和在别处一样；新的含义有它自己的形式。
+- [ ] 我是不是在加一个系统里没有的组件或模式？那就先写它的规则，说明为什么现有的都不合适（[原则](./principles.md#9-existing-parts-and-patterns-first)）。
 - [ ] 每个值都是语义 token。
 - [ ] 每条新规则都写在它该在的基础、模式、组件文档或产品页面里。
 

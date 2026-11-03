@@ -1,7 +1,7 @@
 ---
 title: 使用 raft-ui
 summary: 如何安装 raft-ui，配置它的样式表、Tailwind CSS v4 和深色模式，渲染第一个组件，在版本之间升级，以及 token 和给 Agent 用的入口在哪里。
-sourceHash: 557a9bb8
+sourceHash: 55d95694
 ---
 
 # 使用 raft-ui
@@ -121,7 +121,7 @@ raft-ui 还没到 1.0：次版本号的更新也可能包含破坏性变更。�
 | --- | --- | --- |
 | 稳定 | `@botiverse/raft-ui` | 破坏性变更遵循上面的版本规则 |
 | 实验性 | `@botiverse/raft-ui/wip` | API 在任何版本中都可能变化 |
-| 已弃用 | `@botiverse/raft-ui`，标记为 `@deprecated` | 仍然可用；它的页面会写明替代组件。在下一个主版本中移除 |
+| 已弃用 | `@botiverse/raft-ui`，标记为 `@deprecated` | 仍然可用；它的页面会写明替代组件。在之后某个列出破坏性变更的版本中移除（1.0 之前是一个次版本） |
 
 ### Codemod {#codemods}
 
@@ -135,7 +135,7 @@ pnpm remove raft-ui
 ```
 
 - `package-name.mjs` 改写导入语句、CSS 的 `@import` 和 `@source` 路径以及依赖项。它会列出所有单独的 `"raft-ui"` 字符串（打包工具的别名、路径映射），留给你手动修改。
-- `token-names.mjs` 把 Tailwind 工具类和 `var(--…)` 引用从旧 token 名改写成当前的名字。旧名字作为已弃用的别名继续可用，直到 1.0。
+- `token-names.mjs` 把 Tailwind 工具类和 `var(--…)` 引用从旧 token 名改写成当前的名字。旧名字在 0.56 及以前的版本里是已弃用的别名，之后的版本里已移除，所以升级到 0.56 以后的版本之前，先运行它。
 
 运行 `token-names.mjs` 之后，手动检查两类代码：
 

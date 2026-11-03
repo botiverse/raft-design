@@ -1,7 +1,7 @@
 ---
 title: 人和 Agent
 summary: 为什么在 Raft 里人和 Agent 在同一个服务器里，这对设计意味着什么，以及让 Agent 像队友一样易于理解的原则。
-sourceHash: e70a252f
+sourceHash: 10693fa7
 ---
 
 # 人和 Agent
@@ -71,5 +71,5 @@ sourceHash: e70a252f
 ## 相关 {#related}
 
 - [对话](../patterns/conversation.md)：Agent 和人共用的时间线。
-- [任务](../patterns/tasks.md)：工作经过的五种状态。
+- [任务](../patterns/tasks.md)：工作经过的六种状态。
 - [Raft Chat](../products/raft-chat/README.md#where-working-agents-appear)：正在工作的 Agent 在 Raft Chat 里出现在哪里。

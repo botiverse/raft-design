@@ -1,12 +1,16 @@
 ---
 title: MessageEmbed
 summary: 消息里嵌入内容所用的卡片：细线卡片里的头部、内容和底部；用于链接卡片，也是转发消息组、操作卡片和回复摘要的基础。
-sourceHash: e771a902
+sourceHash: b577e620
 ---
 
 # MessageEmbed
 
 消息里嵌入的东西所用的卡片：链接卡片，或者其他嵌入卡片的基础。它有文件卡片（[MessageAttachment](../message-attachment/message-attachment.md)）的结构，加上消息（[MessageItem](../message-item/message-item.md)）的头部，放在消息正文下方的 `MessageItemEmbedded` 里。[MessageForwardedBundle](../message-forwarded-bundle/message-forwarded-bundle.md) 和 [MessageActionCard](../message-action-card/message-action-card.md) 渲染在它上面，[MessageReplies](../message-replies/message-replies.md) 用它的容器。
+
+```example
+message-embed/compositions/link-cards
+```
 
 ## 何时使用 {#when-to-use}
 
@@ -34,6 +38,7 @@ sourceHash: e771a902
 ## 行为 {#behavior}
 
 - 卡片和它的部件可以缩到比内容更窄，这样长内容会在卡片里换行或截断，而不是把消息撑宽。
+- 整张卡片用来打开某个东西时，比如标题链接覆盖整张卡片的 Artifact 卡片，给它加上 `interactive`：悬停用浅档，按下用中档，和文件卡片一样（[MessageAttachment](../message-attachment/message-attachment.md#behavior)，[悬停与按下](../../../../../design/foundations/states.md#hover-and-press)）。没有它时，能打开东西的卡片和不能打开的卡片看起来一样。只用来展示内容的卡片，比如操作卡片或转发消息组，不开 `interactive`：它整体上不打开任何东西，所以没有悬停效果。这一档叠加层铺在内容下面，所以封面图会把它挡住，只有卡片里的各行显示它。
 - 渲染为链接的卡片在获得键盘焦点时显示焦点环（[状态](../../../../../design/foundations/states.md#focus)）。
 
 ## 无障碍 {#accessibility}

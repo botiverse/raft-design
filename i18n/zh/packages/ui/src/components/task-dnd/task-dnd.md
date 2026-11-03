@@ -1,7 +1,7 @@
 ---
 title: TaskDnd
 summary: 让人在各列之间、在其他卡片之间拖动任务卡片的一组拖放部件；允许放到哪里、移动后做什么由调用方决定。
-sourceHash: 30b59a36
+sourceHash: e9ae09fc
 ---
 
 # TaskDnd
@@ -61,5 +61,5 @@ task-dnd/compositions/task-dnd
 ## 规则 {#rules}
 
 - 在 `isDropAllowed` 里决定哪些放置是允许的，这样卡片悬在目标上方时，目标就能说明卡片不能移到这里（[TaskBoard](../task-board/task-board.md#content)）。
-- 提供另一种改变状态的方式：拖动只是三种方式之一（[任务](../../../../../design/patterns/tasks.md#rules)）。
+- 提供另一种改变状态的方式：拖动只是四种方式之一（[任务](../../../../../design/patterns/tasks.md#rules)）。
 - 在 `TaskDragOverlay` 里放被拖动卡片自己的 `TaskCard`，这样指针下的卡片和列里的那张读起来一样。

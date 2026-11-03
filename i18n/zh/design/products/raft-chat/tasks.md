@@ -1,12 +1,12 @@
 ---
 title: Raft Chat — 任务
 summary: 任务这个目的地：标题和计数，Channel、Creator 和 Assignee 筛选，它不包含什么，频道的 Tasks 分区，以及它们的空状态。
-sourceHash: 30d1e5e1
+sourceHash: 658b73da
 ---
 
 # Raft Chat — 任务
 
-任务是列出服务器里所有频道任务的一级页面。频道自己的任务在它的 Tasks 分区里，放在它的对话旁边。状态、看板和列表、对话旁边的分区、任务详情、更改状态以及筛选的行为遵循[任务](../../patterns/tasks.md)；这一页只写 Raft Chat 自己的选择。
+任务是列出服务器里所有频道任务的一级页面。频道自己的任务在它的 Tasks 分区里，放在它的对话旁边。状态、看板和列表、对话旁边的分区、任务详情、任务的完成、添加和编辑、更改状态以及筛选的行为遵循[任务](../../patterns/tasks.md)；这一页只写 Raft Chat 自己的选择。
 
 ## 结构 {#structure}
 
@@ -20,19 +20,21 @@ sourceHash: 30d1e5e1
 tasks/compositions/tasks-panel
 ```
 
+raft-ui 尚未实现：这个示例展示的是 [0042](../../decisions/0042-tasks-as-a-to-do-list.md) 之前的任务，有五种状态，没有完成控件。
+
 ## 规则 {#rules}
 
 - 提供三个筛选：Channel、Creator 和 Assignee。Creator 和 Assignee 共用一份服务器里人和 Agent 的列表。
-- 这个页面上不要放创建操作。任务总是属于某个频道，所以在频道里创建（[频道](./channel.md#tasks-in-the-conversation)）。
+- 这个页面上不要放创建操作，也不要放快速添加。任务总是属于某个频道，所以在频道里创建（[频道](./channel.md#tasks-in-the-conversation)）。
 - 这个页面不包含私信和 Agent 的任务，页面为空时要说明这一点。
-- 先只加载进行中的状态：Done 和 Closed 在展开它们的分组时才加载。任务更多的分组用 Load more 分页。频道的 Tasks 分区一次加载它的全部任务。
+- 先只加载进行中的状态：Backlog、Done 和 Closed 在展开它们的分组时才加载。任务更多的分组用 Load more 分页。频道的 Tasks 分区一次加载它的全部任务。
 
 ### 频道的 Tasks 分区 {#a-channels-tasks-section}
 
 这个分区遵循[对话旁边的任务](../../patterns/tasks.md#tasks-beside-a-conversation)。在 Raft Chat 里：
 
 - All 上计数未完成的任务（Todo、In Progress、In Review），For Me 上计数指派给这个人的未完成任务。标题栏自己不带计数。
-- 在 × 前面放一个幽灵样式的 Create Task 图标按钮（`plus`）。它打开 Create Task，一个小型对话框，每个任务一行，带 Add Another。
+- 在 × 前面放一个幽灵样式的 Create Task 图标按钮（`plus`）。它打开 Create Task（[在哪里创建任务](../../patterns/tasks.md#where-tasks-are-created)），标题下面用 Space Mono 写着所在的频道："In #launch-week"。
 - 在一个状态分组里，最新的任务排在最前：人们是在聊天时看这个分区的，所以刚从对话里创建的任务出现在它所在分组的最上面，正是他们找它的地方。
 
 ### 空状态 {#empty-states}

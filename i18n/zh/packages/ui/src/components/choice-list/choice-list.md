@@ -1,7 +1,7 @@
 ---
 title: ChoiceList
 summary: 始终展开的列表，在选择就是对话框的主要内容时，从中选一个或几个；带搜索框，每行末尾可以有一个自己的按钮。
-sourceHash: 690a9b7f
+sourceHash: 0073c829
 ---
 
 # ChoiceList
@@ -89,6 +89,7 @@ choice-list/compositions/search
 
 - 名称用 `text-subhead`，字重 600；每行说明用 `text-footnote`、`foreground-muted`。每一行各自截断；某一行被截断时，它的完整文字就是它的 `title`，所以用鼠标仍然能读到长描述（[输入框里的长值](../../../../../design/patterns/forms.md#long-values-in-fields)）。
 - 只有当每一行说明都在说人会跨行比较的东西时，才给一行加第二行说明（"Claude Max · 5h 72% left · this week 40% left"、"3 agents · 120 GB disk free"）。没有内容可写的一行就省掉（`null`、`false` 或 `""`）：它不会被画出来，从不显示成空行。一行说明从不换行：在窄屏上它在末尾被截断，所以按人最先比较的东西排序，把最说明不了问题的放在最后（"3 agents · 12 GB RAM free · 120 GB disk free"：先是计算机的负载，然后是内存，最后是几乎总是够用的磁盘）。截掉的部分在悬停时显示（这一行的 `title`），也在这一行的详情里；在触屏上只有详情里有，所以顺序很重要。
+- 要指出大多数人应该选的那个选项，在它的名称后面放一个默认颜色的描边 [Badge](../badge/badge.md)（"Recommended"），最多标一行，并给这一行设 `searchText`，因为它的 `label` 不再是字符串。不要给这一行加填充或边框：有填充的行读起来像是已选中。
 - 一行里的颜色由调用方决定，用于需要颜色的值：已用完的额度时段用 `warning-strong`。
 - raft-ui 不自带任何文案。搜索框的名称和占位文字、清除按钮的名称、无匹配那一行和空状态那一行，都由调用方用产品自己的话提供（"No matches"、"No one matches"）。
 - 用行的名字给行操作命名（"Studio Mac details"），不要只写 "Details"。

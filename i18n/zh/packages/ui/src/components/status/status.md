@@ -1,7 +1,7 @@
 ---
 title: Status
 summary: 方形的状态像素点（在线状态灯、提醒圆点，或文字旁的状态色），以及用它构成的状态标签、Agent 标签和运行时标签片。
-sourceHash: 389e63f2
+sourceHash: 723b307b
 ---
 
 # Status
@@ -52,7 +52,7 @@ status/compositions/default
 | `offline` | Offline |
 | `external` | External agent |
 
-它们的颜色，以及五种任务状态的颜色，见[颜色](../../../../../design/foundations/color.md#statuses)。
+它们的颜色，以及任务状态的颜色（六种里的五种；Backlog 没有颜色），见[颜色](../../../../../design/foundations/color.md#statuses)。
 
 ### Agent 状态标签 {#agent-state-chips}
 
@@ -84,7 +84,7 @@ Status 渲染一个 `<span>`，不封装任何 Base UI 原语。
 
 - 饱和色只用在像素那么大的面积上。标签片上的其余部分是浅色底，即没有边框的高亮：一个界面上可能有十几个标签片。
 - 每个标签片都是 22px 高，用 `radius-chip`，让标签片排成一行时对齐；Badge 和 TaskChip 已经是这样。
-- 新的状态要归入五种任务状态或五种在线状态灯之一；不要发明新颜色。"Stuck"（卡住）是 Agent 的错误状态。"Needs you"（需要你）是一个提醒圆点加一个操作按钮，不是一种状态（[Tasks](../../../../../design/patterns/tasks.md#rules)）。
+- 新的状态要归入六种任务状态或五种在线状态灯之一；不要发明新颜色。"Stuck"（卡住）是 Agent 的错误状态。"Needs you"（需要你）是一个提醒圆点加一个操作按钮，不是一种状态（[Tasks](../../../../../design/patterns/tasks.md#rules)）。
 - 不要自定义 `--status-color`：每种状态色都有固定的含义。
 - 不要用 `brand` 或 `brand-soft` 画状态或它后面的底色：它们跟着主题变，状态不变。
 - 状态永远不加动画：正在工作的 Agent 是一盏静止的灯（[动效](../../../../../design/foundations/motion.md)）。

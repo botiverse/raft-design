@@ -1,7 +1,7 @@
 ---
 title: 颜色
 summary: 表面、文字、线和角色的颜色，每种颜色的含义，以及它们保证的对比度。
-sourceHash: 0fe22c78
+sourceHash: 7abf3887
 ---
 
 # 颜色
@@ -153,7 +153,7 @@ inactive
 
 ### 状态 {#statuses}
 
-任务和在线状态各有五种颜色，含义永远不变。任务状态的英文写法是 Todo、In Progress、In Review、Done 和 Closed（中文界面为待办、进行中、待确认、完成、已关闭）。
+任务有六种状态，在线状态有五种状态灯。其中五种任务状态和全部五种状态灯各有一种颜色，含义永远不变；第六种状态 Backlog 没有颜色。任务状态的英文写法是 Backlog、Todo、In Progress、In Review、Done 和 Closed（后五种在中文界面为待办、进行中、待确认、完成、已关闭）。
 
 ```tokens
 task-status
@@ -173,7 +173,9 @@ presence
 
 第六个 presence 色块 `presence-busy-soft` 不是状态灯，而是 Working 标签片的底色（[浅色底](#soft-tints)）。
 
-- 状态标签片放在对应的 `task-status-*-soft` 色调上。
+- 状态标签片放在对应的 `task-status-*-soft` 色调上；Backlog 的标签片除外，它没有色调。
+- Backlog（「现在不做」）不用任何色相：每种色相都已经有了含义，灰色属于 Closed。它的像素点是空心的：同样是 10px 的方块，有 1.5px 的边，里面什么都没有。边用 `line-strong`，不用实心像素点的 `sticker-ink` 边：`sticker-ink` 在深色模式下是深色的，里面没有填充，它就会消失在深色画布上。它的标签片只有描边：一圈 `line-hairline` 边框，没有浅色底，围着空心像素点和 `foreground` 色的文字。它和还没加载的任务引用的描边标签片不同，后者没有像素点，文字是 `foreground-muted`（[引用任务](../patterns/tasks.md#referring-to-a-task)）。
+- raft-ui 尚未实现：`TASK_STATUS_IDS`、`TaskStatusIcon` 和 `TaskChip` 只认识另外五种状态（[任务组件](../../packages/ui/src/components/tasks/tasks.md)）。在 raft-ui 加上 Backlog 之前，它的像素点和标签片要手工绘制。
 - `presence-busy` 有自己的值，而不是指向 `brand`，这样品牌色变了，忙碌的样子也不会跟着变，换主题也一样：无聊灰把 `brand` 变灰，工作中的 Agent 仍是黄色（[主题](./themes.md#signals)）。Working 标签片的底色 `presence-busy-soft` 出于同样的原因，是 `brand-soft` 的一份独立拷贝。
 - `presence-offline` 是色板里的石灰色，不是默认的灰色：raft-ui 不使用 Tailwind 的默认色板，所以每个在线状态灯都来自同一个色板。
 - 在线状态灯从不闪烁；见[动效](./motion.md)。
@@ -228,7 +230,7 @@ read-mark
 | `sticker-ink-medium` | 中 | 墨色贴纸（服务器图块）的悬停、按下和打开状态：墨色叠在墨色上看不出来，所以叠的是纸面色 |
 | `fill-frame-medium` | 中 | 悬停和按下外框上的任何东西 |
 
-`fill-subtle` 比每种选中色调都浅，所以悬停的行永远不会看起来像被选中，文字也保持原有的对比度。这些 token 在分成两档之前的旧名称作为已弃用的别名继续可用，直到 raft-ui 1.0；`codemods/token-names.mjs` 会把它们改成新名称。
+`fill-subtle` 比每种选中色调都浅，所以悬停的行永远不会看起来像被选中，文字也保持原有的对比度。这些 token 在分成两档之前的旧名称已经移除；`codemods/token-names.mjs` 会把它们改成新名称（[Token](./tokens.md#former-names)）。
 
 ## 贴纸 {#stickers}
 

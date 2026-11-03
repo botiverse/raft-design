@@ -1,7 +1,7 @@
 ---
 title: Meter
 summary: 显示一份额度用了多少的计量条，比如会定期重置的用量上限：一开始是空的，用多少就涨多少。
-sourceHash: 9b7dd5e0
+sourceHash: e5faadfd
 ---
 
 # Meter
@@ -89,6 +89,6 @@ Meter 封装了 Base UI 的 Meter，它提供 `role="meter"`。它的 `aria-valu
 
 - `used` 和 `max` 不变。现在条按 `used` 填充，`aria-valuenow` 是 `used`，不是 `max - used`。
 - 把 `valueText` 从剩余量改写成已用量："38% left · resets in 3h" 变成 "62% used · resets in 3h"。"Used up" 不变。
-- `low`，也就是计量条开始警告时的剩余量，已弃用，但仍然有效。把它换成 `warnAt`，也就是已用的比例：`max` 为 100 时，`low={20}` 就是 `warnAt={0.8}`，即默认值，所以大多数调用方直接去掉它。两者都设置时，以 `warnAt` 为准。
+- `low`，也就是计量条开始警告时的剩余量，已移除。把它换成 `warnAt`，也就是已用的比例：`max` 为 100 时，`low={20}` 就是 `warnAt={0.8}`，即默认值，所以大多数调用方直接去掉它。
 - `data-level` 现在是 `normal`、`high` 或 `full`，不再是 `plenty`、`low` 或 `empty`。
 - 已用完的计量条是一条满的警告色条；带 `warning` 边的空 `warning-muted` 轨道不再使用。

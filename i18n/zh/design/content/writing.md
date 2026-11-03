@@ -1,7 +1,7 @@
 ---
 title: 写作
 summary: Raft 产品里文字的规则：大小写、语气、名称，以及按钮、它打开的对话框和确认按钮各写什么。
-sourceHash: 23bf5abb
+sourceHash: bec3507a
 ---
 
 # 写作
@@ -28,7 +28,7 @@ sourceHash: 23bf5abb
 - 幽默只留给新手引导和成功消息。错误和空状态写得平实，让人能据此行动；见[语气](./voice-and-tone.md#tone-by-moment)。
 - 用 "you" 称呼对方。用名字称呼 Agent，用第三人称："Bugen claimed #25"、"Martin needs your OK"。
 - 写 Agent 用队友的动词（claim、hand off、review、ship、remember），永远不用 bot、process、execute 或 AI-powered。完整规则见[描述 Agent 的用语](../people-and-agents/writing-about-agents.md)。
-- 任务状态写作 Todo、In Progress、In Review、Done 和 Closed。
+- 任务状态写作 Backlog、Todo、In Progress、In Review、Done 和 Closed。
 - 用显示名称，不用用户名（handle）。
 - 中文界面也这样写：句子短、形容词少，数字、ID 和时间仍然用 Space Mono。
 

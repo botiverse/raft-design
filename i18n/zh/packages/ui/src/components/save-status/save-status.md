@@ -1,7 +1,7 @@
 ---
 title: SaveStatus
 summary: 立即生效的设置下方的一行，短暂显示 "Saved" 或说明哪里失败了；没有内容时也保留它的空间。
-sourceHash: b7547b12
+sourceHash: 4b4d5950
 ---
 
 # SaveStatus
@@ -26,7 +26,7 @@ save-status/compositions/preview
 ## 结构 {#anatomy}
 
 - `SaveStatus`：这一行，不管有没有内容，都是一行 footnote 文字的高度（18px）。紧接着控件放它：在 `Field` 里放在选择器或分段控件之后、任何 `FieldDescription` 之前；在设置行的 `ListRowBody` 里放在描述之后。必需。
-- `SaveStatusSaved`：一个对勾加 "Saved"，用 `foreground-muted`；这个对勾就是 Save 按钮变成 "Saved" 时显示的那个（[表单](../../../../../design/patterns/forms.md#settings-saved-together)）。它是 polite 实时区域，所以什么都没发生时把它渲染成空的，改动保存好后再放入文字；对勾只和文字一起显示。
+- `SaveStatusSaved`：一个对勾加 "Saved"，用 `foreground-muted`。对勾是 12px 的 `circle-check`，在文字前面，相距 4px：成功用 `circle-check`，而 12px 文字旁边的图标用 11px 到 12px 这一档，和事件行、徽标里的图标一样（[图标](../../../../../design/foundations/iconography.md#meanings)）。它是 polite 实时区域，所以什么都没发生时把它渲染成空的，改动保存好后再放入文字；对勾只和文字一起显示。
 - `SaveStatusError`：说明哪里失败了，用 `danger-strong`，代替 `SaveStatusSaved`。
 
 ## 状态 {#states}
