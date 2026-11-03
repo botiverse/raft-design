@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的 Tasks 和 Files 分区，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: a5d2c114
+sourceHash: 53e208a3
 ---
 
 # Raft Chat — 频道
@@ -53,13 +53,13 @@ conversation-panel/compositions/conversation-panel
 
 时间线里的任务遵循[任务](../../patterns/tasks.md#tasks-in-a-conversation)。
 
-- 创建任务：用 Tasks 分区里的 +，创建一个不关联消息的频道任务；或者用消息菜单里的 Create Task from Message。Create Task from Message 打开 Create Task，引用这条消息，并把消息的文字作为初始标题；在那里创建的每个任务都链接到这条消息，一条消息可以有多个任务。
+- 创建任务：用 Tasks 分区里的快速添加（"Add a task"）或 +，创建一个不关联消息的频道任务；或者用消息菜单里的 Create Task from Message。Create Task from Message 打开 Create Task，引用这条消息，并把消息的文字作为初始标题；在那里创建的每个任务都链接到这条消息，一条消息可以有多个任务。
 - 从消息创建的任务显示在消息下面，也显示在消息列顶部那条消息的下面。
-- 在任务详情或 Tasks 页面上修改任务状态，不从消息菜单修改。
+- 在任务详情或 Tasks 页面上修改任务状态，或者用消息下面任务那一行上的完成控件完成它；不从消息菜单修改。
 
 ### 消息列 {#threads}
 
-- 在消息列标题栏的右侧，先在关注者的头像堆旁边放 "2 Agents following"，然后是一个菜单（Focus Mode、Search in Thread、View in Channel、Mark as Unread、Unfollow Thread；人没有关注的消息列是 Follow Thread，没有 Mark as Unread），宽屏上最后还有 ×。
+- 在消息列标题栏的右侧，先在关注者的头像堆旁边放 "2 Agents following"，然后，消息列在侧面板里开在它的频道或私信旁边时，放 Focus Mode 按钮：它把那个对话隐藏起来，让消息列占用它的宽度，按钮随之变成 Standard Mode，用来把对话恢复回来（一个展开类的操作，放在菜单左边，从不放进菜单：[Panel](../../../packages/ui/src/components/panel/panel.md#rules)），然后是一个菜单（Search in Thread、View in Channel、Mark as Unread、Unfollow Thread；人没有关注的消息列是 Follow Thread，没有 Mark as Unread），宽屏上最后还有 ×。
 - 在消息列里，每条消息的菜单都有 Mark Thread as Unread，排在 Unfollow Thread 后面：它写 "Thread"，是因为这是一条消息的菜单，而它把整个消息列标为未读，不只是从这条消息往后。这两项都是消息列在动态里那一行的操作，用同一个 `message-square-dot` 图标：消息列在它的频道里和动态里都显示为未读。人还在这个消息列里，所以它保持打开，一直是未读，直到人离开它，和人在一个标为未读的频道里时一样。在动态的详情栏里，在消息列里做操作就会把它标为已读，和点选它的行一样。人没有关注的消息列两项都没有，和它在动态里的行一样：取消关注一个消息列会立即清掉它的未读。
 
 ### 套餐时间范围之外的历史 {#history-behind-the-plans-window}

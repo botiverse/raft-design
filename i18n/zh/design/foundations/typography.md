@@ -129,7 +129,7 @@ field
 card-title
 ```
 
-- `card-title-*` 设定 CardTitle（工具类 `text-card-title`、`font-card-title`）。放在卡片标题旁边的单选框或复选框用它的行高与标题对齐。
+- `card-title-*` 设定 CardTitle（工具类 `text-card-title`、`font-card-title`）。放在卡片标题旁边的单选按钮或复选框用它的行高与标题对齐。
 
 ## 大小写 {#casing}
 

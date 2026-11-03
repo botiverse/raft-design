@@ -1,12 +1,12 @@
 ---
 title: Tasks
 summary: 所有任务视图共用的部件：显示任务进行到哪一步的状态徽标和任务标签片、状态像素点，以及任务面板的外壳。
-sourceHash: c520983e
+sourceHash: a5395272
 ---
 
 # Tasks
 
-这些是所有任务视图共用的部件。`TaskStatusBadge` 把任务的状态写成一个状态标签：状态的浅色底、它的像素和它的名称。`TaskChip` 是同样的标签片，只是里面装的是一个任务，比如正文里提到的任务（`#design:#25`）。`TasksPanelRoot` 和它的部件是任务页面的外壳。五种状态以及任务怎么显示，见[任务](../../../../../design/patterns/tasks.md)；它们的颜色见[颜色](../../../../../design/foundations/color.md#statuses)。
+这些是所有任务视图共用的部件。`TaskStatusBadge` 把任务的状态写成一个状态标签：状态的浅色底、它的像素和它的名称。`TaskChip` 是同样的标签片，只是里面装的是一个任务，比如正文里提到的任务（`#design:#25`）。`TasksPanelRoot` 和它的部件是任务页面的外壳。六种状态以及任务怎么显示，见[任务](../../../../../design/patterns/tasks.md)；它们的颜色见[颜色](../../../../../design/foundations/color.md#statuses)。
 
 ```example
 tasks/compositions/task-status
@@ -36,9 +36,13 @@ tasks/compositions/task-status
 - `TaskLoadingList`、`TaskLoadingRow`：任务加载时的占位行。
 - `taskStatusSoft`、`taskStatusStrong` 和 `TASK_STATUS_IDS`：用同一组 `task-status-*` token 搭建其他状态界面的配方。
 
+raft-ui 尚未实现：这些部件只认识五种状态。第六种 Backlog 不在 `TASK_STATUS_IDS` 里，`TaskStatusIcon` 和 `TaskChip` 也不画它；在 raft-ui 加上它之前，手动画出它的像素点和标签片（[颜色](../../../../../design/foundations/color.md#statuses)）。
+
 ```example
 tasks/compositions/tasks-panel
 ```
+
+raft-ui 尚未实现：这个示例显示的是 [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md) 之前的任务，只有五种状态，也没有完成控件。
 
 ## 变体 {#variants}
 
@@ -86,11 +90,11 @@ tasks/compositions/tasks-error
 ## 行为 {#behavior}
 
 - 任务卡片上的状态标签做成按钮，点开状态列表，名称后面带一个向下的箭头（[TaskCard](../task-card/task-card.md)）。其他改状态的方式见[任务](../../../../../design/patterns/tasks.md#rules)。
-- 正文里的任务引用点开后打开这个任务。消息下面的任务行也打开它，并且不修改状态（[对话中的任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)）。
+- 正文里的任务引用点开后打开这个任务。消息下面的任务行也打开它；只有行上的完成控件会修改状态（[对话中的任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)）。
 
 ## 内容 {#content}
 
-- 状态写作 Todo、In Progress、In Review、Done 和 Closed（中文界面为待办、进行中、待确认、完成、已关闭）。`TaskStatusBadge` 没有内置标签：由调用方传入并翻译。
+- 状态写作 Backlog、Todo、In Progress、In Review、Done 和 Closed（中文界面中后五种为待办、进行中、待确认、完成、已关闭）。`TaskStatusBadge` 没有内置标签：由调用方传入并翻译。
 - 任务编号用 Space Mono：`#25`（[字体排印](../../../../../design/foundations/typography.md#usage)）。
 - 在任务引用里，先写地方，再写编号：`#design:#25`（[引用任务](../../../../../design/patterns/tasks.md#referring-to-a-task)）。
 
@@ -104,5 +108,5 @@ tasks/compositions/tasks-error
 ## 规则 {#rules}
 
 - 任何显示任务状态的新界面，都用 `taskStatusSoft` 和 `taskStatusStrong` 搭建，这样一种状态在哪里都是同一种颜色。
-- 不要给标签片加边框：浅色底是高亮，不是贴纸（[Status](../status/status.md#rules)）。
+- 不要给标签片加边框：浅色底是高亮，不是贴纸（[Status](../status/status.md#rules)）。Backlog 的标签片没有浅色底，是个例外（[颜色](../../../../../design/foundations/color.md#statuses)）。
 - 标签片把内边距平分到两端：各 7px，`sm` 时各 5px，内联时各 4.5px，总量和以前一样。状态像素画满到边缘，所以它前面的空白全是内边距；以前这一端少 2px 时，像素离边缘 6px，最后一个字母离边缘 8.5px（[对齐](../../../../../design/foundations/alignment.md#chips)）。内联标签片里的状态像素用自己 10px 的盒子，离文字 4px（[正文中的标签片](../message-item/message-item.md#chips-in-running-text)）。

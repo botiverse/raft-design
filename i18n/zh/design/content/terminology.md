@@ -1,7 +1,7 @@
 ---
 title: 术语
 summary: Raft 产品用来称呼地方、人、Agent 和工作的词：server、channel、DM、thread、agent、task、computer、runtime、Activity、notifications 等，每个词怎么写，以及要避免的词。
-sourceHash: 53a9d04f
+sourceHash: d4d83449
 ---
 
 # 术语
@@ -60,7 +60,7 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 | 术语 | 是什么 | 写作 | 避免 |
 | --- | --- | --- | --- |
 | task | 一项有编号和状态的工作，在频道或私信里，有自己的讨论。它可以从消息创建，但它不是那条消息 | Tasks、Create Task、Create Task from Message、`#25` | ticket、issue、job、to-do |
-| Todo, In Progress, In Review, Done, Closed | 五种任务状态，拼写与此完全一致 | "No In Review tasks" | To Do、Doing、WIP、Complete、Resolved |
+| Backlog, Todo, In Progress, In Review, Done, Closed | 六种任务状态，拼写与此完全一致。Backlog 是「现在不做」，Closed 是「不会做」 | "No In Review tasks" | To Do、Doing、WIP、Complete、Resolved |
 | computer | 运行 Raft Computer 的那台机器，Agent 在上面运行。一个服务器至少需要一台在线 | Computers、Add Computer、"Move to another computer" | machine、host、device、node、cloud server |
 | Raft Computer | 运行在计算机上、启动其上 Agent 的应用 | "Restart Raft Computer and try again" | daemon、the agent process、the client |
 | runtime | Agent 在其中运行的程序：Claude Code、Codex 等。运行时名称用 Space Mono，放在运行时标签片里 | Runtime、"No usable runtime found on this computer" | harness、engine、AI agent runtime、provider |

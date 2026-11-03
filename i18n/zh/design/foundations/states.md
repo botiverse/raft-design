@@ -24,9 +24,9 @@ sourceHash: 724cccff
 | 选中：导航 | 一张黄色贴纸：侧栏的行、分段控件、标签页、标签栏的图标。浅色模式下在黄色外框上，导航条的选中项是白色贴纸；深色模式下是黄色。外框上的选中项是主题的 `layer-frame-active`，所以其他主题会给它换颜色（无聊灰里是灰色） |
 | 选中：内容 | `info-soft`：当前打开的项、生效中的筛选条件、页面内搜索打开期间的当前匹配项 |
 | 被定位 | `info-soft` 持续 2 秒并淡出：跳转把人带到的那一项（[被定位](#located)） |
-| 选中：值 | 墨色：勾选的复选框或单选框。在菜单里，当前值带一个对勾，文字加粗 |
+| 选中：值 | 墨色：勾选的复选框或单选按钮。在菜单里，当前值带一个对勾，文字加粗 |
 | 未读 | 文字加粗，加一个粉色计数。有人提及这个人时，用黄色的 @ 标记代替计数。在图标上，是一个粉色像素点。选中的项两者都不显示 |
-| 禁用 | 填充 `fill-muted`，边框 `line-hairline` 或 `foreground-disabled`，文字 `foreground-disabled`。按钮、带边框的图标按钮、输入框、选择框、复选框、单选框、开关、分段控件和标签页都一样。无边框的图标按钮和外框上的无边框按钮不加填充也不加边框：只把图标和文字变成 `foreground-disabled`。列表行保留填充：只把文字和图标变成 `foreground-disabled`。不响应悬停和按下 |
+| 禁用 | 填充 `fill-muted`，边框 `line-hairline` 或 `foreground-disabled`，文字 `foreground-disabled`。按钮、带边框的图标按钮、输入框、选择框、复选框、单选按钮、开关、分段控件和标签页都一样。无边框的图标按钮和外框上的无边框按钮不加填充也不加边框：只把图标和文字变成 `foreground-disabled`。列表行保留填充：只把文字和图标变成 `foreground-disabled`。不响应悬停和按下 |
 | 仅展示 | 一行里只有控件可以交互（设置里带开关的行、侧栏里的这台计算机）时，这一行不是按钮：渲染为 `<div>`，行本身没有悬停和按下，焦点只落在控件上 |
 | 错误 | 输入框加 `danger-strong` 边框，并加一行文字说明怎么改。在对话框里用横幅。整个服务器的问题放进通知中心，见 [反馈](../patterns/feedback.md) |
 | 忙碌 | 按钮里放一个像素加载指示器，标签写明正在做什么。其他地方，加载指示器与它所替代的东西匹配：在一行文字里，保持这一行的高度；替代面板或列表的内容时，用 `md` 或 `lg`，配一行 `text-callout` 或 `text-body`、`foreground-muted` 的文字（[Spinner](../../packages/ui/src/components/spinner/spinner.md#size)）。在原地忙碌的东西上，比如正在上传的图片或正在准备的预览，盖一层 `layer-veil` 覆盖层，加载指示器用默认颜色（[表面](./color.md#surfaces)） |
@@ -125,7 +125,7 @@ sourceHash: 724cccff
 - Cmd 和 Ctrl 快捷键，以及单独按下的修饰键，也不算。快捷键把焦点移到没有光标的地方时，如果没有别的原因能解释这次移动，仍然显示焦点环（见下一条）；快捷键把焦点送到文本框（Cmd+K）时显示光标。
 - 输入不是我们能看到的指针时，所有焦点环都显示：在任何输入之前（页面刚加载；键盘用户还没按 Tab），焦点到达前没有按键或按下时（读屏软件的浏览光标、定时器），以及读屏软件合成一次按下时（VoiceOver、TalkBack）。只有真实的指针按下，或在其他输入之前的真实鼠标移动，才会隐藏焦点环。键盘和读屏软件用户永远不会失去它（[WCAG 2.4.7](https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html)）。
 - 复合控件给整组加焦点环：输入框（composer）、带前缀或后缀的输入框、多选字段。只有组内某个元素获得键盘焦点时（`has-focus-visible`）整组才显示焦点环，组内有任意焦点（`focus-within`）不算：点击搜索框的清除按钮不会让搜索框显示焦点环。
-- 复选框或单选框给方框加焦点环。由一个隐藏的原生 input 驱动。
+- 复选框或单选按钮给方框加焦点环。由一个隐藏的原生 input 驱动。
 
 raft-ui 用 `installInputModality()` 实现这条规则。[ThemeProvider](../about/use-raft-ui.md#theme-and-dark-mode) 会安装它，所以用 ThemeProvider 的应用不需要自己写代码。它在 `document.documentElement` 上维护 `data-input-modality`：没有依据之前不设置，之后是 `pointer`、`keyboard` 或 `virtual`。只有值为 `pointer` 时，styles.css 才会清空 `focus-ring`，浅色和深色模式、浅色或深色局部区域都一样；其他任何值，以及没有值时，都显示焦点环。
 

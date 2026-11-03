@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带 56px 的面板标题栏和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: bbdf9a72
+sourceHash: 06a85f89
 ---
 
 # Panel
@@ -102,6 +102,7 @@ panel/compositions/panel-split-action
 
 - 在 `PanelTitle` 里写地点、人或视图的名称。
 - 地点在 `PanelHeaderIcon` 里放位置图块（[IconTile](../icon-tile/icon-tile.md)），人放这个人的头像。其他页面没有图标：由它们的 `PanelMeta` 说明它们属于哪里，比如消息列所在的频道。
+- 图标和它所属的标题放在一起：图标说明标题指的是什么，所以两者之间什么都不放，既不放上层各个地方的路径，也不放标签。计算机的头部是它的设备图标，然后是它的名称。
 - `PanelMeta` 先写实时的内容，再写数量："2 agents working · 5 members"（[正在工作的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。数字和 ID 用 Space Mono（[字体排印](../../../../../design/foundations/typography.md#usage)）。
 - 名称上的标签（Experimental、Archived、Deleted）作为 `PanelStatus` 放在 `PanelHeading` 里，不要放在 `PanelMeta` 里：描述会被截断，截断会切掉标签的边。
 
@@ -119,6 +120,8 @@ panel/compositions/panel-split-action
 - 每个面板都用这个标题栏：对话、消息列、侧面板和抽屉。不要给某个面板单独的标题栏或按钮尺寸。
 - 标题栏里的图标按钮用 `PanelAction`：桌面端（768px 起、使用鼠标或触控板）是 32px，图标 18px，点击区域 44px，间隔 4px；手机上以及任何宽度的触屏上是 44px，图标 22px，间隔 2px。它们跟随默认控件高度（[间距](../../../../../design/foundations/spacing.md#heights)）。在桌面端，44px 的按钮放在 17px 的标题旁边显得太重；手指则需要 44px。
 - 返回按钮放在标题栏最前面，操作放在最后，放进 `PanelActions`：标题栏会把首尾两个按钮往外拉，让它们的图标框（而不是按钮本身）落在内容边距上。这个边距在桌面端和桌面布局下的触屏上是 20px，在手机上是 16px（在由列表单元格组成的列里是 20px），按钮尺寸不论大小都一样（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。不要自己加外边距去挪动边上的按钮。这个边距就是 `--column-margin`（手机上 16px，768px 起 20px）；由列表单元格组成的列在任何宽度都把它设为 20px，这样它的头部和它各行的内容从同一处开始（[列表](../../../../../design/patterns/lists.md#one-edge)）。`PanelNotice` 和面板底部区域也按它留内边距。要给某一列换一个边距，在这一列上设 `[--column-margin:…]`；在头部上用 `px-*` 会在所有宽度上取代这个变量，手机的 16px 和列表列的 20px 就都不再对它生效。`PanelActions` 里只放 `PanelAction`：这个组声明了它们的内缩量，所以某个宽度下隐藏的操作（消息列的 Close 在 1024px 以下隐藏）会让下一个操作落到边上。作为标题栏第一个或最后一个子元素、尺寸为 `icon-md` 或 `icon-lg` 的无边框 `Button` 也会这样被拉出；有填充的按钮则让它的形状止于边距。
+- 每个标题栏里的操作都按同样的顺序排：先是显示成按钮的操作，然后是溢出菜单（⋯），最后是 Close。⋯ 永远是 Close 之前的最后一个操作，因为它装的是放不下的东西，所以显示出来的操作都排在它前面；这也是人在任何应用里找"更多"的地方（平台惯例，比如 Material 的顶部应用栏和 Apple 的工具栏）。Close 是离开面板，而不是对面板里的东西做什么，所以它单独待在最外侧，就像另一端的返回一样。在这些按钮里，先放改变视图的（展开类操作），再放作用于内容的。
 - 给 `PanelStatus` 在标题那一行单独一格，并按它的形状居中。不要微调它：标题的字母已经落在这一行的中线上，挪 1px 就会显得偏高。
 - 用标题栏里的 `PanelToggleAction` 打开侧面板：再按一次就关闭。
+- 每个展开类操作都作为标题栏里单独的按钮显示，从不放进溢出菜单（⋯）：Expand 和它的 Restore（`maximize-2` / `minimize-2`，一个 `PanelToggleAction`，展开时处于按下状态）、消息列在旁边时的 Focus Mode（同样的图标），以及 Open in New Page（`arrow-up-right`，一个 `PanelAction`）。它们改变的是视图本身，而不是视图里的东西，人们也经常用到，所以按一下就到，不用按两下（stdrc，2026-10-31）。和标题栏里显示出来的每个操作一样，它们排在 ⋯ 前面（见上面的顺序）：先是 Open in New Page，然后是 Expand，然后是面板的其他操作。标题栏放不下时，先把其他操作收进 ⋯；这些操作留着。在手机上，面板已经占满屏幕，没有什么可展开的：不放 Expand 和 Focus Mode，Open in New Page 留在 ⋯ 里。
 - 对话旁边的侧面板设 `edge="attached"`，由它画出两者之间唯一的那条线（[页面结构](../../../../../design/patterns/page-structure.md#one-line-between-two-regions)）。

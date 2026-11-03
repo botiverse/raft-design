@@ -1,7 +1,7 @@
 ---
 title: Raft Chat
-summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、桌面端布局和侧栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层，以及它和通用模式不一致的地方。
-sourceHash: 823b5337
+summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、动态的滑动操作、服务器标签、桌面端布局和侧栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层、下拉刷新、地点列表，以及它和通用模式不一致的地方。
+sourceHash: d8e66f7a
 ---
 
 # Raft Chat
@@ -24,10 +24,11 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 | 位置 | 目的地 |
 | --- | --- |
 | 手机标签栏 | 主页（`house`）、动态（`activity`，和桌面端导航条一样）、任务（`square-check-big`）、搜索（`search`），以及当前服务器（它的头像和名称），在贴边的标签栏上（[MobileNav](../../../packages/ui/src/components/mobile-nav/mobile-nav.md#search-and-the-server-tab)）。顺序固定。搜索是一个标签，也是搜索全部内容的唯一入口：它的页面没有返回，标签栏保持搜索选中，切换标签后它的查询、筛选、结果和滚动位置都保留（[导航](../../patterns/navigation.md#search-on-a-phone)）。移动应用和手机网页上都一样 |
-| 手机上的服务器标签 | 打开一个弹出层而不是页面：先是服务器列表，然后是 Join Community、Switch or Create Server 和 Invite Human，最底部是并排一行的成员、计算机和[设置](./settings.md)。服务器自己的每个页面打开一个推入页面，带返回。切换服务器时停在当前标签（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)）。访客没有成员和计算机，所以他们的那一行只有设置。在应用的桌面模式下（840dp 起）没有服务器标签：导航条头部的工作空间图块打开这个弹出层，里面没有那一行页面，因为成员在导航条上，设置在导航条底部，计算机在设置里（[导航](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)） |
-| 手机主页的第一行 | 收藏（带灰色计数），这是它唯一的入口；见[主页](./home.md) |
+| 手机上的服务器标签 | 打开一个弹出层而不是页面：先是服务器列表和它底部的操作，最底部是一行服务器自己的页面（[服务器标签](#the-server-tab)）。服务器自己的每个页面打开一个推入页面，带返回。切换服务器时停在当前标签（[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)） |
+| 手机主页的前几行 | 收藏，然后是草稿，各带一个灰色计数，在手机上都是各自唯一的入口；见[主页](./home.md) |
 | 网页顶栏（768px 起，以及桌面应用的标题栏） | 同[页面结构](../../patterns/page-structure.md#the-web-top-bar)；搜索框打开搜索 |
-| 桌面端导航条 | 聊天、动态、任务、成员、计算机；底部是帮助（`circle-help`）和设置。访客没有成员和计算机 |
+| 桌面端导航条（网页和桌面应用） | 聊天、动态、任务、成员、计算机；底部是帮助（`circle-help`）和设置。访客没有成员和计算机 |
+| 应用桌面模式下的导航条（840dp 起） | 上面没有计算机：它在设置里（[服务器标签](#the-server-tab)） |
 | 只在[设置](./settings.md)里 | Account 末尾的 Sign Out |
 
 没有网页顶栏时（较旧的桌面版本、服务器的公开页面），导航条顶部显示工作空间图块，搜索在聊天之前，铃铛在帮助上方。
@@ -36,7 +37,8 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 
 提醒圆点遵循[导航](../../patterns/navigation.md#where-you-are)。在 Raft Chat 里，它们标在：
 
-- 导航条上：有未读消息时标在聊天上，有未读动态时标在动态上，有计算机需要处理时标在计算机上，反馈有新回复时标在设置上；帮助上标一次，用来宣布移动应用，直到其中的移动应用一项被打开；
+- 网页和桌面应用的导航条上：有未读消息时标在聊天上，有未读动态时标在动态上，有计算机需要处理时标在计算机上，反馈有新回复时标在设置上；帮助上标一次，用来宣布移动应用，直到其中的移动应用一项被打开；
+- 应用桌面模式下（840dp 起）的导航条上，它没有计算机按钮：有计算机需要处理时改为标在设置上，因为这时计算机在设置里（[服务器标签](#the-server-tab)）；
 - 手机标签栏上：有未读动态时标在动态上；其他服务器有未读内容时标在服务器标签的头像上，和主页的工作空间按钮一样。搜索上从不出现圆点。
 
 目的地被选中时，它的圆点都不显示，设置和帮助也一样；圆点永远只是一个点，从不是计数（[导航](../../patterns/navigation.md#where-you-are)）。其他服务器的未读显示为服务器标签弹出层里它那一行的计数。反馈回复和需要处理的计算机不标在服务器标签上：它们各自在弹出层里自己的按钮上显示圆点，即 Settings（以及里面的 Feedback）和 Computers（在手机上，只在这里显示）。其他新内容都显示在页面里面；未读计数在动态里。
@@ -50,7 +52,27 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 ### 铃铛和动态 {#the-bell-and-activity}
 
 - 铃铛打开通知中心：整个服务器的状态。它列出联合频道的邀请、服务商的用量上限、套餐变更、需要处理、离线或磁盘空间不足的计算机、在这台设备上安装 Raft，以及反馈的新回复。每一条都有自己的操作和 Dismiss。
-- 动态列出等这个人处理的对话：有未读消息或提及的频道、私信和关注的消息列。它按 All、Unread 和 Mentions 筛选，有 Mark all read，没有搜索框，每一行有一个 Mark as Done 勾选，在手机上则改为左滑和这一行长按菜单里的一项（[触屏](../../patterns/responsive.md#touch-screens)）。审批和任务不会作为单独的行出现在里面。在手机上，左滑露出这一行的按钮：先是 Done，然后关注的消息列上是 Unfollow，已加入、动态没有静音的频道上是 Mute，各自只在适用时出现；拉过 60% 就执行 Done。轻提示说明发生了什么（「Unfollowed …」「Muted activity in #…」），带 Undo，同样的操作也在长按菜单里。右滑把这一行标为已读，已经是已读时标为未读，这一行留在原处，没有轻提示。在标签栏上再点一次动态，或点它的标题栏，会跳到下方下一个未读对话，到底后回到顶部，循环往复（[导航](../../patterns/navigation.md#going-back)）。
+- 动态列出等这个人处理的对话：有未读消息或提及的频道、私信和关注的消息列。它按 All、Unread 和 Mentions 筛选，有 Mark all read，没有搜索框，每一行有一个 Mark as Done 勾选，在手机上则改为左滑和这一行长按菜单里的一项（[手机上的动态](#activity-on-a-phone)）。审批和任务不会作为单独的行出现在里面。
+- 点按已选中的标签会做什么，动态是唯一的例外（[导航](../../patterns/navigation.md#going-back)；artin，2026-10-21）：它是人要逐条处理的列表，所以再点一次动态，或点它的标题栏，会跳到当前位置下方的下一个未读项，把它滚动到列表顶部，并把它标为被定位（[被定位](../../foundations/states.md#located)）。过了最后一个未读项，再点一次就回到顶部，循环重新开始；没有未读项时，回到顶部。它只在当前筛选里移动，不会把任何东西标为已读。
+
+### 手机上的动态 {#activity-on-a-phone}
+
+滑动本身、它的距离、它的按钮和带 Undo 的轻提示遵循[触屏](../../patterns/responsive.md#touch-screens)。在动态里：
+
+- 用鼠标时，Mark as Done 和每个行操作一样，只在悬停时出现。在手机上它是例外：要左滑这一行或通过它的长按菜单才能用到，静止时没有按钮（stdrc，2026-10-23）。一个大多是待清理的行的列表，每行一个按钮，读起来就是一列按钮；而在手机上，人本来就是把一行滑走来清理列表的（Mail、Messages）。平板和桌面端保留这个按钮：那里的行更宽，滑动也不是习惯。
+- 左滑露出这一行的按钮：先是 Done，然后关注的消息列上是 Unfollow，已加入、动态没有静音的频道上是 Mute，各自只在适用时出现；拉过 60% 就执行 Done。轻提示说明发生了什么（"Unfollowed …"、"Muted activity in #…"），带 Undo，同样的操作也在长按菜单里。
+- Done 没有确切的反操作，Unfollow 也没有：取消关注一个消息列的同时会把它标为已读，重新关注也没法让它变回未读（Jasper 和 Tenny，2026-10-27）。所以两者都等着轻提示，之后才执行。如果这期间这一行有了新动态，Done 就放弃执行；Unfollow 照样执行，因为不管这个消息列接下来说什么，这个人都不再关注它了。Mute 把这一行留在列表里，标为已静音，轻提示和 Undo 都一样；已静音的行的按钮里没有 Mute。
+- 右滑把这一行标为已读，已经是已读时标为未读，这一行留在原处，没有轻提示。在 Unread 或 Mentions 筛选下，刚标为已读的行仍然留着，直到人离开列表或换了筛选，和邮件客户端一样，这样往回滑时总有一行可滑。
+- 下面这些行没有右滑，因为滑动没法在屏幕上改变它们的已读状态：已静音会话的行（不管里面有什么都画成已读）、直接提及的行（标为已读什么也不改变）和 Artifact 的行（可以被读，但不能再标回未读）。
+
+### 服务器标签 {#the-server-tab}
+
+服务器标签和工作空间图块遵循[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)。在 Raft Chat 里（手机上的做法由 stdrc 于 2026-10-22 决定，D1a，任务 #152）：
+
+- 服务器标签占了原来「更多」的位置，所以标签栏仍是 5 个标签。
+- 弹出层底部的操作是 Join Community（直到这个人加入了它）、Switch or Create Server 和 Invite Human。Invite Human 留在这里，不放进页面那一行：它打开的是一个对话框，而不是一个地方。
+- 最底部那一行放服务器自己的页面，也就是原来「更多」里的那些：成员、计算机和[设置](./settings.md)。它们是同一个服务器里的三个地方，所以放成一行只占一行，不用占三行；放在最底部，它们离拇指和标签栏最近，也就是原来「更多」所在的地方。访客没有成员和计算机，所以他们的那一行只有设置：设置里有他们的账户和 Sign Out，而在手机上，弹出层是进入设置的唯一入口。
+- 在应用的桌面模式下（840dp 起；Jasper，2026-10-23，任务 #8；页面那一行由 artin 于 2026-10-29 去掉）没有服务器标签：导航条头部的工作空间图块打开这个弹出层，里面没有那一行页面（[导航](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)）。这些页面每一个都已经有一个始终留在屏幕上的入口：成员在导航条上，设置在导航条底部，计算机在设置里。和网页的导航条不同，这条导航条没有计算机按钮，所以两个圆点都在导航条的设置上：反馈回复的圆点，以及需要处理的计算机的圆点，因为计算机是从那里进入的。
 
 ### 手机一级页面的顶部 {#the-tops-of-the-phones-top-level-pages}
 
@@ -75,9 +97,9 @@ sidebar/sidebar
 
 | 目的地 | 侧栏列出 |
 | --- | --- |
-| 聊天 | 收藏，然后是 Pinned、这个人自己的分组、Joint Channels、Channels 和 Direct Messages 这几个分组。分组可以拖动排序。Agent 列在私信中间 |
+| 聊天 | 收藏和草稿，然后是 Pinned、这个人自己的分组、Joint Channels、Channels 和 Direct Messages 这几个分组。分组可以拖动排序。Agent 列在私信中间 |
 | 成员 | Graph，然后是 Agents（按计算机分组）和 Humans，各带一个计数和一个添加按钮 |
-| 计算机 | 各台计算机，带一个添加按钮 |
+| 计算机 | 没有侧栏：各台计算机以卡片墙或列表的形式占满导航条旁边的页面，页面头部有一个添加按钮。一台计算机在它们旁边的侧面板里打开，在卡片墙上显示为选中（[导航](../../patterns/navigation.md#opening-an-item)） |
 | 设置 | 设置的各组（[设置](./settings.md)） |
 | 任务 | 没有侧栏：看板紧接在导航条后面 |
 | 搜索、动态 | 一开始没有侧栏：页面占满宽度。选中一个结果后，结果列表占据侧栏的位置，结果在它旁边打开 |
@@ -115,6 +137,7 @@ sidebar/sidebar
 | 从右侧滑出的抽屉，最宽 420px（手机上全宽） | 频道详情和设置，成员列表是其中的一个页面（[频道](./channel.md#the-channel-details)） |
 | 弹出层 | Working now、通知、服务器列表、Help & resources（在导航条上悬停时打开） |
 | 带简短说明的底部面板（手机） | Add Raft to your Home Screen，从通知中心的 Install Raft 或 Settings › Notifications 里的 Add 按钮打开（按钮：Got it） |
+| 确认（[浮层](../../components/overview.md#overlays)） | Dialog，只有两处用 [AlertDialog](../../../packages/ui/src/components/alert-dialog/alert-dialog.md)：放弃对 Agent 个人资料未保存的修改，以及打开一个会跳转到其他应用的链接 |
 | 小型表单对话框（[表单](../../patterns/forms.md#forms-in-a-dialog)） | Create Channel、Create Task、Create Agent |
 | 宽表单对话框（[表单](../../patterns/forms.md#the-large-form-dialog)） | Register App、编辑一个应用（Edit Release Bot） |
 | 悬停在人或 Agent 上时的个人资料卡 | 51px 的头像；名字，带状态灯和它正在做什么；handle；Computer、Runtime、Model 和 Reasoning；一行描述；对于管理这个 Agent 的人，还有它最近的动态。没有按钮 |
@@ -132,6 +155,17 @@ sidebar/sidebar
 | 768px 以下 | 不要自动打开第一个频道：先显示主页。768px 起，打开服务器的根页面就打开它的第一个频道 |
 | 搜索和动态的结果列表 | 380px，可在 320px 到 640px 之间调整，所有桌面宽度下都用同一个宽度（[间距](../../foundations/spacing.md#resizing-columns)） |
 
+### 下拉刷新 {#pull-to-refresh}
+
+下拉刷新遵循[导航](../../patterns/navigation.md#refreshing)：只用在加载快照的页面上。
+
+- 加载快照、因而在手机上有下拉刷新的页面是：收藏、搜索结果（显示出搜索结果之后）、频道或消息列的文件，以及设置里的各个列表：邀请、加入链接、应用和账单。
+- 由实时更新驱动、从不提供下拉刷新的页面是：消息、消息列、私信、主页的对话列表、动态、任务、成员、计算机和单台计算机的页面，以及频道的成员。
+
+### 地点列表 {#lists-of-places}
+
+尺寸遵循[同一类，同样大小](../../foundations/spacing.md#the-same-kind-the-same-size)。在手机上，主页的频道和私信、成员以及设置列表都是「地点列表」，都用同一种侧栏行绘制：44px，16px、字重 600 的名称和 16px 的图标。改一个就要全部一起改。固定这个尺寸的测试会在主页的行和设置列表出现偏差时失败。
+
 ## 与通用模式的差异 {#differences-from-the-shared-patterns}
 
 Raft Chat 目前在以下几处偏离了这些模式。每一行写的是产品这一边的做法；规则在链接的页面上。
@@ -140,6 +174,7 @@ Raft Chat 目前在以下几处偏离了这些模式。每一行写的是产品�
 | --- | --- |
 | 提及标记取代未读计数（[状态](../../foundations/states.md)） | 频道行在粉色计数前显示 @ 标记 |
 | 每个推入页面都有返回（[导航](../../patterns/navigation.md#going-back)） | 在手机网页上，RaftBench 的入口页面，以及加载中的 Assistant 页面，既没有返回也没有标签栏 |
+| 已知的布局在骨架屏里等待（[等待](../../components/overview.md#waiting)） | 会话时间线和个人资料面板在等待时显示文字 "Loading…" |
 | 加载失败时不显示空状态（[反馈](../../patterns/feedback.md#empty-loading-and-failed)） | 动态或收藏的列表加载失败时，显示它的空状态 |
 | 独立的设置立即生效（[表单](../../patterns/forms.md#settings-that-apply-at-once)） | Language & Region、Mute this server、新手引导、Hide #all、对成员隐藏人类名录和数量、为服务器开启翻译，以及成员的服务器角色，都要等 Save |
 | 需要先配置的功能用一个复选框加一个 Save（[表单](../../patterns/forms.md#settings-saved-together)） | App event notifications 是一个开关，只是把地址输入框显示出来 |

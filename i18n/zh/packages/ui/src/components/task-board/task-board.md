@@ -1,22 +1,24 @@
 ---
 title: TaskBoard
 summary: 任务的看板视图：每个状态一列，按状态顺序排列，卡片可以拖到另一列来改变状态。
-sourceHash: 0510787a
+sourceHash: e91c2bd0
 ---
 
 # TaskBoard
 
-TaskBoard 把任务按状态分列显示，每个状态一列，从待办到已关闭。把卡片拖到另一列就改变了它的状态。它是一组任务的两种视图之一，另一种是 [TaskList](../task-list/task-list.md)。何时显示哪一种，见[任务](../../../../../design/patterns/tasks.md)。
+TaskBoard 把任务按状态分列显示，每个状态一列，从 Backlog 到已关闭。把卡片拖到另一列就改变了它的状态。它是一组任务的两种视图之一，另一种是 [TaskList](../task-list/task-list.md)。何时显示哪一种，见[任务](../../../../../design/patterns/tasks.md)。
 
 ```example
 task-board/compositions/task-board
 ```
 
+raft-ui 尚未实现：这个示例展示的是 [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md) 之前的看板，有五列，卡片上没有完成控件。
+
 ## 何时使用 {#when-to-use}
 
 | 场景 | 使用 |
 | --- | --- |
-| 按状态查看任务，有放五列的空间 | TaskBoard |
+| 按状态查看任务，有放六列的空间 | TaskBoard |
 | 在手机上或窄面板里查看任务 | [TaskList](../task-list/task-list.md) |
 | 单个任务 | [TaskCard](../task-card/task-card.md) |
 
@@ -47,7 +49,8 @@ task-board/compositions/task-board-empty-columns
 
 ## 行为 {#behavior}
 
-- 列的顺序是 Todo（待办）、In Progress（进行中）、In Review（待确认）、Done（完成）、Closed（已关闭）。
+- 列的顺序是 Backlog、Todo（待办）、In Progress（进行中）、In Review（待确认）、Done（完成）、Closed（已关闭），Backlog、Done 和 Closed 一开始是收起的（[任务](../../../../../design/patterns/tasks.md#rules)）。
+- 不要因为卡片现有的状态或将得到的状态而拒绝放下：任何状态都可以改成任何状态（[任务](../../../../../design/patterns/tasks.md#rules)）。一列只会因为状态以外的原因拒绝一张卡片，比如这个人不能修改的任务。
 - 用筛选栏右端的 Board / List 在看板和列表之间切换（[任务](../../../../../design/patterns/tasks.md#structure)），并记住这个人的选择。
 - 整个看板在一个视口里横竖两个方向滚动。列保持宽度，从不单独滚动。
 - 很长的列只挂载可见的卡片，用你自己的虚拟化组件读取看板的滚动位置，如下所示。
@@ -59,7 +62,7 @@ task-board/compositions/task-board-virtualization
 ## 内容 {#content}
 
 - 空文字的写法和列表里的空分组一样（[TaskList](../task-list/task-list.md#content)）。
-- 卡片被拖到一个空列上方时，说出它将得到的状态，或者说明它不能移到那里。
+- 卡片被拖到一个空列上方时，说出它将得到的状态；这一列拒绝它时，说明原因（"You can't change this task's status"）。
 
 ## 无障碍 {#accessibility}
 

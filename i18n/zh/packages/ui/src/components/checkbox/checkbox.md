@@ -1,7 +1,7 @@
 ---
 title: Checkbox
 summary: 一个方形的框，表示随表单一起保存的是或否，或附加在某个操作上的选项。
-sourceHash: 3c3c7698
+sourceHash: 72b56242
 ---
 
 # Checkbox
@@ -21,6 +21,7 @@ checkbox/compositions/preview
 | 附加在某个操作上的选项，放在执行它的按钮旁边 | 放在该操作工具栏里的 Checkbox（`ComposerToolbarLabel`，[Composer](../composer/composer.md)） |
 | 在列表或多选中选择多项 | Checkbox，或在自带语义的行里用 `CheckboxIndicator` |
 | 立即生效的是或否 | [Switch](../switch/switch.md) |
+| 把任务标为完成，在任务行或任务卡片的最前面 | 完成控件（[任务](../../../../../design/patterns/tasks.md#completing-a-task)） |
 | 几个答案中选一个 | [RadioGroup](../radio-group/radio-group.md) |
 
 哪些控件立即生效、哪些需要保存，见[表单](../../../../../design/patterns/forms.md)。
@@ -65,4 +66,4 @@ Checkbox 封装了 Base UI Checkbox。它隐藏的原生 input 驱动勾选、�
 
 ## 规则 {#rules}
 
-- 方框保持方形。不要用 `shape="circle"`：圆形只用于开关和单选按钮（[形状](../../../../../design/foundations/shape.md)）。
+- 方框保持方形。不要用 `shape="circle"`：圆形只用于开关、单选按钮和拖动条，另外还有两个例外（[形状](../../../../../design/foundations/shape.md#principles)）。唯一圆形的 `CheckboxIndicator` 是任务的完成控件，它是其中一个例外（[完成任务](../../../../../design/patterns/tasks.md#completing-a-task)）。

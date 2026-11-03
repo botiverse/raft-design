@@ -1,7 +1,7 @@
 ---
 title: TaskList
 summary: 任务的列表视图：每种状态一个可折叠的分组，按状态顺序排列，每组里放任务卡片。
-sourceHash: a3d6857d
+sourceHash: 172ccb66
 ---
 
 # TaskList
@@ -17,7 +17,7 @@ task-list/compositions/task-list
 | 情况                                   | 用                                      |
 | ------------------------------------------- | ---------------------------------------- |
 | 手机上或窄面板里的任务       | TaskList                                 |
-| 按状态排列的任务，且放得下五列 | [TaskBoard](../task-board/task-board.md) |
+| 按状态排列的任务，且放得下六列 | [TaskBoard](../task-board/task-board.md) |
 | 一个任务                                    | [TaskCard](../task-card/task-card.md)    |
 
 ## 结构 {#anatomy}

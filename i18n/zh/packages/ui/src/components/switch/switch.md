@@ -1,12 +1,12 @@
 ---
 title: Switch
 summary: 圆形的开关控件，用于拨动后立即生效的设置。
-sourceHash: 3795090b
+sourceHash: ff653d48
 ---
 
 # Switch
 
-开关打开或关闭一项设置，改动立即生效。打开时，它是一张黄色贴纸，圆钮滑到右侧。开关和单选按钮是系统里仅有的圆形控件。
+开关打开或关闭一项设置，改动立即生效。打开时，它是一张黄色贴纸，圆钮滑到右侧。开关、单选按钮和拖动条是圆的；除了[形状](../../../../../design/foundations/shape.md#principles)里列出的例外，其他东西都是方的或带柔和的圆角。
 
 ```example
 list-row/compositions/settings

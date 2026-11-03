@@ -33,7 +33,7 @@ token 的取值保证文字不必再逐个表面检查；见[颜色](./color.md#
 
 - 给每个能用键盘到达的元素在 `:focus-visible` 时加上 `focus-ring`（`shadow-focus`）：先是 2px 表面色的间隙，再是 2px 墨色。它是墨色而不是黄色，所以在黄色外框和黄色贴纸上也看得见（[层级](./elevation.md#focus-ring)）。
 - 只在键盘导航后显示焦点环，点击、轻点或输入之后都不显示（[状态](./states.md#focus)）。键盘用户每次移动都看得到它；只要输入不是 raft-ui 能识别的鼠标指针（还没有任何输入时、读屏软件的浏览光标或合成的按压），它也会显示，所以满足 [WCAG 2.4.7](https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html)；用鼠标指针的人则不会看到一个告诉他们刚点了什么的焦点环。
-- 复合控件（输入框、带附加项的输入框）内部有元素获得键盘焦点时，给整组加焦点环；复选框或单选框则给它的方框加（[状态](./states.md#focus)）。
+- 复合控件（输入框、带附加项的输入框）内部有元素获得键盘焦点时，给整组加焦点环；复选框或单选按钮则给它的方框加（[状态](./states.md#focus)）。
 - 让复合控件只占一个 Tab 停留点，在内部用方向键移动：[RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md)、[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md)、[Tabs](../../packages/ui/src/components/tabs/tabs.md)、[ToggleGroup](../../packages/ui/src/components/toggle-group/toggle-group.md) 和菜单。按键由 Base UI 提供。
 - 在模态浮层中锁定焦点，用 Esc 关闭，并把焦点还给触发它的元素：[Dialog](../../packages/ui/src/components/dialog/dialog.md) 和 [Drawer](../../packages/ui/src/components/drawer/drawer.md) 已经这样做。
 - 悬停时显示的东西，键盘聚焦时也要显示：消息工具栏（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）、工具提示、预览卡片（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)）、可编辑头像的浮层（[Avatar](../../packages/ui/src/components/avatar/avatar.md#accessibility)）。

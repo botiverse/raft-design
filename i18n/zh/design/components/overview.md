@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 7e05c240
+sourceHash: c1c89b2b
 ---
 
 # 组件
@@ -122,7 +122,7 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 | 从顶栏打开的短列表：Working now、通知、服务器列表 | [Popover](../../packages/ui/src/components/popover/popover.md)，手机上也一样。在手机上，服务器列表锚定在顶栏下方（[导航](../patterns/navigation.md#servers)） |
 | 手机上的简短说明 | 底部面板（[Drawer](../../packages/ui/src/components/drawer/drawer.md)） |
 | 手机上有多个字段、长列表或多个步骤的对话框 | 占屏幕高度 90% 的面板；做决定、只供阅读的内容或单个输入框仍用居中的对话框（[Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)） |
-| 确认 | `size="sm"` 的 [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)，400px，与 AlertDialog 同宽，带 Cancel 和确认按钮；见[反馈](../patterns/feedback.md#confirming)。Raft Chat 的确认都基于 Dialog 构建，只有两处用 [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md)：放弃对 Agent 个人资料未保存的修改，以及打开一个会跳转到其他应用的链接 |
+| 确认 | `size="sm"` 的 [Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)，400px，与 AlertDialog 同宽，带 Cancel 和确认按钮；见[反馈](../patterns/feedback.md#confirming)。Raft Chat 改用 [AlertDialog](../../packages/ui/src/components/alert-dialog/alert-dialog.md) 的地方列在 [Raft Chat](../products/raft-chat/README.md#overlays) 里 |
 | 任务详情 | 居中对话框，960px 宽，手机上全屏：Dialog 四种尺寸之外的一个工作空间浮层（[任务](../patterns/tasks.md)，[Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)） |
 
 - 每个居中浮层背后都放遮罩：对话框、确认、搜索、任务详情、大表单。浮层怎么运动，见[动效](../foundations/motion.md#usage)。
@@ -140,7 +140,6 @@ SegmentedControl 和 Tabs 看起来很像，由内容决定用哪个：分段控
 
 - 这些都不要用粉色。它们是被动的，而粉色表示有东西在等这个人处理。
 - 用量上限不是等待：用 [Meter](../../packages/ui/src/components/meter/meter.md) 显示已经用了多少，不用进度条，进度条满了会变成 `success`。每个用量条都按已用的量填充，从不按剩下的量（stdrc，2026-10-29）。
-- Raft Chat 还有两处没遵守骨架屏的规则：会话时间线和个人资料面板在等待时显示文字 "Loading…"。
 
 ### 行 {#rows}
 
