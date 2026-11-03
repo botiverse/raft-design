@@ -1,6 +1,6 @@
 /** @vitest-environment jsdom */
 import { createRef, StrictMode, useLayoutEffect, useRef } from "react";
-import { cleanup, fireEvent, render, waitFor } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
 import { VirtualList } from "../index";
@@ -263,7 +263,9 @@ describe("VirtualList scrollbar", () => {
       vi.spyOn(HTMLElement.prototype, key as "clientHeight", "get").mockImplementation(function (
         this: HTMLElement,
       ) {
-        return this.classList.contains("r-virtual-list") ? value : 0;
+        if (this.classList.contains("r-virtual-list")) return value;
+        // The rail: as long as the list is high.
+        return this.classList.contains("r-scroll-area__rail") ? value : 0;
       });
     }
   };
@@ -317,13 +319,24 @@ describe("VirtualList scrollbar", () => {
     expect(list.style.getPropertyValue("--r-scroll-area-rail-inset-top")).toBe("32px");
     expect(list.style.getPropertyValue("--r-scroll-area-viewport-height")).toBe("100px");
     const thumb = list.querySelector<HTMLElement>(".r-scroll-area__thumb")!;
-    expect(thumb.style.getPropertyValue("--r-scroll-area-thumb-ratio")).toBe("0.25");
+    // A quarter of the 100px rail, at its start.
+    expect(thumb.style.getPropertyValue("--r-scroll-area-thumb-length")).toBe("25px");
+    expect(thumb.style.getPropertyValue("transform")).toBe("translate3d(0px, 0px, 0px)");
 
+    const frames: FrameRequestCallback[] = [];
+    vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) =>
+      frames.push(callback),
+    );
     list.scrollTop = 150;
     fireEvent.scroll(list);
     expect(onScroll).toHaveBeenCalledTimes(1);
+    // The thumb follows in the next frame: halfway along the 75px it travels.
+    act(() => {
+      for (const frame of frames.splice(0)) frame(0);
+    });
     expect(list.classList).toContain("r-scroll-area--scrolling");
-    expect(thumb.style.getPropertyValue("--r-scroll-area-thumb-progress")).toBe("0.5");
+    expect(thumb.style.getPropertyValue("transform")).toBe("translate3d(0px, 38px, 0px)");
+    vi.unstubAllGlobals();
     // The list stays focusable as before, whatever the scrollbar says.
     expect(list.tabIndex).toBe(0);
   });

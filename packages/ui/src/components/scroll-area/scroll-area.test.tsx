@@ -4,8 +4,9 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createRef, Profiler, useRef } from "react";
-import type { ReactNode, UIEvent } from "react";
+import { createRef, Profiler, useImperativeHandle, useRef } from "react";
+import type { ReactNode, Ref, UIEvent } from "react";
+import { clsx } from "cnfast";
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
@@ -36,7 +37,18 @@ const layoutKeys: LayoutKey[] = [
   "scrollWidth",
 ];
 let layout: Layout = {};
+/** The size getters, so a test can count what reads them. */
+const getters = {} as Record<LayoutKey, ReturnType<typeof vi.fn>>;
 const scrollBy = vi.fn();
+/** Animation frames, run by `frame()`. */
+let frames: FrameRequestCallback[] = [];
+const requestFrame = vi.fn((callback: FrameRequestCallback) => frames.push(callback));
+/** Runs the animation frames asked for so far: the scrollbars draw in them. */
+function frame() {
+  act(() => {
+    for (const callback of frames.splice(0)) callback(0);
+  });
+}
 const scrollTo = vi.fn();
 
 /** Only the timers. */
@@ -52,10 +64,16 @@ function sizeOf(element: HTMLElement, key: LayoutKey): number {
 beforeEach(() => {
   layout = {};
   for (const key of layoutKeys) {
-    vi.spyOn(HTMLElement.prototype, key, "get").mockImplementation(function (this: HTMLElement) {
+    getters[key] = vi.spyOn(HTMLElement.prototype, key, "get").mockImplementation(function (
+      this: HTMLElement,
+    ) {
       return sizeOf(this, key);
-    });
+    }) as unknown as ReturnType<typeof vi.fn>;
   }
+  frames = [];
+  requestFrame.mockClear();
+  vi.stubGlobal("requestAnimationFrame", requestFrame);
+  vi.stubGlobal("cancelAnimationFrame", () => {});
   // jsdom lacks pointer capture, scrollBy and scrollTo.
   Element.prototype.setPointerCapture = () => {};
   scrollBy.mockClear();
@@ -71,8 +89,10 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
+/** A 96px rail: a quarter of it is the 24px minimum, so the thumb travels 72px. */
 const tallLayout = {
   "r-scroll-area": { clientHeight: 100, clientWidth: 200, scrollHeight: 400, scrollWidth: 200 },
+  "r-scroll-area__rail": { clientHeight: 96, clientWidth: 196 },
 };
 
 const scrollAreaCss = readFileSync(
@@ -103,6 +123,13 @@ const root = (container: HTMLElement) => container.querySelector<HTMLElement>(".
 const thumbs = (container: HTMLElement) => [
   ...container.querySelectorAll<HTMLElement>(".r-scroll-area__thumb"),
 ];
+const thumbLength = (thumb: HTMLElement | undefined) =>
+  thumb?.style.getPropertyValue("--r-scroll-area-thumb-length");
+/** Where the thumb is along its rail: the y of its `translate3d`. */
+const thumbTop = (thumb: HTMLElement | undefined) =>
+  /^translate3d\(0px, (-?[\d.]+)px, 0px\)$/.exec(
+    thumb?.style.getPropertyValue("transform") ?? "",
+  )?.[1];
 
 describe("ScrollArea", () => {
   it("is the scroll container, wraps children in the content element and passes div props and ref", () => {
@@ -148,17 +175,17 @@ describe("ScrollArea", () => {
       "r-scroll-area__rail r-scroll-area__rail--vertical",
     );
     const [thumb] = thumbs(container);
-    expect(thumb?.style.getPropertyValue("--r-scroll-area-thumb-ratio")).toBe("0.25");
-    expect(thumb?.style.getPropertyValue("--r-scroll-area-thumb-progress")).toBe("0");
+    expect(thumbLength(thumb)).toBe("24px");
+    expect(thumbTop(thumb)).toBe("0");
     expect(area.style.getPropertyValue("--r-scroll-area-viewport-height")).toBe("100px");
     expect(area.style.getPropertyValue("--r-scroll-area-viewport-width")).toBe("200px");
 
     area.scrollTop = 150;
     fireEvent.scroll(area);
     expect(onScroll).toHaveBeenCalledTimes(1);
-    expect(thumbs(container)[0]?.style.getPropertyValue("--r-scroll-area-thumb-progress")).toBe(
-      "0.5",
-    );
+    frame();
+    // Halfway along the 72px it travels.
+    expect(thumbTop(thumbs(container)[0])).toBe("36");
     expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
 
     // The scrollbars stay for `hideDelay` (600ms) after the last scroll, then fade.
@@ -166,6 +193,7 @@ describe("ScrollArea", () => {
       vi.advanceTimersByTime(500);
     });
     fireEvent.scroll(area);
+    frame();
     act(() => {
       vi.advanceTimersByTime(500);
     });
@@ -176,40 +204,126 @@ describe("ScrollArea", () => {
     expect(area.classList.contains("r-scroll-area--scrolling")).toBe(false);
   });
 
-  it("measures on each scroll event, right away, without a React render in the middle", () => {
+  it("draws once a frame from cached sizes, as a transform, with no React render while scrolling", () => {
+    fakeTimers();
     layout = tallLayout;
     const onScroll = vi.fn();
+    const onEdgeChange = vi.fn();
     const onRender = vi.fn();
     const { container } = render(
       <Profiler id="area" onRender={onRender}>
-        <ScrollArea onScroll={onScroll}>long</ScrollArea>
+        <ScrollArea onEdgeChange={onEdgeChange} onScroll={onScroll}>
+          long
+        </ScrollArea>
       </Profiler>,
     );
     const area = root(container);
+    const [thumb] = thumbs(container);
     const setProperty = vi.spyOn(CSSStyleDeclaration.prototype, "setProperty");
-    const progressWrites = () =>
-      setProperty.mock.calls.filter(([name]) => name === "--r-scroll-area-thumb-progress").length;
-
-    // The thumb moves in the scroll event itself, not a frame later.
-    area.scrollTop = 100;
-    fireEvent.scroll(area);
-    expect(onScroll).toHaveBeenCalledTimes(1);
-    expect(progressWrites()).toBe(1);
-    // Another event at the same offset writes nothing.
-    fireEvent.scroll(area);
-    expect(progressWrites()).toBe(1);
-    expect(thumbs(container)[0]?.style.getPropertyValue("--r-scroll-area-thumb-progress")).toBe(
-      String(1 / 3),
-    );
-
-    // Scrolling started and the top edge flipped: one render. Moving on in the middle renders nothing.
+    const writes = (name: string) => setProperty.mock.calls.filter(([key]) => key === name).length;
     onRender.mockClear();
-    area.scrollTop = 150;
+    requestFrame.mockClear();
+    for (const key of layoutKeys) getters[key]!.mockClear();
+
+    // Three scroll events in one frame: one frame asked for, nothing drawn or read in the events.
+    for (const top of [50, 100, 150]) {
+      area.scrollTop = top;
+      fireEvent.scroll(area);
+    }
+    expect(onScroll).toHaveBeenCalledTimes(3);
+    expect(requestFrame).toHaveBeenCalledTimes(1);
+    expect(writes("transform")).toBe(0);
+    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(false);
+
+    // The frame draws the last offset once, from the sizes cached when the area was measured.
+    frame();
+    expect(writes("transform")).toBe(1);
+    expect(thumbTop(thumb)).toBe("36");
+    expect(writes("--r-scroll-area-thumb-length")).toBe(0);
+    for (const key of layoutKeys) expect(getters[key]).not.toHaveBeenCalled();
+    // Scrolling started and the top edge flipped, set on the element and reported without a render.
+    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
+    expect(area.classList.contains("r-scroll-area--overflow-y-start")).toBe(true);
+    expect(onEdgeChange).toHaveBeenLastCalledWith({
+      bottom: false,
+      left: true,
+      right: true,
+      top: false,
+    });
+
+    // The same offset again draws nothing.
     fireEvent.scroll(area);
-    area.scrollTop = 200;
-    fireEvent.scroll(area);
-    expect(progressWrites()).toBe(3);
+    frame();
+    expect(writes("transform")).toBe(1);
+
+    // Scrolling stops: hidden, still without a render.
+    act(() => {
+      vi.advanceTimersByTime(600);
+    });
+    frame();
+    expect(area.classList.contains("r-scroll-area--scrolling")).toBe(false);
     expect(onRender).not.toHaveBeenCalled();
+  });
+
+  it("holds the thumb length while scrolling and applies a new one, with its offset, when scrolling stops", () => {
+    fakeTimers();
+    layout = {
+      "own-list": { clientHeight: 100, clientWidth: 200, scrollHeight: 200, scrollWidth: 200 },
+      "r-scroll-area__rail": { clientHeight: 100, clientWidth: 200 },
+    };
+    const ref = createRef<{ measure: () => void }>();
+    const { container } = render(
+      <MeasuredScroller measureRef={ref}>
+        <p>Rows</p>
+      </MeasuredScroller>,
+    );
+    const list = container.querySelector<HTMLElement>(".own-list")!;
+    const [thumb] = thumbs(container);
+    expect(thumbLength(thumb)).toBe("50px");
+
+    list.scrollTop = 50;
+    fireEvent.scroll(list);
+    frame();
+    expect(thumbTop(thumb)).toBe("25");
+
+    // The content doubles mid-scroll (measured, as a resize would): the length stays, the offset
+    // follows the new size along the travel the held length leaves.
+    layout["own-list"] = {
+      clientHeight: 100,
+      clientWidth: 200,
+      scrollHeight: 400,
+      scrollWidth: 200,
+    };
+    act(() => ref.current!.measure());
+    expect(thumbLength(thumb)).toBe("50px");
+    expect(thumbTop(thumb)).toBe(String(Math.round((50 / 300) * 50)));
+    list.scrollTop = 60;
+    fireEvent.scroll(list);
+    frame();
+    expect(thumbLength(thumb)).toBe("50px");
+    expect(thumbTop(thumb)).toBe("10");
+
+    // Scrolling stops: the new length (a quarter of the rail) and its offset, in the same frame.
+    act(() => {
+      vi.advanceTimersByTime(600);
+    });
+    frame();
+    expect(thumbLength(thumb)).toBe("25px");
+    expect(thumbTop(thumb)).toBe("15");
+  });
+
+  it("moves the thumb by a transform from the top of its rail, and transitions neither its length nor its place", () => {
+    const vertical = rule(`${rails} > ${block}__rail--vertical > ${block}__thumb`);
+    expect(vertical).toContain("block-size: var(--r-scroll-area-thumb-length, 0px);");
+    expect(vertical).toContain("inset-block-start: 0;");
+    expect(vertical).not.toMatch(/transition:[^;]*block-size/);
+    const horizontal = rule(`${rails} > ${block}__rail--horizontal > ${block}__thumb`);
+    expect(horizontal).toContain("inline-size: var(--r-scroll-area-thumb-length, 0px);");
+    expect(horizontal).not.toMatch(/transition:[^;]*inline-size/);
+    expect(rule(`${rails} > ${block}__rail > ${block}__thumb`)).toContain(
+      "will-change: transform;",
+    );
+    expect(flatCss).not.toMatch(/transition:[^;]*(transform|inset)/);
   });
 
   it("marks the edges with more content past them, writes the px left and reports the edges", () => {
@@ -223,7 +337,7 @@ describe("ScrollArea", () => {
     const area = root(container);
     const content = container.querySelector<HTMLElement>(".r-scroll-area__content")!;
     const overflowClasses = () =>
-      [...area.classList].filter((name) => name.startsWith("r-scroll-area--overflow-"));
+      [...area.classList].filter((name) => name.startsWith("r-scroll-area--overflow-")).sort();
     const left = (edge: string) =>
       content.style.getPropertyValue(`--r-scroll-area-overflow-${edge}`);
 
@@ -245,9 +359,10 @@ describe("ScrollArea", () => {
 
     area.scrollTop = 120;
     fireEvent.scroll(area);
+    frame();
     expect(overflowClasses()).toEqual([
-      "r-scroll-area--overflow-y-start",
       "r-scroll-area--overflow-y-end",
+      "r-scroll-area--overflow-y-start",
     ]);
     expect([left("y-start"), left("y-end")]).toEqual(["120px", "180px"]);
     expect(onEdgeChange).toHaveBeenLastCalledWith({
@@ -260,10 +375,12 @@ describe("ScrollArea", () => {
     // Moving between the edges flips nothing.
     area.scrollTop = 160;
     fireEvent.scroll(area);
+    frame();
     expect(onEdgeChange).toHaveBeenCalledTimes(2);
 
     area.scrollTop = 300;
     fireEvent.scroll(area);
+    frame();
     expect(overflowClasses()).toEqual(["r-scroll-area--overflow-y-start"]);
     expect([left("y-start"), left("y-end")]).toEqual(["300px", "0px"]);
     expect(onEdgeChange).toHaveBeenCalledTimes(3);
@@ -365,6 +482,7 @@ describe("ScrollArea", () => {
     const areaStyle = area.getAttribute("style");
     area.scrollTop = 100;
     fireEvent.scroll(area);
+    frame();
     // Variables on the area would be inherited by everything inside it: each frame would restyle it all.
     expect(area.getAttribute("style")).toBe(areaStyle);
     expect(content.getAttribute("style")).toBeNull();
@@ -373,6 +491,7 @@ describe("ScrollArea", () => {
     rerender(<ScrollArea fade>long</ScrollArea>);
     area.scrollTop = 150;
     fireEvent.scroll(area);
+    frame();
     expect(content.style.getPropertyValue("--r-scroll-area-overflow-y-start")).toBe("150px");
     expect(content.style.getPropertyValue("--r-scroll-area-overflow-y-end")).toBe("150px");
 
@@ -414,6 +533,7 @@ describe("ScrollArea", () => {
 
     area.scrollTop = 50;
     fireEvent.scroll(area);
+    frame();
     expect(area.classList.contains("r-scroll-area--scrolling")).toBe(true);
     act(() => {
       vi.advanceTimersByTime(299);
@@ -446,6 +566,7 @@ describe("ScrollArea", () => {
     const area = root(container);
     area.scrollTop = 50;
     fireEvent.scroll(area);
+    frame();
     act(() => {
       vi.advanceTimersByTime(99);
     });
@@ -662,7 +783,10 @@ describe("ScrollArea", () => {
       </ScrollArea>,
     );
     const area = root(container);
-    expect(area.className.endsWith(" size-full min-h-0")).toBe(true);
+    // After the rendered classes; the ones set while scrolling (here the bottom edge) come later.
+    expect(area.className.replace(/ r-scroll-area--overflow-\S+/g, "")).toMatch(
+      / size-full min-h-0$/,
+    );
     // A strip whose items take focus themselves is no extra tab stop.
     expect(area.tabIndex).toBe(-1);
   });
@@ -769,11 +893,13 @@ describe("ScrollAreaTextarea", () => {
         scrollHeight: 300,
         scrollWidth: 200,
       },
+      "r-scroll-area__rail": { clientHeight: 90 },
     };
     fireEvent.input(container.querySelector("textarea")!, { target: { value: "long" } });
     expect(onInput).toHaveBeenCalledTimes(1);
     const [thumb] = thumbs(container);
-    expect(thumb?.style.getPropertyValue("--r-scroll-area-thumb-ratio")).toBe(String(1 / 3));
+    // A third of the 90px rail.
+    expect(thumbLength(thumb)).toBe("30px");
   });
 
   it("re-measures when a controlled value changes without an input event", () => {
@@ -788,9 +914,10 @@ describe("ScrollAreaTextarea", () => {
         scrollHeight: 200,
         scrollWidth: 200,
       },
+      "r-scroll-area__rail": { clientHeight: 90 },
     };
     rerender(<ScrollAreaTextarea aria-label="Notes" readOnly value={"long\n".repeat(20)} />);
-    expect(thumbs(container)[0]?.style.getPropertyValue("--r-scroll-area-thumb-ratio")).toBe("0.5");
+    expect(thumbLength(thumbs(container)[0])).toBe("45px");
   });
 
   it('takes trigger="scroll", hideDelay and overscroll like ScrollArea', () => {
@@ -802,6 +929,7 @@ describe("ScrollAreaTextarea", () => {
         scrollHeight: 300,
         scrollWidth: 200,
       },
+      "r-scroll-area__rail": { clientHeight: 90 },
     };
     const { container } = render(
       <ScrollAreaTextarea
@@ -820,10 +948,10 @@ describe("ScrollAreaTextarea", () => {
 
     textarea.scrollTop = 100;
     fireEvent.scroll(textarea);
+    frame();
     expect(wrapper.classList.contains("r-scroll-area--scrolling")).toBe(true);
-    expect(thumbs(container)[0]?.style.getPropertyValue("--r-scroll-area-thumb-progress")).toBe(
-      "0.5",
-    );
+    // Halfway along the 60px a 30px thumb travels.
+    expect(thumbTop(thumbs(container)[0])).toBe("30");
     act(() => {
       vi.advanceTimersByTime(200);
     });
@@ -861,7 +989,27 @@ function OwnScroller({
 const ownInset = { top: 24 };
 const ownLayout = {
   "own-list": { clientHeight: 100, clientWidth: 200, scrollHeight: 400, scrollWidth: 200 },
+  "r-scroll-area__rail": { clientHeight: 100, clientWidth: 200 },
 };
+
+/** An OwnScroller whose `measure` a test can call, as a list does for a size change it makes. */
+function MeasuredScroller({
+  children,
+  measureRef,
+}: {
+  children?: ReactNode;
+  measureRef: Ref<{ measure: () => void }>;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const bars = useScrollAreaRails(ref);
+  useImperativeHandle(measureRef, () => ({ measure: bars.measure }), [bars.measure]);
+  return (
+    <div className={clsx("own-list", bars.className)} ref={ref} onScroll={bars.onScroll}>
+      {bars.rails}
+      {children}
+    </div>
+  );
+}
 
 describe("useScrollAreaRails", () => {
   it("lays the rails over an element that scrolls itself, as its first child, with no wrapper", () => {
@@ -880,7 +1028,7 @@ describe("useScrollAreaRails", () => {
     );
     const list = container.querySelector<HTMLElement>(".own-list")!;
     expect(list.className).toBe(
-      "own-list r-scroll-area r-scroll-area--small r-scroll-area--hover-trigger r-scroll-area--vertical-orientation r-scroll-area--none-overscroll-y r-scroll-area--overflow-y-end r-scroll-area--external",
+      "own-list r-scroll-area r-scroll-area--small r-scroll-area--hover-trigger r-scroll-area--vertical-orientation r-scroll-area--none-overscroll-y r-scroll-area--external r-scroll-area--overflow-y-end",
     );
     expect(list.children[0]?.className).toBe("r-scroll-area__rails");
     expect(list.children[1]?.tagName).toBe("P");
@@ -896,10 +1044,10 @@ describe("useScrollAreaRails", () => {
     list.scrollTop = 300;
     fireEvent.scroll(list);
     expect(onScroll).toHaveBeenCalledTimes(1);
+    frame();
     expect(list.classList.contains("r-scroll-area--scrolling")).toBe(true);
-    expect(thumbs(container)[0]?.style.getPropertyValue("--r-scroll-area-thumb-progress")).toBe(
-      "1",
-    );
+    // At the end of the 75px a 25px thumb travels.
+    expect(thumbTop(thumbs(container)[0])).toBe("75");
     expect(onEdgeChange).toHaveBeenLastCalledWith({
       bottom: true,
       left: true,

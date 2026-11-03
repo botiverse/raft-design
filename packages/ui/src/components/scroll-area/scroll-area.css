@@ -8,7 +8,8 @@
  * `--{vertical,horizontal,both}-orientation`, `--{none,contain}-overscroll-{y,x}`,
  * `--fade`, `--rtl`, `--overflow-{y,x}-{start,end}` (more content past that
  * edge; `x` is inline), `--scrolling` (from the first scroll until `hideDelay`
- * after the last), `--dragging`, `--external` (the block is an element that
+ * after the last), `--dragging` (these last four are set by the script with
+ * `classList`, never rendered), `--external` (the block is an element that
  * scrolls itself and only takes the rails: `useScrollAreaRails`), `--wrapper`
  * (the block wraps the scroller, which can't hold the rails) and `--textarea`;
  * `__rails` (a zero-height layer stuck to the top of the viewport, or pinned
@@ -30,14 +31,18 @@
  *                                                    don't inherit
  *   --r-scroll-area-fade-size                        how far `fade` fades
  *
- * CSS variables the script writes as inline styles (React never renders them):
+ * What the script writes as inline styles (React never renders them):
  *   --r-scroll-area-viewport-{height,width}   on the area: its client size
- *   --r-scroll-area-thumb-{ratio,progress}    on each thumb: its share of the
- *                                             rail and 0..1 along it
+ *   --r-scroll-area-thumb-length              on each thumb: its length, px
+ *   transform                                 on each thumb: where it is
+ *                                             along its rail, a translate
  *   --r-scroll-area-overflow-{y,x}-{start,end}  on the content, with `fade`
  *                                             only: px left past each edge
- * So a scrolled frame restyles the thumbs (and the content with `fade`),
- * never the area, whose variables everything inside would inherit.
+ * So a scrolled frame changes only the thumbs' transforms, which the
+ * compositor moves without a layout (and the content with `fade`), never
+ * the area, whose variables everything inside would inherit. Both are
+ * rounded to device pixels and written in the same frame. The length is
+ * held while scrolling and changes, with no transition, when it stops.
  *
  * The thumb is the label colour (`foreground`) made translucent, dark on
  * light pages and light on dark ones, so it sits on any content; there is no
@@ -408,38 +413,41 @@
     right: var(--r-scroll-area-rail-right);
   }
 
+  /*
+   * The thumb sits at the start of its rail and is moved along it by a
+   * transform (`translate3d`, its own compositor layer), so a scrolled frame
+   * moves it without a layout. Its length, in px, is written by the script
+   * (at least --r-scroll-area-thumb-min-length). Only the thickness and the
+   * colour transition, on hover; the length and the place never do, so its
+   * two ends always move together.
+   */
   .r-scroll-area > .r-scroll-area__rails > .r-scroll-area__rail > .r-scroll-area__thumb {
-    --r-scroll-area-thumb-length: max(
-      var(--r-scroll-area-thumb-min-length),
-      var(--r-scroll-area-thumb-ratio) * 100%
-    );
-    --r-scroll-area-thumb-offset: calc(
-      (100% - var(--r-scroll-area-thumb-length)) * var(--r-scroll-area-thumb-progress)
-    );
-
     background: var(--r-scroll-area-thumb-color);
     border-radius: calc(var(--r-scroll-area-thumb-size-hover) / 2);
     position: absolute;
     touch-action: none;
-    transition:
-      background-color var(--r-scroll-area-duration) var(--r-scroll-area-easing),
-      block-size var(--r-scroll-area-duration) var(--r-scroll-area-easing),
-      inline-size var(--r-scroll-area-duration) var(--r-scroll-area-easing);
+    will-change: transform;
   }
   .r-scroll-area > .r-scroll-area__rails > .r-scroll-area__rail--vertical > .r-scroll-area__thumb {
-    block-size: var(--r-scroll-area-thumb-length);
+    block-size: var(--r-scroll-area-thumb-length, 0px);
     inline-size: var(--r-scroll-area-thumb-size);
-    inset-block-start: var(--r-scroll-area-thumb-offset);
+    inset-block-start: 0;
     inset-inline-end: var(--r-scroll-area-rail-gap);
+    transition:
+      background-color var(--r-scroll-area-duration) var(--r-scroll-area-easing),
+      inline-size var(--r-scroll-area-duration) var(--r-scroll-area-easing);
   }
   .r-scroll-area
     > .r-scroll-area__rails
     > .r-scroll-area__rail--horizontal
     > .r-scroll-area__thumb {
     block-size: var(--r-scroll-area-thumb-size);
-    inline-size: var(--r-scroll-area-thumb-length);
+    inline-size: var(--r-scroll-area-thumb-length, 0px);
     inset-block-end: var(--r-scroll-area-rail-gap);
-    inset-inline-start: var(--r-scroll-area-thumb-offset);
+    inset-inline-start: 0;
+    transition:
+      background-color var(--r-scroll-area-duration) var(--r-scroll-area-easing),
+      block-size var(--r-scroll-area-duration) var(--r-scroll-area-easing);
   }
 
   /* Shown while hovered (trigger="hover"), always (trigger="none"), and while scrolling or dragging (every trigger). */

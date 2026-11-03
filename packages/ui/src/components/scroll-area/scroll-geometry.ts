@@ -11,7 +11,7 @@ export type ScrollMetrics = {
 
 export type ScrollAxis = "x" | "y";
 
-/** A scrollbar's thumb as fractions of its rail, so CSS can turn them into lengths. */
+/** A scrollbar's thumb as fractions of its rail: `thumbLength` and `thumbOffset` turn them into px. */
 export type ThumbPlacement = {
   /** Thumb length / rail length: the visible share of the content. */
   ratio: number;
@@ -44,6 +44,16 @@ export function thumbPlacement(metrics: ScrollMetrics, axis: ScrollAxis): ThumbP
     progress: Math.min(1, Math.max(0, offset / overflow)),
     ratio: client / scroll,
   };
+}
+
+/** The thumb's length in px: its share of the rail, at least `min`, and never longer than the rail. */
+export function thumbLength(ratio: number, rail: number, min: number): number {
+  return Math.max(0, Math.min(rail, Math.max(min, ratio * rail)));
+}
+
+/** How far down (or along) its rail a thumb of `length` px starts, in px. */
+export function thumbOffset(progress: number, rail: number, length: number): number {
+  return Math.max(0, rail - length) * progress;
 }
 
 /** How many px are left to scroll past each edge; 0 on an axis that doesn't scroll. */

@@ -71,7 +71,7 @@ export function ScrollArea({
       data-slot="scroll-area"
       {...props}
       className={cn(
-        scrollAreaClassNames({ ...bars, fade, orientation, overscroll, size, trigger }),
+        scrollAreaClassNames({ fade, orientation, overscroll, rails: bars.rails, size, trigger }),
         className,
       )}
       ref={setRef}
@@ -82,9 +82,9 @@ export function ScrollArea({
     >
       <ScrollAreaRails
         containerRef={containerRef}
-        xRail={bars.view.xRail}
+        xRail={bars.rails.xRail}
         xThumbRef={bars.xThumbRef}
-        yRail={bars.view.yRail}
+        yRail={bars.rails.yRail}
         yThumbRef={bars.yThumbRef}
         onDraggingChange={bars.setDragging}
       />

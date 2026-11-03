@@ -87,16 +87,23 @@ export function useScrollAreaRails<E extends HTMLElement>(
   const rails: ReactNode = (
     <ScrollAreaRails
       containerRef={scrollerRef}
-      xRail={bars.view.xRail}
+      xRail={bars.rails.xRail}
       xThumbRef={bars.xThumbRef}
-      yRail={bars.view.yRail}
+      yRail={bars.rails.yRail}
       yThumbRef={bars.yThumbRef}
       onDraggingChange={bars.setDragging}
     />
   );
   return {
     className: clsx(
-      scrollAreaClassNames({ ...bars, fade: false, orientation, overscroll, size, trigger }),
+      scrollAreaClassNames({
+        fade: false,
+        orientation,
+        overscroll,
+        rails: bars.rails,
+        size,
+        trigger,
+      }),
       "r-scroll-area--external",
       wrapped && "r-scroll-area--wrapper",
     ),

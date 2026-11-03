@@ -9,12 +9,12 @@ type ScrollAreaRailProps = {
   containerRef: RefObject<HTMLElement | null>;
   /** The other axis has a rail too, so this one stops short of the corner. */
   shortened: boolean;
-  /** The thumb element: `useScrollbars` writes its `--r-scroll-area-thumb-ratio` and `-progress` straight to it. */
+  /** The thumb element: `useScrollbars` writes its `--r-scroll-area-thumb-length` and `transform` straight to it. */
   thumbRef: RefObject<HTMLDivElement | null>;
   onDraggingChange: (dragging: boolean) => void;
 };
 
-/** One scrollbar: the rail (an invisible hover and paging target) and its thumb, placed by CSS variables. */
+/** One scrollbar: the rail (an invisible hover and paging target) and its thumb, sized and moved by the script. */
 function ScrollAreaRail({
   axis,
   containerRef,
