@@ -127,5 +127,50 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "TableSortableHead",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A column heading that sorts the rows (table.md, \"Sorting\"): a `TableHead` whose label is a button filling the cell, with `aria-sort` on the cell and a 12px arrow on the sorted column only. Which column is sorted is the caller's: pass `sort` and update it from `onSortChange`. In a header row drawn without `Table`, pass `render={<div role=\"columnheader\" />}`.",
+    "native": true,
+    "props": [
+      {
+        "name": "align",
+        "type": "\"left\" | \"right\"",
+        "required": false,
+        "default": "\"left\"",
+        "description": "`\"right\"` for a right-aligned column, such as numbers: the label ends on the column's right edge and the arrow goes before it.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "firstSort",
+        "type": "TableSort",
+        "required": false,
+        "default": "\"ascending\"",
+        "description": "The direction of a first click, when the rows aren't sorted by this column: `\"descending\"` for numbers and dates, `\"ascending\"` for text.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onSortChange",
+        "type": "(sort: TableSort) => void",
+        "required": false,
+        "description": "Called with the next direction: the reverse of `sort`, or `firstSort`.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "sort",
+        "type": "TableSort",
+        "required": false,
+        "description": "The column's current sort, or undefined when the rows aren't sorted by it. Sets `aria-sort` on the heading cell and draws the arrow.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
   }
 ]
