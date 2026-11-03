@@ -10,7 +10,7 @@ sourceHash: 21480a74
 
 ## 适用范围 {#when-it-applies}
 
-每个屏幕。各个区域本身见[页面结构](./page-structure.md)；区域的宽度见[间距](../foundations/spacing.md#layout-widths)。产品可以加上自己的条件，比如 Raft Chat 的 Search 和 Activity 两栏的宽度（[Raft Chat](../products/raft-chat/README.md#wide-and-narrow)）。
+每个屏幕。各个区域本身见[页面结构](./page-structure.md)；区域的宽度见[间距](../foundations/spacing.md#layout-widths)。产品可以加上自己的条件，比如 Raft Chat 的搜索和动态两栏的宽度（[Raft Chat](../products/raft-chat/README.md#wide-and-narrow)）。
 
 ## 结构 {#structure}
 
@@ -60,7 +60,7 @@ app-shell/compositions/responsive
 
 ### 一行放不下时 {#when-a-row-runs-out-of-room}
 
-每一行都要有让位的办法。工具栏、标题栏、筛选行或列表行必须在它所在区域能取到的最窄宽度下（Activity 的结果列表最窄到 320px）、用最长的译文和它可能装下的最长的值（邮箱地址中间没有可以断开的空格）时也放得下。放不下时，各部分按固定顺序让位，让人仍能看到每个控件：
+每一行都要有让位的办法。工具栏、标题栏、筛选行或列表行必须在它所在区域能取到的最窄宽度下（动态的结果列表最窄到 320px）、用最长的译文和它可能装下的最长的值（邮箱地址中间没有可以断开的空格）时也放得下。放不下时，各部分按固定顺序让位，让人仍能看到每个控件：
 
 1. 次要的文字按钮只显示图标，标签保留为无障碍名称和工具提示。Mark all read 变成 `check-check` 图标按钮。
 2. 然后才轮到主控件只显示图标：分段控件的各段、标签页的标签。分段控件设了 `iconsOnlyBelow="auto"` 时自己这样做，正好在它的标签放不进给它的空间时：每段变成一个 32px 的方块，只有图标，标签保留为无障碍名称和工具提示（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)）。
@@ -88,15 +88,15 @@ app-shell/compositions/responsive
 
 - 用鼠标时，一行的操作只在悬停时出现：在这一行被悬停、拥有键盘焦点或从它打开了菜单时显示，静止时隐藏。每一行都显示按钮的列表读起来像一堵按钮墙，会把视线从内容上拉走；而且鼠标要点的本来就是这一行。隐藏的操作仍在 Tab 顺序里。
 - 在触屏上，如果悬停操作是这一行的主操作，静止时也显示：在行尾放一个 44px 的目标，带图标。行的其余部分给它让出位置，而不是垫在它下面（[InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#behavior)）。
-- 在手机上，Raft Chat 有一个例外，是 Activity 行上的 Mark as Done（[Raft Chat](../products/raft-chat/README.md#activity-on-a-phone)）。
+- 在手机上，Raft Chat 有一个例外，是动态行上的 Mark as Done（[Raft Chat](../products/raft-chat/README.md#activity-on-a-phone)）。
 - 每个悬停操作也放进这一行的长按菜单里，就是桌面端右键打开的那个菜单，这样每个操作在每种设备上都只在一个地方（[对话](./conversation.md)）。
 - 滑动可以作为这一行各个操作的快捷方式（左滑把它们作为按钮露出来，并弹出带 Undo 的轻提示），但不能是唯一的入口：长按菜单里有同样的操作（[无障碍](../foundations/accessibility.md)）。
 - 只有手指明显横向移动时，才开始滑动一行：横向距离是上下距离的两倍以上，并且超过平台的触摸容差（touch slop）。拖动开始后变成竖向的，就回到滚动列表。否则人在滚动列表时会不小心滑动其中的行。
 - 在超过平台的触摸容差之后再做这个判断；网页没有触摸容差，用 10px，所以「两倍」这条规则在手指移动了 20px 时判断。从屏幕左右边缘 24px 以内开始的滑动留给浏览器和系统，它们的返回和切换应用手势从那里开始。
 - 左滑在行尾露出这一行的操作按钮，再点其中一个，和 iOS Mail 一样（stdrc，2026-10-23）。松手时超过按钮宽度的一半，或者超过容差后向左快速一划，这一行就停在打开的状态；不到一半，或者向回一划，它就弹回去。只有距离会执行 Done，快速一划从不会，所以快速滑动不会不小心完成一行。拉过行宽的 60% 后松手，立即执行第一个操作 Done：最常用的操作仍然只要一个手势。一次只打开一行：点别的任何地方、滚动列表、把这一行滑回去或打开另一行，都会关上它。有一行打开时，在列表里点一下只会关上它，和 iOS Mail 一样；在列表外点一下（轻提示的 Undo、标签栏），会关上它，并执行所点的东西本来的操作。
-- 按钮画在行尾，主操作在最外侧：先是 Done，然后向内是这一行的其他操作（Unfollow、Mute），每个 72px 宽、和行一样高，18px 的图标在上，下面是一个 `text-caption`、字重 600 的词：彩色填充上的一个短词必须一眼就能读出来。Done 是实色 `success` 配墨色；其他按钮是 `fill-muted` 配 `foreground`，这样只有一个操作突出，其余保持安静。超过 60% 的位置后，Done 按钮变宽，盖过其他按钮，占满整个露出的宽度，在 Android 上手机轻震一次（10ms 振动，浏览器支持时）；退回到这个位置以内，按钮恢复原样。下拉刷新用同样的方式显示触发和解除，包括轻震（[导航](./navigation.md#refreshing)）：手指松开之前必须知道结果。按钮上的词是操作最短的名字（"Done"、"Unfollow"、"Mute"），因为按钮很小；菜单项保留完整的名字（"Mark as Done"）。图标就是这个操作在这一行菜单里的图标（Done 是 `check`，Unfollow 是 `UnfollowThreadIcon`（[Icons](../../packages/ui/src/components/icons/icons.md#action-icons)），Mute 是 `bell-off`），这样两个按钮永远不会看起来像同一个操作，菜单也就教会了人怎么滑。
-- 操作把这一行移出列表时（Done、Unfollow），立即移出，并在轻提示里给一个 Undo，这样的轻提示保留 8 秒（[Toast](../../packages/ui/src/components/toast/toast.md)）。有确切反操作的操作立即执行，Undo 执行它的反操作（Mute 和 Unmute），和这一行的菜单一样。没有反操作的操作等着轻提示：轻提示关闭时、另一行的操作被执行时（那一行的轻提示取代这一条），或者离开列表、页面被隐藏时，才执行。Undo 把这一行原样放回原来的位置。Activity 的 Done、Unfollow 和 Mute 怎么表现，见 [Raft Chat](../products/raft-chat/README.md#activity-on-a-phone)。
-- 处理这一行的操作（上面那些）都用左滑，全放在一侧：三个操作分到两个方向上不好分（stdrc，2026-10-23）。这类操作只有 Done 的行，就只显示这一个按钮。右滑留给唯一一个只改变这一行已读与否的操作，和 iOS Mail 一样：未读的行上是 Mark as Read，已读的行上是 Mark as Unread（artin 和 stdrc，2026-10-24）。它是行首的一个按钮，用菜单项的图标（`message-square-check`、`message-square-dot`），下面是它最短的词（"Read"、"Unread"），用 `fill-muted` 配 `foreground`，距离也和左滑一样：超过它宽度的一半就停在打开状态，拉过 60% 就执行。这一行留在原处，所以没有轻提示，也没有 Undo：再滑一次就切换回去。屏幕左边缘的 24px 仍然留给系统的返回手势。超过 60% 的位置后，它的图标和词随这一行的边缘移动，和 iOS Mail 一样，让手指知道松开就会执行；Android 上和 Done 一样轻震一次。滑动没法在屏幕上改变已读状态的行没有右滑：在这样的行上滑动，要么什么都显示不出来，要么没法滑回去。它的菜单保留原有的内容。Activity 里哪些行是这样，以及筛选怎么留住刚标为已读的行，见 [Raft Chat](../products/raft-chat/README.md#activity-on-a-phone)。
+- 按钮画在行尾，主操作在最外侧：先是 Done，然后向内是这一行的其他操作（Unfollow、Mute），每个 72px 宽、和行一样高，18px 的图标在上，下面是一个 `text-caption`、字重 600 的词：彩色填充上的一个短词必须一眼就能读出来。Done 是实色 `success` 配墨色；其他按钮是 `fill-muted` 配 `foreground`，这样只有一个操作突出，其余保持安静。超过 60% 的位置后，Done 按钮变宽，盖过其他按钮，占满整个露出的宽度，在 Android 上手机轻震一次（10ms 振动，浏览器支持时）；退回到这个位置以内，按钮恢复原样。下拉刷新用同样的方式显示就绪和解除，包括轻震（[导航](./navigation.md#refreshing)）：手指松开之前必须知道结果。按钮上的词是操作最短的名字（"Done"、"Unfollow"、"Mute"），因为按钮很小；菜单项保留完整的名字（"Mark as Done"）。图标就是这个操作在这一行菜单里的图标（Done 是 `check`，Unfollow 是 `UnfollowThreadIcon`（[Icons](../../packages/ui/src/components/icons/icons.md#action-icons)），Mute 是 `bell-off`），这样两个按钮永远不会看起来像同一个操作，菜单也就教会了人怎么滑。
+- 操作把这一行移出列表时（Done、Unfollow），立即移出，并在轻提示里给一个 Undo，这样的轻提示保留 8 秒（[Toast](../../packages/ui/src/components/toast/toast.md)）。有确切反操作的操作立即执行，Undo 执行它的反操作（Mute 和 Unmute），和这一行的菜单一样。没有反操作的操作等着轻提示：轻提示关闭时、另一行的操作被执行时（那一行的轻提示取代这一条），或者离开列表、页面被隐藏时，才执行。Undo 把这一行原样放回原来的位置。动态里的 Done、Unfollow 和 Mute 怎么表现，见 [Raft Chat](../products/raft-chat/README.md#activity-on-a-phone)。
+- 处理这一行的操作（上面那些）都用左滑，全放在一侧：三个操作分到两个方向上不好分（stdrc，2026-10-23）。这类操作只有 Done 的行，就只显示这一个按钮。右滑留给唯一一个只改变这一行已读与否的操作，和 iOS Mail 一样：未读的行上是 Mark as Read，已读的行上是 Mark as Unread（artin 和 stdrc，2026-10-24）。它是行首的一个按钮，用菜单项的图标（`message-square-check`、`message-square-dot`），下面是它最短的词（"Read"、"Unread"），用 `fill-muted` 配 `foreground`，距离也和左滑一样：超过它宽度的一半就停在打开状态，拉过 60% 就执行。这一行留在原处，所以没有轻提示，也没有 Undo：再滑一次就切换回去。屏幕左边缘的 24px 仍然留给系统的返回手势。超过 60% 的位置后，它的图标和词随这一行的边缘移动，和 iOS Mail 一样，让手指知道松开就会执行；Android 上和 Done 一样轻震一次。滑动没法在屏幕上改变已读状态的行没有右滑：在这样的行上滑动，要么什么都显示不出来，要么没法滑回去。它的菜单保留原有的内容。动态里哪些行是这样，以及筛选怎么留住刚标为已读的行，见 [Raft Chat](../products/raft-chat/README.md#activity-on-a-phone)。
 - 在可以滑动的行上，横向拖动在两个方向上都归这一行，所以列表的标签页或筛选在那里不会也靠横向滑动切换：改为点它们（artin，2026-10-26）。一次拖动对应两种手势，每次滑动就都成了猜测。
 - 在触屏上，次要的悬停操作不放在行里；它们放在菜单里，让列表保持安静。
 
