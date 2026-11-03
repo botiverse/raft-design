@@ -15,7 +15,7 @@ export const sidebarRecipe = tv({
       "bg-layer-sidebar text-foreground",
       "max-md:bg-layer-frame max-md:text-foreground-on-frame",
       headEdgePull,
-      "[@media(max-height:600px)]:h-12",
+      "[@media(max-height:600px)]:h-(--header-height-short)",
     ],
     sidebarHeaderMask: ["pointer-events-none absolute inset-x-0 top-0 -z-10 hidden"],
     sidebarHeaderMaskLayer: ["absolute inset-x-0 top-0"],

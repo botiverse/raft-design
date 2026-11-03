@@ -3,7 +3,7 @@ import { tv } from "../../lib/tv";
 export const panel = tv({
   slots: {
     root: ["[--panel-footer-clearance:10rem]", "bg-layer-canvas text-foreground"],
-    header: ["[@media(max-height:600px)]:h-12"],
+    header: ["[@media(max-height:600px)]:h-(--header-height-short)"],
     body: ["relative min-h-0 flex-1 overflow-hidden"],
     scrollViewport: [
       "h-full min-h-0 overflow-y-auto overscroll-contain",
