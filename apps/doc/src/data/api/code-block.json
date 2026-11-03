@@ -6,6 +6,14 @@
     "native": true,
     "props": [
       {
+        "name": "defaultWrap",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Soft-wrap the block's long lines when it mounts, instead of scrolling them sideways. Pass it for code in a message; leave it off where people read code as code (a diff, a full code view). A `CodeBlockWrapToggle` switches this one block afterwards; nothing is remembered.",
+        "from": "raft-ui"
+      },
+      {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
         "required": false,
@@ -76,7 +84,7 @@
   {
     "name": "CodeBlockPre",
     "entry": "@botiverse/raft-ui",
-    "description": "The code's `pre`. A long line scrolls inside it; while it does, it is a named region the keyboard can reach (`tabindex=\"0\"`, `role=\"region\"`, its `aria-label`, \"Code\" by default), since Safari doesn't focus a scroller on its own. Code that fits adds no Tab stop.",
+    "description": "The code's `pre`. In a block that wraps (`defaultWrap`, until its `CodeBlockWrapToggle` is pressed) long lines wrap inside it. Otherwise a long line scrolls inside it; while it does, it is a named region the keyboard can reach (`tabindex=\"0\"`, `role=\"region\"`, its `aria-label`, \"Code\" by default), since Safari doesn't focus a scroller on its own. Code that fits adds no Tab stop.",
     "native": true,
     "props": [
       {
@@ -93,6 +101,44 @@
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "CodeBlockWrapToggle",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Switches its block between wrapping long lines and scrolling them sideways: a Base UI Toggle, pressed (`aria-pressed`, the yellow sticker) while the block scrolls. Place it in `CodeBlockActions`, before Copy. It changes only its own block. The consumer gives the icon and the `aria-label`.",
+    "native": true,
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the component should ignore user interaction.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "onPressedChange",
+        "type": "(pressed: boolean, eventDetails: BaseToggle.ChangeEventDetails) => void",
+        "required": false,
+        "description": "Callback fired when the pressed state is changed.",
+        "from": "base-ui"
+      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",

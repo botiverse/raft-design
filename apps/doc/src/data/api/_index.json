@@ -162,7 +162,8 @@
       "CodeBlockBody",
       "CodeBlockHeader",
       "CodeBlockPre",
-      "CodeBlockTitle"
+      "CodeBlockTitle",
+      "CodeBlockWrapToggle"
     ],
     "status": "stable",
     "description": "Framed code surface. Compose a header and a body inside it."
