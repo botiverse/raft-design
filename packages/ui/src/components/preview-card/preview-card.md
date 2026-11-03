@@ -59,6 +59,8 @@ The card an app link opens on hover ([App links](../../../../../design/patterns/
    - The app's action buttons (Approve), the first two in the app's order. With none, the first link (Open in Stamp ↗) takes the row instead.
    - Frameless buttons first, the bordered one last, at the right end.
    - Everything else, such as Refresh, further links and any further action, goes in a More menu (⋯) to the left of them, in the app's order, never wrapped onto a second line and never dropped. A link in the menu is a link item with the leaving mark (↗). The menu opens aligned to its button's end (`align="end"`), so it stays over the card.
+   - While an action runs, its buttons and the menu's items are disabled and a line under the row says In progress, with a [Spinner](../spinner/spinner.md). The More button stays enabled, so people can still see what is in it. An item the app has disabled shows its reason as a second line, since a menu item has no tooltip.
+   - An action that asks to be confirmed opens a confirmation outside the card, a [Dialog](../dialog/dialog.md#variants) at `size="sm"` like every confirmation: its title a question, Cancel, and a confirm button colored by what it does ([AlertDialog](../alert-dialog/alert-dialog.md#variants)), red and keeping its object when the action can't be undone ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)). The dialog names the app and its host under the details.
 5. **Who says so?** `PreviewCardFooter`: the app's name and the link's host, "Stamp · stamp.build".
 
 ```example
