@@ -1,4 +1,4 @@
-import { ScrollArea } from "@botiverse/raft-ui";
+import { ScrollAreaGutters, useScrollAreaContainer } from "@botiverse/raft-ui";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";
@@ -7,23 +7,33 @@ import { CompositionPreview } from "#/components/composition-preview.tsx";
 const releases = Array.from({ length: 24 }, (_, index) => `Release 1.${24 - index}.0`);
 
 /**
- * Absolute gutters: a frame (the root, sized and bordered here) holds the container and, beside
- * it, the gutters laid over the frame. Nothing of ScrollArea's is inside the element that scrolls.
+ * Absolute gutters, bound with `useScrollAreaContainer`: a frame of one's own (the root, sized and
+ * bordered here, with `frameProps`) holds the container and, right after it, the gutters laid over
+ * the frame. Nothing of the area's is inside the element that scrolls.
+ * `<ScrollArea guttersPosition="absolute">` renders the same with a `<div>` of its own.
  */
 export function ScrollAreaAbsoluteGuttersContent() {
+  const { containerProps, frameProps, guttersProps } = useScrollAreaContainer<HTMLOListElement>({
+    guttersPosition: "absolute",
+  });
   return (
-    <ScrollArea
-      aria-label="Releases"
-      guttersPosition="absolute"
-      className="h-48 w-full max-w-sm rounded-container border border-line-hairline bg-layer-canvas"
-      containerClassName="px-4 py-1"
+    <div
+      {...frameProps}
+      className={`${frameProps.className} h-48 w-full max-w-sm rounded-container border border-line-hairline bg-layer-canvas`}
     >
-      {releases.map((release) => (
-        <p key={release} className="py-1.5 text-sm text-foreground">
-          {release}
-        </p>
-      ))}
-    </ScrollArea>
+      <ol
+        {...containerProps}
+        aria-label="Releases"
+        className={`${containerProps.className} min-h-0 flex-1 overflow-y-auto px-4 py-1`}
+      >
+        {releases.map((release) => (
+          <li key={release} className="py-1.5 text-sm text-foreground">
+            {release}
+          </li>
+        ))}
+      </ol>
+      <ScrollAreaGutters {...guttersProps} />
+    </div>
   );
 }
 

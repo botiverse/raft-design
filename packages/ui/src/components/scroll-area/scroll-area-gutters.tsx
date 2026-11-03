@@ -1,8 +1,8 @@
 import type { RefObject } from "react";
 import { clsx } from "cnfast";
 
-import { useScrollAreaContext } from "./scroll-area-context";
 import type { ScrollAxis } from "./scroll-geometry";
+import type { ScrollAreaGuttersProps } from "./types";
 import { useRailPointer } from "./use-rail-pointer";
 
 type ScrollAreaGutterProps = {
@@ -45,17 +45,22 @@ function ScrollAreaGutter({
 }
 
 /**
- * The scrollbars of the ScrollArea around it, placed by whoever renders the
- * container (as in the demo). `sticky` gutters: the container's first child,
- * a zero-height layer stuck to the top of the viewport. `absolute` gutters:
- * right after the container, a layer laid over the frame. A gutter appears
- * for each axis with something to scroll. Hidden from assistive technology,
- * which uses the native scrolling.
+ * The scrollbars of a container bound with `useScrollAreaContainer`: spread
+ * its `guttersProps` here, and render it where `guttersPosition` says (as in
+ * the demo). `sticky` gutters: the container's first child, a zero-height
+ * layer stuck to the top of the viewport. `absolute` gutters: right after the
+ * container, a layer laid over the frame. A gutter appears for each axis with
+ * something to scroll. Hidden from assistive technology, which uses the
+ * native scrolling.
  */
-export function ScrollAreaGutters() {
-  const { binding, guttersRef, rails, setDragging, xThumbRef, yThumbRef } =
-    useScrollAreaContext("ScrollAreaGutters");
-  const containerRef = binding.ref;
+export function ScrollAreaGutters({
+  containerRef,
+  guttersRef,
+  onDraggingChange,
+  rails,
+  xThumbRef,
+  yThumbRef,
+}: ScrollAreaGuttersProps) {
   return (
     <div aria-hidden="true" className="r-scroll-area__gutters" ref={guttersRef}>
       {rails.yRail ? (
@@ -64,7 +69,7 @@ export function ScrollAreaGutters() {
           containerRef={containerRef}
           shortened={rails.xRail}
           thumbRef={yThumbRef}
-          onDraggingChange={setDragging}
+          onDraggingChange={onDraggingChange}
         />
       ) : null}
       {rails.xRail ? (
@@ -73,7 +78,7 @@ export function ScrollAreaGutters() {
           containerRef={containerRef}
           shortened={rails.yRail}
           thumbRef={xThumbRef}
-          onDraggingChange={setDragging}
+          onDraggingChange={onDraggingChange}
         />
       ) : null}
     </div>

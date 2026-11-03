@@ -15,8 +15,8 @@ import { afterEach, expect, test } from "vite-plus/test";
 
 import { VirtualList } from "../index";
 import type { VirtualListApi, VirtualListItemRenderProps } from "../index";
-import { ScrollArea, ScrollAreaGutters } from "../../scroll-area/index";
-import type { ScrollAreaRenderContainerBinding } from "../../scroll-area/index";
+import { ScrollAreaGutters, useScrollAreaContainer } from "../../scroll-area/index";
+import type { ScrollAreaContainer } from "../../scroll-area/index";
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -78,13 +78,13 @@ afterEach(() => {
   mounts = new Map();
 });
 
-/** The list under ScrollArea, sticky gutters in its header, as a consumer composes it: the list's scroller is the container. */
+/** The list's scroller as a scroll area's container, sticky gutters in its header, as a consumer composes it. */
 function WithScrollbar({
   children,
 }: {
-  children: (container: ScrollAreaRenderContainerBinding) => ReactNode;
+  children: (area: ScrollAreaContainer<HTMLDivElement>) => ReactNode;
 }) {
-  return <ScrollArea renderContainer={children} overscroll="auto" />;
+  return children(useScrollAreaContainer<HTMLDivElement>({ overscroll: "auto" }));
 }
 
 // With ScrollArea's sticky gutters too (in the list's header): the overlay scrollbar re-renders when a
@@ -94,13 +94,13 @@ it.each([false, true])(
   async (scrollbar) => {
     let transformChanges = 0;
     const api: { current: VirtualListApi | null } = { current: null };
-    const list = (container?: ScrollAreaRenderContainerBinding) => (
+    const list = (area?: ScrollAreaContainer<HTMLDivElement>) => (
       <VirtualList
         componentRef={api}
-        domRef={container?.ref}
-        className={container?.className}
-        style={container?.style}
-        header={container ? <ScrollAreaGutters /> : undefined}
+        domRef={area?.containerProps.ref}
+        className={area?.containerProps.className}
+        style={area?.containerProps.style}
+        header={area ? <ScrollAreaGutters {...area.guttersProps} /> : undefined}
         items={ROWS}
         getKey={getKey}
         itemResizable
@@ -117,7 +117,7 @@ it.each([false, true])(
     );
     render(
       <div style={FRAME_STYLE}>
-        {scrollbar ? <WithScrollbar>{(container) => list(container)}</WithScrollbar> : list()}
+        {scrollbar ? <WithScrollbar>{(area) => list(area)}</WithScrollbar> : list()}
       </div>,
     );
     await nextFrame();

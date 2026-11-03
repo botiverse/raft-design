@@ -1047,6 +1047,7 @@
     "names": [
       "ScrollArea",
       "ScrollAreaContent",
+      "ScrollAreaGutters",
       "ScrollAreaTextarea"
     ],
     "status": "stable",

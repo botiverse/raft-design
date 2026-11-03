@@ -16,7 +16,7 @@
         "name": "children",
         "type": "ReactNode",
         "required": false,
-        "description": "The scrolling content, in ScrollArea's own container. Not read with `renderContainer`.",
+        "description": "The scrolling content, in ScrollArea's own container.",
         "from": "raft-ui"
       },
       {
@@ -74,7 +74,6 @@
         "name": "hideDelay",
         "type": "number",
         "required": false,
-        "default": "600",
         "description": "How long the scrollbars stay after scrolling stops, in ms. At least 100 with `trigger=\"scroll\"`.",
         "from": "raft-ui"
       },
@@ -96,7 +95,6 @@
         "name": "orientation",
         "type": "ScrollAreaOrientation",
         "required": false,
-        "default": "\"vertical\"",
         "description": "The directions the area scrolls in. Content too wide for a vertical area is cut off.",
         "from": "raft-ui"
       },
@@ -104,7 +102,6 @@
         "name": "overscroll",
         "type": "ScrollAreaOverscroll",
         "required": false,
-        "default": "\"none\"",
         "description": "What a scroll that reaches the end does: stop there with no bounce (`none`, the default), stop there but let Mac trackpads and iOS bounce the area (`contain`), or carry on to the page behind (`auto`, which leaves the container's own `overscroll-behavior` alone). Only in the directions the area overflows right now.",
         "from": "raft-ui"
       },
@@ -113,13 +110,6 @@
         "type": "ScrollAreaRailInset",
         "required": false,
         "description": "Room in px the scrollbars keep clear at each end, such as a sticky header's height, so they don't run over it. Also settable in CSS, on the root: `--r-scroll-area-rail-inset-{top,bottom,left,right}`, which don't inherit.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "renderContainer",
-        "type": "(container: ScrollAreaRenderContainerBinding) => ReactNode",
-        "required": false,
-        "description": "Renders the container yourself, in place of ScrollArea's `<div>`: a `<textarea>`, a list, another component's own scroller (VirtualList's `domRef`). Put the binding on the element that scrolls and `<ScrollAreaGutters />` where `guttersPosition` says: as its first child (`sticky`) or right after it (`absolute`, inside the frame ScrollArea renders around what this returns). ScrollArea listens to the container's scroll itself. The demo's `useContainer`.",
         "from": "raft-ui"
       },
       {
@@ -133,7 +123,6 @@
         "name": "size",
         "type": "ScrollAreaSize",
         "required": false,
-        "default": "\"medium\"",
         "description": "Thumb thickness: `small` is 5px, `medium` 7px; both grow while pointed at or dragged.",
         "from": "raft-ui"
       },
@@ -148,7 +137,6 @@
         "name": "trigger",
         "type": "ScrollAreaTrigger",
         "required": false,
-        "default": "\"hover\"",
         "description": "When the scrollbars show. They always show while scrolling or dragging.",
         "from": "raft-ui"
       }
@@ -162,9 +150,59 @@
     "props": []
   },
   {
+    "name": "ScrollAreaGutters",
+    "entry": "@botiverse/raft-ui",
+    "description": "The scrollbars of a container bound with `useScrollAreaContainer`: spread its `guttersProps` here, and render it where `guttersPosition` says (as in the demo). `sticky` gutters: the container's first child, a zero-height layer stuck to the top of the viewport. `absolute` gutters: right after the container, a layer laid over the frame. A gutter appears for each axis with something to scroll. Hidden from assistive technology, which uses the native scrolling.",
+    "native": false,
+    "props": [
+      {
+        "name": "containerRef",
+        "type": "RefObject<HTMLElement | null>",
+        "required": true,
+        "description": "The container the gutters scroll.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "guttersRef",
+        "type": "RefObject<HTMLDivElement | null>",
+        "required": true,
+        "description": "The gutters layer.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "onDraggingChange",
+        "type": "(dragging: boolean) => void",
+        "required": true,
+        "description": "Called when a thumb drag starts and ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "rails",
+        "type": "{ xRail: boolean; yRail: boolean; }",
+        "required": true,
+        "description": "Which axes have a gutter now: one with something to scroll.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "xThumbRef",
+        "type": "RefObject<HTMLDivElement | null>",
+        "required": true,
+        "description": "The horizontal thumb.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "yThumbRef",
+        "type": "RefObject<HTMLDivElement | null>",
+        "required": true,
+        "description": "The vertical thumb, which the area sizes and moves.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
     "name": "ScrollAreaTextarea",
     "entry": "@botiverse/raft-ui",
-    "description": "A native `<textarea>` with ScrollArea's overlay scrollbar: ScrollArea with `guttersPosition=\"absolute\"` and the textarea as its container (it can't hold children), the gutters beside it in the frame, as in the demo's textarea example. Its own `scrollHeight` is the content size: it is measured on every input and render, and when the box resizes. Native props, `ref`, `className`, `style` and `onScroll` go to the textarea; `wrapperClassName` and `wrapperStyle` to the frame.",
+    "description": "A native `<textarea>` with ScrollArea's overlay scrollbar: `useScrollAreaContainer` with `guttersPosition=\"absolute\"` and the textarea as its container (it can't hold children), the gutters beside it in the frame, as in the demo's textarea example. Its own `scrollHeight` is the content size: it is measured on every input and render, and when the box resizes. Native props, `ref`, `className`, `style` and `onScroll` go to the textarea; `wrapperClassName` and `wrapperStyle` to the frame. It is focusable itself, so it takes no `tabIndex` from the area.",
     "native": true,
     "props": [
       {

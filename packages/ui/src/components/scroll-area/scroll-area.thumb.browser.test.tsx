@@ -2,12 +2,14 @@
 // current scroll and content size within a frame, it is moved by a transform (a scroll-driven
 // animation on the container's own timeline where the browser has them: seen from inside with
 // sticky gutters, hoisted by the frame with absolute ones), and it doesn't jump back against the
-// direction of travel when the content grows mid-scroll.
+// direction of travel when the content grows mid-scroll. The same holds for an element of one's
+// own bound with `useScrollAreaContainer` (the demo's `useContainer`).
 /* oxlint-disable react-perf/jsx-no-new-object-as-prop -- each scene renders once. */
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, test } from "vite-plus/test";
 
-import { ScrollArea, ScrollAreaTextarea } from "./index";
+import { ScrollArea, ScrollAreaGutters, ScrollAreaTextarea, useScrollAreaContainer } from "./index";
+import type { ScrollAreaGuttersPosition } from "./index";
 import { scrollTimelineCondition } from "./use-scrollbars";
 
 const it = test.skipIf(typeof window === "undefined");
@@ -310,4 +312,97 @@ it("absolute: bounds the container by a max-height on the frame, the gutters ins
   expect(rootRect.right - 4 - rail.right).toBeCloseTo(0, 0);
   expect(rail.top - (rootRect.top + 4)).toBeCloseTo(3, 0);
   expect(rootRect.bottom - 4 - rail.bottom).toBeCloseTo(3, 0);
+});
+
+/** A list of one's own as the container, bound with the hook: the gutters as its first child (sticky) or after it in a frame (absolute). */
+function OwnList({ position }: { position: ScrollAreaGuttersPosition }) {
+  const { containerProps, frameProps, guttersProps } = useScrollAreaContainer<HTMLUListElement>({
+    guttersPosition: position,
+    trigger: "none",
+  });
+  const gutters = <ScrollAreaGutters {...guttersProps} />;
+  const items = Array.from({ length: 100 }, (_, index) => (
+    <li key={index} style={{ height: 30 }}>
+      Item {index}
+    </li>
+  ));
+  if (frameProps === undefined) {
+    return (
+      <ul
+        {...containerProps}
+        className={`${containerProps.className} own-list`}
+        style={{
+          ...containerProps.style,
+          height: 300,
+          margin: 0,
+          overflowY: "auto",
+          padding: 0,
+          width: 200,
+        }}
+      >
+        {gutters}
+        {items}
+      </ul>
+    );
+  }
+  return (
+    <div {...frameProps} style={{ ...frameProps.style, height: 300, width: 200 }}>
+      <ul
+        {...containerProps}
+        className={`${containerProps.className} own-list`}
+        // The frame is a column: the list fills it and scrolls.
+        style={{ flex: "1 1 auto", margin: 0, minHeight: 0, overflowY: "auto", padding: 0 }}
+      >
+        {items}
+      </ul>
+      {gutters}
+    </div>
+  );
+}
+
+describe.each(["sticky", "absolute"] as const)("useScrollAreaContainer, %s gutters", (position) => {
+  it("binds an element of one's own: a thin thumb at its edge that follows its scroll, no native scrollbar", async () => {
+    const { container } = render(<OwnList position={position} />);
+    const { root, scroller } = parts(container, ".own-list");
+    expect(scroller.tagName).toBe("UL");
+    expect(root === scroller).toBe(position === "sticky");
+    await frameThenTask();
+    expect(getComputedStyle(scroller).scrollbarWidth).toBe("none");
+    expect(scroller.clientWidth).toBe(200);
+    expect(scroller.scrollHeight).toBe(3000);
+    // Keyboard users can reach it: there is something to scroll.
+    expect(scroller.tabIndex).toBe(0);
+    // 300 of 3,000px in view: a tenth of the 294px gutter.
+    expect(thumbState(scroller, root).length).toBeCloseTo(29, 0);
+    const rootRect = root.getBoundingClientRect();
+    expect(rootRect.right - thumbState(scroller, root).rail.right).toBeCloseTo(0, 0);
+
+    for (let step = 1; step <= 20; step += 1) {
+      scroller.scrollTop = step * 97;
+      await frameThenTask();
+      const { expected, rail, top } = thumbState(scroller, root);
+      expect(Math.abs(top - expected)).toBeLessThanOrEqual(1);
+      expect(rail.top - root.getBoundingClientRect().top).toBeCloseTo(3, 0);
+    }
+    expect(thumbState(scroller, root).top).toBeGreaterThan(100);
+  });
+
+  timelineIt(
+    "moves the thumb by a scroll-driven animation on the element's own timeline",
+    async () => {
+      const { container } = render(<OwnList position={position} />);
+      const { root, scroller } = parts(container, ".own-list");
+      await frameThenTask();
+      const animations = verticalThumb(root).getAnimations();
+      expect(animations).toHaveLength(1);
+      const timeline = animations[0]!.timeline as unknown as { source: Element | null } | null;
+      expect(timeline?.source).toBe(scroller);
+      scroller.scrollTop = 1500;
+      await frameThenTask();
+      expect(verticalThumb(root).style.transform).toBe("");
+      const { expected, top } = thumbState(scroller, root);
+      expect(top).toBeGreaterThan(0);
+      expect(Math.abs(top - expected)).toBeLessThanOrEqual(1);
+    },
+  );
 });

@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 /* oxlint-disable react-perf/jsx-no-new-function-as-prop, react-perf/jsx-no-new-object-as-prop --
-   each scene renders once; `renderContainer` is written inline, as a caller would. */
+   each scene renders once; the hook's scenes are written inline, as a caller would. */
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -14,7 +14,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test"
 import { ScrollArea, ScrollAreaGutters, ScrollAreaTextarea, useScrollAreaContainer } from "./index";
 import type {
   ScrollAreaActions,
-  ScrollAreaRenderContainerBinding,
+  ScrollAreaContainerOptions,
+  ScrollAreaContainerProps,
   ScrollAreaGuttersPosition,
   ScrollAreaProps,
 } from "./index";
@@ -852,28 +853,49 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
 
 /** Rows of one's own: the element that scrolls, rendered by another component, like VirtualList. */
 function OwnList({
-  binding,
+  containerProps,
   header,
   children,
   extraClass,
 }: {
-  binding: ScrollAreaRenderContainerBinding;
+  containerProps: ScrollAreaContainerProps;
   header?: ReactNode;
   children?: ReactNode;
   extraClass?: string;
 }) {
-  // Its own state, which renders it (and its className) without ScrollArea rendering.
+  // Its own state, which renders it (and its className) without the hook's component rendering.
   const [own, setOwn] = useState(0);
   return (
     <div
-      className={[binding.className, "own-list", extraClass].filter(Boolean).join(" ")}
+      {...containerProps}
+      className={[containerProps.className, "own-list", extraClass].filter(Boolean).join(" ")}
       data-own={own}
-      ref={binding.ref}
-      style={binding.style}
       onClick={() => setOwn((count) => count + 1)}
     >
       {header}
       {children}
+    </div>
+  );
+}
+
+/** The demo's two arrangements, bound with the hook: the gutters as the list's first child (sticky) or after it in a frame (absolute). */
+function Bound({
+  children,
+  frameClassName,
+  ...options
+}: ScrollAreaContainerOptions & { children?: ReactNode; frameClassName?: string }) {
+  const { containerProps, frameProps, guttersProps } = useScrollAreaContainer(options);
+  if (frameProps === undefined) {
+    return (
+      <OwnList containerProps={containerProps} header={<ScrollAreaGutters {...guttersProps} />}>
+        {children}
+      </OwnList>
+    );
+  }
+  return (
+    <div {...frameProps} className={`${frameProps.className} ${frameClassName ?? ""}`.trim()}>
+      <OwnList containerProps={containerProps}>{children}</OwnList>
+      <ScrollAreaGutters {...guttersProps} />
     </div>
   );
 }
@@ -883,41 +905,35 @@ const ownLayout = {
   "r-scroll-area__gutter": { clientHeight: 100, clientWidth: 200 },
 };
 
-describe("ScrollArea renderContainer (the demo's useContainer)", () => {
-  it("sticky: another component's scroller is the root, the gutters its first child (VirtualList's header)", () => {
+describe("useScrollAreaContainer (the demo's useContainer)", () => {
+  it("sticky: an element of one's own is the root, the gutters its first child (VirtualList's header)", () => {
     layout = ownLayout;
     const onEdgeChange = vi.fn();
     const { container } = render(
-      <ScrollArea
-        className="frame"
-        railInset={ownInset}
-        size="small"
-        overscroll="auto"
-        onEdgeChange={onEdgeChange}
-        renderContainer={(binding) => (
-          <OwnList binding={binding} header={<ScrollAreaGutters />}>
-            <p>Rows</p>
-          </OwnList>
-        )}
-      />,
+      <Bound railInset={ownInset} size="small" overscroll="auto" onEdgeChange={onEdgeChange}>
+        <p>Rows</p>
+      </Bound>,
     );
     const list = container.querySelector<HTMLElement>(".own-list")!;
     expect(list.parentElement).toBe(container);
-    expect(list.classList).toContain("r-scroll-area");
-    expect(list.classList).toContain("r-scroll-area--sticky-gutters");
-    expect(list.classList).toContain("frame");
+    // The rendered classes, then the edge class the hook writes itself.
+    expect(list.className).toBe(
+      "r-scroll-area r-scroll-area--small r-scroll-area--hover-trigger r-scroll-area--vertical-orientation r-scroll-area--sticky-gutters own-list r-scroll-area--overflow-y-end",
+    );
     // overscroll="auto": the list keeps its own.
     expect(list.className).not.toMatch(/overscroll/);
     expect(list.children[0]?.className).toBe("r-scroll-area__gutters");
     expect(list.children[1]?.tagName).toBe("P");
     expect(list.style.getPropertyValue("--r-scroll-area-rail-inset-top")).toBe("24px");
+    // Something to scroll: a tab stop.
+    expect(list.tabIndex).toBe(0);
     expect(onEdgeChange).toHaveBeenLastCalledWith({
       bottom: false,
       left: true,
       right: true,
       top: true,
     });
-    // ScrollArea listens to the list's scroll itself.
+    // The hook listens to the list's scroll itself.
     list.scrollTop = 300;
     fireEvent.scroll(list);
     frame();
@@ -926,13 +942,9 @@ describe("ScrollArea renderContainer (the demo's useContainer)", () => {
     expect(thumbTop(thumbs(container)[0])).toBe("75");
   });
 
-  it("keeps the classes it set when the container renders its own className without ScrollArea", async () => {
+  it("keeps the classes it set when the container renders its own className without the hook", async () => {
     layout = ownLayout;
-    const { container } = render(
-      <ScrollArea
-        renderContainer={(binding) => <OwnList binding={binding} header={<ScrollAreaGutters />} />}
-      />,
-    );
+    const { container } = render(<Bound />);
     const list = container.querySelector<HTMLElement>(".own-list")!;
     list.scrollTop = 300;
     fireEvent.scroll(list);
@@ -947,29 +959,19 @@ describe("ScrollArea renderContainer (the demo's useContainer)", () => {
     expect(list.classList.contains("r-scroll-area--overflow-y-start")).toBe(true);
   });
 
-  it("absolute: a frame around what it renders, the container and the gutters after it", () => {
+  it("absolute: frameProps for a frame of one's own, the container and the gutters after it", () => {
     layout = ownLayout;
     const { container } = render(
-      <ScrollArea
-        className="frame"
-        data-slot="list-frame"
-        guttersPosition="absolute"
-        renderContainer={(binding) => (
-          <>
-            <OwnList binding={binding}>
-              <p>Rows</p>
-            </OwnList>
-            <ScrollAreaGutters />
-          </>
-        )}
-      />,
+      <Bound frameClassName="frame" guttersPosition="absolute" railInset={ownInset}>
+        <p>Rows</p>
+      </Bound>,
     );
     const frameEl = root(container);
     const list = container.querySelector<HTMLElement>(".own-list")!;
-    // The native props are the frame's: ScrollArea doesn't render the container.
-    expect(frameEl.dataset.slot).toBe("list-frame");
-    expect(frameEl.classList).toContain("r-scroll-area--absolute-gutters");
-    expect(frameEl.classList).toContain("frame");
+    expect(frameEl.className).toBe(
+      "r-scroll-area r-scroll-area--medium r-scroll-area--hover-trigger r-scroll-area--vertical-orientation r-scroll-area--absolute-gutters r-scroll-area--none-overscroll-y frame r-scroll-area--overflow-y-end",
+    );
+    expect(frameEl.style.getPropertyValue("--r-scroll-area-rail-inset-top")).toBe("24px");
     expect(list.className).toBe("r-scroll-area__container own-list");
     expect(list.getAttribute("style")).toBeNull();
     expect(list.nextElementSibling?.className).toBe("r-scroll-area__gutters");
@@ -986,38 +988,42 @@ describe("ScrollArea renderContainer (the demo's useContainer)", () => {
       supports: (condition: string) => condition === scrollTimelineCondition,
     });
     layout = ownLayout;
-    const scenes = [
-      <ScrollArea
-        key="first"
-        guttersPosition="absolute"
-        renderContainer={(binding) => (
-          <>
-            <ScrollAreaGutters />
-            <OwnList binding={binding} />
-          </>
-        )}
-      />,
-      <ScrollArea
-        key="no-class"
-        guttersPosition="absolute"
-        renderContainer={(binding) => (
-          <>
-            <OwnList binding={{ ...binding, className: "" }} />
-            <ScrollAreaGutters />
-          </>
-        )}
-      />,
-      <ScrollArea
-        key="sticky-outside"
-        renderContainer={(binding) => (
-          <div>
-            <OwnList binding={binding} />
-            <ScrollAreaGutters />
-          </div>
-        )}
-      />,
-    ];
-    for (const scene of scenes) {
+    function GuttersFirst() {
+      const { containerProps, frameProps, guttersProps } = useScrollAreaContainer({
+        guttersPosition: "absolute",
+      });
+      return (
+        <div {...frameProps}>
+          <ScrollAreaGutters {...guttersProps} />
+          <OwnList containerProps={containerProps} />
+        </div>
+      );
+    }
+    function NoContainerClass() {
+      const { containerProps, frameProps, guttersProps } = useScrollAreaContainer({
+        guttersPosition: "absolute",
+      });
+      return (
+        <div {...frameProps}>
+          <OwnList containerProps={{ ...containerProps, className: "" }} />
+          <ScrollAreaGutters {...guttersProps} />
+        </div>
+      );
+    }
+    function StickyOutside() {
+      const { containerProps, guttersProps } = useScrollAreaContainer();
+      return (
+        <div>
+          <OwnList containerProps={containerProps} />
+          <ScrollAreaGutters {...guttersProps} />
+        </div>
+      );
+    }
+    for (const scene of [
+      <GuttersFirst key="first" />,
+      <NoContainerClass key="no-class" />,
+      <StickyOutside key="sticky-outside" />,
+    ]) {
       const { container, unmount } = render(scene);
       const list = container.querySelector<HTMLElement>(".own-list")!;
       list.scrollTop = 150;
@@ -1032,18 +1038,21 @@ describe("ScrollArea renderContainer (the demo's useContainer)", () => {
 
   it("binds again when the container is swapped for another element", () => {
     layout = ownLayout;
-    const scene = (which: string) => (
-      <ScrollArea
-        renderContainer={(binding) => (
-          <OwnList key={which} binding={binding} header={<ScrollAreaGutters />}>
-            <p>{which}</p>
-          </OwnList>
-        )}
-      />
-    );
-    const { container, rerender } = render(scene("a"));
+    function Swapped({ which }: { which: string }) {
+      const { containerProps, guttersProps } = useScrollAreaContainer();
+      return (
+        <OwnList
+          key={which}
+          containerProps={containerProps}
+          header={<ScrollAreaGutters {...guttersProps} />}
+        >
+          <p>{which}</p>
+        </OwnList>
+      );
+    }
+    const { container, rerender } = render(<Swapped which="a" />);
     const first = container.querySelector<HTMLElement>(".own-list")!;
-    rerender(scene("b"));
+    rerender(<Swapped which="b" />);
     const second = container.querySelector<HTMLElement>(".own-list")!;
     expect(second).not.toBe(first);
     second.scrollTop = 300;
@@ -1053,21 +1062,32 @@ describe("ScrollArea renderContainer (the demo's useContainer)", () => {
     expect(thumbTop(thumbs(container)[0])).toBe("75");
   });
 
-  it("hands the same binding to a component inside, through useScrollAreaContainer", () => {
+  it("returns the area's methods and state, the same as actionsRef's, and stable across renders", () => {
     layout = ownLayout;
-    function BoundList() {
-      const binding = useScrollAreaContainer();
-      return <OwnList binding={binding} header={<ScrollAreaGutters />} />;
+    const actionsRef = createRef<ScrollAreaActions>();
+    const seen: ReturnType<typeof useScrollAreaContainer>[] = [];
+    function Probe({ label }: { label: string }) {
+      const area = useScrollAreaContainer({ actionsRef });
+      seen.push(area);
+      return (
+        <OwnList
+          containerProps={area.containerProps}
+          header={<ScrollAreaGutters {...area.guttersProps} />}
+        >
+          <p>{label}</p>
+        </OwnList>
+      );
     }
-    const { container } = render(<ScrollArea renderContainer={() => <BoundList />} />);
-    const list = container.querySelector<HTMLElement>(".own-list")!;
-    expect(list.classList).toContain("r-scroll-area--sticky-gutters");
-    expect(thumbs(container)).toHaveLength(1);
-  });
-
-  it("asks for a ScrollArea around its parts", () => {
-    vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => render(<ScrollAreaGutters />)).toThrow(/inside a ScrollArea/);
+    const { rerender } = render(<Probe label="a" />);
+    rerender(<Probe label="b" />);
+    const area = seen.at(-1)!;
+    expect(area.guttersPosition).toBe("sticky");
+    expect(area.frameProps).toBeUndefined();
+    expect(area.scrollable).toBe(true);
+    expect(actionsRef.current?.measure).toBe(area.measure);
+    expect(actionsRef.current?.scrollToElement).toBe(area.scrollToElement);
+    // Nothing the hook keeps changed: the same objects, so a memoized child doesn't render.
+    expect(seen.at(-2)).toBe(area);
   });
 });
 

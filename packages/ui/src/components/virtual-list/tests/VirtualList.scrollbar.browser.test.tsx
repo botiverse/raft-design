@@ -1,7 +1,7 @@
 // ScrollArea's overlay scrollbar over a VirtualList, in real layout, the way a consumer composes it with
-// `renderContainer` (the demo's `useContainer`): the list's own scroller (`domRef`) is the container,
-// and the gutters go inside it as its first child (`sticky`, through the list's `header`) or beside it
-// in ScrollArea's frame (`absolute`). VirtualList knows nothing about it. The gutters take no room, so
+// `useScrollAreaContainer` (the demo's `useContainer`): the list's own scroller (`domRef`) is the
+// container, and the gutters go inside it as its first child (`sticky`, through the list's `header`) or
+// beside it in a frame of the consumer's (`absolute`). VirtualList knows nothing about it. The gutters take no room, so
 // the rows are where they are without them, and the thumb follows the list's scroll.
 /* oxlint-disable react-perf/jsx-no-new-function-as-prop, react-perf/jsx-no-new-object-as-prop --
    each scene renders once. */
@@ -12,7 +12,7 @@ import { afterEach, describe, expect, test } from "vite-plus/test";
 import "./virtual-list.test.css";
 import { VirtualList } from "../index";
 import type { VirtualListApi, VirtualListItemRenderProps, VirtualListProps } from "../index";
-import { ScrollArea, ScrollAreaGutters } from "../../scroll-area/index";
+import { ScrollAreaGutters, useScrollAreaContainer } from "../../scroll-area/index";
 import type { ScrollAreaGuttersPosition } from "../../scroll-area/index";
 import { scrollTimelineCondition } from "../../scroll-area/use-scrollbars";
 
@@ -52,61 +52,80 @@ type SceneProps = {
   flexBottom?: boolean;
 };
 
-/** The list in a 320 x 400 frame; with a position, under a ScrollArea whose container it is. */
-function Scene({ api, rows, position, flexBottom = false }: SceneProps) {
-  const list = (props: {
-    domRef?: VirtualListProps<Row>["domRef"];
-    className?: string;
-    style?: CSSProperties;
-    header?: ReactNode;
-  }) => (
+type ListProps = {
+  domRef?: VirtualListProps<Row>["domRef"];
+  className?: string;
+  style?: CSSProperties;
+  header?: ReactNode;
+};
+
+/** The list itself, with what a scroll area puts on it. */
+function List({
+  api,
+  rows,
+  flexBottom,
+  domRef,
+  className,
+  style,
+  header,
+}: ListProps & Omit<SceneProps, "position">) {
+  return (
     <VirtualList
       componentRef={api}
-      domRef={props.domRef}
+      domRef={domRef}
       items={rows}
       getKey={getKey}
       itemResizable
       itemEstimatedSize={40}
       itemMinSize={20}
-      className={
-        [props.className, flexBottom && "flex flex-col"].filter(Boolean).join(" ") || undefined
-      }
-      style={props.style}
-      header={props.header}
+      className={[className, flexBottom && "flex flex-col"].filter(Boolean).join(" ") || undefined}
+      style={style}
+      header={header}
       itemsClassName={flexBottom ? "mt-auto shrink-0" : undefined}
     >
       {renderRow}
     </VirtualList>
   );
+}
+
+/** The list as the container of a `useScrollAreaContainer`, the gutters where `position` says. */
+function WithScrollbar({
+  position,
+  ...props
+}: Omit<SceneProps, "position"> & { position: ScrollAreaGuttersPosition }) {
+  const area = useScrollAreaContainer<HTMLDivElement>({
+    guttersPosition: position,
+    overscroll: "auto",
+    trigger: "none",
+  });
+  const { containerProps, frameProps, guttersProps } = area;
+  if (frameProps === undefined) {
+    return (
+      <List
+        {...props}
+        className={containerProps.className}
+        domRef={containerProps.ref}
+        header={<ScrollAreaGutters {...guttersProps} />}
+        style={containerProps.style}
+      />
+    );
+  }
+  return (
+    <div {...frameProps} style={{ ...frameProps.style, ...ROOT_STYLE }}>
+      <List {...props} className={containerProps.className} domRef={containerProps.ref} />
+      <ScrollAreaGutters {...guttersProps} />
+    </div>
+  );
+}
+
+/** The list in a 320 x 400 frame; with a position, the container of a scroll area. */
+function Scene({ api, rows, position, flexBottom = false }: SceneProps) {
   return (
     <div style={FRAME_STYLE}>
       {position === null ? (
-        list({})
+        <List api={api} flexBottom={flexBottom} rows={rows} />
       ) : (
-        <ScrollArea
-          guttersPosition={position}
-          overscroll="auto"
-          style={position === "absolute" ? ROOT_STYLE : undefined}
-          trigger="none"
-          renderContainer={(container) =>
-            position === "sticky" ? (
-              list({
-                className: container.className,
-                domRef: container.ref,
-                header: <ScrollAreaGutters />,
-                style: container.style,
-              })
-            ) : (
-              <>
-                {list({
-                  className: container.className,
-                  domRef: container.ref,
-                })}
-                <ScrollAreaGutters />
-              </>
-            )
-          }
-        />
+        <WithScrollbar api={api} flexBottom={flexBottom} position={position} rows={rows} />
       )}
     </div>
   );

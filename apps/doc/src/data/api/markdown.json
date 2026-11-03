@@ -256,7 +256,7 @@
         "name": "children",
         "type": "ReactNode",
         "required": false,
-        "description": "The scrolling content, in ScrollArea's own container. Not read with `renderContainer`.",
+        "description": "The scrolling content, in ScrollArea's own container.",
         "from": "raft-ui"
       },
       {
@@ -341,13 +341,6 @@
         "type": "ScrollAreaRailInset",
         "required": false,
         "description": "Room in px the scrollbars keep clear at each end, such as a sticky header's height, so they don't run over it. Also settable in CSS, on the root: `--r-scroll-area-rail-inset-{top,bottom,left,right}`, which don't inherit.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "renderContainer",
-        "type": "(container: ScrollAreaRenderContainerBinding) => ReactNode",
-        "required": false,
-        "description": "Renders the container yourself, in place of ScrollArea's `<div>`: a `<textarea>`, a list, another component's own scroller (VirtualList's `domRef`). Put the binding on the element that scrolls and `<ScrollAreaGutters />` where `guttersPosition` says: as its first child (`sticky`) or right after it (`absolute`, inside the frame ScrollArea renders around what this returns). ScrollArea listens to the container's scroll itself. The demo's `useContainer`.",
         "from": "raft-ui"
       },
       {

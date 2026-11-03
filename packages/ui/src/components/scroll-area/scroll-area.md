@@ -12,7 +12,7 @@ related: [message-list, panel, sidebar, composer]
 
 ScrollArea scrolls its content natively and draws thin overlay scrollbars in the style of macOS: a rounded thumb in the label colour made translucent, with no visible track, that fades in while the area scrolls or is pointed at, thickens when you point at it, and fades out shortly after. The scrollbars take no room from the layout and look the same in every theme and on every platform: a translucent label colour is dark on a light page and light on a dark one, so the thumb reads on any content without a track behind it. The wheel, trackpad, touch and keyboard scroll as usual; the thumb can also be dragged, and a press on the empty rail beside it pages. raft-ui uses it for the desktop message list, the sidebar, the composer's input and row of attachments, wide Markdown tables, and over a VirtualList wherever an app renders one as its container.
 
-ScrollArea follows [react-scroll-area-demo](https://github.com/07akioni/react-scroll-area-demo): it measures a container, the element that scrolls, and draws the gutters (`<ScrollAreaGutters />`, the scrollbars) where `guttersPosition` says. With `sticky` gutters, the default, the gutters are the container's first child and the container is the whole area: one element, so a `ref` gets the native `scrollTo` and `scrollBy`, and `onScroll` receives its scroll events. With `absolute` gutters a frame holds the container and the gutters beside it. The container is ScrollArea's own `<div>`, or any element `renderContainer` renders: a `<textarea>`, a list, VirtualList's own scroller.
+ScrollArea follows [react-scroll-area-demo](https://github.com/07akioni/react-scroll-area-demo): it measures a container, the element that scrolls, and draws the gutters (`<ScrollAreaGutters />`, the scrollbars) where `guttersPosition` says. With `sticky` gutters, the default, the gutters are the container's first child and the container is the whole area: one element, so a `ref` gets the native `scrollTo` and `scrollBy`, and `onScroll` receives its scroll events. With `absolute` gutters a frame holds the container and the gutters beside it. `<ScrollArea>` is the common case, with a `<div>` of its own as the container. For an element you render yourself (a `<textarea>`, a list, VirtualList's own scroller), call `useScrollAreaContainer`, the demo's `useContainer` as a hook, and spread what it returns on your elements.
 
 ```example
 scroll-area/compositions/basic
@@ -24,7 +24,7 @@ scroll-area/compositions/basic
 | ------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | A list, strip or pane that scrolls inside a fixed frame | ScrollArea                                                                   |
 | A `<textarea>` that should show the same scrollbar      | `ScrollAreaTextarea`                                                         |
-| An element that scrolls itself (a list's own scroller)  | `renderContainer` ([Your own container](#your-own-container))                |
+| An element that scrolls itself (a list's own scroller)  | `useScrollAreaContainer` ([Your own container](#your-own-container))         |
 | The content of a panel under its header                 | `PanelScrollViewport` ([Panel](../panel/panel.md#anatomy))                   |
 | The messages of a conversation or a thread              | [MessageList](../message-list/message-list.md), which is built on ScrollArea |
 | A list long enough that rendering every row is too slow | [VirtualList](../virtual-list/virtual-list.md)                               |
@@ -55,8 +55,8 @@ div.r-scroll-area.r-scroll-area--absolute-gutters   the frame and the root: posi
 
 - `ScrollArea`: give the root the size of the region (a height, a `max-height`, or a flex item's share). With sticky gutters the root is the container, so `ref`, `className`, `style`, `onScroll` and the native props are all on the element that scrolls. With absolute gutters `className` and `style` size and frame the frame, and `ref`, `onScroll`, `tabIndex` and the other native props go to the container (`containerClassName`, `containerStyle`); `rootRef` is the root either way.
 - The content: the children themselves, or with `contentClassName` or `contentStyle` a content element (`ScrollAreaContent`) around them. Pad the content, not a sticky container, so the scrollbars stay at the edges.
-- `ScrollAreaGutters`: the scrollbars, over the right edge (vertical) and the bottom edge (horizontal), hidden from assistive technology. ScrollArea places them in its own container; with `renderContainer` you place them.
-- `renderContainer`: renders the container yourself ([Your own container](#your-own-container)).
+- `ScrollAreaGutters`: the scrollbars, over the right edge (vertical) and the bottom edge (horizontal), hidden from assistive technology. ScrollArea places them in its own container; with `useScrollAreaContainer` you place them, with its `guttersProps`.
+- `useScrollAreaContainer`: the same area for a container you render yourself ([Your own container](#your-own-container)).
 - `ScrollAreaTextarea`: a native `<textarea>` as the container, with absolute gutters.
 
 ## Variants
@@ -137,7 +137,7 @@ scroll-area/compositions/scroll-to-element
 
 ### Textarea
 
-A `<textarea>` scrolls itself and can't hold children, so `ScrollAreaTextarea` is a ScrollArea with absolute gutters whose container is a native textarea (the demo's textarea example). Frame the root (`wrapperClassName`: border, background, focus ring) and pad the textarea (`className`); the scrollbar follows typing, pasting and a controlled `value`. Drag the bottom corner to make the textarea taller: the scrollbar stops above the grip so it stays reachable. `ref`, `className`, `style`, `value`, `onScroll` and every other native prop go to the textarea; it takes `trigger`, `hideDelay`, `size` and `overscroll` as ScrollArea does.
+A `<textarea>` scrolls itself and can't hold children, so `ScrollAreaTextarea` is `useScrollAreaContainer` with absolute gutters whose container is a native textarea (the demo's textarea example). Frame the root (`wrapperClassName`: border, background, focus ring) and pad the textarea (`className`); the scrollbar follows typing, pasting and a controlled `value`. Drag the bottom corner to make the textarea taller: the scrollbar stops above the grip so it stays reachable. `ref`, `className`, `style`, `value`, `onScroll` and every other native prop go to the textarea; it takes `trigger`, `hideDelay`, `size` and `overscroll` as ScrollArea does.
 
 ```example
 scroll-area/compositions/textarea
@@ -157,23 +157,42 @@ scroll-area/compositions/absolute-gutters
 
 ### Your own container
 
-`renderContainer(container)` renders the container in place of ScrollArea's `<div>` (the demo's `useContainer`): a list, a `<textarea>`, or another component's own scroller. Put what it gets on the element that scrolls: `ref` (merged with yours), `className` before your own, `style` merged with yours, and `tabIndex` unless the element is focusable already. Then put `<ScrollAreaGutters />` where `container.guttersPosition` says: as the element's first child (`sticky`), or right after it (`absolute`, inside the frame ScrollArea renders around what you return). ScrollArea listens to the element's scroll itself, and binds again when a render puts another element in `ref`. `container.measure()` measures again, for a change nothing observed reports (a textarea's input); `contentRef` names an element whose size is the content's (a hidden mirror of a textarea's text). A component inside can read the same binding with `useScrollAreaContainer()`.
+`useScrollAreaContainer(options)` is ScrollArea without its `<div>` (the demo's `useContainer`, as a hook): call it in the component that renders the element that scrolls, a list, a `<textarea>` or another component's own scroller, and spread what it returns on your elements. It takes ScrollArea's options (`guttersPosition`, `orientation`, `trigger`, `size`, `fade`, `overscroll`, `railInset`, `hideDelay`, `onEdgeChange`, `actionsRef`, `contentRef`), and your own refs to the element (`containerRef`) and the frame (`frameRef`), and returns:
+
+- `containerProps` for the element that scrolls: `ref` (a callback that forwards to `containerRef`, so there is nothing to merge), `className` before your own, `style` with yours after it, and `tabIndex` unless the element is focusable already. Give the element its overflow (`overflow-y-auto`) yourself.
+- `guttersProps` for `<ScrollAreaGutters {...guttersProps} />`, which goes where `guttersPosition` says: as the element's first child (`sticky`), or right after it (`absolute`).
+- `frameProps`, with absolute gutters only (`undefined` with sticky ones; typed as always there when you pass `guttersPosition: "absolute"`), for the positioned frame you render around the element and the gutters: `ref`, `className` before your own (size and border the frame there) and `style`. The frame is a flex column: give the element `flex-1 min-h-0` so it fills the frame and scrolls.
+- `measure()`, which measures again for a change nothing observed reports (a textarea's input), `scrollToElement`, as on `actionsRef`, and `scrollable`.
+
+The hook listens to the element's scroll itself, and binds again when a render puts another element in `ref`. `contentRef` names an element whose size is the content's (a hidden mirror of a textarea's text). Everything it returns is stable until something it draws from changes, so it can go in a memoized child's props.
+
+```tsx
+function Members({ members }: { members: string[] }) {
+  const { containerProps, guttersProps } = useScrollAreaContainer<HTMLUListElement>();
+  return (
+    <ul {...containerProps} className={`${containerProps.className} h-48 overflow-y-auto`}>
+      <ScrollAreaGutters {...guttersProps} />
+      {members.map((member) => (
+        <li key={member}>{member}</li>
+      ))}
+    </ul>
+  );
+}
+```
 
 [VirtualList](../virtual-list/virtual-list.md#with-scrollareas-scrollbar) renders its own scroller, so it is used this way, with sticky gutters through its `header`:
 
 ```tsx
-<ScrollArea
-  overscroll="auto"
-  renderContainer={(container) => (
-    <VirtualList
-      domRef={container.ref}
-      className={container.className}
-      style={container.style}
-      header={<ScrollAreaGutters />}
-      {...listProps}
-    />
-  )}
-/>
+const { containerProps, guttersProps } = useScrollAreaContainer<HTMLDivElement>({
+  overscroll: "auto",
+});
+<VirtualList
+  domRef={containerProps.ref}
+  className={containerProps.className}
+  style={containerProps.style}
+  header={<ScrollAreaGutters {...guttersProps} />}
+  {...listProps}
+/>;
 ```
 
 With sticky gutters `className` and `style` carry the root's classes and variables, which the element then holds. With `overscroll="auto"` the container keeps its own `overscroll-behavior`.
@@ -185,12 +204,12 @@ ScrollArea is plain CSS (`scroll-area.css`, in the `components` layer, shipped i
 ## Accessibility
 
 - ScrollArea is not built on a Base UI primitive: it is a native scroll container, so assistive technology and the keyboard use the browser's own scrolling. The drawn scrollbars are `aria-hidden`.
-- When there is something to scroll, the container is focusable (`tabIndex={0}`, also handed to `renderContainer`), so keyboard users can scroll it with the arrow keys, Page Up and Page Down; give it an `aria-label` that says what it holds, or name the content inside it, such as a list with an `aria-label`. Pass `tabIndex={-1}` when every item inside takes focus itself and scrolls into view, as the attachments row does.
+- When there is something to scroll, the container is focusable (`tabIndex={0}`, also in `useScrollAreaContainer`'s `containerProps`), so keyboard users can scroll it with the arrow keys, Page Up and Page Down; give it an `aria-label` that says what it holds, or name the content inside it, such as a list with an `aria-label`. Pass `tabIndex={-1}` when every item inside takes focus itself and scrolls into view, as the attachments row does.
 
 ## Rules
 
 - Give each region one scroll container: the header stays put and only the content scrolls ([Panel](../panel/panel.md#behavior)).
 - Size the area, not the content: a ScrollArea without a height grows with its content and never scrolls.
 - Pad the content (`contentClassName`), not a sticky container, so the scrollbars stay at the area's edges.
-- With `renderContainer`, put `<ScrollAreaGutters />` where `guttersPosition` says: the container's first child, or right after it.
+- With `useScrollAreaContainer`, put `<ScrollAreaGutters {...guttersProps} />` where `guttersPosition` says: the container's first child, or right after it.
 - Give a sticky header or footer inside the area its height in `railInset`, so the scrollbar doesn't run over it.
