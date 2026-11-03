@@ -11,19 +11,20 @@ import {
 } from "@botiverse/raft-ui";
 
 /**
- * The web top bar from 768px: the frame's 48px row above the rail. The
- * workspace button on the left, the search field centered on the window, the
- * bell at the right end. The product puts the workspace strip after the
- * button and who is working before the bell. Both ends sit on 20px
- * (alignment.md, "The ends of a header"): on the left the avatar, after the
- * region's 9px, the button's border and its 10px; on the right the bell's
- * icon box, 12px plus the 36px frame item's 8px inset.
+ * The web top bar from 768px: the frame's row above the rail, a frame item
+ * with 6px above and below (44px with a mouse, the desktop header; 48px on a
+ * touch screen). The workspace button on the left, the search field centered
+ * on the window, the bell at the right end. The product puts the workspace
+ * strip after the button and who is working before the bell. The left end
+ * lines up with the rail's items (the region pads by the rail's item inset
+ * plus its seam); on the right the bell's icon box ends 20px from the edge,
+ * the region's padding plus the frame item's icon inset.
  */
 export function WebTopBarComposition() {
   return (
     <div className="w-full overflow-x-auto">
-      <div className="flex h-12 min-w-[720px] items-center border-b border-line-seam bg-layer-frame text-foreground-on-frame frame-decor-top">
-        <div className="flex min-w-0 flex-1 items-center pr-2 pl-[calc(--spacing(2)+1px)]">
+      <div className="flex h-[calc(var(--frame-item-height)+12px)] min-w-[720px] items-center border-b border-line-seam bg-layer-frame text-foreground-on-frame frame-decor-top">
+        <div className="flex min-w-0 flex-1 items-center pr-2 pl-[calc((var(--rail-width)-1px-var(--rail-item))/2+1px)]">
           <WorkspaceButton aria-label="Raft HQ, switch server">
             <Avatar type="server" size="sm">
               <AvatarFallback>R</AvatarFallback>
@@ -36,7 +37,7 @@ export function WebTopBarComposition() {
           <SearchTriggerLabel>Search</SearchTriggerLabel>
           <SearchTriggerShortcut>⌘K</SearchTriggerShortcut>
         </SearchTrigger>
-        <div className="flex min-w-0 flex-1 items-center justify-end pr-3 pl-2">
+        <div className="flex min-w-0 flex-1 items-center justify-end pr-[calc(20px-(var(--frame-item-height)-20px)/2)] pl-2">
           <Button variant="on-frame" size="icon-md" aria-label="Notifications">
             <Bell />
           </Button>

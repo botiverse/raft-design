@@ -9,7 +9,7 @@ import { tv } from "tailwind-variants/lite";
 // the server button keeps one pixel-identical implementation.
 const appRailServerButton = tv({
   base: [
-    "relative inline-flex size-10 items-center justify-center",
+    "relative inline-flex size-(--rail-item) items-center justify-center",
     "outline-none",
     "disabled:pointer-events-none disabled:opacity-45",
     "[@media(max-height:600px)]:size-9",
