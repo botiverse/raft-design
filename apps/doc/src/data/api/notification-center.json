@@ -87,12 +87,14 @@
         "name": "loading",
         "type": "boolean",
         "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
         "from": "raft-ui"
       },
       {
         "name": "loadingLabel",
         "type": "string",
         "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
         "from": "raft-ui"
       },
       {

@@ -126,7 +126,7 @@ Hover, press, focus and disabled follow [States](../../../../../design/foundatio
 
 - **Disabled, frameless:** a frameless icon button (`ghost` at an icon size) and an `on-frame` button only turn their icon and text `foreground-disabled`. No fill or border appears.
 - **Disabled, colored:** a disabled pink, orange or red button is no longer a sticker: it takes the shared disabled look.
-- **Loading:** `loading` shows the pixel spinner ([Spinner](../spinner/spinner.md)) and keeps the button's width and color. Use it for any wait a button started ([Choosing a component](../../../../../design/components/overview.md#waiting)).
+- **Loading:** `loading` shows the pixel spinner ([Spinner](../spinner/spinner.md)) and keeps the button's width and color. Use it for any wait a button started ([Choosing a component](../../../../../design/components/overview.md#waiting)). The button stays focusable while it waits and ignores presses ([Accessibility](#accessibility)).
 
 ## Content
 
@@ -140,5 +140,6 @@ Hover, press, focus and disabled follow [States](../../../../../design/foundatio
 Button wraps Base UI Button and renders a native `<button>`. For navigation, render a real link instead: `render={<a href="…" />}`.
 
 - Give every icon-only button an `aria-label` in Title Case (Add Reaction). On devices with a pointer, add a [Tooltip](../tooltip/tooltip.md) with the same name and the shortcut.
-- While `loading`, the button is `aria-disabled` and the spinner is named by `loadingLabel`. Set `loadingLabel` to what is happening.
+- A busy button keeps its focus. While `loading`, the button is `aria-disabled`, not natively `disabled`: natively disabling the focused button would drop focus to the page, and it would not come back when the wait ends or fails. It stays focusable and in the tab order, and it blocks its own activation: a click, Enter, Space and the form submission it would start do nothing, so the action can't run twice. A button that is `disabled` stays natively `disabled`, loading or not.
+- While `loading`, the spinner is named by `loadingLabel`. Set `loadingLabel` to what is happening.
 - Use `focusableWhenDisabled` when a Tooltip has to explain why an action is unavailable: the button stays focusable and keeps the disabled look.
