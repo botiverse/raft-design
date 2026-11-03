@@ -351,7 +351,7 @@ for (const mode of MODES) {
   it(`Backlog is hollow and outlined, and visible on the canvas — ${key}`, () => {
     render(
       <ThemeProvider mode={mode}>
-        <div data-testid="backlog-scope" className="bg-layer-canvas">
+        <div data-testid="backlog-scope" className="bg-layer-canvas text-foreground">
           <TaskStatusIcon status="backlog" data-testid="backlog-icon" />
           <TaskStatusBadge status="backlog" data-testid="backlog-badge">
             Backlog
