@@ -1,5 +1,19 @@
 import { tv } from "../../lib/tv";
 
+// A sort button's classes before and after its padding, shared by
+// TableSortButton and TableSortableHead's button (table.md, "Sorting").
+const sortButtonLayout = "relative flex w-full items-center gap-1";
+const sortButtonInteraction = [
+  "cursor-pointer rounded-sticker",
+  "hover:text-foreground",
+  "outline-none focus-visible:shadow-focus",
+  // On a touch screen a transparent ::after takes the button to a 44px hit
+  // area (accessibility.md, Hit targets). It grows upward only, past the top of
+  // the header row, so it never takes a tap from the first row.
+  "pointer-coarse:after:absolute pointer-coarse:after:inset-x-0 pointer-coarse:after:bottom-0 pointer-coarse:after:content-['']",
+  "pointer-coarse:after:-top-[calc(--spacing(11)-100%)]",
+];
+
 /**
  * The settings-grade table: unified header, row separators and cell padding in
  * the shared theme language (matching the markdown table's chrome tokens).
@@ -44,17 +58,18 @@ export const table = tv({
     // moves onto its button, so the button fills the cell and the row keeps
     // TableHead's height.
     sortableHead: ["p-0"],
+    // TableSortButton on its own: no padding and no border, and the font
+    // inherited, so the caller's cell sets the type, padding and line.
     sortButton: [
-      "relative flex w-full items-center gap-1",
+      sortButtonLayout,
+      "border-0 bg-transparent [font:inherit]",
+      ...sortButtonInteraction,
+    ],
+    // The same button in TableSortableHead, with the cell's padding.
+    headSortButton: [
+      sortButtonLayout,
       "border-0 bg-transparent px-3 py-2 [font:inherit]",
-      "cursor-pointer rounded-sticker",
-      "hover:text-foreground",
-      "outline-none focus-visible:shadow-focus",
-      // On a touch screen a transparent ::after takes the heading's button to
-      // a 44px hit area (accessibility.md, Hit targets). It grows upward only,
-      // past the table's top edge, so it never takes a tap from the first row.
-      "pointer-coarse:after:absolute pointer-coarse:after:inset-x-0 pointer-coarse:after:bottom-0 pointer-coarse:after:content-['']",
-      "pointer-coarse:after:-top-[calc(--spacing(11)-100%)]",
+      ...sortButtonInteraction,
     ],
     sortArrow: ["size-3 shrink-0"],
   },
@@ -63,11 +78,16 @@ export const table = tv({
     // `left` adds nothing, so a part without `align` renders as it always did.
     align: {
       left: {},
-      right: { head: "text-right", cell: "text-right", sortButton: "justify-end" },
+      right: {
+        head: "text-right",
+        cell: "text-right",
+        sortButton: "justify-end",
+        headSortButton: "justify-end",
+      },
     },
     sorted: {
-      true: { sortButton: "text-foreground" },
-      false: { sortButton: "text-foreground-hint" },
+      true: { sortButton: "text-foreground", headSortButton: "text-foreground" },
+      false: { sortButton: "text-foreground-hint", headSortButton: "text-foreground-hint" },
     },
   },
 });

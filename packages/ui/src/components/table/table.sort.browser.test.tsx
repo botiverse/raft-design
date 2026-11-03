@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
   TableSortableHead,
+  TableSortButton,
 } from "./table";
 import type { TableSort } from "./table";
 
@@ -178,3 +179,74 @@ for (const sort of [undefined, "ascending", "descending"] as const) {
     }
   });
 }
+
+// The left edge of the first non-empty text in an element.
+function textLeft(el: Element) {
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  let node = walker.nextNode();
+  while (node && !node.textContent?.trim()) node = walker.nextNode();
+  const range = document.createRange();
+  range.selectNodeContents(node!);
+  return range.getBoundingClientRect().left;
+}
+
+// A header row drawn without Table (a div grid, like a product list's): the
+// cells set the type (mono meta), the padding, the 28px row and its line, and
+// TableSortButton adds none of its own. With TableSortableHead's padding the
+// heading was taller than the row and its label sat 12px right of the values.
+it("a TableSortButton in a plain div cell is one line high, its label on the values' edge", async () => {
+  const grid = "grid grid-cols-[12rem_8rem]";
+  render(
+    <div role="table" aria-label="Computers" className="font-mono text-mono-meta">
+      <div
+        role="row"
+        data-testid="drawn-row"
+        className={`${grid} h-7 items-center border-b border-line-hairline`}
+      >
+        <div role="columnheader" aria-sort="descending" data-testid="drawn-head" className="px-2">
+          <TableSortButton sort="descending">Name</TableSortButton>
+        </div>
+        <div role="columnheader" data-testid="drawn-head-right" className="px-2">
+          <TableSortButton align="right" firstSort="descending">
+            Memory
+          </TableSortButton>
+        </div>
+      </div>
+      <div role="row" className={grid}>
+        <div role="cell" data-testid="drawn-value" className="px-2">
+          mac-mini
+        </div>
+        <div role="cell" data-testid="drawn-value-right" className="px-2 text-right">
+          16 GB
+        </div>
+      </div>
+    </div>,
+    { wrapper: Light },
+  );
+  await document.fonts.ready;
+  expect(screen.getByTestId("drawn-row").getBoundingClientRect().height).toBeCloseTo(28, 1);
+  for (const id of ["drawn-head", "drawn-head-right"]) {
+    const cell = screen.getByTestId(id);
+    const button = cell.querySelector('[data-slot="table-sort-button"]')!;
+    const cellStyle = getComputedStyle(cell);
+    const style = getComputedStyle(button);
+    const lineHeight = Number.parseFloat(cellStyle.lineHeight);
+    expect(lineHeight).toBeGreaterThan(12);
+    expect(button.getBoundingClientRect().height, id).toBeCloseTo(lineHeight, 1);
+    expect(style.fontFamily, id).toBe(cellStyle.fontFamily);
+    expect(style.fontSize, id).toBe(cellStyle.fontSize);
+    expect(style.fontWeight, id).toBe(cellStyle.fontWeight);
+    for (const side of ["top", "right", "bottom", "left"]) {
+      expect(style.getPropertyValue(`padding-${side}`), `${id} padding-${side}`).toBe("0px");
+      expect(style.getPropertyValue(`border-${side}-width`), `${id} border-${side}`).toBe("0px");
+    }
+  }
+  const head = screen.getByTestId("drawn-head");
+  expect(
+    Math.abs(textLeft(head) - textLeft(screen.getByTestId("drawn-value"))),
+  ).toBeLessThanOrEqual(0.5);
+  const right = screen.getByTestId("drawn-head-right");
+  expect(
+    Math.abs(textRight(right) - textRight(screen.getByTestId("drawn-value-right"))),
+  ).toBeLessThanOrEqual(0.5);
+});

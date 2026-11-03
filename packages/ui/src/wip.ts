@@ -229,6 +229,11 @@ export * from "./components/task-completion-control/index";
 
 // A column heading that sorts the rows: a button filling the heading cell,
 // `aria-sort` on the cell and one arrow on the sorted column (table.md,
-// "Sorting"). Until a product list has moved its sorting onto it.
-export { TableSortableHead } from "./components/table/index";
-export type { TableSort, TableSortableHeadProps } from "./components/table/index";
+// "Sorting"). TableSortButton is that button alone, for a header row drawn
+// without Table. Until a product list has moved its sorting onto them.
+export { TableSortableHead, TableSortButton } from "./components/table/index";
+export type {
+  TableSort,
+  TableSortableHeadProps,
+  TableSortButtonProps,
+} from "./components/table/index";
