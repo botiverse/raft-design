@@ -176,6 +176,18 @@ const LABEL_ROWS = [
 ] as const;
 
 for (const { name: deviceName, width: deviceWidth, touch } of DEVICES) {
+  // A switch drawn smaller than 44 (38 x 22 with a mouse) still reaches a
+  // 44px-tall hit area: its ::after overhangs from inside the 1.5px border.
+  it(`${deviceName}: a switch's hit area is at least 44px tall`, async () => {
+    await device(deviceWidth, touch);
+    render(wrap("switch", <Switch data-testid="control" aria-label="On" />));
+    const el = screen.getByTestId("control");
+    const after = getComputedStyle(el, "::after");
+    const hit =
+      el.getBoundingClientRect().height - 3 - parseFloat(after.top) - parseFloat(after.bottom);
+    expect(hit).toBeGreaterThanOrEqual(44);
+  });
+
   for (const control of BOXES) {
     for (const row of LABEL_ROWS) {
       for (const text of row.texts) {

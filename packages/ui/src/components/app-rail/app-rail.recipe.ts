@@ -14,12 +14,13 @@ export const appRail = tv({
       "[@media(max-height:600px)]:h-(--header-height-short)",
     ],
     nav: [
-      "flex w-full flex-1 flex-col items-center py-2", // Raft DS › Rail: 40px items 6px apart, everywhere on the rail. Under
-      // the rail head the first item starts 10px below its seam (the head's
-      // 4px margin plus the 6px gap). With no head (a top bar above the
-      // rail takes the workspace switcher) the rail's side inset frames it
-      // instead: 8px (a 40px item in the 56px rail), as at the bottom. In
-      // short windows the items shrink to 36 and the inset to 6.
+      "flex w-full flex-1 flex-col items-center py-2", // Raft DS › Rail: `rail-item` items, 40px 6px apart on a touch
+      // screen. Under the rail head the first item starts 10px below its seam
+      // (the head's 4px margin plus the 6px gap). With no head (a top bar
+      // above the rail takes the workspace switcher) the rail's side inset
+      // frames it instead: 8px (a 40px item in the 56px rail), as at the
+      // bottom. With a mouse the items are 36, 4 apart, and the inset 6 (a
+      // 36px item in the 48px rail); short windows use the same 36 and 6.
       "gap-1.5 pt-2.5 pb-2 first:pt-2",
       "[@media(max-height:600px)]:pt-1.5 [@media(max-height:600px)]:first:pt-1.5",
       "md:pointer-fine:gap-1 md:pointer-fine:pt-1.5 md:pointer-fine:first:pt-1.5",

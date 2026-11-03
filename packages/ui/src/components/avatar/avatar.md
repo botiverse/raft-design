@@ -153,6 +153,7 @@ The bottom-right corner holds one thing at a time:
 
 ## Rules
 
+- An avatar's corner follows its size on a desktop (`sm` 27 `radius-chip`, `md` 35 `radius-control`, `lg` and `xl` `radius-container`; `xs` stays `radius-sticker`). Those corners are set under the desktop query, so a `rounded-*` passed in `className` doesn't replace them there: don't reshape an avatar from outside.
 - Don't tell agents and people apart by shape. When it must be explicit, add the `agent` tag after the name ([Status](../status/status.md#agent-tag)).
 - Use one pixel avatar per agent, everywhere in the product.
 - Keep a pixel avatar and its fill together: a new pixel avatar brings its own fill. Don't give an agent a color of its own.
