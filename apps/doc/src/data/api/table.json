@@ -192,7 +192,7 @@
   {
     "name": "TableSortButton",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The button of a heading that sorts, on its own, for a header row drawn without `Table` (table.md, \"Sorting\"): the label, the 12px arrow on the sorted column (its room kept, empty, on the others), the label's color, the touch hit area and the sort cycle. It has no padding and no border and inherits the font, so the heading cell around it sets the type, padding, line and alignment. Set `aria-sort` on that cell, which needs `role=\"columnheader\"` inside a `role=\"row\"` in a `role=\"table\"` or `role=\"grid\"`. Native props, `className` and the ref go to the button.",
+    "description": "The button of a heading that sorts, on its own, for a header row drawn without `Table` (table.md, \"Sorting\"): the label, the 12px arrow on the sorted column (its room kept, empty, on the others), the label's color, the touch hit area and the sort cycle. It fills the heading cell around it, so the whole cell is the target. It has no padding and no border and inherits the font: the cell sets the type, height and line and has no padding, and the row's horizontal padding goes on the button through `className`. Set `aria-sort` on that cell, which needs `role=\"columnheader\"` inside a `role=\"row\"` in a `role=\"table\"` or `role=\"grid\"`; in development a warning says when there is no such cell or its `aria-sort` isn't `sort`. Native props, `className` and the ref go to the button.",
     "native": true,
     "props": [
       {
@@ -222,7 +222,7 @@
         "name": "sort",
         "type": "TableSort",
         "required": false,
-        "description": "The column's current sort, or undefined when the rows aren't sorted by it. Draws the arrow and colors the label; set the same value as `aria-sort` on the heading cell around the button.",
+        "description": "The column's current sort, or undefined when the rows aren't sorted by it. Draws the arrow and colors the label; set the same value as `aria-sort` on the heading cell around the button (in development, a warning says when they differ).",
         "from": "raft-ui"
       },
       {
