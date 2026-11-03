@@ -69,9 +69,10 @@
      toolbar's, a card's corner action); control = buttons, fields and rows
      that stand on their own; container = cards, menus, composer, banners;
      dialog = dialogs and sheet tops. Round (rounded-full) is only for
-     switches and radios. A frame keeps its radius whatever it holds: the
-     element keeps its own, and the space around it adapts
-     (design/foundations/shape.md#inside-a-frame). */
+     switches, radios and grab handles, and for two exceptions: a task's
+     completion control and the Android pull-to-refresh disc. A frame keeps
+     its radius whatever it holds: the element keeps its own, and the space
+     around it adapts (design/foundations/shape.md#inside-a-frame). */
   --radius-sticker: 4px;
   --radius-chip: 6px;
   --radius-control: 8px;

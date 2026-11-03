@@ -40,13 +40,13 @@ tasks/compositions/task-status
 - `TaskLoadingList`, `TaskLoadingRow`: placeholder rows while tasks load.
 - `taskStatusSoft`, `taskStatusStrong` and `TASK_STATUS_IDS`: the recipes for building another status surface from the same `task-status-*` tokens.
 
-Not yet implemented: these parts know five statuses. Backlog, the sixth, isn't in `TASK_STATUS_IDS`, and `TaskStatusIcon` and `TaskChip` don't draw it; until raft-ui adds it, draw its pixel and chip by hand ([Color](../../../../../design/foundations/color.md#statuses)).
+Not yet implemented in raft-ui: these parts know five statuses. Backlog, the sixth, isn't in `TASK_STATUS_IDS`, and `TaskStatusIcon` and `TaskChip` don't draw it; until raft-ui adds it, draw its pixel and chip by hand ([Color](../../../../../design/foundations/color.md#statuses)).
 
 ```example
 tasks/compositions/tasks-panel
 ```
 
-Not yet implemented: this example shows the tasks before [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md), with five statuses and no completion control.
+Not yet implemented in raft-ui: this example shows the tasks before [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md), with five statuses and no completion control.
 
 ## Variants
 

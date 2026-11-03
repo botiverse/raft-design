@@ -16,7 +16,7 @@ A TaskBoard shows tasks in one column per status, from Backlog to Closed. Draggi
 task-board/compositions/task-board
 ```
 
-Not yet implemented: this example shows the board before [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md), with five columns and no completion control on the cards.
+Not yet implemented in raft-ui: this example shows the board before [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md), with five columns and no completion control on the cards.
 
 ## When to use
 

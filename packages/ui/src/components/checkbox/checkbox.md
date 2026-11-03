@@ -70,4 +70,4 @@ Checkbox wraps Base UI Checkbox. Its hidden native input drives the checked, dis
 
 ## Rules
 
-- Keep the box square. Don't use `shape="circle"`: round is only for switches and radios ([Shape](../../../../../design/foundations/shape.md)). The one exception is a task's completion control, which is round ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).
+- Keep the box square. Don't use `shape="circle"`: round is only for switches, radios and grab handles, and for two exceptions ([Shape](../../../../../design/foundations/shape.md#principles)). The one round `CheckboxIndicator` is a task's completion control, one of those exceptions ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).
