@@ -11,7 +11,7 @@ const formSection = tv({
     // 12px apart; sections sit 16px apart with a hairline between, and the
     // first starts flush with the body.
     root: [
-      "flex flex-col gap-3 py-4 first:pt-0",
+      "flex flex-col gap-(--field-gap) py-[calc(var(--section-gap)/2)] first:pt-0",
       "[[data-slot=form-section]+&]:border-t [[data-slot=form-section]+&]:border-line-hairline",
     ],
     head: ["flex min-w-0 flex-col", "gap-0.5"],

@@ -11,7 +11,7 @@ export const sidebarRecipe = tv({
     ],
     sidebarHeader: [
       "flex items-center",
-      "h-(--shell-header-height,56px) shrink-0 gap-2 border-b border-line-seam px-(--column-margin)",
+      "h-(--shell-header-height,var(--header-height)) shrink-0 gap-2 border-b border-line-seam px-(--column-margin)",
       "bg-layer-sidebar text-foreground",
       "max-md:bg-layer-frame max-md:text-foreground-on-frame",
       headEdgePull,

@@ -444,8 +444,8 @@
      Consumers: `SelectItem`, `ComboboxItem`, the menu items of `DropdownMenu`
      and `ContextMenu`, and `.r-combobox-select__option` (which writes the same
      calc in its CSS). */
-  --spacing-option: 2.25rem;
-  --spacing-option-inset: calc((2.25rem - 1lh) / 2);
+  --spacing-option: var(--option-height);
+  --spacing-option-inset: calc((var(--option-height) - 1lh) / 2);
   /* ─── Icon inset ────────────────────────────────────────────────────────────
      How far a frameless icon button's icon box sits inside its edge:
      (button - icon) / 2. 7px for a 32px button with an 18px icon, 11px for a

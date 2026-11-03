@@ -4,14 +4,14 @@ export const appRail = tv({
   slots: {
     root: [
       "flex size-full  flex-col items-center select-none",
-      "w-[calc(var(--shell-header-height,56px)+1px)] border-r border-line-seam",
+      "w-(--rail-width) border-r border-line-seam",
       "bg-layer-frame text-foreground-on-frame",
       "[@media(max-height:600px)]:w-[49px]",
     ],
     header: [
       "relative flex w-full shrink-0 items-center justify-center",
-      "h-(--shell-header-height,56px) border-b border-line-seam",
-      "[@media(max-height:600px)]:h-12",
+      "h-(--shell-header-height,var(--header-height)) border-b border-line-seam",
+      "[@media(max-height:600px)]:h-(--header-height-short)",
     ],
     nav: [
       "flex w-full flex-1 flex-col items-center py-2", // Raft DS › Rail: 40px items 6px apart, everywhere on the rail. Under
@@ -33,7 +33,7 @@ export const appRail = tv({
       "outline-none",
       "disabled:pointer-events-none disabled:opacity-45",
       "[&_svg]:shrink-0",
-      "size-10 rounded-control border-[1.5px] border-transparent",
+      "size-(--rail-item) rounded-control border-[1.5px] border-transparent",
       "text-foreground-on-frame [&_svg]:size-5",
       "hover:bg-fill-frame-medium active:bg-fill-frame-medium",
       "data-[selected=true]:border-line-frame-active data-[selected=true]:bg-layer-frame-active",

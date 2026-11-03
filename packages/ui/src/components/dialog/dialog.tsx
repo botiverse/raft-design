@@ -1,4 +1,5 @@
 import { cn } from "../../lib/cn";
+import { barButtonDesktop } from "../../lib/head-edges";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
@@ -84,14 +85,14 @@ const dialog = tv({
       // commit row stay put while its body scrolls (use the `bar` parts).
       wide: { content: ["max-w-4xl h-[min(760px,calc(100dvh-2rem))]"] },
     },
-    // Pinned bars for a scrolling dialog: the head a 56px row with a seam
+    // Pinned bars for a scrolling dialog: the head a header-height row with a seam
     // under it, the footer a commit row with a seam over it, the body flush
     // so the content lays out its own columns and scrolls inside.
     bar: {
       false: {},
       true: {
         header: [
-          "flex h-14 shrink-0 items-center gap-2 border-b px-5 py-0",
+          "flex h-(--header-height) shrink-0 items-center gap-2 border-b px-5 py-0",
           "border-line-seam pt-0 [&>[data-slot=dialog-close]]:my-0",
         ],
         body: [
@@ -251,7 +252,7 @@ export function DialogClose({
           variant={variant ?? "ghost"}
           size={size ?? "icon-md"}
           aria-label={ariaLabel ?? "Close"}
-          className={cn("-my-1.5", className)}
+          className={cn("-my-1.5", size ? undefined : barButtonDesktop, className)}
         />
       }
       {...props}

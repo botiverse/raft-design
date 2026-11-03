@@ -13,7 +13,7 @@ export const tasksPanel = tv({
       "@min-md/tasks:flex @min-md/tasks:flex-wrap @min-md/tasks:items-center @min-md/tasks:justify-between",
       // 16px sides in a narrow panel, 20px in a wide one: by the panel's
       // width like its layout, not the window's.
-      "min-h-14 border-b border-line-seam bg-layer-canvas px-5 py-3",
+      "min-h-(--header-height) border-b border-line-seam bg-layer-canvas px-5 py-3",
       "@max-md/tasks:px-4",
     ],
     toolbarGroup: ["flex flex-wrap items-center gap-2"],

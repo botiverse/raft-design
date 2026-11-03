@@ -1,4 +1,4 @@
-import { controlIconInset, headEdges } from "../../lib/head-edges";
+import { barIconInset, headEdges } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 
 /**
@@ -20,7 +20,7 @@ export const panelHeadEdges = headEdges;
  */
 export const panelHeadActions = [
   "flex shrink-0 items-center gap-0.5 md:pointer-fine:gap-1",
-  controlIconInset,
+  barIconInset,
 ];
 
 /**
@@ -65,7 +65,7 @@ export const panelHeader = tv({
     {
       slots: ["header", "sectionHeader"],
       class: [
-        "flex h-(--shell-header-height,56px) shrink-0 items-center gap-3 max-md:gap-2",
+        "flex h-(--shell-header-height,var(--header-height)) shrink-0 items-center gap-3 max-md:gap-2",
         panelHeadEdges,
         "border-b border-line-seam bg-layer-canvas text-foreground",
         "max-md:sticky max-md:top-0 max-md:z-30",

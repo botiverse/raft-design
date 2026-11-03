@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: 6c536f43
+sourceHash: 3eb1b741
 ---
 
 # 间距与尺寸
@@ -99,6 +99,33 @@ timeline
 
 ```tokens
 control
+```
+
+### 尺寸链 {#the-size-chain}
+
+跟随控件的尺寸在令牌层写成一条链：改动其中一级，建立在它之上的尺寸都会跟着变，而每一级只在一处修改：
+
+- **留白**（`control-air`，6px）：标签、控件和帮助文字之间，以及栏中控件的四周。
+- **头部**（`header-height`）：控件高度加上下各一份头部留白（`header-air`）。所有头部都读它：面板、侧边栏、线程和 rail 的头部，对话框的顶栏，抽屉的头部，Tasks 的筛选行。窗口低于 600px 时用 `header-height-short`。
+- **栏按钮**（`bar-button-size`、`bar-button-radius`）：栏里的图标按钮，头部的操作和 ×，输入框的图标。无论尺寸多大，点击区域都达到 44px。
+- **框架项**（`frame-item-height`）：顶栏和标题栏的按钮、工作区按钮和搜索框。
+- **开关**（`switch-width`、`switch-height`）：轨道；滑块是高度减 8px，移动距离是宽度减高度。
+- **行**（`row-height`、`option-height`）：768px 起的侧边栏行，以及弹出列表的选项和菜单项。
+- **表单**（`field-gap`、`section-gap`、`settings-row-inset`、`page-inset`）：字段之间和设置行最高部分上下的两份留白、两个表单分区之间的间距、抽屉正文的上下内边距。
+- **Rail**（`rail-width`、`rail-item`）：rail 有自己的尺寸，不再跟随头部。
+
+组件读取这些令牌，从不直接写数值。
+
+```tokens
+header
+```
+
+```tokens
+bar-button
+```
+
+```tokens
+switch
 ```
 
 - 导航条头部是 56px 的正方形。它放工作空间图标，无论其他部分怎么变，左上角都保持正方形。所以导航条宽 56px 加接缝线，只显示图标：带文字的导航条需要 68px 才能放下 Computers 这样的名称，那样左上角就不再是正方形。

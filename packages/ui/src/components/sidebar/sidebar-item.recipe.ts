@@ -6,7 +6,7 @@ export const sidebarItemRecipe = tv({
     // The tone sets the name's ink, which the title inherits: muted is ink-2,
     // away (offline, not joined) ink-3. The yellow sticker keeps its own ink.
     // The row is a list cell (lib/list-cell.ts): it runs the sidebar's full
-    // width, 38px tall, and its states are drawn on the inset shape, as tall
+    // width, `row-height` tall (38px), and its states are drawn on the inset shape, as tall
     // as the row. SidebarList spaces the rows 2px apart and pads its ends by 8px.
     // The content sits 12px inside the shape on both sides (--cell-pad-x,
     // 20px from the row's edges): the icon or avatar and the count, @ sticker
@@ -19,7 +19,7 @@ export const sidebarItemRecipe = tv({
     sidebarItem: [
       "group/sidebar-item flex w-full items-center text-left",
       listCell,
-      "h-[38px] gap-2 rounded-none border-0 py-0",
+      "h-(--row-height) gap-2 rounded-none border-0 py-0",
       "md:py-0 md:[@media(max-height:600px)]:py-0",
       "max-md:h-auto max-md:min-h-11 max-md:py-2.5",
       "font-sans text-subhead font-medium text-foreground",
@@ -112,7 +112,7 @@ export const sidebarItemRecipe = tv({
       true: {
         sidebarItem: [
           "h-auto items-start whitespace-normal",
-          "min-h-[38px] py-[9px] md:py-[9px] md:[@media(max-height:600px)]:py-[9px]",
+          "min-h-(--row-height) py-[calc((var(--row-height)-20px)/2)] md:py-[calc((var(--row-height)-20px)/2)] md:[@media(max-height:600px)]:py-[calc((var(--row-height)-20px)/2)]",
           "**:data-[slot=sidebar-item-channel-icon]:h-lh **:data-[slot=sidebar-item-icon]:h-lh",
           "**:data-[slot=sidebar-item-meta-icon]:h-lh",
           // The 19px avatar (DS xs) centres on the first line the same way.

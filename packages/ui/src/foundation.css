@@ -338,6 +338,9 @@
   --field-font-size: 16px;
   --field-font-weight: 400;
   --field-line-height: 24px;
+  /* Between two fields of a form, and between the parts of a form section: two
+     airs. */
+  --field-gap: calc(2 * var(--control-air));
   --card-title-font-size: 16px;
   --card-title-font-weight: 600;
   --card-title-line-height: 24px;
@@ -358,6 +361,49 @@
   /* A chip or a button embedded in a field: the control height less the embedded
      inset above and below, so the field keeps its height. */
   --control-embedded-size: 32px;
+  /* The air of the size chain: between a label, its control and its help, around
+     a control in a bar, and half of the gap between two fields. Every step below
+     is the control height plus or minus a number of airs. */
+  --control-air: 6px;
+  /* Every header: a panel, a sidebar or a thread head, a dialog's bar, a
+     drawer's head, a rail head. The control height with the header air above and
+     below, so the seams of a screen line up. */
+  --header-height: calc(var(--control-height) + 2 * var(--header-air));
+  /* The air above and below the control in a header: one control air on a phone
+     and a touch screen (44 + 2 x 6 = 56). */
+  --header-air: 6px;
+  /* Every header in a window shorter than 600px. */
+  --header-height-short: 48px;
+  /* An icon button in a bar: a head's actions and its x, the composer's icons, a
+     row's actions. Its hit area still reaches 44px. */
+  --bar-button-size: var(--control-height);
+  /* The corner of a bar button, about a quarter of its height. */
+  --bar-button-radius: 8px;
+  /* An item on the frame: the top bar's and the title bar's buttons, the
+     workspace button and the search box. */
+  --frame-item-height: 36px;
+  /* The switch's track. Its knob is the track height less 8px (a 1.5px border
+     and 2.5px of padding each side) and travels the width less the height. */
+  --switch-width: 50px;
+  /* The switch's track height. */
+  --switch-height: 30px;
+  /* A sidebar row from 768px, 2px apart; its highlight fills the row. A phone
+     list of places keeps 44px. */
+  --row-height: 38px;
+  /* An option of a popup list or a menu item with one line. */
+  --option-height: 2.25rem;
+  /* Above and below the tallest part of a settings row (ListRow plain): two
+     airs. */
+  --settings-row-inset: calc(2 * var(--control-air));
+  /* Between two sections of a form (FormSection), half above and half below the
+     hairline between them. */
+  --section-gap: 32px;
+  /* The block inset of a settings page, a drawer's body and a dialog's form. */
+  --page-inset: 16px;
+  /* The rail, its 1px seam included. Its own size, not the header's. */
+  --rail-width: 57px;
+  /* A rail item. */
+  --rail-item: 40px;
   /* The message step of a timeline: from the last line of one turn to the first
      line of the next (a sender line, an event line). Every row keeps the row
      inset above and below its text; the first row of a turn adds the rest above
@@ -610,5 +656,6 @@
     --control-icon-size: 18px;
     --control-hit-inset: 6px;
     --control-embedded-size: 20px;
+    --header-air: 12px;
   }
 }

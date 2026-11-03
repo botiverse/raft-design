@@ -14,7 +14,7 @@ export const threadPanel = tv({
       "relative bg-layer-canvas font-sans text-foreground",
     ],
     header: [
-      "flex h-(--shell-header-height,56px) shrink-0 items-center gap-3 max-md:gap-2",
+      "flex h-(--shell-header-height,var(--header-height)) shrink-0 items-center gap-3 max-md:gap-2",
       panelHeadEdges,
       "border-b border-line-seam bg-layer-canvas",
     ],

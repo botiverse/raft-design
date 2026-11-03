@@ -147,7 +147,7 @@ export function DrawerClose({
   "aria-label": ariaLabel,
   ...props
 }: DrawerCloseProps) {
-  const { close, closeIcon } = drawer();
+  const { close, closeButton, closeIcon } = drawer();
 
   if (render) {
     return (
@@ -171,6 +171,7 @@ export function DrawerClose({
           variant={variant ?? "ghost"}
           size={size ?? "icon-lg"}
           aria-label={ariaLabel ?? "Close"}
+          className={size ? undefined : closeButton()}
         />
       }
       className={close({ className })}
