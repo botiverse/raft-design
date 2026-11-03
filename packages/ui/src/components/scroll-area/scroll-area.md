@@ -191,7 +191,7 @@ function Members({ members }: { members: string[] }) {
 - in a flex row (a horizontal strip) it is a zero-width item, and the gutters collapse with it;
 - sibling and structural rules on the container's children count it: `stack-y-*` and `rule-y` (`* + *`) also match the first real child, and `first:` or `only:` on a child no longer match.
 
-So give a sticky container one child that holds the content, and put the grid, flex, `gap`, `stack-*` or `rule-*` classes on that wrapper (with ScrollArea, `contentClassName`). In development the area warns in the console when a sticky container is a grid, a flex row, or a flex column with a gap. Padding on the container is fine: the layer reaches over it, so the gutters stay at the container's edges, but padding the wrapper keeps the layout in one place.
+So give a sticky container one child that holds the content, and put the grid, flex, `gap`, `stack-*` or `rule-*` classes on that wrapper (with ScrollArea, `contentClassName`). In development the area warns in the console when a sticky container is a grid, a flex row, or a flex column with a gap. Padding on the container is fine, in either direction: the layer reaches over it, so the gutters stay at the container's edges, but padding the wrapper keeps the layout in one place.
 
 `absolute` puts nothing inside the container: a frame holds it and the gutters lie over the frame, so the container's children and its layout are its own. Use it for a container that can't hold children (a textarea), or whose children are laid out by the container itself (a grid of its own, a flex row). With absolute gutters the `fade` mask is on the container; the frame is yours, and so is its focus ring (`has-focus-visible:`).
 
