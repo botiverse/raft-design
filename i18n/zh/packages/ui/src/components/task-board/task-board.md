@@ -1,7 +1,7 @@
 ---
 title: TaskBoard
 summary: 任务的看板视图：每个状态一列，按状态顺序排列，卡片可以拖到另一列来改变状态。
-sourceHash: b5b9c895
+sourceHash: e91c2bd0
 ---
 
 # TaskBoard
@@ -12,7 +12,7 @@ TaskBoard 把任务按状态分列显示，每个状态一列，从 Backlog 到�
 task-board/compositions/task-board
 ```
 
-尚未实现：这个示例展示的是 [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md) 之前的看板，有五列，卡片上没有完成控件。
+raft-ui 尚未实现：这个示例展示的是 [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md) 之前的看板，有五列，卡片上没有完成控件。
 
 ## 何时使用 {#when-to-use}
 

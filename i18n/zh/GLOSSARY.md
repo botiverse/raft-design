@@ -136,6 +136,8 @@
 | ghost button | 幽灵按钮 | |
 | chevron | V 形箭头 | |
 | grab handle | 拖动条 | 底部面板顶边、侧边分区头部的那条短横 |
+| radio | 单选按钮 | 不写「单选框」；checkbox 是复选框，switch 是开关 |
+| completion control | 完成控件 | 任务的圆形勾选控件 |
 | armed / disarmed（下拉刷新） | 就绪 / 解除 | 下拉超过 / 退回阈值 |
 | side panel | 侧面板 | |
 | side section / side column | 侧边分区 / 侧边列 | 频道右侧的任务、文件等分区，和它们所在的列 |

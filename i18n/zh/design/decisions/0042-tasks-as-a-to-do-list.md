@@ -1,7 +1,7 @@
 ---
 title: 任务像待办清单一样用，有六种状态，状态变更不设限制
 summary: 任务新增第六种状态 Backlog，它没有色相；任何状态都可以改成任何状态；每个任务都以圆形的完成控件开头，输入标题就能添加；负责人、审查和每个任务自己的讨论都保留。
-sourceHash: a099cc7c
+sourceHash: 154e065e
 ---
 
 # 0042. 任务像待办清单一样用，有六种状态，状态变更不设限制
@@ -17,7 +17,7 @@ Raft 的任务还带着待办清单没有的东西：负责人可以是人，也
 ## 决定 {#decision}
 
 - 第六种状态 Backlog（「现在不做」）放有人创建了、或者先放到一边、现在不打算做的工作。Closed 仍然是「不会做」。Backlog 不占用色相（[颜色](../foundations/color.md#statuses)）。它不算作当前要做的工作，它的分组默认收起。
-- 任何状态都可以改成任何状态，人和 Agent 都可以，用状态菜单、详情里的 Status 属性、在看板上拖动或用完成控件都行；没有哪种状态要求先有负责人。移到 Backlog 时会请人填一个可选的原因，记录在历史和任务的讨论里。看板只会因为状态以外的原因拒绝一张卡片，比如这个人不能修改的任务。
+- 任何状态都可以改成任何状态，人和 Agent 都可以，用状态菜单、详情里的 Status 属性或在看板上拖动都行；没有哪种状态要求先有负责人。完成控件只设置两种状态：从任何状态把任务标为 Done，以及把已完成的任务重新打开为 Todo。移到 Backlog 时会请人填一个可选的原因，记录在历史和任务的讨论里。看板只会因为状态以外的原因拒绝一张卡片，比如这个人不能修改的任务。
 - 每个任务行和卡片都以一个圆形的完成控件开头：点一下就把任务标为 Done（在 In Review 的任务上，这就是接受工作成果），在已完成的任务上点一下则把它重新打开为 Todo。
 - 在频道的 Tasks 分区里，在 "Add a task" 里输入标题就能添加任务。Create Task 可以设置状态（Backlog、Todo 或 In Progress）和负责人。标题和描述在详情里就地编辑。
 
@@ -28,7 +28,7 @@ Raft 的任务还带着待办清单没有的东西：负责人可以是人，也
 - 规则写在[任务](../patterns/tasks.md)、[颜色](../foundations/color.md#statuses)、[形状](../foundations/shape.md#principles)和任务组件的文档里。文档里每一处「五种状态」现在都写成六种。
 - Agent 工作的顺序，先 In Review 再 Done，是 Raft 的 Agent 指南里的指引，不是产品强制的限制（[交接与审批](../people-and-agents/handoffs-and-approvals.md#handing-off)）。谁在什么时候移动了任务，仍然记在它的事件行和历史里。
 - raft-ui 尚未实现：`TASK_STATUS_IDS`、`TaskStatusIcon` 和 `TaskChip` 只认识五种状态，也没有完成控件的部件。在 raft-ui 加上它们之前，产品要手工绘制 Backlog 的像素点和标签片，以及完成控件；文档里的示例（任务面板、任务卡片、看板、Create Task）显示的是这个决定之前的任务。raft-ui 的改动另外跟进。
-- 圆形的完成控件是「圆形只用于开关、单选框和拖动条」的例外，记录在[形状](../foundations/shape.md#principles)和 [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md#rules) 里。
+- 圆形的完成控件和 Android 的下拉刷新圆盘一样，是「圆形只用于开关、单选按钮和拖动条」的例外，记录在[形状](../foundations/shape.md#principles)和 [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md#rules) 里。
 - 撤销这个决定：从状态列表和状态顺序里去掉 Backlog，恢复只列出允许变更的菜单，去掉完成控件和快速添加。没有别的东西依赖它们。
 
 ## 考虑过的其他方案 {#alternatives-considered}

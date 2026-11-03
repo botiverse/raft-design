@@ -1,7 +1,7 @@
 ---
 title: Badge
 summary: 小标签：最主要的是粉色的未读数和黄色的 @ 标记，另外还有浅色底标签和细线标签。
-sourceHash: 25212a31
+sourceHash: 780f0c51
 ---
 
 # Badge
@@ -18,7 +18,7 @@ Badge 是一个小标签。它的主要用途是未读数：一张粉色贴纸�
 | 导航条图标、标签栏图标或铃铛上有东西在等 | 提醒圆点：一个粉色像素（[Status](../status/status.md)），永远不用数字 |
 | 任务进行到哪一步，或 Agent 处于什么状态 | 状态标签：`TaskStatusBadge`（[Tasks](../tasks/tasks.md)），或带像素的浅色底 Badge（[Status](../status/status.md#agent-state-chips)） |
 | 表明这是一个 Agent；它在哪里运行 | `agent` 标签和运行时标签片（[Status](../status/status.md#agent-tag)） |
-| 某个选项就是该选的那个：选项名称后面的 "Recommended" | 默认颜色的 `appearance="outline"`，放在名称后面。最多标一个选项，被标出的那一行也不加填充（[ChoiceList](../choice-list/choice-list.md#content)） |
+| 某个选项就是该选的那个：选项名称后面的 "Recommended" | 默认颜色的 `appearance="outline"`，放在名称后面。最多标一个选项，推荐的那一行不加填充，因为有填充的行读作已选中（[ChoiceList](../choice-list/choice-list.md#content)） |
 
 ## 结构 {#anatomy}
 

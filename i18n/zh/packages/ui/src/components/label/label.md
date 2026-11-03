@@ -13,7 +13,7 @@ Label 是一个 `label` 元素，样式与输入框标签相同：`text-footnote
 | 情况 | 用 |
 | --- | --- |
 | 表单里的控件：输入框、多行输入框、选择器 | [Field](../field/field.md) 里的 `FieldLabel` |
-| 表单里旁边带标签的复选框、单选框或开关 | [Field](../field/field.md) 里的 `FieldItem` |
+| 表单里旁边带标签的复选框、单选按钮或开关 | [Field](../field/field.md) 里的 `FieldItem` |
 | 不在 Field 里的控件的标签，比如列表里的复选框 | Label |
 | 可选择的选项卡片的标题 | `variant="option"` 的 [Card](../card/card.md) 里的 `CardTitle` |
 

@@ -1,7 +1,7 @@
 ---
 title: 任务
 summary: 六种任务状态，任务列表和看板，任务详情，完成、添加和编辑任务，从消息创建、列在对话旁边的任务，状态怎么改，以及任务怎么筛选。
-sourceHash: e70446ef
+sourceHash: c2631507
 ---
 
 # 任务
@@ -72,7 +72,7 @@ raft-ui 尚未实现：没有完成控件的部件。在 raft-ui 加上它之前
 
 - 把它画成一个圆形的 `CheckboxIndicator`（`shape="circle"`），放在一个带 `role="checkbox"` 的 `button` 里，只有已完成的任务 `aria-checked` 为 true。它是圆的，不是 [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md) 的方形，原因见[形状](../foundations/shape.md#principles)。
 - 用任务给它命名，状态变了名字也不变："#25 Fix onboarding copy"。勾选状态已经说明了它是否完成，所以如果名字说的是点一下会做什么（"Reopen #25"），就会被读成 "Reopen #25, checkbox, checked"。它的工具提示可以写出操作：Complete；在 In Review 的任务上是 Accept and Complete；在已完成的任务上是 Reopen。
-- 只在已完成的任务上显示为勾选。在其他所有状态上，包括 Backlog 和 Closed，它都是未勾选的，点一下就把任务标为 Done，和其他任何状态变更一样。
+- 只在已完成的任务上显示为勾选。在其他所有状态上，包括 Backlog 和 Closed，它都是未勾选的。
 - 未勾选时，只在鼠标指针停在控件本身上时预览对勾（`previewOnHover`，`group` 类放在控件的按钮上，不要放在行上）：悬停在行的其他地方是悬停在行上，不是悬停在控件上（[悬停与按下](../foundations/states.md#hover-and-press)）。
 - 从任何状态点一下都把任务标为 Done。在 In Review 的任务上，这就是接受工作成果。
 - 先就地显示结果，再移动任务：标题加上删除线，变成 `foreground-hint`；一个 Toast 显示 "Completed #25"，带 Undo（[Toast](../../packages/ui/src/components/toast/toast.md)）；任务带着删除线在原来的分组里停 650ms，然后移进收起的 Done 分组；开启减弱动态效果时，它立即移过去（[动效](../foundations/motion.md#usage)）。Undo 把它放回原来的状态。点一下就跳走的任务看起来像丢了；这段停顿和 Toast 说明了它去了哪里。

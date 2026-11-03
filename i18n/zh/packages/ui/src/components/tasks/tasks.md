@@ -1,7 +1,7 @@
 ---
 title: Tasks
 summary: 所有任务视图共用的部件：显示任务进行到哪一步的状态徽标和任务标签片、状态像素点，以及任务面板的外壳。
-sourceHash: d779c746
+sourceHash: a5395272
 ---
 
 # Tasks
@@ -36,13 +36,13 @@ tasks/compositions/task-status
 - `TaskLoadingList`、`TaskLoadingRow`：任务加载时的占位行。
 - `taskStatusSoft`、`taskStatusStrong` 和 `TASK_STATUS_IDS`：用同一组 `task-status-*` token 搭建其他状态界面的配方。
 
-尚未实现：这些部件只认识五种状态。第六种 Backlog 不在 `TASK_STATUS_IDS` 里，`TaskStatusIcon` 和 `TaskChip` 也不画它；在 raft-ui 加上它之前，手动画出它的像素点和标签片（[颜色](../../../../../design/foundations/color.md#statuses)）。
+raft-ui 尚未实现：这些部件只认识五种状态。第六种 Backlog 不在 `TASK_STATUS_IDS` 里，`TaskStatusIcon` 和 `TaskChip` 也不画它；在 raft-ui 加上它之前，手动画出它的像素点和标签片（[颜色](../../../../../design/foundations/color.md#statuses)）。
 
 ```example
 tasks/compositions/tasks-panel
 ```
 
-尚未实现：这个示例显示的是 [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md) 之前的任务，只有五种状态，也没有完成控件。
+raft-ui 尚未实现：这个示例显示的是 [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md) 之前的任务，只有五种状态，也没有完成控件。
 
 ## 变体 {#variants}
 

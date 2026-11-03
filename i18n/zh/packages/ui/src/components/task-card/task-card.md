@@ -1,7 +1,7 @@
 ---
 title: TaskCard
 summary: 显示一个任务的卡片，包含完成控件、任务编号、标题和一个可以修改状态的状态标签，用在任务看板和任务列表里。
-sourceHash: c4d563ea
+sourceHash: c80ca838
 ---
 
 # TaskCard
@@ -12,7 +12,7 @@ TaskCard 显示一个任务：一个圆形的完成控件、编号、标题，�
 task-card/compositions/task-card-state-matrix
 ```
 
-尚未实现：本页的示例显示的是 [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md) 之前的卡片，没有完成控件，菜单里是五种状态。
+raft-ui 尚未实现：本页的示例显示的是 [0042](../../../../../design/decisions/0042-tasks-as-a-to-do-list.md) 之前的卡片，没有完成控件，菜单里是五种状态。
 
 ## 何时使用 {#when-to-use}
 
@@ -27,7 +27,7 @@ task-card/compositions/task-card-state-matrix
 
 - `TaskCard`：卡片。传入 `onClick` 让它打开任务详情。
 - `TaskCardRow` 和 `TaskCardBody`：文字周围的布局。
-- `TaskCardMeta`：第一行。它以完成控件开头（[完成任务](../../../../../design/patterns/tasks.md#completing-a-task)）。尚未实现：TaskCard 没有完成控件的部件；在 raft-ui 加上之前，手动画出它。
+- `TaskCardMeta`：第一行。它以完成控件开头（[完成任务](../../../../../design/patterns/tasks.md#completing-a-task)）。raft-ui 尚未实现：TaskCard 没有完成控件的部件；在 raft-ui 加上之前，手动画出它。
   - `TaskCardChannel`：任务所属的地方（#launch-week）。可选；见[内容](#content)。
   - `TaskCardStatus`：状态标签。必需。
   - `TaskCardNumber`：任务编号（#25）。必需。

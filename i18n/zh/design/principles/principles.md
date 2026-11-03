@@ -1,7 +1,7 @@
 ---
 title: 原则
 summary: 每个 Raft 界面都遵守的九条规则，每条都附上理由，让你能把它用到文档没写到的情况上。
-sourceHash: 59681b5d
+sourceHash: e180a029
 ---
 
 # 原则
@@ -67,11 +67,11 @@ sourceHash: 59681b5d
 
 ## 6. 方形就是 Raft {#6-square-is-raft}
 
-每个身份都是一张方形贴纸，每个圆点都是一个方形像素。只有开关和单选按钮是圆的，它们遵循平台惯例；另外就是任务的完成控件。
+每个身份都是一张方形贴纸，每个圆点都是一个方形像素。只有开关、单选按钮和拖动条是圆的，它们遵循平台惯例；另外还有两个例外：任务的完成控件和 Android 的下拉刷新圆盘。
 
-**为什么。** 方形像素是品牌自己的形状，从官网的像素网格到 Agent 的 8×8 面孔都是它，也是颜色调低之后还能认出 Raft 界面的原因。人和 Agent 都用方形头像：面孔已经说明了是谁，形状不需要再说一遍（[0023](../decisions/0023-stickers-in-dark-mode.md)）。圆点和加载指示器（spinner）是方形，也是这个原因（[形状](../foundations/shape.md#principles)）。像素是硬的，容器是软的：卡片、菜单和对话框有圆角，因为它们装着内容，而不是代表某个东西。开关和单选按钮是例外，因为人们靠圆形认出它们；方形的开关不会被当成开关（[Switch](../../packages/ui/src/components/switch/switch.md#rules)）。任务的完成控件是圆的，原因相近：行首的方框读作「选中这一行」，圆圈读作「完成」，和待办清单里一样（[形状](../foundations/shape.md#principles)）。
+**为什么。** 方形像素是品牌自己的形状，从官网的像素网格到 Agent 的 8×8 面孔都是它，也是颜色调低之后还能认出 Raft 界面的原因。人和 Agent 都用方形头像：面孔已经说明了是谁，形状不需要再说一遍（[0023](../decisions/0023-stickers-in-dark-mode.md)）。圆点和加载指示器（spinner）是方形，也是这个原因（[形状](../foundations/shape.md#principles)）。像素是硬的，容器是软的：卡片、菜单和对话框有圆角，因为它们装着内容，而不是代表某个东西。开关、单选按钮和拖动条是圆的，因为人们靠圆形认出它们；方形的开关不会被当成开关（[Switch](../../packages/ui/src/components/switch/switch.md#rules)）。任务的完成控件是圆的，原因相近：行首的方框读作「选中这一行」，圆圈读作「完成」，和待办清单里一样（[形状](../foundations/shape.md#principles)）。
 
-用这条规则时，问新元素是代表某个人或某个东西（方形，属于像素家族），还是装着内容（柔和的容器圆角），还是人们只靠圆形认得的控件（圆形，只有这三种）。
+用这条规则时，问新元素是代表某个人或某个东西（方形，属于像素家族），还是装着内容（柔和的容器圆角），还是[形状](../foundations/shape.md#principles)里列出的圆形之一（圆形）。
 
 应用于：[形状](../foundations/shape.md#radii)、[Avatar](../../packages/ui/src/components/avatar/avatar.md)、[Spinner](../../packages/ui/src/components/spinner/spinner.md)。
 

@@ -1,7 +1,7 @@
 ---
 title: Checkbox
 summary: 一个方形的框，表示随表单一起保存的是或否，或附加在某个操作上的选项。
-sourceHash: 75a8ae75
+sourceHash: 72b56242
 ---
 
 # Checkbox
@@ -66,4 +66,4 @@ Checkbox 封装了 Base UI Checkbox。它隐藏的原生 input 驱动勾选、�
 
 ## 规则 {#rules}
 
-- 方框保持方形。不要用 `shape="circle"`：圆形只用于开关和单选按钮（[形状](../../../../../design/foundations/shape.md)）。唯一的例外是任务的完成控件，它是圆的（[完成任务](../../../../../design/patterns/tasks.md#completing-a-task)）。
+- 方框保持方形。不要用 `shape="circle"`：圆形只用于开关、单选按钮和拖动条，另外还有两个例外（[形状](../../../../../design/foundations/shape.md#principles)）。唯一圆形的 `CheckboxIndicator` 是任务的完成控件，它是其中一个例外（[完成任务](../../../../../design/patterns/tasks.md#completing-a-task)）。
