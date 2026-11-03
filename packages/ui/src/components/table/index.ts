@@ -9,6 +9,7 @@ export {
   TableHeader,
   TableRow,
   TableSortableHead,
+  TableSortButton,
 } from "./table";
 export type {
   TableBodyProps,
@@ -22,4 +23,5 @@ export type {
   TableRowProps,
   TableSort,
   TableSortableHeadProps,
+  TableSortButtonProps,
 } from "./table";

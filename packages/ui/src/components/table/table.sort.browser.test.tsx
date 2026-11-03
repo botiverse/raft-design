@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
   TableSortableHead,
+  TableSortButton,
 } from "./table";
 import type { TableSort } from "./table";
 
@@ -178,3 +179,99 @@ for (const sort of [undefined, "ascending", "descending"] as const) {
     }
   });
 }
+
+// The left edge of the first non-empty text in an element.
+function textLeft(el: Element) {
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  let node = walker.nextNode();
+  while (node && !node.textContent?.trim()) node = walker.nextNode();
+  const range = document.createRange();
+  range.selectNodeContents(node!);
+  return range.getBoundingClientRect().left;
+}
+
+// A header row drawn without Table (a div grid, like a product list's): the
+// row sets the type (mono meta), the 28px height and the line; its heading
+// cells have no padding, and the caller gives each TableSortButton the row's
+// padding (`px-2`). The button fills its cell, so the whole cell is the
+// target. One line high, as at f49d8357, its bottom stopped 10-12px above the
+// cell's and a click there missed it; with TableSortableHead's padding the
+// label sat 4px right of the values.
+it("a TableSortButton fills its plain div cell, its label on the values' edge", async () => {
+  const grid = "grid grid-cols-[12rem_8rem]";
+  render(
+    <div role="table" aria-label="Computers" className="font-mono text-mono-meta">
+      <div
+        role="row"
+        data-testid="drawn-row"
+        className={`${grid} h-7 border-b border-line-hairline`}
+      >
+        <div role="columnheader" aria-sort="descending" data-testid="drawn-head">
+          <TableSortButton className="px-2" sort="descending">
+            Name
+          </TableSortButton>
+        </div>
+        <div role="columnheader" data-testid="drawn-head-right">
+          <TableSortButton className="px-2" align="right" firstSort="descending">
+            Memory
+          </TableSortButton>
+        </div>
+      </div>
+      <div role="row" className={grid}>
+        <div role="cell" data-testid="drawn-value" className="px-2">
+          mac-mini
+        </div>
+        <div role="cell" data-testid="drawn-value-right" className="px-2 text-right">
+          16 GB
+        </div>
+      </div>
+    </div>,
+    { wrapper: Light },
+  );
+  await document.fonts.ready;
+  const rowElement = screen.getByTestId("drawn-row");
+  const row = rowElement.getBoundingClientRect();
+  const rowBottom = row.bottom - Number.parseFloat(getComputedStyle(rowElement).borderBottomWidth);
+  for (const id of ["drawn-head", "drawn-head-right"]) {
+    const cell = screen.getByTestId(id);
+    const button = cell.querySelector<HTMLElement>('[data-slot="table-sort-button"]')!;
+    const box = cell.getBoundingClientRect();
+    const target = button.getBoundingClientRect();
+    // The cell takes the row's height above its line, and the button the cell's box.
+    expect(Math.abs(box.top - row.top), `${id} cell top`).toBeLessThanOrEqual(0.5);
+    expect(Math.abs(box.bottom - rowBottom), `${id} cell bottom`).toBeLessThanOrEqual(0.5);
+    for (const side of ["top", "right", "bottom", "left"] as const) {
+      expect(Math.abs(target[side] - box[side]), `${id} button ${side}`).toBeLessThanOrEqual(0.5);
+    }
+    // A click anywhere on the cell, its corners included, lands on the button.
+    // 2px in on both axes: the button's 4px radius leaves the outermost pixel
+    // of each corner outside it (1px in is ~4.24px from the arc's centre).
+    for (const [x, y] of [
+      [box.left + 2, box.top + 2],
+      [box.right - 2, box.top + 2],
+      [box.left + 2, box.bottom - 2],
+      [box.right - 2, box.bottom - 2],
+    ] as const) {
+      expect(button.contains(document.elementFromPoint(x, y)), `${id} at ${x},${y}`).toBe(true);
+    }
+    const cellStyle = getComputedStyle(cell);
+    const style = getComputedStyle(button);
+    expect(style.fontFamily, id).toBe(cellStyle.fontFamily);
+    expect(style.fontSize, id).toBe(cellStyle.fontSize);
+    expect(style.fontWeight, id).toBe(cellStyle.fontWeight);
+    for (const side of ["top", "right", "bottom", "left"]) {
+      expect(cellStyle.getPropertyValue(`padding-${side}`), `${id} cell padding-${side}`).toBe(
+        "0px",
+      );
+      expect(style.getPropertyValue(`border-${side}-width`), `${id} border-${side}`).toBe("0px");
+    }
+  }
+  const head = screen.getByTestId("drawn-head");
+  expect(
+    Math.abs(textLeft(head) - textLeft(screen.getByTestId("drawn-value"))),
+  ).toBeLessThanOrEqual(0.5);
+  const right = screen.getByTestId("drawn-head-right");
+  expect(
+    Math.abs(textRight(right) - textRight(screen.getByTestId("drawn-value-right"))),
+  ).toBeLessThanOrEqual(0.5);
+});
