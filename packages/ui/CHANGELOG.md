@@ -7,12 +7,14 @@
   - Docs: https://raft-design.botiverse.build/components/tasks/
 - **TaskCompletionControl** (`@botiverse/raft-ui/wip`, experimental): the round control that leads a task row or card; marks a task Done, or reopens a done task to Todo. A native button with `role="checkbox"`, 36px hit area with a mouse and 44px on touch, hover previews the check, disabled is `aria-disabled` only. ([#932](https://github.com/botiverse/raft-design/pull/932))
   - Docs: https://raft-design.botiverse.build/components/task-completion-control/
-- **PreviewCardContent**: `size="item"` for an app's item card, 400px instead of a profile card's 300px. In `PreviewCardBody` the title wraps up to 2 lines, and `PreviewCardActions` sits at the card's end (frameless buttons first, the bordered one last). ([#939](https://github.com/botiverse/raft-design/pull/939))
-  - Affects: item cards opt in with `size="item"`; the default stays `profile` (300px).
-  - Docs: https://raft-design.botiverse.build/components/preview-card/
 
 ### Changed
 
+- **PreviewCard (item card)**: an item card (`size="item"`) is 400px wide, its title up to 2 lines, and its buttons sit at the card's end; a profile card stays 300px. ([#939](https://github.com/botiverse/raft-design/pull/939))
+  - Why: an app's item title, its state and two buttons didn't fit in 300px; titles broke over three lines and the buttons sat apart from where a Popover puts them.
+  - Affects: new `PreviewCardContent` `size` (`"profile"` 300px, the default; `"item"` 400px). For every card with a `PreviewCardBody`, whether or not it passes `size`: `PreviewCardTitle` in the body `line-clamp-3` → `line-clamp-2`; `PreviewCardActions` `justify-end`.
+  - Migrate: pass `size="item"` on the `PreviewCardContent` of an item card; profile cards need nothing.
+  - Docs: https://raft-design.botiverse.build/components/preview-card/
 - **RaftLogo / RaftWordmark / RaftLogoLockup**: in dark mode the outline is white and the insides ink, so the mark reads on dark surfaces. New `raft-logo-white.svg` and `raft-mark-white.svg`. Inside a `.light` scope (such as the pixel loader's fixed yellow tile) the ink outline stays in both modes. ([#948](https://github.com/botiverse/raft-design/pull/948))
   - Why: the yellow-on-dark mark is reserved for the website footer; product dark mode uses the white version.
   - Docs: https://raft-design.botiverse.build/components/logo/
@@ -20,16 +22,6 @@
 ### Docs
 
 - One rule for round shapes (switches, radios and grab handles, plus the task completion control and the Android pull-to-refresh disc), and other consistency fixes from the zh sync. ([#951](https://github.com/botiverse/raft-design/pull/951))
-
-## Unreleased
-
-### Changed
-
-- **PreviewCard (item card)**: an item card (`size="item"`) is 400px wide, its title up to 2 lines, and its buttons sit at the card's end; a profile card stays 300px.
-  - Why: an app's item title, its state and two buttons didn't fit in 300px; titles broke over three lines and the buttons sat apart from where a Popover puts them.
-  - Affects: new `PreviewCardContent` `size` (`"profile"` 300px, the default; `"item"` 400px); `PreviewCardTitle` in the body `line-clamp-3` → `line-clamp-2`; `PreviewCardActions` `justify-end`.
-  - Migrate: pass `size="item"` on the `PreviewCardContent` of an item card; profile cards need nothing.
-  - Docs: https://raft-design.botiverse.build/components/preview-card/
 
 ## [0.57.2](https://github.com/botiverse/raft-design/compare/v0.57.1...v0.57.2) (2026-11-02)
 
