@@ -1267,7 +1267,7 @@ describe("ScrollArea CSS", () => {
     // Over the padding box: widened by the inline padding, stuck below the top padding and lifted
     // back by a translate, which moves nothing in flow.
     expect(rule(`${sticky} > ${block}__gutters`)).toBe(
-      "align-self: stretch; block-size: 0; flex-shrink: 0; inset-block-start: var(--r-scroll-area-padding-top); inset-inline-start: 0; margin-left: calc(-1 * var(--r-scroll-area-padding-left)); margin-right: calc(-1 * var(--r-scroll-area-padding-right)); position: sticky; translate: 0 calc(-1 * var(--r-scroll-area-padding-top));",
+      "align-self: stretch; block-size: 0; flex-shrink: 0; inset-block-start: 0; inset-inline-start: 0; margin-left: calc(-1 * var(--r-scroll-area-padding-left)); margin-right: calc(-1 * var(--r-scroll-area-padding-right)); position: sticky; translate: 0 calc(-1 * var(--r-scroll-area-padding-top));",
     );
     expect(rule(`${absolute} > ${block}__gutters`)).toBe(
       "border-radius: inherit; inset: 0; position: absolute;",
