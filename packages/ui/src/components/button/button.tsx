@@ -228,7 +228,14 @@ export type ButtonProps = StyledProps<BaseButton.Props> &
      * `icon-md`, removed in raft-ui 1.0 (`codemods/button-sizes.mjs`).
      */
     size?: "md" | "lg" | "xl" | "icon-md" | "icon-lg" | DeprecatedButtonSize;
+    /**
+     * Busy: shows the spinner and blocks activation (click, Enter, Space and
+     * form submission) while keeping the button focusable. A busy button is
+     * `aria-disabled`, not natively `disabled`, so the focus a press left on
+     * it stays there and is still there when the wait ends.
+     */
     loading?: boolean;
+    /** The spinner's accessible name while `loading`: say what is happening. */
     loadingLabel?: string;
   };
 
@@ -238,6 +245,7 @@ export function Button({
   loading = false,
   loadingLabel = "Loading",
   disabled,
+  focusableWhenDisabled,
   className,
   children,
   render,
@@ -261,6 +269,13 @@ export function Button({
       className={root({ className })}
       data-loading={loading ? "true" : undefined}
       disabled={disabled || loading}
+      // A busy button must not drop the focus a press left on it: natively
+      // disabling a focused button sends focus to <body>, and it doesn't come
+      // back when the wait ends. While loading (and not otherwise disabled)
+      // Base UI's focusableWhenDisabled path keeps it focusable and
+      // aria-disabled, and still blocks click, Enter, Space and form
+      // submission. A disabled button stays natively disabled.
+      focusableWhenDisabled={(loading && !disabled) || focusableWhenDisabled}
       // Only set aria-disabled when loading: an explicit `undefined` here
       // would override Base UI's computed aria-disabled on the
       // focusableWhenDisabled path.

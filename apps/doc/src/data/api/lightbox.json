@@ -277,6 +277,7 @@
         "name": "loadingLabel",
         "type": "string",
         "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
         "from": "raft-ui"
       },
       {
