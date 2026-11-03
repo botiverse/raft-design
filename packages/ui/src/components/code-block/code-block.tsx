@@ -253,8 +253,15 @@ export function CodeBlockWrapToggle({
   ...props
 }: CodeBlockWrapToggleProps) {
   const context = useContext(CodeBlockContext);
+  const setWrap = context?.setWrap;
+  const handlePressedChange = useCallback<NonNullable<BaseToggle.Props["onPressedChange"]>>(
+    (pressed, details) => {
+      onPressedChange?.(pressed, details);
+      if (!details.isCanceled) setWrap?.(!pressed);
+    },
+    [onPressedChange, setWrap],
+  );
   if (!context) throw new Error("CodeBlockWrapToggle must be used within CodeBlock.");
-  const { wrap, setWrap } = context;
   const { wrapToggle } = codeBlock();
 
   return (
@@ -264,11 +271,8 @@ export function CodeBlockWrapToggle({
       nativeButton={nativeButton ?? defaultNativeButton(render)}
       type="button"
       data-slot="code-block-wrap-toggle"
-      pressed={!wrap}
-      onPressedChange={(pressed, details) => {
-        onPressedChange?.(pressed, details);
-        if (!details.isCanceled) setWrap(!pressed);
-      }}
+      pressed={!context.wrap}
+      onPressedChange={handlePressedChange}
       className={wrapToggle({ className })}
     />
   );
