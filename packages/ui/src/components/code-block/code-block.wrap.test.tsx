@@ -106,7 +106,9 @@ describe("CodeBlock wrap", () => {
     expect(preOf("first").classList).not.toContain("whitespace-pre-wrap");
     expect(preOf("second").classList).toContain("whitespace-pre-wrap");
     expect(
-      screen.getByRole("button", { name: "Don't Wrap Lines (second)" }).getAttribute("aria-pressed"),
+      screen
+        .getByRole("button", { name: "Don't Wrap Lines (second)" })
+        .getAttribute("aria-pressed"),
     ).toBe("false");
   });
 
