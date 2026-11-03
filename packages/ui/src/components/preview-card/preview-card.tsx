@@ -18,7 +18,7 @@ const previewCard = tv({
       "data-starting-style:scale-[0.97] data-starting-style:opacity-0",
       "data-ending-style:scale-[0.99] data-ending-style:opacity-0 data-ending-style:duration-150",
       "data-instant:transition-none motion-reduce:transition-none",
-      "w-[300px] rounded-container bg-layer-popover text-foreground",
+      "rounded-container bg-layer-popover text-foreground",
       "shadow-float ring-1 ring-line-seam",
     ],
     header: ["flex items-start gap-3", "px-4 pt-4 pb-3 last:pb-4"],
@@ -30,26 +30,35 @@ const previewCard = tv({
     ],
     arrow: ["size-2 rotate-45", "border-l border-t border-line-seam bg-layer-popover"],
     // The item card: an id line, the title, a row of state and details, then
-    // actions and a footer. In the body the title wraps, up to 3 lines: an
-    // item's title is what the card is for, and a cut-off one says less than
-    // the chip it came from.
+    // actions and a footer, on a 400px card. In the body the title wraps, up
+    // to 2 lines: an item's title is what the card is for, and a cut-off one
+    // says less than the chip it came from.
     body: [
       "flex min-w-0 flex-col gap-1.5",
       "px-4 pt-4 pb-3 last:pb-4",
-      "*:data-[slot=preview-card-title]:line-clamp-3 *:data-[slot=preview-card-title]:whitespace-normal",
+      "*:data-[slot=preview-card-title]:line-clamp-2 *:data-[slot=preview-card-title]:whitespace-normal",
     ],
     eyebrow: ["m-0 truncate", "font-mono text-mono-meta text-foreground-muted"],
     meta: [
       "flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1",
       "m-0 font-sans text-callout text-foreground-muted",
     ],
-    actions: ["flex flex-wrap items-center gap-2", "px-4 pb-3 last:pb-4"],
+    actions: ["flex flex-wrap items-center justify-end gap-2", "px-4 pb-3 last:pb-4"],
     footer: [
       "m-0 truncate",
       "border-t border-line-hairline px-4 py-2",
       "font-sans text-caption text-foreground-muted",
     ],
   },
+  variants: {
+    // A profile card (a person or an agent) is 300px; an app's item card,
+    // with a title, a state and buttons to fit, is 400px.
+    size: {
+      profile: { popup: "w-[300px]" },
+      item: { popup: "w-[400px]" },
+    },
+  },
+  defaultVariants: { size: "profile" },
 });
 
 export type PreviewCardProps = BasePreviewCard.Root.Props;
@@ -121,8 +130,10 @@ function PreviewCardFramePositioner({
   return <BasePreviewCard.Positioner {...collision} {...props} />;
 }
 
-export type PreviewCardContentProps = StyledProps<BasePreviewCard.Popup.Props> &
-  Pick<
+export type PreviewCardContentProps = StyledProps<BasePreviewCard.Popup.Props> & {
+  /** `item` for an app's item card (a title, a state and buttons): 400px instead of a profile's 300px. Choose it by what the card shows, not by its parts. */
+  size?: "profile" | "item";
+} & Pick<
     BasePreviewCard.Positioner.Props,
     | "align"
     | "alignOffset"
@@ -154,10 +165,11 @@ export function PreviewCardContent({
   sideOffset = 6,
   sticky,
   portalProps,
+  size = "profile",
   className,
   ...props
 }: PreviewCardContentProps) {
-  const { positioner, popup } = previewCard();
+  const { positioner, popup } = previewCard({ size });
   return (
     <PreviewCardPortal {...portalProps}>
       <PreviewCardFramePositioner
@@ -178,6 +190,7 @@ export function PreviewCardContent({
       >
         <BasePreviewCard.Popup
           data-slot="preview-card-content"
+          data-size={size}
           className={popup({ className })}
           {...props}
         />

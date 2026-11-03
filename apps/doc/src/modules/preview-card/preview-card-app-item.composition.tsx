@@ -39,7 +39,7 @@ export function PreviewCardAppItemComposition() {
               #10449 refactor(i18n): one display-locale source for web and desktop
             </MessageReferenceLabel>
           </PreviewCardTrigger>
-          <PreviewCardContent>
+          <PreviewCardContent size="item">
             <PreviewCardBody>
               <PreviewCardEyebrow>botiverse/slock</PreviewCardEyebrow>
               <PreviewCardTitle>
@@ -52,18 +52,18 @@ export function PreviewCardAppItemComposition() {
             </PreviewCardBody>
             <PreviewCardActions>
               <Button
-                variant="outline"
-                render={<a href="#stamp-pull-10449" target="_blank" rel="noopener noreferrer" />}
-              >
-                Open in Stamp
-              </Button>
-              <Button
                 variant="ghost"
                 render={
                   <a href="#stamp-pull-10449-files" target="_blank" rel="noopener noreferrer" />
                 }
               >
                 View Changes
+              </Button>
+              <Button
+                variant="outline"
+                render={<a href="#stamp-pull-10449" target="_blank" rel="noopener noreferrer" />}
+              >
+                Open in Stamp
               </Button>
             </PreviewCardActions>
             <PreviewCardFooter>Stamp · stamp.build</PreviewCardFooter>
