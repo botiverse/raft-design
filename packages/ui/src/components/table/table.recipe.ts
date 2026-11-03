@@ -40,5 +40,34 @@ export const table = tv({
     colgroup: [],
     column: [],
     caption: ["pt-2 text-caption text-foreground-hint"],
+    // A heading that sorts (table.md, "Sorting") is a `head` whose padding
+    // moves onto its button, so the button fills the cell and the row keeps
+    // TableHead's height.
+    sortableHead: ["p-0"],
+    sortButton: [
+      "relative flex w-full items-center gap-1",
+      "border-0 bg-transparent px-3 py-2 [font:inherit]",
+      "cursor-pointer rounded-sticker",
+      "hover:text-foreground",
+      "outline-none focus-visible:shadow-focus",
+      // On a touch screen a transparent ::after takes the heading's button to
+      // a 44px hit area (accessibility.md, Hit targets). It grows upward only,
+      // past the table's top edge, so it never takes a tap from the first row.
+      "pointer-coarse:after:absolute pointer-coarse:after:inset-x-0 pointer-coarse:after:bottom-0 pointer-coarse:after:content-['']",
+      "pointer-coarse:after:-top-[calc(--spacing(11)-100%)]",
+    ],
+    sortArrow: ["size-3 shrink-0"],
+  },
+  variants: {
+    // One way to align a column: the same value on its heading and its cells.
+    // `left` adds nothing, so a part without `align` renders as it always did.
+    align: {
+      left: {},
+      right: { head: "text-right", cell: "text-right", sortButton: "justify-end" },
+    },
+    sorted: {
+      true: { sortButton: "text-foreground" },
+      false: { sortButton: "text-foreground-hint" },
+    },
   },
 });

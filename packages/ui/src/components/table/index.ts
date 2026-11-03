@@ -8,6 +8,7 @@ export {
   TableHead,
   TableHeader,
   TableRow,
+  TableSortableHead,
 } from "./table";
 export type {
   TableBodyProps,
@@ -19,4 +20,6 @@ export type {
   TableHeaderProps,
   TableProps,
   TableRowProps,
+  TableSort,
+  TableSortableHeadProps,
 } from "./table";

@@ -1237,7 +1237,8 @@
       "TableColumn",
       "TableHead",
       "TableHeader",
-      "TableRow"
+      "TableRow",
+      "TableSortableHead"
     ],
     "status": "stable",
     "description": "Native `<table>` semantics with the kit's chrome: render real table/thead/tbody/tr/th/td elements (useRender passthrough), so `scope`, screen-reader navigation and keyboard behaviour stay intact. A caller that wants a visually header-less table keeps its `<TableHead>` and hides it with `sr-only`; omitting the header would drop the semantics."
