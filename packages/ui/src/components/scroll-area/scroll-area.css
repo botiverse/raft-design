@@ -2,7 +2,8 @@
  * ScrollArea, modelled on 07akioni/react-scroll-area-demo. The container is
  * the element that scrolls (native scrolling, its native scrollbars hidden);
  * the gutters are a layer that draws thin overlay scrollbars over it. Where
- * the gutters go is `guttersPosition`:
+ * the gutters go (`<ScrollArea>` is always sticky; `useScrollAreaContainer`
+ * takes either):
  *
  *   sticky    the root is the container; the gutters are its first child, a
  *             zero-height layer stuck to the top of the viewport and sized
@@ -418,10 +419,10 @@
    *
    * It reaches over the container's padding, so the gutters are at the
    * padding box's edges, not the content's: the negative inline margins
-   * widen it to the padding box, and it sticks `padding-top` below the top
-   * of the viewport, where a translate lifts it back to the top. The
-   * translate moves nothing in flow, so the content stays where its padding
-   * puts it.
+   * widen it to the padding box. A sticky box sticks inside the scrollport
+   * less its padding, so `top: 0` holds it `padding-top` below the top of the
+   * viewport, where a translate lifts it back to the top. The translate moves
+   * nothing in flow, so the content stays where its padding puts it.
    */
   .r-scroll-area.r-scroll-area--sticky-gutters > .r-scroll-area__gutters {
     align-self: stretch;
