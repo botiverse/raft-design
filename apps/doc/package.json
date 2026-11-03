@@ -11,6 +11,7 @@
     "preview": "vp preview",
     "test": "node ./node_modules/vitest/vitest.mjs run --config vitest.config.ts",
     "deploy": "vp run @botiverse/raft-ui#build && vp build && node scripts/build-llms.mjs && node scripts/build-sitemap.mjs && wrangler deploy",
+    "preview:deploy": "vp run @botiverse/raft-ui#build && vp build && node scripts/build-llms.mjs && node scripts/build-sitemap.mjs && wrangler preview",
     "upload": "vp run @botiverse/raft-ui#build && vp build && node scripts/build-llms.mjs && node scripts/build-sitemap.mjs && wrangler versions upload",
     "cf-typegen": "wrangler types"
   },
