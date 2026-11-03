@@ -134,6 +134,7 @@ Hover, press, focus and disabled follow [States](../../../../../design/foundatio
 - Use Title Case ([Writing](../../../../../design/content/writing.md#casing)), and repeat the button's words in the dialog it opens ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Put an icon before the label (`data-icon="inline-start"`), and Return or an arrow after it (`data-icon="inline-end"`).
 - While loading, say what is happening: Creating….
+- A Button narrower than its content (given `min-w-0 max-w-full` in a card or a row) truncates its content rather than overflowing its border: give the label `truncate`, and its icons keep their size.
 
 ## Accessibility
 
