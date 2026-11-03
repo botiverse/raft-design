@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的 Tasks 和 Files 分区，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: e682cf76
+sourceHash: 484c1990
 ---
 
 # Raft Chat — 频道
@@ -31,7 +31,8 @@ conversation-panel/compositions/conversation-panel
 ### 频道详情 {#the-channel-details}
 
 - 从 Settings 按钮以右侧抽屉的形式打开详情（[Raft Chat](./README.md#overlays)）。它的关闭方式同[导航](../../patterns/navigation.md#closing)。
-- 抽屉的标题栏只有一行：桌面端是频道名和可见性（Public、Private 或 Joint），手机上是“Settings · #launch-week”，频道名用弱化的 Space Mono。描述不放在标题栏：抽屉本身就能编辑描述，放在标题栏只是重复（stdrc，2026-11-03）。描述放在成员下面的频道信息里，能编辑频道的人看到输入框，其他人看到纯文本（[抽屉](../../../packages/ui/src/components/drawer/drawer.md#rules)）。
+- 抽屉的标题栏只有一行：桌面端是频道名和可见性（Public、Private 或 Joint），手机上是“Settings · #launch-week”，频道名用弱化的 Space Mono（[抽屉](../../../packages/ui/src/components/drawer/drawer.md#rules)）。
+- 描述不放在标题栏：抽屉里已经显示描述，放在标题栏只是重复（stdrc，2026-11-03）。描述放在成员下面的频道信息里，能编辑频道的人看到输入框，其他人看到纯文本。
 - 标题栏下面是成员，显示为一排头像加一个添加图块，点击后在抽屉里打开成员列表；再往下是频道的设置、偏好（静音、折叠长消息）、Stop All Agents 和 Leave Channel。
 - 有人在有未保存修改时关闭抽屉，询问是保存还是放弃。
 

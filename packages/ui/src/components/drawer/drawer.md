@@ -38,7 +38,7 @@ drawer/compositions/responsive-placement
 - `DrawerContent`: the surface, portaled, with the scrim (`DrawerOverlay`) behind it when the drawer is modal. Required. It is `layer-popover` with a `line-seam` edge and `shadow-float`, like every other popup, not an ink border and a hard shadow: every floating surface uses the same shadow ([Elevation](../../../../../design/foundations/elevation.md)).
 - `DrawerHeader`: the title row. In a drawer from the right it is 56px tall, with a `line-seam` under it and `DrawerClose` at its end.
 - `DrawerTitle`: the title. Required, unless the content has an `aria-label`.
-- `DrawerDescription`: a sentence under the title, in a bottom sheet. A drawer from the right keeps it for assistive technology only ([Rules](#rules)).
+- `DrawerDescription`: a sentence under the title.
 - `DrawerBody`: the content. It scrolls.
 - `DrawerFooter`: the bottom bar. In a drawer from the right it has a `line-seam` over it.
 - `DrawerActions`: the buttons in the footer, in a row at the end in a drawer and stacked full width in a bottom sheet, where a ghost Cancel takes a frame ([Button](../button/button.md#which-color)).
@@ -90,7 +90,7 @@ drawer/compositions/nested-close-callback
 
 - Keep a drawer to 420px at most. A form that needs more room is the wide [Dialog](../dialog/dialog.md).
 - Make the × the same icon button as in a panel header, with the same icon size, and put it last in `DrawerHeader`: its icon box ends on the margin, and a Back that replaces it on a phone starts on it ([Alignment](../../../../../design/foundations/alignment.md#the-ends-of-a-header)).
-- Keep a drawer's head to one line: the title and at most one item beside it on the same line, such as a tag (Public) or what it belongs to ("Settings · #launch-week", the reference in muted Space Mono, truncating before the title does). Never put a second line under the title: what would go there is in the body, where people read or edit it, and every top bar in the app is then the same single line (stdrc, 2026-11-03).
+- Keep a drawer's head to one line: the title and at most one item beside it on the same line, such as a tag (Public) or what it belongs to ("Settings · #launch-week", the reference in muted Space Mono, truncating before the title does). Never put a second line under the title: what would go there is in the body, where people read or edit it, so a drawer's head stays one line (stdrc, 2026-11-03).
 - Put the buttons in the footer, never in the header. They are `size="lg"` (44px on a phone, 32px on a desktop): Cancel first, Save last ([Forms](../../../../../design/patterns/forms.md#forms-in-a-dialog)).
 - Split a long form in a drawer into [FormSection](../form-section/form-section.md) parts, the same sections as in the wide dialog, and save them all together with the footer's Save.
 - Under each yes-or-no checkbox in a drawer form, add a line that says what happens when it is unchecked. It is a checkbox, not a switch, because the form is saved ([Forms](../../../../../design/patterns/forms.md#forms-in-a-dialog)).
