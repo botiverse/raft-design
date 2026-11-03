@@ -1,3 +1,20 @@
+## [0.59.0](https://github.com/botiverse/raft-design/compare/v0.58.1...v0.59.0) (2026-11-03)
+
+### Breaking Changes
+
+- **TableHead / TableCell**: `align` is now a variant, `"left"` (the default) or `"right"`, instead of the native HTML `align` attribute. Pass the same value to a column's heading and its cells. ([#959](https://github.com/botiverse/raft-design/pull/959))
+  - Why: a right-aligned column was set with a class on each cell, which can't move a sortable heading's label (a button filling the cell); one `align` value now aligns a heading, its cells and a sortable heading's label alike.
+  - Affects: `align="right"` sets `text-right` instead of rendering the `align` attribute; `align` no longer takes `"center"`, `"justify"` or `"char"`, and is no longer passed to the `th` or `td`.
+  - Migrate: replace `align="center"` / `"justify"` / `"char"` with a class such as `text-center`; a column aligned with a `text-right` class can pass `align="right"` to its heading and cells instead.
+  - Docs: https://raft-design.botiverse.build/components/table/#content
+
+### Added
+
+- **TableSortableHead** (`@botiverse/raft-ui/wip`, experimental, + types `TableSort`, `TableSortableHeadProps`): a column heading that sorts the rows. Its label is a button filling the cell; it sets `aria-sort` on the heading cell and draws a 12px arrow on the sorted column only, after the label or before it with `align="right"`. The sort stays in your state: pass `sort` and set it from `onSortChange`; `firstSort` (default `"ascending"`) is the direction of a first click. ([#959](https://github.com/botiverse/raft-design/pull/959))
+  - Why: the Sorting rule had no part, so each list had to build its heading's button, `aria-sort`, arrow and touch hit area itself.
+  - Affects: every sortable heading keeps the 12px arrow's room, empty when unsorted, so columns don't move when the sort changes; on a touch screen the button's hit area is 44px high.
+  - Docs: https://raft-design.botiverse.build/components/table/#sorting
+
 ## [0.58.1](https://github.com/botiverse/raft-design/compare/v0.58.0...v0.58.1) (2026-11-03)
 
 ### Fixed
