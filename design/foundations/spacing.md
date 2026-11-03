@@ -101,6 +101,10 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 control
 ```
 
+
+- Make the rail header a 56px square. It holds the workspace tile, and the top-left corner stays square whatever else changes. So the rail is 56px wide plus its seam and shows icons only: a labeled rail needs 68px to fit names such as Computers, and its corner would no longer be square.
+- When the desktop window is shorter than 600px (`@media (max-height: 600px)`), shrink every 56px header to 48px together. The rail shrinks with them, its header stays square, and rail items shrink from 40px to 36px; see [Responsive layout](../patterns/responsive.md).
+
 ### The size chain
 
 The sizes that follow the control are written as one chain in the token layer, so a change to one step moves every size built on it, and each step changes in one place:
@@ -128,8 +132,7 @@ bar-button
 switch
 ```
 
-- Make the rail header a 56px square. It holds the workspace tile, and the top-left corner stays square whatever else changes. So the rail is 56px wide plus its seam and shows icons only: a labeled rail needs 68px to fit names such as Computers, and its corner would no longer be square.
-- When the desktop window is shorter than 600px (`@media (max-height: 600px)`), shrink every 56px header to 48px together. The rail shrinks with them, its header stays square, and rail items shrink from 40px to 36px; see [Responsive layout](../patterns/responsive.md).
+The chain switches at the root (`:root` and `.light`, under the desktop query). A subtree that sets its own `--control-height` changes that control only: the header, the bar buttons and the other steps were already worked out at the root, so they don't follow it.
 
 ## Avatar sizes
 
