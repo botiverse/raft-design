@@ -50,7 +50,7 @@ task-completion-control/compositions/states
 ## Content
 
 - Name it by the task: its number, then its title, "#25 Fix onboarding copy".
-- Put the action in its tooltip if the product shows one: Complete, Accept and Complete on an In Review task, Reopen on a done one ([Tooltip](../tooltip/tooltip.md)).
+- Put the action in its tooltip if the product shows one: Complete, Reopen on a done one ([Tooltip](../tooltip/tooltip.md)).
 
 ## Accessibility
 

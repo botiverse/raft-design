@@ -96,7 +96,7 @@ tasks/compositions/tasks-error
 
 ## Content
 
-- Spell the statuses Backlog, Todo, In Progress, In Review, Done and Closed. `TaskStatusBadge` has no built-in label: the caller passes it, and translates it.
+- Spell the statuses Backlog, Todo, In Progress, Done and Closed. `TaskStatusBadge` has no built-in label: the caller passes it, and translates it.
 - Set the task number in Space Mono: `#25` ([Typography](../../../../../design/foundations/typography.md#usage)).
 - In a task reference, write the place, then the number: `#design:#25` ([Referring to a task](../../../../../design/patterns/tasks.md#referring-to-a-task)).
 

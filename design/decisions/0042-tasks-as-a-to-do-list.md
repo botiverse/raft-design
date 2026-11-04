@@ -8,6 +8,8 @@ date: 2026-10-31
 
 # 0042. Tasks work as a to-do list, with six statuses and no transition limits
 
+In Review has since been retired, which leaves five statuses ([decision 0043](./0043-in-review-retired.md)). The rest of this record stands.
+
 ## Context
 
 Tasks had five statuses (Todo, In Progress, In Review, Done and Closed), and the status menu offered only the moves allowed from the current status. Finishing a task took a menu or a drag; adding one took the Create Task dialog. The task v2 work set out to make tasks work as a to-do list, with Google Tasks as the baseline, for the everyday case: tick a task off, type the next one, park one for later. Parking had no place: a task not planned now stayed in Todo and was counted as active work, or was Closed, which says it won't be done.

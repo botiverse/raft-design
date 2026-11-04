@@ -54,7 +54,7 @@ task-card/compositions/task-card-state-matrix
 ## Behavior
 
 - A card with an `onClick` hovers with the subtle tier, like the other cards people read, and presses with the medium tier; its status chip hovers medium ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)).
-- Pressing the status chip opens a list of all six statuses, from any status, with a check on the current one ([Select](../select/select.md)). Choosing one changes the status at once.
+- Pressing the status chip opens a list of all five statuses, from any status, with a check on the current one ([Select](../select/select.md)). Choosing one changes the status at once.
 - Pressing the completion control completes or reopens the task ([Completing a task](../../../../../design/patterns/tasks.md#completing-a-task)).
 - Pressing the chip or the completion control doesn't open the card: stop the click from reaching `TaskCard`.
 
@@ -67,7 +67,7 @@ task-card/compositions/task-status-select
 - Write the title in sentence case, as a verb and its object: "Polish the onboarding flow".
 - Show the channel only where tasks from several places are listed together, such as a product's task page. In a place's own Tasks view every task belongs to that place, so leave it out.
 - Set the channel and the number in Space Mono; the parts do this.
-- Spell the statuses Backlog, Todo, In Progress, In Review, Done and Closed ([Writing](../../../../../design/content/writing.md#voice)).
+- Spell the statuses Backlog, Todo, In Progress, Done and Closed ([Writing](../../../../../design/content/writing.md#voice)).
 
 ## Accessibility
 

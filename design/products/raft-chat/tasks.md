@@ -32,7 +32,7 @@ Not yet implemented in raft-ui: this example shows the tasks before [0042](../..
 
 The section follows [Tasks beside a conversation](../../patterns/tasks.md#tasks-beside-a-conversation). In Raft Chat:
 
-- Count the active tasks (Todo, In Progress, In Review) on All, and the active tasks assigned to the person on For Me. The header carries no count of its own.
+- Count the active tasks (Todo, In Progress) on All, and the active tasks assigned to the person on For Me. The header carries no count of its own.
 - Put a ghost Create Task icon button (`plus`) before ×. It opens Create Task ([Where tasks are created](../../patterns/tasks.md#where-tasks-are-created)), with the channel under its title in Space Mono: "In #launch-week".
 - Within a status group, list the newest task first: the section is read while people talk, so a task just created from the conversation shows at the top of its group, where they look for it.
 

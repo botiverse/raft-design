@@ -10,7 +10,7 @@ related: [task-board, task-card, task-list, tasks]
 
 # TaskDnd
 
-TaskDnd is the drag-and-drop wiring behind the [TaskBoard](../task-board/task-board.md): a provider, the cards people drag, the places they drop them, the gap a card lands in and the copy of the card that follows the pointer. It follows the one drag model ([Drag and drop](../../../../../design/patterns/drag-and-drop.md)) and is built on its parts ([Drag](../drag/drag.md)). It decides nothing about tasks. The caller says which drops are allowed and what a move does, such as changing #25 from Todo to In Review.
+TaskDnd is the drag-and-drop wiring behind the [TaskBoard](../task-board/task-board.md): a provider, the cards people drag, the places they drop them, the gap a card lands in and the copy of the card that follows the pointer. It follows the one drag model ([Drag and drop](../../../../../design/patterns/drag-and-drop.md)) and is built on its parts ([Drag](../drag/drag.md)). It decides nothing about tasks. The caller says which drops are allowed and what a move does, such as changing #25 from Todo to In Progress.
 
 ```example
 task-dnd/compositions/task-dnd
