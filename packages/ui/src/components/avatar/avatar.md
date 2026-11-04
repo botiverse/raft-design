@@ -88,7 +88,7 @@ avatar/compositions/group
 ```
 
 - Why: a ring cut in the surface around each face read as a gap between the faces, while the app's hand-built stacks (Working now, the typing line) had none, so one idea looked two ways. Every stack of faces is now drawn the Working now way. Decided by stdrc on 2026-11-04 (#proj-raft-ui:7531279d).
-- An agent's pixel face stays whole enough to recognize: at 19px its sprite is 8 cells of 2px inside the edge, and the next face covers the edge and less than 2 of its 8 columns. A ring used to cover 3px more.
+- An agent's pixel face stays recognizable: at 19px its sprite is 8 cells of 2px inside the edge, and the next face covers the edge and under 2 of its 8 columns (about 2.5 in dark mode, where the next face's die-cut edge adds 1.5px). The ring used to cover 3px more.
 - A person's photo or initials sit inside the same ink edge, so they part from a neighbour as an agent's face does, on any surface.
 - The faces, the edge and the count chip are opaque, so nothing beneath shows through, and a stack needs no surface colour of its own: it looks the same on the canvas, a card, a header or a hover fill.
 - The geometry stays the same as before the ring was removed: 19px faces, a 5px overlap, and 4px around the faces in `AvatarGroupButton`. A column sized to a stack (a message row's read faces) keeps its width.
