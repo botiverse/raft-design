@@ -24,19 +24,19 @@ const segmentedControl = tv({
       // focus ring 1px past the track. A caller that wants it full width
       // passes `w-full` and lets the segments share it (`*:flex-1`).
       "w-fit max-w-full flex-nowrap gap-[3px] rounded-[11px] bg-fill-muted p-[3px]",
-      // A segment is 32px (a 38px track); on a desktop (from 768px with a
-      // mouse or trackpad) 26px at radius-chip in a 32px track, the control
-      // height, so the control sits in a 44px head or toolbar row like a field
-      // (stdrc, 2026-11-04). The track stays concentric: the segment's corner
-      // plus its 3px inset. An icons-only segment is the same square.
-      "[--segment-size:2rem] md:pointer-fine:[--segment-size:26px] md:pointer-fine:rounded-[calc(var(--radius-chip)+3px)]",
+      // A segment is 32px at the control radius in a 38px track at every
+      // size: the same button as a tab in a row of tabs (Chat | Tasks | Files,
+      // an agent's tabs), so a selected segment and a selected tab match
+      // (stdrc, 2026-11-04); the track is the segment plus its 3px padding and
+      // stays concentric. An icons-only segment is the same square.
+      "[--segment-size:2rem]",
       "data-overflowing:overflow-x-auto data-overflowing:overscroll-x-contain data-overflowing:scrollbar-none",
     ],
     item: [
       "inline-flex min-w-0 shrink-0 items-center gap-1.5",
       "outline-none disabled:pointer-events-none",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0",
-      "h-(--segment-size) justify-center rounded-control md:pointer-fine:rounded-chip border-[1.5px] border-transparent bg-transparent px-3 md:pointer-fine:px-2.5",
+      "h-(--segment-size) justify-center rounded-control border-[1.5px] border-transparent bg-transparent px-3",
       "font-sans text-callout font-semibold text-foreground-muted",
       "[&_svg:not([class*='size-'])]:size-4",
       "hover:bg-fill-medium active:bg-fill-medium",

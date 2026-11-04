@@ -129,6 +129,8 @@ test("the header's end padding gives back the scrollbar, as the rows do", () => 
   const header = renderControls().classes("sidebar-section-header");
   expect(header).toContain("pr-[calc(max(0px,calc(8px-var(--scrollbar-size,0px)))+12px)]");
   expect(header).toContain("pl-5");
+  // With a mouse on a desktop it is the rows' frame, outdented to 12px (stdrc, 2026-11-04).
+  expect(header).toContain("md:pointer-fine:pl-3");
   expect(header).not.toContain("px-5");
 });
 

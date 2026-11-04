@@ -15,6 +15,11 @@ export const sidebarSectionRecipe = tv({
       // its controls end on the rows' content edge, 20px from the sidebar's
       // outer edge, and don't move left when the scrollbar appears.
       "pr-[calc(max(0px,calc(8px-var(--scrollbar-size,0px)))+12px)]",
+      // With a mouse on a desktop the header is the rows' frame, so it sits
+      // outside their content: 12px from the sidebar's edges (4px inside the
+      // rows' 8px state shape) instead of the rows' 20px, its chevron and
+      // its last control's icon box on that line (stdrc, 2026-11-04).
+      "md:pointer-fine:pl-3 md:pointer-fine:pr-[calc(max(0px,calc(8px-var(--scrollbar-size,0px)))+4px)]",
       // On a touch screen the controls' 44px hit area hangs 14px under the
       // 16px line: 6px more here plus the list's 8px keep it off the first row.
       "not-pointer-fine:pb-1.5",

@@ -1,10 +1,9 @@
 import "./segmented-control.test.css";
 /**
- * The segmented control's size by screen (sizing audit v12, stdrc 2026-11-04):
- * a 26px segment in a 32px track on a desktop (from 768px with a mouse or
- * trackpad), the control height, so it sits in a 44px head like a field; a
- * 32px segment in a 38px track on a phone and a touch screen. An icons-only
- * segment is the same square. Real layout and media queries: browser only.
+ * A segment is the same button as a tab in a row of tabs on every screen
+ * (stdrc, 2026-11-04): 32px at the control radius, so a selected segment and
+ * a selected tab (Chat | Tasks | Files) match, in a 38px track (3px padding).
+ * Real layout and media queries: browser only.
  *
  * Run: `pnpm exec vp test --run --browser.enabled --browser.headless src/components/segmented-control`
  */
@@ -14,6 +13,7 @@ import { Columns3, List } from "lucide-react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { TooltipProvider } from "../tooltip/tooltip";
 import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "./segmented-control";
+import { Tabs, TabsList, TabsTab } from "../tabs/tabs";
 
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
@@ -26,9 +26,9 @@ const SCREENS = [
     width: 1440,
     height: 900,
     pointer: "fine",
-    segment: 26,
-    track: 32,
-    radius: 6,
+    segment: 32,
+    track: 38,
+    radius: 8,
   },
   {
     name: "touch tablet 1024x1366",
@@ -110,6 +110,23 @@ for (const s of SCREENS) {
     }
     // Concentric: the track's corner is the segment's plus its 3px inset.
     expect(getComputedStyle(track).borderTopLeftRadius).toBe(`${s.radius + 3}px`);
+    // The same button as a selected tab in a row of tabs.
+    const segment = screen.getAllByRole("radio")[0]!;
+    cleanup();
+    render(
+      <ThemeProvider>
+        <Tabs defaultValue="chat">
+          <TabsList aria-label="Views">
+            <TabsTab value="chat">Chat</TabsTab>
+            <TabsTab value="tasks">Tasks</TabsTab>
+          </TabsList>
+        </Tabs>
+      </ThemeProvider>,
+    );
+    const tab = screen.getByRole("tab", { name: "Chat" });
+    expect(tab.getBoundingClientRect().height).toBe(s.segment);
+    expect(getComputedStyle(tab).borderTopLeftRadius).toBe(`${s.radius}px`);
+    expect(segment).toBeTruthy();
     cleanup();
 
     render(<Control iconsOnly />);
