@@ -136,6 +136,7 @@ A control that takes someone to another site ends in ↗, so they know before th
 - Where the panel covers the page (a phone, a narrow window), give it Back, as a pushed page has.
 - Give the open item an address, so a link to it opens the list with the item open beside it.
 - Don't use breadcrumbs: Raft has none. A page is at most two levels deep, a destination and an item in it: the rail says the first and the selected item says the second, so a trail would be a third "where am I" (principle 2).
+  - One exception: two-level navigation with a tab list on the left (Settings, a server's administration): a page opened from a row inside a tab, such as Account › Delete Account, shows "<tab> › <page>" in its header on desktop. The tab name is muted and links back to the tab; the page name is the current page. The list beside it keeps the tab selected, but the page's content is a different task from the tab's, so the trail says where the page sits and how to get back (artin, 2026-11-04, #triage:d10ace06 and #proj-raft-ui:002c3b02). On a phone it stays a pushed page with Back and its own title.
 
 ### Going back
 
