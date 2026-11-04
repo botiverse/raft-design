@@ -1,3 +1,12 @@
+## [0.60.1](https://github.com/botiverse/raft-design/compare/v0.60.0...v0.60.1) (2026-11-04)
+
+### Fixed
+
+- **DropdownMenuShortcut** and **ContextMenuShortcut**: a menu shortcut draws no cap line. ([#976](https://github.com/botiverse/raft-design/pull/976))
+  - Why: Kbd draws its border with an inset ring, and the menu shortcuts reset `ring`, which left a 1px inset box around every menu shortcut, light and dark.
+  - Affects: only the two menu shortcut parts; Kbd, KbdShortcut, tooltips and the search trigger keep their caps.
+  - Docs: https://raft-design.botiverse.build/components/kbd/
+
 ## [0.60.0](https://github.com/botiverse/raft-design/compare/v0.59.2...v0.60.0) (2026-11-03)
 
 ### Breaking Changes
