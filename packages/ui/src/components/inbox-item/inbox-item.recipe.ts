@@ -9,6 +9,10 @@ export const inboxItem = tv({
       "has-data-[slot=inbox-item-leading]:grid-cols-[auto_minmax(0,1fr)_auto]",
       "has-data-[slot=inbox-item-selection]:has-data-[slot=inbox-item-leading]:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
       "gap-x-3 gap-y-0 rounded-none border-0 py-3",
+      // With a mouse a rich row keeps 8px above and below its content, as a
+      // search result does, so a two-line item is 60 and the list reads at
+      // the desktop's density (stdrc, 2026-11-04).
+      "md:pointer-fine:py-2",
       listCell,
       listCellStates,
       "data-[active=true]:before:bg-fill-cell-selected",

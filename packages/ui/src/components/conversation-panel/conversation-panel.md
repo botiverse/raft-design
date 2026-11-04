@@ -31,7 +31,7 @@ conversation-panel/compositions/conversation-panel
 - `ConversationPanelRoot`: the panel. It is a `Panel` with `edge="inset"` by default.
 - A `PanelHeader`: the conversation's location tile or avatar, its name, its description and its actions. Its parts and rules are in [Panel](../panel/panel.md).
 - `ConversationPanelContent`: everything under the header.
-  - `ConversationPanelTabs`: an optional row of [Tabs](../tabs/tabs.md), with a `line-seam` under it.
+  - `ConversationPanelTabs`: an optional row of [Tabs](../tabs/tabs.md), with a `line-seam` under it. With a mouse the row is as tall as a header (44px with its seam), like the toolbar rows under a header; on a touch screen it keeps 8px above and below its tabs.
   - `ConversationPanelBody`: the scroll boundary for the message list.
   - `ConversationPanelFooter`: the composer ([Composer](../composer/composer.md)). It adds no space above the composer: the list ends with `pb-timeline-end` under its last row, so the composer's frame sits a section step, 24px, under the last line ([Timeline rhythm](../../../../../design/foundations/spacing.md#timeline-rhythm)).
 - `ConversationPanelEmptyState`, with `ConversationPanelEmptyStateBrand` and `ConversationPanelEmptyStateBrandMark`: the panel's content when no conversation is open.

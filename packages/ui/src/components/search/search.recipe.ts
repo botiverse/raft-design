@@ -8,7 +8,13 @@ export const search = tv({
       "bg-layer-canvas text-foreground",
       listColumnMargin,
     ],
-    filtersRow: ["shrink-0", "border-b border-line-seam bg-layer-canvas px-(--column-margin) py-3"],
+    // On a desktop the filters row is a header under the field: its 32px
+    // pickers and the seam fill 44, as the Tasks and Activity toolbars do.
+    filtersRow: [
+      "shrink-0",
+      "border-b border-line-seam bg-layer-canvas px-(--column-margin) py-3",
+      "md:pointer-fine:py-[calc((var(--header-height)-1px-var(--control-height))/2)]",
+    ],
     viewport: [
       "min-h-0 flex-1 overflow-y-auto scrollbar-list p-4",
       "bg-layer-canvas px-0 pt-0 pb-4",

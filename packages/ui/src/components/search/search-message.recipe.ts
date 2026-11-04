@@ -7,6 +7,8 @@ export const searchMessage = tv({
     message: [
       "w-full text-left",
       "block rounded-none border-0 py-3 text-foreground",
+      // With a mouse 8px above and below, as an Activity item (stdrc, 2026-11-04).
+      "md:pointer-fine:py-2",
       listCell,
       listCellStates,
       "disabled:cursor-default",
