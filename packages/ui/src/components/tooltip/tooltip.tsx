@@ -146,6 +146,10 @@ function partitionTooltipBodyChildren(children: ReactNode) {
     rest.push(item);
   }
 
+  // A leading icon leads something: a component alone in the tooltip (a list
+  // of names, a custom label) is its content, not an icon before empty text.
+  if (rest.length === 0) return { icons: [], rest: items };
+
   return { icons, rest };
 }
 

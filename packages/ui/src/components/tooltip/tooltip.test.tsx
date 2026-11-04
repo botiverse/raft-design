@@ -167,4 +167,23 @@ describe("Kbd in a tooltip", () => {
     );
     expect(document.querySelector('[data-slot="tooltip-body-icon"]')).not.toBeNull();
   });
+
+  it("takes a component alone in the tooltip for its content, not a leading icon", () => {
+    function Names({ children }: { children: string }) {
+      return <span data-testid="names">{children}</span>;
+    }
+    render(
+      <Tooltip open>
+        <TooltipTrigger>Trigger</TooltipTrigger>
+        <TooltipContent>
+          <Names>Lagoon</Names>
+        </TooltipContent>
+      </Tooltip>,
+    );
+    const body = document.querySelector('[data-slot="tooltip-body"]');
+    expect(document.querySelector('[data-slot="tooltip-body-icon"]')).toBeNull();
+    expect(document.querySelector('[data-slot="tooltip-body-text"]')).toBeNull();
+    expect(body?.className).not.toContain("gap-x-1.5");
+    expect(screen.getByTestId("names").parentElement).toBe(body);
+  });
 });
