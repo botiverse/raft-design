@@ -57,7 +57,7 @@ const dropdownMenu = tv({
     label: ["px-2.5 pt-2 pb-1", "font-sans text-caption font-bold text-foreground-hint"],
     shortcut: [
       "ml-auto",
-      "h-auto min-w-0 rounded-none bg-transparent p-0 shadow-none ring-0",
+      "h-auto min-w-0 rounded-none bg-transparent p-0 shadow-none inset-ring-0",
       "font-mono text-mono-meta font-normal text-foreground-hint",
     ],
     itemCount: ["ml-auto inline-flex min-w-5 justify-center gap-0 px-1 tabular-nums"],
