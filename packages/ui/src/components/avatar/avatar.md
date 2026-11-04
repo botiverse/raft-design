@@ -79,6 +79,20 @@ Avatar sizes are multiples of 8 plus two 1.5px edges, so the pixels of a face st
 avatar/compositions/badge-presence
 ```
 
+### Stacks
+
+`AvatarGroup` lays each avatar 5px over the one before, with nothing between them: no ring of the surface around a face, and no gap. Each sticker's own 1.5px ink edge, and in dark mode its die-cut edge, is what parts one face from the next. A trailing `AvatarGroupCount` lies over the last face the same way.
+
+```example
+avatar/compositions/group
+```
+
+- Why: a ring cut in the surface around each face read as a gap between the faces, while the app's hand-built stacks (Working now, the typing line) had none, so one idea looked two ways. Every stack of faces is now drawn the Working now way. Decided by stdrc on 2026-11-04 (#proj-raft-ui:7531279d).
+- An agent's pixel face stays whole enough to recognize: at 19px its sprite is 8 cells of 2px inside the edge, and the next face covers the edge and less than 2 of its 8 columns. A ring used to cover 3px more.
+- A person's photo or initials sit inside the same ink edge, so they part from a neighbour as an agent's face does, on any surface.
+- The faces, the edge and the count chip are opaque, so nothing beneath shows through, and a stack needs no surface colour of its own: it looks the same on the canvas, a card, a header or a hover fill.
+- The geometry stays the same as before the ring was removed: 19px faces, a 5px overlap, and 4px around the faces in `AvatarGroupButton`. A column sized to a stack (a message row's read faces) keeps its width.
+
 ### A stack that opens a list
 
 Where a stack stands for people the reader may want to see by name, such as who is viewing a document or a channel's members, the stack is the button that opens the list: `AvatarGroupButton`, usually as the `render` of a `PopoverTrigger`. It is a small control, so it hovers and presses with the medium tier ([States](../../../../../design/foundations/states.md#hover-and-press)).
@@ -88,8 +102,7 @@ avatar/compositions/group-button
 ```
 
 - The stack sits 4px inside the button, so the hover fill shows around the faces, on `radius-chip`.
-- The ring between faces takes the hover fill too, laid over the stack's surface, so the whole stack steps as one control and no face keeps a ring of the old surface.
-- A stack on a surface other than the canvas (a card, a header) sets `--avatar-group-surface` to it, as an `AvatarGroup` does.
+- The faces lie directly on one another ([Stacks](#stacks)), so there is no ring to repaint: the fill steps behind the whole stack at once and every face keeps its own paint.
 - Keyboard focus draws the shared focus ring around the button ([States](../../../../../design/foundations/states.md)).
 
 ### The corner
@@ -115,7 +128,7 @@ The bottom-right corner holds one thing at a time:
 ## Behavior
 
 - `AvatarImage` stays hidden while it loads or fails to load, and `AvatarFallback` shows in its place.
-- In `AvatarGroup`, each avatar overlaps the one before it by 5px. How many faces a "who is working" stack shows is in [Working agents](../../../../../design/people-and-agents/working-agents.md#the-summary-and-working-now).
+- In `AvatarGroup`, each avatar overlaps the one before it by 5px, with nothing between them ([Stacks](#stacks)). How many faces a "who is working" stack shows is in [Working agents](../../../../../design/people-and-agents/working-agents.md#the-summary-and-working-now).
 - When someone joins or leaves a stack, the faces slide and fade ([Motion](../../../../../design/foundations/motion.md#usage)).
 - In dark mode the avatar keeps its colors and gains the die-cut edge ([Dark mode](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)).
 
@@ -141,6 +154,7 @@ The bottom-right corner holds one thing at a time:
 - Don't tell agents and people apart by shape. When it must be explicit, add the `agent` tag after the name ([Status](../status/status.md#agent-tag)).
 - Use one pixel avatar per agent, everywhere in the product.
 - Keep a pixel avatar and its fill together: a new pixel avatar brings its own fill. Don't give an agent a color of its own.
+- Draw every stack of faces with `AvatarGroup` or `AvatarGroupButton`, never a stack of your own, and put no ring, gap or outline between the faces ([Stacks](#stacks)).
 - Use only the five avatar sizes. Don't make a 32px or 40px avatar: the pixels of the face stop being even. `3xs` (14px) is outside the scale.
 - Never make a presence light blink or breathe ([Motion](../../../../../design/foundations/motion.md)).
 - Put one thing in the corner: a presence light, an assistant's face on a person's avatar, or the thread badge on a thread row, never two of them ([The corner](#the-corner)).
