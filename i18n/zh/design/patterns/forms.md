@@ -1,7 +1,7 @@
 ---
 title: 表单和设置
 summary: 改动什么时候生效（立即、点 Save 时，或通过写明操作的按钮）、立即生效的设置、一起保存的一组字段、对话框里的表单、一次填完的大表单对话框、校验、输入框里的长值、选项高度和危险区。
-sourceHash: 97792726
+sourceHash: 7a164f19
 ---
 
 # 表单和设置
@@ -17,7 +17,7 @@ sourceHash: 97792726
 ### 输入框 {#fields}
 
 - 标签放在输入框上方，帮助文字放在下方（[Field](../../packages/ui/src/components/field/field.md)）。
-- 选填的输入框标 "(optional)"，必填的标星号。
+- 选填的输入框标 "(optional)"，必填的不标：标出选填的就够了，两种都标的表单把同一件事说了两遍。必填的控件保留 `aria-required`（或 `required`），让读屏软件照样读出来。中文写全角的（选填），紧跟在标签后面，前面不加间距：全角括号自带空白（[Field](../../packages/ui/src/components/field/field.md#content)）。
 - 输入框下方预留一行，放帮助文字或错误信息，这样出现错误时表单不会跳动。
 - 设置的描述要说明结果，不要重复标题：标题已经说了这是什么设置，人们往下读是想知道它有什么作用。
 - 复选框、单选按钮或开关放在标签前 8px，与标签第一行居中对齐；在设置行里则放在行尾，以整行居中。raft-ui 会把它放在这些位置（`FieldItem`、复选框或单选按钮的 `<label>` 行、`ListRow`）；不要用外边距去挪它（[对齐](../foundations/alignment.md#a-control-and-its-label)）。开关始终是 50 × 30，复选框和单选按钮始终是 20px，手机和桌面端都一样。

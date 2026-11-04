@@ -9,7 +9,7 @@ People comment on a document to discuss one passage of it, so a comment belongs 
 
 ## When it applies
 
-Comments on a document Raft renders itself: a Markdown, text or code file in the file viewer ([Built from existing parts](../components/overview.md#file-viewer)), and any later document surface. It doesn't cover replies to a message, which are a thread ([Conversation](./conversation.md#threads)), or a file whose content Raft can't measure, such as a page in a sandboxed frame.
+Comments on a document Raft renders itself: a Markdown, text or code file in the file viewer ([Built from existing parts](../components/overview.md#file-viewer)), and any later document surface. It doesn't cover replies to a message, which are a thread ([Conversation](./conversation.md#threads)), or a file whose content Raft can't measure, such as a page in a sandboxed frame. An Artifact's HTML page is such a frame, but its markers are drawn inside it, so it has rules of its own: [Commenting on an Artifact](#commenting-on-an-artifact).
 
 ## Structure
 
@@ -71,6 +71,21 @@ Some documents can't move over for a margin or a marker column: a full-width HTM
 - Clicking a marker opens its discussion as a card floating beside the marker: the active `CommentCard`, with every comment and the reply box. Esc, a click outside it, and scrolling the marker out of view close it; it moves with the marker while the page scrolls. This is how Figma shows comment pins.
 - On a touch screen the marker opens the bottom sheet, as in the narrow layout.
 - Keep the highlights. A list of all the comments, when the product has one, is the only list in this layout; in the margin layout the margin already is the list, so don't open both at once.
+
+## Commenting on an Artifact
+
+The Artifact viewer shows two kinds of page: an HTML page, which fills the viewer, and a Markdown document, which Raft renders itself. On both, people send a comment at once or save it as a draft and send their drafts together, and they never pick between the two before they start. The rules are xxchan's, from the final mockup (v8 of Artifact YL2pf8ML79U9jovzB5PhBF; 2026-11-04, #proj-workspace:1c7b5037). Where they differ from [Starting a comment](#starting-a-comment), they are the rule in the Artifact viewer.
+
+- Selecting text shows Comment at once, with no comment mode to enter first. It is a button only as wide as its label, right after the end of the selection. Whether the comment goes out now or waits is chosen in the comment box, not here.
+- Give the comment box two buttons: Send, which posts the comment and notifies the people it reaches, and Save Draft, which keeps it on the page where only its author sees it. Once there are drafts, Save Draft is the button Enter presses and ⌘Enter presses Send, so a batch isn't sent half-written.
+- Write nothing under the comment box. Who Send notifies ("Notifies Judith (author)") is in Send's tooltip, and the box's placeholder already says to @ someone; a line under every box was read with every comment and said what the buttons already say.
+- Keep the comment button in the viewer's header a split button, as it was: its main half enters and leaves comment mode, its ▾ opens the list of every comment, with their count. It shows no draft count: the bottom bar already counts the drafts, and two counts of one thing read as two things to do. A comment on the whole Artifact is still written in the box at the bottom of that list.
+- Put the bottom bar along the bottom of the viewer with only these, in this order: Pick Elements (on an HTML page only), Undo and Redo, Discard, and Send N ("Send 2"). It takes the place of the dark strip under the header ([ModeBar](../../packages/ui/src/components/mode-bar/mode-bar.md)) while commenting on an Artifact. Label Send with its count and nothing else, not "Drafts: 2 · Send Together": the count is the only thing the label has to add.
+- Show the bottom bar only while there are drafts or while the person is in comment mode, and hide it otherwise, so it never covers a page nobody is commenting on.
+- Pick Elements is on when comment mode starts on an HTML page: hovering outlines an element and names its type (`h1`, `p`), and a click opens the comment box beside it, for images, buttons and cards, which have no text to select. Turning it off returns to browsing, where selecting text still comments. A Markdown document has no elements to pick, so the bar has no Pick Elements there.
+- Send N opens the drafts as a list, where each can be changed or deleted and a note on the whole Artifact added, and sends them together. Discard asks in place before it throws the drafts away. Undo and Redo (⌘Z and ⇧⌘Z) step through changes to the drafts.
+- On an HTML page, show a posted discussion as a marker at the end of its paragraph, with its authors' avatars and the count, drawn in the page ([A page that can't give up any width](#a-page-that-cant-give-up-any-width)), and a draft as a small dashed pin, whose text shows only when it is opened. The page fills the viewer, so nothing of Raft's stands beside it: no column of cards, no card with a draft's text hung beside its element.
+- In a Markdown document, put discussions and drafts in the right-hand margin rail, each card level with its passage ([Rules](#rules)), and a draft's card says it is a draft only its author sees. Where the margin doesn't fit, it gives way to markers ([Wide and narrow](#wide-and-narrow)).
 
 ## Related
 

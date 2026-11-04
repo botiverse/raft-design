@@ -52,6 +52,7 @@ Badge is a small label. Its main job is the unread count: a pink sticker that sa
 ## Content
 
 - Write the number alone, in Space Mono. Above 99, write 99+.
+  - One exception: the new-activity sticker on an Artifact card is one `variant="accent"` badge that names what is new, in words: "Updated", "2 new comments", or both, "Updated · 2 new comments". With words beside it the number is written in full, 120 and not 99+. It never wraps: at the narrowest it truncates with an ellipsis, the card's title keeps its room, and the badges move to the next line under it. A card has at most one accent badge, and the comment count in its footer stays the plain gray number: two pink marks side by side read as two separate things to do (xxchan, option B, 2026-11-04; slock #12873).
 - Don't write a count in the @ marker: it says only that someone mentioned the person.
 
 ## Accessibility
