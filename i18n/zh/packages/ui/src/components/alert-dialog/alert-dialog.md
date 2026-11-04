@@ -1,12 +1,12 @@
 ---
 title: AlertDialog
-summary: 一个居中的小对话框，在执行不可撤销或会打断工作的操作前请人确认；确认按钮的颜色表示后果。
-sourceHash: f1ff7cfa
+summary: 一个带 alertdialog 角色的居中小确认框，只用于产品列出的少数几种确认；其他确认都是 size sm 的 Dialog。
+sourceHash: 781bf109
 ---
 
 # AlertDialog
 
-警示对话框在操作执行前请人确认，用于不可撤销的操作（删除）或会打断工作的操作（停止、重置）。它是遮罩上一个 400px 宽的对话框，包含标题、一句说明会发生什么的话、Cancel 按钮和确认按钮；确认按钮的颜色表明后果。
+警示对话框在操作执行前请人确认，带 `alertdialog` 角色，所以读屏软件会把它当作一次打断读出来。大多数确认不基于它：确认是 `size="sm"` 的 [Dialog](../dialog/dialog.md#variants)，删除和停止也一样，产品会列出改用 AlertDialog 的少数几种（[选择组件](../../../../../design/components/overview.md#overlays)，2026-11-03）。在 Raft Chat 里有两种：放弃对 Agent 资料未保存的修改，和打开一个会转到另一个应用的链接（[Raft Chat](../../../../../design/products/raft-chat/README.md#overlays)）。它是遮罩上一个 400px 宽的对话框，和所有确认同宽，包含标题、一句说明会发生什么的话、Cancel 按钮和确认按钮；确认按钮的颜色表明后果。
 
 ```example
 alert-dialog/compositions/confirm-action
@@ -16,8 +16,8 @@ alert-dialog/compositions/confirm-action
 
 | 场景 | 用 |
 | --- | --- |
-| 不可撤销的操作：删除一条消息、一个 Agent、一个服务器 | AlertDialog，红色 |
-| 会打断但可以恢复的操作：停止 Agent、重置会话、退出频道 | AlertDialog，橙色 |
+| 产品列为 AlertDialog 的确认：在 Raft Chat 里，放弃对 Agent 资料未保存的修改，打开一个会转到另一个应用的链接 | AlertDialog，确认按钮按后果上色（[变体](#variants)） |
+| 其他所有确认，包括不可撤销的操作（删除一条消息、一个 Agent、一个服务器）和会打断但可以恢复的操作（停止 Agent、重置会话、退出频道） | `size="sm"` 的 [Dialog](../dialog/dialog.md#variants)，确认按钮按同一张表用红色或橙色（[变体](#variants)） |
 | 可以就地撤回的操作 | 不用对话框：直接执行；何时由 [Toast](../toast/toast.md) 提供 Undo，见[反馈](../../../../../design/patterns/feedback.md#confirming) |
 | 需要的不只是输入名称的决定 | [Dialog](../dialog/dialog.md) |
 
@@ -36,7 +36,7 @@ alert-dialog/compositions/confirm-action
 
 ## 变体 {#variants}
 
-确认按钮的颜色说明会发生什么：
+确认按钮的颜色说明会发生什么，基于 Dialog 的确认也一样：
 
 | 后果 | 确认按钮 | 示例 |
 | --- | --- | --- |
@@ -44,7 +44,7 @@ alert-dialog/compositions/confirm-action
 | 会打断，但可以恢复 | `variant="warning"` | Stop |
 | 不可撤销 | `variant="danger"`，正文里放一个 `status="destructive"` 的 [Banner](../banner/banner.md) | Delete Agent |
 
-删除大的东西，比如一个 Agent 或一个服务器，还要求输入它的名称（[表单](../../../../../design/patterns/forms.md#danger-zone)）：
+删除大的东西，比如一个 Agent 或一个服务器，还要求输入它的名称（[表单](../../../../../design/patterns/forms.md#danger-zone)）。示例用 AlertDialog 展示各个部件；在 Raft Chat 里，这个确认是 `size="sm"` 的 Dialog，正文相同：
 
 ```example
 alert-dialog/compositions/typed-delete

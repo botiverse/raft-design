@@ -1,7 +1,7 @@
 ---
 title: Tooltip
 summary: 悬停或键盘聚焦时出现的一行文字，给没有可见标签的东西说明名称、后果或快捷键。
-sourceHash: 939f7a97
+sourceHash: 6792be8c
 ---
 
 # Tooltip
@@ -49,6 +49,7 @@ sourceHash: 939f7a97
 - Tooltip 封装了 Base UI 的 Tooltip。它提供 `tooltip` 角色，在悬停和键盘聚焦时打开。
 - 工具提示是对名称的补充，不能代替名称。每个只有图标的按钮都要有自己的 `aria-label`。
 - 触屏没有悬停。在长按时显示工具提示，或者直接在界面里写出说明。
+- 行按钮里的标签上的工具提示，只有鼠标够得着。把它那句话作为视觉隐藏文字放进标签里，让它成为行的名称的一部分，工具提示保留作为补充（[无障碍](../../../../../design/foundations/accessibility.md#focus-and-keyboard)）。
 
 ## 规则 {#rules}
 

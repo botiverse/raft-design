@@ -1,6 +1,6 @@
 ---
 title: AlertDialog
-summary: A small centered dialog that asks people to confirm an action that cannot be undone or that interrupts work, with a confirm button colored by the consequence.
+summary: A small centered confirmation with the alertdialog role, for the few confirmations a product lists; every other confirmation is a Dialog at size sm.
 status: stable
 aliases: [ConfirmDialog, Confirmation]
 layer: core
@@ -10,7 +10,7 @@ related: [dialog, button, banner, dropdown-menu, toast]
 
 # AlertDialog
 
-An alert dialog asks people to confirm an action before it happens, when the action cannot be undone (delete) or interrupts work (stop, reset). It is a 400px dialog on a scrim with a title, a sentence on what will happen, Cancel and a confirm button whose color states the consequence.
+An alert dialog asks people to confirm an action before it happens, with the `alertdialog` role, so a screen reader announces it as an interruption. Most confirmations aren't built on it: a confirmation is a [Dialog](../dialog/dialog.md#variants) at `size="sm"`, deleting and stopping included, and a product lists the few that use AlertDialog instead ([Choosing a component](../../../../../design/components/overview.md#overlays), 2026-11-03). In Raft Chat there are two: discarding unsaved edits to an agent's profile, and opening a link that hands off to another app ([Raft Chat](../../../../../design/products/raft-chat/README.md#overlays)). It is a 400px dialog on a scrim, the width of every confirmation, with a title, a sentence on what will happen, Cancel and a confirm button whose color states the consequence.
 
 ```example
 alert-dialog/compositions/confirm-action
@@ -18,12 +18,12 @@ alert-dialog/compositions/confirm-action
 
 ## When to use
 
-| Situation                                                                                       | Use                                                                                                                                     |
-| ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| An action that cannot be undone: delete a message, an agent, a server                           | AlertDialog, red                                                                                                                        |
-| An action that interrupts but can be recovered: stop an agent, reset a session, leave a channel | AlertDialog, orange                                                                                                                     |
-| An action that can be reversed in place                                                         | No dialog: do it; when a [Toast](../toast/toast.md) offers Undo is in [Feedback](../../../../../design/patterns/feedback.md#confirming) |
-| A decision that needs more than the name typed                                                  | [Dialog](../dialog/dialog.md)                                                                                                           |
+| Situation                                                                                                                                                                                          | Use                                                                                                                                     |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| A confirmation the product lists as an AlertDialog: in Raft Chat, discarding unsaved edits to an agent's profile, opening a link that hands off to another app                                     | AlertDialog, its confirm button colored by the consequence ([Variants](#variants))                                                      |
+| Any other confirmation, including an action that cannot be undone (delete a message, an agent, a server) or that interrupts but can be recovered (stop an agent, reset a session, leave a channel) | A [Dialog](../dialog/dialog.md#variants) at `size="sm"`, its confirm button red or orange by the same table ([Variants](#variants))     |
+| An action that can be reversed in place                                                                                                                                                            | No dialog: do it; when a [Toast](../toast/toast.md) offers Undo is in [Feedback](../../../../../design/patterns/feedback.md#confirming) |
+| A decision that needs more than the name typed                                                                                                                                                     | [Dialog](../dialog/dialog.md)                                                                                                           |
 
 ## Anatomy
 
@@ -40,7 +40,7 @@ alert-dialog/compositions/confirm-action
 
 ## Variants
 
-The confirm button's color says what happens:
+The confirm button's color says what happens, the same in a confirmation built on Dialog:
 
 | Consequence                      | Confirm button                                                                                  | Example      |
 | -------------------------------- | ----------------------------------------------------------------------------------------------- | ------------ |
@@ -48,7 +48,7 @@ The confirm button's color says what happens:
 | Interrupts, but can be recovered | `variant="warning"`                                                                             | Stop         |
 | Cannot be undone                 | `variant="danger"`, and a [Banner](../banner/banner.md) with `status="destructive"` in the body | Delete Agent |
 
-Deleting something large, such as an agent or a server, also asks for its name to be typed ([Forms](../../../../../design/patterns/forms.md#danger-zone)):
+Deleting something large, such as an agent or a server, also asks for its name to be typed ([Forms](../../../../../design/patterns/forms.md#danger-zone)). The example shows the parts on AlertDialog; in Raft Chat that confirmation is a `size="sm"` Dialog with the same body:
 
 ```example
 alert-dialog/compositions/typed-delete

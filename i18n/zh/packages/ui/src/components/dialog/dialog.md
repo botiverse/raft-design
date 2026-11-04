@@ -1,12 +1,12 @@
 ---
 title: Dialog
 summary: 遮罩上居中的浮层，用于人们必须先完成才能继续的一个决定或几个输入框；宽尺寸用于一次填完的大表单。
-sourceHash: 78390117
+sourceHash: 252d2eee
 ---
 
 # Dialog
 
-对话框（Dialog）是遮罩上居中的浮层，用于人们必须先完成才能继续的事：一个决定，或者只有几个输入框的小任务，比如创建频道。它有标题、正文和最多两个按钮。它的宽尺寸用来放一次填完的大表单。要确认一个操作，用 [AlertDialog](../alert-dialog/alert-dialog.md)。
+对话框（Dialog）是遮罩上居中的浮层，用于人们必须先完成才能继续的事：一个决定，或者只有几个输入框的小任务，比如创建频道。它有标题、正文和最多两个按钮。它的宽尺寸用来放一次填完的大表单。确认也是 Dialog，用 `size="sm"`，不管操作能不能撤销；[AlertDialog](../alert-dialog/alert-dialog.md) 只用于产品列出的少数几种确认（[选择组件](../../../../../design/components/overview.md#overlays)，2026-11-03）。
 
 ```example
 dialog/compositions/create-channel
@@ -19,7 +19,7 @@ dialog/compositions/create-channel
 | 1 到 5 个输入框的小任务（Create Channel） | Dialog |
 | 一次填完的大表单：注册或编辑应用、配置 Agent | `size="wide"` 的 Dialog |
 | 任务详情 | 基于 Dialog 的工作空间浮层，宽 960px，手机上全屏，不属于四种尺寸（[任务](../../../../../design/patterns/tasks.md)） |
-| 确认一个不可撤销或会打断的操作 | [AlertDialog](../alert-dialog/alert-dialog.md) |
+| 确认一个不可撤销或会打断的操作 | `size="sm"` 的 Dialog，确认按钮按后果上色（[规则](#rules)）。只在产品列出的地方用 [AlertDialog](../alert-dialog/alert-dialog.md)：在 Raft Chat 里，是放弃对 Agent 资料未保存的修改，和打开一个会转到另一个应用的链接（[Raft Chat](../../../../../design/products/raft-chat/README.md#overlays)） |
 | 能在原处撤回的操作 | 不用对话框：直接执行；什么时候用带 Undo 的 [Toast](../toast/toast.md)，见[反馈](../../../../../design/patterns/feedback.md#confirming) |
 | 人们要看一阵、改一阵的详情或设置 | [Drawer](../drawer/drawer.md) |
 

@@ -1,7 +1,7 @@
 ---
 title: 无障碍
 summary: 每个 Raft 产品都遵守的规则，让它在任何视力、键盘、读屏软件、触屏或动效设置下都能用：对比度、焦点、点击区域、动效、语义、触屏和语言，以及实现这些规则的组件。
-sourceHash: e5efef7d
+sourceHash: 1cb9bf29
 ---
 
 # 无障碍
@@ -37,6 +37,7 @@ token 的取值保证文字不必再逐个表面检查；见[颜色](./color.md#
 - 让复合控件只占一个 Tab 停留点，在内部用方向键移动：[RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md)、[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md)、[Tabs](../../packages/ui/src/components/tabs/tabs.md)、[ToggleGroup](../../packages/ui/src/components/toggle-group/toggle-group.md) 和菜单。按键由 Base UI 提供。
 - 在模态浮层中锁定焦点，用 Esc 关闭，并把焦点还给触发它的元素：[Dialog](../../packages/ui/src/components/dialog/dialog.md) 和 [Drawer](../../packages/ui/src/components/drawer/drawer.md) 已经这样做。
 - 悬停时显示的东西，键盘聚焦时也要显示：消息工具栏（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）、工具提示、预览卡片（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)）、可编辑头像的浮层（[Avatar](../../packages/ui/src/components/avatar/avatar.md#accessibility)）。
+- 行按钮里的标签（比如成员行上的来源标签），不要把一句话只放在它的工具提示里。只有鼠标够得着它：行是 Tab 的停留点，键盘焦点到不了标签；点按标签按下的是整行；读屏软件读的是行的名称，不读工具提示。把这句话作为视觉隐藏文字（`sr-only`）放进标签里，让它成为行的无障碍名称的一部分；这句话已经说到标签上那个简短的可见文字时，把它隐藏（`aria-hidden`）；工具提示保留，作为给鼠标的补充："Martin is also a member of Botiverse"（Kirby，2026-11-04，slock #12853）。
 - 右键菜单的每个操作也要能从一个可见控件触发，比如 ⋯ 按钮：右键和长按无法用键盘完成（[ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md)）。
 - 给每种拖动都提供键盘路径，而且处处相同：空格拿起，方向键每次移动一格，空格放下，Escape 放回原处。回车从不开始拖动，因为在一个也能打开的项上，回车是打开它。任务卡片、可排序的标签页和消息输入框里的附件都这样操作（[拖放](../patterns/drag-and-drop.md#keyboard)、[TaskDnd](../../packages/ui/src/components/task-dnd/task-dnd.md)、[Tabs](../../packages/ui/src/components/tabs/tabs.md#accessibility)）。
 - 如果一行里只有其中的控件可交互，把这一行渲染为 `<div>`，这样 Tab 会跳到控件上，而不是停在一个什么也不做的行上（[状态](./states.md#usage)）。
