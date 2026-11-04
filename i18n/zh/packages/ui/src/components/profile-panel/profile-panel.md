@@ -1,7 +1,7 @@
 ---
 title: ProfilePanel
 summary: 一个人或一个 Agent 的侧面板：面板标题栏里是头像和名字，下面是几个部分，说明他是谁、做什么、你能和他做什么。
-sourceHash: 8b5dc1a2
+sourceHash: 854d45ed
 ---
 
 # ProfilePanel
@@ -66,7 +66,7 @@ profile-panel/compositions/skeleton
 ## 行为 {#behavior}
 
 - 从消息列打开的个人资料放在消息列旁边；从对话打开时，它替换掉消息列（[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)）。
-- 它的宽度，以及什么时候放在对话旁边、什么时候盖住对话，见[间距](../../../../../design/foundations/spacing.md#layout-widths)和 [Raft Chat](../../../../../design/products/raft-chat/README.md)。
+- 它的宽度，以及什么时候放在对话旁边、什么时候盖住对话，见[间距](../../../../../design/foundations/spacing.md#layout-widths)和 [Raft Chat](../../../../../design/products/raft-chat/README.md)。在对话所在的这一行里，它是这一行的一列：它变窄、裁切、变成标签页，而不是盖住对话，并且和其他列一样能移动、能展开（[频道的侧边列](../../../../../design/patterns/responsive.md#the-channels-side-columns)）。
 - 在手机上，个人资料像推入页面一样盖住页面，带返回（[响应式布局](../../../../../design/patterns/responsive.md)）。Agent 自己的页面（从 Working now 或 Members 打开）则填满主区域。
 - 标题栏固定不动；只有内容区滚动。
 

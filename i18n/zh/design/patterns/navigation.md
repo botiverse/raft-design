@@ -1,7 +1,7 @@
 ---
 title: 导航
 summary: 人如何到达各个目的地、看到自己在哪里、打开链接、返回、关闭界面、切换服务器，以及在同一个地方的几个视图之间切换。
-sourceHash: d79fa000
+sourceHash: e1427834
 ---
 
 # 导航
@@ -210,7 +210,7 @@ message-reference/compositions/app-link-pending
 
 一个地方可以容纳几类内容，比如 Agent 的个人资料和它的动态，或者频道的聊天、任务和文件。
 
-- 人们在聊天时查看的内容，比如频道的任务和文件，显示为对话旁边的侧边分区，而不是标签页，这样对话一直在视野里（[页面结构](./page-structure.md#sidebar-and-side-panel)）。一列矮得放不下叠放的两个分区时，或者分区盖住面板时，它们一次显示一个，上面是一行 Tasks / Files 标签页（[频道的侧边列](./responsive.md#the-channels-side-columns)）。
+- 人们在聊天时查看的内容，比如频道的任务和文件，显示为对话旁边的侧边分区，而不是标签页，这样对话一直在视野里（[页面结构](./page-structure.md#sidebar-and-side-panel)）。一列矮得放不下叠放的两个分区时，或者在手机上分区盖住面板时，它们一次显示一个，上面是一行 Tasks / Files 标签页；这一行给不了每一列 160px 时，最右边的列变成它左边那一列头部里的标签页（[频道的侧边列](./responsive.md#the-channels-side-columns)）。
 - 用面板头部下方的一行贴纸标签在其他视图之间切换（[Tabs](../../packages/ui/src/components/tabs/tabs.md#variants)，在 `ConversationPanelTabs` 里）。每个标签有一个图标和一个单词的标签文字，不带数量。
 - 让人可以拖动标签来调整顺序，并记住他们的顺序。按他们的顺序排在第一的标签，就是打开这个地方时显示的那个。
 - 一个地方只有一个视图时（比如消息列），隐藏这一行。

@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带 56px 的面板标题栏和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: fdea85e0
+sourceHash: 9138ef84
 ---
 
 # Panel
@@ -65,7 +65,7 @@ conversation-panel/compositions/conversation-panel-header
 ## 行为 {#behavior}
 
 - 标题栏固定不动；只有 `PanelScrollViewport` 滚动。
-- 标题和描述各占一行，超出时用省略号截断。
+- 标题和描述各占一行，超出时用省略号截断；头部总能放进它的那一列（[头部适应它的那一列](#rules)）。
 - 在手机上，标题栏固定在页面顶部。
 - 窗口高度小于 600px 时，标题栏和其他所有标题栏一起变矮（[间距](../../../../../design/foundations/spacing.md#heights)）。
 - 给 Back 设 `activateOnTouchEnd`：这样在触屏上，它在手指抬起时就返回，让一次停下滚动页面的点按也能返回（[手指抬起时切换](../../../../../design/patterns/navigation.md#switching-on-finger-lift)）。`DialogSheetBack` 会设置它。标题栏的其他操作不要设：它们会改变东西，而这条规则是给导航用的。
@@ -123,6 +123,7 @@ panel/compositions/panel-split-action
 - 每个标题栏里的操作都按同样的顺序排：先是面板自己显示成按钮的操作，然后是溢出菜单（⋯），最后是窗口控制按钮 Expand 和 Close，两个贴在一起。⋯ 永远是面板自己的操作里的最后一个，因为它装的是放不下的东西，所以显示出来的操作都排在它前面；这也是人在任何应用里找"更多"的地方（平台惯例，比如 Material 的顶部应用栏和 Apple 的工具栏）。Expand 和 Close 作用于这个区域本身，而不是区域里的东西：一个改变它的大小，一个离开它。所以它们贴在一起待在最外侧，和面板自己的操作分开，就像窗口标题栏里的窗口控制按钮，也像另一端的返回一样（stdrc，2026-11-03，#proj-raft-ui:#189）。在面板自己的按钮里，先放改变视图的（Open in New Page），再放作用于内容的。
 - 给 `PanelStatus` 在标题那一行单独一格，并按它的形状居中。不要微调它：标题的字母已经落在这一行的中线上，挪 1px 就会显得偏高。
 - 用标题栏里的 `PanelToggleAction` 打开侧面板：再按一次就关闭。
-- 每个展开类操作都作为标题栏里单独的按钮显示，从不放进溢出菜单（⋯）：Expand 和它的 Restore（`maximize-2` / `minimize-2`，一个 `PanelToggleAction`，展开时处于按下状态）、消息列在旁边时的 Focus Mode（同样的图标；它就是消息列的 Expand），以及 Open in New Page（`arrow-up-right`，一个 `PanelAction`）。它们改变的是视图本身，而不是视图里的东西，人们也经常用到，所以按一下就到，不用按两下（stdrc，2026-10-31）。Expand 和 Focus Mode 是窗口控制按钮：它们排在 ⋯ 后面，紧挨着 Close（见上面的顺序）。Open in New Page 是面板自己的操作，排在它们最前面、⋯ 之前：它是把东西在别处打开，而不是改变这个区域的大小。标题栏放不下时，先把其他操作收进 ⋯；这些操作留着。
-- 只有在有地方可展开时才显示 Expand 和 Focus Mode。这一行只有一列时，隐藏它们，而不是禁用：只开着一个对话，或者消息列盖住了对话、旁边没有别的列。已经展开的区域始终显示它的 Restore，这样才能收回去。在当前布局里什么都做不了的按钮只会占地方，还引人去点（stdrc，2026-11-03，#proj-raft-ui:#189）。在手机上，面板已经占满屏幕，同样没有什么可展开的：不放 Expand 和 Focus Mode，Open in New Page 留在 ⋯ 里。
+- Expand 和它的 Restore（`maximize-2` / `minimize-2`，一个 `PanelToggleAction`，展开时处于按下状态）作为标题栏里单独的按钮显示，从不放进溢出菜单（⋯）。它改变的是视图本身，而不是视图里的东西，人们也经常用到，所以按一下就到，不用按两下（stdrc，2026-10-31）。它是窗口控制按钮：排在 ⋯ 后面，紧挨在 Close 前面（见上面的顺序）；没有 Close 的头部（对话的）以它结尾。消息列的 Expand 就是它原来的 Focus Mode。Open in New Page（`arrow-up-right`，一个 `PanelAction`）是面板自己的操作，排在它们最前面、⋯ 之前：它是把东西在别处打开，而不是改变这个区域的大小。头部放不下时，它和面板自己的其他操作一样收进 ⋯，是最后一个被收进去的（[头部适应它的那一列](#rules)）；Expand 从不收起。
+- 在对话所在的这一行里，每一列的头部都有 Expand：对话的、消息列的、Tasks 的、Files 的、Artifact 的和每个个人资料的。展开后，这一列占满整行，其他每一列保持 160px 并裁切：这一行其余的部分仍以窄条的形式留在视野里（stdrc，2026-11-04）。再按一次 Expand，或按 Esc，每一列回到原来的宽度，一个像素不差。同一时间只展开一列（[频道的侧边列](../../../../../design/patterns/responsive.md#the-channels-side-columns)）。只有在有地方可展开时才显示 Expand。这一行只有一列时，隐藏它，而不是禁用：只开着一个对话，或者消息列叠在对话上、旁边没有别的列。已经展开的那一列始终显示它的 Restore，这样才能收回去。在当前布局里什么都做不了的按钮只会占地方，还引人去点（stdrc，2026-11-03，#proj-raft-ui:#189）。在手机上，面板已经占满屏幕，同样没有什么可展开的：不放 Expand，Open in New Page 留在 ⋯ 里。
+- **头部适应它的那一列**，不管多宽，直到一列最窄的 160px（stdrc，2026-11-03，#proj-raft-ui:#189）。标题和描述用省略号截断，各自至少保留一个字和它的省略号（28px）；从不只剩一个孤零零的字，也从不换行。按钮会让标题只剩不到 56px 时，这一列自己的操作收进 ⋯，从最后一个开始；⋯、Expand 和 Close 从不收起，⋯ 只在里面有东西时出现。在被裁切到内容最小宽度以下的一列里，头部两端的边距收紧到 12px，按钮前的间距收紧到 4px，这样在 160px 时标题也保留它的一个字。标题位置放着这一行的标签页时，先给标签页留 120px，然后才收起操作。头部本身从不被裁切：被裁切的只是它下面的内容。
 - 对话旁边的侧面板设 `edge="attached"`，由它画出两者之间唯一的那条线（[页面结构](../../../../../design/patterns/page-structure.md#one-line-between-two-regions)）。

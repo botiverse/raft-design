@@ -1,7 +1,7 @@
 ---
 title: Tabs
 summary: 一排标签页，对应同一页面的各个部分，每个部分有自己的内容；选中的标签页是一张黄色贴纸，标签页放不下时这一排可以滚动。
-sourceHash: 182905da
+sourceHash: 8fc8996d
 ---
 
 # Tabs
@@ -21,7 +21,7 @@ tabs/compositions/placement
 | 一个流程中按顺序排列的步骤 | [Steps](../steps/steps.md) |
 | 产品的目的地 | [AppRail](../app-rail/app-rail.md)、[MobileNav](../mobile-nav/mobile-nav.md) |
 
-有多种内容的地方，比如一个 Agent，在头部下面用一排贴纸标签页展示它们（[导航](../../../../../design/patterns/navigation.md#several-views-of-one-place)）。频道的任务和文件不是标签页：它们是对话旁边的侧边分区。只有在一列太矮、放不下上下叠放的两个分区，或者分区盖住面板时，才用一行 Tasks / Files 标签页在它们之间切换（[频道的侧边列](../../../../../design/patterns/responsive.md#the-channels-side-columns)）。
+有多种内容的地方，比如一个 Agent，在头部下面用一排贴纸标签页展示它们（[导航](../../../../../design/patterns/navigation.md#several-views-of-one-place)）。频道的任务和文件不是标签页：它们是对话旁边的侧边分区。只有在一列太矮、放不下上下叠放的两个分区，或者在手机上分区盖住面板时，才用一行 Tasks / Files 标签页在它们之间切换。对话所在的这一行给不了每一列 160px 时，最右边的列变成它左边那一列头部里的标签页，代替那个头部的标题（[频道的侧边列](../../../../../design/patterns/responsive.md#the-channels-side-columns)）。
 
 ## 结构 {#anatomy}
 
