@@ -1,3 +1,20 @@
+## [0.61.0](https://github.com/botiverse/raft-design/compare/v0.60.3...v0.61.0) (2026-11-04)
+
+### Changed
+
+- **AvatarGroup** and **AvatarGroupButton**: faces overlap directly, with no ring of the surface color between them; the seam sits on a face's straight edge, never in its corner. The "+N" chip has the faces' ink edge. ([#988](https://github.com/botiverse/raft-design/pull/988))
+  - Why: the ring read as a gap between faces, and the app's own stacks (Working now, typing, thread followers) had none, so the same stack looked two ways (stdrc, #proj-raft-ui:7531279d).
+  - Affects: every AvatarGroup, AvatarGroupButton and CommentMarker stack. Geometry is unchanged: 19px and 14px faces, 5px overlap (the smallest that clears the 4px corner), so fixed widths built on it still hold. Hover on AvatarGroupButton now fills only around the stack.
+  - Docs: https://raft-design.botiverse.build/components/avatar/
+
+### Added
+
+- **AvatarGroup**: a `render` prop, so a stack can render inside a `<p>` or a button.
+
+### Removed
+
+- **`--avatar-group-surface`**: the variable that colored the ring. Setting it no longer has any effect; remove it.
+
 ## [0.60.3](https://github.com/botiverse/raft-design/compare/v0.60.2...v0.60.3) (2026-11-04)
 
 ### Fixed
