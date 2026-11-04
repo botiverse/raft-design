@@ -5,6 +5,7 @@ import { BASE_COLLISION_PADDING, usePopupCollision } from "../../lib/frame-inset
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { isInlinePart } from "../../lib/inline-part";
 
 const tooltip = tv({
   slots: {
@@ -21,13 +22,15 @@ const tooltip = tv({
       "rounded-chip bg-layer-hud text-foreground-on-hud",
       "font-sans font-medium",
       "shadow-float",
-      "has-[[data-slot=kbd]]:py-1 has-[[data-slot=kbd]]:pr-2.5",
+      "has-data-[slot=kbd]:py-1 has-data-[slot=kbd]:pr-2.5",
     ],
     body: [
       "block min-w-0 text-footnote whitespace-normal wrap-break-word",
-      "**:data-[slot=kbd]:relative **:data-[slot=kbd]:z-10 [&_[data-slot=kbd]]:ml-1.5",
-      "[&_[data-slot=kbd]]:h-4 [&_[data-slot=kbd]]:min-w-4 [&_[data-slot=kbd]]:px-1 [&_[data-slot=kbd]]:py-0",
-      "**:data-[slot=kbd]:text-[12px] **:data-[slot=kbd]:leading-4 [&_[data-slot=kbd]]:font-normal",
+      "**:data-[slot=kbd]:relative **:data-[slot=kbd]:z-10 **:data-[slot=kbd]:ml-1.5",
+      "**:data-[slot=kbd-group]:ml-1.5 [&_[data-slot=kbd-group]_[data-slot=kbd]]:ml-0",
+      "**:data-[slot=kbd]:h-4 **:data-[slot=kbd]:min-w-4 **:data-[slot=kbd]:px-1 **:data-[slot=kbd]:py-0",
+      "[&_[data-slot=kbd][data-glyph=icon]]:px-0",
+      "**:data-[slot=kbd]:text-[12px]/4 **:data-[slot=kbd]:font-normal",
     ],
     bodyIcon: ["shrink-0 [&>svg]:block [&>svg]:size-3.5 [&>svg]:shrink-0"],
     bodyText: ["min-w-0 flex-1"],
@@ -115,7 +118,8 @@ function isTooltipLeadingIcon(child: ReactNode) {
     return false;
   }
 
-  if (child.props["data-slot"] === "kbd") {
+  // A key or a shortcut follows the text; it is never the leading icon.
+  if (child.props["data-slot"] === "kbd" || isInlinePart(child.type)) {
     return false;
   }
 

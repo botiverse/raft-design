@@ -94,7 +94,6 @@ export function MessageContextMenuShowcaseComposition() {
             onTaskChange={setTask}
             portalContainer={portalContainer}
             saved={saved}
-            sentAt={<time dateTime="2026-10-20T14:14:00Z">Tuesday, October 20 at 2:14 PM</time>}
             task={task}
           />
         </ContextMenu>

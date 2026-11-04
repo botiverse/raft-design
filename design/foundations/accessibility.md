@@ -39,7 +39,7 @@ People who use the keyboard must always see where they are and reach everything 
 - Offer every action of a context menu from a visible control as well, such as a ⋯ button: right-click and press and hold can't be done from the keyboard ([ContextMenu](../../packages/ui/src/components/context-menu/context-menu.md)).
 - Give every drag a keyboard path, the same everywhere: Space picks the item up, the arrow keys move it one place at a time, Space drops it and Escape puts it back. Enter never starts a drag, because on an item that also opens, Enter opens it. Task cards, sortable tabs and composer attachments all work this way ([Drag and drop](../patterns/drag-and-drop.md#keyboard), [TaskDnd](../../packages/ui/src/components/task-dnd/task-dnd.md), [Tabs](../../packages/ui/src/components/tabs/tabs.md#accessibility)).
 - Render a row whose only interactive parts are its controls as a `<div>`, so Tab goes to the controls and not to a row that does nothing ([States](./states.md#usage)).
-- Show a shortcut with [Kbd](../../packages/ui/src/components/kbd/kbd.md) in the tooltip or menu item of the action. When a shortcut is spelled with symbols (⌘K), give it an `aria-label` in words: Command K.
+- Show a shortcut with [Kbd](../../packages/ui/src/components/kbd/kbd.md) in the tooltip or menu item of the action. Say it in words in visually hidden text, as `KbdShortcut` does: Command K. Not with `aria-label` on the `kbd` or a `span`, which have no role, so screen readers ignore the name.
 
 ## Hit targets
 

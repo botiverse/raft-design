@@ -54,7 +54,7 @@ const contextMenu = tv({
     label: ["px-2.5 pt-2 pb-1", "font-sans text-caption font-bold text-foreground-hint"],
     shortcut: [
       "ml-auto",
-      "h-auto min-w-0 rounded-none bg-transparent p-0 shadow-none ring-0",
+      "h-auto min-w-0 rounded-none bg-transparent p-0 shadow-none inset-ring-0",
       "font-mono text-mono-meta font-normal text-foreground-hint",
     ],
     separator: ["-mx-1 my-1 h-px border-0 bg-line-hairline"],
@@ -260,7 +260,8 @@ export function ContextMenuLabel({ className, ...props }: ContextMenuLabelProps)
   return <div data-slot="context-menu-label" className={label({ className })} {...props} />;
 }
 
-export type ContextMenuShortcutProps = KbdProps;
+// A menu draws its shortcut bare, at the hint size (kbd.md, "Menus").
+export type ContextMenuShortcutProps = Omit<KbdProps, "size">;
 
 export function ContextMenuShortcut({ className, ...props }: ContextMenuShortcutProps) {
   const { shortcut } = contextMenu();

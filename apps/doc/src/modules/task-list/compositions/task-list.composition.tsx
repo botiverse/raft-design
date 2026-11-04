@@ -2,10 +2,6 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import {
   ScrollArea,
-  ScrollAreaContent,
-  ScrollAreaScrollbar,
-  ScrollAreaThumb,
-  ScrollAreaViewport,
   TaskListRoot,
   TaskSection,
   TaskSectionBadge,
@@ -109,58 +105,53 @@ export function TaskListComposition({
   }, []);
 
   return (
-    <ScrollArea ref={portalRef} className="relative size-full min-h-0  min-w-0">
-      <ScrollAreaViewport className="p-4">
-        <ScrollAreaContent>
-          <TaskListRoot>
-            {TASK_STATUSES.map((status) => {
-              const statusTasks = sortedTasks.filter((task) => task.status === status.id);
-              return (
-                <TaskListStatusSection
-                  key={status.id}
-                  status={status.id}
-                  collapsed={collapsed[status.id]}
-                  onCollapsedChange={handleCollapsedChange}
-                >
-                  <TaskSectionTrigger>
-                    <TaskSectionHeading>
-                      <TaskSectionBadge status={status.id}>{status.label}</TaskSectionBadge>
-                      <TaskSectionCount>{statusTasks.length}</TaskSectionCount>
-                    </TaskSectionHeading>
-                    <TaskSectionChevron>
-                      <ChevronDown aria-hidden />
-                    </TaskSectionChevron>
-                  </TaskSectionTrigger>
-                  <TaskSectionPanel>
-                    {statusTasks.length === 0 ? (
-                      <TaskSectionEmpty>No {status.label.toLowerCase()} tasks.</TaskSectionEmpty>
-                    ) : (
-                      <TaskSectionItems>
-                        {statusTasks.map((task) => (
-                          <TaskCardComposition
-                            key={task.id}
-                            task={task}
-                            onOpen={openTask}
-                            onStatusChange={updateStatus}
-                            portalRef={portalRef}
-                            showChannelName={showChannelName}
-                          />
-                        ))}
-                      </TaskSectionItems>
-                    )}
-                  </TaskSectionPanel>
-                </TaskListStatusSection>
-              );
-            })}
-          </TaskListRoot>
-          <span className="sr-only" aria-live="polite">
-            {announcement}
-          </span>
-        </ScrollAreaContent>
-      </ScrollAreaViewport>
-      <ScrollAreaScrollbar>
-        <ScrollAreaThumb />
-      </ScrollAreaScrollbar>
-    </ScrollArea>
+    <div ref={portalRef} className="relative size-full min-h-0 min-w-0">
+      <ScrollArea role="region" aria-label="Tasks" className="size-full" contentClassName="p-4">
+        <TaskListRoot>
+          {TASK_STATUSES.map((status) => {
+            const statusTasks = sortedTasks.filter((task) => task.status === status.id);
+            return (
+              <TaskListStatusSection
+                key={status.id}
+                status={status.id}
+                collapsed={collapsed[status.id]}
+                onCollapsedChange={handleCollapsedChange}
+              >
+                <TaskSectionTrigger>
+                  <TaskSectionHeading>
+                    <TaskSectionBadge status={status.id}>{status.label}</TaskSectionBadge>
+                    <TaskSectionCount>{statusTasks.length}</TaskSectionCount>
+                  </TaskSectionHeading>
+                  <TaskSectionChevron>
+                    <ChevronDown aria-hidden />
+                  </TaskSectionChevron>
+                </TaskSectionTrigger>
+                <TaskSectionPanel>
+                  {statusTasks.length === 0 ? (
+                    <TaskSectionEmpty>No {status.label.toLowerCase()} tasks.</TaskSectionEmpty>
+                  ) : (
+                    <TaskSectionItems>
+                      {statusTasks.map((task) => (
+                        <TaskCardComposition
+                          key={task.id}
+                          task={task}
+                          onOpen={openTask}
+                          onStatusChange={updateStatus}
+                          portalRef={portalRef}
+                          showChannelName={showChannelName}
+                        />
+                      ))}
+                    </TaskSectionItems>
+                  )}
+                </TaskSectionPanel>
+              </TaskListStatusSection>
+            );
+          })}
+        </TaskListRoot>
+        <span className="sr-only" aria-live="polite">
+          {announcement}
+        </span>
+      </ScrollArea>
+    </div>
   );
 }

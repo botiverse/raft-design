@@ -24,15 +24,14 @@ scroll-area/compositions/basic
 
 ## 结构 {#anatomy}
 
-- `ScrollArea`：外框。给它区域的尺寸。必需。
-- `ScrollAreaViewport`：真正滚动的元素。必需。
-- `ScrollAreaContent`：内容，至少和视口一样高。必需。
-- `ScrollAreaScrollbar`：一条边上的轨道，默认是竖向的。内容两个方向都能滚动时，用 `orientation="horizontal"` 再加一条。
-- `ScrollAreaThumb`：轨道里 6px 的滑块，半透明墨色。每条滚动条里都必需。
-- `ScrollAreaCorner`：两条滚动条相交处的方块。只在两条都有时使用。
+- `ScrollArea`：一个元素，即真正滚动的容器。给它区域的尺寸。`ref`、`className`、`style` 和原生属性都在这个元素上；`render` 可以换成别的元素。
+- 内容：直接是子元素；或者传 `contentClassName`、`contentStyle` 时，外面包一层内容元素（`ScrollAreaContent`）。内边距和内容的布局（grid、flex、`gap`）放在这一层上，不要放在 ScrollArea 本身。
+- 滚动条：容器的第一个子元素，一层零高度的 sticky 图层，对辅助技术隐藏。它在文档流里，所以容器自己的 grid、flex 横排和 `gap` 会把它当成一项。
+- `ScrollAreaTextarea`：以原生 `<textarea>` 为容器的同一种滚动条。
+- 自己渲染的容器（列表、VirtualList 的滚动元素）用 `useScrollAreaContainer` 和 `ScrollAreaGutters`。
 
 ```example
-scroll-area/compositions/both-axes
+scroll-area/compositions/orientation
 ```
 
 ## 状态 {#states}
@@ -51,8 +50,8 @@ scroll-area/compositions/both-axes
 
 ## 无障碍 {#accessibility}
 
-- ScrollArea 包装 Base UI `ScrollArea`。内容溢出时视口可以获得焦点，这样键盘用户可以用方向键、Page Up 和 Page Down 滚动它。
-- 视口自己没有角色。给里面的内容命名并组织结构，例如带 `aria-label` 的列表。
+- ScrollArea 是原生滚动容器，画出来的滚动条对辅助技术隐藏。内容溢出时容器可以获得焦点，这样键盘用户可以用方向键、Page Up 和 Page Down 滚动它。
+- 容器自己没有角色，没有角色的 `<div>` 上的名字不会被读出。要么给它 `role="region"` 加 `aria-label`，要么给里面的内容命名，例如带 `aria-label` 的列表。
 
 ## 规则 {#rules}
 

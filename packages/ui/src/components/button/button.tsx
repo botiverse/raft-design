@@ -67,7 +67,7 @@ export const buttonVariants = tv({
       "aria-disabled:border-line-hairline aria-disabled:bg-fill-muted aria-disabled:bg-none aria-disabled:text-foreground-disabled aria-disabled:ring-0",
     ],
     content:
-      "relative z-10 inline-flex items-center justify-center gap-[inherit] data-[loading=true]:invisible",
+      "relative z-10 inline-flex min-w-0 max-w-full items-center justify-center gap-[inherit] data-[loading=true]:invisible",
     loadingIndicator: "pointer-events-none absolute inset-0 z-10 flex items-center justify-center",
   },
   variants: {

@@ -20,7 +20,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 
 | Token | Use for |
 | --- | --- |
-| `radius-sticker` | The pixel family: avatars, workspace tiles, channel tiles, checkboxes, badges, steps, skeletons; inline marks in running text (inline code, a mention of you, search hits, reference chips) |
+| `radius-sticker` | The pixel family: avatars, workspace tiles, channel tiles, checkboxes, badges, steps, skeletons; inline marks in running text (inline code, a mention of you, search hits, reference chips); the 24px key caps of a list of shortcuts ([Kbd](../../packages/ui/src/components/kbd/kbd.md) at `md`) |
 | `radius-chip` | Chips (value chips, the chips in a field, task status chips, reactions), tooltips, the highlighted item in a popup, and every control embedded in another component's frame ([Inside a frame](#inside-a-frame)) |
 | `radius-control` | Controls and selection stickers that stand on their own: buttons, inputs, selects, filters, segmented controls, tabs, sidebar rows, rail items, the tab bar's icon sticker, the workspace button |
 | `radius-container` | Containers: cards, inset groups, the composer, banners, menus, toasts, profile cards, file cards, the box of tasks under a message |
@@ -28,6 +28,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 | `rounded-full` | Switches, radios and grab handles; a task's completion control; the Android pull-to-refresh disc |
 
 - Give the state shape of a list row (Activity items, sidebar rows, search results, ListRow with `cell`) `radius-control`: its hover, press, selection and focus fill a rounded shape as tall as the row and inset 8px from each side, never the row's square full width ([Lists](../patterns/lists.md)).
+- Give a `sm` [Kbd](../../packages/ui/src/components/kbd/kbd.md), the 16px hint in menus, tooltips and search, a 3px radius, the one it has always had, so those hints keep their look.
 - Use a 2px radius for status lights and attention dots (10px beside text, 6px to 20px on an avatar's corner) and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.
 
 ## Inside a frame

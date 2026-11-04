@@ -32,7 +32,7 @@ Which destinations have a sidebar, and what each one lists, is the product's cho
 
 - `SidebarRoot`: the column, on `layer-sidebar`, with a `line-seam` along its right edge.
 - `SidebarHeader`: the 56px header, with a `SidebarHeaderTitle` and, on its right, the working summary when someone is working.
-- `SidebarBody` and `SidebarContent`: the scrolling list.
+- `SidebarBody` and `SidebarContent`: the scrolling list. On desktop `SidebarContent` is a [ScrollArea](../scroll-area/scroll-area.md) whose thin scrollbar shows only while the list scrolls; below 768px it scrolls natively.
 - `SidebarSection`: a group of rows.
   - `SidebarSectionHeader`: holds a `SidebarSectionDisclosure` (the button that collapses the group, with `SidebarSectionChevron`, `SidebarSectionTitle` and `SidebarSectionCount`) and, in `SidebarSectionTrailing` or `SidebarSectionControls`, `SidebarSectionControl` buttons such as New. `SidebarSectionAttention` is the group's pink pixel.
   - `SidebarList`: the rows. `SidebarSectionEmpty` replaces them when the group is empty.

@@ -241,7 +241,7 @@
       "SortableComposerAttachmentsScroll"
     ],
     "status": "stable",
-    "description": "The lifted attachment's own slot stays in the flex flow: at 40% while it is still home, the dashed place once it stands anywhere else. DragLift holds the copy that follows the hand; the root reads these `children` for it. Live draft reorder moves this slot to the drop index; wrap skips strategy transforms so siblings FLIP via layout instead of wrong gaps."
+    "description": "One scrolling row of attachments: a horizontal ScrollArea (its thin scrollbar shows only while the row scrolls), with an arrow on each side that has more attachments past it. The ScrollArea reports the edges, so the arrows follow scrolling, resizing and attachments coming and going."
   },
   "context-menu": {
     "names": [
@@ -536,9 +536,11 @@
   "kbd": {
     "names": [
       "Kbd",
-      "KbdGroup"
+      "KbdGroup",
+      "KbdShortcut"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "One keyboard key in a cap, a native `kbd`: at `sm`, the default, a hint beside a menu item, a tooltip's text or a field; at `md`, a key that is the content, as in a list of shortcuts. One key per cap: write a shortcut as a KbdGroup of Kbd, or from key names with KbdShortcut."
   },
   "label": {
     "names": [
@@ -1047,12 +1049,11 @@
     "names": [
       "ScrollArea",
       "ScrollAreaContent",
-      "ScrollAreaCorner",
-      "ScrollAreaScrollbar",
-      "ScrollAreaThumb",
-      "ScrollAreaViewport"
+      "ScrollAreaGutters",
+      "ScrollAreaTextarea"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "A scrolling box with thin overlay scrollbars that look the same on every platform and theme. Scrolling itself stays native (wheel, touch, keyboard); the scrollbars can also be dragged, and a press on a gutter pages."
   },
   "search": {
     "names": [

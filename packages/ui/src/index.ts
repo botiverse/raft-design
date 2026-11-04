@@ -1220,7 +1220,7 @@ export type {
 } from "./components/message-list/index";
 
 export { Kbd, KbdGroup } from "./components/kbd/index";
-export type { KbdGroupProps, KbdProps } from "./components/kbd/index";
+export type { KbdGroupProps, KbdProps, KbdSize } from "./components/kbd/index";
 
 export { IconTile } from "./components/icon-tile/index";
 export type { IconTileProps } from "./components/icon-tile/index";
@@ -1235,18 +1235,32 @@ export type { Presence } from "./lib/presence";
 export {
   ScrollArea,
   ScrollAreaContent,
-  ScrollAreaCorner,
-  ScrollAreaScrollbar,
-  ScrollAreaThumb,
-  ScrollAreaViewport,
+  ScrollAreaGutters,
+  ScrollAreaTextarea,
+  useScrollAreaContainer,
 } from "./components/scroll-area/index";
 export type {
+  ScrollAreaActions,
+  ScrollAreaContainer,
+  ScrollAreaContainerOptions,
+  ScrollAreaContainerProps,
   ScrollAreaContentProps,
-  ScrollAreaCornerProps,
+  ScrollAreaEdges,
+  ScrollAreaFrameProps,
+  ScrollAreaGuttersBinding,
+  ScrollAreaGuttersPosition,
+  ScrollAreaGuttersProps,
+  ScrollAreaOptions,
+  ScrollAreaOrientation,
+  ScrollAreaOverscroll,
+  ScrollAreaOwnProps,
   ScrollAreaProps,
-  ScrollAreaScrollbarProps,
-  ScrollAreaThumbProps,
-  ScrollAreaViewportProps,
+  ScrollAreaRailInset,
+  ScrollAreaScrollToElementOptions,
+  ScrollAreaSize,
+  ScrollAreaTextareaOwnProps,
+  ScrollAreaTextareaProps,
+  ScrollAreaTrigger,
 } from "./components/scroll-area/index";
 
 export {

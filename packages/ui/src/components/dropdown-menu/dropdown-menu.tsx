@@ -26,7 +26,7 @@ const dropdownMenu = tv({
       "min-h-option gap-2.5 rounded-chip px-2.5 py-option-inset",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft data-highlighted:bg-brand-soft",
-      "data-checked:font-bold data-[selected]:font-bold data-[emphasis=strong]:font-bold",
+      "data-checked:font-bold data-selected:font-bold data-[emphasis=strong]:font-bold",
       "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
       "[&>svg]:text-foreground-muted data-disabled:[&>svg]:text-foreground-disabled",
@@ -57,7 +57,7 @@ const dropdownMenu = tv({
     label: ["px-2.5 pt-2 pb-1", "font-sans text-caption font-bold text-foreground-hint"],
     shortcut: [
       "ml-auto",
-      "h-auto min-w-0 rounded-none bg-transparent p-0 shadow-none ring-0",
+      "h-auto min-w-0 rounded-none bg-transparent p-0 shadow-none inset-ring-0",
       "font-mono text-mono-meta font-normal text-foreground-hint",
     ],
     itemCount: ["ml-auto inline-flex min-w-5 justify-center gap-0 px-1 tabular-nums"],
@@ -259,7 +259,8 @@ export function DropdownMenuLabel({ className, ...props }: DropdownMenuLabelProp
   return <div data-slot="dropdown-menu-label" className={label({ className })} {...props} />;
 }
 
-export type DropdownMenuShortcutProps = KbdProps;
+// A menu draws its shortcut bare, at the hint size (kbd.md, "Menus").
+export type DropdownMenuShortcutProps = Omit<KbdProps, "size">;
 
 export function DropdownMenuShortcut({ className, ...props }: DropdownMenuShortcutProps) {
   const { shortcut } = dropdownMenu();

@@ -3,6 +3,8 @@ import { Checkbox } from "../checkbox/index";
 import type { CheckboxProps } from "../checkbox/index";
 import { InlineCode } from "../inline-code/index";
 import type { InlineCodeProps } from "../inline-code/index";
+import { ScrollArea } from "../scroll-area/scroll-area";
+import type { ScrollAreaProps } from "../scroll-area/types";
 import { markdown } from "./markdown.recipe";
 
 const HEADING_TAGS = {
@@ -93,14 +95,23 @@ export function MarkdownRule({ className, ...props }: MarkdownRuleProps) {
   return <hr data-slot="markdown-rule" className={rule({ className })} {...props} />;
 }
 
-export type MarkdownTableScrollProps = ComponentPropsWithRef<"div">;
+/** ScrollArea's props but `orientation`: the table scrolls sideways only. */
+export type MarkdownTableScrollProps = Omit<ScrollAreaProps, "orientation">;
 
-/** Horizontal scroll container for wide tables. */
+/**
+ * Horizontal ScrollArea for a wide table, with its thin overlay scrollbar. It only overflows
+ * sideways, so it never holds back the page's vertical scroll.
+ */
 export function MarkdownTableScroll({ className, ...props }: MarkdownTableScrollProps) {
   const { tableScroll } = markdown();
 
   return (
-    <div data-slot="markdown-table-scroll" className={tableScroll({ className })} {...props} />
+    <ScrollArea
+      data-slot="markdown-table-scroll"
+      {...props}
+      className={tableScroll({ className })}
+      orientation="horizontal"
+    />
   );
 }
 

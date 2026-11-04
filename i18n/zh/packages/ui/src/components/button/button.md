@@ -1,7 +1,7 @@
 ---
 title: Button
 summary: 执行操作的按钮，可以带标签也可以不带；颜色说明它是哪一类操作，尺寸由它所在的位置决定。
-sourceHash: 854739d3
+sourceHash: a070f3ff
 ---
 
 # Button
@@ -129,6 +129,7 @@ button/compositions/on-frame
 - 用 Title Case（每个实词首字母大写）（[写作](../../../../../design/content/writing.md#casing)），并在按钮打开的对话框里重复按钮上的词（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 - 图标放在标签前面（`data-icon="inline-start"`），Return 或箭头放在标签后面（`data-icon="inline-end"`）。
 - 加载时，说出正在发生什么：Creating…。
+- 按钮比内容窄时（在卡片或一行里给了 `min-w-0 max-w-full`），内容会截断，不会溢出边框：给标签加 `truncate`，图标保持原来的大小。
 
 ## 无障碍 {#accessibility}
 

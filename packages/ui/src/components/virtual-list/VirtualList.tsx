@@ -1521,9 +1521,9 @@ export function VirtualList<T>(props: VirtualListProps<T>) {
     const height = listEl.offsetHeight;
     const width = listEl.offsetWidth;
     const viewport = viewportRef.current;
-    if (listElRef.current) {
-      listElRef.current.style.setProperty("--virtual-list-width", `${width}px`);
-    }
+    // The element given, not listElRef: on mount this runs from the list's ref callback
+    // (`onRefUpdate`), before useMergedRef has set listElRef in its layout effect.
+    listEl.style.setProperty("--virtual-list-width", `${width}px`);
     if (renderCol == null && renderItemWithCols == null) {
       if (height === viewport.listHeight) {
         return;
