@@ -404,7 +404,7 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     expect(onRender).not.toHaveBeenCalled();
   });
 
-  it("updates the thumb length in the same frame as the content's or the viewport's size, idle and while scrolling", () => {
+  it("updates the thumb length in the frame after the content's or the viewport's size changes, idle and while scrolling", () => {
     fakeTimers();
     const observers: { callback: ResizeObserverCallback; observed: Element[] }[] = [];
     vi.stubGlobal(
@@ -423,8 +423,12 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
         disconnect() {}
       },
     );
-    /** The content (or the viewport) resizes and the observer reports it, before the frame is painted. */
-    const resize = (sizes: Partial<Record<LayoutKey, number>>) => {
+    /**
+     * The content (or the viewport) resizes and the observer reports it. Nothing is measured in the
+     * notification (its writes would resize the observed gutters again, a ResizeObserver loop): the
+     * next frame measures, once.
+     */
+    const notify = (sizes: Partial<Record<LayoutKey, number>>) => {
       layout["r-scroll-area__viewport"] = {
         clientHeight: 100,
         clientWidth: 200,
@@ -435,6 +439,13 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
       act(() => {
         for (const { callback } of observers) callback([], {} as ResizeObserver);
       });
+    };
+    const resize = (sizes: Partial<Record<LayoutKey, number>>) => {
+      const before = thumbLength(thumbs(document.body)[0]);
+      notify(sizes);
+      expect(thumbLength(thumbs(document.body)[0])).toBe(before);
+      expect(requestFrame).toHaveBeenCalled();
+      frame();
     };
     layout = {
       ...containerLayout({
@@ -462,7 +473,7 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     expect(observed).toContain(getByTestId("second"));
     expect(observed).toContain(thumb!.parentElement);
 
-    // Idle: the length and its place follow at once.
+    // Idle: the length and its place follow in the next frame.
     resize({ scrollHeight: 400 });
     expect(thumbLength(thumb)).toBe("25px");
     // The viewport grows: the visible share does too.
@@ -479,6 +490,18 @@ describe.each(positions)("ScrollArea, %s gutters", (position) => {
     expect(scrolling(area)).toBe(true);
     expect(thumbLength(thumb)).toBe("40px");
     expect(thumbTop(thumb)).toBe("60");
+
+    // A scroll's frame already asked for when the observer reports: that one frame measures too.
+    requestFrame.mockClear();
+    scrollEl.scrollTop = 100;
+    fireEvent.scroll(scrollEl);
+    notify({ clientHeight: 200, scrollHeight: 400 });
+    expect(requestFrame).toHaveBeenCalledTimes(1);
+    frame();
+    // The viewport's new size, which only measuring reads (a scroll's frame alone draws 25px).
+    expect(thumbLength(thumb)).toBe("50px");
+    expect(thumbTop(thumb)).toBe("25");
+    resize({ scrollHeight: 250 });
 
     // Content that grows with nothing observed resizing (rows translated past a list's spacer):
     // the next scrolled frame reads the new size and draws the length for it.
