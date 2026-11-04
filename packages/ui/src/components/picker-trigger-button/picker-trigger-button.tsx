@@ -6,7 +6,7 @@ import { tv } from "../../lib/tv";
 
 const pickerTriggerButton = tv({
   base: [
-    "relative inline-flex h-8 shrink-0 items-center justify-center",
+    "relative inline-flex h-8 md:pointer-fine:h-control shrink-0 items-center justify-center",
     "whitespace-nowrap select-none",
     "outline-[1px] outline-offset-2 outline-transparent transition-colors duration-100 focus-visible:outline-transparent",
     "disabled:pointer-events-none disabled:transform-none",

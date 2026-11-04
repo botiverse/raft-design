@@ -1,8 +1,9 @@
 import "./segmented-control.test.css";
 /**
  * A segment is the same button as a tab in a row of tabs on every screen
- * (stdrc, 2026-11-04): 32px at the control radius, so a selected segment and
- * a selected tab (Chat | Tasks | Files) match, in a 38px track (3px padding).
+ * (stdrc, 2026-11-04) at the control radius, so a selected segment and a
+ * selected tab (Chat | Tasks | Files) match: the control height (34px) in a
+ * 40px track with a mouse on a desktop, 32px in 38px by touch.
  * Real layout and media queries: browser only.
  *
  * Run: `pnpm exec vp test --run --browser.enabled --browser.headless src/components/segmented-control`
@@ -26,8 +27,8 @@ const SCREENS = [
     width: 1440,
     height: 900,
     pointer: "fine",
-    segment: 32,
-    track: 38,
+    segment: 34,
+    track: 40,
     radius: 8,
   },
   {

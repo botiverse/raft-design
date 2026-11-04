@@ -18,7 +18,7 @@ const composerSuggestionList = tv({
     ],
     item: [
       "flex w-full items-center text-left",
-      "min-h-9 cursor-pointer gap-2.5 rounded-chip px-2.5 py-1",
+      "min-h-option cursor-pointer gap-2.5 rounded-chip px-2.5 py-1",
       "font-sans text-callout font-medium text-foreground",
       "hover:bg-brand-soft data-[highlighted=true]:bg-brand-soft",
       "data-[disabled=true]:cursor-default data-[disabled=true]:text-foreground-disabled",

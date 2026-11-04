@@ -63,7 +63,7 @@ const tabs = tv({
       default: {
         list: ["gap-0.5"],
         tab: [
-          "h-8 justify-center gap-1.5 rounded-control border-[1.5px] border-transparent px-3",
+          "h-8 md:pointer-fine:h-control justify-center gap-1.5 rounded-control border-[1.5px] border-transparent px-3",
           "after:inset-x-0 after:-inset-y-1.5",
           "hover:bg-fill-medium active:bg-fill-medium",
           "data-active:border-sticker-ink data-active:bg-selected data-active:font-bold data-active:text-sticker-ink data-active:ring-[1.5px] data-active:ring-sticker-edge",

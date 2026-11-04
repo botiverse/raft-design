@@ -99,7 +99,7 @@ const it = test.skipIf(typeof window === "undefined");
 // Turning touch emulation off again leaves Chromium reporting `pointer: none`,
 // so the mouse screen runs first.
 const SCREENS = [
-  { name: "desktop 1280", width: 1280, height: 800, touch: false, control: 32 },
+  { name: "desktop 1280", width: 1280, height: 800, touch: false, control: 34 },
   { name: "phone 390", width: 390, height: 844, touch: true, control: 44 },
 ] as const;
 type Screen = (typeof SCREENS)[number];

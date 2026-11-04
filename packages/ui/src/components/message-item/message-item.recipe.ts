@@ -177,7 +177,7 @@ export const messageItem = tv({
     toolbarButton: [
       "inline-flex shrink-0 items-center justify-center",
       "[&_svg]:shrink-0",
-      "size-7 rounded-chip border-0 bg-transparent p-0",
+      "size-7 rounded-chip md:pointer-fine:size-control md:pointer-fine:rounded-control border-0 bg-transparent p-0",
       "text-foreground-muted hover:bg-fill-medium active:bg-fill-medium",
       "data-popup-open:bg-fill-medium data-active:text-foreground",
       "outline-none focus-visible:shadow-focus",

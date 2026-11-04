@@ -344,8 +344,10 @@
   --card-title-font-size: 16px;
   --card-title-font-weight: 600;
   --card-title-line-height: 24px;
-  /* A default control: a field, a Button at lg, an icon button at icon-lg. A
-     finger's 44px on a phone, Feishu's 32px on a desktop. */
+  /* A default control: a field, a select, a Button, a tab, a selected segment, a
+     menu option, a sidebar row. A finger's 44px on a phone; 34px on a desktop,
+     the one desktop size for all of them (stdrc, 2026-11-04; Feishu's 32px
+     before). */
   --control-height: 44px;
   /* The full-width call to action across a sign-in, sign-up or setup form
      (Button xl). */
@@ -369,9 +371,9 @@
      drawer's head, a rail head. The control height with the header air above and
      below, so the seams of a screen line up. */
   --header-height: calc(var(--control-height) + 2 * var(--header-air));
-  /* The air above and below the control in a header: one control air, so a
-     header is the control height plus 12px (44 + 12 = 56 on a phone and a touch
-     screen, 32 + 12 = 44 on a desktop). */
+  /* The air above and below the control in a header: one control air on a phone
+     and a touch screen (44 + 12 = 56); 5px on a desktop, so a 34px control and
+     its head make 44 (34 + 10). */
   --header-air: var(--control-air);
   /* Every header in a window shorter than 600px. On a desktop, a bar button with
      one air above and below (28 + 12 = 40). */
@@ -395,12 +397,13 @@
   --switch-width: 50px;
   /* The switch's track height. */
   --switch-height: 30px;
-  /* A sidebar row from 768px, 2px apart; its highlight fills the row. 34px on a
-     desktop, the one desktop row height (menu options too). A phone list of
-     places keeps 44px. */
+  /* A sidebar row from 768px, 2px apart; its highlight fills the row. On a
+     desktop the control height (34px): one size for a sidebar item, a menu
+     option, a compact list row, a field, a select, a Button, a tab and a
+     selected segment (stdrc, 2026-11-04). A phone list of places keeps 44px. */
   --row-height: 38px;
   /* An option of a popup list or a menu item with one line: 36px on a phone and
-     a touch screen, the row height (34px) on a desktop. */
+     a touch screen, the row height (34px, the control height) on a desktop. */
   --option-height: 2.25rem;
   /* Above and below the tallest part of a settings row (ListRow plain): two
      airs. */
@@ -670,18 +673,19 @@
     --field-line-height: 22px;
     --card-title-font-size: 14px;
     --card-title-line-height: 22px;
-    --control-height: 32px;
+    --control-height: 34px;
     --control-height-cta: 40px;
     --control-icon-size: 18px;
-    --control-hit-inset: 6px;
-    --control-embedded-size: 20px;
+    --control-hit-inset: 5px;
+    --control-embedded-size: 22px;
+    --header-air: 5px;
     --header-height-short: calc(var(--bar-button-size) + 2 * var(--control-air));
     --bar-button-size: 28px;
     --bar-button-radius: 6px;
     --frame-item-height: var(--control-height);
     --switch-width: 38px;
     --switch-height: 22px;
-    --row-height: 34px;
+    --row-height: var(--control-height);
     --option-height: var(--row-height);
     --section-gap: calc(2 * var(--field-gap));
     --page-inset: 20px;

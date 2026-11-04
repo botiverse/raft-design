@@ -31,7 +31,7 @@ The full table is in [Choosing a component](../../../../../design/components/ove
 ## Anatomy
 
 - `SegmentedControl`: the track, in `fill-muted`.
-- `SegmentedControlItem`: one 32px segment, with an optional icon before its label, in a 38px track. A segment is the same button as a tab in a row of [Tabs](../tabs/tabs.md) (32px at `radius-control`, 12px padding) on every screen, so a selected segment matches a selected tab beside it (stdrc, 2026-11-04); in a 44px desktop head or toolbar row the track has 2.5px above and below it.
+- `SegmentedControlItem`: one segment, with an optional icon before its label, in a track 6px taller (3px padding). A segment is the same button as a tab in a row of [Tabs](../tabs/tabs.md) at `radius-control` with 12px padding: 32px on a phone and a touch screen, and with a mouse on a desktop the control height, 34px (a 40px track), the one desktop size of a field, a select, a Button, a tab, a menu row and a sidebar row (stdrc, 2026-11-04).
 - `SegmentedControlLabel`: the segment's text. It truncates.
 - `SegmentedControlCount`: a count after the label, in Space Mono.
 

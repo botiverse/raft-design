@@ -24,12 +24,13 @@ const segmentedControl = tv({
       // focus ring 1px past the track. A caller that wants it full width
       // passes `w-full` and lets the segments share it (`*:flex-1`).
       "w-fit max-w-full flex-nowrap gap-[3px] rounded-[11px] bg-fill-muted p-[3px]",
-      // A segment is 32px at the control radius in a 38px track at every
-      // size: the same button as a tab in a row of tabs (Chat | Tasks | Files,
-      // an agent's tabs), so a selected segment and a selected tab match
-      // (stdrc, 2026-11-04); the track is the segment plus its 3px padding and
-      // stays concentric. An icons-only segment is the same square.
-      "[--segment-size:2rem]",
+      // A segment is the same button as a tab in a row of tabs (Chat | Tasks |
+      // Files, an agent's tabs): 32px, and the control height (34px) with a
+      // mouse on a desktop, the one desktop size of a field, a select, a tab
+      // and a menu row (stdrc, 2026-11-04). The track is the segment plus its
+      // 3px padding and stays concentric. An icons-only segment is the same
+      // square.
+      "[--segment-size:2rem] md:pointer-fine:[--segment-size:var(--control-height)]",
       "data-overflowing:overflow-x-auto data-overflowing:overscroll-x-contain data-overflowing:scrollbar-none",
     ],
     item: [

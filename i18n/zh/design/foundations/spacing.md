@@ -68,7 +68,7 @@ timeline
   - 点错一行只会移动高亮，或者选中相邻的一项，人能看到，也能改回来。它从不触发无法挽回的操作：删除、停止或移除某样东西的菜单项会先弹出确认（[反馈](../patterns/feedback.md#confirming)）。把这样的菜单项和其他项分开，放在分隔线之后。
   - 36px（桌面端 34px）的行能让列表中更多的选项留在视野里。
 - 只用鼠标指针操作的桌面端控件可以更小。桌面端只有一种行高 34px（`row-height`）：侧栏行（行与行相隔 2px，状态形状和行一样高，[列表](../patterns/lists.md)）、菜单选项以及紧凑的任务和文件行。导航条项 36px，悬停工具栏高 36px、其中的按钮 28px（[Button](../../packages/ui/src/components/button/button.md#inside-a-floating-toolbar)），栏中的图标按钮 28px（`bar-button-size`：头部的操作和 ×、输入框的图标、行的操作），与头部图标块同样大，头部的图标块和按钮共用一个尺寸和一条中线。它们的点击区域仍达到 44px。
-- 桌面端的默认控件是 32px，即飞书 PC 端的默认值，因为桌面端用鼠标指针操作，观看距离也更远。这里的桌面端指宽度 768px 起（桌面布局从这里开始）、主要指针是鼠标或触控板的屏幕，即 `(width >= 48rem) and (pointer: fine)`：密度跟随输入方式，而不是宽度。用触屏操作的平板保持手机的 44px 控件和 16px 字段文字，这也能防止 iOS 和 iPadOS 在聚焦字段时放大页面；连接触控板的 iPad 报告精确指针，使用桌面端尺寸。32px 的按钮仍向外扩展出 44px 的点击区域（`after:-inset-y-control-hit`，再加上 1.5px 的边框，因为向外扩展的 `::after` 是从边框内侧量起的），因为笔记本电脑也可能有触屏；字段不扩展，因为它很宽，它的高度本身就是目标。
+- 桌面端的默认控件是 34px，因为桌面端用鼠标指针操作，观看距离也更远；它是桌面端字段、选择框、按钮、标签页、选中的分段、菜单和弹出层选项、侧栏行、紧凑列表行和浮动工具栏按钮的同一个尺寸，所以它们相遇时对齐（stdrc，2026-11-04；之前是飞书的 32px）。这里的桌面端指宽度 768px 起（桌面布局从这里开始）、主要指针是鼠标或触控板的屏幕，即 `(width >= 48rem) and (pointer: fine)`：密度跟随输入方式，而不是宽度。用触屏操作的平板保持手机的 44px 控件和 16px 字段文字，这也能防止 iOS 和 iPadOS 在聚焦字段时放大页面；连接触控板的 iPad 报告精确指针，使用桌面端尺寸。34px 的按钮仍向外扩展出 44px 的点击区域（`after:-inset-y-control-hit`，再加上 1.5px 的边框，因为向外扩展的 `::after` 是从边框内侧量起的），因为笔记本电脑也可能有触屏；字段不扩展，因为它很宽，它的高度本身就是目标。
 
 ## 同类元素，同样尺寸 {#the-same-kind-the-same-size}
 
@@ -83,8 +83,8 @@ timeline
 
 | 元素 | 高度 |
 | --- | --- |
-| 默认控件（`control-height`）：Input、InputGroup、Select、Combobox、`lg` 和 `icon-lg` 尺寸的 Button、面板操作 | 手机和触屏上 44px，桌面端 32px |
-| 小控件：`md` 和 `icon-md` 尺寸的 Button、筛选触发器、分段控件的一段 | 32px |
+| 默认控件（`control-height`）：Input、InputGroup、Select、Combobox、`lg` 和 `icon-lg` 尺寸的 Button、面板操作 | 手机和触屏上 44px，桌面端 34px |
+| 小控件：`md` 和 `icon-md` 尺寸的 Button、筛选触发器、标签页、分段控件的一段、浮动工具栏的按钮 | 手机和触屏上 32px；桌面端为控件高度（34px） |
 | 通栏行动按钮（`control-height-cta`，`xl` 尺寸的 Button） | 手机和触屏上 52px，桌面端 40px |
 | 手机上的地点列表（主页、成员、设置列表）：侧栏行 | 44px |
 | 带头像和预览的行：对话、人、Agent（[ListRow](../../packages/ui/src/components/list-row/list-row.md)） | 至少 64px |
@@ -92,10 +92,10 @@ timeline
 | 单选行 | 至少 44px |
 | 选择控件：开关；复选框和单选按钮 | 开关在手机和触屏上是 50 × 30px，桌面端是 38 × 22px，即 macOS 的常规开关（`switch-width`、`switch-height`）；两种尺寸的描边和滑块周围 1px 的轨道相同。复选框和单选按钮处处 20px。单独使用时，复选框或单选按钮在触屏上的点击区域高 44px；放在 `<label>` 行里时，它延伸到与下一个选项间隔的一半，其余部分由标签承担点击。以标签的第一行居中；在设置行末尾时，以整行居中（[对齐](./alignment.md#a-control-and-its-label)） |
 | 弹出列表中的选项、菜单项（`option-height`） | 单行时触屏上 36px，用鼠标时 34px（[点击区域](#hit-targets)）；行数更多时更高，内边距不变（[表单](../patterns/forms.md#option-height)） |
-| 头部（`header-height`）：手机顶栏行、面板头部、侧栏头部、导航条头部、抽屉头部、对话框的顶栏、侧边分区的头部（分区折叠到只剩它时也一样）、Tasks 的筛选行 | 控件高度加上下各 6px：手机和触屏上 56px，桌面端 44px，只有一行（标题和最多一个旁边的项） |
-| 网页顶栏、桌面应用标题栏 | 44px，即桌面端的头部：32px 的项（`frame-item-height`，控件高度）上下各 6px |
+| 头部（`header-height`）：手机顶栏行、面板头部、侧栏头部、导航条头部、抽屉头部、对话框的顶栏、侧边分区的头部（分区折叠到只剩它时也一样）、Tasks 的筛选行 | 控件高度加上头部留白：手机和触屏上上下各 6px（56px），桌面端上下各 5px（44px），只有一行（标题和最多一个旁边的项） |
+| 网页顶栏、桌面应用标题栏 | 44px，即桌面端的头部：34px 的项（`frame-item-height`，控件高度）上下各 5px |
 
-- 默认控件的尺寸用控件 token 设定（`h-control`、`size-control`，图标用 `size-control-icon`），不要自己写断点：它们只在 token 层切换一次。跟随控件但没有 token 的度量值，比如内边距，或让字形贴边的外边距，用同一个查询条件 `md:pointer-fine:` 切换，不要只用 `md:`：只用 `md:` 会让 768px 起的触屏也得到桌面端的 32px。
+- 默认控件的尺寸用控件 token 设定（`h-control`、`size-control`，图标用 `size-control-icon`），不要自己写断点：它们只在 token 层切换一次。跟随控件但没有 token 的度量值，比如内边距，或让字形贴边的外边距，用同一个查询条件 `md:pointer-fine:` 切换，不要只用 `md:`：只用 `md:` 会让 768px 起的触屏也得到桌面端的 34px。
 
 ```tokens
 control
@@ -103,7 +103,7 @@ control
 
 
 - 导航条有自己的宽度（`rail-width`），不跟随头部：桌面端 49px（含 1px 接缝线），项 36px；触屏上 57px，项 40px。它只显示图标：带文字的导航条需要 68px 才能放下 Computers 这样的名称。有顶栏时导航条没有头部；没有顶栏时，导航条头部和其他头部一样高。
-- 桌面窗口高度小于 600px 时（`@media (max-height: 600px)`），所有头部一起缩小：桌面端缩到 40px（28px 的栏按钮上下各 6px，`header-height-short`），触屏上缩到 48px。桌面端导航条本来就是 49px 宽、项 36px；触屏上缩到这个尺寸；见[响应式布局](../patterns/responsive.md)。 有一行在矮窗口里保持 44px：Tasks 的筛选行（TasksPanelToolbar）里是 38px 的分段轨道加一条接缝线，放不进 40，所以它保持桌面端的头部高度。
+- 桌面窗口高度小于 600px 时（`@media (max-height: 600px)`），所有头部一起缩小：桌面端缩到 40px（28px 的栏按钮上下各 6px，`header-height-short`），触屏上缩到 48px。桌面端导航条本来就是 49px 宽、项 36px；触屏上缩到这个尺寸；见[响应式布局](../patterns/responsive.md)。 有一行在矮窗口里保持 44px：Tasks 的筛选行（TasksPanelToolbar）里是 40px 的分段轨道加一条接缝线，放不进 40，所以它保持桌面端的头部高度。
 
 ### 尺寸链 {#the-size-chain}
 

@@ -398,7 +398,7 @@
   --spacing-control-hit: var(--control-hit-inset);
   /* A chip or a button embedded in a frame sits `embedded-inset` (6px) inside
      the frame's outer edge on every side and from its sibling; in a field it
-     is `control-embedded` tall, 20px on a desktop and 32px on a phone, so the
+     is `control-embedded` tall, 22px on a desktop and 32px on a phone, so the
      field keeps the control height (design/foundations/shape.md#inside-a-frame).
      Consumers: `ComboboxChips`, `ComboboxControl`, `ComboboxSelect`,
      InputGroup's end addon, the composer, CodeBlock and the corner actions of

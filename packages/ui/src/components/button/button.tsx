@@ -31,15 +31,20 @@ const outline = (ink: string) => [
 // `lg` and `icon-lg` overhang by `control-hit` to keep 44px. `xs` and `sm`
 // are deprecated aliases of `md`, `icon-xs` and `icon-sm` of `icon-md`, kept
 // until raft-ui 1.0 (codemods/button-sizes.mjs renames them).
+// With a mouse on a desktop `md` is the control height (34px), the one
+// desktop size of a field, a select, a tab and a menu row (stdrc, 2026-11-04),
+// its hit area reaching the control's 44px.
 const textMd = [
-  "h-8 gap-2 rounded-control px-3 py-0 text-control",
+  "h-8 md:pointer-fine:h-control gap-2 rounded-control px-3 py-0 text-control",
   "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
   "[&_svg:not([class*='size-'])]:size-4 **:data-icon:size-[1em]",
   "after:absolute after:inset-x-0 after:-inset-y-[calc(--spacing(1.5)+1.5px)]",
+  "md:pointer-fine:after:-inset-y-[calc(var(--control-hit-inset)+1.5px)]",
 ];
 const iconMd = [
-  "size-8 rounded-control p-0 [&_svg:not([class*='size-'])]:size-[18px]",
+  "size-8 md:pointer-fine:size-control rounded-control p-0 [&_svg:not([class*='size-'])]:size-[18px]",
   "after:absolute after:-inset-[calc(--spacing(1.5)+1.5px)]",
+  "md:pointer-fine:after:-inset-[calc(var(--control-hit-inset)+1.5px)]",
 ];
 
 export const buttonVariants = tv({

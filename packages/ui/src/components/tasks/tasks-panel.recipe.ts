@@ -16,8 +16,8 @@ export const tasksPanel = tv({
       "min-h-(--header-height) border-b border-line-seam bg-layer-canvas px-5 py-3",
       // On a desktop, once the panel is wide enough for every part on one
       // row (40rem: New Task, the filters and Board / List), the row is a
-      // header: 44 with its seam, its controls (32px buttons, Board / List's
-      // 34px segmented track) centred in it. Narrower, it stacks or can
+      // header: 44 with its seam, its controls (34px buttons, Board / List's
+      // 40px segmented track) centred in it. Narrower, it stacks or can
       // wrap onto two rows, so it keeps its 12px.
       "md:pointer-fine:@min-[40rem]/tasks:py-0",
       "@max-md/tasks:px-4",
@@ -37,7 +37,7 @@ export const tasksPanel = tv({
     toolbarLabel: [
       "inline-flex items-center",
       "[&_svg]:size-3.5 [&_svg]:shrink-0 [&>svg:last-child]:size-3",
-      "h-8 gap-1.5 rounded-control px-2.5",
+      "h-8 md:pointer-fine:h-control gap-1.5 rounded-control px-2.5",
       "bg-transparent inset-ring inset-ring-line-seam",
       "font-sans text-footnote font-semibold text-foreground-muted whitespace-nowrap",
     ],
