@@ -1,7 +1,7 @@
 ---
 title: 无障碍
 summary: 每个 Raft 产品都遵守的规则，让它在任何视力、键盘、读屏软件、触屏或动效设置下都能用：对比度、焦点、点击区域、动效、语义、触屏和语言，以及实现这些规则的组件。
-sourceHash: a6381246
+sourceHash: e5efef7d
 ---
 
 # 无障碍
@@ -103,6 +103,7 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 - 触屏上不要依赖工具提示。把说明写在界面里，或在长按时显示（[Tooltip](../../packages/ui/src/components/tooltip/tooltip.md#accessibility)）。预览卡片在触屏上不会打开，所以把它的触发器做成真正的链接（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md)）。
 - 在触屏上，手指先静止按住 500ms、再移动，才开始拖拽，这样滚动列表时不会移动卡片、行或服务器，静止按住则打开菜单。所有能拖动的列表都用同一个按住时长，任务卡片也一样（[触屏上的拖动](./states.md#dragging-on-a-touch-screen)、[拖放](../patterns/drag-and-drop.md#starting-a-drag)）。
 - 不要让滑动成为关闭某样东西的唯一方式：抽屉和面板保留 ×、返回或一个按钮，轻提示会自己关闭，也能用 Esc 关闭（[Drawer](../../packages/ui/src/components/drawer/drawer.md#accessibility)、[Toast](../../packages/ui/src/components/toast/toast.md#behavior)）。
+- 一个已知的、有意保留的缺口：在触屏上，看得见但不能拖动的人没有办法看到合并消息自己的时间。对话只在向左拖动时显示它（[对话](../patterns/conversation.md#dates-and-grouping)），而另一条路，消息菜单里的日期行，已经去掉了（artin，2026-11-04，#triage:530f8c36）。上面关于滑动的规则说的是操作和关闭东西；时间是信息，不是操作，所以这条规则并不严格适用，而且一组标题栏里的时间仍然能定位这条消息。读屏软件会在每条消息的名称里读到它的时间。不要把这个缺口当成被遗忘的东西随手补上：它是知情之下留着的，补上它是一个设计决定。
 - 让输入框保持在屏幕键盘上方；手机竖持时，让回车键插入新行（[Composer](../../packages/ui/src/components/composer/composer.md)）。
 
 ## 语言与大小写 {#language-and-casing}
