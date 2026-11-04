@@ -345,15 +345,22 @@ export function AvatarBadge({
   });
 }
 
-export type AvatarGroupProps = ComponentPropsWithRef<"div">;
+export type AvatarGroupProps = useRender.ComponentProps<"div">;
 
 // Overlapping stack of avatars (and an optional trailing AvatarGroupCount): each
 // one lies 5px over the one before, with nothing between them. A sticker's fill
 // and its ink edge are opaque, so the face beneath never shows through, and the
 // edge parts the two faces on any surface; the count chip's fill is opaque too.
-export function AvatarGroup({ className, ...props }: AvatarGroupProps) {
+// A div by default; `render={<span />}` puts a stack where only phrasing content
+// may go (a header's <p>, inside a button).
+export function AvatarGroup({ className, render, ...props }: AvatarGroupProps) {
   const { group } = avatar();
-  return <div data-slot="avatar-group" className={group({ className })} {...props} />;
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: group({ className }) }, props),
+    state: { slot: "avatar-group" },
+  });
 }
 
 export type AvatarGroupButtonProps = StyledProps<BaseButton.Props> & DataAttributes;

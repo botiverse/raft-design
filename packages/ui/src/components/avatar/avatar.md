@@ -34,7 +34,7 @@ avatar/compositions/preview
 - `AvatarImage`: the agent's pixel avatar or the person's photo. Optional.
 - `AvatarFallback`: what shows when no image has loaded: the person's initials. Without children it shows a placeholder icon.
 - `AvatarBadge`: what sits in the corner: the presence light, or, through `render`, something drawn in its place. Optional.
-- `AvatarGroup`: the overlapping stack of avatars.
+- `AvatarGroup`: the overlapping stack of avatars. A `div`; give it `render={<span />}` where only inline content may go, such as a header's `<p>` or a button.
 - `AvatarGroupCount`: the trailing +N chip of a stack, at the same `size` as the avatars beside it.
 - `AvatarGroupButton`: an `AvatarGroup` that is a button, for a stack that opens the list of who is in it ([A stack that opens a list](#a-stack-that-opens-a-list)). It holds the same `Avatar`s and `AvatarGroupCount`.
 

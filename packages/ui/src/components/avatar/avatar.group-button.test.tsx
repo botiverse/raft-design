@@ -4,7 +4,7 @@
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover/popover";
-import { Avatar, AvatarFallback, AvatarGroupButton, AvatarGroupCount } from "./avatar";
+import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupButton, AvatarGroupCount } from "./avatar";
 
 afterEach(cleanup);
 
@@ -22,7 +22,7 @@ test("a native button holding the stack's faces, named by the caller", () => {
   expect(button.tagName).toBe("BUTTON");
   expect(button.getAttribute("type")).toBe("button");
   expect(button.getAttribute("data-slot")).toBe("avatar-group-button");
-  // The faces are the AvatarGroup's direct children: they overlap and ring as in a group.
+  // The faces are the AvatarGroup's direct children: they overlap as in a group.
   expect(button.className).toContain("stack-x-[-5px]");
   expect(button.querySelectorAll(":scope > [data-slot=avatar]")).toHaveLength(2);
   // Laid out inline (not the group's block flex), so it sits in a header row.
@@ -58,4 +58,28 @@ test("disabled, it is a disabled button", () => {
   expect((screen.getByRole("button", { name: "Members" }) as HTMLButtonElement).disabled).toBe(
     true,
   );
+});
+
+test("AvatarGroup is a div by default and takes render for phrasing content", () => {
+  render(
+    <p>
+      <AvatarGroup aria-hidden data-testid="default">
+        <Avatar size="xs" type="agent" />
+      </AvatarGroup>
+      <AvatarGroup render={<span />} aria-hidden data-testid="span" className="extra">
+        <Avatar size="xs" type="agent" />
+        <Avatar size="xs" type="agent" />
+      </AvatarGroup>
+    </p>,
+  );
+  const div = screen.getByTestId("default");
+  expect(div.tagName).toBe("DIV");
+  expect(div.getAttribute("data-slot")).toBe("avatar-group");
+  const span = screen.getByTestId("span");
+  expect(span.tagName).toBe("SPAN");
+  expect(span.getAttribute("data-slot")).toBe("avatar-group");
+  expect(span.getAttribute("aria-hidden")).toBe("true");
+  expect(span.className).toContain("stack-x-[-5px]");
+  expect(span.className.split(/\s+/)).toContain("extra");
+  expect(span.querySelectorAll(":scope > [data-slot=avatar]")).toHaveLength(2);
 });
