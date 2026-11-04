@@ -43,15 +43,6 @@ import type { StyledProps } from "../../lib/styled-props";
 // `group/avatar` hook when using the default dot; keep their per-step selectors
 // in sync with the `size` scale. `AvatarBadge` is a useRender shell — pass
 // `render={<Status />}` for activity chrome without the default dot styles.
-// On a desktop an avatar is rounded by its size, about a quarter of the
-// control roundness: 19 -> 4, 27 -> 6, 35 -> 8, 51 and 99 -> 10. The image
-// and the fallback inside the 1.5px edge keep the concentric corner.
-const avatarInnerRadius = [
-  "md:pointer-fine:group-data-[size=sm]/avatar:rounded-[calc(var(--radius-chip)-1.5px)]",
-  "md:pointer-fine:group-data-[size=md]/avatar:rounded-[calc(var(--radius-control)-1.5px)]",
-  "md:pointer-fine:group-data-[size=lg]/avatar:rounded-[calc(var(--radius-container)-1.5px)] md:pointer-fine:group-data-[size=xl]/avatar:rounded-[calc(var(--radius-container)-1.5px)]",
-];
-
 const avatar = tv({
   slots: {
     root: [
@@ -59,7 +50,7 @@ const avatar = tv({
       "rounded-sticker border-[1.5px] border-sticker-ink",
       "text-sticker-ink shadow-[0_0_0_1.5px_var(--sticker-edge)]",
     ],
-    image: ["size-full object-cover", "rounded-[2px]", avatarInnerRadius],
+    image: ["size-full object-cover", "rounded-[2px]"],
     fallback: [
       "flex size-full items-center justify-center",
       "[&>svg]:size-4",
@@ -67,7 +58,6 @@ const avatar = tv({
       "[[data-size='md']>&]:[&>svg]:size-4.5",
       "[[data-size='xs']>&]:[&>svg]:size-3",
       "overflow-hidden rounded-[2px]",
-      avatarInnerRadius,
       "font-sans text-[15px] leading-none font-bold tracking-[-0.01em] text-sticker-ink",
       "[[data-type='server']>&]:text-brand",
       "[[data-size='xl']>&]:text-[40px]",
@@ -134,13 +124,11 @@ const avatar = tv({
     },
     size: {
       xl: {
-        root: [
-          "size-[99px] md:pointer-fine:rounded-container shadow-[0_0_0_1.5px_var(--sticker-edge),var(--elevation-sticker)]",
-        ],
+        root: ["size-[99px] shadow-[0_0_0_1.5px_var(--sticker-edge),var(--elevation-sticker)]"],
       },
-      lg: { root: ["size-[51px] md:pointer-fine:rounded-container"] },
-      md: { root: ["size-[35px] md:pointer-fine:rounded-control"] },
-      sm: { root: ["size-[27px] md:pointer-fine:rounded-chip"] },
+      lg: { root: ["size-[51px]"] },
+      md: { root: ["size-[35px]"] },
+      sm: { root: ["size-[27px]"] },
       xs: { root: ["size-[19px]"] },
       "2xs": { root: ["size-[19px]"] },
       "3xs": { root: "size-3.5" },

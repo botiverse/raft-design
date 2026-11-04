@@ -20,7 +20,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 
 | Token | Use for |
 | --- | --- |
-| `radius-sticker` | The pixel family: 19px avatars and tiles (larger ones take their corner by size, below), checkboxes, badges, steps, skeletons; inline marks in running text (inline code, a mention of you, search hits, reference chips); the 24px key caps of a list of shortcuts ([Kbd](../../packages/ui/src/components/kbd/kbd.md) at `md`) |
+| `radius-sticker` | The pixel family: avatars at every size, 19px tiles (larger tiles take their corner by size, below), checkboxes, badges, steps, skeletons; inline marks in running text (inline code, a mention of you, search hits, reference chips); the 24px key caps of a list of shortcuts ([Kbd](../../packages/ui/src/components/kbd/kbd.md) at `md`) |
 | `radius-chip` | Chips (value chips, the chips in a field, task status chips, reactions), tooltips, the highlighted item in a popup, and every control embedded in another component's frame ([Inside a frame](#inside-a-frame)) |
 | `radius-control` | Controls and selection stickers that stand on their own: buttons, inputs, selects, filters, segmented controls, tabs, sidebar rows, rail items, the tab bar's icon sticker, the workspace button |
 | `radius-container` | Containers: cards, inset groups, the composer, banners, menus, toasts, profile cards, file cards, the box of tasks under a message |
@@ -29,10 +29,11 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 
 - Give the state shape of a list row (Activity items, sidebar rows, search results, ListRow with `cell`) `radius-control`: its hover, press, selection and focus fill a rounded shape as tall as the row and inset 8px from each side, never the row's square full width ([Lists](../patterns/lists.md)).
 - Give a `sm` [Kbd](../../packages/ui/src/components/kbd/kbd.md), the 16px hint in menus, tooltips and search, a 3px radius, the one it has always had, so those hints keep their look.
-- **On a desktop, a small control and an identity take their corner by size**, about a quarter of the height, snapped to the radius tokens, so a 28px button and a 35px avatar look as round as a 32px button (stdrc, 2026-11-03):
+- **On a desktop, a small control and a tile take their corner by size**, about a quarter of the height, snapped to the radius tokens, so a 28px button and a 35px tile look as round as a 32px button (stdrc, 2026-11-03):
   - a 28px bar button (a head's actions and its ×, the composer's icons) and the header's 28px icon tile: `radius-chip`, the hover toolbar's corner;
   - the 34px row highlight and the 32px controls: `radius-control`;
-  - avatars and tiles: 19px `radius-sticker`, 27px `radius-chip`, 35px `radius-control`, 51px and 99px `radius-container`. The image inside follows the edge, 1.5px less.
+  - tiles ([IconTile](../../packages/ui/src/components/icon-tile/icon-tile.md)): 19px `radius-sticker`, 27px `radius-chip`, 35px `radius-control`, 51px `radius-container`.
+  - Avatars are the exception: an avatar is a sticker at every size, `radius-sticker` with its image 2px inside, so a face never reads as a rounded button (stdrc, 2026-11-04).
   - Badges are one shape: a soft and an outline badge are 20px at `radius-sticker`, the count badge's.
   On a phone and a touch screen the table above holds unchanged until the phone sizes are settled.
 - Use a 2px radius for status lights and attention dots (10px beside text, 6px to 20px on an avatar's corner) and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.
