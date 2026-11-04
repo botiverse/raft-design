@@ -99,20 +99,17 @@ const avatar = tv({
       "group-data-[size=xl]/avatar:border-2",
       "group-data-[size=xs]/avatar:border group-data-[size=2xs]/avatar:border group-data-[size=3xs]/avatar:border",
     ],
-    group: [
-      "group/avatar-group flex items-center",
-      "stack-x-[-5px]",
-      "*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
-      "*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
-    ],
+    // Faces lie directly on one another, 5px over the one before at every
+    // size, with no ring of the surface between them: each sticker's own ink
+    // edge (and its die-cut edge in dark) parts it from the face beneath, as
+    // in Working now (stdrc, 2026-11-04, #proj-raft-ui:7531279d). 5px is past
+    // the 4px corner, so the seam sits on the straight edge, never in the
+    // corner; 3px or 4px leaves a notch of the surface between two corners.
+    group: ["group/avatar-group flex items-center", "stack-x-[-5px]"],
     groupButton: [
       "relative inline-flex shrink-0 cursor-pointer items-center p-1",
       "rounded-chip border-0 bg-transparent",
-      "transition-colors *:transition-shadow *:duration-150 enabled:hover:bg-fill-medium enabled:active:bg-fill-medium",
-      "enabled:hover:*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--fill-medium),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
-      "enabled:hover:*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--fill-medium),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
-      "enabled:active:*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--fill-medium),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
-      "enabled:active:*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--fill-medium),0_0_0_3px_var(--avatar-group-surface,var(--layer-canvas))]",
+      "transition-colors enabled:hover:bg-fill-medium enabled:active:bg-fill-medium",
       "outline-none focus-visible:shadow-focus",
       "disabled:cursor-default",
     ],
@@ -350,25 +347,31 @@ export function AvatarBadge({
   });
 }
 
-export type AvatarGroupProps = ComponentPropsWithRef<"div">;
+export type AvatarGroupProps = useRender.ComponentProps<"div">;
 
-// Overlapping stack of avatars (and an optional trailing AvatarGroupCount). The
-// standalone frame is a transparent border, so in the stack each avatar's frame is painted
-// with the ring surface to stay opaque and never show the avatar neighbor beneath the
-// overlap. The surface is layer-canvas; a stack on another surface (a chip on a card)
-// sets `--avatar-group-surface` to it.
-export function AvatarGroup({ className, ...props }: AvatarGroupProps) {
+// Overlapping stack of avatars (and an optional trailing AvatarGroupCount): each
+// one lies 5px over the one before, with nothing between them. A sticker's fill
+// and its ink edge are opaque, so the face beneath never shows through, and the
+// edge parts the two faces on any surface; the count chip's fill is opaque too.
+// A div by default; `render={<span />}` puts a stack where only phrasing content
+// may go (a header's <p>, inside a button).
+export function AvatarGroup({ className, render, ...props }: AvatarGroupProps) {
   const { group } = avatar();
-  return <div data-slot="avatar-group" className={group({ className })} {...props} />;
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: group({ className }) }, props),
+    state: { slot: "avatar-group" },
+  });
 }
 
 export type AvatarGroupButtonProps = StyledProps<BaseButton.Props> & DataAttributes;
 
 // An AvatarGroup that is a button: a stack that opens who is in it (who is
 // viewing, a channel's members), usually as a PopoverTrigger's `render`. The
-// stack sits 4px inside the button's hover fill, and the ring between faces
-// takes the same fill, so the stack hovers as one control. Name it with the
-// full count and what it opens ("3 people viewing"): the faces are not text.
+// stack sits 4px inside the button's hover fill, so the stack hovers as one
+// control. Name it with the full count and what it opens ("3 people
+// viewing"): the faces are not text.
 export function AvatarGroupButton({
   className,
   render,
@@ -392,12 +395,13 @@ export type AvatarGroupCountProps = ComponentPropsWithRef<"span"> & {
   size: AvatarSize;
 };
 
-// Trailing "+N" overflow chip for an AvatarGroup. Reuses the Avatar frame but
-// omits `type`, swapping the role fill for a neutral count chip.
+// Trailing "+N" overflow chip for an AvatarGroup. Reuses the Avatar frame (its
+// ink edge, and the die-cut edge in dark, like every face beside it) but omits
+// `type`, swapping the role fill for a neutral count chip.
 export function AvatarGroupCount({ size, className, ...props }: AvatarGroupCountProps) {
   const { root } = avatar({ size });
   const countClassName =
-    "border-transparent bg-fill-muted font-mono text-mono-meta font-bold tabular-nums text-foreground-muted shadow-none";
+    "bg-fill-muted font-mono text-mono-meta font-bold tabular-nums text-foreground-muted";
   return (
     <span
       data-slot="avatar-group-count"
