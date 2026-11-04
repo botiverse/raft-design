@@ -28,12 +28,14 @@ release. Add a tool name to select part of the graph. For example, run
 
 # Local Checks: Only What You Changed
 
-Most of us work on shared hosts with a memory limit per job, and a check of the whole repo from its root (`vp check`, `vp run -r test`, `pnpm ready`) can go past it and be killed. On 2026-11-04 a root `vp check` went past a 3 GiB limit; the same check on `packages/ui` alone fit.
+Most of us work on shared hosts with a memory limit per job, and a whole check can go past it and be killed. On 2026-11-04 a root `vp check` went past a 3 GiB limit, and later the same day a second `vp check` of `packages/ui` did too, run again with nothing changed since the first.
 
-- Locally, check only the package your change is in, from that package: `cd packages/ui && pnpm exec vp check` (or `apps/doc` for a docs-site change), and run only the tests that cover your change. Run one heavy job at a time per host, parent and sub-agents together.
-- The full check of the repo is CI's: the PR's `check` job runs it on every push.
-- A package passing is not "all checks pass". Say which package you checked, and let CI's `check` be the evidence for the rest.
-- Follow your host's own rules on top of this (approval for browsers or tests, a shared lock).
+- Lint and format only the files you changed, by passing them to `vp check`, from the package they are in: `cd packages/ui && pnpm exec vp check --fix src/components/table/table.tsx src/components/table/table.md` (the pre-commit hook does the same with the staged files).
+- Run the type check on its own, once: `cd packages/ui && pnpm exec vp check --no-fmt --no-lint`. It is the heavy part; don't fold it into a check of the files.
+- Don't run a check again when nothing has changed since it last passed. Run it again after a change.
+- Run only the tests that cover your change, and one heavy job at a time per host, parent and sub-agents together.
+- The full check of the repo is CI's: the PR's `check` job runs it on every push. A package or file passing is not "all checks pass": say what you checked, and let CI's `check` be the evidence for the rest.
+- A host's memory limit isn't a reason to skip a check you need. Follow the host's rules to run it another way (the files above, a type check on its own) or within a budget it allows, and say in the PR what ran.
 
 # Browser Tests Run by Hand
 
