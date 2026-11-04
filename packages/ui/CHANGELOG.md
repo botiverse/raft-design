@@ -1,3 +1,12 @@
+## [0.60.3](https://github.com/botiverse/raft-design/compare/v0.60.2...v0.60.3) (2026-11-04)
+
+### Fixed
+
+- **Tooltip**: a tooltip whose only child is a component (the reaction tooltip's names) no longer gets an empty text slot and 6px of extra space on the right. ([#986](https://github.com/botiverse/raft-design/pull/986))
+  - Why: TooltipContent treats any component child as a possible leading icon, since lucide icons are components. With nothing after it, the names went into the icon slot, followed by an empty text slot and the 6px gap, so the padding read 10px on the left and 16px on the right.
+  - Affects: a tooltip with a single component child now renders it as plain content. An icon followed by text, and a leading Kbd, are unchanged.
+  - Docs: https://raft-design.botiverse.build/components/tooltip/
+
 ## [0.60.2](https://github.com/botiverse/raft-design/compare/v0.60.1...v0.60.2) (2026-11-04)
 
 ### Fixed
