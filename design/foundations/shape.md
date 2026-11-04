@@ -36,7 +36,7 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
   - tiles ([IconTile](../../packages/ui/src/components/icon-tile/icon-tile.md)): 19px `radius-sticker`, 27px `radius-chip`, 35px `radius-control`, 51px `radius-container`.
   - Avatars are the exception: an avatar is a sticker at every size, `radius-sticker` with its image 2px inside, so a face never reads as a rounded button (stdrc, 2026-11-04).
   - Badges are one shape: a soft and an outline badge are 20px at `radius-sticker`, the count badge's.
-  A control at the control height writes `rounded-(--control-radius)` (10 on a touch screen, 8 on a desktop), not `rounded-control`, the fixed 8 of `radius-control`: the names differ only in word order. The 52px call to action keeps `radius-control`, as stdrc's sizing audit draws it; whether it follows to 10 is open with stdrc.
+  A control at the control height writes `rounded-(--control-radius)` (10 on a touch screen, 8 on a desktop), not `rounded-control`, the fixed 8 of `radius-control`: the names differ only in word order. Open with stdrc, as his sizing audit doesn't draw them: the 52px call to action (Button `xl`) and a Card `option` (which sits in a form beside the 44px fields) keep `radius-control` (8) on a touch screen, and a large (52px) ComboboxSelect takes the fields' 10.
   On a phone the header's 27px icon tile keeps `radius-sticker`, and soft and outline badges keep 22px at `radius-chip`.
 - Use a 2px radius for status lights and attention dots (10px beside text, 6px to 20px on an avatar's corner) and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.
 

@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: 7973917f
+sourceHash: 2cbc82c3
 ---
 
 # 间距与尺寸
@@ -87,7 +87,7 @@ timeline
 | 小控件：`md` 和 `icon-md` 尺寸的 Button、筛选触发器、标签页、分段控件的一段、浮动工具栏的按钮 | 手机和触屏上 32px；桌面端为控件高度（34px） |
 | 通栏行动按钮（`control-height-cta`，`xl` 尺寸的 Button） | 手机和触屏上 52px，桌面端 40px |
 | 手机上的地点列表（主页、成员、设置列表）：侧栏行 | 44px |
-| 带头像和预览的行：对话、人、Agent（[ListRow](../../packages/ui/src/components/list-row/list-row.md)） | 用鼠标时至少 64px；手机和触屏上至少 56px，内容上下各 8px |
+| 带头像和预览的行：对话、人、Agent（[ListRow](../../packages/ui/src/components/list-row/list-row.md)） | 用鼠标时至少 64px；手机和触屏上至少 56px，内容上下各 8px：整行都是点击区域，44px 以外不需要额外留白，手机屏上大约能多放一个对话；搜索结果和 Activity、Inbox 的条目（InboxItem）也是这一类 |
 | 设置页面内的设置行（[ListRow](../../packages/ui/src/components/list-row/list-row.md) `plain`） | 最高部分上下各 12px（`settings-row-inset`）：桌面端单行带开关 46px，手机上 54px |
 | 单选行 | 至少 44px |
 | 选择控件：开关；复选框和单选按钮 | 开关在手机和触屏上是 50 × 30px，桌面端是 38 × 22px，即 macOS 的常规开关（`switch-width`、`switch-height`）；两种尺寸的描边和滑块周围 1px 的轨道相同。复选框和单选按钮处处 20px。单独使用时，复选框或单选按钮在触屏上的点击区域高 44px；放在 `<label>` 行里时，它延伸到与下一个选项间隔的一半，其余部分由标签承担点击。以标签的第一行居中；在设置行末尾时，以整行居中（[对齐](./alignment.md#a-control-and-its-label)） |
@@ -113,6 +113,7 @@ control
 - **头部**（`header-height`）：控件高度加上下各一份头部留白（`header-air`）。所有头部都读它：面板、侧边栏、线程和 rail 的头部，对话框的顶栏，抽屉的头部，Tasks 的筛选行。窗口低于 600px 时用 `header-height-short`。
 - **栏按钮**（`bar-button-size`、`bar-button-radius`）：栏里的图标按钮，头部的操作和 ×，输入框的图标。无论尺寸多大，点击区域都达到 44px。
 - **框架项**（`frame-item-height`）：顶栏和标题栏的按钮、工作区按钮和搜索框。
+- **圆角**（`control-radius`）：控件高度的控件，大约是高度的四分之一：触屏上 44 用 10px，桌面端 32 用 8px。
 - **开关**（`switch-width`、`switch-height`）：轨道；滑块是高度减 8px，移动距离是宽度减高度。
 - **行**（`row-height`、`option-height`）：768px 起的侧边栏行，以及弹出列表的选项和菜单项。
 - **表单**（`field-gap`、`section-gap`、`settings-row-inset`、`page-inset`、`page-top`）：字段之间和设置行最高部分上下的两份留白、两个表单分区之间的间距、栏内容和抽屉正文的内边距（两种密度下都是 16px），以及从头部的分隔线到其下第一个元素的距离：手机和触屏上是页面内边距，用鼠标时 12px，让内容紧贴在紧凑的头部下方（stdrc，2026-11-05）。
