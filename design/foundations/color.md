@@ -131,7 +131,7 @@ inactive
 | Orange | `warning` | Interrupts | Buttons that stop, leave or reset; warnings; Todo; the error presence light |
 | Red | `danger` | Irreversible | Delete buttons |
 | Lime | `success` | Done | Done, online, success banners, a read mention (a bare check: `read-mark`, `palette-lime-700` in light mode, the online lime in dark mode) |
-| Lavender | `palette-lavender-*` | — | In Review, and people without a photo |
+| Lavender | `palette-lavender-*` | — | In Review on older tasks, and people without a photo |
 | Stone | `inactive` | Closed | Closed, offline |
 
 - Use orange when something goes wrong: red is only for consequences that cannot be undone.
@@ -153,7 +153,7 @@ A failure or warning drawn as a graphic, such as a failed route in a migration c
 
 ### Statuses
 
-Tasks have six statuses and presence has five lights. Five of the task statuses and all five lights have a color, and they never change meaning; the sixth status, Backlog, has none. Task statuses are spelled Backlog, Todo, In Progress, In Review, Done and Closed.
+Tasks have five statuses and presence has five lights. Four of the task statuses and all five lights have a color, and they never change meaning; the fifth status, Backlog, has none. Task statuses are spelled Backlog, Todo, In Progress, Done and Closed. In Review keeps its color for older tasks still in it ([decision 0043](../decisions/0043-in-review-retired.md)).
 
 ```tokens
 task-status
@@ -201,7 +201,7 @@ A soft tint (`*-soft`) is a highlight, never a sticker: it has no border.
 | `success-soft` | Success banners, the Done chip |
 | `warning-soft` | Warning banners, the Todo chip, errors and warnings in notifications |
 | `danger-soft` | Danger banners |
-| `task-status-in-review-soft` | The In Review chip |
+| `task-status-in-review-soft` | The In Review chip, on older tasks |
 | `task-status-closed-soft` | The Closed chip |
 
 - Draw a usage meter `warning` from 80% used, and keep a used-up one a full `warning` bar, not `danger`: an allowance comes back at its reset, so running out interrupts work but isn't irreversible ([Meter](../../packages/ui/src/components/meter/meter.md)).

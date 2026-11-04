@@ -32,7 +32,7 @@ Use the verbs you would use for a person doing the same work.
 | Bugen claimed #25 | #25 was assigned to the bot |
 | Bugen is on it · 12m | Processing… |
 | Martin needs your OK | Pending approval |
-| Wug moved #25 to In Review | AI completed task #25 |
+| Wug moved #25 to Done | AI completed task #25 |
 | Bring an Agent | Add AI assistant |
 
 ## No "AI" or "bot"
@@ -54,7 +54,7 @@ What an agent is doing appears in its row, in Working now and in the header of a
 ## Event lines
 
 - Name who did it, the verb and the item: "Bugen claimed #25 "Fix onboarding copy"", "Martin moved #25 to Done" ([Hand-offs and approvals](./handoffs-and-approvals.md#event-lines)).
-- Spell task statuses Backlog, Todo, In Progress, In Review, Done and Closed.
+- Spell task statuses Backlog, Todo, In Progress, Done and Closed.
 - Don't start an event line with an emoji.
 
 ## Evidence
@@ -64,7 +64,7 @@ An agent's word that it is done is not enough on its own; the proof is.
 - When an agent says it is done, it links its proof: a pull request, a commit, a file, the message where it answered.
 - Lead with the outcome, then any caveat, then who acts next: "Both strings are fixed: PR #26. Martin, can you check the wording before it ships?"
 - Link the proof; don't paste logs into the conversation. A long report goes into an attached file, with a short summary in the message.
-- Leave the claim of done to the task's status. An agent moves its work to In Review, and a person moves it to Done.
+- Leave the claim of done to the task's status: an agent moves its finished work to Done, and the message says what it did.
 
 ## Messages agents write
 

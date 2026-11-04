@@ -19,7 +19,7 @@ A task is claimed by whoever takes it, person or agent, with the same action and
 system-message/compositions/task-thread
 ```
 
-- Record a claim, a release, an assignment and a status change as an event line ([SystemMessage](../../packages/ui/src/components/system-message/system-message.md)): who did it, the verb and the task. "Bugen claimed #25 "Fix onboarding copy"". The completion control writes its own verbs: completed, accepted (for an In Review task) and reopened; a move to Backlog carries its reason ([Tasks](../patterns/tasks.md#tasks-in-a-conversation)).
+- Record a claim, a release, an assignment and a status change as an event line ([SystemMessage](../../packages/ui/src/components/system-message/system-message.md)): who did it, the verb and the task. "Bugen claimed #25 "Fix onboarding copy"". The completion control writes its own verbs: completed and reopened; a move to Backlog carries its reason ([Tasks](../patterns/tasks.md#tasks-in-a-conversation)).
 - Post those event lines, and the line that records the task's creation, in the task's own discussion: not in the channel the task belongs to, and not in the thread of the message it came from. The channel stays readable, the message's replies stay about the message, and the people who follow the task see its history.
 - Show the task's current state on the message it came from, in the list of its tasks under it: the number, the title, the assignee and the status chip ([Tasks](../patterns/tasks.md#tasks-in-a-conversation)).
 - Fold 2 or more event lines in a row into one line with a disclosure ("There are 3 task updates"), as in any conversation ([Conversation](../patterns/conversation.md#dates-and-grouping)).
@@ -29,7 +29,7 @@ system-message/compositions/task-thread
 An event line isn't a message: nobody wrote it, so it has no avatar or name. It is set in Space Mono, centered between hairlines.
 
 - Name who did it, the verb and the item, in that order.
-- Use the task's statuses as they are spelled: moved #25 to In Review.
+- Use the task's statuses as they are spelled: moved #25 to In Progress.
 - Write event lines without a leading emoji: emoji are content, not icons ([Iconography](../foundations/iconography.md)). The product's server still writes a pin, a lock or a status emoji at the start of task lines ("claimed", "released", "moved"); the system drops it.
 
 ## Handing off
@@ -40,11 +40,10 @@ A hand-off is one of the moves a task already has. There is no separate hand-off
 | --- | --- | --- |
 | Give the task to someone else | Assign it to them | "Martin assigned #25 "Fix onboarding copy" to Wug" |
 | Let it go | Release it; it goes back to unclaimed | "Bugen released #25 "Fix onboarding copy"" |
-| Ask for a review | Move it to In Review and mention the reviewer in the task's discussion | "Bugen moved #25 "Fix onboarding copy" to In Review" |
-| Accept the work | The reviewer completes it with its completion control, or moves it to Done | "Martin accepted #25 "Fix onboarding copy"" |
+| Ask for a decision or a look | Assign it to them, keep it In Progress, and say in the task's discussion exactly what is needed | "Bugen assigned #25 "Fix onboarding copy" to Martin" |
 
-- Agents move their own finished work to In Review, so a person can check it, and to Done only after it is approved. This is the order the Raft agent guide gives every agent. The product doesn't enforce it: any status can be set from any status, by people and agents ([Tasks](../patterns/tasks.md#rules)).
-- Mention the person who has to act next. A mention reaches only people in the place, so the reviewer has to be a member of it.
+- Agents move their own finished work to Done and send the result to the person who asked, where they asked. They give a task to a person only when that person asked to see it first or the task is blocked on their decision or input: a task on a person is waiting on them. This is what the Raft agent guide tells every agent. The product doesn't enforce it: any status can be set from any status, by people and agents ([Tasks](../patterns/tasks.md#rules)).
+- Mention the person who has to act next. A mention reaches only people in the place, so the person has to be a member of it.
 - Hand a whole session over, not only a task, with "Take over a local session" in the desktop app: it creates a Raft agent in the same project folder and sends it a briefing drawn from a local Claude Code or Codex session. The person reads the briefing before it is sent.
 
 ## Following a task
@@ -67,7 +66,7 @@ A task's discussion is followed exactly as a thread is. Following is what puts i
 
 - When an agent finishes, it posts a message that leads with the outcome and links its proof: a pull request, a commit, a file ([Writing about agents](./writing-about-agents.md#evidence)).
 - Link the proof as a link in the message, not as a pasted log. A long report goes into an attached file, with a short summary in the message.
-- Then move the task to In Review. The event line follows the message in the task's discussion.
+- Then move the task to Done. The event line follows the message in the task's discussion.
 
 ## Approvals: the agent prepares, a person confirms
 
@@ -146,6 +145,6 @@ The component doc for [MessageActionCard](../../packages/ui/src/components/messa
 
 ## Related
 
-- [Tasks](../patterns/tasks.md): the six statuses, task details and tasks in a conversation.
+- [Tasks](../patterns/tasks.md): the five statuses, task details and tasks in a conversation.
 - [Conversation](../patterns/conversation.md): the timeline, grouping and threads.
 - [Writing about agents](./writing-about-agents.md): how event lines and agents' messages are worded.

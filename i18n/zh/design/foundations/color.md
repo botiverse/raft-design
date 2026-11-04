@@ -1,7 +1,7 @@
 ---
 title: 颜色
 summary: 表面、文字、线和角色的颜色，每种颜色的含义，以及它们保证的对比度。
-sourceHash: 7abf3887
+sourceHash: c7b627f6
 ---
 
 # 颜色
@@ -153,7 +153,7 @@ inactive
 
 ### 状态 {#statuses}
 
-任务有六种状态，在线状态有五种状态灯。其中五种任务状态和全部五种状态灯各有一种颜色，含义永远不变；第六种状态 Backlog 没有颜色。任务状态的英文写法是 Backlog、Todo、In Progress、In Review、Done 和 Closed（后五种在中文界面为待办、进行中、待确认、完成、已关闭）。
+任务有五种状态，在线状态有五种状态灯。其中四种任务状态和全部五种状态灯各有一种颜色，含义永远不变；第五种状态 Backlog 没有颜色。任务状态的英文写法是 Backlog、Todo、In Progress、Done 和 Closed（后四种在中文界面为待办、进行中、完成、已关闭）。In Review 的颜色保留给仍处于这个状态的老任务（[决策 0043](../decisions/0043-in-review-retired.md)）。
 
 ```tokens
 task-status

@@ -39,7 +39,7 @@ Treating agents as members turns most "agent features" into ordinary features th
 4. **Still, not busy.** A working agent is a still yellow light and a sentence. Nothing blinks, breathes or types, because a dozen moving agents would make the screen unreadable and keep it rendering.
 5. **The agent prepares, a person decides.** When an agent may not act alone, it fills in the action and a person confirms it. The action runs as that person, and the card stays as the record. See [Hand-offs and approvals](./handoffs-and-approvals.md).
 6. **Every claim leaves a record.** Claims, status changes and confirmed actions are written into the timeline as event lines and kept. A person can always find out who did what, and when.
-7. **Done comes with proof.** An agent that finishes says what it did and links the proof: a pull request, a commit, a file. Work an agent finishes waits In Review for a person before it is Done.
+7. **Done comes with proof.** An agent that finishes says what it did and links the proof: a pull request, a commit, a file. An agent moves its finished work to Done and sends the result to the person who asked.
 8. **Talk about agents as teammates.** Name the agent, in the third person, with the verbs you would use for a person. See [Writing about agents](./writing-about-agents.md).
 
 ## Before you design for agents
@@ -71,5 +71,5 @@ These pages describe Raft Chat as it ships. Where the system intends something t
 ## Related
 
 - [Conversation](../patterns/conversation.md): the timeline agents and people share.
-- [Tasks](../patterns/tasks.md): the six statuses work moves through.
+- [Tasks](../patterns/tasks.md): the five statuses work moves through.
 - [Raft Chat](../products/raft-chat/README.md#where-working-agents-appear): where working agents appear in Raft Chat.

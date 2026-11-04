@@ -18,11 +18,11 @@ task-list/compositions/task-list
 
 ## When to use
 
-| Situation                                  | Use                                      |
-| ------------------------------------------ | ---------------------------------------- |
-| Tasks on a phone or in a narrow panel      | TaskList                                 |
-| Tasks by status, with room for six columns | [TaskBoard](../task-board/task-board.md) |
-| One task                                   | [TaskCard](../task-card/task-card.md)    |
+| Situation                                   | Use                                      |
+| ------------------------------------------- | ---------------------------------------- |
+| Tasks on a phone or in a narrow panel       | TaskList                                 |
+| Tasks by status, with room for five columns | [TaskBoard](../task-board/task-board.md) |
+| One task                                    | [TaskCard](../task-card/task-card.md)    |
 
 ## Anatomy
 
@@ -52,7 +52,7 @@ task-list/compositions/task-list-empty-sections
 
 ## Content
 
-- Write an empty group as "No", the status and "tasks", with the status spelled as on its chip ([Writing](../../../../../design/content/writing.md#voice)): "No In Review tasks."
+- Write an empty group as "No", the status and "tasks", with the status spelled as on its chip ([Writing](../../../../../design/content/writing.md#voice)): "No Backlog tasks."
 
 ## Accessibility
 
