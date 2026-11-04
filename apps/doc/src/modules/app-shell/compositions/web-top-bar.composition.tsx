@@ -23,7 +23,7 @@ import {
 export function WebTopBarComposition() {
   return (
     <div className="w-full overflow-x-auto">
-      <div className="flex h-[calc(var(--frame-item-height)+12px)] min-w-[720px] items-center border-b border-line-seam bg-layer-frame text-foreground-on-frame frame-decor-top">
+      <div className="flex h-[calc(var(--frame-item-height)+2*var(--header-air))] min-w-[720px] items-center border-b border-line-seam bg-layer-frame text-foreground-on-frame frame-decor-top">
         <div className="flex min-w-0 flex-1 items-center pr-2 pl-[calc((var(--rail-width)-1px-var(--rail-item))/2+1px)]">
           <WorkspaceButton aria-label="Raft HQ, switch server">
             <Avatar type="server" size="sm">

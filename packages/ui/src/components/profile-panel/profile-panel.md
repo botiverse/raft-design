@@ -31,7 +31,7 @@ What an agent's profile holds in Raft Chat (its header actions, its tabs, the he
 ## Anatomy
 
 - `ProfilePanel`: the panel, on `layer-canvas`, filling the height of its column.
-- `ProfilePanelHeader`: the 56px panel header ([Panel](../panel/panel.md#anatomy)), with their avatar first.
+- `ProfilePanelHeader`: the panel header (44px with a mouse, 56px on a touch screen) ([Panel](../panel/panel.md#anatomy)), with their avatar first.
   - `ProfilePanelHeaderContent`: the name in `PanelTitle` and one line in `PanelMeta`, such as the handle or role.
   - `PanelActions`: icon buttons such as Message.
 - `ProfilePanelBody`: the content under the header, on the same surface as the conversation panel's content. It holds `PanelScrollViewport` and `PanelScrollContent`.

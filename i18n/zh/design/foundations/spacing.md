@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: b882bfa9
+sourceHash: 9d0b9bf8
 ---
 
 # 间距与尺寸
@@ -63,7 +63,7 @@ timeline
 - 每个触摸目标在两个方向上都至少 44px。
 - 看起来小于 44px 的控件和文字按钮，用透明的伪元素扩展到 44px。
 - 正文中的行内链接和引用标签不扩展：它们跟随文字行。
-- 弹出列表中的行是唯一的例外：Select、Combobox、ComboboxSelect 的选项，DropdownMenu、ContextMenu 的菜单项，以及手机上服务器标签页弹出层里的行（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)），单行时在触屏上是 36px，用鼠标时是 34px，即桌面端的行高，在触屏上和用鼠标时一样（[表单](../patterns/forms.md#option-height)）。它们一行紧挨着一行，点击区域没法伸出自己的行、扩到 44px。它们保持 36px，因为：
+- 弹出列表中的行是唯一的例外：Select、Combobox、ComboboxSelect 的选项，DropdownMenu、ContextMenu 的菜单项，以及手机上服务器标签页弹出层里的行（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)），单行时在触屏上是 36px，用鼠标时是 34px，即桌面端的行高（[表单](../patterns/forms.md#option-height)）。它们一行紧挨着一行，点击区域没法伸出自己的行、扩到 44px。它们保持这么矮，因为：
   - 每一行横跨弹出层的整个宽度，所以点偏几个像素，仍然落在某一行上。
   - 点错一行只会移动高亮，或者选中相邻的一项，人能看到，也能改回来。它从不触发无法挽回的操作：删除、停止或移除某样东西的菜单项会先弹出确认（[反馈](../patterns/feedback.md#confirming)）。把这样的菜单项和其他项分开，放在分隔线之后。
   - 36px（桌面端 34px）的行能让列表中更多的选项留在视野里。
@@ -103,7 +103,7 @@ control
 
 
 - 导航条有自己的宽度（`rail-width`），不跟随头部：桌面端 49px（含 1px 接缝线），项 36px；触屏上 57px，项 40px。它只显示图标：带文字的导航条需要 68px 才能放下 Computers 这样的名称。有顶栏时导航条没有头部；没有顶栏时，导航条头部和其他头部一样高。
-- 桌面窗口高度小于 600px 时（`@media (max-height: 600px)`），所有头部一起缩小：桌面端缩到 40px（28px 的栏按钮上下各 6px，`header-height-short`），触屏上缩到 48px。桌面端导航条本来就是 49px 宽、项 36px；触屏上缩到这个尺寸；见[响应式布局](../patterns/responsive.md)。
+- 桌面窗口高度小于 600px 时（`@media (max-height: 600px)`），所有头部一起缩小：桌面端缩到 40px（28px 的栏按钮上下各 6px，`header-height-short`），触屏上缩到 48px。桌面端导航条本来就是 49px 宽、项 36px；触屏上缩到这个尺寸；见[响应式布局](../patterns/responsive.md)。 有一行在矮窗口里保持 44px：Tasks 的筛选行（TasksPanelToolbar）里是 38px 的分段轨道加一条接缝线，放不进 40，所以它保持桌面端的头部高度。
 
 ### 尺寸链 {#the-size-chain}
 

@@ -6,7 +6,7 @@ export const appRail = tv({
       "flex size-full  flex-col items-center select-none",
       "w-(--rail-width) border-r border-line-seam",
       "bg-layer-frame text-foreground-on-frame",
-      "[@media(max-height:600px)]:w-[49px]",
+      "[@media(max-height:600px)]:w-(--rail-width-short)",
     ],
     header: [
       "relative flex w-full shrink-0 items-center justify-center",
@@ -44,7 +44,7 @@ export const appRail = tv({
       "data-[selected=true]:ring-[1.5px] data-[selected=true]:ring-sticker-edge",
       "data-[selected=true]:text-foreground-on-frame-active",
       "focus-visible:shadow-focus",
-      "[@media(max-height:600px)]:size-9",
+      "[@media(max-height:600px)]:size-(--rail-item-short)",
     ],
     itemIcon: ["relative inline-flex items-center justify-center"],
     itemLabel: ["sr-only"],

@@ -46,7 +46,7 @@ button/compositions/preview
 button/compositions/on-frame
 ```
 
-On the frame, a button takes the frame's ink (`foreground-on-frame`) and lays `fill-frame-medium` over itself on hover, on press and while its popup is open. The text and icon sizes become the 36px frame item.
+On the frame, a button takes the frame's ink (`foreground-on-frame`) and lays `fill-frame-medium` over itself on hover, on press and while its popup is open. The text and icon sizes become the frame item (`frame-item-height`: 32px with a mouse, 36px on a touch screen).
 
 ### Which color
 
@@ -83,22 +83,22 @@ When a place looks too tight for a 32px button, change the container, not the bu
 
 Every place has one answer. Where a part of the container sets the place, follow it: the size comes with the place, not with the button.
 
-| Place                                                                       | Size                                   | Who decides                                                                                               |
-| --------------------------------------------------------------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| Dialog, drawer and sheet footers                                            | `lg`                                   | `DialogFooter`: Cancel and the submit button are `lg`. `DialogCommit` moved into a phone's header is `md` |
-| A form's submit; Save on a card that holds fields                           | `lg`                                   | You, because fields are above it                                                                          |
-| Beside a field: copy a link, remove a row, add                              | `lg`, `icon-lg`                        | You: it takes the field's height ([Icon buttons](#icon-buttons))                                          |
-| A full-width button across a sign-in, sign-up or setup form                 | `xl`                                   | You                                                                                                       |
-| A full-width column of actions at the bottom of a panel                     | `lg`                                   | You                                                                                                       |
-| A banner's button and its Dismiss                                           | `md`                                   | `BannerAction` places them; `BannerClose` is its own 32px ×                                               |
-| A toast's action                                                            | none                                   | `ToastAction` is the toast's own text action; it takes no Button size                                     |
-| A desktop panel header                                                      | none                                   | `PanelAction` and `PanelToggleAction` are their own buttons, 32px on a desktop and 44px on a phone        |
-| Card and message action card actions; a single action in a settings section | `md`                                   | You                                                                                                       |
-| The end of a list row or a table row                                        | `md`, `icon-md`                        | You                                                                                                       |
-| Toolbars, filter bars, empty states, the bottom of a popover, Load more     | `md`, `icon-md`                        | You                                                                                                       |
-| A phone top bar; the media viewer                                           | `icon-lg`                              | The top bar, `Lightbox`                                                                                   |
-| The rail, the web top bar, the desktop title bar                            | `on-frame` at `md` or `icon-md` (36px) | The frame                                                                                                 |
-| A menu, a phone's overflow menu                                             | No Button: a menu item                 | `DropdownMenu`, the sheet                                                                                 |
+| Place                                                                       | Size                                                                               | Who decides                                                                                               |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Dialog, drawer and sheet footers                                            | `lg`                                                                               | `DialogFooter`: Cancel and the submit button are `lg`. `DialogCommit` moved into a phone's header is `md` |
+| A form's submit; Save on a card that holds fields                           | `lg`                                                                               | You, because fields are above it                                                                          |
+| Beside a field: copy a link, remove a row, add                              | `lg`, `icon-lg`                                                                    | You: it takes the field's height ([Icon buttons](#icon-buttons))                                          |
+| A full-width button across a sign-in, sign-up or setup form                 | `xl`                                                                               | You                                                                                                       |
+| A full-width column of actions at the bottom of a panel                     | `lg`                                                                               | You                                                                                                       |
+| A banner's button and its Dismiss                                           | `md`                                                                               | `BannerAction` places them; `BannerClose` is its own 32px ×                                               |
+| A toast's action                                                            | none                                                                               | `ToastAction` is the toast's own text action; it takes no Button size                                     |
+| A desktop panel header                                                      | none                                                                               | `PanelAction` and `PanelToggleAction` are their own buttons, 32px on a desktop and 44px on a phone        |
+| Card and message action card actions; a single action in a settings section | `md`                                                                               | You                                                                                                       |
+| The end of a list row or a table row                                        | `md`, `icon-md`                                                                    | You                                                                                                       |
+| Toolbars, filter bars, empty states, the bottom of a popover, Load more     | `md`, `icon-md`                                                                    | You                                                                                                       |
+| A phone top bar; the media viewer                                           | `icon-lg`                                                                          | The top bar, `Lightbox`                                                                                   |
+| The rail, the web top bar, the desktop title bar                            | `on-frame` at `md` or `icon-md` (the frame item: 32px with a mouse, 36px by touch) | The frame                                                                                                 |
+| A menu, a phone's overflow menu                                             | No Button: a menu item                                                             | `DropdownMenu`, the sheet                                                                                 |
 
 #### Inside a floating toolbar
 

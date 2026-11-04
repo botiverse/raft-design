@@ -103,7 +103,7 @@ control
 
 
 - The rail has its own width (`rail-width`), not the header's: 49px with a 1px seam and 36px items on a desktop, 57px with 40px items on a touch screen. It shows icons only: a labeled rail needs 68px to fit names such as Computers. Under the top bar the rail has no head; without it, the rail header is as tall as every other header.
-- When the desktop window is shorter than 600px (`@media (max-height: 600px)`), every header shrinks together, to 40px on a desktop (a 28px bar button with 6px above and below, `header-height-short`) and to 48px on a touch screen. The rail is already 49px wide with 36px items on a desktop; on a touch screen it shrinks to that size; see [Responsive layout](../patterns/responsive.md).
+- When the desktop window is shorter than 600px (`@media (max-height: 600px)`), every header shrinks together, to 40px on a desktop (a 28px bar button with 6px above and below, `header-height-short`) and to 48px on a touch screen. The rail is already 49px wide with 36px items on a desktop; on a touch screen it shrinks to that size; see [Responsive layout](../patterns/responsive.md). One row keeps 44px there: the Tasks filter row (TasksPanelToolbar) holds a 38px segmented track and its seam, which don't fit in 40, so it stays at the desktop header height.
 
 ### The size chain
 

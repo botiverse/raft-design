@@ -29,7 +29,7 @@ thread-panel/thread-panel
 ## Anatomy
 
 - `ThreadPanelRoot`: the panel. It is a `Panel` with `edge="attached"`, so it draws its own left seam.
-- `ThreadPanelHeader`: the 56px header, built on `PanelHeaderRoot`.
+- `ThreadPanelHeader`: the header (44px with a mouse, 56px on a touch screen), built on `PanelHeaderRoot`.
   - `ThreadPanelTitle`: the title, "Thread", followed by `ThreadPanelTitleMeta` for where the thread is.
   - `ThreadPanelActions`: `PanelAction` buttons. The last ones are Expand and the × ([Panel](../panel/panel.md#rules), [Navigation](../../../../../design/patterns/navigation.md#closing)); folded over the conversation, the header starts with Back and has no ×.
 - `ThreadPanelContent`: everything under the header.

@@ -47,9 +47,9 @@ import type { StyledProps } from "../../lib/styled-props";
 // control roundness: 19 -> 4, 27 -> 6, 35 -> 8, 51 and 99 -> 10. The image
 // and the fallback inside the 1.5px edge keep the concentric corner.
 const avatarInnerRadius = [
-  "md:pointer-fine:group-data-[size=sm]/avatar:rounded-[4.5px]",
-  "md:pointer-fine:group-data-[size=md]/avatar:rounded-[6.5px]",
-  "md:pointer-fine:group-data-[size=lg]/avatar:rounded-[8.5px] md:pointer-fine:group-data-[size=xl]/avatar:rounded-[8.5px]",
+  "md:pointer-fine:group-data-[size=sm]/avatar:rounded-[calc(var(--radius-chip)-1.5px)]",
+  "md:pointer-fine:group-data-[size=md]/avatar:rounded-[calc(var(--radius-control)-1.5px)]",
+  "md:pointer-fine:group-data-[size=lg]/avatar:rounded-[calc(var(--radius-container)-1.5px)] md:pointer-fine:group-data-[size=xl]/avatar:rounded-[calc(var(--radius-container)-1.5px)]",
 ];
 
 const avatar = tv({

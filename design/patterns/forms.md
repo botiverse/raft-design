@@ -68,7 +68,7 @@ save-status/compositions/preview
 
 A large form filled in one pass, such as registering or editing an app, opens as the wide dialog ([Dialog](../../packages/ui/src/components/dialog/dialog.md)): centered, 896px wide, with a fixed height of 760px or the window less 32px, whichever is smaller. It doesn't go to a settings page or a drawer: a form with many fields has to be seen as one whole, not as a strip along the edge.
 
-- Make the 56px header the item's logo, the title and ×. The title is the words that opened it (Register app), or Edit and the item's name when editing. Don't put the submit button in the header.
+- Make the header (the header height: 44px with a mouse, 56px on a touch screen) the item's logo, the title and ×. The title is the words that opened it (Register app), or Edit and the item's name when editing. Don't put the submit button in the header.
 - Put a strip under the header for what must stay in view while the form scrolls: the form's error, or a secret shown once.
 - Put a section list on the left, 208px wide, so people can jump around a long form (sidebar rows; the section being read is a yellow sticker and follows the scroll), and the sections on the right ([FormSection](../../packages/ui/src/components/form-section/form-section.md): a small heading, a status chip, one line of description, and a hairline between sections).
 - Put Cancel first and the pink button last in the footer.

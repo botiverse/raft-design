@@ -18,7 +18,7 @@ export const tasksPanel = tv({
       // row (40rem: New Task, the filters and Board / List), the row is a
       // header: the 38px segmented track and the seam fill 44. Narrower, it
       // stacks or can wrap onto two rows, so it keeps its 12px.
-      "md:pointer-fine:@min-[40rem]/tasks:py-[2.5px]",
+      "md:pointer-fine:@min-[40rem]/tasks:py-[calc((var(--header-height)-1px-38px)/2)]",
       "@max-md/tasks:px-4",
     ],
     toolbarGroup: ["flex flex-wrap items-center gap-2"],

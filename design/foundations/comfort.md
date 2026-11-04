@@ -13,7 +13,7 @@ People keep Raft open all day, so a screen has to be easy to read at a glance an
 - **Closer inside a group than between groups.** Every space comes from the spacing scale ([Spacing rhythm](#spacing-rhythm)).
 - **The same inset from every edge.** Nested insets add up ([Edges](#edges)).
 - **Text on one baseline, marks centered; one start edge per column** ([Alignment](#alignment)).
-- **Density follows the input, never the content.** A row of a compact list stays at least 44px by touch and 36px with a mouse ([Density](#density-and-touch-targets)).
+- **Density follows the input, never the content.** A row of a compact list stays at least 44px by touch and 34px with a mouse ([Density](#density-and-touch-targets)).
 - **Few levels of text, far apart.** Secondary text is muted, not small ([Hierarchy](#hierarchy-contrast)).
 - **A card is for an object that sits inside other content.** A region beside another region takes a seam, and a group takes space, not a card ([Surfaces](#surfaces)).
 
@@ -36,7 +36,7 @@ Put things that belong together closer to each other than to anything else, with
 - **Take every space from the scale in [Spacing](./spacing.md#spacing)**, its half steps included. A value off it (5px, 14px, 18px) is a sign that something is being nudged instead of laid out.
 - **Make the space between groups about twice the space inside one, or more.** Proximity is how the eye groups things before it reads them. When the gaps are close in size, nothing groups, and the screen reads as an even gray.
 - **Keep a heading clearly closer to what it names than to what comes before it**: a status heading in the Tasks section has 16px above its words and 6px below (the spacing the Sidebar section header had before its list took the 8px under it), and the groups have no gap of their own, so its words are noticeably farther from the rows above (about 25px) than from its own (16px). A heading as far from the rows above as from its own looks as if it belonged to both. Where the heading is a toggle, let its touch target reach into the space above it rather than push it away from its rows.
-- **A row's own padding counts.** Measure a gap between letters and marks, not between boxes: a 36px row with 14px of text already has 11px of space above and below its letters.
+- **A row's own padding counts.** Measure a gap between letters and marks, not between boxes: a 34px row with 14px of text already has 10px of space above and below its letters.
 
 ## Edges
 
@@ -59,7 +59,7 @@ Where each part of a row and of a column lands is set in [Alignment](./alignment
 
 How much fits on a screen follows the input, not how much there is to show.
 
-- **A row of a compact list is at least 44px by touch and 36px with a mouse** ([Rows in a compact list](../patterns/tasks.md#rows-in-a-compact-list)). The sizes of controls and their hit areas are in [Spacing](./spacing.md#hit-targets).
+- **A row of a compact list is at least 44px by touch and 34px with a mouse** ([Rows in a compact list](../patterns/tasks.md#rows-in-a-compact-list)). The sizes of controls and their hit areas are in [Spacing](./spacing.md#hit-targets).
 - **When there isn't room, truncate or wrap: never shrink the spacing or the type.** A title ends in an ellipsis, and a trailing group wraps, whole, to a second line. Spacing tighter than the scale makes everything harder to target and to read; the person who wants more on screen picks a smaller message size ([Typography](./typography.md#desktop-and-phone)).
 - **A row has at most two lines**, the second only when its trailing group wraps. A third line is a sign the row holds a card's worth of content.
 
