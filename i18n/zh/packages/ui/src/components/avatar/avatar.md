@@ -1,7 +1,7 @@
 ---
 title: Avatar
 summary: 代表一个 Agent 或一个人的方形贴纸：Agent 是像素头像，人是照片或姓名首字母，可以带一个在线状态灯。
-sourceHash: 01bb350d
+sourceHash: d8fa2ea6
 ---
 
 # Avatar
@@ -29,8 +29,8 @@ avatar/compositions/preview
 - `AvatarImage`：Agent 的像素头像或人的照片。可选。
 - `AvatarFallback`：图片没加载出来时显示的内容：人的姓名首字母。没有子元素时显示一个占位图标。
 - `AvatarBadge`：角上的东西：在线状态灯，或通过 `render` 画在那个位置的其他东西。可选。
-- `AvatarGroup`：互相重叠的一叠头像。
-- `AvatarGroupCount`：一叠头像末尾的 +N 标签片，`size` 与旁边的头像相同。
+- `AvatarGroup`：互相重叠的一叠头像。是一个 `div`；放在只能放行内内容的地方时（比如标题栏的 `<p>` 或按钮里），给它 `render={<span />}`。
+- `AvatarGroupCount`：一叠头像末尾的 +N 标签片，`size` 和边都与旁边的头像相同。
 - `AvatarGroupButton`：本身是按钮的 `AvatarGroup`，用于点开后列出其中有谁的头像叠（[点开列表的头像叠](#a-stack-that-opens-a-list)）。里面放同样的 `Avatar` 和 `AvatarGroupCount`。
 
 ## 变体 {#variants}
@@ -74,6 +74,22 @@ avatar/compositions/panel-header
 avatar/compositions/badge-presence
 ```
 
+### 头像叠 {#stacks}
+
+`AvatarGroup` 让每个头像压在前一个上 5px，所有尺寸都一样，中间什么都没有：脸周围没有表面色的外圈，也没有空隙。把一张脸和下一张分开的，是每张贴纸自己 1.5px 的墨色边，深色模式下还有它的模切边。末尾的 `AvatarGroupCount` 也同样压在最后一张脸上，带着同样的边。
+
+```example
+avatar/compositions/group
+```
+
+- 原因：在每张脸周围的表面上切出的一圈，看起来像脸与脸之间的空隙，而应用里手工做的头像叠（Working now、正在输入的那一行）没有这一圈，同一个概念有了两种样子。现在每个头像叠都按 Working now 的方式画。由 stdrc 于 2026-11-04 决定（#proj-raft-ui:7531279d）。
+- 接缝落在直边上，永远不落在圆角里。贴纸的圆角是 4px（`radius-sticker`），5px 能越过它：下一张脸的圆角压在下面那张脸笔直的上边和下边上，轮廓连续不断。重叠 3px 或 4px 时，接缝落在圆角里，两个圆角之间会露出一个表面色的缺口。14px（`3xs`）的脸，比如消息列的关注者标签片，出于同样的原因也用 5px。
+- +N 标签片（`AvatarGroupCount`）带着脸的墨色边，深色模式下还有它们的模切边，所以它看起来是头像叠里的又一张贴纸，而不是旁边的一个灰色方块。它的填充保持中性（`fill-muted`），数字保持弱化。
+- Agent 的像素脸仍然认得出来：在 19px 上，它的图案是边内 8 格、每格 2px，下一张脸盖住它的边和不到 8 列中的 2 列（深色模式下约 2.5 列，因为下一张脸的模切边多出 1.5px）。原来的外圈还要再多盖 3px。
+- 人的照片或首字母也在同样的墨色边里面，所以在任何表面上，都和 Agent 的脸一样与相邻的脸分开。
+- 脸、边和数字标签片都是不透明的，下面的东西不会透出来，头像叠也不需要自己的表面色：在画布、卡片、标题栏或悬停填充上看起来都一样。
+- 几何尺寸和去掉外圈之前一样：19px 的脸、5px 的重叠，`AvatarGroupButton` 里脸周围 4px。按头像叠定宽的列（消息行里的已读头像）宽度不变。
+
 ### 点开列表的头像叠 {#a-stack-that-opens-a-list}
 
 头像叠代表读者可能想看到名字的人时，比如谁在查看一份文档、频道的成员，头像叠本身就是打开列表的按钮：`AvatarGroupButton`，通常作为 `PopoverTrigger` 的 `render`。它是小控件，所以悬停和按下都用中档（[状态](../../../../../design/foundations/states.md#hover-and-press)）。
@@ -83,8 +99,7 @@ avatar/compositions/group-button
 ```
 
 - 头像叠放在按钮内 4px，这样悬停填充显示在脸的周围，用 `radius-chip`。
-- 脸与脸之间的那一圈也带上悬停填充，叠在头像叠的表面色之上，这样整个头像叠作为一个控件一起变化，没有哪张脸还留着旧表面色的外圈。
-- 放在画布以外的表面上（卡片、标题栏）的头像叠，把 `--avatar-group-surface` 设为那个表面，和 `AvatarGroup` 一样。
+- 脸直接互相压着（[头像叠](#stacks)），没有需要重新上色的外圈：填充一次铺在整个头像叠后面，每张脸保持自己的颜色。
 - 键盘焦点在按钮周围画出共用的焦点环（[状态](../../../../../design/foundations/states.md)）。
 
 ### 角落 {#the-corner}
@@ -110,7 +125,7 @@ avatar/compositions/group-button
 ## 行为 {#behavior}
 
 - `AvatarImage` 在加载中或加载失败时保持隐藏，由 `AvatarFallback` 显示在原位。
-- 在 `AvatarGroup` 里，每个头像与前一个重叠 5px。「谁在工作」的头像叠显示几张脸，见[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#the-summary-and-working-now)。
+- 在 `AvatarGroup` 里，每个头像与前一个重叠 5px，所有尺寸都一样，中间什么都没有，接缝落在直边上（[头像叠](#stacks)）。「谁在工作」的头像叠显示几张脸，见[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#the-summary-and-working-now)。
 - 有人加入或离开头像叠时，脸会滑动并淡入淡出（[动效](../../../../../design/foundations/motion.md#usage)）。
 - 在深色模式下，头像保持原来的颜色，并加上模切边（[深色模式](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)）。
 
@@ -136,6 +151,8 @@ avatar/compositions/group-button
 - 不要靠形状区分 Agent 和人。必须明确区分时，在名字后面加 `agent` 标记（[Status](../status/status.md#agent-tag)）。
 - 每个 Agent 只用一个像素头像，在整个产品里都一样。
 - 像素头像和它的填充色要一起用：新的像素头像带着自己的填充色。不要给 Agent 单独指定颜色。
+- 每个头像叠都用 `AvatarGroup` 或 `AvatarGroupButton` 画，不要自己做，脸与脸之间不放外圈、空隙或描边（[头像叠](#stacks)）。
+- 让脸重叠到越过圆角：接缝落在直边上，永远不落在圆角里（[头像叠](#stacks)）。
 - 只用这五种头像尺寸。不要做 32px 或 40px 的头像：脸上的像素会不再均匀。`3xs`（14px）不在这套尺寸里。
 - 在线状态灯不要闪烁，也不要做呼吸效果（[动效](../../../../../design/foundations/motion.md)）。
 - 角上只放一样东西：在线状态灯、人的头像上助理的脸，或消息列行上的消息列徽标，不要同时放其中两样（[角落](#the-corner)）。
