@@ -150,6 +150,19 @@ function warnStickyLayout(container: HTMLElement, style: CSSStyleDeclaration) {
   );
 }
 
+/**
+ * What is watched for a child of the container. VirtualList's items element (the list as the
+ * container, as in a message timeline) is sized by the list itself, from its own ResizeObserver's
+ * notification for a row: watching it there would report a size change the browser can't deliver
+ * in that frame ("ResizeObserver loop completed with undelivered notifications"). Its rows' box
+ * inside it, which only the rows size, is watched instead; the size the list adds below the rows
+ * is the scroll size, which the next scrolled frame reads.
+ */
+function observedFor(child: Element): Element {
+  if (child.getAttribute("data-slot") !== "virtual-list-items") return child;
+  return child.querySelector(':scope > [data-slot="virtual-list-visible-items"]') ?? child;
+}
+
 /** `--r-scroll-area-thumb-min-length` when the CSS isn't loaded (or isn't a px length). */
 const defaultMinThumbLength = 24;
 
@@ -206,11 +219,12 @@ type Layout = Omit<ScrollMetrics, "scrollLeft" | "scrollTop"> & {
  * container needs no handler wired to the scrollbars, and binds again when
  * a render finds another element there.
  *
- * Two paths. The layout path (mounting, a ResizeObserver or MutationObserver
- * notification, `measure()`) reads the container's client and scroll sizes,
- * the gutters' lengths and the writing direction, caches them and draws.
- * The ResizeObserver watches the container (the viewport), the content
- * (`contentRef`, or each element child of the container) and each gutter.
+ * Two paths. The layout path (mounting, `measure()`, and the animation frame
+ * after a ResizeObserver or MutationObserver notification) reads the
+ * container's client and scroll sizes, the gutters' lengths and the writing
+ * direction, caches them and draws. The ResizeObserver watches the container
+ * (the viewport), the content (`contentRef`, or each element child of the
+ * container, see `observedFor`) and each gutter.
  * The scroll path only asks for one animation frame, however many scroll
  * events come; that frame reads the offset and the scroll size, right after
  * the offset forced the layout (so it costs nothing more), and draws. The
@@ -261,6 +275,8 @@ export function useScrollbars({
     edges: noEdges,
     /** The pending animation frame, 0 when none. */
     frame: 0,
+    /** The pending frame measures the layout (an observer reported a change), not only draws. */
+    frameMeasures: false,
     idleTimer: undefined as ReturnType<typeof setTimeout> | undefined,
     layout: {
       clientHeight: 0,
@@ -300,7 +316,7 @@ export function useScrollbars({
     gutters?.toggle("r-scroll-area__gutters--dragging", dragging);
   }, [guttersRef, rootRef]);
 
-  /** `measure`, for `draw`, which is declared before it. */
+  /** `measure(true)`, for `draw` and `scheduleFrame`, which are declared before it. */
   const remeasure = useRef<() => void>(() => {});
 
   /** Reads the offset once and draws everything that follows from it and the cached sizes. */
@@ -399,21 +415,34 @@ export function useScrollbars({
     }
   }, [applyClasses, containerRef, fadeRef, rootRef]);
 
-  /** At most one frame at a time: however many scroll events come in, the thumb is drawn once a frame. */
-  const scheduleDraw = useCallback(() => {
-    const current = state.current;
-    if (current.frame !== 0) return;
-    if (typeof requestAnimationFrame !== "function") {
-      applyClasses();
-      draw();
-      return;
-    }
-    current.frame = requestAnimationFrame(() => {
-      current.frame = 0;
-      applyClasses();
-      draw();
-    });
-  }, [applyClasses, draw]);
+  /**
+   * At most one frame at a time: however many scroll events and observer notifications come in,
+   * the thumb is drawn once a frame. `layout` (an observer's notification) makes the frame measure
+   * the layout first; a frame already asked for by a scroll is upgraded to it, never dropped.
+   */
+  const scheduleFrame = useCallback(
+    (layout: boolean) => {
+      const current = state.current;
+      if (layout) current.frameMeasures = true;
+      if (current.frame !== 0) return;
+      const run = () => {
+        current.frame = 0;
+        if (current.frameMeasures) {
+          current.frameMeasures = false;
+          remeasure.current();
+          return;
+        }
+        applyClasses();
+        draw();
+      };
+      if (typeof requestAnimationFrame !== "function") {
+        run();
+        return;
+      }
+      current.frame = requestAnimationFrame(run);
+    },
+    [applyClasses, draw],
+  );
 
   /**
    * The layout path: reads the container's sizes and the gutters' lengths into the cache, then draws.
@@ -480,13 +509,13 @@ export function useScrollbars({
   const handleScroll = useCallback(() => {
     const current = state.current;
     current.scrolling = true;
-    scheduleDraw();
+    scheduleFrame(false);
     clearTimeout(current.idleTimer);
     current.idleTimer = setTimeout(() => {
       current.scrolling = false;
       applyClasses();
     }, latest.current.hideDelay);
-  }, [applyClasses, scheduleDraw]);
+  }, [applyClasses, scheduleFrame]);
 
   const setDragging = useCallback(
     (dragging: boolean) => {
@@ -516,7 +545,11 @@ export function useScrollbars({
         classes?.disconnect();
       };
       if (typeof ResizeObserver === "undefined") return stopListening;
-      const observer = new ResizeObserver(() => measure(true));
+      // Measured in the next frame, not in the notification: measuring writes the viewport's size
+      // and the padding on the root, which size the (observed) gutters, and renders a gutter that
+      // comes or goes. Written here, they resize observed elements again in the same frame, and
+      // when nothing deeper than them was reported that is a "ResizeObserver loop" error.
+      const observer = new ResizeObserver(() => scheduleFrame(true));
       state.current.observer = observer;
       for (const element of [
         container,
@@ -533,18 +566,19 @@ export function useScrollbars({
       };
       if (content) return disconnect;
       // No content element: each child of the container is the content, and a child added later
-      // (rows replacing an empty state) is observed too.
-      const observed = new Set<Element>();
+      // (rows replacing an empty state) is observed too. Each child maps to what is observed for it.
+      const observed = new Map<Element, Element>();
       const observeChildElements = () => {
-        for (const child of observed) {
-          if (child.parentNode === container) continue;
+        for (const [child, target] of observed) {
+          if (child.parentNode === container && observedFor(child) === target) continue;
           observed.delete(child);
-          observer.unobserve(child);
+          observer.unobserve(target);
         }
         for (const child of container.children) {
           if (observed.has(child)) continue;
-          observed.add(child);
-          observer.observe(child);
+          const target = observedFor(child);
+          observed.set(child, target);
+          observer.observe(target);
         }
       };
       observeChildElements();
@@ -554,7 +588,7 @@ export function useScrollbars({
           ? null
           : new MutationObserver(() => {
               observeChildElements();
-              measure(true);
+              scheduleFrame(true);
             });
       mutations?.observe(container, { childList: true });
       return () => {
@@ -562,7 +596,7 @@ export function useScrollbars({
         disconnect();
       };
     },
-    [applyClasses, handleScroll, measure],
+    [applyClasses, handleScroll, measure, scheduleFrame],
   );
 
   /** What the observers are bound to now, and how to undo it. */
@@ -632,6 +666,7 @@ export function useScrollbars({
       clearTimeout(current.idleTimer);
       if (current.frame !== 0) cancelAnimationFrame(current.frame);
       current.frame = 0;
+      current.frameMeasures = false;
       // Under StrictMode the area mounts again: don't leave it scrolling with no timer to stop it.
       current.scrolling = false;
       current.dragging = false;
