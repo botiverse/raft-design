@@ -1,3 +1,12 @@
+## [0.60.2](https://github.com/botiverse/raft-design/compare/v0.60.1...v0.60.2) (2026-11-04)
+
+### Fixed
+
+- **ScrollArea**: no "ResizeObserver loop completed with undelivered notifications" error over a VirtualList. ([#980](https://github.com/botiverse/raft-design/pull/980))
+  - Why: ScrollArea watched every child of its container, including VirtualList's items element, whose min-height VirtualList sets inside its own ResizeObserver callback. When a row in view grew (an image loaded, a reaction was added), that element resized inside the frame's deepest callback and Chromium logged the loop error.
+  - Affects: over a VirtualList, ScrollArea now watches the rows' box inside the items element. A resize or child change is measured on the next animation frame, coalesced with a pending scroll frame; mounting and `measure()` / `actionsRef.measure()` still measure at once.
+  - Docs: https://raft-design.botiverse.build/components/scroll-area/
+
 ## [0.60.1](https://github.com/botiverse/raft-design/compare/v0.60.0...v0.60.1) (2026-11-04)
 
 ### Fixed
