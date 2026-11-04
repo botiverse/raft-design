@@ -26,6 +26,15 @@ release. Add a tool name to select part of the graph. For example, run
 
 <!--VITE PLUS END-->
 
+# Local Checks: Only What You Changed
+
+Most of us work on shared hosts with a memory limit per job, and a check of the whole repo from its root (`vp check`, `vp run -r test`, `pnpm ready`) can go past it and be killed. On 2026-11-04 a root `vp check` went past a 3 GiB limit; the same check on `packages/ui` alone fit.
+
+- Locally, check only the package your change is in, from that package: `cd packages/ui && pnpm exec vp check` (or `apps/doc` for a docs-site change), and run only the tests that cover your change. Run one heavy job at a time per host, parent and sub-agents together.
+- The full check of the repo is CI's: the PR's `check` job runs it on every push.
+- A package passing is not "all checks pass". Say which package you checked, and let CI's `check` be the evidence for the rest.
+- Follow your host's own rules on top of this (approval for browsers or tests, a shared lock).
+
 # Browser Tests Run by Hand
 
 Open a browser, take screenshots and run browser tests whenever a check needs real layout; it needs no one's permission.
