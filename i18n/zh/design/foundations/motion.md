@@ -1,7 +1,7 @@
 ---
 title: 动效
 summary: 按下、悬停、滑入、拖动落定和头像变化的时长与缓动，以及状态从不循环播放动画这条规则。
-sourceHash: 2be3f7a6
+sourceHash: 4b037188
 ---
 
 # 动效
@@ -31,7 +31,7 @@ motion
 | 手机上推入或返回一个页面 | 用平台默认的转场，手机网页、iOS 和 Android 都一样（[导航](../patterns/navigation.md#what-each-platform-draws)） | 平台默认 |
 | 键盘收起时标签栏重新出现 | 用平台默认的转场，不要瞬间跳出（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#behavior)）。页面滚动时标签栏不动 | 平台默认 |
 | 拖动落定：放下时，被拿起的副本滑进它的位置，取消时滑回原处；相邻项向两侧滑开，让出位置；放下时布局重新排列，与滑行同步（[拖放](../patterns/drag-and-drop.md#drop-and-cancel)） | `motion-drag-settle-easing` | `motion-drag-settle-duration`，160ms |
-| 向左拖动对话来看时间：松手后各行弹回。手指按住时，各行先 1:1 跟着手指走到 64px，之后只跟手指移动距离的 0.55（橡皮筋效果），最多约 88px；开启减弱动态效果时仍然跟着手指走，松手后直接跳回（[对话](../patterns/conversation.md#dates-and-grouping)） | `motion-drag-settle-easing` | `motion-drag-settle-duration`，160ms |
+| 向左拖动对话来看时间：松手后各行弹回。手指按住时，各行先 1:1 跟着手指走到 64px，之后只跟手指移动距离的 0.55（橡皮筋效果），最多约 88px。开启减弱动态效果时什么都不滑动：拖动被接手期间时间在原处淡入，松手后淡出，只变透明度（[对话](../patterns/conversation.md#dates-and-grouping)） | `motion-drag-settle-easing`；淡入淡出用 linear | `motion-drag-settle-duration`，160ms |
 | 有人加入或离开头像组 | 头像向两侧滑开并淡入或淡出，使用 `ease-slide` | 180ms 到 220ms |
 | 跳转到达的那一项（被定位） | 立即显示 `info-soft`，保持 1.2 秒，再用 `ease-out` 淡出；开启减弱动态效果时静止保持 2 秒后直接消失（[被定位](./states.md#located)） | 共 2 秒 |
 | 完成的任务离开它的分组：它先留在原位，带着删除线，然后移进收起的 Done 分组（[完成任务](../patterns/tasks.md#completing-a-task)） | 先静止停留，再不加转场地移走；开启减弱动态效果时立即移走 | 650ms |
