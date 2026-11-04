@@ -72,18 +72,19 @@ These are the states of the handle on a seam; the gap handle's are in [The gap h
 - A double click on the handle puts the column back to its default width.
 - Use the widths in [Spacing](../../../../../design/foundations/spacing.md#layout-widths) for the default, minimum and maximum: every column has its own range, and the sidebar keeps one width on every page ([Resizing columns](../../../../../design/foundations/spacing.md#resizing-columns)).
 - Pass `groupResizeBehavior="preserve-pixel-size"` on the sidebar's panel, so the sidebar keeps its width when the window changes and the main area takes up the difference.
+- In a conversation's row every seam trades width between its two neighbours, and once the shrinking one is down to 160px the drag goes on taking from the next column further out on that side (the cascade); a column's content keeps its own minimum and is clipped under it. What a release shows is what is saved ([The channel's side columns](../../../../../design/patterns/responsive.md#the-channels-side-columns)).
 - Below 768px there are no side-by-side columns to resize in Raft Chat; a server's public page keeps its columns from 640px ([Responsive layout](../../../../../design/patterns/responsive.md)).
 
 ### Dragging past the end
 
-A drag that reaches the end of a column's range and keeps going changes the layout's state instead of stopping: the column snaps to its next state, and that jump is how people know they went past the end (stdrc, 2026-10-23).
+A drag that reaches the end of the sidebar's range and keeps going changes the layout's state instead of stopping: the sidebar snaps to its next state, and that jump is how people know they went past the end (stdrc, 2026-10-23).
 
 - **The sidebar collapses.** Drag it to its minimum and 40px further toward the edge: it collapses at once, while the drag is still held.
-- **A thread goes to focus mode.** Drag the thread panel (where a task's conversation opens too) until the conversation is down to its 360px, then 40px further: it goes to its focus mode, the one its header's Focus Mode button turns on, at once. Only a panel that already has a focus mode snaps to it. A channel's side columns and the profile or task side panel stop at the conversation's 360px (a Thread among the side columns stops where the others still stand, and 40px past that goes to focus mode): a focus mode made only to give a drag somewhere to go is a feature nobody asked for.
+- **Nothing else snaps.** A seam in a conversation's row doesn't stop at a minimum: it carries on into the next column, each down to 160px ([Behavior](#behavior)). A thread is expanded by the Expand in its head, as every column is, not by a drag past the end ([Panel](../panel/panel.md#rules); stdrc, 2026-11-03 and 2026-11-04, #proj-raft-ui:#189).
 - **It switches during the drag, not on release.** Dragging back across the line, still held, undoes it; releasing keeps whichever state is showing. A preview that only switches on release has no jump, and the jump is the point: VS Code's sidebar and macOS split views snap the same way.
 - **40px, not a touch.** The extra 40px keeps a drag that just reaches the end from snapping by accident.
-- **The width comes back.** The width the column had before it snapped is remembered, and expanding the sidebar or leaving focus mode (with its own control, as before) brings it back. A double click on the handle still resets to the default width.
-- **The keyboard reaches both states.** Enter on the handle collapses or restores the sidebar, as for any collapsible panel ([Accessibility](#accessibility)), and focus mode keeps its own button, so neither state needs a pointer.
+- **The width comes back.** The width the sidebar had before it snapped is remembered, and expanding the sidebar brings it back. A double click on the handle still resets to the default width.
+- **The keyboard reaches it.** Enter on the handle collapses or restores the sidebar, as for any collapsible panel ([Accessibility](#accessibility)), so the state doesn't need a pointer.
 
 ## Accessibility
 

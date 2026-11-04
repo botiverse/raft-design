@@ -69,7 +69,7 @@ message-item/compositions/context-menu-showcase
 thread-panel/thread-panel
 ```
 
-- Open a thread in the side panel ([ThreadPanel](../../packages/ui/src/components/thread-panel/thread-panel.md)), so the conversation it came from stays in view. It sits beside the conversation or covers it, depending on the width ([Responsive layout](./responsive.md)); on a phone it always covers the conversation, with Back.
+- Open a thread in the side panel ([ThreadPanel](../../packages/ui/src/components/thread-panel/thread-panel.md)), so the conversation it came from stays in view. It sits beside the conversation or folds over it, depending on the room ([Responsive layout](./responsive.md#the-channels-side-columns)); on a phone it always covers the conversation, with Back.
 - Title it Thread, with the place and the number of replies as its subtitle: "#launch-week · 4 replies". Selecting the title scrolls to the top of the thread.
 - Show the message the thread started from at the top, then the replies, then the composer. A thread has no tabs.
 - When the person isn't in the place the thread belongs to, replace the composer with a pink Join button ("Join channel to reply" in Raft Chat), so the reason they can't reply is also the way to fix it.
