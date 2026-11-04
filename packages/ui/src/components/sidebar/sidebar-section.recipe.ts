@@ -91,6 +91,9 @@ export const sidebarSectionRecipe = tv({
       // overlapping and a tap there has one owner. It is placed from inside
       // the 1px border, so 11px, not 10, and 3px into the gap.
       "not-pointer-fine:after:absolute not-pointer-fine:after:inset-[-11px] not-pointer-fine:after:content-['']",
+      // With a mouse the 24px drawing still answers a 28px target, a bar
+      // button's (the desktop's smallest target), through the same ::after.
+      "pointer-fine:after:absolute pointer-fine:after:-inset-[3px] pointer-fine:after:content-['']",
       "not-pointer-fine:not-first:after:left-[-3px] not-pointer-fine:not-last:after:right-[-3px]",
     ],
   },
