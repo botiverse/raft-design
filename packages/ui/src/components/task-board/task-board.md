@@ -20,11 +20,11 @@ Not yet implemented in raft-ui: this example shows the board before [0042](../..
 
 ## When to use
 
-| Situation                                  | Use                                   |
-| ------------------------------------------ | ------------------------------------- |
+| Situation                                   | Use                                   |
+| ------------------------------------------- | ------------------------------------- |
 | Tasks by status, with room for five columns | TaskBoard                             |
-| Tasks on a phone, or in a narrow panel     | [TaskList](../task-list/task-list.md) |
-| One task                                   | [TaskCard](../task-card/task-card.md) |
+| Tasks on a phone, or in a narrow panel      | [TaskList](../task-list/task-list.md) |
+| One task                                    | [TaskCard](../task-card/task-card.md) |
 
 ## Anatomy
 
