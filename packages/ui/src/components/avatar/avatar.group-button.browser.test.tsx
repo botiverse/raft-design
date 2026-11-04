@@ -1,8 +1,10 @@
 import "./avatar.test.css";
 /**
  * Avatar stacks (avatar.md, "Stacks"): faces lie directly on one another,
- * 5px over the one before, with no ring of the surface between them (stdrc,
- * 2026-11-04, #proj-raft-ui:7531279d). A face in a stack paints exactly as
+ * 5px over the one before at every size, past the corner so the seam sits on
+ * the straight edge, with no ring of the surface between them, and the +N
+ * chip has the faces' edge (stdrc, 2026-11-04,
+ * #proj-raft-ui:7531279d). A face in a stack paints exactly as
  * it does alone, at rest and inside a hovered AvatarGroupButton. Real
  * paint and layout: only a browser computes them.
  *
@@ -23,12 +25,6 @@ function settle(el: HTMLElement) {
 
 const shadow = (id: string) => getComputedStyle(screen.getByTestId(id)).boxShadow;
 
-/** The box-shadow layers that paint anything: a spread above 0. */
-const paintedLayers = (id: string) =>
-  shadow(id)
-    .split(/,(?![^(]*\))/)
-    .filter((layer) => !/\s0px\s*$/.test(layer.trim()) && layer.trim() !== "none");
-
 function Stacks() {
   return (
     <ThemeProvider>
@@ -48,6 +44,13 @@ function Stacks() {
             +1
           </AvatarGroupCount>
         </AvatarGroupButton>
+        <AvatarGroup data-testid="mini">
+          <Avatar size="3xs" type="agent" data-testid="mini-first" />
+          <Avatar size="3xs" type="agent" data-testid="mini-second" />
+          <AvatarGroupCount size="3xs" data-testid="mini-count">
+            2
+          </AvatarGroupCount>
+        </AvatarGroup>
       </div>
     </ThemeProvider>
   );
@@ -59,9 +62,14 @@ it("a face in a stack paints as it does alone: no ring of the surface", () => {
   for (const id of ["group-first", "group-second", "face", "face-second"]) {
     expect(shadow(id), id).toBe(alone);
   }
-  // The count chip has no edge and no ring.
-  expect(paintedLayers("group-count")).toEqual([]);
-  expect(paintedLayers("count")).toEqual([]);
+  // The count chip has the faces' edge (die-cut shadow and ink border), and no ring.
+  const face = getComputedStyle(screen.getByTestId("group-first"));
+  for (const id of ["group-count", "count"]) {
+    expect(shadow(id), id).toBe(alone);
+    const chip = getComputedStyle(screen.getByTestId(id));
+    expect(chip.borderLeftColor, id).toBe(face.borderLeftColor);
+    expect(chip.borderLeftWidth, id).toBe(face.borderLeftWidth);
+  }
 });
 
 it("hovered, the faces keep their own paint and only the button fills", async () => {
@@ -73,7 +81,7 @@ it("hovered, the faces keep their own paint and only the button fills", async ()
     "rgba(0, 0, 0, 0)",
   );
   expect(shadow("face")).toBe(shadow("alone"));
-  expect(paintedLayers("count")).toEqual([]);
+  expect(shadow("count")).toBe(shadow("alone"));
 });
 
 it("each face lies 5px over the one before, and the chip too", () => {
@@ -90,10 +98,30 @@ it("each face lies 5px over the one before, and the chip too", () => {
   }
 });
 
-it("the faces sit 4px inside the button's fill", () => {
+it("at 3xs (14px) too, each face and the chip lie 5px over the one before", () => {
   render(<Stacks />);
-  const button = screen.getByTestId("stack").getBoundingClientRect();
-  const face = screen.getByTestId("face").getBoundingClientRect();
-  expect(face.left - button.left).toBeCloseTo(4, 0);
-  expect(face.top - button.top).toBeCloseTo(4, 0);
+  for (const [a, b] of [
+    ["mini-first", "mini-second"],
+    ["mini-second", "mini-count"],
+  ] as const) {
+    const left = screen.getByTestId(a).getBoundingClientRect();
+    const right = screen.getByTestId(b).getBoundingClientRect();
+    expect(left.width, a).toBeCloseTo(14, 1);
+    expect(left.right - right.left, `${a} → ${b}`).toBeCloseTo(5, 1);
+  }
+});
+
+it("the overlap clears the corner, so the seam sits on the straight edge", () => {
+  render(<Stacks />);
+  for (const [a, b] of [
+    ["group-first", "group-second"],
+    ["mini-first", "mini-second"],
+  ] as const) {
+    const overlap =
+      screen.getByTestId(a).getBoundingClientRect().right -
+      screen.getByTestId(b).getBoundingClientRect().left;
+    const radius = Number.parseFloat(getComputedStyle(screen.getByTestId(b)).borderTopLeftRadius);
+    expect(radius, b).toBeGreaterThan(0);
+    expect(overlap, `${a} → ${b}`).toBeGreaterThan(radius);
+  }
 });

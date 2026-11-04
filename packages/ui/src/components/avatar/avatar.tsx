@@ -99,10 +99,12 @@ const avatar = tv({
       "group-data-[size=xl]/avatar:border-2",
       "group-data-[size=xs]/avatar:border group-data-[size=2xs]/avatar:border group-data-[size=3xs]/avatar:border",
     ],
-    // Faces lie directly on one another, 5px over the one before, with no
-    // ring of the surface between them: each sticker's own ink edge (and its
-    // die-cut edge in dark) is what parts it from the face beneath, as in
-    // Working now (stdrc, 2026-11-04, #proj-raft-ui:7531279d).
+    // Faces lie directly on one another, 5px over the one before at every
+    // size, with no ring of the surface between them: each sticker's own ink
+    // edge (and its die-cut edge in dark) parts it from the face beneath, as
+    // in Working now (stdrc, 2026-11-04, #proj-raft-ui:7531279d). 5px is past
+    // the 4px corner, so the seam sits on the straight edge, never in the
+    // corner; 3px or 4px leaves a notch of the surface between two corners.
     group: ["group/avatar-group flex items-center", "stack-x-[-5px]"],
     groupButton: [
       "relative inline-flex shrink-0 cursor-pointer items-center p-1",
@@ -393,12 +395,13 @@ export type AvatarGroupCountProps = ComponentPropsWithRef<"span"> & {
   size: AvatarSize;
 };
 
-// Trailing "+N" overflow chip for an AvatarGroup. Reuses the Avatar frame but
-// omits `type`, swapping the role fill for a neutral count chip.
+// Trailing "+N" overflow chip for an AvatarGroup. Reuses the Avatar frame (its
+// ink edge, and the die-cut edge in dark, like every face beside it) but omits
+// `type`, swapping the role fill for a neutral count chip.
 export function AvatarGroupCount({ size, className, ...props }: AvatarGroupCountProps) {
   const { root } = avatar({ size });
   const countClassName =
-    "border-transparent bg-fill-muted font-mono text-mono-meta font-bold tabular-nums text-foreground-muted shadow-none";
+    "bg-fill-muted font-mono text-mono-meta font-bold tabular-nums text-foreground-muted";
   return (
     <span
       data-slot="avatar-group-count"

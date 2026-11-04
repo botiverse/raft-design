@@ -35,7 +35,7 @@ avatar/compositions/preview
 - `AvatarFallback`: what shows when no image has loaded: the person's initials. Without children it shows a placeholder icon.
 - `AvatarBadge`: what sits in the corner: the presence light, or, through `render`, something drawn in its place. Optional.
 - `AvatarGroup`: the overlapping stack of avatars. A `div`; give it `render={<span />}` where only inline content may go, such as a header's `<p>` or a button.
-- `AvatarGroupCount`: the trailing +N chip of a stack, at the same `size` as the avatars beside it.
+- `AvatarGroupCount`: the trailing +N chip of a stack, at the same `size` and with the same edge as the avatars beside it.
 - `AvatarGroupButton`: an `AvatarGroup` that is a button, for a stack that opens the list of who is in it ([A stack that opens a list](#a-stack-that-opens-a-list)). It holds the same `Avatar`s and `AvatarGroupCount`.
 
 ## Variants
@@ -81,13 +81,15 @@ avatar/compositions/badge-presence
 
 ### Stacks
 
-`AvatarGroup` lays each avatar 5px over the one before, with nothing between them: no ring of the surface around a face, and no gap. Each sticker's own 1.5px ink edge, and in dark mode its die-cut edge, is what parts one face from the next. A trailing `AvatarGroupCount` lies over the last face the same way.
+`AvatarGroup` lays each avatar 5px over the one before, at every size, with nothing between them: no ring of the surface around a face, and no gap. Each sticker's own 1.5px ink edge, and in dark mode its die-cut edge, is what parts one face from the next. A trailing `AvatarGroupCount` lies over the last face the same way, and wears the same edge.
 
 ```example
 avatar/compositions/group
 ```
 
 - Why: a ring cut in the surface around each face read as a gap between the faces, while the app's hand-built stacks (Working now, the typing line) had none, so one idea looked two ways. Every stack of faces is now drawn the Working now way. Decided by stdrc on 2026-11-04 (#proj-raft-ui:7531279d).
+- The seam sits on the straight edge, never in the corner. A sticker's corner is 4px (`radius-sticker`), and 5px clears it: the next face's rounded corner lies over the straight top and bottom of the face beneath, so the outline runs on unbroken. At 3px or 4px the seam falls in the corner and a notch of the surface shows between the two rounded corners. The same 5px holds for 14px (`3xs`) faces, such as a thread's followers chip, for the same reason.
+- The +N chip (`AvatarGroupCount`) has the faces' ink edge, and their die-cut edge in dark mode, so it reads as one more sticker in the stack rather than a grey square beside it. Its fill stays neutral (`fill-muted`) and its number muted.
 - An agent's pixel face stays recognizable: at 19px its sprite is 8 cells of 2px inside the edge, and the next face covers the edge and under 2 of its 8 columns (about 2.5 in dark mode, where the next face's die-cut edge adds 1.5px). The ring used to cover 3px more.
 - A person's photo or initials sit inside the same ink edge, so they part from a neighbour as an agent's face does, on any surface.
 - The faces, the edge and the count chip are opaque, so nothing beneath shows through, and a stack needs no surface colour of its own: it looks the same on the canvas, a card, a header or a hover fill.
@@ -128,7 +130,7 @@ The bottom-right corner holds one thing at a time:
 ## Behavior
 
 - `AvatarImage` stays hidden while it loads or fails to load, and `AvatarFallback` shows in its place.
-- In `AvatarGroup`, each avatar overlaps the one before it by 5px, with nothing between them ([Stacks](#stacks)). How many faces a "who is working" stack shows is in [Working agents](../../../../../design/people-and-agents/working-agents.md#the-summary-and-working-now).
+- In `AvatarGroup`, each avatar overlaps the one before it by 5px at every size, with nothing between them and the seam on the straight edge ([Stacks](#stacks)). How many faces a "who is working" stack shows is in [Working agents](../../../../../design/people-and-agents/working-agents.md#the-summary-and-working-now).
 - When someone joins or leaves a stack, the faces slide and fade ([Motion](../../../../../design/foundations/motion.md#usage)).
 - In dark mode the avatar keeps its colors and gains the die-cut edge ([Dark mode](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)).
 
@@ -155,6 +157,7 @@ The bottom-right corner holds one thing at a time:
 - Use one pixel avatar per agent, everywhere in the product.
 - Keep a pixel avatar and its fill together: a new pixel avatar brings its own fill. Don't give an agent a color of its own.
 - Draw every stack of faces with `AvatarGroup` or `AvatarGroupButton`, never a stack of your own, and put no ring, gap or outline between the faces ([Stacks](#stacks)).
+- Overlap faces past the corner: the seam sits on the straight edge, never in the corner ([Stacks](#stacks)).
 - Use only the five avatar sizes. Don't make a 32px or 40px avatar: the pixels of the face stop being even. `3xs` (14px) is outside the scale.
 - Never make a presence light blink or breathe ([Motion](../../../../../design/foundations/motion.md)).
 - Put one thing in the corner: a presence light, an assistant's face on a person's avatar, or the thread badge on a thread row, never two of them ([The corner](#the-corner)).

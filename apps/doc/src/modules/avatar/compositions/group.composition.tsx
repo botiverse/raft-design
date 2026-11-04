@@ -22,6 +22,11 @@ export function AvatarGroupContent() {
         <Avatar size="xs" type="agent" />
         <AvatarGroupCount size="xs">+2</AvatarGroupCount>
       </AvatarGroup>
+      <AvatarGroup role="img" aria-label="Wug, Bugen and 3 other agents following">
+        <Avatar size="3xs" type="agent" />
+        <Avatar size="3xs" type="agent" />
+        <AvatarGroupCount size="3xs">3</AvatarGroupCount>
+      </AvatarGroup>
     </div>
   );
 }
