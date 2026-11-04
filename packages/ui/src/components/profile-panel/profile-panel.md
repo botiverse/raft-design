@@ -70,7 +70,7 @@ profile-panel/compositions/skeleton
 ## Behavior
 
 - A profile opened from a thread sits beside the thread; opened from the conversation, it replaces the thread ([Page structure](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)).
-- Its width, and when it sits beside the conversation or covers it, are in [Spacing](../../../../../design/foundations/spacing.md#layout-widths) and [Raft Chat](../../../../../design/products/raft-chat/README.md).
+- Its width, and when it sits beside the conversation or covers it, are in [Spacing](../../../../../design/foundations/spacing.md#layout-widths) and [Raft Chat](../../../../../design/products/raft-chat/README.md). In a conversation's row it is one of the row's columns: it narrows, clips and becomes a tab rather than covering the conversation, and it moves and expands as the others do ([The channel's side columns](../../../../../design/patterns/responsive.md#the-channels-side-columns)).
 - On a phone the profile covers the page with Back, like a pushed page ([Responsive layout](../../../../../design/patterns/responsive.md)). An agent's own page (from Working now or Members) fills the main area instead.
 - The header stays put; only the body scrolls.
 

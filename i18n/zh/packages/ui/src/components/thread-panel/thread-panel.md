@@ -1,7 +1,7 @@
 ---
 title: ThreadPanel
 summary: 一个消息列的侧面板：标题栏写明它是什么，下面是原始消息、回复和消息输入框，没有标签页。
-sourceHash: dde5c02e
+sourceHash: 4e16a21f
 ---
 
 # ThreadPanel
@@ -27,7 +27,7 @@ thread-panel/thread-panel
 - `ThreadPanelRoot`：面板本身。它是带 `edge="attached"` 的 `Panel`，所以自己画左侧的接缝线。
 - `ThreadPanelHeader`：56px 的标题栏，基于 `PanelHeaderRoot` 构建。
   - `ThreadPanelTitle`：标题 "Thread"，后面是说明消息列位置的 `ThreadPanelTitleMeta`。
-  - `ThreadPanelActions`：`PanelAction` 按钮。最后一个是 ×（[导航](../../../../../design/patterns/navigation.md#closing)）。
+  - `ThreadPanelActions`：`PanelAction` 按钮。最后两个是 Expand 和 ×（[Panel](../panel/panel.md#rules)、[导航](../../../../../design/patterns/navigation.md#closing)）；叠在对话上时，标题栏以 Back 开头，没有 ×。
 - `ThreadPanelContent`：标题栏下面的所有内容。
   - `ThreadPanelSearch`，带 `ThreadPanelSearchTrailing` 和 `ThreadPanelSearchCount`：可选的一行，用于在消息列内搜索。
   - `ThreadPanelOriginalMessage`：消息列所回复的那条消息，下方一条细线。这条细线是一条分界：它在消息最后一行下方一个分段档（24px）处，回复从它下方一个分段档处开始（`ThreadPanelReplySummary`）（[时间线节奏](../../../../../design/foundations/spacing.md#timeline-rhythm)）。
@@ -38,7 +38,7 @@ thread-panel/thread-panel
 
 - 消息列和个人资料可以同时打开：从消息列打开的个人资料放在它旁边，从对话打开的个人资料会替换它（[页面结构](../../../../../design/patterns/page-structure.md#sidebar-and-side-panel)）。
 - 它的宽度见[间距](../../../../../design/foundations/spacing.md#layout-widths)。什么时候放在对话旁边、什么时候盖住对话，由产品规则决定（[Raft Chat](../../../../../design/products/raft-chat/README.md)）。
-- 在手机上，消息列是推入页面：同一个面板盖住对话，用 Back 代替 ×，标签栏保持隐藏，和在对话里一样（[响应式布局](../../../../../design/patterns/responsive.md)）。在桌面端，旁边放不下时，它也同样盖住对话。
+- 在手机上，消息列是推入页面：同一个面板盖住对话，用 Back 代替 ×，标签栏保持隐藏，和在对话里一样（[响应式布局](../../../../../design/patterns/responsive.md)）。在桌面端，这一行放不下它和对话并排时，它叠进对话那一列，盖在对话上，标题栏开头是 Back，没有 ×（[频道的侧边列](../../../../../design/patterns/responsive.md#the-channels-side-columns)）。
 
 ## 内容 {#content}
 

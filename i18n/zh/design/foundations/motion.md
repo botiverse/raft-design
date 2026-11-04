@@ -41,7 +41,7 @@ motion
 - 只在有鼠标指针的设备上显示悬停（`@media (hover: hover)`）。
 - 个人资料上的大头像不要漂浮或倾斜。它保持静止。
 - 居中的浮层（对话框、确认框、搜索、任务详情、大表单）带遮罩，出现和消失都没有动画：它们本来就在原位，不是从哪里来的。浮层中只有抽屉和底部面板会滑入，因为滑入说明了它们来自哪一边；在手机上这也包括带输入框的对话框，它在手机上就是一个底部面板（[Dialog](../../packages/ui/src/components/dialog/dialog.md#on-a-phone)）。所有居中浮层的规则都一样，不要给其中某一个单独加动画。
-- App 的各列变化时没有动画：折叠或展开侧栏，让消息列进入或退出专注模式（Focus Mode），无论是用按钮还是拖过尽头。它们立刻切换，因为给整列的位置或宽度加动画会闪烁（[AppShell](../../packages/ui/src/components/app-shell/app-shell.md)、[Resizable](../../packages/ui/src/components/resizable/resizable.md)）。
+- App 的各列变化时没有动画：折叠或展开侧栏（用开关或拖过尽头），展开一列或恢复这一行，消息列叠到对话上或重新回到对话旁边，一列变成标签页或重新成为一列。它们立刻切换，因为给整列的位置或宽度加动画会闪烁（[AppShell](../../packages/ui/src/components/app-shell/app-shell.md)、[Resizable](../../packages/ui/src/components/resizable/resizable.md)）。
 - 遮罩随它的表面一起动：在居中浮层下面，遮罩立即出现；在抽屉或底部面板下面，遮罩以与滑入相同的时长和缓动淡入，并在表面离开时淡出，这样面板还在途中时页面不会一下子变暗。开启减弱动态效果时，遮罩立即出现。参见[选择组件](../components/overview.md#overlays)。
 
 ## 相关 {#related}

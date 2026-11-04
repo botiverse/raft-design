@@ -136,6 +136,7 @@ A control that takes someone to another site ends in ↗, so they know before th
 - Where the panel covers the page (a phone, a narrow window), give it Back, as a pushed page has.
 - Give the open item an address, so a link to it opens the list with the item open beside it.
 - Don't use breadcrumbs: Raft has none. A page is at most two levels deep, a destination and an item in it: the rail says the first and the selected item says the second, so a trail would be a third "where am I" (principle 2).
+  - One exception: two-level navigation with a tab list on the left (Settings, a server's administration): a page opened from a row inside a tab, such as Account › Delete Account, shows "<tab> › <page>" in its header on desktop. The tab name is muted and links back to the tab; the page name is the current page. The list beside it keeps the tab selected, but the page's content is a different task from the tab's, so the trail says where the page sits and how to get back (artin, 2026-11-04, #triage:d10ace06 and #proj-raft-ui:002c3b02). On a phone it stays a pushed page with Back and its own title.
 
 ### Going back
 
@@ -210,7 +211,7 @@ Decided on 2026-10-23 by Jasper, on sindresorhus's proposal (task #8). The row o
 
 A place can hold several kinds of content, such as an agent's profile and its activity, or a channel's chat, tasks and files.
 
-- Show content that people check while they talk, such as a channel's tasks and files, as side sections beside the conversation rather than as tabs, so the conversation stays in view ([Page structure](./page-structure.md#sidebar-and-side-panel)). Where a column is too short for two stacked sections, or the sections cover the panel, they show one at a time under a Tasks / Files row of tabs ([The channel's side columns](./responsive.md#the-channels-side-columns)).
+- Show content that people check while they talk, such as a channel's tasks and files, as side sections beside the conversation rather than as tabs, so the conversation stays in view ([Page structure](./page-structure.md#sidebar-and-side-panel)). Where a column is too short for two stacked sections, or the sections cover the panel on a phone, they show one at a time under a Tasks / Files row of tabs; where the row can't give every column 160px, the rightmost columns become tabs in their left neighbour's head ([The channel's side columns](./responsive.md#the-channels-side-columns)).
 - Switch between the other views with one row of sticker tabs under the panel header ([Tabs](../../packages/ui/src/components/tabs/tabs.md#variants), in `ConversationPanelTabs`). Give each tab an icon and a one-word label, without a count.
 - Let people reorder the tabs by dragging, and keep their order. The first tab in their order is the one a place opens on.
 - Hide the row when a place has only one view, such as a thread.

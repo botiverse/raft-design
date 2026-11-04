@@ -26,7 +26,7 @@ tabs/compositions/placement
 | The steps of a flow, in order                   | [Steps](../steps/steps.md)                                                   |
 | A product's destinations                        | [AppRail](../app-rail/app-rail.md), [MobileNav](../mobile-nav/mobile-nav.md) |
 
-A place with several kinds of content, such as an agent, shows them as one row of sticker tabs under its header ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)). A channel's tasks and files are not tabs: they are side sections beside the conversation. Only where a column is too short for two stacked sections, or the sections cover the panel, does a Tasks / Files row of tabs switch between them ([The channel's side columns](../../../../../design/patterns/responsive.md#the-channels-side-columns)).
+A place with several kinds of content, such as an agent, shows them as one row of sticker tabs under its header ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)). A channel's tasks and files are not tabs: they are side sections beside the conversation. Only where a column is too short for two stacked sections, or the sections cover the panel on a phone, does a Tasks / Files row of tabs switch between them. Where a conversation's row can't give every column 160px, the rightmost columns become tabs in their left neighbour's head, in place of its title ([The channel's side columns](../../../../../design/patterns/responsive.md#the-channels-side-columns)).
 
 ## Anatomy
 

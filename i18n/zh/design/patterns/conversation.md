@@ -73,7 +73,7 @@ message-item/compositions/context-menu-showcase
 thread-panel/thread-panel
 ```
 
-- 消息列在侧面板中打开（[ThreadPanel](../../packages/ui/src/components/thread-panel/thread-panel.md)），这样它所属的对话还留在视野里。根据宽度，它放在对话旁边或盖住对话（[响应式布局](./responsive.md)）；在手机上它总是盖住对话，带 Back。
+- 消息列在侧面板中打开（[ThreadPanel](../../packages/ui/src/components/thread-panel/thread-panel.md)），这样它所属的对话还留在视野里。根据空间，它放在对话旁边或叠到对话上（[响应式布局](./responsive.md#the-channels-side-columns)）；在手机上它总是盖住对话，带 Back。
 - 标题写 Thread，副标题是地方和回复数："#launch-week · 4 replies"。选中标题会滚动到消息列顶部。
 - 最上面是消息列开始的那条消息，然后是回复，然后是消息输入框。消息列没有标签页。
 - 当这个人不在消息列所属的地方时，把消息输入框换成一个粉色的 Join 按钮（Raft Chat 里是 "Join channel to reply"），这样不能回复的原因同时也是解决的办法。
