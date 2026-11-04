@@ -21,7 +21,7 @@ task-list/compositions/task-list
 | Situation                                  | Use                                      |
 | ------------------------------------------ | ---------------------------------------- |
 | Tasks on a phone or in a narrow panel      | TaskList                                 |
-| Tasks by status, with room for six columns | [TaskBoard](../task-board/task-board.md) |
+| Tasks by status, with room for five columns | [TaskBoard](../task-board/task-board.md) |
 | One task                                   | [TaskCard](../task-card/task-card.md)    |
 
 ## Anatomy

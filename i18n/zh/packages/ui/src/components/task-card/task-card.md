@@ -1,7 +1,7 @@
 ---
 title: TaskCard
 summary: 显示一个任务的卡片，包含完成控件、任务编号、标题和一个可以修改状态的状态标签，用在任务看板和任务列表里。
-sourceHash: c80ca838
+sourceHash: b8c65634
 ---
 
 # TaskCard
@@ -50,7 +50,7 @@ task-card/compositions/task-card-state-matrix
 ## 行为 {#behavior}
 
 - 带 `onClick` 的卡片悬停时用浅档，和其他供人阅读的卡片一样，按下时用中档；它的状态标签悬停时用中档（[悬停与按下](../../../../../design/foundations/states.md#hover-and-press)）。
-- 不管当前是什么状态，按状态标签都会打开全部六种状态的列表，当前状态上有一个勾（[Select](../select/select.md)）。选中一个即立即更改状态。
+- 不管当前是什么状态，按状态标签都会打开全部五种状态的列表，当前状态上有一个勾（[Select](../select/select.md)）。选中一个即立即更改状态。
 - 按完成控件会完成或重新打开任务（[完成任务](../../../../../design/patterns/tasks.md#completing-a-task)）。
 - 按状态标签或完成控件都不会打开卡片：阻止点击事件传到 `TaskCard`。
 
@@ -63,7 +63,7 @@ task-card/compositions/task-status-select
 - 标题用 sentence case，写成动词加宾语："Polish the onboarding flow"。
 - 只在汇总多个地方的任务时显示频道，比如产品的任务页。在某个地方自己的「任务」视图里，每个任务都属于那个地方，所以不显示。
 - 频道和编号用 Space Mono；这些部分会自动处理。
-- 状态拼写为 Backlog、Todo、In Progress、In Review、Done 和 Closed（[写作](../../../../../design/content/writing.md#voice)）。
+- 状态拼写为 Backlog、Todo、In Progress、Done 和 Closed（[写作](../../../../../design/content/writing.md#voice)）。
 
 ## 无障碍 {#accessibility}
 

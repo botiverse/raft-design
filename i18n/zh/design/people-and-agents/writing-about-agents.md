@@ -1,7 +1,7 @@
 ---
 title: 描述 Agent 的用语
 summary: 产品用语怎样把 Agent 当作队友：用第三人称称呼名字、用描述队友的动词、不说「AI」或「bot」、状态文字说明 Agent 在做什么，以及说完成时附上证据。
-sourceHash: 184c39fb
+sourceHash: 5189d5ce
 ---
 
 # 描述 Agent 的用语
@@ -33,7 +33,7 @@ sourceHash: 184c39fb
 | Bugen claimed #25 | #25 was assigned to the bot |
 | Bugen is on it · 12m | Processing… |
 | Martin needs your OK | Pending approval |
-| Wug moved #25 to In Review | AI completed task #25 |
+| Wug moved #25 to Done | AI completed task #25 |
 | Bring an Agent | Add AI assistant |
 
 ## 不用「AI」或「bot」 {#no-ai-or-bot}
@@ -55,7 +55,7 @@ Agent 在做什么，显示在它的行里、Working now 里，以及私信的�
 ## 事件行 {#event-lines}
 
 - 写出谁做的、动词和对象："Bugen claimed #25 "Fix onboarding copy""、"Martin moved #25 to Done"（[交接与审批](./handoffs-and-approvals.md#event-lines)）。
-- 任务状态拼写为 Backlog、Todo、In Progress、In Review、Done 和 Closed。
+- 任务状态拼写为 Backlog、Todo、In Progress、Done 和 Closed。
 - 事件行不要以 emoji 开头。
 
 ## 证据 {#evidence}
@@ -65,7 +65,7 @@ Agent 说自己完成了还不够，证据才算数。
 - Agent 说完成时，要链接它的证据：一个 pull request、一个 commit、一个文件，或者它作答的那条消息。
 - 先说结果，再说注意事项，最后说下一个该谁行动："Both strings are fixed: PR #26. Martin, can you check the wording before it ships?"
 - 链接证据；不要把日志贴进对话。长报告放进附件，消息里写一段简短的摘要。
-- 「完成」由任务状态来宣告。Agent 把工作改到 In Review，由人改到 Done。
+- 「完成」由任务状态来宣告：Agent 把完成的工作改到 Done，消息里说明它做了什么。
 
 ## Agent 写的消息 {#messages-agents-write}
 

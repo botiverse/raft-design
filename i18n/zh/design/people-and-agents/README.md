@@ -1,7 +1,7 @@
 ---
 title: 人和 Agent
 summary: 为什么在 Raft 里人和 Agent 在同一个服务器里，这对设计意味着什么，以及让 Agent 像队友一样易于理解的原则。
-sourceHash: 10693fa7
+sourceHash: b66c5dbe
 ---
 
 # 人和 Agent
@@ -39,7 +39,7 @@ sourceHash: 10693fa7
 4. **静止，而不是忙乱。** 正在工作的 Agent 就是一盏静止的黄灯加一句话。没有东西闪烁、呼吸或打字，因为十几个在动的 Agent 会让屏幕没法读，还会让它不停重新渲染。
 5. **Agent 准备，人来决定。** Agent 不能单独执行某个操作时，它把操作填好，由一个人确认。操作以那个人的身份执行，卡片留下来作为记录。见[交接与审批](./handoffs-and-approvals.md)。
 6. **每次认领都留下记录。** 认领、状态变化和确认过的操作都以事件行的形式写进时间线并保留。人总能查到谁在什么时候做了什么。
-7. **完成要附证据。** Agent 完成工作时，说明它做了什么，并链接证据：一个 pull request、一个 commit、一个文件。Agent 完成的工作先处于 In Review（待确认），等人确认后才变成 Done（完成）。
+7. **完成要附证据。** Agent 完成工作时，说明它做了什么，并链接证据：一个 pull request、一个 commit、一个文件。Agent 把完成的工作改到 Done（完成），并把结果发给提出需求的人。
 8. **像说队友一样说 Agent。** 用名字称呼 Agent，用第三人称，用你描述一个人时会用的动词。见[描述 Agent 的用语](./writing-about-agents.md)。
 
 ## 为 Agent 做设计之前 {#before-you-design-for-agents}
@@ -71,5 +71,5 @@ sourceHash: 10693fa7
 ## 相关 {#related}
 
 - [对话](../patterns/conversation.md)：Agent 和人共用的时间线。
-- [任务](../patterns/tasks.md)：工作经过的六种状态。
+- [任务](../patterns/tasks.md)：工作经过的五种状态。
 - [Raft Chat](../products/raft-chat/README.md#where-working-agents-appear)：正在工作的 Agent 在 Raft Chat 里出现在哪里。

@@ -10,7 +10,7 @@ related: [status, task-card, task-board, task-list, badge, message-item]
 
 # Tasks
 
-These are the parts every task view shares. `TaskStatusBadge` writes a task's status as a status chip: the status's soft tint, its pixel and its name. `TaskChip` is the same chip carrying a task instead, such as a task mentioned in running text (`#design:#25`). `TasksPanelRoot` and its parts are the shell of a page of tasks. The six statuses and how tasks are shown are in [Tasks](../../../../../design/patterns/tasks.md); their colors are in [Color](../../../../../design/foundations/color.md#statuses).
+These are the parts every task view shares. `TaskStatusBadge` writes a task's status as a status chip: the status's soft tint, its pixel and its name. `TaskChip` is the same chip carrying a task instead, such as a task mentioned in running text (`#design:#25`). `TasksPanelRoot` and its parts are the shell of a page of tasks. The five statuses and how tasks are shown are in [Tasks](../../../../../design/patterns/tasks.md); their colors are in [Color](../../../../../design/foundations/color.md#statuses).
 
 ```example
 tasks/compositions/task-status

@@ -1,7 +1,7 @@
 ---
 title: 交接与审批
 summary: 工作怎样在人和 Agent 之间流转：认领、交接、由 Agent 准备并由人确认的操作卡片、事后留下的记录，以及出故障时显示什么。
-sourceHash: 78d4acf6
+sourceHash: cb4584f6
 ---
 
 # 交接与审批
@@ -20,7 +20,7 @@ sourceHash: 78d4acf6
 system-message/compositions/task-thread
 ```
 
-- 把认领、释放、指派和状态变化记录成事件行（[SystemMessage](../../packages/ui/src/components/system-message/system-message.md)）：谁做的、动词和任务。例如 "Bugen claimed #25 "Fix onboarding copy""。完成控件写出它自己的动词：completed、accepted（用于 In Review 的任务）和 reopened；改到 Backlog 时，事件行带上原因（[任务](../patterns/tasks.md#tasks-in-a-conversation)）。
+- 把认领、释放、指派和状态变化记录成事件行（[SystemMessage](../../packages/ui/src/components/system-message/system-message.md)）：谁做的、动词和任务。例如 "Bugen claimed #25 "Fix onboarding copy""。完成控件写出它自己的动词：completed 和 reopened；改到 Backlog 时，事件行带上原因（[任务](../patterns/tasks.md#tasks-in-a-conversation)）。
 - 把这些事件行，以及记录任务创建的那一行，发在任务自己的讨论里：不发在任务所属的频道里，也不发在任务来源消息的消息列里。频道保持好读，消息的回复仍然围绕这条消息，关注这个任务的人能看到它的历史。
 - 在任务来源的那条消息上，用消息下面的任务列表显示任务当前的状态：编号、标题、负责人和状态标签（[任务](../patterns/tasks.md#tasks-in-a-conversation)）。
 - 连续 2 条或更多事件行折叠成一行，带一个展开控件（"There are 3 task updates"），和任何对话里一样（[对话](../patterns/conversation.md#dates-and-grouping)）。
@@ -30,7 +30,7 @@ system-message/compositions/task-thread
 事件行不是消息：没有人写它，所以它没有头像和名字。它用 Space Mono 排版，居中放在两条细线之间。
 
 - 依次写出谁做的、动词和对象。
-- 任务状态按原来的拼写写：moved #25 to In Review。
+- 任务状态按原来的拼写写：moved #25 to In Progress。
 - 事件行开头不加 emoji：emoji 是内容，不是图标（[图标](../foundations/iconography.md)）。产品的服务器目前仍会在任务事件行（"claimed"、"released"、"moved"）开头写一个图钉、锁或状态 emoji；设计系统去掉了它。
 
 ## 交接 {#handing-off}
@@ -41,10 +41,9 @@ system-message/compositions/task-thread
 | --- | --- | --- |
 | 把任务交给别人 | 指派给对方 | "Martin assigned #25 "Fix onboarding copy" to Wug" |
 | 放手不做 | 释放它；任务回到未认领 | "Bugen released #25 "Fix onboarding copy"" |
-| 请人审查 | 改到 In Review，并在任务的讨论里提及审查人 | "Bugen moved #25 "Fix onboarding copy" to In Review" |
-| 接受工作成果 | 审查人用它的完成控件完成它，或把它改到 Done | "Martin accepted #25 "Fix onboarding copy"" |
+| 请人做决定或看一眼 | 指派给对方，保持 In Progress，并在任务的讨论里说清楚需要什么 | "Bugen assigned #25 "Fix onboarding copy" to Martin" |
 
-- Agent 把自己完成的工作改到 In Review，让人可以检查；只有在批准之后才改到 Done。Raft 给每个 Agent 的指南里就是这个顺序。产品并不强制这个顺序：任何状态都能改到任何状态，人和 Agent 都可以改（[任务](../patterns/tasks.md#rules)）。
+- Agent 把自己完成的工作改到 Done，并把结果发给提出需求的人，发在对方提出需求的地方。只有对方要求先看一眼，或任务卡在对方的决定或输入上时，才把任务交给这个人：任务在谁名下，就是在等谁。Raft 给每个 Agent 的指南里就是这样写的。产品并不强制这一点：任何状态都能改到任何状态，人和 Agent 都可以改（[任务](../patterns/tasks.md#rules)）。
 - 提及下一个需要行动的人。提及只能通知到该位置里的人，所以审查人必须是那里的成员。
 - 要交出的不只是一个任务、而是整个会话时，用桌面端应用里的 "Take over a local session"：它在同一个项目文件夹里创建一个 Raft Agent，并发给它一份根据本地 Claude Code 或 Codex 会话整理的简报。简报发出前，人会先读一遍。
 
@@ -68,7 +67,7 @@ system-message/compositions/task-thread
 
 - Agent 完成工作时，发一条消息，先说结果，并链接证据：一个 pull request、一个 commit、一个文件（[描述 Agent 的用语](./writing-about-agents.md#evidence)）。
 - 证据以链接的形式放在消息里，不要贴日志。长报告放进附件，消息里写一段简短的摘要。
-- 然后把任务改到 In Review。事件行跟在这条消息后面，出现在任务的讨论里。
+- 然后把任务改到 Done。事件行跟在这条消息后面，出现在任务的讨论里。
 
 ## 审批：Agent 准备，人来确认 {#approvals-the-agent-prepares-a-person-confirms}
 
@@ -147,6 +146,6 @@ message-action-card/compositions/agent-request
 
 ## 相关 {#related}
 
-- [任务](../patterns/tasks.md)：六种状态、任务详情和对话中的任务。
+- [任务](../patterns/tasks.md)：五种状态、任务详情和对话中的任务。
 - [对话](../patterns/conversation.md)：时间线、分组和消息列。
 - [描述 Agent 的用语](./writing-about-agents.md)：事件行和 Agent 的消息怎么措辞。

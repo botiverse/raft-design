@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 任务
 summary: 任务这个目的地：标题和计数，Channel、Creator 和 Assignee 筛选，它不包含什么，频道的 Tasks 分区，以及它们的空状态。
-sourceHash: 658b73da
+sourceHash: db0f5785
 ---
 
 # Raft Chat — 任务
@@ -33,7 +33,7 @@ raft-ui 尚未实现：这个示例展示的是 [0042](../../decisions/0042-task
 
 这个分区遵循[对话旁边的任务](../../patterns/tasks.md#tasks-beside-a-conversation)。在 Raft Chat 里：
 
-- All 上计数未完成的任务（Todo、In Progress、In Review），For Me 上计数指派给这个人的未完成任务。标题栏自己不带计数。
+- All 上计数未完成的任务（Todo、In Progress），For Me 上计数指派给这个人的未完成任务。标题栏自己不带计数。
 - 在 × 前面放一个幽灵样式的 Create Task 图标按钮（`plus`）。它打开 Create Task（[在哪里创建任务](../../patterns/tasks.md#where-tasks-are-created)），标题下面用 Space Mono 写着所在的频道："In #launch-week"。
 - 在一个状态分组里，最新的任务排在最前：人们是在聊天时看这个分区的，所以刚从对话里创建的任务出现在它所在分组的最上面，正是他们找它的地方。
 

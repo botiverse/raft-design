@@ -33,9 +33,9 @@ Not yet implemented in raft-ui: this example shows the tasks before [0042](../de
 
 ## Rules
 
-- Use only the five statuses. "Needs you" is not a status: it is an action (the button of an action card) and an attention dot. Don't add a "needs you" group or color either: a sixth bucket would hold tasks that are also in one of the six, and what waits for a person already has its place in the conversation.
+- Use only the five statuses. "Needs you" is not a status: it is an action (the button of an action card) and an attention dot. Don't add a "needs you" group or color either: a sixth bucket would hold tasks that are also in one of the five, and what waits for a person already has its place in the conversation.
 - Put work that someone created or parked and doesn't plan to do now in Backlog ("not now"), and work that won't be done in Closed. Backlog keeps a task that may come back without counting it as active work; Closed ends it. Backlog has no hue ([Color](../foundations/color.md#statuses)).
-- Default to the list on a phone and to the board on desktop, because a phone has no room for six columns. Remember the person's last choice.
+- Default to the list on a phone and to the board on desktop, because a phone has no room for five columns. Remember the person's last choice.
 - Collapse Backlog, Done and Closed by default, on the board and in the list: Backlog is work not planned now, Done and Closed only grow, and the work in progress is what people come for.
 - Start every task card and every task row with the completion control ([Completing a task](#completing-a-task)). The completion control and the status chip are the only things on a card that change in place; selecting the rest of the card opens the task details.
 - Let people change status from the status chip on the card, from the Status property in the details, by dragging the card to another column of the board, or with the completion control. A person who can't change a task sees its chip without a menu and its completion control disabled, and can't drag its card.
@@ -67,7 +67,7 @@ A list of tasks (the rows beside a conversation and under a message, the cards o
 The completion control is how a to-do list is worked through: one click and the task is done. It leads every task row and card, beside a conversation, under a message, on the board and in the list.
 
 - Use [TaskCompletionControl](../../packages/ui/src/components/task-completion-control/task-completion-control.md): a round `CheckboxIndicator` (`shape="circle"`) inside a `button` with `role="checkbox"`, `aria-checked` true only on a done task. It is round, not the square of a [Checkbox](../../packages/ui/src/components/checkbox/checkbox.md), for the reason in [Shape](../foundations/shape.md#principles).
-- Name it by the task, and keep the name when the state changes: "#25 Fix onboarding copy". The checked state already says whether it is done, so a name that says what a click does ("Reopen #25") would be read as "Reopen #25, checkbox, checked". Its tooltip may say the action: Complete, Accept and Complete on an In Review task, Reopen on a done one.
+- Name it by the task, and keep the name when the state changes: "#25 Fix onboarding copy". The checked state already says whether it is done, so a name that says what a click does ("Reopen #25") would be read as "Reopen #25, checkbox, checked". Its tooltip may say the action: Complete, Reopen on a done one.
 - Show it checked only on a done task. On every other status, Backlog and Closed included, it is unchecked, and a click marks the task Done, as any change of status does.
 - While unchecked, preview the check when the pointer is over the control itself (`previewOnHover`), never over the rest of the row: hovering elsewhere on the row is a hover on the row, not on the control ([Hover and press](../foundations/states.md#hover-and-press)). TaskCompletionControl does this even when the row or a board column around it is a Tailwind `group`.
 - Let one click mark the task Done from any status.

@@ -1,7 +1,7 @@
 ---
 title: TaskList
 summary: 任务的列表视图：每种状态一个可折叠的分组，按状态顺序排列，每组里放任务卡片。
-sourceHash: 172ccb66
+sourceHash: 849e1bc2
 ---
 
 # TaskList
@@ -17,7 +17,7 @@ task-list/compositions/task-list
 | 情况                                   | 用                                      |
 | ------------------------------------------- | ---------------------------------------- |
 | 手机上或窄面板里的任务       | TaskList                                 |
-| 按状态排列的任务，且放得下六列 | [TaskBoard](../task-board/task-board.md) |
+| 按状态排列的任务，且放得下五列 | [TaskBoard](../task-board/task-board.md) |
 | 一个任务                                    | [TaskCard](../task-card/task-card.md)    |
 
 ## 结构 {#anatomy}
@@ -48,7 +48,7 @@ task-list/compositions/task-list-empty-sections
 
 ## 内容 {#content}
 
-- 空分组写成 "No" + 状态 + "tasks"，状态的拼写和它的状态标签一致（[写作](../../../../../design/content/writing.md#voice)）："No In Review tasks."
+- 空分组写成 "No" + 状态 + "tasks"，状态的拼写和它的状态标签一致（[写作](../../../../../design/content/writing.md#voice)）："No Backlog tasks."
 
 ## 无障碍 {#accessibility}
 

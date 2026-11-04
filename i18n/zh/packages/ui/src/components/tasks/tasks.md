@@ -1,12 +1,12 @@
 ---
 title: Tasks
 summary: 所有任务视图共用的部件：显示任务进行到哪一步的状态徽标和任务标签片、状态像素点，以及任务面板的外壳。
-sourceHash: a5395272
+sourceHash: 80894626
 ---
 
 # Tasks
 
-这些是所有任务视图共用的部件。`TaskStatusBadge` 把任务的状态写成一个状态标签：状态的浅色底、它的像素和它的名称。`TaskChip` 是同样的标签片，只是里面装的是一个任务，比如正文里提到的任务（`#design:#25`）。`TasksPanelRoot` 和它的部件是任务页面的外壳。六种状态以及任务怎么显示，见[任务](../../../../../design/patterns/tasks.md)；它们的颜色见[颜色](../../../../../design/foundations/color.md#statuses)。
+这些是所有任务视图共用的部件。`TaskStatusBadge` 把任务的状态写成一个状态标签：状态的浅色底、它的像素和它的名称。`TaskChip` 是同样的标签片，只是里面装的是一个任务，比如正文里提到的任务（`#design:#25`）。`TasksPanelRoot` 和它的部件是任务页面的外壳。五种状态以及任务怎么显示，见[任务](../../../../../design/patterns/tasks.md)；它们的颜色见[颜色](../../../../../design/foundations/color.md#statuses)。
 
 ```example
 tasks/compositions/task-status
@@ -94,7 +94,7 @@ tasks/compositions/tasks-error
 
 ## 内容 {#content}
 
-- 状态写作 Backlog、Todo、In Progress、In Review、Done 和 Closed（中文界面中后五种为待办、进行中、待确认、完成、已关闭）。`TaskStatusBadge` 没有内置标签：由调用方传入并翻译。
+- 状态写作 Backlog、Todo、In Progress、Done 和 Closed（中文界面中后四种为待办、进行中、完成、已关闭）。`TaskStatusBadge` 没有内置标签：由调用方传入并翻译。
 - 任务编号用 Space Mono：`#25`（[字体排印](../../../../../design/foundations/typography.md#usage)）。
 - 在任务引用里，先写地方，再写编号：`#design:#25`（[引用任务](../../../../../design/patterns/tasks.md#referring-to-a-task)）。
 
