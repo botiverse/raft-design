@@ -1,7 +1,7 @@
 ---
 title: Sidebar
 summary: 桌面端导航条旁边的一列，列出选中的目的地里有什么，每一行标出你在哪里、什么未读、什么提及了你。
-sourceHash: 60863eb4
+sourceHash: b9a2fe53
 ---
 
 # Sidebar
@@ -30,6 +30,7 @@ sidebar/sidebar
 - `SidebarBody` 和 `SidebarContent`：滚动的列表。桌面上 `SidebarContent` 是一个 [ScrollArea](../scroll-area/scroll-area.md)，它细细的滚动条只在列表滚动时显示；低于 768px 时它原生滚动。
 - `SidebarSection`：一组行。
   - `SidebarSectionHeader`：包含一个 `SidebarSectionDisclosure`（收起这一组的按钮，带 `SidebarSectionChevron`、`SidebarSectionTitle` 和 `SidebarSectionCount`），以及放在 `SidebarSectionTrailing` 或 `SidebarSectionControls` 里的 `SidebarSectionControl` 按钮，比如 New。`SidebarSectionAttention` 是这一组的粉色像素点。
+  - `SidebarSectionEndChevron`：桌面上用鼠标时，作为最后一个控件的分区 V 形箭头。它是这个分区的第二个触发器，所以点它会展开或收起分区，并跟着转动。把它放在 `SidebarSectionControls` 的最后，并给标题栏加 `chevronAtEnd`；这个属性只决定用鼠标时隐藏标题前的箭头，触屏上那个箭头照常显示，结尾这个则不显示。
   - `SidebarList`：这些行。这一组为空时，由 `SidebarSectionEmpty` 代替它们。
 - `SidebarMenu`，带 `SidebarMenuIcon`、`SidebarMenuTitle`、`SidebarMenuAside` 和 `SidebarMenuCount`：分组标题里的单个目的地，比如 Saved（收藏）。
 - `SidebarGroupLabel`：不能收起的普通分组标题。
@@ -89,7 +90,7 @@ sidebar-item/compositions/tones-item
 - 键盘焦点是形状上 2px 的内缩焦点环。在 `active` 的行上，它在贴纸的墨色边里面。
 - 桌面端每一行都是行高（`row-height`：用鼠标时 34px，768px 起的触屏上 38px），形状一样高，用 `text-subhead`。低于 `md` 时，行会自动长到至少 44px，用 `text-body`、字重 600：这时它是手机上的地点列表（Home、Members、Settings 列表），需要手指能点中。不要在调用处另加手机尺寸。Settings 列表在手机上曾经是 36px，因为尺寸写在一个产品类里，而只有 Home 的行用了这个类。
 - 分区的控件（`SidebarSectionControl`，比如 Sort 和 New）做成 24px，图标 14px，超出 16px 高的标题行。旁边的标题是 12px 粗体、提示色，它是这一组的标签，不是工具栏：28px 的按钮加 18px 的图标压过了它，标题栏读起来像一排按钮（stdrc，2026-10-31；2026-10-18 之前是 24px）。在触屏上，控件平时就显示，它们之间相隔 4px，和用鼠标时一样；20px 的间隔读起来像两个分开的按钮，而不是一对（stdrc，2026-11-01）。每个控件的点击区域通过一个透明的 `::after` 达到 44px 高，并伸出行的两端 10px；在两个控件之间，它止于间隔的中间，所以两块区域相接而不重叠，点在那里总是属于其中一个（每个大约 36px 宽）。标题栏在它的那一行下面多留 6px，让点击区域不压到第一行。
-- 把分区标题画成这一组的标签：先是 V 形箭头，然后是标题，然后是计数，控件放在末端。桌面上用鼠标时，V 形箭头改为这些控件中的最后一个，在标题栏的末端，标题从字形轴开始。计数属于标签（"Channels 6"），所以它跟在标题后面，用提示色和 Space Mono，并且总是显示，不管分组展开还是收起。放在这一行的末端，它会被读成未读数，因为行就是在那里放未读数的，而且悬停时出现的控件会落在它上面。
+- 把分区标题画成这一组的标签：先是 V 形箭头，然后是标题，然后是计数，控件放在末端。桌面上用鼠标时，V 形箭头改为这些控件中的最后一个，在标题栏的末端，一直显示，标题从字形轴开始（`SidebarSectionEndChevron`、`chevronAtEnd`）；触屏上它留在标题前面，拇指把标题和箭头当成一个目标。无论哪种输入，键盘和读屏都只用标题这一个开关：结尾的箭头只是给指针的第二个目标，做的是同一件事，所以它不进 Tab 顺序，也不进无障碍树（`tabIndex={-1}`、`aria-hidden`），点它不会移走焦点。两个开关会让同一个操作被念两遍、Tab 两次。计数属于标签（"Channels 6"），所以它跟在标题后面，用提示色和 Space Mono，并且总是显示，不管分组展开还是收起。放在这一行的末端，它会被读成未读数，因为行就是在那里放未读数的，而且悬停时出现的控件会落在它上面。
 - 分区的控件平时用标题的提示色。只有指针下面的、有键盘焦点的或菜单打开着的那个控件，才在幽灵按钮的填充上变成正文色。平时就用正文色时，它们比它们所服务的标签还深，标题栏读起来像两种分量在打架；用提示色，标题栏读起来是一个标签，颜色的变化说明你要用的是哪个控件。
 - 分区的控件始终显示，用鼠标时和在触屏上一样。它们是标题栏能做的事；只在悬停时显示（2026-10-31）会让没发现它们的人看不到它们，指针经过时，长标题的空间也会跟着变（stdrc，2026-11-02）。它们在这一行的末端占住自己的位置，所以长标题在它们前面截断，并保留它的计数。收起的分区的提醒标记在这一行里排在它们前面，只在分区展开时隐藏。
 - 把控件放进 `SidebarSectionTrailing` 里的 `SidebarSectionControls`；不要自己再用一个 `div` 包住它们。这个部件为触屏留出它们的间隔，并把最后一个控件向外拉到标题栏的线上，菜单打开时也一样：菜单打开时，触发按钮旁边会多出 Base UI 的焦点守卫和它的 portal 里隐藏的 `aria-owns` span，单纯的 `:last-child` 就失去了这个外拉，触发按钮向左移了 5px（stdrc，2026-11-02）；自己写的包装元素这些都做不到。

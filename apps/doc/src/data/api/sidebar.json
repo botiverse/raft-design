@@ -643,10 +643,52 @@
     ]
   },
   {
+    "name": "SidebarSectionEndChevron",
+    "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "\"md\" | \"lg\" | \"xl\" | \"icon-md\" | \"icon-lg\" | DeprecatedButtonSize",
+        "required": false,
+        "description": "`md` (32px) and `icon-md` for rows, cards, banners, toolbars and panel headers; `lg` and `icon-lg` (the control height) for dialog footers, forms and beside a field; `xl` for a full-width call to action. The size follows the place: see Button › Size by place.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "\"primary\" | \"accent\" | \"warning\" | \"danger\" | \"default\" | \"outline\" | \"information\" | \"muted\" | \"success\" | \"danger-secondary\" | \"danger-outline\" | \"ghost\" | \"on-frame\"",
+        "required": false,
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
     "name": "SidebarSectionHeader",
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
+      {
+        "name": "chevronAtEnd",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "The header ends with a `SidebarSectionEndChevron`: with a mouse on a desktop the chevron is that last control, so the one before the title hides. On a touch screen the chevron stays before the title.",
+        "from": "raft-ui"
+      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",

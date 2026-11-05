@@ -9,7 +9,9 @@ import {
   SidebarSectionAttention,
   SidebarSectionControl,
   SidebarSectionControls,
+  SidebarSectionChevron,
   SidebarSectionDisclosure,
+  SidebarSectionEndChevron,
   SidebarSectionHeader,
   SidebarSectionTitle,
   SidebarSectionTrailing,
@@ -211,4 +213,78 @@ test("touch controls stay 4px apart and their hit areas meet in the gap", () => 
   expect(own).toContain("not-pointer-fine:after:inset-[-11px]");
   expect(own).toContain("not-pointer-fine:not-first:after:left-[-3px]");
   expect(own).toContain("not-pointer-fine:not-last:after:right-[-3px]");
+});
+
+function renderEndChevronSection() {
+  const { container } = render(
+    <ThemeProvider>
+      <SidebarSection defaultOpen>
+        <SidebarSectionHeader chevronAtEnd>
+          <SidebarSectionDisclosure>
+            <SidebarSectionChevron />
+            <SidebarSectionTitle>Channels</SidebarSectionTitle>
+          </SidebarSectionDisclosure>
+          <SidebarSectionTrailing>
+            <SidebarSectionControls>
+              <SidebarSectionControl aria-label="New channel">+</SidebarSectionControl>
+              <SidebarSectionEndChevron />
+            </SidebarSectionControls>
+          </SidebarSectionTrailing>
+        </SidebarSectionHeader>
+      </SidebarSection>
+    </ThemeProvider>,
+  );
+  const q = (slot: string) => container.querySelector<HTMLElement>(`[data-slot="${slot}"]`)!;
+  return {
+    root: q("sidebar-section"),
+    header: q("sidebar-section-header"),
+    title: q("sidebar-section-disclosure"),
+    end: container.querySelector<HTMLElement>("[data-end-chevron]")!,
+  };
+}
+
+test("the end chevron is a second trigger of the section: it toggles it and turns with it", () => {
+  const { root, end } = renderEndChevronSection();
+  expect(root.hasAttribute("data-open")).toBe(true);
+  expect(end.hasAttribute("data-panel-open")).toBe(true);
+  fireEvent.click(end);
+  expect(root.hasAttribute("data-open")).toBe(false);
+  expect(end.hasAttribute("data-panel-open")).toBe(false);
+  fireEvent.click(end);
+  expect(root.hasAttribute("data-open")).toBe(true);
+});
+
+test("the end chevron stays out of the tab order and the accessibility tree, and a press leaves focus where it was", () => {
+  const { title, end } = renderEndChevronSection();
+  expect(end.getAttribute("tabindex")).toBe("-1");
+  expect(end.getAttribute("aria-hidden")).toBe("true");
+  title.focus();
+  // A mouse press would focus a button (Jasper, 2026-11-05: focus on an
+  // aria-hidden element is read as nothing); the press's default is cancelled.
+  expect(fireEvent.mouseDown(end)).toBe(false);
+  fireEvent.click(end);
+  expect(document.activeElement).toBe(title);
+});
+
+test("chevronAtEnd marks the header, and only then the start chevron hides with a mouse on a desktop", () => {
+  const { header, title } = renderEndChevronSection();
+  expect(header.hasAttribute("data-chevron-at-end")).toBe(true);
+  const slot = title.querySelector<HTMLElement>(
+    '[data-slot="sidebar-section-chevron"]',
+  )!.parentElement!;
+  expect(slot.className).toContain("md:pointer-fine:in-data-chevron-at-end:hidden");
+  const { container } = render(
+    <SidebarSection>
+      <SidebarSectionHeader>
+        <SidebarSectionDisclosure>
+          <SidebarSectionTitle>Plain</SidebarSectionTitle>
+        </SidebarSectionDisclosure>
+      </SidebarSectionHeader>
+    </SidebarSection>,
+  );
+  expect(
+    container
+      .querySelector('[data-slot="sidebar-section-header"]')!
+      .hasAttribute("data-chevron-at-end"),
+  ).toBe(false);
 });
