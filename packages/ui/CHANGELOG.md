@@ -4,7 +4,7 @@
 
 - **AppLinkCard** and its parts (from `@botiverse/raft-ui/wip`): an app link's card drawn in the message itself, for an answer in which the app asks for it (`placement: "block"`, RFC 076 §13). `AppLinkCardHeader` (with `AppLinkCardIcon`, `AppLinkCardName` and `AppLinkCardHost`) is Raft's row naming the app; `AppLinkCardBody`, `AppLinkCardEyebrow`, `AppLinkCardTitle` and `AppLinkCardMeta` are the item, as on the hover card; `AppLinkCardActions` holds the app's buttons; `AppLinkCardPlaceholder` is the card's size while a cached answer loads. 400px wide, the message's width in the phone layout.
   - Why: a card whose buttons matter, such as a Stamp approval, could be acted on only by hovering its chip on desktop, and not at all on a phone (artin via Edgar, Kirby and AppFather in #proj-apps:385e1a58; Tenny asked that Raft always draw the app's name and icon in its own frame).
-  - Affects: nothing until a product draws one. PreviewCard's item card shares its classes with the new card and renders the same DOM and classes as 0.63.1.
+  - Affects: nothing until a product draws one. Nothing existing changes: every other app link is still a chip, and PreviewCard is untouched.
   - Docs: https://raft-design.botiverse.build/components/app-link-card/ and https://raft-design.botiverse.build/patterns/navigation/#block-cards
 
 ### Fixed

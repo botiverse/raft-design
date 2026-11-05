@@ -50,7 +50,7 @@ The item card adds these parts, experimental and exported from `@botiverse/raft-
 
 ## Item card
 
-The card an app link opens on hover ([App links](../../../../../design/patterns/navigation.md#app-links)). When the app asks for its card in the message, the same item is drawn there as an [AppLinkCard](../app-link-card/app-link-card.md), whose buttons can be pressed; the chip above such a card opens no item card. The app supplies its words and which details it has; Raft sets their order and their colors. Its parts follow the questions a reader asks, in order:
+The card an app link opens on hover ([App links](../../../../../design/patterns/navigation.md#app-links)). The app supplies its words and which details it has; Raft sets their order and their colors. Its parts follow the questions a reader asks, in order:
 
 1. **Which item is it?** `PreviewCardEyebrow`: the app's id for it, such as `botiverse/slock#10449`. Optional.
 2. **What is it about?** `PreviewCardTitle`: the app's title in ink, up to 2 lines, cut off with an ellipsis; only when it is cut off, the app wraps it in a [Tooltip](../tooltip/tooltip.md) that shows it whole on hover (not a native `title`); `PreviewCardTitle` doesn't add one itself. Not in `foreground-link`: the card is not a link itself, its buttons and the chip are.

@@ -1,11 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { tv } from "../../lib/tv";
 import { messageEmbed } from "../message-embed/message-embed.recipe";
-import {
-  ITEM_CARD_ACTIONS,
-  ITEM_CARD_EYEBROW,
-  ITEM_CARD_META,
-} from "../preview-card/item-card.styles";
 import { Skeleton } from "../skeleton/skeleton";
 
 const appLinkCard = tv({
@@ -38,10 +33,15 @@ const appLinkCard = tv({
     host: ["flex min-w-0 items-baseline", "before:shrink-0 before:pe-1.5 before:content-['·']"],
     hostText: ["min-w-0 truncate"],
     body: ["flex min-w-0 flex-col gap-1.5", "px-4 py-3 last:pb-4"],
-    eyebrow: [...ITEM_CARD_EYEBROW],
+    // The item and its buttons as on the hover card (PreviewCard, size="item"):
+    // a reader who has seen one reads the other.
+    eyebrow: ["m-0 truncate", "font-mono text-mono-meta text-foreground-muted"],
     title: ["m-0 line-clamp-2", "font-sans text-headline font-bold text-foreground"],
-    meta: [...ITEM_CARD_META],
-    actions: [...ITEM_CARD_ACTIONS],
+    meta: [
+      "flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1",
+      "m-0 font-sans text-callout text-foreground-muted",
+    ],
+    actions: ["flex flex-wrap items-center justify-end gap-2", "px-4 pb-3 last:pb-4"],
     // The placeholder's lines take the line heights of the parts they stand
     // for, so the card that replaces it is the same size when its title takes
     // two lines and it has buttons (a Button at its default size, 32px).

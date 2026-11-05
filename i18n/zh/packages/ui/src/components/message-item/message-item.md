@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: 876c5982
+sourceHash: 17d3c9c4
 ---
 
 # MessageItem
@@ -40,7 +40,7 @@ message-item/compositions/item-preview
 - `MessageItemBody`：文字，用 `text-body`。必需。
 - `MessageItemEdited`：已编辑标记，放在文字末尾，完整行和接续行都一样。
 - `MessageItemAttachments`：文件和图片（[MessageAttachment](../message-attachment/message-attachment.md)）。
-- `MessageItemEmbedded`：代码块、操作卡片和链接卡片。应用预览的链接不在这里显示为卡片：它是正文里的标签片（[应用链接](#app-links)）；应用要求在消息里显示卡片时，卡片放在正文里、链接所在段落的后面（[AppLinkCard](../app-link-card/app-link-card.md)），不在消息下方。
+- `MessageItemEmbedded`：代码块、操作卡片和链接卡片。应用预览的链接不是卡片：它是正文里的标签片（[应用链接](#app-links)）。
 - `MessageItemFooter`：一行：先是回应（`MessageReactionChip`，最后是 `MessageReactionAddButton`），再是收藏和已读标记（`MessageItemSavedIndicator`、`MessageItemReadReceipt`）。从这条消息创建的任务不在这一行里：它们是这一行上面的一个列表（[对话中的任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)）。
 - `MessageItemToolbar` 加 `MessageItemToolbarButton`：悬停工具栏。它在显示时在自己所在的行上设置 `--mi-toolbar-width`，标题栏在它下面淡出时读这个值。以前的版本从 app 读 `--mi-toolbar-reserve` 来在标题栏里留位置；现在不再读它，设置它的地方可以删掉。
 - `MessageMultiSelectCheckbox` 和 `MessageMultiSelectToolbar`，操作放在 `MessageMultiSelectToolbarActions` 里（28px 的按钮，间隔 4px；在触屏上每个按钮的点击区域是 44px，向相邻按钮只延伸到间隔的一半，所以点在两者之间会落到较近的那个上）：用于选择多条消息（[由现有部件组成](../../../../../design/components/overview.md#toolbar-for-selected-messages)）。
@@ -95,7 +95,7 @@ message-reference/compositions/mixed-long-message
 
 ### 应用链接 {#app-links}
 
-应用预览的链接是句子里的一个引用标签片，带应用的图标和应用自己给的标题。为什么它是标签片而不是卡片，以及它的加载和悬停行为，见[导航](../../../../../design/patterns/navigation.md#app-links)。应用要求在消息里显示卡片时，卡片是一个 [AppLinkCard](../app-link-card/app-link-card.md)，位置按[块卡片](../../../../../design/patterns/navigation.md#block-cards)的规则放。
+应用预览的链接是句子里的一个引用标签片，带应用的图标和应用自己给的标题。为什么它是标签片而不是卡片，以及它的加载和悬停行为，见[导航](../../../../../design/patterns/navigation.md#app-links)。
 
 - `MessageReferenceChip variant="info" capped`，渲染成在新标签页打开的链接：`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`。
 - `MessageReferenceIcon`：应用注册的图标，一个由 Raft 提供的 `<img alt="">`，放在标签片最前面。它 14px，在标签片里居中，带 2px 圆角。它是标签片盒子的前置标记（[正文中的标签片](#chips-in-running-text)）：两端各 4.5px，到标签 4px。图片画满到边缘，所以它和状态像素点一样取 4.5px（[对齐](../../../../../design/foundations/alignment.md#chips)）：它的墨迹离标签片起始边 4.5px，另一端最后一个字母之后约 4.8px。任何图片或其他非 svg 图标都用它：直接放进标签片的 `<img>` 没有自己的尺寸，会落在文字的基线上。实验性，从 `@botiverse/raft-ui/wip` 导出。
