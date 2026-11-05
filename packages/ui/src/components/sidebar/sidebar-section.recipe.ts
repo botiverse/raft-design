@@ -3,9 +3,9 @@ import { tv } from "../../lib/tv";
 export const sidebarSectionRecipe = tv({
   slots: {
     sidebarSection: ["group/section", "px-0"],
-    sidebarList: ["flex flex-col gap-0.5 py-2"],
+    sidebarList: ["flex flex-col gap-0.5 py-2 md:pointer-fine:pt-1"],
     sidebarSectionEmpty: [
-      "px-(--surface-inset) py-2",
+      "px-(--surface-inset) md:pointer-fine:pl-(--sidebar-text-axis) py-2",
       "font-sans text-footnote",
       "text-foreground-hint",
     ],
@@ -19,12 +19,12 @@ export const sidebarSectionRecipe = tv({
       // its controls end on the rows' content edge, 20px from the sidebar's
       // outer edge, and don't move left when the scrollbar appears.
       "pr-[calc(max(0px,calc(8px-var(--scrollbar-size,0px)))+12px)]",
-      // With a mouse on a desktop the rows' content starts 16px in: the
-      // chevron's centre sits on the rows' icon column (16px + the 19px icon
-      // box's centre, less half the 14px chevron) and the last control's icon
-      // ends on the rows' content edge, where their counts end (stdrc,
-      // 2026-11-05).
-      "md:pointer-fine:pl-[calc(var(--page-inset)+2.5px)] md:pointer-fine:pr-[calc(max(0px,calc(8px-var(--scrollbar-size,0px)))+10px)]",
+      // With a mouse on a desktop (stdrc, 2026-11-05, option B): the title
+      // starts on the glyph axis, outdented from the rows' text; the chevron
+      // is the last control at the end; the last control's icon ends on the
+      // rows' content edge. 16px above the header (8 here and the list's 8),
+      // 4px under it.
+      "md:pointer-fine:min-h-6 md:pointer-fine:pt-2 md:pointer-fine:pl-(--sidebar-glyph-axis) md:pointer-fine:pr-[calc(max(0px,calc(8px-var(--scrollbar-size,0px)))+10px)]",
       // On a touch screen the controls' 44px hit area hangs 14px under the
       // 16px line: 6px more here plus the list's 8px keep it off the first row.
       "not-pointer-fine:pb-1.5",

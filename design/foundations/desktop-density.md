@@ -34,7 +34,7 @@ A section's header, a group label and a container's edge stand further out than 
 
 - **Why:** an outdented title reads as the frame of what is under it; at the same inset it reads as one more row.
 - **Enforced by:** a panel's section header and a settings card stand outside the content they hold.
-- **Exception:** a sidebar section title doesn't stand outside its rows: its chevron is centred on the rows' icon column and its last control's icon ends on the rows' content edge, where their counts end (stdrc, 2026-11-05).
+- **In the sidebar** (stdrc, 2026-11-05, option B): two axes. A row's glyph (icon, `#`, avatar) starts on the glyph axis, 16px from the sidebar's edge, and its text on the text axis, 40px; a section or group title starts on the glyph axis, outdented from the rows' text, with no highlight and about 24px tall. A section's chevron is its last control, at the end of its header, always shown. Trailing counts and header controls end 16px from the right edge; a row's shape is 8px from both edges with its content 8px inside. A header has 16px above it and 4px under it; rows are 2px apart; an empty section's hint starts on the text axis (`--sidebar-glyph-axis`, `--sidebar-text-axis`).
 
 ### 4. Space says what belongs together
 

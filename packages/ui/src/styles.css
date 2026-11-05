@@ -138,6 +138,12 @@
        `px-0` still replaces it (stdrc, 2026-11-05). */
     --surface-inset: 20px;
     --column-margin: 16px;
+    /* The sidebar's two axes with a mouse on a desktop (stdrc, 2026-11-05,
+       option B): glyphs (a row's icon or avatar, a section's title) start on
+       the glyph axis, a row's text on the text axis; a row's shape is the
+       box inset from the sidebar's edges, its content 8px inside it. */
+    --sidebar-glyph-axis: var(--page-inset);
+    --sidebar-text-axis: calc(var(--sidebar-glyph-axis) + 24px);
   }
   @media (width >= 48rem) {
     :root,
