@@ -45,7 +45,7 @@ list-row/compositions/conversations
 | 列表的两端 | 上下各 8px 内边距（`py-2`），所以第一个形状在列表上边缘下方 8px，最后一个在下边缘上方 8px，和每个形状离两边的距离一样：圆角形状要从四边量，而不只是左右（设计评审，2026-10-26）。 |
 | 容器 | `SidebarList`、`SearchResultsList` 和搜索里一个消息列的消息都是 `flex flex-col gap-0.5 py-2`；`ActivityInboxViewport` 是同样的列，它的下内边距再加上安全区域；`DialogNav` 也一样。其他任何单元格列表都是 `flex flex-col gap-0.5 py-2` 的列。 |
 | 标题 → 第一行 | 在每个列表里，从标题文字的底部到第一个形状都是 8px：标题（侧栏的分区标题或分组标签、搜索的分区标题、搜索里消息列的标题）没有下内边距，列表自己的 8px 就是全部的间距。分区为空时的那一行（`SidebarSectionEmpty`）同样在标题下方 8px。 |
-| 内容 | 以形状为基准留内边距，而不是以列表为基准：在形状里面，起始端和末端各 12px（`--cell-pad-x`），所以在手机和触屏上离列表边缘 20px（8px 内缩 + 12px）；桌面上用鼠标时在形状里面 8px，所以离列表边缘 16px，也就是头部开始的页面内边距（stdrc，2026-11-05）。开头的头像、图标和复选框从形状的内侧起点开始；末尾的时间、计数、@ 贴纸、静音标记和悬停时出现的按钮（Mark as Done）结束在形状的内侧终点。上下保留行自己的内边距：InboxItem、搜索结果和 ListRow 是 12px（`py-3`），桌面上用鼠标时 InboxItem 和搜索结果是 8px，让动态和搜索与桌面的密度一致；侧栏行是行高，用鼠标时 34px，768px 起的触屏上 38px，它让 20px 高的那一行文字居中（7px、9px）。起止两端（inline 方向）的内边距由 `listCell` 设置，所以行的配方不再自己设。 |
+| 内容 | 以形状为基准留内边距，而不是以列表为基准：在形状里面，起始端和末端各 12px（`--cell-pad-x`），所以在手机和触屏上离列表边缘 20px（8px 内缩 + 12px）；桌面上用鼠标时在形状里面 8px，所以离列表边缘 16px，也就是头部开始的页面内边距（stdrc，2026-11-05）。开头的头像、图标和复选框从形状的内侧起点开始；末尾的时间、计数、@ 贴纸、静音标记和悬停时出现的按钮（Mark as Done）结束在形状的内侧终点。上下保留行自己的内边距：InboxItem、搜索结果和 ListRow 是 12px（`py-3`），桌面上用鼠标时 InboxItem 和搜索结果是 8px，让动态和搜索与桌面的密度一致；触屏上 InboxItem、搜索结果和默认 ListRow 是 8px、最小高 56px；侧栏行是行高，用鼠标时 34px，768px 起的触屏上 38px，它让 20px 高的那一行文字居中（7px、9px）。起止两端（inline 方向）的内边距由 `listCell` 设置，所以行的配方不再自己设。 |
 
 ## 同一条边 {#one-edge}
 
@@ -59,7 +59,7 @@ list-row/compositions/conversations
 | 行的状态形状 | 8px |
 | 行开头的头像、图块或复选框，以及末尾的时间、计数和按钮 | 20px，在形状里面 12px（用鼠标时 16px，在形状里面 8px） |
 
-手机上其他的列保留 16px（[对齐](../foundations/alignment.md#usage)）。列的边距是 `--column-margin` 变量，每个头部、面板提示和底部区域都按它留内边距：手机上 16px，768px 起 20px；由列表单元格组成的列在任何宽度都把它设为 20px（`ActivityInboxPanel`、`SidebarRoot`、`SearchShellRoot`）。这种列里应用自己的工具栏或横幅按 `px-(--column-margin)` 留内边距；应用自己的单元格列在根元素上设 `[--column-margin:20px]`。
+手机上其他的列保留 16px（[对齐](../foundations/alignment.md#usage)）。列的边距是 `--column-margin` 变量，每个头部、面板提示和底部区域都按它留内边距：手机上 16px，768px 起 20px；由列表单元格组成的列把它设成行内容的起点：手机和触屏上 20px，桌面上用鼠标时 16px（`--page-inset`）（`ActivityInboxPanel`、`SidebarRoot`、`SearchShellRoot`）。这种列里应用自己的工具栏或横幅按 `px-(--column-margin)` 留内边距；应用自己的单元格列在根元素上设 `[--column-margin:20px] md:pointer-fine:[--column-margin:var(--page-inset)]`，和 raft-ui 自己的列一样；只设固定的 `[--column-margin:20px]` 会让用鼠标时头部在 20、行在 16。
 
 为什么手机上不保留 16px：那样的话，要么行的内容只能放在形状里面 8px 处（有填充时内容就贴着形状，这正是本页要解决的问题），要么形状离屏幕边缘只有 4px，看起来像一条放错位置的通栏色带。整列用同一个边距，就能在任何宽度都保住 8px 的形状和它里面的 12px（设计评审，2026-10-27）。
 
