@@ -1,12 +1,12 @@
 ---
 title: AppLinkCard
 summary: 应用要求时画在消息本身里的应用链接卡片：Raft 的标题栏写明是哪个应用，用应用的话写条目，按钮用键盘和触屏都能按。
-sourceHash: 7fff67b0
+sourceHash: 16d84601
 ---
 
 # AppLinkCard
 
-画在消息里的应用链接卡片，在链接所在段落的后面或替换掉它，用于应用在应答里要求这样画的时候（`placement: "block"`）。它显示的条目和悬停卡片一样（[PreviewCard](../preview-card/preview-card.md#item-card)），顶上是 Raft 写明应用的标题栏，按钮可以就地按，鼠标、键盘、触屏都行。卡片放在消息的什么位置、什么时候 Raft 改显示标签片，见[导航](../../../../../design/patterns/navigation.md#block-cards)。
+画在消息里的应用链接卡片，在链接所在段落的后面，用于应用在应答里要求这样画的时候（`placement: "block"`）。它显示的条目和悬停卡片一样（[PreviewCard](../preview-card/preview-card.md#item-card)），顶上是 Raft 写明应用的标题栏，按钮可以就地按，鼠标、键盘、触屏都行。卡片放在消息的什么位置、什么时候 Raft 改显示标签片，见[导航](../../../../../design/patterns/navigation.md#block-cards)。
 
 ```example
 app-link-card/compositions/with-actions
@@ -46,7 +46,7 @@ app-link-card/compositions/default
 
 ## 状态 {#states}
 
-Raft 正在获取一个它缓存里已有、而且要求块的应答时，立刻在原位画 `AppLinkCardPlaceholder`，里面带上应用的标题栏。灰条用的是它们所代表部件的行高，所以它和一张标题两行、带一排按钮的卡片一样大，替换它的卡片让消息尽量少动。没有缓存的应答时，Raft 要等应答回来才知道链接要求块：在那之前链接是加载中的标签片（[导航](../../../../../design/patterns/navigation.md#block-cards)）。
+Raft 正在获取一个它缓存里已有、而且要求块的应答时，立刻在链接所在段落的后面画 `AppLinkCardPlaceholder`，里面带上应用的标题栏。灰条用的是它们所代表部件的行高，所以它和一张标题两行、带一排按钮的卡片一样大，换上来的卡片让消息尽量少动。没有缓存的应答时，Raft 要等应答回来才知道链接要求块：在那之前链接和其他应用链接一样画，应答要求块时再在段落后面加上卡片。链接本身从不移动，也从不被卡片替换（[导航](../../../../../design/patterns/navigation.md#block-cards)）。
 
 ```example
 app-link-card/compositions/loading-placeholder

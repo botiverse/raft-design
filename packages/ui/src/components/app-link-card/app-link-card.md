@@ -10,7 +10,7 @@ related: [preview-card, message-item, message-embed, skeleton]
 
 # AppLinkCard
 
-An app link's card drawn in the message, under the link's paragraph or in its place, for an answer in which the app asks for it (`placement: "block"`). It shows the same item as the hover card ([PreviewCard](../preview-card/preview-card.md#item-card)), under a header in which Raft names the app, and its buttons can be pressed right there, by mouse, keyboard or touch. Where the card goes in a message, and when Raft shows the chip instead, is in [Navigation](../../../../../design/patterns/navigation.md#block-cards).
+An app link's card drawn in the message, after the link's paragraph, for an answer in which the app asks for it (`placement: "block"`). It shows the same item as the hover card ([PreviewCard](../preview-card/preview-card.md#item-card)), under a header in which Raft names the app, and its buttons can be pressed right there, by mouse, keyboard or touch. Where the card goes in a message, and when Raft shows the chip instead, is in [Navigation](../../../../../design/patterns/navigation.md#block-cards).
 
 ```example
 app-link-card/compositions/with-actions
@@ -50,7 +50,7 @@ app-link-card/compositions/default
 
 ## States
 
-While Raft fetches an answer it already holds from its cache, and that answer asked for a block, draw `AppLinkCardPlaceholder` with the app's header in its place at once. Its bars take the line heights of the parts they stand for, so it is the size of a card with a two-line title and a row of buttons, and the card that replaces it moves the message as little as it can. Without a cached answer, Raft doesn't know a link asks for a block until its answer arrives: the link is a loading chip until then ([Navigation](../../../../../design/patterns/navigation.md#block-cards)).
+While Raft fetches an answer it already holds from its cache, and that answer asked for a block, draw `AppLinkCardPlaceholder` after the link's paragraph at once, with the app's header in it. Its bars take the line heights of the parts they stand for, so it is the size of a card with a two-line title and a row of buttons, and the card that takes its place moves the message as little as it can. Without a cached answer, Raft doesn't know a link asks for a block until its answer arrives: the link is drawn as any app link is until then, and the card is added after the paragraph when the answer asks for one. The link itself never moves and is never replaced by the card ([Navigation](../../../../../design/patterns/navigation.md#block-cards)).
 
 ```example
 app-link-card/compositions/loading-placeholder

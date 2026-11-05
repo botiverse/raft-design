@@ -4,6 +4,7 @@ import {
   AvatarFallback,
   Badge,
   Button,
+  MarkdownLink,
   MarkdownParagraph,
   MessageItem,
   MessageItemAvatarSlot,
@@ -32,10 +33,11 @@ import {
   MessageReferenceIcon,
 } from "@botiverse/raft-ui/wip";
 
-// The first message links a pull request inside a sentence: its chip stays in
-// the sentence, opens no hover card (the card is right below it), and the card
-// follows the paragraph. The second message is only a link: the card takes its
-// place.
+// Two answers that ask for a block. The first also sends `inline`: the link is
+// a chip in the sentence, opens no hover card (its card is right below it),
+// and the card follows the paragraph. The second sends only the block: the
+// link stays the author's plain link, alone in its paragraph, and the card
+// follows it. Neither link moves or is replaced.
 export function AppLinkCardInMessageComposition() {
   const titleId = useId();
   const secondTitleId = useId();
@@ -117,6 +119,11 @@ export function AppLinkCardInMessageComposition() {
         </MessageItemGutter>
         <MessageItemContent>
           <MessageItemBody>
+            <MarkdownParagraph>
+              <MarkdownLink href="#stamp-pull-10449" target="_blank" rel="noopener noreferrer">
+                https://stamp.build/botiverse/slock/pull/10449
+              </MarkdownLink>
+            </MarkdownParagraph>
             <AppLinkCard aria-labelledby={secondTitleId}>
               <AppLinkCardHeader>
                 <AppLinkCardIcon>
