@@ -105,11 +105,19 @@ const countCommit = () => {
   commits += 1;
 };
 
+/**
+ * A hundred rows fill the page, so one of them can mount under wherever an
+ * earlier file left the pointer; Chromium then gives that row a
+ * pointerenter on the next frame, its toolbar shows and is measured, and
+ * an observer is constructed: in a whole run, the mount below failed or
+ * passed by the order of the files. The timeline takes no pointer, so a
+ * resting pointer shows no row and the mount is measured alone.
+ */
 function Timeline({ rows }: { rows: number }) {
   return (
     <ThemeProvider>
       <Profiler id="timeline" onRender={countCommit}>
-        <div className="pt-6" style={{ width: 360 }}>
+        <div className="pt-6" style={{ width: 360, pointerEvents: "none" }}>
           {Array.from({ length: rows }, (_, index) => (
             <Row key={index} index={index} />
           ))}

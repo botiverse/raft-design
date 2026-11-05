@@ -20,6 +20,19 @@ const it = test.skipIf(typeof window === "undefined");
 
 afterEach(cleanup);
 
+// The provider puts its mode on <html> in an effect, after the fields are
+// first styled, and a Select trigger's border has `transition-colors`: put
+// on the root from the light tests before it, the dark mode reached the
+// trigger as a 150ms fade from the light ink, read mid-way (alone, the dark
+// tests failed on the select). The mode is on the root before the render,
+// so the effect changes nothing and every border is at rest when read.
+function rootMode(mode: (typeof MODES)[number]) {
+  const root = document.documentElement;
+  root.classList.toggle("light", mode === "light");
+  root.classList.toggle("dark", mode === "dark");
+  root.style.colorScheme = mode;
+}
+
 const MODES = ["light", "dark"] as const;
 const MODELS = [{ value: "opus", label: "Opus" }];
 const PEOPLE = ["Martin", "Wug"];
@@ -64,6 +77,7 @@ for (const mode of MODES) {
   for (const width of [390, 1280]) {
     it(`${mode}, ${width}px: a field has the 1.5px ink border of a button`, async () => {
       await viewport(width);
+      rootMode(mode);
       render(<Fields mode={mode} />);
       const ink = getComputedStyle(screen.getByTestId("ink")).borderTopColor;
       for (const field of FIELDS) {
