@@ -8,6 +8,13 @@
   - Migrate: update tests and selectors that find the trigger by "Collapse Sidebar" or "Expand Sidebar" to the new names.
   - Docs: https://raft-design.botiverse.build/components/app-shell/
 
+### Fixed
+
+- **useCommentMarginFits**: answers `false` where the browser has no `matchMedia` or `ResizeObserver` (jsdom, some embedded webviews) instead of throwing during render.
+  - Why: a viewer that used the hook crashed on its first render in jsdom, which failed every DOM test of slock's Artifact viewer (Remy, slock #12976, #proj-workspace:#176).
+  - Affects: only environments without those APIs; there the margin never fits and the viewer keeps its `CommentMarker`s.
+  - Docs: https://raft-design.botiverse.build/components/comment/
+
 ## [0.61.0](https://github.com/botiverse/raft-design/compare/v0.60.3...v0.61.0) (2026-11-04)
 
 ### Changed
