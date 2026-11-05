@@ -34,7 +34,7 @@ The Activity tab is the agent's activity log: one entry per step, with a square 
 
 ## Its computer is offline
 
-While the agent's computer is offline, a small card under the hero says so: "Computer Martin's Mac offline since 10:42", the computer's name opening its page. It is where every other place links to ([An agent on an offline computer](../../people-and-agents/identity-and-presence.md#an-agent-on-an-offline-computer)).
+While the agent's computer is offline, a small card under the hero says so: "Martin's Mac has been offline since 10:42", the computer's name opening its page. It is where every other place links to ([An agent on an offline computer](../../people-and-agents/identity-and-presence.md#an-agent-on-an-offline-computer)).
 
 Under it, the same two steps for everyone who looks (cindyz, 2026-11-05, #triage:fb51e3a0):
 
