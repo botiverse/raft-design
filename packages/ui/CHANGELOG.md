@@ -1,3 +1,12 @@
+## [0.63.1](https://github.com/botiverse/raft-design/compare/v0.63.0...v0.63.1) (2026-11-05)
+
+### Fixed
+
+- **Fonts**: Cyrillic text no longer shows with its letters spaced apart. The sans and heading stacks try Arial and Helvetica Neue before the CJK faces. ([#994](https://github.com/botiverse/raft-design/pull/994))
+  - Why: Space Grotesk has no Cyrillic, so Russian and Ukrainian fell through to the CJK faces, whose Cyrillic glyphs are fullwidth (Hands #155, artin, #triage:83068786).
+  - Affects: only characters Space Grotesk lacks (Cyrillic, Greek and a few symbols such as arrows), on every page language. Latin and CJK text keeps its faces.
+  - Docs: https://raft-design.botiverse.build/foundations/typography/
+
 ## [0.63.0](https://github.com/botiverse/raft-design/compare/v0.62.0...v0.63.0) (2026-11-05)
 
 ### Added
