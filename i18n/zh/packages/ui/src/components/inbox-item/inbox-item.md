@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: 3f40c276
+sourceHash: d3265a76
 ---
 
 # InboxItem
@@ -107,13 +107,13 @@ activity/compositions/loading-conversation-list
 
 - 触发按钮覆盖整行。行内的按钮位于它上方，每个都可以单独按下。
 - 条目之间不画线。条目是列表单元格（[列表](../../../../../design/patterns/lists.md)）：它占满列表的整个宽度，它的悬停、按下、菜单打开和 `active` 填充、被定位的高亮和焦点环，都在同一个圆角形状上，这个形状和条目一样高，两侧各内缩 8px。把条目直接放进它的滚动容器（`ActivityInboxViewport`），不加左右内边距：滚动容器是一列，间隔 2px，顶部和底部各留 8px，所以两个有填充的条目之间露出 2px，第一个和最后一个条目离两端 8px。放在其他容器里的列表是一个 `flex flex-col gap-0.5 py-2` 的列。
-- 内容和形状之间留内边距：在形状里，起始端和末端各 12px，即离列表边缘 20px；顶部和底部各 12px（`py-3`）（[列表](../../../../../design/patterns/lists.md#rules)）。头像或图块和选择复选框从形状的内侧起始处开始；时间、标记（静音标记、计数、@ 贴纸）、提醒圆点，以及悬停时显示的 Mark as done，结束在形状的内侧末端，所以不论悬停、按下、`active` 还是有焦点，它们都不会碰到形状。不要从外部设置条目的左右内边距，也不要从外部移动它的形状（`before:right-*`）；长标题或长预览在内边距处截断。
+- 内容和形状之间留内边距：在形状里，起始端和末端各 12px，即离列表边缘 20px；顶部和底部各 12px（`py-3`）（[列表](../../../../../design/patterns/lists.md#rules)）。头像或图块和选择复选框从形状的内侧起始处开始；时间、标记（静音标记、计数、@ 贴纸）、提醒圆点，以及悬停时显示的 Mark as Done，结束在形状的内侧末端，所以不论悬停、按下、`active` 还是有焦点，它们都不会碰到形状。不要从外部设置条目的左右内边距，也不要从外部移动它的形状（`before:right-*`）；长标题或长预览在内边距处截断。
 - 按下时立即显示按下的填充，触屏上和用鼠标时一样。
-- 使用鼠标时，只在这一行被悬停、持有焦点、处于 `active` 或打开了菜单时才显示 Mark as done：给 `InboxItemActions` 设 `reveal="hover"`。每一行都显示按钮的列表看起来像一堵按钮墙，而这一行本身才是主要目标。操作显示时，它们占据 `InboxItemTrailing` 其余内容的位置：时间、标记和提醒圆点让开。
-- 在触屏上，Mark as done 在静止时就显示，并且也放进长按菜单里；滑动手势可以作为额外的快捷方式，但永远不能取代它（[响应式布局](../../../../../design/patterns/responsive.md#touch-screens)）。`reveal="hover"` 会这样处理：在触屏上按钮静止时就显示，`InboxItemTrailing` 的其余内容移开，给它腾出位置。
-- 在手机上，动态里的行静止时不显示它：Mark as done 是向左滑动露出的第一个按钮，也是长按菜单里的一项（stdrc, 2026-10-23），所以在那里不要把 `InboxItemActions` 放进这一行，但要为读屏软件保留这个按钮，在视觉上隐藏（`sr-only`），放在行的末尾。读屏软件没法滑动一行，网页也没有办法给一行配上它自己的操作；作为隐藏的按钮，它就是这一行之后的下一个元素。按它所在的行给它命名（「Mark #launch-week as Done」），这样朗读列表时不会一直重复同一个名字；它获得键盘焦点时要显示出来（`focus-visible:not-sr-only`），这样在接了键盘的手机上按 Tab，焦点永远不会落在看不见的东西上。它和平板、桌面端显示的是同一个按钮，按下去效果也一样。滑动露出的按钮（Done 用实心的 `success` 加墨色，这一行的其他操作用 `fill-muted`）、滑动的距离（滑过按钮宽度的一半就打开，滑过 60% 就是 Done）、Android 上的触感反馈和 8 秒的 Undo 见[响应式布局](../../../../../design/patterns/responsive.md#touch-screens)。raft-ui 还没有可滑动的行；在那之前，由产品在这一行外面画出滑动。
+- 使用鼠标时，只在这一行被悬停、持有焦点、处于 `active` 或打开了菜单时才显示 Mark as Done：给 `InboxItemActions` 设 `reveal="hover"`。每一行都显示按钮的列表看起来像一堵按钮墙，而这一行本身才是主要目标。操作显示时，它们占据 `InboxItemTrailing` 其余内容的位置：时间、标记和提醒圆点让开。
+- 在触屏上，Mark as Done 在静止时就显示，并且也放进长按菜单里；滑动手势可以作为额外的快捷方式，但永远不能取代它（[响应式布局](../../../../../design/patterns/responsive.md#touch-screens)）。`reveal="hover"` 会这样处理：在触屏上按钮静止时就显示，`InboxItemTrailing` 的其余内容移开，给它腾出位置。
+- 在手机上，动态里的行静止时不显示它：Mark as Done 是向左滑动露出的第一个按钮，也是长按菜单里的一项（stdrc, 2026-10-23），所以在那里不要把 `InboxItemActions` 放进这一行，但要为读屏软件保留这个按钮，在视觉上隐藏（`sr-only`），放在行的末尾。读屏软件没法滑动一行，网页也没有办法给一行配上它自己的操作；作为隐藏的按钮，它就是这一行之后的下一个元素。按它所在的行给它命名（「Mark #launch-week as Done」），这样朗读列表时不会一直重复同一个名字；它获得键盘焦点时要显示出来（`focus-visible:not-sr-only`），这样在接了键盘的手机上按 Tab，焦点永远不会落在看不见的东西上。它和平板、桌面端显示的是同一个按钮，按下去效果也一样。滑动露出的按钮（Done 用实心的 `success` 加墨色，这一行的其他操作用 `fill-muted`）、滑动的距离（滑过按钮宽度的一半就打开，滑过 60% 就是 Done）、Android 上的触感反馈和 8 秒的 Undo 见[响应式布局](../../../../../design/patterns/responsive.md#touch-screens)。raft-ui 还没有可滑动的行；在那之前，由产品在这一行外面画出滑动。
 
-- 在默认密度下，`InboxItemTrailing` 只在 `InboxItemContent` 的前两行旁边占位（上下文行和标题，或者标题和摘录）；之后的行占满整个宽度，排在它下方。这一列大约两行高（时间和圆点，或 32px 的 Mark as done），如果在每一行旁边都占位，只会让手机上本来就窄的行更容易换行、变得更高。在 `density="compact"` 中，它在两行旁边都保留。
+- 在默认密度下，`InboxItemTrailing` 只在 `InboxItemContent` 的前两行旁边占位（上下文行和标题，或者标题和摘录）；之后的行占满整个宽度，排在它下方。这一列大约两行高（时间和圆点，或 32px 的 Mark as Done），如果在每一行旁边都占位，只会让手机上本来就窄的行更容易换行、变得更高。在 `density="compact"` 中，它在两行旁边都保留。
 
 - `data-unread` 同时打开加粗标题和提醒圆点。在默认密度下，圆点是辨认未读条目的方式；保留它。在 `density="compact"` 中，`InboxItemMarks` 里的未读数代替了它，所以不显示圆点。
 - 文字会让鼠标指针穿透到触发按钮上，所以文字里的徽标得不到悬停。把带工具提示的徽标包在 `InboxItemHoverTarget` 里。
@@ -134,7 +134,7 @@ activity/compositions/activity-hover-actions
 
 - 各部分通过 Base UI 的 `useRender` 渲染原生元素。`InboxItemTrigger` 是原生的 `button`；设了 `disabled` 时，它会带上 `aria-disabled` 并忽略点击。
 - 给触发按钮一个说明条目的无障碍名称：`aria-label="Open Martin needs your OK"`。在打开的那个条目的触发按钮上设 `aria-current`。
-- 给选择复选框和每个只有图标的操作命名：`aria-label="Select activity item"`、`aria-label="Mark as done"`。
+- 给选择复选框和每个只有图标的操作命名：`aria-label="Select activity item"`、`aria-label="Mark as Done"`。
 - 设了 `reveal="hover"` 的操作在隐藏时仍留在 Tab 键顺序中，焦点一到达这一行或它们本身就会显示。
 - 从键盘发起的跳转落在某个条目上时（比如用 Back 回到打开这个条目的那个列表），把焦点移到它的 `InboxItemTrigger`，而不是这一行（[被定位](../../../../../design/foundations/states.md#located)）：触发按钮本来就是一个能获得焦点、带有条目名称的按钮，这一行会在它周围画出内嵌的环，所以这一行不需要自己的 `tabIndex`。
 - 提醒圆点用 CSS 绘制，不会被朗读。在触发按钮的名称里写上 "unread"，或者加一个视觉上隐藏的词。

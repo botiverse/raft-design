@@ -187,7 +187,7 @@ export function SidebarPhoneHomeComposition() {
               <SidebarSectionHeader>
                 <SidebarSectionDisclosure type="button" aria-expanded={dmsOpen} onClick={toggleDms}>
                   <SidebarSectionChevron />
-                  <SidebarSectionTitle>Direct messages</SidebarSectionTitle>
+                  <SidebarSectionTitle>Direct Messages</SidebarSectionTitle>
                   <SidebarSectionCount>3</SidebarSectionCount>
                 </SidebarSectionDisclosure>
               </SidebarSectionHeader>

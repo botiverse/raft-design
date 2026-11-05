@@ -120,7 +120,7 @@ function ActivitySavedAction({ defaultSaved }: { defaultSaved: boolean }) {
     <PanelToggleAction
       pressed={saved}
       onPressedChange={setSaved}
-      aria-label={saved ? "Remove from saved" : "Save activity item"}
+      aria-label={saved ? "Remove from Saved" : "Save activity item"}
     >
       <Bookmark aria-hidden fill={saved ? "currentColor" : "none"} />
     </PanelToggleAction>
@@ -137,7 +137,7 @@ function ActivityCompletionAction({ defaultDone }: { defaultDone: boolean }) {
   return (
     <PanelAction
       onClick={handleToggleDone}
-      aria-label={done ? "Restore to active" : "Mark as done"}
+      aria-label={done ? "Restore to active" : "Mark as Done"}
     >
       {done ? <RotateCcw aria-hidden /> : <Check aria-hidden />}
     </PanelAction>

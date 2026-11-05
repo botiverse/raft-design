@@ -26,7 +26,7 @@ import type { ActivityCompositionItem } from "../activity.fixtures.ts";
 
 const ITEMS: readonly ActivityCompositionItem[] = ACTIVITY_COMPOSITION_ITEMS.slice(0, 4);
 
-/** Mark as done shows on hover with a mouse, at rest on a touch screen. */
+/** Mark as Done shows on hover with a mouse, at rest on a touch screen. */
 export function ActivityHoverActionsComposition() {
   const [activeId, setActiveId] = useState<string>();
   const [doneIds, setDoneIds] = useState<ReadonlySet<string>>(new Set());
@@ -124,7 +124,7 @@ function ActivityHoverRow({
       <InboxItemTrailing>
         <InboxItemTimestamp>{item.timestamp}</InboxItemTimestamp>
         <InboxItemActions reveal="hover">
-          <Button variant="outline" size="icon-md" aria-label="Mark as done" onClick={handleDone}>
+          <Button variant="outline" size="icon-md" aria-label="Mark as Done" onClick={handleDone}>
             <Check aria-hidden />
           </Button>
         </InboxItemActions>

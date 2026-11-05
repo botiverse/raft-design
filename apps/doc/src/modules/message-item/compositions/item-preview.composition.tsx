@@ -128,7 +128,7 @@ export function MessageItemPreview({
       <MessageItemFooter>
         {isSaved ? (
           <MessageItemSavedIndicator
-            aria-label="Remove from saved"
+            aria-label="Remove from Saved"
             render={<button type="button" onClick={() => setIsSaved(false)} />}
           >
             <Bookmark fill="currentColor" />

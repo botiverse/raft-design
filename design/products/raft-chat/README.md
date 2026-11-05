@@ -52,14 +52,14 @@ A computer's dot marks a change you haven't seen, not a state that lasts. On the
 ### The bell and Activity
 
 - The bell opens the notification center: the state of the whole server. It lists joint-channel invites, a provider's usage limit, a plan change, computers that need attention, are offline or low on disk, installing Raft on this device, and new replies to feedback. Each entry has its actions and Dismiss.
-- Activity lists the conversations that wait for the person: channels, direct messages and followed threads with unread messages or mentions. It filters by All, Unread and Mentions, has Mark all read and no search field, and each row has a Mark as done check, which on a phone is a left swipe and an item of the row's press-and-hold menu instead ([Activity on a phone](#activity-on-a-phone)). Approvals and tasks don't appear in it as their own rows.
+- Activity lists the conversations that wait for the person: channels, direct messages and followed threads with unread messages or mentions. It filters by All, Unread and Mentions, has Mark all read and no search field, and each row has a Mark as Done check, which on a phone is a left swipe and an item of the row's press-and-hold menu instead ([Activity on a phone](#activity-on-a-phone)). Approvals and tasks don't appear in it as their own rows.
 - Activity is the one exception to what tapping the selected tab does ([Navigation](../../patterns/navigation.md#going-back); artin, 2026-10-21): it is the list people work through, so tapping Activity again, or its title bar, goes to the next unread item below the current position, scrolls it to the top of the list and marks it as located ([Located](../../foundations/states.md#located)). After the last unread item the next tap goes back to the top, and the cycle starts again; with no unread item it goes to the top. It moves only within the current filter and marks nothing as read.
 
 ### Activity on a phone
 
 The swipe itself, its distances, its buttons and its Undo toast follow [Touch screens](../../patterns/responsive.md#touch-screens). In Activity:
 
-- With a mouse, Mark as done stays hover-only, as every row action. On a phone it is the exception: it is reached by swiping the row left and from its press-and-hold menu, with no button at rest (stdrc, 2026-10-23). A list that is mostly rows to clear reads as a column of buttons with one on every row, and on a phone swiping a row away is how people already clear a list (Mail, Messages). A tablet or a desktop keeps the button: there the row is wider and the swipe is not the habit.
+- With a mouse, Mark as Done stays hover-only, as every row action. On a phone it is the exception: it is reached by swiping the row left and from its press-and-hold menu, with no button at rest (stdrc, 2026-10-23). A list that is mostly rows to clear reads as a column of buttons with one on every row, and on a phone swiping a row away is how people already clear a list (Mail, Messages). A tablet or a desktop keeps the button: there the row is wider and the swipe is not the habit.
 - The left swipe uncovers the row's buttons: Done, then Unfollow on a followed thread and Mute on a joined channel whose activity isn't muted, each where it applies; a pull past 60% applies Done. The toast says what happened ("Unfollowed …", "Muted activity in #…") with an Undo, and the same actions are in the press-and-hold menu.
 - Done has no exact opposite, and nor has Unfollow: unfollowing a thread also marks it read, and following it again can't make it unread (Jasper and Tenny, 2026-10-27). So both wait for the toast before they apply. A Done is dropped if new activity arrives in that row meanwhile; an Unfollow still applies, since the person stops following whatever the thread says next. Mute keeps the row in the list, marked muted, with the same toast and Undo; a muted row's buttons have no Mute.
 - A right swipe marks the row read, or unread when it is already read, and keeps it in place, with no toast. Under the Unread or Mentions filter a row just marked read still stays, until the person leaves the list or changes the filter, as in a mail client, so the swipe back always has a row to swipe.
@@ -97,14 +97,14 @@ sidebar/sidebar
 
 | Destination | The sidebar lists |
 | --- | --- |
-| Chat | Saved and Drafts, then the sections Pinned, the person's own sections, Joint channels, Channels and Direct messages. People can reorder the sections by dragging. Agents are listed among the direct messages |
+| Chat | Saved and Drafts, then the sections Pinned, the person's own sections, Joint Channels, Channels and Direct Messages. People can reorder the sections by dragging. Agents are listed among the direct messages |
 | Members | Graph, then Agents (grouped by computer) and Humans, each with a count and an add button |
 | Computers | No sidebar: the computers fill the page beside the rail as a wall of cards, or a list, with an add button in its header. A computer opens in the side panel beside them, selected on the wall ([Navigation](../../patterns/navigation.md#opening-an-item)) |
 | Settings | The settings groups ([Settings](./settings.md)) |
 | Tasks | No sidebar: the board follows the rail directly |
 | Search, Activity | No sidebar at first: the page fills the width. After a result is selected, the results list takes the sidebar's place, and the result opens next to it |
 
-- Give every section header a disclosure, a count and a sort menu (Manual, Recent, A–Z), always visible, on desktop and on Home. A collapsed section shows a pink pixel when something in it is unread. Put a + button for Create channel in the header of Channels, and for Create joint channel in the header of Joint channels.
+- Give every section header a disclosure, a count and a sort menu (Manual, Recent, A–Z), always visible, on desktop and on Home. A collapsed section shows a pink pixel when something in it is unread. Put a + button for Create channel in the header of Channels, and for Create joint channel in the header of Joint Channels.
 - Show unread as in [States](../../foundations/states.md), except that in a channel's row a mention of the person shows the yellow @ marker before the pink count. Unread in a muted or unjoined channel is a gray count, and a pencil marks a draft.
 - Under the web top bar the sidebar has no header. Without the top bar, the header names the destination, and in Chat the working summary sits at its right.
 

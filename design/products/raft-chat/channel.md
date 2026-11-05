@@ -11,7 +11,7 @@ A channel is a place where people and agents share one timeline, with the compos
 
 From top to bottom:
 
-1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the working line ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)), then the channel's description. On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open tasks"), Files ("Open files") and Settings ("Channel details and settings"), which opens the channel details, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)).
+1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the working line ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)), then the channel's description. On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open Tasks"), Files ("Open Files") and Settings ("Channel details and settings"), which opens the channel details, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)).
 2. **The timeline**, newest at the bottom.
 3. **The composer**.
 
@@ -37,7 +37,7 @@ conversation-panel/compositions/conversation-panel
 
 ### Tasks and files
 
-- Make Tasks (`list-todo`) and Files (`paperclip`) toggles in the header (`PanelToggleAction`, [Panel](../../../packages/ui/src/components/panel/panel.md)): pressed, each is a yellow sticker and its section is open. Their labels switch to Close tasks and Close files.
+- Make Tasks (`list-todo`) and Files (`paperclip`) toggles in the header (`PanelToggleAction`, [Panel](../../../packages/ui/src/components/panel/panel.md)): pressed, each is a yellow sticker and its section is open. Their labels switch to Close Tasks and Close Files.
 - Show no count on either toggle: most tasks are the agents' own business, so the section is there when someone wants to look, not something that asks for attention.
 - Close a section with its toggle or its ×; on a phone, with Back. When both are open, Tasks is above Files.
 - Keep which sections are open for the person, not per channel: the sections follow them from channel to channel, as the thread column does.

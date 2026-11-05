@@ -353,7 +353,7 @@ export function ActivityInboxComposition({
             variant="outline"
             size="icon-md"
             onClick={onBack}
-            aria-label="Back to home"
+            aria-label="Back to Home"
             className="md:hidden"
           >
             <ArrowLeft size={14} />
@@ -378,7 +378,7 @@ export function ActivityInboxComposition({
                   type="button"
                   variant="outline"
                   size="md"
-                  aria-label="Switch activity"
+                  aria-label="Switch Activity"
                   className="min-w-0 max-w-28"
                 >
                   {view === "active" ? (
@@ -397,7 +397,7 @@ export function ActivityInboxComposition({
             />
             <DialogContent portalProps={portalProps}>
               <DialogHeader>
-                <DialogTitle>Switch activity</DialogTitle>
+                <DialogTitle>Switch Activity</DialogTitle>
                 <DialogClose aria-label="Close" />
               </DialogHeader>
               <DialogBody className="flex flex-col gap-1">
@@ -634,7 +634,7 @@ export function ActivityInboxComposition({
                     data-activity-inbox-action="primary"
                     onClick={handleUnsaveSelected}
                   >
-                    Remove from saved
+                    Remove from Saved
                   </Button>
                 )}
               </>

@@ -47,7 +47,7 @@ export function SystemMessageTaskThreadContent() {
       <SystemMessage>
         <SystemMessageTime render={<time dateTime="2026-10-19T11:20" />}>11:20</SystemMessageTime>
         <SystemMessageContent>
-          Bugen moved #25 "Fix onboarding copy" to in review
+          Bugen moved #25 "Fix onboarding copy" to In review
         </SystemMessageContent>
       </SystemMessage>
 
@@ -68,7 +68,7 @@ export function SystemMessageTaskThreadContent() {
 
       <SystemMessage>
         <SystemMessageTime render={<time dateTime="2026-10-19T11:35" />}>11:35</SystemMessageTime>
-        <SystemMessageContent>Martin moved #25 "Fix onboarding copy" to done</SystemMessageContent>
+        <SystemMessageContent>Martin moved #25 "Fix onboarding copy" to Done</SystemMessageContent>
       </SystemMessage>
     </div>
   );

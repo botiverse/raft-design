@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 频道
 summary: 一个频道：它的标题栏和详情，它的 Tasks 和 Files 分区，它的消息输入框，在频道里怎样建任务，以及它的消息列。
-sourceHash: 045630dc
+sourceHash: f048621c
 ---
 
 # Raft Chat — 频道
@@ -12,7 +12,7 @@ sourceHash: 045630dc
 
 从上到下：
 
-1. **标题栏**（`PanelHeader`）：位置图块、频道名和副标题；手机上前面还有返回。副标题先是工作状态行（[正在工作的 Agent](../../people-and-agents/working-agents.md#rows-and-subtitles)），然后是频道描述。右侧是四个图标按钮：Search（"Search this channel"）、Tasks（"Open tasks"）、Files（"Open files"）和 Settings（"Channel details and settings"），最后一个打开频道详情；频道旁边还开着别的列时，后面是 Expand。标题栏放不下时，这四个按钮从最后一个开始收进 Expand 前面的 ⋯（[Panel](../../../packages/ui/src/components/panel/panel.md#rules)）。
+1. **标题栏**（`PanelHeader`）：位置图块、频道名和副标题；手机上前面还有返回。副标题先是工作状态行（[正在工作的 Agent](../../people-and-agents/working-agents.md#rows-and-subtitles)），然后是频道描述。右侧是四个图标按钮：Search（"Search this channel"）、Tasks（"Open Tasks"）、Files（"Open Files"）和 Settings（"Channel details and settings"），最后一个打开频道详情；频道旁边还开着别的列时，后面是 Expand。标题栏放不下时，这四个按钮从最后一个开始收进 Expand 前面的 ⋯（[Panel](../../../packages/ui/src/components/panel/panel.md#rules)）。
 2. **时间线**，最新的在底部。
 3. **消息输入框**。
 
@@ -38,7 +38,7 @@ conversation-panel/compositions/conversation-panel
 
 ### 任务和文件 {#tasks-and-files}
 
-- 把 Tasks（`list-todo`）和 Files（`paperclip`）做成标题栏里的开关（`PanelToggleAction`，[Panel](../../../packages/ui/src/components/panel/panel.md)）：按下时，开关是一张黄色贴纸，它的分区打开。它们的标签随之变成 Close tasks 和 Close files。
+- 把 Tasks（`list-todo`）和 Files（`paperclip`）做成标题栏里的开关（`PanelToggleAction`，[Panel](../../../packages/ui/src/components/panel/panel.md)）：按下时，开关是一张黄色贴纸，它的分区打开。它们的标签随之变成 Close Tasks 和 Close Files。
 - 两个开关上都不显示计数：大多数任务是 Agent 自己的事，所以分区是在有人想看时才在那里，而不是来要人注意的东西。
 - 用开关或分区的 × 关闭分区；在手机上用 Back。两个都打开时，Tasks 在 Files 上面。
 - 哪些分区打开着，按人记住，而不是按频道：分区跟着人从一个频道到另一个频道，和消息列那一栏一样。

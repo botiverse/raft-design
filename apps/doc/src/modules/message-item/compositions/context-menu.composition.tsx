@@ -91,7 +91,7 @@ export function MessageContextMenuComposition({
     task === "done"
       ? { icon: <RotateCcw />, label: "Reopen task" }
       : task === "open"
-        ? { icon: <CheckCircle />, label: "Mark as done" }
+        ? { icon: <CheckCircle />, label: "Mark as Done" }
         : { icon: <ClipboardCheck />, label: "Create task from message" };
 
   const portalProps = useMemo(
@@ -169,7 +169,7 @@ export function MessageContextMenuComposition({
       {/* Just for me: nobody else sees it. */}
       <ContextMenuItem disabled={!onSavedChange} onClick={handleSavedToggle}>
         {saved ? <BookmarkMinus /> : <Bookmark />}
-        {saved ? "Remove from saved" : "Save message"}
+        {saved ? "Remove from Saved" : "Save message"}
       </ContextMenuItem>
     </ContextMenuContent>
   );

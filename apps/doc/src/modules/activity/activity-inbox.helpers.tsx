@@ -264,16 +264,16 @@ export function ActivityItem({
           <PanelToggleAction
             pressed={item.saved}
             onPressedChange={handleToggleSaved}
-            aria-label={item.saved ? "Remove from saved" : "Save activity item"}
-            title={item.saved ? "Remove from saved" : "Save activity item"}
+            aria-label={item.saved ? "Remove from Saved" : "Save activity item"}
+            title={item.saved ? "Remove from Saved" : "Save activity item"}
           >
             <Bookmark fill={item.saved ? "currentColor" : "none"} />
           </PanelToggleAction>
           {view === "saved" ? null : (
             <PanelAction
               onClick={handleToggleDone}
-              aria-label={view === "done" ? "Restore to active" : "Mark as done"}
-              title={view === "done" ? "Restore to active" : "Mark as done"}
+              aria-label={view === "done" ? "Restore to active" : "Mark as Done"}
+              title={view === "done" ? "Restore to active" : "Mark as Done"}
             >
               {view === "done" ? <RotateCcw /> : <Check />}
             </PanelAction>
@@ -297,7 +297,7 @@ export function ActivityItem({
             </ContextMenuItem>
             <ContextMenuItem onClick={handleToggleDone}>
               <Check />
-              <ContextMenuItemLabel>Mark as done</ContextMenuItemLabel>
+              <ContextMenuItemLabel>Mark as Done</ContextMenuItemLabel>
             </ContextMenuItem>
           </>
         ) : null}

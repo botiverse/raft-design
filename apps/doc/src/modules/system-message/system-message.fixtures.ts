@@ -28,6 +28,6 @@ export const SYSTEM_MESSAGE_FIXTURES = {
   taskMovedDone: {
     id: "sys-task-moved-done",
     messageType: "system",
-    content: '✅ Atlas moved #41 "Release review checklist" to done',
+    content: '✅ Atlas moved #41 "Release review checklist" to Done',
   },
 } as const satisfies Record<string, SystemMessageSlice>;

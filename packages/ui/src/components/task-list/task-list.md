@@ -52,7 +52,7 @@ task-list/compositions/task-list-empty-sections
 
 ## Content
 
-- Write an empty group as "No", the status and "tasks", with the status in lowercase, as inside any sentence ([Writing](../../../../../design/content/writing.md#casing)): "No backlog tasks."
+- Write an empty group as "No", the status and "tasks", with the status spelled as on its chip ([Writing](../../../../../design/content/writing.md#voice)): "No Backlog tasks."
 
 ## Accessibility
 

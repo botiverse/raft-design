@@ -1,7 +1,7 @@
 ---
 title: 反馈
 summary: 怎么告诉人们一件事：什么立即执行、什么提供 Undo、什么需要确认，空、加载中和加载失败的区别，错误按范围放在哪里，以及怎么措辞。
-sourceHash: 3dc6a152
+sourceHash: 8fb1a4b2
 ---
 
 # 反馈
@@ -26,7 +26,7 @@ sourceHash: 3dc6a152
 | 把某样东西展示给更多的人：把 Artifact 或服务器设为公开 | 确认 |
 | 停止工作，把某人移出某个地方（Leave channel、Remove member）或缩小某样东西的可见范围，让别人手里的链接或密钥失效，归档或删除 | 确认 |
 
-- 如果人能在同一个地方撤销操作，就立即执行：Follow thread（Unfollow thread）、Save message（Remove from saved）。消息列自己菜单里的 Unfollow thread 就属于这一类，因为消息列还留在屏幕上；同样的 Unfollow 从列表里执行时，不管走哪条途径，都会把这一行拿走，所以要显示 Undo。一次点击就能撤销的操作，事先再问一句只会拖慢人。
+- 如果人能在同一个地方撤销操作，就立即执行：Follow thread（Unfollow thread）、Save message（Remove from Saved）。消息列自己菜单里的 Unfollow thread 就属于这一类，因为消息列还留在屏幕上；同样的 Unfollow 从列表里执行时，不管走哪条途径，都会把这一行拿走，所以要显示 Undo。一次点击就能撤销的操作，事先再问一句只会拖慢人。
 - 会把一项从列表里拿走的操作，每一条途径都提供 Undo：菜单、行上的按钮和滑动都一样（[Toast](../../packages/ui/src/components/toast/toast.md)）。行一消失，它的退路也就没了；一个操作从这条途径能撤销、从那条途径不能，就从哪条途径都没法放心用。
 - 对别人的、可以改回来的改动，比如角色，选中时就生效，并提供 Undo。只在两种情况下确认：人给自己降级，因为他们可能失去把它改回来的权限；或者关掉别人依赖的东西，比如他们的 Agent 在用的 AI 提供商。对话框列出受影响的人。
 - 把某样东西展示给更多的人之前要确认，并说出谁会看到："Anyone with the link can view it." 在同一个服务器内扩大范围立即生效。缩小某样东西的可见范围和取消发布共用一个确认，它列出谁会失去访问权限，不管从哪条途径开始。

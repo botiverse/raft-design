@@ -46,9 +46,9 @@ Not yet implemented in raft-ui: this example shows the tasks before [0042](../de
 
 ### Moving a task to Backlog
 
-- Ask for a reason when a task is moved into Backlog from another status, by any route: what would bring it back. Ask in a small [Popover](../../packages/ui/src/components/popover/popover.md) anchored to what the person used, the status chip, the Status property or the column the card was dropped on, with one single-line [Input](../../packages/ui/src/components/input/input.md), then Cancel and Move to backlog. The reason is optional: Move to backlog with the field empty moves the task without one.
+- Ask for a reason when a task is moved into Backlog from another status, by any route: what would bring it back. Ask in a small [Popover](../../packages/ui/src/components/popover/popover.md) anchored to what the person used, the status chip, the Status property or the column the card was dropped on, with one single-line [Input](../../packages/ui/src/components/input/input.md), then Cancel and Move to Backlog. The reason is optional: Move to Backlog with the field empty moves the task without one.
 - Cancel, Esc or a press outside the popover keeps the task where it was; a dropped card goes back to its column.
-- Record a reason in the task's History and in the event line the move writes in its discussion: "Martin moved #25 to backlog: waits for the server-side record". Without a reason the line is "Martin moved #25 to backlog".
+- Record a reason in the task's History and in the event line the move writes in its discussion: "Martin moved #25 to Backlog: waits for the server-side record". Without a reason the line is "Martin moved #25 to Backlog".
 - Don't ask when a task is created in Backlog: a new task has nothing to come back from.
 
 ### Keyboard in a list of tasks

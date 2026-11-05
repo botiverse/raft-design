@@ -88,7 +88,7 @@ The message menu starts with the quick reactions ([Conversation](../../../../../
 - The 7 quick reactions at 22px, each a `MessageReactionQuickButton` that is a menu item, so the arrow keys reach it. End the row with a `smile-plus` icon button that opens every emoji. That is 8 buttons of 36px, so the menu is as wide as the row (316px), wider than its 240px minimum; the actions take the same width.
 - Line the reactions up with the actions: `MessageReactionQuickRow` keeps 3px at each side, so the first drawing starts where the items' icons do (10px in), and the column the eye follows down the menu doesn't step out by 3px at the top.
 - Put one separator between the reactions and the first action, then group the actions into sections, by what they do to the message (stdrc, 2026-10-20):
-  1. **Keep going on this message:** Reply in thread; Follow thread or Unfollow thread, and inside a thread the person follows, Mark thread as unread right after Unfollow thread; then the task action (Create task from message, or Mark as done and Reopen task on a task's message). A task's discussion lives in its thread, so the two sit together.
+  1. **Keep going on this message:** Reply in thread; Follow thread or Unfollow thread, and inside a thread the person follows, Mark thread as unread right after Unfollow thread; then the task action (Create task from message, or Mark as Done and Reopen task on a task's message). A task's discussion lives in its thread, so the two sit together.
   2. **Take it elsewhere:** Copy link, Copy Markdown, Forward, Select message. Nothing changes here. They go from a pointer to the content to sending one message to sending several.
-  3. **Just for me:** Save message or Remove from saved, and Translate. Nobody else sees these.
+  3. **Just for me:** Save message or Remove from Saved, and Translate. Nobody else sees these.
 - Leave out a section with nothing in it, and its separator with it.
