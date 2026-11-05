@@ -1,7 +1,7 @@
 ---
 title: SegmentedControl
 summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
-sourceHash: e51b9cf6
+sourceHash: 70af2d3f
 ---
 
 # SegmentedControl
@@ -74,6 +74,7 @@ segmented-control/compositions/narrow-row
 
 - 每个分段的标签用 1 到 2 个词，用 sentence case：Board、List；Relevant、Recent（[字体排印](../../../../../design/foundations/typography.md#casing)）。
 - 数量放在 `SegmentedControlCount` 里，永远不要写进标签文字。
+- 默认选项放在第一个：卡片是默认时 Cards 在 List 前面，System 在 Light 和 Dark 前面（stdrc，2026-11-05）。键盘顺序随之改变。本身是刻度或位置的顺序（Small、Medium、Large；Top、Middle、Bottom）保持不变。
 
 ## 无障碍 {#accessibility}
 

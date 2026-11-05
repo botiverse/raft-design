@@ -117,11 +117,11 @@ export function SaveStatusPreviewContent() {
               value={timeFormat}
               onValueChange={handleTimeFormat}
             >
-              <SegmentedControlItem value="12h">
-                <SegmentedControlLabel>12-hour</SegmentedControlLabel>
-              </SegmentedControlItem>
               <SegmentedControlItem value="24h">
                 <SegmentedControlLabel>24-hour</SegmentedControlLabel>
+              </SegmentedControlItem>
+              <SegmentedControlItem value="12h">
+                <SegmentedControlLabel>12-hour</SegmentedControlLabel>
               </SegmentedControlItem>
             </SegmentedControl>
             <SaveStatus id="time-format-status">

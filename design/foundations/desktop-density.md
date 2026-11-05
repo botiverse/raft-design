@@ -66,7 +66,7 @@ A control belongs to the content it controls. A segmented control or a lone filt
 
 ### 8. Start at the start; identities keep their shape
 
-Align to the start of the row by default. Put a control at the end only when it is grouped there with other tools on purpose. An avatar keeps its sticker shape at every size: an identity doesn't change form.
+Align to the start of the row by default. Put a control at the end only when it is grouped there with other tools on purpose. In a choice (a segmented control, tabs, a radio group, a sort or filter menu), the default option comes first (stdrc, 2026-11-05). An avatar keeps its sticker shape at every size: an identity doesn't change form.
 
 - **Why:** a lone control at the far end is hard to find on a wide screen, and a face whose corners change with its size stops reading as the same person.
-- **Enforced by:** a lone segmented control is left-aligned; Avatar is `radius-sticker` at every size ([Shape](shape.md)).
+- **Enforced by:** a lone segmented control is left-aligned, its default option first ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#content)); Avatar is `radius-sticker` at every size ([Shape](shape.md)).

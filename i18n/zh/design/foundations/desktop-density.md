@@ -1,7 +1,7 @@
 ---
 title: 桌面端密度
 summary: 让桌面端屏幕（768px 起、用鼠标或触控板）紧凑而平静的八条规则：每条规则为什么成立，以及由哪个 token 或部件来保证。
-sourceHash: 548acbb2
+sourceHash: 1b768c60
 ---
 
 # 桌面端密度
@@ -67,7 +67,7 @@ sourceHash: 548acbb2
 
 ### 8. 从起点开始；身份不变形 {#8-start-at-the-start-identities-keep-their-shape}
 
-默认对齐到行的起点。只有在有意和其他工具编组时，才把控件放到末端。头像在每个尺寸都保持贴纸形状：身份不改变形态。
+默认对齐到行的起点。只有在有意和其他工具编组时，才把控件放到末端。在一个选择里（分段控件、标签页、单选组、排序或筛选菜单），默认选项排在第一个（stdrc，2026-11-05）。头像在每个尺寸都保持贴纸形状：身份不改变形态。
 
 - **为什么：** 在宽屏上，单独放在最右端的控件很难找到；角会随尺寸变化的脸，就不再像同一个人。
-- **由什么保证：** 单独的分段控件左对齐；Avatar 在每个尺寸都是 `radius-sticker`（[形状](shape.md)）。
+- **由什么保证：** 单独的分段控件左对齐，默认选项在第一个（[分段控件](../../packages/ui/src/components/segmented-control/segmented-control.md#content)）；Avatar 在每个尺寸都是 `radius-sticker`（[形状](shape.md)）。

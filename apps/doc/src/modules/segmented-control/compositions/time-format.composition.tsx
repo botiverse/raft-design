@@ -11,11 +11,11 @@ export function SegmentedControlTimeFormatComposition({
 }: SegmentedControlTimeFormatCompositionProps) {
   return (
     <SegmentedControl aria-label="Time format" value={value} onValueChange={onValueChange}>
-      <SegmentedControlItem value="12h">
-        <SegmentedControlLabel>12h</SegmentedControlLabel>
-      </SegmentedControlItem>
       <SegmentedControlItem value="24h">
         <SegmentedControlLabel>24h</SegmentedControlLabel>
+      </SegmentedControlItem>
+      <SegmentedControlItem value="12h">
+        <SegmentedControlLabel>12h</SegmentedControlLabel>
       </SegmentedControlItem>
     </SegmentedControl>
   );
