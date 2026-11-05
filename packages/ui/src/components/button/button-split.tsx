@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import { createContext, useContext } from "react";
+import { createContext, useCallback, useContext, useLayoutEffect, useMemo, useState } from "react";
 import type { ComponentProps } from "react";
 
 import type { DataAttributes } from "../../lib/data-attributes";
@@ -14,12 +14,14 @@ import type { ButtonProps } from "./button";
 // Each part hovers and presses on its own with its variant's medium tier: the
 // shared fill and edge already say they belong together. In dark mode a
 // sticker's die-cut edge goes around the whole shape, on the group, not around
-// each part, where it would show as a light seam beside the divider.
+// each part, where it would show as a light seam beside the divider: each
+// enabled sticker part registers with the group, which then sets
+// `data-sticker-edge`.
 export const buttonSplit = tv({
   base: [
     "relative isolate inline-flex shrink-0 items-stretch",
     "rounded-control ring-sticker-edge",
-    "has-[>[data-split-sticker]:not(:disabled,[aria-disabled=true])]:ring-[1.5px]",
+    "data-sticker-edge:ring-[1.5px]",
   ],
 });
 
@@ -63,7 +65,19 @@ export type ButtonSplitSize = "md" | "lg";
 
 const STICKERS = new Set<ButtonSplitVariant>(["primary", "warning", "danger"]);
 
-const ButtonSplitDisabledContext = createContext(false);
+const ButtonSplitContext = createContext<{
+  disabled: boolean;
+  registerStickerPart: () => () => void;
+}>({ disabled: false, registerStickerPart: () => () => {} });
+
+/** An enabled sticker part asks its group to draw the die-cut edge while it is mounted. */
+function useStickerEdge(active: boolean) {
+  const { registerStickerPart } = useContext(ButtonSplitContext);
+  useLayoutEffect(
+    () => (active ? registerStickerPart() : undefined),
+    [active, registerStickerPart],
+  );
+}
 
 export type ButtonSplitProps = ComponentProps<"div"> &
   DataAttributes & {
@@ -78,16 +92,26 @@ export type ButtonSplitProps = ComponentProps<"div"> &
  * `aria-label`, not with the main part's name. For a frameless split in a
  * panel header, use `PanelSplitAction`.
  */
-export function ButtonSplit({ disabled, className, ...props }: ButtonSplitProps) {
+export function ButtonSplit({ disabled = false, className, ...props }: ButtonSplitProps) {
+  const [stickerParts, setStickerParts] = useState(0);
+  const registerStickerPart = useCallback(() => {
+    setStickerParts((count) => count + 1);
+    return () => setStickerParts((count) => count - 1);
+  }, []);
+  const context = useMemo(
+    () => ({ disabled, registerStickerPart }),
+    [disabled, registerStickerPart],
+  );
   return (
-    <ButtonSplitDisabledContext.Provider value={disabled ?? false}>
+    <ButtonSplitContext.Provider value={context}>
       <div
         role="group"
         {...props}
         data-slot="button-split"
+        data-sticker-edge={stickerParts > 0 ? "" : undefined}
         className={buttonSplit({ className })}
       />
-    </ButtonSplitDisabledContext.Provider>
+    </ButtonSplitContext.Provider>
   );
 }
 
@@ -108,13 +132,15 @@ export function ButtonSplitMain({
   className,
   ...props
 }: ButtonSplitMainProps) {
-  const groupDisabled = useContext(ButtonSplitDisabledContext);
+  const group = useContext(ButtonSplitContext);
+  const isDisabled = disabled || group.disabled;
+  useStickerEdge(STICKERS.has(variant) && !isDisabled && !props.loading);
   return (
     <Button
       {...props}
       variant={variant}
       size={size}
-      disabled={disabled || groupDisabled}
+      disabled={isDisabled}
       data-split-part="main"
       data-split-sticker={STICKERS.has(variant) ? "" : undefined}
       className={buttonSplitMain({ className })}
@@ -138,13 +164,15 @@ export function ButtonSplitMenu({
   children,
   ...props
 }: ButtonSplitMenuProps) {
-  const groupDisabled = useContext(ButtonSplitDisabledContext);
+  const group = useContext(ButtonSplitContext);
+  const isDisabled = disabled || group.disabled;
+  useStickerEdge(STICKERS.has(variant) && !isDisabled && !props.loading);
   return (
     <Button
       {...props}
       variant={variant}
       size={size}
-      disabled={disabled || groupDisabled}
+      disabled={isDisabled}
       data-split-part="menu"
       data-split-sticker={STICKERS.has(variant) ? "" : undefined}
       className={buttonSplitMenu({ variant, size, className })}

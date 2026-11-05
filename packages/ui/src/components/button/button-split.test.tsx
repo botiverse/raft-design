@@ -122,9 +122,17 @@ test("a sticker's die-cut edge goes around the group, not around each part", () 
   expect(classes(main)).not.toContain("ring-[1.5px]");
   expect(main.hasAttribute("data-split-sticker")).toBe(true);
   expect(menu.hasAttribute("data-split-sticker")).toBe(true);
+  expect(screen.getByRole("group").hasAttribute("data-sticker-edge")).toBe(true);
+  cleanup();
+  render(<Split variant="primary" disabled />);
+  expect(screen.getByRole("group").hasAttribute("data-sticker-edge")).toBe(false);
+  cleanup();
+  render(<Split variant="primary" menuDisabled />);
+  expect(screen.getByRole("group").hasAttribute("data-sticker-edge")).toBe(true);
   cleanup();
   render(<Split variant="default" />);
   expect(parts().main.hasAttribute("data-split-sticker")).toBe(false);
+  expect(screen.getByRole("group").hasAttribute("data-sticker-edge")).toBe(false);
 });
 
 test("the open menu part keeps its variant's medium tier", () => {
