@@ -39,11 +39,11 @@ While the agent's computer is offline, a small card under the hero says so: "Com
 | Who is looking | The card offers |
 | --- | --- |
 | An owner or admin of the server | The recovery steps of the computer's page, the same card reused, with restarting Raft Computer and `raft-computer doctor` |
-| The computer's owner, the member it belongs to, whatever their server role | Steps on their own device: turn the computer on or wake it, open the desktop app, or run `raft-computer start` |
+| The computer's owner, the member it belongs to, whatever their server role | Steps on their own device: turn the computer on or wake it, open the desktop app, or run `raft-computer restart`, which starts Raft Computer when it isn't running and restarts it when it is stuck |
 | Everyone else | "Ask Martin to bring it back", where Martin is the computer's owner and the name opens his profile |
 
 - Give the computer's owner their steps whatever their role in the server: the steps act on their own device, not on the server. A computer's owner who is also an admin of the server sees both, their own device's steps first.
-- Keep restarting Raft Computer and `raft-computer doctor` to owners and admins of the server, as on the computer's page.
+- Keep `raft-computer doctor` and the rest of the computer page's card to owners and admins of the server, as on the computer's page; the computer's owner gets only the steps on their own device.
 - Reuse the computer page's card for the admins' steps rather than writing them again: steps kept in two places drift.
 - Don't send anyone to a separate help page: the card is the one place the composer's notice and a failed Start link to.
 - "The computer's owner" is the member the computer belongs to; it is not the server's Owner role ([Terminology](../../content/terminology.md#people-and-agents)).
