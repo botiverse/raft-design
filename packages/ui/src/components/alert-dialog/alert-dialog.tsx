@@ -26,12 +26,12 @@ const alertDialog = tv({
     ],
     header: [
       "grid grid-cols-[minmax(0,1fr)_max-content] items-center min-w-0",
-      "gap-2 px-5 pt-5",
+      "gap-2 px-5 md:pointer-fine:px-(--page-inset) pt-5 md:pointer-fine:pt-(--page-inset)",
       headEdgePull,
     ],
     body: [
       "min-w-0",
-      "px-5 pt-1.5 pb-5 first:pt-5",
+      "px-5 md:pointer-fine:px-(--page-inset) pt-1.5 pb-5 first:pt-5 md:pointer-fine:pb-(--page-inset) md:pointer-fine:first:pt-(--page-inset)",
       "font-sans text-subhead text-foreground-muted",
     ],
     // As DialogFooter: one row, on a phone too; it stacks full width, the
@@ -39,7 +39,7 @@ const alertDialog = tv({
     footer: [
       "flex min-w-0 items-center justify-end",
       ...stackedActions,
-      "gap-2 px-5 pb-5 first:pt-5 [[data-slot=alert-dialog-header]+&]:pt-5",
+      "gap-2 px-5 md:pointer-fine:px-(--page-inset) pb-5 first:pt-5 [[data-slot=alert-dialog-header]+&]:pt-5 md:pointer-fine:pb-(--page-inset) md:pointer-fine:first:pt-(--page-inset) md:pointer-fine:[[data-slot=alert-dialog-header]+&]:pt-(--page-inset)",
     ],
     title: ["m-0 min-w-0 text-foreground", "font-sans text-headline font-bold"],
     description: ["m-0", "font-sans text-subhead text-foreground-muted"],

@@ -412,8 +412,14 @@
      hairline between them: 32px on a phone and a touch screen, two field gaps
      (24px) on a desktop. */
   --section-gap: 32px;
-  /* The block inset of a settings page, a drawer's body and a dialog's form:
-     16px on a phone and a touch screen, 20px on a desktop, as its inline inset. */
+  /* From a head's seam to the first thing of the content under it: the page
+     inset on a phone and a touch screen; 12px on a desktop, so the content sits
+     close under its compact head (stdrc, 2026-11-05). */
+  --page-top: var(--page-inset);
+  /* The inset of a column's content, a settings page, a drawer's body and a
+     dialog's form: 16px on a phone and a touch screen; 16px with a mouse on a
+     desktop too (20 before 2026-11-05), where the column margin, the list cells'
+     content and the heads follow it, one edge. */
   --page-inset: 16px;
   /* The rail, its 1px seam included: 57px on a touch screen, 49px on a desktop
      (48 + 1, the short window's rail). Its own size, not the header's. */
@@ -688,7 +694,8 @@
     --row-height: var(--control-height);
     --option-height: var(--row-height);
     --section-gap: calc(2 * var(--field-gap));
-    --page-inset: 20px;
+    --page-top: 12px;
+    --page-inset: 16px;
     --rail-width: var(--rail-width-short);
     --rail-item: var(--rail-item-short);
   }

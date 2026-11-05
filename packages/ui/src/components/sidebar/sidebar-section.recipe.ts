@@ -4,7 +4,11 @@ export const sidebarSectionRecipe = tv({
   slots: {
     sidebarSection: ["group/section", "px-0"],
     sidebarList: ["flex flex-col gap-0.5 py-2"],
-    sidebarSectionEmpty: ["px-5 py-2", "font-sans text-footnote", "text-foreground-hint"],
+    sidebarSectionEmpty: [
+      "px-5 md:pointer-fine:px-(--page-inset) py-2",
+      "font-sans text-footnote",
+      "text-foreground-hint",
+    ],
     sidebarSectionHeader: [
       "flex items-center justify-between",
       "group/section-header",
@@ -19,7 +23,7 @@ export const sidebarSectionRecipe = tv({
       // outside their content: 12px from the sidebar's edges (4px inside the
       // rows' 8px state shape) instead of the rows' 20px, its chevron and
       // its last control's icon box on that line (stdrc, 2026-11-04).
-      "md:pointer-fine:pl-3 md:pointer-fine:pr-[calc(max(0px,calc(8px-var(--scrollbar-size,0px)))+4px)]",
+      "md:pointer-fine:pl-2 md:pointer-fine:pr-[calc(max(0px,calc(8px-var(--scrollbar-size,0px))))]",
       // On a touch screen the controls' 44px hit area hangs 14px under the
       // 16px line: 6px more here plus the list's 8px keep it off the first row.
       "not-pointer-fine:pb-1.5",
@@ -96,7 +100,7 @@ export const sidebarSectionRecipe = tv({
       "not-pointer-fine:after:absolute not-pointer-fine:after:inset-[-11px] not-pointer-fine:after:content-['']",
       // With a mouse the 24px drawing still answers a 28px target, a bar
       // button's (the desktop's smallest target), through the same ::after.
-      "pointer-fine:after:absolute pointer-fine:after:-inset-[3px] pointer-fine:after:content-['']",
+      "pointer-fine:after:absolute pointer-fine:after:inset-[-3px] pointer-fine:after:content-['']",
       "not-pointer-fine:not-first:after:left-[-3px] not-pointer-fine:not-last:after:right-[-3px]",
     ],
   },

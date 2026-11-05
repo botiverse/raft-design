@@ -38,7 +38,8 @@ export const headEdges = ["px-(--column-margin)", ...headEdgePull];
  * Sets a column of list cells' margin to 20px at every width: the rows'
  * content edge (lib/list-cell.ts), which the heads and notices in it follow.
  */
-export const listColumnMargin = "[--column-margin:20px]";
+export const listColumnMargin =
+  "[--column-margin:20px] md:pointer-fine:[--column-margin:var(--page-inset)]";
 
 /**
  * The inset of a control-height icon button (a PanelAction, a Button at

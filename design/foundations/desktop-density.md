@@ -33,14 +33,14 @@ Every head (a panel, a sidebar, a thread, a drawer, a dialog's bar, a side secti
 A section's header, a group label and a container's edge stand further out than the content they hold, never further in and never emptier.
 
 - **Why:** an outdented title reads as the frame of what is under it; at the same inset it reads as one more row.
-- **Enforced by:** `SidebarSectionHeader` and `SidebarGroupLabel` are 12px from the sidebar's edges while rows keep their content 20px in.
+- **Enforced by:** `SidebarSectionHeader` and `SidebarGroupLabel` are 8px from the sidebar's edges, on the rows' highlight edge, while rows keep their content 16px in.
 
 ### 4. Space says what belongs together
 
 The gap inside a group is smaller than the gap between groups, and both are smaller than the container's padding.
 
 - **Why:** people read nearness as belonging. When the space under a setting's control equals the space to the next setting, the setting falls apart.
-- **Enforced by:** `field-gap` inside a group, `section-gap` between sections, `page-inset` (20px) around them. A lone control that belongs to the content under a head (a segmented control, rule 7) has the content's 20px inset above it and 8px below it, so it reads as one unit with its content ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)). A settings card of stacked settings is 24px inside and 20px between settings, with 4px from a title to its description and 8px to its control (4 and 8 < 20 < 24).
+- **Enforced by:** `field-gap` inside a group, `section-gap` between sections, `page-inset` (16px) around them, the one content edge of heads, toolbars, rows, sections, drawers and dialogs; `page-top` (12px) from a head's seam to the first thing under it. A lone control that belongs to the content under a head (a segmented control, rule 7) has the content's 12px top inset above it and 8px below it, so it reads as one unit with its content ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)). A settings card of stacked settings is 20px inside and 16px between settings, with 4px from a title to its description and 8px to its control (4 and 8 < 16 < 20).
 
 ### 5. Reserve no room for what isn't there
 

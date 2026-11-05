@@ -1,7 +1,7 @@
 ---
 title: 桌面端密度
 summary: 让桌面端屏幕（768px 起、用鼠标或触控板）紧凑而平静的八条规则：每条规则为什么成立，以及由哪个 token 或部件来保证。
-sourceHash: 1fe3f82a
+sourceHash: f5a9cbd6
 ---
 
 # 桌面端密度
@@ -34,14 +34,14 @@ sourceHash: 1fe3f82a
 分区的标题、分组标签和容器的边缘，都比它们包住的内容更靠外，绝不更靠里，也绝不比内容更空。
 
 - **为什么：** 向外缩进的标题读起来是它下面内容的框架；缩进相同时，它读起来只是又一行。
-- **由什么保证：** `SidebarSectionHeader` 和 `SidebarGroupLabel` 离侧栏边缘 12px，而行的内容保持在 20px。
+- **由什么保证：** `SidebarSectionHeader` 和 `SidebarGroupLabel` 离侧栏边缘 8px，在行的高亮边缘上，而行的内容保持在 16px。
 
 ### 4. 间距说明什么属于一起 {#4-space-says-what-belongs-together}
 
 组内的间距小于组与组之间的间距，两者又都小于容器的内边距。
 
 - **为什么：** 人把靠近读成属于一起。设置项控件下面的空白和到下一个设置项的空白一样大时，这个设置项就散了。
-- **由什么保证：** 组内用 `field-gap`，分区之间用 `section-gap`，外围用 `page-inset`（20px）。属于头部下面内容的单独控件（分段控件，规则 7）上方是内容的 20px 内边距，下方 8px，所以它和内容读成一个整体（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)）。堆叠设置项的设置卡片内边距 24px，设置项之间 20px，标题到说明 4px，说明到控件 8px（4 和 8 < 20 < 24）。
+- **由什么保证：** 组内用 `field-gap`，分区之间用 `section-gap`，外围用 `page-inset`（16px），它是头部、工具栏、行、分区、抽屉和对话框共用的内容边缘；从头部接缝到下面第一项用 `page-top`（12px）。属于头部下面内容的单独控件（分段控件，规则 7）上方是内容的 12px 顶部内边距，下方 8px，所以它和内容读成一个整体（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)）。堆叠设置项的设置卡片内边距 20px，设置项之间 16px，标题到说明 4px，说明到控件 8px（4 和 8 < 16 < 20）。
 
 ### 5. 不给不存在的东西留位置 {#5-reserve-no-room-for-what-isnt-there}
 

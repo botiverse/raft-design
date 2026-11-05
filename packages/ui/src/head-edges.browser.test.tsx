@@ -55,7 +55,7 @@ import {
 } from "./components/thread-panel/thread-panel";
 
 // The icon buttons at the two ends of a header put their icon box, not the
-// button, on the column's content margin: 16px on a phone, 20px from 768px,
+// button, on the column's content margin: 16px on a phone and with a mouse, 20px from 768px by touch,
 // whatever the button's size (32px with an 18px icon with a mouse, 44px with a
 // 22px icon on a phone and a touch screen). The empty hit area hangs outward
 // and the two ends mirror (design/foundations/alignment.md#the-ends-of-a-header).
@@ -123,7 +123,10 @@ afterAll(async () => {
 const Icon = ({ id }: { id: string }) => <svg data-testid={id} viewBox="0 0 24 24" />;
 
 /** A phone column is 16px; from 768px (the desktop layout) 20px. */
-const panelMargin = (s: Screen) => (s.width < 768 ? 16 : 20);
+/** A column's margin: 16px on a phone and with a mouse on a desktop (the page inset, stdrc 2026-11-05), 20px on a touch screen from 768px. */
+const panelMargin = (s: Screen) => (s.width < 768 || s.pointer === "fine" ? 16 : 20);
+/** A dialog's inline padding: 20px, 16px with a mouse on a desktop. */
+const dialogMargin = (s: Screen) => (s.width >= 768 && s.pointer === "fine" ? 16 : 20);
 
 type Head = {
   name: string;
@@ -239,7 +242,7 @@ const HEADS: Head[] = [
   },
   {
     name: "dialog header",
-    margin: () => 20,
+    margin: dialogMargin,
     control: false,
     ui: () => (
       <Dialog open>
@@ -256,7 +259,7 @@ const HEADS: Head[] = [
   },
   {
     name: "alert dialog header",
-    margin: () => 20,
+    margin: dialogMargin,
     control: false,
     ui: () => (
       <AlertDialog open>

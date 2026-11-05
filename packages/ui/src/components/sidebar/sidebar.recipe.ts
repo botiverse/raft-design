@@ -25,7 +25,7 @@ export const sidebarRecipe = tv({
     ],
     sidebarGroupLabel: [
       // With a mouse on a desktop outdented to 12px, as a section header.
-      "px-5 pt-4 pb-0 md:pointer-fine:px-3",
+      "px-5 pt-4 pb-0 md:pointer-fine:px-2",
       "font-sans text-footnote font-bold normal-case tracking-normal text-foreground-hint",
     ],
     sidebarBody: [

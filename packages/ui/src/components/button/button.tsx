@@ -182,7 +182,11 @@ export const buttonVariants = tv({
     {
       variant: "ghost",
       size: ["icon-xs", "icon-sm", "icon-md"],
-      class: { root: "[--icon-inset:calc((--spacing(8)-18px)/2)]" },
+      // Its icon box from its edge: 7px in a 32px button; with a mouse the
+      // button is the 34px control height, so 8px.
+      class: {
+        root: "[--icon-inset:calc((--spacing(8)-18px)/2)] md:pointer-fine:[--icon-inset:calc((var(--control-height)-18px)/2)]",
+      },
     },
     // On the frame the 32px controls are the frame item (`frame-item-height`, 36px) of the top bar
     // and title bar (DS `rf-topbar__ws`: 15/20 700, 10px each side), with a

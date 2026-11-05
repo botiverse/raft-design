@@ -13,7 +13,7 @@ export const tasksPanel = tv({
       "@min-md/tasks:flex @min-md/tasks:flex-wrap @min-md/tasks:items-center @min-md/tasks:justify-between",
       // 16px sides in a narrow panel, 20px in a wide one: by the panel's
       // width like its layout, not the window's.
-      "min-h-(--header-height) border-b border-line-seam bg-layer-canvas px-5 py-3",
+      "min-h-(--header-height) border-b border-line-seam bg-layer-canvas px-5 md:pointer-fine:px-(--page-inset) py-3",
       // On a desktop, once the panel is wide enough for every part on one
       // row (40rem: New Task, the filters and Board / List), the row is a
       // header: 44 with its seam, its controls (34px buttons, Board / List's
@@ -44,7 +44,7 @@ export const tasksPanel = tv({
     viewport: [
       "min-h-0 flex-1 overflow-auto overscroll-contain p-4",
       "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
-      "bg-layer-canvas px-5",
+      "bg-layer-canvas px-5 md:pointer-fine:px-(--page-inset)",
       "@max-md/tasks:px-4",
     ],
     empty: ["flex h-full flex-col items-center justify-center"],

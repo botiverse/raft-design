@@ -126,7 +126,7 @@
 }
 
 /* A column's content margin (design/foundations/alignment.md#usage): 16px on a
-   phone, 20px from 768px (`md`). Heads, notices and footers pad by it
+   phone, 20px from 768px (`md`) on a touch screen, 16px with a mouse. Heads, notices and footers pad by it
    (lib/head-edges.ts). A column of list cells sets it to 20px at every width
    (`listColumnMargin`), where its rows' content starts (8px shape inset +
    12px), so its head, toolbar and rows share one line on a phone too. */
@@ -139,6 +139,14 @@
     :root,
     :host {
       --column-margin: 20px;
+    }
+  }
+  /* With a mouse on a desktop 16px, the page inset: the compact heads and the
+     content under them share one tighter edge (stdrc, 2026-11-05). */
+  @media (width >= 48rem) and (pointer: fine) {
+    :root,
+    :host {
+      --column-margin: var(--page-inset);
     }
   }
 }

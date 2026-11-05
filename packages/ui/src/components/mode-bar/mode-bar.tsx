@@ -16,7 +16,7 @@ const modeBar = tv({
   slots: {
     root: [
       "flex shrink-0 items-start",
-      "min-h-10 gap-4 px-5 py-2.5 max-md:px-4",
+      "min-h-10 gap-4 px-5 md:pointer-fine:px-(--page-inset) py-2.5 max-md:px-4",
       "bg-layer-hud font-sans text-callout text-foreground-on-hud",
     ],
     content: ["min-w-0 flex-1 wrap-break-word"],
