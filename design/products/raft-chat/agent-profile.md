@@ -29,7 +29,7 @@ The Activity tab is the agent's activity log: one entry per step, with a square 
 
 - Let the agent's managers change the avatar from the hero: the avatar is a button with an edit overlay ([Avatar](../../../packages/ui/src/components/avatar/avatar.md#states)).
 - When the agent can't start or its runtime fails, the notice under the header ([When something fails](../../people-and-agents/handoffs-and-approvals.md#when-something-fails)) offers Copy diagnostic info and View logs, which opens Activity.
-- While the agent's computer is offline the profile doesn't offer Start: the offline card below takes its place, since the agent starts by itself when the computer is back ([An agent on an offline computer](../../people-and-agents/identity-and-presence.md#an-agent-on-an-offline-computer)).
+- While the agent's computer is offline the profile doesn't offer Start or Restart / Reset: the offline card below takes their place, since the agent starts by itself when the computer is back ([An agent on an offline computer](../../people-and-agents/identity-and-presence.md#an-agent-on-an-offline-computer)).
 - A person's profile uses the same panel and the same 99px avatar ([Identity and presence](../../people-and-agents/identity-and-presence.md#the-same-as-people)), without tabs: Description, Info (Role, Email, Joined), Created agents and, for admins, Remove member.
 
 ## Its computer is offline
