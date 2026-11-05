@@ -17,7 +17,7 @@ const announcement = tv({
     body: [
       "min-h-0 max-h-[70dvh] overflow-y-auto pb-5",
       "[&_[data-slot=announcement-picture]+[data-slot=announcement-text]]:mt-5",
-      "px-5 pt-5",
+      "px-(--surface-inset) pt-(--surface-inset)",
     ],
     header: ["flex min-w-0 items-center justify-between gap-3"],
     label: [
@@ -37,7 +37,7 @@ const announcement = tv({
     ],
     footer: [
       "flex shrink-0 flex-wrap items-center justify-between gap-3 border-line-hairline py-4 @max-[28rem]/announcement:flex-col",
-      "border-t-0 px-5 pt-0 pb-5",
+      "border-t-0 px-(--surface-inset) pt-0 pb-(--surface-inset)",
     ],
     action: [
       "ml-auto h-auto min-h-8 min-w-0 max-w-full py-1 whitespace-normal text-center font-bold @max-[28rem]/announcement:ml-0 @max-[28rem]/announcement:w-full",

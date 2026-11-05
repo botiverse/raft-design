@@ -383,12 +383,13 @@
      desktop, the size of the header's icon tile, so a head's tile and buttons
      share one size and one centre line. Its hit area still reaches 44px. */
   --bar-button-size: var(--control-height);
-  /* The corner of a bar button, about a quarter of its height: 8px at 44, 6px at
-     28 (the hover toolbar's). */
+  /* The corner of a bar button, about a quarter of its height: 8px at 44; at the
+     28px bar button with a mouse, 6px. */
   --bar-button-radius: 8px;
   /* An item on the frame: the top bar's and the title bar's buttons, the
      workspace button and the search box. 36px on a phone and a touch screen; the
-     control height on a desktop, so the top bar is a header (32 + 2 x 6 = 44). */
+     control height on a desktop, so the top bar is a header (34 + 2 x 5 = 44
+     with a mouse). */
   --frame-item-height: 36px;
   /* The switch's track: 50 x 30 on a phone and a touch screen, macOS's regular
      38 x 22 on a desktop. Its knob is the track height less 8px (a 1.5px border

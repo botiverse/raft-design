@@ -6,7 +6,7 @@ export const taskListSection = tv({
     trigger: [
       "group flex w-full touch-manipulation items-center text-left outline-none",
       "disabled:cursor-default",
-      "min-h-8 justify-start gap-2 rounded-control",
+      "min-h-8 md:pointer-fine:min-h-control justify-start gap-2 rounded-control",
       "font-sans text-footnote font-bold text-foreground-hint",
       "focus-visible:shadow-focus",
     ],

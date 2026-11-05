@@ -4,11 +4,10 @@ import { tv } from "../../lib/tv";
 /**
  * Where a head's edge controls sit, shared by every head (panel, section,
  * drawer, thread): see lib/head-edges.ts. Both sides pad by the content
- * margin, 20px on a desktop and 16px on a phone, so a filled thing (a sticker,
+ * margin (16px on a phone, 20px from 768px by touch, 16px with a mouse), so a filled thing (a sticker,
  * a pill, a filled Button) puts its shape on it, and the first and last
  * frameless icon button are pulled out by their icon inset so their icon box
- * lands on it: 20px on a desktop and on a touch screen with the desktop
- * layout, 16px on a phone, mirrored at the two ends.
+ * lands on it, mirrored at the two ends.
  */
 export const panelHeadEdges = headEdges;
 

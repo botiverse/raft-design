@@ -12,8 +12,8 @@ import {
 
 /**
  * The web top bar from 768px: the frame's row above the rail, a frame item
- * with 6px above and below (44px with a mouse, the desktop header; 48px on a
- * touch screen). The workspace button on the left, the search field centered
+ * with the header air above and below (34 + 2 x 5 = 44px with a mouse, the
+ * desktop header; 36 + 2 x 6 = 48px on a touch screen). The workspace button on the left, the search field centered
  * on the window, the bell at the right end. The product puts the workspace
  * strip after the button and who is working before the bell. The left end
  * lines up with the rail's items (the region pads by the rail's item inset

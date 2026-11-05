@@ -16,8 +16,9 @@ export const sidebarSectionRecipe = tv({
       // A scroller that shows a classic scrollbar publishes its width as
       // --scrollbar-size (useScrollbarSize), and the rows give it back from
       // their end inset (lib/list-cell.ts). The header gives back the same, so
-      // its controls end on the rows' content edge, 20px from the sidebar's
-      // outer edge, and don't move left when the scrollbar appears.
+      // its controls end on the rows' content edge (20px from the sidebar's
+      // outer edge by touch, 16px with a mouse) and don't move left when the
+      // scrollbar appears.
       "pr-[calc(max(0px,calc(8px-var(--scrollbar-size,0px)))+12px)]",
       // With a mouse on a desktop (stdrc, 2026-11-05, option B): the title
       // starts on the glyph axis, outdented from the rows' text; the chevron

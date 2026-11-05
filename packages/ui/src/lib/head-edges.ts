@@ -18,7 +18,7 @@
  * the pull holds when its last action is hidden at some width.
  */
 
-/** The pull alone, for a head whose padding is already its margin (a dialog's 20px). */
+/** The pull alone, for a head whose padding is already its margin (a dialog's surface inset). */
 export const headEdgePull = [
   "[&>[data-icon-inset]:nth-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-ml-icon-inset",
   "[&>[data-icon-inset]:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:-mr-icon-inset",
@@ -26,17 +26,19 @@ export const headEdgePull = [
 
 /**
  * A panel's head: its column's margin, and the pull. The margin is
- * `--column-margin` (styles.css): 20px on a desktop and 16px on a phone,
- * and 20px at every width in a column of list cells, whose rows put their
- * content 8 + 12 = 20px in (lib/list-cell.ts). The column sets it (an
+ * `--column-margin` (styles.css): 16px on a phone, 20px from 768px by touch
+ * and 16px with a mouse; in a column of list cells 20px at every width by
+ * touch, whose rows put their content 8 + 12 = 20px in, and 16px with a mouse
+ * (8 + 8; lib/list-cell.ts). The column sets it (an
  * ActivityInboxPanel, a SidebarRoot, a Search frame), so its head, its
  * toolbar and its rows start on one line on a phone as on a desktop.
  */
 export const headEdges = ["px-(--column-margin)", ...headEdgePull];
 
 /**
- * Sets a column of list cells' margin to 20px at every width: the rows'
- * content edge (lib/list-cell.ts), which the heads and notices in it follow.
+ * Sets a column of list cells' margin to the rows' content edge (lib/list-cell.ts):
+ * 20px at every width by touch, the 16px page inset with a mouse. The heads
+ * and notices in it follow.
  */
 export const listColumnMargin =
   "[--column-margin:20px] md:pointer-fine:[--column-margin:var(--page-inset)]";

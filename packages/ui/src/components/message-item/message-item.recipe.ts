@@ -179,7 +179,9 @@ export const messageItem = tv({
       "absolute z-20 flex items-center",
       "opacity-(--mi-toolbar-opacity,0)",
       "[pointer-events:var(--mi-toolbar-pe,none)]",
-      "top-[-18px] right-3 gap-1 overflow-visible rounded-container p-1",
+      // Half its height above the row: 36px (28px buttons, 4px inside) by touch,
+      // 42px (the control height) with a mouse on a desktop.
+      "top-[-18px] md:pointer-fine:top-[calc(-1*(var(--control-height)+8px)/2)] right-3 gap-1 overflow-visible rounded-container p-1",
       "bg-layer-popover ring-1 ring-line-seam ring-inset shadow-float",
     ],
     toolbarButton: [

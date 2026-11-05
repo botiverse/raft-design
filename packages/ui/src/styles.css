@@ -127,9 +127,10 @@
 
 /* A column's content margin (design/foundations/alignment.md#usage): 16px on a
    phone, 20px from 768px (`md`) on a touch screen, 16px with a mouse. Heads, notices and footers pad by it
-   (lib/head-edges.ts). A column of list cells sets it to 20px at every width
-   (`listColumnMargin`), where its rows' content starts (8px shape inset +
-   12px), so its head, toolbar and rows share one line on a phone too. */
+   (lib/head-edges.ts). A column of list cells sets it to where its rows'
+   content starts (`listColumnMargin`): 20px at every width by touch (8px shape
+   inset + 12px), the 16px page inset with a mouse (8 + 8), so its head,
+   toolbar and rows share one line on a phone too. */
 @layer theme {
   :root,
   :host {

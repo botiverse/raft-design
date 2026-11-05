@@ -86,7 +86,7 @@ export const inboxItem = tv({
     itemStatusWord: ["shrink-0 @max-[320px]/inbox-item-row:hidden"],
     itemStatusPixel: ["hidden items-center @max-[320px]/inbox-item-row:inline-flex"],
     itemListGroup: ["flex flex-col gap-0.5", "mt-1.5 first:mt-0"],
-    itemListHeading: ["mb-0.5 px-5 py-1", "font-sans text-footnote font-bold text-foreground-hint"],
+    itemListHeading: ["mb-0.5 px-(--surface-inset) py-1", "font-sans text-footnote font-bold text-foreground-hint"],
     itemMarks: ["flex h-5 shrink-0 items-center justify-end gap-1.5", "text-foreground-hint"],
     itemHoverTarget: ["pointer-events-auto"],
     itemTimestamp: [

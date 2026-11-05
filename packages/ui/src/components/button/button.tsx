@@ -24,9 +24,10 @@ const outline = (ink: string) => [
 ];
 
 // Three text sizes and two icon sizes, nothing in between, so a button reads
-// the same wherever it sits; the 32px ones keep a 44px hit area through an
-// overhanging ::after. An absolute ::after is placed from the padding box, so
-// each overhang adds the 1.5px border back: 32 - 3 + 2 x (6 + 1.5) = 44. `lg`, `icon-lg` and `xl` take the control height, 44px
+// the same wherever it sits; the 32px ones (34px with a mouse on a desktop)
+// keep a 44px hit area through an overhanging ::after. An absolute ::after is
+// placed from the padding box, so each overhang adds the 1.5px border back:
+// 32 - 3 + 2 x (6 + 1.5) = 44, and with a mouse 34 - 3 + 2 x (5 + 1.5) = 44. `lg`, `icon-lg` and `xl` take the control height, 44px
 // (52px) on a phone and 32px (40px) on a desktop, from the token layer; there
 // `lg` and `icon-lg` overhang by `control-hit` to keep 44px. `xs` and `sm`
 // are deprecated aliases of `md`, `icon-xs` and `icon-sm` of `icon-md`, kept
@@ -188,7 +189,7 @@ export const buttonVariants = tv({
         root: "[--icon-inset:calc((--spacing(8)-18px)/2)] md:pointer-fine:[--icon-inset:calc((var(--control-height)-18px)/2)]",
       },
     },
-    // On the frame the 32px controls are the frame item (`frame-item-height`, 36px) of the top bar
+    // On the frame the controls are the frame item (`frame-item-height`: 36px, the 34px control height with a mouse) of the top bar
     // and title bar (DS `rf-topbar__ws`: 15/20 700, 10px each side), with a
     // 20px icon; the hit area still reaches 44.
     {

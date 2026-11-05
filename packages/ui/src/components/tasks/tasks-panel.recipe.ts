@@ -11,8 +11,8 @@ export const tasksPanel = tv({
     toolbar: [
       "grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2",
       "@min-md/tasks:flex @min-md/tasks:flex-wrap @min-md/tasks:items-center @min-md/tasks:justify-between",
-      // 16px sides in a narrow panel, 20px in a wide one: by the panel's
-      // width like its layout, not the window's.
+      // 16px sides in a narrow panel, the surface inset in a wide one (20px;
+      // 16px with a mouse): by the panel's width like its layout, not the window's.
       "min-h-(--header-height) border-b border-line-seam bg-layer-canvas px-(--surface-inset) py-3",
       // On a desktop, once the panel is wide enough for every part on one
       // row (40rem: New Task, the filters and Board / List), the row is a

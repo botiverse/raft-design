@@ -225,3 +225,30 @@ it("in right-to-left text it sits at the line's inline end, the left", async () 
   expect(Math.round(t.left)).toBe(Math.round(box("body").left));
   for (const r of lineRects(screen.getByTestId("text"))) expect(overlaps(r, t)).toBe(false);
 });
+
+// Writing the room in the observer's callback resized the observed body there
+// and then, which the browser reports on window as "ResizeObserver loop
+// completed with undelivered notifications" (Kirby: 8 for 30-69-word
+// paragraphs with a 60px slot). The writes wait for the next frame.
+it("no ResizeObserver loop error, for paragraphs of 30 to 69 words", async () => {
+  const errors: string[] = [];
+  const onError = (event: ErrorEvent) => {
+    if (/ResizeObserver loop/.test(event.message)) errors.push(event.message);
+  };
+  window.addEventListener("error", onError);
+  try {
+    for (let words = 30; words < 70; words += 3) {
+      render(
+        <Row>
+          <MarkdownParagraph style={NO_MARGIN}>{Array.from({ length: words }, (_, i) => `word${i}`).join(" ")}</MarkdownParagraph>
+        </Row>,
+      );
+      await frames();
+      await frames();
+      cleanup();
+    }
+  } finally {
+    window.removeEventListener("error", onError);
+  }
+  expect(errors).toEqual([]);
+});

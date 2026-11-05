@@ -6,7 +6,7 @@ import { Input } from "./input";
 
 // Field text is 16px on a phone, where iOS zooms into a field with smaller
 // text, and the desktop body size, 14/22, from 768px; the field is 44px high
-// on a phone and Feishu's 32px on a desktop. The field and control tokens
+// on a phone and the 34px control height with a mouse on a desktop. The field and control tokens
 // switch in foundation.css, so Input carries no breakpoint. Measured in a real
 // browser.
 

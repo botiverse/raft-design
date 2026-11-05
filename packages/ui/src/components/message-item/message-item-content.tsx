@@ -164,10 +164,24 @@ const BLOCKS = new Set([
 // the hover toolbar gave up, message-item.md). It watches each slot, for its
 // width, and each slot's body: a body that changes size may end with a
 // different block (a paragraph that became a code block without the row
-// rendering again), so its last line is stamped again. Its callbacks land
-// after layout and before paint, so the first frame already has the room;
-// nothing reads layout in a layout effect.
+// rendering again), so its last line is stamped again. Nothing reads layout
+// in a layout effect.
 const slotOfBody = new WeakMap<Element, Element>();
+// The callback only records what changed; the writes wait for the next frame.
+// Writing the room (or the line's mark) in the callback resizes the observed
+// body at the same depth, which the browser reports as "ResizeObserver loop
+// completed with undelivered notifications" (Kirby's review, 2026-11-05).
+const pendingWidths = new Map<HTMLElement, number>();
+const pendingStamps = new Map<HTMLElement, Element>();
+let frame = 0;
+function flush() {
+  frame = 0;
+  for (const [body, width] of pendingWidths)
+    body.style.setProperty("--message-trailing-width", `${Math.ceil(width) + TRAILING_GAP_PX}px`);
+  for (const [body, slot] of pendingStamps) if (body.contains(slot)) stampLastLine(body, slot);
+  pendingWidths.clear();
+  pendingStamps.clear();
+}
 let sharedObserver: ResizeObserver | null = null;
 function trailingObserver(): ResizeObserver | null {
   if (typeof ResizeObserver === "undefined") return null;
@@ -176,15 +190,15 @@ function trailingObserver(): ResizeObserver | null {
       const target = entry.target as HTMLElement;
       const slot = slotOfBody.get(target);
       if (slot) {
-        stampLastLine(target, slot);
+        pendingStamps.set(target, slot);
         continue;
       }
       const body = target.closest<HTMLElement>(BODY_SELECTOR);
       if (!body) continue;
       const box = entry.borderBoxSize?.[0];
-      const width = box ? box.inlineSize : entry.contentRect.width;
-      body.style.setProperty("--message-trailing-width", `${Math.ceil(width) + TRAILING_GAP_PX}px`);
+      pendingWidths.set(body, box ? box.inlineSize : entry.contentRect.width);
     }
+    if (!frame) frame = requestAnimationFrame(flush);
   });
   return sharedObserver;
 }
