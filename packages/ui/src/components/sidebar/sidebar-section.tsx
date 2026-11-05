@@ -127,7 +127,7 @@ export function SidebarSectionChevron({ className, render, ...props }: SidebarSe
 
   // Match SidebarItemIcon slot width so section chevrons share the item icon axis.
   // In a header whose chevron is at its end (`chevronAtEnd`), gone with a
-  // mouse on a desktop: an ancestor's data attribute, not `:has()` (#386).
+  // mouse on a desktop: an ancestor's data attribute, never a selector on the header's contents (#386).
   return (
     <span className={sidebarSectionChevronSlot()} aria-hidden="true">
       {chevron}
