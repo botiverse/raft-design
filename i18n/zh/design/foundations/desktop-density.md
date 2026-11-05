@@ -1,7 +1,7 @@
 ---
 title: 桌面端密度
 summary: 让桌面端屏幕（768px 起、用鼠标或触控板）紧凑而平静的八条规则：每条规则为什么成立，以及由哪个 token 或部件来保证。
-sourceHash: 9532d986
+sourceHash: 1fe3f82a
 ---
 
 # 桌面端密度
@@ -41,7 +41,7 @@ sourceHash: 9532d986
 组内的间距小于组与组之间的间距，两者又都小于容器的内边距。
 
 - **为什么：** 人把靠近读成属于一起。设置项控件下面的空白和到下一个设置项的空白一样大时，这个设置项就散了。
-- **由什么保证：** 组内用 `field-gap`，分区之间用 `section-gap`，外围用 `page-inset`（20px）。堆叠设置项的设置卡片内边距 24px，设置项之间 20px，标题到说明 4px，说明到控件 8px（4 和 8 < 20 < 24）。
+- **由什么保证：** 组内用 `field-gap`，分区之间用 `section-gap`，外围用 `page-inset`（20px）。属于头部下面内容的单独控件（分段控件，规则 7）上方是内容的 20px 内边距，下方 8px，所以它和内容读成一个整体（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)）。堆叠设置项的设置卡片内边距 24px，设置项之间 20px，标题到说明 4px，说明到控件 8px（4 和 8 < 20 < 24）。
 
 ### 5. 不给不存在的东西留位置 {#5-reserve-no-room-for-what-isnt-there}
 
@@ -62,7 +62,7 @@ sourceHash: 9532d986
 控件属于它控制的内容。分段控件或单独的筛选器放在页面背景上，内容紧接在它下面：不给它一条上下都有线的专属栏。
 
 - **为什么：** 开关和它切换的内容之间的一条线把两者切开，还多出一条什么都不承载的界面带。
-- **由什么保证：** 只放一个分段控件的行不画接缝（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)）；有几个工具的工具栏保留接缝。
+- **由什么保证：** 只放一个分段控件的行不画接缝，它的间距把它和下面的内容连在一起（规则 4）（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)）；有几个工具的工具栏保留接缝。
 
 ### 8. 从起点开始；身份不变形 {#8-start-at-the-start-identities-keep-their-shape}
 

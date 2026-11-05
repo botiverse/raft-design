@@ -40,7 +40,7 @@ A section's header, a group label and a container's edge stand further out than 
 The gap inside a group is smaller than the gap between groups, and both are smaller than the container's padding.
 
 - **Why:** people read nearness as belonging. When the space under a setting's control equals the space to the next setting, the setting falls apart.
-- **Enforced by:** `field-gap` inside a group, `section-gap` between sections, `page-inset` (20px) around them. A settings card of stacked settings is 24px inside and 20px between settings, with 4px from a title to its description and 8px to its control (4 and 8 < 20 < 24).
+- **Enforced by:** `field-gap` inside a group, `section-gap` between sections, `page-inset` (20px) around them. A lone control that belongs to the content under a head (a segmented control, rule 7) has the content's 20px inset above it and 8px below it, so it reads as one unit with its content ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)). A settings card of stacked settings is 24px inside and 20px between settings, with 4px from a title to its description and 8px to its control (4 and 8 < 20 < 24).
 
 ### 5. Reserve no room for what isn't there
 
@@ -61,7 +61,7 @@ In one line, text of different sizes shares a baseline; an icon, a tile or an av
 A control belongs to the content it controls. A segmented control or a lone filter sits on the page's background with its content right under it: no bar of its own with lines above and below.
 
 - **Why:** a line between a switch and what it switches cuts them apart and adds a band of chrome that carries nothing.
-- **Enforced by:** a row that holds only a segmented control draws no seam ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)); toolbars with several tools keep theirs.
+- **Enforced by:** a row that holds only a segmented control draws no seam, and its spacing joins it to the content below (rule 4) ([SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md#behavior)); toolbars with several tools keep theirs.
 
 ### 8. Start at the start; identities keep their shape
 
