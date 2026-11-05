@@ -48,9 +48,9 @@ afterAll(async () => {
 
 it("on a touch screen a rich row is 56px", async () => {
   await setCoarsePointer(true);
-  for (const density of ["compact", "default"] as const) {
+  for (const density of ["compact", undefined] as const) {
     render(
-      <InboxItem density={density} data-testid={`row-${density}`}>
+      <InboxItem density={density} data-testid={`row-${density ?? "default"}`}>
         <InboxItemTrigger aria-label="Open" />
         <InboxItemLeading>
           <span style={{ display: "inline-block", width: 35, height: 35 }} />
@@ -65,7 +65,9 @@ it("on a touch screen a rich row is 56px", async () => {
     );
   }
   expect(screen.getByTestId("row-compact").getBoundingClientRect().height).toBe(56);
-  expect(screen.getByTestId("row-default").getBoundingClientRect().height).toBeGreaterThanOrEqual(56);
+  expect(screen.getByTestId("row-default").getBoundingClientRect().height).toBeGreaterThanOrEqual(
+    56,
+  );
 });
 
 it("on a touch screen a control at the control height has a 10px corner", async () => {
