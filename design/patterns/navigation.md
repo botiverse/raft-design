@@ -95,8 +95,8 @@ An app connected to a server, such as Stamp for code review, can preview its own
 message-reference/compositions/app-links
 ```
 
-- Show an app link as a reference chip in the text (`MessageReferenceChip variant="info"`), never as a card under the message. The link is one item in a sentence: a card moves it out of the sentence to the bottom of the message, where the reader has to match it back to the words around it, and a message with three links would carry three cards.
-- Show a message that is only a link as the same chip, with no card of its own: one link is one item whether or not words surround it.
+- Show an app link as a reference chip in the text (`MessageReferenceChip variant="info"`), unless the app asks for its card in the message ([Block cards](#block-cards)). The link is one item in a sentence: a card at the bottom of the message moves it out of the sentence, where the reader has to match it back to the words around it, and a message with three links would carry three cards.
+- Show a message that is only a link as the same chip, with no card of its own, unless the app asks for one: one link is one item whether or not words surround it, and Raft doesn't guess from where a link stands that its card matters.
 - Write the app's `title` in the chip exactly as the app sends it. Don't compose a format of Raft's own, such as "repo#number · title": the title says what the app wants to say, in its own product's terms, and Raft doesn't interpret what an app's item is.
 - Cap the chip and truncate a long title at the end, so each link takes at most one line ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#app-links)).
 - Lead the chip with the app's registered icon, the image Raft stores for the app and serves itself. Never show an image from an address the app sends with the preview: an image fetched from the app on every view tells the app who read the message and when, and an app could draw an icon that passes for one of Raft's own.
@@ -110,6 +110,29 @@ message-reference/compositions/app-link-pending
 - When the reader hasn't allowed the app yet and the server asks whether to show its previews, keep the gray chip with the shortened address (`MessageReferenceChip variant="muted"`), as a button, not a link: a link would open the address at the same click and skip the question. It opens no card. Clicking, tapping or pressing Enter on it asks first, the same on every device, in a [Popover](../../packages/ui/src/components/popover/popover.md): Open link goes without previews, Show previews allows them. A card can't ask: it is read-only, and its buttons can't be reached by keyboard or touch.
 - On desktop, hovering or focusing the chip opens the app's item card with the details: the id, the title, a state and a line of details in the app's words, its actions, and the app's name and host ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)). Raft puts no colors of the app's on it.
 - On a phone, tapping the chip opens the link. A preview card doesn't open on touch, so make the chip a real link (`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`) that opens in a new tab, leaving the conversation where it was.
+
+#### Block cards
+
+A card whose buttons matter, such as a Stamp approval, can't be acted on from a chip: its card opens only on hover, its buttons can't be reached by keyboard or touch, and on a phone a tap opens the link instead. So an app can ask, in its answer for a link, for the card to be drawn in the message (`placement: "block"`, which the client declares it can draw with the capability `block.v1`). Raft then draws an [AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md): the same card as on hover, under Raft's header naming the app, with buttons that work by mouse, keyboard and touch. A block is the app's request, not a promise: in every case below Raft draws the chip instead, and the design system may add cases without changing the protocol.
+
+```example
+app-link-card/compositions/in-message
+```
+
+- Draw the card where the link's paragraph is, never gathered at the bottom of the message: a card at the bottom is the matching back the rule above avoids. The message keeps its order.
+- When the link is inside a sentence, keep its chip in the sentence and add the card right after the paragraph. Taking the link out would leave the sentence a word short, and the reader would go looking for it below.
+- When the link is its own paragraph, the card takes its place: the link stands for nothing in a sentence, so nothing is moved out of one.
+- When several links in a paragraph ask for a block, put their cards after it in the links' order, so they read in the order the sentence names them.
+- In a list item, put the card inside the item, after its text: it belongs to that item, not to the list. In a table cell, a heading or a quote the author wrote, keep the chip: a card can't fit in a cell, would turn a heading into a block, or would break up the quoted words.
+- Draw at most 3 block cards in a message, counted in the message's order; later links keep their chips. A message with more would be a column of cards with the words lost between them.
+- When the same address is in a message more than once, give only the first a card; the others are chips and don't count toward the 3. The same card twice says nothing new.
+- A chip whose card is drawn below it opens no hover card: a second copy floating over the first would only cover the message. Clicking the chip still opens the link.
+- Show the card only in the message itself. Quotes, forwards, notifications, search results and Activity show the chip: they are about the message, and a card's buttons there would act on the item from somewhere it isn't.
+- A reader who hasn't allowed the app sees the gray chip and its question, never the card: asking for a block doesn't decide for the reader whether to show the app's previews. A failed, slow, limited or invalid answer falls back to the chip or the plain link, as any app link does.
+- A link the author gave words to (`[text](url)`) stays the author's link, card or no card.
+- While the answer loads, draw the loading chip, as for any app link: Raft knows a link asks for a block only from its answer. When the answer asks for one, a link in a sentence doesn't move (its chip stays and the card is added after the paragraph); a link that is its own paragraph turns from chip into card, the one jump accepted. When Raft already holds an answer for the same address that asked for a block, draw a placeholder of the card's size at once (`AppLinkCardPlaceholder`), with the app's header in it. Drawing with no jump at all would need the app to declare its placement before the answer, such as per address pattern when it registers; that is not part of the protocol yet.
+- Always show the app's icon and name in Raft's header on the card, drawn by Raft from what it stores for the app, never taken from the card's content. The card sits beside people's own words and its buttons work there: without Raft's frame it could pass for a system message or for someone's words.
+- Make the card 400px wide, the hover card's width, and never wider than the message. On a phone it takes the message's width, so its buttons have the room a finger needs.
 
 ### Links that leave Raft
 

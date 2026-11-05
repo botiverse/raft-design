@@ -46,7 +46,7 @@ preview-card/preview-card-mention
 
 ## 条目卡片 {#item-card}
 
-应用链接在悬停时打开的卡片（[应用链接](../../../../../design/patterns/navigation.md#app-links)）。应用提供文字以及有哪些详情；Raft 决定它们的顺序和颜色。各部件按读者依次会问的问题排列：
+应用链接在悬停时打开的卡片（[应用链接](../../../../../design/patterns/navigation.md#app-links)）。应用要求在消息里显示卡片时，同一个条目画在消息里，是一个 [AppLinkCard](../app-link-card/app-link-card.md)，上面的按钮可以直接按；这张卡片上方的标签片不再打开条目卡片。应用提供文字以及有哪些详情；Raft 决定它们的顺序和颜色。各部件按读者依次会问的问题排列：
 
 1. **是哪个条目？** `PreviewCardEyebrow`：应用给它的编号，比如 `botiverse/slock#10449`。可选。
 2. **讲的是什么？** `PreviewCardTitle`：应用给的标题，用墨色，最多 3 行。不用 `foreground-link`：卡片本身不是链接，它的按钮和标签片才是。

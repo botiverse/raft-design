@@ -45,6 +45,23 @@
     ],
     "status": "experimental"
   },
+  "app-link-card": {
+    "names": [
+      "AppLinkCard",
+      "AppLinkCardActions",
+      "AppLinkCardBody",
+      "AppLinkCardEyebrow",
+      "AppLinkCardHeader",
+      "AppLinkCardHost",
+      "AppLinkCardIcon",
+      "AppLinkCardMeta",
+      "AppLinkCardName",
+      "AppLinkCardPlaceholder",
+      "AppLinkCardTitle"
+    ],
+    "status": "experimental",
+    "description": "An app link's card drawn in the message, where the app asked for it (`placement: \"block\"`): Raft's header with the app's identity, the item, and buttons that work by keyboard and touch."
+  },
   "app-rail": {
     "names": [
       "AppRailFooter",

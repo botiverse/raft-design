@@ -5,6 +5,7 @@ import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { resolveThemeScopeProps, useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useTheme } from "../../lib/theme/use-theme";
+import { ITEM_CARD_ACTIONS, ITEM_CARD_EYEBROW, ITEM_CARD_META } from "./item-card.styles";
 
 const previewCard = tv({
   slots: {
@@ -38,12 +39,9 @@ const previewCard = tv({
       "px-4 pt-4 pb-3 last:pb-4",
       "*:data-[slot=preview-card-title]:line-clamp-2 *:data-[slot=preview-card-title]:whitespace-normal",
     ],
-    eyebrow: ["m-0 truncate", "font-mono text-mono-meta text-foreground-muted"],
-    meta: [
-      "flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1",
-      "m-0 font-sans text-callout text-foreground-muted",
-    ],
-    actions: ["flex flex-wrap items-center justify-end gap-2", "px-4 pb-3 last:pb-4"],
+    eyebrow: [...ITEM_CARD_EYEBROW],
+    meta: [...ITEM_CARD_META],
+    actions: [...ITEM_CARD_ACTIONS],
     footer: [
       "m-0 truncate",
       "border-t border-line-hairline px-4 py-2",
