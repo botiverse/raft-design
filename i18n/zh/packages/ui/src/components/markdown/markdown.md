@@ -1,7 +1,7 @@
 ---
 title: Markdown
 summary: Markdown 渲染器把节点映射到的一组带样式的元素，包括标题、段落、链接、列表、引用、表格、图片和任务复选框，用于人和 Agent 写的文字。
-sourceHash: b8543a9b
+sourceHash: 36fd1174
 ---
 
 # Markdown

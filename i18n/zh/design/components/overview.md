@@ -1,7 +1,7 @@
 ---
 title: 组件
 summary: raft-ui 的两层组件（任何应用都需要的核心组件，以及承载 Raft 产品概念的协作组件）、如何选择组件，以及哪些东西由已有组件拼成。
-sourceHash: 9a5e9a6f
+sourceHash: 041b3f33
 ---
 
 # 组件
