@@ -10,8 +10,9 @@ import { tv } from "../../lib/tv";
 // insets, so the center column sits on the window's center line whatever the
 // sides hold and however differently the two ends are inset. A side never
 // shrinks below its content (a fraction's minimum is its content), so at a
-// narrow width the center gives way first, down to its 160px minimum, then
-// moves away from the side that needs the room; it never covers a side.
+// narrow width the center first moves away from a side that needs more than
+// half the room, then narrows, down to its 160px minimum, when the two sides
+// leave less than its width; it never covers a side.
 //
 // Start: lined up with the rail's items, which the rail centers in its width
 // less its seam (6px with a mouse, 8px on a touch screen; the short window's
