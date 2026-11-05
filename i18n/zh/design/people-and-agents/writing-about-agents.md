@@ -1,7 +1,7 @@
 ---
 title: 描述 Agent 的用语
 summary: 产品用语怎样把 Agent 当作队友：用第三人称称呼名字、用描述队友的动词、不说「AI」或「bot」、状态文字说明 Agent 在做什么，以及说完成时附上证据。
-sourceHash: 73d8b1b6
+sourceHash: 1d602cf6
 ---
 
 # 描述 Agent 的用语
@@ -33,7 +33,7 @@ sourceHash: 73d8b1b6
 | Bugen claimed #25 | #25 was assigned to the bot |
 | Bugen is on it · 12m | Processing… |
 | Martin needs your OK | Pending approval |
-| Wug moved #25 to Done | AI completed task #25 |
+| Wug moved #25 to done | AI completed task #25 |
 | Bring an agent | Add AI assistant |
 
 ## 不用「AI」或「bot」 {#no-ai-or-bot}
@@ -54,7 +54,7 @@ Agent 在做什么，显示在它的行里、Working now 里，以及私信的�
 
 ## 事件行 {#event-lines}
 
-- 写出谁做的、动词和对象："Bugen claimed #25 "Fix onboarding copy""、"Martin moved #25 to Done"（[交接与审批](./handoffs-and-approvals.md#event-lines)）。
+- 写出谁做的、动词和对象："Bugen claimed #25 "Fix onboarding copy""、"Martin moved #25 to done"（[交接与审批](./handoffs-and-approvals.md#event-lines)）。
 - 任务状态拼写为 Backlog、Todo、In progress、Done 和 Closed。
 - 事件行不要以 emoji 开头。
 

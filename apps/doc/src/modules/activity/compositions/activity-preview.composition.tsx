@@ -120,7 +120,7 @@ function ActivitySavedAction({ defaultSaved }: { defaultSaved: boolean }) {
     <PanelToggleAction
       pressed={saved}
       onPressedChange={setSaved}
-      aria-label={saved ? "Remove from Saved" : "Save activity item"}
+      aria-label={saved ? "Remove from saved" : "Save activity item"}
     >
       <Bookmark aria-hidden fill={saved ? "currentColor" : "none"} />
     </PanelToggleAction>

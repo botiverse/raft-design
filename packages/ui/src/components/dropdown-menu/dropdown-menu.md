@@ -90,5 +90,5 @@ The message menu starts with the quick reactions ([Conversation](../../../../../
 - Put one separator between the reactions and the first action, then group the actions into sections, by what they do to the message (stdrc, 2026-10-20):
   1. **Keep going on this message:** Reply in thread; Follow thread or Unfollow thread, and inside a thread the person follows, Mark thread as unread right after Unfollow thread; then the task action (Create task from message, or Mark as done and Reopen task on a task's message). A task's discussion lives in its thread, so the two sit together.
   2. **Take it elsewhere:** Copy link, Copy Markdown, Forward, Select message. Nothing changes here. They go from a pointer to the content to sending one message to sending several.
-  3. **Just for me:** Save message or Remove from Saved, and Translate. Nobody else sees these.
+  3. **Just for me:** Save message or Remove from saved, and Translate. Nobody else sees these.
 - Leave out a section with nothing in it, and its separator with it.

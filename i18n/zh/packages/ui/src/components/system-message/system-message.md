@@ -1,7 +1,7 @@
 ---
 title: SystemMessage
 summary: 对话里的一条事件行（日期、认领、交接、状态变化），用 Space Mono 排在两条细线之间，可以单独出现，也可以折叠成一组。
-sourceHash: 780b508c
+sourceHash: f51e752c
 ---
 
 # SystemMessage
@@ -60,7 +60,7 @@ system-message/compositions/grouped-generic
 
 ## 内容 {#content}
 
-- 写出谁做的、动词和对象："Bugen claimed #25"、"Wug → Martin · review #25"、"Martin moved #25 to Done"。
+- 写出谁做的、动词和对象："Bugen claimed #25"、"Wug → Martin · review #25"、"Martin moved #25 to done"。
 - 用队友式的动词和显示名称（[写作](../../../../../design/content/writing.md#voice)）。
 - 不要用 emoji 开头：emoji 是内容，不是图标（[图标](../../../../../design/foundations/iconography.md)）。
 - 分组的摘要按数量和类别写，用 sentence case："3 updates: 2 task updates, 1 system message"。

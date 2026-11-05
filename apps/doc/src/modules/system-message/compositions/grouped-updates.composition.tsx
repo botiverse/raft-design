@@ -30,7 +30,7 @@ export function SystemMessageGroupedUpdatesContent() {
           <SystemMessage>
             <SystemMessageTime>2:18 PM</SystemMessageTime>
             <SystemMessageContent>
-              ✅ Atlas moved #41 &quot;Release review checklist&quot; to Done
+              ✅ Atlas moved #41 &quot;Release review checklist&quot; to done
             </SystemMessageContent>
           </SystemMessage>
           <SystemMessage>

@@ -48,7 +48,7 @@ task-list/compositions/task-list-empty-sections
 
 ## 内容 {#content}
 
-- 空分组写成 "No" + 状态 + "tasks"，状态的拼写和它的状态标签一致（[写作](../../../../../design/content/writing.md#voice)）："No Backlog tasks."
+- 空分组写成 "No" + 状态 + "tasks"，状态和在任何句子里一样写成小写（[写作](../../../../../design/content/writing.md#casing)）："No backlog tasks."
 
 ## 无障碍 {#accessibility}
 

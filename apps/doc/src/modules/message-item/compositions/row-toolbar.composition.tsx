@@ -81,7 +81,7 @@ export function MessageRowToolbar({
       />
       <MessageItemToolbarButton
         active={saved}
-        aria-label={saved ? "Remove from Saved" : "Save message"}
+        aria-label={saved ? "Remove from saved" : "Save message"}
         aria-pressed={saved}
         onClick={handleSavedClick}
       >

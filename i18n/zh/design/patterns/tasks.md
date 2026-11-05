@@ -1,7 +1,7 @@
 ---
 title: 任务
 summary: 五种任务状态，任务列表和看板，任务详情，完成、添加和编辑任务，从消息创建、列在对话旁边的任务，状态怎么改，以及任务怎么筛选。
-sourceHash: 1f3aa8af
+sourceHash: 139c842f
 ---
 
 # 任务
@@ -47,9 +47,9 @@ raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-a
 
 ### 把任务移到 Backlog {#moving-a-task-to-backlog}
 
-- 任务从别的状态移进 Backlog 时，不管用哪种方式，都请人写一个原因：什么情况下它会回来。在一个小的 [Popover](../../packages/ui/src/components/popover/popover.md) 里问，它锚定在这个人用的东西上，也就是状态标签、Status 属性或卡片被拖进的那一栏；里面是一个单行的 [Input](../../packages/ui/src/components/input/input.md)，然后是 Cancel 和 Move to Backlog。原因是可选的：输入框留空时点 Move to Backlog，任务就不带原因地移过去。
+- 任务从别的状态移进 Backlog 时，不管用哪种方式，都请人写一个原因：什么情况下它会回来。在一个小的 [Popover](../../packages/ui/src/components/popover/popover.md) 里问，它锚定在这个人用的东西上，也就是状态标签、Status 属性或卡片被拖进的那一栏；里面是一个单行的 [Input](../../packages/ui/src/components/input/input.md)，然后是 Cancel 和 Move to backlog。原因是可选的：输入框留空时点 Move to backlog，任务就不带原因地移过去。
 - 点 Cancel、按 Esc 或点击弹出层外部，任务都留在原处；拖过去的卡片回到它原来那一栏。
-- 原因记在任务的历史里，也写进这次移动在任务讨论里留下的事件行："Martin moved #25 to Backlog: waits for the server-side record"。没有原因时，这一行是 "Martin moved #25 to Backlog"。
+- 原因记在任务的历史里，也写进这次移动在任务讨论里留下的事件行："Martin moved #25 to backlog: waits for the server-side record"。没有原因时，这一行是 "Martin moved #25 to backlog"。
 - 任务创建时就放在 Backlog 里的，不要问原因：新任务还没离开过哪里，谈不上回来。
 
 ### 任务列表里的键盘操作 {#keyboard-in-a-list-of-tasks}

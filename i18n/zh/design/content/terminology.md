@@ -1,7 +1,7 @@
 ---
 title: 术语
 summary: Raft 产品用来称呼地方、人、Agent 和工作的词：server、channel、DM、thread、agent、task、computer、runtime、Activity、notifications 等，每个词怎么写，以及要避免的词。
-sourceHash: 08b44f7a
+sourceHash: 1d71b903
 ---
 
 # 术语
@@ -11,7 +11,7 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 ## 怎么用术语 {#how-to-use-a-term}
 
 - 用本页第一列里的术语，拼写与这里一致。
-- 术语在句子里和标签里都写成小写（"move it to another computer"、Add computer）。只有作为标签或句子的第一个词、目的地的名称（Activity）或产品名（Raft Computer）时才大写；见[写作](./writing.md#casing)。
+- 术语在句子里和标签里都写成小写（"move it to another computer"、Add computer）。目的地名称、角色和任务状态也是术语：Remove from saved、Back to home、Move to backlog。术语只有作为标签或句子的第一个词（Activity、Saved、Backlog），或者是产品名（Raft Computer）时才大写；见[写作](./writing.md#casing)。
 - 解释界面时，沿用界面上显示的词：按钮写 Create server，帮助文字就写 server。
 - 需要的词这里没有时，用平实的日常用词，并把它加进本页。
 
@@ -30,7 +30,7 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 | Activity | 列出等这个人处理的对话的目的地：有未读消息或提及的频道、私信和关注的消息列。筛选：All、Unread、Mentions | Activity、Mark all read、Mark as done | Inbox、Feed、Notifications。组件按代码命名为 `ActivityInbox` 和 `InboxItem`；产品里的标签是 Activity |
 | notification center | 铃铛后面的列表：整个服务器的状态，比如联合频道的邀请、用量上限、套餐变更，或一台需要处理的计算机 | 无障碍名称写 "Notification center"；铃铛没有可见的标签 | Activity、alerts。Notifications 是 Settings 里设置什么会通知这个人的页面 |
 | Saved | 一个人留着以后看的消息 | 消息上写 Save，目的地写 Saved | bookmarks、favorites、starred。Pinned 是侧栏里放对话的分区，不是收藏的消息 |
-| Settings, Members, Tasks, Computers | 目的地，作为名称首字母大写 | Settings、Members、Tasks、Computers | 在帮助文字或空状态里给同一个目的地起别的名字 |
+| Settings, Members, Tasks, Computers | 目的地。作为标签的第一个词时首字母大写，后面的词小写：Back to home、Remove from saved | Settings、Members、Tasks、Computers | 在帮助文字或空状态里给同一个目的地起别的名字 |
 
 ### 服务器和 workspace {#server-and-workspace}
 
@@ -52,7 +52,7 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 | assistant, personal assistant | 一个人自己的助理。它能读到这个人在服务器里能看到的内容（他们的私信除外），并在私信里和他们交谈。在他们允许时，它还会以他们的身份在频道、消息列和私信里发消息，每条这样的消息都会标注由该助理 "sent by"（[身份与在线状态](../people-and-agents/identity-and-presence.md#sent-by-an-assistant)）。它属于一个人而不属于服务器，所以不是服务器的 Agent：它不在 Members 里，没有运行时标签片，也没有在线状态灯，别人也不会提及它或给它分配任务。不过它看起来像 Agent：同样的方形贴纸上一张像素脸，就像它私信的标题栏里那样。它是 Raft 里唯一被称为 assistant 的东西 | Assistant、Create assistant、"Your assistant is connected to Raft" | 用 assistant 指 Agent；bot；AI assistant。不要写是谁在运行它：如果有必要，写 "runs in the cloud" |
 | App（作为发送者） | 安装的 App 在服务器里发消息时用的身份，如帮忙做发布的 Stamp。它像 Agent 一样有一张像素脸，但没有运行时、没有计算机，也没有在线状态：由 App 为它负责。凡是显示它名字的地方，都标着 App（[对话中的 App](../people-and-agents/identity-and-presence.md#an-app-in-conversations)） | App、"App · Stamp"、"Added by the Stamp app" | bot、agent、integration。bot 能指的东西太多（聊天机器人、Agent、脚本），用它指不清是其中哪一个 |
 | external agent | 由某人自己运行、再连接到 Raft 的 Agent，而不是由 Raft 在计算机上启动的 | Create external agent、External agent | custom bot、integration |
-| Owner, Admin, Member, Guest | 成员的角色，作为角色名称时首字母大写 | 标签里写 Owner；句子里写 "only an owner or admin can…" | moderator、super admin |
+| Owner, Admin, Member, Guest | 成员的角色。作为标签的第一个词时首字母大写，在后面和句子里小写 | 标签里写 Owner；Invite members、Visible to guests；句子里写 "only an owner or admin can…" | moderator、super admin |
 | display name | 人们看到的名字。用它来称呼人和 Agent | Martin、Bugen | 用户名（handle），除非需要精确的身份：用 Space Mono 写 `@martin` |
 
 ## 工作 {#work}
@@ -60,7 +60,7 @@ Raft 一个东西只用一个词，并且在每个界面、每个产品以及 Ag
 | 术语 | 是什么 | 写作 | 避免 |
 | --- | --- | --- | --- |
 | task | 一项有编号和状态的工作，在频道或私信里，有自己的讨论。它可以从消息创建，但它不是那条消息 | Tasks、Create task、Create task from message、`#25` | ticket、issue、job、to-do |
-| Backlog, Todo, In progress, Done, Closed | 五种任务状态，拼写与此完全一致。Backlog 是「现在不做」，Closed 是「不会做」 | "No Backlog tasks" | To Do、Doing、WIP、Complete、Resolved |
+| Backlog, Todo, In progress, Done, Closed | 五种任务状态，单独出现时（状态标签、看板的一栏、菜单项）这样拼写；在更长的标签和句子里小写。Backlog 是「现在不做」，Closed 是「不会做」 | 状态标签上写 Backlog；Move to backlog；"No backlog tasks"；"moved #25 to in progress" | To Do、Doing、WIP、Complete、Resolved |
 | computer | 运行 Raft Computer 的那台机器，Agent 在上面运行。一个服务器至少需要一台在线 | Computers、Add computer、"Move to another computer" | machine、host、device、node、cloud server |
 | Raft Computer | 运行在计算机上、启动其上 Agent 的应用 | "Restart Raft Computer and try again" | daemon、the agent process、the client |
 | runtime | Agent 在其中运行的程序：Claude Code、Codex 等。运行时名称用 Space Mono，放在运行时标签片里 | Runtime、"No usable runtime found on this computer" | harness、engine、AI agent runtime、provider |

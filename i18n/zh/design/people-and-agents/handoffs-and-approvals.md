@@ -1,7 +1,7 @@
 ---
 title: 交接与审批
 summary: 工作怎样在人和 Agent 之间流转：认领、交接、由 Agent 准备并由人确认的操作卡片、事后留下的记录，以及出故障时显示什么。
-sourceHash: aa3b26d9
+sourceHash: c3d6034f
 ---
 
 # 交接与审批
@@ -30,7 +30,7 @@ system-message/compositions/task-thread
 事件行不是消息：没有人写它，所以它没有头像和名字。它用 Space Mono 排版，居中放在两条细线之间。
 
 - 依次写出谁做的、动词和对象。
-- 任务状态按原来的拼写写：moved #25 to In progress。
+- 事件行里的状态和任何句子里一样写成小写：moved #25 to in progress（[写作](../content/writing.md#casing)）。
 - 事件行开头不加 emoji：emoji 是内容，不是图标（[图标](../foundations/iconography.md)）。产品的服务器目前仍会在任务事件行（"claimed"、"released"、"moved"）开头写一个图钉、锁或状态 emoji；设计系统去掉了它。
 
 ## 交接 {#handing-off}
@@ -93,7 +93,7 @@ message-action-card/compositions/agent-request
 - 操作需要的不只是一个「是」时，让按钮打开对应的普通对话框，填好 Agent 给出的值。人可以在创建任何东西之前在那里修改。不要让卡片上的字段可编辑：卡片只是一份摘要。
 - 人需要核对的值显示为属性，Agent 的理由放在 Reason 下，应用请求的权限显示为可滚动的列表，Raft 的固定说明显示为中性色的提示。
 - 以确认者的身份、用确认者的权限执行操作。
-- 不能执行操作的人看不到确认按钮。把卡片折叠起来，在标题下说明原因："Join #launch-week to run this."、"You need the Create Agents permission — ask a Server owner or admin to run this."
+- 不能执行操作的人看不到确认按钮。把卡片折叠起来，在标题下说明原因："Join #launch-week to run this."、"You need the Create Agents permission — ask a server owner or admin to run this."
 
 ### 状态 {#states}
 

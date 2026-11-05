@@ -32,7 +32,7 @@ export function MessageSystemMessagesComposition() {
       <SystemMessageRowComposition createdAt="2:16 PM" content="@hermes joined this channel." />
       <SystemMessageRowComposition
         createdAt="2:16 PM"
-        content={'✅ Atlas moved #41 "Release review checklist" to Done'}
+        content={'✅ Atlas moved #41 "Release review checklist" to done'}
       />
     </div>
   );

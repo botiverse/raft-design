@@ -60,7 +60,7 @@ timeline/compositions/horizontal
 
 ### 任务历史 {#task-history}
 
-- 每个标题写成谁做了什么，名字加粗："**Bugen** claimed it"、"**Bugen** moved it to In review"。
+- 每个标题写成谁做了什么，名字加粗："**Bugen** claimed it"、"**Bugen** moved it to in review"。
 - 依据放在详情行里："commit c41e09 · 4 files changed"。
 
 ### 活动日志 {#activity-log}
@@ -72,7 +72,7 @@ timeline/compositions/horizontal
 ## 无障碍 {#accessibility}
 
 - `Timeline` 渲染原生的 `ol`，每个 `TimelineItem` 渲染 `li`，所以顺序和步骤数会被读出。raft-ui 没有引入 Base UI 的基础组件。
-- 标记和线对辅助技术隐藏。颜色带有含义时，标题里也要写出来："moved it to In review"、"failed: CI"。
+- 标记和线对辅助技术隐藏。颜色带有含义时，标题里也要写出来："moved it to in review"、"failed: CI"。
 
 ## 规则 {#rules}
 

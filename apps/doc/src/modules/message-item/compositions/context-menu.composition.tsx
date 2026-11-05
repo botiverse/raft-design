@@ -169,7 +169,7 @@ export function MessageContextMenuComposition({
       {/* Just for me: nobody else sees it. */}
       <ContextMenuItem disabled={!onSavedChange} onClick={handleSavedToggle}>
         {saved ? <BookmarkMinus /> : <Bookmark />}
-        {saved ? "Remove from Saved" : "Save message"}
+        {saved ? "Remove from saved" : "Save message"}
       </ContextMenuItem>
     </ContextMenuContent>
   );

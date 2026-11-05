@@ -64,7 +64,7 @@ timeline/compositions/horizontal
 
 ### Task history
 
-- Write each title as who did what, with the name in bold: "**Bugen** claimed it", "**Bugen** moved it to In review".
+- Write each title as who did what, with the name in bold: "**Bugen** claimed it", "**Bugen** moved it to in review".
 - Put the evidence in the detail line: "commit c41e09 · 4 files changed".
 
 ### Activity log
@@ -76,7 +76,7 @@ timeline/compositions/horizontal
 ## Accessibility
 
 - `Timeline` renders a native `ol` and each `TimelineItem` an `li`, so the order and the number of steps are announced. raft-ui adds no Base UI primitive.
-- The marker and the line are hidden from assistive technology. When the color carries meaning, say it in the title too: "moved it to In review", "failed: CI".
+- The marker and the line are hidden from assistive technology. When the color carries meaning, say it in the title too: "moved it to in review", "failed: CI".
 
 ## Rules
 

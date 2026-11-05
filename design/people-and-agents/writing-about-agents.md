@@ -32,7 +32,7 @@ Use the verbs you would use for a person doing the same work.
 | Bugen claimed #25 | #25 was assigned to the bot |
 | Bugen is on it · 12m | Processing… |
 | Martin needs your OK | Pending approval |
-| Wug moved #25 to Done | AI completed task #25 |
+| Wug moved #25 to done | AI completed task #25 |
 | Bring an agent | Add AI assistant |
 
 ## No "AI" or "bot"
@@ -53,7 +53,7 @@ What an agent is doing appears in its row, in Working now and in the header of a
 
 ## Event lines
 
-- Name who did it, the verb and the item: "Bugen claimed #25 "Fix onboarding copy"", "Martin moved #25 to Done" ([Hand-offs and approvals](./handoffs-and-approvals.md#event-lines)).
+- Name who did it, the verb and the item: "Bugen claimed #25 "Fix onboarding copy"", "Martin moved #25 to done" ([Hand-offs and approvals](./handoffs-and-approvals.md#event-lines)).
 - Spell task statuses Backlog, Todo, In progress, Done and Closed.
 - Don't start an event line with an emoji.
 
