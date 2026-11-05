@@ -507,6 +507,10 @@
       "InboxItemTrailing",
       "InboxItemTrigger",
       "InboxItemLeadingBadge",
+      "InboxItemLine",
+      "InboxItemListGroup",
+      "InboxItemListHeading",
+      "InboxItemStatus",
       "InboxItemSkeleton",
       "InboxItemSkeletonList"
     ],

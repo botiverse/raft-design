@@ -14,11 +14,10 @@ import {
   InboxItemSender,
   InboxItemTimestamp,
   InboxItemTitle,
-  InboxItemTrailing,
   InboxItemTrigger,
   SidebarItemCount,
 } from "@botiverse/raft-ui";
-import { InboxItemLeadingBadge } from "@botiverse/raft-ui/wip";
+import { InboxItemLeadingBadge, InboxItemLine, InboxItemStatus } from "@botiverse/raft-ui/wip";
 import { useCallback, useState } from "react";
 import type { MouseEvent } from "react";
 
@@ -40,7 +39,7 @@ export function ThreadRowsContent() {
         <InboxItemTrigger
           value="thread:launch-week"
           aria-current={activeId === "thread:launch-week" || undefined}
-          aria-label="Open thread in #launch-week, unread"
+          aria-label="Open thread in #launch-week, unread, 2 minutes ago"
           onClick={handleOpen}
         />
         <InboxItemLeading>
@@ -54,25 +53,25 @@ export function ThreadRowsContent() {
         <InboxItemContent>
           <InboxItemHeading>
             <InboxItemTitle>发布前把 onboarding 文案再过一遍</InboxItemTitle>
+            <InboxItemTimestamp>2m</InboxItemTimestamp>
           </InboxItemHeading>
-          <InboxItemBody>
-            #launch-week · <InboxItemSender>Mira: </InboxItemSender>
-            第二屏的按钮我改成了 Get started，你看下？
-          </InboxItemBody>
+          <InboxItemLine>
+            <InboxItemBody>
+              #launch-week · <InboxItemSender>Mira: </InboxItemSender>
+              第二屏的按钮我改成了 Get started，你看下？
+            </InboxItemBody>
+            <InboxItemMarks>
+              <SidebarItemCount>3</SidebarItemCount>
+            </InboxItemMarks>
+          </InboxItemLine>
         </InboxItemContent>
-        <InboxItemTrailing>
-          <InboxItemTimestamp>2m</InboxItemTimestamp>
-          <InboxItemMarks>
-            <SidebarItemCount>3</SidebarItemCount>
-          </InboxItemMarks>
-        </InboxItemTrailing>
       </InboxItem>
 
       <InboxItem density="compact" active={activeId === "thread:launch-room"}>
         <InboxItemTrigger
           value="thread:launch-room"
           aria-current={activeId === "thread:launch-room" || undefined}
-          aria-label="Open thread in #launch-room"
+          aria-label="Open thread in #launch-room, 11 minutes ago"
           onClick={handleOpen}
         />
         <InboxItemLeading>
@@ -86,22 +85,22 @@ export function ThreadRowsContent() {
         <InboxItemContent>
           <InboxItemHeading>
             <InboxItemTitle>1.15.3 发版清单</InboxItemTitle>
+            <InboxItemTimestamp>11m</InboxItemTimestamp>
           </InboxItemHeading>
-          <InboxItemBody>
-            #launch-room · <InboxItemSender>Volta: </InboxItemSender>
-            预览包测过了，等 artin 点头。
-          </InboxItemBody>
+          <InboxItemLine>
+            <InboxItemBody>
+              #launch-room · <InboxItemSender>Volta: </InboxItemSender>
+              预览包测过了，等最后确认。
+            </InboxItemBody>
+          </InboxItemLine>
         </InboxItemContent>
-        <InboxItemTrailing>
-          <InboxItemTimestamp>11m</InboxItemTimestamp>
-        </InboxItemTrailing>
       </InboxItem>
 
       <InboxItem density="compact" active={activeId === "task:launch-week-46"}>
         <InboxItemTrigger
           value="task:launch-week-46"
           aria-current={activeId === "task:launch-week-46" || undefined}
-          aria-label="Open task #46 in #launch-week"
+          aria-label="Open task in #launch-week, in progress, 14 minutes ago"
           onClick={handleOpen}
         />
         <InboxItemLeading>
@@ -115,22 +114,25 @@ export function ThreadRowsContent() {
         <InboxItemContent>
           <InboxItemHeading>
             <InboxItemTitle>Header bar for task conversations</InboxItemTitle>
+            <InboxItemTimestamp>14m</InboxItemTimestamp>
           </InboxItemHeading>
-          <InboxItemBody>
-            #launch-week:#46 · <InboxItemSender>Lagoon: </InboxItemSender>
-            Header bar is in, goldens recorded.
-          </InboxItemBody>
+          <InboxItemLine>
+            <InboxItemBody>
+              #launch-week · <InboxItemSender>Noor: </InboxItemSender>
+              Header bar is in, goldens recorded.
+            </InboxItemBody>
+            <InboxItemMarks>
+              <InboxItemStatus status="in-progress">In progress</InboxItemStatus>
+            </InboxItemMarks>
+          </InboxItemLine>
         </InboxItemContent>
-        <InboxItemTrailing>
-          <InboxItemTimestamp>14m</InboxItemTimestamp>
-        </InboxItemTrailing>
       </InboxItem>
 
       <InboxItem density="compact" active={activeId === "thread:dm-samira"}>
         <InboxItemTrigger
           value="thread:dm-samira"
           aria-current={activeId === "thread:dm-samira" || undefined}
-          aria-label="Open thread with Samira Khan"
+          aria-label="Open thread with Samira Khan, 18 minutes ago"
           onClick={handleOpen}
         />
         <InboxItemLeading>
@@ -144,22 +146,22 @@ export function ThreadRowsContent() {
         <InboxItemContent>
           <InboxItemHeading>
             <InboxItemTitle>Permissions review: final note</InboxItemTitle>
+            <InboxItemTimestamp>18m</InboxItemTimestamp>
           </InboxItemHeading>
-          <InboxItemBody>
-            <InboxItemSender>Samira: </InboxItemSender>
-            最后一条备注加好了，明天就可以 merge。
-          </InboxItemBody>
+          <InboxItemLine>
+            <InboxItemBody>
+              <InboxItemSender>Samira: </InboxItemSender>
+              最后一条备注加好了，明天就可以 merge。
+            </InboxItemBody>
+          </InboxItemLine>
         </InboxItemContent>
-        <InboxItemTrailing>
-          <InboxItemTimestamp>18m</InboxItemTimestamp>
-        </InboxItemTrailing>
       </InboxItem>
 
-      <InboxItem density="compact" active={activeId === "thread:dm-lagoon"} data-unread>
+      <InboxItem density="compact" active={activeId === "thread:dm-sample"} data-unread>
         <InboxItemTrigger
-          value="thread:dm-lagoon"
-          aria-current={activeId === "thread:dm-lagoon" || undefined}
-          aria-label="Open thread with Lagoon, unread"
+          value="thread:dm-sample"
+          aria-current={activeId === "thread:dm-sample" || undefined}
+          aria-label="Open thread with Noor, unread, 31 minutes ago"
           onClick={handleOpen}
         />
         <InboxItemLeading>
@@ -173,25 +175,25 @@ export function ThreadRowsContent() {
         <InboxItemContent>
           <InboxItemHeading>
             <InboxItemTitle>把 staging 的部署日志整理成摘要</InboxItemTitle>
+            <InboxItemTimestamp>31m</InboxItemTimestamp>
           </InboxItemHeading>
-          <InboxItemBody>
-            <InboxItemSender>Lagoon: </InboxItemSender>
-            Summary is ready: 3 warnings, 0 errors. 要我开个 task 跟进吗？
-          </InboxItemBody>
+          <InboxItemLine>
+            <InboxItemBody>
+              <InboxItemSender>Noor: </InboxItemSender>
+              Summary is ready: 3 warnings, 0 errors. 要我开个 task 跟进吗？
+            </InboxItemBody>
+            <InboxItemMarks>
+              <SidebarItemCount>1</SidebarItemCount>
+            </InboxItemMarks>
+          </InboxItemLine>
         </InboxItemContent>
-        <InboxItemTrailing>
-          <InboxItemTimestamp>31m</InboxItemTimestamp>
-          <InboxItemMarks>
-            <SidebarItemCount>1</SidebarItemCount>
-          </InboxItemMarks>
-        </InboxItemTrailing>
       </InboxItem>
 
       <InboxItem density="compact" active={activeId === "dm:atlas"}>
         <InboxItemTrigger
           value="dm:atlas"
           aria-current={activeId === "dm:atlas" || undefined}
-          aria-label="Open Atlas"
+          aria-label="Open Atlas, 1 hour ago"
           onClick={handleOpen}
         />
         <InboxItemLeading>
@@ -203,12 +205,12 @@ export function ThreadRowsContent() {
         <InboxItemContent>
           <InboxItemHeading>
             <InboxItemTitle>Atlas</InboxItemTitle>
+            <InboxItemTimestamp>1h</InboxItemTimestamp>
           </InboxItemHeading>
-          <InboxItemBody>The staging deploy is green. 要我发 release 吗？</InboxItemBody>
+          <InboxItemLine>
+            <InboxItemBody>The staging deploy is green. 要我发 release 吗？</InboxItemBody>
+          </InboxItemLine>
         </InboxItemContent>
-        <InboxItemTrailing>
-          <InboxItemTimestamp>1h</InboxItemTimestamp>
-        </InboxItemTrailing>
       </InboxItem>
     </div>
   );

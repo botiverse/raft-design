@@ -1,17 +1,45 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { createContext, useContext } from "react";
+import type { MouseEvent as ReactMouseEvent } from "react";
 
 import type { SlotElementProps } from "../../lib/data-attributes";
+import { TaskStatusBadge } from "../tasks/task-status-badge";
+import type { TaskStatusBadgeProps } from "../tasks/task-status-badge";
+import { TaskStatusIcon } from "../tasks/task-status-icon";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
 import { inboxItem } from "./inbox-item.recipe";
 
 const InboxItemDisabledContext = createContext(false);
 const InboxItemDensityContext = createContext<InboxItemDensity | undefined>(undefined);
+const InboxItemHeadingContext = createContext(false);
+
+/** The content lets the pointer through to the trigger; a part that takes it hands its click on. */
+function openItemFrom(event: ReactMouseEvent<HTMLElement>) {
+  if (event.defaultPrevented) return;
+  const trigger = event.currentTarget
+    .closest("[data-slot=inbox-item]")
+    ?.querySelector<HTMLElement>("[data-slot=inbox-item-open]");
+  if (!trigger) return;
+  trigger.dispatchEvent(
+    new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+      detail: event.detail,
+      altKey: event.altKey,
+      ctrlKey: event.ctrlKey,
+      metaKey: event.metaKey,
+      shiftKey: event.shiftKey,
+    }),
+  );
+}
 
 /**
  * `compact`: one line for the title and one for the excerpt, the row centred
- * on its leading visual, and the trailing column set on the same two 20px
- * lines (a conversation list). Leave it unset for the default two-line rows.
+ * on its leading visual, and the trailing column set on the same two 20px lines
+ * (a conversation list). With `InboxItemLine` in place of the column both lines
+ * run the full width: the time at the end of the heading, the marks at the end
+ * of the line. Leave it unset for the default two-line rows.
  */
 export type InboxItemDensity = "compact";
 
@@ -112,7 +140,8 @@ export function InboxItemSelection({ className, render, ...props }: InboxItemSel
 
 export type InboxItemContentProps = useRender.ComponentProps<"div">;
 export function InboxItemContent({ className, render, ...props }: InboxItemContentProps) {
-  const { itemContent } = inboxItem();
+  const density = useContext(InboxItemDensityContext);
+  const { itemContent } = inboxItem({ density });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "inbox-item-content",
     className: itemContent({ className }),
@@ -154,16 +183,22 @@ export function InboxItemSubtitle({ className, render, ...props }: InboxItemSubt
 
 export type InboxItemHeadingProps = useRender.ComponentProps<"div">;
 export function InboxItemHeading({ className, render, ...props }: InboxItemHeadingProps) {
-  const { itemHeading } = inboxItem();
+  const density = useContext(InboxItemDensityContext);
+  const { itemHeading } = inboxItem({ density });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "inbox-item-heading",
     className: itemHeading({ className }),
   };
-  return useRender({
+  const element = useRender({
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
   });
+  return (
+    <InboxItemHeadingContext.Provider value={density === "compact"}>
+      {element}
+    </InboxItemHeadingContext.Provider>
+  );
 }
 
 export type InboxItemTitleProps = useRender.ComponentProps<"div">;
@@ -196,13 +231,42 @@ export function InboxItemTrailing({ className, render, ...props }: InboxItemTrai
   });
 }
 
-export type InboxItemTimestampProps = useRender.ComponentProps<"span">;
-export function InboxItemTimestamp({ className, render, ...props }: InboxItemTimestampProps) {
+/**
+ * The time. In the heading of a compact row it takes the pointer, so it can
+ * carry a tooltip, and a click on it still opens the item. A tooltip's trigger
+ * replaces `data-slot`, so the heading finds the time by `data-inbox-item-time`.
+ * In `InboxItemTrailing` it does neither and lets the pointer through.
+ */
+export type InboxItemTimestampProps = useRender.ComponentProps<"span"> & {
+  /**
+   * `hover`, for an older row in a list with `InboxItemLine`: hidden at rest, so
+   * the title takes its room. It shows in the same place, without animation,
+   * while the row is hovered or it or a control in it holds keyboard focus; a
+   * touch screen never hovers, so there it stays hidden. While hidden it isn't
+   * read out: say the time in the trigger's name.
+   */
+  reveal?: "hover";
+};
+export function InboxItemTimestamp({
+  className,
+  onClick,
+  render,
+  reveal,
+  ...props
+}: InboxItemTimestampProps) {
   const density = useContext(InboxItemDensityContext);
-  const { itemTimestamp } = inboxItem({ density });
+  const inHeading = useContext(InboxItemHeadingContext);
+  const { itemTimestamp } = inboxItem({ density, reveal });
   const defaultProps: SlotElementProps<"span"> = {
+    "data-inbox-item-time": inHeading ? "" : undefined,
     "data-slot": "inbox-item-timestamp",
     className: itemTimestamp({ className }),
+    onClick: inHeading
+      ? (event) => {
+          onClick?.(event);
+          openItemFrom(event);
+        }
+      : onClick,
   };
   return useRender({
     defaultTagName: "span",
@@ -212,8 +276,31 @@ export function InboxItemTimestamp({ className, render, ...props }: InboxItemTim
 }
 
 /**
- * Marks at the end of a line: a mention, muted, an unread count. A 20px line
- * of its own in `InboxItemTrailing`, so it sits beside the excerpt.
+ * The excerpt's line in a compact row with no trailing column: `InboxItemBody`
+ * or `InboxItemMessage`, taking the room, then `InboxItemMarks`. Marks with
+ * nothing in them take no room. Its presence is what puts the row in this
+ * layout: both lines run the full width, and `InboxItemActions` with
+ * `reveal="hover"`, last in `InboxItemContent`, centres on the row while both
+ * lines end short of it. A row without it stays as it is.
+ */
+export type InboxItemLineProps = useRender.ComponentProps<"div">;
+export function InboxItemLine({ className, render, ...props }: InboxItemLineProps) {
+  const { itemLine } = inboxItem();
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "inbox-item-line",
+    className: itemLine({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+/**
+ * Marks at the end of a line: a mention, muted, an unread count. At the end of
+ * `InboxItemLine`, or a 20px line of its own in `InboxItemTrailing`, so it sits
+ * beside the excerpt either way.
  */
 export type InboxItemMarksProps = useRender.ComponentProps<"div">;
 export function InboxItemMarks({ className, render, ...props }: InboxItemMarksProps) {
@@ -226,6 +313,88 @@ export function InboxItemMarks({ className, render, ...props }: InboxItemMarksPr
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+/**
+ * A task's status in `InboxItemMarks`: the chip with its word, and in a row with
+ * `InboxItemLine` narrower than 360px only the chip's pixel, with the word in a
+ * tooltip on it. It queries the container that row names, `inbox-item-row`, so
+ * it is the row that is measured, not the window or any other container around it. Pass an `id` to name the word in the trigger's
+ * `aria-labelledby`, as it isn't on screen there. In a row with a trailing
+ * column it stays the chip with its word.
+ */
+export type InboxItemStatusProps = Omit<TaskStatusBadgeProps, "children" | "render" | "size"> & {
+  /** The status's word. The caller owns the copy and its localization. */
+  children: string;
+};
+export function InboxItemStatus({ children, className, status, ...props }: InboxItemStatusProps) {
+  const { itemStatusWord, itemStatusPixel } = inboxItem();
+  return (
+    <>
+      <TaskStatusBadge
+        status={status}
+        size="sm"
+        className={itemStatusWord({ className })}
+        {...props}
+      >
+        {children}
+      </TaskStatusBadge>
+      <Tooltip>
+        <TooltipTrigger
+          render={<InboxItemHoverTarget className={itemStatusPixel()} />}
+          role="img"
+          aria-label={children}
+          data-slot="inbox-item-status-pixel"
+        >
+          <TaskStatusIcon status={status} />
+        </TooltipTrigger>
+        <TooltipContent>{children}</TooltipContent>
+      </Tooltip>
+    </>
+  );
+}
+
+/**
+ * One day's or one group's heading and rows, placed straight in the list's
+ * column. A sticky heading stays inside its parent, so with one of these per day
+ * the next day's heading pushes the last one up and out. In one shared column
+ * the headings would pile up at the top instead. Rows of a virtualized list,
+ * placed one by one, can't sit in one: there the list has to do this itself.
+ */
+export type InboxItemListGroupProps = useRender.ComponentProps<"div">;
+export function InboxItemListGroup({ className, render, ...props }: InboxItemListGroupProps) {
+  const { itemListGroup } = inboxItem();
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "inbox-item-list-group",
+    className: itemListGroup({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+/**
+ * The heading of an `InboxItemListGroup`: it starts on the rows' content line,
+ * 8px over the first row's shape with the group's gap, and the group holds it
+ * further from the rows above. An `h3`: render another level if the list's title
+ * isn't an `h2`. To keep it in view while its rows scroll, the list makes it
+ * sticky and gives it the list's surface; its box holds the 4px above and below
+ * its words, so no row shows through them. The 2px under the box is a margin.
+ */
+export type InboxItemListHeadingProps = useRender.ComponentProps<"h3">;
+export function InboxItemListHeading({ className, render, ...props }: InboxItemListHeadingProps) {
+  const { itemListHeading } = inboxItem();
+  const defaultProps: SlotElementProps<"h3"> = {
+    "data-slot": "inbox-item-list-heading",
+    className: itemListHeading({ className }),
+  };
+  return useRender({
+    defaultTagName: "h3",
+    render,
+    props: mergeProps<"h3">(defaultProps, props),
   });
 }
 
@@ -247,22 +416,7 @@ export function InboxItemHoverTarget({
     className: itemHoverTarget({ className }),
     onClick: (event) => {
       onClick?.(event);
-      if (event.defaultPrevented) return;
-      const trigger = event.currentTarget
-        .closest("[data-slot=inbox-item]")
-        ?.querySelector<HTMLElement>("[data-slot=inbox-item-open]");
-      if (!trigger) return;
-      trigger.dispatchEvent(
-        new MouseEvent("click", {
-          bubbles: true,
-          cancelable: true,
-          detail: event.detail,
-          altKey: event.altKey,
-          ctrlKey: event.ctrlKey,
-          metaKey: event.metaKey,
-          shiftKey: event.shiftKey,
-        }),
-      );
+      openItemFrom(event);
     },
   };
   return useRender({
@@ -333,10 +487,14 @@ export function InboxItemMetadata({ className, render, ...props }: InboxItemMeta
 export type InboxItemActionsProps = useRender.ComponentProps<"div"> & {
   /**
    * `hover`: with a mouse, the actions stay hidden until the row is hovered,
-   * holds focus, is `active` or has a menu open, and then take the place of
-   * the rest of `InboxItemTrailing` (the timestamp, the marks, the attention
-   * dot), which steps aside. On a touch screen (`pointer: coarse`) they show
-   * at rest and the rest of the trailing column moves over to make room.
+   * holds focus, is `active` or has a menu open. Give the button
+   * `variant="ghost"` here. On a touch screen (`pointer: coarse`) they show at
+   * rest. In a compact row without `InboxItemTrailing`, put them last in
+   * `InboxItemContent`: they centre on the row and both lines end short of them,
+   * the time and the marks moving over and staying visible (room for one
+   * 32px button). In `InboxItemTrailing` they take the place of the timestamp,
+   * the marks and the attention dot, which step aside; on a touch screen the
+   * rest of the trailing column moves over to make room.
    */
   reveal?: "hover";
 };
