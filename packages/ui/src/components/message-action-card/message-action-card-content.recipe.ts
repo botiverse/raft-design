@@ -32,9 +32,11 @@ export const messageActionCardContent = tv({
       "@max-sm/action-card:min-h-0 @max-sm/action-card:py-0",
     ],
     scopeList: ["mt-0 stack-y-1.5"],
-    // A long permission list scrolls inside the card instead of stretching it;
-    // the cap cuts through the third row so the cut-off says "more".
-    scopeListViewport: ["overflow-y-auto overscroll-contain", "max-h-[164px] stack-y-1.5 pr-1"],
+    // A long permission list scrolls inside the card instead of stretching it.
+    // The cap cuts through a line of text, so the cut-off says "more": the
+    // third row's name when descriptions take one line, the second row's last
+    // line when they take two (message-action-card.md#behavior).
+    scopeListViewport: ["overflow-y-auto overscroll-contain", "max-h-[136px] stack-y-1.5 pr-1"],
     scopeListLabel: ["text-footnote font-medium text-foreground-hint"],
     scope: [
       "min-w-0 border p-1.5",
@@ -42,7 +44,8 @@ export const messageActionCardContent = tv({
     ],
     scopeName: ["break-all font-mono", "text-mono-meta font-normal text-foreground"],
     scopeDescription: ["mt-0.5 text-footnote text-pretty text-foreground-muted"],
-    // The agent's own reason: a label, then the reason as an italic quote.
+    // The agent's own reason: a label, then the reason as an upright quote
+    // behind a seam rule. Space Grotesk has no italic, so it is never slanted.
     hintLabel: ["text-footnote font-medium text-foreground-hint"],
     hint: [
       "border-l-2 border-line-seam pl-2.5",

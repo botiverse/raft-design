@@ -89,7 +89,7 @@ it("a folded card shows only its header; the toggle opens and folds it again", a
   await waitFor(() => expect(visibleHeight("body")).toBe(0));
 });
 
-it("the Reason label sits right above an italic quote; the notice is a tinted block with its icon on the left", () => {
+it("the Reason label sits right above an upright quote; the notice is a tinted block with its icon on the left", () => {
   render(
     <ThemeProvider>
       <div style={{ width: 480 }}>
@@ -113,7 +113,8 @@ it("the Reason label sits right above an italic quote; the notice is a tinted bl
   const gap = quote.getBoundingClientRect().top - label.bottom;
   expect(gap).toBeGreaterThanOrEqual(0);
   expect(gap).toBeLessThanOrEqual(6);
-  expect(getComputedStyle(quote).fontStyle).toBe("italic");
+  // Upright: Space Grotesk has no italic, and the DS never slants a quote.
+  expect(getComputedStyle(quote).fontStyle).toBe("normal");
   expect(Number.parseFloat(getComputedStyle(quote).borderLeftWidth)).toBeGreaterThan(0);
 
   const notice = getComputedStyle(screen.getByTestId("notice"));
@@ -188,13 +189,18 @@ it("a folded card keeps its description under the title; icon, status and toggle
 it("a long permission list scrolls inside a capped viewport instead of stretching the card", () => {
   renderCard({ scopes: 6 });
   const viewport = screen.getByTestId("viewport");
-  expect(viewport.clientHeight).toBeLessThanOrEqual(172);
+  expect(viewport.clientHeight).toBe(136);
   expect(viewport.scrollHeight).toBeGreaterThan(viewport.clientHeight);
-  // The third row is visibly cut, not just clipped at its last pixels.
+  // The third row is visibly cut, not just clipped at its last pixels: the
+  // cap runs through its name, the first line of its text.
+  const bottom = viewport.getBoundingClientRect().bottom;
   const third = viewport.children[2]!.getBoundingClientRect();
-  const shown = (viewport.getBoundingClientRect().bottom - third.top) / third.height;
+  const shown = (bottom - third.top) / third.height;
   expect(shown).toBeGreaterThan(0.2);
   expect(shown).toBeLessThan(0.8);
+  const name = viewport.children[2]!.firstElementChild!.getBoundingClientRect();
+  expect(bottom).toBeGreaterThan(name.top + name.height / 4);
+  expect(bottom).toBeLessThan(name.bottom - name.height / 4);
 });
 
 it("the permission viewport is a Tab stop only while it overflows", async () => {

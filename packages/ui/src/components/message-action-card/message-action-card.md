@@ -70,7 +70,7 @@ message-action-card/compositions/resolution-states
 ## Behavior
 
 - The card is open by default. Fold a resolved or view-only card with `defaultOpen={false}`; the collapse trigger opens it again.
-- A long list of permissions scrolls inside its own area, so the card doesn't grow with it.
+- A long list of permissions scrolls inside its own area, at most 136px tall, so the card doesn't grow with it. The cap cuts through a line of text, so the cut reads as more below: through the third permission's name when the descriptions take one line, through the last line of the second when they take two. A cap that ends between two rows, or under the last pixels of a line, reads as the end of the list.
 
 ## Content
 

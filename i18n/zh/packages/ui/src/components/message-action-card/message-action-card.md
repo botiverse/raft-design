@@ -1,7 +1,7 @@
 ---
 title: MessageActionCard
 summary: Agent 附在消息上的卡片，操作已经填好，等人确认；确认之后，它记录是谁、在什么时候做的。
-sourceHash: ba41e995
+sourceHash: 51cefa1e
 ---
 
 # MessageActionCard
@@ -66,7 +66,7 @@ message-action-card/compositions/resolution-states
 ## 行为 {#behavior}
 
 - 卡片默认展开。已处理或仅查看的卡片用 `defaultOpen={false}` 折叠；折叠按钮可以再把它展开。
-- 很长的权限列表在自己的区域里滚动，卡片不会随之变长。
+- 很长的权限列表在自己的区域里滚动，最高 136px，卡片不会随之变长。这个上限会从一行文字中间切过，让切口读起来是“下面还有”：说明只占一行时，切过第三项权限的名称；占两行时，切过第二项的最后一行。上限如果落在两项之间，或只切掉一行字最下面的几个像素，看起来就像列表到此为止。
 
 ## 内容 {#content}
 
