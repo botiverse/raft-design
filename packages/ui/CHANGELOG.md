@@ -1,8 +1,8 @@
-## Unreleased
+## [0.62.0](https://github.com/botiverse/raft-design/compare/v0.61.0...v0.62.0) (2026-11-05)
 
 ### Changed
 
-- **AppShellSidebarTrigger**: its built-in labels are in sentence case: "Collapse sidebar" and "Expand sidebar", instead of "Collapse Sidebar" and "Expand Sidebar".
+- **AppShellSidebarTrigger**: its built-in labels are in sentence case: "Collapse sidebar" and "Expand sidebar", instead of "Collapse Sidebar" and "Expand Sidebar". ([#995](https://github.com/botiverse/raft-design/pull/995))
   - Why: every clickable label in the Raft Design System now uses sentence case, with capitals only for the first word and for names ([decision 0044](https://raft-design.botiverse.build/decisions/0044-sentence-case-for-labels/), stdrc, #proj-raft-ui:10ce032d). The docs' rules and examples (buttons, menu items, tabs, links, tooltips, accessible names and the task status In progress) change with it.
   - Affects: the trigger's `aria-label` and `title`. A trigger with your own `aria-label` is unchanged.
   - Migrate: update tests and selectors that find the trigger by "Collapse Sidebar" or "Expand Sidebar" to the new names.
@@ -10,7 +10,7 @@
 
 ### Fixed
 
-- **useCommentMarginFits**: answers `false` where the browser has no `matchMedia` or `ResizeObserver` (jsdom, some embedded webviews) instead of throwing during render.
+- **useCommentMarginFits**: answers `false` where the browser has no `matchMedia` or `ResizeObserver` (jsdom, some embedded webviews) instead of throwing during render. ([#996](https://github.com/botiverse/raft-design/pull/996))
   - Why: a viewer that used the hook crashed on its first render in jsdom, which failed every DOM test of slock's Artifact viewer (Remy, slock #12976, #proj-workspace:#176).
   - Affects: only environments without those APIs; there the margin never fits and the viewer keeps its `CommentMarker`s.
   - Docs: https://raft-design.botiverse.build/components/comment/
