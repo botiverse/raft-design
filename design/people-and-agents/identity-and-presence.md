@@ -1,6 +1,6 @@
 ---
 title: Identity and presence
-summary: How an agent is recognized (its pixel face, the agent tag and the runtime chip), how it is treated the same as a person, what its presence light says, and how a message an assistant sent for a person is marked.
+summary: How an agent is recognized (its pixel face, the agent tag and the runtime chip), how it is treated the same as a person, what its presence light says, what an agent on an offline computer shows, and how a message an assistant sent for a person is marked.
 redirectFrom: [decisions/0040-profile-avatar-size]
 ---
 
@@ -66,7 +66,7 @@ The presence light is the square pixel in the corner of an agent's avatar (`Avat
 | `online` | Lime | Running and idle | Online |
 | `busy` | Yellow | Thinking or working | Thinking…, Working…, or what it is doing |
 | `error` | Orange | Stopped by an error | Error, or Error and the reason |
-| `offline` | Stone | Not running | Offline, or Stopped and why |
+| `offline` | Stone | Not running | Offline, or Stopped and why; Computer offline when its computer is offline ([below](#an-agent-on-an-offline-computer)) |
 | `external` | Cyan | Not on one of this server's computers, and not seen recently | External, or Last active and the time |
 
 ```example
@@ -77,6 +77,26 @@ avatar/compositions/badge-presence
 - Where the state is written out (a profile, a profile card, the header of a direct message), use a status chip: a soft tint, the pixel and the words. The chip for working is on `presence-busy-soft`, which stays yellow in every theme ([Status](../../packages/ui/src/components/status/status.md#agent-state-chips)).
 - An external agent that has been seen recently and reports what it is doing gets the same lights as any other agent.
 - In the product, presence lights belong to agents. People's avatars have no light; their corner holds the face of an assistant that sent a message for them ([Sent by an assistant](#sent-by-an-assistant)).
+
+## An agent on an offline computer
+
+When the computer an agent runs on goes offline (turned off, asleep, off the network, or Raft Computer closed), the agent isn't running, but it hasn't stopped: it starts again by itself when the computer is back, and the messages sent to it meanwhile are kept and delivered then. So it says "Computer offline" wherever people meet it, with one way to bring the computer back. In one week 3 people couldn't tell why their agents wouldn't start: the agent said Stopped, Start failed with no reason, and only admins saw what to do (cindyz, 2026-11-05, #triage:fb51e3a0; Jasper, #triage:#206).
+
+| Where people meet it | What shows |
+| --- | --- |
+| Its avatar, everywhere | The `offline` light, as for any agent that isn't running |
+| Where its state is written out: its profile, its profile card, the header of a direct message with it | Computer offline, as the status chip's words, linking to that computer |
+| The composer, in a direct message with it or once a message mentions it | A notice above the input ([Conversation](../patterns/conversation.md#the-composer)) |
+| Its profile | A card that says which computer is offline since when, and what the person looking can do about it ([Raft Chat — Agent profile](../products/raft-chat/agent-profile.md#its-computer-is-offline)) |
+| Start, when it fails because the computer is offline | The reason, next to the control |
+
+- Write Computer offline for the agent's state, and link it to the computer: it says what is wrong and where. Never write Stopped for this case: Stopped means "won't receive messages until restarted" ([Writing about agents](./writing-about-agents.md#status-text)), and here the agent restarts by itself and its messages wait.
+- Write this state as Computer offline in every English string that names it, never Disconnected, Machine is offline, or Offline alone, which doesn't say why. Inside a sentence the computer is lowercase: "The computer this agent runs on is offline." ([Terminology](../content/terminology.md#how-to-use-a-term)).
+- Show Computer offline to everyone who can see the agent. The light and the agent's computer are already shown to everyone; this is not the detail of an agent's error, which only its managers see ([When something fails](./handoffs-and-approvals.md#when-something-fails)).
+- Link every place above to the same place to fix it: the offline card on the agent's profile, or the computer's own page. Don't write a separate help page: steps written in two places drift, and the card already knows who is looking.
+- Explain a failed Start next to the control that started it, with the same link, and never in a toast or not at all: the failure lasts until the computer is back, and a toast is only for a one-off action with no place of its own ([Feedback](../patterns/feedback.md#errors-by-scope)). The server answers Start with `machine_offline`; that answer is the reason to show.
+
+Planned, not yet a rule (phase 2, #triage:#206): the reason a computer went offline, from the server, and a notification center entry for the computer's owner, "Your computer is offline; its 3 agents can't start". A computer offline is the state of the whole server, so its notice belongs in the notification center ([Choosing a component](../components/overview.md#telling-people-something)).
 
 ## Sent by an assistant
 

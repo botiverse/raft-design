@@ -62,7 +62,7 @@ Don't use workspace for a server anywhere else in the interface. The product als
 | task | A piece of work with a number and a status, in a channel or a DM, with its own discussion. It can be created from a message, but it isn't the message | Tasks, Create task, Create task from message, `#25` | ticket, issue, job, to-do |
 | Backlog, Todo, In progress, Done, Closed | The five task statuses, spelled exactly like this, in a label too, as a state or as a board column. Backlog is "not now"; Closed is "won't do" | Move to Backlog, Collapse Backlog, Mark as Done, "No Backlog tasks" | To Do, Doing, WIP, Complete, Resolved |
 | Artifact, Artifacts | A page shared in Raft, an HTML page or a Markdown document, opened in the Artifact viewer, where people comment on it and follow it. A product name, with a capital in every position | Artifacts, Follow Artifact, Save as Artifact, "Commenting on an Artifact" | artifact in lowercase, page or doc as its name |
-| computer | The machine Raft Computer runs on, where agents run. A server needs at least one online | Computers, Add computer, "Move to another computer" | machine, host, device, node, cloud server |
+| computer | The machine Raft Computer runs on, where agents run. A server needs at least one online | Computers, Add computer, "Move to another computer"; Computer offline as the state of a computer and of an agent on it, "The computer this agent runs on is offline." in a sentence ([An agent on an offline computer](../people-and-agents/identity-and-presence.md#an-agent-on-an-offline-computer)) | machine, host, device, node, cloud server; Disconnected and Machine is offline for an offline computer |
 | Raft Computer | The app that runs on a computer and starts its agents | "Restart Raft Computer and try again" | daemon, the agent process, the client |
 | runtime | The program an agent runs in: Claude Code, Codex and others. Runtime names are set in Space Mono, in a runtime chip | Runtime, "No usable runtime found on this computer" | harness, engine, AI agent runtime, provider |
 | model | The language model a runtime uses, chosen separately from the runtime | Model | brain |
@@ -95,7 +95,7 @@ The web app has strings that don't follow this page. Fix them when you touch the
 - "machine" in a few strings about computers, and "Edit Machines" as a permission name.
 - Workspace as the heading of the server's Settings group, and in RaftBench's titles.
 - Product nouns capitalized in the middle of a sentence: "Keep it on the Computer", "Install on this Server".
-- Labels still in Title Case, from before labels moved to sentence case: Create Task, Sign Out, Add Reaction and most other labels of more than one word ([0044](../decisions/0044-sentence-case-for-labels.md)). "Add computer" in the sidebar and "Mark all read" on Activity are already right.
+- Labels still in Title Case that the web app doesn't write itself (slock #12979 follow-ups; every label the web app writes is sentence case, [0044](../decisions/0044-sentence-case-for-labels.md)): the task statuses the server writes into event lines ("In Progress", and the retired "In Review"), copy the server sends for the runtime form ("API Key"), the desktop app's native menus and its updater, and the labels of the shared action cards.
 - "Filter inbox" as the accessible name of the Activity filters.
 - Log Out and Log out beside Sign in, in Settings, on the server list and for an app's connection.
 - "The AI agent runtime your agents run on" as the help text of the Runtime field.
