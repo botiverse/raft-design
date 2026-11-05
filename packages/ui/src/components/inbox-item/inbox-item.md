@@ -132,7 +132,7 @@ activity/compositions/activity-hover-actions
 - Write the context line as where it happened: #launch-week · task #25.
 - Write the title as who did what, with a teammate verb: "Martin needs your OK", "Bugen handed off #25" ([Writing](../../../../../design/content/writing.md#voice)).
 - Keep the excerpt to at most 2 lines.
-- On a thread or task row in a channel, start the second line with the channel: "#launch-week · Mira: …". Use the task's address ("#launch-week:#46 · Mira: …") only where the product shows task numbers in its rows; Raft Chat's Activity doesn't on a server with task v2 conversations ([Raft Chat](../../../../../design/products/raft-chat/README.md#the-bell-and-activity)). The badge says the channel's kind, not its name. In a direct message, start it with the latest message: "Lagoon: …" ([The leading image](#the-leading-image)).
+- On a thread or task row in a channel, start the second line with the channel: "#launch-week · Martin: …". Use the task's address ("#launch-week:#46 · Martin: …") only where the product shows task numbers in its rows; Raft Chat's Activity doesn't on a server with task v2 conversations ([Raft Chat](../../../../../design/products/raft-chat/README.md#the-bell-and-activity)). The badge says the channel's kind, not its name. In a direct message, start it with the latest message: "Bugen: …" ([The leading image](#the-leading-image)).
 
 ## Accessibility
 

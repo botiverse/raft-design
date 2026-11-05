@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: 3ec5e97c
+sourceHash: 9eb39bd3
 ---
 
 # InboxItem
@@ -128,7 +128,7 @@ activity/compositions/activity-hover-actions
 - 上下文行写事情发生的地方：#launch-week · task #25。
 - 标题写谁做了什么，用队友口吻的动词："Martin needs your OK"、"Bugen handed off #25"（[写作](../../../../../design/content/writing.md#voice)）。
 - 摘录最多 2 行。
-- 在频道里的消息列或任务的行上，第二行以频道开头："#launch-week · Mira: …"。只有在产品的行里显示任务编号时，才用任务的地址（"#launch-week:#46 · Mira: …"）；在开启了 task v2 对话的服务器上，Raft Chat 的动态不显示任务编号（[Raft Chat](../../../../../design/products/raft-chat/README.md#the-bell-and-activity)）。徽标说明的是频道的类型，不是它的名字。在私信里，以最新消息开头："Lagoon: …"（[前置图像](#the-leading-image)）。
+- 在频道里的消息列或任务的行上，第二行以频道开头："#launch-week · Martin: …"。只有在产品的行里显示任务编号时，才用任务的地址（"#launch-week:#46 · Martin: …"）；在开启了 task v2 对话的服务器上，Raft Chat 的动态不显示任务编号（[Raft Chat](../../../../../design/products/raft-chat/README.md#the-bell-and-activity)）。徽标说明的是频道的类型，不是它的名字。在私信里，以最新消息开头："Bugen: …"（[前置图像](#the-leading-image)）。
 
 ## 无障碍 {#accessibility}
 
