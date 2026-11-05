@@ -240,7 +240,9 @@ it("no ResizeObserver loop error, for paragraphs of 30 to 69 words", async () =>
     for (let words = 30; words < 70; words += 3) {
       render(
         <Row>
-          <MarkdownParagraph style={NO_MARGIN}>{Array.from({ length: words }, (_, i) => `word${i}`).join(" ")}</MarkdownParagraph>
+          <MarkdownParagraph style={NO_MARGIN}>
+            {Array.from({ length: words }, (_, i) => `word${i}`).join(" ")}
+          </MarkdownParagraph>
         </Row>,
       );
       await frames();
