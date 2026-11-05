@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: d3265a76
+sourceHash: c66b91d6
 ---
 
 # InboxItem
@@ -34,13 +34,19 @@ activity/compositions/activity-preview
 - `InboxItemContent`：文字列。必需。
   - `InboxItemContext`：事情发生在哪里：频道、任务、计算机。
   - `InboxItemHeading` 加 `InboxItemTitle`：发生了什么，前面可以带一个 14px 的图标。
+    - `InboxItemTimestamp`：时间，放在标题之后，用在带 `InboxItemLine` 的紧凑行里。可选。它在那里能接收鼠标指针，所以不用再包一层就能作为工具提示的触发元素，点击它仍然会打开条目。设了 `reveal="hover"` 时，它静止时隐藏，在这一行被悬停，或它或这一行里的控件持有键盘焦点时，在同一个位置显示。
   - `InboxItemSubtitle`：第二行上下文，比如 "Thread in #launch-week"。
   - `InboxItemBody` 或 `InboxItemMessage`：摘录，以 `InboxItemSender` 开头。
+  - `InboxItemLine`：没有末尾列的紧凑行里摘录的那一行：摘录占满空间，后面是 `InboxItemMarks`。这一行因为它才进入这种布局，两行都占满整个宽度。可选；实验性，来自 `@botiverse/raft-ui/wip`。
   - `InboxItemMetadata`：任务、回复和提及的标签片。
   - `InboxItemHoverTarget`：包住带工具提示的徽标，让鼠标指针能触到它（其余文字会让指针穿透到触发按钮上）。点击它仍然会打开条目。
-- `InboxItemTrailing`：`InboxItemTimestamp`、`InboxItemActions`，以及未读时的提醒圆点。
-  - `InboxItemMarks`：摘录那一行末尾的标记：提及、已静音、未读数。可选。
-- `InboxItemSkeleton`，放在 `InboxItemSkeletonList` 里：列表加载时代替 `InboxItem` 的行（[加载中](#loading)）。可选；实验性，来自 `@botiverse/raft-ui/wip`。
+  - `InboxItemActions`：放在内容的最后，用在带 `InboxItemLine` 的紧凑行里。设了 `reveal="hover"` 时，它在这一行里垂直居中，`InboxItemContent` 让两行都在它前面结束，留出 `--inbox-item-actions-room`（用鼠标时 40px，触屏上 44px）：够放一个按钮。要放更多，在这一行上设这个变量。
+- `InboxItemTrailing`：`InboxItemTimestamp`、`InboxItemActions`，以及未读时的提醒圆点。带 `InboxItemLine` 的紧凑行里不用它。
+  - `InboxItemMarks`：摘录那一行末尾的标记：提及、已静音、未读数。在带 `InboxItemLine` 的紧凑行里放进 `InboxItemLine`。可选。
+    - `InboxItemStatus`：任务的状态，放在标记里。接收 `status`，它的文字作为 `children`。在带 `InboxItemLine` 且行宽不到 360px 的行里，它显示状态的像素点，文字放进工具提示。给它一个 `id`，就能在触发按钮的 `aria-labelledby` 里引用这段文字。可选；实验性，来自 `@botiverse/raft-ui/wip`。
+- `InboxItemListGroup`：一天或一组的标题和它的行，直接放在列表的列里。粘性标题不会离开它的父元素，所以每天一个分组时，下一天的标题会把上一天的推出去。可选；实验性，来自 `@botiverse/raft-ui/wip`。
+  - `InboxItemListHeading`：分组的标题，默认是 `h3`。要让它在行滚动时留在视野里，由列表把它设为粘性并给它列表的表面。可选；实验性，来自 `@botiverse/raft-ui/wip`。
+- `InboxItemSkeleton`，放在 `InboxItemSkeletonList` 里：列表加载时代替 `InboxItem` 的行（[加载中](#loading)）。`line` 对应带 `InboxItemLine` 的紧凑行。可选；实验性，来自 `@botiverse/raft-ui/wip`。
 
 ### 前置图像 {#the-leading-image}
 
@@ -138,6 +144,8 @@ activity/compositions/activity-hover-actions
 - 设了 `reveal="hover"` 的操作在隐藏时仍留在 Tab 键顺序中，焦点一到达这一行或它们本身就会显示。
 - 从键盘发起的跳转落在某个条目上时（比如用 Back 回到打开这个条目的那个列表），把焦点移到它的 `InboxItemTrigger`，而不是这一行（[被定位](../../../../../design/foundations/states.md#located)）：触发按钮本来就是一个能获得焦点、带有条目名称的按钮，这一行会在它周围画出内嵌的环，所以这一行不需要自己的 `tabIndex`。
 - 提醒圆点用 CSS 绘制，不会被朗读。在触发按钮的名称里写上 "unread"，或者加一个视觉上隐藏的词。
+- 设了 `reveal="hover"` 的 `InboxItemTimestamp` 隐藏时不会被朗读。在触发按钮的名称里说出时间。
+- 在窄的行里，`InboxItemStatus` 的文字不在屏幕上。把它的 `id` 加进触发按钮的 `aria-labelledby`：标签会读出它直接引用的隐藏元素。
 - `InboxItemLeadingBadge` 对辅助技术隐藏，图块里的图标也是。在触发按钮的名称里写上 "thread" 或 "task" 以及它在哪里：`aria-label="Open thread in #launch-week"`、`aria-label="Open thread with Lagoon"`。
 - `InboxItemSkeleton` 对辅助技术隐藏。`InboxItemSkeletonList` 不带 `aria-busy`：条目到达时它就消失了，读屏软件永远听不到它加载完。列表加载时，把 `aria-busy` 加在一直留着的容器上，比如 `ActivityInboxPanel`。
 

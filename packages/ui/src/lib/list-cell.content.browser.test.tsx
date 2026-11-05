@@ -13,7 +13,6 @@ import {
   InboxItemContent,
   InboxItemHeading,
   InboxItemLeading,
-  InboxItemLine,
   InboxItemMarks,
   InboxItemSelection,
   InboxItemTimestamp,
@@ -21,6 +20,7 @@ import {
   InboxItemTrailing,
   InboxItemTrigger,
 } from "../components/inbox-item";
+import { InboxItemLine } from "../components/inbox-item/inbox-item";
 import {
   ListRow,
   ListRowBody,
@@ -128,7 +128,7 @@ const cases: Case[] = [
             </InboxItemTitle>
           </InboxItemHeading>
           <InboxItemBody>
-            Kirby: the preview line, also long enough to be truncated at its end
+            Person A: the preview line, also long enough to be truncated at its end
           </InboxItemBody>
         </InboxItemContent>
         <InboxItemTrailing>
@@ -167,7 +167,7 @@ const cases: Case[] = [
           </InboxItemHeading>
           <InboxItemLine>
             <InboxItemBody>
-              Kirby: the preview line, also long enough to be truncated at its end
+              Person A: the preview line, also long enough to be truncated at its end
             </InboxItemBody>
             <InboxItemMarks>
               <SidebarItemIndicator>
@@ -199,7 +199,7 @@ const cases: Case[] = [
           <Hash />
         </InboxItemLeading>
         <InboxItemContent>
-          <InboxItemTitle>Kirby mentioned you</InboxItemTitle>
+          <InboxItemTitle>Person A mentioned you</InboxItemTitle>
         </InboxItemContent>
         <InboxItemTrailing>
           <InboxItemTimestamp>9:41</InboxItemTimestamp>
@@ -263,7 +263,7 @@ const cases: Case[] = [
     row: (props) => (
       <SearchMessageResult data-testid="row" {...props}>
         <SearchMessageResultHeader>
-          <SearchMessageResultSender>Kirby</SearchMessageResultSender>
+          <SearchMessageResultSender>Person A</SearchMessageResultSender>
           <SearchMessageResultTimestamp>Oct 27</SearchMessageResultTimestamp>
         </SearchMessageResultHeader>
         <SearchMessageResultBody>A message that matched</SearchMessageResultBody>

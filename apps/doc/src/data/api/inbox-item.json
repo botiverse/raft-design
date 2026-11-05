@@ -139,34 +139,6 @@
     ]
   },
   {
-    "name": "InboxItemLine",
-    "entry": "@botiverse/raft-ui",
-    "native": true,
-    "props": [
-      {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
-        "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      }
-    ]
-  },
-  {
-    "name": "InboxItemListHeading",
-    "entry": "@botiverse/raft-ui",
-    "native": true,
-    "props": [
-      {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
-        "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      }
-    ]
-  },
-  {
     "name": "InboxItemMarks",
     "entry": "@botiverse/raft-ui",
     "native": true,
@@ -237,26 +209,6 @@
     ]
   },
   {
-    "name": "InboxItemStatus",
-    "entry": "@botiverse/raft-ui",
-    "native": true,
-    "props": [
-      {
-        "name": "children",
-        "type": "string",
-        "required": true,
-        "description": "The status's word. The caller owns the copy and its localization.",
-        "from": "raft-ui"
-      },
-      {
-        "name": "status",
-        "type": "TaskStatusId",
-        "required": true,
-        "from": "raft-ui"
-      }
-    ]
-  },
-  {
     "name": "InboxItemSubtitle",
     "entry": "@botiverse/raft-ui",
     "native": true,
@@ -279,7 +231,7 @@
         "name": "reveal",
         "type": "\"hover\"",
         "required": false,
-        "description": "`hover`, for an older row in a compact list: hidden at rest, so the title takes its room. It shows in the same place, without animation, while the row is hovered or it or a control in it holds keyboard focus; a touch screen never hovers, so there it stays hidden. While hidden it isn't read out: say the time in the trigger's name.",
+        "description": "`hover`, for an older row in a list with `InboxItemLine`: hidden at rest, so the title takes its room. It shows in the same place, without animation, while the row is hovered or it or a control in it holds keyboard focus; a touch screen never hovers, so there it stays hidden. While hidden it isn't read out: say the time in the trigger's name.",
         "from": "raft-ui"
       },
       {
@@ -349,9 +301,71 @@
     ]
   },
   {
+    "name": "InboxItemLine",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "InboxItemListGroup",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "InboxItemListHeading",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "InboxItemStatus",
+    "entry": "@botiverse/raft-ui/wip",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "string",
+        "required": true,
+        "description": "The status's word. The caller owns the copy and its localization.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "status",
+        "type": "TaskStatusId",
+        "required": true,
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
     "name": "InboxItemSkeleton",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "A placeholder for one `InboxItem` while the list loads. It is an `InboxItem` itself, with the same parts as the loaded row (an optional leading block, the context line, the title, the excerpt, the timestamp), each holding a bar instead of text; a compact one has no trailing column, its time at the end of the heading. The padding, the divider and every line's height are the loaded row's, so nothing moves when the content arrives. Match `density`, `leading` and `context` to the rows it stands for. Hidden from assistive technology: mark the region that stays while the list loads `aria-busy`.",
+    "description": "A placeholder for one `InboxItem` while the list loads. It is an `InboxItem` itself, with the same parts as the loaded row (an optional leading block, the context line, the title, the excerpt, the timestamp), each holding a bar instead of text. The padding, the divider and every line's height are the loaded row's, so nothing moves when the content arrives. Match `density`, `leading`, `context` and `line` to the rows it stands for. Hidden from assistive technology: mark the region that stays while the list loads `aria-busy`.",
     "native": true,
     "props": [
       {
@@ -375,6 +389,14 @@
         "required": false,
         "default": "false",
         "description": "A 35px block where the rows have an `InboxItemLeading` avatar or tile.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "line",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "In `density=\"compact\"`, where the rows have an `InboxItemLine`: no trailing column, the time at the end of the heading.",
         "from": "raft-ui"
       },
       {
@@ -427,6 +449,13 @@
         "type": "boolean",
         "required": false,
         "description": "A 35px block where the rows have an `InboxItemLeading` avatar or tile.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "line",
+        "type": "boolean",
+        "required": false,
+        "description": "In `density=\"compact\"`, where the rows have an `InboxItemLine`: no trailing column, the time at the end of the heading.",
         "from": "raft-ui"
       },
       {

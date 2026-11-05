@@ -94,7 +94,7 @@ function LoadedDefault({ context }: { context?: boolean }) {
           </InboxItemTitle>
         </InboxItemHeading>
         <InboxItemBody>
-          <InboxItemSender>Kirby: </InboxItemSender>
+          <InboxItemSender>Person A: </InboxItemSender>
           Shipped.
         </InboxItemBody>
       </InboxItemContent>
@@ -187,16 +187,16 @@ it("a compact skeleton row is as tall as a loaded compact row, with and without 
 it("a compact skeleton row is as tall as a loaded row with the time in its heading", async () => {
   const { loaded, skeleton } = await heightsOf(
     <LoadedCompactFullWidth />,
-    <InboxItemSkeleton density="compact" leading />,
+    <InboxItemSkeleton density="compact" leading line />,
   );
   expect(loaded).toBeGreaterThan(60);
   expect(skeleton).toBe(loaded);
 });
 
-it("a compact skeleton's time ends the heading, at the row's inner padding", async () => {
+it("a compact skeleton with line ends its heading with the time, at the row's inner padding", async () => {
   render(
     <div className="w-[390px]">
-      <InboxItemSkeleton data-testid="row" density="compact" leading />
+      <InboxItemSkeleton data-testid="row" density="compact" leading line />
     </div>,
   );
   const row = screen.getByTestId("row");
@@ -205,8 +205,11 @@ it("a compact skeleton's time ends the heading, at the row's inner padding", asy
   const heading = row.querySelector("[data-slot=inbox-item-heading]")!.getBoundingClientRect();
   expect(row.querySelector("[data-slot=inbox-item-trailing]")).toBeNull();
   expect(row.getBoundingClientRect().right - time.right).toBe(20);
-  expect(time.top).toBeGreaterThanOrEqual(heading.top);
-  expect(time.bottom).toBeLessThanOrEqual(heading.bottom);
+  // On the heading's line. It sits on the title's baseline, so its own box may
+  // reach past the line by a pixel.
+  const timeMiddle = (time.top + time.bottom) / 2;
+  expect(timeMiddle).toBeGreaterThan(heading.top);
+  expect(timeMiddle).toBeLessThan(heading.bottom);
 });
 
 it("a skeleton list is as tall as the loaded list of as many rows: the list gap, no border", async () => {

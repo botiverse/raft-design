@@ -46,8 +46,8 @@ test("every bar sits inside a text slot, so the slot's line height sets the line
   }
 });
 
-test("a compact skeleton has no trailing column: the time ends the heading, the excerpt has its line", () => {
-  render(<InboxItemSkeleton data-testid="row" density="compact" />);
+test("a compact skeleton with line has no trailing column: the time ends the heading", () => {
+  render(<InboxItemSkeleton data-testid="row" density="compact" line />);
   expect(slotsIn(screen.getByTestId("row"))).toEqual([
     "inbox-item-content",
     "inbox-item-heading",
@@ -59,6 +59,13 @@ test("a compact skeleton has no trailing column: the time ends the heading, the 
     "inbox-item-body",
     "skeleton",
   ]);
+});
+
+test("a compact skeleton keeps its trailing column unless it has line", () => {
+  render(<InboxItemSkeleton data-testid="row" density="compact" />);
+  const row = screen.getByTestId("row");
+  expect(row.querySelector("[data-slot=inbox-item-trailing]")).not.toBeNull();
+  expect(row.querySelector("[data-slot=inbox-item-line]")).toBeNull();
 });
 
 test("density and leading follow the rows it stands for", () => {

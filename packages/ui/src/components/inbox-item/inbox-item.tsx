@@ -12,6 +12,7 @@ import { inboxItem } from "./inbox-item.recipe";
 
 const InboxItemDisabledContext = createContext(false);
 const InboxItemDensityContext = createContext<InboxItemDensity | undefined>(undefined);
+const InboxItemHeadingContext = createContext(false);
 
 /** The content lets the pointer through to the trigger; a part that takes it hands its click on. */
 function openItemFrom(event: ReactMouseEvent<HTMLElement>) {
@@ -35,10 +36,10 @@ function openItemFrom(event: ReactMouseEvent<HTMLElement>) {
 
 /**
  * `compact`: one line for the title and one for the excerpt, the row centred
- * on its leading visual (a conversation list). Without `InboxItemTrailing` both
- * lines run the full width: the time at the end of the heading, the marks at
- * the end of `InboxItemLine`. With it, the trailing column is set on the same
- * two lines. Leave it unset for the default two-line rows.
+ * on its leading visual, and the trailing column set on the same two 20px lines
+ * (a conversation list). With `InboxItemLine` in place of the column both lines
+ * run the full width: the time at the end of the heading, the marks at the end
+ * of the line. Leave it unset for the default two-line rows.
  */
 export type InboxItemDensity = "compact";
 
@@ -188,11 +189,16 @@ export function InboxItemHeading({ className, render, ...props }: InboxItemHeadi
     "data-slot": "inbox-item-heading",
     className: itemHeading({ className }),
   };
-  return useRender({
+  const element = useRender({
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
   });
+  return (
+    <InboxItemHeadingContext.Provider value={density === "compact"}>
+      {element}
+    </InboxItemHeadingContext.Provider>
+  );
 }
 
 export type InboxItemTitleProps = useRender.ComponentProps<"div">;
@@ -226,18 +232,18 @@ export function InboxItemTrailing({ className, render, ...props }: InboxItemTrai
 }
 
 /**
- * The time. In a compact row without `InboxItemTrailing`, put it in
- * `InboxItemHeading`, after the title: it takes the pointer there, so it can
+ * The time. In the heading of a compact row it takes the pointer, so it can
  * carry a tooltip, and a click on it still opens the item. A tooltip's trigger
  * replaces `data-slot`, so the heading finds the time by `data-inbox-item-time`.
+ * In `InboxItemTrailing` it does neither and lets the pointer through.
  */
 export type InboxItemTimestampProps = useRender.ComponentProps<"span"> & {
   /**
-   * `hover`, for an older row in a compact list: hidden at rest, so the title
-   * takes its room. It shows in the same place, without animation, while the
-   * row is hovered or it or a control in it holds keyboard focus; a touch screen
-   * never hovers, so there it stays hidden. While hidden it isn't read out: say
-   * the time in the trigger's name.
+   * `hover`, for an older row in a list with `InboxItemLine`: hidden at rest, so
+   * the title takes its room. It shows in the same place, without animation,
+   * while the row is hovered or it or a control in it holds keyboard focus; a
+   * touch screen never hovers, so there it stays hidden. While hidden it isn't
+   * read out: say the time in the trigger's name.
    */
   reveal?: "hover";
 };
@@ -249,15 +255,18 @@ export function InboxItemTimestamp({
   ...props
 }: InboxItemTimestampProps) {
   const density = useContext(InboxItemDensityContext);
+  const inHeading = useContext(InboxItemHeadingContext);
   const { itemTimestamp } = inboxItem({ density, reveal });
   const defaultProps: SlotElementProps<"span"> = {
-    "data-inbox-item-time": "",
+    "data-inbox-item-time": inHeading ? "" : undefined,
     "data-slot": "inbox-item-timestamp",
     className: itemTimestamp({ className }),
-    onClick: (event) => {
-      onClick?.(event);
-      openItemFrom(event);
-    },
+    onClick: inHeading
+      ? (event) => {
+          onClick?.(event);
+          openItemFrom(event);
+        }
+      : onClick,
   };
   return useRender({
     defaultTagName: "span",
@@ -267,9 +276,12 @@ export function InboxItemTimestamp({
 }
 
 /**
- * The excerpt's line in a compact row without `InboxItemTrailing`:
- * `InboxItemBody` or `InboxItemMessage`, taking the room, then `InboxItemMarks`.
- * Marks with nothing in them take no room.
+ * The excerpt's line in a compact row with no trailing column: `InboxItemBody`
+ * or `InboxItemMessage`, taking the room, then `InboxItemMarks`. Marks with
+ * nothing in them take no room. Its presence is what puts the row in this
+ * layout: both lines run the full width, and `InboxItemActions` with
+ * `reveal="hover"`, last in `InboxItemContent`, centres on the row while both
+ * lines end short of it. A row without it stays as it is.
  */
 export type InboxItemLineProps = useRender.ComponentProps<"div">;
 export function InboxItemLine({ className, render, ...props }: InboxItemLineProps) {
@@ -305,11 +317,12 @@ export function InboxItemMarks({ className, render, ...props }: InboxItemMarksPr
 }
 
 /**
- * A task's status in the marks of a compact row without `InboxItemTrailing`.
- * The word is the status chip's, and in a row narrower than 360px the row keeps
- * only the chip's pixel, with the word in a tooltip on it. The row is the size
- * container, so it is the row that is measured, not the window. Pass an `id` to
- * name the word in the trigger's `aria-labelledby`, as it isn't on screen there.
+ * A task's status in `InboxItemMarks`: the chip with its word, and in a row with
+ * `InboxItemLine` narrower than 360px only the chip's pixel, with the word in a
+ * tooltip on it. The row is the size container, so it is the row that is
+ * measured, not the window. Pass an `id` to name the word in the trigger's
+ * `aria-labelledby`, as it isn't on screen there. In a row with a trailing
+ * column it stays the chip with its word.
  */
 export type InboxItemStatusProps = Omit<TaskStatusBadgeProps, "children" | "render" | "size"> & {
   /** The status's word. The caller owns the copy and its localization. */
@@ -343,11 +356,33 @@ export function InboxItemStatus({ children, className, status, ...props }: Inbox
 }
 
 /**
- * A day's or a group's heading among the rows, placed straight in the list's
- * column: it starts on the rows' content line, 8px over the next row's shape
- * with the list's gap, and further from the row above it. An `h3`: render
- * another level if the list's title isn't an `h2`. To keep it in view while its
- * rows scroll, the list makes it sticky and gives it the list's surface.
+ * One day's or one group's heading and rows, placed straight in the list's
+ * column. A sticky heading stays inside its parent, so with one of these per day
+ * the next day's heading pushes the last one up and out. In one shared column
+ * the headings would pile up at the top instead. Rows of a virtualized list,
+ * placed one by one, can't sit in one: there the list has to do this itself.
+ */
+export type InboxItemListGroupProps = useRender.ComponentProps<"div">;
+export function InboxItemListGroup({ className, render, ...props }: InboxItemListGroupProps) {
+  const { itemListGroup } = inboxItem();
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "inbox-item-list-group",
+    className: itemListGroup({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+/**
+ * The heading of an `InboxItemListGroup`: it starts on the rows' content line,
+ * 8px over the first row's shape with the group's gap, and the group holds it
+ * further from the rows above. An `h3`: render another level if the list's title
+ * isn't an `h2`. To keep it in view while its rows scroll, the list makes it
+ * sticky and gives it the list's surface; its box includes its space above and
+ * below, so nothing shows through.
  */
 export type InboxItemListHeadingProps = useRender.ComponentProps<"h3">;
 export function InboxItemListHeading({ className, render, ...props }: InboxItemListHeadingProps) {

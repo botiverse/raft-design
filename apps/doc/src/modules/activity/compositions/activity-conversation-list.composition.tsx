@@ -12,11 +12,8 @@ import {
   InboxItemHeading,
   InboxItemHoverTarget,
   InboxItemLeading,
-  InboxItemLine,
-  InboxItemListHeading,
   InboxItemMarks,
   InboxItemSender,
-  InboxItemStatus,
   InboxItemTimestamp,
   InboxItemTitle,
   InboxItemTrigger,
@@ -27,9 +24,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@botiverse/raft-ui";
-import { InboxItemLeadingBadge } from "@botiverse/raft-ui/wip";
-import { useMediaQuery } from "foxact/use-media-query";
-import { Fragment, useCallback, useState } from "react";
+import {
+  InboxItemLeadingBadge,
+  InboxItemLine,
+  InboxItemListGroup,
+  InboxItemListHeading,
+  InboxItemStatus,
+} from "@botiverse/raft-ui/wip";
+import { useCallback, useState } from "react";
 
 type Conversation = {
   id: string;
@@ -139,7 +141,7 @@ export function ActivityConversationListComposition() {
     <div className="flex w-full max-w-md flex-col gap-0.5 py-2">
       {groups.map((group) =>
         group.conversations.length > 0 ? (
-          <Fragment key={group.heading}>
+          <InboxItemListGroup key={group.heading}>
             <InboxItemListHeading>{group.heading}</InboxItemListHeading>
             {group.conversations.map((conversation) => (
               <ConversationRow
@@ -150,7 +152,7 @@ export function ActivityConversationListComposition() {
                 onDone={handleDone}
               />
             ))}
-          </Fragment>
+          </InboxItemListGroup>
         ) : null,
       )}
     </div>
@@ -170,8 +172,6 @@ function ConversationRow({
 }) {
   const handleOpen = useCallback(() => onOpen(conversation.id), [conversation.id, onOpen]);
   const handleDone = useCallback(() => onDone(conversation.id), [conversation.id, onDone]);
-  // Hover-revealed, the button is ghost. On a touch screen it is always there, so it is outlined.
-  const coarsePointer = useMediaQuery("(pointer: coarse)", false);
   return (
     <InboxItem
       density="compact"
@@ -254,9 +254,20 @@ function ConversationRow({
           </InboxItemMarks>
         </InboxItemLine>
         <InboxItemActions reveal="hover">
+          {/* Hover-revealed it is ghost. On a touch screen it rests in the row, outlined. */}
           <Button
-            variant={coarsePointer ? "outline" : "ghost"}
+            variant="ghost"
             size="icon-md"
+            className="pointer-coarse:hidden"
+            aria-label="Mark as Done"
+            onClick={handleDone}
+          >
+            <Check aria-hidden />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon-md"
+            className="hidden pointer-coarse:inline-flex"
             aria-label="Mark as Done"
             onClick={handleDone}
           >

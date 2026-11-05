@@ -10,7 +10,6 @@ import {
   InboxItemContent,
   InboxItemHeading,
   InboxItemLeading,
-  InboxItemLine,
   InboxItemMarks,
   InboxItemSender,
   InboxItemTimestamp,
@@ -18,7 +17,7 @@ import {
   InboxItemTrigger,
   SidebarItemCount,
 } from "@botiverse/raft-ui";
-import { InboxItemLeadingBadge } from "@botiverse/raft-ui/wip";
+import { InboxItemLeadingBadge, InboxItemLine, InboxItemStatus } from "@botiverse/raft-ui/wip";
 import { useCallback, useState } from "react";
 import type { MouseEvent } from "react";
 
@@ -40,7 +39,7 @@ export function ThreadRowsContent() {
         <InboxItemTrigger
           value="thread:launch-week"
           aria-current={activeId === "thread:launch-week" || undefined}
-          aria-label="Open thread in #launch-week, unread"
+          aria-label="Open thread in #launch-week, unread, 2 minutes ago"
           onClick={handleOpen}
         />
         <InboxItemLeading>
@@ -72,7 +71,7 @@ export function ThreadRowsContent() {
         <InboxItemTrigger
           value="thread:launch-room"
           aria-current={activeId === "thread:launch-room" || undefined}
-          aria-label="Open thread in #launch-room"
+          aria-label="Open thread in #launch-room, 11 minutes ago"
           onClick={handleOpen}
         />
         <InboxItemLeading>
@@ -101,7 +100,7 @@ export function ThreadRowsContent() {
         <InboxItemTrigger
           value="task:launch-week-46"
           aria-current={activeId === "task:launch-week-46" || undefined}
-          aria-label="Open task #46 in #launch-week"
+          aria-label="Open task in #launch-week, in progress, 14 minutes ago"
           onClick={handleOpen}
         />
         <InboxItemLeading>
@@ -122,6 +121,9 @@ export function ThreadRowsContent() {
               #launch-week · <InboxItemSender>Noor: </InboxItemSender>
               Header bar is in, goldens recorded.
             </InboxItemBody>
+            <InboxItemMarks>
+              <InboxItemStatus status="in-progress">In progress</InboxItemStatus>
+            </InboxItemMarks>
           </InboxItemLine>
         </InboxItemContent>
       </InboxItem>
@@ -130,7 +132,7 @@ export function ThreadRowsContent() {
         <InboxItemTrigger
           value="thread:dm-samira"
           aria-current={activeId === "thread:dm-samira" || undefined}
-          aria-label="Open thread with Samira Khan"
+          aria-label="Open thread with Samira Khan, 18 minutes ago"
           onClick={handleOpen}
         />
         <InboxItemLeading>
@@ -155,11 +157,11 @@ export function ThreadRowsContent() {
         </InboxItemContent>
       </InboxItem>
 
-      <InboxItem density="compact" active={activeId === "thread:dm-lagoon"} data-unread>
+      <InboxItem density="compact" active={activeId === "thread:dm-sample"} data-unread>
         <InboxItemTrigger
-          value="thread:dm-lagoon"
-          aria-current={activeId === "thread:dm-lagoon" || undefined}
-          aria-label="Open thread with Noor, unread"
+          value="thread:dm-sample"
+          aria-current={activeId === "thread:dm-sample" || undefined}
+          aria-label="Open thread with Noor, unread, 31 minutes ago"
           onClick={handleOpen}
         />
         <InboxItemLeading>
@@ -191,7 +193,7 @@ export function ThreadRowsContent() {
         <InboxItemTrigger
           value="dm:atlas"
           aria-current={activeId === "dm:atlas" || undefined}
-          aria-label="Open Atlas"
+          aria-label="Open Atlas, 1 hour ago"
           onClick={handleOpen}
         />
         <InboxItemLeading>

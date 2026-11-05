@@ -38,18 +38,19 @@ Which message goes where is in [Choosing a component](../../../../../design/comp
 - `InboxItemContent`: the text column. Required.
   - `InboxItemContext`: where it happened: a channel, a task, a computer.
   - `InboxItemHeading` with `InboxItemTitle`: what happened, with an optional 14px icon before it.
-    - `InboxItemTimestamp`: the time, after the title, in a compact row without `InboxItemTrailing`. Optional. It takes the pointer there, so it can be a tooltip's trigger with no wrapper, and a click on it still opens the item. With `reveal="hover"` it is hidden at rest and shows in the same place while the row is hovered or it or a control in it holds keyboard focus.
+    - `InboxItemTimestamp`: the time, after the title, in a compact row with `InboxItemLine`. Optional. It takes the pointer there, so it can be a tooltip's trigger with no wrapper, and a click on it still opens the item. With `reveal="hover"` it is hidden at rest and shows in the same place while the row is hovered or it or a control in it holds keyboard focus.
   - `InboxItemSubtitle`: a second line of context, such as "Thread in #launch-week".
   - `InboxItemBody` or `InboxItemMessage`: the excerpt, starting with `InboxItemSender`.
-  - `InboxItemLine`: in a compact row without `InboxItemTrailing`, the excerpt's line: the excerpt, which takes the room, then `InboxItemMarks`. Optional.
+  - `InboxItemLine`: the excerpt's line in a compact row with no trailing column: the excerpt, which takes the room, then `InboxItemMarks`. It is what puts the row in this layout, with both lines running the full width. Optional; experimental, from `@botiverse/raft-ui/wip`.
   - `InboxItemMetadata`: chips for the task, replies and mentions.
   - `InboxItemHoverTarget`: wraps a badge that has a tooltip, so the pointer reaches it (the rest of the text lets the pointer through to the trigger). A click on it still opens the item.
-  - `InboxItemActions`: last in the content, in a compact row without `InboxItemTrailing`. With `reveal="hover"` it centers on the row, and `InboxItemContent` ends both lines short of it by `--inbox-item-actions-room` (40px with a mouse, 44px on a touch screen): room for one button. For more, set that variable on the row.
-- `InboxItemTrailing`: `InboxItemTimestamp`, `InboxItemActions` and, while unread, the attention dot. Optional in `density="compact"`: leave it out and both lines run the full width.
-  - `InboxItemMarks`: marks at the end of the excerpt's line: a mention, muted, an unread count. In `InboxItemLine` in a compact row without `InboxItemTrailing`. Optional.
-    - `InboxItemStatus`: a task's status, in the marks of such a row. Its `status` and its word as `children`. In a row narrower than 360px it shows the status's pixel, with the word in a tooltip. Pass it an `id` to name the word in the trigger's `aria-labelledby`.
-- `InboxItemListHeading`: a day's or a group's heading among the rows, an `h3` by default, placed straight in the list's column. Optional. To keep it in view while its rows scroll, the list makes it sticky and gives it the list's surface.
-- `InboxItemSkeleton`, in an `InboxItemSkeletonList`: a row that stands in for an `InboxItem` while the list loads ([Loading](#loading)). Optional; experimental, from `@botiverse/raft-ui/wip`.
+  - `InboxItemActions`: last in the content, in a compact row with `InboxItemLine`. With `reveal="hover"` it centers on the row, and `InboxItemContent` ends both lines short of it by `--inbox-item-actions-room` (40px with a mouse, 44px on a touch screen): room for one button. For more, set that variable on the row.
+- `InboxItemTrailing`: `InboxItemTimestamp`, `InboxItemActions` and, while unread, the attention dot. Left out of a compact row with `InboxItemLine`.
+  - `InboxItemMarks`: marks at the end of the excerpt's line: a mention, muted, an unread count. In `InboxItemLine` in a compact row that has it. Optional.
+    - `InboxItemStatus`: a task's status, in the marks. Its `status` and its word as `children`. In a row with `InboxItemLine` narrower than 360px it shows the status's pixel, with the word in a tooltip. Pass it an `id` to name the word in the trigger's `aria-labelledby`. Optional; experimental, from `@botiverse/raft-ui/wip`.
+- `InboxItemListGroup`: one day's or one group's heading and rows, straight in the list's column. A sticky heading stays inside its parent, so with a group per day the next heading pushes the last one out. Optional; experimental, from `@botiverse/raft-ui/wip`.
+  - `InboxItemListHeading`: the group's heading, an `h3` by default. To keep it in view while its rows scroll, the list makes it sticky and gives it the list's surface. Optional; experimental, from `@botiverse/raft-ui/wip`.
+- `InboxItemSkeleton`, in an `InboxItemSkeletonList`: a row that stands in for an `InboxItem` while the list loads ([Loading](#loading)). `line` matches compact rows with `InboxItemLine`. Optional; experimental, from `@botiverse/raft-ui/wip`.
 
 ### The leading image
 

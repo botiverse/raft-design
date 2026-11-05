@@ -26,6 +26,11 @@ type InboxItemSkeletonShape = {
   leading?: boolean;
   /** A context line above the title, where the rows have an `InboxItemContext`. */
   context?: boolean;
+  /**
+   * In `density="compact"`, where the rows have an `InboxItemLine`: no trailing
+   * column, the time at the end of the heading.
+   */
+  line?: boolean;
 };
 
 export type InboxItemSkeletonProps = Omit<InboxItemProps, "active" | "disabled" | "children"> &
@@ -35,10 +40,10 @@ export type InboxItemSkeletonProps = Omit<InboxItemProps, "active" | "disabled" 
  * A placeholder for one `InboxItem` while the list loads. It is an
  * `InboxItem` itself, with the same parts as the loaded row (an optional
  * leading block, the context line, the title, the excerpt, the timestamp),
- * each holding a bar instead of text; a compact one has no trailing column,
- * its time at the end of the heading. The padding, the divider and every
+ * each holding a bar instead of text. The padding, the divider and every
  * line's height are the loaded row's, so nothing moves when the content
- * arrives. Match `density`, `leading` and `context` to the rows it stands for.
+ * arrives. Match `density`, `leading`, `context` and `line` to the rows it
+ * stands for.
  * Hidden from assistive technology: mark the region that stays while the
  * list loads `aria-busy`.
  */
@@ -46,13 +51,14 @@ export function InboxItemSkeleton({
   density,
   leading = false,
   context = false,
+  line = false,
   ...props
 }: InboxItemSkeletonProps) {
   const slots = inboxItemSkeleton();
   const bar = (width: string) => (
     <Skeleton variant="line" className={slots.bar({ className: width })} />
   );
-  const compact = density === "compact";
+  const fullWidth = line && density === "compact";
   const timestamp = <InboxItemTimestamp>{bar(slots.timestampBar())}</InboxItemTimestamp>;
   const body = <InboxItemBody>{bar(slots.bodyBar())}</InboxItemBody>;
   return (
@@ -77,11 +83,11 @@ export function InboxItemSkeleton({
         ) : null}
         <InboxItemHeading>
           <InboxItemTitle className={slots.title()}>{bar(slots.titleBar())}</InboxItemTitle>
-          {compact ? timestamp : null}
+          {fullWidth ? timestamp : null}
         </InboxItemHeading>
-        {compact ? <InboxItemLine>{body}</InboxItemLine> : body}
+        {fullWidth ? <InboxItemLine>{body}</InboxItemLine> : body}
       </InboxItemContent>
-      {compact ? null : <InboxItemTrailing>{timestamp}</InboxItemTrailing>}
+      {fullWidth ? null : <InboxItemTrailing>{timestamp}</InboxItemTrailing>}
     </InboxItem>
   );
 }
@@ -115,6 +121,7 @@ export function InboxItemSkeletonList({
   density,
   leading,
   context,
+  line,
   children,
   className,
   render,
@@ -129,7 +136,13 @@ export function InboxItemSkeletonList({
     children: shown
       ? (children ??
         Array.from({ length: count }, (_, index) => (
-          <InboxItemSkeleton key={index} density={density} leading={leading} context={context} />
+          <InboxItemSkeleton
+            key={index}
+            density={density}
+            leading={leading}
+            context={context}
+            line={line}
+          />
         )))
       : null,
   };

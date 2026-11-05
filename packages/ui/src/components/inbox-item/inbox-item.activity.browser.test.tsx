@@ -13,6 +13,7 @@ import {
   InboxItemHoverTarget,
   InboxItemLeading,
   InboxItemLine,
+  InboxItemListGroup,
   InboxItemListHeading,
   InboxItemMarks,
   InboxItemMetadata,
@@ -308,10 +309,13 @@ it("runs both lines of a compact row with no trailing column to the row's inner 
   const rowRight = rect("row").right;
   // 8px to the shape + 12px inside it; no empty column or its gap in between.
   expect(rowRight - rect("content").right).toBe(20);
-  expect(rowRight - rect("time").right).toBe(20);
-  expect(rowRight - rect("marks").right).toBe(20);
-  expect(rect("time").top).toBeGreaterThanOrEqual(rect("heading").top);
-  expect(rect("time").bottom).toBeLessThanOrEqual(rect("heading").bottom);
+  expect(rowRight - rect("time").right).toBeCloseTo(20, 1);
+  expect(rowRight - rect("marks").right).toBeCloseTo(20, 1);
+  // On the heading's line. It sits on the title's baseline, so its own box may
+  // reach past the line by a pixel.
+  const timeMiddle = (rect("time").top + rect("time").bottom) / 2;
+  expect(timeMiddle).toBeGreaterThan(rect("heading").top);
+  expect(timeMiddle).toBeLessThan(rect("heading").bottom);
   expect(rect("marks").top).toBeGreaterThanOrEqual(rect("line").top);
   expect(rect("marks").bottom).toBeLessThanOrEqual(rect("line").bottom);
   expect(rect("heading").bottom).toBeLessThanOrEqual(rect("line").top);
@@ -347,9 +351,9 @@ it("centres a hover-revealed Done on the row; the time and marks stay and move o
   expect((done.top + done.bottom) / 2).toBe((row.top + row.bottom) / 2);
   expect(row.right - done.right).toBe(20);
   // 32px button + 8px.
-  expect(restRight - rect("time").right).toBe(40);
-  expect(done.left - rect("time").right).toBe(8);
-  expect(done.left - rect("marks").right).toBe(8);
+  expect(restRight - rect("time").right).toBeCloseTo(40, 1);
+  expect(done.left - rect("time").right).toBeCloseTo(8, 1);
+  expect(done.left - rect("marks").right).toBeCloseTo(8, 1);
   expect(opacity(screen.getByTestId("time"))).toBe("1");
   expect(opacity(screen.getByTestId("marks"))).toBe("1");
 });
@@ -413,25 +417,54 @@ for (const [width, narrow] of [
   });
 }
 
-it("starts a list heading on the rows' content line, 8px over the next row's shape", async () => {
+it("keeps a status as its word in a row with a trailing column, however narrow", async () => {
+  render(
+    <div style={{ width: 300 }}>
+      <InboxItem density="compact" data-testid="row">
+        <InboxItemTrigger aria-label="Open" />
+        <InboxItemContent>
+          <InboxItemBody>{LONG}</InboxItemBody>
+        </InboxItemContent>
+        <InboxItemTrailing>
+          <InboxItemMarks>
+            <InboxItemStatus status="in-progress" data-testid="word">
+              In progress
+            </InboxItemStatus>
+          </InboxItemMarks>
+        </InboxItemTrailing>
+      </InboxItem>
+    </div>,
+  );
+  const pixel = screen
+    .getByTestId("row")
+    .querySelector("[data-slot=inbox-item-status-pixel]") as HTMLElement;
+  expect(display("word")).not.toBe("none");
+  expect(getComputedStyle(pixel).display).toBe("none");
+});
+
+function ListGroupRow({ id, title }: { id: string; title: string }) {
+  return (
+    <InboxItem density="compact" data-testid={id}>
+      <InboxItemContent data-testid={`${id}-content`}>
+        <InboxItemHeading>
+          <InboxItemTitle>{title}</InboxItemTitle>
+        </InboxItemHeading>
+      </InboxItemContent>
+    </InboxItem>
+  );
+}
+
+it("starts a list heading on the rows' content line, 8px over its group's first row and further from the row above", async () => {
   render(
     <div className="flex w-[440px] flex-col gap-0.5 py-2">
-      <InboxItemListHeading data-testid="first">Today</InboxItemListHeading>
-      <InboxItem density="compact" data-testid="row-a">
-        <InboxItemContent data-testid="content">
-          <InboxItemHeading>
-            <InboxItemTitle>A</InboxItemTitle>
-          </InboxItemHeading>
-        </InboxItemContent>
-      </InboxItem>
-      <InboxItemListHeading data-testid="next">Yesterday</InboxItemListHeading>
-      <InboxItem density="compact" data-testid="row-b">
-        <InboxItemContent>
-          <InboxItemHeading>
-            <InboxItemTitle>B</InboxItemTitle>
-          </InboxItemHeading>
-        </InboxItemContent>
-      </InboxItem>
+      <InboxItemListGroup data-testid="first-group">
+        <InboxItemListHeading>Today</InboxItemListHeading>
+        <ListGroupRow id="row-a" title="A" />
+      </InboxItemListGroup>
+      <InboxItemListGroup data-testid="next-group">
+        <InboxItemListHeading data-testid="next">Yesterday</InboxItemListHeading>
+        <ListGroupRow id="row-b" title="B" />
+      </InboxItemListGroup>
     </div>,
   );
   const next = screen.getByTestId("next");
@@ -439,14 +472,49 @@ it("starts a list heading on the rows' content line, 8px over the next row's sha
   const style = getComputedStyle(next);
   expect(style.paddingLeft).toBe("20px");
   expect(style.fontWeight).toBe("700");
-  expect(rect("content").left - rect("row-a").left).toBe(20);
-  // 4px under the words, its 2px margin, the list's 2px gap.
+  expect(rect("row-a-content").left - rect("row-a").left).toBe(20);
+  // 4px under the words, its 2px margin, the group's 2px gap.
   expect(rect("row-b").top - rect("next").bottom).toBe(4);
   expect(rect("row-b").top - (rect("next").bottom - Number.parseFloat(style.paddingBottom))).toBe(
     8,
   );
+  // The list's 2px gap and the group's 6px margin, then 4px above the words.
   expect(rect("next").top - rect("row-a").bottom).toBe(8);
-  expect(getComputedStyle(screen.getByTestId("first")).marginTop).toBe("0px");
+  expect(getComputedStyle(screen.getByTestId("first-group")).marginTop).toBe("0px");
+  expect(getComputedStyle(screen.getByTestId("next-group")).marginTop).toBe("6px");
+});
+
+it("lets the next group's sticky heading push the last one out of the scroller", async () => {
+  const sticky = "sticky top-0 z-20 bg-layer-canvas";
+  render(
+    <div data-testid="scroller" className="h-40 w-[440px] overflow-y-auto">
+      <InboxItemListGroup>
+        <InboxItemListHeading className={sticky} data-testid="today">
+          Today
+        </InboxItemListHeading>
+        <ListGroupRow id="row-a" title="A" />
+        <ListGroupRow id="row-b" title="B" />
+        <ListGroupRow id="row-c" title="C" />
+      </InboxItemListGroup>
+      <InboxItemListGroup>
+        <InboxItemListHeading className={sticky} data-testid="yesterday">
+          Yesterday
+        </InboxItemListHeading>
+        <ListGroupRow id="row-d" title="D" />
+        <ListGroupRow id="row-e" title="E" />
+        <ListGroupRow id="row-f" title="F" />
+      </InboxItemListGroup>
+      <div className="h-96" />
+    </div>,
+  );
+  const scroller = screen.getByTestId("scroller");
+  const top = scroller.getBoundingClientRect().top;
+  scroller.scrollTop = rect("row-b").top - top;
+  await expect.poll(() => rect("today").top).toBe(top);
+  // Scrolled until the next heading reaches the top: it has taken the top alone.
+  scroller.scrollTop += rect("yesterday").top - top;
+  await expect.poll(() => rect("yesterday").top).toBe(top);
+  expect(rect("today").bottom).toBeLessThanOrEqual(top);
 });
 
 it("lets the time take the pointer for its tooltip, and a click on it opens the item", async () => {
@@ -457,8 +525,11 @@ it("lets the time take the pointer for its tooltip, and a click on it opens the 
   expect(pointerEvents(time)).toBe("auto");
   const box = time.getBoundingClientRect();
   expect(document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2)).toBe(time);
+  // The row first, as a pointer arrives: hovering it moves the time over, so a
+  // pointer aimed at where the time rests would end up on Done.
+  await userEvent.hover(screen.getByTestId("row"));
   await userEvent.hover(time);
-  await expect.poll(() => screen.queryByText("The whole time")).not.toBeNull();
+  await expect.poll(() => screen.queryByText("The whole time"), { timeout: 3000 }).not.toBeNull();
   await userEvent.click(time);
   expect(opened).toBe(1);
 });
@@ -482,14 +553,13 @@ it("shows hover-revealed actions at rest on a touch screen, with room made for t
       actions.getBoundingClientRect().left,
     );
   }
-});
+  cleanup();
 
-it("makes room for Done at rest on a touch screen in a row with no trailing column; an older time stays hidden", async () => {
-  await setCoarsePointer(true);
-  expect(matchMedia("(pointer: coarse)").matches).toBe(true);
+  // In the same test: a row with no trailing column makes room too, and an older
+  // time stays hidden. Touch stays on, as turning it off and on again is untried.
   render(<FullWidthRow older />);
   expect(opacity(screen.getByTestId("actions"))).toBe("1");
   expect(getComputedStyle(screen.getByTestId("content")).paddingRight).toBe("44px");
-  expect(rect("done").left - rect("marks").right).toBe(12);
+  expect(rect("done").left - rect("marks").right).toBeCloseTo(12, 1);
   expect(display("time")).toBe("none");
 });

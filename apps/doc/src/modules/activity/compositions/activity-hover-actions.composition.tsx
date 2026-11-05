@@ -19,7 +19,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@botiverse/raft-ui";
-import { useMediaQuery } from "foxact/use-media-query";
 import { useCallback, useState } from "react";
 
 import { ACTIVITY_COMPOSITION_ITEMS } from "../activity.fixtures.ts";
@@ -72,8 +71,6 @@ function ActivityHoverRow({
   const Icon = item.kind === "thread" ? MessageSquare : item.channelKind === "dm" ? AtSign : Hash;
   const handleOpen = useCallback(() => onOpen(item.id), [item.id, onOpen]);
   const handleDone = useCallback(() => onDone(item.id), [item.id, onDone]);
-  // Hover-revealed, the button is ghost. On a touch screen it is always there, so it is outlined.
-  const coarsePointer = useMediaQuery("(pointer: coarse)", false);
   return (
     <InboxItem active={active} data-unread={item.unreadCount > 0 || undefined}>
       <InboxItemTrigger
@@ -127,9 +124,20 @@ function ActivityHoverRow({
       <InboxItemTrailing>
         <InboxItemTimestamp>{item.timestamp}</InboxItemTimestamp>
         <InboxItemActions reveal="hover">
+          {/* Hover-revealed it is ghost. On a touch screen it rests in the row, outlined. */}
           <Button
-            variant={coarsePointer ? "outline" : "ghost"}
+            variant="ghost"
             size="icon-md"
+            className="pointer-coarse:hidden"
+            aria-label="Mark as Done"
+            onClick={handleDone}
+          >
+            <Check aria-hidden />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon-md"
+            className="hidden pointer-coarse:inline-flex"
             aria-label="Mark as Done"
             onClick={handleDone}
           >

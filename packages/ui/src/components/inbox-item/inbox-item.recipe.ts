@@ -77,13 +77,12 @@ export const inboxItem = tv({
       "has-[>[data-reveal=hover]_[data-popup-open]]:[--inbox-item-revealed:1]",
     ],
     // A row's width less its 40px of inline padding is what a container query
-    // sees, so 320px here is a row narrower than 360px.
+    // sees, so 320px here is a row narrower than 360px. With no row to query
+    // the word stays and the pixel stays hidden.
     itemStatusWord: ["shrink-0 @max-[320px]:hidden"],
-    itemStatusPixel: ["inline-flex items-center @min-[320px]:hidden"],
-    itemListHeading: [
-      "mt-1.5 mb-0.5 px-5 py-1 first:mt-0",
-      "font-sans text-footnote font-bold text-foreground-hint",
-    ],
+    itemStatusPixel: ["hidden items-center @max-[320px]:inline-flex"],
+    itemListGroup: ["flex flex-col gap-0.5", "mt-1.5 first:mt-0"],
+    itemListHeading: ["mb-0.5 px-5 py-1", "font-sans text-footnote font-bold text-foreground-hint"],
     itemMarks: ["flex h-5 shrink-0 items-center justify-end gap-1.5", "text-foreground-hint"],
     itemHoverTarget: ["pointer-events-auto"],
     itemTimestamp: [
@@ -130,13 +129,15 @@ export const inboxItem = tv({
       compact: {
         item: [
           "items-center",
-          "not-has-data-[slot=inbox-item-trailing]:@container",
-          "not-has-data-[slot=inbox-item-trailing]:[--inbox-item-content-end:-1]",
-          "pointer-fine:[:hover,:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
-          "pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
-          "hover:[--inbox-item-time-display:inline] keyboard:focus-within:[--inbox-item-time-display:inline]",
+          "has-data-[slot=inbox-item-line]:@container",
+          "has-data-[slot=inbox-item-line]:[--inbox-item-content-end:-1]",
+          "has-data-[slot=inbox-item-line]:pointer-fine:[:hover,:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
+          "has-data-[slot=inbox-item-line]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
+          "has-data-[slot=inbox-item-line]:hover:[--inbox-item-time-display:inline] has-data-[slot=inbox-item-line]:keyboard:focus-within:[--inbox-item-time-display:inline]",
         ],
-        itemContent: ["has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)"],
+        itemContent: [
+          "has-[>[data-slot=inbox-item-line]]:has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)",
+        ],
         itemHeading: [
           "has-[>[data-inbox-item-time]]:h-(--text-subhead--line-height) has-[>[data-inbox-item-time]]:items-baseline",
           "*:data-inbox-item-time:pointer-events-auto *:data-inbox-item-time:cursor-default",
