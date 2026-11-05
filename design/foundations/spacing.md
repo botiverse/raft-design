@@ -101,8 +101,38 @@ Someone moving between an app's tabs compares what they see. Two lists that look
 control
 ```
 
+
 - Make the rail header a 56px square. It holds the workspace tile, and the top-left corner stays square whatever else changes. So the rail is 56px wide plus its seam and shows icons only: a labeled rail needs 68px to fit names such as Computers, and its corner would no longer be square.
 - When the desktop window is shorter than 600px (`@media (max-height: 600px)`), shrink every 56px header to 48px together. The rail shrinks with them, its header stays square, and rail items shrink from 40px to 36px; see [Responsive layout](../patterns/responsive.md).
+
+### The size chain
+
+The sizes that follow the control are written as one chain in the token layer, so a change to one step moves every size built on it, and each step changes in one place:
+
+- **Air** (`control-air`, 6px): between a label, its control and its help, and around a control in a bar.
+- **Header** (`header-height`): the control height plus the header air (`header-air`) above and below. Every header reads it: a panel, sidebar, thread or rail head, a dialog's bar, a drawer's head, the Tasks filter row. In a window shorter than 600px, `header-height-short`.
+- **Bar button** (`bar-button-size`, `bar-button-radius`): an icon button in a bar, a head's actions and its ×, the composer's icons. Its hit area reaches 44px whatever its size.
+- **Frame item** (`frame-item-height`): the top bar's and the title bar's buttons, the workspace button and the search box.
+- **Switch** (`switch-width`, `switch-height`): the track; the knob is the height less 8px and travels the width less the height.
+- **Rows** (`row-height`, `option-height`): a sidebar row from 768px, and an option of a popup list or a menu item.
+- **Forms** (`field-gap`, `section-gap`, `settings-row-inset`, `page-inset`): two airs between fields and around a settings row's tallest part, the gap between two form sections, the block inset of a drawer's body.
+- **Rail** (`rail-width`, `rail-item`): the rail has its own size; it no longer follows the header.
+
+A component reads these tokens and never writes the number.
+
+```tokens
+header
+```
+
+```tokens
+bar-button
+```
+
+```tokens
+switch
+```
+
+The chain switches at the root (`:root` and `.light`, under the desktop query). A subtree that sets its own `--control-height` changes that control only: the header, the bar buttons and the other steps were already worked out at the root, so they don't follow it.
 
 ## Avatar sizes
 

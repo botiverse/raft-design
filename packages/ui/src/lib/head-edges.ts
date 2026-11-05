@@ -47,3 +47,37 @@ export const listColumnMargin = "[--column-margin:20px]";
  */
 export const controlIconInset =
   "[--icon-inset:calc((var(--control-height)-var(--control-icon-size))/2)]";
+
+/**
+ * The inset of a bar button (a PanelAction, a head's x, a composer icon):
+ * the same arithmetic on `bar-button-size`, which is the control height
+ * until a bar sets its own step.
+ */
+export const barIconInset =
+  "[--icon-inset:calc((var(--bar-button-size)-var(--control-icon-size))/2)]";
+
+/**
+ * A bar button's hit area: past each side by what it lacks of a 44px
+ * control target (the control height plus its hit inset), plus the 1.5px
+ * border an overhanging ::after is measured from.
+ */
+export const barButtonHit =
+  "after:absolute after:-inset-[calc((var(--control-height)+2*var(--control-hit-inset)-var(--bar-button-size))/2+1.5px)]";
+
+/** A Button drawn as a bar button: the size, the corner, the hit area and the inset. */
+export const barButton = [
+  "size-(--bar-button-size) rounded-(--bar-button-radius)",
+  barButtonHit,
+  barIconInset,
+];
+
+/**
+ * The same from 768px with a mouse or trackpad only, for a bar button that is
+ * a 32px `icon-md` on a phone (a dialog's x, the composer's icons): its size,
+ * hit area and inset; the corner stays the caller's.
+ */
+export const barButtonDesktop = [
+  "md:pointer-fine:size-(--bar-button-size)",
+  "md:pointer-fine:after:-inset-[calc((var(--control-height)+2*var(--control-hit-inset)-var(--bar-button-size))/2+1.5px)]",
+  "md:pointer-fine:[--icon-inset:calc((var(--bar-button-size)-var(--control-icon-size))/2)]",
+];

@@ -1,4 +1,5 @@
 import { tv } from "../../lib/tv";
+import { barButtonDesktop } from "../../lib/head-edges";
 
 export const composer = tv({
   slots: {
@@ -22,11 +23,13 @@ export const composer = tv({
     toolbar: [
       "flex items-center justify-between",
       "mx-[calc(var(--control-embedded-inset)-0.75rem-1px)] gap-embedded-inset",
+      "md:pointer-fine:mx-[calc((var(--control-icon-size)-var(--bar-button-size))/2)]",
     ],
     actions: ["flex items-center gap-embedded-inset"],
     meta: ["flex items-center", "gap-embedded-inset"],
     iconButton: [
       "size-8 rounded-chip text-foreground-muted",
+      barButtonDesktop,
       "disabled:border-transparent disabled:bg-transparent",
       "aria-disabled:border-transparent aria-disabled:bg-transparent",
       "[&_svg:not([class*='size-'])]:size-4.5",

@@ -1,3 +1,4 @@
+import { barButton } from "../../lib/head-edges";
 import { tv } from "../../lib/tv";
 import { panelHeadEdges } from "../panel/panel-header.recipe";
 
@@ -114,6 +115,7 @@ export const drawer = tv({
       "before:rounded-full before:bg-line-seam",
     ],
     close: ["shrink-0"],
+    closeButton: [barButton],
     closeIcon: ["size-control-icon"],
     header: ["flex flex-col", "items-stretch gap-1 px-4 pt-4 pb-2 text-left"],
     body: ["flex flex-1 flex-col", "items-stretch px-4 pt-2 pb-4 text-left"],
@@ -169,11 +171,11 @@ export const drawer = tv({
           "before:w-1 before:h-9",
         ],
         header: [
-          "min-h-14 shrink-0 flex-row items-center justify-between gap-2 py-0 text-left",
+          "min-h-(--header-height) shrink-0 flex-row items-center justify-between gap-2 py-0 text-left",
           "border-b border-line-seam",
           panelHeadEdges,
         ],
-        body: ["items-stretch text-left", "min-h-0 overflow-y-auto px-5 py-4"],
+        body: ["items-stretch text-left", "min-h-0 overflow-y-auto px-5 py-(--page-inset)"],
         footer: ["border-t border-line-seam px-5 py-3"],
         title: ["min-w-0 max-w-none flex-1 text-left"],
         description: ["max-w-none text-left"],

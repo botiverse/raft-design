@@ -26,7 +26,7 @@ const appShell = tv({
       "flex min-h-0 w-full overflow-visible md:overflow-clip",
       "max-md:flex-col max-md:pt-[env(safe-area-inset-top,0px)]",
       "font-sans",
-      "[--shell-header-height:56px] [@media(max-height:600px)]:[--shell-header-height:48px]",
+      "[--shell-header-height:var(--header-height)] [@media(max-height:600px)]:[--shell-header-height:var(--header-height-short)]",
       "bg-layer-canvas text-foreground",
     ],
     railSlot: ["hidden h-full shrink-0 flex-col md:flex"],

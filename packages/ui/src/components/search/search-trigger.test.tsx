@@ -27,7 +27,7 @@ test("a button drawn as the top bar's search field", () => {
   expect(trigger.getAttribute("data-slot")).toBe("search-trigger");
   expect(classes(trigger)).toEqual(
     expect.arrayContaining([
-      "h-9",
+      "h-(--frame-item-height)",
       "w-[clamp(360px,32vw,520px)]",
       "border-[1.5px]",
       "border-line-field",

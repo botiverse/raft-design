@@ -78,7 +78,7 @@ export const listRow = tv({
       // without a description: a setting reads as one unit, and its controls
       // belong to the row, not to the title (Alignment: a control and its
       // label).
-      plain: { root: "[--list-row-rule-start:16px]" },
+      plain: { root: "py-(--settings-row-inset) [--list-row-rule-start:16px]" },
       // A shortcut into another page (Search, Activity, Saved): a 20px icon and
       // a name, 48 tall. A group of them is a set of buttons, so no lines.
       entry: { root: "" },

@@ -73,17 +73,19 @@ describe("on-frame", () => {
 
   test("a 32px icon button is the 36px frame item with a 20px icon", () => {
     const names = renderButton({ variant: "on-frame", size: "icon-md" });
-    expect(names).toContain("size-9");
+    expect(names).toContain("size-(--frame-item-height)");
     expect(names).not.toContain("size-8");
     expect(names).toContain("[&_svg:not([class*='size-'])]:size-5");
     expect(names).not.toContain("[&_svg:not([class*='size-'])]:size-[18px]");
-    expect(names).toContain("after:-inset-[calc(--spacing(1)+1.5px)]");
+    expect(names).toContain("after:-inset-[calc((44px-var(--frame-item-height))/2+1.5px)]");
     expect(names).not.toContain("after:-inset-[calc(--spacing(1.5)+1.5px)]");
   });
 
   test("a text button is the top bar's 36px item: 15/20 700, 10px each side", () => {
     const names = renderButton({ variant: "on-frame", size: "md" });
-    expect(names).toEqual(expect.arrayContaining(["h-9", "px-2.5", "text-subhead", "font-bold"]));
+    expect(names).toEqual(
+      expect.arrayContaining(["h-(--frame-item-height)", "px-2.5", "text-subhead", "font-bold"]),
+    );
     expect(names).not.toContain("h-8");
     expect(names).not.toContain("px-3");
     expect(names).not.toContain("text-footnote");

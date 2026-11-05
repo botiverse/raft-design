@@ -74,7 +74,10 @@ export const dialogSheet = tv({
       "data-starting-style:opacity-0 data-ending-style:opacity-0",
       "motion-reduce:transition-none",
     ],
-    header: ["flex h-14 shrink-0 items-center gap-2 px-4 pt-0", "border-b border-line-seam"],
+    header: [
+      "flex h-(--header-height) shrink-0 items-center gap-2 px-4 pt-0",
+      "border-b border-line-seam",
+    ],
     title: ["min-w-0 flex-1 truncate"],
     commitSlot: ["flex shrink-0 items-center empty:hidden"],
     body: [

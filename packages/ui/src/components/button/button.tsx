@@ -179,21 +179,23 @@ export const buttonVariants = tv({
       size: ["icon-xs", "icon-sm", "icon-md"],
       class: { root: "[--icon-inset:calc((--spacing(8)-18px)/2)]" },
     },
-    // On the frame the 32px controls are the 36px frame item of the top bar
+    // On the frame the 32px controls are the frame item (`frame-item-height`, 36px) of the top bar
     // and title bar (DS `rf-topbar__ws`: 15/20 700, 10px each side), with a
     // 20px icon; the hit area still reaches 44.
     {
       variant: "on-frame",
       size: ["xs", "sm", "md"],
-      class: { root: "h-9 px-2.5 text-subhead after:-inset-y-[calc(--spacing(1)+1.5px)]" },
+      class: {
+        root: "h-(--frame-item-height) px-2.5 text-subhead after:-inset-y-[calc((44px-var(--frame-item-height))/2+1.5px)]",
+      },
     },
     {
       variant: "on-frame",
       size: ["icon-xs", "icon-sm", "icon-md"],
       class: {
         root: [
-          "size-9 after:-inset-[calc(--spacing(1)+1.5px)] [&_svg:not([class*='size-'])]:size-5",
-          "[--icon-inset:calc((--spacing(9)-20px)/2)]",
+          "size-(--frame-item-height) after:-inset-[calc((44px-var(--frame-item-height))/2+1.5px)] [&_svg:not([class*='size-'])]:size-5",
+          "[--icon-inset:calc((var(--frame-item-height)-20px)/2)]",
         ],
       },
     },
