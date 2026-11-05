@@ -3,6 +3,7 @@ import { afterAll, afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { useState } from "react";
 import { Button } from "../button/button";
+import { Field, FieldLabel } from "../field/field";
 import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from "../popover/popover";
 import { ChoiceList } from "./choice-list";
 import type { ChoiceListItem } from "./choice-list";
@@ -320,6 +321,109 @@ it("items that load late never take focus from a field people are in", async () 
   screen.getByRole("button", { name: "Load" }).click();
   await waitFor(() => expect(screen.getByRole("searchbox")).toBeTruthy());
   expect(document.activeElement).toBe(name);
+});
+
+// The rows run edge to edge in the frame (choice-list.md, "States"): a row's
+// box is where its hover fill paints, so it has to meet the frame's border on
+// both sides, the first row at the top and the last at the bottom, with no
+// space between rows, and the frame clips the fill to its rounded corners.
+// Numbers only go to expect: a DOM node in a failing assertion is serialised
+// whole.
+function frameInner() {
+  const frame = document.querySelector("[data-slot=choice-list-frame]") as HTMLElement;
+  const box = frame.getBoundingClientRect();
+  return {
+    top: box.top + frame.clientTop,
+    left: box.left + frame.clientLeft,
+    right: box.left + frame.clientLeft + frame.clientWidth,
+    bottom: box.top + frame.clientTop + frame.clientHeight,
+    overflow: getComputedStyle(frame).overflow,
+    radius: parseFloat(getComputedStyle(frame).borderTopLeftRadius),
+  };
+}
+
+function rowBoxes() {
+  return [...document.querySelectorAll<HTMLElement>("[data-slot=choice-list-item]")].map(
+    (element) => {
+      const box = element.getBoundingClientRect();
+      const style = getComputedStyle(element);
+      const rule = getComputedStyle(element, "::before");
+      return {
+        top: box.top,
+        left: box.left,
+        right: box.right,
+        bottom: box.bottom,
+        height: box.height,
+        radius: parseFloat(style.borderTopLeftRadius),
+        ruled: rule.display !== "none" && parseFloat(rule.borderTopWidth) === 1,
+      };
+    },
+  );
+}
+
+function expectFlushRows() {
+  const inner = frameInner();
+  const rows = rowBoxes();
+  expect(rows.length).toBeGreaterThan(2);
+  expect(inner.overflow).toBe("hidden");
+  expect(inner.radius).toBeGreaterThan(0);
+  expect(rows[0]!.top).toBeCloseTo(inner.top, 1);
+  expect(rows.at(-1)!.bottom).toBeCloseTo(inner.bottom, 1);
+  rows.forEach((row, index) => {
+    expect(row.left).toBeCloseTo(inner.left, 1);
+    expect(row.right).toBeCloseTo(inner.right, 1);
+    expect(row.radius).toBe(0);
+    expect(row.ruled).toBe(index > 0);
+    if (index > 0) expect(row.top).toBeCloseTo(rows[index - 1]!.bottom, 1);
+  });
+  return rows;
+}
+
+const SERVERS: ChoiceListItem[] = [
+  { value: "a", label: "cindy-test", description: "/cindy-test", media: <span>C</span> },
+  { value: "b", label: "cindy-zero", description: "/cindy-zero · Needs approval" },
+  { value: "c", label: "cinoyue", description: "/cinoyue", media: <span>C</span> },
+  { value: "d", label: "full-server", description: "No slot left", disabled: true },
+];
+const CHOSEN_SERVERS = ["a", "c"];
+
+it("multiple, in a Field: each row's fill meets the frame's border, and the rows touch, evenly divided", async () => {
+  const { userEvent } = await context();
+  render(
+    <div style={{ width: 400 }}>
+      <Field>
+        <FieldLabel id="servers">Your servers</FieldLabel>
+        <ChoiceList
+          multiple
+          aria-labelledby="servers"
+          searchLabel="Search servers"
+          clearSearchLabel="Clear search"
+          items={SERVERS}
+          value={CHOSEN_SERVERS}
+          onValueChange={ignore}
+        />
+      </Field>
+    </div>,
+  );
+  const rows = expectFlushRows();
+  // Same content, same height: a row's height is its own, never a margin's.
+  for (const row of rows) expect(row.height).toBeCloseTo(rows[0]!.height, 1);
+  for (const name of ["cindy-test", "cindy-zero", "cinoyue"]) {
+    const label = screen.getByRole("checkbox", { name }).closest("label") as HTMLElement;
+    await userEvent.hover(label);
+    expect(getComputedStyle(label).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+  }
+  const disabled = screen.getByRole("checkbox", { name: "full-server" }).closest("label")!;
+  await userEvent.hover(disabled);
+  expect(getComputedStyle(disabled).backgroundColor).toBe("rgba(0, 0, 0, 0)");
+});
+
+it("single, with the search on and with actions: the rows still meet the frame and touch", () => {
+  render(<Picker items={makeItems(NAMES.slice(0, 6))} />);
+  screen.getByRole("searchbox");
+  const rows = expectFlushRows();
+  const oneLine = rows.filter((_, index) => index !== 1);
+  for (const row of oneLine) expect(row.height).toBeCloseTo(36, 1);
 });
 
 // Touch from here on (see useCoarsePointer).
