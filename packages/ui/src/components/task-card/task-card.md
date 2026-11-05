@@ -67,7 +67,7 @@ task-card/compositions/task-status-select
 - Write the title in sentence case, as a verb and its object: "Polish the onboarding flow".
 - Show the channel only where tasks from several places are listed together, such as a product's task page. In a place's own Tasks view every task belongs to that place, so leave it out.
 - Set the channel and the number in Space Mono; the parts do this.
-- Spell the statuses Backlog, Todo, In Progress, Done and Closed ([Writing](../../../../../design/content/writing.md#voice)).
+- Spell the statuses Backlog, Todo, In progress, Done and Closed ([Writing](../../../../../design/content/writing.md#voice)).
 
 ## Accessibility
 

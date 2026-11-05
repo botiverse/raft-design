@@ -1,7 +1,7 @@
 ---
 title: MobileNav
 summary: 手机的标签栏：一级页面底部最多 5 个目的地，选中那一项的图标放在一张黄色贴纸里。
-sourceHash: 488c9599
+sourceHash: df8110c2
 ---
 
 # MobileNav
@@ -93,7 +93,7 @@ mobile-nav/compositions/server-tab
 
 ## 内容 {#content}
 
-- 每一项都要有标签，用 Title Case（[字体排印](../../../../../design/foundations/typography.md#casing)）。标签最多 8 个拉丁字母或 4 个汉字，这样 5 项能放进 320px；更长的会被截断。服务器标签的标签是服务器的名称，由人自己起：它会被截断，旁边的头像仍然能区分各个服务器。
+- 每一项都要有标签，用 sentence case（[字体排印](../../../../../design/foundations/typography.md#casing)）。标签最多 8 个拉丁字母或 4 个汉字，这样 5 项能放进 320px；更长的会被截断。服务器标签的标签是服务器的名称，由人自己起：它会被截断，旁边的头像仍然能区分各个服务器。
 - 哪些项可以显示提醒圆点，由产品决定。其他新消息改在页面里说。
 - 标签栏上显示圆点，从不显示数量：数量放在页面里，挨着它所计数的东西。
 - 只有其他服务器有未读内容时，才给服务器标签加圆点，这和同样的头像加圆点在主页 [WorkspaceButton](../workspace-button/workspace-button.md) 上的含义相同。服务器自己的某个页面有新东西时，圆点放在弹出层里那个页面的按钮上，即 `MobileNavServerPopoverDestination` 里的一个 `accent` `Status`，从不放在头像上。

@@ -29,7 +29,7 @@ system-message/compositions/task-thread
 An event line isn't a message: nobody wrote it, so it has no avatar or name. It is set in Space Mono, centered between hairlines.
 
 - Name who did it, the verb and the item, in that order.
-- Use the task's statuses as they are spelled: moved #25 to In Progress.
+- Use the task's statuses as they are spelled: moved #25 to In progress.
 - Write event lines without a leading emoji: emoji are content, not icons ([Iconography](../foundations/iconography.md)). The product's server still writes a pin, a lock or a status emoji at the start of task lines ("claimed", "released", "moved"); the system drops it.
 
 ## Handing off
@@ -40,7 +40,7 @@ A hand-off is one of the moves a task already has. There is no separate hand-off
 | --- | --- | --- |
 | Give the task to someone else | Assign it to them | "Martin assigned #25 "Fix onboarding copy" to Wug" |
 | Let it go | Release it; it goes back to unclaimed | "Bugen released #25 "Fix onboarding copy"" |
-| Ask for a decision or a look | Assign it to them, keep it In Progress, and say in the task's discussion exactly what is needed | "Bugen assigned #25 "Fix onboarding copy" to Martin" |
+| Ask for a decision or a look | Assign it to them, keep it In progress, and say in the task's discussion exactly what is needed | "Bugen assigned #25 "Fix onboarding copy" to Martin" |
 
 - Agents move their own finished work to Done and send the result to the person who asked, where they asked. They give a task to a person only when that person asked to see it first or the task is blocked on their decision or input: a task on a person is waiting on them. This is what the Raft agent guide tells every agent. The product doesn't enforce it: any status can be set from any status, by people and agents ([Tasks](../patterns/tasks.md#rules)).
 - Mention the person who has to act next. A mention reaches only people in the place, so the person has to be a member of it.
@@ -54,7 +54,7 @@ A task's discussion is followed exactly as a thread is. Following is what puts i
 | --- | --- |
 | The person or agent who created the task | Follows it |
 | Someone who writes in its discussion, or is mentioned there | Follows it |
-| Anyone, by hand | Follow Task and Unfollow Task, from the More menu in the task details' bar: the same place, icons and command as Follow Thread in a thread's header ([Threads](../patterns/conversation.md#threads)) |
+| Anyone, by hand | Follow task and Unfollow task, from the More menu in the task details' bar: the same place, icons and command as Follow thread in a thread's header ([Threads](../patterns/conversation.md#threads)) |
 | The person or agent the task is assigned to | Is notified once, through a mention in the assignment's event line; an agent is woken. Being assigned doesn't make them follow it |
 | Someone who claims a task for themselves, or a task that loses its assignee | Nobody is notified |
 | The sender of the message the task came from | Is never notified of the task's discussion because of it |
@@ -80,15 +80,15 @@ The product ships these actions:
 
 | Action | Confirm button | What the button does |
 | --- | --- | --- |
-| Create a channel | Create Channel | Opens Create Channel with the agent's values filled in |
-| Create an agent | Create Agent | Opens Create Agent with the agent's values filled in |
-| Add members to a channel | Add Members | Opens Add Members with the agent's choice filled in |
-| Let an agent sign in to an app | Approve Login | Runs the action |
-| Install a Marketplace app for an agent | Install App | Runs the action |
-| Register an app, update it, recover its owner | Register App, Update App, Recover Owner | Runs the action |
+| Create a channel | Create channel | Opens Create channel with the agent's values filled in |
+| Create an agent | Create agent | Opens Create agent with the agent's values filled in |
+| Add members to a channel | Add members | Opens Add members with the agent's choice filled in |
+| Let an agent sign in to an app | Approve login | Runs the action |
+| Install a Marketplace app for an agent | Install app | Runs the action |
+| Register an app, update it, recover its owner | Register app, Update app, Recover owner | Runs the action |
 
 - Title the card with the verb and its object, in sentence case: Create private channel #launch-review, Approve Linear for @bugen.
-- Make the confirm button repeat that verb, in Title Case, as the small ink-bordered button (`Button` with `variant="outline"` at the default `size="md"`). It is not pink: the screen's one pink button is the composer's send button.
+- Make the confirm button repeat that verb, in sentence case, as the small ink-bordered button (`Button` with `variant="outline"` at the default `size="md"`). It is not pink: the screen's one pink button is the composer's send button.
 - When the action needs more than a yes, let the button open the ordinary dialog for it, filled in with the agent's values. The person can change them there before anything is created. Don't make the fields on the card editable: the card is a summary.
 - Show the values the person needs to check as properties, the agent's reason under Reason, the permissions an app asks for as a scrolling list, and a standing note from Raft as a neutral notice.
 - Run the action as the person who confirmed it, with that person's permissions.
@@ -131,14 +131,14 @@ Say what failed at the scope it affects, and say it once ([Feedback](../patterns
 | A computer went offline, or another problem for the whole server | The notification center |
 
 - Show the reason only to people who manage the agent. Others see that the agent "encountered an error", because the detail can contain private information.
-- Confirm Stop Agent and Restart / Reset with a dialog: both interrupt the agent's work ([Feedback](../patterns/feedback.md#confirming)).
+- Confirm Stop agent and Restart / Reset with a dialog: both interrupt the agent's work ([Feedback](../patterns/feedback.md#confirming)).
 - Don't put an agent's error in a toast. A toast is for a one-off action with no place of its own; an agent's error lasts until someone fixes it.
 
 ## What the product doesn't do yet
 
 The component doc for [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) describes a few things Raft Chat doesn't ship:
 
-- A ghost Edit First button beside the confirm button, and a Decline button with a Declined state. In the product, the creation actions open their dialog from the confirm button, and a card nobody acts on stays waiting, except a person's seat or upgrade request, which expires after 7 days.
+- A ghost Edit first button beside the confirm button, and a Decline button with a Declined state. In the product, the creation actions open their dialog from the confirm button, and a card nobody acts on stays waiting, except a person's seat or upgrade request, which expires after 7 days.
 - A "Needs an admin" status, with a pink pixel, on a waiting card. The product shows no status until something changes.
 - A list of waiting cards in Activity. In the product, a waiting card is found in its conversation.
 - A toast when the action fails. The product shows the reason in a banner inside the card.

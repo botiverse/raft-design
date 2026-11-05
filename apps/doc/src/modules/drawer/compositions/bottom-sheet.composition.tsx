@@ -26,7 +26,7 @@ export function DrawerBottomSheetComposition() {
           <DrawerActions>
             <DrawerClose render={<Button variant="ghost" size="lg" />}>Cancel</DrawerClose>
             <Button variant="primary" size="lg">
-              Pin Channel
+              Pin channel
             </Button>
           </DrawerActions>
         </DrawerFooter>

@@ -272,8 +272,8 @@ export function ActivityItem({
           {view === "saved" ? null : (
             <PanelAction
               onClick={handleToggleDone}
-              aria-label={view === "done" ? "Restore to Active" : "Mark as done"}
-              title={view === "done" ? "Restore to Active" : "Mark as done"}
+              aria-label={view === "done" ? "Restore to active" : "Mark as done"}
+              title={view === "done" ? "Restore to active" : "Mark as done"}
             >
               {view === "done" ? <RotateCcw /> : <Check />}
             </PanelAction>

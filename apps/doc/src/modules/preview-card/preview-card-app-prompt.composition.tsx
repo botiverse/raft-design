@@ -64,10 +64,10 @@ export function PreviewCardAppPromptComposition() {
                   variant="ghost"
                   render={<a href="#stamp-pull-10449" target="_blank" rel="noopener noreferrer" />}
                 >
-                  Open Link
+                  Open link
                 </Button>
                 <Button variant="outline" onClick={handleAllow}>
-                  Show Previews
+                  Show previews
                 </Button>
               </PopoverActions>
             </PopoverContent>

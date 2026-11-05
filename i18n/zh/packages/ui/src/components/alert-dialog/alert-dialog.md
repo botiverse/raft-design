@@ -1,7 +1,7 @@
 ---
 title: AlertDialog
 summary: 一个带 alertdialog 角色的居中小确认框，只用于产品列出的少数几种确认；其他确认都是 size sm 的 Dialog。
-sourceHash: 781bf109
+sourceHash: 36bc2ac9
 ---
 
 # AlertDialog
@@ -40,9 +40,9 @@ alert-dialog/compositions/confirm-action
 
 | 后果 | 确认按钮 | 示例 |
 | --- | --- | --- |
-| 执行某件事 | `variant="primary"` | Make Public |
+| 执行某件事 | `variant="primary"` | Make public |
 | 会打断，但可以恢复 | `variant="warning"` | Stop |
-| 不可撤销 | `variant="danger"`，正文里放一个 `status="destructive"` 的 [Banner](../banner/banner.md) | Delete Agent |
+| 不可撤销 | `variant="danger"`，正文里放一个 `status="destructive"` 的 [Banner](../banner/banner.md) | Delete agent |
 
 删除大的东西，比如一个 Agent 或一个服务器，还要求输入它的名称（[表单](../../../../../design/patterns/forms.md#danger-zone)）。示例用 AlertDialog 展示各个部件；在 Raft Chat 里，这个确认是 `size="sm"` 的 Dialog，正文相同：
 
@@ -57,9 +57,9 @@ alert-dialog/compositions/typed-delete
 
 ## 内容 {#content}
 
-- 标题写操作和操作对象，用问句：Delete Box?
+- 标题写操作和操作对象，用问句：Delete box?
 - 用一两句平实的话说明会发生什么："Box leaves every channel."
-- 确认按钮的标签用标题里的动词：Stop Wug? 对应 Stop。不可撤销时，在红色按钮上保留对象：Delete Agent。另一个按钮写 Cancel（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
+- 确认按钮的标签用标题里的动词：Stop Wug? 对应 Stop。不可撤销时，在红色按钮上保留对象：Delete agent。另一个按钮写 Cancel（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 
 ## 无障碍 {#accessibility}
 

@@ -1,7 +1,7 @@
 ---
 title: ActivityInbox
 summary: 动态面板：一列收件项，带视图、筛选和多选工具栏；选中一项，它会在列表旁边打开。
-sourceHash: 0b1737ce
+sourceHash: 73c1228e
 ---
 
 # ActivityInbox
@@ -56,7 +56,7 @@ activity/compositions/empty-activity
 - 选中的项在列表旁边打开，并在它的行上标记 `active`。
 - 手机上，用面板头部的一个按钮代替侧栏，点开后显示视图和筛选。
 - 有项被选中时，用选中数量和针对它们的操作代替排序菜单。
-- 面板提供 Mark All Read 时，把它作为一个小号幽灵按钮放在面板头部。
+- 面板提供 Mark all read 时，把它作为一个小号幽灵按钮放在面板头部。
 
 ## 无障碍 {#accessibility}
 

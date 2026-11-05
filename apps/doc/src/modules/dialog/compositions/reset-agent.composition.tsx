@@ -46,13 +46,13 @@ function ResetModeOptions({
         </ResetModeDescription>
       </ResetModeOption>
       <ResetModeOption value="session">
-        <ResetModeTitle>Reset Session & Restart</ResetModeTitle>
+        <ResetModeTitle>Reset session & restart</ResetModeTitle>
         <ResetModeDescription>
           Clear the runtime session and restart. Workspace files (MEMORY.md, notes/) are preserved.
         </ResetModeDescription>
       </ResetModeOption>
       <ResetModeOption value="full">
-        <ResetModeTitle>Full Reset & Restart</ResetModeTitle>
+        <ResetModeTitle>Full reset & restart</ResetModeTitle>
         <ResetModeDescription>
           Clear the runtime session, delete all workspace files, and restart from scratch.
         </ResetModeDescription>
@@ -123,7 +123,7 @@ function ResetActionButton({ mode }: { mode: ResetModeTone }) {
     return (
       <Button variant="warning">
         <RotateCcw data-icon="inline-start" />
-        Reset Session & Restart
+        Reset session & restart
       </Button>
     );
   }
@@ -131,7 +131,7 @@ function ResetActionButton({ mode }: { mode: ResetModeTone }) {
   return (
     <Button variant="danger">
       <RotateCcw data-icon="inline-start" />
-      Full Reset & Restart
+      Full reset & restart
     </Button>
   );
 }

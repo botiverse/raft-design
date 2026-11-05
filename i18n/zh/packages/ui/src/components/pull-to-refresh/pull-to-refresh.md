@@ -1,7 +1,7 @@
 ---
 title: PullToRefresh
 summary: 在触屏上从列表顶部往下拉来重新加载，用于加载快照、不会自己更新的手机页面；从不用在由实时更新驱动的页面上。
-sourceHash: 35147b6f
+sourceHash: 8f2ae54f
 ---
 
 # PullToRefresh

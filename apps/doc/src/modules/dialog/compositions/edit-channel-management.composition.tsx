@@ -24,7 +24,7 @@ function EditChannelManagementDialogParts() {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Edit Channel</DialogTitle>
+        <DialogTitle>Edit channel</DialogTitle>
         <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">
@@ -48,15 +48,15 @@ function EditChannelManagementDialogParts() {
           <Separator>Actions</Separator>
           <Button variant="warning" className="w-full">
             <Lock />
-            Make Private
+            Make private
           </Button>
           <Button variant="warning" className="w-full">
             <Archive />
-            Archive Channel
+            Archive channel
           </Button>
           <Button variant="danger" className="w-full">
             <Trash2 />
-            Delete Channel
+            Delete channel
           </Button>
         </div>
       </DialogBody>

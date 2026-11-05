@@ -73,7 +73,7 @@ steps/compositions/status
 
 ## Content
 
-- Title each step with a short noun phrase: Your team, Computer, First agent. Use sentence case, and Title Case when the steps are clickable ([Typography](../../../../../design/foundations/typography.md#casing)).
+- Title each step with a short noun phrase: Your team, Computer, First agent. Use sentence case, whether or not the steps are clickable ([Typography](../../../../../design/foundations/typography.md#casing)).
 
 ## Accessibility
 

@@ -92,7 +92,7 @@ banner/compositions/close
 
 - Say what is happening now and what to do next ([Writing](../../../../../design/content/writing.md), [Feedback](../../../../../design/patterns/feedback.md#errors-by-scope)).
 - Put the subject in `BannerTitle` and the consequence in `BannerDescription`: "This channel is shared with Acme" / "People and agents from Acme will see what you post here."
-- Label the button with what it does, in Title Case: See Who, Retry, View Logs.
+- Label the button with what it does, in sentence case: See who, Retry, View logs.
 
 ## Accessibility
 
@@ -119,7 +119,7 @@ When something in one panel goes wrong (an agent won't start, the channel's sett
 - Line its sides up with the panel's margins ([Spacing](../../../../../design/foundations/spacing.md#layout-widths)).
 - Lead the text with the intent's icon, as a banner does ([Variants](#variants)), never a status light that says what kind of notice it is. `PanelNotice` keeps the icon's size and centers it on the first line ([A mark that leads text](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)).
 - Write one message of at most 2 lines, in `PanelNoticeContent` (semibold `text-callout`).
-- Put the actions in `PanelNoticeActions`, on the right and centered on the first line of text: a small icon button (Copy Details) or a text button (View Logs). A 32px button doesn't make the strip taller.
+- Put the actions in `PanelNoticeActions`, on the right and centered on the first line of text: a small icon button (Copy details) or a text button (View logs). A 32px button doesn't make the strip taller.
 - Keep the default `status="warning"` for something to fix; use `destructive` only for what cannot be undone.
 
 ## The sign-up prompt on a public page
@@ -144,7 +144,7 @@ Rules:
 - Show it only to signed-out visitors, and only on public pages; never in the signed-in app.
 - Show at most one on a page.
 - Never put a status in its place: what is true of this page (it failed to load, it is read-only, it changed) goes where [When to use](#when-to-use) puts it.
-- Write one sentence that says what Raft gets the visitor, then the action: "Make pages like this with Raft and your AI agents. Sign up now and start building." Label the button "Sign Up or Log In".
+- Write one sentence that says what Raft gets the visitor, then the action: "Make pages like this with Raft and your AI agents. Sign up now and start building." Label the button "Sign up or log in".
 
 ## The open-in-app offer on a phone
 
@@ -152,11 +152,11 @@ A phone's own browser (Safari, Chrome) that landed on a Raft message link offers
 
 - One row under the conversation's header, across its full width, on `info-soft`, with a `line-seam` under it; its tile starts on the page's 16px margin.
 - From the start: Raft's `IconTile` (`sm`) with the logo; a title, "Open in the Raft app", in semibold `text-callout` with `foreground`, and one line under it in `text-caption` with `foreground-muted` ("Go straight to this message"), each on one line, truncated; then one 32px outlined button (`variant="default" size="md"`), Open, and an × at the end with a target of at least 44px. Never a pink button: the conversation is still the page.
-- Open is a real link to the same address on the host the apps claim (`open.raft.build`), so the system hands it to the app; the page never launches anything by itself. When no app takes it, that host sends the person back with a marker, and the page offers the download in a bottom sheet (the tile, "The Raft app isn't installed yet", one line, then Download Raft App and Keep Using the Web) instead of the row.
-- × and Keep Using the Web put it away for the browser session. Nothing tries to tell whether the app is installed.
+- Open is a real link to the same address on the host the apps claim (`open.raft.build`), so the system hands it to the app; the page never launches anything by itself. When no app takes it, that host sends the person back with a marker, and the page offers the download in a bottom sheet (the tile, "The Raft app isn't installed yet", one line, then Download Raft app and Keep using the web) instead of the row.
+- × and Keep using the web put it away for the browser session. Nothing tries to tell whether the app is installed.
 
 Rules:
 
 - Show it only in a phone's own browser that arrived on a message link, while that conversation is on screen; never in Raft's apps, the web installed as an app, or a chat app's in-app browser, which can't hand a link to an app (it gets its own sheet pointing to the system browser, not specified here).
 - Show at most one on a page.
-- On a computer the same arrival offers Raft Desktop, and there it is a `Banner` (`status="info"`) at the top of the conversation, because it fits a banner's rules: Continue on Web is its Dismiss and Open in Desktop App its one button, on one line. A phone's 390px can't hold an offer's words beside a Dismiss and a button, which is why the phone offer has a shape of its own.
+- On a computer the same arrival offers Raft Desktop, and there it is a `Banner` (`status="info"`) at the top of the conversation, because it fits a banner's rules: Continue on web is its Dismiss and Open in desktop app its one button, on one line. A phone's 390px can't hold an offer's words beside a Dismiss and a button, which is why the phone offer has a shape of its own.

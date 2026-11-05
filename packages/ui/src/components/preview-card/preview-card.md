@@ -65,7 +65,7 @@ The card an app link opens on hover ([App links](../../../../../design/patterns/
 preview-card/preview-card-app-item
 ```
 
-Before the reader has allowed the app, the chip stays gray with its address and has no card: a card is read-only, and its buttons can't be reached by keyboard or touch. Clicking, tapping or pressing Enter on the chip opens a [Popover](../popover/popover.md) that asks instead, the same on every device: a question as the title, a sentence on what allowing it does, Open Link to go without previews, and Show Previews.
+Before the reader has allowed the app, the chip stays gray with its address and has no card: a card is read-only, and its buttons can't be reached by keyboard or touch. Clicking, tapping or pressing Enter on the chip opens a [Popover](../popover/popover.md) that asks instead, the same on every device: a question as the title, a sentence on what allowing it does, Open link to go without previews, and Show previews.
 
 ```example
 preview-card/preview-card-app-prompt
@@ -83,12 +83,12 @@ preview-card/preview-card-app-prompt
 - For an agent, say first what it is doing now, then who it is: "Reviewing #25" with its presence light, then its role and where it runs.
 - For a person, show their role and their local time.
 - On an item card, show the app's words as it sends them; leave out a part the app doesn't send rather than filling it with Raft's own.
-- Use Title Case on the buttons: Message, View Profile, Open in Stamp.
+- Use sentence case on the buttons: Message, View profile, Open in Stamp.
 
 ## Accessibility
 
 - PreviewCard wraps the Base UI PreviewCard. It opens on hover and on focus of the trigger, and closes on Esc.
-- The card is supplementary and doesn't open on touch, and its buttons can't be reached from the keyboard: focus moves on from the trigger, and the card closes. Make the trigger a real link, to the profile or to the app's item, so everything on the card is reachable another way: a button on an item card is a shortcut to something on the page the link opens, such as View Changes on a pull request.
+- The card is supplementary and doesn't open on touch, and its buttons can't be reached from the keyboard: focus moves on from the trigger, and the card closes. Make the trigger a real link, to the profile or to the app's item, so everything on the card is reachable another way: a button on an item card is a shortcut to something on the page the link opens, such as View changes on a pull request.
 
 ## Rules
 

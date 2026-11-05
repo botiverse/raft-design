@@ -1,7 +1,7 @@
 ---
 title: Toast
 summary: 深色的浮动提示，确认人刚做的事情的结果，几秒后消失，可以提供 View 或 Undo。
-sourceHash: 17990d20
+sourceHash: 65a236e7
 ---
 
 # Toast
@@ -85,7 +85,7 @@ toast/compositions/above-composer
 ## 内容 {#content}
 
 - 写一句话：谁、做了什么、结果如何。更多内容放在 `ToastDescription` 里，用 `foreground-on-hud-muted`。
-- 操作的标签写 View 或 Undo，或其他 Title Case 的动词。
+- 操作的标签写 View 或 Undo，或其他用 sentence case 写的动词。
 - ID、数量和时间用 Space Mono（[字体排印](../../../../../design/foundations/typography.md)）。
 
 ## 无障碍 {#accessibility}

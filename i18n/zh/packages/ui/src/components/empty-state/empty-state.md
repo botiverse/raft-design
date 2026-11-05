@@ -1,7 +1,7 @@
 ---
 title: EmptyState
 summary: 视图没有内容时显示的东西：一个灰色图标、一个标题、一句话说明为什么是空的、该做什么，以及最多一个按钮。
-sourceHash: ac972b4e
+sourceHash: aae37a0e
 ---
 
 # EmptyState
@@ -17,7 +17,7 @@ empty-state/compositions/default
 | 场景 | 用法 |
 | --- | --- |
 | 这里还什么都没有 | EmptyState：说明为什么是空的，以及怎样让东西出现 |
-| 筛选或搜索没有匹配结果 | EmptyState：说明哪些条件在生效，配 Clear All |
+| 筛选或搜索没有匹配结果 | EmptyState：说明哪些条件在生效，配 Clear all |
 | 还在加载 | [Skeleton](../skeleton/skeleton.md)，不用空状态 |
 | 加载失败 | 在对应范围显示错误，配 Retry（[反馈](../../../../../design/patterns/feedback.md#empty-loading-and-failed)） |
 
@@ -38,7 +38,7 @@ empty-state/compositions/activity-inbox
 
 - 标题用 sentence case，陈述事实："No tasks yet"、"No tasks match these filters"（[写作](../../../../../design/content/writing.md#voice)）。
 - 对于还没有内容的视图，在描述里说明内容会怎样出现在这里。
-- 对于没有结果的筛选或搜索，写出哪些条件在生效，按钮标签写 Clear All。
+- 对于没有结果的筛选或搜索，写出哪些条件在生效，按钮标签写 Clear all。
 
 ## 无障碍 {#accessibility}
 

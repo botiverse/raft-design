@@ -68,7 +68,7 @@ A screen reader announces what the markup says, not what the screen shows. Every
 ### Roles and names
 
 - Use the native element or the Base UI primitive for a role. Don't add an ARIA widget role without the focus, keyboard and close behavior it promises.
-- Give every icon-only button an `aria-label` in Title Case, the same words as its tooltip: Add Reaction ([Button](../../packages/ui/src/components/button/button.md#accessibility)).
+- Give every icon-only button an `aria-label` in sentence case, the same words as its tooltip: Add reaction ([Button](../../packages/ui/src/components/button/button.md#accessibility)).
 - Start the accessible name of a control that has visible text with that text. People who use voice control say what they see.
 - Give every dialog, drawer and bottom sheet a title; it is what is announced when it opens ([Dialog](../../packages/ui/src/components/dialog/dialog.md#accessibility)).
 - Hide decoration from assistive technology (`aria-hidden`) when the words are next to it: a status pixel beside its word, a banner's icon, a toast's icon and progress bar ([Status](../../packages/ui/src/components/status/status.md)).
@@ -109,7 +109,7 @@ A touch screen has no hover, no right-click and no keyboard shortcuts, and finge
 ## Language and casing
 
 - Never set text in all caps, in CSS or in the string. All caps removes the shape of words, so it is slower to read, and some screen readers read a short all-caps string letter by letter, as an abbreviation ([0002](../decisions/0002-no-all-caps.md), [Typography](./typography.md#casing)).
-- Use Title Case for anything clickable and sentence case for everything else, so a label reads the same on screen, in a tooltip and in its accessible name ([Writing](../content/writing.md#casing)).
+- Use sentence case for everything, labels included, so a label reads the same on screen, in a tooltip and in its accessible name ([Writing](../content/writing.md#casing)).
 - Set `lang` on the `<html>` element to the interface language. The screen reader chooses its voice and pronunciation from it. The Raft web app sets it whenever the interface language changes.
 - Spell out what a symbol means in its accessible name: a shortcut's ⌘, a count's +3, a separator between two facts.
 - Write errors and empty states in plain words that say what happened and what to do next ([Voice and tone](../content/voice-and-tone.md)).

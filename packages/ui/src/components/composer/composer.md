@@ -76,7 +76,7 @@ chat-composer/compositions/composer-drop-overlay
 Composer has no Base UI primitive: it renders a native `<form>` and `<textarea>`. `useComposerSuggestions` adds the combobox pattern to the input: `aria-controls` points at the listbox, `aria-activedescendant` at the highlighted option. Arrow Up and Arrow Down move the highlight, Enter or Tab picks it, and Esc closes the list.
 
 - Give `ComposerInput` an `aria-label` that names the destination (Message #launch-week).
-- Give every `ComposerIconButton` and an icon-only `ComposerSubmit` an `aria-label` (Attach File, Send).
+- Give every `ComposerIconButton` and an icon-only `ComposerSubmit` an `aria-label` (Attach file, Send).
 - Give the suggestion list an `aria-label` or `aria-labelledby`.
 
 ## Rules

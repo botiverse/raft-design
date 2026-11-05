@@ -55,14 +55,14 @@ The full choice of how to tell people something is in [Choosing a component](../
 
 - Write the label as the kind of announcement, in sentence case: What's new.
 - Write the title as what people can now do, in sentence case: Work together across servers.
-- Make the action say where it goes, in Title Case: Create Joint Channel ([Writing](../../../../../design/content/writing.md#casing)).
-- Make the secondary action an acknowledgment, such as Got It. Leave it out when the action and × are enough.
+- Make the action say where it goes, in sentence case: Create joint channel ([Writing](../../../../../design/content/writing.md#casing)).
+- Make the secondary action an acknowledgment, such as Got it. Leave it out when the action and × are enough.
 
 ## Accessibility
 
 - AnnouncementDialog is the Base UI Dialog, through [Dialog](../dialog/dialog.md#accessibility). It provides the `dialog` role, the focus trap, Esc and focus return.
 - `AnnouncementDialogTitle` names the dialog. Every announcement needs one.
-- Give `AnnouncementDialogClose` an `aria-label` that says what it closes: Close Update.
+- Give `AnnouncementDialogClose` an `aria-label` that says what it closes: Close update.
 - The attention dot in the label is hidden from assistive technology.
 - Give the picture a text alternative, or hide it when the text already says the same thing.
 

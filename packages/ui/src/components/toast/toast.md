@@ -89,7 +89,7 @@ While a modal dialog or sheet is open, show only the toasts it causes and that l
 ## Content
 
 - Write one sentence: who, what they did, and the result. Put anything more in `ToastDescription`, in `foreground-on-hud-muted`.
-- Label the action View or Undo, or another verb in Title Case.
+- Label the action View or Undo, or another verb in sentence case.
 - Set IDs, counts and times in Space Mono ([Typography](../../../../../design/foundations/typography.md)).
 
 ## Accessibility

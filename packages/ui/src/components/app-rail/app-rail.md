@@ -66,7 +66,7 @@ The product ships the icons-only rail, and raft-ui implements only that one ([Op
 
 ## Content
 
-- Name every item, even in the icons-only rail. Names are Title Case ([Typography](../../../../../design/foundations/typography.md#casing)).
+- Name every item, even in the icons-only rail. Names are in sentence case ([Typography](../../../../../design/foundations/typography.md#casing)).
 
 ## Accessibility
 

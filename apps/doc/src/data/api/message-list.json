@@ -143,7 +143,7 @@
         "name": "aria-label",
         "type": "string",
         "required": true,
-        "description": "Defines a string value that labels the current element. What the button does, in Title Case: the product's words.",
+        "description": "Defines a string value that labels the current element. What the button does, in sentence case: the product's words.",
         "from": "raft-ui"
       },
       {

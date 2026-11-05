@@ -98,7 +98,7 @@ The sticker wraps only the icon, not the whole item: a yellow item adds another 
 
 ## Content
 
-- Label every item, in Title Case ([Typography](../../../../../design/foundations/typography.md#casing)). Keep a label to at most 8 Latin letters or 4 Chinese characters, so 5 items fit at 320px; a longer one truncates. The server tab's label is the server's name, which people choose: it truncates, and the avatar beside it still tells servers apart.
+- Label every item, in sentence case ([Typography](../../../../../design/foundations/typography.md#casing)). Keep a label to at most 8 Latin letters or 4 Chinese characters, so 5 items fit at 320px; a longer one truncates. The server tab's label is the server's name, which people choose: it truncates, and the avatar beside it still tells servers apart.
 - Which items can show an attention dot is the product's choice. Say other news inside the page instead.
 - Show a dot, never a count, on the tab bar: the count belongs inside the page, next to what it counts.
 - Dot the server tab only when another server has unread items, the one meaning the same avatar and dot have on Home's [WorkspaceButton](../workspace-button/workspace-button.md). Something new on one of the server's pages gets its dot on that page's button in the popover, an `accent` `Status` inside `MobileNavServerPopoverDestination`, never on the avatar.

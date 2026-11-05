@@ -18,7 +18,7 @@ export function TasksPanelEmptyState({ filtered }: { filtered: boolean }) {
       <EmptyStateDescription>
         {filtered
           ? "Try a different combination or clear the current selection."
-          : "Create one with the New Task button."}
+          : "Create one with the New task button."}
       </EmptyStateDescription>
     </TasksPanelEmpty>
   );

@@ -1,7 +1,7 @@
 ---
 title: Button
 summary: 执行操作的按钮，可以带标签也可以不带；颜色说明它是哪一类操作，尺寸由它所在的位置决定。
-sourceHash: a070f3ff
+sourceHash: a1583929
 ---
 
 # Button
@@ -27,11 +27,11 @@ button/compositions/preview
 
 | 变体 | 用于 | 例子 |
 | --- | --- | --- |
-| `variant="primary"` | 界面存在的那个操作：粉色贴纸 | Send、Create Channel、Bring an Agent |
+| `variant="primary"` | 界面存在的那个操作：粉色贴纸 | Send、Create channel、Bring an agent |
 | `variant="default"` | 其他所有操作，包括列表每一行都重复的操作：墨色边框 | Assign、Approve、Claim |
 | `variant="ghost"` | 在自己画出边缘的表面里的取消和次要操作：没有框 | 对话框里的 Cancel |
-| `variant="warning"` | 会打断但可以撤销的操作：橙色贴纸 | Stop Wug、Leave Channel、Reset |
-| `variant="danger"` | 不可撤销的操作，用在确认对话框的确认按钮上：红色贴纸 | Delete Agent |
+| `variant="warning"` | 会打断但可以撤销的操作：橙色贴纸 | Stop Wug、Leave channel、Reset |
+| `variant="danger"` | 不可撤销的操作，用在确认对话框的确认按钮上：红色贴纸 | Delete agent |
 | `variant="on-frame"` | 外框上没有框的按钮：导航条、网页顶栏、桌面端标题栏 | 工作空间按钮 |
 
 `accent` 的渲染与 `primary` 相同，`outline`、`information`、`muted` 和 `success` 与 `default` 相同。用表里的名字。
@@ -53,7 +53,7 @@ button/compositions/on-frame
 - 其他所有操作都用墨色边框（`default`）。
 - 在自己画出边缘的表面里，取消和次要操作不加框（`ghost`）。在页面上，同样的操作用墨色边框（`default`）。
 - 按钮叠成通栏时（对话框底部一行放不下、底部面板的操作），那里的 `ghost` 按钮用 `default` 的墨色边框，悬停和按下也跟 `default` 一样。拉到通栏宽度后，无框按钮读起来像一行文字，而不是按钮：按钮一旦叠放，每个都需要自己的框（stdrc, 2026-10-22）。容器用 `data-stacked` 标出叠放；按钮仍是 `ghost` 变体，这一行恢复时又去掉边框。禁用时它保留禁用的填充；图标按钮仍然不加框。
-- 阶梯的最底层用 [TextLink](../text-link/text-link.md)：连无框按钮都显得太重的地方，比如登录页上的 Forgot Password，或分节标题旁边的 See All。它可以承载操作，但它是界面上最安静的控件，永远不是在拥挤的一行里多塞一个按钮的办法。它不是 Button 的变体：文字链接是一行里的一个词，不是一个框，所以它跟随周围文字的大小；而 Button 会带来高度、边框和内边距，每一样都得再去掉。
+- 阶梯的最底层用 [TextLink](../text-link/text-link.md)：连无框按钮都显得太重的地方，比如登录页上的 Forgot password，或分节标题旁边的 See all。它可以承载操作，但它是界面上最安静的控件，永远不是在拥挤的一行里多塞一个按钮的办法。它不是 Button 的变体：文字链接是一行里的一个词，不是一个框，所以它跟随周围文字的大小；而 Button 会带来高度、边框和内边距，每一样都得再去掉。
 - 会打断但可以撤销的操作用橙色（`warning`）：停止、离开、重置。
 - 红色（`danger`）只用于不可撤销的操作，而且只用在确认对话框里（[AlertDialog](../alert-dialog/alert-dialog.md)）。菜单里的破坏性项不要上色（[DropdownMenu](../dropdown-menu/dropdown-menu.md)）。
 - 不要用 `danger-secondary` 或 `danger-outline`：描边按钮上的红字会让红色出现在确认对话框之外。
@@ -65,7 +65,7 @@ button/compositions/on-frame
 
 | 尺寸 | 高度 | 用于 |
 | --- | --- | --- |
-| `size="lg"` | 手机上 44px；桌面端 32px，点击区域 44px | 对话框和抽屉的底栏、表单提交按钮、面板底部占满宽度的一列操作（Remove Member、Leave Channel、Archive Channel） |
+| `size="lg"` | 手机上 44px；桌面端 32px，点击区域 44px | 对话框和抽屉的底栏、表单提交按钮、面板底部占满宽度的一列操作（Remove member、Leave channel、Archive channel） |
 | `size="md"`（默认） | 32px，点击区域 44px | 列表行、卡片、横幅、工具栏和面板头部里的操作 |
 | `size="xl"` | 手机上 52px，桌面端 40px | 只用于登录、注册或设置表单上占满宽度的粉色按钮 |
 
@@ -89,7 +89,7 @@ button/compositions/on-frame
 | 桌面端面板头部 | 无 | `PanelAction` 和 `PanelToggleAction` 是它们自己的按钮，桌面端 32px，手机上 44px |
 | 卡片和消息操作卡片上的操作；设置分节里的单个操作 | `md` | 你 |
 | 列表行或表格行的末尾 | `md`、`icon-md` | 你 |
-| 工具栏、筛选栏、空状态、弹出层底部、Load More | `md`、`icon-md` | 你 |
+| 工具栏、筛选栏、空状态、弹出层底部、Load more | `md`、`icon-md` | 你 |
 | 手机顶栏；媒体查看器 | `icon-lg` | 顶栏、`Lightbox` |
 | 导航条、网页顶栏、桌面端标题栏 | `md` 或 `icon-md`（36px）的 `on-frame` | 外框 |
 | 菜单、手机上的溢出菜单 | 不用 Button：用菜单项 | `DropdownMenu`、底部面板 |
@@ -125,8 +125,8 @@ button/compositions/on-frame
 
 ## 内容 {#content}
 
-- 以动词开头，说出结果：写 Send for Review，不写 OK 或 Submit。在对话框里，标题已经说出对象，所以主按钮只写动词：Create Channel 里写 Create（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
-- 用 Title Case（每个实词首字母大写）（[写作](../../../../../design/content/writing.md#casing)），并在按钮打开的对话框里重复按钮上的词（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
+- 以动词开头，说出结果：写 Send for review，不写 OK 或 Submit。在对话框里，标题已经说出对象，所以主按钮只写动词：Create channel 里写 Create（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
+- 用 sentence case（只有第一个词和名称首字母大写）（[写作](../../../../../design/content/writing.md#casing)），并在按钮打开的对话框里重复按钮上的词（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 - 图标放在标签前面（`data-icon="inline-start"`），Return 或箭头放在标签后面（`data-icon="inline-end"`）。
 - 加载时，说出正在发生什么：Creating…。
 - 按钮比内容窄时（在卡片或一行里给了 `min-w-0 max-w-full`），内容会截断，不会溢出边框：给标签加 `truncate`，图标保持原来的大小。
@@ -135,6 +135,6 @@ button/compositions/on-frame
 
 Button 包装 Base UI Button，渲染原生的 `<button>`。用于导航时，改为渲染真正的链接：`render={<a href="…" />}`。
 
-- 每个只有图标的按钮都加一个 Title Case 的 `aria-label`（Add Reaction）。在有鼠标指针的设备上，加一个同名并带快捷键的 [Tooltip](../tooltip/tooltip.md)。
+- 每个只有图标的按钮都加一个 sentence case 的 `aria-label`（Add reaction）。在有鼠标指针的设备上，加一个同名并带快捷键的 [Tooltip](../tooltip/tooltip.md)。
 - `loading` 期间，按钮是 `aria-disabled`，加载指示器的名称由 `loadingLabel` 提供。把 `loadingLabel` 设为正在发生的事。
 - 需要用 Tooltip 解释操作为什么不可用时，用 `focusableWhenDisabled`：按钮保持可聚焦，同时保持禁用样式。

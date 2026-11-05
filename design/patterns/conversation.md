@@ -47,13 +47,13 @@ conversation-panel/compositions/conversation-panel
 
 ### Actions
 
-- On desktop, show a small toolbar on the top edge of the hovered message: Reply in Thread, Add Reaction, Save Message. Inside a thread, leave out Reply in Thread.
+- On desktop, show a small toolbar on the top edge of the hovered message: Reply in thread, Add reaction, Save message. Inside a thread, leave out Reply in thread.
 - Put every other action in the message menu. Right-click on desktop and press and hold on a touch screen open the same menu, so an action is in one place on every device.
 - Make the quick reactions the menu's first row, with a separator between them and the actions. The menu has no date-and-time line (artin, 2026-11-04, #triage:530f8c36).
 - Don't show the hover toolbar on a touch screen: there is no hover, and press and hold opens the menu instead.
 - On a touch screen, a tap on a message opens its thread, and a double tap opens the quick reactions as a bar ([Taps on a touch screen](../foundations/states.md#taps-on-a-touch-screen)). Inside a thread a tap does nothing; the double tap and the menu stay. On desktop a click or double click on a message does nothing (a double click selects a word): the toolbar and the reply count open the thread. Decided on 2026-10-29 (stdrc): a tap is how Slack and Raft's phone web already open a thread, and double tap means "react" in Telegram, iMessage and Messenger; opening the bar instead of reacting keeps a stray double tap from sending anything.
 - Let hover never move the message: the toolbar floats over the row's top right corner, the header keeps no room for it, and nothing reflows. In a narrow column the end of a long sender line fades out under it while it shows; at rest the whole line is there ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)).
-- To act on several messages (forward, copy), choose Select Message in the menu; the toolbar for selected messages appears at the bottom of the conversation ([Built from existing parts](../components/overview.md#toolbar-for-selected-messages)).
+- To act on several messages (forward, copy), choose Select message in the menu; the toolbar for selected messages appears at the bottom of the conversation ([Built from existing parts](../components/overview.md#toolbar-for-selected-messages)).
 
 ```example
 message-item/compositions/context-menu-showcase
@@ -77,11 +77,11 @@ thread-panel/thread-panel
 - Show the message the thread started from at the top, then the replies, then the composer. A thread has no tabs.
 - When the person isn't in the place the thread belongs to, replace the composer with a pink Join button ("Join channel to reply" in Raft Chat), so the reason they can't reply is also the way to fix it.
 - Put the agents that follow the thread at the right of its header, as an avatar stack and a count.
-- Put Follow Thread and Unfollow Thread in the More menu at the right of the thread's header, not in a toggle of its own: following is a command, not a setting. A task's details put Follow Task in the same place ([Tasks](./tasks.md)), so following works the same for both.
+- Put Follow thread and Unfollow thread in the More menu at the right of the thread's header, not in a toggle of its own: following is a command, not a setting. A task's details put Follow task in the same place ([Tasks](./tasks.md)), so following works the same for both.
 
 ### Floating controls
 
-Three kinds of control float over a conversation: the jump pills over the list (Back to Bottom, "3 New Messages", "Next Unread Thread (3)", [MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)), the hover toolbar on a message, and the toolbar over selected text ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)). They are one family and share one set of metrics: a label in `text-control` at 700 (13/18 on a phone, 14/22 on a desktop), 16px icons, and 32px controls: a pill is 32px from edge to edge, the size of an ordinary button such as Save in a settings row ([Button](../../packages/ui/src/components/button/button.md#sizes)), and a toolbar's buttons are 28px inside a 36px toolbar.
+Three kinds of control float over a conversation: the jump pills over the list (Back to bottom, "3 new messages", "Next unread thread (3)", [MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)), the hover toolbar on a message, and the toolbar over selected text ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)). They are one family and share one set of metrics: a label in `text-control` at 700 (13/18 on a phone, 14/22 on a desktop), 16px icons, and 32px controls: a pill is 32px from edge to edge, the size of an ordinary button such as Save in a settings row ([Button](../../packages/ui/src/components/button/button.md#sizes)), and a toolbar's buttons are 28px inside a 36px toolbar.
 
 - Make a single action a Button at `outline` and `md`: the jump pills. It stands alone, so its own ink edge marks it as a control, and it is built from the Button recipe, so it can't drift from the buttons around Raft.
 - Make a group of actions on one message or one selection a toolbar: 28px buttons 4px inside the frame and 4px apart, so the toolbar is 36px tall, on `layer-popover` with a seam ring and the soft shadow. It is a popup over the content it acts on, appearing on hover or on selection ([Elevation](../foundations/elevation.md#tokens)); the frame is the edge, so its buttons have none of their own, and at 28px three fit on the sender line without covering it.

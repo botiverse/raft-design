@@ -64,14 +64,14 @@ Hover, keyboard highlight, the current value and disabled items follow [States](
 
 ## Content
 
-- Write item labels in Title Case: Copy Link, Reply in Thread ([Writing](../../../../../design/content/writing.md#casing)).
+- Write item labels in sentence case: Copy link, Reply in thread ([Writing](../../../../../design/content/writing.md#casing)).
 - Make the label of an item that opens a dialog the dialog's title ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 
 ## Accessibility
 
 - DropdownMenu wraps the Base UI Menu. It provides the `menu` role, the item roles, arrow-key movement, typeahead, Esc, and focus return to the trigger.
 - Name the menu after the thing it acts on: put `aria-label` on `DropdownMenuContent` ("Message from Wug").
-- Give an icon-only trigger, such as More, an `aria-label` ("More Actions").
+- Give an icon-only trigger, such as More, an `aria-label` ("More actions").
 - Make every row in the menu a menu item, so arrow keys reach it. This includes each quick reaction: give it an `aria-label` ("React with thumbs up") and hide the drawing from assistive technology.
 - Leave item icons decorative; the label names the action.
 
@@ -88,7 +88,7 @@ The message menu starts with the quick reactions ([Conversation](../../../../../
 - The 7 quick reactions at 22px, each a `MessageReactionQuickButton` that is a menu item, so the arrow keys reach it. End the row with a `smile-plus` icon button that opens every emoji. That is 8 buttons of 36px, so the menu is as wide as the row (316px), wider than its 240px minimum; the actions take the same width.
 - Line the reactions up with the actions: `MessageReactionQuickRow` keeps 3px at each side, so the first drawing starts where the items' icons do (10px in), and the column the eye follows down the menu doesn't step out by 3px at the top.
 - Put one separator between the reactions and the first action, then group the actions into sections, by what they do to the message (stdrc, 2026-10-20):
-  1. **Keep going on this message:** Reply in Thread; Follow Thread or Unfollow Thread, and inside a thread the person follows, Mark Thread as Unread right after Unfollow Thread; then the task action (Create Task from Message, or Mark as Done and Reopen Task on a task's message). A task's discussion lives in its thread, so the two sit together.
-  2. **Take it elsewhere:** Copy Link, Copy Markdown, Forward, Select Message. Nothing changes here. They go from a pointer to the content to sending one message to sending several.
-  3. **Just for me:** Save Message or Remove from Saved, and Translate. Nobody else sees these.
+  1. **Keep going on this message:** Reply in thread; Follow thread or Unfollow thread, and inside a thread the person follows, Mark thread as unread right after Unfollow thread; then the task action (Create task from message, or Mark as done and Reopen task on a task's message). A task's discussion lives in its thread, so the two sit together.
+  2. **Take it elsewhere:** Copy link, Copy Markdown, Forward, Select message. Nothing changes here. They go from a pointer to the content to sending one message to sending several.
+  3. **Just for me:** Save message or Remove from Saved, and Translate. Nobody else sees these.
 - Leave out a section with nothing in it, and its separator with it.

@@ -22,15 +22,15 @@ export function PhoneContent() {
       <MessageListJumpControls>
         <MessageListJumpPill onClick={handleBottom}>
           <ArrowDown />
-          Back to Bottom
+          Back to bottom
         </MessageListJumpPill>
         {unread > 0 && !dismissed ? (
           <MessageListJumpPillGroup>
             <MessageListJumpPill onClick={handleNextThread}>
               <ArrowDown />
-              Next Unread Thread ({unread})
+              Next unread thread ({unread})
             </MessageListJumpPill>
-            <MessageListJumpPillDismiss aria-label="Dismiss Unread Threads" onClick={handleDismiss}>
+            <MessageListJumpPillDismiss aria-label="Dismiss unread threads" onClick={handleDismiss}>
               <X />
             </MessageListJumpPillDismiss>
           </MessageListJumpPillGroup>

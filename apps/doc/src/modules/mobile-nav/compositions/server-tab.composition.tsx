@@ -150,19 +150,19 @@ export function MobileNavServerTabComposition() {
               </MobileNavServerPopoverList>
               <PopoverSeparator />
               <MobileNavServerPopoverGroup>
-                <MobileNavServerPopoverRow data-page="Join Community" onClick={handlePage}>
+                <MobileNavServerPopoverRow data-page="Join community" onClick={handlePage}>
                   <Globe />
-                  <MobileNavServerPopoverRowLabel>Join Community</MobileNavServerPopoverRowLabel>
+                  <MobileNavServerPopoverRowLabel>Join community</MobileNavServerPopoverRowLabel>
                 </MobileNavServerPopoverRow>
-                <MobileNavServerPopoverRow data-page="Switch or Create Server" onClick={handlePage}>
+                <MobileNavServerPopoverRow data-page="Switch or create server" onClick={handlePage}>
                   <Plus />
                   <MobileNavServerPopoverRowLabel>
-                    Switch or Create Server
+                    Switch or create server
                   </MobileNavServerPopoverRowLabel>
                 </MobileNavServerPopoverRow>
-                <MobileNavServerPopoverRow data-page="Invite Human" onClick={handlePage}>
+                <MobileNavServerPopoverRow data-page="Invite human" onClick={handlePage}>
                   <UserPlus />
-                  <MobileNavServerPopoverRowLabel>Invite Human</MobileNavServerPopoverRowLabel>
+                  <MobileNavServerPopoverRowLabel>Invite human</MobileNavServerPopoverRowLabel>
                 </MobileNavServerPopoverRow>
               </MobileNavServerPopoverGroup>
               <PopoverSeparator />

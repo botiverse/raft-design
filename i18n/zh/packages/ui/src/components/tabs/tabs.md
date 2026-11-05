@@ -1,7 +1,7 @@
 ---
 title: Tabs
 summary: 一排标签页，对应同一页面的各个部分，每个部分有自己的内容；选中的标签页是一张黄色贴纸，标签页放不下时这一排可以滚动。
-sourceHash: 8fc8996d
+sourceHash: 31da1094
 ---
 
 # Tabs
@@ -63,7 +63,7 @@ tabs/compositions/sortable
 
 ## 内容 {#content}
 
-- 标签页用 1 到 2 个词，Title Case：Profile、Activity、Workspace（[字体排印](../../../../../design/foundations/typography.md#casing)）。
+- 标签页用 1 到 2 个词，用 sentence case：Profile、Activity、Workspace（[字体排印](../../../../../design/foundations/typography.md#casing)）。
 - 数量放在标签后面单独的 Space Mono 元素里，不要写进标签文字。
 
 ## 无障碍 {#accessibility}

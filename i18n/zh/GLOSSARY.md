@@ -28,7 +28,7 @@
 - **token 名和 token 这个词**：`layer-frame`、`foreground-muted`；「token」不译。
 - **产品名**：Raft、Raft Chat、Tasks、Calendar、Artifacts、Sites、Meeting、Canvas、raft-ui、Stamp。
 - **界面上的英文文字**：按钮、菜单项、标签页名、空状态文案等界面上原样显示的英文保留英文（Sign Out、Working now、Mark as Done），需要时在后面加中文说明。标签栏五项按术语表译成中文。
-- **英文界面文案的例子**：原文举例说明英文界面怎么写（如按钮写 "Sign In"、Title Case、不用全大写），例子保留英文，规则照译。需要时在后面加中文说明。
+- **英文界面文案的例子**：原文举例说明英文界面怎么写（如按钮写 "Sign in"、用 sentence case、不用全大写），例子保留英文，规则照译。需要时在后面加中文说明。
 
 ## 术语表
 

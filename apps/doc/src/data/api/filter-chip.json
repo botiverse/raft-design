@@ -23,7 +23,7 @@
         "name": "aria-label",
         "type": "string",
         "required": true,
-        "description": "What the × does, said in words: the chip shows only a glyph. Name the result, such as \"Clear Filter\" or \"Show All\".",
+        "description": "What the × does, said in words: the chip shows only a glyph. Name the result, such as \"Clear filter\" or \"Show all\".",
         "from": "raft-ui"
       },
       {

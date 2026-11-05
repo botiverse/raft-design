@@ -85,7 +85,7 @@ One placeholder for every place: a 1.5px dashed `line-strong` outline on `fill-s
 - Move exactly one place per arrow, also right after the item enters another list, so what is announced and where it drops always agree. `useDragAcrossLists` (and `useDragLists`, built on it) measures each step from the item's real place and re-measures after a move between lists; without it, dnd-kit skips the place after entering a list.
 - While a tab or another item of a composite widget is lifted, its own arrow keys stay off, so the arrows move the item and not the focus.
 - A layout's places are stepped through in their order on screen, skipping places with no room.
-- A section of a conversation's row also moves without a drag: Move Left and Move Right in its head's ⋯. Out of a stack, they put it in a new column of its own beside the stack; alone in its column, they swap the column with its neighbour. Each is offered only where it changes what shows and keeps the row within four side columns, and a head whose title room holds tabs offers neither ([The channel's side columns](./responsive.md#the-channels-side-columns)).
+- A section of a conversation's row also moves without a drag: Move left and Move right in its head's ⋯. Out of a stack, they put it in a new column of its own beside the stack; alone in its column, they swap the column with its neighbour. Each is offered only where it changes what shows and keeps the row within four side columns, and a head whose title room holds tabs offers neither ([The channel's side columns](./responsive.md#the-channels-side-columns)).
 
 ## Screen readers
 

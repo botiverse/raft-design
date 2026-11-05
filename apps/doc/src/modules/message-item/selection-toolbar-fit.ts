@@ -3,7 +3,7 @@ import type { KeyboardEvent, RefObject } from "react";
 
 // The give-way steps of the toolbar for selected messages, taken one at a
 // time until its row fits on one line (design/components/overview.md ›
-// Toolbar for selected messages): Copy Link shows its label only when it
+// Toolbar for selected messages): Copy link shows its label only when it
 // fits, otherwise only its icon; if there is still no room it moves into
 // More. Only where even that can't fit (a long count in a long language on
 // the narrowest phone) does Forward show only its icon. The count never gives

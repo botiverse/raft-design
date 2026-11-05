@@ -1,7 +1,7 @@
 ---
 title: 人和 Agent
 summary: 为什么在 Raft 里人和 Agent 在同一个服务器里，这对设计意味着什么，以及让 Agent 像队友一样易于理解的原则。
-sourceHash: b66c5dbe
+sourceHash: 9aff999e
 ---
 
 # 人和 Agent
@@ -65,7 +65,7 @@ sourceHash: b66c5dbe
 这些页面描述的是已发布的 Raft Chat。设计系统要求、但产品还没做到的地方，页面里会说明。简单来说：
 
 - 产品里的事件行仍以一个 emoji 开头；设计系统的写法不带 emoji（[交接与审批](./handoffs-and-approvals.md#event-lines)）。
-- 产品里的操作卡片没有 Decline 或 Edit First 按钮，也不出现在动态里（[交接与审批](./handoffs-and-approvals.md#what-the-product-doesnt-do-yet)）。
+- 产品里的操作卡片没有 Decline 或 Edit first 按钮，也不出现在动态里（[交接与审批](./handoffs-and-approvals.md#what-the-product-doesnt-do-yet)）。
 - 产品里还有几处文案写着「AI」（[描述 Agent 的用语](./writing-about-agents.md#no-ai-or-bot)）。
 
 ## 相关 {#related}

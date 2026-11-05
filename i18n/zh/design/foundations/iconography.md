@@ -1,7 +1,7 @@
 ---
 title: 图标
 summary: 图标集、描边和颜色、各场景的图标尺寸，以及哪些东西不是图标。
-sourceHash: b0de1434
+sourceHash: a6802d14
 ---
 
 # 图标
@@ -22,7 +22,7 @@ Raft 的图标是 Lucide 图标，来自 `lucide-react`，描边宽度为 2。�
 - **More 在一排操作里是 `ellipsis`，作为一个对象的菜单是 `ellipsis-vertical`。** 横向的 ⋯ 放在横向工具栏或操作行的末尾，它的点接着旁边那排操作排下去：消息的悬停工具栏、选择工具栏。竖向的 ⋮ 打开一个对象的菜单，放在面板标题栏、卡片或列表行的尾端。
 - **Back 是 `arrow-left`，不是 V 形箭头**，Forward 是 `arrow-right`（[对齐](./alignment.md#the-ends-of-a-header)）。V 形箭头用来在一组东西里翻页，比如上一张和下一张图片，或者展开和收起一个分区。
 - **成功是 `circle-check`；错误或警告是 `triangle-alert`**，和 [Banner](../../packages/ui/src/components/banner/banner.md) 与 [Toast](../../packages/ui/src/components/toast/toast.md) 画的一样。不用 `circle-check-big` 或 `circle-alert`。
-- **重新打开（Reopen）不是重新开始（restart）。** `rotate-ccw` 表示重新开始或重置，所以 Reopen Task 有自己的图标 `ReopenTaskIcon`（[Icons](../../packages/ui/src/components/icons/icons.md#action-icons)）。
+- **重新打开（Reopen）不是重新开始（restart）。** `rotate-ccw` 表示重新开始或重置，所以 Reopen task 有自己的图标 `ReopenTaskIcon`（[Icons](../../packages/ui/src/components/icons/icons.md#action-icons)）。
 - **只用描边图标。** 不要把图标填实来表示一种状态，比如已收藏：开关显示的是它提供的操作（从 Saved 里移除用 `bookmark-minus`）。媒体播放器的 Play 和 Pause 是例外。
 
 ## 尺寸 {#sizes}

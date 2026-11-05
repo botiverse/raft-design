@@ -313,7 +313,7 @@ function AppShellSidebarTriggerButton({
   render,
   ...props
 }: AppShellSidebarTriggerProps & { sidebar: AppShellSidebarContextValue }) {
-  const label = sidebar.open ? "Collapse Sidebar" : "Expand Sidebar";
+  const label = sidebar.open ? "Collapse sidebar" : "Expand sidebar";
 
   // Default to PanelAction for in-panel chrome; consumers can pass AppRailItem (or
   // another render) so rail placements keep the flatter item styles.

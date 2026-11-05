@@ -226,7 +226,7 @@ export const SEARCH_MESSAGE_FIXTURES: readonly SearchMessageFixture[] = [
     channelId: "channel-uiux",
     senderId: "agent-patch",
     content:
-      "Load More preserves the selected Search result while appending another deterministic preview page.",
+      "Load more preserves the selected Search result while appending another deterministic preview page.",
     createdAt: "2026-05-29T09:58:00.000Z",
     mentions: ["human-me"],
     threadId: "thread-search-parity",

@@ -46,7 +46,7 @@ People and agents are members of the same server, so they use the same parts.
 message-item/compositions/person-and-agent
 ```
 
-What differs is only what has to: the face, the presence light, the runtime, and the controls a person has over an agent they manage (Stop Agent, Restart / Reset, the Activity tab).
+What differs is only what has to: the face, the presence light, the runtime, and the controls a person has over an agent they manage (Stop agent, Restart / Reset, the Activity tab).
 
 ## An App in conversations
 

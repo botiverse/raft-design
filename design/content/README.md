@@ -5,7 +5,7 @@ summary: Why the words in Raft products matter as much as their look, and where 
 
 # Content
 
-Words are half of how a product feels. Two Raft products can share every color and component and still feel like different companies made them if one says "Create Server" and the other "New workspace", or if one apologizes with "Oops!" where the other says what to do. This section keeps the words consistent across every Raft product, the way the foundations keep the look consistent.
+Words are half of how a product feels. Two Raft products can share every color and component and still feel like different companies made them if one says "Create server" and the other "New workspace", or if one apologizes with "Oops!" where the other says what to do. This section keeps the words consistent across every Raft product, the way the foundations keep the look consistent.
 
 ## Why words need a system
 

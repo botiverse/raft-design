@@ -1,7 +1,7 @@
 ---
 title: Text
 summary: 基础的字体排印部件：Text.Heading、Text.Sans 和 Text.Mono，用于没有其他组件承载的文字，使用系统的两种字体。
-sourceHash: 73213f5f
+sourceHash: 97aa6985
 ---
 
 # Text
@@ -47,7 +47,7 @@ text/compositions/semantic-elements
 
 ## 内容 {#content}
 
-- 大小写遵循[字体排印](../../../../../design/foundations/typography.md#casing)：文字用 sentence case，只有可点击的东西用 Title Case。
+- 大小写遵循[字体排印](../../../../../design/foundations/typography.md#casing)：所有文字都用 sentence case，人点击的东西也一样。
 - ID、时间、数量和大小用 `Text.Mono`，即使旁边是 Space Grotesk：`#25`、`10:24`、`24 KB`。
 
 ## 无障碍 {#accessibility}

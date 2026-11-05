@@ -1,7 +1,7 @@
 ---
 title: 写作
 summary: Raft 产品里文字的规则：大小写、语气、名称，以及按钮、它打开的对话框和确认按钮各写什么。
-sourceHash: d5fe46c6
+sourceHash: 261d8b6f
 ---
 
 # 写作
@@ -16,11 +16,12 @@ sourceHash: d5fe46c6
 
 ## 大小写 {#casing}
 
-- 所有说出一个操作的可点击的东西都用 Title Case，文字链接也一样：Create Task、Mark All Read、Create Task from Message、Sign Out、View in Channel。句子里的链接跟随句子的大小写。
-- 说明东西在哪里或有多少、而不是说明它做什么的链接，是一个短语，用 sentence case：From a message in #general、3 replies、Edited by Remy。Title Case 告诉读者「这是一个命令」；用在描述上，它只会让短语看起来像标题（设计评审，2026-10-29）。
-- 在 Title Case 里，这些短词保持小写：a、an、the、to、in、on、of、for、as、and、or、with、from、by、at。起连接作用的短词读起来像承载意思的词之间的关节：Continue with Google、Remove from Saved、Sort by Newest。它们在开头或结尾、或者属于动词的一部分时，首字母大写：Sign In、Sign Out、Turn On、Back to Sign In，这样 Sign In 和 Sign Out 这样成对的词才保持一致。
-- 标题、分组标题、描述和空状态用 sentence case。对话框或底部面板的标题如果重复打开它的按钮的标签，就保留那个标签的 Title Case：Create Channel；见[操作和它的对话框](#actions-and-their-dialogs)。
-- 产品名词在句子里写成小写："Move to another computer"、"Leave this server"。只有作为可点击标签或名称的一部分时才大写：Add Computer、Raft Computer。
+- 人能点击或说出一个操作的一切都用 sentence case：按钮、菜单项、标签页和标签栏项、分段控件、文字链接，以及图标按钮的工具提示和无障碍名称（`aria-label`）。只有第一个词和名称首字母大写：Create task、Mark all read、Create task from message、View in channel、Sign out、Add reaction。句子里的链接跟随句子的大小写。
+- 标题、分组标题、描述和空状态也用 sentence case。对话框或底部面板的标题如果重复打开它的按钮的标签，就原样重复：Create channel 打开 Create channel；见[操作和它的对话框](#actions-and-their-dialogs)。
+- 名称保留它的大写，在标签里也一样：Raft 和作为专有名称的产品与功能（Agent Lounge、Stamp、Porthole、Raft Computer）、人、Agent、服务器和频道、第三方名称（GitHub、Slack、Google），以及目的地的名称（[术语](./terminology.md#places)）：Continue with Google、Open in Stamp、Edit Release Bot、Remove from Saved。只有一个词的标签不受影响：Settings、Members、Owner、Admin。
+- 任务状态写成 Backlog、Todo、In progress、Done 和 Closed，在标签、状态标签和句子里都一样。
+- 长标签（比如菜单项）用 Title Case 读起来别扭；所有文字只用一种大小写，写、翻译和检查都更简单，也不用再记哪些短词保持小写（[0044](../decisions/0044-sentence-case-for-labels.md)）。
+- 产品名词在句子和标签里都写成小写："Move to another computer"、"Leave this server"、Add computer。只有作为名称时才大写：Raft Computer。
 - 永远不用全大写。字体和大小写规则见[字体排印](../foundations/typography.md#casing)。
 
 ## 语气 {#voice}
@@ -28,30 +29,29 @@ sourceHash: d5fe46c6
 - 幽默只留给新手引导和成功消息。错误和空状态写得平实，让人能据此行动；见[语气](./voice-and-tone.md#tone-by-moment)。
 - 用 "you" 称呼对方。用名字称呼 Agent，用第三人称："Bugen claimed #25"、"Martin needs your OK"。
 - 写 Agent 用队友的动词（claim、hand off、review、ship、remember），永远不用 bot、process、execute 或 AI-powered。完整规则见[描述 Agent 的用语](../people-and-agents/writing-about-agents.md)。
-- 任务状态写作 Backlog、Todo、In Progress、Done 和 Closed。
 - 用显示名称，不用用户名（handle）。
 - 中文界面也这样写：句子短、形容词少，数字、ID 和时间仍然用 Space Mono。
 
 ## 操作和它的对话框 {#actions-and-their-dialogs}
 
-- 按钮的标签就是它打开的对话框或底部面板的标题：Register App 打开 Register App，Create Channel 打开 Create Channel。点了什么就打开什么：标题换了说法的对话框，看起来像是打开错了。
+- 按钮的标签就是它打开的对话框或底部面板的标题：Register app 打开 Register app，Create channel 打开 Create channel。点了什么就打开什么：标题换了说法的对话框，看起来像是打开错了。
 - 编辑类的标题写 Edit 加上该项的名称：Edit Release Bot。
-- 执行对话框用途的那个按钮，标签写它执行的操作，不带对象。通常就是标题里的动词：Create Channel → Create，Register App → Register，Invite Human → Invite，Stop Wug? → Stop。Edit 标题的按钮写 Save：Edit Release Bot → Save，因为这个按钮做的是保存修改。标题就在按钮正上方，已经说出了对象；按钮再说一遍就成了回声，而在手机的底部面板上，两者就并排在同一行里。
-- 动词要完整，连同属于它的词：Sign Out、Start Over、Turn On、Make Public、Reset Session & Restart。永远不要截成 Sign、Make 或 Reset：只写 Public 不是一个操作。
+- 执行对话框用途的那个按钮，标签写它执行的操作，不带对象。通常就是标题里的动词：Create channel → Create，Register app → Register，Invite human → Invite，Stop Wug? → Stop。Edit 标题的按钮写 Save：Edit Release Bot → Save，因为这个按钮做的是保存修改。标题就在按钮正上方，已经说出了对象；按钮再说一遍就成了回声，而在手机的底部面板上，两者就并排在同一行里。
+- 动词要完整，连同属于它的词：Sign out、Start over、Turn on、Make public、Reset session & restart。永远不要截成 Sign、Make 或 Reset：只写 Public 不是一个操作。
 - 只有在光有动词会让人去猜时，才加上对象：
-  - 标题没有说出对象，或者标题不是一个操作：Unsaved changes → Discard Changes；See your whole chat history → Upgrade to Pro。
-  - 按钮做的事与标题说的不同，或者要说明去哪里、做到什么程度：Create Agent 里的 Add Computer、Continue to Stripe、Move to the Cloud、Disconnect for All Agents。
-  - 按钮要数出操作对象的数量：Add 3 Members、Create 3 Tasks。"Add 3" 读不通。
-  - 按钮的动词是 Cancel：写 Cancel Subscription，免得被当成关闭对话框。
-  - 按钮出现在离标题较远的地方，必须自己说明是哪个操作：对话里操作卡片的确认按钮写 Create Channel，因为屏幕上可能同时有好几张卡片，每张都是从按钮读起的（[MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md)）。
-- 不可撤销的确认，也就是红色的那个按钮，要保留对象：Delete Channel、Delete Server。这是唯一必须精确的时刻，而人们按下去时读的是按钮，不是标题。
-- 不执行操作、只关闭的按钮写 Cancel。只有当操作本身就是取消或停止时，Cancel 才会被读成那个操作；这时就说出保留的是什么：Cancel Subscription 旁边写 Keep Subscription，Cancel Migration 旁边写 Keep Migrating。
-- Done、OK、Got It 和 Close 不是操作。只有对话框要做的事已经发生、按钮只负责关闭时才用它们：Add Computer 的最后一步写 Done，因为计算机已经自己连上了。
-- 把按钮接在标题后面读一遍来检查：Create Channel, Create 读起来是对的；Create Channel, Create Channel 就是回声。如果光有动词已经说不清会发生什么，或者按钮是红色的，就把对象加回去。
+  - 标题没有说出对象，或者标题不是一个操作：Unsaved changes → Discard changes；See your whole chat history → Upgrade to Pro。
+  - 按钮做的事与标题说的不同，或者要说明去哪里、做到什么程度：Create agent 里的 Add computer、Continue to Stripe、Move to the cloud、Disconnect for all agents。
+  - 按钮要数出操作对象的数量：Add 3 members、Create 3 tasks。"Add 3" 读不通。
+  - 按钮的动词是 Cancel：写 Cancel subscription，免得被当成关闭对话框。
+  - 按钮出现在离标题较远的地方，必须自己说明是哪个操作：对话里操作卡片的确认按钮写 Create channel，因为屏幕上可能同时有好几张卡片，每张都是从按钮读起的（[MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md)）。
+- 不可撤销的确认，也就是红色的那个按钮，要保留对象：Delete channel、Delete server。这是唯一必须精确的时刻，而人们按下去时读的是按钮，不是标题。
+- 不执行操作、只关闭的按钮写 Cancel。只有当操作本身就是取消或停止时，Cancel 才会被读成那个操作；这时就说出保留的是什么：Cancel subscription 旁边写 Keep subscription，Cancel migration 旁边写 Keep migrating。
+- Done、OK、Got it 和 Close 不是操作。只有对话框要做的事已经发生、按钮只负责关闭时才用它们：Add computer 的最后一步写 Done，因为计算机已经自己连上了。
+- 把按钮接在标题后面读一遍来检查：Create channel, Create 读起来是对的；Create channel, Create channel 就是回声。如果光有动词已经说不清会发生什么，或者按钮是红色的，就把对象加回去。
 
 ## 登录和退出登录 {#signing-in-and-out}
 
-- 写 Sign In 和 Sign Out，也就是登录页上的说法，永远不用 Log In、Log Out，也不把 Login 当动词用。在账户菜单、Settings、计算机上的运行时和应用的连接里，到处都用同一对词，让人只学一次。Apple、Google、Microsoft、GitHub 和 Slack 也都说 sign in 和 sign out。
+- 写 Sign in 和 Sign out，也就是登录页上的说法，永远不用 Log in、Log out，也不把 Login 当动词用。在账户菜单、Settings、计算机上的运行时和应用的连接里，到处都用同一对词，让人只学一次。Apple、Google、Microsoft、GitHub 和 Slack 也都说 sign in 和 sign out。
 - 在正文里写 signed in、signed out 和 sign back in；名词写 sign-in："The sign-in window was closed."
 - 中文里，以上这些在简体中写「登录」和「退出登录」，在繁体中写「登入」和「登出」。
 - Login 只在名称里保留原样：Login with Raft 和 Agent Login 这两个功能，以及 CLI 命令 `raft integration login`。它永远不是动词。
@@ -91,7 +91,7 @@ sourceHash: d5fe46c6
 | Bugen is on it · 12m | Processing… |
 | Martin needs your OK | Pending approval |
 | Use lowercase and dashes: launch-week | Invalid input |
-| Bring an Agent | Add AI assistant |
+| Bring an agent | Add AI assistant |
 | Channels | CHANNELS |
 
 ## 相关 {#related}

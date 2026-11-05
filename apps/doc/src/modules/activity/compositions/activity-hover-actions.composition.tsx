@@ -26,7 +26,7 @@ import type { ActivityCompositionItem } from "../activity.fixtures.ts";
 
 const ITEMS: readonly ActivityCompositionItem[] = ACTIVITY_COMPOSITION_ITEMS.slice(0, 4);
 
-/** Mark as Done shows on hover with a mouse, at rest on a touch screen. */
+/** Mark as done shows on hover with a mouse, at rest on a touch screen. */
 export function ActivityHoverActionsComposition() {
   const [activeId, setActiveId] = useState<string>();
   const [doneIds, setDoneIds] = useState<ReadonlySet<string>>(new Set());
@@ -37,7 +37,7 @@ export function ActivityHoverActionsComposition() {
   if (items.length === 0) {
     return (
       <Button variant="outline" onClick={handleRestore}>
-        Restore to Active
+        Restore to active
       </Button>
     );
   }

@@ -75,7 +75,7 @@ message-action-card/compositions/resolution-states
 ## Content
 
 - Title the card with a verb and its object, in sentence case: Create channel #launch-week, Merge #26 into main.
-- Make the confirm button repeat the verb and the object of the title, in Title Case: Create Channel. Unlike a dialog's button, it keeps the object, because it appears away from a dialog title and has to say on its own which action it approves ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
+- Make the confirm button repeat the verb and the object of the title, in sentence case: Create channel. Unlike a dialog's button, it keeps the object, because it appears away from a dialog title and has to say on its own which action it approves ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - List only the properties the person needs to check.
 - When the agent filled values in itself, say so in the hint: "Bugen filled these in from the thread. You can change them before it's created."
 - Record the result with the person and the time: Approved by Martin · 10:51.
@@ -91,7 +91,7 @@ message-action-card/compositions/resolution-states
 ## Rules
 
 - Make the confirm button the small ink-bordered button (`Button` at the default `size="md"`), not pink: the screen's one pink button is the composer's send button.
-- Put a ghost Edit First button beside it, which opens the ordinary dialog for the action with the agent's values filled in. Don't edit fields on the card: the card is a summary.
+- Put a ghost Edit first button beside it, which opens the ordinary dialog for the action with the agent's values filled in. Don't edit fields on the card: the card is a summary.
 - Run the action as the person who confirmed it.
 - Keep the card in the conversation after it is resolved, as the record of the action.
 - Show no buttons to someone without the permission to act. Say whom the card waits on instead.

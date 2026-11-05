@@ -53,7 +53,7 @@ thread-panel/thread-panel
 
 - `ThreadPanelRoot` renders a `section`. Name it with `aria-label="Thread"`.
 - `ThreadPanelTitle` renders an `h2`.
-- Give every icon-only action an `aria-label`: "Search in Thread", "Close Thread".
+- Give every icon-only action an `aria-label`: "Search in thread", "Close thread".
 
 ## Rules
 

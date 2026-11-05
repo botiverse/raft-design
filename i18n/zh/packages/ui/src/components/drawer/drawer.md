@@ -1,7 +1,7 @@
 ---
 title: Drawer
 summary: 从右侧滑入的面板，放人要看一阵子的详情和设置；在手机上则是底部面板，用来选择去哪里，或读一段简短的说明。
-sourceHash: 37a67898
+sourceHash: 9826a3ab
 ---
 
 # Drawer
@@ -72,7 +72,7 @@ drawer/compositions/nested-close-callback
 ## 内容 {#content}
 
 - 标题用打开它的那个按钮上的文字（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
-- 在底部面板里，说明写一两句，用 `foreground-muted`；按钮只放一个操作，用 Title Case：Got It。
+- 在底部面板里，说明写一两句，用 `foreground-muted`；按钮只放一个操作，用 sentence case：Got it。
 
 ## 无障碍 {#accessibility}
 

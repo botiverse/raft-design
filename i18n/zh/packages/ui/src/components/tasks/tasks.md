@@ -1,7 +1,7 @@
 ---
 title: Tasks
 summary: 所有任务视图共用的部件：显示任务进行到哪一步的状态徽标和任务标签片、状态像素点，以及任务面板的外壳。
-sourceHash: 80894626
+sourceHash: 085fbda6
 ---
 
 # Tasks
@@ -30,7 +30,7 @@ tasks/compositions/task-status
 - `TaskChip`：标签片。`status` 设置它的浅色底。子元素依次是状态图标、任务编号、负责人。
 - `TaskStatusIcon`，以及 `TaskTodoIcon`、`TaskInProgressIcon`、`TaskInReviewIcon`、`TaskDoneIcon`、`TaskClosedIcon`：状态像素点。
 - `TasksPanelRoot`：任务页面的那一列。
-  - `TasksPanelToolbar`：顶部的栏，下面有一条接缝线。里面放 `TasksPanelToolbarNewTask`、`TasksPanelToolbarFilters` 和 `TasksPanelToolbarView`（Board / List），并按面板自身的宽度排好它们：小于 28rem（448px）时，New Task 和视图切换在第一行，筛选在第二行；28rem 起它们排成一行，放不下就折行。宽窗口里 360px 宽的任务栏用窄的排法（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）。其他内容用 `TasksPanelToolbarGroup` 和 `TasksPanelToolbarLabel`。
+  - `TasksPanelToolbar`：顶部的栏，下面有一条接缝线。里面放 `TasksPanelToolbarNewTask`、`TasksPanelToolbarFilters` 和 `TasksPanelToolbarView`（Board / List），并按面板自身的宽度排好它们：小于 28rem（448px）时，New task 和视图切换在第一行，筛选在第二行；28rem 起它们排成一行，放不下就折行。宽窗口里 360px 宽的任务栏用窄的排法（[按所在区域的宽度切换](../../../../../design/patterns/responsive.md#switch-on-the-regions-width)）。其他内容用 `TasksPanelToolbarGroup` 和 `TasksPanelToolbarLabel`。
   - `TasksPanelViewport`：滚动的内容：一个 [TaskBoard](../task-board/task-board.md) 或一个 [TaskList](../task-list/task-list.md)。
   - `TasksPanelEmpty`：没有任务时放一个 [EmptyState](../empty-state/empty-state.md)。
 - `TaskLoadingList`、`TaskLoadingRow`：任务加载时的占位行。
@@ -94,7 +94,7 @@ tasks/compositions/tasks-error
 
 ## 内容 {#content}
 
-- 状态写作 Backlog、Todo、In Progress、Done 和 Closed（中文界面中后四种为待办、进行中、完成、已关闭）。`TaskStatusBadge` 没有内置标签：由调用方传入并翻译。
+- 状态写作 Backlog、Todo、In progress、Done 和 Closed（中文界面中后四种为待办、进行中、完成、已关闭）。`TaskStatusBadge` 没有内置标签：由调用方传入并翻译。
 - 任务编号用 Space Mono：`#25`（[字体排印](../../../../../design/foundations/typography.md#usage)）。
 - 在任务引用里，先写地方，再写编号：`#design:#25`（[引用任务](../../../../../design/patterns/tasks.md#referring-to-a-task)）。
 

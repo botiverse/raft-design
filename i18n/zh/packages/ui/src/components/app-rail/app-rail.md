@@ -1,7 +1,7 @@
 ---
 title: AppRail
 summary: 桌面端最左侧的一列，在外框上、网页顶栏下方：产品的目的地在上，帮助和设置在下。
-sourceHash: a8ce1de5
+sourceHash: ef178e3f
 ---
 
 # AppRail
@@ -62,7 +62,7 @@ app-rail/compositions/without-top-bar
 
 ## 内容 {#content}
 
-- 每一项都要有名称，只有图标的导航条也一样。名称用 Title Case（[字体排印](../../../../../design/foundations/typography.md#casing)）。
+- 每一项都要有名称，只有图标的导航条也一样。名称用 sentence case（[字体排印](../../../../../design/foundations/typography.md#casing)）。
 
 ## 无障碍 {#accessibility}
 

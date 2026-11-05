@@ -80,7 +80,7 @@ message-forwarded-bundle/compositions/forwarded-bundle-static-source
 - Write the source as "from #launch-week", with "· thread" when it is a thread.
 - Show a source only when the person may see it; leave it out for a direct message, a private channel or a missing source.
 - Name each author by their display name, not a handle ([Writing](../../../../../design/content/writing.md#voice)).
-- Label the footer action with what it does, in Title Case: Show All 6 Messages, then Collapse.
+- Label the footer action with what it does, in sentence case: Show all 6 messages, then Collapse.
 - Give each attachment chip its file name and type: "release-notes.md · markdown".
 - An attachment chip takes 5.5px before its icon and 6.5px after its text, 12px in all as before: a file icon is drawn 1.75px inside its box, so its ink and the last letter both sit about 7.2px from the edges ([Alignment](../../../../../design/foundations/alignment.md#chips)).
 

@@ -1,7 +1,7 @@
 ---
 title: ThreadPanel
 summary: 一个消息列的侧面板：标题栏写明它是什么，下面是原始消息、回复和消息输入框，没有标签页。
-sourceHash: 4e16a21f
+sourceHash: df7a509f
 ---
 
 # ThreadPanel
@@ -49,7 +49,7 @@ thread-panel/thread-panel
 
 - `ThreadPanelRoot` 渲染为 `section`。用 `aria-label="Thread"` 给它命名。
 - `ThreadPanelTitle` 渲染为 `h2`。
-- 每个只有图标的操作都要有 `aria-label`："Search in Thread"、"Close Thread"。
+- 每个只有图标的操作都要有 `aria-label`："Search in thread"、"Close thread"。
 
 ## 规则 {#rules}
 

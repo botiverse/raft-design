@@ -93,7 +93,7 @@ export function MessageActionCardAgentRequestContent() {
               {done ? null : (
                 <MessageActionCardActions>
                   <Button type="button" variant="outline" size="md" onClick={handleConfirm}>
-                    Create Channel
+                    Create channel
                   </Button>
                 </MessageActionCardActions>
               )}

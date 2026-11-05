@@ -21,7 +21,7 @@ empty-state/compositions/default
 | Situation                         | Use                                                                                                                 |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | There is nothing here yet         | EmptyState: why it is empty and how to make something appear                                                        |
-| Filters or a search match nothing | EmptyState: which conditions are active, with Clear All                                                             |
+| Filters or a search match nothing | EmptyState: which conditions are active, with Clear all                                                             |
 | It is still loading               | [Skeleton](../skeleton/skeleton.md), not an empty state                                                             |
 | It failed to load                 | An error at its scope, with Retry ([Feedback](../../../../../design/patterns/feedback.md#empty-loading-and-failed)) |
 
@@ -42,7 +42,7 @@ empty-state/compositions/activity-inbox
 
 - Write the title in sentence case and state the fact: "No tasks yet", "No tasks match these filters" ([Writing](../../../../../design/content/writing.md#voice)).
 - For a view with nothing yet, say in the description how something gets here.
-- For filters or a search with no results, name the conditions that are active, and label the button Clear All.
+- For filters or a search with no results, name the conditions that are active, and label the button Clear all.
 
 ## Accessibility
 

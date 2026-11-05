@@ -39,8 +39,8 @@ export type {
 export { MessageQuotedPreviewAuthorDelegatedBy } from "./components/message-quoted-preview/index";
 export type { MessageQuotedPreviewAuthorDelegatedByProps } from "./components/message-quoted-preview/index";
 
-// The floating jump controls of a conversation (Back to Bottom, New Messages,
-// Next Unread Thread), until stdrc approves the parts.
+// The floating jump controls of a conversation (Back to bottom, New messages,
+// Next unread thread), until stdrc approves the parts.
 export {
   MessageListJumpControls,
   MessageListJumpPill,

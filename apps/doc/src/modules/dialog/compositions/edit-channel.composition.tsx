@@ -25,7 +25,7 @@ function EditChannelDialogParts() {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Edit Channel</DialogTitle>
+        <DialogTitle>Edit channel</DialogTitle>
         <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">

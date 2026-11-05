@@ -1,7 +1,7 @@
 ---
 title: 使用 raft-ui
 summary: 如何安装 raft-ui，配置它的样式表、Tailwind CSS v4 和深色模式，渲染第一个组件，在版本之间升级，以及 token 和给 Agent 用的入口在哪里。
-sourceHash: 55d95694
+sourceHash: 8fe48bb4
 ---
 
 # 使用 raft-ui
@@ -98,7 +98,7 @@ Base UI 的浮层会通过 portal 挂到 `document.body` 上。给应用根元�
 import { Button } from "@botiverse/raft-ui";
 
 export function CreateTaskButton() {
-  return <Button variant="primary">Create Task</Button>;
+  return <Button variant="primary">Create task</Button>;
 }
 ```
 

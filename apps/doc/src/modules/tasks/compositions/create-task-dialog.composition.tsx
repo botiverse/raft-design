@@ -136,8 +136,8 @@ export function CreateTaskDialogComposition({
         portalProps={resolvedPortalProps}
       >
         <DialogHeader>
-          <DialogTitle>{isBatch ? "Create Tasks" : "Create"}</DialogTitle>
-          <DialogClose aria-label="Close Create Task dialog">
+          <DialogTitle>{isBatch ? "Create tasks" : "Create"}</DialogTitle>
+          <DialogClose aria-label="Close Create task dialog">
             <X aria-hidden />
           </DialogClose>
         </DialogHeader>
@@ -190,7 +190,7 @@ export function CreateTaskDialogComposition({
                 onClick={handleAddRow}
               >
                 <Plus aria-hidden />
-                Add Another
+                Add another
               </Button>
             </div>
           </DialogBody>

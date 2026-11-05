@@ -17,7 +17,7 @@ export function NewMessagesContent() {
       <MessageListJumpControls>
         <MessageListJumpPill onClick={handleBottom}>
           <ArrowDown />
-          {count > 0 ? `${count} New Messages` : "Back to Bottom"}
+          {count > 0 ? `${count} new messages` : "Back to bottom"}
         </MessageListJumpPill>
       </MessageListJumpControls>
     </JumpConversation>

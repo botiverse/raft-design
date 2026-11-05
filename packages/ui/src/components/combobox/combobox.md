@@ -92,6 +92,6 @@ combobox/compositions/inline-list
 Combobox wraps Base UI Combobox: a text input with `role="combobox"` that controls a listbox, with arrow-key navigation and the highlighted item announced.
 
 - In an inline list, focus stays in the search field: the highlighted row is its `aria-activedescendant`, the chosen one has `aria-selected="true"`. Enter on a highlighted row chooses it and doesn't submit the form around it; with no row highlighted, Enter submits as usual. Esc reaches the dialog around the list and closes it.
-- Name the input: with a `FieldLabel` ([Field](../field/field.md)), or with `aria-label` on a search row in a popup (Search Channels).
+- Name the input: with a `FieldLabel` ([Field](../field/field.md)), or with `aria-label` on a search row in a popup (Search channels).
 - In a chips field, each chip's remove button and the input are reachable with the keyboard. Name each remove button after its value (Remove Bugen).
 - Give `ComboboxClear` a label that says what it clears when it shows only an icon.

@@ -44,7 +44,7 @@ Most of these docs are rules. A rule is something a reviewer can check.
 
 ## Headings and formatting
 
-- Headings use sentence case: "When to use", "Dark mode". (Labels inside the product use Title Case; see [Writing](../content/writing.md).)
+- Headings use sentence case: "When to use", "Dark mode". (Labels inside the product use sentence case too; see [Writing](../content/writing.md#casing).)
 - Use plain text for component names: Drawer, Button.
 - Use code font for anything typed in code: props and values (`variant="ghost"`), parts (`DialogFooter`), tokens (`layer-canvas`), CSS and file names.
 - Give sizes in pixels with the unit (44px). Give colors as tokens; only the foundations' token tables show raw values.
@@ -60,7 +60,7 @@ Most of these docs are rules. A rule is something a reviewer can check.
   - **Bugen** and **Wug**: agents;
   - **#launch-week**: a channel;
   - **#25**: a task.
-- In examples, the product's labels follow its rules: Title Case on buttons, the five task statuses spelled Backlog, Todo, In Progress, Done and Closed.
+- In examples, the product's labels follow its rules: sentence case on buttons and menu items (Create task), the five task statuses spelled Backlog, Todo, In progress, Done and Closed.
 
 ## Accessibility
 

@@ -1,7 +1,7 @@
 ---
 title: Ellipsis
 summary: 用 CSS 把文字截成一行或几行；只有真的被截断时，才用工具提示显示全文，或者可以展开。
-sourceHash: aa0f494f
+sourceHash: a32a387a
 ---
 
 # Ellipsis
@@ -64,7 +64,7 @@ ellipsis/compositions/list-row
 ellipsis/compositions/expand
 ```
 
-- `after` 位于最后一行可见文字的末尾。给它传一个函数，就能拿到 `{ truncated, expanded, toggle }`，让 `EllipsisToggle` 的文字跟着状态变：Show More、Show Less。
+- `after` 位于最后一行可见文字的末尾。给它传一个函数，就能拿到 `{ truncated, expanded, toggle }`，让 `EllipsisToggle` 的文字跟着状态变：Show more、Show less。
 - `after` 只在文字被截断或已展开时显示。文字放得下时它是 `display: none`，不占位置。因为测量的永远只是文字本身，显示 `after` 不会改变测量结果，控件也就不会一会儿出现一会儿消失。
 - 按下 `EllipsisToggle` 后它还是同一个元素，所以焦点还留在它上面。
 - 用 `expanded`、`defaultExpanded` 和 `onExpandedChange` 把它做成受控或非受控组件。
@@ -108,4 +108,4 @@ ellipsis/compositions/resizing
 
 - 永远不要截断标签、帮助文字或错误提示：让它们换行（[表单](../../../../../design/patterns/forms.md#long-values-in-fields)）。
 - 不要给 Ellipsis 加 `title`：它只在需要时显示自己的工具提示，而 `title` 总会显示，还会和它重复。
-- 展开控件的文字用产品自己的说法，用 Title Case：Show More、Show Less。
+- 展开控件的文字用产品自己的说法，用 sentence case：Show more、Show less。

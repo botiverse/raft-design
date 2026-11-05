@@ -60,7 +60,7 @@ activity/compositions/empty-activity
 - Open a selected item beside the list, and mark it `active` on its row.
 - On a phone, replace the sidebar with one button in the panel header that opens the views and filters.
 - When items are selected, replace the sort menu with the count and the actions for them.
-- Put Mark All Read in the panel header as a small ghost button, when the panel offers it.
+- Put Mark all read in the panel header as a small ghost button, when the panel offers it.
 
 ## Accessibility
 

@@ -1,7 +1,7 @@
 ---
 title: Icons
 summary: raft-ui 自己绘制的图标：五个表示对话类型，一个表示 Artifact，十三个用于关注、加入、添加、创建（已弃用）和重新打开；其他图标都来自 Lucide。
-sourceHash: 335c1919
+sourceHash: bdfb7659
 ---
 
 # Icons
@@ -55,18 +55,18 @@ icons/action-icons
 
 | 图标 | 标示 |
 | --- | --- |
-| `FollowThreadIcon` | Follow Thread：在消息菜单、消息列的 More 菜单和收件箱里一行的菜单里 |
-| `UnfollowThreadIcon` | Unfollow Thread，位置相同 |
+| `FollowThreadIcon` | Follow thread：在消息菜单、消息列的 More 菜单和收件箱里一行的菜单里 |
+| `UnfollowThreadIcon` | Unfollow thread，位置相同 |
 | `JoinChannelIcon` | 加入频道：在这个人还没加入的频道里的 Join 按钮（"Join #design"、"Join channel to reply"）。在公开页面上可读的频道也用它 |
-| `LeaveChannelIcon` | 普通频道的 Leave Channel |
+| `LeaveChannelIcon` | 普通频道的 Leave channel |
 | `JoinPrivateChannelIcon` | 加入私有频道。私有频道只能通过邀请加入，所以它放在接受邀请的操作上 |
-| `LeavePrivateChannelIcon` | 私有频道的 Leave Channel |
+| `LeavePrivateChannelIcon` | 私有频道的 Leave channel |
 | `JoinJointChannelIcon` | 加入联合频道：管理员接受把本服务器拉进来的邀请 |
-| `LeaveJointChannelIcon` | 联合频道的 Leave Channel |
+| `LeaveJointChannelIcon` | 联合频道的 Leave channel |
 | `FollowArtifactIcon` | Follow Artifact：在 Artifact 的菜单里和 Artifacts 页面上 |
 | `UnfollowArtifactIcon` | Unfollow Artifact，位置相同 |
-| `AddCommentIcon` | Add Comment：对 Artifact 或文件里的一段文字写评论 |
-| `ReopenTaskIcon` | Reopen Task：把完成的任务改回未完成 |
+| `AddCommentIcon` | Add comment：对 Artifact 或文件里的一段文字写评论 |
+| `ReopenTaskIcon` | Reopen task：把完成的任务改回未完成 |
 
 按操作所在频道的类型选频道图标，也就是频道自己的图标显示的那种类型（`hash`、`lock`、`git-branch`；[Raft Chat 频道](../../../../../design/products/raft-chat/channel.md)）。
 
@@ -90,7 +90,7 @@ icons/unfollow-artifact-sizes
 ## 无障碍 {#accessibility}
 
 - 这些图标对辅助技术隐藏（`aria-hidden`），也不能获得焦点。由周围控件的文字或 `aria-label` 说明它们代表什么。
-- 如果按钮里只有一个这样的图标，给按钮加 `aria-label`：Open Thread。
+- 如果按钮里只有一个这样的图标，给按钮加 `aria-label`：Open thread。
 
 ## 规则 {#rules}
 

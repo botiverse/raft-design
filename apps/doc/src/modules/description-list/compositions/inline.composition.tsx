@@ -23,7 +23,7 @@ export function InlineDescriptionListComposition() {
       <DescriptionItem>
         <DescriptionTerm>Status</DescriptionTerm>
         <DescriptionDetails>
-          <TaskStatusBadge status="in-review">In Review</TaskStatusBadge>
+          <TaskStatusBadge status="in-review">In review</TaskStatusBadge>
         </DescriptionDetails>
       </DescriptionItem>
       <DescriptionItem>

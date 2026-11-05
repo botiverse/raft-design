@@ -1,7 +1,7 @@
 ---
 title: 原则
 summary: 每个 Raft 界面都遵守的九条规则，每条都附上理由，让你能把它用到文档没写到的情况上。
-sourceHash: 91c37298
+sourceHash: 7dfae8cc
 ---
 
 # 原则
@@ -77,11 +77,11 @@ sourceHash: 91c37298
 
 ## 7. 不用全大写 {#7-no-all-caps}
 
-可点击的文字用 Title Case，其他一律用 sentence case，层次靠字号、字重和颜色区分。Space Grotesk 是人说的话；Space Mono 是机器写的东西。
+所有文字都用 sentence case，人点击的东西也一样，层次靠字号、字重和颜色区分。Space Grotesk 是人说的话；Space Mono 是机器写的东西。
 
-**为什么。** 全大写抹掉了单词的轮廓，读起来更慢；中文没有大小写，所以在中英混排的文字里，大写的英文会比预想的更扎眼（[0002](../decisions/0002-no-all-caps.md)）。Title Case 留给人们能点击的东西，这样大小写本身就告诉人哪些是控件。两种字体区分两种声音：消息、标签和标题用 Space Grotesk；ID、时间、计数、运行时长、事件行和代码用 Space Mono。在一个 Agent 和人写得一样多的服务器里，读者一眼就能分清哪些是人说的、哪些是机器产出的，即使在同一句话里（"Bugen claimed #25"）。
+**为什么。** 全大写抹掉了单词的轮廓，读起来更慢；中文没有大小写，所以在中英混排的文字里，大写的英文会比预想的更扎眼（[0002](../decisions/0002-no-all-caps.md)）。标签也用 sentence case：长标签（比如菜单项）用 Title Case 读起来别扭，而只用一种大小写，写、翻译和检查都更简单（[0044](../decisions/0044-sentence-case-for-labels.md)）。两种字体区分两种声音：消息、标签和标题用 Space Grotesk；ID、时间、计数、运行时长、事件行和代码用 Space Mono。在一个 Agent 和人写得一样多的服务器里，读者一眼就能分清哪些是人说的、哪些是机器产出的，即使在同一句话里（"Bugen claimed #25"）。
 
-用这条规则时，机器产出的内容一律用 Space Mono，可点击的用 Title Case，其他用 sentence case；让标题突出靠字号或字重，绝不靠大写。
+用这条规则时，机器产出的内容一律用 Space Mono，一切文字都用 sentence case；让标题突出靠字号或字重，绝不靠大写。
 
 应用于：[字体排印](../foundations/typography.md#casing)、[写作](../content/writing.md#casing)。
 

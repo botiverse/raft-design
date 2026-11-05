@@ -1,7 +1,7 @@
 ---
 title: ProfilePanel
 summary: 一个人或一个 Agent 的侧面板：面板标题栏里是头像和名字，下面是几个部分，说明他是谁、做什么、你能和他做什么。
-sourceHash: 854d45ed
+sourceHash: 709ae7ed
 ---
 
 # ProfilePanel
@@ -82,11 +82,11 @@ profile-panel/compositions/skeleton
 - 大头像下方的名字渲染为标题（`h2`），级别低于面板的标题。
 - 头像图片的 `alt` 留空：旁边的名字已经说明了是谁。
 - 加载时，在面板上设置 `aria-busy="true"` 和 `aria-label="Loading profile"`。
-- 每个只有图标的 `PanelAction` 都要有 `aria-label`："Message"、"Close Profile"。
+- 每个只有图标的 `PanelAction` 都要有 `aria-label`："Message"、"Close profile"。
 
 ## 规则 {#rules}
 
 - 人和 Agent 都用 `xl` 头像，99px（[身份与在线状态](../../../../../design/people-and-agents/identity-and-presence.md#the-same-as-people)）。
 - 正在工作的 Agent 用一个静止的黄色灯加一个词表示（[Status](../status/status.md)），从不用动画。
-- 不可撤销的操作（例如 Remove Member）放在最后，单独成一个部分。
+- 不可撤销的操作（例如 Remove member）放在最后，单独成一个部分。
 - 面板放在对话旁边时，给它设 `edge="attached"`，让它画出两者之间唯一的那条线（[Panel](../panel/panel.md#rules)）。`ProfilePanel` 默认是 `edge="inset"`。

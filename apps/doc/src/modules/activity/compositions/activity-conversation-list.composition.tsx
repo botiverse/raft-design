@@ -101,7 +101,7 @@ export function ActivityConversationListComposition() {
   if (conversations.length === 0) {
     return (
       <Button variant="outline" onClick={handleRestore}>
-        Restore to Active
+        Restore to active
       </Button>
     );
   }

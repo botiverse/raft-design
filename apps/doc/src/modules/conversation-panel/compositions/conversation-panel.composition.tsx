@@ -147,13 +147,13 @@ export function ConversationPanelComposition({
                     </MessageItemFooter>
                   </MessageItemContent>
                   <MessageItemToolbar>
-                    <MessageItemToolbarButton aria-label="Reply in Thread">
+                    <MessageItemToolbarButton aria-label="Reply in thread">
                       <MessageSquare />
                     </MessageItemToolbarButton>
-                    <MessageItemToolbarButton aria-label="Add Reaction">
+                    <MessageItemToolbarButton aria-label="Add reaction">
                       <SmilePlus />
                     </MessageItemToolbarButton>
-                    <MessageItemToolbarButton aria-label="Save Message">
+                    <MessageItemToolbarButton aria-label="Save message">
                       <Bookmark />
                     </MessageItemToolbarButton>
                   </MessageItemToolbar>
@@ -176,13 +176,13 @@ export function ConversationPanelComposition({
                     </MessageItemBody>
                   </MessageItemContent>
                   <MessageItemToolbar>
-                    <MessageItemToolbarButton aria-label="Reply in Thread">
+                    <MessageItemToolbarButton aria-label="Reply in thread">
                       <MessageSquare />
                     </MessageItemToolbarButton>
-                    <MessageItemToolbarButton aria-label="Add Reaction">
+                    <MessageItemToolbarButton aria-label="Add reaction">
                       <SmilePlus />
                     </MessageItemToolbarButton>
-                    <MessageItemToolbarButton aria-label="Save Message">
+                    <MessageItemToolbarButton aria-label="Save message">
                       <Bookmark />
                     </MessageItemToolbarButton>
                   </MessageItemToolbar>
@@ -240,7 +240,7 @@ export function ConversationPanelComposition({
             <MessageListJumpControls>
               <MessageListJumpPill onClick={handleJump}>
                 <ArrowDown />
-                {newMessageCount} New Messages
+                {newMessageCount} new messages
               </MessageListJumpPill>
             </MessageListJumpControls>
           ) : null}
@@ -265,7 +265,7 @@ export function ConversationPanelComposition({
                 <ComposerMeta>
                   <ComposerToolbarLabel>
                     <Checkbox aria-label="Send as task" />
-                    As Task
+                    As task
                   </ComposerToolbarLabel>
                   <ComposerSubmit size="icon-md" aria-label="Send" disabled>
                     <Send />

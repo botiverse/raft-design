@@ -12,7 +12,7 @@ export function BannerInlineActionContent() {
       <BannerTitle>Plan limit reached</BannerTitle>
       <BannerDescription>
         Remove an inactive machine before adding another.{" "}
-        <TextLink variant="strong">Manage Machines</TextLink>
+        <TextLink variant="strong">Manage machines</TextLink>
       </BannerDescription>
       <BannerClose />
     </Banner>

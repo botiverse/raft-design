@@ -76,9 +76,9 @@ function matches(value: string, query: string) {
 
 function timeLabel(value: SearchTimeRange) {
   if (value === "today") return "Today";
-  if (value === "7d") return "Last 7 Days";
-  if (value === "30d") return "Last 30 Days";
-  return "Any Time";
+  if (value === "7d") return "Last 7 days";
+  if (value === "30d") return "Last 30 days";
+  return "Any time";
 }
 
 function scopeLabel(value: SearchScope) {
@@ -402,7 +402,7 @@ export function SearchFilters({
 
         {hasActiveFilters ? (
           <Button type="button" variant="ghost" size="md" onClick={handleClearAll}>
-            Clear All
+            Clear all
           </Button>
         ) : null}
       </div>

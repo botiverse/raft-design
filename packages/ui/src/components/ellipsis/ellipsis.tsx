@@ -431,7 +431,7 @@ export type EllipsisToggleProps = Omit<TextLinkProps, "aria-expanded" | "aria-co
 /**
  * The control that expands an Ellipsis and collapses it again, for its
  * `after`. A real button, with `aria-expanded` and `aria-controls` pointing
- * at the text. The label is the caller's: "Show More" / "Show Less".
+ * at the text. The label is the caller's: "Show more" / "Show less".
  */
 export function EllipsisToggle({ onClick, ...props }: EllipsisToggleProps) {
   const context = useContext(EllipsisContext);

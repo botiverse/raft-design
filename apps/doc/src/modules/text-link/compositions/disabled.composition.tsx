@@ -3,7 +3,7 @@ import { TextLink } from "@botiverse/raft-ui";
 export function TextLinkDisabledContent() {
   return (
     <div className="text-footnote">
-      <TextLink disabled>Sign Out</TextLink>
+      <TextLink disabled>Sign out</TextLink>
     </div>
   );
 }

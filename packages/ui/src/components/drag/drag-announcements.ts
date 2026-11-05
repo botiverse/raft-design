@@ -3,7 +3,7 @@ import type { Announcements, ScreenReaderInstructions, UniqueIdentifier } from "
 /** A place in words: the list or area's name, and the item's position in it when it has one. */
 export type DragPlace = {
   /**
-   * The list or area, as people see it: "Pinned", "In Review", "the right
+   * The list or area, as people see it: "Pinned", "In review", "the right
    * column". Empty when it has no name (an unlabelled tab row): then only the
    * position is said.
    */

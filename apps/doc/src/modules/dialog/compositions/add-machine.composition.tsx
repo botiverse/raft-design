@@ -28,7 +28,7 @@ function AddMachineDialogParts() {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Connect Computer</DialogTitle>
+        <DialogTitle>Connect computer</DialogTitle>
         <DialogClose />
       </DialogHeader>
       <DialogBody>

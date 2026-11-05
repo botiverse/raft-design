@@ -97,7 +97,7 @@ Base UI overlays portal to `document.body`. Give the app root `isolation: isolat
 import { Button } from "@botiverse/raft-ui";
 
 export function CreateTaskButton() {
-  return <Button variant="primary">Create Task</Button>;
+  return <Button variant="primary">Create task</Button>;
 }
 ```
 

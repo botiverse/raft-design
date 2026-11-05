@@ -107,7 +107,7 @@ export function SidebarSettingsListComposition() {
                     <Building2 />
                   </SidebarItemIcon>
                   <SidebarItemContent>
-                    <SidebarItemTitle>Server Profile</SidebarItemTitle>
+                    <SidebarItemTitle>Server profile</SidebarItemTitle>
                   </SidebarItemContent>
                 </SidebarItem>
                 <SidebarItem value="billing" active={selected === "billing"} onClick={handleOpen}>

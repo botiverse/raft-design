@@ -52,5 +52,5 @@ An input group puts fixed text, an icon or a button inside an input's box: a dom
 `InputGroupInput` wraps Base UI Input; the group itself is a plain `<div>`.
 
 - Name the input with a `FieldLabel` ([Field](../field/field.md)), or with `aria-label` on a search field that has no visible label (Search).
-- Give a button addon its own `aria-label` (Clear Search).
+- Give a button addon its own `aria-label` (Clear search).
 - Text addons are not read as part of the value. When the prefix matters for understanding the value, say it in the label or the help text.

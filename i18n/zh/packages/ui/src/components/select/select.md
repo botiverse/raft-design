@@ -1,7 +1,7 @@
 ---
 title: Select
 summary: 打开一列值并显示选中值的字段，用于从最多 10 个值里选一个，或从若干值里选几个。
-sourceHash: 6c60eecf
+sourceHash: c7609a6f
 ---
 
 # Select
@@ -31,7 +31,7 @@ sourceHash: 6c60eecf
 - `SelectList`：可滚动的选项列表。
 - `SelectItem`：一个值，包含 `SelectItemText` 和 `SelectItemIndicator`（勾号）。`SelectItemLeading` 放文字前面的图标或头像。`SelectItemDescription` 是文字下方可选的第二行。
 - `SelectGroup` 和 `SelectGroupLabel`：小标题下的一组值。`SelectSeparator` 是分组之间的细线。
-- `SelectActionItem`：列表末尾、在一个 `SelectSeparator` 之后的操作行，比如 Show All Runtimes。它不是一个值；见[列表操作](#list-actions)。
+- `SelectActionItem`：列表末尾、在一个 `SelectSeparator` 之后的操作行，比如 Show all runtimes。它不是一个值；见[列表操作](#list-actions)。
 - `SelectLabel`：选择框不在 [Field](../field/field.md) 里时用的标签。
 - `SelectScrollUpArrow`、`SelectScrollDownArrow`、`SelectPortal`、`SelectPopup`：用于自定义弹出层的底层部件。
 
@@ -53,7 +53,7 @@ picker-trigger-button/compositions/select-filter
 
 - 筛选器高 32px，点击区域 44px。
 - 未应用的筛选器用 `line-seam` 描边。已应用的筛选器用 `info-soft` 填充，并显示它有几个值。
-- 在筛选器后面放一个 `ghost` 的 Clear All 按钮。
+- 在筛选器后面放一个 `ghost` 的 Clear all 按钮。
 - 打开的列表和其他选择器一样：单选或多选，值很多时带搜索。
 
 #### 用哪种筛选按钮 {#which-filter-button}
@@ -96,7 +96,7 @@ Filter 按钮和它的标签片：
 
 ### 列表操作 {#list-actions}
 
-列表操作改变列表显示什么，从不改变值。Show All Runtimes 就是一个：列表开头是大多数人用的运行时，它放在列表末尾，把其余的运行时加进同一个列表。
+列表操作改变列表显示什么，从不改变值。Show all runtimes 就是一个：列表开头是大多数人用的运行时，它放在列表末尾，把其余的运行时加进同一个列表。
 
 ```example
 select/compositions/list-action
@@ -105,8 +105,8 @@ select/compositions/list-action
 - 把它放在最后，在一个 `SelectSeparator` 之后，每个列表一个。它用 `foreground-muted`，读起来是一个步骤而不是一个选项；它像选项一样高亮，内缩也一样。
 - 方向键和输入跳转能像到达选项一样到达它。按 Enter、Space 或点击会执行 `onAction`；值、勾号和 `onValueChange` 保持不变。
 - 列表保持打开，因为这个操作改变的是列表显示的内容。只有操作会离开列表时（比如打开一个添加运行时的对话框），才设 `closeOnAction`。
-- 全部显示出来后，去掉它，或者把它变成 Show Fewer。它在自己上方加入选项时，高亮仍留在这一行上，所以下一次按方向键会从那里接着走。
-- 做别的事的操作（Manage Runtimes、Add）不属于选择一个值：把它放在选择框旁边，或者用 [DropdownMenu](../dropdown-menu/dropdown-menu.md)。
+- 全部显示出来后，去掉它，或者把它变成 Show fewer。它在自己上方加入选项时，高亮仍留在这一行上，所以下一次按方向键会从那里接着走。
+- 做别的事的操作（Manage runtimes、Add）不属于选择一个值：把它放在选择框旁边，或者用 [DropdownMenu](../dropdown-menu/dropdown-menu.md)。
 
 ## 内容 {#content}
 

@@ -33,7 +33,7 @@ function ConnectComputerDialogParts() {
       <DialogHeader>
         {/* On a phone a later step starts the head with Back instead of ×. */}
         {step === 2 ? <DialogSheetBack onClick={back} /> : null}
-        <DialogTitle>Connect Computer</DialogTitle>
+        <DialogTitle>Connect computer</DialogTitle>
         <DialogClose />
       </DialogHeader>
       {step === 1 ? (

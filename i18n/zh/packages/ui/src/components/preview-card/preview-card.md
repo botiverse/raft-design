@@ -58,7 +58,7 @@ preview-card/preview-card-mention
 preview-card/preview-card-app-item
 ```
 
-读者允许这个应用之前，标签片保持灰色并显示地址，不带卡片：卡片是只读的，上面的按钮用键盘和触屏都够不到。在标签片上点击、点按或按 Enter，会打开一个 [Popover](../popover/popover.md) 来提问，所有设备都一样：标题是一个问题，一句话说明允许后会怎样，「Open Link」不带预览直接打开，「Show Previews」允许预览。
+读者允许这个应用之前，标签片保持灰色并显示地址，不带卡片：卡片是只读的，上面的按钮用键盘和触屏都够不到。在标签片上点击、点按或按 Enter，会打开一个 [Popover](../popover/popover.md) 来提问，所有设备都一样：标题是一个问题，一句话说明允许后会怎样，「Open link」不带预览直接打开，「Show previews」允许预览。
 
 ```example
 preview-card/preview-card-app-prompt
@@ -76,12 +76,12 @@ preview-card/preview-card-app-prompt
 - 对 Agent，先说它现在在做什么，再说它是谁："Reviewing #25" 加上它的在线状态灯，然后是它的角色和运行位置。
 - 对人，显示其角色和当地时间。
 - 在条目卡片上，按应用发来的原样显示它的文字；应用没发的部分就不显示，不要用 Raft 自己的内容去填。
-- 按钮用 Title Case：Message、View Profile、Open in Stamp。
+- 按钮用 sentence case：Message、View profile、Open in Stamp。
 
 ## 无障碍 {#accessibility}
 
 - PreviewCard 封装了 Base UI 的 PreviewCard。悬停或聚焦触发元素时打开，按 Esc 关闭。
-- 卡片是补充信息，触屏上不会打开，键盘也够不到上面的按钮：焦点会从触发元素移走，卡片随之关闭。把触发元素做成真实链接，指向资料页或应用的条目，这样卡片上的一切都能通过别的途径获取：条目卡片上的按钮只是一个捷径，指向链接打开的那一页上已有的东西，比如 pull request 的 View Changes。
+- 卡片是补充信息，触屏上不会打开，键盘也够不到上面的按钮：焦点会从触发元素移走，卡片随之关闭。把触发元素做成真实链接，指向资料页或应用的条目，这样卡片上的一切都能通过别的途径获取：条目卡片上的按钮只是一个捷径，指向链接打开的那一页上已有的东西，比如 pull request 的 View changes。
 
 ## 规则 {#rules}
 

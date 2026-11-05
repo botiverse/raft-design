@@ -55,7 +55,7 @@ export function ComposerDefaultComposition() {
           <ComposerMeta>
             <ComposerToolbarLabel>
               <Checkbox aria-label="Send as task" />
-              As Task
+              As task
             </ComposerToolbarLabel>
             <ComposerSubmit aria-label="Send" disabled={!draft.trim() && !hasAttachment}>
               <span>Send</span>

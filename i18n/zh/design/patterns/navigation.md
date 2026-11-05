@@ -1,7 +1,7 @@
 ---
 title: 导航
 summary: 人如何到达各个目的地、看到自己在哪里、打开链接、返回、关闭界面、切换服务器，以及在同一个地方的几个视图之间切换。
-sourceHash: 90577660
+sourceHash: e2521940
 ---
 
 # 导航
@@ -78,7 +78,7 @@ sourceHash: 90577660
 
 - 把开关放在导航条上，作为底部区域的第一项，在帮助和设置上方。它属于外框而不属于某个页面，所以不管主区域显示什么，它都待在同一个位置（[AppShell](../../packages/ui/src/components/app-shell/app-shell.md#variants)）。
 - 侧栏显示时用 `panel-left-close`，隐藏时用 `panel-left-open`：图标表示按下后会发生什么。
-- 和每个导航条项一样，在右侧的工具提示里写出它的名称：Collapse Sidebar 或 Expand Sidebar（收起侧栏 / 展开侧栏），后面是键名为 `mod` 和 `\` 的 `KbdShortcut`（[Kbd](../../packages/ui/src/components/kbd/kbd.md)）：两个键帽，macOS 上是 ⌘ \，其他系统是 Ctrl \，从不把 Ctrl+\ 放进一个键帽。快捷键在应用里任何地方都有效，焦点在文本框里时也有效。
+- 和每个导航条项一样，在右侧的工具提示里写出它的名称：Collapse sidebar 或 Expand sidebar（收起侧栏 / 展开侧栏），后面是键名为 `mod` 和 `\` 的 `KbdShortcut`（[Kbd](../../packages/ui/src/components/kbd/kbd.md)）：两个键帽，macOS 上是 ⌘ \，其他系统是 Ctrl \，从不把 Ctrl+\ 放进一个键帽。快捷键在应用里任何地方都有效，焦点在文本框里时也有效。
 - 和侧栏的宽度一样，把状态记在设备上：侧栏会恢复成离开时的样子，刷新后也一样。
 - 只在侧栏是主区域旁边的导航栏时，才显示开关、响应快捷键。手机上主区域旁边没有侧栏；没有侧栏的页面也没有东西可隐藏，记住的状态留到下一个有侧栏的页面再用。
 
@@ -107,7 +107,7 @@ message-reference/compositions/app-links
 message-reference/compositions/app-link-pending
 ```
 
-- 读的人还没允许这个应用、服务器询问是否显示它的预览时，保留带缩短地址的灰色标签片（`MessageReferenceChip variant="muted"`），做成按钮而不是链接：链接会在同一次点击里打开地址，跳过这个问题。它不打开卡片。在它上面点击、点按或按 Enter，都先用一个 [Popover](../../packages/ui/src/components/popover/popover.md) 提问，所有设备都一样：「Open Link」不带预览直接打开，「Show Previews」允许预览。卡片不能提问：它是只读的，上面的按钮用键盘和触屏都够不到。
+- 读的人还没允许这个应用、服务器询问是否显示它的预览时，保留带缩短地址的灰色标签片（`MessageReferenceChip variant="muted"`），做成按钮而不是链接：链接会在同一次点击里打开地址，跳过这个问题。它不打开卡片。在它上面点击、点按或按 Enter，都先用一个 [Popover](../../packages/ui/src/components/popover/popover.md) 提问，所有设备都一样：「Open link」不带预览直接打开，「Show previews」允许预览。卡片不能提问：它是只读的，上面的按钮用键盘和触屏都够不到。
 - 在桌面上，悬停或聚焦标签片会打开应用的条目卡片，显示详情：编号、标题、用应用自己的话写的状态和一行详情、它的操作，以及应用的名称和主机名（[PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)）。Raft 不在上面使用应用的颜色。
 - 在手机上，点按标签片会打开链接。预览卡片在触屏上不会打开，所以把标签片做成真正的链接（`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`），在新标签页打开，对话留在原处。
 

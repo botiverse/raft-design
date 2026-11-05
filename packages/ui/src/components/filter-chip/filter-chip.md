@@ -49,7 +49,7 @@ Put the chip right after the Filter button, 8px from it, in the same row.
 ## Content
 
 - Name the filter exactly as its item in the menu does: Unread, Mentions, Pinned. Don't add the word Filter or a verb.
-- Name the × by what it does, in its `aria-label`: Clear Filter, or Show All when the default is All.
+- Name the × by what it does, in its `aria-label`: Clear filter, or Show all when the default is All.
 
 ## Accessibility
 

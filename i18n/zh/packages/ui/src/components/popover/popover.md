@@ -1,7 +1,7 @@
 ---
 title: Popover
 summary: 在人点击的元素旁边打开的小面板，用于少量输入，比如一个选项、一个输入框和一个按钮。
-sourceHash: fd28bd82
+sourceHash: 8d0ac6fd
 ---
 
 # Popover
@@ -45,7 +45,7 @@ sourceHash: fd28bd82
 
 ## 内容 {#content}
 
-- 按钮标签用 Title Case，确认按钮重复动词：Snooze、Rename（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
+- 按钮标签用 sentence case，确认按钮重复动词：Snooze、Rename（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 
 ## 无障碍 {#accessibility}
 

@@ -384,7 +384,7 @@
       "EllipsisToggle"
     ],
     "status": "experimental",
-    "description": "The control that expands an Ellipsis and collapses it again, for its `after`. A real button, with `aria-expanded` and `aria-controls` pointing at the text. The label is the caller's: \"Show More\" / \"Show Less\"."
+    "description": "The control that expands an Ellipsis and collapses it again, for its `after`. A real button, with `aria-expanded` and `aria-controls` pointing at the text. The label is the caller's: \"Show more\" / \"Show less\"."
   },
   "empty-state": {
     "names": [
@@ -1128,7 +1128,7 @@
       "SelectValue"
     ],
     "status": "stable",
-    "description": "An action row inside the list, placed last after a `SelectSeparator`, such as Show All. It is reached by the arrow keys and typeahead like an item, but pressing it runs `onAction` instead of choosing a value. It is an option to assistive technology, so it takes no `aria-expanded`: its label says what it does."
+    "description": "An action row inside the list, placed last after a `SelectSeparator`, such as Show all. It is reached by the arrow keys and typeahead like an item, but pressing it runs `onAction` instead of choosing a value. It is an option to assistive technology, so it takes no `aria-expanded`: its label says what it does."
   },
   "separator": {
     "names": [

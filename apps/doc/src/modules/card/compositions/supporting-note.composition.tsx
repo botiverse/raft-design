@@ -115,7 +115,7 @@ export function CardSupportingNoteComposition() {
           {enabled ? "Critical alerts are sent immediately." : "Security alerts are paused."}
         </span>
         <TextLink className="ml-auto" render={<a href="#api" />}>
-          View Docs
+          View docs
         </TextLink>
       </CardFooter>
     </Card>

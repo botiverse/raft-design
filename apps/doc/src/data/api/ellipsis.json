@@ -68,7 +68,7 @@
   {
     "name": "EllipsisToggle",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "The control that expands an Ellipsis and collapses it again, for its `after`. A real button, with `aria-expanded` and `aria-controls` pointing at the text. The label is the caller's: \"Show More\" / \"Show Less\".",
+    "description": "The control that expands an Ellipsis and collapses it again, for its `after`. A real button, with `aria-expanded` and `aria-controls` pointing at the text. The label is the caller's: \"Show more\" / \"Show less\".",
     "native": true,
     "props": [
       {

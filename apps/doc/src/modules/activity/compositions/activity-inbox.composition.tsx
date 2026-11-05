@@ -484,7 +484,7 @@ export function ActivityInboxComposition({
             {channelFilterId ? (
               <SidebarSectionTrailing className="min-w-0 pr-0">
                 <TextLink data-activity-inbox-show-all="" onClick={handleShowAllChannels}>
-                  Show All
+                  Show all
                 </TextLink>
               </SidebarSectionTrailing>
             ) : null}

@@ -191,7 +191,7 @@
   {
     "name": "SelectActionItem",
     "entry": "@botiverse/raft-ui",
-    "description": "An action row inside the list, placed last after a `SelectSeparator`, such as Show All. It is reached by the arrow keys and typeahead like an item, but pressing it runs `onAction` instead of choosing a value. It is an option to assistive technology, so it takes no `aria-expanded`: its label says what it does.",
+    "description": "An action row inside the list, placed last after a `SelectSeparator`, such as Show all. It is reached by the arrow keys and typeahead like an item, but pressing it runs `onAction` instead of choosing a value. It is an option to assistive technology, so it takes no `aria-expanded`: its label says what it does.",
     "native": true,
     "props": [
       {
@@ -199,7 +199,7 @@
         "type": "boolean",
         "required": false,
         "default": "false",
-        "description": "Whether pressing the row closes the list. Off by default: a list action such as Show All changes what the list shows, so the list stays open.",
+        "description": "Whether pressing the row closes the list. Off by default: a list action such as Show all changes what the list shows, so the list stays open.",
         "from": "raft-ui"
       },
       {

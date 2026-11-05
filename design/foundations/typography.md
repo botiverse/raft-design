@@ -11,7 +11,7 @@ Raft uses two typefaces with separate jobs: Space Grotesk for what people say, S
 
 - **Space Grotesk is people; Space Mono is machines.** Space Grotesk (variable, weights 300 to 700) sets messages, labels and titles. Space Mono (400 and 700) sets IDs, times, counts, runtimes, event lines, shortcuts and code.
 - **CJK falls back to the system face**: PingFang SC, then Source Han Sans, for Chinese. A page in Traditional Chinese, Japanese or Korean (`<html lang="zh-TW">` / `"ja"` / `"ko"`) falls back to its own faces first, because the Simplified Chinese faces draw characters with mainland glyph shapes and have no Hangul. Mixed CJK and English text keeps the numbers, IDs and times in Space Mono.
-- **No all caps.** Use Title Case for anything people can click and sentence case for everything else; see [Casing](#casing).
+- **No all caps, and sentence case everywhere.** Write every label, title and line in sentence case, with capitals only for the first word and for names; see [Casing](#casing).
 
 ## Type scale
 
@@ -134,12 +134,16 @@ card-title
 
 | Text | Case | Example |
 | --- | --- | --- |
-| Anything clickable: buttons, text links, menu items, tabs, tab bar items, status names | Title Case | Create Task, Mark All Read, Sign Out |
+| Anything people can click or that names an action: buttons, menu items, tabs, tab bar items, segmented controls, text links, tooltips and the accessible names of icon buttons | Sentence case | Create task, Mark all read, Sign out, Add reaction |
+| Task status names | Sentence case | Backlog, Todo, In progress, Done, Closed |
 | Titles, group headings, descriptions, empty states | Sentence case | No tasks match these filters |
-| A dialog or sheet title that repeats its button's label | Title Case | Create Channel |
+| A dialog or sheet title that repeats its button's label | Sentence case, as the button | Create channel |
+| Names: Raft and its products and features, people, servers, channels, third-party names | As the name is written | Agent Lounge, Stamp, GitHub, #launch-week |
+
+- Use one casing for all text: sentence case, with names keeping their capitals. Long labels such as menu items read awkwardly in Title Case, and one casing is simpler to write, translate and check ([0044](../decisions/0044-sentence-case-for-labels.md)).
 
 - Never set text in all caps, in CSS or in the string. [0002](../decisions/0002-no-all-caps.md) allows one exception, a step label on an onboarding screen; the product's setup writes its step label in sentence case, so nothing in the product is in all caps ([Brand](./brand.md)).
-- The rules for writing Title Case are in [Writing](../content/writing.md#casing).
+- The rules for writing labels, and what counts as a name, are in [Writing](../content/writing.md#casing).
 
 ## Related
 

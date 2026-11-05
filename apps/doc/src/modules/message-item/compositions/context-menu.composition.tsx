@@ -89,10 +89,10 @@ export function MessageContextMenuComposition({
 }: MessageContextMenuCompositionProps) {
   const taskAction =
     task === "done"
-      ? { icon: <RotateCcw />, label: "Reopen Task" }
+      ? { icon: <RotateCcw />, label: "Reopen task" }
       : task === "open"
-        ? { icon: <CheckCircle />, label: "Mark as Done" }
-        : { icon: <ClipboardCheck />, label: "Create Task from Message" };
+        ? { icon: <CheckCircle />, label: "Mark as done" }
+        : { icon: <ClipboardCheck />, label: "Create task from message" };
 
   const portalProps = useMemo(
     () => (portalContainer ? { container: portalContainer } : undefined),
@@ -125,7 +125,7 @@ export function MessageContextMenuComposition({
           nativeButton
           disabled={!onOpenEmojiPicker}
           onClick={onOpenEmojiPicker}
-          render={<MessageReactionQuickButton title="Add Reaction" aria-label="Add Reaction" />}
+          render={<MessageReactionQuickButton title="Add reaction" aria-label="Add reaction" />}
         >
           <SmilePlus />
         </ContextMenuItem>
@@ -135,13 +135,13 @@ export function MessageContextMenuComposition({
       {onOpenThread ? (
         <ContextMenuItem onClick={onOpenThread}>
           <ThreadIcon />
-          Reply in Thread
+          Reply in thread
         </ContextMenuItem>
       ) : null}
       {onFollowChange ? (
         <ContextMenuItem onClick={handleFollowToggle}>
           {followed ? <UnfollowThreadIcon /> : <FollowThreadIcon />}
-          {followed ? "Unfollow Thread" : "Follow Thread"}
+          {followed ? "Unfollow thread" : "Follow thread"}
         </ContextMenuItem>
       ) : null}
       <ContextMenuItem disabled={!onTaskChange} onClick={handleTaskToggle}>
@@ -152,7 +152,7 @@ export function MessageContextMenuComposition({
       {/* Take it elsewhere: nothing changes here. */}
       <ContextMenuItem disabled={!onCopyLink} onClick={onCopyLink}>
         <LinkIcon />
-        Copy Link
+        Copy link
       </ContextMenuItem>
       <ContextMenuItem disabled={!onCopyMarkdown} onClick={onCopyMarkdown}>
         <Copy />
@@ -162,14 +162,14 @@ export function MessageContextMenuComposition({
       {onSelectMessage ? (
         <ContextMenuItem onClick={onSelectMessage}>
           <CheckCircle />
-          Select Message
+          Select message
         </ContextMenuItem>
       ) : null}
       <ContextMenuSeparator />
       {/* Just for me: nobody else sees it. */}
       <ContextMenuItem disabled={!onSavedChange} onClick={handleSavedToggle}>
         {saved ? <BookmarkMinus /> : <Bookmark />}
-        {saved ? "Remove from Saved" : "Save Message"}
+        {saved ? "Remove from Saved" : "Save message"}
       </ContextMenuItem>
     </ContextMenuContent>
   );

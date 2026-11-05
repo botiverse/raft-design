@@ -1,7 +1,7 @@
 ---
 title: Status
 summary: 方形的状态像素点（在线状态灯、提醒圆点，或文字旁的状态色），以及用它构成的状态标签、Agent 标签和运行时标签片。
-sourceHash: 723b307b
+sourceHash: f56b09b0
 ---
 
 # Status
@@ -70,7 +70,7 @@ Agent 状态标签是一个浅色的 [Badge](../badge/badge.md)，里面放一�
 
 ## 内容 {#content}
 
-- 每个状态色都要配一个词。这个词用 Title Case：In Progress、Working。
+- 每个状态色都要配一个词。这个词用 sentence case：In progress、Working。
 - 标签片里的 ID 用 Space Mono：`#25`。
 
 ## 无障碍 {#accessibility}

@@ -68,7 +68,7 @@ The list in the first example does the first: tap or press Enter on a cut name t
 ellipsis/compositions/expand
 ```
 
-- `after` sits at the end of the last visible line. Give it a function to get `{ truncated, expanded, toggle }`, for an `EllipsisToggle` whose label follows the state: Show More, Show Less.
+- `after` sits at the end of the last visible line. Give it a function to get `{ truncated, expanded, toggle }`, for an `EllipsisToggle` whose label follows the state: Show more, Show less.
 - `after` shows only while the text is cut or expanded. While the text fits it is `display: none` and takes no room. Since the text is always measured alone, showing `after` never changes the answer, and the control can't flicker in and out.
 - `EllipsisToggle` stays the same element when it is pressed, so focus stays on it.
 - `expanded`, `defaultExpanded` and `onExpandedChange` make it controlled or uncontrolled.
@@ -112,4 +112,4 @@ Most texts that don't cut sit in a layout that won't let them shrink:
 
 - Never cut a label, help text or an error: wrap them ([Forms](../../../../../design/patterns/forms.md#long-values-in-fields)).
 - Don't add a `title` to an Ellipsis: it shows its own tooltip only when needed, and a `title` shows always and doubles it.
-- Put the expand label in the product's words, in Title Case: Show More, Show Less.
+- Put the expand label in the product's words, in sentence case: Show more, Show less.

@@ -47,7 +47,7 @@ It is built like a message's hover toolbar, so the two read as one kind of thing
 
 ## Content
 
-- Write labels in Title Case. They never wrap: Chinese text can break between any two characters, so a toolbar squeezed at the edge of the window broke a two-character label onto two lines.
+- Write labels in sentence case. They never wrap: Chinese text can break between any two characters, so a toolbar squeezed at the edge of the window broke a two-character label onto two lines.
 
 ## Accessibility
 

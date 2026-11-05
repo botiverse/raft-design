@@ -82,18 +82,18 @@ Each one labels one action, in a menu item or on a button, beside the action's n
 
 | Icon                      | Labels                                                                                                                                                           |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `FollowThreadIcon`        | Follow Thread: in the message menu, a thread's More menu and an inbox row's menu                                                                                 |
-| `UnfollowThreadIcon`      | Unfollow Thread, in the same places                                                                                                                              |
+| `FollowThreadIcon`        | Follow thread: in the message menu, a thread's More menu and an inbox row's menu                                                                                 |
+| `UnfollowThreadIcon`      | Unfollow thread, in the same places                                                                                                                              |
 | `JoinChannelIcon`         | Joining a channel: the Join button in a channel the person isn't in ("Join #design", "Join channel to reply"). A channel readable on the public page uses it too |
-| `LeaveChannelIcon`        | Leave Channel, for a channel                                                                                                                                     |
+| `LeaveChannelIcon`        | Leave channel, for a channel                                                                                                                                     |
 | `JoinPrivateChannelIcon`  | Joining a private channel. A private channel can only be joined by invitation, so it goes on the action that accepts one                                         |
-| `LeavePrivateChannelIcon` | Leave Channel, for a private channel                                                                                                                             |
+| `LeavePrivateChannelIcon` | Leave channel, for a private channel                                                                                                                             |
 | `JoinJointChannelIcon`    | Joining a joint channel: an admin accepting the invitation that brings the server in                                                                             |
-| `LeaveJointChannelIcon`   | Leave Channel, for a joint channel                                                                                                                               |
+| `LeaveJointChannelIcon`   | Leave channel, for a joint channel                                                                                                                               |
 | `FollowArtifactIcon`      | Follow Artifact: in an Artifact's menu and on the Artifacts page                                                                                                 |
 | `UnfollowArtifactIcon`    | Unfollow Artifact, in the same places                                                                                                                            |
-| `AddCommentIcon`          | Add Comment: writing a comment on a passage of an Artifact or a file                                                                                             |
-| `ReopenTaskIcon`          | Reopen Task: taking a done task back to not done                                                                                                                 |
+| `AddCommentIcon`          | Add comment: writing a comment on a passage of an Artifact or a file                                                                                             |
+| `ReopenTaskIcon`          | Reopen task: taking a done task back to not done                                                                                                                 |
 
 Pick the channel icon by the kind of channel the action is on, the same kind its own icon shows (`hash`, `lock`, `git-branch`; [Raft Chat channel](../../../../../design/products/raft-chat/channel.md)).
 
@@ -117,7 +117,7 @@ A channel's own icon with a globe (readable on the public page) has no pair of i
 ## Accessibility
 
 - The icons are hidden from assistive technology (`aria-hidden`) and can't take focus. The text or the `aria-label` of the control around them names what they stand for.
-- To use one as the only content of a button, give the button an `aria-label`: Open Thread.
+- To use one as the only content of a button, give the button an `aria-label`: Open thread.
 
 ## Rules
 

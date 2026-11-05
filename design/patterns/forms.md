@@ -32,7 +32,7 @@ Ask these in order; the first yes decides (stdrc, 2026-10-29). Each kind of chan
 
 | If the change | It takes effect |
 | --- | --- |
-| Has a side effect that can't be taken back: it charges money, sends an email or a message, signs someone out, restarts or disconnects something, or makes an old link or key stop working | When people press a button that names the action: Upgrade, Send Invite, Restart, Rotate Secret. Not a switch and not Save |
+| Has a side effect that can't be taken back: it charges money, sends an email or a message, signs someone out, restarts or disconnects something, or makes an old link or key stop working | When people press a button that names the action: Upgrade, Send invite, Restart, Rotate secret. Not a switch and not Save |
 | Is text: a name, a description, an address, a key | On Save, or Enter in a one-line field. Saving while people type would store a half-written value |
 | Is one of several values that are only valid together: a new password and its confirmation, sending events and the address they go to | On one Save for the group ([Settings saved together](#settings-saved-together)). Creating something (a channel, an agent, a task) is this case: the dialog's submit button |
 | Is anything else: a yes or no, or a choice, that stands alone | At once ([Settings that apply at once](#settings-that-apply-at-once)). Choosing a file, such as an avatar, is this case |
@@ -59,7 +59,7 @@ save-status/compositions/preview
 
 ### Forms in a dialog
 
-- Put Cancel and the submit button at the bottom of a form in a dialog. Cancel is a ghost button there, framed when the buttons stack full width ([Dialog](../../packages/ui/src/components/dialog/dialog.md#the-footer)), and takes an ink border on a page ([Button](../../packages/ui/src/components/button/button.md#which-color)). Cancel comes first; the submit button is the screen's pink button and names the action it performs, usually the title's verb: Create in Create Channel; an Edit title's button is Save ([Writing](../content/writing.md#actions-and-their-dialogs)). Both are `size="lg"`, the height of the fields above them ([Spacing](../foundations/spacing.md#heights)).
+- Put Cancel and the submit button at the bottom of a form in a dialog. Cancel is a ghost button there, framed when the buttons stack full width ([Dialog](../../packages/ui/src/components/dialog/dialog.md#the-footer)), and takes an ink border on a page ([Button](../../packages/ui/src/components/button/button.md#which-color)). Cancel comes first; the submit button is the screen's pink button and names the action it performs, usually the title's verb: Create in Create channel; an Edit title's button is Save ([Writing](../content/writing.md#actions-and-their-dialogs)). Both are `size="lg"`, the height of the fields above them ([Spacing](../foundations/spacing.md#heights)).
 - Offer public or private, and any other answer whose result needs saying, as a radio group with one line under each answer: "Anyone in the server can find and join it", "Only people invited can see it". The line puts the result next to the choice, which a segmented control has no room for ([RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md)).
 - When one section of a dialog or a drawer saves on its own, because the rest applies at once (a channel's name and description among its switches), put its Save under the section's fields at the start of the line, Save first, as on a settings page. At the end of the footer it would read as saving the whole dialog.
 - Make a form with a few fields a small dialog, the default `size="md"`, 448px wide: creating a channel, an agent or a task. A form whose content needs more width, such as key-value rows or a command, takes `size="lg"`, 640px ([Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)).
@@ -68,7 +68,7 @@ save-status/compositions/preview
 
 A large form filled in one pass, such as registering or editing an app, opens as the wide dialog ([Dialog](../../packages/ui/src/components/dialog/dialog.md)): centered, 896px wide, with a fixed height of 760px or the window less 32px, whichever is smaller. It doesn't go to a settings page or a drawer: a form with many fields has to be seen as one whole, not as a strip along the edge.
 
-- Make the 56px header the item's logo, the title and ×. The title is the words that opened it (Register App), or Edit and the item's name when editing. Don't put the submit button in the header.
+- Make the 56px header the item's logo, the title and ×. The title is the words that opened it (Register app), or Edit and the item's name when editing. Don't put the submit button in the header.
 - Put a strip under the header for what must stay in view while the form scrolls: the form's error, or a secret shown once.
 - Put a section list on the left, 208px wide, so people can jump around a long form (sidebar rows; the section being read is a yellow sticker and follows the scroll), and the sections on the right ([FormSection](../../packages/ui/src/components/form-section/form-section.md): a small heading, a status chip, one line of description, and a hairline between sections).
 - Put Cancel first and the pink button last in the footer.

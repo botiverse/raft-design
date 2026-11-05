@@ -20,7 +20,7 @@ function FooterLinkDialogParts() {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Turn On Auto-Archive</DialogTitle>
+        <DialogTitle>Turn on auto-archive</DialogTitle>
         <DialogClose />
       </DialogHeader>
       <DialogBody>
@@ -29,10 +29,10 @@ function FooterLinkDialogParts() {
         </DialogDescription>
       </DialogBody>
       <DialogFooter>
-        <TextLink render={<a href="#how-archiving-works" />}>How Archiving Works</TextLink>
+        <TextLink render={<a href="#how-archiving-works" />}>How archiving works</TextLink>
         <DialogClose render={<Button variant="ghost" size="lg" />}>Cancel</DialogClose>
         <Button variant="primary" size="lg">
-          Turn On
+          Turn on
         </Button>
       </DialogFooter>
     </>

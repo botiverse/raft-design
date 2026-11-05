@@ -38,7 +38,7 @@ export function MessageEmbedLinkCardsComposition() {
                 href="#launch-plan"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Open in New Page"
+                aria-label="Open in new page"
               />
             }
           >

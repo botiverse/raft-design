@@ -2,7 +2,7 @@ import { Ellipsis, EllipsisToggle } from "@botiverse/raft-ui/wip";
 import type { EllipsisState } from "@botiverse/raft-ui/wip";
 
 function showMore({ expanded }: EllipsisState) {
-  return <EllipsisToggle>{expanded ? "Show Less" : "Show More"}</EllipsisToggle>;
+  return <EllipsisToggle>{expanded ? "Show less" : "Show more"}</EllipsisToggle>;
 }
 
 const LONG =
