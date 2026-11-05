@@ -1,3 +1,14 @@
+## [0.63.0](https://github.com/botiverse/raft-design/compare/v0.62.0...v0.63.0) (2026-11-05)
+
+### Added
+
+- **InboxItemLine**, **InboxItemStatus**, **InboxItemListGroup** and **InboxItemListHeading** (from `@botiverse/raft-ui/wip`): a compact InboxItem row with no trailing column, and a list of rows grouped by day. ([#999](https://github.com/botiverse/raft-design/pull/999), rules in [#998](https://github.com/botiverse/raft-design/pull/998))
+  - Why: the trailing column held the time and task number on their own, wasting the row's width; the time now sits at the end of the first line and the preview takes the full width (stdrc, #proj-raft-ui:e09717fb).
+  - Affects: nothing until a row uses `InboxItemLine`. Rows built with `InboxItemTrailing` render the same DOM and classes as 0.62.0 (a parity test compares them).
+  - Docs: https://raft-design.botiverse.build/components/inbox-item/
+- **InboxItemTimestamp**: `reveal="hover"`, for an older row in a list with `InboxItemLine`: the time is hidden at rest and shows while the row is hovered or holds keyboard focus; never on touch. In a compact row's heading the time can carry a tooltip, and a click on it opens the item.
+- **InboxItemSkeleton** and its list: a `line` prop, so a loading row matches a row with `InboxItemLine`. Off by default.
+
 ## [0.62.0](https://github.com/botiverse/raft-design/compare/v0.61.0...v0.62.0) (2026-11-05)
 
 ### Changed
