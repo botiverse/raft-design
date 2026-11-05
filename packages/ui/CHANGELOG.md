@@ -1,4 +1,4 @@
-## Unreleased
+## [0.65.0](https://github.com/botiverse/raft-design/compare/v0.64.0...v0.65.0) (2026-11-05)
 
 ### Added
 
@@ -22,6 +22,12 @@
   - Why: the sizing audit's touch column (stdrc, 2026-11-04).
   - Affects: phone widths and touch screens; a desktop with a mouse from 768px is unchanged.
   - Docs: https://raft-design.botiverse.build/foundations/spacing/#hit-targets
+
+### Fixed
+
+- **ScrollArea** and **InboxItem**: hover rules apply only with a pointer that can hover. On a touch screen the last thing tapped stays `:hover`, which left scrollbars shown, the thumb thick, a hidden gutter catching taps, and an Inbox row's action room open. ([#1017](https://github.com/botiverse/raft-design/pull/1017))
+  - Affects: touch screens only; mouse behavior is unchanged.
+- **MessageActionCard**: the agent's reason is an upright quote (Space Grotesk has no italic), and a long permission list caps at 136px so the cut runs through a line of text at either description length. ([#1018](https://github.com/botiverse/raft-design/pull/1018))
 
 ## [0.64.0](https://github.com/botiverse/raft-design/compare/v0.63.1...v0.64.0) (2026-11-05)
 
