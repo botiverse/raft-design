@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { useCallback, useLayoutEffect, useRef } from "react";
 import { messageItem } from "./message-item.recipe";
 
 export type MessageItemContentProps = useRender.ComponentProps<"div">;
@@ -137,6 +138,78 @@ export function MessageItemFooter({ className, render, ...props }: MessageItemFo
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "message-item-footer",
+    },
+  });
+}
+
+export type MessageItemTrailingProps = useRender.ComponentProps<"span">;
+
+/** The space kept before a trailing slot on the body's last line. */
+const TRAILING_GAP_PX = 8;
+
+/**
+ * Something small that ends the message (the faces of the agents that read it,
+ * a read mark): the last child of `MessageItemBody`. It takes no column: it sits
+ * at the inline end of the body's last line, and the last line keeps room for it
+ * (`--message-trailing-width`, which it measures and sets on the body, with
+ * `data-trailing`), so the
+ * text wraps under it only when that line is full. When the body ends with a
+ * block that isn't text (a code block, a table, an image), it sits on a line of
+ * its own under that block. Logical properties, so it is right in RTL too.
+ */
+export function MessageItemTrailing({
+  className,
+  render,
+  ref,
+  ...props
+}: MessageItemTrailingProps) {
+  const { trailing } = messageItem();
+  const own = useRef<HTMLSpanElement | null>(null);
+  const measure = useCallback(() => {
+    const el = own.current;
+    const body = el?.parentElement;
+    if (!el || !body) return;
+    body.dataset.trailing = "";
+    body.style.setProperty(
+      "--message-trailing-width",
+      `${Math.ceil(el.getBoundingClientRect().width) + TRAILING_GAP_PX}px`,
+    );
+  }, []);
+  useLayoutEffect(() => {
+    const el = own.current;
+    const body = el?.parentElement;
+    measure();
+    const release = () => {
+      body?.style.removeProperty("--message-trailing-width");
+      if (body) delete body.dataset.trailing;
+    };
+    if (!el || typeof ResizeObserver === "undefined") return release;
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      release();
+    };
+  }, [measure]);
+  const setRef = useCallback(
+    (el: HTMLSpanElement | null) => {
+      own.current = el;
+      if (typeof ref === "function") ref(el);
+      else if (ref) ref.current = el;
+    },
+    [ref],
+  );
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: trailing({ className }),
+    ref: setRef,
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-item-trailing",
     },
   });
 }

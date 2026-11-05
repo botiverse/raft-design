@@ -157,6 +157,9 @@ export const messageItem = tv({
       "dark:shadow-[0_0_0_3px_var(--mi-row-fill,transparent),0_0_0_3px_var(--layer-canvas)]",
     ],
     edited: ["ms-1 whitespace-nowrap", "text-caption text-foreground-hint"],
+    // On the body's last line, at its inline end, centred on that line: the
+    // body is its containing block (styles.css, MessageItemTrailing).
+    trailing: ["absolute end-0 bottom-0 z-10 flex h-lh items-center select-none"],
     body: [
       "wrap-break-word select-text",
       "**:select-text",
