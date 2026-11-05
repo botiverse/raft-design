@@ -80,7 +80,7 @@ app-link-card/compositions/phone
 ## Accessibility
 
 - `AppLinkCard` is a `group`. Label it with `aria-labelledby` pointing at the id of its `AppLinkCardTitle`: someone who tabs to Approve then hears which item it approves, not a bare button among the message's words.
-- Unlike the hover card, this card is in the page: its title's link, its buttons and ⋯ are real links and buttons, in the message's tab order in that order, and work by keyboard and touch.
+- Unlike the hover card, this card is in the page: its title's link, ⋯ and its buttons are real links and buttons, in the message's tab order in that order, the order they sit in from left to right (⋯ is to the buttons' left), and work by keyboard and touch.
 - The header comes first in the DOM, so a screen reader reads the app's name before the app's words.
 - `AppLinkCardPlaceholder` is `aria-busy` and its bars are hidden from assistive technology; the header in it is read.
 
