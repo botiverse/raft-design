@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带 56px 的面板标题栏和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: a5e81dcb
+sourceHash: 5ba5fbab
 ---
 
 # Panel
@@ -111,7 +111,7 @@ panel/compositions/panel-split-action
 - `Panel` 渲染为 `section`。多个面板并排时，用 `aria-label` 或 `aria-labelledby` 给它命名。
 - `PanelTitle` 渲染为 `div`。把它渲染成页面的标题（`render={<h1 />}`，如果页面已有 `h1` 就用 `h2`）。
 - `PanelAction` 包装 Base UI 的 Button，总是渲染 `type="button"`。`PanelToggleAction` 包装 Base UI 的 Toggle，由它设置 `aria-pressed`。
-- 每个只有图标的 `PanelAction` 和 `PanelToggleAction` 都要有 `aria-label`："Back"、"Channel details"、"Close Tasks"。
+- 每个只有图标的 `PanelAction` 和 `PanelToggleAction` 都要有 `aria-label`："Back"、"Channel details"、"Close tasks"。
 - `PanelSplitAction` 是一个 `role="group"`；它的两部分都是按钮，菜单部分从它渲染成的那个菜单触发按钮上得到 `aria-haspopup` 和 `aria-expanded`。
 - 只有图标的 `PanelStatus`（静音的铃铛）要有无障碍名称。
 

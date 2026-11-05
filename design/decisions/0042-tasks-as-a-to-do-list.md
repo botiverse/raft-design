@@ -2,13 +2,13 @@
 title: Tasks work as a to-do list, with six statuses and no transition limits
 summary: Tasks gain Backlog as a sixth status with no hue, any status can be set from any status, and every task starts with a round completion control and can be added by typing its title, while assignees, review and per-task discussion stay.
 number: 0042
-status: accepted
+status: superseded
 date: 2026-10-31
 ---
 
 # 0042. Tasks work as a to-do list, with six statuses and no transition limits
 
-In Review has since been retired, which leaves five statuses ([decision 0043](./0043-in-review-retired.md)). The rest of this record stands.
+Superseded in part: In Review has since been retired, which leaves five statuses ([decision 0043](./0043-in-review-retired.md)). The rest of this record stands.
 
 ## Context
 
@@ -41,6 +41,10 @@ The lead (stdrc) approved the hi-fi mockup, built with raft-ui 0.55.0, on 2026-1
 - **Keep the transition limits and add Backlog to them.** A menu that hides moves sends people the long way round to put a task where its work already is, and the event lines and History already record every move.
 - **A square checkbox at the start of the row.** A square box there reads as "select this row" for a bulk action; the circle is the to-do convention and reads as "done".
 - **Quick add on the server-wide Tasks page.** A task always belongs to a place, and that page collects tasks from several, so a task added there would have none.
+
+## Superseded by
+
+- [0043. In Review is retired for tasks with their own conversation](./0043-in-review-retired.md), for In Review. The rest of this record stands.
 
 ## Related
 

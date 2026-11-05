@@ -1,7 +1,7 @@
 ---
 title: 交接与审批
 summary: 工作怎样在人和 Agent 之间流转：认领、交接、由 Agent 准备并由人确认的操作卡片、事后留下的记录，以及出故障时显示什么。
-sourceHash: aa3b26d9
+sourceHash: f22ab079
 ---
 
 # 交接与审批
@@ -93,7 +93,7 @@ message-action-card/compositions/agent-request
 - 操作需要的不只是一个「是」时，让按钮打开对应的普通对话框，填好 Agent 给出的值。人可以在创建任何东西之前在那里修改。不要让卡片上的字段可编辑：卡片只是一份摘要。
 - 人需要核对的值显示为属性，Agent 的理由放在 Reason 下，应用请求的权限显示为可滚动的列表，Raft 的固定说明显示为中性色的提示。
 - 以确认者的身份、用确认者的权限执行操作。
-- 不能执行操作的人看不到确认按钮。把卡片折叠起来，在标题下说明原因："Join #launch-week to run this."、"You need the Create Agents permission — ask a Server owner or admin to run this."
+- 不能执行操作的人看不到确认按钮。把卡片折叠起来，在标题下说明原因："Join #launch-week to run this."、"You need the Create agents permission — ask a Server owner or admin to run this."
 
 ### 状态 {#states}
 

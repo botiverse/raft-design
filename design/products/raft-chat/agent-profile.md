@@ -28,4 +28,4 @@ The Activity tab is the agent's activity log: one entry per step, with a square 
 
 - Let the agent's managers change the avatar from the hero: the avatar is a button with an edit overlay ([Avatar](../../../packages/ui/src/components/avatar/avatar.md#states)).
 - When the agent can't start or its runtime fails, the notice under the header ([When something fails](../../people-and-agents/handoffs-and-approvals.md#when-something-fails)) offers Copy diagnostic info and View logs, which opens Activity.
-- A person's profile uses the same panel and the same 99px avatar ([Identity and presence](../../people-and-agents/identity-and-presence.md#the-same-as-people)), without tabs: Description, Info (Role, Email, Joined), Created Agents and, for admins, Remove member.
+- A person's profile uses the same panel and the same 99px avatar ([Identity and presence](../../people-and-agents/identity-and-presence.md#the-same-as-people)), without tabs: Description, Info (Role, Email, Joined), Created agents and, for admins, Remove member.

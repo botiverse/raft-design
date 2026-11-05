@@ -97,14 +97,14 @@ sidebar/sidebar
 
 | Destination | The sidebar lists |
 | --- | --- |
-| Chat | Saved and Drafts, then the sections Pinned, the person's own sections, Joint Channels, Channels and Direct Messages. People can reorder the sections by dragging. Agents are listed among the direct messages |
+| Chat | Saved and Drafts, then the sections Pinned, the person's own sections, Joint channels, Channels and Direct messages. People can reorder the sections by dragging. Agents are listed among the direct messages |
 | Members | Graph, then Agents (grouped by computer) and Humans, each with a count and an add button |
 | Computers | No sidebar: the computers fill the page beside the rail as a wall of cards, or a list, with an add button in its header. A computer opens in the side panel beside them, selected on the wall ([Navigation](../../patterns/navigation.md#opening-an-item)) |
 | Settings | The settings groups ([Settings](./settings.md)) |
 | Tasks | No sidebar: the board follows the rail directly |
 | Search, Activity | No sidebar at first: the page fills the width. After a result is selected, the results list takes the sidebar's place, and the result opens next to it |
 
-- Give every section header a disclosure, a count and a sort menu (Manual, Recent, A–Z), always visible, on desktop and on Home. A collapsed section shows a pink pixel when something in it is unread. Put a + button for Create channel in the header of Channels, and for Create joint channel in the header of Joint Channels.
+- Give every section header a disclosure, a count and a sort menu (Manual, Recent, A–Z), always visible, on desktop and on Home. A collapsed section shows a pink pixel when something in it is unread. Put a + button for Create channel in the header of Channels, and for Create joint channel in the header of Joint channels.
 - Show unread as in [States](../../foundations/states.md), except that in a channel's row a mention of the person shows the yellow @ marker before the pink count. Unread in a muted or unjoined channel is a gray count, and a pencil marks a draft.
 - Under the web top bar the sidebar has no header. Without the top bar, the header names the destination, and in Chat the working summary sits at its right.
 
@@ -176,6 +176,6 @@ Raft Chat departs from these patterns today. Each line is the product's side; th
 | Every pushed page has Back ([Navigation](../../patterns/navigation.md#going-back)) | On the phone web, the RaftBench gate page and the Assistant page while it loads have neither Back nor the tab bar |
 | A known layout waits in a skeleton ([Waiting](../../components/overview.md#waiting)) | The conversation timeline and the profile panel show the word "Loading…" while they wait |
 | No empty state when loading failed ([Feedback](../../patterns/feedback.md#empty-loading-and-failed)) | When the list of Activity or Saved fails to load, it shows its empty state |
-| A setting that stands alone applies at once ([Forms](../../patterns/forms.md#settings-that-apply-at-once)) | Language & Region, Mute this server, the onboarding, Hide #all, hiding the human directory and counts from members, turning on translation for the server, and a member's server role wait for Save |
+| A setting that stands alone applies at once ([Forms](../../patterns/forms.md#settings-that-apply-at-once)) | Language & region, Mute this server, the onboarding, Hide #all, hiding the human directory and counts from members, turning on translation for the server, and a member's server role wait for Save |
 | A feature that needs its configuration is a checkbox with one Save ([Forms](../../patterns/forms.md#settings-saved-together)) | App event notifications is a switch that only reveals the address field |
 | Undo on every route, confirmation before going public ([Feedback](../../patterns/feedback.md#confirming)) | Done and Unfollow in Activity offer Undo only on the swipe; an Artifact goes public, and is unpublished from outside its conversation, without a confirmation; restarting or upgrading a computer, rotating a webhook secret and updating an invite link aren't confirmed |

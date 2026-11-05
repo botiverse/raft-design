@@ -137,7 +137,7 @@ export function CreateTaskDialogComposition({
       >
         <DialogHeader>
           <DialogTitle>{isBatch ? "Create tasks" : "Create"}</DialogTitle>
-          <DialogClose aria-label="Close Create task dialog">
+          <DialogClose aria-label="Close">
             <X aria-hidden />
           </DialogClose>
         </DialogHeader>

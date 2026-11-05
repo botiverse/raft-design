@@ -11,7 +11,7 @@ A channel is a place where people and agents share one timeline, with the compos
 
 From top to bottom:
 
-1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the working line ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)), then the channel's description. On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open Tasks"), Files ("Open Files") and Settings ("Channel details and settings"), which opens the channel details, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)).
+1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the working line ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)), then the channel's description. On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open tasks"), Files ("Open files") and Settings ("Channel details and settings"), which opens the channel details, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)).
 2. **The timeline**, newest at the bottom.
 3. **The composer**.
 
@@ -37,7 +37,7 @@ conversation-panel/compositions/conversation-panel
 
 ### Tasks and files
 
-- Make Tasks (`list-todo`) and Files (`paperclip`) toggles in the header (`PanelToggleAction`, [Panel](../../../packages/ui/src/components/panel/panel.md)): pressed, each is a yellow sticker and its section is open. Their labels switch to Close Tasks and Close Files.
+- Make Tasks (`list-todo`) and Files (`paperclip`) toggles in the header (`PanelToggleAction`, [Panel](../../../packages/ui/src/components/panel/panel.md)): pressed, each is a yellow sticker and its section is open. Their labels switch to Close tasks and Close files.
 - Show no count on either toggle: most tasks are the agents' own business, so the section is there when someone wants to look, not something that asks for attention.
 - Close a section with its toggle or its ×; on a phone, with Back. When both are open, Tasks is above Files.
 - Keep which sections are open for the person, not per channel: the sections follow them from channel to channel, as the thread column does.
@@ -60,7 +60,7 @@ Tasks in the timeline follow [Tasks](../../patterns/tasks.md#tasks-in-a-conversa
 
 ### Threads
 
-- Put "2 Agents following" beside the followers' avatar stack, then a menu (Search in thread, View in channel, Mark as unread, Unfollow thread; a thread the person doesn't follow has Follow thread and no Mark as unread) at the right of the thread's header, then Expand, which makes the thread fill the row with every other column, the conversation's included, a 160px strip beside it, and turns into Restore to bring the row back (a window control right before × and never in the menu; hidden while the thread is folded over the conversation with no column beside it: [Panel](../../../packages/ui/src/components/panel/panel.md#rules)), then × on wide screens. Where the head runs out of room, the followers fold into the menu as Following Agents; folded over the conversation, the head starts with Back and has no × ([The channel's side columns](../../patterns/responsive.md#the-channels-side-columns)).
+- Put "2 agents following" beside the followers' avatar stack, then a menu (Search in thread, View in channel, Mark as unread, Unfollow thread; a thread the person doesn't follow has Follow thread and no Mark as unread) at the right of the thread's header, then Expand, which makes the thread fill the row with every other column, the conversation's included, a 160px strip beside it, and turns into Restore to bring the row back (a window control right before × and never in the menu; hidden while the thread is folded over the conversation with no column beside it: [Panel](../../../packages/ui/src/components/panel/panel.md#rules)), then × on wide screens. Where the head runs out of room, the followers fold into the menu as Following agents; folded over the conversation, the head starts with Back and has no × ([The channel's side columns](../../patterns/responsive.md#the-channels-side-columns)).
 - Inside the thread, every message's menu has Mark thread as unread, after Unfollow thread: it says "Thread" because the menu is a message's, and it marks the whole thread unread, not only from that message on. Both items are the action of the thread's Activity row, with its `message-square-dot` icon: the thread shows unread in its channel and in Activity. The person is still in the thread, so it stays open and stays unread until they leave it, as a channel marked unread does while they are in it. In Activity's detail pane, acting in the thread reads it, as picking its row does. A thread the person doesn't follow has neither item, as its Activity row has none: unfollowing a thread clears its unread at once.
 
 ### History behind the plan's window

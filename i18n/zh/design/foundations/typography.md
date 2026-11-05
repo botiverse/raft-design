@@ -1,7 +1,7 @@
 ---
 title: 字体排印
 summary: 两种字体，字号阶梯以及每种字号和字重的用途，文字颜色的三个层级，字体度量 token，以及大小写规则。
-sourceHash: 881eb758
+sourceHash: 35f8ee00
 ---
 
 # 字体排印
@@ -139,7 +139,8 @@ card-title
 | 任务状态名称 | Sentence case | Backlog, Todo, In progress, Done, Closed |
 | 标题、分组标题、说明、空状态 | Sentence case | No tasks match these filters |
 | 重复其按钮标签的对话框或底部面板标题 | Sentence case，与按钮相同 | Create channel |
-| 名称：Raft 及其产品和功能、目的地、任务状态、人、服务器、频道、第三方名称 | 按名称本身的写法 | Agent Lounge, Remove from Saved, Move to Backlog, GitHub, #launch-week |
+| 名称，按[写作](../content/writing.md#casing)列出的：Raft 的产品和功能、术语列出的目的地、视图和状态、人、Agent、服务器、频道、第三方名称、缩写 | 按名称本身的写法 | Agent Lounge, Remove from Saved, Move to Backlog, GitHub, #launch-week |
+| 其他所有分区、分组标题和设置页 | Sentence case | Direct messages, Plan & billing |
 
 - 所有文字只用一种大小写：sentence case，名称保留大写。长标签（比如菜单项）用 Title Case 读起来别扭，而只用一种大小写，写、翻译和检查都更简单（[0044](../decisions/0044-sentence-case-for-labels.md)）。
 

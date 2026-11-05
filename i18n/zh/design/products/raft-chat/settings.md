@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 设置
 summary: 设置这个目的地：Personal、Workspace 和 Resources 三组，它们打开的页面，通知，Sign out 和危险区。
-sourceHash: 4f7ad9dd
+sourceHash: d2e9b97d
 ---
 
 # Raft Chat — 设置
@@ -18,16 +18,16 @@ sidebar/compositions/settings-list
 
 1. **标题栏**：手机上是推入页面的标题栏 Settings，带返回；桌面端是 Settings。
 2. **三组**，每组是一个分组标签加若干带图标和名字的侧栏行。手机上的列表里没有成员和计算机：它们是服务器标签弹出层里的按钮。
-   - Personal：Account、Language & Region、Appearance、Notifications。
-   - Workspace：Server profile，然后是这个人有权查看且服务器已开启的项：RaftBench、Plan & Billing、Administration、IM Bridges、Applications、Labs、MCP Servers、AI Providers。
-   - Resources：About、Documentation（指向文档站的链接）、Feedback、Release Notes。
+   - Personal：Account、Language & region、Appearance、Notifications。
+   - Workspace：Server profile，然后是这个人有权查看且服务器已开启的项：RaftBench、Plan & billing、Administration、IM bridges、Applications、Labs、MCP servers、AI providers。
+   - Resources：About、Documentation（指向文档站的链接）、Feedback、Release notes。
 
 - 有新回复时 Feedback 显示一个粉色像素点；手机上有计算机需要处理时，服务器标签弹出层里的 Computers 按钮也显示一个，反馈有新回复时 Settings 按钮也一样（[Raft Chat](./README.md#attention-dots)）。
 - 在桌面端，默认打开 Account，它的行是黄色贴纸。在手机上，打开某一行之前什么都不选中。
 
 ### 设置页面 {#a-settings-page}
 
-- 每个页面都用[表单](../../patterns/forms.md)里的卡片搭建。Language & Region 没有 Save：每个值选中时就生效（[表单](../../patterns/forms.md#settings-that-apply-at-once)）。
+- 每个页面都用[表单](../../patterns/forms.md)里的卡片搭建。Language & region 没有 Save：每个值选中时就生效（[表单](../../patterns/forms.md#settings-that-apply-at-once)）。
 
 ### 通知 {#notifications}
 

@@ -17,16 +17,16 @@ sidebar/compositions/settings-list
 
 1. **The header**: on a phone, the pushed page's header, Settings, with Back; on desktop, Settings.
 2. **Three groups**, each a group label and sidebar rows with an icon and a name. Members and Computers are not in the list on a phone: they are buttons in the server tab's popover.
-   - Personal: Account, Language & Region, Appearance, Notifications.
-   - Workspace: Server profile, then what the person may see and the server has turned on: RaftBench, Plan & Billing, Administration, IM Bridges, Applications, Labs, MCP Servers, AI Providers.
-   - Resources: About, Documentation (a link to the documentation site), Feedback, Release Notes.
+   - Personal: Account, Language & region, Appearance, Notifications.
+   - Workspace: Server profile, then what the person may see and the server has turned on: RaftBench, Plan & billing, Administration, IM bridges, Applications, Labs, MCP servers, AI providers.
+   - Resources: About, Documentation (a link to the documentation site), Feedback, Release notes.
 
 - Feedback shows a pink pixel when there is a new reply, and on a phone the Computers button in the server tab's popover shows one when a computer needs attention, as does the Settings button for a feedback reply ([Raft Chat](./README.md#attention-dots)).
 - On desktop, Account opens by default and its row is the yellow sticker. On a phone, nothing is selected until a row is opened.
 
 ### A settings page
 
-- Build each page from the cards in [Forms](../../patterns/forms.md). Language & Region has no Save: each value applies when it is chosen ([Forms](../../patterns/forms.md#settings-that-apply-at-once)).
+- Build each page from the cards in [Forms](../../patterns/forms.md). Language & region has no Save: each value applies when it is chosen ([Forms](../../patterns/forms.md#settings-that-apply-at-once)).
 
 ### Notifications
 

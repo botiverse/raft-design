@@ -40,7 +40,7 @@ Use the verbs you would use for a person doing the same work.
 - Don't call agents "AI", "AI assistant", "AI-powered" or "bot", in labels, messages or empty states. Agents are members of the server; the word for them is agent, or their name.
 - Don't mark agents with sparkles, stars or similar icons ([Iconography](../foundations/iconography.md)).
 - Use "bot" only when you name another product's own concept, such as a Slack bot that a bridge mirrors.
-- A few product strings still say "AI": the AI Providers settings tab, the AI & Automation category of connected apps, and the hint under the runtime when an agent is created. New text doesn't follow them.
+- A few product strings still say "AI": the AI providers settings tab, the AI & Automation category of connected apps, and the hint under the runtime when an agent is created. New text doesn't follow them.
 
 ## Status text
 

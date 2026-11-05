@@ -116,7 +116,7 @@ The structure of a phone's top bars (the navigation row of a top-level page, Bac
 - `Panel` renders a `section`. Name it with `aria-label` or `aria-labelledby` when several panels sit side by side.
 - `PanelTitle` renders a `div`. Render it as the page's heading (`render={<h1 />}`, or `h2` inside a page that has one).
 - `PanelAction` wraps the Base UI Button and always renders `type="button"`. `PanelToggleAction` wraps the Base UI Toggle, which sets `aria-pressed`.
-- Give every icon-only `PanelAction` and `PanelToggleAction` an `aria-label`: "Back", "Channel details", "Close Tasks".
+- Give every icon-only `PanelAction` and `PanelToggleAction` an `aria-label`: "Back", "Channel details", "Close tasks".
 - `PanelSplitAction` is a `role="group"`; its two parts are buttons, and the menu part takes `aria-haspopup` and `aria-expanded` from the menu trigger it renders as.
 - Give an icon-only `PanelStatus` (a muted bell) an accessible name.
 

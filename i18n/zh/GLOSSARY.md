@@ -51,7 +51,7 @@
 | unread | 未读 | |
 | saved | 收藏 | |
 | task | 任务 | |
-| task status: Backlog / Todo / In Progress / In Review / Done / Closed | Backlog（「现在不做」，App 暂无中文名）/ 待办 / 进行中 / 待确认 / 完成 / 已关闭 | |
+| task status: Backlog / Todo / In progress / In review / Done / Closed | Backlog（「现在不做」，App 暂无中文名）/ 待办 / 进行中 / 待确认 / 完成 / 已关闭 | |
 | claim | 认领 | |
 | Home / Activity / Tasks / Search / More | 主页 / 动态 / 任务 / 搜索 / 更多 | 底部标签栏的五项 |
 | computer | 计算机 | |

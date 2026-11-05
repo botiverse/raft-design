@@ -4,7 +4,8 @@
 
 - **AppShellSidebarTrigger**: its built-in labels are in sentence case: "Collapse sidebar" and "Expand sidebar", instead of "Collapse Sidebar" and "Expand Sidebar".
   - Why: every clickable label in the Raft Design System now uses sentence case, with capitals only for the first word and for names ([decision 0044](https://raft-design.botiverse.build/decisions/0044-sentence-case-for-labels/), stdrc, #proj-raft-ui:10ce032d). The docs' rules and examples (buttons, menu items, tabs, links, tooltips, accessible names and the task status In progress) change with it.
-  - Affects: the trigger's `aria-label` and `title`. Update tests and selectors that find the trigger by its old name. A trigger with your own `aria-label` is unchanged.
+  - Affects: the trigger's `aria-label` and `title`. A trigger with your own `aria-label` is unchanged.
+  - Migrate: update tests and selectors that find the trigger by "Collapse Sidebar" or "Expand Sidebar" to the new names.
   - Docs: https://raft-design.botiverse.build/components/app-shell/
 
 ## [0.61.0](https://github.com/botiverse/raft-design/compare/v0.60.3...v0.61.0) (2026-11-04)

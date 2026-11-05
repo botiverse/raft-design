@@ -211,7 +211,7 @@ export function SidebarComposition({ contentState = "populated" }: SidebarCompos
               >
                 <SidebarSectionDisclosure type="button">
                   <SidebarSectionChevron />
-                  <SidebarSectionTitle>Joint Channels</SidebarSectionTitle>
+                  <SidebarSectionTitle>Joint channels</SidebarSectionTitle>
                   <SidebarSectionCount>0</SidebarSectionCount>
                 </SidebarSectionDisclosure>
                 <SidebarSectionTrailing>
@@ -300,7 +300,7 @@ export function SidebarComposition({ contentState = "populated" }: SidebarCompos
               <SidebarSectionHeaderMenu menu="sort">
                 <SidebarSectionDisclosure type="button">
                   <SidebarSectionChevron />
-                  <SidebarSectionTitle>Direct Messages</SidebarSectionTitle>
+                  <SidebarSectionTitle>Direct messages</SidebarSectionTitle>
                   <SidebarSectionCount>{isEmpty ? 0 : 2}</SidebarSectionCount>
                 </SidebarSectionDisclosure>
                 <SidebarSectionTrailing>

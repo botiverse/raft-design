@@ -138,7 +138,8 @@ card-title
 | Task status names | Sentence case | Backlog, Todo, In progress, Done, Closed |
 | Titles, group headings, descriptions, empty states | Sentence case | No tasks match these filters |
 | A dialog or sheet title that repeats its button's label | Sentence case, as the button | Create channel |
-| Names: Raft and its products and features, destinations, task statuses, people, servers, channels, third-party names | As the name is written | Agent Lounge, Remove from Saved, Move to Backlog, GitHub, #launch-week |
+| Names, as [Writing](../content/writing.md#casing) lists them: Raft's products and features, the destinations, views and statuses Terminology lists, people, agents, servers, channels, third-party names, acronyms | As the name is written | Agent Lounge, Remove from Saved, Move to Backlog, GitHub, #launch-week |
+| Every other section, group heading and settings page | Sentence case | Direct messages, Plan & billing |
 
 - Use one casing for all text: sentence case, with names keeping their capitals. Long labels such as menu items read awkwardly in Title Case, and one casing is simpler to write, translate and check ([0044](../decisions/0044-sentence-case-for-labels.md)).
 

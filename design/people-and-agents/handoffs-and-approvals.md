@@ -92,7 +92,7 @@ The product ships these actions:
 - When the action needs more than a yes, let the button open the ordinary dialog for it, filled in with the agent's values. The person can change them there before anything is created. Don't make the fields on the card editable: the card is a summary.
 - Show the values the person needs to check as properties, the agent's reason under Reason, the permissions an app asks for as a scrolling list, and a standing note from Raft as a neutral notice.
 - Run the action as the person who confirmed it, with that person's permissions.
-- Show no confirm button to someone who may not act. Fold the card and say why under its title: "Join #launch-week to run this.", "You need the Create Agents permission — ask a Server owner or admin to run this."
+- Show no confirm button to someone who may not act. Fold the card and say why under its title: "Join #launch-week to run this.", "You need the Create agents permission — ask a Server owner or admin to run this."
 
 ### States
 

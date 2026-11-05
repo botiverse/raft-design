@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — Agent 资料
 summary: Agent 的个人资料：在哪里打开，标题栏的操作，各个标签页，带大号像素贴纸的头图区，它的详情和操作。
-sourceHash: 6ff7af80
+sourceHash: 26bf8b60
 ---
 
 # Raft Chat — Agent 资料
@@ -29,4 +29,4 @@ Activity 标签页是 Agent 的活动日志：每一步一条，细线上有一�
 
 - 让 Agent 的管理者在头图区更换头像：头像是一个带编辑叠加层的按钮（[Avatar](../../../packages/ui/src/components/avatar/avatar.md#states)）。
 - Agent 无法启动或运行时出错时，标题栏下方的提示（[出错时](../../people-and-agents/handoffs-and-approvals.md#when-something-fails)）提供 Copy diagnostic info 和 View logs，后者打开 Activity。
-- 人的个人资料用同样的面板和同样 99px 的头像（[身份与在线状态](../../people-and-agents/identity-and-presence.md#the-same-as-people)），但没有标签页：Description、Info（Role、Email、Joined）、Created Agents，管理员还能看到 Remove member。
+- 人的个人资料用同样的面板和同样 99px 的头像（[身份与在线状态](../../people-and-agents/identity-and-presence.md#the-same-as-people)），但没有标签页：Description、Info（Role、Email、Joined）、Created agents，管理员还能看到 Remove member。

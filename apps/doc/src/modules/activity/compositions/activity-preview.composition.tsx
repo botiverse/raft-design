@@ -137,7 +137,7 @@ function ActivityCompletionAction({ defaultDone }: { defaultDone: boolean }) {
   return (
     <PanelAction
       onClick={handleToggleDone}
-      aria-label={done ? "Restore to active" : "Mark as Done"}
+      aria-label={done ? "Restore to Active" : "Mark as Done"}
     >
       {done ? <RotateCcw aria-hidden /> : <Check aria-hidden />}
     </PanelAction>

@@ -1,7 +1,7 @@
 ---
 title: 写作
 summary: Raft 产品里文字的规则：大小写、语气、名称，以及按钮、它打开的对话框和确认按钮各写什么。
-sourceHash: 3aa53011
+sourceHash: b5727e70
 ---
 
 # 写作
@@ -18,9 +18,11 @@ sourceHash: 3aa53011
 
 - 人能点击或说出一个操作的一切都用 sentence case：按钮、菜单项、标签页和标签栏项、分段控件、文字链接，以及图标按钮的工具提示和无障碍名称（`aria-label`）。只有第一个词和名称首字母大写：Create task、Mark all read、Create task from message、View in channel、Sign out、Add reaction。句子里的链接跟随句子的大小写。
 - 标题、分组标题、描述和空状态也用 sentence case。对话框或底部面板的标题如果重复打开它的按钮的标签，就原样重复：Create channel 打开 Create channel；见[操作和它的对话框](#actions-and-their-dialogs)。
-- 一个词在句子中间首字母大写，它在标签里才首字母大写。名称是这样：Raft 和作为专有名称的产品与功能（Agent Lounge、Stamp、Porthole、Raft Computer、Artifact）、人、Agent、服务器、频道、第三方名称（GitHub、Slack、Google）和缩写：Continue with Google、Open in Stamp、Edit Release Bot、Follow Artifact。
-- 目的地和任务状态是名称，因为它们在句子中间也首字母大写（"open Settings"、"moved #25 to Done"）：Back to Home、Remove from Saved、Move to Backlog、Mark as Done（[术语](./terminology.md#places)）。不止一个词的状态本身用 sentence case：In progress、In review。
-- 角色和其他名词在标签里和在句子里一样写成小写（"only an owner or admin can…"）：Invite members、Visible to guests、Add computer。只有一个词的标签和任何第一个词一样首字母大写：Settings、Members、Owner、Admin。
+- 一个词在句子中间首字母大写，它在标签里才首字母大写。名称是这样：Raft 和作为专有名称的产品、套餐与功能（Agent Lounge、Stamp、Porthole、Raft Computer、Artifact、Pro）、人、Agent、服务器、频道、第三方名称（GitHub、Slack、Google）和缩写：Continue with Google、Open in Stamp、Edit Release Bot、Follow Artifact、Upgrade to Pro。
+- 只有[术语](./terminology.md#places)列出的目的地和视图（Home、Activity、Saved、Settings、Members、Tasks、Computers，以及 Activity 的视图 Active、Saved 和 Done）和任务状态才算名称，前提是标签说的是那个地方或那个状态：Back to Home、Remove from Saved、Restore to Active、Mark as Done、Move to Backlog、Collapse Backlog。不止一个词的状态或 Agent 状态本身用 sentence case：In progress、In review。
+- 其他所有分组标题、分区和设置页都用 sentence case，即使它说的是一个地方：Direct messages、Joint channels、Plan & billing、IM bridges、MCP servers、AI providers、Release notes、Language & region、Server profile、Server settings；频道的 Tasks 和 Files 分区出现在标签里时也一样（Close tasks、Open files）。
+- 角色、状态和其他名词在标签里和在句子里一样写成小写（"only an owner or admin can…"）：Invite members、Visible to guests、Make admin、Add computer、Create tasks。已读和未读是状态，不是视图，所以 Mark as unread 和 Mark as Done 并排出现。权限的名称也是标签：Create agents。只有一个词的标签和任何第一个词一样首字母大写：Settings、Members、Owner、Admin。
+- 引用另一个标签时照它的写法：Opens Create channel。
 - 任务状态写成 Backlog、Todo、In progress、Done 和 Closed，在标签、状态标签和句子里都一样。
 - 长标签（比如菜单项）用 Title Case 读起来别扭；所有文字只用一种大小写，写、翻译和检查都更简单，也不用再记哪些短词保持小写（[0044](../decisions/0044-sentence-case-for-labels.md)）。
 - 产品名词在句子和标签里都写成小写："Move to another computer"、"Leave this server"、Add computer。只有作为名称时才大写：Raft Computer。
