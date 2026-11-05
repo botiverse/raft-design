@@ -67,5 +67,5 @@ On the Agents tab the agents are a [ListRowGroup](../../../packages/ui/src/compo
 
 Tiles and columns are the desktop's. On a phone, Members stays the list of places it is today, drawn with the sidebar row like Home and Settings ([Lists of places](./README.md#lists-of-places)): every member is a 44px row, under the same tabs and groups.
 
-- On the Agents tab, give each row a second line in Space Mono with the runtime, the model and the computer ("Claude Code · Opus 5.5 · mac-studio"): five columns don't fit 390px, and the runtime is why that tab exists.
+- On the Agents tab, give each row a second line in Space Mono with the runtime, the model and the computer ("Claude Code · Opus 5.5 · mac-studio"): five columns don't fit 390px, and the runtime is why that tab exists. The row grows to fit it, about 60px, as a sidebar row with a second line does; every agent row on the tab has one, so they stay the same height.
 - Keep the whole row the one control that opens the profile, as on desktop.
