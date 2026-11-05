@@ -59,5 +59,142 @@
         "from": "base-ui"
       }
     ]
+  },
+  {
+    "name": "ButtonSplit",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "A Button with a menu beside it, such as Create agent and its ▾: a `ButtonSplitMain`, then a `ButtonSplitMenu` as the trigger of a DropdownMenu. The two parts touch and read as one button. A `role=\"group\"`: name it with `aria-label`, not with the main part's name. For a frameless split in a panel header, use `PanelSplitAction`.",
+    "native": true,
+    "props": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables both parts. Either part can also be disabled on its own.",
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
+    "name": "ButtonSplitMain",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The action of a split button: a Button, rounded only on its start side.",
+    "native": true,
+    "props": [
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "ButtonSplitSize",
+        "required": false,
+        "default": "\"md\"",
+        "description": "The Button size; give both parts the same one.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "ButtonSplitVariant",
+        "required": false,
+        "default": "\"default\"",
+        "description": "The Button variant; give both parts the same one.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "ButtonSplitMenu",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The narrow part of a split button that opens its menu, with a chevron by default; its start border is the divider. Render it as the trigger of a DropdownMenu: `<DropdownMenuTrigger render={<ButtonSplitMenu aria-label=\"More ways to create an agent\" />} />`.",
+    "native": true,
+    "props": [
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "description": "Busy: shows the spinner and blocks activation (click, Enter, Space and form submission) while keeping the button focusable. A busy button is `aria-disabled`, not natively `disabled`, so the focus a press left on it stays there and is still there when the wait ends.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "loadingLabel",
+        "type": "string",
+        "required": false,
+        "description": "The spinner's accessible name while `loading`: say what is happening.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "size",
+        "type": "ButtonSplitSize",
+        "required": false,
+        "default": "\"md\"",
+        "description": "The Button size; give both parts the same one.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "variant",
+        "type": "ButtonSplitVariant",
+        "required": false,
+        "default": "\"default\"",
+        "description": "The Button variant; give both parts the same one.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "focusableWhenDisabled",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Whether the button should be focusable when disabled.",
+        "from": "base-ui"
+      },
+      {
+        "name": "nativeButton",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Whether the component renders a native `<button>` element when replacing it via the `render` prop. Set to `false` if the rendered element is not a button (for example, `<div>`).",
+        "from": "base-ui"
+      },
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
   }
 ]

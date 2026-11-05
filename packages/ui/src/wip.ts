@@ -231,6 +231,18 @@ export type {
   PanelSplitActionToggleProps,
 } from "./components/panel/index";
 
+// A Button with its ▾ menu, one shape in two parts (Create agent and its
+// ways to bring an agent in, on Raft Chat's Members header): button.md, "Split
+// buttons". Until stdrc approves the parts.
+export { ButtonSplit, ButtonSplitMain, ButtonSplitMenu } from "./components/button/index";
+export type {
+  ButtonSplitMainProps,
+  ButtonSplitMenuProps,
+  ButtonSplitProps,
+  ButtonSplitSize,
+  ButtonSplitVariant,
+} from "./components/button/index";
+
 // The line under a setting that applies at once, "Saved" or what failed,
 // always reserved so its result never moves the card (forms.md, "Settings
 // that apply at once"; stdrc, 2026-10-30). Until slock's settings have moved

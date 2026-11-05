@@ -77,7 +77,7 @@ A phone's pushed page has a white top bar, and its location tile stays a yellow 
 
 ### Split actions
 
-An action that also has a short menu of related choices, such as Comment and its ▾ (Show all comments), is one control in two parts: `PanelSplitAction` holds the action, a `PanelSplitActionMain` (a button) or a `PanelSplitActionToggle` (an action that stays on, such as commenting), and a `PanelSplitActionMenu`, the narrow chevron that opens the menu. Render the menu part as the trigger of a DropdownMenu or a Popover: `<DropdownMenuTrigger render={<PanelSplitActionMenu aria-label="Comment options" />} />`.
+An action that also has a short menu of related choices, such as Comment and its ▾ (Show all comments), is one control in two parts: `PanelSplitAction` holds the action, a `PanelSplitActionMain` (a button) or a `PanelSplitActionToggle` (an action that stays on, such as commenting), and a `PanelSplitActionMenu`, the narrow chevron that opens the menu. Render the menu part as the trigger of a DropdownMenu or a Popover: `<DropdownMenuTrigger render={<PanelSplitActionMenu aria-label="Comment options" />} />`. A split with a frame, a `primary` or `default` Button and its ▾, is `ButtonSplit` ([Split buttons](../button/button.md#split-buttons)).
 
 ```example
 panel/compositions/panel-split-action

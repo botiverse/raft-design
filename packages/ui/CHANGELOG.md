@@ -1,5 +1,12 @@
 ## Unreleased
 
+### Added
+
+- **ButtonSplit**, **ButtonSplitMain** and **ButtonSplitMenu** (from `@botiverse/raft-ui/wip`): a `primary` or `default` Button with its ▾ menu, one shape in two parts. The parts touch and share one `radius-control` outline, the menu part's start border divides them, and each part hovers, presses, focuses and disables on its own; `disabled` on the group disables both.
+  - Why: Raft Chat's Members header needs Create agent with a ▾ for Take over a local session and Connect an external agent (cindyz, #triage:36bfa2f8; rule in [#1008](https://github.com/botiverse/raft-design/pull/1008)), and raft-ui only had `PanelSplitAction`, the frameless split of a panel header.
+  - Affects: nothing until used.
+  - Docs: https://raft-design.botiverse.build/components/button/#split-buttons
+
 ### Fixed
 
 - **CommentMarginItem**: a `CommentMargin` renders its cards where the browser has no `ResizeObserver` (jsdom, some embedded webviews) instead of throwing. Each card keeps the height it had when placed. ([#1007](https://github.com/botiverse/raft-design/pull/1007))
