@@ -95,8 +95,8 @@ An app connected to a server, such as Stamp for code review, can preview its own
 message-reference/compositions/app-links
 ```
 
-- Show an app link as a reference chip in the text (`MessageReferenceChip variant="info"`), never as a card under the message. The link is one item in a sentence: a card moves it out of the sentence to the bottom of the message, where the reader has to match it back to the words around it, and a message with three links would carry three cards.
-- Show a message that is only a link as the same chip, with no card of its own: one link is one item whether or not words surround it.
+- Draw an app link as the app's answer lists it ([What an app's answer lists](#what-an-apps-answer-lists)): a chip in the text (`MessageReferenceChip variant="info"`) when it lists `inline`, a card after the paragraph only when it lists a block card, and the author's plain link otherwise. Raft doesn't decide on its own to draw a card: a card moves the link out of its sentence to the bottom of the message, so it appears only where the app asks for one.
+- Draw a message that is only a link the same way: one link is one item whether or not words surround it.
 - Write the app's `title` in the chip exactly as the app sends it. Don't compose a format of Raft's own, such as "repo#number · title": the title says what the app wants to say, in its own product's terms, and Raft doesn't interpret what an app's item is.
 - Cap the chip and truncate a long title at the end, so each link takes at most one line ([MessageItem](../../packages/ui/src/components/message-item/message-item.md#app-links)).
 - Lead the chip with the app's registered icon, the image Raft stores for the app and serves itself. Never show an image from an address the app sends with the preview: an image fetched from the app on every view tells the app who read the message and when, and an app could draw an icon that passes for one of Raft's own.
@@ -141,7 +141,7 @@ An app answers for a link with a list of `items` (protocol version 3), and Raft 
 | `connect_account` | The chip's card asking the reader to connect, as before |
 | Nothing (`[]`) | The author's plain link |
 
-- An answer lists at most one item of each kind for now: one chip and one card.
+- An answer lists at most one item of each kind for now: one chip and one card. The server refuses an answer with two of a kind (two `inline`, two cards, or a card beside `connect_account`) and the link stays plain (RFC 076 §14), so a client never has to choose between them.
 - Skip an item whose `type` Raft doesn't know. Raft passes a client only the types it declares it can draw: a block card only to a client that declares `block.v1`.
 - A client that reads only version 2 draws an `inline`-only answer as a plain link. A hover card, `connect_account` and an empty list look as they did. A block card is drawn as above where the client declares `block.v1`; elsewhere the link is a chip with the card on hover, the chip taking the card's title when the answer has no `inline`. The phone app reads only version 1 and is not affected.
 
