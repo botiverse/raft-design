@@ -34,7 +34,7 @@ A section's header, a group label and a container's edge stand further out than 
 
 - **Why:** an outdented title reads as the frame of what is under it; at the same inset it reads as one more row.
 - **Enforced by:** a panel's section header and a settings card stand outside the content they hold.
-- **Exception, for now:** sidebar section titles (`SidebarSectionHeader`, `SidebarGroupLabel`) keep staging's horizontal inset: the title and its chevron, Sort and + controls stay where they were before this work (stdrc, 2026-11-05). Their height and the 24px controls with a 28px target stay as they are.
+- **Exception:** a sidebar section title doesn't stand outside its rows: its chevron is centred on the rows' icon column and its last control's icon ends on the rows' content edge, where their counts end (stdrc, 2026-11-05).
 
 ### 4. Space says what belongs together
 
