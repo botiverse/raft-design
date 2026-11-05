@@ -242,14 +242,6 @@ function layoutSections(
   return { sections: drawn, gridRowOf, gridRows };
 }
 
-// An action's 44px target overhangs its 32px button, so with the rows
-// touching, it reaches a hair into the next row, where that row's action would
-// cover it. Each action is laid above the actions of the rows after it, so it
-// keeps its whole row: the rows' grid isolates these layers from the page.
-function actionPlace(gridRow: number, gridRows: number) {
-  return { gridRow, zIndex: gridRows - gridRow + 1 };
-}
-
 export function ChoiceList(props: ChoiceListProps) {
   const {
     items,
@@ -497,7 +489,7 @@ export function ChoiceList(props: ChoiceListProps) {
                           key={item.value}
                           data-slot="choice-list-action"
                           className={slots.action()}
-                          style={actionPlace(gridRowOf.get(item.value) ?? 1, gridRows)}
+                          style={{ gridRow: gridRowOf.get(item.value) }}
                         >
                           {item.action}
                         </div>

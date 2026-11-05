@@ -36,7 +36,7 @@ A field among other fields keeps the choice behind one control, so the form stay
 ChoiceList is one component driven by an `items` array; it draws the parts below from it.
 
 - The search box: an [InputGroup](../input-group/input-group.md) with a search icon and, once there is text, a 32px clear button. Always with `search="always"`; above 5 items with `search="auto"`.
-- The frame: a card-colored box with a hairline border around the rows, which scroll inside it at a fixed height once the search box shows. The rows run from edge to edge of the frame and touch, with a hairline between two rows, as in a settings card ([Lists](../../../../../design/patterns/lists.md)).
+- The frame: a card-colored box with a hairline border around the rows, which scroll inside it at a fixed height once the search box shows. The rows sit 4px inside the frame's border and 4px apart, with no line between them.
 - A group heading, one per group in `groups`: a small heading over the rows of one kind (Agents, People), in the size and color of a [Select](../select/select.md) group label.
 - A row, one per item: the radio circle or checkbox, the item's `media` (an avatar, an icon), its `label` and up to two `description` lines. The whole row is a `<label>`.
 - A row's `action`: a button at the end of the row, beside it but outside its `<label>`.
@@ -57,7 +57,7 @@ choice-list/compositions/add-members
 ## States
 
 - **Chosen:** the ink dot or the ink check, with no fill on the row. A chosen value is ink, as everywhere ([States](../../../../../design/foundations/states.md)).
-- **Hover and press:** the row fills with `brand-soft` under the pointer, as a select list's options do, and presses with `overlay-medium` ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). The fill covers the whole row, up to the frame's border on both sides, and the frame's rounded corners clip it on the first and last rows. An inset rounded fill inside the frame's own rounded border drew a third edge, and with the list padded it sat 4px under the border on the first row but met the next row below it.
+- **Hover and press:** the row fills with `brand-soft` under the pointer, as a select list's options do, and presses with `overlay-medium` ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). The fill is the row's own rounded shape, and it sits 4px from every edge around it: the frame's border, and the row above and below. With the rows 2px apart, the first row's fill sat 4px under the border but 2px from the next row, and the space read as uneven (cindyz, #wg-rbac:48d38190). Rows that touched with a hairline between them, as in a settings card, made it even but left the list cramped, with no air between the choices (cindyz, #proj-raft-ui:39f9c80f).
 - **Disabled:** a disabled item, or the whole list with `disabled`, takes the shared disabled look for its mark, name and lines, and no hover fill.
 - **No match:** the search matches nothing but the chosen rows: they stay, with the caller's short line under them.
 
@@ -79,7 +79,7 @@ choice-list/compositions/no-match
 - **The choice stays in view while searching.** The rows chosen when the search text last changed come first, then the other matches in the items' order. Searching never changes the choice, and clearing it brings back the full list in order.
 - **Rows hold still while you choose.** The rows chosen first are taken when the text changes, not when the choice does, so a row never moves under the pointer or the arrow keys; the order is redrawn at the next keystroke.
 - **The list scrolls.** With the search box on, the frame stops at 288px and scrolls inside the dialog; a cut-off last row shows there is more.
-- **Row heights.** A row with one line is 36px with a mouse and 44px on a touch screen; each description line adds its own height and nothing else. Rows have no space between them, only the hairline, which is drawn inside the lower row, so two rows of the same content are the same height and the same distance apart wherever they sit. A row's text starts 14px from the frame's edge.
+- **Row heights.** A row with one line is 36px with a mouse and 44px on a touch screen; each description line adds its own height and nothing else. A row's text starts 14px from the frame's edge: the frame's 4px and the row's own 10px.
 - **Groups.** With `groups`, each item names its group, and the rows come under their group's heading in the groups' order; items of no known group follow, with no heading. A group with nothing to show, before or during a search, draws no heading. While searching, the chosen rows come first in their own group, so a person never moves out of the People heading.
 - **A way out under the list.** When the item may not be there, put the way to make it in `footer`, such as "Create an agent": it stays under the rows as they scroll. To name it after what people typed ("Create an agent named “Mia”"), pass `searchValue` and `onSearchValueChange`; the caller then owns the search text and can quote it in the footer or in `noMatchLabel`.
 - **Filling a sheet.** With `fill`, the list takes the height it is given, such as the rest of a phone sheet, and its rows scroll inside it instead of stopping at 288px.
