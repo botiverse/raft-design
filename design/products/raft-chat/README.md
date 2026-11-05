@@ -101,7 +101,7 @@ sidebar/sidebar
 | Destination | The sidebar lists |
 | --- | --- |
 | Chat | Saved and Drafts, then the sections Pinned, the person's own sections, Joint channels, Channels and Direct messages. People can reorder the sections by dragging. Agents are listed among the direct messages |
-| Members | No sidebar: the directory fills the page beside the rail, with its tabs and its two add buttons in the header ([Members](./members.md)) |
+| Members | No sidebar: the directory fills the page beside the rail, with its tabs, the Graph button and its two add buttons in the header; a member opens in the side panel beside it ([Members](./members.md)) |
 | Computers | No sidebar: the computers fill the page beside the rail as a wall of cards, or a list, with an add button in its header. A computer opens in the side panel beside them, selected on the wall ([Navigation](../../patterns/navigation.md#opening-an-item)) |
 | Settings | The settings groups ([Settings](./settings.md)) |
 | Tasks | No sidebar: the board follows the rail directly |
