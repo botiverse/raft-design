@@ -1,0 +1,62 @@
+[
+  {
+    "name": "WebTopBarRoot",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The web top bar: the frame's row above the rail from 768px on the web, and a desktop app's title bar at every width. Holds `WebTopBarStart`, `WebTopBarCenter` and `WebTopBarEnd`, in that order. It renders at every width; the web app renders it only from 768px.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "WebTopBarStart",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The start of the bar, lined up with the rail's items: the workspace button and the workspace strip.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "WebTopBarCenter",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The center of the bar, centered on the window: the search field.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "WebTopBarEnd",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The end of the bar: who is working and the bell. A last icon button's icon box ends on the column margin.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  }
+]

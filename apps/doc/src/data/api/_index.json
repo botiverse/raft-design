@@ -1482,6 +1482,16 @@
     ],
     "status": "stable"
   },
+  "web-top-bar": {
+    "names": [
+      "WebTopBarRoot",
+      "WebTopBarStart",
+      "WebTopBarCenter",
+      "WebTopBarEnd"
+    ],
+    "status": "experimental",
+    "description": "The web top bar: the frame's row above the rail from 768px on the web, and a desktop app's title bar at every width. Holds `WebTopBarStart`, `WebTopBarCenter` and `WebTopBarEnd`, in that order. It renders at every width; the web app renders it only from 768px."
+  },
   "workspace-button": {
     "names": [
       "WorkspaceButton",
