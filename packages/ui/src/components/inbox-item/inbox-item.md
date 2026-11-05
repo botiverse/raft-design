@@ -38,12 +38,17 @@ Which message goes where is in [Choosing a component](../../../../../design/comp
 - `InboxItemContent`: the text column. Required.
   - `InboxItemContext`: where it happened: a channel, a task, a computer.
   - `InboxItemHeading` with `InboxItemTitle`: what happened, with an optional 14px icon before it.
+    - `InboxItemTimestamp`: the time, after the title, in a compact row without `InboxItemTrailing`. Optional. It takes the pointer there, so it can be a tooltip's trigger with no wrapper, and a click on it still opens the item. With `reveal="hover"` it is hidden at rest and shows in the same place while the row is hovered or it or a control in it holds keyboard focus.
   - `InboxItemSubtitle`: a second line of context, such as "Thread in #launch-week".
   - `InboxItemBody` or `InboxItemMessage`: the excerpt, starting with `InboxItemSender`.
+  - `InboxItemLine`: in a compact row without `InboxItemTrailing`, the excerpt's line: the excerpt, which takes the room, then `InboxItemMarks`. Optional.
   - `InboxItemMetadata`: chips for the task, replies and mentions.
   - `InboxItemHoverTarget`: wraps a badge that has a tooltip, so the pointer reaches it (the rest of the text lets the pointer through to the trigger). A click on it still opens the item.
-- `InboxItemTrailing`: `InboxItemTimestamp`, `InboxItemActions` and, while unread, the attention dot.
-  - `InboxItemMarks`: marks at the end of the excerpt's line: a mention, muted, an unread count. Optional.
+  - `InboxItemActions`: last in the content, in a compact row without `InboxItemTrailing`. With `reveal="hover"` it centers on the row, and `InboxItemContent` ends both lines short of it by `--inbox-item-actions-room` (40px with a mouse, 44px on a touch screen): room for one button. For more, set that variable on the row.
+- `InboxItemTrailing`: `InboxItemTimestamp`, `InboxItemActions` and, while unread, the attention dot. Optional in `density="compact"`: leave it out and both lines run the full width.
+  - `InboxItemMarks`: marks at the end of the excerpt's line: a mention, muted, an unread count. In `InboxItemLine` in a compact row without `InboxItemTrailing`. Optional.
+    - `InboxItemStatus`: a task's status, in the marks of such a row. Its `status` and its word as `children`. In a row narrower than 360px it shows the status's pixel, with the word in a tooltip. Pass it an `id` to name the word in the trigger's `aria-labelledby`.
+- `InboxItemListHeading`: a day's or a group's heading among the rows, an `h3` by default, placed straight in the list's column. Optional. To keep it in view while its rows scroll, the list makes it sticky and gives it the list's surface.
 - `InboxItemSkeleton`, in an `InboxItemSkeletonList`: a row that stands in for an `InboxItem` while the list loads ([Loading](#loading)). Optional; experimental, from `@botiverse/raft-ui/wip`.
 
 ### The leading image
@@ -142,6 +147,8 @@ activity/compositions/activity-hover-actions
 - Actions with `reveal="hover"` stay in the tab order while hidden, and show as soon as focus reaches the row or them.
 - When a jump started from the keyboard lands on an item, such as Back to the list the item was opened from, move focus to its `InboxItemTrigger`, not to the row ([Located](../../../../../design/foundations/states.md#located)): the trigger is already a focusable button with the item's name, and the row draws the inset ring around it, so the row needs no `tabIndex` of its own.
 - The attention dot is drawn in CSS and isn't announced. Say "unread" in the trigger's name, or add a visually hidden word.
+- An `InboxItemTimestamp` with `reveal="hover"` isn't announced while it is hidden. Say the time in the trigger's name.
+- `InboxItemStatus`'s word isn't on screen in a narrow row. Add its `id` to the trigger's `aria-labelledby`: a label reads a hidden element it names directly.
 - `InboxItemLeadingBadge` is hidden from assistive technology, and so is the tile's icon. Say "thread" or "task" and where it is in the trigger's name: `aria-label="Open thread in #launch-week"`, `aria-label="Open thread with Lagoon"`.
 - `InboxItemSkeleton` is hidden from assistive technology. `InboxItemSkeletonList` isn't `aria-busy`: it goes away when the items arrive, so a screen reader would never hear it finish. Put `aria-busy` on the container that stays, such as `ActivityInboxPanel`, while the list loads.
 

@@ -11,6 +11,7 @@ import {
   InboxItemContext,
   InboxItemHeading,
   InboxItemLeading,
+  InboxItemLine,
   InboxItemTimestamp,
   InboxItemTitle,
   InboxItemTrailing,
@@ -34,7 +35,8 @@ export type InboxItemSkeletonProps = Omit<InboxItemProps, "active" | "disabled" 
  * A placeholder for one `InboxItem` while the list loads. It is an
  * `InboxItem` itself, with the same parts as the loaded row (an optional
  * leading block, the context line, the title, the excerpt, the timestamp),
- * each holding a bar instead of text. The padding, the divider and every
+ * each holding a bar instead of text; a compact one has no trailing column,
+ * its time at the end of the heading. The padding, the divider and every
  * line's height are the loaded row's, so nothing moves when the content
  * arrives. Match `density`, `leading` and `context` to the rows it stands for.
  * Hidden from assistive technology: mark the region that stays while the
@@ -50,6 +52,9 @@ export function InboxItemSkeleton({
   const bar = (width: string) => (
     <Skeleton variant="line" className={slots.bar({ className: width })} />
   );
+  const compact = density === "compact";
+  const timestamp = <InboxItemTimestamp>{bar(slots.timestampBar())}</InboxItemTimestamp>;
+  const body = <InboxItemBody>{bar(slots.bodyBar())}</InboxItemBody>;
   return (
     <InboxItem
       aria-hidden
@@ -72,12 +77,11 @@ export function InboxItemSkeleton({
         ) : null}
         <InboxItemHeading>
           <InboxItemTitle className={slots.title()}>{bar(slots.titleBar())}</InboxItemTitle>
+          {compact ? timestamp : null}
         </InboxItemHeading>
-        <InboxItemBody>{bar(slots.bodyBar())}</InboxItemBody>
+        {compact ? <InboxItemLine>{body}</InboxItemLine> : body}
       </InboxItemContent>
-      <InboxItemTrailing>
-        <InboxItemTimestamp>{bar(slots.timestampBar())}</InboxItemTimestamp>
-      </InboxItemTrailing>
+      {compact ? null : <InboxItemTrailing>{timestamp}</InboxItemTrailing>}
     </InboxItem>
   );
 }

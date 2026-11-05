@@ -46,6 +46,21 @@ test("every bar sits inside a text slot, so the slot's line height sets the line
   }
 });
 
+test("a compact skeleton has no trailing column: the time ends the heading, the excerpt has its line", () => {
+  render(<InboxItemSkeleton data-testid="row" density="compact" />);
+  expect(slotsIn(screen.getByTestId("row"))).toEqual([
+    "inbox-item-content",
+    "inbox-item-heading",
+    "inbox-item-title",
+    "skeleton",
+    "inbox-item-timestamp",
+    "skeleton",
+    "inbox-item-line",
+    "inbox-item-body",
+    "skeleton",
+  ]);
+});
+
 test("density and leading follow the rows it stands for", () => {
   render(<InboxItemSkeleton data-testid="row" density="compact" leading />);
   const row = screen.getByTestId("row");

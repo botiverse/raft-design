@@ -42,7 +42,7 @@
         "name": "reveal",
         "type": "\"hover\"",
         "required": false,
-        "description": "`hover`: with a mouse, the actions stay hidden until the row is hovered, holds focus, is `active` or has a menu open, and then take the place of the rest of `InboxItemTrailing` (the timestamp, the marks, the attention dot), which steps aside. On a touch screen (`pointer: coarse`) they show at rest and the rest of the trailing column moves over to make room.",
+        "description": "`hover`: with a mouse, the actions stay hidden until the row is hovered, holds focus, is `active` or has a menu open. Give the button `variant=\"ghost\"` here. On a touch screen (`pointer: coarse`) they show at rest. In a compact row without `InboxItemTrailing`, put them last in `InboxItemContent`: they centre on the row and both lines end short of them, the time and the marks moving over and staying visible (room for one 32px button). In `InboxItemTrailing` they take the place of the timestamp, the marks and the attention dot, which step aside; on a touch screen the rest of the trailing column moves over to make room.",
         "from": "raft-ui"
       },
       {
@@ -139,6 +139,34 @@
     ]
   },
   {
+    "name": "InboxItemLine",
+    "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "InboxItemListHeading",
+    "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
     "name": "InboxItemMarks",
     "entry": "@botiverse/raft-ui",
     "native": true,
@@ -209,6 +237,26 @@
     ]
   },
   {
+    "name": "InboxItemStatus",
+    "entry": "@botiverse/raft-ui",
+    "native": true,
+    "props": [
+      {
+        "name": "children",
+        "type": "string",
+        "required": true,
+        "description": "The status's word. The caller owns the copy and its localization.",
+        "from": "raft-ui"
+      },
+      {
+        "name": "status",
+        "type": "TaskStatusId",
+        "required": true,
+        "from": "raft-ui"
+      }
+    ]
+  },
+  {
     "name": "InboxItemSubtitle",
     "entry": "@botiverse/raft-ui",
     "native": true,
@@ -227,6 +275,13 @@
     "entry": "@botiverse/raft-ui",
     "native": true,
     "props": [
+      {
+        "name": "reveal",
+        "type": "\"hover\"",
+        "required": false,
+        "description": "`hover`, for an older row in a compact list: hidden at rest, so the title takes its room. It shows in the same place, without animation, while the row is hovered or it or a control in it holds keyboard focus; a touch screen never hovers, so there it stays hidden. While hidden it isn't read out: say the time in the trigger's name.",
+        "from": "raft-ui"
+      },
       {
         "name": "render",
         "type": "ReactElement | ((props, state) => ReactElement)",
@@ -296,7 +351,7 @@
   {
     "name": "InboxItemSkeleton",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "A placeholder for one `InboxItem` while the list loads. It is an `InboxItem` itself, with the same parts as the loaded row (an optional leading block, the context line, the title, the excerpt, the timestamp), each holding a bar instead of text. The padding, the divider and every line's height are the loaded row's, so nothing moves when the content arrives. Match `density`, `leading` and `context` to the rows it stands for. Hidden from assistive technology: mark the region that stays while the list loads `aria-busy`.",
+    "description": "A placeholder for one `InboxItem` while the list loads. It is an `InboxItem` itself, with the same parts as the loaded row (an optional leading block, the context line, the title, the excerpt, the timestamp), each holding a bar instead of text; a compact one has no trailing column, its time at the end of the heading. The padding, the divider and every line's height are the loaded row's, so nothing moves when the content arrives. Match `density`, `leading` and `context` to the rows it stands for. Hidden from assistive technology: mark the region that stays while the list loads `aria-busy`.",
     "native": true,
     "props": [
       {

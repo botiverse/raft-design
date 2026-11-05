@@ -13,6 +13,7 @@ import {
   InboxItemContent,
   InboxItemHeading,
   InboxItemLeading,
+  InboxItemLine,
   InboxItemMarks,
   InboxItemSelection,
   InboxItemTimestamp,
@@ -144,6 +145,43 @@ const cases: Case[] = [
             </Button>
           </InboxItemActions>
         </InboxItemTrailing>
+      </InboxItem>
+    ),
+  },
+  {
+    name: "inbox-item without a trailing column",
+    hoverReveal: true,
+    selected: { active: true },
+    row: (props) => (
+      <InboxItem data-testid="row" density="compact" data-unread {...props}>
+        <InboxItemTrigger aria-label="Open launch-week" />
+        <InboxItemLeading>
+          <Hash />
+        </InboxItemLeading>
+        <InboxItemContent>
+          <InboxItemHeading>
+            <InboxItemTitle>
+              A title long enough to run up to the time at the end of its line
+            </InboxItemTitle>
+            <InboxItemTimestamp>9:41</InboxItemTimestamp>
+          </InboxItemHeading>
+          <InboxItemLine>
+            <InboxItemBody>
+              Kirby: the preview line, also long enough to be truncated at its end
+            </InboxItemBody>
+            <InboxItemMarks>
+              <SidebarItemIndicator>
+                <AtSign />
+              </SidebarItemIndicator>
+              <SidebarItemCount>12</SidebarItemCount>
+            </InboxItemMarks>
+          </InboxItemLine>
+          <InboxItemActions reveal="hover">
+            <Button variant="ghost" size="icon-md" aria-label="Mark as done">
+              <Check />
+            </Button>
+          </InboxItemActions>
+        </InboxItemContent>
       </InboxItem>
     ),
   },

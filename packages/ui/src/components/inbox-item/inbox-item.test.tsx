@@ -1,10 +1,30 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from "@testing-library/react";
-import { afterEach, expect, test } from "vite-plus/test";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import type { MouseEvent } from "react";
+import { afterEach, expect, test, vi } from "vite-plus/test";
 import { PanelAction } from "../panel/panel-action";
-import { InboxItem, InboxItemActions, InboxItemTitle, InboxItemTrailing } from "./inbox-item";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
+import {
+  InboxItem,
+  InboxItemActions,
+  InboxItemBody,
+  InboxItemContent,
+  InboxItemHeading,
+  InboxItemLine,
+  InboxItemListHeading,
+  InboxItemMarks,
+  InboxItemStatus,
+  InboxItemTimestamp,
+  InboxItemTitle,
+  InboxItemTrailing,
+  InboxItemTrigger,
+} from "./inbox-item";
 
 afterEach(cleanup);
+
+function prevent(event: MouseEvent<HTMLElement>) {
+  event.preventDefault();
+}
 
 test("row actions keep a 44px target and spaced targets on a touch screen", () => {
   render(
@@ -63,4 +83,136 @@ test("rows that don't opt in keep their parts' classes; compact and reveal only 
     expect.arrayContaining(["pointer-events-none", "opacity-0", "pointer-coarse:opacity-100"]),
   );
   expect(classes("reveal-actions")).not.toContain("pointer-events-auto");
+});
+
+test("a compact row's time takes the pointer only in the heading; in the trailing column it still doesn't", () => {
+  render(
+    <>
+      <InboxItem density="compact" data-testid="row">
+        <InboxItemContent data-testid="content">
+          <InboxItemHeading data-testid="heading">
+            <InboxItemTitle>T</InboxItemTitle>
+            <InboxItemTimestamp>2m</InboxItemTimestamp>
+          </InboxItemHeading>
+          <InboxItemLine data-testid="line">
+            <InboxItemBody>B</InboxItemBody>
+            <InboxItemMarks />
+          </InboxItemLine>
+          <InboxItemActions reveal="hover" />
+        </InboxItemContent>
+      </InboxItem>
+      <InboxItem data-testid="default-row">
+        <InboxItemContent data-testid="default-content">
+          <InboxItemHeading data-testid="default-heading">
+            <InboxItemTitle>T</InboxItemTitle>
+          </InboxItemHeading>
+        </InboxItemContent>
+        <InboxItemTrailing data-testid="trailing">
+          <InboxItemTimestamp>2m</InboxItemTimestamp>
+        </InboxItemTrailing>
+      </InboxItem>
+    </>,
+  );
+  const classes = (id: string) => screen.getByTestId(id).className.split(/\s+/);
+  expect(classes("heading")).toContain("*:data-inbox-item-time:pointer-events-auto");
+  expect(classes("default-heading")).not.toContain("*:data-inbox-item-time:pointer-events-auto");
+  expect(classes("trailing")).toContain("pointer-events-none");
+  // Both lines end at the row's padding, and short of the action while it shows.
+  expect(classes("row")).toContain(
+    "not-has-data-[slot=inbox-item-trailing]:[--inbox-item-content-end:-1]",
+  );
+  expect(classes("default-row")).not.toContain(
+    "not-has-data-[slot=inbox-item-trailing]:[--inbox-item-content-end:-1]",
+  );
+  expect(classes("content")).toContain(
+    "has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)",
+  );
+  expect(classes("default-content")).not.toContain(
+    "has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)",
+  );
+  expect(screen.getByTestId("line").getAttribute("data-slot")).toBe("inbox-item-line");
+  expect(classes("line")).toContain("*:data-[slot=inbox-item-marks]:empty:hidden");
+});
+
+test("a time with reveal is hidden until the row shows it; without it, it has no display of its own", () => {
+  render(
+    <InboxItem density="compact">
+      <InboxItemTimestamp reveal="hover" data-testid="older">
+        Jul 27
+      </InboxItemTimestamp>
+      <InboxItemTimestamp data-testid="recent">2m</InboxItemTimestamp>
+    </InboxItem>,
+  );
+  const reveal = "[display:var(--inbox-item-time-display,none)]";
+  expect(screen.getByTestId("older").className.split(/\s+/)).toContain(reveal);
+  expect(screen.getByTestId("recent").className.split(/\s+/)).not.toContain(reveal);
+  // Actions read their own data-reveal in a trailing column; the time must not look like them.
+  expect(screen.getByTestId("older").hasAttribute("data-reveal")).toBe(false);
+});
+
+test("a click on the time opens the item, unless its own handler prevents that", () => {
+  const onOpen = vi.fn();
+  render(
+    <InboxItem density="compact">
+      <InboxItemTrigger aria-label="Open" onClick={onOpen} />
+      <InboxItemContent>
+        <InboxItemHeading>
+          <InboxItemTitle>T</InboxItemTitle>
+          <InboxItemTimestamp data-testid="time">2m</InboxItemTimestamp>
+          <InboxItemTimestamp data-testid="prevented" onClick={prevent}>
+            3m
+          </InboxItemTimestamp>
+        </InboxItemHeading>
+      </InboxItemContent>
+    </InboxItem>,
+  );
+  fireEvent.click(screen.getByTestId("time"));
+  expect(onOpen).toHaveBeenCalledTimes(1);
+  fireEvent.click(screen.getByTestId("prevented"));
+  expect(onOpen).toHaveBeenCalledTimes(1);
+});
+
+test("a list heading is an h3 unless rendered as another level", () => {
+  render(
+    <>
+      <InboxItemListHeading data-testid="h3">Today</InboxItemListHeading>
+      <InboxItemListHeading render={<h4 />} data-testid="h4">
+        Yesterday
+      </InboxItemListHeading>
+    </>,
+  );
+  expect(screen.getByTestId("h3").tagName).toBe("H3");
+  expect(screen.getByTestId("h4").tagName).toBe("H4");
+  expect(screen.getByTestId("h3").getAttribute("data-slot")).toBe("inbox-item-list-heading");
+});
+
+test("a status has its word and its pixel, each hidden at its side of the row's 360px", () => {
+  const { container } = render(
+    <InboxItemStatus id="status" status="done" data-testid="word">
+      Done
+    </InboxItemStatus>,
+  );
+  const word = screen.getByTestId("word");
+  expect(word.id).toBe("status");
+  expect(word.textContent).toBe("Done");
+  expect(word.className.split(/\s+/)).toContain("@max-[320px]:hidden");
+  const pixel = container.querySelector("[data-slot=inbox-item-status-pixel]");
+  expect(pixel?.getAttribute("role")).toBe("img");
+  expect(pixel?.getAttribute("aria-label")).toBe("Done");
+  expect(pixel?.className.split(/\s+/)).toContain("@min-[320px]:hidden");
+});
+
+test("the heading finds the time when it is a tooltip's trigger, which replaces data-slot", () => {
+  render(
+    <InboxItem density="compact">
+      <InboxItemHeading>
+        <InboxItemTitle>T</InboxItemTitle>
+        <Tooltip>
+          <TooltipTrigger render={<InboxItemTimestamp data-testid="time" />}>2m</TooltipTrigger>
+          <TooltipContent>2 minutes ago</TooltipContent>
+        </Tooltip>
+      </InboxItemHeading>
+    </InboxItem>,
+  );
+  expect(screen.getByTestId("time").hasAttribute("data-inbox-item-time")).toBe(true);
 });

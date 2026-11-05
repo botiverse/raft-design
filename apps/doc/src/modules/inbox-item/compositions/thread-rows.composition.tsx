@@ -10,11 +10,11 @@ import {
   InboxItemContent,
   InboxItemHeading,
   InboxItemLeading,
+  InboxItemLine,
   InboxItemMarks,
   InboxItemSender,
   InboxItemTimestamp,
   InboxItemTitle,
-  InboxItemTrailing,
   InboxItemTrigger,
   SidebarItemCount,
 } from "@botiverse/raft-ui";
@@ -54,18 +54,18 @@ export function ThreadRowsContent() {
         <InboxItemContent>
           <InboxItemHeading>
             <InboxItemTitle>发布前把 onboarding 文案再过一遍</InboxItemTitle>
+            <InboxItemTimestamp>2m</InboxItemTimestamp>
           </InboxItemHeading>
-          <InboxItemBody>
-            #launch-week · <InboxItemSender>Mira: </InboxItemSender>
-            第二屏的按钮我改成了 Get started，你看下？
-          </InboxItemBody>
+          <InboxItemLine>
+            <InboxItemBody>
+              #launch-week · <InboxItemSender>Mira: </InboxItemSender>
+              第二屏的按钮我改成了 Get started，你看下？
+            </InboxItemBody>
+            <InboxItemMarks>
+              <SidebarItemCount>3</SidebarItemCount>
+            </InboxItemMarks>
+          </InboxItemLine>
         </InboxItemContent>
-        <InboxItemTrailing>
-          <InboxItemTimestamp>2m</InboxItemTimestamp>
-          <InboxItemMarks>
-            <SidebarItemCount>3</SidebarItemCount>
-          </InboxItemMarks>
-        </InboxItemTrailing>
       </InboxItem>
 
       <InboxItem density="compact" active={activeId === "thread:launch-room"}>
@@ -86,15 +86,15 @@ export function ThreadRowsContent() {
         <InboxItemContent>
           <InboxItemHeading>
             <InboxItemTitle>1.15.3 发版清单</InboxItemTitle>
+            <InboxItemTimestamp>11m</InboxItemTimestamp>
           </InboxItemHeading>
-          <InboxItemBody>
-            #launch-room · <InboxItemSender>Volta: </InboxItemSender>
-            预览包测过了，等 artin 点头。
-          </InboxItemBody>
+          <InboxItemLine>
+            <InboxItemBody>
+              #launch-room · <InboxItemSender>Volta: </InboxItemSender>
+              预览包测过了，等 artin 点头。
+            </InboxItemBody>
+          </InboxItemLine>
         </InboxItemContent>
-        <InboxItemTrailing>
-          <InboxItemTimestamp>11m</InboxItemTimestamp>
-        </InboxItemTrailing>
       </InboxItem>
 
       <InboxItem density="compact" active={activeId === "task:launch-week-46"}>
@@ -115,15 +115,15 @@ export function ThreadRowsContent() {
         <InboxItemContent>
           <InboxItemHeading>
             <InboxItemTitle>Header bar for task conversations</InboxItemTitle>
+            <InboxItemTimestamp>14m</InboxItemTimestamp>
           </InboxItemHeading>
-          <InboxItemBody>
-            #launch-week:#46 · <InboxItemSender>Lagoon: </InboxItemSender>
-            Header bar is in, goldens recorded.
-          </InboxItemBody>
+          <InboxItemLine>
+            <InboxItemBody>
+              #launch-week:#46 · <InboxItemSender>Lagoon: </InboxItemSender>
+              Header bar is in, goldens recorded.
+            </InboxItemBody>
+          </InboxItemLine>
         </InboxItemContent>
-        <InboxItemTrailing>
-          <InboxItemTimestamp>14m</InboxItemTimestamp>
-        </InboxItemTrailing>
       </InboxItem>
 
       <InboxItem density="compact" active={activeId === "thread:dm-samira"}>
@@ -144,15 +144,15 @@ export function ThreadRowsContent() {
         <InboxItemContent>
           <InboxItemHeading>
             <InboxItemTitle>Permissions review: final note</InboxItemTitle>
+            <InboxItemTimestamp>18m</InboxItemTimestamp>
           </InboxItemHeading>
-          <InboxItemBody>
-            <InboxItemSender>Samira: </InboxItemSender>
-            最后一条备注加好了，明天就可以 merge。
-          </InboxItemBody>
+          <InboxItemLine>
+            <InboxItemBody>
+              <InboxItemSender>Samira: </InboxItemSender>
+              最后一条备注加好了，明天就可以 merge。
+            </InboxItemBody>
+          </InboxItemLine>
         </InboxItemContent>
-        <InboxItemTrailing>
-          <InboxItemTimestamp>18m</InboxItemTimestamp>
-        </InboxItemTrailing>
       </InboxItem>
 
       <InboxItem density="compact" active={activeId === "thread:dm-lagoon"} data-unread>
@@ -173,18 +173,18 @@ export function ThreadRowsContent() {
         <InboxItemContent>
           <InboxItemHeading>
             <InboxItemTitle>把 staging 的部署日志整理成摘要</InboxItemTitle>
+            <InboxItemTimestamp>31m</InboxItemTimestamp>
           </InboxItemHeading>
-          <InboxItemBody>
-            <InboxItemSender>Lagoon: </InboxItemSender>
-            Summary is ready: 3 warnings, 0 errors. 要我开个 task 跟进吗？
-          </InboxItemBody>
+          <InboxItemLine>
+            <InboxItemBody>
+              <InboxItemSender>Lagoon: </InboxItemSender>
+              Summary is ready: 3 warnings, 0 errors. 要我开个 task 跟进吗？
+            </InboxItemBody>
+            <InboxItemMarks>
+              <SidebarItemCount>1</SidebarItemCount>
+            </InboxItemMarks>
+          </InboxItemLine>
         </InboxItemContent>
-        <InboxItemTrailing>
-          <InboxItemTimestamp>31m</InboxItemTimestamp>
-          <InboxItemMarks>
-            <SidebarItemCount>1</SidebarItemCount>
-          </InboxItemMarks>
-        </InboxItemTrailing>
       </InboxItem>
 
       <InboxItem density="compact" active={activeId === "dm:atlas"}>
@@ -203,12 +203,12 @@ export function ThreadRowsContent() {
         <InboxItemContent>
           <InboxItemHeading>
             <InboxItemTitle>Atlas</InboxItemTitle>
+            <InboxItemTimestamp>1h</InboxItemTimestamp>
           </InboxItemHeading>
-          <InboxItemBody>The staging deploy is green. 要我发 release 吗？</InboxItemBody>
+          <InboxItemLine>
+            <InboxItemBody>The staging deploy is green. 要我发 release 吗？</InboxItemBody>
+          </InboxItemLine>
         </InboxItemContent>
-        <InboxItemTrailing>
-          <InboxItemTimestamp>1h</InboxItemTimestamp>
-        </InboxItemTrailing>
       </InboxItem>
     </div>
   );
