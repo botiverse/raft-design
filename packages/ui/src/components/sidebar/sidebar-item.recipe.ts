@@ -31,13 +31,15 @@ export const sidebarItemRecipe = tv({
     sidebarItemIcon: [
       "flex shrink-0 items-center justify-center",
       "[&>svg]:shrink-0",
-      "size-[19px] text-foreground-hint [&>svg]:size-4 [&>svg]:stroke-2",
+      "size-[19px] text-foreground-muted [&>svg]:size-4 [&>svg]:stroke-2",
+      "group-not-data-active/sidebar-item:group-data-[tone=away]/sidebar-item:text-foreground-hint",
       "group-data-active/sidebar-item:text-sticker-ink",
     ],
     sidebarItemChannelIcon: [
       "flex shrink-0 items-center justify-center",
       "[&_svg]:shrink-0",
-      "size-[19px] text-foreground-hint [&_svg]:size-4 [&_svg]:stroke-2",
+      "size-[19px] text-foreground-muted [&_svg]:size-4 [&_svg]:stroke-2",
+      "group-not-data-active/sidebar-item:group-data-[tone=away]/sidebar-item:text-foreground-hint",
       "group-data-active/sidebar-item:text-sticker-ink",
     ],
     sidebarItemContent: ["has-[>[data-slot=sidebar-item-meta-icon]]:items-center"],

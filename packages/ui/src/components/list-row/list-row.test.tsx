@@ -88,7 +88,7 @@ describe("ListRow", () => {
     const icon = screen.getByTestId("icon");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
     expect(classes(icon)).toContain("[&>svg]:size-5");
-    expect(classes(icon)).toContain("text-(--list-row-ink-3)");
+    expect(classes(icon)).toContain("text-(--list-row-ink-icon)");
   });
 
   test("a selected row takes the cyan wash and its hover is gated off", () => {
@@ -171,7 +171,8 @@ describe("ListRow", () => {
         <ListRowChevron data-testid="chevron" />
       </ListRow>,
     );
-    for (const id of ["icon", "value", "chevron"]) {
+    expect(classes(screen.getByTestId("icon"))).toContain("text-(--list-row-ink-icon)");
+    for (const id of ["value", "chevron"]) {
       expect(classes(screen.getByTestId(id))).toContain("text-(--list-row-ink-3)");
     }
   });

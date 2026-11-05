@@ -269,6 +269,20 @@
   - Affects: touch gap 20px → 4px (`gap-1`); each hit area reaches 2px into the gap.
   - Docs: https://raft-design.botiverse.build/components/sidebar/
 
+### Changed
+
+- **An icon is never darker than its label**: it takes its label's color, and only a leading icon before `foreground` text is one step lighter, `foreground-muted`.
+  - **MessageItem's Saved marker:** the bookmark icon `foreground` → inherits the label's `foreground-muted`. The icon-only marker stays `foreground-muted`.
+  - **MessageActionCardCompletion:** the icon `foreground` → inherits the row's `foreground-muted`.
+  - **SidebarItemIcon and SidebarItemChannelIcon:** `foreground-hint` → `foreground-muted`; on an `away` row they stay `foreground-hint`, the name's color. The selected row keeps `sticker-ink`.
+  - **InboxItemTitle's icon:** `foreground-hint` → `foreground-muted`: the read title's color, one step under an unread one.
+  - **ListRowIcon:** `--list-row-ink-3` (`foreground-hint`) → `foreground-muted`, through a new `--list-row-ink-icon`: `foreground-muted` on a default, unread or muted row, `foreground-hint` on an away row, `foreground-disabled` on a disabled one.
+
+### Design System
+
+- **Icon color** (Iconography › Icon color): an icon inherits its label's color, a leading icon before ink text is one step lighter, a disclosure chevron rests in `foreground-hint`; status icons, selected icons and IconTile glyphs keep their own. Color, Typography and TextSelectionToolbar link to it instead of restating it.
+  - Docs: https://raft-design.botiverse.build/foundations/iconography/
+
 ## [0.56.1](https://github.com/botiverse/raft-design/compare/v0.56.0...v0.56.1) (2026-10-31)
 
 ### Fixed

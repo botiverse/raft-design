@@ -5,7 +5,7 @@ summary: The icon set, its stroke and color, the icon sizes by context, and what
 
 # Iconography
 
-Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon inherits its color from the text around it (`currentColor`).
+Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon is never darker than its label: it takes the label's color, and only a leading icon before ink text is one step lighter ([Icon color](#icon-color)).
 
 ## Principles
 
@@ -23,6 +23,15 @@ Raft's icons are Lucide icons, from `lucide-react`, at a stroke of 2. An icon in
 - **Success is `circle-check`; an error or a warning is `triangle-alert`**, as [Banner](../../packages/ui/src/components/banner/banner.md) and [Toast](../../packages/ui/src/components/toast/toast.md) draw them. Not `circle-check-big` or `circle-alert`.
 - **Reopen is not restart.** `rotate-ccw` means restart or reset, so Reopen task has its own icon, `ReopenTaskIcon` ([Icons](../../packages/ui/src/components/icons/icons.md#action-icons)).
 - **Outline only.** Don't fill an icon to show a state, such as saved: a toggle shows the action it offers (`bookmark-minus` to remove from Saved). A media player's Play and Pause are the exception.
+
+## Icon color
+
+The label's color carries the hierarchy, so an icon follows it and never outranks it: an icon darker than the words beside it reads as the louder of the two. A Lucide icon already carries more ink than the text it labels (a 2px stroke against the 1.3px to 1.6px stems of 12px to 14px semibold text), so at the same color it reads heavier.
+
+- **Inherit the label's color.** Draw the icon in `currentColor` and set no color of its own: beside `foreground-muted` text it is `foreground-muted`, beside `foreground-hint` text `foreground-hint`, and disabled with its label.
+- **Only a leading icon before ink text is one step lighter, `foreground-muted`**: a menu item, a sidebar row, a settings row, a button in the selection toolbar. One step evens out the stroke's extra weight. Never two: a `foreground-hint` icon beside ink text reads as disabled.
+- **A disclosure chevron rests in `foreground-hint` and turns `foreground` on hover** ([States](./states.md#hover-and-press)): it is a control beside the label, not part of it.
+- **Exceptions keep their own color:** a status icon (its status color, [Color](./color.md#statuses)), the icon of a selected item (`sticker-ink` on the yellow sticker), and the glyph in an [IconTile](../../packages/ui/src/components/icon-tile/icon-tile.md).
 
 ## Sizes
 

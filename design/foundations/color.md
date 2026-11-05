@@ -63,6 +63,8 @@ foreground
 | `foreground-link` | Links in running text |
 | `danger-strong` | Error text: the border and help text of an invalid input, a failed upload |
 
+An icon takes its color from the text it labels, never a darker tier: [Iconography](./iconography.md#icon-color).
+
 ### Lines
 
 There are three kinds of line, and each one means something. See [Shape](./shape.md#stroke-widths) for their widths.
