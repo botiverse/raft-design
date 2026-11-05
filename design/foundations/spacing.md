@@ -113,7 +113,7 @@ The sizes that follow the control are written as one chain in the token layer, s
 - **Header** (`header-height`): the control height plus the header air (`header-air`) above and below. Every header reads it: a panel, sidebar, thread or rail head, a dialog's bar, a drawer's head, the Tasks filter row. In a window shorter than 600px, `header-height-short`.
 - **Bar button** (`bar-button-size`, `bar-button-radius`): an icon button in a bar, a head's actions and its ×, the composer's icons. Its hit area reaches 44px whatever its size.
 - **Frame item** (`frame-item-height`): the top bar's and the title bar's buttons, the workspace button and the search box.
-- **Corner** (`control-radius`): a control at the control height, about a quarter of it: 10px at 44 on a touch screen, 8px at 32 on a desktop.
+- **Corner** (`control-radius`): a control at the control height, about a quarter of it: 10px at 44 on a phone and a touch screen, 8px at 34 with a mouse on a desktop.
 - **Switch** (`switch-width`, `switch-height`): the track; the knob is the height less 8px and travels the width less the height.
 - **Rows** (`row-height`, `option-height`): a sidebar row from 768px, and an option of a popup list or a menu item.
 - **Forms** (`field-gap`, `section-gap`, `settings-row-inset`, `page-inset`, `page-top`): two airs between fields and around a settings row's tallest part, the gap between two form sections, the inset of a column's content and a drawer's body (16px at both densities), and the space from a head's seam to the first thing under it: the page inset on a phone and a touch screen, 12px with a mouse, so the content sits close under its compact head (stdrc, 2026-11-05).

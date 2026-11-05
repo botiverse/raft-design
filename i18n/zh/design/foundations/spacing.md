@@ -1,7 +1,7 @@
 ---
 title: 间距与尺寸
 summary: 4px 间距网格、点击区域、控件和行的高度、头像尺寸、头部高度和布局宽度。
-sourceHash: 8434d3c8
+sourceHash: 2a6cbe60
 ---
 
 # 间距与尺寸
@@ -113,7 +113,7 @@ control
 - **头部**（`header-height`）：控件高度加上下各一份头部留白（`header-air`）。所有头部都读它：面板、侧边栏、线程和 rail 的头部，对话框的顶栏，抽屉的头部，Tasks 的筛选行。窗口低于 600px 时用 `header-height-short`。
 - **栏按钮**（`bar-button-size`、`bar-button-radius`）：栏里的图标按钮，头部的操作和 ×，输入框的图标。无论尺寸多大，点击区域都达到 44px。
 - **框架项**（`frame-item-height`）：顶栏和标题栏的按钮、工作区按钮和搜索框。
-- **圆角**（`control-radius`）：控件高度的控件，大约是高度的四分之一：触屏上 44 用 10px，桌面端 32 用 8px。
+- **圆角**（`control-radius`）：控件高度的控件，大约是高度的四分之一：手机和触屏上 44 用 10px，桌面端用鼠标时 34 用 8px。
 - **开关**（`switch-width`、`switch-height`）：轨道；滑块是高度减 8px，移动距离是宽度减高度。
 - **行**（`row-height`、`option-height`）：768px 起的侧边栏行，以及弹出列表的选项和菜单项。
 - **表单**（`field-gap`、`section-gap`、`settings-row-inset`、`page-inset`、`page-top`）：字段之间和设置行最高部分上下的两份留白、两个表单分区之间的间距、栏内容和抽屉正文的内边距（两种密度下都是 16px），以及从头部的分隔线到其下第一个元素的距离：手机和触屏上是页面内边距，用鼠标时 12px，让内容紧贴在紧凑的头部下方（stdrc，2026-11-05）。

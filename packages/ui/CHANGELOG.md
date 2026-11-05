@@ -8,7 +8,7 @@
 
 ### Changed
 
-- **Size chain tokens**: control, row, option and header heights are now one chain of variables (`--control-height`, `--row-height`, `--option-height`, `--header-air`, `--header-height`, `--header-height-short`, `--control-hit-inset`, `--control-embedded-size`, `--bar-button-size`, `--page-inset`, `--page-top`) in `tokens.json` and `foundation.css`; components read them instead of fixed sizes.
+- **Size chain tokens**: control, row, option and header heights are now one chain of variables in `tokens.json` and `foundation.css`, built on the existing `--control-height`, `--control-hit-inset` and `--control-embedded-size`; components read them instead of fixed sizes. New: `--row-height`, `--option-height`, `--control-air`, `--field-gap`, `--header-air`, `--header-height`, `--header-height-short`, `--bar-button-size`, `--bar-button-radius`, `--frame-item-height`, `--switch-width`, `--switch-height`, `--settings-row-inset`, `--section-gap`, `--page-inset`, `--rail-width`, `--rail-item`.
   - Why: the desktop sizing review (stdrc, sizing option A, 2026-11-04) set one size per role; a component that hard-coded 32 or 56 drifted from the rest.
   - Affects: nothing visible on its own; #973 and #974 set the desktop and touch values.
   - Docs: https://raft-design.botiverse.build/foundations/spacing/
@@ -18,9 +18,9 @@
   - Migrate: read `--surface-inset` / `--page-inset` instead of `px-5` for a surface's own padding; browser tests that measured 32px controls or 36px toolbars on a desktop now see 34 and 42.
   - New variables: `--page-top`, `--rail-width-short`, `--rail-item-short` (tokens); `--surface-inset`, `--sidebar-glyph-axis`, `--sidebar-text-axis` (styles.css, next to `--column-margin`).
   - Docs: https://raft-design.botiverse.build/foundations/desktop-density/
-- **Touch density** (pointer: coarse): 44px controls with a 10px radius, denser rich rows (56px Activity, Inbox and person rows), a small ComboboxSelect keeps 8; icon tiles by size on touch.
+- **Touch density** (a phone width, and a touch screen at any width): 44px controls with a 10px radius (`--control-radius`; below 768px a mouse gets it too), denser rich rows (56px Activity, Inbox and person rows), a small ComboboxSelect keeps 8; icon tiles by size on touch.
   - Why: the sizing audit's touch column (stdrc, 2026-11-04).
-  - Affects: touch screens only.
+  - Affects: phone widths and touch screens; a desktop with a mouse from 768px is unchanged.
   - Docs: https://raft-design.botiverse.build/foundations/spacing/#hit-targets
 
 ## [0.64.0](https://github.com/botiverse/raft-design/compare/v0.63.1...v0.64.0) (2026-11-05)
