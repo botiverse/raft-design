@@ -40,7 +40,7 @@ A section's header, a group label and a container's edge stand further out than 
 The gap inside a group is smaller than the gap between groups, and both are smaller than the container's padding.
 
 - **Why:** people read nearness as belonging. When the space under a setting's control equals the space to the next setting, the setting falls apart.
-- **Enforced by:** `field-gap` inside a group, `section-gap` between sections, `page-inset` (20px) around them. A settings card of stacked settings is 20px inside and 20px between settings, with 4px from a title to its description and 8px to its control.
+- **Enforced by:** `field-gap` inside a group, `section-gap` between sections, `page-inset` (20px) around them. A settings card of stacked settings is 24px inside and 20px between settings, with 4px from a title to its description and 8px to its control (4 and 8 < 20 < 24).
 
 ### 5. Reserve no room for what isn't there
 
