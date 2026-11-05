@@ -87,6 +87,10 @@ export function CommentMargin({ className, render, style, gap = 8, ...props }: C
 
   const observe = useCallback<CommentMarginContextValue["observe"]>(
     (id, element) => {
+      patch(id, { height: heightOf(element) });
+      // jsdom and some embedded webviews have no ResizeObserver: the card keeps
+      // the height it had when placed, instead of the margin throwing.
+      if (typeof ResizeObserver === "undefined") return () => {};
       observer.current ??= new ResizeObserver((records) => {
         for (const record of records) {
           const target = observed.current.get(record.target);
@@ -94,7 +98,6 @@ export function CommentMargin({ className, render, style, gap = 8, ...props }: C
         }
       });
       observed.current.set(element, id);
-      patch(id, { height: heightOf(element) });
       observer.current.observe(element);
       return () => {
         observer.current?.unobserve(element);
