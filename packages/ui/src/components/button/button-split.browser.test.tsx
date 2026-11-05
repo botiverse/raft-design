@@ -219,6 +219,11 @@ it("on a touch screen an lg split is 44px tall, with a 36px menu part", async ()
   expect(menuBox.width).toBe(36);
   expect(menuBox.left).toBe(mainBox.right);
   expect(hitWidth(menu)).toBeGreaterThanOrEqual(44);
+  // The group's outline (the sticker edge in dark mode) has the parts' corner:
+  // the control radius, 10px on a touch screen (Jasper's review of #974).
+  const group = document.querySelector<HTMLElement>("[data-testid=group]")!;
+  expect(getComputedStyle(main).borderTopLeftRadius).toBe("10px");
+  expect(getComputedStyle(group).borderTopLeftRadius).toBe("10px");
 });
 
 afterAll(async () => {

@@ -20,7 +20,7 @@
   gap: var(--control-embedded-inset);
   padding: 0 calc(var(--control-embedded-inset) - 1px) 0 12px;
   border: 1.5px solid var(--line-field);
-  border-radius: var(--radius-control);
+  border-radius: var(--control-radius);
   outline: 0;
   background: var(--layer-card);
   color: var(--foreground);
@@ -277,6 +277,9 @@
 }
 .r-combobox-select--sm.r-combobox-select__control {
   --control-height: 1.75rem;
+  /* A 28px field keeps the 32px control's corner on every input: the root's
+     control-radius (10 on a touch screen) belongs to 44px fields. */
+  --control-radius: var(--radius-control);
   --control-embedded-inset: 3px;
   --control-embedded-size: 22px;
   font-size: var(--text-control);

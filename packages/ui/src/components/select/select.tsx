@@ -28,7 +28,7 @@ const select = tv({
       "**:data-[slot='button-content']:w-full **:data-[slot='button-content']:justify-between",
       "[&>span[data-slot='select-trigger-content']]:min-w-0 [&>span[data-slot='select-trigger-content']]:flex-1",
       "[&_[data-slot='select-trigger-content']_svg]:shrink-0",
-      "h-control w-full gap-2 pr-3 pl-3.5",
+      "h-control w-full gap-2 rounded-(--control-radius) pr-3 pl-3.5",
       "border-[1.5px] border-line-field",
       "hover:bg-none",
       "text-subhead font-semibold text-foreground",
@@ -125,7 +125,7 @@ const select = tv({
         trigger: [
           "px-3 text-field font-field",
           "**:data-[slot='button-content']:font-field **:data-[slot='select-value']:font-field",
-          "h-control py-0",
+          "h-control rounded-(--control-radius) py-0",
           "data-placeholder:font-field",
         ],
         item: ["text-field font-field", "**:data-[slot='select-item-text']:font-field"],

@@ -63,4 +63,4 @@ IconTile renders a `<span>` and wraps no Base UI primitive.
 - Don't give a channel a color: a channel is a place, not an identity.
 - Show at most one yellow location tile per screen, beside the title of the place the person is in. In a list, the current item is the selected row, not a yellow tile ([States](../../../../../design/foundations/states.md#usage)).
 - Use `warning` and `information` only for system notices. Everywhere else the tile is neutral.
-- Put the tile where an avatar would go in the same row, at the same size, so tiles and avatars line up in one column. On a desktop it takes its corner by its size (27 `radius-chip`, 35 `radius-control`, 51 `radius-container`), as the controls do; an avatar stays a `radius-sticker` sticker at every size ([Shape](../../../../../design/foundations/shape.md#radii)).
+- Put the tile where an avatar would go in the same row, at the same size, so tiles and avatars line up in one column. It takes its corner by its size (27 `radius-chip`, 35 `radius-control`, 51 `radius-container`), as the controls do; an avatar stays a `radius-sticker` sticker at every size ([Shape](../../../../../design/foundations/shape.md#radii)).

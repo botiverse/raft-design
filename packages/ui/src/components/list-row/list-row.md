@@ -42,11 +42,11 @@ In a `plain` row, both ends center on the whole row, with or without a descripti
 
 ## Variants
 
-| Variant             | Use for                                                                                                                                                                                                                                                   |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `variant="default"` | A conversation, a person or an agent: leading block, title, preview, time and badge. At least 64px tall                                                                                                                                                   |
-| `variant="plain"`   | A setting: an optional icon, a title (and its consequence), then the current value and a chevron, or a switch. 12px above and below its tallest part (`settings-row-inset`): 46px with one line of text and a switch with a mouse, 54px on a touch screen |
-| `variant="entry"`   | A shortcut into another page at the top of a list (Saved on phone Home): a 20px icon and a name, with a badge or a gray count on the right. 48px tall                                                                                                     |
+| Variant             | Use for                                                                                                                                                                                                                                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `variant="default"` | A conversation, a person or an agent: leading block, title, preview, time and badge. At least 64px tall with a mouse, 56px on a phone and a touch screen (8px above and below its content, not 12: the whole row is the target, so it needs no extra air past 44px, and about one more row fits on a phone screen) |
+| `variant="plain"`   | A setting: an optional icon, a title (and its consequence), then the current value and a chevron, or a switch. 12px above and below its tallest part (`settings-row-inset`): 46px with one line of text and a switch with a mouse, 54px on a touch screen                                                          |
+| `variant="entry"`   | A shortcut into another page at the top of a list (Saved on phone Home): a 20px icon and a name, with a badge or a gray count on the right. 48px tall                                                                                                                                                              |
 
 ```example
 list-row/compositions/settings

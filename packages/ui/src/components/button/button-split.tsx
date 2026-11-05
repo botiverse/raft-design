@@ -22,6 +22,9 @@ export const buttonSplit = tv({
     "relative isolate inline-flex shrink-0 items-stretch",
     "rounded-control ring-sticker-edge",
     "data-sticker-edge:ring-[1.5px]",
+    // An `lg` split is a control at the control height: its parts take the
+    // control radius (10px on a touch screen), so the group's outline does too.
+    "data-[size=lg]:rounded-(--control-radius)",
   ],
 });
 
@@ -29,7 +32,7 @@ export const buttonSplitMain = tv({
   base: ["rounded-e-none border-e-0", "ring-0 focus-visible:z-1"],
 });
 
-// 28px wide beside a 32px height: narrower than the 32px icon button, so it
+// 28px wide beside a 32px height (34px with a mouse on a desktop): narrower than the icon button, so it
 // reads as the main button's appendix, and the 16px chevron's 8px of ink sits
 // about 8px from each edge. On a touch screen `lg` is 44px tall and the part
 // 36px wide. The hit area reaches past the part's end to 44px wide (measured
@@ -68,7 +71,8 @@ const STICKERS = new Set<ButtonSplitVariant>(["primary", "warning", "danger"]);
 const ButtonSplitContext = createContext<{
   disabled: boolean;
   registerStickerPart: () => () => void;
-}>({ disabled: false, registerStickerPart: () => () => {} });
+  setSize: (size: ButtonSplitSize) => void;
+}>({ disabled: false, registerStickerPart: () => () => {}, setSize: () => {} });
 
 /** An enabled sticker part asks its group to draw the die-cut edge while it is mounted. */
 function useStickerEdge(active: boolean) {
@@ -98,8 +102,11 @@ export function ButtonSplit({ disabled = false, className, ...props }: ButtonSpl
     setStickerParts((count) => count + 1);
     return () => setStickerParts((count) => count - 1);
   }, []);
+  // The main part tells the group its size, so the group's outline (the
+  // sticker edge) follows the parts' corner.
+  const [size, setSize] = useState<ButtonSplitSize>("md");
   const context = useMemo(
-    () => ({ disabled, registerStickerPart }),
+    () => ({ disabled, registerStickerPart, setSize }),
     [disabled, registerStickerPart],
   );
   return (
@@ -109,6 +116,7 @@ export function ButtonSplit({ disabled = false, className, ...props }: ButtonSpl
         {...props}
         data-slot="button-split"
         data-sticker-edge={stickerParts > 0 ? "" : undefined}
+        data-size={size}
         className={buttonSplit({ className })}
       />
     </ButtonSplitContext.Provider>
@@ -135,6 +143,8 @@ export function ButtonSplitMain({
   const group = useContext(ButtonSplitContext);
   const isDisabled = disabled || group.disabled;
   useStickerEdge(STICKERS.has(variant) && !isDisabled && !props.loading);
+  const { setSize } = group;
+  useLayoutEffect(() => setSize(size), [setSize, size]);
   return (
     <Button
       {...props}

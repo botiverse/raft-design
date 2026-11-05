@@ -115,7 +115,7 @@ export const buttonVariants = tv({
       // Dialog and sheet footers, forms.
       lg: {
         root: [
-          "h-control gap-2 rounded-control px-4 py-0 text-subhead",
+          "h-control gap-2 rounded-(--control-radius) px-4 py-0 text-subhead",
           "has-data-[icon=inline-start]:pl-3.5 has-data-[icon=inline-end]:pr-3.5",
           "[&_svg:not([class*='size-'])]:size-[18px] **:data-icon:size-[1em]",
           "after:absolute after:inset-x-0 after:-inset-y-[calc(var(--spacing-control-hit)+1.5px)]",
@@ -134,7 +134,7 @@ export const buttonVariants = tv({
       "icon-md": { root: iconMd },
       "icon-lg": {
         root: [
-          "size-control rounded-control p-0 [&_svg:not([class*='size-'])]:size-control-icon",
+          "size-control rounded-(--control-radius) p-0 [&_svg:not([class*='size-'])]:size-control-icon",
           "after:absolute after:-inset-[calc(var(--spacing-control-hit)+1.5px)]",
         ],
       },

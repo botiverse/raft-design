@@ -1,7 +1,7 @@
 ---
 title: 形状
 summary: 五种圆角、两种描边宽度，以及为什么圆角容器的边缘上不贴任何东西。
-sourceHash: d3d259e0
+sourceHash: 224627e2
 ---
 
 # 形状
@@ -29,13 +29,15 @@ sourceHash: d3d259e0
 
 - 列表行（动态项、侧栏行、搜索结果、带 `cell` 的 ListRow）的状态形状用 `radius-control`：它的悬停、按下、选中和焦点填充一个和行一样高、两侧各内缩 8px 的圆角形状，从不填满整行宽度的直角（[列表](../patterns/lists.md)）。
 - `sm` 的 [Kbd](../../packages/ui/src/components/kbd/kbd.md)，即菜单、工具提示和搜索里 16px 的提示，用 3px 圆角，和它一直以来的一样，所以这些提示的样子不变。
-- **在桌面端，小控件和图块按尺寸取圆角**，约为高度的四分之一，再对齐到圆角 token，这样 28px 的按钮和 35px 的图块看起来和 34px 的控件一样圆（stdrc，2026-11-03）：
+- **控件和图块按尺寸取圆角**，约为高度的四分之一，再对齐到圆角 token，这样 28px 的按钮和 35px 的图块看起来和 34px 的控件一样圆（stdrc，2026-11-03）：
   - 28px 的栏按钮（标题栏的操作和它的 ×、消息输入框的图标）和标题栏 28px 的图标图块：`radius-chip`，即触屏上浮动工具栏 28px 按钮的角；
   - 34px 的行高亮和 34px 的控件，包括浮动工具栏的按钮：`radius-control`；
+  - 手机和触屏上控件高度的控件（44px 的输入框、Select、`lg` 和 `icon-lg` 的 Button、标题栏 44px 的操作）：10px（`control-radius`、`bar-button-radius`），桌面端用鼠标时 34 用 8px；
   - 图块（[IconTile](../../packages/ui/src/components/icon-tile/icon-tile.md)）：19px 用 `radius-sticker`，27px 用 `radius-chip`，35px 用 `radius-control`，51px 用 `radius-container`。
   - 头像是例外：头像在每种尺寸下都是一张贴纸，用 `radius-sticker`，图片在里面 2px，所以一张脸永远不会看起来像一个圆角按钮（stdrc，2026-11-04）。
   - 徽标只有一种形状：soft 和 outline 徽标都是 20px、`radius-sticker`，和计数徽标一样。
-  在手机和触屏上，上面的表格保持不变，直到手机尺寸定下来。
+  控件高度的控件写 `rounded-(--control-radius)`（触屏上 10，桌面端 8），而不是 `rounded-control`，即 `radius-control` 固定的 8：两个名字只是词序不同。留给 stdrc 决定，因为他的尺寸审计没有画到：52px 的行动按钮（Button `xl`）和 Card `option`（它在表单里挨着 44px 的输入框）在触屏上保持 `radius-control`（8），大号（52px）的 ComboboxSelect 用输入框的 10。
+  在手机上，标题栏 27px 的图标图块保持 `radius-sticker`，soft 和 outline 徽标保持 22px、`radius-chip`。
 - 状态灯和提醒圆点（文字旁 10px，头像角上 6px 到 20px），以及 9px 到 11px 头像里的图片，用 2px 圆角：它们太小，用不了 `radius-sticker`。
 
 ## 外框之内 {#inside-a-frame}

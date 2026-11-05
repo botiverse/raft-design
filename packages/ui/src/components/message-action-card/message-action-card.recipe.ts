@@ -14,7 +14,7 @@ export const messageActionCard = tv({
     headerIcon: [
       "flex shrink-0 items-center justify-center",
       "[&>svg]:shrink-0",
-      "size-[27px] rounded-sticker md:pointer-fine:rounded-chip bg-fill-muted text-foreground-muted",
+      "size-[27px] rounded-chip bg-fill-muted text-foreground-muted",
       "[&>svg]:size-3.5",
     ],
     headerTitle: ["min-w-0 flex-1", "pt-[calc((27px-1lh)/2)]"],

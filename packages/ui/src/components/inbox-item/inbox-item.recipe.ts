@@ -13,6 +13,9 @@ export const inboxItem = tv({
       // search result does, so a two-line item is 60 and the list reads at
       // the desktop's density (stdrc, 2026-11-04).
       "md:pointer-fine:py-2",
+      // On a touch screen an item is the rich row (ListRow default): at least
+      // 56px, 8px above and below its content, in either density.
+      "pointer-coarse:min-h-14 pointer-coarse:py-2",
       listCell,
       listCellStates,
       "data-[active=true]:before:bg-fill-cell-selected",

@@ -29,13 +29,15 @@ Square is Raft. Every identity is a square sticker and every dot is a square pix
 
 - Give the state shape of a list row (Activity items, sidebar rows, search results, ListRow with `cell`) `radius-control`: its hover, press, selection and focus fill a rounded shape as tall as the row and inset 8px from each side, never the row's square full width ([Lists](../patterns/lists.md)).
 - Give a `sm` [Kbd](../../packages/ui/src/components/kbd/kbd.md), the 16px hint in menus, tooltips and search, a 3px radius, the one it has always had, so those hints keep their look.
-- **On a desktop, a small control and a tile take their corner by size**, about a quarter of the height, snapped to the radius tokens, so a 28px button and a 35px tile look as round as a 34px control (stdrc, 2026-11-03):
+- **A control and a tile take their corner by size**, about a quarter of the height, snapped to the radius tokens, so a 28px button and a 35px tile look as round as a 34px control (stdrc, 2026-11-03):
   - a 28px bar button (a head's actions and its ×, the composer's icons) and the header's 28px icon tile: `radius-chip`, the corner of a floating toolbar's 28px buttons on a touch screen;
   - the 34px row highlight and the 34px controls, a floating toolbar's buttons included: `radius-control`;
+  - a control at the control height on a phone and a touch screen (a 44px field, Select, Button at `lg` and `icon-lg`, a head's 44px actions): 10px (`control-radius`, `bar-button-radius`), 8px at 34 with a mouse on a desktop;
   - tiles ([IconTile](../../packages/ui/src/components/icon-tile/icon-tile.md)): 19px `radius-sticker`, 27px `radius-chip`, 35px `radius-control`, 51px `radius-container`.
   - Avatars are the exception: an avatar is a sticker at every size, `radius-sticker` with its image 2px inside, so a face never reads as a rounded button (stdrc, 2026-11-04).
   - Badges are one shape: a soft and an outline badge are 20px at `radius-sticker`, the count badge's.
-  On a phone and a touch screen the table above holds unchanged until the phone sizes are settled.
+  A control at the control height writes `rounded-(--control-radius)` (10 on a touch screen, 8 on a desktop), not `rounded-control`, the fixed 8 of `radius-control`: the names differ only in word order. Open with stdrc, as his sizing audit doesn't draw them: the 52px call to action (Button `xl`) and a Card `option` (which sits in a form beside the 44px fields) keep `radius-control` (8) on a touch screen, and a large (52px) ComboboxSelect takes the fields' 10.
+  On a phone the header's 27px icon tile keeps `radius-sticker`, and soft and outline badges keep 22px at `radius-chip`.
 - Use a 2px radius for status lights and attention dots (10px beside text, 6px to 20px on an avatar's corner) and the images inside avatars at 9px to 11px: they are too small for `radius-sticker`.
 
 ## Inside a frame

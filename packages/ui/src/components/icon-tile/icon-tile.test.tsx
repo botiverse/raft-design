@@ -22,7 +22,7 @@ test("a neutral 35px square with an 18px ink-2 icon by default", () => {
   expect(classes(tile)).toEqual(
     expect.arrayContaining([
       "size-[35px]",
-      "rounded-sticker",
+      "rounded-control",
       "bg-fill-muted",
       "text-foreground-muted",
       "[&_svg:not([class*='size-'])]:size-[18px]",
