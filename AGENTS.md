@@ -54,6 +54,9 @@ A browser run takes only `*.browser.test.{ts,tsx}` files (`packages/ui/vite.conf
 - Headed mode needs a display; use `--browser.headless` on a machine without one.
 - A new browser test must start with the same `skipIf` guard, or CI fails on `document is not defined`.
 - A new browser test must fail on the code it guards against: revert the fix, see it fail, restore it. Since CI never runs it, that is the only proof it measures anything.
+- Files share a browser page, one after another. A test that reads an element "at rest" before hovering it moves the pointer away first (`await userEvent.unhover(document.body)`): an earlier file can leave it resting over the same spot.
+
+A test file that emulates touch (CDP `Emulation.setTouchEmulationEnabled`) runs in a browser of its own, after the other files. Headless Chromium gets its mouse from Playwright's launch flags, and once a page has turned touch emulation on and off again it reports `hover: none` and no pointer for every file it runs after that: on 2026-11-05 the activity tests followed by `list-cell.content` failed all 14 of its tests, and a full run failed 218. `packages/ui/vite.config.ts` finds these files by that call and makes each its own instance (`chromium touch <n>`), so there is no list to keep, and no file order can matter. Emulate touch only through that call, so the file is found.
 
 # Raft Design System
 
