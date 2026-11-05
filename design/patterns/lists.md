@@ -1,6 +1,6 @@
 ---
 title: Lists
-summary: How the rows of a list are drawn — no dividers, one inset rounded shape for hover, press, menu open, selection and focus, the content padded 12px inside that shape, rows spaced 2px apart by the list's gap, and a scroller that keeps the shape even.
+summary: How the rows of a list are drawn — no dividers, one inset rounded shape for hover, press, menu open, selection and focus, the content padded 12px inside that shape, rows spaced 2px apart by the list's gap, a scroller that keeps the shape even, where a row's time and hover actions go, and rows grouped by day.
 ---
 
 # Lists
@@ -62,6 +62,38 @@ A phone's other columns keep their 16px ([Alignment](../foundations/alignment.md
 
 Why not keep 16px on a phone: the rows would then need their content 8px inside the shape (it touches the shape when filled, the problem this page exists to fix), or the shape 4px from the screen's edge, where it reads as a misplaced full-width band. One margin for the whole column keeps the 8px shape and the 12px inside it at every width (design review, 2026-10-27).
 
+## Times in list rows
+
+A row that says when something happened puts its time at the end of its first line, the title's line, and nowhere else; the lines under it run to the row's end. In a list grouped by day, only today's rows, and any row less than 1 hour old, show their time at rest. These rules come from Activity, where the times and task numbers took so much of the row's width that the content was squeezed (stdrc, 2026-11-05, #proj-raft-ui:e09717fb: "the time shouldn't squeeze the content").
+
+- **Put the time on the first line only.** A trailing column that holds the time over the marks is as wide as its widest part on every line, so a time like "2 hours ago" took its width from the preview as well as the title. On the first line the time costs only the title its width; the second line keeps the row's full width, less its own marks.
+- **Put the row's status marks at the end of the second line**: a task's status chip, the draft mark, the @ sticker, the muted mark, the unread count. The first line holds the title and the time.
+- **In a list grouped by day, show the time at rest only on today's rows, and on any row less than 1 hour old**, short and relative, in Space Mono, `text-mono-meta` and `foreground-hint` ([Typography](../foundations/typography.md#type-scale)). Within today the gap is what people read (how long it has waited), and the day heading already says Today. The format, in full:
+
+  | Time since | Shows |
+  | --- | --- |
+  | Under 1 minute, on any day | now |
+  | 1 to 59 minutes, on any day | 3m, the minutes |
+  | 1 hour or more, still today | 2h, the whole hours |
+
+  No "ago" and no space between the number and its unit, so a time is 2 to 3 characters. Another language uses its own shortest words for the same three steps; the Chinese ones are in its translation of this page.
+- **Show the time of a row less than 1 hour old even under Yesterday.** Just after midnight a row from 6 minutes ago falls under Yesterday, and with no time it would look as old as yesterday morning's rows; it shows 6m until it is 1 hour old, and only then follows the rule for older rows (Jasper, 2026-11-05, #proj-raft-ui:#196).
+- **Show an older row's time only on hover or keyboard focus.** A row from before today that is 1 hour old or more shows no time at rest: its day heading says when. While the pointer is on the row, or the row or a control in it holds keyboard focus, its time appears in the same place, without animation: the clock time, in the person's 12-hour or 24-hour choice (17:20, 5:20 PM; [Writing](../content/writing.md#times)). The heading gives the day, so the clock is enough. A time on every older row would put back the width the grouping saves.
+- **On a touch screen an older row's time isn't on the row.** Nothing hovers there, so the day heading is the row's date, and the conversation the row opens shows each message's time. The press-and-hold menu holds the row's actions and no time, as a message's menu has no date line ([Accessibility](../foundations/accessibility.md#touch)).
+- **Say the time in words in the row's accessible name**, on every row, shown or not: "2 hours ago", "yesterday at 17:20", "Tuesday at 9:05". Read aloud, "2h" is a letter, and a hidden time must still reach someone who can't see the heading.
+- **Keep the time in view when the hover actions appear.** They take the row's end, and the time and the marks move left by their width plus 8px; they don't fade or hide (stdrc, 2026-11-05). The pointer is on the row when people check how old it is before clearing it. In InboxItem this holds for rows built from `InboxItemLine`s; a row that still uses `InboxItemTrailing` keeps fading the time and the marks out while the actions show, until it moves to the line layout ([InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#rules)).
+- **On a touch screen, leave 12px between an action shown at rest and the time.** There Done shows at rest, as an ink-outline small button, and the time and the marks sit 12px from it, not 8px: the button's 44px target reaches 6px past each edge of its 32px box, so at 8px only 2px would separate the target from the time's text, which opens the row when tapped. 12px is also the space between two actions on a touch screen ([InboxItem](../../packages/ui/src/components/inbox-item/inbox-item.md#behavior); Jasper, 2026-11-05, #proj-raft-ui:#196).
+
+## Rows grouped by day
+
+A list ordered by time that people work through, such as Activity ([Raft Chat](../products/raft-chat/README.md#the-bell-and-activity)), groups its rows by day, newest first, under a heading for each day (stdrc, 2026-11-05, #proj-raft-ui:e09717fb, option C1).
+
+- **Name the day as a conversation's date line does**: Today, Yesterday, then the weekday and date, Tuesday, October 20 ([Conversation](./conversation.md#dates-and-grouping)), with the year for an earlier year: Tuesday, October 20, 2025. Count days in the person's own time zone, by the time the row shows.
+- **Draw the heading as a section heading, not a row**: `text-footnote` at weight 700, as every group heading ([Typography](../foundations/typography.md#sizes-by-use)), starting on the rows' content line, 20px from the list's edge ([One edge](#one-edge)), with 8px from its words to the first row's shape ([Structure](#structure)). It has no hover, press or target.
+- **Keep the current day's heading stuck to the top of the list while its rows scroll under it**, on the list's own surface so no row shows through it; the next day's heading pushes it up and out as it reaches the top. Make each day its own group, one wrapper holding its heading and its rows, and stick the heading inside it: a sticky heading stays only within its own group, so when the group's end reaches the top the heading leaves with it, and the next day's heading takes its place instead of stacking on top of it, as headings stuck in one shared list do. An older row shows no time at rest, so its heading is the only thing on screen that says which day it is from; scrolled out of view, the rows would have no date.
+- **Show a heading only for a day that has rows** in the current view: under a filter, a day with nothing left has no heading.
+- **Mark the heading up as a heading one level under the list's title** (an `h3` under Activity's `h2`), so a screen reader can move from day to day.
+
 ## Rules
 
 - **Draw no line between two rows of a list.** The 2px between two rows, the leading tiles and avatars, and the space under a section heading separate the rows. A line through a list also cuts through every rounded shape on it.
@@ -88,10 +120,15 @@ Why not keep 16px on a phone: the rows would then need their content 8px inside 
 - **Don't let a selected or disabled row answer hover or press.** Its own fill stays.
 - **Keep the shape 8px from both edges of the list, whatever the scrollbar.** A scroller of list cells takes the 8px list scrollbar (`scrollbar-list`) and publishes its width with `useScrollbarSize`. The shape gives that width back from its end inset, so it sits 8px from the scroller's outer edge with the scrollbar showing (8px, inside the gutter) and with none (0px). Styling the scrollbar makes Chromium draw this classic bar even where the platform would overlay its own (a phone, macOS), so the published width, not the platform, decides the inset. `ActivityInboxViewport` and `SearchShellViewport` do both; the Sidebar's ScrollArea has an overlay scrollbar. A wider classic scrollbar would push the shape's end in and leave it uneven, which is why the scrollbar is 8px.
 - **Put a list of cells straight in its scroller, with no side padding.** The row brings its own inset. Side padding on the scroller would add to it, and leave a strip at each side that belongs to no row.
+- **Make a row's hover-revealed actions ghost buttons** (`variant="ghost"`; `InboxItemActions` with `reveal="hover"`), in every list of rows. They appear on a row that already shows the hover fill, and an ink border on top of that fill is one more edge in two lines of text; frameless, the button reads as part of the row (stdrc, 2026-11-05, #proj-raft-ui:e09717fb: "Done can become a ghost button"). Its box ends 12px inside the shape like every trailing part: its padding doesn't hang outward as a frameless button's does at the end of a bar ([Comfort](../foundations/comfort.md#edges)), since in a row it would reach into the 12px.
+- **Center the hover-revealed actions on the row's height**, not on its first line: they act on the whole row (stdrc, 2026-11-05: "on hover the Done button must be vertically centered"). The lines beside them make room for them while they show ([Times in list rows](#times-in-list-rows)).
+- **Keep actions shown at rest ink-outline small buttons**: on a touch screen, where `reveal="hover"` shows them at rest, and in rows that wait on the person, such as a notice in [NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md). With no hover fill around it, a frameless icon at rest reads as a mark, not a button (Jasper, 2026-11-05, #proj-raft-ui:b4d8d24f).
 
 ## Wide and narrow
 
 The shape, the content's 12px inside it, and the column's 20px margin are the same at every width ([One edge](#one-edge)). On a phone the sidebar row grows to 44px for a finger, and its shape with it; the 2px between two rows stays. On a phone, too, the shape is 8px from both edges of the screen: the published scrollbar width sets the end inset, whether the bar takes room or overlays the list ([Rules](#rules)).
+
+- **In a row narrower than 360px, show a status by its color mark only.** A status chip keeps its pixel, in the status's color, and drops its word; the word goes to a tooltip on the pixel and into the row's accessible name. At that width the word ("In progress") takes about a third of a second line already shortened by its marks (stdrc, 2026-11-05, #proj-raft-ui:e09717fb). Measure the row, not the window: Activity's column narrows to 320px on any screen ([Switch on the region's width](./responsive.md#switch-on-the-regions-width)). A tooltip doesn't open on touch; there the word is still in the row's name and in what the row opens.
 
 ## Related
 

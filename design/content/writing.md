@@ -83,7 +83,8 @@ These rules are for the words inside the product: labels, titles, messages, empt
 
 ## Times
 
-- Show a clock time in the person's own 12-hour or 24-hour choice wherever they read it as part of a conversation or a list: message times, the hover time beside a merged message, Activity, tooltips. Showing 18:35 under a header that says 6:30 PM makes one screen disagree with itself.
+- Show a clock time in the person's own 12-hour or 24-hour choice wherever they read it as part of a conversation or a list: message times, the hover time beside a merged message, the hover time of an older Activity row, tooltips. Showing 18:35 under a header that says 6:30 PM makes one screen disagree with itself.
+- In a list grouped by day, such as Activity, write the times of today's rows, and of any row less than 1 hour old, short and relative instead: now, 3m, 2h. The day heading already says Today, and the gap is what people read there ([Times in list rows](../patterns/lists.md#times-in-list-rows)).
 - Use 24-hour time only in records that are compared and copied rather than read in passing: logs, event lines, audit metadata, exports. There a fixed format matters more than the person's habit.
 - Where only the hour and minute fit (the 35px time beside a merged message), leave out AM and PM: 6:35, 18:35. That time only places the message within its group; the group's header time and the tooltip carry the full time.
 
