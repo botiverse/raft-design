@@ -2,7 +2,7 @@
 
 ### Fixed
 
-- **CommentMarginItem**: a `CommentMargin` renders its cards where the browser has no `ResizeObserver` (jsdom, some embedded webviews) instead of throwing. Each card keeps the height it had when placed. ([#PR](https://github.com/botiverse/raft-design/pull/PR))
+- **CommentMarginItem**: a `CommentMargin` renders its cards where the browser has no `ResizeObserver` (jsdom, some embedded webviews) instead of throwing. Each card keeps the height it had when placed. ([#1007](https://github.com/botiverse/raft-design/pull/1007))
   - Why: the same gap #996 closed in `useCommentMarginFits`; slock's Artifact viewer works around it today by not drawing the margin there (Remy, slock #13062).
   - Affects: only environments without `ResizeObserver`; there a card that grows after it is placed doesn't push the cards below it.
   - Docs: https://raft-design.botiverse.build/components/comment/
