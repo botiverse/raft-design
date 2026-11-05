@@ -12,6 +12,11 @@
   - Why: the desktop sizing review (stdrc, sizing option A, 2026-11-04) set one size per role; a component that hard-coded 32 or 56 drifted from the rest.
   - Affects: nothing visible on its own; #973 and #974 set the desktop and touch values.
   - Docs: https://raft-design.botiverse.build/foundations/spacing/
+- **Desktop density** (with a mouse from 768px; touch is unchanged): one 34px control height for buttons, fields, selects, tabs, menu items and rows; 44px heads (34 + 2 × 5); 28px bar buttons with a 44px hit area; content 16px from a surface's edges (`--page-inset`, `--surface-inset`), 12px under a head (`--page-top`); settings cards 20 inside, 16 apart; sidebar rows and titles on two axes (glyphs at 16, text at 40) with a section's chevron at the end of its header; quick reactions a control high; empty states 16 from their sides.
+  - Why: stdrc's sizing review, rounds 3–9 (2026-11-04/05); the rules are in design/foundations/desktop-density.md.
+  - Affects: every desktop surface with a mouse. Apps that pad inside a raft-ui dialog, drawer or panel section with their own `md:` classes should drop them: the surface inset now replaces a caller's `px-*` again.
+  - Migrate: read `--surface-inset` / `--page-inset` instead of `px-5` for a surface's own padding; browser tests that measured 32px controls or 36px toolbars on a desktop now see 34 and 42.
+  - Docs: https://raft-design.botiverse.build/foundations/desktop-density/
 
 ## [0.64.0](https://github.com/botiverse/raft-design/compare/v0.63.1...v0.64.0) (2026-11-05)
 
