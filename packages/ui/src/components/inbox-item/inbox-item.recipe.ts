@@ -77,10 +77,10 @@ export const inboxItem = tv({
       "has-[>[data-reveal=hover]_[data-popup-open]]:[--inbox-item-revealed:1]",
     ],
     // A row's width less its 40px of inline padding is what a container query
-    // sees, so 320px here is a row narrower than 360px. With no row to query
-    // the word stays and the pixel stays hidden.
-    itemStatusWord: ["shrink-0 @max-[320px]:hidden"],
-    itemStatusPixel: ["hidden items-center @max-[320px]:inline-flex"],
+    // sees, so 320px here is a row narrower than 360px. Named, so a container
+    // around a row with no InboxItemLine can't swap it: the word stays.
+    itemStatusWord: ["shrink-0 @max-[320px]/inbox-item-row:hidden"],
+    itemStatusPixel: ["hidden items-center @max-[320px]/inbox-item-row:inline-flex"],
     itemListGroup: ["flex flex-col gap-0.5", "mt-1.5 first:mt-0"],
     itemListHeading: ["mb-0.5 px-5 py-1", "font-sans text-footnote font-bold text-foreground-hint"],
     itemMarks: ["flex h-5 shrink-0 items-center justify-end gap-1.5", "text-foreground-hint"],
@@ -129,7 +129,7 @@ export const inboxItem = tv({
       compact: {
         item: [
           "items-center",
-          "has-data-[slot=inbox-item-line]:@container",
+          "has-data-[slot=inbox-item-line]:@container/inbox-item-row",
           "has-data-[slot=inbox-item-line]:[--inbox-item-content-end:-1]",
           "has-data-[slot=inbox-item-line]:pointer-fine:[:hover,:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
           "has-data-[slot=inbox-item-line]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",

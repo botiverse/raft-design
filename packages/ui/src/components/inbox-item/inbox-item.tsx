@@ -319,8 +319,8 @@ export function InboxItemMarks({ className, render, ...props }: InboxItemMarksPr
 /**
  * A task's status in `InboxItemMarks`: the chip with its word, and in a row with
  * `InboxItemLine` narrower than 360px only the chip's pixel, with the word in a
- * tooltip on it. The row is the size container, so it is the row that is
- * measured, not the window. Pass an `id` to name the word in the trigger's
+ * tooltip on it. It queries the container that row names, `inbox-item-row`, so
+ * it is the row that is measured, not the window or any other container around it. Pass an `id` to name the word in the trigger's
  * `aria-labelledby`, as it isn't on screen there. In a row with a trailing
  * column it stays the chip with its word.
  */
@@ -381,8 +381,8 @@ export function InboxItemListGroup({ className, render, ...props }: InboxItemLis
  * 8px over the first row's shape with the group's gap, and the group holds it
  * further from the rows above. An `h3`: render another level if the list's title
  * isn't an `h2`. To keep it in view while its rows scroll, the list makes it
- * sticky and gives it the list's surface; its box includes its space above and
- * below, so nothing shows through.
+ * sticky and gives it the list's surface; its box holds the 4px above and below
+ * its words, so no row shows through them. The 2px under the box is a margin.
  */
 export type InboxItemListHeadingProps = useRender.ComponentProps<"h3">;
 export function InboxItemListHeading({ className, render, ...props }: InboxItemListHeadingProps) {

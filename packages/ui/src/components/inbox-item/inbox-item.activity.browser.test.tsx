@@ -311,8 +311,11 @@ it("runs both lines of a compact row with no trailing column to the row's inner 
   expect(rowRight - rect("content").right).toBe(20);
   expect(rowRight - rect("time").right).toBeCloseTo(20, 1);
   expect(rowRight - rect("marks").right).toBeCloseTo(20, 1);
-  // On the heading's line. It sits on the title's baseline, so its own box may
-  // reach past the line by a pixel.
+  // On the title's baseline, with the line held at its height. How far the time's
+  // box then sits from the line's top depends on the two fonts' metrics, so its
+  // place can't be exact: its middle is held to the line instead.
+  expect(getComputedStyle(screen.getByTestId("heading")).alignItems).toBe("baseline");
+  expect(rect("heading").height).toBe(20);
   const timeMiddle = (rect("time").top + rect("time").bottom) / 2;
   expect(timeMiddle).toBeGreaterThan(rect("heading").top);
   expect(timeMiddle).toBeLessThan(rect("heading").bottom);
@@ -417,9 +420,9 @@ for (const [width, narrow] of [
   });
 }
 
-it("keeps a status as its word in a row with a trailing column, however narrow", async () => {
+it("keeps a status as its word in a row with a trailing column, however narrow, even in another container", async () => {
   render(
-    <div style={{ width: 300 }}>
+    <div className="@container" style={{ width: 300 }}>
       <InboxItem density="compact" data-testid="row">
         <InboxItemTrigger aria-label="Open" />
         <InboxItemContent>

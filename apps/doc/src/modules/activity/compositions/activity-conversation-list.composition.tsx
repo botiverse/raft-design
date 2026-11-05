@@ -184,7 +184,7 @@ function ConversationRow({
           conversation.channel
             ? `Open thread in #${conversation.channel}: ${conversation.title}`
             : `Open ${conversation.title}`
-        }, ${conversation.fullTime}`}
+        }${conversation.taskStatus ? ", in progress" : ""}, ${conversation.fullTime}`}
         onClick={handleOpen}
       />
       <InboxItemLeading>

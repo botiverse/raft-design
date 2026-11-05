@@ -210,12 +210,12 @@ test("a status shows its word and hides its pixel unless a row with a line is na
   const word = screen.getByTestId("word");
   expect(word.id).toBe("status");
   expect(word.textContent).toBe("Done");
-  expect(word.className.split(/\s+/)).toContain("@max-[320px]:hidden");
+  expect(word.className.split(/\s+/)).toContain("@max-[320px]/inbox-item-row:hidden");
   const pixel = container.querySelector("[data-slot=inbox-item-status-pixel]");
   expect(pixel?.getAttribute("role")).toBe("img");
   expect(pixel?.getAttribute("aria-label")).toBe("Done");
   expect(pixel?.className.split(/\s+/)).toEqual(
-    expect.arrayContaining(["hidden", "@max-[320px]:inline-flex"]),
+    expect.arrayContaining(["hidden", "@max-[320px]/inbox-item-row:inline-flex"]),
   );
 });
 
