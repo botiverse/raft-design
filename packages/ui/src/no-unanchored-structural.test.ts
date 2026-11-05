@@ -179,3 +179,38 @@ test("stack-* and rule-* compile to zero-specificity owl selectors", async () =>
   expect(unanchoredStructural(".last\\:mb-0:last-child")).toBe(false);
   expect(unanchoredStructural(":where(.stack-y-2 > * + *)")).toBe(false);
 });
+
+test("styles.css's hand-written rules have no rule ending in an unanchored structural pseudo-class", () => {
+  // Hand-written rules (outside @utility, which the compiled check covers) never
+  // reach the Tailwind compile above, so scan them as written (Kirby's review of
+  // MessageItemTrailing, 2026-11-05).
+  const source = styles.replace(/\/\*[\s\S]*?\*\//g, "");
+  const offenders: string[] = [];
+  let utilityDepth = 0;
+  let depth = 0;
+  let last = 0;
+  for (let i = 0; i < source.length; i += 1) {
+    const ch = source[i];
+    if (ch === "{") {
+      const prelude = source.slice(last, i).trim();
+      depth += 1;
+      if (prelude.startsWith("@utility")) utilityDepth = depth;
+      else if (
+        !utilityDepth &&
+        prelude &&
+        !prelude.startsWith("@") &&
+        !/^[\w-]+\s*:/.test(prelude)
+      ) {
+        if (unanchoredStructural(prelude)) offenders.push(prelude);
+      }
+      last = i + 1;
+    } else if (ch === "}") {
+      if (utilityDepth === depth) utilityDepth = 0;
+      depth -= 1;
+      last = i + 1;
+    } else if (ch === ";") {
+      last = i + 1;
+    }
+  }
+  expect(offenders).toEqual([]);
+});

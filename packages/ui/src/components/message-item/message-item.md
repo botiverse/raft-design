@@ -52,6 +52,7 @@ message-item/compositions/item-preview
   - `MessageItemInlineStatus`: a short state after the time, such as "Translating…" while the message's translation loads. A working agent is shown by the light on its avatar, not here ([Working agents](../../../../../design/people-and-agents/working-agents.md#where-working-shows)).
 - `MessageItemBody`: the text, in `text-body`. Required.
 - `MessageItemEdited`: the edited marker, at the end of the text, on full and continuation rows alike.
+- `MessageItemTrailing` (from `@botiverse/raft-ui/wip`): something small that ends the message, such as the faces of the agents that read it, the body's last child. It takes no column: it sits at the end of the body's last line ([Trailing](#trailing)).
 - `MessageItemAttachments`: files and images ([MessageAttachment](../message-attachment/message-attachment.md)).
 - `MessageItemEmbedded`: code blocks, action cards and link cards. A link an app previews is not a card: it is a chip in the text ([App links](#app-links)).
 - `MessageItemFooter`: one row: the reactions (`MessageReactionChip`, with `MessageReactionAddButton` last), then the saved and read markers (`MessageItemSavedIndicator`, `MessageItemReadReceipt`). The tasks created from the message are not in it: they are a list above it ([Tasks in a conversation](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)).
@@ -211,7 +212,7 @@ message-item/compositions/delegated-preview
 
 ## Behavior
 
-- Put something small that ends the message (the faces of the agents that read it, with their read mark) in `MessageItemTrailing`, the last child of `MessageItemBody`. It takes no column: it sits at the inline end of the body's last line and the last line keeps room for it, so the text wraps under it only when that line is full; under a last block that isn't text (a code block, a table, an image) it has a line of its own, at the end. Rows without it use the full width. Don't reserve a column beside the body for it ([Desktop density](../../../../../design/foundations/desktop-density.md#5-reserve-no-room-for-what-isnt-there); stdrc, 2026-11-05).
+- Put something small that ends the message in `MessageItemTrailing`, never in a column beside the body ([Trailing](#trailing)).
 - Space messages by grouping, on the [timeline rhythm](../../../../../design/foundations/spacing.md#timeline-rhythm): 8px between the rows of one group (a continuation row sits under the row it continues) and the message step, 16px, before a new group. Every row keeps the row inset, 4px, above and below its text, and the extra 8px before a group is a transparent top border the highlight doesn't paint. The recipe reads both from the timeline tokens (`py-timeline-row`, `border-t-(length:--spacing-timeline-turn)`), so a change to the rhythm changes every row. So the hover, selected and search highlights sit evenly around the text on every row: when a continuation row had no top padding, its highlight touched the first line and left 8px under the last.
 - On hover the row lays `fill-subtle` over itself, the subtle tier of every row: a message can be many lines tall and is read with the pointer resting on it, so the step is small and the text keeps its contrast ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)). It used to be lighter than other rows (3%); now a message steps like the rows and cards beside it. A message has no press: the row is not an action itself, a click selects text or lands on a link, a name or a button in it. A search-hit or selected message keeps `info-soft` on hover, and a located one doesn't answer hover while its highlight lasts.
 - While one of its popups is open (its context menu, from a right-click, the toolbar's button, or press and hold on a phone), the row lays `fill-subtle` over itself, the same tier as its hover, so the two never stack. A phone has no hover, so this fill is the sign of which message the menu acts on; it stays lighter than `info-soft`, so the message doesn't look selected.
@@ -244,6 +245,26 @@ message-item/compositions/long-header
 message-item/compositions/reactions
 ```
 
+### Trailing
+
+`MessageItemTrailing` holds something small that ends a message, such as the faces of the agents that read it with their read mark. Put it last in `MessageItemBody`:
+
+```tsx
+<MessageItemBody>
+  <MarkdownParagraph>Shipping the preview today.</MarkdownParagraph>
+  <MessageItemTrailing>
+    <CheckCheck aria-hidden />
+    <AvatarGroup aria-label="Kirby and Jasper read this">…</AvatarGroup>
+  </MessageItemTrailing>
+</MessageItemBody>
+```
+
+- It takes no column, so a row without it has the body's full width ([Desktop density](../../../../../design/foundations/desktop-density.md#5-reserve-no-room-for-what-isnt-there); stdrc, 2026-11-05). It sits at the inline end of the body's last line, centred on it, and the last line keeps room for it: the text wraps under it only when that line is full. When the body ends with a block that isn't text (a code block, a table, an image), it sits on a line of its own under that block, at the end.
+- It finds the body's last block itself (through a wrapper that only holds blocks, such as a markdown root) and marks it, and one observer shared by every slot keeps the room as wide as the slot. Don't reserve the room yourself.
+- Where its content can arrive later (reads come in realtime), render the slot empty from the first frame, with the width of its smallest content (`min-w-*`), so the room is there before the content and the row doesn't move when it arrives. A body that ends with a code block then keeps its line under the block from the start.
+- It is not `MessageItemReadReceipt`: the footer's read receipt says that the people a message mentions have read it, a marker beside the reactions; the trailing slot shows where each agent stopped reading, on the last message it read.
+- Known limits: a loose list (items that hold paragraphs) or a last line that ends in a line break gets one more line; a paragraph with `dir="auto"` in the other direction than the body puts the room at the wrong end; in a collapsed long message the slot is hidden with the body's end.
+
 ### Toolbar for selected text
 
 Text the person selects in a message gets a [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md), with actions such as Quote and Copy. It is built like the hover toolbar, so the two read as one kind of thing; the one difference is that its buttons have text labels. Its look, its placement on the selection's focus line and its labels are in its own doc.
@@ -261,6 +282,7 @@ Text the person selects in a message gets a [TextSelectionToolbar](../text-selec
 - `MessageItem` is an `article` named by its sender and its time: its `aria-labelledby` points at `MessageItemSender` (or `MessageItemSenderButton`) and `MessageItemTime` (or `MessageItemContinuationTime`), whichever the row renders, with ids raft-ui generates. A screen reader that lands on a message, by a jump or by its reading keys, announces an article named "Atlas 2:20 PM" before the text: whose message it is and when, in the order the header shows them. A continuation row shows no name, so it is named by its time. A row with neither, such as a receipt card in the text column, is a plain `div`, not an article: an article with no name is announced as a bare "article", which tells a screen reader user nothing; give it `aria-label` if it should be one. Pass `aria-labelledby` or `aria-label` to name a row yourself, and `role` to change the role, on `MessageItem` or on its `render` element; a `render` function's props can't be read, so with one, pass them on `MessageItem`. An `id` you give a part is the one the row points at. A sender button's name is its visible name, so don't give it an `aria-label` of its own: the row would read that instead.
 - Don't put messages in a `list` or render `MessageItem` as an `li`: `role="article"` replaces `listitem`, and a list may hold only list items. The timeline around them takes no list role ([MessageList](../message-list/message-list.md#accessibility)). Don't make it a `feed` either: a feed promises Page Down and Page Up from article to article, which the timeline doesn't implement.
 - A row takes focus only when a jump started from the keyboard lands on it ([Located](../../../../../design/foundations/states.md#located)). raft-ui doesn't make the row focusable: the caller sets `tabIndex={-1}` on `MessageItem` before `focus({ preventScroll: true })`, and removes it when focus leaves, so a later click on the row doesn't take focus from the composer. It shows the inset ring then, never the browser's outline, and its toolbar; Tab goes on through the message's links and buttons, the toolbar's included. While the toolbar shows, its card covers part of the ring's top edge at the right, as it covers the highlight's: the ring still reads on the other three sides and most of the top, and moving the toolbar off the row's edge for focus alone would make it jump.
+- `MessageItemTrailing` comes after the text in the DOM, so a screen reader reads it after the message, never in the middle of a sentence. It can't be selected, so copying a message copies its text without the faces; name what it shows (`aria-label` on its group).
 - Give every `MessageItemToolbarButton` an `aria-label` in sentence case: Reply in thread, Add reaction, Save. The toolbar shows on keyboard focus, so Tab reaches it.
 - `MessageReactionChip` wraps Base UI `Toggle`: `aria-pressed` says whether the person reacted. Give it an `aria-label`; the drawn reaction inside is hidden ([Brand](../../../../../design/foundations/brand.md#reactions)).
 - Put the reason a reaction failed in `MessageReactionErrorIndicator`, a visually hidden `role="status"`.

@@ -159,7 +159,12 @@ export const messageItem = tv({
     edited: ["ms-1 whitespace-nowrap", "text-caption text-foreground-hint"],
     // On the body's last line, at its inline end, centred on that line: the
     // body is its containing block (styles.css, MessageItemTrailing).
-    trailing: ["absolute end-0 bottom-0 z-10 flex h-lh items-center select-none"],
+    // Not part of the message's text: never selected or copied with it (the
+    // body's **:select-text would win without the importance).
+    trailing: [
+      "absolute end-0 bottom-0 z-10 flex h-lh items-center",
+      "select-none! **:select-none!",
+    ],
     body: [
       "wrap-break-word select-text",
       "**:select-text",

@@ -738,61 +738,31 @@ textarea:-webkit-autofill:disabled {
   background-color: var(--fill-subtle);
 }
 
-/* MessageItemTrailing (message-item.md#behavior): no column of its own. The
-   slot marks its body (data-trailing) and sets --message-trailing-width on it;
-   no parent-of selector, so a long list keeps cheap style invalidation (#386). The body's
-   last text block (a paragraph, a heading, a list's last item, a quote's last
-   paragraph, or an inline span body) keeps an inline spacer as wide as the
-   slot, so the slot sits at the end of the last line and the text wraps under
-   it only when that line is full. A last block that isn't text (a code block,
-   a table, an image) keeps one line under it, where the slot sits. The
-   markdown's blocks are the children of the body's first child (a display:
-   contents wrapper) or of the body itself. */
+/* MessageItemTrailing (message-item.md#trailing): no column of its own. The
+   slot finds its body's last block itself and stamps it, so every rule ends in
+   an attribute (packages/ui/CLAUDE.md, Selector Cost; no parent-of selector
+   either, #386):
+   - data-trailing-line on the last text block (a paragraph, a heading, a
+     list's last item, a quote's last paragraph): it keeps an inline spacer as
+     wide as the slot (--message-trailing-width, set on the body), so the slot
+     sits at the end of the last line and the text wraps under it only when
+     that line is full;
+   - data-trailing="block" on the body when it ends with any other block (a
+     code block, a table, an image): the body keeps one line under it, where
+     the slot sits.
+   The body is the slot's containing block; the last block's bottom margin
+   still collapses out of it, so the slot stays on the last line. */
 [data-slot="message-item-body"][data-trailing] {
   position: relative;
-  display: flow-root;
 }
-:is(
-    [data-slot="message-item-body"][data-trailing],
-    [data-slot="message-item-body"][data-trailing] > :first-child
-  )
-  > :is(p, h1, h2, h3, h4, h5, h6):nth-last-child(
-    1 of :not([data-slot="message-item-trailing"])
-  )::after,
-:is(
-    [data-slot="message-item-body"][data-trailing],
-    [data-slot="message-item-body"][data-trailing] > :first-child
-  )
-  > :is(ul, ol):nth-last-child(1 of :not([data-slot="message-item-trailing"]))
-  > li:last-child::after,
-:is(
-    [data-slot="message-item-body"][data-trailing],
-    [data-slot="message-item-body"][data-trailing] > :first-child
-  )
-  > :is(ul, ol, blockquote):nth-last-child(1 of :not([data-slot="message-item-trailing"]))
-  > :is(li, p):last-child
-  > p:last-child::after,
-:is(
-    [data-slot="message-item-body"][data-trailing],
-    [data-slot="message-item-body"][data-trailing] > :first-child
-  )
-  > blockquote:nth-last-child(1 of :not([data-slot="message-item-trailing"]))
-  > p:last-child::after,
-[data-slot="message-item-body"][data-trailing]
-  > span:nth-last-child(1 of :not([data-slot="message-item-trailing"]))::after {
+[data-slot="message-item-body"][data-trailing="block"] {
+  padding-block-end: 1lh;
+}
+[data-trailing-line]::after {
   content: "";
   display: inline-block;
   inline-size: var(--message-trailing-width, 0px);
   block-size: 1px;
-}
-:is(
-    [data-slot="message-item-body"][data-trailing],
-    [data-slot="message-item-body"][data-trailing] > :first-child
-  )
-  > :nth-last-child(1 of :not([data-slot="message-item-trailing"])):not(
-    :is(p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote, span, [data-slot="message-item-trailing"])
-  ) {
-  margin-block-end: 1lh;
 }
 
 @utility image-transparency-bg {

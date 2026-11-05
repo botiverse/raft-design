@@ -146,16 +146,83 @@ export type MessageItemTrailingProps = useRender.ComponentProps<"span">;
 
 /** The space kept before a trailing slot on the body's last line. */
 const TRAILING_GAP_PX = 8;
+const BODY_SELECTOR = '[data-slot="message-item-body"]';
+const TEXT_BLOCKS = new Set(["P", "H1", "H2", "H3", "H4", "H5", "H6", "SPAN"]);
+const BLOCKS = new Set([
+  ...TEXT_BLOCKS,
+  "UL",
+  "OL",
+  "BLOCKQUOTE",
+  "PRE",
+  "TABLE",
+  "DIV",
+  "FIGURE",
+  "IMG",
+]);
+
+// One observer for every slot on the page (a ResizeObserver per row is what
+// the hover toolbar gave up, message-item.md): it reads each slot's border box
+// and sets its body's spacer width. Its callbacks land after layout and before
+// paint, so the first frame already has the room; nothing reads layout in a
+// layout effect.
+let sharedObserver: ResizeObserver | null = null;
+function trailingObserver(): ResizeObserver | null {
+  if (typeof ResizeObserver === "undefined") return null;
+  sharedObserver ??= new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      const body = (entry.target as HTMLElement).closest<HTMLElement>(BODY_SELECTOR);
+      if (!body) continue;
+      const box = entry.borderBoxSize?.[0];
+      const width = box ? box.inlineSize : entry.contentRect.width;
+      body.style.setProperty("--message-trailing-width", `${Math.ceil(width) + TRAILING_GAP_PX}px`);
+    }
+  });
+  return sharedObserver;
+}
+
+/** The body's last block before the slot, through wrappers that only hold blocks (a markdown root). */
+function lastBlock(body: Element, slot: Element): Element | null {
+  let el: Element | null = slot.previousElementSibling;
+  while (el && !BLOCKS.has(el.tagName)) el = el.previousElementSibling;
+  while (
+    el &&
+    el.tagName === "DIV" &&
+    !el.hasAttribute("data-slot") &&
+    el.lastElementChild &&
+    BLOCKS.has(el.lastElementChild.tagName)
+  )
+    el = el.lastElementChild;
+  return el && body.contains(el) ? el : null;
+}
+
+/** The text block that ends a last block, or null when it ends with something else. */
+function lastLine(block: Element): Element | null {
+  if (TEXT_BLOCKS.has(block.tagName)) return block;
+  if (block.tagName === "UL" || block.tagName === "OL") {
+    const item = block.lastElementChild;
+    if (!item || item.tagName !== "LI") return null;
+    const inner = item.lastElementChild;
+    if (inner && inner.tagName === "P") return inner;
+    return inner && BLOCKS.has(inner.tagName) ? null : item;
+  }
+  if (block.tagName === "BLOCKQUOTE") {
+    const inner = block.lastElementChild;
+    return inner && inner.tagName === "P" ? inner : null;
+  }
+  return null;
+}
 
 /**
  * Something small that ends the message (the faces of the agents that read it,
  * a read mark): the last child of `MessageItemBody`. It takes no column: it sits
- * at the inline end of the body's last line, and the last line keeps room for it
- * (`--message-trailing-width`, which it measures and sets on the body, with
- * `data-trailing`), so the
- * text wraps under it only when that line is full. When the body ends with a
- * block that isn't text (a code block, a table, an image), it sits on a line of
+ * at the inline end of the body's last line, and the last line keeps room for it,
+ * so the text wraps under it only when that line is full. When the body ends with
+ * a block that isn't text (a code block, a table, an image), it sits on a line of
  * its own under that block. Logical properties, so it is right in RTL too.
+ *
+ * It finds the body's last block itself and stamps it (`data-trailing-line`, or
+ * `data-trailing="block"` on the body), so the CSS needs no structural selector,
+ * and one shared ResizeObserver sets the room (`--message-trailing-width`).
  */
 export function MessageItemTrailing({
   className,
@@ -165,32 +232,35 @@ export function MessageItemTrailing({
 }: MessageItemTrailingProps) {
   const { trailing } = messageItem();
   const own = useRef<HTMLSpanElement | null>(null);
-  const measure = useCallback(() => {
-    const el = own.current;
-    const body = el?.parentElement;
-    if (!el || !body) return;
-    body.dataset.trailing = "";
-    body.style.setProperty(
-      "--message-trailing-width",
-      `${Math.ceil(el.getBoundingClientRect().width) + TRAILING_GAP_PX}px`,
-    );
-  }, []);
+  const stamped = useRef<Element | null>(null);
+  // Every render: the body may have changed (an edit), so the last block is found again.
   useLayoutEffect(() => {
-    const el = own.current;
-    const body = el?.parentElement;
-    measure();
-    const release = () => {
-      body?.style.removeProperty("--message-trailing-width");
-      if (body) delete body.dataset.trailing;
-    };
-    if (!el || typeof ResizeObserver === "undefined") return release;
-    const observer = new ResizeObserver(measure);
-    observer.observe(el);
+    const slot = own.current;
+    const body = slot?.closest<HTMLElement>(BODY_SELECTOR);
+    if (!slot || !body) return;
+    const block = lastBlock(body, slot);
+    const line = block ? lastLine(block) : null;
+    if (stamped.current && stamped.current !== line)
+      stamped.current.removeAttribute("data-trailing-line");
+    if (line) line.setAttribute("data-trailing-line", "");
+    stamped.current = line;
+    body.dataset.trailing = line ? "line" : "block";
+  });
+  useLayoutEffect(() => {
+    const slot = own.current;
+    const body = slot?.closest<HTMLElement>(BODY_SELECTOR);
+    const observer = trailingObserver();
+    if (slot && observer) observer.observe(slot);
     return () => {
-      observer.disconnect();
-      release();
+      if (slot && observer) observer.unobserve(slot);
+      stamped.current?.removeAttribute("data-trailing-line");
+      stamped.current = null;
+      if (body) {
+        delete body.dataset.trailing;
+        body.style.removeProperty("--message-trailing-width");
+      }
     };
-  }, [measure]);
+  }, []);
   const setRef = useCallback(
     (el: HTMLSpanElement | null) => {
       own.current = el;

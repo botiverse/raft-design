@@ -1,5 +1,11 @@
 ## Unreleased
 
+### Added
+
+- **MessageItemTrailing** (`@botiverse/raft-ui/wip`): a slot that ends a message's last line, the body's last child, such as the faces of the agents that read it. It takes no column: the last line keeps room for it and the text wraps under it only when that line is full; under a code block, a table or an image it has a line of its own.
+  - Why: the read faces kept a 63-77px column beside every message (stdrc, 2026-11-05).
+  - Docs: https://raft-design.botiverse.build/components/message-item/#trailing
+
 ### Changed
 
 - **Size chain tokens**: control, row, option and header heights are now one chain of variables (`--control-height`, `--row-height`, `--option-height`, `--header-air`, `--header-height`, `--header-height-short`, `--control-hit-inset`, `--control-embedded-size`, `--bar-button-size`, `--page-inset`, `--page-top`) in `tokens.json` and `foundation.css`; components read them instead of fixed sizes.

@@ -440,21 +440,6 @@
     ]
   },
   {
-    "name": "MessageItemTrailing",
-    "entry": "@botiverse/raft-ui",
-    "description": "Something small that ends the message (the faces of the agents that read it, a read mark): the last child of `MessageItemBody`. It takes no column: it sits at the inline end of the body's last line, and the last line keeps room for it (`--message-trailing-width`, which it measures and sets on the body, with `data-trailing`), so the text wraps under it only when that line is full. When the body ends with a block that isn't text (a code block, a table, an image), it sits on a line of its own under that block. Logical properties, so it is right in RTL too.",
-    "native": true,
-    "props": [
-      {
-        "name": "render",
-        "type": "ReactElement | ((props, state) => ReactElement)",
-        "required": false,
-        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
-        "from": "base-ui"
-      }
-    ]
-  },
-  {
     "name": "MessageItemSenderBadges",
     "entry": "@botiverse/raft-ui",
     "native": true,
@@ -1261,6 +1246,21 @@
     "name": "MessageItemDelegatedByName",
     "entry": "@botiverse/raft-ui/wip",
     "description": "The assistant's name in `MessageItemDelegatedBy`, the part that truncates.",
+    "native": true,
+    "props": [
+      {
+        "name": "render",
+        "type": "ReactElement | ((props, state) => ReactElement)",
+        "required": false,
+        "description": "Allows you to replace the component's HTML element with a different tag, or compose it with another component.",
+        "from": "base-ui"
+      }
+    ]
+  },
+  {
+    "name": "MessageItemTrailing",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Something small that ends the message (the faces of the agents that read it, a read mark): the last child of `MessageItemBody`. It takes no column: it sits at the inline end of the body's last line, and the last line keeps room for it, so the text wraps under it only when that line is full. When the body ends with a block that isn't text (a code block, a table, an image), it sits on a line of its own under that block. Logical properties, so it is right in RTL too.",
     "native": true,
     "props": [
       {

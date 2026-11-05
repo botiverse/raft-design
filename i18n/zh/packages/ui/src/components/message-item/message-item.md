@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: edc6ec16
+sourceHash: 67d86d18
 ---
 
 # MessageItem
@@ -39,6 +39,7 @@ message-item/compositions/item-preview
   - `MessageItemInlineStatus`：时间后面的一个简短状态，比如消息的翻译正在加载时显示 "Translating…"。正在工作的 Agent 由头像上的灯表示，不在这里显示（[工作中的 Agent](../../../../../design/people-and-agents/working-agents.md#where-working-shows)）。
 - `MessageItemBody`：文字，用 `text-body`。必需。
 - `MessageItemEdited`：已编辑标记，放在文字末尾，完整行和接续行都一样。
+- `MessageItemTrailing`（来自 `@botiverse/raft-ui/wip`）：结束这条消息的小东西，比如读过它的智能体的头像，作为正文的最后一个子元素。它不占一列：它在正文最后一行的行尾（[行尾](#trailing)）。
 - `MessageItemAttachments`：文件和图片（[MessageAttachment](../message-attachment/message-attachment.md)）。
 - `MessageItemEmbedded`：代码块、操作卡片和链接卡片。应用预览的链接不是卡片：它是正文里的标签片（[应用链接](#app-links)）。
 - `MessageItemFooter`：一行：先是回应（`MessageReactionChip`，最后是 `MessageReactionAddButton`），再是收藏和已读标记（`MessageItemSavedIndicator`、`MessageItemReadReceipt`）。从这条消息创建的任务不在这一行里：它们是这一行上面的一个列表（[对话中的任务](../../../../../design/patterns/tasks.md#tasks-in-a-conversation)）。
@@ -198,7 +199,7 @@ message-item/compositions/delegated-preview
 
 ## 行为 {#behavior}
 
-- 把结束这条消息的小东西（读过它的智能体的头像，连同已读标记）放进 `MessageItemTrailing`，作为 `MessageItemBody` 的最后一个子元素。它不占一列：它在正文最后一行的行尾，最后一行为它留出空间，所以只有这一行写满时文字才在它下面换行；正文以不是文字的块结尾时（代码块、表格、图片），它在下面单独一行的末端。没有它的行使用整个宽度。不要在正文旁为它保留一列（[桌面端密度](../../../../../design/foundations/desktop-density.md#5-reserve-no-room-for-what-isnt-there)；stdrc，2026-11-05）。
+- 把结束这条消息的小东西放进 `MessageItemTrailing`，绝不放在正文旁的一列里（[行尾](#trailing)）。
 - 按[时间线节奏](../../../../../design/foundations/spacing.md#timeline-rhythm)用分组来安排消息的间距：同一组的行之间 8px（接续行位于它所接续的那一行下方），新的一组之前是消息步长 16px。每一行的文字上下各留行内边距 4px，组前多出来的 8px 是一条透明的上边框，高亮不会画到它。样式从时间线 token（`py-timeline-row`、`border-t-(length:--spacing-timeline-turn)`）读取这两个值，所以改动节奏会改动每一行。所以悬停、选中和搜索的高亮在每一行上都均匀地围着文字：以前接续行没有上内边距时，高亮紧贴第一行，最后一行下面却留了 8px。
 - 悬停时，这一行在自身上铺一层 `fill-subtle`，即所有行都用的轻度一级：一条消息可能有很多行高，人读的时候鼠标指针常常停在上面，所以这一级变化很小，文字保持对比度（[悬停与按下](../../../../../design/foundations/states.md#hover-and-press)）。它以前比其他行更浅（3%）；现在消息和旁边的行、卡片用同样的级差。消息没有按下状态：这一行本身不是操作，点击是在选择文字，或落在其中的链接、名字或按钮上。搜索命中的或选中的消息，悬停时保持 `info-soft`；被定位的消息在高亮持续期间不响应悬停。
 - 当它的某个弹出层打开时（右键、工具栏按钮或在手机上长按打开的上下文菜单），这一行在自身上铺一层 `fill-subtle`，与悬停同一级，所以两者不会叠加。手机没有悬停，所以这层填充表示菜单作用于哪条消息；它比 `info-soft` 浅，所以消息看起来不像被选中。
@@ -231,6 +232,26 @@ message-item/compositions/long-header
 message-item/compositions/reactions
 ```
 
+### 行尾 {#trailing}
+
+`MessageItemTrailing` 放结束一条消息的小东西，比如读过它的智能体的头像和已读标记。把它放在 `MessageItemBody` 的最后：
+
+```tsx
+<MessageItemBody>
+  <MarkdownParagraph>Shipping the preview today.</MarkdownParagraph>
+  <MessageItemTrailing>
+    <CheckCheck aria-hidden />
+    <AvatarGroup aria-label="Kirby and Jasper read this">…</AvatarGroup>
+  </MessageItemTrailing>
+</MessageItemBody>
+```
+
+- 它不占一列，所以没有它的行使用正文的整个宽度（[桌面端密度](../../../../../design/foundations/desktop-density.md#5-reserve-no-room-for-what-isnt-there)；stdrc，2026-11-05）。它在正文最后一行的行尾，以这一行为中心，最后一行为它留出空间：只有这一行写满时文字才在它下面换行。正文以不是文字的块结尾时（代码块、表格、图片），它在那个块下面单独一行的末端。
+- 它自己找到正文的最后一块（穿过只装着块的包装层，比如 markdown 根）并做标记，所有行尾共用一个观察器，让留出的空间和它一样宽。不要自己留空间。
+- 内容可能稍后才到的地方（已读是实时到达的），从第一帧就渲染空的行尾，宽度是它最小内容的宽度（`min-w-*`），让空间先于内容存在，内容到达时这一行不会移动。以代码块结尾的正文因此从一开始就在块下面留着这一行。
+- 它不是 `MessageItemReadReceipt`：页脚的已读回执说明消息提及的人已经读过，是表情回应旁的标记；行尾显示每个智能体读到了哪里，放在它读过的最后一条消息上。
+- 已知限制：松散列表（条目里有段落）或以换行结尾的最后一行会多一行；`dir="auto"` 且方向和正文相反的段落会把空间留在错误的一端；折叠的长消息里，行尾随正文的末尾一起被隐藏。
+
 ### 选中文字的工具栏 {#toolbar-for-selected-text}
 
 人在消息里选中的文字会带出一个 [TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md)，提供 Quote、Copy 这类操作。它的构造和悬停工具栏一样，所以两者看起来是同一类东西；唯一的不同是它的按钮带文字标签。它的外观、它在选区焦点那一行上的位置和它的标签，见它自己的文档。
@@ -244,6 +265,7 @@ message-item/compositions/reactions
 
 ## 无障碍 {#accessibility}
 
+- `MessageItemTrailing` 在 DOM 里位于文字之后，所以屏幕阅读器在消息之后读它，绝不在句子中间。它不能被选中，所以复制消息时只复制文字，不带头像；为它显示的内容命名（在它的组上加 `aria-label`）。
 - `MessageItem` 和它的部件都是用 Base UI `useRender` 构建的普通元素；用 `render` 改变元素，比如把 `MessageItemSenderButton` 渲染成链接。
 - `MessageItem` 是一个以发送者和时间命名的 `article`：它的 `aria-labelledby` 指向 `MessageItemSender`（或 `MessageItemSenderButton`）和 `MessageItemTime`（或 `MessageItemContinuationTime`），这一行渲染的是哪个就指向哪个，id 由 raft-ui 生成。读屏软件通过跳转或阅读按键落到一条消息上时，会在正文之前读出一个名为「Atlas 2:20 PM」的 article：这是谁的消息、什么时候发的，顺序和标题栏显示的一样。接续行不显示名字，所以用时间命名。两者都没有的行，比如文字栏里的回执卡片，是普通的 `div`，不是 article：没有名字的 article 只会被读成一句光秃秃的「article」，对读屏软件用户什么都没说；如果它应该是 article，给它 `aria-label`。要自己给一行命名，在 `MessageItem` 或它的 `render` 元素上传 `aria-labelledby` 或 `aria-label`；要改角色，传 `role`。`render` 函数的 props 读不到，所以用函数时，把它们传给 `MessageItem`。你给某个部件的 `id`，就是这一行指向的那个。发送者按钮的名字就是它显示的名字，所以不要给它单独的 `aria-label`：不然这一行会改读那个名字。
 - 不要把消息放进 `list`，也不要把 `MessageItem` 渲染成 `li`：`role="article"` 会取代 `listitem`，而列表里只能放列表项。包住它们的时间线不用列表角色（[MessageList](../message-list/message-list.md#accessibility)）。也不要把它做成 `feed`：feed 承诺用 Page Down 和 Page Up 在 article 之间移动，而时间线没有实现这一点。

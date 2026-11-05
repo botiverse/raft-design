@@ -778,7 +778,6 @@
       "MessageItemSavedIndicator",
       "MessageItemSearchMatch",
       "MessageItemSender",
-      "MessageItemTrailing",
       "MessageItemSenderBadges",
       "MessageItemSenderButton",
       "MessageItemSenderGroup",
@@ -808,6 +807,7 @@
       "MessageItemDelegatedBy",
       "MessageItemDelegatedByButton",
       "MessageItemDelegatedByName",
+      "MessageItemTrailing",
       "MessageReferenceIcon"
     ],
     "status": "stable",
