@@ -124,7 +124,23 @@ function ActivityHoverRow({
       <InboxItemTrailing>
         <InboxItemTimestamp>{item.timestamp}</InboxItemTimestamp>
         <InboxItemActions reveal="hover">
-          <Button variant="outline" size="icon-md" aria-label="Mark as Done" onClick={handleDone}>
+          {/* Hover-revealed it is ghost. On a touch screen it rests in the row, outlined. */}
+          <Button
+            variant="ghost"
+            size="icon-md"
+            className="pointer-coarse:hidden"
+            aria-label="Mark as Done"
+            onClick={handleDone}
+          >
+            <Check aria-hidden />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon-md"
+            className="hidden pointer-coarse:inline-flex"
+            aria-label="Mark as Done"
+            onClick={handleDone}
+          >
             <Check aria-hidden />
           </Button>
         </InboxItemActions>

@@ -20,6 +20,7 @@ import {
   InboxItemTrailing,
   InboxItemTrigger,
 } from "../components/inbox-item";
+import { InboxItemLine } from "../components/inbox-item/inbox-item";
 import {
   ListRow,
   ListRowBody,
@@ -127,7 +128,7 @@ const cases: Case[] = [
             </InboxItemTitle>
           </InboxItemHeading>
           <InboxItemBody>
-            Kirby: the preview line, also long enough to be truncated at its end
+            Person A: the preview line, also long enough to be truncated at its end
           </InboxItemBody>
         </InboxItemContent>
         <InboxItemTrailing>
@@ -148,6 +149,43 @@ const cases: Case[] = [
     ),
   },
   {
+    name: "inbox-item without a trailing column",
+    hoverReveal: true,
+    selected: { active: true },
+    row: (props) => (
+      <InboxItem data-testid="row" density="compact" data-unread {...props}>
+        <InboxItemTrigger aria-label="Open launch-week" />
+        <InboxItemLeading>
+          <Hash />
+        </InboxItemLeading>
+        <InboxItemContent>
+          <InboxItemHeading>
+            <InboxItemTitle>
+              A title long enough to run up to the time at the end of its line
+            </InboxItemTitle>
+            <InboxItemTimestamp>9:41</InboxItemTimestamp>
+          </InboxItemHeading>
+          <InboxItemLine>
+            <InboxItemBody>
+              Person A: the preview line, also long enough to be truncated at its end
+            </InboxItemBody>
+            <InboxItemMarks>
+              <SidebarItemIndicator>
+                <AtSign />
+              </SidebarItemIndicator>
+              <SidebarItemCount>12</SidebarItemCount>
+            </InboxItemMarks>
+          </InboxItemLine>
+          <InboxItemActions reveal="hover">
+            <Button variant="ghost" size="icon-md" aria-label="Mark as done">
+              <Check />
+            </Button>
+          </InboxItemActions>
+        </InboxItemContent>
+      </InboxItem>
+    ),
+  },
+  {
     // Selecting: the 20px checkbox leads, in a slot as wide as it.
     name: "inbox-item selecting",
     selected: { active: true },
@@ -161,7 +199,7 @@ const cases: Case[] = [
           <Hash />
         </InboxItemLeading>
         <InboxItemContent>
-          <InboxItemTitle>Kirby mentioned you</InboxItemTitle>
+          <InboxItemTitle>Person A mentioned you</InboxItemTitle>
         </InboxItemContent>
         <InboxItemTrailing>
           <InboxItemTimestamp>9:41</InboxItemTimestamp>
@@ -225,7 +263,7 @@ const cases: Case[] = [
     row: (props) => (
       <SearchMessageResult data-testid="row" {...props}>
         <SearchMessageResultHeader>
-          <SearchMessageResultSender>Kirby</SearchMessageResultSender>
+          <SearchMessageResultSender>Person A</SearchMessageResultSender>
           <SearchMessageResultTimestamp>Oct 27</SearchMessageResultTimestamp>
         </SearchMessageResultHeader>
         <SearchMessageResultBody>A message that matched</SearchMessageResultBody>

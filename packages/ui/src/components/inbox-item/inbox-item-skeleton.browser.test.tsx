@@ -20,6 +20,7 @@ import {
   InboxItemContext,
   InboxItemHeading,
   InboxItemLeading,
+  InboxItemLine,
   InboxItemMarks,
   InboxItemSender,
   InboxItemTimestamp,
@@ -93,7 +94,7 @@ function LoadedDefault({ context }: { context?: boolean }) {
           </InboxItemTitle>
         </InboxItemHeading>
         <InboxItemBody>
-          <InboxItemSender>Kirby: </InboxItemSender>
+          <InboxItemSender>Person A: </InboxItemSender>
           Shipped.
         </InboxItemBody>
       </InboxItemContent>
@@ -131,6 +132,31 @@ function LoadedCompact({ leading }: { leading?: boolean }) {
   );
 }
 
+function LoadedCompactFullWidth() {
+  return (
+    <InboxItem density="compact" data-unread>
+      <InboxItemTrigger aria-label="Open Atlas" />
+      <InboxItemLeading>
+        <Avatar size="md" type="agent">
+          <AvatarFallback>A</AvatarFallback>
+        </Avatar>
+      </InboxItemLeading>
+      <InboxItemContent>
+        <InboxItemHeading>
+          <InboxItemTitle>Atlas</InboxItemTitle>
+          <InboxItemTimestamp>2m</InboxItemTimestamp>
+        </InboxItemHeading>
+        <InboxItemLine>
+          <InboxItemBody>The deploy is green.</InboxItemBody>
+          <InboxItemMarks>
+            <span>2</span>
+          </InboxItemMarks>
+        </InboxItemLine>
+      </InboxItemContent>
+    </InboxItem>
+  );
+}
+
 it("a default skeleton row is as tall as a loaded one-line row", async () => {
   const { loaded, skeleton } = await heightsOf(<LoadedDefault />, <InboxItemSkeleton />);
   expect(loaded).toBeGreaterThan(40);
@@ -156,6 +182,36 @@ it("a compact skeleton row is as tall as a loaded compact row, with and without 
   );
   expect(lead.loaded).toBeGreaterThan(60);
   expect(lead.skeleton).toBe(lead.loaded);
+});
+
+it("a compact skeleton row is as tall as a loaded row with the time in its heading", async () => {
+  const { loaded, skeleton } = await heightsOf(
+    <LoadedCompactFullWidth />,
+    <InboxItemSkeleton density="compact" leading line />,
+  );
+  expect(loaded).toBeGreaterThan(60);
+  expect(skeleton).toBe(loaded);
+});
+
+it("a compact skeleton with line ends its heading with the time, at the row's inner padding", async () => {
+  render(
+    <div className="w-[390px]">
+      <InboxItemSkeleton data-testid="row" density="compact" leading line />
+    </div>,
+  );
+  const row = screen.getByTestId("row");
+  await settled(() => row.getBoundingClientRect().height);
+  const time = row.querySelector("[data-slot=inbox-item-timestamp]")!.getBoundingClientRect();
+  const heading = row.querySelector("[data-slot=inbox-item-heading]")!.getBoundingClientRect();
+  expect(row.querySelector("[data-slot=inbox-item-trailing]")).toBeNull();
+  expect(row.getBoundingClientRect().right - time.right).toBe(20);
+  // On the title's baseline, with the line held at its height. How far the time's
+  // box then sits from the line's top depends on the two fonts' metrics, so its
+  // place can't be exact: its middle is held to the line instead.
+  expect(heading.height).toBe(20);
+  const timeMiddle = (time.top + time.bottom) / 2;
+  expect(timeMiddle).toBeGreaterThan(heading.top);
+  expect(timeMiddle).toBeLessThan(heading.bottom);
 });
 
 it("a skeleton list is as tall as the loaded list of as many rows: the list gap, no border", async () => {

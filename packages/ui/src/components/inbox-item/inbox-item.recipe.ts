@@ -76,11 +76,23 @@ export const inboxItem = tv({
       "group-data-[active=true]/inbox-item:[--inbox-item-revealed:1] group-data-popup-open/inbox-item:[--inbox-item-revealed:1]",
       "has-[>[data-reveal=hover]_[data-popup-open]]:[--inbox-item-revealed:1]",
     ],
+    // A row's width less its 40px of inline padding is what a container query
+    // sees, so 320px here is a row narrower than 360px. Named, so a container
+    // around a row with no InboxItemLine can't swap it: the word stays.
+    itemStatusWord: ["shrink-0 @max-[320px]/inbox-item-row:hidden"],
+    itemStatusPixel: ["hidden items-center @max-[320px]/inbox-item-row:inline-flex"],
+    itemListGroup: ["flex flex-col gap-0.5", "mt-1.5 first:mt-0"],
+    itemListHeading: ["mb-0.5 px-5 py-1", "font-sans text-footnote font-bold text-foreground-hint"],
     itemMarks: ["flex h-5 shrink-0 items-center justify-end gap-1.5", "text-foreground-hint"],
     itemHoverTarget: ["pointer-events-auto"],
     itemTimestamp: [
       "shrink-0 whitespace-nowrap text-right tabular-nums",
       "font-mono text-mono-meta text-foreground-hint",
+    ],
+    itemLine: [
+      "flex h-(--text-callout--line-height) min-w-0 items-center gap-2",
+      "*:not-data-[slot=inbox-item-marks]:min-w-0 *:not-data-[slot=inbox-item-marks]:flex-1",
+      "*:data-[slot=inbox-item-marks]:empty:hidden",
     ],
     itemBody: [
       "col-span-full nth-[-n+2]:col-[1/2]",
@@ -115,7 +127,21 @@ export const inboxItem = tv({
   variants: {
     density: {
       compact: {
-        item: ["items-center"],
+        item: [
+          "items-center",
+          "has-data-[slot=inbox-item-line]:@container/inbox-item-row",
+          "has-data-[slot=inbox-item-line]:[--inbox-item-content-end:-1]",
+          "has-data-[slot=inbox-item-line]:pointer-fine:[:hover,:focus-within,[data-active=true],[data-popup-open],:has([data-popup-open])]:[--inbox-item-actions-room:--spacing(10)]",
+          "has-data-[slot=inbox-item-line]:pointer-coarse:[--inbox-item-actions-room:--spacing(11)]",
+          "has-data-[slot=inbox-item-line]:hover:[--inbox-item-time-display:inline] has-data-[slot=inbox-item-line]:keyboard:focus-within:[--inbox-item-time-display:inline]",
+        ],
+        itemContent: [
+          "has-[>[data-slot=inbox-item-line]]:has-[>[data-reveal=hover]]:pr-(--inbox-item-actions-room,0px)",
+        ],
+        itemHeading: [
+          "has-[>[data-inbox-item-time]]:h-(--text-subhead--line-height) has-[>[data-inbox-item-time]]:items-baseline",
+          "*:data-inbox-item-time:pointer-events-auto *:data-inbox-item-time:cursor-default",
+        ],
         itemTitle: ["line-clamp-1", "pl-0 has-[>svg]:pl-[18px]"],
         itemTrailing: [
           "gap-0 pt-0",
@@ -139,6 +165,7 @@ export const inboxItem = tv({
           "has-data-popup-open:pointer-events-auto has-data-popup-open:opacity-100",
           "pointer-coarse:pointer-events-auto pointer-coarse:opacity-100 pointer-coarse:only:static",
         ],
+        itemTimestamp: ["[display:var(--inbox-item-time-display,none)]"],
       },
     },
   },

@@ -72,6 +72,22 @@ export * from "./components/ellipsis/index";
 export { InboxItemLeadingBadge } from "./components/inbox-item/inbox-item-leading-badge";
 export type { InboxItemLeadingBadgeProps } from "./components/inbox-item/inbox-item-leading-badge";
 
+// The parts of a compact InboxItem row with no trailing column, and of a list
+// of them grouped by day (inbox-item.md, "Anatomy"). Until the web app has moved
+// its Activity rows onto them.
+export {
+  InboxItemLine,
+  InboxItemListGroup,
+  InboxItemListHeading,
+  InboxItemStatus,
+} from "./components/inbox-item/inbox-item";
+export type {
+  InboxItemLineProps,
+  InboxItemListGroupProps,
+  InboxItemListHeadingProps,
+  InboxItemStatusProps,
+} from "./components/inbox-item/inbox-item";
+
 // Loading rows for a list of InboxItem or ListRow rows, built from the real
 // row parts so they are the loaded row's size (feedback.md, "Empty, loading
 // and failed"). Until a product list has moved onto them.

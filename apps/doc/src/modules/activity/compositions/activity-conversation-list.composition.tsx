@@ -3,7 +3,6 @@ import {
   Avatar,
   AvatarBadge,
   AvatarFallback,
-  Badge,
   Button,
   IconTile,
   InboxItem,
@@ -17,7 +16,6 @@ import {
   InboxItemSender,
   InboxItemTimestamp,
   InboxItemTitle,
-  InboxItemTrailing,
   InboxItemTrigger,
   SidebarItemCount,
   SidebarItemIndicator,
@@ -26,7 +24,13 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@botiverse/raft-ui";
-import { InboxItemLeadingBadge } from "@botiverse/raft-ui/wip";
+import {
+  InboxItemLeadingBadge,
+  InboxItemLine,
+  InboxItemListGroup,
+  InboxItemListHeading,
+  InboxItemStatus,
+} from "@botiverse/raft-ui/wip";
 import { useCallback, useState } from "react";
 
 type Conversation = {
@@ -39,11 +43,16 @@ type Conversation = {
   sender?: string;
   preview: string;
   timestamp: string;
+  /** The time in words, for the tooltip and for the row's name. */
+  fullTime: string;
+  /** An older row: its time shows only on hover or focus. */
+  older?: boolean;
   unreadCount: number;
   mention?: boolean;
   muted?: boolean;
   draft?: boolean;
-  task?: number;
+  /** A task's status, at the end of the second line. */
+  taskStatus?: "in-progress";
 };
 
 const CONVERSATIONS: readonly Conversation[] = [
@@ -54,6 +63,7 @@ const CONVERSATIONS: readonly Conversation[] = [
     initials: "A",
     preview: "The staging deploy is green. Want me to cut the release?",
     timestamp: "2m",
+    fullTime: "2 minutes ago",
     unreadCount: 2,
   },
   {
@@ -64,9 +74,10 @@ const CONVERSATIONS: readonly Conversation[] = [
     sender: "Mira",
     preview: "I kept the original border, spacing, and selected treatment.",
     timestamp: "14m",
+    fullTime: "14 minutes ago",
     unreadCount: 3,
     mention: true,
-    task: 21,
+    taskStatus: "in-progress",
   },
   {
     id: "channel:launch",
@@ -75,6 +86,7 @@ const CONVERSATIONS: readonly Conversation[] = [
     sender: "Avery",
     preview: "Checklist is in the doc; two items left before Friday.",
     timestamp: "1h",
+    fullTime: "1 hour ago",
     unreadCount: 0,
     draft: true,
   },
@@ -85,16 +97,35 @@ const CONVERSATIONS: readonly Conversation[] = [
     sender: "Bugen",
     preview: "Quotes are in for the second vendor.",
     timestamp: "3h",
+    fullTime: "3 hours ago",
     unreadCount: 5,
     muted: true,
   },
+  {
+    id: "channel:retro",
+    kind: "channel",
+    title: "retro-notes",
+    sender: "Mira",
+    preview: "Notes from the last retro are in the doc.",
+    timestamp: "2:00 PM",
+    fullTime: "Tuesday at 2:00 PM",
+    older: true,
+    unreadCount: 0,
+  },
 ];
 
-/** One row per conversation: who or where, the latest line, and its marks. */
+/**
+ * One row per conversation under its day: who or where and the time, then the latest line and
+ * its marks. An older row's time shows on hover or keyboard focus: hover retro-notes or Tab to it.
+ */
 export function ActivityConversationListComposition() {
   const [activeId, setActiveId] = useState<string>();
   const [doneIds, setDoneIds] = useState<ReadonlySet<string>>(new Set());
   const conversations = CONVERSATIONS.filter((conversation) => !doneIds.has(conversation.id));
+  const groups = [
+    { heading: "Today", conversations: conversations.filter((item) => !item.older) },
+    { heading: "Tuesday, October 20", conversations: conversations.filter((item) => item.older) },
+  ];
   const handleRestore = useCallback(() => setDoneIds(new Set()), []);
   const handleDone = useCallback((id: string) => setDoneIds((ids) => new Set(ids).add(id)), []);
 
@@ -108,15 +139,22 @@ export function ActivityConversationListComposition() {
 
   return (
     <div className="flex w-full max-w-md flex-col gap-0.5 py-2">
-      {conversations.map((conversation) => (
-        <ConversationRow
-          key={conversation.id}
-          conversation={conversation}
-          active={conversation.id === activeId}
-          onOpen={setActiveId}
-          onDone={handleDone}
-        />
-      ))}
+      {groups.map((group) =>
+        group.conversations.length > 0 ? (
+          <InboxItemListGroup key={group.heading}>
+            <InboxItemListHeading>{group.heading}</InboxItemListHeading>
+            {group.conversations.map((conversation) => (
+              <ConversationRow
+                key={conversation.id}
+                conversation={conversation}
+                active={conversation.id === activeId}
+                onOpen={setActiveId}
+                onDone={handleDone}
+              />
+            ))}
+          </InboxItemListGroup>
+        ) : null,
+      )}
     </div>
   );
 }
@@ -142,11 +180,11 @@ function ConversationRow({
     >
       <InboxItemTrigger
         aria-current={active || undefined}
-        aria-label={
+        aria-label={`${
           conversation.channel
             ? `Open thread in #${conversation.channel}: ${conversation.title}`
             : `Open ${conversation.title}`
-        }
+        }${conversation.taskStatus ? ", in progress" : ""}, ${conversation.fullTime}`}
         onClick={handleOpen}
       />
       <InboxItemLeading>
@@ -173,41 +211,70 @@ function ConversationRow({
       <InboxItemContent>
         <InboxItemHeading>
           <InboxItemTitle>{conversation.title}</InboxItemTitle>
-          {conversation.task ? <Badge variant="warning">#{conversation.task}</Badge> : null}
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <InboxItemTimestamp reveal={conversation.older ? "hover" : undefined} aria-hidden />
+              }
+            >
+              {conversation.timestamp}
+            </TooltipTrigger>
+            <TooltipContent>{conversation.fullTime}</TooltipContent>
+          </Tooltip>
         </InboxItemHeading>
-        <InboxItemBody>
-          {conversation.channel ? `#${conversation.channel} · ` : null}
-          {conversation.sender ? <InboxItemSender>{conversation.sender}: </InboxItemSender> : null}
-          {conversation.preview}
-        </InboxItemBody>
-      </InboxItemContent>
-      <InboxItemTrailing>
-        <InboxItemTimestamp>{conversation.timestamp}</InboxItemTimestamp>
-        <InboxItemMarks>
-          {conversation.draft ? <Pencil aria-label="Draft" size={12} /> : null}
-          {conversation.mention && conversation.unreadCount > 0 ? (
-            <Tooltip>
-              <TooltipTrigger
-                render={<InboxItemHoverTarget render={<SidebarItemIndicator />} />}
-                aria-label="Mentioned you"
-              >
-                <AtSign aria-hidden />
-              </TooltipTrigger>
-              <TooltipContent>Someone mentioned you here</TooltipContent>
-            </Tooltip>
-          ) : null}
-          {conversation.muted ? (
-            <BellOff aria-label="Muted" size={14} />
-          ) : conversation.unreadCount > 0 ? (
-            <SidebarItemCount>{conversation.unreadCount}</SidebarItemCount>
-          ) : null}
-        </InboxItemMarks>
+        <InboxItemLine>
+          <InboxItemBody>
+            {conversation.channel ? `#${conversation.channel} · ` : null}
+            {conversation.sender ? (
+              <InboxItemSender>{conversation.sender}: </InboxItemSender>
+            ) : null}
+            {conversation.preview}
+          </InboxItemBody>
+          <InboxItemMarks>
+            {conversation.taskStatus ? (
+              <InboxItemStatus status={conversation.taskStatus}>In progress</InboxItemStatus>
+            ) : null}
+            {conversation.draft ? <Pencil aria-label="Draft" size={12} /> : null}
+            {conversation.mention && conversation.unreadCount > 0 ? (
+              <Tooltip>
+                <TooltipTrigger
+                  render={<InboxItemHoverTarget render={<SidebarItemIndicator />} />}
+                  aria-label="Mentioned you"
+                >
+                  <AtSign aria-hidden />
+                </TooltipTrigger>
+                <TooltipContent>Someone mentioned you here</TooltipContent>
+              </Tooltip>
+            ) : null}
+            {conversation.muted ? (
+              <BellOff aria-label="Muted" size={14} />
+            ) : conversation.unreadCount > 0 ? (
+              <SidebarItemCount>{conversation.unreadCount}</SidebarItemCount>
+            ) : null}
+          </InboxItemMarks>
+        </InboxItemLine>
         <InboxItemActions reveal="hover">
-          <Button variant="outline" size="icon-md" aria-label="Mark as Done" onClick={handleDone}>
+          {/* Hover-revealed it is ghost. On a touch screen it rests in the row, outlined. */}
+          <Button
+            variant="ghost"
+            size="icon-md"
+            className="pointer-coarse:hidden"
+            aria-label="Mark as Done"
+            onClick={handleDone}
+          >
+            <Check aria-hidden />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon-md"
+            className="hidden pointer-coarse:inline-flex"
+            aria-label="Mark as Done"
+            onClick={handleDone}
+          >
             <Check aria-hidden />
           </Button>
         </InboxItemActions>
-      </InboxItemTrailing>
+      </InboxItemContent>
     </InboxItem>
   );
 }
