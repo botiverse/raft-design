@@ -185,6 +185,36 @@ export type {
   PreviewCardMetaProps,
 } from "./components/preview-card/index";
 
+// An app link's card drawn in the message, where the app's answer lists one
+// (a `card` item with `placement: "block"`; navigation.md, "Block cards"), until stdrc approves
+// the parts: Raft's header with the app's identity, the item, its buttons,
+// and the placeholder of the card's size.
+export {
+  AppLinkCard,
+  AppLinkCardActions,
+  AppLinkCardBody,
+  AppLinkCardEyebrow,
+  AppLinkCardHeader,
+  AppLinkCardHost,
+  AppLinkCardIcon,
+  AppLinkCardMeta,
+  AppLinkCardName,
+  AppLinkCardPlaceholder,
+  AppLinkCardTitle,
+} from "./components/app-link-card/index";
+export type {
+  AppLinkCardActionsProps,
+  AppLinkCardBodyProps,
+  AppLinkCardEyebrowProps,
+  AppLinkCardHeaderProps,
+  AppLinkCardHostProps,
+  AppLinkCardIconProps,
+  AppLinkCardMetaProps,
+  AppLinkCardNameProps,
+  AppLinkCardPlaceholderProps,
+  AppLinkCardTitleProps,
+} from "./components/app-link-card/index";
+
 // A popover that asks something, such as whether to show an app's previews:
 // its text and its buttons, inset like a preview card's (popover.md). Until a
 // product uses them.

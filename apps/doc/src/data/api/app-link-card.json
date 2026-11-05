@@ -1,0 +1,79 @@
+[
+  {
+    "name": "AppLinkCard",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "An app link's card drawn in the message, after the link's paragraph, where the app's answer lists one (a `card` item with `placement: \"block\"`): Raft's header with the app's identity, the item, and buttons that work by keyboard and touch. It never replaces the link. A `group`: label it with `aria-labelledby` pointing at its `AppLinkCardTitle`, so someone who tabs to one of its buttons hears which item the button acts on.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "AppLinkCardActions",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The app's buttons at the card's bottom end: at most two, the bordered one last, with a More menu (⋯) to their left for the rest.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "AppLinkCardBody",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The item: `AppLinkCardEyebrow`, `AppLinkCardTitle`, `AppLinkCardMeta`, in that order.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "AppLinkCardEyebrow",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The app's id for the item, above the title. One line, truncated.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "AppLinkCardHeader",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "Raft's row at the top: `AppLinkCardIcon`, `AppLinkCardName`, then `AppLinkCardHost`.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "AppLinkCardHost",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The link's host, after a \"·\". When it doesn't fit it loses its start, so the end, which says where the link goes, stays.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "AppLinkCardIcon",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The app's registered icon, the image Raft stores and serves: one child at 16px.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "AppLinkCardMeta",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "One state in a neutral Badge, then muted details. Wraps when it runs out of room.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "AppLinkCardName",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The app's name as Raft stores it. One line, truncated.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "AppLinkCardPlaceholder",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The card's size while Raft fetches an answer it already knows lists a block card. Put the `AppLinkCardHeader` in it when the app is known; the item's lines and a button follow, as gray bars.",
+    "native": true,
+    "props": []
+  },
+  {
+    "name": "AppLinkCardTitle",
+    "entry": "@botiverse/raft-ui/wip",
+    "description": "The app's title for the item, up to 2 lines, then an ellipsis. Put a link to the item in it: the title opens the item, in the title's ink.",
+    "native": true,
+    "props": []
+  }
+]

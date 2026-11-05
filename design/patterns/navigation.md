@@ -89,7 +89,7 @@ On desktop, people can hide the sidebar to give the main area the whole width, a
 
 #### App links
 
-An app connected to a server, such as Stamp for code review, can preview its own links: when someone posts the address of a pull request, a document or a run, the app supplies a title and details for it. The link stays where it was written, in the sentence, as a cyan reference chip with the app's icon and the app's title; the details open on hover.
+An app connected to a server, such as Stamp for code review, can preview its own links: when someone posts the address of a pull request, a document or a run, the app supplies a title and details for it. The link stays where it was written, in the sentence, as a cyan reference chip with the app's icon and the app's title; the details open on hover. Which of these the app wants, a chip, its hover card or a card in the message, it lists in its answer ([What an app's answer lists](#what-an-apps-answer-lists)).
 
 ```example
 message-reference/compositions/app-links
@@ -108,8 +108,67 @@ message-reference/compositions/app-link-pending
 ```
 
 - When the reader hasn't allowed the app yet and the server asks whether to show its previews, keep the gray chip with the shortened address (`MessageReferenceChip variant="muted"`), as a button, not a link: a link would open the address at the same click and skip the question. It opens no card. Clicking, tapping or pressing Enter on it asks first, the same on every device, in a [Popover](../../packages/ui/src/components/popover/popover.md): Open link goes without previews, Show previews allows them. A card can't ask: it is read-only, and its buttons can't be reached by keyboard or touch.
-- On desktop, hovering or focusing the chip opens the app's item card with the details: the id, the title, a state and a line of details in the app's words, its actions, and the app's name and host ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)). Raft puts no colors of the app's on it.
+- On desktop, when the answer lists a hover card, hovering or focusing the chip opens the app's item card with the details: the id, the title, a state and a line of details in the app's words, its actions, and the app's name and host ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)). Raft puts no colors of the app's on it.
 - On a phone, tapping the chip opens the link. A preview card doesn't open on touch, so make the chip a real link (`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`) that opens in a new tab, leaving the conversation where it was.
+
+#### What an app's answer lists
+
+An app answers for a link with a list of `items` (protocol version 3), and Raft draws them in the list's order. The app states every way its link is drawn, and Raft infers none: an item it doesn't list is not drawn.
+
+```json
+{
+  "version": 3,
+  "title": "PR 123: Fix sign-in",
+  "items": [
+    { "type": "inline", "title": "PR 123", "badge": { "text": "Review", "tone": "review" } },
+    { "type": "card", "placement": "block", "title": "…", "card_revision": "r1", "business_revision": "b1", "card": {} },
+    { "type": "connect_account", "connect_url": "…" }
+  ]
+}
+```
+
+- `inline`: the link is drawn as the chip, with the item's `title`. Its `badge` is never drawn on the chip, which shows no state (above); a state is drawn on the cards.
+- `card` with `placement: "hover"`: the chip's hover card ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)).
+- `card` with `placement: "block"`: the card drawn in the message, after the link's paragraph ([Block cards](#block-cards)). The link itself is never replaced.
+- `connect_account`: the reader connects an account to the app first. Raft draws it as before: the chip's card says so in Raft's own words, with one button to the app's `connect_url`.
+
+| The answer lists | Raft draws |
+| --- | --- |
+| `inline` | The chip, with no hover card |
+| `inline` and hover card | The chip, with its hover card |
+| Block card | The author's plain link, and the card after its paragraph |
+| `inline` and block card | The chip, with no hover card, and the card after its paragraph |
+| `connect_account` | The chip's card asking the reader to connect, as before |
+| Nothing (`[]`) | The author's plain link |
+
+- An answer lists at most one item of each kind for now: one chip and one card.
+- Skip an item whose `type` Raft doesn't know. Raft passes a client only the types it declares it can draw: a block card only to a client that declares `block.v1`.
+- A client that reads only version 2 draws an `inline`-only answer as a plain link. A hover card, `connect_account` and an empty list look as they did. A block card is drawn as above where the client declares `block.v1`; elsewhere the link is a chip with the card on hover, the chip taking the card's title when the answer has no `inline`. The phone app reads only version 1 and is not affected.
+
+#### Block cards
+
+A `card` with `placement: "block"` is drawn in the message itself, after the link's paragraph, such as Stamp's approval card, whose buttons have to be pressed where the reader is: a hover card opens only on hover, its buttons can't be reached by keyboard or touch, and on a phone a tap opens the link instead. Raft draws it as an [AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md): the item, under Raft's header naming the app, with buttons that work by mouse, keyboard and touch. A block is the app's request, not a promise: in every case below Raft draws no card, and the design system may add cases without changing the protocol.
+
+```example
+app-link-card/compositions/in-message
+```
+
+- Leave the link where the author put it, and never replace it with the card, whether it is inside a sentence or alone in its paragraph. Taking a link out of a sentence leaves the sentence a word short, and a link that turned into a card only when it stood alone would make the same answer look different by where it was written.
+- Draw the link as its answer lists it. With `inline`, it is the chip, and the card is drawn after its paragraph: both. Without `inline`, it stays the author's plain link, with the card after its paragraph: the app asked only for the card, and a chip of Raft's own guessing would put words in the app's mouth.
+- A link alone on its line whose answer lists `inline` and a block card shows the chip right above the card, so the title is there twice. That is accepted: the app chose both, and an app that doesn't want it leaves out `inline`, so the author's plain link stays above the card.
+- A chip opens a hover card only when the answer lists one. A chip whose card is drawn below it has none, since an answer holds one card: a second copy floating over the first would only cover the message. Clicking the chip still opens the link.
+- Add the card right after the link's paragraph, never gathered at the bottom of the message: a card at the bottom is the matching back the rules above avoid. The message keeps its order.
+- When several links in a paragraph have a block card, put their cards after it in the links' order, so they read in the order the sentence names them.
+- In a list item, put the card inside the item, after its text: it belongs to that item, not to the list. In a table cell, a heading or a quote the author wrote, draw no card and leave the link as it would be without one: a card can't fit in a cell, would turn a heading into a block, or would break up the quoted words.
+- Draw at most 3 block cards in a message, counted in the message's order; later links get no card. A message with more would be a column of cards with the words lost between them.
+- When the same address is in a message more than once, give only the first a card; the others don't count toward the 3. The same card twice says nothing new.
+- Show the card only in the message itself. Quotes, forwards, notifications, search results and Activity show the link as they would without a block card: they are about the message, and a card's buttons there would act on the item from somewhere it isn't.
+- A reader who hasn't allowed the app sees the gray chip and its question, never the card: a block card doesn't decide for the reader whether to show the app's previews. A failed, slow, limited or invalid answer falls back to the chip or the plain link, as any app link does.
+- A link the author gave words to (`[text](url)`) stays the author's link, card or no card.
+- While the answer loads, draw the link as for any app link: Raft knows a link has a block card only from its answer. When the answer lists one, add the card after the paragraph; the link doesn't move. When Raft already holds an answer for the same address that listed a block card, draw a placeholder of the card's size there at once (`AppLinkCardPlaceholder`), with the app's header in it, so the text under the paragraph moves as little as it can.
+- Always show the app's icon and name in Raft's header on the card, drawn by Raft from what it stores for the app, never taken from the card's content. The card sits beside people's own words and its buttons work there: without Raft's frame it could pass for a system message or for someone's words.
+- Put at most two buttons on the card, with ⋯ for the rest ([AppLinkCard](../../packages/ui/src/components/app-link-card/app-link-card.md#content)). The card's title opens the item, so a plain Open link, such as Stamp's Open in Stamp, goes in ⋯ and leaves the two places to the app's actions.
+- Make the card 400px wide, the hover card's width, and never wider than the message. On a phone it takes the message's width, so its buttons have the room a finger needs.
 
 ### Links that leave Raft
 
