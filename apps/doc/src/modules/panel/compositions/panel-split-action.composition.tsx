@@ -20,7 +20,7 @@ import {
 import { MessageSquare, X } from "lucide-react";
 import { useCallback, useState } from "react";
 
-const MENU_TRIGGER = <PanelSplitActionMenu aria-label="Comment Options" />;
+const MENU_TRIGGER = <PanelSplitActionMenu aria-label="Comment options" />;
 
 export function PanelSplitActionContent() {
   const [commenting, setCommenting] = useState(false);
@@ -48,10 +48,10 @@ export function PanelSplitActionContent() {
             </PanelSplitActionToggle>
             <DropdownMenu>
               <DropdownMenuTrigger render={MENU_TRIGGER} />
-              <DropdownMenuContent side="bottom" align="end" aria-label="Comment Options">
+              <DropdownMenuContent side="bottom" align="end" aria-label="Comment options">
                 <DropdownMenuItem onClick={showAll}>
                   <MessageSquare />
-                  Show All Comments (3)
+                  Show all comments (3)
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

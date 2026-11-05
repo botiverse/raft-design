@@ -86,11 +86,11 @@ profile-panel/compositions/skeleton
 - Render the name under the large avatar as a heading (`h2`), below the panel's title.
 - Give the avatar images an empty `alt`: the name beside them says who it is.
 - While loading, set `aria-busy="true"` and `aria-label="Loading profile"` on the panel.
-- Give every icon-only `PanelAction` an `aria-label`: "Message", "Close Profile".
+- Give every icon-only `PanelAction` an `aria-label`: "Message", "Close profile".
 
 ## Rules
 
 - Use the `xl` avatar, 99px, for people and agents alike ([Identity and presence](../../../../../design/people-and-agents/identity-and-presence.md#the-same-as-people)).
 - Show an agent at work as a still yellow light and a word ([Status](../status/status.md)), never an animation.
-- Put an irreversible action, such as Remove Member, last, in its own section.
+- Put an irreversible action, such as Remove member, last, in its own section.
 - Give the panel `edge="attached"` when it sits beside a conversation, so it draws the one line between the two ([Panel](../panel/panel.md#rules)). `ProfilePanel` defaults to `edge="inset"`.

@@ -74,7 +74,7 @@ segmented-control/compositions/narrow-row
 
 ## Content
 
-- Label each segment with 1 or 2 words in Title Case: Board, List; Relevant, Recent ([Typography](../../../../../design/foundations/typography.md#casing)).
+- Label each segment with 1 or 2 words in sentence case: Board, List; Relevant, Recent ([Typography](../../../../../design/foundations/typography.md#casing)).
 - Put a count in `SegmentedControlCount`, never in the label's text.
 
 ## Accessibility

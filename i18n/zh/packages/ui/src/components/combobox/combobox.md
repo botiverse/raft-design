@@ -1,7 +1,7 @@
 ---
 title: Combobox
 summary: 由部件组成、可以搜索的值列表，用于带搜索的筛选器，以及从许多值里选几个、显示成标签片。
-sourceHash: 4eafbb67
+sourceHash: deb87e07
 ---
 
 # Combobox
@@ -88,6 +88,6 @@ combobox/compositions/inline-list
 Combobox 封装了 Base UI Combobox：一个 `role="combobox"` 的文本输入框，控制一个列表框，支持方向键导航，并播报高亮的选项。
 
 - 在内嵌列表里，焦点留在搜索框里：高亮的行是它的 `aria-activedescendant`，选中的行带 `aria-selected="true"`。在高亮的行上按回车会选中它，不会提交外面的表单；没有高亮的行时，回车照常提交。Esc 会传到列表外面的对话框，把它关闭。
-- 给输入框命名：用 `FieldLabel`（[Field](../field/field.md)），或者在弹出层的搜索行上用 `aria-label`（Search Channels）。
+- 给输入框命名：用 `FieldLabel`（[Field](../field/field.md)），或者在弹出层的搜索行上用 `aria-label`（Search channels）。
 - 在标签片输入框里，每个标签片的移除按钮和输入框都能用键盘到达。按值给每个移除按钮命名（Remove Bugen）。
 - `ComboboxClear` 只显示图标时，给它一个说明清除什么的标签。

@@ -25,7 +25,7 @@ export type TextSelectionToolbarButtonProps = StyledProps<BaseToolbar.Button.Pro
 
 /**
  * One action on the selected text: a 28px button with a 16px icon and a
- * Title Case label that never wraps.
+ * sentence-case label that never wraps.
  */
 export function TextSelectionToolbarButton({
   className,

@@ -13,7 +13,7 @@ export function BackToBottomContent() {
       <MessageListJumpControls>
         <MessageListJumpPill onClick={handleBottom}>
           <ArrowDown />
-          Back to Bottom
+          Back to bottom
         </MessageListJumpPill>
       </MessageListJumpControls>
     </JumpConversation>

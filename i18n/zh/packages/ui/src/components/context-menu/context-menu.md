@@ -1,7 +1,7 @@
 ---
 title: ContextMenu
 summary: 针对某一个东西的操作菜单，在桌面端右键时于指针处打开，在触屏上长按时打开。
-sourceHash: 5fe6437a
+sourceHash: 441e86cd
 ---
 
 # ContextMenu
@@ -46,7 +46,7 @@ ContextMenu 的各部分与 DropdownMenu 相同，只是前缀换成 `ContextMen
 
 ## 内容 {#content}
 
-菜单项的标签遵循 [DropdownMenu](../dropdown-menu/dropdown-menu.md#content)：用 Title Case，并且与菜单项打开的对话框用同样的词。
+菜单项的标签遵循 [DropdownMenu](../dropdown-menu/dropdown-menu.md#content)：用 sentence case，并且与菜单项打开的对话框用同样的词。
 
 ## 无障碍 {#accessibility}
 

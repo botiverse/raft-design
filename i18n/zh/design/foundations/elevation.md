@@ -1,7 +1,7 @@
 ---
 title: 层级
 summary: 哪些东西会浮起并投下阴影，哪些控件浮在对话之上却不带阴影，弹出层如何定位，以及焦点环。
-sourceHash: 39dd396a
+sourceHash: 3ec6f20a
 ---
 
 # 层级
@@ -42,7 +42,7 @@ focus
 
 ## 浮动控件 {#floating-controls}
 
-对话中的跳转胶囊，Back to Bottom、"3 New Messages" 和 "Next Unread Thread (3)"，浮在消息列表的底部或顶部（[MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)）。它们是唯一浮在内容之上的控件，而且不带阴影。
+对话中的跳转胶囊，Back to bottom、"3 new messages" 和 "Next unread thread (3)"，浮在消息列表的底部或顶部（[MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)）。它们是唯一浮在内容之上的控件，而且不带阴影。
 
 - 浮动控件按它本来的控件画：一个 `outline` 样式的 Button，墨色边放在不透明的 `layer-card` 上。不透明的卡片让它在下面滚过的消息之上依然清晰，墨色边像其他地方一样把它标记为控件。
 - 不要给它加柔和阴影。阴影的意思是「这东西暂时浮在页面上，用完就会消失」：菜单、弹出层、浮在所操作消息之上的工具栏。跳转胶囊属于对话本身，列表在它下面滚动时它待在原处，无处可跳时自己消失；加了阴影，对话看起来就像有个弹出层开着。

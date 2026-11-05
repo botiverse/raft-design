@@ -1,7 +1,7 @@
 ---
 title: 描述 Agent 的用语
 summary: 产品用语怎样把 Agent 当作队友：用第三人称称呼名字、用描述队友的动词、不说「AI」或「bot」、状态文字说明 Agent 在做什么，以及说完成时附上证据。
-sourceHash: 5189d5ce
+sourceHash: 86736e16
 ---
 
 # 描述 Agent 的用语
@@ -34,14 +34,14 @@ sourceHash: 5189d5ce
 | Bugen is on it · 12m | Processing… |
 | Martin needs your OK | Pending approval |
 | Wug moved #25 to Done | AI completed task #25 |
-| Bring an Agent | Add AI assistant |
+| Bring an agent | Add AI assistant |
 
 ## 不用「AI」或「bot」 {#no-ai-or-bot}
 
 - 不要在标签、消息或空状态里把 Agent 叫作 "AI"、"AI assistant"、"AI-powered" 或 "bot"。Agent 是服务器的成员；称呼它们用 "agent" 这个词，或者它们的名字。
 - 不要用闪光、星星之类的图标标记 Agent（[图标](../foundations/iconography.md)）。
 - 只在指称其他产品自己的概念时用 "bot"，比如桥接同步过来的 Slack bot。
-- 产品里还有几处文案写着 "AI"：AI Providers 设置标签页、已连接应用的 AI & Automation 分类，以及创建 Agent 时运行时下方的提示。新写的文案不要照着它们写。
+- 产品里还有几处文案写着 "AI"：AI providers 设置标签页、已连接应用的 AI & Automation 分类，以及创建 Agent 时运行时下方的提示。新写的文案不要照着它们写。
 
 ## 状态文字 {#status-text}
 
@@ -49,13 +49,13 @@ Agent 在做什么，显示在它的行里、Working now 里，以及私信的�
 
 - 说出它在做什么，有任务编号时带上编号："Editing Flow.tsx · #25"、"Drafting release notes · #31"。
 - 没有细节时用状态词，加省略号字符（…）：Thinking…、Working…、Starting…、Compacting context…。
-- 状态作为标签时用 Title Case：Online、Working、Error、Offline。原因写在状态后面："Error: the model isn't available on this computer"。
+- 状态作为标签时首字母大写：Online、Working、Error、Offline。原因写在状态后面："Error: the model isn't available on this computer"。
 - Agent 停止时，说明该怎么做："Stopped — won't receive messages until restarted"，而不是 "Inactive"。
 
 ## 事件行 {#event-lines}
 
 - 写出谁做的、动词和对象："Bugen claimed #25 "Fix onboarding copy""、"Martin moved #25 to Done"（[交接与审批](./handoffs-and-approvals.md#event-lines)）。
-- 任务状态拼写为 Backlog、Todo、In Progress、Done 和 Closed。
+- 任务状态拼写为 Backlog、Todo、In progress、Done 和 Closed。
 - 事件行不要以 emoji 开头。
 
 ## 证据 {#evidence}

@@ -66,10 +66,10 @@ interface ThreadPanelCompositionProps {
 function MessageRowToolbar() {
   return (
     <MessageItemToolbar>
-      <MessageItemToolbarButton aria-label="Add Reaction" disabled>
+      <MessageItemToolbarButton aria-label="Add reaction" disabled>
         <SmilePlus />
       </MessageItemToolbarButton>
-      <MessageItemToolbarButton aria-label="Save Message" disabled>
+      <MessageItemToolbarButton aria-label="Save message" disabled>
         <Bookmark />
       </MessageItemToolbarButton>
     </MessageItemToolbar>
@@ -119,7 +119,7 @@ const THREAD_REPLIES = [
     sender: "Martin",
     type: "human" as const,
     time: "10:11",
-    body: "Thanks. Keep the button labels in Title Case while you are in there.",
+    body: "Thanks. Keep the button labels in sentence case while you are in there.",
   },
   {
     sender: "Bugen",
@@ -137,7 +137,7 @@ const THREAD_REPLIES = [
     sender: "Martin",
     type: "human" as const,
     time: "10:23",
-    body: "Looks right. Moving #25 to In Review.",
+    body: "Looks right. Moving #25 to In review.",
   },
 ] as const;
 

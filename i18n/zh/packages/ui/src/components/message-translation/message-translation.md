@@ -1,7 +1,7 @@
 ---
 title: MessageItemTranslation
 summary: 表明一条消息经过翻译的部件：正文下方一行简短的 Space Mono 状态文字，可在译文和原文之间切换；保留在下方的原文；以及翻译中和翻译失败两种状态。
-sourceHash: 5c189009
+sourceHash: 6b5200f2
 ---
 
 # MessageItemTranslation
@@ -64,7 +64,7 @@ message-translation/compositions/translation-states
 
 ## 内容 {#content}
 
-- 用 Title Case 写明操作做什么：Show Original、Show Translation。
+- 用 sentence case 写明操作做什么：Show original、Show translation。
 - 原文的标签写 Original。
 - 说明翻译正在进行："Translating…"。
 - 用几个词说明失败，然后提供 Retry："Translation unavailable · Retry"。

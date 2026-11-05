@@ -305,7 +305,7 @@ export function TaskCardStateMatrixComposition({
                 >
                   <span data-slot="task-card-status-label">
                     <TaskStatusIcon status="in-progress" />
-                    In Progress
+                    In progress
                   </span>
                 </TaskCardStatus>
               </TaskStatusSelect>

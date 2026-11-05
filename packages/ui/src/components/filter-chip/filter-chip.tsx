@@ -49,7 +49,7 @@ export type FilterChipRemoveProps = Omit<StyledProps<BaseButton.Props>, "aria-la
   DataAttributes & {
     /**
      * What the × does, said in words: the chip shows only a glyph. Name the
-     * result, such as "Clear Filter" or "Show All".
+     * result, such as "Clear filter" or "Show all".
      */
     "aria-label": string;
   };

@@ -87,7 +87,7 @@ export function MessageListJumpPillGroup({
 
 export type MessageListJumpPillDismissProps = StyledProps<BaseButton.Props> &
   DataAttributes & {
-    /** What the button does, in Title Case: the product's words. */
+    /** What the button does, in sentence case: the product's words. */
     "aria-label": string;
   };
 

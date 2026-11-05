@@ -7,7 +7,7 @@ aliases:
     Message timeline,
     Date divider,
     Timeline view,
-    Back to Bottom,
+    Back to bottom,
     Jump to bottom,
     New messages pill,
     JumpPill,
@@ -77,11 +77,11 @@ On a phone two pills rarely fit in one row. They stack, 12px apart so their hit 
 message-list/compositions/phone
 ```
 
-- Show Back to Bottom while the end of the conversation is out of view; when messages arrived since the person scrolled away, the same pill says how many: "3 New Messages". Remove it once the end is in view again.
-- Put a pill that goes to something further down at the bottom, after Back to Bottom: "Next Unread Thread (3)". Put one that goes up, "Earliest Unread Thread (3)", alone at the top.
+- Show Back to bottom while the end of the conversation is out of view; when messages arrived since the person scrolled away, the same pill says how many: "3 new messages". Remove it once the end is in view again.
+- Put a pill that goes to something further down at the bottom, after Back to bottom: "Next unread thread (3)". Put one that goes up, "Earliest unread thread (3)", alone at the top.
 - Show at most two pills at the bottom and one at the top. A third destination waits until one of them is gone: more than two pills cover the messages they are meant to reach.
-- Give a pill a dismiss button only when the person may not want to go where it points (unread threads), never Back to Bottom. A dismissed pill stays away until its count changes.
-- Write the label in Title Case, as on any button, with the count in it: "3 New Messages", "Next Unread Thread (3)".
+- Give a pill a dismiss button only when the person may not want to go where it points (unread threads), never Back to bottom. A dismissed pill stays away until its count changes.
+- Write the label in sentence case, as on any button, with the count in it: "3 new messages", "Next unread thread (3)".
 
 ### How they look
 
@@ -102,7 +102,7 @@ A pill is one action, so it is a Button, at the size of the ordinary buttons aro
 - MessageList renders plain elements and adds no role or live region. Name the panel around it after the conversation ([ConversationPanel](../conversation-panel/conversation-panel.md#accessibility)).
 - The notice, the date lines and the history marker are text, not controls.
 - Put the date in `MessageListDateDivider` in a `<time>` element with `dateTime`, as for an event line's time ([SystemMessage](../system-message/system-message.md#accessibility)).
-- The jump pills are native buttons; their label is their name. Give `MessageListJumpPillDismiss` an `aria-label` in Title Case that says what it dismisses when there is more than one: "Dismiss Unread Threads".
+- The jump pills are native buttons; their label is their name. Give `MessageListJumpPillDismiss` an `aria-label` in sentence case that says what it dismisses when there is more than one: "Dismiss unread threads".
 - The pills come after the list in the DOM, so Tab reaches them after the messages, and they are not announced when they appear: they repeat what scrolling shows.
 
 ## Rules

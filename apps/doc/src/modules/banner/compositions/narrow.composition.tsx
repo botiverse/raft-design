@@ -16,7 +16,7 @@ export function BannerNarrowContent() {
           Dismiss
         </Button>
         <Button variant="default" size="md">
-          Show Me
+          Show me
         </Button>
       </BannerAction>
     </Banner>

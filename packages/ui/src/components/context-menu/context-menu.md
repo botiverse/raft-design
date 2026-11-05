@@ -50,7 +50,7 @@ The highlight, the current value and disabled items are the same as in [Dropdown
 
 ## Content
 
-The item labels follow [DropdownMenu](../dropdown-menu/dropdown-menu.md#content): Title Case, and the same words as the dialog an item opens.
+The item labels follow [DropdownMenu](../dropdown-menu/dropdown-menu.md#content): sentence case, and the same words as the dialog an item opens.
 
 ## Accessibility
 

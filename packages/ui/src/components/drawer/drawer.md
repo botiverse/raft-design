@@ -77,7 +77,7 @@ drawer/compositions/nested-close-callback
 ## Content
 
 - Title it with the words of the button that opened it ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
-- In a bottom sheet, write the explanation in one or two sentences, in `foreground-muted`, and its button as one action in Title Case: Got It.
+- In a bottom sheet, write the explanation in one or two sentences, in `foreground-muted`, and its button as one action in sentence case: Got it.
 
 ## Accessibility
 

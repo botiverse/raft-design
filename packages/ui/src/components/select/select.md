@@ -35,7 +35,7 @@ The full choice between pickers is in [Choosing a component](../../../../../desi
 - `SelectList`: the scrolling list of items.
 - `SelectItem`: one value, with `SelectItemText` and `SelectItemIndicator` (the check mark). `SelectItemLeading` holds an icon or avatar before the text. `SelectItemDescription` is an optional second line under the text.
 - `SelectGroup` and `SelectGroupLabel`: a group of values under a small heading. `SelectSeparator` is a hairline between groups.
-- `SelectActionItem`: an action row at the end of the list, after a `SelectSeparator`, such as Show All Runtimes. It is not a value; see [List actions](#list-actions).
+- `SelectActionItem`: an action row at the end of the list, after a `SelectSeparator`, such as Show all runtimes. It is not a value; see [List actions](#list-actions).
 - `SelectLabel`: a label for the select when it is not in a [Field](../field/field.md).
 - `SelectScrollUpArrow`, `SelectScrollDownArrow`, `SelectPortal`, `SelectPopup`: lower-level parts for custom popups.
 
@@ -57,7 +57,7 @@ picker-trigger-button/compositions/select-filter
 
 - Make a filter 32px high, with a 44px hit area.
 - Outline a filter that is not applied with `line-seam`. Fill an applied filter with `info-soft` and show how many values it has.
-- Put a `ghost` Clear All button after the filters.
+- Put a `ghost` Clear all button after the filters.
 - Open the same list as any picker: single or multiple, with search when there are many values.
 
 #### Which filter button
@@ -100,7 +100,7 @@ The Filter button and its chip:
 
 ### List actions
 
-A list action changes what the list shows, never the value. Show All Runtimes, at the end of a list that starts with the runtimes most people use, is one: it adds the rest to the same list.
+A list action changes what the list shows, never the value. Show all runtimes, at the end of a list that starts with the runtimes most people use, is one: it adds the rest to the same list.
 
 ```example
 select/compositions/list-action
@@ -109,8 +109,8 @@ select/compositions/list-action
 - Put it last, after a `SelectSeparator`, one per list. It is `foreground-muted`, so it reads as a step, not a choice, and highlights like an item, inset the same.
 - The arrow keys and typeahead reach it like an item. Enter, Space or a click runs `onAction`; the value, the check mark and `onValueChange` stay as they were.
 - The list stays open, since the action changes what it shows. Set `closeOnAction` only when the action leaves the list, such as opening a dialog to add a runtime.
-- When it has shown everything, remove it, or turn it into Show Fewer. Items it adds above it keep the highlight on the row, so the next arrow key goes on from there.
-- An action that does something else (Manage Runtimes, Add) is not part of choosing a value: put it beside the select, or use a [DropdownMenu](../dropdown-menu/dropdown-menu.md).
+- When it has shown everything, remove it, or turn it into Show fewer. Items it adds above it keep the highlight on the row, so the next arrow key goes on from there.
+- An action that does something else (Manage runtimes, Add) is not part of choosing a value: put it beside the select, or use a [DropdownMenu](../dropdown-menu/dropdown-menu.md).
 
 ## Content
 

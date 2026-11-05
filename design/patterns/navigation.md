@@ -78,7 +78,7 @@ On desktop, people can hide the sidebar to give the main area the whole width, a
 
 - Put the toggle in the rail, as the first item of its footer, above Help and Settings. It belongs to the frame rather than to a page, so it stays in one spot whatever the main area shows ([AppShell](../../packages/ui/src/components/app-shell/app-shell.md#variants)).
 - Show `panel-left-close` while the sidebar is shown and `panel-left-open` while it is hidden: the icon shows what pressing it does.
-- Name it in a tooltip to its right, like every rail item: Collapse Sidebar or Expand Sidebar, then the shortcut as a `KbdShortcut` with the keys `mod` and `\` ([Kbd](../../packages/ui/src/components/kbd/kbd.md)): two caps, ⌘ \ on macOS and Ctrl \ elsewhere, never Ctrl+\ in one cap. The shortcut works anywhere in the app, also while focus is in a text field.
+- Name it in a tooltip to its right, like every rail item: Collapse sidebar or Expand sidebar, then the shortcut as a `KbdShortcut` with the keys `mod` and `\` ([Kbd](../../packages/ui/src/components/kbd/kbd.md)): two caps, ⌘ \ on macOS and Ctrl \ elsewhere, never Ctrl+\ in one cap. The shortcut works anywhere in the app, also while focus is in a text field.
 - Remember the state on the device, like the sidebar's width: the sidebar comes back the way it was left, after a reload too.
 - Show the toggle, and accept the shortcut, only where the sidebar is the navigation column beside the main area. A phone has no sidebar beside the main area, and on a page without a sidebar there is nothing to hide; the remembered state waits for the next page that has one.
 
@@ -107,7 +107,7 @@ message-reference/compositions/app-links
 message-reference/compositions/app-link-pending
 ```
 
-- When the reader hasn't allowed the app yet and the server asks whether to show its previews, keep the gray chip with the shortened address (`MessageReferenceChip variant="muted"`), as a button, not a link: a link would open the address at the same click and skip the question. It opens no card. Clicking, tapping or pressing Enter on it asks first, the same on every device, in a [Popover](../../packages/ui/src/components/popover/popover.md): Open Link goes without previews, Show Previews allows them. A card can't ask: it is read-only, and its buttons can't be reached by keyboard or touch.
+- When the reader hasn't allowed the app yet and the server asks whether to show its previews, keep the gray chip with the shortened address (`MessageReferenceChip variant="muted"`), as a button, not a link: a link would open the address at the same click and skip the question. It opens no card. Clicking, tapping or pressing Enter on it asks first, the same on every device, in a [Popover](../../packages/ui/src/components/popover/popover.md): Open link goes without previews, Show previews allows them. A card can't ask: it is read-only, and its buttons can't be reached by keyboard or touch.
 - On desktop, hovering or focusing the chip opens the app's item card with the details: the id, the title, a state and a line of details in the app's words, its actions, and the app's name and host ([PreviewCard](../../packages/ui/src/components/preview-card/preview-card.md#item-card)). Raft puts no colors of the app's on it.
 - On a phone, tapping the chip opens the link. A preview card doesn't open on touch, so make the chip a real link (`render={<a href="…" target="_blank" rel="noopener noreferrer" />}`) that opens in a new tab, leaving the conversation where it was.
 
@@ -136,7 +136,7 @@ A control that takes someone to another site ends in ↗, so they know before th
 - Where the panel covers the page (a phone, a narrow window), give it Back, as a pushed page has.
 - Give the open item an address, so a link to it opens the list with the item open beside it.
 - Don't use breadcrumbs: Raft has none. A page is at most two levels deep, a destination and an item in it: the rail says the first and the selected item says the second, so a trail would be a third "where am I" (principle 2).
-  - One exception: two-level navigation with a tab list on the left (Settings, a server's administration): a page opened from a row inside a tab, such as Account › Delete Account, shows "<tab> › <page>" in its header on desktop. The tab name is muted and links back to the tab; the page name is the current page. The list beside it keeps the tab selected, but the page's content is a different task from the tab's, so the trail says where the page sits and how to get back (artin, 2026-11-04, #triage:d10ace06 and #proj-raft-ui:002c3b02). On a phone it stays a pushed page with Back and its own title.
+  - One exception: two-level navigation with a tab list on the left (Settings, a server's administration): a page opened from a row inside a tab, such as Account › Delete account, shows "<tab> › <page>" in its header on desktop. The tab name is muted and links back to the tab; the page name is the current page. The list beside it keeps the tab selected, but the page's content is a different task from the tab's, so the trail says where the page sits and how to get back (artin, 2026-11-04, #triage:d10ace06 and #proj-raft-ui:002c3b02). On a phone it stays a pushed page with Back and its own title.
 
 ### Going back
 

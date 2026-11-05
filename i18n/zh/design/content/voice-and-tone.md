@@ -1,7 +1,7 @@
 ---
 title: 语气
 summary: Raft 听起来是什么样：简短、直接、平实，只在新手引导和成功时带一点幽默；以及语气怎样从设置到错误、再到破坏性操作逐步变化。
-sourceHash: 655f082c
+sourceHash: 48f666ec
 ---
 
 # 语气
@@ -37,7 +37,7 @@ Raft 听起来像邻桌一位能干的队友：简短、直接、平实。这种
 | 空状态 | 先说事实，有下一步就再说下一步 | "No tasks match these filters" |
 | 错误 | 平实：发生了什么，然后怎么做。不开玩笑，不指责 | "Runtime detection failed. Restart Raft Computer and try again." |
 | 警告 | 平实，具体说出后果 | "Apps using this token will lose access. Other tokens will stay active." |
-| 破坏性操作的确认 | 精确。写标题里的动词，不可撤销时连对象一起写；旁边是 Cancel | Delete Agent / Cancel |
+| 破坏性操作的确认 | 精确。写标题里的动词，不可撤销时连对象一起写；旁边是 Cancel | Delete agent / Cancel |
 | 提示（轻提示、工具提示） | 一行，顺带一提；人们必须处理的事，不能只放在这里 | "Link copied." |
 
 - 幽默只留给新手引导和成功消息。人们读到错误时，已经有东西挡在路上了。
@@ -56,7 +56,7 @@ Raft 听起来像邻桌一位能干的队友：简短、直接、平实。这种
 - 遵守同样的原则：句子短、形容词少、步骤用祈使句。
 - 数字、ID、时间和运行时名称仍然用 Space Mono（[字体排印](../foundations/typography.md)）。
 - 同一个词在所有地方都按产品词表译成同一个说法；见[术语](./terminology.md)。
-- 对话框按钮的写法跟英文一致：英文省掉对象，中文也省掉，Create Channel 的按钮写「创建」；英文保留对象，中文也保留，写「删除频道」。动词短语要完整：写「退出登录」，不要只写「退出」（[写作](./writing.md#actions-and-their-dialogs)）。
+- 对话框按钮的写法跟英文一致：英文省掉对象，中文也省掉，Create channel 的按钮写「创建」；英文保留对象，中文也保留，写「删除频道」。动词短语要完整：写「退出登录」，不要只写「退出」（[写作](./writing.md#actions-and-their-dialogs)）。
 - 空状态用「还没有」或「没有」，形式与英文一一对应（[写作](./writing.md#errors-and-empty-states)）。不要写「暂无」，它读起来像官方通知；也不要写「为空」，它描述的是容器，而不是缺了什么。
 
 ## 相关 {#related}

@@ -124,7 +124,7 @@ function ActivityHoverRow({
       <InboxItemTrailing>
         <InboxItemTimestamp>{item.timestamp}</InboxItemTimestamp>
         <InboxItemActions reveal="hover">
-          <Button variant="outline" size="icon-md" aria-label="Mark as done" onClick={handleDone}>
+          <Button variant="outline" size="icon-md" aria-label="Mark as Done" onClick={handleDone}>
             <Check aria-hidden />
           </Button>
         </InboxItemActions>

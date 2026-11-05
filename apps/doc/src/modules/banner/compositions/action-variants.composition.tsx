@@ -37,7 +37,7 @@ export function BannerDualActionContent() {
           Dismiss
         </Button>
         <Button variant="default" size="md">
-          Show Me
+          Show me
         </Button>
       </BannerAction>
     </Banner>
@@ -50,7 +50,7 @@ export function BannerTitleActionContent() {
       <Info />
       <BannerTitle>This channel shows the last 90 days</BannerTitle>
       <BannerDescription>
-        Older messages come back on Pro. <TextLink variant="strong">View Usage</TextLink>
+        Older messages come back on Pro. <TextLink variant="strong">View usage</TextLink>
       </BannerDescription>
       <BannerAction>
         <Button variant="default" size="md">

@@ -70,7 +70,7 @@ export function SidebarSettingsListComposition() {
                     <Languages />
                   </SidebarItemIcon>
                   <SidebarItemContent>
-                    <SidebarItemTitle>Language &amp; Region</SidebarItemTitle>
+                    <SidebarItemTitle>Language &amp; region</SidebarItemTitle>
                   </SidebarItemContent>
                 </SidebarItem>
                 <SidebarItem
@@ -107,7 +107,7 @@ export function SidebarSettingsListComposition() {
                     <Building2 />
                   </SidebarItemIcon>
                   <SidebarItemContent>
-                    <SidebarItemTitle>Server Profile</SidebarItemTitle>
+                    <SidebarItemTitle>Server profile</SidebarItemTitle>
                   </SidebarItemContent>
                 </SidebarItem>
                 <SidebarItem value="billing" active={selected === "billing"} onClick={handleOpen}>
@@ -115,7 +115,7 @@ export function SidebarSettingsListComposition() {
                     <CreditCard />
                   </SidebarItemIcon>
                   <SidebarItemContent>
-                    <SidebarItemTitle>Plan &amp; Billing</SidebarItemTitle>
+                    <SidebarItemTitle>Plan &amp; billing</SidebarItemTitle>
                   </SidebarItemContent>
                 </SidebarItem>
                 <SidebarItem
@@ -175,7 +175,7 @@ export function SidebarSettingsListComposition() {
                     <FileText />
                   </SidebarItemIcon>
                   <SidebarItemContent>
-                    <SidebarItemTitle>Release Notes</SidebarItemTitle>
+                    <SidebarItemTitle>Release notes</SidebarItemTitle>
                   </SidebarItemContent>
                 </SidebarItem>
               </SidebarList>

@@ -40,7 +40,7 @@ function CreateTaskDialogParts() {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Create Task</DialogTitle>
+        <DialogTitle>Create task</DialogTitle>
         <DialogClose />
       </DialogHeader>
       <form id="dialog-sheet-create-task" className="contents" action={createTask}>
@@ -90,7 +90,7 @@ function CreateTaskDialogParts() {
         <DialogFooter>
           <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
           <DialogCommit type="submit" variant="primary">
-            Create Task
+            Create task
           </DialogCommit>
         </DialogFooter>
       </form>

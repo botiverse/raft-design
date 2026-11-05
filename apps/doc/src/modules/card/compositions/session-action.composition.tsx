@@ -33,7 +33,7 @@ export function CardSessionActionComposition() {
           disabled={signedOut}
           onClick={handleSignOut}
         >
-          {signedOut ? "Signed Out" : "Sign Out"}
+          {signedOut ? "Signed out" : "Sign out"}
         </Button>
       </CardContent>
     </Card>

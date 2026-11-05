@@ -24,8 +24,8 @@ import type { TaskStatusId } from "@botiverse/raft-ui";
 
 const TASK_STATUS_OPTIONS = [
   { id: "todo", label: "Todo" },
-  { id: "in-progress", label: "In Progress" },
-  { id: "in-review", label: "In Review" },
+  { id: "in-progress", label: "In progress" },
+  { id: "in-review", label: "In review" },
   { id: "done", label: "Done" },
   { id: "closed", label: "Closed" },
 ] as const satisfies readonly {

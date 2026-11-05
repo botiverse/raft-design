@@ -20,8 +20,8 @@ import type { TaskStatusId } from "@botiverse/raft-ui";
 const STATUS_LABEL: Record<string, string> = {
   backlog: "Backlog",
   todo: "Todo",
-  "in-progress": "In Progress",
-  "in-review": "In Review",
+  "in-progress": "In progress",
+  "in-review": "In review",
   done: "Done",
   closed: "Closed",
 };

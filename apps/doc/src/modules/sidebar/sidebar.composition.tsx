@@ -205,13 +205,13 @@ export function SidebarComposition({ contentState = "populated" }: SidebarCompos
                 menu="channels"
                 count={0}
                 countLabel="channels"
-                createLabel="Create Joint Channel"
+                createLabel="Create joint channel"
                 createIcon="joint"
                 createDisabled
               >
                 <SidebarSectionDisclosure type="button">
                   <SidebarSectionChevron />
-                  <SidebarSectionTitle>Joint Channels</SidebarSectionTitle>
+                  <SidebarSectionTitle>Joint channels</SidebarSectionTitle>
                   <SidebarSectionCount>0</SidebarSectionCount>
                 </SidebarSectionDisclosure>
                 <SidebarSectionTrailing>
@@ -230,7 +230,7 @@ export function SidebarComposition({ contentState = "populated" }: SidebarCompos
                 menu="channels"
                 count={isEmpty ? 0 : 2}
                 countLabel="channels"
-                createLabel="Create Channel"
+                createLabel="Create channel"
                 createIcon="channel"
                 createDisabled
               >
@@ -300,7 +300,7 @@ export function SidebarComposition({ contentState = "populated" }: SidebarCompos
               <SidebarSectionHeaderMenu menu="sort">
                 <SidebarSectionDisclosure type="button">
                   <SidebarSectionChevron />
-                  <SidebarSectionTitle>Direct Messages</SidebarSectionTitle>
+                  <SidebarSectionTitle>Direct messages</SidebarSectionTitle>
                   <SidebarSectionCount>{isEmpty ? 0 : 2}</SidebarSectionCount>
                 </SidebarSectionDisclosure>
                 <SidebarSectionTrailing>

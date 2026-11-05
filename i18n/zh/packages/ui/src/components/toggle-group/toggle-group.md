@@ -1,7 +1,7 @@
 ---
 title: ToggleGroup
 summary: 灰色轨道里一排紧凑的切换按钮，每个按钮各自开关，或者只能开其中一个或都不开；按下的按钮是一张黄色贴纸。
-sourceHash: 43b4531f
+sourceHash: 8c03c6e2
 ---
 
 # ToggleGroup
@@ -74,7 +74,7 @@ toggle-group/compositions/disabled
 
 ## 内容 {#content}
 
-- 每一项的标签写它开启的东西，用 Title Case：Bold、Numbered List（[写作](../../../../../design/content/writing.md#casing)）。
+- 每一项的标签写它开启的东西，用 sentence case：Bold、Numbered list（[写作](../../../../../design/content/writing.md#casing)）。
 
 ## 无障碍 {#accessibility}
 

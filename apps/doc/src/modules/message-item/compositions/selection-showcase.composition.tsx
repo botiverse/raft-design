@@ -48,7 +48,7 @@ export function MessageSelectionShowcaseComposition() {
   const toolbarRef = useRef<HTMLDivElement>(null);
   const actionsRef = useRef<HTMLDivElement>(null);
   const count = selected.size;
-  // One row at any width: Copy Link shows its label only when it fits,
+  // One row at any width: Copy link shows its label only when it fits,
   // otherwise only its icon; if there is still no room it moves into More.
   const fit = useSelectionToolbarFit(
     { area: areaRef, toolbar: toolbarRef, actions: actionsRef },
@@ -115,7 +115,7 @@ export function MessageSelectionShowcaseComposition() {
   if (!active) {
     return (
       <TextLink ref={reenterRef} className="text-footnote" onClick={handleReenter}>
-        Select Messages
+        Select messages
       </TextLink>
     );
   }
@@ -188,14 +188,14 @@ export function MessageSelectionShowcaseComposition() {
               <Button
                 variant="ghost"
                 size={fit.copyLink === "icon" ? "icon-md" : "md"}
-                aria-label="Copy Link"
-                title={copied === "link" ? "Copied" : "Copy Link"}
+                aria-label="Copy link"
+                title={copied === "link" ? "Copied" : "Copy link"}
                 disabled={count === 0}
                 onClick={handleCopyLink}
               >
                 {copied === "link" ? <Check /> : <Copy />}
                 {fit.copyLink === "icon" ? null : (
-                  <span>{copied === "link" ? "Copied" : "Copy Link"}</span>
+                  <span>{copied === "link" ? "Copied" : "Copy link"}</span>
                 )}
               </Button>
             )}
@@ -226,17 +226,17 @@ export function MessageSelectionShowcaseComposition() {
               <DropdownMenuContent side="top" align="end" sideOffset={8} portalProps={portalProps}>
                 <DropdownMenuItem onClick={handleSelectAll}>
                   <ListChecks size={14} />
-                  Select All
+                  Select all
                 </DropdownMenuItem>
                 {fit.copyLink === "more" ? (
                   <DropdownMenuItem disabled={count === 0} onClick={handleCopyLink}>
                     {copied === "link" ? <Check size={14} /> : <Copy size={14} />}
-                    {copied === "link" ? "Copied" : "Copy Link"}
+                    {copied === "link" ? "Copied" : "Copy link"}
                   </DropdownMenuItem>
                 ) : null}
                 <DropdownMenuItem disabled={count === 0} onClick={handleGenerateImage}>
                   <ImageIcon size={14} />
-                  Generate Image
+                  Generate image
                 </DropdownMenuItem>
                 <DropdownMenuItem disabled={count === 0} onClick={handleCopyMarkdown}>
                   {copied === "markdown" ? <Check size={14} /> : <Copy size={14} />}

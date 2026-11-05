@@ -44,9 +44,9 @@ The confirm button's color says what happens, the same in a confirmation built o
 
 | Consequence                      | Confirm button                                                                                  | Example      |
 | -------------------------------- | ----------------------------------------------------------------------------------------------- | ------------ |
-| Does something                   | `variant="primary"`                                                                             | Make Public  |
+| Does something                   | `variant="primary"`                                                                             | Make public  |
 | Interrupts, but can be recovered | `variant="warning"`                                                                             | Stop         |
-| Cannot be undone                 | `variant="danger"`, and a [Banner](../banner/banner.md) with `status="destructive"` in the body | Delete Agent |
+| Cannot be undone                 | `variant="danger"`, and a [Banner](../banner/banner.md) with `status="destructive"` in the body | Delete agent |
 
 Deleting something large, such as an agent or a server, also asks for its name to be typed ([Forms](../../../../../design/patterns/forms.md#danger-zone)). The example shows the parts on AlertDialog; in Raft Chat that confirmation is a `size="sm"` Dialog with the same body:
 
@@ -61,9 +61,9 @@ alert-dialog/compositions/typed-delete
 
 ## Content
 
-- Title it with the action and the thing it acts on, as a question: Delete Box?
+- Title it with the action and the thing it acts on, as a question: Delete box?
 - Say in one or two sentences what happens, in plain words: "Box leaves every channel."
-- Label the confirm button with the title's verb: Stop for Stop Wug?. Keep the object when it can't be undone, on the red button: Delete Agent. Label the other button Cancel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
+- Label the confirm button with the title's verb: Stop for Stop Wug?. Keep the object when it can't be undone, on the red button: Delete agent. Label the other button Cancel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 
 ## Accessibility
 

@@ -68,7 +68,7 @@ message-translation/compositions/translation-states
 
 ## Content
 
-- Say what the action does, in Title Case: Show Original, Show Translation.
+- Say what the action does, in sentence case: Show original, Show translation.
 - Label the original Original.
 - Say the translation is on its way: "Translating…".
 - Say a failure in a few words, then offer Retry: "Translation unavailable · Retry".

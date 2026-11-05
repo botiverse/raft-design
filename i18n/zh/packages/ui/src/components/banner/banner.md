@@ -1,7 +1,7 @@
 ---
 title: Banner
 summary: 对话框或表单里一条浅色底的提示，让人在操作前先读到；作为 PanelNotice 时，是某个面板里出错时铺在面板标题栏下方的一整条。
-sourceHash: 63d0c832
+sourceHash: 0df67673
 ---
 
 # Banner
@@ -88,7 +88,7 @@ banner/compositions/close
 
 - 说明现在发生了什么，下一步该做什么（[写作](../../../../../design/content/writing.md)、[反馈](../../../../../design/patterns/feedback.md#errors-by-scope)）。
 - 把主题放在 `BannerTitle`，把后果放在 `BannerDescription`："This channel is shared with Acme" / "People and agents from Acme will see what you post here."
-- 按钮标签写它做什么，用 Title Case：See Who、Retry、View Logs。
+- 按钮标签写它做什么，用 sentence case：See who、Retry、View logs。
 
 ## 无障碍 {#accessibility}
 
@@ -115,7 +115,7 @@ banner/compositions/close
 - 左右两边与面板的边距对齐（[间距](../../../../../design/foundations/spacing.md#layout-widths)）。
 - 文字前面用意图对应的图标，和横幅一样（[变体](#variants)），不要用说明提示类别的状态灯。`PanelNotice` 保持图标的尺寸，并让它对齐第一行的中线（[引导文字的标记](../../../../../design/foundations/alignment.md#a-mark-that-leads-text)）。
 - 在 `PanelNoticeContent` 里只写一条消息，最多 2 行（半粗体 `text-callout`）。
-- 把操作放在 `PanelNoticeActions` 里，位于右侧，对齐第一行文字的中线：一个小图标按钮（Copy Details）或一个文字按钮（View Logs）。32px 的按钮不会让这一条变高。
+- 把操作放在 `PanelNoticeActions` 里，位于右侧，对齐第一行文字的中线：一个小图标按钮（Copy details）或一个文字按钮（View logs）。32px 的按钮不会让这一条变高。
 - 需要修复的情况保留默认的 `status="warning"`；`destructive` 只用于无法撤销的情况。
 
 ## 公开页面上的注册提示 {#the-sign-up-prompt-on-a-public-page}
@@ -140,7 +140,7 @@ banner/compositions/close
 - 只对未登录的访客显示，并且只在公开页面上显示；登录后的应用里从不显示。
 - 一个页面上最多显示一条。
 - 从不在它的位置上放状态：关于这个页面本身的情况（加载失败、只读、有改动）放到[何时使用](#when-to-use)规定的位置。
-- 写一句话说明 Raft 能给访客带来什么，然后是操作："Make pages like this with Raft and your AI agents. Sign up now and start building." 按钮标签写 "Sign Up or Log In"。
+- 写一句话说明 Raft 能给访客带来什么，然后是操作："Make pages like this with Raft and your AI agents. Sign up now and start building." 按钮标签写 "Sign up or log in"。
 
 ## 手机上的「在应用中打开」提议 {#the-open-in-app-offer-on-a-phone}
 
@@ -148,11 +148,11 @@ banner/compositions/close
 
 - 一行，在对话标题栏下方，横跨它的整个宽度，用 `info-soft` 底色，下面一条 `line-seam`；图块从页面 16px 的边距开始。
 - 从开头起：Raft 的 `IconTile`（`sm`），里面是 logo；一个标题 "Open in the Raft app"，用半粗体的 `text-callout`、`foreground`，下面一行用 `text-caption`、`foreground-muted`（"Go straight to this message"），各占一行，放不下就截断；然后是一个 32px 的描边按钮（`variant="default" size="md"`）Open，末尾一个 ×，点击区域至少 44px。从不用粉色按钮：页面仍然是这段对话。
-- Open 是一个真正的链接，指向各个应用认领的那个域名（`open.raft.build`）上的同一个地址，让系统把它交给应用；页面从不自己启动任何东西。没有应用接住它时，那个域名带着一个标记把人送回来，页面就不显示这一行，而是在底部面板里提供下载（图块、"The Raft app isn't installed yet"、一行说明，然后是 Download Raft App 和 Keep Using the Web）。
-- × 和 Keep Using the Web 在这次浏览器会话里收起它。不去判断应用有没有安装。
+- Open 是一个真正的链接，指向各个应用认领的那个域名（`open.raft.build`）上的同一个地址，让系统把它交给应用；页面从不自己启动任何东西。没有应用接住它时，那个域名带着一个标记把人送回来，页面就不显示这一行，而是在底部面板里提供下载（图块、"The Raft app isn't installed yet"、一行说明，然后是 Download Raft app 和 Keep using the web）。
+- × 和 Keep using the web 在这次浏览器会话里收起它。不去判断应用有没有安装。
 
 规则：
 
 - 只在通过消息链接来到这里的手机自带浏览器里显示，并且只在那段对话还在屏幕上时显示；从不在 Raft 的各个应用、安装成应用的网页，或聊天应用的内置浏览器里显示，内置浏览器没法把链接交给应用（它有自己的底部面板，指向系统浏览器，不在这里规定）。
 - 一个页面上最多显示一条。
-- 在桌面端，同样的到达会提议 Raft Desktop，在那里它是对话顶部的一个 `Banner`（`status="info"`），因为它符合横幅的规则：Continue on Web 是它的 Dismiss，Open in Desktop App 是它唯一的按钮，在同一行上。手机的 390px 放不下提议的文字再加上一个 Dismiss 和一个按钮，所以手机上的提议有自己的形状。
+- 在桌面端，同样的到达会提议 Raft Desktop，在那里它是对话顶部的一个 `Banner`（`status="info"`），因为它符合横幅的规则：Continue on web 是它的 Dismiss，Open in desktop app 是它唯一的按钮，在同一行上。手机的 390px 放不下提议的文字再加上一个 Dismiss 和一个按钮，所以手机上的提议有自己的形状。

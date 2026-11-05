@@ -39,7 +39,7 @@
   {
     "name": "TextSelectionToolbarButton",
     "entry": "@botiverse/raft-ui",
-    "description": "One action on the selected text: a 28px button with a 16px icon and a Title Case label that never wraps.",
+    "description": "One action on the selected text: a 28px button with a 16px icon and a sentence-case label that never wraps.",
     "native": true,
     "props": [
       {

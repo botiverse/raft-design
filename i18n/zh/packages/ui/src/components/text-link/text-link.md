@@ -1,12 +1,12 @@
 ---
 title: TextLink
 summary: 悬停时显示下划线的文字，是屏幕上最安静的控件，用于一个操作或通往某处；按钮强调层级的最底一级。
-sourceHash: 6905d252
+sourceHash: f7b919b3
 ---
 
 # TextLink
 
-TextLink 是能做某件事或通往某处的文字，鼠标指针移上去之前没有下划线。它是强调层级的最底一级，在无边框按钮之下（[Button](../button/button.md#which-color)）：连无边框按钮都显得太重的地方用它，例如登录页上的 Forgot Password、服务器列表下的 Sign Out，或分区标题旁的 See All。
+TextLink 是能做某件事或通往某处的文字，鼠标指针移上去之前没有下划线。它是强调层级的最底一级，在无边框按钮之下（[Button](../button/button.md#which-color)）：连无边框按钮都显得太重的地方用它，例如登录页上的 Forgot password、服务器列表下的 Sign out，或分区标题旁的 See all。
 
 ```example
 text-link/compositions/preview
@@ -27,8 +27,8 @@ text-link/compositions/preview
 
 | 变体 | 用于 |
 | --- | --- |
-| `variant="muted"`（默认） | 单独出现的链接：Forgot Password、Sign Out、See All。`foreground-muted`，500 字重；悬停时变成墨色并加下划线。 |
-| `variant="strong"` | 句子里的链接："Don't have an account? Create One"、横幅里的 "Manage Machines"。墨色，600 字重；悬停时加墨色下划线。 |
+| `variant="muted"`（默认） | 单独出现的链接：Forgot password、Sign out、See all。`foreground-muted`，500 字重；悬停时变成墨色并加下划线。 |
+| `variant="strong"` | 句子里的链接："Don't have an account? Create one"、横幅里的 "Manage machines"。墨色，600 字重；悬停时加墨色下划线。 |
 
 **为什么由位置决定。**单独出现时，TextLink 是屏幕上最安静的控件，所以用次要色：它不能和屏幕上的文字或按钮抢注意力。在句子里，同样的灰色会比周围的字更浅，看起来像禁用，所以在那里它用正文的墨色，靠字重突出。两种变体都不用粉色，静止和悬停时都不用：粉色属于唯一的主按钮。
 
@@ -52,8 +52,8 @@ text-link/compositions/disabled
 
 ## 内容 {#content}
 
-- 以动词开头，或者写出地点的名称：Forgot Password、Sign Out、See All。
-- 用 Title Case，和所有按钮标签一样（[写作](../../../../../design/content/writing.md#casing)）。
+- 以动词开头，或者写出地点的名称：Forgot password、Sign out、See all。
+- 用 sentence case，和所有按钮标签一样（[写作](../../../../../design/content/writing.md#casing)）。
 
 ## 离开 Raft {#leaving-raft}
 

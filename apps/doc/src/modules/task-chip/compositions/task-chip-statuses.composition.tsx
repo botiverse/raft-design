@@ -38,7 +38,7 @@ export function TaskChipStatusesComposition() {
           #205
         </TaskChip>
         {/* @docs-source-strip-start */}
-        <span className="text-[12px] leading-[1.4] text-foreground-muted">In Progress</span>
+        <span className="text-[12px] leading-[1.4] text-foreground-muted">In progress</span>
       </div>
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
@@ -47,7 +47,7 @@ export function TaskChipStatusesComposition() {
           #340
         </TaskChip>
         {/* @docs-source-strip-start */}
-        <span className="text-[12px] leading-[1.4] text-foreground-muted">In Review</span>
+        <span className="text-[12px] leading-[1.4] text-foreground-muted">In review</span>
       </div>
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}

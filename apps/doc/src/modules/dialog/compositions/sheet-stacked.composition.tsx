@@ -43,7 +43,7 @@ function EditProfileDialogParts({
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Edit Profile</DialogTitle>
+        <DialogTitle>Edit profile</DialogTitle>
         <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">
@@ -84,7 +84,7 @@ function DiscardChangesParts({ onDiscard }: { onDiscard?: () => void }) {
         <AlertDialogDescription>Your edits to the profile will be lost.</AlertDialogDescription>
       </AlertDialogBody>
       <AlertDialogFooter>
-        <AlertDialogCancel>Keep Editing</AlertDialogCancel>
+        <AlertDialogCancel>Keep editing</AlertDialogCancel>
         <AlertDialogAction variant="danger" onClick={onDiscard}>
           Discard
         </AlertDialogAction>
@@ -122,7 +122,7 @@ export function SheetStackedDialogContent() {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger render={<Button variant="outline" />}>Edit Profile</DialogTrigger>
+      <DialogTrigger render={<Button variant="outline" />}>Edit profile</DialogTrigger>
       <DialogSheetContent>
         <EditProfileDialogParts onEdit={markDirty}>
           <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>

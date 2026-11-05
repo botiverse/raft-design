@@ -1,7 +1,7 @@
 ---
 title: AnnouncementDialog
 summary: 告诉人们产品里有了新东西的对话框：一个小标签、一个标题、一张可选的图片、几行文字，以及一个去试试的操作。
-sourceHash: 786959a4
+sourceHash: 55839c51
 ---
 
 # AnnouncementDialog
@@ -51,14 +51,14 @@ dialog/compositions/announcement
 
 - 标签写公告的类型，用 sentence case：What's new。
 - 标题写人们现在能做什么，用 sentence case：Work together across servers。
-- 操作要说明它通向哪里，用 Title Case：Create Joint Channel（[写作](../../../../../design/content/writing.md#casing)）。
-- 次要操作写成一句确认，比如 Got It。主操作和 × 已经够用时，就不要它。
+- 操作要说明它通向哪里，用 sentence case：Create joint channel（[写作](../../../../../design/content/writing.md#casing)）。
+- 次要操作写成一句确认，比如 Got it。主操作和 × 已经够用时，就不要它。
 
 ## 无障碍 {#accessibility}
 
 - AnnouncementDialog 就是 Base UI 的 Dialog，经由 [Dialog](../dialog/dialog.md#accessibility) 提供。它提供 `dialog` 角色、焦点陷阱、Esc 和焦点返回。
 - `AnnouncementDialogTitle` 为对话框命名。每条公告都需要标题。
-- 给 `AnnouncementDialogClose` 一个说明它关闭什么的 `aria-label`：Close Update。
+- 给 `AnnouncementDialogClose` 一个说明它关闭什么的 `aria-label`：Close update。
 - 标签里的提醒圆点对辅助技术隐藏。
 - 给图片提供替代文字；如果文字已经说了同样的内容，就把图片隐藏。
 

@@ -1,7 +1,7 @@
 ---
 title: FilterChip
 summary: 生效中的筛选，显示为一个 info-soft 标签片，放在始终写着「筛选」的 Filter 按钮旁边，带一个把筛选恢复为默认值的 ×。
-sourceHash: ba10aac2
+sourceHash: e55d3942
 ---
 
 # FilterChip

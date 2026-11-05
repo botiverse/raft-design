@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: 54bfbc56
+sourceHash: d3265a76
 ---
 
 # InboxItem
@@ -134,7 +134,7 @@ activity/compositions/activity-hover-actions
 
 - 各部分通过 Base UI 的 `useRender` 渲染原生元素。`InboxItemTrigger` 是原生的 `button`；设了 `disabled` 时，它会带上 `aria-disabled` 并忽略点击。
 - 给触发按钮一个说明条目的无障碍名称：`aria-label="Open Martin needs your OK"`。在打开的那个条目的触发按钮上设 `aria-current`。
-- 给选择复选框和每个只有图标的操作命名：`aria-label="Select activity item"`、`aria-label="Mark as done"`。
+- 给选择复选框和每个只有图标的操作命名：`aria-label="Select activity item"`、`aria-label="Mark as Done"`。
 - 设了 `reveal="hover"` 的操作在隐藏时仍留在 Tab 键顺序中，焦点一到达这一行或它们本身就会显示。
 - 从键盘发起的跳转落在某个条目上时（比如用 Back 回到打开这个条目的那个列表），把焦点移到它的 `InboxItemTrigger`，而不是这一行（[被定位](../../../../../design/foundations/states.md#located)）：触发按钮本来就是一个能获得焦点、带有条目名称的按钮，这一行会在它周围画出内嵌的环，所以这一行不需要自己的 `tabIndex`。
 - 提醒圆点用 CSS 绘制，不会被朗读。在触发按钮的名称里写上 "unread"，或者加一个视觉上隐藏的词。

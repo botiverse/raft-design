@@ -1,7 +1,7 @@
 ---
 title: DropdownMenu
 summary: 从按钮打开的一列操作，作用于同一个东西；也可以放一个设置式的选择，在当前值旁打勾。
-sourceHash: f2165df4
+sourceHash: 719edb85
 ---
 
 # DropdownMenu
@@ -60,14 +60,14 @@ dropdown-menu/compositions/sidebar-section-header-menu
 
 ## 内容 {#content}
 
-- 菜单项标签用 Title Case：Copy Link、Reply in Thread（[写作](../../../../../design/content/writing.md#casing)）。
+- 菜单项标签用 sentence case：Copy link、Reply in thread（[写作](../../../../../design/content/writing.md#casing)）。
 - 打开对话框的菜单项，标签就用对话框的标题（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 
 ## 无障碍 {#accessibility}
 
 - DropdownMenu 封装了 Base UI 的 Menu。它提供 `menu` 角色、菜单项角色、方向键移动、输入跳转、Esc，以及关闭后焦点回到触发按钮。
 - 按菜单作用的对象给菜单命名：在 `DropdownMenuContent` 上加 `aria-label`（"Message from Wug"）。
-- 只有图标的触发按钮（比如 More）要加 `aria-label`（"More Actions"）。
+- 只有图标的触发按钮（比如 More）要加 `aria-label`（"More actions"）。
 - 菜单里的每一行都做成菜单项，让方向键能到达。快捷回应也一样：每个都加 `aria-label`（"React with thumbs up"），并对辅助技术隐藏图形。
 - 菜单项的图标只作装饰；由标签说明操作是什么。
 
@@ -84,7 +84,7 @@ dropdown-menu/compositions/sidebar-section-header-menu
 - 7 个 22px 的快捷回应，每个都是一个作为菜单项的 `MessageReactionQuickButton`，所以方向键能到达它。这一行以一个 `smile-plus` 图标按钮结尾，点它打开全部 emoji。一共 8 个 36px 的按钮，所以菜单和这一行一样宽（316px），比它 240px 的最小宽度更宽；操作也用同样的宽度。
 - 让回应和操作对齐：`MessageReactionQuickRow` 两侧各留 3px，这样第一个图案从菜单项图标开始的地方开始（往里 10px），眼睛沿着菜单往下看的那一列在顶部不会向外错出 3px。
 - 回应和第一个操作之间放一条分隔线，然后按操作对消息做什么，把操作分成若干分区（stdrc, 2026-10-20）：
-  1. **在这条消息上继续：** Reply in Thread；Follow Thread 或 Unfollow Thread，在人关注的消息列里，Unfollow Thread 后面紧接着 Mark Thread as Unread；然后是任务操作（Create Task from Message；在任务的消息上是 Mark as Done 和 Reopen Task）。任务的讨论在它的消息列里，所以两者放在一起。
-  2. **带到别处：** Copy Link、Copy Markdown、Forward、Select Message。这里什么都不会改变。它们依次从指向内容的链接、内容本身，到发送一条消息，再到发送多条。
-  3. **只给自己：** Save Message 或 Remove from Saved，以及 Translate。别人看不到这些。
+  1. **在这条消息上继续：** Reply in thread；Follow thread 或 Unfollow thread，在人关注的消息列里，Unfollow thread 后面紧接着 Mark thread as unread；然后是任务操作（Create task from message；在任务的消息上是 Mark as Done 和 Reopen task）。任务的讨论在它的消息列里，所以两者放在一起。
+  2. **带到别处：** Copy link、Copy Markdown、Forward、Select message。这里什么都不会改变。它们依次从指向内容的链接、内容本身，到发送一条消息，再到发送多条。
+  3. **只给自己：** Save message 或 Remove from Saved，以及 Translate。别人看不到这些。
 - 没有内容的分区不要放，它的分隔线也一起去掉。

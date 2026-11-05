@@ -33,7 +33,7 @@ function InviteHumanDialogParts() {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Invite Human</DialogTitle>
+        <DialogTitle>Invite human</DialogTitle>
         <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">

@@ -1,7 +1,7 @@
 ---
 title: PickerTriggerButton
 summary: 紧凑的 32px 按钮，作为列表上方的筛选器打开 Select 或 Combobox；未应用筛选时是描边样式，应用后变为填充。
-sourceHash: 1e438d38
+sourceHash: 2783a858
 ---
 
 # PickerTriggerButton
@@ -22,7 +22,7 @@ picker-trigger-button/compositions/select-filter
 | 一组操作 | 菜单（[DropdownMenu](../dropdown-menu/dropdown-menu.md)） |
 | 一行选项，每项各自开或关 | [ToggleGroup](../toggle-group/toggle-group.md) |
 
-各种选择器之间怎么选，完整说明见[选择组件](../../../../../design/components/overview.md#picking-something)。筛选器的样子、显示多少个值、Clear All 放在哪里，见 [Select › 筛选器](../select/select.md#filters)。
+各种选择器之间怎么选，完整说明见[选择组件](../../../../../design/components/overview.md#picking-something)。筛选器的样子、显示多少个值、Clear all 放在哪里，见 [Select › 筛选器](../select/select.md#filters)。
 
 ## 结构 {#anatomy}
 

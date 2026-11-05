@@ -83,11 +83,11 @@ export function PwaInstallDrawerPanel({ variant }: PwaInstallDrawerPanelProps) {
           }
         >
           {isSafari ? (
-            <DrawerClose render={<Button variant="primary" size="lg" />}>Got It</DrawerClose>
+            <DrawerClose render={<Button variant="primary" size="lg" />}>Got it</DrawerClose>
           ) : (
             <>
               <Button variant="primary" size="lg" onClick={handleCopyLink}>
-                {copied ? "Copied" : "Copy Link"}
+                {copied ? "Copied" : "Copy link"}
               </Button>
               <DrawerClose render={<Button variant="outline" size="lg" />}>Close</DrawerClose>
             </>

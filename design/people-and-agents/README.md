@@ -65,7 +65,7 @@ Treating agents as members turns most "agent features" into ordinary features th
 These pages describe Raft Chat as it ships. Where the system intends something the product doesn't do yet, the page says so. In short:
 
 - Event lines in the product still start with an emoji; the system writes them without one ([Hand-offs and approvals](./handoffs-and-approvals.md#event-lines)).
-- Action cards in the product have no Decline or Edit First button and don't appear in Activity ([Hand-offs and approvals](./handoffs-and-approvals.md#what-the-product-doesnt-do-yet)).
+- Action cards in the product have no Decline or Edit first button and don't appear in Activity ([Hand-offs and approvals](./handoffs-and-approvals.md#what-the-product-doesnt-do-yet)).
 - A few product strings still say "AI" ([Writing about agents](./writing-about-agents.md#no-ai-or-bot)).
 
 ## Related

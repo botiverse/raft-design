@@ -1,7 +1,7 @@
 ---
 title: AppShell
 summary: 应用的最外层布局，有放导航条、侧栏、主区域、侧面板和浮层的插槽，宽度低于 768px 时切换为单列加底部标签栏。
-sourceHash: e2f481c1
+sourceHash: 81015801
 ---
 
 # AppShell
@@ -71,7 +71,7 @@ app-shell/compositions/mobile-root
 ## 无障碍 {#accessibility}
 
 - 插槽渲染为地标（landmark）：主区域是 `main`，其他是 `aside`。给里面的导航命名：在导航条的 `nav` 和 `MobileNavRoot` 上设 `aria-label`。
-- `AppShellSidebarTrigger` 是展开/收起（disclosure）按钮：`aria-expanded` 表示侧栏是否显示，`aria-controls` 指向侧栏插槽（插槽自己的 `id`，或外壳给它的 id）。它显示和隐藏一个区域，所以不是带 `aria-pressed` 的切换按钮。外壳给它的标签是「Collapse Sidebar」或「Expand Sidebar」，同样的文字也作为原生 `title`；把它包进 [Tooltip](../tooltip/tooltip.md) 时，传入 `title={undefined}`，并在工具提示里重复这个标签。内置标签是英文：要翻译，就传入自己的 `aria-label`（它会覆盖外壳的标签），并在工具提示里用同样的文字。只传入图标，并对辅助技术隐藏。根元素不是 `sidebarCollapsible` 时它什么也不渲染，低于 768px 时它隐藏。
+- `AppShellSidebarTrigger` 是展开/收起（disclosure）按钮：`aria-expanded` 表示侧栏是否显示，`aria-controls` 指向侧栏插槽（插槽自己的 `id`，或外壳给它的 id）。它显示和隐藏一个区域，所以不是带 `aria-pressed` 的切换按钮。外壳给它的标签是「Collapse sidebar」或「Expand sidebar」，同样的文字也作为原生 `title`；把它包进 [Tooltip](../tooltip/tooltip.md) 时，传入 `title={undefined}`，并在工具提示里重复这个标签。内置标签是英文：要翻译，就传入自己的 `aria-label`（它会覆盖外壳的标签），并在工具提示里用同样的文字。只传入图标，并对辅助技术隐藏。根元素不是 `sidebarCollapsible` 时它什么也不渲染，低于 768px 时它隐藏。
 - 收起的侧栏是 `inert`：里面的控件退出 Tab 顺序和无障碍树，也不响应鼠标指针。焦点在侧栏里时，如果用快捷键收起侧栏，会先把焦点移到触发按钮上，这样焦点永远不会丢失。
 
 ## 规则 {#rules}

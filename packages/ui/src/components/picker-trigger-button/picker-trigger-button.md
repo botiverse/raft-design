@@ -26,7 +26,7 @@ picker-trigger-button/compositions/select-filter
 | A list of actions                                                  | A menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md))                                                                                     |
 | A row of options, each on or off on its own                        | [ToggleGroup](../toggle-group/toggle-group.md)                                                                                                 |
 
-The full choice between pickers is in [Choosing a component](../../../../../design/components/overview.md#picking-something). How a filter looks, how many values it shows and where Clear All goes are in [Select › Filters](../select/select.md#filters).
+The full choice between pickers is in [Choosing a component](../../../../../design/components/overview.md#picking-something). How a filter looks, how many values it shows and where Clear all goes are in [Select › Filters](../select/select.md#filters).
 
 ## Anatomy
 

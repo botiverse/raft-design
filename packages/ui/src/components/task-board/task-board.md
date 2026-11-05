@@ -53,7 +53,7 @@ task-board/compositions/task-board-empty-columns
 
 ## Behavior
 
-- Order the columns Backlog, Todo, In Progress, Done, Closed, and start Backlog, Done and Closed collapsed ([Tasks](../../../../../design/patterns/tasks.md#rules)).
+- Order the columns Backlog, Todo, In progress, Done, Closed, and start Backlog, Done and Closed collapsed ([Tasks](../../../../../design/patterns/tasks.md#rules)).
 - Don't refuse a drop because of the status a card has or would get: any status can be set from any status ([Tasks](../../../../../design/patterns/tasks.md#rules)). A column refuses a card only for a reason outside the statuses, such as a task the person may not change.
 - Switch between the board and the list with Board / List at the right end of the filter bar ([Tasks](../../../../../design/patterns/tasks.md#structure)), and remember the person's choice.
 - Scroll the whole board in one viewport, both ways. Columns keep their width and never scroll on their own.
@@ -73,7 +73,7 @@ task-board/compositions/task-board-virtualization
 - Each column is a Base UI `Collapsible` rendered as a `section`; its trigger is a button with `aria-expanded`.
 - Give each column an accessible name: the status name in the trigger, or `aria-label` on the section.
 - Cards can be moved with the keyboard: Space picks a card up, the arrow keys move it, Space drops it and Escape puts it back. Enter opens the card ([Drag and drop](../../../../../design/patterns/drag-and-drop.md#keyboard)).
-- Announce each step by name: "Picked up Task #25. Over Todo." "Dropped Task #25 in In Progress." Pass the card's and the status's names to `TaskDndProvider`'s `describe`; the board composition shows how. The board doesn't announce on its own, and without `describe` nothing is announced.
+- Announce each step by name: "Picked up Task #25. Over Todo." "Dropped Task #25 in In progress." Pass the card's and the status's names to `TaskDndProvider`'s `describe`; the board composition shows how. The board doesn't announce on its own, and without `describe` nothing is announced.
 
 ## Rules
 

@@ -56,7 +56,7 @@ it("the main area has no z-index, so app-level bars at z-40 stay on top", () => 
   expect(getComputedStyle(main).zIndex).toBe("auto");
   expect(hitAt("app-bar")).toBe(screen.getByTestId("app-bar"));
 
-  fireEvent.click(screen.getByRole("button", { name: "Collapse Sidebar" }));
+  fireEvent.click(screen.getByRole("button", { name: "Collapse sidebar" }));
   expect(getComputedStyle(main).zIndex).toBe("auto");
   expect(hitAt("app-bar")).toBe(screen.getByTestId("app-bar"));
 });
@@ -73,12 +73,12 @@ it("collapsing and expanding the sidebar switch at once, without a transition", 
   expect(noTransition(main)).toBe(true);
   expect(noTransition(sidebar)).toBe(true);
 
-  fireEvent.click(screen.getByRole("button", { name: "Collapse Sidebar" }));
+  fireEvent.click(screen.getByRole("button", { name: "Collapse sidebar" }));
   expect(main.getAnimations()).toHaveLength(0);
   expect(sidebar.getAnimations()).toHaveLength(0);
   expect(getComputedStyle(sidebar).opacity).toBe("0");
 
-  fireEvent.click(screen.getByRole("button", { name: "Expand Sidebar" }));
+  fireEvent.click(screen.getByRole("button", { name: "Expand sidebar" }));
   expect(main.getAnimations()).toHaveLength(0);
   expect(getComputedStyle(sidebar).opacity).toBe("1");
 });
@@ -94,7 +94,7 @@ it("the expanded sidebar stacks above the main area, so what pokes past its edge
 it("a collapsed sidebar cannot take focus", async () => {
   const { sidebar } = renderShell();
   const inside = screen.getByTestId("sidebar-button");
-  fireEvent.click(screen.getByRole("button", { name: "Collapse Sidebar" }));
+  fireEvent.click(screen.getByRole("button", { name: "Collapse sidebar" }));
   await waitFor(() => expect(sidebar.getAttribute("aria-hidden")).toBe("true"));
   inside.focus();
   expect(document.activeElement).not.toBe(inside);

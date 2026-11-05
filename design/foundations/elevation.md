@@ -42,7 +42,7 @@ Menus, select and filter lists, and profile cards open next to the element that 
 
 ## Floating controls
 
-The jump pills of a conversation, Back to Bottom, "3 New Messages" and "Next Unread Thread (3)", float over the bottom or the top of the message list ([MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)). They are the only controls that float over content, and they cast no shadow.
+The jump pills of a conversation, Back to bottom, "3 new messages" and "Next unread thread (3)", float over the bottom or the top of the message list ([MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)). They are the only controls that float over content, and they cast no shadow.
 
 - Draw a floating control as the control it is: a Button at `outline`, with its ink edge on the opaque `layer-card`. The opaque card keeps it readable over the messages that pass under it, and the ink edge marks it as a control, as everywhere else.
 - Don't give it the soft shadow. The shadow says "this is above the page for a moment and goes away when you are done with it": a menu, a popup, a toolbar over the message it acts on. A jump pill belongs to the conversation, stays in one place while the list scrolls under it, and goes away by itself when there is nowhere to jump; a shadow would make the conversation look as if a popup were open.

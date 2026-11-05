@@ -1,7 +1,7 @@
 ---
 title: 交接与审批
 summary: 工作怎样在人和 Agent 之间流转：认领、交接、由 Agent 准备并由人确认的操作卡片、事后留下的记录，以及出故障时显示什么。
-sourceHash: cb4584f6
+sourceHash: f22ab079
 ---
 
 # 交接与审批
@@ -30,7 +30,7 @@ system-message/compositions/task-thread
 事件行不是消息：没有人写它，所以它没有头像和名字。它用 Space Mono 排版，居中放在两条细线之间。
 
 - 依次写出谁做的、动词和对象。
-- 任务状态按原来的拼写写：moved #25 to In Progress。
+- 任务状态按原来的拼写写：moved #25 to In progress。
 - 事件行开头不加 emoji：emoji 是内容，不是图标（[图标](../foundations/iconography.md)）。产品的服务器目前仍会在任务事件行（"claimed"、"released"、"moved"）开头写一个图钉、锁或状态 emoji；设计系统去掉了它。
 
 ## 交接 {#handing-off}
@@ -41,7 +41,7 @@ system-message/compositions/task-thread
 | --- | --- | --- |
 | 把任务交给别人 | 指派给对方 | "Martin assigned #25 "Fix onboarding copy" to Wug" |
 | 放手不做 | 释放它；任务回到未认领 | "Bugen released #25 "Fix onboarding copy"" |
-| 请人做决定或看一眼 | 指派给对方，保持 In Progress，并在任务的讨论里说清楚需要什么 | "Bugen assigned #25 "Fix onboarding copy" to Martin" |
+| 请人做决定或看一眼 | 指派给对方，保持 In progress，并在任务的讨论里说清楚需要什么 | "Bugen assigned #25 "Fix onboarding copy" to Martin" |
 
 - Agent 把自己完成的工作改到 Done，并把结果发给提出需求的人，发在对方提出需求的地方。只有对方要求先看一眼，或任务卡在对方的决定或输入上时，才把任务交给这个人：任务在谁名下，就是在等谁。Raft 给每个 Agent 的指南里就是这样写的。产品并不强制这一点：任何状态都能改到任何状态，人和 Agent 都可以改（[任务](../patterns/tasks.md#rules)）。
 - 提及下一个需要行动的人。提及只能通知到该位置里的人，所以审查人必须是那里的成员。
@@ -55,7 +55,7 @@ system-message/compositions/task-thread
 | --- | --- |
 | 创建任务的人或 Agent | 关注它 |
 | 在它的讨论里写过消息的人，或在那里被提及的人 | 关注它 |
-| 任何人，手动 | 从任务详情那条栏的 More 菜单里选 Follow Task 和 Unfollow Task：和消息列标题栏里的 Follow Thread 位置、图标、命令都一样（[消息列](../patterns/conversation.md#threads)） |
+| 任何人，手动 | 从任务详情那条栏的 More 菜单里选 Follow task 和 Unfollow task：和消息列标题栏里的 Follow thread 位置、图标、命令都一样（[消息列](../patterns/conversation.md#threads)） |
 | 任务指派给的人或 Agent | 通过指派事件行里的提及收到一次通知；Agent 会被唤醒。被指派并不会让他们关注这个任务 |
 | 给自己认领任务的人，或任务失去负责人时 | 不通知任何人 |
 | 任务来源那条消息的发送者 | 永远不会因此收到任务讨论的通知 |
@@ -81,19 +81,19 @@ message-action-card/compositions/agent-request
 
 | 操作 | 确认按钮 | 按钮的作用 |
 | --- | --- | --- |
-| 创建频道 | Create Channel | 打开 Create Channel，填好 Agent 给出的值 |
-| 创建 Agent | Create Agent | 打开 Create Agent，填好 Agent 给出的值 |
-| 向频道添加成员 | Add Members | 打开 Add Members，填好 Agent 选的人 |
-| 允许 Agent 登录某个应用 | Approve Login | 直接执行操作 |
-| 为 Agent 安装 Marketplace 应用 | Install App | 直接执行操作 |
-| 注册应用、更新应用、找回应用的所有者 | Register App、Update App、Recover Owner | 直接执行操作 |
+| 创建频道 | Create channel | 打开 Create channel，填好 Agent 给出的值 |
+| 创建 Agent | Create agent | 打开 Create agent，填好 Agent 给出的值 |
+| 向频道添加成员 | Add members | 打开 Add members，填好 Agent 选的人 |
+| 允许 Agent 登录某个应用 | Approve login | 直接执行操作 |
+| 为 Agent 安装 Marketplace 应用 | Install app | 直接执行操作 |
+| 注册应用、更新应用、找回应用的所有者 | Register app、Update app、Recover owner | 直接执行操作 |
 
 - 卡片标题写动词加宾语，用句首大写（sentence case）：Create private channel #launch-review、Approve Linear for @bugen。
-- 确认按钮重复这个动词，用 Title Case，样式是带墨色边框的小按钮（`Button`，`variant="outline"`，默认的 `size="md"`）。它不是粉色的：屏幕上唯一的粉色按钮是消息输入框的发送按钮。
+- 确认按钮重复这个动词，用 sentence case，样式是带墨色边框的小按钮（`Button`，`variant="outline"`，默认的 `size="md"`）。它不是粉色的：屏幕上唯一的粉色按钮是消息输入框的发送按钮。
 - 操作需要的不只是一个「是」时，让按钮打开对应的普通对话框，填好 Agent 给出的值。人可以在创建任何东西之前在那里修改。不要让卡片上的字段可编辑：卡片只是一份摘要。
 - 人需要核对的值显示为属性，Agent 的理由放在 Reason 下，应用请求的权限显示为可滚动的列表，Raft 的固定说明显示为中性色的提示。
 - 以确认者的身份、用确认者的权限执行操作。
-- 不能执行操作的人看不到确认按钮。把卡片折叠起来，在标题下说明原因："Join #launch-week to run this."、"You need the Create Agents permission — ask a Server owner or admin to run this."
+- 不能执行操作的人看不到确认按钮。把卡片折叠起来，在标题下说明原因："Join #launch-week to run this."、"You need the Create agents permission — ask a Server owner or admin to run this."
 
 ### 状态 {#states}
 
@@ -132,14 +132,14 @@ message-action-card/compositions/agent-request
 | 某台计算机离线，或其他影响整个服务器的问题 | 通知中心 |
 
 - 只向管理这个 Agent 的人显示原因。其他人只看到这个 Agent "encountered an error"，因为细节里可能有私密信息。
-- Stop Agent 和 Restart / Reset 要用对话框确认：两者都会打断 Agent 的工作（[反馈](../patterns/feedback.md#confirming)）。
+- Stop agent 和 Restart / Reset 要用对话框确认：两者都会打断 Agent 的工作（[反馈](../patterns/feedback.md#confirming)）。
 - 不要把 Agent 的错误放进轻提示。轻提示用于没有自己位置的一次性操作；Agent 的错误会一直存在，直到有人修好。
 
 ## 产品还没做到的 {#what-the-product-doesnt-do-yet}
 
 [MessageActionCard](../../packages/ui/src/components/message-action-card/message-action-card.md) 的组件文档里描述了几项 Raft Chat 还没提供的东西：
 
-- 确认按钮旁边的幽灵样式 Edit First 按钮，以及 Decline 按钮和对应的 Declined 状态。在产品里，创建类操作由确认按钮打开对话框，没人处理的卡片会一直处于等待中，只有人申请席位或升级的卡片例外，它会在 7 天后过期。
+- 确认按钮旁边的幽灵样式 Edit first 按钮，以及 Decline 按钮和对应的 Declined 状态。在产品里，创建类操作由确认按钮打开对话框，没人处理的卡片会一直处于等待中，只有人申请席位或升级的卡片例外，它会在 7 天后过期。
 - 等待中的卡片上带粉色像素的 "Needs an admin" 状态。产品在有变化之前不显示任何状态。
 - 动态里的等待中卡片列表。在产品里，等待中的卡片要到它所在的对话里找。
 - 操作失败时的轻提示。产品在卡片内的横幅里显示原因。

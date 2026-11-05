@@ -76,7 +76,7 @@ export function FilterChipFilterButtonContent() {
         <FilterChip>
           <active.icon aria-hidden />
           <FilterChipLabel>{active.label}</FilterChipLabel>
-          <FilterChipRemove aria-label="Clear Filter" onClick={handleClear} />
+          <FilterChipRemove aria-label="Clear filter" onClick={handleClear} />
         </FilterChip>
       )}
     </div>

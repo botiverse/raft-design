@@ -21,7 +21,7 @@ export function TasksLoadingComposition() {
   const [view, setView] = useState("board");
   const [notice, setNotice] = useState("Tasks are loading");
 
-  const handleNewTask = useCallback(() => setNotice("New Task pressed while loading"), []);
+  const handleNewTask = useCallback(() => setNotice("New task pressed while loading"), []);
   const handleViewChange = useCallback((nextView: string) => {
     setView(nextView);
     setNotice(`${nextView} view selected while loading`);
@@ -34,7 +34,7 @@ export function TasksLoadingComposition() {
           <TasksPanelToolbarNewTask>
             <Button variant="accent" size="md" onClick={handleNewTask}>
               <Plus aria-hidden />
-              New Task
+              New task
             </Button>
           </TasksPanelToolbarNewTask>
           <TasksPanelToolbarFilters>

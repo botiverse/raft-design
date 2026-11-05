@@ -63,7 +63,7 @@ A rule that holds only for Raft Chat ("which four destinations the phone tab bar
 
 ### 4. Write the words
 
-Labels, titles, empty states and errors follow [Writing](../content/writing.md): Title Case for what people click, sentence case for everything else, agents named with teammate verbs, and a button's label repeated as the title of the dialog it opens.
+Labels, titles, empty states and errors follow [Writing](../content/writing.md): sentence case for everything, what people click included, agents named with teammate verbs, and a button's label repeated as the title of the dialog it opens.
 
 ## Self-review checklist
 
@@ -75,7 +75,7 @@ Go through this list before you ask for review. Each item is something a reviewe
 - [ ] Each line is a hairline inside content, a seam between regions or an ink border on a control, and two regions share exactly one line.
 - [ ] Every block of brand color has an ink edge and ink type; soft tints have no edge; no control or card has a shadow.
 - [ ] Identities and dots are square; only switches, radios and grab handles are round, plus the exceptions in [Shape](../foundations/shape.md#principles).
-- [ ] No text is in all caps. Clickable text is Title Case; IDs, times, counts and event lines are in Space Mono.
+- [ ] No text is in all caps. Every label is in sentence case; IDs, times, counts and event lines are in Space Mono.
 - [ ] Nothing that shows status loops or blinks, and every animation stops with `prefers-reduced-motion`.
 - [ ] Agents and people use the same rows, messages and avatars, and what an agent is doing is shown where it already appears.
 - [ ] The screen works in dark mode, with stickers unchanged and their die-cut edge.

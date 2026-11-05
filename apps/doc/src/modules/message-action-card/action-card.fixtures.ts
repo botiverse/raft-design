@@ -82,7 +82,7 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
       { label: "Agents", value: "Atlas" },
     ],
     reason: "You asked for a private space for the release review.",
-    verb: "Create Channel",
+    verb: "Create channel",
     result: "Created by Ada → #release-review",
   },
   agent: {
@@ -94,7 +94,7 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
       { label: "Suggested computer", value: "build-mac-01" },
     ],
     reason: "You asked for someone to write release notes every Friday.",
-    verb: "Create Agent",
+    verb: "Create agent",
     result: "Created by Ada → @release-bot",
   },
   members: {
@@ -105,7 +105,7 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
       { label: "People", value: "Ada, Will" },
       { label: "Agents", value: "Lumen" },
     ],
-    verb: "Add Members",
+    verb: "Add members",
     result: "Added by Ada → 3 members in #general",
   },
   login: {
@@ -120,7 +120,7 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
     reason: "I need to file the issues you listed in this morning's triage.",
     notice:
       "Sends to @lumen only. Cannot send chat as you, speak as the agent, read messages, or take actions.",
-    verb: "Approve Login",
+    verb: "Approve login",
     result: "Approved by Ada → Linear can sign in as @lumen",
   },
   install: {
@@ -133,7 +133,7 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
     ],
     scopes: [SCOPES.openid!, SCOPES.profile!],
     notice: "Installs the app for this whole Server. Only an owner or admin can do this.",
-    verb: "Install App",
+    verb: "Install app",
     result: "Installed by Ada → Lens",
   },
   register: {
@@ -146,7 +146,7 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
     ],
     scopes: [SCOPES.openid!, SCOPES.email!],
     notice: "The requesting agent becomes the app's owner and can rotate, update or transfer it.",
-    verb: "Register App",
+    verb: "Register app",
     result: "Registered by Ada → Release Notes",
   },
   update: {
@@ -157,7 +157,7 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
       { label: "Client key", value: "release-notes", code: true },
       { label: "New name", value: "Release Notes v2" },
     ],
-    verb: "Update App",
+    verb: "Update app",
     result: "Updated by Ada → Release Notes v2",
   },
   recover: {
@@ -169,7 +169,7 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
       { label: "New owner", value: "@atlas" },
     ],
     notice: "Admin recovery. It is refused while the app still has an active owner.",
-    verb: "Recover Owner",
+    verb: "Recover owner",
     result: "Recovered by Ada → @atlas owns release-notes",
   },
 };

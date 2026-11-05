@@ -1,7 +1,7 @@
 ---
 title: DescriptionList
 summary: 关于一个对象的一组信息，每条是一对标签和值，例如任务的 Status、Assignee 和 Created by；可以更改的值会打开一个选择器。
-sourceHash: 7fc0259d
+sourceHash: e9abd8dd
 ---
 
 # DescriptionList
@@ -57,7 +57,7 @@ description-list/compositions/inline
 ## 行为 {#behavior}
 
 - 可以更改的值做成没有外框的触发器：悬停和按下时显示中档的叠加层，并打开 [Select](../select/select.md) 或组合框的弹出层。
-- 可以设置但为空的值，写成设置它的操作：Add to a Channel。
+- 可以设置但为空的值，写成设置它的操作：Add to a channel。
 
 raft-ui 还没有无外框的值触发器；member-info 组合用的是渲染成按钮的 [Badge](../badge/badge.md)。
 
@@ -70,7 +70,7 @@ raft-ui 还没有无外框的值触发器；member-info 组合用的是渲染成
 ## 无障碍 {#accessibility}
 
 - 这些部件通过 Base UI 的 `useRender` 渲染成原生的 `dl`、`div`、`dt` 和 `dd`，所以读屏软件会把每个标签和它的值配对。
-- 打开选择器的值是一个按钮。给它一个说明它改什么的无障碍名称：`aria-label="Change status from In Progress"`。
+- 打开选择器的值是一个按钮。给它一个说明它改什么的无障碍名称：`aria-label="Change status from In progress"`。
 - 标签里的帮助按钮要有 `aria-label`：`aria-label="Explain member roles"`。
 
 ## 规则 {#rules}

@@ -42,8 +42,8 @@ function ServerSetupStepParts() {
       </DialogBody>
       <DialogFooter className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-4 text-footnote">
-          <TextLink disabled>Switch Server</TextLink>
-          <TextLink disabled>Server Settings</TextLink>
+          <TextLink disabled>Switch server</TextLink>
+          <TextLink disabled>Server settings</TextLink>
         </div>
         <Button variant="accent" size="lg" disabled>
           Next

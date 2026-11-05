@@ -67,7 +67,7 @@ export function ModeBarPreviewContent() {
             </Text.Sans>
             {commenting ? (
               <Button variant="default" size="md" onClick={addDraft}>
-                Add to Batch
+                Add to batch
               </Button>
             ) : null}
           </PanelScrollContent>

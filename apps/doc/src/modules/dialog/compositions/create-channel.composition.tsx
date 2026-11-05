@@ -55,7 +55,7 @@ function CreateChannelDialogParts() {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Create Channel</DialogTitle>
+        <DialogTitle>Create channel</DialogTitle>
         <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">

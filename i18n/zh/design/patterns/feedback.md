@@ -1,7 +1,7 @@
 ---
 title: 反馈
 summary: 怎么告诉人们一件事：什么立即执行、什么提供 Undo、什么需要确认，空、加载中和加载失败的区别，错误按范围放在哪里，以及怎么措辞。
-sourceHash: 3f39dbd2
+sourceHash: 8fb1a4b2
 ---
 
 # 反馈
@@ -20,17 +20,17 @@ sourceHash: 3f39dbd2
 
 | 操作 | 做法 |
 | --- | --- |
-| 只影响本人，而且它的退路留在原处：Follow Thread、Save Message | 立即执行，不弹对话框，也不弹轻提示 |
+| 只影响本人，而且它的退路留在原处：Follow thread、Save message | 立即执行，不弹对话框，也不弹轻提示 |
 | 只影响本人，并把一项从它所在的列表里拿走：Done、Unfollow、Close | 执行，并显示带 Undo 的轻提示 |
 | 影响别人，并且可以改回来：成员的角色、从消息列的关注者中移除一个 Agent（它只是不再关注） | 执行，并显示带 Undo 的轻提示 |
 | 把某样东西展示给更多的人：把 Artifact 或服务器设为公开 | 确认 |
-| 停止工作，把某人移出某个地方（Leave Channel、Remove Member）或缩小某样东西的可见范围，让别人手里的链接或密钥失效，归档或删除 | 确认 |
+| 停止工作，把某人移出某个地方（Leave channel、Remove member）或缩小某样东西的可见范围，让别人手里的链接或密钥失效，归档或删除 | 确认 |
 
-- 如果人能在同一个地方撤销操作，就立即执行：Follow Thread（Unfollow Thread）、Save Message（Remove from Saved）。消息列自己菜单里的 Unfollow Thread 就属于这一类，因为消息列还留在屏幕上；同样的 Unfollow 从列表里执行时，不管走哪条途径，都会把这一行拿走，所以要显示 Undo。一次点击就能撤销的操作，事先再问一句只会拖慢人。
+- 如果人能在同一个地方撤销操作，就立即执行：Follow thread（Unfollow thread）、Save message（Remove from Saved）。消息列自己菜单里的 Unfollow thread 就属于这一类，因为消息列还留在屏幕上；同样的 Unfollow 从列表里执行时，不管走哪条途径，都会把这一行拿走，所以要显示 Undo。一次点击就能撤销的操作，事先再问一句只会拖慢人。
 - 会把一项从列表里拿走的操作，每一条途径都提供 Undo：菜单、行上的按钮和滑动都一样（[Toast](../../packages/ui/src/components/toast/toast.md)）。行一消失，它的退路也就没了；一个操作从这条途径能撤销、从那条途径不能，就从哪条途径都没法放心用。
 - 对别人的、可以改回来的改动，比如角色，选中时就生效，并提供 Undo。只在两种情况下确认：人给自己降级，因为他们可能失去把它改回来的权限；或者关掉别人依赖的东西，比如他们的 Agent 在用的 AI 提供商。对话框列出受影响的人。
 - 把某样东西展示给更多的人之前要确认，并说出谁会看到："Anyone with the link can view it." 在同一个服务器内扩大范围立即生效。缩小某样东西的可见范围和取消发布共用一个确认，它列出谁会失去访问权限，不管从哪条途径开始。
-- 会停止 Agent 的工作、把某人移出某个地方、或者归档或删除某样东西的操作，都要用对话框确认，因为这些都无法在发生的地方恢复：Stop Agent、Restart 或 Reset、Archive Agent、Leave Channel、Remove Member、Delete Server（[Dialog](../../packages/ui/src/components/dialog/dialog.md)）。确认按钮写操作的动词；不可撤销时还要带上对象：Stop、Delete Server（[写作](../content/writing.md#actions-and-their-dialogs)）。
+- 会停止 Agent 的工作、把某人移出某个地方、或者归档或删除某样东西的操作，都要用对话框确认，因为这些都无法在发生的地方恢复：Stop agent、Restart 或 Reset、Archive agent、Leave channel、Remove member、Delete server（[Dialog](../../packages/ui/src/components/dialog/dialog.md)）。确认按钮写操作的动词；不可撤销时还要带上对象：Stop、Delete server（[写作](../content/writing.md#actions-and-their-dialogs)）。
 - 确认不可撤销操作的对话框里，把说明放在红色横幅中，确认按钮用红色。打开它的菜单项不要上色：警告应该出现在人做出决定的地方，而不是一串选项里。
 
 ### 空、加载中和加载失败 {#empty-loading-and-failed}
@@ -59,7 +59,7 @@ empty-state/compositions/default
 | --- | --- |
 | 一个输入框 | 输入框下方；见[表单](./forms.md#validation) |
 | 一个对话框或表单 | 其中的橙色横幅（[Banner](../../packages/ui/src/components/banner/banner.md)） |
-| 一个面板：Agent 无法启动，会话的某项设置没有保存成功 | 面板标题栏下方的全宽提示（`PanelNotice`，[Panel](../../packages/ui/src/components/panel/panel.md)），上下各一条 `line-seam`：它是面板的一个区域，而不是面板内容里的横幅。人可以关掉它时，给它一个 ×；有下一步时，给它一个操作，比如 View Logs |
+| 一个面板：Agent 无法启动，会话的某项设置没有保存成功 | 面板标题栏下方的全宽提示（`PanelNotice`，[Panel](../../packages/ui/src/components/panel/panel.md)），上下各一条 `line-seam`：它是面板的一个区域，而不是面板内容里的横幅。人可以关掉它时，给它一个 ×；有下一步时，给它一个操作，比如 View logs |
 | 一次性操作失败了，而且没有自己的位置：复制被浏览器拦截、消息列已不可用 | 一条 `warning` 轻提示，以它的 `TriangleAlert` 图标开头（[Toast](../../packages/ui/src/components/toast/toast.md)） |
 | 整个服务器 | 通知中心（[NotificationCenter](../../packages/ui/src/components/notification-center/notification-center.md)） |
 

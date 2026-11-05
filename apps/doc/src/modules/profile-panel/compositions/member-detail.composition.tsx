@@ -128,7 +128,7 @@ export function MemberDetailComposition() {
                 variant="danger"
               >
                 <Trash2 data-icon="inline-start" aria-hidden />
-                Remove Member
+                Remove member
               </Button>
             </MemberDetailSection>
           </PanelScrollContent>

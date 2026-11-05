@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: f0ccfb27
+sourceHash: 17d3c9c4
 ---
 
 # MessageItem
@@ -247,7 +247,7 @@ message-item/compositions/reactions
 - `MessageItem` 是一个以发送者和时间命名的 `article`：它的 `aria-labelledby` 指向 `MessageItemSender`（或 `MessageItemSenderButton`）和 `MessageItemTime`（或 `MessageItemContinuationTime`），这一行渲染的是哪个就指向哪个，id 由 raft-ui 生成。读屏软件通过跳转或阅读按键落到一条消息上时，会在正文之前读出一个名为「Atlas 2:20 PM」的 article：这是谁的消息、什么时候发的，顺序和标题栏显示的一样。接续行不显示名字，所以用时间命名。两者都没有的行，比如文字栏里的回执卡片，是普通的 `div`，不是 article：没有名字的 article 只会被读成一句光秃秃的「article」，对读屏软件用户什么都没说；如果它应该是 article，给它 `aria-label`。要自己给一行命名，在 `MessageItem` 或它的 `render` 元素上传 `aria-labelledby` 或 `aria-label`；要改角色，传 `role`。`render` 函数的 props 读不到，所以用函数时，把它们传给 `MessageItem`。你给某个部件的 `id`，就是这一行指向的那个。发送者按钮的名字就是它显示的名字，所以不要给它单独的 `aria-label`：不然这一行会改读那个名字。
 - 不要把消息放进 `list`，也不要把 `MessageItem` 渲染成 `li`：`role="article"` 会取代 `listitem`，而列表里只能放列表项。包住它们的时间线不用列表角色（[MessageList](../message-list/message-list.md#accessibility)）。也不要把它做成 `feed`：feed 承诺用 Page Down 和 Page Up 在 article 之间移动，而时间线没有实现这一点。
 - 只有从键盘发起的跳转落到一行上时，这一行才获得焦点（[被定位](../../../../../design/foundations/states.md#located)）。raft-ui 不让这一行可聚焦：调用方在 `focus({ preventScroll: true })` 之前给 `MessageItem` 设 `tabIndex={-1}`，焦点离开时再去掉，这样之后点击这一行不会把焦点从消息输入框抢走。这时它显示内嵌的环，从不显示浏览器自带的 outline，并显示它的工具栏；Tab 接着经过消息里的链接和按钮，包括工具栏的按钮。工具栏显示时，它的卡片盖住环上边缘靠右的一部分，就像它盖住高亮那样：环在另外三边和上边的大部分仍然看得出来，而只为了焦点把工具栏从这一行的边缘挪开，会让它跳动。
-- 给每个 `MessageItemToolbarButton` 一个 Title Case 的 `aria-label`：Reply in Thread、Add Reaction、Save。工具栏在键盘焦点进入时显示，所以按 Tab 能到达它。
+- 给每个 `MessageItemToolbarButton` 一个 sentence case 的 `aria-label`：Reply in thread、Add reaction、Save。工具栏在键盘焦点进入时显示，所以按 Tab 能到达它。
 - `MessageReactionChip` 封装了 Base UI `Toggle`：`aria-pressed` 表示这个人是否回应了。给它一个 `aria-label`；里面画出来的回应是隐藏的（[品牌](../../../../../design/foundations/brand.md#reactions)）。
 - 回应失败的原因放在 `MessageReactionErrorIndicator` 里，它是一个视觉上隐藏的 `role="status"`。
 - 给选中文字上方的工具栏一个 `aria-label`（[TextSelectionToolbar](../text-selection-toolbar/text-selection-toolbar.md#accessibility)）。

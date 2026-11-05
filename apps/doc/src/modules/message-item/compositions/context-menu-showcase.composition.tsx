@@ -41,7 +41,7 @@ export function MessageContextMenuShowcaseComposition() {
   const [reaction, setReaction] = useState("✅");
   const [saved, setSaved] = useState(false);
   const [task, setTask] = useState<MessageTaskState>("none");
-  // The docs have no full emoji picker: Add Reaction reacts with an emoji
+  // The docs have no full emoji picker: Add reaction reacts with an emoji
   // outside the quick seven, as choosing one in the picker would.
   const reactWithPickedEmoji = useCallback(() => setReaction("🙌"), []);
 

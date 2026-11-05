@@ -1,7 +1,7 @@
 ---
 title: Panel
 summary: 桌面端主区域里的一栏，带 56px 的面板标题栏和自己滚动的内容；它的标题栏也是手机推入页面的顶栏。
-sourceHash: 30fd98ab
+sourceHash: 5ba5fbab
 ---
 
 # Panel
@@ -72,7 +72,7 @@ conversation-panel/compositions/conversation-panel-header
 
 ### 拆分操作 {#split-actions}
 
-还带有一个简短的相关选项菜单的操作，比如 Comment 和它的 ▾（Show All Comments），是由两部分组成的一个控件：`PanelSplitAction` 装着这个操作，即一个 `PanelSplitActionMain`（按钮）或一个 `PanelSplitActionToggle`（会保持开启的操作，比如评论），以及一个 `PanelSplitActionMenu`，也就是打开菜单的那个窄的 V 形箭头。把菜单部分渲染成 DropdownMenu 或 Popover 的触发按钮：`<DropdownMenuTrigger render={<PanelSplitActionMenu aria-label="Comment Options" />} />`。
+还带有一个简短的相关选项菜单的操作，比如 Comment 和它的 ▾（Show all comments），是由两部分组成的一个控件：`PanelSplitAction` 装着这个操作，即一个 `PanelSplitActionMain`（按钮）或一个 `PanelSplitActionToggle`（会保持开启的操作，比如评论），以及一个 `PanelSplitActionMenu`，也就是打开菜单的那个窄的 V 形箭头。把菜单部分渲染成 DropdownMenu 或 Popover 的触发按钮：`<DropdownMenuTrigger render={<PanelSplitActionMenu aria-label="Comment options" />} />`。
 
 ```example
 panel/compositions/panel-split-action
@@ -86,7 +86,7 @@ panel/compositions/panel-split-action
 - **焦点。** 每个部分都是单独的按钮，有自己的焦点环，画在相邻部分之上：Tab 先到主部分，再到菜单部分。
 - **禁用。** 任一部分都可以单独禁用：它变成 `foreground-disabled`，自己不悬停，也不让另一部分变色。
 - **触屏。** 在手机和触屏上，主部分是 44px 的按钮，菜单部分画成 24px 宽；它的点击区域向末端多伸出 20px，这部分也把那块空间留空，所以它是 44px × 44px，又不会和下一个操作重叠（[点击区域](../../../../../design/foundations/spacing.md#hit-targets)）。在桌面端，它的点击区域按控件的外伸量伸向下一个操作，和面板操作一样。
-- 给这个组命名（`PanelSplitAction` 上的 `aria-label`，它是 `role="group"`），每个部分也要命名，组的名字不要和主部分一样：组叫 "Comments"，主部分叫 "Comment"，菜单部分叫 "Comment Options"。
+- 给这个组命名（`PanelSplitAction` 上的 `aria-label`，它是 `role="group"`），每个部分也要命名，组的名字不要和主部分一样：组叫 "Comments"，主部分叫 "Comment"，菜单部分叫 "Comment options"。
 - 不要把拆分操作放在 `PanelActions` 的最后：它没有声明图标内缩量，所以它以形状而不是图标框止于边距。在它后面保留一个面板操作（Close）。
 
 ### 手机顶栏 {#phone-top-bars}
@@ -111,7 +111,7 @@ panel/compositions/panel-split-action
 - `Panel` 渲染为 `section`。多个面板并排时，用 `aria-label` 或 `aria-labelledby` 给它命名。
 - `PanelTitle` 渲染为 `div`。把它渲染成页面的标题（`render={<h1 />}`，如果页面已有 `h1` 就用 `h2`）。
 - `PanelAction` 包装 Base UI 的 Button，总是渲染 `type="button"`。`PanelToggleAction` 包装 Base UI 的 Toggle，由它设置 `aria-pressed`。
-- 每个只有图标的 `PanelAction` 和 `PanelToggleAction` 都要有 `aria-label`："Back"、"Channel Details"、"Close Tasks"。
+- 每个只有图标的 `PanelAction` 和 `PanelToggleAction` 都要有 `aria-label`："Back"、"Channel details"、"Close tasks"。
 - `PanelSplitAction` 是一个 `role="group"`；它的两部分都是按钮，菜单部分从它渲染成的那个菜单触发按钮上得到 `aria-haspopup` 和 `aria-expanded`。
 - 只有图标的 `PanelStatus`（静音的铃铛）要有无障碍名称。
 
@@ -120,10 +120,10 @@ panel/compositions/panel-split-action
 - 每个面板都用这个标题栏：对话、消息列、侧面板和抽屉。不要给某个面板单独的标题栏或按钮尺寸。
 - 标题栏里的图标按钮用 `PanelAction`：桌面端（768px 起、使用鼠标或触控板）是 32px，图标 18px，点击区域 44px，间隔 4px；手机上以及任何宽度的触屏上是 44px，图标 22px，间隔 2px。它们跟随默认控件高度（[间距](../../../../../design/foundations/spacing.md#heights)）。在桌面端，44px 的按钮放在 17px 的标题旁边显得太重；手指则需要 44px。
 - 返回按钮放在标题栏最前面，操作放在最后，放进 `PanelActions`：标题栏会把首尾两个按钮往外拉，让它们的图标框（而不是按钮本身）落在内容边距上。这个边距在桌面端和桌面布局下的触屏上是 20px，在手机上是 16px（在由列表单元格组成的列里是 20px），按钮尺寸不论大小都一样（[对齐](../../../../../design/foundations/alignment.md#the-ends-of-a-header)）。不要自己加外边距去挪动边上的按钮。这个边距就是 `--column-margin`（手机上 16px，768px 起 20px）；由列表单元格组成的列在任何宽度都把它设为 20px，这样它的头部和它各行的内容从同一处开始（[列表](../../../../../design/patterns/lists.md#one-edge)）。`PanelNotice` 和面板底部区域也按它留内边距。要给某一列换一个边距，在这一列上设 `[--column-margin:…]`；在头部上用 `px-*` 会在所有宽度上取代这个变量，手机的 16px 和列表列的 20px 就都不再对它生效。`PanelActions` 里只放 `PanelAction`：这个组声明了它们的内缩量，所以某个宽度下隐藏的操作（消息列的 Close 在 1024px 以下隐藏）会让下一个操作落到边上。作为标题栏第一个或最后一个子元素、尺寸为 `icon-md` 或 `icon-lg` 的无边框 `Button` 也会这样被拉出；有填充的按钮则让它的形状止于边距。
-- 每个标题栏里的操作都按同样的顺序排：先是面板自己显示成按钮的操作，然后是溢出菜单（⋯），最后是窗口控制按钮 Expand 和 Close，两个贴在一起。⋯ 永远是面板自己的操作里的最后一个，因为它装的是放不下的东西，所以显示出来的操作都排在它前面；这也是人在任何应用里找"更多"的地方（平台惯例，比如 Material 的顶部应用栏和 Apple 的工具栏）。Expand 和 Close 作用于这个区域本身，而不是区域里的东西：一个改变它的大小，一个离开它。所以它们贴在一起待在最外侧，和面板自己的操作分开，就像窗口标题栏里的窗口控制按钮，也像另一端的返回一样（stdrc，2026-11-03，#proj-raft-ui:#189）。在面板自己的按钮里，先放改变视图的（Open in New Page），再放作用于内容的。
+- 每个标题栏里的操作都按同样的顺序排：先是面板自己显示成按钮的操作，然后是溢出菜单（⋯），最后是窗口控制按钮 Expand 和 Close，两个贴在一起。⋯ 永远是面板自己的操作里的最后一个，因为它装的是放不下的东西，所以显示出来的操作都排在它前面；这也是人在任何应用里找"更多"的地方（平台惯例，比如 Material 的顶部应用栏和 Apple 的工具栏）。Expand 和 Close 作用于这个区域本身，而不是区域里的东西：一个改变它的大小，一个离开它。所以它们贴在一起待在最外侧，和面板自己的操作分开，就像窗口标题栏里的窗口控制按钮，也像另一端的返回一样（stdrc，2026-11-03，#proj-raft-ui:#189）。在面板自己的按钮里，先放改变视图的（Open in new page），再放作用于内容的。
 - 给 `PanelStatus` 在标题那一行单独一格，并按它的形状居中。不要微调它：标题的字母已经落在这一行的中线上，挪 1px 就会显得偏高。
 - 用标题栏里的 `PanelToggleAction` 打开侧面板：再按一次就关闭。
-- Expand 和它的 Restore（`maximize-2` / `minimize-2`，一个 `PanelToggleAction`，展开时处于按下状态）作为标题栏里单独的按钮显示，从不放进溢出菜单（⋯）。它改变的是视图本身，而不是视图里的东西，人们也经常用到，所以按一下就到，不用按两下（stdrc，2026-10-31）。它是窗口控制按钮：排在 ⋯ 后面，紧挨在 Close 前面（见上面的顺序）；没有 Close 的头部（对话的）以它结尾。Open in New Page（`arrow-up-right`，一个 `PanelAction`）是面板自己的操作，排在它们最前面、⋯ 之前：它是把东西在别处打开，而不是改变这个区域的大小。头部放不下时，它和面板自己的其他操作一样收进 ⋯，是最后一个被收进去的（[头部适应它的那一列](#rules)）；Expand 从不收起。一列在 160px 时，标题、⋯、Expand 和 Close 旁边没有它的位置，所以它在其他自己的操作之后收起，而不是让头部放不下（在 stdrc 批准 #189 布局预览时决定，2026-11-04，#proj-raft-ui:aedc53e1）。
-- 在对话所在的这一行里，每一列的头部都有 Expand：对话的、消息列的、Tasks 的、Files 的、Artifact 的和每个个人资料的。展开后，这一列占满整行，其他每一列保持 160px 并裁切：这一行其余的部分仍以窄条的形式留在视野里（stdrc，2026-11-04）。再按一次 Expand，或按 Esc，每一列回到原来的宽度，一个像素不差。同一时间只展开一列（[频道的侧边列](../../../../../design/patterns/responsive.md#the-channels-side-columns)）。这一列里上下叠着几块时（消息列叠在 Tasks 上，Tasks 叠在 Files 上），展开的那一块同时占满这一列的高度，同一列里的其他几块只显示各自的头部，顺序不变：用户要的是这一块，留下的头部让其余几块仍然一按就到。展开期间，这些头部没有折叠箭头，这一列里也没有可拖的分隔线；再按一次 Expand，或按 Esc，每一块的高度和折叠状态都回到原来的样子（stdrc，2026-11-04，#proj-raft-ui:aedc53e1）。只有在有地方可展开时才显示 Expand。这一行只有一列时，隐藏它，而不是禁用：只开着一个对话，或者消息列叠在对话上、旁边没有别的列。已经展开的那一列始终显示它的 Restore，这样才能收回去。在当前布局里什么都做不了的按钮只会占地方，还引人去点（stdrc，2026-11-03，#proj-raft-ui:#189）。在手机上，面板已经占满屏幕，同样没有什么可展开的：不放 Expand，Open in New Page 留在 ⋯ 里。
+- Expand 和它的 Restore（`maximize-2` / `minimize-2`，一个 `PanelToggleAction`，展开时处于按下状态）作为标题栏里单独的按钮显示，从不放进溢出菜单（⋯）。它改变的是视图本身，而不是视图里的东西，人们也经常用到，所以按一下就到，不用按两下（stdrc，2026-10-31）。它是窗口控制按钮：排在 ⋯ 后面，紧挨在 Close 前面（见上面的顺序）；没有 Close 的头部（对话的）以它结尾。Open in new page（`arrow-up-right`，一个 `PanelAction`）是面板自己的操作，排在它们最前面、⋯ 之前：它是把东西在别处打开，而不是改变这个区域的大小。头部放不下时，它和面板自己的其他操作一样收进 ⋯，是最后一个被收进去的（[头部适应它的那一列](#rules)）；Expand 从不收起。一列在 160px 时，标题、⋯、Expand 和 Close 旁边没有它的位置，所以它在其他自己的操作之后收起，而不是让头部放不下（在 stdrc 批准 #189 布局预览时决定，2026-11-04，#proj-raft-ui:aedc53e1）。
+- 在对话所在的这一行里，每一列的头部都有 Expand：对话的、消息列的、Tasks 的、Files 的、Artifact 的和每个个人资料的。展开后，这一列占满整行，其他每一列保持 160px 并裁切：这一行其余的部分仍以窄条的形式留在视野里（stdrc，2026-11-04）。再按一次 Expand，或按 Esc，每一列回到原来的宽度，一个像素不差。同一时间只展开一列（[频道的侧边列](../../../../../design/patterns/responsive.md#the-channels-side-columns)）。这一列里上下叠着几块时（消息列叠在 Tasks 上，Tasks 叠在 Files 上），展开的那一块同时占满这一列的高度，同一列里的其他几块只显示各自的头部，顺序不变：用户要的是这一块，留下的头部让其余几块仍然一按就到。展开期间，这些头部没有折叠箭头，这一列里也没有可拖的分隔线；再按一次 Expand，或按 Esc，每一块的高度和折叠状态都回到原来的样子（stdrc，2026-11-04，#proj-raft-ui:aedc53e1）。只有在有地方可展开时才显示 Expand。这一行只有一列时，隐藏它，而不是禁用：只开着一个对话，或者消息列叠在对话上、旁边没有别的列。已经展开的那一列始终显示它的 Restore，这样才能收回去。在当前布局里什么都做不了的按钮只会占地方，还引人去点（stdrc，2026-11-03，#proj-raft-ui:#189）。在手机上，面板已经占满屏幕，同样没有什么可展开的：不放 Expand，Open in new page 留在 ⋯ 里。
 - **头部适应它的那一列**，不管多宽，直到一列最窄的 160px（stdrc，2026-11-03，#proj-raft-ui:#189）。标题和描述用省略号截断，各自至少保留一个字和它的省略号（28px）；从不只剩一个孤零零的字，也从不换行。按钮会让标题只剩不到 56px（原型的值，#189）时，这一列自己的操作收进 ⋯，从最后一个开始；⋯、Expand 和 Close 从不收起，⋯ 只在里面有东西时出现。在被裁切到内容最小宽度以下的一列里，头部两端的边距收紧到 12px，按钮前的间距收紧到 4px，这样在 160px 时标题也保留它的一个字。标题位置放着这一行的标签页时，先给标签页留 120px（原型的值），然后才收起操作。个人资料的头部在 240px 以下去掉头像；Artifact 的标题空间不到 96px 时，头部隐藏版本标签，版本仍在 ⋯ › Version history 里。头部本身从不被裁切：被裁切的只是它下面的内容。
 - 对话旁边的侧面板设 `edge="attached"`，由它画出两者之间唯一的那条线（[页面结构](../../../../../design/patterns/page-structure.md#one-line-between-two-regions)）。

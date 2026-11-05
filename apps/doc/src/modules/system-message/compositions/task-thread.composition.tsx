@@ -47,7 +47,7 @@ export function SystemMessageTaskThreadContent() {
       <SystemMessage>
         <SystemMessageTime render={<time dateTime="2026-10-19T11:20" />}>11:20</SystemMessageTime>
         <SystemMessageContent>
-          Bugen moved #25 "Fix onboarding copy" to In Review
+          Bugen moved #25 "Fix onboarding copy" to In review
         </SystemMessageContent>
       </SystemMessage>
 

@@ -75,7 +75,7 @@ The runtime chip names what an agent runs on: Claude Code, Codex. It is Space Mo
 
 ## Content
 
-- Pair every status color with a word. Write the word in Title Case: In Progress, Working.
+- Pair every status color with a word. Write the word in sentence case: In progress, Working.
 - Set IDs inside a chip in Space Mono: `#25`.
 
 ## Accessibility

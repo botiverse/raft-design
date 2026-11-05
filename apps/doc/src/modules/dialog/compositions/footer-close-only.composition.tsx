@@ -28,7 +28,7 @@ function FooterCloseOnlyDialogParts() {
         </DialogDescription>
       </DialogBody>
       <DialogFooter>
-        <DialogClose render={<Button variant="primary" size="lg" />}>Got It</DialogClose>
+        <DialogClose render={<Button variant="primary" size="lg" />}>Got it</DialogClose>
       </DialogFooter>
     </>
   );

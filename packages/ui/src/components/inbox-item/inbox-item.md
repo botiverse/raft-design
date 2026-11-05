@@ -138,7 +138,7 @@ activity/compositions/activity-hover-actions
 
 - The parts render native elements through Base UI's `useRender`. `InboxItemTrigger` is a native `button`; with `disabled` it gets `aria-disabled` and ignores clicks.
 - Give the trigger an accessible name that names the item: `aria-label="Open Martin needs your OK"`. Set `aria-current` on the trigger of the open item.
-- Name the selection checkbox and every icon-only action: `aria-label="Select activity item"`, `aria-label="Mark as done"`.
+- Name the selection checkbox and every icon-only action: `aria-label="Select activity item"`, `aria-label="Mark as Done"`.
 - Actions with `reveal="hover"` stay in the tab order while hidden, and show as soon as focus reaches the row or them.
 - When a jump started from the keyboard lands on an item, such as Back to the list the item was opened from, move focus to its `InboxItemTrigger`, not to the row ([Located](../../../../../design/foundations/states.md#located)): the trigger is already a focusable button with the item's name, and the row draws the inset ring around it, so the row needs no `tabIndex` of its own.
 - The attention dot is drawn in CSS and isn't announced. Say "unread" in the trigger's name, or add a visually hidden word.

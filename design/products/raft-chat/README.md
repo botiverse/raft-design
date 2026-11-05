@@ -29,7 +29,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | Web top bar (from 768px, and the desktop app's title bar) | As in [Page structure](../../patterns/page-structure.md#the-web-top-bar); the search field opens search |
 | Desktop rail (the web and the desktop app) | Chat, Activity, Tasks, Members, Computers; at the bottom Help (`circle-help`) and Settings. Guests don't have Members or Computers |
 | The apps' rail in desktop mode (from 840dp) | Computers isn't on it: it is in Settings ([The server tab](#the-server-tab)) |
-| Only in [Settings](./settings.md) | Sign Out, at the end of Account |
+| Only in [Settings](./settings.md) | Sign out, at the end of Account |
 
 Without the web top bar (an older desktop build, a server's public page), the rail shows the workspace tile at its top, Search before Chat, and the bell above Help.
 
@@ -70,8 +70,8 @@ The swipe itself, its distances, its buttons and its Undo toast follow [Touch sc
 The server tab and the workspace tile follow [Navigation](../../patterns/navigation.md#the-server-tab-on-a-phone). In Raft Chat (the phone decided on 2026-10-22 by stdrc, D1a, task #152):
 
 - The server tab takes the slot More had, so the bar keeps 5 tabs.
-- The popover's footer actions are Join Community (until the person has joined it), Switch or Create Server and Invite Human. Invite Human stays here and not in the row of pages: it opens a dialog rather than a place.
-- The row at the very bottom holds the server's own pages, which More held: Members, Computers and [Settings](./settings.md). They are three places in the same server, so one row costs one line instead of three; at the bottom they are nearest the thumb and the tab bar, where More was. A guest, who has no Members or Computers, gets the row with Settings alone: Settings holds their account and Sign Out, and on a phone the popover is its only way in.
+- The popover's footer actions are Join community (until the person has joined it), Switch or create server and Invite human. Invite human stays here and not in the row of pages: it opens a dialog rather than a place.
+- The row at the very bottom holds the server's own pages, which More held: Members, Computers and [Settings](./settings.md). They are three places in the same server, so one row costs one line instead of three; at the bottom they are nearest the thumb and the tab bar, where More was. A guest, who has no Members or Computers, gets the row with Settings alone: Settings holds their account and Sign out, and on a phone the popover is its only way in.
 - In the apps' desktop mode (from 840dp; Jasper, 2026-10-23, task #8; the row dropped by artin, 2026-10-29) there is no server tab: the rail header's workspace tile opens the popover without the row of pages ([Navigation](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)). Every one of those pages already has a way in that stays on screen: Members is on the rail, Settings at the rail's bottom, and Computers in Settings. Unlike the web's rail, this rail has no Computers button, so both dots are on the rail's Settings: a feedback reply's, and a computer's that needs attention, since Computers is reached from there.
 
 ### The tops of the phone's top-level pages
@@ -97,14 +97,14 @@ sidebar/sidebar
 
 | Destination | The sidebar lists |
 | --- | --- |
-| Chat | Saved and Drafts, then the sections Pinned, the person's own sections, Joint Channels, Channels and Direct Messages. People can reorder the sections by dragging. Agents are listed among the direct messages |
+| Chat | Saved and Drafts, then the sections Pinned, the person's own sections, Joint channels, Channels and Direct messages. People can reorder the sections by dragging. Agents are listed among the direct messages |
 | Members | Graph, then Agents (grouped by computer) and Humans, each with a count and an add button |
 | Computers | No sidebar: the computers fill the page beside the rail as a wall of cards, or a list, with an add button in its header. A computer opens in the side panel beside them, selected on the wall ([Navigation](../../patterns/navigation.md#opening-an-item)) |
 | Settings | The settings groups ([Settings](./settings.md)) |
 | Tasks | No sidebar: the board follows the rail directly |
 | Search, Activity | No sidebar at first: the page fills the width. After a result is selected, the results list takes the sidebar's place, and the result opens next to it |
 
-- Give every section header a disclosure, a count and a sort menu (Manual, Recent, A–Z), always visible, on desktop and on Home. A collapsed section shows a pink pixel when something in it is unread. Put a + button for Create Channel in the header of Channels, and for Create Joint Channel in the header of Joint Channels.
+- Give every section header a disclosure, a count and a sort menu (Manual, Recent, A–Z), always visible, on desktop and on Home. A collapsed section shows a pink pixel when something in it is unread. Put a + button for Create channel in the header of Channels, and for Create joint channel in the header of Joint channels.
 - Show unread as in [States](../../foundations/states.md), except that in a channel's row a mention of the person shows the yellow @ marker before the pink count. Unread in a muted or unjoined channel is a gray count, and a pencil marks a draft.
 - Under the web top bar the sidebar has no header. Without the top bar, the header names the destination, and in Chat the working summary sits at its right.
 
@@ -138,8 +138,8 @@ The shared rules are in [Working agents](../../people-and-agents/working-agents.
 | Popover | Working now, the notifications, the server list, Help & resources (opened on hover from the rail) |
 | Bottom sheet with a short explanation (phone) | Add Raft to your Home Screen, opened from the notification center's Install Raft or the Add button in Settings › Notifications (button: Got it) |
 | Confirmation ([Overlays](../../components/overview.md#overlays)) | A Dialog, except two that use [AlertDialog](../../../packages/ui/src/components/alert-dialog/alert-dialog.md): discarding unsaved edits to an agent's profile, and opening a link that hands off to another app |
-| Small form dialog ([Forms](../../patterns/forms.md#forms-in-a-dialog)) | Create Channel, Create Task, Create Agent |
-| Wide form dialog ([Forms](../../patterns/forms.md#the-large-form-dialog)) | Register App, editing an app (Edit Release Bot) |
+| Small form dialog ([Forms](../../patterns/forms.md#forms-in-a-dialog)) | Create channel, Create task, Create agent |
+| Wide form dialog ([Forms](../../patterns/forms.md#the-large-form-dialog)) | Register app, editing an app (Edit Release Bot) |
 | Profile card on a person or agent, on hover | A 51px avatar; the name with the light and what it is doing; the handle; Computer, Runtime, Model and Reasoning; the description on one line; for people who manage the agent, its recent activity. It has no buttons |
 
 Side panels that stay open beside the conversation (a thread, a profile) are side panels, not drawers, and have no scrim.
@@ -176,6 +176,6 @@ Raft Chat departs from these patterns today. Each line is the product's side; th
 | Every pushed page has Back ([Navigation](../../patterns/navigation.md#going-back)) | On the phone web, the RaftBench gate page and the Assistant page while it loads have neither Back nor the tab bar |
 | A known layout waits in a skeleton ([Waiting](../../components/overview.md#waiting)) | The conversation timeline and the profile panel show the word "Loading…" while they wait |
 | No empty state when loading failed ([Feedback](../../patterns/feedback.md#empty-loading-and-failed)) | When the list of Activity or Saved fails to load, it shows its empty state |
-| A setting that stands alone applies at once ([Forms](../../patterns/forms.md#settings-that-apply-at-once)) | Language & Region, Mute this server, the onboarding, Hide #all, hiding the human directory and counts from members, turning on translation for the server, and a member's server role wait for Save |
+| A setting that stands alone applies at once ([Forms](../../patterns/forms.md#settings-that-apply-at-once)) | Language & region, Mute this server, the onboarding, Hide #all, hiding the human directory and counts from members, turning on translation for the server, and a member's server role wait for Save |
 | A feature that needs its configuration is a checkbox with one Save ([Forms](../../patterns/forms.md#settings-saved-together)) | App event notifications is a switch that only reveals the address field |
 | Undo on every route, confirmation before going public ([Feedback](../../patterns/feedback.md#confirming)) | Done and Unfollow in Activity offer Undo only on the swipe; an Artifact goes public, and is unpublished from outside its conversation, without a confirmation; restarting or upgrading a computer, rotating a webhook secret and updating an invite link aren't confirmed |

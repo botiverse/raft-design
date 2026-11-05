@@ -72,7 +72,7 @@ chat-composer/compositions/composer-drop-overlay
 Composer 没有 Base UI 原语：它渲染原生的 `<form>` 和 `<textarea>`。`useComposerSuggestions` 给输入区加上组合框（combobox）模式：`aria-controls` 指向列表框，`aria-activedescendant` 指向高亮的选项。上下方向键移动高亮，Enter 或 Tab 选中，Esc 关闭列表。
 
 - 给 `ComposerInput` 一个说明目的地的 `aria-label`（Message #launch-week）。
-- 给每个 `ComposerIconButton` 和只有图标的 `ComposerSubmit` 加 `aria-label`（Attach File、Send）。
+- 给每个 `ComposerIconButton` 和只有图标的 `ComposerSubmit` 加 `aria-label`（Attach file、Send）。
 - 给建议列表加 `aria-label` 或 `aria-labelledby`。
 
 ## 规则 {#rules}

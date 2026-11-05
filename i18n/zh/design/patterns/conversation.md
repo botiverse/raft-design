@@ -1,7 +1,7 @@
 ---
 title: 对话
 summary: 消息和事件行组成的时间线，一条消息能放什么，消息的操作、提及、消息输入框、消息列，以及对话中的搜索。
-sourceHash: 07dd4c28
+sourceHash: 42c323c8
 ---
 
 # 对话
@@ -48,13 +48,13 @@ conversation-panel/compositions/conversation-panel
 
 ### 操作 {#actions}
 
-- 在桌面端，在悬停消息的上边缘显示一个小工具栏：Reply in Thread、Add Reaction、Save Message。在消息列里，去掉 Reply in Thread。
+- 在桌面端，在悬停消息的上边缘显示一个小工具栏：Reply in thread、Add reaction、Save message。在消息列里，去掉 Reply in thread。
 - 其他所有操作都放在消息菜单里。桌面端右键、触屏上长按打开的是同一个菜单，所以每个操作在每种设备上都只在一个地方。
 - 菜单第一行是快捷回应，回应和操作之间有一条分隔线。菜单里没有日期和时间那一行（artin，2026-11-04，#triage:530f8c36）。
 - 触屏上不显示悬停工具栏：没有悬停，而且长按会打开菜单。
 - 在触屏上，轻点消息会打开它的消息列，双击会以一条栏的形式打开快捷回应（[触屏上的轻点](../foundations/states.md#taps-on-a-touch-screen)）。在消息列里，轻点不做任何事；双击和菜单照旧。在桌面端，点击或双击消息都不做任何事（双击会选中一个词）：打开消息列的是工具栏和回复数。由 stdrc 于 2026-10-29 决定：Slack 和 Raft 的手机网页本来就是轻点打开消息列，而在 Telegram、iMessage 和 Messenger 里，双击表示「回应」；双击打开那条栏而不是直接回应，误触的双击就不会发出任何东西。
 - 悬停从不让消息移动：工具栏浮在这一行的右上角，标题栏不给它留位置，也不重新排版。在窄栏里，工具栏出现时，长发送者行的末尾在它下面淡出；平时整行都在（[MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)）。
-- 要对多条消息操作（转发、复制），在菜单里选 Select Message；选中消息的工具栏出现在对话底部（[用现有部件搭建](../components/overview.md#toolbar-for-selected-messages)）。
+- 要对多条消息操作（转发、复制），在菜单里选 Select message；选中消息的工具栏出现在对话底部（[用现有部件搭建](../components/overview.md#toolbar-for-selected-messages)）。
 
 ```example
 message-item/compositions/context-menu-showcase
@@ -78,11 +78,11 @@ thread-panel/thread-panel
 - 最上面是消息列开始的那条消息，然后是回复，然后是消息输入框。消息列没有标签页。
 - 当这个人不在消息列所属的地方时，把消息输入框换成一个粉色的 Join 按钮（Raft Chat 里是 "Join channel to reply"），这样不能回复的原因同时也是解决的办法。
 - 关注这个消息列的 Agent 放在标题栏右侧，显示为一叠头像和一个数字。
-- Follow Thread 和 Unfollow Thread 放在消息列标题栏右侧的 More 菜单里，不单独做一个开关：关注是一个命令，不是一项设置。任务详情把 Follow Task 放在同样的位置（[任务](./tasks.md)），所以两者的关注方式一样。
+- Follow thread 和 Unfollow thread 放在消息列标题栏右侧的 More 菜单里，不单独做一个开关：关注是一个命令，不是一项设置。任务详情把 Follow task 放在同样的位置（[任务](./tasks.md)），所以两者的关注方式一样。
 
 ### 浮动控件 {#floating-controls}
 
-有三种控件浮在对话上方：列表上的跳转胶囊（Back to Bottom、"3 New Messages"、"Next Unread Thread (3)"，[MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)），消息上的悬停工具栏，以及选中文字上方的工具栏（[MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)）。它们是一家，共用一套尺寸：标签用 `text-control`、字重 700（手机上 13/18，桌面端 14/22），图标 16px，控件 32px。胶囊从一边到另一边是 32px，和普通按钮（比如设置行里的 Save）一样大（[Button](../../packages/ui/src/components/button/button.md#sizes)）；工具栏的按钮是 28px，放在 36px 的工具栏里。
+有三种控件浮在对话上方：列表上的跳转胶囊（Back to bottom、"3 new messages"、"Next unread thread (3)"，[MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)），消息上的悬停工具栏，以及选中文字上方的工具栏（[MessageItem](../../packages/ui/src/components/message-item/message-item.md#behavior)）。它们是一家，共用一套尺寸：标签用 `text-control`、字重 700（手机上 13/18，桌面端 14/22），图标 16px，控件 32px。胶囊从一边到另一边是 32px，和普通按钮（比如设置行里的 Save）一样大（[Button](../../packages/ui/src/components/button/button.md#sizes)）；工具栏的按钮是 28px，放在 36px 的工具栏里。
 
 - 单个操作用 `outline`、`md` 的 Button：也就是跳转胶囊。它单独存在，所以靠自己的墨色边表明是控件；它按 Button 的配方搭建，所以不会和 Raft 其他地方的按钮走样。
 - 针对一条消息或一处选区的一组操作用工具栏：28px 的按钮，距外框 4px，彼此间隔 4px，所以工具栏高 36px，用 `layer-popover`，带一圈接缝线和柔和阴影。它是浮在所作用内容上方的弹出层，悬停或选中时出现（[层级](../foundations/elevation.md#tokens)）；外框就是边，所以里面的按钮没有自己的边，而且按 28px 算，三个按钮能放在发送者那一行上而不盖住它。

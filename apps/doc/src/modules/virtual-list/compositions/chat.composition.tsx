@@ -89,9 +89,9 @@ export function VirtualListChatContent() {
         </VirtualList>
       </div>
       <div className="flex gap-2">
-        <Button onClick={send}>Send a Message</Button>
+        <Button onClick={send}>Send a message</Button>
         <Button onClick={streamReply} disabled={streaming}>
-          Stream a Reply
+          Stream a reply
         </Button>
       </div>
     </div>

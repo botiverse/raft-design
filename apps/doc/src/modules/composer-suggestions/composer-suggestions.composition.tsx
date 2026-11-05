@@ -90,7 +90,7 @@ export function ComposerSuggestionComposition({
                   checked={alsoCreateTask}
                   onCheckedChange={setAlsoCreateTask}
                 />
-                As Task
+                As task
               </ComposerToolbarLabel>
               <ComposerSubmit aria-label="Send" disabled={!value.trim()}>
                 <span>Send</span>

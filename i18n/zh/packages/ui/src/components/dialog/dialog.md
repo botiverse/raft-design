@@ -1,7 +1,7 @@
 ---
 title: Dialog
 summary: 遮罩上居中的浮层，用于人们必须先完成才能继续的一个决定或几个输入框；宽尺寸用于一次填完的大表单。
-sourceHash: 252d2eee
+sourceHash: 2082e20e
 ---
 
 # Dialog
@@ -16,7 +16,7 @@ dialog/compositions/create-channel
 
 | 场景 | 使用 |
 | --- | --- |
-| 1 到 5 个输入框的小任务（Create Channel） | Dialog |
+| 1 到 5 个输入框的小任务（Create channel） | Dialog |
 | 一次填完的大表单：注册或编辑应用、配置 Agent | `size="wide"` 的 Dialog |
 | 任务详情 | 基于 Dialog 的工作空间浮层，宽 960px，手机上全屏，不属于四种尺寸（[任务](../../../../../design/patterns/tasks.md)） |
 | 确认一个不可撤销或会打断的操作 | `size="sm"` 的 Dialog，确认按钮按后果上色（[规则](#rules)）。只在产品列出的地方用 [AlertDialog](../alert-dialog/alert-dialog.md)：在 Raft Chat 里，是放弃对 Agent 资料未保存的修改，和打开一个会转到另一个应用的链接（[Raft Chat](../../../../../design/products/raft-chat/README.md#overlays)） |
@@ -50,9 +50,9 @@ dialog/compositions/create-channel
 
 | 变体 | 宽度 | 用于 |
 | --- | --- | --- |
-| `size="sm"` | 400px | 决定：所有确认和告知，包括有几个选项可选、或者有一小段受影响内容列表的确认（Reset Agent、Change Visibility、重启选项）。它和 [AlertDialog](../alert-dialog/alert-dialog.md) 一样宽 |
-| `size="md"`（默认） | 448px | 小任务：1 到 5 个输入框、一个用来选的列表、一段只读的简短帮助文字（Create Channel、Add Members、角色说明） |
-| `size="lg"` | 640px | 需要宽度的内容：多列的列表、命令或代码、键值行、要读的长文字、分步流程（Connect Computer、计算机的版本说明） |
+| `size="sm"` | 400px | 决定：所有确认和告知，包括有几个选项可选、或者有一小段受影响内容列表的确认（Reset agent、Change visibility、重启选项）。它和 [AlertDialog](../alert-dialog/alert-dialog.md) 一样宽 |
+| `size="md"`（默认） | 448px | 小任务：1 到 5 个输入框、一个用来选的列表、一段只读的简短帮助文字（Create channel、Add members、角色说明） |
+| `size="lg"` | 640px | 需要宽度的内容：多列的列表、命令或代码、键值行、要读的长文字、分步流程（Connect computer、计算机的版本说明） |
 | `size="wide"` | 896px | 大表单对话框，分成几个分区，固定高度为 760px 或窗口高度减 32px，取较小值 |
 
 - 所有确认都是同一个宽度 400px，不管它基于 Dialog 还是 AlertDialog。内容放不进 400px 的确认就不再是确认了：它是小任务，用 `md`。
@@ -184,7 +184,7 @@ dialog/compositions/sheet-stacked
 
 ## 内容 {#content}
 
-- 对话框的标题用打开它的那个按钮的文字，或者用 Edit 加上项目名称。主按钮的标签写它执行的操作，不带对象：通常是标题里的动词（Create Channel → Create）；Edit 标题的按钮是 Save，另一个是 Cancel（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
+- 对话框的标题用打开它的那个按钮的文字，或者用 Edit 加上项目名称。主按钮的标签写它执行的操作，不带对象：通常是标题里的动词（Create channel → Create）；Edit 标题的按钮是 Save，另一个是 Cancel（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 - 正文文字用 `foreground-muted`，放在 `foreground` 的标题下面。它们的文字样式见[字体排印](../../../../../design/foundations/typography.md)。
 
 ## 无障碍 {#accessibility}

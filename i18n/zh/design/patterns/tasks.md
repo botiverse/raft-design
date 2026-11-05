@@ -1,12 +1,12 @@
 ---
 title: 任务
 summary: 五种任务状态，任务列表和看板，任务详情，完成、添加和编辑任务，从消息创建、列在对话旁边的任务，状态怎么改，以及任务怎么筛选。
-sourceHash: fc76a74f
+sourceHash: 1f3aa8af
 ---
 
 # 任务
 
-任务有五种状态之一：Backlog、Todo、In Progress、Done 和 Closed。其中四种的颜色固定；Backlog 没有颜色。任务像待办清单一样用：每个任务最前面是一个圆形的完成控件，点一下就把它标为 Done；输入标题就能添加任务；任何状态都能改成任何其他状态。在此之上，任务保留了 Raft 给待办事项加上的东西：负责人可以是人，也可以是 Agent；还有它自己的讨论。In Review 已停用（[决策 0043](../decisions/0043-in-review-retired.md)）：任务对话出现之前的老任务可能还处于这个状态，在它被移走之前，保留它的标签和它的分组或列。任务出现在哪里都以同样的方式显示：同一个筛选栏下的看板或列表，或者对话旁边的紧凑行，详情在居中的对话框里。人和 Agent 处理的是同一个任务，所以它在每个显示它的屏幕上都必须看起来一样、用起来一样。
+任务有五种状态之一：Backlog、Todo、In progress、Done 和 Closed。其中四种的颜色固定；Backlog 没有颜色。任务像待办清单一样用：每个任务最前面是一个圆形的完成控件，点一下就把它标为 Done；输入标题就能添加任务；任何状态都能改成任何其他状态。在此之上，任务保留了 Raft 给待办事项加上的东西：负责人可以是人，也可以是 Agent；还有它自己的讨论。In review 已停用（[决策 0043](../decisions/0043-in-review-retired.md)）：任务对话出现之前的老任务可能还处于这个状态，在它被移走之前，保留它的标签和它的分组或列。任务出现在哪里都以同样的方式显示：同一个筛选栏下的看板或列表，或者对话旁边的紧凑行，详情在居中的对话框里。人和 Agent 处理的是同一个任务，所以它在每个显示它的屏幕上都必须看起来一样、用起来一样。
 
 ## 适用范围 {#when-it-applies}
 
@@ -23,9 +23,9 @@ raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-a
 - **任务列表或看板**：顶部是筛选栏，右端是 Board / List（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md)）。在手机上，Board / List 只显示图标。
   - 看板每种状态一栏，每栏 232px 宽（[TaskBoard](../../packages/ui/src/components/task-board/task-board.md)）。
   - 列表按状态给任务分组（[TaskList](../../packages/ui/src/components/task-list/task-list.md)）。
-  - 两者用同一种卡片（[TaskCard](../../packages/ui/src/components/task-card/task-card.md)），卡片以完成控件开头（[完成任务](#completing-a-task)）；两者都按 Backlog、Todo、In Progress、Done、Closed 的顺序显示五种状态，也就是工作从左往右流动的方向，每种都有可折叠的标题和计数。
+  - 两者用同一种卡片（[TaskCard](../../packages/ui/src/components/task-card/task-card.md)），卡片以完成控件开头（[完成任务](#completing-a-task)）；两者都按 Backlog、Todo、In progress、Done、Closed 的顺序显示五种状态，也就是工作从左往右流动的方向，每种都有可折叠的标题和计数。
 - **任务详情**：居中的对话框，960px 宽（或窗口宽度减 32px），最高 900px（窗口的 86%），在手机上全屏。从上到下：
-  1. 一条栏：任务的引用（`#design:#25`：先是地方，然后是编号；见[引用任务](#referring-to-a-task)），在有对话的产品里还有关注这个任务的 Agent 和 More 菜单（Follow Task 或 Unfollow Task，然后是一条分隔线和 Delete Task），和消息列的标题栏一样（[消息列](./conversation.md#threads)），以及 ×。在手机上，这条栏用 Back 代替 ×。这条栏没有在单独的窗口里打开任务的按钮，消息列也没有：任务窗口从它的 URL 打开，和消息列窗口一样。
+  1. 一条栏：任务的引用（`#design:#25`：先是地方，然后是编号；见[引用任务](#referring-to-a-task)），在有对话的产品里还有关注这个任务的 Agent 和 More 菜单（Follow task 或 Unfollow task，然后是一条分隔线和 Delete task），和消息列的标题栏一样（[消息列](./conversation.md#threads)），以及 ×。在手机上，这条栏用 Back 代替 ×。这条栏没有在单独的窗口里打开任务的按钮，消息列也没有：任务窗口从它的 URL 打开，和消息列窗口一样。
   2. 标题和描述，描述超过 3 行后折叠。两者都就地编辑（[编辑任务](#editing-a-task)）。
   3. 属性放在行内的 [DescriptionList](../../packages/ui/src/components/description-list/description-list.md#inline)（`direction="inline"`）里：Status、Assignee、Source、Created by 和 Created at。负责人的显示和任务行上一样：头像和名字。只有从消息创建的任务才有 Source：发送者的头像和名字、消息的第一行和它的时间。在一行属性上，文字共用一条基线：标签、状态标签的名称和负责人的名字、Source 的发送者和摘录，以及时间（[一行中不同大小的文字](../foundations/alignment.md#text-of-different-sizes-on-one-line)）。没有文字的标记，也就是头像、V 形箭头和 Source 后面的 ↗，在这一行的行框里居中（[引领文字的标记](../foundations/alignment.md#a-mark-that-leads-text)）。不裁剪文字，也不做微调。任务行遵循同一条规则（[紧凑列表的行](#rows-in-a-compact-list)）。在任务有自己的讨论之前创建的任务，还有 Earlier discussion，写出它的消息有多少条回复。
      每个属性都遵循行内 DescriptionList 的同一种排布：各项像一行文字那样接着排，相隔 24px，只有这一行放不下时，一项才移到下一行，往下 8px。没有哪一项单独占一行、有自己的宽度或自己的间隔。每一项都是同样 28px 高的一行，所以各行间距均匀，中心相距 36px：有状态标签和负责人头像的那一行不比一行纯文字高，头像的在线状态灯完整显示，不会被它的触发按钮裁掉。每一项最宽 24rem（对话框更窄时，就是对话框的宽度），所以过长的 Source 以省略号结尾，和其他项共用一行：在桌面端的对话框里，Status、Assignee、Source 和 Created by 在同一行；在手机上，每一项占这一行更多的宽度，它们按同样的顺序、同样的间隔换行。用这种排布，而不用标签/值的网格，是因为属性只是几条简短的信息：网格让每一项各占一行，把讨论往下推。
@@ -40,7 +40,7 @@ raft-ui 尚未实现：这个示例显示的是 [0042](../decisions/0042-tasks-a
 - 看板和列表里，Backlog、Done 和 Closed 默认收起：Backlog 是现在不打算做的工作，Done 和 Closed 只会越来越多，而人们来看的是进行中的工作。
 - 每张任务卡片和每个任务行都以完成控件开头（[完成任务](#completing-a-task)）。完成控件和状态标签是卡片上仅有的能就地修改的东西；选中卡片的其他部分会打开任务详情。
 - 人们可以从卡片上的状态标签、详情里的 Status 属性改状态，可以把卡片拖到看板的另一栏，也可以用完成控件。不能修改某个任务的人，看到它的状态标签没有菜单，完成控件是禁用的，也不能拖动它的卡片。
-- 从任何状态都能改到任何状态，对人和 Agent 都一样：状态标签的菜单和 Status 属性列出全部五种，当前状态带一个对勾；卡片可以拖进看板的任何一栏。状态变更没有限制：状态说明工作在哪一步，知道的人一步就能设好，而事件行和历史会记下是谁、在什么时候移动的。没有哪种状态要求先满足别的条件：没有负责人的任务也可以是 In Progress。
+- 从任何状态都能改到任何状态，对人和 Agent 都一样：状态标签的菜单和 Status 属性列出全部五种，当前状态带一个对勾；卡片可以拖进看板的任何一栏。状态变更没有限制：状态说明工作在哪一步，知道的人一步就能设好，而事件行和历史会记下是谁、在什么时候移动的。没有哪种状态要求先满足别的条件：没有负责人的任务也可以是 In progress。
 - 任务详情用居中的对话框打开，从不放在侧面板或侧边分区里：任务有自己的讨论，所以不是放在对话旁边读的（[页面结构](./page-structure.md#sidebar-and-side-panel)）。用 ×、Esc 或点击对话框外部关闭。
 - 只在列出多个地方的任务时，才在卡片上写出任务所在的地方。在一个地方的视图里，页面本身就是那个地方。
 - 列表加载时，在它的位置显示骨架屏卡片（[反馈](./feedback.md#empty-loading-and-failed)）。
@@ -82,21 +82,21 @@ raft-ui 尚未实现：没有完成控件的部件。在 raft-ui 加上它之前
 ### 在哪里创建任务 {#where-tasks-are-created}
 
 - 创建操作放在任务所属的地方，不放在汇集多个地方任务的页面上：在那里创建的任务没有所属的地方。产品里汇集多个地方任务的页面，没有创建按钮，也没有快速添加。
-- 在有对话的地方，创建按钮放在它的 Tasks 分区的头部里（[对话旁边的任务](#tasks-beside-a-conversation)），快速添加放在分区的 All / For Me 下面，消息菜单里放 Create Task from Message。
-- 快速添加是一个输入行，占位文字是 "Add a task"。按 Enter 用这个标题创建一个 Todo 任务；在 For Me 里，任务指派给这个人，在 All 里则没有负责人。焦点留在输入框里，输入框清空，等着下一个任务。Esc 清空输入框；输入框已经是空的时，Esc 把焦点移出去。它和待办清单一样，按一个键就创建一个任务；更多的内容（描述、别的状态、负责人）在 Create Task 里设置，或者之后在任务详情里设置。
-- Create Task 做成一个小的表单对话框（[表单](./forms.md#forms-in-a-dialog)），从上到下：
-  1. 标题：每个任务一个输入框，用 Add Another 一次创建多个。标题不止一个时，对话框叫 Create Tasks，它的按钮写出数量（"Create 3 Tasks"）。
+- 在有对话的地方，创建按钮放在它的 Tasks 分区的头部里（[对话旁边的任务](#tasks-beside-a-conversation)），快速添加放在分区的 All / For me 下面，消息菜单里放 Create task from message。
+- 快速添加是一个输入行，占位文字是 "Add a task"。按 Enter 用这个标题创建一个 Todo 任务；在 For me 里，任务指派给这个人，在 All 里则没有负责人。焦点留在输入框里，输入框清空，等着下一个任务。Esc 清空输入框；输入框已经是空的时，Esc 把焦点移出去。它和待办清单一样，按一个键就创建一个任务；更多的内容（描述、别的状态、负责人）在 Create task 里设置，或者之后在任务详情里设置。
+- Create task 做成一个小的表单对话框（[表单](./forms.md#forms-in-a-dialog)），从上到下：
+  1. 标题：每个任务一个输入框，用 Add another 一次创建多个。标题不止一个时，对话框叫 Create tasks，它的按钮写出数量（"Create 3 tasks"）。
   2. 描述，可选，只在恰好有一个标题时出现：描述属于一个任务。
-  3. Status 和 Assignee 并排。Status 提供 Backlog、Todo 和 In Progress，默认是 Todo，每项带它的像素点。Assignee 先列出 Unassigned，然后是能接这个任务的人和 Agent，默认是 Unassigned；任何状态都可以和任何负责人搭配，包括 Unassigned。Done 和 Closed 不能选：任务是通过它的工作到达这些状态的，不是在创建时。状态和负责人适用于每一个标题。
+  3. Status 和 Assignee 并排。Status 提供 Backlog、Todo 和 In progress，默认是 Todo，每项带它的像素点。Assignee 先列出 Unassigned，然后是能接这个任务的人和 Agent，默认是 Unassigned；任何状态都可以和任何负责人搭配，包括 Unassigned。Done 和 Closed 不能选：任务是通过它的工作到达这些状态的，不是在创建时。状态和负责人适用于每一个标题。
   4. 标题不止一个时，在它们下面加一行："Status and assignee apply to all 3 tasks."
 - 和所有表单一样，在提交时检查表单（[校验](./forms.md#validation)）：填写表单的过程中，没有什么会让创建按钮变成禁用。
-- raft-ui 尚未实现：Create Task 的示例（`tasks/compositions/create-task-dialog`）显示的是这次重新设计之前的对话框，只有标题。
+- raft-ui 尚未实现：Create task 的示例（`tasks/compositions/create-task-dialog`）显示的是这次重新设计之前的对话框，只有标题。
 
 ### 编辑任务 {#editing-a-task}
 
 - 标题和描述在任务详情里就地编辑：选中文字，或者选中它的 Edit 按钮（一个幽灵 `pencil` 图标按钮，悬停和获得焦点时显示），把它变成输入框。按 Enter 或离开输入框就保存；Esc 取消，恢复原来的文字。在描述里，Shift+Enter 换行。没有描述的任务在描述的位置显示 "Add a description"。
 - 保存的修改写成任务讨论里的一条事件行（"Martin changed the title"、"Martin changed the description"）。措辞的修改不通知其他任何人：关注者下次读这个任务时会看到这一行。
-- Delete Task 放在详情 More 菜单的最后，在一条分隔线后面。它先确认，和每一次删除一样（[确认](./feedback.md#confirming)）。
+- Delete task 放在详情 More 菜单的最后，在一条分隔线后面。它先确认，和每一次删除一样（[确认](./feedback.md#confirming)）。
 
 ### 对话中的任务 {#tasks-in-a-conversation}
 
@@ -108,8 +108,8 @@ raft-ui 尚未实现：没有完成控件的部件。在 raft-ui 加上它之前
 - 负责人和状态标签作为一组放在每行右端，负责人紧挨状态标签。不要跨行把它们对齐成列。一行窄得放不下一个可读的标题和这一组时，这一组整体换到第二行，仍然靠右，而不是挤压标题。
 - 在消息列顶部的那条消息下面，显示同样的列表。
 - 从行打开任务详情。完成控件是行上唯一会修改任务的东西：选中行的其他部分会打开任务，其他所有状态变更都在详情里做。
-- 人们用消息菜单里的 Create Task from Message 从消息创建任务。它打开 Create Task，引用这条消息，并把消息的文字作为初始标题，人们可以修改。
-- 不要在消息输入框里提供 As Task：人们发送的是消息，任务之后再由人或 Agent 从消息创建。
+- 人们用消息菜单里的 Create task from message 从消息创建任务。它打开 Create task，引用这条消息，并把消息的文字作为初始标题，人们可以修改。
+- 不要在消息输入框里提供 As task：人们发送的是消息，任务之后再由人或 Agent 从消息创建。
 - 任务发生的事写成任务讨论里的事件行：创建、认领、指派、移动、完成（"Martin completed #25"）、重新打开、带原因移到 Backlog，以及标题或描述的修改。不写在对话里，也不写在它来源消息的消息列里（[交接与审批](../people-and-agents/handoffs-and-approvals.md#claiming-work)）。
 - 任务的讨论显示在任务详情里，让讨论和状态放在一起读。关注任务和关注消息列的方式一样（[交接与审批](../people-and-agents/handoffs-and-approvals.md#following-a-task)）。
 - 在从消息创建的任务的详情里，选中 Source 会关闭对话框，跳到那条消息在它所在地方的位置，那条消息显示被定位的高亮，和每一次跳转一样（[被定位](../foundations/states.md#located)）。选中 Earlier discussion 会打开这个任务原来那条消息的回复。
@@ -121,7 +121,7 @@ raft-ui 尚未实现：没有完成控件的部件。在 raft-ui 加上它之前
 在手机上，以及在网页上任务详情全屏显示的地方，任务的头部（标题、描述、属性和历史）是对话的第一行，会随对话一起滚走。为了看状态再滚回上面，读者会丢掉自己在讨论里读到的位置，所以改由栏把头部拉下来，盖在对话上。
 
 - 头部滚出视野后，栏收起来：在引用那一行下面，是 `Task #N`、状态标签和只显示头像的负责人，然后是一个小的 V 形箭头。头像带有给读屏软件读的名字；只有栏里放得下完整的名字时，名字才显示在头像旁边。引用那一行（`#design:#25`）在两种状态下都保留。头部滚走之前，它下面那一行只有 `Task #N`，没有状态标签、头像和 V 形箭头。
-- 点一下栏，头部就作为一个面板被拉下来，从栏下面垂下，横跨栏的整个宽度，盖在对话上。它和对话第一行的头部是同一个头部，编辑方式也一样（Status、Assignee、Show More、Source、History）。没有遮罩，它下面的东西也都不动。
+- 点一下栏，头部就作为一个面板被拉下来，从栏下面垂下，横跨栏的整个宽度，盖在对话上。它和对话第一行的头部是同一个头部，编辑方式也一样（Status、Assignee、Show more、Source、History）。没有遮罩，它下面的东西也都不动。
 - 面板画在 `layer-canvas` 上，沿边缘带 `shadow-float`，没有 1px 的分隔线：阴影已经把它和对话分开了，阴影上再加一条细线，就是第二条边在说同一件事（[层级](../foundations/elevation.md#tokens)）。它最高占屏幕的 70%；超出时，它自己的内容滚动。
 - 它用 `ease-slide` 在 220ms 内从栏往下滑出、再往上收回，这是最短的滑动（[动效](../foundations/motion.md#usage)），V 形箭头随之转动。开启减弱动态效果时，它直接出现、直接消失。
 - 以下情况会关闭它：
@@ -133,7 +133,7 @@ raft-ui 尚未实现：没有完成控件的部件。在 raft-ui 加上它之前
   - 读者开始滚动对话。新到的消息不会关闭它；
   - 头部滚回视野。
 - 面板不跟手：上滑超过 40px 时，它用同样的滑动关闭，更短的上滑让它留在原处。跟手的面板看起来像一个可以拖到任意高度的 Sheet，而这个面板不能。网页和手机都是这样（2026-10-28 决定）。
-- 面板打开时焦点移进面板，关闭时回到栏上，但点外面关闭时除外：那一下把焦点放到读者想放的地方。栏是一个带 `aria-expanded`、控制面板的按钮，名字就是它显示的内容（"Task #7, In Progress, Kirby"）；面板是一个以任务命名的区域（"Task #7"）。
+- 面板打开时焦点移进面板，关闭时回到栏上，但点外面关闭时除外：那一下把焦点放到读者想放的地方。栏是一个带 `aria-expanded`、控制面板的按钮，名字就是它显示的内容（"Task #7, In progress, Kirby"）；面板是一个以任务命名的区域（"Task #7"）。
 - 对话保持底部锚定，最新的消息贴着消息输入框；头部折起多少，以对话能填满它让出的空间为限。短任务的头部一直在视野里，"Beginning of conversation" 上方不留空隙；它的栏从不收起，所以没有东西可以拉下来。
 - 在平板或宽窗口上，头部固定在对话上方，所以没有收起的栏，也没有面板。
 
@@ -143,10 +143,10 @@ raft-ui 尚未实现：没有完成控件的部件。在 raft-ui 加上它之前
 
 一个地方的任务以 Tasks 分区的形式打开在它的对话旁边（[页面结构](./page-structure.md#sidebar-and-side-panel)），让人们在聊天时看到工作的进展。人们不需要在那里读完每个任务：这个分区回答的是什么在推进、什么在等他们。
 
-- 分区的头部里放标题 Tasks，然后是创建按钮和 ×。头部里没有计数：紧接在它下面的 All 和 For Me 筛选已经带着数字。在手机上，分区盖住这个地方标题栏下面的对话，用标题栏的 Back 关闭：分区自己不画 Back 或 ×，所以屏幕上只有一个 Back。
-- 头部下面放 All / For Me（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md)），每项带它当前要做的任务的数量：Todo 和 In Progress。Backlog、Done 和 Closed 不计入，因为它们都不是现在正在进行的工作。For Me 列出指派给这个人的任务。
-- 紧接在 All / For Me 下面放快速添加，一个占位文字为 "Add a task" 的输入行，对齐分区 20px 的边距（[在哪里创建任务](#where-tasks-are-created)）。头部的创建按钮仍然打开 Create Task，用来写描述、选别的状态或一次创建多个任务。
-- 任务按状态分组，顺序是 In Progress、Todo、Backlog、Done、Closed：在窄的分区里，正在推进的工作排在前面，然后是等着的，最后是已经结束的。每组有一个可折叠的灰色标题，带状态像素点和计数，Backlog、Done 和 Closed 默认收起。每个标题文字上方 16px、下方 6px，放在一个 40px 的框里（这是 [Sidebar](../../packages/ui/src/components/sidebar/sidebar.md) 分区标题以前的间距，后来它下面的 8px 归给了它的列表），各组之间不另加间隔，所以标题贴着它自己的行，离上一组（大约 25px）明显比离它的第一行（16px）更远（[间距节奏](../foundations/comfort.md#spacing-rhythm)）。触屏时它的目标区域向上延伸 4px，到 44px。
+- 分区的头部里放标题 Tasks，然后是创建按钮和 ×。头部里没有计数：紧接在它下面的 All 和 For me 筛选已经带着数字。在手机上，分区盖住这个地方标题栏下面的对话，用标题栏的 Back 关闭：分区自己不画 Back 或 ×，所以屏幕上只有一个 Back。
+- 头部下面放 All / For me（[SegmentedControl](../../packages/ui/src/components/segmented-control/segmented-control.md)），每项带它当前要做的任务的数量：Todo 和 In progress。Backlog、Done 和 Closed 不计入，因为它们都不是现在正在进行的工作。For me 列出指派给这个人的任务。
+- 紧接在 All / For me 下面放快速添加，一个占位文字为 "Add a task" 的输入行，对齐分区 20px 的边距（[在哪里创建任务](#where-tasks-are-created)）。头部的创建按钮仍然打开 Create task，用来写描述、选别的状态或一次创建多个任务。
+- 任务按状态分组，顺序是 In progress、Todo、Backlog、Done、Closed：在窄的分区里，正在推进的工作排在前面，然后是等着的，最后是已经结束的。每组有一个可折叠的灰色标题，带状态像素点和计数，Backlog、Done 和 Closed 默认收起。每个标题文字上方 16px、下方 6px，放在一个 40px 的框里（这是 [Sidebar](../../packages/ui/src/components/sidebar/sidebar.md) 分区标题以前的间距，后来它下面的 8px 归给了它的列表），各组之间不另加间隔，所以标题贴着它自己的行，离上一组（大约 25px）明显比离它的第一行（16px）更远（[间距节奏](../foundations/comfort.md#spacing-rhythm)）。触屏时它的目标区域向上延伸 4px，到 44px。
 - 每个任务一个紧凑行：完成控件，编号，一行标题（截断时以省略号结尾），标题后面紧跟它讨论里的消息数，然后右端是负责人（头像和名字；Agent 的头像带在线状态灯，对本人显示 "You"）和一个 V 形箭头。行里不放状态标签：分组已经写明了状态。分区太窄时，负责人换到第二行，仍然靠右，和消息下面的列表一样。这些行和消息下面、Files 分区里的紧凑行相同（[紧凑列表的行](#rows-in-a-compact-list)）。
 - 从行打开任务详情。
 
@@ -162,11 +162,11 @@ raft-ui 尚未实现：没有完成控件的部件。在 raft-ui 加上它之前
 | 开头 | 可选，在标题那一行：任务的编号（`#25`），用 Space Mono 和 `foreground-hint`，在标题前 8px；或者文件 20px 的类型图标或缩略图 |
 | 标题 | `text-callout`，`foreground`，一行，截断时以省略号结尾。已完成任务的标题加删除线，用 `foreground-hint` |
 | 行内信息 | 紧跟标题，相距 6px，或紧跟省略号：任务的消息数（一个图标和用 Space Mono 写的数字），或者用 Space Mono 写的文件大小。它属于标题，所以标题只让出这一行缺的空间 |
-| 尾部一组 | 在右端，各部分相距 8px。任务：负责人（19px 头像和 `text-caption` 的名字），然后是状态标签，在 Tasks 分区里则是一个 V 形箭头。文件：分享的时间，紧凑写法，用 Space Mono（今天写时刻，按这个人选的 12 小时制或 24 小时制；今年更早写月和日，Oct 21；更早的年份写日期，2025-10-21；完整的日期和时间放在工具提示里），然后是它的操作（Jump to Message 和 Download，560px 以下是一个 ⋮ 菜单），最后一个图标框落在行的边距上，点击区域向外伸出，左右伸出，上下各 4px，所以文件行和任务行一样高（[对齐](../foundations/alignment.md#the-ends-of-a-header)）。只有标题会少于 160px 时，这一组才整体换到第二行，仍然靠右：在侧边列默认的 360px 时，任务行和文件行都保持一行 |
+| 尾部一组 | 在右端，各部分相距 8px。任务：负责人（19px 头像和 `text-caption` 的名字），然后是状态标签，在 Tasks 分区里则是一个 V 形箭头。文件：分享的时间，紧凑写法，用 Space Mono（今天写时刻，按这个人选的 12 小时制或 24 小时制；今年更早写月和日，Oct 21；更早的年份写日期，2025-10-21；完整的日期和时间放在工具提示里），然后是它的操作（Jump to message 和 Download，560px 以下是一个 ⋮ 菜单），最后一个图标框落在行的边距上，点击区域向外伸出，左右伸出，上下各 4px，所以文件行和任务行一样高（[对齐](../foundations/alignment.md#the-ends-of-a-header)）。只有标题会少于 160px 时，这一组才整体换到第二行，仍然靠右：在侧边列默认的 360px 时，任务行和文件行都保持一行 |
 | 分隔线 | 行之间用 `line-hairline`，一直延伸到列表的容器看得见的边界（[分隔线](../foundations/comfort.md#separators)）。在消息下面，框里只有这些行，所以线从一边贯穿到另一边，碰到框的边框。在侧边分区里（无论浮动还是在消息旁边）以及在手机上，列表只是一个分区的一部分，这个分区还有头部、筛选和分组标题；或者是一个完全没有边的页面的一部分，所以线在两侧都缩进行的内边距：从行内容开始的地方开始，到行内容结束的地方结束，离两边各 20px（手机上 16px）。悬停仍然填满整行。列表或状态分组的第一行上方没有线 |
 | 容器 | 在消息下面，行放在一个由内容决定大小的框里（见[对话中的任务](#tasks-in-a-conversation)）：`line-hairline` 边框，`radius-container`（它是一个容器，见[形状](../foundations/shape.md)），`layer-card`。在侧边分区里，行从一边贯穿到另一边，行间没有间隔，分区的头部、筛选和分组标题与它们共用 20px 边距（手机上 16px） |
 | 分组标题 | Tasks 分区里的状态标题用来折叠它的分组。它是行上方的标签，不是一行，所以它采用可折叠分组标题的状态：悬停和按下时，它的文字和 V 形箭头从 `foreground-hint` 变成 `foreground`，不铺填充，也不加下划线；键盘焦点显示内嵌的环（[可折叠的分组标题](../foundations/states.md#collapsible-group-headings)）。填充会让它看起来像又一行，而且框住文字时上下不均，因为标题把文字放在框的底部，贴着它所指的行 |
-| 状态 | 悬停在整行上铺浅档叠加层（`overlay-subtle`），按下铺中档（`overlay-medium`），键盘焦点是一个内嵌的环（[悬停与按下](../foundations/states.md#hover-and-press)）。完成控件显示它自己的焦点环。文件的操作仍然是各自的按钮，叠在行的上面；Jump to Message 跳到那条消息，消息显示被定位的高亮（[被定位](../foundations/states.md#located)） |
+| 状态 | 悬停在整行上铺浅档叠加层（`overlay-subtle`），按下铺中档（`overlay-medium`），键盘焦点是一个内嵌的环（[悬停与按下](../foundations/states.md#hover-and-press)）。完成控件显示它自己的焦点环。文件的操作仍然是各自的按钮，叠在行的上面；Jump to message 跳到那条消息，消息显示被定位的高亮（[被定位](../foundations/states.md#located)） |
 
 - 不要给这些列表的行各加一张卡片，也不要在行之间留间隔。每行一张卡片会把窄窄的侧边列变成一摞控件，三种列表也就不再像同一种。
 - 不要在标题下面放第二行详情（大小、时间、角色）：详情放在行内信息或尾部一组里。只有尾部一组换行时，一行才有第二行。
@@ -188,7 +188,7 @@ raft-ui 尚未实现：没有完成控件的部件。在 raft-ui 加上它之前
 - 每个筛选是一个 [PickerTriggerButton](../../packages/ui/src/components/picker-trigger-button/picker-trigger-button.md)，打开一个带搜索的列表。可以选多个值。
 - 生效的筛选显示为 `info-soft`，并用 Space Mono 写出选中值的数量，这样筛选过的视图看起来永远不会像完整的列表。
 - 按人筛选时，人和 Agent 列在一起。快捷项放在最前（"Created by me"、"Assigned to me"，然后是 "Unassigned"），作为列表里的行而不是单独的按钮，不带头像；然后是按 A 到 Z 排列的人和 Agent。
-- 有任何筛选生效时，在筛选后面显示 Clear All，一个幽灵按钮。
+- 有任何筛选生效时，在筛选后面显示 Clear all，一个幽灵按钮。
 - 筛选保存在地址里，这样筛选过的视图可以分享和重新加载。
 
 ## 相关 {#related}

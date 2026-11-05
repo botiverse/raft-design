@@ -44,12 +44,12 @@ export function TaskChipInFooterComposition() {
             <span className="shrink-0">#16</span>
             <span className="min-w-0 truncate">@Robin</span>
           </TaskChip>
-          <TaskChip status="in-progress" title="task #205 @Noah · In Progress">
+          <TaskChip status="in-progress" title="task #205 @Noah · In progress">
             <TaskInProgressIcon />
             <span className="shrink-0">#205</span>
             <span className="min-w-0 truncate">@Noah</span>
           </TaskChip>
-          <TaskChip status="in-review" title="task #340 @Ada · In Review">
+          <TaskChip status="in-review" title="task #340 @Ada · In review">
             <TaskInReviewIcon />
             <span className="shrink-0">#340</span>
             <span className="min-w-0 truncate">@Ada</span>

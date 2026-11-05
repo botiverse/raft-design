@@ -1,7 +1,7 @@
 ---
 title: MessageActionCard
 summary: Agent 附在消息上的卡片，操作已经填好，等人确认；确认之后，它记录是谁、在什么时候做的。
-sourceHash: 1484bd5c
+sourceHash: ba41e995
 ---
 
 # MessageActionCard
@@ -71,7 +71,7 @@ message-action-card/compositions/resolution-states
 ## 内容 {#content}
 
 - 卡片标题写动词加宾语，用句首大写：Create channel #launch-week、Merge #26 into main。
-- 确认按钮重复标题里的动词和宾语，用 Title Case：Create Channel。和对话框的按钮不同，它保留宾语，因为它不在对话框标题旁边，必须自己说清楚批准的是哪个操作（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
+- 确认按钮重复标题里的动词和宾语，用 sentence case：Create channel。和对话框的按钮不同，它保留宾语，因为它不在对话框标题旁边，必须自己说清楚批准的是哪个操作（[写作](../../../../../design/content/writing.md#actions-and-their-dialogs)）。
 - 只列出这个人需要核对的属性。
 - Agent 自己填了值时，在说明里写出来："Bugen filled these in from the thread. You can change them before it's created."
 - 记录结果时写上人和时间：Approved by Martin · 10:51。
@@ -87,7 +87,7 @@ message-action-card/compositions/resolution-states
 ## 规则 {#rules}
 
 - 确认按钮用小号的墨色边框按钮（默认 `size="md"` 的 `Button`），不用粉色：屏幕上唯一的粉色按钮是消息输入框的发送按钮。
-- 在它旁边放一个幽灵按钮 Edit First，打开这个操作的普通对话框，并填好 Agent 给的值。不要在卡片上编辑字段：卡片只是摘要。
+- 在它旁边放一个幽灵按钮 Edit first，打开这个操作的普通对话框，并填好 Agent 给的值。不要在卡片上编辑字段：卡片只是摘要。
 - 以确认它的那个人的身份执行操作。
 - 处理之后卡片留在对话里，作为这个操作的记录。
 - 对没有操作权限的人不显示按钮。改为说明卡片在等谁。

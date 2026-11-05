@@ -61,7 +61,7 @@ description-list/compositions/inline
 ## Behavior
 
 - Make a value that can be changed a trigger with no frame: it shows the medium tier on hover and press, and opens the popup of a [Select](../select/select.md) or a combobox.
-- Write an empty value that can be set as the action that sets it: Add to a Channel.
+- Write an empty value that can be set as the action that sets it: Add to a channel.
 
 raft-ui has no frameless value trigger yet; the member-info composition uses a [Badge](../badge/badge.md) rendered as a button.
 
@@ -74,7 +74,7 @@ raft-ui has no frameless value trigger yet; the member-info composition uses a [
 ## Accessibility
 
 - The parts render a native `dl`, `div`, `dt` and `dd` through Base UI's `useRender`, so screen readers pair each label with its value.
-- A value that opens a picker is a button. Give it an accessible name that says what it changes: `aria-label="Change status from In Progress"`.
+- A value that opens a picker is a button. Give it an accessible name that says what it changes: `aria-label="Change status from In progress"`.
 - Give a help button in a label an `aria-label`: `aria-label="Explain member roles"`.
 
 ## Rules

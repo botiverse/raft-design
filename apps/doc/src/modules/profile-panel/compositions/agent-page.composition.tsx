@@ -164,7 +164,7 @@ export function AgentPageComposition() {
                   variant="outline"
                 >
                   <Square data-icon="inline-start" aria-hidden />
-                  Stop Agent
+                  Stop agent
                 </Button>
                 <Button
                   nativeButton={false}
@@ -184,7 +184,7 @@ export function AgentPageComposition() {
                   variant="outline"
                 >
                   <Copy data-icon="inline-start" aria-hidden />
-                  Copy Diagnostic Info
+                  Copy diagnostic info
                 </Button>
                 <Button
                   nativeButton={false}
@@ -194,7 +194,7 @@ export function AgentPageComposition() {
                   variant="danger"
                 >
                   <Archive data-icon="inline-start" aria-hidden />
-                  Archive Agent
+                  Archive agent
                 </Button>
               </div>
             </AgentPageSection>

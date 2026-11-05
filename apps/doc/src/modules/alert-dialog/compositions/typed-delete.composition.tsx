@@ -20,7 +20,7 @@ function TypedDeleteAlertDialogParts() {
   return (
     <>
       <AlertDialogHeader>
-        <AlertDialogTitle>Delete Server</AlertDialogTitle>
+        <AlertDialogTitle>Delete server</AlertDialogTitle>
         <AlertDialogClose />
       </AlertDialogHeader>
       <AlertDialogBody className="grid gap-5">
@@ -43,7 +43,7 @@ function TypedDeleteAlertDialogParts() {
       <AlertDialogFooter>
         <AlertDialogCancel size="md">Cancel</AlertDialogCancel>
         <AlertDialogAction variant="danger" size="md">
-          Delete Server
+          Delete server
         </AlertDialogAction>
       </AlertDialogFooter>
     </>

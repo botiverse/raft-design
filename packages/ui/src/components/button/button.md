@@ -32,11 +32,11 @@ button/compositions/preview
 
 | Variant              | Use for                                                                                      | Examples                             |
 | -------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------ |
-| `variant="primary"`  | The action the screen exists for: a pink sticker                                             | Send, Create Channel, Bring an Agent |
+| `variant="primary"`  | The action the screen exists for: a pink sticker                                             | Send, Create channel, Bring an agent |
 | `variant="default"`  | Every other action, including one that every row of a list repeats: an ink border            | Assign, Approve, Claim               |
 | `variant="ghost"`    | Cancel and minor actions inside a surface that draws its own edge: no frame                  | Cancel in a dialog                   |
-| `variant="warning"`  | Actions that interrupt but can be undone: an orange sticker                                  | Stop Wug, Leave Channel, Reset       |
-| `variant="danger"`   | Actions that cannot be undone, on the confirm button of a confirmation dialog: a red sticker | Delete Agent                         |
+| `variant="warning"`  | Actions that interrupt but can be undone: an orange sticker                                  | Stop Wug, Leave channel, Reset       |
+| `variant="danger"`   | Actions that cannot be undone, on the confirm button of a confirmation dialog: a red sticker | Delete agent                         |
 | `variant="on-frame"` | A frameless button on the frame: the rail, the web top bar, the desktop title bar            | The workspace button                 |
 
 `accent` renders the same as `primary`, and `outline`, `information`, `muted` and `success` the same as `default`. Use the names in the table.
@@ -58,7 +58,7 @@ Every button is flat: the ink border or the sticker marks it as a control, never
 - Give every other action an ink border (`default`).
 - Make cancel and minor actions frameless (`ghost`) inside a surface that draws its own edge. On a page, give the same action an ink border (`default`).
 - When buttons stack full width (a dialog footer whose row doesn't fit, a bottom sheet's actions), a `ghost` button there takes the ink border of `default`, with its hover and press. Stretched to the full width, a frameless button reads as a line of text, not a button: once buttons stack, each needs its own box (stdrc, 2026-10-22). The container marks the stack with `data-stacked`; the button keeps its `ghost` variant and loses the frame again when the row comes back. Disabled, it keeps the disabled fill; an icon button stays frameless.
-- Use [TextLink](../text-link/text-link.md) for the bottom of the ladder: where even a frameless button is too much weight, such as Forgot Password on a sign-in page or a See All beside a section title. It may carry an action, but it is the quietest control on the screen, never a way to fit one more button into a crowded row. It is not a Button variant: a text link is a word in a line, not a box, so it takes the size of the text around it, and a Button would bring a height, a border and padding that each have to be taken off again.
+- Use [TextLink](../text-link/text-link.md) for the bottom of the ladder: where even a frameless button is too much weight, such as Forgot password on a sign-in page or a See all beside a section title. It may carry an action, but it is the quietest control on the screen, never a way to fit one more button into a crowded row. It is not a Button variant: a text link is a word in a line, not a box, so it takes the size of the text around it, and a Button would bring a height, a border and padding that each have to be taken off again.
 - Use orange (`warning`) for actions that interrupt but can be undone: stop, leave, reset.
 - Use red (`danger`) only for actions that cannot be undone, and only in a confirmation dialog ([AlertDialog](../alert-dialog/alert-dialog.md)). Don't color a destructive item in a menu ([DropdownMenu](../dropdown-menu/dropdown-menu.md)).
 - Don't use `danger-secondary` or `danger-outline`: red text on an outline button puts red outside a confirmation dialog.
@@ -70,7 +70,7 @@ Size follows the purpose. The same purpose has the same size everywhere, and the
 
 | Size                  | Height                                             | Use for                                                                                                                                                 |
 | --------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `size="lg"`           | 44px on a phone; 32px, 44px hit area, on a desktop | Dialog and drawer footers, form submit buttons, a full-width column of actions at the bottom of a panel (Remove Member, Leave Channel, Archive Channel) |
+| `size="lg"`           | 44px on a phone; 32px, 44px hit area, on a desktop | Dialog and drawer footers, form submit buttons, a full-width column of actions at the bottom of a panel (Remove member, Leave channel, Archive channel) |
 | `size="md"` (default) | 32px, 44px hit area                                | Actions in list rows, cards, banners, toolbars and panel headers                                                                                        |
 | `size="xl"`           | 52px on a phone, 40px on a desktop                 | Only the full-width pink button across a sign-in, sign-up or setup form                                                                                 |
 
@@ -94,7 +94,7 @@ Every place has one answer. Where a part of the container sets the place, follow
 | A desktop panel header                                                      | none                                   | `PanelAction` and `PanelToggleAction` are their own buttons, 32px on a desktop and 44px on a phone        |
 | Card and message action card actions; a single action in a settings section | `md`                                   | You                                                                                                       |
 | The end of a list row or a table row                                        | `md`, `icon-md`                        | You                                                                                                       |
-| Toolbars, filter bars, empty states, the bottom of a popover, Load More     | `md`, `icon-md`                        | You                                                                                                       |
+| Toolbars, filter bars, empty states, the bottom of a popover, Load more     | `md`, `icon-md`                        | You                                                                                                       |
 | A phone top bar; the media viewer                                           | `icon-lg`                              | The top bar, `Lightbox`                                                                                   |
 | The rail, the web top bar, the desktop title bar                            | `on-frame` at `md` or `icon-md` (36px) | The frame                                                                                                 |
 | A menu, a phone's overflow menu                                             | No Button: a menu item                 | `DropdownMenu`, the sheet                                                                                 |
@@ -130,8 +130,8 @@ Hover, press, focus and disabled follow [States](../../../../../design/foundatio
 
 ## Content
 
-- Start with a verb and name the result: Send for Review, not OK or Submit. In a dialog the title names the object, so its main button says the verb alone: Create in Create Channel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
-- Use Title Case ([Writing](../../../../../design/content/writing.md#casing)), and repeat the button's words in the dialog it opens ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
+- Start with a verb and name the result: Send for review, not OK or Submit. In a dialog the title names the object, so its main button says the verb alone: Create in Create channel ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
+- Use sentence case ([Writing](../../../../../design/content/writing.md#casing)), and repeat the button's words in the dialog it opens ([Writing](../../../../../design/content/writing.md#actions-and-their-dialogs)).
 - Put an icon before the label (`data-icon="inline-start"`), and Return or an arrow after it (`data-icon="inline-end"`).
 - While loading, say what is happening: Creating….
 - A Button narrower than its content (given `min-w-0 max-w-full` in a card or a row) truncates its content rather than overflowing its border: give the label `truncate`, and its icons keep their size.
@@ -140,7 +140,7 @@ Hover, press, focus and disabled follow [States](../../../../../design/foundatio
 
 Button wraps Base UI Button and renders a native `<button>`. For navigation, render a real link instead: `render={<a href="…" />}`.
 
-- Give every icon-only button an `aria-label` in Title Case (Add Reaction). On devices with a pointer, add a [Tooltip](../tooltip/tooltip.md) with the same name and the shortcut.
+- Give every icon-only button an `aria-label` in sentence case (Add reaction). On devices with a pointer, add a [Tooltip](../tooltip/tooltip.md) with the same name and the shortcut.
 - A busy button keeps its focus. While `loading`, the button is `aria-disabled`, not natively `disabled`: natively disabling the focused button would drop focus to the page, and it would not come back when the wait ends or fails. It stays focusable and in the tab order, and it blocks its own activation: a click, Enter, Space and the form submission it would start do nothing, so the action can't run twice. A button that is `disabled` stays natively `disabled`, loading or not.
 - While `loading`, the spinner is named by `loadingLabel`. Set `loadingLabel` to what is happening.
 - Use `focusableWhenDisabled` when a Tooltip has to explain why an action is unavailable: the button stays focusable and keeps the disabled look.

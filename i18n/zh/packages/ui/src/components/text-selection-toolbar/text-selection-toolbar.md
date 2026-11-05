@@ -1,7 +1,7 @@
 ---
 title: TextSelectionToolbar
 summary: 浮在人选中的文字上方的工具栏，提供 Quote、Copy、Comment 这类针对这段文字的操作，用在消息、Artifact 或其他任何供人阅读的文字里。
-sourceHash: 823ab6f1
+sourceHash: c10dc48a
 ---
 
 # TextSelectionToolbar
@@ -43,7 +43,7 @@ text-selection-toolbar/text-selection-toolbar
 
 ## 内容 {#content}
 
-- 标签用 Title Case（每个单词首字母大写）。标签从不换行：中文可以在任意两个字之间断开，所以挤在窗口边缘的工具栏曾把两个字的标签断成了两行。
+- 标签用 sentence case（只有第一个词和名称首字母大写）。标签从不换行：中文可以在任意两个字之间断开，所以挤在窗口边缘的工具栏曾把两个字的标签断成了两行。
 
 ## 无障碍 {#accessibility}
 

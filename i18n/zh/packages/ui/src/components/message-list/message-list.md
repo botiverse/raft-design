@@ -1,7 +1,7 @@
 ---
 title: MessageList
 summary: 对话或消息列中滚动的时间线，包括日期线、开头的说明、历史受限的标记，以及浮在上面的跳转控件。
-sourceHash: 8964c481
+sourceHash: 0506edc1
 ---
 
 # MessageList
@@ -64,11 +64,11 @@ message-list/compositions/next-unread-thread
 message-list/compositions/phone
 ```
 
-- 对话尽头不在视野内时，显示 Back to Bottom；这个人滚开后有新消息到达时，同一个胶囊按钮显示有几条："3 New Messages"。尽头重新进入视野后，把它去掉。
-- 通往更下方某处的胶囊按钮放在底部，排在 Back to Bottom 之后："Next Unread Thread (3)"。通往上方的胶囊按钮 "Earliest Unread Thread (3)" 单独放在顶部。
+- 对话尽头不在视野内时，显示 Back to bottom；这个人滚开后有新消息到达时，同一个胶囊按钮显示有几条："3 new messages"。尽头重新进入视野后，把它去掉。
+- 通往更下方某处的胶囊按钮放在底部，排在 Back to bottom 之后："Next unread thread (3)"。通往上方的胶囊按钮 "Earliest unread thread (3)" 单独放在顶部。
 - 底部最多显示两个胶囊按钮，顶部最多一个。第三个目的地要等其中一个消失：超过两个胶囊按钮，就会挡住它们要带人去看的消息。
-- 只有当这个人可能不想去它指向的地方时（未读的消息列），才给胶囊按钮加关闭按钮；Back to Bottom 永远不加。关闭的胶囊按钮在计数变化之前不会再出现。
-- 标签用 Title Case，和其他按钮一样，并把计数写进去："3 New Messages"、"Next Unread Thread (3)"。
+- 只有当这个人可能不想去它指向的地方时（未读的消息列），才给胶囊按钮加关闭按钮；Back to bottom 永远不加。关闭的胶囊按钮在计数变化之前不会再出现。
+- 标签用 sentence case，和其他按钮一样，并把计数写进去："3 new messages"、"Next unread thread (3)"。
 
 ### 外观 {#how-they-look}
 
@@ -89,7 +89,7 @@ message-list/compositions/phone
 - MessageList 渲染普通元素，不添加角色或实时区域。用对话的名称给外面的面板命名（[ConversationPanel](../conversation-panel/conversation-panel.md#accessibility)）。
 - 说明、日期线和历史标记是文字，不是控件。
 - 把 `MessageListDateDivider` 里的日期放在带 `dateTime` 的 `<time>` 元素里，和事件行的时间一样（[SystemMessage](../system-message/system-message.md#accessibility)）。
-- 跳转胶囊按钮是原生按钮；标签就是它们的名称。有不止一个时，给 `MessageListJumpPillDismiss` 一个用 Title Case 写、说明关闭什么的 `aria-label`："Dismiss Unread Threads"。
+- 跳转胶囊按钮是原生按钮；标签就是它们的名称。有不止一个时，给 `MessageListJumpPillDismiss` 一个用 sentence case 写、说明关闭什么的 `aria-label`："Dismiss unread threads"。
 - 胶囊按钮在 DOM 里排在列表之后，所以按 Tab 会在消息之后到达它们；它们出现时不会被读出：它们重复的是滚动就能看到的东西。
 
 ## 规则 {#rules}

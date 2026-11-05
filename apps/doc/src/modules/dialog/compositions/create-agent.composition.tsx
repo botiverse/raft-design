@@ -34,7 +34,7 @@ function CreateAgentDialogParts() {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Create Agent</DialogTitle>
+        <DialogTitle>Create agent</DialogTitle>
         <DialogClose />
       </DialogHeader>
       <DialogBody className="grid gap-4">
@@ -83,7 +83,7 @@ function CreateAgentDialogParts() {
             <span className="text-sm font-medium text-foreground">Model</span>
             <span className="font-mono text-xs text-foreground-muted">auto</span>
           </div>
-          <TextLink className="mt-1 justify-self-start text-caption">Advanced Environment</TextLink>
+          <TextLink className="mt-1 justify-self-start text-caption">Advanced environment</TextLink>
         </div>
       </DialogBody>
       <DialogFooter>

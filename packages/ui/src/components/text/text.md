@@ -51,7 +51,7 @@ text/compositions/semantic-elements
 
 ## Content
 
-- Follow the casing in [Typography](../../../../../design/foundations/typography.md#casing): sentence case for text, Title Case only for what people click.
+- Follow the casing in [Typography](../../../../../design/foundations/typography.md#casing): sentence case for all text, what people click included.
 - Set IDs, times, counts and sizes in `Text.Mono`, even next to Space Grotesk: `#25`, `10:24`, `24 KB`.
 
 ## Accessibility

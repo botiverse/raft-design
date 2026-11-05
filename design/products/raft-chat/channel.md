@@ -11,7 +11,7 @@ A channel is a place where people and agents share one timeline, with the compos
 
 From top to bottom:
 
-1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the working line ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)), then the channel's description. On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open Tasks"), Files ("Open Files") and Settings ("Channel details and settings"), which opens the channel details, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)).
+1. **The header** (`PanelHeader`): the location tile, the channel name, and a subtitle; on a phone, Back before them. The subtitle is the working line ([Working agents](../../people-and-agents/working-agents.md#rows-and-subtitles)), then the channel's description. On the right, four icon buttons: Search ("Search this channel"), Tasks ("Open tasks"), Files ("Open files") and Settings ("Channel details and settings"), which opens the channel details, then Expand when another column is open beside the channel. Where the header runs out of room, the four fold into a ⋯ before Expand, the last first ([Panel](../../../packages/ui/src/components/panel/panel.md#rules)).
 2. **The timeline**, newest at the bottom.
 3. **The composer**.
 
@@ -32,12 +32,12 @@ conversation-panel/compositions/conversation-panel
 - Open the details from the Settings button as a drawer from the right ([Raft Chat](./README.md#overlays)). It closes as in [Navigation](../../patterns/navigation.md#closing).
 - Give the drawer a one-line head: the channel's name and its visibility (Public, Private or Joint) on desktop, and "Settings · #launch-week" on a phone, the name in muted Space Mono ([Drawer](../../../packages/ui/src/components/drawer/drawer.md#rules)).
 - Keep the description out of the head: the drawer shows it, so the head would only repeat it (stdrc, 2026-11-03). Put it in the channel info under the members, as a field for people who can edit the channel and as plain text for everyone else.
-- Under the head, put the members as a row of avatars with an add tile, which opens the member list inside the drawer; then the channel's settings, its preferences (mute, collapse long messages), Stop All Agents and Leave Channel.
+- Under the head, put the members as a row of avatars with an add tile, which opens the member list inside the drawer; then the channel's settings, its preferences (mute, collapse long messages), Stop all agents and Leave channel.
 - When someone closes the drawer with unsaved edits, ask whether to save or discard them.
 
 ### Tasks and files
 
-- Make Tasks (`list-todo`) and Files (`paperclip`) toggles in the header (`PanelToggleAction`, [Panel](../../../packages/ui/src/components/panel/panel.md)): pressed, each is a yellow sticker and its section is open. Their labels switch to Close Tasks and Close Files.
+- Make Tasks (`list-todo`) and Files (`paperclip`) toggles in the header (`PanelToggleAction`, [Panel](../../../packages/ui/src/components/panel/panel.md)): pressed, each is a yellow sticker and its section is open. Their labels switch to Close tasks and Close files.
 - Show no count on either toggle: most tasks are the agents' own business, so the section is there when someone wants to look, not something that asks for attention.
 - Close a section with its toggle or its ×; on a phone, with Back. When both are open, Tasks is above Files.
 - Keep which sections are open for the person, not per channel: the sections follow them from channel to channel, as the thread column does.
@@ -47,21 +47,21 @@ conversation-panel/compositions/conversation-panel
 
 ### The composer in a channel
 
-- Put Attach media and Attach file on the left of the toolbar. The composer has no As Task: people send messages, and tasks are created from them ([Tasks in the conversation](#tasks-in-the-conversation)).
+- Put Attach media and Attach file on the left of the toolbar. The composer has no As task: people send messages, and tasks are created from them ([Tasks in the conversation](#tasks-in-the-conversation)).
 - Group the @ suggestions as "In this channel", "Not in this channel", Computers and Apps ([Conversation](../../patterns/conversation.md#mentions)).
 
 ### Tasks in the conversation
 
 Tasks in the timeline follow [Tasks](../../patterns/tasks.md#tasks-in-a-conversation).
 
-- Create a task with the quick add ("Add a task") or + in the Tasks section, for a task of the channel with no message, or with Create Task from Message in the message menu. Create Task from Message opens Create Task with the message quoted and its text as the first title; every task created there is linked to the message, and a message can have several.
+- Create a task with the quick add ("Add a task") or + in the Tasks section, for a task of the channel with no message, or with Create task from message in the message menu. Create task from message opens Create task with the message quoted and its text as the first title; every task created there is linked to the message, and a message can have several.
 - Show the tasks created from a message under it, and under the message at the top of its thread.
 - Change a task's status in its details or on the Tasks page, or complete it with the completion control on its row under the message; not from the message menu.
 
 ### Threads
 
-- Put "2 Agents following" beside the followers' avatar stack, then a menu (Search in Thread, View in Channel, Mark as Unread, Unfollow Thread; a thread the person doesn't follow has Follow Thread and no Mark as Unread) at the right of the thread's header, then Expand, which makes the thread fill the row with every other column, the conversation's included, a 160px strip beside it, and turns into Restore to bring the row back (a window control right before × and never in the menu; hidden while the thread is folded over the conversation with no column beside it: [Panel](../../../packages/ui/src/components/panel/panel.md#rules)), then × on wide screens. Where the head runs out of room, the followers fold into the menu as Following Agents; folded over the conversation, the head starts with Back and has no × ([The channel's side columns](../../patterns/responsive.md#the-channels-side-columns)).
-- Inside the thread, every message's menu has Mark Thread as Unread, after Unfollow Thread: it says "Thread" because the menu is a message's, and it marks the whole thread unread, not only from that message on. Both items are the action of the thread's Activity row, with its `message-square-dot` icon: the thread shows unread in its channel and in Activity. The person is still in the thread, so it stays open and stays unread until they leave it, as a channel marked unread does while they are in it. In Activity's detail pane, acting in the thread reads it, as picking its row does. A thread the person doesn't follow has neither item, as its Activity row has none: unfollowing a thread clears its unread at once.
+- Put "2 agents following" beside the followers' avatar stack, then a menu (Search in thread, View in channel, Mark as unread, Unfollow thread; a thread the person doesn't follow has Follow thread and no Mark as unread) at the right of the thread's header, then Expand, which makes the thread fill the row with every other column, the conversation's included, a 160px strip beside it, and turns into Restore to bring the row back (a window control right before × and never in the menu; hidden while the thread is folded over the conversation with no column beside it: [Panel](../../../packages/ui/src/components/panel/panel.md#rules)), then × on wide screens. Where the head runs out of room, the followers fold into the menu as Following agents; folded over the conversation, the head starts with Back and has no × ([The channel's side columns](../../patterns/responsive.md#the-channels-side-columns)).
+- Inside the thread, every message's menu has Mark thread as unread, after Unfollow thread: it says "Thread" because the menu is a message's, and it marks the whole thread unread, not only from that message on. Both items are the action of the thread's Activity row, with its `message-square-dot` icon: the thread shows unread in its channel and in Activity. The person is still in the thread, so it stays open and stays unread until they leave it, as a channel marked unread does while they are in it. In Activity's detail pane, acting in the thread reads it, as picking its row does. A thread the person doesn't follow has neither item, as its Activity row has none: unfollowing a thread clears its unread at once.
 
 ### History behind the plan's window
 

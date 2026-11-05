@@ -1,12 +1,12 @@
 ---
 title: TaskDnd
 summary: 让人在各列之间、在其他卡片之间拖动任务卡片的一组拖放部件；允许放到哪里、移动后做什么由调用方决定。
-sourceHash: f85f84e5
+sourceHash: cf495145
 ---
 
 # TaskDnd
 
-TaskDnd 是 [TaskBoard](../task-board/task-board.md) 背后的拖放连接层：一个 provider、人拖动的卡片、放下卡片的位置、卡片落入的空隙，以及跟着鼠标指针移动的卡片副本。它遵循统一的拖动模型（[拖放](../../../../../design/patterns/drag-and-drop.md)），用这个模型的部件搭建（[Drag](../drag/drag.md)）。它不对任务做任何决定。哪些放置是允许的、一次移动要做什么（比如把 #25 从 Todo 改成 In Progress），由调用方说了算。
+TaskDnd 是 [TaskBoard](../task-board/task-board.md) 背后的拖放连接层：一个 provider、人拖动的卡片、放下卡片的位置、卡片落入的空隙，以及跟着鼠标指针移动的卡片副本。它遵循统一的拖动模型（[拖放](../../../../../design/patterns/drag-and-drop.md)），用这个模型的部件搭建（[Drag](../drag/drag.md)）。它不对任务做任何决定。哪些放置是允许的、一次移动要做什么（比如把 #25 从 Todo 改成 In progress），由调用方说了算。
 
 ```example
 task-dnd/compositions/task-dnd

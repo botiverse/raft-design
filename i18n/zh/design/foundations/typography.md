@@ -1,7 +1,7 @@
 ---
 title: 字体排印
 summary: 两种字体，字号阶梯以及每种字号和字重的用途，文字颜色的三个层级，字体度量 token，以及大小写规则。
-sourceHash: 0449d643
+sourceHash: 35f8ee00
 ---
 
 # 字体排印
@@ -12,7 +12,7 @@ Raft 用两种字体，各管一件事：Space Grotesk 写人说的话，Space M
 
 - **Space Grotesk 代表人，Space Mono 代表机器。** Space Grotesk（可变字体，字重 300 到 700）用于消息、标签和标题。Space Mono（400 和 700）用于 ID、时间、计数、运行时长、事件行、快捷键和代码。
 - **中日韩文字回退到系统字体**：中文依次用 PingFang SC、思源黑体（Source Han Sans）。繁体中文、日文或韩文页面（`<html lang="zh-TW">` / `"ja"` / `"ko"`）先回退到各自的字体，因为简体中文字体按大陆字形绘制汉字，也没有韩文字母。中英文混排时，数字、ID 和时间仍用 Space Mono。
-- **不用全大写。** 可点击的内容用 Title Case，其余一律用 sentence case；见[大小写](#casing)。
+- **不用全大写，处处用 sentence case。** 每个标签、标题和每行文字都用 sentence case，只有第一个词和名称首字母大写；见[大小写](#casing)。
 
 ## 字号阶梯 {#type-scale}
 
@@ -135,12 +135,17 @@ card-title
 
 | 文字 | 大小写 | 示例 |
 | --- | --- | --- |
-| 一切可点击的内容：按钮、文字链接、菜单项、标签页、标签栏项、状态名称 | Title Case | Create Task, Mark All Read, Sign Out |
+| 人能点击或说出一个操作的一切：按钮、菜单项、标签页、标签栏项、分段控件、文字链接、图标按钮的工具提示和无障碍名称 | Sentence case | Create task, Mark all read, Sign out, Add reaction |
+| 任务状态名称 | Sentence case | Backlog, Todo, In progress, Done, Closed |
 | 标题、分组标题、说明、空状态 | Sentence case | No tasks match these filters |
-| 重复其按钮标签的对话框或底部面板标题 | Title Case | Create Channel |
+| 重复其按钮标签的对话框或底部面板标题 | Sentence case，与按钮相同 | Create channel |
+| 名称，按[写作](../content/writing.md#casing)列出的：Raft 的产品和功能、术语列出的目的地、视图和状态、人、Agent、服务器、频道、第三方名称、缩写 | 按名称本身的写法 | Agent Lounge, Remove from Saved, Move to Backlog, GitHub, #launch-week |
+| 其他所有分区、分组标题和设置页 | Sentence case | Direct messages, Plan & billing |
+
+- 所有文字只用一种大小写：sentence case，名称保留大写。长标签（比如菜单项）用 Title Case 读起来别扭，而只用一种大小写，写、翻译和检查都更简单（[0044](../decisions/0044-sentence-case-for-labels.md)）。
 
 - 不要把文字设成全大写，无论是用 CSS 还是直接写在字符串里。[0002](../decisions/0002-no-all-caps.md) 允许一个例外：引导页上的步骤标签；产品的设置流程用 sentence case 写步骤标签，所以产品中没有任何全大写文字（[品牌](./brand.md)）。
-- Title Case 的写法规则见[写作](../content/writing.md#casing)。
+- 标签的写法规则，以及哪些算名称，见[写作](../content/writing.md#casing)。
 
 ## 相关 {#related}
 

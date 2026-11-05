@@ -13,14 +13,14 @@ The first run has two parts. Creating an account's identity and a server happens
 
 - The pages follow [Brand](../../foundations/brand.md#how-much-brand) for creating an account or a server: from 1024px a brand pane beside the form, and below 1024px a frame bar above it.
 - From 1024px, the form takes 2 parts of 5 on the left, and the form itself is at most 448px wide. The preview in the pane follows the form: the server's name and address appear in it as they are typed.
-- Under the form, a line says who is signed in, with Sign Out.
+- Under the form, a line says who is signed in, with Sign out.
 
 ### The setup dialog
 
 The steps, in order:
 
 1. **Connect a computer** (960px wide): what a computer is, the command to run, and a log that follows the connection. When the server already has computers that are offline, the step becomes Start your computer, with the command that brings one back.
-2. **Create the first agent** ("Meet Cindy"), with the same form as Create Agent.
+2. **Create the first agent** ("Meet Cindy"), with the same form as Create agent.
 3. **Tell the agent about you**: a short survey of option grids.
 4. **Choose your display style**.
 5. **The handoff**: the agent takes it from here.

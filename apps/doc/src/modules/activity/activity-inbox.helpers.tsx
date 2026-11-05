@@ -272,8 +272,8 @@ export function ActivityItem({
           {view === "saved" ? null : (
             <PanelAction
               onClick={handleToggleDone}
-              aria-label={view === "done" ? "Restore to Active" : "Mark as done"}
-              title={view === "done" ? "Restore to Active" : "Mark as done"}
+              aria-label={view === "done" ? "Restore to Active" : "Mark as Done"}
+              title={view === "done" ? "Restore to Active" : "Mark as Done"}
             >
               {view === "done" ? <RotateCcw /> : <Check />}
             </PanelAction>
@@ -297,7 +297,7 @@ export function ActivityItem({
             </ContextMenuItem>
             <ContextMenuItem onClick={handleToggleDone}>
               <Check />
-              <ContextMenuItemLabel>Mark as done</ContextMenuItemLabel>
+              <ContextMenuItemLabel>Mark as Done</ContextMenuItemLabel>
             </ContextMenuItem>
           </>
         ) : null}

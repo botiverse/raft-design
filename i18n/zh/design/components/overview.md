@@ -204,11 +204,11 @@ message-translation/compositions/translation-showcase
 
 ### 选中消息时的工具栏 {#toolbar-for-selected-messages}
 
-选中消息时，一个工具栏浮在原来消息输入框的位置，在会话底部居中，不论多宽都排成一行：数量（"3 selected"）、Copy Link、Forward、一个 More 菜单（Generate Image、Copy MD），最后是结束选择的 ×（cindyz，2026-10-28，任务 #173）。在 thread 里，数量前面有一个全选复选框，数量的文字写明它的状态：部分选中时是「−」和「3 selected」，一条都没选时是空框和「0 selected」，全部选中时是「✓」和「All 169 selected」。一条都没选时点它会全选；部分选中或全部选中时点它会清空。所以它不会在部分选中时突然换成全部选中。清空到 0 条以后工具栏仍然留着，Copy Link 和 Forward 变成不可用，直到点 × 结束选择（cindyz，2026-11-03，#triage:#175）。只有 thread 里有：在 thread 里，人们常常要把整段讨论都选上；频道太长，「全部」没有意义。复选框要配着旁边的数量文字一起读，文字说明框里显示的状态。因为在浮动工具栏里，它下面没有一列消息的复选框可以说明它的作用，这一点和列表表头里的全选框不同。消息菜单里的 Select Message 开始选择；每条消息会出现一个复选框（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。它是一个浮动工具栏，和悬停工具栏一样高 36px：里面的按钮 28px，距工具栏边缘 4px，按钮之间间隔 4px，使用 `radius-chip`（[形状](../foundations/shape.md#inside-a-frame)）。
+选中消息时，一个工具栏浮在原来消息输入框的位置，在会话底部居中，不论多宽都排成一行：数量（"3 selected"）、Copy link、Forward、一个 More 菜单（Generate image、Copy MD），最后是结束选择的 ×（cindyz，2026-10-28，任务 #173）。在 thread 里，数量前面有一个全选复选框，数量的文字写明它的状态：部分选中时是「−」和「3 selected」，一条都没选时是空框和「0 selected」，全部选中时是「✓」和「All 169 selected」。一条都没选时点它会全选；部分选中或全部选中时点它会清空。所以它不会在部分选中时突然换成全部选中。清空到 0 条以后工具栏仍然留着，Copy link 和 Forward 变成不可用，直到点 × 结束选择（cindyz，2026-11-03，#triage:#175）。只有 thread 里有：在 thread 里，人们常常要把整段讨论都选上；频道太长，「全部」没有意义。复选框要配着旁边的数量文字一起读，文字说明框里显示的状态。因为在浮动工具栏里，它下面没有一列消息的复选框可以说明它的作用，这一点和列表表头里的全选框不同。消息菜单里的 Select message 开始选择；每条消息会出现一个复选框（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。它是一个浮动工具栏，和悬停工具栏一样高 36px：里面的按钮 28px，距工具栏边缘 4px，按钮之间间隔 4px，使用 `radius-chip`（[形状](../foundations/shape.md#inside-a-frame)）。
 
 - 它和会话两侧的距离与消息输入框相同，所以从不比它取代的消息输入框更宽：桌面端和手机上都是 20px，因为在手机上，消息那一栏和它的消息输入框也保持 20px（[页面结构](../patterns/page-structure.md#one-edge-per-column)）。它浮在距底部 12px 的地方。
 - 数量排在最前：它说明这些操作作用于什么，数量变化时会被读出。工具栏的无障碍名称保持不变（"Selected message actions"）。
-- Forward 是唯一的主按钮：人选中消息就是为了转发。Copy Link 留在它旁边；其余的都在 More 里，所以这一行从不换行。Copy Link 放得下时才显示标签，否则只显示图标；还是没有空间，就移进 More。只有连这样都放不下时（在最窄的手机上，用一种文字较长的语言显示一个较长的数量），Forward 才只显示图标。数量从不让位。
+- Forward 是唯一的主按钮：人选中消息就是为了转发。Copy link 留在它旁边；其余的都在 More 里，所以这一行从不换行。Copy link 放得下时才显示标签，否则只显示图标；还是没有空间，就移进 More。只有连这样都放不下时（在最窄的手机上，用一种文字较长的语言显示一个较长的数量），Forward 才只显示图标。数量从不让位。
 - × 结束选择，放在最后，和浮动工具栏的关闭按钮一样；Escape 的作用相同。Cancel 不是对消息的操作，所以不和这些操作放在一起。之后焦点回到会话里：回到消息输入框；没有消息输入框的地方，回到开始选择的那条消息。
 - 在触屏上，按钮仍是 28px，每个按钮的点击区域是 44px，朝相邻按钮只伸出间隔的一半，所以点在两个按钮之间会落到较近的那个上（[MessageItem](../../packages/ui/src/components/message-item/message-item.md)）。
 - 工具栏浮在那里时，会话让最后一条消息不被它挡住。
@@ -253,7 +253,7 @@ toggle-group/compositions/formatting
 - 在手机上，服务器标签（标签栏的最后一个标签）打开同一个列表，作为标签栏上方的弹出层，距两侧各 8px，底部操作下面、最底部一行是这个服务器自己的页面（[MobileNav](../../packages/ui/src/components/mobile-nav/mobile-nav.md#the-server-tab)，`MobileNavServerPopoverContent`）。主页上的工作空间按钮只打开列表，作为锚定在顶栏下方的弹出层，距两侧各 8px（[Popover](../../packages/ui/src/components/popover/popover.md)，[导航](../patterns/navigation.md#the-server-tab-on-a-phone)）。
 - 每一行是工作空间图块、它的名称，以及用 Space Mono 显示的地址（`/launch`）。当前服务器用勾号和粗体名称标出；其他服务器的未读数显示为粉色计数，服务器被静音时显示为灰色计数。
 - 每一行都有拖动手柄，让人可以调整列表顺序。那排头像也按同样的顺序排列。
-- 列表末尾，在分隔线之后，依次是 Join Community（直到这个人加入为止）、Switch or Create Server 和 Invite Human。
+- 列表末尾，在分隔线之后，依次是 Join community（直到这个人加入为止）、Switch or create server 和 Invite human。
 
 ## 所有组件 {#every-component}
 

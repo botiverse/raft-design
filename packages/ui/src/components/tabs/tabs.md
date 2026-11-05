@@ -68,7 +68,7 @@ When a tab's content has controls of its own (a view switch, filters, search, a 
 
 ## Content
 
-- Label tabs with 1 or 2 words in Title Case: Profile, Activity, Workspace ([Typography](../../../../../design/foundations/typography.md#casing)).
+- Label tabs with 1 or 2 words in sentence case: Profile, Activity, Workspace ([Typography](../../../../../design/foundations/typography.md#casing)).
 - Put a count in its own Space Mono element after the label, never in the label's text.
 
 ## Accessibility

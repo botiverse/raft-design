@@ -1,7 +1,7 @@
 ---
 title: Raft Chat — 任务
 summary: 任务这个目的地：标题和计数，Channel、Creator 和 Assignee 筛选，它不包含什么，频道的 Tasks 分区，以及它们的空状态。
-sourceHash: db0f5785
+sourceHash: 5ea1a8a5
 ---
 
 # Raft Chat — 任务
@@ -13,7 +13,7 @@ sourceHash: db0f5785
 从上到下：
 
 1. **标题栏**（`PanelSectionHeader`，手机上在外框上）：标题 Tasks，下面是用 Space Mono 写的计数："12 channel tasks"，有筛选时是 "3 of 12 channel tasks"。
-2. **筛选栏**：Channel、Creator 和 Assignee，有筛选时后面跟 Clear All，最右端是 Board / List。
+2. **筛选栏**：Channel、Creator 和 Assignee，有筛选时后面跟 Clear all，最右端是 Board / List。
 3. **任务**：看板或列表，卡片上写着所属的频道。
 
 ```example
@@ -33,8 +33,8 @@ raft-ui 尚未实现：这个示例展示的是 [0042](../../decisions/0042-task
 
 这个分区遵循[对话旁边的任务](../../patterns/tasks.md#tasks-beside-a-conversation)。在 Raft Chat 里：
 
-- All 上计数未完成的任务（Todo、In Progress），For Me 上计数指派给这个人的未完成任务。标题栏自己不带计数。
-- 在 × 前面放一个幽灵样式的 Create Task 图标按钮（`plus`）。它打开 Create Task（[在哪里创建任务](../../patterns/tasks.md#where-tasks-are-created)），标题下面用 Space Mono 写着所在的频道："In #launch-week"。
+- All 上计数未完成的任务（Todo、In progress），For me 上计数指派给这个人的未完成任务。标题栏自己不带计数。
+- 在 × 前面放一个幽灵样式的 Create task 图标按钮（`plus`）。它打开 Create task（[在哪里创建任务](../../patterns/tasks.md#where-tasks-are-created)），标题下面用 Space Mono 写着所在的频道："In #launch-week"。
 - 在一个状态分组里，最新的任务排在最前：人们是在聊天时看这个分区的，所以刚从对话里创建的任务出现在它所在分组的最上面，正是他们找它的地方。
 
 ### 空状态 {#empty-states}
@@ -42,8 +42,8 @@ raft-ui 尚未实现：这个示例展示的是 [0042](../../decisions/0042-task
 | 情况 | 标题 | 句子 |
 | --- | --- | --- |
 | 没有任务的频道 | No tasks yet | Tasks that people and agents create in this channel show up here. |
-| For Me，没有指派给这个人的任务 | Nothing is waiting on you | Tasks assigned to you in this channel show up here. |
+| For me，没有指派给这个人的任务 | Nothing is waiting on you | Tasks assigned to you in this channel show up here. |
 | 没有任务的任务页面 | No tasks yet | DM and agent task boards are intentionally excluded from this server-wide view. |
 | 筛选后什么都不剩 | No tasks match this filter | Try a different combination or clear the current selection. |
 
-- 用 `square-check-big` 图标，不放按钮：Create Task 按钮已经在筛选栏或分区的头部里了（[EmptyState](../../../packages/ui/src/components/empty-state/empty-state.md)）。
+- 用 `square-check-big` 图标，不放按钮：Create task 按钮已经在筛选栏或分区的头部里了（[EmptyState](../../../packages/ui/src/components/empty-state/empty-state.md)）。

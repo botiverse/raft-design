@@ -69,7 +69,7 @@ export function CardSettingsSectionComposition() {
 
             <div>
               <Button type="submit" variant="accent" size="md" disabled={!profileDirty}>
-                Save Profile
+                Save profile
               </Button>
             </div>
           </form>
@@ -79,7 +79,7 @@ export function CardSettingsSectionComposition() {
           <div>
             <Button type="button" variant="ghost" size="md">
               <ChevronRight data-icon="inline-start" />
-              Change Password
+              Change password
             </Button>
           </div>
         </CardContent>

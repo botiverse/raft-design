@@ -47,7 +47,7 @@ export function CardNotificationPermissionsComposition() {
           disabled={!enabled}
           onClick={handleSendTestPush}
         >
-          Send Test Push
+          Send test push
         </Button>
         {message ? (
           <Text.Sans size="caption" aria-live="polite">

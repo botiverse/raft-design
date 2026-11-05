@@ -1,7 +1,7 @@
 ---
 title: InputGroup
 summary: 在同一个带边框的方框里放固定前缀、后缀、图标或按钮的输入框，例如域名、单位或搜索图标。
-sourceHash: 5ee5c18a
+sourceHash: 4c656fea
 ---
 
 # InputGroup
@@ -48,5 +48,5 @@ InputGroup 把固定文字、图标或按钮放进输入框的方框里：服务
 `InputGroupInput` 包装 Base UI Input；组本身是一个普通的 `<div>`。
 
 - 用 `FieldLabel` 给输入框命名（[Field](../field/field.md)），没有可见标签的搜索框用 `aria-label`（Search）。
-- 给按钮附加部分单独的 `aria-label`（Clear Search）。
+- 给按钮附加部分单独的 `aria-label`（Clear search）。
 - 文字附加部分不会作为值的一部分读出。前缀对理解值很重要时，在标签或帮助文字里说出来。

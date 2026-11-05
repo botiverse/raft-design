@@ -1,7 +1,7 @@
 ---
 title: 工作中的 Agent
 summary: 在哪里显示 Agent 正在工作、在做什么：屏幕顶部的摘要、Working now、Agent 的行和所在位置的副标题；以及为什么没有实时条。
-sourceHash: c1bcdb9d
+sourceHash: 548e8d7d
 ---
 
 # 工作中的 Agent
@@ -58,7 +58,7 @@ conversation-panel/compositions/conversation-panel-header
 - 这一行只用于 Agent。它来自 Agent 开始发送一条消息；Raft 对人没有这样的信号，而且在工作聊天里人们也不期待有。
 - 让这一行浮在对话底部、消息输入框正上方，贴着输入框的边缘。用和摘要一样的 19px 脸，然后是用 `text-footnote` 和 `foreground-muted` 写的句子。
 - 不给它实色背景，也不给它单独的渐变。它站在列表末尾的渐变上：列表下沿始终有这条从面板颜色向上渐变到透明的渐变，高度是一个分段档（[时间线节奏](../foundations/spacing.md#timeline-rhythm)），这样滚到它下面的消息被柔化而不是被遮住，这一行在消息上方也保持可读。
-- 它显示时把跳转控件抬到它上方：把 `--message-list-bottom-inset` 设为它的高度，这样 Back to Bottom 停在这一行上方 12px，而不是盖住它（[MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)）。
+- 它显示时把跳转控件抬到它上方：把 `--message-list-bottom-inset` 设为它的高度，这样 Back to bottom 停在这一行上方 12px，而不是盖住它（[MessageList](../../packages/ui/src/components/message-list/message-list.md#jump-controls)）。
 - 不为它预留一行。没人即将发言时，消息输入框在最后一条消息下方一个分段档处（[时间线节奏](../foundations/spacing.md#timeline-rhythm)）。这一行显示时，对话末尾多出这一行高度的空间，所以在底部时它从不盖住最后一条消息；往上滚时，消息从它下面经过。消息输入框本身从不移动。
 - 最多写出 3 个 Agent 的名字："Niko is typing…"、"Niko and Kirby are typing…"、"Niko, Kirby and 3 other agents are typing…"。最多显示 3 张脸。句子放不下时，用 "…" 结尾。
 - 句子出现时，在一个 status 区域里播报一次。

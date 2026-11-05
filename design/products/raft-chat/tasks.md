@@ -12,7 +12,7 @@ Tasks is the top-level page that lists every channel task in the server. A chann
 From top to bottom:
 
 1. **The header** (`PanelSectionHeader`, on the frame on a phone): the title Tasks and, under it, the count in Space Mono: "12 channel tasks", or "3 of 12 channel tasks" while a filter is on.
-2. **The filter bar**: Channel, Creator and Assignee, then Clear All while a filter is on, and Board / List at the right end.
+2. **The filter bar**: Channel, Creator and Assignee, then Clear all while a filter is on, and Board / List at the right end.
 3. **The tasks**: the board or the list, whose cards name their channel.
 
 ```example
@@ -32,8 +32,8 @@ Not yet implemented in raft-ui: this example shows the tasks before [0042](../..
 
 The section follows [Tasks beside a conversation](../../patterns/tasks.md#tasks-beside-a-conversation). In Raft Chat:
 
-- Count the active tasks (Todo, In Progress) on All, and the active tasks assigned to the person on For Me. The header carries no count of its own.
-- Put a ghost Create Task icon button (`plus`) before ×. It opens Create Task ([Where tasks are created](../../patterns/tasks.md#where-tasks-are-created)), with the channel under its title in Space Mono: "In #launch-week".
+- Count the active tasks (Todo, In progress) on All, and the active tasks assigned to the person on For me. The header carries no count of its own.
+- Put a ghost Create task icon button (`plus`) before ×. It opens Create task ([Where tasks are created](../../patterns/tasks.md#where-tasks-are-created)), with the channel under its title in Space Mono: "In #launch-week".
 - Within a status group, list the newest task first: the section is read while people talk, so a task just created from the conversation shows at the top of its group, where they look for it.
 
 ### Empty states
@@ -41,8 +41,8 @@ The section follows [Tasks beside a conversation](../../patterns/tasks.md#tasks-
 | Situation | Title | Sentence |
 | --- | --- | --- |
 | A channel with no tasks | No tasks yet | Tasks that people and agents create in this channel show up here. |
-| For Me, with nothing assigned to the person | Nothing is waiting on you | Tasks assigned to you in this channel show up here. |
+| For me, with nothing assigned to the person | Nothing is waiting on you | Tasks assigned to you in this channel show up here. |
 | The Tasks page with no tasks | No tasks yet | DM and agent task boards are intentionally excluded from this server-wide view. |
 | A filter that hides everything | No tasks match this filter | Try a different combination or clear the current selection. |
 
-- Use the `square-check-big` icon, and no button: the Create Task button is already in the filter bar or the section's head ([EmptyState](../../../packages/ui/src/components/empty-state/empty-state.md)).
+- Use the `square-check-big` icon, and no button: the Create task button is already in the filter bar or the section's head ([EmptyState](../../../packages/ui/src/components/empty-state/empty-state.md)).

@@ -1,7 +1,7 @@
 ---
 title: 设计新功能
 summary: 动手做新东西之前要回答的问题，从最接近的模式到组件的流程，一份自查清单，以及什么时候该改设计系统本身。
-sourceHash: 7bcdeaa0
+sourceHash: a2403568
 ---
 
 # 设计新功能
@@ -63,7 +63,7 @@ raft-ui 的安装和配置见[使用 raft-ui](../about/use-raft-ui.md)。
 
 ### 4. 写文案 {#4-write-the-words}
 
-标签、标题、空状态和错误信息遵循[写作](../content/writing.md)：人点击的东西用 Title Case，其余用 sentence case；Agent 用描述队友的动词；按钮的标签和它打开的对话框标题保持一致。
+标签、标题、空状态和错误信息遵循[写作](../content/writing.md)：一切都用 sentence case，人点击的东西也一样；Agent 用描述队友的动词；按钮的标签和它打开的对话框标题保持一致。
 
 ## 自查清单 {#self-review-checklist}
 
@@ -75,7 +75,7 @@ raft-ui 的安装和配置见[使用 raft-ui](../about/use-raft-ui.md)。
 - [ ] 每条线要么是内容里的细线，要么是区域之间的接缝线，要么是控件上的墨色边框；两个区域之间恰好共用一条线。
 - [ ] 每块品牌色都有墨色边和墨色文字；浅色底没有边；控件和卡片都没有阴影。
 - [ ] 身份标识和圆点是方的；只有开关、单选按钮和拖动条是圆的，外加[形状](../foundations/shape.md#principles)里列出的例外。
-- [ ] 没有全大写的文字。可点击的文字用 Title Case；ID、时间、计数和事件行用 Space Mono。
+- [ ] 没有全大写的文字。每个标签都用 sentence case；ID、时间、计数和事件行用 Space Mono。
 - [ ] 显示状态的东西不循环、不闪烁，每个动画在 `prefers-reduced-motion` 下都会停止。
 - [ ] Agent 和人使用同样的行、消息和头像，Agent 正在做的事显示在它本来就出现的地方。
 - [ ] 屏幕在深色模式下可用，贴纸不变并带有模切边。

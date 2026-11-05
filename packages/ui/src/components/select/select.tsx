@@ -588,7 +588,7 @@ export type SelectActionItemProps = StyledProps<
   onAction?: (event: Event) => void;
   /**
    * Whether pressing the row closes the list. Off by default: a list action
-   * such as Show All changes what the list shows, so the list stays open.
+   * such as Show all changes what the list shows, so the list stays open.
    * @default false
    */
   closeOnAction?: boolean;
@@ -600,7 +600,7 @@ export type SelectActionItemProps = StyledProps<
 
 /**
  * An action row inside the list, placed last after a `SelectSeparator`, such as
- * Show All. It is reached by the arrow keys and typeahead like an item, but
+ * Show all. It is reached by the arrow keys and typeahead like an item, but
  * pressing it runs `onAction` instead of choosing a value. It is an option to
  * assistive technology, so it takes no `aria-expanded`: its label says what it
  * does.

@@ -1,7 +1,7 @@
 ---
 title: Steps
 summary: 显示一个人在 3 到 5 步的短流程中走到了哪里：已完成的步骤是墨色，当前步骤是黄色贴纸，后面的步骤只有轮廓。
-sourceHash: ddc64355
+sourceHash: eaf27921
 ---
 
 # Steps
@@ -69,7 +69,7 @@ steps/compositions/status
 
 ## 内容 {#content}
 
-- 每个步骤的标题用简短的名词短语：Your team、Computer、First agent。用 sentence case；步骤可点击时用 Title Case（[字体排印](../../../../../design/foundations/typography.md#casing)）。
+- 每个步骤的标题用简短的名词短语：Your team、Computer、First agent。用 sentence case，步骤可点击时也一样（[字体排印](../../../../../design/foundations/typography.md#casing)）。
 
 ## 无障碍 {#accessibility}
 

@@ -10,7 +10,7 @@ A decision record writes down a major choice that cuts across the system: one th
 Smaller rules don't get a record. Their reason is written next to the rule, in the page that owns it: a foundation, a pattern, a component doc, the content section, people and agents, or the principles.
 
 - Numbers are never reused or renumbered. A gap in the numbers is a record whose rule now lives, with its reason, in the page that owns it; its old address redirects there.
-- A record that a later choice overrides is marked `superseded` and links the record that replaced it.
+- A record that a later choice overrides is marked `superseded` and links the record that replaced it, under "Superseded by". When only part of it is overridden, it is marked `superseded` too, and a note under its title says which part and that the rest stands.
 - A choice that isn't made yet goes in [Open questions](./open-questions.md), with the default to use until it is made.
 
 How to write a record is in [Authoring](../authoring/README.md) and the [decision template](../authoring/templates/decision.md).

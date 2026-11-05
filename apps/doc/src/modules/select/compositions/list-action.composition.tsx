@@ -57,7 +57,7 @@ export function SelectListActionContent() {
             {!showAll && (
               <>
                 <SelectSeparator />
-                <SelectActionItem onAction={showAllRuntimes}>Show All Runtimes</SelectActionItem>
+                <SelectActionItem onAction={showAllRuntimes}>Show all runtimes</SelectActionItem>
               </>
             )}
           </SelectList>

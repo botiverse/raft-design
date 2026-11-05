@@ -1,7 +1,7 @@
 ---
 title: Raft Chat
 summary: Raft Chat 自己的结构：它的各个目的地、提醒圆点、铃铛和动态、动态的滑动操作、服务器标签、桌面端布局和侧栏、桌面应用、正在工作的 Agent 显示在哪里、它的浮层、下拉刷新、地点列表，以及它和通用模式不一致的地方。
-sourceHash: d8e66f7a
+sourceHash: 29b847ba
 ---
 
 # Raft Chat
@@ -29,7 +29,7 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 | 网页顶栏（768px 起，以及桌面应用的标题栏） | 同[页面结构](../../patterns/page-structure.md#the-web-top-bar)；搜索框打开搜索 |
 | 桌面端导航条（网页和桌面应用） | 聊天、动态、任务、成员、计算机；底部是帮助（`circle-help`）和设置。访客没有成员和计算机 |
 | 应用桌面模式下的导航条（840dp 起） | 上面没有计算机：它在设置里（[服务器标签](#the-server-tab)） |
-| 只在[设置](./settings.md)里 | Account 末尾的 Sign Out |
+| 只在[设置](./settings.md)里 | Account 末尾的 Sign out |
 
 没有网页顶栏时（较旧的桌面版本、服务器的公开页面），导航条顶部显示工作空间图块，搜索在聊天之前，铃铛在帮助上方。
 
@@ -70,8 +70,8 @@ Raft Chat 是 Raft 的第一个产品：频道、私信、Agent 和任务都在�
 服务器标签和工作空间图块遵循[导航](../../patterns/navigation.md#the-server-tab-on-a-phone)。在 Raft Chat 里（手机上的做法由 stdrc 于 2026-10-22 决定，D1a，任务 #152）：
 
 - 服务器标签占了原来「更多」的位置，所以标签栏仍是 5 个标签。
-- 弹出层底部的操作是 Join Community（直到这个人加入了它）、Switch or Create Server 和 Invite Human。Invite Human 留在这里，不放进页面那一行：它打开的是一个对话框，而不是一个地方。
-- 最底部那一行放服务器自己的页面，也就是原来「更多」里的那些：成员、计算机和[设置](./settings.md)。它们是同一个服务器里的三个地方，所以放成一行只占一行，不用占三行；放在最底部，它们离拇指和标签栏最近，也就是原来「更多」所在的地方。访客没有成员和计算机，所以他们的那一行只有设置：设置里有他们的账户和 Sign Out，而在手机上，弹出层是进入设置的唯一入口。
+- 弹出层底部的操作是 Join community（直到这个人加入了它）、Switch or create server 和 Invite human。Invite human 留在这里，不放进页面那一行：它打开的是一个对话框，而不是一个地方。
+- 最底部那一行放服务器自己的页面，也就是原来「更多」里的那些：成员、计算机和[设置](./settings.md)。它们是同一个服务器里的三个地方，所以放成一行只占一行，不用占三行；放在最底部，它们离拇指和标签栏最近，也就是原来「更多」所在的地方。访客没有成员和计算机，所以他们的那一行只有设置：设置里有他们的账户和 Sign out，而在手机上，弹出层是进入设置的唯一入口。
 - 在应用的桌面模式下（840dp 起；Jasper，2026-10-23，任务 #8；页面那一行由 artin 于 2026-10-29 去掉）没有服务器标签：导航条头部的工作空间图块打开这个弹出层，里面没有那一行页面（[导航](../../patterns/navigation.md#the-server-in-the-apps-desktop-mode)）。这些页面每一个都已经有一个始终留在屏幕上的入口：成员在导航条上，设置在导航条底部，计算机在设置里。和网页的导航条不同，这条导航条没有计算机按钮，所以两个圆点都在导航条的设置上：反馈回复的圆点，以及需要处理的计算机的圆点，因为计算机是从那里进入的。
 
 ### 手机一级页面的顶部 {#the-tops-of-the-phones-top-level-pages}
@@ -97,14 +97,14 @@ sidebar/sidebar
 
 | 目的地 | 侧栏列出 |
 | --- | --- |
-| 聊天 | 收藏和草稿，然后是 Pinned、这个人自己的分组、Joint Channels、Channels 和 Direct Messages 这几个分组。分组可以拖动排序。Agent 列在私信中间 |
+| 聊天 | 收藏和草稿，然后是 Pinned、这个人自己的分组、Joint channels、Channels 和 Direct messages 这几个分组。分组可以拖动排序。Agent 列在私信中间 |
 | 成员 | Graph，然后是 Agents（按计算机分组）和 Humans，各带一个计数和一个添加按钮 |
 | 计算机 | 没有侧栏：各台计算机以卡片墙或列表的形式占满导航条旁边的页面，页面头部有一个添加按钮。一台计算机在它们旁边的侧面板里打开，在卡片墙上显示为选中（[导航](../../patterns/navigation.md#opening-an-item)） |
 | 设置 | 设置的各组（[设置](./settings.md)） |
 | 任务 | 没有侧栏：看板紧接在导航条后面 |
 | 搜索、动态 | 一开始没有侧栏：页面占满宽度。选中一个结果后，结果列表占据侧栏的位置，结果在它旁边打开 |
 
-- 每个分组标题都有展开收起按钮、计数和排序菜单（Manual、Recent、A–Z），始终可见，桌面端和主页上都一样。收起的分组里有未读内容时，显示一个粉色像素点。在 Channels 的标题里放一个用于 Create Channel 的 + 按钮，在 Joint Channels 的标题里放一个用于 Create Joint Channel 的 + 按钮。
+- 每个分组标题都有展开收起按钮、计数和排序菜单（Manual、Recent、A–Z），始终可见，桌面端和主页上都一样。收起的分组里有未读内容时，显示一个粉色像素点。在 Channels 的标题里放一个用于 Create channel 的 + 按钮，在 Joint channels 的标题里放一个用于 Create joint channel 的 + 按钮。
 - 未读按[状态](../../foundations/states.md)显示，只有一个例外：频道行里如果有提及这个人，在粉色计数前显示黄色的 @ 标记。静音或未加入频道里的未读是灰色计数，铅笔表示草稿。
 - 在网页顶栏下面，侧栏没有标题栏。没有顶栏时，标题栏写出目的地的名字，在聊天里，工作摘要放在它的右侧。
 
@@ -138,8 +138,8 @@ sidebar/sidebar
 | 弹出层 | Working now、通知、服务器列表、Help & resources（在导航条上悬停时打开） |
 | 带简短说明的底部面板（手机） | Add Raft to your Home Screen，从通知中心的 Install Raft 或 Settings › Notifications 里的 Add 按钮打开（按钮：Got it） |
 | 确认（[浮层](../../components/overview.md#overlays)） | Dialog，只有两处用 [AlertDialog](../../../packages/ui/src/components/alert-dialog/alert-dialog.md)：放弃对 Agent 个人资料未保存的修改，以及打开一个会跳转到其他应用的链接 |
-| 小型表单对话框（[表单](../../patterns/forms.md#forms-in-a-dialog)） | Create Channel、Create Task、Create Agent |
-| 宽表单对话框（[表单](../../patterns/forms.md#the-large-form-dialog)） | Register App、编辑一个应用（Edit Release Bot） |
+| 小型表单对话框（[表单](../../patterns/forms.md#forms-in-a-dialog)） | Create channel、Create task、Create agent |
+| 宽表单对话框（[表单](../../patterns/forms.md#the-large-form-dialog)） | Register app、编辑一个应用（Edit Release Bot） |
 | 悬停在人或 Agent 上时的个人资料卡 | 51px 的头像；名字，带状态灯和它正在做什么；handle；Computer、Runtime、Model 和 Reasoning；一行描述；对于管理这个 Agent 的人，还有它最近的动态。没有按钮 |
 
 留在对话旁边一直打开的面板（消息列、个人资料）是侧边面板，不是抽屉，没有遮罩。
@@ -176,6 +176,6 @@ Raft Chat 目前在以下几处偏离了这些模式。每一行写的是产品�
 | 每个推入页面都有返回（[导航](../../patterns/navigation.md#going-back)） | 在手机网页上，RaftBench 的入口页面，以及加载中的 Assistant 页面，既没有返回也没有标签栏 |
 | 已知的布局在骨架屏里等待（[等待](../../components/overview.md#waiting)） | 会话时间线和个人资料面板在等待时显示文字 "Loading…" |
 | 加载失败时不显示空状态（[反馈](../../patterns/feedback.md#empty-loading-and-failed)） | 动态或收藏的列表加载失败时，显示它的空状态 |
-| 独立的设置立即生效（[表单](../../patterns/forms.md#settings-that-apply-at-once)） | Language & Region、Mute this server、新手引导、Hide #all、对成员隐藏人类名录和数量、为服务器开启翻译，以及成员的服务器角色，都要等 Save |
+| 独立的设置立即生效（[表单](../../patterns/forms.md#settings-that-apply-at-once)） | Language & region、Mute this server、新手引导、Hide #all、对成员隐藏人类名录和数量、为服务器开启翻译，以及成员的服务器角色，都要等 Save |
 | 需要先配置的功能用一个复选框加一个 Save（[表单](../../patterns/forms.md#settings-saved-together)） | App event notifications 是一个开关，只是把地址输入框显示出来 |
 | 每种途径都能撤销，公开之前先确认（[反馈](../../patterns/feedback.md#confirming)） | 动态里的 Done 和 Unfollow 只有滑动时才提供 Undo；Artifact 公开，以及在它所在的对话之外取消发布，都不经过确认；重启或升级计算机、轮换 webhook 密钥、更新邀请链接都不经过确认 |

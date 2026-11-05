@@ -139,7 +139,7 @@ export function SidebarSectionSortContextContent(props: SidebarSortItemsProps = 
 export function SidebarSectionChannelsContextContent({
   count,
   countLabel = "channels",
-  createLabel = "Create Channel",
+  createLabel = "Create channel",
   createIcon = "channel",
   createDisabled = false,
   onCreate,
@@ -165,7 +165,7 @@ export function SidebarSectionChannelsContextContent({
       {createIcon === "channel" ? (
         <ContextMenuItem disabled={createDisabled}>
           <GitBranch />
-          <ContextMenuItemLabel>Create Joint Channel</ContextMenuItemLabel>
+          <ContextMenuItemLabel>Create joint channel</ContextMenuItemLabel>
         </ContextMenuItem>
       ) : null}
       <ContextMenuSeparator />
@@ -193,11 +193,11 @@ export function SidebarCreateDropdownContent({
     <DropdownMenuContent align="end" className={CHANNELS_MENU_CLASS}>
       <DropdownMenuItem disabled={disabled} onClick={disabled ? undefined : onCreateChannel}>
         <Plus />
-        <DropdownMenuItemLabel>Create Channel</DropdownMenuItemLabel>
+        <DropdownMenuItemLabel>Create channel</DropdownMenuItemLabel>
       </DropdownMenuItem>
       <DropdownMenuItem disabled={disabled} onClick={disabled ? undefined : onCreateJoint}>
         <GitBranch />
-        <DropdownMenuItemLabel>Create Joint Channel</DropdownMenuItemLabel>
+        <DropdownMenuItemLabel>Create joint channel</DropdownMenuItemLabel>
       </DropdownMenuItem>
     </DropdownMenuContent>
   );

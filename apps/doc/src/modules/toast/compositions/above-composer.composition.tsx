@@ -51,7 +51,7 @@ export function AboveComposerContent({ portalContainer }: { portalContainer: HTM
     >
       <div className="flex gap-2">
         <Button type="button" size="sm" variant="outline" onClick={save}>
-          Save Settings
+          Save settings
         </Button>
         <Button type="button" size="sm" variant="outline" onClick={unfollow}>
           Unfollow

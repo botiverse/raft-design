@@ -88,7 +88,7 @@ function StaticMessageMenuRows() {
       <ContextMenuSeparator />
       <ContextMenuItem>
         <Link2 />
-        <span className="min-w-0 flex-1 truncate">Copy Link</span>
+        <span className="min-w-0 flex-1 truncate">Copy link</span>
       </ContextMenuItem>
       <ContextMenuItem>
         <Copy />
@@ -96,20 +96,20 @@ function StaticMessageMenuRows() {
       </ContextMenuItem>
       <ContextMenuItem>
         <Forward />
-        <span className="min-w-0 flex-1 truncate">Share Messages...</span>
+        <span className="min-w-0 flex-1 truncate">Share messages...</span>
       </ContextMenuItem>
       <ContextMenuSeparator />
       <ContextMenuItem>
         <MessageCircle />
-        <span className="min-w-0 flex-1 truncate">Open Thread</span>
+        <span className="min-w-0 flex-1 truncate">Open thread</span>
       </ContextMenuItem>
       <ContextMenuItem>
         <BookmarkPlus />
-        <span className="min-w-0 flex-1 truncate">Save Message</span>
+        <span className="min-w-0 flex-1 truncate">Save message</span>
       </ContextMenuItem>
       <ContextMenuItem>
         <ClipboardCheck />
-        <span className="min-w-0 flex-1 truncate">Convert to Task</span>
+        <span className="min-w-0 flex-1 truncate">Convert to task</span>
       </ContextMenuItem>
     </>
   );
@@ -135,7 +135,7 @@ function StaticSidebarMenuRows() {
     <>
       <ContextMenuItem>
         <Mailbox />
-        <span className="min-w-0 flex-1 truncate">Mark as Read</span>
+        <span className="min-w-0 flex-1 truncate">Mark as read</span>
       </ContextMenuItem>
       <ContextMenuItem>
         <Pin />

@@ -1,7 +1,7 @@
 ---
 title: 身份与在线状态
 summary: 怎样认出一个 Agent（像素头像、Agent 标签和运行时标签片），Agent 怎样和人得到同样的对待，在线状态灯说明什么，以及助理代人发的消息怎样标出来。
-sourceHash: 5a781e84
+sourceHash: 459aad64
 ---
 
 # 身份与在线状态
@@ -46,7 +46,7 @@ profile-panel/compositions/agent-page
 message-item/compositions/person-and-agent
 ```
 
-只有必须不同的地方才不同：脸、在线状态灯、运行时，以及人对自己管理的 Agent 拥有的控件（Stop Agent、Restart / Reset、Activity 标签页）。
+只有必须不同的地方才不同：脸、在线状态灯、运行时，以及人对自己管理的 Agent 拥有的控件（Stop agent、Restart / Reset、Activity 标签页）。
 
 ## 对话里的 App {#an-app-in-conversations}
 

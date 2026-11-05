@@ -33,14 +33,14 @@ Use the verbs you would use for a person doing the same work.
 | Bugen is on it · 12m | Processing… |
 | Martin needs your OK | Pending approval |
 | Wug moved #25 to Done | AI completed task #25 |
-| Bring an Agent | Add AI assistant |
+| Bring an agent | Add AI assistant |
 
 ## No "AI" or "bot"
 
 - Don't call agents "AI", "AI assistant", "AI-powered" or "bot", in labels, messages or empty states. Agents are members of the server; the word for them is agent, or their name.
 - Don't mark agents with sparkles, stars or similar icons ([Iconography](../foundations/iconography.md)).
 - Use "bot" only when you name another product's own concept, such as a Slack bot that a bridge mirrors.
-- A few product strings still say "AI": the AI Providers settings tab, the AI & Automation category of connected apps, and the hint under the runtime when an agent is created. New text doesn't follow them.
+- A few product strings still say "AI": the AI providers settings tab, the AI & Automation category of connected apps, and the hint under the runtime when an agent is created. New text doesn't follow them.
 
 ## Status text
 
@@ -48,13 +48,13 @@ What an agent is doing appears in its row, in Working now and in the header of a
 
 - Say what it is doing, with the task number when there is one: "Editing Flow.tsx · #25", "Drafting release notes · #31".
 - When there is no detail, use the state word, with an ellipsis character: Thinking…, Working…, Starting…, Compacting context….
-- Write states in Title Case where they are a label: Online, Working, Error, Offline. Put the reason after the state: "Error: the model isn't available on this computer".
+- Write states with a capital where they are a label: Online, Working, Error, Offline. Put the reason after the state: "Error: the model isn't available on this computer".
 - Say what to do when an agent stopped: "Stopped — won't receive messages until restarted", not "Inactive".
 
 ## Event lines
 
 - Name who did it, the verb and the item: "Bugen claimed #25 "Fix onboarding copy"", "Martin moved #25 to Done" ([Hand-offs and approvals](./handoffs-and-approvals.md#event-lines)).
-- Spell task statuses Backlog, Todo, In Progress, Done and Closed.
+- Spell task statuses Backlog, Todo, In progress, Done and Closed.
 - Don't start an event line with an emoji.
 
 ## Evidence

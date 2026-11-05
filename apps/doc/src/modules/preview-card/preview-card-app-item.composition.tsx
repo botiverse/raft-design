@@ -57,7 +57,7 @@ export function PreviewCardAppItemComposition() {
                   <a href="#stamp-pull-10449-files" target="_blank" rel="noopener noreferrer" />
                 }
               >
-                View Changes
+                View changes
               </Button>
               <Button
                 variant="outline"

@@ -23,7 +23,7 @@ The full choice between pickers is in [Choosing a component](../../../../../desi
 | Situation                                                                                 | Use                                                                                               |
 | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | One of any number of choices, when choosing is the dialog's main content                  | ChoiceList                                                                                        |
-| Several of any number, when choosing is the dialog's main content (Add Members)           | ChoiceList with `multiple` and `search="always"`                                                  |
+| Several of any number, when choosing is the dialog's main content (Add members)           | ChoiceList with `multiple` and `search="always"`                                                  |
 | One of 2 to 5 answers, as one field among others in a form                                | [RadioGroup](../radio-group/radio-group.md)                                                       |
 | One of up to 10 values, as a field in a form                                              | [Select](../select/select.md)                                                                     |
 | One or a few of many values, as a field in a form, or values from a server as people type | [ComboboxSelect](../combobox-select/combobox-select.md)                                           |
@@ -72,7 +72,7 @@ choice-list/compositions/no-match
 - **It is always a list.** At 3 items or at 300, never a dropdown.
 - **The whole row chooses.** A click or tap anywhere on a row, its lines included, chooses it; with `multiple` it ticks or unticks it.
 - **Search follows how people find the item.** Choose `search` by the list's purpose, not by how long it happens to be:
-  - `search="always"` when people **recall** what they want, such as a person they know by name (Add Members, a new channel's members). Typing the name is the fastest way in at any count, so the box shows even with 2 items, and with a mouse or trackpad focus starts in it. On a touch screen it takes no focus, so the keyboard doesn't come up over the list.
+  - `search="always"` when people **recall** what they want, such as a person they know by name (Add members, a new channel's members). Typing the name is the fastest way in at any count, so the box shows even with 2 items, and with a mouse or trackpad focus starts in it. On a touch screen it takes no focus, so the keyboard doesn't come up over the list.
   - `search="auto"` (the default) when people **recognise** the right row by comparing what the rows say, such as a migration target by its quota and disk. There the rows are the point; the box shows only once the list is longer than a glance, above 5 items, and never takes focus. When the items drop back to 5 or fewer, the box goes, and its text with it.
   - The count is fixed, not a prop, so every list of the same kind looks the same.
 - **Matching.** The search matches each item's `searchText`, or its `label` when that is a string, case-insensitively anywhere in the text: give a person's row `searchText` with both the name and the `@handle`. A product with its own search, such as a ranked people search shared with mentions, passes `searchValue` and the values it found, in its order, as `matchedValues`: the list then shows those, still with the chosen rows first, so a person is found the same way in every place they can be picked. Pass the matches for the text the box shows now; while a slower search is still working on the new text, keep passing the previous matches rather than none, so the list doesn't empty and refill.
@@ -113,6 +113,6 @@ choice-list/compositions/search
 
 - Pass `action` for a row's own button rather than putting a button in `label` or `description`: inside the row's `<label>`, pressing it would also choose the row, and a screen reader would read a button inside a radio.
 - Don't put a ChoiceList in a form among other fields; there, use the field the [When to use](#when-to-use) table names.
-- Keep removable chips of the chosen people (Add Members) outside the list, above it; ChoiceList draws only the list.
+- Keep removable chips of the chosen people (Add members) outside the list, above it; ChoiceList draws only the list.
 - Use `groups` for kinds people tell apart at a glance (Agents and People), not to sort a long list into many small sections: a search finds a name faster than headings do.
 - Put only the way out of the list in `footer`, one row; a second choice list or a form belongs outside the frame.

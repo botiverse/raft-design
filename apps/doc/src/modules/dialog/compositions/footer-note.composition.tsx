@@ -20,7 +20,7 @@ function FooterNoteDialogParts() {
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Add 3 Members?</DialogTitle>
+        <DialogTitle>Add 3 members?</DialogTitle>
         <DialogClose />
       </DialogHeader>
       <DialogBody>
@@ -32,7 +32,7 @@ function FooterNoteDialogParts() {
         <DialogFooterNote>You'll be billed $8 for each new member.</DialogFooterNote>
         <DialogClose render={<Button variant="ghost" size="lg" />}>Cancel</DialogClose>
         <Button variant="primary" size="lg">
-          Add Members
+          Add members
         </Button>
       </DialogFooter>
     </>

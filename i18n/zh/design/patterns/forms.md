@@ -1,7 +1,7 @@
 ---
 title: 表单和设置
 summary: 改动什么时候生效（立即、点 Save 时，或通过写明操作的按钮）、立即生效的设置、一起保存的一组字段、对话框里的表单、一次填完的大表单对话框、校验、输入框里的长值、选项高度和危险区。
-sourceHash: 7a164f19
+sourceHash: e9af66d9
 ---
 
 # 表单和设置
@@ -32,7 +32,7 @@ field/compositions/preview
 
 | 如果这个改动 | 生效时机 |
 | --- | --- |
-| 有无法撤回的副作用：扣钱、发送邮件或消息、让某人退出登录、重启或断开某个东西，或者让旧的链接或密钥失效 | 人按下写明这个操作的按钮时：Upgrade、Send Invite、Restart、Rotate Secret。不用开关，也不用 Save |
+| 有无法撤回的副作用：扣钱、发送邮件或消息、让某人退出登录、重启或断开某个东西，或者让旧的链接或密钥失效 | 人按下写明这个操作的按钮时：Upgrade、Send invite、Restart、Rotate secret。不用开关，也不用 Save |
 | 是文字：名称、描述、地址、密钥 | 点 Save 时，或在单行输入框里按 Enter 时。边输入边保存会存下写了一半的值 |
 | 是只有放在一起才成立的几个值之一：新密码和它的确认，发送事件和事件发往的地址 | 点这一组共用的那一个 Save 时（[一起保存的设置](#settings-saved-together)）。创建某个东西（频道、Agent、任务）属于这种情况：对话框的提交按钮 |
 | 是其他任何改动：一个独立的是非选项或选择 | 立即（[立即生效的设置](#settings-that-apply-at-once)）。选择一个文件（比如头像）属于这种情况 |
@@ -59,7 +59,7 @@ save-status/compositions/preview
 
 ### 对话框里的表单 {#forms-in-a-dialog}
 
-- 对话框里的表单，底部放 Cancel 和提交按钮。Cancel 在对话框里是幽灵按钮，按钮叠成通栏时带上边框（[Dialog](../../packages/ui/src/components/dialog/dialog.md#the-footer)），在页面上则带墨色边框（[Button](../../packages/ui/src/components/button/button.md#which-color)）。Cancel 在前；提交按钮是这个界面上的粉色按钮，写明它执行的操作，通常就是标题里的动词：Create Channel 里的 Create；标题是 Edit 时，按钮是 Save（[写作](../content/writing.md#actions-and-their-dialogs)）。两个按钮都是 `size="lg"`，和上面输入框一样高（[间距](../foundations/spacing.md#heights)）。
+- 对话框里的表单，底部放 Cancel 和提交按钮。Cancel 在对话框里是幽灵按钮，按钮叠成通栏时带上边框（[Dialog](../../packages/ui/src/components/dialog/dialog.md#the-footer)），在页面上则带墨色边框（[Button](../../packages/ui/src/components/button/button.md#which-color)）。Cancel 在前；提交按钮是这个界面上的粉色按钮，写明它执行的操作，通常就是标题里的动词：Create channel 里的 Create；标题是 Edit 时，按钮是 Save（[写作](../content/writing.md#actions-and-their-dialogs)）。两个按钮都是 `size="lg"`，和上面输入框一样高（[间距](../foundations/spacing.md#heights)）。
 - 公开还是私密，以及其他任何需要说明结果的答案，用单选组，每个答案下方一行说明："Anyone in the server can find and join it"、"Only people invited can see it"。这一行把结果放在选项旁边，分段控件没有地方放它（[RadioGroup](../../packages/ui/src/components/radio-group/radio-group.md)）。
 - 对话框或抽屉里的某个分区单独保存、因为其余部分立即生效时（频道的名称和描述，和它的那些开关放在一起），把它的 Save 放在这个分区的字段下方、这一行的开头，Save 在前，和设置页上一样。放在底部末尾，它会被读成保存整个对话框。
 - 只有几个字段的表单用小对话框，即默认的 `size="md"`，宽 448px：创建频道、Agent 或任务。内容需要更宽的表单（比如键值行或命令）用 `size="lg"`，宽 640px（[Dialog](../../packages/ui/src/components/dialog/dialog.md#variants)）。
@@ -68,7 +68,7 @@ save-status/compositions/preview
 
 一次填完的大表单（比如注册或编辑一个应用）以宽对话框打开（[Dialog](../../packages/ui/src/components/dialog/dialog.md)）：居中，宽 896px，高度固定为 760px 和窗口高度减 32px 中较小的那个。它不放到设置页或抽屉里：字段很多的表单需要作为一个整体来看，而不是贴着边缘的一长条。
 
-- 56px 的头部放这一项的图标、标题和 ×。标题就是打开它的那几个词（Register App）；编辑时是 Edit 加这一项的名称。不要把提交按钮放在头部。
+- 56px 的头部放这一项的图标、标题和 ×。标题就是打开它的那几个词（Register app）；编辑时是 Edit 加这一项的名称。不要把提交按钮放在头部。
 - 头部下方放一条横栏，放表单滚动时必须一直看得到的东西：表单的错误，或只显示一次的密钥。
 - 左侧放 208px 宽的分区列表，让人能在长表单里跳转（侧栏行；正在阅读的分区是一张黄色贴纸，随滚动移动），右侧放各个分区（[FormSection](../../packages/ui/src/components/form-section/form-section.md)：一个小标题、一个状态标签、一行描述，分区之间一条细线）。
 - 底部 Cancel 在前，粉色按钮在最后。

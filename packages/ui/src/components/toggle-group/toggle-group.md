@@ -78,7 +78,7 @@ toggle-group/compositions/disabled
 
 ## Content
 
-- Label each item with what it turns on, in Title Case: Bold, Numbered List ([Writing](../../../../../design/content/writing.md#casing)).
+- Label each item with what it turns on, in sentence case: Bold, Numbered list ([Writing](../../../../../design/content/writing.md#casing)).
 
 ## Accessibility
 

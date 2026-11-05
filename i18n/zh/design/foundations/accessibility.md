@@ -1,7 +1,7 @@
 ---
 title: 无障碍
 summary: 每个 Raft 产品都遵守的规则，让它在任何视力、键盘、读屏软件、触屏或动效设置下都能用：对比度、焦点、点击区域、动效、语义、触屏和语言，以及实现这些规则的组件。
-sourceHash: 1cb9bf29
+sourceHash: 46818392
 ---
 
 # 无障碍
@@ -69,7 +69,7 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 ### 角色与名称 {#roles-and-names}
 
 - 用原生元素或 Base UI 原语来提供角色。不要加上 ARIA 控件角色却不提供它所承诺的焦点、键盘和关闭行为。
-- 给每个纯图标按钮一个 Title Case 的 `aria-label`，与它的工具提示用词相同：Add Reaction（[Button](../../packages/ui/src/components/button/button.md#accessibility)）。
+- 给每个纯图标按钮一个 sentence case 的 `aria-label`，与它的工具提示用词相同：Add reaction（[Button](../../packages/ui/src/components/button/button.md#accessibility)）。
 - 有可见文字的控件，其无障碍名称要以这段文字开头。用语音控制的人会说出他们看到的字。
 - 给每个对话框、抽屉和底部面板一个标题；打开时播报的就是它（[Dialog](../../packages/ui/src/components/dialog/dialog.md#accessibility)）。
 - 旁边已经有文字时，对辅助技术隐藏装饰（`aria-hidden`）：文字旁的状态像素点、横幅的图标、轻提示的图标和进度条（[Status](../../packages/ui/src/components/status/status.md)）。
@@ -110,7 +110,7 @@ Raft 一看就是几个小时，动效会让人头晕，或让人从正在读的
 ## 语言与大小写 {#language-and-casing}
 
 - 不要把文字设为全大写，无论是用 CSS 还是直接写在字符串里。全大写抹掉了单词的形状，读起来更慢，而且有些读屏软件会把简短的全大写字符串当作缩写逐个字母朗读（[0002](../decisions/0002-no-all-caps.md)、[字体排印](./typography.md#casing)）。
-- 可点击的东西用 Title Case，其他一切用 sentence case，这样一个标签在屏幕上、工具提示里和无障碍名称中读起来都一样（[写作](../content/writing.md#casing)）。
+- 一切文字都用 sentence case，标签也一样，这样一个标签在屏幕上、工具提示里和无障碍名称中读起来都一样（[写作](../content/writing.md#casing)）。
 - 在 `<html>` 元素上把 `lang` 设为界面语言。读屏软件据此选择嗓音和发音。Raft 网页应用在界面语言变化时都会设置它。
 - 在无障碍名称里写明符号的含义：快捷键的 ⌘、数量的 +3、两条信息之间的分隔符。
 - 用平实的话写错误和空状态，说明发生了什么、接下来该做什么（[语气](../content/voice-and-tone.md)）。
