@@ -36,12 +36,15 @@ const LONG =
   "Bugen handed off the release checklist for the launch week review and wants your OK before Friday";
 
 // Touch is emulated through CDP. Turning touch emulation off again leaves
-// Chromium with `pointer: none` / `hover: none` for the rest of the file, not
-// the mouse it started with, so the touch test runs last.
+// Chromium with `pointer: none` / `hover: none`, not the mouse it started with,
+// so the touch test runs last, and afterAll hands the mouse back: in a run that
+// shares one browser, the next file would otherwise have no hover at all.
 let touch = false;
+let touchUsed = false;
 async function setCoarsePointer(enabled: boolean) {
   if (enabled === touch) return;
   touch = enabled;
+  touchUsed ||= enabled;
   const { cdp } = await import("vite-plus/test/browser/context");
   await cdp().send("Emulation.setTouchEmulationEnabled", { enabled, maxTouchPoints: 1 });
 }
@@ -68,8 +71,17 @@ afterEach(async () => {
 afterAll(async () => {
   if (typeof window === "undefined") return;
   noTransitions?.remove();
-  const { page } = await import("vite-plus/test/browser/context");
+  const { cdp, page } = await import("vite-plus/test/browser/context");
   await page.viewport(414, 896);
+  if (touchUsed) {
+    await cdp().send("Emulation.setEmulatedMedia", {
+      features: [
+        { name: "pointer", value: "fine" },
+        { name: "hover", value: "hover" },
+      ],
+    });
+  }
+  expect(matchMedia("(pointer: fine) and (hover: hover)").matches).toBe(true);
 });
 
 function RevealRow({ active, density }: { active?: boolean; density?: "compact" }) {
