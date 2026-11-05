@@ -29,21 +29,19 @@ The Activity tab is the agent's activity log: one entry per step, with a square 
 
 - Let the agent's managers change the avatar from the hero: the avatar is a button with an edit overlay ([Avatar](../../../packages/ui/src/components/avatar/avatar.md#states)).
 - When the agent can't start or its runtime fails, the notice under the header ([When something fails](../../people-and-agents/handoffs-and-approvals.md#when-something-fails)) offers Copy diagnostic info and View logs, which opens Activity.
-- When Start fails because the agent's computer is offline, say so in the notice under the header, where Start is, with the link to the offline card: the agent starts by itself when the computer is back ([An agent on an offline computer](../../people-and-agents/identity-and-presence.md#an-agent-on-an-offline-computer)). Never a toast, and never nothing: the person pressed Start and needs to know why nothing happened.
+- While the agent's computer is offline the profile doesn't offer Start: the offline card below takes its place, since the agent starts by itself when the computer is back ([An agent on an offline computer](../../people-and-agents/identity-and-presence.md#an-agent-on-an-offline-computer)).
 - A person's profile uses the same panel and the same 99px avatar ([Identity and presence](../../people-and-agents/identity-and-presence.md#the-same-as-people)), without tabs: Description, Info (Role, Email, Joined), Created agents and, for admins, Remove member.
 
 ## Its computer is offline
 
-While the agent's computer is offline, a small card under the hero says so: "Computer Martin's Mac offline since 10:42", the computer's name opening its page. It is where every other place links to ([An agent on an offline computer](../../people-and-agents/identity-and-presence.md#an-agent-on-an-offline-computer)), and what it offers depends on who is looking (cindyz, 2026-11-05, #triage:fb51e3a0; Jasper, #triage:#206).
+While the agent's computer is offline, a small card under the hero says so: "Computer Martin's Mac offline since 10:42", the computer's name opening its page. It is where every other place links to ([An agent on an offline computer](../../people-and-agents/identity-and-presence.md#an-agent-on-an-offline-computer)).
 
-| Who is looking | The card offers |
-| --- | --- |
-| An owner or admin of the server | The recovery steps of the computer's page, the same card reused, with restarting Raft Computer and `raft-computer doctor` |
-| The computer's owner, the member it belongs to, whatever their server role | Steps on their own device: turn the computer on or wake it, open the desktop app, or run `raft-computer restart`, which starts Raft Computer when it isn't running and restarts it when it is stuck |
-| Everyone else | "Ask Martin to bring it back", where Martin is the computer's owner and the name opens his profile |
+Under it, the same two steps for everyone who looks (cindyz, 2026-11-05, #triage:fb51e3a0):
 
-- Give the computer's owner their steps whatever their role in the server: the steps act on their own device, not on the server. A computer's owner who is also an admin of the server sees both, their own device's steps first.
-- Keep `raft-computer doctor` and the rest of the computer page's card to owners and admins of the server, as on the computer's page; the computer's owner gets only the steps on their own device.
-- Reuse the computer page's card for the admins' steps rather than writing them again: steps kept in two places drift.
-- Don't send anyone to a separate help page: the card is the one place the composer's notice and a failed Start link to.
+1. Turn on Martin's computer Martin's Mac, and keep it awake.
+2. On it, open Raft Desktop, or run `raft-computer restart`.
+
+- Show the same steps to everyone, whatever their role and whether the computer is theirs. The first step names whose computer it is, so someone who can't reach it knows whom to ask; no separate "Ask Martin" line.
+- Keep only these two. `raft-computer restart` starts Raft Computer when it isn't running and restarts it when it is stuck, so it covers both; `raft-computer doctor` and the other diagnostics stay on the computer's page.
+- Don't send anyone to a separate help page: the card is the one place the agent's status links to.
 - "The computer's owner" is the member the computer belongs to; it is not the server's Owner role ([Terminology](../../content/terminology.md#people-and-agents)).

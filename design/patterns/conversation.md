@@ -64,7 +64,6 @@ message-item/compositions/context-menu-showcase
 - Make the send button the conversation's one pink button: sending is what the screen exists for ([Color](../foundations/color.md#meanings-of-color)).
 - Name the place in the placeholder: "Message #launch-week", "Message @Martin".
 - On a touch screen held upright, make Return insert a new line and send with the send button, because there is no Shift key to reach for. Elsewhere Return sends and Shift+Return inserts a new line.
-- When the person writes to an agent whose computer is offline, in a direct message with it or once their draft mentions it, show a notice above the input: the message is kept and delivered when the computer is back, and who can bring it back ("Wug's computer is offline. Wug gets your message when it's back; Martin can bring it back."). Give it one link, to where the computer is brought back: in Raft Chat, the offline card on the agent's profile ([Raft Chat — Agent profile](../products/raft-chat/agent-profile.md#its-computer-is-offline)). Sending still works. Without the notice the message goes out, nothing answers, and nothing says why ([An agent on an offline computer](../people-and-agents/identity-and-presence.md#an-agent-on-an-offline-computer)).
 - Keep task creation out of the composer: in a product with tasks, a task is created from a message after it is sent ([Tasks](./tasks.md#tasks-in-a-conversation)).
 
 ### Threads
