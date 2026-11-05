@@ -1,7 +1,7 @@
 ---
 title: 桌面端密度
 summary: 让桌面端屏幕（768px 起、用鼠标或触控板）紧凑而平静的八条规则：每条规则为什么成立，以及由哪个 token 或部件来保证。
-sourceHash: f5a9cbd6
+sourceHash: 548acbb2
 ---
 
 # 桌面端密度
@@ -34,7 +34,8 @@ sourceHash: f5a9cbd6
 分区的标题、分组标签和容器的边缘，都比它们包住的内容更靠外，绝不更靠里，也绝不比内容更空。
 
 - **为什么：** 向外缩进的标题读起来是它下面内容的框架；缩进相同时，它读起来只是又一行。
-- **由什么保证：** `SidebarSectionHeader` 和 `SidebarGroupLabel` 离侧栏边缘 8px，在行的高亮边缘上，而行的内容保持在 16px。
+- **由什么保证：** 面板的分区标题和设置卡片比它们包含的内容更靠外。
+- **暂时的例外：** 侧栏分区标题（`SidebarSectionHeader`、`SidebarGroupLabel`）保持 staging 的水平内距：标题和它的展开箭头、排序和 + 控件留在这项工作之前的位置（stdrc，2026-11-05）。它们的高度，以及 24px、点击区域 28px 的控件保持不变。
 
 ### 4. 间距说明什么属于一起 {#4-space-says-what-belongs-together}
 

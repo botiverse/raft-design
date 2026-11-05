@@ -33,7 +33,8 @@ Every head (a panel, a sidebar, a thread, a drawer, a dialog's bar, a side secti
 A section's header, a group label and a container's edge stand further out than the content they hold, never further in and never emptier.
 
 - **Why:** an outdented title reads as the frame of what is under it; at the same inset it reads as one more row.
-- **Enforced by:** `SidebarSectionHeader` and `SidebarGroupLabel` are 8px from the sidebar's edges, on the rows' highlight edge, while rows keep their content 16px in.
+- **Enforced by:** a panel's section header and a settings card stand outside the content they hold.
+- **Exception, for now:** sidebar section titles (`SidebarSectionHeader`, `SidebarGroupLabel`) keep staging's horizontal inset: the title and its chevron, Sort and + controls stay where they were before this work (stdrc, 2026-11-05). Their height and the 24px controls with a 28px target stay as they are.
 
 ### 4. Space says what belongs together
 
