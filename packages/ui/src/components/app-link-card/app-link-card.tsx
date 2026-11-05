@@ -37,7 +37,7 @@ const appLinkCard = tv({
     // where the link goes.
     host: ["flex min-w-0 items-baseline", "before:shrink-0 before:pe-1.5 before:content-['·']"],
     hostText: ["min-w-0 truncate"],
-    body: ["flex min-w-0 flex-col gap-1.5", "px-4 py-3  last:pb-4"],
+    body: ["flex min-w-0 flex-col gap-1.5", "px-4 py-3 last:pb-4"],
     eyebrow: [...ITEM_CARD_EYEBROW],
     title: ["m-0 line-clamp-2", "font-sans text-headline font-bold text-foreground"],
     meta: [...ITEM_CARD_META],
@@ -60,10 +60,12 @@ export type AppLinkCardProps = ComponentPropsWithRef<"div">;
 /**
  * An app link's card drawn in the message, where the app asked for it
  * (`placement: "block"`): Raft's header with the app's identity, the item,
- * and buttons that work by keyboard and touch.
+ * and buttons that work by keyboard and touch. A `group`: label it with
+ * `aria-labelledby` pointing at its `AppLinkCardTitle`, so someone who tabs
+ * to one of its buttons hears which item the button acts on.
  */
 export function AppLinkCard({ className, ...props }: AppLinkCardProps) {
-  return <div data-slot="app-link-card" className={frame(className)} {...props} />;
+  return <div role="group" data-slot="app-link-card" className={frame(className)} {...props} />;
 }
 
 export type AppLinkCardPlaceholderProps = ComponentPropsWithRef<"div">;

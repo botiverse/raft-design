@@ -2,7 +2,7 @@
   {
     "name": "AppLinkCard",
     "entry": "@botiverse/raft-ui/wip",
-    "description": "An app link's card drawn in the message, where the app asked for it (`placement: \"block\"`): Raft's header with the app's identity, the item, and buttons that work by keyboard and touch.",
+    "description": "An app link's card drawn in the message, where the app asked for it (`placement: \"block\"`): Raft's header with the app's identity, the item, and buttons that work by keyboard and touch. A `group`: label it with `aria-labelledby` pointing at its `AppLinkCardTitle`, so someone who tabs to one of its buttons hears which item the button acts on.",
     "native": true,
     "props": []
   },

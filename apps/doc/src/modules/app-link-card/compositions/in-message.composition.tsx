@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useId, useState } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -37,6 +37,8 @@ import {
 // follows the paragraph. The second message is only a link: the card takes its
 // place.
 export function AppLinkCardInMessageComposition() {
+  const titleId = useId();
+  const secondTitleId = useId();
   const [approved, setApproved] = useState(false);
   const handleApprove = useCallback(() => setApproved(true), []);
 
@@ -72,7 +74,7 @@ export function AppLinkCardInMessageComposition() {
               </MessageReferenceChip>
               , could someone approve it before the release?
             </MarkdownParagraph>
-            <AppLinkCard>
+            <AppLinkCard aria-labelledby={titleId}>
               <AppLinkCardHeader>
                 <AppLinkCardIcon>
                   <img src="/app-icons/stamp.svg" alt="" />
@@ -82,7 +84,7 @@ export function AppLinkCardInMessageComposition() {
               </AppLinkCardHeader>
               <AppLinkCardBody>
                 <AppLinkCardEyebrow>botiverse/slock</AppLinkCardEyebrow>
-                <AppLinkCardTitle>
+                <AppLinkCardTitle id={titleId}>
                   #10451 test(i18n): cover the zh-CN fallback when the locale cookie is missing
                 </AppLinkCardTitle>
                 <AppLinkCardMeta>
@@ -115,7 +117,7 @@ export function AppLinkCardInMessageComposition() {
         </MessageItemGutter>
         <MessageItemContent>
           <MessageItemBody>
-            <AppLinkCard>
+            <AppLinkCard aria-labelledby={secondTitleId}>
               <AppLinkCardHeader>
                 <AppLinkCardIcon>
                   <img src="/app-icons/stamp.svg" alt="" />
@@ -125,7 +127,7 @@ export function AppLinkCardInMessageComposition() {
               </AppLinkCardHeader>
               <AppLinkCardBody>
                 <AppLinkCardEyebrow>botiverse/slock</AppLinkCardEyebrow>
-                <AppLinkCardTitle>
+                <AppLinkCardTitle id={secondTitleId}>
                   #10449 refactor(i18n): one display-locale source for web and desktop
                 </AppLinkCardTitle>
                 <AppLinkCardMeta>

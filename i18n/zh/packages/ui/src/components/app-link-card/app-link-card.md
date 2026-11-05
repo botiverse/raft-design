@@ -1,7 +1,7 @@
 ---
 title: AppLinkCard
 summary: 应用要求时画在消息本身里的应用链接卡片：Raft 的标题栏写明是哪个应用，用应用的话写条目，按钮用键盘和触屏都能按。
-sourceHash: 82668ad6
+sourceHash: 7fff67b0
 ---
 
 # AppLinkCard
@@ -73,6 +73,7 @@ app-link-card/compositions/phone
 
 ## 无障碍 {#accessibility}
 
+- `AppLinkCard` 是一个 `group`。用 `aria-labelledby` 指向它的 `AppLinkCardTitle` 的 id 作为标签：用 Tab 走到 Approve 的人，就能听到它批准的是哪个条目，而不是消息文字中间一个孤零零的按钮。
 - 和悬停卡片不同，这张卡片就在页面里：它的按钮是真正的按钮和链接，在消息的 Tab 顺序里，用键盘和触屏都能用。
 - 标题栏在 DOM 里排在最前面，所以读屏软件先读出应用的名称，再读应用的话。
 - `AppLinkCardPlaceholder` 带 `aria-busy`，灰条对辅助技术隐藏；里面的标题栏照常读出。

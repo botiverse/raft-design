@@ -6,7 +6,7 @@
  * app's name before the app's words; every part renders its slot; the host
  * keeps its characters in order inside a right-to-left box, so it loses its
  * start when cut; and the placeholder is busy, holds the header it is given,
- * and hides its gray bars.
+ * and hides its gray bars; and the card is a group its title names.
  */
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
@@ -118,4 +118,23 @@ test("the placeholder has the card's frame", () => {
     </>,
   );
   expect(screen.getByTestId("placeholder").className).toBe(screen.getByTestId("card").className);
+});
+
+test("the card is a group, named by its title through aria-labelledby", () => {
+  render(
+    <AppLinkCard aria-labelledby="title-10451">
+      {header()}
+      <AppLinkCardBody>
+        <AppLinkCardTitle id="title-10451">
+          #10451 test(i18n): cover the zh-CN fallback
+        </AppLinkCardTitle>
+      </AppLinkCardBody>
+      <AppLinkCardActions>
+        <button type="button">Approve</button>
+      </AppLinkCardActions>
+    </AppLinkCard>,
+  );
+  const group = screen.getByRole("group", { name: "#10451 test(i18n): cover the zh-CN fallback" });
+  expect(group.getAttribute("data-slot")).toBe("app-link-card");
+  expect(group.contains(screen.getByRole("button", { name: "Approve" }))).toBe(true);
 });

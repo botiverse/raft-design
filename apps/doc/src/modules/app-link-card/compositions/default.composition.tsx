@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { Badge, Button } from "@botiverse/raft-ui";
 import {
   AppLinkCard,
@@ -13,9 +14,10 @@ import {
 } from "@botiverse/raft-ui/wip";
 
 export function AppLinkCardDefaultComposition() {
+  const titleId = useId();
   return (
     <div className="flex w-full justify-center p-6">
-      <AppLinkCard>
+      <AppLinkCard aria-labelledby={titleId}>
         <AppLinkCardHeader>
           <AppLinkCardIcon>
             <img src="/app-icons/stamp.svg" alt="" />
@@ -25,7 +27,7 @@ export function AppLinkCardDefaultComposition() {
         </AppLinkCardHeader>
         <AppLinkCardBody>
           <AppLinkCardEyebrow>botiverse/slock</AppLinkCardEyebrow>
-          <AppLinkCardTitle>
+          <AppLinkCardTitle id={titleId}>
             #10449 refactor(i18n): one display-locale source for web and desktop
           </AppLinkCardTitle>
           <AppLinkCardMeta>

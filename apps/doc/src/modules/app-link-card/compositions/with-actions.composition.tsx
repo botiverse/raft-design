@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useId, useState } from "react";
 import { Badge, Button } from "@botiverse/raft-ui";
 import {
   AppLinkCard,
@@ -14,12 +14,13 @@ import {
 } from "@botiverse/raft-ui/wip";
 
 export function AppLinkCardWithActionsComposition() {
+  const titleId = useId();
   const [approved, setApproved] = useState(false);
   const handleApprove = useCallback(() => setApproved(true), []);
 
   return (
     <div className="flex w-full justify-center p-6">
-      <AppLinkCard>
+      <AppLinkCard aria-labelledby={titleId}>
         <AppLinkCardHeader>
           <AppLinkCardIcon>
             <img src="/app-icons/stamp.svg" alt="" />
@@ -29,7 +30,7 @@ export function AppLinkCardWithActionsComposition() {
         </AppLinkCardHeader>
         <AppLinkCardBody>
           <AppLinkCardEyebrow>botiverse/slock</AppLinkCardEyebrow>
-          <AppLinkCardTitle>
+          <AppLinkCardTitle id={titleId}>
             #10451 test(i18n): cover the zh-CN fallback when the locale cookie is missing
           </AppLinkCardTitle>
           <AppLinkCardMeta>

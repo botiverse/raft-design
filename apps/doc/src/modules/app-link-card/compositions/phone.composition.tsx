@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useId, useState } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -29,6 +29,7 @@ import {
 // A phone's message column: the card takes the message's width, and its
 // buttons are tapped right there.
 export function AppLinkCardPhoneComposition() {
+  const titleId = useId();
   const [approved, setApproved] = useState(false);
   const handleApprove = useCallback(() => setApproved(true), []);
 
@@ -48,7 +49,7 @@ export function AppLinkCardPhoneComposition() {
             <MessageItemTime dateTime="2026-11-05T09:12:00Z">9:12 AM</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>
-            <AppLinkCard>
+            <AppLinkCard aria-labelledby={titleId}>
               <AppLinkCardHeader>
                 <AppLinkCardIcon>
                   <img src="/app-icons/stamp.svg" alt="" />
@@ -58,7 +59,7 @@ export function AppLinkCardPhoneComposition() {
               </AppLinkCardHeader>
               <AppLinkCardBody>
                 <AppLinkCardEyebrow>botiverse/slock</AppLinkCardEyebrow>
-                <AppLinkCardTitle>
+                <AppLinkCardTitle id={titleId}>
                   #10451 test(i18n): cover the zh-CN fallback when the locale cookie is missing
                 </AppLinkCardTitle>
                 <AppLinkCardMeta>
