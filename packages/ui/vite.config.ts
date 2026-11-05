@@ -1,6 +1,52 @@
+import { globSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import tailwindcss from "@tailwindcss/vite";
 import { playwright } from "vite-plus/test/browser-playwright";
-import { defineConfig } from "vite-plus";
+import { configDefaults, defineConfig } from "vite-plus";
+import type { BrowserProvider, BrowserProviderOption } from "vite-plus/test/node";
+
+const browserTests = "src/**/*.browser.test.{ts,tsx}";
+
+// A browser test file that emulates touch (CDP `setTouchEmulationEnabled`)
+// runs in a browser of its own. Playwright gives headless Chromium its mouse
+// through launch flags; once a page has had touch emulation on and off again,
+// it reports `hover: none` and no pointer instead, for every file it runs
+// after that, so the hover and mouse tests of a later file failed
+// (activity, then list-cell.content: 0 of 14, 2026-11-05). Only a new page
+// starts from the launch flags again, and Vitest opens one per instance, not
+// per file. So each such file, found by that call, is an instance of its own
+// that runs after the others, one at a time (its own `sequence.groupOrder`):
+// no file order can matter.
+const touchTests = globSync(browserTests, { cwd: import.meta.dirname })
+  .filter((file) =>
+    readFileSync(join(import.meta.dirname, file), "utf8").includes("setTouchEmulationEnabled"),
+  )
+  .sort();
+
+// The provider all touch instances share: an instance's Chromium is launched
+// when its file runs, not prewarmed with the rest, and closed when the next
+// touch file starts, so a run holds two Chromiums at most, not one per file
+// (31 went past a 3 GiB job). In watch mode a file can run again, so each
+// keeps its browser.
+const touchBrowser = ((): BrowserProviderOption => {
+  const { prewarm: _prewarm, ...base } = playwright();
+  let current: BrowserProvider | undefined;
+  return {
+    ...base,
+    providerFactory(project) {
+      const provider = base.providerFactory(project);
+      const openPage = provider.openPage.bind(provider);
+      provider.openPage = async (...args) => {
+        if (current !== provider) {
+          if (!project.vitest.config.watch) await current?.close();
+          current = provider;
+        }
+        return openPage(...args);
+      };
+      return provider;
+    },
+  };
+})();
 
 export default defineConfig({
   plugins: [tailwindcss()],
@@ -11,7 +57,20 @@ export default defineConfig({
       // jsdom tests (node:fs reads, @vitest-environment jsdom) that CI runs;
       // in Chromium a node:fs import never resolves and the run hangs, so
       // running a whole component folder by hand stalled (2026-10-23).
-      instances: [{ browser: "chromium", include: ["src/**/*.browser.test.{ts,tsx}"] }],
+      instances: [
+        {
+          browser: "chromium",
+          include: [browserTests],
+          exclude: [...configDefaults.exclude, ...touchTests],
+        },
+        ...touchTests.map((file, index) => ({
+          browser: "chromium" as const,
+          name: `chromium touch ${index + 1}`,
+          include: [file],
+          provider: touchBrowser,
+          sequence: { groupOrder: index + 1 },
+        })),
+      ],
     },
   },
   pack: {

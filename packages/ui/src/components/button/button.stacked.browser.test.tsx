@@ -98,6 +98,9 @@ for (const mode of ["light", "dark"] as const) {
     const { reference, cancel } = renderStack(mode);
     const { userEvent } = await import("vite-plus/test/browser/context");
 
+    // The pointer may still rest where an earlier file hovered, over this
+    // button (text-link's tests leave it there), and then "at rest" is hovered.
+    await userEvent.unhover(document.body);
     const resting = look(reference);
     await userEvent.hover(reference);
     const hovered = await changed(() => look(reference), resting);
