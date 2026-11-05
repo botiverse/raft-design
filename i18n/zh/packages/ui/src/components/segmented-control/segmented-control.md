@@ -1,7 +1,7 @@
 ---
 title: SegmentedControl
 summary: 灰色轨道里的 2 到 4 个分段，在原处切换同一内容的显示方式；选中的分段是一张黄色贴纸。
-sourceHash: 20c8a101
+sourceHash: e51b9cf6
 ---
 
 # SegmentedControl
@@ -72,7 +72,7 @@ segmented-control/compositions/narrow-row
 
 ## 内容 {#content}
 
-- 每个分段的标签用 1 到 2 个词，Title Case：Board、List；Relevant、Recent（[字体排印](../../../../../design/foundations/typography.md#casing)）。
+- 每个分段的标签用 1 到 2 个词，用 sentence case：Board、List；Relevant、Recent（[字体排印](../../../../../design/foundations/typography.md#casing)）。
 - 数量放在 `SegmentedControlCount` 里，永远不要写进标签文字。
 
 ## 无障碍 {#accessibility}
