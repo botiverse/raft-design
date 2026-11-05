@@ -61,6 +61,7 @@ The desktop scale is Feishu's (Lark's) for PC: 16/24 for titles, 14/22 for every
 
 - Decide by who wrote it: text that is copied character for character, a time, a count or an identity marker is mono; anything a person says is sans.
 - The trailing `#channel-name` of a thread's title is sans, in `text-headline` at weight 400 and `foreground-hint`: it belongs to the title.
+- For scripts missing from Space Grotesk, the sans families try Arial and Helvetica Neue before the CJK faces. This keeps Cyrillic text out of CJK fonts with wide letter advances. Keep `system-ui` after the language-specific CJK families so the operating system does not replace their glyph choices.
 - The sans families fall back to PingFang SC, Hiragino Sans GB, Microsoft YaHei and Noto Sans SC for Chinese, then the system face. Under `lang="zh-TW"` (also `zh-HK`, `zh-MO` and `zh-Hant`) they fall back to PingFang TC, Microsoft JhengHei and Noto Sans TC; under `lang="ja"` to Hiragino Sans, Yu Gothic UI, Meiryo and Noto Sans JP; under `lang="ko"` to Apple SD Gothic Neo, Malgun Gothic and Noto Sans KR.
 
 ## Usage
