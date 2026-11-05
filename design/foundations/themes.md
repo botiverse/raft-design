@@ -23,7 +23,7 @@ A theme changes the frame and the surfaces around the content. It never changes 
 | Boring Gray | Near-white frame and sidebar, gray brand art and washes; yellow only where something is selected or addressed to you | None |
 | Bots, Critters, Space, Desk, Food, Quest, Weather, Plants, Spooky | One per avatar series in `design/assets/Agents`, colored after it | That series' sprites |
 
-Boring Gray is the one theme that also changes the brand. Besides its gray frame and sidebar, `brand` and its washes become neutral grays: the brand art (the panel header's icon sticker, the workspace tile's letter), the popup cursor (`brand-soft` on menu, option and suggestion rows), the wash under commented passages and selected text. That is the environment a person who picks "Boring" opts out of. The yellow that is left is small and local, one row, one segment or one chip, and it appears only where something is selected or addressed to you ([Signals](#signals)).
+Boring Gray is the one theme that also changes the brand. Besides its gray frame and sidebar, `brand` and its washes become neutral grays: the brand art (the panel header's icon sticker, the workspace tile's letter), the popup cursor (`brand-soft` on menu, option and suggestion rows), the wash under commented passages and selected text. That is the environment a person who picks Boring Gray opts out of. The yellow that is left is small and local, one row, one segment or one chip, and it appears only where something is selected or addressed to you ([Signals](#signals)).
 
 ## Signals
 
