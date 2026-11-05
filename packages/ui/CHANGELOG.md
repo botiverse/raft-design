@@ -18,6 +18,10 @@
   - Migrate: read `--surface-inset` / `--page-inset` instead of `px-5` for a surface's own padding; browser tests that measured 32px controls or 36px toolbars on a desktop now see 34 and 42.
   - New variables: `--page-top`, `--rail-width-short`, `--rail-item-short` (tokens); `--surface-inset`, `--sidebar-glyph-axis`, `--sidebar-text-axis` (styles.css, next to `--column-margin`).
   - Docs: https://raft-design.botiverse.build/foundations/desktop-density/
+- **Touch density** (pointer: coarse): 44px controls with a 10px radius, denser rich rows (56px Activity, Inbox and person rows), a small ComboboxSelect keeps 8; icon tiles by size on touch.
+  - Why: the sizing audit's touch column (stdrc, 2026-11-04).
+  - Affects: touch screens only.
+  - Docs: https://raft-design.botiverse.build/foundations/spacing/#hit-targets
 
 ## [0.64.0](https://github.com/botiverse/raft-design/compare/v0.63.1...v0.64.0) (2026-11-05)
 
