@@ -1,7 +1,7 @@
 ---
 title: InboxItem
 summary: 在别处发生、需要这个人看到的事情所对应的一行（提及、审批、交接）；未读时带提醒圆点，所需的操作就在这一行里。
-sourceHash: 9eb39bd3
+sourceHash: db8674d1
 ---
 
 # InboxItem
@@ -75,7 +75,7 @@ inbox-item/compositions/thread-rows
 | 默认 | 需要阅读的条目：标题和摘录各最多 2 行，带元数据标签片 |
 | `density="compact"` | 对话列表：标题和最新消息各一行，旁边是 `InboxItemLeading` |
 
-在 `density="compact"` 中，时间放在标题那一行的末尾，`InboxItemMarks` 放在最新消息那一行的末尾，各自只在自己那一行占位（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。那里的未读数已经说明这一行未读，所以 `data-unread` 只让标题加粗，没有提醒圆点。已静音的对话不加 `data-unread`，并用一个静音标记代替它的未读数。
+在 `density="compact"` 中，用 `InboxItemLine` 搭的行（行布局）里，时间放在标题那一行的末尾，`InboxItemMarks` 放在最新消息那一行的末尾，各自只在自己那一行占位（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。仍在用 `InboxItemTrailing` 的行，在改用行布局之前，时间和标记仍放在那一列里，各自位于一行旁边。那里的未读数已经说明这一行未读，所以 `data-unread` 只让标题加粗，没有提醒圆点。已静音的对话不加 `data-unread`，并用一个静音标记代替它的未读数。
 
 ```example
 activity/compositions/activity-conversation-list
@@ -109,11 +109,11 @@ activity/compositions/loading-conversation-list
 - 条目之间不画线。条目是列表单元格（[列表](../../../../../design/patterns/lists.md)）：它占满列表的整个宽度，它的悬停、按下、菜单打开和 `active` 填充、被定位的高亮和焦点环，都在同一个圆角形状上，这个形状和条目一样高，两侧各内缩 8px。把条目直接放进它的滚动容器（`ActivityInboxViewport`），不加左右内边距：滚动容器是一列，间隔 2px，顶部和底部各留 8px，所以两个有填充的条目之间露出 2px，第一个和最后一个条目离两端 8px。放在其他容器里的列表是一个 `flex flex-col gap-0.5 py-2` 的列。
 - 内容和形状之间留内边距：在形状里，起始端和末端各 12px，即离列表边缘 20px；顶部和底部各 12px（`py-3`）（[列表](../../../../../design/patterns/lists.md#rules)）。头像或图块和选择复选框从形状的内侧起始处开始；时间、标记（静音标记、计数、@ 贴纸）、提醒圆点，以及悬停时显示的 Mark as Done，结束在形状的内侧末端，所以不论悬停、按下、`active` 还是有焦点，它们都不会碰到形状。不要从外部设置条目的左右内边距，也不要从外部移动它的形状（`before:right-*`）；长标题或长预览在内边距处截断。
 - 按下时立即显示按下的填充，触屏上和用鼠标时一样。
-- 使用鼠标时，只在这一行被悬停、持有焦点、处于 `active` 或打开了菜单时才显示 Mark as Done：给 `InboxItemActions` 设 `reveal="hover"`。每一行都显示按钮的列表看起来像一堵按钮墙，而这一行本身才是主要目标。操作显示时，时间和标记向左移开、给它们腾出位置，并且仍然看得见；提醒圆点让开（[列表](../../../../../design/patterns/lists.md#times-in-list-rows)）。
+- 使用鼠标时，只在这一行被悬停、持有焦点、处于 `active` 或打开了菜单时才显示 Mark as Done：给 `InboxItemActions` 设 `reveal="hover"`。每一行都显示按钮的列表看起来像一堵按钮墙，而这一行本身才是主要目标。操作显示时，在行布局（`InboxItemLine`）里，时间和标记向左移开、给它们腾出位置，并且仍然看得见；提醒圆点让开（[列表](../../../../../design/patterns/lists.md#times-in-list-rows)）；仍在用 `InboxItemTrailing` 的行，在改用行布局之前，时间、标记和圆点淡出让开。
 - 在触屏上，Mark as Done 在静止时就显示，并且也放进长按菜单里；滑动手势可以作为额外的快捷方式，但永远不能取代它（[响应式布局](../../../../../design/patterns/responsive.md#touch-screens)）。`reveal="hover"` 会这样处理：在触屏上按钮静止时就显示，`InboxItemTrailing` 的其余内容移开，给它腾出位置。
 - 在手机上，动态里的行静止时不显示它：Mark as Done 是向左滑动露出的第一个按钮，也是长按菜单里的一项（stdrc, 2026-10-23），所以在那里不要把 `InboxItemActions` 放进这一行，但要为读屏软件保留这个按钮，在视觉上隐藏（`sr-only`），放在行的末尾。读屏软件没法滑动一行，网页也没有办法给一行配上它自己的操作；作为隐藏的按钮，它就是这一行之后的下一个元素。按它所在的行给它命名（「Mark #launch-week as Done」），这样朗读列表时不会一直重复同一个名字；它获得键盘焦点时要显示出来（`focus-visible:not-sr-only`），这样在接了键盘的手机上按 Tab，焦点永远不会落在看不见的东西上。它和平板、桌面端显示的是同一个按钮，按下去效果也一样。滑动露出的按钮（Done 用实心的 `success` 加墨色，这一行的其他操作用 `fill-muted`）、滑动的距离（滑过按钮宽度的一半就打开，滑过 60% 就是 Done）、Android 上的触感反馈和 8 秒的 Undo 见[响应式布局](../../../../../design/patterns/responsive.md#touch-screens)。raft-ui 还没有可滑动的行；在那之前，由产品在这一行外面画出滑动。
 
-- 时间只在 `InboxItemContent` 的第一行占位，标记只在它们所在的那一行占位；其余的行都占满整个宽度（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。一列内容放在好几行旁边，会从每一行都拿走它最宽部分的宽度，这让手机上本来就窄的行更容易换行、变得更高。悬停操作显示时，它们在这一行里垂直居中，旁边的行给它们让出位置。
+- 在行布局（`InboxItemLine`）里，时间只在 `InboxItemContent` 的第一行占位，标记只在它们所在的那一行占位；其余的行都占满整个宽度（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。一列内容放在好几行旁边，会从每一行都拿走它最宽部分的宽度，这让手机上本来就窄的行更容易换行、变得更高。悬停操作显示时，它们在这一行里垂直居中，旁边的行给它们让出位置。
 
 - `data-unread` 同时打开加粗标题和提醒圆点。在默认密度下，圆点是辨认未读条目的方式；保留它。在 `density="compact"` 中，`InboxItemMarks` 里的未读数代替了它，所以不显示圆点。
 - 文字会让鼠标指针穿透到触发按钮上，所以文字里的徽标得不到悬停。把带工具提示的徽标包在 `InboxItemHoverTarget` 里。
@@ -145,7 +145,7 @@ activity/compositions/activity-hover-actions
 
 - 行内的操作永远不用粉色：一个列表里可能同时有好几个等着这个人处理的条目（[Button](../button/button.md)）。
 - 悬停才出现的操作（设了 `reveal="hover"` 的 `InboxItemActions`）用幽灵按钮，在这一行的高度上垂直居中，而不是对齐第一行；静止时就显示的操作仍用墨色描边的小按钮：在触屏上，以及在等着这个人处理的行里（[列表](../../../../../design/patterns/lists.md#rules)；stdrc，2026-11-05，#proj-raft-ui:e09717fb）。
-- 悬停操作出现时，时间和标记向左移动，距离是操作的宽度加 8px；永远不要让它们淡出或隐藏，这样时间一直看得见（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
+- 在用 `InboxItemLine` 搭的行里，悬停操作出现时，时间和标记向左移动，距离是操作的宽度加 8px；永远不要让它们淡出或隐藏，这样时间一直看得见（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。仍在用 `InboxItemTrailing` 的行保留现在的做法：操作显示时，时间和标记淡出，直到它改用行布局。
 - 在触屏上，Done 静止时就显示，是墨色描边的小按钮，它和时间、标记之间留 12px，而不是 8px：它 44px 的点击区域超出 32px 的按钮每边 6px，所以留 8px 的话，点击区域和时间的文字之间只剩 2px，而点时间的文字会打开这一行。12px 也是触屏上两个操作之间的间距（[行为](#behavior)；Jasper，2026-11-05，#proj-raft-ui:#196）。
 - 时间只放在第一行（在 `density="compact"` 中是标题那一行），状态标记（任务的状态、草稿标记、@ 贴纸、静音标记、未读数）放在第二行的末尾，第二行其余部分占满整个宽度（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
 - 在按天分组的列表里，只有今天的行，以及不到 1 小时的行（即使在 Yesterday 下面），静止时显示时间（刚刚、3 分钟、2 小时；英文为 now、3m、2h）；更早的行只在悬停或键盘聚焦时显示钟点时间，并在每一行触发器的名称里用文字说出时间（[列表行里的时间](../../../../../design/patterns/lists.md#times-in-list-rows)）。
