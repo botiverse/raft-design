@@ -1,4 +1,4 @@
-## Unreleased
+## [0.66.0](https://github.com/botiverse/raft-design/compare/v0.65.0...v0.66.0) (2026-11-05)
 
 ### Added
 
@@ -6,6 +6,9 @@
   - Why: the Raft web app drew its own end chevron (Kirby's review of slock #12730, 2026-11-05).
   - Affects: nothing until a header opts in.
   - Docs: https://raft-design.botiverse.build/components/sidebar/
+- **WebTopBarRoot**, **WebTopBarStart**, **WebTopBarCenter** and **WebTopBarEnd** (`@botiverse/raft-ui/wip`): the web top bar (page-structure.md, "The web top bar") as a component: 44px with a mouse and 48px on touch (`--frame-item-height` + 2 × `--header-air`), the frame surface with its seam inside that height, its start on the rail's items, its center on the window and its end on the column margin. ([#1021](https://github.com/botiverse/raft-design/pull/1021))
+  - Why: the bar was hand-built in the app-shell composition (#proj-raft-ui:#199).
+  - Affects: nothing until an app moves its bar onto it.
 
 ## [0.65.0](https://github.com/botiverse/raft-design/compare/v0.64.0...v0.65.0) (2026-11-05)
 
