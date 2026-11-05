@@ -249,21 +249,15 @@ message-item/compositions/reactions
 
 `MessageItemTrailing` holds something small that ends a message, such as the faces of the agents that read it with their read mark. Put it last in `MessageItemBody`:
 
-```tsx
-<MessageItemBody>
-  <MarkdownParagraph>Shipping the preview today.</MarkdownParagraph>
-  <MessageItemTrailing>
-    <CheckCheck aria-hidden />
-    <AvatarGroup aria-label="Kirby and Jasper read this">…</AvatarGroup>
-  </MessageItemTrailing>
-</MessageItemBody>
+```example
+message-item/compositions/trailing
 ```
 
 - It takes no column, so a row without it has the body's full width ([Desktop density](../../../../../design/foundations/desktop-density.md#5-reserve-no-room-for-what-isnt-there); stdrc, 2026-11-05). It sits at the inline end of the body's last line, centred on it, and the last line keeps room for it: the text wraps under it only when that line is full. When the body ends with a block that isn't text (a code block, a table, an image), it sits on a line of its own under that block, at the end.
 - It finds the body's last block itself (through a wrapper that only holds blocks, such as a markdown root) and marks it, and one observer shared by every slot keeps the room as wide as the slot. Don't reserve the room yourself.
 - Where its content can arrive later (reads come in realtime), render the slot empty from the first frame, with the width of its smallest content (`min-w-*`), so the room is there before the content and the row doesn't move when it arrives. A body that ends with a code block then keeps its line under the block from the start.
 - It is not `MessageItemReadReceipt`: the footer's read receipt says that the people a message mentions have read it, a marker beside the reactions; the trailing slot shows where each agent stopped reading, on the last message it read.
-- Known limits: a loose list (items that hold paragraphs) or a last line that ends in a line break gets one more line; a paragraph with `dir="auto"` in the other direction than the body puts the room at the wrong end; in a collapsed long message the slot is hidden with the body's end.
+- Known limits: a last line that ends in a line break gets one more line; a paragraph with `dir="auto"` in the other direction than the body puts the room at the wrong end; in a collapsed long message the slot is hidden with the body's end.
 
 ### Toolbar for selected text
 

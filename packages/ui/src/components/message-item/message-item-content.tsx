@@ -161,16 +161,25 @@ const BLOCKS = new Set([
 ]);
 
 // One observer for every slot on the page (a ResizeObserver per row is what
-// the hover toolbar gave up, message-item.md): it reads each slot's border box
-// and sets its body's spacer width. Its callbacks land after layout and before
-// paint, so the first frame already has the room; nothing reads layout in a
-// layout effect.
+// the hover toolbar gave up, message-item.md). It watches each slot, for its
+// width, and each slot's body: a body that changes size may end with a
+// different block (a paragraph that became a code block without the row
+// rendering again), so its last line is stamped again. Its callbacks land
+// after layout and before paint, so the first frame already has the room;
+// nothing reads layout in a layout effect.
+const slotOfBody = new WeakMap<Element, Element>();
 let sharedObserver: ResizeObserver | null = null;
 function trailingObserver(): ResizeObserver | null {
   if (typeof ResizeObserver === "undefined") return null;
   sharedObserver ??= new ResizeObserver((entries) => {
     for (const entry of entries) {
-      const body = (entry.target as HTMLElement).closest<HTMLElement>(BODY_SELECTOR);
+      const target = entry.target as HTMLElement;
+      const slot = slotOfBody.get(target);
+      if (slot) {
+        stampLastLine(target, slot);
+        continue;
+      }
+      const body = target.closest<HTMLElement>(BODY_SELECTOR);
       if (!body) continue;
       const box = entry.borderBoxSize?.[0];
       const width = box ? box.inlineSize : entry.contentRect.width;
@@ -178,6 +187,17 @@ function trailingObserver(): ResizeObserver | null {
     }
   });
   return sharedObserver;
+}
+
+/** Marks the text block the slot ends (`data-trailing-line`), or the body as ending in a block. */
+function stampLastLine(body: HTMLElement, slot: Element) {
+  const block = lastBlock(body, slot);
+  const line = block ? lastLine(block) : null;
+  const previous = body.querySelector("[data-trailing-line]");
+  if (previous && previous !== line) previous.removeAttribute("data-trailing-line");
+  if (line && !line.hasAttribute("data-trailing-line")) line.setAttribute("data-trailing-line", "");
+  const ending = line ? "line" : "block";
+  if (body.dataset.trailing !== ending) body.dataset.trailing = ending;
 }
 
 /** The body's last block before the slot, through wrappers that only hold blocks (a markdown root). */
@@ -232,30 +252,27 @@ export function MessageItemTrailing({
 }: MessageItemTrailingProps) {
   const { trailing } = messageItem();
   const own = useRef<HTMLSpanElement | null>(null);
-  const stamped = useRef<Element | null>(null);
   // Every render: the body may have changed (an edit), so the last block is found again.
   useLayoutEffect(() => {
     const slot = own.current;
     const body = slot?.closest<HTMLElement>(BODY_SELECTOR);
-    if (!slot || !body) return;
-    const block = lastBlock(body, slot);
-    const line = block ? lastLine(block) : null;
-    if (stamped.current && stamped.current !== line)
-      stamped.current.removeAttribute("data-trailing-line");
-    if (line) line.setAttribute("data-trailing-line", "");
-    stamped.current = line;
-    body.dataset.trailing = line ? "line" : "block";
+    if (slot && body) stampLastLine(body, slot);
   });
   useLayoutEffect(() => {
     const slot = own.current;
     const body = slot?.closest<HTMLElement>(BODY_SELECTOR);
     const observer = trailingObserver();
     if (slot && observer) observer.observe(slot);
+    if (slot && body && observer) {
+      slotOfBody.set(body, slot);
+      observer.observe(body);
+    }
     return () => {
       if (slot && observer) observer.unobserve(slot);
-      stamped.current?.removeAttribute("data-trailing-line");
-      stamped.current = null;
       if (body) {
+        if (observer) observer.unobserve(body);
+        slotOfBody.delete(body);
+        body.querySelector("[data-trailing-line]")?.removeAttribute("data-trailing-line");
         delete body.dataset.trailing;
         body.style.removeProperty("--message-trailing-width");
       }

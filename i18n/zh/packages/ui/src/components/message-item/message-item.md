@@ -1,7 +1,7 @@
 ---
 title: MessageItem
 summary: 对话里的一条消息：头像、名字、时间和正文，加上附件、嵌入的卡片和页脚一行。人和 Agent 用法相同。
-sourceHash: 67d86d18
+sourceHash: a163d30e
 ---
 
 # MessageItem
@@ -236,21 +236,15 @@ message-item/compositions/reactions
 
 `MessageItemTrailing` 放结束一条消息的小东西，比如读过它的智能体的头像和已读标记。把它放在 `MessageItemBody` 的最后：
 
-```tsx
-<MessageItemBody>
-  <MarkdownParagraph>Shipping the preview today.</MarkdownParagraph>
-  <MessageItemTrailing>
-    <CheckCheck aria-hidden />
-    <AvatarGroup aria-label="Kirby and Jasper read this">…</AvatarGroup>
-  </MessageItemTrailing>
-</MessageItemBody>
+```example
+message-item/compositions/trailing
 ```
 
 - 它不占一列，所以没有它的行使用正文的整个宽度（[桌面端密度](../../../../../design/foundations/desktop-density.md#5-reserve-no-room-for-what-isnt-there)；stdrc，2026-11-05）。它在正文最后一行的行尾，以这一行为中心，最后一行为它留出空间：只有这一行写满时文字才在它下面换行。正文以不是文字的块结尾时（代码块、表格、图片），它在那个块下面单独一行的末端。
 - 它自己找到正文的最后一块（穿过只装着块的包装层，比如 markdown 根）并做标记，所有行尾共用一个观察器，让留出的空间和它一样宽。不要自己留空间。
 - 内容可能稍后才到的地方（已读是实时到达的），从第一帧就渲染空的行尾，宽度是它最小内容的宽度（`min-w-*`），让空间先于内容存在，内容到达时这一行不会移动。以代码块结尾的正文因此从一开始就在块下面留着这一行。
 - 它不是 `MessageItemReadReceipt`：页脚的已读回执说明消息提及的人已经读过，是表情回应旁的标记；行尾显示每个智能体读到了哪里，放在它读过的最后一条消息上。
-- 已知限制：松散列表（条目里有段落）或以换行结尾的最后一行会多一行；`dir="auto"` 且方向和正文相反的段落会把空间留在错误的一端；折叠的长消息里，行尾随正文的末尾一起被隐藏。
+- 已知限制：以换行结尾的最后一行会多一行；`dir="auto"` 且方向和正文相反的段落会把空间留在错误的一端；折叠的长消息里，行尾随正文的末尾一起被隐藏。
 
 ### 选中文字的工具栏 {#toolbar-for-selected-text}
 

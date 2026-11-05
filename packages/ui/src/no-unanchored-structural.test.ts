@@ -93,15 +93,37 @@ function rightmostCompound(selector: string): string {
   return selector.slice(start).trim();
 }
 
+/** A selector list split on its top-level commas only, never inside `:is(…)`, `:not(…)` or `:nth-*(… of …)`. */
+function topLevelParts(selector: string): string[] {
+  const parts: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < selector.length; i += 1) {
+    const ch = selector[i];
+    if (ch === "(") depth += 1;
+    else if (ch === ")") depth -= 1;
+    else if (ch === "," && depth === 0) {
+      parts.push(selector.slice(start, i));
+      start = i + 1;
+    }
+  }
+  parts.push(selector.slice(start));
+  return parts;
+}
+
 function unanchoredStructural(selector: string): boolean {
   let inner = selector.trim();
   while (/^:where\((.*)\)$/s.test(inner)) inner = inner.replace(/^:where\((.*)\)$/s, "$1").trim();
-  return inner.split(",").some((part) => {
+  return topLevelParts(inner).some((part) => {
     const compound = rightmostCompound(part.trim());
     if (!STRUCTURAL.test(compound)) return false;
-    // Anchored if the compound itself carries a class, id, attribute or tag.
+    // Anchored if the compound itself carries a class, id, attribute or tag, or an
+    // :is() whose every branch carries a class, id or attribute. An :is() of tags
+    // alone (`:is(p, h1)`) is no anchor: WebKit still matches it against every <p>.
     const withoutPseudos = compound.replace(/:[\w-]+(\((?:[^()]|\([^()]*\))*\))?/g, "");
-    return !/[.#[]|^[a-z]/i.test(withoutPseudos);
+    if (/[.#[]|^[a-z]/i.test(withoutPseudos)) return false;
+    const isArgs = [...compound.matchAll(/:is\(((?:[^()]|\([^()]*\))*)\)/g)].map((m) => m[1]!);
+    return !isArgs.some((args) => topLevelParts(args).every((branch) => /[.#[]/.test(branch)));
   });
 }
 
@@ -178,6 +200,18 @@ test("stack-* and rule-* compile to zero-specificity owl selectors", async () =>
   expect(unanchoredStructural(".group\\/message[data-followed-by] .body > :last-child")).toBe(true);
   expect(unanchoredStructural(".last\\:mb-0:last-child")).toBe(false);
   expect(unanchoredStructural(":where(.stack-y-2 > * + *)")).toBe(false);
+  // Commas inside :is() / :not() don't split the selector: each of MessageItemTrailing's
+  // first rules, alone, must fail (Kirby's re-review, 2026-11-05).
+  const body = '[data-slot="message-item-body"][data-trailing]';
+  const blocks = `:is(${body}, ${body} > :first-child)`;
+  const notSlot = ':not([data-slot="message-item-trailing"])';
+  const placeholderRule = `${blocks} > :is(p, h1, h2, h3, h4, h5, h6):nth-last-child(1 of ${notSlot})::after`;
+  const marginRule = `${blocks} > :nth-last-child(1 of ${notSlot}):not(:is(p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote, span, [data-slot="message-item-trailing"]))`;
+  expect(unanchoredStructural(placeholderRule)).toBe(true);
+  expect(unanchoredStructural(marginRule)).toBe(true);
+  expect(unanchoredStructural(".x > :is(p, h1):last-child")).toBe(true);
+  expect(unanchoredStructural("[data-trailing-line]::after")).toBe(false);
+  expect(unanchoredStructural(".x > :is([data-slot=a], [data-slot=b]):first-child")).toBe(false);
 });
 
 test("styles.css's hand-written rules have no rule ending in an unanchored structural pseudo-class", () => {

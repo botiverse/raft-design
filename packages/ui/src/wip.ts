@@ -38,11 +38,12 @@ export type {
 } from "./components/message-item/index";
 export { MessageQuotedPreviewAuthorDelegatedBy } from "./components/message-quoted-preview/index";
 
+export type { MessageQuotedPreviewAuthorDelegatedByProps } from "./components/message-quoted-preview/index";
+
 // The slot that ends a message's last line (the agents' read faces), until its
 // contract settles (Kirby's review, 2026-11-05).
 export { MessageItemTrailing } from "./components/message-item/index";
 export type { MessageItemTrailingProps } from "./components/message-item/index";
-export type { MessageQuotedPreviewAuthorDelegatedByProps } from "./components/message-quoted-preview/index";
 
 // The floating jump controls of a conversation (Back to bottom, New messages,
 // Next unread thread), until stdrc approves the parts.
