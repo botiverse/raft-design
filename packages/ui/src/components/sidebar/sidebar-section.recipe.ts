@@ -39,6 +39,16 @@ export const sidebarSectionRecipe = tv({
       "outline-none focus-visible:shadow-focus",
       "**:data-[slot=sidebar-section-chevron]:size-3.5 **:data-[slot=sidebar-section-chevron]:stroke-2",
     ],
+    sidebarSectionChevronSlot: [
+      "flex size-4.5 shrink-0 items-center justify-center",
+      "md:pointer-fine:in-data-chevron-at-end:hidden",
+    ],
+    // With a mouse on a desktop only; turns with the section like the
+    // disclosure's chevron (Collapsible.Trigger's data-panel-open).
+    sidebarSectionEndChevron: [
+      "hidden md:pointer-fine:flex",
+      "[&_svg]:transition-transform data-panel-open:[&_svg]:rotate-90",
+    ],
     sidebarSectionTitle: ["min-w-0 truncate"],
     sidebarSectionCount: ["font-mono text-mono-meta font-normal tabular-nums text-foreground-hint"],
     sidebarSectionAttention: [

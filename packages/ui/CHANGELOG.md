@@ -1,3 +1,12 @@
+## Unreleased
+
+### Added
+
+- **SidebarSectionEndChevron**, and `chevronAtEnd` on **SidebarSectionHeader**: the section's chevron as the last of its controls with a mouse on a desktop, as sidebar.md has described since 0.65.0. It is a second trigger of the section (it toggles it and turns with it), out of the tab order and the accessibility tree, and a press leaves focus where it was; the title stays the one toggle for the keyboard and a screen reader. `chevronAtEnd` only hides the chevron before the title with a mouse; on a touch screen it shows as before.
+  - Why: the Raft web app drew its own end chevron (Kirby's review of slock #12730, 2026-11-05).
+  - Affects: nothing until a header opts in.
+  - Docs: https://raft-design.botiverse.build/components/sidebar/
+
 ## [0.65.0](https://github.com/botiverse/raft-design/compare/v0.64.0...v0.65.0) (2026-11-05)
 
 ### Added

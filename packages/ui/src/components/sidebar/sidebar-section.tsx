@@ -2,7 +2,7 @@ import { Collapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ChevronRight } from "lucide-react";
-import type { ComponentProps } from "react";
+import type { ComponentProps, MouseEvent } from "react";
 import { cn } from "../../lib/cn";
 import { Button } from "../button";
 import type { ButtonProps } from "../button";
@@ -62,12 +62,25 @@ export function SidebarSectionEmpty({ className, render, ...props }: SidebarSect
   return <Collapsible.Panel render={render} {...mergeProps(defaultProps, props)} />;
 }
 
-export type SidebarSectionHeaderProps = useRender.ComponentProps<"div">;
+export type SidebarSectionHeaderProps = useRender.ComponentProps<"div"> & {
+  /**
+   * The header ends with a `SidebarSectionEndChevron`: with a mouse on a
+   * desktop the chevron is that last control, so the one before the title
+   * hides. On a touch screen the chevron stays before the title.
+   */
+  chevronAtEnd?: boolean;
+};
 
-export function SidebarSectionHeader({ className, render, ...props }: SidebarSectionHeaderProps) {
+export function SidebarSectionHeader({
+  className,
+  render,
+  chevronAtEnd = false,
+  ...props
+}: SidebarSectionHeaderProps) {
   const { sidebarSectionHeader } = sidebarSectionRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "sidebar-section-header",
+    "data-chevron-at-end": chevronAtEnd ? "" : undefined,
     className: sidebarSectionHeader({ className }),
   };
 
@@ -101,6 +114,7 @@ export function SidebarSectionDisclosure({
 export type SidebarSectionChevronProps = useRender.ComponentProps<"svg">;
 
 export function SidebarSectionChevron({ className, render, ...props }: SidebarSectionChevronProps) {
+  const { sidebarSectionChevronSlot } = sidebarSectionRecipe();
   const defaultProps: useRender.ElementProps<"svg"> & DataAttributes = {
     "data-slot": "sidebar-section-chevron",
     className: cn("size-3", className),
@@ -112,8 +126,10 @@ export function SidebarSectionChevron({ className, render, ...props }: SidebarSe
   });
 
   // Match SidebarItemIcon slot width so section chevrons share the item icon axis.
+  // In a header whose chevron is at its end (`chevronAtEnd`), gone with a
+  // mouse on a desktop: an ancestor's data attribute, not `:has()` (#386).
   return (
-    <span className="flex size-4.5 shrink-0 items-center justify-center" aria-hidden="true">
+    <span className={sidebarSectionChevronSlot()} aria-hidden="true">
       {chevron}
     </span>
   );
@@ -237,6 +253,38 @@ export function SidebarSectionControl({
     >
       {children}
     </Button>
+  );
+}
+
+export type SidebarSectionEndChevronProps = Omit<SidebarSectionControlProps, "children" | "render">;
+
+/**
+ * The section's chevron as the last of its controls, with a mouse on a
+ * desktop (sidebar.md, Section headers): a SidebarSectionControl that is a
+ * second trigger of the section, so it toggles it and turns with it. The
+ * title stays the section's one toggle for the keyboard and a screen reader,
+ * so this one is out of the tab order and the accessibility tree, and a press
+ * doesn't move focus onto it (focus on a hidden element would be read as
+ * nothing). Put it in a `SidebarSectionHeader` with `chevronAtEnd`.
+ */
+// A press would focus the button; it keeps focus where it was instead.
+function keepFocus(event: MouseEvent) {
+  event.preventDefault();
+}
+
+export function SidebarSectionEndChevron({ className, ...props }: SidebarSectionEndChevronProps) {
+  const { sidebarSectionEndChevron } = sidebarSectionRecipe();
+  return (
+    <SidebarSectionControl
+      data-end-chevron=""
+      render={<Collapsible.Trigger />}
+      tabIndex={-1}
+      aria-hidden
+      className={sidebarSectionEndChevron({ className })}
+      {...mergeProps<"button">({ onMouseDown: keepFocus }, props)}
+    >
+      <ChevronRight />
+    </SidebarSectionControl>
   );
 }
 
