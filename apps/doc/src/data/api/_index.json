@@ -45,6 +45,23 @@
     ],
     "status": "experimental"
   },
+  "app-link-card": {
+    "names": [
+      "AppLinkCard",
+      "AppLinkCardActions",
+      "AppLinkCardBody",
+      "AppLinkCardEyebrow",
+      "AppLinkCardHeader",
+      "AppLinkCardHost",
+      "AppLinkCardIcon",
+      "AppLinkCardMeta",
+      "AppLinkCardName",
+      "AppLinkCardPlaceholder",
+      "AppLinkCardTitle"
+    ],
+    "status": "experimental",
+    "description": "An app link's card drawn in the message, after the link's paragraph, where the app's answer lists one (a `card` item with `placement: \"block\"`): Raft's header with the app's identity, the item, and buttons that work by keyboard and touch. It never replaces the link. A `group`: label it with `aria-labelledby` pointing at its `AppLinkCardTitle`, so someone who tabs to one of its buttons hears which item the button acts on."
+  },
   "app-rail": {
     "names": [
       "AppRailFooter",

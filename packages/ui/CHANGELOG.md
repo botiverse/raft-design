@@ -6,6 +6,10 @@
   - Why: Raft Chat's Members header needs Create agent with a ▾ for Take over a local session and Connect an external agent (cindyz, #triage:36bfa2f8; rule in [#1008](https://github.com/botiverse/raft-design/pull/1008)), and raft-ui only had `PanelSplitAction`, the frameless split of a panel header.
   - Affects: nothing until used.
   - Docs: https://raft-design.botiverse.build/components/button/#split-buttons
+- **AppLinkCard** and its parts (from `@botiverse/raft-ui/wip`): an app link's card drawn in the message itself, after the link's paragraph, where the app's answer lists one (protocol version 3: a `card` item with `placement: "block"` in `items`). The link is never replaced: it stays a chip when the answer lists `inline`, and the author's plain link when it doesn't. `AppLinkCardHeader` (with `AppLinkCardIcon`, `AppLinkCardName` and `AppLinkCardHost`) is Raft's row naming the app; `AppLinkCardBody`, `AppLinkCardEyebrow`, `AppLinkCardTitle` and `AppLinkCardMeta` are the item, as on the hover card, and the title holds a link that opens the item; `AppLinkCardActions` holds at most two of the app's buttons and ⋯ for the rest, where an Open link goes; `AppLinkCardPlaceholder` is the card's size while a cached answer loads. 400px wide, the message's width in the phone layout. Navigation's App links now say what each item of an answer draws, in the list's order, with nothing inferred.
+  - Why: a card whose buttons matter, such as a Stamp approval, could be acted on only by hovering its chip on desktop, and not at all on a phone. The app lists every way its link is drawn, a chip, a hover card or a block card, as artin decided in #proj-raft-ui:d3528715 after the prototype (https://app.raft.build/artifacts/Q6r36on3znYNHnSbczSH3S); AppFather defined version 3 (#proj-raft-ui:46e9d07e and 8051e1a8). Tenny asked that Raft always draw the app's name and icon in its own frame.
+  - Affects: nothing until a product draws one. PreviewCard is untouched.
+  - Docs: https://raft-design.botiverse.build/components/app-link-card/ and https://raft-design.botiverse.build/patterns/navigation/#what-an-apps-answer-lists
 
 ### Fixed
 
