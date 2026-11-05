@@ -9,6 +9,6 @@ export const profilePanel = tv({
     ],
     header: [],
     headerContent: ["items-stretch gap-0"],
-    section: ["border-line-hairline px-5 md:pointer-fine:px-(--page-inset) py-4"],
+    section: ["border-line-hairline px-(--surface-inset) py-4"],
   },
 });

@@ -40,12 +40,12 @@ const dialog = tv({
     ],
     header: [
       "grid shrink-0 grid-cols-[minmax(0,1fr)_max-content] items-center min-w-0",
-      "gap-2 px-5 md:pointer-fine:px-(--page-inset) pt-5 md:pointer-fine:pt-(--page-inset)",
+      "gap-2 px-(--surface-inset) pt-(--surface-inset)",
       headEdgePull,
     ],
     body: [
       "min-w-0 flex-1 overflow-y-auto",
-      "px-5 md:pointer-fine:px-(--page-inset) pt-1.5 pb-5 first:pt-5 md:pointer-fine:pb-(--page-inset) md:pointer-fine:first:pt-(--page-inset)",
+      "px-(--surface-inset) pt-1.5 pb-(--surface-inset) first:pt-(--surface-inset)",
       "font-sans text-subhead text-foreground-muted",
     ],
     // One row at the end, Cancel then commit, on a phone as on a desktop
@@ -54,7 +54,7 @@ const dialog = tv({
     footer: [
       "flex shrink-0 items-center justify-end",
       ...stackedActions,
-      "gap-2 px-5 md:pointer-fine:px-(--page-inset) pb-5 first:pt-5 [[data-slot=dialog-header]+&]:pt-5 md:pointer-fine:pb-(--page-inset) md:pointer-fine:first:pt-(--page-inset) md:pointer-fine:[[data-slot=dialog-header]+&]:pt-(--page-inset)",
+      "gap-2 px-(--surface-inset) pb-(--surface-inset) first:pt-(--surface-inset) [[data-slot=dialog-header]+&]:pt-(--surface-inset)",
       "*:data-[slot=text-link]:text-footnote",
     ],
     footerNote: [
@@ -92,7 +92,7 @@ const dialog = tv({
       false: {},
       true: {
         header: [
-          "flex h-(--header-height) shrink-0 items-center gap-2 border-b px-5 md:pointer-fine:px-(--page-inset) py-0",
+          "flex h-(--header-height) shrink-0 items-center gap-2 border-b px-(--surface-inset) py-0",
           "border-line-seam pt-0 [&>[data-slot=dialog-close]]:my-0",
         ],
         body: [
@@ -100,7 +100,7 @@ const dialog = tv({
           "px-0 pt-0 pb-0 first:pt-0 text-foreground",
         ],
         footer: [
-          "shrink-0 border-t px-5 md:pointer-fine:px-(--page-inset) py-3",
+          "shrink-0 border-t px-(--surface-inset) py-3",
           "border-line-seam pt-3 pb-3 first:pt-3 [[data-slot=dialog-header]+&]:pt-3",
         ],
       },

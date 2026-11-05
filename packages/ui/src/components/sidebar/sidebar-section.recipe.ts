@@ -5,7 +5,7 @@ export const sidebarSectionRecipe = tv({
     sidebarSection: ["group/section", "px-0"],
     sidebarList: ["flex flex-col gap-0.5 py-2"],
     sidebarSectionEmpty: [
-      "px-5 md:pointer-fine:px-(--page-inset) py-2",
+      "px-(--surface-inset) py-2",
       "font-sans text-footnote",
       "text-foreground-hint",
     ],

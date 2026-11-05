@@ -25,7 +25,7 @@ export const threadPanel = tv({
     search: [
       "relative z-20 flex shrink-0 items-center gap-1.5 py-2",
       "[&>[data-slot=input-group]]:min-w-0 *:data-[slot=input-group]:flex-1",
-      "border-b border-line-hairline bg-layer-canvas px-5 md:pointer-fine:px-(--page-inset)",
+      "border-b border-line-hairline bg-layer-canvas px-(--surface-inset)",
     ],
     searchTrailing: ["ml-auto flex shrink-0 items-center gap-1.5"],
     searchCount: [
@@ -37,7 +37,7 @@ export const threadPanel = tv({
       "border-b border-line-hairline bg-transparent pb-timeline-end",
       "**:data-message-item:bg-transparent",
     ],
-    replySummary: ["pt-timeline-start", "px-5 md:pointer-fine:px-(--page-inset)"],
+    replySummary: ["pt-timeline-start", "px-(--surface-inset)"],
     replyCount: [
       "my-timeline-row border-b pb-2 text-center font-mono",
       "border-line-hairline text-mono-meta text-foreground-hint",

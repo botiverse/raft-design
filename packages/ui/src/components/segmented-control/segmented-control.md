@@ -79,6 +79,7 @@ segmented-control/compositions/narrow-row
 
 - Label each segment with 1 or 2 words in sentence case: Board, List; Relevant, Recent ([Typography](../../../../../design/foundations/typography.md#casing)).
 - Put a count in `SegmentedControlCount`, never in the label's text.
+- Put the default option first: Cards before List where cards are the default, System before Light and Dark (stdrc, 2026-11-05). The keyboard order follows. An order that is a scale or a place (Small, Medium, Large; Top, Middle, Bottom) keeps it.
 
 ## Accessibility
 

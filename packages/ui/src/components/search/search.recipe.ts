@@ -21,12 +21,12 @@ export const search = tv({
     ],
     summary: [
       "block",
-      "mb-0 px-5 md:pointer-fine:px-(--page-inset) pt-2 font-sans text-footnote text-foreground-hint",
+      "mb-0 px-(--surface-inset) pt-2 font-sans text-footnote text-foreground-hint",
     ],
     section: ["mb-0"],
     sectionHeading: [
       "py-2",
-      "flex items-center gap-2 px-5 md:pointer-fine:px-(--page-inset) pt-3 pb-0",
+      "flex items-center gap-2 px-(--surface-inset) pt-3 pb-0",
       "font-sans text-footnote font-bold text-foreground-hint",
     ],
     list: ["flex flex-col", "gap-0.5 py-2"],

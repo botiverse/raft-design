@@ -133,6 +133,10 @@
 @layer theme {
   :root,
   :host {
+    /* A surface's own padding (a dialog, a drawer, a panel section): 20px, the
+       page inset (16px) with a mouse on a desktop. One variable, so a caller's
+       `px-0` still replaces it (stdrc, 2026-11-05). */
+    --surface-inset: 20px;
     --column-margin: 16px;
   }
   @media (width >= 48rem) {
@@ -147,6 +151,7 @@
     :root,
     :host {
       --column-margin: var(--page-inset);
+      --surface-inset: var(--page-inset);
     }
   }
 }
