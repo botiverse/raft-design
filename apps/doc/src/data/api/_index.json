@@ -103,9 +103,13 @@
   },
   "button": {
     "names": [
-      "Button"
+      "Button",
+      "ButtonSplit",
+      "ButtonSplitMain",
+      "ButtonSplitMenu"
     ],
-    "status": "stable"
+    "status": "stable",
+    "description": "A Button with a menu beside it, such as Create agent and its ▾: a `ButtonSplitMain`, then a `ButtonSplitMenu` as the trigger of a DropdownMenu. The two parts touch and read as one button. A `role=\"group\"`: name it with `aria-label`, not with the main part's name. For a frameless split in a panel header, use `PanelSplitAction`."
   },
   "card": {
     "names": [

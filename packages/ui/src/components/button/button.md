@@ -26,6 +26,7 @@ button/compositions/preview
 | An action whose icon needs words to be understood                                         | Button with a label                                                  |
 | The quietest control on a screen, action or not                                           | [TextLink](../text-link/text-link.md): text that underlines on hover |
 | A list of actions on one thing                                                            | [DropdownMenu](../dropdown-menu/dropdown-menu.md)                    |
+| One action, with a menu of other ways to do it beside it                                  | Button split; see [Split buttons](#split-buttons)                    |
 | Picking a value                                                                           | [Select](../select/select.md)                                        |
 
 ## Variants
@@ -120,6 +121,29 @@ A toolbar that floats over content shows on every message under the pointer, so 
 
 Icon sizes by context are in [Iconography](../../../../../design/foundations/iconography.md#sizes).
 
+### Split buttons
+
+When one action is what most people want and a short menu holds other ways to reach the same result, such as Create agent and its ▾ (Take over a local session, Connect an external agent) on Raft Chat's Members header, the button comes in two parts that read as one: `ButtonSplit` holds a `ButtonSplitMain`, the action, and a `ButtonSplitMenu`, the narrow chevron that opens the menu. Render the menu part as the trigger of a DropdownMenu: `<DropdownMenuTrigger render={<ButtonSplitMenu aria-label="More ways to create an agent" />} />`. Work in progress: import the parts from `@botiverse/raft-ui/wip`.
+
+```example
+button/compositions/split
+```
+
+- **When.** Use a split when the main action is the usual one and the menu holds a few others. When the choices weigh the same, use one Button that opens a [DropdownMenu](../dropdown-menu/dropdown-menu.md); when they do different things, use separate buttons.
+- **Variant and size.** Give both parts the same `variant` and `size`, as a Button takes them: `primary` or `default`, `md` or `lg`. `warning` and `danger` split the same way, used only where their own rules allow those colors ([Which color](#which-color)); a destructive action is rarely the usual one with others beside it. The frameless split is `PanelSplitAction`, for a panel header ([Split actions](../panel/panel.md#split-actions)); there is no `ghost` split button.
+- **One shape.** The two parts touch, with no gap, and together are one `radius-control` shape: the main part is rounded only on its start side, the menu part only on its end side, and both are the Button size's height. The menu part is 28px wide beside a 32px height (`md`, and `lg` on a desktop) and 36px beside `lg`'s 44px on a touch screen, with the size's chevron (16px at `md`, 18px at `lg`). A square would read as a second icon button beside the first (`icon-md` is a 32px square); a little narrower than tall, it reads as the end of the main button, and the chevron's ink keeps about 8px of fill on each side.
+- **One divider.** The frameless split action needs nothing between its parts, since at rest they are an icon and a chevron on the header. Two parts of the same fill and edge read as one undivided button, so the chevron would seem to belong to the label: a split button draws a line between them. The line is the menu part's start border, the button's own 1.5px edge: `sticker-ink` on a sticker, `line-strong` on `default`. The main part draws no end border, so the line is never doubled. It is the edge every sticker has ([Stickers](../../../../../design/foundations/color.md#stickers)), so it brings no new color or weight. In dark mode the die-cut edge (`sticker-edge`) goes around the whole shape, drawn by the group: around each part it would show as a light seam beside the divider.
+- **Hover and press.** The part under the pointer lays its variant's medium tier, `sticker-medium` on a sticker and `fill-medium` on `default`, and press lays the same; its neighbour stays at rest. [Joined frameless parts hover as one control](../../../../../design/foundations/states.md#hover-and-press) tints a frameless part's neighbour because at rest nothing joins the two. Here the fill, the edge and the divider already draw one shape, so a tint on the neighbour would be a second signal on it, and the medium tier on one part still says which one a click acts on.
+- **Menu open.** The menu part keeps its medium tier while its menu is open (`data-popup-open`); the main part stays at rest.
+- **Focus.** Each part is its own button with its own focus ring, drawn above its neighbour: Tab reaches the main part, then the menu part.
+- **Disabled.** Either part can be disabled on its own and takes the shared disabled look; `disabled` on `ButtonSplit` disables both.
+- **Touch.** Each part keeps a Button's 44px hit area ([Hit targets](../../../../../design/foundations/spacing.md#hit-targets)): `md` parts overhang above and below, and an `lg` part is 44px tall on a touch screen. The menu part, narrower than 44px, also reaches past its end: 16px at 28px wide, 8px at 36px. End its row with the split, or keep that much room before the next control, so the next control doesn't cover the target.
+- Name the group (`aria-label` on `ButtonSplit`, which is `role="group"`) and each part, and don't give the group its main part's name: the group "New agent", the main part "Create agent", the menu part "More ways to create an agent".
+
+```example
+button/compositions/split-states
+```
+
 ## States
 
 Hover, press, focus and disabled follow [States](../../../../../design/foundations/states.md): every button hovers and presses with the medium tier ([Hover and press](../../../../../design/foundations/states.md#hover-and-press)): a sticker lays `sticker-medium` over itself, a paper-colored button `fill-medium`.
@@ -144,3 +168,4 @@ Button wraps Base UI Button and renders a native `<button>`. For navigation, ren
 - A busy button keeps its focus. While `loading`, the button is `aria-disabled`, not natively `disabled`: natively disabling the focused button would drop focus to the page, and it would not come back when the wait ends or fails. It stays focusable and in the tab order, and it blocks its own activation: a click, Enter, Space and the form submission it would start do nothing, so the action can't run twice. A button that is `disabled` stays natively `disabled`, loading or not.
 - While `loading`, the spinner is named by `loadingLabel`. Set `loadingLabel` to what is happening.
 - Use `focusableWhenDisabled` when a Tooltip has to explain why an action is unavailable: the button stays focusable and keeps the disabled look.
+- `ButtonSplit` is a `role="group"`; its two parts are Buttons, and the menu part takes `aria-haspopup` and `aria-expanded` from the menu trigger it renders as ([Split buttons](#split-buttons)).
